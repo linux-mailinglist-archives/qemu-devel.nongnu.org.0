@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1535339F96
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:43:19 +0100 (CET)
-Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D15339F94
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:40:38 +0100 (CET)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL8II-0001UY-MV
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:43:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33276)
+	id 1lL8Fh-0007G1-IF
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:40:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL8CJ-00053D-ED
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 12:37:07 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46503)
+ id 1lL8D0-0005V6-Lv
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 12:37:51 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL8CI-00075D-2b
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 12:37:07 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a18so6470420wrc.13
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 09:37:05 -0800 (PST)
+ id 1lL8Cy-0007HG-Iv
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 12:37:49 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ w203-20020a1c49d40000b029010c706d0642so595018wma.0
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 09:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C7W9ad6B7hh3+MBQW5xA1FLIjFbcOl0PNRck7C/h/mo=;
- b=H5KsySyTGc109DrUUyTrEIbldacxUQBlCueMwnMPQqbfrvHy+KC7Ay+b7a46KeTJQ+
- EGq5QmGTDziCotpf1gtfo1glSBuSOCV43P0VTgcpL7/VjBvYXD56e7euA5SZM/ZCNljm
- RwM8dtM0t6MvfZ1lZaISfNXHjeik16Y9o9IEeKGoww557rruT46NOb/l8f7snJPzEc7y
- dbkprrxoaMvjjPrwN1YYLS47yLq2AMd2wfmVJeSpG0UY+YGhvHuufUNil+0fS5P2j+hW
- 2zT6BQSYOdCxPCTBLK2kI+FCq9PMzKECT9jGGzXm5v0ajYCDwSg9wPRWzJOV/ZkUdPUR
- o93g==
+ bh=waNCM4FdEE4WcI5M7zhhcwgSGHj0bkpuxnP+/Q8MpWY=;
+ b=sJAe3vo2MXPPlhdus++zLTEK86yM1Kk1YiVJZrFBw67Hl7jgEc5BSykLciQ++JOwPW
+ 9/m1IkafJGjWP+QbDrBtORXOTKl7EDpLa7yhRXKHJ7JgoAT2wL1nJS1WNUl3Yo4Be3eG
+ ffImx9s1B7sd6FInyZFo+JVYs6U1dhFcQ+FJZ9DWfTyMsdqmN0dgaIqBf11q5uRXiAIX
+ bPMbdKQjNx+cz2fcjJyI3wjwkWIXeH1VfzsdC6wXSyusULUpQRB7NF1Crr2XOdBQuTkH
+ DBJ+LAj/RGvdQJ8wqvFBFQ7AIeX09G93v+8Wf5Ct91iPmx0VN7cca/ZdfjnUPhvXBXWb
+ 3SxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=C7W9ad6B7hh3+MBQW5xA1FLIjFbcOl0PNRck7C/h/mo=;
- b=iKYjhmNhbLdb9l+aFeJ7O/aVg6ohUiSW5t8E+QhU+xVHOCtGd9w1VtPDD8hDCkyNAw
- Zzd6UTyZvDdnNi/+dQIBeak9+TCGSOfiN1RT91AXbkXlgAPs20L2bPP9YMTCRU3T3VVY
- Rokx5HUcx2DpDwZECLzMqWM2zUzcHoBc6IQna1gz74QHjak2igkAZT0WeKtSwZlxPmlv
- asUZgrDVuNGCn1voeGjrbGdtZS9xYLntF30glViWCuOPPInxI7t0wcNAMgvQ88hvaWcd
- 6kQRcakzFI0UfFZxw3hhFQ5NAlABZJtgajRM8xr+bfFFDMrPT6AtYX1j45Ax5+a97SjQ
- 7zcw==
-X-Gm-Message-State: AOAM533IDFSHZzymtLNlhsc1wN+kvFotOhRUYRVQAAIKEDHlIhTszZeY
- LQQnbKrop1WUOrPgSi/tWJootQggaQRu2w==
-X-Google-Smtp-Source: ABdhPJwN0mikq9lMAbeJbYcXXgOvqwcplSflB2/KeHZ8n6KAd/MRVlOQ/BQnBiPVGOURG2avhnKMHA==
-X-Received: by 2002:adf:b642:: with SMTP id i2mr19235212wre.8.1615657024799;
- Sat, 13 Mar 2021 09:37:04 -0800 (PST)
+ bh=waNCM4FdEE4WcI5M7zhhcwgSGHj0bkpuxnP+/Q8MpWY=;
+ b=b4AwVVibLN9re9AvPuQe2UQgJfqMa1Qlhd/QpM7TgfmUQxcevvGYlw8bxxKp4+V54j
+ jXniqX7NTDQMaBGXGE67mYQTeTeHaKVxCiVQVItH9cD5AuSkmMwbZsTebc4PpO9w8aA6
+ Ksej76703Y3CPiUtUcAWflCpOx88o4LdSMsRzpnh3mXsI9iOoxS8WmdiUFDe3Vv3bBKE
+ XhcU3JsjmSmtLA4h5IKdAq3LywpL+DHjjJQ6g8yPctfo3PMTvmojJ2p8hHfDAYdhl91N
+ FqH2knTiFt/GMmSj+qGDLzIF8hAcKS70zqEh/cLrf8V2RTAZ0irErr7cR2m+k3eYgQDt
+ tZ7w==
+X-Gm-Message-State: AOAM532XvK1j1cyhsiUro9Q3e86gFrbxy47eSZWYvSoQYMss76wXLitw
+ +tYlGL4QEbDHw22vfekDhpU=
+X-Google-Smtp-Source: ABdhPJxwBROffVoyiAAMrR+mcCFWbxRk5DGc7vg5pNLdMcdIqPq2ffmMLonNSPGYrRikMMKztGQoFA==
+X-Received: by 2002:a1c:2390:: with SMTP id j138mr18382241wmj.72.1615657067182; 
+ Sat, 13 Mar 2021 09:37:47 -0800 (PST)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a3sm12571380wrt.68.2021.03.13.09.37.03
+ by smtp.gmail.com with ESMTPSA id y18sm12618230wrq.61.2021.03.13.09.37.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 09:37:04 -0800 (PST)
-Subject: Re: [PATCH 03/26] meson: Split out fpu/meson.build
+ Sat, 13 Mar 2021 09:37:46 -0800 (PST)
+Subject: Re: [PATCH 05/26] tcg: Remove error return from
+ tcg_region_initial_alloc__locked
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210311002156.253711-1-richard.henderson@linaro.org>
- <20210311002156.253711-4-richard.henderson@linaro.org>
+ <20210311002156.253711-6-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b117b14a-fc41-9045-38c1-f68ca53623f2@amsat.org>
-Date: Sat, 13 Mar 2021 18:37:03 +0100
+Message-ID: <70408ec7-6d90-61e3-58ba-91e3b5a0348e@amsat.org>
+Date: Sat, 13 Mar 2021 18:37:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210311002156.253711-4-richard.henderson@linaro.org>
+In-Reply-To: <20210311002156.253711-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,12 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/11/21 1:21 AM, Richard Henderson wrote:
+> All callers immediately assert on error, so move the assert
+> into the function itself.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  meson.build     | 4 +---
->  fpu/meson.build | 1 +
->  2 files changed, 2 insertions(+), 3 deletions(-)
->  create mode 100644 fpu/meson.build
+>  tcg/tcg.c | 19 ++++++-------------
+>  1 file changed, 6 insertions(+), 13 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
