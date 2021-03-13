@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D37339D71
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:50:13 +0100 (CET)
-Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098CC339D74
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 10:50:33 +0100 (CET)
+Received: from localhost ([::1]:44858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL0uT-0000iU-1C
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:50:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
+	id 1lL0um-0000yA-3E
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 04:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lL0sM-00079T-6d
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:48:03 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:58989)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lL0sS-0007Ak-5h
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:48:09 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:39879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lL0sG-00075u-86
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:48:01 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lL0sG-00075v-Ct
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 04:48:07 -0500
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MrPVJ-1m73Lr3H6N-00oWK9; Sat, 13 Mar 2021 10:47:52 +0100
+ id 1MadC8-1lsPgJ0oBO-00c5bI; Sat, 13 Mar 2021 10:47:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] linux-user/elfload: do not assume MAP_FIXED_NOREPLACE
- kernel support
-Date: Sat, 13 Mar 2021 10:47:46 +0100
-Message-Id: <20210313094747.2966948-5-laurent@vivier.eu>
+Subject: [PULL 5/5] linux-user/elfload: fix address calculation in fallback
+ scenario
+Date: Sat, 13 Mar 2021 10:47:47 +0100
+Message-Id: <20210313094747.2966948-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210313094747.2966948-1-laurent@vivier.eu>
 References: <20210313094747.2966948-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2/s7H0X2AzTU8XmqUkzKe38GLMhxVTEhegdlewSVChNIqK0fkTI
- otm+wHxNEpLJ/G+h5ROsRZdRlhzCofX5Fz9NdQoQtZcGFtwgMMyZ5c+ENsxnjEUbMGKkSon
- WNf3T8e3DzaB65/sIZA95cHXb1Q9bwMA25i9T4hkNb5UtibT9zplVAUEv2iNE5uqj7gd6Y0
- urYM6gfCRxpHdsFVtNLvw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z8/tCqKbGTQ=:gP2Zcj1g0opYWib7o01ZFz
- wzvn8aakwBQbVXXUy5c9bFWb2k+wLbZ7LG6oBKZ4gZGJH+omOjqeH9Aik6Zd+jx/GEYyZG7ET
- h4TuedRMpkIj7XqbKvSo3EiIAl+2mCnHSawGkk7uKHwqPSE50vTjYsjB6A8eHZRc2QUfBWxSL
- BfaXcnmPGxT2pNe5UXy41iblokjdsIGKwLUHATft2dE8HNmJRqA56cQUr63ssQC4ptNlj0vJL
- Fk1QRcyVs/luzkmZngLCD0sQUhIJlGNPaQhiOuAOq+y8koOECMznJKJ7wcmTYy50VaPzfKToA
- Gjo6VBlrqh2S4N7Om5VnfcS9XvSmDRM7ok0YrKnxPJtI0KZFQ9D5LToXiQcPoQp0SYjuaVgwu
- lPjQkeymUaMmTh6LrrJWhRSCXTR8m3NuSESebc6ZoZs5pCfzraI+ZV4PnLC4N3Fi/T7BIv2BK
- qyFKjpDRdA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Ypx7//kkwQSt+PxxQ9JhdJGaZSLCEiDiUl2WnxSxR+hLLc33gA+
+ 0RLQam29jJrx5LLlSjoRaTBYpcb4Xdf+spy7KbIqFlGH6ZbttBo2le2duDrwG9c6/BtriDx
+ cp6VwlpnNDKR9525BQffmBh90+uZ1ajyUa5T6b7aVa9J1+bfamyK1b/v1ynh22HGe0J46aW
+ ZmhpACJKA2QRzHtxlaadg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l5AvciM7xMA=:/kvJsT7CY/2u4c0Apr5L7a
+ wmgfwXKXkGEzcIZe4Nh9/vAv3Ffyg7Q4i2al5RlPqehai3CSNy/Enhv9phxrtf+hIe9HuAKXk
+ +rKVlH9TPjHGJ637BzPf6ODRVeJxFWoiChvNmt91xljtvMZw5SOUJFSkSmkqGX5M105xUTLnQ
+ Hx/ptlPj80eKiraewcfbBw5p5XjC7TYQrw6y9fVSRfUQAAnYMZz0Tsqi7CsmzsAUuvaCEtNbR
+ wMqX/bza6V0RASCcN0iWg+rAoooxwmDIRoNdL64VjvxjmT/LgHAx+2OMpMHFcQVSyNrGcQYHA
+ VpcAbQEyavA+MsfWhmzp3kAl3GeMFlH6BQ85q/FAlsaT3mcoIJJkWdBGTNj92GOo8cfT0y1Uw
+ t66h7CqVUnpWVw6Q8M5ulC6mqxV4VxRZxhaSjVSUlqPcixKgDfx/RN2GHBRsV0fgDjxWWDV0m
+ CUgbFDJQWA==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,45 +63,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Vincent Fazio <vfazio@gmail.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, Vincent Fazio <vfazio@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vincent Fazio <vfazio@gmail.com>
 
-Previously, pgd_find_hole_fallback assumed that if the build host's libc
-had MAP_FIXED_NOREPLACE defined that the address returned by mmap would
-match the requested address. This is not a safe assumption for Linux
-kernels prior to 4.17
+Previously, guest_loaddr was not taken into account when returning an
+address from pgb_find_hole when /proc/self/maps was unavailable which
+caused an improper guest_base address to be calculated.
 
-Now, we always compare mmap's resultant address with the requested
-address and no longer short-circuit based on MAP_FIXED_NOREPLACE.
+This could cause a SIGSEGV later in load_elf_image -> target_mmap for
+ET_EXEC type images since the mmap MAP_FIXED flag is specified which
+could clobber existing mappings at the address returnd by g2h().
 
-Fixes: 2667e069e7b5 ("linux-user: don't use MAP_FIXED in pgd_find_hole_fallback")
+  mmap(0xd87000, 16846912, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE|0x100000, -1, 0) = 0xd87000
+  munmap(0xd87000, 16846912)              = 0
+  write(2, "Locating guest address space @ 0"..., 40Locating guest address space @ 0xd87000) = 40
+  mmap(0x1187000, 16850944, PROT_NONE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x1187000
+  --- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_ACCERR, si_addr=0x2188310} ---
+  +++ killed by SIGSEGV +++
+
+Now, pgd_find_hole accounts for guest_loaddr in this scenario.
+
+Fixes: ad592e37dfcc ("linux-user: provide fallback pgd_find_hole for bare chroots")
 Signed-off-by: Vincent Fazio <vfazio@gmail.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210131061930.14554-1-vfazio@xes-inc.com>
+Message-Id: <20210131061948.15990-1-vfazio@xes-inc.com>
+[lv: updated it to check if ret == -1]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ linux-user/elfload.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 174ee7bad677..e525901659d4 100644
+index e525901659d4..c6731013fde2 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -2210,8 +2210,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
-                                      PROT_NONE, flags, -1, 0);
-             if (mmap_start != MAP_FAILED) {
-                 munmap(mmap_start, guest_size);
--                if (MAP_FIXED_NOREPLACE != 0 ||
--                    mmap_start == (void *) align_start) {
-+                if (mmap_start == (void *) align_start) {
-                     return (uintptr_t) mmap_start + offset;
-                 }
-             }
+@@ -2235,7 +2235,8 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
+     brk = (uintptr_t)sbrk(0);
+ 
+     if (!maps) {
+-        return pgd_find_hole_fallback(guest_size, brk, align, offset);
++        ret = pgd_find_hole_fallback(guest_size, brk, align, offset);
++        return ret == -1 ? -1 : ret - guest_loaddr;
+     }
+ 
+     /* The first hole is before the first map entry. */
 -- 
 2.29.2
 
