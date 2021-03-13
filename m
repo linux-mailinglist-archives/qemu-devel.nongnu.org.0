@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A9B339F54
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:03:39 +0100 (CET)
-Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E372A339F6F
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 18:19:25 +0100 (CET)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7fu-0003og-D6
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:03:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48318)
+	id 1lL7vA-00026D-To
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 12:19:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7Y3-0005Zu-MD
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:32 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37549)
+ id 1lL7Y6-0005ak-3k
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:34 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7Xy-00019b-Dp
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:30 -0500
-Received: by mail-wr1-x436.google.com with SMTP id x16so3460960wrn.4
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:26 -0800 (PST)
+ id 1lL7Y3-0001Bi-FI
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:33 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so17616055wmy.5
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nLdAaDmbcOJIXm/9S2O8i5XmFL6rQSFPNhj2QWqHs1U=;
- b=mEeHqS+DSW8bv4ypABPR4FjHEkIa2elGDPdCWQJO6bTy5peCqSgWQfgbkFqX5FQyr5
- MG2hTSqRZ8wpMIijUsWGmzzRTqXrlk1ijzJ/j73XMouXE1XfcyAVKHXFHDCZX6ZytPC7
- IrwTD+NcSYOn1XPVwbRS5jT2aGNqPVkvP4HusSntvpYrcECYkN43/KJx0+yf8Dc7unl/
- UjKP1jBQcZCdKgxLRc6Qxkq38HMNxgpAKdUSA91ztmLiqpPGDZqOnfzZ+g4qOJZOSCop
- MkNLvmUneQw/dljyuHkcsMHyxiC3YdZTemwWaZwLi5R5VuR+jO1IftiIpcZcdJ3bB2Oa
- 2//w==
+ bh=4N2eu3gmWOHHigZSbFpUzeZRPjSztx/3jXLNY7gaaEU=;
+ b=V7sDSGuJobQHtX6h4RhkkHETLZQncvMCEZEyQ+b992z9zDW3ZJa2RrQB7mxY2uHB1Q
+ R7B2KRF/dHTWQodahBYKZ1VJM14epVMe9Pm2y/dhsvvuUevH0siRw/rKa/s3YQVch0NE
+ KngjdtLbHKNxZZ4FmgSd2SxRMTmkNinqxci767WSXJW7/QkPsy7AJ63t2awDmM7JPP2I
+ Y6hRMx1TQGV+pfIhKBN8O6411ZVwOFDn4MSwdiyDW6ws7BCnrDXNYc7IMPLxrGEd20IU
+ hSCKi0XI1NJ/xoeYevmxm99m7hJIHo6SLf/0rt28lLTcns9zVLqBJBzspJ2+T9p628mD
+ q2Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nLdAaDmbcOJIXm/9S2O8i5XmFL6rQSFPNhj2QWqHs1U=;
- b=fEWKfFd2HXks8ehebiwF2928WrEhQfkzd3WNLO0ThRYriSWj+n7X1Y0xJ8To5t8G1B
- x/ImZRvohwayGfX68EvDFYhIpkBjVVQXnaFmiVzqnxB3Q/j8txq3/nJWMmfiTeYlVxCH
- ZUCMm7x0E/Qa1JRS1UFwjvJNkPnENs+QnoLdYuIlDdtYQTHmS0lgTyAcNEePrWN5sySZ
- 8FCPptZN0YyzH7geZ32+x2ZO5Tif6Ev8qKIxnv5ijXiXqpqY6mtmnvXBGd8DYS7AlkDW
- UQIMjjRH6EzI/RVDQks66ghmqiT01juIFGRgYHtQJQ2kjZKZYZgKxyBY7BA3RS7SyQYM
- Dzsg==
-X-Gm-Message-State: AOAM533T/foB1/i+8JKDU0UCdU3cpdMfzAGqHpMqp+6cdis6PaKyZ9eM
- e5PBlc+kWTMFiIJeo/iEg+WIj+yXYDcT9Q==
-X-Google-Smtp-Source: ABdhPJxADrIONzA4amZTxrc41hPoAMf3HnzY5MEYtihBeRzUDfN/BFTgJRpVoa+KW2pRX94T4YM8TQ==
-X-Received: by 2002:adf:dd47:: with SMTP id u7mr19783967wrm.13.1615654525047; 
- Sat, 13 Mar 2021 08:55:25 -0800 (PST)
+ bh=4N2eu3gmWOHHigZSbFpUzeZRPjSztx/3jXLNY7gaaEU=;
+ b=FVNtUqWmI9H0edugvrD8A7k/SRhYa9+FpoAg/UMw/kdwhgZLNyGMZ+s2CgyH1zsiah
+ Y14mwd4fmh0yqqWucBo0n7gbRvfFhHMQi3NorNBHUSy7ovoAY87EpEygpWY2gBL/5vSk
+ 5KLOq0pzIMwjLqyyPpkd/pAbJ5ORp8B1iSqKtfHI4Yj3xoDb6LFCw+AsXb8yG52JZltC
+ WegrDqy6p4x/DxOwO5by6EMsLZD8z3Kd2i5gPvUn5EyHbjdBWeD4p8s8zpxxI5N0EK2F
+ u0aKLYVPgRwI8yhOsXuAJHeG43ccnoHgli0ATkJGgUzYWk0jZ25xHyz/UXvmSf3kpz8R
+ zJLQ==
+X-Gm-Message-State: AOAM530SPI6NSPbs5XFRyfTdVseBnfiXYo/zQiZRQvG0oqcvEYd8DLjX
+ e8dAqp12Wktulr6vVSW+qTFPxFWgglMqbA==
+X-Google-Smtp-Source: ABdhPJxr8VMN/+YgaNd5mDtGIXuj8d9jm2IUtOT76YoBsLqGu8Avat490F7L76Pz+FPXBEA6q5XhNQ==
+X-Received: by 2002:a1c:2587:: with SMTP id l129mr2429377wml.135.1615654530067; 
+ Sat, 13 Mar 2021 08:55:30 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id l15sm7135538wme.43.2021.03.13.08.55.23
+ by smtp.gmail.com with ESMTPSA id j203sm7475542wmj.40.2021.03.13.08.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 08:55:24 -0800 (PST)
+ Sat, 13 Mar 2021 08:55:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/11] hw/gpio/avr_gpio: Add tracing for reads and writes
-Date: Sat, 13 Mar 2021 17:54:41 +0100
-Message-Id: <20210313165445.2113938-8-f4bug@amsat.org>
+Subject: [PATCH 08/11] hw/avr/arduino: Add D13 LED
+Date: Sat, 13 Mar 2021 17:54:42 +0100
+Message-Id: <20210313165445.2113938-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210313165445.2113938-1-f4bug@amsat.org>
 References: <20210313165445.2113938-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,107 +95,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: G S Niteesh Babu <niteesh.gs@gmail.com>
 
-Added tracing for gpio read, write, and update output irq.
-
-1) trace_avr_gpio_update_ouput_irq
-2) trace_avr_gpio_read
-3) trace_avr_gpio_write
-
 Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
-Message-Id: <20210311135539.10206-3-niteesh.gs@gmail.com>
-[PMD: Added port_name(), display port name in trace events]
+Message-Id: <20210311135539.10206-4-niteesh.gs@gmail.com>
+[PMD: Added ArduinoMachineClass::d13_led_portb_bit]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/gpio/avr_gpio.c   | 26 +++++++++++++++++++++-----
- hw/gpio/trace-events |  5 +++++
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ hw/avr/arduino.c | 18 ++++++++++++++++++
+ hw/avr/Kconfig   |  1 +
+ 2 files changed, 19 insertions(+)
 
-diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
-index e4c7122e62c..29252d6ccfe 100644
---- a/hw/gpio/avr_gpio.c
-+++ b/hw/gpio/avr_gpio.c
-@@ -2,6 +2,7 @@
-  * AVR processors GPIO registers emulation.
-  *
-  * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
-+ * Copyright (C) 2021 Niteesh Babu G S <niteesh.gs@gmail.com>
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License as
-@@ -26,6 +27,12 @@
- #include "hw/gpio/avr_gpio.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "trace.h"
+diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
+index 3ff31492fa6..73563a35d0d 100644
+--- a/hw/avr/arduino.c
++++ b/hw/avr/arduino.c
+@@ -13,6 +13,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
++#include "hw/misc/led.h"
+ #include "atmega.h"
+ #include "boot.h"
+ #include "qom/object.h"
+@@ -22,6 +23,8 @@ struct ArduinoMachineState {
+     MachineState parent_obj;
+     /*< public >*/
+     AtmegaMcuState mcu;
 +
-+static char port_name(AVRGPIOState *s)
-+{
-+    return 'A' + s->id;
-+}
++    LEDState *onboard_led;
+ };
+ typedef struct ArduinoMachineState ArduinoMachineState;
  
- static void avr_gpio_reset(DeviceState *dev)
- {
-@@ -47,32 +54,41 @@ static void avr_gpio_write_port(AVRGPIOState *s, uint64_t value)
+@@ -31,6 +34,7 @@ struct ArduinoMachineClass {
+     /*< public >*/
+     const char *mcu_type;
+     uint64_t xtal_hz;
++    unsigned d13_led_portb_bit; /* PORTB GPIO for D13 yellow LED */
+ };
+ typedef struct ArduinoMachineClass ArduinoMachineClass;
  
-         if (cur_ddr_pin_val && (cur_port_pin_val != new_port_pin_val)) {
-             qemu_set_irq(s->out[pin], new_port_pin_val);
-+            trace_avr_gpio_update_output_irq(port_name(s), pin, new_port_pin_val);
-         }
-     }
-     s->reg.port = value & s->reg.ddr;
- }
- static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int size)
- {
-+    uint8_t val = 0;
-     AVRGPIOState *s = (AVRGPIOState *)opaque;
-     switch (offset) {
-     case GPIO_PIN:
--        return s->reg.pin;
-+        val = s->reg.pin;
-+        break;
-     case GPIO_DDR:
--        return s->reg.ddr;
-+        val = s->reg.ddr;
-+        break;
-     case GPIO_PORT:
--        return s->reg.port;
-+        val = s->reg.port;
-+        break;
-     default:
-         g_assert_not_reached();
-         break;
-     }
--    return 0;
-+
-+    trace_avr_gpio_read(port_name(s), offset, val);
-+    return val;
- }
+@@ -49,6 +53,16 @@ static void arduino_machine_init(MachineState *machine)
+                              amc->xtal_hz, &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&ams->mcu), &error_abort);
  
- static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
-                                 unsigned int size)
- {
-     AVRGPIOState *s = (AVRGPIOState *)opaque;
--    value = value & 0xF;
-+    value = value & 0xFF;
++    /* Onboard led connected to digital header PIN 13 */
++    ams->onboard_led = led_create_simple(OBJECT(ams),
++                                         GPIO_POLARITY_ACTIVE_HIGH,
++                                         LED_COLOR_YELLOW,
++                                         "D13 LED");
 +
-+    trace_avr_gpio_write(port_name(s), offset, value);
-     switch (offset) {
-     case GPIO_PIN:
-         s->reg.pin = value;
-diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
-index 46ab9323bd0..640834597a8 100644
---- a/hw/gpio/trace-events
-+++ b/hw/gpio/trace-events
-@@ -18,3 +18,8 @@ sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" P
- sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 " value 0x%" PRIx64
- sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
- sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " value %" PRIi64
++    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[1]),
++                          amc->d13_led_portb_bit,
++                          qdev_get_gpio_in(DEVICE(ams->onboard_led), 0));
 +
-+# avr_gpio.c
-+avr_gpio_read(unsigned id, uint64_t offset, uint64_t r) "port %c offset 0x%" PRIx64 " value 0x%" PRIx64
-+avr_gpio_write(unsigned id, uint64_t offset, uint64_t value) "port %c offset 0x%" PRIx64 " value 0x%" PRIx64
-+avr_gpio_update_output_irq(unsigned id, int64_t line, int64_t value) "port %c pin %" PRIi64 " value %" PRIi64
+     if (machine->firmware) {
+         if (!avr_load_firmware(&ams->mcu.cpu, machine,
+                                &ams->mcu.flash, machine->firmware)) {
+@@ -83,6 +97,7 @@ static void arduino_duemilanove_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "2009";
+     amc->mcu_type   = TYPE_ATMEGA168_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000;
++    amc->d13_led_portb_bit = 5;
+ };
+ 
+ static void arduino_uno_class_init(ObjectClass *oc, void *data)
+@@ -98,6 +113,7 @@ static void arduino_uno_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "uno";
+     amc->mcu_type   = TYPE_ATMEGA328_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000;
++    amc->d13_led_portb_bit = 5;
+ };
+ 
+ static void arduino_mega_class_init(ObjectClass *oc, void *data)
+@@ -113,6 +129,7 @@ static void arduino_mega_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "mega";
+     amc->mcu_type   = TYPE_ATMEGA1280_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000;
++    amc->d13_led_portb_bit = 7;
+ };
+ 
+ static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
+@@ -128,6 +145,7 @@ static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "mega2560";
+     amc->mcu_type   = TYPE_ATMEGA2560_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
++    amc->d13_led_portb_bit = 7;
+ };
+ 
+ static const TypeInfo arduino_machine_types[] = {
+diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+index 16a57ced11f..e0d4fc5537a 100644
+--- a/hw/avr/Kconfig
++++ b/hw/avr/Kconfig
+@@ -8,3 +8,4 @@ config AVR_ATMEGA_MCU
+ config ARDUINO
+     select AVR_ATMEGA_MCU
+     select UNIMP
++    select LED
 -- 
 2.26.2
 
