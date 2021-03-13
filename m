@@ -2,96 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF987339CA1
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 08:48:28 +0100 (CET)
-Received: from localhost ([::1]:59468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0B4339CA2
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 08:52:58 +0100 (CET)
+Received: from localhost ([::1]:36062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lKz0d-0002JD-PM
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 02:48:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
+	id 1lKz4z-0004V7-9K
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 02:52:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKyzX-0001rb-RH
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 02:47:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lKyzW-0002s2-36
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 02:47:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615621637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8QRxCuTXkiweQREi9Pz+lo9WleL3Kgtd9GcZXLdLvY8=;
- b=KEYPBXhvgefWGTu2MiS20CwKe3sT+awzUATMbkkzb8n+l53Glz/xcHYzKHhgbMpMryqUXK
- B0quc3d+x3b9ybniwrl/4qCC0p7Sa1zaIeCMWrzqZXp1oZiSz+A4pCI/8+ROoTp42QoAQX
- GxdHi/iCOLW77EtmIBAcXdD/Npvv6/A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-CJy0s1hHPRimILSLLvMBGQ-1; Sat, 13 Mar 2021 02:47:15 -0500
-X-MC-Unique: CJy0s1hHPRimILSLLvMBGQ-1
-Received: by mail-wm1-f69.google.com with SMTP id s192so6200054wme.6
- for <qemu-devel@nongnu.org>; Fri, 12 Mar 2021 23:47:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8QRxCuTXkiweQREi9Pz+lo9WleL3Kgtd9GcZXLdLvY8=;
- b=d2xtIJS/l7MngAq47/4JHa7tekfbsw672fjQhxPC+FJuHHRqtrTpC+SB+u6zGP0gDk
- gh6sL407nFq1CXaEtGYpCwRlLOwv5GvzQO7++oD22dI3AmTN2bOAzu9517QQJTGJdSM6
- NMBMDSRoo2mdOXrTsnnOOBKxCBatKgWOdXyZg8FedO/1jsKiRnV3A0WCgu7nTMWvi0Wg
- x0J3p7p0k0TPd4sGcU/LuOHGCoRoH2DLHI5U5bDgHxaQUXXE5oPoLKJRHBSQiWRVz2Km
- 2cDm4vogL/cNApWCShrL0UhG0IYogQsL3CwlJSkKQFU6KCIPkkdG3/ptlO3l5jPrUxS4
- uTvg==
-X-Gm-Message-State: AOAM532HAcF9oyPDsx8J5cg4vRrjz0U+XZ7bWERgAQ4VzU3DXlwZb30e
- Yu0fA3sBTUWHG0Jy5l8q1ECm74q6nujBlR2XyG7dMAqNCmibf8/RUpytxOCPkqFB834pQ3gYoqt
- QhfA8cDHQyGeH52k=
-X-Received: by 2002:a1c:1bc7:: with SMTP id
- b190mr16833377wmb.115.1615621634595; 
- Fri, 12 Mar 2021 23:47:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxJs/tcqmCODdhC7C+2v+TYxTfq8KcF5eAwwxBuRzIADsHzTnPXFqG1U0G3N8HEtWWnlbH9Fg==
-X-Received: by 2002:a1c:1bc7:: with SMTP id
- b190mr16833346wmb.115.1615621634316; 
- Fri, 12 Mar 2021 23:47:14 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id p18sm13834613wro.18.2021.03.12.23.47.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Mar 2021 23:47:13 -0800 (PST)
-Subject: Re: [PATCH v3 26/30] qemu-img: Use user_creatable_process_cmdline()
- for --object
-To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20210308165440.386489-1-kwolf@redhat.com>
- <20210308165440.386489-27-kwolf@redhat.com>
- <87k0qby00g.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <95899a3d-ae3e-c635-d381-502da7d1bc5b@redhat.com>
-Date: Sat, 13 Mar 2021 08:47:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKz3k-0003hR-Af
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 02:51:41 -0500
+Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:40548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lKz3W-0005c3-FG
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 02:51:40 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.72])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 0B57324EAF8;
+ Sat, 13 Mar 2021 08:51:23 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Sat, 13 Mar
+ 2021 08:51:22 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00493fe079e-39b9-4635-8326-f78e7b89c71c,
+ 9E37A514F06DCB590C72484BFCF591CDCEC69E3E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Sat, 13 Mar 2021 08:51:21 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 8/9] hw/9pfs/9p-synth: Replaced qemu_mutex_lock with
+ QEMU_LOCK_GUARD
+Message-ID: <20210313085121.625fe50e@bahia.lan>
+In-Reply-To: <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
+References: <20210311031538.5325-1-ma.mandourr@gmail.com>
+ <2248579.lIZarMFqrv@silver> <20210311125245.5127cd6d@bahia.lan>
+ <2070220.8au7kWUZml@silver>
+ <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <87k0qby00g.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 44ca5e67-2a1c-419c-a7b0-fbfde03df270
+X-Ovh-Tracer-Id: 7996704090710645213
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvfedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=groug@kaod.org;
+ helo=2.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,36 +70,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, kraxel@redhat.com, dgilbert@redhat.com
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/03/21 08:40, Markus Armbruster wrote:
->> +                if (!user_creatable_add_from_str(optarg, &local_err)) {
->> +                    if (local_err) {
->> +                        error_report_err(local_err);
->> +                        exit(2);
->> +                    } else {
->> +                        /* Help was printed */
->> +                        exit(EXIT_SUCCESS);
->> +                    }
->> +                }
->> +                break;
->>               }
->> -        }   break;
->>           case OPTION_IMAGE_OPTS:
->>               image_opts = true;
->>               break;
-> Why is this one different?  The others all call
-> user_creatable_process_cmdline().
-> 
-> 
+On Sat, 13 Mar 2021 07:43:38 +0200
+Mahmoud Mandour <ma.mandourr@gmail.com> wrote:
 
-It's to exit with status code 2 instead of 1.
+> Thanks for the fast review. I asked on the QEMU IRC channel
+> before committing whether to put all the changes into one patch
+> or split them and was instructed that it was better to split them up.
+> But in any case I was open to both ways and you can decide
+> on the best way to go.
+>=20
 
-Paolo
+People only do inline replies here. Please don't top-post for the
+sake of clarity.
+
+So, the instructions to split the patches is obviously the way to go. The
+question here is rather : will each subsystem maintainer pick up patches
+from this series or will only one maintainer pick up all the patches after
+they have been acked by the other maintainers ?
+
+> On Thu, Mar 11, 2021 at 1:59 PM Christian Schoenebeck <
+> qemu_oss@crudebyte.com> wrote:
+>=20
+> > On Donnerstag, 11. M=C3=A4rz 2021 12:52:45 CET Greg Kurz wrote:
+> > > On Thu, 11 Mar 2021 11:49:06 +0100
+> > >
+> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > On Donnerstag, 11. M=C3=A4rz 2021 04:15:37 CET Mahmoud Mandour wrot=
+e:
+> > > > > Replaced a call to qemu_mutex_lock and its respective call to
+> > > > > qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their place.
+> > > > > This simplifies the code by removing the call required to unlock
+> > > > > and also eliminates goto paths.
+> > > > >
+> > > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> > > > > ---
+> > > > >
+> > > > >  hw/9pfs/9p-synth.c | 12 ++++--------
+> > > > >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > > > >
+> > > > > diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> > > > > index 7eb210ffa8..473ef914b0 100644
+> > > > > --- a/hw/9pfs/9p-synth.c
+> > > > > +++ b/hw/9pfs/9p-synth.c
+> > > > > @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *pare=
+nt,
+> > int
+> > > > > mode, if (!parent) {
+> > > > >
+> > > > >          parent =3D &synth_root;
+> > > > >
+> > > > >      }
+> > > > >
+> > > > > -    qemu_mutex_lock(&synth_mutex);
+> > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
+> > > > >
+> > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
+> > > > >
+> > > > >          if (!strcmp(tmp->name, name)) {
+> > > > >
+> > > > >              ret =3D EEXIST;
+> > > > >
+> > > > > -            goto err_out;
+> > > > > +            return ret;
+> > > > >
+> > > > >          }
+> > > > >
+> > > > >      }
+> > > > >      /* Add the name */
+> > > > >
+> > > > > @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent,
+> > int
+> > > > > mode, node->attr, node->attr->inode);
+> > > > >
+> > > > >      *result =3D node;
+> > > > >      ret =3D 0;
+> > > > >
+> > > > > -err_out:
+> > > > > -    qemu_mutex_unlock(&synth_mutex);
+> > > > >
+> > > > >      return ret;
+> > > > >
+> > > > >  }
+> > > > >
+> > > > > @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
+> > > > > *parent,
+> > > > > int mode, parent =3D &synth_root;
+> > > > >
+> > > > >      }
+> > > > >
+> > > > > -    qemu_mutex_lock(&synth_mutex);
+> > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
+> > > > >
+> > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
+> > > > >
+> > > > >          if (!strcmp(tmp->name, name)) {
+> > > > >
+> > > > >              ret =3D EEXIST;
+> > > > >
+> > > > > -            goto err_out;
+> > > > > +            return ret;
+> > > > >
+> > > > >          }
+> > > > >
+> > > > >      }
+> > > > >      /* Add file type and remove write bits */
+> > > > >
+> > > > > @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
+> > *parent,
+> > > > > int
+> > > > > mode, pstrcpy(node->name, sizeof(node->name), name);
+> > > > >
+> > > > >      QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
+> > > > >      ret =3D 0;
+> > > > >
+> > > > > -err_out:
+> > > > > -    qemu_mutex_unlock(&synth_mutex);
+> > > > >
+> > > > >      return ret;
+> > > > >
+> > > > >  }
+> > > >
+> > > > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > >
+> > > > Greg, I suggest I'll push this onto my queue as you seem to be busy.
+> > >
+> > > This cleanup spans over multiple subsystems but I think it makes more
+> > > sense to keep all these patches together. Let's wait for everyone to
+> > > ack/review and then we'll decide how to merge the patches.
+> >
+> > Sure, makes sense.
+> >
+> >
+> >
+> >
 
 
