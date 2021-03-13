@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC433339F49
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:57:41 +0100 (CET)
-Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88183339F4C
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:59:28 +0100 (CET)
+Received: from localhost ([::1]:60374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7a8-0006w8-VB
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:57:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
+	id 1lL7br-0001C7-J6
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:59:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7YE-0005dn-I6
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:42 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38838)
+ id 1lL7YF-0005g2-PO
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:43 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7Y8-0001F8-Qy
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:38 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id z2so3461609wrl.5
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:35 -0800 (PST)
+ id 1lL7YE-0001Gs-Bv
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:55:43 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id e9so3451616wrw.10
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0BqwEDz4b6b8tJdYYE+yXeBUdnYk9J8p8YYQcsDJqW0=;
- b=BgpoEHfIdo2X5XIwVkhI0fkq9z6hHo0v3bK5L5JVA/ba1MXqfajAMtPGxJt7+c4owE
- RLtbirDA4m5pJXd6vrDhSOGC9agg2xooH4sLgRmdsLyzVDIU/8EakDjLAFtfQrrcV8dv
- NC0Y63QRLGooHgsHuFOiILx2XzFzFikkA2AlsJ96UITPRCoU5VUFJSYRzIaExYl8cM47
- 104QrVBnMwZUA1hroL/5vQPyqYqWz7Y/LDPlUg7WlUln0cve9fs/4ooVw+LphcQfFE5K
- 8P0n4isI23Z5RX39YHtYHZaGibRvBTmQusOm6VXEvpuqHGx5WXU1zWQIbbcntEulwFRP
- 1rRg==
+ bh=BeHONAE/NnH8blFIpJrTu17FjI7Z++2Qdzw1aUIAB+k=;
+ b=Brn3OT0vtz0XBjMTS4/fLWIYplS31GE5yCrnkOZ7918Ve7JJbP/LgQ9cJ9QTMzo2xC
+ r1QjotdlC0vVQ1ptnSoM8gP88TU9JqPkftYIrc8ojbEpxXuusnp360u6OXldm7rmikp8
+ W3NjjVbCFkLi1FGPWkK6U9KylgEA5nyJii/86Q9DV8VgsGV7AoJEnCo6dI1mvveHyloI
+ 4ayoycxcCdnWMLx39nm2z81Ot6/e465WkgfkZowfroK+iJfgCljv6vKAAIb0427Z1G5T
+ in5hobkwBn1oTeXgwqb1buCVhV1LjGUk6UdDIg/Xp3ofJO9JVNRN8cNDpAN3C3/mYyO1
+ kazw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0BqwEDz4b6b8tJdYYE+yXeBUdnYk9J8p8YYQcsDJqW0=;
- b=tZPA/XTAggBXwKubvWFBHjxY0oNBab9AIF5Rkye1JW8dXfUN/EE91Sf2rK+zsA1r5l
- pmsjCx9e57b9KOkDiSU4uPJBEIu3LDntFRPZ4Svdb6vRJBblROKJ9cqtvPeDL2XU11cw
- bkRrawBQDQHoAMwlxHGBCXGgeaRs7v3O5QSZbk85BQ6HY1KWsfSI8xvB1wOixBLJUr2r
- wtt+UqnGuI/AGfjJOXCVzIPN8BZkeG5HXqDQvGvb92xiu7O9TwNwjjlhn20yTCMDnL4W
- Xdteyq83CSJgdLKfjGdmbnsrrAVEyuHzC3HtI0r2/AQwTKSdDHt/0yWhElYlJHblsVGj
- 7JYg==
-X-Gm-Message-State: AOAM531NN1p83eGEk9hNEBYmTTI8GjPHkx1Ja5o0eHvB+PEIwME7W93O
- QdVUL6lddhvlAbAxZAKy0qK0/URjAFEpYA==
-X-Google-Smtp-Source: ABdhPJwqs+fLPyloqslG3J+/g7eIi7wb1FieoniswFeZtmaemx2pYvXh92IaVRbmF7Zi7VHJdzhUFA==
-X-Received: by 2002:a5d:67c8:: with SMTP id n8mr19612070wrw.351.1615654534838; 
- Sat, 13 Mar 2021 08:55:34 -0800 (PST)
+ bh=BeHONAE/NnH8blFIpJrTu17FjI7Z++2Qdzw1aUIAB+k=;
+ b=aFlvRUSnMUB9XQ6LR/LFHGmYPa8DqhtW3JcMzI68laUf4SZ00hymPMlNyjI2pkkToy
+ rG1sD3GUyAaSs9ep4nD0m/FcYh/YaLpotzPBIZmZVXazdddvKC8IVMevboFQQ/dQxziD
+ AEGrcHzkLw07FY6Ne6RtH1qTt/fNM96S7ErHC1eFlQG7B/qd0e201kqNZjy0SMBMicw9
+ jNhmwKD+EJvi3pm3TTY/wAJaZGRexPbDWACF6hnG3zGUmHje42dDQKOOBGOCr/uukhyD
+ B0hS9Ie/TlJ8lztnn6fkMtycunxnPAdWSPdyW4qR6iJX7ekMvbn+gbqMijXLOnZQWLkz
+ D4Bg==
+X-Gm-Message-State: AOAM531/14Ik+OvSqiHM7vYPTGKLt0UoEjije8UCZDikpIU3XKDy0FSK
+ YINYGI0oLBRK5ws7qxnAVnnTNGOZDuG9cQ==
+X-Google-Smtp-Source: ABdhPJxE0ft8/ItcTAw1QrvKNlRKYGbk+0FhTD6/d8zIS4xKNEf7MYcm2cop2114uBbCMkBOvgm66A==
+X-Received: by 2002:adf:de92:: with SMTP id w18mr19396589wrl.217.1615654539784; 
+ Sat, 13 Mar 2021 08:55:39 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a3sm12473824wrt.68.2021.03.13.08.55.33
+ by smtp.gmail.com with ESMTPSA id b17sm12894175wrt.17.2021.03.13.08.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 08:55:34 -0800 (PST)
+ Sat, 13 Mar 2021 08:55:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/11] hw/avr/arduino: Replace magic number by
- gpio_port_index() call
-Date: Sat, 13 Mar 2021 17:54:43 +0100
-Message-Id: <20210313165445.2113938-10-f4bug@amsat.org>
+Subject: [PATCH 10/11] target/avr: Fix some comment spelling errors
+Date: Sat, 13 Mar 2021 17:54:44 +0100
+Message-Id: <20210313165445.2113938-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210313165445.2113938-1-f4bug@amsat.org>
 References: <20210313165445.2113938-1-f4bug@amsat.org>
@@ -86,46 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
+ Lichang Zhao <zhaolichang@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The '1' magic value means 'Port B'. Introduce and use the
-gpio_port_index() helper to explicit the port name.
+From: Lichang Zhao <zhaolichang@huawei.com>
 
+I found that there are many spelling errors in the comments of qemu/target/avr.
+I used spellcheck to check the spelling errors and found some errors in the folder.
+
+Signed-off-by: Lichang Zhao <zhaolichang@huawei.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
+Message-Id: <20201009064449.2336-12-zhaolichang@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/avr/arduino.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/avr/helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
-index 73563a35d0d..87124d17f18 100644
---- a/hw/avr/arduino.c
-+++ b/hw/avr/arduino.c
-@@ -43,6 +43,12 @@ typedef struct ArduinoMachineClass ArduinoMachineClass;
- DECLARE_OBJ_CHECKERS(ArduinoMachineState, ArduinoMachineClass,
-                      ARDUINO_MACHINE, TYPE_ARDUINO_MACHINE)
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 65880b9928c..b4532de2523 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -98,7 +98,7 @@ int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
  
-+static unsigned gpio_port_index(char c)
-+{
-+    assert(c >= 'A' && c < 'A' + GPIO_MAX);
-+    return c - 'A';
-+}
-+
- static void arduino_machine_init(MachineState *machine)
+ hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
  {
-     ArduinoMachineClass *amc = ARDUINO_MACHINE_GET_CLASS(machine);
-@@ -59,7 +65,7 @@ static void arduino_machine_init(MachineState *machine)
-                                          LED_COLOR_YELLOW,
-                                          "D13 LED");
+-    return addr; /* I assume 1:1 address correspondance */
++    return addr; /* I assume 1:1 address correspondence */
+ }
  
--    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[1]),
-+    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[gpio_port_index('B')]),
-                           amc->d13_led_portb_bit,
-                           qdev_get_gpio_in(DEVICE(ams->onboard_led), 0));
+ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+@@ -299,7 +299,7 @@ void helper_outb(CPUAVRState *env, uint32_t port, uint32_t data)
+ }
  
+ /*
+- *  this function implements LD instruction when there is a posibility to read
++ *  this function implements LD instruction when there is a possibility to read
+  *  from a CPU register
+  */
+ target_ulong helper_fullrd(CPUAVRState *env, uint32_t addr)
+@@ -323,7 +323,7 @@ target_ulong helper_fullrd(CPUAVRState *env, uint32_t addr)
+ }
+ 
+ /*
+- *  this function implements ST instruction when there is a posibility to write
++ *  this function implements ST instruction when there is a possibility to write
+  *  into a CPU register
+  */
+ void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
 -- 
 2.26.2
 
