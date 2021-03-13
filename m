@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92BE339F44
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:57:24 +0100 (CET)
-Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8BF339F48
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 17:57:30 +0100 (CET)
+Received: from localhost ([::1]:53258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lL7Zr-0006UR-Sg
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:57:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
+	id 1lL7Zx-0006gt-WA
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 11:57:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7XP-0005DS-HY
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:54:51 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38972)
+ id 1lL7XU-0005Ir-Se
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:54:56 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lL7XO-0000jS-2K
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:54:51 -0500
-Received: by mail-wr1-x435.google.com with SMTP id b18so6457300wrn.6
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:54:49 -0800 (PST)
+ id 1lL7XT-0000mt-Hl
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 11:54:56 -0500
+Received: by mail-wr1-x436.google.com with SMTP id d15so6461568wrv.5
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 08:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EY6Vh34LkxSkGwScpBlwErFD94Dc0UP+wj9kGmeYDJ0=;
- b=dyx1FwboS8XVcsyCZj1SUNj4P47qcKLR4dzAIM6LHzYgGI0KuGbNPjPF7WQpf9Rqf3
- RO5DD0et7kvk8/W1FDOhjtDqpxu5Xq9tkm65/7ApedPPe18WKJCkY/h2rG9m4zzLFr7B
- It8hgz3k+6WR3t54StiX43/MjqVz2bBvJCc2I02utJbOVnnrmR2N+fRTvBjkMVp16F2c
- 1cO29cY9UIjorCu8GIdGxjwClC+AWQay7mgkLpq3nSMC4yTGUPfN5K5dQQPNcRZzI0Aw
- GHwJiE/vAGXpIlK5D11htB75weHcSvgwKZa3kN5+1sDmryMTjaL7pVM3mMg20hV2homv
- pLcg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=X9eAy7tAwcBfGFsgC+ZegGvTgLMi6sa09ssqoGaE5UA=;
+ b=Q9P0ItsBzRhlq9Xb/cGEC7rUwjvR0jvS8AbWbicoLDELRUAS63FHsj6My0R2bAYxVx
+ T4nuopia1GqwcJRZvEYfiPEaC20a40sZ4mktWd3ItZp1DTyyOnjFX0nsxaCSWieiJmdG
+ Lv6kc97efig7b7CErsZ4b08uxp9MXfZH5ck0FFPvw8GR6GAI8oBKDLkhWqZgfJnVNVFY
+ DN+MqrZUDFp5JgTpmGy2VUwug6w9YFr/Y2q6U4fCza7G4T1Waz+52y+I8O3kCsw5p2Rj
+ FeQfm5cpKWsvnIW6sRTh56scu2cHSewOvpcBR1pcS/CObGmtj4FZSFQeENgnWlGCo5Yz
+ lTng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=EY6Vh34LkxSkGwScpBlwErFD94Dc0UP+wj9kGmeYDJ0=;
- b=pGzAuQ7YVzMkvxiQzbo+920NvnmTlyp21vYYJZLvPaC9JHGtuUf6AOvFoZjGBI5zJW
- FJHZnfWF5rq2f2gQw7YikL6xVc3PPD8zQkMhsHAM6i8nlF2N3VeqJ3NEx+gY+WiOZWC7
- JJjI43wxhccPpf5nEia6qCtQzTXmz71IsCxWZVA9RlXlxOpyVQblhDAU9XzFJiN8jM+k
- 0W8ET5lAO5K+FWIp1DxQ9XX6EB4XLlgHckm0Pzi4tda5MKR03u7OAF/Oy9ScbJO209XB
- UpkbKPKcpyoOMAK6eGHi/S0Lqi1rMb4ro5EIFlOs7ano1tJjnSsxtL5/cjJ2FKrmNjwi
- Jibg==
-X-Gm-Message-State: AOAM533+OVuifIG1gkl7QJjVA/8GAQsGW7bwCt0XGgVdQm9mPBHamjxs
- 5+c10hW/Ws9VAc/NgE+Iqw3o8I5voqMMFQ==
-X-Google-Smtp-Source: ABdhPJxVrpph+S2cVIro6BC9IrpC1RpSgketddpTO3FIWIwkGxWvabBoPMnbjiklaAmVYMsXC5z30w==
-X-Received: by 2002:a5d:4532:: with SMTP id j18mr19266794wra.239.1615654487896; 
- Sat, 13 Mar 2021 08:54:47 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=X9eAy7tAwcBfGFsgC+ZegGvTgLMi6sa09ssqoGaE5UA=;
+ b=DNEtcq8RLhmhoYZ/RA4b2gkptSLhCbJDiaAILwWxS077vSfC87Y94s6f453WBkVsSb
+ EOzo2ukL7ul+wI7lxC1Ch0IvMMd/W98hpjR8XvphRca0TbIzL1YdGeBR2X3SDF1Nu7M7
+ q1qa6O/Er/iyPTtSfY2BaLRYQ9T8KOauNIidR03ps5muXFgBxP8b7hPD8X2V457m3e2a
+ 8anFF9hakZgi8XCc7LX5YwPN2c5OgYotD7tNe3OjClOZ//1NxyU2SrJA6VYFJLe8PRU0
+ O5w1gawG4QzS87o7yKnVksDn00uDUhXgKUk9upP/9f5MuE/K8EDjpmFF9X9moXhCI/cS
+ H9eg==
+X-Gm-Message-State: AOAM533BpPNzcj/USM5BwkpGKkmVG726NbAhM6bt4citP8EndAHXgYtU
+ H6gC/NMc8i2rEluHeybYSJqSHy4qctdXag==
+X-Google-Smtp-Source: ABdhPJzBeWFWAeTkc71qoHNDZIPuangswSvVKxPrTAUq2jvtN/jz412tPABf0IddKlhUl4ZwcmbuZw==
+X-Received: by 2002:adf:c641:: with SMTP id u1mr19743170wrg.332.1615654494088; 
+ Sat, 13 Mar 2021 08:54:54 -0800 (PST)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id v9sm12972956wrn.86.2021.03.13.08.54.46
+ by smtp.gmail.com with ESMTPSA id h22sm8193007wmb.36.2021.03.13.08.54.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 08:54:47 -0800 (PST)
+ Sat, 13 Mar 2021 08:54:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/11] AVR patch queue for QEMU 6.0
-Date: Sat, 13 Mar 2021 17:54:34 +0100
-Message-Id: <20210313165445.2113938-1-f4bug@amsat.org>
+Subject: [PATCH 01/11] hw/misc/led: Add yellow LED
+Date: Sat, 13 Mar 2021 17:54:35 +0100
+Message-Id: <20210313165445.2113938-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210313165445.2113938-1-f4bug@amsat.org>
+References: <20210313165445.2113938-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,56 +91,39 @@ Cc: Thomas Huth <huth@tuxfamily.org>, Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series contains all the AVR patches I could find on the list.=0D
-=0D
-Niteesh, I fixed minor issues. Do you mind reviewing on top?=0D
-=0D
-Pull request planned for Monday if no problem arises.=0D
-=0D
-Thanks,=0D
-=0D
-Phil.=0D
-=0D
-G S Niteesh Babu (2):=0D
-  hw/gpio/avr_gpio: Add tracing for reads and writes=0D
-  hw/avr/arduino: Add D13 LED=0D
-=0D
-Heecheol Yang (1):=0D
-  hw/avr: Add limited support for avr gpio registers=0D
-=0D
-Ivanov Arkasha (1):=0D
-  target/avr: Fix interrupt execution=0D
-=0D
-Lichang Zhao (1):=0D
-  target/avr: Fix some comment spelling errors=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  hw/misc/led: Add yellow LED=0D
-  hw/avr/arduino: List board schematic links=0D
-  hw/gpio/avr_gpio: Add migration VMstate=0D
-  hw/gpio/avr_gpio: Add 'id' field in AVRGPIOState=0D
-  hw/gpio/avr_gpio: Simplify avr_gpio_write_port using extract32()=0D
-  hw/avr/arduino: Replace magic number by gpio_port_index() call=0D
-=0D
- hw/avr/atmega.h            |   2 +=0D
- include/hw/gpio/avr_gpio.h |  54 ++++++++++++=0D
- include/hw/misc/led.h      |   1 +=0D
- hw/avr/arduino.c           |  44 +++++++++-=0D
- hw/avr/atmega.c            |   8 +-=0D
- hw/gpio/avr_gpio.c         | 173 +++++++++++++++++++++++++++++++++++++=0D
- hw/misc/led.c              |   1 +=0D
- target/avr/helper.c        |  10 ++-=0D
- hw/avr/Kconfig             |   2 +=0D
- hw/gpio/Kconfig            |   3 +=0D
- hw/gpio/meson.build        |   1 +=0D
- hw/gpio/trace-events       |   5 ++=0D
- 12 files changed, 294 insertions(+), 10 deletions(-)=0D
- create mode 100644 include/hw/gpio/avr_gpio.h=0D
- create mode 100644 hw/gpio/avr_gpio.c=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Add the yellow "lime" LED.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/misc/led.h | 1 +
+ hw/misc/led.c         | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/include/hw/misc/led.h b/include/hw/misc/led.h
+index aa359b87c20..29c08795708 100644
+--- a/include/hw/misc/led.h
++++ b/include/hw/misc/led.h
+@@ -27,6 +27,7 @@ typedef enum {          /* Coarse wavelength range */
+     LED_COLOR_BLUE,     /* 475 nm */
+     LED_COLOR_CYAN,     /* 500 nm */
+     LED_COLOR_GREEN,    /* 535 nm */
++    LED_COLOR_YELLOW,   /* 567 nm */
+     LED_COLOR_AMBER,    /* 590 nm */
+     LED_COLOR_ORANGE,   /* 615 nm */
+     LED_COLOR_RED,      /* 630 nm */
+diff --git a/hw/misc/led.c b/hw/misc/led.c
+index 5266d026d0b..f552b8b6483 100644
+--- a/hw/misc/led.c
++++ b/hw/misc/led.c
+@@ -20,6 +20,7 @@ static const char * const led_color_name[] = {
+     [LED_COLOR_BLUE]    = "blue",
+     [LED_COLOR_CYAN]    = "cyan",
+     [LED_COLOR_GREEN]   = "green",
++    [LED_COLOR_YELLOW]  = "yellow",
+     [LED_COLOR_AMBER]   = "amber",
+     [LED_COLOR_ORANGE]  = "orange",
+     [LED_COLOR_RED]     = "red",
+-- 
+2.26.2
+
 
