@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCC133A0EF
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 21:14:45 +0100 (CET)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7722633A0D7
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Mar 2021 21:01:33 +0100 (CET)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLAeq-0003sl-L5
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 15:14:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57726)
+	id 1lLAS4-0003O8-Gc
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 15:01:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLAIC-0001NA-Qo
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:51:24 -0500
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:40657)
+ id 1lLAIO-0001Qz-2X
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:51:35 -0500
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:47006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLAI8-0007yc-RV
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:51:18 -0500
-Received: by mail-qt1-x82e.google.com with SMTP id r14so6500913qtt.7
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:51:16 -0800 (PST)
+ id 1lLAIL-00084O-Hu
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 14:51:31 -0500
+Received: by mail-qv1-xf2c.google.com with SMTP id j17so5948872qvo.13
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 11:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tfa67K4zkw3n9C6DkHkVVbO3l9MhREAp6jMpon3ZC8s=;
- b=E4cRkBCoPcCanHGBenofW+JxHjSaNmCW8BFISKdhkTlhRvZX9xt2XTWc+SH+Gc8/1K
- 6PP/dGpxGfwB/lq245VxC7Zb7GExVMn0Ei3XBlce7bDDtjmxHGLUA57efH56r8oV2mpY
- cTIe0SyL6PgKjUYK2WHbo0emVUWEcWeWwk3u+BxkC7F3Uboivd2WLwnOrjdStctXD0Bd
- mV/LwxPpPUI8Z6ZHwarOuIcXKrRJ5Q9fIboDm70yX0Vmxq65HYnIWsLC1SdQObZNdj8T
- bsxtLcBSYV4GsRk+kHu/K4PiYec3JjguULpNv1vzP2DSowIDMlRyUw8geemlVPnF43fH
- mLjQ==
+ bh=Zn4ARaXjhoPAjAj9N+cxkIuo97nly92TkBhVIOMWiMU=;
+ b=wRirjT+570bZH/2jq7Xr4oHtlvgIJNbZkrShSdTi21iveK92VoOKp/ExvHjBNGki+5
+ LEbmjSt001PpaCO6+Cv7j2UVan4CGgZqCGfRNX6+L1a4TpcGtvTNGLupWNMj/WNb4Dcu
+ eRDBjOTDXOEoUowtDXQ/yE0UbosOU1jRVcAD77IfWl7CNTHzUZTPUOT8hW8UOOVXAj9b
+ s1oW/HizQlugaXewMR/lRkqSBradFrTcOi0uBJPmHPAHEnWSv9QL1fol8pjVq4510LGN
+ DPqrB465MDbOv4VgASfT6/mZAx6xD3rehqcjpBoL0v2wzyZQ2xaO8jLIgLHpN0+PMJlN
+ bU1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tfa67K4zkw3n9C6DkHkVVbO3l9MhREAp6jMpon3ZC8s=;
- b=ZPT16vrJrg0Vi2ZKIZGudH1MMn9SQWrnr/2ULYLE3o71MGoIdn6eorLpbqAfMs9WW4
- P5mvLuSan0CNXrvpoXedsNQDwOYIr1424HYC/1qOf83q0tZuU9wwBYWsoexuzh5MuE9K
- gMi7mmdUZE+vSTRqZes0E9KhRKzT/Dx6C/JE8JzbF8uPHOkeYrBrP/gralawy/PdLiw+
- o3nlVBRUxpmg0WIH6O8aRvKpqfb95yZ8omit7a/cGiY/tetK0OmM5YtxEpzyvO/hIthi
- ZxHrWch/A6YdUE7BmaPcyIl2KdDUvDHku0vx2RSFdK0r7zpkk4cn3y1igambii/Lt2+q
- sqTg==
-X-Gm-Message-State: AOAM532L4RTptoxDWXJjE9y2RNRTvMrftlSML/7+bITFr0YxqFAWY2I9
- e/cDbreoZkGECGzXZjjEfplkBQ==
-X-Google-Smtp-Source: ABdhPJx0F6YYgfsCoV5zLqZagcdtQXM+InaaODkrgRO4GDQNhI+FR1VORK8XqRfNcei69bSyOHjwdA==
-X-Received: by 2002:ac8:7a69:: with SMTP id w9mr6637978qtt.60.1615665075675;
- Sat, 13 Mar 2021 11:51:15 -0800 (PST)
+ bh=Zn4ARaXjhoPAjAj9N+cxkIuo97nly92TkBhVIOMWiMU=;
+ b=Kg20qhUsJWtc+alLLMwJOH9xxPVTirN4mI294SQqbuVpFYcjV46RdbjfWq1kp+j9rV
+ 9RkSj1ZBjoQiXY6NaNfKfytpPbCIYCyIUtRRBa+G102cnwuDIOr/AThA9Ut7mTOrVV4M
+ yFhWvy4FRKcNSL5L7HUoYUYMZjQx+X8ulVUCeYMuCBP5x9QncFAqmwPajL7ejWZHm6+A
+ qHZPUnDOTnkTDdU4PRFBQSZTwLkFhrg7QnupmC4Hc/IzC7oZ0Vh7zLRrxIXl2Y4JIQ6A
+ OIvbcL/nH2Osj7tVgovCKlVzcWok3lexc7PIPZ68lKyyHpSHR+pN3eelVFlS85xc4+E6
+ Fy0Q==
+X-Gm-Message-State: AOAM530aEFdrsaSfeQOZkIL9KrbDZUHcgObeNqhjYMmNsgir1gJaRmBl
+ oNZ0KRF2WqgLto7FfDOUOITLwQ==
+X-Google-Smtp-Source: ABdhPJy0LUBeawiFIOd7+cgYdEPz8V4bMQ544g+Hd13QK5iCZQqk8ayk0lS3yqwcfpFmQdM1/3QIyw==
+X-Received: by 2002:ad4:5a14:: with SMTP id ei20mr17556790qvb.1.1615665088622; 
+ Sat, 13 Mar 2021 11:51:28 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id j6sm6126572qtx.14.2021.03.13.11.51.14
+ by smtp.gmail.com with ESMTPSA id p1sm7382236qkj.73.2021.03.13.11.51.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 11:51:15 -0800 (PST)
-Subject: Re: [PATCH 01/11] hw/misc/led: Add yellow LED
+ Sat, 13 Mar 2021 11:51:28 -0800 (PST)
+Subject: Re: [PATCH 02/11] hw/avr/arduino: List board schematic links
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210313165445.2113938-1-f4bug@amsat.org>
- <20210313165445.2113938-2-f4bug@amsat.org>
+ <20210313165445.2113938-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c8f057a9-84ca-9f33-b4a4-aa6e493e3e45@linaro.org>
-Date: Sat, 13 Mar 2021 13:51:12 -0600
+Message-ID: <1faed129-91cb-2a4c-4ebe-d1ca4115647c@linaro.org>
+Date: Sat, 13 Mar 2021 13:51:25 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210313165445.2113938-2-f4bug@amsat.org>
+In-Reply-To: <20210313165445.2113938-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,13 +95,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/13/21 10:54 AM, Philippe Mathieu-Daudé wrote:
-> Add the yellow "lime" LED.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   include/hw/misc/led.h | 1 +
->   hw/misc/led.c         | 1 +
->   2 files changed, 2 insertions(+)
+>   hw/avr/arduino.c | 20 ++++++++++++++++----
+>   1 file changed, 16 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
