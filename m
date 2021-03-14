@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3D033A72E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 18:49:10 +0100 (CET)
-Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEF433A739
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 18:53:59 +0100 (CET)
+Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLUrU-0003qQ-Tk
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 13:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46556)
+	id 1lLUwA-0000RM-Ld
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 13:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lLUqK-0003Nz-Gz
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:47:56 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:33291)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lLUsq-0004N5-E0
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:50:32 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lLUqF-0005TW-Id
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:47:56 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id jt13so62543328ejb.0
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3+QmsP0VcbmkczhOD7sDCX5xFuEMx0CTdGonlU03rHE=;
- b=Ae6Qx+jJkMo/Q1vd+9D5kyRTKL6126mAWH21BBuPQCbhZbVbPxxmzF5ov/37KR4SsA
- dok/fmTPIfm+YBq6Yz/NXmr95udXaRhRvmwqMbp2PCYJmEnMqy+zpgbbzRBV5x0gU+jY
- X8Lp9yLRKEFbgptXKRiXyHISOjZYYHIE+cBTDux6sx8kf3ffIf/h79GEqHVQ7IlCrtUW
- VQeT455/DasSl880sLP+/NgocgNrlC4/5hgwkGimqdlFFcKMz/aI09RvSEzY44zvwLgT
- cArsMgeLF/Q2bttpNJryhm52a+dGAWA61KV2E2E4t0ZU/LnDM/R8E9arHZH04HCatkC0
- 1NQA==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lLUsn-0006eH-Jl
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:50:32 -0400
+Received: by mail-wm1-x331.google.com with SMTP id g8so6809265wmd.4
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZMZr0coHzueub1sILoBkXAANm74sgodlaSTxFzPXWuo=;
+ b=jIMZMRq3UL/wf7v28/oVJdeVQ3oaXxcVjMp3bd1OniddaVmw/I9aBAfl73tt/HZQse
+ TZLrzzqf3S+W8JRcgrdYf8hTrWComSlMZkhb2r/GIwXb504H2eOXA/sywcSdMiQfv3uV
+ 18mFBUqDBD8vkWE80U18AFC7si33s3cy6hj6UAjg4MR21P6PRocRuqQ8VVquTMwKndpQ
+ a93TeQvnedAGLR3WjFpjsZglLkI6b08z58+ataHchiuK8eCTrJDQlZP2Nq+zNLEfbRXF
+ AV3WK5NAGQ6MV07+is0IZEgVpppIIxeix6k7xgur3IlcP8IaJ0fMpSo1UTOGP/AYsJNn
+ DMoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3+QmsP0VcbmkczhOD7sDCX5xFuEMx0CTdGonlU03rHE=;
- b=KgqNalccPN1U56cupr9XWDINijaLpgRVoFtHVoICKl70jwlFQ9oOHF1nHHPw5dx8uO
- vp8J2kFoWF5dSOL8RsPBU01YRYPffmvmWhWXzQviGDMte6/mD6Bqs8IDXQ2d43B1hsow
- JDJyZ+iRN9ZeJPSIJSzUU1+C7ZEkaNcPljwztKmYVQ0+b0XrwgHEWLIyblifj/0TAtjt
- wZLxCON7KnKl72KfUsVOQTndIr0BIoUkp4IwoJEvSnit8WrVq420IQG4slneG33DzcDT
- o9u3MZoHm1Yr3FTQguw41dsxSOcj5W5nsQMLAodjm1InR6rh9lnHCrng7wL3DxFPI/kJ
- wGGw==
-X-Gm-Message-State: AOAM5326OiMJlZUXB9tMJU4s6RgmbXdQaGgXE9ISlU8tgPMwusg0eXsk
- psAXj0VeLV2/N99v5q/djJ1NxPRbKr8wsBXFei9akw==
-X-Google-Smtp-Source: ABdhPJy32DB3RaRCTpDMOaoHiZgDAeViBH7eBtZeOwEqCh0iQphd5Qec7m3h73HGhehrW0eYe7H4PhpgbKAwNxyxRzs=
-X-Received: by 2002:a17:906:c301:: with SMTP id
- s1mr19223823ejz.382.1615744069666; 
- Sun, 14 Mar 2021 10:47:49 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ZMZr0coHzueub1sILoBkXAANm74sgodlaSTxFzPXWuo=;
+ b=FE53ClGhCY1J/8RhVGgJQJcc5/uJzjqD6Nl3xWh4VMFkvNTjdKwAEINMm8VeDlK4Oz
+ hZ7k0KxxqPPyp5fOAYI6akuEbJRadm12ilczisLZz0mx6wE3uQIQBKRRC1ewtfXulwsb
+ anCkyjp/xt3k3b84gY9T0xDIFc2GVOc+FOCj6ZZfeM5ZTCq75HtdzMEcUaXsXpYP4W1N
+ ulalAZwblo8keA5UvTE7HEWUFjmMWMjhfpoUTWLLrorMxfeP0q4U2/fR+tPFIHt8vS6T
+ o708LkYGxu7SCScpY6uEblb0H0EZWlCxZCrK5UBP/4CM6DE1uVrBHxJcL6PHFV0A57gz
+ R97A==
+X-Gm-Message-State: AOAM532mEcBKfLuXduY7Bb0rjNftRwrq/e4JQzRmvKUX7hDV4hO/64di
+ HpXm79RGyo8G9b04+ROQrZuJ4ItO37Y=
+X-Google-Smtp-Source: ABdhPJxfxgYpYeuBP7qfEvWzA770lyBB1hyUhKcF7p4AvNexM+gh3+dol2uzC+uNGISjIDRbWvuzQw==
+X-Received: by 2002:a1c:1f94:: with SMTP id
+ f142mr22779410wmf.180.1615744227092; 
+ Sun, 14 Mar 2021 10:50:27 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id a6sm11442749wmm.0.2021.03.14.10.50.26
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Mar 2021 10:50:26 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Meson version update
+Date: Sun, 14 Mar 2021 18:50:20 +0100
+Message-Id: <20210314175025.114723-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210312172356.968219-1-thuth@redhat.com>
-In-Reply-To: <20210312172356.968219-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 14 Mar 2021 17:47:28 +0000
-Message-ID: <CAFEAcA9_O0n1-_N+eaiiEgcO2n5mO8OKyhXbwM+Abbte0k_NTA@mail.gmail.com>
-Subject: Re: [PULL 0/9] Gitlab-CI, tests and docs
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Mar 2021 at 17:24, Thomas Huth <thuth@redhat.com> wrote:
->
-> The following changes since commit 363fc963054d8e82cfd55fa9b9aa130692a8dbd7:
->
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-aspeed-20210309' into staging (2021-03-11 11:18:27 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-03-12
->
-> for you to fetch changes up to 33bf47291ed575847d7de26b503c50e72f5aa6c3:
->
->   README: Add Documentation blurb (2021-03-12 15:46:30 +0100)
->
-> ----------------------------------------------------------------
-> * Move unit and bench tests into separate directories
-> * Clean-up and improve gitlab-ci jobs
-> * Drop the non-working "check-speed" makefile target
-> * Minor documentation updates
-> ----------------------------------------------------------------
+The following changes since commit 0436c55edf6b357ff56e2a5bf688df8636f83456:
 
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-03-08 13:51:41 +0000)
 
-Applied, thanks.
+are available in the Git repository at:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson-0.57
 
--- PMM
+for you to fetch changes up to ddbac656401866a1a48d4829b5d02c239d1e8fc3:
+
+  hexagon: use env keyword argument to pass PYTHONPATH (2021-03-13 19:26:03 +0100)
+
+----------------------------------------------------------------
+Update Meson to 0.57.
+
+----------------------------------------------------------------
+Paolo Bonzini (5):
+      hexagon: do not specify executables as inputs
+      hexagon: do not specify Python scripts as inputs
+      meson: bump submodule to 0.57.1
+      meson: switch minimum meson version to 0.57.0
+      hexagon: use env keyword argument to pass PYTHONPATH
+
+ configure                               |  7 +----
+ docs/meson.build                        | 12 ++++----
+ meson                                   |  2 +-
+ meson.build                             | 54 +++++++++++++++------------------
+ plugins/meson.build                     |  4 +--
+ scripts/mtest2make.py                   |  7 ++---
+ target/hexagon/meson.build              | 37 ++++++++--------------
+ tests/docker/dockerfiles/centos7.docker |  2 +-
+ tests/meson.build                       |  2 +-
+ tests/qapi-schema/meson.build           |  4 +--
+ tests/qtest/meson.build                 |  2 +-
+ trace/meson.build                       |  4 +--
+ 12 files changed, 57 insertions(+), 80 deletions(-)
+-- 
+2.29.2
+
 
