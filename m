@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC85633A8D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 00:36:40 +0100 (CET)
-Received: from localhost ([::1]:32900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D47133A8DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 00:37:41 +0100 (CET)
+Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLaHj-0007P7-TO
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 19:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
+	id 1lLaIm-0000Da-3D
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 19:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLaBM-00007P-DQ
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:30:00 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46832)
+ id 1lLaD3-0002ie-KE
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:31:45 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLaBK-0003kJ-P6
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:30:00 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v4so4812189wrp.13
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 16:29:58 -0700 (PDT)
+ id 1lLaD2-0004f5-2M
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:31:45 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id b9so4818727wrt.8
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 16:31:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=omYqz1dBbqgnwbqos/CkuFX5mITKAgtBS0In2um2yKk=;
- b=garltiyyObrLsT9P5uLMXRvWWCELa8cLtHJfM8XThPwu3/v2SxJLT7FurF9FWULH5o
- WxErGQbvn6eiS/u0rGtJT3R6cNkzhiCh9iSBp02OET4i9ml1zVMTOfMd/+zRqlLRNNJT
- aNqj+60YC3huNDaUgluI8FY2Rrbqn9iq8wFM7N9sH9zgkQYT6fV54rCUvxu6FUw/xEvC
- 9/g4CUDoPtIImspXQkUSaoCAUtrz16gCjE9SuM4ja1EHIyPRl0Dq9CEd5zaxBuPSLlkI
- /WbUao93T2lfGuTsWKjrVzZcKJNlybKdqZdPisooYRRZXoXm0msvJpVnxTQaTJnq/bys
- jXuA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=klvomqH+zlcDQAFtx7QL3nkbSJYudjGmK/2ZctWu2ts=;
+ b=GZmLB8aziv+crtEiwZYXlTmysjO90TeftiZrTHFjNPziDgznCsn3uNgTl+fyftt4Rv
+ sDQOxiqKAGEjaHBY6VAypCBRknXNeS8i3CxBdrHKutbXqozcVeofC6Xkdr8GVCKpMHDj
+ trmN7rpem4jxQai5p6PjuYRIBDVmBnFK0sW9x3IgmmRBf7SBvIWAydPT6fVJqV0C2uU0
+ vlHpKDCqpIiLEjCndcJ76HjTH6h3KGquDJIy4YJ7FPV0aI+OWj8zQoGnntML0cFhj+tl
+ p05RvqiZyTJF3pMTPmdBa1r1Bd6ufGBcGJ7AP9zxime56aOqtznIG9o7p5YbbIhnFDdj
+ DrOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=omYqz1dBbqgnwbqos/CkuFX5mITKAgtBS0In2um2yKk=;
- b=ijygDyGkPvV2YoxlZJ3DEAgV9XQAmcsq3UnHXZsdKwC+6IIMr/TrDU6fQP7rOTxZ5V
- StDnZn8cKkvH3ErnLqhdfDecLoJhWkmqAD0hfMIImjx1zLrAKH1zaJ0r0XfvKYJnk83R
- 3MwxTFV1Mzf2lCqNOjwNEvGNfN+7ZtZyoaN61MvotxFcRuMwmn9O0T+JG0UGkOngjNBK
- PR6HtM/+FhfmaRyqmzhACRSoV9F51XFPaUefJjrUxqrYlSggfXJHa5u8X1XnGCRuOUFP
- R4urre8H+zyb29Udc8a/av+P6TUiAoPQFxhpf7umjX9MMekSxoZVma5i8LCE+Su93hjJ
- drBA==
-X-Gm-Message-State: AOAM532Q5vZ3Gr/6zwpIsHdf8oFu8lXNBsjgxEqr4kCLHm4aN9HB44YQ
- zjzmboe2X2ZELf+uvAQBQIvvoax21LCIVQ==
-X-Google-Smtp-Source: ABdhPJxAmp1QFt+9Wcs/WVlU4KvZUtK8eq0jGOwzLGfLhpejtzagvwU5JLVVPE0+A+Rzmy6WSZwL4A==
-X-Received: by 2002:a5d:6312:: with SMTP id i18mr24967028wru.149.1615764597150; 
- Sun, 14 Mar 2021 16:29:57 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=klvomqH+zlcDQAFtx7QL3nkbSJYudjGmK/2ZctWu2ts=;
+ b=PPea3SaIj/ls/XkAd90ReUgP/RkJANZUx1kAMpKJuXfI+/7TVn/mNkW8v/wUzpzH1J
+ cpcpxBEqmR3IyZjGSkTvqU6cSjCSp/1IkRIm6qfG3LbwyvQWpXzbmqUaIM3MWOYJuaLk
+ MZ/Qa/B8JHQczQ4PN9jZVJ1xESXzVsKbxfllqaG2JMK8xridCCQcAkiMecEHGkk+zSEa
+ cvKT5/s33RqmGeMy2bsEMD6mo5pZtaaDOcfZJfqz9+JeyZADZxswxsRs3LOzy8MqXUq5
+ Dt8ROlxdAwBybGOEQOnJs0iQtriNtewJwIu2Iq891cwVxJN9Ju+96eS9QEKdWCMmCFQ4
+ tW2w==
+X-Gm-Message-State: AOAM5315FGMdCcYmTBxTlkj/IvnfumPZVu5iN6gT1jBrTc0x1O+38Iz+
+ Ro3oSrshte6as7Sj8lKzO1u0cRNBVue7Lw==
+X-Google-Smtp-Source: ABdhPJy71S8X4hMumdL6RWL3dxdBMK0kfLO/2gNGPrqojTP/eKpGEHADEKBubfybvxP7KtYQZyLg1Q==
+X-Received: by 2002:adf:f9d0:: with SMTP id w16mr25343317wrr.336.1615764702544; 
+ Sun, 14 Mar 2021 16:31:42 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id q19sm17336065wrg.80.2021.03.14.16.29.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 16:29:56 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 8/8] softmmu: Restrict CPU I/O instructions
-Date: Mon, 15 Mar 2021 00:29:13 +0100
-Message-Id: <20210314232913.2607360-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210314232913.2607360-1-f4bug@amsat.org>
-References: <20210314232913.2607360-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id p17sm9889383wmq.47.2021.03.14.16.31.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Mar 2021 16:31:42 -0700 (PDT)
+Subject: Re: [PATCH] fuzz: check machine, before PC-specific code
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20210314231015.29166-1-alxndr@bu.edu>
+ <20210314231312.q7oykvk7ijoqj6oj@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <205d92e8-3a4d-ba81-ed84-c37ceec11b27@amsat.org>
+Date: Mon, 15 Mar 2021 00:31:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210314231312.q7oykvk7ijoqj6oj@mozz.bu.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -85,42 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ darren.kenny@oracle.com, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict CPU I/O instructions to architectures providing
-I/O bus.
+On 3/15/21 12:13 AM, Alexander Bulekov wrote:
+> On 210314 1910, Alexander Bulekov wrote:
+>> We enumerate PCI devices on PC machines, but this breaks the fuzzer for
+>> non-PC machines and architectures. Add checks to avoid this.
+>>
+>> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>> ---
+>>  tests/qtest/fuzz/generic_fuzz.c | 11 ++++++++---
+>>  1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+>> index ee8c17a04c..d2b74028fe 100644
+>> --- a/tests/qtest/fuzz/generic_fuzz.c
+>> +++ b/tests/qtest/fuzz/generic_fuzz.c
+>> @@ -784,6 +784,7 @@ static void generic_pre_fuzz(QTestState *s)
+>>      MemoryRegion *mr;
+>>      QPCIBus *pcibus;
+>>      char **result;
+>> +    const char* machine_type;
+>>  
+>>      if (!getenv("QEMU_FUZZ_OBJECTS")) {
+>>          usage();
+>> @@ -827,9 +828,13 @@ static void generic_pre_fuzz(QTestState *s)
+>>          exit(1);
+>>      }
+>>  
+>> -    pcibus = qpci_new_pc(s, NULL);
+>> -    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
+>> -    qpci_free_pc(pcibus);
+>> +    machine_type = object_get_typename(qdev_get_machine());
+>> +    if(fuzzable_pci_devices->len && strstr(machine_type, "pc") == machine_type)
+>                                   Should at least be "pc-" --^
+> Maybe there's a more cannonical way to do this..
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- softmmu/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This doesn't scale with tests/qtest/libqos/pci-spapr.h :(
 
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index ebf063b8990..3df196917a0 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -2,7 +2,6 @@
-   'arch_init.c',
-   'balloon.c',
-   'cpus.c',
--  'cpu-io.c',
-   'cpu-throttle.c',
-   'datadir.c',
-   'globals.c',
-@@ -16,6 +15,7 @@
-   'cpu-timers.c',
-   'runstate-action.c',
- )])
-+specific_ss.add(when: 'TARGET_HAS_IOPORT', if_true: files('cpu-io.c'))
- 
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
-   'icount.c'
--- 
-2.26.2
+Maybe use the QOSOps structures?
 
+> -Alex
+> 
+>> +    {
+>> +        pcibus = qpci_new_pc(s, NULL);
+>> +        g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
+>> +        qpci_free_pc(pcibus);
+>> +    }
+>>  
+>>      counter_shm_init();
+>>  }
+>> -- 
+>> 2.27.0
+>>
+> 
 
