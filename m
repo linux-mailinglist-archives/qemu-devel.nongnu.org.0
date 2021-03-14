@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA90533A578
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 16:40:00 +0100 (CET)
-Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8849833A6BB
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 17:41:51 +0100 (CET)
+Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLSqV-0004eL-EA
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 11:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
+	id 1lLToM-0005G9-2X
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 12:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1lLSpJ-0003ol-B6
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 11:38:45 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40655)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLTm9-0004hk-5P
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 12:39:34 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1lLSpH-0000Kp-Rw
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 11:38:45 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id ci14so62007794ejc.7
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 08:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0RxPTZmycXU/T12a20usvfOvXi6QssR/O3yxJlY36Dk=;
- b=aAspRVyawTquNTUAaCBrqxbuqEjy6CIM9Jklu9Z8Af3iWO0PwIPlWeXDNpXzwrbIoL
- yIhZALBEljBr4uui7EPDIb9R+abWx9KsEHr1nZ97xTKFSwJOAQ+UI+0ufF5TCxVnYFq5
- IYPK7ZV5FSFRhHqZ6SJWuauswM2YgdHdCFkq8wv92Bz4WRwgGuUPCsbtgg9DEPLX6iwA
- vHNsH6FqFp+cTGgd4K81pjC8LVmIs4MtfxKnNKM1wTyuDGGh+idd2Gl7y8r+HmbnWGNA
- wmon7H+WkYb8gW0ZdmeWDB72+UYOXeL0WU3bPWGor1BpGZse38euzF7twiIyvOjVQrzk
- 7A7A==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLTm7-0005yI-H7
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 12:39:32 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id g8so6747154wmd.4
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 09:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KGThrPzLRl+xRmi/6a9GxsjI47f1pTYHFfas07Xrz9k=;
+ b=N/p8+U1vd438yh1KZzicGH7A5Rz4HhKPnuX5jzzGnHYH3s7nuWSHw8mXX/ytfOTAwh
+ 7BP5uKOuyEUJ444kheUitcnlQv1BZ2A1+PjvznGX+kocQhrkafqFWwOycLDiNLsEITjx
+ aoAUJF8wisURnMv7K76Jj0iyBM5kwmZggf+MSUaOgocczUyUal2mFjDr6O9urG3nTRzr
+ KXKPE8dHuWTCcvqJr1L119QTxiB3sxi6MWnW1L+xWvYC/DWUncKo7i4kx1kh9H+Koo1v
+ m7zEPJyd7oaZRwGI1NwOX40/5Trq+8rc8lmqeKCZC+cOMKYJelCoyBsu2IXCA51YU3+K
+ uVag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0RxPTZmycXU/T12a20usvfOvXi6QssR/O3yxJlY36Dk=;
- b=KxbxfveMMt12I843cj0oVdIGSej+sdsNBRY+cS4WgKyeHfTdLa+LsM5tfNuMTHsvRZ
- GCVvEN3fOEgV30aNYePWSP9vfcFOV2OtjF3R1tKpSJRHIiLGd9PZropaZojlzwXSj6Vy
- xWWH/1xmRrbdrK9Ra0PMk4cHf4gC9PM8/he4sku38aN78tflFuMmb19axiT3I/iMAaGX
- kijIrDl5wta1xeWAhudIMzRWTDMSrCFqa+MPhj4qKqKbH/zLqvRLa5MPrTU6kXzd3QBH
- Shx/J2YOGOiin5hRFepyoDFJYx3O/dbiiUNJ7c84p1ppv6j+v4tySe8TWaAIrwBBKcS1
- hwjA==
-X-Gm-Message-State: AOAM530QeJOnlqqewQAS/WVxigzDhmxaS5PAX0S0m9U+UlHCRzxXQKkD
- qdRvvX1f1VOFBJznfhBkFUknA+ERp1SOJDDHSyM=
-X-Google-Smtp-Source: ABdhPJyeH+1Z04JgteeDY/6hVjUyPLCj6wCZA9AYypqPcmNkyqszmrqdRbuGnNmo/u4a0plSNoMjAcFZtOEmxIRUr9w=
-X-Received: by 2002:a17:906:1f93:: with SMTP id
- t19mr19575578ejr.443.1615736321938; 
- Sun, 14 Mar 2021 08:38:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KGThrPzLRl+xRmi/6a9GxsjI47f1pTYHFfas07Xrz9k=;
+ b=CPWMGunif/cZ9R05UpG8e34zrj6beXrXJWcDGchXlBUngn3gsLwZG+WwWcLfMv8OST
+ 5d3hxNV6xCixl1JiUyAUe9MY6AvO4JYh9+07Y15k52YFtdVJFOL/J2IPo8xKl+WFxaKY
+ gTWNdE/JryBd7/dG3jBHbR8XR3vUu47jIEPCrF5cyticMve2FJa5F6kCK5dlG1hwfxwd
+ hvBkdAx1JLwMBAt8xI9rxHPJAZn3UpOxibE3vsMUWTFDf1ZUovdEaIhDJ7ZMk1sZSNYX
+ bb74P88+NU5Tx8iJybklnniaknqespYt4gaSh71wgMVYcn10Qik+VqyHW6ZDzPynjxyW
+ NUzw==
+X-Gm-Message-State: AOAM533Gh2SVAL+eq5rIft+qrCyOcmQS1hlcysfFerAIDvMh+t/lAXrO
+ 7hUWIhQ8oxmPMjPn4UpS0H1VvqO/pIsTcE+G
+X-Google-Smtp-Source: ABdhPJz4lmFapqMpC6ZjZkbxqJ/jQwb4vdbyneqEmB09K3w1fnyJdNGlLLDnWFWRd6HU1asgansaUg==
+X-Received: by 2002:a1c:f708:: with SMTP id v8mr21734111wmh.25.1615739969757; 
+ Sun, 14 Mar 2021 09:39:29 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id j13sm15674166wrt.29.2021.03.14.09.39.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Mar 2021 09:39:29 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] include/ui/console.h: Delete is_surface_bgr()
+Date: Sun, 14 Mar 2021 16:39:27 +0000
+Message-Id: <20210314163927.1184-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210314032324.45142-1-ma.mandourr@gmail.com>
- <20210314032324.45142-5-ma.mandourr@gmail.com>
-In-Reply-To: <20210314032324.45142-5-ma.mandourr@gmail.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Sun, 14 Mar 2021 08:38:30 -0700
-Message-ID: <CAMo8BfKC1MF_zNJOZ0GLzLF9_FD8GJ-1tJbiTFT4sNJAWo4B7Q@mail.gmail.com>
-Subject: Re: [PATCH 4/8] target/xtensa: Replaced malloc/free with GLib's
- variants
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,99 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 13, 2021 at 7:23 PM Mahmoud Mandour <ma.mandourr@gmail.com> wrote:
->
-> Replaced the calls to malloc() and their respective calls to
-> free() with GLib's allocation and deallocation functions.
->
-> Removed null checking before calling g_free() because it's
-> not necessary and generates style errors.
->
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->  target/xtensa/xtensa-isa.c | 53 +++++++++++++++-----------------------
->  1 file changed, 21 insertions(+), 32 deletions(-)
->
-> diff --git a/target/xtensa/xtensa-isa.c b/target/xtensa/xtensa-isa.c
-> index 630b4f9da1..5afdba77aa 100644
-> --- a/target/xtensa/xtensa-isa.c
-> +++ b/target/xtensa/xtensa-isa.c
+The function is_surface_bgr() is no longer used anywhere,
+so we can delete it.
 
-[...]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/ui/console.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-> @@ -332,36 +332,25 @@ void xtensa_isa_free(xtensa_isa isa)
->       * structure to its initial state.
->       */
->
-> -    if (intisa->opname_lookup_table) {
-> -        free(intisa->opname_lookup_table);
-> -        intisa->opname_lookup_table = 0;
-> -    }
-> +    g_free(intisa->opname_lookup_table);
-> +    intisa->opname_lookup_table = 0;
-
-This 0 should be replaced with NULL.
-
->
-> -    if (intisa->state_lookup_table) {
-> -        free(intisa->state_lookup_table);
-> -        intisa->state_lookup_table = 0;
-> -    }
-> +    g_free(intisa->state_lookup_table);
-> +    intisa->state_lookup_table = 0;
-
-Ditto.
-
-> +
-> +    g_free(intisa->sysreg_lookup_table);
-> +    intisa->sysreg_lookup_table = 0;
-
-Ditto.
-
->
-> -    if (intisa->sysreg_lookup_table) {
-> -        free(intisa->sysreg_lookup_table);
-> -        intisa->sysreg_lookup_table = 0;
-> -    }
->      for (n = 0; n < 2; n++) {
-> -        if (intisa->sysreg_table[n]) {
-> -            free(intisa->sysreg_table[n]);
-> -            intisa->sysreg_table[n] = 0;
-> -        }
-> +        g_free(intisa->sysreg_table[n]);
-> +        intisa->sysreg_table[n] = 0;
-
-Ditto.
-
->      }
->
-> -    if (intisa->interface_lookup_table) {
-> -        free(intisa->interface_lookup_table);
-> -        intisa->interface_lookup_table = 0;
-> -    }
-> +    g_free(intisa->interface_lookup_table);
-> +    intisa->interface_lookup_table = 0;
-
-Ditto.
-
->
-> -    if (intisa->funcUnit_lookup_table) {
-> -        free(intisa->funcUnit_lookup_table);
-> -        intisa->funcUnit_lookup_table = 0;
-> -    }
-> +    g_free(intisa->funcUnit_lookup_table);
-> +    intisa->funcUnit_lookup_table = 0;
-
-Ditto.
-
-With the above changes:
-Acked-by: Max Filippov <jcmvbkbc@gmail.com>
-
+diff --git a/include/ui/console.h b/include/ui/console.h
+index c960b7066cc..810ce7988c0 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -267,16 +267,6 @@ PixelFormat qemu_default_pixelformat(int bpp);
+ DisplaySurface *qemu_create_displaysurface(int width, int height);
+ void qemu_free_displaysurface(DisplaySurface *surface);
+ 
+-static inline int is_surface_bgr(DisplaySurface *surface)
+-{
+-    if (PIXMAN_FORMAT_BPP(surface->format) == 32 &&
+-        PIXMAN_FORMAT_TYPE(surface->format) == PIXMAN_TYPE_ABGR) {
+-        return 1;
+-    } else {
+-        return 0;
+-    }
+-}
+-
+ static inline int is_buffer_shared(DisplaySurface *surface)
+ {
+     return !(surface->flags & QEMU_ALLOCATED_FLAG);
 -- 
-Thanks.
--- Max
+2.20.1
+
 
