@@ -2,76 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6942C33A284
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 04:30:04 +0100 (CET)
-Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3480633A29E
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 05:25:57 +0100 (CET)
+Received: from localhost ([::1]:34684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLHS7-0005JE-Fb
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 22:30:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48980)
+	id 1lLIKB-0004eG-Ot
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 23:25:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lLHMO-0006YS-QT
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 22:24:09 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lLHMM-0004TE-78
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 22:24:08 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- 124-20020a1c00820000b029010b871409cfso18126360wma.4
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 19:24:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mktypJvu/1F6oyY228R0OtNNmqjKKSzXTpTB6Y2kEiY=;
- b=lJ+JDP2UnJpvyBNe0cBpfBUBwhyPhZHBnqHAfQ9vRxnseAU7MSxw8j6FVvFGyQyrQo
- vLC65EQJ6JAj7C6kLA7AYwV7j+IIMYM7WzssHHRNt/yNK/bKfjgEYiqtEknIm6itLnn+
- QDe+HeiGYIMQ5Sa3avjqmls8TFvxpEMzIZiTzTLYApVqri+1NLRFUAOok3uWmq/KN8Bo
- KSYrqKbU+8VzINyDiPajDftO9a/jp7W8ByVYfQS2TKtF6QmHxN11BCDO433hN9DJtPrZ
- 3tWR/+s3rdDGAxdhyKwQD7sZFmvAIEpQRqC6DZFzmuOUyeg317p7FZR0P9DKUlOfXSj1
- A8Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mktypJvu/1F6oyY228R0OtNNmqjKKSzXTpTB6Y2kEiY=;
- b=TwTq8lcux6CImm5L9fz0Jek27j0xhZjaxGQeOJiBuM3qcN4g+ykvsuJlDqNkDsyi82
- vMGvP/CuZ5CsI3ldPZI5rJRNJM+fDsAy+AIkgs+W0EZehHu3WPk6qujx+uO78lV2nKqC
- EnGbeIRYKTOiq2Xl97ojCJ0BR/zhafIFna00m2NY7pT4nGFry/kJbJ7WFJGOO9c8bbY+
- xXryvYWSfN1su6RPeFOJ8WoDpw2xTJ4nDqQOx6ujANg36mYwsax0TlrAzmnbghDfm1R7
- YCM0rQP+2J9G8YlQllRxf5u0qrZLW58u+ZlSkQ0MxDL1kODnVAoz3fgg/Rrc5vAc9ld4
- zEZA==
-X-Gm-Message-State: AOAM530NudQ65uYwd1D/UTre4ev/qa9Xdtc6KbI2d/GB+e2uASYTfRy6
- c909eoazJDQK6zIs9FlORRGteust6sw=
-X-Google-Smtp-Source: ABdhPJy016qykM4zKN9Qi6JfK3qVDPwP9o/T39Ms+MDkUkUfokzes1Qf5zLlxXbld2c1dZQT0uzWYA==
-X-Received: by 2002:a1c:4e0e:: with SMTP id g14mr19484034wmh.160.1615692243866; 
- Sat, 13 Mar 2021 19:24:03 -0800 (PST)
-Received: from localhost.localdomain ([197.61.164.30])
- by smtp.googlemail.com with ESMTPSA id e1sm14922249wrd.44.2021.03.13.19.24.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 19:24:03 -0800 (PST)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLIIZ-0003ma-BF
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 23:24:15 -0500
+Received: from mail-dm6nam10on2128.outbound.protection.outlook.com
+ ([40.107.93.128]:27905 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLIIX-0007Pg-G5
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 23:24:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AzrLhN2m1nrL91auw49WN5OQHKX4MO/2tLMk6kj5P7PjTamyx2NUYs8txZVV8J+Fh7QA1G0ySCILWsLODljoiPazmfc6wdDGbDNQKNiaxbpbYSd7cL5uVHEwfpkPslBteblzTl01J98uutL2Jhzv+iYJxGfWc8/2hNNmbv+d7HQ+vu6vcZ9lRRIkqoSHkXVt452EHPTTH59IDkQR8ihbOuB3pWRAylGxwbWDQWDKsILfdPt6Y8UWoWDxepRZJgrUBijj+2sZZ8hsoRijA7FCl0h5XUqKpJQf7H9ACmK2xIfFmwNWMQbpj4pSjkiYfWZawJsv8hMrKjDtDGzfY0tmdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wu8bQAWaoPn+tpt306A7mFFSrMcUwUJLpBM5o/9X/fc=;
+ b=gXzGxwyuvzP3D20epbCFhfCka8IUJf5zevjbCuG94k3a86CQ1GwtwjZ20UeTJdvaPiGg/p7XCP6jXKp+cf/vRy+k+W6V6BS2Mu8JuSh8DG25h8oHd3G7lRqyigB4HTZ8Oo9l04A5QO13x+dxgFn66QAt+qv120bbbovcmvgdidChK10lz/ma0SJK+cg8HSjEENeJ0u4VlvP7JrHqrdap5KnfMrtpwC9L7aR6mX+2VsRIcZxLYTgz8wdo+neJsa665y5z6iHTxt1A6Bjx37ypyMZd1cvZzTL77SlvTTSjYuISllo2VMMsMTI2Rjjp8mCA2wC9QiXcptcLhhfwEUYsIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wu8bQAWaoPn+tpt306A7mFFSrMcUwUJLpBM5o/9X/fc=;
+ b=Ru/lSi9MlYp0R+LWTGm+qhzkOL3WGH1YDU4uNvrVp8MdGCoy8/Gi2ATVb4eLdzto480/xzfenS/Pf5x0wYVALxZw/ZM6xAUoPZpiuXMAmYFHJIE9JBAkj6Mt8MGVoKKVa24+khKxdB6Fu7rAn9uk2B3qX5jBL/WqP6CJRmDwBtA=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3854.namprd03.prod.outlook.com (2603:10b6:805:6e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Sun, 14 Mar
+ 2021 04:24:09 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6%6]) with mapi id 15.20.3933.032; Sun, 14 Mar 2021
+ 04:24:09 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] tools/virtiofsd: Replacing malloc-like calls with GLib's
- variants
-Date: Sun, 14 Mar 2021 05:23:24 +0200
-Message-Id: <20210314032324.45142-9-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210314032324.45142-1-ma.mandourr@gmail.com>
-References: <20210314032324.45142-1-ma.mandourr@gmail.com>
-MIME-Version: 1.0
+Subject: [PATCH 0/2] fuzz: add a script to help build reproducers
+Date: Sat, 13 Mar 2021 23:23:55 -0500
+Message-Id: <20210314042358.682136-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [72.74.210.193]
+X-ClientProxiedBy: MN2PR22CA0019.namprd22.prod.outlook.com
+ (2603:10b6:208:238::24) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.74.210.193) by
+ MN2PR22CA0019.namprd22.prod.outlook.com (2603:10b6:208:238::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31 via Frontend
+ Transport; Sun, 14 Mar 2021 04:24:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 95994c6c-668f-47f4-2533-08d8e6a102e3
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3854:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB385445D6C31592DA31284B19BA6D9@SN6PR03MB3854.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2xMN9zDMGUzKe/Rv8jodtROwSwH9QfVNbdJKINGc6RWfKyRzIZISbVwhkWPPdzOotKopGs9N0gtLJs2htp8WtdjAwUoQyIdW9ngFxSBY7NM1vJnpFku3SaylvmTSs5qcvwQSsv7ZhDH3h13ExlAm/heI7ZqhYL84ehAT7XPsJhu1B/15fN4EEjNBbRaWusnxuvaEZJjpR4eF4jrA/mRajgOF+1PPqoe/dq5iebdXBbfgrWvC2YcUrYuVr9dzs0zcmhf2KaStfZHqqUvitQTPaAADpO/XmkpmmH/y+c7hwmPYlraHkouu6MNBg2hy6WQzePsriU7KWDzCs5Wl59OgsFGX5voMe9FsGc2NE7tBxSuLKQ4JnBrloc+wFi+VzPkFRznnaXSCbwjKPMVB1EGAU/TWWQF1xyPRhzeaOQFd8dnii24syMJbOVMAKMDeB1w99Vp+kgW38X/vrvN8tIh0mlYw57Rh9JOVXaX840E6TwUVQ/HS/8L3gCmu+xTg0QoLKc7m+qJOuBnCVIWV0oDMJakLK1PGPRn5wotyW2t+EjP003CI2Anx0yGpUgYqLu5q
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(366004)(346002)(136003)(396003)(66946007)(52116002)(66556008)(66476007)(2906002)(186003)(16526019)(86362001)(2616005)(956004)(6506007)(4326008)(8936002)(8676002)(478600001)(6916009)(75432002)(316002)(1076003)(4744005)(786003)(26005)(5660300002)(6666004)(6486002)(36756003)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mDpgq7n+nEq46lx0w4ClIuPlNKyd0hGHqFa818hSFsRFbt/LkR73vmWDFqR4?=
+ =?us-ascii?Q?AspyNFuoDc4Vagmbi6AhCfDamFdmmEh6WwvS+/Poz7+7V3PNugJQaCLYg0mX?=
+ =?us-ascii?Q?3iuhgu9exNjPT+BOLoY/Ajycsw+X9O4KmwsvSYffWKIK/cRXjw/JTxBD3cs0?=
+ =?us-ascii?Q?zx2OyJpTw25rhgDqB2L7vpleb5OsvaMl3gy2AcFRJ4zOoUB5Q5ERsowVdIK1?=
+ =?us-ascii?Q?B2ukK9lwP/PiG9x/tYa9GooSB6blja+beqUtqLgP8WP25rykbXPmnJZ+ViYQ?=
+ =?us-ascii?Q?QaPkfBA0FI6Iax/6SHzagQB72N3tFP5w1StrgufFeEcJo4XkClQxkZV5f1v9?=
+ =?us-ascii?Q?e7mCtbvqVHGXsm8HWvMq6FIb4udzrNkm7FR7Anued+B5SnD1UJZxyvHhfx4B?=
+ =?us-ascii?Q?djrDjfWTJ/SnweHqmheDUg2ENbaIAEE09ZXMGUxFE+MMqD6blDmyE23Lpcl2?=
+ =?us-ascii?Q?6nF8TIOE2aLzFMVAIMytWOg/VUnJcaUaw0M4xfUZR7s8zExkMlbvCiD2AY9f?=
+ =?us-ascii?Q?g+80BRpU3jWWPF2QLYShOEKrCX1OQ0siE5o+gqPHMIRu7F1iyChLCydmEQeY?=
+ =?us-ascii?Q?rtQMmvClGctqe8XUKh4YXxqYJ6m0We0qvFkIGQQSFOD/tiW3KMn1xgLObLUn?=
+ =?us-ascii?Q?oljOuslqCODIOujA5HnV6ENTkytv4MKgrz10vmCzE75Mx1m+dJ1RU8ZMtE5H?=
+ =?us-ascii?Q?NjElce6NW/e62TstEvcamXocQAjw/jlf8DPQWWiFz8qJH2T1gECd8GS3CBn8?=
+ =?us-ascii?Q?oOLUNzfvnzwjYmnCeoqKklE0YUk0ITnyri+gzROPFnuqtaBRWqy/p/CXPDt5?=
+ =?us-ascii?Q?Z+pxwQZ+r5QLLu8QTy8RDpYiXBlN0zvp4KMtfcLU8UhFKpaPLoJs74K0wtah?=
+ =?us-ascii?Q?VrHXzaQ8autxHEwtjKCuinBF4HLlJtGwVunaX9PFm3p56LyM2NZQebCsIj3W?=
+ =?us-ascii?Q?YC7z3bs+jJ5ur8bcEVlE0pBCrJE16zwFWw1ybT2/WZRS5LsZQHL5R3Qa5q6d?=
+ =?us-ascii?Q?kW9I7/rdcxfAm2eGbBcj5Wm5nR+hRx1WscEYkKD5kDmyvdfLQec/mtSky4qx?=
+ =?us-ascii?Q?wyOyByRnnc5SCd/zIubEyGezW0EKgBUZ01DbgOtngARD8NN3WI1HCCOk4t5r?=
+ =?us-ascii?Q?wHCDM4qoKJgEfpBghfom2Wls3Eg/CJFDcsbJvSHeWNzE7FOPkIWH2WoeGmDk?=
+ =?us-ascii?Q?D6pSuqYEaoEAph4OCvF6rXyJVgRuO8fLd7O5KltKxLhXilr/UDCFBTDSZciW?=
+ =?us-ascii?Q?+47u1v/U2yBIiMdPU5gOClJ887CQcqg1OYcvyvuaIBu7M1nB9EjvbksZlNnS?=
+ =?us-ascii?Q?4+3TmOszFjwgrkUoIWsmNcjq?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95994c6c-668f-47f4-2533-08d8e6a102e3
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2021 04:24:08.9816 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +PlMhdqLqOJOEW8k2OEAjJZXgd3h6hs7RcHSBnfL2qIMMH7a98i91vBVYyt8e0Kq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3854
+Received-SPF: pass client-ip=40.107.93.128; envelope-from=alxndr@bu.edu;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,437 +131,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: darren.kenny@oracle.com, bsd@redhat.com, f4bug@amsat.org,
+ stefanha@redhat.com, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed calls to malloc(), calloc(), and realloc() with their
-equivalent allocation functions in GLib, and replaced their
-respective free() calls with g_free().
+Hello,
+This series adds a script that can be handy for reporting fuzzer bugs
+and creating regression-tests, based on crash reproducers.
 
-Allocation and deallocation of fuse_req structs, fuse_pollhandle
-structs, fuse_session structs and many local variables are now
-established through GLib's functions.
+Patch 1 adds a script that can help create bash and C reproducers for
+crashes.
+Patch 2 documents the process of building reproducers.
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- tools/virtiofsd/fuse_lowlevel.c  | 30 ++++++++++++++--------------
- tools/virtiofsd/fuse_virtio.c    | 34 ++++++++++++++++----------------
- tools/virtiofsd/passthrough_ll.c | 32 +++++++++++++++---------------
- 3 files changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 1aa26c6333..5e188f8d8f 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -106,7 +106,7 @@ static void list_add_req(struct fuse_req *req, struct fuse_req *next)
- static void destroy_req(fuse_req_t req)
- {
-     pthread_mutex_destroy(&req->lock);
--    free(req);
-+    g_free(req);
- }
- 
- void fuse_free_req(fuse_req_t req)
-@@ -130,7 +130,7 @@ static struct fuse_req *fuse_ll_alloc_req(struct fuse_session *se)
- {
-     struct fuse_req *req;
- 
--    req = (struct fuse_req *)calloc(1, sizeof(struct fuse_req));
-+    req = g_try_new(struct fuse_req, 1);
-     if (req == NULL) {
-         fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate request\n");
-     } else {
-@@ -219,7 +219,7 @@ int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
-     int res;
-     struct iovec *padded_iov;
- 
--    padded_iov = malloc((count + 1) * sizeof(struct iovec));
-+    padded_iov = g_try_new(struct iovec, count + 1);
-     if (padded_iov == NULL) {
-         return fuse_reply_err(req, ENOMEM);
-     }
-@@ -228,7 +228,7 @@ int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
-     count++;
- 
-     res = send_reply_iov(req, 0, padded_iov, count);
--    free(padded_iov);
-+    g_free(padded_iov);
- 
-     return res;
- }
-@@ -568,7 +568,7 @@ static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct iovec *iov,
-     struct fuse_ioctl_iovec *fiov;
-     size_t i;
- 
--    fiov = malloc(sizeof(fiov[0]) * count);
-+    fiov = g_try_new(struct fuse_ioctl_iovec, count);
-     if (!fiov) {
-         return NULL;
-     }
-@@ -629,8 +629,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
- 
-     res = send_reply_iov(req, 0, iov, count);
- out:
--    free(in_fiov);
--    free(out_fiov);
-+    g_free(in_fiov);
-+    g_free(out_fiov);
- 
-     return res;
- 
-@@ -667,7 +667,7 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
-     struct fuse_ioctl_out arg;
-     int res;
- 
--    padded_iov = malloc((count + 2) * sizeof(struct iovec));
-+    padded_iov = g_try_new(struct iovec, count + 2);
-     if (padded_iov == NULL) {
-         return fuse_reply_err(req, ENOMEM);
-     }
-@@ -680,7 +680,7 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
-     memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
- 
-     res = send_reply_iov(req, 0, padded_iov, count + 2);
--    free(padded_iov);
-+    g_free(padded_iov);
- 
-     return res;
- }
-@@ -1684,7 +1684,7 @@ static struct fuse_req *check_interrupt(struct fuse_session *se,
-         if (curr->u.i.unique == req->unique) {
-             req->interrupted = 1;
-             list_del_req(curr);
--            free(curr);
-+            g_free(curr);
-             return NULL;
-         }
-     }
-@@ -1760,7 +1760,7 @@ static void do_ioctl(fuse_req_t req, fuse_ino_t nodeid,
- 
- void fuse_pollhandle_destroy(struct fuse_pollhandle *ph)
- {
--    free(ph);
-+    g_free(ph);
- }
- 
- static void do_poll(fuse_req_t req, fuse_ino_t nodeid,
-@@ -1783,7 +1783,7 @@ static void do_poll(fuse_req_t req, fuse_ino_t nodeid,
-         struct fuse_pollhandle *ph = NULL;
- 
-         if (arg->flags & FUSE_POLL_SCHEDULE_NOTIFY) {
--            ph = malloc(sizeof(struct fuse_pollhandle));
-+            ph = g_try_new(struct fuse_pollhandle, 1);
-             if (ph == NULL) {
-                 fuse_reply_err(req, ENOMEM);
-                 return;
-@@ -2476,7 +2476,7 @@ void fuse_session_destroy(struct fuse_session *se)
-     free(se->vu_socket_path);
-     se->vu_socket_path = NULL;
- 
--    free(se);
-+    g_free(se);
- }
- 
- 
-@@ -2499,7 +2499,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
-         return NULL;
-     }
- 
--    se = (struct fuse_session *)calloc(1, sizeof(struct fuse_session));
-+    se = g_try_new0(struct fuse_session, 1);
-     if (se == NULL) {
-         fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate fuse object\n");
-         goto out1;
-@@ -2559,7 +2559,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
- out4:
-     fuse_opt_free_args(args);
- out2:
--    free(se);
-+    g_free(se);
- out1:
-     return NULL;
- }
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 523ee64fb7..598c97db1f 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -347,7 +347,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-      * Build a copy of the the in_sg iov so we can skip bits in it,
-      * including changing the offsets
-      */
--    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec), in_num);
-+    struct iovec *in_sg_cpy = g_try_new0(struct iovec, in_num);
-     assert(in_sg_cpy);
-     memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
-     /* These get updated as we skip */
-@@ -386,7 +386,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-             ret = errno;
-             fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
-                      __func__, len);
--            free(in_sg_cpy);
-+            g_free(in_sg_cpy);
-             goto err;
-         }
-         fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
-@@ -410,13 +410,13 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-         if (ret != len) {
-             fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
-             ret = EIO;
--            free(in_sg_cpy);
-+            g_free(in_sg_cpy);
-             goto err;
-         }
-         in_sg_left -= ret;
-         len -= ret;
-     } while (in_sg_left);
--    free(in_sg_cpy);
-+    g_free(in_sg_cpy);
- 
-     /* Need to fix out->len on EOF */
-     if (len) {
-@@ -476,7 +476,7 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
-      * They're spread over multiple descriptors in a scatter/gather set
-      * and we can't trust the guest to keep them still; so copy in/out.
-      */
--    fbuf.mem = malloc(se->bufsize);
-+    fbuf.mem = g_try_malloc(se->bufsize);
-     assert(fbuf.mem);
- 
-     fuse_mutex_init(&req->ch.lock);
-@@ -528,10 +528,10 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
-         fbuf.size = out_sg[0].iov_len + out_sg[1].iov_len;
- 
-         /* Allocate the bufv, with space for the rest of the iov */
--        pbufv = malloc(sizeof(struct fuse_bufvec) +
-+        pbufv = g_try_malloc(sizeof(struct fuse_bufvec) +
-                        sizeof(struct fuse_buf) * (out_num - 2));
-         if (!pbufv) {
--            fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
-+            fuse_log(FUSE_LOG_ERR, "%s: pbufv g_try_malloc failed\n",
-                     __func__);
-             goto out;
-         }
-@@ -573,7 +573,7 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
- 
- out:
-     if (allocated_bufv) {
--        free(pbufv);
-+        g_free(pbufv);
-     }
- 
-     /* If the request has no reply, still recycle the virtqueue element */
-@@ -592,8 +592,8 @@ out:
-     }
- 
-     pthread_mutex_destroy(&req->ch.lock);
--    free(fbuf.mem);
--    free(req);
-+    g_free(fbuf.mem);
-+    g_free(req);
- }
- 
- /* Thread function for individual queues, created when a queue is 'started' */
-@@ -733,7 +733,7 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-     pthread_mutex_destroy(&ourqi->vq_lock);
-     close(ourqi->kill_fd);
-     ourqi->kick_fd = -1;
--    free(vud->qi[qidx]);
-+    g_free(vud->qi[qidx]);
-     vud->qi[qidx] = NULL;
- }
- 
-@@ -764,14 +764,14 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-     if (started) {
-         /* Fire up a thread to watch this queue */
-         if (qidx >= vud->nqueues) {
--            vud->qi = realloc(vud->qi, (qidx + 1) * sizeof(vud->qi[0]));
-+            vud->qi = g_try_realloc_n(vud->qi, (qidx + 1), sizeof(vud->qi[0]));
-             assert(vud->qi);
-             memset(vud->qi + vud->nqueues, 0,
-                    sizeof(vud->qi[0]) * (1 + (qidx - vud->nqueues)));
-             vud->nqueues = qidx + 1;
-         }
-         if (!vud->qi[qidx]) {
--            vud->qi[qidx] = calloc(sizeof(struct fv_QueueInfo), 1);
-+            vud->qi[qidx] = g_try_new0(struct fv_QueueInfo, 1);
-             assert(vud->qi[qidx]);
-             vud->qi[qidx]->virtio_dev = vud;
-             vud->qi[qidx]->qidx = qidx;
-@@ -1032,9 +1032,9 @@ int virtio_session_mount(struct fuse_session *se)
-              __func__);
- 
-     /* TODO: Some cleanup/deallocation! */
--    se->virtio_dev = calloc(sizeof(struct fv_VuDev), 1);
-+    se->virtio_dev = g_try_new0(struct fv_VuDev, 1);
-     if (!se->virtio_dev) {
--        fuse_log(FUSE_LOG_ERR, "%s: virtio_dev calloc failed\n", __func__);
-+        fuse_log(FUSE_LOG_ERR, "%s: virtio_dev g_try_new0 failed\n", __func__);
-         close(data_sock);
-         return -1;
-     }
-@@ -1059,8 +1059,8 @@ void virtio_session_close(struct fuse_session *se)
-         return;
-     }
- 
--    free(se->virtio_dev->qi);
-+    g_free(se->virtio_dev->qi);
-     pthread_rwlock_destroy(&se->virtio_dev->vu_dispatch_rwlock);
--    free(se->virtio_dev);
-+    g_free(se->virtio_dev);
-     se->virtio_dev = NULL;
- }
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index fc7e1b1e8e..5c475a30af 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -399,7 +399,7 @@ static void lo_map_init(struct lo_map *map)
- 
- static void lo_map_destroy(struct lo_map *map)
- {
--    free(map->elems);
-+    g_free(map->elems);
- }
- 
- static int lo_map_grow(struct lo_map *map, size_t new_nelems)
-@@ -411,7 +411,7 @@ static int lo_map_grow(struct lo_map *map, size_t new_nelems)
-         return 1;
-     }
- 
--    new_elems = realloc(map->elems, sizeof(map->elems[0]) * new_nelems);
-+    new_elems = g_realloc_n(map->elems, new_nelems, sizeof(map->elems[0]));
-     if (!new_elems) {
-         return 0;
-     }
-@@ -549,7 +549,7 @@ static void lo_inode_put(struct lo_data *lo, struct lo_inode **inodep)
- 
-     if (g_atomic_int_dec_and_test(&inode->refcount)) {
-         close(inode->fd);
--        free(inode);
-+        g_free(inode);
-     }
- }
- 
-@@ -904,7 +904,7 @@ static void posix_locks_value_destroy(gpointer data)
-      * closing this fd should release all OFD locks.
-      */
-     close(plock->fd);
--    free(plock);
-+    g_free(plock);
- }
- 
- static int do_statx(struct lo_data *lo, int dirfd, const char *pathname,
-@@ -1020,7 +1020,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
-     if (inode) {
-         close(newfd);
-     } else {
--        inode = calloc(1, sizeof(struct lo_inode));
-+        inode = g_try_new0(struct lo_inode, 1);
-         if (!inode) {
-             goto out_err;
-         }
-@@ -1532,7 +1532,7 @@ static void lo_dirp_put(struct lo_dirp **dp)
- 
-     if (g_atomic_int_dec_and_test(&d->refcount)) {
-         closedir(d->dp);
--        free(d);
-+        g_free(d);
-     }
- }
- 
-@@ -1564,7 +1564,7 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
-     int fd;
-     ssize_t fh;
- 
--    d = calloc(1, sizeof(struct lo_dirp));
-+    d = g_try_new0(struct lo_dirp, 1);
-     if (d == NULL) {
-         goto out_err;
-     }
-@@ -1606,7 +1606,7 @@ out_err:
-         } else if (fd != -1) {
-             close(fd);
-         }
--        free(d);
-+        g_free(d);
-     }
-     fuse_reply_err(req, error);
- }
-@@ -1633,7 +1633,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-     }
- 
-     err = ENOMEM;
--    buf = calloc(1, size);
-+    buf = g_try_malloc0(size);
-     if (!buf) {
-         goto error;
-     }
-@@ -1719,7 +1719,7 @@ error:
-     } else {
-         fuse_reply_buf(req, buf, size - rem);
-     }
--    free(buf);
-+    g_free(buf);
- }
- 
- static void lo_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-@@ -1943,7 +1943,7 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
-         return plock;
-     }
- 
--    plock = malloc(sizeof(struct lo_inode_plock));
-+    plock = g_try_new(struct lo_inode_plock, 1);
-     if (!plock) {
-         *err = ENOMEM;
-         return NULL;
-@@ -1954,7 +1954,7 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
-     fd = lo_inode_open(lo, inode, O_RDWR);
-     if (fd < 0) {
-         *err = -fd;
--        free(plock);
-+        g_free(plock);
-         return NULL;
-     }
- 
-@@ -2731,7 +2731,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-              ino, name, size);
- 
-     if (size) {
--        value = malloc(size);
-+        value = g_try_malloc(size);
-         if (!value) {
-             goto out_err;
-         }
-@@ -2770,7 +2770,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-         fuse_reply_xattr(req, ret);
-     }
- out_free:
--    free(value);
-+    g_free(value);
- 
-     if (fd >= 0) {
-         close(fd);
-@@ -2812,7 +2812,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-              size);
- 
-     if (size) {
--        value = malloc(size);
-+        value = g_try_malloc(size);
-         if (!value) {
-             goto out_err;
-         }
-@@ -2897,7 +2897,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-         fuse_reply_xattr(req, ret);
-     }
- out_free:
--    free(value);
-+    g_free(value);
- 
-     if (fd >= 0) {
-         close(fd);
+Alexander Bulekov (2):
+  fuzz: add a script to build reproducers
+  fuzz: add instructions for building reproducers
+
+ docs/devel/fuzzing.rst                |  45 ++++++++
+ scripts/oss-fuzz/output_reproducer.py | 160 ++++++++++++++++++++++++++
+ 2 files changed, 205 insertions(+)
+ create mode 100755 scripts/oss-fuzz/output_reproducer.py
+
 -- 
-2.25.1
+2.28.0
 
 
