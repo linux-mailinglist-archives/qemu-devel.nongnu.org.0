@@ -2,47 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FE633A8C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 00:27:17 +0100 (CET)
-Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660D233A8C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 00:30:50 +0100 (CET)
+Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLa8i-0006Te-1s
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 19:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43584)
+	id 1lLaC9-0000M2-AS
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 19:30:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLa7L-0005jE-2G
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:25:51 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:58897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLa7I-0001sx-7k
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:25:50 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12ENPBeq002116
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Sun, 14 Mar 2021 19:25:14 -0400
-Date: Sun, 14 Mar 2021 19:25:11 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] qtest/libqos/meson: Restrict architecture specific objects
-Message-ID: <20210314232511.4ylyi3jnseec6jps@mozz.bu.edu>
-References: <20210314225308.2582284-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lLaAh-0007LS-MB
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:29:19 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lLaAg-0003Pn-5i
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:29:19 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id g8so7102507wmd.4
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 16:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y0RlC6wF83trTLyoWgNg2tBlRL4CZ0UJJpbjwlf+mTY=;
+ b=mmtnYUqKp5cO4ll5It8AWB67he109XscpQ+tHNcJUDY0y+55Wn52X2/otdjTAPjXbF
+ LHOESkBci9UHCzSgh0KiDZExL3fW6mS7jEpOf06mrKi/FHaMKw/VMPodpk2wLltGqah6
+ YYlUhEcCgy6rNB0DjLbVoR4fA61z38mAl8hv+QlPjUPUvjsC4ShNFZfXa9WuVdSadu4D
+ 1g48KlEf+OGRCG4wzykk0X6vODkjgokstnAI2bGmHBoH+8h9tE3x5urpYbJ4Jc8tUsfq
+ 7DY5zhUJAHvHH1j8q3J/t8ywlq50dD+Fcqr22+R6E5jV0iKh2J2ikcXKqU620Jr6JZvG
+ p4gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=y0RlC6wF83trTLyoWgNg2tBlRL4CZ0UJJpbjwlf+mTY=;
+ b=GQsoT0rIkmyiLlJGvGaeG+nt8RvHy0qyfcA7HHXPKdZpptmAq0XkIwhyS5IqbqXtKt
+ oqAgI2V5TuiEPQyIbtNG+pfepzcUmSqKWOez8XbL7lxgCbJ/sRM0ygX/kIP40CjiobGT
+ 5u6IeNxNqRTSYvgQYF/sNepLSSH8uJS+yPEzn5Vd/tLNPpAyLu+Y/OyO78nxQMyIEve8
+ bE+KIO4pSC3jYlYs1tl0fnFljulhPTFsUJOmQwjRDRNj5Iupx7ph/Tg9so9ilkEYdDqH
+ eeMUPDsE+lMBbcgiK4fo/CSvYZ6CXLO6YbCjSsX1vk+c7mcN+DA4T7a6OQv0K0/tdBoQ
+ GCQQ==
+X-Gm-Message-State: AOAM532nTD0ComkQjgx4EkQOwRX8xe54DwRneLyty9ejaFLyzYsPL+hD
+ wCOObvlbR48C579GzlWX13sZBUpNO4LmHA==
+X-Google-Smtp-Source: ABdhPJzWRlwgADtfgLwkQL7L6qxqE5Q3HS4Lzt0MTGrAe/FdGckqUIEuApdzq+Np4zhRXCD8WYibpA==
+X-Received: by 2002:a1c:5455:: with SMTP id p21mr23348015wmi.138.1615764556477; 
+ Sun, 14 Mar 2021 16:29:16 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id t8sm16386834wrr.10.2021.03.14.16.29.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Mar 2021 16:29:15 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/8] softmmu: Restrict CPU I/O instructions
+Date: Mon, 15 Mar 2021 00:29:05 +0100
+Message-Id: <20210314232913.2607360-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210314225308.2582284-1-f4bug@amsat.org>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,115 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210314 2353, Philippe Mathieu-Daudé wrote:
-> Various libqos files are architecture specific.
-> Restrict the ARM/PPC/X86 units to their targets.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-
-I thought qos-test is reused for all the machines, and all the arch
-checking is done at runtime. Also, are these variables actually defined
-when building tests? There seem to be some link failures:
-
-ninja -j`nproc` tests/qtest/qos-test
-clang-11  -o tests/qtest/qos-test ...
-/usr/bin/ld: tests/qtest/qos-test.p/virtio-blk-test.c.o: in function `pci_hotplug':
-undefined reference to `qpci_unplug_acpi_device_test
-
--Alex
-
->  tests/qtest/libqos/meson.build | 51 ++++++++++++++++++++++------------
->  1 file changed, 34 insertions(+), 17 deletions(-)
-> 
-> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-> index 1cddf5bdaa1..817c2cc2c20 100644
-> --- a/tests/qtest/libqos/meson.build
-> +++ b/tests/qtest/libqos/meson.build
-> @@ -1,4 +1,8 @@
-> -libqos_srcs = files('../libqtest.c',
-> +libqos_ss = ss.source_set()
-> +
-> +libqos_ss.add(genh)
-> +
-> +libqos_ss.add(files('../libqtest.c',
->          'qgraph.c',
->          'qos_external.c',
->          'pci.c',
-> @@ -6,18 +10,6 @@
->          'malloc.c',
->          'libqos.c',
->  
-> -        # spapr
-> -        'malloc-spapr.c',
-> -        'libqos-spapr.c',
-> -        'rtas.c',
-> -        'pci-spapr.c',
-> -
-> -        # pc
-> -        'pci-pc.c',
-> -        'malloc-pc.c',
-> -        'libqos-pc.c',
-> -        'ahci.c',
-> -
->          # usb
->          'usb.c',
->  
-> @@ -39,7 +31,28 @@
->          'virtio-rng.c',
->          'virtio-scsi.c',
->          'virtio-serial.c',
-> +))
->  
-> +libqos_ss.add(when: 'TARGET_I386', if_true: files(
-> +        'pci-pc.c',
-> +        'malloc-pc.c',
-> +        'libqos-pc.c',
-> +
-> +        'ahci.c',
-> +
-> +        # qgraph machines:
-> +        'x86_64_pc-machine.c',
-> +))
-> +libqos_ss.add(when: 'TARGET_PPC64', if_true: files(
-> +        'malloc-spapr.c',
-> +        'libqos-spapr.c',
-> +        'rtas.c',
-> +        'pci-spapr.c',
-> +
-> +        # qgraph machines:
-> +        'ppc64_pseries-machine.c',
-> +))
-> +libqos_ss.add(when: 'TARGET_ARM', if_true: files(
->          # qgraph machines:
->          'aarch64-xlnx-zcu102-machine.c',
->          'arm-imx25-pdk-machine.c',
-> @@ -49,11 +62,15 @@
->          'arm-smdkc210-machine.c',
->          'arm-virt-machine.c',
->          'arm-xilinx-zynq-a9-machine.c',
-> -        'ppc64_pseries-machine.c',
-> -        'x86_64_pc-machine.c',
-> -)
-> +))
-> +libqos_ss.add(when: 'TARGET_AARCH64', if_true: files(
-> +        # qgraph machines:
-> +        'aarch64-xlnx-zcu102-machine.c',
-> +))
->  
-> -libqos = static_library('qos', libqos_srcs + genh,
-> +libqos_ss = libqos_ss.apply(config_host, strict: false)
-> +
-> +libqos = static_library('qos', libqos_ss.sources() + genh,
->                          name_suffix: 'fa',
->                          build_by_default: false)
->  
-> -- 
-> 2.26.2
-> 
+An attempt to restrict CPU I/O instructions to targets=0D
+where it makes sense. If it does, I'll send the next=0D
+series which restrict the I/O address space to X86/AVR.=0D
+=0D
+Based-on: <20210314225308.2582284-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (8):=0D
+  softmmu/physmem: Rename io_mem_unassigned -> unassigned_mr=0D
+  exec: Extract CPU I/O instructions to "cpu-io.h"=0D
+  target: Introduce TARGET_HAS_IOPORT=0D
+  qtest/fuzz: Restrict CPU I/O instructions=0D
+  qtest/libqos: Restrict CPU I/O instructions=0D
+  qtest: Restrict CPU I/O instructions=0D
+  monitor: Restrict CPU I/O instructions=0D
+  softmmu: Restrict CPU I/O instructions=0D
+=0D
+ default-configs/targets/avr-softmmu.mak    |  1 +=0D
+ default-configs/targets/i386-softmmu.mak   |  1 +=0D
+ default-configs/targets/x86_64-softmmu.mak |  1 +=0D
+ include/exec/cpu-io.h                      | 30 ++++++++=0D
+ include/exec/ioport.h                      |  7 --=0D
+ tests/qtest/libqos/fw_cfg.h                |  3 +=0D
+ hw/i386/xen/xen-hvm.c                      |  1 +=0D
+ monitor/misc.c                             |  6 +-=0D
+ softmmu/cpu-io.c                           | 88 ++++++++++++++++++++++=0D
+ softmmu/ioport.c                           | 60 ---------------=0D
+ softmmu/physmem.c                          | 12 +--=0D
+ softmmu/qtest.c                            | 11 ++-=0D
+ tests/qtest/fuzz/generic_fuzz.c            | 16 ++--=0D
+ tests/qtest/fuzz/qtest_wrappers.c          |  7 +-=0D
+ tests/qtest/libqos/fw_cfg.c                |  2 +=0D
+ hmp-commands.hx                            |  2 +=0D
+ softmmu/meson.build                        |  3 +-=0D
+ 17 files changed, 167 insertions(+), 84 deletions(-)=0D
+ create mode 100644 include/exec/cpu-io.h=0D
+ create mode 100644 softmmu/cpu-io.c=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
