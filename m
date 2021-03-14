@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1900033A740
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:03:55 +0100 (CET)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFF633A750
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:12:09 +0100 (CET)
+Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLV5l-0004Wd-Qt
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48340)
+	id 1lLVDk-0003kX-Ri
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1Q-0002AM-TI
+ id 1lLV1T-0002AV-2H
  for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:27 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:39892)
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:39894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1E-00027L-Pf
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:21 -0400
-Received: by mail-qt1-x830.google.com with SMTP id g24so7648015qts.6
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:12 -0700 (PDT)
+ id 1lLV1G-00027Y-MP
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:25 -0400
+Received: by mail-qt1-x832.google.com with SMTP id g24so7648033qts.6
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8V/dpCgOxiVauvo1HWnH9SJMMk44GHfb0bI5oWyk9l8=;
- b=YV2ys1/XOmBjHplHbHMIT/G4mvsq//yroYsxC5weFxgCd2+bGkP6xc/WBEafSwS/bi
- uwjIzQk5v9U/NZUpT7l+/i5krbYj9cHQN3EVsfGAhlr1k7+/0riNh9NUyj6PBqwMLIyG
- pv+GARQ0vyguYvGyIfzNHcoDdjByvqoIJHAsiJdRQxubWvd08B4dGh5XK8m5YyNgrud3
- ZcD/s8sC1x2RmG75CaX9zhL7F+NpiMksRvs+qSrnZFPky0O3GbIuGlTFfHOg6xV5qzS+
- 8Rh37EhK23plWFY44tlL0GwAFtgvOXjEaP6jzh28RI5JzEBAF8/EUw9FgshPsLTNNvAH
- 7cGQ==
+ bh=rBNBEOcSDYR+VlJXpnn63cl+iKupYCFGcFqK74D/RBs=;
+ b=hogfgALtGlsqQ5w1/cHzG6Sv1M3ALoCmPautd4DpBsiThPtn1As+Fakcz+BEEroTeu
+ PaW8DLplFHSB8MlKs0SpustMFygWNCBTTSDM2IsjVzb1UDCzIre/h1D2uBGvENNzWA9g
+ lBZVY3AhQL2uNIzAJ4G2dYK9WICEnZz8VvWbaGul+4m92iStQnZiXkHitCnMGmB2/MyN
+ qbOJyIkdpwHrrIzoyFTUjpDAaAI7VSPSoYB5q0/NvzMFTpXy5R5HAqfefPXWS1VDXTAh
+ KtOwD27LO/oNGlaZv9X15lajvVl/76ydWjejkfVdjB4jOm8ufyhPTI4rvA5O5sCwuBKV
+ TvWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8V/dpCgOxiVauvo1HWnH9SJMMk44GHfb0bI5oWyk9l8=;
- b=NXwRud8rw+kQ+wcsjDjqPx4sJXeaF2ZGW++gLvfCVl4zBOQiGZBEM1DENuRHK1Xmc8
- Nzz4MLEJUnPwJIwe5QbqbTu2m6KoPWN9ol1pygVjl0ibJjF7uGUwZiN2fnHMQiMc2lsK
- 1/VufEF9X8Sljoxv9sL1eqTvnurhN2r8xuRlo5qoM4jnbn/JJJaFI5/dpNG5mTdExIbk
- 6TBPpm//OZprGXt9pUYLMr4FuAEoMTIy6vtFzNNoLSRTabzHeRfJh54CFyGB5RISEaoi
- 0iMZeF0Bm1TrCu8FNGGA1k+f11j85tpc2Kr1oT1pov/6tGxQdsBZ9qdRoo66rS8H1WIl
- FVLQ==
-X-Gm-Message-State: AOAM533NGvXCrA92UoueSuJ0G9qOhFOqoAP+ee1WsdAgnhgaFi3taPCC
- Kh/YNRHVSicCO4mFU73DSl0ESPLCmpvnh4j6
-X-Google-Smtp-Source: ABdhPJyPWDDhGzRaIFJd4jdYLaoF6zjbiEFnuujLQMkMnVr7I1FaqrRs9k2wTtFh9dOWkaQpFlrxOw==
-X-Received: by 2002:ac8:4750:: with SMTP id k16mr19265216qtp.239.1615744751648; 
- Sun, 14 Mar 2021 10:59:11 -0700 (PDT)
+ bh=rBNBEOcSDYR+VlJXpnn63cl+iKupYCFGcFqK74D/RBs=;
+ b=p3p7o0zsCRj6RpN1QAtM4gD8rfwMXKEwm2zyofkSwi3Em0/+arZUw4JARErjtbJgd6
+ TAkkW4sfTYbKpIWOMVzNIay5/DuBWoIBCpIBU72B3ImxNVhkqOb57GxW2DtataIde94R
+ ny9/h/JQpemB/QjpjMS4ESX7G0uqCfuHJhg2CC7fcgvs1qfAMstFfAaYhwhXhHrQvKII
+ aJrnRQn/LMIdktwnUTz7XSik0aVMGJcs9eimb/v0BXC7KbNS8SxfmpTF/2+vDBAszeT6
+ 0l3URKqDZJ/AsdOxL3ICZgAxXKeJYoTtAEU/DeOlqBfqMYf8PzcUc3pfOKR5JYpVOPy+
+ RqHw==
+X-Gm-Message-State: AOAM533kvq3r59iDgdqwd3dp2+r4QleEPWMVrZEx8Su9iS2zxLREJVKg
+ 7pIOvGeFNuKssNGGsTtezp5VzCbRF+6OUOjz
+X-Google-Smtp-Source: ABdhPJwJ6eqa0ABUY1ijndWisriuVaMD09E4wzojT2UatYVgRNwc8RgJzjhe7i6BPZyGjD5i1lNUhA==
+X-Received: by 2002:aed:2c61:: with SMTP id f88mr19747491qtd.337.1615744752778; 
+ Sun, 14 Mar 2021 10:59:12 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.10
+ by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 10:59:11 -0700 (PDT)
+ Sun, 14 Mar 2021 10:59:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/16] target/ppc: Move 601 hflags adjustment to
- hreg_compute_hflags
-Date: Sun, 14 Mar 2021 11:58:52 -0600
-Message-Id: <20210314175906.1733746-3-richard.henderson@linaro.org>
+Subject: [PATCH v3 03/16] target/ppc: Properly sync cpu state with new msr in
+ cpu_load_old
+Date: Sun, 14 Mar 2021 11:58:53 -0600
+Message-Id: <20210314175906.1733746-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314175906.1733746-1-richard.henderson@linaro.org>
 References: <20210314175906.1733746-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,108 +88,49 @@ Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keep all hflags computation in one place, as this will be
-especially important later.
-
-Introduce a new POWERPC_FLAG_HID0_LE bit to indicate when
-LE should be taken from HID0.  This appears to be set if
-and only if POWERPC_FLAG_RTC_CLK is set, but we're not
-short of bits and having both names will avoid confusion.
-
-Note that this was the only user of hflags_nmsr, so we can
-perform a straight assignment rather than mask and set.
+Match cpu_post_load in using ppc_store_msr to set all of
+the cpu state implied by the value of msr.  Do not restore
+hflags or hflags_nmsr, as we recompute them in ppc_store_msr.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.h                |  2 ++
- target/ppc/helper_regs.c        | 13 +++++++++++--
- target/ppc/misc_helper.c        |  8 +++-----
- target/ppc/translate_init.c.inc |  4 ++--
- 4 files changed, 18 insertions(+), 9 deletions(-)
+ target/ppc/machine.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index e73416da68..061d2eed1b 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -581,6 +581,8 @@ enum {
-     POWERPC_FLAG_TM       = 0x00100000,
-     /* Has SCV (ISA 3.00)                                                    */
-     POWERPC_FLAG_SCV      = 0x00200000,
-+    /* Has HID0 for LE bit (601)                                             */
-+    POWERPC_FLAG_HID0_LE  = 0x00400000,
- };
- 
- /*****************************************************************************/
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 5e18232b84..95b9aca61f 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -96,8 +96,17 @@ void hreg_compute_hflags(CPUPPCState *env)
-     hflags_mask |= (1ULL << MSR_CM) | (1ULL << MSR_SF) | MSR_HVB;
-     hreg_compute_mem_idx(env);
-     env->hflags = env->msr & hflags_mask;
--    /* Merge with hflags coming from other registers */
--    env->hflags |= env->hflags_nmsr;
-+
-+    if (env->flags & POWERPC_FLAG_HID0_LE) {
-+        /*
-+         * Note that MSR_LE is not set in env->msr_mask for this cpu,
-+         * and so will never be set in msr or hflags at this point.
-+         */
-+        uint32_t le = extract32(env->spr[SPR_HID0], 3, 1);
-+        env->hflags |= le << MSR_LE;
-+        /* Retain for backward compatibility with migration. */
-+        env->hflags_nmsr = le << MSR_LE;
-+    }
- }
- 
- void cpu_interrupt_exittb(CPUState *cs)
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 5d6e0de396..63e3147eb4 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -194,16 +194,14 @@ void helper_store_hid0_601(CPUPPCState *env, target_ulong val)
-     target_ulong hid0;
- 
-     hid0 = env->spr[SPR_HID0];
-+    env->spr[SPR_HID0] = (uint32_t)val;
-+
-     if ((val ^ hid0) & 0x00000008) {
-         /* Change current endianness */
--        env->hflags &= ~(1 << MSR_LE);
--        env->hflags_nmsr &= ~(1 << MSR_LE);
--        env->hflags_nmsr |= (1 << MSR_LE) & (((val >> 3) & 1) << MSR_LE);
--        env->hflags |= env->hflags_nmsr;
-+        hreg_compute_hflags(env);
-         qemu_log("%s: set endianness to %c => " TARGET_FMT_lx "\n", __func__,
-                  val & 0x8 ? 'l' : 'b', env->hflags);
-     }
--    env->spr[SPR_HID0] = (uint32_t)val;
- }
- 
- void helper_store_403_pbr(CPUPPCState *env, uint32_t num, target_ulong value)
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index c03a7c4f52..049d76cfd1 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -5441,7 +5441,7 @@ POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
-     pcc->excp_model = POWERPC_EXCP_601;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_601;
--    pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK;
-+    pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG_HID0_LE;
- }
- 
- #define POWERPC_MSRR_601v    (0x0000000000001040ULL)
-@@ -5485,7 +5485,7 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index 283db1d28a..87d7bffb86 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -21,6 +21,7 @@ static int cpu_load_old(QEMUFile *f, void *opaque, int version_id)
+     int32_t slb_nr;
  #endif
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_601;
--    pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK;
-+    pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG_HID0_LE;
- }
+     target_ulong xer;
++    target_ulong msr;
  
- static void init_proc_602(CPUPPCState *env)
+     for (i = 0; i < 32; i++) {
+         qemu_get_betls(f, &env->gpr[i]);
+@@ -111,11 +112,19 @@ static int cpu_load_old(QEMUFile *f, void *opaque, int version_id)
+     qemu_get_betls(f, &env->ivpr_mask);
+     qemu_get_betls(f, &env->hreset_vector);
+     qemu_get_betls(f, &env->nip);
+-    qemu_get_betls(f, &env->hflags);
+-    qemu_get_betls(f, &env->hflags_nmsr);
++    qemu_get_sbetl(f); /* Discard unused hflags */
++    qemu_get_sbetl(f); /* Discard unused hflags_nmsr */
+     qemu_get_sbe32(f); /* Discard unused mmu_idx */
+     qemu_get_sbe32(f); /* Discard unused power_mode */
+ 
++    /*
++     * Invalidate all supported msr bits except MSR_TGPR/MSR_HVB
++     * before restoring.  Note that this recomputes hflags and mem_idx.
++     */
++    msr = env->msr;
++    env->msr ^= env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
++    ppc_store_msr(env, msr);
++
+     /* Recompute mmu indices */
+     hreg_compute_mem_idx(env);
+ 
 -- 
 2.25.1
 
