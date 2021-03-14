@@ -2,74 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D0433A8A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 23:55:52 +0100 (CET)
-Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060BD33A8B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 00:11:52 +0100 (CET)
+Received: from localhost ([::1]:54054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLZeI-0004bP-HP
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 18:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37872)
+	id 1lLZtm-0000Cd-GR
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 19:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLZbm-0003vK-VV
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 18:53:18 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:32917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLZbk-0003cj-EY
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 18:53:13 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id 7so7774360wrz.0
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 15:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=phsPrYfKakOJB7z0iRcHLh8T8bwjcghz3J5ilQl+um8=;
- b=i628NyHHNLUnHj63FkvFAwfRAqTr/Ylonf9NGSus30gLsc+fIYxzR9vd+iAYElGTcU
- 5yPaAM64djs2mMvlS0L8Emrmbjb5AYZubOOL7RSLdCnXulI/ljjvP2O54wQBkLKKAUMb
- cuIz3YBlmCZWwhMvFwFdoH/mci3d6aO2mPAxMB3SLNrFmXXtphkVcl9jeKsRD0QUA6tT
- ukCwMxj6Cz9dXmg9OcN7AYkEjuhamW/DVipeFSE7ifZX5zlth4KBC7IWnzDYzLZAvfSu
- 6VbSNKQwwot5Fik+5aTGeZeWLk98VEx+T8+LAfX34kHrJ+mWycmkwrF3ePH6AVSBdgzU
- 1J2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=phsPrYfKakOJB7z0iRcHLh8T8bwjcghz3J5ilQl+um8=;
- b=RzcP2//jTzarMJmHpxRxokQMC5DjhFHMLNj4ZHDja7I0VXIzvVZNznPTznBAPgziPt
- qhPNiGjlcLpVYYYmm5oLP1ORBrEIbz+zDjq9PuYO4PURb/wXoMipyxhPpy7ybzeYKKpW
- U+wnnr+5RWGZTrzuWVwhz7rw/OJ+DD/FfNKbi+8VQW3NeUc5aR6jqLWlGcWc8++5VNwW
- ExY90mciVKJCvPk0iuv1BPMccxgeyCYWZ/8rYzML3M8KJideCc221DvkLFbc6hoN79eH
- rugNTcTz2erMH7fFAPoq55vfYXnQl/cf36Dk0xrw11/7xhW9hIdywEmdJnac1vIfdO8V
- Ggtw==
-X-Gm-Message-State: AOAM531T8L1OKelfxo25KGLeR3dvErgoHIdUm75IX+L3MzfZomapNvBZ
- yY1z6liZ1q3vfE2e08fOjN/esRUNth+DcQ==
-X-Google-Smtp-Source: ABdhPJwzrYiQUztinlmZOMjcLoDHDNrXXuJTAPAT3V+KGZySVBcsZgBX9sNL76nFpkMgCXSle7RE/g==
-X-Received: by 2002:a5d:4fc5:: with SMTP id h5mr25329669wrw.33.1615762390782; 
- Sun, 14 Mar 2021 15:53:10 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id i3sm17502299wra.66.2021.03.14.15.53.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 15:53:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLZsX-00081U-5k
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:10:33 -0400
+Received: from mail-mw2nam12on2106.outbound.protection.outlook.com
+ ([40.107.244.106]:19297 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLZsV-000342-58
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:10:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hSSbXFDmIn53PuxjudguKXjurlGamNP8zH7ksWENpMgfc1wXl23eY3VMnfsCOXv7gmIjlU5FPixYiUgeW2SPhpKD4cnPQHRYQHtvkD3LNqwNSRNfyXUDJYo5qunKFamYkCq/Tha405wjQHVrRSe95Iztb/68m1Dy1GLaiv/hxvbqiJsEL/ABxVPZDLGE20lX5fOsr0AEoFnzedTL8fmkrVvbMrcN7/z3vUGSxTjuV2i2N9QqpvByydwvcZiV/Ol1VClX/FuZV20XHHlA7MCYFgI1wyfCam9SoNVc7yc0RPTWmTrg1a98A2ucLvkuJWyFvAUy2+OUIOtJqsHeZ+yBvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aLSisIGtYKl1pNQEx50Kowu2v0RKb2wTjaO1NF9a4O0=;
+ b=YMdESk7Wl1xZoT5SNmmF/TqIAv+aYS9RLlhGCk0bBJZ7MkgPwddt1WVYhm8ZUkspRwM70L+2AbbO7dW+zsrOu1Ey1jHKQOTeMVakq9H9uVXUeO2BwIks0WFiVjOo3+yJHN5VzNfuqNzOVQsHS/Gvz2XyvC25GFYgjorkW0GgTbCiZcPl4XWf3rGFZETUI+oPHDYEvAtyutqUrAQ2VXpkro4ncI8rlHa0gtEHbarF5EHr4cxFoH0ovk+sw5O8Npr4mMOMgfMdG6b1UidDzaKICwMlsjKVbDD8+61+BJlTfYrp82h2/wsz0Nkk42XLoYuTSq/f9ldJR4vRqDXPHjvAiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aLSisIGtYKl1pNQEx50Kowu2v0RKb2wTjaO1NF9a4O0=;
+ b=pHvJqtulgzeX0tQci+X4hC/qSvvKCCfjUnkJup5zibfs89E+SejRD4jxnxYU/0wQqRpn8DydBcBXfdw+aD1L00eV1bfhaBNdtzjXFSfXnpyOvPnO5mCt48ZSk5pzZh6I6GjtPqkzcdjxDK8nmj7gJfxj+syaE5SGnhZw/GwvwgE=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3725.namprd03.prod.outlook.com (2603:10b6:805:43::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Sun, 14 Mar
+ 2021 23:10:27 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6%6]) with mapi id 15.20.3933.032; Sun, 14 Mar 2021
+ 23:10:26 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] qtest/libqos/meson: Restrict architecture specific objects
-Date: Sun, 14 Mar 2021 23:53:08 +0100
-Message-Id: <20210314225308.2582284-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
+Subject: [PATCH] fuzz: check machine, before PC-specific code
+Date: Sun, 14 Mar 2021 19:10:15 -0400
+Message-Id: <20210314231015.29166-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.27.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [128.197.127.33]
+X-ClientProxiedBy: MN2PR19CA0011.namprd19.prod.outlook.com
+ (2603:10b6:208:178::24) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR19CA0011.namprd19.prod.outlook.com (2603:10b6:208:178::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31 via Frontend
+ Transport; Sun, 14 Mar 2021 23:10:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 19ca975c-0307-4306-d1a6-08d8e73e5a6d
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3725:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3725B04950E65C2E0502B34EBA6D9@SN6PR03MB3725.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:758;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GL/yzXVppVF1zbTXfEaHZ4GkBT5/deaVmz4u+Ayl0KeHFtYJj8/tF9ZMeUrrhczYEoDMgdhohGOVE7cAK67xGc2N44P5KRvJcXMsYkVaAOySzhlRdyLdAlaFFpbUOkFzQ1Xbhtq4OPli3oi032NdKgkQK/aY9Lh9M5jeuLg0ojtX1/8XXn7a7pJ11bEsJ/AneCFcUuYkoXBVRkwjbhOJqlj8sdOgpoFO0uyszjJPao3MXcpUqi7BopkyGQxFcJP4IU/lZJ3fJChrsYxopArdpgq4Zr49NJeDbOOVMqApriU7owsl7/hYDrRr/2rriU/cIA9/SyD6rDC7bLN3Er2SCkUz2vMzIiz2PoOSf/AqgUxfuZwUZ5ut0+06pbO9zKePkUb8JUqA25d46nAothvYX6Z1bDRSCwQT4Sa4vzma6KhyBq3O+y+wTP+9L20f9ebhLHco3Kt8jFWXuDri+zOLT1s12omgKmsqoXjxwF1N47D1yxBklv5rBMl+LDuzJdvVBuL9vjbzXNAvVE2ixQLLHA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(956004)(186003)(2906002)(478600001)(2616005)(8936002)(52116002)(5660300002)(316002)(7696005)(786003)(6486002)(6916009)(75432002)(86362001)(6666004)(4326008)(1076003)(36756003)(8676002)(66476007)(54906003)(66946007)(16526019)(26005)(83380400001)(66556008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NlNZc0FrcnFEL3JkVkV1c1FYaHFNUWhwaUpDK0ZXdElnLzQ5T2JOV0ZTT3FB?=
+ =?utf-8?B?WEY2QW1PcWMrUi9HSjVQWS9sNkhvZWdpWm1nc2tRTEkybGNTbytqbXVJSmxD?=
+ =?utf-8?B?ajNWNXU5clZYc0ltcGIzOHBYNVY5Mi9iUFZnRkc3alNzM28reENPYVlCTXYx?=
+ =?utf-8?B?ekpiUFhUU3VnL1JPaUxPYnhSUEhxZWtDd1pCekhxeWgzNUQrbVpESHM1YlBC?=
+ =?utf-8?B?ZXpxS2hDNXMxcWZLek51YXRXTkx5akQ0ZWtZWklMYTUzVU16K09SWnlTTG5H?=
+ =?utf-8?B?ZFVaU2tDMXhROGtKMzJma3hvdWR3NVNvaGdlZkFxUFdMckpUZVhQczV2S0Vk?=
+ =?utf-8?B?bnhNV0Nsc3FqVzZOOW9KOGdFaVNLNTJEUlRsMG4wRDk5aUJZV3VaczdBZjcz?=
+ =?utf-8?B?ay93NFcydDFXdEUvOGsraURwZk9taG1KWExGTm5FVXF1d0Z1Ujdoc0xLSUEw?=
+ =?utf-8?B?eHFsQndrV1B4ZVJIYjdDaEZNNEZVYmpBRUpxWVM1UnJ2MkVGMUszUnRYK2Fv?=
+ =?utf-8?B?ZkpwVzZMbmZQM1hTU3FpemRnT1Uwd3drSitLNTdGak50cFBCOFc3SHZRSXBM?=
+ =?utf-8?B?dGJsNE5BU2lYV3RzbHFxdFlPSU5OdU5kSmRwQ3ppN0kxREp2Tm1ZMmpaN0Vs?=
+ =?utf-8?B?NUpSUFZvbVZWN2ZRQm9TNHJNSWNzbXg0Q2xjSTRmY3lqNXh5clhybURxZGNj?=
+ =?utf-8?B?Q2NRbE85U2VHbU9kZ3dRUTd0YU1PR3lsOGozV3E3K2IrZFIrQTcxQW03Vlc3?=
+ =?utf-8?B?MlNuazBJeHB1UGg0a0g5ZW0zVjhjNHhhT2dpdFJzUU1EV1FoSWtoWUliNnh6?=
+ =?utf-8?B?WHVRYjVtdThhWXNET3RFNlFBdHRxWGVOUVJ1RFU1UE55VzlSdGZ3eDliTFY1?=
+ =?utf-8?B?ZzhsZndEcEc3dWkvbFFaSUZ5VmxyK3J6Qk9hbTM1ZzlNTEJNZWF6SFZkMU1M?=
+ =?utf-8?B?QUx1YXlxREhWQ24rNUZzUlZJeHlab21EVzkybG55dHpzVVpIcVZmMDBKdFNJ?=
+ =?utf-8?B?MkpMaFZNaUE0UmEzeHk4aGphNmNJcjFwbHlOSTVBWmVZdmR3M0l0d3ZtSm5C?=
+ =?utf-8?B?REtOR2tETlR0aE5NRmZNOVRoWUwzTVIrUTQ3Q1h2VXhkVE1ZSXBxUlczeGhD?=
+ =?utf-8?B?a0h0dm1tcU1JNVRwbmtRWnhNRE4zaTZTdnNxL3VNWkIySWNGTDZ6MHptMmsy?=
+ =?utf-8?B?WTlBQmw3NXZoNlNzRHVnMWhUZVVEWHYySjBielhtanBBUitPQnZidFBTNncx?=
+ =?utf-8?B?THRERURJejY2aSt2YzY5TEVFQVhQenVKNFVFdU83b0JLSEVrZ01icmozUXgy?=
+ =?utf-8?B?T0xmTlNpNXcwTWNzK1FuN2V3Q3FPZzBCUEtEZ25vYnZkbCthZTVYaW5oTkF5?=
+ =?utf-8?B?akRqS3ZMajlJMEpUdTNCdkxiRlJ3aDk1S3Eweko1MEhzeFZZejlhU05ISzRP?=
+ =?utf-8?B?U2tKUUNiQW05dTJDOW9TZ24xcllSUjViRzdwdThFdEQ0dXB5aDF5eDRFYXNV?=
+ =?utf-8?B?bTZNRGtLMVdVYkdreHFNaHJRcjBIRW9jcDJWcXdvV2tSTEw3UnZBOXA2TjI1?=
+ =?utf-8?B?TWlGeXV2MXZ3YUJaK2ROV1A4eW9WU1ZkT0NBTnVrckhnNURlNEQ1dlIyRG1x?=
+ =?utf-8?B?MlpNcUZsT3o4WnpwUHhHaWxFb0VHbjl4bUdGTjExeEp5MEhsd3lTcEZaVXN2?=
+ =?utf-8?B?VWp4MkFGb0tuWGtRZU9xS29CT3pOemdNZ3UwSU9DeGtwdVl5ZFhqU0dnNmRx?=
+ =?utf-8?Q?IlJ+EBpzz7qAyl/CwKabVbDS+gbwsXJgOMEz9RM?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19ca975c-0307-4306-d1a6-08d8e73e5a6d
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2021 23:10:26.6538 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JqZsuP2P910YxO9ZjDiwUGQlhgm2iimhmHTtmLfT2aoz6rzFbzEgmdc1HT7Qfd/C
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3725
+Received-SPF: pass client-ip=40.107.244.106; envelope-from=alxndr@bu.edu;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,104 +138,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various libqos files are architecture specific.
-Restrict the ARM/PPC/X86 units to their targets.
+We enumerate PCI devices on PC machines, but this breaks the fuzzer for
+non-PC machines and architectures. Add checks to avoid this.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/libqos/meson.build | 51 ++++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 17 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index 1cddf5bdaa1..817c2cc2c20 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -1,4 +1,8 @@
--libqos_srcs = files('../libqtest.c',
-+libqos_ss = ss.source_set()
-+
-+libqos_ss.add(genh)
-+
-+libqos_ss.add(files('../libqtest.c',
-         'qgraph.c',
-         'qos_external.c',
-         'pci.c',
-@@ -6,18 +10,6 @@
-         'malloc.c',
-         'libqos.c',
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index ee8c17a04c..d2b74028fe 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -784,6 +784,7 @@ static void generic_pre_fuzz(QTestState *s)
+     MemoryRegion *mr;
+     QPCIBus *pcibus;
+     char **result;
++    const char* machine_type;
  
--        # spapr
--        'malloc-spapr.c',
--        'libqos-spapr.c',
--        'rtas.c',
--        'pci-spapr.c',
--
--        # pc
--        'pci-pc.c',
--        'malloc-pc.c',
--        'libqos-pc.c',
--        'ahci.c',
--
-         # usb
-         'usb.c',
+     if (!getenv("QEMU_FUZZ_OBJECTS")) {
+         usage();
+@@ -827,9 +828,13 @@ static void generic_pre_fuzz(QTestState *s)
+         exit(1);
+     }
  
-@@ -39,7 +31,28 @@
-         'virtio-rng.c',
-         'virtio-scsi.c',
-         'virtio-serial.c',
-+))
+-    pcibus = qpci_new_pc(s, NULL);
+-    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
+-    qpci_free_pc(pcibus);
++    machine_type = object_get_typename(qdev_get_machine());
++    if(fuzzable_pci_devices->len && strstr(machine_type, "pc") == machine_type)
++    {
++        pcibus = qpci_new_pc(s, NULL);
++        g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
++        qpci_free_pc(pcibus);
++    }
  
-+libqos_ss.add(when: 'TARGET_I386', if_true: files(
-+        'pci-pc.c',
-+        'malloc-pc.c',
-+        'libqos-pc.c',
-+
-+        'ahci.c',
-+
-+        # qgraph machines:
-+        'x86_64_pc-machine.c',
-+))
-+libqos_ss.add(when: 'TARGET_PPC64', if_true: files(
-+        'malloc-spapr.c',
-+        'libqos-spapr.c',
-+        'rtas.c',
-+        'pci-spapr.c',
-+
-+        # qgraph machines:
-+        'ppc64_pseries-machine.c',
-+))
-+libqos_ss.add(when: 'TARGET_ARM', if_true: files(
-         # qgraph machines:
-         'aarch64-xlnx-zcu102-machine.c',
-         'arm-imx25-pdk-machine.c',
-@@ -49,11 +62,15 @@
-         'arm-smdkc210-machine.c',
-         'arm-virt-machine.c',
-         'arm-xilinx-zynq-a9-machine.c',
--        'ppc64_pseries-machine.c',
--        'x86_64_pc-machine.c',
--)
-+))
-+libqos_ss.add(when: 'TARGET_AARCH64', if_true: files(
-+        # qgraph machines:
-+        'aarch64-xlnx-zcu102-machine.c',
-+))
- 
--libqos = static_library('qos', libqos_srcs + genh,
-+libqos_ss = libqos_ss.apply(config_host, strict: false)
-+
-+libqos = static_library('qos', libqos_ss.sources() + genh,
-                         name_suffix: 'fa',
-                         build_by_default: false)
- 
+     counter_shm_init();
+ }
 -- 
-2.26.2
+2.27.0
 
 
