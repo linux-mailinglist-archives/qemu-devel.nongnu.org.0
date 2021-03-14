@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEF933A8A4
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 23:46:52 +0100 (CET)
-Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D0433A8A9
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 23:55:52 +0100 (CET)
+Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLZVb-0000gd-DS
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 18:46:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36752)
+	id 1lLZeI-0004bP-HP
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 18:55:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLZT8-0008W9-6O
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 18:44:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLZT5-00087z-Pl
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 18:44:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615761850;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A6xOmNrHT2lXoCJzciFZObQbLkcRl/YH2B9yNfXVfww=;
- b=NUUbEE2nd/L4afcEIq0lopdCLnm/V167afe4Ocj7tJb7TP9BMmQxAj8SKvMillnKqxL80m
- ymLmzr8OBYF6SzKE6MJlAz8/Ch0bBJjCMP4mzrBOvTbQMSVGyzYNgZydj65I6BpymzvESu
- i7kXXsFteIoDNn85c17iw6Mbhgygtjw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-q2qyttXBNFePvEkfBbarVA-1; Sun, 14 Mar 2021 18:44:08 -0400
-X-MC-Unique: q2qyttXBNFePvEkfBbarVA-1
-Received: by mail-wr1-f70.google.com with SMTP id s10so14229082wre.0
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 15:44:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lLZbm-0003vK-VV
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 18:53:18 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:32917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lLZbk-0003cj-EY
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 18:53:13 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id 7so7774360wrz.0
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 15:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=phsPrYfKakOJB7z0iRcHLh8T8bwjcghz3J5ilQl+um8=;
+ b=i628NyHHNLUnHj63FkvFAwfRAqTr/Ylonf9NGSus30gLsc+fIYxzR9vd+iAYElGTcU
+ 5yPaAM64djs2mMvlS0L8Emrmbjb5AYZubOOL7RSLdCnXulI/ljjvP2O54wQBkLKKAUMb
+ cuIz3YBlmCZWwhMvFwFdoH/mci3d6aO2mPAxMB3SLNrFmXXtphkVcl9jeKsRD0QUA6tT
+ ukCwMxj6Cz9dXmg9OcN7AYkEjuhamW/DVipeFSE7ifZX5zlth4KBC7IWnzDYzLZAvfSu
+ 6VbSNKQwwot5Fik+5aTGeZeWLk98VEx+T8+LAfX34kHrJ+mWycmkwrF3ePH6AVSBdgzU
+ 1J2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=A6xOmNrHT2lXoCJzciFZObQbLkcRl/YH2B9yNfXVfww=;
- b=gsEVZxfoPYG/AOg7KgArPC8bhRMTzSGCzg+YjhWiABq/GiIQxku4qi6UKPMeEZBEZS
- oVbt7cS3m35UIKAoff/kXZcgonRD8yvSWIVJerHK+lvls4vtUT0QXbHh1XAAYt3JA7L5
- 3ZhXFVFTamBWXrEL5uSalZBYsjBMA2YhfDGKLPJA+RTQ6GtXKpLlJEjz6Apz4q0WeSUt
- gY3LUXkd4PNd3c2HtTSSSl+wY412+Yc7h1Pfqq4yKucsMu4xxAvjfJ8/E9sQdAC0waW5
- c6+U9DXyk6pm7gsrWdgH5rTdogsPqtWrvo05M/h87s6ZNKL+SMQI8zlowIIpoz+wOeTg
- ovfw==
-X-Gm-Message-State: AOAM5329BkKUgxsX7aTVeY4b5k6OHYTGyCsrrhp7TAsAv5g6iHGiSMfe
- vf+kYIb1bXZykPmF0ujKyifqUZRV90W+fcwyplysCBNzCmdy1QZ1sPZZrY5m+0RXBA9tn8ZWFZA
- prRtNP/ixVuEGkXs=
-X-Received: by 2002:a05:600c:2cd8:: with SMTP id
- l24mr23107822wmc.88.1615761847579; 
- Sun, 14 Mar 2021 15:44:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbA5VzhhZt7EaHAskOfx+kHHlbIsQ6FoPtsSfhjRG5rIwpMkasg/AwQuMCi2Xcxg/QzYp4+A==
-X-Received: by 2002:a05:600c:2cd8:: with SMTP id
- l24mr23107807wmc.88.1615761847412; 
- Sun, 14 Mar 2021 15:44:07 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=phsPrYfKakOJB7z0iRcHLh8T8bwjcghz3J5ilQl+um8=;
+ b=RzcP2//jTzarMJmHpxRxokQMC5DjhFHMLNj4ZHDja7I0VXIzvVZNznPTznBAPgziPt
+ qhPNiGjlcLpVYYYmm5oLP1ORBrEIbz+zDjq9PuYO4PURb/wXoMipyxhPpy7ybzeYKKpW
+ U+wnnr+5RWGZTrzuWVwhz7rw/OJ+DD/FfNKbi+8VQW3NeUc5aR6jqLWlGcWc8++5VNwW
+ ExY90mciVKJCvPk0iuv1BPMccxgeyCYWZ/8rYzML3M8KJideCc221DvkLFbc6hoN79eH
+ rugNTcTz2erMH7fFAPoq55vfYXnQl/cf36Dk0xrw11/7xhW9hIdywEmdJnac1vIfdO8V
+ Ggtw==
+X-Gm-Message-State: AOAM531T8L1OKelfxo25KGLeR3dvErgoHIdUm75IX+L3MzfZomapNvBZ
+ yY1z6liZ1q3vfE2e08fOjN/esRUNth+DcQ==
+X-Google-Smtp-Source: ABdhPJwzrYiQUztinlmZOMjcLoDHDNrXXuJTAPAT3V+KGZySVBcsZgBX9sNL76nFpkMgCXSle7RE/g==
+X-Received: by 2002:a5d:4fc5:: with SMTP id h5mr25329669wrw.33.1615762390782; 
+ Sun, 14 Mar 2021 15:53:10 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id j123sm11043021wmb.1.2021.03.14.15.44.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Mar 2021 15:44:06 -0700 (PDT)
-Subject: Re: [PATCH v3] fuzz: map all BARs and enable PCI devices
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20201221181203.1853-1-alxndr@bu.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3be69623-f767-05e6-2587-6818b1df7413@redhat.com>
-Date: Sun, 14 Mar 2021 23:44:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by smtp.gmail.com with ESMTPSA id i3sm17502299wra.66.2021.03.14.15.53.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Mar 2021 15:53:10 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qtest/libqos/meson: Restrict architecture specific objects
+Date: Sun, 14 Mar 2021 23:53:08 +0100
+Message-Id: <20210314225308.2582284-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201221181203.1853-1-alxndr@bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,86 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/20 7:12 PM, Alexander Bulekov wrote:
-> Prior to this patch, the fuzzer found inputs to map PCI device BARs and
-> enable the device. While it is nice that the fuzzer can do this, it
-> added significant overhead, since the fuzzer needs to map all the
-> BARs (regenerating the memory topology), at the start of each input.
-> With this patch, we do this once, before fuzzing, mitigating some of
-> this overhead.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> ---
-> 
-> v3: Plug the memory-leak pointed out by Thomas:
->     https://gitlab.com/huth/qemu/-/jobs/920543745#L309
-> 
->  tests/qtest/fuzz/generic_fuzz.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index 07ad690683..be76d47d2d 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -16,6 +16,7 @@
->  
->  #include "hw/core/cpu.h"
->  #include "tests/qtest/libqos/libqtest.h"
-> +#include "tests/qtest/libqos/pci-pc.h"
->  #include "fuzz.h"
->  #include "fork_fuzz.h"
->  #include "exec/address-spaces.h"
-> @@ -762,10 +763,29 @@ static int locate_fuzz_objects(Object *child, void *opaque)
->      return 0;
->  }
->  
-> +
-> +static void pci_enum(gpointer pcidev, gpointer bus)
-> +{
-> +    PCIDevice *dev = pcidev;
-> +    QPCIDevice *qdev;
-> +    int i;
-> +
-> +    qdev = qpci_device_find(bus, dev->devfn);
-> +    g_assert(qdev != NULL);
-> +    for (i = 0; i < 6; i++) {
-> +        if (dev->io_regions[i].size) {
-> +            qpci_iomap(qdev, i, NULL);
-> +        }
-> +    }
-> +    qpci_device_enable(qdev);
-> +    g_free(qdev);
-> +}
-> +
->  static void generic_pre_fuzz(QTestState *s)
->  {
->      GHashTableIter iter;
->      MemoryRegion *mr;
-> +    QPCIBus *pcibus;
->      char **result;
->  
->      if (!getenv("QEMU_FUZZ_OBJECTS")) {
-> @@ -810,6 +830,10 @@ static void generic_pre_fuzz(QTestState *s)
->          exit(1);
->      }
->  
-> +    pcibus = qpci_new_pc(s, NULL);
+Various libqos files are architecture specific.
+Restrict the ARM/PPC/X86 units to their targets.
 
-FYI this patch restricted the "generic" fuzzer to the x86 arch.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/qtest/libqos/meson.build | 51 ++++++++++++++++++++++------------
+ 1 file changed, 34 insertions(+), 17 deletions(-)
 
-> +    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
-> +    qpci_free_pc(pcibus);
-> +
->      counter_shm_init();
->  }
->  
-> 
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index 1cddf5bdaa1..817c2cc2c20 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -1,4 +1,8 @@
+-libqos_srcs = files('../libqtest.c',
++libqos_ss = ss.source_set()
++
++libqos_ss.add(genh)
++
++libqos_ss.add(files('../libqtest.c',
+         'qgraph.c',
+         'qos_external.c',
+         'pci.c',
+@@ -6,18 +10,6 @@
+         'malloc.c',
+         'libqos.c',
+ 
+-        # spapr
+-        'malloc-spapr.c',
+-        'libqos-spapr.c',
+-        'rtas.c',
+-        'pci-spapr.c',
+-
+-        # pc
+-        'pci-pc.c',
+-        'malloc-pc.c',
+-        'libqos-pc.c',
+-        'ahci.c',
+-
+         # usb
+         'usb.c',
+ 
+@@ -39,7 +31,28 @@
+         'virtio-rng.c',
+         'virtio-scsi.c',
+         'virtio-serial.c',
++))
+ 
++libqos_ss.add(when: 'TARGET_I386', if_true: files(
++        'pci-pc.c',
++        'malloc-pc.c',
++        'libqos-pc.c',
++
++        'ahci.c',
++
++        # qgraph machines:
++        'x86_64_pc-machine.c',
++))
++libqos_ss.add(when: 'TARGET_PPC64', if_true: files(
++        'malloc-spapr.c',
++        'libqos-spapr.c',
++        'rtas.c',
++        'pci-spapr.c',
++
++        # qgraph machines:
++        'ppc64_pseries-machine.c',
++))
++libqos_ss.add(when: 'TARGET_ARM', if_true: files(
+         # qgraph machines:
+         'aarch64-xlnx-zcu102-machine.c',
+         'arm-imx25-pdk-machine.c',
+@@ -49,11 +62,15 @@
+         'arm-smdkc210-machine.c',
+         'arm-virt-machine.c',
+         'arm-xilinx-zynq-a9-machine.c',
+-        'ppc64_pseries-machine.c',
+-        'x86_64_pc-machine.c',
+-)
++))
++libqos_ss.add(when: 'TARGET_AARCH64', if_true: files(
++        # qgraph machines:
++        'aarch64-xlnx-zcu102-machine.c',
++))
+ 
+-libqos = static_library('qos', libqos_srcs + genh,
++libqos_ss = libqos_ss.apply(config_host, strict: false)
++
++libqos = static_library('qos', libqos_ss.sources() + genh,
+                         name_suffix: 'fa',
+                         build_by_default: false)
+ 
+-- 
+2.26.2
 
 
