@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C1D33A73E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:03:28 +0100 (CET)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0985F33A73F
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:03:33 +0100 (CET)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLV5L-00043C-Kj
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48240)
+	id 1lLV5Q-00049x-09
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1H-00028Q-17
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:16 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:43801)
+ id 1lLV1U-0002Ae-4i
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:28 -0400
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:43803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1C-00026v-FG
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:14 -0400
-Received: by mail-qt1-x833.google.com with SMTP id s2so7640126qtx.10
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:10 -0700 (PDT)
+ id 1lLV1E-000279-PV
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:27 -0400
+Received: by mail-qt1-x835.google.com with SMTP id s2so7640158qtx.10
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=52KfxatCEV55z76bCNlg1bkm3mzJ+j/4L7GKbVC527U=;
- b=WgCqZ/PL29LUIlXPwlUwZj1OlGjszV2dMKWvlKwiQOzkaYsO+yZzvrkW1r2bCmYIdy
- FWTTnG3wrbK1+u4kSn9YIwlIM3yu/1TN0lEnrYMFS9lWEkMIMwzF8diKFgEu0qWdHWHH
- RTpsjd/rmXUxhxPerSX84v2MRoAp8u2AkDUa3YI0Zek+Pp70rzLvs+3J9OhATJYMexAJ
- TPVl1HwkFLFep4TCcTJ01EhGH5OBOgE9VlsVlergj6+nrZEMx5lk0fQMU5WBKPoyJANF
- Ou+vemsgWUcw2LsdqPyLjjq4MhgBuk1QON+eGx7HHlwS5grkX3i1/JfNxaXONiGH+kFV
- B23w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AY33bvhRAO2gM02jn6+LJdwP80pyHHRM7rF6JxFdsYA=;
+ b=xMZ2eBPeL1AjhG/cHvXb8kXo8ZMfghvJzMLT/y61ZS3ydWIp0bsS2P0bsh2bbP4mHx
+ JjMSb04eq5dtBiK59Q2RoMGfvsTje7HacMT5256ZydDvpC5GP+u95vwEhFdAtHpUtns5
+ /2uKEoSVMdNYbmopRxlDFHeorPWMLFtYMknQx/ZpyeLuo9cD//HNgL08nmDcqJ/lsQf3
+ xlzwR1znU9shu4SW+eKVvJejbeRp1jyLV5SwMzQf5xjkjkhdUdswlKQ0CqolrOKEW6W2
+ MnsGH8QS3x/lN7nC6PCI9Huuo3BaEqnwMYQ5zNB5+HkcjjCBOo96Vdzf1ICEbnK1Z7Hc
+ lSVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=52KfxatCEV55z76bCNlg1bkm3mzJ+j/4L7GKbVC527U=;
- b=i69gtKU35KF/v/1BU6mSXXFyk7mAHoC6dz95AE5WB7YpxIH0VZlDvCVCu3lsMGVx7O
- Nl/fpOb9zmzGnWf7y5fSycKvRnEBePttyW9hl+QUvocqjDnNOHtxwDjozr4Q21OtkBX4
- AkhmY3KRYQdLVU8WwztLeg4ZL88jID/BXKQOS0+7onq1aWMpC4qTEp6uPmLu/IRsM8Eh
- P4FCpxNVXsy8YKXqdM5TDt1mn9gNxC/Zkx0nTJhdFyxL75PyeKyz2UdiTWMRPNzbODhB
- MU05CJqiyaTNKIBvwDRPZQ1EFe1q4gFD3KTPDvWHIrff8n86iPgw44Lpp5dn4VNzfvM5
- fPRA==
-X-Gm-Message-State: AOAM5331IrNJa7dSYd2sO/1ixiPHSN/YCYvWkRP23IdIl/YxF+T6xNqk
- YrU+BKG9YOU35TpUQX7gWWF/XwfGK+OeNtFX
-X-Google-Smtp-Source: ABdhPJwZjUJnVoJhzAt9YWcKRxHMOaTVXLqF+ezCAxWEx6KIUdlM8RC2F/yWfyG3LX717OUAkx3STg==
-X-Received: by 2002:ac8:59d6:: with SMTP id f22mr6281775qtf.83.1615744749385; 
- Sun, 14 Mar 2021 10:59:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AY33bvhRAO2gM02jn6+LJdwP80pyHHRM7rF6JxFdsYA=;
+ b=Yq6EB5m41Y8IoyLxOOt7kLEzz5TkH0YqTvI6IKYyi86P0tFLK4xZH1uaIj8/WmqB5/
+ X0PB0fTtr8jts0LUqjtymL22nHsmaC42snfMEPGXkco9Ixr1y44GbrnJcb1yQ6YEjChy
+ 5FAZET+M8KNuZbN2SxdRhnze+zR1KcuQ0I2VD4dgxXFQOMfZoY8yNUWgiswmSMBytUJU
+ JIjjoKnpvUziYBkaHy3pg7Y2fDTVaKPB5mSoN2CjDjFDLMGsdEKDTFv3k9qUXaXdhZY0
+ psLdpbOtq75re7i7Ps05+ZYOcXY2NcCxyMOcsUE7NisEFp+hIjnMKMWdnwTr2xHhtByF
+ +Bww==
+X-Gm-Message-State: AOAM532MBVKxFkcgxywmGZefWhmahttz0T4a2DFlDKNlwHXiqQ05JxJT
+ 4hzWMfy/KhXkiCwsTYdCWwJwYcrzyzmpXoEH
+X-Google-Smtp-Source: ABdhPJw1IrYzPcsxEL77JYFPhDB5YzowpTZEhs59Lm2HLH1wbUWlm7r9cTNu5QLyW2o31b9KcsF42A==
+X-Received: by 2002:ac8:744f:: with SMTP id h15mr20390195qtr.202.1615744750487; 
+ Sun, 14 Mar 2021 10:59:10 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.07
+ by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 10:59:08 -0700 (PDT)
+ Sun, 14 Mar 2021 10:59:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/16] target/ppc: Fix truncation of env->hflags
-Date: Sun, 14 Mar 2021 11:58:50 -0600
-Message-Id: <20210314175906.1733746-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/16] target/ppc: Move helper_regs.h functions out-of-line
+Date: Sun, 14 Mar 2021 11:58:51 -0600
+Message-Id: <20210314175906.1733746-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210314175906.1733746-1-richard.henderson@linaro.org>
+References: <20210314175906.1733746-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,64 +87,444 @@ Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clean up everything that touches hflags, fixing quite a few
-other bugs in the process.
+Move the functions to a new file, helper_regs.c.
 
-Changes for v3:
- * Fixes for linux-user, signal handling and startup.
-   -- Oops, the directory in which I did testing for v2
-      had a reduced set of targets.
+Note int_helper.c was relying on helper_regs.h to
+indirectly include qemu/log.h.
 
-Changes for v2:
- * Do not put tcg internal state into migration, except to
-   retain backward compatibility.
- * Do not touch anything in env in ppc_tr_init_disas_context.
- * Do make sure that hflags contains everything that it should.
- * Do verify that hflags is properly updated.
-
-
-r~
-
-
-Richard Henderson (16):
-  target/ppc: Move helper_regs.h functions out-of-line
-  target/ppc: Move 601 hflags adjustment to hreg_compute_hflags
-  target/ppc: Properly sync cpu state with new msr in cpu_load_old
-  target/ppc: Do not call hreg_compute_mem_idx after ppc_store_msr
-  target/ppc: Retain hflags_nmsr only for migration
-  target/ppc: Fix comment for MSR_FE{0,1}
-  target/ppc: Disconnect hflags from MSR
-  target/ppc: Reduce env->hflags to uint32_t
-  target/ppc: Put dbcr0 single-step bits into hflags
-  target/ppc: Create helper_scv
-  target/ppc: Put LPCR[GTSE] in hflags
-  target/ppc: Remove MSR_SA and MSR_AP from hflags
-  target/ppc: Remove env->immu_idx and env->dmmu_idx
-  hw/ppc: Use hreg_store_msr for msr updates
-  linux-user/ppc: Fix msr updates for signal handling
-  target/ppc: Validate hflags with CONFIG_DEBUG_TCG
-
- target/ppc/cpu.h                |  50 +++++-
- target/ppc/helper.h             |   1 +
- target/ppc/helper_regs.h        | 183 +--------------------
- hw/ppc/pnv_core.c               |   3 +-
- hw/ppc/spapr_hcall.c            |   3 +-
- hw/ppc/spapr_rtas.c             |   3 +-
- linux-user/ppc/cpu_loop.c       |   5 +-
- linux-user/ppc/signal.c         |  23 ++-
- target/ppc/excp_helper.c        |   9 ++
- target/ppc/helper_regs.c        | 272 ++++++++++++++++++++++++++++++++
- target/ppc/int_helper.c         |   1 +
- target/ppc/machine.c            |  27 ++--
- target/ppc/mem_helper.c         |   2 +-
- target/ppc/misc_helper.c        |  13 +-
- target/ppc/mmu-hash64.c         |   3 +
- target/ppc/translate.c          |  98 ++++--------
- target/ppc/translate_init.c.inc |   4 +-
- target/ppc/meson.build          |   1 +
- 18 files changed, 411 insertions(+), 290 deletions(-)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/helper_regs.h | 184 ++----------------------------------
+ target/ppc/helper_regs.c | 197 +++++++++++++++++++++++++++++++++++++++
+ target/ppc/int_helper.c  |   1 +
+ target/ppc/meson.build   |   1 +
+ 4 files changed, 207 insertions(+), 176 deletions(-)
  create mode 100644 target/ppc/helper_regs.c
 
+diff --git a/target/ppc/helper_regs.h b/target/ppc/helper_regs.h
+index efcc903427..4148a442b3 100644
+--- a/target/ppc/helper_regs.h
++++ b/target/ppc/helper_regs.h
+@@ -20,184 +20,16 @@
+ #ifndef HELPER_REGS_H
+ #define HELPER_REGS_H
+ 
+-#include "qemu/main-loop.h"
+-#include "exec/exec-all.h"
+-#include "sysemu/kvm.h"
++void hreg_swap_gpr_tgpr(CPUPPCState *env);
++void hreg_compute_mem_idx(CPUPPCState *env);
++void hreg_compute_hflags(CPUPPCState *env);
++void cpu_interrupt_exittb(CPUState *cs);
++int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv);
+ 
+-/* Swap temporary saved registers with GPRs */
+-static inline void hreg_swap_gpr_tgpr(CPUPPCState *env)
+-{
+-    target_ulong tmp;
+-
+-    tmp = env->gpr[0];
+-    env->gpr[0] = env->tgpr[0];
+-    env->tgpr[0] = tmp;
+-    tmp = env->gpr[1];
+-    env->gpr[1] = env->tgpr[1];
+-    env->tgpr[1] = tmp;
+-    tmp = env->gpr[2];
+-    env->gpr[2] = env->tgpr[2];
+-    env->tgpr[2] = tmp;
+-    tmp = env->gpr[3];
+-    env->gpr[3] = env->tgpr[3];
+-    env->tgpr[3] = tmp;
+-}
+-
+-static inline void hreg_compute_mem_idx(CPUPPCState *env)
+-{
+-    /*
+-     * This is our encoding for server processors. The architecture
+-     * specifies that there is no such thing as userspace with
+-     * translation off, however it appears that MacOS does it and some
+-     * 32-bit CPUs support it. Weird...
+-     *
+-     *   0 = Guest User space virtual mode
+-     *   1 = Guest Kernel space virtual mode
+-     *   2 = Guest User space real mode
+-     *   3 = Guest Kernel space real mode
+-     *   4 = HV User space virtual mode
+-     *   5 = HV Kernel space virtual mode
+-     *   6 = HV User space real mode
+-     *   7 = HV Kernel space real mode
+-     *
+-     * For BookE, we need 8 MMU modes as follow:
+-     *
+-     *  0 = AS 0 HV User space
+-     *  1 = AS 0 HV Kernel space
+-     *  2 = AS 1 HV User space
+-     *  3 = AS 1 HV Kernel space
+-     *  4 = AS 0 Guest User space
+-     *  5 = AS 0 Guest Kernel space
+-     *  6 = AS 1 Guest User space
+-     *  7 = AS 1 Guest Kernel space
+-     */
+-    if (env->mmu_model & POWERPC_MMU_BOOKE) {
+-        env->immu_idx = env->dmmu_idx = msr_pr ? 0 : 1;
+-        env->immu_idx += msr_is ? 2 : 0;
+-        env->dmmu_idx += msr_ds ? 2 : 0;
+-        env->immu_idx += msr_gs ? 4 : 0;
+-        env->dmmu_idx += msr_gs ? 4 : 0;
+-    } else {
+-        env->immu_idx = env->dmmu_idx = msr_pr ? 0 : 1;
+-        env->immu_idx += msr_ir ? 0 : 2;
+-        env->dmmu_idx += msr_dr ? 0 : 2;
+-        env->immu_idx += msr_hv ? 4 : 0;
+-        env->dmmu_idx += msr_hv ? 4 : 0;
+-    }
+-}
+-
+-static inline void hreg_compute_hflags(CPUPPCState *env)
+-{
+-    target_ulong hflags_mask;
+-
+-    /* We 'forget' FE0 & FE1: we'll never generate imprecise exceptions */
+-    hflags_mask = (1 << MSR_VR) | (1 << MSR_AP) | (1 << MSR_SA) |
+-        (1 << MSR_PR) | (1 << MSR_FP) | (1 << MSR_SE) | (1 << MSR_BE) |
+-        (1 << MSR_LE) | (1 << MSR_VSX) | (1 << MSR_IR) | (1 << MSR_DR);
+-    hflags_mask |= (1ULL << MSR_CM) | (1ULL << MSR_SF) | MSR_HVB;
+-    hreg_compute_mem_idx(env);
+-    env->hflags = env->msr & hflags_mask;
+-    /* Merge with hflags coming from other registers */
+-    env->hflags |= env->hflags_nmsr;
+-}
+-
+-static inline void cpu_interrupt_exittb(CPUState *cs)
+-{
+-    if (!kvm_enabled()) {
+-        return;
+-    }
+-
+-    if (!qemu_mutex_iothread_locked()) {
+-        qemu_mutex_lock_iothread();
+-        cpu_interrupt(cs, CPU_INTERRUPT_EXITTB);
+-        qemu_mutex_unlock_iothread();
+-    } else {
+-        cpu_interrupt(cs, CPU_INTERRUPT_EXITTB);
+-    }
+-}
+-
+-static inline int hreg_store_msr(CPUPPCState *env, target_ulong value,
+-                                 int alter_hv)
+-{
+-    int excp;
+-#if !defined(CONFIG_USER_ONLY)
+-    CPUState *cs = env_cpu(env);
+-#endif
+-
+-    excp = 0;
+-    value &= env->msr_mask;
+-#if !defined(CONFIG_USER_ONLY)
+-    /* Neither mtmsr nor guest state can alter HV */
+-    if (!alter_hv || !(env->msr & MSR_HVB)) {
+-        value &= ~MSR_HVB;
+-        value |= env->msr & MSR_HVB;
+-    }
+-    if (((value >> MSR_IR) & 1) != msr_ir ||
+-        ((value >> MSR_DR) & 1) != msr_dr) {
+-        cpu_interrupt_exittb(cs);
+-    }
+-    if ((env->mmu_model & POWERPC_MMU_BOOKE) &&
+-        ((value >> MSR_GS) & 1) != msr_gs) {
+-        cpu_interrupt_exittb(cs);
+-    }
+-    if (unlikely((env->flags & POWERPC_FLAG_TGPR) &&
+-                 ((value ^ env->msr) & (1 << MSR_TGPR)))) {
+-        /* Swap temporary saved registers with GPRs */
+-        hreg_swap_gpr_tgpr(env);
+-    }
+-    if (unlikely((value >> MSR_EP) & 1) != msr_ep) {
+-        /* Change the exception prefix on PowerPC 601 */
+-        env->excp_prefix = ((value >> MSR_EP) & 1) * 0xFFF00000;
+-    }
+-    /*
+-     * If PR=1 then EE, IR and DR must be 1
+-     *
+-     * Note: We only enforce this on 64-bit server processors.
+-     * It appears that:
+-     * - 32-bit implementations supports PR=1 and EE/DR/IR=0 and MacOS
+-     *   exploits it.
+-     * - 64-bit embedded implementations do not need any operation to be
+-     *   performed when PR is set.
+-     */
+-    if (is_book3s_arch2x(env) && ((value >> MSR_PR) & 1)) {
+-        value |= (1 << MSR_EE) | (1 << MSR_DR) | (1 << MSR_IR);
+-    }
+-#endif
+-    env->msr = value;
+-    hreg_compute_hflags(env);
+-#if !defined(CONFIG_USER_ONLY)
+-    if (unlikely(msr_pow == 1)) {
+-        if (!env->pending_interrupts && (*env->check_pow)(env)) {
+-            cs->halted = 1;
+-            excp = EXCP_HALTED;
+-        }
+-    }
+-#endif
+-
+-    return excp;
+-}
+-
+-#if !defined(CONFIG_USER_ONLY)
+-static inline void check_tlb_flush(CPUPPCState *env, bool global)
+-{
+-    CPUState *cs = env_cpu(env);
+-
+-    /* Handle global flushes first */
+-    if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
+-        env->tlb_need_flush &= ~TLB_NEED_GLOBAL_FLUSH;
+-        env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
+-        tlb_flush_all_cpus_synced(cs);
+-        return;
+-    }
+-
+-    /* Then handle local ones */
+-    if (env->tlb_need_flush & TLB_NEED_LOCAL_FLUSH) {
+-        env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
+-        tlb_flush(cs);
+-    }
+-}
+-#else
++#ifdef CONFIG_USER_ONLY
+ static inline void check_tlb_flush(CPUPPCState *env, bool global) { }
++#else
++void check_tlb_flush(CPUPPCState *env, bool global);
+ #endif
+ 
+ #endif /* HELPER_REGS_H */
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+new file mode 100644
+index 0000000000..5e18232b84
+--- /dev/null
++++ b/target/ppc/helper_regs.c
+@@ -0,0 +1,197 @@
++/*
++ *  PowerPC emulation special registers manipulation helpers for qemu.
++ *
++ *  Copyright (c) 2003-2007 Jocelyn Mayer
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "exec/exec-all.h"
++#include "sysemu/kvm.h"
++#include "helper_regs.h"
++
++/* Swap temporary saved registers with GPRs */
++void hreg_swap_gpr_tgpr(CPUPPCState *env)
++{
++    target_ulong tmp;
++
++    tmp = env->gpr[0];
++    env->gpr[0] = env->tgpr[0];
++    env->tgpr[0] = tmp;
++    tmp = env->gpr[1];
++    env->gpr[1] = env->tgpr[1];
++    env->tgpr[1] = tmp;
++    tmp = env->gpr[2];
++    env->gpr[2] = env->tgpr[2];
++    env->tgpr[2] = tmp;
++    tmp = env->gpr[3];
++    env->gpr[3] = env->tgpr[3];
++    env->tgpr[3] = tmp;
++}
++
++void hreg_compute_mem_idx(CPUPPCState *env)
++{
++    /*
++     * This is our encoding for server processors. The architecture
++     * specifies that there is no such thing as userspace with
++     * translation off, however it appears that MacOS does it and some
++     * 32-bit CPUs support it. Weird...
++     *
++     *   0 = Guest User space virtual mode
++     *   1 = Guest Kernel space virtual mode
++     *   2 = Guest User space real mode
++     *   3 = Guest Kernel space real mode
++     *   4 = HV User space virtual mode
++     *   5 = HV Kernel space virtual mode
++     *   6 = HV User space real mode
++     *   7 = HV Kernel space real mode
++     *
++     * For BookE, we need 8 MMU modes as follow:
++     *
++     *  0 = AS 0 HV User space
++     *  1 = AS 0 HV Kernel space
++     *  2 = AS 1 HV User space
++     *  3 = AS 1 HV Kernel space
++     *  4 = AS 0 Guest User space
++     *  5 = AS 0 Guest Kernel space
++     *  6 = AS 1 Guest User space
++     *  7 = AS 1 Guest Kernel space
++     */
++    if (env->mmu_model & POWERPC_MMU_BOOKE) {
++        env->immu_idx = env->dmmu_idx = msr_pr ? 0 : 1;
++        env->immu_idx += msr_is ? 2 : 0;
++        env->dmmu_idx += msr_ds ? 2 : 0;
++        env->immu_idx += msr_gs ? 4 : 0;
++        env->dmmu_idx += msr_gs ? 4 : 0;
++    } else {
++        env->immu_idx = env->dmmu_idx = msr_pr ? 0 : 1;
++        env->immu_idx += msr_ir ? 0 : 2;
++        env->dmmu_idx += msr_dr ? 0 : 2;
++        env->immu_idx += msr_hv ? 4 : 0;
++        env->dmmu_idx += msr_hv ? 4 : 0;
++    }
++}
++
++void hreg_compute_hflags(CPUPPCState *env)
++{
++    target_ulong hflags_mask;
++
++    /* We 'forget' FE0 & FE1: we'll never generate imprecise exceptions */
++    hflags_mask = (1 << MSR_VR) | (1 << MSR_AP) | (1 << MSR_SA) |
++        (1 << MSR_PR) | (1 << MSR_FP) | (1 << MSR_SE) | (1 << MSR_BE) |
++        (1 << MSR_LE) | (1 << MSR_VSX) | (1 << MSR_IR) | (1 << MSR_DR);
++    hflags_mask |= (1ULL << MSR_CM) | (1ULL << MSR_SF) | MSR_HVB;
++    hreg_compute_mem_idx(env);
++    env->hflags = env->msr & hflags_mask;
++    /* Merge with hflags coming from other registers */
++    env->hflags |= env->hflags_nmsr;
++}
++
++void cpu_interrupt_exittb(CPUState *cs)
++{
++    if (!kvm_enabled()) {
++        return;
++    }
++
++    if (!qemu_mutex_iothread_locked()) {
++        qemu_mutex_lock_iothread();
++        cpu_interrupt(cs, CPU_INTERRUPT_EXITTB);
++        qemu_mutex_unlock_iothread();
++    } else {
++        cpu_interrupt(cs, CPU_INTERRUPT_EXITTB);
++    }
++}
++
++int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
++{
++    int excp;
++#if !defined(CONFIG_USER_ONLY)
++    CPUState *cs = env_cpu(env);
++#endif
++
++    excp = 0;
++    value &= env->msr_mask;
++#if !defined(CONFIG_USER_ONLY)
++    /* Neither mtmsr nor guest state can alter HV */
++    if (!alter_hv || !(env->msr & MSR_HVB)) {
++        value &= ~MSR_HVB;
++        value |= env->msr & MSR_HVB;
++    }
++    if (((value >> MSR_IR) & 1) != msr_ir ||
++        ((value >> MSR_DR) & 1) != msr_dr) {
++        cpu_interrupt_exittb(cs);
++    }
++    if ((env->mmu_model & POWERPC_MMU_BOOKE) &&
++        ((value >> MSR_GS) & 1) != msr_gs) {
++        cpu_interrupt_exittb(cs);
++    }
++    if (unlikely((env->flags & POWERPC_FLAG_TGPR) &&
++                 ((value ^ env->msr) & (1 << MSR_TGPR)))) {
++        /* Swap temporary saved registers with GPRs */
++        hreg_swap_gpr_tgpr(env);
++    }
++    if (unlikely((value >> MSR_EP) & 1) != msr_ep) {
++        /* Change the exception prefix on PowerPC 601 */
++        env->excp_prefix = ((value >> MSR_EP) & 1) * 0xFFF00000;
++    }
++    /*
++     * If PR=1 then EE, IR and DR must be 1
++     *
++     * Note: We only enforce this on 64-bit server processors.
++     * It appears that:
++     * - 32-bit implementations supports PR=1 and EE/DR/IR=0 and MacOS
++     *   exploits it.
++     * - 64-bit embedded implementations do not need any operation to be
++     *   performed when PR is set.
++     */
++    if (is_book3s_arch2x(env) && ((value >> MSR_PR) & 1)) {
++        value |= (1 << MSR_EE) | (1 << MSR_DR) | (1 << MSR_IR);
++    }
++#endif
++    env->msr = value;
++    hreg_compute_hflags(env);
++#if !defined(CONFIG_USER_ONLY)
++    if (unlikely(msr_pow == 1)) {
++        if (!env->pending_interrupts && (*env->check_pow)(env)) {
++            cs->halted = 1;
++            excp = EXCP_HALTED;
++        }
++    }
++#endif
++
++    return excp;
++}
++
++#ifndef CONFIG_USER_ONLY
++void check_tlb_flush(CPUPPCState *env, bool global)
++{
++    CPUState *cs = env_cpu(env);
++
++    /* Handle global flushes first */
++    if (global && (env->tlb_need_flush & TLB_NEED_GLOBAL_FLUSH)) {
++        env->tlb_need_flush &= ~TLB_NEED_GLOBAL_FLUSH;
++        env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
++        tlb_flush_all_cpus_synced(cs);
++        return;
++    }
++
++    /* Then handle local ones */
++    if (env->tlb_need_flush & TLB_NEED_LOCAL_FLUSH) {
++        env->tlb_need_flush &= ~TLB_NEED_LOCAL_FLUSH;
++        tlb_flush(cs);
++    }
++}
++#endif
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 429de28494..a44c2d90ea 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -22,6 +22,7 @@
+ #include "internal.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/main-loop.h"
++#include "qemu/log.h"
+ #include "exec/helper-proto.h"
+ #include "crypto/aes.h"
+ #include "fpu/softfloat.h"
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index bbfef90e08..4079d01ee3 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -6,6 +6,7 @@ ppc_ss.add(files(
+   'excp_helper.c',
+   'fpu_helper.c',
+   'gdbstub.c',
++  'helper_regs.c',
+   'int_helper.c',
+   'mem_helper.c',
+   'misc_helper.c',
 -- 
 2.25.1
 
