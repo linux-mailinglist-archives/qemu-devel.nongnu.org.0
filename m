@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B05933A77D
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:21:38 +0100 (CET)
-Received: from localhost ([::1]:48764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82C233A780
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:23:51 +0100 (CET)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLVMv-00034d-Cb
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48772)
+	id 1lLVP4-0005S6-TB
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1e-0002di-OV
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:38 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:42548)
+ id 1lLV4H-0004eY-Fd
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 14:02:21 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:45113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1U-0002Df-9W
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:38 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id l13so7657806qtu.9
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:27 -0700 (PDT)
+ id 1lLV4F-0003TJ-U0
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 14:02:21 -0400
+Received: by mail-qk1-x735.google.com with SMTP id m186so12966980qke.12
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 11:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y0taJkB4Fi6zr+Y5YPiFcKq9feU/8Hh2LxD7KqyF6Ng=;
- b=WP0JpRHuD11UDt6ZWnIFTM2biYMr+AOGuVHDP6u04ioX8Ul9EMOi8UGAqQGRFyiXxt
- H16zPL3OdUgotfMPndSuJ9WPqWhUUHbxgI6pk64QmaEBa3GBTI/Zzz05C7oPgOuxDhzB
- g/LX2SZPYKcGmBHU4217DowmjNiBCpS7MbD5Ojw0HjCTPVXgxwwleBdcdWtqlccMacMa
- hNJhPYrwxc8UNO8Kp2YQliIpE7WrM88qlLT5PythSPzbUTBHTLwEQv0O8cwj9XGsPKO3
- W6FqEciJ63QHUZaM7/gGOQatXMhcXk+SLhY/w1YMIFH/147Gpf0oxN06GiV9/Lh+pGEv
- ntSQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IaY9vJY/fOJ+ouUhfEKBQaMgVda+cVfrCeomuuB4ncc=;
+ b=zs14oLA5qCcWczA3PFXbyX1+h8AlHUwvMMsWzD9i0kiNEQ0+QI9JkeM0KxirqBfYtx
+ 0anfsG8WJMD59JBgSBlO33vGYaKcJ3L9sIijgzpWSyK8+KGDkk7LnT1aQeNMTWORJncO
+ JrfBMOIdMRDRZwa8RuDFdh0jf0t2e6vrmqduVckh+e5l7uVGRUTuJja275pJJeXzKbTv
+ 1vbm5v43IcB2JWk1JwFH40WFJs/kwEl1Y1gAAPKrYH4JbaMoTtOeBbCKZauIofRrMKyI
+ 0IMdgPVYpChVBAViqBbqB0O51b1H1l/47NQIbNFZyX2WEYGMu2L1Aq3O7hijIwhOiiME
+ 1IBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y0taJkB4Fi6zr+Y5YPiFcKq9feU/8Hh2LxD7KqyF6Ng=;
- b=VrkGmLLl6TN6ulOqmtPddz9m6Jd7WK3erXDnIoCcP70skBjvQIUv9597FNnjGYS/fs
- +2QSSm3BLk49TIduXGIQerTmTVTFCibxex+yxnJXoVYFv+6wFBL0i/GRov02hShjFFrT
- kWdh411Nth32wMd7GDv0JOhDs7cQD+MAWcWwoRQ0vVaG0rXBhYv80RWZysSOBnpVpUck
- n6nRBUseJYsmLXPpriAqSvB9OCKuqGjUc+/DePLJXlFfMxLTa6NtJTmSCrPOyI92jNRg
- C9HU3rjVVcuD/CdAsXYu9u+nt7HbLXNKwcq0nrtRBP554gtUvq8ayyQRvHyEozmyeB9+
- XOnQ==
-X-Gm-Message-State: AOAM530nshaHdb/ERlrcSH13KlXIVSR+u15UQe7M+b86JqvzkiBBuuQ/
- 8JEZzwvn9hVmAAAtBpPfzEgOb4VFzhwJwxwO
-X-Google-Smtp-Source: ABdhPJyJQKqgvK2YG6QIe2QW3W0J/hETEVZ8l/JQZL+xo8iZ2xOQ/PynOFTJInDbz1KgCowrxDZ5jA==
-X-Received: by 2002:ac8:59d6:: with SMTP id f22mr6282495qtf.83.1615744767400; 
- Sun, 14 Mar 2021 10:59:27 -0700 (PDT)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IaY9vJY/fOJ+ouUhfEKBQaMgVda+cVfrCeomuuB4ncc=;
+ b=uEfdRknwu+ButyMFFeeK95AzPfGslTDIyIsU13BHNCj+bUmnc9IXVk8jXDztX5cl11
+ y8MagwngRun5qip8g2W22m/becEpgVl7XGaRbz8q7ronfvmId7+he7VVIvuJqVnUJ/OB
+ CzXollq0LoDjdTa6EOX8TzMUmE2GwV4Fo7c8z2PZHNhLdPBKk3WPJ1oe1kOyzNwJH8WF
+ PDp6W4AmJcJ+yaJ7GcI4FiWAjnUpAru8UE2TTgGkvz6sAPptPGvqvpDaBLzOfJC9g/Pu
+ cwh3ZNhvN2IAWk1uFl7AVsEuKEH4f1DPpie6T80f8vZ2sPE8lHuFUcNuKuL06cv4dMY8
+ IKXA==
+X-Gm-Message-State: AOAM533QGUbWJ+G+67xcna913mjGb69tBicfzbUNUjGubWvL6JIEYavL
+ PP3Yyz3gbHqrEyHKCvDKBZJtyw==
+X-Google-Smtp-Source: ABdhPJzAIn9DErZWKwaCwGKfNCtEPsZ4Sqv0Z6rtU06XyxupN9cb42QJ2qeznY2P6aXB4Lv81o006A==
+X-Received: by 2002:a05:620a:1679:: with SMTP id
+ d25mr21941890qko.102.1615744939121; 
+ Sun, 14 Mar 2021 11:02:19 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 10:59:27 -0700 (PDT)
+ by smtp.gmail.com with ESMTPSA id x17sm3665496qtw.91.2021.03.14.11.02.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Mar 2021 11:02:18 -0700 (PDT)
+Subject: Re: [PATCH v8 27/35] Hexagon (target/hexagon) TCG for instructions
+ with multiple definitions
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-28-git-send-email-tsimpson@quicinc.com>
+ <d08c59c0-4cc5-0ffd-a1fe-11fe919a3394@linaro.org>
+ <BYAPR02MB48866F4E9721399EEE58AE73DE6D9@BYAPR02MB4886.namprd02.prod.outlook.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/16] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
-Date: Sun, 14 Mar 2021 11:59:06 -0600
-Message-Id: <20210314175906.1733746-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210314175906.1733746-1-richard.henderson@linaro.org>
-References: <20210314175906.1733746-1-richard.henderson@linaro.org>
+Message-ID: <3f3b07b0-7026-b380-9459-8149fa50400a@linaro.org>
+Date: Sun, 14 Mar 2021 12:02:15 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
+In-Reply-To: <BYAPR02MB48866F4E9721399EEE58AE73DE6D9@BYAPR02MB4886.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,92 +93,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that hflags was updated correctly whenever we change
-cpu state that is used by hflags.
+On 3/13/21 6:41 PM, Taylor Simpson wrote:
+>>> +#define fGEN_TCG_L2_loadrub_pr(SHORTCODE)      SHORTCODE
+>>> +#define fGEN_TCG_L2_loadrub_pi(SHORTCODE)      SHORTCODE
+>>> +#define fGEN_TCG_L2_loadrb_pr(SHORTCODE)       SHORTCODE
+>>> +#define fGEN_TCG_L2_loadrb_pi(SHORTCODE)       SHORTCODE;
+>>> +#define fGEN_TCG_L2_loadruh_pr(SHORTCODE)      SHORTCODE
+>>> +#define fGEN_TCG_L2_loadruh_pi(SHORTCODE)      SHORTCODE;
+>>
+>> Why have some of these ; but not all?
+> 
+> The initial series only has overrides that are required for correct execution.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/cpu.h         |  5 +++++
- target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
- 2 files changed, 32 insertions(+), 2 deletions(-)
+This does not answer the question re the semicolon inconsistency.
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2f8d7fa13c..7ee5c9a66e 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2424,6 +2424,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulong xer);
-  */
- #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B))
- 
-+#ifdef CONFIG_DEBUG_TCG
-+void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-+                          target_ulong *cs_base, uint32_t *flags);
-+#else
- static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-@@ -2431,6 +2435,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-     *cs_base = 0;
-     *flags = env->hflags;
- }
-+#endif
- 
- void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
- void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t exception,
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index b28037ca24..9df1098fec 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
-     env->tgpr[3] = tmp;
- }
- 
--void hreg_compute_hflags(CPUPPCState *env)
-+static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
- {
-     target_ulong msr = env->msr;
-     uint32_t ppc_flags = env->flags;
-@@ -147,9 +147,34 @@ void hreg_compute_hflags(CPUPPCState *env)
-     hflags |= dmmu_idx << HFLAGS_DMMU_IDX;
- #endif
- 
--    env->hflags = hflags | (msr & msr_mask);
-+    return hflags | (msr & msr_mask);
- }
- 
-+void hreg_compute_hflags(CPUPPCState *env)
-+{
-+    env->hflags = hreg_compute_hflags_value(env);
-+}
-+
-+#ifdef CONFIG_DEBUG_TCG
-+void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-+                          target_ulong *cs_base, uint32_t *flags)
-+{
-+    uint32_t hflags_current = env->hflags;
-+    uint32_t hflags_rebuilt;
-+
-+    *pc = env->nip;
-+    *cs_base = 0;
-+    *flags = hflags_current;
-+
-+    hflags_rebuilt = hreg_compute_hflags_value(env);
-+    if (unlikely(hflags_current != hflags_rebuilt)) {
-+        cpu_abort(env_cpu(env),
-+                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)\n",
-+                  hflags_current, hflags_rebuilt);
-+    }
-+}
-+#endif
-+
- void cpu_interrupt_exittb(CPUState *cs)
- {
-     if (!kvm_enabled()) {
--- 
-2.25.1
 
+r~
 
