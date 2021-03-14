@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78D533A853
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 22:41:58 +0100 (CET)
-Received: from localhost ([::1]:36760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3846333A844
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 22:38:15 +0100 (CET)
+Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLYUn-00059l-Nh
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 17:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
+	id 1lLYRC-0001WR-7C
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 17:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLYHG-0006Jc-T4
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:59 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:40974)
+ id 1lLYHF-0006IO-Dk
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:57 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:40077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLYH9-0008HC-39
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:58 -0400
-Received: by mail-qk1-x732.google.com with SMTP id x10so29909537qkm.8
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 14:27:50 -0700 (PDT)
+ id 1lLYH9-0008I2-Up
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:57 -0400
+Received: by mail-qk1-x729.google.com with SMTP id l132so29919835qke.7
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 14:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pGsgpXwTM6hxqYx7HXtoXmPFsuT3pbQk6IhBOzlzD0Y=;
- b=d6SrVOrgusSushCXa6lEK6+gpvsflECleEFk5qW/xBL5r+VNXe4I/d61j1/rUPkoDO
- EY35Wjpe9TEw0A2Hh/Tt3TpS9qQ97h22tyv4Uc1/lr8TqPQSC3hrOR1JhpjaK2HmZ9hP
- wjONXH44pR0uw6zZjlJvPJtAdSHUC4kKHrl4Hxu6w+9BctnweeF+W+u6TR3L9NvCZ+eP
- XHkftTYNtSU4Xx6BE1puQM8UXMZ7OSmT91HmcwgHTOpFYGYCtcevEzR/emBWoFIpXBpY
- 6FD4aknhXKPJ0NZJow3r/cHkmYLWGwuVzjOqBq8EPgETQQNDmgtIoDXAWKStAOc58/OE
- 8/GA==
+ bh=YV8ZNMURZZ3L0f8Vp87koNwJMeD7v42xnjMnrSbn74s=;
+ b=G/GKf+jyTtrCb5jZ/WK4pjpQvUY2h+fSYS8bgspdsQ4WTmcyBPk5un0d26TiKoevlr
+ pUo+2uhOMxy652NJ3qV7SBu9G5NQBSrDormieg71n6+L1n/mFdwzbwdjX7kFVjuB5dg/
+ L1edFEZIdcTo2F2dvG1Z+li6g44Ce8YyM4Xu13mAwZlhuA0XXxD8eaKlIxm8Sw0RfsGC
+ sJK8rJ3g2GYR6QFrjk8OSEMjo6fbXrVQ9fDvkbI2HKaXrFVuA+1ivZXycc2cZOayLJLE
+ r3cgVTt8weZOjGLUSItsCKc5n9JYVQEBglLHYYv0uovMF3qhT3lJh3PN0j0lKJ8DdFOR
+ I9/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pGsgpXwTM6hxqYx7HXtoXmPFsuT3pbQk6IhBOzlzD0Y=;
- b=mHIS1RK6Vvg8UCCh2a4tsmVeIqVKENlpW5O+BMMQIxNpj7IB11JLYUdiDJp+7p7q6l
- aA8Ou5Hh2SAYolO0yAB/VqigRra3ozNjBVAUCTrb4wuq+452YM0J1XnXlyqLwRnF3Y3U
- 1/Hsv6MK8+TZNTcWSYBhXnzDNIEvb/X0ofdLLQRPsgubzPCtCO6k3Z95JEJrdU85KmGA
- YNejU/QdomJ2Rpxudxuec3vz0nxB+yrtSSmujfmW2r2mQnLjQyhZrmSUxV+5Ct0CEkA2
- dn333eoyZR4akqHN1MML1aiS8DmRflMM9hn28ihygqHzI7HpQbMj6+cJ7U6nPhWdO7Y4
- qVyg==
-X-Gm-Message-State: AOAM530z7P+8Wmo0eb628I1n8WmIu9iJ6Iv3uTrAS6Ke50hBbAABJdpT
- n1Tb+5jwMStId1ISIX3hrVJdlyQHevqXqtpy
-X-Google-Smtp-Source: ABdhPJyvLk6l5InVBxNR5pL66bVgHhDtgRr3wB3UZPTZeL6PJwtgnfuGUdeJjl1FVn7vS+SJbceOjQ==
-X-Received: by 2002:a05:620a:1528:: with SMTP id
- n8mr869589qkk.329.1615757269989; 
- Sun, 14 Mar 2021 14:27:49 -0700 (PDT)
+ bh=YV8ZNMURZZ3L0f8Vp87koNwJMeD7v42xnjMnrSbn74s=;
+ b=Rt3l3ZEAGr0ZrEJPstWYbcU9MmbLNbFT6fgO1BVEciqWuBXO75TCP3UVzyA2lOMEBb
+ pVFsBBl+hJCfWOLZRzq2z1tD8t/f3K9BX033pnWDaENdKHjgmfQdTUCVw4JTTCCXE6TU
+ wh4Cu9OsJ4Q0XyzWyiF4M5VBDPhzwZYv7q6ED8mKEikdNJ7cnM6YQ+i76Cjbd2iP/aGS
+ ohe18tZMtmjbe+Ljdmyr9xsWUlLfN734ytButPLxVFB2N9yAiC5rEAxlYSiKperrFJvf
+ 3ts/0cZlMhxCwG+QzHR/O9N1/lyYoT+CbJHGZ126v3xQEmk4/TvfY9WbOpKrN6S8STU4
+ GBIg==
+X-Gm-Message-State: AOAM530HgSX0ERkBeYrsXlmhUDm77IL88eI3NkOgBdWBMI2jWrLxqOv/
+ wVkXmS81o9GJsR5Pn0FN1jkRWOp+aY1Qhlyy
+X-Google-Smtp-Source: ABdhPJyzEdSlF7dxnX6MWk2lgAIzR0CeEuJ0gVSjOqjdPmjqBrbE5zpIeZ0bxBUH2JvR7ioPi5xYFg==
+X-Received: by 2002:a05:620a:9c6:: with SMTP id
+ y6mr22722924qky.39.1615757270982; 
+ Sun, 14 Mar 2021 14:27:50 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t2sm9337749qtd.13.2021.03.14.14.27.49
+ by smtp.gmail.com with ESMTPSA id t2sm9337749qtd.13.2021.03.14.14.27.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 14:27:49 -0700 (PDT)
+ Sun, 14 Mar 2021 14:27:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/29] tcg: Allocate code_gen_buffer into struct
- tcg_region_state
-Date: Sun, 14 Mar 2021 15:27:16 -0600
-Message-Id: <20210314212724.1917075-22-richard.henderson@linaro.org>
+Subject: [PATCH v2 22/29] tcg: Return the map protection from
+ alloc_code_gen_buffer
+Date: Sun, 14 Mar 2021 15:27:17 -0600
+Message-Id: <20210314212724.1917075-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314212724.1917075-1-richard.henderson@linaro.org>
 References: <20210314212724.1917075-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,172 +89,215 @@ Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not mess around with setting values within tcg_init_ctx.
-Put the values into 'region' directly, which is where they
-will live for the lifetime of the program.
+Change the interface from a boolean error indication to a
+negative error vs a non-negative protection.  For the moment
+this is only interface change, not making use of the new data.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/region.c | 64 ++++++++++++++++++++++------------------------------
- 1 file changed, 27 insertions(+), 37 deletions(-)
+ tcg/region.c | 63 +++++++++++++++++++++++++++-------------------------
+ 1 file changed, 33 insertions(+), 30 deletions(-)
 
 diff --git a/tcg/region.c b/tcg/region.c
-index bf4167e467..9a2b014838 100644
+index 9a2b014838..3ca0d01fa4 100644
 --- a/tcg/region.c
 +++ b/tcg/region.c
-@@ -70,13 +70,12 @@ static size_t tree_size;
+@@ -521,14 +521,14 @@ static inline void split_cross_256mb(void **obuf, size_t *osize,
+ static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
+     __attribute__((aligned(CODE_GEN_ALIGN)));
  
- bool in_code_gen_buffer(const void *p)
+-static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
++static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
  {
--    const TCGContext *s = &tcg_init_ctx;
-     /*
-      * Much like it is valid to have a pointer to the byte past the
-      * end of an array (so long as you don't dereference it), allow
-      * a pointer to the byte past the end of the code gen buffer.
-      */
--    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
-+    return (size_t)(p - region.start_aligned) <= region.total_size;
- }
+     void *buf, *end;
+     size_t size;
  
- #ifdef CONFIG_DEBUG_TCG
-@@ -557,8 +556,8 @@ static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+     if (splitwx > 0) {
+         error_setg(errp, "jit split-wx not supported");
+-        return false;
++        return -1;
      }
-     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
  
--    tcg_ctx->code_gen_buffer = buf;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf;
-+    region.total_size = size;
-     return true;
+     /* page-align the beginning and end of the buffer */
+@@ -558,16 +558,17 @@ static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+ 
+     region.start_aligned = buf;
+     region.total_size = size;
+-    return true;
++
++    return PROT_READ | PROT_WRITE;
  }
  #elif defined(_WIN32)
-@@ -579,8 +578,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-         return false;
+-static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
++static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+ {
+     void *buf;
+ 
+     if (splitwx > 0) {
+         error_setg(errp, "jit split-wx not supported");
+-        return false;
++        return -1;
      }
  
--    tcg_ctx->code_gen_buffer = buf;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf;
-+    region.total_size = size;
-     return true;
+     buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
+@@ -580,11 +581,12 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+ 
+     region.start_aligned = buf;
+     region.total_size = size;
+-    return true;
++
++    return PAGE_READ | PAGE_WRITE | PAGE_EXEC;
  }
  #else
-@@ -595,7 +594,6 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+-static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+-                                       int flags, Error **errp)
++static int alloc_code_gen_buffer_anon(size_t size, int prot,
++                                      int flags, Error **errp)
+ {
+     void *buf;
+ 
+@@ -592,7 +594,7 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+     if (buf == MAP_FAILED) {
+         error_setg_errno(errp, errno,
                           "allocate %zu bytes for jit buffer", size);
-         return false;
+-        return false;
++        return -1;
      }
--    tcg_ctx->code_gen_buffer_size = size;
  
  #ifdef __mips__
-     if (cross_256mb(buf, size)) {
-@@ -633,7 +631,8 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
-     /* Request large pages for the buffer.  */
-     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+@@ -633,7 +635,7 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
  
--    tcg_ctx->code_gen_buffer = buf;
-+    region.start_aligned = buf;
-+    region.total_size = size;
-     return true;
+     region.start_aligned = buf;
+     region.total_size = size;
+-    return true;
++    return prot;
  }
  
-@@ -654,8 +653,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+ #ifndef CONFIG_TCG_INTERPRETER
+@@ -647,9 +649,9 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+ 
+ #ifdef __mips__
+     /* Find space for the RX mapping, vs the 256MiB regions. */
+-    if (!alloc_code_gen_buffer_anon(size, PROT_NONE,
+-                                    MAP_PRIVATE | MAP_ANONYMOUS |
+-                                    MAP_NORESERVE, errp)) {
++    if (alloc_code_gen_buffer_anon(size, PROT_NONE,
++                                   MAP_PRIVATE | MAP_ANONYMOUS |
++                                   MAP_NORESERVE, errp) < 0) {
          return false;
      }
      /* The size of the mapping may have been adjusted. */
--    size = tcg_ctx->code_gen_buffer_size;
--    buf_rx = tcg_ctx->code_gen_buffer;
-+    buf_rx = region.start_aligned;
-+    size = region.total_size;
- #endif
- 
-     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
-@@ -677,8 +676,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
- #endif
- 
-     close(fd);
--    tcg_ctx->code_gen_buffer = buf_rw;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf_rw;
-+    region.total_size = size;
-     tcg_splitwx_diff = buf_rx - buf_rw;
- 
+@@ -683,7 +685,7 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
      /* Request large pages for the buffer and the splitwx.  */
-@@ -729,7 +728,7 @@ static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
-         return false;
+     qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
+     qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
+-    return true;
++    return PROT_READ | PROT_WRITE;
+ 
+  fail_rx:
+     error_setg_errno(errp, errno, "failed to map shared memory for execute");
+@@ -697,7 +699,7 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+     if (fd >= 0) {
+         close(fd);
+     }
+-    return false;
++    return -1;
+ }
+ #endif /* CONFIG_POSIX */
+ 
+@@ -716,7 +718,7 @@ extern kern_return_t mach_vm_remap(vm_map_t target_task,
+                                    vm_prot_t *max_protection,
+                                    vm_inherit_t inheritance);
+ 
+-static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
++static int alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
+ {
+     kern_return_t ret;
+     mach_vm_address_t buf_rw, buf_rx;
+@@ -725,7 +727,7 @@ static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
+     /* Map the read-write portion via normal anon memory. */
+     if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE,
+                                     MAP_PRIVATE | MAP_ANONYMOUS, errp)) {
+-        return false;
++        return -1;
      }
  
--    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
-+    buf_rw = region.start_aligned;
-     buf_rx = 0;
-     ret = mach_vm_remap(mach_task_self(),
-                         &buf_rx,
-@@ -841,11 +840,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-  */
- void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+     buf_rw = region.start_aligned;
+@@ -745,23 +747,23 @@ static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
+         /* TODO: Convert "ret" to a human readable error message. */
+         error_setg(errp, "vm_remap for jit splitwx failed");
+         munmap((void *)buf_rw, size);
+-        return false;
++        return -1;
+     }
+ 
+     if (mprotect((void *)buf_rx, size, PROT_READ | PROT_EXEC) != 0) {
+         error_setg_errno(errp, errno, "mprotect for jit splitwx");
+         munmap((void *)buf_rx, size);
+         munmap((void *)buf_rw, size);
+-        return false;
++        return -1;
+     }
+ 
+     tcg_splitwx_diff = buf_rx - buf_rw;
+-    return true;
++    return PROT_READ | PROT_WRITE;
+ }
+ #endif /* CONFIG_DARWIN */
+ #endif /* CONFIG_TCG_INTERPRETER */
+ 
+-static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
++static int alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
  {
--    void *buf, *aligned, *end;
--    size_t total_size;
-     size_t page_size;
+ #ifndef CONFIG_TCG_INTERPRETER
+ # ifdef CONFIG_DARWIN
+@@ -772,24 +774,25 @@ static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
+ # endif
+ #endif
+     error_setg(errp, "jit split-wx not supported");
+-    return false;
++    return -1;
+ }
+ 
+-static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
++static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+ {
+     ERRP_GUARD();
+     int prot, flags;
+ 
+     if (splitwx) {
+-        if (alloc_code_gen_buffer_splitwx(size, errp)) {
+-            return true;
++        prot = alloc_code_gen_buffer_splitwx(size, errp);
++        if (prot >= 0) {
++            return prot;
+         }
+         /*
+          * If splitwx force-on (1), fail;
+          * if splitwx default-on (-1), fall through to splitwx off.
+          */
+         if (splitwx > 0) {
+-            return false;
++            return -1;
+         }
+         error_free_or_abort(errp);
+     }
+@@ -844,11 +847,11 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
      size_t region_size;
--    size_t n_regions;
      size_t i;
      uintptr_t splitwx_diff;
-     bool ok;
-@@ -854,39 +850,33 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
-                                splitwx, &error_fatal);
-     assert(ok);
+-    bool ok;
++    int have_prot;
  
--    buf = tcg_init_ctx.code_gen_buffer;
--    total_size = tcg_init_ctx.code_gen_buffer_size;
--    page_size = qemu_real_host_page_size;
--    n_regions = tcg_n_regions(total_size, max_cpus);
--
--    /* The first region will be 'aligned - buf' bytes larger than the others */
--    aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
--    g_assert(aligned < tcg_init_ctx.code_gen_buffer + total_size);
--
+-    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
+-                               splitwx, &error_fatal);
+-    assert(ok);
++    have_prot = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
++                                      splitwx, &error_fatal);
++    assert(have_prot >= 0);
+ 
      /*
       * Make region_size a multiple of page_size, using aligned as the start.
-      * As a result of this we might end up with a few extra pages at the end of
-      * the buffer; we will assign those to the last region.
-      */
--    region_size = (total_size - (aligned - buf)) / n_regions;
-+    region.n = tcg_n_regions(region.total_size, max_cpus);
-+    page_size = qemu_real_host_page_size;
-+    region_size = region.total_size / region.n;
-     region_size = QEMU_ALIGN_DOWN(region_size, page_size);
- 
-     /* A region must have at least 2 pages; one code, one guard */
-     g_assert(region_size >= 2 * page_size);
-+    region.stride = region_size;
-+
-+    /* Reserve space for guard pages. */
-+    region.size = region_size - page_size;
-+    region.total_size -= page_size;
-+
-+    /*
-+     * The first region will be smaller than the others, via the prologue,
-+     * which has yet to be allocated.  For now, the first region begins at
-+     * the page boundary.
-+     */
-+    region.after_prologue = region.start_aligned;
- 
-     /* init the region struct */
-     qemu_mutex_init(&region.lock);
--    region.n = n_regions;
--    region.size = region_size - page_size;
--    region.stride = region_size;
--    region.after_prologue = buf;
--    region.start_aligned = aligned;
--    /* page-align the end, since its last page will be a guard page */
--    end = QEMU_ALIGN_PTR_DOWN(buf + total_size, page_size);
--    /* account for that last guard page */
--    end -= page_size;
--    total_size = end - aligned;
--    region.total_size = total_size;
- 
-     /* set guard pages */
-     splitwx_diff = tcg_splitwx_diff;
 -- 
 2.25.1
 
