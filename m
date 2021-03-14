@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4C033A83E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 22:33:20 +0100 (CET)
-Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FF733A85A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 22:49:13 +0100 (CET)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLYMQ-00030L-U4
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 17:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54690)
+	id 1lLYbo-0004JY-6q
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 17:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLYH4-00066z-3l
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:46 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:42813)
+ id 1lLYH6-00069l-R9
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:48 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:42956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLYH0-0008Dj-65
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:45 -0400
-Received: by mail-qt1-x832.google.com with SMTP id l13so7875378qtu.9
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 14:27:41 -0700 (PDT)
+ id 1lLYH0-0008Do-NL
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:47 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id 30so6881658qva.9
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 14:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6fDUV0XaBa+zUybCathQxLsZ1yQJyGr4UGBPgHHGORw=;
- b=QIvcmaKpZKQ/ZRHiFP55X33t6SYtUlBY8skpo5ap4G+IZrC3boWK/Yk2ySPoCeW0ew
- QhXgqbOTDFzSriE1cOvHzF0g6/2dZ/Rdpx95/I8Fj+b+hIHmQbRVykn//eXa9AwJd2a1
- uHuT/5vTe/uJgwO2rNTowgcyTap05z4CcFNZErTQ8LD8ZYdaVjLKMRS9EQw5jeiVhn5n
- +dpwCA2g4vkl3pTfBgpY+4wSIpd0D/gJ+LgeZzZKcpwPmUozW0SszLBBiGCy8OfNUiFs
- CbVLTSo4sek6QGD5YKC2vWTqxgyw2LPtoWXwr5UuGUYtuJZ/MO6Jv3TUeFBA+U+apYhN
- CDrA==
+ bh=hYFiBy94Dt1+MrJ1IkmuBBfk3yK1g2NK+iH3wafrLbo=;
+ b=DYXpjVCKfMiEqRFYfs1HPoV8iKdWiJxMefl0CJCugisOQxgL5/kh6ex/O5cvruYJRp
+ j/dLBxrrJ8mSNCItMC82HSjfO/DpFVr733tXt8OHgKjWGhx8az3Zt2yXmUJiCCWQuiGT
+ v0A5fQ0AMPjLvgsr2LT4Ug9ootjCQ5giOgmDjy5qvrPRnRGNR9tOJLxBM1DIDu2FDEQl
+ zvk/tCJs72luLL5CIsC1ZVPLuvfuKxFO5Qq6ulycHjMryCftI4XgKiP6ggbxLBKiVQTD
+ imoMqSh9eLIVTArDWIut1DYaxW8pMR3DM0Q0W0YXA5GSlCq4rMIBl7olOp/ZlJqoxHp2
+ n7wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6fDUV0XaBa+zUybCathQxLsZ1yQJyGr4UGBPgHHGORw=;
- b=klZlC/DmntZDrCrTPhDzS9UeMnhT9MdHayZvro7ziU12pCp9nHu18Lndt2iPDSGavy
- +atOXhmLb8IUVj+2Dq5VF8X0S6aYZs4v4jkGASvS025nUNRpcgQqctdjHWn3chXK3im0
- TIh3mljMTjoYnUs7rmel7YSUlwrN0nDdnviWGulV9zDZ3JBOmzEnn2E41nO6EtiNkWC/
- 9dAQBBwQnkuH0bs0brpCuf4yMoF0FN1KszI+h1a7f1L/vgqREOL0x4DNQ3Hpcs9DeE4l
- loOHlg6V2jQtE92XQ8wi6G2oCiHIXYzPcYfH2hWNsiVESTf3IJ4v7AflqRRmmNWP+DR0
- 3O+A==
-X-Gm-Message-State: AOAM533DTaGd+zpsfEGb36zqz3DQ/eBpXrMFcaKMzb2OoJtaP1UOjPJC
- YKYAb/TLVpfnwj6mudE56pESY8vt7XCpWENc
-X-Google-Smtp-Source: ABdhPJwdlRzJqCTV/E6IdrIWUIMxJwZusP+iqulNzDU0w8xdeBHKOyheTnvTq8n3t0sFSi83lhGxQA==
-X-Received: by 2002:a05:622a:1115:: with SMTP id
- e21mr282033qty.192.1615757260787; 
- Sun, 14 Mar 2021 14:27:40 -0700 (PDT)
+ bh=hYFiBy94Dt1+MrJ1IkmuBBfk3yK1g2NK+iH3wafrLbo=;
+ b=AA2dde4cyMYOeXiwWhF7Yjca1SXazR3CDjyG8grBSFkDyo7XlNiDvJLsOJU1ucbSkA
+ AoZtPo7d8lsJUSMA5dH+WJO2HnRByorLcXgq1PGFNS5OgFE/QAeFh8/uynkXXv4w1DBZ
+ SM8VOw5QQbE1KyVsIivW4U5ShYp59VjUBZVWv5FikIFEuuDFkD9R+XTooHtvk/btkKdl
+ AGJztxXFWa7jTKo00h2NoFTZNaY38VBd7VdniKRr1rqqnF2zm6fc8ZYWIui3ldDVmRWA
+ d61uJ/spyCzWfillBl1ss5S1TfaR+J1oMJkk/hs3vziZJgJDjtfHhpWf12u4OWkpW59L
+ 9ZCQ==
+X-Gm-Message-State: AOAM530cpsERQCPc0NPCirYP4OnKPc3EA/jR9Nri9tUCuWjVA7BOU2g7
+ 6sndG9KLFoxTbB4BOnBwuiSDSb5a+bKBDtIQ
+X-Google-Smtp-Source: ABdhPJy4GP1fQwIQ5pfsZNzRB5tUelIk20yRNhLIfT0I8/BprtjkTpa4t93dIRqrnvkbyADamH6ltg==
+X-Received: by 2002:ad4:4581:: with SMTP id x1mr7956846qvu.9.1615757261842;
+ Sun, 14 Mar 2021 14:27:41 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t2sm9337749qtd.13.2021.03.14.14.27.39
+ by smtp.gmail.com with ESMTPSA id t2sm9337749qtd.13.2021.03.14.14.27.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 14:27:40 -0700 (PDT)
+ Sun, 14 Mar 2021 14:27:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/29] accel/tcg: Merge tcg_exec_init into tcg_init_machine
-Date: Sun, 14 Mar 2021 15:27:07 -0600
-Message-Id: <20210314212724.1917075-13-richard.henderson@linaro.org>
+Subject: [PATCH v2 13/29] accel/tcg: Pass down max_cpus to tcg_init
+Date: Sun, 14 Mar 2021 15:27:08 -0600
+Message-Id: <20210314212724.1917075-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314212724.1917075-1-richard.henderson@linaro.org>
 References: <20210314212724.1917075-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,124 +84,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, j@getutm.app
+Cc: r.bolshakov@yadro.com, j@getutm.app,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is only one caller, and shortly we will need access
-to the MachineState, which tcg_init_machine already has.
+Start removing the include of hw/boards.h from tcg/.
+Pass down the max_cpus value from tcg_init_machine,
+where we have the MachineState already.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h      |  2 ++
- include/sysemu/tcg.h      |  2 --
- accel/tcg/tcg-all.c       | 14 +++++++++++++-
- accel/tcg/translate-all.c | 21 ++-------------------
- 4 files changed, 17 insertions(+), 22 deletions(-)
+ include/tcg/tcg.h   |  2 +-
+ tcg/internal.h      |  2 +-
+ accel/tcg/tcg-all.c | 10 +++++++++-
+ tcg/region.c        | 32 +++++++++++---------------------
+ tcg/tcg.c           | 10 ++++------
+ 5 files changed, 26 insertions(+), 30 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index e9c145e0fb..881bc1ede0 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -16,5 +16,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu, target_ulong pc,
-                               int cflags);
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 3ad77ec34d..a0122c0dd3 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -906,7 +906,7 @@ static inline void *tcg_malloc(int size)
+     }
+ }
  
- void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
-+void page_init(void);
-+void tb_htable_init(void);
+-void tcg_init(size_t tb_size, int splitwx);
++void tcg_init(size_t tb_size, int splitwx, unsigned max_cpus);
+ void tcg_register_thread(void);
+ void tcg_prologue_init(TCGContext *s);
+ void tcg_func_start(TCGContext *s);
+diff --git a/tcg/internal.h b/tcg/internal.h
+index f13c564d9b..fcfeca232f 100644
+--- a/tcg/internal.h
++++ b/tcg/internal.h
+@@ -30,7 +30,7 @@
+ extern TCGContext **tcg_ctxs;
+ extern unsigned int n_tcg_ctxs;
  
- #endif /* ACCEL_TCG_INTERNAL_H */
-diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
-index 00349fb18a..53352450ff 100644
---- a/include/sysemu/tcg.h
-+++ b/include/sysemu/tcg.h
-@@ -8,8 +8,6 @@
- #ifndef SYSEMU_TCG_H
- #define SYSEMU_TCG_H
- 
--void tcg_exec_init(unsigned long tb_size, int splitwx);
--
- #ifdef CONFIG_TCG
- extern bool tcg_allowed;
- #define tcg_enabled() (tcg_allowed)
+-void tcg_region_init(size_t tb_size, int splitwx);
++void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus);
+ bool tcg_region_alloc(TCGContext *s);
+ void tcg_region_initial_alloc(TCGContext *s);
+ void tcg_region_prologue_set(TCGContext *s);
 diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 30d81ff7f5..0e83acbfe5 100644
+index 0e83acbfe5..d2f2ddb844 100644
 --- a/accel/tcg/tcg-all.c
 +++ b/accel/tcg/tcg-all.c
-@@ -32,6 +32,7 @@
+@@ -32,6 +32,9 @@
  #include "qemu/error-report.h"
  #include "qemu/accel.h"
  #include "qapi/qapi-builtin-visit.h"
-+#include "internal.h"
++#if !defined(CONFIG_USER_ONLY)
++#include "hw/boards.h"
++#endif
+ #include "internal.h"
  
  struct TCGState {
-     AccelState parent_obj;
-@@ -109,8 +110,19 @@ static int tcg_init_machine(MachineState *ms)
+@@ -109,13 +112,18 @@ bool mttcg_enabled;
+ static int tcg_init_machine(MachineState *ms)
  {
      TCGState *s = TCG_STATE(current_accel());
- 
--    tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
-+    tcg_allowed = true;
-     mttcg_enabled = s->mttcg_enabled;
-+
-+    page_init();
-+    tb_htable_init();
-+    tcg_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
-+
-+#if defined(CONFIG_SOFTMMU)
-+    /* There's no guest base to take into account, so go ahead and
-+       initialize the prologue now.  */
-+    tcg_prologue_init(tcg_ctx);
++#ifdef CONFIG_USER_ONLY
++    unsigned max_cpus = 1;
++#else
++    unsigned max_cpus = ms->smp.max_cpus;
 +#endif
-+
-     return 0;
- }
  
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 050b4bff46..40aeecf611 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -408,7 +408,7 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
-     return false;
- }
+     tcg_allowed = true;
+     mttcg_enabled = s->mttcg_enabled;
  
--static void page_init(void)
-+void page_init(void)
- {
-     page_size_init();
-     page_table_config_init();
-@@ -907,30 +907,13 @@ static bool tb_cmp(const void *ap, const void *bp)
-         a->page_addr[1] == b->page_addr[1];
- }
+     page_init();
+     tb_htable_init();
+-    tcg_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
++    tcg_init(s->tb_size * 1024 * 1024, s->splitwx_enabled, max_cpus);
  
--static void tb_htable_init(void)
-+void tb_htable_init(void)
- {
-     unsigned int mode = QHT_MODE_AUTO_RESIZE;
- 
-     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
- }
- 
--/* Must be called before using the QEMU cpus. 'tb_size' is the size
--   (in bytes) allocated to the translation buffer. Zero means default
--   size. */
--void tcg_exec_init(unsigned long tb_size, int splitwx)
--{
--    tcg_allowed = true;
--    page_init();
--    tb_htable_init();
--    tcg_init(tb_size, splitwx);
--
--#if defined(CONFIG_SOFTMMU)
--    /* There's no guest base to take into account, so go ahead and
--       initialize the prologue now.  */
--    tcg_prologue_init(tcg_ctx);
+ #if defined(CONFIG_SOFTMMU)
+     /* There's no guest base to take into account, so go ahead and
+diff --git a/tcg/region.c b/tcg/region.c
+index 8d88144a22..04b699da63 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -27,9 +27,6 @@
+ #include "qapi/error.h"
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
+-#if !defined(CONFIG_USER_ONLY)
+-#include "hw/boards.h"
 -#endif
+ #include "internal.h"
+ 
+ 
+@@ -366,27 +363,20 @@ void tcg_region_reset_all(void)
+     tcg_region_tree_reset_all();
+ }
+ 
++static size_t tcg_n_regions(unsigned max_cpus)
++{
+ #ifdef CONFIG_USER_ONLY
+-static size_t tcg_n_regions(void)
+-{
+     return 1;
 -}
--
- /* call with @p->lock held */
- static inline void invalidate_page_bitmap(PageDesc *p)
+ #else
+-/*
+- * It is likely that some vCPUs will translate more code than others, so we
+- * first try to set more regions than max_cpus, with those regions being of
+- * reasonable size. If that's not possible we make do by evenly dividing
+- * the code_gen_buffer among the vCPUs.
+- */
+-static size_t tcg_n_regions(void)
+-{
++    /*
++     * It is likely that some vCPUs will translate more code than others,
++     * so we first try to set more regions than max_cpus, with those regions
++     * being of reasonable size. If that's not possible we make do by evenly
++     * dividing the code_gen_buffer among the vCPUs.
++     */
+     size_t i;
+ 
+     /* Use a single region if all we have is one vCPU thread */
+-#if !defined(CONFIG_USER_ONLY)
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-    unsigned int max_cpus = ms->smp.max_cpus;
+-#endif
+     if (max_cpus == 1 || !qemu_tcg_mttcg_enabled()) {
+         return 1;
+     }
+@@ -405,8 +395,8 @@ static size_t tcg_n_regions(void)
+     }
+     /* If we can't, then just allocate one region per vCPU thread */
+     return max_cpus;
+-}
+ #endif
++}
+ 
+ /* Minimum size of the code gen buffer.  This number is randomly chosen,
+    but not so small that we can't have a fair number of TB's live.  */
+@@ -838,7 +828,7 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+  * in practice. Multi-threaded guests share most if not all of their translated
+  * code, which makes parallel code generation less appealing than in softmmu.
+  */
+-void tcg_region_init(size_t tb_size, int splitwx)
++void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
  {
+     void *buf, *aligned;
+     size_t size;
+@@ -856,7 +846,7 @@ void tcg_region_init(size_t tb_size, int splitwx)
+     buf = tcg_init_ctx.code_gen_buffer;
+     size = tcg_init_ctx.code_gen_buffer_size;
+     page_size = qemu_real_host_page_size;
+-    n_regions = tcg_n_regions();
++    n_regions = tcg_n_regions(max_cpus);
+ 
+     /* The first region will be 'aligned - buf' bytes larger than the others */
+     aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 65a63bda8a..a89d8f6b81 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -576,7 +576,7 @@ static void process_op_defs(TCGContext *s);
+ static TCGTemp *tcg_global_reg_new_internal(TCGContext *s, TCGType type,
+                                             TCGReg reg, const char *name);
+ 
+-static void tcg_context_init(void)
++static void tcg_context_init(unsigned max_cpus)
+ {
+     TCGContext *s = &tcg_init_ctx;
+     int op, total_args, n, i;
+@@ -645,8 +645,6 @@ static void tcg_context_init(void)
+     tcg_ctxs = &tcg_ctx;
+     n_tcg_ctxs = 1;
+ #else
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-    unsigned int max_cpus = ms->smp.max_cpus;
+     tcg_ctxs = g_new(TCGContext *, max_cpus);
+ #endif
+ 
+@@ -655,10 +653,10 @@ static void tcg_context_init(void)
+     cpu_env = temp_tcgv_ptr(ts);
+ }
+ 
+-void tcg_init(size_t tb_size, int splitwx)
++void tcg_init(size_t tb_size, int splitwx, unsigned max_cpus)
+ {
+-    tcg_context_init();
+-    tcg_region_init(tb_size, splitwx);
++    tcg_context_init(max_cpus);
++    tcg_region_init(tb_size, splitwx, max_cpus);
+ }
+ 
+ /*
 -- 
 2.25.1
 
