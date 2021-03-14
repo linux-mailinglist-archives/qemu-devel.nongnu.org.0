@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CD033A734
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 18:52:33 +0100 (CET)
-Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2643D33A735
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 18:52:34 +0100 (CET)
+Received: from localhost ([::1]:55362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLUum-000665-Ux
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 13:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46860)
+	id 1lLUun-000677-5a
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 13:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lLUsq-0004NF-Vu
+ id 1lLUsq-0004NB-RV
  for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:50:32 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44020)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lLUsn-0006ex-Kk
+ id 1lLUso-0006f4-6J
  for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:50:32 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id e9so4548028wrw.10
+Received: by mail-wm1-x336.google.com with SMTP id
+ c76-20020a1c9a4f0000b029010c94499aedso18895354wme.0
  for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vmlbfjIORtFM9ouDG6TC7+H2AhddDKhJKH+zFhlyOCk=;
- b=PIsfCB11tkecpyathGQbXLv0+21/6sNWr5QYRGJ0nweokvPXq2Rj3S2e9SVRdrX3HH
- egPptRaz5Qe8tZxlkz0S9R3JmWd9wHrwV2VDxJdkRkT7r6Z9omU4K/rpF9QwQpa90ZjA
- UIro+V72ZB07u3ier+A0hzywDoxheyxx+nGHNvOZEm6ZCUMUzmohhtISGH9ha85v5aF+
- KZjo3Y3x/QBPqWEkPNd3NaS2joe4vVegxHJp0JExCQiONv8LxiWBKmUtAyQsn45JBjyJ
- BN2TDg/w9ViOSWCVxVy2JU2RNbSH25UkR/KJ5RR93Wu84TXS471Hu42qcd3ZaFhipYBF
- QlgQ==
+ bh=2fdnCYcGz/rNz0f0M+8dUoADYZZ+wtTRYedFfAAe2jw=;
+ b=EoSlSzUZRKpk0KkUjyGNHY6JwafYasrHT5nE3uhggImxbOcokch/uTAEqYrE8DG4Y8
+ oahC++mVY58qPivkUEdwTmbdm8Lj3A1HZdyivA2Y5dKuaOhNwM+5YXUSt3WDCZYZQhI6
+ Qp1y/jL+/RkEQVUutIBYS8v7+bz/01qAz1a4+JneEkq/l5KV7OwNMKgijSgqrAmzMf4k
+ ZbfaVxzdudXD/SLLP6bYOKcgphB28A/8g2G//tezsZcJx1ZZb0xXFsFcM9nE35tsM1JA
+ Vxjpgr3R7iWe5fmLsnxJYIs9FEnMRnKWA8hvPSRSTyj53Zh/WlzBfB0L5C0FW6mamwUa
+ XvPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vmlbfjIORtFM9ouDG6TC7+H2AhddDKhJKH+zFhlyOCk=;
- b=rtMhIwj6jUW+3xUs1G7X0vBXbkBWjqZ4NQ9R75TgOnG0UfrFRiqsqiqPLX6UGIpRm0
- 0jTrhDBDx6qsKAcGWNxx7Jyv1P193yEqNsAHYxfvuj1KZjOnOtwXEVizMg/+Pl8b5bxD
- YTSmQAP4xq8TshcpQc6BvQtgP7xmBN7KmaKpjaoGEtO4RRNfVxmlZGjfZZYQxPCcpX81
- Ya8QAwWDCo1Dcj2T1AETH6f+HV2cev361JMU5lSNMXJuMiYIJ4tVY8Z45F5LbqIrOYeK
- ws95I5Ac/TjY4qDNbnrdYbpqHjwXZJNQp4DH391fn9dq8/zL1L6mcHMVfMhwjZtL7Fx9
- YnzQ==
-X-Gm-Message-State: AOAM5301reuiOhemFDPAIg5HRfUljjZ5zJR16J4iAq1DbbiBgXYAVkP0
- +h/7ipqi1wySm2mfVXxTrHYyGFEECX0=
-X-Google-Smtp-Source: ABdhPJyqpE728lFJk2ECFaMQK2kasLU1Y6GpI3dnFCRR0HaoldEvv/mJreQKmXO/I6JM5CBAAtrQ0g==
-X-Received: by 2002:a5d:6703:: with SMTP id o3mr23636618wru.357.1615744228313; 
+ bh=2fdnCYcGz/rNz0f0M+8dUoADYZZ+wtTRYedFfAAe2jw=;
+ b=o+zTk0FLtjZQzXPU0T8GtDtTNLRhy0gb5yviJ4ktQ19OHJIxpcMqGm9j+GdWGuiEWS
+ mbYmf4vRs4KTNAahbGiRq7C/vqXmS1W1zzkbbqopVxUMHVqTrbJL78tLm0ZUSI4/PYKu
+ QStAh8g1FK4a+3J2vy+eT55Mzr7XJQTSZn75nGW6wtMbsgPIzW2WXHqUC9E4kPiHhmNe
+ d9Io7PNyhnM/6yVdm9tej/t20Ibm16B8n69QFk4NV2V4F3JM85kNw4HdimZpRwNGWVoB
+ 5RvMp3xxszqFx0tWFNRJ/kTr1I/yHCpSvYtgNL1xW2vVnnr3950zgTwEy0oh+NFLWiEa
+ sDaQ==
+X-Gm-Message-State: AOAM531J+OOATnG3b65RjLDKAhCDKOxQ2W+ji3h0fbID0lF4uiWUP875
+ dkTALjqdk5SRqMcJN1m0CiHJNUxvsRs=
+X-Google-Smtp-Source: ABdhPJykB1uj1yAqZbuPXVm6I6loO3r0r3KOXxR8tOgyeiWT27GfWmzSHFT7vvxFKwLusxZEu4e8iA==
+X-Received: by 2002:a7b:c087:: with SMTP id r7mr22673119wmh.110.1615744228944; 
  Sun, 14 Mar 2021 10:50:28 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a6sm11442749wmm.0.2021.03.14.10.50.27
+ by smtp.gmail.com with ESMTPSA id a6sm11442749wmm.0.2021.03.14.10.50.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 10:50:27 -0700 (PDT)
+ Sun, 14 Mar 2021 10:50:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] hexagon: do not specify Python scripts as inputs
-Date: Sun, 14 Mar 2021 18:50:22 +0100
-Message-Id: <20210314175025.114723-3-pbonzini@redhat.com>
+Subject: [PULL 3/5] meson: bump submodule to 0.57.1
+Date: Sun, 14 Mar 2021 18:50:23 +0100
+Message-Id: <20210314175025.114723-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210314175025.114723-1-pbonzini@redhat.com>
 References: <20210314175025.114723-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,134 +88,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Python scripts are not inputs, and putting them in @INPUT@.  This
-puts requirements on the command line format, keeping all inputs
-close to the name of the script.  Avoid that by not including the
-script in the command and not in the inputs.
-
-Also wrap "PYTHONPATH" usage with "env", since setting the environment
-this way is not valid under Windows.
+The main advantage of 0.57 is that it fixes
+https://github.com/mesonbuild/meson/pull/7900, thus avoiding unnecessary
+rebuilds after running meson.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/hexagon/meson.build | 30 ++++++++++--------------------
- 1 file changed, 10 insertions(+), 20 deletions(-)
+ meson | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index 5dd68907b1..bb0b4fb621 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -53,90 +53,81 @@ hexagon_ss.add(semantics_generated)
- shortcode_generated = custom_target(
-     'shortcode_generated.h.inc',
-     output: 'shortcode_generated.h.inc',
--    input: 'gen_shortcode.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
-+    command: [python, files('gen_shortcode.py'), semantics_generated, attribs_def, '@OUTPUT@'],
- )
- hexagon_ss.add(shortcode_generated)
- 
- helper_protos_generated = custom_target(
-     'helper_protos_generated.h.inc',
-     output: 'helper_protos_generated.h.inc',
--    input: 'gen_helper_protos.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def, gen_tcg_h],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
-+    command: [python, files('gen_helper_protos.py'), semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
- )
- hexagon_ss.add(helper_protos_generated)
- 
- tcg_funcs_generated = custom_target(
-     'tcg_funcs_generated.c.inc',
-     output: 'tcg_funcs_generated.c.inc',
--    input: 'gen_tcg_funcs.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def, gen_tcg_h],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
-+    command: [python, files('gen_tcg_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
- )
- hexagon_ss.add(tcg_funcs_generated)
- 
- tcg_func_table_generated = custom_target(
-     'tcg_func_table_generated.c.inc',
-     output: 'tcg_func_table_generated.c.inc',
--    input: 'gen_tcg_func_table.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
-+    command: [python, files('gen_tcg_func_table.py'), semantics_generated, attribs_def, '@OUTPUT@'],
- )
- hexagon_ss.add(tcg_func_table_generated)
- 
- helper_funcs_generated = custom_target(
-     'helper_funcs_generated.c.inc',
-     output: 'helper_funcs_generated.c.inc',
--    input: 'gen_helper_funcs.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def, gen_tcg_h],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
-+    command: [python, files('gen_helper_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
- )
- hexagon_ss.add(helper_funcs_generated)
- 
- printinsn_generated = custom_target(
-     'printinsn_generated.h.inc',
-     output: 'printinsn_generated.h.inc',
--    input: 'gen_printinsn.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
-+    command: [python, files('gen_printinsn.py'), semantics_generated, attribs_def, '@OUTPUT@'],
- )
- hexagon_ss.add(printinsn_generated)
- 
- op_regs_generated = custom_target(
-     'op_regs_generated.h.inc',
-     output: 'op_regs_generated.h.inc',
--    input: 'gen_op_regs.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
-+    command: [python, files('gen_op_regs.py'), semantics_generated, attribs_def, '@OUTPUT@'],
- )
- hexagon_ss.add(op_regs_generated)
- 
- op_attribs_generated = custom_target(
-     'op_attribs_generated.h.inc',
-     output: 'op_attribs_generated.h.inc',
--    input: 'gen_op_attribs.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
-+    command: [python, files('gen_op_attribs.py'), semantics_generated, attribs_def, '@OUTPUT@'],
- )
- hexagon_ss.add(op_attribs_generated)
- 
- opcodes_def_generated = custom_target(
-     'opcodes_def_generated.h.inc',
-     output: 'opcodes_def_generated.h.inc',
--    input: 'gen_opcodes_def.py',
-     depends: [semantics_generated],
-     depend_files: [hex_common_py, attribs_def],
--    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
-+    command: [python, files('gen_opcodes_def.py'), semantics_generated, attribs_def, '@OUTPUT@'],
- )
- hexagon_ss.add(opcodes_def_generated)
- 
-@@ -164,9 +155,8 @@ hexagon_ss.add(iset_py)
- dectree_generated = custom_target(
-     'dectree_generated.h.inc',
-     output: 'dectree_generated.h.inc',
--    input: 'dectree.py',
-     depends: [iset_py],
--    command: ['PYTHONPATH=' + meson.current_build_dir(), '@INPUT@', '@OUTPUT@'],
-+    command: ['env', 'PYTHONPATH=' + meson.current_build_dir(), files('dectree.py'), '@OUTPUT@'],
- )
- hexagon_ss.add(dectree_generated)
- 
+diff --git a/meson b/meson
+index 776acd2a80..7182685b22 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit 776acd2a805c9b42b4f0375150977df42130317f
++Subproject commit 7182685b2241e88340b6c3340afba59a26be213f
 -- 
 2.29.2
 
