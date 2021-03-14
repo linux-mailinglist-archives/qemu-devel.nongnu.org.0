@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7061533A4A1
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 13:05:26 +0100 (CET)
-Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAC333A4A9
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 13:13:23 +0100 (CET)
+Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLPUq-0003DW-Qe
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 08:05:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
+	id 1lLPcY-0005BG-AQ
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 08:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lLPSO-0002dl-96
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 08:02:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59087)
+ id 1lLPal-0004db-ES
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 08:11:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lLPSJ-0001bG-QU
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 08:02:50 -0400
+ id 1lLPaj-0006cP-KX
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 08:11:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615723366;
+ s=mimecast20190719; t=1615723889;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UXrTBagnd5z8v/jlXuWoIx9biVw15bK39wkhoTQNd9U=;
- b=EJZess0Jqi498BeRrBeu4URE2iWluoBcklNzJWBWN6QWqDS7SW8cpVpDP5QkF691RIQiNg
- 6pzhAam8J3rM3A1uofCCvaVoNjgVzdUv+Dshq543lAPurAF+Cjj1pt3ALyFVaam+hW3ObZ
- gx1IvYQokIgmHb/PQnGgsBSbi1JJnBE=
+ bh=ZnewPn8tqQo/isEe3fCNm+zNZloJ3Iz3jXQx2ZWCYD0=;
+ b=Fmu+IjcBRkflRbDo5NmtjsqmJw144ldKVSbTKfbJ+OcprUmw5DLwg2jzTgNuLQkDQhO1Iv
+ aVHsG3DaHtdwgjo+RwKhaSty7/MZJwd2+OkItjWJ16G+tjenqMA8GgDBNKc1xM1RZHMtpA
+ 5KwXdKr1yg+A5oZ9pCyliN/MkDbYSKM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-Y3vTEtwaPg-RZ6gE0FvfaA-1; Sun, 14 Mar 2021 08:02:43 -0400
-X-MC-Unique: Y3vTEtwaPg-RZ6gE0FvfaA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-161-e5IeIsjSOjWY3o44jKua1Q-1; Sun, 14 Mar 2021 08:11:25 -0400
+X-MC-Unique: e5IeIsjSOjWY3o44jKua1Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3251A107465C;
- Sun, 14 Mar 2021 12:02:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F74F8015BD;
+ Sun, 14 Mar 2021 12:11:23 +0000 (UTC)
 Received: from [10.36.112.254] (ovpn-112-254.ams2.redhat.com [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F1D60861;
- Sun, 14 Mar 2021 12:02:38 +0000 (UTC)
-Subject: Re: [RFC RESEND PATCH 0/4] hw/arm/virt-acpi-build: Introduce iommu
- option for pci root bus
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E305110023BE;
+ Sun, 14 Mar 2021 12:11:17 +0000 (UTC)
+Subject: Re: [RFC RESEND PATCH 2/4] hw/pci: Add iommu option for pci root bus
 To: Wang Xingang <wangxingang5@huawei.com>, qemu-devel@nongnu.org
 References: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
- <e37590d0-d65f-e4e4-ec59-92eb3166d9d9@redhat.com>
- <697b7fcd-c75e-71c9-baf9-64ef610d9efb@huawei.com>
- <9594e4c6-b7e3-988f-fe84-425cd76dc055@redhat.com>
- <ae4eb8d1-6c29-7c74-829e-08760ce0d8df@huawei.com>
+ <1614414831-39712-3-git-send-email-wangxingang5@huawei.com>
+ <d5cac8e3-2584-e904-0d1f-92058b45975e@redhat.com>
+ <0aa15918-44fb-1b61-e520-a3ac8f6da4de@huawei.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <776f8b57-be0c-d001-69ce-3358f39080b8@redhat.com>
-Date: Sun, 14 Mar 2021 13:02:37 +0100
+Message-ID: <46e52aa9-0c69-5b13-afbe-5eba1e80fb0a@redhat.com>
+Date: Sun, 14 Mar 2021 13:11:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <ae4eb8d1-6c29-7c74-829e-08760ce0d8df@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <0aa15918-44fb-1b61-e520-a3ac8f6da4de@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,16 +63,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,246 +91,185 @@ Cc: xieyingtai@huawei.com, peter.maydell@linaro.org, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Xingang,
+Hi Xingang
 
-On 3/11/21 12:57 PM, Wang Xingang wrote:
+On 3/11/21 1:24 PM, Wang Xingang wrote:
 > Hi Eric,
 > 
-> On 2021/3/10 18:18, Auger Eric wrote:
+> On 2021/3/10 18:24, Auger Eric wrote:
 >> Hi Xingang,
 >>
->> On 3/10/21 3:13 AM, Wang Xingang wrote:
->>> Hi Eric,
+>> On 2/27/21 9:33 AM, Wang Xingang wrote:
+>>> From: Xingang Wang <wangxingang5@huawei.com>
 >>>
->>> On 2021/3/9 22:36, Auger Eric wrote:
->>>> Hi,
->>>> On 2/27/21 9:33 AM, Wang Xingang wrote:
->>>>> From: Xingang Wang <wangxingang5@huawei.com>
->>>>>
->>>>> These patches add support for configure iommu on/off for pci root bus,
->>>>> including primary bus and pxb root bus. At present, All root bus
->>>>> will go
->>>>> through iommu when iommu is configured, which is not flexible.
->>>>>
->>>>> So this add option to enable/disable iommu for primary bus and pxb
->>>>> root bus.
->>>>> When iommu is enabled for the root bus, devices attached to it will go
->>>>> through iommu. When iommu is disabled for the root bus, devices
->>>>> will not
->>>>> go through iommu accordingly.
->>>>
->>>> Please could you give an example of the qemu command line for which the
->>>> new option is useful for you. This would help me to understand your
->>>> pcie/pci topology and also make sure I test it with the smmu.
+>>> This add iommu option for pci root bus, including primary bus
+>>> and pxb root bus. Default option is set to true, and the option
+>>> is valid only if the iommu option for machine is properly set.
+>>>
+>>> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+>>> ---
+>>>   hw/arm/virt.c                       | 29 +++++++++++++++++++++++++++++
+>>>   hw/pci-bridge/pci_expander_bridge.c |  6 ++++++
+>>>   hw/pci/pci.c                        |  2 +-
+>>>   include/hw/arm/virt.h               |  1 +
+>>>   4 files changed, 37 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>> index 371147f3ae..0c9e549759 100644
+>>> --- a/hw/arm/virt.c
+>>> +++ b/hw/arm/virt.c
+>>> @@ -79,6 +79,7 @@
+>>>   #include "hw/virtio/virtio-iommu.h"
+>>>   #include "hw/char/pl011.h"
+>>>   #include "qemu/guest-random.h"
+>>> +#include "include/hw/pci/pci_bus.h"
+>>>     #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+>>>       static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+>>> @@ -1232,6 +1233,10 @@ static void create_smmu(const VirtMachineState
+>>> *vms,
+>>>         dev = qdev_new("arm-smmuv3");
+>>>   +    if (vms->primary_bus_iommu) {
+>>> +        bus->flags |= PCI_BUS_IOMMU;
+>>> +    }
+>>> +
+>>>       object_property_set_link(OBJECT(dev), "primary-bus", OBJECT(bus),
+>>>                                &error_abort);
+>>>       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>>> @@ -2305,6 +2310,20 @@ static void virt_set_iommu(Object *obj, const
+>>> char *value, Error **errp)
+>>>       }
+>>>   }
+>>>   +static bool virt_get_primary_bus_iommu(Object *obj, Error **errp)
+>>> +{
+>>> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+>>> +
+>>> +    return vms->primary_bus_iommu;
+>>> +}
+>>> +
+>>> +static void virt_set_primary_bus_iommu(Object *obj, bool value,
+>>> Error **errp)
+>>> +{
+>>> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+>>> +
+>>> +    vms->primary_bus_iommu = value;
+>>> +}
+>>> +
+>>>   static CpuInstanceProperties
+>>>   virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+>>>   {
+>>> @@ -2629,6 +2648,13 @@ static void
+>>> virt_machine_class_init(ObjectClass *oc, void *data)
+>>>                                             "Set the IOMMU type. "
+>>>                                             "Valid values are none
+>>> and smmuv3");
+>>>   +    object_class_property_add_bool(oc, "primary_bus_iommu",
+>>> +                                  virt_get_primary_bus_iommu,
+>>> +                                  virt_set_primary_bus_iommu);
+>>> +    object_class_property_set_description(oc, "primary_bus_iommu",
+>>> +                                          "Set on/off to
+>>> enable/disable "
+>>> +                                          "iommu for primary bus");
+>>> +
+>>>       object_class_property_add_bool(oc, "ras", virt_get_ras,
+>>>                                      virt_set_ras);
+>>>       object_class_property_set_description(oc, "ras",
+>>> @@ -2696,6 +2722,9 @@ static void virt_instance_init(Object *obj)
+>>>       /* Default disallows iommu instantiation */
+>>>       vms->iommu = VIRT_IOMMU_NONE;
+>>>   +    /* Iommu is enabled by default for primary bus */
+>>> +    vms->primary_bus_iommu = true;
+>>> +
+>>>       /* Default disallows RAS instantiation */
+>>>       vms->ras = false;
+>>>   diff --git a/hw/pci-bridge/pci_expander_bridge.c
+>>> b/hw/pci-bridge/pci_expander_bridge.c
+>>> index aedded1064..0412656265 100644
+>>> --- a/hw/pci-bridge/pci_expander_bridge.c
+>>> +++ b/hw/pci-bridge/pci_expander_bridge.c
+>>> @@ -57,6 +57,7 @@ struct PXBDev {
+>>>         uint8_t bus_nr;
+>>>       uint16_t numa_node;
+>>> +    bool iommu;
+>>>   };
+>>>     static PXBDev *convert_to_pxb(PCIDevice *dev)
+>>> @@ -254,6 +255,10 @@ static void pxb_dev_realize_common(PCIDevice
+>>> *dev, bool pcie, Error **errp)
+>>>       bus->address_space_io = pci_get_bus(dev)->address_space_io;
+>>>       bus->map_irq = pxb_map_irq_fn;
+>>>   +    if (pxb->iommu) {
+>>> +        bus->flags |= PCI_BUS_IOMMU;
+>>> +    }
+>>> +
+>>>       PCI_HOST_BRIDGE(ds)->bus = bus;
+>>>         pxb_register_bus(dev, bus, &local_err);
+>>> @@ -301,6 +306,7 @@ static Property pxb_dev_properties[] = {
+>>>       /* Note: 0 is not a legal PXB bus number. */
+>>>       DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
+>>>       DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node,
+>>> NUMA_NODE_UNASSIGNED),
+>>> +    DEFINE_PROP_BOOL("iommu", PXBDev, iommu, true),
+>> looks a bit odd to me that we have a property for the PXE-PCIe extra
+>> root complex and not for the gpex device. Wouldn't it make sense to add
+>> one for the GPEX too? In the positive you still could have a machine
+>> option that would force the GPEX property value?
+> 
+> Indeed it makes sense to add one property for GPEX too.However, the
+> iommu property for PXBDev only helps to add option in qemu command line.
+> When it is necessary to check whether the iommu is enabled on the root
+> bus, it would be better to access the bus flag. In qemu, the pxb is not
+> related to GPEX currently, and i do not find proper position to add the
+> iommu property for GPEX, you might have some good idea for that.
 
-It looks like a guest issue. I have switched to a fedora guest and it
-works now with the following command line:
+What I had in mind was to add a similar property at GPEX level. Maybe I
+would instead introduce an option that disallow the iommu on its
+hierarchy. You would also have a virt machine  "primary_bus_iommu"
+option that would control the GPEX property through an
+object_property_set_int() call
 
-./build/qemu-system-aarch64 -M virt,gic-version=host -cpu host \
--smp 8 -m 16G -display none --enable-kvm -serial \
--drive
-file=/home/augere/VM/IMAGES/aarch64-vm0-fed30.raw,format=raw,if=none,cache=writethrough,id=drv0
-\
--netdev
-tap,id=nic0,script=/home/augere/TEST/SCRIPTS/qemu-ifup,downscript=/home/augere/TEST/SCRIPTS/qemu-ifdown,vhost=on
-\
--drive if=pflash,format=raw,file=/home/augere/VM/UEFI/flash0.img,readonly \
--drive if=pflash,format=raw,file=/home/augere/VM/UEFI/flash1.img \
--net none -d guest_errors \
--device
-virtio-blk-pci,bus=pcie.0,scsi=off,drive=drv0,id=virtio-disk0,bootindex=1,werror=stop,rerror=stop
-\
--device pxb-pcie,id=bridge1,bus=pcie.0,bus_nr=254 \
--device pcie-root-port,port=0x0,chassis=4,id=pcie.4,bus=bridge1 \
--device virtio-net-pci,bus=pcie.4,netdev=nic0,mac=6a:f5:10:b1:3d:d2
-
-It also works with your patches.
+But I would be curious about others' thoughts.
 
 Thanks
 
 Eric
-
->>>>
->>>> Thank you in advance
->>>>
->>>> Best Regards
->>>>
->>>> Eric
->>>>>
->>>>> Xingang Wang (4):
->>>>>     pci: Add PCI_BUS_IOMMU property
->>>>>     hw/pci: Add iommu option for pci root bus
->>>>>     hw/pci: Add pci_root_bus_max_bus
->>>>>     hw/arm/virt-acpi-build: Add explicit idmap info in IORT table
->>>>>
->>>>>    hw/arm/virt-acpi-build.c            | 92
->>>>> +++++++++++++++++++++--------
->>>>>    hw/arm/virt.c                       | 29 +++++++++
->>>>>    hw/pci-bridge/pci_expander_bridge.c |  6 ++
->>>>>    hw/pci/pci.c                        | 35 ++++++++++-
->>>>>    include/hw/arm/virt.h               |  1 +
->>>>>    include/hw/pci/pci.h                |  1 +
->>>>>    include/hw/pci/pci_bus.h            | 13 ++++
->>>>>    7 files changed, 153 insertions(+), 24 deletions(-)
->>>>>
->>>>
->>>> .
->>>>
+> 
+>>>       DEFINE_PROP_END_OF_LIST(),
+>>>   };
+>>>   diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>>> index a9ebef8a35..dc969989c9 100644
+>>> --- a/hw/pci/pci.c
+>>> +++ b/hw/pci/pci.c
+>>> @@ -2712,7 +2712,7 @@ AddressSpace
+>>> *pci_device_iommu_address_space(PCIDevice *dev)
+>>>             iommu_bus = parent_bus;
+>>>       }
+>>> -    if (iommu_bus && iommu_bus->iommu_fn) {
+>>> +    if (pci_bus_has_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
+>>>           return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque,
+>>> devfn);
+>>>       }
+>>>       return &address_space_memory;
+>>> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+>>> index ee9a93101e..babe829486 100644
+>>> --- a/include/hw/arm/virt.h
+>>> +++ b/include/hw/arm/virt.h
+>>> @@ -147,6 +147,7 @@ struct VirtMachineState {
+>>>       OnOffAuto acpi;
+>>>       VirtGICType gic_version;
+>>>       VirtIOMMUType iommu;
+>>> +    bool primary_bus_iommu;
+>>>       VirtMSIControllerType msi_controller;
+>>>       uint16_t virtio_iommu_bdf;
+>>>       struct arm_boot_info bootinfo;
 >>>
->>> Thanks for your advice.
->>>
->>> I test this with the following script, in which i add two options.
->>>
->>> The option `primary_bus_iommu=false(or true)` for `-machine
->>> virt,iommu=smmuv3`, this helps to enable/disable whether primary bus go
->>> through iommu.
->>>
->>> The other option `iommu=false` or `iommu=true` for `-device pxb-pcie`
->>> helps to enable/disable whether pxb root bus go through iommu.
->>>
->>>> #!/bin/sh
->>>>
->>>> /path/to/qemu/build/aarch64-softmmu/qemu-system-aarch64 \
->>>> -enable-kvm \
->>>> -cpu host \
->>>> -kernel /path/to/linux/arch/arm64/boot/Image \
->>>> -m 16G \
->>>> -smp 8,sockets=8,cores=1,threads=1 \
->>>> -machine
->>>> virt,kernel_irqchip=on,gic-version=3,iommu=smmuv3,primary_bus_iommu=false
->>>>
->>>> \
->>>> -drive
->>>> file=./QEMU_EFI-pflash.raw,if=pflash,format=raw,unit=0,readonly=on \
->>>> -device
->>>> pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3.0x1,iommu=false \
->>>> -device
->>>> pxb-pcie,bus_nr=0x20,id=pci.20,bus=pcie.0,addr=0x3.0x2,iommu=true \
->>>> -device
->>>> pxb-pcie,bus_nr=0x23,id=pci.30,bus=pcie.0,addr=0x3.0x3,iommu=true \
->>>> -device
->>>> pxb-pcie,bus_nr=0x40,id=pci.40,bus=pcie.0,addr=0x3.0x4,iommu=false \
->>>> -device pcie-pci-bridge,id=pci.11,bus=pci.10,addr=0x1 \
->>>> -device pcie-pci-bridge,id=pci.21,bus=pci.20,addr=0x1 \
->>>> -device
->>>> pcie-root-port,port=0x20,chassis=10,id=pci.2,bus=pcie.0,addr=0x2 \
->>>> -device
->>>> pcie-root-port,port=0x20,chassis=11,id=pci.12,bus=pci.10,addr=0x2 \
->>>> -device
->>>> pcie-root-port,port=0x20,chassis=19,id=pci.19,bus=pci.11,addr=0x3 \
->>>> -device
->>>> pcie-root-port,port=0x20,chassis=12,id=pci.22,bus=pci.20,addr=0x2 \
->>>> -device
->>>> pcie-root-port,port=0x20,chassis=13,id=pci.42,bus=pci.40,addr=0x2 \
->>>> -device virtio-scsi-pci,id=scsi0,bus=pci.12,addr=0x1 \
->>>> -device vfio-pci,host=b5:00.2,bus=pci.42,addr=0x0,id=acc2 \
->>>> -net none \
->>>> -initrd /path/to/rootfs.cpio.gz \
->>>> -nographic \
->>>> -append "rdinit=init console=ttyAMA0 earlycon=pl011,0x9000000
->>>> nokaslr" \
->>>
->>> I test the command line with an accelerator. The IORT table will have
->>> some changes, so only the root bus with iommu=true will go through
->>> smmuv3.
->>
->> Thank you for sharing your command line.
->>
->> On my end without using ",iommu=smmuv3" and the new options, my guest
->> crashes.
->>
->>      0.833665] ACPI: PCI Root Bridge [PC0A] (domain 0000 [bus 0a-0b])
->> [    0.837630] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM
->> ClockPM Segments MSI HPX-Type3]
->> [    0.843377] acpi PNP0A08:00: _OSC: platform does not support [LTR]
->> [    0.846796] acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME
->> AER PCIeCapability]
->> [    0.851082] acpi PNP0A08:00: ECAM area [mem
->> 0x4010a00000-0x4010bfffff] reserved by PNP0C02:00
->> [    0.854742] acpi PNP0A08:00: ECAM at [mem 0x4010a00000-0x4010bfffff]
->> for [bus 0a-0b]
->> [    0.859569] ------------[ cut here ]------------
->> [    0.862470] kernel BUG at mm/ioremap.c:76!
->> [    0.865066] Internal error: Oops - BUG: 0 [#1] SMP
->> [    0.868130] Modules linked in:
->> [    0.870060] CPU: 6 PID: 1 Comm: swapper/0 Not tainted
->> 5.11.0-rc6-guest-upstream+ #26
->> [    0.874920] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0
->> 02/06/2015
->> [    0.879283] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO BTYPE=--)
->> [    0.883055] pc : ioremap_page_range+0x33c/0x3e0
->> [    0.885942] lr : ioremap_page_range+0x30/0x3e0
->> [    0.888737] sp : ffff80001272f800
->> [    0.890824] x29: ffff80001272f800 x28: ffffffbffe801000
->> [    0.894168] x27: ffffffc020040000 x26: ffff8000111b01f8
->> [    0.897543] x25: 0400000000000001 x24: ffffffbffe800000
->> [    0.900882] x23: 000000003eff3000 x22: ffffffbffe801000
->> [    0.904221] x21: ffffffbffe801000 x20: ffff0003f2270020
->> [    0.907612] x19: 0000000000000001 x18: 0000000000000030
->> [    0.910952] x17: 0000000000000000 x16: 0000000000000001
->> [    0.914283] x15: ffffffffffffffff x14: ffff8000116d49c8
->> [    0.917679] x13: 000000003eff3000 x12: 0000000000000041
->> [    0.921018] x11: ffff800011f2f000 x10: 000000000000002e
->> [    0.924359] x9 : ffff800010c372c4 x8 : ffffffbffe800000
->> [    0.927744] x7 : ffff0003f224eff8 x6 : 0000000000000001
->> [    0.931092] x5 : ffffffbffe800fff x4 : ffff8000116de650
->> [    0.934430] x3 : 0068000000000f17 x2 : 0140000000000000
->> [    0.937813] x1 : 00000040407f0000 x0 : ffff0003ffdcccc0
->> [    0.941165] Call trace:
->> [    0.942713]  ioremap_page_range+0x33c/0x3e0
->> [    0.945374]  pci_remap_iospace+0x7c/0x90
->> [    0.947881]  acpi_pci_probe_root_resources+0x180/0x238
->> [    0.951122]  pci_acpi_root_prepare_resources+0x28/0xc8
->> [    0.954357]  acpi_pci_root_create+0x9c/0x2f8
->> [    0.956990]  pci_acpi_scan_root+0x150/0x240
->> [    0.959639]  acpi_pci_root_add+0x34c/0x4e0
->> [    0.962220]  acpi_bus_attach+0x15c/0x2c0
->> [    0.964692]  acpi_bus_attach+0x9c/0x2c0
->> [    0.967135]  acpi_bus_attach+0x9c/0x2c0
->> [    0.969582]  acpi_bus_scan+0x64/0x118
->> [    0.971888]  acpi_scan_init+0x10c/0x244
->> [    0.974302]  acpi_init+0x2bc/0x328
->> [    0.976463]  do_one_initcall+0x54/0x268
->> [    0.978913]  kernel_init_freeable+0x22c/0x2c4
->> [    0.981658]  kernel_init+0x1c/0x128
->> [    0.983864]  ret_from_fork+0x10/0x34
->> [    0.986139] Code: a9446bf9 a8cb7bfd d50323bf d65f03c0 (d4210000)
->> [    0.990037] ---[ end trace fc68f309d1db57e3 ]---
->> [    0.992939] Kernel panic - not syncing: Oops - BUG: Fatal exception
->> [    0.996893] SMP: stopping secondary CPUs
->> [    0.999487] ---[ end Kernel panic - not syncing: Oops - BUG: Fatal
->> exception ]---
->>
->> Do you have any idea. I am using
->>
->> http://snapshots.linaro.org/components/kernel/leg-virt-tianocore-edk2-upstream/4198/QEMU-AARCH64/RELEASE_GCC5/
->>
->>
 >> Thanks
 >>
 >> Eric
 >>
->>
->>
->>
->>>
->>> Thanks,
->>> Xingang
->>> .
->>>
->>
 >> .
 >>
 > 
-> I retest with the QEMU_EFI.fd and QEMU.img.gz you provided, and i don't
-> have this issue. Could you please provide more information about how you
-> test, and is everything ok with the iommu=smmuv3 on ?
-> 
-> From the debug info, it might be the problem of building the ACPI IORT
-> table. And could you please retest without the last patch, and see if
-> everything is ok.
-> 
-> Thanks.
+> Thanks
 > 
 > Xingang
 > 
