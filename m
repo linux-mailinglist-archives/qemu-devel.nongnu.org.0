@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309B433A495
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 12:49:06 +0100 (CET)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CD033A496
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 12:51:36 +0100 (CET)
+Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLPF3-0007KG-7h
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 07:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51176)
+	id 1lLPHS-0008IV-OF
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 07:51:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lLPBs-0006aH-IB
+ id 1lLPBs-0006aM-W3
  for qemu-devel@nongnu.org; Sun, 14 Mar 2021 07:45:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54110)
+Received: from indium.canonical.com ([91.189.90.7]:54120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lLPBl-0000MK-RI
+ id 1lLPBl-0000MM-TO
  for qemu-devel@nongnu.org; Sun, 14 Mar 2021 07:45:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lLPBi-00081p-RO
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 11:45:38 +0000
+ id 1lLPBj-00081p-G9
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 11:45:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B7D172E815F
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 11:45:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 784B22E8157
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 11:45:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 14 Mar 2021 11:39:43 -0000
-From: Mark Cave-Ayland <1919036@bugs.launchpad.net>
+Date: Sun, 14 Mar 2021 11:39:46 -0000
+From: Greg Kurz <1846816@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Tags: aix ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cwmyung mark-cave-ayland
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
-References: <161565757658.18021.4101884325766858864.malonedeb@soybean.canonical.com>
-Message-Id: <161572198360.18482.17163668289458544283.malone@soybean.canonical.com>
-Subject: [Bug 1919036] Re: Assertion failure in fifo8_push_all() through
- am53c974
+X-Launchpad-Bug-Commenters: chin21 gkurz leohori philmd th-huth
+X-Launchpad-Bug-Reporter: Leonardo (leohori)
+X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
+References: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161572198685.15667.3153882318880660547.malone@gac.canonical.com>
+Subject: [Bug 1846816] Re: Booting error on AIX 6.1 "Illegal Trap Instruction
+ Interrupt in Kernel""
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: 160b87de5631053203988e713d0b6f1ea43a0c85
+X-Launchpad-Hash: 6ae138314683b1fe63a5f1aee53b014b147bf323
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -59,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,146 +71,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1919036 <1919036@bugs.launchpad.net>
+Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for the test case - looks like the problem occurs because a
-command hasn't been submitted before initiating a DMA transfer, and TC
-is set to a value higher than the size of cmdfifo. Can you confirm that
-the following fix works for you?
+I no longer work for IBM so I can't be sure, but I'm not aware of virtio
+support in AIX 7.1.
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 507ab363bc..0a26ee1dfd 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -573,6 +573,7 @@ static void esp_do_dma(ESPState *s)
-         cmdlen =3D fifo8_num_used(&s->cmdfifo);
-         trace_esp_do_dma(cmdlen, len);
-         if (s->dma_memory_read) {
-+            len =3D MIN(len, fifo8_num_free(&s->cmdfifo));
-             s->dma_memory_read(s->dma_opaque, buf, len);
-             fifo8_push_all(&s->cmdfifo, buf, len);
-         } else {
-
-
-ATB,
-
-Mark.
+As said in another comment, the "Unimplemented SPAPR hcall 0x00000000000002=
+b8" trace reflects that QEMU doesn't implement PEM (Partition Energy Manage=
+ment) as described in section 14.14 of LoPAPR.
+I can't tell if this causing the crash of the AIX kernel, but I'd suggest y=
+ou try with AIX 7.2.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1919036
+https://bugs.launchpad.net/bugs/1846816
 
 Title:
-  Assertion failure in fifo8_push_all() through am53c974
+  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
+  Kernel""
 
 Status in QEMU:
   New
 
 Bug description:
-  Hello,
+  # ls -ltr
+  total 8750584
+  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
+  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
+  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
+  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  am53c974 emulator.
+  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
+-serial mon:stdio \
+  > -drive file=3D/qemu/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
+  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
+disk0 \
+  > -cdrom /qemu/AIX.vol1.iso \
+  > -prom-env boot-command=3D'boot cdrom: -s verbose'
 
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
+  VNC server running on ::1:5900
+  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
+s=3Dworkaround
 
-  This was found in version 5.2.0 (master, 3f8d1885e4)
+  SLOF ********************************************************************=
+**
+  QEMU Starting
+  =C2=A0Build Date =3D Jul  3 2019 12:26:14
+  =C2=A0FW Version =3D git-ba1ab360eebe6338
+  =C2=A0Press "s" to enter Open Firmware.
 
-  =
+  Populating /vdevice methods
+  Populating /vdevice/vty@71000000
+  Populating /vdevice/nvram@71000001
+  Populating /vdevice/l-lan@71000002
+  Populating /vdevice/v-scsi@71000003
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A08200000000000=
+000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+  Populating /pci@800000020000000
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0000 (D) : 1234 11=
+11    qemu vga
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0800 (D) : 1033 01=
+94    serial bus [ usb-xhci ]
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 1000 (D) : 1af4 10=
+04    virtio [ scsi ]
+  Populating /pci@800000020000000/scsi@2
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A01000000000000=
+00 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+  Installing QEMU fb
 
-  ```
-  qemu-system-i386: ../util/fifo8.c:43: fifo8_push_all: Assertion `fifo->nu=
-m + num <=3D fifo->capacity' failed.
+  Scanning USB
+  =C2=A0=C2=A0XHCI: Initializing
+  =C2=A0=C2=A0=C2=A0=C2=A0USB Keyboard
+  =C2=A0=C2=A0=C2=A0=C2=A0USB mouse
+  No console specified using screen & keyboard
 
-  #0  0x00007ffff0218fb7 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007ffff021a921 in __GI_abort () at abort.c:79
-  #2  0x00007ffff020a48a in __assert_fail_base (fmt=3D0x7ffff0391750 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5555=
-58ed2400 "fifo->num + num <=3D fifo->capacity", file=3Dfile@entry=3D0x55555=
-8ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x2b, function=3Dfunction@en=
-try=3D0x555558ed2560 <__PRETTY_FUNCTION__.16583> "fifo8_push_all")
-      at assert.c:92
-  #3  0x00007ffff020a502 in __GI___assert_fail (assertion=3Dassertion@entry=
-=3D0x555558ed2400 "fifo->num + num <=3D fifo->capacity", file=3Dfile@entry=
-=3D0x555558ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x2b, function=3Df=
-unction@entry=3D0x555558ed2560 <__PRETTY_FUNCTION__.16583> "fifo8_push_all"=
-) at assert.c:101
-  #4  0x00005555587749c4 in fifo8_push_all (fifo=3Dfifo@entry=3D0x61f000005=
-200, data=3Ddata@entry=3D0x7fff72bfa640 "", num=3Dnum@entry=3D0x24) at ../u=
-til/fifo8.c:43
-  #5  0x00005555572bd13e in esp_do_dma (s=3Ds@entry=3D0x61f000005088) at ..=
-/hw/scsi/esp.c:577
-  #6  0x00005555572bfc8f in handle_ti (s=3D0x61f000005088) at ../hw/scsi/es=
-p.c:845
-  #7  0x00005555572c419c in esp_reg_write (s=3D0x61f000005088, saddr=3Dsadd=
-r@entry=3D0x3, val=3D<optimized out>)
-      at ../hw/scsi/esp.c:987
-  #8  0x0000555557bb916a in esp_pci_io_write (opaque=3D0x61f000004680, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at ../hw=
-/scsi/esp-pci.c:214
-  #9  0x000055555817ea28 in memory_region_write_accessor (mr=3D0x61f000004f=
-70, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>=
-, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at ../softm=
-mu/memory.c:491
-  #10 0x0000555558176671 in access_with_adjusted_size (addr=3Daddr@entry=3D=
-0xc, value=3Dvalue@entry=3D0x7fff72bfb2a8, size=3Dsize@entry=3D0x1, access_=
-size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D
-      0x55555817e7c0 <memory_region_write_accessor>, mr=3D0x61f000004f70, a=
-ttrs=3D...) at ../softmmu/memory.c:552
-  #11 0x00005555581892aa in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
-x61f000004f70, addr=3D<optimized out>, data=3D<optimized out>, data@entry=
-=3D0xffffff90, op=3Dop@entry=3DMO_8, attrs=3D..., attrs@entry=3D...) at ../=
-softmmu/memory.c:1508
-  #12 0x0000555558024b66 in address_space_stb (as=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, attrs=3D..., result=3D0x0) at /h=
-ome/cwmyung/prj/hyfuzz/src/qemu-master/memory_ldst.c.inc:382
-  #13 0x00007fff9323641c in code_gen_buffer ()
-  #14 0x0000555557e793bb in cpu_tb_exec (tb_exit=3D<optimized out>, itb=3D<=
-optimized out>, cpu=3D0x62e0000004b4)
-      at ../accel/tcg/cpu-exec.c:190
-  #15 0x0000555557e793bb in cpu_loop_exec_tb (tb_exit=3D<optimized out>, la=
-st_tb=3D<optimized out>, tb=3D<optimized out>, cpu=3D0x62e0000004b4) at ../=
-accel/tcg/cpu-exec.c:673
-  #16 0x0000555557e793bb in cpu_exec (cpu=3Dcpu@entry=3D0x62e000000400) at =
-../accel/tcg/cpu-exec.c:798
-  #17 0x0000555557f5fc5a in tcg_cpus_exec (cpu=3Dcpu@entry=3D0x62e000000400=
-) at ../accel/tcg/tcg-accel-ops.c:68
-  #18 0x00005555582260af in mttcg_cpu_thread_fn (arg=3Darg@entry=3D0x62e000=
-000400) at ../accel/tcg/tcg-accel-ops-mttcg.c:70
-  #19 0x0000555558777b05 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #20 0x00007ffff05d26db in start_thread (arg=3D0x7fff72bff700) at pthread_=
-create.c:463
-  #21 0x00007ffff02fb71f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-  ```
+  =C2=A0=C2=A0Welcome to Open Firmware
 
-  =
+  =C2=A0=C2=A0Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  =C2=A0=C2=A0This program and the accompanying materials are made available
+  =C2=A0=C2=A0under the terms of the BSD License available at
+  =C2=A0=C2=A0http://www.opensource.org/licenses/bsd-license.php
 
-  To reproduce the assertion failure, please run the QEMU with the followin=
-g command line.
+  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
+000000: ...   Successfully loaded
+  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
+  AIX
+  StarLED{814}
 
-  ```
+  AIX Version 6.1
+  exec(/etc/init){1,0}
 
-  $ ./qemu-system-i386 -m 512 -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device
-  am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive
-  id=3DSysDisk,if=3Dnone,file=3D./disk.img
+  INIT: EXECUTING /sbin/rc.boot 1
+  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
+  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
+  + PHASE=3D1
+  + + bootinfo -p
+  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
+  PLATFORM=3Dchrp
+  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
+  + [ 1 -eq 1 ]
+  + 1> /usr/lib/libc.a
+  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
+  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
+  + chramfs -t
+  exec(/usr/sbin/chramfs,-t){1179688,1114146}
+  + init -c unlink /usr/sbin/chramfs
+  + 1> /dev/null
+  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
+  + + bootinfo -t
+  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
+  BOOTYPE=3D3
+  + [ 0 -ne 0 ]
+  + [ -z 3 ]
+  + unset pdev_to_ldev undolt native_netboot_cfg
+  + unset disknet_odm_init config_ATM
+  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
+  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
+  + cfgmgr -f -v
+  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
+  cfgmgr is running in phase 1
+  ----------------
+  Time: 0 LEDS: 0x538
+  Invoking top level program -- "/etc/methods/defsys"
+  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
+  exec(/etc/methods/defsys){1245222,1179696}
+  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
+310760,1245222}
+  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
+222}
+  Time: 0 LEDS: 0x539
+  Return code =3D 0
+  ***** stdout *****
+  sys0
 
-  ```
-
-  Please let me know if I can provide any further info.
-
-  Thank you.
-
-  - Cheolwoo, Myung (Seoul National University)
+  *** no stderr ****
+  ----------------
+  Attempting to configure device 'sys0'
+  Time: 0 LEDS: 0x811
+  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
+  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
+  Number of running methods: 1
+  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
+  LED{A20}
+  Illegal Trap Instruction Interrupt in Kernel
+  04151A74      tweqi    r0,0                r0=3D0
+  KDB(0)>
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1919036/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
 
