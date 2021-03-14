@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E8533A741
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:05:05 +0100 (CET)
-Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DC133A74A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:08:22 +0100 (CET)
+Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLV6u-00057U-Do
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48600)
+	id 1lLVA5-0000J1-Sy
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1Z-0002O4-4f
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:33 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:46692)
+ id 1lLV1c-0002WC-66
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:36 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:39194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1Q-00029v-Lx
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:32 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id a9so29555509qkn.13
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:19 -0700 (PDT)
+ id 1lLV1S-0002AA-T2
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:35 -0400
+Received: by mail-qk1-x736.google.com with SMTP id g185so29587728qkf.6
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LL8bkt3cpcyBMDK/LZ6QT2j+SFhG/YMWEf75uL1t8Es=;
- b=h8HtEOy1GoWi0VY9Qon22JoTkSIf8uvHLrIxuAKXeCrm6uVw5ZtBcQF8E5xEZcnOWq
- 2K6EABUzHMnl661TCTcT21ZHSwlX2xAmvNEXDekKUF1BVAmRWcJw9NMGM5kzprx/wSh7
- Vq9UrnLMyek3PDpqsltdRaT8UU4RmOccgHZKlqC6pO2778Y0fCbyrQq3Ep0HATXfLknV
- sP4xNRDvkUghZ1LE8eKaHumEG5ZwZwG8aUxIOI9gsteGqPOW4w1BTOoOEQcqa39fHBrU
- RgCgKcmkUlKpOtawLWz6z8N8PW88PatNJVUsKZRyQ2XsrdzNHZj6JkmWsS+uN2v1bwX4
- 4krw==
+ bh=nDEzeJHZqdUXe/dXYq7qR5PEy35VBqTIPDXHrdEdgcc=;
+ b=g7cYJVkbLThk/h2k9vtKEGK6c1ZrtHalidEAN5DgdaL9D4L8hZETV3bt1Bc3Qgf2iQ
+ w8Ik2CZnwRKuJRTCl8BF1mjcxXYXm3WUDxogGZPMLTPZnxS2mQ4pIFQ5CNjj0mo8/i6E
+ ddL7xISa/saEQdD98k8ZR9kwb6Cp3nim++XgsEGgA0d9ZEvtWo8mUCDt3wLMyPLY2+BI
+ uEUI15mLlxl7enh/WRwWx2bvgdGKiDUNmGWRvzm9qrN0iuzfKzFYHcnX7I1d6tuaB838
+ mlg5B2hIVi3jJd5eEBcHcXAvrUiiteMrSww2+8GkdWoOAlJtBWgkxwoXR4WhwF1MT/yz
+ BzRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LL8bkt3cpcyBMDK/LZ6QT2j+SFhG/YMWEf75uL1t8Es=;
- b=EyRLeObv1qC6z8FsxBo1Rpsc5Hv9pgeB6BsVNPW9XN+MVm/6dIHLDl/uyyANBA2yHe
- y51CyTXkxn6E0iXlq2acETyxq6qhUy3lHV7aSR3TawpRb2ZZEWR5C6+Gcuf4mV6p2REy
- mXLNtcoJKDKrh7wJ7LmyA3TU34vltwX+BpeT22HCS5emF58CoIzsEMu6xFzuZvnzHaSS
- hrIlYaXtl/N0HNCqsFQ87FIZGIsIdDzopD7592658QiXBVoCUCViRXmHWcXBRVCPZLLM
- K9rMHC8weMHz9xBLp5WAvjk1Dq9ESLb1b1Q3BWABjXUgqux8CW3bGB8g6GGkkSjh/nWv
- +Smg==
-X-Gm-Message-State: AOAM531rmnPHtgTyT6u1+dqiUHg5KJNtAQhvi+Tyq5pr6k7OVWYufuQk
- UUc19Jf6elKg33sohw1Ie9jH6/M1C/i3iY7+
-X-Google-Smtp-Source: ABdhPJxSgWtRyHSZUqebLhwmOehUD6PW/iLd8Rv0S7SBQ1toLI7sjmnvP/j92ESpwGr1DxE4NCPwlA==
-X-Received: by 2002:a37:8506:: with SMTP id h6mr21488325qkd.134.1615744759287; 
- Sun, 14 Mar 2021 10:59:19 -0700 (PDT)
+ bh=nDEzeJHZqdUXe/dXYq7qR5PEy35VBqTIPDXHrdEdgcc=;
+ b=BMwfirZ8R45tidtdEoaWythgdcsYtzUPIy+/Z0UofAVzQdcYX5r9jnOl0lKGVcRbXm
+ ovNGqwi6npexdvgHxU1O0J4rtL1VX0WIRMArIDWFOAhFJnIdQ0CzPVYsJ7xdWWqm70Gr
+ DM1nBja4bTJbF7DIcowtuoWW2AI5e4xI6l0UKmAPPAoypBEzZCU5+bKhSEbJyVHkataf
+ m7+UcseypjO/8Wg7EINSnkt/tve0n3fdkefD11bf4PZ6zj32dh7fc/s4ePtVhhhMkhQF
+ K8/XMElYzZoB8GRRBLzQy4vge+mfm3Oy33zUt4KDEgrhHYKmtDYzZA88BUoWQwUdVdx1
+ zLRA==
+X-Gm-Message-State: AOAM530i6f2T+8yhpKeuPbf+FIZoJpMw6hU4lgnBnxSQ6HFhNmauoeW1
+ sp/boeNUvu+CC+U65pIPu1RINpckBZPZGRJM
+X-Google-Smtp-Source: ABdhPJxQUFxnegEwmNWso+WagIBv0bUlrxWRyJFB7p+Aeuwoouvs6paDEesJSBfgDVIR1E6nMajkuA==
+X-Received: by 2002:a37:bc45:: with SMTP id m66mr22349615qkf.82.1615744760600; 
+ Sun, 14 Mar 2021 10:59:20 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.18
+ by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 10:59:19 -0700 (PDT)
+ Sun, 14 Mar 2021 10:59:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/16] target/ppc: Put dbcr0 single-step bits into hflags
-Date: Sun, 14 Mar 2021 11:58:59 -0600
-Message-Id: <20210314175906.1733746-10-richard.henderson@linaro.org>
+Subject: [PATCH v3 10/16] target/ppc: Create helper_scv
+Date: Sun, 14 Mar 2021 11:59:00 -0600
+Message-Id: <20210314175906.1733746-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314175906.1733746-1-richard.henderson@linaro.org>
 References: <20210314175906.1733746-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,84 +87,98 @@ Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because these bits were not in hflags, the code generated
-for single-stepping on BookE was essentially random.
-Recompute hflags when storing to dbcr0.
+Perform the test against FSCR_SCV at runtime, in the helper.
+
+This means we can remove the incorrect set against SCV in
+ppc_tr_init_disas_context and do not need to add an HFLAGS bit.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/helper_regs.c | 20 +++++++++++++++-----
- target/ppc/misc_helper.c |  3 +++
- target/ppc/translate.c   | 11 -----------
- 3 files changed, 18 insertions(+), 16 deletions(-)
+ target/ppc/helper.h      |  1 +
+ target/ppc/excp_helper.c |  9 +++++++++
+ target/ppc/translate.c   | 20 +++++++-------------
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 0a746bffd7..c735540333 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -107,11 +107,21 @@ void hreg_compute_hflags(CPUPPCState *env)
-         hflags |= le << MSR_LE;
-     }
- 
--    if (ppc_flags & POWERPC_FLAG_BE) {
--        msr_mask |= 1 << MSR_BE;
--    }
--    if (ppc_flags & POWERPC_FLAG_SE) {
--        msr_mask |= 1 << MSR_SE;
-+    if (ppc_flags & POWERPC_FLAG_DE) {
-+        target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
-+        if (dbcr0 & DBCR0_ICMP) {
-+            hflags |= 1 << HFLAGS_SE;
-+        }
-+        if (dbcr0 & DBCR0_BRT) {
-+            hflags |= 1 << HFLAGS_BE;
-+        }
-+    } else {
-+        if (ppc_flags & POWERPC_FLAG_BE) {
-+            msr_mask |= 1 << MSR_BE;
-+        }
-+        if (ppc_flags & POWERPC_FLAG_SE) {
-+            msr_mask |= 1 << MSR_SE;
-+        }
-     }
- 
-     if (msr_is_64bit(env, msr)) {
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index b04b4d7c6e..a5ee1fd63c 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -215,6 +215,9 @@ void helper_store_403_pbr(CPUPPCState *env, uint32_t num, target_ulong value)
- 
- void helper_store_40x_dbcr0(CPUPPCState *env, target_ulong val)
- {
-+    /* Bits 26 & 27 affect single-stepping */
-+    hreg_compute_hflags(env);
-+    /* Bits 28 & 29 affect reset or shutdown. */
-     store_40x_dbcr0(env, val);
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 6a4dccf70c..513066d54d 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -13,6 +13,7 @@ DEF_HELPER_1(rfci, void, env)
+ DEF_HELPER_1(rfdi, void, env)
+ DEF_HELPER_1(rfmci, void, env)
+ #if defined(TARGET_PPC64)
++DEF_HELPER_2(scv, noreturn, env, i32)
+ DEF_HELPER_2(pminsn, void, env, i32)
+ DEF_HELPER_1(rfid, void, env)
+ DEF_HELPER_1(rfscv, void, env)
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 85de7e6c90..5c95e0c103 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1130,6 +1130,15 @@ void helper_store_msr(CPUPPCState *env, target_ulong val)
  }
  
+ #if defined(TARGET_PPC64)
++void helper_scv(CPUPPCState *env, uint32_t lev)
++{
++    if (env->spr[SPR_FSCR] & (1ull << FSCR_SCV)) {
++        raise_exception_err(env, POWERPC_EXCP_SYSCALL_VECTORED, lev);
++    } else {
++        raise_exception_err(env, POWERPC_EXCP_FU, FSCR_IC_SCV);
++    }
++}
++
+ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+ {
+     CPUState *cs;
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index a85b890bb0..7912495f28 100644
+index 7912495f28..d48c554290 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -7923,17 +7923,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     if ((hflags >> HFLAGS_BE) & 1) {
-         ctx->singlestep_enabled |= CPU_BRANCH_STEP;
+@@ -173,7 +173,6 @@ struct DisasContext {
+     bool vsx_enabled;
+     bool spe_enabled;
+     bool tm_enabled;
+-    bool scv_enabled;
+     bool gtse;
+     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+     int singlestep_enabled;
+@@ -4081,15 +4080,16 @@ static void gen_sc(DisasContext *ctx)
+ #if !defined(CONFIG_USER_ONLY)
+ static void gen_scv(DisasContext *ctx)
+ {
+-    uint32_t lev;
++    uint32_t lev = (ctx->opcode >> 5) & 0x7F;
+ 
+-    if (unlikely(!ctx->scv_enabled)) {
+-        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_SCV);
+-        return;
++    /* Set the PC back to the faulting instruction. */
++    if (ctx->exception == POWERPC_EXCP_NONE) {
++        gen_update_nip(ctx, ctx->base.pc_next - 4);
      }
--    if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
--        ctx->singlestep_enabled = 0;
--        target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
--        if (dbcr0 & DBCR0_ICMP) {
--            ctx->singlestep_enabled |= CPU_SINGLE_STEP;
--        }
--        if (dbcr0 & DBCR0_BRT) {
--            ctx->singlestep_enabled |= CPU_BRANCH_STEP;
--        }
--
++    gen_helper_scv(cpu_env, tcg_constant_i32(lev));
+ 
+-    lev = (ctx->opcode >> 5) & 0x7F;
+-    gen_exception_err(ctx, POWERPC_SYSCALL_VECTORED, lev);
++    /* This need not be exact, just not POWERPC_EXCP_NONE */
++    ctx->exception = POWERPC_SYSCALL_VECTORED;
+ }
+ #endif
+ #endif
+@@ -7907,12 +7907,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->spe_enabled = (hflags >> HFLAGS_SPE) & 1;
+     ctx->altivec_enabled = (hflags >> HFLAGS_VR) & 1;
+     ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
+-    if ((env->flags & POWERPC_FLAG_SCV)
+-        && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {
+-        ctx->scv_enabled = true;
+-    } else {
+-        ctx->scv_enabled = false;
 -    }
-     if (unlikely(ctx->base.singlestep_enabled)) {
-         ctx->singlestep_enabled |= GDBSTUB_SINGLE_STEP;
-     }
+     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
+     ctx->gtse = !!(env->spr[SPR_LPCR] & LPCR_GTSE);
+ 
 -- 
 2.25.1
 
