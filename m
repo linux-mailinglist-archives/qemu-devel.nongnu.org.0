@@ -2,148 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE39533A7A7
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 20:33:14 +0100 (CET)
-Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9DC33A7B5
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 20:54:57 +0100 (CET)
+Received: from localhost ([::1]:56268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLWUD-0007vZ-AZ
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 15:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37234)
+	id 1lLWpE-0005fo-Cd
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 15:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7008a0ef5=Dmitry.Fomichev@wdc.com>)
- id 1lLWSs-00076q-DJ; Sun, 14 Mar 2021 15:31:52 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:34470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7008a0ef5=Dmitry.Fomichev@wdc.com>)
- id 1lLWSo-0004J9-Ko; Sun, 14 Mar 2021 15:31:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1615750306; x=1647286306;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=t+pT7ONk66lKIfIzklepH3AwuToIAOG2PO6vO4iRb5c=;
- b=UDuuXLJjf5CTzRdAHdwfKQJfZqS3sRjBMF11sJvBdAYDRZxNGGwzr6DM
- UMEUqqa3CzGJQ1VPHihPVwZdq72unVlVbP7w5qe5lDv9WWKVvW1KpvhYM
- YJy4hQGvBBYGihJtgr7Ei3m0Gd6lJdhO2SuqNGM6sWKHxleCMZEa9b8iY
- YxMfv5u3PRr37MOVAxc3tLhKWAR60OZik2QtcQNpRxYmK7q4j45wFlroP
- q2OdX2J+7eT+0C4R+fxvkxZreyxmNko3+c+UZofOG94ZPgBBQmQ3MQ6M3
- Rsbb1KcZAYB1nD8m2gw0DerxoUmnrGspVJmzI4/dQt5SsxxbcG/3YdvLB w==;
-IronPort-SDR: A+CpCQjAh4NGaI+gn9SG8kXpZTtU6r0VWjU/6uSXmkVYCqfRQAUra6nOjAoTWikiYkMKencoXb
- Ji9u+ADEOWAZH8x28xip89Mu5dCpuuWhPBtCY462V9kLURWn3tmsLReW72XCQAMrjDYW6MNVsA
- LsSC7MelqRmQBI8ck0YHMa7JxzpSMggZ30+v0BnYK424Cv/lns0iPkcRMrT4OVHRDcEIk1weVn
- LhSeHErNk35eLq/81uQWaZ3capxp3SEZQlpm60zizMgvQLkotTlD4i0FLb475KUbLB355OFa5C
- C1k=
-X-IronPort-AV: E=Sophos;i="5.81,248,1610380800"; d="scan'208";a="272821061"
-Received: from mail-dm6nam11lp2173.outbound.protection.outlook.com (HELO
- NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.173])
- by ob1.hgst.iphmx.com with ESMTP; 15 Mar 2021 03:31:40 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MtD3g6mzyXISwrE95+wu7bdyH40LrgCzZsv10Ug0xxV5KsOSYhJx+FsXpCwAruQKxtV3yutbtoRXDwJ2uYfypXpJ5U6zfU8rTUjyNXluzPRo+e242qWfviUTIGXpXyz9xK0P3wCFXN23spddy7nj0YXLL/19YHPL54/JCBL0vNWDAQ0rkzgkd5rpUYX2eTkvQaei97zwoHD7RIFzNtxtVMWgHJbpulcXgRAjoBZhYJXFqkS0T+d7XKCeZfd5nMzXtrqGoOiPZahbfW8tNZ4xZ+ErT3A9F8seAato0zCDPjnaG5919HQ6+her/s9DDBPWvR5miKON0u7TrikVR/OKSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hmf82GkIIknZya5WfQPUIi4DITs2DaIRhNIOU0y0qr0=;
- b=eboBL6CvP7zM692rk5oDR1VCWZzhMupzKSIm3uIWWxTBbxnQhcJ53ngr1F/cP7qopDF6ofKNZs5ZBMmGxiHfn7J1Li3wFfvqTUz3/p/nAabiuGHeqOaeDWFFO/bMReV0KUGJCA36usm4Mfz89NR4+Euboz7Inewfx3awC/T+Q8MH8JvAeW7uL7HMzQOGHUHZYDEhj/GK4GFM9vChPvdvNUNGWcOu8704LKJrkldpppE3/1HcwXXcsYdPcMDAoNr5foXLLlAscGGFgfCFsR74mKP+DLgNbkImhAL2Vs89wT5if3+KiLh95QBmZDhHDRPZfHgAeo+tDtTQrhf2m/4cpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hmf82GkIIknZya5WfQPUIi4DITs2DaIRhNIOU0y0qr0=;
- b=NRgMQgQhR6juiWq2zv2pJmmSe+tc7ioDT4XkHGnAfwUfgkpGVFjOfN98+JSmXWJwc4M+/mXLI7azFy9mRLOQjjcV2p0mQPUtJQGreeapsBQUFewkb1dE6gbgiiI11kuI6FL9Oob3TyT/phIZEJfubtVUUEKGmVC+PLAgrCuSHTM=
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com (2603:10b6:208:3f::13)
- by MN2PR04MB5824.namprd04.prod.outlook.com (2603:10b6:208:3d::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Sun, 14 Mar
- 2021 19:31:38 +0000
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::e99b:29e0:c2df:8617]) by MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::e99b:29e0:c2df:8617%4]) with mapi id 15.20.3933.032; Sun, 14 Mar 2021
- 19:31:37 +0000
-From: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-To: Klaus Jensen <its@irrelevant.dk>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v5 01/13] hw/block/nvme: fix zone management receive
- reporting too many zones
-Thread-Topic: [PATCH v5 01/13] hw/block/nvme: fix zone management receive
- reporting too many zones
-Thread-Index: AQHXFZNMfXlSi3qowUa22Vt9TqUy86qD3Rwg
-Date: Sun, 14 Mar 2021 19:31:37 +0000
-Message-ID: <MN2PR04MB59510F893FD416825A3B7E5FE16D9@MN2PR04MB5951.namprd04.prod.outlook.com>
-References: <20210310095347.682395-1-its@irrelevant.dk>
- <20210310095347.682395-2-its@irrelevant.dk>
-In-Reply-To: <20210310095347.682395-2-its@irrelevant.dk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: irrelevant.dk; dkim=none (message not signed)
- header.d=none;irrelevant.dk; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 83966c7a-f008-46cc-46f9-08d8e71fc93c
-x-ms-traffictypediagnostic: MN2PR04MB5824:
-x-microsoft-antispam-prvs: <MN2PR04MB58243A919629D4CC721E439AE16D9@MN2PR04MB5824.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c7sNfvBnFi0du8r4benF8PSU0ekTQWdpRJ24fYS8iS0Gh0mArnXg2CwXaZAFDLv+f9bnqL/ojc/zM1D3L5wkJc1pEkX1uID6UE3ocT1dlsMiDXEQJtkRr4LU5SC6KhZ94+w0+Z+8pjd+WH8Lz9/oOIFylHj8y1ECvQK+o99t56UPDeLGKMNCQ3psqSikewWLEzmhRriYjJatJxqDuucaK+7TSJX4VN6i2E8gOBKSPdywD+05QMYXBKKaNwSJkslg3YxxTYCzQ1JYDx7JOKR90u4eXsFJpr5ulBTADYXbjqn2ZN+m2EYfifDINi0QN6xTLL294MnmgBWE45YmpLJ1GwWqreasZwGy4VMLcPM5ez8weJP3E5DRznl15tEZMa/Q5Qc/KitpOAZ82Nvp/xV7OQ0mOAF2sisBrzfWIvMtdHsfI5cWpFuNzH8Wq6AgNCIilYvTg4FVDaa0E81znGiTkd9Z0OaziWQ0PXexMvF1WUg/EvV9n8tezE/ejixCQchlLwlT9P3pRpnWY0G6ELfaJbkkMkz67DTgA5y6FW7+sFxcG9ZqHKXsE2rlSdGCJb8W
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR04MB5951.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(52536014)(33656002)(66946007)(66446008)(26005)(478600001)(83380400001)(4326008)(66476007)(76116006)(110136005)(66556008)(5660300002)(64756008)(316002)(54906003)(71200400001)(6506007)(9686003)(53546011)(8936002)(55016002)(8676002)(86362001)(7696005)(7416002)(2906002)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?ZAr/JEVYEEDum/zLWtOo5Jd6GIDiHf4A9NRd6mQ63VFHhJubBgrkFEjJxX9y?=
- =?us-ascii?Q?YGEUFg4SYFRVnA3lg2bApy8TYa/zVRcRu2FK7ixB+F72U/LucwDRnn5mxe5A?=
- =?us-ascii?Q?AiER7CtJGhKsg3FsgGpoUjyGqRArWccdVoRB+suz3pxI28+PowQZ3tKekFmR?=
- =?us-ascii?Q?u4gXOYJ7WVE4jXRWrMrqXbxr5ju2MOXIAA2mOqn2ojMAv++OXTX1REuSwjD3?=
- =?us-ascii?Q?4kdBZ++IUR6q4UX52QnMiKMpo8Gke1VQ4kwvEANsM4U5YHcseUDbvTXDxyMi?=
- =?us-ascii?Q?f8Uy7w8TEuyvvhWQEbyqJj5zYaza63twQMV+6ShPbrYOJu6YXyD+4Z1FPjfk?=
- =?us-ascii?Q?efIWJQbhiAXd7Yo8XF4GfExCYKJ5B8C4rxeMyqFQBblID4XAhyFBNBCXlIc5?=
- =?us-ascii?Q?khz87PSgkw3pNoF3xW5CHfDeqPmQGlM6hOmIwJwYZ/QfjOwKhXnIaqAD7qYp?=
- =?us-ascii?Q?gJSsBK/t4sqmFVmPk7dDDy76kGc+5hqUlTx0bcJb4mFMRChgL0+SUTH2Krra?=
- =?us-ascii?Q?IdzEYp6Kg9lpkTqdIwC4Nj3XoPIrEQvcZJkjpXOXMKLX+Afme4/+/u383z87?=
- =?us-ascii?Q?gqR/v504sWOe9FnPu4aRYUm1F+Zm70RCFMfj/J7ZbfHu/jEvP3roSBsr9IlW?=
- =?us-ascii?Q?zQFgbhO9qyqllQTd/egynCnr3hsFXEmwWno5kEDg8EphPMXig9Tos1jfow+r?=
- =?us-ascii?Q?/RQ1VMNKvE6Fr22Uc0bKnn8Fp719V3bE2PCDiBA3gzkkI9JiEKrKvVzeQZJ6?=
- =?us-ascii?Q?A1x0fASab1AK5y4VdMVTQfyszS2UCUs4BSdHg2hWUnVhGLOmAWbGVjYaV9HJ?=
- =?us-ascii?Q?7aGlDGnptRUWYebEQhggUEmwcxNqohlwTPUQf77wGqg3JVvndJTFsj4O3GDe?=
- =?us-ascii?Q?zHoCitIXtFcaM7UFRXDmRN9oV39l1kCYnnDM435Q9bTPL7pJ2ZqMyDsMNEYc?=
- =?us-ascii?Q?8LpeVV9NVa1aNWCaDGYj6MmT5aZZ+TmrmKjrp9A44KRL0+UXbGXJllxHNUKY?=
- =?us-ascii?Q?pIzB8SGpNtVm5TNJkdsn8hQziStEYDFi0/6Sh1OMFMEWvhBqORX5qhNpGFlt?=
- =?us-ascii?Q?DZghsY7k59yy4zTwEm9b/N2lshIk3QT+S6zEiaZbP4X4TeCSUYtyHVZLg4hp?=
- =?us-ascii?Q?F+jSuhOyLehXEM96WzK8U8es7ObDDfegYxs1pxoONJuNlKARcCN3jTui14pI?=
- =?us-ascii?Q?eQoFIhdFqBEg5cNzlrB3GFy/0tsNbB6/hqs84I2QdSWqVxCKGw4hRhgvAHUf?=
- =?us-ascii?Q?fy6hYyzUwG7pqQJp0hWxSbcw5/Tjj2nMGHJE/Bp1Xzyj9kKOCfrkVIthuVCM?=
- =?us-ascii?Q?sAA=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lLWny-0005BS-Pw
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 15:53:38 -0400
+Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:36073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lLWnv-0006co-RJ
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 15:53:38 -0400
+Received: by mail-vs1-xe2f.google.com with SMTP id a12so15278611vsd.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 12:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZxpU7UpXBQNG4dcoxC2nhZOdE0UeCZDiX6N+jo3xfuc=;
+ b=ctx4CD6FH+Wf6kB10KqTg/EYnwb9hplrq8MFr1vk5nGIPEGHyKNS3Wtt2ce7H2xAMC
+ Y7/1YnORK8LXTzofUZmiQgvXjcwVIP75a3gKh3kGRq3DQI7ZXibToJSS6KLXo6AajTnD
+ tRwlNPP+wwYiDN82VlRUP1UWw9GvsEdqj1WTOaiBqTNbE8B6w0jK7FrxxR2JA/U15uJn
+ h4bfsJykrDsPW2WaP5cZt8n8R43oWs9QucnVd/SIqGPvhPwiPhLQkbOmMwArS62qXyi5
+ mWZstyPwvXO0jjWBsHVUDwI4WcogPl4rplxWNrkHbd8qw8OA3REJ+Qr9caLslqTIFHFC
+ BWmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZxpU7UpXBQNG4dcoxC2nhZOdE0UeCZDiX6N+jo3xfuc=;
+ b=QRzJn9FHsVrOxUfCJeXygvhr2mok5etkJPqkKej8P0YapX9U5iTEN4fyqw+m0oFKh6
+ USzuW9TUw9cg0eGu3mggiGmyfhI72i6vGscsPIgLibpst1twvFOo4vYNMzQG7wQc6zVc
+ hBPFOzG9uGGcrfqFjDHwJtp+06XNmF0ON+b2nLxmM5par/3uCNAYKxpNYJk1lV10dQg2
+ 4zM9s3oQXFjYPVT7ukBJW4NRaMJmh8CktsBhiEuHZtHB3lstbQ9ta73+Xu0EgRxFw/qJ
+ ACHuCxGkKWutfAh4+PUispIgDv3lNNUnxjV3MqvogpB0pB7kp1RtjmgrRLKkoe2yKpp1
+ LUzA==
+X-Gm-Message-State: AOAM533xiyuC3giS4vHFyWFUI7bo3hqDk+ysPwcuoq1HNcSIO1axiU2f
+ 2/AvF5vjoz8SjY/LgVaizZQWOJcPbPG/ZYxvsciZJQ==
+X-Google-Smtp-Source: ABdhPJxBw0/wd+YPWZK+qymqAB7nb/obh7+ChSddQpaF1LWREQJX5tXGOfPx1f5s46O76tQ2Y5YGsfexoRHr/wNe9aA=
+X-Received: by 2002:a05:6102:2270:: with SMTP id
+ v16mr3176965vsd.29.1615751613412; 
+ Sun, 14 Mar 2021 12:53:33 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB5951.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83966c7a-f008-46cc-46f9-08d8e71fc93c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2021 19:31:37.5560 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1A3InEqpye/r943bIeei5CjsfRsXk7TQ8mvGzgvKU8eyobfkWuYID01XBFuvY59+rh5sWi0ERrIcB8TZs9TJ8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5824
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=7008a0ef5=Dmitry.Fomichev@wdc.com; helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CADPb22TNebyiYxc+gtNFD+=CfwtWP4heSYt+_=uBcZAeWoWHXw@mail.gmail.com>
+ <YDN73SqaDQDtwlgZ@redhat.com> <20210228213957.xkc4cceh5o6rgd5n@begin>
+ <CADPb22RAxehwfRRBdsRm1exU2D38FCcRv23XcS5VKdZfvDp+pQ@mail.gmail.com>
+ <YD/RXfECJ4TshqsT@redhat.com> <20210305212806.kx62ycfr7k4wxdlq@begin>
+ <CADPb22Tv0-oXhxu7Fke3hDq+yq1_n5RTcAC4efmZ0iniAUxVQg@mail.gmail.com>
+ <20210306001014.zsvg35ku4647wpr4@begin>
+ <CADPb22SXEZx-qvvDNBbb0NbohUWaddYuUvT2zBNH4bFQPp9QZA@mail.gmail.com>
+ <20210306192912.wzs5d7pynxztnvxb@begin>
+In-Reply-To: <20210306192912.wzs5d7pynxztnvxb@begin>
+From: Doug Evans <dje@google.com>
+Date: Sun, 14 Mar 2021 12:52:55 -0700
+Message-ID: <CADPb22QyMDfwDzaLk1711X+SYxvSKR=m8NTHM1==rkXGLkjoNA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
+ of inet_parse
+To: Samuel Thibault <samuel.thibault@gnu.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000f6d86705bd847cb0"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
+ envelope-from=dje@google.com; helo=mail-vs1-xe2f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -156,82 +87,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LGTM,
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+--000000000000f6d86705bd847cb0
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: Klaus Jensen <its@irrelevant.dk>
-> Sent: Wednesday, March 10, 2021 4:54 AM
-> To: qemu-devel@nongnu.org
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>; Klaus Jensen
-> <its@irrelevant.dk>; Fam Zheng <fam@euphon.net>; Max Reitz
-> <mreitz@redhat.com>; Kevin Wolf <kwolf@redhat.com>; qemu-
-> block@nongnu.org; Gollu Appalanaidu <anaidu.gollu@samsung.com>; Keith
-> Busch <kbusch@kernel.org>; Klaus Jensen <k.jensen@samsung.com>;
-> Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-> Subject: [PATCH v5 01/13] hw/block/nvme: fix zone management receive
-> reporting too many zones
->=20
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> nvme_zone_mgmt_recv uses nvme_ns_nlbas() to get the number of LBAs in
-> the namespace and then calculates the number of zones to report by
-> incrementing slba with ZSZE until exceeding the number of LBAs as
-> returned by nvme_ns_nlbas().
->=20
-> This is bad because the namespace might be of such as size that some
-> LBAs are valid, but are not part of any zone, causing zone management
-> receive to report one additional (but non-existing) zone.
->=20
-> Fix this with a conventional loop on i < ns->num_zones instead.
->=20
-> Fixes: a479335bfaf3 ("hw/block/nvme: Support Zoned Namespace Command
-> Set")
-> Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index d439e44db839..c7b9a1663dd7 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -2619,12 +2619,13 @@ static uint16_t
-> nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
->      uint32_t zone_idx, zra, zrasf, partial;
->      uint64_t max_zones, nr_zones =3D 0;
->      uint16_t status;
-> -    uint64_t slba, capacity =3D nvme_ns_nlbas(ns);
-> +    uint64_t slba;
->      NvmeZoneDescr *z;
->      NvmeZone *zone;
->      NvmeZoneReportHeader *header;
->      void *buf, *buf_p;
->      size_t zone_entry_sz;
-> +    int i;
->=20
->      req->status =3D NVME_SUCCESS;
->=20
-> @@ -2666,7 +2667,7 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl
-> *n, NvmeRequest *req)
->      buf =3D g_malloc0(data_size);
->=20
->      zone =3D &ns->zone_array[zone_idx];
-> -    for (; slba < capacity; slba +=3D ns->zone_size) {
-> +    for (i =3D zone_idx; i < ns->num_zones; i++) {
->          if (partial && nr_zones >=3D max_zones) {
->              break;
->          }
-> --
-> 2.30.1
+On Sat, Mar 6, 2021 at 11:29 AM Samuel Thibault <samuel.thibault@gnu.org>
+wrote:
 
+> Hello,
+>
+> Doug Evans, le ven. 05 mars 2021 17:00:13 -0800, a ecrit:
+> > Is it possible for QEMU to lazily determine the guest's IPv6
+> > address? I.e., postpone the ""->guest address mapping until it's
+> > needed and then, say, take the first entry in the NDP table?
+>
+> That would probably be possible, yes, by moving the
+>
+> if (!guest_addr.s_addr) {
+>     guest_addr = slirp->vdhcp_startaddr;
+> }
+>
+> from slirp_add_hostfwd() and alike to tcp_connect() and sorecvfrom()
+> (along the other sotranslate call).
+>
+> > That feels a bit fragile: what if someone else gets the first entry in
+> > the NDP table? But is that any more fragile than assuming the first
+> > handed out DHCP address is to the guest?
+>
+> I don't think it's really more fragile.
+>
+
+
+Good to know, thanks.
+
+
+> > [<<-- Honest question, can we assume the first handed out DHCP address
+> > will necessarily be the guest?]
+>
+> It "cannot" be anything else. What could happen is a PXE loader that
+> uses DHCP/NDP, and then the OS that does it again.
+>
+> > But that would mean the defaults for the guest would have to be
+> > different than for the host. E.g.,
+> > host: ",ipv4" means both,
+>
+> Why would it mean both? I don't follow you here.
+>
+> > whereas guest: ",ipv4" (ideally) means ipv4 (since both is meaningless)
+>
+
+
+I guess one has to define:
+- how these flags work,
+- do they have defaults,
+- and if they do have defaults what is the default value?
+
+For the host, neither flag present means "both are on", which could mean,
+effectively, that the defaults for
+ipv4[={off,on}] and ipv6[={off,on}] are both "on".
+[Assuming they have defaults. See above: Do they?
+For the guest ipv4=on,ipv6=on is an error.]
+But does that then mean that the presence of only "ipv4=on" or "ipv6=on" is
+a no-op?
+After all, why specify "ipv4=on" at all if it's the default?
+I think a reader would get confused if they saw only one of "ipv4=on" or
+"ipv6=on"
+specified and learned that both were on.
+It also means that to specify only one of ipv4 or ipv6 you have to turn the
+other off.
+It's a bit awkward, but it is consistent and easy to explain (if awkward to
+use and read).
+
+On the other hand, for the host, one could, for example,
+make these flags tri-state (or call it whatever).
+Is specifying only "ipv4=off" the equivalent of specifying only "ipv6=on"?
+Presumably it must (it makes the most sense).
+There is also the invalid setting of ipv4=off,ipv6=off.
+One also needs to specify the order in which the flags are processed,
+to define what ipv6=on,ipv6=off means.
+Either that or document that specifying them multiple times is undefined.
+
+This is getting a bit verbose to have to explain in documentation,
+but it is what it is.
+I don't have a say in the decision. I just need to know what to implement.
+
+--000000000000f6d86705bd847cb0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Sat, Mar 6, 2021 at 11:29 AM Samuel Thibault &lt;<a href=
+=3D"mailto:samuel.thibault@gnu.org">samuel.thibault@gnu.org</a>&gt; wrote:<=
+br></div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">Hello,<br>
+<br>
+Doug Evans, le ven. 05 mars 2021 17:00:13 -0800, a ecrit:<br>
+&gt; Is it possible for QEMU to lazily determine the guest&#39;s IPv6<br>
+&gt; address? I.e., postpone the &quot;&quot;-&gt;guest address mapping unt=
+il it&#39;s<br>
+&gt; needed and then, say, take the first entry in the NDP table?<br>
+<br>
+That would probably be possible, yes, by moving the <br>
+<br>
+if (!guest_addr.s_addr) {<br>
+=C2=A0 =C2=A0 guest_addr =3D slirp-&gt;vdhcp_startaddr;<br>
+}<br>
+<br>
+from slirp_add_hostfwd() and alike to tcp_connect() and sorecvfrom()<br>
+(along the other sotranslate call).<br>
+<br>
+&gt; That feels a bit fragile: what if someone else gets the first entry in=
+<br>
+&gt; the NDP table? But is that any more fragile than assuming the first<br=
+>
+&gt; handed out DHCP address is to the guest?<br>
+<br>
+I don&#39;t think it&#39;s really more fragile.<br></blockquote><div><br></=
+div><div><br></div><div class=3D"gmail_default" style=3D"font-size:small">G=
+ood to know, thanks.</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall"><br></div><div class=3D"gmail_default" style=3D"font-size:small"></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; [&lt;&lt;-- Honest question, can we assume the first handed out DHCP a=
+ddress<br>
+&gt; will necessarily be the guest?]<br>
+<br>
+It &quot;cannot&quot; be anything else. What could happen is a PXE loader t=
+hat<br>
+uses DHCP/NDP, and then the OS that does it again.<br>
+<br>
+&gt; But that would mean the defaults for the guest would have to be<br>
+&gt; different than for the host. E.g.,<br>
+&gt; host: &quot;,ipv4&quot; means both,<br>
+<br>
+Why would it mean both? I don&#39;t follow you here.<br>
+<br>
+&gt; whereas guest: &quot;,ipv4&quot; (ideally) means ipv4 (since both is m=
+eaningless)<br></blockquote><div><br></div><div><br></div><div class=3D"gma=
+il_default" style=3D"font-size:small">I guess one has to define:</div><div =
+class=3D"gmail_default" style=3D"font-size:small">- how these flags work,</=
+div><div class=3D"gmail_default" style=3D"font-size:small">- do they have d=
+efaults,</div><div class=3D"gmail_default" style=3D"font-size:small">- and =
+if they do have defaults what is the default value?</div><div class=3D"gmai=
+l_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default"=
+ style=3D"font-size:small">For the host, neither flag present means &quot;b=
+oth are on&quot;, which could mean, effectively, that the defaults for</div=
+><div class=3D"gmail_default" style=3D"font-size:small">ipv4[=3D{off,on}] a=
+nd ipv6[=3D{off,on}] are both &quot;on&quot;.</div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small">[Assuming they have defaults. See above: Do =
+they?</div><div class=3D"gmail_default" style=3D"font-size:small">For the g=
+uest ipv4=3Don,ipv6=3Don is an error.]</div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">But does that then mean that the presence of only &=
+quot;ipv4=3Don&quot; or &quot;ipv6=3Don&quot; is a no-op?<br>After all, why=
+ specify &quot;ipv4=3Don&quot; at all if it&#39;s the default?</div><div cl=
+ass=3D"gmail_default" style=3D"font-size:small">I think a reader would get =
+confused if they saw only one of &quot;ipv4=3Don&quot; or &quot;ipv6=3Don&q=
+uot;</div><div class=3D"gmail_default" style=3D"font-size:small">specified =
+and learned that both were on.</div><div class=3D"gmail_default" style=3D"f=
+ont-size:small">It also means that to specify only one of ipv4 or ipv6 you =
+have to turn the other off.</div><div class=3D"gmail_default" style=3D"font=
+-size:small">It&#39;s a bit awkward, but it is consistent and easy to expla=
+in (if awkward to use and read).</div><div class=3D"gmail_default" style=3D=
+"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size=
+:small">On the other hand, for the host, one could, for example,</div><div =
+class=3D"gmail_default" style=3D"font-size:small">make these flags tri-stat=
+e (or call it whatever).</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small">Is specifying only &quot;ipv4=3Doff&quot; the equivalent of speci=
+fying only &quot;ipv6=3Don&quot;?<br></div><div class=3D"gmail_default" sty=
+le=3D"font-size:small">Presumably it must (it makes the most sense).</div><=
+div class=3D"gmail_default" style=3D"font-size:small">There is also the inv=
+alid setting of ipv4=3Doff,ipv6=3Doff.</div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">One also needs to=C2=A0specify the order in which t=
+he flags are processed,</div><div class=3D"gmail_default" style=3D"font-siz=
+e:small">to define what ipv6=3Don,ipv6=3Doff means.</div><div class=3D"gmai=
+l_default" style=3D"font-size:small">Either that or document that specifyin=
+g them multiple times is undefined.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">This is getting a bit verbose to have to explain in documentatio=
+n,<br></div><div class=3D"gmail_default" style=3D"font-size:small">but it=
+=C2=A0is what it is.</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">I don&#39;t have a say in the decision. I just need to know what to i=
+mplement.</div><div class=3D"gmail_default" style=3D"font-size:small"><br><=
+/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div></div=
+></div>
+
+--000000000000f6d86705bd847cb0--
 
