@@ -2,74 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BF033A2CD
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 06:17:07 +0100 (CET)
-Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2FA33A336
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 06:59:00 +0100 (CET)
+Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLJ7h-0007G3-Nu
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 00:17:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37098)
+	id 1lLJmE-0005dU-Vw
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 00:58:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lLJ67-0006kG-O7; Sun, 14 Mar 2021 00:15:27 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:43733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lLJ64-00078O-5S; Sun, 14 Mar 2021 00:15:27 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- mz6-20020a17090b3786b02900c16cb41d63so13068325pjb.2; 
- Sat, 13 Mar 2021 21:15:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ENAimkwYXugyGkX8ynWskJ0i7TXU6cED8PdFPNqSvUQ=;
- b=IY/b3Ft/5QMZRCjZGr1talHAtXGG3CCfUlkMmYkAVKh2Go3BfVr2YSlgqejhs4Nde0
- PmrAFuZf3gW4H50cNedGztOWlCHsa2s/OVtiAa46dy3430NWYacsePOKQT1Q0RTMw9NM
- 3MaYJoUJUdlrzTxPFHA4rlvCYVi6hXsePGgP3L84QEGMj2S9SAFETfjeqFqymk/4Gse9
- c8ibPOch/BN8YQiS8fnB3b69dnEUPgwG4tlO8OVo/v0wSt1Ove4diMC9q9Wc76+v3/9v
- yzZuZoXKnwrfRGDwrtKM4tW1K5Q0yYqRNKCpeEXua9oMIFn1ScdgciQlDUzS4eTBBTvt
- gQ2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ENAimkwYXugyGkX8ynWskJ0i7TXU6cED8PdFPNqSvUQ=;
- b=AgDPsEf3L8oaWy7yiuiMj0me+nh79d3If/VayGhDOeVwulnkxFhifViq8AmQPpXblv
- BAgyn4U8C6WDLhZO1mQCM5C2xOgx5tTay9nB8XFuCZULKTIYRDc90zlU4gQMeXA0S/80
- Ti2lsui9YbWXHpu/Jk1i8tsm4snKkab2GWOJE8pWnEtoTs8ipcf4qpjQaDP1KWB/0RQ2
- yYUIHqn5uHgFf5i/NfrVYHHaNDE3aMrzYQXSybWoiwH35zkMehmY4SHHkAdbOuZOW2Xm
- osZYWAxma4fdtTmAuLdsGISZWRtEcSS6ZPiZqdIuzj1HfqXFU+pD14t2MU9jMfrOABk2
- Zjlw==
-X-Gm-Message-State: AOAM531N8bNraJsqsisIesl8r5KoSQh8ANMy9xYGkCBfa9zYG4W/KaI3
- daQZgkv9TBX4hyHhnEHqmGM=
-X-Google-Smtp-Source: ABdhPJwiNtF+0Hb0JagE5oIdfAojT2v8a5qF2kdAn9gDvBxgA6MiOSyBGv5JORMz7N5G/5Wf9KrgFw==
-X-Received: by 2002:a17:90a:f3d7:: with SMTP id
- ha23mr6366096pjb.130.1615698921736; 
- Sat, 13 Mar 2021 21:15:21 -0800 (PST)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id 186sm10497309pfb.143.2021.03.13.21.15.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 21:15:21 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Priyanka Jain <priyanka.jain@nxp.com>, Ramon Fried <rfried.dev@gmail.com>,
- Simon Glass <sjg@chromium.org>, u-boot@lists.denx.de
-Subject: [PATCH v3 00/22] ppc: qemu: Add eTSEC support
-Date: Sun, 14 Mar 2021 13:14:48 +0800
-Message-Id: <20210314051510.26628-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLJkG-000558-G7
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 00:56:57 -0500
+Received: from mail-bn8nam11on2103.outbound.protection.outlook.com
+ ([40.107.236.103]:27104 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLJkE-0006d4-F6
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 00:56:56 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qs8hptSUXuvLQCQV1mMrsjK0U+elcyilmGhkR9MyC3kgiFULV1r5GQGL1PfMF9+2Tf6VHWLe43XcViGb3mBuHDagV5KLr7B465tQLtSYzJQfhINuckLSBefAJFoCPB+FLvQEIWzJXnhaPnraAFPYVkVFqBR4Bp4+lozN4E+0EpNvYmzRy3rdyuc7XlO5eRYV4H46w0Z89PFHmPH6ysTqHaG5KfnBoSTks3IEN1RlJTy038adipDclQzpUMwoxnGRuFMdFuNihXhKm2udvyz75NI1zvA8yckL15ziPLBYkjV+/G4wNkCGJT2HRrHp6zU+KvIYFSFRX82YWApuliFDpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SvJjzR5KSRhUmuxXradmCxngIqNinKBwuJg9+ye9BLw=;
+ b=eGvolqHv2VhdOiYT2OZdareTl86y6AiK55grAaXy5Acy6VfRHLsbEgu3/AIhHPr9+9zwKoe+lPKYBGvt/pOA+KTQUJzDL1DTpoTivWDIy7vfCLEzp7yrfvNyrLjFz7C0UrAIfbv0jfzfT2aX6INk9ykRPCD9XYTp1DLOZFpXoKpoW5MT2pLrrWtdElk7BcnkwBAWYOpzsA+u0vcRTdSea9GnxjupCgI+RnvuyS/+Nk82vhiNzDHwXfibwcT3Tdw52EuecY5tTXyl+n9lQVEcBqYi64tgQC6DJwPFxFc+3h6AyYffzFu356Ihl5MjG1cL1K1GM2qMEE0JLKtFp7wd0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SvJjzR5KSRhUmuxXradmCxngIqNinKBwuJg9+ye9BLw=;
+ b=Vs7EA3KcdusOZVtdFGwYZMbWl1KhMcnxT3kKwcKyKhm+NfKjxrfLyPa2oC7Om8R7zY+eegpKdng3HsZw3Ih1r0Bwx3ljF02k3p4RnmALOlmGjZJcx2efaqIw9Z5nfP6B+r8LDPN6Psj71tWxQWbAty+i0y7jUKR8vFrcPTC3AIc=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SA0PR03MB5625.namprd03.prod.outlook.com (2603:10b6:806:b7::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Sun, 14 Mar
+ 2021 05:56:50 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::dda8:67d8:8d23:74c6%6]) with mapi id 15.20.3933.032; Sun, 14 Mar 2021
+ 05:56:50 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] fuzz: add a am53c974 generic-fuzzer config
+Date: Sun, 14 Mar 2021 00:56:37 -0500
+Message-Id: <20210314055637.5239-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.27.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [128.197.127.33]
+X-ClientProxiedBy: BL1PR13CA0281.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::16) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ BL1PR13CA0281.namprd13.prod.outlook.com (2603:10b6:208:2bc::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.11 via Frontend
+ Transport; Sun, 14 Mar 2021 05:56:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 747582c5-f71b-4c26-1c9e-08d8e6adf5aa
+X-MS-TrafficTypeDiagnostic: SA0PR03MB5625:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR03MB5625B17934B70544B22C4839BA6D9@SA0PR03MB5625.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Un6GYbVPPkuFTyzvJ6c428kxd7bfPxbql1ogd6SjBAGQfiEhfboLeItAJJAFLoftnBnXMioWUuB59V1ImZWJ84Nm7kgybqdM+FGB11SkF88Jk8D0QTc5qk1ZhhhwgAA0j2TmOWO8LHDrpVgVHPI5k5Ng6RXCoDOgr/6Cw+KBMVexDPJ8xBN1xJtcM1pdmaJsmaZpBA6m0XpEDIGIKOTYPwmLgLr5mvbp060HRZ1rkGOQwmOihg0WVlNn7mS8ZYENIrl1PuRxNhEqbph1974iDDa6wA4mIx0SgGFI8UPfn7EIJDY4b0/IIaNlp/WOR8wAd9medGREHPhIam9GU3QHsXEillzPtivUE70JRV7Nf8OxYkxsm4aCVag5xLX6AGCWwvLOQXXkbgttdvzXDcJthmZvEe1m8p0iES78N4nZU50yHxKtmkQ+wOozTxa1eZ93Tz4K5s1nk5IzhuygxtkwGJQliFVpNHyCaoTASC8f76Le64YISxhKyi9MV6RQA17OEhCqVF6bGTMgYrA1gFTmogLFEKOOCkdo31EvdtDIbPsT5APwOqw9zLHUdQ/Ipj5NxZogjUSCW+Qk4AU987FgW2J9MiaOiq2D2axsiw3gL98=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(316002)(54906003)(956004)(8936002)(786003)(478600001)(2616005)(6666004)(8676002)(36756003)(16526019)(1076003)(86362001)(26005)(186003)(4744005)(66476007)(7696005)(66946007)(5660300002)(2906002)(6486002)(52116002)(75432002)(83380400001)(66556008)(6916009)(4326008)(41533002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?USJUKhZTYzr7IxbecCepQcVNT+MDREgcywn2CoLfJLtZosObtvz9ShflbKvx?=
+ =?us-ascii?Q?QuXPLUzgCJnBhs+eUCD/DELDPQIs9bv5ATsYNwYS0Y1/gDMaMoAE64NdCubH?=
+ =?us-ascii?Q?K3PU13ovWSCEPmZDwllN/ZAptnKSylKe0jtgdEwTQtWvJ83YUNJIWTxTn9gk?=
+ =?us-ascii?Q?1CvJpDoX10HE7UNK4j2CFYUlAhVmR54/ogms0WL1wiARInGB+8yMOmO/0yVx?=
+ =?us-ascii?Q?a2xUwZxnAf4xGGPUIwN0ySHoyEzPjggELFnG5C9uybnFOZrSI+6o5J1RygLd?=
+ =?us-ascii?Q?YcFWmhId9jICFxmH8GH4RRKYN32tS4hHHim0DUhlheS0xgKZbq2goq3r6M8J?=
+ =?us-ascii?Q?b72xvZKWBijncHocKv7E+mgNTXwowosUTo0NTRJEC4GMhQK8swiiQKKyIY2j?=
+ =?us-ascii?Q?FqrhAWNlYhTrVQvAqYxtSl4aqvDoZrgaL6OUdo77ljDhrfO6ewyA/KnBZrLw?=
+ =?us-ascii?Q?UXLweuZQT65/FaZTp+4nOg1P7YUbbuV00Cev5Y1oJBY/cZctxJJrMLdaUbl9?=
+ =?us-ascii?Q?YiswqImNPoo34BoPfLhu5Kmn5d+hz+82LaxdKGcc1FUmlOrwxYO1EPwYBfYI?=
+ =?us-ascii?Q?kGyCMp0JWuq61pVakOgbwg/UDAR3SWsAVjkR85+4NtIC2gTtMDP/NfV7nXTF?=
+ =?us-ascii?Q?FRMDHzTWlWVcs2ta3BR5LpYC2nvZbc4pKBwMreDKNEasq2utB3awL5PbdI+p?=
+ =?us-ascii?Q?0WY7nEm809wt25Iwhf7ixRYVctZ4bm+l8PLwI2gi1xzftuRJPtXL5r4k5LIp?=
+ =?us-ascii?Q?6F86yQ0xs7Fq5vFkInStouV3RPTa6mEmKa64A0JgjsBb6DruBmj9Q+lE4TcA?=
+ =?us-ascii?Q?8P5a8J3vUT7B4jRO1aNSHHcO7WgcnWW+16IvvRiuNdL/dBhy1A76GpSseQsm?=
+ =?us-ascii?Q?z34dDb8f2hgIy9TiuzPCRkBouJ0gC5A8fik4P4/8MI5JU39UcJUZL15ZQYuJ?=
+ =?us-ascii?Q?ox6/Cxbn8Mua/J3GwO5v0j8a71ZcGLi0WJVDziqKxmZUSQnwtNQN7OYGECXd?=
+ =?us-ascii?Q?GNluojeUyXiB5/LP76Wxizfl7r6uwAJBrvteTiXADBqs8pni8nmNLBe6kfyV?=
+ =?us-ascii?Q?8vCg5RuOo31CrkgsCvB5diUGwjS84ag29HK6jowOypHcN3hrYu7OqooZ03/0?=
+ =?us-ascii?Q?rIPKtNDqVkiQ5+nysevjBSQoFu+SY/9uzTfWpBimAsLHDvW0QFVx2khtNA8O?=
+ =?us-ascii?Q?M/oUqOmWrFJIO8bqeWGsoVwGeR3JnZ87lMCM0L6iYByBJSualLI932jwZOCn?=
+ =?us-ascii?Q?49+Dkt75MSZwzZ7PhltzdNoZ3na7za8Pc7LrUSV9t+9xJBhHTohUhn8cF/Vc?=
+ =?us-ascii?Q?tzWidqJQXQnO3K88/uumw3pC?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 747582c5-f71b-4c26-1c9e-08d8e6adf5aa
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2021 05:56:50.0790 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lnyfljKtZ6wS3ADZpGZXhALQPCqJCrdBIZaPrF0cibtqdaRgoqUoKJQCoQkmys1A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5625
+Received-SPF: pass client-ip=40.107.236.103; envelope-from=alxndr@bu.edu;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,122 +131,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Rini <trini@konsulko.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU ppce500 machine can dynamically instantiate an eTSEC device
-if "-device eTSEC" is given to QEMU.
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
 
-This series updates the fixed-link ethernet PHY driver as well as
-the Freescale eTSEC driver to support the QEMU ppce500 board.
+Fuzzing this device might lead to better coverage over the general scsi
+code.
 
-3 patches related to fixed phy in v1 are dropped in v2 as the changes
-were done by Vladimir's fixed phy & Sandbox DSA series [1]. Vladimir's
-series is now included in v2 to avoid dependencies.
+ tests/qtest/fuzz/generic_fuzz_configs.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This cover letter is cc'ed to QEMU mailing list for a heads-up.
-A future patch will be sent to QEMU mailing list to bring its in-tree
-U-Boot source codes up-to-date.
-
-Azure results: PASS
-https://dev.azure.com/bmeng/GitHub/_build/results?buildId=342&view=results
-
-This series is avaiable at u-boot-x86/eTSEC for testing.
-
-[1] https://patchwork.ozlabs.org/project/uboot/patch/20210216224804.3355044-2-olteanv@gmail.com/
-
-Changes in v3:
-- mention that U-Boot deliberately ignores the 'phy_id' and
-  unconditionally uses PHY_FIXED_ID
-- update the code logic to prefer the new binding if both new and
-  old bindings exist
-- sort variable definitions by line length
-- reuse the sandbox dsa nodes for the fixed-link testing
-- new patch: net: tsec: Use map_physmem() directly instead of dev_remap_addr()
-- add "ranges" in the alternate example
-- keep the variable definitions sorted
-- invert the strncmp logic to reduce the indentation level
-- add a comment to mention only the first "queue-group" is used
-- call the same map_physmem() in the common code path
-- extract platform bus virtual memory mapping codes to a new routine
-- add a "break" in case multiple "qemu,platform" nodes exist
-
-Changes in v2:
-- move device tree parsing from xilinxgmiitorgmii_probe() to
-  xilinxgmiitorgmii_config() and use OF APIs
-- new patch: split from <20210216224804.3355044-4-olteanv@gmail.com>
-- include <asm/global_data.h>
-- use a Kconfig option CONFIG_SIMPLE_BUS_CORRECT_RANGE to control the
-  new behavior for boards that want this
-- default y if SANDBOX for CONFIG_SIMPLE_BUS_CORRECT_RANGE
-- turn on CONFIG_SIMPLE_BUS_CORRECT_RANGE in qemu-ppce500_defconfig
-
-Bin Meng (18):
-  dt-bindings: net: Add the old DT bindings for "fixed-link"
-  of: extra: Introduce ofnode_phy_is_fixed_link() API
-  dm: mdio: Use ofnode_phy_is_fixed_link() API
-  net: phy: xilinx: Be compatible with live OF tree
-  net: phy: xilinx: Drop #ifdef CONFIG_DM_ETH around
-    phy_connect_gmii2rgmii()
-  net: phy: Simplify the logic of phy_connect_fixed()
-  net: phy: fixed: Make driver ops static
-  net: phy: fixed: Add the missing ending newline
-  net: phy: fixed: Support the old DT binding
-  test: dm: Add a case to test ofnode_phy_is_fixed_link()
-  net: tsec: Use map_physmem() directly instead of dev_remap_addr()
-  dt-bindings: net: Update Freescale TSEC to support "queue-group"
-  net: tsec: Support <reg> property from the subnode "queue-group"
-  dm: core: Correctly read <ranges> of simple-bus
-  test: dm: Add a test case for simple-bus <ranges>
-  ppc: qemu: Create a virtual memory mapping of the platform bus
-  ppc: qemu: Enable eTSEC support
-  doc: board: qemu-ppce500: Document eTSEC usage
-
-Claudiu Manoil (1):
-  sandbox: Add a DSA sandbox driver and unit test
-
-Vladimir Oltean (3):
-  net: phy: fixed: Be compatible with live OF tree
-  net: phy: fixed: Drop #ifdef CONFIG_DM_ETH around phy_connect_fixed
-  net: tsec: Use dm_eth_phy_connect() directly for the DM case
-
- arch/Kconfig                                  |   2 +
- arch/sandbox/dts/test.dts                     |  44 +++++
- board/emulation/qemu-ppce500/Kconfig          |   6 +
- board/emulation/qemu-ppce500/qemu-ppce500.c   |  31 +++
- configs/qemu-ppce500_defconfig                |   5 +
- doc/board/emulation/qemu-ppce500.rst          |   5 +
- doc/device-tree-bindings/net/fixed-link.txt   |  48 +++--
- doc/device-tree-bindings/net/fsl-tsec-phy.txt |  16 +-
- drivers/core/Kconfig                          |  14 ++
- drivers/core/of_extra.c                       |  23 +++
- drivers/core/simple-bus.c                     |  32 +++-
- drivers/net/Kconfig                           |   9 +
- drivers/net/Makefile                          |   1 +
- drivers/net/dsa_sandbox.c                     | 179 ++++++++++++++++++
- drivers/net/phy/Kconfig                       |   1 +
- drivers/net/phy/fixed.c                       |  54 ++++--
- drivers/net/phy/phy.c                         |  63 +++---
- drivers/net/phy/xilinx_gmii2rgmii.c           |  61 +++---
- drivers/net/tsec.c                            |  36 +++-
- include/configs/sandbox.h                     |   2 +
- include/dm/of_extra.h                         |  20 ++
- include/dm/simple_bus.h                       |   6 +-
- net/mdio-uclass.c                             |   7 +-
- test/dm/Makefile                              |   2 +
- test/dm/dsa.c                                 |  82 ++++++++
- test/dm/eth.c                                 |  10 +-
- test/dm/of_extra.c                            |  18 ++
- test/dm/simple-bus.c                          |  33 ++++
- 28 files changed, 690 insertions(+), 120 deletions(-)
- create mode 100644 drivers/net/dsa_sandbox.c
- create mode 100644 test/dm/dsa.c
- create mode 100644 test/dm/simple-bus.c
-
+diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+index 5d599765c4..3f4f4d0ec5 100644
+--- a/tests/qtest/fuzz/generic_fuzz_configs.h
++++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+@@ -208,6 +208,12 @@ const generic_fuzz_config predefined_configs[] = {
+         .args = "-machine q35 -nodefaults -device megasas -device scsi-cd,drive=null0 "
+         "-blockdev driver=null-co,read-zeroes=on,node-name=null0",
+         .objects = "megasas*",
++    },{
++        .name = "am53c974",
++        .args = "-device am53c974,id=scsi -device scsi-hd,drive=disk0 "
++                 "-drive id=disk0,if=none,file=null-co://,format=raw "
++                 "-nodefaults",
++        .objects = "*esp* *scsi* *am53c974*",
+     },{
+         .name = "ac97",
+         .args = "-machine q35 -nodefaults "
 -- 
-2.25.1
+2.27.0
 
 
