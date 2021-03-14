@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0116733A525
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 15:04:03 +0100 (CET)
-Received: from localhost ([::1]:35300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A88233A55A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 16:14:46 +0100 (CET)
+Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLRLe-0002IE-0M
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 10:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
+	id 1lLSS5-0006VD-1w
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 11:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lLRFA-0003PE-El
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 09:57:20 -0400
-Received: from hoth.uni-paderborn.de ([2001:638:502:c003::19]:45862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lLRF7-00038m-Km
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 09:57:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=oUmowQ9d9iCIHAcueK7Re3aZKbvA5OZOA2lY3aK4+Bc=; b=UG9URUqb5paY+4RFgwKch01fqG
- nSncTbtuzHoUGKrLi86X6RcgL1Cz9BcEGCBn7FcQL4seo54OvuLaWoaqueMcVp4PNmNFcArMAk47q
- IMwwez6FwCqPRdGmWc8pIfvF5JF0YVhGFY/x7gxdENG+j22XSqPdZQ6SZKGo3wIRE808=;
-X-Envelope-From: <kbastian@mail.uni-paderborn.de>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] target/tricore: Fix OPC2_32_RRPW_EXTR for width=0
-Date: Sun, 14 Mar 2021 14:55:13 +0100
-Message-Id: <20210314135513.1369871-8-kbastian@mail.uni-paderborn.de>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210314135513.1369871-1-kbastian@mail.uni-paderborn.de>
-References: <20210314135513.1369871-1-kbastian@mail.uni-paderborn.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLSQT-0005lW-12
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 11:13:05 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLSQQ-0005qR-Qo
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 11:13:04 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id e19so62183144ejt.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 08:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=fRgcZDhwyxRtxpYQ0yszBaz2ZXXxS6so04sjVAdOQwg=;
+ b=cmume6Kq1+II+lSfuOTXFGYxUA53wMtIEM7x8VBdRaPrAh+Kok+wepmwW062Uxf9Di
+ ndnNNV6yCvwGiZJU+ZM8EusrbSn4zNVvNCboifwqmMbh031gZ7m5U4k6nnsgFru0/ewF
+ J4o5jL7PlF+y4xj4pWoyUAInqOOiAFpBYSslUuLYBICqrVG/sKZD5uzgPnhD5TmEwgZi
+ UBfmcZeGXCyYN+E3Cm99pHTorIgr6t+5sP3fizr/eJoW1CuoY9wNoznfQgElCgnzYsqa
+ 7BW2iGWgmDstaF4nG6LxyGBTU507WR7AoSGe7As/FY02zzxc3Yl1sFPr8gr48yH3HDmT
+ lDOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=fRgcZDhwyxRtxpYQ0yszBaz2ZXXxS6so04sjVAdOQwg=;
+ b=WTjmzumIeAF4eHp1ka8/5eUgISMFxRHk+b+EJdFWmqBwgdFZbbkZ6KIZw4ogmzZEmC
+ cpUtoJ2HI6MInahaOmsYv0ja2YFMuhE2Gm28bsAO1C5LunY6u0cHqX9ejTRHXbbXu+zQ
+ HTRpIedJAfKF1KrSP9GXIgyoclPfkj/Xr2eMTgFXwl3p2QG9qjOSy6KboxY2whYwszBF
+ WY+Ymzo/bglwyZI2V6Ic10GNKe9VplvN1hoZgkRf2OgvQQXoEP4oKCne1BeqFWhfuHIS
+ m+AeQmPCRKk32exoso4h3nI2ijctp6FxNRlfYViKsNIi5quPdk91mdx9b8xUSkwBfiJR
+ 7kjg==
+X-Gm-Message-State: AOAM532COoFhMAgDr0PKPUCMpZANV60n7xaYbyRxHlQUGH17eSmBqoUf
+ 5yxoqar0N2hholxheBki7sLsy5/YK3C2dG74vGA+0i6U58lB/Q==
+X-Google-Smtp-Source: ABdhPJww9qyXf7f31Y6O5H189Gc/f19QQwnwlX41kFDEzJ6dCmvtixZsZzQmWU0ZNO44idXupwt4hI9yAiAs8SXJfM8=
+X-Received: by 2002:a17:907:10ce:: with SMTP id
+ rv14mr19364990ejb.56.1615734781101; 
+ Sun, 14 Mar 2021 08:13:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2021.3.14.134815, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=31367618, da=103339299,
- mc=575, sc=4, hc=571, sp=0, fso=31367618, re=0, sd=0, hd=0
-X-IMT-Spam-Score: 0.0 ()
-X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::19;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=hoth.uni-paderborn.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210314131829.8430-1-peter.maydell@linaro.org>
+In-Reply-To: <20210314131829.8430-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 14 Mar 2021 15:12:39 +0000
+Message-ID: <CAFEAcA83RuEf7Y-kQ4=WtJHcgBSCz9US9tEnrv3k-kL=jiLfZA@mail.gmail.com>
+Subject: Re: [PULL v2 00/39] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,44 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbastian@mail.uni-paderborn.de,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-if width was 0 we would run into the assertion:
+On Sun, 14 Mar 2021 at 13:18, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> v2: fix format-string issue in a test case.
+>
+> -- PMM
+>
+> The following changes since commit 6f34661b6c97a37a5efc27d31c037ddeda4547e2:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.0-pull-request' into staging (2021-03-11 18:55:27 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210314
+>
+> for you to fetch changes up to 6500ac13ff8e5c64ca69f5ef5d456028cfda6139:
+>
+>   hw/display/pxa2xx: Inline template header (2021-03-14 13:14:56 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * versal: Support XRAMs and XRAM controller
+>  * smmu: Various minor bug fixes
+>  * SVE emulation: fix bugs handling odd vector lengths
+>  * allwinner-sun8i-emac: traverse transmit queue using TX_CUR_DESC register value
+>  * tests/acceptance: fix orangepi-pc acceptance tests
+>  * hw/timer/sse-timer: Propagate eventual error in sse_timer_realize()
+>  * hw/arm/virt: KVM: The IPA lower bound is 32
+>  * npcm7xx: support MFT module
+>  * pl110, pxa2xx_lcd: tidy up template headers
+>
 
-qemu-system-tricore: tcg/tcg-op.c:217: tcg_gen_sari_i32: Assertion `arg2 >= 0 && arg2 < 32' failed.o
 
-The instruction manual specifies undefined behaviour for this case. So
-we bring this in line with the golden Infineon simlator 'tsim', which
-simply writes 0 to the result in case of width=0.
+Applied, thanks.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
----
- target/tricore/translate.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5b7ed70e39..2a814263de 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -7000,6 +7000,11 @@ static void decode_rrpw_extract_insert(DisasContext *ctx)
- 
-     switch (op2) {
-     case OPC2_32_RRPW_EXTR:
-+        if (width == 0) {
-+                tcg_gen_movi_tl(cpu_gpr_d[r3], 0);
-+                break;
-+        }
-+
-         if (pos + width <= 32) {
-             /* optimize special cases */
-             if ((pos == 0) && (width == 8)) {
--- 
-2.30.1
-
+-- PMM
 
