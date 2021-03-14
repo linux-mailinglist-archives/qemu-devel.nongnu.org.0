@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8F033A23A
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 02:45:54 +0100 (CET)
-Received: from localhost ([::1]:53786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A321E33A24C
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 03:14:35 +0100 (CET)
+Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLFpJ-0002QA-64
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 20:45:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40608)
+	id 1lLGH4-0006Qm-68
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 21:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLFnj-0001ud-4Q
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 20:44:15 -0500
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:32773)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lLGFJ-0005wB-8q; Sat, 13 Mar 2021 21:12:45 -0500
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:37971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLFnh-0000MU-8j
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 20:44:14 -0500
-Received: by mail-qk1-x729.google.com with SMTP id l4so28448044qkl.0
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 17:44:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5Ih2qh866CjWszDltKX/Pc4xvBhRriwcGqyXf+3lhqA=;
- b=t0q+JYE+wnRisA1CznKUULtM9QPzTYHfGtcubyJKw0P/NNTXVRDexCJLh2gQBtu8w5
- K91xcmqG6jE53kiRpu3tCb7N0LC96QkcAbvpeFFajd+q013HQm/0Cr/tY+wD/8sL8BLw
- 8kJ8WuPsD/GRGaSSgq+z0WhF14pFB2hxJRm8lpygVHI0Vugn8XWB7A72GUliZZAum77I
- H4JPcoY7yjlJA9Uzm237ontP7Sh850V76TUOZHOEu5d3vrJbihqH2NUB4nIjMjafBPOM
- wDfrM+qXkn04o9Tdm8gj2iaADWwsZdncuDSYy9fXbgxOpVoKx8Nr9OWPudYI6D5yNSJK
- Gr2A==
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lLGFG-0004zW-C2; Sat, 13 Mar 2021 21:12:44 -0500
+Received: by mail-io1-xd29.google.com with SMTP id k2so29918591ioh.5;
+ Sat, 13 Mar 2021 18:12:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+sHaJOa3bSv8wuweQ8uhsgK44MRV8GwcZ1+qBDuueB8=;
+ b=ZYYE5ydUnUBJo0tDXspGMIbEXt6DRM9dR5oHvuzL/+LwMNC9uepHF8St6ipSV1y6CY
+ O8RpvIfzMaG5nDL/ySGQsvqW06AlSqj3UCZBtimB+HGcxHyMYIfxiN/Gv4qrpiGDAG9J
+ 0LVb9zCBnHCAfinujZci9zg4mjrUK9Sq7Ai9JjG0IifL1kSe6+xZEBLU8DmWjVEXCvS4
+ B3SuSqkvaVt9ZczCqPPHtL9Pi+4QbExSyYM3gZRvw5iBJ6p6SM/HJ5u59EKezGbtKP7p
+ SSqas4AQJB+0y367dkuWn8zOiIZ6JwfLA3m7cbMNwvAZFsOCtjTMp4IxCHJZzbcAp+v+
+ Aghw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5Ih2qh866CjWszDltKX/Pc4xvBhRriwcGqyXf+3lhqA=;
- b=UE9wr+/5EOqIXGE6xY8B5OVwHM30s1k6MfeouhKezUK0I9hAAEiXPfSGYHR97PfGL2
- yT7p+YGABD+Idh2rKO2x5NAOa2rbwVDclsoRbuWyBanLfGFj4AXJwM0paUBN9dW6Ugku
- /cP3i3aJvqt6B8lr4amr5gA7+gHKZmlWIo/5HJe/3qMPumW9HQyccASV2WCW9nYLnLa3
- /3ifRGU1mLbkK0Q+p1A8wfV9clvkY1iQAjzDbxC5YNzUac4Cb2s88kOL1H92ImikswhJ
- mn1OnCwUQN5ksm3Zq9vSyXEZnP9ckCEt2PLC0ujJAhflz/l4iYom04OfLiXvyp9Z337x
- Gcbg==
-X-Gm-Message-State: AOAM531J7F9SQp9NgIkCdmMhyuoI8jNw+WwvRinPHixW3sNIui8iEb6i
- /Ka02e1JmcJaE3v7cforGU/oxw==
-X-Google-Smtp-Source: ABdhPJwnKdkXJCCpaObTV585rX+yyOG0SGjqtHknM0st0zEV438baJkpEH0PrDMEAdym6oM+cenctQ==
-X-Received: by 2002:a05:620a:22f5:: with SMTP id
- p21mr19068523qki.225.1615686252011; 
- Sat, 13 Mar 2021 17:44:12 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k7sm6819496qtm.10.2021.03.13.17.44.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 17:44:11 -0800 (PST)
-Subject: Re: [PATCH v8 29/35] Hexagon (target/hexagon) translation
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-30-git-send-email-tsimpson@quicinc.com>
- <152e99c9-675a-1fc8-c44c-e80d5af8ce70@linaro.org>
- <BYAPR02MB4886C193F014511DDCCDC7EADE6D9@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <889ed981-29e6-357d-48ae-6d3bb8f63ff3@linaro.org>
-Date: Sat, 13 Mar 2021 19:44:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+sHaJOa3bSv8wuweQ8uhsgK44MRV8GwcZ1+qBDuueB8=;
+ b=STix4RyZaVYH6s4uj6gUtUR3WI41sV3Vq9PxIaumzNtn5s3idvJMT0TczIaoXHDofz
+ xsH+FGfoZwNuwougMy1zvI9Hx7wA0NSR2VsEcm848h9BcgV5gegdhI5QZQts72QcpzVF
+ BrggWS7+XXMunxwdLJ+Nix622A/GzRyZa8kWl/85JU87b84EPSllVBtnp+HT69Hjcsww
+ v5E43Xvz24hHD3EYaYZpC4e6r3Fj+LUpdFUUqOq/x3WjuLkykhZgAWWYcSt7vQugAhsI
+ Hlb1c8UZP1/vSJf++koZt6GiQEd1n6DqP3gC6ywQ6BKmbstACt9vXCiUHQAbaNLAu54H
+ zjLg==
+X-Gm-Message-State: AOAM532JQowR/GI1hiA8fkr3At8PISLuOPfBEUx9THVu4GUT9wRwP0A2
+ iye36JpUDRc8ZE0ztey6KLQ7lGymsGgmoY+blpA=
+X-Google-Smtp-Source: ABdhPJzQrVPHUXF4NT31GM9CoGFpal+Jm24WvyA2keYszqAIssfBg9lub+lCpggZl9L5zKmSH+FhWyzNPiZwe6afFkc=
+X-Received: by 2002:a05:6638:102f:: with SMTP id
+ n15mr4972941jan.28.1615687960351; 
+ Sat, 13 Mar 2021 18:12:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB4886C193F014511DDCCDC7EADE6D9@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
+References: <20210313163653.37089-1-ma.mandourr@gmail.com>
+ <20210313163653.37089-5-ma.mandourr@gmail.com>
+ <04476a7d-5c6f-3f17-834c-cc0cebfc5c18@de.ibm.com>
+In-Reply-To: <04476a7d-5c6f-3f17-834c-cc0cebfc5c18@de.ibm.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Sun, 14 Mar 2021 04:12:29 +0200
+Message-ID: <CAD-LL6hv-R8v_u==5LRaWuje9geJ4ZtEv97jp3VymD_9XpPwXg@mail.gmail.com>
+Subject: Re: [PATCH 4/9] pc-bios/s390-ccw/netmain.c: Changed a malloc/free to
+ GLib's variants
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Content-Type: multipart/alternative; boundary="000000000000f1d54305bd75aa73"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,82 +78,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "philmd@redhat.com" <philmd@redhat.com>,
- "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
+Cc: "open list:S390-ccw boot" <qemu-s390x@nongnu.org>,
+ Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/13/21 6:40 PM, Taylor Simpson wrote:
-> 
-> 
->> -----Original Message-----
->> From: Richard Henderson <richard.henderson@linaro.org>
->> Sent: Sunday, February 14, 2021 7:04 PM
->> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
->> Cc: philmd@redhat.com; alex.bennee@linaro.org; laurent@vivier.eu;
->> ale@rev.ng; Brian Cain <bcain@quicinc.com>
->> Subject: Re: [PATCH v8 29/35] Hexagon (target/hexagon) translation
->>
->> On 2/7/21 9:46 PM, Taylor Simpson wrote:
->>> +static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
->>
->> Drop the inline markup throughout.
-> 
-> I can go through the code and remove unnecessary inline's.  However, these particular inline's are needed because this is a header file.  If we remove the inline and the header gets included in a .c file that doesn't use the function, we get a "defined but not used" error.  Also, we need to keep the inline's in genptr.c to avoid the same error when we switch an instruction between the fGEN_TCG and helper implementations (and the idef-parser in the future).  Also, there is one function that needs to be inline for performance reasons.  I'll add a comment for that one.
-> 
->>> +        words[nwords] = cpu_ldl_code(env,
->>> +                                ctx->base.pc_next + nwords * sizeof(uint32_t));
->>
->> translate_ldl, so that a plugin has access to the packet data.  (Note that
->> pkt_crosses_page is fine, because that's read-ahead, not reads for the
->> current
->> packet.)
-> 
-> OK
-> 
->>
->> Fold this to a simple function call:
->>
->> static void gen_check_store_width(...)
->> {
->>      if (HEX_DEBUG) {
->>         ....
->>      }
->> }
-> 
-> OK
-> 
->>> +#if HEX_DEBUG
->>> +        /* When debugging, only put one packet per TB */
->>> +        ctx->base.is_jmp = DISAS_TOO_MANY;
->>> +#endif
->>
->> Why?  You can always add -singlestep to the command-line.
-> 
-> OK
-> 
->>> +    case DISAS_NORETURN:
->>> +        gen_exec_counters(ctx);
->>> +        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
->>> +        if (ctx->base.singlestep_enabled) {
->>> +            gen_exception_debug();
->>> +        } else {
->>> +            tcg_gen_exit_tb(NULL, 0);
->>> +        }
->>
->> DISAS_NORETURN says that we have *already* exited the TB.  None of the
->> code you
->> emit here will be reachable.
-> 
-> Isn't this called before the TB ends?
+--000000000000f1d54305bd75aa73
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, but DISAS_NORETURN still means we've already exited.
+>
+> Nack.
+>
+> This is BIOS code and it does not have glib.
+>
 
-Just like calling abort() in C means that we won't reach any following return 
-statement.
+Thank you so much for the helping notice. This did not cause
+build problems nor was mentioned in the bite-sized tasks
+page as a place to not change. In any case, there are some
+more problems with this series so I was going to resend it (after
+amending those problems). Therefore I'm going to exclude this commit.
 
+On Sat, Mar 13, 2021 at 8:50 PM Christian Borntraeger <
+borntraeger@de.ibm.com> wrote:
 
-r~
+> On 13.03.21 17:36, Mahmoud Mandour wrote:
+> > Changed a call to malloc() and its respective calls free() with
+> > GLib's allocation and deallocation functions.
+> >
+> > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+>
+> Nack.
+>
+> This is BIOS code and it does not have glib.
+>
+>
+> > ---
+> >   pc-bios/s390-ccw/netmain.c | 6 +++---
+> >   1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/pc-bios/s390-ccw/netmain.c b/pc-bios/s390-ccw/netmain.c
+> > index 056e93a818..7f78150144 100644
+> > --- a/pc-bios/s390-ccw/netmain.c
+> > +++ b/pc-bios/s390-ccw/netmain.c
+> > @@ -243,7 +243,7 @@ static const char *get_uuid(void)
+> >       int i, cc, chk = 0;
+> >       static char uuid_str[37];
+> >
+> > -    mem = malloc(2 * PAGE_SIZE);
+> > +    mem = g_try_malloc(2 * PAGE_SIZE);
+> >       if (!mem) {
+> >           puts("Out of memory ... can not get UUID.");
+> >           return NULL;
+> > @@ -261,7 +261,7 @@ static const char *get_uuid(void)
+> >                    : "d" (r0), "d" (r1), [addr] "a" (buf)
+> >                    : "cc", "memory");
+> >       if (cc) {
+> > -        free(mem);
+> > +        g_free(mem);
+> >           return NULL;
+> >       }
+> >
+> > @@ -269,7 +269,7 @@ static const char *get_uuid(void)
+> >           uuid[i] = buf[STSI322_VMDB_UUID_OFFSET + i];
+> >           chk |= uuid[i];
+> >       }
+> > -    free(mem);
+> > +    g_free(mem);
+> >       if (!chk) {
+> >           return NULL;
+> >       }
+> >
+>
+
+--000000000000f1d54305bd75aa73
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Nack.<br><br>This is BIOS code and it does not have glib.<br></b=
+lockquote><div><br></div><div>Thank you so much for the=C2=A0helping notice=
+. This did not cause</div><div>build problems nor was mentioned in the bite=
+-sized tasks</div><div>page as a place to not change. In any case, there ar=
+e some=C2=A0</div><div>more problems with this series so I was going to res=
+end it (after</div><div>amending those problems). Therefore I&#39;m going t=
+o exclude this commit.</div></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 13, 2021 at 8:50 PM Christian=
+ Borntraeger &lt;<a href=3D"mailto:borntraeger@de.ibm.com">borntraeger@de.i=
+bm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On 13.03.21 17:36, Mahmoud Mandour wrote:<br>
+&gt; Changed a call to malloc() and its respective calls free() with<br>
+&gt; GLib&#39;s allocation and deallocation functions.<br>
+&gt; <br>
+&gt; Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail=
+.com" target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
+<br>
+Nack.<br>
+<br>
+This is BIOS code and it does not have glib.<br>
+<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0pc-bios/s390-ccw/netmain.c | 6 +++---<br>
+&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/pc-bios/s390-ccw/netmain.c b/pc-bios/s390-ccw/netmain.c<b=
+r>
+&gt; index 056e93a818..7f78150144 100644<br>
+&gt; --- a/pc-bios/s390-ccw/netmain.c<br>
+&gt; +++ b/pc-bios/s390-ccw/netmain.c<br>
+&gt; @@ -243,7 +243,7 @@ static const char *get_uuid(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int i, cc, chk =3D 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0static char uuid_str[37];<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 mem =3D malloc(2 * PAGE_SIZE);<br>
+&gt; +=C2=A0 =C2=A0 mem =3D g_try_malloc(2 * PAGE_SIZE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!mem) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0puts(&quot;Out of memory ... c=
+an not get UUID.&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+&gt; @@ -261,7 +261,7 @@ static const char *get_uuid(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :=
+ &quot;d&quot; (r0), &quot;d&quot; (r1), [addr] &quot;a&quot; (buf)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :=
+ &quot;cc&quot;, &quot;memory&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (cc) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 free(mem);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(mem);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -269,7 +269,7 @@ static const char *get_uuid(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uuid[i] =3D buf[STSI322_VMDB_U=
+UID_OFFSET + i];<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chk |=3D uuid[i];<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; -=C2=A0 =C2=A0 free(mem);<br>
+&gt; +=C2=A0 =C2=A0 g_free(mem);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!chk) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; <br>
+</blockquote></div>
+
+--000000000000f1d54305bd75aa73--
 
