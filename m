@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C3533A27D
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 04:26:32 +0100 (CET)
-Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863BF33A280
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 04:28:23 +0100 (CET)
+Received: from localhost ([::1]:47414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLHOg-0000EL-Q8
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 22:26:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1lLHQU-0002Xq-HO
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 22:28:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lLHMH-0006Vc-H6
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 22:24:02 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37220)
+ id 1lLHMJ-0006Vt-5W
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 22:24:04 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lLHMF-0004RU-C3
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 22:24:01 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id v15so6907456wrx.4
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 19:23:58 -0800 (PST)
+ id 1lLHMG-0004RY-Tt
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 22:24:02 -0500
+Received: by mail-wr1-x434.google.com with SMTP id j7so3901968wrd.1
+ for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 19:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BajUyfK396v7XdGJs5VK12t0TqFac+fXAWp2W7CZvi4=;
- b=NYw4mxvsGbWYnB32qoBuO35zU5yhFGs3LLivuPZslQd9Ddqw9I36e/l8MFygj0xOcc
- yZU1ppsm1zuQXYzieL6JuI4UzS7HyBVSbtFgWXhxGIR21XSLcMsyBleWtooI5nsarfEv
- BHSUd03doGa9h/X6DTnFyN4hnFewx8V871ycyPZRZp1D/F9BNV5qzWHjWz+MnMIeKOlO
- fqG1wB9pvEcsfuP3hn34hySwb4JMLnymABvwX/hX4aaZ47K8iCol+UM4WFH0ZLBfXPyV
- x5Ey7E8qf91NekepLqPgRcBkG7j/viiKOwhQVbzydIXR3MUfnorpaSxoqgKSVur7h1e9
- 1yaA==
+ bh=03j/gt08iEmB/YpVMydgNMGaK1/oqVMzCnaDLB+XL7M=;
+ b=Ii/byVoiSpzMkxd5JVFe+mKtH7ToN1dOHdaNLTKmYLx9njMUCC2Z7dinJf/eUcHotO
+ mAWmLX4kSV5zmWeWjyZTzd199D2xnGybLV1qZK64u47Xa6VZu0B6X9iG2eoe4hKdyICb
+ qk4pZLffEfmWMCk1LfoCgp/ml3ssWSmriTrsFGKFv0ZH5lALxNtLkmVR21MlU055hi5b
+ dWXXj340OU/lEv/KBjzzgklVHdRkUHpwHkt7jzR6U7guWU15v3YdmTDOjqKGnSM4tBFs
+ uvY9ZjPPDKfB81tg+e9BpXoXidnMulHzfvBF5SYWTHkGyQjHpuBvniU6I10M3ksTV3Ej
+ 4i+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BajUyfK396v7XdGJs5VK12t0TqFac+fXAWp2W7CZvi4=;
- b=Twu7ytU/oZWS29eXmkiDbddhDk1Dt4QyAs0e5hamRaknfRvIqoWrt7h6erK6QhJSRG
- y3Ly5Uxhk6HdOVXg40QOhc/HOIapyJu1sjq/5yZO0MvBhA0y3JfHEX+6540gJearPLty
- LhcsywkzbdHeXyYMoKgwq8zGVn0gEJJoAZMpM/bHSxOyW0x+Lw2gF/6RvEPyReWhxUKg
- 4tIN9a9yK0M+spsCIZNksXnK8rXaOMb/vimQhm3gdEdtl9NH3ZNASufHH86Y84jiJWm7
- Ilx6cjNlOkfD55iPwhfSHUA/v/RfnKY+/+kuyliHNHAONi6yjDNRA0y78s5gZENXNgpV
- fkgw==
-X-Gm-Message-State: AOAM532eMna3y1Cqtrr6LAYlEvcUqOrY0AJUAWKC+4DR9VXktUKBEbSg
- NSUF330qIpK9XRmpyQpL1eohHfFKOSc=
-X-Google-Smtp-Source: ABdhPJyQiBG3C3mbSJVJ6DguNxzXLhDF91H+STCd7xv8rLaUhXvLS4A96xNipLEbjQ59LqNoemRiBw==
-X-Received: by 2002:a5d:570b:: with SMTP id a11mr21299224wrv.281.1615692237926; 
- Sat, 13 Mar 2021 19:23:57 -0800 (PST)
+ bh=03j/gt08iEmB/YpVMydgNMGaK1/oqVMzCnaDLB+XL7M=;
+ b=moon2JVmukL192HcFy4lwvkbRFgo7VnA2hZe7cS4YT0WlVh00fGWpoKiRAkkwkxnUT
+ o+1mN9Z1UYy+O0WPZqEQknSikvD3smwKKKp9kCXKiNSFhqWgOf58qjpwORX9E7KGP+Fu
+ XbMoFTwXi6KVc2ePT6f+ir2JXT2I0LCKVx2UPbGOjsDlTcTGtqj8Y50jR9ZLeiHf8/Qn
+ Mb8UQbeWQ8Qk/LBpkX2zJBkr2gaqfdW6QhDIKr5txUSoswoRrwXL4jVj+mD1FTBDPWpz
+ TiEHx9L4jRECJRuHoPL+4vdTod2iVNVhrfl+psJppaEhSIknO+WExqaD0Lr1JBaHnd9U
+ SBKQ==
+X-Gm-Message-State: AOAM53288aV25LNQqUMxiwy6SVZnJRth2feGVpqibVOpoX4Wcdi94pdU
+ y5fCxvGWqz1s+SUPPm9r9GdCgVt76Ms=
+X-Google-Smtp-Source: ABdhPJxCIdAjkcprtUcVribnivMJvBU3iHeU1ToyMfX/M18v1lHWN9FWNazHtLWSfV2adr1VBTzppw==
+X-Received: by 2002:a5d:6b50:: with SMTP id x16mr5420011wrw.379.1615692239020; 
+ Sat, 13 Mar 2021 19:23:59 -0800 (PST)
 Received: from localhost.localdomain ([197.61.164.30])
- by smtp.googlemail.com with ESMTPSA id e1sm14922249wrd.44.2021.03.13.19.23.57
+ by smtp.googlemail.com with ESMTPSA id e1sm14922249wrd.44.2021.03.13.19.23.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Mar 2021 19:23:57 -0800 (PST)
+ Sat, 13 Mar 2021 19:23:58 -0800 (PST)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/8] hw/audio/fmopl.c: Replaced calls to malloc with GLib's
- variants
-Date: Sun, 14 Mar 2021 05:23:19 +0200
-Message-Id: <20210314032324.45142-4-ma.mandourr@gmail.com>
+Subject: [PATCH 4/8] target/xtensa: Replaced malloc/free with GLib's variants
+Date: Sun, 14 Mar 2021 05:23:20 +0200
+Message-Id: <20210314032324.45142-5-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314032324.45142-1-ma.mandourr@gmail.com>
 References: <20210314032324.45142-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,112 +82,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replaced calls to malloc(), and free() to their equivalent
-allocation functions from GLib.
+Replaced the calls to malloc() and their respective calls to
+free() with GLib's allocation and deallocation functions.
 
-Also added checking for null after ENV_CURVE allocation
-following the same pattern of checking on preceeding
-table allocations.
+Removed null checking before calling g_free() because it's
+not necessary and generates style errors.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- hw/audio/fmopl.c | 42 +++++++++++++++++++++++++-----------------
- 1 file changed, 25 insertions(+), 17 deletions(-)
+ target/xtensa/xtensa-isa.c | 53 +++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 32 deletions(-)
 
-diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
-index 51b773695a..795c7a23dc 100644
---- a/hw/audio/fmopl.c
-+++ b/hw/audio/fmopl.c
-@@ -607,33 +607,41 @@ static int OPLOpenTable( void )
- 	double pom;
- 
- 	/* allocate dynamic tables */
--    TL_TABLE = malloc(TL_MAX * 2 * sizeof(int32_t));
-+    TL_TABLE = g_try_new(int32_t, TL_MAX * 2);
-     if (TL_TABLE == NULL) {
-         return 0;
-     }
- 
--    SIN_TABLE = malloc(SIN_ENT * 4 * sizeof(int32_t *));
-+    SIN_TABLE = g_try_new(int32_t *, SIN_ENT * 4);
-     if (SIN_TABLE == NULL) {
--        free(TL_TABLE);
-+        g_free(TL_TABLE);
-         return 0;
-     }
- 
--    AMS_TABLE = malloc(AMS_ENT * 2 * sizeof(int32_t));
-+    AMS_TABLE = g_try_new(int32_t, AMS_ENT * 2);
-     if (AMS_TABLE == NULL) {
--        free(TL_TABLE);
--        free(SIN_TABLE);
-+        g_free(TL_TABLE);
-+        g_free(SIN_TABLE);
-         return 0;
-     }
- 
--    VIB_TABLE = malloc(VIB_ENT * 2 * sizeof(int32_t));
-+    VIB_TABLE = g_try_new(int32_t, VIB_ENT * 2);
-     if (VIB_TABLE == NULL) {
--        free(TL_TABLE);
--        free(SIN_TABLE);
--        free(AMS_TABLE);
-+        g_free(TL_TABLE);
-+        g_free(SIN_TABLE);
-+        g_free(AMS_TABLE);
-+        return 0;
-+    }
-+
-+    ENV_CURVE = g_try_new(int32_t, 2 * EG_ENT + 1);
-+    if (ENV_CURVE == NULL) {
-+        g_free(TL_TABLE);
-+        g_free(SIN_TABLE);
-+        g_free(AMS_TABLE);
-+        g_free(VIB_TABLE);
-         return 0;
-     }
- 
--    ENV_CURVE = g_new(int32_t, 2 * EG_ENT + 1);
- 	/* make total level table */
- 	for (t = 0;t < EG_ENT-1 ;t++){
- 		rate = ((1<<TL_BITS)-1)/pow(10,EG_STEP*t/20);	/* dB -> voltage */
-@@ -702,10 +710,10 @@ static int OPLOpenTable( void )
- static void OPLCloseTable( void )
+diff --git a/target/xtensa/xtensa-isa.c b/target/xtensa/xtensa-isa.c
+index 630b4f9da1..5afdba77aa 100644
+--- a/target/xtensa/xtensa-isa.c
++++ b/target/xtensa/xtensa-isa.c
+@@ -79,7 +79,7 @@ int xtensa_insnbuf_size(xtensa_isa isa)
+ xtensa_insnbuf xtensa_insnbuf_alloc(xtensa_isa isa)
  {
-     g_free(ENV_CURVE);
--    free(TL_TABLE);
--    free(SIN_TABLE);
--    free(AMS_TABLE);
--    free(VIB_TABLE);
-+    g_free(TL_TABLE);
-+    g_free(SIN_TABLE);
-+    g_free(AMS_TABLE);
-+    g_free(VIB_TABLE);
+     xtensa_insnbuf result = (xtensa_insnbuf)
+-        malloc(xtensa_insnbuf_size(isa) * sizeof(xtensa_insnbuf_word));
++        g_try_malloc(xtensa_insnbuf_size(isa) * sizeof(xtensa_insnbuf_word));
+ 
+     CHECK_ALLOC(result, 0);
+     return result;
+@@ -89,7 +89,7 @@ xtensa_insnbuf xtensa_insnbuf_alloc(xtensa_isa isa)
+ void xtensa_insnbuf_free(xtensa_isa isa __attribute__ ((unused)),
+                          xtensa_insnbuf buf)
+ {
+-    free(buf);
++    g_free(buf);
  }
  
- /* CSM Key Control */
-@@ -1088,7 +1096,7 @@ FM_OPL *OPLCreate(int clock, int rate)
- 	state_size  = sizeof(FM_OPL);
- 	state_size += sizeof(OPL_CH)*max_ch;
- 	/* allocate memory block */
--    ptr = malloc(state_size);
-+    ptr = g_try_malloc(state_size);
- 	if(ptr==NULL) return NULL;
- 	/* clear */
- 	memset(ptr,0,state_size);
-@@ -1134,7 +1142,7 @@ void OPLDestroy(FM_OPL *OPL)
- 	}
- #endif
- 	OPL_UnLockTable();
--    free(OPL);
-+    g_free(OPL);
+ 
+@@ -237,7 +237,7 @@ xtensa_isa xtensa_isa_init(void *xtensa_modules, xtensa_isa_status *errno_p,
+ 
+     /* Set up the opcode name lookup table. */
+     isa->opname_lookup_table =
+-        malloc(isa->num_opcodes * sizeof(xtensa_lookup_entry));
++        g_try_new(xtensa_lookup_entry, isa->num_opcodes);
+     CHECK_ALLOC_FOR_INIT(isa->opname_lookup_table, NULL, errno_p, error_msg_p);
+     for (n = 0; n < isa->num_opcodes; n++) {
+         isa->opname_lookup_table[n].key = isa->opcodes[n].name;
+@@ -248,7 +248,7 @@ xtensa_isa xtensa_isa_init(void *xtensa_modules, xtensa_isa_status *errno_p,
+ 
+     /* Set up the state name lookup table. */
+     isa->state_lookup_table =
+-        malloc(isa->num_states * sizeof(xtensa_lookup_entry));
++        g_try_new(xtensa_lookup_entry, isa->num_states);
+     CHECK_ALLOC_FOR_INIT(isa->state_lookup_table, NULL, errno_p, error_msg_p);
+     for (n = 0; n < isa->num_states; n++) {
+         isa->state_lookup_table[n].key = isa->states[n].name;
+@@ -259,7 +259,7 @@ xtensa_isa xtensa_isa_init(void *xtensa_modules, xtensa_isa_status *errno_p,
+ 
+     /* Set up the sysreg name lookup table. */
+     isa->sysreg_lookup_table =
+-        malloc(isa->num_sysregs * sizeof(xtensa_lookup_entry));
++        g_try_new(xtensa_lookup_entry, isa->num_sysregs);
+     CHECK_ALLOC_FOR_INIT(isa->sysreg_lookup_table, NULL, errno_p, error_msg_p);
+     for (n = 0; n < isa->num_sysregs; n++) {
+         isa->sysreg_lookup_table[n].key = isa->sysregs[n].name;
+@@ -271,7 +271,7 @@ xtensa_isa xtensa_isa_init(void *xtensa_modules, xtensa_isa_status *errno_p,
+     /* Set up the user & system sysreg number tables. */
+     for (is_user = 0; is_user < 2; is_user++) {
+         isa->sysreg_table[is_user] =
+-            malloc((isa->max_sysreg_num[is_user] + 1) * sizeof(xtensa_sysreg));
++            g_try_new(xtensa_sysreg, isa->max_sysreg_num[is_user] + 1);
+         CHECK_ALLOC_FOR_INIT(isa->sysreg_table[is_user], NULL,
+                              errno_p, error_msg_p);
+ 
+@@ -290,7 +290,7 @@ xtensa_isa xtensa_isa_init(void *xtensa_modules, xtensa_isa_status *errno_p,
+ 
+     /* Set up the interface lookup table. */
+     isa->interface_lookup_table =
+-        malloc(isa->num_interfaces * sizeof(xtensa_lookup_entry));
++        g_try_new(xtensa_lookup_entry, isa->num_interfaces);
+     CHECK_ALLOC_FOR_INIT(isa->interface_lookup_table, NULL, errno_p,
+                          error_msg_p);
+     for (n = 0; n < isa->num_interfaces; n++) {
+@@ -302,7 +302,7 @@ xtensa_isa xtensa_isa_init(void *xtensa_modules, xtensa_isa_status *errno_p,
+ 
+     /* Set up the funcUnit lookup table. */
+     isa->funcUnit_lookup_table =
+-        malloc(isa->num_funcUnits * sizeof(xtensa_lookup_entry));
++        g_try_new(xtensa_lookup_entry, isa->num_funcUnits);
+     CHECK_ALLOC_FOR_INIT(isa->funcUnit_lookup_table, NULL, errno_p,
+                          error_msg_p);
+     for (n = 0; n < isa->num_funcUnits; n++) {
+@@ -332,36 +332,25 @@ void xtensa_isa_free(xtensa_isa isa)
+      * structure to its initial state.
+      */
+ 
+-    if (intisa->opname_lookup_table) {
+-        free(intisa->opname_lookup_table);
+-        intisa->opname_lookup_table = 0;
+-    }
++    g_free(intisa->opname_lookup_table);
++    intisa->opname_lookup_table = 0;
+ 
+-    if (intisa->state_lookup_table) {
+-        free(intisa->state_lookup_table);
+-        intisa->state_lookup_table = 0;
+-    }
++    g_free(intisa->state_lookup_table);
++    intisa->state_lookup_table = 0;
++
++    g_free(intisa->sysreg_lookup_table);
++    intisa->sysreg_lookup_table = 0;
+ 
+-    if (intisa->sysreg_lookup_table) {
+-        free(intisa->sysreg_lookup_table);
+-        intisa->sysreg_lookup_table = 0;
+-    }
+     for (n = 0; n < 2; n++) {
+-        if (intisa->sysreg_table[n]) {
+-            free(intisa->sysreg_table[n]);
+-            intisa->sysreg_table[n] = 0;
+-        }
++        g_free(intisa->sysreg_table[n]);
++        intisa->sysreg_table[n] = 0;
+     }
+ 
+-    if (intisa->interface_lookup_table) {
+-        free(intisa->interface_lookup_table);
+-        intisa->interface_lookup_table = 0;
+-    }
++    g_free(intisa->interface_lookup_table);
++    intisa->interface_lookup_table = 0;
+ 
+-    if (intisa->funcUnit_lookup_table) {
+-        free(intisa->funcUnit_lookup_table);
+-        intisa->funcUnit_lookup_table = 0;
+-    }
++    g_free(intisa->funcUnit_lookup_table);
++    intisa->funcUnit_lookup_table = 0;
  }
  
- /* ----------  Option handlers ----------       */
+ 
 -- 
 2.25.1
 
