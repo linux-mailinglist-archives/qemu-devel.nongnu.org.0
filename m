@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D6F33A756
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:13:01 +0100 (CET)
-Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921B233A75E
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 19:17:48 +0100 (CET)
+Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLVEa-0003vz-9e
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48722)
+	id 1lLVJD-0007g6-Hv
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 14:17:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1c-0002YO-TR
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:36 -0400
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:39748)
+ id 1lLV1f-0002et-6Y
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:39 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:44849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLV1S-0002Ci-TX
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:36 -0400
-Received: by mail-qv1-xf29.google.com with SMTP id q9so1269127qvm.6
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:25 -0700 (PDT)
+ id 1lLV1T-0002Cr-Ql
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 13:59:38 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id m7so7645893qtq.11
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 10:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vELE3YSpOk5r/uHFU87DvdYSf1TzMJkyUqmnTwvrjhM=;
- b=V/ewIlIiEb8AM3Tcbm2hIUnxaKqRzk2I8Mkk3JNO9WD7T/t7zKP0mFTP+OZWXmVsyQ
- l7RNsfB0AeZUQw4k3GK288StYpgC9NZoOcULPOT2enJGrH1CuU9kYgoYEbc3WQVbsSoA
- O09qlVrSXKZ0W8kbC+MKbVxvKxfnBwPAZnPV1LdkeyOWq2IZ9jiVkZA14uQnM4+b0RyP
- Njj8Lt7098Ee6cy+ztl4iiXQk3prH+vj07l29P8qlqOPhlG0AtUkCu289Zuez/kay8Hg
- hSwcG3pVkb+BJzLE/JFoGnzyBTQ3XalkqDOfEn1SrqzBLTaGkVzbzcf/XHB/HymgKK/w
- VsZw==
+ bh=GP7KN1O/N4US4bdn1IcXHif9taZ0y5n50rRX2Q2HUDY=;
+ b=ERH8veWosGea4o9Zecd3wSLldTReoTU/UXvMGcxbf7WA9hW+NcpEDIpeT4FrPLzwrx
+ Y/gezCC61BdCYY1THfy/WgKWX4koQdaRDPvfaQK2MDGaxZUGjzYJnipcprF6LxN1fI1y
+ ZNCcOiPYv0/DNmZZXolPfAU2BDsJZXtiyKWECe3Ft/JuCPXiYvfHNgFsCE7G2whwVwLu
+ XimK3n5nWVIvzUtqC0nJk6gZ4ZgxKXVDyDSZebUTJu6J25GgFtSjeTdYVZELhrp+XRJY
+ 2IPIOYX+5qqVf8i1FpKcrbwBPSvMT75CqBc3t9WuuoF8ny1w2BfTR2AorORL9x+WtIfO
+ niDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vELE3YSpOk5r/uHFU87DvdYSf1TzMJkyUqmnTwvrjhM=;
- b=t7vGTJgvTMs4UM2JBGLKhUVKA/qL2s698bnasiwOlyYUSSei0AMm01JS9Ve4mGF7xl
- qwkWBTEMwHwIlG0fbdGhKzIcE+GKFL4hU4Ku7Aux30Stg8OpDzCanqLn+reAFmJhSZSo
- BLEIb5p8dwofBFMJlNifUcv6Th+Zb7bEipl/MhoO5l791NX4R/F13Vqzqgh8Acp6LlwO
- EIBjMl2fvthhrFfWRuqfWJfC6O/OyCibMXg+pIxPSCjahBUAT+jyYuRwNhiVsZfTG3TE
- O2TBT6Ldexf5sGu/TieNCun1BRs37LVGs51kzeR1qDIjEc/SsEy3FKqDxiNxoHHiEacw
- duFA==
-X-Gm-Message-State: AOAM53000yrJJbtHIF6Ov+7hGZktWa8YVPyF4OGe0np9FkF4xpqfSjh6
- 9Py8phEJjVUMAINNNA+AtRzFuyzseRysuqQ7
-X-Google-Smtp-Source: ABdhPJzsQITYMBcoY+arfXgZCCe2S+m3q9kztvj+UEJA/oi9UfHhbPjfBL2K61wWty6jFD2yLRnsQg==
-X-Received: by 2002:a0c:b59f:: with SMTP id g31mr7369877qve.28.1615744765054; 
- Sun, 14 Mar 2021 10:59:25 -0700 (PDT)
+ bh=GP7KN1O/N4US4bdn1IcXHif9taZ0y5n50rRX2Q2HUDY=;
+ b=X1e6p4ei8i0ug+x4KIE1rKtYTTKJpYDWYR8F4bUDzXCArXFfRhAF8SG2a/BI+xVxll
+ rE4nV9dHcXg4zvLOna3hD6b27/vkHxfWujvpHeDUWkL28fcafYtS/lgIyCIs3fNSAWau
+ j6C3vUjpEzHDavU6fIVm2Ggxq6R98o1VrlSRzzxwThzqT0RMD12er0UFiXmIVESnnjJe
+ YRUEOPJkrfTDt87YvqnJqtX9t/mZdqvTDk4Nf/+3wtdumrKB0PiKgD068gqXXLSNc59K
+ u2k/oKPulPKlwTFDIWQYhsVvA+3lOcBgXxC27vIyb/J47QT2pI4PsB4WQtwV77yz/I71
+ osIA==
+X-Gm-Message-State: AOAM533oY/VOXuxRZZN7A4pxq05E6z5d+DT/VYKa1GcmlIUj+lgNxcXR
+ AG7zCF4GCQSy5yVsgi+PnBgrOfzveWFmxuNU
+X-Google-Smtp-Source: ABdhPJy3yN4SkF0+wvrFK5UG83o487IDhO7FxYcejz5PkSnNAVv3ULtIZ6AhuNDjD5KSxwVubJd9eQ==
+X-Received: by 2002:ac8:53c2:: with SMTP id c2mr20287368qtq.332.1615744766163; 
+ Sun, 14 Mar 2021 10:59:26 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.23
+ by smtp.gmail.com with ESMTPSA id c127sm10216240qkd.87.2021.03.14.10.59.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 10:59:24 -0700 (PDT)
+ Sun, 14 Mar 2021 10:59:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/16] hw/ppc: Use hreg_store_msr for msr updates
-Date: Sun, 14 Mar 2021 11:59:04 -0600
-Message-Id: <20210314175906.1733746-15-richard.henderson@linaro.org>
+Subject: [PATCH v3 15/16] linux-user/ppc: Fix msr updates
+Date: Sun, 14 Mar 2021 11:59:05 -0600
+Message-Id: <20210314175906.1733746-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314175906.1733746-1-richard.henderson@linaro.org>
 References: <20210314175906.1733746-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,82 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ivan@vmfacility.fr, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- david@gibson.dropbear.id.au
+Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only one of the three places in hw/ppc that modify msr updated
-hflags.  Even in that case, use the official interface instead
-of a direct call to hreg_compute_hflags.
+In save_user_regs, there are two bugs where we OR in a bit number
+instead of the bit, clobbering the low bits of MSR.  However:
+
+The MSR_VR and MSR_SPE bits control the availability of the insns.
+If the bits were not already set in MSR, then any attempt to access
+those registers would result in SIGILL.
+
+For linux-user, we always initialize MSR to the capabilities
+of the cpu.  We *could* add checks vs MSR where we currently
+check insn_flags and insn_flags2, but we know they match.
+
+Also, there's a stray cut-and-paste comment in restore.
+
+Then, do not force little-endian binaries into big-endian mode.
+
+Finally, use ppc_store_msr for the update to affect hflags.
+Which is the reason none of these bugs were previously noticed.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-Cc: Cédric Le Goater <clg@kaod.org>
-Cc: Greg Kurz <groug@kaod.org>
----
- hw/ppc/pnv_core.c    | 3 ++-
- hw/ppc/spapr_hcall.c | 3 +--
- hw/ppc/spapr_rtas.c  | 3 ++-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ linux-user/ppc/cpu_loop.c |  5 +++--
+ linux-user/ppc/signal.c   | 23 +++++++++++------------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index bd2bf2e044..31f041b9c7 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -29,6 +29,7 @@
- #include "hw/ppc/pnv_xscom.h"
- #include "hw/ppc/xics.h"
- #include "hw/qdev-properties.h"
-+#include "helper_regs.h"
+diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+index df71e15a25..4a0f6c8dc2 100644
+--- a/linux-user/ppc/cpu_loop.c
++++ b/linux-user/ppc/cpu_loop.c
+@@ -492,11 +492,12 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+ #if defined(TARGET_PPC64)
+     int flag = (env->insns_flags2 & PPC2_BOOKE206) ? MSR_CM : MSR_SF;
+ #if defined(TARGET_ABI32)
+-    env->msr &= ~((target_ulong)1 << flag);
++    ppc_store_msr(env, env->msr & ~((target_ulong)1 << flag));
+ #else
+-    env->msr |= (target_ulong)1 << flag;
++    ppc_store_msr(env, env->msr | (target_ulong)1 << flag);
+ #endif
+ #endif
++
+     env->nip = regs->nip;
+     for(i = 0; i < 32; i++) {
+         env->gpr[i] = regs->gpr[i];
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index b78613f7c8..bad38f8ed9 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -261,9 +261,6 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
+             __put_user(avr->u64[PPC_VEC_HI], &vreg->u64[0]);
+             __put_user(avr->u64[PPC_VEC_LO], &vreg->u64[1]);
+         }
+-        /* Set MSR_VR in the saved MSR value to indicate that
+-           frame->mc_vregs contains valid data.  */
+-        msr |= MSR_VR;
+ #if defined(TARGET_PPC64)
+         vrsave = (uint32_t *)&frame->mc_vregs.altivec[33];
+         /* 64-bit needs to put a pointer to the vectors in the frame */
+@@ -300,9 +297,6 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
+         for (i = 0; i < ARRAY_SIZE(env->gprh); i++) {
+             __put_user(env->gprh[i], &frame->mc_vregs.spe[i]);
+         }
+-        /* Set MSR_SPE in the saved MSR value to indicate that
+-           frame->mc_vregs contains valid data.  */
+-        msr |= MSR_SPE;
+         __put_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
+     }
+ #endif
+@@ -354,8 +348,10 @@ static void restore_user_regs(CPUPPCState *env,
+     __get_user(msr, &frame->mc_gregs[TARGET_PT_MSR]);
  
- static const char *pnv_core_cpu_typename(PnvCore *pc)
- {
-@@ -54,7 +55,7 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
-      */
-     env->gpr[3] = PNV_FDT_ADDR;
-     env->nip = 0x10;
--    env->msr |= MSR_HVB; /* Hypervisor mode */
-+    hreg_store_msr(env, env->msr | MSR_HVB, true); /* Hypervisor mode */
+     /* If doing signal return, restore the previous little-endian mode.  */
+-    if (sig)
+-        env->msr = (env->msr & ~(1ull << MSR_LE)) | (msr & (1ull << MSR_LE));
++    if (sig) {
++        ppc_store_msr(env, ((env->msr & ~(1ull << MSR_LE)) |
++                            (msr & (1ull << MSR_LE))));
++    }
  
-     env->spr[SPR_HRMOR] = pc->hrmor;
+     /* Restore Altivec registers if necessary.  */
+     if (env->insns_flags & PPC_ALTIVEC) {
+@@ -376,8 +372,6 @@ static void restore_user_regs(CPUPPCState *env,
+             __get_user(avr->u64[PPC_VEC_HI], &vreg->u64[0]);
+             __get_user(avr->u64[PPC_VEC_LO], &vreg->u64[1]);
+         }
+-        /* Set MSR_VEC in the saved MSR value to indicate that
+-           frame->mc_vregs contains valid data.  */
+ #if defined(TARGET_PPC64)
+         vrsave = (uint32_t *)&v_regs[33];
+ #else
+@@ -468,7 +462,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     env->nip = (target_ulong) ka->_sa_handler;
  
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 7b5cd3553c..a4f7a09ba8 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1055,8 +1055,7 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     CPUState *cs = CPU(cpu);
-     SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+     /* Signal handlers are entered in big-endian mode.  */
+-    env->msr &= ~(1ull << MSR_LE);
++    ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
  
--    env->msr |= (1ULL << MSR_EE);
--    hreg_compute_hflags(env);
-+    hreg_store_msr(env, env->msr | (1ULL << MSR_EE), false);
+     unlock_user_struct(frame, frame_addr, 1);
+     return;
+@@ -563,8 +557,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     env->nip = (target_ulong) ka->_sa_handler;
+ #endif
  
-     if (spapr_cpu->prod) {
-         spapr_cpu->prod = false;
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 8a79f9c628..b9a6b7ef30 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -51,6 +51,7 @@
- #include "target/ppc/mmu-hash64.h"
- #include "target/ppc/mmu-book3s-v3.h"
- #include "migration/blocker.h"
-+#include "helper_regs.h"
++#ifdef TARGET_WORDS_BIGENDIAN
+     /* Signal handlers are entered in big-endian mode.  */
+-    env->msr &= ~(1ull << MSR_LE);
++    ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
++#else
++    /* Signal handlers are entered in little-endian mode.  */
++    ppc_store_msr(env, env->msr | (1ull << MSR_LE));
++#endif
  
- static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                    uint32_t token, uint32_t nargs,
-@@ -162,7 +163,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
- 
-     cpu_synchronize_state(CPU(newcpu));
- 
--    env->msr = (1ULL << MSR_SF) | (1ULL << MSR_ME);
-+    hreg_store_msr(env, (1ULL << MSR_SF) | (1ULL << MSR_ME), true);
- 
-     /* Enable Power-saving mode Exit Cause exceptions for the new CPU */
-     lpcr = env->spr[SPR_LPCR];
+     unlock_user_struct(rt_sf, rt_sf_addr, 1);
+     return;
 -- 
 2.25.1
 
