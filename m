@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA14F33A51B
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 14:59:09 +0100 (CET)
-Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D14A33A51C
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 14:59:10 +0100 (CET)
+Received: from localhost ([::1]:49898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLRGu-0004sA-UN
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 09:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44120)
+	id 1lLRGv-0004vj-GU
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 09:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lLRF4-0003CP-I1
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 09:57:14 -0400
-Received: from doohan.uni-paderborn.de ([2001:638:502:c003::16]:47808)
+ id 1lLRF3-0003B2-Ok
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 09:57:13 -0400
+Received: from doohan.uni-paderborn.de ([2001:638:502:c003::16]:47814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lLRF1-00033W-Mb
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 09:57:14 -0400
+ id 1lLRF2-000357-7W
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 09:57:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
  :MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=k9ZlXKOyc2IW4Ig6UfUilFIVrDCIcDzf6/Kocp8tSLc=; b=A8lbJ0IqaDi/86o827ewygNaJD
- 3h67k5x4fi/+zVxJj97BBcRbmvAACAooxjw8W7Riy0YfEE8k+H7eCVC8lqRyNGHDbVPH0V2yYxHtb
- Yxw7zPn3Uz3//aIAptMfL1VekqxhoMZuFPW6Cp/X/L8a/gdhrCHdcDoR5S8hfVb6365s=;
+ bh=AS2ETiqdM7stz5NUuo8/gGVsH/130bF3ICMCajRUuxU=; b=K/zfANP7OzLILfEj0gzvJXTH8P
+ YSbR8WRy+P8oBD0YEmryNvukkYaXMV9iTOkPbNf+B2+bvy1A7LI1zARcTff8fM4fPZB4shbsbGoDL
+ EUgpFOPsyW0uM+qo8IQX6037UdIIbgkKvOG2b4sQ4KzMTKOBX+g7v8dM8ArXqRpU8fbE=;
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] target/tricore: Pass MMUAccessType to
- get_physical_address()
-Date: Sun, 14 Mar 2021 14:55:09 +0100
-Message-Id: <20210314135513.1369871-4-kbastian@mail.uni-paderborn.de>
+Subject: [PULL 4/7] target/tricore: Remove unused definitions
+Date: Sun, 14 Mar 2021 14:55:10 +0100
+Message-Id: <20210314135513.1369871-5-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210314135513.1369871-1-kbastian@mail.uni-paderborn.de>
 References: <20210314135513.1369871-1-kbastian@mail.uni-paderborn.de>
@@ -43,9 +42,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2021.3.14.134815, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800002
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=31367612, da=103339293,
- mc=567, sc=4, hc=563, sp=0, fso=31367612, re=0, sd=0, hd=0
+ AntiVirus-Data: 2021.2.8.5800000
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=31367613, da=103339294,
+ mc=569, sc=4, hc=565, sp=0, fso=31367613, re=0, sd=0, hd=0
 X-IMT-Spam-Score: 0.0 ()
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::16;
@@ -75,46 +74,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-'int access_type' and ACCESS_INT are unused, drop them.
-Provide the mmu_idx argument to match other targets.
-'int rw' is actually the MMUAccessType, rename it.
+Remove these confusing and unused definitions.
 
 Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210127224255.3505711-3-f4bug@amsat.org>
+Message-Id: <20210127224255.3505711-4-f4bug@amsat.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/tricore/cpu.h | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/target/tricore/helper.c b/target/tricore/helper.c
-index 81171db833..c5e997f321 100644
---- a/target/tricore/helper.c
-+++ b/target/tricore/helper.c
-@@ -33,7 +33,7 @@ enum {
- #if defined(CONFIG_SOFTMMU)
- static int get_physical_address(CPUTriCoreState *env, hwaddr *physical,
-                                 int *prot, target_ulong address,
--                                int rw, int access_type)
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     int ret = TLBRET_MATCH;
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index b82349d1b1..4b61a2c03f 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -375,18 +375,6 @@ typedef TriCoreCPU ArchCPU;
  
-@@ -72,13 +72,11 @@ bool tricore_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPUTriCoreState *env = &cpu->env;
-     hwaddr physical;
-     int prot;
--    int access_type;
-     int ret = 0;
+ #include "exec/cpu-all.h"
  
-     rw &= 1;
--    access_type = ACCESS_INT;
-     ret = get_physical_address(env, &physical, &prot,
--                               address, rw, access_type);
-+                               address, rw, mmu_idx);
- 
-     qemu_log_mask(CPU_LOG_MMU, "%s address=" TARGET_FMT_lx " ret %d physical "
-                   TARGET_FMT_plx " prot %d\n",
+-enum {
+-    /* 1 bit to define user level / supervisor access */
+-    ACCESS_USER  = 0x00,
+-    ACCESS_SUPER = 0x01,
+-    /* 1 bit to indicate direction */
+-    ACCESS_STORE = 0x02,
+-    /* Type of instruction that generated the access */
+-    ACCESS_CODE  = 0x10, /* Code fetch access                */
+-    ACCESS_INT   = 0x20, /* Integer load/store access        */
+-    ACCESS_FLOAT = 0x30, /* floating point load/store access */
+-};
+-
+ void cpu_state_reset(CPUTriCoreState *s);
+ void tricore_tcg_init(void);
+ int cpu_tricore_signal_handler(int host_signum, void *pinfo, void *puc);
 -- 
 2.30.1
 
