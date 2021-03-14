@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D8533A856
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 22:44:36 +0100 (CET)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E766933A857
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 22:46:24 +0100 (CET)
+Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLYXL-0008K0-Lc
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 17:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54644)
+	id 1lLYZ6-0001xw-0n
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 17:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLYH0-00065v-Hr
+ id 1lLYH1-000667-Ts
  for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:44 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:36765)
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:40914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLYGw-0008CF-BM
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:41 -0400
-Received: by mail-qt1-x833.google.com with SMTP id h7so1069313qtx.3
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 14:27:37 -0700 (PDT)
+ id 1lLYGx-0008CO-95
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 17:27:42 -0400
+Received: by mail-qv1-xf36.google.com with SMTP id d10so514675qve.7
+ for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 14:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1kd3z5f3F5IgA4tmLR2z9IlG5FeR5TPlOdPkW3kV5W4=;
- b=LW4Fs40gSKa2qtimunawKiyp3WnStzn88geTpoqDbgbWbietlp/d0ZzNAo3Z8JE5ZR
- zSDY7t6daONgB7Hb/W7Wz7o1q0ua6LM+w4SRwjOSP7275sdTbFsWdPVcdlNw52095j46
- B4HaMQ6pJkHwCyTmeVuNuNkl5z7WpCQaaH5evNSDoZi7x4NfwUBUzYRCcHcdpQvBXIgJ
- dWfnPZN+HIS1jWKA+fl+jM7dW5B2JiUOPMP/MAJHzt3wyfxlGPlMxJfOc9JIMZlZYn5e
- jGKT9x75Q1sFgwHwn47N+0lgyj/wiNfsbZ5ioVq4pCJIZOT70EvuDyGGJYCFiBybajB0
- Ki8A==
+ bh=M+GW/FjdFE0LjCNjl+PKpujGwHht+vUuynWRRTNqZ50=;
+ b=W9EWIAYYbiO2Q6ZUxeVr5YPtTr1LDApzVKQWZ2GzhKufQLanv30gPAhtF6PeHWozgu
+ X68zP/nd66KSGUoe0/S8TGAzbi2XUgaVxh0deeARPH4dDlPfBdciinj5EIzF935ZUNP0
+ r8pWZ25Ju6BVc69QEmrfvmD79Kv4LiMH39DeXhnifp8QAcQkN0uYKbRJ04viTpIZ60/a
+ DIcg4VR3fS2FjXk4EbDzC/GHEG1m604hNu9t5Xgron0XfBivW0D9lpW+lpqU7wmRoaii
+ SYSZfr+ke1/TOUe6dm+fKTiVddSFsAwfBeBMkWF8XhVfsmUIHrju9SW6nv0Rvgiv0gjW
+ mU2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1kd3z5f3F5IgA4tmLR2z9IlG5FeR5TPlOdPkW3kV5W4=;
- b=Vw2rCKKIlNkR57+C1yd6fESKodzjL9YIr6A1aMMa1b4T8FG9lStk7OetVd2XXQSbl6
- 7YVBhTPAfClx74LrTaS1vf3Rkc979mCLSdSSqbWzergTW6N8YIN2jYTOu7BtU+Vk7d/u
- ojqPJBiQcUKqYcb9wt4QlS8xe2PfyjkIGJvrRz+NmJA/euhFobN7ijLDxxkpAkl/A3lJ
- OxdT7hGCctlNm9vnV3k3R3a9s5v3IBU3QK9zuCEDbJ6kulWXFE4K+Jvc5X9BgoB5/wK8
- VpiUpcws+p1yTjBB+GbvHXUL6ssPnGW9HY6C9ArHrEpc2AlGUQa7XjwIo8WFCaRB5qOn
- mfeQ==
-X-Gm-Message-State: AOAM531/p2sG5UP7Y5ib4DB3weIT/OjUOaCbEY8IrWjNvwa/63q/5dcx
- r1+1IfKr01mW+2KZn0RjhKOj0PrCZz5HcCnU
-X-Google-Smtp-Source: ABdhPJxE8XLaWtq+DT/H9h0g0Cw8bLeD3Uw4SxUadCF7ZwYMEYnmSpsBiqU6D/GZ/mcVkQEIf+FtvQ==
-X-Received: by 2002:ac8:4d59:: with SMTP id x25mr6250061qtv.82.1615757257206; 
- Sun, 14 Mar 2021 14:27:37 -0700 (PDT)
+ bh=M+GW/FjdFE0LjCNjl+PKpujGwHht+vUuynWRRTNqZ50=;
+ b=HEk84H0FpkA0yYV8JUeYJ2RIMpBP0Zc406h8y8eVp/zWaZWB9TTJGZqpuci3D4+jin
+ G1PBPinBScep6uZ+jTArc51NmTweu/CiyA86S8m5UhAA6PqeWHGZSqXCzZn0AcjzdKU/
+ dx9MrDDQ0fnite42NcBUOGVsBiNpsAyMjYqPTK26zZn+OlxwS9kFHeDZwHyTRccXpRt9
+ y8SrM+Z/c2vAWgfXFva6GJWM0Ur0xDVfKVRtpDulEWHh1T0btPkYtR8TSbwA1ZbyFpeV
+ V2ROX2jsbHlfm0Cj/tTOhjOcbM2dPr/Z0ac4R16wItsb8Agn2cbOKGLcK3AEbdfwSWMs
+ e49w==
+X-Gm-Message-State: AOAM532Sc+3e2TV+ICBK4eRAeYes2qCRM6rwWW7BQNwDBx6DwagYAoax
+ GmLdtF5vJkzthDamUf8TjJQ75o7oF/gqv3V7
+X-Google-Smtp-Source: ABdhPJy1s8Q4SEFBr7HTmMDqzo411lI0IoPR4kRh9KdkkbZ7h95g0C3tdNBBlx7ZZpo2ir0XF6i1Hw==
+X-Received: by 2002:ad4:4e53:: with SMTP id eb19mr8088279qvb.8.1615757258393; 
+ Sun, 14 Mar 2021 14:27:38 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t2sm9337749qtd.13.2021.03.14.14.27.36
+ by smtp.gmail.com with ESMTPSA id t2sm9337749qtd.13.2021.03.14.14.27.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 14:27:36 -0700 (PDT)
+ Sun, 14 Mar 2021 14:27:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/29] accel/tcg: Move alloc_code_gen_buffer to tcg/region.c
-Date: Sun, 14 Mar 2021 15:27:04 -0600
-Message-Id: <20210314212724.1917075-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/29] accel/tcg: Rename tcg_init to tcg_init_machine
+Date: Sun, 14 Mar 2021 15:27:05 -0600
+Message-Id: <20210314212724.1917075-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210314212724.1917075-1-richard.henderson@linaro.org>
 References: <20210314212724.1917075-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,936 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, j@getutm.app
+Cc: r.bolshakov@yadro.com, j@getutm.app,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Buffer management is integral to tcg.  Do not leave the allocation
-to code outside of tcg/.  This is code movement, with further
-cleanups to follow.
+We shortly want to use tcg_init for something else.
+Since the hook is called init_machine, match that.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h         |   2 +-
- accel/tcg/translate-all.c | 414 +------------------------------------
- tcg/region.c              | 421 +++++++++++++++++++++++++++++++++++++-
- 3 files changed, 418 insertions(+), 419 deletions(-)
+ accel/tcg/tcg-all.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 0f0695e90d..7a435bf807 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -874,7 +874,7 @@ void *tcg_malloc_internal(TCGContext *s, int size);
- void tcg_pool_reset(TCGContext *s);
- TranslationBlock *tcg_tb_alloc(TCGContext *s);
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index f132033999..30d81ff7f5 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -105,7 +105,7 @@ static void tcg_accel_instance_init(Object *obj)
  
--void tcg_region_init(void);
-+void tcg_region_init(size_t tb_size, int splitwx);
- void tb_destroy(TranslationBlock *tb);
- void tcg_region_reset_all(void);
+ bool mttcg_enabled;
  
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 6d3184e7da..4071edda16 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -18,7 +18,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/units.h"
- #include "qemu-common.h"
- 
- #define NO_CPU_IO_DEFS
-@@ -51,7 +50,6 @@
- #include "exec/tb-hash.h"
- #include "exec/translate-all.h"
- #include "qemu/bitmap.h"
--#include "qemu/error-report.h"
- #include "qemu/qemu-print.h"
- #include "qemu/timer.h"
- #include "qemu/main-loop.h"
-@@ -895,408 +893,6 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
-     }
- }
- 
--/* Minimum size of the code gen buffer.  This number is randomly chosen,
--   but not so small that we can't have a fair number of TB's live.  */
--#define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
--
--/* Maximum size of the code gen buffer we'd like to use.  Unless otherwise
--   indicated, this is constrained by the range of direct branches on the
--   host cpu, as used by the TCG implementation of goto_tb.  */
--#if defined(__x86_64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__sparc__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__powerpc64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__powerpc__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
--#elif defined(__aarch64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
--#elif defined(__s390x__)
--  /* We have a +- 4GB range on the branches; leave some slop.  */
--# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
--#elif defined(__mips__)
--  /* We have a 256MB branch region, but leave room to make sure the
--     main executable is also within that region.  */
--# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
--#else
--# define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
--#endif
--
--#if TCG_TARGET_REG_BITS == 32
--#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
--#ifdef CONFIG_USER_ONLY
--/*
-- * For user mode on smaller 32 bit systems we may run into trouble
-- * allocating big chunks of data in the right place. On these systems
-- * we utilise a static code generation buffer directly in the binary.
-- */
--#define USE_STATIC_CODE_GEN_BUFFER
--#endif
--#else /* TCG_TARGET_REG_BITS == 64 */
--#ifdef CONFIG_USER_ONLY
--/*
-- * As user-mode emulation typically means running multiple instances
-- * of the translator don't go too nuts with our default code gen
-- * buffer lest we make things too hard for the OS.
-- */
--#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (128 * MiB)
--#else
--/*
-- * We expect most system emulation to run one or two guests per host.
-- * Users running large scale system emulation may want to tweak their
-- * runtime setup via the tb-size control on the command line.
-- */
--#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (1 * GiB)
--#endif
--#endif
--
--#define DEFAULT_CODE_GEN_BUFFER_SIZE \
--  (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
--   ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
--
--static size_t size_code_gen_buffer(size_t tb_size)
--{
--    /* Size the buffer.  */
--    if (tb_size == 0) {
--        size_t phys_mem = qemu_get_host_physmem();
--        if (phys_mem == 0) {
--            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
--        } else {
--            tb_size = MIN(DEFAULT_CODE_GEN_BUFFER_SIZE, phys_mem / 8);
--        }
--    }
--    if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
--        tb_size = MIN_CODE_GEN_BUFFER_SIZE;
--    }
--    if (tb_size > MAX_CODE_GEN_BUFFER_SIZE) {
--        tb_size = MAX_CODE_GEN_BUFFER_SIZE;
--    }
--    return tb_size;
--}
--
--#ifdef __mips__
--/* In order to use J and JAL within the code_gen_buffer, we require
--   that the buffer not cross a 256MB boundary.  */
--static inline bool cross_256mb(void *addr, size_t size)
--{
--    return ((uintptr_t)addr ^ ((uintptr_t)addr + size)) & ~0x0ffffffful;
--}
--
--/* We weren't able to allocate a buffer without crossing that boundary,
--   so make do with the larger portion of the buffer that doesn't cross.
--   Returns the new base of the buffer, and adjusts code_gen_buffer_size.  */
--static inline void *split_cross_256mb(void *buf1, size_t size1)
--{
--    void *buf2 = (void *)(((uintptr_t)buf1 + size1) & ~0x0ffffffful);
--    size_t size2 = buf1 + size1 - buf2;
--
--    size1 = buf2 - buf1;
--    if (size1 < size2) {
--        size1 = size2;
--        buf1 = buf2;
--    }
--
--    tcg_ctx->code_gen_buffer_size = size1;
--    return buf1;
--}
--#endif
--
--#ifdef USE_STATIC_CODE_GEN_BUFFER
--static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
--    __attribute__((aligned(CODE_GEN_ALIGN)));
--
--static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
--{
--    void *buf, *end;
--    size_t size;
--
--    if (splitwx > 0) {
--        error_setg(errp, "jit split-wx not supported");
--        return false;
--    }
--
--    /* page-align the beginning and end of the buffer */
--    buf = static_code_gen_buffer;
--    end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
--    buf = QEMU_ALIGN_PTR_UP(buf, qemu_real_host_page_size);
--    end = QEMU_ALIGN_PTR_DOWN(end, qemu_real_host_page_size);
--
--    size = end - buf;
--
--    /* Honor a command-line option limiting the size of the buffer.  */
--    if (size > tb_size) {
--        size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
--    }
--    tcg_ctx->code_gen_buffer_size = size;
--
--#ifdef __mips__
--    if (cross_256mb(buf, size)) {
--        buf = split_cross_256mb(buf, size);
--        size = tcg_ctx->code_gen_buffer_size;
--    }
--#endif
--
--    if (qemu_mprotect_rwx(buf, size)) {
--        error_setg_errno(errp, errno, "mprotect of jit buffer");
--        return false;
--    }
--    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
--
--    tcg_ctx->code_gen_buffer = buf;
--    return true;
--}
--#elif defined(_WIN32)
--static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
--{
--    void *buf;
--
--    if (splitwx > 0) {
--        error_setg(errp, "jit split-wx not supported");
--        return false;
--    }
--
--    buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
--                             PAGE_EXECUTE_READWRITE);
--    if (buf == NULL) {
--        error_setg_win32(errp, GetLastError(),
--                         "allocate %zu bytes for jit buffer", size);
--        return false;
--    }
--
--    tcg_ctx->code_gen_buffer = buf;
--    tcg_ctx->code_gen_buffer_size = size;
--    return true;
--}
--#else
--static bool alloc_code_gen_buffer_anon(size_t size, int prot,
--                                       int flags, Error **errp)
--{
--    void *buf;
--
--    buf = mmap(NULL, size, prot, flags, -1, 0);
--    if (buf == MAP_FAILED) {
--        error_setg_errno(errp, errno,
--                         "allocate %zu bytes for jit buffer", size);
--        return false;
--    }
--    tcg_ctx->code_gen_buffer_size = size;
--
--#ifdef __mips__
--    if (cross_256mb(buf, size)) {
--        /*
--         * Try again, with the original still mapped, to avoid re-acquiring
--         * the same 256mb crossing.
--         */
--        size_t size2;
--        void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
--        switch ((int)(buf2 != MAP_FAILED)) {
--        case 1:
--            if (!cross_256mb(buf2, size)) {
--                /* Success!  Use the new buffer.  */
--                munmap(buf, size);
--                break;
--            }
--            /* Failure.  Work with what we had.  */
--            munmap(buf2, size);
--            /* fallthru */
--        default:
--            /* Split the original buffer.  Free the smaller half.  */
--            buf2 = split_cross_256mb(buf, size);
--            size2 = tcg_ctx->code_gen_buffer_size;
--            if (buf == buf2) {
--                munmap(buf + size2, size - size2);
--            } else {
--                munmap(buf, size - size2);
--            }
--            size = size2;
--            break;
--        }
--        buf = buf2;
--    }
--#endif
--
--    /* Request large pages for the buffer.  */
--    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
--
--    tcg_ctx->code_gen_buffer = buf;
--    return true;
--}
--
--#ifndef CONFIG_TCG_INTERPRETER
--#ifdef CONFIG_POSIX
--#include "qemu/memfd.h"
--
--static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
--{
--    void *buf_rw = NULL, *buf_rx = MAP_FAILED;
--    int fd = -1;
--
--#ifdef __mips__
--    /* Find space for the RX mapping, vs the 256MiB regions. */
--    if (!alloc_code_gen_buffer_anon(size, PROT_NONE,
--                                    MAP_PRIVATE | MAP_ANONYMOUS |
--                                    MAP_NORESERVE, errp)) {
--        return false;
--    }
--    /* The size of the mapping may have been adjusted. */
--    size = tcg_ctx->code_gen_buffer_size;
--    buf_rx = tcg_ctx->code_gen_buffer;
--#endif
--
--    buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
--    if (buf_rw == NULL) {
--        goto fail;
--    }
--
--#ifdef __mips__
--    void *tmp = mmap(buf_rx, size, PROT_READ | PROT_EXEC,
--                     MAP_SHARED | MAP_FIXED, fd, 0);
--    if (tmp != buf_rx) {
--        goto fail_rx;
--    }
--#else
--    buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
--    if (buf_rx == MAP_FAILED) {
--        goto fail_rx;
--    }
--#endif
--
--    close(fd);
--    tcg_ctx->code_gen_buffer = buf_rw;
--    tcg_ctx->code_gen_buffer_size = size;
--    tcg_splitwx_diff = buf_rx - buf_rw;
--
--    /* Request large pages for the buffer and the splitwx.  */
--    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
--    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
--    return true;
--
-- fail_rx:
--    error_setg_errno(errp, errno, "failed to map shared memory for execute");
-- fail:
--    if (buf_rx != MAP_FAILED) {
--        munmap(buf_rx, size);
--    }
--    if (buf_rw) {
--        munmap(buf_rw, size);
--    }
--    if (fd >= 0) {
--        close(fd);
--    }
--    return false;
--}
--#endif /* CONFIG_POSIX */
--
--#ifdef CONFIG_DARWIN
--#include <mach/mach.h>
--
--extern kern_return_t mach_vm_remap(vm_map_t target_task,
--                                   mach_vm_address_t *target_address,
--                                   mach_vm_size_t size,
--                                   mach_vm_offset_t mask,
--                                   int flags,
--                                   vm_map_t src_task,
--                                   mach_vm_address_t src_address,
--                                   boolean_t copy,
--                                   vm_prot_t *cur_protection,
--                                   vm_prot_t *max_protection,
--                                   vm_inherit_t inheritance);
--
--static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
--{
--    kern_return_t ret;
--    mach_vm_address_t buf_rw, buf_rx;
--    vm_prot_t cur_prot, max_prot;
--
--    /* Map the read-write portion via normal anon memory. */
--    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE,
--                                    MAP_PRIVATE | MAP_ANONYMOUS, errp)) {
--        return false;
--    }
--
--    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
--    buf_rx = 0;
--    ret = mach_vm_remap(mach_task_self(),
--                        &buf_rx,
--                        size,
--                        0,
--                        VM_FLAGS_ANYWHERE,
--                        mach_task_self(),
--                        buf_rw,
--                        false,
--                        &cur_prot,
--                        &max_prot,
--                        VM_INHERIT_NONE);
--    if (ret != KERN_SUCCESS) {
--        /* TODO: Convert "ret" to a human readable error message. */
--        error_setg(errp, "vm_remap for jit splitwx failed");
--        munmap((void *)buf_rw, size);
--        return false;
--    }
--
--    if (mprotect((void *)buf_rx, size, PROT_READ | PROT_EXEC) != 0) {
--        error_setg_errno(errp, errno, "mprotect for jit splitwx");
--        munmap((void *)buf_rx, size);
--        munmap((void *)buf_rw, size);
--        return false;
--    }
--
--    tcg_splitwx_diff = buf_rx - buf_rw;
--    return true;
--}
--#endif /* CONFIG_DARWIN */
--#endif /* CONFIG_TCG_INTERPRETER */
--
--static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
--{
--#ifndef CONFIG_TCG_INTERPRETER
--# ifdef CONFIG_DARWIN
--    return alloc_code_gen_buffer_splitwx_vmremap(size, errp);
--# endif
--# ifdef CONFIG_POSIX
--    return alloc_code_gen_buffer_splitwx_memfd(size, errp);
--# endif
--#endif
--    error_setg(errp, "jit split-wx not supported");
--    return false;
--}
--
--static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
--{
--    ERRP_GUARD();
--    int prot, flags;
--
--    if (splitwx) {
--        if (alloc_code_gen_buffer_splitwx(size, errp)) {
--            return true;
--        }
--        /*
--         * If splitwx force-on (1), fail;
--         * if splitwx default-on (-1), fall through to splitwx off.
--         */
--        if (splitwx > 0) {
--            return false;
--        }
--        error_free_or_abort(errp);
--    }
--
--    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
--    flags = MAP_PRIVATE | MAP_ANONYMOUS;
--#ifdef CONFIG_TCG_INTERPRETER
--    /* The tcg interpreter does not need execute permission. */
--    prot = PROT_READ | PROT_WRITE;
--#elif defined(CONFIG_DARWIN)
--    /* Applicable to both iOS and macOS (Apple Silicon). */
--    if (!splitwx) {
--        flags |= MAP_JIT;
--    }
--#endif
--
--    return alloc_code_gen_buffer_anon(size, prot, flags, errp);
--}
--#endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
--
- static bool tb_cmp(const void *ap, const void *bp)
+-static int tcg_init(MachineState *ms)
++static int tcg_init_machine(MachineState *ms)
  {
-     const TranslationBlock *a = ap;
-@@ -1323,19 +919,11 @@ static void tb_htable_init(void)
-    size. */
- void tcg_exec_init(unsigned long tb_size, int splitwx)
+     TCGState *s = TCG_STATE(current_accel());
+ 
+@@ -189,7 +189,7 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
  {
--    bool ok;
--
-     tcg_allowed = true;
-     tcg_context_init(&tcg_init_ctx);
-     page_init();
-     tb_htable_init();
--
--    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
--                               splitwx, &error_fatal);
--    assert(ok);
--
--    /* TODO: allocating regions is hand-in-glove with code_gen_buffer. */
--    tcg_region_init();
-+    tcg_region_init(tb_size, splitwx);
+     AccelClass *ac = ACCEL_CLASS(oc);
+     ac->name = "tcg";
+-    ac->init_machine = tcg_init;
++    ac->init_machine = tcg_init_machine;
+     ac->allowed = &tcg_allowed;
  
- #if defined(CONFIG_SOFTMMU)
-     /* There's no guest base to take into account, so go ahead and
-diff --git a/tcg/region.c b/tcg/region.c
-index af45a0174e..8d88144a22 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -23,6 +23,8 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
- #include "exec/exec-all.h"
- #include "tcg/tcg.h"
- #if !defined(CONFIG_USER_ONLY)
-@@ -406,6 +408,408 @@ static size_t tcg_n_regions(void)
- }
- #endif
- 
-+/* Minimum size of the code gen buffer.  This number is randomly chosen,
-+   but not so small that we can't have a fair number of TB's live.  */
-+#define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
-+
-+/* Maximum size of the code gen buffer we'd like to use.  Unless otherwise
-+   indicated, this is constrained by the range of direct branches on the
-+   host cpu, as used by the TCG implementation of goto_tb.  */
-+#if defined(__x86_64__)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-+#elif defined(__sparc__)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-+#elif defined(__powerpc64__)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-+#elif defined(__powerpc__)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
-+#elif defined(__aarch64__)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
-+#elif defined(__s390x__)
-+  /* We have a +- 4GB range on the branches; leave some slop.  */
-+# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
-+#elif defined(__mips__)
-+  /* We have a 256MB branch region, but leave room to make sure the
-+     main executable is also within that region.  */
-+# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
-+#else
-+# define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
-+#endif
-+
-+#if TCG_TARGET_REG_BITS == 32
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
-+#ifdef CONFIG_USER_ONLY
-+/*
-+ * For user mode on smaller 32 bit systems we may run into trouble
-+ * allocating big chunks of data in the right place. On these systems
-+ * we utilise a static code generation buffer directly in the binary.
-+ */
-+#define USE_STATIC_CODE_GEN_BUFFER
-+#endif
-+#else /* TCG_TARGET_REG_BITS == 64 */
-+#ifdef CONFIG_USER_ONLY
-+/*
-+ * As user-mode emulation typically means running multiple instances
-+ * of the translator don't go too nuts with our default code gen
-+ * buffer lest we make things too hard for the OS.
-+ */
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (128 * MiB)
-+#else
-+/*
-+ * We expect most system emulation to run one or two guests per host.
-+ * Users running large scale system emulation may want to tweak their
-+ * runtime setup via the tb-size control on the command line.
-+ */
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (1 * GiB)
-+#endif
-+#endif
-+
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE \
-+  (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
-+   ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
-+
-+static size_t size_code_gen_buffer(size_t tb_size)
-+{
-+    /* Size the buffer.  */
-+    if (tb_size == 0) {
-+        size_t phys_mem = qemu_get_host_physmem();
-+        if (phys_mem == 0) {
-+            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
-+        } else {
-+            tb_size = MIN(DEFAULT_CODE_GEN_BUFFER_SIZE, phys_mem / 8);
-+        }
-+    }
-+    if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
-+        tb_size = MIN_CODE_GEN_BUFFER_SIZE;
-+    }
-+    if (tb_size > MAX_CODE_GEN_BUFFER_SIZE) {
-+        tb_size = MAX_CODE_GEN_BUFFER_SIZE;
-+    }
-+    return tb_size;
-+}
-+
-+#ifdef __mips__
-+/* In order to use J and JAL within the code_gen_buffer, we require
-+   that the buffer not cross a 256MB boundary.  */
-+static inline bool cross_256mb(void *addr, size_t size)
-+{
-+    return ((uintptr_t)addr ^ ((uintptr_t)addr + size)) & ~0x0ffffffful;
-+}
-+
-+/* We weren't able to allocate a buffer without crossing that boundary,
-+   so make do with the larger portion of the buffer that doesn't cross.
-+   Returns the new base of the buffer, and adjusts code_gen_buffer_size.  */
-+static inline void *split_cross_256mb(void *buf1, size_t size1)
-+{
-+    void *buf2 = (void *)(((uintptr_t)buf1 + size1) & ~0x0ffffffful);
-+    size_t size2 = buf1 + size1 - buf2;
-+
-+    size1 = buf2 - buf1;
-+    if (size1 < size2) {
-+        size1 = size2;
-+        buf1 = buf2;
-+    }
-+
-+    tcg_ctx->code_gen_buffer_size = size1;
-+    return buf1;
-+}
-+#endif
-+
-+#ifdef USE_STATIC_CODE_GEN_BUFFER
-+static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
-+    __attribute__((aligned(CODE_GEN_ALIGN)));
-+
-+static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
-+{
-+    void *buf, *end;
-+    size_t size;
-+
-+    if (splitwx > 0) {
-+        error_setg(errp, "jit split-wx not supported");
-+        return false;
-+    }
-+
-+    /* page-align the beginning and end of the buffer */
-+    buf = static_code_gen_buffer;
-+    end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
-+    buf = QEMU_ALIGN_PTR_UP(buf, qemu_real_host_page_size);
-+    end = QEMU_ALIGN_PTR_DOWN(end, qemu_real_host_page_size);
-+
-+    size = end - buf;
-+
-+    /* Honor a command-line option limiting the size of the buffer.  */
-+    if (size > tb_size) {
-+        size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
-+    }
-+    tcg_ctx->code_gen_buffer_size = size;
-+
-+#ifdef __mips__
-+    if (cross_256mb(buf, size)) {
-+        buf = split_cross_256mb(buf, size);
-+        size = tcg_ctx->code_gen_buffer_size;
-+    }
-+#endif
-+
-+    if (qemu_mprotect_rwx(buf, size)) {
-+        error_setg_errno(errp, errno, "mprotect of jit buffer");
-+        return false;
-+    }
-+    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
-+
-+    tcg_ctx->code_gen_buffer = buf;
-+    return true;
-+}
-+#elif defined(_WIN32)
-+static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-+{
-+    void *buf;
-+
-+    if (splitwx > 0) {
-+        error_setg(errp, "jit split-wx not supported");
-+        return false;
-+    }
-+
-+    buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
-+                             PAGE_EXECUTE_READWRITE);
-+    if (buf == NULL) {
-+        error_setg_win32(errp, GetLastError(),
-+                         "allocate %zu bytes for jit buffer", size);
-+        return false;
-+    }
-+
-+    tcg_ctx->code_gen_buffer = buf;
-+    tcg_ctx->code_gen_buffer_size = size;
-+    return true;
-+}
-+#else
-+static bool alloc_code_gen_buffer_anon(size_t size, int prot,
-+                                       int flags, Error **errp)
-+{
-+    void *buf;
-+
-+    buf = mmap(NULL, size, prot, flags, -1, 0);
-+    if (buf == MAP_FAILED) {
-+        error_setg_errno(errp, errno,
-+                         "allocate %zu bytes for jit buffer", size);
-+        return false;
-+    }
-+    tcg_ctx->code_gen_buffer_size = size;
-+
-+#ifdef __mips__
-+    if (cross_256mb(buf, size)) {
-+        /*
-+         * Try again, with the original still mapped, to avoid re-acquiring
-+         * the same 256mb crossing.
-+         */
-+        size_t size2;
-+        void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
-+        switch ((int)(buf2 != MAP_FAILED)) {
-+        case 1:
-+            if (!cross_256mb(buf2, size)) {
-+                /* Success!  Use the new buffer.  */
-+                munmap(buf, size);
-+                break;
-+            }
-+            /* Failure.  Work with what we had.  */
-+            munmap(buf2, size);
-+            /* fallthru */
-+        default:
-+            /* Split the original buffer.  Free the smaller half.  */
-+            buf2 = split_cross_256mb(buf, size);
-+            size2 = tcg_ctx->code_gen_buffer_size;
-+            if (buf == buf2) {
-+                munmap(buf + size2, size - size2);
-+            } else {
-+                munmap(buf, size - size2);
-+            }
-+            size = size2;
-+            break;
-+        }
-+        buf = buf2;
-+    }
-+#endif
-+
-+    /* Request large pages for the buffer.  */
-+    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
-+
-+    tcg_ctx->code_gen_buffer = buf;
-+    return true;
-+}
-+
-+#ifndef CONFIG_TCG_INTERPRETER
-+#ifdef CONFIG_POSIX
-+#include "qemu/memfd.h"
-+
-+static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
-+{
-+    void *buf_rw = NULL, *buf_rx = MAP_FAILED;
-+    int fd = -1;
-+
-+#ifdef __mips__
-+    /* Find space for the RX mapping, vs the 256MiB regions. */
-+    if (!alloc_code_gen_buffer_anon(size, PROT_NONE,
-+                                    MAP_PRIVATE | MAP_ANONYMOUS |
-+                                    MAP_NORESERVE, errp)) {
-+        return false;
-+    }
-+    /* The size of the mapping may have been adjusted. */
-+    size = tcg_ctx->code_gen_buffer_size;
-+    buf_rx = tcg_ctx->code_gen_buffer;
-+#endif
-+
-+    buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
-+    if (buf_rw == NULL) {
-+        goto fail;
-+    }
-+
-+#ifdef __mips__
-+    void *tmp = mmap(buf_rx, size, PROT_READ | PROT_EXEC,
-+                     MAP_SHARED | MAP_FIXED, fd, 0);
-+    if (tmp != buf_rx) {
-+        goto fail_rx;
-+    }
-+#else
-+    buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
-+    if (buf_rx == MAP_FAILED) {
-+        goto fail_rx;
-+    }
-+#endif
-+
-+    close(fd);
-+    tcg_ctx->code_gen_buffer = buf_rw;
-+    tcg_ctx->code_gen_buffer_size = size;
-+    tcg_splitwx_diff = buf_rx - buf_rw;
-+
-+    /* Request large pages for the buffer and the splitwx.  */
-+    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
-+    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
-+    return true;
-+
-+ fail_rx:
-+    error_setg_errno(errp, errno, "failed to map shared memory for execute");
-+ fail:
-+    if (buf_rx != MAP_FAILED) {
-+        munmap(buf_rx, size);
-+    }
-+    if (buf_rw) {
-+        munmap(buf_rw, size);
-+    }
-+    if (fd >= 0) {
-+        close(fd);
-+    }
-+    return false;
-+}
-+#endif /* CONFIG_POSIX */
-+
-+#ifdef CONFIG_DARWIN
-+#include <mach/mach.h>
-+
-+extern kern_return_t mach_vm_remap(vm_map_t target_task,
-+                                   mach_vm_address_t *target_address,
-+                                   mach_vm_size_t size,
-+                                   mach_vm_offset_t mask,
-+                                   int flags,
-+                                   vm_map_t src_task,
-+                                   mach_vm_address_t src_address,
-+                                   boolean_t copy,
-+                                   vm_prot_t *cur_protection,
-+                                   vm_prot_t *max_protection,
-+                                   vm_inherit_t inheritance);
-+
-+static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
-+{
-+    kern_return_t ret;
-+    mach_vm_address_t buf_rw, buf_rx;
-+    vm_prot_t cur_prot, max_prot;
-+
-+    /* Map the read-write portion via normal anon memory. */
-+    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE,
-+                                    MAP_PRIVATE | MAP_ANONYMOUS, errp)) {
-+        return false;
-+    }
-+
-+    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
-+    buf_rx = 0;
-+    ret = mach_vm_remap(mach_task_self(),
-+                        &buf_rx,
-+                        size,
-+                        0,
-+                        VM_FLAGS_ANYWHERE,
-+                        mach_task_self(),
-+                        buf_rw,
-+                        false,
-+                        &cur_prot,
-+                        &max_prot,
-+                        VM_INHERIT_NONE);
-+    if (ret != KERN_SUCCESS) {
-+        /* TODO: Convert "ret" to a human readable error message. */
-+        error_setg(errp, "vm_remap for jit splitwx failed");
-+        munmap((void *)buf_rw, size);
-+        return false;
-+    }
-+
-+    if (mprotect((void *)buf_rx, size, PROT_READ | PROT_EXEC) != 0) {
-+        error_setg_errno(errp, errno, "mprotect for jit splitwx");
-+        munmap((void *)buf_rx, size);
-+        munmap((void *)buf_rw, size);
-+        return false;
-+    }
-+
-+    tcg_splitwx_diff = buf_rx - buf_rw;
-+    return true;
-+}
-+#endif /* CONFIG_DARWIN */
-+#endif /* CONFIG_TCG_INTERPRETER */
-+
-+static bool alloc_code_gen_buffer_splitwx(size_t size, Error **errp)
-+{
-+#ifndef CONFIG_TCG_INTERPRETER
-+# ifdef CONFIG_DARWIN
-+    return alloc_code_gen_buffer_splitwx_vmremap(size, errp);
-+# endif
-+# ifdef CONFIG_POSIX
-+    return alloc_code_gen_buffer_splitwx_memfd(size, errp);
-+# endif
-+#endif
-+    error_setg(errp, "jit split-wx not supported");
-+    return false;
-+}
-+
-+static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-+{
-+    ERRP_GUARD();
-+    int prot, flags;
-+
-+    if (splitwx) {
-+        if (alloc_code_gen_buffer_splitwx(size, errp)) {
-+            return true;
-+        }
-+        /*
-+         * If splitwx force-on (1), fail;
-+         * if splitwx default-on (-1), fall through to splitwx off.
-+         */
-+        if (splitwx > 0) {
-+            return false;
-+        }
-+        error_free_or_abort(errp);
-+    }
-+
-+    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
-+    flags = MAP_PRIVATE | MAP_ANONYMOUS;
-+#ifdef CONFIG_TCG_INTERPRETER
-+    /* The tcg interpreter does not need execute permission. */
-+    prot = PROT_READ | PROT_WRITE;
-+#elif defined(CONFIG_DARWIN)
-+    /* Applicable to both iOS and macOS (Apple Silicon). */
-+    if (!splitwx) {
-+        flags |= MAP_JIT;
-+    }
-+#endif
-+
-+    return alloc_code_gen_buffer_anon(size, prot, flags, errp);
-+}
-+#endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
-+
- /*
-  * Initializes region partitioning.
-  *
-@@ -434,17 +838,24 @@ static size_t tcg_n_regions(void)
-  * in practice. Multi-threaded guests share most if not all of their translated
-  * code, which makes parallel code generation less appealing than in softmmu.
-  */
--void tcg_region_init(void)
-+void tcg_region_init(size_t tb_size, int splitwx)
- {
--    void *buf = tcg_init_ctx.code_gen_buffer;
--    void *aligned;
--    size_t size = tcg_init_ctx.code_gen_buffer_size;
--    size_t page_size = qemu_real_host_page_size;
-+    void *buf, *aligned;
-+    size_t size;
-+    size_t page_size;
-     size_t region_size;
-     size_t n_regions;
-     size_t i;
-     uintptr_t splitwx_diff;
-+    bool ok;
- 
-+    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
-+                               splitwx, &error_fatal);
-+    assert(ok);
-+
-+    buf = tcg_init_ctx.code_gen_buffer;
-+    size = tcg_init_ctx.code_gen_buffer_size;
-+    page_size = qemu_real_host_page_size;
-     n_regions = tcg_n_regions();
- 
-     /* The first region will be 'aligned - buf' bytes larger than the others */
+     object_class_property_add_str(oc, "thread",
 -- 
 2.25.1
 
