@@ -2,85 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B44933A1F9
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 01:01:32 +0100 (CET)
-Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB25E33A217
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 01:42:45 +0100 (CET)
+Received: from localhost ([::1]:38042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLECJ-0000uY-LI
-	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 19:01:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59606)
+	id 1lLEqC-0007g1-7D
+	for lists+qemu-devel@lfdr.de; Sat, 13 Mar 2021 19:42:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLEBK-0000SU-Pq
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 19:00:30 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:46790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLEBI-0003i2-Lj
- for qemu-devel@nongnu.org; Sat, 13 Mar 2021 19:00:30 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- d139-20020a1c1d910000b029010b895cb6f2so17309094wmd.5
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 16:00:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KX9bi8S2Qi0nRawNjVu7nQiy6iljFRltuB9jsD19CCA=;
- b=CieEiWlVF/pdM2kN3Fumm9v9ZNiPpbIEPhNkNdYFmXbmx5djyzoOYhRH6OkZsTD9AC
- N1wp99YdxMt5olw8YK/aCDnU7cesXyUV6aKnDyb6wMwjscCNVvxIX71K9wTJb4mghCW4
- CfFRQXVUKHpUQhmvgw9LnEqg4tEw+V0+ZLdRbCHYGnuNBCzAxvqlyz7R9zdzeJCfiri6
- /P87dEVR4ZEq32wioOyJhCqjJ22/ccvQfQTTOVNQYTvs7kP8ky4QmL6ErAd4WpmYhGty
- GxkMDusHRPqVzzZmxHtmOSkeaGsakbhXAG1zbUnu+7l9CEBtdHYXoPVR0pQBoLMPyp8B
- hzRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KX9bi8S2Qi0nRawNjVu7nQiy6iljFRltuB9jsD19CCA=;
- b=gQHE1CyOP2qEMF/7bGMQPVQy64GIFC5Xlfl8RryHonNYQ0lDMjBbV0924/7dLDQUSa
- GwXuGPgaBWNayA3tTxIwIIlY8mngTPgy51Tg8XDAUZ7FUK8U1VdUNtzRkkAF+BBtUh0U
- R/QerYyFu+F+6jEBxGliEltiHpUkr8sYGGZmCjW51aETXz2OPwe/6TXzTM4SwX8rv474
- qcU3K517+AdYKQUD6Z4MUB5WWD6mWf0ZjCpzzyYdmuc4zMKIPBa6wC8S9rHZkedDRJz6
- CwYYou5QzCsKj92cRsyldRgz8nidmK8gZYukCy0kn0aW2r7+ttOBtpKafU0G+WrMy0zl
- Yh/g==
-X-Gm-Message-State: AOAM531EuoQGeYA0Pfo2bePzeMHmy/wAHxhwWEBGjN/wlV2n2j4y6kfu
- jjTAfVFNhZb5N7qE2gOGBV7IGW4Aa3Og2w==
-X-Google-Smtp-Source: ABdhPJw5TBPTD3oQ/z7yKKgsvfXmF0rWU2MkrkbV4VFGeEDBhavMsj4LHIRSpBlxiNVyadgFe3xl1g==
-X-Received: by 2002:a1c:7fcd:: with SMTP id a196mr9958284wmd.180.1615680026777; 
- Sat, 13 Mar 2021 16:00:26 -0800 (PST)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id s23sm7504133wmc.35.2021.03.13.16.00.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Mar 2021 16:00:26 -0800 (PST)
-Subject: Re: [PATCH v16 00/23] i386 cleanup PART 2
-To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210204163931.7358-1-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5f185a27-6140-9426-f915-ce09609b7962@amsat.org>
-Date: Sun, 14 Mar 2021 01:00:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210204163931.7358-1-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lLEn1-0006VW-PE
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 19:39:28 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:42665)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lLEmy-00048E-8f
+ for qemu-devel@nongnu.org; Sat, 13 Mar 2021 19:39:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1615682364; x=1647218364;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=vftMBVJKBTLW33xnBjAPN84JcIPvfH/W+0MvOySrES8=;
+ b=kE08AgnZStXT5UhEI7wgFI4WnnzY7u6cLnQMCXZY6FHQz2KFKIocH1oy
+ Fty4CjyIcijr9xjkOnEWO0ELKQSqqHQuesp5+DPf3Ag8ctxc8ykyPJ0aI
+ /AUiEAaRdjwrwAxDKqWKrAsmDHGmO1XUh2aBXgoigxlMTMKl7/GIO9n3X o=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Mar 2021 16:39:19 -0800
+X-QCInternal: smtphost
+Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 13 Mar 2021 16:39:18 -0800
+Received: from nasanexm03b.na.qualcomm.com (10.85.0.98) by
+ nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 13 Mar 2021 16:39:18 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Sat, 13 Mar 2021 16:39:18 -0800
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by BYAPR02MB4263.namprd02.prod.outlook.com (2603:10b6:a03:5b::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Sun, 14 Mar
+ 2021 00:39:17 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6%4]) with mapi id 15.20.3933.032; Sun, 14 Mar 2021
+ 00:39:17 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v8 25/35] Hexagon (target/hexagon) instruction classes
+Thread-Topic: [PATCH v8 25/35] Hexagon (target/hexagon) instruction classes
+Thread-Index: AQHW/d3WX1yMllwbm0W++Tprz6sxWqpYWfsAgCdA4fA=
+Date: Sun, 14 Mar 2021 00:39:17 +0000
+Message-ID: <BYAPR02MB4886E308311823CCCF170772DE6D9@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-26-git-send-email-tsimpson@quicinc.com>
+ <3d366d6a-b278-cda0-f822-5c8aa7ba67dc@linaro.org>
+In-Reply-To: <3d366d6a-b278-cda0-f822-5c8aa7ba67dc@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [70.115.140.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 050323c1-b930-4e00-30be-08d8e6819973
+x-ms-traffictypediagnostic: BYAPR02MB4263:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB42636FE1B1B1CDD3DAD6667DDE6D9@BYAPR02MB4263.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kNE2r1MK3lc9nftu7Fbl8ZsFAFVC1F115Elof9P7VKiBbCgsCvv+O72NYeoyHtqwmga1my3SAhRrGU0iYvoPELs6cGI358L4m8I3FTdChXZI2HmUQnyJnwJu1MXnwUc3cqOcC2JUncwqKmf+K/a8XCNl3SE67lA7QB0YHGP4V5ScNrCTy+fcuQH1IwvblWEfNDSEtfX3SgiU5ebZY9dX8Jsw57tqQ2PbDDWqf+feS95hvR0nkuVzqjO1bExhi45IamZVNJqZiAdo2CGJtdDBbPktHei1xI7HF9OAm3PWLJM7ZHvuo7t7i2nSatoxWAOQMH0FZYJcBPyGGgjqTVdR0lVSk5R0+GaJjX0HH486tOrAQnJHGen0y0i4FHo4lHru/Te/1XEq/MSfWP9V2h64nmlj3PnjcAEFg/GXfD9d6Lw87mIyYW4i84zG8TNEW6d76oCQcnP7KUqrseTav5TFhqiuiUAZXVKomkas2YdcTYB8caN4zgYGWjLPNThLTQQ5KUvS3M9vhucVvReNb/hEG0AnrpY9hCXeYOggXIHPWOmJa6UJgsiidOaF5QZat7Q1
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(39850400004)(396003)(376002)(136003)(76116006)(52536014)(55016002)(4326008)(64756008)(66476007)(478600001)(9686003)(66946007)(66446008)(8676002)(316002)(4744005)(8936002)(66556008)(54906003)(26005)(83380400001)(71200400001)(5660300002)(86362001)(6506007)(53546011)(7696005)(33656002)(186003)(110136005)(2906002)(107886003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?akwrWGpCSDBMalNUYzNaT0NmL2xGejRpVGkraEF1dTVFMlpkMW40YnF1dXNB?=
+ =?utf-8?B?aVYwb1ZDdFNEczJsS1VwQ3BzeEZGcXZoNG9UUVJKTmQrTGg5WXBkYVZVZ1pI?=
+ =?utf-8?B?aHdBeGlmSlI1ZWNoSzFnWXM2dWVuWnZRdU1UQ1Zvd01qam5oMHpqZVNNMkxD?=
+ =?utf-8?B?Qkk3K1B1dzFpNzcvMU1ialp3VG9XNzFDQlpsdFp4enNaY2srT2VrcjNseDFU?=
+ =?utf-8?B?a29lU3hqcEczeE5VK0FxMGFmdCsxNVlUWmlnT1VzMXFzcjVrODBraTFYQWh1?=
+ =?utf-8?B?TXQ1SkdKUG1qL0VjSTZqVzVDdEthcGQxWjZQRDJqVGRLdHhXNFVncGZrVVJH?=
+ =?utf-8?B?eG5Xdi9wd3dFR3hsMGRXN0w1cWdMNXpwN29vZW9wY0dIcjRDUEZ1YVZUUjlI?=
+ =?utf-8?B?eVBaa0plZGhpSmgrYnMvUFM5TzBkNDBCWEhHcHByZVYrengvU2oxTVFwNDlU?=
+ =?utf-8?B?eDB4RUcwZGNaTGFWQUVqNE5TUDNlUVcvQkhLRUE1d1RnM3Awc1ZLT09lazgv?=
+ =?utf-8?B?WThJKzJZdGcxMFVCUk9RNU81QXRSN2NhL1BrbTFuWGVVMVhkb1hQK0ZSM3o4?=
+ =?utf-8?B?S2Rob2V6c2lKT0xiK2hrbUxlN2U0R2pPM3pOVnlLMXdjdkJ3dldvaGFLblVJ?=
+ =?utf-8?B?dnlhTFczMjlWRUNBZkJhT1lwaDRZT3I2dGdBZll1RVBReDFxRzJWWUt3OE1a?=
+ =?utf-8?B?bUlRUXBKVDRCcGV2RUpTNDQxeVdEK1NRY21jaUorak01WVFiWUlUMEJXd2Iv?=
+ =?utf-8?B?UnhTejQvSnZOZnpqeUFrTFJzcGlTVVlUNVlPMzZrbitPckVOdUswUzFYTmZR?=
+ =?utf-8?B?ZDhlOTh6elpCa3NMdjVkT1BXN1VESXZMTjNuaXp4V1ZXVXQ1YnkwQzJMWEd3?=
+ =?utf-8?B?VlJPU3lzdVZnNWNpc0tPT2lxa2M0TXNhRzk1YzJvLzEyS0pBWi9SbjQ1R0h6?=
+ =?utf-8?B?ajdSWGVGR29nSEF2cTlXMjlVM08yaUdNajlqNXNKUzJTWGN6SlhxczUrSExK?=
+ =?utf-8?B?N3AwOEdJZFpsaUFEYmZOekIydTJHZ1AxL1dxN2lhWWJNK3FSbGtvRERKRDJR?=
+ =?utf-8?B?KzRkV3F3RFBPazk2Rkh5OEhBSG15Q1ZmN1RNOFhuQUkvMk0wQjNzc0Zsam1l?=
+ =?utf-8?B?Tk5CZ3hZM0F6N0FvTXc1VUQ0UmVYcjAvbWxORWllRDFuQWlwb2huVXFLTFlM?=
+ =?utf-8?B?TmowRVRiTG9PT292YURhM1dkNTAxcStPT2Y0bFRralpKbmJZTVhuZlZ6bG11?=
+ =?utf-8?B?K1VaSmxqVFhYeUNFOFRQVVNkVFJmTjRNc1ZLZy9NK3d5MHdYZklWM0dpd3N5?=
+ =?utf-8?B?bS9CRWVQdnhJdC9mb0JoeTRNcGo5WGhxdmRLMzZDQXNIdXYxUTYwNGpIckFr?=
+ =?utf-8?B?VGhSeHRocWh6TGdySTA1YUNvejJFTTNMUVZvZnFUdUdBNUF4RUowK3hhN2NK?=
+ =?utf-8?B?UThHaDNJSVlTVmJQSGorUW5UU1QvZGlZVGh1R21wcThxLy9wM3JxNGlLaFdz?=
+ =?utf-8?B?ZUZTcjFwUU0wR25IbVprbEIwOHMrVmtxRzc5ZkhqOHhjVHh5MU50ZVI3aTA3?=
+ =?utf-8?B?cms2UXJIVkI1SE9MZGdYcURzUUZpV0NqN0FPazMyb0UzY3Y1NFkxQVcyQml1?=
+ =?utf-8?B?Ymo1czdUWk1IS2lleFlJNU40c2U3OGlJa2dpemJzWXZlV2JpK0xOTEdBZnpp?=
+ =?utf-8?B?N1hFYU1DanM4enRMS2xIVTBaQUx0VkE3Z1YyZkJZWjNxb2VIVkxBZ3g4U3lV?=
+ =?utf-8?Q?19bkfY034JgeJQz7Assx+lfImCRJNoblZUL1rDZ?=
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gqMj5luGF/AcLVDVgs9Z/i6Tqwb0HyU9MZ7S0Ft2T24YA3c/qaCD7s4AjSb5kV788hlt+rloZTF14BpQShci7Is+V7jOHPvGOsIXQM7Uq72A58io6xh1kpuRbyGxgKgwOlBXFCoE0jp8tZJWiLfzBw56r40ub7gQRphYyxzVIdEQHFnrzZpBBa1/hOCWo8RUW0vcKXG7+28lT2DwRUmSG/fzrJFh/768MbHYkpBc6w0Ya94jyIkacn3j1RTSUtYcJN4w3BUg6JfYfzFZfmmC13oDEDCqMBs/QyOdXwPpDmG/Nx2cc5eJurFrQFrvhejWvLhASysoI6fPBlZa4p2erQ==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mJa2IeGXR1S1ckxDuXQekrrIONDhYef/Kdqk9QShQsI=;
+ b=Vn6dRDuURZlmnvVoqdR81kWc8RODxNRya6hAkkZksjE4zfHMZZTNWfCj6gKPlEinhQzidjcGU1VGrWYujkHS2pZjN6klKO9n1NSJoxx/xyZJdx6vu693m49FL7LG1p44fsbsTNeR2JiNLTTj4lGdyK4T+U1rf/bxsxz+O/B13NFbwHUieesbUPoj2UxGhPlHNR3nafM0QmlGyeTVtsPAn+4HQypVXo/YhIAZgiQZ92jS8fnkhXFj0JR2TywX5xYvsbWhdJkZmNDmONuLl5VcNdQOghdROrEsvZolBlGWD5AT5ax0LTL8/3cNlBZercnjddYT7o4mQ3tVfBjFEw0umg==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: 050323c1-b930-4e00-30be-08d8e6819973
+x-ms-exchange-crosstenant-originalarrivaltime: 14 Mar 2021 00:39:17.0349 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: 356Uap/sBmNOl+atFc1+nFC0T1ssApTwPVF+SXpk5WxmUdCtk6/4GAj0wcc36CwRvkcCZt4XSF6y1ugR6yHveQ==
+x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4263
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,105 +155,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Claudio,
-
-On 2/4/21 5:39 PM, Claudio Fontana wrote:
-> v15 -> v16:
-> 
-> * cpu: Move synchronize_from_tb() to tcg_ops:
->   - adjusted comments (Alex)
-> 
-> * cpu: tcg_ops: move to tcg-cpu-ops.h, keep a pointer in CPUClass:
->   - remove forward decl. of AccelCPUClass, should be in a later patch. (Alex)
->   - simplified comment about tcg_ops in struct CPUClass (Alex)
->   - remove obsolete comment about ARM blocking TCGCPUOps from being const.
->     (Alex)
-> 
-> * accel: replace struct CpusAccel with AccelOpsClass:
->   - reworded commit message to be clearer about the objective (Alex)
-> 
-> * accel: introduce AccelCPUClass extending CPUClass
->   - reworded commit message to be clearer about the objective (Alex)
-> 
-> * hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn:
->   - dropped this patch (Alex, Philippe)
-> 
->   will try again later, also in the context of:
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg686480.html
-> 
-> * accel: introduce new accessor functions
->   - squashed comments in previous patch introducing accel-cpu.h. (Philippe)
-> 
-> * accel-cpu: make cpu_realizefn return a bool
->   - split in two patches, separating the change to the phys_bits check
->     (Philippe)
-
-I am looking at this code:
-
-$ git grep tcg_ softmmu/physmem.c
-softmmu/physmem.c:153:static void
-tcg_log_global_after_sync(MemoryListener *listener);
-softmmu/physmem.c:154:static void tcg_commit(MemoryListener *listener);
-softmmu/physmem.c:161: * @tcg_as_listener: listener for tracking changes
-to the AddressSpace
-softmmu/physmem.c:167:    MemoryListener tcg_as_listener;
-softmmu/physmem.c:590:static void tcg_iommu_unmap_notify(IOMMUNotifier
-*n, IOMMUTLBEntry *iotlb)
-softmmu/physmem.c:606:static void tcg_register_iommu_notifier(CPUState *cpu,
-softmmu/physmem.c:640:                            tcg_iommu_unmap_notify,
-softmmu/physmem.c:654:void tcg_iommu_free_notifier_list(CPUState *cpu)
-softmmu/physmem.c:668:void tcg_iommu_init_notifier_list(CPUState *cpu)
-softmmu/physmem.c:698:        tcg_register_iommu_notifier(cpu, iommu_mr,
-iommu_idx);
-softmmu/physmem.c:761:    if (tcg_enabled()) {
-softmmu/physmem.c:762:
-newas->tcg_as_listener.log_global_after_sync = tcg_log_global_after_sync;
-softmmu/physmem.c:763:        newas->tcg_as_listener.commit = tcg_commit;
-softmmu/physmem.c:764:
-memory_listener_register(&newas->tcg_as_listener, as);
-softmmu/physmem.c:891:    assert(tcg_enabled());
-softmmu/physmem.c:904:    if (cc->tcg_ops->adjust_watchpoint_address) {
-softmmu/physmem.c:906:        addr =
-cc->tcg_ops->adjust_watchpoint_address(cpu, addr, len);
-softmmu/physmem.c:927:                if (wp->flags & BP_CPU &&
-cc->tcg_ops->debug_check_watchpoint &&
-softmmu/physmem.c:928:
-!cc->tcg_ops->debug_check_watchpoint(cpu, wp)) {
-softmmu/physmem.c:1004:    assert(tcg_enabled());
-softmmu/physmem.c:1059:    if (dirty && tcg_enabled()) {
-softmmu/physmem.c:1107:    if (tcg_enabled()) {
-softmmu/physmem.c:2605:static void
-tcg_log_global_after_sync(MemoryListener *listener)
-softmmu/physmem.c:2634:        cpuas = container_of(listener,
-CPUAddressSpace, tcg_as_listener);
-softmmu/physmem.c:2639:static void tcg_commit(MemoryListener *listener)
-softmmu/physmem.c:2644:    assert(tcg_enabled());
-softmmu/physmem.c:2647:    cpuas = container_of(listener,
-CPUAddressSpace, tcg_as_listener);
-softmmu/physmem.c:2700:        assert(tcg_enabled());
-softmmu/physmem.c:3000:    if (tcg_enabled()) {
-
-which reminded me the starter generic part of your effort
-(already merged).
-
-Do you have plans for this code?
-
-Similarly:
-
-$ git grep kvm_ softmmu/physmem.c
-softmmu/physmem.c:752:    assert(asidx == 0 || !kvm_enabled());
-softmmu/physmem.c:1295:    if (kvm_enabled())
-softmmu/physmem.c:1296:        kvm_flush_coalesced_mmio_buffer();
-softmmu/physmem.c:1566:    if (kvm_enabled()) {
-softmmu/physmem.c:2046:    if (kvm_enabled() && !kvm_has_sync_mmu()) {
-
-Thanks,
-
-Phil.
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBIZW5kZXJz
+b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFN1bmRheSwgRmVicnVh
+cnkgMTQsIDIwMjEgNTo0MSBQTQ0KPiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNp
+bmMuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBwaGlsbWRAcmVkaGF0LmNvbTsg
+YWxleC5iZW5uZWVAbGluYXJvLm9yZzsgbGF1cmVudEB2aXZpZXIuZXU7DQo+IGFsZUByZXYubmc7
+IEJyaWFuIENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY4
+IDI1LzM1XSBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgaW5zdHJ1Y3Rpb24gY2xhc3Nlcw0KPg0K
+PiBPbiAyLzcvMjEgOTo0NiBQTSwgVGF5bG9yIFNpbXBzb24gd3JvdGU6DQo+ID4gKyAgICB9IGVs
+c2UgaWYgKChpdHlwZSA9PSBJQ0xBU1NfVjJMRFNUKSAmJiAoR0VUX0FUVFJJQihvcGNvZGUsDQo+
+IEFfU1RPUkUpKSkgew0KPiA+ICsgICAgICAgIHJldHVybiBTTE9UU18wMTsNCj4gPiArICAgIH0g
+ZWxzZSBpZiAoKGl0eXBlID09IElDTEFTU19WMkxEU1QpICYmICghR0VUX0FUVFJJQihvcGNvZGUs
+DQo+IEFfU1RPUkUpKSkgew0KPiA+ICsgICAgICAgIHJldHVybiBTTE9UU18wMTsNCj4NCj4gV2hh
+dCdzIHRoZSBwb2ludCBvZiB0aGlzPyAgQmV0d2VlbiB0aGUgdHdvIGFsbCBJQ0xBU1NfVjJMRFNU
+IHVzZSBTTE9UU18wMS4NCj4gV2h5DQo+IGNhbid0IGl0IGJlIGRvbmUgaW4NCj4NCj4gPiArICAg
+ICAgICByZXR1cm4gaWNsYXNzX2luZm9baXR5cGVdOw0KDQpHb29kIGNhdGNoIC0gSSdsbCBlbGlt
+aW5hdGUgdGhlIHVubmVjZXNzYXJ5IGNoZWNrcy4NCg==
 
