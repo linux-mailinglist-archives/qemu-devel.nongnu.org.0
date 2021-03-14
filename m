@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2FE33A360
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 08:03:15 +0100 (CET)
-Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E753033A36C
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Mar 2021 08:54:26 +0100 (CET)
+Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLKmP-0004zt-GS
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 03:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48998)
+	id 1lLLZx-0003LP-H0
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 03:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lLKlD-0004Wn-Ky
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 03:01:59 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:33001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lLKlB-0003Lk-Rr
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 03:01:59 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id y13so4677554pfr.0
- for <qemu-devel@nongnu.org>; Sat, 13 Mar 2021 23:01:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SN1lM9HXLvnSugUX+RHDK8PqAOsb6RY5AUIbJPvtZX4=;
- b=VkV+DO+uYfzbPiDMz4ASQKXnIHK7BEuCduu55qHKbUqyaACssBbwY3PEEcAjJ9d6Xt
- jdUrCbSrA0ChIiVLnuWftrCcse+bhm3mtIiyeR4TJKPYJCU8UGKibU7GCpvHBPYr2hLL
- 7JguSC82iGD7cKoM46L7Ho2BPZI+FDZ/G4E1CbN/mXbm8X1FhhrATTj4WrwJHwxq8gv+
- 88eQnB1l6+Of5JnVlpIciMYrq3dKbM8WrqEu1O6Q19NhdKtH6QIwkJh4VlU5AsIAeXEJ
- WfkElsKGS95sJS4AY8HjoUbmo/qP0GAD1j2D8PnOlPDyiDd0WR78g3yAvlgPzwkMUtJP
- /3HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SN1lM9HXLvnSugUX+RHDK8PqAOsb6RY5AUIbJPvtZX4=;
- b=bcQAmyrbASgPUGRG61FyHJzj5VLOHuY+EUDmANmrp7Y2ntpyrWB0qyi3U42vLQ5ust
- fN6UnGutRuKKimqQgDv3idmrCEE0vzKVt6RuYPqFLVNN0MtvimlW9hHVgnlGAzplitQw
- 4iwjk5+Hh63RKXLt2FZx8cISE+H80CWS4JIA+B0YMfBuiSM36masQZfg41gkLgkDd32u
- 4jGiBWNznOOyvhU9xMyvjJEN0FyAPxcT6RDBFkfudPkV5CLhiD2+r7KiXL/UPxySQZXS
- FEYR0Zy9ggBcHzytHWvGBZlAHz7K6yrx/oToap+GGcUuVRINDhZ85q7gNBPZoHz4cXe8
- GBNw==
-X-Gm-Message-State: AOAM532SWQsUyv7efeK/XW0n+HcM+Qx/iJ3yf3ZnV4YCtWHjClM/Uhr0
- pcyBaddgPVmgqp+GKc5mOaxh0fb4kLnxjQ==
-X-Google-Smtp-Source: ABdhPJy5KrPRna0R8iHtSgXeWzkKP4OQNNP81P3xPR7v7QpNSlzkjSxMTxcRz6DmtF2favBv+WDIow==
-X-Received: by 2002:a62:58c6:0:b029:1ee:70e1:a094 with SMTP id
- m189-20020a6258c60000b02901ee70e1a094mr5636392pfb.38.1615705316160; 
- Sat, 13 Mar 2021 23:01:56 -0800 (PST)
-Received: from localhost.localdomain ([2400:4050:c360:8200:4d9:8412:486c:67d5])
- by smtp.gmail.com with ESMTPSA id l10sm3917549pfc.125.2021.03.13.23.01.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 13 Mar 2021 23:01:55 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/cocoa: Do not raise keys before QEMU resigns active
-Date: Sun, 14 Mar 2021 16:01:47 +0900
-Message-Id: <20210314070147.34731-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
+ id 1lLLYu-0002rq-D3; Sun, 14 Mar 2021 03:53:20 -0400
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:55352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
+ id 1lLLYr-00008H-KE; Sun, 14 Mar 2021 03:53:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
+ ; s=25047;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+ Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=NgSE53qDvDEbtj9Yy9fNjCalKWNGHX6H0YyUEKu2ddo=; b=HuVMKdCS/c19yUcN8Q21Zj6cpm
+ 1IaTjlA9FLhekdrAVcGgwr8Z9YXywdMCS5Gt+kzKaLt6CXsDn43qMb1NtK8pQhWB/XPc6+sowlBRe
+ CBMv1Vb1PZrXT8eFTyq1o63OTxI2PPUIV0zS5membm+YQz1PNana37Ixdf3NX/+vmERU=;
+Received: from [2a01:e0a:11c:2310:1406:131:1040:784f]
+ by iserv.reactos.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <hpoussin@reactos.org>)
+ id 1lLLYk-0000b6-UI; Sun, 14 Mar 2021 07:53:11 +0000
+Subject: Re: [PATCH] floppy: remove unused function fdctrl_format_sector
+To: John Snow <jsnow@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-devel@nongnu.org
+References: <20210108230137.8860-1-alxndr@bu.edu>
+ <e5115c26-2017-831b-f341-206050266739@redhat.com>
+From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Message-ID: <453fb830-673e-d2eb-47b6-41c8ed7bad42@reactos.org>
+Date: Sun, 14 Mar 2021 08:53:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <e5115c26-2017-831b-f341-206050266739@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2a01:4f8:1c17:5ae1::1;
+ envelope-from=hpoussin@reactos.org; helo=iserv.reactos.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,69 +66,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:Floppy" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ui/cocoa used to raise all keys before it resigns active to prevent a
-stuck key problem caused by key up events it does not see while it is
-inactive. The problem is solved by checking -[NSEvent modifierFlags] in
-commit 6d73bb643aa725348aabe6a885ac5fb0b7f70252, which is better
-because it handles the case that key *down* events are missed while it
-is inactive.
+Le 12/03/2021 à 07:45, John Snow a écrit :
+> On 1/8/21 6:01 PM, Alexander Bulekov wrote:
+>> fdctrl_format_sector was added in
+>> baca51faff ("updated floppy driver: formatting code, disk geometry auto detect (Jocelyn Mayer)")
+>>
+>> The single callsite is guarded by a check:
+>> fdctrl->data_state & FD_STATE_FORMAT
+>>
+>> However, the only place where the FD_STATE_FORMAT flag is set (in
+>> fdctrl_handle_format_track) is closely followed by the same flag being
+>> unset, with no possibility to call fdctrl_format_sector in between.
+>>
+> 
+> Hm, was this code *ever* used? It's hard to tell when we go back into the old SVN history.
+> 
+> Does this mean that fdctrl_handle_format_track is also basically an incomplete stub method?
+> 
+> I'm in favor of deleting bitrotted code, but I wonder if we should take a bigger bite.
+> 
+> --js
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 20 --------------------
- 1 file changed, 20 deletions(-)
+The fdctrl_format_sector has been added in SVN revision 671 (baca51faff03df59386c95d9478ede18b5be5ec8), along with FD_STATE_FORMAT/FD_FORMAT_CMD.
+As with current code, the only place where the FD_STATE_FORMAT flag was set (in fdctrl_handle_format_track) is closely followed by the same flag being unset, with no possibility to call 
+fdctrl_format_sector in between.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index a7848ae0a30..ac8989947f5 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -326,7 +326,6 @@ - (BOOL) isAbsoluteEnabled;
- - (float) cdx;
- - (float) cdy;
- - (QEMUScreen) gscreen;
--- (void) raiseAllKeys;
- @end
- 
- QemuCocoaView *cocoaView;
-@@ -996,18 +995,6 @@ - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
- - (float) cdx {return cdx;}
- - (float) cdy {return cdy;}
- - (QEMUScreen) gscreen {return screen;}
--
--/*
-- * Makes the target think all down keys are being released.
-- * This prevents a stuck key problem, since we will not see
-- * key up events for those keys after we have lost focus.
-- */
--- (void) raiseAllKeys
--{
--    with_iothread_lock(^{
--        qkbd_state_lift_all_keys(kbd);
--    });
--}
- @end
- 
- 
-@@ -1143,13 +1130,6 @@ - (BOOL)windowShouldClose:(id)sender
-     return NO;
- }
- 
--/* Called when QEMU goes into the background */
--- (void) applicationWillResignActive: (NSNotification *)aNotification
--{
--    COCOA_DEBUG("QemuCocoaAppController: applicationWillResignActive\n");
--    [cocoaView raiseAllKeys];
--}
--
- /* We abstract the method called by the Enter Fullscreen menu item
-  * because Mac OS 10.7 and higher disables it. This is because of the
-  * menu item's old selector's name toggleFullScreen:
--- 
-2.24.3 (Apple Git-128)
+I can however see the following comment:
+            /* Bochs BIOS is buggy and don't send format informations
+             * for each sector. So, pretend all's done right now...
+             */
+            fdctrl->data_state &= ~FD_STATE_FORMAT;
+
+which was changed in SVN revision 2295 (b92090309e5ff7154e4c131438ee2d540e233955) to:
+            /* TODO: implement format using DMA expected by the Bochs BIOS
+             * and Linux fdformat (read 3 bytes per sector via DMA and fill
+             * the sector with the specified fill byte
+             */
+
+This probably means that code may have worked without DMA (to be confirmed), but was disabled since its introduction due to a problem with Bochs BIOS.
+Later, fdformat was also tested and not working.
+
+Since then, lots of work has also been done in DMA handling. I especially think at bb8f32c0318cb6c6e13e09ec0f35e21eff246413, which fixed a similar problem with floppy drives on IBM 40p machine.
+What happens when this flag unsetting is removed? Does fdformat now works?
+
+I think that we should either fix the code, or remove more code (everything related to fdctrl_format_sector, FD_STATE_FORMAT, FD_FORMAT_CMD, maybe even fdctrl_handle_format_track).
+
+Regards,
+
+Hervé
+
+> 
+>> This removes fdctrl_format_sector and the unncessary setting/unsetting
+>> of the FD_STATE_FORMAT flag.
+>>
+>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>> ---
+>>   hw/block/fdc.c | 68 --------------------------------------------------
+>>   1 file changed, 68 deletions(-)
+>>
+>> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+>> index 3636874432..837dd819ea 100644
+>> --- a/hw/block/fdc.c
+>> +++ b/hw/block/fdc.c
+>> @@ -1952,67 +1952,6 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
+>>       return retval;
+>>   }
+>> -static void fdctrl_format_sector(FDCtrl *fdctrl)
+>> -{
+>> -    FDrive *cur_drv;
+>> -    uint8_t kh, kt, ks;
+>> -
+>> -    SET_CUR_DRV(fdctrl, fdctrl->fifo[1] & FD_DOR_SELMASK);
+>> -    cur_drv = get_cur_drv(fdctrl);
+>> -    kt = fdctrl->fifo[6];
+>> -    kh = fdctrl->fifo[7];
+>> -    ks = fdctrl->fifo[8];
+>> -    FLOPPY_DPRINTF("format sector at %d %d %02x %02x (%d)\n",
+>> -                   GET_CUR_DRV(fdctrl), kh, kt, ks,
+>> -                   fd_sector_calc(kh, kt, ks, cur_drv->last_sect,
+>> -                                  NUM_SIDES(cur_drv)));
+>> -    switch (fd_seek(cur_drv, kh, kt, ks, fdctrl->config & FD_CONFIG_EIS)) {
+>> -    case 2:
+>> -        /* sect too big */
+>> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, 0x00, 0x00);
+>> -        fdctrl->fifo[3] = kt;
+>> -        fdctrl->fifo[4] = kh;
+>> -        fdctrl->fifo[5] = ks;
+>> -        return;
+>> -    case 3:
+>> -        /* track too big */
+>> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_EC, 0x00);
+>> -        fdctrl->fifo[3] = kt;
+>> -        fdctrl->fifo[4] = kh;
+>> -        fdctrl->fifo[5] = ks;
+>> -        return;
+>> -    case 4:
+>> -        /* No seek enabled */
+>> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, 0x00, 0x00);
+>> -        fdctrl->fifo[3] = kt;
+>> -        fdctrl->fifo[4] = kh;
+>> -        fdctrl->fifo[5] = ks;
+>> -        return;
+>> -    case 1:
+>> -        fdctrl->status0 |= FD_SR0_SEEK;
+>> -        break;
+>> -    default:
+>> -        break;
+>> -    }
+>> -    memset(fdctrl->fifo, 0, FD_SECTOR_LEN);
+>> -    if (cur_drv->blk == NULL ||
+>> -        blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+>> -                   BDRV_SECTOR_SIZE, 0) < 0) {
+>> -        FLOPPY_DPRINTF("error formatting sector %d\n", fd_sector(cur_drv));
+>> -        fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM | FD_SR0_SEEK, 0x00, 0x00);
+>> -    } else {
+>> -        if (cur_drv->sect == cur_drv->last_sect) {
+>> -            fdctrl->data_state &= ~FD_STATE_FORMAT;
+>> -            /* Last sector done */
+>> -            fdctrl_stop_transfer(fdctrl, 0x00, 0x00, 0x00);
+>> -        } else {
+>> -            /* More to do */
+>> -            fdctrl->data_pos = 0;
+>> -            fdctrl->data_len = 4;
+>> -        }
+>> -    }
+>> -}
+>> -
+>>   static void fdctrl_handle_lock(FDCtrl *fdctrl, int direction)
+>>   {
+>>       fdctrl->lock = (fdctrl->fifo[0] & 0x80) ? 1 : 0;
+>> @@ -2126,7 +2065,6 @@ static void fdctrl_handle_format_track(FDCtrl *fdctrl, int direction)
+>>       SET_CUR_DRV(fdctrl, fdctrl->fifo[1] & FD_DOR_SELMASK);
+>>       cur_drv = get_cur_drv(fdctrl);
+>> -    fdctrl->data_state |= FD_STATE_FORMAT;
+>>       if (fdctrl->fifo[0] & 0x80)
+>>           fdctrl->data_state |= FD_STATE_MULTI;
+>>       else
+>> @@ -2144,7 +2082,6 @@ static void fdctrl_handle_format_track(FDCtrl *fdctrl, int direction)
+>>        * and Linux fdformat (read 3 bytes per sector via DMA and fill
+>>        * the sector with the specified fill byte
+>>        */
+>> -    fdctrl->data_state &= ~FD_STATE_FORMAT;
+>>       fdctrl_stop_transfer(fdctrl, 0x00, 0x00, 0x00);
+>>   }
+>> @@ -2458,11 +2395,6 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
+>>               /* We have all parameters now, execute the command */
+>>               fdctrl->phase = FD_PHASE_EXECUTION;
+>> -            if (fdctrl->data_state & FD_STATE_FORMAT) {
+>> -                fdctrl_format_sector(fdctrl);
+>> -                break;
+>> -            }
+>> -
+>>               cmd = get_command(fdctrl->fifo[0]);
+>>               FLOPPY_DPRINTF("Calling handler for '%s'\n", cmd->name);
+>>               cmd->handler(fdctrl, cmd->direction);
+>>
+> 
 
 
