@@ -2,73 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCDD33BF98
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:20:23 +0100 (CET)
-Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7F733BFA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:22:53 +0100 (CET)
+Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLp14-0005Vg-4X
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40408)
+	id 1lLp3U-0007BZ-4H
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLozo-0004yU-Af
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:19:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLozl-0008C6-2n
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:19:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615821539;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CHrZwrgVhZzcXc0vW2NH0xnxkG4Zto2Pj2ybkfCUjgI=;
- b=SRau7HLkL/zNou0sc26oMW/Y4dhktKflnGS8frLT9PlIURPZw2EKyLiIP0lsOIY0ZtZYGc
- ZKlBQQ5Bp14Mre5TUhUPeDGpDBS6RKM0TQ6XeJR4Crb8SC5DMBEJGWE2Suv/bx+Q0WF3AS
- HB29d9ezB0g8jUGUHRdCFNm+X0nIV3k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-HJde_w8mP7u7JETAwPvIGA-1; Mon, 15 Mar 2021 11:18:56 -0400
-X-MC-Unique: HJde_w8mP7u7JETAwPvIGA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6360F101F002;
- Mon, 15 Mar 2021 15:18:55 +0000 (UTC)
-Received: from work-vm (ovpn-114-235.ams2.redhat.com [10.36.114.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47EDB1C4;
- Mon, 15 Mar 2021 15:18:51 +0000 (UTC)
-Date: Mon, 15 Mar 2021 15:18:48 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [Virtio-fs] [PATCH 3/3] virtiofsd: Don't allow empty filenames
-Message-ID: <YE962LeQCJfR03NZ@work-vm>
-References: <20210312141003.819108-1-groug@kaod.org>
- <20210312141003.819108-4-groug@kaod.org>
- <20210314233604.GC223210@redhat.com>
- <20210315110630.5ae99490@bahia.lan>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lLozw-00054z-Gd; Mon, 15 Mar 2021 11:19:12 -0400
+Received: from mail-eopbgr130110.outbound.protection.outlook.com
+ ([40.107.13.110]:21910 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lLozt-0008EG-8O; Mon, 15 Mar 2021 11:19:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Sp8M7flc+dRymVL2+AsYLiVNr9OJPaGBBhhY84NXk/OrASM54s+3DCmLVBaCgZUuPA4oKa7tZrjGupE3A1mk+SbVDHEEBIQ9u6HeVZShcvqNjrHItfTHm4478cnpYJrLJwdVt47ssvUX1LAm4cjPZPtX2Ou0an9XIt/nbFTk4d5BTZ/NytV5FV9O193hsFNrd2yvZ1MXOd3hAFHJbNPfmnJRaLTEAIwfqqx834JUmfKQ3ONyRTt36t7cfAfGMUuskvf2x7SGVVDwcSIGafjzHdWliHAD4mQOP8wEzuuHznQgdo4SQUBI48B4Cau2oPErUM94tH/7X39f3wHICKb1tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R9/OZfjp3uV+g8s3IbKvCH9lCk2KBCO2H7gEf9gw3AQ=;
+ b=JwZMQp6mll0MkzF1xB3IoBNq+0RcGsiJDabL5VdVq27IEDZEQPb6vUz9S5OUAhxwxwGKx62D46z7ajbY65vHoAodUb9g9eso8RERPZ/A8sO/w/sYZrnAurkCGWvxwjLMTimee0nz3ErcILQL9lecT3BUCTQbKdGs2L4UUZECqEc9Z+epim65zc5P6tk7hGwrF/O7h+NBhFibqHCLd25hQPpOydIty2XTQ+Xrb43NnApU4jyAjrxCyMX6BADIXKo1e3UKdQgmuSv/K12dvYS+RBB2W0ywX3eddlITE5JeDy9NeMQ8BAvn9F/bWVToypOurj7vKz+wUe2Onkd/Y+dVyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R9/OZfjp3uV+g8s3IbKvCH9lCk2KBCO2H7gEf9gw3AQ=;
+ b=BZpjKYA8wu9R2QJiCnu55E/Sh/oJN/qcsZUXSV+VgFtjnDgUwOyx5yJoiqznX3k8NyE6cBwDB86Fw8k7wHb4AwIsPgCWweBzHT2kjGirBRrNnUBwTSx2L0pdgHcgjI8XCGo5ULZSbo4MHzSSdye+e1fKY+h2aD4fq7KshQ9L6q4=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6631.eurprd08.prod.outlook.com (2603:10a6:20b:339::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Mon, 15 Mar
+ 2021 15:19:05 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
+ 15:19:05 +0000
+Subject: Re: [PATCH v3 0/6] Allow changing bs->file on reopen
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+References: <cover.1615309297.git.berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <9099cb4f-b42f-f50c-c8ab-e55ef9da0ffe@virtuozzo.com>
+Date: Mon, 15 Mar 2021 18:19:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <cover.1615309297.git.berto@igalia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.202]
+X-ClientProxiedBy: AM0PR03CA0106.eurprd03.prod.outlook.com
+ (2603:10a6:208:69::47) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20210315110630.5ae99490@bahia.lan>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.202) by
+ AM0PR03CA0106.eurprd03.prod.outlook.com (2603:10a6:208:69::47) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3933.32 via Frontend Transport; Mon, 15 Mar 2021 15:19:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 98c24f72-caff-478d-6a4e-08d8e7c5ac05
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6631:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB663190D8E75779559F673823C16C9@AS8PR08MB6631.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:590;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ORZH3YMdDdeuJK+Yp+lpXu+yHuLs8pzIb0UE6sF+L26Yra3YDDcWtSRE3j9DolB7v8M5r7G+UvnAEZgL4/DOtyWgR68EGrpV+K9w1jrRwXY9qfI0IkUWeKvbNBXSOcwcx/Ju4x41JhHQwtcxXNPdLqUMQ6t4zZGuJNl6SvpvMlTe2pk5cI9ixB71Dju489yRGGG2OjjBGAue6IImZIs9wiFE75RxPqW/OEfZrM4b+tBdYoN8Qwyp+pMhB5m76ULP+hkSnhGEolvEr3HtRZsoiVLpsTv5Jv/4oc7RQrW6Ln+8pbsPff9W4o2KMPQ8MbHBSM3FwwNRN+Exk4h2H3mLqN28GTKpRE5aHOyXd1LOMHvdvJ3FaEphTGkFoQvn1VN02KxU0+htMDO4P7an/+YyjwMbpVbvMpn8LSPx57ePP787N5Ir/2tSldskjCCDiPfR7yfG9oRljmv5neqKy+eG419fCBmUsZf/ozdFBb4HSQqSqqN2pIkS7a55km5LmA9OeIml+y63dvuA/1Osa0TNmSY+Uuyi4woG+s8qnZzdB/FAf/ourbM/qZLeP7+txfzZL2fn7qO80iQl5SVM+htm6vZWdo65v55jgyWKiC/I0KpjuMNLteGOtVYz6LGMdQq4gn7SF6xkLEnnCpAWMol8BVLXjixSPyspgARoMCLNfhNa88rycPbPBtBp1xEeP6a8fYyQq4UesAibT0v4h46XedJ9vusPFqKc+7Ktjw6gfbE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(396003)(39840400004)(346002)(366004)(478600001)(86362001)(2906002)(4326008)(54906003)(966005)(16526019)(8936002)(66476007)(52116002)(956004)(316002)(5660300002)(6666004)(66556008)(31696002)(16576012)(186003)(2616005)(8676002)(66946007)(36756003)(83380400001)(6486002)(31686004)(26005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cVNtZXNzT3QyalZZeW9UbjZJeE5XTzVtUWFLN0VDakhwL2lyK3JHVmFBRzl6?=
+ =?utf-8?B?UlpPQk5MVGlDblNUZ01idFZDcXNhbVNXVlpEeURSME5RNTExVWNMQ2EvNllZ?=
+ =?utf-8?B?eDVHd081blQxb2ozOHRDSUhLc1JybmI1eExveDMreldWc1BDd3Rzb29LU3pa?=
+ =?utf-8?B?U2FWdDlyTWoxTVFaaHJJSFNBYjlHdzR3c2RBVElMLzFKSFR5dVpYVDYxZnYv?=
+ =?utf-8?B?Q0luMlRYMDRXajV6RVQ5QlB3anVmbFRZQjlNRUxZSGh2KzNKTHJGTXZrSko4?=
+ =?utf-8?B?TGF4NnVwVndkSlBHUXFMQjNNOVM1MFJUNWFCeHFUcFBkd2FJRGxuaWo5Sndo?=
+ =?utf-8?B?Yy9wSUVYUzFrdEVoR0E5SlRSeHJmRUVQV0ZYaGRzYkhaQUNuN3AzVjNYbHFU?=
+ =?utf-8?B?NVNJd2ExeHJ3dzlMd3VWV0lUTE1RdTVnQ1Ztd2thQjF1SngvUnplbnJTK25n?=
+ =?utf-8?B?dlhmK08xQXdnYkZiWXI0d2hlN21HUnVRVUx0WThwSTk1ckE3WVVyeGJic05B?=
+ =?utf-8?B?aHlCNnc3NU5JOFVKZUh0SFRld0h3TXJjTG04TTZ4R09FSW5uSGhFY2lLOTlT?=
+ =?utf-8?B?aGpWcUFPbGVjL3pjb0V2cXRCdWdwaHM5VnR1TjBVbldYMDFzdFVVVVpDN1FL?=
+ =?utf-8?B?NlF1RkovcXc5OVhEV1JYRFBhVDN1UkVIcmZ6dHRsVU1wc0J4RG9PWWFPYUxj?=
+ =?utf-8?B?blFKR3dRUHl4ZFNtZkFteFRtUndUUVZzUmRlYmNxakFIbGZrNWF5LzZvUkY3?=
+ =?utf-8?B?b0I5TGp4czBEcnBIeGZjZS9rYW95czNKcHowSmxRdVhpa2ZQU1pPL1UwbUtW?=
+ =?utf-8?B?L08xT3MwMEhrM0g3OHk3cEF4UEtQUU9jVEIxdlgweExUc0JTMlhlLytORC9r?=
+ =?utf-8?B?cGc1K1c1RzF1aVFUUStSQ1I5b0NMdUFVekVGNkYrVFdPZ1hNYUQzZEQwMmpp?=
+ =?utf-8?B?ekUvbEs3NVowUzY5SXdFdWVoR3Y4NHRJWVo5ejRlN3Z0NUZVNjNrN1BsWFRi?=
+ =?utf-8?B?d2hZSFI2c2FvNEpyY1lsaHBUVk1udXJsM2VKcHFGRmkrODNBVkRjaVlzVURW?=
+ =?utf-8?B?b2w4aEZmNVhTcHdxU0JqNW9MbmdZUUUxVTZIcFB6SGlUcVNYbi9LbEY4R3Ur?=
+ =?utf-8?B?QU9PRXFJNC8yZ1lITmFaWHZlckJCVng3NGlIejdPWDRxdzJmaEVWaDVZb1Ry?=
+ =?utf-8?B?dVVmN0pNN01VOThrRW1ZNVowVE9tbHhzSG9sN0FpYzE0SGZUV2lyNnJEc3Y2?=
+ =?utf-8?B?SmR0KzdQWHUxUDJGRnpHb3dvcDREVldrSHZMQS9yYWZLcWFuSm1UMCtwQklt?=
+ =?utf-8?B?czZuZURjUXEremp5akd6dXJoWEMxYzhvTFFZSG5tR1BnckxhckV3N2hBYU40?=
+ =?utf-8?B?K1pyMGxCSUtaY0dCNnhVaUJYSW9DWmZJZEZDR2Y0WFkzb2xhZlNmUUdYMjdP?=
+ =?utf-8?B?azg5UngyWG1TRnJJWk04eHN0TEtDSzlNRWxoYWdLOXgwdkRiakZnTFhpUmNl?=
+ =?utf-8?B?MDFIUHVSa1hwaWJUTjJudFgxQmM2V0ZHaGpPRllqWFJWUEN0Mnh0THZ4ZGg4?=
+ =?utf-8?B?VmlBSXkrTWJlZlFJWUd3UDdEbThQazZGZ1VLUHk2TDQ0WWNLdmttZjREcU04?=
+ =?utf-8?B?TzVaMEJOTU9ULzJKZUZpV0k5MEpZcmxrN2xpT29iaHM2UEQ2MFlKWFBMNldi?=
+ =?utf-8?B?SHNrbW15S0c1ZUlJU1V6VzZLWHRwbERkRS9uU3JjcWMwRzl4VmdselhtU2FQ?=
+ =?utf-8?Q?Us6hxuEAyDONvOuvUYWA/Mtn9nMGMPlM5Icqwne?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98c24f72-caff-478d-6a4e-08d8e7c5ac05
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 15:19:05.5307 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UHFp6So/ibix0Yn2uentOTB3UAGv0Ohnogv8MbBwbJN/Y1ZgLyiNvvj/lqxyhYoeVNfA5/7d8L6EGs4i6gJnPPuJs2e9+5Ln8XSAseyKk0c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6631
+Received-SPF: pass client-ip=40.107.13.110;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,199 +143,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> On Sun, 14 Mar 2021 19:36:04 -0400
-> Vivek Goyal <vgoyal@redhat.com> wrote:
+09.03.2021 20:08, Alberto Garcia wrote:
+> Based-on: <20201127144522.29991-1-vsementsov@virtuozzo.com>
 > 
-> > On Fri, Mar 12, 2021 at 03:10:03PM +0100, Greg Kurz wrote:
-> > > POSIX.1-2017 clearly stipulates that empty filenames aren't
-> > > allowed ([1] and [2]). Since virtiofsd is supposed to mirror
-> > > the host file system hierarchy and the host can be assumed to
-> > > be linux, we don't really expect clients to pass requests with
-> > > an empty path in it. If they do so anyway, this would eventually
-> > > cause an error when trying to create/lookup the actual inode
-> > > on the underlying POSIX filesystem. But this could still confuse
-> > > some code that wouldn't be ready to cope with this.
-> > > 
-> > > Filter out empty names coming from the client at the top level,
-> > > so that the rest doesn't have to care about it. This is done
-> > > everywhere we already call is_safe_path_component(), but
-> > > in a separate helper since the usual error for empty path
-> > > names is ENOENT instead of EINVAL.
-> > > 
-> > > [1] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_170
-> > > [2] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13
-> > > 
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > 
-> > Hi Greg,
-> > 
-> > Minor nit, if you happen to respin this patch, it probably should come
-> > before the first patch in series. Once we make it clear that file server
-> > is not expecting empty path in these top level functions, then it is
-> > easy to clear AT_EMPTY_PATH in function these paths are calling as
-> > appropriate.
-> > 
+> Hello,
 > 
-> The patch order is chronological : I just spotted the AT_EMPTY_PATH
-> oddity before coming up with the bigger hammer of patch 3. But you're
-> right, it probably makes more sense to do the other way around.
+> here's the third version of the patches that allow replacing bs->file
+> using (x-)blockdev-reopen. You can read more details here:
 > 
-> > What about lo_create(). Should we put a check in there as well.
-> > 
+> https://lists.gnu.org/archive/html/qemu-block/2021-01/msg00437.html
 > 
-> Good catch ! I'll post a v2 then ;)
+> In summary, the series does three things:
+> 
+>     - Allows replacing bs->file
+>     - Allows reopening multiple block devices with one single command.
+>     - Drops the x- prefix from the command name.
+> 
+> This is still depending on Vladimir's "update graph permissions
+> update" branch.
+> 
 
-I'm just brewing a pull now, since soft freeze is tomorrow.
-I'll take 3,1,2 - please follow up with a separate lo_create one - we
-can add that later.
+I've rebased my series and handled all comments on v2 (except for additional test). Now I have some iotests failing
 
-Dave
+(028 030 039 040 041 051 056 124 127 129 141 153 155 156 176 185 191 195 200 203 216 222 224 228 240 245 247 255 256 258 260 267 274 281 291 307 309 310 migrate-bitmaps-test)
 
-> > We are passed xattr names in lo_getxattr()/lo_removexattr()/lo_setxattr().
-> > In general, should we put an empty in_name check there as well and
-> > probably simply return -EINVAL.
-> > 
+I'll start handle them today, hope most of the failures is one stupid mistake. But anyway it all doesn't seem feasible to finish before soft freeze (tomorrow)..
+
 > 
-> An empty xattr name doesn't likely make sense either, even if this
-> isn't written down anywhere, not in an explicit manner at least.
+> v3:
+> - Patch 1: Move bdrv_reopen_queue_free() to a new patch
+> - Patch 2: Merge bdrv_reopen_parse_backing() and bdrv_reopen_parse_file()
+> - Patch 3: Add more tests
+> - Patch 4: Update documentation and fix iotest 296
+> - Patch 5: Minor updates to iotest 245
+> - Patch 6: New patch, drop the 'x-' prefix from x-blockdev-reopen
 > 
-> The kernel checks this in setxattr() and errors out with -ERANGE
-> in this case.
+> v2: https://lists.gnu.org/archive/html/qemu-block/2021-02/msg00623.html
+> v1: https://lists.gnu.org/archive/html/qemu-block/2021-01/msg00437.html
 > 
->         error = strncpy_from_user(kname, name, sizeof(kname));
->         if (error == 0 || error == sizeof(kname))
->                 error = -ERANGE;
->         if (error < 0)
->                 return error;
+> Output of git backport-diff against v2:
 > 
-> Same goes for the other *xattr() syscalls, i.e. nothing nasty can ever
-> happen with an empty xattr name since this is always considered as an
-> error by the kernel. Not sure this would bring much to also check this
-> in QEMU. This is a bit different from the empty path name case because
-> an empty path name is valid for syscalls that support AT_EMPTY_PATH,
-> and we just want to make sure these are never exercised with names
-> from the client.
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream patch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
 > 
-> Cheers,
+> 001/6:[down] 'block: Add bdrv_reopen_queue_free()'
+> 002/6:[0160] [FC] 'block: Allow changing bs->file on reopen'
+> 003/6:[down] 'iotests: Test replacing files with x-blockdev-reopen'
+> 004/6:[0042] [FC] 'block: Support multiple reopening with x-blockdev-reopen'
+> 005/6:[0015] [FC] 'iotests: Test reopening multiple devices at the same time'
+> 006/6:[down] 'block: Make blockdev-reopen stable API'
 > 
-> --
-> Greg
+> Alberto Garcia (6):
+>    block: Add bdrv_reopen_queue_free()
+>    block: Allow changing bs->file on reopen
+>    iotests: Test replacing files with x-blockdev-reopen
+>    block: Support multiple reopening with x-blockdev-reopen
+>    iotests: Test reopening multiple devices at the same time
+>    block: Make blockdev-reopen stable API
 > 
-> > Thanks
-> > Vivek
-> > 
-> > > ---
-> > >  tools/virtiofsd/passthrough_ll.c | 35 ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 35 insertions(+)
-> > > 
-> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > > index f63016d35626..bff9dc2cd26d 100644
-> > > --- a/tools/virtiofsd/passthrough_ll.c
-> > > +++ b/tools/virtiofsd/passthrough_ll.c
-> > > @@ -237,6 +237,11 @@ static bool is_safe_path_component(const char *path)
-> > >      return !is_dot_or_dotdot(path);
-> > >  }
-> > >  
-> > > +static bool is_empty(const char *name)
-> > > +{
-> > > +    return name[0] == '\0';
-> > > +}
-> > > +
-> > >  static struct lo_data *lo_data(fuse_req_t req)
-> > >  {
-> > >      return (struct lo_data *)fuse_req_userdata(req);
-> > > @@ -1083,6 +1088,11 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-> > >      fuse_log(FUSE_LOG_DEBUG, "lo_lookup(parent=%" PRIu64 ", name=%s)\n", parent,
-> > >               name);
-> > >  
-> > > +    if (is_empty(name)) {
-> > > +        fuse_reply_err(req, ENOENT);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      /*
-> > >       * Don't use is_safe_path_component(), allow "." and ".." for NFS export
-> > >       * support.
-> > > @@ -1174,6 +1184,11 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-> > >      struct fuse_entry_param e;
-> > >      struct lo_cred old = {};
-> > >  
-> > > +    if (is_empty(name)) {
-> > > +        fuse_reply_err(req, ENOENT);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      if (!is_safe_path_component(name)) {
-> > >          fuse_reply_err(req, EINVAL);
-> > >          return;
-> > > @@ -1246,6 +1261,11 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
-> > >      char procname[64];
-> > >      int saverr;
-> > >  
-> > > +    if (is_empty(name)) {
-> > > +        fuse_reply_err(req, ENOENT);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      if (!is_safe_path_component(name)) {
-> > >          fuse_reply_err(req, EINVAL);
-> > >          return;
-> > > @@ -1323,6 +1343,11 @@ static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
-> > >      struct lo_inode *inode;
-> > >      struct lo_data *lo = lo_data(req);
-> > >  
-> > > +    if (is_empty(name)) {
-> > > +        fuse_reply_err(req, ENOENT);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      if (!is_safe_path_component(name)) {
-> > >          fuse_reply_err(req, EINVAL);
-> > >          return;
-> > > @@ -1352,6 +1377,11 @@ static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
-> > >      struct lo_inode *newinode = NULL;
-> > >      struct lo_data *lo = lo_data(req);
-> > >  
-> > > +    if (is_empty(name) || is_empty(newname)) {
-> > > +        fuse_reply_err(req, ENOENT);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      if (!is_safe_path_component(name) || !is_safe_path_component(newname)) {
-> > >          fuse_reply_err(req, EINVAL);
-> > >          return;
-> > > @@ -1405,6 +1435,11 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
-> > >      struct lo_inode *inode;
-> > >      struct lo_data *lo = lo_data(req);
-> > >  
-> > > +    if (is_empty(name)) {
-> > > +        fuse_reply_err(req, ENOENT);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      if (!is_safe_path_component(name)) {
-> > >          fuse_reply_err(req, EINVAL);
-> > >          return;
-> > > -- 
-> > > 2.26.2
-> > > 
-> > > _______________________________________________
-> > > Virtio-fs mailing list
-> > > Virtio-fs@redhat.com
-> > > https://listman.redhat.com/mailman/listinfo/virtio-fs
-> > 
+>   qapi/block-core.json       |  24 ++---
+>   include/block/block.h      |   2 +
+>   block.c                    | 137 ++++++++++++++++----------
+>   blockdev.c                 |  85 +++++++++--------
+>   tests/qemu-iotests/155     |   9 +-
+>   tests/qemu-iotests/165     |   4 +-
+>   tests/qemu-iotests/245     | 190 +++++++++++++++++++++++++++++++++----
+>   tests/qemu-iotests/245.out |  11 ++-
+>   tests/qemu-iotests/248     |   4 +-
+>   tests/qemu-iotests/248.out |   2 +-
+>   tests/qemu-iotests/296     |  11 ++-
+>   tests/qemu-iotests/298     |   4 +-
+>   12 files changed, 351 insertions(+), 132 deletions(-)
 > 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
+
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Best regards,
+Vladimir
 
