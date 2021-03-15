@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D893333C889
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:37:21 +0100 (CET)
-Received: from localhost ([::1]:59156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC52633C885
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:35:41 +0100 (CET)
+Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLuts-0008Mq-S9
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
+	id 1lLusG-000677-Ss
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lLurp-00066b-HE; Mon, 15 Mar 2021 17:35:13 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:40138)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLuqp-0004kL-Lo
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:34:11 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lLurn-00010t-Ki; Mon, 15 Mar 2021 17:35:13 -0400
-Received: by mail-il1-x12c.google.com with SMTP id e7so10781598ile.7;
- Mon, 15 Mar 2021 14:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLuqn-0000Xz-O9
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:34:11 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id e19so68854640ejt.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/c2z/RwMNO3+Vl7RwZuM+Pcx8Tmi4kDxh6VGrOHD9VQ=;
- b=cUFHG9Q2Eu78r3NuApvkmqPu9Nb4/6dpTlzZKED5/+ZYpBKAroByrmIeSHI7CqHLmZ
- NB7vZEhPp3Eosf8HDuZdGuIQRP/NwZJxYy1cO/V16pdVXItNnvLDQ1Gmutk5ZehDLkwJ
- EQn4JIx1jAY8dom+ob7crD9iXX3t5r3W4DoSqLxWUhJOqtYAGEpI0706sjNtByTbJDOw
- 5hcILLv4hJCOaknji1W5MIfeyLBKJ1VN1ky5tEmN7oTUbr5821u8lYWuq1/6bVqC12fA
- k8gdulRLT0zOLuIfcEbIc9/n1KnC7o/q5TLBnSXaddGAxKYvw+HTk6tB/VlsN8/lEBqr
- 3zsg==
+ :cc:content-transfer-encoding;
+ bh=wW0TY5cNRlAXLeZu8LS2tVVAmkhSoYofq4U5TeLr6V8=;
+ b=c1LA5No7hehQpuF9wnvEynOuUpD1ib47WFV60WlwauMki9JT26zo5PNf0Xcfo/gn9D
+ Wes12BRA+h1HIm4dIlCzs9CmzVVI095+mconH1kyz48afb2lez5Y4bSb3FpLrnrzdH9l
+ d/1f3mLmbGRb1qYE++4DrPQZ6ewWl6jz/+iQlbfibtMI/eJD0u5FfEokxxC5hySHoRx1
+ hvqHu/9XkAbcyooQF/ugh8WAPABG+PaByGfEWIP897nTVwrM7NbndFEr6518P2+ACc/A
+ vWq+Jzi0jK2TG6zeTghhBPSm8WqyUU3pa19KaabAx1jtKwy3lJ4MGl9Bp/Yvp0TKQS2v
+ 9jkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/c2z/RwMNO3+Vl7RwZuM+Pcx8Tmi4kDxh6VGrOHD9VQ=;
- b=SCkAmyp3ZdE5B7gfDmC7aKyTHrsPRQiPA2isWfbC02d0W/zn21PicIjLCTc+4nzNGO
- srZwq/+81f7Mh8N3JgkRtgY1uHPQAE+5CSRxd5Aa3vjijr5VJJt7OGi+A9w02LGGPY+u
- uz21a7cgukA8A31rPQ1t+QfHEsMvgCs1d2Cgz9lwtFO2c+lKBSTvO5yQ/jGkneG10thY
- ExuEFmjemtR8A4tdX0fN9Kff5vcoQkjAtGAHRII4G/c+6GcdSOsrE8XFrw+k5sWLtw3t
- IVtt4KxkOKhZCA1bMhMBJ0uVscJ+uDzuEUVqEY6LDm9qN1VxZ/AbNFQjsk+e+6cIJKo9
- xt2Q==
-X-Gm-Message-State: AOAM533Hda3G7HQrW3CbwZL5qRhF3ySvtSfQ2zRbMU6y0jCvBMatQICf
- CqIuNKBneElfvskGXxThfxDxmQY2ofQDzOatfcc=
-X-Google-Smtp-Source: ABdhPJw+o9WwG4njqLNtAjb5g4sUTcFl/1yDENAoDCz9rIKzgb+wZuU3P8q4IiZmFMqsAFhEknEuSMV8f6o0904Vepc=
-X-Received: by 2002:a05:6e02:1748:: with SMTP id
- y8mr1250998ill.131.1615844110132; 
- Mon, 15 Mar 2021 14:35:10 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wW0TY5cNRlAXLeZu8LS2tVVAmkhSoYofq4U5TeLr6V8=;
+ b=LpN1giYyddra+7kt+eRJminekayWjJUMcXAgCHqNawWUcuy5mEbPv56eYP+4NtF/n0
+ BJUMtNh4ow36zqCzVJV6F+CIyHgbJ4TF1Bq5IOlsjFWWn1ZEaaVuLrtcXT3aGh7FBJYy
+ yZm7U4EJgrQQk+8IGieIJK9sWvc1w18442JygUJIJo16ikRGOojCLk9Wc8qhpOpw8CK9
+ BnELF84NRyX9WuEJN9RKMsfkdQLtiRwEzv1k5bh3B0322DRSJi95kga+f3g4q/yXhPI6
+ 3hVqd3HZcJhpIx04O4JKNeZP65fxf1niZGYi2+IQvOJgZymVr9VnD4rYdXqSGFvQ+Hp1
+ qe8g==
+X-Gm-Message-State: AOAM530L8SqAgx+6u6WLcHOGNOjBnQNBIpr+G+vGwhvYa7R4Pg+JoEZZ
+ U3fNuUTwTTInEjxFL/bqcDIl6Q4nvTzGrGylHkWv5A==
+X-Google-Smtp-Source: ABdhPJxta+2Gc1fB6yA19p9CFsSYCU5nbKr73AHrLgHu8Qhgo2QKGtBq/y+3NOMhI9ORxnAyis95A37daVZCTLz7zxI=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr15831731ejc.407.1615844047720; 
+ Mon, 15 Mar 2021 14:34:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
- <20210212150256.885-12-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210212150256.885-12-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Mar 2021 17:33:33 -0400
-Message-ID: <CAKmqyKPhpG3xuxeigYWFDYq75NRcZooaGiH-6RroBZYFm90U4g@mail.gmail.com>
-Subject: Re: [PATCH 11/38] target/riscv: SIMD 8-bit Multiply Instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+References: <20210313194829.2193621-1-f4bug@amsat.org>
+ <20210313194829.2193621-19-f4bug@amsat.org>
+In-Reply-To: <20210313194829.2193621-19-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Mar 2021 21:33:45 +0000
+Message-ID: <CAFEAcA-LtcZCUo1Vu2fVCJRqR99117ewFTZAePuYc-wrTGe2XA@mail.gmail.com>
+Subject: Re: [PULL 18/27] target/mips: Extract MXU code to new mxu_translate.c
+ file
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,176 +81,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 10:26 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Sat, 13 Mar 2021 at 19:58, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Extract 1600+ lines from the big translate.c into a new file.
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+This code motion caused Coverity to rescan this code, and
+it thinks there's a problem in this function (CID 1450831).
+It looks to me like it might be right...
 
-Alistair
 
-> ---
->  target/riscv/helper.h                   |  7 ++
->  target/riscv/insn32.decode              |  7 ++
->  target/riscv/insn_trans/trans_rvp.c.inc |  8 +++
->  target/riscv/packed_helper.c            | 93 +++++++++++++++++++++++++
->  4 files changed, 115 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index bc60712bd9..6bb601b436 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1221,3 +1221,10 @@ DEF_HELPER_3(umul16, i64, env, tl, tl)
->  DEF_HELPER_3(umulx16, i64, env, tl, tl)
->  DEF_HELPER_3(khm16, tl, env, tl, tl)
->  DEF_HELPER_3(khmx16, tl, env, tl, tl)
-> +
-> +DEF_HELPER_3(smul8, i64, env, tl, tl)
-> +DEF_HELPER_3(smulx8, i64, env, tl, tl)
-> +DEF_HELPER_3(umul8, i64, env, tl, tl)
-> +DEF_HELPER_3(umulx8, i64, env, tl, tl)
-> +DEF_HELPER_3(khm8, tl, env, tl, tl)
-> +DEF_HELPER_3(khmx8, tl, env, tl, tl)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 38519a477c..9d165efba9 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -688,3 +688,10 @@ umul16     1011000  ..... ..... 000 ..... 1111111 @r
->  umulx16    1011001  ..... ..... 000 ..... 1111111 @r
->  khm16      1000011  ..... ..... 000 ..... 1111111 @r
->  khmx16     1001011  ..... ..... 000 ..... 1111111 @r
-> +
-> +smul8      1010100  ..... ..... 000 ..... 1111111 @r
-> +smulx8     1010101  ..... ..... 000 ..... 1111111 @r
-> +umul8      1011100  ..... ..... 000 ..... 1111111 @r
-> +umulx8     1011101  ..... ..... 000 ..... 1111111 @r
-> +khm8       1000111  ..... ..... 000 ..... 1111111 @r
-> +khmx8      1001111  ..... ..... 000 ..... 1111111 @r
-> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
-> index 7e5bf9041d..336f3418b1 100644
-> --- a/target/riscv/insn_trans/trans_rvp.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
-> @@ -436,3 +436,11 @@ GEN_RVP_R_D64_OOL(umul16);
->  GEN_RVP_R_D64_OOL(umulx16);
->  GEN_RVP_R_OOL(khm16);
->  GEN_RVP_R_OOL(khmx16);
-> +
-> +/* SIMD 8-bit Multiply Instructions */
-> +GEN_RVP_R_D64_OOL(smul8);
-> +GEN_RVP_R_D64_OOL(smulx8);
-> +GEN_RVP_R_D64_OOL(umul8);
-> +GEN_RVP_R_D64_OOL(umulx8);
-> +GEN_RVP_R_OOL(khm8);
-> +GEN_RVP_R_OOL(khmx8);
-> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
-> index 13fed2c4d1..56baefeb8e 100644
-> --- a/target/riscv/packed_helper.c
-> +++ b/target/riscv/packed_helper.c
-> @@ -827,3 +827,96 @@ static inline void do_khmx16(CPURISCVState *env, void *vd, void *va,
->  }
->
->  RVPR(khmx16, 2, 2);
-> +
-> +/* SIMD 8-bit Multiply Instructions */
-> +static inline void do_smul8(CPURISCVState *env, void *vd, void *va, void *vb)
+> +/*
+> + *  D16MAX
+> + *    Update XRa with the 16-bit-wise maximums of signed integers
+> + *    contained in XRb and XRc.
+> + *
+> + *  D16MIN
+> + *    Update XRa with the 16-bit-wise minimums of signed integers
+> + *    contained in XRb and XRc.
+> + */
+> +static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
 > +{
-> +    int16_t *d = vd;
-> +    int8_t *a = va, *b = vb;
-> +    d[H2(0)] = (int16_t)a[H1(0)] * b[H1(0)];
-> +    d[H2(1)] = (int16_t)a[H1(1)] * b[H1(1)];
-> +    d[H2(2)] = (int16_t)a[H1(2)] * b[H1(2)];
-> +    d[H2(3)] = (int16_t)a[H1(3)] * b[H1(3)];
-> +}
+> +    uint32_t pad, opc, XRc, XRb, XRa;
 > +
-> +RVPR64(smul8);
+> +    pad =3D extract32(ctx->opcode, 21, 5);
+> +    opc =3D extract32(ctx->opcode, 18, 3);
+> +    XRc =3D extract32(ctx->opcode, 14, 4);
+> +    XRb =3D extract32(ctx->opcode, 10, 4);
+> +    XRa =3D extract32(ctx->opcode,  6, 4);
 > +
-> +static inline void do_smulx8(CPURISCVState *env, void *vd, void *va, void *vb)
+> +    if (unlikely(pad !=3D 0)) {
+> +        /* opcode padding incorrect -> do nothing */
+> +    } else if (unlikely(XRc =3D=3D 0)) {
+> +        /* destination is zero register -> do nothing */
+> +    } else if (unlikely((XRb =3D=3D 0) && (XRa =3D=3D 0))) {
+> +        /* both operands zero registers -> just set destination to zero =
+*/
+> +        tcg_gen_movi_i32(mxu_gpr[XRc - 1], 0);
+> +    } else if (unlikely((XRb =3D=3D 0) || (XRa =3D=3D 0))) {
+
+In this block of code either XRb or XRa is zero...
+
+> +        /* exactly one operand is zero register - find which one is not.=
+..*/
+> +        uint32_t XRx =3D XRb ? XRb : XRc;
+> +        /* ...and do half-word-wise max/min with one operand 0 */
+> +        TCGv_i32 t0 =3D tcg_temp_new();
+> +        TCGv_i32 t1 =3D tcg_const_i32(0);
+> +
+> +        /* the left half-word first */
+> +        tcg_gen_andi_i32(t0, mxu_gpr[XRx - 1], 0xFFFF0000);
+> +        if (opc =3D=3D OPC_MXU_D16MAX) {
+> +            tcg_gen_smax_i32(mxu_gpr[XRa - 1], t0, t1);
+> +        } else {
+> +            tcg_gen_smin_i32(mxu_gpr[XRa - 1], t0, t1);
+> +        }
+
+but in these smax/smin calls we're clearly assuming that
+XRa is not zero.
+
+There seems to be some confusion over which registers are
+the inputs and which is the output. The top-level function
+comment says XRa is the input and XRb/XRc the inputs.
+But the "destination is zero register" comment is against
+a check on XRc, and the "both operands zero" comment is
+against a check on XRa and XRb, as is the "one operand
+is zero" comment...
+
+> +/*
+> + *  Q8MAX
+> + *    Update XRa with the 8-bit-wise maximums of signed integers
+> + *    contained in XRb and XRc.
+> + *
+> + *  Q8MIN
+> + *    Update XRa with the 8-bit-wise minimums of signed integers
+> + *    contained in XRb and XRc.
+> + */
+> +static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
 > +{
-> +    int16_t *d = vd;
-> +    int8_t *a = va, *b = vb;
-> +    d[H2(0)] = (int16_t)a[H1(0)] * b[H1(1)];
-> +    d[H2(1)] = (int16_t)a[H1(1)] * b[H1(0)];
-> +    d[H2(2)] = (int16_t)a[H1(2)] * b[H1(3)];
-> +    d[H2(3)] = (int16_t)a[H1(3)] * b[H1(2)];
-> +}
+> +    uint32_t pad, opc, XRc, XRb, XRa;
 > +
-> +RVPR64(smulx8);
+> +    pad =3D extract32(ctx->opcode, 21, 5);
+> +    opc =3D extract32(ctx->opcode, 18, 3);
+> +    XRc =3D extract32(ctx->opcode, 14, 4);
+> +    XRb =3D extract32(ctx->opcode, 10, 4);
+> +    XRa =3D extract32(ctx->opcode,  6, 4);
 > +
-> +static inline void do_umul8(CPURISCVState *env, void *vd, void *va, void *vb)
-> +{
-> +    uint16_t *d = vd;
-> +    uint8_t *a = va, *b = vb;
-> +    d[H2(0)] = (uint16_t)a[H1(0)] * b[H1(0)];
-> +    d[H2(1)] = (uint16_t)a[H1(1)] * b[H1(1)];
-> +    d[H2(2)] = (uint16_t)a[H1(2)] * b[H1(2)];
-> +    d[H2(3)] = (uint16_t)a[H1(3)] * b[H1(3)];
-> +}
-> +
-> +RVPR64(umul8);
-> +
-> +static inline void do_umulx8(CPURISCVState *env, void *vd, void *va, void *vb)
-> +{
-> +    uint16_t *d = vd;
-> +    uint8_t *a = va, *b = vb;
-> +    d[H2(0)] = (uint16_t)a[H1(0)] * b[H1(1)];
-> +    d[H2(1)] = (uint16_t)a[H1(1)] * b[H1(0)];
-> +    d[H2(2)] = (uint16_t)a[H1(2)] * b[H1(3)];
-> +    d[H2(3)] = (uint16_t)a[H1(3)] * b[H1(2)];
-> +}
-> +
-> +RVPR64(umulx8);
-> +
-> +static inline void do_khm8(CPURISCVState *env, void *vd, void *va,
-> +                           void *vb, uint8_t i)
-> +{
-> +    int8_t *d = vd, *a = va, *b = vb;
-> +
-> +    if (a[i] == INT8_MIN && b[i] == INT8_MIN) {
-> +        env->vxsat = 1;
-> +        d[i] = INT8_MAX;
-> +    } else {
-> +        d[i] = (int16_t)a[i] * b[i] >> 7;
-> +    }
-> +}
-> +
-> +RVPR(khm8, 1, 1);
-> +
-> +static inline void do_khmx8(CPURISCVState *env, void *vd, void *va,
-> +                            void *vb, uint8_t i)
-> +{
-> +    int8_t *d = vd, *a = va, *b = vb;
-> +    /*
-> +     * t[x] = ra.B[x] s* rb.B[y];
-> +     * rt.B[x] = SAT.Q7(t[x] s>> 7);
-> +     *
-> +     * (RV32: (x,y)=(3,2),(2,3),
-> +     *              (1,0),(0,1),
-> +     * (RV64: (x,y)=(7,6),(6,7),(5,4),(4,5),
-> +     *              (3,2),(2,3),(1,0),(0,1))
-> +     */
-> +    if (a[H1(i)] == INT8_MIN && b[H1(i + 1)] == INT8_MIN) {
-> +        env->vxsat = 1;
-> +        d[H1(i)] = INT8_MAX;
-> +    } else {
-> +        d[H1(i)] = (int16_t)a[H1(i)] * b[H1(i + 1)] >> 7;
-> +    }
-> +    if (a[H1(i + 1)] == INT8_MIN && b[H1(i)] == INT8_MIN) {
-> +        env->vxsat = 1;
-> +        d[H1(i + 1)] = INT8_MAX;
-> +    } else {
-> +        d[H1(i + 1)] = (int16_t)a[H1(i + 1)] * b[H1(i)] >> 7;
-> +    }
-> +}
-> +
-> +RVPR(khmx8, 2, 1);
-> --
-> 2.17.1
->
+> +    if (unlikely(pad !=3D 0)) {
+> +        /* opcode padding incorrect -> do nothing */
+> +    } else if (unlikely(XRa =3D=3D 0)) {
+> +        /* destination is zero register -> do nothing */
+> +    } else if (unlikely((XRb =3D=3D 0) && (XRc =3D=3D 0))) {
+> +        /* both operands zero registers -> just set destination to zero =
+*/
+> +        tcg_gen_movi_i32(mxu_gpr[XRa - 1], 0);
+> +    } else if (unlikely((XRb =3D=3D 0) || (XRc =3D=3D 0))) {
+> +        /* exactly one operand is zero register - make it be the first..=
+.*/
+> +        uint32_t XRx =3D XRb ? XRb : XRc;
+
+Contrast this function, where the code and the comments are
+all in agreement that XRa is destination and XRb/XRc inputs.
+
+thanks
+-- PMM
 
