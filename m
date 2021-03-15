@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C3E33AA97
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 05:55:44 +0100 (CET)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6573F33AA9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 05:57:39 +0100 (CET)
+Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLfGZ-00067q-6Z
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 00:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
+	id 1lLfIQ-0008Fp-At
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 00:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lLfF9-0004oY-1d
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:15 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:6839)
+ id 1lLfFl-000665-7E
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:53 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:40968)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lLfF7-0003Mn-EC
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:14 -0400
+ id 1lLfFj-0003kf-GK
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1615784053; x=1647320053;
+ t=1615784091; x=1647320091;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=j7k23yGUe9T6ctDwbywBKwiZR+6e51RIBDjodvK+mfo=;
- b=LnwXlX5cMVs85hbimyqFOrKgLth/hIcILKiQ+SOYm6gy+MVEcQ+Q26eg
- UeLvqCzZYnwWRI8ecsUkacBxsNMIiWjttR9z1F2lYUyFpUZuSEUW8gQCH
- +oo51CuscgTG4QCMLg8cTXWLt7weDao3eaaVUJSv3vVdHzRZvIoWLpZu1 s=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Mar 2021 21:54:12 -0700
+ bh=SIZrl0Bj0PYYrecgcb1RLy/TVXnXFFzOa5Iu8XMcSNc=;
+ b=fo49E5UL2XDcM5/Lgpb1yjQRz4bLGs69eGs+EdA8AfJBw6mgVxPPt7AA
+ oSW4Kh/mly4hET/AN9HuhVPH/Op9ZVHZA13N5ffjgH4zhzg7QUcjaKo40
+ 9MzOunM2Ydrp/wBPoAO67wr1RYTbwghtoqKQoxHrjyNexjuNsBm1AAKZ8 E=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Mar 2021 21:54:50 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 14 Mar 2021 21:54:11 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP; 14 Mar 2021 21:54:49 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 8A64CC90; Sun, 14 Mar 2021 23:54:11 -0500 (CDT)
+ id BEBBDC90; Sun, 14 Mar 2021 23:54:49 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Hexagon (target/hexagon) change DECODE_MAPPED_REG operand
- name to OPNUM
-Date: Sun, 14 Mar 2021 23:54:09 -0500
-Message-Id: <1615784049-26215-1-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH] Hexagon (target/hexagon) TCG generation cleanup
+Date: Sun, 14 Mar 2021 23:54:48 -0500
+Message-Id: <1615784088-26384-1-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -71,28 +70,38 @@ Cc: philmd@redhat.com, tsimpson@quicinc.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Simplify TCG generation of hex_reg_written
+
 Address feedback from Richard Henderson <<richard.henderson@linaro.org>
 
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/decode.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/hexagon/genptr.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
-index c9bacaa..1c9c074 100644
---- a/target/hexagon/decode.c
-+++ b/target/hexagon/decode.c
-@@ -48,8 +48,8 @@ enum {
- DEF_REGMAP(R_16,  16, 0, 1, 2, 3, 4, 5, 6, 7, 16, 17, 18, 19, 20, 21, 22, 23)
- DEF_REGMAP(R__8,  8,  0, 2, 4, 6, 16, 18, 20, 22)
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index 7481f4c..0ad63fe 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -43,9 +43,15 @@ static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
+     tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum], slot_mask, zero,
+                            val, hex_new_value[rnum]);
+ #if HEX_DEBUG
+-    /* Do this so HELPER(debug_commit_end) will know */
+-    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum], slot_mask, zero,
+-                       one, hex_reg_written[rnum]);
++    /*
++     * Do this so HELPER(debug_commit_end) will know
++     *
++     * Note that slot_mask indicates the value is not written
++     * (i.e., slot was cancelled), so we negate the value before
++     * or'ing with hex_reg_written[rnum].
++     */
++    tcg_gen_xori_tl(slot_mask, slot_mask, 1 << slot);
++    tcg_gen_or_tl(hex_reg_written[rnum], hex_reg_written[rnum], slot_mask);
+ #endif
  
--#define DECODE_MAPPED_REG(REGNO, NAME) \
--    insn->regno[REGNO] = DECODE_REGISTER_##NAME[insn->regno[REGNO]];
-+#define DECODE_MAPPED_REG(OPNUM, NAME) \
-+    insn->regno[OPNUM] = DECODE_REGISTER_##NAME[insn->regno[OPNUM]];
- 
- typedef struct {
-     const struct DectreeTable *table_link;
+     tcg_temp_free(one);
 -- 
 2.7.4
 
