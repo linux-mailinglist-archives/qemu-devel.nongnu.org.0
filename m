@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F336933B2E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:37:32 +0100 (CET)
-Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7B333B31D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:57:40 +0100 (CET)
+Received: from localhost ([::1]:57188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLmTU-0008RK-2D
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
+	id 1lLmmx-0007BP-3T
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLmRu-0007SA-Ex
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:35:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47288)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLmRl-00006J-Uu
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:35:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615811743;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6vB+a/ewDsLmnCz7/thH/RLkwP3Gbxw4mBDSZMAg1ac=;
- b=Pyj3r94g5jBs8LUKCZ1RAehmBr4h0Yu4nDpg6+rqIZst+67RtR7dKz0QPv0f6lsUYxJNjp
- 4KvtI6eiyZPi/7BVZ/qOf/mQIV4Ew4yEDjotR0P8AJImbZTlNY6mohHB7VKZsU9YrTBO9j
- DxhhqaQX6nRfv8KJpr12AFwNzgB6+DM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-uJGb_uO5ObqCKfILCZn-Vw-1; Mon, 15 Mar 2021 08:35:41 -0400
-X-MC-Unique: uJGb_uO5ObqCKfILCZn-Vw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEA0718D6A38;
- Mon, 15 Mar 2021 12:35:40 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-128.ams2.redhat.com [10.36.115.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0A6E16913;
- Mon, 15 Mar 2021 12:35:39 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v2 00/42] Block layer patches and object-add QAPIfication
-Date: Mon, 15 Mar 2021 13:35:20 +0100
-Message-Id: <20210315123520.118752-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lLmlH-0005qk-GZ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:55:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lLmlF-0003B6-9N
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:55:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lLmlC-0000pJ-U3
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 12:55:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CD8142E815D
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 12:55:50 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Mar 2021 12:42:52 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1918302@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm semihosting
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee pmaydell statham-arm
+X-Launchpad-Bug-Reporter: Simon Tatham (statham-arm)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <161530383644.26074.10419563158373925479.malonedeb@gac.canonical.com>
+Message-Id: <161581217215.15196.7414304736750031950.malone@gac.canonical.com>
+Subject: [Bug 1918302] Re: qemu-system-arm segfaults while servicing
+ SYS_HEAPINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: 64b43fc51ab4a162a1fabe8725691953d93914d9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,132 +72,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Bug 1918302 <1918302@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6157b0e19721aadb4c7fdcfe57b2924af6144b14:
+Testing with:
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-03-14 17:47:49 +0000)
+Subject: [PATCH  v5 0/5] semihosting/next (SYS_HEAPINFO)
+Date: Fri, 12 Mar 2021 10:20:24 +0000
+Message-Id: <20210312102029.17017-1-alex.bennee@linaro.org>
 
-are available in the Git repository at:
+it doesn't seem to segfault QEMU anymore although the guest itself hangs
+which probably means it's not happy with the numbers it got.
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+-- =
 
-for you to fetch changes up to 078ee48ef7d172df1b3ad020255d1eb6beda2daf:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918302
 
-  qom: Support JSON in HMP object_add and tools --object (2021-03-15 13:04:27 +0100)
+Title:
+  qemu-system-arm segfaults while servicing SYS_HEAPINFO
 
-----------------------------------------------------------------
-Block layer patches and object-add QAPIfication
+Status in QEMU:
+  In Progress
 
-- QAPIfy object-add and --object for tools (keyval and JSON support)
-- Add vhost-user-blk-test
-- stream: Fail gracefully if permission is denied
-- storage-daemon: Fix crash on quit when job is still running
-- curl: Fix use after free
-- char: Deprecate backend aliases, fix QMP query-chardev-backends
-- Fix image creation option defaults that exist in both the format and
-  the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
-  default was incorrectly applied to the rbd layer)
+Bug description:
+  I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried
+  to use it to run the attached bare-metal Arm hello-world image, using
+  the command line
 
-----------------------------------------------------------------
-Coiby Xu (1):
-      test: new qTest case to test the vhost-user-blk-server
+  qemu-system-arm -M microbit -semihosting -nographic -device
+  loader,file=3Dhello.hex
 
-Kevin Wolf (35):
-      storage-daemon: Call job_cancel_sync_all() on shutdown
-      stream: Don't crash when node permission is denied
-      tests: Drop 'props' from object-add calls
-      qapi/qom: Drop deprecated 'props' from object-add
-      qapi/qom: Add ObjectOptions for iothread
-      qapi/qom: Add ObjectOptions for authz-*
-      qapi/qom: Add ObjectOptions for cryptodev-*
-      qapi/qom: Add ObjectOptions for dbus-vmstate
-      qapi/qom: Add ObjectOptions for memory-backend-*
-      qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
-      qapi/qom: Add ObjectOptions for throttle-group
-      qapi/qom: Add ObjectOptions for secret*, deprecate 'loaded'
-      qapi/qom: Add ObjectOptions for tls-*, deprecate 'loaded'
-      qapi/qom: Add ObjectOptions for can-*
-      qapi/qom: Add ObjectOptions for colo-compare
-      qapi/qom: Add ObjectOptions for filter-*
-      qapi/qom: Add ObjectOptions for pr-manager-helper
-      qapi/qom: Add ObjectOptions for confidential-guest-support
-      qapi/qom: Add ObjectOptions for input-*
-      qapi/qom: Add ObjectOptions for x-remote-object
-      qapi/qom: QAPIfy object-add
-      qom: Make "object" QemuOptsList optional
-      qemu-storage-daemon: Implement --object with qmp_object_add()
-      qom: Remove user_creatable_add_dict()
-      qom: Factor out user_creatable_process_cmdline()
-      qemu-io: Use user_creatable_process_cmdline() for --object
-      qemu-nbd: Use user_creatable_process_cmdline() for --object
-      qom: Add user_creatable_add_from_str()
-      qemu-img: Use user_creatable_process_cmdline() for --object
-      hmp: QAPIfy object_add
-      qom: Add user_creatable_parse_str()
-      char: Skip CLI aliases in query-chardev-backends
-      char: Deprecate backend aliases 'tty' and 'parport'
-      char: Simplify chardev_name_foreach()
-      qom: Support JSON in HMP object_add and tools --object
+  The result was that qemu-system-arm itself died of a segfault.
+  Compiling it for debugging, the location of the segfault was in
+  target/arm/arm-semi.c, in the case handler for the semihosting call
+  TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
 
-Max Reitz (2):
-      curl: Store BDRVCURLState pointer in CURLSocket
-      curl: Disconnect sockets from CURLState
+              const struct arm_boot_info *info =3D env->boot_info;
+              target_ulong rambase =3D info->loader_start;
 
-Stefan Hajnoczi (3):
-      block/export: disable VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD for now
-      tests/qtest: add multi-queue test case to vhost-user-blk-test
-      vhost-user-blk-test: test discard/write zeroes invalid inputs
+  and the problem seems to be that 'info', aka env->boot_info, is NULL
+  in this context.
 
-Stefano Garzarella (1):
-      block: remove format defaults from QemuOpts in bdrv_create_file()
-
- qapi/authz.json                       |  61 ++-
- qapi/block-core.json                  |  27 +
- qapi/common.json                      |  52 ++
- qapi/crypto.json                      | 159 ++++++
- qapi/machine.json                     |  22 +-
- qapi/net.json                         |  20 -
- qapi/qom.json                         | 646 +++++++++++++++++++++-
- qapi/ui.json                          |  13 +-
- docs/system/deprecated.rst            |  31 +-
- docs/system/removed-features.rst      |   5 +
- docs/tools/qemu-img.rst               |   2 +-
- include/qom/object_interfaces.h       |  85 +--
- tests/qtest/libqos/vhost-user-blk.h   |  48 ++
- block.c                               |  36 +-
- block/curl.c                          |  50 +-
- block/export/vhost-user-blk-server.c  |   3 +-
- block/stream.c                        |  15 +-
- chardev/char.c                        |  19 +-
- hw/block/xen-block.c                  |  16 +-
- monitor/hmp-cmds.c                    |  17 +-
- monitor/misc.c                        |   2 -
- qemu-img.c                            | 251 ++-------
- qemu-io.c                             |  33 +-
- qemu-nbd.c                            |  34 +-
- qom/object_interfaces.c               | 119 ++--
- qom/qom-qmp-cmds.c                    |  28 +-
- storage-daemon/qemu-storage-daemon.c  |  28 +-
- tests/qtest/libqos/vhost-user-blk.c   | 130 +++++
- tests/qtest/qmp-cmd-test.c            |  16 +-
- tests/qtest/test-netfilter.c          |  54 +-
- tests/qtest/vhost-user-blk-test.c     | 983 ++++++++++++++++++++++++++++++++++
- tests/unit/test-char.c                |   6 -
- MAINTAINERS                           |   2 +
- hmp-commands.hx                       |   2 +-
- storage-daemon/qapi/qapi-schema.json  |   1 +
- tests/qemu-iotests/tests/qsd-jobs     |  86 +++
- tests/qemu-iotests/tests/qsd-jobs.out |  32 ++
- tests/qtest/libqos/meson.build        |   1 +
- tests/qtest/meson.build               |   4 +
- 39 files changed, 2581 insertions(+), 558 deletions(-)
- create mode 100644 tests/qtest/libqos/vhost-user-blk.h
- create mode 100644 tests/qtest/libqos/vhost-user-blk.c
- create mode 100644 tests/qtest/vhost-user-blk-test.c
- create mode 100755 tests/qemu-iotests/tests/qsd-jobs
- create mode 100644 tests/qemu-iotests/tests/qsd-jobs.out
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918302/+subscriptions
 
