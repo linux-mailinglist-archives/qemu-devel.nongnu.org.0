@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331EB33B3CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:23:40 +0100 (CET)
-Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF2D33B3C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:22:32 +0100 (CET)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLnC6-0004ll-A6
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35694)
+	id 1lLnB1-0003P6-L0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLn7S-0001Vs-4y
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:18:50 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:36957)
+ id 1lLn83-0002Ph-DX
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:19:27 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:33630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLn7Q-0007Rk-8m
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:18:49 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id s7so31530394qkg.4
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 06:18:46 -0700 (PDT)
+ id 1lLn81-0007o8-Ao
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:19:27 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id l4so31550210qkl.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 06:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+4vxrRIHBWNKkZtdbo1LqyITVjVL3GGyPtaFPggtrmw=;
- b=Vxv7Q7C1oUMGweWTdZgyvPH+IMPSeXyUdMylfcc7JwsDIPkVgCPwkAqKCq/AbvpSwA
- 81qiBXPq9TYIsEfm+RSFEXgCJ785ywj/9FAzThKxoXsGB6RUG1kncSyZUR7RxxO1Mp4A
- Ys1SPjKLI1umVyPaSuThHcylI03M8D8ndbnX0ufqvwVRcJF77JkgMo4vhbcumEyctIV7
- TYbcvRz3K/2MPCQGZazWXhtYSL9WM5viLSFK6PUG10y5ElfHDVeq6B/fASJ3KThn5i0w
- uc7A465I1DJM7EZXYRXNoDexrTt16+bPuTm1erUsdziwlOH1retEQwkXG+xwXbJbfU5w
- OJMw==
+ bh=fwTFn1W9zl6xLXoufUK2dKRo2uICom5miT89atxUxSE=;
+ b=wIU24LwAcVAFy5FlOPzEq4JtJBeS9ZlMuFD02ai7d/DEy+0Vp8yT9egZQiaDRtDT5G
+ JLo1au27rZ7YsEZ3XeaXb/jKSIx4gpmlK0EplIRvxsbTzqxKqTwlkke/D1x+TTWXGBNl
+ jmafJrayeTPlHGmXHrWm6GVHNQkL/LuvqFZabAddPSaAEgpYdwsstaszbq1zO0zg1F3g
+ hfHexRByE7nFIsGM3SFnAkeEtbP2SMMDLFxJuY+wCbyFY5O8vJ7NKwBkQeYWiX4koe0H
+ TWNRdyWKWYduird0+BjROCz1eSL3BLcSzyvzk0nR2khvOEGLBAf2YZ37a1qiRAWg19sb
+ pVsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+4vxrRIHBWNKkZtdbo1LqyITVjVL3GGyPtaFPggtrmw=;
- b=gckU96n052ZuFIhGaaXndogpxmSJpyNfBHjuhQ8Kr5AzVeBbOYtx7Z9/qH6seMWnpA
- efDr4XdIjsr0Z0MbzVQIqfgv4dWnNly3ZMe4NTd4bKdWYFHyu1WicAZrKMk5KlrklGTV
- /0nZCrduG+skyHfYpag2WsQgd93mWSlYI6M9rEIQdq5uH53OwcYeV5IoXyoXco/GeSQb
- /SsPF3HO4pGAS1JAIpt7ASfm4mp5TAj2ZCWPyBiSiu59bq1ISxL+YBVlQkP1Bx7Zgw8+
- 2eJ4dXxXw3HVRNrApQVyfAkCT+FHMIF361Z6muWE/YJo7q9AyfH9zX4ODZejrhUzwER1
- Zzig==
-X-Gm-Message-State: AOAM531ECBtxqBOaOzkMddgRvFjqPAyH/upcmaHKWJ2NypO54XZBeeC1
- mYimteiMvYJ6vO88kCs4ZSnlHw==
-X-Google-Smtp-Source: ABdhPJzjPwpPkMZqfMQpD4/QUTAThyZbE2bBMmE9m/OuDkyCpdUoEne381NEtKFNt9tuOziDTB1tPg==
-X-Received: by 2002:a37:8181:: with SMTP id
- c123mr25251705qkd.287.1615814326329; 
- Mon, 15 Mar 2021 06:18:46 -0700 (PDT)
+ bh=fwTFn1W9zl6xLXoufUK2dKRo2uICom5miT89atxUxSE=;
+ b=KQxdn2L9FTRoehOl5uI2msL04v+YcRDqMLY9fhdi/PIlNSrzr9Pe0/ulQu8WeVNGoG
+ 0AEZkuHcFKQBCDtk/9uXMvYUexkUSL35+CTZTrxIA74qsKgRtd5V09TOufJbA+INyHzE
+ s+TePHxD7XFGnMidAijI8ZEsI2DiBP4ln28Sje2uJ3sGTyLorTr/p/T8ToDxGkj1Wehe
+ tVdxKjrWsur1lpVuYlNWJERmTEKgRTn1w25vMS9y4t7VHGd+YiSZlNMhhCZK49ZAXDjw
+ sfiGtufKrfC87Tge6u02CIyKDhhiRryqM/JIT5WMx7HXKL8ZCl78A92QtI+4lYmwUzsz
+ 3iAw==
+X-Gm-Message-State: AOAM532a0vpsutnYeFjhc7Wt2uXE/1+ILTqiawWsKEwqp0dE1Jmm8IXA
+ 5Ha0vfkUtxRtT1YDWbVJVnlvEw==
+X-Google-Smtp-Source: ABdhPJzJQ7iNw3LAr+wn0rdOn3wFOPGaKgfX+GOB3rfnmfRM/xWKkZUKMwiGVpqQbfW8O1jDbOFLpA==
+X-Received: by 2002:a37:ef17:: with SMTP id j23mr23898025qkk.209.1615814364286; 
+ Mon, 15 Mar 2021 06:19:24 -0700 (PDT)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 17sm12234168qky.7.2021.03.15.06.18.45
+ by smtp.gmail.com with ESMTPSA id j24sm12279019qka.67.2021.03.15.06.19.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 06:18:45 -0700 (PDT)
-Subject: Re: [PATCH] utils: Reduce chance of rounding inaccuracy in
- qemu_strtosz.
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210311200702.1302855-1-eblake@redhat.com>
- <f5648ec4-2a02-2c4e-a865-5c0fcda04436@linaro.org>
- <d9f498ab-00b8-291d-821b-66c82de90fa2@redhat.com>
+ Mon, 15 Mar 2021 06:19:23 -0700 (PDT)
+Subject: Re: [PATCH] utils: Use fma in qemu_strtosz
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210314234821.1954428-1-richard.henderson@linaro.org>
+ <0697b6d1-0a64-3d71-2f7f-3c52a005b77b@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8dd4a71a-7fe9-a6c3-290d-81adf5c53a4d@linaro.org>
-Date: Mon, 15 Mar 2021 07:18:43 -0600
+Message-ID: <5b942a3c-38c1-1832-68cb-b447d804bf23@linaro.org>
+Date: Mon, 15 Mar 2021 07:19:21 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <d9f498ab-00b8-291d-821b-66c82de90fa2@redhat.com>
+In-Reply-To: <0697b6d1-0a64-3d71-2f7f-3c52a005b77b@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -91,29 +89,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com
+Cc: peter.maydell@linaro.org, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 5:33 AM, Eric Blake wrote:
-> On 3/13/21 3:48 PM, Richard Henderson wrote:
->> On 3/11/21 2:07 PM, Eric Blake wrote:
->>> +        /*
->>> +         * Add in a fudge-factor (2^53 when double is IEEE format) for
->>> +         * all scales less than P (2^50), so that things like
->>> +         * 12.345M with unit 1000 produce 12345000 instead of
->>> +         * 12344999.
->>> +         */
->>> +        if (mul > 1e49) {
->>
->> The comment says less than, the code says greater than.
+On 3/15/21 3:10 AM, Philippe Mathieu-Daudé wrote:
+> On 3/15/21 12:48 AM, Richard Henderson wrote:
+>> Use fma to simulatneously scale and round up fraction.
 > 
-> Shoot. A demonstration that I did not have an environment that actually
-> reproduced the bug
+> "simultaneously"
+> 
+>> The libm function will always return a properly rounded double precision
+>> value, which will eliminate any extra precision the x87 co-processor may
+>> give us, which will keep the output predictable vs other hosts.
+>>
+>> Adding DBL_EPSILON while scaling should help with fractions like
+>> 12.345, where the closest representable number is actually 12.3449*.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   util/cutils.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/util/cutils.c b/util/cutils.c
+>> index d89a40a8c3..f7f8e48a68 100644
+>> --- a/util/cutils.c
+>> +++ b/util/cutils.c
+>> @@ -342,7 +342,7 @@ static int do_strtosz(const char *nptr, const char **end,
+>>       if (val > (UINT64_MAX - ((uint64_t) (fraction * mul))) / mul) {
+> 
+> Shouldn't we use fma() here too? ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Any i686 vm will do.  I had a debian 10 vm hanging around in which I could 
-reproduce it.
+Yep, I should have looked at the larger context.
 
 
 r~
+
+> 
+>>           retval = -ERANGE;
+>>           goto out;
+>>       }
+>> -    *result = val * mul + (uint64_t) (fraction * mul);
+>> +    *result = val * mul + (uint64_t)fma(fraction, mul, DBL_EPSILON);
+>>       retval = 0;
+>>   
+>>   out:
+>>
+> 
+
 
