@@ -2,47 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B6E33B522
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:54:58 +0100 (CET)
-Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A701B33B51F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:54:01 +0100 (CET)
+Received: from localhost ([::1]:57170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLngP-0002dT-6k
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
+	id 1lLnfU-0001wR-Nt
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLneo-0001kg-TM
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:53:18 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:37360)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lLneQ-0001PR-DU
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:52:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLnej-0002eI-K7
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:53:17 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 12FDqLbi016117
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 15 Mar 2021 09:52:24 -0400
-Date: Mon, 15 Mar 2021 09:52:21 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Darren Kenny <darren.kenny@oracle.com>
-Subject: Re: [PATCH v2 1/3] memory: add a sparse memory device for fuzzing
-Message-ID: <20210315135221.cpp6bt2v62y7y26w@mozz.bu.edu>
-References: <20210313231859.941263-1-alxndr@bu.edu>
- <20210313231859.941263-2-alxndr@bu.edu> <m2y2eosjns.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lLneO-0002RI-No
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:52:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 29152AE15;
+ Mon, 15 Mar 2021 13:52:51 +0000 (UTC)
+Subject: Re: [PATCH 3/6] accel/tcg: Restrict tb_gen_code() from other
+ accelerators
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210117164813.4101761-1-f4bug@amsat.org>
+ <20210117164813.4101761-4-f4bug@amsat.org>
+ <7359d7bd-ed7d-71ad-3610-b839c9c99fd5@suse.de>
+ <d9e691d9-9e87-6a47-c06d-ce2376f370f8@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <0baee669-a6c1-2e25-5272-c654689fe6b7@suse.de>
+Date: Mon, 15 Mar 2021 14:52:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <m2y2eosjns.fsf@oracle.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d9e691d9-9e87-6a47-c06d-ce2376f370f8@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,129 +60,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, f4bug@amsat.org, bsd@redhat.com, stefanha@redhat.com,
- Igor Mammedov <imammedo@redhat.com>, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210315 1209, Darren Kenny wrote:
-> Hi Alex,
+On 1/21/21 7:06 AM, Richard Henderson wrote:
+> On 1/17/21 11:12 PM, Claudio Fontana wrote:
+>> On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
+>>> tb_gen_code() is only called within TCG accelerator,
+>>> declare it locally.
+>>
+>> Is this used only in accel/tcg/cpu-exec.c ? Should it be a static function there?
 > 
-> On Saturday, 2021-03-13 at 18:18:57 -05, Alexander Bulekov wrote:
-> > For testing, it can be useful to simulate an enormous amount of memory
-> > (e.g. 2^64 RAM). This adds an MMIO device that acts as sparse memory.
-> > When something writes a nonzero value to a sparse-mem address, we
-> > allocate a block of memory. This block is kept around, until all of the
-> > bytes within the block are zero-ed. The device has a very low priority
+> Possibly, but there's a *lot* of code that would have to be moved.  For now,
+> queuing a slightly modified version of the patch.
 > 
-> I don't see code below that actually checks if a block is zero-ed and
-> removes it from the hash table, so is this comment correct?
-
-No.. I will update it
-
+>>> --- a/accel/tcg/user-exec.c
+>>> +++ b/accel/tcg/user-exec.c
+>>> @@ -28,6 +28,7 @@
+>>>  #include "qemu/atomic128.h"
+>>>  #include "trace/trace-root.h"
+>>>  #include "trace/mem.h"
+>>> +#include "internal.h"
 > 
-> > (so it can be mapped beneath actual RAM, and virtual device MMIO
-> > regions).
-> >
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >  MAINTAINERS                 |   1 +
-> >  hw/mem/meson.build          |   1 +
-> >  hw/mem/sparse-mem.c         | 152 ++++++++++++++++++++++++++++++++++++
-> >  include/hw/mem/sparse-mem.h |  19 +++++
-> >  4 files changed, 173 insertions(+)
-> >  create mode 100644 hw/mem/sparse-mem.c
-> >  create mode 100644 include/hw/mem/sparse-mem.h
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index f22d83c178..9e3d8b1401 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2618,6 +2618,7 @@ R: Thomas Huth <thuth@redhat.com>
-> >  S: Maintained
-> >  F: tests/qtest/fuzz/
-> >  F: scripts/oss-fuzz/
-> > +F: hw/mem/sparse-mem.c
-> >  F: docs/devel/fuzzing.rst
-> >  
-> >  Register API
-> > diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-> > index 0d22f2b572..ef79e04678 100644
-> > --- a/hw/mem/meson.build
-> > +++ b/hw/mem/meson.build
-> > @@ -1,5 +1,6 @@
-> >  mem_ss = ss.source_set()
-> >  mem_ss.add(files('memory-device.c'))
-> > +mem_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
-> >  mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
-> >  mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
-> >  mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
-> > diff --git a/hw/mem/sparse-mem.c b/hw/mem/sparse-mem.c
-> > new file mode 100644
-> > index 0000000000..575a287f59
-> > --- /dev/null
-> > +++ b/hw/mem/sparse-mem.c
-> > @@ -0,0 +1,152 @@
-> > +/*
-> > + * A sparse memory device. Useful for fuzzing
-> > + *
-> > + * Copyright Red Hat Inc., 2021
-> > + *
-> > + * Authors:
-> > + *  Alexander Bulekov   <alxndr@bu.edu>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > + * See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +
-> > +#include "exec/address-spaces.h"
-> > +#include "hw/qdev-properties.h"
-> > +#include "hw/sysbus.h"
-> > +#include "qapi/error.h"
-> > +#include "qemu/units.h"
-> > +#include "sysemu/qtest.h"
-> > +#include "hw/mem/sparse-mem.h"
-> > +
-> > +#define SPARSE_MEM(obj) OBJECT_CHECK(SparseMemState, (obj), TYPE_SPARSE_MEM)
-> > +#define SPARSE_BLOCK_SIZE 0x1000
+> Not needed by this patch.
 > 
-> This is assuming a 4K block size, should that be the same as the system
-> pagesize is? Or will it not matter w.r.t. how this is being consumed?
+> 
+> r~
 > 
 
-It shouldn't make a difference, as long as it is a multiple of the
-MMIO region's alignment size.
+Hello,
 
-> > +
-> > +typedef struct SparseMemState {
-> > +    SysBusDevice parent_obj;
-> > +    MemoryRegion mmio;
-> > +    uint64_t baseaddr;
-> > +    uint64_t length;
-> > +    uint64_t size_used;
-> > +    uint64_t maxsize;
-> > +    GHashTable *mapped;
-> > +} SparseMemState;
-> > +
-> > +typedef struct sparse_mem_block {
-> > +    uint8_t data[SPARSE_BLOCK_SIZE];
-> > +} sparse_mem_block;
-> > +
-> > +static uint64_t sparse_mem_read(void *opaque, hwaddr addr, unsigned int size)
-> > +{
-> > +    printf("SPARSEREAD %lx\n", addr);
-> 
-> Should this printf() be a logging/trace call? Or do you really want it to be
-> printed all the time? Also seems out of place before the declaration of
-> the variables.
+resurrecting this, and in reference to its commit: "c03f041f128301c6a6c32242846be08719cd4fc3",
 
-No. I will remove it
+the name "internal.h" ends up polluting the include paths,
+so that when working for example on s390x, including "internal.h" ends up including this instead of the file in target/s390x/.
 
-> 
-> Thanks,
-> 
-> Darren.
+I am not sure what exactly the right solution is, for this specific problem,
+and if we should look at the include paths settings in detail,
+
+but in my view calling files just "internal.h" or "internals.h" in general is not a good idea.
+
+I can see two issues with this naming:
+
+1) it describes nothing about the actual intended contents, other that they should be "internal".
+Rather it would be better to know what the file is intended to contain, or we end up (as we end up) with very large files containing completely unrelated content.
+
+2) we end up with clashes in our include paths if we are not super careful.
+
+Probably in this case, the target/s390x/internal.h could be given another name (s390x-internal.h) and then split up in the future (there is a whole bunch of unrelated suff).
+
+For accel/tcg/internal.h, maybe renaming it, or removing it altogether could both be good options?
+
+Thanks,
+
+Claudio
+
 
