@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A4C33B210
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:05:55 +0100 (CET)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A0A33B24A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:11:59 +0100 (CET)
+Received: from localhost ([::1]:35992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLlys-00039b-J5
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45478)
+	id 1lLm4k-00004v-Ue
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lLltW-0001ET-LD
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:00:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29979)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLlyM-0004FW-ML
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:05:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lLltU-0005iZ-Op
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:00:22 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLlyI-0007vW-N3
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:05:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615809616;
+ s=mimecast20190719; t=1615809917;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kil8kgBekEk3iU+YOO+dt4K9VYlSHazY8KtTNOOyU6U=;
- b=GM+WYly//ungypHFBaQo9UcMxLVur7L3eZdeR1wsZa54qe867OxzL4ARB7RhdGVbsE2qT3
- gPWZP9BeQxz23LPSBqMjacKxYt3w3Yf3YIFP0/kv2oPCaqqxhFZZxpdLcLCQGHUsQh7p8q
- yArfKmQFEnvJrgvnPdgjRS8BWlZP2pY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-qr2QmNciO-6tAuQM835tpQ-1; Mon, 15 Mar 2021 08:00:13 -0400
-X-MC-Unique: qr2QmNciO-6tAuQM835tpQ-1
-Received: by mail-wr1-f72.google.com with SMTP id y5so14994337wrp.2
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 05:00:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kil8kgBekEk3iU+YOO+dt4K9VYlSHazY8KtTNOOyU6U=;
- b=dz7dSYdDyzrTU8c309yztgiciA0u7v1rMvp+WL9Rnp4y8UKjzzxGsmEiiImtdGH/Vm
- c6NKF4FPgwm/57Pp0hACp5iMrX5gHrqrJxDjpgpguw3845HLqeqQmElNdS2eXvdxF4Fl
- tVuuHqb12Tghm5yS8mKekututDvRbNf1+sFWWCCc59NfwUikTWa7i0erJ9s0n7LQkDEO
- Yd+gIYn0csVaDq00m6GQe5LnMzrAKMA+GGV2LburkmzKIYlxBTe9qBufJWnzqETzfuFL
- ReFWlxy323ghGxaL/4SUD+r2iKEGdDy+9IZ20SYWd9QugXZomyNfY0WBeS9uTxRXvt44
- R/MA==
-X-Gm-Message-State: AOAM531fzNqQAgFlc/18Yqbf6rlStQ8dH8NUvEAFwDIUU2w7zll8kkQb
- baaujM14a6H0Y7IwTneLMXi5Lb8LSlbmw/mH3sDz6oqJssZguEsWan6I0zA/2T54uEH0LN+wxO3
- TQ9Wz9FnTVC7ccI8=
-X-Received: by 2002:a1c:c244:: with SMTP id s65mr26248756wmf.2.1615809612242; 
- Mon, 15 Mar 2021 05:00:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy++tdLocHRRtkZh5VhukboetqeFZUmz37rsMPmLB5EF54TZg8QoO8kSH3bX7vtWEdot6nxOg==
-X-Received: by 2002:a1c:c244:: with SMTP id s65mr26248742wmf.2.1615809612113; 
- Mon, 15 Mar 2021 05:00:12 -0700 (PDT)
-Received: from ?IPv6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id n23sm19002108wra.71.2021.03.15.05.00.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 05:00:11 -0700 (PDT)
-Subject: Re: [PATCH] qom: Support JSON in user_creatable_parse_str()
-To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20210312131921.421023-1-kwolf@redhat.com>
- <87blbnxz2f.fsf@dusky.pond.sub.org> <YE9Lhbxbi8Nf4soz@merkur.fritz.box>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bed70d6e-7b51-1e39-ae62-3eb62d1098bd@redhat.com>
-Date: Mon, 15 Mar 2021 13:00:10 +0100
+ bh=72p4jdJPwUSpZ/3oav656AUlvjT9q6Bfgnrhmnli9VQ=;
+ b=iCbiWyU1TupLFvQb8YVvoAhR2vT2+hQNjxjSpLABaKyfeU5Qv6ZFrka70eLWxW0LjLqILA
+ eJ6BUZlycxSi5uKxFz9kzclYLZWXNyZePMb5lrios97Q+H9Funn9JL05MYcPpJIlbTPT2u
+ Kg+npbhTMsNUyY/Uc6+rEGi/zQG4mG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-LsLDa7eGOg-EnBRcMN6w0w-1; Mon, 15 Mar 2021 08:05:14 -0400
+X-MC-Unique: LsLDa7eGOg-EnBRcMN6w0w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC26C93920;
+ Mon, 15 Mar 2021 12:05:12 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A82910190A7;
+ Mon, 15 Mar 2021 12:04:47 +0000 (UTC)
+Subject: Re: [PATCH 14/14] block: remove support for using "file" driver with
+ block/char devices
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-15-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <870d8911-32d1-b2b4-2bc6-5eec8c6424bc@redhat.com>
+Date: Mon, 15 Mar 2021 07:04:47 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YE9Lhbxbi8Nf4soz@merkur.fritz.box>
+In-Reply-To: <20210224131142.1952027-15-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -100,23 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/21 12:56, Kevin Wolf wrote:
-> Am 13.03.2021 um 09:00 hat Markus Armbruster geschrieben:
->> Recommend
->>
->>      qom: Support JSON in HMP object_add and tools --object
->>
->> to put the most interesting bit right in "git-log --oneline".
+On 2/24/21 7:11 AM, Daniel P. Berrangé wrote:
+> The 'host_device' and 'host_cdrom' drivers must be used instead.
 > 
-> Makes sense. I've updated my patch locally, but Paolo has already queued
-> it. Paolo, can you update the subject line accordingly?
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  block/file-posix.c               | 17 ++++++-----------
+>  docs/system/deprecated.rst       |  7 -------
+>  docs/system/removed-features.rst |  7 +++++++
+>  tests/qemu-iotests/226.out       | 10 +++++-----
+>  4 files changed, 18 insertions(+), 23 deletions(-)
+> 
 
-Ok, done.
+>      if (!device) {
+> -        if (S_ISBLK(st.st_mode)) {
+> -            warn_report("Opening a block device as a file using the '%s' "
+> -                        "driver is deprecated", bs->drv->format_name);
+> -        } else if (S_ISCHR(st.st_mode)) {
+> -            warn_report("Opening a character device as a file using the '%s' "
+> -                        "driver is deprecated", bs->drv->format_name);
+> -        } else if (!S_ISREG(st.st_mode)) {
+> -            error_setg(errp, "A regular file was expected by the '%s' driver, "
+> -                       "but something else was given", bs->drv->format_name);
+> +        if (!S_ISREG(st.st_mode)) {
 
-Paolo
+We're testing with S_ISREG()...
+
+
+> +++ b/docs/system/deprecated.rst
+> @@ -21,13 +21,6 @@ deprecated.
+>  System emulator command line arguments
+>  --------------------------------------
+>  
+> -``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+> -'''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -The 'file' driver for drives is no longer appropriate for character or host
+> -devices and will only accept regular files (S_IFREG). The correct driver
+
+but documented with S_IFREG().  Thankfully, the two have semantically
+equivalent purposes, so the difference doesn't invalidate the docs.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+but I wouldn't mind if at least one other block maintainer chimes in.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
