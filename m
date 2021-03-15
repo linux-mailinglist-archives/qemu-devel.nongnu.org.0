@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5962A33A8F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 00:53:26 +0100 (CET)
-Received: from localhost ([::1]:36878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2919E33A953
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 02:30:51 +0100 (CET)
+Received: from localhost ([::1]:57256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLaY1-0004eN-E8
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 19:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46950)
+	id 1lLc4H-0003Wd-PF
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 21:30:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLaTD-0001ie-Jw
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:48:31 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:41503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLaTB-0003oT-F3
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 19:48:27 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id h3so6970069qvh.8
- for <qemu-devel@nongnu.org>; Sun, 14 Mar 2021 16:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wNCxluSBSDLQf80mm1IAxRjvrsypZp9PbQQJIGVe3gs=;
- b=jbvw42eWcjDrm7NBRH0KB8lQ10kMcTuYdeKVbVKkxLZQnLM6yT5buJZ5t3DKDbzMw3
- gbUH+sN6DZhD7gGQoXe3RGXJmK1a/PDsxm21rz2kRTr/VxnlFPjyrCgLOFW4pTniaO32
- Om4KGxDNkGTP3Wkbv6zU8NcVfPtYWHMRCevXGtOdG4Rqk5ItHuZ2+RGgfq3XbU8C1uJB
- RrN5llivISAOY6M00Xt9Muzom3FI0AUh8r7vQqT/s3wpfo7cMWKgELTxLmVk/SXt4LzY
- ulycO9123musKHUkik6h7mCPodVB/0g7Y3RBfNF3U6uQVRUfLp9Q6twD8uP97IVE4Y5i
- 0ZeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wNCxluSBSDLQf80mm1IAxRjvrsypZp9PbQQJIGVe3gs=;
- b=bfvn17S++fSByPckw1S4xpzesgN5/jIeLrY6jZR9Kmkl7q1HoMjnEnx1A3zkc6RsJ8
- oTAYT7NeqCSe5HmiWD4sIMIs7qgQs4nQSGxEDca43agpxKUJUgS3Dp7NKENPvImp8dYa
- +PO4GLIznET7Wx2GiXeVTDJsQFFgVbO35EXIl+fHgetkJeZjuyIyBuoWezytU4gJrhcJ
- ts9gd1u0mOU2oLVj0pLugBwPSX5rPxnHuVtCmsviSuTeplUk9UTSiE3aUfuDjaACQyuu
- 5zol8tm9n0z+ZrMS1YL2bV0BrYrIQfPJn15rrmGVgTgSfFROfJxT6okbE1H4gizgV7Sr
- jI/w==
-X-Gm-Message-State: AOAM530rxVjmC+Zn6LL2XgGpxFGb9q8tOxKg787IKNjOhP2Zesmy4fqZ
- 8FSP/X+8cWzhGaYa8HdCRoQkgTIYEC0P8Y7h
-X-Google-Smtp-Source: ABdhPJwSNvOCQ6a3ncIBEqrBGSgNbJM4t/zQirsB8/2tSHNsoP5utHPqKi+AfQmD2yft6vVyiArY8A==
-X-Received: by 2002:a0c:fe0c:: with SMTP id x12mr8187095qvr.16.1615765703978; 
- Sun, 14 Mar 2021 16:48:23 -0700 (PDT)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id f186sm11192370qkj.106.2021.03.14.16.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 16:48:23 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] utils: Use fma in qemu_strtosz
-Date: Sun, 14 Mar 2021 17:48:21 -0600
-Message-Id: <20210314234821.1954428-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLc2M-00034E-M3
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 21:28:50 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:33526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLc2K-0006Ba-Ba
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 21:28:49 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12F1RmUk021446
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sun, 14 Mar 2021 21:27:51 -0400
+Date: Sun, 14 Mar 2021 21:27:48 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 4/8] qtest/fuzz: Restrict CPU I/O instructions
+Message-ID: <20210315012744.enstndj6lvkpt5cu@mozz.bu.edu>
+References: <20210314232913.2607360-1-f4bug@amsat.org>
+ <20210314232913.2607360-5-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210314232913.2607360-5-f4bug@amsat.org>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,38 +56,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bandan Das <bsd@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use fma to simulatneously scale and round up fraction.
+On 210315 0029, Philippe Mathieu-Daudé wrote:
+> Restrict CPU I/O instructions to architectures providing
+> I/O bus.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  tests/qtest/fuzz/generic_fuzz.c   | 16 ++++++++++------
+>  tests/qtest/fuzz/qtest_wrappers.c |  4 ++++
+>  2 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> index ee8c17a04c4..3e0089f4a63 100644
+> --- a/tests/qtest/fuzz/generic_fuzz.c
+> +++ b/tests/qtest/fuzz/generic_fuzz.c
+> @@ -304,6 +304,13 @@ static bool get_io_address(address_range *result, AddressSpace *as,
+>      return cb_info.found;
+>  }
+>  
+> +static bool get_mmio_address(address_range *result,
+> +                             uint8_t index, uint32_t offset)
+> +{
+> +    return get_io_address(result, &address_space_memory, index, offset);
+> +}
+> +
+> +#ifdef TARGET_HAS_IOPORT
+>  static bool get_pio_address(address_range *result,
+>                              uint8_t index, uint16_t offset)
+>  {
+> @@ -318,12 +325,6 @@ static bool get_pio_address(address_range *result,
+>      return result->addr <= 0xFFFF ? found : false;
+>  }
+>  
+> -static bool get_mmio_address(address_range *result,
+> -                             uint8_t index, uint32_t offset)
+> -{
+> -    return get_io_address(result, &address_space_memory, index, offset);
+> -}
+> -
+>  static void op_in(QTestState *s, const unsigned char * data, size_t len)
+>  {
+>      enum Sizes {Byte, Word, Long, end_sizes};
+> @@ -395,6 +396,7 @@ static void op_out(QTestState *s, const unsigned char * data, size_t len)
+>          break;
+>      }
+>  }
+> +#endif /* TARGET_HAS_IOPORT */
+>  
+>  static void op_read(QTestState *s, const unsigned char * data, size_t len)
+>  {
+> @@ -626,8 +628,10 @@ static void handle_timeout(int sig)
+>  static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+>  {
+>      void (*ops[]) (QTestState *s, const unsigned char* , size_t) = {
+> +#ifdef TARGET_HAS_IOPORT
+>          [OP_IN]                 = op_in,
+>          [OP_OUT]                = op_out,
 
-The libm function will always return a properly rounded double precision
-value, which will eliminate any extra precision the x87 co-processor may
-give us, which will keep the output predictable vs other hosts.
+I think op_pci_read and op_pci_write would need to be disabled as well
+(at least the way they are implemented now).
 
-Adding DBL_EPSILON while scaling should help with fractions like
-12.345, where the closest representable number is actually 12.3449*.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- util/cutils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/util/cutils.c b/util/cutils.c
-index d89a40a8c3..f7f8e48a68 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -342,7 +342,7 @@ static int do_strtosz(const char *nptr, const char **end,
-         retval = -ERANGE;
-         goto out;
-     }
--    *result = val * mul + (uint64_t) (fraction * mul);
-+    *result = val * mul + (uint64_t)fma(fraction, mul, DBL_EPSILON);
-     retval = 0;
- 
- out:
--- 
-2.25.1
-
+> +#endif /* TARGET_HAS_IOPORT */
+>          [OP_READ]               = op_read,
+>          [OP_WRITE]              = op_write,
+>          [OP_PCI_READ]           = op_pci_read,
+> diff --git a/tests/qtest/fuzz/qtest_wrappers.c b/tests/qtest/fuzz/qtest_wrappers.c
+> index 921d1e5ed3a..d56dda9e9b8 100644
+> --- a/tests/qtest/fuzz/qtest_wrappers.c
+> +++ b/tests/qtest/fuzz/qtest_wrappers.c
+> @@ -24,12 +24,14 @@ static bool serialize = true;
+>      RET_TYPE __wrap_##NAME_AND_ARGS;\
+>      RET_TYPE __real_##NAME_AND_ARGS;
+>  
+> +#ifdef TARGET_HAS_IOPORT
+>  WRAP(uint8_t  , qtest_inb(QTestState *s, uint16_t addr))
+>  WRAP(uint16_t , qtest_inw(QTestState *s, uint16_t addr))
+>  WRAP(uint32_t , qtest_inl(QTestState *s, uint16_t addr))
+>  WRAP(void     , qtest_outb(QTestState *s, uint16_t addr, uint8_t value))
+>  WRAP(void     , qtest_outw(QTestState *s, uint16_t addr, uint16_t value))
+>  WRAP(void     , qtest_outl(QTestState *s, uint16_t addr, uint32_t value))
+> +#endif /* TARGET_HAS_IOPORT */
+>  WRAP(uint8_t  , qtest_readb(QTestState *s, uint64_t addr))
+>  WRAP(uint16_t , qtest_readw(QTestState *s, uint64_t addr))
+>  WRAP(uint32_t , qtest_readl(QTestState *s, uint64_t addr))
+> @@ -50,6 +52,7 @@ WRAP(void,      qtest_memset(QTestState *s, uint64_t addr,
+>                               uint8_t patt, size_t size))
+>  
+>  
+> +#ifdef TARGET_HAS_IOPORT
+>  uint8_t __wrap_qtest_inb(QTestState *s, uint16_t addr)
+>  {
+>      if (!serialize) {
+> @@ -103,6 +106,7 @@ void __wrap_qtest_outl(QTestState *s, uint16_t addr, uint32_t value)
+>          __real_qtest_outl(s, addr, value);
+>      }
+>  }
+> +#endif /* TARGET_HAS_IOPORT */
+>  
+>  uint8_t __wrap_qtest_readb(QTestState *s, uint64_t addr)
+>  {
+> -- 
+> 2.26.2
+> 
 
