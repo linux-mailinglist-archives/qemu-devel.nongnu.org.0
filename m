@@ -2,49 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA29C33BFAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:24:45 +0100 (CET)
-Received: from localhost ([::1]:55682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6144D33BFAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:25:52 +0100 (CET)
+Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLp5I-0001D6-JK
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41166)
+	id 1lLp6N-0002qP-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:25:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lLp3H-0007eI-W6
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:22:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50248)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLp4u-0001NF-EC
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:24:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lLp3G-0000oO-7E
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:22:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 94723AE3C;
- Mon, 15 Mar 2021 15:22:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLp4s-0001Hj-1A
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:24:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615821856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZSKQWrkO9RMPHwiJxjpMWIJS7tTd2U4kHcgyKaayea4=;
+ b=HrOrvtI86oSzSyRjyowzScmetxT5tp0ijX+E7w8jHNZ2hA22mZyKlz6x4xLzXG+7eOSSIA
+ IfH3gVMTmHRruPZiO0jm25pvyHPThv2zeri4MyQDBkh4MPFgsGh11F3aM5R3t+ArimqXtG
+ kXVu7pDlcBJ60AdQQXFKw2bInR1iAxA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-uyQo4a6IOZSEIfyn8L42Jw-1; Mon, 15 Mar 2021 11:24:15 -0400
+X-MC-Unique: uyQo4a6IOZSEIfyn8L42Jw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35C7781746F
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 15:24:14 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AE065D745;
+ Mon, 15 Mar 2021 15:24:13 +0000 (UTC)
 Subject: Re: [RFC PATCH] configure: Poison (almost) all target-specific
  #defines
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 References: <20210315135410.221729-1-thuth@redhat.com>
- <db946056-f099-ac99-38c2-60c61f079676@suse.de>
- <208fab42-d276-315b-e7df-a80b4c4004e2@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <46712c50-fcd9-d09b-c295-5207a18cc975@suse.de>
-Date: Mon, 15 Mar 2021 16:22:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <5f8be2a7-5baf-7cdc-42a1-954ea3aeba82@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <9a6fd794-8ac5-a054-7bf5-b485d57fb1a3@redhat.com>
+Date: Mon, 15 Mar 2021 16:24:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <208fab42-d276-315b-e7df-a80b4c4004e2@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <5f8be2a7-5baf-7cdc-42a1-954ea3aeba82@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,57 +87,56 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 4:08 PM, Thomas Huth wrote:
-> On 15/03/2021 15.07, Claudio Fontana wrote:
->> On 3/15/21 2:54 PM, Thomas Huth wrote:
->>> We are generating a lot of target-specific defines in the *-config-devices.h
->>> and *-config-target.h files. Using them in common code is wrong and leads
->>> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
->>> as expected. To avoid these issues, we are already poisoning some of the
->>> macros in include/exec/poison.h - but maintaining this list manually is
->>> cumbersome. Thus let's generate the list of poisoned macros automatically
->>> instead.
->>> Note that CONFIG_TCG (which is also defined in config-host.h) and
->>> CONFIG_USER_ONLY are special, so we have to filter these out.
->>
->>
->>
->> I have the impression that CONFIG_USER_ONLY should be poisoned too.
->>
->> A lot of the
->>
->> #ifndef CONFIG_USER_ONLY
->>
->> end up currently doing the wrong thing in common modules includes,
->> especially due to the inverted nature of the check.
+On 15/03/2021 15.52, Philippe Mathieu-Daudé wrote:
+> On 3/15/21 2:54 PM, Thomas Huth wrote:
+>> We are generating a lot of target-specific defines in the *-config-devices.h
+>> and *-config-target.h files. Using them in common code is wrong and leads
+>> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
+>> as expected. To avoid these issues, we are already poisoning some of the
+>> macros in include/exec/poison.h - but maintaining this list manually is
+>> cumbersome. Thus let's generate the list of poisoned macros automatically
+>> instead.
+>> Note that CONFIG_TCG (which is also defined in config-host.h) and
 > 
-> Not sure about that ... do you have an example at hand?
+> IIRC we can't poison CONFIG_XEN / CONFIG_HAX because they are
+> pulled in via "sysemu/hw_accel.h".
 
-it was the whole story around hw/core/cpu.h .
+That's a good hint ... but I think it can be fixed with a patch like this:
 
-It contains CONFIG_USER_ONLY, with the unwanted behavior mentioned,
-and seeing its existing use, I stopped short of introducing a bug:
+diff a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
+--- a/include/sysemu/hw_accel.h
++++ b/include/sysemu/hw_accel.h
+@@ -12,19 +12,24 @@
+  #define QEMU_HW_ACCEL_H
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg768318.html
+  #include "hw/core/cpu.h"
++
++#ifdef NEED_CPU_H
++
+  #include "sysemu/hax.h"
+  #include "sysemu/kvm.h"
+  #include "sysemu/hvf.h"
+  #include "sysemu/whpx.h"
 
-Other code in hw/core/cpu.c also uses CONFIG_USER_ONLY (See the XXX),
+-void cpu_synchronize_state(CPUState *cpu);
+-void cpu_synchronize_post_reset(CPUState *cpu);
+-void cpu_synchronize_post_init(CPUState *cpu);
+-void cpu_synchronize_pre_loadvm(CPUState *cpu);
+-
+  static inline bool cpu_check_are_resettable(void)
+  {
+      return kvm_enabled() ? kvm_cpu_check_are_resettable() : true;
+  }
 
-and the hw/core/cpu.h continues to carry CONFIG_USER_ONLY, with the potential to lead other people to misuse it
-(putting in an extra prototype is harmless, but an extra field isn't).
++#endif
++
++void cpu_synchronize_state(CPUState *cpu);
++void cpu_synchronize_post_reset(CPUState *cpu);
++void cpu_synchronize_post_init(CPUState *cpu);
++void cpu_synchronize_pre_loadvm(CPUState *cpu);
++
+  #endif /* QEMU_HW_ACCEL_H */
 
-
-
-> 
-> Anyway, one thing is sure, if we want to poison CONFIG_USER_ONLY, this will 
-> certainly cause a lot of clean up work first, since it is used all over the 
-> place...
-> 
->   Thomas
-
-Yes, and probably a good idea.
-
-Thanks,
-
-Claudio
+  Thomas
 
 
