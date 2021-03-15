@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A701B33B51F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:54:01 +0100 (CET)
-Received: from localhost ([::1]:57170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E281D33B5F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:57:50 +0100 (CET)
+Received: from localhost ([::1]:39446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLnfU-0001wR-Nt
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:54:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
+	id 1lLnjB-0006Z3-L4
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lLneQ-0001PR-DU
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:52:54 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lLneO-0002RI-No
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:52:54 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 29152AE15;
- Mon, 15 Mar 2021 13:52:51 +0000 (UTC)
-Subject: Re: [PATCH 3/6] accel/tcg: Restrict tb_gen_code() from other
- accelerators
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210117164813.4101761-1-f4bug@amsat.org>
- <20210117164813.4101761-4-f4bug@amsat.org>
- <7359d7bd-ed7d-71ad-3610-b839c9c99fd5@suse.de>
- <d9e691d9-9e87-6a47-c06d-ce2376f370f8@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <0baee669-a6c1-2e25-5272-c654689fe6b7@suse.de>
-Date: Mon, 15 Mar 2021 14:52:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLnfq-0002zO-Uw
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:54:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLnfn-0003Em-HM
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:54:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615816457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JbPStmWjilW+FBtzt6eJe2p3Bl14UnD5FXHKr41V3XE=;
+ b=hY9eF63u30W3bn6f5ya7Hz0Uu/KXPdP6Ly8PfMn8OAZn9q2Ou4XtwrdECnHyo1pkXF1em2
+ zV+pXc6Tq3FDWDfj2qLmUtXzAK9M+tLEAu+j1AvVFNw34BZlwvi0fWHbIEThFHFbeyA+Ui
+ a9yA7iuie2Pf6mJnjrOauWQxGFoopJY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-qeQZKTUVOT6-myx_NHr_Yg-1; Mon, 15 Mar 2021 09:54:14 -0400
+X-MC-Unique: qeQZKTUVOT6-myx_NHr_Yg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E9E8189C8
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 13:54:13 +0000 (UTC)
+Received: from thuth.com (ovpn-112-72.ams2.redhat.com [10.36.112.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B188620DE;
+ Mon, 15 Mar 2021 13:54:12 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] configure: Poison (almost) all target-specific #defines
+Date: Mon, 15 Mar 2021 14:54:10 +0100
+Message-Id: <20210315135410.221729-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d9e691d9-9e87-6a47-c06d-ce2376f370f8@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,63 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/21 7:06 AM, Richard Henderson wrote:
-> On 1/17/21 11:12 PM, Claudio Fontana wrote:
->> On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
->>> tb_gen_code() is only called within TCG accelerator,
->>> declare it locally.
->>
->> Is this used only in accel/tcg/cpu-exec.c ? Should it be a static function there?
-> 
-> Possibly, but there's a *lot* of code that would have to be moved.  For now,
-> queuing a slightly modified version of the patch.
-> 
->>> --- a/accel/tcg/user-exec.c
->>> +++ b/accel/tcg/user-exec.c
->>> @@ -28,6 +28,7 @@
->>>  #include "qemu/atomic128.h"
->>>  #include "trace/trace-root.h"
->>>  #include "trace/mem.h"
->>> +#include "internal.h"
-> 
-> Not needed by this patch.
-> 
-> 
-> r~
-> 
+We are generating a lot of target-specific defines in the *-config-devices.h
+and *-config-target.h files. Using them in common code is wrong and leads
+to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
+as expected. To avoid these issues, we are already poisoning some of the
+macros in include/exec/poison.h - but maintaining this list manually is
+cumbersome. Thus let's generate the list of poisoned macros automatically
+instead.
+Note that CONFIG_TCG (which is also defined in config-host.h) and
+CONFIG_USER_ONLY are special, so we have to filter these out.
 
-Hello,
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ RFC since the shell stuff in "configure" is quite ugly ... maybe there's
+ a better way to do this via meson, but my meson-foo is still lacking...
 
-resurrecting this, and in reference to its commit: "c03f041f128301c6a6c32242846be08719cd4fc3",
+ Makefile              | 2 +-
+ configure             | 5 +++++
+ include/exec/poison.h | 2 ++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-the name "internal.h" ends up polluting the include paths,
-so that when working for example on s390x, including "internal.h" ends up including this instead of the file in target/s390x/.
-
-I am not sure what exactly the right solution is, for this specific problem,
-and if we should look at the include paths settings in detail,
-
-but in my view calling files just "internal.h" or "internals.h" in general is not a good idea.
-
-I can see two issues with this naming:
-
-1) it describes nothing about the actual intended contents, other that they should be "internal".
-Rather it would be better to know what the file is intended to contain, or we end up (as we end up) with very large files containing completely unrelated content.
-
-2) we end up with clashes in our include paths if we are not super careful.
-
-Probably in this case, the target/s390x/internal.h could be given another name (s390x-internal.h) and then split up in the future (there is a whole bunch of unrelated suff).
-
-For accel/tcg/internal.h, maybe renaming it, or removing it altogether could both be good options?
-
-Thanks,
-
-Claudio
+diff --git a/Makefile b/Makefile
+index bcbbec71a1..4cab10a2a4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -213,7 +213,7 @@ qemu-%.tar.bz2:
+ 
+ distclean: clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak config-host.h*
++	rm -f config-host.mak config-host.h* config-poison.h
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-disas.mak config.status
+ 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
+diff --git a/configure b/configure
+index f7d022a5db..c7b5df3a5c 100755
+--- a/configure
++++ b/configure
+@@ -6441,6 +6441,11 @@ if test -n "${deprecated_features}"; then
+     echo "  features: ${deprecated_features}"
+ fi
+ 
++cat *-config-devices.h *-config-target.h | grep '^#define '  \
++    | grep -v CONFIG_TCG | grep -v CONFIG_USER_ONLY \
++    | sed -e 's/#define //' -e 's/ .*//' | sort -u \
++    | sed -e 's/^/#pragma GCC poison /' > config-poison.h
++
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
+ #!/bin/sh
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 4cd3f8abb4..9e55d5aec2 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -4,6 +4,8 @@
+ #ifndef HW_POISON_H
+ #define HW_POISON_H
+ 
++#include "config-poison.h"
++
+ #pragma GCC poison TARGET_I386
+ #pragma GCC poison TARGET_X86_64
+ #pragma GCC poison TARGET_AARCH64
+-- 
+2.27.0
 
 
