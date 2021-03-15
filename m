@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755DE33B0C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:16:11 +0100 (CET)
-Received: from localhost ([::1]:34408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9509333B0DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:21:52 +0100 (CET)
+Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLlCk-0003jU-IC
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1lLlIF-0005to-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlAi-0002P7-3b
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:14:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlAf-0003lt-NS
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:14:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlGL-000598-4z
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:19:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlGJ-0006yD-0R
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:19:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615806840;
+ s=mimecast20190719; t=1615807190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HWaxzoU9Y8x4gcOzMsxh40EXoAIrzjubWT0uHCu2dTk=;
- b=Jgi2gEIvLs1QoRkVFQyOEx1B4YfjByTuC/oSLaJjrsdz/0TguGG7hF18BzPgfzc5PTVSwl
- 3nh63mYmtPDbXNGDFx20ph0eArzGCRa8ewHWFRwFnzEk/xeMy3M4ZZ1YvG3ggzySRu2hu6
- gtC/y/5Tmcg64KzwBodHOdSN2Cd3aoM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-xKRRo1ZqMQ-BqhLc1ilb9g-1; Mon, 15 Mar 2021 07:13:56 -0400
-X-MC-Unique: xKRRo1ZqMQ-BqhLc1ilb9g-1
-Received: by mail-wr1-f72.google.com with SMTP id p15so14799568wre.13
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 04:13:56 -0700 (PDT)
+ bh=fLZbLe6oL0ffU0NzKcBSnGDvtVFN3uJxIlOZYBwX+0g=;
+ b=Y7nHqPyfvAEVipDKadiKAHhGTCsghGmO/AWJCAKY0anhhkcV9hz6rwClf4YdoRVXO5HDjl
+ YDQRDOciBnXaLq1BzM3HmE8HDyWKP/yrwqKSOUz+EhPNcmrWGiIYf2LFagIxpgDM+JO+eR
+ CG8VSXWbL8SGYJdo4Zj2jSwvq2gBuI0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-zRZn7NlVNP6DxhtrY04Dhw-1; Mon, 15 Mar 2021 07:19:46 -0400
+X-MC-Unique: zRZn7NlVNP6DxhtrY04Dhw-1
+Received: by mail-wr1-f70.google.com with SMTP id z17so14928170wrv.23
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 04:19:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HWaxzoU9Y8x4gcOzMsxh40EXoAIrzjubWT0uHCu2dTk=;
- b=cSBnsBHmLeO23aoSGmk+XBSWn7rl6fndIwsgBGp8Zicii77BbHGbomi0KXsDnPvmIe
- SuvMIobJxsnGZ7jvtS3PCkVffKSl7t5k4msovtgoKcBru7nNbjT75kwZpAqvkQ9RBZoc
- EEyA1GfUoQS+xuUo2CNYUN+GRMy5pb5DmB7j08H4Ce6dEbzNKchX0Vl62cv5xX9sy7U/
- 9J+i0CiB1NV8VOq1DqgieO9m3MqyQBU3uF/c9cl9W8C9RzaSW0seLoYvMVYW/u/G8hnU
- O7Ct1xS6H9xv9i21DwntZpljCtb9712aqzXgWVaXFsY2nqOH01DMaefkmaZ9idm1196S
- OejQ==
-X-Gm-Message-State: AOAM530rcRpOGMxkzpQXcnITIQ6qKos7FnPUU4geFxgU7/geC3fXMF4h
- aZLJ3rKcTJXXdmi70LBjQAqKF+DAdMSaZ0ksSlrOsplLCwEBgCIfKSa3LGq0IFGqUpEhXD92xOY
- T6DE1Lupu9G3AfqSvoUCk4blfBMajEx73eaXCCV02HKKcvr+Z0KSF34s3c8eFPSDg
-X-Received: by 2002:a5d:4fca:: with SMTP id h10mr28023276wrw.70.1615806835017; 
- Mon, 15 Mar 2021 04:13:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsY5NNGgrCldcjXqvUDMOZ+uF+vLumvHO0yPFaZ9I9x+SnazI7aWvFzT4DcBPk8F4eXtDjAA==
-X-Received: by 2002:a5d:4fca:: with SMTP id h10mr28023260wrw.70.1615806834816; 
- Mon, 15 Mar 2021 04:13:54 -0700 (PDT)
+ bh=fLZbLe6oL0ffU0NzKcBSnGDvtVFN3uJxIlOZYBwX+0g=;
+ b=M2mS7DU+XMTDgAXYMIjS0m9vw53AWzNz7piQMVPwLAb00sZRugE+ebOELOho5ZIIhl
+ /qoaVRbEqWzgA2nedGyrTZAbwaiReTwWj7yelb9FhpKt72aa3ochtDFU0kt7eajYhXkg
+ h28HOl1I+OhW7vEa4jKKc7VlqTmYg2Gq8uh2SW0o3T2J8XscxeQqOCCnGbz1tUHIAg/t
+ Q/II0Mm3fskj56MSO6TZl02hAScm2zPSgascOAQTLQq02vameh41+hH56HCuPNOQrPpZ
+ q2hy1UZJTxjIDtPrlV+PgrKoM71LQCvnfa2IyY7shQ4rRpWknmBRhQGQNFXftXlCNE5F
+ PK1Q==
+X-Gm-Message-State: AOAM532aNVQwHNbjaYLdukLlBoRNHxgHUZ3XITT3n9q7VD/U/zU3dJKZ
+ r0ZRjHYgyZlk/Us03K+5ataXJG2CKWWkPvQxAAF8qKgF9R5sYiCi0/g9nuURr54kMvRG7zccy+/
+ iqwCjnawwnLKQ5Gw=
+X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr26306608wmh.9.1615807185722;
+ Mon, 15 Mar 2021 04:19:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnEHCxEeFv1es3Ch4osKjLc97TUZcabLSLKYSeBwgYFyqN0EA0RKSR5mOXCBeolKKOX6rlSw==
+X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr26306582wmh.9.1615807185362;
+ Mon, 15 Mar 2021 04:19:45 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a8sm12059158wmm.46.2021.03.15.04.13.53
+ by smtp.gmail.com with ESMTPSA id d204sm12332065wmc.17.2021.03.15.04.19.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 04:13:54 -0700 (PDT)
-Subject: Re: [PATCH 2/2] util/compatfd.c: Replaced a malloc call with g_malloc.
-To: Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
-References: <20210315105814.5188-1-ma.mandourr@gmail.com>
- <20210315105814.5188-3-ma.mandourr@gmail.com>
+ Mon, 15 Mar 2021 04:19:44 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/block/nvme: assert namespaces array indices
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20210315110359.51450-1-its@irrelevant.dk>
+ <20210315110359.51450-3-its@irrelevant.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <210a44d9-ab4c-5863-1556-d5a7c368adc2@redhat.com>
-Date: Mon, 15 Mar 2021 12:13:53 +0100
+Message-ID: <edd50e76-76bd-0d74-878a-0e7c02544e9f@redhat.com>
+Date: Mon, 15 Mar 2021 12:19:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210315105814.5188-3-ma.mandourr@gmail.com>
+In-Reply-To: <20210315110359.51450-3-its@irrelevant.dk>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -98,64 +98,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mahmoud,
-
-On 3/15/21 11:58 AM, Mahmoud Mandour wrote:
-> Replaced a call to malloc() and its respective call to free()
-> with g_malloc() and g_free().
+On 3/15/21 12:03 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> g_malloc() is preferred more than g_try_* functions, which
-> return NULL on error, when the size of the requested
-> allocation  is small. This is because allocating few
-> bytes should not be a problem in a healthy system.
-> Otherwise, the system is already in a critical state.
+> Coverity complains about a possible memory corruption in the
+> nvme_ns_attach and _detach functions. While we should not (famous last
+> words) be able to reach this function without nsid having previously
+> been validated, this is still an open door for future misuse.
 > 
-> Subsequently, removed NULL-checking after g_malloc().
+> Make Coverity and maintainers happy by asserting that the index into the
+> array is valid. Also, while not detected by Coverity (yet), add an
+> assert in nvme_subsys_ns and nvme_subsys_register_ns as well since a
+> similar issue is exists there.
 > 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> Fixes: 037953b5b299 ("hw/block/nvme: support namespace detach")
+> Fixes: CID 1450757
+> Fixes: CID 1450758
+> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  util/compatfd.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  hw/block/nvme-subsys.h |  2 ++
+>  hw/block/nvme.h        | 10 ++++++++--
+>  hw/block/nvme-subsys.c |  7 +++++--
+>  3 files changed, 15 insertions(+), 4 deletions(-)
 > 
-> diff --git a/util/compatfd.c b/util/compatfd.c
-> index 174f394533..a8ec525c6c 100644
-> --- a/util/compatfd.c
-> +++ b/util/compatfd.c
-> @@ -72,14 +72,10 @@ static int qemu_signalfd_compat(const sigset_t *mask)
->      QemuThread thread;
->      int fds[2];
+> diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
+> index fb66ae752ad5..aafa04b84829 100644
+> --- a/hw/block/nvme-subsys.h
+> +++ b/hw/block/nvme-subsys.h
+> @@ -54,6 +54,8 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
+>          return NULL;
+>      }
 >  
-> -    info = malloc(sizeof(*info));
-> -    if (info == NULL) {
-> -        errno = ENOMEM;
-> -        return -1;
-> -    }
-> +    info = g_malloc(sizeof(*info));
-
-Watch out...
-
-https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html
-
-  If any call to allocate memory using functions g_new(), g_new0(),
-  g_renew(), g_malloc(), g_malloc0(), g_malloc0_n(), g_realloc(),
-  and g_realloc_n() fails, the application is terminated.
-
-So with your change instead of handling ENOMEM the QEMU process is
-simply killed.
-
-Don't you want to use g_try_new(struct sigfd_compat_info, 1) here
-instead?
-
+> +    assert(nsid && nsid <= NVME_SUBSYS_MAX_NAMESPACES);
+> +
+>      return subsys->namespaces[nsid];
+>  }
 >  
->      if (pipe(fds) == -1) {
-> -        free(info);
-> +        g_free(info);
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index 4955d649c7d4..45ba9dbc2131 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -236,12 +236,18 @@ static inline bool nvme_ns_is_attached(NvmeCtrl *n, NvmeNamespace *ns)
+>  
+>  static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
+>  {
+> -    n->namespaces[nvme_nsid(ns) - 1] = ns;
+> +    uint32_t nsid = ns->params.nsid;
+
+Why not keep using nvme_nsid(ns)?
+
+> +    assert(nsid && nsid <= NVME_MAX_NAMESPACES);
+> +
+> +    n->namespaces[nsid - 1] = ns;
+>  }
+>  
+>  static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
+>  {
+> -    n->namespaces[nvme_nsid(ns) - 1] = NULL;
+> +    uint32_t nsid = ns->params.nsid;
+
+Ditto.
+
+> +    assert(nsid && nsid <= NVME_MAX_NAMESPACES);
+> +
+> +    n->namespaces[nsid - 1] = NULL;
+>  }
+>  
+>  static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
+> diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
+> index af4804a819ee..2f6d3b47bacf 100644
+> --- a/hw/block/nvme-subsys.c
+> +++ b/hw/block/nvme-subsys.c
+> @@ -47,15 +47,18 @@ int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp)
+>  {
+>      NvmeSubsystem *subsys = ns->subsys;
+>      NvmeCtrl *n;
+> +    uint32_t nsid = ns->params.nsid;
+
+Ditto.
+
+Preferably using nvme_nsid():
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>      int i;
+>  
+> -    if (subsys->namespaces[nvme_nsid(ns)]) {
+> +    assert(nsid && nsid <= NVME_SUBSYS_MAX_NAMESPACES);
+> +
+> +    if (subsys->namespaces[nsid]) {
+>          error_setg(errp, "namespace %d already registerd to subsy %s",
+>                     nvme_nsid(ns), subsys->parent_obj.id);
 >          return -1;
 >      }
 >  
+> -    subsys->namespaces[nvme_nsid(ns)] = ns;
+> +    subsys->namespaces[nsid] = ns;
+>  
+>      for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
+>          n = subsys->ctrls[i];
 > 
 
 
