@@ -2,107 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6526433C32A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:01:34 +0100 (CET)
-Received: from localhost ([::1]:55608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE5333C35F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:07:18 +0100 (CET)
+Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLqaz-0006IX-Da
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38906)
+	id 1lLqgX-0001ED-C0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lLqSA-0000vd-Ts
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:52:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lLqS8-0006AQ-L7
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:52:26 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12FGY1KJ128543; Mon, 15 Mar 2021 12:52:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=fzxwmtMhqjIbxHj+vGvABtg3DYTQi8j/mRare/naBHk=;
- b=cOzFr0k32dRT/P0cZ8sZWqbni7GqIqkz/Huq3uWxkx1XdWp/7zrv5gkimCKv8yRUzxVw
- E1V/rjhx6bFRB1YAS4v8Mhv6KPQy7JmjdOQTH92aBCOn0zhltBQAAnI/0xG3hbm6Vq9j
- UNqFjJs381DOQU0si8lM1Zuosz1qNGJhXHD0bmgMLZ3FXjw8dTh3P2lYB0VVBiolLtB2
- Cx0y+SSqa02D5vP7bRWHIRXXaEZchfYnoGWvFU4RnK5yBu6RtFWuAchPxUkAKVL44kKM
- aoRq3s+BTY2PHe+eRa+52iYZHq43f5AFXjENHxxVqtbp0dNi+Yt4gYtIAE+aVpbqVWDc dA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37aa21ue6j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 12:52:21 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12FGYVVW131124;
- Mon, 15 Mar 2021 12:52:21 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37aa21ue5p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 12:52:20 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12FGlsAo005072;
- Mon, 15 Mar 2021 16:52:18 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 378mnh22h5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 16:52:18 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12FGqGhx50397558
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Mar 2021 16:52:16 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 36FED42047;
- Mon, 15 Mar 2021 16:52:16 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E598542042;
- Mon, 15 Mar 2021 16:52:15 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.7.179])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 15 Mar 2021 16:52:15 +0000 (GMT)
-Subject: Re: [PULL 13/18] hw/core: implement a guest-loader to support static
- hypervisor guests
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20210308135104.24903-1-alex.bennee@linaro.org>
- <20210308135104.24903-14-alex.bennee@linaro.org>
- <2bcd9ae8-b304-a9a1-9f14-d238a9b2f6a2@de.ibm.com>
- <e690a377-2f3e-0774-03f8-813f2631e4f0@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <cd4e45b5-3e2e-35f3-72af-9ed87ae134ce@de.ibm.com>
-Date: Mon, 15 Mar 2021 17:52:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLqTE-0001cK-VT
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:53:36 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:45868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLqTA-0006WW-N9
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:53:31 -0400
+Received: by mail-ed1-x531.google.com with SMTP id bx7so18152589edb.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 09:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ooeIZaqVsYo38nTjYxN80Priwu4uJCeduHroRZtsPls=;
+ b=awL42rTURFwjTueSWvnBxldFqcUrHvgUqkvQnL1sqV2UjSgIEBRBB+JcTZaQDtFbu2
+ flSB6WlRKdOpKSi3X1p5n4FPo7QRAOPmT7NUeF2DoPtACmuFiry3S2SJ2QBD1xFYttBp
+ A/fGgAfpatm2kVISxd/KTA0BlmiwghZeXEk3J5sTAXKjVawzbAujIkzzEXbHNce/KpY3
+ 29+XeaS7nRJi7nAOOTZ0rxNcFjXjpDnhq2WJceOVoFdblfgV3Oz7tjsRGmqm6rEVBPie
+ 7BOPxganIi6sQ3/lSkLS+pbpfPrVnwZsuTmwujLx1eVD4wjc1fZ6s+RoORdi3X16kNtN
+ RcRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ooeIZaqVsYo38nTjYxN80Priwu4uJCeduHroRZtsPls=;
+ b=IRzwQFFWojk+CxsGZPkurx6kCoe/PUXi/hHjrC0vhbidAxDtK7pb0zK5xVGhGr1nau
+ vLtUjhRmES/Sur9qNLNfadE/qGOyktXyJIU3VU5WEEFGBohDvONFpVdtkjNoKD931q6R
+ XfiOr2++EZDOmXmVM4hagNHUMRa6mm42MZ6lu/5S/6DGsCZrfZPQ7/J7EbXOYVwsoJRj
+ GDwXyXW9ZWfVmR/oRIpqmnzZCLrdcc2mwbicRhy3A9eYjkV9MW6V8C0Y3pdXqTi6u5Cm
+ VIFKYuHzroGwlTBrn91PT/UqefFnsVtXjoxBmSF57niq3WRQFT/Ye6KtXO3F5JlhrdL5
+ cqBA==
+X-Gm-Message-State: AOAM531SHnGiqODT7EcZcQuKcLN2Q0KKzAZ5K3WKiOxxzDa8HWTU6ANU
+ 3WgTXS9QI17M+qU3g5mMzIJajQ==
+X-Google-Smtp-Source: ABdhPJynOl7R6rbJElIBTwPbq9WUuOa8T+BdFnDWRyRTo/ZAafmx9THtXqP73cyqvw6+CVe9BvuriQ==
+X-Received: by 2002:a05:6402:42d3:: with SMTP id
+ i19mr5890204edc.220.1615827203644; 
+ Mon, 15 Mar 2021 09:53:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p3sm7665885ejd.7.2021.03.15.09.53.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 09:53:22 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EA3901FF7E;
+ Mon, 15 Mar 2021 16:53:21 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] docs/devel: expand style section of memory management
+Date: Mon, 15 Mar 2021 16:53:12 +0000
+Message-Id: <20210315165312.22453-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <e690a377-2f3e-0774-03f8-813f2631e4f0@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-15_08:2021-03-15,
- 2021-03-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- adultscore=0 clxscore=1015 spamscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103150113
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,75 +85,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This aims to provide a bit more guidance for those who take on one of
+our "clean up memory allocation" bite-sized tasks.
 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ docs/devel/style.rst | 40 ++++++++++++++++++++++++++++++----------
+ 1 file changed, 30 insertions(+), 10 deletions(-)
 
-On 15.03.21 17:44, Philippe Mathieu-Daudé wrote:
-> On 3/15/21 5:16 PM, Christian Borntraeger wrote:
->>
->>
->> On 08.03.21 14:50, Alex Bennée wrote:
->>> Hypervisors, especially type-1 ones, need the firmware/bootcode to put
->>> their initial guest somewhere in memory and pass the information to it
->>> via platform data. The guest-loader is modelled after the generic
->>> loader for exactly this sort of purpose:
->>>
->>>     $QEMU $ARGS  -kernel ~/xen.git/xen/xen \
->>>       -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
->>>       -device
->>> guest-loader,addr=0x42000000,kernel=Image,bootargs="root=/dev/sda2 ro
->>> console=hvc0 earlyprintk=xen" \
->>>       -device guest-loader,addr=0x47000000,initrd=rootfs.cpio
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> Message-Id: <20210303173642.3805-5-alex.bennee@linaro.org>
->>>
->>
->> This now results in
->>
->>      /usr/bin/ld: libcommon.fa.p/hw_core_guest-loader.c.o: in function
->> `loader_insert_platform_data':
->>      build/../hw/core/guest-loader.c:56: undefined reference to
->> `qemu_fdt_add_subnode'
->>      /usr/bin/ld: build/../hw/core/guest-loader.c:57: undefined reference
->> to `qemu_fdt_setprop'
->>      /usr/bin/ld: build/../hw/core/guest-loader.c:61: undefined reference
->> to `qemu_fdt_setprop_string_array'
->>      /usr/bin/ld: build/../hw/core/guest-loader.c:68: undefined reference
->> to `qemu_fdt_setprop_string'
->>      /usr/bin/ld: build/../hw/core/guest-loader.c:74: undefined reference
->> to `qemu_fdt_setprop_string_array'
->>      collect2: error: ld returned 1 exit status
->>      ninja: build stopped: subcommand failed.
->>
->> when building s390-softmmu on s390 with  --disable-fdt, which was in my
->> build script.
->>
-> 
-> Oops. Quick fix:
-> 
-> -- >8 --
-> diff --git a/hw/core/meson.build b/hw/core/meson.build
-> index 9cd72edf513..5827996206e 100644
-> --- a/hw/core/meson.build
-> +++ b/hw/core/meson.build
-> @@ -37,7 +37,7 @@
->     'clock-vmstate.c',
->   ))
-> 
-> -softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('guest-loader.c'))
-> +softmmu_ss.add(when: ['CONFIG_TCG', fdt], if_true: files('guest-loader.c'))
-> 
->   specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
->     'machine-qmp-cmds.c',
-> 
-
-At least this one is
-Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+index 8b0bdb3570..823fa6f209 100644
+--- a/docs/devel/style.rst
++++ b/docs/devel/style.rst
+@@ -385,17 +385,35 @@ avoided.
+ Low level memory management
+ ===========================
+ 
+-Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
++Use of the ``malloc/free/realloc/calloc/valloc/memalign/posix_memalign``
+ APIs is not allowed in the QEMU codebase. Instead of these routines,
+-use the GLib memory allocation routines g_malloc/g_malloc0/g_new/
+-g_new0/g_realloc/g_free or QEMU's qemu_memalign/qemu_blockalign/qemu_vfree
+-APIs.
++use the GLib memory allocation routines
++``g_malloc/g_malloc0/g_new/g_new0/g_realloc/g_free``
++or QEMU's ``qemu_memalign/qemu_blockalign/qemu_vfree`` APIs.
+ 
+-Please note that g_malloc will exit on allocation failure, so there
+-is no need to test for failure (as you would have to with malloc).
+-Calling g_malloc with a zero size is valid and will return NULL.
++Please note that ``g_malloc`` will exit on allocation failure, so there
++is no need to test for failure (as you would have to with ``malloc``).
+ 
+-Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the following
++Care should be taken to avoid introducing places where the guest could
++trigger an exit. For example using ``g_malloc`` on start-up is fine
++if the result of a failure is going to be a fatal exit anyway. There
++may be some start-up cases where failing is unreasonable (for example
++speculatively loading debug symbols).
++
++However if we are doing an allocation because of something the guest
++has done we should never trigger an exit. The code may deal with this
++by trying to allocate less memory and continue or re-designed to allocate
++buffers on start-up.
++
++If the lifetime of the allocation is within the function and there are
++multiple exist paths you can also improve the readability of the code
++by using ``g_autofree`` and related annotations. See :ref:`autofree-ref`
++for more details.
++
++
++Calling ``g_malloc`` with a zero size is valid and will return NULL.
++
++Prefer ``g_new(T, n)`` instead of ``g_malloc(sizeof(T) * n)`` for the following
+ reasons:
+ 
+ * It catches multiplication overflowing size_t;
+@@ -409,8 +427,8 @@ Declarations like
+ 
+ are acceptable, though.
+ 
+-Memory allocated by qemu_memalign or qemu_blockalign must be freed with
+-qemu_vfree, since breaking this will cause problems on Win32.
++Memory allocated by ``qemu_memalign`` or ``qemu_blockalign`` must be freed with
++``qemu_vfree``, since breaking this will cause problems on Win32.
+ 
+ String manipulation
+ ===================
+@@ -485,6 +503,8 @@ In addition, QEMU assumes that the compiler does not use the latitude
+ given in C99 and C11 to treat aspects of signed '<<' as undefined, as
+ documented in the GNU Compiler Collection manual starting at version 4.0.
+ 
++.. _autofree-ref:
++
+ Automatic memory deallocation
+ =============================
+ 
+-- 
+2.20.1
 
 
