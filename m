@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE1633C9C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:12:15 +0100 (CET)
-Received: from localhost ([::1]:50662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFCE33C9B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:10:18 +0100 (CET)
+Received: from localhost ([::1]:43514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLwNi-0005R9-2u
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58548)
+	id 1lLwLo-0002OH-02
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLwKN-000136-Nt
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:08:48 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42443)
+ id 1lLwKQ-00014A-SQ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:08:50 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLwKL-0001tx-Ci
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:08:47 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j2so9504805wrx.9
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 16:08:42 -0700 (PDT)
+ id 1lLwKN-0001vE-II
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:08:48 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ t5-20020a1c77050000b029010e62cea9deso420171wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 16:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+9efFaSWX0HOPkTVAGn0fUi/WEpSl7fU0r3UNlJv0Kc=;
- b=Qy7LMMOcgRwXVVxCg+iZt8MPHGRvrkE7FOpDQ5sg2D5+R/gzwbtMQF2xtVBoZlhyW8
- hci0RQwkG0hcifHM6m/MYCvK3udiZYKuSQB01lstcBddw3X8KafU59mlvfXaaqElu+6h
- 7I29qGXK6t4yOgHPDuokvMhMKl2BeY5+8vW1Ur3hCbyHsR8od2C+kGc3S+L/1uNP0q5f
- avzJPzq37a0SSt3NOUhDQSMY6mjHfgZJqfcbn47sI0DoWV3hetbLj/NRWlwNJGjhfebt
- 3YkzimmOqiEsKXBiOqes8EChLKmWuK51WUpYA1wir9LB+3A6j6kp4oRvgs97lh0h36ng
- zGow==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=A7YF3nY7RWwiblpeqYeH6Gr8kBH483IkbOyS8dt/OFw=;
+ b=Y5Xslj8FigNfxfK2NtY+/L1/8mIgEzdkd7LzBgQDoxK8U5zRFgwUG2hhXbrTSlE++n
+ tqIU+FD+VC/GMzNFTNj0lT/nfl61WDHJv1Q9mU5hC4j+K0q/3RGhYXRhbluLU8fxY6Fb
+ fZ46/b91jG0tA2OAeQ3vPGtj2o6ZgZjDhXGacxlajeDTKz2S0R/uUbDsndYe7ygj9ZC6
+ P2/gkR5TeGQ3p87w1mt/TDlX22pU9kwpw2iihRp1pkBmCv+Dj/CfjeOJeiQD9eKyiQNl
+ 5JjmVi1ZMmZ8Rq//pb4hff9IY/LAexDTxEmq4HnyfcYBZvTHruSWTbJ0mDcvSJY8JJuI
+ j4Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+9efFaSWX0HOPkTVAGn0fUi/WEpSl7fU0r3UNlJv0Kc=;
- b=oPCkdPrzIc8wLYQ0t2P3iN+QjT8bNxgwcXVBE8W+UYEvI4v5vBWIosBMbotBbNEQlR
- sGPSLVXhfNdzH1anPUVGWOSPJrBy8tGhULbqKDP1tPZAjLlU2EGoaI4L2ttbin2Dfses
- Le8sIcGK6lo1eI0krbzVCPdEqqbxm/U2aeYl5xRClIHx99Dm+dWjK83sS/rTBtbJt7gx
- WBOVMxqZ8gu2AfnpjYbuoFR8CTn9vfXY/9OM40Mh3tXNxHMLOvCiRyDpohdkHOyqFZm1
- /sLAUzODiQW19ZQ28jxbgImcBOdlLyvn49Z9Kly3YkqGaM7dINrBxw10nehDbIjJaHer
- e4mA==
-X-Gm-Message-State: AOAM530zPCUvMTtut9pDm3e+5yoXlSvNDwR38u5uOREGXI8+/th+SokZ
- YUrfIP5PDrvrJ9cK+0UsWqRJVHCvvjuFfg==
-X-Google-Smtp-Source: ABdhPJyFp2phIb5PXZesabXTcv/ItkvxGhJbiPJEbcVCr2jSMOkdW2LaKPc6zg4ApcqiTZvcvU8+Xw==
-X-Received: by 2002:adf:f0cb:: with SMTP id x11mr1760594wro.206.1615849720897; 
- Mon, 15 Mar 2021 16:08:40 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=A7YF3nY7RWwiblpeqYeH6Gr8kBH483IkbOyS8dt/OFw=;
+ b=j0fNCPaZ7HNdc2vbR+FJaU1/hcJTQcv63ZWhY4gTBt3b6rPqtiRTFHPwXZvF2u+eEp
+ ZlvPSEzgDti9zCwDKeMxaZtlXpirkn67Ge490m6cVy1CgDCb5Wi3QHjV4ar6SM67uWp4
+ MVpbrx0iIME0OwWMlI2V72ikydc4JpcVZEoinVYIi2wT2WvQ5w9Aar9HmGFApfT/22a+
+ 27jZdM487HzYTpaobqRZg2v1AYGYPPsVeCYlUN3I0llF2tVB4fxsSaMUZ3i2ONwxhtHE
+ viFZNtgUDdq+A2x2FmBEE92c0V2Ni5SSAB7XY+lSP3Zvq/51CZeMf/VLXQNXHQbebULN
+ tYrw==
+X-Gm-Message-State: AOAM530cu/zJ9k8U3XK9LO6S869p9fVmnWK0SroF2hBsAfzjQEyewHLA
+ wX0Woh19riZnHiqP2Fav2s9g8HwTt21pvQ==
+X-Google-Smtp-Source: ABdhPJwoHiSGUBNp4mSuUIeBm6B9sh/p+TPGK0n8FVQz33We6hzauGMN3vJ1k1qCDG4FlcFooaQKjg==
+X-Received: by 2002:a05:600c:198c:: with SMTP id
+ t12mr1706530wmq.183.1615849725878; 
+ Mon, 15 Mar 2021 16:08:45 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id c9sm20174948wrr.78.2021.03.15.16.08.39
+ by smtp.gmail.com with ESMTPSA id p12sm19637868wrx.28.2021.03.15.16.08.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 16:08:40 -0700 (PDT)
+ Mon, 15 Mar 2021 16:08:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/5] tests/acceptance: Add bFLT loader linux-user test
-Date: Tue, 16 Mar 2021 00:08:33 +0100
-Message-Id: <20210315230838.2973103-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/5] tests/acceptance: Extract QemuBaseTest from Test
+Date: Tue, 16 Mar 2021 00:08:34 +0100
+Message-Id: <20210315230838.2973103-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210315230838.2973103-1-f4bug@amsat.org>
+References: <20210315230838.2973103-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,25 +95,65 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v2:=0D
-- rebased tests/acceptance/avocado_qemu/__init__.py patches=0D
-- extract has_cmd() from virtiofs_submounts.py=0D
-- check cpio availability with has_cmd()=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (5):=0D
-  tests/acceptance: Extract QemuBaseTest from Test=0D
-  tests/acceptance: Make pick_default_qemu_bin() more generic=0D
-  tests/acceptance: Introduce QemuUserTest base class=0D
-  tests/acceptance: Share useful helpers from virtiofs_submounts test=0D
-  tests/acceptance: Add bFLT loader linux-user test=0D
-=0D
- tests/acceptance/avocado_qemu/__init__.py | 102 ++++++++++++++++++++--=0D
- tests/acceptance/load_bflt.py             |  54 ++++++++++++=0D
- tests/acceptance/virtiofs_submounts.py    |  59 +------------=0D
- 3 files changed, 151 insertions(+), 64 deletions(-)=0D
- create mode 100644 tests/acceptance/load_bflt.py=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+The Avocado Test::fetch_asset() is handy to download artifacts
+before running tests. The current class is named Test but only
+tests system emulation. As we want to test user emulation,
+refactor the common code as QemuBaseTest.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/avocado_qemu/__init__.py | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index df167b142cc..4f814047176 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -155,7 +155,7 @@ def exec_command_and_wait_for_pattern(test, command,
+     """
+     _console_interaction(test, success_message, failure_message, command + '\r')
+ 
+-class Test(avocado.Test):
++class QemuBaseTest(avocado.Test):
+     def _get_unique_tag_val(self, tag_name):
+         """
+         Gets a tag value, if unique for a key
+@@ -188,8 +188,6 @@ def require_accelerator(self, accelerator):
+                         "available" % accelerator)
+ 
+     def setUp(self):
+-        self._vms = {}
+-
+         self.arch = self.params.get('arch',
+                                     default=self._get_unique_tag_val('arch'))
+ 
+@@ -202,6 +200,25 @@ def setUp(self):
+         if self.qemu_bin is None:
+             self.cancel("No QEMU binary defined or found in the build tree")
+ 
++
++    def fetch_asset(self, name,
++                    asset_hash=None, algorithm=None,
++                    locations=None, expire=None,
++                    find_only=False, cancel_on_missing=True):
++        return super(QemuBaseTest, self).fetch_asset(name,
++                        asset_hash=asset_hash,
++                        algorithm=algorithm,
++                        locations=locations,
++                        expire=expire,
++                        find_only=find_only,
++                        cancel_on_missing=cancel_on_missing)
++
++# a.k.a. QemuSystemTest for system emulation...
++class Test(QemuBaseTest):
++    def setUp(self):
++        self._vms = {}
++        super(Test, self).setUp()
++
+     def _new_vm(self, *args):
+         self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
+         vm = QEMUMachine(self.qemu_bin, sock_dir=self._sd.name)
+-- 
+2.26.2
+
 
