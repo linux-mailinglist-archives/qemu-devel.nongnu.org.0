@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D7B33C575
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:21:57 +0100 (CET)
-Received: from localhost ([::1]:35918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3994333C574
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:21:55 +0100 (CET)
+Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrqm-0007Ft-JO
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34536)
+	id 1lLrqk-00077l-5Y
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLrXV-0001Y4-Bo
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:02:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLrXS-0000Bo-D4
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:02:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615831317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=syogE5Ywc3wH09HBLliYDP9z6PRQS2Lj3+2g3PzL0+8=;
- b=ZQa/mMpI8BRjr+ki1GBm0YYpMJb2x9ahzru6kfsy9FjHNei4HyhaQHATn0GAW+rK9w2YtS
- T6vsxKVG2xDbdlLhjaFRg08j0DpoyL8AFkiB775fHYhQ/7KmSMMzJN3aly60xje9OUTuiQ
- uQrvao+wSlAOmTb6cuTi2w80tv5/nZk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-He61n1IUMgy2ndKXH0sFgw-1; Mon, 15 Mar 2021 14:01:54 -0400
-X-MC-Unique: He61n1IUMgy2ndKXH0sFgw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3690593940;
- Mon, 15 Mar 2021 18:01:31 +0000 (UTC)
-Received: from work-vm (ovpn-114-235.ams2.redhat.com [10.36.114.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FE582C169;
- Mon, 15 Mar 2021 18:01:30 +0000 (UTC)
-Date: Mon, 15 Mar 2021 18:01:27 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 6/9] migration: Replaced qemu_mutex_lock calls with
- QEMU_LOCK_GUARD
-Message-ID: <YE+g91oy05jO+wKX@work-vm>
-References: <20210311031538.5325-1-ma.mandourr@gmail.com>
- <20210311031538.5325-7-ma.mandourr@gmail.com>
- <YEnmkpUm6QelXVcU@work-vm>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLrY9-000218-SF
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:02:42 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLrY5-0000Qs-N4
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:02:41 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id e19so67909559ejt.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WnJzA8Iy30hPj7pU5LRd0S4xGstMsa1oGli03doX7ug=;
+ b=gkynSK3OsoKu5w3YM9qIAEoLfRF1hob74XtUEwFB21mcidnXTyyO5PckOjPy1qN16z
+ D9DJCsmHZJbuJn9XFZL2vHs9RQpkMBD+npQ3fMLVGj72aTsynRd1kw4crW++/rnxBFY4
+ gNsqpohH7ejakZyRScVh2teU9brqllwUuNtrj98W1qYrKLcE8JhHAMZ4gY1QHtljKoVk
+ 6uQX2n09j91QHjMRVeHK/g5Yu2uysHEOHSDfZXLZW/3ANEqkn4v6Q+cVa9iYDj50HaxF
+ wPjTKG6iMLatLGR1+DumnDQmilXuZbA30X+pu0Qf3PgtVX/nHYJKRYJfl5/F0+tt6S0C
+ M+hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=WnJzA8Iy30hPj7pU5LRd0S4xGstMsa1oGli03doX7ug=;
+ b=F+r/lxP7SI85n0Twsmtt5ZBEeJOi8j4/eHSZ8mMy8E4+eLXCIiyxpxyvEWYciLQF+C
+ LbKvXf3irniRRSTPsqHMVmYsKYbu3dFxQ2SC1LleldRvFg78RAnn8ooXqmIlb9W2zVIl
+ mavKa3g/SI0PYgWqyGTdOVcvcTa0gwYYs8d/FF9PwoS0Tz2B09VUEKlwD0w2PJ/QvX/L
+ 07l5Js1lsPAVKWa/0qBoEjWHqB70hbfFkgC1qoCDo0m8ngxuBou8TdmJ8qaKatKWLYmi
+ tlROtNR5Wz5qQ/FyAAOth/YJxT7WYveuQ0f1Q2AI/Nyup6e7/lwP5k4wC1j9HpY+RX+2
+ qBrA==
+X-Gm-Message-State: AOAM532zzsoPgRCAErkP4rcAOnPV+MrXOk+0pDN1l3Sp247lJuAbkyTd
+ tLgfFcR2mqiBx5N21FhUVq9/aA==
+X-Google-Smtp-Source: ABdhPJxDEFRWuz0+2r++S6E2N7hiSPqXIrRhQM9sSBwa5DDycLZjV4RcbT99GwkjFSQ3v46K+FCDzw==
+X-Received: by 2002:a17:906:4cd6:: with SMTP id
+ q22mr25285318ejt.469.1615831355947; 
+ Mon, 15 Mar 2021 11:02:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id da17sm8717048edb.83.2021.03.15.11.02.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 11:02:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 059E11FF7E;
+ Mon, 15 Mar 2021 18:02:34 +0000 (GMT)
+References: <20210308135104.24903-1-alex.bennee@linaro.org>
+ <20210308135104.24903-14-alex.bennee@linaro.org>
+ <2bcd9ae8-b304-a9a1-9f14-d238a9b2f6a2@de.ibm.com>
+ <e690a377-2f3e-0774-03f8-813f2631e4f0@redhat.com>
+ <0edd9206-a77b-7bdf-6c9a-f3f395f58cf3@redhat.com>
+ <1b9d8751-7e04-15a9-ad4f-6f8c34a6f915@de.ibm.com>
+ <e8805fa7-2d3e-5801-1692-b588629060c9@redhat.com>
+User-agent: mu4e 1.5.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PULL 13/18] hw/core: implement a guest-loader to support
+ static hypervisor guests
+Date: Mon, 15 Mar 2021 18:01:44 +0000
+In-reply-to: <e8805fa7-2d3e-5801-1692-b588629060c9@redhat.com>
+Message-ID: <87k0q88fd2.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YEnmkpUm6QelXVcU@work-vm>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,106 +94,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> > Replaced various qemu_mutex_lock calls and their respective
-> > qemu_mutex_unlock calls with QEMU_LOCK_GUARD macro. This simplifies
-> > the code by eliminating the respective qemu_mutex_unlock calls.
-> > 
-> > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-I've queued 5 and 6 via my queue.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Dave
+> On 3/15/21 5:59 PM, Christian Borntraeger wrote:
+>> On 15.03.21 17:51, Philippe Mathieu-Daud=C3=A9 wrote:
+>>=20
+>>> diff --git a/hw/core/Kconfig b/hw/core/Kconfig
+>>> index fdf03514d7d..9397503656d 100644
+>>> --- a/hw/core/Kconfig
+>>> +++ b/hw/core/Kconfig
+>>> @@ -11,6 +11,11 @@ config GENERIC_LOADER
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default y
+>>>
+>>> +config GUEST_LOADER
+>>> +=C2=A0=C2=A0=C2=A0 bool
+>>> +=C2=A0=C2=A0=C2=A0 default y
+>>> +=C2=A0=C2=A0=C2=A0 depends on TCG
+>>> +
+>>> =C2=A0 config OR_IRQ
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
+>>>
+>>> diff --git a/hw/core/meson.build b/hw/core/meson.build
+>>> index 9cd72edf513..59f1605bb07 100644
+>>> --- a/hw/core/meson.build
+>>> +++ b/hw/core/meson.build
+>>> @@ -16,6 +16,7 @@
+>>> =C2=A0 common_ss.add(files('cpu.c'))
+>>> =C2=A0 common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-f=
+it.c'))
+>>> =C2=A0 common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true:
+>>> files('generic-loader.c'))
+>>> +common_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true:
+>>> files('guest-loader.c'))
+>>> =C2=A0 common_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
+>>> =C2=A0 common_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true:
+>>> files('platform-bus.c'))
+>>> =C2=A0 common_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
+>>> @@ -37,8 +38,6 @@
+>>> =C2=A0=C2=A0=C2=A0 'clock-vmstate.c',
+>>> =C2=A0 ))
+>>>
+>>> -softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('guest-loader.c'))
+>>> -
+>>> =C2=A0 specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
+>>> =C2=A0=C2=A0=C2=A0 'machine-qmp-cmds.c',
+>>> =C2=A0=C2=A0=C2=A0 'numa.c',
+>>=20
+>>=20
+>> Also
+>> Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>
+> Thanks Christian!
 
-> > ---
-> >  migration/migration.c | 6 ++----
-> >  migration/ram.c       | 6 ++----
-> >  2 files changed, 4 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index a5ddf43559..36768391b6 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -323,7 +323,7 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
-> >      int ret = 0;
-> >  
-> >      trace_migrate_send_rp_message((int)message_type, len);
-> > -    qemu_mutex_lock(&mis->rp_mutex);
-> > +    QEMU_LOCK_GUARD(&mis->rp_mutex);
-> >  
-> >      /*
-> >       * It's possible that the file handle got lost due to network
-> > @@ -331,7 +331,7 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
-> >       */
-> >      if (!mis->to_src_file) {
-> >          ret = -EIO;
-> > -        goto error;
-> > +        return ret;
-> >      }
-> >  
-> >      qemu_put_be16(mis->to_src_file, (unsigned int)message_type);
-> > @@ -342,8 +342,6 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
-> >      /* It's possible that qemu file got error during sending */
-> >      ret = qemu_file_get_error(mis->to_src_file);
-> >  
-> > -error:
-> > -    qemu_mutex_unlock(&mis->rp_mutex);
-> >      return ret;
-> >  }
-> >  
-> > diff --git a/migration/ram.c b/migration/ram.c
-> > index 72143da0ac..52537f14ac 100644
-> > --- a/migration/ram.c
-> > +++ b/migration/ram.c
-> > @@ -819,7 +819,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-> >  {
-> >      bool ret;
-> >  
-> > -    qemu_mutex_lock(&rs->bitmap_mutex);
-> > +    QEMU_LOCK_GUARD(&rs->bitmap_mutex);
-> >  
-> >      /*
-> >       * Clear dirty bitmap if needed.  This _must_ be called before we
-> > @@ -852,7 +852,6 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-> >      if (ret) {
-> >          rs->migration_dirty_pages--;
-> >      }
-> > -    qemu_mutex_unlock(&rs->bitmap_mutex);
-> >  
-> >      return ret;
-> >  }
-> > @@ -3275,7 +3274,7 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
-> >      int idx, thread_count;
-> >  
-> >      thread_count = migrate_decompress_threads();
-> > -    qemu_mutex_lock(&decomp_done_lock);
-> > +    QEMU_LOCK_GUARD(&decomp_done_lock);
-> >      while (true) {
-> >          for (idx = 0; idx < thread_count; idx++) {
-> >              if (decomp_param[idx].done) {
-> > @@ -3295,7 +3294,6 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
-> >              qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
-> >          }
-> >      }
-> > -    qemu_mutex_unlock(&decomp_done_lock);
-> >  }
-> >  
-> >   /*
-> > -- 
-> > 2.25.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Can you send that to me as a proper patch (unless Christian wants to
+take it through the s390 trees)?
 
+--=20
+Alex Benn=C3=A9e
 
