@@ -2,94 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3754133BF8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:15:24 +0100 (CET)
-Received: from localhost ([::1]:38504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72FDE33BF94
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:17:40 +0100 (CET)
+Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLowF-0001HO-8S
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39140)
+	id 1lLoyR-0003iU-6K
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLoua-0000Nu-JQ
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:13:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38142)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lLow2-0001WB-Vv; Mon, 15 Mar 2021 11:15:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLouY-0006UV-KL
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:13:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615821217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hHdvpjVtWNt8IHGrKf+DJ8DTrFWFEuzwSYnTxtKfw78=;
- b=HcGT7ZmXHctMbM9Y3rRG5SXW2UtYhSbyKDozIXQQACEWRC+ZPoNqThNhNPrVzQ1at6OmrJ
- JWKDxwLIVRxt6xFbMzxWN9eE19r9u741h6ztTAF9JTRFrWD6p0LQvSB5YCCUp1VFmL7n4u
- s5fgESC6pgqGVq9UDdjk1XjtKVSMkZw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-y7J-7KsuO6KEgQkkCcliRw-1; Mon, 15 Mar 2021 11:13:35 -0400
-X-MC-Unique: y7J-7KsuO6KEgQkkCcliRw-1
-Received: by mail-wr1-f71.google.com with SMTP id l10so15250782wry.16
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 08:13:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hHdvpjVtWNt8IHGrKf+DJ8DTrFWFEuzwSYnTxtKfw78=;
- b=jWMVps92SE47viD6amUzAmbUZEZmenk+bPXAKRXtmVRGofeVAsOpeXVYBXcoyX5a9c
- oetABPt5djKjcNYbPsW66TpdNCfkxcMz2KtFdZwUD3UYpemCIlSiESn/6zngBf2Z2mhd
- iwENfG5HlrRHpRPZIfwtIyJxuP8FDGbuNFxNnGBtRk6nZF33GgwSvG/J/D61CosfgrOw
- L6Cn+jLq+EAKRFT8WAAdv0WIhHm/ydnfF9Z0GE2JH9FyhBY0aKW8JQpb0jWZC5K2iYkp
- GNgLM1F+6UQr1Vbvji+6v8tpIyxqs2VsAzcuFyRTokiS9VJ+ds4fpSd+m2ar5I46CXaw
- hjVQ==
-X-Gm-Message-State: AOAM530Bs7+zCkhB6w1hbVA6hq5URwkg4D+mHloxmL3N//JVVYmWB+hZ
- 03MC/cqMPsBqA+Ma2hjBgutsTsYffDFCaO/A++8YmQ1z7RUHBEgCifUqZYXGgA6EsoUtKs5EP19
- NmMXPxGpPqNLkGUc=
-X-Received: by 2002:a5d:4312:: with SMTP id h18mr138764wrq.193.1615821214630; 
- Mon, 15 Mar 2021 08:13:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/s3gm4V3Jt4YcOqwugRHzjYE63AamtcfISA564E7kc6U5Y3jCz6FeP4HpJLkdQHQKn9042A==
-X-Received: by 2002:a5d:4312:: with SMTP id h18mr138739wrq.193.1615821214325; 
- Mon, 15 Mar 2021 08:13:34 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id c26sm19767068wrb.87.2021.03.15.08.13.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 08:13:33 -0700 (PDT)
-Subject: Re: [PATCH 2/2] util/compatfd.c: Replaced a malloc call with g_malloc.
-To: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
-References: <20210315105814.5188-1-ma.mandourr@gmail.com>
- <20210315105814.5188-3-ma.mandourr@gmail.com>
- <210a44d9-ab4c-5863-1556-d5a7c368adc2@redhat.com>
- <CAD-LL6g9Aha-PZpBPiNK09JkDavL0dM8cwKzcysj2MUxwQQ6Mg@mail.gmail.com>
- <87im5sfq9m.fsf@dusky.pond.sub.org>
- <5d7e1480-ca56-b830-d51d-32d51eab18be@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f8389fb6-6a77-f960-d3c8-e64e26ec1e58@redhat.com>
-Date: Mon, 15 Mar 2021 16:13:32 +0100
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lLow1-00075P-2i; Mon, 15 Mar 2021 11:15:10 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12FF4jbs188829; Mon, 15 Mar 2021 11:15:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=to : from : subject :
+ message-id : date : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=+Yyjc9hqoF8D3gFec0kn7vJOKZak4fJL+rfDW9bY0Us=;
+ b=ILIw8+BhX2HUSvOJlQbDt7Y8itpho11We3vBy/ggkOPoGAHBSbZWRpdAEi+1MXAZH02f
+ 4+vqxE2cN/RwvRlt+b83W9DjF/O4oAPQo8PLVoR0O9J17eaQNon4mKeCcy/S2Ov2u0tG
+ 54eaOpxorUarf6OAk7QQW+cGJatzQixxN474wHIID4sfTJLMv9skBAIARgKSUOj3Z9Eb
+ WxEQdOXnhJjL6Gl8+1EtThvQrCMs7qRAa/W2CpSAfmU9ROHFjIm1/869mRJJnUdpNyZJ
+ FLl+DRvdlx6W/T/EJmmqqPolvPVNwg9cd2bHNXNx16t62Yi0TanIWpLwfzmwctQUrVQZ mA== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 379yhvauxd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Mar 2021 11:15:06 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12FFEEIF016547;
+ Mon, 15 Mar 2021 15:15:05 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 378n18hyrt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Mar 2021 15:15:05 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12FFEk7G19661274
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 15 Mar 2021 15:14:46 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 814654C080;
+ Mon, 15 Mar 2021 15:14:49 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E8DA4C070;
+ Mon, 15 Mar 2021 15:14:49 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.7.179])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 15 Mar 2021 15:14:49 +0000 (GMT)
+To: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: compile warning in i8259.c
+Message-ID: <cc283705-a0ee-5ee4-4f9a-b69afce65d8c@de.ibm.com>
+Date: Mon, 15 Mar 2021 16:14:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <5d7e1480-ca56-b830-d51d-32d51eab18be@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-15_08:2021-03-15,
+ 2021-03-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=856
+ malwarescore=0 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103150109
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,109 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 3:53 PM, Thomas Huth wrote:
-> On 15/03/2021 15.25, Markus Armbruster wrote:
->> Mahmoud, it's generally a good idea to cc: people who commented on a
->> previous iteration of the same patch.  In this case, Thomas.  I'm doing
->> that for you now.
->>
->> Mahmoud Mandour <ma.mandourr@gmail.com> writes:
->>
->>> On Mon, Mar 15, 2021 at 1:13 PM Philippe Mathieu-Daudé
->>> <philmd@redhat.com>
->>> wrote:
->>>
->>>> Hi Mahmoud,
->>>>
->>>> On 3/15/21 11:58 AM, Mahmoud Mandour wrote:
->>>>> Replaced a call to malloc() and its respective call to free()
->>>>> with g_malloc() and g_free().
->>>>>
->>>>> g_malloc() is preferred more than g_try_* functions, which
->>>>> return NULL on error, when the size of the requested
->>>>> allocation  is small. This is because allocating few
->>>>> bytes should not be a problem in a healthy system.
->>>>> Otherwise, the system is already in a critical state.
->>>>>
->>>>> Subsequently, removed NULL-checking after g_malloc().
->>>>>
->>>>> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
->>>>> ---
->>>>>   util/compatfd.c | 8 ++------
->>>>>   1 file changed, 2 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/util/compatfd.c b/util/compatfd.c
->>>>> index 174f394533..a8ec525c6c 100644
->>>>> --- a/util/compatfd.c
->>>>> +++ b/util/compatfd.c
->>>>> @@ -72,14 +72,10 @@ static int qemu_signalfd_compat(const sigset_t
->>>>> *mask)
->>>>>       QemuThread thread;
->>>>>       int fds[2];
->>>>>
->>>>> -    info = malloc(sizeof(*info));
->>>>> -    if (info == NULL) {
->>>>> -        errno = ENOMEM;
->>>>> -        return -1;
->>>>> -    }
->>>>> +    info = g_malloc(sizeof(*info));
->>>>
->>>> Watch out...
->>>>
->>>> https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html
->>>>
->>>>    If any call to allocate memory using functions g_new(), g_new0(),
->>>>    g_renew(), g_malloc(), g_malloc0(), g_malloc0_n(), g_realloc(),
->>>>    and g_realloc_n() fails, the application is terminated.
->>>>
->>>> So with your change instead of handling ENOMEM the QEMU process is
->>>> simply killed.
->>>>
->>>> Don't you want to use g_try_new(struct sigfd_compat_info, 1) here
->>>> instead?
->>>>
->>>>>
->>>>>       if (pipe(fds) == -1) {
->>>>> -        free(info);
->>>>> +        g_free(info);
->>>>>           return -1;
->>>>>       }
->>>>>
->>>>>
->>>>
->>>>
->>> Hello Mr. Philippe,
->>>
->>> That's originally what I did and I sent a patch that uses a g_try_*
->>> variant, and was
->>> instructed by Mr. Thomas Huth that it was better to use g_malloc instead
-> 
-> No need to say "Mr." here ... we're not that formal on this mailing list
-> here :-)
-> 
->>> because this is a small allocation and the process is better killed
->>> if such
->>> an allocation fails because the system is already in a very critical
->>> state
->>> if it does not handle a small allocation well.
->>
->> You even explained this in the commit message.  Appreciated.
->>
->>> You can find Mr. Thomas reply to my previous patch here:
->>> Re: [PATCH 5/8] util/compatfd.c: Replaced a malloc with GLib's variant
->>> (gnu.org)
->>> <https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg05067.html>
->>>
->>> You can instruct me on what to do further.
->>
->> I figure this patch is fine.  Thomas?
-> 
-> Yes, looks good now, thanks for the update, Mahmoud!
-
-I guess I misunderstood the patch description when :)
-
+Rm9yIHNvbWUgdGltZSBub3cgSSBkbyBzZWUgdGhlIGZvbGxvd2luZywgd2hlbiBJIGNvbXBp
+bGUgeDg2LXNvZnRtbXUgb24gczM5MDoNCg0KRkFJTEVEOiBsaWJjb21tb24uZmEucC9od19p
+bnRjX2k4MjU5LmMubw0KY2MgLUlsaWJjb21tb24uZmEucCAtSS4gLUkuLiAtSXFhcGkgLUl0
+cmFjZSAtSXVpIC1JdWkvc2hhZGVyIC1JL3Vzci9pbmNsdWRlL2NhcHN0b25lIC1JL3Vzci9p
+bmNsdWRlL2dsaWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIuMC9pbmNsdWRlIC1JL3Vzci9p
+bmNsdWRlL2xpYm1vdW50IC1JL3Vzci9pbmNsdWRlL2Jsa2lkIC1JL3Vzci9pbmNsdWRlL2dp
+by11bml4LTIuMCAtSS91c3IvaW5jbHVkZS9saWJ1c2ItMS4wIC1JL3Vzci9pbmNsdWRlL3Z0
+ZS0yLjkxIC1JL3Vzci9pbmNsdWRlL3BhbmdvLTEuMCAtSS91c3IvaW5jbHVkZS9oYXJmYnV6
+eiAtSS91c3IvaW5jbHVkZS9mcmVldHlwZTIgLUkvdXNyL2luY2x1ZGUvbGlicG5nMTYgLUkv
+dXNyL2luY2x1ZGUvZnJpYmlkaSAtSS91c3IvaW5jbHVkZS9saWJ4bWwyIC1JL3Vzci9pbmNs
+dWRlL2NhaXJvIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xIC1JL3Vzci9pbmNsdWRlL2d0ay0z
+LjAgLUkvdXNyL2luY2x1ZGUvZ2RrLXBpeGJ1Zi0yLjAgLUkvdXNyL2luY2x1ZGUvYXRrLTEu
+MCAtSS91c3IvaW5jbHVkZS9hdC1zcGkyLWF0ay8yLjAgLUkvdXNyL2luY2x1ZGUvZGJ1cy0x
+LjAgLUkvdXNyL2xpYjY0L2RidXMtMS4wL2luY2x1ZGUgLUkvdXNyL2luY2x1ZGUvYXQtc3Bp
+LTIuMCAtSS91c3IvaW5jbHVkZS92aXJnbCAtSS91c3IvaW5jbHVkZS9wMTEta2l0LTEgLUkv
+dXNyL2luY2x1ZGUvU0RMMiAtSS91c3IvaW5jbHVkZS9jYWNhcmQgLUkvdXNyL2luY2x1ZGUv
+bnNzMyAtSS91c3IvaW5jbHVkZS9uc3ByNCAtSS91c3IvaW5jbHVkZS9zbGlycCAtZmRpYWdu
+b3N0aWNzLWNvbG9yPWF1dG8gLXBpcGUgLVdhbGwgLVdpbnZhbGlkLXBjaCAtV2Vycm9yIC1z
+dGQ9Z251OTkgLU8yIC1nIC1pc3lzdGVtIC9ob21lL2Nib3JudHJhL1JFUE9TL3FlbXUvbGlu
+dXgtaGVhZGVycyAtaXN5c3RlbSBsaW51eC1oZWFkZXJzIC1pcXVvdGUgLiAtaXF1b3RlIC9o
+b21lL2Nib3JudHJhL1JFUE9TL3FlbXUgLWlxdW90ZSAvaG9tZS9jYm9ybnRyYS9SRVBPUy9x
+ZW11L2luY2x1ZGUgLWlxdW90ZSAvaG9tZS9jYm9ybnRyYS9SRVBPUy9xZW11L2Rpc2FzL2xp
+YnZpeGwgLWlxdW90ZSAvaG9tZS9jYm9ybnRyYS9SRVBPUy9xZW11L3RjZy9zMzkwIC1pcXVv
+dGUgL2hvbWUvY2Jvcm50cmEvUkVQT1MvcWVtdS9hY2NlbC90Y2cgLXB0aHJlYWQgLVVfRk9S
+VElGWV9TT1VSQ0UgLURfRk9SVElGWV9TT1VSQ0U9MiAtbTY0IC1EX0dOVV9TT1VSQ0UgLURf
+RklMRV9PRkZTRVRfQklUUz02NCAtRF9MQVJHRUZJTEVfU09VUkNFIC1Xc3RyaWN0LXByb3Rv
+dHlwZXMgLVdyZWR1bmRhbnQtZGVjbHMgLVd1bmRlZiAtV3dyaXRlLXN0cmluZ3MgLVdtaXNz
+aW5nLXByb3RvdHlwZXMgLWZuby1zdHJpY3QtYWxpYXNpbmcgLWZuby1jb21tb24gLWZ3cmFw
+diAtV29sZC1zdHlsZS1kZWNsYXJhdGlvbiAtV29sZC1zdHlsZS1kZWZpbml0aW9uIC1XdHlw
+ZS1saW1pdHMgLVdmb3JtYXQtc2VjdXJpdHkgLVdmb3JtYXQteTJrIC1XaW5pdC1zZWxmIC1X
+aWdub3JlZC1xdWFsaWZpZXJzIC1XZW1wdHktYm9keSAtV25lc3RlZC1leHRlcm5zIC1XZW5k
+aWYtbGFiZWxzIC1XZXhwYW5zaW9uLXRvLWRlZmluZWQgLVdpbXBsaWNpdC1mYWxsdGhyb3Vn
+aD0yIC1Xbm8tbWlzc2luZy1pbmNsdWRlLWRpcnMgLVduby1zaGlmdC1uZWdhdGl2ZS12YWx1
+ZSAtV25vLXBzYWJpIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAtZlBJQyAtRFNUUlVDVF9J
+T1ZFQ19ERUZJTkVEIC1EX1JFRU5UUkFOVCAtV25vLXVuZGVmIC1EX0RFRkFVTFRfU09VUkNF
+IC1EX1hPUEVOX1NPVVJDRT02MDAgLUROQ1VSU0VTX1dJREVDSEFSIC1NRCAtTVEgbGliY29t
+bW9uLmZhLnAvaHdfaW50Y19pODI1OS5jLm8gLU1GIGxpYmNvbW1vbi5mYS5wL2h3X2ludGNf
+aTgyNTkuYy5vLmQgLW8gbGliY29tbW9uLmZhLnAvaHdfaW50Y19pODI1OS5jLm8gLWMgLi4v
+aHcvaW50Yy9pODI1OS5jDQouLi9ody9pbnRjL2k4MjU5LmM6IEluIGZ1bmN0aW9uIOKAmHBp
+Y19yZWFkX2lyceKAmToNCi4uL2h3L2ludGMvaTgyNTkuYzoyMDM6MTM6IGVycm9yOiDigJhp
+cnEy4oCZIG1heSBiZSB1c2VkIHVuaW5pdGlhbGl6ZWQgaW4gdGhpcyBmdW5jdGlvbiBbLVdl
+cnJvcj1tYXliZS11bmluaXRpYWxpemVkXQ0KICAgMjAzIHwgICAgICAgICBpcnEgPSBpcnEy
+ICsgODsNCiAgICAgICB8ICAgICAgICAgfn5+fl5+fn5+fn5+fn4NCmNjMTogYWxsIHdhcm5p
+bmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzDQoNCg0KRHVlIHRvIG90aGVyIGNvbXBpbGUg
+d2FybmluZ3MgSSBmaW5kIHRoaXMgaGFyZCB0byBiaXNlY3QuIEhhcyBhbnlvbmUgc2VlbiB0
+aGlzIGFzIHdlbGw/DQo=
 
