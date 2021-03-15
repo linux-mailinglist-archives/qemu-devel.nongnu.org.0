@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66DA33C220
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 17:36:41 +0100 (CET)
-Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5251933C246
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 17:38:57 +0100 (CET)
+Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLqCu-0004ZL-Ia
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 12:36:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60372)
+	id 1lLqF6-0005pu-A7
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 12:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lLq6M-0002eN-8F
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:29:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52553)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLq77-0003GP-CJ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:30:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lLq6J-0006rQ-AS
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:29:53 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLq75-0007IG-3s
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:30:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615825789;
+ s=mimecast20190719; t=1615825837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X6K3oAPhmKnODfvnq4/dL+y+R9mzdW/rmfwnTKaQ1c0=;
- b=fp3EgGu865wLbIitVvSUMD8g8do555k1h0/8EPNmapPg9mz2rGmUQr4xVJ7rHv4wJholCH
- ym6jNdJkrzvXRMx6NGdd3rtgZZ76O3zQly8kJbxx98xz2JJR3PgVeQQaUFucVguPfhIKwH
- 4rU2AwoZi77pPrM5imAIJVFlKGyRFNU=
+ bh=xGq8Zij8g6ZPp4GHO4BaenUVNH9dvYYQhtcuUJKEQi0=;
+ b=Rpth3sbl6HSYHkc2LJ/oHvK2C6lX+SdtvJw9BmGYoyZwWNJZYsK8jLayyFTt/sB8HAy/b+
+ Rxd0Y4TPVdGgSJpfFrcjMkWrRD6i8FcQU58swFHIQZNZGtgvOOncRRoMrx0cpp+6bf9kRe
+ VQIqmlytX74BDmtFwgPr5lnbcpXcnMI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-HtGPMoY4PtWtG-H-ke6meA-1; Mon, 15 Mar 2021 12:29:48 -0400
-X-MC-Unique: HtGPMoY4PtWtG-H-ke6meA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-520-fobyjdTAPeeVdSqy1bKrtg-1; Mon, 15 Mar 2021 12:30:35 -0400
+X-MC-Unique: fobyjdTAPeeVdSqy1bKrtg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA958800C78;
- Mon, 15 Mar 2021 16:29:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA15F5C3E6;
- Mon, 15 Mar 2021 16:29:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 39EF31132C12; Mon, 15 Mar 2021 17:29:45 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v6 01/10] qemu-options: New -compat to set policy for
- deprecated interfaces
-References: <20210312153210.2810514-1-armbru@redhat.com>
- <20210312153210.2810514-2-armbru@redhat.com>
- <f9740848-f374-c242-90f9-475f38cacf0a@redhat.com>
-Date: Mon, 15 Mar 2021 17:29:45 +0100
-In-Reply-To: <f9740848-f374-c242-90f9-475f38cacf0a@redhat.com> (Eric Blake's
- message of "Mon, 15 Mar 2021 10:41:19 -0500")
-Message-ID: <87a6r4crd2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29690802B7E;
+ Mon, 15 Mar 2021 16:30:34 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C097D10027C4;
+ Mon, 15 Mar 2021 16:30:33 +0000 (UTC)
+Subject: Re: [PATCH v2 1/1] utils: Use fixed-point arithmetic in qemu_strtosz
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210315155835.1970210-1-richard.henderson@linaro.org>
+ <20210315155835.1970210-2-richard.henderson@linaro.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <f3354658-68b5-3975-cf73-9bf615e9e649@redhat.com>
+Date: Mon, 15 Mar 2021 11:30:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210315155835.1970210-2-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,109 +82,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: thuth@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 3/15/21 10:58 AM, Richard Henderson wrote:
+> Once we've parsed the fractional value, extract it into an integral
+> 64-bit fraction.  Perform the scaling with integer arithemetic, and
+> simplify the overflow detection.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tests/unit/test-cutils.c |  2 +-
+>  util/cutils.c            | 50 ++++++++++++++++++++++++++++------------
+>  2 files changed, 36 insertions(+), 16 deletions(-)
+> 
+> diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
+> index bad3a60993..e025b54c05 100644
+> --- a/tests/unit/test-cutils.c
+> +++ b/tests/unit/test-cutils.c
+> @@ -2128,7 +2128,7 @@ static void test_qemu_strtosz_float(void)
+>      str = "12.345M";
+>      err = qemu_strtosz(str, &endptr, &res);
+>      g_assert_cmpint(err, ==, 0);
+> -    g_assert_cmpint(res, ==, (uint64_t) (12.345 * MiB));
+> +    g_assert_cmpint(res, ==, (uint64_t) (12.345 * MiB + 0.5));
 
-> On 3/12/21 9:32 AM, Markus Armbruster wrote:
->> New option -compat lets you configure what to do when deprecated
->> interfaces get used.  This is intended for testing users of the
->> management interfaces.  It is experimental.
->> 
->> -compat deprecated-input=<input-policy> configures what to do when
->> deprecated input is received.  Input policy can be "accept" (accept
->> silently), or "reject" (reject the request with an error).
->> 
->> -compat deprecated-output=<out-policy> configures what to do when
->> deprecated output is sent.  Output policy can be "accept" (pass on
->> unchanged), or "hide" (filter out the deprecated parts).
->> 
->> Default is "accept".  Policies other than "accept" are implemented
->> later in this series.
->> 
->> For now, -compat covers only syntactic aspects of QMP, i.e. stuff
->> tagged with feature 'deprecated'.  We may want to extend it to cover
->> semantic aspects, CLI, and experimental features.
->> 
->> Note that there is no good way for management application to detect
->> presence of -compat: it's not visible output of query-qmp-schema or
->> query-command-line-options.  Tolerable, because it's meant for
->> testing.  If running with -compat fails, skip the test.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> ---
->
->> +++ b/qapi/compat.json
->> @@ -0,0 +1,51 @@
->> +# -*- Mode: Python -*-
->> +
->> +##
->> +# = Compatibility policy
->> +##
->> +
->> +##
->> +# @CompatPolicyInput:
->> +#
->> +# Policy for handling "funny" input.
->> +#
->> +# @accept: Accept silently
->> +# @reject: Reject with an error
->> +#
->> +# Since: 5.2
->
-> 6.0
->
->> +##
->> +{ 'enum': 'CompatPolicyInput',
->> +  'data': [ 'accept', 'reject' ] }
->> +
->> +##
->> +# @CompatPolicyOutput:
->> +#
->> +# Policy for handling "funny" output.
->> +#
->> +# @accept: Pass on unchanged
->> +# @hide: Filter out
->> +#
->> +# Since: 5.2
->
-> and here
->
->> +##
->> +{ 'enum': 'CompatPolicyOutput',
->> +  'data': [ 'accept', 'hide' ] }
->> +
->> +##
->> +# @CompatPolicy:
->> +#
->> +# Policy for handling deprecated management interfaces.
->> +#
->> +# This is intended for testing users of the management interfaces.
->> +#
->> +# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
->> +# with feature 'deprecated'.  We may want to extend it to cover
->> +# semantic aspects, CLI, and experimental features.
->> +#
->> +# @deprecated-input: how to handle deprecated input (default 'accept')
->> +# @deprecated-output: how to handle deprecated output (default 'accept')
->> +#
->> +# Since: 5.2
->
-> and here
->
->> +##
->> +{ 'struct': 'CompatPolicy',
->> +  'data': { '*deprecated-input': 'CompatPolicyInput',
->> +            '*deprecated-output': 'CompatPolicyOutput' } }
->> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
->> index 3441c9a9ae..4912b9744e 100644
->
-> R-b still stands once you make the necessary tweaks.
+This tweak makes sense ;)
 
-I thought I had updated these...  Thanks for catching my mistake!
+>      g_assert(endptr == str + 7);
+>  }
+>  
+> diff --git a/util/cutils.c b/util/cutils.c
+> index d89a40a8c3..c442882b88 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -275,10 +275,9 @@ static int do_strtosz(const char *nptr, const char **end,
+>      int retval;
+>      const char *endptr, *f;
+>      unsigned char c;
+> -    bool mul_required = false, hex = false;
+> -    uint64_t val;
+> +    bool hex = false;
+> +    uint64_t val, valf = 0;
+>      int64_t mul;
+> -    double fraction = 0.0;
+>  
+>      /* Parse integral portion as decimal. */
+>      retval = qemu_strtou64(nptr, &endptr, 10, &val);
+> @@ -308,17 +307,19 @@ static int do_strtosz(const char *nptr, const char **end,
+>           * without fractional digits.  If we see an exponent, treat
+>           * the entire input as invalid instead.
+>           */
+> +        double fraction;
+> +
+>          f = endptr;
+>          retval = qemu_strtod_finite(f, &endptr, &fraction);
+>          if (retval) {
+> -            fraction = 0.0;
+
+dropped, because valf is already 0. Okay.
+
+>              endptr++;
+>          } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
+>              endptr = nptr;
+>              retval = -EINVAL;
+>              goto out;
+> -        } else if (fraction != 0) {
+> -            mul_required = true;
+> +        } else {
+> +            /* Extract into a 64-bit fixed-point fraction. */
+> +            valf = (uint64_t)(fraction * 0x1p64);
+
+Nice.
+
+>          }
+>      }
+>      c = *endptr;
+> @@ -333,16 +334,35 @@ static int do_strtosz(const char *nptr, const char **end,
+>          mul = suffix_mul(default_suffix, unit);
+>          assert(mul > 0);
+>      }
+> -    if (mul == 1 && mul_required) {
+> -        endptr = nptr;
+> -        retval = -EINVAL;
+> -        goto out;
+> +    if (mul == 1) {
+> +        /* When a fraction is present, a scale is required. */
+> +        if (valf != 0) {
+> +            endptr = nptr;
+> +            retval = -EINVAL;
+> +            goto out;
+> +        }
+> +    } else {
+> +        uint64_t valh, tmp;
+> +
+> +        /* Compute exact result: 64.64 x 64.0 -> 128.64 fixed point */
+> +        mulu64(&val, &valh, val, mul);
+> +        mulu64(&valf, &tmp, valf, mul);
+> +        val += tmp;
+> +        valh += val < tmp;
+> +
+> +        /* Round 0.5 upward. */
+> +        tmp = valf >> 63;
+> +        val += tmp;
+> +        valh += val < tmp;
+> +
+> +        /* Report overflow. */
+> +        if (valh != 0) {
+> +            retval = -ERANGE;
+> +            goto out;
+> +        }
+
+More verbose, but definitely exact.
+
+>      }
+> -    if (val > (UINT64_MAX - ((uint64_t) (fraction * mul))) / mul) {
+> -        retval = -ERANGE;
+> -        goto out;
+> -    }
+> -    *result = val * mul + (uint64_t) (fraction * mul);
+> +
+> +    *result = val;
+>      retval = 0;
+>  
+>  out:
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
