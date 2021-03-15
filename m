@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72F533B00C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:35:34 +0100 (CET)
-Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBAE33B016
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:38:37 +0100 (CET)
+Received: from localhost ([::1]:45118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLkZR-0006SK-W1
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:35:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1lLkcO-00086a-IT
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLkYT-00061f-D6
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:34:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1lLkaI-00075H-Ly
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLkYR-0004rD-DQ
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:34:32 -0400
+ id 1lLkaF-000648-Q1
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:36:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615804470;
+ s=mimecast20190719; t=1615804582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=431mRLYrZnormo7qxu5CSX4dgFN7UsFM69dUP7Ig7cc=;
- b=P366qI9SMgIUB3tt7KtwNjq3e4DUImebKI50ipqiP4i//AC4H8j6PrTIoEHY3xsP8B7Gxp
- r4KAfC/OaqPmySgjBloQTpNA5pBHASFVJbXzzzG5QhJcqtwYnur+p+nvihmcpYxEkIDqnc
- Jbb2zc48UpjvF9tZAkDMjaMe1SxaMMw=
+ bh=56B6aIe++0DczDVhIDRxVw3oq05rDqq9FMRfJ7y+gPo=;
+ b=E/uPrEgp0iWfF+Ibw9PXExaHCDN9Ylkg9bSsJeQaU6MLPFeJ0lqVJZ+jrFfSt3BHr+11Xx
+ fN8d3ef+rUgm3F4uivbyRqJbT3N5ZU5aeizJNnJwPQuAW0GEhBPvz+2JZ34iOtpfIfBt/I
+ siu0b078pXRqgWPSuWHRaPi7Rt3nIt8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-CPWYurMwNfeAYcNcycAdlQ-1; Mon, 15 Mar 2021 06:34:27 -0400
-X-MC-Unique: CPWYurMwNfeAYcNcycAdlQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-501-VnsjOTWMNuyZuA8LfQPChw-1; Mon, 15 Mar 2021 06:36:19 -0400
+X-MC-Unique: VnsjOTWMNuyZuA8LfQPChw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5E65107ACCA;
- Mon, 15 Mar 2021 10:34:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC2F61932486;
+ Mon, 15 Mar 2021 10:36:18 +0000 (UTC)
 Received: from localhost (ovpn-115-125.ams2.redhat.com [10.36.115.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8245319D7C;
- Mon, 15 Mar 2021 10:34:17 +0000 (UTC)
-Date: Mon, 15 Mar 2021 10:34:16 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9C00100239A;
+ Mon, 15 Mar 2021 10:36:11 +0000 (UTC)
+Date: Mon, 15 Mar 2021 10:36:10 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 1/7] vhost-user: Drop misleading EAGAIN checks in
- slave_read()
-Message-ID: <YE84KNmp83FLmT36@stefanha-x1.localdomain>
+Subject: Re: [PATCH v2 2/7] vhost-user: Fix double-close on slave_read()
+ error path
+Message-ID: <YE84mp9zLcGthhDg@stefanha-x1.localdomain>
 References: <20210312092212.782255-1-groug@kaod.org>
- <20210312092212.782255-2-groug@kaod.org>
+ <20210312092212.782255-3-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210312092212.782255-2-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210312092212.782255-3-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="h7ASQcmT1/dJBGxR"
+ protocol="application/pgp-signature"; boundary="mZrQjOpYGClovNAv"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -87,43 +87,53 @@ Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---h7ASQcmT1/dJBGxR
+--mZrQjOpYGClovNAv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 12, 2021 at 10:22:06AM +0100, Greg Kurz wrote:
-> slave_read() checks EAGAIN when reading or writing to the socket
-> fails. This gives the impression that the slave channel is in
-> non-blocking mode, which is certainly not the case with the current
-> code base. And the rest of the code isn't actually ready to cope
-> with non-blocking I/O.
+On Fri, Mar 12, 2021 at 10:22:07AM +0100, Greg Kurz wrote:
+> Some message types, e.g. VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG,
+> can convey file descriptors. These must be closed before returning
+> from slave_read() to avoid being leaked. This can currently be done
+> in two different places:
 >=20
-> Just drop the checks everywhere in this function for the sake of
-> clarity.
+> [1] just after the request has been processed
+>=20
+> [2] on the error path, under the goto label err:
+>=20
+> These path are supposed to be mutually exclusive but they are not
+> actually. If the VHOST_USER_NEED_REPLY_MASK flag was passed and the
+> sending of the reply fails, both [1] and [2] are performed with the
+> same descriptor values. This can potentially cause subtle bugs if one
+> of the descriptor was recycled by some other thread in the meantime.
+>=20
+> This code duplication complicates rollback for no real good benefit.
+> Do the closing in a unique place, under a new fdcleanup: goto label
+> at the end of the function.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
->  hw/virtio/vhost-user.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  hw/virtio/vhost-user.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---h7ASQcmT1/dJBGxR
+--mZrQjOpYGClovNAv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPOCgACgkQnKSrs4Gr
-c8jKGwf+ItwXJlgnHNQ6Ge+37OeUgwiUHr3roZ8idwRXNqxYil7KpCOXcu/8cHvP
-t3YW7Hb7LgPCg6IYNcgMr2bIZSS/znBuMnthbnmnBkpfPYVXvuWTXFJRufa3z61g
-kyoQ3DJn2nB+lWFt3MZgYSBAq134wSg01AeLAARAF0NQ0mcfT1sZYlsqRChRJU/S
-lBSbzSv2RGUCagd0q8kfaz5AZOvTY8RCxWCAaPCkEPKG6WGOv5WKhZSGAyXbiWAd
-1wE4JbCq4AC7QNORBiEgDaz0GRT5zxxJDj3uw3+sTZF5xFoWTrhu2N8EYz/yLLjd
-E6nOvYzG82cC/Pe9GBsPnDlXQyYm5A==
-=OjTR
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPOJoACgkQnKSrs4Gr
+c8i6uwf+JwmQhn/F/YcxZJKo1B0eaXq7LNzPWlWuAkMTo6UKxobGYWbE3Mp5rpPm
+4+VirdQ58yz7nyhEBwlVG5O+Nk6ddFVSizWK6BEifgebahfCMGRLIqTY1K44hjon
+T5eyc9Qd7SZE1velPFapxSr6ydybn7895bB48dysAM3MF9NC+I//qPhh0J/ZtbI6
+w0t+Nm47URhsYZlljJZP3Wt4T5oQfWTY9D5ycfriDwDey5tnZLJHsSI0x90jLyVd
+YpynF4ibsLMEjXEH2O0fzAPelF/YGG1wqpp5eroPzZbaURmyypuuNhywi3m1SCoX
+7LQ33ra2Z6frm6/iMmvVy4Cnogf83g==
+=Y75D
 -----END PGP SIGNATURE-----
 
---h7ASQcmT1/dJBGxR--
+--mZrQjOpYGClovNAv--
 
 
