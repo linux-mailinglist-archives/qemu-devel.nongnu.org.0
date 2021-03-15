@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF47833AC75
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 08:46:09 +0100 (CET)
-Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C646733ACE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 08:59:35 +0100 (CET)
+Received: from localhost ([::1]:37592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLhvU-00054O-OP
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 03:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40842)
+	id 1lLi8U-0001Hf-JX
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 03:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLhuB-0004dj-B6
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 03:44:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLhu8-00050M-I7
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 03:44:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615794283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=05dDXXhui2nMxHr8s5f6KcwQrOOpgP6LXoUDyuYyIgs=;
- b=Exh1PceS/WJkiD+gxox9E+CA1KDIcNvT00urMrT+uLTHuseZjb+XLveo5Z5zl09NWwY5+/
- JWvjISs5g6trCRA9BfkhMdRIsQNvqYef5QEGfLT+P4XHo6BZK16A6pRqtCsxy3frcrx9rt
- LlacvnIXPy0nsykb5jDNnp6u4pcXK/U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-Cpt7CjU_P9mVAm6dsRF4Sg-1; Mon, 15 Mar 2021 03:44:41 -0400
-X-MC-Unique: Cpt7CjU_P9mVAm6dsRF4Sg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADC9F817469;
- Mon, 15 Mar 2021 07:44:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5006C620DE;
- Mon, 15 Mar 2021 07:44:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3C17C18000B7; Mon, 15 Mar 2021 08:44:38 +0100 (CET)
-Date: Mon, 15 Mar 2021 08:44:38 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Konstantin Nazarov <mail@knazarov.com>
-Subject: Re: [PATCH v2] edid: add support for DisplayID extension (5k
- resolution)
-Message-ID: <20210315074438.ijtuet4vkra7o56d@sirius.home.kraxel.org>
-References: <20210314091236.44313-1-mail@knazarov.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lLi6Z-00084x-Ly
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 03:57:36 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:38920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lLi6W-0004EZ-2B
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 03:57:35 -0400
+Received: by mail-pf1-x429.google.com with SMTP id 18so6055656pfo.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 00:57:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3kRzKM79K00+pQsZHekZLMwyUh+vCtIFFe6KazY4ISQ=;
+ b=k7xhD7RlEtVpgPVoiOXkQQ5zxtwW42lTTRQrjF/G7RG3J6jOH27+14k1QzH6X7DEi1
+ pO+klVynZr5W+2jMo0KCXiBTDmzlPMEVPr4fBd58KDiJJMOMSw9hMWAWcYPwA9Ay+kgO
+ 0wO0CiEnVAoj5ArrfAIyN7/6l8GG0pSCHVWbUsy7mnkXFBvslntul66uUQE0PzLdIP2f
+ /KN6KwgpcC5lz6AinQkmjH8MWDZ4dYq9xrxtcycZPFm9rFSMO79nW9hjtnXwoNtrwMpP
+ fl1svJCuI/NlAq7w4+5DC09qWiZk71vCR1kK/gJxpbI/6+pSbK1KIK81EP6EAu2hRKbp
+ mTeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3kRzKM79K00+pQsZHekZLMwyUh+vCtIFFe6KazY4ISQ=;
+ b=Q693h5W05MVbaKxyefPnpUHfIXAOj+S/FVDkHb7CUR0Majnsn2VkaUDplNIbA78zij
+ QkCtUO+fNkSRp6Ma9tYwzwWQIh63BV2mdFHRR6iveapkLovp+Qy7zif/9pYsKhXmSTla
+ 5oYj8kFdwpqDmW7p6mQGAve6SbsYZ/FeNTQWAOTcXYR1ZNXgslNUsWiKdTGtQ7PPLAe/
+ iJlmsslsBLPEX9WiYp7Ka++6bzIaEQkcXwB3ybnHAvbtCqVuSHGW/Ug5N8VB1m+7rTq8
+ UzMXvm7jp69HWK1yVnlHK3d3Af+7880fJ50F/Wjxyme3WmXfSRZzxkeClzYV5UVRIMOK
+ taVQ==
+X-Gm-Message-State: AOAM532A711X3PrpZ2CPpy89+Lneu5Wjo0rvzBgwZMpNPL9GM13eMcdU
+ x0pNRoGOLR0Uz8l6Bk/XuLk=
+X-Google-Smtp-Source: ABdhPJyMrH0f/sx7PpViWibg9x5BmjOaDg6SEf3p0ihVRef3e9WY/A2wtbgq1zNcsclHe2o4x7aQqg==
+X-Received: by 2002:a62:764c:0:b029:1ef:20d2:b44 with SMTP id
+ r73-20020a62764c0000b02901ef20d20b44mr9032805pfc.45.1615795049525; 
+ Mon, 15 Mar 2021 00:57:29 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id y9sm10166745pja.50.2021.03.15.00.57.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 00:57:28 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH v2 00/13] net: Pad short frames for network backends
+Date: Mon, 15 Mar 2021 15:57:05 +0800
+Message-Id: <20210315075718.5402-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210314091236.44313-1-mail@knazarov.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,38 +85,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> +typedef struct Timings {
+The minimum Ethernet frame length is 60 bytes. For short frames with
+smaller length like ARP packets (only 42 bytes), on a real world NIC
+it can choose either padding its length to the minimum required 60
+bytes, or sending it out directly to the wire. Such behavior can be
+hardcoded or controled by a register bit. Similarly on the receive
+path, NICs can choose either dropping such short frames directly or
+handing them over to software to handle.
 
-> +static void generate_timings(Timings *timings, uint32_t refresh_rate,
-> +                             uint32_t xres, uint32_t yres)
+On the other hand, for the network backends like SLiRP/TAP, they
+don't expose a way to control the short frame behavior. As of today
+they just send/receive data from/to the other end connected to them,
+which means any sized packet is acceptable. So they can send and
+receive short frames without any problem. It is observed that ARP
+packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
+these ARP packets to the other end which might be a NIC model that
+does not allow short frames to pass through.
 
-Adding these should be splitted to a separate patch.
+To provide better compatibility, for packets sent from QEMU network
+backends, we change to pad short frames before sending it out to the
+other end. This ensures a backend as an Ethernet sender does not
+violate the spec. But with this change, the behavior of dropping
+short frames in the NIC model cannot be emulated because it always
+receives a packet that is spec complaint. The capability of sending
+short frames from NIC models cannot be supported as well.
 
-> -static void edid_checksum(uint8_t *edid)
-> +static void edid_checksum(uint8_t *edid, size_t len)
+This series should be able to fix the issue as reported with some
+NIC models before, that ARP requests get dropped, preventing the
+guest from becoming visible on the network. It was workarounded in
+these NIC models on the receive path, that when a short frame is
+received, it is padded up to 60 bytes.
 
-Why this change?  Also a good candidate for a separate patch.
+Changes in v2:
+- Do the padding in the slirp/tap codes, instead of net core
+- Add a 'do_not_pad' flag to NetClientState to allow net clients to
+  tell peer that no padding is needed, e.g.: virtio-net
 
-> +    if (size >= 384) {
-> +        did = edid + 256;
+Bin Meng (13):
+  net: Add ETH_ZLEN define in eth.h
+  net: Add a 'do_not_pad" to NetClientState
+  net: slirp: Pad short frames to minimum size before send
+  net: tap: Pad short frames to minimum size before send
+  hw/net: virtio-net: Initialize nc->do_not_pad to true
+  hw/net: e1000: Remove the logic of padding short frames in the receive
+    path
+  hw/net: vmxnet3: Remove the logic of padding short frames in the
+    receive path
+  hw/net: i82596: Remove the logic of padding short frames in the
+    receive path
+  hw/net: ne2000: Remove the logic of padding short frames in the
+    receive path
+  hw/net: pcnet: Remove the logic of padding short frames in the receive
+    path
+  hw/net: rtl8139: Remove the logic of padding short frames in the
+    receive path
+  hw/net: sungem: Remove the logic of padding short frames in the
+    receive path
+  hw/net: sunhme: Remove the logic of padding short frames in the
+    receive path
 
-"if (size >= 384 && large_screen)" ?
-Also setting did should be next to setting dta.
+ include/net/eth.h   |  1 +
+ include/net/net.h   |  1 +
+ hw/net/e1000.c      | 11 +----------
+ hw/net/i82596.c     | 18 ------------------
+ hw/net/ne2000.c     | 12 ------------
+ hw/net/pcnet.c      |  9 ---------
+ hw/net/rtl8139.c    | 12 ------------
+ hw/net/sungem.c     | 14 --------------
+ hw/net/sunhme.c     | 11 -----------
+ hw/net/virtio-net.c |  4 ++++
+ hw/net/vmxnet3.c    | 10 ----------
+ net/slirp.c         | 12 ++++++++++++
+ net/tap-win32.c     | 12 ++++++++++++
+ net/tap.c           | 12 ++++++++++++
+ 14 files changed, 43 insertions(+), 96 deletions(-)
 
-
-       if (did) {
-> +        dummy_displayid(did);
-
-init_displayid() ?
-
-Especially if we generate that only in case we actually have a large
-screen so we never have an empty extension section?
-
-take care,
-  Gerd
+-- 
+2.25.1
 
 
