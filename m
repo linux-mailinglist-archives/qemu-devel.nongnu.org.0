@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E321833C57B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:24:30 +0100 (CET)
-Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567CE33C58E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:27:09 +0100 (CET)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrtF-000135-Sv
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34956)
+	id 1lLrvo-0004ie-7A
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYW-0002CA-JM
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23962)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYZ-0002G8-Au
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYN-0000XL-SM
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYX-0000ak-8c
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615831374;
+ s=mimecast20190719; t=1615831384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MzAN2TIAtzKIQCHNs4ewubbNW0R4HXiUsBmusDUXPrg=;
- b=d+dwx6JUcyPwbE6XjCmoa1H5qV5cXMR5scUaU2lDDlAk1D5QpPguQboEuctj3OJu2jPSmh
- qVdPvkjcOVlH5DKCSDN7oK70oVgrKPz1/Ka9Lz4f2t14bH1jITC0mb3kCV0Yq/KEB9L3Y0
- OE64eRohkp0m3VsAEm0fC/OPxyhC67o=
+ bh=NnYj+Ud94yZuYTKYu1oplzmvSJIFCNsTmjib9Tj3UNM=;
+ b=FgH1UCaroNBSDIuLksHu/IRVxF9hBZWbvoiEne4CByeggNXDYyVP0+h1T+cVy0LSRXPI8C
+ UUb6hmLFYBpisYvKCThnOYYlG+D6zXPCgM4tizwf9kY8PkYMYY9q4YnSG7wz2fS2PuG2XP
+ oLk8C6RpLdS9tp7twb122xHNF3fwi3U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-V1hCmUDdNmK1-soMiVBpBg-1; Mon, 15 Mar 2021 14:02:52 -0400
-X-MC-Unique: V1hCmUDdNmK1-soMiVBpBg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-312-tbov__GHNvW6X4thpP4aGQ-1; Mon, 15 Mar 2021 14:02:59 -0400
+X-MC-Unique: tbov__GHNvW6X4thpP4aGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5726C108BD0D;
- Mon, 15 Mar 2021 18:02:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0AD718460E8;
+ Mon, 15 Mar 2021 18:02:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC8D96060F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0FB45D75A;
  Mon, 15 Mar 2021 18:02:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6C2FE18007BE; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
+ id A4EB31800842; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/13] hw/usb: Extract VT82C686 UHCI PCI function into a new
- unit
-Date: Mon, 15 Mar 2021 19:02:35 +0100
-Message-Id: <20210315180240.1597240-9-kraxel@redhat.com>
+Subject: [PULL 12/13] usb/storage: add kconfig symbols
+Date: Mon, 15 Mar 2021 19:02:39 +0100
+Message-Id: <20210315180240.1597240-13-kraxel@redhat.com>
 In-Reply-To: <20210315180240.1597240-1-kraxel@redhat.com>
 References: <20210315180240.1597240-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -87,136 +86,60 @@ Cc: libvir-list@redhat.com, Huacai Chen <chenhuacai@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Add new kconfig symbols so usb-storage and usb-bot can
+be enabled or disabled individually at build time.
 
-Extract the VT82C686 PCI UHCI function into a new unit so
-it is only build when the VT82C686 south bridge is selected.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210309190802.830969-4-f4bug@amsat.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20210312090425.772900-5-kraxel@redhat.com>
 ---
- hw/usb/hcd-uhci.c          | 23 --------------------
- hw/usb/vt82c686-uhci-pci.c | 43 ++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                |  1 +
- hw/usb/meson.build         |  1 +
- 4 files changed, 45 insertions(+), 23 deletions(-)
- create mode 100644 hw/usb/vt82c686-uhci-pci.c
+ hw/usb/Kconfig     | 13 ++++++++++++-
+ hw/usb/meson.build |  4 ++--
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index d6338c33d863..0cb02a643214 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -1207,21 +1207,6 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
-     pci_register_bar(&s->dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &s->io_bar);
- }
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index 40093d7ea6bf..53f8283ffdc1 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -66,11 +66,22 @@ config USB_TABLET_WACOM
+     default y
+     depends on USB
  
--static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
--{
--    UHCIState *s = UHCI(dev);
--    uint8_t *pci_conf = s->dev.config;
--
--    /* USB misc control 1/2 */
--    pci_set_long(pci_conf + 0x40,0x00001000);
--    /* PM capability */
--    pci_set_long(pci_conf + 0x80,0x00020001);
--    /* USB legacy support  */
--    pci_set_long(pci_conf + 0xc0,0x00002000);
--
--    usb_uhci_common_realize(dev, errp);
--}
--
- static void usb_uhci_exit(PCIDevice *dev)
- {
-     UHCIState *s = UHCI(dev);
-@@ -1318,14 +1303,6 @@ static UHCIInfo uhci_info[] = {
-         .revision  = 0x01,
-         .irq_pin   = 3,
-         .unplug    = true,
--    },{
--        .name      = "vt82c686b-usb-uhci",
--        .vendor_id = PCI_VENDOR_ID_VIA,
--        .device_id = PCI_DEVICE_ID_VIA_UHCI,
--        .revision  = 0x01,
--        .irq_pin   = 3,
--        .realize   = usb_uhci_vt82c686b_realize,
--        .unplug    = true,
-     },{
-         .name      = "ich9-usb-uhci1", /* 00:1d.0 */
-         .vendor_id = PCI_VENDOR_ID_INTEL,
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-new file mode 100644
-index 000000000000..b109c2160335
---- /dev/null
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -0,0 +1,43 @@
-+#include "qemu/osdep.h"
-+#include "hcd-uhci.h"
++config USB_STORAGE_CORE
++    bool
++    depends on USB
++    select SCSI
 +
-+static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-+{
-+    UHCIState *s = UHCI(dev);
-+    uint8_t *pci_conf = s->dev.config;
++config USB_STORAGE_CLASSIC
++    bool
++    default y
++    depends on USB
++    select USB_STORAGE_CORE
 +
-+    /* USB misc control 1/2 */
-+    pci_set_long(pci_conf + 0x40, 0x00001000);
-+    /* PM capability */
-+    pci_set_long(pci_conf + 0x80, 0x00020001);
-+    /* USB legacy support  */
-+    pci_set_long(pci_conf + 0xc0, 0x00002000);
-+
-+    usb_uhci_common_realize(dev, errp);
-+}
-+
-+static UHCIInfo uhci_info[] = {
-+    {
-+        .name      = "vt82c686b-usb-uhci",
-+        .vendor_id = PCI_VENDOR_ID_VIA,
-+        .device_id = PCI_DEVICE_ID_VIA_UHCI,
-+        .revision  = 0x01,
-+        .irq_pin   = 3,
-+        .realize   = usb_uhci_vt82c686b_realize,
-+        .unplug    = true,
-+    }
-+};
-+
-+static const TypeInfo vt82c686b_usb_uhci_type_info = {
-+    .parent         = TYPE_UHCI,
-+    .name           = "vt82c686b-usb-uhci",
-+    .class_init     = uhci_data_class_init,
-+    .class_data     = uhci_info,
-+};
-+
-+static void vt82c686b_usb_uhci_register_types(void)
-+{
-+    type_register_static(&vt82c686b_usb_uhci_type_info);
-+}
-+
-+type_init(vt82c686b_usb_uhci_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ca3c9f851f9..b6ab3d25a751 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1180,6 +1180,7 @@ S: Odd Fixes
- F: hw/mips/fuloong2e.c
- F: hw/isa/vt82c686.c
- F: hw/pci-host/bonito.c
-+F: hw/usb/vt82c686-uhci-pci.c
- F: include/hw/isa/vt82c686.h
+ config USB_STORAGE_BOT
+     bool
+     default y
+     depends on USB
+-    select SCSI
++    select USB_STORAGE_CORE
  
- Loongson-3 virtual platforms
+ config USB_STORAGE_UAS
+     bool
 diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 653192cff6fa..6e3159798e93 100644
+index 9e4da68e3b6c..fb7a74e73ae8 100644
 --- a/hw/usb/meson.build
 +++ b/hw/usb/meson.build
-@@ -32,6 +32,7 @@ softmmu_ss.add(when: 'CONFIG_USB_DWC3', if_true: files('hcd-dwc3.c'))
- softmmu_ss.add(when: 'CONFIG_TUSB6010', if_true: files('tusb6010.c'))
- softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('chipidea.c'))
- softmmu_ss.add(when: 'CONFIG_IMX_USBPHY', if_true: files('imx-usb-phy.c'))
-+softmmu_ss.add(when: 'CONFIG_VT82C686', if_true: files('vt82c686-uhci-pci.c'))
- specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-usb2-ctrl-regs.c'))
- specific_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsystem.c'))
- 
+@@ -40,9 +40,9 @@ specific_ss.add(when: 'CONFIG_XLNX_USB_SUBSYS', if_true: files('xlnx-usb-subsyst
+ softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hub.c'))
+ softmmu_ss.add(when: 'CONFIG_USB', if_true: files('dev-hid.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_TABLET_WACOM', if_true: files('dev-wacom.c'))
+-softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage.c'))
++softmmu_ss.add(when: 'CONFIG_USB_STORAGE_CORE', if_true: files('dev-storage.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage-bot.c'))
+-softmmu_ss.add(when: 'CONFIG_USB_STORAGE_BOT', if_true: files('dev-storage-classic.c'))
++softmmu_ss.add(when: 'CONFIG_USB_STORAGE_CLASSIC', if_true: files('dev-storage-classic.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_STORAGE_UAS', if_true: files('dev-uas.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_AUDIO', if_true: files('dev-audio.c'))
+ softmmu_ss.add(when: 'CONFIG_USB_SERIAL', if_true: files('dev-serial.c'))
 -- 
 2.29.2
 
