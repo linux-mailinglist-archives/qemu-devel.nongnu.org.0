@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7DB33C7C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:34:19 +0100 (CET)
-Received: from localhost ([::1]:47626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDED933C7E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:41:54 +0100 (CET)
+Received: from localhost ([::1]:51652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLtur-0000ip-KA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
+	id 1lLu2D-0003Nm-Mo
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLtsR-0008LX-3F
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:31:47 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58331)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLts5-0006n7-T4
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:31:43 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.244])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7B6109079CD9;
- Mon, 15 Mar 2021 21:31:21 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 15 Mar
- 2021 21:31:20 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002ec0c526e-364c-4533-b15b-4c282975d09e,
- C2FE56B6373390384040EEB24197F6B99D02A218) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 15 Mar 2021 21:31:19 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 8/9] hw/9pfs/9p-synth: Replaced qemu_mutex_lock with
- QEMU_LOCK_GUARD
-Message-ID: <20210315213119.560e949e@bahia.lan>
-In-Reply-To: <14052416.xYJ9m3zWAp@silver>
-References: <20210311031538.5325-1-ma.mandourr@gmail.com>
- <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
- <20210313085121.625fe50e@bahia.lan> <14052416.xYJ9m3zWAp@silver>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lLu0Y-0002eV-NT
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:40:10 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:45929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lLu0V-000218-QX
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:40:10 -0400
+Received: by mail-qk1-x729.google.com with SMTP id m186so16465484qke.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 13:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0HNRdXOLI0iSRy67gqzQq2Zt89PPHYP+0Szsh23enG4=;
+ b=DIeWgFsEJOr6LZp4zgWd5DQfb4Z9wDWilcBdKeBEx/IFJSajP+ZmIJvrnlFEBGsQGM
+ mGk/fqBtMW5yh/wGbcE+K6BENA1JuL7wjjyhyrvGF4CZT7yxS9XlhrAQym32DXIc7Z6h
+ BxNKw7001ycG27rvPP/gshAZNkixjogdbOZFukf18mg0qoKXgU1lWHWMfNgPOTzFl6Tw
+ RvygGEXdIBHHY4pbZ43ZVdGRTodnFeACu6PcR8mvcvNij1bv7r54CANq5aVdgUupwfo0
+ NHlO2Y8U2qDL1ulAu5EK5NSfibJDBe712ZyNrevLvy63cfOF7OMY77IKfwX6jDQVVzRX
+ DR9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0HNRdXOLI0iSRy67gqzQq2Zt89PPHYP+0Szsh23enG4=;
+ b=BFSIlnnuN1GnTcy+eXAZbqoLPkIZ5u/ZNSwgCtKs6ln91aONzF0G5jVG74ELQXlgXh
+ 05CraO061mUFC0S/m6UPTfKeE90Nxs3/ipSOEsr7yqQuuHkHgp3mljgAU9PJwSbFDy+V
+ 7JmRJhI/4lzLOyYwbgGEvHhGjSapHki+t3xbTRkDBdg0w4XRqbRK2vVihFao/yNyCK1y
+ wpJ4JfGRUFQAIlMChyzaymQk/rOpJqlisG0bhVfPdWfLuAwRlSKQ/AEfCqQiPWCUZ901
+ p9Vv5xYfcaH1s8BF83XxN+DwsphvFcAl+OnTjbwhfOAgyc4784H+yMirhdaOThUALOF0
+ hkUw==
+X-Gm-Message-State: AOAM532hEFtnzFof+kV2mMRQxVJYUi2iweVonGvPbnB76QUNVZ9Hdk0f
+ 8w7XvsEx5JSbvLku+choTFCSZLjzkNmYUUaP
+X-Google-Smtp-Source: ABdhPJxAIJV4CAcgq3vRx/PEIGWlr0i1dOyeRT4BYhKEln2OwSOozAm3JHrU6sdIg1ZeqIjNf1n1ig==
+X-Received: by 2002:a37:44e:: with SMTP id 75mr26398851qke.150.1615840806336; 
+ Mon, 15 Mar 2021 13:40:06 -0700 (PDT)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id g74sm13495472qke.3.2021.03.15.13.40.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 13:40:05 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Use signed lengths in uaccess.c
+Date: Mon, 15 Mar 2021 14:40:04 -0600
+Message-Id: <20210315204004.2025219-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 3f04ff20-840c-4091-affa-29fc79aca116
-X-Ovh-Tracer-Id: 14130325306691656123
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvledgudegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepmhhsthesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,176 +81,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Mar 2021 17:07:50 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Partially revert 09f679b62dff, but only for the length arguments.
+Instead of reverting to long, use ssize_t.  Reinstate the > 0 check
+in unlock_user.
 
-> On Samstag, 13. M=C3=A4rz 2021 08:51:21 CET Greg Kurz wrote:
-> > On Sat, 13 Mar 2021 07:43:38 +0200
-> >=20
-> > Mahmoud Mandour <ma.mandourr@gmail.com> wrote:
-> > > Thanks for the fast review. I asked on the QEMU IRC channel
-> > > before committing whether to put all the changes into one patch
-> > > or split them and was instructed that it was better to split them up.
-> > > But in any case I was open to both ways and you can decide
-> > > on the best way to go.
-> >=20
-> > People only do inline replies here. Please don't top-post for the
-> > sake of clarity.
-> >=20
-> > So, the instructions to split the patches is obviously the way to go. T=
-he
-> > question here is rather : will each subsystem maintainer pick up patches
-> > from this series or will only one maintainer pick up all the patches af=
-ter
-> > they have been acked by the other maintainers ?
->=20
-> We need a call here. :)
->=20
-> Soft freeze is tomorrow, so will one submaintainer handle this series all=
-=20
-> together or should each submaintainer handle only their specific patches?
->=20
+Fixes: 09f679b62dff
+Reported-by: Coverity (CID 1446711)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/qemu.h    | 15 +++++++++------
+ linux-user/uaccess.c | 12 ++++++------
+ 2 files changed, 15 insertions(+), 12 deletions(-)
 
-I see that some of Mahmoud's patches in Dave Gilbert's latest PR, so I
-guess you can go ahead and merge this one in the 9p tree.
-
-> > > On Thu, Mar 11, 2021 at 1:59 PM Christian Schoenebeck <
-> > >=20
-> > > qemu_oss@crudebyte.com> wrote:
-> > > > On Donnerstag, 11. M=C3=A4rz 2021 12:52:45 CET Greg Kurz wrote:
-> > > > > On Thu, 11 Mar 2021 11:49:06 +0100
-> > > > >=20
-> > > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > > > On Donnerstag, 11. M=C3=A4rz 2021 04:15:37 CET Mahmoud Mandour =
-wrote:
-> > > > > > > Replaced a call to qemu_mutex_lock and its respective call to
-> > > > > > > qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their pla=
-ce.
-> > > > > > > This simplifies the code by removing the call required to unl=
-ock
-> > > > > > > and also eliminates goto paths.
-> > > > > > >=20
-> > > > > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> > > > > > > ---
-> > > > > > >=20
-> > > > > > >  hw/9pfs/9p-synth.c | 12 ++++--------
-> > > > > > >  1 file changed, 4 insertions(+), 8 deletions(-)
-> > > > > > >=20
-> > > > > > > diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> > > > > > > index 7eb210ffa8..473ef914b0 100644
-> > > > > > > --- a/hw/9pfs/9p-synth.c
-> > > > > > > +++ b/hw/9pfs/9p-synth.c
-> > > > > > > @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode
-> > > > > > > *parent,
-> > > >=20
-> > > > int
-> > > >=20
-> > > > > > > mode, if (!parent) {
-> > > > > > >=20
-> > > > > > >          parent =3D &synth_root;
-> > > > > > >     =20
-> > > > > > >      }
-> > > > > > >=20
-> > > > > > > -    qemu_mutex_lock(&synth_mutex);
-> > > > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
-> > > > > > >=20
-> > > > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
-> > > > > > >     =20
-> > > > > > >          if (!strcmp(tmp->name, name)) {
-> > > > > > >         =20
-> > > > > > >              ret =3D EEXIST;
-> > > > > > >=20
-> > > > > > > -            goto err_out;
-> > > > > > > +            return ret;
-> > > > > > >=20
-> > > > > > >          }
-> > > > > > >     =20
-> > > > > > >      }
-> > > > > > >      /* Add the name */
-> > > > > > >=20
-> > > > > > > @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *pa=
-rent,
-> > > >=20
-> > > > int
-> > > >=20
-> > > > > > > mode, node->attr, node->attr->inode);
-> > > > > > >=20
-> > > > > > >      *result =3D node;
-> > > > > > >      ret =3D 0;
-> > > > > > >=20
-> > > > > > > -err_out:
-> > > > > > > -    qemu_mutex_unlock(&synth_mutex);
-> > > > > > >=20
-> > > > > > >      return ret;
-> > > > > > > =20
-> > > > > > >  }
-> > > > > > >=20
-> > > > > > > @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthN=
-ode
-> > > > > > > *parent,
-> > > > > > > int mode, parent =3D &synth_root;
-> > > > > > >=20
-> > > > > > >      }
-> > > > > > >=20
-> > > > > > > -    qemu_mutex_lock(&synth_mutex);
-> > > > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
-> > > > > > >=20
-> > > > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
-> > > > > > >     =20
-> > > > > > >          if (!strcmp(tmp->name, name)) {
-> > > > > > >         =20
-> > > > > > >              ret =3D EEXIST;
-> > > > > > >=20
-> > > > > > > -            goto err_out;
-> > > > > > > +            return ret;
-> > > > > > >=20
-> > > > > > >          }
-> > > > > > >     =20
-> > > > > > >      }
-> > > > > > >      /* Add file type and remove write bits */
-> > > > > > >=20
-> > > > > > > @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
-> > > >=20
-> > > > *parent,
-> > > >=20
-> > > > > > > int
-> > > > > > > mode, pstrcpy(node->name, sizeof(node->name), name);
-> > > > > > >=20
-> > > > > > >      QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
-> > > > > > >      ret =3D 0;
-> > > > > > >=20
-> > > > > > > -err_out:
-> > > > > > > -    qemu_mutex_unlock(&synth_mutex);
-> > > > > > >=20
-> > > > > > >      return ret;
-> > > > > > > =20
-> > > > > > >  }
-> > > > > >=20
-> > > > > > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > > >=20
-> > > > > > Greg, I suggest I'll push this onto my queue as you seem to be =
-busy.
-> > > > >=20
-> > > > > This cleanup spans over multiple subsystems but I think it makes =
-more
-> > > > > sense to keep all these patches together. Let's wait for everyone=
- to
-> > > > > ack/review and then we'll decide how to merge the patches.
-> > > >=20
-> > > > Sure, makes sense.
->=20
->=20
->=20
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 52c981710b..74e06e7121 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -627,8 +627,8 @@ static inline bool access_ok(CPUState *cpu, int type,
+  * buffers between the target and host.  These internally perform
+  * locking/unlocking of the memory.
+  */
+-int copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
+-int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
++int copy_from_user(void *hptr, abi_ulong gaddr, ssize_t len);
++int copy_to_user(abi_ulong gaddr, void *hptr, ssize_t len);
+ 
+ /* Functions for accessing guest memory.  The tget and tput functions
+    read/write single values, byteswapping as necessary.  The lock_user function
+@@ -638,16 +638,19 @@ int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
+ 
+ /* Lock an area of guest memory into the host.  If copy is true then the
+    host area will have the same contents as the guest.  */
+-void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy);
++void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy);
+ 
+ /* Unlock an area of guest memory.  The first LEN bytes must be
+    flushed back to guest memory. host_ptr = NULL is explicitly
+    allowed and does nothing. */
+ #ifndef DEBUG_REMAP
+-static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
+-{ }
++static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
++                               ssize_t len)
++{
++    /* no-op */
++}
+ #else
+-void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
++void unlock_user(void *host_ptr, abi_ulong guest_addr, ssize_t len);
+ #endif
+ 
+ /* Return the length of a string in target memory or -TARGET_EFAULT if
+diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
+index c696913016..82b833b8f1 100644
+--- a/linux-user/uaccess.c
++++ b/linux-user/uaccess.c
+@@ -4,7 +4,7 @@
+ 
+ #include "qemu.h"
+ 
+-void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
++void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy)
+ {
+     void *host_addr;
+ 
+@@ -24,7 +24,7 @@ void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
+ }
+ 
+ #ifdef DEBUG_REMAP
+-void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
++void unlock_user(void *host_ptr, abi_ulong guest_addr, ssize_t len);
+ {
+     void *host_ptr_conv;
+ 
+@@ -35,7 +35,7 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
+     if (host_ptr == host_ptr_conv) {
+         return;
+     }
+-    if (len != 0) {
++    if (len > 0) {
+         memcpy(host_ptr_conv, host_ptr, len);
+     }
+     g_free(host_ptr);
+@@ -48,14 +48,14 @@ void *lock_user_string(abi_ulong guest_addr)
+     if (len < 0) {
+         return NULL;
+     }
+-    return lock_user(VERIFY_READ, guest_addr, (size_t)len + 1, 1);
++    return lock_user(VERIFY_READ, guest_addr, len + 1, 1);
+ }
+ 
+ /* copy_from_user() and copy_to_user() are usually used to copy data
+  * buffers between the target and host.  These internally perform
+  * locking/unlocking of the memory.
+  */
+-int copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
++int copy_from_user(void *hptr, abi_ulong gaddr, ssize_t len)
+ {
+     int ret = 0;
+     void *ghptr = lock_user(VERIFY_READ, gaddr, len, 1);
+@@ -69,7 +69,7 @@ int copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
+     return ret;
+ }
+ 
+-int copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
++int copy_to_user(abi_ulong gaddr, void *hptr, ssize_t len)
+ {
+     int ret = 0;
+     void *ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0);
+-- 
+2.25.1
 
 
