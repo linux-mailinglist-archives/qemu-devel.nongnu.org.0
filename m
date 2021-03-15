@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9455733C7A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:23:17 +0100 (CET)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7DB33C7C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:34:19 +0100 (CET)
+Received: from localhost ([::1]:47626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLtkC-0003nW-LL
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49240)
+	id 1lLtur-0000ip-KA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lLtix-0002fd-TI
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:21:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lLtiv-0002PQ-8g
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:21:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615839716;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HQENdRmv2frLMF00NjakYth7HIwSPqkGWM4bskIGQo8=;
- b=JrSb4BL1TdCyz/+P2eRZkOV/IP20DYX56GwDgBgjpzC9gIVU3IoF4njEMTNCQIFxo0mwlY
- hedTn7EK21sxKOpoMv8lgbPPUBKlQXbLBCOunuNVBVQyGoci03XrEH0JpzdqIq51KaMg9d
- E5J23B1JH5PeWwRvJ78WT+0MWu3O/zE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-KUWpn8KBOpuvECGADXPWuA-1; Mon, 15 Mar 2021 16:21:52 -0400
-X-MC-Unique: KUWpn8KBOpuvECGADXPWuA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2DBB100C661;
- Mon, 15 Mar 2021 20:21:51 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3631A614FB;
- Mon, 15 Mar 2021 20:21:35 +0000 (UTC)
-Date: Mon, 15 Mar 2021 21:21:33 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: no-reply@patchew.org
-Subject: Re: [PATCH 0/6] pc: support user provided NIC naming/indexing
-Message-ID: <20210315212133.398c2dc9@redhat.com>
-In-Reply-To: <161583340826.29026.17366591502722428122@c9d4d6fbb2f1>
-References: <20210315180102.3008391-1-imammedo@redhat.com>
- <161583340826.29026.17366591502722428122@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLtsR-0008LX-3F
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:31:47 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58331)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLts5-0006n7-T4
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:31:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.244])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7B6109079CD9;
+ Mon, 15 Mar 2021 21:31:21 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 15 Mar
+ 2021 21:31:20 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002ec0c526e-364c-4533-b15b-4c282975d09e,
+ C2FE56B6373390384040EEB24197F6B99D02A218) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 15 Mar 2021 21:31:19 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 8/9] hw/9pfs/9p-synth: Replaced qemu_mutex_lock with
+ QEMU_LOCK_GUARD
+Message-ID: <20210315213119.560e949e@bahia.lan>
+In-Reply-To: <14052416.xYJ9m3zWAp@silver>
+References: <20210311031538.5325-1-ma.mandourr@gmail.com>
+ <CAD-LL6iS11_2Z1hFa9-Or6J4-X2fKfMhriRMby5G3VEZhhpf9w@mail.gmail.com>
+ <20210313085121.625fe50e@bahia.lan> <14052416.xYJ9m3zWAp@silver>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 3f04ff20-840c-4091-affa-29fc79aca116
+X-Ovh-Tracer-Id: 14130325306691656123
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvledgudegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepmhhsthesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +70,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Mar 2021 11:36:49 -0700 (PDT)
-no-reply@patchew.org wrote:
+On Mon, 15 Mar 2021 17:07:50 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> Patchew URL: https://patchew.org/QEMU/20210315180102.3008391-1-imammedo@redhat.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series seems to have some coding style problems. See output below for
-> more information:
-> 
-> Type: series
-> Message-id: 20210315180102.3008391-1-imammedo@redhat.com
-> Subject: [PATCH 0/6] pc: support user provided NIC naming/indexing
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> === TEST SCRIPT END ===
-> 
-> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
-> From https://github.com/patchew-project/qemu
->  * [new tag]         patchew/20210315180102.3008391-1-imammedo@redhat.com -> patchew/20210315180102.3008391-1-imammedo@redhat.com
-> Switched to a new branch 'test'
-> c0692b4 tests: acpi: update expected blobs
-> 1a843d9 pci: acpi: add _DSM method to PCI devices
-> 6b55586 acpi: add aml_to_decimalstring() and aml_call6() helpers
-> 7b887f4 pci: acpi: ensure that acpi-index is unique
-> 4056291 pci: introduce apci-index property for PCI device
-> 9bd3a1b tests: acpi: temporary whitelist DSDT changes
-> 
-> === OUTPUT BEGIN ===
-> 1/6 Checking commit 9bd3a1b94c0f (tests: acpi: temporary whitelist DSDT changes)
-> 2/6 Checking commit 40562915acde (pci: introduce apci-index property for PCI device)
-> ERROR: Macros with complex values should be enclosed in parenthesis
-> #284: FILE: include/hw/acpi/pcihp.h:77:
-> +#define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
->          VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
->                              test_pcihp), \
->          VMSTATE_STRUCT_ARRAY_TEST(pcihp.acpi_pcihp_pci_status, state, \
->                                    ACPI_PCIHP_MAX_HOTPLUG_BUS, \
->                                    test_pcihp, 1, \
->                                    vmstate_acpi_pcihp_pci_status, \
-> -                                  AcpiPciHpPciStatus)
-> +                                  AcpiPciHpPciStatus), \
-> +        VMSTATE_UINT32_TEST(pcihp.acpi_index, state, \
-> +                            test_acpi_index)
-probably false positive
-(I don't know what's wrong here and how to fix it)
+> On Samstag, 13. M=C3=A4rz 2021 08:51:21 CET Greg Kurz wrote:
+> > On Sat, 13 Mar 2021 07:43:38 +0200
+> >=20
+> > Mahmoud Mandour <ma.mandourr@gmail.com> wrote:
+> > > Thanks for the fast review. I asked on the QEMU IRC channel
+> > > before committing whether to put all the changes into one patch
+> > > or split them and was instructed that it was better to split them up.
+> > > But in any case I was open to both ways and you can decide
+> > > on the best way to go.
+> >=20
+> > People only do inline replies here. Please don't top-post for the
+> > sake of clarity.
+> >=20
+> > So, the instructions to split the patches is obviously the way to go. T=
+he
+> > question here is rather : will each subsystem maintainer pick up patches
+> > from this series or will only one maintainer pick up all the patches af=
+ter
+> > they have been acked by the other maintainers ?
+>=20
+> We need a call here. :)
+>=20
+> Soft freeze is tomorrow, so will one submaintainer handle this series all=
+=20
+> together or should each submaintainer handle only their specific patches?
+>=20
 
-> total: 1 errors, 0 warnings, 197 lines checked
-> 
-> Patch 2/6 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
+I see that some of Mahmoud's patches in Dave Gilbert's latest PR, so I
+guess you can go ahead and merge this one in the 9p tree.
 
-below warnings are intentional to follow comments style we use within aml-build.c
-
-> 3/6 Checking commit 7b887f42419a (pci: acpi: ensure that acpi-index is unique)
-> 4/6 Checking commit 6b555869ad66 (acpi: add aml_to_decimalstring() and aml_call6() helpers)
-> WARNING: Block comments use a leading /* on a separate line
-> #27: FILE: hw/acpi/aml-build.c:640:
-> +    Aml *var = aml_opcode(0x97 /* ToDecimalStringOp */);
-> 
-> WARNING: Block comments use a leading /* on a separate line
-> #32: FILE: hw/acpi/aml-build.c:645:
-> +        build_append_byte(var->buf, 0x00 /* NullNameOp */);
-> 
-> total: 0 errors, 2 warnings, 55 lines checked
-> 
-> Patch 4/6 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 5/6 Checking commit 1a843d9de55e (pci: acpi: add _DSM method to PCI devices)
-> WARNING: Block comments use a leading /* on a separate line
-> #127: FILE: hw/i386/acpi-build.c:568:
-> +                        1 /* have supported functions */ |
-> 
-> total: 0 errors, 1 warnings, 140 lines checked
-> 
-> Patch 5/6 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 6/6 Checking commit c0692b4b7df0 (tests: acpi: update expected blobs)
-> === OUTPUT END ===
-> 
-> Test command exited with code: 1
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/20210315180102.3008391-1-imammedo@redhat.com/testing.checkpatch/?type=message.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+> > > On Thu, Mar 11, 2021 at 1:59 PM Christian Schoenebeck <
+> > >=20
+> > > qemu_oss@crudebyte.com> wrote:
+> > > > On Donnerstag, 11. M=C3=A4rz 2021 12:52:45 CET Greg Kurz wrote:
+> > > > > On Thu, 11 Mar 2021 11:49:06 +0100
+> > > > >=20
+> > > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > > > On Donnerstag, 11. M=C3=A4rz 2021 04:15:37 CET Mahmoud Mandour =
+wrote:
+> > > > > > > Replaced a call to qemu_mutex_lock and its respective call to
+> > > > > > > qemu_mutex_unlock and used QEMU_LOCK_GUARD macro in their pla=
+ce.
+> > > > > > > This simplifies the code by removing the call required to unl=
+ock
+> > > > > > > and also eliminates goto paths.
+> > > > > > >=20
+> > > > > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> > > > > > > ---
+> > > > > > >=20
+> > > > > > >  hw/9pfs/9p-synth.c | 12 ++++--------
+> > > > > > >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > > > > > >=20
+> > > > > > > diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> > > > > > > index 7eb210ffa8..473ef914b0 100644
+> > > > > > > --- a/hw/9pfs/9p-synth.c
+> > > > > > > +++ b/hw/9pfs/9p-synth.c
+> > > > > > > @@ -79,11 +79,11 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode
+> > > > > > > *parent,
+> > > >=20
+> > > > int
+> > > >=20
+> > > > > > > mode, if (!parent) {
+> > > > > > >=20
+> > > > > > >          parent =3D &synth_root;
+> > > > > > >     =20
+> > > > > > >      }
+> > > > > > >=20
+> > > > > > > -    qemu_mutex_lock(&synth_mutex);
+> > > > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
+> > > > > > >=20
+> > > > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
+> > > > > > >     =20
+> > > > > > >          if (!strcmp(tmp->name, name)) {
+> > > > > > >         =20
+> > > > > > >              ret =3D EEXIST;
+> > > > > > >=20
+> > > > > > > -            goto err_out;
+> > > > > > > +            return ret;
+> > > > > > >=20
+> > > > > > >          }
+> > > > > > >     =20
+> > > > > > >      }
+> > > > > > >      /* Add the name */
+> > > > > > >=20
+> > > > > > > @@ -94,8 +94,6 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *pa=
+rent,
+> > > >=20
+> > > > int
+> > > >=20
+> > > > > > > mode, node->attr, node->attr->inode);
+> > > > > > >=20
+> > > > > > >      *result =3D node;
+> > > > > > >      ret =3D 0;
+> > > > > > >=20
+> > > > > > > -err_out:
+> > > > > > > -    qemu_mutex_unlock(&synth_mutex);
+> > > > > > >=20
+> > > > > > >      return ret;
+> > > > > > > =20
+> > > > > > >  }
+> > > > > > >=20
+> > > > > > > @@ -116,11 +114,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthN=
+ode
+> > > > > > > *parent,
+> > > > > > > int mode, parent =3D &synth_root;
+> > > > > > >=20
+> > > > > > >      }
+> > > > > > >=20
+> > > > > > > -    qemu_mutex_lock(&synth_mutex);
+> > > > > > > +    QEMU_LOCK_GUARD(&synth_mutex);
+> > > > > > >=20
+> > > > > > >      QLIST_FOREACH(tmp, &parent->child, sibling) {
+> > > > > > >     =20
+> > > > > > >          if (!strcmp(tmp->name, name)) {
+> > > > > > >         =20
+> > > > > > >              ret =3D EEXIST;
+> > > > > > >=20
+> > > > > > > -            goto err_out;
+> > > > > > > +            return ret;
+> > > > > > >=20
+> > > > > > >          }
+> > > > > > >     =20
+> > > > > > >      }
+> > > > > > >      /* Add file type and remove write bits */
+> > > > > > >=20
+> > > > > > > @@ -136,8 +134,6 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode
+> > > >=20
+> > > > *parent,
+> > > >=20
+> > > > > > > int
+> > > > > > > mode, pstrcpy(node->name, sizeof(node->name), name);
+> > > > > > >=20
+> > > > > > >      QLIST_INSERT_HEAD_RCU(&parent->child, node, sibling);
+> > > > > > >      ret =3D 0;
+> > > > > > >=20
+> > > > > > > -err_out:
+> > > > > > > -    qemu_mutex_unlock(&synth_mutex);
+> > > > > > >=20
+> > > > > > >      return ret;
+> > > > > > > =20
+> > > > > > >  }
+> > > > > >=20
+> > > > > > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > > > >=20
+> > > > > > Greg, I suggest I'll push this onto my queue as you seem to be =
+busy.
+> > > > >=20
+> > > > > This cleanup spans over multiple subsystems but I think it makes =
+more
+> > > > > sense to keep all these patches together. Let's wait for everyone=
+ to
+> > > > > ack/review and then we'll decide how to merge the patches.
+> > > >=20
+> > > > Sure, makes sense.
+>=20
+>=20
+>=20
 
 
