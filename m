@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3400233C0AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:59:42 +0100 (CET)
-Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A77433C13B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 17:08:31 +0100 (CET)
+Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLpd7-00075W-05
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50894)
+	id 1lLple-0004d4-LA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 12:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLpbk-0005tN-5e
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:58:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLpbh-000494-CR
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:58:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615823891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QOafkmI4WwW6vHAc2vij2yjllG5wUGAf6FA3kgdg+mg=;
- b=aSrZKHjSpQvWspcgzUltaJaQE99halbS2OoIFVdlIge1Bht0eyZo3Cj7FrkXyzciA4yo5k
- W+22uBYrSlxXXxJgy61mDhool5IFAGCV7j6MNK4rq0g527oPVF2o5Hj92pFZ98rKpKNhiA
- DMWeAuFxlOxTMaPdo1TM/q/FuTbVnpM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-20v6a3FzNP6jvaIp8L8jwQ-1; Mon, 15 Mar 2021 11:58:09 -0400
-X-MC-Unique: 20v6a3FzNP6jvaIp8L8jwQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C49419200C0;
- Mon, 15 Mar 2021 15:58:08 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39DBE5D745;
- Mon, 15 Mar 2021 15:58:06 +0000 (UTC)
-Subject: Re: compile warning in i8259.c
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x <qemu-s390x@nongnu.org>
-References: <cc283705-a0ee-5ee4-4f9a-b69afce65d8c@de.ibm.com>
- <75aed565-c9a6-6ee1-ab92-d2771df83ff0@redhat.com>
- <d897bc68-a2c9-0826-76a6-93a9682ae4ad@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b599711f-b1ab-5156-bfe6-ed49edd9423b@redhat.com>
-Date: Mon, 15 Mar 2021 16:58:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lLpeG-0000Yq-BT
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:00:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34988)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lLpeC-00057r-Ge
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:00:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lLpeA-00009y-C5
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 16:00:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4E06C2E8157
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 16:00:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <d897bc68-a2c9-0826-76a6-93a9682ae4ad@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Mar 2021 15:50:53 -0000
+From: Frederic Bezies <1919169@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fredb74
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+Message-Id: <161582345370.2384.8032103660795941094.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1919169] [NEW] [git]Startup crash when trying to use an EFI
+ enabled VM in accel/kvm/kvm-all.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: 59cba9616087d35709c5d758dc9cdbd403ba38b7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,74 +69,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1919169 <1919169@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2021 16.50, Philippe Mathieu-Daudé wrote:
-> On 3/15/21 4:42 PM, Thomas Huth wrote:
->> On 15/03/2021 16.14, Christian Borntraeger wrote:
->>> For some time now I do see the following, when I compile x86-softmmu
->>> on s390:
->>>
->>> FAILED: libcommon.fa.p/hw_intc_i8259.c.o
->>> cc -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader
->>> -I/usr/include/capstone -I/usr/include/glib-2.0
->>> -I/usr/lib64/glib-2.0/include -I/usr/include/libmount
->>> -I/usr/include/blkid -I/usr/include/gio-unix-2.0
->>> -I/usr/include/libusb-1.0 -I/usr/include/vte-2.91
->>> -I/usr/include/pango-1.0 -I/usr/include/harfbuzz
->>> -I/usr/include/freetype2 -I/usr/include/libpng16
->>> -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/cairo
->>> -I/usr/include/pixman-1 -I/usr/include/gtk-3.0
->>> -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0
->>> -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0
->>> -I/usr/lib64/dbus-1.0/include -I/usr/include/at-spi-2.0
->>> -I/usr/include/virgl -I/usr/include/p11-kit-1 -I/usr/include/SDL2
->>> -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nspr4
->>> -I/usr/include/slirp -fdiagnostics-color=auto -pipe -Wall
->>> -Winvalid-pch -Werror -std=gnu99 -O2 -g -isystem
->>> /home/cborntra/REPOS/qemu/linux-headers -isystem linux-headers -iquote
->>> . -iquote /home/cborntra/REPOS/qemu -iquote
->>> /home/cborntra/REPOS/qemu/include -iquote
->>> /home/cborntra/REPOS/qemu/disas/libvixl -iquote
->>> /home/cborntra/REPOS/qemu/tcg/s390 -iquote
->>> /home/cborntra/REPOS/qemu/accel/tcg -pthread -U_FORTIFY_SOURCE
->>> -D_FORTIFY_SOURCE=2 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
->>> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
->>> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
->>> -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
->>> -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
->>> -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
->>> -Wimplicit-fallthrough=2 -Wno-missing-include-dirs
->>> -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIC
->>> -DSTRUCT_IOVEC_DEFINED -D_REENTRANT -Wno-undef -D_DEFAULT_SOURCE
->>> -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -MD -MQ
->>> libcommon.fa.p/hw_intc_i8259.c.o -MF
->>> libcommon.fa.p/hw_intc_i8259.c.o.d -o libcommon.fa.p/hw_intc_i8259.c.o
->>> -c ../hw/intc/i8259.c
->>> ../hw/intc/i8259.c: In function ‘pic_read_irq’:
->>> ../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in
->>> this function [-Werror=maybe-uninitialized]
->>>     203 |         irq = irq2 + 8;
->>>         |         ~~~~^~~~~~~~~~
->>> cc1: all warnings being treated as errors
->>>
->>> Due to other compile warnings I find this hard to bisect. Has anyone
->>> seen this as well?
->>
->> I've never seen this warnings so far... which compiler version is this?
->> Looking at the code, it seems to be a false positive to me.
-> 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg599522.html
+Public bug reported:
 
-Oh, well, I completely forgot about that one ... but that was with -O3 ... 
-interesting that it now occurs with -O2, too!
+Hello.
 
-But even after staring at the code for a while, I cannot see how irq2 may 
-not be initialized here ... so this really rather sounds like a compiler bug 
-to me... anyway, we could simply silence it by pre-initializing the variable 
-to -1 or so?
+I build a git version based on commit
+6157b0e19721aadb4c7fdcfe57b2924af6144b14.
 
-  Thomas
+When I try to launch an EFI enabled VM, it crashes on start. Here is the
+command line used:
 
+qemu-system-x86_64 -bios /usr/share/edk2-ovmf/x64/OVMF.fd -enable-kvm
+-smp 4 -soundhw all -k fr -m 4096 -vga qxl -hda disk.img -cdrom
+archlinux-2021.03.01-x86_64.iso -boot cd &
+
+Here is the log I get:
+
+
+"qemu-system-x86_64: ../accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: As=
+sertion `QEMU_IS_ALIGNED(start | size, psize)' failed."
+
+
+ed2k-ovmf version: 202102
+
+I tried an older version, edk2-ovmf 202011, same crash on start.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Description changed:
+
+  Hello.
+  =
+
+  I build a git version based on commit
+  6157b0e19721aadb4c7fdcfe57b2924af6144b14.
+  =
+
+  When I try to launch an EFI enabled VM, it crashes on start. Here is the
+  command line used:
+  =
+
+  qemu-system-x86_64 -bios /usr/share/edk2-ovmf/x64/OVMF.fd -enable-kvm
+  -smp 4 -soundhw all -k fr -m 4096 -vga qxl -hda disk.img -cdrom
+  archlinux-2021.03.01-x86_64.iso -boot cd &
+  =
+
+  Here is the log I get:
+  =
+
+- ```
++ [code]
+  qemu-system-x86_64: ../accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: A=
+ssertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
+- ```
+- =
+
++ [/code]
+  =
+
+  ed2k-ovmf version: 202102
+  =
+
+  I tried an older version, edk2-ovmf 202011, same crash on start.
+
+** Description changed:
+
+  Hello.
+  =
+
+  I build a git version based on commit
+  6157b0e19721aadb4c7fdcfe57b2924af6144b14.
+  =
+
+  When I try to launch an EFI enabled VM, it crashes on start. Here is the
+  command line used:
+  =
+
+  qemu-system-x86_64 -bios /usr/share/edk2-ovmf/x64/OVMF.fd -enable-kvm
+  -smp 4 -soundhw all -k fr -m 4096 -vga qxl -hda disk.img -cdrom
+  archlinux-2021.03.01-x86_64.iso -boot cd &
+  =
+
+  Here is the log I get:
+  =
+
+- [code]
++ <code>
+  qemu-system-x86_64: ../accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: A=
+ssertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
+- [/code]
++ </code>
+  =
+
+  ed2k-ovmf version: 202102
+  =
+
+  I tried an older version, edk2-ovmf 202011, same crash on start.
+
+** Description changed:
+
+  Hello.
+  =
+
+  I build a git version based on commit
+  6157b0e19721aadb4c7fdcfe57b2924af6144b14.
+  =
+
+  When I try to launch an EFI enabled VM, it crashes on start. Here is the
+  command line used:
+  =
+
+  qemu-system-x86_64 -bios /usr/share/edk2-ovmf/x64/OVMF.fd -enable-kvm
+  -smp 4 -soundhw all -k fr -m 4096 -vga qxl -hda disk.img -cdrom
+  archlinux-2021.03.01-x86_64.iso -boot cd &
+  =
+
+  Here is the log I get:
+  =
+
+- <code>
+- qemu-system-x86_64: ../accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: A=
+ssertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
+- </code>
++ =
+
++ "qemu-system-x86_64: ../accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: =
+Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed."
++ =
+
+  =
+
+  ed2k-ovmf version: 202102
+  =
+
+  I tried an older version, edk2-ovmf 202011, same crash on start.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1919169
+
+Title:
+  [git]Startup crash when trying to use an EFI enabled VM in accel/kvm
+  /kvm-all.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+
+  I build a git version based on commit
+  6157b0e19721aadb4c7fdcfe57b2924af6144b14.
+
+  When I try to launch an EFI enabled VM, it crashes on start. Here is
+  the command line used:
+
+  qemu-system-x86_64 -bios /usr/share/edk2-ovmf/x64/OVMF.fd -enable-kvm
+  -smp 4 -soundhw all -k fr -m 4096 -vga qxl -hda disk.img -cdrom
+  archlinux-2021.03.01-x86_64.iso -boot cd &
+
+  Here is the log I get:
+
+  =
+
+  "qemu-system-x86_64: ../accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: =
+Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed."
+
+  =
+
+  ed2k-ovmf version: 202102
+
+  I tried an older version, edk2-ovmf 202011, same crash on start.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1919169/+subscriptions
 
