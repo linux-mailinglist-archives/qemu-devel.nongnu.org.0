@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5133A33C019
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:37:26 +0100 (CET)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477A733C026
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:40:01 +0100 (CET)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLpHZ-0002xW-Ds
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44624)
+	id 1lLpK4-0004n4-C0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLpF2-0001vX-1d
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:34:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLpF0-0004cj-Ew
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:34:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615822485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ppC3onZpFfHDviRrrH9ITbQzmn+VPVaEKj8mnHlcSMU=;
- b=FCBT9rBRQVc9sLJBzmhgJiUROleVexxXRdrzgUgIyRb1SF1vPlr1Unc0oi4AwYsY5TqyHR
- 8tN7nj8U/1QBefsWXCUdjyWFMt0UcoqvF3lCFVjJWAsW3TWvbIwd9kwhGUHgBc9WSTAn0p
- awuwLg4jo8OCJQ0KFFUYmJua6+9k4ro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-WCPy_vOHNHKD3qUFiESdFQ-1; Mon, 15 Mar 2021 11:34:43 -0400
-X-MC-Unique: WCPy_vOHNHKD3qUFiESdFQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 681791932480
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 15:34:42 +0000 (UTC)
-Received: from localhost (ovpn-115-125.ams2.redhat.com [10.36.115.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C0C9100239A;
- Mon, 15 Mar 2021 15:34:34 +0000 (UTC)
-Date: Mon, 15 Mar 2021 15:34:34 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/3] tests/qtest/vhost-user-test: use share=on with memfd
-Message-ID: <YE9+iuidTRIVOq3M@stefanha-x1.localdomain>
-References: <20210222161017.570837-1-stefanha@redhat.com>
- <20210222161017.570837-2-stefanha@redhat.com>
- <ed164725-4437-ca63-42f7-aecee0b71de8@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLpIE-0003qS-Tk
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:38:08 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLpIB-0005fO-Kd
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:38:06 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id z1so17870088edb.8
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 08:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7hg/VJ5Ns9NsJiuToWsw01d4V9wCJ8LubJnhDb7mGnA=;
+ b=iAp6ij+pQK0l1kSUmLVVMa1KfFxVLwgmMUxehKgzpTfOfpgi/M8V+4Vx5BoPbZHKur
+ MWys4lbB2zCFFH0m7eGugTc7R7kapr5wpjowWKwQTy6fdH8OKoYGni8jhxzl+v23sH8w
+ Q7TwLtCVGhkRlAlRi1fwcXu6G2Tu8WOqk3E0hT5nK4X1MT6SKnpkOjbqjhNc0x374PAZ
+ NFQT48Ot4CDzYJsNf8y6ZhG1jN1u4wYKp9lbuATHAWBHA6F2v67TP5Y+w+jf7Pwsp5D/
+ SPqwbUHlHWU8cYiBN65ccukHk0citt7tRlpIKP+3qM6qXn5r62FkpT0RhwHKe2AgV+AL
+ AppA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7hg/VJ5Ns9NsJiuToWsw01d4V9wCJ8LubJnhDb7mGnA=;
+ b=LgAayisqQjEfglh02G/ZVPsMjxbQ5OoSXZbJgMuRR5znDq8Fj7gdIpxhR7OeTbYP3z
+ 6r6+SoO/k4krEPSUINopSTXgNThjoUwMd49YMeSJFw8w+K2yFVpw21D1u59Lv729f3Ce
+ 08b7RBfS6Lqpz6K5A2GOK8LI6vg6mmuRxK47rsJBEuWxmzvyUvxRUIIKbOZWj8/irzVz
+ qMaL59fBCHWpB2HicMIF1d/1HOhK7bhV7KvP9C8LCaiXxu4ZoF7b1wzY+eEgm0MnnJGA
+ AKBb+WVLt1IulPkCncwKP1ZJkIO8t1llBhREHWnU5UP0T2r/hOoFVeZgax0OMhvj3nGv
+ IVXQ==
+X-Gm-Message-State: AOAM533YIIsiJ9AGnxqkGTi6dW/IUTMSJ8JjTlyX7QDOIkIOE34YVbi3
+ TlH/WLSXe2Gdko9E5LB7VDQZkCx19SQ+LPYWwFN9YJ9LhzFmxA==
+X-Google-Smtp-Source: ABdhPJwcSJ39UqxcxWMSBlf7QTdEaGSnYKdLNwnV41OXNjKlFo6u7ZoI6RROnBFCELv3WcZOe2m2d8/CLNuQqb0/Avg=
+X-Received: by 2002:aa7:c804:: with SMTP id a4mr30183311edt.251.1615822682032; 
+ Mon, 15 Mar 2021 08:38:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ed164725-4437-ca63-42f7-aecee0b71de8@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Vyk2vTbnh/1GK7uS"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210315135410.221729-1-thuth@redhat.com>
+ <5f8be2a7-5baf-7cdc-42a1-954ea3aeba82@redhat.com>
+ <9a6fd794-8ac5-a054-7bf5-b485d57fb1a3@redhat.com>
+In-Reply-To: <9a6fd794-8ac5-a054-7bf5-b485d57fb1a3@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Mar 2021 15:37:40 +0000
+Message-ID: <CAFEAcA9KvqMycFysq_U1NHwUx8RZToZ5DXvqGnhpuw8XcGhrSQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] configure: Poison (almost) all target-specific
+ #defines
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Laurent Vivier <lvivier@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Vyk2vTbnh/1GK7uS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 15 Mar 2021 at 15:26, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 15/03/2021 15.52, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 3/15/21 2:54 PM, Thomas Huth wrote:
+> >> We are generating a lot of target-specific defines in the *-config-dev=
+ices.h
+> >> and *-config-target.h files. Using them in common code is wrong and le=
+ads
+> >> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working t=
+here
+> >> as expected. To avoid these issues, we are already poisoning some of t=
+he
+> >> macros in include/exec/poison.h - but maintaining this list manually i=
+s
+> >> cumbersome. Thus let's generate the list of poisoned macros automatica=
+lly
+> >> instead.
+> >> Note that CONFIG_TCG (which is also defined in config-host.h) and
+> >
+> > IIRC we can't poison CONFIG_XEN / CONFIG_HAX because they are
+> > pulled in via "sysemu/hw_accel.h".
+>
+> That's a good hint ... but I think it can be fixed with a patch like this=
+:
+>
+> diff a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
+> --- a/include/sysemu/hw_accel.h
+> +++ b/include/sysemu/hw_accel.h
+> @@ -12,19 +12,24 @@
+>   #define QEMU_HW_ACCEL_H
+>
+>   #include "hw/core/cpu.h"
+> +
+> +#ifdef NEED_CPU_H
+> +
+>   #include "sysemu/hax.h"
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/hvf.h"
+>   #include "sysemu/whpx.h"
 
-On Mon, Mar 08, 2021 at 07:31:25AM +0100, Thomas Huth wrote:
-> On 22/02/2021 17.10, Stefan Hajnoczi wrote:
-> > For some reason memfd never used share=3Don. vhost-user relies on
-> > mmap(MAP_SHARED) so this seems like a problem, but the tests still run
-> > without it.
-> >=20
-> > Add share=3Don for consistency and to prevent future bugs in the test.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   tests/qtest/vhost-user-test.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-tes=
-t.c
-> > index 1a5f5313ff..2db98c4920 100644
-> > --- a/tests/qtest/vhost-user-test.c
-> > +++ b/tests/qtest/vhost-user-test.c
-> > @@ -40,7 +40,7 @@
-> >   #define QEMU_CMD_MEM    " -m %d -object memory-backend-file,id=3Dmem,=
-size=3D%dM," \
-> >                           "mem-path=3D%s,share=3Don -numa node,memdev=
-=3Dmem"
-> >   #define QEMU_CMD_MEMFD  " -m %d -object memory-backend-memfd,id=3Dmem=
-,size=3D%dM," \
-> > -                        " -numa node,memdev=3Dmem"
-> > +                        "share=3Don -numa node,memdev=3Dmem"
->=20
-> Even if it's not required, it seems to be a good clean up, also with rega=
-rds
-> to the lonely comma at the end of the previous line.
->=20
-> Acked-by: Thomas Huth <thuth@redhat.com>
->=20
-> I assume this will go through the vhost tree, or do you want me to take t=
-his
-> single patch through my qtest tree?
+This doesn't look right, because sysemu/kvm.h itself contains
+a NEED_CPU_H check, which implies that there are situations where
+NEED_CPU_H is not defined and we need to pull in the header.
 
-I think this entire series will go through the vhost tree.
-
-Thanks,
-Stefan
-
---Vyk2vTbnh/1GK7uS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPfokACgkQnKSrs4Gr
-c8iyqQgAvOp4TyiNSbk8AePM3wbDla2b+54VSaQbna3ZXwmN/i41WjHlA63e9Omb
-OSc0MA8wZDRm/Nk3zC29QRpRcRl/D+4ujI8c4u9qV7X18Gv3I/jDJhWDqSrAiZRK
-bv2vzenWApOV1DVbMd3H73CB+RdwkT2aBmdY2zYQD0KzHo2/AjrmtF+u6neYyr0k
-Ku6w/dGSWFKE8X5jt5SF+OBlXns+MKHH5zytuEKi3bf1fSwUfyHat7KrYzk4BEZi
-CyFeoXOL3iCNp6bUkiCQYxdybKUjB0RfuV9FIL5QcM+YKf/sb9hSODu8C7L+Vfem
-EkHSkCwZFnpfT4O7FQiiut9sCOiDrg==
-=z088
------END PGP SIGNATURE-----
-
---Vyk2vTbnh/1GK7uS--
-
+thanks
+-- PMM
 
