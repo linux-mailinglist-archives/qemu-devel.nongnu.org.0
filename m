@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9509333B0DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:21:52 +0100 (CET)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9264633B115
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:29:29 +0100 (CET)
+Received: from localhost ([::1]:41750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLlIF-0005to-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
+	id 1lLlPc-0007eC-HH
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlGL-000598-4z
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:19:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51834)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lLlL8-0006qS-Bp; Mon, 15 Mar 2021 07:24:50 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:42927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlGJ-0006yD-0R
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:19:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615807190;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fLZbLe6oL0ffU0NzKcBSnGDvtVFN3uJxIlOZYBwX+0g=;
- b=Y7nHqPyfvAEVipDKadiKAHhGTCsghGmO/AWJCAKY0anhhkcV9hz6rwClf4YdoRVXO5HDjl
- YDQRDOciBnXaLq1BzM3HmE8HDyWKP/yrwqKSOUz+EhPNcmrWGiIYf2LFagIxpgDM+JO+eR
- CG8VSXWbL8SGYJdo4Zj2jSwvq2gBuI0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-zRZn7NlVNP6DxhtrY04Dhw-1; Mon, 15 Mar 2021 07:19:46 -0400
-X-MC-Unique: zRZn7NlVNP6DxhtrY04Dhw-1
-Received: by mail-wr1-f70.google.com with SMTP id z17so14928170wrv.23
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 04:19:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fLZbLe6oL0ffU0NzKcBSnGDvtVFN3uJxIlOZYBwX+0g=;
- b=M2mS7DU+XMTDgAXYMIjS0m9vw53AWzNz7piQMVPwLAb00sZRugE+ebOELOho5ZIIhl
- /qoaVRbEqWzgA2nedGyrTZAbwaiReTwWj7yelb9FhpKt72aa3ochtDFU0kt7eajYhXkg
- h28HOl1I+OhW7vEa4jKKc7VlqTmYg2Gq8uh2SW0o3T2J8XscxeQqOCCnGbz1tUHIAg/t
- Q/II0Mm3fskj56MSO6TZl02hAScm2zPSgascOAQTLQq02vameh41+hH56HCuPNOQrPpZ
- q2hy1UZJTxjIDtPrlV+PgrKoM71LQCvnfa2IyY7shQ4rRpWknmBRhQGQNFXftXlCNE5F
- PK1Q==
-X-Gm-Message-State: AOAM532aNVQwHNbjaYLdukLlBoRNHxgHUZ3XITT3n9q7VD/U/zU3dJKZ
- r0ZRjHYgyZlk/Us03K+5ataXJG2CKWWkPvQxAAF8qKgF9R5sYiCi0/g9nuURr54kMvRG7zccy+/
- iqwCjnawwnLKQ5Gw=
-X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr26306608wmh.9.1615807185722;
- Mon, 15 Mar 2021 04:19:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnEHCxEeFv1es3Ch4osKjLc97TUZcabLSLKYSeBwgYFyqN0EA0RKSR5mOXCBeolKKOX6rlSw==
-X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr26306582wmh.9.1615807185362;
- Mon, 15 Mar 2021 04:19:45 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id d204sm12332065wmc.17.2021.03.15.04.19.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 04:19:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lLlL5-0001dI-9W; Mon, 15 Mar 2021 07:24:50 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id AFCCAEBD;
+ Mon, 15 Mar 2021 07:24:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 15 Mar 2021 07:24:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=tJXlSls+v/eA96TkiatdpSUS4LR
+ 9cnbrUKBUT5plcL8=; b=Oqpv+9mNHKGFIwrwKVIbB0BZNjvhJOmBHNgi5FweXUZ
+ XmR8CCcznZ99jM10aSFNoF45fPOJEtft402236eqDSTYungOqBaI3T0Gx760F/sS
+ 5GUgL15DtLEnENjZ03/bRWXYQ/eUfrvcA6ccWZNcw2dFaXBgM7Pppbe7D4uYomRp
+ rYvSlQeMRrK770QzxGVpgGQbHoUDkKnRYztbAfGO0A6Geh6UxmTI59tqDcsLTkYE
+ bk4a824w8+DrQ1kxTc2wAEyI7OgbFl99XiuhAgDB/xSl1PSnEYHGME4g/KYFsT7Y
+ WiQD0LMQWHnE0irhlNBbEp2LPRa4EBWPJqDjuJTOx3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=tJXlSl
+ s+v/eA96TkiatdpSUS4LR9cnbrUKBUT5plcL8=; b=bXBWsqYXBLDSsG1a7fBKNr
+ HKjK6j1c7qnYJKE9FQoEG3zvu1EhI3hGpu3tFbJUdDiPLFLbHyZCWYaCPoEaOTNX
+ yS4O0BOk2Poxwr/WCR1lFQS0xcSAzVOBDCMHor0BJ8XAOD6VB5XYsF6V5HpqX8uj
+ zPZk8YX+TMBFA+WS4BRHEByMUCdOT8cpQ1OGpAnCK9EzU6diD83S+qQeF+FsyRH1
+ F+gE5C0KddY331Tnz/2cO5mpXg7hRwzEJ5lzkkHJQTCWTX7Zv9doiUkRJw9h9RSl
+ z0ZjsULNMlOVjgOMBm/Rck74kIwX4/tTM7u6hTiHRpLi6HQ7UarBzMHYQD2KR0Tw
+ ==
+X-ME-Sender: <xms:-kNPYDYh6vaFSNQ-fvaHMz09sgz0CJMxn7H_y1rFX1yyq1cq9h56KQ>
+ <xme:-kNPYILwmiAmjkCJba8BjMA-6VYZVAHeSexxh0Ft1bmNYlCaUywO1Yg6ipNGyt-fa
+ jaikYklPLVbF_AsHKI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvledgvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:-kNPYECC6GWTzt2tXyXpHeAJdgLaj9vuxWGXOntYRgeoQ1VreZqhUg>
+ <xmx:-kNPYEPcGOVmGxg7nT6tMbTRi508A-krttt_29SJL2cvqH38Zk7r8Q>
+ <xmx:-kNPYJXksFw3jG68QaU1-4v9iSrMNRV7_WvEVmPb3_7kp7bhc0CeZw>
+ <xmx:-0NPYEmqYEv-oWsFg116Hf_3GFCHEe8SIsUrFqMKXmEXrR8ZZZzb2Q>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1E43224005D;
+ Mon, 15 Mar 2021 07:24:41 -0400 (EDT)
+Date: Mon, 15 Mar 2021 12:24:39 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Subject: Re: [PATCH 2/2] hw/block/nvme: assert namespaces array indices
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Message-ID: <YE9D9+dsbn0DDPGT@apples.localdomain>
 References: <20210315110359.51450-1-its@irrelevant.dk>
  <20210315110359.51450-3-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <edd50e76-76bd-0d74-878a-0e7c02544e9f@redhat.com>
-Date: Mon, 15 Mar 2021 12:19:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ <edd50e76-76bd-0d74-878a-0e7c02544e9f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210315110359.51450-3-its@irrelevant.dk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dlFEony/uLoI+LYa"
+Content-Disposition: inline
+In-Reply-To: <edd50e76-76bd-0d74-878a-0e7c02544e9f@redhat.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,110 +96,141 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 12:03 PM, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Coverity complains about a possible memory corruption in the
-> nvme_ns_attach and _detach functions. While we should not (famous last
-> words) be able to reach this function without nsid having previously
-> been validated, this is still an open door for future misuse.
-> 
-> Make Coverity and maintainers happy by asserting that the index into the
-> array is valid. Also, while not detected by Coverity (yet), add an
-> assert in nvme_subsys_ns and nvme_subsys_register_ns as well since a
-> similar issue is exists there.
-> 
-> Fixes: 037953b5b299 ("hw/block/nvme: support namespace detach")
-> Fixes: CID 1450757
-> Fixes: CID 1450758
-> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme-subsys.h |  2 ++
->  hw/block/nvme.h        | 10 ++++++++--
->  hw/block/nvme-subsys.c |  7 +++++--
->  3 files changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-> index fb66ae752ad5..aafa04b84829 100644
-> --- a/hw/block/nvme-subsys.h
-> +++ b/hw/block/nvme-subsys.h
-> @@ -54,6 +54,8 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
->          return NULL;
->      }
->  
-> +    assert(nsid && nsid <= NVME_SUBSYS_MAX_NAMESPACES);
-> +
->      return subsys->namespaces[nsid];
->  }
->  
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 4955d649c7d4..45ba9dbc2131 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -236,12 +236,18 @@ static inline bool nvme_ns_is_attached(NvmeCtrl *n, NvmeNamespace *ns)
->  
->  static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
->  {
-> -    n->namespaces[nvme_nsid(ns) - 1] = ns;
-> +    uint32_t nsid = ns->params.nsid;
 
-Why not keep using nvme_nsid(ns)?
+--dlFEony/uLoI+LYa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +    assert(nsid && nsid <= NVME_MAX_NAMESPACES);
-> +
-> +    n->namespaces[nsid - 1] = ns;
->  }
->  
->  static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
->  {
-> -    n->namespaces[nvme_nsid(ns) - 1] = NULL;
-> +    uint32_t nsid = ns->params.nsid;
+On Mar 15 12:19, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 3/15/21 12:03 PM, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Coverity complains about a possible memory corruption in the
+> > nvme_ns_attach and _detach functions. While we should not (famous last
+> > words) be able to reach this function without nsid having previously
+> > been validated, this is still an open door for future misuse.
+> >=20
+> > Make Coverity and maintainers happy by asserting that the index into the
+> > array is valid. Also, while not detected by Coverity (yet), add an
+> > assert in nvme_subsys_ns and nvme_subsys_register_ns as well since a
+> > similar issue is exists there.
+> >=20
+> > Fixes: 037953b5b299 ("hw/block/nvme: support namespace detach")
+> > Fixes: CID 1450757
+> > Fixes: CID 1450758
+> > Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/block/nvme-subsys.h |  2 ++
+> >  hw/block/nvme.h        | 10 ++++++++--
+> >  hw/block/nvme-subsys.c |  7 +++++--
+> >  3 files changed, 15 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
+> > index fb66ae752ad5..aafa04b84829 100644
+> > --- a/hw/block/nvme-subsys.h
+> > +++ b/hw/block/nvme-subsys.h
+> > @@ -54,6 +54,8 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsy=
+stem *subsys,
+> >          return NULL;
+> >      }
+> > =20
+> > +    assert(nsid && nsid <=3D NVME_SUBSYS_MAX_NAMESPACES);
+> > +
+> >      return subsys->namespaces[nsid];
+> >  }
+> > =20
+> > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> > index 4955d649c7d4..45ba9dbc2131 100644
+> > --- a/hw/block/nvme.h
+> > +++ b/hw/block/nvme.h
+> > @@ -236,12 +236,18 @@ static inline bool nvme_ns_is_attached(NvmeCtrl *=
+n, NvmeNamespace *ns)
+> > =20
+> >  static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
+> >  {
+> > -    n->namespaces[nvme_nsid(ns) - 1] =3D ns;
+> > +    uint32_t nsid =3D ns->params.nsid;
+>=20
+> Why not keep using nvme_nsid(ns)?
+>=20
+> > +    assert(nsid && nsid <=3D NVME_MAX_NAMESPACES);
+> > +
+> > +    n->namespaces[nsid - 1] =3D ns;
+> >  }
+> > =20
+> >  static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
+> >  {
+> > -    n->namespaces[nvme_nsid(ns) - 1] =3D NULL;
+> > +    uint32_t nsid =3D ns->params.nsid;
+>=20
+> Ditto.
+>=20
+> > +    assert(nsid && nsid <=3D NVME_MAX_NAMESPACES);
+> > +
+> > +    n->namespaces[nsid - 1] =3D NULL;
+> >  }
+> > =20
+> >  static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
+> > diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
+> > index af4804a819ee..2f6d3b47bacf 100644
+> > --- a/hw/block/nvme-subsys.c
+> > +++ b/hw/block/nvme-subsys.c
+> > @@ -47,15 +47,18 @@ int nvme_subsys_register_ns(NvmeNamespace *ns, Erro=
+r **errp)
+> >  {
+> >      NvmeSubsystem *subsys =3D ns->subsys;
+> >      NvmeCtrl *n;
+> > +    uint32_t nsid =3D ns->params.nsid;
+>=20
+> Ditto.
+>=20
+> Preferably using nvme_nsid():
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
 
-Ditto.
+You are right. I'll switch it back. Thanks!
 
-> +    assert(nsid && nsid <= NVME_MAX_NAMESPACES);
-> +
-> +    n->namespaces[nsid - 1] = NULL;
->  }
->  
->  static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
-> diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
-> index af4804a819ee..2f6d3b47bacf 100644
-> --- a/hw/block/nvme-subsys.c
-> +++ b/hw/block/nvme-subsys.c
-> @@ -47,15 +47,18 @@ int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp)
->  {
->      NvmeSubsystem *subsys = ns->subsys;
->      NvmeCtrl *n;
-> +    uint32_t nsid = ns->params.nsid;
+> >      int i;
+> > =20
+> > -    if (subsys->namespaces[nvme_nsid(ns)]) {
+> > +    assert(nsid && nsid <=3D NVME_SUBSYS_MAX_NAMESPACES);
+> > +
+> > +    if (subsys->namespaces[nsid]) {
+> >          error_setg(errp, "namespace %d already registerd to subsy %s",
+> >                     nvme_nsid(ns), subsys->parent_obj.id);
+> >          return -1;
+> >      }
+> > =20
+> > -    subsys->namespaces[nvme_nsid(ns)] =3D ns;
+> > +    subsys->namespaces[nsid] =3D ns;
+> > =20
+> >      for (i =3D 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
+> >          n =3D subsys->ctrls[i];
+> >=20
+>=20
 
-Ditto.
+--dlFEony/uLoI+LYa
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Preferably using nvme_nsid():
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+-----BEGIN PGP SIGNATURE-----
 
->      int i;
->  
-> -    if (subsys->namespaces[nvme_nsid(ns)]) {
-> +    assert(nsid && nsid <= NVME_SUBSYS_MAX_NAMESPACES);
-> +
-> +    if (subsys->namespaces[nsid]) {
->          error_setg(errp, "namespace %d already registerd to subsy %s",
->                     nvme_nsid(ns), subsys->parent_obj.id);
->          return -1;
->      }
->  
-> -    subsys->namespaces[nvme_nsid(ns)] = ns;
-> +    subsys->namespaces[nsid] = ns;
->  
->      for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
->          n = subsys->ctrls[i];
-> 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBPQ/YACgkQTeGvMW1P
+Dek+fQf9HBYRaCpsmdWNV9ECgsEu1PqA9gCLYZa1O5VMIfPoZEuihnE5CQzAE2/w
+U+HVo6oStn9GMPdUJL0IHQpBiu6wRPEYsBLg3Rb+FqSUTdMaJqdPDBjvZBBjWttA
+1cqBw/aet8njEE3GeFMG1NlfY0lCPOKBiK/5fjKsuL4YmJ54JeloZF7dlWHCg/R+
+dsj5uBk9HQGMbL31j0KyCLfhRvLyvoGXJ/5nQTl2EqOu4hYg/FvQxbpgvOXqMViI
+41tK8V/vrWYTK09h8UZJCPdXzjGw94W8/uMX1bYQhFzfjpu9o4/J3CUvAQL2eRgM
+PJua3fpxeKHYGXYCv2tiRwYCF2+NnA==
+=CtYS
+-----END PGP SIGNATURE-----
 
+--dlFEony/uLoI+LYa--
 
