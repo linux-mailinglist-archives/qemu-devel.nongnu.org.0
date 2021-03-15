@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E505F33B0C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:13:03 +0100 (CET)
-Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E4B33B0C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:14:57 +0100 (CET)
+Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLl9j-0000nr-01
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
+	id 1lLlBY-0002RY-6K
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLl4y-0006GS-6z
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:08:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59629)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLl6N-00075C-21
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:09:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLl4u-0000IP-Tz
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:08:07 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLl6H-00014Y-Be
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:09:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615806481;
+ s=mimecast20190719; t=1615806567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=msWbx+F+WWP2pTEoxz86s5oYTHQRANxAFH279m1Aibs=;
- b=gjjRk8gfauxBiw9rutr5ZAfqyvnkRd3k3CLU6G5d+GIhHGMZy2kDtWogBjoEViqux1OdWG
- 7H6mSCDfDR3RnBbhZsapdPGQuO+SqKTfxwrNV/USoWgUwGptI4+7q2nb2xaSUWLCbTWHmt
- a2cf2n7uspZMqv9RzqYxOHClKq65akY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-5v1cTVWnNZ-Yo3akl5RWhg-1; Mon, 15 Mar 2021 07:08:00 -0400
-X-MC-Unique: 5v1cTVWnNZ-Yo3akl5RWhg-1
-Received: by mail-wr1-f70.google.com with SMTP id h5so14888570wrr.17
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 04:07:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=msWbx+F+WWP2pTEoxz86s5oYTHQRANxAFH279m1Aibs=;
- b=g0VD6w60o1A2Kn8tb9f984jCTDhbcE6u8cpnNxjorlaVLVELPqQfhDgrl/6vHUeruA
- X2ZWSFkvM6DKkRVvthAfH/0cHKvoHmTEclyyanAOWhT++hX0yiLIaP0Q+NhScLCVwjry
- S2TPMisz55wz9C08iQKFuQIhCFzkKY2wvy09Q2GpdN1E3kAiGNne7qXHX+lEVKbmmVU3
- PB2f7iWl1CI2T1kClN4zUFS495BfyflhnaDZIMMZSQRtDAXgxwCK6LMEGJwkNTSBtJZv
- pXFV7MbD4zC3faCUWrzESWKwcaj82QwLVQbeFo9GvtSkl4e1adlmATl2h5CUd8YfRh57
- 0U4w==
-X-Gm-Message-State: AOAM532nEZzr9jBi3LBI+Buhy2AjXiusYrdVViNvXzKNV5pC2kdAnQwy
- 0s9McqRWlX+WHNPd2K4CjPPPfdoYG7ynpdVsaLUPggVM0y/Jem+1lK471oliZ2R7Y5k88c9KqOj
- Kn40BGfY8CzNzOL71vpfglqptT5FD6a2AJfWXPTCobCmreDTu9C/swqRJdNQUyEBJ
-X-Received: by 2002:a5d:6a81:: with SMTP id s1mr26947646wru.401.1615806477804; 
- Mon, 15 Mar 2021 04:07:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyE/eStDj1ZWe+V92IkQSQjUEX264w5Rb7K+GAmvJpRjNBgmkGPXVfCavl+/vnRKVDjbbTaxA==
-X-Received: by 2002:a5d:6a81:: with SMTP id s1mr26947625wru.401.1615806477619; 
- Mon, 15 Mar 2021 04:07:57 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id v9sm18375986wrn.86.2021.03.15.04.07.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 04:07:57 -0700 (PDT)
-Subject: Re: ALSA errors?
-To: Izak van Langevelde <eezacque@xs4all.nl>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
- <vr_qemu@t-online.de>
-References: <af1b31d4-b9d1-3db9-3301-5b2b9ce867c8@xs4all.nl>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <01c00886-6435-dc7e-77cb-07f4507b6110@redhat.com>
-Date: Mon, 15 Mar 2021 12:07:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ bh=8eDNOwsVT4D4NsAwLCtcOzteI/Em3+S6N8Qffmi6WDw=;
+ b=cqcEnh13W2ImoVZJmJwsTS7IdOv83JCXh5zqR0vFEfZRrtFX8UT+/SqbWs8wmkhZhErGbT
+ q9xrDY0SDD0Wq0bhjsAcMvxeC2E0MIWG0+goRfBMkdkJ8ESplC59DMKT73ILmlh5vBE4S4
+ gshdfCy4QVw6dU157iOGk8GcL/GOdPk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-poXLnDUxPRWvZqfyIE_Wxg-1; Mon, 15 Mar 2021 07:09:25 -0400
+X-MC-Unique: poXLnDUxPRWvZqfyIE_Wxg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B54B7802B45;
+ Mon, 15 Mar 2021 11:09:24 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-128.ams2.redhat.com [10.36.115.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 146B65C3E6;
+ Mon, 15 Mar 2021 11:09:15 +0000 (UTC)
+Date: Mon, 15 Mar 2021 12:09:14 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 27/30] hmp: QAPIfy object_add
+Message-ID: <YE9AWksF89nc2NjV@merkur.fritz.box>
+References: <20210308165440.386489-1-kwolf@redhat.com>
+ <20210308165440.386489-28-kwolf@redhat.com>
+ <87pn03rxmq.fsf@dusky.pond.sub.org>
+ <cb9bee91-8d38-b232-44bd-b163d7081395@redhat.com>
+ <87tupckb7d.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <af1b31d4-b9d1-3db9-3301-5b2b9ce867c8@xs4all.nl>
+In-Reply-To: <87tupckb7d.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,61 +79,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing audio team
+Am 15.03.2021 um 10:39 hat Markus Armbruster geschrieben:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+> 
+> > On 13/03/21 14:28, Markus Armbruster wrote:
+> >> Kevin Wolf <kwolf@redhat.com> writes:
+> >> 
+> >>> This switches the HMP command object_add from a QemuOpts-based parser to
+> >>> user_creatable_add_from_str() which uses a keyval parser and enforces
+> >>> the QAPI schema.
+> >>>
+> >>> Apart from being a cleanup, this makes non-scalar properties and help
+> >>> accessible. In order for help to be printed to the monitor instead of
+> >>> stdout, the printf() calls in the help functions are changed to
+> >>> qemu_printf().
+> >>>
+> >>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> >>> Acked-by: Peter Krempa <pkrempa@redhat.com>
+> >>> Reviewed-by: Eric Blake <eblake@redhat.com>
+> >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >>> ---
+> >>>   monitor/hmp-cmds.c      | 17 ++---------------
+> >>>   qom/object_interfaces.c | 11 ++++++-----
+> >>>   hmp-commands.hx         |  2 +-
+> >>>   3 files changed, 9 insertions(+), 21 deletions(-)
+> >>>
+> >>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> >>> index 3c88a4faef..652cf9ff21 100644
+> >>> --- a/monitor/hmp-cmds.c
+> >>> +++ b/monitor/hmp-cmds.c
+> >>> @@ -1670,24 +1670,11 @@ void hmp_netdev_del(Monitor *mon, const QDict *qdict)
+> >>>   
+> >>>   void hmp_object_add(Monitor *mon, const QDict *qdict)
+> >>>   {
+> >>> +    const char *options = qdict_get_str(qdict, "object");
+> >>>       Error *err = NULL;
+> >>> -    QemuOpts *opts;
+> >>> -    Object *obj = NULL;
+> >>> -
+> >>> -    opts = qemu_opts_from_qdict(qemu_find_opts("object"), qdict, &err);
+> >>> -    if (err) {
+> >>> -        goto end;
+> >>> -    }
+> >>>   
+> >>> -    obj = user_creatable_add_opts(opts, &err);
+> >>> -    qemu_opts_del(opts);
+> >>> -
+> >>> -end:
+> >>> +    user_creatable_add_from_str(options, &err);
+> >>>       hmp_handle_error(mon, err);
+> >>> -
+> >>> -    if (obj) {
+> >>> -        object_unref(obj);
+> >>> -    }
+> >>>   }
+> >> 
+> >> Doesn't this break the list-valued properties (Memdev member host-nodes,
+> >> NumaNodeOptions member cpus) exactly the same way that made us keep
+> >> QemuOpts for qemu-system-FOO -object?
+> >
+> > Yes, it does.  I guess it can just be documented, unlike for the command 
+> > line?
+> 
+> Maybe.  Judgement call, not mine to make.
+> 
+> Do people create such objects in HMP?  I figure we don't really know.
+> Educated guess?
+> 
+> If you try, how does it break?  Is it confusing?  Can you show an
+> example?
 
-On 3/15/21 11:57 AM, Izak van Langevelde wrote:
-> It's been a while since I used qemu, but when I try to run my virtual
-> machine I get the following errors:
-> 
-> ALSA lib pcm_dsnoop.c:641:(snd_pcm_dsnoop_open) unable to open slave
-> alsa: Could not initialize ADC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> ALSA lib pcm_dsnoop.c:641:(snd_pcm_dsnoop_open) unable to open slave
-> alsa: Could not initialize ADC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> audio: Failed to create voice `ac97.pi'
-> ALSA lib pcm_dmix.c:1089:(snd_pcm_dmix_open) unable to open slave
-> alsa: Could not initialize DAC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> ALSA lib pcm_dmix.c:1089:(snd_pcm_dmix_open) unable to open slave
-> alsa: Could not initialize DAC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> audio: Failed to create voice `ac97.po'
-> ALSA lib pcm_dsnoop.c:641:(snd_pcm_dsnoop_open) unable to open slave
-> alsa: Could not initialize ADC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> ALSA lib pcm_dsnoop.c:641:(snd_pcm_dsnoop_open) unable to open slave
-> alsa: Could not initialize ADC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> audio: Failed to create voice `ac97.mc'
-> ALSA lib pcm_dmix.c:1089:(snd_pcm_dmix_open) unable to open slave
-> alsa: Could not initialize DAC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> ALSA lib pcm_dmix.c:1089:(snd_pcm_dmix_open) unable to open slave
-> alsa: Could not initialize DAC
-> alsa: Failed to open `default':
-> alsa: Reason: No such file or directory
-> audio: Failed to create voice `adlib'
-> qemu-system-x86_64: Initialization of device adlib failed: Initializing
-> audio voice failed
-> 
-> Looks like the world has changed, how can I get qemu back into working
-> shape?
-> 
-> 
-> Any help is appreciated,
-> Izak
-> 
+(qemu) object_add memory-backend-ram,id=mem,size=4G,policy=bind,host-nodes=0
+Error: Invalid parameter type for 'host-nodes', expected: array
+(qemu) object_add memory-backend-ram,id=mem,size=4G,policy=bind,host-nodes.0=0
+(qemu)
+
+HMP is not a stable interface, so changing the syntax didn't feel like a
+problem to me. I doubt many people do HMP memory hotplug while setting a
+specific NUMA policy, but it wouldn't change my assessment anyway. I
+should have made this explicit in the commit message, though.
+
+Kevin
 
 
