@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A8F33BF15
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 15:59:39 +0100 (CET)
-Received: from localhost ([::1]:54822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F3233BF69
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:06:53 +0100 (CET)
+Received: from localhost ([::1]:59788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLoh0-000231-96
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 10:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35228)
+	id 1lLonz-0005CR-Mt
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLof6-0001BL-ND
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:57:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51815)
+ id 1lLolp-0004Uz-8G
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:04:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLof3-0007Ay-Ve
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:57:40 -0400
+ id 1lLolj-0002xB-ND
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:04:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615820257;
+ s=mimecast20190719; t=1615820670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XxBN8tSi8xbjQVI1gT0IG2P4x4wS7ksv+7xsFhNflss=;
- b=DoiyZIMkBbgto42xDXENyukRWGQ6mlasLwuW8V3yJBc3rQSNX2eJXB0L62/XGGngzzSz21
- XbEttMi+so1/TLkXetyr8ZEaiJrtXEYU6W9dfYliu37DQxFKyQ0xrLmReblVwZ00MereUI
- vaa9dkrKDDN0JHPt/sGUkD88P5Ao/OE=
+ bh=gsTnIyjD60Opkm7g69ufbCJgnzrVmakg7+yInPwceKY=;
+ b=EoUiq3sgKQj5GiiJpf9s2wXYQ1As1NQi7B2DFDUrLBpS3XaOQ2PcR5bpD6V/Dns4ljCJLE
+ Tr+hWR+Vra5i9EM7DUS8RyOWyrYG2O9Wt1u68X8ff3vg19YF4mKN7UTHQPTk1FQsW64QOT
+ 2HnTTGUVpd7unEhRyNv6lTpC/KcPHBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-uvQduHRQOFWmubB1K9Dc9w-1; Mon, 15 Mar 2021 10:57:35 -0400
-X-MC-Unique: uvQduHRQOFWmubB1K9Dc9w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-375-zxqvNDcFPeSkrUvVAFjTjg-1; Mon, 15 Mar 2021 11:04:28 -0400
+X-MC-Unique: zxqvNDcFPeSkrUvVAFjTjg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3102119200C1;
- Mon, 15 Mar 2021 14:57:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4994480006E;
+ Mon, 15 Mar 2021 15:04:27 +0000 (UTC)
 Received: from work-vm (ovpn-114-235.ams2.redhat.com [10.36.114.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 670725D9D3;
- Mon, 15 Mar 2021 14:57:20 +0000 (UTC)
-Date: Mon, 15 Mar 2021 14:57:17 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F404D510ED;
+ Mon, 15 Mar 2021 15:04:21 +0000 (UTC)
+Date: Mon, 15 Mar 2021 15:04:19 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 7/7] virtiofsd: Release vu_dispatch_lock when stopping
- queue
-Message-ID: <YE91zZZu6PlE4zhz@work-vm>
-References: <20210312092212.782255-1-groug@kaod.org>
- <20210312092212.782255-8-groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Add qemu version and copyright info
+Message-ID: <YE93cwGU75LPUx2N@work-vm>
+References: <20210303195339.GB3793@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210312092212.782255-8-groug@kaod.org>
+In-Reply-To: <20210303195339.GB3793@redhat.com>
 User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,93 +78,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ eric.g.ernst@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> QEMU can stop a virtqueue by sending a VHOST_USER_GET_VRING_BASE request
-> to virtiofsd. As with all other vhost-user protocol messages, the thread
-> that runs the main event loop in virtiofsd takes the vu_dispatch lock in
-> write mode. This ensures that no other thread can access virtqueues or
-> memory tables at the same time.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Option "-V" currently displays the fuse protocol version virtiofsd is
+> using. For example, I see this.
 > 
-> In the case of VHOST_USER_GET_VRING_BASE, the main thread basically
-> notifies the queue thread that it should terminate and waits for its
-> termination:
+> $ ./virtiofsd -V
+> "using FUSE kernel interface version 7.33"
 > 
-> main()
->  virtio_loop()
->   vu_dispatch_wrlock()
->   vu_dispatch()
->    vu_process_message()
->     vu_get_vring_base_exec()
->      fv_queue_cleanup_thread()
->       pthread_join()
+> People also want to know software version of virtiofsd so that they can
+> figure out if a certain fix is part of currently running virtiofsd or
+> not. Eric Ernst ran into this issue.
 > 
-> Unfortunately, the queue thread ends up calling virtio_send_msg()
-> at some point, which itself needs to grab the lock:
+> David Gilbert thinks that it probably is best that we simply carry the
+> qemu version and display that information given we are part of qemu
+> tree. 
 > 
-> fv_queue_thread()
->  g_list_foreach()
->   fv_queue_worker()
->    fuse_session_process_buf_int()
->     do_release()
->      lo_release()
->       fuse_reply_err()
->        send_reply()
->         send_reply_iov()
->          fuse_send_reply_iov_nofree()
->           fuse_send_msg()
->            virtio_send_msg()
->             vu_dispatch_rdlock() <-- Deadlock !
+> So this patch enhances version information and also adds qemu version
+> and copyright info. Not sure if copyright information is supposed
+> to be displayed along with version info. Given qemu-storage-daemon
+> and other utilities are doing it, so I continued with same pattern.
+> This is how now output looks like.
 > 
-> Simply have the main thread to release the lock before going to
-> sleep and take it back afterwards. A very similar patch was already
-> sent by Vivek Goyal sometime back:
+> $ ./virtiofsd -V
+> virtiofsd version 5.2.50 (v5.2.0-2357-gcbcf09872a-dirty)
+> Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+> using FUSE kernel interface version 7.33
 > 
-> https://listman.redhat.com/archives/virtio-fs/2021-January/msg00073.html
-> 
-> The only difference here is that this done in fv_queue_set_started()
-> because fv_queue_cleanup_thread() can also be called from virtio_loop()
-> without the lock being held.
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reported-by: Eric Ernst <eric.g.ernst@gmail.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
-I've queued just this 7/7 in the virtiofsd pull I'm just making at the
-moment.  I'll leave the rest to ride the vhost-user train.
-
-Dave
+Queued
 
 > ---
->  tools/virtiofsd/fuse_virtio.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  tools/virtiofsd/passthrough_ll.c |    8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 523ee64fb7ae..3e13997406bf 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -792,7 +792,13 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
->              assert(0);
->          }
->      } else {
-> +        /*
-> +         * Temporarily drop write-lock taken in virtio_loop() so that
-> +         * the queue thread doesn't block in virtio_send_msg().
-> +         */
-> +        vu_dispatch_unlock(vud);
->          fv_queue_cleanup_thread(vud, qidx);
-> +        vu_dispatch_wrlock(vud);
->      }
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-03-03 14:28:04.893672524 -0500
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-03-03 14:37:29.381712706 -0500
+> @@ -37,6 +37,8 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qemu/timer.h"
+> +#include "qemu-version.h"
+> +#include "qemu-common.h"
+>  #include "fuse_virtio.h"
+>  #include "fuse_log.h"
+>  #include "fuse_lowlevel.h"
+> @@ -3591,6 +3593,11 @@ static void fuse_lo_data_cleanup(struct
+>      free(lo->source);
 >  }
 >  
-> -- 
-> 2.26.2
+> +static void qemu_version(void)
+> +{
+> +    printf("virtiofsd version " QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\n");
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+>      struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+> @@ -3662,6 +3669,7 @@ int main(int argc, char *argv[])
+>          ret = 0;
+>          goto err_out1;
+>      } else if (opts.show_version) {
+> +        qemu_version();
+>          fuse_lowlevel_version();
+>          ret = 0;
+>          goto err_out1;
+> 
 > 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
