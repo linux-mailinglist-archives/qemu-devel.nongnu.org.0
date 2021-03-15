@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234BC33C97E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 23:45:17 +0100 (CET)
-Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8B033C9B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:10:00 +0100 (CET)
+Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLvxc-0003iF-5u
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 18:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
+	id 1lLwLW-0002F1-Jf
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLvwS-0003H4-Si
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 18:44:04 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLvwR-0007QA-3A
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 18:44:04 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id g25so9024938wmh.0
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 15:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=no9OjpTG1g4p4lsYgtKm24tmYkx6YWnUZH/z4t7HBOM=;
- b=qJydv0/CTtkbN0jX2jCBmnCo/1WbyvqeJu5N1nO8cKjTA8SLBlVv3ZJbUtkuBfoJ4H
- pIQ/vaK9GH8UVAJQ4wkonSESF/jutZPd5Lk9U1NTs+5x6UFF8V6FnAwvB5PDMGwQ6ZHJ
- 2XzAbAQz2QuNbt3poKh5UxX5euqctFmA9A0v4m7QbV0Gj1H+oHZhKQSZXI6cSWy/b/Fi
- Hdnb5EWgd5QxUJw5AK6P4ukYFDz8EmtpcIrngIDImYN6RtQBmr02s5n9n9SYkAXuls/E
- VKt7Ey6rmd0jCI1bAq5aeaoAe6e0nBVIb5a2o9otqzcq/A+skGUQc9sTZnXlbkk4Ip8T
- wl8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=no9OjpTG1g4p4lsYgtKm24tmYkx6YWnUZH/z4t7HBOM=;
- b=Ue5DrP7ZPpOAvjj1e+D0qvtdrsLAOHGzKpndyXYWvgJST7w6cy4kXMA5UQjaAxHOzV
- ejv9oghj9AdgXIJGhOB6aYpTh3R1SdxxV9/S7pKh3xzapw4K3W+HFgfdO3+bEDVT0UfW
- 4NT5656MbzmUbFZwXBQdqZxFonOjngFDDxGkokgafjPnhUvbrknPssR/+Cs6/0OmqMl7
- b2ZJ7wZJux9id4LvnOHQO1zYgo1iBjSZUpdPMlEPs/g7aFng3dCn8+VmvRnmOg/IPne9
- 3/a2yLLEucD5OF/5LbflDnZ0fTCuotEXraDG5CMjGDUKaNSTrW1phAirGQdpFF8Op/G8
- ZPMA==
-X-Gm-Message-State: AOAM533vsMTGPpze8cQhbJUJpirS9sgHw3bWd5saR3QCVbQY9iTBV8yz
- 1h7G13trCoD5xRQJvqoGjpY=
-X-Google-Smtp-Source: ABdhPJxw9EFPouaOtbvwoHpkwplvrr4vo3xr1lcseQusUWYlCdUEq832RYK6lk0AdpW86BVV1hIbaw==
-X-Received: by 2002:a05:600c:b57:: with SMTP id
- k23mr1661652wmr.145.1615848241824; 
- Mon, 15 Mar 2021 15:44:01 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id j9sm1073187wmi.24.2021.03.15.15.44.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 15:44:00 -0700 (PDT)
-Subject: Re: [PULL 18/27] target/mips: Extract MXU code to new mxu_translate.c
- file
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210313194829.2193621-1-f4bug@amsat.org>
- <20210313194829.2193621-19-f4bug@amsat.org>
- <CAFEAcA-LtcZCUo1Vu2fVCJRqR99117ewFTZAePuYc-wrTGe2XA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0fc23e4c-77d6-2528-b424-9998c9d8abbb@amsat.org>
-Date: Mon, 15 Mar 2021 23:43:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1lLwK9-0000y1-8z
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:08:33 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:44252 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1lLwK1-0001n8-DI
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:08:31 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id C72E8412DB;
+ Mon, 15 Mar 2021 23:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1615849700;
+ x=1617664101; bh=3Rxjahu5tqSiRCN/m2MBcKvOdpsQ9++18L/3roG8ZqM=; b=
+ wIKGjIzPI8+BfbEwm9d01X5cOdQnInboEoaOVlk82+YY7ice+SuhYnfU5boOfaMu
+ Oarm9eHTDuH0dff7Cc9Sk/zwar4u0eviMBe1brxC9iI4uDAR6+0Cjh8GFVaT5Yho
+ 555iJirVBUDYGswSFlKseGofvYca1Tq31ZLUC4Pzyww=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kC2xD0K0zBTz; Tue, 16 Mar 2021 02:08:20 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 1A01A412D8;
+ Tue, 16 Mar 2021 02:08:19 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 16
+ Mar 2021 02:08:19 +0300
+Date: Tue, 16 Mar 2021 02:08:18 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 00/29] tcg: Workaround macOS 11.2 mprotect bug
+Message-ID: <YE/o4sKAfN+5DiN1@SPB-NB-133.local>
+References: <20210314212724.1917075-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-LtcZCUo1Vu2fVCJRqR99117ewFTZAePuYc-wrTGe2XA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210314212724.1917075-1-richard.henderson@linaro.org>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,124 +77,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 10:33 PM, Peter Maydell wrote:
-> On Sat, 13 Mar 2021 at 19:58, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Extract 1600+ lines from the big translate.c into a new file.
->>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Sun, Mar 14, 2021 at 03:26:55PM -0600, Richard Henderson wrote:
+> Changes for v2:
+>   * Move tcg_init_ctx someplace more private (patch 29)
+>   * Round result of tb_size based on qemu_get_host_physmem (patch 26)
 > 
-> This code motion caused Coverity to rescan this code, and
-> it thinks there's a problem in this function (CID 1450831).
-> It looks to me like it might be right...
+> Blurb for v1:
+>   It took a few more patches than imagined to unify the two
+>   places in which we manipulate the tcg code_gen buffer, but
+>   the result is surely cleaner.
+> 
+>   There's a lot more that could be done to clean up this part
+>   of tcg too.  I tried to not get too side-tracked, but didn't
+>   wholly succeed.
+> 
+> 
 
-Oops, our mails crossed :)
+Hi Richard,
 
-I wonder if this is a simple rescan or if target/mips/translate.c
-is too big and Coverity bails out on it by timeout (this is what
-Coccinelle does). Now the extracted code could finally get processed.
+Thanks for doing the changes!
+I'm not sure if I'll find enough time for thorough review but the series
+helps qemu on Big Sur 11.2.3, so:
 
->> +/*
->> + *  D16MAX
->> + *    Update XRa with the 16-bit-wise maximums of signed integers
->> + *    contained in XRb and XRc.
->> + *
->> + *  D16MIN
->> + *    Update XRa with the 16-bit-wise minimums of signed integers
->> + *    contained in XRb and XRc.
->> + */
->> +static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
->> +{
->> +    uint32_t pad, opc, XRc, XRb, XRa;
->> +
->> +    pad = extract32(ctx->opcode, 21, 5);
->> +    opc = extract32(ctx->opcode, 18, 3);
->> +    XRc = extract32(ctx->opcode, 14, 4);
->> +    XRb = extract32(ctx->opcode, 10, 4);
->> +    XRa = extract32(ctx->opcode,  6, 4);
->> +
->> +    if (unlikely(pad != 0)) {
->> +        /* opcode padding incorrect -> do nothing */
->> +    } else if (unlikely(XRc == 0)) {
->> +        /* destination is zero register -> do nothing */
->> +    } else if (unlikely((XRb == 0) && (XRa == 0))) {
->> +        /* both operands zero registers -> just set destination to zero */
->> +        tcg_gen_movi_i32(mxu_gpr[XRc - 1], 0);
->> +    } else if (unlikely((XRb == 0) || (XRa == 0))) {
-> 
-> In this block of code either XRb or XRa is zero...
-> 
->> +        /* exactly one operand is zero register - find which one is not...*/
->> +        uint32_t XRx = XRb ? XRb : XRc;
->> +        /* ...and do half-word-wise max/min with one operand 0 */
->> +        TCGv_i32 t0 = tcg_temp_new();
->> +        TCGv_i32 t1 = tcg_const_i32(0);
->> +
->> +        /* the left half-word first */
->> +        tcg_gen_andi_i32(t0, mxu_gpr[XRx - 1], 0xFFFF0000);
->> +        if (opc == OPC_MXU_D16MAX) {
->> +            tcg_gen_smax_i32(mxu_gpr[XRa - 1], t0, t1);
->> +        } else {
->> +            tcg_gen_smin_i32(mxu_gpr[XRa - 1], t0, t1);
->> +        }
-> 
-> but in these smax/smin calls we're clearly assuming that
-> XRa is not zero.
-> 
-> There seems to be some confusion over which registers are
-> the inputs and which is the output. The top-level function
-> comment says XRa is the input and XRb/XRc the inputs.
-> But the "destination is zero register" comment is against
-> a check on XRc, and the "both operands zero" comment is
-> against a check on XRa and XRb, as is the "one operand
-> is zero" comment...
-> 
->> +/*
->> + *  Q8MAX
->> + *    Update XRa with the 8-bit-wise maximums of signed integers
->> + *    contained in XRb and XRc.
->> + *
->> + *  Q8MIN
->> + *    Update XRa with the 8-bit-wise minimums of signed integers
->> + *    contained in XRb and XRc.
->> + */
->> +static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
->> +{
->> +    uint32_t pad, opc, XRc, XRb, XRa;
->> +
->> +    pad = extract32(ctx->opcode, 21, 5);
->> +    opc = extract32(ctx->opcode, 18, 3);
->> +    XRc = extract32(ctx->opcode, 14, 4);
->> +    XRb = extract32(ctx->opcode, 10, 4);
->> +    XRa = extract32(ctx->opcode,  6, 4);
->> +
->> +    if (unlikely(pad != 0)) {
->> +        /* opcode padding incorrect -> do nothing */
->> +    } else if (unlikely(XRa == 0)) {
->> +        /* destination is zero register -> do nothing */
->> +    } else if (unlikely((XRb == 0) && (XRc == 0))) {
->> +        /* both operands zero registers -> just set destination to zero */
->> +        tcg_gen_movi_i32(mxu_gpr[XRa - 1], 0);
->> +    } else if (unlikely((XRb == 0) || (XRc == 0))) {
->> +        /* exactly one operand is zero register - make it be the first...*/
->> +        uint32_t XRx = XRb ? XRb : XRc;
-> 
-> Contrast this function, where the code and the comments are
-> all in agreement that XRa is destination and XRb/XRc inputs.
-
-Yes, from the spec XRa is the destination register, XRb/XRc are
-the compared inputs. Unfortunately I couldn't sort the function
-body code so I ended rewriting it.
+Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
 Regards,
+Roman
 
-Phil.
-
+> r~
+> 
+> 
+> Richard Henderson (29):
+>   meson: Split out tcg/meson.build
+>   meson: Split out fpu/meson.build
+>   tcg: Re-order tcg_region_init vs tcg_prologue_init
+>   tcg: Remove error return from tcg_region_initial_alloc__locked
+>   tcg: Split out tcg_region_initial_alloc
+>   tcg: Split out tcg_region_prologue_set
+>   tcg: Split out region.c
+>   accel/tcg: Inline cpu_gen_init
+>   accel/tcg: Move alloc_code_gen_buffer to tcg/region.c
+>   accel/tcg: Rename tcg_init to tcg_init_machine
+>   tcg: Create tcg_init
+>   accel/tcg: Merge tcg_exec_init into tcg_init_machine
+>   accel/tcg: Pass down max_cpus to tcg_init
+>   tcg: Introduce tcg_max_ctxs
+>   tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
+>   tcg: Replace region.end with region.total_size
+>   tcg: Rename region.start to region.after_prologue
+>   tcg: Tidy tcg_n_regions
+>   tcg: Tidy split_cross_256mb
+>   tcg: Move in_code_gen_buffer and tests to region.c
+>   tcg: Allocate code_gen_buffer into struct tcg_region_state
+>   tcg: Return the map protection from alloc_code_gen_buffer
+>   tcg: Sink qemu_madvise call to common code
+>   tcg: Do not set guard pages in the rx buffer
+>   util/osdep: Add qemu_mprotect_rw
+>   tcg: Round the tb_size default from qemu_get_host_physmem
+>   tcg: Merge buffer protection and guard page protection
+>   tcg: When allocating for !splitwx, begin with PROT_NONE
+>   tcg: Move tcg_init_ctx and tcg_ctx from accel/tcg/
+> 
+>  meson.build               |  13 +-
+>  accel/tcg/internal.h      |   2 +
+>  include/qemu/osdep.h      |   1 +
+>  include/sysemu/tcg.h      |   2 -
+>  include/tcg/tcg.h         |  15 +-
+>  tcg/aarch64/tcg-target.h  |   1 +
+>  tcg/arm/tcg-target.h      |   1 +
+>  tcg/i386/tcg-target.h     |   2 +
+>  tcg/internal.h            |  40 ++
+>  tcg/mips/tcg-target.h     |   6 +
+>  tcg/ppc/tcg-target.h      |   2 +
+>  tcg/riscv/tcg-target.h    |   1 +
+>  tcg/s390/tcg-target.h     |   3 +
+>  tcg/sparc/tcg-target.h    |   1 +
+>  tcg/tci/tcg-target.h      |   1 +
+>  accel/tcg/tcg-all.c       |  33 +-
+>  accel/tcg/translate-all.c | 439 +----------------
+>  bsd-user/main.c           |   1 -
+>  linux-user/main.c         |   1 -
+>  tcg/region.c              | 991 ++++++++++++++++++++++++++++++++++++++
+>  tcg/tcg.c                 | 634 ++----------------------
+>  util/osdep.c              |   9 +
+>  fpu/meson.build           |   1 +
+>  tcg/meson.build           |  14 +
+>  24 files changed, 1139 insertions(+), 1075 deletions(-)
+>  create mode 100644 tcg/internal.h
+>  create mode 100644 tcg/region.c
+>  create mode 100644 fpu/meson.build
+>  create mode 100644 tcg/meson.build
+> 
+> -- 
+> 2.25.1
+> 
 
