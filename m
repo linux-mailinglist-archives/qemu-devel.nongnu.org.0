@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B648833C5AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:31:45 +0100 (CET)
-Received: from localhost ([::1]:33654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1A333C5C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:36:42 +0100 (CET)
+Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLs0G-0001RG-L9
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
+	id 1lLs53-0000AM-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYX-0002D2-6Q
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYR-0000ZH-9a
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615831378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nqJow56vo8H02Enc88863yrq478CXxEGIatZH3j+5VQ=;
- b=XzAEuMABuEkWOw6SH4mh+FYcM8dV1FExXQnVZfcugt4uQJt0BqgzlhJcTETl2uKse5mqUi
- +6gjBAUbAnHk/tEaC6EgcnWrYnmJNMae+os7vXOp04nxAxq/No5KO1ZmnyMA/gIu7xpYvb
- 9SDNQngt/was9afnVM8dgUJYWc6JH3o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-kvh3sQyDNGKI6BS1ZDt_zQ-1; Mon, 15 Mar 2021 14:02:53 -0400
-X-MC-Unique: kvh3sQyDNGKI6BS1ZDt_zQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADB2E801FCE;
- Mon, 15 Mar 2021 18:02:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B8145D9C0;
- Mon, 15 Mar 2021 18:02:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AF5E71800843; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1lLrZE-0002b2-Oe
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:49 -0400
+Received: from mail-pj1-f52.google.com ([209.85.216.52]:39554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1lLrZC-0000qA-NO
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:48 -0400
+Received: by mail-pj1-f52.google.com with SMTP id
+ lr10-20020a17090b4b8ab02900dd61b95c5eso12585435pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:03:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y1rs2HPOtD5FKljEnDvYYS6MJHXjaTqMOoVOuF0UqjE=;
+ b=qDLa26RBQ9BQfyOnO/CwP9+QMrGrwBUWbt6jySFPuDFNNRV2Zql98W0meCJPrMohuD
+ uOmUU2Mz1QDelORsI8VcdqYuC1WQJq2xwtyrtgG1d3qh1WxKrSAroLYCjn58g7//X2VR
+ LrFD9n4UJOGWzqoGFKdIK+h2o8yzRHWxLoUZV1KikXtaicCCcj+Yz/3EPwnITRDKUoml
+ 8AWLhzfzowo7IRNiiLitboXfk+j2XZ7NJROwTuiyhHYN+h8Q2NRV6CMk+iF5W4Gy3B89
+ +zrtOcIdyaAXx4WqTUToMffKPG1mycmue4KUa6LAtASh20B4bwD+LC0Sfb9KJXnsgcZ0
+ Oi2Q==
+X-Gm-Message-State: AOAM533Hq3oiI0g1SrCXWyA/LqL4VCLlgiYM2j32PvXaWRPTs6SmZ4fd
+ /evqsRMnKAp3me9vISFEup6QrY+arD4=
+X-Google-Smtp-Source: ABdhPJwTmVwzCpGYq3TuO5JLListkzhYb9WpcuRe4CuyfnA1tHigaBtuc1G3OVLoY6Z25lA6M0VbOg==
+X-Received: by 2002:a17:902:344:b029:e4:a7ab:2e55 with SMTP id
+ 62-20020a1709020344b02900e4a7ab2e55mr12916107pld.63.1615831423919; 
+ Mon, 15 Mar 2021 11:03:43 -0700 (PDT)
+Received: from localhost.localdomain ([73.93.153.95])
+ by smtp.gmail.com with ESMTPSA id y194sm14267842pfb.21.2021.03.15.11.03.42
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 15 Mar 2021 11:03:43 -0700 (PDT)
+From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] usb/storage: clear csw on reset
-Date: Mon, 15 Mar 2021 19:02:40 +0100
-Message-Id: <20210315180240.1597240-14-kraxel@redhat.com>
-In-Reply-To: <20210315180240.1597240-1-kraxel@redhat.com>
-References: <20210315180240.1597240-1-kraxel@redhat.com>
+Subject: [PATCH v3 0/4] Disable unsupported features on iOS hosts
+Date: Mon, 15 Mar 2021 11:03:37 -0700
+Message-Id: <20210315180341.31638-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=209.85.216.52; envelope-from=osy86github@gmail.com;
+ helo=mail-pj1-f52.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,40 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stale data in csw (specifically residue) can confuse the state machine
-and allows the guest trigger an assert().  So clear csw on reset to
-avoid this happening in case the guest resets the device in the middle
-of a request.
+These patches disables code that cannot be compiled or run on iOS by adding
+feature/header detection at configure time.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1523811
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210312094954.796799-1-kraxel@redhat.com>
----
- hw/usb/dev-storage.c | 1 +
- 1 file changed, 1 insertion(+)
+Only the first patch still needs to be reviewed, thanks!
 
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index 7b587ad051ff..dca62d544fe9 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -313,6 +313,7 @@ void usb_msd_handle_reset(USBDevice *dev)
-         usb_msd_packet_complete(s);
-     }
- 
-+    memset(&s->csw, 0, sizeof(s->csw));
-     s->mode = USB_MSDM_CBW;
- }
- 
+v3:
+
+* Add braces in if statement in third patch
+
+v2:
+
+* Broken merge where config_host['CONFIG_SMBD_COMMAND'] was duplicated.
+
+Joelle van Dyne (4):
+  block: feature detection for host block support
+  block: check for sys/disk.h
+  block: detect DKIOCGETBLOCKCOUNT/SIZE before use
+  slirp: feature detection for smbd
+
+ configure            | 26 ++++++++++++++++++---
+ meson.build          |  9 ++++++--
+ qapi/block-core.json | 10 +++++---
+ block.c              |  2 +-
+ block/file-posix.c   | 54 +++++++++++++++++++++++++-------------------
+ net/slirp.c          | 16 ++++++-------
+ 6 files changed, 77 insertions(+), 40 deletions(-)
+
 -- 
-2.29.2
+2.28.0
 
 
