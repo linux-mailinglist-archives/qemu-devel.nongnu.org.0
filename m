@@ -2,41 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BA633C3B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:11:59 +0100 (CET)
-Received: from localhost ([::1]:38622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B0533C345
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:04:16 +0100 (CET)
+Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLql4-00032h-Iz
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40578)
+	id 1lLqdb-0008AM-RS
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
- id 1lLqXi-0004wJ-3Z
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:58:10 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:58983
- helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lLqXg-000817-8V
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:58:09 -0400
-Received: by diablo.13thmonkey.org (Postfix, from userid 103)
- id 44515C13ADD; Mon, 15 Mar 2021 17:58:05 +0100 (CET)
-Date: Mon, 15 Mar 2021 17:58:04 +0100
-From: Reinoud Zandijk <reinoud@NetBSD.org>
-To: qemu-devel@nongnu.org
-Subject: Windows 10 won't run on default x86_64 machine anymore
-Message-ID: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLqZK-0006X7-NF
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:59:50 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42109)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lLqZI-0008Qg-Qn
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:59:50 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id c10so67380777ejx.9
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 09:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5arqLts+L9ZeZmyVxdVQ6EyUjd4y8yQ8avGP15D23gU=;
+ b=z4DfV8f3J2EJnuH9ZK6Nx4DP+C/PtCB4u175WtPu8dC5CwBdoiPwTd18auO7X8evv7
+ qPAEUdRivheF40r43KvtBzP1YSkdIS2vyVX/8L//wQaI9WnKHVCgjqy6XlJ05lYQBvqn
+ SZsWTaeYxdfoIrUrgtlwCZexp6o9KkLaB2w5pNBKK9ohgZHhOJQPTkOQ29gdim8NbZj0
+ rOXorZ3dDlYWfUTWNCr7v3mrpmM9uLoqle98Cy+4HQUeNS1jIa1zE7mzbOSBkupW0kd4
+ KqHdD+jWGRqDKQmYsRlxgKlgxL3ED0rpf2X5Xtr2dTFv7IAEJpCA+HBMYSbmxy4GHv8y
+ 467g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5arqLts+L9ZeZmyVxdVQ6EyUjd4y8yQ8avGP15D23gU=;
+ b=Du91fKgl/ffboVLPQ0VQyGfhfIvgsru7Mg3EE71W0c+9AmETNciqHeY+WltqBuGdrT
+ WF/Oti4HbqqxWfn3d0HmhsNYEYlF78jX/CD4ij38uU962aoOwuGa9HHesPeOKbH7GK9D
+ id3vFAlCauWpCYgyttGA/aRiToq0h0wNl72JZseQBF6hEfzbi2txWuT/arfETXAQW9LJ
+ xx1H/B9c20eaZdbdUo5946CC3Q7bJiXjoUgGqnwg1l8saJhAgxyfIB01yfro2LyPYGH5
+ mp6Iq01AAQAiu3TileHYDbGeJnf8SNaEJswNXVYE83pNVYYvzDcxrWEdJmQ3RUwdAzEL
+ 8u6w==
+X-Gm-Message-State: AOAM5326xULlmz7pTYQ/LVux0mc9lqarB3ir/BAl1nW3SAPiiJmPEOYe
+ 7AcHwQTM09xwjKXNXDT+EP5/IXULUJOYUNB0I7uUxQ==
+X-Google-Smtp-Source: ABdhPJw//tZ4wGxiSUFqFS85NJTZF5H6Bs/jojd/+PW8zxH0BuDC7i4vbDbv6rmCoFUXL6wI6UleapRGvUnsDx9xfA4=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr25076091ejd.85.1615827587220; 
+ Mon, 15 Mar 2021 09:59:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n3Tq2PyLAzpwfY1V"
-Content-Disposition: inline
-Received-SPF: none client-ip=80.100.255.32;
- envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <20210314175025.114723-1-pbonzini@redhat.com>
+In-Reply-To: <20210314175025.114723-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Mar 2021 16:59:25 +0000
+Message-ID: <CAFEAcA8+nJj-zkaF+XFHRLKW2RrRP1sMk=VT_VFYTd08uUS7zA@mail.gmail.com>
+Subject: Re: [PULL 0/5] Meson version update
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -49,88 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, 14 Mar 2021 at 17:54, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 0436c55edf6b357ff56e2a5bf688df8636f83456:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-03-08 13:51:41 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson-0.57
+>
+> for you to fetch changes up to ddbac656401866a1a48d4829b5d02c239d1e8fc3:
+>
+>   hexagon: use env keyword argument to pass PYTHONPATH (2021-03-13 19:26:03 +0100)
+>
+> ----------------------------------------------------------------
+> Update Meson to 0.57.
+>
+> ----------------------------------------------------------------
 
---n3Tq2PyLAzpwfY1V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Merge conflict in tests/meson.build -- could you fix up and resend, please?
 
-Hi,
-
-with the introduction of the following patch from 17th of February, Win10
-won't boot anymore without explicitly setting the machine to be 5.2 compatible
-like pc-1440fx-5.2. The default 6.0 will cause it to panic and gives as reason
-only "ACPI error".
-
-It might work to counter a bug in Linux but this is not the place to do the
-patch. The BSDs don't care and will boot fine with full ACPI regardless of the
-machine chosen. Windows 10 however DOES care and gets confused.
-
-I think its better to revert this and fix Linux ;) or make it a selectable
-feature as a workaround that's by default OFF :)
-
-With regards,
-Reinoud
-
-
-The patch concerned is:
-
-commit 6be8cf56bc8bda2ed9a070bdb04446191f31acc9
-Author: Isaku Yamahata <isaku.yamahata@intel.com>
-Date:   Wed Feb 17 21:51:12 2021 -0800
-
-    acpi/core: always set SCI_EN when SMM isn't supported
-    
-    If SMM is not supported, ACPI fixed hardware doesn't support
-    legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
-    always set.
-    The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
-    
-    With the next patch (setting fadt.smi_cmd = 0 when smm isn't enabled),
-    guest Linux tries to switch to ACPI mode, finds smi_cmd = 0, and then
-    fails to initialize acpi subsystem. This patch proactively fixes it.
-    
-    This patch changes guest ABI. To keep compatibility, use
-    "smm-compat" introduced by earlier patch. If the property is true,
-    disable new behavior.
-    
-    ACPI spec 4.8.10.1 PM1 Event Grouping
-    PM1 Eanble Registers
-    > For ACPI-only platforms (where SCI_EN is always set)
-    
-    Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-    Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-    Message-Id:
-<500f62081626997e46f96377393d3662211763a8.1613615732.git.isaku.yamahata@intel.com>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
- hw/acpi/core.c         | 11 ++++++++++-
- hw/acpi/ich9.c         |  2 +-
- hw/acpi/piix4.c        |  3 ++-
- hw/core/machine.c      |  5 ++++-
- hw/isa/vt82c686.c      |  2 +-
- include/hw/acpi/acpi.h |  4 +++-
- 6 files changed, 21 insertions(+), 6 deletions(-)
-
-
-
---n3Tq2PyLAzpwfY1V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEELRHWktq6GkG74/X0gpw3AEPIqmgFAmBPkhoACgkQgpw3AEPI
-qmhdWAf/aimdwRWZevc1EZ2Girys9MpRAc2dpLhAr+RhFFSuqdH3Wv20J9uaAeTn
-1yqyIv8NHyLdllVdEpeEFZ/rQddAjHVKwMaLgXZqPsQy1x+sVCEHHHkgva9xWn5c
-Bco2xx7jnpAmlNlEwAlD1e09NlJ3GYCmtt1pkpiyenZ8DUhZFmkMgHzP3FjXf2uy
-GA+8/hFICs8hkYsx82spIq5f58foifuE12GqDRCf3svBlFMClQ1kvh5h6w7f/2RX
-uH43lNcK65BmAdKIsHqwCkwiiXvWPkgtFescMmh41+tMSmhmyG4SLqQZ/vRa58IT
-RfLwXGfhOSnDZ9FPY8F/4kaEn9prfA==
-=55oT
------END PGP SIGNATURE-----
-
---n3Tq2PyLAzpwfY1V--
+thanks
+-- PMM
 
