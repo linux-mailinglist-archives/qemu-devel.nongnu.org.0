@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B139533ADB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 09:37:31 +0100 (CET)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37A333AE02
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 09:56:56 +0100 (CET)
+Received: from localhost ([::1]:35016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLijC-00016U-6q
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 04:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
+	id 1lLj1z-0007GB-EN
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 04:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1lLihw-0000dq-8H
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 04:36:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26783)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lLj0A-0006N7-Mc
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 04:55:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1lLihs-0002Fb-5N
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 04:36:11 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lLj08-0004jV-57
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 04:55:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615797365;
+ s=mimecast20190719; t=1615798498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wK+h3iB8TZivvLSEPZDXx0o5F5Ft/X2AOCvhU1TbhjA=;
- b=WXiGNzsC3Go0yShThV82eOTD+E5rxcigFUC6REzCx1RBdBN1m9gMa0MAmd9dEh6W25lzVA
- cd5lNmXRlbXks5EYrMH29g5a3pojqFdw1AOAR8Wv7i+No5q/eBtECUmDTjfKeSaU50qn1V
- q4Y83AH1YRCVa+xFioSGW/weHt0aHP8=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NLPQjSwAbIWUR/2McXaCrbUuUoWIOeytzoO4pvASgqM=;
+ b=eLwdQi9SdLDGqeyrxgiU2SE8Ci8ht4wpEJrD16ddNSQANARFb1RGSZfNViW4cKHCVERQGo
+ CDA1B4QLYYMXSh5yZZE2CtywGKAbWVdKY7Fsd7waYztvIrW4l02nFc1RaJhBSx8RRAe2Ex
+ 23HUY0Esb7GmCdLqtNcwg2cawXofPCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-asL_zCGIP7-V-5ofe339aA-1; Mon, 15 Mar 2021 04:36:03 -0400
-X-MC-Unique: asL_zCGIP7-V-5ofe339aA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-264-UoJm8xVMOHq1cFauD9_dbg-1; Mon, 15 Mar 2021 04:54:56 -0400
+X-MC-Unique: UoJm8xVMOHq1cFauD9_dbg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7E0E8030D6
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 08:36:01 +0000 (UTC)
-Received: from lws.brq.redhat.com (unknown [10.40.193.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A112F5D9CD;
- Mon, 15 Mar 2021 08:36:00 +0000 (UTC)
-Date: Mon, 15 Mar 2021 09:35:57 +0100
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] Add missing initialization for g_autofree variables
-Message-ID: <20210315083557.jkbkee4owqibkjkb@lws.brq.redhat.com>
-References: <20210315080032.152210-1-mrezanin@redhat.com>
- <6ca4cc62-2313-e2db-1ad1-e7b9c4dfb829@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B211800C78;
+ Mon, 15 Mar 2021 08:54:55 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-112-200.ams2.redhat.com [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A163A62A03;
+ Mon, 15 Mar 2021 08:54:50 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/2] target/s390x: Implement the MVPG condition-code-option
+ bit
+Date: Mon, 15 Mar 2021 09:54:47 +0100
+Message-Id: <20210315085449.34676-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6ca4cc62-2313-e2db-1ad1-e7b9c4dfb829@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mrezanin@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -78,95 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 15, 2021 at 09:08:01AM +0100, Thomas Huth wrote:
-> On 15/03/2021 09.00, mrezanin@redhat.com wrote:
-> > From: Miroslav Rezanina <mrezanin@redhat.com>
-> > 
-> > When declaring g_autofree variable without inicialization, compiler
-> > will raise "may be used uninitialized in this function" warning due
-> > to automatic free handling.
-> > 
-> > This is mentioned in docs/devel/style.rst (quote from section
-> > "Automatic memory deallocation"):
-> > 
-> >    * Variables declared with g_auto* MUST always be initialized,
-> >      otherwise the cleanup function will use uninitialized stack memory
-> > 
-> > Add inicialization to NULL for these declaration to prevent this
-> > warning.
-> > 
-> > Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> > 
-> > ---
-> > * From v1:
-> >    -- Removed fixes in hw/remote/memory.c and hw/remote/proxy.c
-> >       fixed by patch sent by Zenghui Yu (multi-process: Initialize
-> >       variables declared with g_auto*)
-> > ---
-> >   hw/s390x/s390-pci-vfio.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> > index ead4f222d5..0ee7dc21f2 100644
-> > --- a/hw/s390x/s390-pci-vfio.c
-> > +++ b/hw/s390x/s390-pci-vfio.c
-> > @@ -29,7 +29,7 @@
-> >    */
-> >   bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
-> >   {
-> > -    g_autofree struct vfio_iommu_type1_info *info;
-> > +    g_autofree struct vfio_iommu_type1_info *info = NULL;
-> >       uint32_t argsz;
-> >       assert(avail);
-> 
-> I'd maybe rather rework the functions like this:
-> 
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index ead4f222d5..1fe71fd93f 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -29,14 +29,11 @@
->   */
->  bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
->  {
-> -    g_autofree struct vfio_iommu_type1_info *info;
-> -    uint32_t argsz;
-> +    uint32_t argsz = sizeof(struct vfio_iommu_type1_info);
-> +    g_autofree struct vfio_iommu_type1_info *info = g_malloc0(argsz);
->      assert(avail);
-> -    argsz = sizeof(struct vfio_iommu_type1_info);
-> -    info = g_malloc0(argsz);
-> -
+Based on work from Richard and Thomas.
 
-Hi Thomas,
+v6 -> v7:
+- "target/s390x: Implement the MVPG condition-code-option bit"
+-- Fix PGM_PROTECTION for QEMU_USER_ONLY (overridden by patch #2)
 
-I thought about it but for some reason I miss-read the code and though
-that avail is used for calculating argsz and didn't want to use it before
-assert.
+v5 -> v6:
+- "target/s390x: Implement the MVPG condition-code-option bit"
+-- Better handle CONFIG_USER_ONLY
+-- Factor handling out into s390_probe_access().
+- "target/s390x: Store r1/r2 for page-translation exceptions during MVPG"
+-- Store tec only for !PGM_ADDRESSING
 
-I'll send new version with this change.
->      /*
->       * If the specified argsz is not large enough to contain all capabilities
->       * it will be updated upon return from the ioctl.  Retry until we have
-> 
-> > @@ -230,7 +230,7 @@ static void s390_pci_read_pfip(S390PCIBusDevice *pbdev,
-> >    */
-> >   void s390_pci_get_clp_info(S390PCIBusDevice *pbdev)
-> >   {
-> > -    g_autofree struct vfio_device_info *info;
-> > +    g_autofree struct vfio_device_info *info = NULL;
-> >       VFIOPCIDevice *vfio_pci;
-> >       uint32_t argsz;
-> >       int fd;
-> > 
-> 
-> Anyway,
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-> 
+v4 -> v5:
+- Don't realy on TLB_INVALID_MASK
+-- Check against tlb_fill_exc and return the exception right away
+- Handle !CONFIG_USER_ONLY
+-- Check against haddr
+-- Properly store vaddr to env->__excp_addr and return PGM_ADDRESSING
+- Exclude tlb_fill_tec/tlb_fill_exc for CONFIG_USER_ONLY
+- While at it, tackle r1/r2 indication as well
+
+KVM unit tests continue working as expected.
+
+David Hildenbrand (1):
+  target/s390x: Store r1/r2 for page-translation exceptions during MVPG
+
+Richard Henderson (1):
+  target/s390x: Implement the MVPG condition-code-option bit
+
+ target/s390x/cpu.h         |   5 ++
+ target/s390x/excp_helper.c |   3 +
+ target/s390x/helper.h      |   2 +-
+ target/s390x/insn-data.def |   2 +-
+ target/s390x/mem_helper.c  | 160 ++++++++++++++++++++++++++++++-------
+ target/s390x/translate.c   |   7 +-
+ 6 files changed, 146 insertions(+), 33 deletions(-)
+
+-- 
+2.29.2
 
 
