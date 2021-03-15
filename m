@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C203633AB5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 07:02:10 +0100 (CET)
-Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3049D33AB62
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 07:03:24 +0100 (CET)
+Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLgIr-0007ra-RJ
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 02:02:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46252)
+	id 1lLgK3-0000Aj-95
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 02:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lLgHP-00071V-UH
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 02:00:39 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:58184)
+ id 1lLgIN-0007ld-LI
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 02:01:39 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:58278)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lLgHN-0001Du-3a
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 02:00:39 -0400
+ id 1lLgIM-0001xm-1I
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 02:01:39 -0400
 Received: from [192.168.0.92] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 0FA2940D403D;
- Mon, 15 Mar 2021 06:00:33 +0000 (UTC)
-Subject: Re: [PATCH] hw/virtio: enable ioeventfd configuring for mmio
+ by mail.ispras.ru (Postfix) with ESMTPSA id 8844140D403D;
+ Mon, 15 Mar 2021 06:01:36 +0000 (UTC)
+Subject: Re: [PATCH v2] replay: notify CPU on event
 To: qemu-devel@nongnu.org
-References: <161417359262.2250859.14712052392728549075.stgit@pasha-ThinkPad-X280>
+References: <161346807047.1296085.955420533772419632.stgit@pasha-ThinkPad-X280>
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <b78e7d8f-7604-3967-cb2b-18d364fe42c8@ispras.ru>
-Date: Mon, 15 Mar 2021 09:00:32 +0300
+Message-ID: <0d0a089d-7bd2-5399-061a-9fb9f56b15c7@ispras.ru>
+Date: Mon, 15 Mar 2021 09:01:36 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <161417359262.2250859.14712052392728549075.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <161346807047.1296085.955420533772419632.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -54,80 +54,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, mst@redhat.com
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ping
 
-On 24.02.2021 16:33, Pavel Dovgalyuk wrote:
-> This patch adds ioeventfd flag for virtio-mmio configuration.
-> It allows switching ioeventfd on and off.
+On 16.02.2021 12:34, Pavel Dovgalyuk wrote:
+> This patch enables vCPU notification to wake it up
+> when new async event comes in replay mode.
+> 
+> The motivation of this patch is the following.
+> Consider recorded block async event. It is saved into the log
+> with one of the checkpoints. This checkpoint may be passed in
+> vCPU loop. In replay mode when this async event is read from
+> the log, and block thread task is not finished yet, vCPU thread
+> goes to sleep. That is why this patch adds waking up the vCPU
+> to process this finished event.
 > 
 > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > ---
->   hw/virtio/virtio-mmio.c         |   11 ++++++++++-
->   include/hw/virtio/virtio-mmio.h |    5 +++++
->   2 files changed, 15 insertions(+), 1 deletion(-)
+>   replay/replay-events.c |    1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index 610661d6a5..551f831562 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -36,7 +36,9 @@
+> diff --git a/replay/replay-events.c b/replay/replay-events.c
+> index a1c6bb934e..92dc800219 100644
+> --- a/replay/replay-events.c
+> +++ b/replay/replay-events.c
+> @@ -126,6 +126,7 @@ void replay_add_event(ReplayAsyncEventKind event_kind,
 >   
->   static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
->   {
-> -    return kvm_eventfds_enabled();
-> +    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-> +
-> +    return (proxy->flags & VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD) != 0;
+>       g_assert(replay_mutex_locked());
+>       QTAILQ_INSERT_TAIL(&events_list, event, events);
+> +    qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
 >   }
 >   
->   static int virtio_mmio_ioeventfd_assign(DeviceState *d,
-> @@ -690,6 +692,8 @@ static Property virtio_mmio_properties[] = {
->       DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
->                        format_transport_address, true),
->       DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
-> +    DEFINE_PROP_BIT("ioeventfd", VirtIOMMIOProxy, flags,
-> +                    VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT, true),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> @@ -701,6 +705,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
->       qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
->                           d, NULL);
->       sysbus_init_irq(sbd, &proxy->irq);
-> +
-> +    if (!kvm_eventfds_enabled()) {
-> +        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
-> +    }
-> +
->       if (proxy->legacy) {
->           memory_region_init_io(&proxy->iomem, OBJECT(d),
->                                 &virtio_legacy_mem_ops, proxy,
-> diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
-> index d4c4c386ab..090f7730e7 100644
-> --- a/include/hw/virtio/virtio-mmio.h
-> +++ b/include/hw/virtio/virtio-mmio.h
-> @@ -49,12 +49,17 @@ typedef struct VirtIOMMIOQueue {
->       uint32_t used[2];
->   } VirtIOMMIOQueue;
->   
-> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT 1
-> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD \
-> +        (1 << VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT)
-> +
->   struct VirtIOMMIOProxy {
->       /* Generic */
->       SysBusDevice parent_obj;
->       MemoryRegion iomem;
->       qemu_irq irq;
->       bool legacy;
-> +    uint32_t flags;
->       /* Guest accessible state needing migration and reset */
->       uint32_t host_features_sel;
->       uint32_t guest_features_sel;
+>   void replay_bh_schedule_event(QEMUBH *bh)
 > 
 
 
