@@ -2,137 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3F233C78A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:18:02 +0100 (CET)
-Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9455733C7A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:23:17 +0100 (CET)
+Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLtf7-00069O-0U
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1lLtkC-0003nW-LL
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lLtd2-0004F6-SX; Mon, 15 Mar 2021 16:15:52 -0400
-Received: from mail-eopbgr60131.outbound.protection.outlook.com
- ([40.107.6.131]:58119 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lLtd0-0007ny-M5; Mon, 15 Mar 2021 16:15:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CUERqpKZmqiJuLEiGw78qtyhmra0WpHDrNf89yPulmtuDO7DdBw1p7KAuD6Aayp5G7ZIEfCYTAibeeq8iVXKwWCHD/p2y6uIMOb0MuyW8mIiNfa4WZu/RkxjXsNrTzok3Yitt40YLDskuayepUvhzCBbMs4/j4B/nr4PWUKyppQYeDtn45+mE3mCUaj80FG/Qjevzn10HCeySqQzGFyy+3Wq0wObFHyv4z8OkSiDYHHH+KrAvM9ipxgPrbsjNgTsXbf44Srs1x/2hBiFKXrpKFSELatXOQeBMh6HS1pkJToO4xWKSxmIqOEHaeHcveAr+qmFyXblweTPi4EoCq71Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nICAhkT9XTbNQGq0Zn5m9HsHySsFgekCHL2qq4tscp4=;
- b=Xiap4MBZNVEi0JY7gGM6i/I+slV3DGlclTcnVesRdeRhMg/AbOk3X1MUv14uiutDtL4g7jlMYHmjPhkVwNk2KBNmneZOtaRwpSmxQas6FCY2vQIXzzNh31c5aSyfwNXX3F1Lbp/7afM7Dtb2nf3W+anTEym6OB8thsaLeuXR/B3qYxnKW9iGbSiyGqf6Ib/umFE/3oRQtf26XfJEFBNKBXORwlv7bFhcDCnH6bsqp15foUZPz7JCKRJDCfviUGsIZJB2O7GKDXTAzBRadE7v+n7ZyRnjiX8d+nN/bIKLCUYTpVbbwCdYeu74BPqJVjN5PboMp8/hyhMVZUl3kiclPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nICAhkT9XTbNQGq0Zn5m9HsHySsFgekCHL2qq4tscp4=;
- b=ZqNxyluwwv2WcQETbngolSq4ZEXhJsu03WwgMnBxEC9bPuI4pWH5bIN7pvA7f4c7HN1OQ5eTNg5CzgbM2zan0IEIXniGx3FqDmQGjVP+edJXx8lsq4B0hbT+YmVpSH2AGe1P0M9C//hvgWMrUHzQJpBpK9YfjOxlivLvZPuHTVc=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB2034.eurprd08.prod.outlook.com (2603:10a6:203:4b::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Mon, 15 Mar
- 2021 20:15:47 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
- 20:15:47 +0000
-Subject: Re: [PATCH 7/7] block/nbd: stop manipulating in_flight counter
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, Eric Blake <eblake@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
- <20210315060611.2989049-8-rvkagan@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <de4fd61f-ccd3-125b-b636-aa06efe5823a@virtuozzo.com>
-Date: Mon, 15 Mar 2021 23:15:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210315060611.2989049-8-rvkagan@yandex-team.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: AM8P191CA0008.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lLtix-0002fd-TI
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:21:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lLtiv-0002PQ-8g
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:21:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615839716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HQENdRmv2frLMF00NjakYth7HIwSPqkGWM4bskIGQo8=;
+ b=JrSb4BL1TdCyz/+P2eRZkOV/IP20DYX56GwDgBgjpzC9gIVU3IoF4njEMTNCQIFxo0mwlY
+ hedTn7EK21sxKOpoMv8lgbPPUBKlQXbLBCOunuNVBVQyGoci03XrEH0JpzdqIq51KaMg9d
+ E5J23B1JH5PeWwRvJ78WT+0MWu3O/zE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-KUWpn8KBOpuvECGADXPWuA-1; Mon, 15 Mar 2021 16:21:52 -0400
+X-MC-Unique: KUWpn8KBOpuvECGADXPWuA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2DBB100C661;
+ Mon, 15 Mar 2021 20:21:51 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3631A614FB;
+ Mon, 15 Mar 2021 20:21:35 +0000 (UTC)
+Date: Mon, 15 Mar 2021 21:21:33 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: no-reply@patchew.org
+Subject: Re: [PATCH 0/6] pc: support user provided NIC naming/indexing
+Message-ID: <20210315212133.398c2dc9@redhat.com>
+In-Reply-To: <161583340826.29026.17366591502722428122@c9d4d6fbb2f1>
+References: <20210315180102.3008391-1-imammedo@redhat.com>
+ <161583340826.29026.17366591502722428122@c9d4d6fbb2f1>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- AM8P191CA0008.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.32 via Frontend Transport; Mon, 15 Mar 2021 20:15:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cb174608-afe1-4388-67f4-08d8e7ef1ec6
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2034:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB2034DD9888F6CA76B8A4D447C16C9@AM5PR0801MB2034.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zIz7YVsBIwezUYD05XmZ4c8F6Pk0Sr4snnv2+do6t0sQSDFnav/NoTvapTs/pKxQr0zTCrc/FouC/dSNEexWcD/eehAv2Y9BrvxCqyLD0NVo0z0L08hwstK9xXm8FTLYLBJ8agxVU6F2ysj9SDqmNKDjD9Va9WDTX6OWKDyvvcDfSb05EBpdhwRWMk30lRk2D3HfN43dkNt6XWJ5MtqytoTd41vta0ydNtwwVmH1qous4oKDx7KBQxo4In7SmyDNHJvncz29ZwR45K3QIuYLt1mefyZmgx/9ZESWv8JtQYiOwx0zsPP5AME9CGT6T/Xr4YoNbAGtK0ZwEeBYGSIvDeD0oaWnIWA91SblCyy/T1yQ0mjuDK48B4ObotaxjDb6zBBUh80wAAxmpaZXwgT2AgrbNy6xNvpqd0dDgK15x56lL55kefRPfLcIBQennw2snVKZ9nB6pgcnVV1/fm+NNYYLQ7v8mrN+9zpsIVBZqK37W9zqHFdeP/lMVBJXPHDTBkg4+4q738yHGm4GdkwV1zZQkzBnI2GZVgCne97t48hpvEaGvpYNd1R5MH6RyOs8txMjrw3KkvRT+0k8KDrsuXUCLpGkpyVuZME7/EnYknNJNYbRodUnXGyd9LH3dPq+/XDZGidiJ3uX5BVQEjmTYw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39840400004)(366004)(376002)(136003)(6486002)(478600001)(36756003)(66476007)(16576012)(4744005)(4326008)(956004)(316002)(86362001)(66556008)(26005)(66946007)(31686004)(31696002)(8676002)(2906002)(2616005)(186003)(16526019)(8936002)(52116002)(5660300002)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?U2N3dmkvTG1TNklOQUdmZ0xQWjhlOUhNUU4xSHo4eVN3WWoxeTd3L2kwbldV?=
- =?utf-8?B?aS9Qa1F3UXBYZitoK1ZPNmJCWklnSUVMcXdMUUlPdzQvODFYcTlEWjFEWXZm?=
- =?utf-8?B?MjRpREJiWnNWNnAyMSswcWRpbW9ETmMxaTZwZWFJTW1jU0gyVWdiMHNkVTB5?=
- =?utf-8?B?eUNwWjZqc0xVWUdyQlRZZFdiS1VTdHY4TGNlUFpvNWsxa3BTdm1GdHZia2t6?=
- =?utf-8?B?bi9EcVY4SmI4NzBCcGxoMGt6d3o1d0hBRkh2YVJaUWw4OXB1QnVGMWJQQ2J6?=
- =?utf-8?B?VmNpTG1HZ3Y3bHhBMFhWdk5Xa25nWXRWZkMrSGZ1dXlyTk1vY0Y1OWUrLzYr?=
- =?utf-8?B?eHNKWVpzc2pucTBPWk5SaG1IWGdManJEdEZlNWpsZHl0K1QzUkszNW1lOXFa?=
- =?utf-8?B?UUhZcVFKcXFuS2kvVzBsdWZKKzlEUmxVcjV4MFRYRGtzSDVwZk9CYUtIVExN?=
- =?utf-8?B?VU1TTGM1ZUpQSkIvNjRZOElpeXFBKzUzdG9sZ0UyeDFJdVJhNWh3ZWVadHVw?=
- =?utf-8?B?c3NYdlM1K2tPR0tRWTFUZmlJWU8rNWhKREd6a2dENHBZSGEzM3BiVG96NU41?=
- =?utf-8?B?TlM3NTQ1dS9FMEhheUFjN3hzR09RWlkrSGNCYTQxRGtjV2FwaUhYUnAvSUtm?=
- =?utf-8?B?T3F5MXJMLzJSUFVrNDk2elZ2d09MdHJJVnZCOGNHZVg3V2Q2eStTc1QveldT?=
- =?utf-8?B?M1dPWW40WTZna2ZVUlIrcXdMODdJYm1LWUlLRko1WEdBZkVUK3FaU0YySE04?=
- =?utf-8?B?cEZWckRMd3NVRlR3Q0NFWjdhZUxIOFZVbllId0tETFEwY2IxVXA1ZEQ1TXZl?=
- =?utf-8?B?Wm5hVWxxdEFkS2oxd1dFMGNSRU8zdm1VcEZLY2dSYVJWMWhDQVAvRm5JTUVV?=
- =?utf-8?B?TzZRcDVOZ0p6b2ZIWU5XRmFHenAxOHVONkk4cHd6VWdCWUZRbEFjSVVQYUxO?=
- =?utf-8?B?WnpRRElmREdrdUdFelRRcHVGNDFMczlOeUhTR2NKMFRrbUx0TTV2UlREbDc1?=
- =?utf-8?B?dGllbDNvWGM1R04wZTlxNVVuNS85QlJxNUw3MHJIVVZBQ01sUUxEbC84NnFk?=
- =?utf-8?B?REpuN0JGdkZhYVJ3Mmh2YjRzZlVlWUVLK2ZuYms1L3lvdVRJSkhPWkpZM0p2?=
- =?utf-8?B?a3NySW9XdHBsVWNpM2JzU2xYemRNNTBKZ210cGtKdWkzNjdaNUVmWjl0eWp5?=
- =?utf-8?B?RkF6aUNCa1RlMnlBNGhac1lZV01OLy9GejFRYWRXRXhGVEpWQ0Y5Y0FBbWRn?=
- =?utf-8?B?Sk80Q3VpVWxORkxrMm1MMGUyU1hCUUhGTU9HSDVKN3p6MmpsQmZqUHBwL29o?=
- =?utf-8?B?ZHp5cmgwNmlXMVJYZ2V4bjBNQTZPTGExWVB6Z0F6RFREVm43RXhwWnpmbFFS?=
- =?utf-8?B?OWh3VjhMU2Zac0cvYXBwb0Jhb2xlQk9QOU9RRmlmU3RJTlkrd2ZlbmNYMjRw?=
- =?utf-8?B?cHZ5K0pBc3hHZ3dCSkNNMmpQdUpiYUdra1JlRXBwV3pQakNmUXRGNE5WQk1Q?=
- =?utf-8?B?dWs0V3A1Nnd2VzVRbTNuOUN6bFZvdG9LaWZRcnMxcnRncGhlZ1Z1ekRQd0lM?=
- =?utf-8?B?R1NabFFSV2F3VnlZbVVCaTUwOGhwenF0TjB3Z3ZBcWtXT3NldUdESERlaEtJ?=
- =?utf-8?B?UXF2MjNXbDBUVlA4TmtnMEhLUFF5THRJeDFDcVFCUWJGYm13Qkh6d3hlc3ZS?=
- =?utf-8?B?RG81cE14c1piSkYxU0FPNXMxVVJvRzJRUmVXbStVUkpOczA0TnRsS1J0b0lE?=
- =?utf-8?Q?tBS4HMHkWkcGSnQhAd59BXLq3BhYEJpYZPx15HR?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb174608-afe1-4388-67f4-08d8e7ef1ec6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 20:15:47.3898 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z438btRYkBfpAYjJgncttn7LpgrZvZ/Q/FtY/bCVavdkCv3AhNxdIExnG1mJwNcM61eh0xEg9fAgpCyWFtmgfSzMUgYWujD0YJ/P5Mx7lsc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2034
-Received-SPF: pass client-ip=40.107.6.131;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,19 +79,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-15.03.2021 09:06, Roman Kagan wrote:
-> As the reconnect logic no longer interferes with drained sections, it
-> appears unnecessary to explicitly manipulate the in_flight counter.
+On Mon, 15 Mar 2021 11:36:49 -0700 (PDT)
+no-reply@patchew.org wrote:
+
+> Patchew URL: https://patchew.org/QEMU/20210315180102.3008391-1-imammedo@redhat.com/
 > 
-> Fixes: 5ad81b4946 ("nbd: Restrict connection_co reentrance")
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Type: series
+> Message-id: 20210315180102.3008391-1-imammedo@redhat.com
+> Subject: [PATCH 0/6] pc: support user provided NIC naming/indexing
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> From https://github.com/patchew-project/qemu
+>  * [new tag]         patchew/20210315180102.3008391-1-imammedo@redhat.com -> patchew/20210315180102.3008391-1-imammedo@redhat.com
+> Switched to a new branch 'test'
+> c0692b4 tests: acpi: update expected blobs
+> 1a843d9 pci: acpi: add _DSM method to PCI devices
+> 6b55586 acpi: add aml_to_decimalstring() and aml_call6() helpers
+> 7b887f4 pci: acpi: ensure that acpi-index is unique
+> 4056291 pci: introduce apci-index property for PCI device
+> 9bd3a1b tests: acpi: temporary whitelist DSDT changes
+> 
+> === OUTPUT BEGIN ===
+> 1/6 Checking commit 9bd3a1b94c0f (tests: acpi: temporary whitelist DSDT changes)
+> 2/6 Checking commit 40562915acde (pci: introduce apci-index property for PCI device)
+> ERROR: Macros with complex values should be enclosed in parenthesis
+> #284: FILE: include/hw/acpi/pcihp.h:77:
+> +#define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
+>          VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
+>                              test_pcihp), \
+>          VMSTATE_STRUCT_ARRAY_TEST(pcihp.acpi_pcihp_pci_status, state, \
+>                                    ACPI_PCIHP_MAX_HOTPLUG_BUS, \
+>                                    test_pcihp, 1, \
+>                                    vmstate_acpi_pcihp_pci_status, \
+> -                                  AcpiPciHpPciStatus)
+> +                                  AcpiPciHpPciStatus), \
+> +        VMSTATE_UINT32_TEST(pcihp.acpi_index, state, \
+> +                            test_acpi_index)
+probably false positive
+(I don't know what's wrong here and how to fix it)
 
-And here you actually allow qemu_aio_coroutine_enter() call in nbd_client_attach_aio_context_bh() to enter connection_co in any yield point which is possible during drained section. The analysis should be done to be sure that all these yield points are safe for reentering by external qemu_aio_coroutine_enter(). (By external I mean not by the actual enter() we are waiting for at the yield() point. For example qemu_channel_yield() supports reentering.. And therefore (as I understand after fast looking through) nbd_read() should support reentering too..
+> total: 1 errors, 0 warnings, 197 lines checked
+> 
+> Patch 2/6 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
 
+below warnings are intentional to follow comments style we use within aml-build.c
 
--- 
-Best regards,
-Vladimir
+> 3/6 Checking commit 7b887f42419a (pci: acpi: ensure that acpi-index is unique)
+> 4/6 Checking commit 6b555869ad66 (acpi: add aml_to_decimalstring() and aml_call6() helpers)
+> WARNING: Block comments use a leading /* on a separate line
+> #27: FILE: hw/acpi/aml-build.c:640:
+> +    Aml *var = aml_opcode(0x97 /* ToDecimalStringOp */);
+> 
+> WARNING: Block comments use a leading /* on a separate line
+> #32: FILE: hw/acpi/aml-build.c:645:
+> +        build_append_byte(var->buf, 0x00 /* NullNameOp */);
+> 
+> total: 0 errors, 2 warnings, 55 lines checked
+> 
+> Patch 4/6 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 5/6 Checking commit 1a843d9de55e (pci: acpi: add _DSM method to PCI devices)
+> WARNING: Block comments use a leading /* on a separate line
+> #127: FILE: hw/i386/acpi-build.c:568:
+> +                        1 /* have supported functions */ |
+> 
+> total: 0 errors, 1 warnings, 140 lines checked
+> 
+> Patch 5/6 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 6/6 Checking commit c0692b4b7df0 (tests: acpi: update expected blobs)
+> === OUTPUT END ===
+> 
+> Test command exited with code: 1
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20210315180102.3008391-1-imammedo@redhat.com/testing.checkpatch/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
+
 
