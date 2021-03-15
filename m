@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD3A33AF57
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 10:57:44 +0100 (CET)
-Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2DD33AF4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 10:54:55 +0100 (CET)
+Received: from localhost ([::1]:49124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLjyp-0003LF-L2
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1lLjw6-0000Ta-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:54:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLjuP-00080v-4n
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:53:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56418)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLjuN-0005NO-7C
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lLjuO-00080W-RI
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:53:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lLjuN-0005NM-7N
  for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615801986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2/0Y1Q8R1y5Emuni7pjtYOx0BU5bEkI6x3Npk82dhwA=;
- b=FN+R10fjzSOX12DxksyH+QnmsEcPisi10yUVNu13inPRsIvWL4zrnR+dqED0ACPjL4v6/R
- rfjTtqDf7aQwlzQno+6djMqSxQoIDvnUK8m82rKBJFLZLjeN7Itpk079v+ljJHPkI030b/
- nNu71TQE1DkwwF0IQP4rRRYYSEbAK18=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-HHF511STNuC0f1_iRtzxyQ-1; Mon, 15 Mar 2021 05:53:03 -0400
-X-MC-Unique: HHF511STNuC0f1_iRtzxyQ-1
-Received: by mail-ot1-f69.google.com with SMTP id q1so19452858ota.20
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 02:53:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2/0Y1Q8R1y5Emuni7pjtYOx0BU5bEkI6x3Npk82dhwA=;
- b=bYX2rCYr+Dwn/RG+Sj0pCRiYm36Psbd/nAW792yoLSTfZRRjMhzunTaxiJ32aLSjfe
- 4xAkcSeU0bTBZx6qKPWljxuJoBeeiHWSOLbqDElKoO6a6bVXl1o7TDbWw25oIwilpqSP
- jP7u66I2JJ7fqNpBO4sshQZ3lPPq0uUdiyRqWB43KpPT+oVRzISsDTbDDBSWEOZCSJSJ
- QLGxIjqCOhFAJnMMG8Opg9g5r0PE+XSj/JjFoEXqUAFCUWK1tp+uJNnr5R83p/m5etQK
- O1b0sF4mcDwFV178luSBItIHrgNIiXxQV6E7QiRTLJNW1tR04/TiihfNqLtdHuhkYgwz
- uGpA==
-X-Gm-Message-State: AOAM533nB9GQ24OulblzbekDPbhPJ9oR3Jt+vn5ZSu8rgg4ta/dw4qWW
- sGWdMg+gX762CB6p3nNCkY0Az+aDpWUmDfUzeoUoZwnEPolrFSqI7uE5SxdzaHehVhgXnPbX0fJ
- sKucKQw1JId5jM8r4t1Pfe8nBschzIHA=
-X-Received: by 2002:a05:6830:16d3:: with SMTP id
- l19mr10876120otr.79.1615801982407; 
- Mon, 15 Mar 2021 02:53:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYqtf4nolJS2OO3/XsXSl77CjKbZ8ywBb40KIWjmLI/P8v01cG58xXIIWN8ltRTUXDs92IID0AsCB5AMLgA+M=
-X-Received: by 2002:a05:6830:16d3:: with SMTP id
- l19mr10876111otr.79.1615801982215; 
- Mon, 15 Mar 2021 02:53:02 -0700 (PDT)
+ bh=ht+catxC0msfSw1tStBYzqYfZ2d+2eRATBGHrJT6cv0=;
+ b=AN8zSRNzX5Zf8/327SnvFgTDqmsV0J/0w1u2hcjHg1D4G9x/qFZIKLm3xNxM81LCTK7wDK
+ kRlRXMf1agFWPKBhjNpAxVDTNIDX5C6DzH1YT+bAHyAkUV1Eq4WRL4qNB9RuOEGY2sRCrn
+ t9H/g3Rw5mqiJNvFygiZFetPjHi2aSQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-5lcFOY-TOqGGSXWiVWPFhg-1; Mon, 15 Mar 2021 05:53:03 -0400
+X-MC-Unique: 5lcFOY-TOqGGSXWiVWPFhg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCC29760CC;
+ Mon, 15 Mar 2021 09:53:02 +0000 (UTC)
+Received: from localhost (ovpn-115-125.ams2.redhat.com [10.36.115.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6643A1F07C;
+ Mon, 15 Mar 2021 09:53:02 +0000 (UTC)
+Date: Mon, 15 Mar 2021 09:53:01 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 6/8] tools/virtiofsd/buffer.c: replaced a calloc call
+ with GLib's g_try_new0
+Message-ID: <YE8ufa1o62ArBkrN@stefanha-x1.localdomain>
+References: <20210314032324.45142-1-ma.mandourr@gmail.com>
+ <20210314032324.45142-7-ma.mandourr@gmail.com>
 MIME-Version: 1.0
-References: <1615529786-30763-1-git-send-email-jasowang@redhat.com>
- <CAFEAcA-fMR8yLC6Y=HSYgpSOrffCYSNnf-0sDQ2RrNWrQff6Ng@mail.gmail.com>
- <113ed7aa-8999-b925-3df3-2a8d7cd2ad84@redhat.com>
- <070ebd11-95e7-93ca-0106-f5a4735fbbd3@redhat.com>
-In-Reply-To: <070ebd11-95e7-93ca-0106-f5a4735fbbd3@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Mon, 15 Mar 2021 10:52:51 +0100
-Message-ID: <CAP+75-UZ3sydji0OYOv01U6p58Mid3qLy7yzawpow2_7iQ-nSQ@mail.gmail.com>
-Subject: Re: [PULL 00/16] Net patches
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20210314032324.45142-7-ma.mandourr@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="boG6JHBD9r9sJV2c"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,58 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 15, 2021 at 9:10 AM Jason Wang <jasowang@redhat.com> wrote:
-> =E5=9C=A8 2021/3/15 =E4=B8=8B=E5=8D=881:39, Thomas Huth =E5=86=99=E9=81=
-=93:
-> > On 14/03/2021 12.37, Peter Maydell wrote:
-> >> On Fri, 12 Mar 2021 at 06:16, Jason Wang <jasowang@redhat.com> wrote:
-> >>>
-> >>> The following changes since commit
-> >>> f4abdf32714d1845b7c01ec136dd2b04c2f7db47:
-> >>>
-> >>>    Merge remote-tracking branch
-> >>> 'remotes/stsquad/tags/pull-testing-docs-xen-updates-100321-2' into
-> >>> staging (2021-03-11 16:20:58 +0000)
-> >>>
-> >>> are available in the git repository at:
-> >>>
-> >>>    https://github.com/jasowang/qemu.git tags/net-pull-request
-> >>>
-> >>> for you to fetch changes up to
-> >>> 9bdb56367679e68e5e71a1c29a1087bda6414b25:
-> >>>
-> >>>    pvrdma: wean code off pvrdma_ring.h kernel header (2021-03-12
-> >>> 14:08:31 +0800)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>>
-> >>
-> >> Hi; this has a merge conflict in net/nic.c relating to
-> >> ID generation: it looks like
-> >> "net: unbreak well-form id check for "-nic" (in this pullreq)
-> >
-> > Uh, I haven't seen that patch on the list, when did you send it?
->
->
-> My bad, I thought I sent it but it looks not.
->
->
-> >
-> > Also what about:
-> >
-> >  https://patchew.org/QEMU/20210303095910.78277-1-lekiravi@yandex-team.r=
-u/
-> >
-> > ... that has been on the list since quite a while already and should
-> > maybe go into v6.0, too?
+--boG6JHBD9r9sJV2c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Another candidate: "Fix stack-buffer-overflow in _eth_get_rss_ex_dst_addr()=
-"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg789998.html
+On Sun, Mar 14, 2021 at 05:23:22AM +0200, Mahmoud Mandour wrote:
+> Replaced a call to calloc() and its respective free() call
+> with GLib's g_try_new0() and g_free() calls.
+>=20
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+>  tools/virtiofsd/buffer.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--boG6JHBD9r9sJV2c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPLn0ACgkQnKSrs4Gr
+c8h3cggAgA9SPw3bKRmEC42Wjh0E77dGWf02L7wTGQwPM2JKeJMSSJ7mCn4uSlG4
+NYN3yB3hbxTAjQIsOgF2CwLwtV3leTqkNW9BC7HsXcZU3caPqibp/j1G7EEOzpN6
+1kvoRe+8/QtjLWKG4t5UHufjwzWVCY+GK46C1m2s8z06UNJD7eYNWIPaErX0esMQ
+7IzpLo603YqrLPPjE4HxcgCwn6MGF94giV0phvhnvzEgqoelSw6oxYA2jB0GTyZ6
+9xWPi00pYGinaBsoWWLpJqQAs9QjiHvLHdFDL3e2f31yjmUQQILG/p2EBGf0nH0x
+JSppHPb21UKCXC5S/LiYMJ1YLmL9tA==
+=O4B6
+-----END PGP SIGNATURE-----
+
+--boG6JHBD9r9sJV2c--
 
 
