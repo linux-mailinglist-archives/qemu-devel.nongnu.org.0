@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF06133AFC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:17:16 +0100 (CET)
-Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D2733AFD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:17:51 +0100 (CET)
+Received: from localhost ([::1]:51144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLkHj-0005WA-W1
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
+	id 1lLkII-0005t6-PV
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lLkGC-0004Xg-1E
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:15:40 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35013)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lLkGN-0004nJ-6w
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:15:51 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:36126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lLkGA-0001yp-83
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:15:39 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id dx17so65207431ejb.2
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 03:15:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lLkGK-00027z-38
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:15:50 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id b10so32655831ybn.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 03:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=quAVwrRa60B4j0GoqD1Kc9OFafCgtVxFFwjTt/6A++I=;
- b=CJJ+YMb6eZVU1BNOlYzELIa5tyH/I9NrlPUEodZA+uNHksEWVtaBYdQI41dWOoxkie
- DNvewVQm5L3Pkky9oHQ/sE/SabW8KPJGLyhfHWnGS5AjKMOzQXfhsKVBbbkj8O+giNVy
- 9rChpGpAD7GLGUtQ7PHb6CUppNwli7H/OuG2LDxUpv/k0V2esrXbtl5egmZJEqjBifON
- zF4txbdahtKGwanevOxTA7eI3J3MDGns07ApJhi2KxoxgqP1ZBoZsrB8DpYCbHJJi4YW
- foe8Yp+9ti/5HngtXm4mvHUX1PyhDxCx0kusNh9ZDFuMbPj0YJzDO6k+e7WwOHrl8FKy
- ddSw==
+ bh=BbbLEG8Np10qAfhn8p1y7WamooAQ5+M1vliHCeGKqMk=;
+ b=C3JngfndtvWUxMVelDFI0I0Qzqd5AsUlLXWCIbUWyLj9GJoR/QuwaKBlEa7zreTIIg
+ ZWoBoP+O9BJXv2C7sh2K0P2h7cQSUkMuS2VTmnSbaROn3Qo0WkuEoLfXCgHwlASe5L20
+ KzXobEeo+AY3uAWulpdMmZFcGQmTNU1xlW9vbVOQ/0y2Et4tt74PBnKfTzt41rCZPDlI
+ Jeyh5WRF6LUnHMP+mMpAURWkPiYDp5L16pBLNp80R2A941v9iaOUKJlZPhI0JDfkYjFh
+ 5RbOHPxKHGHjHKzROG+onSIjRiTtyJA+rdLkK9BD9eQwy7HSVuvjitIllkgfDnu9QQMl
+ 6oMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=quAVwrRa60B4j0GoqD1Kc9OFafCgtVxFFwjTt/6A++I=;
- b=MT26ZqfyLabf4d9/ibNqpEJSaMgLmjgGjf5bikkAVr/XkA6ycZao6Y4u5DMBbr3dso
- 2gQYjZ/bMIVRUaCgeQ+GH4BBBUfGMCFC1eITAvxhTArxmN03/zcgs7tuSojiVk1Amaw5
- hd86FjBk3OaOemYXaBBVt4ct/f9KiQb5SNAht/kVR9OxUPI02zHyKWgrdDkeoPB9TP1F
- St45WUkyYbSmkJEzaM3B1D5bxq0qB9pYitN+/+gzQiyzMW5lW81vxQYqg2k96WyYbXgx
- KQUW8ueaWmqTwkFqwXAaoPO5AnxBRp0kGjIPNmOAAnHqESdDq7cJmQgRygBS+sRXfZ79
- J2xA==
-X-Gm-Message-State: AOAM533JP7yw/l8pjZ3f8QXK3WUwQNvFm39oRvKXQsI9KNcFn4b7ciu+
- xmh8vcLk+rce/TAgp/pO99fHYr5bJP4N/HBpRow=
-X-Google-Smtp-Source: ABdhPJyY8lBfiRauRW/BiewhVww2IU9yxO+WrubwfBl3gxS5a7ZaA1o0Rm3bLUAivZiVx+dpGCXG3T4ETe2V3qJhXKo=
-X-Received: by 2002:a17:906:fa0e:: with SMTP id
- lo14mr22372425ejb.263.1615803336916; 
- Mon, 15 Mar 2021 03:15:36 -0700 (PDT)
+ bh=BbbLEG8Np10qAfhn8p1y7WamooAQ5+M1vliHCeGKqMk=;
+ b=PJNMKCyT2zDJLo7iTnkKNbVFCCr3ENvYVcIKj4uoVrVPUiZOCpVS+/icpWZTnN0QLM
+ yCw0oBS3CkQxiTmnrQjZsInboFB9L0PUNKCclAXvA2mfVGjK8IANLL1NvjOgFk9QEtLM
+ zmsuuZLGQgwBdQfIb6Ptth4Pw3paQ9DprmDeztyWTXq6/RspmFEu6OyL+8daLgn48B91
+ PMJSaz5zgDrhUspU40KRcu9nQiji9+qMEbcn3s0lmpusLR61Ae7UHISlbkEZk5Lqf5gQ
+ 8oVjP9+E1yD9/IqWEv8KFeo8VR6ZfCnTqAj+0CBgfqthLd6R6Vg9LmNxTqBL0/ZSfMWs
+ toyA==
+X-Gm-Message-State: AOAM532GKZvArabK4SP3v5AmR6iUqBv701TV2KriQV5NVRYBWxnSTCVr
+ 2UYF5rEiXuw5GlM6TfOu6aN6JYA7qpigbsjOG/c=
+X-Google-Smtp-Source: ABdhPJwCQ22c4dQDeEYpBS3hu1+JQtd/yTeqHugyBOMTO+x4Kqqb+0OyoMTmnaU+yvC/wyAWB4GtaYmtgZbtIEXUAdA=
+X-Received: by 2002:a5b:147:: with SMTP id c7mr36333231ybp.332.1615803347028; 
+ Mon, 15 Mar 2021 03:15:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210314070147.34731-1-akihiko.odaki@gmail.com>
- <20210315073233.edxuqhu7m2lmxgzg@sirius.home.kraxel.org>
-In-Reply-To: <20210315073233.edxuqhu7m2lmxgzg@sirius.home.kraxel.org>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Mon, 15 Mar 2021 19:15:26 +0900
-Message-ID: <CAMVc7JWu-Hp11X48Fe71A5dYcHkn0ce3wRr27mqyj9gPcJt3Lw@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Do not raise keys before QEMU resigns active
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210315075718.5402-1-bmeng.cn@gmail.com>
+ <20210315075718.5402-2-bmeng.cn@gmail.com>
+ <236293f1-c23c-78a9-3e1f-7b523280262a@redhat.com>
+In-Reply-To: <236293f1-c23c-78a9-3e1f-7b523280262a@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 15 Mar 2021 18:15:35 +0800
+Message-ID: <CAEUhbmWHQ9ifdeaGRDp-iEo2AyTV-bmTOd+xHJ+O1-BT0Nig0g@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] net: Add ETH_ZLEN define in eth.h
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,43 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B43=E6=9C=8815=E6=97=A5(=E6=9C=88) 16:32 Gerd Hoffmann <kraxel@r=
-edhat.com>:
->
-> On Sun, Mar 14, 2021 at 04:01:47PM +0900, Akihiko Odaki wrote:
-> > ui/cocoa used to raise all keys before it resigns active to prevent a
-> > stuck key problem caused by key up events it does not see while it is
-> > inactive. The problem is solved by checking -[NSEvent modifierFlags] in
-> > commit 6d73bb643aa725348aabe6a885ac5fb0b7f70252, which is better
-> > because it handles the case that key *down* events are missed while it
-> > is inactive.
->
-> Well, I think it is a good idea to virtually lift all keys when the
-> application goes inactive.  Does this cause any actual problems?
+Hi Philippe,
 
-No, but ui/cocoa already has so many states and I don't think there is
-a room for extra complexity, especially when considering the code
-checking -[NSEvent modifierFlags]. Keyboard event management concerns
-iothread mutex, different handling of modifier and normal keys and
-some special keyboard shortcuts. -[QemuCocoaView raiseAllKeys]
-introduces exceptional behaviors to them just to raise normal keys,
-something ui/cocoa didn't before introducing QemuKbdState.
+On Mon, Mar 15, 2021 at 5:13 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> On 3/15/21 8:57 AM, Bin Meng wrote:
+> > Add a new macro ETH_ZLEN which represents the minimum size of an
+> > Ethernet frame without FCS.
+> >
+> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > ---
+> >
+> >  include/net/eth.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/include/net/eth.h b/include/net/eth.h
+> > index 0671be6916..7c825ecb2f 100644
+> > --- a/include/net/eth.h
+> > +++ b/include/net/eth.h
+> > @@ -31,6 +31,7 @@
+> >
+> >  #define ETH_ALEN 6
+> >  #define ETH_HLEN 14
+> > +#define ETH_ZLEN 60     /* Min. octets in frame sans FCS */
+>
+> What means 'sans'?
+
+sans-serif font? Does that sound familiar? :)
+
+Please check:
+https://www.dictionary.com/browse/sans
+
+This comment was not invented by me, but was just a copy from the one
+used in Linux kernel:
+https://github.com/torvalds/linux/blob/d635a69dd4981cc51f90293f5f64268620ed=
+1565/include/uapi/linux/if_ether.h#L35
+
+>
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
 
 Regards,
-Akihiko Odaki
-
->
-> Worst case should be that we send an extra keyup + keydown if the
-> qemu goes through a active -> inactive -> active cycle while a modifier
-> key is down, which you probably wouldn't even notice unless you log all
-> key events inside the guest.
->
-> take care,
->   Gerd
->
+Bin
 
