@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02E933C560
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:18:06 +0100 (CET)
-Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA6233C558
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:15:23 +0100 (CET)
+Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrn3-0003JE-M1
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
+	id 1lLrkQ-0001lV-R1
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lLrX4-0001MB-GB
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:01:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56444)
+ id 1lLrX7-0001QS-08
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:01:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lLrX2-0008TG-FX
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:01:34 -0400
+ id 1lLrX4-0008UY-G4
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:01:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615831291;
+ s=mimecast20190719; t=1615831293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uSujXLTODn5r9rn7t65nMSl2p8WacSXGNR2GupPDUDs=;
- b=arDLFCEMtRanp1mDClIE6tKL964+dMYdA5mXT+A18cb+Vyluvx9krZGHLzhhkz/bkVjcvB
- wwrB1OeBtiw3nMoEPG6wmxVoreQqqFBQNaBsHG6NFa03TX1eNYPPRW77J8xQp05bqmRadu
- sdWEktBgkhWP/r6iamW7JQrKndKG94I=
+ bh=LTjtKhVyccdrs+NK4uuVWt3Q+46eNlxQFeKHIpcboq0=;
+ b=M64Zushe9aB2wsVTc9NXUdwczAacGrmpQ0Hw5Fv5gK3DjTcTo57+gof5rcnob6ABbeamLN
+ lLTJpMyMkqNbTvymBJJnuo28/FSxn9sWPInZIvuu5bVISq9UBGZKPJGbq4ItGdQlZXk5kW
+ cZsEc3zZGEjbuA1jU3opepcgtSo6ed4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-fSA_HAjcPOyiz4ehUr_S1w-1; Mon, 15 Mar 2021 14:01:27 -0400
-X-MC-Unique: fSA_HAjcPOyiz4ehUr_S1w-1
+ us-mta-304-Mygt6-evOQeJRiznab9R8Q-1; Mon, 15 Mar 2021 14:01:32 -0400
+X-MC-Unique: Mygt6-evOQeJRiznab9R8Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23DE5192D796
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 18:01:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9EEBA0C13
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 18:01:16 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25AD8620DE;
- Mon, 15 Mar 2021 18:01:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B13405B4A8;
+ Mon, 15 Mar 2021 18:01:15 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] pci: acpi: ensure that acpi-index is unique
-Date: Mon, 15 Mar 2021 14:00:59 -0400
-Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+Subject: [PATCH 5/6] pci: acpi: add _DSM method to PCI devices
+Date: Mon, 15 Mar 2021 14:01:01 -0400
+Message-Id: <20210315180102.3008391-6-imammedo@redhat.com>
 In-Reply-To: <20210315180102.3008391-1-imammedo@redhat.com>
 References: <20210315180102.3008391-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -83,93 +83,192 @@ Cc: jusual@redhat.com, laine@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it helps to avoid device naming conflicts when guest OS is
-configured to use acpi-index for naming.
-Spec ialso says so:
+Implement _DSM according to:
+    PCI Firmware Specification 3.1
+    4.6.7.  DSM for Naming a PCI or PCI Express Device Under
+            Operating Systems
+and wire it up to cold and hot-plugged PCI devices.
+Feature depends on ACPI hotplug being enabled (as that provides
+PCI devices descriptions in ACPI and MMIO registers that are
+reused to fetch acpi-index).
 
-PCI Firmware Specification Revision 3.2
-4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
-"
-Instance number must be unique under \_SB scope. This instance number does not have to
-be sequential in a given system configuration.
-"
+acpi-index should work for
+  - cold plugged NICs:
+      $QEMU -device e1000,acpi-index=100
+         => 'eno100'
+  - hot-plugged
+      (monitor) device_add e1000,acpi-index=200,id=remove_me
+         => 'eno200'
+  - re-plugged
+      (monitor) device_del remove_me
+      (monitor) device_add e1000,acpi-index=1
+         => 'eno1'
+
+Windows also sees index under "PCI Label Id" field in properties
+dialog but otherwise it doesn't seem to have any effect.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+v1:
+   * drop optional text label
+   * do not report capability if PIDX is not supported (i.e. old QEMU)
+---
+ include/hw/acpi/pci.h |   1 +
+ hw/i386/acpi-build.c  | 105 ++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 103 insertions(+), 3 deletions(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index ceab287bd3..f4cb3c979d 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
-     PCIBus *bus;
- } AcpiPciHpFind;
+diff --git a/include/hw/acpi/pci.h b/include/hw/acpi/pci.h
+index e514f179d8..b5deee0a9d 100644
+--- a/include/hw/acpi/pci.h
++++ b/include/hw/acpi/pci.h
+@@ -35,4 +35,5 @@ typedef struct AcpiMcfgInfo {
  
-+static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
-+{
-+    return a - b;
-+}
-+
-+static GSequence *pci_acpi_index_list(void)
-+{
-+    static GSequence *used_acpi_index_list;
-+
-+    if (!used_acpi_index_list) {
-+        used_acpi_index_list = g_sequence_new(NULL);
-+    }
-+    return used_acpi_index_list;
-+}
-+
- static int acpi_pcihp_get_bsel(PCIBus *bus)
- {
-     Error *local_err = NULL;
-@@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                    ONBOARD_INDEX_MAX);
-         return;
-     }
-+
-+    /*
-+     * make sure that acpi-index is unique across all present PCI devices
-+     */
-+    if (pdev->acpi_index) {
-+        GSequence *used_indexes = pci_acpi_index_list();
-+
-+        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
-+                              g_cmp_uint32, NULL)) {
-+            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
-+                       " already exist", pdev->acpi_index);
-+            return;
+ void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info,
+                 const char *oem_id, const char *oem_table_id);
++Aml *aml_pci_device_dsm(void);
+ #endif
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index e49fae2bfd..d14a5fab62 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -397,6 +397,13 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+                     aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+                 );
+                 aml_append(dev, method);
++                method = aml_method("_DSM", 4, AML_SERIALIZED);
++                aml_append(method,
++                    aml_return(aml_call6("PDSM", aml_arg(0), aml_arg(1),
++                                         aml_arg(2), aml_arg(3),
++                                         aml_name("BSEL"), aml_name("_SUN")))
++                );
++                aml_append(dev, method);
+                 aml_append(parent_scope, dev);
+ 
+                 build_append_pcihp_notify_entry(notify_method, slot);
+@@ -424,6 +431,16 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
+         aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
+ 
++        if (bsel) {
++            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
++            method = aml_method("_DSM", 4, AML_SERIALIZED);
++            aml_append(method, aml_return(
++                aml_call6("PDSM", aml_arg(0), aml_arg(1), aml_arg(2),
++                          aml_arg(3), aml_name("BSEL"), aml_name("_SUN"))
++            ));
++            aml_append(dev, method);
 +        }
-+        g_sequence_insert_sorted(used_indexes,
-+                                 GINT_TO_POINTER(pdev->acpi_index),
-+                                 g_cmp_uint32, NULL);
-+    }
++
+         if (pc->class_id == PCI_CLASS_DISPLAY_VGA) {
+             /* add VGA specific AML methods */
+             int s3d;
+@@ -446,9 +463,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             aml_append(method, aml_return(aml_int(s3d)));
+             aml_append(dev, method);
+         } else if (hotplug_enabled_dev) {
+-            /* add _SUN/_EJ0 to make slot hotpluggable  */
+-            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+-
++            /* add _EJ0 to make slot hotpluggable  */
+             method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+             aml_append(method,
+                 aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+@@ -511,6 +526,88 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+     qobject_unref(bsel);
  }
  
- void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-@@ -315,8 +347,22 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
- void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-                                  DeviceState *dev, Error **errp)
- {
-+    PCIDevice *pdev = PCI_DEVICE(dev);
++Aml *aml_pci_device_dsm(void)
++{
++    Aml *method, *UUID, *ifctx, *ifctx1, *ifctx2, *ifctx3, *elsectx;
++    Aml *acpi_index = aml_local(0);
++    Aml *zero = aml_int(0);
++    Aml *bnum = aml_arg(4);
++    Aml *func = aml_arg(2);
++    Aml *rev = aml_arg(1);
++    Aml *sun = aml_arg(5);
 +
-     trace_acpi_pci_unplug(PCI_SLOT(PCI_DEVICE(dev)->devfn),
-                           acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))));
++    method = aml_method("PDSM", 6, AML_SERIALIZED);
 +
 +    /*
-+     * clean up acpi-index so it could reused by another device
++     * PCI Firmware Specification 3.1
++     * 4.6.  _DSM Definitions for PCI
 +     */
-+    if (pdev->acpi_index) {
-+        GSequence *used_indexes = pci_acpi_index_list();
++    UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
++    ifctx = aml_if(aml_equal(aml_arg(0), UUID));
++    {
++        aml_append(ifctx, aml_store(aml_call2("AIDX", bnum, sun), acpi_index));
++        ifctx1 = aml_if(aml_equal(func, zero));
++        {
++            uint8_t byte_list[1];
 +
-+        g_sequence_remove(g_sequence_lookup(used_indexes,
-+                          GINT_TO_POINTER(pdev->acpi_index),
-+                          g_cmp_uint32, NULL));
++            ifctx2 = aml_if(aml_equal(rev, aml_int(2)));
++            {
++                /*
++                 * advertise function 7 if device has acpi-index
++                 * acpi_index values:
++                 *            0: not present (default value)
++                 *     FFFFFFFF: not supported (old QEMU without PIDX reg)
++                 *        other: device's acpi-index
++                 */
++                ifctx3 = aml_if(aml_lnot(
++                    aml_or(aml_equal(acpi_index, zero),
++                           aml_equal(acpi_index, aml_int(0xFFFFFFFF)), NULL)
++                ));
++                {
++                    byte_list[0] =
++                        1 /* have supported functions */ |
++                        1 << 7 /* support for function 7 */
++                    ;
++                    aml_append(ifctx3, aml_return(aml_buffer(1, byte_list)));
++                }
++                aml_append(ifctx2, ifctx3);
++             }
++             aml_append(ifctx1, ifctx2);
++
++             byte_list[0] = 0; /* nothing supported */
++             aml_append(ifctx1, aml_return(aml_buffer(1, byte_list)));
++         }
++         aml_append(ifctx, ifctx1);
++         elsectx = aml_else();
++         /*
++          * PCI Firmware Specification 3.1
++          * 4.6.7. _DSM for Naming a PCI or PCI Express Device Under
++          *        Operating Systems
++          */
++         ifctx1 = aml_if(aml_equal(func, aml_int(7)));
++         {
++             Aml *pkg = aml_package(2);
++             Aml *ret = aml_local(1);
++
++             aml_append(pkg, zero);
++             /*
++              * optional, if not impl. should return null string
++              */
++             aml_append(pkg, aml_string("%s", ""));
++             aml_append(ifctx1, aml_store(pkg, ret));
++             /*
++              * update apci-index to actual value
++              */
++             aml_append(ifctx1, aml_store(acpi_index, aml_index(ret, zero)));
++             aml_append(ifctx1, aml_return(ret));
++         }
++         aml_append(elsectx, ifctx1);
++         aml_append(ifctx, elsectx);
 +    }
++    aml_append(method, ifctx);
++    return method;
++}
 +
-     qdev_unrealize(dev);
+ /**
+  * build_prt_entry:
+  * @link_name: link name for PCI route entry
+@@ -1195,6 +1292,8 @@ static void build_piix4_pci_hotplug(Aml *table)
+     aml_append(method, aml_return(aml_local(0)));
+     aml_append(scope, method);
+ 
++    aml_append(scope, aml_pci_device_dsm());
++
+     aml_append(table, scope);
  }
  
 -- 
