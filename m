@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5813633C9C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:11:52 +0100 (CET)
-Received: from localhost ([::1]:50088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A774133C9DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:26:15 +0100 (CET)
+Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLwNL-0005DC-Db
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59186)
+	id 1lLwbE-0006bG-I5
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1lLwLt-0003Q3-Ki
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:10:22 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:44316 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1lLwLn-0002Yo-QH
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:10:20 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 8BD13412DB;
- Mon, 15 Mar 2021 23:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1615849813; x=1617664214; bh=cmBiTjxTuyHXzcQ42i7Dby
- 1WgbHmmdQsS1bCBz2EVzA=; b=P1wo2KeCSnDLHszzEL++T+ODNbRqN4+GIHFhGD
- vYFW9IieCdgBqtkACH11ukPG3R57neiI7VmBLNC2OlabAkXhJps0cjBssfxc9w2r
- gndiDsXr/3SbKvhFAcIuoXiNTDp33pSiCINAcKOKrlnh3w+/V9iCOyuDilukvtdw
- ms3kU=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2lOdzW47yK3k; Tue, 16 Mar 2021 02:10:13 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 79116412D8;
- Tue, 16 Mar 2021 02:10:13 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 16
- Mar 2021 02:10:13 +0300
-Date: Tue, 16 Mar 2021 02:10:12 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 02/29] meson: Split out fpu/meson.build
-Message-ID: <YE/pVLf3VUXhrn1/@SPB-NB-133.local>
-References: <20210314212724.1917075-1-richard.henderson@linaro.org>
- <20210314212724.1917075-3-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLwZx-00065u-PQ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:24:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55273)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLwZu-0000pH-0N
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:24:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615850686;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2gLDhELuMsQw1Ba4o2BASd5GzRnl6g0EFE0U5mqwSvE=;
+ b=LtJl/gUwNPI9ut51VoMzdMV3O5dI95dMLnm7/PrLR5cyTTjTv9JYXmpEJ4TPJsxh8omOUX
+ gTYo1lPZLatwlextB2udENM6iVH+DRsHqwm9iIv19fbpvVQ6TZzjgg1bDg8bo2zwgEH79w
+ XY6il/0SFxvQciYBKVNSKS+POnxovvI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-ljKK4qVfMKyC6uCoGiJ-OQ-1; Mon, 15 Mar 2021 19:24:32 -0400
+X-MC-Unique: ljKK4qVfMKyC6uCoGiJ-OQ-1
+Received: by mail-wm1-f70.google.com with SMTP id a65so3118137wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 16:24:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2gLDhELuMsQw1Ba4o2BASd5GzRnl6g0EFE0U5mqwSvE=;
+ b=PE5a1XLk7RAgUfnM4tWm4XJcjzsARHO+L+5Ua8fJtK7a7Cl+UR52T8fXt0T6Yigxu/
+ ApBeX3GlQ7NsWC66oLt8IysqL58xk/vcMoU4zQI5BbH/zNgQ7gzxaNqwMRBa4Pbkgo6A
+ aPAoFU78uWMIL3slS5KDwomUi1uKS0TLF6Sah5mSC98x52dhn5YXLAa6R72LBz0h3/Sm
+ WrtfZG1o7sTuXiSD+TD3IFQ5zFfr9F5u4FZwbs8geqN5poY9JhquGeUxEd1GOQBzzFM3
+ 8LCvBwusYytEf+RnhMP9jpWhXf6Yjd4C4ivuA2STjZJAVX0bFEtihGgANA7ZYmERcOSm
+ MjdA==
+X-Gm-Message-State: AOAM531xomWLinFltD4RHj7bqaiSjSmATW+c/J2wBS+SeeTmmYp0tkyR
+ FJ0qqbsLI6rMXA6D82C26dGfyY+1Sc6+hD6+hjfMEffndo0GY39U4qg8G1lTZJyRQfIDjqzB6sO
+ tvVIIBtnLrhCYUvI=
+X-Received: by 2002:a7b:c316:: with SMTP id k22mr1800286wmj.176.1615850671231; 
+ Mon, 15 Mar 2021 16:24:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuYaCnC1A/rDgiqWVJaI19igENXnDhkFgdNtIBmE6M2n28NuPqVz0jGreN+nfAX//RN3yflQ==
+X-Received: by 2002:a7b:c316:: with SMTP id k22mr1800268wmj.176.1615850670949; 
+ Mon, 15 Mar 2021 16:24:30 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id j203sm1217404wmj.40.2021.03.15.16.24.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 16:24:30 -0700 (PDT)
+Subject: Re: [PATCH v2 00/12] hw/block/pflash: Refactors around setting the
+ device in read-array mode
+To: qemu-devel@nongnu.org
+References: <20210310170528.1184868-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b3e41dfe-dd43-bbcb-87b1-29f2d50e1396@redhat.com>
+Date: Tue, 16 Mar 2021 00:24:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
+In-Reply-To: <20210310170528.1184868-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210314212724.1917075-3-richard.henderson@linaro.org>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,56 +98,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, j@getutm.app
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 14, 2021 at 03:26:57PM -0600, Richard Henderson wrote:
-> Reviewed-by: Philippe Mathieu-Daud� <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-
-Reviewed-by: Roman Bolshakov <r.boshakov@yadro.com>
-
-Thanks,
-Roman
-
->  meson.build     | 4 +---
->  fpu/meson.build | 1 +
->  2 files changed, 2 insertions(+), 3 deletions(-)
->  create mode 100644 fpu/meson.build
+On 3/10/21 6:05 PM, Philippe Mathieu-Daudé wrote:
+> I remembered this almost 2 years old series while reviewing
+> David Edmondson's patches... (which are included at the end).
 > 
-> diff --git a/meson.build b/meson.build
-> index 742f45c8d8..bfa24b836e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1934,9 +1934,6 @@ subdir('softmmu')
->  common_ss.add(capstone)
->  specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
->  specific_ss.add(files('exec-vary.c'))
-> -specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-> -  'fpu/softfloat.c',
-> -))
->  specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c'))
->  
->  subdir('backends')
-> @@ -1948,6 +1945,7 @@ subdir('replay')
->  subdir('semihosting')
->  subdir('hw')
->  subdir('tcg')
-> +subdir('fpu')
->  subdir('accel')
->  subdir('plugins')
->  subdir('bsd-user')
-> diff --git a/fpu/meson.build b/fpu/meson.build
-> new file mode 100644
-> index 0000000000..1a9992ded5
-> --- /dev/null
-> +++ b/fpu/meson.build
-> @@ -0,0 +1 @@
-> +specific_ss.add(when: 'CONFIG_TCG', if_true: files('softfloat.c'))
-> -- 
-> 2.25.1
+> Basically we move things around to make the code easier to maintain.
 > 
+> David Edmondson (2):
+>   hw/block/pflash_cfi01: Correct the type of PFlashCFI01.ro
+>   hw/block/pflash_cfi: Replace DPRINTF with trace events
+> 
+> Philippe Mathieu-Daudé (10):
+>   hw/block/pflash_cfi: Fix code style for checkpatch.pl
+>   hw/block/pflash_cfi01: Extract pflash_cfi01_fill_cfi_table()
+>   hw/block/pflash_cfi02: Extract pflash_cfi02_fill_cfi_table()
+>   hw/block/pflash_cfi02: Set rom_mode to true in pflash_setup_mappings()
+>   hw/block/pflash_cfi02: Open-code pflash_register_memory(rom=false)
+>   hw/block/pflash_cfi02: Rename register_memory(true) as mode_read_array
+>   hw/block/pflash_cfi02: Factor out pflash_reset_state_machine()
+>   hw/block/pflash_cfi02: Add DeviceReset method
+>   hw/block/pflash_cfi01: Clarify trace events
+>   hw/block/pflash_cfi01: Extract pflash_mode_read_array()
+
+Thanks, patches 1-10 & 12 queued to pflash-next.
+
 
