@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C99833C514
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:02:29 +0100 (CET)
-Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963C633C544
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:09:22 +0100 (CET)
+Received: from localhost ([::1]:40940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrXw-0000Xk-K0
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
+	id 1lLreW-00059I-0N
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLrP0-0000J8-Fh
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:53:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLrOy-0004d0-Ma
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:53:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615830792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0VyC7mb0ncx9vZyTgRz0lrERwHdADo0CeX2LA1+SLLA=;
- b=DtrVTSzHAT6dRvCGsqh6t05Hq8cwtJjwLmJoSOHCl1iJCxIHQLcs1S6VbEKHwA4y0Th/+O
- SywcL0+j6BpZ43RQGT6DvqrP+u9rPnVOifRYmhlg+hdZYC1OzV/9wTERVBNKaJfGVNaJYO
- g7/f6nIx0Ub9VXDyNZ2OG/uoJp5rE7E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-Y60FqUMCPSq21aLkn3VglQ-1; Mon, 15 Mar 2021 13:53:07 -0400
-X-MC-Unique: Y60FqUMCPSq21aLkn3VglQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86E5B881280;
- Mon, 15 Mar 2021 17:53:06 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BAEF310023AB;
- Mon, 15 Mar 2021 17:53:01 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-2-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
-Message-ID: <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com>
-Date: Mon, 15 Mar 2021 12:53:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLrQT-00020m-JU
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:54:45 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLrQQ-0005Fb-KI
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:54:45 -0400
+Received: by mail-ed1-x536.google.com with SMTP id h13so18381091eds.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 10:54:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1J0ArbFGDQR2mj1V/O+MtU/P7Ye1anKhOfkaHqsDsOU=;
+ b=Zo4tZBmiN5RiUx6WpUspwYp4aLZN9FyF02svWnisFPAHT/7u0bGOlLZIoLLb9DgQXQ
+ tfcUiy6uwryupPxIv/1l2pU476bkGqvusEQK3DaKtYddjHo8rtNIhiIoqw0bdDLazI8u
+ io6FsgpZTsou+2v6WdkIPLCgfKDr+80IH5vJKwQ8XUrt/XF3iMKrtH6W2UF7rSfqXbeL
+ LBhYmtLZS2hBct7I31nig4vecTiRQHdJE5EamraNR5L2pAqiRVqO/OQmCg306V8vn48b
+ 0oz9FFKWcmRCpoC1V71Ushbuewoaa8asy2Gk2Rnlwkn7wnclRqOwcLPnBSVUwEOPhoTb
+ xThA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=1J0ArbFGDQR2mj1V/O+MtU/P7Ye1anKhOfkaHqsDsOU=;
+ b=eaYOgrQejf5AZyrDLshA20Mobq48+KK0OrJvzshGSuS45DI8qk/0XXirRY/IJ9y5hx
+ JcusN8UiPOmQA6bz0q7qST1RUejd+SWsxtrbYbpYlv5qVuqdprYnO4h7A8aNqUk9/IRl
+ 6w6UHl5QOlYH5sbFPKlWgbt8oXoQilWoMAD69ItCKY3YHJYZZGmzhKhFaOwvyIz9Hb1t
+ NceI+epkUPaeSPE2x4c2YETbIG8VYsHVL1hyYE5inR6NI4DbGr4972uzXmmA3pKNAIr5
+ 2AEiCqpXPAJK6pPUjhufTloPSHFQn/NPn7GNSZhn/gT0i/URRmfHQMRCGveNR1+go9n0
+ 4Rng==
+X-Gm-Message-State: AOAM5335xqyg5oUUICOSWz3hNghFrQCuTgNERWA3YyEvOfkR/kJLDoIQ
+ 9OCfYdAkENc7oQCud7WloNYIJQ==
+X-Google-Smtp-Source: ABdhPJyKH8YjLwN0vrT+9SpfkMEkwDCcL6YknOXCFjjcScCYKN82/QYEeGcoVmXq2yqvNbT5FZ/KKw==
+X-Received: by 2002:a05:6402:1c1b:: with SMTP id
+ ck27mr31355530edb.223.1615830880407; 
+ Mon, 15 Mar 2021 10:54:40 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u24sm7999180ejr.34.2021.03.15.10.54.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 10:54:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AF86D1FF7E;
+ Mon, 15 Mar 2021 17:54:38 +0000 (GMT)
+References: <20210315165312.22453-1-alex.bennee@linaro.org>
+ <CAFEAcA8gnFdOprY=yj+voN+DJ44zx3+9ABM3yMPdWJSQ3X6QrQ@mail.gmail.com>
+ <b5db40d9-1a51-3690-a1ac-0ac345619376@redhat.com>
+ <YE+UuX2Hqr2BjsRh@redhat.com>
+User-agent: mu4e 1.5.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH] docs/devel: expand style section of memory management
+Date: Mon, 15 Mar 2021 17:54:17 +0000
+In-reply-to: <YE+UuX2Hqr2BjsRh@redhat.com>
+Message-ID: <87pn008fq9.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210311231202.1536040-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,142 +90,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/21 5:11 PM, Philippe Mathieu-Daudé wrote:
-> Introduce the 'query-accels' QMP command which returns a list
-> of built-in accelerators names.
 
-accelerator names
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> 
-> - Accelerator is an QAPI enum of all existing accelerators,
+> On Mon, Mar 15, 2021 at 06:04:10PM +0100, Thomas Huth wrote:
+>> On 15/03/2021 17.57, Peter Maydell wrote:
+>> > On Mon, 15 Mar 2021 at 16:53, Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>> > > -Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the f=
+ollowing
+>> > > +Care should be taken to avoid introducing places where the guest co=
+uld
+>> > > +trigger an exit. For example using ``g_malloc`` on start-up is fine
+>> > > +if the result of a failure is going to be a fatal exit anyway. There
+>> > > +may be some start-up cases where failing is unreasonable (for examp=
+le
+>> > > +speculatively loading debug symbols).
+>> > > +
+>> > > +However if we are doing an allocation because of something the guest
+>> > > +has done we should never trigger an exit. The code may deal with th=
+is
+>> > > +by trying to allocate less memory and continue or re-designed to al=
+locate
+>> > > +buffers on start-up.
+>> >=20
+>> > I think this is overly strong. We want to avoid malloc-or-die for
+>> > cases where the guest gets to decide how big the allocation is;
+>> > but if we're doing a single small fixed-size allocation that happens
+>> > to be triggered by a guest action we should be OK to g_malloc() that
+>> > I think.
+>>=20
+>> I agree with Peter. If the host is so much out-of-memory that we even ca=
+n't
+>> allocate some few bytes anymore (let's say less than 4k), the system is
+>> pretty much dead anyway and it might be better to terminate the program
+>> immediately instead of continuing with the out-of-memory situation.
+>
+> On a Linux host you're almost certainly not going to see g_malloc
+> fail for small allocations at least. Instead at some point the host
+> will be under enough memory pressure that the OOM killer activates
+> and reaps arbitrary processes based on some criteria it has, freeing
+> up memory for malloc to succeed (unless OOM killer picked you as the
+> victim).
 
-is a QAPI enum
+OK how about this wording:
 
-> 
-> - AcceleratorInfo is a QAPI structure providing accelerator
->   specific information. Currently the common structure base
->   provides the name of the accelerator, while the specific
->   part is empty, but each accelerator can expand it.
+  Please note that ``g_malloc`` will exit on allocation failure, so
+  there is no need to test for failure (as you would have to with
+  ``malloc``). Generally using ``g_malloc`` on start-up is fine as the
+  result of a failure to allocate memory is going to be a fatal exit
+  anyway. There may be some start-up cases where failing is unreasonable
+  (for example speculatively loading a large debug symbol table).
 
-Do we expand it later in this series?  If not,...
-
-> 
-> - 'query-accels' QMP command returns a list of @AcceleratorInfo
-> 
-> For example on a KVM-only build we get:
-> 
->     { "execute": "query-accels" }
->     {
->         "return": [
->             {
->                 "type": "qtest"
->             },
->             {
->                 "type": "kvm"
->             }
-
-Inconsistent with the code, already pointed out in other reviews.
-
->         ]
->     }
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-
-> +##
-> +# @AcceleratorInfo:
-> +#
-> +# Accelerator information.
-> +#
-> +# @name: The accelerator name.
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'union': 'AcceleratorInfo',
-> +  'base': {'name': 'Accelerator'},
-> +  'discriminator': 'name',
-> +  'data': { } }
-
-...it feels a bit over-engineered (we can turn it into a union later
-while still preserving back-compat).  On the other hand, since you are
-using conditional compilation...
-
-> +
-> +##
-> +# @query-accels:
-> +#
-> +# Get a list of AcceleratorInfo for all built-in accelerators.
-> +#
-> +# Returns: a list of @AcceleratorInfo describing each accelerator.
-> +#
-> +# Since: 6.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-accels" }
-> +# <- { "return": [
-> +#        {
-> +#            "type": "qtest"
-> +#        },
-> +#        {
-> +#            "type": "kvm"
-
-Another inconsistent example.
-
-> +#        }
-> +#    ] }
-> +#
-> +##
-> +{ 'command': 'query-accels',
-> +  'returns': ['AcceleratorInfo'] }
-> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
-> new file mode 100644
-> index 00000000000..f16e49b8956
-> --- /dev/null
-> +++ b/accel/accel-qmp.c
-> @@ -0,0 +1,47 @@
-> +/*
-> + * QEMU accelerators, QMP commands
-> + *
-> + * Copyright (c) 2021 Red Hat Inc.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/qapi-commands-machine.h"
-> +
-> +static const Accelerator accel_list[] = {
-> +    ACCELERATOR_QTEST,
-> +#ifdef CONFIG_TCG
-> +    ACCELERATOR_TCG,
-> +#endif
-> +#ifdef CONFIG_KVM
-> +    ACCELERATOR_KVM,
-> +#endif
-
-...would it be worth compiling the enum to only list enum values that
-were actually compiled in?  That would change it to:
-
-{ 'enum': 'Accelerator',
-  'data': [ 'qtest',
-            { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
-...
+  Care should be taken to avoid introducing places where the guest could
+  trigger an exit by causing a large allocation. For small allocations,
+  of the order of 4k, a failure to allocate is likely indicative of an
+  overloaded host and allowing ``g_malloc`` to ``exit`` is a reasonable
+  approach. However for larger allocations where we could realistically
+  fall-back to a smaller one if need be we should use functions like
+  ``g_try_new`` and check the result. For example this is valid approach
+  for a time/space trade-off like ``tlb_mmu_resize_locked`` in the
+  SoftMMU TLB code.
 
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>
+> Regards,
+> Daniel
 
+
+--=20
+Alex Benn=C3=A9e
 
