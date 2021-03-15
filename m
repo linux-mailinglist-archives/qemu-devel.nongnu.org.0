@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9679433B993
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 15:08:41 +0100 (CET)
-Received: from localhost ([::1]:32804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39EEE33B96C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 15:08:08 +0100 (CET)
+Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLntg-0007mY-IL
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 10:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
+	id 1lLnt9-0006yP-86
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 10:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLnqc-0005XF-R2
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:05:34 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLnqj-0005Yb-4x
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:05:37 -0400
 Received: from mail-bn7nam10on2096.outbound.protection.outlook.com
  ([40.107.92.96]:14270 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLnqZ-0001cT-Pa
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:05:30 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLnqg-0001cT-DO
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:05:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ve3yK6Bhk5xdoBabkeix5ofDlqGHvs4nHrskd5qzAJSZHtT2x8TTV3SIiM143PRnhA2bN1TqmhTRAk5S8VtJgbvHhCFKfGorbpAYnB2vifFk3XfHdXkh+zERdE331zSigv1pNGT6qKydz6SUx2paWUutRTI9XefWf3dQqBI4comLndMcKNWGC4wExJBPAmA4GfWEoUYrjBNcyuiKDnA1nyxnWD2/FnVj0jnh209myUolgdu/QTjG+oKbtT802uWbuL14XQKTUTajd60eoyy+fdEuOxnJz2CUB8gLOBfNH7fDtiAErhhx3brc+Jx3rE3mnTCNnYqU7y7uPRImhv179g==
+ b=IwhkRV2zAs9jpWK9lj8Ry3uzMazSSbBhFQRcwJSKB1HbxNQNhc0C2nTclNJYUNpw9gmzxOakyxcIF7HuMaoTDDOvdGG4umAdtlIAAr8/nif5ujKBGliUsi/7Qou32/b8mkru8o/aW1QL3My7o8MaxOrM8lOjbRAfANnNCXMM9rjncRGpo+pOxbyiRVJTBOgkSkXUGDuzJuhpufPBdFHdmElaTHVZ4o8mmMVRGs3wLZBuriE4uBvNcC5xliv6bUcl0glYM0zDQnAbGNuDk9kvti5rcoaI/BoXPYG6+RAk9MhK2VjrXGaRZA/DIJQOzYdmwXhk+q4PJpAfGavkbXfr9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3MyzeVpnOt2cZ9heXNp2aoFRsblo45wu3Ergk2PWCwY=;
- b=ZI93mrIDm2SaTwphJTi+4+eOJxwleqBL1ZwDC1bkh/KuLYQn3B1ZalgPk9I6v9pViQvqgSEureIIxH9oiOxh2iDsxy5HvGj7VuzAh6ELqFLAh2ECtgL+gInasQsxV2j6cUG9jQ1fxqCTWaOq6SOueBIrz53p2Vc3nWeTT1pROJS75BlrMI4pc28JzTNjEKZlHZX6tRo9q5262cTBXZf2a8OMIdqq52Zl0kxUHt/L024+JsnAv4EDo0Tmgtdz5t/+Kal1xYJ/LiPHijbMgVweiBSUJPtWLXHnxL4k0956Fsp/zfzdWSNIZ30jqLdZVdwq7c6t2NYijkD7NBbsNAwTOQ==
+ bh=snDcGfcbftby+KgjCZ8E6Rggg9q7PWnFxRz0DWkbFQw=;
+ b=na91BwNIvyxkz2JkbUunJyXRQh6nUFvhlP9jMDgi6oyxNfeI1PRp0wJJArYaBs1q/g6VmURaK6QWbeN6XNFVn/OCmRH7KsSD1rCXFwMrOFgBvIaZ5QYCymJ2uEyJmK4mAoNkfgzGdT4bSIxqX6omkECu4LdGJs+3Uq8Z4lH1k5lPlSBXepIlPSPnxxaWQQsCl06VlacFb9PiUsD/hIbH3Gjv73iJEHrE+LCa3g8O3moAI9invbPPF5yE0LkVUaEsfzgTMxf3cwcTeetQbSijWwREdvuQi40Sb8psJNeZRHJqZg7VnoTVmULTZyp15vZO3cxcTZJNUOx/fIno0obCAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3MyzeVpnOt2cZ9heXNp2aoFRsblo45wu3Ergk2PWCwY=;
- b=Re2fqp342KjnuyBdV838o6Sd9J1MZPBOnO485cjfA4wTrHUJYwIq5npIXwVkBNM7I5UgyZZ5MHVbuYqGKE7m1c94DhOzyihfpI3hUX3rFrcqLCl8Maya03C9qyTQH5qqlytFFI0fn66iWhW2GWJuMwRaiFHK2ayXCc7yHBW8Nj4=
+ bh=snDcGfcbftby+KgjCZ8E6Rggg9q7PWnFxRz0DWkbFQw=;
+ b=SaU9Y5PCnIrUaxYVkGubDOMwnSm1amyziGK1AywLu6XEbvnIQflhnTJrtPuLmW6kEQrZ4tzOx/y4MFJL+VxcR3E+MeACv0g6EGc2ZrGSOID/pVt2r/kpBGfJDMxFhtJa23rmsuQ1UPuHfageuaiwhlcCPV1ILaI23+aYd+7qifQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
@@ -46,9 +46,9 @@ Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  14:05:25 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] memory: add a sparse memory device for fuzzing
-Date: Mon, 15 Mar 2021 10:05:10 -0400
-Message-Id: <20210315140512.8357-2-alxndr@bu.edu>
+Subject: [PATCH v3 2/3] fuzz: configure a sparse-mem device, by default
+Date: Mon, 15 Mar 2021 10:05:11 -0400
+Message-Id: <20210315140512.8357-3-alxndr@bu.edu>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210315140512.8357-1-alxndr@bu.edu>
 References: <20210315140512.8357-1-alxndr@bu.edu>
@@ -64,52 +64,52 @@ Received: from mozz.bu.edu (128.197.127.33) by
  BL1PR13CA0336.namprd13.prod.outlook.com (2603:10b6:208:2c6::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.11 via Frontend
- Transport; Mon, 15 Mar 2021 14:05:23 +0000
+ Transport; Mon, 15 Mar 2021 14:05:24 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3bc3aae9-071c-4ea2-e309-08d8e7bb60a9
+X-MS-Office365-Filtering-Correlation-Id: 7983ce25-3d49-4247-d924-08d8e7bb6139
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3933:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB3933D666B6B3F72BD5FF25F1BA6C9@SN6PR03MB3933.namprd03.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <SN6PR03MB39334E1A43DD061231E6C225BA6C9@SN6PR03MB3933.namprd03.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:298;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5dA8aWutLyu1dDn3KQY+tYU85d2UpMHMYz/qjKNU2gP9qLsEMGgIgmcvD6cQIycDyKgSwcGcMm0KFrYzyghBLPYuz5IHZqjQUv8xv1pjbvyoTBGbYI89DcRDutxeN+5RP7igYzKq2lMmGXI99MbMu7F6yqjLDlLFTBjMTA2eAplcU8iHgBvbvMhRjbBeTy2t4u2J+v2iOOEGSDhytCeVYasfsZfkZNaXkk3f14YW2Ts8C4lwmULkHOQECmh55gjnqQ0YuU+/Bd9JyRY5T1lBx3vr/mn77yc6MpjvWE/j6+wvZuEBlUE5iMYLXn0AmiEAaCQFB7igZ2HN9aenz0QzRn5FXgsW9lG3NKI9iood+bqw0Z9b5shSGoLFxcl40HldFtYRxYAoB4OOPdWG3uqDNrSpV8p8PfMEPG76Ef7SScno3BCTsvpUVpdSM1gAV3i3mc/Y65lpPbE+jgUye385dMUm2QT8fUQGQgyP69yC32z/hLIC52VdwPTY9vZL3MU0vKByFWPX1nBYOF6sRLRHbIC1TZ4D9gUv5zHZx/KMsY8ymdSgEiBlOZba4xwd5hBT
+X-Microsoft-Antispam-Message-Info: KjX/JOg3wA8v8c0io7Iy8zepf714T0raqi2/4HHQ+bzyv8AxK4kWHlLUuqagw3N3EA4lDTs+fwMSoNjyY73Bc3SZ652XyK051j1CQr+o0wKE6Xbp+oWiWzLaV92S5xlFz4qKsUX9oUSmVyaTZXv5dn6S1zfOapJg/Vbzg8RAaYUlIbdKb+IPWoUmyUG7l37WEzTDdoArcCr2WJ+T+ndL6Crvt1NpZ0cQn2KqhdTmLV52OK5HmC4garBWZBwX+i+YvfRyV1w6X6nfiD4B1Jo+qiNtxwNGBB0G/msSDwCAvpIp/op4IRurmtZp9/xm10YD1cRWKt8zstJ8LGeJnDMVYRysMud+KayYT/a5SLoPObT7PYlqrJdZDck6qR6i4fS8CzbfVxS+SqBN8RIu2We2cmgVti0K+GapeZls4/B5Y/5h1m4TpqU1ey3iLI13vCEhIgd1/zNiGHCbnUOW4Xp7uoMs5IdfLsGKbiDp2B4tOW9IZlnofU+/3BL9+zlJzf/J3cp0TRKuvVPe46HfHrtJXKnXCks7jM9b6REZIpWKEg/d2J78sQXQS//+fpw+6xnQ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39860400002)(376002)(346002)(366004)(396003)(136003)(66476007)(8676002)(36756003)(66556008)(66946007)(83380400001)(75432002)(8936002)(316002)(86362001)(6666004)(4326008)(7696005)(52116002)(6486002)(54906003)(2906002)(186003)(956004)(786003)(6916009)(26005)(478600001)(1076003)(5660300002)(2616005)(16526019);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?+RBU5MpCMrRr/Uf90uO952NGYSxz/+h1KszxwfVv5M0SU0YenRV4C/P0lBuq?=
- =?us-ascii?Q?xpUy7vcVSPUFCnbVSKKm4gUGjnEVnpfF3MzLk9Dmg9tVPGddSo+Wsz5k24zq?=
- =?us-ascii?Q?nneiRESlDuN8ph7d/2d/KntjIH/B2wqhJ42j8wDfPi/CRZleKyftsovpSe2Y?=
- =?us-ascii?Q?Q3gOPfYUUPsakaCqRVxvLEORb+EvHy3JLiM190dH7hHuVXuwhofUJsY0fVTQ?=
- =?us-ascii?Q?2xoItnxautOhxRjUhgho+5AHgfeBbC6x55UIun0n5ukY4JJeEdpu9pzyuZp4?=
- =?us-ascii?Q?7sN3WqjycObc3yc9WwO8sqJakwbDU69kTKinllKGWW60KWht7y4yZKuXTwbp?=
- =?us-ascii?Q?scMLrsdrUEbQP+8XFlN3kYhtMsNW7/eDrrK9A/E3D6HfLwd+bIqYsrZssKO3?=
- =?us-ascii?Q?Bmp2fmGcKlqz+KFwpdVBOKZeyqS9mwZiBKyEnz+q0ENSNkXYMd+sSJ6Pua7/?=
- =?us-ascii?Q?8FqsFldeTm0YYDPLzqfZqFnQ+JIfybybzcyfTa+2RXvyF7yLe5sJx3rvG9h1?=
- =?us-ascii?Q?QF69aanb05SPcgx5JTXZf3kSG3neemInDIxhGFp4TAD5MRLAcyEVcciCSv3J?=
- =?us-ascii?Q?DVziDyRqC2zhUwo90HCE856LbMfrCiLm3V8Tyg4701ZXdbndxAXXwVYrUAns?=
- =?us-ascii?Q?FNEN3BiYxL83iKiJfO1HVcoWyc9cpr9gwPNCprMWkBUbNhRBYWCPfn4sqrdd?=
- =?us-ascii?Q?5ZJ8jbzxD4L0+D6KLXOAT4pfYcbMOl0lMCNpIXxzi8opNGggvPGcB6TT4s0i?=
- =?us-ascii?Q?NOLp2/BTrVlLc3t0GAyB0Yyy6e63mksRv02U7vLVteHAAoZDnhLWgz9wKHK0?=
- =?us-ascii?Q?kjDc8hReyTuFSbg51fVRIwBBwc9JA/rwnvzzNvLMTrT8niEv/0L/tBIw035M?=
- =?us-ascii?Q?bETlfRPBZL/FDZRotR3f0i/YkgA0THEGkTSEOIauVuVKh29a9enNw80hZpUS?=
- =?us-ascii?Q?86Jd/RgrT3qAgnumFnMvi749uS0bxP/K6o3sC9/isKilj2KiCvPCjVOjK2WJ?=
- =?us-ascii?Q?ZJctqgSkaptQZSpSlheQGBaD6gWZCZXoIKZ65CXTypsFDyS+c+lVFkGgjkzc?=
- =?us-ascii?Q?dCduN98KlkUD+5j5MsEy7iI+q/iLvLuQ0u9tf7pkqT+sad9orodWuATOhXuw?=
- =?us-ascii?Q?in128YLrOlZBgqI80CuiHpqeFDtkFUNK89CIvS/wqINZelcp3dUL/KzBASS9?=
- =?us-ascii?Q?mc+KKXZ7jj+On8YmHXq5RK3N7YNrFVDoNTJkWJqEsLo7SH+e1N1MlirFlSYf?=
- =?us-ascii?Q?wq1J8PdUujAiI5XM+agbewcl3CvTp79Ukn23bQ2Y5F59b8b8eTgp/rb0L4DP?=
- =?us-ascii?Q?mhrzZo08N2gJDBfB6SRdLaQw?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?edNIcFNrKuizApV3X2PNwUwQWN9gJzkA1j72/vNZ27OmK3nIQUBjabSWfBn4?=
+ =?us-ascii?Q?sW+g4e5JCLhvCrJs1GS9dzrC31Ke4yQ20mSdtH/WGaWEdJCri8lhXI/sx7oo?=
+ =?us-ascii?Q?zKWja8ndwzzcfGEVKZ+4LIPjL+dw6YoIxQSqK4wdBRT/DJjVqpL0im8SOZgF?=
+ =?us-ascii?Q?88vZlvg25LiGKawj0Pa7jMkil9McyBYhh+961P0tEaaMVK9PxNLIVton8MtF?=
+ =?us-ascii?Q?wjgzCcPer5fMWm17wy3SM+VkxXI1SEzEW1E5R33+WH0qEIDhBGf3Iym3FwqZ?=
+ =?us-ascii?Q?F04dlzMrAYqQ4fZXER3+QynNbgvTgQVd6a/9eiqiWJWS6lal5DOfTSqEfoxo?=
+ =?us-ascii?Q?3Ow/ZoKb8Mg9wA1Uw/LJQlW2dPe4zS388Z7xwsCHrpeKRF7rWVszcUchQNfJ?=
+ =?us-ascii?Q?MbOwjKZpKAUSykc1ZLLG+zHpXBYDKgQZ+gwiIpFNh9mcdXToyyR0AmwVVoRf?=
+ =?us-ascii?Q?/olYvHsWrcOKSCHqblM+M2bg89ZKJDQJV88sm4vnDmVSzKelZud8xxN4zN5i?=
+ =?us-ascii?Q?XiJrPsf9RxqtirJ32bistDLGDm86dyILAneslq2xc7t2L585NZrsL4CbBVGJ?=
+ =?us-ascii?Q?WRJsxC+72vmsbT1Inv6NfTpkaPc73R9hY4is+VEka8YCQt0w3wlCMc5LPDh6?=
+ =?us-ascii?Q?HC3aSuhssuCGhiY+pndQbUVoCgO2unvntQinijgmpGnfYbH+xYZWKCpyPSQO?=
+ =?us-ascii?Q?LmUrhMUkdn4/fexMKF9Ibv1UVvZJyVED7+8zkts5uGq0mEOgAdWhHCidfmZ9?=
+ =?us-ascii?Q?3n56wynhhJ5BP/vlcozaZyhmUz761Ac0yz4Bw39LdlUCvzz/VwU/ZkQe2Meb?=
+ =?us-ascii?Q?3JitfykyAhRNLfmauq3xxni/2jLdGiZ0v7jspGI/D6x6rdJ34CGSrji9KYqs?=
+ =?us-ascii?Q?iT5MMe1fGD+0Z7Kz0WX6jxmyW77IfSn92FnGPfF5isbTAxRo4NoaNSG1ovaG?=
+ =?us-ascii?Q?wIhaeB+8dc7bhGY5rG9w0Yr9t/fE2wauW7FfLPdCwwxN/6i5MgMOI3BAt5JB?=
+ =?us-ascii?Q?AZ7eM3PA4A6buzH6cVk/OATu54AN1GYSuQ+ynGhGgPMWLG+GPYwezGEWNAq9?=
+ =?us-ascii?Q?Z0zQxUgF79nqJmFVVR13KO9NK1kzxBU5z9wr1AURA0jCkYLd6wDss3eF5uxv?=
+ =?us-ascii?Q?IForunEjBSfBwZsCRGBsIxWvSlBaEZbsf6qO402kB6UCp0mG6oa9PbsjAAup?=
+ =?us-ascii?Q?nBQHOCjMb1BUWwh/yacki/hYL2MAo6y/Y3tPX25N94EfPuFv9kYvjcBwB0TB?=
+ =?us-ascii?Q?LK/tj1nGtgqNsTfj4/+aVOqK8yeXmaoCuDVcbcEnrBcWIl2eVY5CtQ20HNkF?=
+ =?us-ascii?Q?sX42OAfpQ5E3Z7hrDcfH+6tP?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bc3aae9-071c-4ea2-e309-08d8e7bb60a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7983ce25-3d49-4247-d924-08d8e7bb6139
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 14:05:24.1151 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 14:05:25.1425 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RkwgKf/WB01OgRZLpJp/UAqOBGvv3RjB0fjWixqWMrirjhVQ2lcmOcoSZwqYtanJ
+X-MS-Exchange-CrossTenant-UserPrincipalName: iPQvEUJSyHMFRaKZDKiO0jy687U8vX/xxRrrJz2OiCinniGPWX3zUny8LcpZetnr
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3933
 Received-SPF: pass client-ip=40.107.92.96; envelope-from=alxndr@bu.edu;
  helo=NAM10-BN7-obe.outbound.protection.outlook.com
@@ -133,237 +133,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, f4bug@amsat.org,
- darren.kenny@oracle.com, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For testing, it can be useful to simulate an enormous amount of memory
-(e.g. 2^64 RAM). This adds an MMIO device that acts as sparse memory.
-When something writes a nonzero value to a sparse-mem address, we
-allocate a block of memory. For now, since the only user of this device
-is the fuzzer, we do not track and free zeroed blocks. The device has a
-very low priority (so it can be mapped beneath actual RAM, and virtual
-device MMIO regions).
+The generic-fuzzer often provides randomized DMA addresses to
+virtual-devices. For a 64-bit address-space, the chance of these
+randomized addresses coinciding with RAM regions, is fairly small. Even
+though the fuzzer's instrumentation eventually finds valid addresses,
+this can take some-time, and slows-down fuzzing progress (especially,
+when multiple DMA buffers are involved). To work around this, create
+"fake" sparse-memory that spans all of the 64-bit address-space. Adjust
+the DMA call-back to populate this sparse memory, correspondingly
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- MAINTAINERS                 |   1 +
- hw/mem/meson.build          |   1 +
- hw/mem/sparse-mem.c         | 151 ++++++++++++++++++++++++++++++++++++
- include/hw/mem/sparse-mem.h |  19 +++++
- 4 files changed, 172 insertions(+)
- create mode 100644 hw/mem/sparse-mem.c
- create mode 100644 include/hw/mem/sparse-mem.h
+ tests/qtest/fuzz/generic_fuzz.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ca3c9f851..2d25210edf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2633,6 +2633,7 @@ R: Thomas Huth <thuth@redhat.com>
- S: Maintained
- F: tests/qtest/fuzz/
- F: scripts/oss-fuzz/
-+F: hw/mem/sparse-mem.c
- F: docs/devel/fuzzing.rst
- 
- Register API
-diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-index 0d22f2b572..ef79e04678 100644
---- a/hw/mem/meson.build
-+++ b/hw/mem/meson.build
-@@ -1,5 +1,6 @@
- mem_ss = ss.source_set()
- mem_ss.add(files('memory-device.c'))
-+mem_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
- mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
- mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
- mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
-diff --git a/hw/mem/sparse-mem.c b/hw/mem/sparse-mem.c
-new file mode 100644
-index 0000000000..a13ac74dd9
---- /dev/null
-+++ b/hw/mem/sparse-mem.c
-@@ -0,0 +1,151 @@
-+/*
-+ * A sparse memory device. Useful for fuzzing
-+ *
-+ * Copyright Red Hat Inc., 2021
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "exec/address-spaces.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/sysbus.h"
-+#include "qapi/error.h"
-+#include "qemu/units.h"
-+#include "sysemu/qtest.h"
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index ee8c17a04c..2418e69371 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -28,6 +28,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/boards.h"
+ #include "generic_fuzz_configs.h"
 +#include "hw/mem/sparse-mem.h"
+ 
+ /*
+  * SEPARATOR is used to separate "operations" in the fuzz input
+@@ -64,6 +65,8 @@ static useconds_t timeout = DEFAULT_TIMEOUT_US;
+ 
+ static bool qtest_log_enabled;
+ 
++MemoryRegion *sparse_mem_mr;
 +
-+#define SPARSE_MEM(obj) OBJECT_CHECK(SparseMemState, (obj), TYPE_SPARSE_MEM)
-+#define SPARSE_BLOCK_SIZE 0x1000
+ /*
+  * A pattern used to populate a DMA region or perform a memwrite. This is
+  * useful for e.g. populating tables of unique addresses.
+@@ -191,8 +194,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+      */
+     if (dma_patterns->len == 0
+         || len == 0
+-        || mr != current_machine->ram
+-        || addr > current_machine->ram_size) {
++        || (mr != current_machine->ram && mr != sparse_mem_mr)) {
+         return;
+     }
+ 
+@@ -238,7 +240,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+                                       MEMTXATTRS_UNSPECIFIED);
+ 
+         if (!(memory_region_is_ram(mr1) ||
+-              memory_region_is_romd(mr1))) {
++              memory_region_is_romd(mr1)) && mr1 != sparse_mem_mr) {
+             l = memory_access_size(mr1, l, addr1);
+         } else {
+             /* ROM/RAM case */
+@@ -799,6 +801,12 @@ static void generic_pre_fuzz(QTestState *s)
+     }
+     qts_global = s;
+ 
++    /*
++     * Create a special device that we can use to back DMA buffers at very
++     * high memory addresses
++     */
++    sparse_mem_mr = sparse_mem_init(0, UINT64_MAX);
 +
-+typedef struct SparseMemState {
-+    SysBusDevice parent_obj;
-+    MemoryRegion mmio;
-+    uint64_t baseaddr;
-+    uint64_t length;
-+    uint64_t size_used;
-+    uint64_t maxsize;
-+    GHashTable *mapped;
-+} SparseMemState;
-+
-+typedef struct sparse_mem_block {
-+    uint8_t data[SPARSE_BLOCK_SIZE];
-+} sparse_mem_block;
-+
-+static uint64_t sparse_mem_read(void *opaque, hwaddr addr, unsigned int size)
-+{
-+    SparseMemState *s = opaque;
-+    uint64_t ret = 0;
-+    size_t pfn = addr / SPARSE_BLOCK_SIZE;
-+    size_t offset = addr % SPARSE_BLOCK_SIZE;
-+    sparse_mem_block *block;
-+
-+    block = g_hash_table_lookup(s->mapped, (void *)pfn);
-+    if (block) {
-+        assert(offset + size <= sizeof(block->data));
-+        memcpy(&ret, block->data + offset, size);
-+    }
-+    return ret;
-+}
-+
-+static void sparse_mem_write(void *opaque, hwaddr addr, uint64_t v,
-+                             unsigned int size)
-+{
-+    SparseMemState *s = opaque;
-+    size_t pfn = addr / SPARSE_BLOCK_SIZE;
-+    size_t offset = addr % SPARSE_BLOCK_SIZE;
-+    sparse_mem_block *block;
-+
-+    if (!g_hash_table_lookup(s->mapped, (void *)pfn) &&
-+        s->size_used + SPARSE_BLOCK_SIZE < s->maxsize && v) {
-+        g_hash_table_insert(s->mapped, (void *)pfn,
-+                            g_new0(sparse_mem_block, 1));
-+        s->size_used += sizeof(block->data);
-+    }
-+    block = g_hash_table_lookup(s->mapped, (void *)pfn);
-+    if (!block) {
-+        return;
-+    }
-+
-+    assert(offset + size <= sizeof(block->data));
-+
-+    memcpy(block->data + offset, &v, size);
-+
-+}
-+
-+static const MemoryRegionOps sparse_mem_ops = {
-+    .read = sparse_mem_read,
-+    .write = sparse_mem_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+            .min_access_size = 1,
-+            .max_access_size = 8,
-+            .unaligned = false,
-+        },
-+};
-+
-+static Property sparse_mem_properties[] = {
-+    /* The base address of the memory */
-+    DEFINE_PROP_UINT64("baseaddr", SparseMemState, baseaddr, 0x0),
-+    /* The length of the sparse memory region */
-+    DEFINE_PROP_UINT64("length", SparseMemState, length, UINT64_MAX),
-+    /* Max amount of actual memory that can be used to back the sparse memory */
-+    DEFINE_PROP_UINT64("maxsize", SparseMemState, maxsize, 10 * MiB),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+MemoryRegion *sparse_mem_init(uint64_t addr, uint64_t length)
-+{
-+    DeviceState *dev;
-+
-+    dev = qdev_new(TYPE_SPARSE_MEM);
-+    qdev_prop_set_uint64(dev, "baseaddr", addr);
-+    qdev_prop_set_uint64(dev, "length", length);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(dev), 0, addr, -10000);
-+    return &SPARSE_MEM(dev)->mmio;
-+}
-+
-+static void sparse_mem_realize(DeviceState *dev, Error **errp)
-+{
-+    SparseMemState *s = SPARSE_MEM(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+
-+    if (!qtest_enabled()) {
-+        error_setg(errp, "sparse_mem device should only be used "
-+                         "for testing with QTest");
-+        return;
-+    }
-+
-+    assert(s->baseaddr + s->length > s->baseaddr);
-+
-+    s->mapped = g_hash_table_new(NULL, NULL);
-+    memory_region_init_io(&s->mmio, OBJECT(s), &sparse_mem_ops, s,
-+                          "sparse-mem", s->length);
-+    sysbus_init_mmio(sbd, &s->mmio);
-+}
-+
-+static void sparse_mem_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, sparse_mem_properties);
-+
-+    dc->desc = "Sparse Memory Device";
-+    dc->realize = sparse_mem_realize;
-+}
-+
-+static const TypeInfo sparse_mem_types[] = {
-+    {
-+        .name = TYPE_SPARSE_MEM,
-+        .parent = TYPE_SYS_BUS_DEVICE,
-+        .instance_size = sizeof(SparseMemState),
-+        .class_init = sparse_mem_class_init,
-+    },
-+};
-+DEFINE_TYPES(sparse_mem_types);
-diff --git a/include/hw/mem/sparse-mem.h b/include/hw/mem/sparse-mem.h
-new file mode 100644
-index 0000000000..f9863b154b
---- /dev/null
-+++ b/include/hw/mem/sparse-mem.h
-@@ -0,0 +1,19 @@
-+/*
-+ * A sparse memory device. Useful for fuzzing
-+ *
-+ * Copyright Red Hat Inc., 2021
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef SPARSE_MEM_H
-+#define SPARSE_MEM_H
-+#define TYPE_SPARSE_MEM "sparse-mem"
-+
-+MemoryRegion *sparse_mem_init(uint64_t addr, uint64_t length);
-+
-+#endif
+     dma_regions = g_array_new(false, false, sizeof(address_range));
+     dma_patterns = g_array_new(false, false, sizeof(pattern));
+ 
 -- 
 2.27.0
 
