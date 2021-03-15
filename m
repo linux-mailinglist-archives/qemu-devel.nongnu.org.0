@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F089433AB70
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 07:12:00 +0100 (CET)
-Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEEC33AB8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 07:22:49 +0100 (CET)
+Received: from localhost ([::1]:55538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLgSO-0007hf-0c
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 02:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47560)
+	id 1lLgcq-0003gO-Gi
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 02:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLgQo-0005tb-Mc
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 02:10:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLgQg-0006h9-7Y
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 02:10:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615788610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/zZXxEhG1Xk+YlfmsbNhaZSdJ3JFu4VtIiXmJ0PiXGk=;
- b=CjdwNOj9mgKs1+kKibDdPUcXrJyFnkLpwltStTHSLTqz6bR04wz+vwyVii/IFvJ1rXZTAl
- 1jP8x0x4gBYu0HCENCeQC3goCtPsNf7KVEIL9yDR+fV6mxUgXgTFvufNjVArygRsnxiBZg
- zTWtFdvARmVu7B+zXgWlRmsPN8N0T4k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-ZDh8LINCMWOeUqOTjG3HWQ-1; Mon, 15 Mar 2021 02:10:07 -0400
-X-MC-Unique: ZDh8LINCMWOeUqOTjG3HWQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA15083DD24;
- Mon, 15 Mar 2021 06:10:06 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 400BC5D9C0;
- Mon, 15 Mar 2021 06:10:05 +0000 (UTC)
-To: Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
-References: <20210314032324.45142-1-ma.mandourr@gmail.com>
- <20210314032324.45142-6-ma.mandourr@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 5/8] util/compatfd.c: Replaced a malloc with GLib's variant
-Message-ID: <dfa393ed-88ba-9c4b-e991-aeb9e73050a4@redhat.com>
-Date: Mon, 15 Mar 2021 07:10:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1lLgak-0002xS-Ik; Mon, 15 Mar 2021 02:20:38 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:4095)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1lLgah-0004TK-6B; Mon, 15 Mar 2021 02:20:38 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DzR7T17zTz7h9D;
+ Mon, 15 Mar 2021 14:18:29 +0800 (CST)
+Received: from [10.174.185.179] (10.174.185.179) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 15 Mar 2021 14:20:11 +0800
+Subject: Re: [PATCH v3] multi-process: Initialize variables declared with
+ g_auto*
+To: Miroslav Rezanina <mrezanin@redhat.com>
+References: <20210312112143.1369-1-yuzenghui@huawei.com>
+ <20210315054804.6yxv6dvypipwa7wu@lws.brq.redhat.com>
+From: Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <a5fd7fd6-55a1-5daa-e821-098d8926c78a@huawei.com>
+Date: Mon, 15 Mar 2021 14:20:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210314032324.45142-6-ma.mandourr@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210315054804.6yxv6dvypipwa7wu@lws.brq.redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.179]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=yuzenghui@huawei.com;
+ helo=szxga07-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,63 +60,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
+ qemu-trivial@nongnu.org, mjt@tls.msk.ru, qemu-devel@nongnu.org,
+ laurent@vivier.eu, wanghaibin.wang@huawei.com, berrange@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/03/2021 04.23, Mahmoud Mandour wrote:
-> Replaced a malloc() call and its respective free() call with
-> GLib's g_try_malloc() and g_free().
-> 
-> Also, did slight styling changes that were producing
-> style errors when using the checkpatch.pl script against
-> the file.
+On 2021/3/15 13:48, Miroslav Rezanina wrote:
+> Missing declaration without initialization in hw/s390x/s390-pci-vfio.c
+> othwerwise correct. Will you send v4 with missing initialization or
+> should I send then as another patch?
 
-If it's unrelated, then maybe better do it in a separate patch.
+I'd prefer the latter so that subsystem maintainers can take the
+separate patch into their own tree ('Multi-process QEMU' and 'S390 PCI'
+in this case). Please go ahead for the s390 fix.
 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->   util/compatfd.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/util/compatfd.c b/util/compatfd.c
-> index ee47dd8089..834ddd0573 100644
-> --- a/util/compatfd.c
-> +++ b/util/compatfd.c
-> @@ -20,8 +20,7 @@
->   #include <sys/syscall.h>
->   #endif
->   
-> -struct sigfd_compat_info
-> -{
-> +struct sigfd_compat_info {
->       sigset_t mask;
->       int fd;
->   };
-> @@ -53,8 +52,9 @@ static void *sigwait_compat(void *opaque)
->   
->                   len = write(info->fd, (char *)&buffer + offset,
->                               sizeof(buffer) - offset);
-> -                if (len == -1 && errno == EINTR)
-> +                if (len == -1 && errno == EINTR) {
->                       continue;
-> +                }
->   
->                   if (len <= 0) {
->                       return NULL;
-> @@ -72,14 +72,14 @@ static int qemu_signalfd_compat(const sigset_t *mask)
->       QemuThread thread;
->       int fds[2];
->   
-> -    info = malloc(sizeof(*info));
-> +    info = g_try_malloc(sizeof(*info));
->       if (info == NULL) {
->           errno = ENOMEM;
->           return -1;
->       }
 
-Since this is only a very small allocation, I think it would be better to 
-use g_malloc() here and then simply remove the "if (info == NULL) ..." part.
-
-  Thomas
-
+Thanks,
+Zenghui
 
