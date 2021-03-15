@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE82133AAAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 06:16:50 +0100 (CET)
-Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE1733AB05
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 06:33:38 +0100 (CET)
+Received: from localhost ([::1]:40170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLfaz-0005n4-RM
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 01:16:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
+	id 1lLfrE-0008Jx-PY
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 01:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLfYb-0005Ar-3D
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 01:14:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLfYY-0007GY-8u
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 01:14:19 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLfq5-0007tD-Iz
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 01:32:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLfq3-0001CU-7n
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 01:32:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615785256;
+ s=mimecast20190719; t=1615786341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZgjyBpmyz9ulyDbWzHF850hRFY7XZj2iYjLp/NOjG1E=;
- b=FS/8KIc5Hjqx82IPNnoqzQXI5CFLDDLttvYP09EmxXEqQ4d7KhvgONP0sTx9G0zHkV5Enx
- YT5rhxnMs49xXdxKSzHZUVef6R+rI69HT3CyDe2BFeRHScBGJkrcgm34GnAevfPIWk+EUf
- 7WixF7WZw5cKolQNiRAiBd4n4IXgu/4=
+ bh=mRB4+vM3plksvateWx4pZqHvzVltYM8Gt0FO6PUa3vI=;
+ b=SkSXynzvmZKH0Fn7fZNln1Qtwn88V7zC+ef7lqmpyCvFfBePB+F8BGKmAYzdQoNRZbUBPh
+ WkkKHuS4VOX9Henfr1dPfLBfVXOsyAvRiwvhaL6Hf7tudkoja8iC3x1Xpy3yrAnAhpKhnw
+ 0nYjsq/HAjJfC2c+nJVU6914VdGpbtc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-84QXJBZqPA2EAzRlfqdWsA-1; Mon, 15 Mar 2021 01:14:14 -0400
-X-MC-Unique: 84QXJBZqPA2EAzRlfqdWsA-1
+ us-mta-190-XXFPYbvdNRudmcecyVLBcw-1; Mon, 15 Mar 2021 01:32:19 -0400
+X-MC-Unique: XXFPYbvdNRudmcecyVLBcw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41AF5107ACCD;
- Mon, 15 Mar 2021 05:14:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D931363A8;
+ Mon, 15 Mar 2021 05:32:18 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 837451F074;
- Mon, 15 Mar 2021 05:14:04 +0000 (UTC)
-Subject: Re: [RFC PATCH 4/8] qtest/fuzz: Restrict CPU I/O instructions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210314232913.2607360-1-f4bug@amsat.org>
- <20210314232913.2607360-5-f4bug@amsat.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FE1C46;
+ Mon, 15 Mar 2021 05:32:17 +0000 (UTC)
+Subject: Re: [PATCH] utils: Use fma in qemu_strtosz
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210314234821.1954428-1-richard.henderson@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1f96a4af-dd90-c67d-adcf-d3e67e2867b5@redhat.com>
-Date: Mon, 15 Mar 2021 06:14:03 +0100
+Message-ID: <8422f58c-743b-e028-a116-b7c3b507e3c9@redhat.com>
+Date: Mon, 15 Mar 2021 06:32:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210314232913.2607360-5-f4bug@amsat.org>
+In-Reply-To: <20210314234821.1954428-1-richard.henderson@linaro.org>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
@@ -59,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -82,43 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2021 00.29, Philippe Mathieu-Daudé wrote:
-> Restrict CPU I/O instructions to architectures providing
-> I/O bus.
+On 15/03/2021 00.48, Richard Henderson wrote:
+> Use fma to simulatneously scale and round up fraction.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> The libm function will always return a properly rounded double precision
+> value, which will eliminate any extra precision the x87 co-processor may
+> give us, which will keep the output predictable vs other hosts.
+> 
+> Adding DBL_EPSILON while scaling should help with fractions like
+> 12.345, where the closest representable number is actually 12.3449*.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tests/qtest/fuzz/generic_fuzz.c   | 16 ++++++++++------
->   tests/qtest/fuzz/qtest_wrappers.c |  4 ++++
->   2 files changed, 14 insertions(+), 6 deletions(-)
+>   util/cutils.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index ee8c17a04c4..3e0089f4a63 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -304,6 +304,13 @@ static bool get_io_address(address_range *result, AddressSpace *as,
->       return cb_info.found;
->   }
+> diff --git a/util/cutils.c b/util/cutils.c
+> index d89a40a8c3..f7f8e48a68 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -342,7 +342,7 @@ static int do_strtosz(const char *nptr, const char **end,
+>           retval = -ERANGE;
+>           goto out;
+>       }
+> -    *result = val * mul + (uint64_t) (fraction * mul);
+> +    *result = val * mul + (uint64_t)fma(fraction, mul, DBL_EPSILON);
+>       retval = 0;
 >   
-> +static bool get_mmio_address(address_range *result,
-> +                             uint8_t index, uint32_t offset)
-> +{
-> +    return get_io_address(result, &address_space_memory, index, offset);
-> +}
-> +
-> +#ifdef TARGET_HAS_IOPORT
+>   out:
 
-Sorry, but the qtests are generic code, I don't think we should introduce 
-target specific ifdefs here...?
+Will this fix the failure that we're currently seeing with 32-bit builds?
 
-  Thomas
+( https://gitlab.com/qemu-project/qemu/-/jobs/1096980112#L3258 for example )
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
