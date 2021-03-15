@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7DC33C3F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:18:37 +0100 (CET)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF3033C419
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:27:36 +0100 (CET)
+Received: from localhost ([::1]:42724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLqrT-00029s-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42918)
+	id 1lLr0B-0001qk-I2
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1lLqgM-0002CI-8c
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:07:07 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34889)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1lLqgI-00021G-BV
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:07:05 -0400
-Received: by mail-ej1-x631.google.com with SMTP id dx17so67560636ejb.2
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 10:07:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tnziLdCBQtJ/628clFAL2ayBOtafozkqcw8DQQJiZPQ=;
- b=YaPNQZWhwS/B2GkT9OVwGirBo8iHRChKHfSRXs/SWugCPC2ojlOAQ05HyM91lvEkW+
- gNkGA4e5/yYZVypj+r1UksHJgzEbt87fSpEHZgqbFt0tFWABj34Nz8ImIKk1zGuxlFwc
- /kbdvzy2s8N4ms3hMNwUjA4PljP67XnYKwggkq6CIiG/utd6tg4Hv91nOwUy/GCQz74K
- f/oUM5Ta8ywokVdwdBmDls9275WYN8VYGOyG+DvOskCOssfUDgqsucS+kLo1zFOkc9Io
- mgOLjbIXVCyGvyPv7mGqzObMTe9hqrWYfUzNApljrmwQiQecPJGckUpjMMTiQ3DDBwCc
- lShg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tnziLdCBQtJ/628clFAL2ayBOtafozkqcw8DQQJiZPQ=;
- b=m/A/nHFifIu+nIw4eL3/o5rXJ0chqwMIziBiR2UxPBghabJOgCkfxQO3X2yy8gDKV8
- FUssIaj0d+uHOclEja//rrJG/vfTqjsOZiyvgS+FxWcJg2EZgsnqlANCnOiA3TAl1ZAB
- QHWchIj2e43OlWOuCatzDru5i+Yi7VQQNP6Zp5PLWle+MuwJq4bRgFswT+5PS1a7eQ0k
- qfVRTO3tEhgbo0a9WMjHa8d6U5FK06L9s74mKnBgtDp9n4yE6Xt3b9J21mooJTM8c255
- EKnWzV1gnZEMBO+4ZH+3aBbmA+od3ZRSIQygVyDqsB45T+yaswOu+LAXn1qcH/128PuH
- cPmg==
-X-Gm-Message-State: AOAM532anuTC1UtqYk6EP4N2J9KBr15wEdbb8DiVCQ0YiQv12uykNAdA
- TYulv8RX1qqvx1V5ve0zgHI=
-X-Google-Smtp-Source: ABdhPJyDlCHHqSDOQVeVFokvsiEIPR5bDTYbXln/eBiqe6gowxzIIh0XKP3DzSM/mxi2HXAzrcBPdA==
-X-Received: by 2002:a17:906:fcc7:: with SMTP id
- qx7mr24835062ejb.486.1615828020101; 
- Mon, 15 Mar 2021 10:07:00 -0700 (PDT)
-Received: from lb01556.speedport.ip
- (p200300f1170e2e5189750ed020d14fdf.dip0.t-ipconnect.de.
- [2003:f1:170e:2e51:8975:ed0:20d1:4fdf])
- by smtp.gmail.com with ESMTPSA id u15sm8728412eds.6.2021.03.15.10.06.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 10:06:59 -0700 (PDT)
-From: Li Zhang <zhlcindy@gmail.com>
-To: marcandre.lureau@redhat.com,
-	lukasstraub2@web.de,
-	armbru@redhat.com
-Subject: [PATCH 2/2] Support monitor chardev hotswap with QMP
-Date: Mon, 15 Mar 2021 18:06:36 +0100
-Message-Id: <20210315170636.704201-2-zhlcindy@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210315170636.704201-1-zhlcindy@gmail.com>
-References: <20210315170636.704201-1-zhlcindy@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lLqio-0004kY-H4
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:09:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lLqim-00034i-7n
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:09:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615828174;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rumidTToSKGbj23cDwM0aiSnJMQtpDSGBxd20cVFr+Q=;
+ b=F8VTs9+H3prXT+WEe+GH3sP0G4li0WmPwhSQ7aXK4PqjzKbnFQ/QYTIU8/c5nOWNtkaNeM
+ GokOdAa4xLLVn15Yg8qxubmHUy6WRCfpYHj8cHgDmnOBn2E1kS5TSxvHe70Or+QQZS922C
+ ptj61OzM09dFn7zTIrQVG/6iUE2caVY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-9xDiEB-6Oh2Uucq3oi1ILw-1; Mon, 15 Mar 2021 13:09:21 -0400
+X-MC-Unique: 9xDiEB-6Oh2Uucq3oi1ILw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6735918460E1;
+ Mon, 15 Mar 2021 17:09:20 +0000 (UTC)
+Received: from redhat.com (ovpn-115-81.ams2.redhat.com [10.36.115.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2EF55D9C0;
+ Mon, 15 Mar 2021 17:09:15 +0000 (UTC)
+Date: Mon, 15 Mar 2021 17:09:13 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] docs/devel: expand style section of memory management
+Message-ID: <YE+UuX2Hqr2BjsRh@redhat.com>
+References: <20210315165312.22453-1-alex.bennee@linaro.org>
+ <CAFEAcA8gnFdOprY=yj+voN+DJ44zx3+9ABM3yMPdWJSQ3X6QrQ@mail.gmail.com>
+ <b5db40d9-1a51-3690-a1ac-0ac345619376@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <b5db40d9-1a51-3690-a1ac-0ac345619376@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=zhlcindy@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,127 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <li.zhang@cloud.ionos.com>, pankaj.gupta@cloud.ionos.com,
- alexandr.iarygin@profitbricks.com, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Zhang <li.zhang@cloud.ionos.com>
+On Mon, Mar 15, 2021 at 06:04:10PM +0100, Thomas Huth wrote:
+> On 15/03/2021 17.57, Peter Maydell wrote:
+> > On Mon, 15 Mar 2021 at 16:53, Alex Bennée <alex.bennee@linaro.org> wrote:
+> > > -Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the following
+> > > +Care should be taken to avoid introducing places where the guest could
+> > > +trigger an exit. For example using ``g_malloc`` on start-up is fine
+> > > +if the result of a failure is going to be a fatal exit anyway. There
+> > > +may be some start-up cases where failing is unreasonable (for example
+> > > +speculatively loading debug symbols).
+> > > +
+> > > +However if we are doing an allocation because of something the guest
+> > > +has done we should never trigger an exit. The code may deal with this
+> > > +by trying to allocate less memory and continue or re-designed to allocate
+> > > +buffers on start-up.
+> > 
+> > I think this is overly strong. We want to avoid malloc-or-die for
+> > cases where the guest gets to decide how big the allocation is;
+> > but if we're doing a single small fixed-size allocation that happens
+> > to be triggered by a guest action we should be OK to g_malloc() that
+> > I think.
+> 
+> I agree with Peter. If the host is so much out-of-memory that we even can't
+> allocate some few bytes anymore (let's say less than 4k), the system is
+> pretty much dead anyway and it might be better to terminate the program
+> immediately instead of continuing with the out-of-memory situation.
 
-For some scenarios, it needs to hot-add a monitor device.
-But QEMU doesn't support hotplug yet. It also works by adding
-a monitor with null backend by default and then change its
-backend to socket by QMP command "chardev-change".
+On a Linux host you're almost certainly not going to see g_malloc
+fail for small allocations at least. Instead at some point the host
+will be under enough memory pressure that the OOM killer activates
+and reaps arbitrary processes based on some criteria it has, freeing
+up memory for malloc to succeed (unless OOM killer picked you as the
+victim).
 
-So this patch is to support monitor chardev hotswap with QMP.
-
-Signed-off-by: Li Zhang <li.zhang@cloud.ionos.com>
----
- monitor/monitor-internal.h |  3 +++
- monitor/monitor.c          |  2 +-
- monitor/qmp.c              | 42 +++++++++++++++++++++++++++++++++++---
- 3 files changed, 43 insertions(+), 4 deletions(-)
-
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index 40903d6386..2df6dd21de 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -186,4 +186,7 @@ int hmp_compare_cmd(const char *name, const char *list);
- void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
-                                  Error **errp);
- 
-+gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-+                               void *opaque);
-+
- #endif
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index e94f532cf5..2d255bab18 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -157,7 +157,7 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
- 
- static void monitor_flush_locked(Monitor *mon);
- 
--static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-+gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-                                   void *opaque)
- {
-     Monitor *mon = opaque;
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 2326bd7f9b..55cfb230d9 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -44,6 +44,7 @@ struct QMPRequest {
-     Error *err;
- };
- typedef struct QMPRequest QMPRequest;
-+static void monitor_qmp_set_handlers_bh(void *opaque);
- 
- QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
- 
-@@ -480,7 +481,35 @@ void monitor_data_destroy_qmp(MonitorQMP *mon)
-     g_queue_free(mon->qmp_requests);
- }
- 
--static void monitor_qmp_setup_handlers_bh(void *opaque)
-+static int monitor_qmp_change(void *opaque)
-+{
-+    MonitorQMP *mon = opaque;
-+
-+    mon->common.use_io_thread =
-+        qemu_chr_has_feature(mon->common.chr.chr, QEMU_CHAR_FEATURE_GCONTEXT);
-+
-+    if (mon->common.use_io_thread) {
-+        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-+                                monitor_qmp_set_handlers_bh, mon);
-+    } else {
-+        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-+                                 monitor_qmp_read, monitor_qmp_event,
-+                                 monitor_qmp_change, &mon->common, NULL, true);
-+    }
-+
-+    if (mon->common.out_watch) {
-+        g_source_remove(mon->common.out_watch);
-+        qemu_mutex_lock(&mon->common.mon_lock);
-+        mon->common.out_watch =
-+        qemu_chr_fe_add_watch(&mon->common.chr, G_IO_OUT | G_IO_HUP,
-+                               monitor_unblocked, &mon->common);
-+        qemu_mutex_unlock(&mon->common.mon_lock);
-+    }
-+
-+    return 0;
-+}
-+
-+static void monitor_qmp_set_handlers_bh(void *opaque)
- {
-     MonitorQMP *mon = opaque;
-     GMainContext *context;
-@@ -490,7 +519,14 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
-     assert(context);
-     qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-                              monitor_qmp_read, monitor_qmp_event,
--                             NULL, &mon->common, context, true);
-+                             monitor_qmp_change, &mon->common, context, true);
-+
-+}
-+
-+static void monitor_qmp_setup_handlers_bh(void *opaque)
-+{
-+    MonitorQMP *mon = opaque;
-+    monitor_qmp_set_handlers_bh(mon);
-     monitor_list_append(&mon->common);
- }
- 
-@@ -531,7 +567,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-     } else {
-         qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-                                  monitor_qmp_read, monitor_qmp_event,
--                                 NULL, &mon->common, NULL, true);
-+                                 monitor_qmp_change, &mon->common, NULL, true);
-         monitor_list_append(&mon->common);
-     }
- }
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
