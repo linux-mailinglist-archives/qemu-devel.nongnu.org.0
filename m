@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA28733B208
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:05:07 +0100 (CET)
-Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A4C33B210
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:05:55 +0100 (CET)
+Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLly1-0002jj-Cw
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:05:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45354)
+	id 1lLlys-00039b-J5
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lLlt6-0000x0-6L
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:00:00 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46421)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lLlsz-0005SF-5e
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:59:55 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id a18so8514960wrc.13
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 04:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=g3QrGxkuOO+QPmBaM2fPuBuIAL78mE/TCDsppZUhMUE=;
- b=xtk8PDYpiLUPX6BK/N1ER0DnP9kbgQy6ilFOhCGFcAFgzsNBX/falGAR9EoglIiwLz
- t3CJ7Z5dLLA/V5HF58+zPWrxAqWL+kmsTMLkMLby/7hgGSx3/y+4wS2LIiJ9+8bkS4DG
- 3W90BrEtuYCrJp7qFYPYlL5yx8+OBmMmRzp2FsOt8fR/BhZ3ZKg/IFPaNc7db2yop3t9
- LuAuzGRVdYTloRqYlz8cAXmyO38XRa21zx2FEnLJkYQuK2R5gJhIyShJ+1YsTF/tJzxV
- yZ7JMz1I2shq+jA0GvScjtnUYzcktayNKVwKvyZvpDrAbgrDJcSSrABOYUwYG2bPzwGp
- t5rw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lLltW-0001ET-LD
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:00:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lLltU-0005iZ-Op
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:00:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615809616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kil8kgBekEk3iU+YOO+dt4K9VYlSHazY8KtTNOOyU6U=;
+ b=GM+WYly//ungypHFBaQo9UcMxLVur7L3eZdeR1wsZa54qe867OxzL4ARB7RhdGVbsE2qT3
+ gPWZP9BeQxz23LPSBqMjacKxYt3w3Yf3YIFP0/kv2oPCaqqxhFZZxpdLcLCQGHUsQh7p8q
+ yArfKmQFEnvJrgvnPdgjRS8BWlZP2pY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-598-qr2QmNciO-6tAuQM835tpQ-1; Mon, 15 Mar 2021 08:00:13 -0400
+X-MC-Unique: qr2QmNciO-6tAuQM835tpQ-1
+Received: by mail-wr1-f72.google.com with SMTP id y5so14994337wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 05:00:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=g3QrGxkuOO+QPmBaM2fPuBuIAL78mE/TCDsppZUhMUE=;
- b=mmP1LgddXExPX/vPCJsVc6Gwnh3eP/Z9ZxcdQRTY5lY2bqbjRl2I514XqOel7GSH8+
- CoKURVSSJayo0NLEx1N9AHZs7wwBSDRf66TuBiQ+uTwJIxrwBLdnsrsMSbfWTCtbkWMZ
- rJprBewWUJkWB5kXLEilEw28a9c8NXKa7mKTovgwKsFuOtlk/2t12s7vJ/oXR4dz+Lx8
- F8WwE/NyoGOBlvfmlbEIuuT9LKT1TEa43Tkk8H+KfD7m0RK61QB+lrqh0sK59oSfnA+r
- J9Yhe7ga2VcWw4rhJ9Q1CLcYfbD5/gBhZnwyOOWYAkJh42Wb0S0bUcg7geSXml3tXp8C
- 52qw==
-X-Gm-Message-State: AOAM530qub9wuuI8LasVQNyqP/3fQtHCJQo+MG2bQoAN0XT/8UkMMRBv
- 208K6p3YZc3F1UgC8BIu7T152wyv4sAkTg==
-X-Google-Smtp-Source: ABdhPJyytrehAwiLXTK8FkGNx6ayZHLqy1qa4iB7bRDlkz2ve7BjhUxMyOOjRcR86qdRuABp1qE2qQ==
-X-Received: by 2002:a5d:6b8a:: with SMTP id n10mr27147192wrx.150.1615809587274; 
- Mon, 15 Mar 2021 04:59:47 -0700 (PDT)
-Received: from f2.redhat.com (bzq-79-176-30-57.red.bezeqint.net.
- [79.176.30.57])
- by smtp.gmail.com with ESMTPSA id a6sm14060010wmm.0.2021.03.15.04.59.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 15 Mar 2021 04:59:46 -0700 (PDT)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com
-Subject: [PATCH v2 2/2] virtio-pci: remove explicit initialization of val
-Date: Mon, 15 Mar 2021 13:59:37 +0200
-Message-Id: <20210315115937.14286-3-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210315115937.14286-1-yuri.benditovich@daynix.com>
-References: <20210315115937.14286-1-yuri.benditovich@daynix.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::42c;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kil8kgBekEk3iU+YOO+dt4K9VYlSHazY8KtTNOOyU6U=;
+ b=dz7dSYdDyzrTU8c309yztgiciA0u7v1rMvp+WL9Rnp4y8UKjzzxGsmEiiImtdGH/Vm
+ c6NKF4FPgwm/57Pp0hACp5iMrX5gHrqrJxDjpgpguw3845HLqeqQmElNdS2eXvdxF4Fl
+ tVuuHqb12Tghm5yS8mKekututDvRbNf1+sFWWCCc59NfwUikTWa7i0erJ9s0n7LQkDEO
+ Yd+gIYn0csVaDq00m6GQe5LnMzrAKMA+GGV2LburkmzKIYlxBTe9qBufJWnzqETzfuFL
+ ReFWlxy323ghGxaL/4SUD+r2iKEGdDy+9IZ20SYWd9QugXZomyNfY0WBeS9uTxRXvt44
+ R/MA==
+X-Gm-Message-State: AOAM531fzNqQAgFlc/18Yqbf6rlStQ8dH8NUvEAFwDIUU2w7zll8kkQb
+ baaujM14a6H0Y7IwTneLMXi5Lb8LSlbmw/mH3sDz6oqJssZguEsWan6I0zA/2T54uEH0LN+wxO3
+ TQ9Wz9FnTVC7ccI8=
+X-Received: by 2002:a1c:c244:: with SMTP id s65mr26248756wmf.2.1615809612242; 
+ Mon, 15 Mar 2021 05:00:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy++tdLocHRRtkZh5VhukboetqeFZUmz37rsMPmLB5EF54TZg8QoO8kSH3bX7vtWEdot6nxOg==
+X-Received: by 2002:a1c:c244:: with SMTP id s65mr26248742wmf.2.1615809612113; 
+ Mon, 15 Mar 2021 05:00:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
+ ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.gmail.com with ESMTPSA id n23sm19002108wra.71.2021.03.15.05.00.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 05:00:11 -0700 (PDT)
+Subject: Re: [PATCH] qom: Support JSON in user_creatable_parse_str()
+To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20210312131921.421023-1-kwolf@redhat.com>
+ <87blbnxz2f.fsf@dusky.pond.sub.org> <YE9Lhbxbi8Nf4soz@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bed70d6e-7b51-1e39-ae62-3eb62d1098bd@redhat.com>
+Date: Mon, 15 Mar 2021 13:00:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <YE9Lhbxbi8Nf4soz@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +100,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: pkrempa@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The value is assigned later in this procedure.
+On 15/03/21 12:56, Kevin Wolf wrote:
+> Am 13.03.2021 um 09:00 hat Markus Armbruster geschrieben:
+>> Recommend
+>>
+>>      qom: Support JSON in HMP object_add and tools --object
+>>
+>> to put the most interesting bit right in "git-log --oneline".
+> 
+> Makes sense. I've updated my patch locally, but Paolo has already queued
+> it. Paolo, can you update the subject line accordingly?
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- hw/virtio/virtio-pci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Ok, done.
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 4a3dcee771..c1b67cf6fc 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1385,10 +1385,10 @@ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
- {
-     VirtIOPCIProxy *proxy = opaque;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
--    uint64_t val = 0;
-+    uint64_t val;
- 
-     if (vdev == NULL) {
--        return val;
-+        return 0;
-     }
- 
-     switch (size) {
-@@ -1401,6 +1401,9 @@ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
-     case 4:
-         val = virtio_config_modern_readl(vdev, addr);
-         break;
-+    default:
-+        val = 0;
-+        break;
-     }
-     return val;
- }
--- 
-2.17.1
+Paolo
 
 
