@@ -2,58 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA1033C7FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:48:20 +0100 (CET)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05BB33C82D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:07:30 +0100 (CET)
+Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLu8R-0000PV-6E
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
+	id 1lLuQz-0008Q0-D9
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lLu6D-0007Bf-Cu
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:46:01 -0400
-Resent-Date: Mon, 15 Mar 2021 16:46:01 -0400
-Resent-Message-Id: <E1lLu6D-0007Bf-Cu@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lLu69-0004GO-3B
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:46:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1615841149; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jiAsso+jIckDee2ZdH1r7AgJ4AbMX9n/DiJ3hFUSVtaPEgRWjdtc7iBwjIVGPjMeqNMX64ER/cmcC3l++/rb5hi746M6BXtAtER+eyAv1/VMnsQFpIShUSl1vgfta48s+/jo7AGdiJWnR9zR5DHNq4mw3294IHJcT8ZWbUuLKb0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615841149;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=qpLhbRUj8yGBcVUjhwVGHKAfJ8TmrpSNrXfljZ2yHmo=; 
- b=QxfDiioRtSbdEF2aeKr8VlUYzZ5gjwoIDJquUpXBwg/2h2b6b2thsF/J/3ZwbhEO0snbSClGbjC/sBpIrgAC8tgtZrORYVz9P0ieuoL2841hjQYb7tEJsnzb4AxfkH9Wl72sAziBy67ajiWZYQlucsb3cnIvPyq8Rxfm5Hnc/mE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615841146797189.33692971851383;
- Mon, 15 Mar 2021 13:45:46 -0700 (PDT)
-In-Reply-To: <20210315204004.2025219-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH] linux-user: Use signed lengths in uaccess.c
-Message-ID: <161584114556.1754.10548561650837084421@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLuPV-0007op-B2
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:05:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLuPS-0004e1-9Q
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:05:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615842352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KqQNnCm33V8UPGKQpOzpVC/0Tccul6yIMOrRTi8V+K8=;
+ b=EjlsfSZMh4kjciNwIKDHMkCRyKM5E1eUyvOqeRXSIHj21Tmmqd2CEl8gmTkLYU2f5ykpQT
+ j//IOHppDbvZLBTnRJdYMRABeV0ZxEa6aB5Aj4GgWH5q1efId2Xm7OvDTGiWQ3XhbBeAfl
+ y/q/OidPsg0xec7uEXd1tB2tpzBD2p4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-PtoL5vW0OpuCEXOzo6XsVQ-1; Mon, 15 Mar 2021 17:05:49 -0400
+X-MC-Unique: PtoL5vW0OpuCEXOzo6XsVQ-1
+Received: by mail-wr1-f69.google.com with SMTP id p12so13044034wrn.18
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:05:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KqQNnCm33V8UPGKQpOzpVC/0Tccul6yIMOrRTi8V+K8=;
+ b=a/DD8dOFN+BYHU8y3n1svb7URTFwpmTzK3pdoJEZR/dk1GO+sXCLwSBn2hVx41TLEH
+ +Q5U/JCRTh0u3xY0E/ITIgj3JnIkonEnBsi28LIIGYSILVKkfPVFwVwmCuRPcHJ5aDFl
+ Xf3u05mUdm4rkza2yCl7J+zaXMxLl65/7WBQ/626d0U8fcg+DCVKHd0Wp7C8GlKw82Uu
+ d9CFEHgkETq3lhN/BgNPGlqPTFZZhZDasg0UFJ3M4L0BNDekTAsBegOmlapZKDBhSGM/
+ LPiUQKITA4RMLIUNv8byVoHZfxuV1ZJkj8TqlvbygGNXNhhk4g4X37HHwwF8GHdkuvTo
+ T4kg==
+X-Gm-Message-State: AOAM5322E0iBySCFtZkE3hzlftLoOAO4SgCI8WqjVcim3L+96iaKN8+q
+ 4HeFWMf+4LiIhDyOPbgYqDx5fiI4BX1AAAIdcDZ+vJUdOxLeYCd14dbTxoihuegubQssmGdZ/FP
+ dvVDbfqMb8fHYi80=
+X-Received: by 2002:adf:a3c2:: with SMTP id m2mr1451886wrb.195.1615842348260; 
+ Mon, 15 Mar 2021 14:05:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcQjVJi2HkHU+OzFMxmDlYrPNDRFfM8HDKDADHbGjNIAx3yALuT7DUl72wDpyd46x2Fp3sxQ==
+X-Received: by 2002:adf:a3c2:: with SMTP id m2mr1451871wrb.195.1615842348103; 
+ Mon, 15 Mar 2021 14:05:48 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id x23sm828615wmi.33.2021.03.15.14.05.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 14:05:47 -0700 (PDT)
+Subject: Re: [PATCH] migration: Move populate_vfio_info() into a separate file
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20210315190756.317710-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f26d3ce6-b51a-7c44-2ec1-21a6bd2d4a46@redhat.com>
+Date: Mon, 15 Mar 2021 22:05:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Mon, 15 Mar 2021 13:45:46 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210315190756.317710-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,39 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Kirti Wankhede <kwankhede@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNTIwNDAwNC4yMDI1
-MjE5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzE1
-MjA0MDA0LjIwMjUyMTktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
-QVRDSF0gbGludXgtdXNlcjogVXNlIHNpZ25lZCBsZW5ndGhzIGluIHVhY2Nlc3MuYwoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
-MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
-cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxNTIwNDAwNC4y
-MDI1MjE5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMzE1
-MjA0MDA0LjIwMjUyMTktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVkIHRv
-IGEgbmV3IGJyYW5jaCAndGVzdCcKY2FiZDVjNCBsaW51eC11c2VyOiBVc2Ugc2lnbmVkIGxlbmd0
-aHMgaW4gdWFjY2Vzcy5jCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogZXh0ZXJucyBzaG91
-bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojNzc6IEZJTEU6IGxpbnV4LXVzZXIvdWFjY2Vzcy5j
-OjI3Ogordm9pZCB1bmxvY2tfdXNlcih2b2lkICpob3N0X3B0ciwgYWJpX3Vsb25nIGd1ZXN0X2Fk
-ZHIsIHNzaXplX3QgbGVuKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgODEgbGluZXMg
-Y2hlY2tlZAoKQ29tbWl0IGNhYmQ1YzQ5MzI4ZiAobGludXgtdXNlcjogVXNlIHNpZ25lZCBsZW5n
-dGhzIGluIHVhY2Nlc3MuYykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBF
-TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
-cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMTUyMDQwMDQuMjAy
-NTIxOS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90
-eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3
-IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0
-Y2hldy1kZXZlbEByZWRoYXQuY29t
+Hi Thomas,
+
++Alex
+
+On 3/15/21 8:07 PM, Thomas Huth wrote:
+> The CONFIG_VFIO switch only works in target specific code. Since
+> migration/migration.c is common code, the #ifdef does not have
+> the intended behavior here. Move the related code to a separate
+> file now which gets compiled via specific_ss instead.
+> 
+> Fixes: 3710586caa ("qapi: Add VFIO devices migration stats in Migration stats")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  migration/meson.build |  3 ++-
+>  migration/migration.c | 15 ---------------
+>  migration/migration.h |  2 ++
+>  migration/special.c   | 25 +++++++++++++++++++++++++
+>  4 files changed, 29 insertions(+), 16 deletions(-)
+>  create mode 100644 migration/special.c
+> 
+> diff --git a/migration/meson.build b/migration/meson.build
+> index 9645f44005..e1f72f6ba0 100644
+> --- a/migration/meson.build
+> +++ b/migration/meson.build
+> @@ -30,4 +30,5 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
+>  softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
+>  softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+>  
+> -specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'ram.c'))
+> +specific_ss.add(when: 'CONFIG_SOFTMMU',
+> +                if_true: files('dirtyrate.c', 'ram.c', 'special.c'))
+
+Why not simply name this migration/vfio.c? That way we do not start
+mixed bag of everything target specific.
+
+Otherwise LGTM.
+
 
