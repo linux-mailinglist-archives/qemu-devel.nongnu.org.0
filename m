@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532C933AE72
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 10:17:11 +0100 (CET)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1400433AE70
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 10:16:55 +0100 (CET)
+Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLjLa-0000br-2a
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35112)
+	id 1lLjLJ-0000LD-OG
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lLjJJ-0007Mq-Na
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:14:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22704)
+ id 1lLjJH-0007KC-Rb
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:14:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lLjJG-0007Vh-GV
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:14:49 -0400
+ id 1lLjJG-0007Vi-6T
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:14:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615799685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=orilAnhps7LPtSyqJLZhYl/Tyr3rcle9Kqlj9bwz4ng=;
- b=QbNnngP/nwRtGutgWFseyxbc4rhlfd0dRFTb97Ls2FmSKXuEF1kueaFEsV1I1/s3pmbnCN
- DAbeyL9K1Ro7+6w+jf0xdr8pkcQTRL/VojFlBisz4WdyU0RtD9oxm8lHSo0jW1nQ4ZgxvR
- bXyiEQRDHKziVndZinyP8k45ubOVX+E=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5zEzMfg/wj4Rhh5BSpxXPJCT+SYE/L9MbBTqBoF1i98=;
+ b=KC8QVRcClqsMUhILpVP884MNNY6QRsI84xcSoi2KMU3gNf4e7ecn/pszyrDVkYpXwRZ0P+
+ Jcq4Yr9EulQ8E9VF8Jq6tR5gDc14WKnJg2knUD61KQNEFGXQCbYKubkDrGuvGm45NIwFL7
+ 3OH+E1gQWy25bCYMxrpDRy8KdbxvvyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-dsQEuFaqPWuTsLopc_KoNQ-1; Mon, 15 Mar 2021 05:14:42 -0400
-X-MC-Unique: dsQEuFaqPWuTsLopc_KoNQ-1
+ us-mta-598-x-0IsAqJOIyb-4lYW7zG5A-1; Mon, 15 Mar 2021 05:14:44 -0400
+X-MC-Unique: x-0IsAqJOIyb-4lYW7zG5A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24E45100C61B;
- Mon, 15 Mar 2021 09:14:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 108D2107ACCD;
+ Mon, 15 Mar 2021 09:14:43 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-105.pek2.redhat.com
  [10.72.13.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F1C5100164C;
- Mon, 15 Mar 2021 09:14:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5346100164C;
+ Mon, 15 Mar 2021 09:14:41 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL V2 00/20] Net patches
-Date: Mon, 15 Mar 2021 17:14:13 +0800
-Message-Id: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 01/20] virtio-net: calculating proper msix vectors on init
+Date: Mon, 15 Mar 2021 17:14:14 +0800
+Message-Id: <1615799673-31549-2-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
+References: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -80,100 +83,66 @@ Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6157b0e19721aadb4c7fdcfe57b2924af6144b14:
+Currently, the default msix vectors for virtio-net-pci is 3 which is
+obvious not suitable for multiqueue guest, so we depends on the user
+or management tools to pass a correct vectors parameter. In fact, we
+can simplifying this by calculating the number of vectors on realize.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-03-14 17:47:49 +0000)
+Consider we have N queues, the number of vectors needed is 2*N + 2
+(#queue pairs + plus one config interrupt and control vq). We didn't
+check whether or not host support control vq because it was added
+unconditionally by qemu to avoid breaking legacy guests such as Minix.
 
-are available in the git repository at:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/core/machine.c          |  1 +
+ hw/virtio/virtio-net-pci.c | 10 +++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
-
-for you to fetch changes up to f2e8319d456724c3d8514d943dc4607e2f08e88a:
-
-  net: Do not fill legacy info_str for backends (2021-03-15 16:41:22 +0800)
-
-----------------------------------------------------------------
-
-Changes since V1:
-- drop the workaound of "-nic" id and fix the merge
-- add the series of query-netdev
-
-----------------------------------------------------------------
-Alexander Bulekov (4):
-      rtl8139: switch to use qemu_receive_packet() for loopback
-      pcnet: switch to use qemu_receive_packet() for loopback
-      cadence_gem: switch to use qemu_receive_packet() for loopback
-      lan9118: switch to use qemu_receive_packet() for loopback
-
-Alexey Kirillov (5):
-      qapi: net: Add query-netdev command
-      tests: Add tests for query-netdev command
-      net: Move NetClientState.info_str to dynamic allocations
-      hmp: Use QAPI NetdevInfo in hmp_info_network
-      net: Do not fill legacy info_str for backends
-
-Bin Meng (1):
-      net: Fix build error when DEBUG_NET is on
-
-Cornelia Huck (1):
-      pvrdma: wean code off pvrdma_ring.h kernel header
-
-Jason Wang (8):
-      virtio-net: calculating proper msix vectors on init
-      e1000: fail early for evil descriptor
-      net: introduce qemu_receive_packet()
-      e1000: switch to use qemu_receive_packet() for loopback
-      dp8393x: switch to use qemu_receive_packet() for loopback packet
-      msf2-mac: switch to use qemu_receive_packet() for loopback
-      sungem: switch to use qemu_receive_packet() for loopback
-      tx_pkt: switch to use qemu_receive_packet_iov() for loopback
-
-Paolo Bonzini (1):
-      net: validate that ids are well formed
-
- hw/core/machine.c                                  |   1 +
- hw/net/cadence_gem.c                               |   4 +-
- hw/net/dp8393x.c                                   |   2 +-
- hw/net/e1000.c                                     |   6 +-
- hw/net/lan9118.c                                   |   2 +-
- hw/net/msf2-emac.c                                 |   2 +-
- hw/net/net_tx_pkt.c                                |   2 +-
- hw/net/pcnet.c                                     |   2 +-
- hw/net/rtl8139.c                                   |   2 +-
- hw/net/sungem.c                                    |   2 +-
- hw/net/xen_nic.c                                   |   5 +-
- hw/rdma/vmw/pvrdma.h                               |   5 +-
- hw/rdma/vmw/pvrdma_cmd.c                           |   6 +-
- hw/rdma/vmw/pvrdma_dev_ring.c                      |  41 +++--
- hw/rdma/vmw/pvrdma_dev_ring.h                      |   9 +-
- hw/rdma/vmw/pvrdma_main.c                          |   4 +-
- hw/virtio/virtio-net-pci.c                         |  10 +-
- include/net/net.h                                  |  10 +-
- include/net/queue.h                                |   8 +
- include/qapi/hmp-output-visitor.h                  |  30 ++++
- .../drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h | 114 ------------
- net/l2tpv3.c                                       |   8 +-
- net/net.c                                          | 117 +++++++++++--
- net/netmap.c                                       |   7 +
- net/queue.c                                        |  22 +++
- net/slirp.c                                        | 124 ++++++++++++-
- net/socket.c                                       |  92 +++++++---
- net/tap-win32.c                                    |  10 +-
- net/tap.c                                          | 107 ++++++++++--
- net/vde.c                                          |  25 ++-
- net/vhost-user.c                                   |  20 ++-
- net/vhost-vdpa.c                                   |  15 +-
- qapi/hmp-output-visitor.c                          | 193 +++++++++++++++++++++
- qapi/meson.build                                   |   1 +
- qapi/net.json                                      |  80 +++++++++
- scripts/update-linux-headers.sh                    |   3 +-
- tests/qtest/meson.build                            |   3 +
- tests/qtest/test-query-netdev.c                    | 120 +++++++++++++
- 38 files changed, 990 insertions(+), 224 deletions(-)
- create mode 100644 include/qapi/hmp-output-visitor.h
- delete mode 100644 include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
- create mode 100644 qapi/hmp-output-visitor.c
- create mode 100644 tests/qtest/test-query-netdev.c
-
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 4386f57..979133f 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,7 @@
+ GlobalProperty hw_compat_5_2[] = {
+     { "ICH9-LPC", "smm-compat", "on"},
+     { "PIIX4_PM", "smm-compat", "on"},
++    { "virtio-net-pci", "vectors", "3"},
+ };
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+ 
+diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
+index 292d13d..aa0b3ca 100644
+--- a/hw/virtio/virtio-net-pci.c
++++ b/hw/virtio/virtio-net-pci.c
+@@ -41,7 +41,8 @@ struct VirtIONetPCI {
+ static Property virtio_net_properties[] = {
+     DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
+                     VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
+-    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
++    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
++                       DEV_NVECTORS_UNSPECIFIED),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -50,6 +51,13 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     DeviceState *qdev = DEVICE(vpci_dev);
+     VirtIONetPCI *dev = VIRTIO_NET_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
++    VirtIONet *net = VIRTIO_NET(vdev);
++
++    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
++        vpci_dev->nvectors = 2 * MAX(net->nic_conf.peers.queues, 1)
++            + 1 /* Config interrupt */
++            + 1 /* Control vq */;
++    }
+ 
+     virtio_net_set_netclient_name(&dev->vdev, qdev->id,
+                                   object_get_typename(OBJECT(qdev)));
+-- 
+2.7.4
 
 
