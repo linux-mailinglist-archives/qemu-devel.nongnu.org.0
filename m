@@ -2,102 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C7633B49E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:32:56 +0100 (CET)
-Received: from localhost ([::1]:37566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACFE33B4A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:34:10 +0100 (CET)
+Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLnL5-0000HC-17
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:32:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
+	id 1lLnMH-0001PJ-FA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1lLnJb-000833-Oz; Mon, 15 Mar 2021 09:31:23 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51818
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lLnK8-000056-Kw
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:31:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1lLnJZ-0006BK-Ug; Mon, 15 Mar 2021 09:31:23 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12FDKr9w169117; Mon, 15 Mar 2021 09:31:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8YKO5oQT2gL3p3BrmUlC7B4AExaa1NoSZk8RU1PbKq8=;
- b=Y6RiieuGPBLje0f1gzK3dZkferagd1qfGvFZh7bYwh9iHujKIDjkWwcURRZ6q/iHiKKN
- P/+FXLCPWTe5B7LGTKC0FPYrUX0HZBPVPSnYemZchrc+Z/KWk4opWdogNQDi2IkqO/p0
- CzHOM0OGTSrpEg0ZqANnA4fHyLPXIXCNuMEdIxPoFZYxtNgyx4CXiNISl1unIDSeUvsv
- 174Ty5R1mGdqZrI+1FoP+SRecFphLHoxXRe1lo0xw3QDWyFvQclIatVSfvf/6ESAXFMo
- xnLZsxDa+VtuTqnjZHAv4N3TW8hnUtnWAuby6Agba0uYlkUj/X/cJU+mmvns0gN+6s4F MQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 379rh4bynt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 09:31:16 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12FDLfuh174437;
- Mon, 15 Mar 2021 09:31:16 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 379rh4bynd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 09:31:16 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12FDQf1U006804;
- Mon, 15 Mar 2021 13:31:15 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma03wdc.us.ibm.com with ESMTP id 378ubt5nvg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 13:31:15 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12FDVFv228836142
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Mar 2021 13:31:15 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DF9BAC065;
- Mon, 15 Mar 2021 13:31:15 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D7D10AC062;
- Mon, 15 Mar 2021 13:31:13 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.151.219])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 15 Mar 2021 13:31:13 +0000 (GMT)
-Subject: Re: [PATCH v3] Add missing initialization for g_autofree variables
-To: Cornelia Huck <cohuck@redhat.com>, mrezanin@redhat.com
-References: <20210315101352.152888-1-mrezanin@redhat.com>
- <20210315114232.4bb6654e.cohuck@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <fcc3b5ae-2211-735a-f583-94fff4497404@linux.ibm.com>
-Date: Mon, 15 Mar 2021 09:31:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lLnK4-0006Yf-Mc
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:31:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615815111;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TWsR4VI8rZHT2wuNGN9wf5ZJaNs3QZug2/6eALYmjy4=;
+ b=DY8vyosSHs4qM38T3s2sxTunD5ER4+C+bUdcN358PgRfez5RgsGqa+n9FKnisrEXoqkd3R
+ E8vXBPwPB+ZaqzReMsPCMsBmOY/LzoNTIt25fHk1V1n4IilT9UpRPEp+nhZBp5FML5/ahj
+ j4uY9+/4HvnvRCymUJIw90kyRLT/gTA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-MgQy7DSJPQS-PRuGt8RaWw-1; Mon, 15 Mar 2021 09:31:42 -0400
+X-MC-Unique: MgQy7DSJPQS-PRuGt8RaWw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F493100C660;
+ Mon, 15 Mar 2021 13:31:41 +0000 (UTC)
+Received: from redhat.com (ovpn-115-81.ams2.redhat.com [10.36.115.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F3E75D745;
+ Mon, 15 Mar 2021 13:31:34 +0000 (UTC)
+Date: Mon, 15 Mar 2021 13:31:32 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Zihao Chang <changzihao1@huawei.com>
+Subject: Re: [PATCH v7 3/3] qmp: add new qmp display-reload
+Message-ID: <YE9htFdodlSz54fr@redhat.com>
+References: <20210315131609.2208-1-changzihao1@huawei.com>
+ <20210315131609.2208-4-changzihao1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210315114232.4bb6654e.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-15_05:2021-03-15,
- 2021-03-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 bulkscore=0 adultscore=0 mlxscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103150091
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210315131609.2208-4-changzihao1@huawei.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,89 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: oscar.zhangbo@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ armbru@redhat.com, yebiaoxiang@huawei.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 6:42 AM, Cornelia Huck wrote:
-> On Mon, 15 Mar 2021 11:13:52 +0100
-> mrezanin@redhat.com wrote:
+On Mon, Mar 15, 2021 at 09:16:09PM +0800, Zihao Chang wrote:
+> This patch provides a new qmp to reload display configuration
+> without restart VM, but only reloading the vnc tls certificates
+> is implemented.
+> Example:
+> {"execute": "display-reload", "arguments":{"type": "vnc", "tls-certs": true}}
 > 
->> From: Miroslav Rezanina <mrezanin@redhat.com>
->>
->> When declaring g_autofree variable without inicialization, compiler
->> will raise "may be used uninitialized in this function" warning due
->> to automatic free handling.
->>
->> This is mentioned in docs/devel/style.rst (quote from section
->> "Automatic memory deallocation"):
->>
->>    * Variables declared with g_auto* MUST always be initialized,
->>      otherwise the cleanup function will use uninitialized stack memory
->>
->> Add inicialization for these declarations to prevent the warning and
->> comply with coding style.
-> 
-> Fixes: cd7498d07fbb ("s390x/pci: Add routine to get the vfio dma available count")
-> Fixes: 1e7552ff5c34 ("s390x/pci: get zPCI function info from host")
-> 
-> I can fix the spelling mistakes pointed out by Phil while applying, and
-> also add an 's390x/pci' prefix.
-> 
-> Would not mind a quick test run from someone with the hardware.
+> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  monitor/qmp-cmds.c | 13 ++++++++++
+>  qapi/ui.json       | 61 ++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 74 insertions(+)
 
-Sure, I took this for a spin (ConnectX-3 VF via vfio-pci) and made sure 
-both code paths were being driven without issue.  Code looks fine as well.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Tested-by: Matthew Rosato <mjrosato@linux.ibm.com>
-
-> 
->>
->> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
->>
->> ---
->> * v3:
->>    -- allocate in s390_pci_update_dma_avail instead of NULL init
->>
->> * v2:
->>    -- Removed fixes in hw/remote/memory.c and hw/remote/proxy.c
->>       fixed by patch sent by Zenghui Yu (multi-process: Initialize
->>       variables declared with g_auto*)
->> ---
->>   hw/s390x/s390-pci-vfio.c | 9 +++------
->>   1 file changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
->> index ead4f222d5..2a153fa8c9 100644
->> --- a/hw/s390x/s390-pci-vfio.c
->> +++ b/hw/s390x/s390-pci-vfio.c
->> @@ -29,14 +29,11 @@
->>    */
->>   bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
->>   {
->> -    g_autofree struct vfio_iommu_type1_info *info;
->> -    uint32_t argsz;
->> +    uint32_t argsz = sizeof(struct vfio_iommu_type1_info);
->> +    g_autofree struct vfio_iommu_type1_info *info = g_malloc0(argsz);
->>   
->>       assert(avail);
->>   
->> -    argsz = sizeof(struct vfio_iommu_type1_info);
->> -    info = g_malloc0(argsz);
->> -
->>       /*
->>        * If the specified argsz is not large enough to contain all capabilities
->>        * it will be updated upon return from the ioctl.  Retry until we have
->> @@ -230,7 +227,7 @@ static void s390_pci_read_pfip(S390PCIBusDevice *pbdev,
->>    */
->>   void s390_pci_get_clp_info(S390PCIBusDevice *pbdev)
->>   {
->> -    g_autofree struct vfio_device_info *info;
->> +    g_autofree struct vfio_device_info *info = NULL;
->>       VFIOPCIDevice *vfio_pci;
->>       uint32_t argsz;
->>       int fd;
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
