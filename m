@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF3933AA96
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 05:55:41 +0100 (CET)
-Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C3E33AA97
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 05:55:44 +0100 (CET)
+Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLfGW-000643-Ue
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 00:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
+	id 1lLfGZ-00067q-6Z
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 00:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lLfEy-0004ea-4e
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:05 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:6824)
+ id 1lLfF9-0004oY-1d
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:15 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:6839)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lLfEw-0003Gk-Fd
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:03 -0400
+ id 1lLfF7-0003Mn-EC
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 00:54:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1615784042; x=1647320042;
+ t=1615784053; x=1647320053;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=aw9DN9IGcoBDSiClcF6S9CH6NCViGbLuGJDaZ0761Lg=;
- b=fKnuHRjMgLrjVDredSUzK76znMAZ7f8kdl5iE7fwwgfaXc+2ecvO8KNY
- r96KDmJSf6RjjZM3RUyG+IAUm4bplXtmJeO3pQ+QxI28Ai0NkuATPz7Hu
- a0Jnf+Bag1sopUIhjMEMy8M41jJTSIazFIWOxYF8k+uRIg0fEL4IlQZF9 I=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Mar 2021 21:54:01 -0700
+ bh=j7k23yGUe9T6ctDwbywBKwiZR+6e51RIBDjodvK+mfo=;
+ b=LnwXlX5cMVs85hbimyqFOrKgLth/hIcILKiQ+SOYm6gy+MVEcQ+Q26eg
+ UeLvqCzZYnwWRI8ecsUkacBxsNMIiWjttR9z1F2lYUyFpUZuSEUW8gQCH
+ +oo51CuscgTG4QCMLg8cTXWLt7weDao3eaaVUJSv3vVdHzRZvIoWLpZu1 s=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Mar 2021 21:54:12 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg02-sd.qualcomm.com with ESMTP; 14 Mar 2021 21:54:00 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP; 14 Mar 2021 21:54:11 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 8DD42C90; Sun, 14 Mar 2021 23:53:59 -0500 (CDT)
+ id 8A64CC90; Sun, 14 Mar 2021 23:54:11 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Hexagon (target/hexagon) remove unnecessary checks in
- find_iclass_slots
-Date: Sun, 14 Mar 2021 23:53:57 -0500
-Message-Id: <1615784037-26129-1-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH] Hexagon (target/hexagon) change DECODE_MAPPED_REG operand
+ name to OPNUM
+Date: Sun, 14 Mar 2021 23:54:09 -0500
+Message-Id: <1615784049-26215-1-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -75,24 +75,24 @@ Address feedback from Richard Henderson <<richard.henderson@linaro.org>
 
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/iclass.c | 4 ----
- 1 file changed, 4 deletions(-)
+ target/hexagon/decode.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/hexagon/iclass.c b/target/hexagon/iclass.c
-index 378d8a6..6091286 100644
---- a/target/hexagon/iclass.c
-+++ b/target/hexagon/iclass.c
-@@ -53,10 +53,6 @@ SlotMask find_iclass_slots(Opcode opcode, int itype)
-                (opcode == Y2_isync) ||
-                (opcode == J2_pause) || (opcode == J4_hintjumpr)) {
-         return SLOTS_2;
--    } else if ((itype == ICLASS_V2LDST) && (GET_ATTRIB(opcode, A_STORE))) {
--        return SLOTS_01;
--    } else if ((itype == ICLASS_V2LDST) && (!GET_ATTRIB(opcode, A_STORE))) {
--        return SLOTS_01;
-     } else if (GET_ATTRIB(opcode, A_CRSLOT23)) {
-         return SLOTS_23;
-     } else if (GET_ATTRIB(opcode, A_RESTRICT_PREFERSLOT0)) {
+diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
+index c9bacaa..1c9c074 100644
+--- a/target/hexagon/decode.c
++++ b/target/hexagon/decode.c
+@@ -48,8 +48,8 @@ enum {
+ DEF_REGMAP(R_16,  16, 0, 1, 2, 3, 4, 5, 6, 7, 16, 17, 18, 19, 20, 21, 22, 23)
+ DEF_REGMAP(R__8,  8,  0, 2, 4, 6, 16, 18, 20, 22)
+ 
+-#define DECODE_MAPPED_REG(REGNO, NAME) \
+-    insn->regno[REGNO] = DECODE_REGISTER_##NAME[insn->regno[REGNO]];
++#define DECODE_MAPPED_REG(OPNUM, NAME) \
++    insn->regno[OPNUM] = DECODE_REGISTER_##NAME[insn->regno[OPNUM]];
+ 
+ typedef struct {
+     const struct DectreeTable *table_link;
 -- 
 2.7.4
 
