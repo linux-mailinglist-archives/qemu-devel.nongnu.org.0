@@ -2,155 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBD433B265
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:19:54 +0100 (CET)
-Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB78633B290
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 13:25:33 +0100 (CET)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLmCO-0005su-Sg
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48390)
+	id 1lLmHs-0000YA-LG
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 08:25:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1lLm5D-00025i-NL
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:12:30 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:40334)
+ id 1lLm5m-0002P4-0A
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:13:02 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:40450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1lLm56-0003XA-Kq
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:12:27 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12FC4kai125943;
- Mon, 15 Mar 2021 12:12:16 GMT
+ id 1lLm5j-0003nK-TT
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 08:13:01 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12FC5aRh118461;
+ Mon, 15 Mar 2021 12:12:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : in-reply-to : references : date : message-id : content-type :
  mime-version; s=corp-2020-01-29;
- bh=EUZGCTozi3ZvDoCSNw/vMTMUM5go0DRPvf26JD5MXR8=;
- b=CmomvocscRbmcHgcgYxfUa7X8Qum310PacRIFY63i09q2MFRsBNOli8l/xnxmX+jCBK7
- 3m1WGodJ3D511j5HQG8MR5CA2CFh6Lu0T6uf64YKHDP0bxDOS8MYKAajtKR1KVCZc1cV
- R1lILUNmwRaeCq6hmwN4pcPvozzv8lsN5Qgl5wt7/bfQ0UbGFdZaikl4A25PwJWyFVNh
- GnBRb90C4l47FqS6n5iQWM4/bA4SP/NM2IJjiAXqsrQHY+33tAll0lmAfNHZ7jVs1f32
- rJ7paJ/qH9rohTe0jZkyWZtiY7nCu5ZccL4CRuHSd5ryT4raei5q5d4ZbPbYjrV/QnRx zQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 37a4ekghe9-1
+ bh=HCtVgl4Kb75vNUd1xvBO5YYWX/02gmrGuYLwdkoCw34=;
+ b=z+TML770JSt7z5GK3axtofEbWMMZs1vvnIBgLd8pdSsWzHNXcA+9WOHar82R0TZ+Zof/
+ 7sLHOmwed1s8sYoal2NHMxS2t3vAOlEltBPGbvxghDqiwT+qE44YUA8XuPFv6on/Fr55
+ NfP8Ol6KxH96VQad2Bg6ebPiMs+mbd2XGOPhvVt3eW2u8RFlbKkQ/eM67sA0ITBemUKz
+ c8tPLhQa7+4c0zJTqznh/OWlY2h9gja4t9gV4/wD/bzvHnplqkg6+D/wEpb4mXtAEg60
+ 7DG8sNQKUTtMb6+8xyvB61FqOTlktYsBWlGR/K54HYvm6dF770gc86U3I3dxFCUx9Xz8 NA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 378p1nkheq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Mar 2021 12:12:16 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12FCB5to142583;
- Mon, 15 Mar 2021 12:12:16 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
- by userp3020.oracle.com with ESMTP id 37a4ereasy-1
+ Mon, 15 Mar 2021 12:12:55 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12FCAT0v003582;
+ Mon, 15 Mar 2021 12:12:54 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+ by aserp3030.oracle.com with ESMTP id 3796ys18sg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Mar 2021 12:12:15 +0000
+ Mon, 15 Mar 2021 12:12:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m2pP5Z9f3JOfZb4uNOGQfWfDsdCbjPEfC1xMyqrtF5E+HUeia7XCXyWL6SQkFuCjHpLjs9vFY1DNrn03pCBshRLcxxumod0yJEYxAQ8IDy5wSrjEsuVW6D1haQp49Po4/T+rGQjmsMzWCnI6DlTob4tlGvYK13iYJV4vkmJJAh4EgGbOuKQHVLsd8hTA3crKe16KiXGpwk541SR7YApMmrf/gabX77hG3xg55spHgdxyuWw2oQWww6oRFp5pSGKO09VZz82F9OabzDscFM5wqPpl/TGdZp+iL22IRLSh7Mt1jv6p3zj2GMIVZ/ZQnqUzvNg5BooCesLsfRpRn0DVuA==
+ b=IU8gfiSvhnrGhJngBKg6R1ze6tpbs3VbMghr2wsjUNAo9Ub8hjy7kNDuZl4lBUE4icODS4i0Mh8kBDbgYkOt2r4Cs9IAQRKztllhusA6LY8jXpHoRhGtAjQg0vASAkFF+RmiAmPNSQY6o5sQtwhVMARSbdfcCPHzXxl+LhVrO2yZEwFoUI3sTPkp4XsOOBd26Fk/4ok/wE0zQOz/zdlNRR64XWuMc+a7OG18HsmttbhDa6IvZ3LIYMEx3GD6oIIl/2m0KRPdMVZPvwCMpvsCyUR2hx1jtJg/Wn5AN3agE0XKIhn1dkz1lATD08qFVTT6N1+TAeIGUpFrrqWeXKmvNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EUZGCTozi3ZvDoCSNw/vMTMUM5go0DRPvf26JD5MXR8=;
- b=m7Uq8/6fhwRu0AXawSfgo61hYhQfuPTXsvZ6oNxcskC+HzoOsQUFD/JHKcktJKkRuFD551J7Q1711ODvmMzTzIikEVbV0Y0AL4HgMsKs6yHAv41jFEA+KlNhUd9Ii7j12o52tJwAMdPJdYQKvppXu8O2Z+hsZa9nUbitScp7Rp0F1ZYd1fRom7tvXa7d3pMnRaEwqp6SABZHe85MsnXCRlK+VSbT5GUkLVKmKOYqDxQKcnzm8cMYDRKvGrAr25og1sWudlQgboZb08OBmbGe9RF7mHyYMLE/Oq4qjckxf27nOczb87x4ptArbpAC/ogGmXORkoA/JAGbWa9Qw3UaIw==
+ bh=HCtVgl4Kb75vNUd1xvBO5YYWX/02gmrGuYLwdkoCw34=;
+ b=FdbsXDsFDBhRwZu6reuVW4G0in0f4Z9jHUkiyMh7nI6e1cTnSy7cPnA4Llpt3DW+4i4G3f6r0hX4H0eNkTVTRzk9R8aBiwiGnScQKosDXCba19t13VfTswRpImtVHQx7I3rGVy+2uXsRK0n+/Z22tPuGx8vmTkxxks4H0Zq+YyFPtjFP2IAKZhd+dSBvh/dNPHVKSajT0Y/jdnNKD0TvWNUk8woYsmvLeTL9F2Og82WE1Yhl5hAUMrH5WKA6DFoC9NoaU3msDmSEqE1Y71c33szJ6uGJKOmvT8W0QkemNo0vC+Nz0SCCX6vkBaYBGpY07DaEELgVi+jtM44gJVab+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EUZGCTozi3ZvDoCSNw/vMTMUM5go0DRPvf26JD5MXR8=;
- b=gft464u4NXAgK8DBCOKeG2rBtgsF8HrZRjT5GvGiKxS7XXTqSmu3vybxpiORBFte2yS0LiS2V0qd0UOIwaJAQBNxCogBWK16MbXcvQDd9o6x1Fkw7zjyjJxu5LCR2Fkm5W+tkVUAmhnLUyB1FO7HbmKmYEfgJskKbOojJNRAJqY=
+ bh=HCtVgl4Kb75vNUd1xvBO5YYWX/02gmrGuYLwdkoCw34=;
+ b=nko3LnSlD/jMkKh25cJ7HToNspeSlh0Ys1+gAXpHxUXYzrfHHrh7Jp0ZJAgOC2e2dSZcTg1TvS+UAIot8lSRuCHpAyNeDIVOk8/TSvrEiCeF2rsuRHkoZmLt9PYaZ9v8/VWBFAhyFFqoTpAH7B49Gs3vbKdUe74QrON+aGNgv94=
 Authentication-Results: bu.edu; dkim=none (message not signed)
  header.d=none;bu.edu; dmarc=none action=none header.from=oracle.com;
 Received: from DM6PR10MB2857.namprd10.prod.outlook.com (2603:10b6:5:64::25) by
- DS7PR10MB5376.namprd10.prod.outlook.com (2603:10b6:5:3a9::20) with
+ DM5PR10MB1516.namprd10.prod.outlook.com (2603:10b6:3:7::13) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.32; Mon, 15 Mar 2021 12:12:12 +0000
+ 15.20.3933.31; Mon, 15 Mar 2021 12:12:52 +0000
 Received: from DM6PR10MB2857.namprd10.prod.outlook.com
  ([fe80::fca8:448b:525f:7873]) by DM6PR10MB2857.namprd10.prod.outlook.com
  ([fe80::fca8:448b:525f:7873%7]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
- 12:12:12 +0000
+ 12:12:52 +0000
 From: Darren Kenny <darren.kenny@oracle.com>
 To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 2/3] fuzz: configure a sparse-mem device, by default
-In-Reply-To: <20210313231859.941263-3-alxndr@bu.edu>
+Subject: Re: [PATCH v2 3/3] fuzz: move some DMA hooks
+In-Reply-To: <20210313231859.941263-4-alxndr@bu.edu>
 References: <20210313231859.941263-1-alxndr@bu.edu>
- <20210313231859.941263-3-alxndr@bu.edu>
-Date: Mon, 15 Mar 2021 12:12:08 +0000
-Message-ID: <m2v99ssjjb.fsf@oracle.com>
+ <20210313231859.941263-4-alxndr@bu.edu>
+Date: Mon, 15 Mar 2021 12:12:48 +0000
+Message-ID: <m2sg4wsji7.fsf@oracle.com>
 Content-Type: text/plain
 X-Originating-IP: [79.97.215.145]
-X-ClientProxiedBy: DU2PR04CA0079.eurprd04.prod.outlook.com
- (2603:10a6:10:232::24) To DM6PR10MB2857.namprd10.prod.outlook.com
+X-ClientProxiedBy: DU2PR04CA0291.eurprd04.prod.outlook.com
+ (2603:10a6:10:28c::26) To DM6PR10MB2857.namprd10.prod.outlook.com
  (2603:10b6:5:64::25)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from oracle.com (79.97.215.145) by
- DU2PR04CA0079.eurprd04.prod.outlook.com (2603:10a6:10:232::24) with Microsoft
+ DU2PR04CA0291.eurprd04.prod.outlook.com (2603:10a6:10:28c::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.31 via Frontend Transport; Mon, 15 Mar 2021 12:12:12 +0000
+ 15.20.3933.31 via Frontend Transport; Mon, 15 Mar 2021 12:12:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fc59ba70-fa0c-4f68-1512-08d8e7ab90ab
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5376:
-X-Microsoft-Antispam-PRVS: <DS7PR10MB5376329AF426F2345B74867AF46C9@DS7PR10MB5376.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:298;
+X-MS-Office365-Filtering-Correlation-Id: 9a6d24e8-ccb4-4fc0-de28-08d8e7aba87d
+X-MS-TrafficTypeDiagnostic: DM5PR10MB1516:
+X-Microsoft-Antispam-PRVS: <DM5PR10MB1516401BA0346B8B2117ECC7F46C9@DM5PR10MB1516.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sob888JVDKYFSqPYZuROZA9yajq11p2xuXIwtplWZIXJeyjNvkChfi3DLpeDvLGqdFPvXSVB2euE0dwn9xiGGqzTXNWDDGgpsUIvroynAs4vP1MYX800N2lc4BuD0X+UKj3gnvH3ZxmpMj0ccq+6m5egXrO2lUFXMnnEg8W8wuEGo9yKjuNGkmnyqkUzRS+c97yCdzkQWfdjGFoBWsEK3eOHqUDAaYw0tyePWXkwf/x4jHIKG8BdMjUpcsmjHQmLZsPH5S6QuLW83LfK6ZuxfVr/mzkEZkOlOxVkR8xeQp/pCOmjAyfcMKE+1gaBXNEDxphNw8ZuCAuBYo/0xYGIhlp/1RwuDOwVDZANWZogqc2isNGrvuwFexOC8YWUwiOWkN33WVtTSpaEOF2Bul4ep74NsswJF7ZUhVCXloh7WYJrsPQ+8BUXD13Sqmut0z81tVsdlWolQMTvCzoWnDhMAtontW64/4Z1ao2L49Lv90qyneFrdeoEDEiXujR9dvIlhH9Pb/YBpnqAaAitJFfnhspgeE+B+lD6pfSERKqHtbbORywpWppJc+0SBn9o1A4i
+X-Microsoft-Antispam-Message-Info: gpW0Y2iQluJoWU3LuJkrZIsHI3SX+jFTsCtRCqau32EtAGnSxNN3n5ThazDF3oxhlaHyF8FpLwgq38ty/ebbjWKiGsKmIGzla2Rrok2b3okmwNirHoFRz8MuQ21A2ADygpS587LRkISEIrWAH2gI/Z5ygKuhwFX/tNyx7r3CVJOxuPmj6INYHugGdiqrMpWlO6Eqkdhv9VpfjIOU8fdYElkm8c/w4T5g1RJm+ymfYMUnKqbNUYUKYrngOLUcmq6XGE9jSWg6nrn/PzN/cXE/yJg+I1E/QNPewxCR/exNG5UNlGAKk14Fe+NXne/TPfg0NFE6w5poqnb+7gxv1QVC9m2nE76ukvBPItU01AYZh0BFArsqf4DEHXYkpo3+SJaJ6KslgAR9cOCjtcLDVrh9EMILAbKsBiXJ/7GJMRPWwUdEKgo/4aWQAq78Q0XC+ysEmpVlUa6FG68nVdl2PeKM6ugvgc43UzHi4ppQQkGIk9CMwPaY34NTFQRZ3V+4UfaauXQfgRwifcKl4mr+/i8kkltDG+0y58ISYae9/KQGYVZDoTNzWFeR7WBQ/meDVXdF
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR10MB2857.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(366004)(346002)(376002)(396003)(136003)(2906002)(5660300002)(83380400001)(316002)(44832011)(7696005)(8886007)(956004)(66556008)(8936002)(8676002)(6666004)(52116002)(86362001)(16526019)(26005)(2616005)(36756003)(4326008)(54906003)(66476007)(66946007)(186003)(478600001)(55016002);
+ SFS:(396003)(366004)(346002)(39860400002)(136003)(376002)(36756003)(16526019)(8886007)(6666004)(86362001)(2906002)(186003)(26005)(316002)(44832011)(5660300002)(4326008)(8936002)(8676002)(52116002)(7696005)(956004)(55016002)(2616005)(66946007)(478600001)(66556008)(66476007)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?pRdHiKwzvIOPaxZEyBikiNTcZDPrP7miOlAY81UFCE+Ev1+AMlNwjw8hoUJx?=
- =?us-ascii?Q?GAjuSeYT9DwOpEu6CAKsGaK19I/odShhUEZPxPwlZFHRTXw9rI02iTsOCqDd?=
- =?us-ascii?Q?PDp7uEh9XvzDvOcF8qk/M2rKxjPbn79uEj9fNsI9xvDiEZbt3r2Xzntua+xC?=
- =?us-ascii?Q?XxLmldoJCnq8/fFmtOp3UH6K3j+EgvUQaD6dYtH4+0bEfaK+cVGbDZQlgqWL?=
- =?us-ascii?Q?F38HNsVQCaQMHsMDTkLiTRMxQ9GcUP7iv70YWApEDvpmdxmruGG6Yy8psHO7?=
- =?us-ascii?Q?ML40wfuqc40jQOCD9nspwxRDDFwqY4DYLG0DvKC6guvNAQbo/Sxr0PcS9dv8?=
- =?us-ascii?Q?VMr5VtWLfVyP69jCyuUOqKRrqrpHNJx9LKqHeAXT68BBrLenp/XXYPcFbP+k?=
- =?us-ascii?Q?IYJ9sO/bBJY5DVHBZAXiKPHCdqSE1qusleQuoI9gr/PfAh5GiuimFg544cgp?=
- =?us-ascii?Q?3D6MW9V6XCtc/juW0fE4WDnFEYPyF3f1yxzBPX4nM2vrH/PwgqZS2/Qhg6xi?=
- =?us-ascii?Q?ypna0TkFs59NaxfY6yUmi+DWhX9XFilEx/paVBDYa6mEK+owwDa9Nx7TvOcz?=
- =?us-ascii?Q?Xp0N05ywO8Hl5wo9QYT5vS4DxPUyxwK6WNGNdOQMydSSuGsrNYYwWK+BGVKn?=
- =?us-ascii?Q?ufswXMVyWV18GecK3zOmV8QRPHF0xjhyZto+8fkVn9Kw8UBPEzlFSe+JXtRL?=
- =?us-ascii?Q?if0T4EeNH9WcOh32NHtdbUdCM9XDRQsZSpkk4FWLw+5vajMCqjSbIlHGk6ZS?=
- =?us-ascii?Q?2tGNpuHmiphDp2aQZUm/H3tqYhae6wxROOfpxolsDWsjgWs9htqugx1ky9eg?=
- =?us-ascii?Q?8nM/xo7r+XX8C+yXpkfbTfok/WxTcAIZDzcRboWY/xchss1u8GmM5AgO+WxR?=
- =?us-ascii?Q?HcNi0jqtpVpPMsJNysM4jPCN5n7EPeocZwRxt/+w0UsBsq/wl6kxL0vuwsf2?=
- =?us-ascii?Q?THPBhriGiZJ76sP+GhjGxPhhSdGsKTefTFvUw8T6OesuA6DLcuF7I+lHqpBb?=
- =?us-ascii?Q?BhqvWRidPCw0txceZWh7+5bcnoA1N9mHDwTcTBUROS3UBdM0HBCukFPUSDm0?=
- =?us-ascii?Q?qqwaB87ZUGb5WeyVkLchgEs5EoU7QTVEDsciZ4Q1D0GnNSzpfulShfBnM/6n?=
- =?us-ascii?Q?qcQKVAo7tRV4i1qAtr1BjqFFLMoSw/7uSSTZNifrK5ssdxGtwbfg6I1hT9tf?=
- =?us-ascii?Q?p1AiT8uT7jX0MQmSCd/3EHkIZ8t6mlb7+jCwFuMcvGvFTAHnv6VdWFGRrWMy?=
- =?us-ascii?Q?ahBRN98tB8ElcE2pf+FR/1h2pMmwFoSw2CupGZIjKjcFKAVcHS8t2Xytyx6a?=
- =?us-ascii?Q?7392coyfhpsagaqLspNAIemv?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5BchOkF/q3+gJcwMHI5TiynavUmw93oAKiL3AykUTeGQCWEeZThWF9U6TVPD?=
+ =?us-ascii?Q?895ceu53KzfMcG5qUFoph7psFksAgGz6SPh0LebR2uADgyCNziPgh9PKfdv0?=
+ =?us-ascii?Q?zCzg1B2RHsJ2dleMp8O4lxHnZo7lc5RbaC92E+afxbizxAYsaTL8IqB4jJ1j?=
+ =?us-ascii?Q?WT1BBLKJ+XykqwjMMxp+xby/bCSus4+xIl/pqEYQ0R9OYZUzuzT7isrNuvVG?=
+ =?us-ascii?Q?7gxUH6zScP+NMXzIZrjcyvfL5L1L4cibqQuFCNEr2RCwcNyHq8hRZCbAQUKM?=
+ =?us-ascii?Q?3h8WRG7tBNmmKmw/WUghl55GxhD/aWHLQnQCoEkHUm4Y5yPaeTLBQy/RvhoZ?=
+ =?us-ascii?Q?7i0MGS9bU9DXmfndrtj8kzom29576F77dd3xaWJAyegL1oiTVHIpwQ1B6xas?=
+ =?us-ascii?Q?07sYCB4w8tRlGrlQLCrUYJB5EqzwdGcmQWVX5a1OV2MDdKNp5kCw8IiYnPp/?=
+ =?us-ascii?Q?j4nLVg7VLdjFrJpBKZxOU0V3OetNz7O9WpEoW5xFH/CflRIFVbG4o0GD99kx?=
+ =?us-ascii?Q?72zbMm+gxSeZMD7O/n8xBrSdwPPnb7b4mBW+xQfLJLYUmpfN2KgsFwKTe/GB?=
+ =?us-ascii?Q?ECFjHTxd7rKpF/oAJQRwKb2p1mtz3zvwvlCTNw/6cPr/X2faKkd1x8qPLvJA?=
+ =?us-ascii?Q?w0qKBxoVWVU5qLlUOHNTqV6R556FbofdcegExfb4AahIQQ1cY4HIhrQFXITp?=
+ =?us-ascii?Q?osQkYJl+TOttlGXnaZGKZZhI+YUP+Eaj3xIoMlMQpujRWZxz9xjMKWbXp5yu?=
+ =?us-ascii?Q?VTBV7xy/wLu96atXnedTTQG01TOQl0bjCj48PDN95q8PzUNEUu3gGbIE+B9D?=
+ =?us-ascii?Q?2AEDYAUCS28+6+Q119nH/ysJbBe4ewiRC9IJAz62IQWbXrxa0D8u2ikvnjJQ?=
+ =?us-ascii?Q?kQWV8gB7iVuVSEerCZ74Ml/Iugqlj0JDZ/PRfryFJxxeWKW4VyZlmlXNDNhn?=
+ =?us-ascii?Q?GZY869QEkaPZA41MdPgAc8XFTh2j0c8i+xqG3exHBPPD3JcpSsQb2gkU5aXO?=
+ =?us-ascii?Q?ndMQPHXTzUhNe89MuXJ0W3cz8Nm1QcjFi9pGvWNXhgxt8IuzYxxc8HUZueU1?=
+ =?us-ascii?Q?+OTno47Zdc7Qn7zEIm15TPXf5xIH03gDdcXmK7wchv6pdNpYC2oFc2oSjfNb?=
+ =?us-ascii?Q?GtI2AS4qlgf/V/wl59+yz8eXShzcBT7tQscTvAIXB6Z20X1WpL/EO6H9zy6B?=
+ =?us-ascii?Q?jonuPL89n5cR247/DdCRpJ4aRIytNH+MaNAc9NvP5EMimaUP03gUTtBOXFD1?=
+ =?us-ascii?Q?On6MsEqu6oVyMR0ZPrjIIvnG5ejqlTme4fDAWaDl+Ut8MtiGfz47D0NZi03S?=
+ =?us-ascii?Q?MBLIMBYIkc5ohJYjNHqohXI5?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc59ba70-fa0c-4f68-1512-08d8e7ab90ab
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a6d24e8-ccb4-4fc0-de28-08d8e7aba87d
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2857.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 12:12:12.7569 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 12:12:52.7259 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ftOyut9PnIz2dNhCLy1umJAEuYYb5kFJFOVC76akVBNNevBNzf/8lKZEojUqxZSzdolARfreq+eIhApI7Fn73A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5376
+X-MS-Exchange-CrossTenant-UserPrincipalName: s1o9rNRIYv6m7m3BNx051WCzPDH7ygNaObLCowvJepambhwkz+oagOWb0fZyHKd08FfTblAQQUZk4hTC04ZZVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1516
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9923
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0
- malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103150087
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103150087
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9923
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 bulkscore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 adultscore=0 phishscore=0 suspectscore=0 clxscore=1015
+ suspectscore=0 adultscore=0
+ spamscore=0 clxscore=1015 phishscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2103150086
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=darren.kenny@oracle.com; helo=userp2120.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -170,83 +170,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Cc: pbonzini@redhat.com, bsd@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Saturday, 2021-03-13 at 18:18:58 -05, Alexander Bulekov wrote:
-> The generic-fuzzer often provides randomized DMA addresses to
-> virtual-devices. For a 64-bit address-space, the chance of these
-> randomized addresses coinciding with RAM regions, is fairly small. Even
-> though the fuzzer's instrumentation eventually finds valid addresses,
-> this can take some-time, and slows-down fuzzing progress (especially,
-> when multiple DMA buffers are involved). To work around this, create
-> "fake" sparse-memory that spans all of the 64-bit address-space. Adjust
-> the DMA call-back to populate this sparse memory, correspondingly
+On Saturday, 2021-03-13 at 18:18:59 -05, Alexander Bulekov wrote:
+> For the sparse-mem device, we want the fuzzer to populate entire DMA
+> reads from sparse-mem, rather than hooking into the individual MMIO
+> memory_region_dispatch_read operations. Otherwise, the fuzzer will treat
+> each sequential read separately (and populate it with a separate
+> pattern). Work around this by rearranging some DMA hooks. Since the
+> fuzzer has it's own logic to skip accidentally writing to MMIO regions,
+> we can call the DMA cb, outside the flatview_translate loop.
 >
 > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
 > ---
->  tests/qtest/fuzz/generic_fuzz.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
+>  softmmu/memory.c  | 1 -
+>  softmmu/physmem.c | 2 +-
+>  2 files changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index 387ae2020a..b5fe27aae1 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -28,6 +28,7 @@
->  #include "hw/pci/pci.h"
->  #include "hw/boards.h"
->  #include "generic_fuzz_configs.h"
-> +#include "hw/mem/sparse-mem.h"
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 874a8fccde..3b8e428064 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1440,7 +1440,6 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
+>      unsigned size = memop_size(op);
+>      MemTxResult r;
 >  
->  /*
->   * SEPARATOR is used to separate "operations" in the fuzz input
-> @@ -64,6 +65,8 @@ static useconds_t timeout = DEFAULT_TIMEOUT_US;
+> -    fuzz_dma_read_cb(addr, size, mr);
+>      if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
+>          *pval = unassigned_mem_read(mr, addr, size);
+>          return MEMTX_DECODE_ERROR;
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 7e8b0fab89..6a58c86750 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2831,6 +2831,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+>      bool release_lock = false;
+>      uint8_t *buf = ptr;
 >  
->  static bool qtest_log_enabled;
->  
-> +MemoryRegion *sparse_mem_mr;
-> +
->  /*
->   * A pattern used to populate a DMA region or perform a memwrite. This is
->   * useful for e.g. populating tables of unique addresses.
-> @@ -191,8 +194,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
->       */
->      if (dma_patterns->len == 0
->          || len == 0
-> -        || mr != current_machine->ram
-> -        || addr > current_machine->ram_size) {
-> +        || (mr != current_machine->ram && mr != sparse_mem_mr)) {
->          return;
->      }
->  
-> @@ -238,7 +240,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
->                                        MEMTXATTRS_UNSPECIFIED);
->  
->          if (!(memory_region_is_ram(mr1) ||
-> -              memory_region_is_romd(mr1))) {
-> +              memory_region_is_romd(mr1)) && mr1 != sparse_mem_mr) {
->              l = memory_access_size(mr1, l, addr1);
+> +    fuzz_dma_read_cb(addr, len, mr);
+>      for (;;) {
+>          if (!memory_access_is_direct(mr, false)) {
+>              /* I/O case */
+> @@ -2841,7 +2842,6 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+>              stn_he_p(buf, l, val);
 >          } else {
->              /* ROM/RAM case */
-> @@ -814,6 +816,12 @@ static void generic_pre_fuzz(QTestState *s)
->      }
->      qts_global = s;
->  
-> +    /*
-> +     * Create a special device that we can use to back DMA buffers at very
-> +     * high memory addresses
-> +     */
-> +    sparse_mem_mr = sparse_mem_init(0, UINT64_MAX);
-> +
->      dma_regions = g_array_new(false, false, sizeof(address_range));
->      dma_patterns = g_array_new(false, false, sizeof(pattern));
->  
+>              /* RAM case */
+> -            fuzz_dma_read_cb(addr, len, mr);
+>              ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+>              memcpy(buf, ram_ptr, l);
+>          }
 > -- 
 > 2.28.0
 
