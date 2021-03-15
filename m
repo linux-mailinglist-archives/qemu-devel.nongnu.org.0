@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F0A33C741
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:59:40 +0100 (CET)
-Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B2733C73C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:57:57 +0100 (CET)
+Received: from localhost ([::1]:44696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLtNL-0001FM-RE
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
+	id 1lLtLg-0007Nn-LA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lLtE3-0005ve-M2
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 15:50:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lLtE2-0004Fh-1L
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 15:50:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615837801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UiuTlgOtfMbdtiwceqwHYXYl3zo3bRNZ7YUjgCumRxI=;
- b=Wia2EJmYbkAcKaPDdcKFageLSt6M/LX94Jy4gxer/lqqu4Z1plKUFiG0wOH2BPK40rjhqs
- dJip/5z1eci/+mUkOofz856GRzkcO+CpYQytx1BwXLtvizcAtZjlM2mm8llAufzwvx50Tf
- byIEygZ86l2PkbBd0AGUwBoh4oDDPhE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-v1DqsurKN0-K1MpbphjFng-1; Mon, 15 Mar 2021 15:49:59 -0400
-X-MC-Unique: v1DqsurKN0-K1MpbphjFng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC049801597;
- Mon, 15 Mar 2021 19:49:57 +0000 (UTC)
-Received: from eperezma.remote.csb (ovpn-112-173.ams2.redhat.com
- [10.36.112.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B46B5F9B8;
- Mon, 15 Mar 2021 19:49:54 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v2 13/13] vhost: Use VRING_AVAIL_F_NO_INTERRUPT at device call
- on shadow virtqueue
-Date: Mon, 15 Mar 2021 20:48:42 +0100
-Message-Id: <20210315194842.277740-14-eperezma@redhat.com>
-In-Reply-To: <20210315194842.277740-1-eperezma@redhat.com>
-References: <20210315194842.277740-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lLtDq-0005ly-Tw
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 15:49:51 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:36421)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lLtDo-0004AH-6Z
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 15:49:50 -0400
+Received: by mail-ot1-x331.google.com with SMTP id
+ g8-20020a9d6c480000b02901b65ca2432cso5729887otq.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 12:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0ozITQ24C5/Y0Gxoo84ECI2meMKE1n44aSWbfuyAAfM=;
+ b=qMaZ9G70VhcRkn421+CyJc6Js3YBC+TZdjZVqhLa6kHRF25CCdAz4x0Kssc9qa+NGb
+ JvsTiafA5UW8jGlrwuRzM7IkUHmhfcixJiiTH2ObmWfjics/eJpmYaG72pSki3VRWX1U
+ 59JrxLdKNfhVQ18FIDAbiOUbg+v62OzTsAVITyNYtjK2Qbmvdc8H13K8Adhv1u1DxZ6P
+ 52EuiXMwCN7++ZjqWlLldHEVnGjpFCTL1LKJqxFQx4QxBCI9pPzihG417gA2SLpD+jRs
+ d4goiblSm4u6w32Xu8eGvDJMe4Zd/UAu07EfF2Ao2qj1jnYznkjhl0+qa//iWxhqKqA4
+ 0Unw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0ozITQ24C5/Y0Gxoo84ECI2meMKE1n44aSWbfuyAAfM=;
+ b=EkYZ5N2QgtpTUds3SPeIBzJtEE3dok8L3W7EilAZQq+cemLJZdBSE4j9BjNPM1hPQo
+ yuFUYWQgezTL1Y7u/JuSaXOeTaNNub6NOgYTf5mIRStEtF4PifsXWap8s3AdtS0gjGY/
+ k09fbajSHxXJW591B7aHKT+By8fFviHQDUcdqY3vI+9BiTthdiO5taVXD8EwjRDsOi/r
+ dklooXBDFWk0sJjhEzspBkdM4BAjYcSt8j1tl9qWYC0sOEKlhzx2IaTRKmOoGF4aA8f+
+ CKf2L3mrRXPYTrjmXVupPlHd5Jp1IJx+z+JE8bkx/pfm/EpkhCF4VY2I2Fwp6Szfs7TV
+ XBQg==
+X-Gm-Message-State: AOAM5338YPFRFp7wNMNOJxfYFCD+VLcMfWTyHXewJslYPrxs8Id71m9J
+ PoVO5KUFvXhv1w2mBVweYfC/ng==
+X-Google-Smtp-Source: ABdhPJyDB4zIF0YGChSqRzVHYih7OhWd/ysiSg1M1F3Rdk68OKxQEsAibtYwCCVPZqJp7BC8025RDw==
+X-Received: by 2002:a05:6830:1c6e:: with SMTP id
+ s14mr573954otg.17.1615837786933; 
+ Mon, 15 Mar 2021 12:49:46 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id r13sm7212980oot.41.2021.03.15.12.49.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 12:49:46 -0700 (PDT)
+Subject: Re: [PATCH] Hexagon (target/hexagon) remove unnecessary semicolons
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1615784100-26459-1-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ef3a9f0f-7873-94d4-bee7-4b1519aab8c6@linaro.org>
+Date: Mon, 15 Mar 2021 13:49:39 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1615784100-26459-1-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,80 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Guru Prasad <guru.prasad@broadcom.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- virtualization@lists.linux-foundation.org,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Michael Lilja <ml@napatech.com>, Jim Harford <jim.harford@broadcom.com>,
- Rob Miller <rob.miller@broadcom.com>
+Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/virtio/vhost-shadow-virtqueue.c | 28 +++++++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+On 3/14/21 10:55 PM, Taylor Simpson wrote:
+> Address feedback from Richard Henderson <<richard.henderson@linaro.org>
+> 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/gen_tcg.h | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 7df98fc43f..e3879a4622 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -71,10 +71,35 @@ typedef struct VhostShadowVirtqueue {
-     /* Next head to consume from device */
-     uint16_t used_idx;
- 
-+    /* Cache for the exposed notification flag */
-+    bool notification;
-+
-     /* Descriptors copied from guest */
-     vring_desc_t descs[];
- } VhostShadowVirtqueue;
- 
-+static void vhost_shadow_vq_set_notification(VhostShadowVirtqueue *svq,
-+                                             bool enable)
-+{
-+    uint16_t notification_flag;
-+
-+    if (svq->notification == enable) {
-+        return;
-+    }
-+
-+    notification_flag = virtio_tswap16(svq->vdev, VRING_AVAIL_F_NO_INTERRUPT);
-+
-+    svq->notification = enable;
-+    if (enable) {
-+        svq->vring.avail->flags &= ~notification_flag;
-+    } else {
-+        svq->vring.avail->flags |= notification_flag;
-+    }
-+
-+    /* Make sure device reads our flag */
-+    smp_mb();
-+}
-+
- static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
-                                     const struct iovec *iovec,
-                                     size_t num, bool more_descs, bool write)
-@@ -251,7 +276,7 @@ static void vhost_shadow_vq_handle_call_no_test(EventNotifier *n)
-     do {
-         unsigned i = 0;
- 
--        /* TODO: Use VRING_AVAIL_F_NO_INTERRUPT */
-+        vhost_shadow_vq_set_notification(svq, false);
-         while (true) {
-             g_autofree VirtQueueElement *elem = vhost_shadow_vq_get_buf(svq);
-             if (!elem) {
-@@ -269,6 +294,7 @@ static void vhost_shadow_vq_handle_call_no_test(EventNotifier *n)
-             svq->masked_notifier.signaled = true;
-             event_notifier_set(svq->masked_notifier.n);
-         }
-+        vhost_shadow_vq_set_notification(svq, true);
-     } while (vhost_shadow_vq_more_used(svq));
- 
-     if (masked_notifier) {
--- 
-2.27.0
+Queued.
 
+
+r~
 
