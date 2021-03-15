@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B2733C73C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:57:57 +0100 (CET)
-Received: from localhost ([::1]:44696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E33D33C74F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:02:08 +0100 (CET)
+Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLtLg-0007Nn-LA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
+	id 1lLtPi-0003qY-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLtDq-0005ly-Tw
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 15:49:51 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:36421)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLtDo-0004AH-6Z
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 15:49:50 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- g8-20020a9d6c480000b02901b65ca2432cso5729887otq.3
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 12:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0ozITQ24C5/Y0Gxoo84ECI2meMKE1n44aSWbfuyAAfM=;
- b=qMaZ9G70VhcRkn421+CyJc6Js3YBC+TZdjZVqhLa6kHRF25CCdAz4x0Kssc9qa+NGb
- JvsTiafA5UW8jGlrwuRzM7IkUHmhfcixJiiTH2ObmWfjics/eJpmYaG72pSki3VRWX1U
- 59JrxLdKNfhVQ18FIDAbiOUbg+v62OzTsAVITyNYtjK2Qbmvdc8H13K8Adhv1u1DxZ6P
- 52EuiXMwCN7++ZjqWlLldHEVnGjpFCTL1LKJqxFQx4QxBCI9pPzihG417gA2SLpD+jRs
- d4goiblSm4u6w32Xu8eGvDJMe4Zd/UAu07EfF2Ao2qj1jnYznkjhl0+qa//iWxhqKqA4
- 0Unw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0ozITQ24C5/Y0Gxoo84ECI2meMKE1n44aSWbfuyAAfM=;
- b=EkYZ5N2QgtpTUds3SPeIBzJtEE3dok8L3W7EilAZQq+cemLJZdBSE4j9BjNPM1hPQo
- yuFUYWQgezTL1Y7u/JuSaXOeTaNNub6NOgYTf5mIRStEtF4PifsXWap8s3AdtS0gjGY/
- k09fbajSHxXJW591B7aHKT+By8fFviHQDUcdqY3vI+9BiTthdiO5taVXD8EwjRDsOi/r
- dklooXBDFWk0sJjhEzspBkdM4BAjYcSt8j1tl9qWYC0sOEKlhzx2IaTRKmOoGF4aA8f+
- CKf2L3mrRXPYTrjmXVupPlHd5Jp1IJx+z+JE8bkx/pfm/EpkhCF4VY2I2Fwp6Szfs7TV
- XBQg==
-X-Gm-Message-State: AOAM5338YPFRFp7wNMNOJxfYFCD+VLcMfWTyHXewJslYPrxs8Id71m9J
- PoVO5KUFvXhv1w2mBVweYfC/ng==
-X-Google-Smtp-Source: ABdhPJyDB4zIF0YGChSqRzVHYih7OhWd/ysiSg1M1F3Rdk68OKxQEsAibtYwCCVPZqJp7BC8025RDw==
-X-Received: by 2002:a05:6830:1c6e:: with SMTP id
- s14mr573954otg.17.1615837786933; 
- Mon, 15 Mar 2021 12:49:46 -0700 (PDT)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id r13sm7212980oot.41.2021.03.15.12.49.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 12:49:46 -0700 (PDT)
-Subject: Re: [PATCH] Hexagon (target/hexagon) remove unnecessary semicolons
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1615784100-26459-1-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ef3a9f0f-7873-94d4-bee7-4b1519aab8c6@linaro.org>
-Date: Mon, 15 Mar 2021 13:49:39 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lLtLK-0007VY-OD; Mon, 15 Mar 2021 15:57:34 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:41670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lLtLG-0007UF-6H; Mon, 15 Mar 2021 15:57:32 -0400
+Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
+ (vla1-fdfb804fb3f3.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 66D2C2E12B2;
+ Mon, 15 Mar 2021 22:57:25 +0300 (MSK)
+Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
+ (vla5-d6d5ce7a4718.qloud-c.yandex.net [2a02:6b8:c18:341e:0:640:d6d5:ce7a])
+ by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ ZMsHEhBefK-vO00gjPI; Mon, 15 Mar 2021 22:57:25 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1615838245; bh=F4d3ikk3RyNP7iw/hh7WTRlKTeIaHX5grOdr69i4MJM=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=tbZDysaPXjUDzkDvuXtYNoOBGYuL6xwYoLEOPT4HFZ5/bm8wNnrf/0KLxaR6FXaSP
+ 0ZGZ/l5deCql9vGdaGvBz/UYyIxEg5Qp+XgtQ2Pquy71ktp4Z2TSWTU0ZMVINfgd2Y
+ bOWTnTjm8iBG3dc3ET689jqm9nF+ZWRFNQ07ukmw=
+Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:23::1:15])
+ by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ HlPBXrFkK9-vOoKsSPM; Mon, 15 Mar 2021 22:57:24 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Mon, 15 Mar 2021 22:57:18 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 3/7] block/nbd: assert attach/detach runs in the proper
+ context
+Message-ID: <YE+8HqhzyQcXRjHB@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
+ <20210315060611.2989049-4-rvkagan@yandex-team.ru>
+ <6bc8bb0e-c22b-ccc1-4f19-5a7076f348ef@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <1615784100-26459-1-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6bc8bb0e-c22b-ccc1-4f19-5a7076f348ef@virtuozzo.com>
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,20 +80,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/14/21 10:55 PM, Taylor Simpson wrote:
-> Address feedback from Richard Henderson <<richard.henderson@linaro.org>
+On Mon, Mar 15, 2021 at 07:41:32PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 15.03.2021 09:06, Roman Kagan wrote:
+> > Document (via a comment and an assert) that
+> > nbd_client_detach_aio_context and nbd_client_attach_aio_context_bh run
+> > in the desired aio_context
+> > 
+> > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> > ---
+> >   block/nbd.c | 12 ++++++++++++
+> >   1 file changed, 12 insertions(+)
+> > 
+> > diff --git a/block/nbd.c b/block/nbd.c
+> > index 1d8edb5b21..658b827d24 100644
+> > --- a/block/nbd.c
+> > +++ b/block/nbd.c
+> > @@ -241,6 +241,12 @@ static void nbd_client_detach_aio_context(BlockDriverState *bs)
+> >   {
+> >       BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+> > +    /*
+> > +     * This runs in the (old, about to be detached) aio context of the @bs so
+> > +     * accessing the stuff on @s is concurrency-free.
+> > +     */
+> > +    assert(qemu_get_current_aio_context() == bdrv_get_aio_context(bs));
 > 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   target/hexagon/gen_tcg.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Hmm. I don't think so. The handler is called from bdrv_set_aio_context_ignore(), which have the assertion g_assert(qemu_get_current_aio_context() == qemu_get_aio_context());. There is also a comment above bdrv_set_aio_context_ignore() "The caller must own the AioContext lock for the old AioContext of bs".
+> 
+> So, we are not in the home context of bs here. We are in the main aio context and we hold AioContext lock of old bs context.
 
-Queued.
+You're absolutely right.  I'm wondering where I got the idea of this
+assertion from...
 
+> 
+> > +
+> >       /* Timer is deleted in nbd_client_co_drain_begin() */
+> >       assert(!s->reconnect_delay_timer);
+> >       /*
+> > @@ -258,6 +264,12 @@ static void nbd_client_attach_aio_context_bh(void *opaque)
+> >       BlockDriverState *bs = opaque;
+> >       BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+> > +    /*
+> > +     * This runs in the (new, just attached) aio context of the @bs so
+> > +     * accessing the stuff on @s is concurrency-free.
+> > +     */
+> > +    assert(qemu_get_current_aio_context() == bdrv_get_aio_context(bs));
+> 
+> This is correct just because we are in a BH, scheduled for this
+> context (I hope we can't reattach some third context prior to entering
+> the BH in the second:). So, I don't think this assertion really adds
+> something.
 
-r~
+Indeed.
+
+> > +
+> >       if (s->connection_co) {
+> >           /*
+> >            * The node is still drained, so we know the coroutine has yielded in
+> > 
+> 
+> I'm not sure that the asserted fact gives us "concurrency-free". For
+> this we also need to ensure that all other things in the driver are
+> always called in same aio context.. Still, it's a general assumption
+> we have when writing block drivers "everything in one aio context, so
+> don't care".. Sometime it leads to bugs, as some things are still
+> called even from non-coroutine context. Also, Paolo said
+> (https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg03814.html)
+> that many iothreads will send requests to bs, and the code in driver
+> should be thread safe. I don't have good understanding of all these
+> things, and what I have is:
+> 
+> For now (at least we don't have problems in Rhel based downstream) it
+> maybe OK to think that in block-driver everything is protected by
+> AioContext lock and all concurrency we have inside block driver is
+> switching between coroutines but never real parallelism. But in
+> general it's not so, and with multiqueue it's not so.. So, I'd not put
+> such a comment :)
+
+So the patch is bogus in every respect; let's just drop it.
+
+I hope it doesn't invalidate completely the rest of the series though.
+
+Meanwhile I certainly need to update my idea of concurrency assumptions
+in the block layer.
+
+Thanks,
+Roman.
 
