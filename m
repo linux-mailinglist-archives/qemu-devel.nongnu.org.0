@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420F933C79F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:20:40 +0100 (CET)
-Received: from localhost ([::1]:57900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB19433C7AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:24:18 +0100 (CET)
+Received: from localhost ([::1]:39350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLthf-0000m4-9p
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45398)
+	id 1lLtlC-0004vP-1C
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLtaE-0000l2-2j
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:12:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1lLtaR-0000nh-48
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:13:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLtaB-0006TI-RF
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:12:57 -0400
+ id 1lLtaF-0006Ve-Ra
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:13:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615839175;
+ s=mimecast20190719; t=1615839179;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3DNZANP5pMLpFqzcQW1Lkyt3Il6KPWXcp2s6/Sr0h3o=;
- b=PWTOXGV7Amx8Jud2MwRCp1O35qDH+OeM7lbHRWFeM7B3DPt9KQhvZV+mbwWAXH4VSzmjFg
- NpTgQ9qBfqqF85p8UKLrV6YFyDqTlaKeJXow7PA75IjCQrAgLdWen5AKN+B5RIleasiAc7
- +/KNypOC5dJAtp43QVUCKtxwWVa31to=
+ bh=343Iudlhyqa3KTi01zwEIVOdtgmn+Ial5kl4C3BXF70=;
+ b=NMqFT+kVRz8N5Nzgjmwdi0TMIiSn4SVOVmR7CiWfdpEfEmIrpdkVp8QIc+Je29/nv2d6CM
+ TMA9WM2vujPyz0UV8ZdWk47RgwU+AaQ6aI2Aiio6b34F4V5M4dUYVOYzmtIG5p+ZEfDbJp
+ jrJymeI7hV+vtaz4TEzN1hOkBIUrmWA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-RLXSFgyrMFGAQhDKBT1_mg-1; Mon, 15 Mar 2021 16:12:52 -0400
-X-MC-Unique: RLXSFgyrMFGAQhDKBT1_mg-1
+ us-mta-599-fau3gYVNP9KDIYl2GSnNnQ-1; Mon, 15 Mar 2021 16:12:55 -0400
+X-MC-Unique: fau3gYVNP9KDIYl2GSnNnQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A32F087A82A;
- Mon, 15 Mar 2021 20:12:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98AB618460E2;
+ Mon, 15 Mar 2021 20:12:53 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-235.ams2.redhat.com
  [10.36.114.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F418D62680;
- Mon, 15 Mar 2021 20:12:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDDAB62680;
+ Mon, 15 Mar 2021 20:12:51 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, groug@kaod.org, vgoyal@redhat.com,
  wanghao232@huawei.com, ma.mandourr@gmail.com
-Subject: [PULL 8/9] monitor: Replaced qemu_mutex_lock calls with
+Subject: [PULL 9/9] migration: Replaced qemu_mutex_lock calls with
  QEMU_LOCK_GUARD
-Date: Mon, 15 Mar 2021 20:12:14 +0000
-Message-Id: <20210315201215.222539-9-dgilbert@redhat.com>
+Date: Mon, 15 Mar 2021 20:12:15 +0000
+Message-Id: <20210315201215.222539-10-dgilbert@redhat.com>
 In-Reply-To: <20210315201215.222539-1-dgilbert@redhat.com>
 References: <20210315201215.222539-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,152 +87,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Removed various qemu_mutex_lock and their respective qemu_mutex_unlock
-calls and used lock guard macros (QEMU_LOCK_GUARD and
-WITH_QEMU_LOCK_GUARD). This simplifies the code by
-eliminating qemu_mutex_unlock calls.
+Replaced various qemu_mutex_lock calls and their respective
+qemu_mutex_unlock calls with QEMU_LOCK_GUARD macro. This simplifies
+the code by eliminating the respective qemu_mutex_unlock calls.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-Message-Id: <20210311031538.5325-6-ma.mandourr@gmail.com>
+Message-Id: <20210311031538.5325-7-ma.mandourr@gmail.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/monitor.c |  8 ++------
- monitor/qmp.c     | 51 ++++++++++++++++++++++-------------------------
- 2 files changed, 26 insertions(+), 33 deletions(-)
+ migration/migration.c | 6 ++----
+ migration/ram.c       | 6 ++----
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index e94f532cf5..640496e562 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -349,7 +349,7 @@ monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
-     evconf = &monitor_qapi_event_conf[event];
-     trace_monitor_protocol_event_queue(event, qdict, evconf->rate);
+diff --git a/migration/migration.c b/migration/migration.c
+index a5ddf43559..36768391b6 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -323,7 +323,7 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
+     int ret = 0;
  
--    qemu_mutex_lock(&monitor_lock);
-+    QEMU_LOCK_GUARD(&monitor_lock);
- 
-     if (!evconf->rate) {
-         /* Unthrottled event */
-@@ -391,8 +391,6 @@ monitor_qapi_event_queue_no_reenter(QAPIEvent event, QDict *qdict)
-             timer_mod_ns(evstate->timer, now + evconf->rate);
-         }
-     }
--
--    qemu_mutex_unlock(&monitor_lock);
- }
- 
- void qapi_event_emit(QAPIEvent event, QDict *qdict)
-@@ -447,7 +445,7 @@ static void monitor_qapi_event_handler(void *opaque)
-     MonitorQAPIEventConf *evconf = &monitor_qapi_event_conf[evstate->event];
- 
-     trace_monitor_protocol_event_handler(evstate->event, evstate->qdict);
--    qemu_mutex_lock(&monitor_lock);
-+    QEMU_LOCK_GUARD(&monitor_lock);
- 
-     if (evstate->qdict) {
-         int64_t now = qemu_clock_get_ns(monitor_get_event_clock());
-@@ -462,8 +460,6 @@ static void monitor_qapi_event_handler(void *opaque)
-         timer_free(evstate->timer);
-         g_free(evstate);
-     }
--
--    qemu_mutex_unlock(&monitor_lock);
- }
- 
- static unsigned int qapi_event_throttle_hash(const void *key)
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 2326bd7f9b..2b0308f933 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -76,7 +76,7 @@ static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
- 
- static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
- {
--    qemu_mutex_lock(&mon->qmp_queue_lock);
-+    QEMU_LOCK_GUARD(&mon->qmp_queue_lock);
+     trace_migrate_send_rp_message((int)message_type, len);
+-    qemu_mutex_lock(&mis->rp_mutex);
++    QEMU_LOCK_GUARD(&mis->rp_mutex);
  
      /*
-      * Same condition as in monitor_qmp_dispatcher_co(), but before
-@@ -103,7 +103,6 @@ static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
-         monitor_resume(&mon->common);
+      * It's possible that the file handle got lost due to network
+@@ -331,7 +331,7 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
+      */
+     if (!mis->to_src_file) {
+         ret = -EIO;
+-        goto error;
++        return ret;
      }
  
--    qemu_mutex_unlock(&mon->qmp_queue_lock);
+     qemu_put_be16(mis->to_src_file, (unsigned int)message_type);
+@@ -342,8 +342,6 @@ static int migrate_send_rp_message(MigrationIncomingState *mis,
+     /* It's possible that qemu file got error during sending */
+     ret = qemu_file_get_error(mis->to_src_file);
+ 
+-error:
+-    qemu_mutex_unlock(&mis->rp_mutex);
+     return ret;
  }
  
- void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
-@@ -179,7 +178,7 @@ static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-     Monitor *mon;
-     MonitorQMP *qmp_mon;
+diff --git a/migration/ram.c b/migration/ram.c
+index 72143da0ac..52537f14ac 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -819,7 +819,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+ {
+     bool ret;
  
--    qemu_mutex_lock(&monitor_lock);
-+    QEMU_LOCK_GUARD(&monitor_lock);
+-    qemu_mutex_lock(&rs->bitmap_mutex);
++    QEMU_LOCK_GUARD(&rs->bitmap_mutex);
  
-     QTAILQ_FOREACH(mon, &mon_list, entry) {
-         if (!monitor_is_qmp(mon)) {
-@@ -205,8 +204,6 @@ static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-         QTAILQ_INSERT_TAIL(&mon_list, mon, entry);
+     /*
+      * Clear dirty bitmap if needed.  This _must_ be called before we
+@@ -852,7 +852,6 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+     if (ret) {
+         rs->migration_dirty_pages--;
      }
+-    qemu_mutex_unlock(&rs->bitmap_mutex);
  
--    qemu_mutex_unlock(&monitor_lock);
--
-     return req_obj;
+     return ret;
+ }
+@@ -3275,7 +3274,7 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
+     int idx, thread_count;
+ 
+     thread_count = migrate_decompress_threads();
+-    qemu_mutex_lock(&decomp_done_lock);
++    QEMU_LOCK_GUARD(&decomp_done_lock);
+     while (true) {
+         for (idx = 0; idx < thread_count; idx++) {
+             if (decomp_param[idx].done) {
+@@ -3295,7 +3294,6 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
+             qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
+         }
+     }
+-    qemu_mutex_unlock(&decomp_done_lock);
  }
  
-@@ -376,30 +373,30 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
-     req_obj->err = err;
- 
-     /* Protect qmp_requests and fetching its length. */
--    qemu_mutex_lock(&mon->qmp_queue_lock);
-+    WITH_QEMU_LOCK_GUARD(&mon->qmp_queue_lock) {
- 
--    /*
--     * Suspend the monitor when we can't queue more requests after
--     * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
--     * monitor_qmp_cleanup_queue_and_resume() will resume it.
--     * Note that when OOB is disabled, we queue at most one command,
--     * for backward compatibility.
--     */
--    if (!qmp_oob_enabled(mon) ||
--        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1) {
--        monitor_suspend(&mon->common);
--    }
-+        /*
-+         * Suspend the monitor when we can't queue more requests after
-+         * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
-+         * monitor_qmp_cleanup_queue_and_resume() will resume it.
-+         * Note that when OOB is disabled, we queue at most one command,
-+         * for backward compatibility.
-+         */
-+        if (!qmp_oob_enabled(mon) ||
-+            mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1) {
-+            monitor_suspend(&mon->common);
-+        }
- 
--    /*
--     * Put the request to the end of queue so that requests will be
--     * handled in time order.  Ownership for req_obj, req,
--     * etc. will be delivered to the handler side.
--     */
--    trace_monitor_qmp_in_band_enqueue(req_obj, mon,
--                                      mon->qmp_requests->length);
--    assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
--    g_queue_push_tail(mon->qmp_requests, req_obj);
--    qemu_mutex_unlock(&mon->qmp_queue_lock);
-+        /*
-+         * Put the request to the end of queue so that requests will be
-+         * handled in time order.  Ownership for req_obj, req,
-+         * etc. will be delivered to the handler side.
-+         */
-+        trace_monitor_qmp_in_band_enqueue(req_obj, mon,
-+                                          mon->qmp_requests->length);
-+        assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
-+        g_queue_push_tail(mon->qmp_requests, req_obj);
-+    }
- 
-     /* Kick the dispatcher routine */
-     if (!qatomic_xchg(&qmp_dispatcher_co_busy, true)) {
+  /*
 -- 
 2.30.2
 
