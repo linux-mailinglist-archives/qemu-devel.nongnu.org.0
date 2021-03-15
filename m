@@ -2,80 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41B833B4E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:49:17 +0100 (CET)
-Received: from localhost ([::1]:54268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B6E33B522
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:54:58 +0100 (CET)
+Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLnau-0000Ji-OK
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
+	id 1lLngP-0002dT-6k
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLnZV-0008C8-Rg
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:47:50 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLnZM-0007k4-IV
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:47:49 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id h7so2277652qtx.3
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 06:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hmk1nMsV3L3wctRV91RXdfvPQU++522J8XtUSgdT1mw=;
- b=jYPJQM0Zqlpb5vGk5MdJDXFgqX2s4kBsoRv+sJExAA+LodNRbtsgUN32kawgIlA9wT
- nfxaqORJg4MxzjDSy0z6efZ2MPsNsyxNBGFdQctwPK8EzKf8l2ki5Vg8RceOtuGI+gva
- gsTIKGvl054MBLgbngGa/xt4z/y1/jp6ZvtlsJvxCmQWdIWw0HN+baDDLJvjVdAwiW+w
- BW3xgP22jNLmTe6HHqDjo/N/wRGJ6+sPfd/plcE6qUI+c785t+iixEHdfcZu2akXXE+Z
- Zx0Ti8Ri23a9iQE6/Pniljjeow5jqhvRBBoY2td43iOXF1dOOhL2e8JPZPOrhONwJPLz
- BAJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Hmk1nMsV3L3wctRV91RXdfvPQU++522J8XtUSgdT1mw=;
- b=JQpT8Pj7tYJ/telYXqeIvYALjeSwyORhny4JZ1Pm0iHQJp0MJaRBfS6Fp0YjxVhSbO
- aC94AOaZUviwj2DwHSZgUYewWKd2Dw9Dxx390/ZJyY8buzbErfGyvqG4oEums5Gtc5TN
- MV+9Y458PD4WLlIfYRxnl0R7dsrw8SB42Bx5D4i0GWuxOaSGkdebHowRuXdmrGJrcRbM
- 3CHcWy3G0dFzf7ZgLqLXMioW+oHcTkzJ3cbNxC6t0acl4zUo7WRcoHJKG5wi1aPNrvqm
- jONxC4+AVNlkxDq8XZiRqLzfwA/FxolYyTng55rCM2ZrDxFxlsr91AmR/zESeKFENsR6
- 3uUQ==
-X-Gm-Message-State: AOAM533rRkT1l3hOTX3svmm5Y0gN8ro17nPxTigrx4/NDoVPhaRFpTze
- jRTSYQAiWVGp6HQTOIxLmyTg5A==
-X-Google-Smtp-Source: ABdhPJwD66T+G10gRZwX8YotO3pVnDWZN4iAuFHF5lMnx1tucqD4PI4iGahG+Jao5zxYYniJZtFlZQ==
-X-Received: by 2002:ac8:5e89:: with SMTP id r9mr22813713qtx.10.1615816058183; 
- Mon, 15 Mar 2021 06:47:38 -0700 (PDT)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id c19sm12426817qkl.78.2021.03.15.06.47.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 06:47:37 -0700 (PDT)
-Subject: Re: [PATCH v3 14/16] hw/ppc: Use hreg_store_msr for msr updates
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20210314175906.1733746-1-richard.henderson@linaro.org>
- <20210314175906.1733746-15-richard.henderson@linaro.org>
- <ea6b23c2-21db-a512-87b5-be5351ff0a74@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f963e548-d2c0-d0a3-d8ed-bccc3c1d30e7@linaro.org>
-Date: Mon, 15 Mar 2021 07:47:35 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLneo-0001kg-TM
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:53:18 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:37360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lLnej-0002eI-K7
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:53:17 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 12FDqLbi016117
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 15 Mar 2021 09:52:24 -0400
+Date: Mon, 15 Mar 2021 09:52:21 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Darren Kenny <darren.kenny@oracle.com>
+Subject: Re: [PATCH v2 1/3] memory: add a sparse memory device for fuzzing
+Message-ID: <20210315135221.cpp6bt2v62y7y26w@mozz.bu.edu>
+References: <20210313231859.941263-1-alxndr@bu.edu>
+ <20210313231859.941263-2-alxndr@bu.edu> <m2y2eosjns.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <ea6b23c2-21db-a512-87b5-be5351ff0a74@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m2y2eosjns.fsf@oracle.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,60 +55,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, bsd@redhat.com, stefanha@redhat.com,
+ Igor Mammedov <imammedo@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 4:23 AM, Cédric Le Goater wrote:
-> On 3/14/21 6:59 PM, Richard Henderson wrote:
->> Only one of the three places in hw/ppc that modify msr updated
->> hflags.  Even in that case, use the official interface instead
->> of a direct call to hreg_compute_hflags.
+On 210315 1209, Darren Kenny wrote:
+> Hi Alex,
 > 
-> ppc_store_msr() is the interface to use.
+> On Saturday, 2021-03-13 at 18:18:57 -05, Alexander Bulekov wrote:
+> > For testing, it can be useful to simulate an enormous amount of memory
+> > (e.g. 2^64 RAM). This adds an MMIO device that acts as sparse memory.
+> > When something writes a nonzero value to a sparse-mem address, we
+> > allocate a block of memory. This block is kept around, until all of the
+> > bytes within the block are zero-ed. The device has a very low priority
 > 
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->> Cc: Cédric Le Goater <clg@kaod.org>
->> Cc: Greg Kurz <groug@kaod.org>
->> ---
->>   hw/ppc/pnv_core.c    | 3 ++-
->>   hw/ppc/spapr_hcall.c | 3 +--
->>   hw/ppc/spapr_rtas.c  | 3 ++-
->>   3 files changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
->> index bd2bf2e044..31f041b9c7 100644
->> --- a/hw/ppc/pnv_core.c
->> +++ b/hw/ppc/pnv_core.c
->> @@ -29,6 +29,7 @@
->>   #include "hw/ppc/pnv_xscom.h"
->>   #include "hw/ppc/xics.h"
->>   #include "hw/qdev-properties.h"
->> +#include "helper_regs.h"
->>   
->>   static const char *pnv_core_cpu_typename(PnvCore *pc)
->>   {
->> @@ -54,7 +55,7 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
->>        */
->>       env->gpr[3] = PNV_FDT_ADDR;
->>       env->nip = 0x10;
->> -    env->msr |= MSR_HVB; /* Hypervisor mode */
->> +    hreg_store_msr(env, env->msr | MSR_HVB, true); /* Hypervisor mode */
-> 
-> 
-> This is going to have the opposite effect of not setting the HV bit in the
-> PowerNV machine. See the comment in powerpc_set_excp_state().
-> 
-> May be commit 1c953ba57ada ("ppc: Fix hreg_store_msr() so that non-HV
-> mode cannot alter MSR:HV") needs a fix first.
+> I don't see code below that actually checks if a block is zero-ed and
+> removes it from the hash table, so is this comment correct?
 
-Hmm.  I mis-read the code and assumed "allow_hv" allowed hv to be changed. 
-There must be some kind of quirkyness here that I don't understand.
+No.. I will update it
 
-I'll just have these reset functions use hreg_recompute_hflags directly.
+> 
+> > (so it can be mapped beneath actual RAM, and virtual device MMIO
+> > regions).
+> >
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  MAINTAINERS                 |   1 +
+> >  hw/mem/meson.build          |   1 +
+> >  hw/mem/sparse-mem.c         | 152 ++++++++++++++++++++++++++++++++++++
+> >  include/hw/mem/sparse-mem.h |  19 +++++
+> >  4 files changed, 173 insertions(+)
+> >  create mode 100644 hw/mem/sparse-mem.c
+> >  create mode 100644 include/hw/mem/sparse-mem.h
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f22d83c178..9e3d8b1401 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2618,6 +2618,7 @@ R: Thomas Huth <thuth@redhat.com>
+> >  S: Maintained
+> >  F: tests/qtest/fuzz/
+> >  F: scripts/oss-fuzz/
+> > +F: hw/mem/sparse-mem.c
+> >  F: docs/devel/fuzzing.rst
+> >  
+> >  Register API
+> > diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+> > index 0d22f2b572..ef79e04678 100644
+> > --- a/hw/mem/meson.build
+> > +++ b/hw/mem/meson.build
+> > @@ -1,5 +1,6 @@
+> >  mem_ss = ss.source_set()
+> >  mem_ss.add(files('memory-device.c'))
+> > +mem_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
+> >  mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
+> >  mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
+> >  mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+> > diff --git a/hw/mem/sparse-mem.c b/hw/mem/sparse-mem.c
+> > new file mode 100644
+> > index 0000000000..575a287f59
+> > --- /dev/null
+> > +++ b/hw/mem/sparse-mem.c
+> > @@ -0,0 +1,152 @@
+> > +/*
+> > + * A sparse memory device. Useful for fuzzing
+> > + *
+> > + * Copyright Red Hat Inc., 2021
+> > + *
+> > + * Authors:
+> > + *  Alexander Bulekov   <alxndr@bu.edu>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +#include "exec/address-spaces.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "hw/sysbus.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/units.h"
+> > +#include "sysemu/qtest.h"
+> > +#include "hw/mem/sparse-mem.h"
+> > +
+> > +#define SPARSE_MEM(obj) OBJECT_CHECK(SparseMemState, (obj), TYPE_SPARSE_MEM)
+> > +#define SPARSE_BLOCK_SIZE 0x1000
+> 
+> This is assuming a 4K block size, should that be the same as the system
+> pagesize is? Or will it not matter w.r.t. how this is being consumed?
+> 
 
+It shouldn't make a difference, as long as it is a multiple of the
+MMIO region's alignment size.
 
-r~
+> > +
+> > +typedef struct SparseMemState {
+> > +    SysBusDevice parent_obj;
+> > +    MemoryRegion mmio;
+> > +    uint64_t baseaddr;
+> > +    uint64_t length;
+> > +    uint64_t size_used;
+> > +    uint64_t maxsize;
+> > +    GHashTable *mapped;
+> > +} SparseMemState;
+> > +
+> > +typedef struct sparse_mem_block {
+> > +    uint8_t data[SPARSE_BLOCK_SIZE];
+> > +} sparse_mem_block;
+> > +
+> > +static uint64_t sparse_mem_read(void *opaque, hwaddr addr, unsigned int size)
+> > +{
+> > +    printf("SPARSEREAD %lx\n", addr);
+> 
+> Should this printf() be a logging/trace call? Or do you really want it to be
+> printed all the time? Also seems out of place before the declaration of
+> the variables.
+
+No. I will remove it
+
+> 
+> Thanks,
+> 
+> Darren.
 
