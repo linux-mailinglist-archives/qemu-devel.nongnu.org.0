@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9337D33C861
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:20:04 +0100 (CET)
-Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB7F33C863
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:25:55 +0100 (CET)
+Received: from localhost ([::1]:35710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLud9-0004j9-Kw
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:20:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
+	id 1lLuio-0006VB-Q8
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lLuc6-0004Gx-Cm
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:18:58 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:36752)
+ id 1lLuhZ-0005jq-MK; Mon, 15 Mar 2021 17:24:37 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:40494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lLuc4-00022W-72
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:18:58 -0400
-Received: by mail-io1-xd31.google.com with SMTP id n14so35002033iog.3
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:18:55 -0700 (PDT)
+ id 1lLuhX-0004YY-Jo; Mon, 15 Mar 2021 17:24:37 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id m7so15936958iow.7;
+ Mon, 15 Mar 2021 14:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JGB7q6W+l9ATSnch4AqNMWdx4KSgWjdLtif7D9uKUKA=;
- b=aKtbf6ibibZBPjpwpISoHJUzKmfQGA3eVnOgUPc9yF/OIJ6w4cL/XA74y9Xm6FyXp6
- hbr1e/yFvCH8RfCZMIsq6CxfYfr0UrTo38qXscXKN9CXuYknXQBmyWjhH6T3kysJ3TvF
- Ud3zf0GvNnmqTigYsPgZeGIO7c6s2+7YPnfKxJHSFwoIVmRLKyGeuxWxOLOBgWuY0iy2
- 6ss4WeQKCKXsh7Y3bSFY1zwpfXONb4K9Ip1S11dYT7HjmLezGO8un5opQVp7BrEJCQae
- xIREq1GP6HRg0R9NP018HtkYAOfN7T0xyK7o7u1PQ+aHM9FQn5BwcNnvBp4XMLvpRkzY
- Ft9w==
+ :cc; bh=uQjQWwOaqj9IyCOedOb3/WMuW35xsCUy54LzQs5v+bA=;
+ b=XXzuYGwycvvjUkRA46RYZ8n7jh8ce901B7d9eZOkFXXv7CvFJNArOKn3Q09qFqmNcv
+ DCLKG62dbYxZmpg5kN4ztvNW3wKubAfzSXW2hYQhLnQPtOXoD2jNtDNec5w3ZvweDKlZ
+ 07YCyzbDU4g3TVVsgslGcn4HZjrVRNAE3k3VjAtroxCHoxecTwkxxL/9I7YUbdQExk8C
+ OvW8zYiGWSEDXlaQcMlL5KbsvC+TtmHHFjHpMu/+a+3TgI5I5qudPGdNQC0p0X5hXArd
+ Yzy/E5+EuUxejFhSg3A1eXUhLZSkosOz8QQc8jdcQm+MKdZ7kAshzDaGyMHOV/XgpgXb
+ LdKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JGB7q6W+l9ATSnch4AqNMWdx4KSgWjdLtif7D9uKUKA=;
- b=WVRdYvse2VqkELZ4E/X6xMZJxYEQsbYjQOphREsTlYjoZPlmNdchYL1e9NpopKl/wq
- F1KLJkCOkZfY6LGLqUhpA4vgfFUS0WkxGubC0w/RCQMrlPBc1O23B/s6KfI5yJVEuwd2
- Rtz/n2O08e6seL4Re2VTTAdQ1iBPi41XX0X0KW+QzaSJT9lzU6qJJxGUrUEMl5Ub1Qe4
- FTSzpfP0IYicto3CqlmwLcPCMev61111WJmvLwzotwuksdecUd9clOfb+2TxQ5MJwHzY
- 0B20EMNl0YeQ65bfIuS2GHAaP0crK8XvZssOkVHfYtfaWrZZw1Ao+3pWpgfcV2/vh22w
- FbCA==
-X-Gm-Message-State: AOAM531zGnvCC4sD7TdaVh9zfuI5B0XvTmKp1sOLsuaISOwAGnZXa5g6
- Y3qspwKDYkbjjB1k8MZfaUhcE/ff5h6Re3wVs9Y=
-X-Google-Smtp-Source: ABdhPJwB0A7bkIb9nXKRMpNtOBWFG1FUVByvaLb9jOcFo/OGNxKuomOgfCGpk88XdDz0BQd/ePEMr5ak81mwdtnE65Y=
-X-Received: by 2002:a5d:878e:: with SMTP id f14mr1139959ion.176.1615843134953; 
- Mon, 15 Mar 2021 14:18:54 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=uQjQWwOaqj9IyCOedOb3/WMuW35xsCUy54LzQs5v+bA=;
+ b=qfLsV8sG+6dlsxTG3YVeQjy79BVVoHGQbPJwwcrvFJVbPodceBQBp3SE7DV5cLdl8+
+ Jzc2eXPc36maWlSBEYpKL6Oghy6T9FrQ+vkXzYjqGF4S28NSsiaE+otPovxHtfv2BRzB
+ Bsh34HMPanpFXiWYsxdrYb19KbLavaGAldc68m9Ue/D/TO6KJvrCmlLrBn3lBVo/Jbug
+ rZCuWXRz/2MftdvqnYInv02wm5bQ/9vt76+xEC9BWGEIIQsvfy4VrMfiNaBWpWF3Ge+d
+ LJJb5RuAXHrhnx1D183WUm6cdDuNT1FDy4lh/RdEuENYUg0aazj/EBUOtvJowxiyDphW
+ g64Q==
+X-Gm-Message-State: AOAM533tSyhvrFKKdPRNZdBVTi21QUR6wdGXn1MTrSiNO4pwdUIQHd3A
+ 4r2pSYH6aKwnVcz3j16O3bhGC+DpDaLlYOMaBdc=
+X-Google-Smtp-Source: ABdhPJyRpvRWJXF8apcrRAw+XvBGpLnhyRV22dH7nBcaUFhw57QGQHZEW8UBOalbfn7YR0jXvv3UlygQniuj07FVTIg=
+X-Received: by 2002:a02:cc1b:: with SMTP id n27mr11321093jap.106.1615843473976; 
+ Mon, 15 Mar 2021 14:24:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210315170439.2868903-1-philmd@redhat.com>
-In-Reply-To: <20210315170439.2868903-1-philmd@redhat.com>
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <20210212150256.885-6-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210212150256.885-6-zhiwei_liu@c-sky.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Mar 2021 17:17:18 -0400
-Message-ID: <CAKmqyKPj0QPJV0L2mau115OP9FveC61617KFaOdEmyjV_S8DnQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/core: Only build guest-loader if libfdt is available
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 15 Mar 2021 17:22:58 -0400
+Message-ID: <CAKmqyKO9UHGkfRdb8dEVHFaxCjGox3x+-g066nRc_vqc7wtVWQ@mail.gmail.com>
+Subject: Re: [PATCH 05/38] target/riscv: 8-bit Addition & Subtraction
+ Instruction
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -79,92 +77,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 15, 2021 at 1:15 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Fri, Feb 12, 2021 at 10:14 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> Add a Kconfig entry for guest-loader so we can optionally deselect
-> it (default is built in), and add a Meson dependency on libfdt.
->
-> This fixes when building with --disable-fdt:
->
->   /usr/bin/ld: libcommon.fa.p/hw_core_guest-loader.c.o: in function `load=
-er_insert_platform_data':
->   hw/core/guest-loader.c:56: undefined reference to `qemu_fdt_add_subnode=
-'
->   /usr/bin/ld: hw/core/guest-loader.c:57: undefined reference to `qemu_fd=
-t_setprop'
->   /usr/bin/ld: hw/core/guest-loader.c:61: undefined reference to `qemu_fd=
-t_setprop_string_array'
->   /usr/bin/ld: hw/core/guest-loader.c:68: undefined reference to `qemu_fd=
-t_setprop_string'
->   /usr/bin/ld: hw/core/guest-loader.c:74: undefined reference to `qemu_fd=
-t_setprop_string_array'
->   collect2: error: ld returned 1 exit status
->
-> Fixes: a33ff6d2c6b ("hw/core: implement a guest-loader to support static =
-hypervisor guests")
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/core/Kconfig     | 5 +++++
->  hw/core/meson.build | 3 +--
->  2 files changed, 6 insertions(+), 2 deletions(-)
+>  target/riscv/helper.h                   |  9 +++
+>  target/riscv/insn32.decode              | 11 ++++
+>  target/riscv/insn_trans/trans_rvp.c.inc | 79 +++++++++++++++++++++++++
+>  target/riscv/packed_helper.c            | 73 +++++++++++++++++++++++
+>  4 files changed, 172 insertions(+)
 >
-> diff --git a/hw/core/Kconfig b/hw/core/Kconfig
-> index fdf03514d7d..9397503656d 100644
-> --- a/hw/core/Kconfig
-> +++ b/hw/core/Kconfig
-> @@ -11,6 +11,11 @@ config GENERIC_LOADER
->      bool
->      default y
->
-> +config GUEST_LOADER
-> +    bool
-> +    default y
-> +    depends on TCG
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 6d622c732a..a69a6b4e84 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -1175,3 +1175,12 @@ DEF_HELPER_3(rstsa16, tl, env, tl, tl)
+>  DEF_HELPER_3(urstsa16, tl, env, tl, tl)
+>  DEF_HELPER_3(kstsa16, tl, env, tl, tl)
+>  DEF_HELPER_3(ukstsa16, tl, env, tl, tl)
 > +
->  config OR_IRQ
->      bool
+> +DEF_HELPER_3(radd8, tl, env, tl, tl)
+> +DEF_HELPER_3(uradd8, tl, env, tl, tl)
+> +DEF_HELPER_3(kadd8, tl, env, tl, tl)
+> +DEF_HELPER_3(ukadd8, tl, env, tl, tl)
+> +DEF_HELPER_3(rsub8, tl, env, tl, tl)
+> +DEF_HELPER_3(ursub8, tl, env, tl, tl)
+> +DEF_HELPER_3(ksub8, tl, env, tl, tl)
+> +DEF_HELPER_3(uksub8, tl, env, tl, tl)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 8815e90476..358dd1fa10 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -624,3 +624,14 @@ rstsa16    1011011  ..... ..... 010 ..... 1111111 @r
+>  urstsa16   1101011  ..... ..... 010 ..... 1111111 @r
+>  kstsa16    1100011  ..... ..... 010 ..... 1111111 @r
+>  ukstsa16   1110011  ..... ..... 010 ..... 1111111 @r
+> +
+> +add8       0100100  ..... ..... 000 ..... 1111111 @r
+> +radd8      0000100  ..... ..... 000 ..... 1111111 @r
+> +uradd8     0010100  ..... ..... 000 ..... 1111111 @r
+> +kadd8      0001100  ..... ..... 000 ..... 1111111 @r
+> +ukadd8     0011100  ..... ..... 000 ..... 1111111 @r
+> +sub8       0100101  ..... ..... 000 ..... 1111111 @r
+> +rsub8      0000101  ..... ..... 000 ..... 1111111 @r
+> +ursub8     0010101  ..... ..... 000 ..... 1111111 @r
+> +ksub8      0001101  ..... ..... 000 ..... 1111111 @r
+> +uksub8     0011101  ..... ..... 000 ..... 1111111 @r
+> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
+> index 0885a4fd45..109f560ec9 100644
+> --- a/target/riscv/insn_trans/trans_rvp.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
+> @@ -159,3 +159,82 @@ GEN_RVP_R_OOL(rstsa16);
+>  GEN_RVP_R_OOL(urstsa16);
+>  GEN_RVP_R_OOL(kstsa16);
+>  GEN_RVP_R_OOL(ukstsa16);
+> +
+> +/* 8-bit Addition & Subtraction Instructions */
+> +/*
+> + *  Copied from tcg-op-gvec.c.
+> + *
+> + *  Perform a vector addition using normal addition and a mask.  The mask
+> + *  should be the sign bit of each lane.  This 6-operation form is more
+> + *  efficient than separate additions when there are 4 or more lanes in
+> + *  the 64-bit operation.
+> + */
+> +
+> +static void gen_simd_add_mask(TCGv d, TCGv a, TCGv b, TCGv m)
+> +{
+> +    TCGv t1 = tcg_temp_new();
+> +    TCGv t2 = tcg_temp_new();
+> +    TCGv t3 = tcg_temp_new();
+> +
+> +    tcg_gen_andc_tl(t1, a, m);
+> +    tcg_gen_andc_tl(t2, b, m);
+> +    tcg_gen_xor_tl(t3, a, b);
+> +    tcg_gen_add_tl(d, t1, t2);
+> +    tcg_gen_and_tl(t3, t3, m);
+> +    tcg_gen_xor_tl(d, d, t3);
+> +
+> +    tcg_temp_free(t1);
+> +    tcg_temp_free(t2);
+> +    tcg_temp_free(t3);
+> +}
+> +
+> +static void tcg_gen_simd_add8(TCGv d, TCGv a, TCGv b)
+> +{
+> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
+> +    gen_simd_add_mask(d, a, b, m);
+> +    tcg_temp_free(m);
+> +}
+> +
+> +GEN_RVP_R_INLINE(add8, add, 0, trans_add);
+> +
+> +/*
+> + *  Copied from tcg-op-gvec.c.
+> + *
+> + *  Perform a vector subtraction using normal subtraction and a mask.
+> + *  Compare gen_addv_mask above.
+> + */
+> +static void gen_simd_sub_mask(TCGv d, TCGv a, TCGv b, TCGv m)
+> +{
+> +    TCGv t1 = tcg_temp_new();
+> +    TCGv t2 = tcg_temp_new();
+> +    TCGv t3 = tcg_temp_new();
+> +
+> +    tcg_gen_or_tl(t1, a, m);
+> +    tcg_gen_andc_tl(t2, b, m);
+> +    tcg_gen_eqv_tl(t3, a, b);
+> +    tcg_gen_sub_tl(d, t1, t2);
+> +    tcg_gen_and_tl(t3, t3, m);
+> +    tcg_gen_xor_tl(d, d, t3);
+> +
+> +    tcg_temp_free(t1);
+> +    tcg_temp_free(t2);
+> +    tcg_temp_free(t3);
+> +}
+> +
+> +static void tcg_gen_simd_sub8(TCGv d, TCGv a, TCGv b)
+> +{
+> +    TCGv m = tcg_const_tl((target_ulong)dup_const(MO_8, 0x80));
+> +    gen_simd_sub_mask(d, a, b, m);
+> +    tcg_temp_free(m);
+> +}
+> +
+> +GEN_RVP_R_INLINE(sub8, sub, 0, trans_sub);
+> +
+> +GEN_RVP_R_OOL(radd8);
+> +GEN_RVP_R_OOL(uradd8);
+> +GEN_RVP_R_OOL(kadd8);
+> +GEN_RVP_R_OOL(ukadd8);
+> +GEN_RVP_R_OOL(rsub8);
+> +GEN_RVP_R_OOL(ursub8);
+> +GEN_RVP_R_OOL(ksub8);
+> +GEN_RVP_R_OOL(uksub8);
+> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
+> index b84abaaf25..62db072204 100644
+> --- a/target/riscv/packed_helper.c
+> +++ b/target/riscv/packed_helper.c
+> @@ -352,3 +352,76 @@ static inline void do_ukstsa16(CPURISCVState *env, void *vd, void *va,
+>  }
 >
-> diff --git a/hw/core/meson.build b/hw/core/meson.build
-> index 9cd72edf513..59f1605bb07 100644
-> --- a/hw/core/meson.build
-> +++ b/hw/core/meson.build
-> @@ -16,6 +16,7 @@
->  common_ss.add(files('cpu.c'))
->  common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
->  common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loa=
-der.c'))
-> +common_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-=
-loader.c'))
->  common_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
->  common_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.=
-c'))
->  common_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
-> @@ -37,8 +38,6 @@
->    'clock-vmstate.c',
->  ))
->
-> -softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('guest-loader.c'))
-> -
->  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
->    'machine-qmp-cmds.c',
->    'numa.c',
+>  RVPR(ukstsa16, 2, 2);
+> +
+> +/* 8-bit Addition & Subtraction Instructions */
+> +static inline void do_radd8(CPURISCVState *env, void *vd, void *va,
+> +                            void *vb, uint8_t i)
+> +{
+> +    int8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = hadd32(a[i], b[i]);
+> +}
+> +
+> +RVPR(radd8, 1, 1);
+> +
+> +static inline void do_uradd8(CPURISCVState *env, void *vd, void *va,
+> +                                  void *vb, uint8_t i)
+> +{
+> +    uint8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = haddu32(a[i], b[i]);
+> +}
+> +
+> +RVPR(uradd8, 1, 1);
+> +
+> +static inline void do_kadd8(CPURISCVState *env, void *vd, void *va,
+> +                            void *vb, uint8_t i)
+> +{
+> +    int8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = sadd8(env, 0, a[i], b[i]);
+> +}
+> +
+> +RVPR(kadd8, 1, 1);
+> +
+> +static inline void do_ukadd8(CPURISCVState *env, void *vd, void *va,
+> +                             void *vb, uint8_t i)
+> +{
+> +    uint8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = saddu8(env, 0, a[i], b[i]);
+> +}
+> +
+> +RVPR(ukadd8, 1, 1);
+> +
+> +static inline void do_rsub8(CPURISCVState *env, void *vd, void *va,
+> +                            void *vb, uint8_t i)
+> +{
+> +    int8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = hsub32(a[i], b[i]);
+> +}
+> +
+> +RVPR(rsub8, 1, 1);
+> +
+> +static inline void do_ursub8(CPURISCVState *env, void *vd, void *va,
+> +                             void *vb, uint8_t i)
+> +{
+> +    uint8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = hsubu64(a[i], b[i]);
+> +}
+> +
+> +RVPR(ursub8, 1, 1);
+> +
+> +static inline void do_ksub8(CPURISCVState *env, void *vd, void *va,
+> +                            void *vb, uint8_t i)
+> +{
+> +    int8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = ssub8(env, 0, a[i], b[i]);
+> +}
+> +
+> +RVPR(ksub8, 1, 1);
+> +
+> +static inline void do_uksub8(CPURISCVState *env, void *vd, void *va,
+> +                             void *vb, uint8_t i)
+> +{
+> +    uint8_t *d = vd, *a = va, *b = vb;
+> +    d[i] = ssubu8(env, 0, a[i], b[i]);
+> +}
+> +
+> +RVPR(uksub8, 1, 1);
 > --
-> 2.26.2
->
+> 2.17.1
 >
 
