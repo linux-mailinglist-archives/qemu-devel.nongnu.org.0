@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC16133C09A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:55:19 +0100 (CET)
-Received: from localhost ([::1]:50738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601BC33C09C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:56:10 +0100 (CET)
+Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLpYs-0000Sl-TW
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49148)
+	id 1lLpZh-0001Un-Cq
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLpW5-0007Ez-3M
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:52:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37634)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLpWk-0008ET-VP
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:53:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLpW0-0002Cc-CS
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:52:23 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLpWj-0002QV-9R
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:53:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615823539;
+ s=mimecast20190719; t=1615823584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SvUS+RcNRSWm6iC6JHkRs1whGwrng9m4HROzWFe1FpQ=;
- b=PyU8XgdlfhPj11qM0Cu45iZXpS+kVofzbRrMBSfPDysbDN5z1qbvwOP3g9GBu45swHlinx
- rmb9CwPeJgRBIyHPCxcBY8EGb03qE8/RsEaO0oE1JbZzvGmbm87n7ZTIKVy2Mmdrf5dOdN
- pv1g5W8NWKWzYHKGVkY/onRjzwDdY8A=
+ bh=23EH66u0DJAbJFUXv6VwJaIFajThaoYUw6jlBprIwRI=;
+ b=LFZfrgMNyAAkhGgQVvP8H7nSuATadIFkTSctq9FgmwEvMMvvy232wQSUxceiZHyVqzCSIA
+ qSlsRadK2wSdIjv5JxLqO7eAbjRGURI/EtaT5DeBkeEheramo2/KHWaBz04C/XYPjOo+gX
+ 0npeRFyvEwrY7TlzAE76882BkHXAKhg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-mckdll2TNvKDL0IWNrIlhw-1; Mon, 15 Mar 2021 11:52:18 -0400
-X-MC-Unique: mckdll2TNvKDL0IWNrIlhw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-547-hiH81AxiPQaI4KLEArbjBA-1; Mon, 15 Mar 2021 11:53:02 -0400
+X-MC-Unique: hiH81AxiPQaI4KLEArbjBA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9FED19057A0;
- Mon, 15 Mar 2021 15:52:16 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-128.ams2.redhat.com [10.36.115.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC90B620DE;
- Mon, 15 Mar 2021 15:52:07 +0000 (UTC)
-Date: Mon, 15 Mar 2021 16:52:06 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
-Message-ID: <YE+CppsqCGAdwrf4@merkur.fritz.box>
-References: <90130a0c-7f96-f344-b185-b790c5d6b78a@redhat.com>
- <20210310173044.GF6076@merkur.fritz.box>
- <87ft12q8kf.fsf@dusky.pond.sub.org>
- <e98a5eb7-4716-a0f4-0ad2-adaa4cd9cefa@redhat.com>
- <87h7lhbx6b.fsf@dusky.pond.sub.org>
- <10fd7cbf-9ee5-3869-22fd-352e42a980ba@redhat.com>
- <871rck7pqw.fsf@dusky.pond.sub.org>
- <87lfarrx37.fsf@dusky.pond.sub.org>
- <YE9GpKMDzzBMu1lQ@merkur.fritz.box>
- <87im5se8v4.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06E301015C8A;
+ Mon, 15 Mar 2021 15:53:01 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E79E85D9DC;
+ Mon, 15 Mar 2021 15:52:59 +0000 (UTC)
+Subject: Re: [RFC PATCH] configure: Poison (almost) all target-specific
+ #defines
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210315135410.221729-1-thuth@redhat.com>
+ <5f8be2a7-5baf-7cdc-42a1-954ea3aeba82@redhat.com>
+ <9a6fd794-8ac5-a054-7bf5-b485d57fb1a3@redhat.com>
+ <CAFEAcA9KvqMycFysq_U1NHwUx8RZToZ5DXvqGnhpuw8XcGhrSQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <94307555-3d39-b993-d8b3-ea78cb675be1@redhat.com>
+Date: Mon, 15 Mar 2021 16:52:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <87im5se8v4.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAFEAcA9KvqMycFysq_U1NHwUx8RZToZ5DXvqGnhpuw8XcGhrSQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,129 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, Peter Krempa <pkrempa@redhat.com>,
- ehabkost@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>, dgilbert@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 15.03.2021 um 16:26 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On 15/03/2021 16.37, Peter Maydell wrote:
+> On Mon, 15 Mar 2021 at 15:26, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 15/03/2021 15.52, Philippe Mathieu-Daudé wrote:
+>>> On 3/15/21 2:54 PM, Thomas Huth wrote:
+>>>> We are generating a lot of target-specific defines in the *-config-devices.h
+>>>> and *-config-target.h files. Using them in common code is wrong and leads
+>>>> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
+>>>> as expected. To avoid these issues, we are already poisoning some of the
+>>>> macros in include/exec/poison.h - but maintaining this list manually is
+>>>> cumbersome. Thus let's generate the list of poisoned macros automatically
+>>>> instead.
+>>>> Note that CONFIG_TCG (which is also defined in config-host.h) and
+>>>
+>>> IIRC we can't poison CONFIG_XEN / CONFIG_HAX because they are
+>>> pulled in via "sysemu/hw_accel.h".
+>>
+>> That's a good hint ... but I think it can be fixed with a patch like this:
+>>
+>> diff a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
+>> --- a/include/sysemu/hw_accel.h
+>> +++ b/include/sysemu/hw_accel.h
+>> @@ -12,19 +12,24 @@
+>>    #define QEMU_HW_ACCEL_H
+>>
+>>    #include "hw/core/cpu.h"
+>> +
+>> +#ifdef NEED_CPU_H
+>> +
+>>    #include "sysemu/hax.h"
+>>    #include "sysemu/kvm.h"
+>>    #include "sysemu/hvf.h"
+>>    #include "sysemu/whpx.h"
 > 
-> > Am 13.03.2021 um 14:40 hat Markus Armbruster geschrieben:
-> >> Markus Armbruster <armbru@redhat.com> writes:
-> >> 
-> >> > Paolo Bonzini <pbonzini@redhat.com> writes:
-> >> >
-> >> >> On 11/03/21 15:08, Markus Armbruster wrote:
-> >> >>>> I would rather keep the OptsVisitor here.  Do the same check for JSON
-> >> >>>> syntax that you have in qobject_input_visitor_new_str, and whenever
-> >> >>>> you need to walk all -object arguments, use something like this:
-> >> >>>>
-> >> >>>>      typedef struct ObjectArgument {
-> >> >>>>          const char *id;
-> >> >>>>          QDict *json;    /* or NULL for QemuOpts */
-> >> >>>>          QSIMPLEQ_ENTRY(ObjectArgument) next;
-> >> >>>>      }
-> >> >>>>
-> >> >>>> I already had patches in my queue to store -object in a GSList of
-> >> >>>> dictionaries, changing it to use the above is easy enough.
-> >> >>> 
-> >> >>> I think I'd prefer following -display's precedence.  See my reply to
-> >> >>> Kevin for details.
-> >> >>
-> >> >> Yeah, I got independently to the same conclusion and posted patches
-> >> >> for that.  I was scared that visit_type_ObjectOptions was too much for 
-> >> >> OptsVisitor but it seems to work...
-> >> >
-> >> > We have reason to be scared.  I'll try to cover this in my review.
-> >> 
-> >> The opts visitor has serious limitations.  From its header:
-> >> 
-> >>  * The Opts input visitor does not implement support for visiting QAPI
-> >>  * alternates, numbers (other than integers), null, or arbitrary
-> >>  * QTypes.  It also requires a non-null list argument to
-> >>  * visit_start_list().
-> >> 
-> >> This is retro-documentation for hairy code.  I don't trust it.  Commit
-> >> eb7ee2cbeb "qapi: introduce OptsVisitor" hints at additional
-> >> restrictions:
-> >> 
-> >>     The type tree in the schema, corresponding to an option with a
-> >>     discriminator, must have the following structure:
-> >>     
-> >>       struct
-> >>         scalar member for non-discriminated optarg 1 [*]
-> >>         list for repeating non-discriminated optarg 2 [*]
-> >>           wrapper struct
-> >>             single scalar member
-> >>         union
-> >>           struct for discriminator case 1
-> >>             scalar member for optarg 3 [*]
-> >>             list for repeating optarg 4 [*]
-> >>               wrapper struct
-> >>                 single scalar member
-> >>             scalar member for optarg 5 [*]
-> >>           struct for discriminator case 2
-> >>             ...
-> >
-> > Is this a long-winded way of saying that it has to be flat, except that
-> > it allows lists, i.e. there must be no nested objects on the "wire"?
-> 
-> I think so.
-> 
-> > The difference between structs and unions, and different branches inside
-> > the union isn't visible for the visitor anyway.
-> 
-> Yes, only the code using the visitor deals with that.
-> 
-> >>     The "type" optarg name is fixed for the discriminator role. Its schema
-> >>     representation is "union of structures", and each discriminator value must
-> >>     correspond to a member name in the union.
-> >>     
-> >>     If the option takes no "type" descriminator, then the type subtree rooted
-> >>     at the union must be absent from the schema (including the union itself).
-> >>     
-> >>     Optarg values can be of scalar types str / bool / integers / size.
-> >> 
-> >> Unsupported visits are treated as programming error.  Which is a nice
-> >> way to say "they crash".
-> >
-> > The OptsVisitor never seems to crash explicitly by calling something
-> > like abort().
-> >
-> > It may crash because of missing callbacks that are called without a NULL
-> > check, like v->type_null.
-> 
-> Correct.
-> 
-> >                           This case should probably be fixed in
-> > qapi/qapi-visit-core.c to do the check and simply return an error.
-> 
-> I retro-documented what I inherited: qapi-visit-core.c code expects the
-> visitors to implement the full visitor-impl.h interface, but some
-> visitors don't.  So I documented "method must be set to visit FOOs" in
-> visitor-impl.h, and for the visitors that don't, I documented "can't
-> visit FOOs".
-> 
-> If the crashing behavior we've always had gets in the way, there are two
-> ways to change it:
-> 
-> 1. Complicate qapi-visit-core.c slightly to cope with incomplete visitor
->    implementations.
-> 
-> 2. Complete the visitor implementations: add dummy callbacks that fail.
-> 
-> I prefer 2., because I feel it keeps the visitor-impl.h interface
-> simpler, and puts the extra complications where they belong.
+> This doesn't look right, because sysemu/kvm.h itself contains
+> a NEED_CPU_H check, which implies that there are situations where
+> NEED_CPU_H is not defined and we need to pull in the header.
 
-I suggested making the callbacks optional because I expected that there
-might be more than one visitor that doesn't support a callback and I
-wouldn't like duplicating dummy callbacks in multiple places. But if
-it's only the OptsVisitor, then we wouldn't get any duplication either
-way and it becomes a matter of taste.
+I just tried, and QEMU seems to compile fine with my patch... I guess the 
+check for NEED_CPU_H is mainly required for files that include 
+"sysemu/kvm.h" directly, without the detour via hw_accel.h.
 
-Kevin
+Anyway, I can also push the check rather into the hax.h, hvf.h and whpx.h 
+files themselves, to make them more similar to kvm.h.
+
+  Thomas
 
 
