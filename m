@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBAE33B016
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:38:37 +0100 (CET)
-Received: from localhost ([::1]:45118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AC333B017
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:38:49 +0100 (CET)
+Received: from localhost ([::1]:46072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLkcO-00086a-IT
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
+	id 1lLkca-0008V1-BI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLkaI-00075H-Ly
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:36:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ id 1lLkaZ-0007Dr-JD
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:36:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLkaF-000648-Q1
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:36:26 -0400
+ id 1lLkaX-0006EY-5P
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:36:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615804582;
+ s=mimecast20190719; t=1615804600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=56B6aIe++0DczDVhIDRxVw3oq05rDqq9FMRfJ7y+gPo=;
- b=E/uPrEgp0iWfF+Ibw9PXExaHCDN9Ylkg9bSsJeQaU6MLPFeJ0lqVJZ+jrFfSt3BHr+11Xx
- fN8d3ef+rUgm3F4uivbyRqJbT3N5ZU5aeizJNnJwPQuAW0GEhBPvz+2JZ34iOtpfIfBt/I
- siu0b078pXRqgWPSuWHRaPi7Rt3nIt8=
+ bh=uIbJnM922eUefzcLhYJEFUIyvXLocQ00XK3d5TiuWvA=;
+ b=dw7Tc9It4lw+LoCNIgnxEzdurzYql+03fTESY3FPvvYh8PuVaIA7kr8P6tStL8DawY6eIZ
+ 67D7+UUR80XlcI5ZkkGJwWpF/s1vGIb5u0dTIfT/cbXyvTSYwnjSXK6PkmI38I9Ww5+7IL
+ PHMMVv/PHKgDjpm49AEdU3h6tFFqA5k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-VnsjOTWMNuyZuA8LfQPChw-1; Mon, 15 Mar 2021 06:36:19 -0400
-X-MC-Unique: VnsjOTWMNuyZuA8LfQPChw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-36-HRPezn3kNrekuGEG6w2GXg-1; Mon, 15 Mar 2021 06:36:38 -0400
+X-MC-Unique: HRPezn3kNrekuGEG6w2GXg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC2F61932486;
- Mon, 15 Mar 2021 10:36:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55749100C622;
+ Mon, 15 Mar 2021 10:36:37 +0000 (UTC)
 Received: from localhost (ovpn-115-125.ams2.redhat.com [10.36.115.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9C00100239A;
- Mon, 15 Mar 2021 10:36:11 +0000 (UTC)
-Date: Mon, 15 Mar 2021 10:36:10 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86ECC610AF;
+ Mon, 15 Mar 2021 10:36:30 +0000 (UTC)
+Date: Mon, 15 Mar 2021 10:36:29 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 2/7] vhost-user: Fix double-close on slave_read()
- error path
-Message-ID: <YE84mp9zLcGthhDg@stefanha-x1.localdomain>
+Subject: Re: [PATCH v2 3/7] vhost-user: Factor out duplicated slave_fd
+ teardown code
+Message-ID: <YE84rZ8+yPoUnsg4@stefanha-x1.localdomain>
 References: <20210312092212.782255-1-groug@kaod.org>
- <20210312092212.782255-3-groug@kaod.org>
+ <20210312092212.782255-4-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210312092212.782255-3-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210312092212.782255-4-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mZrQjOpYGClovNAv"
+ protocol="application/pgp-signature"; boundary="kOK2rZth78M287TT"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,53 +87,33 @@ Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---mZrQjOpYGClovNAv
+--kOK2rZth78M287TT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 12, 2021 at 10:22:07AM +0100, Greg Kurz wrote:
-> Some message types, e.g. VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG,
-> can convey file descriptors. These must be closed before returning
-> from slave_read() to avoid being leaked. This can currently be done
-> in two different places:
->=20
-> [1] just after the request has been processed
->=20
-> [2] on the error path, under the goto label err:
->=20
-> These path are supposed to be mutually exclusive but they are not
-> actually. If the VHOST_USER_NEED_REPLY_MASK flag was passed and the
-> sending of the reply fails, both [1] and [2] are performed with the
-> same descriptor values. This can potentially cause subtle bugs if one
-> of the descriptor was recycled by some other thread in the meantime.
->=20
-> This code duplication complicates rollback for no real good benefit.
-> Do the closing in a unique place, under a new fdcleanup: goto label
-> at the end of the function.
->=20
+On Fri, Mar 12, 2021 at 10:22:08AM +0100, Greg Kurz wrote:
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
->  hw/virtio/vhost-user.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
+>  hw/virtio/vhost-user.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---mZrQjOpYGClovNAv
+--kOK2rZth78M287TT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPOJoACgkQnKSrs4Gr
-c8i6uwf+JwmQhn/F/YcxZJKo1B0eaXq7LNzPWlWuAkMTo6UKxobGYWbE3Mp5rpPm
-4+VirdQ58yz7nyhEBwlVG5O+Nk6ddFVSizWK6BEifgebahfCMGRLIqTY1K44hjon
-T5eyc9Qd7SZE1velPFapxSr6ydybn7895bB48dysAM3MF9NC+I//qPhh0J/ZtbI6
-w0t+Nm47URhsYZlljJZP3Wt4T5oQfWTY9D5ycfriDwDey5tnZLJHsSI0x90jLyVd
-YpynF4ibsLMEjXEH2O0fzAPelF/YGG1wqpp5eroPzZbaURmyypuuNhywi3m1SCoX
-7LQ33ra2Z6frm6/iMmvVy4Cnogf83g==
-=Y75D
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPOK0ACgkQnKSrs4Gr
+c8hrtwf/ZN0rNmTMSiDUaauaRULuVilDbIBSF2g0HkJePjoWNgGANcWCUMRieTl0
+cPnKlFTgQFhRIc18WrYoiI5SmknKJQ2k6cqJ4UdlvVreOL8E4xPBkhl/bQCW1z1W
+vihtd1eTcMbYrbzZqQcnij6++3cH7nIYF6/QLHGFp5urufFNUcEwfYDMoAtZIdns
+z6VU4nED01h9+5mH1dvngb0lZV5q8dA1f2iNOR5gl53Uf2sdmfcSJFQMqvnlCddn
+J+sr57y8fS89UJZGpsrhh+83WNE8z+wewdPBkrrRpPoPxEdg5Bafn+VoUfsADL3q
+Kw3uSV2SEHvybaAn5hKjAF1C5DYUNQ==
+=LHtR
 -----END PGP SIGNATURE-----
 
---mZrQjOpYGClovNAv--
+--kOK2rZth78M287TT--
 
 
