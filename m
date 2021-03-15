@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121EA33AF72
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:00:00 +0100 (CET)
-Received: from localhost ([::1]:59554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2606B33AF76
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:01:52 +0100 (CET)
+Received: from localhost ([::1]:33828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLk11-00052R-5A
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:59:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
+	id 1lLk2p-0006CY-5Y
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:01:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLjyr-0003zO-8T
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:57:45 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLjyp-0008DH-Nk
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:57:45 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g20so7733246wmk.3
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 02:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Cqe+o1I/0ZT/qsuRZedTSA43V5QrsGcOPMxeWrE+YE0=;
- b=ZUZX11n/RqJ42HfDQsH7+3KZV79R3Im2gIdgE4SeJAc0QHXEvsOYbO/vtuJMGPtIBM
- FqJDDMh6BOvmKfTjQsHfIV0GFJVKdQs/c5zIfxHWc5ywI19jJIn5TiC+fD/gLrd9p+OI
- ybV8Eslm5a8xkaZrCfkMdJGx0A0Rc82i3RkPx3ZgAXxROYPz/FVrMzQZOD6GltzxlzWK
- 8DOvk34qe6MzW/wqw65ALTd6IHiVPa+iyVHZpT3Zi5PD/nE//qqu0cKzzOgmL0NOBD6l
- ZTsQfBJJrgV/kgnJofOLWxMaEoIFoa7Zj/AZfB4ApFvkrIraaXltTGHm1oKuL4AA7LCr
- /ADA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Cqe+o1I/0ZT/qsuRZedTSA43V5QrsGcOPMxeWrE+YE0=;
- b=m1l6qSD648Hzr0X+tyvebusNUHasyALYHqelpoIepba3Ui/xDZwXBJN1e/UYiUttub
- DQsD6Pc2Eacs43fMYWLrnjy2NEqbFeJmtJrdsv74q/jXMsqcEGhNdnnULiMCj1PsvucI
- zkxn8qpYsN9u3KWcF9JbzPN9Lhb1re6wAozMuZ2W3P3wViikCOCYUMXlyzgaJ2bCuLgV
- an9jyh58PdPXPNnEdFlQ/HqUvSJzgA9EATfK67+86K47MoXYlo89QVlQZoPtEzc6bnvQ
- tqF5+SFo7/rQSBaHla7YyVLXSJfIkyT0rKjOZpWjDdJDTs8zA3TLNUEBW1ZlZdCdJgcl
- VNNg==
-X-Gm-Message-State: AOAM531douUeCCR3jYx9rt+FIyryoI2GTrowSVdOw5r0djXnu4OeNtFb
- qtIB+PabzZ2iFlQLUpaQvtNKOSXf/ONKlg==
-X-Google-Smtp-Source: ABdhPJwdXFPTTlcK7VjCprFOBXjAqhvGoaKOTY3gHMwQ4eh5yEQETFOmcJNjNnEZDHQ4hb+WuLtClw==
-X-Received: by 2002:a05:600c:2102:: with SMTP id
- u2mr25382393wml.22.1615802260453; 
- Mon, 15 Mar 2021 02:57:40 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id z2sm17752498wrv.47.2021.03.15.02.57.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 02:57:39 -0700 (PDT)
-Subject: Re: [PATCH v16 00/23] i386 cleanup PART 2
-To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210204163931.7358-1-cfontana@suse.de>
- <5f185a27-6140-9426-f915-ce09609b7962@amsat.org>
- <a8dd803b-ff0a-c456-14b5-1e2dffbf2120@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <647ebd9a-953d-c00b-e965-95e000393a86@amsat.org>
-Date: Mon, 15 Mar 2021 10:57:38 +0100
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lLk0F-0004vU-2Q
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:59:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lLk0C-0000U7-CA
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:59:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615802343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ucFWYcTI4g/lQx+mvN5uVHF2KHwGX2g+AhG315Ke+Pc=;
+ b=cebceK7iesVi/8gide8GqWL2jAWZoNiP1rA7wR8sR3EwVp8w3sHVNHTBN1pJjd5odSlMRA
+ JXkBc8q+yNz1j+OYujTs0eIIdg01em9rUde07zYAkgvktVhsRhEpbTv1H6gJQxDFC3+3rN
+ 7a9PSTAgJKgImdysUyfv3jc2FLAXRoA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-tZyMyHelPlWMp7y1YcRd8g-1; Mon, 15 Mar 2021 05:59:00 -0400
+X-MC-Unique: tZyMyHelPlWMp7y1YcRd8g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE2458015BD;
+ Mon, 15 Mar 2021 09:58:58 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-5.ams2.redhat.com
+ [10.36.115.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1AC15D9C0;
+ Mon, 15 Mar 2021 09:58:56 +0000 (UTC)
+Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-7-vsementsov@virtuozzo.com>
+ <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
+ <d5acfe9d-2095-a601-20b7-bd0b677df68a@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <6056196d-a0cc-7de2-5d6f-b223fdee98ff@redhat.com>
+Date: Mon, 15 Mar 2021 10:58:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <a8dd803b-ff0a-c456-14b5-1e2dffbf2120@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <d5acfe9d-2095-a601-20b7-bd0b677df68a@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,99 +85,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 10:44 AM, Claudio Fontana wrote:
-> Hi Philippe,
+On 12.03.21 19:43, Vladimir Sementsov-Ogievskiy wrote:
+> 12.03.2021 21:15, Max Reitz wrote:
+>> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
+>>> Compressed writes are unaligned to 512, which works very slow in
+>>> O_DIRECT mode. Let's use the cache.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   block/coroutines.h     |   3 +
+>>>   block/qcow2.h          |   4 ++
+>>>   block/qcow2-refcount.c |  10 +++
+>>>   block/qcow2.c          | 158 ++++++++++++++++++++++++++++++++++++++---
+>>>   4 files changed, 164 insertions(+), 11 deletions(-)
+
+[...]
+
+>>> @@ -2699,6 +2796,12 @@ static void qcow2_close(BlockDriverState *bs)
+>>>           qcow2_inactivate(bs);
+>>>       }
+>>> +    /*
+>>> +     * Cache should be flushed in qcow2_inactivate() and should be 
+>>> empty in
+>>> +     * inactive mode. So we are safe to free it.
+>>> +     */
+>>> +    seqcache_free(s->compressed_cache);
+>>> +
+>>>       cache_clean_timer_del(bs);
+>>>       qcow2_cache_destroy(s->l2_table_cache);
+>>>       qcow2_cache_destroy(s->refcount_block_cache);
+>>> @@ -4558,18 +4661,42 @@ 
+>>> qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
+>>>           goto fail;
+>>>       }
+>>> -    qcow2_inflight_writes_inc(bs, cluster_offset, out_len);
+>>> +    if (s->compressed_cache) {
+>>
+>> Why is this conditional?
 > 
-> On 3/14/21 1:00 AM, Philippe Mathieu-Daudé wrote:
->> Hi Claudio,
+> We don't have compressed_cache for non o_direct.
 
+Oh right.
+
+>>> +        /*
+>>> +         * It's important to do seqcache_write() in the same 
+>>> critical section
+>>> +         * (by s->lock) as qcow2_alloc_compressed_cluster_offset(), 
+>>> so that the
+>>> +         * cache is filled sequentially.
+>>> +         */
 >>
->> I am looking at this code:
+>> Yes.
 >>
->> $ git grep tcg_ softmmu/physmem.c
->> softmmu/physmem.c:153:static void
->> tcg_log_global_after_sync(MemoryListener *listener);
->> softmmu/physmem.c:154:static void tcg_commit(MemoryListener *listener);
->> softmmu/physmem.c:161: * @tcg_as_listener: listener for tracking changes
->> to the AddressSpace
->> softmmu/physmem.c:167:    MemoryListener tcg_as_listener;
->> softmmu/physmem.c:590:static void tcg_iommu_unmap_notify(IOMMUNotifier
->> *n, IOMMUTLBEntry *iotlb)
->> softmmu/physmem.c:606:static void tcg_register_iommu_notifier(CPUState *cpu,
->> softmmu/physmem.c:640:                            tcg_iommu_unmap_notify,
->> softmmu/physmem.c:654:void tcg_iommu_free_notifier_list(CPUState *cpu)
->> softmmu/physmem.c:668:void tcg_iommu_init_notifier_list(CPUState *cpu)
->> softmmu/physmem.c:698:        tcg_register_iommu_notifier(cpu, iommu_mr,
->> iommu_idx);
->> softmmu/physmem.c:761:    if (tcg_enabled()) {
->> softmmu/physmem.c:762:
->> newas->tcg_as_listener.log_global_after_sync = tcg_log_global_after_sync;
->> softmmu/physmem.c:763:        newas->tcg_as_listener.commit = tcg_commit;
->> softmmu/physmem.c:764:
->> memory_listener_register(&newas->tcg_as_listener, as);
->> softmmu/physmem.c:891:    assert(tcg_enabled());
->> softmmu/physmem.c:904:    if (cc->tcg_ops->adjust_watchpoint_address) {
->> softmmu/physmem.c:906:        addr =
->> cc->tcg_ops->adjust_watchpoint_address(cpu, addr, len);
->> softmmu/physmem.c:927:                if (wp->flags & BP_CPU &&
->> cc->tcg_ops->debug_check_watchpoint &&
->> softmmu/physmem.c:928:
->> !cc->tcg_ops->debug_check_watchpoint(cpu, wp)) {
->> softmmu/physmem.c:1004:    assert(tcg_enabled());
->> softmmu/physmem.c:1059:    if (dirty && tcg_enabled()) {
->> softmmu/physmem.c:1107:    if (tcg_enabled()) {
->> softmmu/physmem.c:2605:static void
->> tcg_log_global_after_sync(MemoryListener *listener)
->> softmmu/physmem.c:2634:        cpuas = container_of(listener,
->> CPUAddressSpace, tcg_as_listener);
->> softmmu/physmem.c:2639:static void tcg_commit(MemoryListener *listener)
->> softmmu/physmem.c:2644:    assert(tcg_enabled());
->> softmmu/physmem.c:2647:    cpuas = container_of(listener,
->> CPUAddressSpace, tcg_as_listener);
->> softmmu/physmem.c:2700:        assert(tcg_enabled());
->> softmmu/physmem.c:3000:    if (tcg_enabled()) {
+>>> +        seqcache_write(s->compressed_cache, cluster_offset, out_len, 
+>>> out_buf);
+>>> -    qemu_co_mutex_unlock(&s->lock);
+>>> +        qemu_co_mutex_unlock(&s->lock);
+>>> -    BLKDBG_EVENT(s->data_file, BLKDBG_WRITE_COMPRESSED);
+>>> -    ret = bdrv_co_pwrite(s->data_file, cluster_offset, out_len, 
+>>> out_buf, 0);
+>>> +        ret = qcow2_co_compressed_flush_one(bs, false);
 >>
->> which reminded me the starter generic part of your effort
->> (already merged).
+>> The qcow2 doc says a compressed cluster can span multiple host 
+>> clusters.  I don’t know whether that can happen with this driver, but 
+>> if it does, wouldn’t that mean we’d need to flush two clusters here?  
+>> Oh, no, never mind.  Only the first one would be finished and thus 
+>> flushed, not the second one.
 >>
->> Do you have plans for this code?
+>> I could have now removed the above paragraph, but it made me think, so 
+>> I kept it:
 >>
->> Similarly:
->>
->> $ git grep kvm_ softmmu/physmem.c
->> softmmu/physmem.c:752:    assert(asidx == 0 || !kvm_enabled());
->> softmmu/physmem.c:1295:    if (kvm_enabled())
->> softmmu/physmem.c:1296:        kvm_flush_coalesced_mmio_buffer();
->> softmmu/physmem.c:1566:    if (kvm_enabled()) {
->> softmmu/physmem.c:2046:    if (kvm_enabled() && !kvm_has_sync_mmu()) {
->>
->> Thanks,
->>
->> Phil.
->>
+>> Hm.  Actually, if we unconditionally flush here, doesn’t that mean 
+>> that we’ll never have a finished cluster in the cache for longer than 
+>> the span between the seqcache_write() and this 
+>> qcow2_co_compressed_flush_one()?  I.e., the 
+>> qcow2_co_flush_compressed_cache() is supposed to never flush any 
+>> finished cluster, but only the currently active unfinished cluster (if 
+>> there is one), right?
 > 
-> Hi Phil,
+> Hmm. Maybe if we have parallel write and flush requests, it's a kind of 
+> race condition: may be flush will flush both finished and unfinished 
+> cluster, maybe write will flush the finished cluster and flush will 
+> flush only unfinished one.. Moreover we may have several parallel 
+> requests, so they make several finished clusters, and sudden flush will 
+> flush them all.
+
+OK.  I was mostly asking because I was wondering how much you expect the 
+cache to be filled, i.e., how much you expect the read cache to help.
+
+[...]
+
+>>> @@ -4681,10 +4808,19 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
+>>>       out_buf = qemu_blockalign(bs, s->cluster_size);
+>>> -    BLKDBG_EVENT(bs->file, BLKDBG_READ_COMPRESSED);
+>>> -    ret = bdrv_co_pread(bs->file, coffset, csize, buf, 0);
+>>> -    if (ret < 0) {
+>>> -        goto fail;
+>>> +    /*
+>>> +     * seqcache_read may return less bytes than csize, as csize may 
+>>> exceed
+>>> +     * actual compressed data size. So we are OK if seqcache_read 
+>>> returns
+>>> +     * something > 0.
+>>
+>> I was about to ask what happens when a compressed cluster spans two 
+>> host clusters (I could have imagined that in theory the second one 
+>> could have been discarded, but not the first one, so reading from the 
+>> cache would really be short -- we would have needed to check that we 
+>> only fell short in the range of 512 bytes, not more).
+>>
+>> But then I realized that in this version of the series, all finished 
+>> clusters are immediately discarded and only the current unfinished one 
+>> is kept.  Does it even make sense to try seqcache_read() here, then?
 > 
-> indeed it is a juicy target for splitting things between TCG-only and non-TCG code,
-> specifically as we discovered that we don't need any of the watchpoint stuff outside of TCG.
-> 
-> I think I am tied up in the ARM code for a while,
-> so if you are asking because you want to start there, just go ahead,
-> I'll try to review, otherwise I'll get back to it (and to i386) later on.
+> Hmm. Not immediately, but after flush. An flush is not under mutex. So 
+> in theory at some moment we may have several finished clusters 
+> "in-flight". And your question make sense. The cache supports reading 
+> from consequitive clusters. But we also should support here reading one 
+> part of data from disk and another from the cache to be safe.
 
-No plan yet. I looked back at what I did + your patches to get
-the big picture again, and had a look at my notes and wip patches.
+The question is whether it really makes sense to even have a 
+seqcache_read() path when in reality it’s probably never accessed.  I 
+mean, besides the fact that it seems based purely on chance whether a 
+read might fetch something from the cache even while we’re writing, in 
+practice I don’t know any case where we’d write to and read from a 
+compressed qcow2 image at the same time.  (I don’t know what you’re 
+doing with the 'compress' filter, though.)
 
-Since you are making big changes/progress, I now prefer to check
-upfront to avoid duplicated effort.
+Max
 
-Regards,
-
-Phil.
 
