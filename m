@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C2733C7EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:45:00 +0100 (CET)
-Received: from localhost ([::1]:55770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD81733C7FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 21:48:29 +0100 (CET)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLu5D-0005NI-SU
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54516)
+	id 1lLu8Z-0000ML-50
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 16:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lLu2u-00049r-V7
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:42:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:39579)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lLu30-0004BK-BJ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:42:42 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:40445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lLu2r-00031l-85
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:42:36 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lLu2t-00034G-U2
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 16:42:42 -0400
 Received: from localhost.localdomain ([82.142.6.26]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MX0TX-1lF1MS20AT-00XNb6; Mon, 15 Mar 2021 21:42:29 +0100
+ id 1MFbmS-1lVJ1f3p2E-00H5Mt; Mon, 15 Mar 2021 21:42:30 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] M68k for 6.0 patches
-Date: Mon, 15 Mar 2021 21:42:21 +0100
-Message-Id: <20210315204226.3481044-1-laurent@vivier.eu>
+Subject: [PULL 1/5] hw/char: add goldfish-tty
+Date: Mon, 15 Mar 2021 21:42:22 +0100
+Message-Id: <20210315204226.3481044-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210315204226.3481044-1-laurent@vivier.eu>
+References: <20210315204226.3481044-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Se4zHM7J6XVpep3VEoOkJWtlQzKzl+nv3u6qrP+06W4yY6eszev
- eDe+yuYgnrGo1yihUZ2FiurmYfHzTCWLDUInACwjvShhZQ2Tld6ipABTbDGdtVPLd0ic4iO
- +uDB3YV6cjQmyobhtB4GFaQxiKGmK7Uz1FFRkdux5UTjU/rrXjwMrcCPvgHTWsC8fuCCo7m
- j/SvGdxs8kQevO7s6FZkw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6Aro6fCrwGA=:hbNlT1aPBavzrlJTvoHxJO
- TZGJHkAtHQHwuNXrF25RYkZ2tThUqLZQhENt1DVxatedd/52kQtrvpcURxMwRtP63dfc3Ogtu
- eD4ZsPc3k1SLFrZue7rBq1HL90YlUNDU2uAghyDLT3612IjTkU8N8TeZ8IbkkSZx+2XzYLum0
- 4fFKLN/HaS/rkuHe/dOQ7Gi2srA7NrYMMS9pRIE+TD87ZObOQ2ijWiJ1U/sdEE0cxW6AGoqha
- r+cVEIyRn5mmiosnYuKv7b5Wmdd8RLek454H/yr9PpLI5ePpWjThHxs9xYwRQDwUmaNPMcxDB
- PcibJEGpd5OEjlQG8Yh2l24kqzqxNOD4UXzrjI2jAbnzTNlgKMgvzvZLDO6Ew6zzB8rURY/55
- EGNXrFtjUv9oN35Mxa194AVAEivAcocdQ+ZeaZ6XvEMTD5ZLMuk4rKnUg6R+0
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:VT1ka5rcz4UTIbuO/x+yCp/RThi7XG2NmrPSMbEOdnHNgPnupas
+ ZUu6yFXV4B95p2cWuhsuT0WAmvDzrJSQp+YSRB2sI8GK9ljgV3tUOBpQnu8/cPDJHQV3FBy
+ ZkFTPaNaQSEyx6p9FQB/srvqGMICVxcOENd6TxyP8YRToIi/cG1AaBDEtT3qF/jx/dmVKXY
+ yDbdJi1XW3smyOAzrmRRQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iYYAlRRwuzE=:cl27VXn0g73rvrCOS5BZRG
+ GBKrmcE8sKVc8kn+ZWFgUPH4cTLG4zwPocnEXVNwsxQcXFYWT272cpOpH4j8YyKx1j4a3k44E
+ /wT9m0fDt18CmnQIW7xz3qyuZh5zNdOWGK7YBd5ipQ/7PRK9QD6j7B5/9+8PNHmvqoCopIOyn
+ bKyrLZd6me21TNv2MAihcR1+ooYDpTQ8IEETwIbiYTit4xRtePsl929mzqGl7IkwO4EgK5T4T
+ xPj3pd04pz/GOl18UlT8TEXlY46fh5ib3KIbFG4IFf89r6SHMv7CwQYM2Ofajo8lc4cTS57sG
+ 1xOo0OTmPZf4F4lfeQCQ/zJh+DbljTrnK1lvPf52BdkfCTg4uWTT+dMRGebglhNP9JgFdjxIV
+ bEPosVkHJZDSg9pA1hZNtQfTJsFEE2yrr8lhrHnBi97BRsSAVXmUcrTTW6fMNIwLs6hmsQbDf
+ Kym06wL8lQ==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -60,77 +63,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e7c6a8cf9f5c82aa152273e1c9e80d07b1b0c32c=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/philmd/tags/avr-20210315' into stag=
-in=3D=0D
-g (2021-03-15 16:59:55 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to e1cecdca559d552bc5ab282696301858a97c3e8c:=0D
-=0D
-  m68k: add Virtual M68k Machine (2021-03-15 21:03:06 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-m68k pull request 20210315=0D
-=0D
-Add m68k virt machine=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (5):=0D
-  hw/char: add goldfish-tty=0D
-  hw/intc: add goldfish-pic=0D
-  m68k: add an interrupt controller=0D
-  m68k: add a system controller=0D
-  m68k: add Virtual M68k Machine=0D
-=0D
- docs/specs/virt-ctlr.txt                      |  26 ++=0D
- default-configs/devices/m68k-softmmu.mak      |   1 +=0D
- include/hw/char/goldfish_tty.h                |  35 ++=0D
- include/hw/intc/goldfish_pic.h                |  33 ++=0D
- include/hw/intc/m68k_irqc.h                   |  41 +++=0D
- include/hw/misc/virt_ctrl.h                   |  22 ++=0D
- .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +=0D
- hw/char/goldfish_tty.c                        | 285 ++++++++++++++++=0D
- hw/intc/goldfish_pic.c                        | 219 ++++++++++++=0D
- hw/intc/m68k_irqc.c                           | 119 +++++++=0D
- hw/m68k/virt.c                                | 313 ++++++++++++++++++=0D
- hw/misc/virt_ctrl.c                           | 151 +++++++++=0D
- MAINTAINERS                                   |  13 +=0D
- hw/char/Kconfig                               |   3 +=0D
- hw/char/meson.build                           |   2 +=0D
- hw/char/trace-events                          |  10 +=0D
- hw/intc/Kconfig                               |   6 +=0D
- hw/intc/meson.build                           |   2 +=0D
- hw/intc/trace-events                          |   8 +=0D
- hw/m68k/Kconfig                               |   9 +=0D
- hw/m68k/meson.build                           |   1 +=0D
- hw/misc/Kconfig                               |   3 +=0D
- hw/misc/meson.build                           |   3 +=0D
- hw/misc/trace-events                          |   7 +=0D
- 24 files changed, 1330 insertions(+)=0D
- create mode 100644 docs/specs/virt-ctlr.txt=0D
- create mode 100644 include/hw/char/goldfish_tty.h=0D
- create mode 100644 include/hw/intc/goldfish_pic.h=0D
- create mode 100644 include/hw/intc/m68k_irqc.h=0D
- create mode 100644 include/hw/misc/virt_ctrl.h=0D
- create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h=0D
- create mode 100644 hw/char/goldfish_tty.c=0D
- create mode 100644 hw/intc/goldfish_pic.c=0D
- create mode 100644 hw/intc/m68k_irqc.c=0D
- create mode 100644 hw/m68k/virt.c=0D
- create mode 100644 hw/misc/virt_ctrl.c=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+Implement the goldfish tty device as defined in
+
+https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
+
+and based on the kernel driver code:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/goldfish.c
+
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210312214145.2936082-2-laurent@vivier.eu>
+---
+ include/hw/char/goldfish_tty.h |  35 ++++
+ hw/char/goldfish_tty.c         | 285 +++++++++++++++++++++++++++++++++
+ hw/char/Kconfig                |   3 +
+ hw/char/meson.build            |   2 +
+ hw/char/trace-events           |  10 ++
+ 5 files changed, 335 insertions(+)
+ create mode 100644 include/hw/char/goldfish_tty.h
+ create mode 100644 hw/char/goldfish_tty.c
+
+diff --git a/include/hw/char/goldfish_tty.h b/include/hw/char/goldfish_tty.h
+new file mode 100644
+index 000000000000..b9dd67362a68
+--- /dev/null
++++ b/include/hw/char/goldfish_tty.h
+@@ -0,0 +1,35 @@
++/*
++ * SPDX-License-Identifer: GPL-2.0-or-later
++ *
++ * Goldfish TTY
++ *
++ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
++ *
++ */
++
++#ifndef HW_CHAR_GOLDFISH_TTY_H
++#define HW_CHAR_GOLDFISH_TTY_H
++
++#include "qemu/fifo8.h"
++#include "chardev/char-fe.h"
++
++#define TYPE_GOLDFISH_TTY "goldfish_tty"
++OBJECT_DECLARE_SIMPLE_TYPE(GoldfishTTYState, GOLDFISH_TTY)
++
++#define GOLFISH_TTY_BUFFER_SIZE 128
++
++struct GoldfishTTYState {
++    SysBusDevice parent_obj;
++
++    MemoryRegion iomem;
++    qemu_irq irq;
++    CharBackend chr;
++
++    uint32_t data_len;
++    uint64_t data_ptr;
++    bool int_enabled;
++
++    Fifo8 rx_fifo;
++};
++
++#endif
+diff --git a/hw/char/goldfish_tty.c b/hw/char/goldfish_tty.c
+new file mode 100644
+index 000000000000..8365a1876145
+--- /dev/null
++++ b/hw/char/goldfish_tty.c
+@@ -0,0 +1,285 @@
++/*
++ * SPDX-License-Identifer: GPL-2.0-or-later
++ *
++ * Goldfish TTY
++ *
++ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties-system.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "chardev/char-fe.h"
++#include "qemu/log.h"
++#include "trace.h"
++#include "exec/address-spaces.h"
++#include "hw/char/goldfish_tty.h"
++
++#define GOLDFISH_TTY_VERSION 1
++
++/* registers */
++
++enum {
++    REG_PUT_CHAR      = 0x00,
++    REG_BYTES_READY   = 0x04,
++    REG_CMD           = 0x08,
++    REG_DATA_PTR      = 0x10,
++    REG_DATA_LEN      = 0x14,
++    REG_DATA_PTR_HIGH = 0x18,
++    REG_VERSION       = 0x20,
++};
++
++/* commands */
++
++enum {
++    CMD_INT_DISABLE   = 0x00,
++    CMD_INT_ENABLE    = 0x01,
++    CMD_WRITE_BUFFER  = 0x02,
++    CMD_READ_BUFFER   = 0x03,
++};
++
++static uint64_t goldfish_tty_read(void *opaque, hwaddr addr,
++                                  unsigned size)
++{
++    GoldfishTTYState *s = opaque;
++    uint64_t value = 0;
++
++    switch (addr) {
++    case REG_BYTES_READY:
++        value = fifo8_num_used(&s->rx_fifo);
++        break;
++    case REG_VERSION:
++        value = GOLDFISH_TTY_VERSION;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register read 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
++    }
++
++    trace_goldfish_tty_read(s, addr, size, value);
++
++    return value;
++}
++
++static void goldfish_tty_cmd(GoldfishTTYState *s, uint32_t cmd)
++{
++    uint32_t to_copy;
++    uint8_t *buf;
++    uint8_t data_out[GOLFISH_TTY_BUFFER_SIZE];
++    int len;
++    uint64_t ptr;
++
++    switch (cmd) {
++    case CMD_INT_DISABLE:
++        if (s->int_enabled) {
++            if (!fifo8_is_empty(&s->rx_fifo)) {
++                qemu_set_irq(s->irq, 0);
++            }
++            s->int_enabled = false;
++        }
++        break;
++    case CMD_INT_ENABLE:
++        if (!s->int_enabled) {
++            if (!fifo8_is_empty(&s->rx_fifo)) {
++                qemu_set_irq(s->irq, 1);
++            }
++            s->int_enabled = true;
++        }
++        break;
++    case CMD_WRITE_BUFFER:
++        len = s->data_len;
++        ptr = s->data_ptr;
++        while (len) {
++            to_copy = MIN(GOLFISH_TTY_BUFFER_SIZE, len);
++
++            address_space_rw(&address_space_memory, ptr,
++                             MEMTXATTRS_UNSPECIFIED, data_out, to_copy, 0);
++            qemu_chr_fe_write_all(&s->chr, data_out, to_copy);
++
++            len -= to_copy;
++            ptr += to_copy;
++        }
++        break;
++    case CMD_READ_BUFFER:
++        len = s->data_len;
++        ptr = s->data_ptr;
++        while (len && !fifo8_is_empty(&s->rx_fifo)) {
++            buf = (uint8_t *)fifo8_pop_buf(&s->rx_fifo, len, &to_copy);
++            address_space_rw(&address_space_memory, ptr,
++                            MEMTXATTRS_UNSPECIFIED, buf, to_copy, 1);
++
++            len -= to_copy;
++            ptr += to_copy;
++        }
++        if (s->int_enabled && fifo8_is_empty(&s->rx_fifo)) {
++            qemu_set_irq(s->irq, 0);
++        }
++        break;
++    }
++}
++
++static void goldfish_tty_write(void *opaque, hwaddr addr,
++                               uint64_t value, unsigned size)
++{
++    GoldfishTTYState *s = opaque;
++    unsigned char c;
++
++    trace_goldfish_tty_write(s, addr, size, value);
++
++    switch (addr) {
++    case REG_PUT_CHAR:
++        c = value;
++        qemu_chr_fe_write_all(&s->chr, &c, sizeof(c));
++        break;
++    case REG_CMD:
++        goldfish_tty_cmd(s, value);
++        break;
++    case REG_DATA_PTR:
++        s->data_ptr = value;
++        break;
++    case REG_DATA_PTR_HIGH:
++        s->data_ptr = deposit64(s->data_ptr, 32, 32, value);
++        break;
++    case REG_DATA_LEN:
++        s->data_len = value;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: unimplemented register write 0x%02"HWADDR_PRIx"\n",
++                      __func__, addr);
++        break;
++    }
++}
++
++static const MemoryRegionOps goldfish_tty_ops = {
++    .read = goldfish_tty_read,
++    .write = goldfish_tty_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid.max_access_size = 4,
++    .impl.max_access_size = 4,
++    .impl.min_access_size = 4,
++};
++
++static int goldfish_tty_can_receive(void *opaque)
++{
++    GoldfishTTYState *s = opaque;
++    int available = fifo8_num_free(&s->rx_fifo);
++
++    trace_goldfish_tty_can_receive(s, available);
++
++    return available;
++}
++
++static void goldfish_tty_receive(void *opaque, const uint8_t *buffer, int size)
++{
++    GoldfishTTYState *s = opaque;
++
++    trace_goldfish_tty_receive(s, size);
++
++    g_assert(size <= fifo8_num_free(&s->rx_fifo));
++
++    fifo8_push_all(&s->rx_fifo, buffer, size);
++
++    if (s->int_enabled && !fifo8_is_empty(&s->rx_fifo)) {
++        qemu_set_irq(s->irq, 1);
++    }
++}
++
++static void goldfish_tty_reset(DeviceState *dev)
++{
++    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++
++    trace_goldfish_tty_reset(s);
++
++    fifo8_reset(&s->rx_fifo);
++    s->int_enabled = false;
++    s->data_ptr = 0;
++    s->data_len = 0;
++}
++
++static void goldfish_tty_realize(DeviceState *dev, Error **errp)
++{
++    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++
++    trace_goldfish_tty_realize(s);
++
++    fifo8_create(&s->rx_fifo, GOLFISH_TTY_BUFFER_SIZE);
++    memory_region_init_io(&s->iomem, OBJECT(s), &goldfish_tty_ops, s,
++                          "goldfish_tty", 0x24);
++
++    if (qemu_chr_fe_backend_connected(&s->chr)) {
++        qemu_chr_fe_set_handlers(&s->chr, goldfish_tty_can_receive,
++                                 goldfish_tty_receive, NULL, NULL,
++                                 s, NULL, true);
++    }
++}
++
++static void goldfish_tty_unrealize(DeviceState *dev)
++{
++    GoldfishTTYState *s = GOLDFISH_TTY(dev);
++
++    trace_goldfish_tty_unrealize(s);
++
++    fifo8_destroy(&s->rx_fifo);
++}
++
++static const VMStateDescription vmstate_goldfish_tty = {
++    .name = "goldfish_tty",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(data_len, GoldfishTTYState),
++        VMSTATE_UINT64(data_ptr, GoldfishTTYState),
++        VMSTATE_BOOL(int_enabled, GoldfishTTYState),
++        VMSTATE_FIFO8(rx_fifo, GoldfishTTYState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static Property goldfish_tty_properties[] = {
++    DEFINE_PROP_CHR("chardev", GoldfishTTYState, chr),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void goldfish_tty_instance_init(Object *obj)
++{
++    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
++    GoldfishTTYState *s = GOLDFISH_TTY(obj);
++
++    trace_goldfish_tty_instance_init(s);
++
++    sysbus_init_mmio(dev, &s->iomem);
++    sysbus_init_irq(dev, &s->irq);
++}
++
++static void goldfish_tty_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    device_class_set_props(dc, goldfish_tty_properties);
++    dc->reset = goldfish_tty_reset;
++    dc->realize = goldfish_tty_realize;
++    dc->unrealize = goldfish_tty_unrealize;
++    dc->vmsd = &vmstate_goldfish_tty;
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
++}
++
++static const TypeInfo goldfish_tty_info = {
++    .name = TYPE_GOLDFISH_TTY,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .class_init = goldfish_tty_class_init,
++    .instance_init = goldfish_tty_instance_init,
++    .instance_size = sizeof(GoldfishTTYState),
++};
++
++static void goldfish_tty_register_types(void)
++{
++    type_register_static(&goldfish_tty_info);
++}
++
++type_init(goldfish_tty_register_types)
+diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+index f6f4fffd1b7c..4cf36ac637ba 100644
+--- a/hw/char/Kconfig
++++ b/hw/char/Kconfig
+@@ -64,3 +64,6 @@ config MCHP_PFSOC_MMUART
+ 
+ config SIFIVE_UART
+     bool
++
++config GOLDFISH_TTY
++    bool
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index 7ba38dbd965f..da5bb8b762e0 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -39,3 +39,5 @@ specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
+ specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
+ specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
+ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
++
++specific_ss.add(when: 'CONFIG_GOLDFISH_TTY', if_true: files('goldfish_tty.c'))
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 81026f661277..76d52938ead3 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -20,6 +20,16 @@ virtio_console_flush_buf(unsigned int port, size_t len, ssize_t ret) "port %u, i
+ virtio_console_chr_read(unsigned int port, int size) "port %u, size %d"
+ virtio_console_chr_event(unsigned int port, int event) "port %u, event %d"
+ 
++# goldfish_tty.c
++goldfish_tty_read(void *dev, unsigned int addr, unsigned int size, uint64_t value) "tty: %p reg: 0x%02x size: %d value: 0x%"PRIx64
++goldfish_tty_write(void *dev, unsigned int addr, unsigned int size, uint64_t value) "tty: %p reg: 0x%02x size: %d value: 0x%"PRIx64
++goldfish_tty_can_receive(void *dev, unsigned int available) "tty: %p available: %u"
++goldfish_tty_receive(void *dev, unsigned int size) "tty: %p size: %u"
++goldfish_tty_reset(void *dev) "tty: %p"
++goldfish_tty_realize(void *dev) "tty: %p"
++goldfish_tty_unrealize(void *dev) "tty: %p"
++goldfish_tty_instance_init(void *dev) "tty: %p"
++
+ # grlib_apbuart.c
+ grlib_apbuart_event(int event) "event:%d"
+ grlib_apbuart_writel_unknown(uint64_t addr, uint32_t value) "addr 0x%"PRIx64" value 0x%x"
+-- 
+2.29.2
+
 
