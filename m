@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE13533C5F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:44:09 +0100 (CET)
-Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8407733C5BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:33:59 +0100 (CET)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLsCG-0002Qh-RC
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35264)
+	id 1lLs2Q-0003zB-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lLrZF-0002bJ-Rl; Mon, 15 Mar 2021 14:03:50 -0400
-Received: from mail-pl1-f170.google.com ([209.85.214.170]:37503)
+ id 1lLrZI-0002d2-3g; Mon, 15 Mar 2021 14:03:52 -0400
+Received: from mail-pl1-f180.google.com ([209.85.214.180]:45299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lLrZE-0000r0-5I; Mon, 15 Mar 2021 14:03:49 -0400
-Received: by mail-pl1-f170.google.com with SMTP id 30so11138994ple.4;
- Mon, 15 Mar 2021 11:03:47 -0700 (PDT)
+ id 1lLrZG-0000rY-0S; Mon, 15 Mar 2021 14:03:51 -0400
+Received: by mail-pl1-f180.google.com with SMTP id u18so15675693plc.12;
+ Mon, 15 Mar 2021 11:03:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Mxj+g6b6U5ElCsYWP8nPrTN3O8eushUcHmHZFOrnJuo=;
- b=TCUZctHZVQZnjqvcCrST69hhASN48l2Rk79HJRZ2h/WhX7HjaUzDlFOWYT2EzmSU0m
- v6xhwxD7KL4bo/Z3G5EqnApi5KfukcPlk+repkRFv0dAeev0Gwq44lf8KkCi/79I0xaZ
- Mbf7QoTqvaFaEP6R4Fg5RMbO4xfpMj1PzuhI7f/5TXkcZXv3E5FGOLlFQ6mBq+nUCG9g
- mWiNqbE94t8hGgsdGvXtO+R/G5uid+t6tEuoWlWp+4TmDhzoEMgSkVuV2dYeuovGDTbK
- BGE6nBUa2KZzyoag59VPbbb81Y9JhXKQy6QbQOPVlsrCqjVUCsYmbB5Q66C76E4N+y/g
- +JfA==
-X-Gm-Message-State: AOAM530JPev5uwRHrxQ3JDmFBeAKEbo3MfHgb6OV8vVnNbpN+XwmE5cU
- 0Xw2s3PcqT+CeAlVhH0yiCYqhEaLGCg=
-X-Google-Smtp-Source: ABdhPJwHb1bjLHsnGffyzH0BVf16Tlw4a8u1VPvtfEWZSaRUHs6ZxNktU7s2TZB4UyA51JWJZbgZvA==
-X-Received: by 2002:a17:903:3053:b029:e6:5cde:bef with SMTP id
- u19-20020a1709033053b02900e65cde0befmr12525324pla.81.1615831426502; 
- Mon, 15 Mar 2021 11:03:46 -0700 (PDT)
+ bh=fWWeJn6aLiPnfFIqTJdojW7MYsA8Ah6EYQcBQWFcLVQ=;
+ b=hiy41nsQVJZXkF9JB0y7RfL02FSsM/stkuICt8c6kiMQwGlSUBSUmxFOEFFBcnnANT
+ gv/27SkAjOgupckyovj8xSh4gswDuAZm1D9i6GrIIByfmJmn+zJya6QztQcbnSmz6+ON
+ KzhwHeqg1MJx6YMi2Ve8dzB11Qubyz9dzKDpIOmCp9o6jdl0iIuVkRBV/a7FHU7H8eiC
+ oOuvSMD/pfxHLwKM5QDRwu1/6nOB81+0EcTyv5/LOK7sEit6HdSo0VK1asDAV9zG1Qmy
+ Jghszbz6muGxMWe84Z5mpy7h1VOBU310g6xEFnKPwbUXRYTsKyhTMOQ9uDVwuoNHpwlK
+ ig1A==
+X-Gm-Message-State: AOAM533OOIs+HqrNukGzkyafXhudsuqjHFwrRZZ5jYHID1aQxF8bxfvt
+ 9ltyK1DvQCPGpfeQd71b9FBW2dfkVcY=
+X-Google-Smtp-Source: ABdhPJwjuNrcZLthjcclIG3nWifYSlAYUhuyCteglbWW6e6l60WWBqXNnQhULkeMlTYBy31/x0uzkQ==
+X-Received: by 2002:a17:90a:4498:: with SMTP id
+ t24mr324674pjg.78.1615831428023; 
+ Mon, 15 Mar 2021 11:03:48 -0700 (PDT)
 Received: from localhost.localdomain ([73.93.153.95])
- by smtp.gmail.com with ESMTPSA id y194sm14267842pfb.21.2021.03.15.11.03.45
+ by smtp.gmail.com with ESMTPSA id y194sm14267842pfb.21.2021.03.15.11.03.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Mar 2021 11:03:46 -0700 (PDT)
+ Mon, 15 Mar 2021 11:03:47 -0700 (PDT)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/4] block: check for sys/disk.h
-Date: Mon, 15 Mar 2021 11:03:39 -0700
-Message-Id: <20210315180341.31638-3-j@getutm.app>
+Subject: [PATCH v3 3/4] block: detect DKIOCGETBLOCKCOUNT/SIZE before use
+Date: Mon, 15 Mar 2021 11:03:40 -0700
+Message-Id: <20210315180341.31638-4-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210315180341.31638-1-j@getutm.app>
 References: <20210315180341.31638-1-j@getutm.app>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.214.170;
- envelope-from=osy86github@gmail.com; helo=mail-pl1-f170.google.com
+Received-SPF: pass client-ip=209.85.214.180;
+ envelope-from=osy86github@gmail.com; helo=mail-pl1-f180.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -74,47 +73,73 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Joelle van Dyne <j@getutm.app>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Joelle van Dyne <j@getutm.app>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some BSD platforms do not have this header.
+iOS hosts do not have these defined so we fallback to the
+default behaviour.
 
+Co-authored-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- meson.build | 1 +
- block.c     | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ block/file-posix.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 59c7c56366..2c01e2494c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1153,6 +1153,7 @@ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
- config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
- config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
-+config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
- 
- config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
- 
-diff --git a/block.c b/block.c
-index f377158c42..c9729bdf21 100644
---- a/block.c
-+++ b/block.c
-@@ -54,7 +54,7 @@
- #ifdef CONFIG_BSD
- #include <sys/ioctl.h>
- #include <sys/queue.h>
--#ifndef __DragonFly__
-+#if defined(HAVE_SYS_DISK_H)
- #include <sys/disk.h>
+diff --git a/block/file-posix.c b/block/file-posix.c
+index d1ab3180ff..2a14b881d0 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2326,8 +2326,11 @@ static int64_t raw_getlength(BlockDriverState *bs)
+ again:
  #endif
- #endif
+     if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
++        size = 0;
+ #ifdef DIOCGMEDIASIZE
+-        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
++        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size)) {
++            size = 0;
++        }
+ #elif defined(DIOCGPART)
+         {
+                 struct partinfo pi;
+@@ -2336,9 +2339,7 @@ again:
+                 else
+                         size = 0;
+         }
+-        if (size == 0)
+-#endif
+-#if defined(__APPLE__) && defined(__MACH__)
++#elif defined(DKIOCGETBLOCKCOUNT) && defined(DKIOCGETBLOCKSIZE)
+         {
+             uint64_t sectors = 0;
+             uint32_t sector_size = 0;
+@@ -2346,19 +2347,15 @@ again:
+             if (ioctl(fd, DKIOCGETBLOCKCOUNT, &sectors) == 0
+                && ioctl(fd, DKIOCGETBLOCKSIZE, &sector_size) == 0) {
+                 size = sectors * sector_size;
+-            } else {
+-                size = lseek(fd, 0LL, SEEK_END);
+-                if (size < 0) {
+-                    return -errno;
+-                }
+             }
+         }
+-#else
+-        size = lseek(fd, 0LL, SEEK_END);
++#endif
++        if (size == 0) {
++            size = lseek(fd, 0LL, SEEK_END);
++        }
+         if (size < 0) {
+             return -errno;
+         }
+-#endif
+ #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+         switch(s->type) {
+         case FTYPE_CD:
 -- 
 2.28.0
 
