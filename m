@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45F333C60F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:49:31 +0100 (CET)
-Received: from localhost ([::1]:38234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC8433C60C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:48:45 +0100 (CET)
+Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLsHS-000236-Pv
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45572)
+	id 1lLsGi-0000ak-MM
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:48:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lLs5O-0001zE-Vh
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:37:03 -0400
-Resent-Date: Mon, 15 Mar 2021 14:37:02 -0400
-Resent-Message-Id: <E1lLs5O-0001zE-Vh@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lLs5M-0005fL-3G
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:37:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1615833412; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=l5z1ji5/JQWN3r/HFQbbwkL7ExbOZcQ+cSWGsUJB+7RhbfTI3OwsEol23EO3l+8+cCxOj7xmGnmFQPE3VLWBoG04PBugcIxlHZIPaCgh3NsBwD8FVr2PpDaJJ1s20B7ESlHlzl3ReDAcnTy7RbsgTsIrGY7U5SvojSuZlEDon4s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615833412;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=qvlQFqiaPiAP9FOSW578sdm82UySpMSsUriDMRODM3M=; 
- b=Fb9FiCZrQKYgtDi9PAG22lA/gYW6kbxqMJMi03APvknd4Gpwa15vppeX2YMvIJBAa+df+Ddh1UllS+6yuhIHuDp5Hxg/26ZRCWZ9NmVfKYaV2yRYnYqN4iV4zTt8YgQKy72LZnnQIlBfySyKEgGmORCxfMPbqJJU92GaVauGeEA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615833409604510.8521619982529;
- Mon, 15 Mar 2021 11:36:49 -0700 (PDT)
-In-Reply-To: <20210315180102.3008391-1-imammedo@redhat.com>
-Subject: Re: [PATCH 0/6] pc: support user provided NIC naming/indexing
-Message-ID: <161583340826.29026.17366591502722428122@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLs6E-0002r3-1D
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:37:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLs67-0005wb-I1
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:37:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615833461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l6zZtum/JNABa8viRuhhtzy2AkIIpw6FKZlX2v2cz5I=;
+ b=GIYsvopGQcQl2qrrw9YjhjL1PVaUPW0EUlRhNBrPw6ylIPjba/sWnJ2vR5gwYbvJIUvYHb
+ wM9ldckFJC5IV7FyiKIVk5BHtP9dRHozNX2fiwfJ2oSrXeRqRi1bdl59T+/lveA/bMYfEq
+ l+MdVpLob9VHhp/mAzSl5Xf8ZegPACQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-E4LfpLLENuSw3GEX10h8-w-1; Mon, 15 Mar 2021 14:37:39 -0400
+X-MC-Unique: E4LfpLLENuSw3GEX10h8-w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21AFC94EE0;
+ Mon, 15 Mar 2021 18:37:38 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65F8F5D9C0;
+ Mon, 15 Mar 2021 18:36:53 +0000 (UTC)
+Subject: Re: [PATCH v2 10/13] block: remove 'encryption_key_missing' flag from
+ QAPI
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210315174523.979666-1-berrange@redhat.com>
+ <20210315174523.979666-11-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9f7add09-481e-0baa-1073-0ba1024c12a3@redhat.com>
+Date: Mon, 15 Mar 2021 13:36:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: imammedo@redhat.com
-Date: Mon, 15 Mar 2021 11:36:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210315174523.979666-11-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,76 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNTE4MDEwMi4zMDA4
-MzkxLTEtaW1hbW1lZG9AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzE1MTgwMTAyLjMw
-MDgzOTEtMS1pbWFtbWVkb0ByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCAwLzZdIHBjOiBzdXBw
-b3J0IHVzZXIgcHJvdmlkZWQgTklDIG5hbWluZy9pbmRleGluZwoKPT09IFRFU1QgU0NSSVBUIEJF
-R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
-aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
-U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
-YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxNTE4MDEwMi4zMDA4MzkxLTEtaW1h
-bW1lZG9AcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMzE1MTgwMTAyLjMwMDgzOTEtMS1pbWFt
-bWVkb0ByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYzA2OTJiNCB0
-ZXN0czogYWNwaTogdXBkYXRlIGV4cGVjdGVkIGJsb2JzCjFhODQzZDkgcGNpOiBhY3BpOiBhZGQg
-X0RTTSBtZXRob2QgdG8gUENJIGRldmljZXMKNmI1NTU4NiBhY3BpOiBhZGQgYW1sX3RvX2RlY2lt
-YWxzdHJpbmcoKSBhbmQgYW1sX2NhbGw2KCkgaGVscGVycwo3Yjg4N2Y0IHBjaTogYWNwaTogZW5z
-dXJlIHRoYXQgYWNwaS1pbmRleCBpcyB1bmlxdWUKNDA1NjI5MSBwY2k6IGludHJvZHVjZSBhcGNp
-LWluZGV4IHByb3BlcnR5IGZvciBQQ0kgZGV2aWNlCjliZDNhMWIgdGVzdHM6IGFjcGk6IHRlbXBv
-cmFyeSB3aGl0ZWxpc3QgRFNEVCBjaGFuZ2VzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzYgQ2hl
-Y2tpbmcgY29tbWl0IDliZDNhMWI5NGMwZiAodGVzdHM6IGFjcGk6IHRlbXBvcmFyeSB3aGl0ZWxp
-c3QgRFNEVCBjaGFuZ2VzKQoyLzYgQ2hlY2tpbmcgY29tbWl0IDQwNTYyOTE1YWNkZSAocGNpOiBp
-bnRyb2R1Y2UgYXBjaS1pbmRleCBwcm9wZXJ0eSBmb3IgUENJIGRldmljZSkKRVJST1I6IE1hY3Jv
-cyB3aXRoIGNvbXBsZXggdmFsdWVzIHNob3VsZCBiZSBlbmNsb3NlZCBpbiBwYXJlbnRoZXNpcwoj
-Mjg0OiBGSUxFOiBpbmNsdWRlL2h3L2FjcGkvcGNpaHAuaDo3NzoKKyNkZWZpbmUgVk1TVEFURV9Q
-Q0lfSE9UUExVRyhwY2locCwgc3RhdGUsIHRlc3RfcGNpaHAsIHRlc3RfYWNwaV9pbmRleCkgXAog
-ICAgICAgICBWTVNUQVRFX1VJTlQzMl9URVNUKHBjaWhwLmhvdHBsdWdfc2VsZWN0LCBzdGF0ZSwg
-XAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRlc3RfcGNpaHApLCBcCiAgICAgICAgIFZN
-U1RBVEVfU1RSVUNUX0FSUkFZX1RFU1QocGNpaHAuYWNwaV9wY2locF9wY2lfc3RhdHVzLCBzdGF0
-ZSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEFDUElfUENJSFBfTUFYX0hP
-VFBMVUdfQlVTLCBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGVzdF9wY2lo
-cCwgMSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZtc3RhdGVfYWNwaV9w
-Y2locF9wY2lfc3RhdHVzLCBcCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQWNw
-aVBjaUhwUGNpU3RhdHVzKQorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEFjcGlQ
-Y2lIcFBjaVN0YXR1cyksIFwKKyAgICAgICAgVk1TVEFURV9VSU5UMzJfVEVTVChwY2locC5hY3Bp
-X2luZGV4LCBzdGF0ZSwgXAorICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRlc3RfYWNwaV9p
-bmRleCkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTk3IGxpbmVzIGNoZWNrZWQKClBh
-dGNoIDIvNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy82IENoZWNraW5nIGNvbW1pdCA3
-Yjg4N2Y0MjQxOWEgKHBjaTogYWNwaTogZW5zdXJlIHRoYXQgYWNwaS1pbmRleCBpcyB1bmlxdWUp
-CjQvNiBDaGVja2luZyBjb21taXQgNmI1NTU4NjlhZDY2IChhY3BpOiBhZGQgYW1sX3RvX2RlY2lt
-YWxzdHJpbmcoKSBhbmQgYW1sX2NhbGw2KCkgaGVscGVycykKV0FSTklORzogQmxvY2sgY29tbWVu
-dHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI3OiBGSUxFOiBody9hY3Bp
-L2FtbC1idWlsZC5jOjY0MDoKKyAgICBBbWwgKnZhciA9IGFtbF9vcGNvZGUoMHg5NyAvKiBUb0Rl
-Y2ltYWxTdHJpbmdPcCAqLyk7CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5n
-IC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzI6IEZJTEU6IGh3L2FjcGkvYW1sLWJ1aWxkLmM6NjQ1
-OgorICAgICAgICBidWlsZF9hcHBlbmRfYnl0ZSh2YXItPmJ1ZiwgMHgwMCAvKiBOdWxsTmFtZU9w
-ICovKTsKCnRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgNTUgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggNC82IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvNiBDaGVja2luZyBjb21taXQgMWE4
-NDNkOWRlNTVlIChwY2k6IGFjcGk6IGFkZCBfRFNNIG1ldGhvZCB0byBQQ0kgZGV2aWNlcykKV0FS
-TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUK
-IzEyNzogRklMRTogaHcvaTM4Ni9hY3BpLWJ1aWxkLmM6NTY4OgorICAgICAgICAgICAgICAgICAg
-ICAgICAgMSAvKiBoYXZlIHN1cHBvcnRlZCBmdW5jdGlvbnMgKi8gfAoKdG90YWw6IDAgZXJyb3Jz
-LCAxIHdhcm5pbmdzLCAxNDAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS82IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjYvNiBDaGVja2luZyBjb21taXQgYzA2OTJiNGI3ZGYwICh0ZXN0czogYWNw
-aTogdXBkYXRlIGV4cGVjdGVkIGJsb2JzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
-ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
-Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDMxNTE4MDEwMi4zMDA4MzkxLTEtaW1hbW1lZG9AcmVk
-aGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
-YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
-YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 3/15/21 12:45 PM, Daniel P. Berrangé wrote:
+> This has been hardcoded to "false" since 2.10.0, since secrets required
+> to unlock block devices are now always provided upfront instead of using
+
+up front
+
+> interactive prompts.
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  block/qapi.c                     |  1 -
+>  docs/system/deprecated.rst       | 10 -------
+>  docs/system/removed-features.rst | 10 +++++++
+>  qapi/block-core.json             |  8 ------
+>  tests/qemu-iotests/184.out       |  6 ++--
+>  tests/qemu-iotests/191.out       | 48 +++++++++++---------------------
+>  tests/qemu-iotests/273.out       | 15 ++++------
+>  7 files changed, 33 insertions(+), 65 deletions(-)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
