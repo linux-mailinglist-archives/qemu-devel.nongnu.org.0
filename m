@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8EE33C455
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:35:44 +0100 (CET)
-Received: from localhost ([::1]:54062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032A533C49E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:39:32 +0100 (CET)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLr83-0007EW-Qy
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50522)
+	id 1lLrBg-0002Dn-VE
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lLr4e-0005QI-Mx
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:32:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lLr4c-00048N-5V
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:32:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615829529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PIDOd9W5XbJXp6f8PXV1cuJovu5SKnvhyuxw9hOgUFw=;
- b=Prv+ObWXvs2zXatOLFnC0g8L0bq1sezhvHbdqSghVzgT035F1d74SNSHMsg1oaJAV1Jct9
- s12sM4aU7SRejwbE5tmbZAAZbxTAPVjSt6mMUi6bzwdmkz9nMr2RLbIzG2At8p6TfxjKU5
- k6lpJB7guyJosiost4TFxgpzcDWRRkk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-ylfuJVsePUaVUIU94nyKWA-1; Mon, 15 Mar 2021 13:32:06 -0400
-X-MC-Unique: ylfuJVsePUaVUIU94nyKWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 702EC1966321
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 17:32:05 +0000 (UTC)
-Received: from gondolin (ovpn-113-87.ams2.redhat.com [10.36.113.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BF5019D7C;
- Mon, 15 Mar 2021 17:32:04 +0000 (UTC)
-Date: Mon, 15 Mar 2021 18:32:01 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: mrezanin@redhat.com
-Subject: Re: [PATCH v3] Add missing initialization for g_autofree variables
-Message-ID: <20210315183201.023769e9.cohuck@redhat.com>
-In-Reply-To: <20210315101352.152888-1-mrezanin@redhat.com>
-References: <20210315101352.152888-1-mrezanin@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lLr7w-0008Hm-0I
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:35:36 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:34251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lLr7g-0005Nw-8u
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:35:30 -0400
+Received: by mail-io1-xd35.google.com with SMTP id o11so34332972iob.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 10:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4FTo0J7NRfiaMnJjHelZrG/tsjW/pNVfNNe8ZmZwlqQ=;
+ b=mdOHCHtalJwxdG64hNQfeGWPLCVGAbWHfxWXeOjNZ8mCetIxbDl6/rB/g5wa4YgDLi
+ EJ9dn7LnB+VJGxkeKxNukRF56GHVGnkFPdKGPyKzo3Rc+2SD/Zc3InwE9iKQ5uEBIXtK
+ kmpLhGMkzrwKpNZh+5mxz9fTWET38aRtXvENUJrb7vGb3aSzHSAHCnhmrDnTR7voEweh
+ oou75kLR4QAGccO5g2fqGzMhpBVp7LcdZWWTtNJOYwhd4szQgtIzV1N9Qpo0MG4zy8JE
+ cBCrkwF4QqYLsdf2qHGjg0PM3p6eBMpdetEN/MPcwASspVxtRMBXwdsYyJAWGt7fXzp3
+ qEOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4FTo0J7NRfiaMnJjHelZrG/tsjW/pNVfNNe8ZmZwlqQ=;
+ b=qyM7ZJZSErY7XRB4nbrI1dMzteRDdPsv3HpkW9GynlN0r7nQJUWIEuIFilThUM8lBA
+ sFDcafL4z1nRUgSJcCVHKdmIaOVnRTOUcF4uXdsY9PeC8OayuoZCv7vATYWAe+KBqfFj
+ FTa5Gqh58kVapaZm7CDA8fZUMJlebNVrRnuHqYuC7JwomqXmj8xBnw8z8ZurL4NwwuZB
+ DY2cD2A28nidkRp2VYqOSQwgugTmrKqx/FldlLOBx5/TDpH7+LBPOPz2jEwLuZCymtbs
+ V2uWi8UqSh9UOw+1jcJyJr/YqkkfUCEA+LUnQv8xIIndEsppCzfR8CROWvB5y/pi+odV
+ X1KQ==
+X-Gm-Message-State: AOAM532FmOedDueZi8+SgOPHVPS3jQzI4tQWbwSZ2G7EY4ndcUMdHRpx
+ HYkYwyEmM9i7UMkSW6k3q8oYiAKQsEVTpR1HJKk=
+X-Google-Smtp-Source: ABdhPJzO2Cer6+jXeFSDzsX0NwkAUqN0xugSIKMyx1Ekutas6Yr3BnZp+gLXUDgL5EA+t1s3m74PkhA2RT1j6Egmbnc=
+X-Received: by 2002:a6b:4f09:: with SMTP id d9mr528079iob.60.1615829718118;
+ Mon, 15 Mar 2021 10:35:18 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210314032324.45142-1-ma.mandourr@gmail.com>
+ <20210314032324.45142-4-ma.mandourr@gmail.com>
+ <87y2eo8kd5.fsf@linaro.org>
+In-Reply-To: <87y2eo8kd5.fsf@linaro.org>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Mon, 15 Mar 2021 19:35:07 +0200
+Message-ID: <CAD-LL6htGxRPPM3VyTvE=OGQPUc+_UobTmSQ=q_wWPHw5f1y0w@mail.gmail.com>
+Subject: Re: [PATCH 3/8] hw/audio/fmopl.c: Replaced calls to malloc with
+ GLib's variants
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000005db20b05bd96aca0"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,73 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Mar 2021 11:13:52 +0100
-mrezanin@redhat.com wrote:
+--0000000000005db20b05bd96aca0
+Content-Type: text/plain; charset="UTF-8"
 
-> From: Miroslav Rezanina <mrezanin@redhat.com>
-> 
-> When declaring g_autofree variable without inicialization, compiler
-> will raise "may be used uninitialized in this function" warning due
-> to automatic free handling.
-> 
-> This is mentioned in docs/devel/style.rst (quote from section
-> "Automatic memory deallocation"):
-> 
->   * Variables declared with g_auto* MUST always be initialized,
->     otherwise the cleanup function will use uninitialized stack memory
-> 
-> Add inicialization for these declarations to prevent the warning and
-> comply with coding style.
-> 
-> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> 
-> ---
-> * v3:
->   -- allocate in s390_pci_update_dma_avail instead of NULL init
-> 
-> * v2:
->   -- Removed fixes in hw/remote/memory.c and hw/remote/proxy.c
->      fixed by patch sent by Zenghui Yu (multi-process: Initialize
->      variables declared with g_auto*)
-> ---
->  hw/s390x/s390-pci-vfio.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index ead4f222d5..2a153fa8c9 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -29,14 +29,11 @@
->   */
->  bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
->  {
-> -    g_autofree struct vfio_iommu_type1_info *info;
-> -    uint32_t argsz;
-> +    uint32_t argsz = sizeof(struct vfio_iommu_type1_info);
-> +    g_autofree struct vfio_iommu_type1_info *info = g_malloc0(argsz);
->  
->      assert(avail);
->  
-> -    argsz = sizeof(struct vfio_iommu_type1_info);
-> -    info = g_malloc0(argsz);
-> -
->      /*
->       * If the specified argsz is not large enough to contain all capabilities
->       * it will be updated upon return from the ioctl.  Retry until we have
-> @@ -230,7 +227,7 @@ static void s390_pci_read_pfip(S390PCIBusDevice *pbdev,
->   */
->  void s390_pci_get_clp_info(S390PCIBusDevice *pbdev)
->  {
-> -    g_autofree struct vfio_device_info *info;
-> +    g_autofree struct vfio_device_info *info = NULL;
->      VFIOPCIDevice *vfio_pci;
->      uint32_t argsz;
->      int fd;
+Thank you for the valuable feedback. I tried as much as I could to maintain
+the semantics as is, only changing the calls to GLib's functions.
 
-Thanks, applied.
+To assure myself that I understood the directions of your feedback, the
+initialization
+of the tables can be done using g_malloc directly and all the null checks
+for the tables
+to be dropped. And that's because of the cruciality of this initialization
+code.
 
+Can you please elaborate more on how I would employ g_autofree in this
+code? Are
+you talking about the memory allocated for ``ptr`` in OPLCreate here?
+
+Thanks
+Mahmoud Mandour
+
+--0000000000005db20b05bd96aca0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thank you for the valuable=C2=A0feedback. I tried as much=
+=C2=A0as I could to maintain<div>the semantics=C2=A0as is, only changing th=
+e calls to GLib&#39;s=C2=A0functions.</div><div><br></div><div>To assure my=
+self that I understood the directions of your feedback, the initialization<=
+/div><div>of the tables can be done using g_malloc directly and all the nul=
+l checks for the tables</div><div>to be dropped. And that&#39;s because of =
+the cruciality of this initialization code.=C2=A0</div><div><br></div><div>=
+Can you please elaborate more on how I would employ g_autofree in this code=
+? Are=C2=A0</div><div>you talking about the memory allocated for ``ptr`` in=
+ OPLCreate here?</div><div><br></div><div>Thanks</div><div>Mahmoud Mandour<=
+/div></div>
+
+--0000000000005db20b05bd96aca0--
 
