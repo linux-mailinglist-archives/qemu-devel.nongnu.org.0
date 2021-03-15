@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B264A33C4BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:47:39 +0100 (CET)
-Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3504533C4BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:43:57 +0100 (CET)
+Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrJa-00006O-PE
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53136)
+	id 1lLrG0-0004ws-7b
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lLrBZ-0002vr-1S
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:39:21 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41082)
+ id 1lLrBY-0002vf-TG
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:39:20 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lLrBW-0006v3-Ee
+ id 1lLrBW-0006ve-Vu
  for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:39:20 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id f12so9101215wrx.8
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 10:39:17 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id l19so8617113wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 10:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CwyeBE/rSeOSOt/j0aIHZXlsOGpeFiSn+IzklQT180A=;
- b=pIiacPN+nPzgghYQDDjJFCEgwNe4V53AHXHiQ8wyg9Tzpevyl6pgwLJDAUf+0OSa9N
- mTALkrK65qngUHJPxkOysAKGsc+GRAsNRabo47hOh76bQuOjsfxP5789a+APMYeVB5Hl
- AGSfRUIjtE5QSVsO6zym6TV84bMYenJw4GK/spOis45WWxvkzdydxhwZLHXMUp2gr3b0
- q5bMSg23cEG+xJcQr8da4kHJ/T9Uze7rIhVC4PW303quYtRdF4T7lcA8PeXB123x6jZt
- sfDLsQP3Gt0SZTFSg9Qk0o/le3mSIH2VTVVOw7J3VpPWQLJ04hSnCJYt/qZFrJup9Fr/
- DDOg==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ROvDIv+xkeg8KzSTHDshfuJ8iLFDFQ5jv8EnC07Y4kk=;
+ b=Hw7Dp14KEegMevm2JegvhzOIiHvtCqFudIXnNmJzopTSYY0KS/uNeZfUphNgSw6vDf
+ oUyeXMESm/4ME4A+wat8SIOH8Bk72v95LzXs9Z8kEJb+LTXR2+pe07uYHcmTS4f2SDVY
+ z39cazgMYRjjGXsFdn3lBU8fo9K2ZpU8ttGDNaHNaHXXkKEghn+ydhAp3LSwRBDP7/Ku
+ GJ00Uud+GQJXQCTFqTxrNuHrNcNeLly1vg20Sxz7AB5VKp2NuF3WjOE8pgvdps2loj3B
+ GqR8ksCXtQ2SyQ14/eDBFF3194HALvCxv4TEE3JsIWak+4L9doVmafrAZgQma6FcN0+q
+ VR8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=CwyeBE/rSeOSOt/j0aIHZXlsOGpeFiSn+IzklQT180A=;
- b=IfSryLeoqu3CkaQmkiDqOUCgCsLRyRBeOrvNoJtr5BmHcWtxmn9AlL+vQIkKOOUCRv
- oYuLso6sonIqgPlk9TTrTom07xF7mNOiFWTS1w5jljvd/rvMfDpYmyUhnCYCFmZaOm9l
- Y5XHAP/jVCXoRWFJ7y2gnTLJCxMcQ/GQzfTmWs9lM9CPSPl8GsIg5XR7ta6K9gxjvdq3
- efj2GwCV61O/85xy849KfDxmxIL/BV89/xShRgNXhYLi71eLssll1xwf7+HHF8J6jCTY
- H4/2H3xaiKjKxMzC+DF7Youaesk5w0OrvF1btgx5ObHbfi3YXGbOQwmWW6pjzfp7DB/f
- kU7Q==
-X-Gm-Message-State: AOAM531LZ2lC8UikGc0h2S+HdxjfeC16nnAWHA2DQpZK6ibg+8kIxu1R
- /nVL1HUG5erZmuuA8Vah9ZCEuUOlVrw=
-X-Google-Smtp-Source: ABdhPJxDQ6SBpa/5XaGhMP1qLpBO2Ith4PNuyPMujROXynqNzFkPvrKYQpbYmwgzFY485EiCcutoeg==
-X-Received: by 2002:adf:a3d3:: with SMTP id m19mr807738wrb.24.1615829956699;
- Mon, 15 Mar 2021 10:39:16 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ROvDIv+xkeg8KzSTHDshfuJ8iLFDFQ5jv8EnC07Y4kk=;
+ b=Xda9m+rRgvx1AEQC9HL+2p+HKJIPyKHMftD41rhcXY5dfKV2a6LSKetXpVLEk72baS
+ /Abh4o1L7FwUe3CNbg2uIDQRfeSOIvrCs3OaEhQRNp1jl0c01AFJ2E1vy87aghAQmBmM
+ piUly9cc4HyQ0uur6GkKGCazYLNzhmPV2IyAybaVIwPqsDBR/5xQLjmaIGltVTBTpsS5
+ 6RzzGKU4Tw0uUYwNOs7WLxtLev/811x5QtclqbkUegegVTmUIbHPIzlagGeZoTOSQcwV
+ yA8g513gkPrXjkv9ciiCRDKU+eCuEIsL+/wnf1ZaarX5q34ASJZguWlqkaGtlPoVMv2i
+ O4gg==
+X-Gm-Message-State: AOAM531odB4HvNLSJN66Yw/a5Ein1LsCtgNjZX580BXM95dZ0QyGBnCm
+ Z4Xb1GciDXlVpZ2htXdtlTXdCdWk6cM=
+X-Google-Smtp-Source: ABdhPJz2uzCc5dkfiqJV7kR1Gx9IW2WwnlsY/B06/cGPFE6ntP2Z6rLGIMt3/ekAsnGXsfWmwi+GFg==
+X-Received: by 2002:a1c:7519:: with SMTP id o25mr757377wmc.35.1615829957350;
+ Mon, 15 Mar 2021 10:39:17 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- m132sm295613wmf.45.2021.03.15.10.39.15 for <qemu-devel@nongnu.org>
+ m132sm295613wmf.45.2021.03.15.10.39.16 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 10:39:16 -0700 (PDT)
+ Mon, 15 Mar 2021 10:39:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/5] Meson version update
-Date: Mon, 15 Mar 2021 18:39:07 +0100
-Message-Id: <20210315173912.197857-1-pbonzini@redhat.com>
+Subject: [PULL 1/5] hexagon: do not specify executables as inputs
+Date: Mon, 15 Mar 2021 18:39:08 +0100
+Message-Id: <20210315173912.197857-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210315173912.197857-1-pbonzini@redhat.com>
+References: <20210315173912.197857-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,45 +87,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 51204c2f188ec1e2a38f14718d38a3772f850a4b:
+gen_semantics is an executable, not an input.  Meson 0.57 special cases
+the first argument and @INPUT@ is not expanded there.  Fix that by
+not including it in the input, only in the command.
 
-  Merge remote-tracking branch 'remotes/bkoppelmann2/tags/pull-tricore-20210314' into staging (2021-03-15 15:34:27 +0000)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/hexagon/meson.build | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson-0.57
-
-for you to fetch changes up to 57d42c3b774d0716b9ad1a5a576480521edc7201:
-
-  hexagon: use env keyword argument to pass PYTHONPATH (2021-03-15 18:06:21 +0100)
-
-v1->v2: rebased
-
-----------------------------------------------------------------
-Update Meson to 0.57.
-
-----------------------------------------------------------------
-Paolo Bonzini (5):
-      hexagon: do not specify executables as inputs
-      hexagon: do not specify Python scripts as inputs
-      meson: bump submodule to 0.57.1
-      meson: switch minimum meson version to 0.57.0
-      hexagon: use env keyword argument to pass PYTHONPATH
-
- configure                               |  7 +----
- docs/meson.build                        | 12 ++++----
- meson                                   |  2 +-
- meson.build                             | 54 +++++++++++++++------------------
- plugins/meson.build                     |  4 +--
- scripts/mtest2make.py                   |  7 ++---
- target/hexagon/meson.build              | 37 ++++++++--------------
- tests/docker/dockerfiles/centos7.docker |  2 +-
- tests/qapi-schema/meson.build           |  4 +--
- tests/qtest/meson.build                 |  2 +-
- tests/unit/meson.build                  |  2 +-
- trace/meson.build                       |  4 +--
- 12 files changed, 57 insertions(+), 80 deletions(-)
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+index 15318a6fa7..5dd68907b1 100644
+--- a/target/hexagon/meson.build
++++ b/target/hexagon/meson.build
+@@ -33,8 +33,7 @@ gen_semantics = executable(
+ semantics_generated = custom_target(
+     'semantics_generated.pyinc',
+     output: 'semantics_generated.pyinc',
+-    input: gen_semantics,
+-    command: ['@INPUT@', '@OUTPUT@'],
++    command: [gen_semantics, '@OUTPUT@'],
+ )
+ hexagon_ss.add(semantics_generated)
+ 
+@@ -154,8 +153,7 @@ gen_dectree_import = executable(
+ iset_py = custom_target(
+     'iset.py',
+     output: 'iset.py',
+-    input: gen_dectree_import,
+-    command: ['@INPUT@', '@OUTPUT@'],
++    command: [gen_dectree_import, '@OUTPUT@'],
+ )
+ hexagon_ss.add(iset_py)
+ 
 -- 
 2.29.2
+
 
 
