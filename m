@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE1733AB05
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 06:33:38 +0100 (CET)
-Received: from localhost ([::1]:40170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BF733AB17
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 06:39:40 +0100 (CET)
+Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLfrE-0008Jx-PY
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 01:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
+	id 1lLfx5-0001T8-5d
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 01:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLfq5-0007tD-Iz
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 01:32:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLfq3-0001CU-7n
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 01:32:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615786341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mRB4+vM3plksvateWx4pZqHvzVltYM8Gt0FO6PUa3vI=;
- b=SkSXynzvmZKH0Fn7fZNln1Qtwn88V7zC+ef7lqmpyCvFfBePB+F8BGKmAYzdQoNRZbUBPh
- WkkKHuS4VOX9Henfr1dPfLBfVXOsyAvRiwvhaL6Hf7tudkoja8iC3x1Xpy3yrAnAhpKhnw
- 0nYjsq/HAjJfC2c+nJVU6914VdGpbtc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-XXFPYbvdNRudmcecyVLBcw-1; Mon, 15 Mar 2021 01:32:19 -0400
-X-MC-Unique: XXFPYbvdNRudmcecyVLBcw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D931363A8;
- Mon, 15 Mar 2021 05:32:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FE1C46;
- Mon, 15 Mar 2021 05:32:17 +0000 (UTC)
-Subject: Re: [PATCH] utils: Use fma in qemu_strtosz
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210314234821.1954428-1-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8422f58c-743b-e028-a116-b7c3b507e3c9@redhat.com>
-Date: Mon, 15 Mar 2021 06:32:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lLfuX-0000si-49; Mon, 15 Mar 2021 01:37:01 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:50250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lLfuT-00044Y-2q; Mon, 15 Mar 2021 01:36:59 -0400
+Received: from sas1-6b1512233ef6.qloud-c.yandex.net
+ (sas1-6b1512233ef6.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:44af:0:640:6b15:1223])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 57E3A2E145B;
+ Mon, 15 Mar 2021 08:36:49 +0300 (MSK)
+Received: from sas1-24e978739efd.qloud-c.yandex.net
+ (sas1-24e978739efd.qloud-c.yandex.net [2a02:6b8:c14:3088:0:640:24e9:7873])
+ by sas1-6b1512233ef6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ GP1o4DYCz0-amC8rcwX; Mon, 15 Mar 2021 08:36:49 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1615786609; bh=4dlUTjEpRn6ddtJC3ldLGnMUrlMYRBlnnx4LRGv9QGM=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=XyCDG3H2ytfnhq0/2a6YeOHMu2CVCWejseWWhD2g0o7j5MybrHjgZc3eOdfq66DAI
+ hFWILxrd3qxLVbWi8rpGO5+8svN5mrZZzw5suSp2Bu2f2atYB7H9KqrPKLPh/tk0cK
+ uikuBVUZj/d5oL8zjoy6o1HH14wYiTpwRq9mRUhg=
+Authentication-Results: sas1-6b1512233ef6.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:23::1:15])
+ by sas1-24e978739efd.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 91xQJCzdSo-amnu2rhh; Mon, 15 Mar 2021 08:36:48 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Mon, 15 Mar 2021 08:36:44 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [RFC] nbd: decouple reconnect from drain
+Message-ID: <YE7ybMq7YdkSrFco@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, yc-core@yandex-team.ru,
+ Max Reitz <mreitz@redhat.com>
+References: <20210310093232.519585-1-rvkagan@yandex-team.ru>
+ <a1d202b2-ddb6-e173-c0a7-e3199b641499@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210314234821.1954428-1-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1d202b2-ddb6-e173-c0a7-e3199b641499@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,43 +78,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2021 00.48, Richard Henderson wrote:
-> Use fma to simulatneously scale and round up fraction.
+On Fri, Mar 12, 2021 at 03:35:25PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 10.03.2021 12:32, Roman Kagan wrote:
+> > NBD connect coroutine takes an extra in_flight reference as if it's a
+> > request handler.  This prevents drain from completion until the
+> > connection coroutine is releases the reference.
+> > 
+> > When NBD is configured to reconnect, however, this appears to be fatal
+> > to the reconnection idea: the drain procedure wants the reconnection to
+> > be suspended, but this is only possible if the in-flight requests are
+> > canceled.
 > 
-> The libm function will always return a properly rounded double precision
-> value, which will eliminate any extra precision the x87 co-processor may
-> give us, which will keep the output predictable vs other hosts.
+> As I remember from our conversation, the problem is not that we don't
+> reconnect during drained section, but exactly that we cancel requests
+> on drained begins starting from 8c517de24a8a1dcbeb.
+
+Well, I'd put it the other way around: the problem is that we don't
+reconnect during the drained section, so the requests can't be
+successfully completed if the connection breaks: they can either stall
+forever (before 8c517de24a8a1dcbeb) or be aborted (after
+8c517de24a8a1dcbeb).
+
+> This is not a problem in scenarios when reconnect is rare case and
+> failed request is acceptable. But if we have bad connection and
+> requests should often wait for reconnect (so, it may be considered as
+> a kind of "latency") then really, cancelling the waiting requests on
+> any drain() kills the reconnect feature.
+
+In our experience the primary purpose of reconnect is not to withstand
+poor network links, but about being able to restart the NBD server
+without disrupting the guest operation.  So failing the requests during
+the server maintenance window is never acceptable, no matter how rare it
+is (and in our practice it isn't).
+
+> > Fix this by making the connection coroutine stop messing with the
+> > in-flight counter.  Instead, certain care is taken to properly move the
+> > reconnection stuff from one aio_context to another in
+> > .bdrv_{attach,detach}_aio_context callbacks.
+> > 
+> > Fixes: 5ad81b4946 ("nbd: Restrict connection_co reentrance")
+> > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> > ---
+> > This patch passes the regular make check but fails some extra iotests,
+> > in particular 277.  It obviously lacks more robust interaction with the
+> > connection thread (which in general is fairly complex and hard to reason
+> > about), and perhaps has some other drawbacks, so I'll work on this
+> > further, but I'd appreciate some feedback on whether the idea is sound.
+> > 
 > 
-> Adding DBL_EPSILON while scaling should help with fractions like
-> 12.345, where the closest representable number is actually 12.3449*.
+> In general I like the idea. The logic around drain in nbd is
+> overcomplicated. And I never liked the fact that nbd_read_eof() does
+> dec-inc inflight section. Some notes:
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   util/cutils.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> 1. I hope, the patch can be divided into several ones, as there are
+> several things done:
 > 
-> diff --git a/util/cutils.c b/util/cutils.c
-> index d89a40a8c3..f7f8e48a68 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -342,7 +342,7 @@ static int do_strtosz(const char *nptr, const char **end,
->           retval = -ERANGE;
->           goto out;
->       }
-> -    *result = val * mul + (uint64_t) (fraction * mul);
-> +    *result = val * mul + (uint64_t)fma(fraction, mul, DBL_EPSILON);
->       retval = 0;
->   
->   out:
+> - removing use of in_flight counter introduced by 5ad81b4946
+> - do reconnect during drained section
+> - stop cancelling requests on .drained_begin
 
-Will this fix the failure that we're currently seeing with 32-bit builds?
+I've split the (somewhat extended) patch into a series of 7, but not
+exactly as you suggested.  In particular, I can't just stop aborting the
+requests on .drained_begin as this would reintroduce the deadlock, so I
+just remove the whole .drained_begin/end in a single patch.
 
-( https://gitlab.com/qemu-project/qemu/-/jobs/1096980112#L3258 for example )
+> 2. 5ad81b4946 was needed to make nbd_client_attach_aio_context()
+> reenter connection_co only in one (or two) possible places, not on any
+> yield.. And I don't see how it is achieved now.. This should be
+> described in commit msg..
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+My problem is that I failed to figure out why it was necessary in the
+first place, so I think I don't achieve this with the series.
 
+> 3. About cancelling requests on drained_begin. The behavior was
+> introduced by 8c517de24a8a1dcbeb, to fix a deadlock. So, if now the
+> deadlock is fixed another way, let's change the logic (don't cancel
+> requests) in a separate patch, and note 8c517de24a8a1dcbeb commit and
+> the commit that fixes deadlock the other way in the commit message.
+
+As I mentioned earlier I did a patch that removed the root cause; a
+separate patch removing just the request cancelation didn't look
+justified.  I did mention the commits in the log.
+
+Thanks for the review!  I'm now on to submitting a non-RFC version.
+Roman.
 
