@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D67F33C6A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:18:05 +0100 (CET)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61BD33C664
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:08:10 +0100 (CET)
+Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLsj6-0005CG-91
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
+	id 1lLsZV-00038g-Qv
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLsIv-0005Iv-SN
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:01 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:40889)
+ id 1lLsJI-0006B6-Mw
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:24 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:40896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLsIu-0003i4-02
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:01 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id w65so35501283oie.7
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:50:59 -0700 (PDT)
+ id 1lLsJG-0003t9-EJ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:24 -0400
+Received: by mail-oi1-x230.google.com with SMTP id w65so35502385oie.7
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=/9D8+/gnby+c+NoK4obMKUnF07JV5pN4It8tKgs26m4=;
- b=KE8mozV6tlR9y68LlrbuK32sZoK48kxYY/UqLRQ/U1VoUT/rhkqK+41kr5ygSDg7/A
- PplCfZeajvU3Rmb8R0q1/ZSSp9Uw37HuE8Cnap2E7Jg1JGzzNkBVSJq112V7zKUXJ9g+
- uOc6XWs5ffOeR7t7jVZzBcegIOSlt5Xvuil3O7b+Vq7RgS/PFLs+JWk6KwdQI59Ad8pK
- X5fDwICTxb7Snr8yEVSPEURMq4NFd9qL6wnlZpmkE0f8BxXxoDNPIbStAnpAUgp51Zn3
- 9pLhtuxFk/nTzeUnEKPre2oiu9BTmBoIR0MCLbiaQxXbyLSOSP8AcKWAzK2fWb4y9mUw
- XpgQ==
+ b=HC/e6U9CrdFGgnb7+42an0qFYHemnS5sCcBq8O2E2r4CuGGQvxdw2FQzeoq/2pG0UW
+ SNzV2kUvaFEs1GiwfQq7tu9UcKxYRCVppsAJoVAXz+IPDt5phb571b6k6zt43xpvRwph
+ j9iY1wkAJAW3qBvVkGzpf/K2FNeV1dvwigiSj1bm45QfXDRcsmqEIWAna01bENuMxC4D
+ UJ/hLPDvEs2EyjX7vzptG44d5hY5dvFsUVx5+l/x7gSWO+9g+aKaauAYSAJXQzfE/D29
+ wf0OpnscdL2wC/FzrBW5dS1VJe3aX1iRBA4EhWJp/EgYC30o986QYfmertqaKGrfCRvR
+ UmOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=/9D8+/gnby+c+NoK4obMKUnF07JV5pN4It8tKgs26m4=;
- b=LThQMuCBVGYBDCv9qEvbSSBYQyY07dQgWWLA0m5uJO4kQ1+5YVrK5YLHp60+Z0KE+o
- dGvKGJJj++w+53CDdWd3jcLd6ZdH4gu9yPkBuhAspekN9yzBUZs+FCwYurw1NPZskDiQ
- b+yiKhvQ5ovE9qwXHB+zoulB7yCxhgHP9dW2ZDdNGOBcEjuaoT1+raauolQdzpik2Pyb
- yaSZ28S++hygNQmwi4gWtpKpV3GATKh34YbNcQEr1WYGJA/Wzp00bGD48yDWZPoy9H9j
- l6o1A4Ru6Ppc5BsZ6/M+2jTRl/j4ck1fVLYj/lvtX8hVyxFosb/84yVKlI9Lunnuex+e
- BapQ==
-X-Gm-Message-State: AOAM532nuD1Hjk9l5CN/tgTxcoEUjkvkCRAol+24q7LQvD+f8i55z5f0
- W4KXnIkikYJxDb2IwT6Lz2RiD7KenqUrcKK8
-X-Google-Smtp-Source: ABdhPJwUt0XnG8qPRbpLNEUadwpWaIeaEGuPk5bBGsIkzpgmlkp6r/c4Sl+egYioQF7LhJ01eWhPvQ==
-X-Received: by 2002:a05:6808:4c1:: with SMTP id a1mr367883oie.37.1615834258568; 
- Mon, 15 Mar 2021 11:50:58 -0700 (PDT)
+ b=Jy+yY5uSAVO/gDgTGkW7IaJmUX9HVs/0ILeLbB0enN/jTWInuXtMw4Rsx/Dl8DO4fw
+ T2RlABhEo8ugvioFM+DIutks32wdxBcfQUh2decenFntiyZ7xDn+ajmo/j+Gh3mml3Ih
+ UoAZ8efTwJxshuA8MkX/4fyA7rVXybcew+AWepfH0jMV2cfRFNpGNuOuMR5TBElEF5Pr
+ ms2dpDt53L3dJc228zA8AleD7b9HAA2No2aLsWoOeoqZPCDYI+rtVCT5H6L+85cwPWQ7
+ OapZCwSgk2fzMURYEz5k7Zvz7KnpOBCMt1Pk7ZrV0HAzWCSkACV0En51Iggw/+U9Dckk
+ AA+g==
+X-Gm-Message-State: AOAM531dPS7wKrAbPhJ/33h3k2S+Yz1fJH9sa8jqILE3MAEYdZpBrglK
+ HnvaneWn5t5H2dR8oxEndYLS3QlzZbEYS5y6
+X-Google-Smtp-Source: ABdhPJwDOnzxViYyPN8Ss9fO7EU5ODkYST47TMWXZ0ZwGdn98VXjcIw9Dqco2jhxfJOlDeJ06/C4yg==
+X-Received: by 2002:aca:b744:: with SMTP id h65mr398385oif.36.1615834281338;
+ Mon, 15 Mar 2021 11:51:21 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k9sm7405537ots.24.2021.03.15.11.50.57
+ by smtp.gmail.com with ESMTPSA id w1sm7152041oop.1.2021.03.15.11.51.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 11:50:58 -0700 (PDT)
+ Mon, 15 Mar 2021 11:51:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Subject: [PULL 0/1] Fix qemu_strtosz regression
-Date: Mon, 15 Mar 2021 12:50:54 -0600
-Message-Id: <20210315185056.1986167-1-richard.henderson@linaro.org>
+Date: Mon, 15 Mar 2021 12:51:16 -0600
+Message-Id: <20210315185117.1986240-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
