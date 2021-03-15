@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D957133C561
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:18:50 +0100 (CET)
-Received: from localhost ([::1]:57440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C99833C514
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:02:29 +0100 (CET)
+Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrnl-0004IH-LE
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58398)
+	id 1lLrXw-0000Xk-K0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lLrO0-0007Hx-0R
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:52:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lLrNx-00047V-Dh
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:52:11 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLrP0-0000J8-Fh
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:53:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lLrOy-0004d0-Ma
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:53:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615830728;
+ s=mimecast20190719; t=1615830792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=blO1xiHJi/OjF6G5B0XA6MfWyvjKLXxmmhxTSX6kEXs=;
- b=cvkShjZLY5zl9Rk8Uh6DjoPSRvp5ZX6XEoiVfJ2p8R3ymqqp3Yr8onsvsJmZoFl95Q8YHV
- 7euMwQjtvFyfGLvr68DDuYaBjJNPz8jw/A1pGcTNNXjCNywsJC9+ZQ2BhQfXgWpaqqR+M+
- pD/jEWGnDoZj4SQCtbqTQVaH1mq8hM8=
+ bh=0VyC7mb0ncx9vZyTgRz0lrERwHdADo0CeX2LA1+SLLA=;
+ b=DtrVTSzHAT6dRvCGsqh6t05Hq8cwtJjwLmJoSOHCl1iJCxIHQLcs1S6VbEKHwA4y0Th/+O
+ SywcL0+j6BpZ43RQGT6DvqrP+u9rPnVOifRYmhlg+hdZYC1OzV/9wTERVBNKaJfGVNaJYO
+ g7/f6nIx0Ub9VXDyNZ2OG/uoJp5rE7E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-5l4dBi9rOXiEpBGoLw1xeQ-1; Mon, 15 Mar 2021 13:52:07 -0400
-X-MC-Unique: 5l4dBi9rOXiEpBGoLw1xeQ-1
+ us-mta-414-Y60FqUMCPSq21aLkn3VglQ-1; Mon, 15 Mar 2021 13:53:07 -0400
+X-MC-Unique: Y60FqUMCPSq21aLkn3VglQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB64910866A4;
- Mon, 15 Mar 2021 17:52:04 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-115-81.ams2.redhat.com
- [10.36.115.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 352EF1042A66;
- Mon, 15 Mar 2021 17:51:38 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/13] block: remove support for using "file" driver with
- block/char devices
-Date: Mon, 15 Mar 2021 17:45:23 +0000
-Message-Id: <20210315174523.979666-14-berrange@redhat.com>
-In-Reply-To: <20210315174523.979666-1-berrange@redhat.com>
-References: <20210315174523.979666-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86E5B881280;
+ Mon, 15 Mar 2021 17:53:06 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAEF310023AB;
+ Mon, 15 Mar 2021 17:53:01 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
+References: <20210311231202.1536040-1-philmd@redhat.com>
+ <20210311231202.1536040-2-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
+Message-ID: <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com>
+Date: Mon, 15 Mar 2021 12:53:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210311231202.1536040-2-philmd@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,142 +83,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'host_device' and 'host_cdrom' drivers must be used instead.
+On 3/11/21 5:11 PM, Philippe Mathieu-Daudé wrote:
+> Introduce the 'query-accels' QMP command which returns a list
+> of built-in accelerators names.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- block/file-posix.c               | 17 ++++++-----------
- docs/system/deprecated.rst       |  7 -------
- docs/system/removed-features.rst |  7 +++++++
- tests/qemu-iotests/226.out       | 10 +++++-----
- 4 files changed, 18 insertions(+), 23 deletions(-)
+accelerator names
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 05079b40ca..20e14f8e96 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -719,15 +719,9 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     }
- 
-     if (!device) {
--        if (S_ISBLK(st.st_mode)) {
--            warn_report("Opening a block device as a file using the '%s' "
--                        "driver is deprecated", bs->drv->format_name);
--        } else if (S_ISCHR(st.st_mode)) {
--            warn_report("Opening a character device as a file using the '%s' "
--                        "driver is deprecated", bs->drv->format_name);
--        } else if (!S_ISREG(st.st_mode)) {
--            error_setg(errp, "A regular file was expected by the '%s' driver, "
--                       "but something else was given", bs->drv->format_name);
-+        if (!S_ISREG(st.st_mode)) {
-+            error_setg(errp, "'%s' driver requires '%s' to be a regular file",
-+                       bs->drv->format_name, bs->filename);
-             ret = -EINVAL;
-             goto fail;
-         } else {
-@@ -736,8 +730,9 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-         }
-     } else {
-         if (!(S_ISCHR(st.st_mode) || S_ISBLK(st.st_mode))) {
--            error_setg(errp, "'%s' driver expects either "
--                       "a character or block device", bs->drv->format_name);
-+            error_setg(errp, "'%s' driver requires '%s' to be either "
-+                       "a character or block device",
-+                       bs->drv->format_name, bs->filename);
-             ret = -EINVAL;
-             goto fail;
-         }
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index f6d0b16579..176b837a42 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -30,13 +30,6 @@ would automatically enable USB support on the machine type.
- If using the new syntax, USB support must be explicitly
- enabled via the ``-machine usb=on`` argument.
- 
--``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The 'file' driver for drives is no longer appropriate for character or host
--devices and will only accept regular files (S_IFREG). The correct driver
--for these file types is 'host_cdrom' or 'host_device' as appropriate.
--
- ``QEMU_AUDIO_`` environment variables and ``-audio-help`` (since 4.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index eb4b71750c..7b7bf7214e 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -50,6 +50,13 @@ by the ``tls-authz`` and ``sasl-authz`` options.
- The ``pretty=on|off`` switch has no effect for HMP monitors and
- its use is rejected.
- 
-+``-drive file=json:{...{'driver':'file'}}`` (removed 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The 'file' driver for drives is no longer appropriate for character or host
-+devices and will only accept regular files (S_IFREG). The correct driver
-+for these file types is 'host_cdrom' or 'host_device' as appropriate.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
-diff --git a/tests/qemu-iotests/226.out b/tests/qemu-iotests/226.out
-index 42be973ff2..55504d29c4 100644
---- a/tests/qemu-iotests/226.out
-+++ b/tests/qemu-iotests/226.out
-@@ -3,23 +3,23 @@ QA output created by 226
- === Testing with driver:file ===
- 
- == Testing RO ==
--qemu-io: can't open: A regular file was expected by the 'file' driver, but something else was given
--qemu-io: warning: Opening a character device as a file using the 'file' driver is deprecated
-+qemu-io: can't open: 'file' driver requires 'TEST_DIR/t.IMGFMT' to be a regular file
-+qemu-io: can't open: 'file' driver requires '/dev/null' to be a regular file
- == Testing RW ==
- qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
--qemu-io: warning: Opening a character device as a file using the 'file' driver is deprecated
-+qemu-io: can't open: 'file' driver requires '/dev/null' to be a regular file
- 
- === Testing with driver:host_device ===
- 
- == Testing RO ==
--qemu-io: can't open: 'host_device' driver expects either a character or block device
-+qemu-io: can't open: 'host_device' driver requires 'TEST_DIR/t.IMGFMT' to be either a character or block device
- == Testing RW ==
- qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
- 
- === Testing with driver:host_cdrom ===
- 
- == Testing RO ==
--qemu-io: can't open: 'host_cdrom' driver expects either a character or block device
-+qemu-io: can't open: 'host_cdrom' driver requires 'TEST_DIR/t.IMGFMT' to be either a character or block device
- == Testing RW ==
- qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
- 
+> 
+> - Accelerator is an QAPI enum of all existing accelerators,
+
+is a QAPI enum
+
+> 
+> - AcceleratorInfo is a QAPI structure providing accelerator
+>   specific information. Currently the common structure base
+>   provides the name of the accelerator, while the specific
+>   part is empty, but each accelerator can expand it.
+
+Do we expand it later in this series?  If not,...
+
+> 
+> - 'query-accels' QMP command returns a list of @AcceleratorInfo
+> 
+> For example on a KVM-only build we get:
+> 
+>     { "execute": "query-accels" }
+>     {
+>         "return": [
+>             {
+>                 "type": "qtest"
+>             },
+>             {
+>                 "type": "kvm"
+>             }
+
+Inconsistent with the code, already pointed out in other reviews.
+
+>         ]
+>     }
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+
+> +##
+> +# @AcceleratorInfo:
+> +#
+> +# Accelerator information.
+> +#
+> +# @name: The accelerator name.
+> +#
+> +# Since: 6.0
+> +##
+> +{ 'union': 'AcceleratorInfo',
+> +  'base': {'name': 'Accelerator'},
+> +  'discriminator': 'name',
+> +  'data': { } }
+
+...it feels a bit over-engineered (we can turn it into a union later
+while still preserving back-compat).  On the other hand, since you are
+using conditional compilation...
+
+> +
+> +##
+> +# @query-accels:
+> +#
+> +# Get a list of AcceleratorInfo for all built-in accelerators.
+> +#
+> +# Returns: a list of @AcceleratorInfo describing each accelerator.
+> +#
+> +# Since: 6.0
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "query-accels" }
+> +# <- { "return": [
+> +#        {
+> +#            "type": "qtest"
+> +#        },
+> +#        {
+> +#            "type": "kvm"
+
+Another inconsistent example.
+
+> +#        }
+> +#    ] }
+> +#
+> +##
+> +{ 'command': 'query-accels',
+> +  'returns': ['AcceleratorInfo'] }
+> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
+> new file mode 100644
+> index 00000000000..f16e49b8956
+> --- /dev/null
+> +++ b/accel/accel-qmp.c
+> @@ -0,0 +1,47 @@
+> +/*
+> + * QEMU accelerators, QMP commands
+> + *
+> + * Copyright (c) 2021 Red Hat Inc.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/qapi-commands-machine.h"
+> +
+> +static const Accelerator accel_list[] = {
+> +    ACCELERATOR_QTEST,
+> +#ifdef CONFIG_TCG
+> +    ACCELERATOR_TCG,
+> +#endif
+> +#ifdef CONFIG_KVM
+> +    ACCELERATOR_KVM,
+> +#endif
+
+...would it be worth compiling the enum to only list enum values that
+were actually compiled in?  That would change it to:
+
+{ 'enum': 'Accelerator',
+  'data': [ 'qtest',
+            { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
+...
+
+
 -- 
-2.30.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
