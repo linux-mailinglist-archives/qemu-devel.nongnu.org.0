@@ -2,73 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323A933C03E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:45:23 +0100 (CET)
-Received: from localhost ([::1]:60444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C808833C083
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:51:25 +0100 (CET)
+Received: from localhost ([::1]:41942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLpPG-0008QP-2J
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
+	id 1lLpV6-0004mk-RP
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLpN1-0006xr-Fo
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:43:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLpMz-0007O7-41
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:43:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615822978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=22UBB0cjGk0cJOQ2+iJkJn8fjA7jPdyqddIJWQE2dsY=;
- b=WOgMsaBBVXKABOL4sMsWsI59O8OrscCB+t8yO1HMQxsdAl9lu0Eoa2OQYB9ZnDTAucHf5z
- w/t7TG4I73Fl5RPcF8DePCmsvGr36iXeIMJ1HMkTfeUxGyjANW4xsctpiA6sA+IZtwv+tm
- jFR2Wfw8HYV8wtpuEpntF2FaXNvNl9U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-F503cGrkMca9Df_JZkJNQg-1; Mon, 15 Mar 2021 11:42:55 -0400
-X-MC-Unique: F503cGrkMca9Df_JZkJNQg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E8641015C85;
- Mon, 15 Mar 2021 15:42:54 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B380C5D745;
- Mon, 15 Mar 2021 15:42:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lLpON-0000Jj-48; Mon, 15 Mar 2021 11:44:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lLpOL-0007oR-C2; Mon, 15 Mar 2021 11:44:26 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12FFYp6Y065939; Mon, 15 Mar 2021 11:44:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to :
+ references : cc : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=mRt1KiUPB9vJ+9Y+Y4xRkkDx7Pho+sb0oXZ1lMPdC78=;
+ b=H7qsQY90EPd+JTV9l9g5ewool1UJn+PR1/Z7e7wCfgf1LlnpW5Kd1wzdToKEwjZY3jtN
+ riFC5r9UI8lHdC5dtD+tW+/f9sruXkmDgsGCN6xLD4sB8WvU1CHYWfADQ1/l8XPdCm6H
+ 9e4ioUogTVSxuHq5TSkfvdomdYAgRWCNLWjVT/ej9R5xj8MpwsMU60FkbWa+WK/v4uxJ
+ 1AFsCVErjC956B8D0E9vtpAaL7HBla76jQSQYW1wRoJ7G/KTwCZuRm5J3MC8LgbNtbOh
+ 1oefjnH9ToYRe5XNoDIgaxBuuPgTQTjO79VUTnT4PaUfAPkLnmMP35KJ/GzRp7DNk3qq 8Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37aa1ss727-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Mar 2021 11:44:23 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12FFZdWW071209;
+ Mon, 15 Mar 2021 11:44:23 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37aa1ss71f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Mar 2021 11:44:23 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12FFhCb0018788;
+ Mon, 15 Mar 2021 15:44:21 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma02fra.de.ibm.com with ESMTP id 378n1811pw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Mar 2021 15:44:21 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12FFi2pJ34472292
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 15 Mar 2021 15:44:03 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3CB6742041;
+ Mon, 15 Mar 2021 15:44:19 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F2AA44203F;
+ Mon, 15 Mar 2021 15:44:18 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.7.179])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 15 Mar 2021 15:44:18 +0000 (GMT)
 Subject: Re: compile warning in i8259.c
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x <qemu-s390x@nongnu.org>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>
 References: <cc283705-a0ee-5ee4-4f9a-b69afce65d8c@de.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <75aed565-c9a6-6ee1-ab92-d2771df83ff0@redhat.com>
-Date: Mon, 15 Mar 2021 16:42:52 +0100
+Message-ID: <21da022d-7349-ceca-ca88-b7987ac2eb0d@de.ibm.com>
+Date: Mon, 15 Mar 2021 16:44:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
 In-Reply-To: <cc283705-a0ee-5ee4-4f9a-b69afce65d8c@de.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-15_08:2021-03-15,
+ 2021-03-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 adultscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 mlxscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103150110
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,57 +108,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2021 16.14, Christian Borntraeger wrote:
-> For some time now I do see the following, when I compile x86-softmmu on s390:
-> 
-> FAILED: libcommon.fa.p/hw_intc_i8259.c.o
-> cc -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader 
-> -I/usr/include/capstone -I/usr/include/glib-2.0 
-> -I/usr/lib64/glib-2.0/include -I/usr/include/libmount -I/usr/include/blkid 
-> -I/usr/include/gio-unix-2.0 -I/usr/include/libusb-1.0 
-> -I/usr/include/vte-2.91 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz 
-> -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/fribidi 
-> -I/usr/include/libxml2 -I/usr/include/cairo -I/usr/include/pixman-1 
-> -I/usr/include/gtk-3.0 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0 
-> -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0 
-> -I/usr/lib64/dbus-1.0/include -I/usr/include/at-spi-2.0 -I/usr/include/virgl 
-> -I/usr/include/p11-kit-1 -I/usr/include/SDL2 -I/usr/include/cacard 
-> -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/slirp 
-> -fdiagnostics-color=auto -pipe -Wall -Winvalid-pch -Werror -std=gnu99 -O2 -g 
-> -isystem /home/cborntra/REPOS/qemu/linux-headers -isystem linux-headers 
-> -iquote . -iquote /home/cborntra/REPOS/qemu -iquote 
-> /home/cborntra/REPOS/qemu/include -iquote 
-> /home/cborntra/REPOS/qemu/disas/libvixl -iquote 
-> /home/cborntra/REPOS/qemu/tcg/s390 -iquote 
-> /home/cborntra/REPOS/qemu/accel/tcg -pthread -U_FORTIFY_SOURCE 
-> -D_FORTIFY_SOURCE=2 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 
-> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef 
-> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common 
-> -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits 
-> -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body 
-> -Wnested-externs -Wendif-labels -Wexpansion-to-defined 
-> -Wimplicit-fallthrough=2 -Wno-missing-include-dirs -Wno-shift-negative-value 
-> -Wno-psabi -fstack-protector-strong -fPIC -DSTRUCT_IOVEC_DEFINED 
-> -D_REENTRANT -Wno-undef -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 
-> -DNCURSES_WIDECHAR -MD -MQ libcommon.fa.p/hw_intc_i8259.c.o -MF 
-> libcommon.fa.p/hw_intc_i8259.c.o.d -o libcommon.fa.p/hw_intc_i8259.c.o -c 
-> ../hw/intc/i8259.c
-> ../hw/intc/i8259.c: In function ‘pic_read_irq’:
-> ../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in this 
-> function [-Werror=maybe-uninitialized]
->    203 |         irq = irq2 + 8;
->        |         ~~~~^~~~~~~~~~
-> cc1: all warnings being treated as errors
-> 
-> Due to other compile warnings I find this hard to bisect. Has anyone seen 
-> this as well?
-
-I've never seen this warnings so far... which compiler version is this? 
-Looking at the code, it seems to be a false positive to me.
-
-  Thomas
-
+T24gMTUuMDMuMjEgMTY6MTQsIENocmlzdGlhbiBCb3JudHJhZWdlciB3cm90ZToNCj4gRm9y
+IHNvbWUgdGltZSBub3cgSSBkbyBzZWUgdGhlIGZvbGxvd2luZywgd2hlbiBJIGNvbXBpbGUg
+eDg2LXNvZnRtbXUgb24gczM5MDoNCj4gDQo+IEZBSUxFRDogbGliY29tbW9uLmZhLnAvaHdf
+aW50Y19pODI1OS5jLm8NCj4gY2MgLUlsaWJjb21tb24uZmEucCAtSS4gLUkuLiAtSXFhcGkg
+LUl0cmFjZSAtSXVpIC1JdWkvc2hhZGVyIC1JL3Vzci9pbmNsdWRlL2NhcHN0b25lIC1JL3Vz
+ci9pbmNsdWRlL2dsaWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIuMC9pbmNsdWRlIC1JL3Vz
+ci9pbmNsdWRlL2xpYm1vdW50IC1JL3Vzci9pbmNsdWRlL2Jsa2lkIC1JL3Vzci9pbmNsdWRl
+L2dpby11bml4LTIuMCAtSS91c3IvaW5jbHVkZS9saWJ1c2ItMS4wIC1JL3Vzci9pbmNsdWRl
+L3Z0ZS0yLjkxIC1JL3Vzci9pbmNsdWRlL3BhbmdvLTEuMCAtSS91c3IvaW5jbHVkZS9oYXJm
+YnV6eiAtSS91c3IvaW5jbHVkZS9mcmVldHlwZTIgLUkvdXNyL2luY2x1ZGUvbGlicG5nMTYg
+LUkvdXNyL2luY2x1ZGUvZnJpYmlkaSAtSS91c3IvaW5jbHVkZS9saWJ4bWwyIC1JL3Vzci9p
+bmNsdWRlL2NhaXJvIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xIC1JL3Vzci9pbmNsdWRlL2d0
+ay0zLjAgLUkvdXNyL2luY2x1ZGUvZ2RrLXBpeGJ1Zi0yLjAgLUkvdXNyL2luY2x1ZGUvYXRr
+LTEuMCAtSS91c3IvaW5jbHVkZS9hdC1zcGkyLWF0ay8yLjAgLUkvdXNyL2luY2x1ZGUvZGJ1
+cy0xLjAgLUkvdXNyL2xpYjY0L2RidXMtMS4wL2luY2x1ZGUgLUkvdXNyL2luY2x1ZGUvYXQt
+c3BpLTIuMCAtSS91c3IvaW5jbHVkZS92aXJnbCAtSS91c3IvaW5jbHVkZS9wMTEta2l0LTEg
+LUkvdXNyL2luY2x1ZGUvU0RMMiAtSS91c3IvaW5jbHVkZS9jYWNhcmQgLUkvdXNyL2luY2x1
+ZGUvbnNzMyAtSS91c3IvaW5jbHVkZS9uc3ByNCAtSS91c3IvaW5jbHVkZS9zbGlycCAtZmRp
+YWdub3N0aWNzLWNvbG9yPWF1dG8gLXBpcGUgLVdhbGwgLVdpbnZhbGlkLXBjaCAtV2Vycm9y
+IC1zdGQ9Z251OTkgLU8yIC1nIC1pc3lzdGVtIC9ob21lL2Nib3JudHJhL1JFUE9TL3FlbXUv
+bGludXgtaGVhZGVycyAtaXN5c3RlbSBsaW51eC1oZWFkZXJzIC1pcXVvdGUgLiAtaXF1b3Rl
+IC9ob21lL2Nib3JudHJhL1JFUE9TL3FlbXUgLWlxdW90ZSANCj4gL2hvbWUvY2Jvcm50cmEv
+UkVQT1MvcWVtdS9pbmNsdWRlIC1pcXVvdGUgL2hvbWUvY2Jvcm50cmEvUkVQT1MvcWVtdS9k
+aXNhcy9saWJ2aXhsIC1pcXVvdGUgL2hvbWUvY2Jvcm50cmEvUkVQT1MvcWVtdS90Y2cvczM5
+MCAtaXF1b3RlIC9ob21lL2Nib3JudHJhL1JFUE9TL3FlbXUvYWNjZWwvdGNnIC1wdGhyZWFk
+IC1VX0ZPUlRJRllfU09VUkNFIC1EX0ZPUlRJRllfU09VUkNFPTIgLW02NCAtRF9HTlVfU09V
+UkNFIC1EX0ZJTEVfT0ZGU0VUX0JJVFM9NjQgLURfTEFSR0VGSUxFX1NPVVJDRSAtV3N0cmlj
+dC1wcm90b3R5cGVzIC1XcmVkdW5kYW50LWRlY2xzIC1XdW5kZWYgLVd3cml0ZS1zdHJpbmdz
+IC1XbWlzc2luZy1wcm90b3R5cGVzIC1mbm8tc3RyaWN0LWFsaWFzaW5nIC1mbm8tY29tbW9u
+IC1md3JhcHYgLVdvbGQtc3R5bGUtZGVjbGFyYXRpb24gLVdvbGQtc3R5bGUtZGVmaW5pdGlv
+biAtV3R5cGUtbGltaXRzIC1XZm9ybWF0LXNlY3VyaXR5IC1XZm9ybWF0LXkyayAtV2luaXQt
+c2VsZiAtV2lnbm9yZWQtcXVhbGlmaWVycyAtV2VtcHR5LWJvZHkgLVduZXN0ZWQtZXh0ZXJu
+cyAtV2VuZGlmLWxhYmVscyAtV2V4cGFuc2lvbi10by1kZWZpbmVkIC1XaW1wbGljaXQtZmFs
+bHRocm91Z2g9MiAtV25vLW1pc3NpbmctaW5jbHVkZS1kaXJzIC1Xbm8tc2hpZnQtbmVnYXRp
+dmUtdmFsdWUgLVduby1wc2FiaSAtZnN0YWNrLXByb3RlY3Rvci1zdHJvbmcgLWZQSUMgLURT
+VFJVQ1RfSU9WRUNfREVGSU5FRCAtRF9SRUVOVFJBTlQgLVduby11bmRlZiAtRF9ERUZBVUxU
+X1NPVVJDRSAtRF9YT1BFTl9TT1VSQ0U9NjAwIC1ETkNVUlNFU19XSURFQ0hBUiAtTUQgLU1R
+IGxpYmNvbW1vbi5mYS5wL2h3X2ludGNfaTgyNTkuYy5vIC1NRiBsaWJjb21tb24uZmEucC9o
+d19pbnRjX2k4MjU5LmMuby5kIC1vIGxpYmNvbW1vbi5mYS5wL2h3X2ludGNfaTgyNTkuYy5v
+IC1jIC4uL2h3L2ludGMvaTgyNTkuYw0KPiAuLi9ody9pbnRjL2k4MjU5LmM6IEluIGZ1bmN0
+aW9uIOKAmHBpY19yZWFkX2lyceKAmToNCj4gLi4vaHcvaW50Yy9pODI1OS5jOjIwMzoxMzog
+ZXJyb3I6IOKAmGlycTLigJkgbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1
+bmN0aW9uIFstV2Vycm9yPW1heWJlLXVuaW5pdGlhbGl6ZWRdDQo+ICDCoCAyMDMgfMKgwqDC
+oMKgwqDCoMKgwqAgaXJxID0gaXJxMiArIDg7DQo+ICDCoMKgwqDCoMKgIHzCoMKgwqDCoMKg
+wqDCoMKgIH5+fn5efn5+fn5+fn5+DQo+IGNjMTogYWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0
+ZWQgYXMgZXJyb3JzDQo+IA0KPiANCj4gRHVlIHRvIG90aGVyIGNvbXBpbGUgd2FybmluZ3Mg
+SSBmaW5kIHRoaXMgaGFyZCB0byBiaXNlY3QuIEhhcyBhbnlvbmUgc2VlbiB0aGlzIGFzIHdl
+bGw/DQoNCmNjIE1pY2hhZWwsIFBhb2xvLA0KDQpTb21ldGhpbmcgbGlrZQ0KDQpkaWZmIC0t
+Z2l0IGEvaHcvaW50Yy9pODI1OS5jIGIvaHcvaW50Yy9pODI1OS5jDQppbmRleCAzNDRmZDA0
+ZGIxNGQuLjczMzViN2EwNmE2NyAxMDA2NDQNCi0tLSBhL2h3L2ludGMvaTgyNTkuYw0KKysr
+IGIvaHcvaW50Yy9pODI1OS5jDQpAQCAtMTc2LDcgKzE3Niw3IEBAIHN0YXRpYyB2b2lkIHBp
+Y19pbnRhY2soUElDQ29tbW9uU3RhdGUgKnMsIGludCBpcnEpDQogIGludCBwaWNfcmVhZF9p
+cnEoRGV2aWNlU3RhdGUgKmQpDQogIHsNCiAgICAgIFBJQ0NvbW1vblN0YXRlICpzID0gUElD
+X0NPTU1PTihkKTsNCi0gICAgaW50IGlycSwgaXJxMiwgaW50bm87DQorICAgIGludCBpcnEs
+IGlycTIgPSAwLCBpbnRubzsNCiAgDQogICAgICBpcnEgPSBwaWNfZ2V0X2lycShzKTsNCiAg
+ICAgIGlmIChpcnEgPj0gMCkgew0KDQoNCndvdWxkIGRvIHRoZSB0cmljay4gTGV0IG1lIGtu
+b3cgaWYgSSBzaG91bGQgZG8gYSBwcm9wZXIgcGF0Y2ggb3IgaWYgeW91IHdhbnQgdG8gaGF2
+ZSB0aGluZ3Mgc29sdmVkIGRpZmZlcmVudGx5Lg0K
 
