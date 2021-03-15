@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C7433C88B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:38:24 +0100 (CET)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5028833C8B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:48:15 +0100 (CET)
+Received: from localhost ([::1]:42828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLuut-0001hF-Np
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:38:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
+	id 1lLv4Q-0005oD-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lLutg-0000aR-Im; Mon, 15 Mar 2021 17:37:10 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:43286)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lLv1z-0004gn-6j
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lLutd-00024J-Fz; Mon, 15 Mar 2021 17:37:08 -0400
-Received: by mail-il1-x12a.google.com with SMTP id b5so10769259ilq.10;
- Mon, 15 Mar 2021 14:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z8X8Yy/8hIjHs+hPsXGpiT1WBaWAwkCjWEYV2hfI5wA=;
- b=rNoBr0NYPcQzTyNYypjTyvjfBVczEccDa9Alccb/Eq50nX1epQuRhQ++Yry94V4g0E
- NG3R3B9dvoWBaYOmqav1tJBayEBEbTB0uhu4rKRQPmhtbeIwi48aNnvcFxEuuvgGTMnQ
- PVgZm1n4MaNW/F4+8ZMwLnPA05GDbS3gKsLj/+zKL1/SwnZ8ukrJA/MBpw//ka/3buAA
- 0c4O3EXf+sTymTcYgKeuoQZP2JG0aN5xJNpBg6FBPrq1L7JRBn2vVaVVoO8nBcg8QNcH
- K+vSCUnI/+UG2RTL2kghk19pWEhFd03Df+BIG3eTGI0sTPwswHhxSbzKziYoXCZR7j3a
- hn+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z8X8Yy/8hIjHs+hPsXGpiT1WBaWAwkCjWEYV2hfI5wA=;
- b=emV1OdyJ9/uHu8veClfqYuDFbGEpWi+gEfezZw9y8l2pc/qZKnU0zlO8JUXVcK5SX3
- ux6REw2q5ZEMj/4tggL8IqtBGCsv4wrVYC5d1HB0qpOCyJrPj63ufG1CoFsONGHLzoPK
- WvtYujgTRftFF1zLr2lDbeEKUfnYrke5YEn29FgHw6cNBhkAXDozjCNJ7lKcGIlLLgWu
- 8S8wCc+e10l3ksvsuY9pR9Kq0FyAuhK98iLd+S9wpolF9DEGPg199+vP5/Z/7bOByapH
- s4/RpGsSuHbc5AtD2dIn6hT0cpq0is0MTvtSdzc0gVTWmr/HUyCt3pM0eet28xmwlyW9
- 985A==
-X-Gm-Message-State: AOAM5301IaIftNSLrAedfrVgI9oMFV8Fm3uyRyZ5ppjuslqQj6QYuvgM
- jEVO9K6wAEgnWZjbD0DorCRnldYcWgwjB/R0gII=
-X-Google-Smtp-Source: ABdhPJx3hzcj1faXVGn4n9DisBi8hk4UglkafuVEfs1CVynakVZXi5c4jWeEY2LlmbruMzflXVPFAlk/5y6j2CwbnHk=
-X-Received: by 2002:a92:c102:: with SMTP id p2mr1250325ile.227.1615844223232; 
- Mon, 15 Mar 2021 14:37:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lLv1v-0005lT-Gj
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:45:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lLv1t-0002OK-3T
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 21:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 17DB92E8157
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 21:45:37 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
- <20210212150256.885-13-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210212150256.885-13-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Mar 2021 17:35:27 -0400
-Message-ID: <CAKmqyKN9ncOLBP7V2whCjDiLVoqUxO1hxk9-byAhYDR5dufBhw@mail.gmail.com>
-Subject: Re: [PATCH 12/38] target/riscv: SIMD 16-bit Miscellaneous Instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Mar 2021 21:36:36 -0000
+From: Apteryx <1919253@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: maxco
+X-Launchpad-Bug-Reporter: Apteryx (maxco)
+X-Launchpad-Bug-Modifier: Apteryx (maxco)
+Message-Id: <161584419612.2428.15389834064757426371.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1919253] [NEW] QEMU doesn't build reproducibly anymore in 5.2.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: 11cb74f3a5694fae6fd44e265081a44bee51479b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,302 +68,507 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1919253 <1919253@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 10:28 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Public bug reported:
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+It used to be that building QEMU 5.1.0 twice in a row, using Guix, would
+result in bit-for-bit identical results.
 
-Alistair
+Starting with 5.2.0, this is no longer true.  Here's a summary of which
+files have non-determinism:
 
-> ---
->  target/riscv/helper.h                   |  12 ++
->  target/riscv/insn32.decode              |  13 ++
->  target/riscv/insn_trans/trans_rvp.c.inc |  42 ++++++
->  target/riscv/packed_helper.c            | 167 ++++++++++++++++++++++++
->  4 files changed, 234 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 6bb601b436..866484e37d 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1228,3 +1228,15 @@ DEF_HELPER_3(umul8, i64, env, tl, tl)
->  DEF_HELPER_3(umulx8, i64, env, tl, tl)
->  DEF_HELPER_3(khm8, tl, env, tl, tl)
->  DEF_HELPER_3(khmx8, tl, env, tl, tl)
-> +
-> +DEF_HELPER_3(smin16, tl, env, tl, tl)
-> +DEF_HELPER_3(umin16, tl, env, tl, tl)
-> +DEF_HELPER_3(smax16, tl, env, tl, tl)
-> +DEF_HELPER_3(umax16, tl, env, tl, tl)
-> +DEF_HELPER_3(sclip16, tl, env, tl, tl)
-> +DEF_HELPER_3(uclip16, tl, env, tl, tl)
-> +DEF_HELPER_2(kabs16, tl, env, tl)
-> +DEF_HELPER_2(clrs16, tl, env, tl)
-> +DEF_HELPER_2(clz16, tl, env, tl)
-> +DEF_HELPER_2(clo16, tl, env, tl)
-> +DEF_HELPER_2(swap16, tl, env, tl)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 9d165efba9..bc9d5fc967 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -42,6 +42,7 @@
->  &i    imm rs1 rd
->  &j    imm rd
->  &r    rd rs1 rs2
-> +&r2   rd rs1
->  &s    imm rs1 rs2
->  &u    imm rd
->  &shift     shamt rs1 rd
-> @@ -695,3 +696,15 @@ umul8      1011100  ..... ..... 000 ..... 1111111 @r
->  umulx8     1011101  ..... ..... 000 ..... 1111111 @r
->  khm8       1000111  ..... ..... 000 ..... 1111111 @r
->  khmx8      1001111  ..... ..... 000 ..... 1111111 @r
-> +
-> +smin16     1000000  ..... ..... 000 ..... 1111111 @r
-> +umin16     1001000  ..... ..... 000 ..... 1111111 @r
-> +smax16     1000001  ..... ..... 000 ..... 1111111 @r
-> +umax16     1001001  ..... ..... 000 ..... 1111111 @r
-> +sclip16    1000010  0.... ..... 000 ..... 1111111 @sh4
-> +uclip16    1000010  1.... ..... 000 ..... 1111111 @sh4
-> +kabs16     1010110  10001 ..... 000 ..... 1111111 @r2
-> +clrs16     1010111  01000 ..... 000 ..... 1111111 @r2
-> +clz16      1010111  01001 ..... 000 ..... 1111111 @r2
-> +clo16      1010111  01011 ..... 000 ..... 1111111 @r2
-> +swap16     1010110  11001 ..... 000 ..... 1111111 @r2
-> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
-> index 336f3418b1..56fb8b2523 100644
-> --- a/target/riscv/insn_trans/trans_rvp.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
-> @@ -444,3 +444,45 @@ GEN_RVP_R_D64_OOL(umul8);
->  GEN_RVP_R_D64_OOL(umulx8);
->  GEN_RVP_R_OOL(khm8);
->  GEN_RVP_R_OOL(khmx8);
-> +
-> +/* SIMD 16-bit Miscellaneous Instructions */
-> +GEN_RVP_R_OOL(smin16);
-> +GEN_RVP_R_OOL(umin16);
-> +GEN_RVP_R_OOL(smax16);
-> +GEN_RVP_R_OOL(umax16);
-> +GEN_RVP_SHIFTI(sclip16, sclip16, NULL);
-> +GEN_RVP_SHIFTI(uclip16, uclip16, NULL);
-> +
-> +/* Out of line helpers for R2 format */
-> +static bool
-> +r2_ool(DisasContext *ctx, arg_r2 *a,
-> +       void (* fn)(TCGv, TCGv_ptr, TCGv))
-> +{
-> +    TCGv src1, dst;
-> +    if (!has_ext(ctx, RVP)) {
-> +        return false;
-> +    }
-> +
-> +    src1 = tcg_temp_new();
-> +    dst = tcg_temp_new();
-> +
-> +    gen_get_gpr(src1, a->rs1);
-> +    fn(dst, cpu_env, src1);
-> +    gen_set_gpr(a->rd, dst);
-> +
-> +    tcg_temp_free(src1);
-> +    tcg_temp_free(dst);
-> +    return true;
-> +}
-> +
-> +#define GEN_RVP_R2_OOL(NAME)                           \
-> +static bool trans_##NAME(DisasContext *s, arg_r2 *a)   \
-> +{                                                      \
-> +    return r2_ool(s, a, gen_helper_##NAME);            \
-> +}
-> +
-> +GEN_RVP_R2_OOL(kabs16);
-> +GEN_RVP_R2_OOL(clrs16);
-> +GEN_RVP_R2_OOL(clz16);
-> +GEN_RVP_R2_OOL(clo16);
-> +GEN_RVP_R2_OOL(swap16);
-> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
-> index 56baefeb8e..a6ab011ace 100644
-> --- a/target/riscv/packed_helper.c
-> +++ b/target/riscv/packed_helper.c
-> @@ -920,3 +920,170 @@ static inline void do_khmx8(CPURISCVState *env, void *vd, void *va,
->  }
->
->  RVPR(khmx8, 2, 1);
-> +
-> +/* SIMD 16-bit Miscellaneous Instructions */
-> +static inline void do_smin16(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va, *b = vb;
-> +
-> +    d[i] = (a[i] < b[i]) ? a[i] : b[i];
-> +}
-> +
-> +RVPR(smin16, 1, 2);
-> +
-> +static inline void do_umin16(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, uint8_t i)
-> +{
-> +    uint16_t *d = vd, *a = va, *b = vb;
-> +
-> +    d[i] = (a[i] < b[i]) ? a[i] : b[i];
-> +}
-> +
-> +RVPR(umin16, 1, 2);
-> +
-> +static inline void do_smax16(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va, *b = vb;
-> +
-> +    d[i] = (a[i] > b[i]) ? a[i] : b[i];
-> +}
-> +
-> +RVPR(smax16, 1, 2);
-> +
-> +static inline void do_umax16(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, uint8_t i)
-> +{
-> +    uint16_t *d = vd, *a = va, *b = vb;
-> +
-> +    d[i] = (a[i] > b[i]) ? a[i] : b[i];
-> +}
-> +
-> +RVPR(umax16, 1, 2);
-> +
-> +static int64_t sat64(CPURISCVState *env, int64_t a, uint8_t shift)
-> +{
-> +    int64_t max = shift >= 64 ? INT64_MAX : (1ull << shift) - 1;
-> +    int64_t min = shift >= 64 ? INT64_MIN : -(1ull << shift);
-> +    int64_t result;
-> +
-> +    if (a > max) {
-> +        result = max;
-> +        env->vxsat = 0x1;
-> +    } else if (a < min) {
-> +        result = min;
-> +        env->vxsat = 0x1;
-> +    } else {
-> +        result = a;
-> +    }
-> +    return result;
-> +}
-> +
-> +static inline void do_sclip16(CPURISCVState *env, void *vd, void *va,
-> +                              void *vb, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +    uint8_t shift = *(uint8_t *)vb & 0xf;
-> +
-> +    d[i] = sat64(env, a[i], shift);
-> +}
-> +
-> +RVPR(sclip16, 1, 2);
-> +
-> +static uint64_t satu64(CPURISCVState *env, uint64_t a, uint8_t shift)
-> +{
-> +    uint64_t max = shift >= 64 ? UINT64_MAX : (1ull << shift) - 1;
-> +    uint64_t result;
-> +
-> +    if (a > max) {
-> +        result = max;
-> +        env->vxsat = 0x1;
-> +    } else {
-> +        result = a;
-> +    }
-> +    return result;
-> +}
-> +
-> +static inline void do_uclip16(CPURISCVState *env, void *vd, void *va,
-> +                              void *vb, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +    uint8_t shift = *(uint8_t *)vb & 0xf;
-> +
-> +    if (a[i] < 0) {
-> +        d[i] = 0;
-> +        env->vxsat = 0x1;
-> +    } else {
-> +        d[i] = satu64(env, a[i], shift);
-> +    }
-> +}
-> +
-> +RVPR(uclip16, 1, 2);
-> +
-> +typedef void PackedFn2i(CPURISCVState *, void *, void *, uint8_t);
-> +
-> +static inline target_ulong rvpr2(CPURISCVState *env, target_ulong a,
-> +                                 uint8_t step, uint8_t size, PackedFn2i *fn)
-> +{
-> +    int i, passes = sizeof(target_ulong) / size;
-> +    target_ulong result;
-> +
-> +    for (i = 0; i < passes; i += step) {
-> +        fn(env, &result, &a, i);
-> +    }
-> +    return result;
-> +}
-> +
-> +#define RVPR2(NAME, STEP, SIZE)                                  \
-> +target_ulong HELPER(NAME)(CPURISCVState *env, target_ulong a)    \
-> +{                                                                \
-> +    return rvpr2(env, a, STEP, SIZE, (PackedFn2i *)do_##NAME);   \
-> +}
-> +
-> +static inline void do_kabs16(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +
-> +    if (a[i] == INT16_MIN) {
-> +        d[i] = INT16_MAX;
-> +        env->vxsat = 0x1;
-> +    } else {
-> +        d[i] = abs(a[i]);
-> +    }
-> +}
-> +
-> +RVPR2(kabs16, 1, 2);
-> +
-> +static inline void do_clrs16(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +    d[i] = clrsb32(a[i]) - 16;
-> +}
-> +
-> +RVPR2(clrs16, 1, 2);
-> +
-> +static inline void do_clz16(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +    d[i] = (a[i] < 0) ? 0 : (clz32(a[i]) - 16);
-> +}
-> +
-> +RVPR2(clz16, 1, 2);
-> +
-> +static inline void do_clo16(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +    d[i] = (a[i] >= 0) ? 0 : (clo32(a[i]) - 16);
-> +}
-> +
-> +RVPR2(clo16, 1, 2);
-> +
-> +static inline void do_swap16(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int16_t *d = vd, *a = va;
-> +    d[H2(i)] = a[H2(i + 1)];
-> +    d[H2(i + 1)] = a[H2(i)];
-> +}
-> +
-> +RVPR2(swap16, 2, 2);
-> --
-> 2.17.1
->
+Here's a summary of the differing files:
+
+$ diff -r /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0{,-check}
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-aarch64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-aarch64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-aarch64_be and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-aarch64_be differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-alpha and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-alpha differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-arm and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/=
+qemu-arm differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-armeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-armeb differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-cris and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-cris differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-edid and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-edid differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-ga and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/q=
+emu-ga differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-hppa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-hppa differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-i386 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-i386 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-img and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/=
+qemu-img differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-io and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/q=
+emu-io differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-keymap and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-keymap differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-m68k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-m68k differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-microblaze and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-microblaze differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-microblazeel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-microblazeel differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-mips and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-mips differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-mips64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-mips64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-mips64el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-mips64el differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-mipsel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-mipsel differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-mipsn32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-mipsn32 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-mipsn32el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-mipsn32el differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-nbd and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/=
+qemu-nbd differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-nios2 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-nios2 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-or1k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-or1k differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-ppc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/=
+qemu-ppc differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-ppc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-ppc64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-ppc64le and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-ppc64le differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-pr-helper and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-pr-helper differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-riscv32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-riscv32 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-riscv64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-riscv64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-s390x and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-s390x differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-sh4 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin/=
+qemu-sh4 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-sh4eb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-sh4eb differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-sparc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-sparc differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-sparc32plus and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-sparc32plus differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-sparc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-sparc64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-storage-daemon and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-storage-daemon differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-aarch64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-aarch64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-alpha and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-alpha differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-arm and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-system-arm differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-avr and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-system-avr differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-cris and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-cris differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-hppa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-hppa differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-i386 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-i386 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-m68k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-m68k differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-microblaze and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.=
+2.0-check/bin/qemu-system-microblaze differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-microblazeel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-=
+5.2.0-check/bin/qemu-system-microblazeel differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-mips and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-mips differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-mips64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-mips64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-mips64el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/bin/qemu-system-mips64el differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-mipsel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-mipsel differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-moxie and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-moxie differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-nios2 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-nios2 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-or1k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-or1k differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-ppc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-system-ppc differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-ppc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-ppc64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-riscv32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-riscv32 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-riscv64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-riscv64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-rx and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-system-rx differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-s390x and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-s390x differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-sh4 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-system-sh4 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-sh4eb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-sh4eb differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-sparc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-sparc differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-sparc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-sparc64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-tricore and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-tricore differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-x86_64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-x86_64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-xtensa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-xtensa differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-system-xtensaeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/bin/qemu-system-xtensaeb differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-x86_64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-x86_64 differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-xtensa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-xtensa differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/qem=
+u-xtensaeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-xtensaeb differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libexec=
+/qemu-bridge-helper and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.=
+2.0-check/libexec/qemu-bridge-helper differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libexec=
+/vhost-user-gpu and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/libexec/vhost-user-gpu differ
+Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libexec=
+/virtiofsd and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/libexec/virtiofsd differ
+
+Attached is a sample log of diffoscope for the qemu-aarch64 binary.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "xz compressed diffoscope output"
+   https://bugs.launchpad.net/bugs/1919253/+attachment/5476911/+files/qemu-=
+5.2.0-qemu-aarch64.diffoscope.log.xz
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1919253
+
+Title:
+  QEMU doesn't build reproducibly anymore in 5.2.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  It used to be that building QEMU 5.1.0 twice in a row, using Guix,
+  would result in bit-for-bit identical results.
+
+  Starting with 5.2.0, this is no longer true.  Here's a summary of
+  which files have non-determinism:
+
+  Here's a summary of the differing files:
+
+  $ diff -r /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0{,-check}
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-aarch64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-aarch64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-aarch64_be and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-aarch64_be differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-alpha and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-alpha differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-arm and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-arm differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-armeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-armeb differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-cris and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-cris differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-edid and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-edid differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-ga and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-ga differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-hppa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-hppa differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-i386 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-i386 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-img and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-img differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-io and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
+/qemu-io differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-keymap and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-keymap differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-m68k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-m68k differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-microblaze and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-microblaze differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-microblazeel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-microblazeel differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-mips and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-mips differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-mips64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-mips64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-mips64el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-mips64el differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-mipsel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-mipsel differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-mipsn32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-mipsn32 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-mipsn32el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-mipsn32el differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-nbd and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-nbd differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-nios2 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-nios2 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-or1k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
+in/qemu-or1k differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-ppc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-ppc differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-ppc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-ppc64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-ppc64le and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-ppc64le differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-pr-helper and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-pr-helper differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-riscv32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-riscv32 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-riscv64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-riscv64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-s390x and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-s390x differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-sh4 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
+n/qemu-sh4 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-sh4eb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-sh4eb differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-sparc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
+bin/qemu-sparc differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-sparc32plus and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-sparc32plus differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-sparc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
+k/bin/qemu-sparc64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-storage-daemon and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
+.0-check/bin/qemu-storage-daemon differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-aarch64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
+.0-check/bin/qemu-system-aarch64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-alpha and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-alpha differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-arm and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-arm differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-avr and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-avr differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-cris and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-cris differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-hppa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-hppa differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-i386 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-i386 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-m68k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-m68k differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-microblaze and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-=
+5.2.0-check/bin/qemu-system-microblaze differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-microblazeel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qem=
+u-5.2.0-check/bin/qemu-system-microblazeel differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-mips and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-mips differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-mips64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/bin/qemu-system-mips64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-mips64el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.=
+2.0-check/bin/qemu-system-mips64el differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-mipsel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/bin/qemu-system-mipsel differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-moxie and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-moxie differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-nios2 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-nios2 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-or1k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
+check/bin/qemu-system-or1k differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-ppc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-ppc differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-ppc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-ppc64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-riscv32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
+.0-check/bin/qemu-system-riscv32 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-riscv64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
+.0-check/bin/qemu-system-riscv64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-rx and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
+eck/bin/qemu-system-rx differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-s390x and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-s390x differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-sh4 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
+heck/bin/qemu-system-sh4 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-sh4eb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-sh4eb differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-sparc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
+-check/bin/qemu-system-sparc differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-sparc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
+.0-check/bin/qemu-system-sparc64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-tricore and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
+.0-check/bin/qemu-system-tricore differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-x86_64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/bin/qemu-system-x86_64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-xtensa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/bin/qemu-system-xtensa differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-system-xtensaeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.=
+2.0-check/bin/qemu-system-xtensaeb differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-x86_64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-x86_64 differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-xtensa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
+/bin/qemu-xtensa differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
+emu-xtensaeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/bin/qemu-xtensaeb differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libex=
+ec/qemu-bridge-helper and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-=
+5.2.0-check/libexec/qemu-bridge-helper differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libex=
+ec/vhost-user-gpu and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
+0-check/libexec/vhost-user-gpu differ
+  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libex=
+ec/virtiofsd and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
+ck/libexec/virtiofsd differ
+
+  Attached is a sample log of diffoscope for the qemu-aarch64 binary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1919253/+subscriptions
 
