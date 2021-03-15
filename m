@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A821933AE7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 10:19:39 +0100 (CET)
-Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7205333AE7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 10:19:38 +0100 (CET)
+Received: from localhost ([::1]:37096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLjNt-00044q-OR
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35140)
+	id 1lLjNx-0004DE-Bu
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 05:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lLjJS-0007e4-Ea
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:14:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ id 1lLjJV-0007jr-5g
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:15:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22030)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lLjJQ-0007eH-Pg
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:14:58 -0400
+ id 1lLjJS-0007gQ-Ql
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 05:15:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615799696;
+ s=mimecast20190719; t=1615799697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=e9UQYhxlWEU9Mu20iWeA4OMqZZIO/1zzU2SifCrGhZU=;
- b=dmSsSHHj+qSMCD8UbJkLUqt+ret0ioTNYjITRBAlb9pL4LZnYBxC1T1BRE4xUQs0L5gb6q
- 3BWltCotylG5jkvWAYBJrLun05yAft+oGo92GX2gmHCGR56b2xsJNaR5/kTTnPbAodIHkF
- kxPbfhEWmmAavak6pfhi5JVRi7C8S7Q=
+ references:references; bh=cHDylX3VDgnAxGpHNhSOXdMfRX+mhcDAqVY6r7JPZHo=;
+ b=cxN/nn4/cYBkhee9YsQrI2ebtrEYZwAqYQbLWg6Rev03MNy3GA7MD6djoNu4he8dMn6wBo
+ K9fRcg2/vjjxRYhhnZbovWIdhBb0wvcLdESVAuOoTzG5/N/73VSBBTiSnGEdXbHsKsDRMQ
+ LynaxmX2RebAPEwluIMJnVhOF2uMfhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-JBnhB3fGPiCUimRKKutAhw-1; Mon, 15 Mar 2021 05:14:53 -0400
-X-MC-Unique: JBnhB3fGPiCUimRKKutAhw-1
+ us-mta-64-ghufpY7_NhOCyiAc1_uDjg-1; Mon, 15 Mar 2021 05:14:56 -0400
+X-MC-Unique: ghufpY7_NhOCyiAc1_uDjg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E230A805727;
- Mon, 15 Mar 2021 09:14:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E37C8042BE;
+ Mon, 15 Mar 2021 09:14:55 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-105.pek2.redhat.com
  [10.72.13.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DC17100164C;
- Mon, 15 Mar 2021 09:14:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F70C1007625;
+ Mon, 15 Mar 2021 09:14:53 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL V2 03/20] net: validate that ids are well formed
-Date: Mon, 15 Mar 2021 17:14:16 +0800
-Message-Id: <1615799673-31549-4-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 04/20] e1000: fail early for evil descriptor
+Date: Mon, 15 Mar 2021 17:14:17 +0800
+Message-Id: <1615799673-31549-5-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
 References: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
@@ -54,7 +54,7 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -62,7 +62,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,64 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Prasad J Pandit <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+During procss_tx_desc(), driver can try to chain data descriptor with
+legacy descriptor, when will lead underflow for the following
+calculation in process_tx_desc() for bytes:
 
-When a network or network device is created from the command line or HMP,
-QemuOpts ensures that the id passes the id_wellformed check.  However,
-QMP skips this:
+            if (tp->size + bytes > msh)
+                bytes = msh - tp->size;
 
-   $ qemu-system-x86_64 -qmp stdio -S -nic user,id=123/456
-   qemu-system-x86_64: -nic user,id=123/456: Parameter id expects an identifier
-   Identifiers consist of letters, digits, -, ., _, starting with a letter.
+This will lead a infinite loop. So check and fail early if tp->size if
+greater or equal to msh.
 
-   $ qemu-system-x86_64 -qmp stdio -S
-   {"execute":"qmp_capabilities"}
-   {"return": {}}
-   {"execute":"netdev_add", "arguments": {"type": "user", "id": "123/456"}}
-   {"return": {}}
-
-After:
-
-   $ qemu-system-x86_64 -qmp stdio -S
-   {"execute":"qmp_capabilities"}
-   {"return": {}}
-   {"execute":"netdev_add", "arguments": {"type": "user", "id": "123/456"}}
-   {"error": {"class": "GenericError", "desc": "Parameter "id" expects an identifier"}}
-
-Validity checks should be performed always at the bottom of the call chain,
-because QMP skips all the steps above.  At the same time we know that every
-call chain should go through either QMP or (for legacy) through QemuOpts.
-Because the id for -net and -nic is automatically generated and not
-well-formed by design, just add the check to QMP.
-
-Cc: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
+Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
+Cc: Prasad J Pandit <ppandit@redhat.com>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/net.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/net/e1000.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/net/net.c b/net/net.c
-index 16a87cc..77b35ea 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1134,6 +1134,11 @@ void netdev_add(QemuOpts *opts, Error **errp)
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index d8da2f6..4345d86 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -670,6 +670,9 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
+         msh = tp->tso_props.hdr_len + tp->tso_props.mss;
+         do {
+             bytes = split_size;
++            if (tp->size >= msh) {
++                goto eop;
++            }
+             if (tp->size + bytes > msh)
+                 bytes = msh - tp->size;
  
- void qmp_netdev_add(Netdev *netdev, Error **errp)
- {
-+    if (!id_wellformed(netdev->id)) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "id", "an identifier");
-+        return;
-+    }
-+
-     net_client_init1(netdev, true, errp);
- }
+@@ -695,6 +698,7 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
+         tp->size += split_size;
+     }
  
++eop:
+     if (!(txd_lower & E1000_TXD_CMD_EOP))
+         return;
+     if (!(tp->cptse && tp->size < tp->tso_props.hdr_len)) {
 -- 
 2.7.4
 
