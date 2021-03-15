@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E4B33B0C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:14:57 +0100 (CET)
-Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 755DE33B0C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:16:11 +0100 (CET)
+Received: from localhost ([::1]:34408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLlBY-0002RY-6K
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
+	id 1lLlCk-0003jU-IC
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLl6N-00075C-21
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:09:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58320)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlAi-0002P7-3b
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:14:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLl6H-00014Y-Be
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:09:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLlAf-0003lt-NS
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 07:14:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615806567;
+ s=mimecast20190719; t=1615806840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8eDNOwsVT4D4NsAwLCtcOzteI/Em3+S6N8Qffmi6WDw=;
- b=cqcEnh13W2ImoVZJmJwsTS7IdOv83JCXh5zqR0vFEfZRrtFX8UT+/SqbWs8wmkhZhErGbT
- q9xrDY0SDD0Wq0bhjsAcMvxeC2E0MIWG0+goRfBMkdkJ8ESplC59DMKT73ILmlh5vBE4S4
- gshdfCy4QVw6dU157iOGk8GcL/GOdPk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-poXLnDUxPRWvZqfyIE_Wxg-1; Mon, 15 Mar 2021 07:09:25 -0400
-X-MC-Unique: poXLnDUxPRWvZqfyIE_Wxg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B54B7802B45;
- Mon, 15 Mar 2021 11:09:24 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-128.ams2.redhat.com [10.36.115.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 146B65C3E6;
- Mon, 15 Mar 2021 11:09:15 +0000 (UTC)
-Date: Mon, 15 Mar 2021 12:09:14 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 27/30] hmp: QAPIfy object_add
-Message-ID: <YE9AWksF89nc2NjV@merkur.fritz.box>
-References: <20210308165440.386489-1-kwolf@redhat.com>
- <20210308165440.386489-28-kwolf@redhat.com>
- <87pn03rxmq.fsf@dusky.pond.sub.org>
- <cb9bee91-8d38-b232-44bd-b163d7081395@redhat.com>
- <87tupckb7d.fsf@dusky.pond.sub.org>
+ bh=HWaxzoU9Y8x4gcOzMsxh40EXoAIrzjubWT0uHCu2dTk=;
+ b=Jgi2gEIvLs1QoRkVFQyOEx1B4YfjByTuC/oSLaJjrsdz/0TguGG7hF18BzPgfzc5PTVSwl
+ 3nh63mYmtPDbXNGDFx20ph0eArzGCRa8ewHWFRwFnzEk/xeMy3M4ZZ1YvG3ggzySRu2hu6
+ gtC/y/5Tmcg64KzwBodHOdSN2Cd3aoM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-443-xKRRo1ZqMQ-BqhLc1ilb9g-1; Mon, 15 Mar 2021 07:13:56 -0400
+X-MC-Unique: xKRRo1ZqMQ-BqhLc1ilb9g-1
+Received: by mail-wr1-f72.google.com with SMTP id p15so14799568wre.13
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 04:13:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HWaxzoU9Y8x4gcOzMsxh40EXoAIrzjubWT0uHCu2dTk=;
+ b=cSBnsBHmLeO23aoSGmk+XBSWn7rl6fndIwsgBGp8Zicii77BbHGbomi0KXsDnPvmIe
+ SuvMIobJxsnGZ7jvtS3PCkVffKSl7t5k4msovtgoKcBru7nNbjT75kwZpAqvkQ9RBZoc
+ EEyA1GfUoQS+xuUo2CNYUN+GRMy5pb5DmB7j08H4Ce6dEbzNKchX0Vl62cv5xX9sy7U/
+ 9J+i0CiB1NV8VOq1DqgieO9m3MqyQBU3uF/c9cl9W8C9RzaSW0seLoYvMVYW/u/G8hnU
+ O7Ct1xS6H9xv9i21DwntZpljCtb9712aqzXgWVaXFsY2nqOH01DMaefkmaZ9idm1196S
+ OejQ==
+X-Gm-Message-State: AOAM530rcRpOGMxkzpQXcnITIQ6qKos7FnPUU4geFxgU7/geC3fXMF4h
+ aZLJ3rKcTJXXdmi70LBjQAqKF+DAdMSaZ0ksSlrOsplLCwEBgCIfKSa3LGq0IFGqUpEhXD92xOY
+ T6DE1Lupu9G3AfqSvoUCk4blfBMajEx73eaXCCV02HKKcvr+Z0KSF34s3c8eFPSDg
+X-Received: by 2002:a5d:4fca:: with SMTP id h10mr28023276wrw.70.1615806835017; 
+ Mon, 15 Mar 2021 04:13:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsY5NNGgrCldcjXqvUDMOZ+uF+vLumvHO0yPFaZ9I9x+SnazI7aWvFzT4DcBPk8F4eXtDjAA==
+X-Received: by 2002:a5d:4fca:: with SMTP id h10mr28023260wrw.70.1615806834816; 
+ Mon, 15 Mar 2021 04:13:54 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id a8sm12059158wmm.46.2021.03.15.04.13.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 04:13:54 -0700 (PDT)
+Subject: Re: [PATCH 2/2] util/compatfd.c: Replaced a malloc call with g_malloc.
+To: Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
+References: <20210315105814.5188-1-ma.mandourr@gmail.com>
+ <20210315105814.5188-3-ma.mandourr@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <210a44d9-ab4c-5863-1556-d5a7c368adc2@redhat.com>
+Date: Mon, 15 Mar 2021 12:13:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <87tupckb7d.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210315105814.5188-3-ma.mandourr@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,94 +98,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 15.03.2021 um 10:39 hat Markus Armbruster geschrieben:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
-> > On 13/03/21 14:28, Markus Armbruster wrote:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >> 
-> >>> This switches the HMP command object_add from a QemuOpts-based parser to
-> >>> user_creatable_add_from_str() which uses a keyval parser and enforces
-> >>> the QAPI schema.
-> >>>
-> >>> Apart from being a cleanup, this makes non-scalar properties and help
-> >>> accessible. In order for help to be printed to the monitor instead of
-> >>> stdout, the printf() calls in the help functions are changed to
-> >>> qemu_printf().
-> >>>
-> >>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> >>> Acked-by: Peter Krempa <pkrempa@redhat.com>
-> >>> Reviewed-by: Eric Blake <eblake@redhat.com>
-> >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >>> ---
-> >>>   monitor/hmp-cmds.c      | 17 ++---------------
-> >>>   qom/object_interfaces.c | 11 ++++++-----
-> >>>   hmp-commands.hx         |  2 +-
-> >>>   3 files changed, 9 insertions(+), 21 deletions(-)
-> >>>
-> >>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> >>> index 3c88a4faef..652cf9ff21 100644
-> >>> --- a/monitor/hmp-cmds.c
-> >>> +++ b/monitor/hmp-cmds.c
-> >>> @@ -1670,24 +1670,11 @@ void hmp_netdev_del(Monitor *mon, const QDict *qdict)
-> >>>   
-> >>>   void hmp_object_add(Monitor *mon, const QDict *qdict)
-> >>>   {
-> >>> +    const char *options = qdict_get_str(qdict, "object");
-> >>>       Error *err = NULL;
-> >>> -    QemuOpts *opts;
-> >>> -    Object *obj = NULL;
-> >>> -
-> >>> -    opts = qemu_opts_from_qdict(qemu_find_opts("object"), qdict, &err);
-> >>> -    if (err) {
-> >>> -        goto end;
-> >>> -    }
-> >>>   
-> >>> -    obj = user_creatable_add_opts(opts, &err);
-> >>> -    qemu_opts_del(opts);
-> >>> -
-> >>> -end:
-> >>> +    user_creatable_add_from_str(options, &err);
-> >>>       hmp_handle_error(mon, err);
-> >>> -
-> >>> -    if (obj) {
-> >>> -        object_unref(obj);
-> >>> -    }
-> >>>   }
-> >> 
-> >> Doesn't this break the list-valued properties (Memdev member host-nodes,
-> >> NumaNodeOptions member cpus) exactly the same way that made us keep
-> >> QemuOpts for qemu-system-FOO -object?
-> >
-> > Yes, it does.  I guess it can just be documented, unlike for the command 
-> > line?
-> 
-> Maybe.  Judgement call, not mine to make.
-> 
-> Do people create such objects in HMP?  I figure we don't really know.
-> Educated guess?
-> 
-> If you try, how does it break?  Is it confusing?  Can you show an
-> example?
+Hi Mahmoud,
 
-(qemu) object_add memory-backend-ram,id=mem,size=4G,policy=bind,host-nodes=0
-Error: Invalid parameter type for 'host-nodes', expected: array
-(qemu) object_add memory-backend-ram,id=mem,size=4G,policy=bind,host-nodes.0=0
-(qemu)
+On 3/15/21 11:58 AM, Mahmoud Mandour wrote:
+> Replaced a call to malloc() and its respective call to free()
+> with g_malloc() and g_free().
+> 
+> g_malloc() is preferred more than g_try_* functions, which
+> return NULL on error, when the size of the requested
+> allocation  is small. This is because allocating few
+> bytes should not be a problem in a healthy system.
+> Otherwise, the system is already in a critical state.
+> 
+> Subsequently, removed NULL-checking after g_malloc().
+> 
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+>  util/compatfd.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/util/compatfd.c b/util/compatfd.c
+> index 174f394533..a8ec525c6c 100644
+> --- a/util/compatfd.c
+> +++ b/util/compatfd.c
+> @@ -72,14 +72,10 @@ static int qemu_signalfd_compat(const sigset_t *mask)
+>      QemuThread thread;
+>      int fds[2];
+>  
+> -    info = malloc(sizeof(*info));
+> -    if (info == NULL) {
+> -        errno = ENOMEM;
+> -        return -1;
+> -    }
+> +    info = g_malloc(sizeof(*info));
 
-HMP is not a stable interface, so changing the syntax didn't feel like a
-problem to me. I doubt many people do HMP memory hotplug while setting a
-specific NUMA policy, but it wouldn't change my assessment anyway. I
-should have made this explicit in the commit message, though.
+Watch out...
 
-Kevin
+https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html
+
+  If any call to allocate memory using functions g_new(), g_new0(),
+  g_renew(), g_malloc(), g_malloc0(), g_malloc0_n(), g_realloc(),
+  and g_realloc_n() fails, the application is terminated.
+
+So with your change instead of handling ENOMEM the QEMU process is
+simply killed.
+
+Don't you want to use g_try_new(struct sigfd_compat_info, 1) here
+instead?
+
+>  
+>      if (pipe(fds) == -1) {
+> -        free(info);
+> +        g_free(info);
+>          return -1;
+>      }
+>  
+> 
 
 
