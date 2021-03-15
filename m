@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E281D33B5F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:57:50 +0100 (CET)
-Received: from localhost ([::1]:39446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29C433B5F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 14:58:04 +0100 (CET)
+Received: from localhost ([::1]:40648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLnjB-0006Z3-L4
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44318)
+	id 1lLnjP-00074i-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 09:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLnfq-0002zO-Uw
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:54:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLnfn-0003Em-HM
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:54:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615816457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JbPStmWjilW+FBtzt6eJe2p3Bl14UnD5FXHKr41V3XE=;
- b=hY9eF63u30W3bn6f5ya7Hz0Uu/KXPdP6Ly8PfMn8OAZn9q2Ou4XtwrdECnHyo1pkXF1em2
- zV+pXc6Tq3FDWDfj2qLmUtXzAK9M+tLEAu+j1AvVFNw34BZlwvi0fWHbIEThFHFbeyA+Ui
- a9yA7iuie2Pf6mJnjrOauWQxGFoopJY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-qeQZKTUVOT6-myx_NHr_Yg-1; Mon, 15 Mar 2021 09:54:14 -0400
-X-MC-Unique: qeQZKTUVOT6-myx_NHr_Yg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E9E8189C8
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 13:54:13 +0000 (UTC)
-Received: from thuth.com (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B188620DE;
- Mon, 15 Mar 2021 13:54:12 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] configure: Poison (almost) all target-specific #defines
-Date: Mon, 15 Mar 2021 14:54:10 +0100
-Message-Id: <20210315135410.221729-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lLngy-0004S5-S3
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:55:32 -0400
+Received: from 2.mo51.mail-out.ovh.net ([178.33.255.19]:52956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lLngw-0003up-El
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 09:55:32 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.235])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 79D6D27203E;
+ Mon, 15 Mar 2021 14:55:24 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 15 Mar
+ 2021 14:55:20 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005eaeb4383-662e-4e58-afde-820309e440f4,
+ 6ECECE93D947A1E75FB970C6684F7B2999F5CB5C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v3 14/16] hw/ppc: Use hreg_store_msr for msr updates
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
+References: <20210314175906.1733746-1-richard.henderson@linaro.org>
+ <20210314175906.1733746-15-richard.henderson@linaro.org>
+ <ea6b23c2-21db-a512-87b5-be5351ff0a74@kaod.org>
+ <f963e548-d2c0-d0a3-d8ed-bccc3c1d30e7@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <36cd9b32-4946-bd51-ffc0-d97c81e20257@kaod.org>
+Date: Mon, 15 Mar 2021 14:55:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <f963e548-d2c0-d0a3-d8ed-bccc3c1d30e7@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: bd411f54-9368-42d8-a081-55272554fe1d
+X-Ovh-Tracer-Id: 7443324288057969446
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvledgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,73 +72,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: ivan@vmfacility.fr, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are generating a lot of target-specific defines in the *-config-devices.h
-and *-config-target.h files. Using them in common code is wrong and leads
-to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
-as expected. To avoid these issues, we are already poisoning some of the
-macros in include/exec/poison.h - but maintaining this list manually is
-cumbersome. Thus let's generate the list of poisoned macros automatically
-instead.
-Note that CONFIG_TCG (which is also defined in config-host.h) and
-CONFIG_USER_ONLY are special, so we have to filter these out.
+On 3/15/21 2:47 PM, Richard Henderson wrote:
+> On 3/15/21 4:23 AM, Cédric Le Goater wrote:
+>> On 3/14/21 6:59 PM, Richard Henderson wrote:
+>>> Only one of the three places in hw/ppc that modify msr updated
+>>> hflags.  Even in that case, use the official interface instead
+>>> of a direct call to hreg_compute_hflags.
+>>
+>> ppc_store_msr() is the interface to use.
+>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>> Cc: Cédric Le Goater <clg@kaod.org>
+>>> Cc: Greg Kurz <groug@kaod.org>
+>>> ---
+>>>   hw/ppc/pnv_core.c    | 3 ++-
+>>>   hw/ppc/spapr_hcall.c | 3 +--
+>>>   hw/ppc/spapr_rtas.c  | 3 ++-
+>>>   3 files changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+>>> index bd2bf2e044..31f041b9c7 100644
+>>> --- a/hw/ppc/pnv_core.c
+>>> +++ b/hw/ppc/pnv_core.c
+>>> @@ -29,6 +29,7 @@
+>>>   #include "hw/ppc/pnv_xscom.h"
+>>>   #include "hw/ppc/xics.h"
+>>>   #include "hw/qdev-properties.h"
+>>> +#include "helper_regs.h"
+>>>     static const char *pnv_core_cpu_typename(PnvCore *pc)
+>>>   {
+>>> @@ -54,7 +55,7 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
+>>>        */
+>>>       env->gpr[3] = PNV_FDT_ADDR;
+>>>       env->nip = 0x10;
+>>> -    env->msr |= MSR_HVB; /* Hypervisor mode */
+>>> +    hreg_store_msr(env, env->msr | MSR_HVB, true); /* Hypervisor mode */
+>>
+>>
+>> This is going to have the opposite effect of not setting the HV bit in the
+>> PowerNV machine. See the comment in powerpc_set_excp_state().
+>>
+>> May be commit 1c953ba57ada ("ppc: Fix hreg_store_msr() so that non-HV
+>> mode cannot alter MSR:HV") needs a fix first.
+> 
+> Hmm.  I mis-read the code and assumed "allow_hv" allowed hv to be changed. 
+> There must be some kind of quirkyness here that I don't understand.
+This part was added ~14 years ago by commit a4f30719a8cd ("PowerPC hypervisor 
+mode is not fundamentally available only for PowerPC 64. Remove TARGET_PPC64 
+dependency and add code provision to be able   to define a fake 32 bits CPU 
+with hypervisor feature support.")
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- RFC since the shell stuff in "configure" is quite ugly ... maybe there's
- a better way to do this via meson, but my meson-foo is still lacking...
+I am afraid we kept adding stuff on top of it.
 
- Makefile              | 2 +-
- configure             | 5 +++++
- include/exec/poison.h | 2 ++
- 3 files changed, 8 insertions(+), 1 deletion(-)
+> I'll just have these reset functions use hreg_recompute_hflags directly.
 
-diff --git a/Makefile b/Makefile
-index bcbbec71a1..4cab10a2a4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -213,7 +213,7 @@ qemu-%.tar.bz2:
- 
- distclean: clean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
--	rm -f config-host.mak config-host.h*
-+	rm -f config-host.mak config-host.h* config-poison.h
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config-all-disas.mak config.status
- 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
-diff --git a/configure b/configure
-index f7d022a5db..c7b5df3a5c 100755
---- a/configure
-+++ b/configure
-@@ -6441,6 +6441,11 @@ if test -n "${deprecated_features}"; then
-     echo "  features: ${deprecated_features}"
- fi
- 
-+cat *-config-devices.h *-config-target.h | grep '^#define '  \
-+    | grep -v CONFIG_TCG | grep -v CONFIG_USER_ONLY \
-+    | sed -e 's/#define //' -e 's/ .*//' | sort -u \
-+    | sed -e 's/^/#pragma GCC poison /' > config-poison.h
-+
- # Save the configure command line for later reuse.
- cat <<EOD >config.status
- #!/bin/sh
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 4cd3f8abb4..9e55d5aec2 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -4,6 +4,8 @@
- #ifndef HW_POISON_H
- #define HW_POISON_H
- 
-+#include "config-poison.h"
-+
- #pragma GCC poison TARGET_I386
- #pragma GCC poison TARGET_X86_64
- #pragma GCC poison TARGET_AARCH64
--- 
-2.27.0
+Yes. That should be ok.
 
+Thanks,
+
+C. 
 
