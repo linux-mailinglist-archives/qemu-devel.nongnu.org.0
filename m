@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB7233C4BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:44:19 +0100 (CET)
-Received: from localhost ([::1]:40564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B264A33C4BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 18:47:39 +0100 (CET)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrGM-0005WB-QQ
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52418)
+	id 1lLrJa-00006O-PE
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 13:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLr9z-00024h-Rm
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:37:43 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:53095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLr9x-0006PM-KO
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:37:43 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.208])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 53C8A90704C3;
- Mon, 15 Mar 2021 18:37:39 +0100 (CET)
-Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 15 Mar
- 2021 18:37:38 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006ef09adda-c8dc-4acd-9dd8-f0071d0e9d16,
- C2FE56B6373390384040EEB24197F6B99D02A218) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 15 Mar 2021 18:37:37 +0100
-From: Greg Kurz <groug@kaod.org>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 3/3] virtiofsd: Don't allow empty filenames
-Message-ID: <20210315183737.19b0d824@bahia.lan>
-In-Reply-To: <YE962LeQCJfR03NZ@work-vm>
-References: <20210312141003.819108-1-groug@kaod.org>
- <20210312141003.819108-4-groug@kaod.org>
- <20210314233604.GC223210@redhat.com>
- <20210315110630.5ae99490@bahia.lan> <YE962LeQCJfR03NZ@work-vm>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lLrBZ-0002vr-1S
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:39:21 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lLrBW-0006v3-Ee
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 13:39:20 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id f12so9101215wrx.8
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 10:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CwyeBE/rSeOSOt/j0aIHZXlsOGpeFiSn+IzklQT180A=;
+ b=pIiacPN+nPzgghYQDDjJFCEgwNe4V53AHXHiQ8wyg9Tzpevyl6pgwLJDAUf+0OSa9N
+ mTALkrK65qngUHJPxkOysAKGsc+GRAsNRabo47hOh76bQuOjsfxP5789a+APMYeVB5Hl
+ AGSfRUIjtE5QSVsO6zym6TV84bMYenJw4GK/spOis45WWxvkzdydxhwZLHXMUp2gr3b0
+ q5bMSg23cEG+xJcQr8da4kHJ/T9Uze7rIhVC4PW303quYtRdF4T7lcA8PeXB123x6jZt
+ sfDLsQP3Gt0SZTFSg9Qk0o/le3mSIH2VTVVOw7J3VpPWQLJ04hSnCJYt/qZFrJup9Fr/
+ DDOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CwyeBE/rSeOSOt/j0aIHZXlsOGpeFiSn+IzklQT180A=;
+ b=IfSryLeoqu3CkaQmkiDqOUCgCsLRyRBeOrvNoJtr5BmHcWtxmn9AlL+vQIkKOOUCRv
+ oYuLso6sonIqgPlk9TTrTom07xF7mNOiFWTS1w5jljvd/rvMfDpYmyUhnCYCFmZaOm9l
+ Y5XHAP/jVCXoRWFJ7y2gnTLJCxMcQ/GQzfTmWs9lM9CPSPl8GsIg5XR7ta6K9gxjvdq3
+ efj2GwCV61O/85xy849KfDxmxIL/BV89/xShRgNXhYLi71eLssll1xwf7+HHF8J6jCTY
+ H4/2H3xaiKjKxMzC+DF7Youaesk5w0OrvF1btgx5ObHbfi3YXGbOQwmWW6pjzfp7DB/f
+ kU7Q==
+X-Gm-Message-State: AOAM531LZ2lC8UikGc0h2S+HdxjfeC16nnAWHA2DQpZK6ibg+8kIxu1R
+ /nVL1HUG5erZmuuA8Vah9ZCEuUOlVrw=
+X-Google-Smtp-Source: ABdhPJxDQ6SBpa/5XaGhMP1qLpBO2Ith4PNuyPMujROXynqNzFkPvrKYQpbYmwgzFY485EiCcutoeg==
+X-Received: by 2002:adf:a3d3:: with SMTP id m19mr807738wrb.24.1615829956699;
+ Mon, 15 Mar 2021 10:39:16 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.gmail.com with ESMTPSA id
+ m132sm295613wmf.45.2021.03.15.10.39.15 for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 10:39:16 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/5] Meson version update
+Date: Mon, 15 Mar 2021 18:39:07 +0100
+Message-Id: <20210315173912.197857-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: d2ed2557-6f3c-4a2b-8750-99873aceffe9
-X-Ovh-Tracer-Id: 11196793100870392288
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvledguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueeiieekueffvdeggeehjeeuleeifeejgeevtedugfehheefleegffdukefhfeetnecuffhomhgrihhnpehophgvnhhgrhhouhhprdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,66 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Mar 2021 15:18:48 +0000
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+The following changes since commit 51204c2f188ec1e2a38f14718d38a3772f850a4b:
 
-> * Greg Kurz (groug@kaod.org) wrote:
-> > On Sun, 14 Mar 2021 19:36:04 -0400
-> > Vivek Goyal <vgoyal@redhat.com> wrote:
-> > 
-> > > On Fri, Mar 12, 2021 at 03:10:03PM +0100, Greg Kurz wrote:
-> > > > POSIX.1-2017 clearly stipulates that empty filenames aren't
-> > > > allowed ([1] and [2]). Since virtiofsd is supposed to mirror
-> > > > the host file system hierarchy and the host can be assumed to
-> > > > be linux, we don't really expect clients to pass requests with
-> > > > an empty path in it. If they do so anyway, this would eventually
-> > > > cause an error when trying to create/lookup the actual inode
-> > > > on the underlying POSIX filesystem. But this could still confuse
-> > > > some code that wouldn't be ready to cope with this.
-> > > > 
-> > > > Filter out empty names coming from the client at the top level,
-> > > > so that the rest doesn't have to care about it. This is done
-> > > > everywhere we already call is_safe_path_component(), but
-> > > > in a separate helper since the usual error for empty path
-> > > > names is ENOENT instead of EINVAL.
-> > > > 
-> > > > [1] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_170
-> > > > [2] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13
-> > > > 
-> > > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > 
-> > > Hi Greg,
-> > > 
-> > > Minor nit, if you happen to respin this patch, it probably should come
-> > > before the first patch in series. Once we make it clear that file server
-> > > is not expecting empty path in these top level functions, then it is
-> > > easy to clear AT_EMPTY_PATH in function these paths are calling as
-> > > appropriate.
-> > > 
-> > 
-> > The patch order is chronological : I just spotted the AT_EMPTY_PATH
-> > oddity before coming up with the bigger hammer of patch 3. But you're
-> > right, it probably makes more sense to do the other way around.
-> > 
-> > > What about lo_create(). Should we put a check in there as well.
-> > > 
-> > 
-> > Good catch ! I'll post a v2 then ;)
-> 
-> I'm just brewing a pull now, since soft freeze is tomorrow.
-> I'll take 3,1,2 - please follow up with a separate lo_create one - we
-> can add that later.
-> 
+  Merge remote-tracking branch 'remotes/bkoppelmann2/tags/pull-tricore-20210314' into staging (2021-03-15 15:34:27 +0000)
 
-Sure, I'll do that.
+are available in the Git repository at:
 
-Cheers,
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson-0.57
 
---
-Greg
+for you to fetch changes up to 57d42c3b774d0716b9ad1a5a576480521edc7201:
+
+  hexagon: use env keyword argument to pass PYTHONPATH (2021-03-15 18:06:21 +0100)
+
+v1->v2: rebased
+
+----------------------------------------------------------------
+Update Meson to 0.57.
+
+----------------------------------------------------------------
+Paolo Bonzini (5):
+      hexagon: do not specify executables as inputs
+      hexagon: do not specify Python scripts as inputs
+      meson: bump submodule to 0.57.1
+      meson: switch minimum meson version to 0.57.0
+      hexagon: use env keyword argument to pass PYTHONPATH
+
+ configure                               |  7 +----
+ docs/meson.build                        | 12 ++++----
+ meson                                   |  2 +-
+ meson.build                             | 54 +++++++++++++++------------------
+ plugins/meson.build                     |  4 +--
+ scripts/mtest2make.py                   |  7 ++---
+ target/hexagon/meson.build              | 37 ++++++++--------------
+ tests/docker/dockerfiles/centos7.docker |  2 +-
+ tests/qapi-schema/meson.build           |  4 +--
+ tests/qtest/meson.build                 |  2 +-
+ tests/unit/meson.build                  |  2 +-
+ trace/meson.build                       |  4 +--
+ 12 files changed, 57 insertions(+), 80 deletions(-)
+-- 
+2.29.2
+
 
