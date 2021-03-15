@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D2733AFD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:17:51 +0100 (CET)
-Received: from localhost ([::1]:51144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4025033AFDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:19:02 +0100 (CET)
+Received: from localhost ([::1]:54550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLkII-0005t6-PV
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49630)
+	id 1lLkJR-0007Ky-BC
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:19:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lLkGN-0004nJ-6w
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:15:51 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:36126)
+ id 1lLkIG-0006VW-Px
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:17:48 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lLkGK-00027z-38
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:15:50 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id b10so32655831ybn.3
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 03:15:47 -0700 (PDT)
+ id 1lLkI9-0003BL-CN
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:17:48 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id p193so32627587yba.4
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 03:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=BbbLEG8Np10qAfhn8p1y7WamooAQ5+M1vliHCeGKqMk=;
- b=C3JngfndtvWUxMVelDFI0I0Qzqd5AsUlLXWCIbUWyLj9GJoR/QuwaKBlEa7zreTIIg
- ZWoBoP+O9BJXv2C7sh2K0P2h7cQSUkMuS2VTmnSbaROn3Qo0WkuEoLfXCgHwlASe5L20
- KzXobEeo+AY3uAWulpdMmZFcGQmTNU1xlW9vbVOQ/0y2Et4tt74PBnKfTzt41rCZPDlI
- Jeyh5WRF6LUnHMP+mMpAURWkPiYDp5L16pBLNp80R2A941v9iaOUKJlZPhI0JDfkYjFh
- 5RbOHPxKHGHjHKzROG+onSIjRiTtyJA+rdLkK9BD9eQwy7HSVuvjitIllkgfDnu9QQMl
- 6oMQ==
+ bh=+GEMLuqbQOFS+K9uq4ZWf/HnVyERHy+AWjDzxpHF9nU=;
+ b=Jg1T4BXpkxgT9R8+vxdBSBHyeVTRhADeGcVkBRfRdvdr6VPYp/1webo9Jp7W2CKJMa
+ +GMBo4D+f9+7f330Ov0VIWk88drpctxHcf+IehoWKiDc8Qz8dXH4fyBMHOITJwZq+Rsq
+ joj3toTGaWpkg0Y6Y04NDyxXEQzgzLpnEDVh4N/9bh3IVhaMZulR9WwEqpOm994prxJr
+ nMb1RDCMD7RMwvCVyAQ+gfqB5zGtVpaDLWsJ44BqWj/ktWveVmbANy5trnagiKrosO3R
+ RuQ0mcq3tU4+h1PsDk9iXjRvejnBsfpiytQDMstokmFhtfZ69G0/VtkqjRnraiBiYFrd
+ GI8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=BbbLEG8Np10qAfhn8p1y7WamooAQ5+M1vliHCeGKqMk=;
- b=PJNMKCyT2zDJLo7iTnkKNbVFCCr3ENvYVcIKj4uoVrVPUiZOCpVS+/icpWZTnN0QLM
- yCw0oBS3CkQxiTmnrQjZsInboFB9L0PUNKCclAXvA2mfVGjK8IANLL1NvjOgFk9QEtLM
- zmsuuZLGQgwBdQfIb6Ptth4Pw3paQ9DprmDeztyWTXq6/RspmFEu6OyL+8daLgn48B91
- PMJSaz5zgDrhUspU40KRcu9nQiji9+qMEbcn3s0lmpusLR61Ae7UHISlbkEZk5Lqf5gQ
- 8oVjP9+E1yD9/IqWEv8KFeo8VR6ZfCnTqAj+0CBgfqthLd6R6Vg9LmNxTqBL0/ZSfMWs
- toyA==
-X-Gm-Message-State: AOAM532GKZvArabK4SP3v5AmR6iUqBv701TV2KriQV5NVRYBWxnSTCVr
- 2UYF5rEiXuw5GlM6TfOu6aN6JYA7qpigbsjOG/c=
-X-Google-Smtp-Source: ABdhPJwCQ22c4dQDeEYpBS3hu1+JQtd/yTeqHugyBOMTO+x4Kqqb+0OyoMTmnaU+yvC/wyAWB4GtaYmtgZbtIEXUAdA=
-X-Received: by 2002:a5b:147:: with SMTP id c7mr36333231ybp.332.1615803347028; 
- Mon, 15 Mar 2021 03:15:47 -0700 (PDT)
+ bh=+GEMLuqbQOFS+K9uq4ZWf/HnVyERHy+AWjDzxpHF9nU=;
+ b=WSn9kYjfjNh2VyoPCdV3JpcoAUATmbh293paT9zy3SwlPWurT2KGb9CMmMb2TEGUYR
+ 1fveIE4UovS6/QQe0idCvs4rUbsm2K7olG3kkgQECHq0TGg/bgYLNib79xjtO8mGockj
+ vSYcKu8f6x7avtNcHkpDuQ8wOhH5TjFrMeKwcdY612Smw5Ksw2mVSUH7bgy5yHnlcfVc
+ JmB2jOJrbLAbW8MAInnMIOFWlhQfD2V40YQ/eu4+7A284s1nghYqtjhhDuU+WaGdhN1g
+ TU7Etd66FKBHpbi+6jZI/SRyup/ACdHrqXme+xKUdDFbAccGq0yVDBqfiddXAfSjNcwh
+ rnlA==
+X-Gm-Message-State: AOAM5334BfQkkac7s7KwGuja8/BrNb2pMb5nRy8Z4oMaGjm/1UN0GlmQ
+ o3EcyC8kgXGf/1BNi8hxD8rWTB93HpeooQ2xzHA=
+X-Google-Smtp-Source: ABdhPJxwywaEm7SXvY9+Xyz1D4hUDH0IPumerTHh+qblVsAykXhzpJOlcOD4mn2f3qHP8ptwAqMy2TWL+D9jojSP6dk=
+X-Received: by 2002:a25:2d1f:: with SMTP id t31mr37565816ybt.239.1615803459230; 
+ Mon, 15 Mar 2021 03:17:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210315075718.5402-1-bmeng.cn@gmail.com>
- <20210315075718.5402-2-bmeng.cn@gmail.com>
- <236293f1-c23c-78a9-3e1f-7b523280262a@redhat.com>
-In-Reply-To: <236293f1-c23c-78a9-3e1f-7b523280262a@redhat.com>
+ <20210315075718.5402-3-bmeng.cn@gmail.com>
+ <4093c094-ed8c-d8c4-09b7-4bad19529ec6@redhat.com>
+ <2884879b-d645-324b-e90c-95fd59b66daa@redhat.com>
+ <f6f4f095-2a69-5fcd-64c4-38115a35c09b@redhat.com>
+In-Reply-To: <f6f4f095-2a69-5fcd-64c4-38115a35c09b@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 15 Mar 2021 18:15:35 +0800
-Message-ID: <CAEUhbmWHQ9ifdeaGRDp-iEo2AyTV-bmTOd+xHJ+O1-BT0Nig0g@mail.gmail.com>
-Subject: Re: [PATCH v2 01/13] net: Add ETH_ZLEN define in eth.h
+Date: Mon, 15 Mar 2021 18:17:28 +0800
+Message-ID: <CAEUhbmWv1esg937aD_S9uUkT+pEzGSvJqQa5NObUQA8yMh8M3A@mail.gmail.com>
+Subject: Re: [PATCH v2 02/13] net: Add a 'do_not_pad" to NetClientState
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,45 +89,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Philippe,
 
-On Mon, Mar 15, 2021 at 5:13 PM Philippe Mathieu-Daud=C3=A9
+On Mon, Mar 15, 2021 at 5:22 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> On 3/15/21 8:57 AM, Bin Meng wrote:
-> > Add a new macro ETH_ZLEN which represents the minimum size of an
-> > Ethernet frame without FCS.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  include/net/eth.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/include/net/eth.h b/include/net/eth.h
-> > index 0671be6916..7c825ecb2f 100644
-> > --- a/include/net/eth.h
-> > +++ b/include/net/eth.h
-> > @@ -31,6 +31,7 @@
-> >
-> >  #define ETH_ALEN 6
-> >  #define ETH_HLEN 14
-> > +#define ETH_ZLEN 60     /* Min. octets in frame sans FCS */
+> On 3/15/21 10:18 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 3/15/21 10:17 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> On 3/15/21 8:57 AM, Bin Meng wrote:
+> >>> This adds a flag in NetClientState, so that a net client can tell
+> >>> its peer that the packets do not need to be padded to the minimum
+> >>> size of an Ethernet frame (60 bytes) before sending to it.
+> >>>
+> >>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> >>> ---
+> >>>
+> >>>  include/net/net.h | 1 +
+> >>>  1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/include/net/net.h b/include/net/net.h
+> >>> index 919facaad2..6fab1f83f5 100644
+> >>> --- a/include/net/net.h
+> >>> +++ b/include/net/net.h
+> >>> @@ -100,6 +100,7 @@ struct NetClientState {
+> >>>      int vring_enable;
+> >>>      int vnet_hdr_len;
+> >>>      bool is_netdev;
+> >>> +    bool do_not_pad;
 >
-> What means 'sans'?
+> Maybe 'do_not_pad_to_min_eth_frame_len' to avoid
+> wondering what padding is it.
 
-sans-serif font? Does that sound familiar? :)
-
-Please check:
-https://www.dictionary.com/browse/sans
-
-This comment was not invented by me, but was just a copy from the one
-used in Linux kernel:
-https://github.com/torvalds/linux/blob/d635a69dd4981cc51f90293f5f64268620ed=
-1565/include/uapi/linux/if_ether.h#L35
-
->
-> Otherwise:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
+I felt the same when I added this :) But I wonder if that name is too long =
+..
 
 Regards,
 Bin
