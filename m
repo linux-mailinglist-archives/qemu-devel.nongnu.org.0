@@ -2,67 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C3833A9CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 04:12:23 +0100 (CET)
-Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D4133A9BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 04:08:14 +0100 (CET)
+Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLdeY-0006R3-TY
-	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 23:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
+	id 1lLdaX-00040h-H3
+	for lists+qemu-devel@lfdr.de; Sun, 14 Mar 2021 23:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lLdd2-0005ks-DG
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 23:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lLdcz-0006H1-4Q
- for qemu-devel@nongnu.org; Sun, 14 Mar 2021 23:10:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lLdcx-0007RY-Bk
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 03:10:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4A1582E8050
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 03:10:43 +0000 (UTC)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lLdYy-0003Zp-1k
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 23:06:36 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:48493)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lLdYw-0003nq-9z
+ for qemu-devel@nongnu.org; Sun, 14 Mar 2021 23:06:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1615777594; x=1647313594;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=7BUa9viFN81ypUdNJOfQadNqTgdYqbmEaV87zbq7ySA=;
+ b=S04cLrdn9gMrXiv6PizHQHNKRhqQ/TSe3kDB6LYgv/+8z3PK6D7s9VlZ
+ Te0uy4/DfyJe0NZjVmxTYAZmO6IOQmrOpo7dY9Y/M9dtyaxznLTPLEG4J
+ KJJMB+EOWkPg/Dk2gKD3BPEUEUCEzPBtytMS4T9vNnqt2j3AijSphcdB8 M=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Mar 2021 20:06:32 -0700
+X-QCInternal: smtphost
+Received: from nasanexm03g.na.qualcomm.com ([10.85.0.49])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 14 Mar 2021 20:06:32 -0700
+Received: from nasanexm03d.na.qualcomm.com (10.85.0.91) by
+ nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sun, 14 Mar 2021 20:06:32 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03d.na.qualcomm.com (10.85.0.91) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Sun, 14 Mar 2021 20:06:31 -0700
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by BYAPR02MB4229.namprd02.prod.outlook.com (2603:10b6:a02:fd::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Mon, 15 Mar
+ 2021 03:06:24 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6%4]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
+ 03:06:24 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v8 29/35] Hexagon (target/hexagon) translation
+Thread-Topic: [PATCH v8 29/35] Hexagon (target/hexagon) translation
+Thread-Index: AQHW/d3GDdLGZmOd1UesCq0DZKzEA6pYcSAAgCbAjECAA7mcgIABp3tA
+Date: Mon, 15 Mar 2021 03:06:23 +0000
+Message-ID: <BYAPR02MB4886A6D9B6D4D88253B5FC2BDE6C9@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-30-git-send-email-tsimpson@quicinc.com>
+ <152e99c9-675a-1fc8-c44c-e80d5af8ce70@linaro.org>
+ <BYAPR02MB4886C193F014511DDCCDC7EADE6D9@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <889ed981-29e6-357d-48ae-6d3bb8f63ff3@linaro.org>
+In-Reply-To: <889ed981-29e6-357d-48ae-6d3bb8f63ff3@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [70.115.140.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5d173bfc-c8ad-4423-baee-08d8e75f5113
+x-ms-traffictypediagnostic: BYAPR02MB4229:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB42294B391D6A5A6DF9B6CACBDE6C9@BYAPR02MB4229.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: I6HwaxGnd4tzf1RKEB6tGDgXfvY03rOkkuLHBG1D1VDDKBnsM1vuNUmyUNpq9gWp7wT6p+eY18DOvBydQszIDDzEgXmPFZIZpwYGFFpTUGUu2FDrqJd0fh008j4gtr16TiltToNrWooS4O1jluKdCPaFN6P/Seygqk9aa+/Tkl1waGHjAgEuigj2E8leD9j0t+wo7xmo3yQlw3cdRJKtguUnnT6wDl/x4oroYY5YQyH27I4L1Ud6ZAWN3KcdMcrl2JCAGavwwWg881mARbFWw8qA2zOP0U7zEcOy7OrLAEYWcDlcFWyj2YBsL+PL3n/HLZBMLl5Iwz6oL5am8wfx/9XjPAtMuUhWzs/dTpwbd9pOe67o0yHav9fQJTP3D4/5ATv/24efP5gnJtdmBZ8kXcgkCmyMRHsuGc5ABiXR7l9jUpmxTiL99mBE3nHd9zFLqeg0/zdjAyLzLXi0Ut5hauswolpL1UHc4h5tb1ZB3aERgRS2Dr1NOgOK6Te7fUcpKEU6UH8Y36iylgKoLilC8+luiKIlem3Ql14TdqZD36qrrXcW5LN07kMg92FoRZsY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(366004)(4326008)(186003)(9686003)(26005)(86362001)(55016002)(66556008)(107886003)(66446008)(76116006)(6506007)(53546011)(66946007)(66476007)(71200400001)(316002)(5660300002)(52536014)(110136005)(2906002)(54906003)(478600001)(8676002)(8936002)(7696005)(33656002)(83380400001)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?aGplQ2g5Vy90QWVSV1NxU0NjbUJyRFVjRS85bUVtMytLdDlkYUN5eWVmYnhP?=
+ =?utf-8?B?L1BSaWVMOTRWVXBEalI4OHR3aDhiTmlEWHQ4bldYei8rZ3hyRzRhcWRtYndm?=
+ =?utf-8?B?aURoZHBPNGw5enR1dkJ5SklLcTZCQ0pIcE9xMFVBTzFRaHJNRzhWMTltcjFM?=
+ =?utf-8?B?YmtsKzZtbEdLZUs4MldvRm9kVHYzVzNXcjhnOGFNbFIyWGp1azZDQWJXa1U3?=
+ =?utf-8?B?K1M2SjlzN3NYSHU1dWR2cGN2eU9WMFVsSGZpNmdPcW1xRnQybEVVRnF5eHJZ?=
+ =?utf-8?B?aktQNWxJTWlYeDkzZGFub1dYcWtEVktOZjN4bnlRMDh2R29WM25wZlcweXA5?=
+ =?utf-8?B?dVFHZ1FjVHpXVWYySWRXZklOamlmVkgvS2NGNHc4RDIxd09OVkdvNGZIamtU?=
+ =?utf-8?B?WVZqVktwQWJnOGRTeVloZnhMVTVXcW5aM3E4OXlObittZDAxaTlWVmlFamxQ?=
+ =?utf-8?B?SkE2WG0zYkhHRFpKQ2JkV3ZCQWtNWDg3OTdsWURGNU40Sll6S2IvOVdLdlps?=
+ =?utf-8?B?clJRbUtUa1MyT3hRbXBrTTRkeGZNWWxJMzRSYTNoSVJYcHM5RHU4dFlCczRj?=
+ =?utf-8?B?Rnd4Zk9ITlYwaGh5NEhTK2FicUdBQjFPQlgydUQ1YVkvbitWZXB0RWExOTVw?=
+ =?utf-8?B?eldpRFhDNWhZSUxwaWdoWGw0LzRoRnY1YlRSRmZrQjdWNS9lVjFuWk1NZ2U2?=
+ =?utf-8?B?QytNeFlKZXUyMDNCY1NrTlBMb2xpdmJzRHBma0U3K1RhYnFzd2t5Rlcrb0dT?=
+ =?utf-8?B?VHZpTnN5ZjI2NDVsb2JJdjRZdmhnbXp1NVBpNGNBRnVwSkRQYjQycWtnRzd3?=
+ =?utf-8?B?OHdGdUN6ZjdXczBYUXpxcHZqUTR4WSsybzAzRnphKzloL1pCL3cvVmhMT281?=
+ =?utf-8?B?MitEbmpSZlN1V0tYUlZZbnZNaFdwa3FXZHdmcHFxcGtCbmxSZzRtWi9zV0Zj?=
+ =?utf-8?B?OGxZOUplNWJpbDJZK1NORlZ1LzhURWJ1WUhoek5oc1dyQWNRbGNiSHFTTEtU?=
+ =?utf-8?B?aFpnWVFiTzBNazNFTUxBK2w3dXRKakE0ajR3YWZhVkppU0FBN0JiNzhRWFZ3?=
+ =?utf-8?B?dlhVajUvVmhKcXpmdTJNK1Jha0pRZjR5WFJWaTFBZktNaDcwSkFZekVDVUZC?=
+ =?utf-8?B?a1JCNzgzSlh0bGE4dXkzWG9LU3RCcHByc2ZMOWViMmZtTXlSazVkeW96WjVi?=
+ =?utf-8?B?NEt4NEVyaWVtTkdTdHIrc3lrc3ZhZHFLL1hoZVk0SnV3TmphaUxBOTQ3KzIw?=
+ =?utf-8?B?YmN0dUdydlBzbEp4RWgrQVkxcFc5am9NUGM0Q2hhaUVGYmJEVXBCUDVvdWo3?=
+ =?utf-8?B?MGFZd2hXRnA4MitXUGM5RlcyZXBZMDk2YTVKRktCenNSemErUXVRVTJaeTEv?=
+ =?utf-8?B?Y051QWNuNlZIU0FlUStueUI4WFhwbGhiWE9aakRSOFYzWkQvQWJsMnlIZ1hk?=
+ =?utf-8?B?UGsrdVgrTjhNbHU5U0I0UmtuSDJoNndJbGwxeXdIdC9DWHkvWmhkY2tFaDJO?=
+ =?utf-8?B?L1QrQmROektCNEt5QWdwamdDRWU3emVFMlpZMVVabEozbzFEV25vME16SEw3?=
+ =?utf-8?B?cHNPRDU0MHo1b3c5R0Z5dUdseUVrVjkrMlArVmtROWtoRGJHckQxaVRCeDFk?=
+ =?utf-8?B?SVVLRkxIVHFHZkN0akh3ZTlTZkcwR0VmRVNLWW1oMkhHaTYvVUJTSjBoNGxh?=
+ =?utf-8?B?L2J1WmwvcHNxMFNHdG82S0dHZ2UvQ3laZ0VZcFQwd2dJRDJibksxTGUvQzFO?=
+ =?utf-8?Q?85K6fHnXFnWGy72tZbSsGyk6+CWg5v5uwwf+kC1?=
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KGT/zyB3yHtpcgCZYAC8LOFIAO1IfQGVVnlYu6OyoAjsaGCQyJD5+LaF4aVURNQBYrrI3go5WAPk2x4yx/ZK8ouLTedFsytHuzRcdM2rzSrd28ZJOkoORWm2NkO1M98zx6tfPiJslM7jfcPnce0DIOXf/e4x+LnBjWX4J0fmFIjhLFuPk3xDBho/ZMLuEFLs3zBzSjB6b0b5Z24tBxWYQhPiUXX9qfRFfh7OOt2CJhsQ1lZXRhLd9xmlGWhoTb6C3UwcVtR2cu4y7pb8rwA+UtpRIsrMfEbMaeSd0Bd71kdp6MjQCjunT9yEV9zs0S9swz9EtvGKeZc0SXoS9n4BaQ==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JJrcy4f3ZloB6xdMGpdSB1HO1cU1jf3v11eXhukQaeo=;
+ b=FlavgpFDyubkemF0yFPOpsJ3wv7ToD7SO2QxVH9t88QaEBzF0+wmuS4hJ142yvij4eqWmrUejQsaDoDib6kIRBCqIc7vCumQYwwNrllrOQHkVwa493RfJaIKvpMJEYuDV1LAHOVt3gOg5NS1ow9WGpN8vxQT3AVPMFfSGM/KOXKb2EoowcoQY/1g/ZSYajqoikfBgazByFz7CHKPSRz3/Us2SSwLVddTknVwYcTsddqFPLmTfVO6HygoffGsYEoY+o797xRt2qu0oXiaITj23uNUnMzImhGIyz2bLn6jgT0KPdJTxwwtx94CDYOrZHihqwVIcchkyCbjsFtnQ+qWXg==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: 5d173bfc-c8ad-4423-baee-08d8e75f5113
+x-ms-exchange-crosstenant-originalarrivaltime: 15 Mar 2021 03:06:23.8753 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: yWngRCY/g9W5EEUBbBRf0doF24rvzRZQ8IvPukGr01Ulom9ML4XzUvrHtIrwjIdPdF5v8B0KbqtX4OeuFgMTlw==
+x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4229
+x-originatororg: quicinc.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Mar 2021 03:02:42 -0000
-From: Alexander Bulekov <1919035@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr cwmyung
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <161565639689.3429.408017997346111219.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161577736248.15300.6842323988096162990.malone@gac.canonical.com>
-Subject: [Bug 1919035] Re: Assertion failure in fifo8_pop_buf() through
- am53c974
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: a8340ea825b09ba82080b8edd50e745ed345a9bc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,177 +157,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1919035 <1919035@bugs.launchpad.net>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QTest reproducer:
-
-/*
- * Autogenerated Fuzzer Test Case
- *
- * This work is licensed under the terms of the GNU GPL, version 2 or
- * later. See the COPYING file in the top-level directory.
- */
-
-#include "qemu/osdep.h"
-
-#include "libqos/libqtest.h"
-
-/*
- * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, \
- * -m 4G -device am53c974,id=3Dscsi -device scsi-hd,drive=3Ddisk0 -drive \
- * id=3Ddisk0,if=3Dnone,file=3Dnull-co://,format=3Draw -nodefaults -qtest s=
-tdio
- * outl 0xcf8 0x80001004
- * outw 0xcfc 0x01
- * outl 0xcf8 0x8000100e
- * outl 0xcfc 0x8a000000
- * outl 0x8a09 0x42000000
- * outl 0x8a0d 0x00
- * outl 0x8a0b 0x1000
- * EOF
- */
-static void test_fuzz(void)
-{
-    QTestState *s =3D qtest_init(
-        "-display none , -m 4G -device am53c974,id=3Dscsi -device "
-        "scsi-hd,drive=3Ddisk0 -drive "
-        "id=3Ddisk0,if=3Dnone,file=3Dnull-co://,format=3Draw -nodefaults");
-    qtest_outl(s, 0xcf8, 0x80001004);
-    qtest_outw(s, 0xcfc, 0x01);
-    qtest_outl(s, 0xcf8, 0x8000100e);
-    qtest_outl(s, 0xcfc, 0x8a000000);
-    qtest_outl(s, 0x8a09, 0x42000000);
-    qtest_outl(s, 0x8a0d, 0x00);
-    qtest_outl(s, 0x8a0b, 0x1000);
-    qtest_quit(s);
-}
-int main(int argc, char **argv)
-{
-    const char *arch =3D qtest_get_arch();
-
-    g_test_init(&argc, &argv, NULL);
-
-    if (strcmp(arch, "i386") =3D=3D 0) {
-        qtest_add_func("fuzz/test_fuzz", test_fuzz);
-    }
-
-    return g_test_run();
-}
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1919035
-
-Title:
-  Assertion failure in fifo8_pop_buf() through am53c974
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  am53c974 emulator.
-
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master, 3f8d1885e4)
-
-  =
-
-  ```
-  qemu-system-i386: ../util/fifo8.c:73: fifo8_pop_buf: Assertion `max > 0 &=
-& max <=3D fifo->num' failed.
-
-  #0  0x00007ffff0218fb7 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007ffff021a921 in __GI_abort () at abort.c:79
-  #2  0x00007ffff020a48a in __assert_fail_base (fmt=3D0x7ffff0391750 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5555=
-58ed24a0 "max > 0 && max <=3D fifo->num", file=3Dfile@entry=3D0x555558ed238=
-0 "../util/fifo8.c", line=3Dline@entry=3D0x49, function=3Dfunction@entry=3D=
-0x555558ed24e0 <__PRETTY_FUNCTION__.16603> "fifo8_pop_buf") at assert.c:92
-  #3  0x00007ffff020a502 in __GI___assert_fail (assertion=3Dassertion@entry=
-=3D0x555558ed24a0 "max > 0 && max <=3D fifo->num", file=3Dfile@entry=3D0x55=
-5558ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x49, function=3Dfunction=
-@entry=3D0x555558ed24e0 <__PRETTY_FUNCTION__.16603> "fifo8_pop_buf") at ass=
-ert.c:101
-  #4  0x000055555877519a in fifo8_pop_buf (fifo=3Dfifo@entry=3D0x61f0000052=
-00, max=3Dmax@entry=3D0xff, num=3Dnum@entry=3D0x7fff72bfa550) at ../util/fi=
-fo8.c:73
-  #5  0x00005555572b7d9a in do_cmd (s=3Ds@entry=3D0x61f000005088) at ../hw/=
-scsi/esp.c:328
-  #6  0x00005555572b879a in esp_do_nodma (s=3Ds@entry=3D0x61f000005088) at =
-../hw/scsi/esp.c:701
-  #7  0x00005555572bfd79 in handle_ti (s=3D0x61f000005088) at ../hw/scsi/es=
-p.c:848
-  #8  0x00005555572c419c in esp_reg_write (s=3D0x61f000005088, saddr=3Dsadd=
-r@entry=3D0x3, val=3D<optimized out>) at ../hw/scsi/esp.c:987
-  #9  0x0000555557bb916a in esp_pci_io_write (opaque=3D0x61f000004680, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at ../hw=
-/scsi/esp-pci.c:214
-  #10 0x000055555817ea28 in memory_region_write_accessor (mr=3D0x61f000004f=
-70, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>=
-, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at ../softm=
-mu/memory.c:491
-  #11 0x0000555558176671 in access_with_adjusted_size (addr=3Daddr@entry=3D=
-0xc, value=3Dvalue@entry=3D0x7fff72bfb2a8, size=3Dsize@entry=3D0x1, access_=
-size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D
-      0x55555817e7c0 <memory_region_write_accessor>, mr=3D0x61f000004f70, a=
-ttrs=3D...) at ../softmmu/memory.c:552
-  #12 0x00005555581892aa in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
-x61f000004f70, addr=3D<optimized out>, data=3D<optimized out>, data@entry=
-=3D0x10, op=3Dop@entry=3DMO_8, attrs=3D..., attrs@entry=3D...) at ../softmm=
-u/memory.c:1508
-  #13 0x0000555558024b66 in address_space_stb (as=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, attrs=3D..., result=3D0x0) at /h=
-ome/cwmyung/prj/hyfuzz/src/qemu-master/memory_ldst.c.inc:382
-  #14 0x00007fff93236d3c in code_gen_buffer ()
-  #15 0x0000555557e793bb in cpu_tb_exec (tb_exit=3D<optimized out>, itb=3D<=
-optimized out>, cpu=3D0x62e0000004b4) at ../accel/tcg/cpu-exec.c:190
-  #16 0x0000555557e793bb in cpu_loop_exec_tb (tb_exit=3D<optimized out>, la=
-st_tb=3D<optimized out>, tb=3D<optimized out>, cpu=3D0x62e0000004b4) at ../=
-accel/tcg/cpu-exec.c:673
-  #17 0x0000555557e793bb in cpu_exec (cpu=3Dcpu@entry=3D0x62e000000400) at =
-../accel/tcg/cpu-exec.c:798
-  #18 0x0000555557f5fc5a in tcg_cpus_exec (cpu=3Dcpu@entry=3D0x62e000000400=
-) at ../accel/tcg/tcg-accel-ops.c:68
-  #19 0x00005555582260af in mttcg_cpu_thread_fn (arg=3Darg@entry=3D0x62e000=
-000400) at ../accel/tcg/tcg-accel-ops-mttcg.c:70
-  #20 0x0000555558777b05 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #21 0x00007ffff05d26db in start_thread (arg=3D0x7fff72bff700) at pthread_=
-create.c:463
-  #22 0x00007ffff02fb71f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-  ```
-
-  =
-
-  To reproduce the assertion failure, please run the QEMU with the followin=
-g command line.
-
-  ```
-
-  $ ./qemu-system-i386 -m 512 -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device
-  am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive
-  id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-  ```
-
-  Please let me know if I can provide any further info.
-
-  Thank you.
-
-  - Cheolwoo, Myung (Seoul National University)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1919035/+subscriptions
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hhcmQgSGVuZGVyc29u
+IDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPg0KPiBTZW50OiBTYXR1cmRheSwgTWFyY2gg
+MTMsIDIwMjEgNzo0NCBQTQ0KPiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMu
+Y29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBwaGlsbWRAcmVkaGF0LmNvbTsgYWxl
+eC5iZW5uZWVAbGluYXJvLm9yZzsgbGF1cmVudEB2aXZpZXIuZXU7DQo+IGFsZUByZXYubmc7IEJy
+aWFuIENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY4IDI5
+LzM1XSBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgdHJhbnNsYXRpb24NCj4NCj4gPj4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hh
+cmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+ID4+IFNlbnQ6IFN1bmRheSwgRmVicnVhcnkgMTQs
+IDIwMjEgNzowNCBQTQ0KPiA+PiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMu
+Y29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+ID4+IENjOiBwaGlsbWRAcmVkaGF0LmNvbTsg
+YWxleC5iZW5uZWVAbGluYXJvLm9yZzsgbGF1cmVudEB2aXZpZXIuZXU7DQo+ID4+IGFsZUByZXYu
+bmc7IEJyaWFuIENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiA+PiBTdWJqZWN0OiBSZTogW1BB
+VENIIHY4IDI5LzM1XSBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgdHJhbnNsYXRpb24NCj4gPj4N
+Cj4gPj4gT24gMi83LzIxIDk6NDYgUE0sIFRheWxvciBTaW1wc29uIHdyb3RlOg0KPiA+Pj4gKyAg
+ICBjYXNlIERJU0FTX05PUkVUVVJOOg0KPiA+Pj4gKyAgICAgICAgZ2VuX2V4ZWNfY291bnRlcnMo
+Y3R4KTsNCj4gPj4+ICsgICAgICAgIHRjZ19nZW5fbW92X3RsKGhleF9ncHJbSEVYX1JFR19QQ10s
+IGhleF9uZXh0X1BDKTsNCj4gPj4+ICsgICAgICAgIGlmIChjdHgtPmJhc2Uuc2luZ2xlc3RlcF9l
+bmFibGVkKSB7DQo+ID4+PiArICAgICAgICAgICAgZ2VuX2V4Y2VwdGlvbl9kZWJ1ZygpOw0KPiA+
+Pj4gKyAgICAgICAgfSBlbHNlIHsNCj4gPj4+ICsgICAgICAgICAgICB0Y2dfZ2VuX2V4aXRfdGIo
+TlVMTCwgMCk7DQo+ID4+PiArICAgICAgICB9DQo+ID4+DQo+ID4+IERJU0FTX05PUkVUVVJOIHNh
+eXMgdGhhdCB3ZSBoYXZlICphbHJlYWR5KiBleGl0ZWQgdGhlIFRCLiAgTm9uZSBvZiB0aGUgY29k
+ZSB5b3UgZW1pdCBoZXJlIHdpbGwgYmUgcmVhY2hhYmxlLg0KPiA+DQo+ID4gSXNuJ3QgdGhpcyBj
+YWxsZWQgYmVmb3JlIHRoZSBUQiBlbmRzPw0KPg0KPiBZZXMsIGJ1dCBESVNBU19OT1JFVFVSTiBz
+dGlsbCBtZWFucyB3ZSd2ZSBhbHJlYWR5IGV4aXRlZC4NCj4NCj4gSnVzdCBsaWtlIGNhbGxpbmcg
+YWJvcnQoKSBpbiBDIG1lYW5zIHRoYXQgd2Ugd29uJ3QgcmVhY2ggYW55IGZvbGxvd2luZyByZXR1
+cm4gc3RhdGVtZW50Lg0KDQpUaGVuIEknbSBtaXNzaW5nIHNvbWV0aGluZyBiZWNhdXNlIHRoZSBj
+b2RlIGVtaXR0ZWQgaGVyZSBkb2VzIGdldCBleGVjdXRlZC4gIEkgdGhvdWdodCB0aGUgdGJfc3Rv
+cCBmdW5jdGlvbiBpcyBhIHBsYWNlIGZvciB0aGUgdGFyZ2V0IHRvIGFkZCBjb2RlLiAgU2hvdWxk
+IEkgcHVzaCB0aGlzIHVwIHRvIGFsbCB0aGUgcGxhY2VzIHdoZXJlIHdlIHNldCBjdHgtPmJhc2Uu
+aXNfam1wIHRvIERJU0FTX05PUkVUVVJOPw0KDQoNClRheWxvcg0KDQo=
 
