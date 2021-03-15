@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BD533B0AD
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4B933B0AE
 	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 12:10:36 +0100 (CET)
-Received: from localhost ([::1]:48664 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLl7J-00064O-7d
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59666)
+	id 1lLl7L-00064S-J6
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 07:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lLl19-0004E5-C6; Mon, 15 Mar 2021 07:04:11 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48433)
+ id 1lLl1A-0004Fw-QC; Mon, 15 Mar 2021 07:04:12 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:48783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lLl17-0006RV-7A; Mon, 15 Mar 2021 07:04:11 -0400
+ id 1lLl17-0006RW-GX; Mon, 15 Mar 2021 07:04:12 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id E1182236F;
- Mon, 15 Mar 2021 07:04:03 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 2AF282199;
+ Mon, 15 Mar 2021 07:04:04 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
  by compute4.internal (MEProxy); Mon, 15 Mar 2021 07:04:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=hlF6KIL/GYdGCuz1fYlSfTetzR
- J0If5Tb+piIpPC2DY=; b=Kd26NpL01kRJx0OGb5JPbHdGHGXrAJJBUcYHtNxaC/
- YcPZ4GAvZubFoscId5bgiv6i71N6L3fxIR1T21Zm/5tG69SRKD/HCMLIJz1wGBC3
- PxE3QSyal1YcUeRRkgbbO4Qofv7wIWz8sjFdVCqBIpWiUeQOmbpazydwRXEQsHhv
- y2GuscPn5NBAu38x+OvY/u1HowX8Fnmu0luoyAeiXvh100qc4/o7S/J/F6Am8Mgf
- TUnOApJtvXhcn4g7M6emVuPtKDwKKVROPgkfRhtLyDxEiVIt+z7+HXrcDcpxfTNG
- m4UCkCI9urm/Mazu1D46LO1CfWGz/FFyXJ2OaM2t4BlQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=lGPxTMZn8A6XF
+ 1MXAYyg7rGrO8x4Ph6lfkznHh5vIFI=; b=iJiEqo3h7em2r8JhttawUzqa/u5Qw
+ 4fFWIgwj3QwTdmZkSD9YYxqfQgDkk1fQAnrIE8m32GzPStfztBIxMdL0ubgPXdS/
+ pMRTWY37awFOOVmrGlEKfSdTZyDr/Nm3Xn9fFlIkUzcZcfTZU4LeuUIa6pdroT9M
+ slLGCBU2a0AS86EEtwtj4jbVfP7Ox3zaU/kH34Bg8ovVN4arvQMUB/uG6aQxzEIt
+ 4lelOGCV24XvBH34rhmDs+EIBt6C/KkOaOZLzOGOeD3T+H/Q/iZySJ/77iakN/Cv
+ dQV2055Vu5eal3+AbbGyqDQhFt5USoFORDwsqmA0zrn+PAIwlBdu6QPTg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hlF6KI
- L/GYdGCuz1fYlSfTetzRJ0If5Tb+piIpPC2DY=; b=g98V3ou1enY6gnFbq28u5i
- xtcUGsZM0kQSwSI4+wWt9ZxwsaKXdNd3PC1PUIut0IBY15dg1s0UA2djgpbqyBCw
- iZID4oq9IXQllVlXo9Br4IEsQZm8hXkrj9GOsLT1AEULW0bXjTAobA83PM6mScEn
- Ly3GZwq1fgcvdK6O1pIMMXo5v8R6FW0hfGRbMXIuT8hPZCgILwRDHZBF0EpTKThi
- 8e2/awAEdxIgLC1aFuDMQBNmbiP2iBz/hqkplz6WeZlhH4yUQ2sY3bvPQep+ND2p
- Z3lGpeK7xQBtkn1qnXXuFdASERTL0QhiAIiXweAH/2shU5Gszr6K6KUcbnASI7OA
- ==
-X-ME-Sender: <xms:Ij9PYBBOtx8eWJ1vMw8Tf_5nk0g89dNSoYhDCLRCxBuyERRCOv2QFA>
- <xme:Ij9PYD2IhqWPUqYcYLYmHl7jpBesCOPsJJvRLSGrGr7x8lhyZnnMYu7d9Q0lExJLr
- LF7IpQSk2cgNXtX4uo>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=lGPxTMZn8A6XF1MXAYyg7rGrO8x4Ph6lfkznHh5vIFI=; b=QEtOwdFH
+ RBFkK4e5t+BR1tRT/EyfDuyBFb8GdPPRnNW4SXkMsto1UaTGdheGlTRzMLk6GBOJ
+ hemNhGg4mxQUuZ+zIfcdjfEMEMmlER65UvKmz9bO8FQ2ZztEHdKxugqEjClIEdKa
+ fHt/SIS+L7COgFs1fX65M3DA+QjsXzS7Q0ZqczLvokAIILcVhJbZpyZ/Ytu2NI5w
+ bwHKR7GaazIGkl2VdjPmOcdRzhxDhfB84KjBwUT/M0l9HYWi/nyGanem4I0WmeP9
+ mLXGrwhTcCbUcNxcZ6+7+jRYgoJBIObR5oG3GZWSfFPu5TlKFRvFbaAhp/gbNLQa
+ 9+ud7qdguv8qCw==
+X-ME-Sender: <xms:Iz9PYK9NYlNtuyupw1ZkK_1ntKisk86nWKoeHmU4B8uGqiqzY4Gn9w>
+ <xme:Iz9PYKtp8Hk7IW1ImdAidEAUeJUPExGBB3spvdps7vipK67xROq6wvTNzyCyepBfC
+ 8A2EW7tjvFy87jzrUg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvledgvddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Ij9PYLuCf7IvOQNvtkbHQR7hyA5gygFbj_a06rXNpyCqsKnzLhuwKw>
- <xmx:Ij9PYD6j9O8oLgAtkzVVK1LCOgy9RfjfC40JcPwhLJ1-hGzM2N1c_g>
- <xmx:Ij9PYMI9eWtUgv8frz2Y0I7aL_mXxXbnkR9fNqbnjKPnaD-Mc9wwTA>
- <xmx:Iz9PYN79HY-IrkwXIIgLlQ0hsl80M2McsDaqVdWFxcd6aMkMLvUzkw>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:Iz9PYAD4UJW0zv0kO3MzBeH_ZZGPVV-E7dtkViK_P8zgxY89oC4TcA>
+ <xmx:Iz9PYCcELTffdKmHTNt_cPitk5fgKLOJAX4MiIcbIWynflbupge4fg>
+ <xmx:Iz9PYPOSHdJBxB4skOVoXqfD-NNc89wBhRhdWNB3XOlRdeNpC97DXg>
+ <xmx:Iz9PYErnAXZ1-Ov0DQllzNuhHjbtfTSgYqHCRIYL5iVrznmR1mseoQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8D3C9240057;
- Mon, 15 Mar 2021 07:04:01 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id BFE2E24005B;
+ Mon, 15 Mar 2021 07:04:02 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/block/nvme: coverity fixes
-Date: Mon, 15 Mar 2021 12:03:57 +0100
-Message-Id: <20210315110359.51450-1-its@irrelevant.dk>
+Subject: [PATCH 1/2] hw/block/nvme: fix potential overflow
+Date: Mon, 15 Mar 2021 12:03:58 +0100
+Message-Id: <20210315110359.51450-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210315110359.51450-1-its@irrelevant.dk>
+References: <20210315110359.51450-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
  helo=wout3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -97,22 +98,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Fix three issues reported by coverity (CID 1450756, CID 1450757 and CID=0D
-1450758).=0D
-=0D
-Klaus Jensen (2):=0D
-  hw/block/nvme: fix potential overflow=0D
-  hw/block/nvme: assert namespaces array indices=0D
-=0D
- hw/block/nvme-subsys.h |  2 ++=0D
- hw/block/nvme.h        | 10 ++++++++--=0D
- hw/block/nvme-subsys.c |  7 +++++--=0D
- hw/block/nvme.c        |  2 +-=0D
- 4 files changed, 16 insertions(+), 5 deletions(-)=0D
-=0D
--- =0D
-2.30.1=0D
-=0D
+page_size is a uint32_t, and zasl is a uint8_t, so the expression
+`page_size << zasl` is done using 32-bit arithmetic and might overflow.
+Since we then compare this against a 64 bit data_size value, Coverity
+complains that we might overflow unintentionally. An MDTS/ZASL value in
+excess of 4GiB is probably impractical, but it is not entirely
+unrealistic, so add a cast such that we handle that case properly.
+
+Fixes: 578d914b263c ("hw/block/nvme: align zoned.zasl with mdts")
+Fixes: CID 1450756
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index d439e44db839..f8ad34077000 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2188,7 +2188,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+                 goto invalid;
+             }
+ 
+-            if (n->params.zasl && data_size > n->page_size << n->params.zasl) {
++            if (n->params.zasl && data_size > (uint64_t)n->page_size << n->params.zasl) {
+                 trace_pci_nvme_err_zasl(data_size);
+                 return NVME_INVALID_FIELD | NVME_DNR;
+             }
+-- 
+2.30.1
+
 
