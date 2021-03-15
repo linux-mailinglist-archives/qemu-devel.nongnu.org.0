@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD2633C831
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:08:53 +0100 (CET)
-Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B92733C84C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 22:14:04 +0100 (CET)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLuSK-0001Mz-TG
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
+	id 1lLuXL-00030a-6X
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 17:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lLuQp-0000UT-EH
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:07:19 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:49055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lLuQn-0005Fo-Fm
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:07:19 -0400
-Received: from [192.168.100.1] ([82.142.6.26]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MWSJJ-1lESk52JPn-00Xwtt; Mon, 15 Mar 2021 22:07:14 +0100
-Subject: Re: [PATCH] linux-user: Use signed lengths in uaccess.c
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210315204004.2025219-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c8a434a8-9f88-99cf-a136-6099626b2477@vivier.eu>
-Date: Mon, 15 Mar 2021 22:07:13 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lLuWF-0002ap-Dp
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:12:55 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lLuWE-0007gc-56
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 17:12:55 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o14so5592299wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0zxZBgUlbORmzGXE9gtIXxdZorj/QROkkiveXBSqbSs=;
+ b=fj0WZ40oU04DATZw5NuCKEBfrjUD2O3FeZoNyxrRr8wheeRSIPYbEYGNkaXZjeSPRm
+ qXVgLQj2GMRzQVnwSfmUtGkAdquVpSJTcpChPtEXape76bW5eQldzCnrB9PBkULD/f4O
+ FTW3GBJo2Goi/qc+0leFE27crRJMT3aqwWaTiwPmCI91oy+RsWsqxCKFQq46c1aKm9YP
+ PAZWdOqOqL6RPX7IuG8SXPVQbLSgBitj9TKa0RmFddmBVwswZizFvVTvXrwSBwhG5d58
+ Wn8QtSumbGY5u4WxI193WJQ0W/7BpdG1Hcr81m6fJMAuG5SQgV2Ce+TzrJG07RwpehbG
+ JduA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0zxZBgUlbORmzGXE9gtIXxdZorj/QROkkiveXBSqbSs=;
+ b=U9j2QiNdotDd13By45cNyuBMN2d0g9ccpuDFml34w2/kZr4bwffERpoSFBGvmgdDPa
+ 95yEFwnH/GtQb/7XbVHPnhgd9a3crMGsqa7ZKuVaoPnL19iay52yXWIGAj/LKDMjhxvW
+ VtLjpf4aP7ZfXojm1ENQAmDaAZ5jzXbom9SG4zb5TknDM6pJ3cfmfRCZqGmBVZCyS5gZ
+ zkGAsiNDFgg6AHYYcViHzynYFfkJ4xaEkRThqVYFBtNt0QhRwfKVtl94AYeuQioKdCWj
+ C1iZdrUkZxiNAI+iac1QKY6tOCW7R8HXeSB2pY9QrX6mO9F32Dws8lYq3SIIMLSpYiGM
+ ovdQ==
+X-Gm-Message-State: AOAM533rTYaqZ2kW8TGsRhqaQfQ1VWnHRz3Bx7k8URD+iJ8Fm53fmWtx
+ qbv+Dna/ZYUwEzL6IVkXxWgA+IARPxZqsQ==
+X-Google-Smtp-Source: ABdhPJxv9w5xFzjbVj5xjszHd2iKoVx9FKIQSiUwRcwWEHPFVTfDxym1ROJP23g6LqVRa971QQ+Nog==
+X-Received: by 2002:adf:e5cf:: with SMTP id a15mr1466795wrn.226.1615842772283; 
+ Mon, 15 Mar 2021 14:12:52 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id o11sm19772386wrq.74.2021.03.15.14.12.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 14:12:51 -0700 (PDT)
+Subject: Re: [PATCH] Hexagon (target/hexagon) fix typo in comment
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1615784115-26559-1-git-send-email-tsimpson@quicinc.com>
+ <f228097e-68d1-2e4e-9ff6-443fb734a4f1@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0313f837-6eca-d2c2-8dd7-db367fbe24a7@amsat.org>
+Date: Mon, 15 Mar 2021 22:12:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210315204004.2025219-1-richard.henderson@linaro.org>
+In-Reply-To: <f228097e-68d1-2e4e-9ff6-443fb734a4f1@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7rDF2UPNs1ozlGnqcWLsQneUwn3gL5d9KcJjssbR8uWanRAH10c
- n92268kJWTj46QWoOFLNRlCVYnPILe4FFbZjMJ4wE84NwmeTe50RAiV8v/F//nq6mCHG1rN
- GgJeUXXntA4DKKmGSYlH5j/knjqyIqYXwzb1+eigW3DZu+KyRRUJ+FOmIe79kls7y6zWkd/
- FcVaC4XSDQOvqcbRjFMoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OevRQa/SPsM=:wCA+6NR/K0L7UadrTEkhY1
- bsjr+SLtlZpHfmbWyXVHQ8xqO5f70GbZVYSeHgjW5shj0CBV1xbFl4XKwh0PtAGyl+Vi0HGnB
- VyRzZRYgRXfMNtbr+4QxQ7kE0WP0hUfJlc8fuLKjgnmg3pnasvj1lbLqQvzbGYqXAIPTfmBxB
- UEsxaTAxs4E1BY/CGsLbygJzUni+ANAAwnrJVwUJAoTA58cebeYVl6fC+UapVul6N2tfmggjX
- bGXNXSX/WTLNoN8UMuaIEIqOHBozTzytOxxTAlhBGJkt2jQpbs05AO4LcMYkfwm422c1Qacg2
- lwqUrS/g6db3rZHxgG4zlhwxW6/wFvs1PGL604QR2vH6AqeqYH5JfdxQwMVWnwkUDQUTb3w5X
- 8jUlSsNkqkpsHnDmqz3IYNLG9vGtQWc7/6vKwv+U08/3+tWGm9wN6ttDV8bcW9NgSdTAndSZU
- pzj2/fGeEA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,84 +90,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/03/2021 à 21:40, Richard Henderson a écrit :
-> Partially revert 09f679b62dff, but only for the length arguments.
-> Instead of reverting to long, use ssize_t.  Reinstate the > 0 check
-> in unlock_user.
+On 3/15/21 8:46 PM, Richard Henderson wrote:
+> On 3/14/21 10:55 PM, Taylor Simpson wrote:
+>> Signed-of-by: Taylor Simpson<tsimpson@quicinc.com>
+>> ---
+>>   target/hexagon/op_helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Fixes: 09f679b62dff
-> Reported-by: Coverity (CID 1446711)
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/qemu.h    | 15 +++++++++------
->  linux-user/uaccess.c | 12 ++++++------
->  2 files changed, 15 insertions(+), 12 deletions(-)
-> 
-> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-> index 52c981710b..74e06e7121 100644
-> --- a/linux-user/qemu.h
-> +++ b/linux-user/qemu.h
-> @@ -627,8 +627,8 @@ static inline bool access_ok(CPUState *cpu, int type,
->   * buffers between the target and host.  These internally perform
->   * locking/unlocking of the memory.
->   */
-> -int copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
-> -int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
-> +int copy_from_user(void *hptr, abi_ulong gaddr, ssize_t len);
-> +int copy_to_user(abi_ulong gaddr, void *hptr, ssize_t len);
->  
->  /* Functions for accessing guest memory.  The tget and tput functions
->     read/write single values, byteswapping as necessary.  The lock_user function
-> @@ -638,16 +638,19 @@ int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
->  
->  /* Lock an area of guest memory into the host.  If copy is true then the
->     host area will have the same contents as the guest.  */
-> -void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy);
-> +void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy);
->  
->  /* Unlock an area of guest memory.  The first LEN bytes must be
->     flushed back to guest memory. host_ptr = NULL is explicitly
->     allowed and does nothing. */
->  #ifndef DEBUG_REMAP
-> -static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
-> -{ }
-> +static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
-> +                               ssize_t len)
-> +{
-> +    /* no-op */
-> +}
->  #else
-> -void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
-> +void unlock_user(void *host_ptr, abi_ulong guest_addr, ssize_t len);
->  #endif
->  
->  /* Return the length of a string in target memory or -TARGET_EFAULT if
-> diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-> index c696913016..82b833b8f1 100644
-> --- a/linux-user/uaccess.c
-> +++ b/linux-user/uaccess.c
-> @@ -4,7 +4,7 @@
->  
->  #include "qemu.h"
->  
-> -void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
-> +void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy)
->  {
->      void *host_addr;
->  
-> @@ -24,7 +24,7 @@ void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
->  }
->  
->  #ifdef DEBUG_REMAP
-> -void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
-> +void unlock_user(void *host_ptr, abi_ulong guest_addr, ssize_t len);
+> Queued.
 
-The semicolon has been added by 687ca797893c ("linux-user: Move lock_user et al out of line")
-perhaps it's time to remove it?
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Can you s/Signed-of-by/Signed-off-by/ ? ;)
 
