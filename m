@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3BC33C5A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:29:10 +0100 (CET)
-Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2503B33C583
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:25:43 +0100 (CET)
+Received: from localhost ([::1]:44642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLrxl-0006JL-JB
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
+	id 1lLruQ-0002ef-2c
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:25:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYU-0002At-DD
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60967)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYO-00028O-Ll
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:02:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYN-0000Xe-SH
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:02 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYL-0000Wo-UW
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:02:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615831374;
+ s=mimecast20190719; t=1615831372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ygQwWUbVHD9Tjrq5dt/JuUHJDByWcAzz9Zas95IVSQg=;
- b=YPh5UkHtdJdSNypg8L1SHOZxnK/DCbi1JJD7lElAAfJC7mc9aAXiojbiqPEUuhFiR9XkW5
- UpkWgcxEQl687z1OliMUF3tvWtIcchf/5Lodj9AV9Urt7R0XrXjpTbmkR2fVw66a3UcdVS
- Bz2zV36N4SzcZ764lMDO1H1rHb0awUo=
+ bh=/uHLEGvCG1f0K3tZ2b//O9keiLqt2WcVC28SzoejUKk=;
+ b=d2bcEUtYXy4BUZ+Y0yWZx3I1keJiVj4mkfdP7/CDeUSLNu3kAbU2FzlVDFW6jCgUQNJ1dl
+ ql3m088R5V6D3/FyVKkC5A+FddOvF/m4dspz7+lKtYAT/qRnkvArGS4tAHswCXKGt/KVCT
+ 17FgVesQdImozEp+G2Ds9PrfZxNMjfM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-1T_jt1jaPmy1ffgnFlspkg-1; Mon, 15 Mar 2021 14:02:50 -0400
-X-MC-Unique: 1T_jt1jaPmy1ffgnFlspkg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-125-xN-N3z21Mwq45HnwxzaRCg-1; Mon, 15 Mar 2021 14:02:50 -0400
+X-MC-Unique: xN-N3z21Mwq45HnwxzaRCg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 750F281746E;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75B3E1015C90;
  Mon, 15 Mar 2021 18:02:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A62015FC17;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A29521B49F;
  Mon, 15 Mar 2021 18:02:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 289761800638; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
+ id 390F8180063C; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/13] usb: remove '-usbdevice u2f-key'
-Date: Mon, 15 Mar 2021 19:02:30 +0100
-Message-Id: <20210315180240.1597240-4-kraxel@redhat.com>
+Subject: [PULL 04/13] usb: Un-deprecate -usbdevice (except for -usbdevice
+ audio which gets removed)
+Date: Mon, 15 Mar 2021 19:02:31 +0100
+Message-Id: <20210315180240.1597240-5-kraxel@redhat.com>
 In-Reply-To: <20210315180240.1597240-1-kraxel@redhat.com>
 References: <20210315180240.1597240-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,31 +88,93 @@ Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-It never worked.
+When trying to remove the -usbdevice option, there were complaints that
+"-usbdevice braille" is still a very useful shortcut for some people.
+Thus we never remove this option. Since it's not such a big burden to
+keep it around, and it's also convenient in the sense that you don't
+have to worry to enable a host controller explicitly with this option,
+we should remove it from he deprecation list again.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+However, there is one exception: "-usbdevice audio" should go away, since
+audio devices without "audiodev=..." parameter are also on the deprecation
+list and you cannot use "-usbdevice audio" with "audiodev".
+
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210310173323.1422754-3-thuth@redhat.com>
+Message-Id: <20210310173323.1422754-4-thuth@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/u2f.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/usb/dev-audio.c               | 1 -
+ softmmu/vl.c                     | 2 --
+ docs/system/deprecated.rst       | 9 ---------
+ docs/system/removed-features.rst | 8 ++++++++
+ 4 files changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/hw/usb/u2f.c b/hw/usb/u2f.c
-index bc09191f063e..56001249a449 100644
---- a/hw/usb/u2f.c
-+++ b/hw/usb/u2f.c
-@@ -346,7 +346,6 @@ static const TypeInfo u2f_key_info = {
- static void u2f_key_register_types(void)
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index e1486f81e06b..f5cb2467929a 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -1024,7 +1024,6 @@ static const TypeInfo usb_audio_info = {
+ static void usb_audio_register_types(void)
  {
-     type_register_static(&u2f_key_info);
--    usb_legacy_register(TYPE_U2F_KEY, "u2f-key", NULL);
+     type_register_static(&usb_audio_info);
+-    usb_legacy_register(TYPE_USB_AUDIO, "audio", NULL);
  }
  
- type_init(u2f_key_register_types)
+ type_init(usb_audio_register_types)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b7673b96134d..a750dae6b1ef 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3180,8 +3180,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 break;
+             case QEMU_OPTION_usbdevice:
+-                error_report("'-usbdevice' is deprecated, please use "
+-                             "'-device usb-...' instead");
+                 olist = qemu_find_opts("machine");
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 add_device_config(DEV_USB, optarg);
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 5e3a31c12361..62a64a8c41e1 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -21,15 +21,6 @@ deprecated.
+ System emulator command line arguments
+ --------------------------------------
+ 
+-``-usbdevice`` (since 2.10.0)
+-'''''''''''''''''''''''''''''
+-
+-The ``-usbdevice DEV`` argument is now a synonym for setting
+-the ``-device usb-DEV`` argument instead. The deprecated syntax
+-would automatically enable USB support on the machine type.
+-If using the new syntax, USB support must be explicitly
+-enabled via the ``-machine usb=on`` argument.
+-
+ ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 83148dcfda6a..82e7fcc51715 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -38,6 +38,14 @@ or ``-display default,show-cursor=on`` instead.
+ QEMU 5.0 introduced an alternative syntax to specify the size of the translation
+ block cache, ``-accel tcg,tb-size=``.
+ 
++``-usbdevice audio`` (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''
++
++This option lacked the possibility to specify an audio backend device.
++Use ``-device usb-audio`` now instead (and specify a corresponding USB
++host controller or ``-usb`` if necessary).
++
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
 -- 
 2.29.2
 
