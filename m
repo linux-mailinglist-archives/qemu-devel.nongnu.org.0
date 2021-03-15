@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F3233BF69
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:06:53 +0100 (CET)
-Received: from localhost ([::1]:59788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533D633BF6D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:10:10 +0100 (CET)
+Received: from localhost ([::1]:34642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLonz-0005CR-Mt
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:06:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
+	id 1lLorB-0007Gq-CP
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLolp-0004Uz-8G
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:04:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lLolj-0002xB-ND
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:04:35 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLopT-0006QJ-SJ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:08:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lLopR-0004r7-U8
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:08:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615820670;
+ s=mimecast20190719; t=1615820900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gsTnIyjD60Opkm7g69ufbCJgnzrVmakg7+yInPwceKY=;
- b=EoUiq3sgKQj5GiiJpf9s2wXYQ1As1NQi7B2DFDUrLBpS3XaOQ2PcR5bpD6V/Dns4ljCJLE
- Tr+hWR+Vra5i9EM7DUS8RyOWyrYG2O9Wt1u68X8ff3vg19YF4mKN7UTHQPTk1FQsW64QOT
- 2HnTTGUVpd7unEhRyNv6lTpC/KcPHBQ=
+ bh=eD7ofPhPeKcwPF6VV13GPQp/qiby3TZONDgA6flF9p8=;
+ b=clSF9bEgBSOo/v84u7JAbR+DJKbB7wDXDAqY/Fd6raDRjY4EH+AXpgZjfXPinJX5U3wfnA
+ wb+ocU6+03F8p7bmcCB4CMAMPreVBQIkReZl1kDAVvCkPEJebbD7bXccWP0eWeQ1MIB9hO
+ gM99XAXWjkiL6mRd6tn9/lZCFVEy774=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-zxqvNDcFPeSkrUvVAFjTjg-1; Mon, 15 Mar 2021 11:04:28 -0400
-X-MC-Unique: zxqvNDcFPeSkrUvVAFjTjg-1
+ us-mta-89-OUKysA9kOTujC4fNeQ7GZw-1; Mon, 15 Mar 2021 11:08:18 -0400
+X-MC-Unique: OUKysA9kOTujC4fNeQ7GZw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4994480006E;
- Mon, 15 Mar 2021 15:04:27 +0000 (UTC)
-Received: from work-vm (ovpn-114-235.ams2.redhat.com [10.36.114.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F404D510ED;
- Mon, 15 Mar 2021 15:04:21 +0000 (UTC)
-Date: Mon, 15 Mar 2021 15:04:19 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Add qemu version and copyright info
-Message-ID: <YE93cwGU75LPUx2N@work-vm>
-References: <20210303195339.GB3793@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14C8E84B9A0;
+ Mon, 15 Mar 2021 15:08:17 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-72.ams2.redhat.com [10.36.112.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3764C620DE;
+ Mon, 15 Mar 2021 15:08:16 +0000 (UTC)
+Subject: Re: [RFC PATCH] configure: Poison (almost) all target-specific
+ #defines
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20210315135410.221729-1-thuth@redhat.com>
+ <db946056-f099-ac99-38c2-60c61f079676@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <208fab42-d276-315b-e7df-a80b4c4004e2@redhat.com>
+Date: Mon, 15 Mar 2021 16:08:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210303195339.GB3793@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+In-Reply-To: <db946056-f099-ac99-38c2-60c61f079676@suse.de>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,82 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- eric.g.ernst@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> Option "-V" currently displays the fuse protocol version virtiofsd is
-> using. For example, I see this.
+On 15/03/2021 15.07, Claudio Fontana wrote:
+> On 3/15/21 2:54 PM, Thomas Huth wrote:
+>> We are generating a lot of target-specific defines in the *-config-devices.h
+>> and *-config-target.h files. Using them in common code is wrong and leads
+>> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
+>> as expected. To avoid these issues, we are already poisoning some of the
+>> macros in include/exec/poison.h - but maintaining this list manually is
+>> cumbersome. Thus let's generate the list of poisoned macros automatically
+>> instead.
+>> Note that CONFIG_TCG (which is also defined in config-host.h) and
+>> CONFIG_USER_ONLY are special, so we have to filter these out.
 > 
-> $ ./virtiofsd -V
-> "using FUSE kernel interface version 7.33"
 > 
-> People also want to know software version of virtiofsd so that they can
-> figure out if a certain fix is part of currently running virtiofsd or
-> not. Eric Ernst ran into this issue.
 > 
-> David Gilbert thinks that it probably is best that we simply carry the
-> qemu version and display that information given we are part of qemu
-> tree. 
+> I have the impression that CONFIG_USER_ONLY should be poisoned too.
 > 
-> So this patch enhances version information and also adds qemu version
-> and copyright info. Not sure if copyright information is supposed
-> to be displayed along with version info. Given qemu-storage-daemon
-> and other utilities are doing it, so I continued with same pattern.
-> This is how now output looks like.
+> A lot of the
 > 
-> $ ./virtiofsd -V
-> virtiofsd version 5.2.50 (v5.2.0-2357-gcbcf09872a-dirty)
-> Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-> using FUSE kernel interface version 7.33
+> #ifndef CONFIG_USER_ONLY
 > 
-> Reported-by: Eric Ernst <eric.g.ernst@gmail.com>
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> end up currently doing the wrong thing in common modules includes,
+> especially due to the inverted nature of the check.
 
-Queued
+Not sure about that ... do you have an example at hand?
 
-> ---
->  tools/virtiofsd/passthrough_ll.c |    8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-> ===================================================================
-> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-03-03 14:28:04.893672524 -0500
-> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-03-03 14:37:29.381712706 -0500
-> @@ -37,6 +37,8 @@
->  
->  #include "qemu/osdep.h"
->  #include "qemu/timer.h"
-> +#include "qemu-version.h"
-> +#include "qemu-common.h"
->  #include "fuse_virtio.h"
->  #include "fuse_log.h"
->  #include "fuse_lowlevel.h"
-> @@ -3591,6 +3593,11 @@ static void fuse_lo_data_cleanup(struct
->      free(lo->source);
->  }
->  
-> +static void qemu_version(void)
-> +{
-> +    printf("virtiofsd version " QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\n");
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->      struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-> @@ -3662,6 +3669,7 @@ int main(int argc, char *argv[])
->          ret = 0;
->          goto err_out1;
->      } else if (opts.show_version) {
-> +        qemu_version();
->          fuse_lowlevel_version();
->          ret = 0;
->          goto err_out1;
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Anyway, one thing is sure, if we want to poison CONFIG_USER_ONLY, this will 
+certainly cause a lot of clean up work first, since it is used all over the 
+place...
+
+  Thomas
 
 
