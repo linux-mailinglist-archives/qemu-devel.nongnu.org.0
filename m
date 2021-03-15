@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD6833C095
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:54:58 +0100 (CET)
-Received: from localhost ([::1]:49882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC16133C09A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 16:55:19 +0100 (CET)
+Received: from localhost ([::1]:50738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLpYV-00005M-I9
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
+	id 1lLpYs-0000Sl-TW
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 11:55:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLpUj-0005vM-78
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:51:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55372)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLpW5-0007Ez-3M
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:52:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lLpUg-0001MA-Qu
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:51:00 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lLpW0-0002Cc-CS
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 11:52:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615823458;
+ s=mimecast20190719; t=1615823539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jCD71secyuaisXXhuUrl29kmGBnh6rXYEaEbD17iCGc=;
- b=hZkas5itFwPjcpl+jsYvP5KfEzH1I6M7UFa7+wWYHVUlyb+9pZcy2vOw2Y8pnWxMO5rKYs
- 0lTuCNofrMv95Ie1hRSMJYJCApexXy9DTqUV6d/T+Fl55W2NfK6G/ZFoV8WqGQrAdXxqPm
- JcnMYtCY8U7Ana6hqYuEL3fVcrZDI2Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-I0j6OrcmMA-gHnLL-vzHOQ-1; Mon, 15 Mar 2021 11:50:51 -0400
-X-MC-Unique: I0j6OrcmMA-gHnLL-vzHOQ-1
-Received: by mail-wm1-f72.google.com with SMTP id f9so8384388wml.0
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 08:50:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jCD71secyuaisXXhuUrl29kmGBnh6rXYEaEbD17iCGc=;
- b=jtiqCjWpUxUiS/GNgn5bc3MBG3g/2kvMWWpXZRT5Cms6kSyu0Xd2iOGmAfT2QGALcH
- idl2bzttV/QHDiiUnjoi3FlFrxY3XZ3DnctfOyUSGQ0nHPu9bg5L76VZ0amVUTs/pGhH
- lJYxJ8vKiCGJmJB/v3I57DkmBzgEJVA1YSdJZQ0Rc0CiVTdvFYkf4qABSzBVcqLhTZCK
- X/TY7k3LjbOe9M4nVW+kxMy2cwxzk6q12hzd3gJCFys54Mwf/2/ccd2NFk6F1p9owJxZ
- O36UFpRObZv9hoOmQC2MZPJq2WnDXXOz0yEvBktWHMBKFHVWWnVNVEbpKxmfbzK4p1DC
- UfyA==
-X-Gm-Message-State: AOAM533xi8bh3u1y1ODrYOm6VtwBLjBmh3+sQtWfpayjXrpGSTOZxhQJ
- s1n2yVyxjLLOXlNKPn/uzL2wJKR5ZPbYMUvkVjhlkubCe2logM9eWhRtAM6hQXcjG1oymDEC+qN
- SoQPHx23uhYoxSYA=
-X-Received: by 2002:a1c:1b43:: with SMTP id b64mr315993wmb.79.1615823450106;
- Mon, 15 Mar 2021 08:50:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVvTLLA6fDSVRnWE+nmmIeZOgsCuC9X0HfSUa2vsxWyZAuytG2/q5l3aTx/530/jkmNoqU0g==
-X-Received: by 2002:a1c:1b43:: with SMTP id b64mr315951wmb.79.1615823449741;
- Mon, 15 Mar 2021 08:50:49 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id i17sm18775286wrp.77.2021.03.15.08.50.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 08:50:49 -0700 (PDT)
-Subject: Re: compile warning in i8259.c
-To: Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x <qemu-s390x@nongnu.org>
-References: <cc283705-a0ee-5ee4-4f9a-b69afce65d8c@de.ibm.com>
- <75aed565-c9a6-6ee1-ab92-d2771df83ff0@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d897bc68-a2c9-0826-76a6-93a9682ae4ad@redhat.com>
-Date: Mon, 15 Mar 2021 16:50:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ bh=SvUS+RcNRSWm6iC6JHkRs1whGwrng9m4HROzWFe1FpQ=;
+ b=PyU8XgdlfhPj11qM0Cu45iZXpS+kVofzbRrMBSfPDysbDN5z1qbvwOP3g9GBu45swHlinx
+ rmb9CwPeJgRBIyHPCxcBY8EGb03qE8/RsEaO0oE1JbZzvGmbm87n7ZTIKVy2Mmdrf5dOdN
+ pv1g5W8NWKWzYHKGVkY/onRjzwDdY8A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-mckdll2TNvKDL0IWNrIlhw-1; Mon, 15 Mar 2021 11:52:18 -0400
+X-MC-Unique: mckdll2TNvKDL0IWNrIlhw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9FED19057A0;
+ Mon, 15 Mar 2021 15:52:16 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-128.ams2.redhat.com [10.36.115.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC90B620DE;
+ Mon, 15 Mar 2021 15:52:07 +0000 (UTC)
+Date: Mon, 15 Mar 2021 16:52:06 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 00/30] qapi/qom: QAPIfy --object and object-add
+Message-ID: <YE+CppsqCGAdwrf4@merkur.fritz.box>
+References: <90130a0c-7f96-f344-b185-b790c5d6b78a@redhat.com>
+ <20210310173044.GF6076@merkur.fritz.box>
+ <87ft12q8kf.fsf@dusky.pond.sub.org>
+ <e98a5eb7-4716-a0f4-0ad2-adaa4cd9cefa@redhat.com>
+ <87h7lhbx6b.fsf@dusky.pond.sub.org>
+ <10fd7cbf-9ee5-3869-22fd-352e42a980ba@redhat.com>
+ <871rck7pqw.fsf@dusky.pond.sub.org>
+ <87lfarrx37.fsf@dusky.pond.sub.org>
+ <YE9GpKMDzzBMu1lQ@merkur.fritz.box>
+ <87im5se8v4.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <75aed565-c9a6-6ee1-ab92-d2771df83ff0@redhat.com>
+In-Reply-To: <87im5se8v4.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,65 +84,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lvivier@redhat.com, thuth@redhat.com, Peter Krempa <pkrempa@redhat.com>,
+ ehabkost@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/21 4:42 PM, Thomas Huth wrote:
-> On 15/03/2021 16.14, Christian Borntraeger wrote:
->> For some time now I do see the following, when I compile x86-softmmu
->> on s390:
->>
->> FAILED: libcommon.fa.p/hw_intc_i8259.c.o
->> cc -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader
->> -I/usr/include/capstone -I/usr/include/glib-2.0
->> -I/usr/lib64/glib-2.0/include -I/usr/include/libmount
->> -I/usr/include/blkid -I/usr/include/gio-unix-2.0
->> -I/usr/include/libusb-1.0 -I/usr/include/vte-2.91
->> -I/usr/include/pango-1.0 -I/usr/include/harfbuzz
->> -I/usr/include/freetype2 -I/usr/include/libpng16
->> -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/cairo
->> -I/usr/include/pixman-1 -I/usr/include/gtk-3.0
->> -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0
->> -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0
->> -I/usr/lib64/dbus-1.0/include -I/usr/include/at-spi-2.0
->> -I/usr/include/virgl -I/usr/include/p11-kit-1 -I/usr/include/SDL2
->> -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nspr4
->> -I/usr/include/slirp -fdiagnostics-color=auto -pipe -Wall
->> -Winvalid-pch -Werror -std=gnu99 -O2 -g -isystem
->> /home/cborntra/REPOS/qemu/linux-headers -isystem linux-headers -iquote
->> . -iquote /home/cborntra/REPOS/qemu -iquote
->> /home/cborntra/REPOS/qemu/include -iquote
->> /home/cborntra/REPOS/qemu/disas/libvixl -iquote
->> /home/cborntra/REPOS/qemu/tcg/s390 -iquote
->> /home/cborntra/REPOS/qemu/accel/tcg -pthread -U_FORTIFY_SOURCE
->> -D_FORTIFY_SOURCE=2 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
->> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
->> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
->> -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
->> -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
->> -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
->> -Wimplicit-fallthrough=2 -Wno-missing-include-dirs
->> -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIC
->> -DSTRUCT_IOVEC_DEFINED -D_REENTRANT -Wno-undef -D_DEFAULT_SOURCE
->> -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -MD -MQ
->> libcommon.fa.p/hw_intc_i8259.c.o -MF
->> libcommon.fa.p/hw_intc_i8259.c.o.d -o libcommon.fa.p/hw_intc_i8259.c.o
->> -c ../hw/intc/i8259.c
->> ../hw/intc/i8259.c: In function ‘pic_read_irq’:
->> ../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in
->> this function [-Werror=maybe-uninitialized]
->>    203 |         irq = irq2 + 8;
->>        |         ~~~~^~~~~~~~~~
->> cc1: all warnings being treated as errors
->>
->> Due to other compile warnings I find this hard to bisect. Has anyone
->> seen this as well?
+Am 15.03.2021 um 16:26 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
 > 
-> I've never seen this warnings so far... which compiler version is this?
-> Looking at the code, it seems to be a false positive to me.
+> > Am 13.03.2021 um 14:40 hat Markus Armbruster geschrieben:
+> >> Markus Armbruster <armbru@redhat.com> writes:
+> >> 
+> >> > Paolo Bonzini <pbonzini@redhat.com> writes:
+> >> >
+> >> >> On 11/03/21 15:08, Markus Armbruster wrote:
+> >> >>>> I would rather keep the OptsVisitor here.  Do the same check for JSON
+> >> >>>> syntax that you have in qobject_input_visitor_new_str, and whenever
+> >> >>>> you need to walk all -object arguments, use something like this:
+> >> >>>>
+> >> >>>>      typedef struct ObjectArgument {
+> >> >>>>          const char *id;
+> >> >>>>          QDict *json;    /* or NULL for QemuOpts */
+> >> >>>>          QSIMPLEQ_ENTRY(ObjectArgument) next;
+> >> >>>>      }
+> >> >>>>
+> >> >>>> I already had patches in my queue to store -object in a GSList of
+> >> >>>> dictionaries, changing it to use the above is easy enough.
+> >> >>> 
+> >> >>> I think I'd prefer following -display's precedence.  See my reply to
+> >> >>> Kevin for details.
+> >> >>
+> >> >> Yeah, I got independently to the same conclusion and posted patches
+> >> >> for that.  I was scared that visit_type_ObjectOptions was too much for 
+> >> >> OptsVisitor but it seems to work...
+> >> >
+> >> > We have reason to be scared.  I'll try to cover this in my review.
+> >> 
+> >> The opts visitor has serious limitations.  From its header:
+> >> 
+> >>  * The Opts input visitor does not implement support for visiting QAPI
+> >>  * alternates, numbers (other than integers), null, or arbitrary
+> >>  * QTypes.  It also requires a non-null list argument to
+> >>  * visit_start_list().
+> >> 
+> >> This is retro-documentation for hairy code.  I don't trust it.  Commit
+> >> eb7ee2cbeb "qapi: introduce OptsVisitor" hints at additional
+> >> restrictions:
+> >> 
+> >>     The type tree in the schema, corresponding to an option with a
+> >>     discriminator, must have the following structure:
+> >>     
+> >>       struct
+> >>         scalar member for non-discriminated optarg 1 [*]
+> >>         list for repeating non-discriminated optarg 2 [*]
+> >>           wrapper struct
+> >>             single scalar member
+> >>         union
+> >>           struct for discriminator case 1
+> >>             scalar member for optarg 3 [*]
+> >>             list for repeating optarg 4 [*]
+> >>               wrapper struct
+> >>                 single scalar member
+> >>             scalar member for optarg 5 [*]
+> >>           struct for discriminator case 2
+> >>             ...
+> >
+> > Is this a long-winded way of saying that it has to be flat, except that
+> > it allows lists, i.e. there must be no nested objects on the "wire"?
+> 
+> I think so.
+> 
+> > The difference between structs and unions, and different branches inside
+> > the union isn't visible for the visitor anyway.
+> 
+> Yes, only the code using the visitor deals with that.
+> 
+> >>     The "type" optarg name is fixed for the discriminator role. Its schema
+> >>     representation is "union of structures", and each discriminator value must
+> >>     correspond to a member name in the union.
+> >>     
+> >>     If the option takes no "type" descriminator, then the type subtree rooted
+> >>     at the union must be absent from the schema (including the union itself).
+> >>     
+> >>     Optarg values can be of scalar types str / bool / integers / size.
+> >> 
+> >> Unsupported visits are treated as programming error.  Which is a nice
+> >> way to say "they crash".
+> >
+> > The OptsVisitor never seems to crash explicitly by calling something
+> > like abort().
+> >
+> > It may crash because of missing callbacks that are called without a NULL
+> > check, like v->type_null.
+> 
+> Correct.
+> 
+> >                           This case should probably be fixed in
+> > qapi/qapi-visit-core.c to do the check and simply return an error.
+> 
+> I retro-documented what I inherited: qapi-visit-core.c code expects the
+> visitors to implement the full visitor-impl.h interface, but some
+> visitors don't.  So I documented "method must be set to visit FOOs" in
+> visitor-impl.h, and for the visitors that don't, I documented "can't
+> visit FOOs".
+> 
+> If the crashing behavior we've always had gets in the way, there are two
+> ways to change it:
+> 
+> 1. Complicate qapi-visit-core.c slightly to cope with incomplete visitor
+>    implementations.
+> 
+> 2. Complete the visitor implementations: add dummy callbacks that fail.
+> 
+> I prefer 2., because I feel it keeps the visitor-impl.h interface
+> simpler, and puts the extra complications where they belong.
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg599522.html
+I suggested making the callbacks optional because I expected that there
+might be more than one visitor that doesn't support a callback and I
+wouldn't like duplicating dummy callbacks in multiple places. But if
+it's only the OptsVisitor, then we wouldn't get any duplication either
+way and it becomes a matter of taste.
 
-=)
+Kevin
 
 
