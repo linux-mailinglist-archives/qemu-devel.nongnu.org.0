@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7372333C5C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:35:38 +0100 (CET)
-Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BAD33C608
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:47:39 +0100 (CET)
+Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLs41-0007Mz-EH
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35288)
+	id 1lLsFe-0007J6-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lLrZI-0002dk-OJ
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:52 -0400
-Received: from mail-pj1-f44.google.com ([209.85.216.44]:50782)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLra4-00035z-5T
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:04:40 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lLrZG-0000sL-NC
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:52 -0400
-Received: by mail-pj1-f44.google.com with SMTP id gb6so9232225pjb.0
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:03:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLra1-00017h-Qj
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:04:39 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id ci14so67674197ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RLzpdG5+y0WcLJDX7Om/KLDmZjwjkS7jaZ8vH7EHX6c=;
+ b=x31nlNidQFXTEXCsTgNyK/QjvvhL42HIpJP4GqGrpMqWm3m+DuJeBEnGb4NrIHdqlx
+ bDn74edl+UTshbuna3v31Pvxzr5pxE9JnorIcB3KNyg9LuqmIVzEjLLu46CDTJ8Z/bQw
+ 7+H2XUzEYN/Ou0OnKn9/Gx+qNgQkORTrHLIx21eC+gF/dOJc5Wfsvmu5+h+K/GLpcA4P
+ o5khDwBoxjpCj7eSPizxmaMx4UrItoKAQ1qpmWXVC528RRmGG3jEtzRUpA5AMUhzsPfV
+ l12MDTI7EuaPs/nTwYi17yX2aVOgM3FsqYb8TBRRp35MaRaixyuAbOspfMMdfmVtHxKN
+ ws5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UlNk3VmiVhHOUjDbi+C6ukV9Ev85CAPrYpeZZndNefY=;
- b=qloSYuc2xbKKaypI4rMzMmR1JH+5GvSUIgthxhKlUiWErGgr/V7HiJtKw7ZFVFJ4V8
- hPrjx75pK1nDnjUM69Ai8FwQzeexDv9LE6NUg45svOdmNTTYpQbS4fpTFV3Amo+yM0hZ
- DKUFNTPlO8uqh5PwnS32aUj4HAx6LejxU2Ig4XxkIuVsSrISUifYMXclB1BXlKhFCp+Q
- YsYpY18cogcRBTlNSh3fVtdRpmtUj4xbogHnWyvoD39AmQixftRYgEMPXuJISfNyMuUF
- AlKGAJrJge2txtcwudQN9CgjZlrG1OLrmvkViH+ShuTfwNOp0SQQWkakN588Rm2If0qL
- gJvw==
-X-Gm-Message-State: AOAM530qgejxtdlSeFIIY38OJGUTaLKOvza53kI2sXGa9xQPCoK9sNEE
- SZrHH+Ck0b2o5XtkZA7VVjSjoso9eag=
-X-Google-Smtp-Source: ABdhPJz8L417lEoskluSgmA/LuWCbRyJa3yy7gDYvkFHhpxwd1tiSUHCup/Ykfd7QUCJ8DRwSyrs+g==
-X-Received: by 2002:a17:90a:9f4a:: with SMTP id
- q10mr281425pjv.113.1615831429193; 
- Mon, 15 Mar 2021 11:03:49 -0700 (PDT)
-Received: from localhost.localdomain ([73.93.153.95])
- by smtp.gmail.com with ESMTPSA id y194sm14267842pfb.21.2021.03.15.11.03.48
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Mar 2021 11:03:48 -0700 (PDT)
-From: Joelle van Dyne <j@getutm.app>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] slirp: feature detection for smbd
-Date: Mon, 15 Mar 2021 11:03:41 -0700
-Message-Id: <20210315180341.31638-5-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210315180341.31638-1-j@getutm.app>
-References: <20210315180341.31638-1-j@getutm.app>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=RLzpdG5+y0WcLJDX7Om/KLDmZjwjkS7jaZ8vH7EHX6c=;
+ b=LDGa9zc+se230qpqP21/Gd1Vw4dKvMTBP5mja7gdv+W5lylbvVDVE1MIXCHULfalfm
+ eSP+B28u3Aoz8K8PRc9cwOVzSPyhTeUubWEL2vN04vSqjIjrHsapD8mrNjf4PqTUl+d4
+ rqUtzL9riTJrJeKqsq33Vai7o/Occ4qH9nLZLn87zKDM1s5uccXMszU2OAQ0m+BAjCGk
+ GIRGsI3jEseOLvF7mwrbMO/J94tNMDwZNkQkUu4lLyLPZDmqm+iR3H9iYOArjKyOTTxw
+ VB5vNFPPZgiMlRKLGG30oJ/c7YxoOP0/b94zrAPeiOtbU0TwcCCCnYYVa+xLJw64TfR+
+ tjlw==
+X-Gm-Message-State: AOAM530h3p04+cUwxnmoQRwiL8h148qOYPEyjvasTVw8EOblKoCANopA
+ T8GrHS3UF4DIwf65+G9cXj5rhe7JASvYRpMO
+X-Google-Smtp-Source: ABdhPJxJ7b6MgdHkMeNMeB/gK2hSLMvyIGCOLKndbyjMt1+5TanNSgD86asBUjyzubmW0YoFEcCqTA==
+X-Received: by 2002:a17:906:a413:: with SMTP id
+ l19mr25232367ejz.421.1615831476329; 
+ Mon, 15 Mar 2021 11:04:36 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j1sm7873659ejt.18.2021.03.15.11.04.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 11:04:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9459C1FF7E;
+ Mon, 15 Mar 2021 18:04:34 +0000 (GMT)
+References: <20210312172821.31647-1-alex.bennee@linaro.org>
+ <20210312172821.31647-7-alex.bennee@linaro.org>
+ <YEux/6mWQYgJCHRC@strawberry.localdomain>
+User-agent: mu4e 1.5.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH v1 06/14] plugins: expand the callback typedef kernel-docs
+Date: Mon, 15 Mar 2021 18:04:20 +0000
+In-reply-to: <YEux/6mWQYgJCHRC@strawberry.localdomain>
+Message-ID: <87h7lc8f9p.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.44; envelope-from=osy86github@gmail.com;
- helo=mail-pj1-f44.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,187 +89,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Joelle van Dyne <j@getutm.app>
+Cc: kuhn.chenqun@huawei.com, cota@braap.org, qemu-devel@nongnu.org,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace Windows specific macro with a more generic feature detection
-macro. Allows slirp smb feature to be disabled manually as well.
 
-Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- configure   | 26 +++++++++++++++++++++++---
- meson.build |  2 +-
- net/slirp.c | 16 ++++++++--------
- 3 files changed, 32 insertions(+), 12 deletions(-)
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-diff --git a/configure b/configure
-index f7d022a5db..7d765639e6 100755
---- a/configure
-+++ b/configure
-@@ -465,6 +465,7 @@ fuse_lseek="auto"
- multiprocess="auto"
- 
- malloc_trim="auto"
-+slirp_smbd="auto"
- 
- # parse CC options second
- for opt do
-@@ -834,8 +835,6 @@ do
-     fi
- done
- 
--: ${smbd=${SMBD-/usr/sbin/smbd}}
--
- # Default objcc to clang if available, otherwise use CC
- if has clang; then
-   objcc=clang
-@@ -1560,6 +1559,10 @@ for opt do
-   ;;
-   --disable-multiprocess) multiprocess="disabled"
-   ;;
-+  --enable-slirp-smbd) slirp_smbd=yes
-+  ;;
-+  --disable-slirp-smbd) slirp_smbd=no
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1913,6 +1916,7 @@ disabled with --disable-FEATURE, default is enabled if available
-   fuse            FUSE block device export
-   fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
-   multiprocess    Out of process device emulation support
-+  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
- 
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -5252,6 +5256,19 @@ case "$slirp" in
-     ;;
- esac
- 
-+# Check for slirp smbd dupport
-+: ${smbd=${SMBD-/usr/sbin/smbd}}
-+if test "$slirp_smbd" != "no" ; then
-+  if test "$mingw32" = "yes" ; then
-+    if test "$slirp_smbd" = "yes" ; then
-+      error_exit "Host smbd not supported on this platform."
-+    fi
-+    slirp_smbd=no
-+  else
-+    slirp_smbd=yes
-+  fi
-+fi
-+
- ##########################################
- # check for usable __NR_keyctl syscall
- 
-@@ -5527,7 +5544,10 @@ fi
- if test "$guest_agent" = "yes" ; then
-   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
- fi
--echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-+if test "$slirp_smbd" = "yes" ; then
-+  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
-+  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-+fi
- if test "$vde" = "yes" ; then
-   echo "CONFIG_VDE=y" >> $config_host_mak
-   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 2c01e2494c..7ebaa4d4b0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2437,7 +2437,7 @@ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
-   summary_info += {'wixl':            wixl.found() ? wixl.full_path() : false}
- endif
--if slirp_opt != 'disabled'
-+if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
-   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
- endif
- summary(summary_info, bool_yn: true, section: 'Host binaries')
-diff --git a/net/slirp.c b/net/slirp.c
-index be914c0be0..b3ded2aac1 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -27,7 +27,7 @@
- #include "net/slirp.h"
- 
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
- #include <pwd.h>
- #include <sys/wait.h>
- #endif
-@@ -90,7 +90,7 @@ typedef struct SlirpState {
-     Slirp *slirp;
-     Notifier poll_notifier;
-     Notifier exit_notifier;
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     gchar *smb_dir;
- #endif
-     GSList *fwd;
-@@ -103,7 +103,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
- static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
- static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
- static int slirp_smb(SlirpState *s, const char *exported_dir,
-                      struct in_addr vserver_addr, Error **errp);
- static void slirp_smb_cleanup(SlirpState *s);
-@@ -367,7 +367,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-     struct in6_addr ip6_prefix;
-     struct in6_addr ip6_host;
-     struct in6_addr ip6_dns;
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     struct in_addr smbsrv = { .s_addr = 0 };
- #endif
-     NetClientState *nc;
-@@ -477,7 +477,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         return -1;
-     }
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
-         error_setg(errp, "Failed to parse SMB address");
-         return -1;
-@@ -592,7 +592,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-             }
-         }
-     }
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     if (smb_export) {
-         if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
-             goto error;
-@@ -784,7 +784,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
- 
- }
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
- 
- /* automatic user mode samba server configuration */
- static void slirp_smb_cleanup(SlirpState *s)
-@@ -899,7 +899,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
-     return 0;
- }
- 
--#endif /* !defined(_WIN32) */
-+#endif /* defined(CONFIG_SLIRP_SMBD) */
- 
- static int guestfwd_can_read(void *opaque)
- {
--- 
-2.28.0
+> On Mar 12 17:28, Alex Benn=C3=A9e wrote:
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> One nit below, but otherwise:
+>
+> Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+>
+>> ---
+>>  include/qemu/qemu-plugin.h | 25 ++++++++++++++++++++++---
+>>  1 file changed, 22 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+>> index ac1bb318da..09b235f0b4 100644
+>> --- a/include/qemu/qemu-plugin.h
+>> +++ b/include/qemu/qemu-plugin.h
+>> @@ -99,17 +99,36 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plug=
+in_id_t id,
+>>                                             const qemu_info_t *info,
+>>                                             int argc, char **argv);
+>>=20=20
+>> -/*
+>> - * Prototypes for the various callback styles we will be registering
+>> - * in the following functions.
+>> +/**
+>> + * typedef qemu_plugin_simple_cb_t - simple callback
+>> + * @id: the unique qemu_plugin_id_t
+>> + *
+>> + * This call-back passes no information aside from the unique @id.
+>
+> Should we be consistent about always using 'callback' or 'call-back'
+> instead of alternating? I tend to use 'callback', but I'm not sure I
+> have a solid reason to prefer it.
 
+No you are right we should stick to callback.
+
+>
+> -Aaron
+>
+>>   */
+>>  typedef void (*qemu_plugin_simple_cb_t)(qemu_plugin_id_t id);
+>>=20=20
+>> +/**
+>> + * typedef qemu_plugin_udata_cb_t - callback with user data
+>> + * @id: the unique qemu_plugin_id_t
+>> + * @userdata: a pointer to some user data supplied when the call-back
+>> + * was registered.
+>> + */
+>>  typedef void (*qemu_plugin_udata_cb_t)(qemu_plugin_id_t id, void *userd=
+ata);
+>>=20=20
+>> +/**
+>> + * typedef qemu_plugin_vcpu_simple_cb_t - vcpu callback
+>> + * @id: the unique qemu_plugin_id_t
+>> + * @vcpu_index: the current vcpu context
+>> + */
+>>  typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
+>>                                               unsigned int vcpu_index);
+>>=20=20
+>> +/**
+>> + * typedef qemu_plugin_vcpu_udata_cb_t - vcpu callback
+>> + * @vcpu_index: the current vcpu context
+>> + * @userdata: a pointer to some user data supplied when the call-back
+>> + * was registered.
+>> + */
+>>  typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
+>>                                              void *userdata);
+>>=20=20
+>> --=20
+>> 2.20.1
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
