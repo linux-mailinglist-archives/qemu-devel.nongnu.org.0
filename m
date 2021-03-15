@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4227033B7B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 15:02:48 +0100 (CET)
-Received: from localhost ([::1]:49630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CF933BAFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 15:14:30 +0100 (CET)
+Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLnnz-0002dO-1i
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 10:02:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46762)
+	id 1lLnzJ-0006s8-23
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 10:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lLnmP-0001tR-48
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:01:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54198)
+ id 1lLnvp-0003YM-2e
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:10:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lLnmM-0007Uk-0r
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:01:08 -0400
+ id 1lLnvi-0004Sj-G8
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 10:10:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lLnmI-00045D-PK
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:01:02 +0000
+ id 1lLnvg-0005Bi-Ny
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:10:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BF07D2E8010
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:01:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B45B32E815A
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 14:10:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Mar 2021 13:50:57 -0000
+Date: Mon, 15 Mar 2021 14:02:54 -0000
 From: Mauro Matteo Cascella <1909247@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: a1xndr mauro-cascella
 X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
 X-Launchpad-Bug-Modifier: Mauro Matteo Cascella (mauro-cascella)
 References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
-Message-Id: <161581625754.2526.18147332418758511034.malone@chaenomeles.canonical.com>
+Message-Id: <161581697441.16245.14366908613229698755.launchpad@gac.canonical.com>
 Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
  in hw/scsi/esp.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: 33c95522ee289183847b30c37ee405684c497da6
+X-Launchpad-Hash: da7639f08601e361bd031af30881acfdf97642cb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,16 +75,7 @@ Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that the use-after-free was found in v5.2.0 and, as far as I can
-tell, is not reproducible anymore on master. The ESP/NCR53C9x emulator
-(hw/scsi/esp.c) underwent several changes since v5.2.0. By git-
-bisecting, it looks like the original reproducer is neutralized after
-commit [1]. However, the qtest reproducer (comment #3) seems to be
-working fine on master as of today.
-
-[1]
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dbb0bc7bbc9764a5e9e8175681=
-9838c5db88652b8
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-35506
 
 -- =
 
