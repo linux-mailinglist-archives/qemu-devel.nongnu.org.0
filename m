@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A872833C5BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:34:39 +0100 (CET)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C2633C5DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:39:23 +0100 (CET)
+Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLs34-0005Ys-KB
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
+	id 1lLs7e-0003Ri-4a
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:39:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrZk-0002qs-IF
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:04:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrZg-0000y9-2L
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:04:20 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYb-0002HI-9U
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lLrYV-0000Zz-Uv
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615831450;
+ s=mimecast20190719; t=1615831383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aA1OmuGwGeb5S9GO0UwDSwAHfUVsIWifVjYQl8QB5Rc=;
- b=RtWLyvJZpJncieYaCxMW9F6nl4ZN1EFAt5wubrwzZhT6bMNXlPEPk8RBmldP+MWTzp72Su
- wM3Q2Pz/yKP+EL9ABwOmwZKx2OMv5ZJkCy0KlC16Jqj3MwbZbHRX54z0rCyzVx7GCYAf7M
- h+GthnoaMLaAnAStqVRsf5of4WdR6l0=
+ bh=huqkUy18l+tgvGXoVwJB415sdhmTp4pcSpPxpRgc3QQ=;
+ b=MlHaBgOVIrbPgcyQpCewL0f5JQ0EEvFdGMYS3oS4yh8XXy2brR0xPsbVHo4Uec84EQvgEN
+ GZIwaYd5ulpSTLGoJ/aiGRWf5Yix9kPhd74A16BTPJRWE3VB3mgqKIgxlyHortA90PLaYW
+ KArLsNYwOmnyulAogOJ5ARmoDHWtm/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-Gu4tohT7PoGeAPaIj3OF6w-1; Mon, 15 Mar 2021 14:02:50 -0400
-X-MC-Unique: Gu4tohT7PoGeAPaIj3OF6w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-443-puLhhc_nMqu9hFrLhzvPfg-1; Mon, 15 Mar 2021 14:03:00 -0400
+X-MC-Unique: puLhhc_nMqu9hFrLhzvPfg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20101108BD0F;
- Mon, 15 Mar 2021 18:02:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4C56363B4;
+ Mon, 15 Mar 2021 18:02:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1468620DE;
- Mon, 15 Mar 2021 18:02:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C17045D755;
+ Mon, 15 Mar 2021 18:02:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1DC7C1800637; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
+ id 44010180063D; Mon, 15 Mar 2021 19:02:41 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] usb: remove support for -usbdevice parameters
-Date: Mon, 15 Mar 2021 19:02:29 +0100
-Message-Id: <20210315180240.1597240-3-kraxel@redhat.com>
+Subject: [PULL 05/13] usb: Document the missing -usbdevice options
+Date: Mon, 15 Mar 2021 19:02:32 +0100
+Message-Id: <20210315180240.1597240-6-kraxel@redhat.com>
 In-Reply-To: <20210315180240.1597240-1-kraxel@redhat.com>
 References: <20210315180240.1597240-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,118 +87,82 @@ Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-No device needs them anymore and in fact they're undocumented.
-Remove the code.  The only change in behavior is that "-usbdevice
-braille:hello" now reports an error, which is a bugfix.
+There are some more -usbdevice options that have never been mentioned
+in the documentation. Now that we removed -usbdevice from the list
+of deprecated features again, we should document them properly.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+While we're at it, also sort them alphabetically.
+
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210310173323.1422754-2-thuth@redhat.com>
+Message-Id: <20210310173323.1422754-5-thuth@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/usb.h    |  2 +-
- hw/usb/bus.c        | 32 +++++++-------------------------
- hw/usb/dev-serial.c |  2 +-
- 3 files changed, 9 insertions(+), 27 deletions(-)
+ qemu-options.hx | 35 +++++++++++++++++++++++++++++------
+ 1 file changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/usb.h b/include/hw/usb.h
-index 9f42394efaea..436e07b30404 100644
---- a/include/hw/usb.h
-+++ b/include/hw/usb.h
-@@ -499,7 +499,7 @@ void usb_bus_new(USBBus *bus, size_t bus_size,
- void usb_bus_release(USBBus *bus);
- USBBus *usb_bus_find(int busnr);
- void usb_legacy_register(const char *typename, const char *usbdevice_name,
--                         USBDevice *(*usbdevice_init)(const char *params));
-+                         USBDevice *(*usbdevice_init)(void));
- USBDevice *usb_new(const char *name);
- bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp);
- USBDevice *usb_create_simple(USBBus *bus, const char *name);
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index df7411fea8e4..07083349f51b 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -310,13 +310,13 @@ typedef struct LegacyUSBFactory
- {
-     const char *name;
-     const char *usbdevice_name;
--    USBDevice *(*usbdevice_init)(const char *params);
-+    USBDevice *(*usbdevice_init)(void);
- } LegacyUSBFactory;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 622d3bfa5a7d..fe83ea09b25e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1705,7 +1705,7 @@ ERST
  
- static GSList *legacy_usb_factory;
+ DEFHEADING()
  
- void usb_legacy_register(const char *typename, const char *usbdevice_name,
--                         USBDevice *(*usbdevice_init)(const char *params))
-+                         USBDevice *(*usbdevice_init)(void))
- {
-     if (usbdevice_name) {
-         LegacyUSBFactory *f = g_malloc0(sizeof(*f));
-@@ -658,27 +658,17 @@ void hmp_info_usb(Monitor *mon, const QDict *qdict)
- }
+-DEFHEADING(USB options:)
++DEFHEADING(USB convenience options:)
  
- /* handle legacy -usbdevice cmd line option */
--USBDevice *usbdevice_create(const char *cmdline)
-+USBDevice *usbdevice_create(const char *driver)
- {
-     USBBus *bus = usb_bus_find(-1 /* any */);
-     LegacyUSBFactory *f = NULL;
-     Error *err = NULL;
-     GSList *i;
--    char driver[32];
--    const char *params;
--    int len;
-     USBDevice *dev;
+ DEF("usb", 0, QEMU_OPTION_usb,
+     "-usb            enable on-board USB host controller (if not enabled by default)\n",
+@@ -1723,9 +1723,31 @@ DEF("usbdevice", HAS_ARG, QEMU_OPTION_usbdevice,
+     QEMU_ARCH_ALL)
+ SRST
+ ``-usbdevice devname``
+-    Add the USB device devname. Note that this option is deprecated,
+-    please use ``-device usb-...`` instead. See the chapter about
++    Add the USB device devname, and enable an on-board USB controller
++    if possible and necessary (just like it can be done via
++    ``-machine usb=on``). Note that this option is mainly intended for
++    the user's convenience only. More fine-grained control can be
++    achieved by selecting a USB host controller (if necessary) and the
++    desired USB device via the ``-device`` option instead. For example,
++    instead of using ``-usbdevice mouse`` it is possible to use
++    ``-device qemu-xhci -device usb-mouse`` to connect the USB mouse
++    to a USB 3.0 controller instead (at least on machines that support
++    PCI and do not have an USB controller enabled by default yet).
++    For more details, see the chapter about
+     :ref:`Connecting USB devices` in the System Emulation Users Guide.
++    Possible devices for devname are:
++
++    ``braille``
++        Braille device. This will use BrlAPI to display the braille
++        output on a real or fake device (i.e. it also creates a
++        corresponding ``braille`` chardev automatically beside the
++        ``usb-braille`` USB device).
++
++    ``ccid``
++        Smartcard reader device
++
++    ``keyboard``
++        Standard USB keyboard. Will override the PS/2 keyboard (if present).
  
--    params = strchr(cmdline,':');
--    if (params) {
--        params++;
--        len = params - cmdline;
--        if (len > sizeof(driver))
--            len = sizeof(driver);
--        pstrcpy(driver, len, cmdline);
--    } else {
--        params = "";
--        pstrcpy(driver, sizeof(driver), cmdline);
-+    if (strchr(driver, ':')) {
-+        error_report("usbdevice parameters are not supported anymore");
-+        return NULL;
-     }
+     ``mouse``
+         Virtual Mouse. This will override the PS/2 mouse emulation when
+@@ -1737,9 +1759,10 @@ SRST
+         position without having to grab the mouse. Also overrides the
+         PS/2 mouse emulation when activated.
  
-     for (i = legacy_usb_factory; i; i = i->next) {
-@@ -702,15 +692,7 @@ USBDevice *usbdevice_create(const char *cmdline)
-         return NULL;
-     }
+-    ``braille``
+-        Braille device. This will use BrlAPI to display the braille
+-        output on a real or fake device.
++    ``wacom-tablet``
++        Wacom PenPartner USB tablet.
++
++
+ ERST
  
--    if (f->usbdevice_init) {
--        dev = f->usbdevice_init(params);
--    } else {
--        if (*params) {
--            error_report("usbdevice %s accepts no params", driver);
--            return NULL;
--        }
--        dev = usb_new(f->name);
--    }
-+    dev = f->usbdevice_init ? f->usbdevice_init() : usb_new(f->name);
-     if (!dev) {
-         error_report("Failed to create USB device '%s'", f->name);
-         return NULL;
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index b58c4eb90822..63047d79cfd1 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -614,7 +614,7 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
- }
- 
--static USBDevice *usb_braille_init(const char *unused)
-+static USBDevice *usb_braille_init(void)
- {
-     USBDevice *dev;
-     Chardev *cdrv;
+ DEFHEADING()
 -- 
 2.29.2
 
