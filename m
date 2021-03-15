@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287E933AF7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:02:22 +0100 (CET)
-Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CEE33AF94
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 11:08:01 +0100 (CET)
+Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLk3J-0006vg-4d
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45790)
+	id 1lLk8m-0000pn-RT
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 06:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLk2H-00065E-UW
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:01:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lLk2G-0001eL-F0
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:01:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615802475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=t1+hmvQiPq5r9dKdrRUHV3mq1yKiXl49hKFi+KuGOUE=;
- b=ayypHYfAMzyLQFnch7hTUxLg9lyMlhtmBiLzQTWpEIV4PLgBdLrrkB8CV36uB/8/aEnLnD
- lQqCpjSgkXrfLs9QkdEDQTFLaHRJKAOdjBkdq0dWVj9S7KtuZfQGkRu4VssD6loolpTTXa
- 9LHPTUr8U08eX4R3NVF9Oc1NupfP6bs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-5J_BtehiNZiyI79FYw4sZg-1; Mon, 15 Mar 2021 06:01:13 -0400
-X-MC-Unique: 5J_BtehiNZiyI79FYw4sZg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B957804B6C;
- Mon, 15 Mar 2021 10:01:12 +0000 (UTC)
-Received: from localhost (ovpn-115-125.ams2.redhat.com [10.36.115.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D6071054FC8;
- Mon, 15 Mar 2021 10:01:11 +0000 (UTC)
-Date: Mon, 15 Mar 2021 10:01:11 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 8/8] tools/virtiofsd: Replacing malloc-like calls with
- GLib's variants
-Message-ID: <YE8wZ7WWdtqIW/kt@stefanha-x1.localdomain>
-References: <20210314032324.45142-1-ma.mandourr@gmail.com>
- <20210314032324.45142-9-ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLk7q-0000NG-4E
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:07:02 -0400
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:44023)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lLk7k-000544-8X
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 06:07:01 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 547F324FA9E;
+ Mon, 15 Mar 2021 11:06:44 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 15 Mar
+ 2021 11:06:41 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00419aa523e-6705-4eb3-b59d-eb2cd4c186b4,
+ C2FE56B6373390384040EEB24197F6B99D02A218) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 15 Mar 2021 11:06:30 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 3/3] virtiofsd: Don't allow empty filenames
+Message-ID: <20210315110630.5ae99490@bahia.lan>
+In-Reply-To: <20210314233604.GC223210@redhat.com>
+References: <20210312141003.819108-1-groug@kaod.org>
+ <20210312141003.819108-4-groug@kaod.org>
+ <20210314233604.GC223210@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210314032324.45142-9-ma.mandourr@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Om6RU2jfdtv4vnvQ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: a2e20645-1fb0-460d-aa91-1952276993b5
+X-Ovh-Tracer-Id: 3581487605795625437
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvledguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefgleevtdfhleeukeefueejveeuuddvudejvdejveeilefhjedtgfelheevueevheenucffohhmrghinhepohhpvghnghhrohhuphdrohhrghdprhgvughhrghtrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehvihhrthhiohdqfhhssehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=groug@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,55 +68,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Om6RU2jfdtv4vnvQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 14 Mar 2021 19:36:04 -0400
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-On Sun, Mar 14, 2021 at 05:23:24AM +0200, Mahmoud Mandour wrote:
-> @@ -130,7 +130,7 @@ static struct fuse_req *fuse_ll_alloc_req(struct fuse=
-_session *se)
->  {
->      struct fuse_req *req;
-> =20
-> -    req =3D (struct fuse_req *)calloc(1, sizeof(struct fuse_req));
-> +    req =3D g_try_new(struct fuse_req, 1);
+> On Fri, Mar 12, 2021 at 03:10:03PM +0100, Greg Kurz wrote:
+> > POSIX.1-2017 clearly stipulates that empty filenames aren't
+> > allowed ([1] and [2]). Since virtiofsd is supposed to mirror
+> > the host file system hierarchy and the host can be assumed to
+> > be linux, we don't really expect clients to pass requests with
+> > an empty path in it. If they do so anyway, this would eventually
+> > cause an error when trying to create/lookup the actual inode
+> > on the underlying POSIX filesystem. But this could still confuse
+> > some code that wouldn't be ready to cope with this.
+> > 
+> > Filter out empty names coming from the client at the top level,
+> > so that the rest doesn't have to care about it. This is done
+> > everywhere we already call is_safe_path_component(), but
+> > in a separate helper since the usual error for empty path
+> > names is ENOENT instead of EINVAL.
+> > 
+> > [1] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_170
+> > [2] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> 
+> Hi Greg,
+> 
+> Minor nit, if you happen to respin this patch, it probably should come
+> before the first patch in series. Once we make it clear that file server
+> is not expecting empty path in these top level functions, then it is
+> easy to clear AT_EMPTY_PATH in function these paths are calling as
+> appropriate.
+> 
 
-g_try_new0() since the original call was calloc(3)?
+The patch order is chronological : I just spotted the AT_EMPTY_PATH
+oddity before coming up with the bigger hammer of patch 3. But you're
+right, it probably makes more sense to do the other way around.
 
-> @@ -411,7 +411,7 @@ static int lo_map_grow(struct lo_map *map, size_t new=
-_nelems)
->          return 1;
->      }
-> =20
-> -    new_elems =3D realloc(map->elems, sizeof(map->elems[0]) * new_nelems=
-);
-> +    new_elems =3D g_realloc_n(map->elems, new_nelems, sizeof(map->elems[=
-0]));
+> What about lo_create(). Should we put a check in there as well.
+> 
 
-g_try_realloc_n() since failure is handled below?
+Good catch ! I'll post a v2 then ;)
 
-Stefan
+> We are passed xattr names in lo_getxattr()/lo_removexattr()/lo_setxattr().
+> In general, should we put an empty in_name check there as well and
+> probably simply return -EINVAL.
+> 
 
---Om6RU2jfdtv4vnvQ
-Content-Type: application/pgp-signature; name="signature.asc"
+An empty xattr name doesn't likely make sense either, even if this
+isn't written down anywhere, not in an explicit manner at least.
 
------BEGIN PGP SIGNATURE-----
+The kernel checks this in setxattr() and errors out with -ERANGE
+in this case.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBPMGcACgkQnKSrs4Gr
-c8hdsgf/b0eq3OiKdK/jex8oa8/PTQ2cfwWRNLlHQYCBU9APBnzVo0aoJIc58Tr5
-wS5ZYqFCuGu/G/9+dwT+PnrXAezJdCY6Uulpm11LvBTgzOWc/i0qnhiishsUHlmI
-Ewemavk6/9ZFXAKPT2nzfIXcaDbtLAm2goEFaolIwA1pIjl3N5Ct3m4cGYvcI+wR
-gjPLAVWd/0Kl4iNqdDWXGzHk3jt7sTYnm6hGgKsF332G/qD3XGbSo8TX0bmHDxmC
-6vyPxzrkX8wXZj6URkQfM6AGsCTnOMS5nkACAetM3dnhroY7cqP3U1kjq6nSfkqU
-rD/dj4QUMBUw7t5HMDrTUG/qJZ5OWg==
-=+ay5
------END PGP SIGNATURE-----
+        error = strncpy_from_user(kname, name, sizeof(kname));
+        if (error == 0 || error == sizeof(kname))
+                error = -ERANGE;
+        if (error < 0)
+                return error;
 
---Om6RU2jfdtv4vnvQ--
+Same goes for the other *xattr() syscalls, i.e. nothing nasty can ever
+happen with an empty xattr name since this is always considered as an
+error by the kernel. Not sure this would bring much to also check this
+in QEMU. This is a bit different from the empty path name case because
+an empty path name is valid for syscalls that support AT_EMPTY_PATH,
+and we just want to make sure these are never exercised with names
+from the client.
+
+Cheers,
+
+--
+Greg
+
+> Thanks
+> Vivek
+> 
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 35 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 35 insertions(+)
+> > 
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index f63016d35626..bff9dc2cd26d 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -237,6 +237,11 @@ static bool is_safe_path_component(const char *path)
+> >      return !is_dot_or_dotdot(path);
+> >  }
+> >  
+> > +static bool is_empty(const char *name)
+> > +{
+> > +    return name[0] == '\0';
+> > +}
+> > +
+> >  static struct lo_data *lo_data(fuse_req_t req)
+> >  {
+> >      return (struct lo_data *)fuse_req_userdata(req);
+> > @@ -1083,6 +1088,11 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+> >      fuse_log(FUSE_LOG_DEBUG, "lo_lookup(parent=%" PRIu64 ", name=%s)\n", parent,
+> >               name);
+> >  
+> > +    if (is_empty(name)) {
+> > +        fuse_reply_err(req, ENOENT);
+> > +        return;
+> > +    }
+> > +
+> >      /*
+> >       * Don't use is_safe_path_component(), allow "." and ".." for NFS export
+> >       * support.
+> > @@ -1174,6 +1184,11 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+> >      struct fuse_entry_param e;
+> >      struct lo_cred old = {};
+> >  
+> > +    if (is_empty(name)) {
+> > +        fuse_reply_err(req, ENOENT);
+> > +        return;
+> > +    }
+> > +
+> >      if (!is_safe_path_component(name)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> > @@ -1246,6 +1261,11 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
+> >      char procname[64];
+> >      int saverr;
+> >  
+> > +    if (is_empty(name)) {
+> > +        fuse_reply_err(req, ENOENT);
+> > +        return;
+> > +    }
+> > +
+> >      if (!is_safe_path_component(name)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> > @@ -1323,6 +1343,11 @@ static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
+> >      struct lo_inode *inode;
+> >      struct lo_data *lo = lo_data(req);
+> >  
+> > +    if (is_empty(name)) {
+> > +        fuse_reply_err(req, ENOENT);
+> > +        return;
+> > +    }
+> > +
+> >      if (!is_safe_path_component(name)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> > @@ -1352,6 +1377,11 @@ static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
+> >      struct lo_inode *newinode = NULL;
+> >      struct lo_data *lo = lo_data(req);
+> >  
+> > +    if (is_empty(name) || is_empty(newname)) {
+> > +        fuse_reply_err(req, ENOENT);
+> > +        return;
+> > +    }
+> > +
+> >      if (!is_safe_path_component(name) || !is_safe_path_component(newname)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> > @@ -1405,6 +1435,11 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
+> >      struct lo_inode *inode;
+> >      struct lo_data *lo = lo_data(req);
+> >  
+> > +    if (is_empty(name)) {
+> > +        fuse_reply_err(req, ENOENT);
+> > +        return;
+> > +    }
+> > +
+> >      if (!is_safe_path_component(name)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> > -- 
+> > 2.26.2
+> > 
+> > _______________________________________________
+> > Virtio-fs mailing list
+> > Virtio-fs@redhat.com
+> > https://listman.redhat.com/mailman/listinfo/virtio-fs
+> 
 
 
