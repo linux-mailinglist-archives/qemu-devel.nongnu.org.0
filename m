@@ -2,104 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759B633C17A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 17:18:10 +0100 (CET)
-Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB10033C18A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 17:22:09 +0100 (CET)
+Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLpuz-0006oN-Ds
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 12:18:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55960)
+	id 1lLpyq-0003lc-U5
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 12:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lLpsp-00052r-ON; Mon, 15 Mar 2021 12:15:55 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lLpsj-00024G-2I; Mon, 15 Mar 2021 12:15:55 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12FG4AN4077710; Mon, 15 Mar 2021 12:15:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=7yYNiL5PpOE/7XZwWwWd2sZQWMYt5iTVZWIdzDHCO58=;
- b=snP2WRNN/CPuLUwmr1q8RHgFw58ayjsh+UBWVwj3QVn+gPtDH94rkStOnDzQxqS9/zMe
- PhwqLGERoZHIquLdyPw+xX0L6H+YF2DjM4CiXl06f+qsMfspeXXGXu8WPwLLcL9xghC2
- 1WOXUNKl6bMPxYOcbcEyQEBDS63t+/jhRqGs1G6DTw0l9CHsQtlmYF5icDgW6ccdZEan
- zEuxjeJrxnvFMD58FQ4FL2NYqe7hMzkyNGjwZSBgVJ3E3SgFI+QE7NhGSmWjLZngksPS
- IhGNJ7k2ppA+Q0YBPgqWQiMwL9hTD8JrEqD/ChCNkyvr4LWS7mpUrvc3PMgCoMxo4WIL 9Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37a9pujvvv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 12:15:46 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12FG4A5A077798;
- Mon, 15 Mar 2021 12:15:46 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37a9pujvud-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 12:15:46 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12FG4NaV027937;
- Mon, 15 Mar 2021 16:15:43 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06fra.de.ibm.com with ESMTP id 378mnh92du-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Mar 2021 16:15:43 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12FGFewb49414484
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Mar 2021 16:15:40 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6FA242041;
- Mon, 15 Mar 2021 16:15:40 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 710AA4203F;
- Mon, 15 Mar 2021 16:15:40 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.7.179])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 15 Mar 2021 16:15:40 +0000 (GMT)
-Subject: Re: compile warning in i8259.c
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>
-References: <cc283705-a0ee-5ee4-4f9a-b69afce65d8c@de.ibm.com>
- <75aed565-c9a6-6ee1-ab92-d2771df83ff0@redhat.com>
- <d897bc68-a2c9-0826-76a6-93a9682ae4ad@redhat.com>
- <b599711f-b1ab-5156-bfe6-ed49edd9423b@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <0b8f7fc1-1474-32da-b47f-aace812fc960@de.ibm.com>
-Date: Mon, 15 Mar 2021 17:15:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLpx1-0001rf-Ux
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:20:17 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45183)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lLpx0-0003TJ-4O
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 12:20:15 -0400
+Received: by mail-ej1-x630.google.com with SMTP id mm21so67175545ejb.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 09:20:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=uK5jXUJeQPpbW+vRQdKOqPfJz59uZ9C9pdAnb5AMj+s=;
+ b=fJ+LZf2QUEHrSxIYHD6fKjjSCXBESsinK226PdLkJBdri0CA6EDhgTfpqt5RjF2ZgK
+ 2+uG1NIMMjja7upgsdZl9bDBZcJAEz0NODgo8ldco2yIiLrLdp9zyON4vsak2tf5563D
+ l+3TBoQ0d17FyeEIlYJvr5RHhGr5qed2f5EbSqJvU6x+9hVNDXrbw+mOeTGRMoBD4r4m
+ dnkcYQMZgU3h/LrCe2DovIcx7XHtFjYG/oy8MOsP1L7egcuNOG2Q4ehLhjlsTk1TpchY
+ nAubP5Iek0KU98E+ouvAJYIw2xp6X3JzQDN7O9y8qOgJBCE5iNmbHCssxWoPLvBylzs1
+ gguQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=uK5jXUJeQPpbW+vRQdKOqPfJz59uZ9C9pdAnb5AMj+s=;
+ b=R65QWtQsOWD4Raik6bfyVpAOI1ERwF1lrgGywPaX1mTI6nUtbBAzK4KbxDP1fELVak
+ KiO16mCkPiYB83yo1O5DLSJbx0Dd8e6L/nIxx2uQIPiy/8UAT+XXUCxfnkyhNynU4G7N
+ oeufA6hAYQY0obTmjcCb5ULYyVaViwovnTMKh7J+rKf+lNiqMtdrbfrtEej0hKyw6u+C
+ HBjoB6kZQdnnzsZ9KJhNju2TdqeetuVZX0c7VDaNYXrUDodDtG7QWPQw1KHP02ciAqmR
+ 4tv0Ppnt39LYSCNnsYWSIqhhWjTuLP5qybw8n/iJt6v4ZaD33zWG7TAkcCGCJoajVmLb
+ Daow==
+X-Gm-Message-State: AOAM532ou/ovx94esHvL+fOEOpQIEuB8r7lIwBcO8oXMGaw3cDQ8Ph0H
+ 24CzNOXbMVaxuVRD5j7ysP14aw==
+X-Google-Smtp-Source: ABdhPJxhVhY9bw+pt+r4qHe3USnxXKQiBFCZsolWEziAXPPfn1dCZTJnOWeLVjwvoA0czL7AZUECag==
+X-Received: by 2002:a17:906:b7d5:: with SMTP id
+ fy21mr9827442ejb.153.1615825212209; 
+ Mon, 15 Mar 2021 09:20:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id lu5sm7713769ejb.97.2021.03.15.09.20.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 09:20:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4D4A91FF7E;
+ Mon, 15 Mar 2021 16:20:10 +0000 (GMT)
+References: <20210314032324.45142-1-ma.mandourr@gmail.com>
+ <20210314032324.45142-6-ma.mandourr@gmail.com>
+ <dfa393ed-88ba-9c4b-e991-aeb9e73050a4@redhat.com>
+ <CAD-LL6hQuCFkzwnRGh1QLA8xsrTZoLYfNfXbKaU+E=UZAcozOA@mail.gmail.com>
+ <3bff00dd-34e7-10bb-ee74-45a7856be030@redhat.com>
+User-agent: mu4e 1.5.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 5/8] util/compatfd.c: Replaced a malloc with GLib's variant
+Date: Mon, 15 Mar 2021 16:15:54 +0000
+In-reply-to: <3bff00dd-34e7-10bb-ee74-45a7856be030@redhat.com>
+Message-ID: <87v99s8k3p.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <b599711f-b1ab-5156-bfe6-ed49edd9423b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-15_08:2021-03-15,
- 2021-03-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 clxscore=1015 suspectscore=0 impostorscore=0 adultscore=0
- mlxscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103150112
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,77 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Thomas Huth <thuth@redhat.com> writes:
 
-On 15.03.21 16:58, Thomas Huth wrote:
-> On 15/03/2021 16.50, Philippe Mathieu-Daudé wrote:
->> On 3/15/21 4:42 PM, Thomas Huth wrote:
->>> On 15/03/2021 16.14, Christian Borntraeger wrote:
->>>> For some time now I do see the following, when I compile x86-softmmu
->>>> on s390:
->>>>
->>>> FAILED: libcommon.fa.p/hw_intc_i8259.c.o
->>>> cc -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader
->>>> -I/usr/include/capstone -I/usr/include/glib-2.0
->>>> -I/usr/lib64/glib-2.0/include -I/usr/include/libmount
->>>> -I/usr/include/blkid -I/usr/include/gio-unix-2.0
->>>> -I/usr/include/libusb-1.0 -I/usr/include/vte-2.91
->>>> -I/usr/include/pango-1.0 -I/usr/include/harfbuzz
->>>> -I/usr/include/freetype2 -I/usr/include/libpng16
->>>> -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/cairo
->>>> -I/usr/include/pixman-1 -I/usr/include/gtk-3.0
->>>> -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0
->>>> -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0
->>>> -I/usr/lib64/dbus-1.0/include -I/usr/include/at-spi-2.0
->>>> -I/usr/include/virgl -I/usr/include/p11-kit-1 -I/usr/include/SDL2
->>>> -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nspr4
->>>> -I/usr/include/slirp -fdiagnostics-color=auto -pipe -Wall
->>>> -Winvalid-pch -Werror -std=gnu99 -O2 -g -isystem
->>>> /home/cborntra/REPOS/qemu/linux-headers -isystem linux-headers -iquote
->>>> . -iquote /home/cborntra/REPOS/qemu -iquote
->>>> /home/cborntra/REPOS/qemu/include -iquote
->>>> /home/cborntra/REPOS/qemu/disas/libvixl -iquote
->>>> /home/cborntra/REPOS/qemu/tcg/s390 -iquote
->>>> /home/cborntra/REPOS/qemu/accel/tcg -pthread -U_FORTIFY_SOURCE
->>>> -D_FORTIFY_SOURCE=2 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
->>>> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
->>>> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
->>>> -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
->>>> -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
->>>> -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
->>>> -Wimplicit-fallthrough=2 -Wno-missing-include-dirs
->>>> -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIC
->>>> -DSTRUCT_IOVEC_DEFINED -D_REENTRANT -Wno-undef -D_DEFAULT_SOURCE
->>>> -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -MD -MQ
->>>> libcommon.fa.p/hw_intc_i8259.c.o -MF
->>>> libcommon.fa.p/hw_intc_i8259.c.o.d -o libcommon.fa.p/hw_intc_i8259.c.o
->>>> -c ../hw/intc/i8259.c
->>>> ../hw/intc/i8259.c: In function ‘pic_read_irq’:
->>>> ../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in
->>>> this function [-Werror=maybe-uninitialized]
->>>>     203 |         irq = irq2 + 8;
->>>>         |         ~~~~^~~~~~~~~~
->>>> cc1: all warnings being treated as errors
->>>>
->>>> Due to other compile warnings I find this hard to bisect. Has anyone
->>>> seen this as well?
->>>
->>> I've never seen this warnings so far... which compiler version is this?
->>> Looking at the code, it seems to be a false positive to me.
->>
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg599522.html
-> 
-> Oh, well, I completely forgot about that one ... but that was with -O3 ... interesting that it now occurs with -O2, too!
-> 
-> But even after staring at the code for a while, I cannot see how irq2 may not be initialized here ... so this really rather sounds like a compiler bug to me...
+> On 15/03/2021 07.43, Mahmoud Mandour wrote:
+>>     If it's unrelated, then maybe better do it in a separate patch.
+>> I thought so but I didn't know whether it was a so-small change
+>> that it didn't=C2=A0require its own patch or not. I will amend that.
+>>     Since this is only a very small allocation, I think it would be
+>> better to
+>>     use g_malloc() here and then simply remove the "if (info =3D=3D NULL=
+) ..." part.
+>> I was thinking of always maintaining the semantics of the existing
+>> code and since g_malloc() does not behave like malloc() on
+>> error, I refrained from using g_malloc() anywhere, but of course
+>> I'll do it since it's the better thing to do.
+>
+> Keeping the semantics is normally a good idea, but the common sense in
+> the QEMU project is to rather use g_malloc() for small allocations (if
+> allocating some few bytes already fails, then the system is pretty
+> much dead anyway), and only g_try_malloc() for huge allocations that
+> really might fail on a healthy system, too.
+>
+> We should likely add some text to our coding style document to make
+> this more obvious...
 
-Its not a bug, its part of the nature for "may be" warnings. The compiler cannot figure out.
+So while there are some places where we may try to dynamically scale the
+memory we allocate on failure of a large allocation generally memory
+allocation failure is considered fatal (ergo g_malloc, no NULL check).
+However some care has to be taken depending on where we are - for
+example calling abort() because something the guest did triggered us to
+try an allocate more memory than we could is a no no.
 
-  anyway, we could simply silence it by pre-initializing the variable to -1 or so?
+We could certainly be clearer in style.rst though.
 
-I can certainly spin up a patch with -1.
+>> I will split the patches to a two-patch series regarding the
+>> util/compactfd.c file (one for the style change and one for
+>> changing the malloc() call into g_malloc()) and send them
+>> again, is that ok?
+>
+> Sounds good, thanks!
+>
+>  Thomas
 
+
+--=20
+Alex Benn=C3=A9e
 
