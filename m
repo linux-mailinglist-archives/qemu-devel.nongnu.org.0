@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD40333C686
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:10:32 +0100 (CET)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B512B33C6B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 20:19:40 +0100 (CET)
+Received: from localhost ([::1]:43700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLsbn-0005md-HR
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:10:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
+	id 1lLskd-0006b1-RC
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 15:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLsJJ-0006Di-TZ
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:26 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:34193)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lLsJe-0006NI-I5
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:46 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:47035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lLsJH-0003ty-Jf
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:25 -0400
-Received: by mail-ot1-x333.google.com with SMTP id n23so7502173otq.1
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fpax1JZXdnmsR5ErV53DVIFB1UmYF9qPM4BRgu/Zhlg=;
- b=j0ypw3apANpfuiYb1UVHEmMtD8M7JBEKbEJdjHU4DIqTbk1dwj4zgBx1cCgT9IBmxM
- zDECsXqtmTtoMtlbtop/+BJAXlHBnepniTz7s6OcW6GpWA5Ak9G6hN54F9ovjRYusN5v
- d4lN1hykdUhxSYDeda8H7C0nXZ+9D4E8lFo2lSkYzRB9OdoTQGD0g56NXNwvhytpK+Ej
- zwqb7OZIq0ll3XIIKCEexrdtZobZ59/HrjkhnSaToP/oXsc5O1Oi5koJaHrhRkyK6HOT
- bbiY01MCZMqEv7pOh//sVLsgX5iAUOwKHtDZQKO5HE0ElvSgbQZaNcDBv3pf3XqJuY2L
- yhlQ==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lLsJa-00042m-Pl
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:51:46 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id h10so18555866edt.13
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:51:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8hGa1WZT3IRVbcAr8nby2MZF2hWby7QFZIvGcz/+QNA=;
+ b=MKouHrIDm1oEm0PaXZnHgq4G59np6o5gkHDXmsj5kCPIgEoqfQ3k1aQI1qg7Z+eyV5
+ JdF70j7efFiDd496aqMzY9QuOQJb7orIGMGdyMrCH+VSs53QEaDjLoytWpp/jli1TEyA
+ IOA5Da2jWoVaUEGl18AnraqR91/Gp54Phn9jiUEO42UyRqY2F228EEaQRwuqgpk4oru7
+ rAe4Njg244/w6wOMmSlOuKfBvOwJ2RQDkCv9qyOZ35MuGVl2bP1aM+947SjlxmcIMFO9
+ wqHurbpWKgHVTstbSF5otpWkzDAkRN/whg8wHJnGwiJMotLyv9yLiDXeKyhWamuYWP6O
+ lurA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fpax1JZXdnmsR5ErV53DVIFB1UmYF9qPM4BRgu/Zhlg=;
- b=BQ1FPsAtt4Tt0mmOS1Yt/T1OjxURz4/bmv1dWdQYnIFJhndDEd0yvMWEiO3k1FsUjL
- z0m5m61DUakjTG63HjpOpvdPR0WwF9MWpwxQkFNDz3Qb6gYOQiQkesxDDqnUFrcDdpAD
- kJwrkzNIq9AT59vkJbqBCid3fv4RK2KZQ2mZDTDvvlTYIPYab3fIEU8k4zP7jwPhsia7
- vB5XmcOFNFt5JizjSsNL0lwdR5NVSK49LyD9u0MwkcwLNNMNg272kE2NJC5sNFU08tWL
- 5Be1RWqt5CjKxEQw+SongudtDJs/cF6cENE8P8Ra9APTmZsjQX1HfXTfhhMba4L1Hczh
- 94+g==
-X-Gm-Message-State: AOAM531aWwotdGPRW44XE4J7nPIFUB8rUISFR0GLfp453OjAvfVIOYVx
- SBkVtaIVNRa0FavlXcECYy8KE1ffjZpCRaeH
-X-Google-Smtp-Source: ABdhPJzKBScqXgQLNbGYfNmENUiD1nOL/eYKrrwRbflPtJVX3ngEt6WChoXLDVdOYpHmblm789/TJQ==
-X-Received: by 2002:a9d:4d8f:: with SMTP id u15mr430688otk.296.1615834282446; 
- Mon, 15 Mar 2021 11:51:22 -0700 (PDT)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id w1sm7152041oop.1.2021.03.15.11.51.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 11:51:22 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] utils: Use fixed-point arithmetic in qemu_strtosz
-Date: Mon, 15 Mar 2021 12:51:17 -0600
-Message-Id: <20210315185117.1986240-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210315185117.1986240-1-richard.henderson@linaro.org>
-References: <20210315185117.1986240-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8hGa1WZT3IRVbcAr8nby2MZF2hWby7QFZIvGcz/+QNA=;
+ b=Il2z739I1Oe5MM+Ev1tdpVsZuYOn6DEoOI/KACTn3CCJWEFWKmjLPODbYim7zQdfRv
+ f6XVrH9+SiNgOp9GvqUAfD3Vsf+DabvJZi21e043IzyKuxFxl8y0nMalMTx2i7ZE0HTU
+ NoWP8mIpFTtKSGReCf6BhPS0q5/gPe7ZSrw8sQNAMSn8OwO+a+hwJjmPlIxMersVjfR9
+ tH2eWaeVG2rMkqVnRtLt83AL4kmjSujhMwHQLTr4fuGJ4ObsKJXEIHVjazz5PT7lnz97
+ kL3R9mLoOO+DSs2LgPtsmpz9fvtjZYWuQzLjv3crs7ow+6USt4LktgVth5Eog9NVtKGU
+ Ivng==
+X-Gm-Message-State: AOAM530y3ohFkEDJMqBsIQGFKUKkjkP8LVmb231MhlWs6uyWhR1Tb6Dd
+ sf5n9cANrwM5Sj6XrfRFqWf0zPM5kzWNEJnlL6I=
+X-Google-Smtp-Source: ABdhPJzmHb0AALIWw5i/c/QI8IaVbzx4ISlpHiYGBK8fpyAUGjp54bOnPgPdyXKU3fYfDjYPKxRV9VVQajYvjAGGzi8=
+X-Received: by 2002:a50:ee05:: with SMTP id g5mr31543839eds.164.1615834300632; 
+ Mon, 15 Mar 2021 11:51:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
+References: <20210315170636.704201-1-zhlcindy@gmail.com>
+In-Reply-To: <20210315170636.704201-1-zhlcindy@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 15 Mar 2021 22:51:27 +0400
+Message-ID: <CAJ+F1CLbr7=9GF8LSZYC-LnJh=WjLehtHQ_Q3Ufwf+UnGBA+GA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Fix the segment fault when calling
+ yank_register_instance
+To: Li Zhang <zhlcindy@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000081529d05bd97bd9c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,121 +77,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Lukas Straub <lukasstraub2@web.de>, alexandr.iarygin@profitbricks.com,
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Li Zhang <li.zhang@cloud.ionos.com>, pankaj.gupta@cloud.ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Once we've parsed the fractional value, extract it into an integral
-64-bit fraction.  Perform the scaling with integer arithmetic, and
-simplify the overflow detection.
+--00000000000081529d05bd97bd9c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210315155835.1970210-2-richard.henderson@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/unit/test-cutils.c |  2 +-
- util/cutils.c            | 50 ++++++++++++++++++++++++++++------------
- 2 files changed, 36 insertions(+), 16 deletions(-)
+Hi
 
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index bad3a60993..e025b54c05 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -2128,7 +2128,7 @@ static void test_qemu_strtosz_float(void)
-     str = "12.345M";
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
--    g_assert_cmpint(res, ==, (uint64_t) (12.345 * MiB));
-+    g_assert_cmpint(res, ==, (uint64_t) (12.345 * MiB + 0.5));
-     g_assert(endptr == str + 7);
- }
- 
-diff --git a/util/cutils.c b/util/cutils.c
-index d89a40a8c3..c442882b88 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -275,10 +275,9 @@ static int do_strtosz(const char *nptr, const char **end,
-     int retval;
-     const char *endptr, *f;
-     unsigned char c;
--    bool mul_required = false, hex = false;
--    uint64_t val;
-+    bool hex = false;
-+    uint64_t val, valf = 0;
-     int64_t mul;
--    double fraction = 0.0;
- 
-     /* Parse integral portion as decimal. */
-     retval = qemu_strtou64(nptr, &endptr, 10, &val);
-@@ -308,17 +307,19 @@ static int do_strtosz(const char *nptr, const char **end,
-          * without fractional digits.  If we see an exponent, treat
-          * the entire input as invalid instead.
-          */
-+        double fraction;
-+
-         f = endptr;
-         retval = qemu_strtod_finite(f, &endptr, &fraction);
-         if (retval) {
--            fraction = 0.0;
-             endptr++;
-         } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
-             endptr = nptr;
-             retval = -EINVAL;
-             goto out;
--        } else if (fraction != 0) {
--            mul_required = true;
-+        } else {
-+            /* Extract into a 64-bit fixed-point fraction. */
-+            valf = (uint64_t)(fraction * 0x1p64);
-         }
-     }
-     c = *endptr;
-@@ -333,16 +334,35 @@ static int do_strtosz(const char *nptr, const char **end,
-         mul = suffix_mul(default_suffix, unit);
-         assert(mul > 0);
-     }
--    if (mul == 1 && mul_required) {
--        endptr = nptr;
--        retval = -EINVAL;
--        goto out;
-+    if (mul == 1) {
-+        /* When a fraction is present, a scale is required. */
-+        if (valf != 0) {
-+            endptr = nptr;
-+            retval = -EINVAL;
-+            goto out;
-+        }
-+    } else {
-+        uint64_t valh, tmp;
-+
-+        /* Compute exact result: 64.64 x 64.0 -> 128.64 fixed point */
-+        mulu64(&val, &valh, val, mul);
-+        mulu64(&valf, &tmp, valf, mul);
-+        val += tmp;
-+        valh += val < tmp;
-+
-+        /* Round 0.5 upward. */
-+        tmp = valf >> 63;
-+        val += tmp;
-+        valh += val < tmp;
-+
-+        /* Report overflow. */
-+        if (valh != 0) {
-+            retval = -ERANGE;
-+            goto out;
-+        }
-     }
--    if (val > (UINT64_MAX - ((uint64_t) (fraction * mul))) / mul) {
--        retval = -ERANGE;
--        goto out;
--    }
--    *result = val * mul + (uint64_t) (fraction * mul);
-+
-+    *result = val;
-     retval = 0;
- 
- out:
--- 
-2.25.1
+On Mon, Mar 15, 2021 at 9:22 PM Li Zhang <zhlcindy@gmail.com> wrote:
 
+> From: Li Zhang <li.zhang@cloud.ionos.com>
+>
+> When executing the QMP commands "chardev-change" to change the
+> backend device to socket, it will cause a segment fault because
+> it assumes chr->label as non-NULL in function yank_register_instance.
+> The function qmp_chardev_change calls chardev_new, which label
+> is NULL when creating a new chardev. The label will be passed to
+> yank_register_instance which causes a segment fault. The callchain
+> is as the following:
+>         chardev_new ->
+>             qemu_char_open ->
+>                 cc->open ->
+>                 qmp_chardev_open_socket ->
+>                     yank_register_instance
+>
+> Signed-off-by: Li Zhang <li.zhang@cloud.ionos.com>
+> ---
+>  chardev/char-socket.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index c8bced76b7..26d5172682 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -1421,10 +1421,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
+>          qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
+>      }
+>
+> -    if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), errp)=
+)
+> {
+> -        return;
+> +    if (chr->label) {
+> +        if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label),
+> errp)) {
+> +            return;
+> +        }
+> +        s->registered_yank =3D true;
+>      }
+> -    s->registered_yank =3D true;
+>
+>      /* be isn't opened until we get a connection */
+>      *be_opened =3D false
+>
+
+Looks wrong to me, the new chardev will get the same label, and it should
+still be possible to call the yank functions then. The registration logic
+needs to be reworked during chardev-change.
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000081529d05bd97bd9c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 15, 2021 at 9:22 PM Li =
+Zhang &lt;<a href=3D"mailto:zhlcindy@gmail.com">zhlcindy@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Li =
+Zhang &lt;<a href=3D"mailto:li.zhang@cloud.ionos.com" target=3D"_blank">li.=
+zhang@cloud.ionos.com</a>&gt;<br>
+<br>
+When executing the QMP commands &quot;chardev-change&quot; to change the<br=
+>
+backend device to socket, it will cause a segment fault because<br>
+it assumes chr-&gt;label as non-NULL in function yank_register_instance.<br=
+>
+The function qmp_chardev_change calls chardev_new, which label<br>
+is NULL when creating a new chardev. The label will be passed to<br>
+yank_register_instance which causes a segment fault. The callchain<br>
+is as the following:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 chardev_new -&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_char_open -&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cc-&gt;open -&gt;<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_chardev_open_so=
+cket -&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 yank_=
+register_instance<br>
+<br>
+Signed-off-by: Li Zhang &lt;<a href=3D"mailto:li.zhang@cloud.ionos.com" tar=
+get=3D"_blank">li.zhang@cloud.ionos.com</a>&gt;<br>
+---<br>
+=C2=A0chardev/char-socket.c | 8 +++++---<br>
+=C2=A01 file changed, 5 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c<br>
+index c8bced76b7..26d5172682 100644<br>
+--- a/chardev/char-socket.c<br>
++++ b/chardev/char-socket.c<br>
+@@ -1421,10 +1421,12 @@ static void qmp_chardev_open_socket(Chardev *chr,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_set_feature(chr, QEMU_CHAR_FEATU=
+RE_FD_PASS);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr-&gt;la=
+bel), errp)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 if (chr-&gt;label) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!yank_register_instance(CHARDEV_YANK_INSTA=
+NCE(chr-&gt;label), errp)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;registered_yank =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 s-&gt;registered_yank =3D true;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* be isn&#39;t opened until we get a connection */<br>
+=C2=A0 =C2=A0 =C2=A0*be_opened =3D false<br clear=3D"all"></blockquote><div=
+><br></div><div>Looks wrong to me, the new chardev will get the same label,=
+ and it should still be possible to call the yank functions then. The regis=
+tration logic needs to be reworked during chardev-change.<br></div></div><b=
+r>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<=
+br></div></div>
+
+--00000000000081529d05bd97bd9c--
 
