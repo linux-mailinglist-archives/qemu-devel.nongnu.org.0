@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BAD33C608
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:47:39 +0100 (CET)
-Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE6F33C5D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:38:26 +0100 (CET)
+Received: from localhost ([::1]:56584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLsFe-0007J6-IQ
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
+	id 1lLs6j-0002Zm-NM
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lLra4-00035z-5T
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:04:40 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lLra1-00017h-Qj
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:04:39 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id ci14so67674197ejc.7
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=RLzpdG5+y0WcLJDX7Om/KLDmZjwjkS7jaZ8vH7EHX6c=;
- b=x31nlNidQFXTEXCsTgNyK/QjvvhL42HIpJP4GqGrpMqWm3m+DuJeBEnGb4NrIHdqlx
- bDn74edl+UTshbuna3v31Pvxzr5pxE9JnorIcB3KNyg9LuqmIVzEjLLu46CDTJ8Z/bQw
- 7+H2XUzEYN/Ou0OnKn9/Gx+qNgQkORTrHLIx21eC+gF/dOJc5Wfsvmu5+h+K/GLpcA4P
- o5khDwBoxjpCj7eSPizxmaMx4UrItoKAQ1qpmWXVC528RRmGG3jEtzRUpA5AMUhzsPfV
- l12MDTI7EuaPs/nTwYi17yX2aVOgM3FsqYb8TBRRp35MaRaixyuAbOspfMMdfmVtHxKN
- ws5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=RLzpdG5+y0WcLJDX7Om/KLDmZjwjkS7jaZ8vH7EHX6c=;
- b=LDGa9zc+se230qpqP21/Gd1Vw4dKvMTBP5mja7gdv+W5lylbvVDVE1MIXCHULfalfm
- eSP+B28u3Aoz8K8PRc9cwOVzSPyhTeUubWEL2vN04vSqjIjrHsapD8mrNjf4PqTUl+d4
- rqUtzL9riTJrJeKqsq33Vai7o/Occ4qH9nLZLn87zKDM1s5uccXMszU2OAQ0m+BAjCGk
- GIRGsI3jEseOLvF7mwrbMO/J94tNMDwZNkQkUu4lLyLPZDmqm+iR3H9iYOArjKyOTTxw
- VB5vNFPPZgiMlRKLGG30oJ/c7YxoOP0/b94zrAPeiOtbU0TwcCCCnYYVa+xLJw64TfR+
- tjlw==
-X-Gm-Message-State: AOAM530h3p04+cUwxnmoQRwiL8h148qOYPEyjvasTVw8EOblKoCANopA
- T8GrHS3UF4DIwf65+G9cXj5rhe7JASvYRpMO
-X-Google-Smtp-Source: ABdhPJxJ7b6MgdHkMeNMeB/gK2hSLMvyIGCOLKndbyjMt1+5TanNSgD86asBUjyzubmW0YoFEcCqTA==
-X-Received: by 2002:a17:906:a413:: with SMTP id
- l19mr25232367ejz.421.1615831476329; 
- Mon, 15 Mar 2021 11:04:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j1sm7873659ejt.18.2021.03.15.11.04.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 11:04:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9459C1FF7E;
- Mon, 15 Mar 2021 18:04:34 +0000 (GMT)
-References: <20210312172821.31647-1-alex.bennee@linaro.org>
- <20210312172821.31647-7-alex.bennee@linaro.org>
- <YEux/6mWQYgJCHRC@strawberry.localdomain>
-User-agent: mu4e 1.5.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: [PATCH v1 06/14] plugins: expand the callback typedef kernel-docs
-Date: Mon, 15 Mar 2021 18:04:20 +0000
-In-reply-to: <YEux/6mWQYgJCHRC@strawberry.localdomain>
-Message-ID: <87h7lc8f9p.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lLrc7-0004hi-CJ
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:06:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lLrc1-00029g-8w
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:06:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615831600;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ax2dBgVxEZoZTzSANXRixukL888w1B8HGmLIEuYZhJM=;
+ b=iYv9LBnPjGV4wVBOj+cQgCEmZsvfj83SRngtsWqb2n8qRBvGesSgYf5Bvxres9R7z2zcyP
+ rcrkO7yIXe92Voct/ExRhVb4dgWW8SWBjQQcjIP/CGcKtflwoZpfdwz5UL3dMk60RFPlo0
+ cUiIA6POp8+1gR21Tdv4NEPlIQDH4QM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-kygQeWi2PEyu6h5QELuZ6g-1; Mon, 15 Mar 2021 14:06:33 -0400
+X-MC-Unique: kygQeWi2PEyu6h5QELuZ6g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7993F108BD07;
+ Mon, 15 Mar 2021 18:06:32 +0000 (UTC)
+Received: from redhat.com (ovpn-115-81.ams2.redhat.com [10.36.115.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9BAF60C0F;
+ Mon, 15 Mar 2021 18:06:27 +0000 (UTC)
+Date: Mon, 15 Mar 2021 18:06:25 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH] docs/devel: expand style section of memory management
+Message-ID: <YE+iIfv7+EmbWxfl@redhat.com>
+References: <20210315165312.22453-1-alex.bennee@linaro.org>
+ <CAFEAcA8gnFdOprY=yj+voN+DJ44zx3+9ABM3yMPdWJSQ3X6QrQ@mail.gmail.com>
+ <b5db40d9-1a51-3690-a1ac-0ac345619376@redhat.com>
+ <YE+UuX2Hqr2BjsRh@redhat.com> <87pn008fq9.fsf@linaro.org>
 MIME-Version: 1.0
+In-Reply-To: <87pn008fq9.fsf@linaro.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,86 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, cota@braap.org, qemu-devel@nongnu.org,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 15, 2021 at 05:54:17PM +0000, Alex Bennée wrote:
+> 
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > On Mon, Mar 15, 2021 at 06:04:10PM +0100, Thomas Huth wrote:
+> >> On 15/03/2021 17.57, Peter Maydell wrote:
+> >> > On Mon, 15 Mar 2021 at 16:53, Alex Bennée <alex.bennee@linaro.org> wrote:
+> >> > > -Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the following
+> >> > > +Care should be taken to avoid introducing places where the guest could
+> >> > > +trigger an exit. For example using ``g_malloc`` on start-up is fine
+> >> > > +if the result of a failure is going to be a fatal exit anyway. There
+> >> > > +may be some start-up cases where failing is unreasonable (for example
+> >> > > +speculatively loading debug symbols).
+> >> > > +
+> >> > > +However if we are doing an allocation because of something the guest
+> >> > > +has done we should never trigger an exit. The code may deal with this
+> >> > > +by trying to allocate less memory and continue or re-designed to allocate
+> >> > > +buffers on start-up.
+> >> > 
+> >> > I think this is overly strong. We want to avoid malloc-or-die for
+> >> > cases where the guest gets to decide how big the allocation is;
+> >> > but if we're doing a single small fixed-size allocation that happens
+> >> > to be triggered by a guest action we should be OK to g_malloc() that
+> >> > I think.
+> >> 
+> >> I agree with Peter. If the host is so much out-of-memory that we even can't
+> >> allocate some few bytes anymore (let's say less than 4k), the system is
+> >> pretty much dead anyway and it might be better to terminate the program
+> >> immediately instead of continuing with the out-of-memory situation.
+> >
+> > On a Linux host you're almost certainly not going to see g_malloc
+> > fail for small allocations at least. Instead at some point the host
+> > will be under enough memory pressure that the OOM killer activates
+> > and reaps arbitrary processes based on some criteria it has, freeing
+> > up memory for malloc to succeed (unless OOM killer picked you as the
+> > victim).
+> 
+> OK how about this wording:
+> 
+>   Please note that ``g_malloc`` will exit on allocation failure, so
+>   there is no need to test for failure (as you would have to with
+>   ``malloc``). Generally using ``g_malloc`` on start-up is fine as the
+>   result of a failure to allocate memory is going to be a fatal exit
+>   anyway. There may be some start-up cases where failing is unreasonable
+>   (for example speculatively loading a large debug symbol table).
+> 
+>   Care should be taken to avoid introducing places where the guest could
+>   trigger an exit by causing a large allocation. For small allocations,
+>   of the order of 4k, a failure to allocate is likely indicative of an
+>   overloaded host and allowing ``g_malloc`` to ``exit`` is a reasonable
+>   approach. However for larger allocations where we could realistically
+>   fall-back to a smaller one if need be we should use functions like
+>   ``g_try_new`` and check the result. For example this is valid approach
+>   for a time/space trade-off like ``tlb_mmu_resize_locked`` in the
+>   SoftMMU TLB code.
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+Fine with me
 
-> On Mar 12 17:28, Alex Benn=C3=A9e wrote:
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> One nit below, but otherwise:
->
-> Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
->
->> ---
->>  include/qemu/qemu-plugin.h | 25 ++++++++++++++++++++++---
->>  1 file changed, 22 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
->> index ac1bb318da..09b235f0b4 100644
->> --- a/include/qemu/qemu-plugin.h
->> +++ b/include/qemu/qemu-plugin.h
->> @@ -99,17 +99,36 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plug=
-in_id_t id,
->>                                             const qemu_info_t *info,
->>                                             int argc, char **argv);
->>=20=20
->> -/*
->> - * Prototypes for the various callback styles we will be registering
->> - * in the following functions.
->> +/**
->> + * typedef qemu_plugin_simple_cb_t - simple callback
->> + * @id: the unique qemu_plugin_id_t
->> + *
->> + * This call-back passes no information aside from the unique @id.
->
-> Should we be consistent about always using 'callback' or 'call-back'
-> instead of alternating? I tend to use 'callback', but I'm not sure I
-> have a solid reason to prefer it.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-No you are right we should stick to callback.
-
->
-> -Aaron
->
->>   */
->>  typedef void (*qemu_plugin_simple_cb_t)(qemu_plugin_id_t id);
->>=20=20
->> +/**
->> + * typedef qemu_plugin_udata_cb_t - callback with user data
->> + * @id: the unique qemu_plugin_id_t
->> + * @userdata: a pointer to some user data supplied when the call-back
->> + * was registered.
->> + */
->>  typedef void (*qemu_plugin_udata_cb_t)(qemu_plugin_id_t id, void *userd=
-ata);
->>=20=20
->> +/**
->> + * typedef qemu_plugin_vcpu_simple_cb_t - vcpu callback
->> + * @id: the unique qemu_plugin_id_t
->> + * @vcpu_index: the current vcpu context
->> + */
->>  typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
->>                                               unsigned int vcpu_index);
->>=20=20
->> +/**
->> + * typedef qemu_plugin_vcpu_udata_cb_t - vcpu callback
->> + * @vcpu_index: the current vcpu context
->> + * @userdata: a pointer to some user data supplied when the call-back
->> + * was registered.
->> + */
->>  typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
->>                                              void *userdata);
->>=20=20
->> --=20
->> 2.20.1
->>=20
-
-
---=20
-Alex Benn=C3=A9e
 
