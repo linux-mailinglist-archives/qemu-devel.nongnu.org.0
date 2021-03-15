@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9102433C9CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:12:38 +0100 (CET)
-Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9276533C9D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 00:14:39 +0100 (CET)
+Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLwO5-0006Bn-JY
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
+	id 1lLwQ2-0000U5-AN
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 19:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLwKk-0001k9-6f
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:09:10 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lLwKh-000267-Sn
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:09:09 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id l11so9529008wrp.7
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 16:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YTXlhkG2Ovry9Jhj0XTrAo3VZzzvcKLTHnzNgI1T5kA=;
- b=taNjqGhNnNAXP9edIB3tCuApJx9aESGakqJsWYEr4gMipLwzcBTIpUeJY6WT7+MiqA
- nDzPx8LwEYtmdqF3DKchjpbDRwRPycIc+bQ9PQdkzU5kuLeRSXG4uJsh64h9rHN87/6h
- QN2dkI7ochZ2yVCHBVpPGivRVwM7yAHadTCZwucvc53UM+h4QLvfOV3MK/Wzjui6HJky
- Wx5GcXWW6HKjKFUecN8rlM9YomHAW9EmboZ/DyZc83q1fJRKehHvq7ea7/0g39J3FlnU
- G5RAXF6heoQco6OtMmxBsJ5/xuI5+onAQBNB4T7SyWRFGGfpHBUtiQlGMUoy2vYPIbwO
- V+Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YTXlhkG2Ovry9Jhj0XTrAo3VZzzvcKLTHnzNgI1T5kA=;
- b=KB9QQuGfujTAs8eKcy36PGhvq1jX89490+qX/QPoWNsGfygt7Qlhacv7XBCNuXGP3L
- 9r9Yd/A1Vlq3tz1Sgx0CMmSn8R4iVXrLO6RVL+kdCxHUMQPBKJ+w/VREzpWmRFXjoU+c
- GzFucnK+7mAIu2yN3lhr54awHYzb9lUA/qhHBgFr8umgxHgZqX4n6F7AW9cpydW3Pw+4
- V1KNGI2A2FPua5Ns/csjZm4mRY86mergBysqqpnttLSxp1rZ7ogLqM0QTlt+3zaXS2fT
- hIijqrNN5NcwKRwYQjHlRZpQ3qFnO01kA+OFNj7xiqh4yMGIlR7/e6YtnG5Z4hUeZIpq
- ULQA==
-X-Gm-Message-State: AOAM532shIBHet0P8dCWZo3uI7uwhA8xCA2M2H8LB/Vr+e+Ws84/S+El
- pWTPreXIBz8eKngK82XKR4qe6lBinIV1Xw==
-X-Google-Smtp-Source: ABdhPJwkMBGsz/pr5WofxyZxjFvwRyMYsUSSi5L2toiV10l3yW/FfnjWubBY8sxz4MWov1pRRi4pCQ==
-X-Received: by 2002:adf:ab52:: with SMTP id r18mr1757701wrc.65.1615849746231; 
- Mon, 15 Mar 2021 16:09:06 -0700 (PDT)
-Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id k12sm20886107wrx.7.2021.03.15.16.09.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 16:09:05 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/5] tests/acceptance: Add bFLT loader linux-user test
-Date: Tue, 16 Mar 2021 00:08:38 +0100
-Message-Id: <20210315230838.2973103-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210315230838.2973103-1-f4bug@amsat.org>
-References: <20210315230838.2973103-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1lLwL2-0002Q9-UU
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:09:28 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:44268 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1lLwL1-0002Ef-6P
+ for qemu-devel@nongnu.org; Mon, 15 Mar 2021 19:09:28 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id D9F56412DB;
+ Mon, 15 Mar 2021 23:09:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1615849764; x=1617664165; bh=dZVpUlKRikrA84JNsSO6s7
+ kjWQRWdaOKi/W1R7vNfEg=; b=JftzrAxcmlwJIR85XVTRXX/tIbh2z+LHOAHhvI
+ CeqKMiE3oy49ihwaFqfIVjyYnS7euAweGSk7k1jNBRCzuDHOvREBJXVDlh+pBdm5
+ oSL5VeMEkOdPqFftcyFUbhI8bC7hX2ejld4/KQJKkabrkCDsldkslxXdc/j963va
+ Hdgbo=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RX8DU2FvWLUF; Tue, 16 Mar 2021 02:09:24 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id A4F97412D8;
+ Tue, 16 Mar 2021 02:09:24 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 16
+ Mar 2021 02:09:24 +0300
+Date: Tue, 16 Mar 2021 02:09:23 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 01/29] meson: Split out tcg/meson.build
+Message-ID: <YE/pI2fHqNyOR1Mn@SPB-NB-133.local>
+References: <20210314212724.1917075-1-richard.henderson@linaro.org>
+ <20210314212724.1917075-2-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210314212724.1917075-2-richard.henderson@linaro.org>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,93 +80,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a very quick test that runs a busybox binary in bFLT format:
+On Sun, Mar 14, 2021 at 03:26:56PM -0600, Richard Henderson wrote:
+> Reviewed-by: Philippe Mathieu-Daud� <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-  $ avocado --show=app run -t linux_user tests/acceptance/load_bflt.py
-  JOB ID     : db94d5960ce564c50904d666a7e259148c27e88f
-  JOB LOG    : ~/avocado/job-results/job-2019-06-25T10.52-db94d59/job.log
-   (1/1) tests/acceptance/load_bflt.py:LoadBFLT.test_stm32: PASS (0.15 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 0.54 s
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v3: Check for 'cpio' (thuth)
----
- tests/acceptance/load_bflt.py | 54 +++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
- create mode 100644 tests/acceptance/load_bflt.py
+Thanks,
+Roman
 
-diff --git a/tests/acceptance/load_bflt.py b/tests/acceptance/load_bflt.py
-new file mode 100644
-index 00000000000..f071a979d8e
---- /dev/null
-+++ b/tests/acceptance/load_bflt.py
-@@ -0,0 +1,54 @@
-+# Test the bFLT loader format
-+#
-+# Copyright (C) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import bz2
-+import subprocess
-+
-+from avocado import skipUnless
-+from avocado_qemu import QemuUserTest
-+from avocado_qemu import has_cmd
-+
-+
-+class LoadBFLT(QemuUserTest):
-+
-+    def extract_cpio(self, cpio_path):
-+        """
-+        Extracts a cpio archive into the test workdir
-+
-+        :param cpio_path: path to the cpio archive
-+        """
-+        cwd = os.getcwd()
-+        os.chdir(self.workdir)
-+        with bz2.open(cpio_path, 'rb') as archive_cpio:
-+            subprocess.run(['cpio', '-i'], input=archive_cpio.read(),
-+                           stderr=subprocess.DEVNULL)
-+        os.chdir(cwd)
-+
-+    @skipUnless(*has_cmd('cpio'))
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_stm32(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=linux_user
-+        :avocado: tags=quick
-+        """
-+        # See https://elinux.org/STM32#User_Space
-+        rootfs_url = ('https://elinux.org/images/5/51/'
-+                      'Stm32_mini_rootfs.cpio.bz2')
-+        rootfs_hash = '9f065e6ba40cce7411ba757f924f30fcc57951e6'
-+        rootfs_path_bz2 = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
-+        busybox_path = self.workdir + "/bin/busybox"
-+
-+        self.extract_cpio(rootfs_path_bz2)
-+
-+        res = self.run(busybox_path)
-+        ver = 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) multi-call binary.'
-+        self.assertIn(ver, res.stdout_text)
-+
-+        res = self.run(busybox_path, ['uname', '-a'])
-+        unm = 'armv7l GNU/Linux'
-+        self.assertIn(unm, res.stdout_text)
--- 
-2.26.2
-
+>  meson.build     |  9 ++-------
+>  tcg/meson.build | 13 +++++++++++++
+>  2 files changed, 15 insertions(+), 7 deletions(-)
+>  create mode 100644 tcg/meson.build
+> 
+> diff --git a/meson.build b/meson.build
+> index a7d2dd429d..742f45c8d8 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1936,14 +1936,8 @@ specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+>  specific_ss.add(files('exec-vary.c'))
+>  specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+>    'fpu/softfloat.c',
+> -  'tcg/optimize.c',
+> -  'tcg/tcg-common.c',
+> -  'tcg/tcg-op-gvec.c',
+> -  'tcg/tcg-op-vec.c',
+> -  'tcg/tcg-op.c',
+> -  'tcg/tcg.c',
+>  ))
+> -specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c', 'tcg/tci.c'))
+> +specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c'))
+>  
+>  subdir('backends')
+>  subdir('disas')
+> @@ -1953,6 +1947,7 @@ subdir('net')
+>  subdir('replay')
+>  subdir('semihosting')
+>  subdir('hw')
+> +subdir('tcg')
+>  subdir('accel')
+>  subdir('plugins')
+>  subdir('bsd-user')
+> diff --git a/tcg/meson.build b/tcg/meson.build
+> new file mode 100644
+> index 0000000000..84064a341e
+> --- /dev/null
+> +++ b/tcg/meson.build
+> @@ -0,0 +1,13 @@
+> +tcg_ss = ss.source_set()
+> +
+> +tcg_ss.add(files(
+> +  'optimize.c',
+> +  'tcg.c',
+> +  'tcg-common.c',
+> +  'tcg-op.c',
+> +  'tcg-op-gvec.c',
+> +  'tcg-op-vec.c',
+> +))
+> +tcg_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tci.c'))
+> +
+> +specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+> -- 
+> 2.25.1
+> 
 
