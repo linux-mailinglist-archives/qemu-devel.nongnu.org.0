@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1A333C5C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:36:42 +0100 (CET)
-Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE13533C5F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Mar 2021 19:44:09 +0100 (CET)
+Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLs53-0000AM-Oc
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35254)
+	id 1lLsCG-0002Qh-RC
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 14:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lLrZE-0002b2-Oe
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:49 -0400
-Received: from mail-pj1-f52.google.com ([209.85.216.52]:39554)
+ id 1lLrZF-0002bJ-Rl; Mon, 15 Mar 2021 14:03:50 -0400
+Received: from mail-pl1-f170.google.com ([209.85.214.170]:37503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1lLrZC-0000qA-NO
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 14:03:48 -0400
-Received: by mail-pj1-f52.google.com with SMTP id
- lr10-20020a17090b4b8ab02900dd61b95c5eso12585435pjb.4
- for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 11:03:45 -0700 (PDT)
+ id 1lLrZE-0000r0-5I; Mon, 15 Mar 2021 14:03:49 -0400
+Received: by mail-pl1-f170.google.com with SMTP id 30so11138994ple.4;
+ Mon, 15 Mar 2021 11:03:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y1rs2HPOtD5FKljEnDvYYS6MJHXjaTqMOoVOuF0UqjE=;
- b=qDLa26RBQ9BQfyOnO/CwP9+QMrGrwBUWbt6jySFPuDFNNRV2Zql98W0meCJPrMohuD
- uOmUU2Mz1QDelORsI8VcdqYuC1WQJq2xwtyrtgG1d3qh1WxKrSAroLYCjn58g7//X2VR
- LrFD9n4UJOGWzqoGFKdIK+h2o8yzRHWxLoUZV1KikXtaicCCcj+Yz/3EPwnITRDKUoml
- 8AWLhzfzowo7IRNiiLitboXfk+j2XZ7NJROwTuiyhHYN+h8Q2NRV6CMk+iF5W4Gy3B89
- +zrtOcIdyaAXx4WqTUToMffKPG1mycmue4KUa6LAtASh20B4bwD+LC0Sfb9KJXnsgcZ0
- Oi2Q==
-X-Gm-Message-State: AOAM533Hq3oiI0g1SrCXWyA/LqL4VCLlgiYM2j32PvXaWRPTs6SmZ4fd
- /evqsRMnKAp3me9vISFEup6QrY+arD4=
-X-Google-Smtp-Source: ABdhPJwTmVwzCpGYq3TuO5JLListkzhYb9WpcuRe4CuyfnA1tHigaBtuc1G3OVLoY6Z25lA6M0VbOg==
-X-Received: by 2002:a17:902:344:b029:e4:a7ab:2e55 with SMTP id
- 62-20020a1709020344b02900e4a7ab2e55mr12916107pld.63.1615831423919; 
- Mon, 15 Mar 2021 11:03:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Mxj+g6b6U5ElCsYWP8nPrTN3O8eushUcHmHZFOrnJuo=;
+ b=TCUZctHZVQZnjqvcCrST69hhASN48l2Rk79HJRZ2h/WhX7HjaUzDlFOWYT2EzmSU0m
+ v6xhwxD7KL4bo/Z3G5EqnApi5KfukcPlk+repkRFv0dAeev0Gwq44lf8KkCi/79I0xaZ
+ Mbf7QoTqvaFaEP6R4Fg5RMbO4xfpMj1PzuhI7f/5TXkcZXv3E5FGOLlFQ6mBq+nUCG9g
+ mWiNqbE94t8hGgsdGvXtO+R/G5uid+t6tEuoWlWp+4TmDhzoEMgSkVuV2dYeuovGDTbK
+ BGE6nBUa2KZzyoag59VPbbb81Y9JhXKQy6QbQOPVlsrCqjVUCsYmbB5Q66C76E4N+y/g
+ +JfA==
+X-Gm-Message-State: AOAM530JPev5uwRHrxQ3JDmFBeAKEbo3MfHgb6OV8vVnNbpN+XwmE5cU
+ 0Xw2s3PcqT+CeAlVhH0yiCYqhEaLGCg=
+X-Google-Smtp-Source: ABdhPJwHb1bjLHsnGffyzH0BVf16Tlw4a8u1VPvtfEWZSaRUHs6ZxNktU7s2TZB4UyA51JWJZbgZvA==
+X-Received: by 2002:a17:903:3053:b029:e6:5cde:bef with SMTP id
+ u19-20020a1709033053b02900e65cde0befmr12525324pla.81.1615831426502; 
+ Mon, 15 Mar 2021 11:03:46 -0700 (PDT)
 Received: from localhost.localdomain ([73.93.153.95])
- by smtp.gmail.com with ESMTPSA id y194sm14267842pfb.21.2021.03.15.11.03.42
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id y194sm14267842pfb.21.2021.03.15.11.03.45
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Mar 2021 11:03:43 -0700 (PDT)
+ Mon, 15 Mar 2021 11:03:46 -0700 (PDT)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] Disable unsupported features on iOS hosts
-Date: Mon, 15 Mar 2021 11:03:37 -0700
-Message-Id: <20210315180341.31638-1-j@getutm.app>
+Subject: [PATCH v3 2/4] block: check for sys/disk.h
+Date: Mon, 15 Mar 2021 11:03:39 -0700
+Message-Id: <20210315180341.31638-3-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210315180341.31638-1-j@getutm.app>
+References: <20210315180341.31638-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.52; envelope-from=osy86github@gmail.com;
- helo=mail-pj1-f52.google.com
+Received-SPF: pass client-ip=209.85.214.170;
+ envelope-from=osy86github@gmail.com; helo=mail-pl1-f170.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -75,36 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Joelle van Dyne <j@getutm.app>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches disables code that cannot be compiled or run on iOS by adding
-feature/header detection at configure time.
+Some BSD platforms do not have this header.
 
-Only the first patch still needs to be reviewed, thanks!
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+---
+ meson.build | 1 +
+ block.c     | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-v3:
-
-* Add braces in if statement in third patch
-
-v2:
-
-* Broken merge where config_host['CONFIG_SMBD_COMMAND'] was duplicated.
-
-Joelle van Dyne (4):
-  block: feature detection for host block support
-  block: check for sys/disk.h
-  block: detect DKIOCGETBLOCKCOUNT/SIZE before use
-  slirp: feature detection for smbd
-
- configure            | 26 ++++++++++++++++++---
- meson.build          |  9 ++++++--
- qapi/block-core.json | 10 +++++---
- block.c              |  2 +-
- block/file-posix.c   | 54 +++++++++++++++++++++++++-------------------
- net/slirp.c          | 16 ++++++-------
- 6 files changed, 77 insertions(+), 40 deletions(-)
-
+diff --git a/meson.build b/meson.build
+index 59c7c56366..2c01e2494c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1153,6 +1153,7 @@ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
+ config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
++config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
+ 
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
+ 
+diff --git a/block.c b/block.c
+index f377158c42..c9729bdf21 100644
+--- a/block.c
++++ b/block.c
+@@ -54,7 +54,7 @@
+ #ifdef CONFIG_BSD
+ #include <sys/ioctl.h>
+ #include <sys/queue.h>
+-#ifndef __DragonFly__
++#if defined(HAVE_SYS_DISK_H)
+ #include <sys/disk.h>
+ #endif
+ #endif
 -- 
 2.28.0
 
