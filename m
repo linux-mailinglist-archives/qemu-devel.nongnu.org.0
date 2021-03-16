@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BCE33D5F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:40:38 +0100 (CET)
-Received: from localhost ([::1]:59018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112BA33D5F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:40:40 +0100 (CET)
+Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMAs8-0005JH-VW
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
+	id 1lMAsB-0005M2-0u
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMApy-0003dm-Gz
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33294)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMApy-0003e8-V8
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMApw-0002Ab-O5
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMApw-0002AZ-U5
  for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615905500;
@@ -23,49 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HenKwa4hoM0V49zGIkl82eGf1JLIKcUT10BtqC1W4jo=;
- b=VK2SwZZdXL8aNZWZL/toMRkPAVysjEFvhYdLjeSORo9/21DObjbw3t29nbNHtJ/+4FYd6+
- vmZi0t1xzOhd0ahFsheuquGMXZ5QFeVqQdCVwNvBiCnsAqW3qYHV7xvxZ1mi+drVA3KsNI
- z90PsF2dqckOYTCc27n0Oz1mqG1G8lI=
+ bh=QeghCcWJCEe+UCS0TAiCXU0ML+ql8ypkHN4QX9BicnE=;
+ b=OVsNYg/RA9fg0MkiCD+RlJj37oE2MFl/0dTguaUPzMiRHxNNyK1GyfuywYddH3Z0nMvc7o
+ ySUaRhvvb94PKb2wXLmS4zQysGs8Sg5hcn/HIXJ4qYNBvruwfZ8908TMTNz5UY8rcdFsaV
+ y+7KicsV5q8GB1vGr5Qy3CLbGgZiF50=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-zfOeyHqxMzyW8l_gOTzJBw-1; Tue, 16 Mar 2021 10:38:18 -0400
-X-MC-Unique: zfOeyHqxMzyW8l_gOTzJBw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-347-XWHa-iFuO1OOJrcFR-gbCQ-1; Tue, 16 Mar 2021 10:38:18 -0400
+X-MC-Unique: XWHa-iFuO1OOJrcFR-gbCQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8175C100C665
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C0AA800FF0
  for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:38:17 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA04C5B4B6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBC765DEAD;
  Tue, 16 Mar 2021 14:38:13 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 579CF180062A; Tue, 16 Mar 2021 15:38:12 +0100 (CET)
+ id 6254E180062B; Tue, 16 Mar 2021 15:38:12 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/9] edid: move xtra3 descriptor
-Date: Tue, 16 Mar 2021 15:38:06 +0100
-Message-Id: <20210316143812.2363588-4-kraxel@redhat.com>
+Subject: [PATCH 4/9] edid: use dta extension block descriptors
+Date: Tue, 16 Mar 2021 15:38:07 +0100
+Message-Id: <20210316143812.2363588-5-kraxel@redhat.com>
 In-Reply-To: <20210316143812.2363588-1-kraxel@redhat.com>
 References: <20210316143812.2363588-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,65 +83,35 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize the "Established timings III" block earlier.  Also move up
-edid_fill_modes().  That'll make sure the offset for the additional
-descriptors in the dta block don't move any more, which in turn makes it
-easier to actually use them.
+When the 4 descriptors in the base edid block are filled, jump to the
+dta extension block.  This allows for more than four descriptors.
+Happens for example when generating an edid blob with a serial number
+(qemu-edid -s $serial).
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/edid-generate.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ hw/display/edid-generate.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index ef7a70fc9654..259ef7315217 100644
+index 259ef7315217..489532c3bc5f 100644
 --- a/hw/display/edid-generate.c
 +++ b/hw/display/edid-generate.c
-@@ -415,25 +415,28 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-                      width_mm, height_mm);
-     desc = edid_desc_next(edid, dta, desc);
- 
-+    xtra3 = desc;
-+    edid_desc_xtra3_std(xtra3);
-+    desc = edid_desc_next(edid, dta, desc);
-+    edid_fill_modes(edid, xtra3, dta, info->maxx, info->maxy);
-+    /*
-+     * dta video data block is finished at thus point,
-+     * so dta descriptor offsets don't move any more.
-+     */
-+
-     edid_desc_ranges(desc);
-     desc = edid_desc_next(edid, dta, desc);
- 
--    if (info->name) {
-+    if (desc && info->name) {
-         edid_desc_text(desc, 0xfc, info->name);
-         desc = edid_desc_next(edid, dta, desc);
+@@ -151,6 +151,14 @@ static uint8_t *edid_desc_next(uint8_t *edid, uint8_t *dta, uint8_t *desc)
+     if (desc + 18 + 18 < edid + 127) {
+         return desc + 18;
      }
++    if (dta) {
++        if (desc < edid + 127) {
++            return dta + dta[2];
++        }
++        if (desc + 18 + 18 < dta + 127) {
++            return desc + 18;
++        }
++    }
+     return NULL;
+ }
  
--    if (info->serial) {
-+    if (desc && info->serial) {
-         edid_desc_text(desc, 0xff, info->serial);
-         desc = edid_desc_next(edid, dta, desc);
-     }
- 
--    if (desc) {
--        xtra3 = desc;
--        edid_desc_xtra3_std(xtra3);
--        desc = edid_desc_next(edid, dta, desc);
--    }
--
-     while (desc) {
-         edid_desc_dummy(desc);
-         desc = edid_desc_next(edid, dta, desc);
-@@ -441,7 +444,6 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
- 
-     /* =============== finish up =============== */
- 
--    edid_fill_modes(edid, xtra3, dta, info->maxx, info->maxy);
-     edid_checksum(edid);
-     if (dta) {
-         edid_checksum(dta);
 -- 
 2.30.2
 
