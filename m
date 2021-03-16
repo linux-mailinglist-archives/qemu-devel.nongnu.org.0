@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AAD33E144
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:18:53 +0100 (CET)
-Received: from localhost ([::1]:44006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC8F33E145
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:19:31 +0100 (CET)
+Received: from localhost ([::1]:46794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMI1c-0002YA-QH
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
+	id 1lMI2E-0003fg-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMHuB-0000sQ-8b; Tue, 16 Mar 2021 18:11:11 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14647)
+ id 1lMHu9-0000qt-Ep; Tue, 16 Mar 2021 18:11:09 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:34287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMHty-00049d-1D; Tue, 16 Mar 2021 18:11:11 -0400
+ id 1lMHu5-0004De-8L; Tue, 16 Mar 2021 18:11:09 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 57F6F74641B;
+ by localhost (Postfix) with SMTP id 828BE746396;
  Tue, 16 Mar 2021 23:10:55 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D290F7463B4; Tue, 16 Mar 2021 23:10:54 +0100 (CET)
-Message-Id: <95230309dc0b773688a16288d9021ec51c78d917.1615932192.git.balaton@eik.bme.hu>
+ id E258D7463A6; Tue, 16 Mar 2021 23:10:54 +0100 (CET)
+Message-Id: <2a70d4b5084f8c09eea26aea39159d8ca2027908.1615932192.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1615932192.git.balaton@eik.bme.hu>
 References: <cover.1615932192.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v9 3/7] vt82c686: Introduce abstract TYPE_VIA_ISA and base
- vt82c686b_isa on it
+Subject: [PATCH v9 7/7] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
 Date: Tue, 16 Mar 2021 23:03:12 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
-X-Spam-Probability: 10%
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -60,171 +59,241 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To allow reusing ISA bridge emulation for vt8231_isa move the device
-state of vt82c686b_isa emulation in an abstract via_isa class. This
-change breaks migration back compatibility but this is not an issue
-for Fuloong2E machine which is not versioned or migration supported.
+Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
+a PowerPC board based on the Marvell MV64361 system controller and the
+VIA VT8231 integrated south bridge/superio chips. It can run Linux,
+AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
+image is needed to boot and only MorphOS has a video driver to produce
+graphics output. Linux could work too but distros that supported this
+machine don't include usual video drivers so those only run with
+serial console for now.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++------------------
- include/hw/pci/pci_ids.h |  2 +-
- 2 files changed, 40 insertions(+), 32 deletions(-)
+ MAINTAINERS                             |  10 ++
+ default-configs/devices/ppc-softmmu.mak |   2 +
+ hw/ppc/Kconfig                          |   9 ++
+ hw/ppc/meson.build                      |   2 +
+ hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++++
+ 5 files changed, 167 insertions(+)
+ create mode 100644 hw/ppc/pegasos2.c
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 1d9040aa2b..d29b009da4 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -518,24 +518,48 @@ static const TypeInfo vt8231_superio_info = {
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b6ab3d25a7..1c3c55ef09 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1353,6 +1353,16 @@ F: pc-bios/canyonlands.dt[sb]
+ F: pc-bios/u-boot-sam460ex-20100605.bin
+ F: roms/u-boot-sam460ex
  
++pegasos2
++M: BALATON Zoltan <balaton@eik.bme.hu>
++R: David Gibson <david@gibson.dropbear.id.au>
++L: qemu-ppc@nongnu.org
++S: Maintained
++F: hw/ppc/pegasos2.c
++F: hw/pci-host/mv64361.c
++F: hw/pci-host/mv643xx.h
++F: include/hw/pci-host/mv64361.h
++
+ RISC-V Machines
+ ---------------
+ OpenTitan
+diff --git a/default-configs/devices/ppc-softmmu.mak b/default-configs/devices/ppc-softmmu.mak
+index 61b78b844d..4535993d8d 100644
+--- a/default-configs/devices/ppc-softmmu.mak
++++ b/default-configs/devices/ppc-softmmu.mak
+@@ -14,5 +14,7 @@ CONFIG_SAM460EX=y
+ CONFIG_MAC_OLDWORLD=y
+ CONFIG_MAC_NEWWORLD=y
  
--OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
-+#define TYPE_VIA_ISA "via-isa"
-+OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
++CONFIG_PEGASOS2=y
++
+ # For PReP
+ CONFIG_PREP=y
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index d11dc30509..e51e0e5e5a 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -68,6 +68,15 @@ config SAM460EX
+     select USB_OHCI
+     select FDT_PPC
  
--struct VT82C686BISAState {
-+struct ViaISAState {
-     PCIDevice dev;
-     qemu_irq cpu_intr;
-     ViaSuperIOState *via_sio;
- };
++config PEGASOS2
++    bool
++    select MV64361
++    select VT82C686
++    select IDE_VIA
++    select SMBUS_EEPROM
++# This should come with VT82C686
++    select ACPI_X86
++
+ config PREP
+     bool
+     imply PCI_DEVICES
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index 218631c883..86d6f379d1 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -78,5 +78,7 @@ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
+ ))
+ # PowerPC 440 Xilinx ML507 reference board.
+ ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
++# Pegasos2
++ppc_ss.add(when: 'CONFIG_PEGASOS2', if_true: files('pegasos2.c'))
  
-+static const VMStateDescription vmstate_via = {
-+    .name = "via-isa",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(dev, ViaISAState),
-+        VMSTATE_END_OF_LIST()
+ hw_arch += {'ppc': ppc_ss}
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+new file mode 100644
+index 0000000000..0bfd0928aa
+--- /dev/null
++++ b/hw/ppc/pegasos2.c
+@@ -0,0 +1,144 @@
++/*
++ * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
++ *
++ * Copyright (c) 2018-2020 BALATON Zoltan
++ *
++ * This work is licensed under the GNU GPL license version 2 or later.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/units.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/ppc/ppc.h"
++#include "hw/sysbus.h"
++#include "hw/pci/pci_host.h"
++#include "hw/irq.h"
++#include "hw/pci-host/mv64361.h"
++#include "hw/isa/vt82c686.h"
++#include "hw/ide/pci.h"
++#include "hw/i2c/smbus_eeprom.h"
++#include "hw/qdev-properties.h"
++#include "sysemu/reset.h"
++#include "hw/boards.h"
++#include "hw/loader.h"
++#include "hw/fw-path-provider.h"
++#include "elf.h"
++#include "qemu/log.h"
++#include "qemu/error-report.h"
++#include "sysemu/kvm.h"
++#include "kvm_ppc.h"
++#include "exec/address-spaces.h"
++#include "trace.h"
++#include "qemu/datadir.h"
++#include "sysemu/device_tree.h"
++
++#define PROM_FILENAME "pegasos2.rom"
++#define PROM_ADDR     0xfff00000
++#define PROM_SIZE     0x80000
++
++#define BUS_FREQ_HZ 133333333
++
++static void pegasos2_cpu_reset(void *opaque)
++{
++    PowerPCCPU *cpu = opaque;
++
++    cpu_reset(CPU(cpu));
++    cpu->env.spr[SPR_HID1] = 7ULL << 28;
++}
++
++static void pegasos2_init(MachineState *machine)
++{
++    PowerPCCPU *cpu = NULL;
++    MemoryRegion *rom = g_new(MemoryRegion, 1);
++    DeviceState *mv;
++    PCIBus *pci_bus;
++    PCIDevice *dev;
++    I2CBus *i2c_bus;
++    const char *fwname = machine->firmware ?: PROM_FILENAME;
++    char *filename;
++    int sz;
++    uint8_t *spd_data;
++
++    /* init CPU */
++    cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
++    if (PPC_INPUT(&cpu->env) != PPC_FLAGS_INPUT_6xx) {
++        error_report("Incompatible CPU, only 6xx bus supported");
++        exit(1);
 +    }
-+};
 +
-+static const TypeInfo via_isa_info = {
-+    .name          = TYPE_VIA_ISA,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(ViaISAState),
-+    .abstract      = true,
-+    .interfaces    = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
++    /* Set time-base frequency */
++    cpu_ppc_tb_init(&cpu->env, BUS_FREQ_HZ / 4);
++    qemu_register_reset(pegasos2_cpu_reset, cpu);
 +
- static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
- {
--    VT82C686BISAState *s = opaque;
-+    ViaISAState *s = opaque;
-     qemu_set_irq(s->cpu_intr, level);
- }
- 
-+/* TYPE_VT82C686B_ISA */
++    /* RAM */
++    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
 +
- static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-                                    uint32_t val, int len)
- {
--    VT82C686BISAState *s = VT82C686B_ISA(d);
-+    ViaISAState *s = VIA_ISA(d);
- 
-     trace_via_isa_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
-@@ -545,19 +569,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-     }
- }
- 
--static const VMStateDescription vmstate_via = {
--    .name = "vt82c686b",
--    .version_id = 1,
--    .minimum_version_id = 1,
--    .fields = (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(dev, VT82C686BISAState),
--        VMSTATE_END_OF_LIST()
--    }
--};
--
- static void vt82c686b_isa_reset(DeviceState *dev)
- {
--    VT82C686BISAState *s = VT82C686B_ISA(dev);
-+    ViaISAState *s = VIA_ISA(dev);
-     uint8_t *pci_conf = s->dev.config;
- 
-     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
-@@ -577,7 +591,7 @@ static void vt82c686b_isa_reset(DeviceState *dev)
- 
- static void vt82c686b_realize(PCIDevice *d, Error **errp)
- {
--    VT82C686BISAState *s = VT82C686B_ISA(d);
-+    ViaISAState *s = VIA_ISA(d);
-     DeviceState *dev = DEVICE(d);
-     ISABus *isa_bus;
-     qemu_irq *isa_irq;
-@@ -601,7 +615,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     }
- }
- 
--static void via_class_init(ObjectClass *klass, void *data)
-+static void vt82c686b_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-@@ -609,28 +623,21 @@ static void via_class_init(ObjectClass *klass, void *data)
-     k->realize = vt82c686b_realize;
-     k->config_write = vt82c686b_write_config;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
--    k->device_id = PCI_DEVICE_ID_VIA_ISA_BRIDGE;
-+    k->device_id = PCI_DEVICE_ID_VIA_82C686B_ISA;
-     k->class_id = PCI_CLASS_BRIDGE_ISA;
-     k->revision = 0x40;
-     dc->reset = vt82c686b_isa_reset;
-     dc->desc = "ISA bridge";
-     dc->vmsd = &vmstate_via;
--    /*
--     * Reason: part of VIA VT82C686 southbridge, needs to be wired up,
--     * e.g. by mips_fuloong2e_init()
--     */
-+    /* Reason: part of VIA VT82C686 southbridge, needs to be wired up */
-     dc->user_creatable = false;
- }
- 
--static const TypeInfo via_info = {
-+static const TypeInfo vt82c686b_isa_info = {
-     .name          = TYPE_VT82C686B_ISA,
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VT82C686BISAState),
--    .class_init    = via_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
-+    .parent        = TYPE_VIA_ISA,
-+    .instance_size = sizeof(ViaISAState),
-+    .class_init    = vt82c686b_class_init,
- };
- 
- 
-@@ -642,7 +649,8 @@ static void vt82c686b_register_types(void)
-     type_register_static(&via_superio_info);
-     type_register_static(&vt82c686b_superio_info);
-     type_register_static(&vt8231_superio_info);
--    type_register_static(&via_info);
-+    type_register_static(&via_isa_info);
-+    type_register_static(&vt82c686b_isa_info);
- }
- 
- type_init(vt82c686b_register_types)
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index ea28dcc850..aa3f67eaa4 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -204,7 +204,7 @@
- #define PCI_VENDOR_ID_XILINX             0x10ee
- 
- #define PCI_VENDOR_ID_VIA                0x1106
--#define PCI_DEVICE_ID_VIA_ISA_BRIDGE     0x0686
-+#define PCI_DEVICE_ID_VIA_82C686B_ISA    0x0686
- #define PCI_DEVICE_ID_VIA_IDE            0x0571
- #define PCI_DEVICE_ID_VIA_UHCI           0x3038
- #define PCI_DEVICE_ID_VIA_82C686B_PM     0x3057
++    /* allocate and load firmware */
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, fwname);
++    if (!filename) {
++        error_report("Could not find firmware '%s'", fwname);
++        exit(1);
++    }
++    memory_region_init_rom(rom, NULL, "pegasos2.rom", PROM_SIZE, &error_fatal);
++    memory_region_add_subregion(get_system_memory(), PROM_ADDR, rom);
++    sz = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1,
++                  PPC_ELF_MACHINE, 0, 0);
++    if (sz <= 0) {
++        sz = load_image_targphys(filename, PROM_ADDR, PROM_SIZE);
++    }
++    if (sz <= 0 || sz > PROM_SIZE) {
++        error_report("Could not load firmware '%s'", filename);
++        exit(1);
++    }
++    g_free(filename);
++
++    /* Marvell Discovery II system controller */
++    mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
++                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_INT]));
++    pci_bus = mv64361_get_pci_bus(mv, 1);
++
++    /* VIA VT8231 South Bridge (multifunction PCI device) */
++    /* VT8231 function 0: PCI-to-ISA Bridge */
++    dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
++                                          TYPE_VT8231_ISA);
++    qdev_connect_gpio_out(DEVICE(dev), 0,
++                          qdev_get_gpio_in_named(mv, "gpp", 31));
++
++    /* VT8231 function 1: IDE Controller */
++    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
++    pci_ide_create_devs(dev);
++
++    /* VT8231 function 2-3: USB Ports */
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
++
++    /* VT8231 function 4: Power Management Controller */
++    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
++    i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
++    spd_data = spd_data_generate(DDR, machine->ram_size);
++    smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
++
++    /* VT8231 function 5-6: AC97 Audio & Modem */
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
++
++    /* other PC hardware */
++    pci_vga_init(pci_bus);
++}
++
++static void pegasos2_machine(MachineClass *mc)
++{
++    mc->desc = "Genesi/bPlan Pegasos II";
++    mc->init = pegasos2_init;
++    mc->block_default_type = IF_IDE;
++    mc->default_boot_order = "cd";
++    mc->default_display = "std";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
++    mc->default_ram_id = "pegasos2.ram";
++    mc->default_ram_size = 512 * MiB;
++}
++
++DEFINE_MACHINE("pegasos2", pegasos2_machine)
 -- 
 2.21.4
 
