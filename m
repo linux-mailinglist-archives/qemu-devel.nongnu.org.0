@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C6D33CE1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 07:52:37 +0100 (CET)
-Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA6433CE20
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 07:53:57 +0100 (CET)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM3ZE-0006hH-Bo
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 02:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50278)
+	id 1lM3aW-0007iu-Eq
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 02:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM3YC-00067w-JE
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 02:51:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44866)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM3Y9-0007mX-N5
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 02:51:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615877488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w0KstcLZ8b+Vwye/WH21Tr7axtgIfcSX4dC1DtbDifc=;
- b=NQMmz8i8LbzgFlDgySiTTeieksXFtoYDX/GR5ubjY+ufSxCaZy/DY7lXZuV0xtEPkimvCP
- T7PIYWVJ8qidRxGsCbIOIGPQiD0/aEMuQkRCKJ9Y/TFW5UL2J8olR3FEqKZOSKPhiT3Cak
- 01+q3xUcr/zHmkcPCWO0ju7z/AKOMMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-R7NRjLM5NuKHOC_2dHvUuA-1; Tue, 16 Mar 2021 02:51:24 -0400
-X-MC-Unique: R7NRjLM5NuKHOC_2dHvUuA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C77C319057A2;
- Tue, 16 Mar 2021 06:51:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A1B310016DB;
- Tue, 16 Mar 2021 06:51:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 004FA1132C12; Tue, 16 Mar 2021 07:51:18 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-2-philmd@redhat.com>
- <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com>
-Date: Tue, 16 Mar 2021 07:51:18 +0100
-In-Reply-To: <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com> (Eric Blake's
- message of "Mon, 15 Mar 2021 12:53:01 -0500")
-Message-ID: <87ft0va8wp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lM3Zj-0007C4-DX; Tue, 16 Mar 2021 02:53:07 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:45696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lM3Zh-0000K2-Ko; Tue, 16 Mar 2021 02:53:07 -0400
+Received: by mail-pg1-x530.google.com with SMTP id p21so21967443pgl.12;
+ Mon, 15 Mar 2021 23:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=xdrC8QPCsDK9AAPQLNQgCfrs0thMIIxR2jZww3scs+E=;
+ b=YjdMzxRO6KBr/glsJyFj/rS1HDvgatAIoiGXWO77G7oTO/S6lrJHIaNOcwOiKRDmNh
+ 6lCZK4qsQsceYYfc3Da5Ke1ZcGl6A9TrXy4IxbDRIyUxSkQAqjohkuzKmjLyOKHM1pU8
+ 9WpBaLdoJ7ncYH0VydHiZZKb0smt2ISIxkYRO7Nx7ZkgFe3CQF3otoZzosNN/M9txLop
+ t4dwP9cguSWGaozdcEDzOOtLiXvg3t1Srfcpue66hoqPO5YkC7Ec7/OTk+L8+1Se0IPb
+ qvxt4CGyxRytGulkgUtov2Jl5TPpNKYyZjO8+lLyxqYeAIFAU+lGpEb8R4+vwop2u3jk
+ IKiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=xdrC8QPCsDK9AAPQLNQgCfrs0thMIIxR2jZww3scs+E=;
+ b=PriG4sr6SlfFiS2YvqvrotSwY3Eu8EthN/mFemrw6QEcgIDbvf+bIrYfQbwriWcQ4s
+ 9LBYtPIceqkm2Gmj2s+1squermkwpskfNtsQSwwXnOLCcdacBUxBI+cmZQh7P4/ynsKN
+ nSPK/dqRe6/1qohrmiRIWKXwrZopf+1NfJNi3LRBc8/HnDDHPc3WxUA+JkjOccP4/yxm
+ VtbJWpLE7GKFimvPhbTOefTJh0mbDr9ZnL3EN0I3brpR3ikm9dk7aemdymmVVPMMxG4C
+ +1mHp7on+0e1EI5lkypowmYjzdEPVx0wr2p+RiigIPs+PLaujkW5ZKwIxydMvrearQ/q
+ hD9A==
+X-Gm-Message-State: AOAM530+Ft/elW5n3vrpQYuAoX+5Bb/SkJTI10B0af+uGstl8/kDDVgg
+ rC/3mKounPy5Q67ikNudV1c=
+X-Google-Smtp-Source: ABdhPJxb2iRm3dQNT88ZqzcHNL5lpWT0u7VcyDoEmmuQDx2XU7wf7PQi63TyasXVnyCA2YQ+wFfU+A==
+X-Received: by 2002:a65:4c08:: with SMTP id u8mr2560067pgq.203.1615877583854; 
+ Mon, 15 Mar 2021 23:53:03 -0700 (PDT)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id k3sm14593466pgq.21.2021.03.15.23.53.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 23:53:03 -0700 (PDT)
+Date: Tue, 16 Mar 2021 15:53:01 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v5 09/13] hw/block/nvme: parameterize nvme_ns_nlbas
+Message-ID: <20210316065301.GC23761@localhost.localdomain>
+References: <20210310095347.682395-1-its@irrelevant.dk>
+ <20210310095347.682395-10-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Disposition: inline
+In-Reply-To: <20210310095347.682395-10-its@irrelevant.dk>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,94 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 21-03-10 10:53:43, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Provide a more flexible nlbas helper.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme-ns.h | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+> index 07e16880801d..34f9474a1cd1 100644
+> --- a/hw/block/nvme-ns.h
+> +++ b/hw/block/nvme-ns.h
+> @@ -136,12 +136,18 @@ static inline bool nvme_ns_ext(NvmeNamespace *ns)
+>  }
+>  
+>  /* calculate the number of LBAs that the namespace can accomodate */
+> +static inline uint64_t __nvme_nlbas(size_t size, uint8_t lbads, uint16_t ms)
+> +{
+> +    if (ms) {
+> +        return size / ((1 << lbads) + ms);
+> +    }
+> +
+> +    return size >> lbads;
+> +}
+> +
+>  static inline uint64_t nvme_ns_nlbas(NvmeNamespace *ns)
+>  {
+> -    if (nvme_msize(ns)) {
+> -        return ns->size / (nvme_lsize(ns) + nvme_msize(ns));
+> -    }
+> -    return ns->size >> nvme_ns_lbads(ns);
+> +    return __nvme_nlbas(ns->size, nvme_ns_lbads(ns), nvme_msize(ns));
+>  }
 
-> On 3/11/21 5:11 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-[...]
->> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
->> new file mode 100644
->> index 00000000000..f16e49b8956
->> --- /dev/null
->> +++ b/accel/accel-qmp.c
->> @@ -0,0 +1,47 @@
->> +/*
->> + * QEMU accelerators, QMP commands
->> + *
->> + * Copyright (c) 2021 Red Hat Inc.
->> + *
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qapi/qapi-commands-machine.h"
->> +
->> +static const Accelerator accel_list[] =3D {
->> +    ACCELERATOR_QTEST,
->> +#ifdef CONFIG_TCG
->> +    ACCELERATOR_TCG,
->> +#endif
->> +#ifdef CONFIG_KVM
->> +    ACCELERATOR_KVM,
->> +#endif
->
-> ...would it be worth compiling the enum to only list enum values that
-> were actually compiled in?  That would change it to:
->
-> { 'enum': 'Accelerator',
->   'data': [ 'qtest',
->             { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
-> ...
-
-Makes introspection more useful.  Management applications can get the
-information the list of compiled-in accelerators from query-qmp-schema.
-They don't have to be taught to use query-accels.
-
-In fact, query-accels becomes useless except as a tool to force
-visibility of Accelerator in query-qmp-schema.  We wouldn't have to
-force if we had CLI introspection that shows the type of -accel's
-parameter @accel.  Adding a query command is a common work-around for
-our anemic CLI introspection capabilities.
-
-The query command could be made more useful than introspection if it
-reflected run time state, i.e. it showed an accelerator only when the
-host system actually supports it.  Can't say how practical that would
-be.
-
->>
->> +AcceleratorInfoList *qmp_query_accels(Error **errp)
->> +{
->> +    AcceleratorInfoList *list =3D NULL, **tail =3D &list;
->> +
->> +    for (unsigned i =3D 0; i < ARRAY_SIZE(accel_list); i++) {
->> +        AcceleratorInfo *info =3D g_new0(AcceleratorInfo, 1);
->> +
->> +        info->name =3D accel_list[i];
->> +
->> +        QAPI_LIST_APPEND(tail, info);
->> +    }
->> +
->> +    return list;
->> +}
-
-You could then use something like
-
-        for (accel =3D 0; accel < ACCELERATOR__MAX; accel++) {
-            AcceleratorInfo *info =3D g_new0(AcceleratorInfo, 1);
-
-            info->name =3D Accelerator_str(accel);
-
-            QAPI_LIST_APPEND(tail, info);
-        }
-
+Hmm.. I think it looks like __nvme_nlbas does the same with the
+nvme_ns_nlbas, but flexible argument attributes.  But I think those
+three attributes are all for ns-specific fields which is not that
+generic so that I don't think we are going to take the helper from much
+more general perspective with __nvme_nlbas.
 
