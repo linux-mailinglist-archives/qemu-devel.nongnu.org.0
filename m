@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B40F33DB69
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:51:55 +0100 (CET)
-Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0465133DB6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:52:00 +0100 (CET)
+Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMDrG-0006Gf-4F
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56510)
+	id 1lMDrK-0006Rg-Un
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMDQq-0007tn-LC
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:24:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMDQp-0002kC-1O
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:24:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMDRC-000892-Hp
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:24:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMDRB-0002pQ-07
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:24:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615915474;
+ s=mimecast20190719; t=1615915496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y/Ms0vzaxk/469dSOwSeLIwjC46nAN7nadCWLnlTU2o=;
- b=A9JUtFlnJnRY0peeZF1M8pz7IXFF9+ZOkBsibYpIlzOSEyLPnYtnDdX4dTNrQRG54Ggq93
- IVVVNxwOrrJ+4m8TQbwnalJll52DRBqTF9aWekyTAHuUx1rh15tVY4q+yARjnUCYrPktkt
- v3wuYpbcYsaDK5jiobpsputsw9hLP3U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-BuphfURiPhqNmsw5i5TPUQ-1; Tue, 16 Mar 2021 13:24:30 -0400
-X-MC-Unique: BuphfURiPhqNmsw5i5TPUQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F52FDF8A7;
- Tue, 16 Mar 2021 17:24:29 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38E2D5C1A3;
- Tue, 16 Mar 2021 17:24:29 +0000 (UTC)
-Subject: Re: [PULL 00/11] QOM and fdc patches patches for 2021-03-16
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210316165231.3910842-1-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <7e545d07-778c-bd84-153b-7367de18df80@redhat.com>
-Date: Tue, 16 Mar 2021 12:24:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y4vN7oSQdHCfPupuCUAS0maVfo8Vbz/Nb2NfBAOhk6M=;
+ b=GT5EfDqaACZnmyCeJBLkZQTzSgw2KwC4jKUvnP069WNlAN5VD1Vpu1tKA4L+/1iRFXoaNF
+ n6JW1efAt+dGU7rOqRU9kDekZ4/ogNYtJeN80bhUc8TcyVQTgskGpej94uKQ4Vplo5uxpF
+ q3n1uWeMExlyXtcPSppSJCkCJLeQVf0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-nEs5nSNANciqHn0bXoV4Sg-1; Tue, 16 Mar 2021 13:24:54 -0400
+X-MC-Unique: nEs5nSNANciqHn0bXoV4Sg-1
+Received: by mail-wr1-f70.google.com with SMTP id h30so17052005wrh.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 10:24:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j97TlkCGqiQ929kzGXJPvPswPxIcxtzguKWQ6Gwz4cM=;
+ b=nV3vGTk/XL01pf+u5I2yfsspcby3AY48AIsqnsHCqBrXtZeWXtBmjJuVvakkGs9lIm
+ X+DU/eLLAtQJx1IpX40kFfQC/W8q6xlt1xKDNKdSYQ0jV1Pi6ze4WW2vfU7UZGoG6oyy
+ i/e7T+NnJj7oqbXCVn9X2fYM70VL+JIFDXTohK5Pr+uHJosAFAVa5ALDW/LSvHZYsCJc
+ yUCcQRzmRlzEQzpp41QvfPfSyl5ip+pDAp9KsZaldt1w7k9NRk6/t70zy1prngtBvwYn
+ mjpC26bHJFCu0TZBuExmJtZJqzW6fL8108xl4ZDCEe/UBqyhSSleT91ftOLUOy/Jdq/I
+ IYyg==
+X-Gm-Message-State: AOAM530rxfeKQkL8nku+NeCYaA2TQ9e4Y15k4jOLrgzVTAiP9ZeWwVyb
+ 6mYJMRhF+8fQzNLgzZn+XwdvdW1eqdm3HaUnLPpBRPqcJN0OpuQkgbJkvQyQWKrEfaSnqPy9JJp
+ zoHu2Ar3uh1ZQNOAhg3+EY5TrOKcGAk4zCjzTAMMlKQ8x7hcUh/+y4N6UaTIXW0xB
+X-Received: by 2002:adf:fb8a:: with SMTP id a10mr42652wrr.365.1615915493184;
+ Tue, 16 Mar 2021 10:24:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJymYuT1k03llnKr/WFv1Ybi7uY4xPkp8osk0ayJtQKJmcOb8Fitw9tcg9qg2pJoRmIIItlklg==
+X-Received: by 2002:adf:fb8a:: with SMTP id a10mr42595wrr.365.1615915492788;
+ Tue, 16 Mar 2021 10:24:52 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id y18sm23072328wrw.39.2021.03.16.10.24.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 10:24:52 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] qtests: Check accelerator available at runtime via QMP
+ 'query-accels'
+Date: Tue, 16 Mar 2021 18:24:45 +0100
+Message-Id: <20210316172449.3148634-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210316165231.3910842-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +91,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/21 11:52 AM, Markus Armbruster wrote:
-> The following changes since commit 6e31b3a5c34c6e5be7ef60773e607f189eaa15f3:
-> 
->   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-03-16 10:53:47 +0000)
-> 
-> are available in the Git repository at:
-> 
->   git://repo.or.cz/qemu/armbru.git tags/pull-qom-fdc-2021-03-16
-> 
-> for you to fetch changes up to 901c36b68c327c5a4e4b3701cd991dd927ac07ae:
-> 
->   memory: Drop "qemu:" prefix from QOM memory region type names (2021-03-16 15:52:26 +0100)
-> 
-> ----------------------------------------------------------------
-> QOM and fdc patches patches for 2021-03-16
-> 
-> ----------------------------------------------------------------
-> Markus Armbruster (6):
->       docs/system/deprecated: Fix note on fdc drive properties
->       fdc: Drop deprecated floppy configuration
->       fdc: Inline fdctrl_connect_drives() into fdctrl_realize_common()
->       blockdev: Drop deprecated bogus -drive interface type
->       hw: Replace anti-social QOM type names
->       memory: Drop "qemu:" prefix from QOM memory region type names
-> 
->  docs/system/deprecated.rst                   |  33 --
-
-Patch mixup? The tag pull-qom-fdc-2021-03-16 only has these six patches,
-but the subject line and the remaining 11 messages in this email chain
-suggest a different series.
-
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Hi,=0D
+=0D
+This series aims at having accelerator-independent qtests=0D
+by querying a QEMU instance at runtime to check the list=0D
+of built-in accelerators.=0D
+=0D
+First we add the 'query-accels' QMP command,=0D
+then we add the qtest_has_accel() method to libqtest,=0D
+finally we use this new method to allow running=0D
+bios-tables-test on KVM-only builds.=0D
+=0D
+Since v1:=0D
+- kept over-engineered union (I don't how to do simple enum)=0D
+- dropped arm-cpu-features patches for now=0D
+- fixed typos (Eric)=0D
+- rename qtest_has_accel (Thomas)=0D
+- probe accel with machine none previous qtest (Paolo)=0D
+- iterate over QAPI enum (Markus)=0D
+=0D
+Eric's suggestion of conditional QAPI didn't worked out,=0D
+as accelerator definitions are poisoned.=0D
+=0D
+Please review,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  accel: Introduce 'query-accels' QMP command=0D
+  tests/qtest: Add qtest_has_accel() method=0D
+  qtest/bios-tables-test: Make test build-independent from accelerator=0D
+  tests/qtest: Do not restrict bios-tables-test to Aarch64 hosts anymore=0D
+=0D
+ qapi/machine.json              | 55 +++++++++++++++++++=0D
+ tests/qtest/libqos/libqtest.h  |  8 +++=0D
+ accel/accel-qmp.c              | 49 +++++++++++++++++=0D
+ tests/qtest/bios-tables-test.c | 99 ++++++++++++++++++----------------=0D
+ tests/qtest/libqtest.c         | 29 ++++++++++=0D
+ accel/meson.build              |  2 +-=0D
+ tests/qtest/meson.build        |  3 +-=0D
+ 7 files changed, 195 insertions(+), 50 deletions(-)=0D
+ create mode 100644 accel/accel-qmp.c=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
