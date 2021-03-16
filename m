@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BEB33D050
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 10:08:56 +0100 (CET)
-Received: from localhost ([::1]:60834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B23833D053
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 10:11:08 +0100 (CET)
+Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM5h9-0004m5-Bw
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 05:08:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51058)
+	id 1lM5jH-0006Dc-6V
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 05:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM5gA-0004LQ-CV
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:07:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49204)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM5g8-0006of-NY
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:07:54 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lM5iS-0005lP-3S
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:10:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30931)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lM5iQ-0008EV-91
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:10:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615885672;
+ s=mimecast20190719; t=1615885813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=v/OFoT/t2iy3578igeMzEKtuaPzTlblx3qbOKBH7bfw=;
- b=cIxHlMINIHjYHy0bhfT1rV0hqvl7SlSwzqFn4lazaDK0BpAYDy3G/TvIEE+8LLnyDJnWmF
- w2zZZqSON9z2EqAqOtk+d8pqup+QXWA3PsYI7RnSlN9s+Lbp4Bj4oUGzwUVKDraT2HXB3h
- lAN9vwbcunLlwk4asrQTYkSYafEGols=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wbIYea7O3DrAxnmRQY7R4VwhOjl8rHHYGWpRqoIp9gI=;
+ b=RkQqkkM5B/0kZg82LuHJs1cEHU6hHv466JXC6/CPkXLGZtRhGA4VniNG6ZsBASAQV7TxkL
+ ZOo5H4CXgZsUstFEwP6/mpWPUUr5WGwFWKh5tTCKaeUQSiWps2OhU3gc/zTeBzkJvsnE02
+ sr9IN8O5dowbok+XpF/y4iDvPl2qCLA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-V8-wfKoqMoy1EJ-d7WSGtQ-1; Tue, 16 Mar 2021 05:07:50 -0400
-X-MC-Unique: V8-wfKoqMoy1EJ-d7WSGtQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-161-xK5WId0GPEydlRfpv16afg-1; Tue, 16 Mar 2021 05:10:11 -0400
+X-MC-Unique: xK5WId0GPEydlRfpv16afg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7430A192D786
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 09:07:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F04F61B426;
- Tue, 16 Mar 2021 09:07:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5A1461132C12; Tue, 16 Mar 2021 10:07:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: libqemuutil
-Date: Tue, 16 Mar 2021 10:07:44 +0100
-Message-ID: <87zgz38o0v.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DDB9100C664
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 09:10:10 +0000 (UTC)
+Received: from localhost (ovpn-115-62.ams2.redhat.com [10.36.115.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EAB291F469;
+ Tue, 16 Mar 2021 09:10:06 +0000 (UTC)
+Date: Tue, 16 Mar 2021 09:10:05 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: kraxel@redhat.com, Daniel Berrange <berrange@redhat.com>
+Subject: Re: [PATCH] sockets: update SOCKET_ADDRESS_TYPE_FD listen(2) backlog
+Message-ID: <YFB17aYnCZlyp8b4@stefanha-x1.localdomain>
+References: <20210310173004.420190-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210310173004.420190-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HanN3xENTWRnEyHv"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -75,49 +78,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I rebased my "[PATCH v6 00/10] Configurable policy for handling
-deprecated interfaces" to master, and it surprisingly fails to link
-several utility programs.  Here's the first error:
+--HanN3xENTWRnEyHv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    gcc  -o tests/bench/benchmark-crypto-hmac tests/bench/benchmark-crypto-hmac.p/benchmark-crypto-hmac.c.o -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive libcrypto.fa libauthz.fa libqom.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -fstack-protector-strong -Wl,--start-group libqemuutil.a subprojects/libvhost-user/libvhost-user-glib.a subprojects/libvhost-user/libvhost-user.a libcrypto.fa libauthz.fa libqom.fa -pthread -lgthread-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgnutls -lutil -lm -lgthread-2.0 -lglib-2.0 -lnettle -lgnutls -lpam -Wl,--end-group
-    /usr/bin/ld: libqemuutil.a(util_main-loop.c.o): in function `qemu_set_fd_handler':
-    /work/armbru/qemu/bld-x86/../util/main-loop.c:581: multiple definition of `qemu_set_fd_handler'; libqemuutil.a(stubs_set-fd-handler.c.o):/work/armbru/qemu/bld-x86/../stubs/set-fd-handler.c:8: first defined here
-    collect2: error: ld returned 1 exit status
+On Wed, Mar 10, 2021 at 05:30:04PM +0000, Stefan Hajnoczi wrote:
+> socket_get_fd() fails with the error "socket_get_fd: too many
+> connections" if the given listen backlog value is not 1.
+>=20
+> Not all callers set the backlog to 1. For example, commit
+> 582d4210eb2f2ab5baac328fe4b479cd86da1647 ("qemu-nbd: Use SOMAXCONN for
+> socket listen() backlog") uses SOMAXCONN. This will always fail with in
+> socket_get_fd().
+>=20
+> This patch calls listen(2) on the fd to update the backlog value. The
+> socket may already be in the listen state. I have tested that this works
+> on Linux 5.10 and macOS Catalina.
+>=20
+> As a bonus this allows us to detect when the fd cannot listen. Now we'll
+> be able to catch unbound or connected fds in socket_listen().
+>=20
+> Drop the num argument from socket_get_fd() since this function is also
+> called by socket_connect() where a listen backlog value does not make
+> sense.
+>=20
+> Fixes: e5b6353cf25c99c3f08bf51e29933352f7140e8f ("socket: Add backlog par=
+ameter to socket_listen")
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  util/qemu-sockets.c | 29 ++++++++++++++++++++++-------
+>  1 file changed, 22 insertions(+), 7 deletions(-)
 
-Both master and PATCH 01 still link fine, PATCH 02 doesn't.  PATCH 02
-doesn't go anywhere near qemu_set_fd_handler().
+Dan and Gerd: Can this go via one of your trees?
 
-Turns out libqemuutil.a contains two definitions of
-qemu_set_fd_handler().  In master:
+Thanks,
+Stefan
 
-    $ nm --defined-only libqemuutil.a | awk '/:$/ { f=$0 } / qemu_set_fd_handler/ { if (f) { print f; f="" } print $0 }'
-    util_main-loop.c.o:
-    00000000000007fe T qemu_set_fd_handler
-    stubs_set-fd-handler.c.o:
-    0000000000000000 T qemu_set_fd_handler
+> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+> index 8af0278f15..2463c49773 100644
+> --- a/util/qemu-sockets.c
+> +++ b/util/qemu-sockets.c
+> @@ -1116,14 +1116,10 @@ fail:
+>      return NULL;
+>  }
+> =20
+> -static int socket_get_fd(const char *fdstr, int num, Error **errp)
+> +static int socket_get_fd(const char *fdstr, Error **errp)
+>  {
+>      Monitor *cur_mon =3D monitor_cur();
+>      int fd;
+> -    if (num !=3D 1) {
+> -        error_setg_errno(errp, EINVAL, "socket_get_fd: too many connecti=
+ons");
+> -        return -1;
+> -    }
+>      if (cur_mon) {
+>          fd =3D monitor_get_fd(cur_mon, fdstr, errp);
+>          if (fd < 0) {
+> @@ -1159,7 +1155,7 @@ int socket_connect(SocketAddress *addr, Error **err=
+p)
+>          break;
+> =20
+>      case SOCKET_ADDRESS_TYPE_FD:
+> -        fd =3D socket_get_fd(addr->u.fd.str, 1, errp);
+> +        fd =3D socket_get_fd(addr->u.fd.str, errp);
+>          break;
+> =20
+>      case SOCKET_ADDRESS_TYPE_VSOCK:
+> @@ -1187,7 +1183,26 @@ int socket_listen(SocketAddress *addr, int num, Er=
+ror **errp)
+>          break;
+> =20
+>      case SOCKET_ADDRESS_TYPE_FD:
+> -        fd =3D socket_get_fd(addr->u.fd.str, num, errp);
+> +        fd =3D socket_get_fd(addr->u.fd.str, errp);
+> +        if (fd < 0) {
+> +            return -1;
+> +        }
+> +
+> +        /*
+> +         * If the socket is not yet in the listen state, then transition=
+ it to
+> +         * the listen state now.
+> +         *
+> +         * If it's already listening then this updates the backlog value=
+ as
+> +         * requested.
+> +         *
+> +         * If this socket cannot listen because it's already in another =
+state
+> +         * (e.g. unbound or connected) then we'll catch the error here.
+> +         */
+> +        if (listen(fd, num) !=3D 0) {
+> +            error_setg_errno(errp, errno, "Failed to listen on fd socket=
+");
+> +            closesocket(fd);
+> +            return -1;
+> +        }
+>          break;
+> =20
+>      case SOCKET_ADDRESS_TYPE_VSOCK:
+> --=20
+> 2.29.2
+>=20
 
-This is obviously unhealthy.
+--HanN3xENTWRnEyHv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I suspect the linker happens to pick the one that makes things work,
-until something in my patch makes it pick the other one.
+-----BEGIN PGP SIGNATURE-----
 
-Is qemu_set_fd_handler() the only one?  Nope:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBQde0ACgkQnKSrs4Gr
+c8ifZAf/SVt5X3zLLeiI8cGMkuve63UIEsdAa6975OC9Z8WgL7q/w4lQzf5RubwR
+xunbcft5ySLty2aY5m/NnepFcTy+34W+Sh6j5Yyh/dAby3NJLnZpSgqtT6225zmA
+KN8qzUuqT5+1ZbiARx1utLkXKeozBiTFwpAE1oB23PwEppaYrpqwFW7Q57SKW298
+77q60s+ixfc/hMihaBONDDtY6IXBWINMdHnO8hE2NhwNKUh8trxj8MWj5fyFIpys
+mPiXzsauMu91fNjWzeOry/uEp64j0me8VdI+J+rdw6/IB8z8wk+CECOMZkCNfCDE
+uO0dKHp8n+JzKcez++T0DLDgV+gb9Q==
+=/Cit
+-----END PGP SIGNATURE-----
 
-    $ nm --defined-only bld-x86/libqemuutil.a | awk '/ T / { print $NF }' | sort | uniq -c | grep -v '^ *1 '
-          2 qemu_set_fd_handler
-          2 yank_generic_iochannel
-          2 yank_register_function
-          2 yank_register_instance
-          2 yank_unregister_function
-          2 yank_unregister_instance
-
-I didn't run into this issue when I posted my series last Friday.  The
-issue now blocks its merge, and today is the soft freeze.  Help!
+--HanN3xENTWRnEyHv--
 
 
