@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC58733E0CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:48:52 +0100 (CET)
-Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4944033E0CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:50:50 +0100 (CET)
+Received: from localhost ([::1]:40540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHYZ-0007Gn-T1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57968)
+	id 1lMHaT-000165-AW
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMHON-0005df-QB
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:38:19 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMHOL-0005I7-RR
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:38:19 -0400
-Received: by mail-ej1-x629.google.com with SMTP id r17so74601729ejy.13
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eVm9bu3OXx1vl3s2qCziympSex70U6GSa6LOCtAKJ+g=;
- b=plRcLS8qMPo2bZWl6ECKNEgUX2QKFWgdchnsvLMt5+2NSqV9rMFjW1c1TubvAAdK4j
- TmEa0pPSveHSa3skCBXkMDuWzru5dQnoo2WvnoWyjdWYghdj7B+4l5ZU7AhaTRo8VdwF
- cIOYuile4sGEF0ubdV4uyMV+DFnjRwj9ulKputwtvz78M01Erj+UtN9LKCxWkw9w6Oxv
- g4qDnonzEZZiLvYzucoDhpAjQQo0xKjcv+UaBLDMbZ91YuCacy7+8lxJV20W4Jw6nlYt
- tSch4lBX9HsNNWmmqgnhJzr+Z92ZC8A2oFm1Ojgm0JjFNUNRY203OZBt1NKfQurAG0Os
- ZO1A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lMHPK-0007ec-8w
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:39:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lMHPG-0005iw-Do
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:39:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615930751;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o6gb890Q3u5MxqWem3C/hn+0ptMeYj5UO+0NIWR/qoU=;
+ b=E5qMB5/4bzjeOiYCrZVcjzNSQfnQF3hz9jP4tbIoIt22w9+8/78GI6uHRTZ6Pi+389pyKm
+ SnJwrOcrd+iG8yLo4DaKipuQr715VoleiiuKqWsFFV4ouMXFaBbcpwxeFtaJFSbnWsJ915
+ NU6CsvqSfXgJmonb6vx8Hk06mGRMY/0=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-rJXwAfIdNACHCsZkHuc4fg-1; Tue, 16 Mar 2021 17:39:09 -0400
+X-MC-Unique: rJXwAfIdNACHCsZkHuc4fg-1
+Received: by mail-qt1-f197.google.com with SMTP id r32so16757545qtd.16
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:39:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eVm9bu3OXx1vl3s2qCziympSex70U6GSa6LOCtAKJ+g=;
- b=O6YorD5ti3UkNXHQZvPvidIPX0i8g0oz+cQHs1PJ9eME5VhhyRAJTJElP9iiGHKUvP
- K6U0SmkNHJ/E1TX4IaIC1f8tFHBHNEKaZw9blO/Zai28xIY35yI1Dhsiza6H0kbXXwkh
- 5Ydbtf4Z1pFLiHuFmB7gPkegzPxtCQdYmqmtPAZGuQ18bxsiK4Reem1VZTyUG4O8N8OW
- LZrCOkNF7qGvvXCMPMMCtm5c6cHI/1fapG00fvB9Xp4xi2neUoyy5bRdDMJ3eiCWT0nA
- N077lTEF59HQHxhysrXmpPDYNfI8aTeeWSlrm60orpxDG8eA/7Y6LTGBeiHp8ERKZh77
- xA5A==
-X-Gm-Message-State: AOAM531Ud+mfo0kf1Yyi8lR5mUL6Eq97EHY/jCb85kodjyz/Va3DOI3q
- UrsIb42yKtX/Aysf3jDHwOGyqMVexYpJU9h2k3sx4g==
-X-Google-Smtp-Source: ABdhPJzcX8N9sRISiQafAxcw9hVu5GJ1nbFYWg75t6FgWO10/UKTVaMFZ4MWZsU29500jv6ugsyhhCFix3sHtDUNSqg=
-X-Received: by 2002:a17:906:c301:: with SMTP id
- s1mr31331778ejz.382.1615930695779; 
- Tue, 16 Mar 2021 14:38:15 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=o6gb890Q3u5MxqWem3C/hn+0ptMeYj5UO+0NIWR/qoU=;
+ b=lh34NFztnWHXzFC62VJE34GvT2xZoB6OM1JWr2HMRz64mJVmSw+CxcadakiOJovjU2
+ 9AduWvgJ2HE1uXbBnHU66jUxIhDu1WVMdPRD32pMVRkmnUeyf8AlRqQN3h/LwQRt4Gm5
+ /HZO+KnYAlU50YSOng/XMT6Kp3G3UpnI0i4OslewMjw8Wu8tOueHmMs9cHjHTMqwiSwh
+ +ezH9GWxnGhXLO+UyhRzBJsbDD+HUaY73/R1S5CZTnWMWxJpzu69PB8rMblVoTLuY6yI
+ ejul7b/hPhBJSqqHDVale9O85j9Ubt9dqGWjx6ewYutFIyOMzzm8Z9pPS7YFuXmhapp3
+ uw2Q==
+X-Gm-Message-State: AOAM5314T0SaNKTNCWiTuGHoCYPiI2oJX7WUsa6ZqwzqDaN+oAASrixJ
+ +2jdlaxhIYniMwLP5txGrjSHaWEmyE10r3EjAzBVH5Nk+YVNP31+uCfRWYJYCd0fEmZnjD+xZyI
+ QiwjMUIpF981FTHc=
+X-Received: by 2002:aed:20a3:: with SMTP id 32mr895122qtb.238.1615930749297;
+ Tue, 16 Mar 2021 14:39:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkZWHiBnFlo03ios8Iwhx7uNIzH5ZBUyR7e203RtHPYFT6YsyLQyRkuKCt30nac48reF1Prg==
+X-Received: by 2002:aed:20a3:: with SMTP id 32mr895098qtb.238.1615930749050;
+ Tue, 16 Mar 2021 14:39:09 -0700 (PDT)
+Received: from xz-x1 ([142.126.89.138])
+ by smtp.gmail.com with ESMTPSA id 77sm16421342qko.48.2021.03.16.14.39.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 14:39:08 -0700 (PDT)
+Date: Tue, 16 Mar 2021 17:39:06 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Kunkun Jiang <jiangkunkun@huawei.com>
+Subject: Re: [PATCH v4 1/2] migration/ram: Reduce unnecessary rate limiting
+Message-ID: <20210316213906.GF395976@xz-x1>
+References: <20210316125716.1243-1-jiangkunkun@huawei.com>
+ <20210316125716.1243-2-jiangkunkun@huawei.com>
 MIME-Version: 1.0
-References: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
- <1615799673-31549-17-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1615799673-31549-17-git-send-email-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Mar 2021 21:37:53 +0000
-Message-ID: <CAFEAcA-7MiRBVvGhaA7XbzMoCHBBie6-w7miyg-kAzZ0F=-XPg@mail.gmail.com>
-Subject: Re: [PULL V2 16/20] qapi: net: Add query-netdev command
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210316125716.1243-2-jiangkunkun@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,89 +91,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kirillov <lekiravi@yandex-team.ru>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Mar 2021 at 09:15, Jason Wang <jasowang@redhat.com> wrote:
->
-> From: Alexey Kirillov <lekiravi@yandex-team.ru>
->
-> The query-netdev command is used to get the configuration of the current
-> network device backends (netdevs).
-> This is the QMP analog of the HMP command "info network" but only for
-> netdevs (i.e. excluding NIC and hubports).
->
-> The query-netdev command returns an array of objects of the NetdevInfo
-> type, which are an extension of Netdev type. It means that response can
-> be used for netdev-add after small modification. This can be useful for
-> recreate the same netdev configuration.
->
-> Information about the network device is filled in when it is created or
-> modified and is available through the NetClientState->stored_config.
->
-> Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+On Tue, Mar 16, 2021 at 08:57:15PM +0800, Kunkun Jiang wrote:
+> When the host page is a huge page and something is sent in the
+> current iteration, migration_rate_limit() should be executed.
+> If not, it can be omitted.
+> 
+> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 > ---
+>  migration/ram.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 72143da0ac..3eb5b0d7a7 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2015,8 +2015,13 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>  
+>          pages += tmppages;
+>          pss->page++;
+> -        /* Allow rate limiting to happen in the middle of huge pages */
+> -        migration_rate_limit();
+> +        /*
+> +         * Allow rate limiting to happen in the middle of huge pages if
+> +         * something is sent in the current iteration.
+> +         */
+> +        if (pagesize_bits > 1 && tmppages > 0) {
+> +            migration_rate_limit();
+> +        }
 
-Hi; Coverity complains about a memory leak in this code
-(CID 1450842):
+Sorry I'm still not a fan of this - I'd even prefer calling that once more just
+to make sure it won't be forgotten to be called..  Not to say it's merely a noop.
 
-> @@ -581,15 +693,25 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->      s->poll_notifier.notify = net_slirp_poll_notify;
->      main_loop_poll_add_notifier(&s->poll_notifier);
->
-> +    stored_hostfwd = &stored->hostfwd;
-> +    stored_guestfwd = &stored->guestfwd;
-> +
->      for (config = slirp_configs; config; config = config->next) {
-> +        String *element = g_new0(String, 1);
+I'll leave this to Dave..  Maybe I'm too harsh! :)
 
-Here we allocate memory...
+-- 
+Peter Xu
 
-> +
-> +        element->str = g_strdup(config->str);
->          if (config->flags & SLIRP_CFG_HOSTFWD) {
->              if (slirp_hostfwd(s, config->str, errp) < 0) {
->                  goto error;
-
-...but if we take this error-exit path we have neither freed nor
-kept a pointer to that memory.
-
->              }
-> +            stored->has_hostfwd = true;
-> +            QAPI_LIST_APPEND(stored_hostfwd, element);
->          } else {
->              if (slirp_guestfwd(s, config->str, errp) < 0) {
->                  goto error;
-
-Similarly here.
-
->              }
-> +            stored->has_guestfwd = true;
-> +            QAPI_LIST_APPEND(stored_guestfwd, element);
->          }
->      }
->  #ifndef _WIN32
-
-More generally, what state is the net backend init function
-supposed to leave 'stored' in if it fails? Is it the backend's
-responsibility to free everything that it might have allocated
-and left a pointer to? eg if we did
-   stored->hostname = g_strdup(vhostname);
-do we need to go back and free(stored->hostname) ? Or is the caller
-guaranteeing to clean up 'stored' somehow ? Or is the backend
-supposed to not touch 'stored' until it's sure it's going to
-succeed ? (presumably not, as the current code does not do this...)
-
-This commit has no comments describing or documenting the
-API requirements the new functionality imposes on a net backend:
-could we have a followup patch which adds some documentation,
-please, so that authors of future backends know what they have to
-implement ?
-
-thanks
--- PMM
 
