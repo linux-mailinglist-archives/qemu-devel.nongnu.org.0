@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB6E33D9B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:43:07 +0100 (CET)
-Received: from localhost ([::1]:44198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF0933D98D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:36:43 +0100 (CET)
+Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMCmf-0005F8-6j
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41358)
+	id 1lMCgT-0002M9-9T
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
- id 1lMCQR-00025m-T2
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:20:08 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:58592
+ id 1lMCXE-0007xn-NZ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:27:08 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:58582
  helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lMCQP-0002Q4-J0
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:20:07 -0400
+ (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lMCXC-0005XP-UP
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:27:08 -0400
 Received: by diablo.13thmonkey.org (Postfix, from userid 103)
- id 98279C13ADD; Tue, 16 Mar 2021 17:20:01 +0100 (CET)
-Date: Tue, 16 Mar 2021 17:20:01 +0100
+ id D2AFDC13ADF; Tue, 16 Mar 2021 17:27:04 +0100 (CET)
+Date: Tue, 16 Mar 2021 17:27:04 +0100
 From: Reinoud Zandijk <reinoud@NetBSD.org>
-To: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: Windows 10 won't run on default x86_64 machine anymore
-Message-ID: <YFDasSxhk0C8u6Rs@diablo.13thmonkey.org>
+Message-ID: <YFDcWFNyq7dH3ZAS@diablo.13thmonkey.org>
 References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
  <20210315185302.29b0d90d@redhat.com>
  <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
  <20210316015503.GA1008366@private.email.ne.jp>
+ <20210316131304.220a53b9@redhat.com>
+ <9e2e1d83-29c1-053a-fd43-187f6f824b39@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210316015503.GA1008366@private.email.ne.jp>
+In-Reply-To: <9e2e1d83-29c1-053a-fd43-187f6f824b39@redhat.com>
 Received-SPF: none client-ip=80.100.255.32;
  envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
 X-Spam_score_int: -15
@@ -53,44 +55,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Reinoud Zandijk <reinoud@NetBSD.org>,
- qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Isaku Yamahata <isaku.yamahata@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 15, 2021 at 06:55:03PM -0700, Isaku Yamahata wrote:
-> > If I add in '-M pc-i440fx-5.2' it works again with the accelerator. If I add
-> > in '-M q35' it does work fine with or without the accelerator.
-> 
-> Anyhow, can you please try "-global PIIX4_PM.smm-compat=on"
-> (or "-global ICH9-LPC.smm-compat=on" if q35 is used) so that the old behavior
-> is presented.
+On Tue, Mar 16, 2021 at 01:49:57PM +0100, Paolo Bonzini wrote:
+> On 16/03/21 13:13, Igor Mammedov wrote:
+> > > Although I don't know about nvmm case, this function also needs to be updated
+> > > if smi isn't supported.
+> > can you submit a patch for this please?
 
-It works indeed with the default model when I specify the -global. With Q35
-its not needed; it boots fine after reconfiguring itself.
+> nvmm is not part of upstream yet, so I guess it's up to Reinoud to fix it.
+> Still, reproducing his testing conditions with KVM and -M smm=off is
+> probably interesting because it also affects HAX, HVF and WHPX which are
+> supported upstream.
 
-> I think tcg case can be explained by x86_machine_is_smm_enabled()
-> 
->   bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
->   ...
->       if (tcg_enabled() || qtest_enabled()) {
->           smm_available = true;
->       } else if (kvm_enabled()) {
->           smm_available = kvm_has_smm();
->       }
->   ...
-> 
-> Although I don't know about nvmm case, this function also needs to be updated
-> if smi isn't supported.
+As stated in my other mail, I think NVMM supports the SMI. We would have liked
+to add NVMM in the comming 6.0 release but I see we missed the timeframe as
+the soft feature freeze date is today.
 
-The NVMM backend can only be used on x86_64 (for now) and then only for CPUs
-with VMX or SVM support. It can run 32 and 64 bit OSes. On all other systems
-the kernel module either does not exist or refuses to load.
-
-NVMM has support code for it for the SVM and VMX backends and it allows them.
-NVMM also handles the SMI just as WHPX does in the Qemu backend.
-
-So maybe it an be set to default on in this test?
+It was posted here some months before but somehow it got stalled and when the
+main NVMM developer left the project to persuit other things it kind of
+stalled. I've now forward ported NVMM support to todays Qemu sources.
 
 With regards,
 Reinoud
