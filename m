@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A93033CB61
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 03:26:50 +0100 (CET)
-Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDA833CB8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 03:41:59 +0100 (CET)
+Received: from localhost ([::1]:55922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lLzQ0-0005lU-MI
-	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 22:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39424)
+	id 1lLzeg-00022H-8T
+	for lists+qemu-devel@lfdr.de; Mon, 15 Mar 2021 22:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lLzOX-0004fw-Bq
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 22:25:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lLzOT-0006Jj-DD
- for qemu-devel@nongnu.org; Mon, 15 Mar 2021 22:25:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615861511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0oi8lt5NYXeAJkGTxLIqJSwnLCppu7leWSpMqwW88dA=;
- b=GqLGbOBdV9yXEE0mkOm9cZ9cPQYV3pny9KI1N15FTF/jhjfODtfiQxlnkv0eJY3dnIKIDv
- KwknTshM4e/YtE3fzQrjCPZk8dJQE1RapszhvZCMzuuB+g6XdEFhMJvgULilRA489dD01R
- tdLaxZ3GFekDbpeNlao8vh/Qh5hFUbk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-TiMbwOf-PE6PtQ0ioe7xNg-1; Mon, 15 Mar 2021 22:25:09 -0400
-X-MC-Unique: TiMbwOf-PE6PtQ0ioe7xNg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B541100C61F;
- Tue, 16 Mar 2021 02:25:08 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-229.pek2.redhat.com
- [10.72.12.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4ABEA19D7C;
- Tue, 16 Mar 2021 02:25:06 +0000 (UTC)
-Subject: Re: [PATCH v2 03/13] net: slirp: Pad short frames to minimum size
- before send
-To: Bin Meng <bmeng.cn@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210315075718.5402-1-bmeng.cn@gmail.com>
- <20210315075718.5402-4-bmeng.cn@gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <51a74aaf-c2c1-4222-2fa3-af6143913134@redhat.com>
-Date: Tue, 16 Mar 2021 10:25:05 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lLzdQ-0001CF-H6; Mon, 15 Mar 2021 22:40:40 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:58210)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lLzdM-00054w-32; Mon, 15 Mar 2021 22:40:40 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_system_inform|0.612866-0.012514-0.37462;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.JldQWqa_1615862423; 
+Received: from 30.225.208.119(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.JldQWqa_1615862423)
+ by smtp.aliyun-inc.com(10.147.43.230);
+ Tue, 16 Mar 2021 10:40:23 +0800
+Subject: Re: [PATCH 06/38] target/riscv: SIMD 16-bit Shift Instructions
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <20210212150256.885-7-zhiwei_liu@c-sky.com>
+ <CAKmqyKP+=knMPnOtgQq477_=dwswG3TQ+xBBPULnvLma2HmsdQ@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <c4d020e2-cb88-869f-a504-22dd2e4eae05@c-sky.com>
+Date: Tue, 16 Mar 2021 10:40:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210315075718.5402-4-bmeng.cn@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
+In-Reply-To: <CAKmqyKP+=knMPnOtgQq477_=dwswG3TQ+xBBPULnvLma2HmsdQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,91 +60,348 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-ÔÚ 2021/3/15 ÏÂÎç3:57, Bin Meng Ð´µÀ:
-> The minimum Ethernet frame length is 60 bytes. For short frames with
-> smaller length like ARP packets (only 42 bytes), on a real world NIC
-> it can choose either padding its length to the minimum required 60
-> bytes, or sending it out directly to the wire. Such behavior can be
-> hardcoded or controled by a register bit. Similarly on the receive
-> path, NICs can choose either dropping such short frames directly or
-> handing them over to software to handle.
->
-> On the other hand, for the network backends like SLiRP/TAP, they
-> don't expose a way to control the short frame behavior. As of today
-> they just send/receive data from/to the other end connected to them,
-> which means any sized packet is acceptable. So they can send and
-> receive short frames without any problem. It is observed that ARP
-> packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-> these ARP packets to the other end which might be a NIC model that
-> does not allow short frames to pass through.
->
-> To provide better compatibility, for packets sent from QEMU network
-> backends, we change to pad short frames before sending it out to the
-> other end. This ensures a backend as an Ethernet sender does not
-> violate the spec. But with this change, the behavior of dropping
-> short frames in the NIC model cannot be emulated because it always
-> receives a packet that is spec complaint. The capability of sending
-> short frames from NIC models cannot be supported as well.
->
-> This commit should be able to fix the issue as reported with some
-> NIC models before, that ARP requests get dropped, preventing the
-> guest from becoming visible on the network. It was workarounded in
-> these NIC models on the receive path, that when a short frame is
-> received, it is padded up to 60 bytes.
->
-> The following 2 commits seem to be the one to workaround this issue
-> in e1000 and vmxenet3 before, and should probably be reverted.
->
->    commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
->    commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
->
->   net/slirp.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
->
-> diff --git a/net/slirp.c b/net/slirp.c
-> index be914c0be0..ad2db03182 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -31,6 +31,7 @@
->   #include <pwd.h>
->   #include <sys/wait.h>
->   #endif
-> +#include "net/eth.h"
->   #include "net/net.h"
->   #include "clients.h"
->   #include "hub.h"
-> @@ -115,6 +116,17 @@ static ssize_t net_slirp_send_packet(const void *pkt, size_t pkt_len,
->                                        void *opaque)
->   {
->       SlirpState *s = opaque;
-> +    uint8_t min_buf[ETH_ZLEN];
-> +
-> +    if (!s->nc.peer->do_not_pad) {
-> +        /* Pad to minimum Ethernet frame length */
-> +        if (pkt_len < ETH_ZLEN) {
-> +            memcpy(min_buf, pkt, pkt_len);
-> +            memset(&min_buf[pkt_len], 0, ETH_ZLEN - pkt_len);
-> +            pkt = min_buf;
-> +            pkt_len = ETH_ZLEN;
-> +        }
-> +    }
 
+On 2021/3/16 5:25, Alistair Francis wrote:
+> On Fri, Feb 12, 2021 at 10:16 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>> ---
+>>   target/riscv/helper.h                   |   9 ++
+>>   target/riscv/insn32.decode              |  17 ++++
+>>   target/riscv/insn_trans/trans_rvp.c.inc | 115 ++++++++++++++++++++++++
+>>   target/riscv/packed_helper.c            | 104 +++++++++++++++++++++
+>>   4 files changed, 245 insertions(+)
+>>
+>> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+>> index a69a6b4e84..20bf400ac2 100644
+>> --- a/target/riscv/helper.h
+>> +++ b/target/riscv/helper.h
+>> @@ -1184,3 +1184,12 @@ DEF_HELPER_3(rsub8, tl, env, tl, tl)
+>>   DEF_HELPER_3(ursub8, tl, env, tl, tl)
+>>   DEF_HELPER_3(ksub8, tl, env, tl, tl)
+>>   DEF_HELPER_3(uksub8, tl, env, tl, tl)
+>> +
+>> +DEF_HELPER_3(sra16, tl, env, tl, tl)
+>> +DEF_HELPER_3(sra16_u, tl, env, tl, tl)
+>> +DEF_HELPER_3(srl16, tl, env, tl, tl)
+>> +DEF_HELPER_3(srl16_u, tl, env, tl, tl)
+>> +DEF_HELPER_3(sll16, tl, env, tl, tl)
+>> +DEF_HELPER_3(ksll16, tl, env, tl, tl)
+>> +DEF_HELPER_3(kslra16, tl, env, tl, tl)
+>> +DEF_HELPER_3(kslra16_u, tl, env, tl, tl)
+>> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+>> index 358dd1fa10..6f053bfeb7 100644
+>> --- a/target/riscv/insn32.decode
+>> +++ b/target/riscv/insn32.decode
+>> @@ -23,6 +23,7 @@
+>>   %rd        7:5
+>>
+>>   %sh10    20:10
+>> +%sh4    20:4
+>>   %csr    20:12
+>>   %rm     12:3
+>>   %nf     29:3                     !function=ex_plus_1
+>> @@ -59,6 +60,7 @@
+>>   @j       ....................      ..... ....... &j      imm=%imm_j          %rd
+>>
+>>   @sh      ......  ...... .....  ... ..... ....... &shift  shamt=%sh10      %rs1 %rd
+>> +@sh4     ......  ...... .....  ... ..... ....... &shift  shamt=%sh4      %rs1 %rd
+>>   @csr     ............   .....  ... ..... .......               %csr     %rs1 %rd
+>>
+>>   @atom_ld ..... aq:1 rl:1 ..... ........ ..... ....... &atomic rs2=0     %rs1 %rd
+>> @@ -635,3 +637,18 @@ rsub8      0000101  ..... ..... 000 ..... 1111111 @r
+>>   ursub8     0010101  ..... ..... 000 ..... 1111111 @r
+>>   ksub8      0001101  ..... ..... 000 ..... 1111111 @r
+>>   uksub8     0011101  ..... ..... 000 ..... 1111111 @r
+>> +
+>> +sra16      0101000  ..... ..... 000 ..... 1111111 @r
+>> +sra16_u    0110000  ..... ..... 000 ..... 1111111 @r
+>> +srai16     0111000  0.... ..... 000 ..... 1111111 @sh4
+>> +srai16_u   0111000  1.... ..... 000 ..... 1111111 @sh4
+>> +srl16      0101001  ..... ..... 000 ..... 1111111 @r
+>> +srl16_u    0110001  ..... ..... 000 ..... 1111111 @r
+>> +srli16     0111001  0.... ..... 000 ..... 1111111 @sh4
+>> +srli16_u   0111001  1.... ..... 000 ..... 1111111 @sh4
+>> +sll16      0101010  ..... ..... 000 ..... 1111111 @r
+>> +slli16     0111010  0.... ..... 000 ..... 1111111 @sh4
+>> +ksll16     0110010  ..... ..... 000 ..... 1111111 @r
+>> +kslli16    0111010  1.... ..... 000 ..... 1111111 @sh4
+>> +kslra16    0101011  ..... ..... 000 ..... 1111111 @r
+>> +kslra16_u  0110011  ..... ..... 000 ..... 1111111 @r
+>> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
+>> index 109f560ec9..848edab7e5 100644
+>> --- a/target/riscv/insn_trans/trans_rvp.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
+>> @@ -238,3 +238,118 @@ GEN_RVP_R_OOL(rsub8);
+>>   GEN_RVP_R_OOL(ursub8);
+>>   GEN_RVP_R_OOL(ksub8);
+>>   GEN_RVP_R_OOL(uksub8);
+>> +
+>> +/* 16-bit Shift Instructions */
+>> +static bool rvp_shift_ool(DisasContext *ctx, arg_r *a,
+>> +                          gen_helper_rvp_r *fn, target_ulong mask)
+>> +{
+>> +    TCGv src1, src2, dst;
+>> +
+>> +    src1 = tcg_temp_new();
+>> +    src2 = tcg_temp_new();
+>> +    dst = tcg_temp_new();
+>> +
+>> +    gen_get_gpr(src1, a->rs1);
+>> +    gen_get_gpr(src2, a->rs2);
+>> +    tcg_gen_andi_tl(src2, src2, mask);
+>> +
+>> +    fn(dst, cpu_env, src1, src2);
+>> +    gen_set_gpr(a->rd, dst);
+>> +
+>> +    tcg_temp_free(src1);
+>> +    tcg_temp_free(src2);
+>> +    tcg_temp_free(dst);
+>> +    return true;
+>> +}
+>> +
+>> +typedef void GenGvecShift(unsigned, uint32_t, uint32_t, TCGv_i32,
+>> +                          uint32_t, uint32_t);
+>> +static inline bool
+>> +rvp_shift(DisasContext *ctx, arg_r *a, uint8_t vece,
+>> +          GenGvecShift *f64, gen_helper_rvp_r *fn,
+>> +          uint8_t mask)
+>> +{
+>> +    if (!has_ext(ctx, RVP)) {
+>> +        return false;
+>> +    }
+>> +
+>> +#ifdef TARGET_RISCV64
+> Hmm....
+>
+> I don't want to add any more #defines on the RISC-V xlen. We are
+> trying to make the QEMU RISC-V implementation xlen independent.
+I noticed the change, but was not quite clear about the benefit of it.
 
-Let's introduce a helper for this padding then it could be reused by at 
-least TAP?
+Could you give a brief explanation?
+> Can you use `riscv_cpu_is_32bit(env)` instead, here are everywhere
+> else you add a #define TARGET... ?
+Sure, I think there are two ways.
 
-Thanks
+1) Get env from the current_cpu, then call riscv_cpu_is_32bit(env).
 
+It's some strange,Â  because I can't find current_cpu reference from many 
+archs.
 
->   
->       return qemu_send_packet(&s->nc, pkt, pkt_len);
->   }
+I don't know whether it has side effects.
+
+2)Â  Add a similar function cpu_is_32bit(DisasContext *ctx).
+
+In this way, the type ofÂ  misa fieldÂ  in struct DisasContext should be 
+target_ulong.
+Currently, the type of misa filed is uint32_t.
+
+Do you think which one is better? Thanks very much.
+
+Zhiwei
+>
+> Alistair
+>
+>> +    if (a->rd && a->rs1 && a->rs2) {
+>> +        TCGv_i32 shift = tcg_temp_new_i32();
+>> +        tcg_gen_extrl_i64_i32(shift, cpu_gpr[a->rs2]);
+>> +        tcg_gen_andi_i32(shift, shift, mask);
+>> +        f64(vece, offsetof(CPURISCVState, gpr[a->rd]),
+>> +            offsetof(CPURISCVState, gpr[a->rs1]),
+>> +            shift, 8, 8);
+>> +        tcg_temp_free_i32(shift);
+>> +        return true;
+>> +    }
+>> +#endif
+>> +    return rvp_shift_ool(ctx, a, fn, mask);
+>> +}
+>> +
+>> +#define GEN_RVP_SHIFT(NAME, GVEC, VECE)                     \
+>> +static bool trans_##NAME(DisasContext *s, arg_r *a)         \
+>> +{                                                           \
+>> +    return rvp_shift(s, a, VECE, GVEC, gen_helper_##NAME,   \
+>> +                     (8 << VECE) - 1);                      \
+>> +}
+>> +
+>> +GEN_RVP_SHIFT(sra16, tcg_gen_gvec_sars, 1);
+>> +GEN_RVP_SHIFT(srl16, tcg_gen_gvec_shrs, 1);
+>> +GEN_RVP_SHIFT(sll16, tcg_gen_gvec_shls, 1);
+>> +GEN_RVP_R_OOL(sra16_u);
+>> +GEN_RVP_R_OOL(srl16_u);
+>> +GEN_RVP_R_OOL(ksll16);
+>> +GEN_RVP_R_OOL(kslra16);
+>> +GEN_RVP_R_OOL(kslra16_u);
+>> +
+>> +static bool rvp_shifti_ool(DisasContext *ctx, arg_shift *a,
+>> +                           gen_helper_rvp_r *fn)
+>> +{
+>> +    TCGv src1, dst, shift;
+>> +
+>> +    src1 = tcg_temp_new();
+>> +    dst = tcg_temp_new();
+>> +
+>> +    gen_get_gpr(src1, a->rs1);
+>> +    shift = tcg_const_tl(a->shamt);
+>> +    fn(dst, cpu_env, src1, shift);
+>> +    gen_set_gpr(a->rd, dst);
+>> +
+>> +    tcg_temp_free(src1);
+>> +    tcg_temp_free(dst);
+>> +    tcg_temp_free(shift);
+>> +    return true;
+>> +}
+>> +
+>> +static inline bool
+>> +rvp_shifti(DisasContext *ctx, arg_shift *a,
+>> +           void (* f64)(TCGv_i64, TCGv_i64, int64_t),
+>> +           gen_helper_rvp_r *fn)
+>> +{
+>> +    if (!has_ext(ctx, RVP)) {
+>> +        return false;
+>> +    }
+>> +
+>> +#ifdef TARGET_RISCV64
+>> +    if (a->rd && a->rs1 && f64) {
+>> +        f64(cpu_gpr[a->rd], cpu_gpr[a->rs1], a->shamt);
+>> +        return true;
+>> +    }
+>> +#endif
+>> +    return rvp_shifti_ool(ctx, a, fn);
+>> +}
+>> +
+>> +#define GEN_RVP_SHIFTI(NAME, OP, GVEC)                   \
+>> +static bool trans_##NAME(DisasContext *s, arg_shift *a)  \
+>> +{                                                        \
+>> +    return rvp_shifti(s, a, GVEC, gen_helper_##OP);      \
+>> +}
+>> +
+>> +GEN_RVP_SHIFTI(srai16, sra16, tcg_gen_vec_sar16i_i64);
+>> +GEN_RVP_SHIFTI(srli16, srl16, tcg_gen_vec_shr16i_i64);
+>> +GEN_RVP_SHIFTI(slli16, sll16, tcg_gen_vec_shl16i_i64);
+>> +GEN_RVP_SHIFTI(srai16_u, sra16_u, NULL);
+>> +GEN_RVP_SHIFTI(srli16_u, srl16_u, NULL);
+>> +GEN_RVP_SHIFTI(kslli16, ksll16, NULL);
+>> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
+>> index 62db072204..7e31c2fe46 100644
+>> --- a/target/riscv/packed_helper.c
+>> +++ b/target/riscv/packed_helper.c
+>> @@ -425,3 +425,107 @@ static inline void do_uksub8(CPURISCVState *env, void *vd, void *va,
+>>   }
+>>
+>>   RVPR(uksub8, 1, 1);
+>> +
+>> +/* 16-bit Shift Instructions */
+>> +static inline void do_sra16(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    int16_t *d = vd, *a = va;
+>> +    uint8_t shift = *(uint8_t *)vb & 0xf;
+>> +    d[i] = a[i] >> shift;
+>> +}
+>> +
+>> +RVPR(sra16, 1, 2);
+>> +
+>> +static inline void do_srl16(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    uint16_t *d = vd, *a = va;
+>> +    uint8_t shift = *(uint8_t *)vb & 0xf;
+>> +    d[i] = a[i] >> shift;
+>> +}
+>> +
+>> +RVPR(srl16, 1, 2);
+>> +
+>> +static inline void do_sll16(CPURISCVState *env, void *vd, void *va,
+>> +                            void *vb, uint8_t i)
+>> +{
+>> +    uint16_t *d = vd, *a = va;
+>> +    uint8_t shift = *(uint8_t *)vb & 0xf;
+>> +    d[i] = a[i] << shift;
+>> +}
+>> +
+>> +RVPR(sll16, 1, 2);
+>> +
+>> +static inline void do_sra16_u(CPURISCVState *env, void *vd, void *va,
+>> +                              void *vb, uint8_t i)
+>> +{
+>> +    int16_t *d = vd, *a = va;
+>> +    uint8_t shift = *(uint8_t *)vb & 0xf;
+>> +
+>> +    d[i] = vssra16(env, 0, a[i], shift);
+>> +}
+>> +
+>> +RVPR(sra16_u, 1, 2);
+>> +
+>> +static inline void do_srl16_u(CPURISCVState *env, void *vd, void *va,
+>> +                              void *vb, uint8_t i)
+>> +{
+>> +    uint16_t *d = vd, *a = va;
+>> +    uint8_t shift = *(uint8_t *)vb & 0xf;
+>> +
+>> +    d[i] = vssrl16(env, 0, a[i], shift);
+>> +}
+>> +
+>> +RVPR(srl16_u, 1, 2);
+>> +
+>> +static inline void do_ksll16(CPURISCVState *env, void *vd, void *va,
+>> +                             void *vb, uint8_t i)
+>> +{
+>> +    int16_t *d = vd, *a = va, result;
+>> +    uint8_t shift = *(uint8_t *)vb & 0xf;
+>> +
+>> +    result = a[i] << shift;
+>> +    if (shift > (clrsb32(a[i]) - 16)) {
+>> +        env->vxsat = 0x1;
+>> +        d[i] = (a[i] & INT16_MIN) ? INT16_MIN : INT16_MAX;
+>> +    } else {
+>> +        d[i] = result;
+>> +    }
+>> +}
+>> +
+>> +RVPR(ksll16, 1, 2);
+>> +
+>> +static inline void do_kslra16(CPURISCVState *env, void *vd, void *va,
+>> +                              void *vb, uint8_t i)
+>> +{
+>> +    int16_t *d = vd, *a = va;
+>> +    int32_t shift = sextract32((*(target_ulong *)vb), 0, 5);
+>> +
+>> +    if (shift >= 0) {
+>> +        do_ksll16(env, vd, va, vb, i);
+>> +    } else {
+>> +        shift = -shift;
+>> +        shift = (shift == 16) ? 15 : shift;
+>> +        d[i] = a[i] >> shift;
+>> +    }
+>> +}
+>> +
+>> +RVPR(kslra16, 1, 2);
+>> +
+>> +static inline void do_kslra16_u(CPURISCVState *env, void *vd, void *va,
+>> +                                void *vb, uint8_t i)
+>> +{
+>> +    int16_t *d = vd, *a = va;
+>> +    int32_t shift = sextract32((*(uint32_t *)vb), 0, 5);
+>> +
+>> +    if (shift >= 0) {
+>> +        do_ksll16(env, vd, va, vb, i);
+>> +    } else {
+>> +        shift = -shift;
+>> +        shift = (shift == 16) ? 15 : shift;
+>> +        d[i] = vssra16(env, 0, a[i], shift);
+>> +    }
+>> +}
+>> +
+>> +RVPR(kslra16_u, 1, 2);
+>> --
+>> 2.17.1
+>>
 
 
