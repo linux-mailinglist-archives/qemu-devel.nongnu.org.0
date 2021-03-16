@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183DF33DCDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 19:49:15 +0100 (CET)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861E633DCF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 19:55:41 +0100 (CET)
+Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMEkk-0004gF-2w
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 14:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35972)
+	id 1lMEqy-0002GK-KA
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 14:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMETP-0004v8-EC
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:31:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33458)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMETR-0004w2-N6
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:31:21 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMETK-0004sm-IS
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:31:19 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMETM-0004te-HY
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:31:21 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6F0E0AF0D;
- Tue, 16 Mar 2021 18:30:55 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 52D7AAF1E;
+ Tue, 16 Mar 2021 18:30:56 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,10 +28,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v27 18/20] target/i386: gdbstub: introduce aux functions to
- read/write CS64 regs
-Date: Tue, 16 Mar 2021 19:30:33 +0100
-Message-Id: <20210316183035.9424-19-cfontana@suse.de>
+Subject: [PATCH v27 20/20] i386: make cpu_load_efer sysemu-only
+Date: Tue, 16 Mar 2021 19:30:35 +0100
+Message-Id: <20210316183035.9424-21-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210316183035.9424-1-cfontana@suse.de>
 References: <20210316183035.9424-1-cfontana@suse.de>
@@ -63,252 +62,80 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-a number of registers are read as 64bit under the condition that
-(hflags & HF_CS64_MASK) || TARGET_X86_64)
+cpu_load_efer is now used only for sysemu code.
 
-and a number of registers are written as 64bit under the condition that
-(hflags & HF_CS64_MASK).
-
-Provide some auxiliary functions that do that.
+Therefore, move this function implementation to
+sysemu-only section of helper.c
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/gdbstub.c | 155 ++++++++++++++----------------------------
- 1 file changed, 51 insertions(+), 104 deletions(-)
+ target/i386/cpu.h    | 20 +++++---------------
+ target/i386/helper.c | 13 +++++++++++++
+ 2 files changed, 18 insertions(+), 15 deletions(-)
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index 41e265fc67..4ad1295425 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -78,6 +78,23 @@ static const int gpr_map32[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
- #define GDB_FORCE_64 0
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 9343010256..85bab2b112 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1959,6 +1959,11 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
+     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
+ }
+ 
++/*
++ * load efer and update the corresponding hflags. XXX: do consistency
++ * checks with cpuid bits?
++ */
++void cpu_load_efer(CPUX86State *env, uint64_t val);
+ uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
+ uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
+ uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
+@@ -2055,21 +2060,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
+     return eflags;
+ }
+ 
+-
+-/* load efer and update the corresponding hflags. XXX: do consistency
+-   checks with cpuid bits? */
+-static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
+-{
+-    env->efer = val;
+-    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
+-    if (env->efer & MSR_EFER_LMA) {
+-        env->hflags |= HF_LMA_MASK;
+-    }
+-    if (env->efer & MSR_EFER_SVME) {
+-        env->hflags |= HF_SVME_MASK;
+-    }
+-}
+-
+ static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
+ {
+     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 618ad1c409..7304721a94 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -574,6 +574,19 @@ void do_cpu_sipi(X86CPU *cpu)
  #endif
  
-+static int gdb_read_reg_cs64(uint32_t hflags, GByteArray *buf, target_ulong val)
+ #ifndef CONFIG_USER_ONLY
++
++void cpu_load_efer(CPUX86State *env, uint64_t val)
 +{
-+    if ((hflags & HF_CS64_MASK) || GDB_FORCE_64) {
-+        return gdb_get_reg64(buf, val);
++    env->efer = val;
++    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
++    if (env->efer & MSR_EFER_LMA) {
++        env->hflags |= HF_LMA_MASK;
 +    }
-+    return gdb_get_reg32(buf, val);
++    if (env->efer & MSR_EFER_SVME) {
++        env->hflags |= HF_SVME_MASK;
++    }
 +}
 +
-+static int gdb_write_reg_cs64(uint32_t hflags, uint8_t *buf, target_ulong *val)
-+{
-+    if (hflags & HF_CS64_MASK) {
-+        *val = ldq_p(buf);
-+        return 8;
-+    }
-+    *val = ldl_p(buf);
-+    return 4;
-+}
- 
- int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
- {
-@@ -142,25 +159,14 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-             return gdb_get_reg32(mem_buf, env->segs[R_FS].selector);
-         case IDX_SEG_REGS + 5:
-             return gdb_get_reg32(mem_buf, env->segs[R_GS].selector);
--
-         case IDX_SEG_REGS + 6:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->segs[R_FS].base);
--            }
--            return gdb_get_reg32(mem_buf, env->segs[R_FS].base);
--
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->segs[R_FS].base);
-         case IDX_SEG_REGS + 7:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->segs[R_GS].base);
--            }
--            return gdb_get_reg32(mem_buf, env->segs[R_GS].base);
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->segs[R_GS].base);
- 
-         case IDX_SEG_REGS + 8:
- #ifdef TARGET_X86_64
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->kernelgsbase);
--            }
--            return gdb_get_reg32(mem_buf, env->kernelgsbase);
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->kernelgsbase);
- #else
-             return gdb_get_reg32(mem_buf, 0);
- #endif
-@@ -188,45 +194,23 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-             return gdb_get_reg32(mem_buf, env->mxcsr);
- 
-         case IDX_CTL_CR0_REG:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->cr[0]);
--            }
--            return gdb_get_reg32(mem_buf, env->cr[0]);
--
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->cr[0]);
-         case IDX_CTL_CR2_REG:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->cr[2]);
--            }
--            return gdb_get_reg32(mem_buf, env->cr[2]);
--
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->cr[2]);
-         case IDX_CTL_CR3_REG:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->cr[3]);
--            }
--            return gdb_get_reg32(mem_buf, env->cr[3]);
--
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->cr[3]);
-         case IDX_CTL_CR4_REG:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->cr[4]);
--            }
--            return gdb_get_reg32(mem_buf, env->cr[4]);
--
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->cr[4]);
-         case IDX_CTL_CR8_REG:
--#ifdef CONFIG_SOFTMMU
-+#ifndef CONFIG_USER_ONLY
-             tpr = cpu_get_apic_tpr(cpu->apic_state);
- #else
-             tpr = 0;
- #endif
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, tpr);
--            }
--            return gdb_get_reg32(mem_buf, tpr);
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, tpr);
- 
-         case IDX_CTL_EFER_REG:
--            if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
--                return gdb_get_reg64(mem_buf, env->efer);
--            }
--            return gdb_get_reg32(mem_buf, env->efer);
-+            return gdb_read_reg_cs64(env->hflags, mem_buf, env->efer);
-         }
-     }
-     return 0;
-@@ -266,7 +250,8 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+ uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
  {
      X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--    uint32_t tmp;
-+    target_ulong tmp;
-+    int len;
- 
-     /* N.B. GDB can't deal with changes in registers or sizes in the middle
-        of a session. So if we're in 32-bit mode on a 64-bit cpu, still act
-@@ -329,30 +314,13 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-             return x86_cpu_gdb_load_seg(cpu, R_FS, mem_buf);
-         case IDX_SEG_REGS + 5:
-             return x86_cpu_gdb_load_seg(cpu, R_GS, mem_buf);
--
-         case IDX_SEG_REGS + 6:
--            if (env->hflags & HF_CS64_MASK) {
--                env->segs[R_FS].base = ldq_p(mem_buf);
--                return 8;
--            }
--            env->segs[R_FS].base = ldl_p(mem_buf);
--            return 4;
--
-+            return gdb_write_reg_cs64(env->hflags, mem_buf, &env->segs[R_FS].base);
-         case IDX_SEG_REGS + 7:
--            if (env->hflags & HF_CS64_MASK) {
--                env->segs[R_GS].base = ldq_p(mem_buf);
--                return 8;
--            }
--            env->segs[R_GS].base = ldl_p(mem_buf);
--            return 4;
--
-+            return gdb_write_reg_cs64(env->hflags, mem_buf, &env->segs[R_GS].base);
-         case IDX_SEG_REGS + 8:
- #ifdef TARGET_X86_64
--            if (env->hflags & HF_CS64_MASK) {
--                env->kernelgsbase = ldq_p(mem_buf);
--                return 8;
--            }
--            env->kernelgsbase = ldl_p(mem_buf);
-+            return gdb_write_reg_cs64(env->hflags, mem_buf, &env->kernelgsbase);
- #endif
-             return 4;
- 
-@@ -382,57 +350,36 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-             return 4;
- 
-         case IDX_CTL_CR0_REG:
--            if (env->hflags & HF_CS64_MASK) {
--                cpu_x86_update_cr0(env, ldq_p(mem_buf));
--                return 8;
--            }
--            cpu_x86_update_cr0(env, ldl_p(mem_buf));
--            return 4;
-+            len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+            cpu_x86_update_cr0(env, tmp);
-+            return len;
- 
-         case IDX_CTL_CR2_REG:
--            if (env->hflags & HF_CS64_MASK) {
--                env->cr[2] = ldq_p(mem_buf);
--                return 8;
--            }
--            env->cr[2] = ldl_p(mem_buf);
--            return 4;
-+            len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+            env->cr[2] = tmp;
-+            return len;
- 
-         case IDX_CTL_CR3_REG:
--            if (env->hflags & HF_CS64_MASK) {
--                cpu_x86_update_cr3(env, ldq_p(mem_buf));
--                return 8;
--            }
--            cpu_x86_update_cr3(env, ldl_p(mem_buf));
--            return 4;
-+            len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+            cpu_x86_update_cr3(env, tmp);
-+            return len;
- 
-         case IDX_CTL_CR4_REG:
--            if (env->hflags & HF_CS64_MASK) {
--                cpu_x86_update_cr4(env, ldq_p(mem_buf));
--                return 8;
--            }
--            cpu_x86_update_cr4(env, ldl_p(mem_buf));
--            return 4;
-+            len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+            cpu_x86_update_cr4(env, tmp);
-+            return len;
- 
-         case IDX_CTL_CR8_REG:
--            if (env->hflags & HF_CS64_MASK) {
--#ifdef CONFIG_SOFTMMU
--                cpu_set_apic_tpr(cpu->apic_state, ldq_p(mem_buf));
-+            len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+#ifndef CONFIG_USER_ONLY
-+            cpu_set_apic_tpr(cpu->apic_state, tmp);
- #endif
--                return 8;
--            }
--#ifdef CONFIG_SOFTMMU
--            cpu_set_apic_tpr(cpu->apic_state, ldl_p(mem_buf));
--#endif
--            return 4;
-+            return len;
- 
-         case IDX_CTL_EFER_REG:
--            if (env->hflags & HF_CS64_MASK) {
--                cpu_load_efer(env, ldq_p(mem_buf));
--                return 8;
--            }
--            cpu_load_efer(env, ldl_p(mem_buf));
--            return 4;
--
-+            len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+            cpu_load_efer(env, tmp);
-+            return len;
-         }
-     }
-     /* Unrecognised register.  */
 -- 
 2.26.2
 
