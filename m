@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD35133D0B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 10:26:09 +0100 (CET)
-Received: from localhost ([::1]:44346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02E833D0D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 10:30:07 +0100 (CET)
+Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM5xo-0002DF-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 05:26:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
+	id 1lM61e-0003al-R3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 05:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM5wK-0001kJ-IO
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:24:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25680)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lM60P-0002uk-Vf
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:28:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM5wF-0008Qs-Dq
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:24:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lM60O-0002gS-6z
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 05:28:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615886669;
+ s=mimecast20190719; t=1615886927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5EcGtK+hbZtEPfI6Gy+qG4CslCAWyc7VR6LMPXxitgw=;
- b=CItxkAog6S6qe1BCYlahcZKwX9w5VZUYoY+QDEnlnDc3t27YLytFFtQFhi01m31RBxBh/b
- fDSCqJng+zWHe5tzRfFq6nFkn9KnUubc/3ivEzBAjpC1j08qLLBcwCdQxYRDtvOxTjbiti
- M1GbyzIImsk9fNeOE7BSwgYdL6w043A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-iZqOu-JHOYOKYw4dHcuTmg-1; Tue, 16 Mar 2021 05:24:28 -0400
-X-MC-Unique: iZqOu-JHOYOKYw4dHcuTmg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1996760C0
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 09:24:26 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E1209CA0;
- Tue, 16 Mar 2021 09:24:22 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <87zgz38o0v.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
+ bh=15j5emuJ3X3+qpN1itcf6S9fso563IiZyiKXYDP9M8o=;
+ b=UaMhzgQsVIVk8A4uv1eNYkzVevEO0Gx6bhlZA6A6Mshs5C1xYFqHVOdyLb09zCv5JVXBez
+ jp0mxPSFN6jRKs2LDMdJXvDoF3/0nyquGUnl9fWfFo5zI1nQPyP0u+Ss69IlVodG79axkf
+ dAefHpK48e6s91xm7/8bo87YyLew+Vc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-sMmGCPaqPmGNyqrLqWzj0w-1; Tue, 16 Mar 2021 05:28:45 -0400
+X-MC-Unique: sMmGCPaqPmGNyqrLqWzj0w-1
+Received: by mail-wr1-f70.google.com with SMTP id n17so16399431wrq.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 02:28:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=15j5emuJ3X3+qpN1itcf6S9fso563IiZyiKXYDP9M8o=;
+ b=kyWPNFwwN7SRip0v2Qw7bml2VHdJKkbmUOQsfo9q7+9QJVXLkOM45k8gvNfGX1uNlE
+ QqWfUCuXfkgnsjlpWUoWyvL5c2orQ8yV5TJQAzU32Oh3HAYqB1zPBNaFwh49yvo68K1T
+ bD+pwepMBcLXT3vdAP/FXRtkucXXNcOG0NZ3Qeo+QdFFdVFazNILlAM7FPyQOIIZgWMP
+ 2JhCCbQ4n5BvQRKLlI2pCl+fZJiGHNDFM5h+FDrGRDUnR1W1vse7E553tA4lIUHe5ei0
+ NaR2l+q0Mh0RBZWYm/dDuMW9MJSw1cNf5eKgaz5dTAiFy0xnCt5FUC2zrzNoOCHrsJAY
+ y9rA==
+X-Gm-Message-State: AOAM533FONs7/b6weDRwF4M0azHvgXszSGwt85bICuqmDS1sMn7EODZH
+ Rfu2mVVra1xEQYiK0KhKJeHS1C9mRmL7SmRebWOYVCVdW1iFKGjFJUWYDqe+RhI8k+ZGEnAfmnl
+ BpNEW4cSIcP6Itno=
+X-Received: by 2002:adf:ded1:: with SMTP id i17mr3866527wrn.349.1615886924562; 
+ Tue, 16 Mar 2021 02:28:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGBuaphiRMQb+wb0LBhS19t/jsghZgJ02jwIYM3hbxBchV+LZxyklGtTjiFbEHErse6jJbvQ==
+X-Received: by 2002:adf:ded1:: with SMTP id i17mr3866513wrn.349.1615886924396; 
+ Tue, 16 Mar 2021 02:28:44 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id j30sm24005604wrj.62.2021.03.16.02.28.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 02:28:43 -0700 (PDT)
 Subject: Re: libqemuutil
-Message-ID: <0c90e3ce-6be7-291f-3121-b6d7d725bcdf@redhat.com>
-Date: Tue, 16 Mar 2021 10:24:21 +0100
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <87zgz38o0v.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d0c5aa88-029e-4328-7a53-482a3010c5f8@redhat.com>
+Date: Tue, 16 Mar 2021 10:28:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
 In-Reply-To: <87zgz38o0v.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -86,33 +104,54 @@ Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/2021 10.07, Markus Armbruster wrote:
-> I rebased my "[PATCH v6 00/10] Configurable policy for handling
-> deprecated interfaces" to master, and it surprisingly fails to link
-> several utility programs.  Here's the first error:
-> 
->      gcc  -o tests/bench/benchmark-crypto-hmac tests/bench/benchmark-crypto-hmac.p/benchmark-crypto-hmac.c.o -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive libcrypto.fa libauthz.fa libqom.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -fstack-protector-strong -Wl,--start-group libqemuutil.a subprojects/libvhost-user/libvhost-user-glib.a subprojects/libvhost-user/libvhost-user.a libcrypto.fa libauthz.fa libqom.fa -pthread -lgthread-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgnutls -lutil -lm -lgthread-2.0 -lglib-2.0 -lnettle -lgnutls -lpam -Wl,--end-group
->      /usr/bin/ld: libqemuutil.a(util_main-loop.c.o): in function `qemu_set_fd_handler':
->      /work/armbru/qemu/bld-x86/../util/main-loop.c:581: multiple definition of `qemu_set_fd_handler'; libqemuutil.a(stubs_set-fd-handler.c.o):/work/armbru/qemu/bld-x86/../stubs/set-fd-handler.c:8: first defined here
->      collect2: error: ld returned 1 exit status
-> 
-> Both master and PATCH 01 still link fine, PATCH 02 doesn't.  PATCH 02
-> doesn't go anywhere near qemu_set_fd_handler().
-> 
-> Turns out libqemuutil.a contains two definitions of
-> qemu_set_fd_handler().  In master:
-> 
->      $ nm --defined-only libqemuutil.a | awk '/:$/ { f=$0 } / qemu_set_fd_handler/ { if (f) { print f; f="" } print $0 }'
->      util_main-loop.c.o:
->      00000000000007fe T qemu_set_fd_handler
->      stubs_set-fd-handler.c.o:
->      0000000000000000 T qemu_set_fd_handler
-> 
-> This is obviously unhealthy.
-> 
+On 16/03/21 10:07, Markus Armbruster wrote:
 > I suspect the linker happens to pick the one that makes things work,
 > until something in my patch makes it pick the other one.
-> 
+
+Ouch.  Fortunately the stub is unnecessary and can be removed.
+
+----------- 8< ------------
+ From fe45350cc11434efe3461c540bb0f258bbe010f7 Mon Sep 17 00:00:00 2001
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 16 Mar 2021 05:25:48 -0400
+Subject: [PATCH] qemuutil: remove qemu_set_fd_handler duplicate symbol
+
+libqemuutil has two definitions of qemu_set_fd_handler.  This
+is not needed since the only users of the function are
+qemu-io.c and the emulators, both of which already include
+util/main-loop.c.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+diff --git a/stubs/meson.build b/stubs/meson.build
+index a054d5877f..8a3e804cf0 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -34,7 +34,6 @@ stub_ss.add(files('ram-block.c'))
+  stub_ss.add(files('ramfb.c'))
+  stub_ss.add(files('replay.c'))
+  stub_ss.add(files('runstate-check.c'))
+-stub_ss.add(files('set-fd-handler.c'))
+  stub_ss.add(files('sysbus.c'))
+  stub_ss.add(files('target-get-monitor-def.c'))
+  stub_ss.add(files('target-monitor-defs.c'))
+diff --git a/stubs/set-fd-handler.c b/stubs/set-fd-handler.c
+deleted file mode 100644
+index bff7e0a45a..0000000000
+--- a/stubs/set-fd-handler.c
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+-
+-void qemu_set_fd_handler(int fd,
+-                         IOHandler *fd_read,
+-                         IOHandler *fd_write,
+-                         void *opaque)
+-{
+-    abort();
+-}
+
 > Is qemu_set_fd_handler() the only one?  Nope:
 > 
 >      $ nm --defined-only bld-x86/libqemuutil.a | awk '/ T / { print $NF }' | sort | uniq -c | grep -v '^ *1 '
@@ -126,33 +165,9 @@ On 16/03/2021 10.07, Markus Armbruster wrote:
 > I didn't run into this issue when I posted my series last Friday.  The
 > issue now blocks its merge, and today is the soft freeze.  Help!
 
-A very, very quick-n-dirty band-aid is likely to mark the function in stubs 
-as weak:
+For yank_*, I suggest moving the non-stub version to monitor/ and adding 
+it to the qmp_ss sourceset.
 
-diff --git a/stubs/set-fd-handler.c b/stubs/set-fd-handler.c
---- a/stubs/set-fd-handler.c
-+++ b/stubs/set-fd-handler.c
-@@ -1,6 +1,7 @@
-  #include "qemu/osdep.h"
-  #include "qemu/main-loop.h"
-
-+__attribute__((weak))
-  void qemu_set_fd_handler(int fd,
-                           IOHandler *fd_read,
-                           IOHandler *fd_write,
-
-  ... should IMHO be good enough for the soft freeze. In the long run, you 
-might want to analyze the problem more thoroughly, of course. I had similar 
-problems in the past already, and solved them by moving the stubs around. See:
-
-  b0476d6602adbf818132dc896b585e01f47eaf96
-  stubs: Move qemu_timer_notify_cb() and remove
-  qemu_notify_event() stub
-
-  8c2787629eee73ca8ce4f100cff4f4946583b4e8
-  stubs: Move qemu_fd_register stub to util/main-loop.c
-
-HTH,
-  Thomas
+Paolo
 
 
