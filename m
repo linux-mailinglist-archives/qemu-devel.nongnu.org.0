@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BC133E224
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 00:33:33 +0100 (CET)
-Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E2133E238
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 00:34:58 +0100 (CET)
+Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMJBs-0003dw-93
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 19:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
+	id 1lMJDF-0006Fb-IN
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 19:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJ9T-0002LM-PW
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:03 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33370
+ id 1lMJ9Z-0002Tp-JS
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:09 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33376
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJ9S-0007EJ-8F
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:03 -0400
+ id 1lMJ9X-0007GH-Id
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:09 -0400
 Received: from host109-156-104-46.range109-156.btcentralplus.com
  ([109.156.104.46] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJ9P-0006Mg-5X; Tue, 16 Mar 2021 23:31:05 +0000
+ id 1lMJ9V-0006Mg-EF; Tue, 16 Mar 2021 23:31:10 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	alxndr@bu.edu
-Date: Tue, 16 Mar 2021 23:30:21 +0000
-Message-Id: <20210316233024.13560-2-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 16 Mar 2021 23:30:22 +0000
+Message-Id: <20210316233024.13560-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
 References: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.156.104.46
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 1/4] esp: don't underflow cmdfifo if no message out/command
- data is present
+Subject: [PATCH 2/4] esp: don't overflow cmdfifo if TC is larger than the
+ cmdfifo size
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,53 +65,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a guest sends a TI (Transfer Information) command without previously sending
-any message out/command phase data then cmdfifo will underflow triggering an
-assert reading the IDENTIFY byte.
+If a guest transfers the message out/command phase data using DMA with a TC
+that is larger than the cmdfifo size then the cmdfifo overflows triggering
+an assert. Limit the size of the transfer to the free space available in
+cmdfifo.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1919035
+Buglink: https://bugs.launchpad.net/qemu/+bug/1919036
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ hw/scsi/esp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 507ab363bc..5d3f1ccbc8 100644
+index 5d3f1ccbc8..bbcbfa4a91 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -318,18 +318,24 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
- 
- static void do_cmd(ESPState *s)
- {
--    uint8_t busid = fifo8_pop(&s->cmdfifo);
-+    uint8_t busid;
-     uint32_t n;
- 
--    s->cmdfifo_cdb_offset--;
-+    if (fifo8_num_used(&s->cmdfifo)) {
-+        busid = fifo8_pop(&s->cmdfifo);
- 
--    /* Ignore extended messages for now */
--    if (s->cmdfifo_cdb_offset) {
--        fifo8_pop_buf(&s->cmdfifo, s->cmdfifo_cdb_offset, &n);
--        s->cmdfifo_cdb_offset = 0;
--    }
-+        if (s->cmdfifo_cdb_offset) {
-+            s->cmdfifo_cdb_offset--;
-+
-+            /* Ignore extended messages for now */
-+            if (s->cmdfifo_cdb_offset) {
-+                fifo8_pop_buf(&s->cmdfifo, s->cmdfifo_cdb_offset, &n);
-+                s->cmdfifo_cdb_offset = 0;
-+            }
-+        }
- 
--    do_busid_cmd(s, busid);
-+        do_busid_cmd(s, busid);
-+    }
- }
- 
- static void satn_pdma_cb(ESPState *s)
+@@ -579,6 +579,7 @@ static void esp_do_dma(ESPState *s)
+         cmdlen = fifo8_num_used(&s->cmdfifo);
+         trace_esp_do_dma(cmdlen, len);
+         if (s->dma_memory_read) {
++            len = MIN(len, fifo8_num_free(&s->cmdfifo));
+             s->dma_memory_read(s->dma_opaque, buf, len);
+             fifo8_push_all(&s->cmdfifo, buf, len);
+         } else {
 -- 
 2.20.1
 
