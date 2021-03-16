@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8977E33E0DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:53:50 +0100 (CET)
-Received: from localhost ([::1]:43990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A923D33E0EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:59:06 +0100 (CET)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHdN-0002gB-IA
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
+	id 1lMHiT-000710-Ic
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lMHXm-0006qo-RZ; Tue, 16 Mar 2021 17:48:02 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:58527)
+ id 1lMHXo-0006s1-Ac; Tue, 16 Mar 2021 17:48:04 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:57931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lMHXl-0000tf-0s; Tue, 16 Mar 2021 17:48:02 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3303D580A4C;
- Tue, 16 Mar 2021 17:48:00 -0400 (EDT)
+ id 1lMHXm-0000vE-Pr; Tue, 16 Mar 2021 17:48:04 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DFA3D580A76;
+ Tue, 16 Mar 2021 17:48:01 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 16 Mar 2021 17:48:00 -0400
+ by compute4.internal (MEProxy); Tue, 16 Mar 2021 17:48:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
- UWWgnQyChWBaw1mvtIyB0g1GBGLDjeCNtfB6wtj9s7Y=; b=3DDHjzc9rYZmxemg
- VUUCA11YJW81DFmuWqvs01JUtjpKglEyfUIWkR0oaiO2tOPHvmleFd2/8JhLnPsh
- DxxURVRpX44gF3alsOyL8hSGf2YljqXBdyzHues4o7J2xVvSWuWtlxQK2KWToot7
- F7MnChHo9gaqG7i9sggAetfgr95Z1jVFxxZwh9IYZ27zeAr9sDtBTZJ4X01wt788
- A1NnXMds/Vt/SHtw1xYCGQ4qDaDw8EskNYL39Wn4TA+WdgR6ZJ7O4ckUZVN5Ua1L
- f/C9jTgOAmoDwjPu7SXifL/rqoFcq005TbbPLTJSQWRhzcpaVq/6tHhNUJULYW8L
- uLZEXA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=aQ/+o2Jwoa4rt
+ CJsgP6cUiDm6q/wU6aNweqx4+nber4=; b=T/er1Uk1tDwIjolXJdO7AYGyGNgP3
+ 6nxlxnsJO9CN+Ba7HN99Fq6Ecso5yXPxSLasB7UcGYbvAOdebNYsIOuKlSq3zn9K
+ wG7Anh4kEkSRxfxlqxR73l8i5fSPuxC1dSoLtk2qf1bciPKHzHkqtouOkNQxbIo+
+ 0+1ufwK17RRqL+ysRYfTqF0PqMySt2WPEP1b+EcBezL1upina18gqhXNperDAmM1
+ ctzB+zH10cuK7plSeSLv/lSrRUwDngtaN4hg5tj2gm+oukbAUH37OY/fEQqWxvoW
+ 3FclxBod9U2tVnXcbHaXwKTUI/kdeSIqSFCXHrKTlP0HdpPZRqZyHZEpQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=UWWgnQyChWBaw1mvtIyB0g1GBGLDjeCNtfB6wtj9s
- 7Y=; b=YYkMEPBzp3RVTOJam9RZA9HszD/y1dDG2hwUjS+qXVm/trmF3eFpvx0/X
- sYyJPchE+s8vBmLSBKmKD/jKcgZmW6pIL97/1RtY00RlJKzwsorBpG0uY1W2ykqx
- efQW7wruH2/qha7e+O4yZxIStTh6KDZq7pRs/haQ5HFL0dPdpmzONNXh+ezYyOps
- gvbLvF00XXM50CX4q1o68ijiRnt0gdOjKa5zjsqPyxxScso9s6GMVJlLLfJVpiL4
- 0lwUJMU2R+BVayVx6PLGlC5L4oi3fxtxx0GAajpVKMKVy4R1encTHtRFqL8QzKuy
- qqowAqCDfOS3kqrPzQMUipcld4Buw==
-X-ME-Sender: <xms:kCdRYH70u__XfRBbHfCXYrA2A6P18Km55ZLkPGG8R_mcx9eV2Wf63A>
- <xme:kCdRYNm7h_eS7sskjBdZtT0J8Jm8B-7yt2XnwzzB20Ah36vP_V9QDBcmsTzX0aOM9
- lUsM-isp_5T2qrdBSo>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=aQ/+o2Jwoa4rtCJsgP6cUiDm6q/wU6aNweqx4+nber4=; b=kqGQ2btC
+ SVNiH24IMwiZUB7Pi5PJllKlpLz3iQ7/Eii3e+Sfl775Y0kS6hdcpSkfFvJFAxC3
+ +sODFS+48gOELxbH12xt17+nRvPvG8bzjVHnHLeV/e1k2+ynQFNFnCjdt6RtuYmz
+ F9Ln+9pQ+OQDjWUzGRdZMNvggOzWrquXi4pr9gIvjT1h4MHP8MeFhn7jm4NAvdXL
+ WUzmT0WVWi+Hbrk0xrkxkWxQx8EVVGDWkjA37GC0AwNeScMT+zHhXKs+EOUO4GIO
+ Hp2YLi+Htk6hKgCLfi0gDsR6Ju5y/QAtAvti50xcLs3JSXSnM05UM3v45rIHsBWP
+ wfVi5XZgqqwN4g==
+X-ME-Sender: <xms:kSdRYBrX6j8l9fStvFGZDZb4CWX0-LNh7mzhzrSZYHyasSG0LE2qpA>
+ <xme:kSdRYDoOLVTKbqffeZe3yGgt8RAxOSI6y0J0ENcWfXjOPkiTiXl-U9zzM6C9W6Tu-
+ S4MiSKxlktJmfDQ9e8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefvddgudehhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfh
- ffdtgeenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:kCdRYMrFUPn0Ma-u8H02bGVClzZ-w1T24DMIbNYYf4tkj1xd7auoAg>
- <xmx:kCdRYMsSnY0kzKue3MOXYlfQ6P5IKvjM7AZIzURHxtIaGf9t0PaDIw>
- <xmx:kCdRYBG-wTvrskmO4FJAY6Ndw_6dbwv1UQRH8cvfZyDhQJE14pCasg>
- <xmx:kCdRYGGpfVPXLjHAWZY7-XqL-ZiW28oYAk5nnHhKMnYwtAlDRO7Zlg>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:kSdRYOOCz7J_olx735UB672nqRkalCWfaGJPnGnXKvRDifQZEsNwww>
+ <xmx:kSdRYM4YGlqek5tTcZWhpvjEGDrClJYLFqDX16NEmBX1UXQJsyFiPA>
+ <xmx:kSdRYA5okY02846cntpGJ3JrEW8Kap8RZO65pt7nQ91VlBPIRUbcAA>
+ <xmx:kSdRYCvqQKxINI5avM_HhcWURlJJJVyz9H7vqnVYS1mYeRdgKuOlnA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 94BEE108005C;
- Tue, 16 Mar 2021 17:47:58 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4A90F108005C;
+ Tue, 16 Mar 2021 17:48:00 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/11] hw/block/nvme: assert namespaces array indices
-Date: Tue, 16 Mar 2021 22:47:44 +0100
-Message-Id: <20210316214753.399389-3-its@irrelevant.dk>
+Subject: [PULL 03/11] hw/block/nvme: fix zone management receive reporting too
+ many zones
+Date: Tue, 16 Mar 2021 22:47:45 +0100
+Message-Id: <20210316214753.399389-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210316214753.399389-1-its@irrelevant.dk>
 References: <20210316214753.399389-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
  helo=new1-smtp.messagingengine.com
@@ -96,101 +95,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Coverity complains about a possible memory corruption in the
-nvme_ns_attach and _detach functions. While we should not (famous last
-words) be able to reach this function without nsid having previously
-been validated, this is still an open door for future misuse.
+nvme_zone_mgmt_recv uses nvme_ns_nlbas() to get the number of LBAs in
+the namespace and then calculates the number of zones to report by
+incrementing slba with ZSZE until exceeding the number of LBAs as
+returned by nvme_ns_nlbas().
 
-Make Coverity and maintainers happy by asserting that the index into the
-array is valid. Also, while not detected by Coverity (yet), add an
-assert in nvme_subsys_ns and nvme_subsys_register_ns as well since a
-similar issue is exists there.
+This is bad because the namespace might be of such as size that some
+LBAs are valid, but are not part of any zone, causing zone management
+receive to report one additional (but non-existing) zone.
 
-Fixes: 037953b5b299 ("hw/block/nvme: support namespace detach")
-Fixes: CID 1450757
-Fixes: CID 1450758
-Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+Fix this with a conventional loop on i < ns->num_zones instead.
+
+Fixes: a479335bfaf3 ("hw/block/nvme: Support Zoned Namespace Command Set")
+Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/nvme-subsys.h |  2 ++
- hw/block/nvme.h        | 10 ++++++++--
- hw/block/nvme-subsys.c |  7 +++++--
- 3 files changed, 15 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index fb66ae752ad5..aafa04b84829 100644
---- a/hw/block/nvme-subsys.h
-+++ b/hw/block/nvme-subsys.h
-@@ -54,6 +54,8 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
-         return NULL;
-     }
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 0d9b980151ae..9a14c5f7035e 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2620,12 +2620,13 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
+     uint32_t zone_idx, zra, zrasf, partial;
+     uint64_t max_zones, nr_zones = 0;
+     uint16_t status;
+-    uint64_t slba, capacity = nvme_ns_nlbas(ns);
++    uint64_t slba;
+     NvmeZoneDescr *z;
+     NvmeZone *zone;
+     NvmeZoneReportHeader *header;
+     void *buf, *buf_p;
+     size_t zone_entry_sz;
++    int i;
  
-+    assert(nsid && nsid <= NVME_SUBSYS_MAX_NAMESPACES);
-+
-     return subsys->namespaces[nsid];
- }
+     req->status = NVME_SUCCESS;
  
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 4955d649c7d4..5ba2efaedfd2 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -236,12 +236,18 @@ static inline bool nvme_ns_is_attached(NvmeCtrl *n, NvmeNamespace *ns)
+@@ -2667,7 +2668,7 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
+     buf = g_malloc0(data_size);
  
- static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
- {
--    n->namespaces[nvme_nsid(ns) - 1] = ns;
-+    uint32_t nsid = nvme_nsid(ns);
-+    assert(nsid && nsid <= NVME_MAX_NAMESPACES);
-+
-+    n->namespaces[nsid - 1] = ns;
- }
- 
- static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
- {
--    n->namespaces[nvme_nsid(ns) - 1] = NULL;
-+    uint32_t nsid = nvme_nsid(ns);
-+    assert(nsid && nsid <= NVME_MAX_NAMESPACES);
-+
-+    n->namespaces[nsid - 1] = NULL;
- }
- 
- static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
-diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
-index af4804a819ee..9fadef8cec99 100644
---- a/hw/block/nvme-subsys.c
-+++ b/hw/block/nvme-subsys.c
-@@ -47,15 +47,18 @@ int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp)
- {
-     NvmeSubsystem *subsys = ns->subsys;
-     NvmeCtrl *n;
-+    uint32_t nsid = nvme_nsid(ns);
-     int i;
- 
--    if (subsys->namespaces[nvme_nsid(ns)]) {
-+    assert(nsid && nsid <= NVME_SUBSYS_MAX_NAMESPACES);
-+
-+    if (subsys->namespaces[nsid]) {
-         error_setg(errp, "namespace %d already registerd to subsy %s",
-                    nvme_nsid(ns), subsys->parent_obj.id);
-         return -1;
-     }
- 
--    subsys->namespaces[nvme_nsid(ns)] = ns;
-+    subsys->namespaces[nsid] = ns;
- 
-     for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
-         n = subsys->ctrls[i];
+     zone = &ns->zone_array[zone_idx];
+-    for (; slba < capacity; slba += ns->zone_size) {
++    for (i = zone_idx; i < ns->num_zones; i++) {
+         if (partial && nr_zones >= max_zones) {
+             break;
+         }
 -- 
 2.30.1
 
