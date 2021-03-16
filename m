@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D9B33DAAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:21:37 +0100 (CET)
-Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90EE033DAE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:24:36 +0100 (CET)
+Received: from localhost ([::1]:56174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMDNw-0002vH-J8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
+	id 1lMDQp-0006U4-JK
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lMD9F-0003GX-MG
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ id 1lMD9M-0003KS-QL
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lMD9D-0005Nw-I4
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:25 -0400
+ id 1lMD9L-0005Q7-2G
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615914381;
+ s=mimecast20190719; t=1615914389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dGiB3vWvrVlYUe0UxxWpZkr1TbCa/uSCxoIWTfjcFVg=;
- b=hc0SWWq3/qLnpy4RKEs+VIJ7l+ks6/9Cn9yT2pwVdrVBrx/CTd5Ax2RNqYW96e1H1B6c0m
- DDZazbXHfqZWyNpGEiJaEIVa682D7aX2sP9Tl9FOyYzlqbIIyKJ4hTbEFmEtJY/Iu/i/3A
- oe6trhhdR57UcC18AT4iUyq52ufNGn8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kr1sYdGqvkblDq7E7beNUefzJun9ajdTevpLu/YGYQ8=;
+ b=jTmof2C+LKrsDaygUUuxelMa5WG4g2/feTUIV4fe/vJmbWM0zHnZrt/ThqJ4QRPNK4LEdE
+ pCQqXaO+PsLMYNek4KPVz9G6/gfNW0FFS3kRpq5TwvvBYeMf6XERzZfyTcSGk22tY+gv4J
+ lfiEY5iuqb7/8GAcxrAkMB9nd+60Nro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-mveVZiv1NLeH0hvb0dTwYw-1; Tue, 16 Mar 2021 13:06:19 -0400
-X-MC-Unique: mveVZiv1NLeH0hvb0dTwYw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-149-adEgW-x0O5itLmCalbkRZw-1; Tue, 16 Mar 2021 13:06:27 -0400
+X-MC-Unique: adEgW-x0O5itLmCalbkRZw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DBCE801596;
- Tue, 16 Mar 2021 17:06:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 413611934104;
+ Tue, 16 Mar 2021 17:06:26 +0000 (UTC)
 Received: from rhel8vm.home.shazbot.org (ovpn-115-65.phx2.redhat.com
  [10.3.115.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E97DD60C13;
- Tue, 16 Mar 2021 17:06:03 +0000 (UTC)
-Subject: [PULL 00/10] VFIO updates for QEMU 6.0
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E84525D9D3;
+ Tue, 16 Mar 2021 17:06:22 +0000 (UTC)
+Subject: [PULL 01/10] vfio: Fix vfio_listener_log_sync function name typo
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Mar 2021 11:06:04 -0600
-Message-ID: <161591414009.135549.5804863877511053803.stgit@rhel8vm.home.shazbot.org>
+Date: Tue, 16 Mar 2021 11:06:23 -0600
+Message-ID: <161591438352.135549.9568129027997098226.stgit@rhel8vm.home.shazbot.org>
+In-Reply-To: <161591414009.135549.5804863877511053803.stgit@rhel8vm.home.shazbot.org>
+References: <161591414009.135549.5804863877511053803.stgit@rhel8vm.home.shazbot.org>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -64,7 +67,7 @@ X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,80 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kunkun Jiang <jiangkunkun@huawei.com>,
- =?utf-8?q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
- Shenming Lu <lushenming@huawei.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Eric Auger <eric.auger@redhat.com>, Zenghui Yu <yuzenghui@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Zenghui Yu <yuzenghui@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a resend of the same sent on 2021-03-11 where 00/10 and 02/10
-were eaten by the mail server.  Rebased to current staging and re-tagged.
+From: Zenghui Yu <yuzenghui@huawei.com>
 
-The following changes since commit 5b7f5586d182b0cafb1f8d558992a14763e2953e:
+There is an obvious typo in the function name of the .log_sync() callback.
+Spell it correctly.
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210315-pull-request' into staging (2021-03-16 13:17:54 +0000)
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Message-Id: <20201204014240.772-1-yuzenghui@huawei.com>
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
+ hw/vfio/common.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 6ff1daa763f8..d360d6f2da14 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1118,7 +1118,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+                        int128_get64(section->size), ram_addr);
+ }
+ 
+-static void vfio_listerner_log_sync(MemoryListener *listener,
++static void vfio_listener_log_sync(MemoryListener *listener,
+         MemoryRegionSection *section)
+ {
+     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+@@ -1136,7 +1136,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
+ static const MemoryListener vfio_memory_listener = {
+     .region_add = vfio_listener_region_add,
+     .region_del = vfio_listener_region_del,
+-    .log_sync = vfio_listerner_log_sync,
++    .log_sync = vfio_listener_log_sync,
+ };
+ 
+ static void vfio_listener_release(VFIOContainer *container)
 
-  git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20210316.0
-
-for you to fetch changes up to 758b96b61d5cbc19204f340012d5a325f0a2105b:
-
-  vfio/migrate: Move switch of dirty tracking into vfio_memory_listener (2021-03-16 10:06:44 -0600)
-
-----------------------------------------------------------------
-VFIO update 2021-03-16
-
- * Fix "listerner" typo (Zenghui Yu)
-
- * Inclusive language and MAINTAINERS update (Philippe Mathieu-Daudé)
-
- * vIOMMU unmap notifier fixes (Eric Auger)
-
- * Migration fixes and optimizations (Shenming Lu)
-
- * Use host page size for dirty bitmap (Kunkun Jiang)
-
- * Use log_global_start/stop to switch dirty tracking (Keqian Zhu)
-
-----------------------------------------------------------------
-Eric Auger (2):
-      vfio: Do not register any IOMMU_NOTIFIER_DEVIOTLB_UNMAP notifier
-      spapr_iommu: Fix vhost integration regression
-
-Keqian Zhu (1):
-      vfio/migrate: Move switch of dirty tracking into vfio_memory_listener
-
-Kunkun Jiang (1):
-      vfio: Support host translation granule size
-
-Philippe Mathieu-Daudé (2):
-      hw/vfio/pci-quirks: Replace the word 'blacklist'
-      MAINTAINERS: Cover docs/igd-assign.txt in VFIO section
-
-Shenming Lu (3):
-      vfio: Move the saving of the config space to the right place in VFIO migration
-      vfio: Set the priority of the VFIO VM state change handler explicitly
-      vfio: Avoid disabling and enabling vectors repeatedly in VFIO migration
-
-Zenghui Yu (1):
-      vfio: Fix vfio_listener_log_sync function name typo
-
- MAINTAINERS          |   1 +
- hw/ppc/spapr_iommu.c |   5 +++
- hw/vfio/common.c     | 103 ++++++++++++++++++++++++++++++++++-----------------
- hw/vfio/migration.c  |  63 +++++++++----------------------
- hw/vfio/pci-quirks.c |  14 +++----
- hw/vfio/pci.c        |  24 +++++++++---
- hw/vfio/pci.h        |   2 +-
- hw/vfio/trace-events |   2 +-
- 8 files changed, 119 insertions(+), 95 deletions(-)
 
 
