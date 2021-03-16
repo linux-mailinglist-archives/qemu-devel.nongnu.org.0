@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323DC33D604
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:47:04 +0100 (CET)
-Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B59733D5FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:43:07 +0100 (CET)
+Received: from localhost ([::1]:38818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMAyN-0004sZ-66
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:47:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
+	id 1lMAuT-0000KF-C1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMAqB-0003kg-5d
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33650)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMAqI-0003nd-DD
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMAq3-0002Ew-7h
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:33 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMAq5-0002FF-Bx
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615905505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MiilbPim2Vhka8mV5z8eig4FD2pldmkQghkgRX0hEGo=;
- b=GUPJBIGayBLtcPrFFg/0zVvKcojmKEo+ol/oW/1/LAzBh9B9ZhiV7XzlChZ0RbFlTNE5ft
- XEZMZClZCi5Bt2XmslpohJ74bGI0JToDdYa0pvA9ehXy+wVfe/CorHNSRqW/5G5hn0IMzW
- nYJK30SWHnTRc9uGgLUPOyvk1DsIhR0=
+ bh=1Jcr9CfhX/9s+5yw5pAE9q1R2xnwTgkF74x4TRYJjd8=;
+ b=cLEsmhB0iqyzIxjiDWM3t1mWzAesGQnEv6XKse7rhtQlMYILZm1Q+y0tQvDlGZOFlGjhEc
+ QD5/taynCjaFOHoiTGYBtCaOcivjWVKx2zkaF9h4KF7xuuCV4L77ogGqw8pubVXDDcoz8s
+ AZvsQ2yqimo0/jYEzkLguHQffRFSzuY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-KOs_PFdxPxqWAnG8y6B17g-1; Tue, 16 Mar 2021 10:38:23 -0400
-X-MC-Unique: KOs_PFdxPxqWAnG8y6B17g-1
+ us-mta-238-odwrqqiuNKSMFd-4AMfnWw-1; Tue, 16 Mar 2021 10:38:23 -0400
+X-MC-Unique: odwrqqiuNKSMFd-4AMfnWw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47FFEA40C0
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:38:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DEEC108BD07;
+ Tue, 16 Mar 2021 14:38:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C706E5D719;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE2455D71D;
  Tue, 16 Mar 2021 14:38:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6D133180062D; Tue, 16 Mar 2021 15:38:12 +0100 (CET)
+ id 79833180062E; Tue, 16 Mar 2021 15:38:12 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] edid: prefer standard timings
-Date: Tue, 16 Mar 2021 15:38:08 +0100
-Message-Id: <20210316143812.2363588-6-kraxel@redhat.com>
+Subject: [PATCH 6/9] edid: Make refresh rate configurable
+Date: Tue, 16 Mar 2021 15:38:09 +0100
+Message-Id: <20210316143812.2363588-7-kraxel@redhat.com>
 In-Reply-To: <20210316143812.2363588-1-kraxel@redhat.com>
 References: <20210316143812.2363588-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,71 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Windows guests using the "Basic Display Adapter" don't parse the
-"Established timings III" block.  They also don't parse any edid
-extension.
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-So prefer the "Standard Timings" block to store the display resolutions
-in edid_fill_modes().  Also reorder the mode list, so more exotic
-resolutions (specifically the ones which are not supported by vgabios)
-are moved down and the remaining ones have a better chance to get one of
-the eight slots in the "Standard Timings" block.
-
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/edid-generate.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ include/hw/display/edid.h  | 12 +++++++-----
+ hw/display/edid-generate.c |  9 +++++----
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
+diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
+index 1f8fc9b37500..520f8ec20279 100644
+--- a/include/hw/display/edid.h
++++ b/include/hw/display/edid.h
+@@ -11,6 +11,7 @@ typedef struct qemu_edid_info {
+     uint32_t    prefy;
+     uint32_t    maxx;
+     uint32_t    maxy;
++    uint32_t    refresh_rate;
+ } qemu_edid_info;
+ 
+ void qemu_edid_generate(uint8_t *edid, size_t size,
+@@ -21,10 +22,11 @@ void qemu_edid_region_io(MemoryRegion *region, Object *owner,
+ 
+ uint32_t qemu_edid_dpi_to_mm(uint32_t dpi, uint32_t res);
+ 
+-#define DEFINE_EDID_PROPERTIES(_state, _edid_info)              \
+-    DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),    \
+-    DEFINE_PROP_UINT32("yres", _state, _edid_info.prefy, 0),    \
+-    DEFINE_PROP_UINT32("xmax", _state, _edid_info.maxx, 0),     \
+-    DEFINE_PROP_UINT32("ymax", _state, _edid_info.maxy, 0)
++#define DEFINE_EDID_PROPERTIES(_state, _edid_info)                         \
++    DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),               \
++    DEFINE_PROP_UINT32("yres", _state, _edid_info.prefy, 0),               \
++    DEFINE_PROP_UINT32("xmax", _state, _edid_info.maxx, 0),                \
++    DEFINE_PROP_UINT32("ymax", _state, _edid_info.maxy, 0),                \
++    DEFINE_PROP_UINT32("refresh_rate", _state, _edid_info.refresh_rate, 0)
+ 
+ #endif /* EDID_H */
 diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index 489532c3bc5f..42a130f0ff5c 100644
+index 42a130f0ff5c..8662218822f6 100644
 --- a/hw/display/edid-generate.c
 +++ b/hw/display/edid-generate.c
-@@ -25,19 +25,20 @@ static const struct edid_mode {
-     { .xres = 1920,   .yres = 1080,   .dta =  31 },
+@@ -223,7 +223,7 @@ static void edid_desc_dummy(uint8_t *desc)
+     edid_desc_type(desc, 0x10);
+ }
  
-     /* additional standard timings 3 (all @ 60Hz) */
--    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
-     { .xres = 1920,   .yres = 1200,   .xtra3 = 10,   .bit = 0 },
--    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
--    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
-     { .xres = 1600,   .yres = 1200,   .xtra3 =  9,   .bit = 2 },
-     { .xres = 1680,   .yres = 1050,   .xtra3 =  9,   .bit = 5 },
--    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
-     { .xres = 1440,   .yres =  900,   .xtra3 =  8,   .bit = 5 },
--    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
-     { .xres = 1280,   .yres = 1024,   .xtra3 =  7,   .bit = 1 },
-     { .xres = 1280,   .yres =  960,   .xtra3 =  7,   .bit = 3 },
-     { .xres = 1280,   .yres =  768,   .xtra3 =  7,   .bit = 6 },
+-static void edid_desc_timing(uint8_t *desc,
++static void edid_desc_timing(uint8_t *desc, uint32_t refresh_rate,
+                              uint32_t xres, uint32_t yres,
+                              uint32_t xmm, uint32_t ymm)
+ {
+@@ -236,9 +236,9 @@ static void edid_desc_timing(uint8_t *desc,
+     uint32_t ysync  = yres *  5 / 1000;
+     uint32_t yblank = yres * 35 / 1000;
  
-+    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
-+    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
-+    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
-+    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
-+    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
-+
-     /* established timings (all @ 60Hz) */
-     { .xres = 1024,   .yres =  768,   .byte  = 36,   .bit = 3 },
-     { .xres =  800,   .yres =  600,   .byte  = 35,   .bit = 0 },
-@@ -109,13 +110,13 @@ static void edid_fill_modes(uint8_t *edid, uint8_t *xtra3, uint8_t *dta,
+-    uint32_t clock  = 75 * (xres + xblank) * (yres + yblank);
++    uint64_t clock  = (uint64_t)refresh_rate * (xres + xblank) * (yres + yblank);
  
-         if (mode->byte) {
-             edid[mode->byte] |= (1 << mode->bit);
--        } else if (mode->xtra3 && xtra3) {
--            xtra3[mode->xtra3] |= (1 << mode->bit);
-         } else if (std < 54) {
-             rc = edid_std_mode(edid + std, mode->xres, mode->yres);
-             if (rc == 0) {
-                 std += 2;
-             }
-+        } else if (mode->xtra3 && xtra3) {
-+            xtra3[mode->xtra3] |= (1 << mode->bit);
-         }
+-    stl_le_p(desc, clock / 10000);
++    stl_le_p(desc, clock / 10000000);
  
-         if (dta && mode->dta) {
+     desc[2] = xres   & 0xff;
+     desc[3] = xblank & 0xff;
+@@ -323,6 +323,7 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+     uint8_t *xtra3 = NULL;
+     uint8_t *dta = NULL;
+     uint32_t width_mm, height_mm;
++    uint32_t refresh_rate = info->refresh_rate ? info->refresh_rate : 75000;
+     uint32_t dpi = 100; /* if no width_mm/height_mm */
+ 
+     /* =============== set defaults  =============== */
+@@ -420,7 +421,7 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+ 
+     /* =============== descriptor blocks =============== */
+ 
+-    edid_desc_timing(desc, info->prefx, info->prefy,
++    edid_desc_timing(desc, refresh_rate, info->prefx, info->prefy,
+                      width_mm, height_mm);
+     desc = edid_desc_next(edid, dta, desc);
+ 
 -- 
 2.30.2
 
