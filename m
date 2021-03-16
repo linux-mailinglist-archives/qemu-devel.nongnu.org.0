@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1658133DA69
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:13:59 +0100 (CET)
-Received: from localhost ([::1]:57924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D9B33DAAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:21:37 +0100 (CET)
+Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMDGY-0003nj-3Q
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
+	id 1lMDNw-0002vH-J8
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMD8s-0002q5-T0
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49324)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lMD9F-0003GX-MG
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMD8p-00059O-2t
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:02 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lMD9D-0005Nw-I4
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:06:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615914357;
+ s=mimecast20190719; t=1615914381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T9/kalaJR9iqF4Bo3hIlonGgbjbmM01Uohhabc/z2N4=;
- b=i7rbSSAZ9J6JjRZVenm+OsdLsMiLmEee1z1KE8WO8+X0v8DcgAXoj0AHTtohJ5DCajidun
- LW8FtwCiQ03CjmZ33XQu5CY8q4TuRPN9BOzeYbb0rJdnMGpv1UoTsE4FBJZGe/29y1FfRV
- 9HAKLIjaltEqrsRipkRO7dludjIZyIs=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dGiB3vWvrVlYUe0UxxWpZkr1TbCa/uSCxoIWTfjcFVg=;
+ b=hc0SWWq3/qLnpy4RKEs+VIJ7l+ks6/9Cn9yT2pwVdrVBrx/CTd5Ax2RNqYW96e1H1B6c0m
+ DDZazbXHfqZWyNpGEiJaEIVa682D7aX2sP9Tl9FOyYzlqbIIyKJ4hTbEFmEtJY/Iu/i/3A
+ oe6trhhdR57UcC18AT4iUyq52ufNGn8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-aRcssvMBNQ6GW_FBja8Puw-1; Tue, 16 Mar 2021 13:05:55 -0400
-X-MC-Unique: aRcssvMBNQ6GW_FBja8Puw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-390-mveVZiv1NLeH0hvb0dTwYw-1; Tue, 16 Mar 2021 13:06:19 -0400
+X-MC-Unique: mveVZiv1NLeH0hvb0dTwYw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC1671934109;
- Tue, 16 Mar 2021 17:05:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 66EE9690F6;
- Tue, 16 Mar 2021 17:05:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3622E112689A; Tue, 16 Mar 2021 18:05:51 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DBCE801596;
+ Tue, 16 Mar 2021 17:06:17 +0000 (UTC)
+Received: from rhel8vm.home.shazbot.org (ovpn-115-65.phx2.redhat.com
+ [10.3.115.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E97DD60C13;
+ Tue, 16 Mar 2021 17:06:03 +0000 (UTC)
+Subject: [PULL 00/10] VFIO updates for QEMU 6.0
+From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/11] qapi: Implement deprecated-input=reject for QMP commands
-Date: Tue, 16 Mar 2021 18:05:49 +0100
-Message-Id: <20210316170551.3911643-10-armbru@redhat.com>
-In-Reply-To: <20210316170551.3911643-1-armbru@redhat.com>
-References: <20210316170551.3911643-1-armbru@redhat.com>
+Date: Tue, 16 Mar 2021 11:06:04 -0600
+Message-ID: <161591414009.135549.5804863877511053803.stgit@rhel8vm.home.shazbot.org>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,147 +78,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Kunkun Jiang <jiangkunkun@huawei.com>,
+ =?utf-8?q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
+ Shenming Lu <lushenming@huawei.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Eric Auger <eric.auger@redhat.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy rejects deprecated input, and thus permits "testing the
-future".  Implement it for QMP commands: make deprecated ones fail.
-Example: when QEMU is run with -compat deprecated-input=reject, then
+This is a resend of the same sent on 2021-03-11 where 00/10 and 02/10
+were eaten by the mail server.  Rebased to current staging and re-tagged.
 
-    {"execute": "query-cpus"}
+The following changes since commit 5b7f5586d182b0cafb1f8d558992a14763e2953e:
 
-fails like this
+  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210315-pull-request' into staging (2021-03-16 13:17:54 +0000)
 
-    {"error": {"class": "CommandNotFound", "desc": "Deprecated command query-cpus disabled by policy"}}
+are available in the Git repository at:
 
-When the deprecated command is removed, the error will change to
+  git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20210316.0
 
-    {"error": {"class": "CommandNotFound", "desc": "The command query-cpus has not been found"}}
+for you to fetch changes up to 758b96b61d5cbc19204f340012d5a325f0a2105b:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210312153210.2810514-9-armbru@redhat.com>
----
- include/qapi/qmp/dispatch.h |  1 +
- qapi/qmp-dispatch.c         | 13 +++++++++++++
- tests/unit/test-qmp-cmds.c  | 24 ++++++++++++++++++++++++
- scripts/qapi/commands.py    | 10 +++++++---
- 4 files changed, 45 insertions(+), 3 deletions(-)
+  vfio/migrate: Move switch of dirty tracking into vfio_memory_listener (2021-03-16 10:06:44 -0600)
 
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 1486cac3ef..8b974b570e 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -26,6 +26,7 @@ typedef enum QmpCommandOptions
-     QCO_ALLOW_OOB             =  (1U << 1),
-     QCO_ALLOW_PRECONFIG       =  (1U << 2),
-     QCO_COROUTINE             =  (1U << 3),
-+    QCO_DEPRECATED            =  (1U << 4),
- } QmpCommandOptions;
- 
- typedef struct QmpCommand
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 45090f881a..cbc4452341 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -158,6 +158,19 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-                   "The command %s has not been found", command);
-         goto out;
-     }
-+    if (cmd->options & QCO_DEPRECATED) {
-+        switch (compat_policy.deprecated_input) {
-+        case COMPAT_POLICY_INPUT_ACCEPT:
-+            break;
-+        case COMPAT_POLICY_INPUT_REJECT:
-+            error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-+                      "Deprecated command %s disabled by policy",
-+                      command);
-+            goto out;
-+        default:
-+            abort();
-+        }
-+    }
-     if (!cmd->enabled) {
-         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has been disabled for this instance",
-diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-index 1079d35122..cba982154b 100644
---- a/tests/unit/test-qmp-cmds.c
-+++ b/tests/unit/test-qmp-cmds.c
-@@ -281,6 +281,28 @@ static void test_dispatch_cmd_io(void)
-     qobject_unref(ret3);
- }
- 
-+static void test_dispatch_cmd_deprecated(void)
-+{
-+    const char *cmd = "{ 'execute': 'test-command-features1' }";
-+    QDict *ret;
-+
-+    memset(&compat_policy, 0, sizeof(compat_policy));
-+
-+    /* accept */
-+    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) == 0);
-+    qobject_unref(ret);
-+
-+    compat_policy.has_deprecated_input = true;
-+    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_ACCEPT;
-+    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) == 0);
-+    qobject_unref(ret);
-+
-+    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_REJECT;
-+    do_qmp_dispatch_error(false, ERROR_CLASS_COMMAND_NOT_FOUND, cmd);
-+}
-+
- static void test_dispatch_cmd_ret_deprecated(void)
- {
-     const char *cmd = "{ 'execute': 'test-features0' }";
-@@ -379,6 +401,8 @@ int main(int argc, char **argv)
-     g_test_add_func("/qmp/dispatch_cmd_io", test_dispatch_cmd_io);
-     g_test_add_func("/qmp/dispatch_cmd_success_response",
-                     test_dispatch_cmd_success_response);
-+    g_test_add_func("/qmp/dispatch_cmd_deprecated",
-+                    test_dispatch_cmd_deprecated);
-     g_test_add_func("/qmp/dispatch_cmd_ret_deprecated",
-                     test_dispatch_cmd_ret_deprecated);
-     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 7adeda917b..f5d97454af 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -210,12 +210,16 @@ def gen_marshal(name: str,
- 
- 
- def gen_register_command(name: str,
-+                         features: List[QAPISchemaFeature],
-                          success_response: bool,
-                          allow_oob: bool,
-                          allow_preconfig: bool,
-                          coroutine: bool) -> str:
-     options = []
- 
-+    if 'deprecated' in [f.name for f in features]:
-+        options += ['QCO_DEPRECATED']
-+
-     if not success_response:
-         options += ['QCO_NO_SUCCESS_RESP']
-     if allow_oob:
-@@ -326,9 +330,9 @@ def visit_command(self,
-             self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
-         with self._temp_module('./init'):
-             with ifcontext(ifcond, self._genh, self._genc):
--                self._genc.add(gen_register_command(name, success_response,
--                                                    allow_oob, allow_preconfig,
--                                                    coroutine))
-+                self._genc.add(gen_register_command(
-+                    name, features, success_response, allow_oob,
-+                    allow_preconfig, coroutine))
- 
- 
- def gen_commands(schema: QAPISchema,
--- 
-2.26.2
+----------------------------------------------------------------
+VFIO update 2021-03-16
+
+ * Fix "listerner" typo (Zenghui Yu)
+
+ * Inclusive language and MAINTAINERS update (Philippe Mathieu-Daudé)
+
+ * vIOMMU unmap notifier fixes (Eric Auger)
+
+ * Migration fixes and optimizations (Shenming Lu)
+
+ * Use host page size for dirty bitmap (Kunkun Jiang)
+
+ * Use log_global_start/stop to switch dirty tracking (Keqian Zhu)
+
+----------------------------------------------------------------
+Eric Auger (2):
+      vfio: Do not register any IOMMU_NOTIFIER_DEVIOTLB_UNMAP notifier
+      spapr_iommu: Fix vhost integration regression
+
+Keqian Zhu (1):
+      vfio/migrate: Move switch of dirty tracking into vfio_memory_listener
+
+Kunkun Jiang (1):
+      vfio: Support host translation granule size
+
+Philippe Mathieu-Daudé (2):
+      hw/vfio/pci-quirks: Replace the word 'blacklist'
+      MAINTAINERS: Cover docs/igd-assign.txt in VFIO section
+
+Shenming Lu (3):
+      vfio: Move the saving of the config space to the right place in VFIO migration
+      vfio: Set the priority of the VFIO VM state change handler explicitly
+      vfio: Avoid disabling and enabling vectors repeatedly in VFIO migration
+
+Zenghui Yu (1):
+      vfio: Fix vfio_listener_log_sync function name typo
+
+ MAINTAINERS          |   1 +
+ hw/ppc/spapr_iommu.c |   5 +++
+ hw/vfio/common.c     | 103 ++++++++++++++++++++++++++++++++++-----------------
+ hw/vfio/migration.c  |  63 +++++++++----------------------
+ hw/vfio/pci-quirks.c |  14 +++----
+ hw/vfio/pci.c        |  24 +++++++++---
+ hw/vfio/pci.h        |   2 +-
+ hw/vfio/trace-events |   2 +-
+ 8 files changed, 119 insertions(+), 95 deletions(-)
 
 
