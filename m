@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350BA33CFC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 09:24:29 +0100 (CET)
-Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CEF33CF93
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 09:19:13 +0100 (CET)
+Received: from localhost ([::1]:58928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM508-0002oe-7G
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 04:24:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39712)
+	id 1lM4v2-0002ky-Ve
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 04:19:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lM4pu-0002xh-CF
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:13:54 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:36841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lM4ps-00085d-Lw
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:13:54 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id o19so20409055edc.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 01:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=UoAb4yJF98pSKNLLX7tPArXkVMkWUA3vT/8Fn5PTXcw=;
- b=gmtgmAExrFOcZ6wisy/vEJQ+O3MTY9AziZNAlRkjJl1JahauzHBqbtFpvG3+tCHoI4
- 3jhx/Y+ZsXEA/BA4EsocbJA/0ajJBiG/vJr30ndaXpoRuwOWLE+gCCNN9LdFz5YRLm9/
- YQFKBuTOK5dnZjwJfRpVPl5urcK+kf9mAbRIsqdm2B9eAYibp076ZK7BHzfkQkav8DXV
- HvxUQAPAPtCntYK+1dPJccSg+92Ld033k8FRkkxhiYTNTCJTTutP+UBoHlphtyqfvn3C
- Fju5UkCCLLccuC6c3o4bDpV5gp4nqfWr2fB7ZmgYe4WK7SM2Gky4mlCMBQT388qjzmaD
- 0iHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UoAb4yJF98pSKNLLX7tPArXkVMkWUA3vT/8Fn5PTXcw=;
- b=jqi7DGUuhJBOl6dW6rY/7Gu0zHiA0qyDxrVJRLcvyJo4RTNGYcL2VkAE6HS3c9HsOk
- fs2zTYlB4884rx9jjU2xx91Ak467Zhf9MYHDKcFar+3tc18oN4HrKbTe1fFr9NBokYa3
- ghZdrvg+lZ/ic+9oBVtW6EXTo/v408vCVOHxqnWBFLIVuX4/Zk2q8pqpjj5dBQuYQGE1
- A73GOw/hEnsCiWnGDwNxnWXZ0Ay3fznbZTjIMli396g/cZf7960h8vcO1HAl8hVLyGRv
- YLTzvdbCJt4jNDRDplToKxeogVlzXxqX+WbNPpARmARpGYdVwtTyqW6/QfOxjOUC4lJ6
- 5xBg==
-X-Gm-Message-State: AOAM533fBGjJQQURI7MAtFIBKDpJXY+wtuWNbujI1C77yUSJA2fL9rCc
- 6cwKY0Yx70B14Ne9qKKiuo0=
-X-Google-Smtp-Source: ABdhPJyEa4o1k9l4WBFCteLxmZNaZPiemAbj/rR6OKGeJP92A4EkKYAwRC2NFCDVX2Y1CufeoBsvIg==
-X-Received: by 2002:aa7:cf02:: with SMTP id a2mr34192323edy.59.1615882431443; 
- Tue, 16 Mar 2021 01:13:51 -0700 (PDT)
-Received: from pek-vx-bsp9.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id a17sm5620333ejf.20.2021.03.16.01.13.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 01:13:51 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v3 13/13] hw/net: sunhme: Remove the logic of padding short
- frames in the receive path
-Date: Tue, 16 Mar 2021 16:12:54 +0800
-Message-Id: <20210316081254.72684-14-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210316081254.72684-1-bmeng.cn@gmail.com>
-References: <20210316081254.72684-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
+ id 1lM4q3-0003C2-Dw
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:14:03 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
+ id 1lM4pz-00087f-N5
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:14:02 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F05bN0bLjzNn33;
+ Tue, 16 Mar 2021 16:11:28 +0800 (CST)
+Received: from [10.174.186.85] (10.174.186.85) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 16 Mar 2021 16:13:40 +0800
+Subject: Re: [PATCH v7 0/3] vnc: support reload x509 certificates
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210315131609.2208-1-changzihao1@huawei.com>
+ <20210315180700.jbkzd52y2u3vwf55@sirius.home.kraxel.org>
+From: Zihao Chang <changzihao1@huawei.com>
+Message-ID: <dec8a65a-b980-cc7e-bd33-5a98f55223f0@huawei.com>
+Date: Tue, 16 Mar 2021 16:13:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210315180700.jbkzd52y2u3vwf55@sirius.home.kraxel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.85]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=changzihao1@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,58 +61,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, armbru@redhat.com, yebiaoxiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have implemented unified short frames padding in the
-QEMU networking codes, remove the same logic in the NIC codes.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
----
+On 2021/3/16 2:07, Gerd Hoffmann wrote:
+> On Mon, Mar 15, 2021 at 09:16:06PM +0800, Zihao Chang wrote:
+>> This series supports reload x509 certificates for vnc
+>> 1. Support reload x509 certificates.
+>> 2. Support reload vnc certificates.
+>> 3. Add new qmp display-reload and implement reload x509 certificates
+>> for vnc.
+>>
+>> Example:
+>> {"execute": "display-reload", "arguments":{"type": "vnc", "tls-certs": true}}
+>>
+>> Zihao Chang (3):
+>>   crypto: add reload for QCryptoTLSCredsClass
+>>   vnc: support reload x509 certificates for vnc
+>>   qmp: add new qmp display-reload
+> 
+> fails gitlab.com ci (build-disabled test, possibly more, still running).
+> 
+> take care,
+>   Gerd
+> 
+Sorry for the problem, I've fixed this in the patch v8.
 
-(no changes since v1)
-
- hw/net/sunhme.c | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-index fc34905f87..6971796e57 100644
---- a/hw/net/sunhme.c
-+++ b/hw/net/sunhme.c
-@@ -714,8 +714,6 @@ static inline void sunhme_set_rx_ring_nr(SunHMEState *s, int i)
-     s->erxregs[HME_ERXI_RING >> 2] = ring;
- }
- 
--#define MIN_BUF_SIZE 60
--
- static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-                               size_t size)
- {
-@@ -724,7 +722,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-     dma_addr_t rb, addr;
-     uint32_t intstatus, status, buffer, buffersize, sum;
-     uint16_t csum;
--    uint8_t buf1[60];
-     int nr, cr, len, rxoffset, csum_offset;
- 
-     trace_sunhme_rx_incoming(size);
-@@ -775,14 +772,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
- 
-     trace_sunhme_rx_filter_accept();
- 
--    /* If too small buffer, then expand it */
--    if (size < MIN_BUF_SIZE) {
--        memcpy(buf1, buf, size);
--        memset(buf1 + size, 0, MIN_BUF_SIZE - size);
--        buf = buf1;
--        size = MIN_BUF_SIZE;
--    }
--
-     rb = s->erxregs[HME_ERXI_RING >> 2] & HME_ERXI_RING_ADDR;
-     nr = sunhme_get_rx_ring_count(s);
-     cr = sunhme_get_rx_ring_nr(s);
--- 
-2.17.1
-
+Thanks,
+Zihao
+> 
+> 
 
