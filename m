@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD97133D4E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:31:43 +0100 (CET)
-Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F8B33D4ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:35:26 +0100 (CET)
+Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9nS-0002HG-Rd
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56876)
+	id 1lM9r3-0004WW-Tk
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lM9le-0001Ke-2m
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:29:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29658)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lM9oL-0003WL-BL
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:32:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lM9lc-00039q-EA
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:29:49 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lM9oI-0004ul-UM
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:32:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615901387;
+ s=mimecast20190719; t=1615901554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ap3WxuXcugkMYb1PNBEzm7/WvgfUIjj3UmloGu9AM0o=;
- b=gptT2jCS34h7Ht7RN+gQZ31K5xYaFxv48ril4gORTw0ZQPy5v2nMgW9L3sIoZ3930plj70
- UX2Gm8xM4WEmLSbMx71EhOr/FtF0fFRFUinDcNxKuhCU3HU1W6O0IRMQrq1M5a+u9Td4Ji
- HahTKSGPQupNUA0VsXwfDdAa959iy5Y=
+ bh=CMAGhXNU63z76UyJ6LzWJbdBgoW68qvFfQq61HOLqds=;
+ b=Gcg67qM93mtkj5mYXkCSatkBSZHeqNm2wVcJFfFmOwV9pThT0r+pJzB23sq7gYsHbzIbnt
+ 4Q64j1zvwMnd0Dkdv48squ5QwZ3G2h9NrTDZEx0IT2k3mXz4ngp+bOcHIpSQobzx4JGc4S
+ JdIa5Z7XZ3fCwz26V+pcPmDtI6pdFtQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-JPi0tLHwMgyFHHR8W6DUfQ-1; Tue, 16 Mar 2021 09:29:45 -0400
-X-MC-Unique: JPi0tLHwMgyFHHR8W6DUfQ-1
+ us-mta-428-tm3swrDPP56cEjzXhZulIA-1; Tue, 16 Mar 2021 09:32:32 -0400
+X-MC-Unique: tm3swrDPP56cEjzXhZulIA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60B06108BD08;
- Tue, 16 Mar 2021 13:29:44 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA0445D747;
- Tue, 16 Mar 2021 13:29:43 +0000 (UTC)
-Subject: Re: [PATCH 2/9] block: Replaced qemu_mutex_lock calls with
- QEMU_LOCK_GUARD
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
-References: <20210311031538.5325-1-ma.mandourr@gmail.com>
- <20210311031538.5325-3-ma.mandourr@gmail.com>
- <d74ef980-ad9b-8a97-0bc8-1ecc60a28c65@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <a63652b6-c466-6fd4-125d-7967ba50a820@redhat.com>
-Date: Tue, 16 Mar 2021 08:29:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4912A800C78;
+ Tue, 16 Mar 2021 13:32:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
+ [10.36.112.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 092335D705;
+ Tue, 16 Mar 2021 13:32:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 517131800606; Tue, 16 Mar 2021 14:32:28 +0100 (CET)
+Date: Tue, 16 Mar 2021 14:32:28 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Konstantin Nazarov <mail@knazarov.com>
+Subject: Re: [PATCH v3 1/3] edid: move timing generation into a separate
+ function
+Message-ID: <20210316133228.ew4j6f5yoxds4iyy@sirius.home.kraxel.org>
+References: <20210315114639.91953-1-mail@knazarov.com>
 MIME-Version: 1.0
-In-Reply-To: <d74ef980-ad9b-8a97-0bc8-1ecc60a28c65@virtuozzo.com>
+In-Reply-To: <20210315114639.91953-1-mail@knazarov.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,62 +79,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:CURL" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/21 4:23 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 11.03.2021 06:15, Mahmoud Mandour wrote:
->> Replaced various qemu_mutex_lock/qemu_mutex_unlock calls with
->> lock guard macros (QEMU_LOCK_GUARD() and WITH_QEMU_LOCK_GUARD).
->> This slightly simplifies the code by eliminating calls to
->> qemu_mutex_unlock and eliminates goto paths.
->>
->> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
->> ---
->>   block/curl.c |  13 ++--
->>   block/nbd.c  | 188 ++++++++++++++++++++++++---------------------------
+On Mon, Mar 15, 2021 at 02:46:37PM +0300, Konstantin Nazarov wrote:
+> The timing generation is currently performed inside the function that
+> fills in the DTD. The DisplayID generation needs it as well, so moving
+> it out to a separate function.
 > 
-> Better would be make two separate patches I think.
+> Based-on: <20210303152948.59943-2-akihiko.odaki@gmail.com>
+> Signed-off-by: Konstantin Nazarov <mail@knazarov.com>
 
-Given the imminent approach of soft freeze, and the fact that this does
-not add a feature, I'm debating whether this one patch warrants an
-immediate pull request through my NBD tree, or if it should be split
-first, or if we just defer it to 6.1 (it shouldn't affect correctness,
-just a maintenance cleanup).
+Doesn't apply cleanly.  Do you have a git tree somewhere?
 
-In case some other maintainer wants to push this series through for 6.0
-(rather than waiting for each maintainer to pick up one patch at a
-time), feel free to add:
-
-Acked-by: Eric Blake <eblake@redhat.com>
-
-
-> For nbd.c we mostly change simple critical sections
-> 
-> qemu_mutex_lock()
-> ...
-> qemu_mutex_unlock()
-> 
-> into
-> 
-> WITH_QEMU_LOCK_GUARD() {
-> ...
-> }
-> 
-> And don't eliminate any gotos.. Hmm. On the first sight increasing
-> nesting of the code doesn't make it more beautiful.
-> But I understand that context-manager concept is safer than calling
-> unlock() by hand, and with nested block the critical section becomes
-> more obvious. So, with fixed over-80 lines:
-> 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+take care,
+  Gerd
 
 
