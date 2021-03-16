@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172BD33D88F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:03:25 +0100 (CET)
-Received: from localhost ([::1]:39230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B5033D8D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:14:49 +0100 (CET)
+Received: from localhost ([::1]:34670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMCAF-0001pX-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35736)
+	id 1lMCLI-0004VY-QP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMC6h-0000Uc-Sa
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 11:59:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMC6f-0008Ml-DE
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 11:59:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615910378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2ihJ/LQJ0apnkwLnXX/xJoGLI2g0UzazLuDhW0amOlc=;
- b=ZVOtkexTS1N5mqCq1EoA9qiJa5fh3nb3L9qeR2hAVI10z8CDDATdGKjgRLGZKlkA8hiEwT
- 1d52me5AWSLlFKBXLcynbaq9J9Cv++6sHTgQzrILtDLQDLnaH9xidV6w1u4OBKw8QSZLM/
- ySregKZHSi4ooC1t6GkxOSU1CHCEafA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-wNB4v5WqN7yVI9heEVWpug-1; Tue, 16 Mar 2021 11:59:37 -0400
-X-MC-Unique: wNB4v5WqN7yVI9heEVWpug-1
-Received: by mail-wr1-f69.google.com with SMTP id z17so16871573wrv.23
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 08:59:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lMC7B-0000tu-Oc; Tue, 16 Mar 2021 12:00:20 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lMC79-0000HD-AC; Tue, 16 Mar 2021 12:00:12 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id e10so10732746wro.12;
+ Tue, 16 Mar 2021 09:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=itrz6CLd3fj2mHEdKB1Eeo/F30NCpLTRd9Ue0cOohR4=;
+ b=Og5r8suKg1G4959uDIV2L+mpSPhz6qPO36l2EdXYFX7EYZnnpHJBvWnFCjE0msjdQo
+ vrJ5kqeaOYpFL1P4trG3KDMmSFTOINw3E1lSB31fL+36zI7rHQAcNUXooGm4Dh6O/pLi
+ fsYmYdIsY0+1DP3Q+88ek29hs6KnLoT3XMNxOlYZyWNnE5AKtBzHskgVfILMlCVvaWQ3
+ VKk/MfPvFTjBNxCubM8fjueN9DnPZ7YbQroP4wm9mvk82ilMM1Gp2PPVuG9BZiisWGVy
+ 4P+1L0UMPU0Xuuo7vKcExzvKo2YwvJKeBvr/+JgGWujo9ZNXkKPlLwbo+iJupEDgKC7T
+ CNGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2ihJ/LQJ0apnkwLnXX/xJoGLI2g0UzazLuDhW0amOlc=;
- b=BydRFim6AdXPkJXElFsa1SAnNZWtKYP2H2HbgPNojMjAiu7OXsdBgJyYJ39uJKacNz
- WNkzoY6G24T+U5wwi1/ZBRiulGutcwu6UV2lNFgufgimpGvbgaB5SVhZgl5z3maZZHfN
- D6WYFMgvS87zAAX9nTtwwNsKNJryww9I+VhFdoS66EpwbEL69ppGwscl2QSibRLU5IKd
- 3/aaMNWSyZ65wLAjSkKVP5iexEwjaP81alkG5m/HGKTmGy8bdG8xCg9hoB7JrqUJot7g
- wTENIDigYusOSaSenGYkq1n8hlfBYRSOZN2rKBBbVSSDlyQYbusTIGb/uN7Erf7vNJ/y
- fuZw==
-X-Gm-Message-State: AOAM533bot/yDUsnRaiN4eJozbUyoz/NEFhDHDq9lU6Kms5X3PrPXs5b
- 0vP7lO1Q4oKxjBsb++hybKTnpQXCNwXBkSaaUrhidw9yHIpwghel8ivJW3va4lWGYtR0tRoPDgu
- r+MXLUg32o8VoX0M=
-X-Received: by 2002:a7b:c007:: with SMTP id c7mr292658wmb.59.1615910375844;
- Tue, 16 Mar 2021 08:59:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKsSSBBfxTfA0wIOWSyOmLybRN0ZvV7fbntll+OxQ5MoGBifoOPlvMmuMzAw8K4Wxl+12swg==
-X-Received: by 2002:a7b:c007:: with SMTP id c7mr292652wmb.59.1615910375724;
- Tue, 16 Mar 2021 08:59:35 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id l5sm3597190wmh.0.2021.03.16.08.59.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 08:59:35 -0700 (PDT)
-Subject: Re: [PATCH v2] util: fix use-after-free in module_load_one
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210316134456.3243102-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6560fca2-cfe2-c96b-1b57-19970d8ae036@redhat.com>
-Date: Tue, 16 Mar 2021 16:59:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=itrz6CLd3fj2mHEdKB1Eeo/F30NCpLTRd9Ue0cOohR4=;
+ b=EEVvCs9DbwXzNdXvjHSv1tUyVq8MMYo6m0U908Oofn8YF72zcGSUxSg9ixd/Ivejmw
+ WVIS5cdm8XMMN7vxDN1Jpq4ArIGYlu8TPI666LkLhKCDQytckmm+qQZDWOtZ24BTs2t4
+ VALrrJoGbiE7URE6FSjS+cmDSRkaQl5dZr2cq5AhPKgeAMF8BnmVnjdKqoSApGp+f0ke
+ MMgfQaoeCNYKZUk8cRt4Qt/fkqwLPnZjSMynxOF8lzgiDT97tVlhdVwFARTPHeUpQXkV
+ 8gsBEUFeHDswQXng3HpNNKSd0zYvegy7U2FQMXZCwOSkvSfFk7iRZbeds+5+ckZFgmJX
+ NOww==
+X-Gm-Message-State: AOAM533aIWE+LPFzzlk3WkMaeXrzB667HcDXLDWm4deMI/mF8k/YAkjB
+ H83oGj/LSa53gE11xZdNhW9xoDV9Lds=
+X-Google-Smtp-Source: ABdhPJz9KfOQdAiA4I+Nq4GYg2waay9lHSTR7JV//9Zv5bdJIldDpmBXkxSLM+svDdlunibzPkTHxw==
+X-Received: by 2002:a5d:4312:: with SMTP id h18mr5667387wrq.193.1615910408965; 
+ Tue, 16 Mar 2021 09:00:08 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id j14sm22674851wrw.69.2021.03.16.09.00.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 09:00:08 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] coroutine rwlock downgrade fix, minor VDI changes 
+Date: Tue, 16 Mar 2021 17:00:02 +0100
+Message-Id: <20210316160007.135459-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210316134456.3243102-1-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,42 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-stable@nongnu.org
+Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/21 2:44 PM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> g_hash_table_add always retains ownership of the pointer passed in as
-> the key. Its return status merely indicates whether the added entry was
-> new, or replaced an existing entry. Thus key must never be freed after
-> this method returns.
-> 
-> Spotted by ASAN:
-> 
-> ==2407186==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020003ac4f0 at pc 0x7ffff766659c bp 0x7fffffffd1d0 sp 0x7fffffffc980
-> READ of size 1 at 0x6020003ac4f0 thread T0
->     #0 0x7ffff766659b  (/lib64/libasan.so.6+0x8a59b)
->     #1 0x7ffff6bfa843 in g_str_equal ../glib/ghash.c:2303
->     #2 0x7ffff6bf8167 in g_hash_table_lookup_node ../glib/ghash.c:493
->     #3 0x7ffff6bf9b78 in g_hash_table_insert_internal ../glib/ghash.c:1598
->     #4 0x7ffff6bf9c32 in g_hash_table_add ../glib/ghash.c:1689
->     #5 0x5555596caad4 in module_load_one ../util/module.c:233
->     #6 0x5555596ca949 in module_load_one ../util/module.c:225
->     #7 0x5555596ca949 in module_load_one ../util/module.c:225
->     #8 0x5555596cbdf4 in module_load_qom_all ../util/module.c:349
-> 
-> Typical C bug...
-> 
-> Fixes: 90629122d2e ("module: use g_hash_table_add()")
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  util/module.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+This is a resubmit of David Edmondson's series at
+https://patchew.org/QEMU/20210309144015.557477-1-david.edmondson@oracle.com/.
+After closer analysis on IRC, the CoRwLock's attempt to ensure
+fairness turned out to be flawed.  Therefore, this series
+reimplements CoRwLock without using a CoQueue.  Tracking whether
+each queued coroutine is a reader/writer makes it possible to
+never wake a writer when only readers should be allowed and
+vice versa.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+David Edmondson (4):
+  block/vdi: When writing new bmap entry fails, don't leak the buffer
+  block/vdi: Don't assume that blocks are larger than VdiHeader
+  coroutine/mutex: Store the coroutine in the CoWaitRecord only once
+  test-coroutine: Add rwlock downgrade test
+
+Paolo Bonzini (1):
+  coroutine-lock: reimplement CoRwLock to fix downgrade bug
+
+ block/vdi.c                 |  11 ++-
+ include/qemu/coroutine.h    |  10 ++-
+ tests/unit/test-coroutine.c | 112 ++++++++++++++++++++++++++
+ util/qemu-coroutine-lock.c  | 151 +++++++++++++++++++++++-------------
+ 4 files changed, 225 insertions(+), 59 deletions(-)
+
+-- 
+2.29.2
 
 
