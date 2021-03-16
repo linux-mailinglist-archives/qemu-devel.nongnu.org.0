@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC7C33D8D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:13:00 +0100 (CET)
-Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180A833D919
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:22:26 +0100 (CET)
+Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMCJV-0002c7-U5
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37212)
+	id 1lMCSe-0003D6-Uf
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lMCAB-00032x-I5; Tue, 16 Mar 2021 12:03:19 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:35327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lMCA3-0001lx-Ns; Tue, 16 Mar 2021 12:03:19 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id g27so37754126iox.2;
- Tue, 16 Mar 2021 09:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4xoHTc/4f+/0821WW5UOYRemUq0nLrrUafrge9Mdp1s=;
- b=pMu5OnIz6UUBu+c/xyodFoG/l79daKhwWytaTxJ5nvx7HRN9UfqlXEMZ/h3kX7qoqY
- uIrJB/ujrtnrY9yH3HAUB2nDK5WJNu/kJWHn1kvoz/JiQeFv/EMJUwcb9lY77Tt5qIIJ
- ZIWGXzVJWbAGnZ0IDvRYp451Z8jsx4fNuBLcffjHLuhLYG6MNybaj4KQu1FVC8MAU9CL
- w7bhZOe3ylqj2P5kasWGEJlOg1lAodHqbJqqd+OXXx5p25TxcKyUtgZ60A6HCrzBHxmL
- TjEgfmK4jGsbi3q3uzo+rSqD3MSeS26824ekNwmMTTDTVwTCnzEsnOeALI1eONq4Kwci
- 5oaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4xoHTc/4f+/0821WW5UOYRemUq0nLrrUafrge9Mdp1s=;
- b=jv+tdL2Seo+E47J71ZKhawQFuMmbmMWHl35NmEMYx/aFPT/GmnhWo0Ap8xLysiJwLw
- 3QNEtJ2Wn4e+53WD7eD7DyZJQRLP4fI8zY5l/fVK10Qq37i41cMR7F3mPqde89X5V0Uk
- CSTWSTkxJdDh1Kuxbp13bljETQZ3sm+PWlIfPBMWHCjU5+UsZmKnIXYkDPvk/8kfSUt8
- 3NWK2pEgS9I/L97qLKOTv0tsAXFT0PS79gRrd7H4DfVy0efNnewtnVmk65zc/Mv/gKWF
- KjIOwvPOuW/ydaVrpazOFPH3xyUmuwfyAgkCxKUMHSOf18T8qfZLjVt336SlIkZLIMKb
- ezQQ==
-X-Gm-Message-State: AOAM533SbK7SQFwRXqQEuc6nyrVLubnAEk5yUm7N558fXxvQ6enqIdoG
- VcZ2dLu9IawORRIWBTPsoVDBHUmFkPGF4cVQnQ4=
-X-Google-Smtp-Source: ABdhPJwIwmBn2GbKDyidmrLx0Ygi/McnaODtZH1JAFTVUiqlzL5yPyfBdcrh4CFfNiRXvKHAhLO4PCcJU5X6Ldtxyio=
-X-Received: by 2002:a02:94cb:: with SMTP id x69mr15086519jah.8.1615910589919; 
- Tue, 16 Mar 2021 09:03:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lMCAA-0002x2-9m; Tue, 16 Mar 2021 12:03:18 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:37490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lMCA4-0001lJ-EQ; Tue, 16 Mar 2021 12:03:16 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 804482E16AF;
+ Tue, 16 Mar 2021 19:03:07 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 7fYlrdh54Z-370SmmNo; Tue, 16 Mar 2021 19:03:07 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1615910587; bh=tni0+WzXIoav7jovEH2YM24GZZS1aITZMrNacspzW50=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=sm8ePCOfBeQFhF8H9BWDIp8nz530njc2FRcVj/B88j5ybtj5aHIfc6QdF1a4CyIXH
+ i1hhINJ50/hXiolBeslk5YB5qHpWIwDyevF3LYDVmsVBLgq1zIto3Y234EtY4xU8Ss
+ KeztrErDbzcvaQ0mw2JlNLDCETg+oEFWK7M7d1PY=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8817::1:e])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ y4meC3gN8c-36nOUZI7; Tue, 16 Mar 2021 19:03:06 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Tue, 16 Mar 2021 19:03:04 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 6/7] block/nbd: decouple reconnect from drain
+Message-ID: <YFDWuJ48WU3f6feI@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
+ <20210315060611.2989049-7-rvkagan@yandex-team.ru>
+ <995a9667-b7ae-3e00-caa5-6c80fc0962f3@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
- <20210212150256.885-18-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210212150256.885-18-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Mar 2021 12:01:33 -0400
-Message-ID: <CAKmqyKN54Tu2TKLf9Tq0anusS_73JMPS6PwA4yMYwZD+XKf1Mg@mail.gmail.com>
-Subject: Re: [PATCH 17/38] target/riscv: Signed MSW 32x16 Multiply and Add
- Instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <995a9667-b7ae-3e00-caa5-6c80fc0962f3@virtuozzo.com>
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,321 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 10:38 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+On Mon, Mar 15, 2021 at 11:10:14PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 15.03.2021 09:06, Roman Kagan wrote:
+> > The reconnection logic doesn't need to stop while in a drained section.
+> > Moreover it has to be active during the drained section, as the requests
+> > that were caught in-flight with the connection to the server broken can
+> > only usefully get drained if the connection is restored.  Otherwise such
+> > requests can only either stall resulting in a deadlock (before
+> > 8c517de24a), or be aborted defeating the purpose of the reconnection
+> > machinery (after 8c517de24a).
+> > 
+> > Since the pieces of the reconnection logic are now properly migrated
+> > from one aio_context to another, it appears safe to just stop messing
+> > with the drained section in the reconnection code.
+> > 
+> > Fixes: 5ad81b4946 ("nbd: Restrict connection_co reentrance")
+> 
+> I'd not think that it "fixes" it. Behavior changes.. But 5ad81b4946
+> didn't introduce any bugs.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+I guess you're right.
 
-Alistair
+In fact I did reproduce the situation when the drain made no progress
+exactly becase the only in-flight reference was taken by the
+connection_co, but it may be due to some intermediate stage of the patch
+development so I need to do a more thorough analysis to tell if it was
+triggerable with the original code.
 
-> ---
->  target/riscv/helper.h                   |  17 ++
->  target/riscv/insn32.decode              |  17 ++
->  target/riscv/insn_trans/trans_rvp.c.inc |  18 ++
->  target/riscv/packed_helper.c            | 208 ++++++++++++++++++++++++
->  4 files changed, 260 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 0bd21c8514..25aa07a7ff 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1277,3 +1277,20 @@ DEF_HELPER_4(kmmsb, tl, env, tl, tl, tl)
->  DEF_HELPER_4(kmmsb_u, tl, env, tl, tl, tl)
->  DEF_HELPER_3(kwmmul, tl, env, tl, tl)
->  DEF_HELPER_3(kwmmul_u, tl, env, tl, tl)
-> +
-> +DEF_HELPER_3(smmwb, tl, env, tl, tl)
-> +DEF_HELPER_3(smmwb_u, tl, env, tl, tl)
-> +DEF_HELPER_3(smmwt, tl, env, tl, tl)
-> +DEF_HELPER_3(smmwt_u, tl, env, tl, tl)
-> +DEF_HELPER_4(kmmawb, tl, env, tl, tl, tl)
-> +DEF_HELPER_4(kmmawb_u, tl, env, tl, tl, tl)
-> +DEF_HELPER_4(kmmawt, tl, env, tl, tl, tl)
-> +DEF_HELPER_4(kmmawt_u, tl, env, tl, tl, tl)
-> +DEF_HELPER_3(kmmwb2, tl, env, tl, tl)
-> +DEF_HELPER_3(kmmwb2_u, tl, env, tl, tl)
-> +DEF_HELPER_3(kmmwt2, tl, env, tl, tl)
-> +DEF_HELPER_3(kmmwt2_u, tl, env, tl, tl)
-> +DEF_HELPER_4(kmmawb2, tl, env, tl, tl, tl)
-> +DEF_HELPER_4(kmmawb2_u, tl, env, tl, tl, tl)
-> +DEF_HELPER_4(kmmawt2, tl, env, tl, tl, tl)
-> +DEF_HELPER_4(kmmawt2_u, tl, env, tl, tl, tl)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index e0be2790dc..6e63bab2d9 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -745,3 +745,20 @@ kmmsb      0100001  ..... ..... 001 ..... 1111111 @r
->  kmmsb_u    0101001  ..... ..... 001 ..... 1111111 @r
->  kwmmul     0110001  ..... ..... 001 ..... 1111111 @r
->  kwmmul_u   0111001  ..... ..... 001 ..... 1111111 @r
-> +
-> +smmwb      0100010  ..... ..... 001 ..... 1111111 @r
-> +smmwb_u    0101010  ..... ..... 001 ..... 1111111 @r
-> +smmwt      0110010  ..... ..... 001 ..... 1111111 @r
-> +smmwt_u    0111010  ..... ..... 001 ..... 1111111 @r
-> +kmmawb     0100011  ..... ..... 001 ..... 1111111 @r
-> +kmmawb_u   0101011  ..... ..... 001 ..... 1111111 @r
-> +kmmawt     0110011  ..... ..... 001 ..... 1111111 @r
-> +kmmawt_u   0111011  ..... ..... 001 ..... 1111111 @r
-> +kmmwb2     1000111  ..... ..... 001 ..... 1111111 @r
-> +kmmwb2_u   1001111  ..... ..... 001 ..... 1111111 @r
-> +kmmwt2     1010111  ..... ..... 001 ..... 1111111 @r
-> +kmmwt2_u   1011111  ..... ..... 001 ..... 1111111 @r
-> +kmmawb2    1100111  ..... ..... 001 ..... 1111111 @r
-> +kmmawb2_u  1101111  ..... ..... 001 ..... 1111111 @r
-> +kmmawt2    1110111  ..... ..... 001 ..... 1111111 @r
-> +kmmawt2_u  1111111  ..... ..... 001 ..... 1111111 @r
-> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
-> index fbc9c0b57b..e708ae7a6a 100644
-> --- a/target/riscv/insn_trans/trans_rvp.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
-> @@ -564,3 +564,21 @@ GEN_RVP_R_ACC_OOL(kmmsb);
->  GEN_RVP_R_ACC_OOL(kmmsb_u);
->  GEN_RVP_R_OOL(kwmmul);
->  GEN_RVP_R_OOL(kwmmul_u);
-> +
-> +/* Most Significant Word "32x16" Multiply & Add Instructions */
-> +GEN_RVP_R_OOL(smmwb);
-> +GEN_RVP_R_OOL(smmwb_u);
-> +GEN_RVP_R_OOL(smmwt);
-> +GEN_RVP_R_OOL(smmwt_u);
-> +GEN_RVP_R_ACC_OOL(kmmawb);
-> +GEN_RVP_R_ACC_OOL(kmmawb_u);
-> +GEN_RVP_R_ACC_OOL(kmmawt);
-> +GEN_RVP_R_ACC_OOL(kmmawt_u);
-> +GEN_RVP_R_OOL(kmmwb2);
-> +GEN_RVP_R_OOL(kmmwb2_u);
-> +GEN_RVP_R_OOL(kmmwt2);
-> +GEN_RVP_R_OOL(kmmwt2_u);
-> +GEN_RVP_R_ACC_OOL(kmmawb2);
-> +GEN_RVP_R_ACC_OOL(kmmawb2_u);
-> +GEN_RVP_R_ACC_OOL(kmmawt2);
-> +GEN_RVP_R_ACC_OOL(kmmawt2_u);
-> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
-> index c1322d2fac..ea3c9f6dd8 100644
-> --- a/target/riscv/packed_helper.c
-> +++ b/target/riscv/packed_helper.c
-> @@ -1477,3 +1477,211 @@ static inline void do_kwmmul_u(CPURISCVState *env, void *vd, void *va,
->  }
->
->  RVPR(kwmmul_u, 1, 4);
-> +
-> +/* Most Significant Word "32x16" Multiply & Add Instructions */
-> +static inline void do_smmwb(CPURISCVState *env, void *vd, void *va,
-> +                            void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = (int64_t)a[H4(i)] * b[H2(2 * i)] >> 16;
-> +}
-> +
-> +RVPR(smmwb, 1, 4);
-> +
-> +static inline void do_smmwb_u(CPURISCVState *env, void *vd, void *va,
-> +                              void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = ((int64_t)a[H4(i)] * b[H2(2 * i)] + (1ull << 15)) >> 16;
-> +}
-> +
-> +RVPR(smmwb_u, 1, 4);
-> +
-> +static inline void do_smmwt(CPURISCVState *env, void *vd, void *va,
-> +                            void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = (int64_t)a[H4(i)] * b[H2(2 * i + 1)] >> 16;
-> +}
-> +
-> +RVPR(smmwt, 1, 4);
-> +
-> +static inline void do_smmwt_u(CPURISCVState *env, void *vd, void *va,
-> +                              void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = ((int64_t)a[H4(i)] * b[H2(2 * i + 1)] + (1ull << 15)) >> 16;
-> +}
-> +
-> +RVPR(smmwt_u, 1, 4);
-> +
-> +static inline void do_kmmawb(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = sadd32(env, 0, (int64_t)a[H4(i)] * b[H2(2 * i)] >> 16, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawb, 1, 4);
-> +
-> +static inline void do_kmmawb_u(CPURISCVState *env, void *vd, void *va,
-> +                               void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = sadd32(env, 0, ((int64_t)a[H4(i)] * b[H2(2 * i)] +
-> +                               (1ull << 15)) >> 16, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawb_u, 1, 4);
-> +
-> +static inline void do_kmmawt(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = sadd32(env, 0, (int64_t)a[H4(i)] * b[H2(2 * i + 1)] >> 16,
-> +                      c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawt, 1, 4);
-> +
-> +static inline void do_kmmawt_u(CPURISCVState *env, void *vd, void *va,
-> +                               void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc;
-> +    int16_t *b = vb;
-> +    d[H4(i)] = sadd32(env, 0, ((int64_t)a[H4(i)] * b[H2(2 * i + 1)] +
-> +                               (1ull << 15)) >> 16, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawt_u, 1, 4);
-> +
-> +static inline void do_kmmwb2(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        d[H4(i)] = INT32_MAX;
-> +    } else {
-> +        d[H4(i)] = (int64_t)a[H4(i)] * b[H2(2 * i)] >> 15;
-> +    }
-> +}
-> +
-> +RVPR(kmmwb2, 1, 4);
-> +
-> +static inline void do_kmmwb2_u(CPURISCVState *env, void *vd, void *va,
-> +                               void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        d[H4(i)] = INT32_MAX;
-> +    } else {
-> +        d[H4(i)] = ((int64_t)a[H4(i)] * b[H2(2 * i)] + (1ull << 14)) >> 15;
-> +    }
-> +}
-> +
-> +RVPR(kmmwb2_u, 1, 4);
-> +
-> +static inline void do_kmmwt2(CPURISCVState *env, void *vd, void *va,
-> +                             void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i + 1)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        d[H4(i)] = INT32_MAX;
-> +    } else {
-> +        d[H4(i)] = (int64_t)a[H4(i)] * b[H2(2 * i + 1)] >> 15;
-> +    }
-> +}
-> +
-> +RVPR(kmmwt2, 1, 4);
-> +
-> +static inline void do_kmmwt2_u(CPURISCVState *env, void *vd, void *va,
-> +                               void *vb, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i + 1)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        d[H4(i)] = INT32_MAX;
-> +    } else {
-> +        d[H4(i)] = ((int64_t)a[H4(i)] * b[H2(2 * i + 1)] + (1ull << 14)) >> 15;
-> +    }
-> +}
-> +
-> +RVPR(kmmwt2_u, 1, 4);
-> +
-> +static inline void do_kmmawb2(CPURISCVState *env, void *vd, void *va,
-> +                              void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc, result;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        result = INT32_MAX;
-> +    } else {
-> +        result = (int64_t)a[H4(i)] * b[H2(2 * i)] >> 15;
-> +    }
-> +    d[H4(i)] = sadd32(env, 0, result, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawb2, 1, 4);
-> +
-> +static inline void do_kmmawb2_u(CPURISCVState *env, void *vd, void *va,
-> +                                void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc, result;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        result = INT32_MAX;
-> +    } else {
-> +        result = ((int64_t)a[H4(i)] * b[H2(2 * i)] + (1ull << 14)) >> 15;
-> +    }
-> +    d[H4(i)] = sadd32(env, 0, result, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawb2_u, 1, 4);
-> +
-> +static inline void do_kmmawt2(CPURISCVState *env, void *vd, void *va,
-> +                              void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc, result;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i + 1)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        result = INT32_MAX;
-> +    } else {
-> +        result = (int64_t)a[H4(i)] * b[H2(2 * i + 1)] >> 15;
-> +    }
-> +    d[H4(i)] = sadd32(env, 0, result, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawt2, 1, 4);
-> +
-> +static inline void do_kmmawt2_u(CPURISCVState *env, void *vd, void *va,
-> +                                void *vb, void *vc, uint8_t i)
-> +{
-> +    int32_t *d = vd, *a = va, *c = vc, result;
-> +    int16_t *b = vb;
-> +    if (a[H4(i)] == INT32_MIN && b[H2(2 * i + 1)] == INT16_MIN) {
-> +        env->vxsat = 0x1;
-> +        result = INT32_MAX;
-> +    } else {
-> +        result = ((int64_t)a[H4(i)] * b[H2(2 * i + 1)] + (1ull << 14)) >> 15;
-> +    }
-> +    d[H4(i)] = sadd32(env, 0, result, c[H4(i)]);
-> +}
-> +
-> +RVPR_ACC(kmmawt2_u, 1, 4);
-> --
-> 2.17.1
->
+> > Fixes: 8c517de24a ("block/nbd: fix drain dead-lock because of nbd reconnect-delay")
+> 
+> And here..
+> 
+> 1. There is an existing problem (unrelated to nbd) in Qemu that long
+> io request which we have to wait for at drained_begin may trigger a
+> dead lock
+> (https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01339.html)
+> 
+> 2. So, when we have nbd reconnect (and therefore long io requests) we
+> simply trigger this deadlock.. That's why I decided to cancel the
+> requests (assuming they will most probably fail anyway).
+> 
+> I agree that nbd driver is wrong place for fixing the problem
+> described in
+> (https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01339.html),
+> but if you just revert 8c517de24a, you'll see the deadlock again..
+
+I may have misunderstood that thread, but isn't that deadlock exactly
+due to the requests being unable to ever drain because the
+reconnection process is suspended while the drain is in progress?
+
+Thanks,
+Roman.
 
