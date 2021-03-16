@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E7B33DE47
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 20:57:45 +0100 (CET)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198E933DD9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 20:34:44 +0100 (CET)
+Received: from localhost ([::1]:51786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMFp2-0006Jz-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 15:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39516)
+	id 1lMFSl-0001rg-1l
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 15:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMEcU-0005uP-Lo
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:40:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMEcN-0000p8-SI
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:40:40 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lMEgc-00023k-KN
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:44:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48281)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lMEgZ-0002tt-LQ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:44:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615920032;
+ s=mimecast20190719; t=1615920294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YiAMnQrX8wzeSxkCUUTHBJN73l+AJ2DKgynQRCTjfpY=;
- b=bxw186pFtqOevTPR0H9gf0DoicrNvY8X3YDAdTxBC7dL2vrYj6tNjJPGZrxDEZGJCQPC27
- WfjYPHkiY7iz0zzsLgNt2HM4JyJxv6lIHg36o91Jayn6u7slFebQ76atYtYVdk602NisEx
- QmBri6wcDti++T44Q7ZBMZxty8F9F2k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-IaKN-AkHNF62Ton1QX6Jng-1; Tue, 16 Mar 2021 14:40:31 -0400
-X-MC-Unique: IaKN-AkHNF62Ton1QX6Jng-1
-Received: by mail-wm1-f72.google.com with SMTP id a3so3514286wmm.0
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 11:40:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YiAMnQrX8wzeSxkCUUTHBJN73l+AJ2DKgynQRCTjfpY=;
- b=gY5lics+AojTm88UhFTIhHQAW3KWajZl2qy0p4spLS5fiFqcLPxzUobgArO0R1S4Lq
- KgJ3Vjs+BH+qXJn0ghI01Xu0QdIe8crqp//HalShODlavcyKISnUhcVHWO0/gEl9o4cG
- zs4jPGmnF5BFlNcHVlbNyZr42xJhWwK3Gbwf0oZOm+p9usbnFlbveyR5TfFAIh9RVMNE
- VqEZHRzOhoxg7B35YwGu3qyNHsmhcvWOFgZJdKrsB4GGlC0TwWeGTvfFzCfCIm7cKTIn
- pny8E8AXHTOqgenx5L88H3M8cCrw6it7PN83eTLL+R2OKbOEwYvpBFFcyDbS9f605hWT
- jsOQ==
-X-Gm-Message-State: AOAM532v8+TfB5Qis60mBvxFrKjVo2cSN/5HuGQLE6vbzOd1o3pUbxU5
- JyKwGYIj88jvwkPI4yK40oaiiXDJnFaZacpFc/jBqmRPbIl9TlIyi+Y4L/UIVGk31EuGn2zIPsF
- fpjEHlKcWIgOsbla1ZD0VPlF3N4yQPbFMeCEs7IUgKMXCKr6e4aFBtHk1dDIFMOA6
-X-Received: by 2002:a5d:4281:: with SMTP id k1mr418516wrq.374.1615920029926;
- Tue, 16 Mar 2021 11:40:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/GGTIjP1IdWSntBH98M5nOtb9/0JTf9WMlRmu3da3+CELJswEzOVbaavsHJh/MyEesP0KpQ==
-X-Received: by 2002:a5d:4281:: with SMTP id k1mr418489wrq.374.1615920029619;
- Tue, 16 Mar 2021 11:40:29 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id m9sm22780436wro.52.2021.03.16.11.40.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 11:40:29 -0700 (PDT)
+ bh=7DsBv0dLyyinTfZSdD1WL6hlYf0qDPEpuQoR9yZu8fg=;
+ b=VTHMmKJzWP+1meSwhHdIvYO4SDSiyvVPZ3MJNZAQLH+Wrc6Uk8F6HFjcg9FZ2iR4Ys+mNR
+ fKdd0UAzk9a/W2yHhOLz1enLqNeY1qe8YoN5sPaXQ/h6nPJqTMq7dliFhusFXXHQG4jaZ5
+ PLQdVByCaz2tHrRiSAdTB1oY7T8m1UM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-sTl_SXTSPVizoZYMZBFAjg-1; Tue, 16 Mar 2021 14:44:52 -0400
+X-MC-Unique: sTl_SXTSPVizoZYMZBFAjg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 734766EAF8
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 18:44:51 +0000 (UTC)
+Received: from work-vm (ovpn-113-133.ams2.redhat.com [10.36.113.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09D435D74F;
+ Tue, 16 Mar 2021 18:44:43 +0000 (UTC)
+Date: Tue, 16 Mar 2021 18:44:41 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Subject: Re: Half a usb-redir idea
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, berrange@redhat.com,
- kraxel@redhat.com, victortoso@redhat.com
+Message-ID: <YFD8mXa4P/fVIZd6@work-vm>
 References: <YFDo/oHikOEcXFcg@work-vm>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <630f4307-20ed-8834-4df9-ed90c22ee018@redhat.com>
-Date: Tue, 16 Mar 2021 19:40:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ <630f4307-20ed-8834-4df9-ed90c22ee018@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YFDo/oHikOEcXFcg@work-vm>
+In-Reply-To: <630f4307-20ed-8834-4df9-ed90c22ee018@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,34 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: victortoso@redhat.com, berrange@redhat.com, kraxel@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/21 6:21 PM, Dr. David Alan Gilbert wrote:
-> Hi,
->   I've got a half-baked idea, which I thought might be worth mentioning.
+* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> On 3/16/21 6:21 PM, Dr. David Alan Gilbert wrote:
+> > Hi,
+> >   I've got a half-baked idea, which I thought might be worth mentioning.
+> > 
+> > How hard would it be to give qemu a usbredir server rather than client?
+> > It would have nothing guest visible but would look logically like the
+> > front (?) half of a usb interface; then you could use all of the
+> > existing qemu emulated and passthrough device code, to build a usb
+> > hierarchy and present it to a remote qemu.
+> > 
+> > You'd get the ability to do emulated USB CDROM/storage, audio, network
+> > and the glue for host USB connection (and smart cards??) - all in one
+> > client that you can then use for connecting to a remote qemu.
+> > 
+> > The next step of that is to make something analogous to a
+> > qemu-storage-daemon, but for USB, so you have something that can
+> > do all that USB stuff without actually having any processors.
+> > 
+> > The even crazier step would then be to add a VNC client, and then you
+> > have an almost complete remote client.
 > 
-> How hard would it be to give qemu a usbredir server rather than client?
-> It would have nothing guest visible but would look logically like the
-> front (?) half of a usb interface; then you could use all of the
-> existing qemu emulated and passthrough device code, to build a usb
-> hierarchy and present it to a remote qemu.
-> 
-> You'd get the ability to do emulated USB CDROM/storage, audio, network
-> and the glue for host USB connection (and smart cards??) - all in one
-> client that you can then use for connecting to a remote qemu.
-> 
-> The next step of that is to make something analogous to a
-> qemu-storage-daemon, but for USB, so you have something that can
-> do all that USB stuff without actually having any processors.
-> 
-> The even crazier step would then be to add a VNC client, and then you
-> have an almost complete remote client.
+> Similarly to the out-of-process feature (on the same host)?
+> Are you also interested in remote use (different host)?
 
-Similarly to the out-of-process feature (on the same host)?
-Are you also interested in remote use (different host)?
+I was mainly interested in it for remote access; but potentially this
+provides a clean break point to move all of the USB device emulation
+into one separate process.
 
-What about DMA accesses?
+> What about DMA accesses?
+
+I was assuming it was wired to the other half of usbredir than
+the current qemu client side code, so it would handle it.
+
+Dave
+
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
