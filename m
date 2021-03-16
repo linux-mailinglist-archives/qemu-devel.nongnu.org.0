@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D2233CD9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 06:49:21 +0100 (CET)
-Received: from localhost ([::1]:38366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C76933CDEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 07:22:15 +0100 (CET)
+Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM2a0-0000e3-7T
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 01:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38656)
+	id 1lM35q-0006jJ-1s
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 02:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lM2Pl-0006Fl-6Q
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 01:38:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lM2Pb-0004oS-DA
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 01:38:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615873114;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Oqdpqg9I4PZSbZGu3CZuLugaZxHwMJD0Jpla0CqGCno=;
- b=VNcd6XrLHg9ZiUHb1a+iVnAFe0TbpOoIsscTiLbElNcM5sFro6XgZBzI818vohH/zv99D6
- U4P+ifQTakwwFmMohn3ylYxqRtFyrH8cmZyS6OsGgkVyPhdL91vwC+LkT3DG+6H8AzEMcv
- lxIBQv/H1tgvmvcGYaXsJ+wRpMBC0sM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-LmSRu8UmPI6YVnmuiM1XQg-1; Tue, 16 Mar 2021 01:38:30 -0400
-X-MC-Unique: LmSRu8UmPI6YVnmuiM1XQg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77B5681744F;
- Tue, 16 Mar 2021 05:38:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0D2A60C0F;
- Tue, 16 Mar 2021 05:38:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9C6541800843; Tue, 16 Mar 2021 06:38:13 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 11/11] ui/cocoa: Comment about modifier key input quirks
-Date: Tue, 16 Mar 2021 06:38:13 +0100
-Message-Id: <20210316053813.1719442-12-kraxel@redhat.com>
-In-Reply-To: <20210316053813.1719442-1-kraxel@redhat.com>
-References: <20210316053813.1719442-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lM33m-00064Y-Am
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 02:20:06 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:33543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lM33k-0005Bw-FK
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 02:20:06 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id l4so34200375qkl.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Mar 2021 23:20:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xa8lEQsaui5Bd4Q9zs21cUobprOLGQPxtJNVvsraVnQ=;
+ b=T2SP8PdtsW3ltkt5air6Ah5igDXXbdjrAXA+5tiLAt5MxILjXFQMuEcw+FFBd6a9vT
+ ikhp6M3B/tjPo1OlJm7vc4TKDklwEhJPP8chPdoPK414+J3Rxr0KdQ1LWnnfzHIvDhMs
+ ELIzSck4tkegpyaIXV/vwFK1qBfDbT2hpkbPx/zuJoCQo7H5O5VFbeVu1S+0nLxjSFvb
+ Zvyrp4ziAOHa14XdkEzwxteoRvl1FNTf/aiQJnEs4pxV4gnXGXPwn7tyba6EQyMdKw+a
+ BVSbZqO+evxFvIADeTaubswuyXROXIXeJkwmlI3/3rObTdJoKXX+LUrHSSjZJcbgZoWo
+ lGEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xa8lEQsaui5Bd4Q9zs21cUobprOLGQPxtJNVvsraVnQ=;
+ b=Hu8WhBivLezauaBatYca+KM6MEdxKh0wqipO2WTqDgj8jcWXZfJx7xJ74FadS8CuJ+
+ 6XnNaS51wVr7eqas4r6w0O2nfzhuQ03dkMPsaSWHyhI/lXXcd+VZcMcb/gFnJBWPqHSD
+ c2BR4pejZDbrDvDd2cXogJFZ33F3pxWOLWXJNOB9q7FYYpgAIl+ab2H5W5y2a4jOs8TM
+ 6wc5qQtHYn/R1Q4bsV6VhgJWr+Y6ya4mHI51Nlr6ykBMM962t45g+lsNApY+tyAgEfq+
+ BeY88cwFzcavw8QWtmBvkuoeQSR1kz3XAcIWnc1/F3f2wKZ5yehyJtfySWZRoi0VNwf4
+ necQ==
+X-Gm-Message-State: AOAM531Log9U7PojkL+PAKGD/GBJnCmifHfDJt/8JD64XjmYTR/jMTns
+ A79H+i3BfjgfmpMUmxA8zmArXUGr4KTELQgZemfMbl40/9P1VYiN3QEusdcDWrCgAXg3L/OATyQ
+ UFlSEXnGaDwTgeAlCMkdE8929/dmqiiljQ8v3z1bDorQzcfeQFwktn5w01h9ZfRgqPr/yM+I=
+X-Google-Smtp-Source: ABdhPJwaO1uhnLoo7bQE8cL1Vbk+9GvZlqhq1hsKlsWpY0kBDrI0BULG4vnOGXyAnlSOgw7rIngcSA==
+X-Received: by 2002:a37:988:: with SMTP id 130mr30406486qkj.120.1615875603279; 
+ Mon, 15 Mar 2021 23:20:03 -0700 (PDT)
+Received: from [10.0.10.142] (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id z24sm13890387qkz.65.2021.03.15.23.20.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 23:20:02 -0700 (PDT)
+Subject: Re: [PATCH v3 1/3] target/arm: Add support for FEAT_TLBIRANGE
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+References: <20210310002917.8876-1-rebecca@nuviainc.com>
+ <20210310002917.8876-2-rebecca@nuviainc.com>
+ <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
+From: Rebecca Cran <rebecca@nuviainc.com>
+Message-ID: <970813ec-f190-6faa-e1d6-763ba3a6ed60@nuviainc.com>
+Date: Tue, 16 Mar 2021 00:20:00 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=rebecca@nuviainc.com; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,71 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+On 3/10/21 12:24 PM, Richard Henderson wrote:
+> On 3/9/21 6:29 PM, Rebecca Cran wrote:
 
-Based-on: <20210310042348.21931-1-akihiko.odaki@gmail.com>
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20210312133212.3131-1-akihiko.odaki@gmail.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/cocoa.m | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+>> +    uint64_t addr = (value & 0xFFFFFFFFFUL) << TARGET_PAGE_BITS;
+> 
+> The manual does not explicitly say, but I'm certain that this should be 
+> a signed address, when regime_has_2_ranges().  Otherwise it would be 
+> impossible to flush a range of kernel addresses.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 9da0e884b712..37e1fb52eb4d 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -690,7 +690,43 @@ QemuCocoaView *cocoaView;
-     NSPoint p = [self screenLocationOfEvent:event];
-     NSUInteger modifiers = [event modifierFlags];
- 
--    // emulate caps lock keydown and keyup
-+    /*
-+     * Check -[NSEvent modifierFlags] here.
-+     *
-+     * There is a NSEventType for an event notifying the change of
-+     * -[NSEvent modifierFlags], NSEventTypeFlagsChanged but these operations
-+     * are performed for any events because a modifier state may change while
-+     * the application is inactive (i.e. no events fire) and we don't want to
-+     * wait for another modifier state change to detect such a change.
-+     *
-+     * NSEventModifierFlagCapsLock requires a special treatment. The other flags
-+     * are handled in similar manners.
-+     *
-+     * NSEventModifierFlagCapsLock
-+     * ---------------------------
-+     *
-+     * If CapsLock state is changed, "up" and "down" events will be fired in
-+     * sequence, effectively updates CapsLock state on the guest.
-+     *
-+     * The other flags
-+     * ---------------
-+     *
-+     * If a flag is not set, fire "up" events for all keys which correspond to
-+     * the flag. Note that "down" events are not fired here because the flags
-+     * checked here do not tell what exact keys are down.
-+     *
-+     * If one of the keys corresponding to a flag is down, we rely on
-+     * -[NSEvent keyCode] of an event whose -[NSEvent type] is
-+     * NSEventTypeFlagsChanged to know the exact key which is down, which has
-+     * the following two downsides:
-+     * - It does not work when the application is inactive as described above.
-+     * - It malfactions *after* the modifier state is changed while the
-+     *   application is inactive. It is because -[NSEvent keyCode] does not tell
-+     *   if the key is up or down, and requires to infer the current state from
-+     *   the previous state. It is still possible to fix such a malfanction by
-+     *   completely leaving your hands from the keyboard, which hopefully makes
-+     *   this implementation usable enough.
-+     */
-     if (!!(modifiers & NSEventModifierFlagCapsLock) !=
-         qkbd_state_modifier_get(kbd, QKBD_MOD_CAPSLOCK)) {
-         qkbd_state_key_event(kbd, Q_KEY_CODE_CAPS_LOCK, true);
+I see other functions have
+
+uint64_t pageaddr = sextract(value...);
+
+Would that be sufficient here too, or do we need to check 
+regime_has_2_ranges()?
+
 -- 
-2.29.2
-
+Rebecca Cran
 
