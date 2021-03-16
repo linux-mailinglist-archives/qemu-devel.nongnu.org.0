@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAA633DAA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:21:32 +0100 (CET)
-Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F4533DA84
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:20:47 +0100 (CET)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMDNr-0002jB-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51350)
+	id 1lMDN8-00022m-G7
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lMD3y-0005yt-Nj
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:00:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lMD3u-0003Cj-UH
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:00:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615914053;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pnWmUmBIQ/i/qV6pOV7l2oG7PD5S68Io+50SU8NwErw=;
- b=Tg2J8c1NyuKsWyqS7Ig4rIWe4Jsq6RoD29ByREeE30hVWUVAPBqfD+sbVjbOEYRQraVwRf
- t/3VOwJMNrJG+BmAoHbwBZjJlZa5i26zhrMDXSM0fVcMty80hm7C+1w68UstwOVb2FP4Om
- 6lzfro8WLNr3JF6DG5CVIdywd1gAL00=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-LykyUEIiNnqWi4hdhanF-A-1; Tue, 16 Mar 2021 13:00:51 -0400
-X-MC-Unique: LykyUEIiNnqWi4hdhanF-A-1
-Received: by mail-vk1-f198.google.com with SMTP id l2so10197095vkl.5
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 10:00:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pnWmUmBIQ/i/qV6pOV7l2oG7PD5S68Io+50SU8NwErw=;
- b=ofXRo4TxdbwuqNcAs2CmPLT8fb6qqqXsQ72eYPEVfHL4wJwstR5t534vbEDxrFMAwh
- EYKF8uubg5y3fDiw5UUAfDsHwQ4lfjfVJV/NbG0pmnaSw45Jl1vLJiWy4zeFrG8mDWO5
- lPC8W2zTAh6o7pZtrT3vu7pSkVdTVthyFnc6tmIacBxyhQv7/KOP77rvyE/FNSMxVpNW
- pzf1vjAKOltx/raO4FMNYdnici9WHEtBYxMq7Sm+v30ClHJ1+Y5PxX/N1leFG7fv3qjN
- 5YoCabIIY+SEWJMFWd02PuCKuJh9hWUjRPT6v4eP4a8f7Vj/d77TllalveSiCTIa7Kml
- w2iA==
-X-Gm-Message-State: AOAM533VtL73C3urhZd0L1WjvxZY+v767PRML1BFQ0rEnB4M+DuvsJ9C
- IKIQAL650m5S4/axYJpn5Y+ZypHuD3hGkGkfJrfFDjq1wwkr+TyhWW/EdXtH8wtzfTV+aVJzlO8
- i+/sFxhWszCBl8/0zVH1SNZVxcpyDMvg=
-X-Received: by 2002:a67:3241:: with SMTP id y62mr327593vsy.45.1615914051151;
- Tue, 16 Mar 2021 10:00:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxc87bnQFUj3tdwNZrZPnsFJ3cTCVEK0WrJFke1qSphbCbW3mdEPiJeNGJSw9RyUjoFnGN98Y8OjSeQ/73YL4E=
-X-Received: by 2002:a67:3241:: with SMTP id y62mr327570vsy.45.1615914050976;
- Tue, 16 Mar 2021 10:00:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lMD77-0001Bk-6H; Tue, 16 Mar 2021 13:04:13 -0400
+Resent-Date: Tue, 16 Mar 2021 13:04:13 -0400
+Resent-Message-Id: <E1lMD77-0001Bk-6H@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lMD73-0004Pt-9s; Tue, 16 Mar 2021 13:04:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1615914243; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=APVK+Vr3NoAD97fKForVr5pOACuEjrco16i7gfEQ0G4SnLYZUJSMRErwkX++XqcyC2C34VmdmOtI+Wt0mzDHuNUMjHMHz6yBZj79QYGEplelRRJy9e0jd1fGvV03LPv+jwmxf7Beic7Za9RfmEDHyj1G+rmo39mMRVlPGvDA6/E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615914243;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=ZgjQdtuJsT4HMD+M1TveOQB7gbXCbmnXTVHrpqK6XUE=; 
+ b=hzOfWkWmy5/VFUz1mvGVU9aRT7uDMewcWNaCjTS3hBNtV0tLusSznTDvUQTq+nANt2qrY+W7altB65tVau/UrJ9aH8QHrmRIFGwr2XZQe4V5Xi5IVT1Y+B1Ec7BxeaEj91wafyEKjWttvBX7sTp3jAD2OWZJQlh7AX9ssxP9dg0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1615914229382483.7943073805267;
+ Tue, 16 Mar 2021 10:03:49 -0700 (PDT)
+In-Reply-To: <20210316154910.25804-1-rebecca@nuviainc.com>
+Subject: Re: [PATCH v4 0/3] target/arm: Add support for FEAT_TLBIOS and
+ FEAT_TLBIRANGE
+Message-ID: <161591422750.11496.15457338112726761074@c9d4d6fbb2f1>
 MIME-Version: 1.0
-References: <20210309153507.1905682-1-wainersm@redhat.com>
-In-Reply-To: <20210309153507.1905682-1-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 16 Mar 2021 14:00:25 -0300
-Message-ID: <CAKJDGDaQTWAJkcfYv5s=wmd1nxu6N84_W5QtxYVJ5_YSF0B9vQ@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Print expected message on
- wait_for_console_pattern
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: rebecca@nuviainc.com
+Date: Tue, 16 Mar 2021 10:03:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,47 +66,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa Junior <crosa@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org,
+ rebecca@nuviainc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 9, 2021 at 12:36 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> For the sake of improve debuggability of tests which use the
-> wait_for_console_pattern(), this changed the _console_interaction() so that
-> the expected message is printed if the test fail.
->
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
-> While I was testing  "[PATCH v2 2/2] tests/acceptance: Test ast2600 machine"
-> I could not clearly determine which of the called wait_for_console_pattern()
-> was failing. So this patch improves debuggability in such as situations.
->
->  tests/acceptance/avocado_qemu/__init__.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index df167b142c..ed338caaba 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -97,7 +97,8 @@ def _console_interaction(test, success_message, failure_message,
->              break
->          if failure_message and failure_message in msg:
->              console.close()
-> -            fail = 'Failure message found in console: %s' % failure_message
-> +            fail = 'Failure message found in console: "%s". Expected: "%s"' % \
-> +                    (failure_message, success_message)
->              test.fail(fail)
->
->  def interrupt_interactive_console_until_pattern(test, success_message,
-> --
-> 2.29.2
->
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNjE1NDkxMC4yNTgw
+NC0xLXJlYmVjY2FAbnV2aWFpbmMuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMTYxNTQ5MTAuMjU4
+MDQtMS1yZWJlY2NhQG51dmlhaW5jLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjQgMC8zXSB0YXJnZXQv
+YXJtOiBBZGQgc3VwcG9ydCBmb3IgRkVBVF9UTEJJT1MgYW5kIEZFQVRfVExCSVJBTkdFCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
+ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
+IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3
+ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
+LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjEyMTUwMjU2
+Ljg4NS0xLXpoaXdlaV9saXVAYy1za3kuY29tIC0+IHBhdGNoZXcvMjAyMTAyMTIxNTAyNTYuODg1
+LTEtemhpd2VpX2xpdUBjLXNreS5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIx
+MDMxNjEyMDQyMC4xOTY1OC0xLWJtZW5nLmNuQGdtYWlsLmNvbSAtPiBwYXRjaGV3LzIwMjEwMzE2
+MTIwNDIwLjE5NjU4LTEtYm1lbmcuY25AZ21haWwuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBh
+dGNoZXcvMjAyMTAzMTYxMzEzNTMuNDUzMy0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZyAtPiBw
+YXRjaGV3LzIwMjEwMzE2MTMxMzUzLjQ1MzMtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKIC0g
+W3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMxNjEzNDQ1Ni4zMjQzMTAyLTEtbWFyY2Fu
+ZHJlLmx1cmVhdUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMTYxMzQ0NTYuMzI0MzEwMi0x
+LW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+LzIwMjEwMzE2MTU0OTEwLjI1ODA0LTEtcmViZWNjYUBudXZpYWluYy5jb20gLT4gcGF0Y2hldy8y
+MDIxMDMxNjE1NDkxMC4yNTgwNC0xLXJlYmVjY2FAbnV2aWFpbmMuY29tClN3aXRjaGVkIHRvIGEg
+bmV3IGJyYW5jaCAndGVzdCcKZTlmM2UwMCB0YXJnZXQvYXJtOiBzZXQgSURfQUE2NElTQVIwLlRM
+QiB0byAyIGZvciBtYXggQUFSQ0g2NCBDUFUgdHlwZQo4YmNhYzRjIHRhcmdldC9hcm06IEFkZCBz
+dXBwb3J0IGZvciBGRUFUX1RMQklPUwpmMTcxOTY2IHRhcmdldC9hcm06IEFkZCBzdXBwb3J0IGZv
+ciBGRUFUX1RMQklSQU5HRQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8zIENoZWNraW5nIGNvbW1p
+dCBmMTcxOTY2NTdlZTMgKHRhcmdldC9hcm06IEFkZCBzdXBwb3J0IGZvciBGRUFUX1RMQklSQU5H
+RSkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIxODogRklMRTogaW5jbHVkZS9l
+eGVjL2V4ZWMtYWxsLmg6MzU0Ogorc3RhdGljIGlubGluZSB2b2lkIHRsYl9mbHVzaF9wYWdlX3Jh
+bmdlX2JpdHNfYnlfbW11aWR4X2FsbF9jcHVzX3N5bmNlZChDUFVTdGF0ZSAqc3JjX2NwdSwKCldB
+Uk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMTk6IEZJTEU6IGluY2x1ZGUvZXhlYy9l
+eGVjLWFsbC5oOjM1NToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0X3Vsb25nIGFkZHIsCgpFUlJPUjog
+bGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzIyMDogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxs
+Lmg6MzU2OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRfdWxvbmcgbGVuZ3RoLAoKV0FSTklORzogbGlu
+ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIyMTogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6
+MzU3OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB1aW50MTZfdCBpZHhtYXAsCgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojMjIyOiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwuaDozNTg6Cisg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHVuc2lnbmVkIGJpdHMpCgp0b3RhbDogMSBlcnJvcnMsIDQgd2FybmluZ3Ms
+IDU0NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+CjIvMyBDaGVja2luZyBjb21taXQgOGJjYWM0YzA0YzhlICh0YXJnZXQvYXJtOiBBZGQgc3VwcG9y
+dCBmb3IgRkVBVF9UTEJJT1MpCjMvMyBDaGVja2luZyBjb21taXQgZTlmM2UwMDJkNzNkICh0YXJn
+ZXQvYXJtOiBzZXQgSURfQUE2NElTQVIwLlRMQiB0byAyIGZvciBtYXggQUFSQ0g2NCBDUFUgdHlw
+ZSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
+MTAzMTYxNTQ5MTAuMjU4MDQtMS1yZWJlY2NhQG51dmlhaW5jLmNvbS90ZXN0aW5nLmNoZWNrcGF0
+Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
