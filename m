@@ -2,141 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E0033DC86
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 19:25:45 +0100 (CET)
-Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880E533DC6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 19:19:37 +0100 (CET)
+Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMENz-0007bN-Na
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 14:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35144)
+	id 1lMEI4-0002tX-Iv
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 14:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMDoL-0004MX-TR; Tue, 16 Mar 2021 13:48:53 -0400
-Received: from mail-eopbgr130100.outbound.protection.outlook.com
- ([40.107.13.100]:41422 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMDoH-0000wT-Pi; Tue, 16 Mar 2021 13:48:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A7bApFRAYlQUl01gsNszO+jox7UgZLbWJ2W7xSP+4Hx1Ou3R6V/mwb+2ch71zYKeZ/4TmDmQ44+rgN4Jr4F2SlrxeY2+m79XwPP4HxFEpF/+aewglnOUn4UAS2vnnLj6UHxp9GwzRkjvMWbQsdW4x0KZnK2/NUHAu4CFadVl1GWPqP6NEym9ExMW/pNxC7Wlt4+s2YV7Zk+zoCbasm0cMzQ1TBzaK5FtpHKJkdF7f/abAA5WBzGYBBaiGUVCiewm/mp+fTKKtktr/RhI3pWfW3XqR6SUq/fgHrMC1L1gONtRcJZBcKfPFcaw+eGS4ASQDajO2oUam+ZsfgIqpqRPRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ELh6TJ2ZukALjEvmAyTQ9Vg47vBSYlEMKeS5WSdnjko=;
- b=GgKNIqzTL1vrBygd+pluk5sD+O47eCZ8RmtVI/TwxdqOUDBWqCNsginW9tnPsSTv588IQN99Tu8mWMEbJaH65r4sR4zDccom+mKHc7/k5ubgpZLwugsT0WfplPziXB5QElX2e44Bz6VbdGSJpuvH4CVYduISN48uBSEJEEmwtn93VlN3f2l8AaBPYiQZ9UJkUXVNbwaQZhPBe8HeOTHyH5VwnnOqp6a8LjIGkiznCyhbTK5KrBQqq84KQbVnR1uw2vJUzB4w4bW1SsBj88AdBfBfZtqfq+q504RHoutjCsRStQyLn7txmReyKpkkCjfO8icbhAacIGtSWCYwF7e13w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ELh6TJ2ZukALjEvmAyTQ9Vg47vBSYlEMKeS5WSdnjko=;
- b=hIJkO6MM4Rq02qpYqTOd+cV5tq4tCZi7ji6uIzfJ+/rnlGZmgayiFmByDQP/pRXV3n357W8gulxPPd+sLdUVGc+JFRJ/2QMUFGMVcKFpcMKoFNN2NDDjrB4L4dTrFJ5rDm03pG40nASDSvLvqIrG7B2NvhrJ3WhuRkRTLRGaLrY=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR08MB3520.eurprd08.prod.outlook.com (2603:10a6:803:84::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Tue, 16 Mar
- 2021 17:48:43 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::f947:3484:b0d7:ab52]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::f947:3484:b0d7:ab52%9]) with mapi id 15.20.3933.032; Tue, 16 Mar 2021
- 17:48:43 +0000
-Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com
-References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
- <20210305173507.393137-7-vsementsov@virtuozzo.com>
- <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
- <d5acfe9d-2095-a601-20b7-bd0b677df68a@virtuozzo.com>
- <6056196d-a0cc-7de2-5d6f-b223fdee98ff@redhat.com>
- <7fb10a80-8001-966d-533e-3f74c739571a@virtuozzo.com>
- <cec9f2d3-af82-1de2-2ddf-be1b9dde73f9@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <c03cd2eb-f4ca-448b-91ed-16c6f0a7b283@virtuozzo.com>
-Date: Tue, 16 Mar 2021 20:48:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <cec9f2d3-af82-1de2-2ddf-be1b9dde73f9@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: AM0PR02CA0036.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::49) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMEBC-0007mo-9W
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:12:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMEB7-0005ax-Sf
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:12:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615918344;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IVe3wg/2gOUDIEN6PFtdCpCdMknJ8Bg3zGK1mVeewNo=;
+ b=b/VjBZG6IifrEgrD/sFRJcNsNrSJBO8N0CCpvP4AhBqXyK8XhCRnYNBijQZBbn4PnN3eFD
+ Hi58gURfalpcUwm4MpatyYeJh/2qjtpp47QZ0Ed3xCgBHEa/shk73ef51DBKFmJ//vc/7c
+ tDog7jstY322/MXuFeQ7Fnh2e+HUHhg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-qndk1JWRMW-GS7uiTDA55g-1; Tue, 16 Mar 2021 14:12:20 -0400
+X-MC-Unique: qndk1JWRMW-GS7uiTDA55g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B07F110866A4;
+ Tue, 16 Mar 2021 18:12:19 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-216.ams2.redhat.com [10.36.112.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8DB919CAD;
+ Tue, 16 Mar 2021 18:12:18 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL v3 00/42] Block layer patches and object-add QAPIfication
+Date: Tue, 16 Mar 2021 19:12:16 +0100
+Message-Id: <20210316181216.414537-1-kwolf@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- AM0PR02CA0036.eurprd02.prod.outlook.com (2603:10a6:208:3e::49) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.32 via Frontend Transport; Tue, 16 Mar 2021 17:48:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 59bb98ea-64c5-48cf-e910-08d8e8a3bd97
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3520:
-X-Microsoft-Antispam-PRVS: <VI1PR08MB35200AC761EED91FDA06118AC16B9@VI1PR08MB3520.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x1zUSzn09zOKWqDipvLviD+hXrorbQjulzDDigbdVh8oKfire4sDUHvkPErXtqtqZbclwd+gg0GsSwgKZF3od/9g2QndWTfWTka4fr5CJn9EcKPDJ3zJzE5uMXC5Mwh7NwtqnKcmY4/t18o0aSIaRhexfuFfaEtiyluoNEuQetuvVFsw0y45S1zxwQ6wzW3CW7rAtcacpiCZ13Dlkh6Xy5aEf5yVHJmy7O/PIf9UnJDZLSCj3a8GTnPq9ET9ZzF72uJs3QiOVAQ20gDgD0CJhBuRCfjCxo9W7P9thY06DwgxmRSgiakVzDCalu6D0O2TNJwsFVq0BVx4M5gMLDN1c+Ly2jPdCk/IhEa0daIg2mEZ0u8Z7TRxe2Vd6DaMWCFm67XY3QNng1C0fUJFuLnD0fQfOn2VxPR70/FiHj5mNBmBs+df9E/qnM2KHAxpAaRxQx//ddCrLfjgtqBJ3dfjg46kgRQF2xJzWRPU652oBXKH1BerYdadoABvFA14Ky7iCddh6Z4xb00vzoLQZJyKDe3H5/4FzmTGh1GQiqQaFZF2tCOKdG1saqt0UgNTVabucqHxJTx0lOgdmMKOfKo5o46/MlPPH5a99LyZj3iQScnAkBfCKRBCK0AQD8ia4RX9nPWPFyXDRN2QlgBYhreGFw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(366004)(376002)(136003)(396003)(956004)(8936002)(8676002)(2616005)(86362001)(31696002)(316002)(66556008)(16576012)(478600001)(2906002)(52116002)(16526019)(53546011)(31686004)(66946007)(66476007)(5660300002)(36756003)(83380400001)(6486002)(186003)(4326008)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QktCUmNiZU1iWm1LYy9IWktSRXg3TWM5dld4Q0F2Q3QzaERxdmlSbHRuZTRC?=
- =?utf-8?B?OWV3Wm9tanZOeHhhd0l6aERXL3lvWDVER0tXSHhrd2FqZkJQSnZRZE13WnNT?=
- =?utf-8?B?QjhLK3VMd3kyUWlUVk1nYjhxSS9KVjNoVkh2cXhlRlBqTmVVK0x4Ty9ENi95?=
- =?utf-8?B?ZHRheWhyUkU3Z29GNEp2cE9qNHp6Q1BmOUR0T3pXYnZWL3ZZc3hlTDFReTRv?=
- =?utf-8?B?SlZ3Y2FEbXRqejRteVJ1WGc1Wkd3UnliTHVvR2ZmeFNDdndLYlNJc1JDR01o?=
- =?utf-8?B?bm8zNG1qaDdZWXFvbGgxa3BEUHhYOUl5ek5Wa3loUTh0aFdkdGV2aVVTc2Na?=
- =?utf-8?B?blhVRG1laFJrUmtNYldiMlR0YldLUE16ZTdsZUpZR01XWFloN2V0a0xLdVFs?=
- =?utf-8?B?STJBOGxWRVJzalVoY2szRHR6czljMU4vMktQNkNZeDAwVnNJTi9MSk1Td0N5?=
- =?utf-8?B?c0liTGFWaGhYcGRLZjdGTkN4Y3pRdUdtcUtVN2swQUw5WDhycm9xdGo2ZzZj?=
- =?utf-8?B?dVNhMzMrbVdqTm15VmpneUswN2M1Y0IzY0xqR0JxVVJlcmV0Y2l2Z3IrenpH?=
- =?utf-8?B?amlnUExQR1J2RTcyVytGdUdrdmpmS2x4U1pMWGZ0WS9yZC9lV1IwZWFGS2lB?=
- =?utf-8?B?d2xWbzNCOHllU3ZNbHNFb0xTWTVEcXlmQlp5SlVYcG5mYkVSK2VCbVlwU0VT?=
- =?utf-8?B?MHZzOGtDMzR5emlBczNwZGt5TC83bTR0MnJuZ2U2TGNjMHQyTGd5VGFUOFJK?=
- =?utf-8?B?aUxPL1lpalRFNkJrTzZuRHJJcWhFZ3JySTcyZmx0bzBVQWFHbXp6aStTMk5T?=
- =?utf-8?B?SVVqZG1JZTNoL0QweFpJN2tRZzdRYTQzTlVieWdzVWpWQ2R0NUN3UFZpYThO?=
- =?utf-8?B?UGp2ZG5ERDJPZHk0SGpUUXp0N0trNDl5aU5veUZndnhSUEpFTVVmVmNMTnRs?=
- =?utf-8?B?d1VJSjJoYloxVDYyOElJY2V2Q1JyTFFJMWZxVE0xZ2p2VHlydStUaWRoMEJH?=
- =?utf-8?B?cVhzV2t5M2xRamZXeGs0Y3d1QTROQXJWU21uQWRHQVd4SkZpSFNkZ3ZSNDhH?=
- =?utf-8?B?V1VaNTNweDl5YXVWUHZQUHdneEVDNjBMWkkzdG9RUGhWUzNWQzltTUM2cGRj?=
- =?utf-8?B?TDM3NkZFWnFsMTRsS0N6U3FjN3F2cGk5Ky9TYk15S1JIbzM5WUs4cjVRTkJm?=
- =?utf-8?B?Vm9ueWRWOXE5aEpuOFluMEY4RG40VmhZaWFJdFBybXBJc1p1K1JXeEhvYUJD?=
- =?utf-8?B?T2ZHTjlCU255MDYzaXg1N3krSkE0N09iNzJ0YTh2am9DVkZBMVNlc3U1VXl4?=
- =?utf-8?B?Q050RzJPOWJxejRuMGU0SStTUkoxWDlRc2piaTZJcFB5UnladHNZQWNCRndr?=
- =?utf-8?B?N1p2WVFrSXNhRUdxYmdVTnJxay9ncjB6ODlpRUMzeGFSMDFIRFZPeG9CNlk2?=
- =?utf-8?B?RnR4cVJOM1FraEIxL2ZCY0NXSGxaYk9uY1kvUXR0Wmh5ekFaQjNTSys3MFQ4?=
- =?utf-8?B?dnVjckttMlIvZ1NXUlVzb0hTK0RWNy81TDJTbytiMndXRjUyV1BIUEd4d0c4?=
- =?utf-8?B?dWFnYUkvbThROS9va2ZDQzR1OVlTSXJmT3AzeHg3YnlaeFB0WnhIOVR5SFpE?=
- =?utf-8?B?MWFUQjYydzJ5QThscVBZbHdNQjFteVI0eUJMajc2WDJBM2F3b2JGNWxDN0o5?=
- =?utf-8?B?YStLSlU0VCsrd0RIcW01K3ZrVUo0WnhPYjJsdnB1Si9zMDdvL0FrNFMxRFNI?=
- =?utf-8?Q?EogwgIY6Je9DaPpSlwWFLitCziydWSpcfd2iVVJ?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59bb98ea-64c5-48cf-e910-08d8e8a3bd97
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2021 17:48:43.3158 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: biq6QFlEDtZvEHYTik41uXcYAxgeCOCaywMb7woJhBKnT+46pJwGUgiArGrMlhPDJn9bGudDpKNqJnfZQQ8tAuhlKxOg6QEjj2wAs/e/V/g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3520
-Received-SPF: pass client-ip=40.107.13.100;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -149,47 +73,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-16.03.2021 15:25, Max Reitz wrote:
-> On 15.03.21 15:40, Vladimir Sementsov-Ogievskiy wrote:
->> 15.03.2021 12:58, Max Reitz wrote:
-> 
-> [...]
-> 
->>> The question is whether it really makes sense to even have a seqcache_read() path when in reality it’s probably never accessed.  I mean, besides the fact that it seems based purely on chance whether a read might fetch something from the cache even while we’re writing, in practice I don’t know any case where we’d write to and read from a compressed qcow2 image at the same time.  (I don’t know what you’re doing with the 'compress' filter, though.)
->>>
->>
->> Note, that for user that's not a parallel write and read to the same cluster:
->>
->> 1. user writes cluster A, request succeeded, data is in the cache
->>
->> 2. user writes some other clusters, cache filled, flush started
->>
->> 3. in parallel to [2] user reads cluster A. From the POV of user, cluster A is written already, and should be read successfully
-> 
-> Yes, but when would that happen?
-> 
->> And seqcache_read() gives a simple non-blocking way to support read operation.
-> 
-> OK, that makes sense.  We’d need to flush the cache before we can read anything from the disk, so we should have a read-from-cache branch here.
-> 
->> But rewriting compressed clusters is sensible only when we run real guest on compressed image.. Can it be helpful? Maybe for scenarios with low disk usage ratio..
-> 
-> I’m not sure, but the point is that rewrites are currently not supported.  The whole compression implementation is mainly tailored towards just writing a complete image (e.g. by qemu-img convert or the backup job), so that’s where my question is coming from: It’s difficult for me to see a currently working use case where you’d read from and write to a compressed image at the same time.
-> 
+The following changes since commit 6e31b3a5c34c6e5be7ef60773e607f189eaa15f3:
 
-External backup works like the following:
+  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-03-16 10:53:47 +0000)
 
-  - start backup sync=none from active disk to temporary disk
-  - export temporary disk through nbd
-  - external tool reads from nbd export
+are available in the Git repository at:
 
-For this scheme it may make sense to use compression, and we get a use case where compressed reads and writes are used in the same time. Moreover this is possible just now, and no reason to not support it.
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
 
+for you to fetch changes up to f5dda4c2186975ed75ec07b58bc6031e4867bb45:
 
--- 
-Best regards,
-Vladimir
+  vl: allow passing JSON to -object (2021-03-16 18:52:10 +0100)
+
+----------------------------------------------------------------
+Block layer patches and object-add QAPIfication
+
+- QAPIfy object-add and --object
+- stream: Fail gracefully if permission is denied
+- storage-daemon: Fix crash on quit when job is still running
+- curl: Fix use after free
+- char: Deprecate backend aliases, fix QMP query-chardev-backends
+- Fix image creation option defaults that exist in both the format and
+  the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
+  default was incorrectly applied to the rbd layer)
+
+----------------------------------------------------------------
+Kevin Wolf (35):
+      storage-daemon: Call job_cancel_sync_all() on shutdown
+      stream: Don't crash when node permission is denied
+      tests: Drop 'props' from object-add calls
+      qapi/qom: Drop deprecated 'props' from object-add
+      qapi/qom: Add ObjectOptions for iothread
+      qapi/qom: Add ObjectOptions for authz-*
+      qapi/qom: Add ObjectOptions for cryptodev-*
+      qapi/qom: Add ObjectOptions for dbus-vmstate
+      qapi/qom: Add ObjectOptions for memory-backend-*
+      qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
+      qapi/qom: Add ObjectOptions for throttle-group
+      qapi/qom: Add ObjectOptions for secret*, deprecate 'loaded'
+      qapi/qom: Add ObjectOptions for tls-*, deprecate 'loaded'
+      qapi/qom: Add ObjectOptions for can-*
+      qapi/qom: Add ObjectOptions for colo-compare
+      qapi/qom: Add ObjectOptions for filter-*
+      qapi/qom: Add ObjectOptions for pr-manager-helper
+      qapi/qom: Add ObjectOptions for confidential-guest-support
+      qapi/qom: Add ObjectOptions for input-*
+      qapi/qom: Add ObjectOptions for x-remote-object
+      qapi/qom: QAPIfy object-add
+      qom: Make "object" QemuOptsList optional
+      qemu-storage-daemon: Implement --object with qmp_object_add()
+      qom: Remove user_creatable_add_dict()
+      qom: Factor out user_creatable_process_cmdline()
+      qemu-io: Use user_creatable_process_cmdline() for --object
+      qemu-nbd: Use user_creatable_process_cmdline() for --object
+      qom: Add user_creatable_add_from_str()
+      qemu-img: Use user_creatable_process_cmdline() for --object
+      hmp: QAPIfy object_add
+      qom: Add user_creatable_parse_str()
+      char: Skip CLI aliases in query-chardev-backends
+      char: Deprecate backend aliases 'tty' and 'parport'
+      char: Simplify chardev_name_foreach()
+      qom: Support JSON in HMP object_add and tools --object
+
+Max Reitz (2):
+      curl: Store BDRVCURLState pointer in CURLSocket
+      curl: Disconnect sockets from CURLState
+
+Paolo Bonzini (3):
+      tests: convert check-qom-proplist to keyval
+      qom: move user_creatable_add_opts logic to vl.c and QAPIfy it
+      vl: allow passing JSON to -object
+
+Stefan Hajnoczi (1):
+      block/export: disable VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD for now
+
+Stefano Garzarella (1):
+      block: remove format defaults from QemuOpts in bdrv_create_file()
+
+ qapi/authz.json                       |  61 +++-
+ qapi/block-core.json                  |  27 ++
+ qapi/common.json                      |  52 +++
+ qapi/crypto.json                      | 159 +++++++++
+ qapi/machine.json                     |  22 +-
+ qapi/net.json                         |  20 --
+ qapi/qom.json                         | 646 +++++++++++++++++++++++++++++++++-
+ qapi/ui.json                          |  13 +-
+ docs/system/deprecated.rst            |  31 +-
+ docs/system/removed-features.rst      |   5 +
+ docs/tools/qemu-img.rst               |   2 +-
+ include/qom/object_interfaces.h       |  98 ++----
+ block.c                               |  36 +-
+ block/curl.c                          |  50 +--
+ block/export/vhost-user-blk-server.c  |   3 +-
+ block/stream.c                        |  15 +-
+ chardev/char.c                        |  19 +-
+ hw/block/xen-block.c                  |  16 +-
+ monitor/hmp-cmds.c                    |  17 +-
+ monitor/misc.c                        |   2 -
+ qemu-img.c                            | 251 +++----------
+ qemu-io.c                             |  33 +-
+ qemu-nbd.c                            |  34 +-
+ qom/object_interfaces.c               | 172 ++++-----
+ qom/qom-qmp-cmds.c                    |  28 +-
+ softmmu/vl.c                          |  83 ++++-
+ storage-daemon/qemu-storage-daemon.c  |  28 +-
+ tests/qtest/qmp-cmd-test.c            |  16 +-
+ tests/qtest/test-netfilter.c          |  54 ++-
+ tests/unit/check-qom-proplist.c       |  77 ++--
+ tests/unit/test-char.c                |   6 -
+ hmp-commands.hx                       |   2 +-
+ storage-daemon/qapi/qapi-schema.json  |   1 +
+ tests/qemu-iotests/tests/qsd-jobs     |  86 +++++
+ tests/qemu-iotests/tests/qsd-jobs.out |  32 ++
+ 35 files changed, 1516 insertions(+), 681 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/qsd-jobs
+ create mode 100644 tests/qemu-iotests/tests/qsd-jobs.out
+
 
