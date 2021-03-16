@@ -2,90 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC5433D97B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:32:35 +0100 (CET)
-Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB6E33D9B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 17:43:07 +0100 (CET)
+Received: from localhost ([::1]:44198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMCcT-0001oI-KJ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40398)
+	id 1lMCmf-0005F8-6j
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 12:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMCN2-0006wC-RD
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:16:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMCMv-0000w4-AC
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:16:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615911386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KE5U4GzWQcwmLt7W2e9BZESmBsG8uJjZyTRUix6ez4g=;
- b=XvEzex33XeqJHY5hfqWlrK/As3Ric2X9C7tvt7+f+Imt9sUn3+3/DIqCmkjthJfEjBRPrD
- nUntAnsjzvPoy5LFUrJUggZAFbNQ9X5RRxodSJCa9eDhG9MSBqmoYXe0j2GeVT05tv78ay
- d1SO7Glrxi7euyZC16CiGzAloDZRmHk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-T3jPAQXBOWWWhrIdw-QoJw-1; Tue, 16 Mar 2021 12:16:24 -0400
-X-MC-Unique: T3jPAQXBOWWWhrIdw-QoJw-1
-Received: by mail-wr1-f71.google.com with SMTP id p15so16759662wre.13
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 09:16:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KE5U4GzWQcwmLt7W2e9BZESmBsG8uJjZyTRUix6ez4g=;
- b=aypIi8MYZy4EVo30Tbf2tW9Llh4EYTmkQD9lJ8X8o0cpop2kioV93qsNntpWFgKus0
- sM31aiIzVKHYk/bPhxj8UACA1+jnWTr/NXNfnkdHxCdSS3ArH9TDffQTWY4RvXMuXBQw
- OweVdhGDWl1Z9RCDClSEc/SNjVud17ygv7icd5m/PIUfEUyAkcXUcjHcyzCeVhG+4S0Y
- 9B8dYXqHGhkEK1hncrxh5LWqPv0xqHU3gyA5PsuWaiZUv9EVrT0zTdaSgJHjfoS89M/K
- dKc9h0IzIUAmoogo1+4I8RFESzYIUqG9URyo76iw3BT0Ps1gb75iSIw8pxVeXAqmBppH
- HzFA==
-X-Gm-Message-State: AOAM5319OlTMgZhq1UCcfmLD2tVoTUa4hLyIW8g0ZyStBPrN44KB+2X2
- 2H2K9VY+7c5DvKIQKd0yf7WxcFxhBEI3sImAshqEVw/fi79p0abajUXqOih+18DTeFTRHrT1IDE
- g1EcwU5Nc6+Ry2KwwQ60UOfjc3yybUqYIakU1BVe3GjiBQ4lgwd0eXL/77PhcmKap
-X-Received: by 2002:a7b:cd8f:: with SMTP id y15mr357210wmj.185.1615911382924; 
- Tue, 16 Mar 2021 09:16:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQ2mwr2+oxySvbVZ1CV11D3eYNqSQQ9bjWOd8NKM+/S/0wnNzNTONClRvObK/6DIKrinDDEw==
-X-Received: by 2002:a7b:cd8f:: with SMTP id y15mr357200wmj.185.1615911382779; 
- Tue, 16 Mar 2021 09:16:22 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id z2sm22365152wrv.47.2021.03.16.09.16.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 09:16:22 -0700 (PDT)
-Subject: Re: [PATCH 1/9] qemu-edid: use qemu_edid_size()
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20210316143812.2363588-1-kraxel@redhat.com>
- <20210316143812.2363588-2-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a477eebb-f547-237c-a536-3f53179edf14@redhat.com>
-Date: Tue, 16 Mar 2021 17:16:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
+ id 1lMCQR-00025m-T2
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:20:08 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:58592
+ helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lMCQP-0002Q4-J0
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:20:07 -0400
+Received: by diablo.13thmonkey.org (Postfix, from userid 103)
+ id 98279C13ADD; Tue, 16 Mar 2021 17:20:01 +0100 (CET)
+Date: Tue, 16 Mar 2021 17:20:01 +0100
+From: Reinoud Zandijk <reinoud@NetBSD.org>
+To: Isaku Yamahata <isaku.yamahata@gmail.com>
+Subject: Re: Windows 10 won't run on default x86_64 machine anymore
+Message-ID: <YFDasSxhk0C8u6Rs@diablo.13thmonkey.org>
+References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
+ <20210315185302.29b0d90d@redhat.com>
+ <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
+ <20210316015503.GA1008366@private.email.ne.jp>
 MIME-Version: 1.0
-In-Reply-To: <20210316143812.2363588-2-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210316015503.GA1008366@private.email.ne.jp>
+Received-SPF: none client-ip=80.100.255.32;
+ envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,19 +53,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>, Reinoud Zandijk <reinoud@NetBSD.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/21 3:38 PM, Gerd Hoffmann wrote:
-> So we only write out that part of the edid blob
-> which has been filled with data.
-> Also use a larger buffer for the blob.
+On Mon, Mar 15, 2021 at 06:55:03PM -0700, Isaku Yamahata wrote:
+> > If I add in '-M pc-i440fx-5.2' it works again with the accelerator. If I add
+> > in '-M q35' it does work fine with or without the accelerator.
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  qemu-edid.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> Anyhow, can you please try "-global PIIX4_PM.smm-compat=on"
+> (or "-global ICH9-LPC.smm-compat=on" if q35 is used) so that the old behavior
+> is presented.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+It works indeed with the default model when I specify the -global. With Q35
+its not needed; it boots fine after reconfiguring itself.
+
+> I think tcg case can be explained by x86_machine_is_smm_enabled()
+> 
+>   bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
+>   ...
+>       if (tcg_enabled() || qtest_enabled()) {
+>           smm_available = true;
+>       } else if (kvm_enabled()) {
+>           smm_available = kvm_has_smm();
+>       }
+>   ...
+> 
+> Although I don't know about nvmm case, this function also needs to be updated
+> if smi isn't supported.
+
+The NVMM backend can only be used on x86_64 (for now) and then only for CPUs
+with VMX or SVM support. It can run 32 and 64 bit OSes. On all other systems
+the kernel module either does not exist or refuses to load.
+
+NVMM has support code for it for the SVM and VMX backends and it allows them.
+NVMM also handles the SMI just as WHPX does in the Qemu backend.
+
+So maybe it an be set to default on in this test?
+
+With regards,
+Reinoud
 
 
