@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264CA33D9FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:00:01 +0100 (CET)
-Received: from localhost ([::1]:49460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738E933DA24
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:03:11 +0100 (CET)
+Received: from localhost ([::1]:55498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMD32-0003z3-4w
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
+	id 1lMD66-0006hZ-5s
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMCw0-0006Cp-Tc
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:52:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMCvw-0008Fz-5L
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:52:44 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lMCqQ-0000si-NJ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:46:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lMCqO-0005Pp-3a
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615913559;
+ s=mimecast20190719; t=1615913214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GlNPrIdnpLbPdox1ZDhJNuNY34VCLHOo8AUXIp9DyU4=;
- b=IAI3iDOjPXzPdynYnX/tbOhnRCsN43R9q0Sc2IEQzU3cR0TmbYsmrEMttWkTKsz/DULB83
- wGIyZUilCCSENq3OtVuWdeTeM5PQN3fQfhzoNvcqLa5KIGyta9kqtarKUKcHsepF3QGV4x
- hv4muUMYA6Q+olBLsqJ409C5wJimkZM=
+ bh=8Hkj9bu1rac5VWkM23B50MKlNAUypLpHSMXQ0oeuLjs=;
+ b=UlpgPG7Z1CpkgzdpxUBda8RuemhD9pACHofKDuu7ayWtSqFUrsO2SilRQZnxl/bVmcaEqK
+ IAWWWsQi4J0bop4YnOt59/auXojdABbJ7qiFT73zqrkhH6qOmRHc32dW8Fu9EwciTUGw9D
+ nL/r3hLKkJedl3gF5XaAKmNcJzuqc+g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-l9bUvPAANaasO8xltuhUYw-1; Tue, 16 Mar 2021 12:52:36 -0400
-X-MC-Unique: l9bUvPAANaasO8xltuhUYw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-523-GFG71tTWOPGD7IKEg34NTA-1; Tue, 16 Mar 2021 12:46:53 -0400
+X-MC-Unique: GFG71tTWOPGD7IKEg34NTA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5133980A5F8;
- Tue, 16 Mar 2021 16:52:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE4D31964B;
- Tue, 16 Mar 2021 16:52:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D229011268A1; Tue, 16 Mar 2021 17:52:31 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F20B84BA40;
+ Tue, 16 Mar 2021 16:46:51 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-115-185.ams2.redhat.com
+ [10.36.115.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4F1B5C1A1;
+ Tue, 16 Mar 2021 16:46:17 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/11] qapi: Implement deprecated-input=reject for QMP command
- arguments
-Date: Tue, 16 Mar 2021 17:52:30 +0100
-Message-Id: <20210316165231.3910842-11-armbru@redhat.com>
-In-Reply-To: <20210316165231.3910842-1-armbru@redhat.com>
-References: <20210316165231.3910842-1-armbru@redhat.com>
+Subject: [PULL 05/13] machine: remove 'query-cpus' QMP command
+Date: Tue, 16 Mar 2021 16:43:47 +0000
+Message-Id: <20210316164355.150519-6-berrange@redhat.com>
+In-Reply-To: <20210316164355.150519-1-berrange@redhat.com>
+References: <20210316164355.150519-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,264 +79,514 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy rejects deprecated input, and thus permits "testing the
-future".  Implement it for QMP command arguments: reject commands with
-deprecated ones.  Example: when QEMU is run with -compat
-deprecated-input=reject, then
+The newer 'query-cpus-fast' command avoids side effects on the guest
+execution. Note that some of the field names are different in the
+'query-cpus-fast' command.
 
-    {"execute": "eject", "arguments": {"device": "cd"}}
-
-fails like this
-
-    {"error": {"class": "GenericError", "desc": "Deprecated parameter 'device' disabled by policy"}}
-
-When the deprecated parameter is removed, the error will change to
-
-    {"error": {"class": "GenericError", "desc": "Parameter 'device' is unexpected"}}
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210312153210.2810514-10-armbru@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/qapi/qobject-input-visitor.h |  9 +++++++++
- include/qapi/visitor-impl.h          |  3 +++
- include/qapi/visitor.h               |  9 +++++++++
- qapi/qapi-visit-core.c               |  9 +++++++++
- qapi/qobject-input-visitor.c         | 28 ++++++++++++++++++++++++++++
- tests/unit/test-qmp-cmds.c           | 25 +++++++++++++++++++++++++
- qapi/trace-events                    |  1 +
- scripts/qapi/commands.py             |  2 +-
- scripts/qapi/visit.py                |  3 +++
- 9 files changed, 88 insertions(+), 1 deletion(-)
+ docs/system/deprecated.rst                 |   5 -
+ docs/system/removed-features.rst           |   5 +
+ hw/core/machine-hmp-cmds.c                 |   8 +-
+ hw/core/machine-qmp-cmds.c                 |  79 ----------
+ qapi/machine.json                          | 161 +--------------------
+ tests/acceptance/pc_cpu_hotplug_props.py   |   2 +-
+ tests/acceptance/x86_cpu_model_versions.py |   2 +-
+ tests/migration/guestperf/engine.py        |   2 +-
+ tests/qtest/numa-test.c                    |   6 +-
+ tests/qtest/qmp-test.c                     |   6 +-
+ tests/qtest/test-x86-cpuid-compat.c        |   4 +-
+ 11 files changed, 22 insertions(+), 258 deletions(-)
 
-diff --git a/include/qapi/qobject-input-visitor.h b/include/qapi/qobject-input-visitor.h
-index 95985e25e5..cbc54de4ac 100644
---- a/include/qapi/qobject-input-visitor.h
-+++ b/include/qapi/qobject-input-visitor.h
-@@ -58,6 +58,15 @@ typedef struct QObjectInputVisitor QObjectInputVisitor;
-  */
- Visitor *qobject_input_visitor_new(QObject *obj);
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index e68f80d0c8..fd377353f6 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -229,11 +229,6 @@ Since the ``dirty-bitmaps`` field is optionally present in both the old and
+ new locations, clients must use introspection to learn where to anticipate
+ the field if/when it does appear in command output.
  
-+/*
-+ * Create a QObject input visitor for @obj for use with QMP
-+ *
-+ * This is like qobject_input_visitor_new(), except it obeys the
-+ * policy for handling deprecated management interfaces set with
-+ * -compat.
-+ */
-+Visitor *qobject_input_visitor_new_qmp(QObject *obj);
+-``query-cpus`` (since 2.12.0)
+-'''''''''''''''''''''''''''''
+-
+-The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
+-
+ ``query-cpus-fast`` ``arch`` output member (since 3.0.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 6e653bfc4e..37946e2401 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -86,6 +86,11 @@ Use ``migrate_set_parameter`` and ``info migrate_parameters`` instead.
+ 
+ Use ``migrate_set_parameter`` instead.
+ 
++``query-cpus`` (removed in 6.0)
++'''''''''''''''''''''''''''''''
 +
- /*
-  * Create a QObject input visitor for @obj for use with keyval_parse()
-  *
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 2d853255a3..3b950f6e3d 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -113,6 +113,9 @@ struct Visitor
-        The core takes care of the return type in the public interface. */
-     void (*optional)(Visitor *v, const char *name, bool *present);
- 
-+    /* Optional */
-+    bool (*deprecated_accept)(Visitor *v, const char *name, Error **errp);
++The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
 +
-     /* Optional */
-     bool (*deprecated)(Visitor *v, const char *name);
+ Human Monitor Protocol (HMP) commands
+ -------------------------------------
  
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index 4d23b59853..b3c9ef7a81 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -459,6 +459,15 @@ void visit_end_alternate(Visitor *v, void **obj);
-  */
- bool visit_optional(Visitor *v, const char *name, bool *present);
- 
-+/*
-+ * Should we reject deprecated member @name?
-+ *
-+ * @name must not be NULL.  This function is only useful between
-+ * visit_start_struct() and visit_end_struct(), since only objects
-+ * have deprecated members.
-+ */
-+bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp);
-+
- /*
-  * Should we visit deprecated member @name?
-  *
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index d9726ecaa1..a641adec51 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -135,6 +135,15 @@ bool visit_optional(Visitor *v, const char *name, bool *present)
-     return *present;
- }
- 
-+bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp)
-+{
-+    trace_visit_deprecated_accept(v, name);
-+    if (v->deprecated_accept) {
-+        return v->deprecated_accept(v, name, errp);
-+    }
-+    return true;
-+}
-+
- bool visit_deprecated(Visitor *v, const char *name)
+diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+index 6357be9c6b..58248cffa3 100644
+--- a/hw/core/machine-hmp-cmds.c
++++ b/hw/core/machine-hmp-cmds.c
+@@ -130,7 +130,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
  {
-     trace_visit_deprecated(v, name);
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 23843b242e..1b8fa1f2f6 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -14,6 +14,7 @@
+     int i, nb_numa_nodes;
+     NumaNodeMem *node_mem;
+-    CpuInfoList *cpu_list, *cpu;
++    CpuInfoFastList *cpu_list, *cpu;
+     MachineState *ms = MACHINE(qdev_get_machine());
  
- #include "qemu/osdep.h"
- #include <math.h>
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/visitor-impl.h"
-@@ -43,6 +44,7 @@ typedef struct StackObject {
- 
- struct QObjectInputVisitor {
-     Visitor visitor;
-+    CompatPolicyInput deprecated_policy;
- 
-     /* Root of visit at visitor creation. */
-     QObject *root;
-@@ -662,6 +664,23 @@ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
-     *present = true;
- }
- 
-+static bool qobject_input_deprecated_accept(Visitor *v, const char *name,
-+                                            Error **errp)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+
-+    switch (qiv->deprecated_policy) {
-+    case COMPAT_POLICY_INPUT_ACCEPT:
-+        return true;
-+    case COMPAT_POLICY_INPUT_REJECT:
-+        error_setg(errp, "Deprecated parameter '%s' disabled by policy",
-+                   name);
-+        return false;
-+    default:
-+        abort();
-+    }
-+}
-+
- static void qobject_input_free(Visitor *v)
- {
-     QObjectInputVisitor *qiv = to_qiv(v);
-@@ -696,6 +715,7 @@ static QObjectInputVisitor *qobject_input_visitor_base_new(QObject *obj)
-     v->visitor.end_list = qobject_input_end_list;
-     v->visitor.start_alternate = qobject_input_start_alternate;
-     v->visitor.optional = qobject_input_optional;
-+    v->visitor.deprecated_accept = qobject_input_deprecated_accept;
-     v->visitor.free = qobject_input_free;
- 
-     v->root = qobject_ref(obj);
-@@ -718,6 +738,14 @@ Visitor *qobject_input_visitor_new(QObject *obj)
-     return &v->visitor;
- }
- 
-+Visitor *qobject_input_visitor_new_qmp(QObject *obj)
-+{
-+    QObjectInputVisitor *v = to_qiv(qobject_input_visitor_new(obj));
-+
-+    v->deprecated_policy = compat_policy.deprecated_input;
-+    return &v->visitor;
-+}
-+
- Visitor *qobject_input_visitor_new_keyval(QObject *obj)
- {
-     QObjectInputVisitor *v = qobject_input_visitor_base_new(obj);
-diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-index cba982154b..266db074b4 100644
---- a/tests/unit/test-qmp-cmds.c
-+++ b/tests/unit/test-qmp-cmds.c
-@@ -303,6 +303,29 @@ static void test_dispatch_cmd_deprecated(void)
-     do_qmp_dispatch_error(false, ERROR_CLASS_COMMAND_NOT_FOUND, cmd);
- }
- 
-+static void test_dispatch_cmd_arg_deprecated(void)
-+{
-+    const char *cmd = "{ 'execute': 'test-features0',"
-+        " 'arguments': { 'fs1': { 'foo': 42 } } }";
-+    QDict *ret;
-+
-+    memset(&compat_policy, 0, sizeof(compat_policy));
-+
-+    /* accept */
-+    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) == 1);
-+    qobject_unref(ret);
-+
-+    compat_policy.has_deprecated_input = true;
-+    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_ACCEPT;
-+    ret = qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) == 1);
-+    qobject_unref(ret);
-+
-+    compat_policy.deprecated_input = COMPAT_POLICY_INPUT_REJECT;
-+    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR, cmd);
-+}
-+
- static void test_dispatch_cmd_ret_deprecated(void)
- {
-     const char *cmd = "{ 'execute': 'test-features0' }";
-@@ -403,6 +426,8 @@ int main(int argc, char **argv)
-                     test_dispatch_cmd_success_response);
-     g_test_add_func("/qmp/dispatch_cmd_deprecated",
-                     test_dispatch_cmd_deprecated);
-+    g_test_add_func("/qmp/dispatch_cmd_arg_deprecated",
-+                    test_dispatch_cmd_arg_deprecated);
-     g_test_add_func("/qmp/dispatch_cmd_ret_deprecated",
-                     test_dispatch_cmd_ret_deprecated);
-     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
-diff --git a/qapi/trace-events b/qapi/trace-events
-index eff1fbd199..3cabe912ae 100644
---- a/qapi/trace-events
-+++ b/qapi/trace-events
-@@ -17,6 +17,7 @@ visit_start_alternate(void *v, const char *name, void *obj, size_t size) "v=%p n
- visit_end_alternate(void *v, void *obj) "v=%p obj=%p"
- 
- visit_optional(void *v, const char *name, bool *present) "v=%p name=%s present=%p"
-+visit_deprecated_accept(void *v, const char *name) "v=%p name=%s"
- visit_deprecated(void *v, const char *name) "v=%p name=%s"
- 
- visit_type_enum(void *v, const char *name, int *obj) "v=%p name=%s obj=%p"
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index f5d97454af..8ccd1d9224 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -154,7 +154,7 @@ def gen_marshal(name: str,
- 
-     ret += mcgen('''
- 
--    v = qobject_input_visitor_new(QOBJECT(args));
-+    v = qobject_input_visitor_new_qmp(QOBJECT(args));
-     if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-         goto out;
+     nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
+@@ -139,7 +139,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+         return;
      }
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 9d83bf650f..9e96f3c566 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -87,6 +87,9 @@ def gen_visit_object_members(name: str,
-             indent.increase()
-         if deprecated:
-             ret += mcgen('''
-+    if (!visit_deprecated_accept(v, "%(name)s", errp)) {
-+        return false;
-+    }
-     if (visit_deprecated(v, "%(name)s")) {
- ''',
-                          name=memb.name)
+ 
+-    cpu_list = qmp_query_cpus(&error_abort);
++    cpu_list = qmp_query_cpus_fast(&error_abort);
+     node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
+ 
+     query_numa_node_mem(node_mem, ms);
+@@ -148,7 +148,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+         for (cpu = cpu_list; cpu; cpu = cpu->next) {
+             if (cpu->value->has_props && cpu->value->props->has_node_id &&
+                 cpu->value->props->node_id == i) {
+-                monitor_printf(mon, " %" PRIi64, cpu->value->CPU);
++                monitor_printf(mon, " %" PRIi64, cpu->value->cpu_index);
+             }
+         }
+         monitor_printf(mon, "\n");
+@@ -157,6 +157,6 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+         monitor_printf(mon, "node %d plugged: %" PRId64 " MB\n", i,
+                        node_mem[i].node_plugged_mem >> 20);
+     }
+-    qapi_free_CpuInfoList(cpu_list);
++    qapi_free_CpuInfoFastList(cpu_list);
+     g_free(node_mem);
+ }
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 44e979e503..af60cd969d 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -24,85 +24,6 @@
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ 
+-CpuInfoList *qmp_query_cpus(Error **errp)
+-{
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-    MachineClass *mc = MACHINE_GET_CLASS(ms);
+-    CpuInfoList *head = NULL, **tail = &head;
+-    CPUState *cpu;
+-
+-    CPU_FOREACH(cpu) {
+-        CpuInfo *value;
+-#if defined(TARGET_I386)
+-        X86CPU *x86_cpu = X86_CPU(cpu);
+-        CPUX86State *env = &x86_cpu->env;
+-#elif defined(TARGET_PPC)
+-        PowerPCCPU *ppc_cpu = POWERPC_CPU(cpu);
+-        CPUPPCState *env = &ppc_cpu->env;
+-#elif defined(TARGET_SPARC)
+-        SPARCCPU *sparc_cpu = SPARC_CPU(cpu);
+-        CPUSPARCState *env = &sparc_cpu->env;
+-#elif defined(TARGET_RISCV)
+-        RISCVCPU *riscv_cpu = RISCV_CPU(cpu);
+-        CPURISCVState *env = &riscv_cpu->env;
+-#elif defined(TARGET_MIPS)
+-        MIPSCPU *mips_cpu = MIPS_CPU(cpu);
+-        CPUMIPSState *env = &mips_cpu->env;
+-#elif defined(TARGET_TRICORE)
+-        TriCoreCPU *tricore_cpu = TRICORE_CPU(cpu);
+-        CPUTriCoreState *env = &tricore_cpu->env;
+-#elif defined(TARGET_S390X)
+-        S390CPU *s390_cpu = S390_CPU(cpu);
+-        CPUS390XState *env = &s390_cpu->env;
+-#endif
+-
+-        cpu_synchronize_state(cpu);
+-
+-        value = g_malloc0(sizeof(*value));
+-        value->CPU = cpu->cpu_index;
+-        value->current = (cpu == first_cpu);
+-        value->halted = cpu->halted;
+-        value->qom_path = object_get_canonical_path(OBJECT(cpu));
+-        value->thread_id = cpu->thread_id;
+-#if defined(TARGET_I386)
+-        value->arch = CPU_INFO_ARCH_X86;
+-        value->u.x86.pc = env->eip + env->segs[R_CS].base;
+-#elif defined(TARGET_PPC)
+-        value->arch = CPU_INFO_ARCH_PPC;
+-        value->u.ppc.nip = env->nip;
+-#elif defined(TARGET_SPARC)
+-        value->arch = CPU_INFO_ARCH_SPARC;
+-        value->u.q_sparc.pc = env->pc;
+-        value->u.q_sparc.npc = env->npc;
+-#elif defined(TARGET_MIPS)
+-        value->arch = CPU_INFO_ARCH_MIPS;
+-        value->u.q_mips.PC = env->active_tc.PC;
+-#elif defined(TARGET_TRICORE)
+-        value->arch = CPU_INFO_ARCH_TRICORE;
+-        value->u.tricore.PC = env->PC;
+-#elif defined(TARGET_S390X)
+-        value->arch = CPU_INFO_ARCH_S390;
+-        value->u.s390.cpu_state = env->cpu_state;
+-#elif defined(TARGET_RISCV)
+-        value->arch = CPU_INFO_ARCH_RISCV;
+-        value->u.riscv.pc = env->pc;
+-#else
+-        value->arch = CPU_INFO_ARCH_OTHER;
+-#endif
+-        value->has_props = !!mc->cpu_index_to_instance_props;
+-        if (value->has_props) {
+-            CpuInstanceProperties *props;
+-            props = g_malloc0(sizeof(*props));
+-            *props = mc->cpu_index_to_instance_props(ms, cpu->cpu_index);
+-            value->props = props;
+-        }
+-
+-        QAPI_LIST_APPEND(tail, value);
+-    }
+-
+-    return head;
+-}
+-
+ static CpuInfoArch sysemu_target_to_cpuinfo_arch(SysEmuTarget target)
+ {
+     /*
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 330189efe3..9811927504 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -38,7 +38,7 @@
+ # @CpuInfoArch:
+ #
+ # An enumeration of cpu types that enable additional information during
+-# @query-cpus and @query-cpus-fast.
++# @query-cpus-fast.
+ #
+ # @s390: since 2.12
+ #
+@@ -49,114 +49,6 @@
+ { 'enum': 'CpuInfoArch',
+   'data': ['x86', 'sparc', 'ppc', 'mips', 'tricore', 's390', 'riscv', 'other' ] }
+ 
+-##
+-# @CpuInfo:
+-#
+-# Information about a virtual CPU
+-#
+-# @CPU: the index of the virtual CPU
+-#
+-# @current: this only exists for backwards compatibility and should be ignored
+-#
+-# @halted: true if the virtual CPU is in the halt state.  Halt usually refers
+-#          to a processor specific low power mode.
+-#
+-# @qom_path: path to the CPU object in the QOM tree (since 2.4)
+-#
+-# @thread_id: ID of the underlying host thread
+-#
+-# @props: properties describing to which node/socket/core/thread
+-#         virtual CPU belongs to, provided if supported by board (since 2.10)
+-#
+-# @arch: architecture of the cpu, which determines which additional fields
+-#        will be listed (since 2.6)
+-#
+-# Since: 0.14
+-#
+-# Notes: @halted is a transient state that changes frequently.  By the time the
+-#        data is sent to the client, the guest may no longer be halted.
+-##
+-{ 'union': 'CpuInfo',
+-  'base': {'CPU': 'int', 'current': 'bool', 'halted': 'bool',
+-           'qom_path': 'str', 'thread_id': 'int',
+-           '*props': 'CpuInstanceProperties', 'arch': 'CpuInfoArch' },
+-  'discriminator': 'arch',
+-  'data': { 'x86': 'CpuInfoX86',
+-            'sparc': 'CpuInfoSPARC',
+-            'ppc': 'CpuInfoPPC',
+-            'mips': 'CpuInfoMIPS',
+-            'tricore': 'CpuInfoTricore',
+-            's390': 'CpuInfoS390',
+-            'riscv': 'CpuInfoRISCV' } }
+-
+-##
+-# @CpuInfoX86:
+-#
+-# Additional information about a virtual i386 or x86_64 CPU
+-#
+-# @pc: the 64-bit instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoX86', 'data': { 'pc': 'int' } }
+-
+-##
+-# @CpuInfoSPARC:
+-#
+-# Additional information about a virtual SPARC CPU
+-#
+-# @pc: the PC component of the instruction pointer
+-#
+-# @npc: the NPC component of the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoSPARC', 'data': { 'pc': 'int', 'npc': 'int' } }
+-
+-##
+-# @CpuInfoPPC:
+-#
+-# Additional information about a virtual PPC CPU
+-#
+-# @nip: the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoPPC', 'data': { 'nip': 'int' } }
+-
+-##
+-# @CpuInfoMIPS:
+-#
+-# Additional information about a virtual MIPS CPU
+-#
+-# @PC: the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoMIPS', 'data': { 'PC': 'int' } }
+-
+-##
+-# @CpuInfoTricore:
+-#
+-# Additional information about a virtual Tricore CPU
+-#
+-# @PC: the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoTricore', 'data': { 'PC': 'int' } }
+-
+-##
+-# @CpuInfoRISCV:
+-#
+-# Additional information about a virtual RISCV CPU
+-#
+-# @pc: the instruction pointer
+-#
+-# Since 2.12
+-##
+-{ 'struct': 'CpuInfoRISCV', 'data': { 'pc': 'int' } }
+-
+ ##
+ # @CpuS390State:
+ #
+@@ -180,53 +72,6 @@
+ ##
+ { 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
+ 
+-##
+-# @query-cpus:
+-#
+-# Returns a list of information about each virtual CPU.
+-#
+-# This command causes vCPU threads to exit to userspace, which causes
+-# a small interruption to guest CPU execution. This will have a negative
+-# impact on realtime guests and other latency sensitive guest workloads.
+-#
+-# Features:
+-# @deprecated: This command is deprecated, because it interferes with
+-#              the guest.  Use 'query-cpus-fast' instead to avoid the vCPU
+-#              interruption.
+-#
+-# Returns: a list of @CpuInfo for each virtual CPU
+-#
+-# Since: 0.14
+-#
+-# Example:
+-#
+-# -> { "execute": "query-cpus" }
+-# <- { "return": [
+-#          {
+-#             "CPU":0,
+-#             "current":true,
+-#             "halted":false,
+-#             "qom_path":"/machine/unattached/device[0]",
+-#             "arch":"x86",
+-#             "pc":3227107138,
+-#             "thread_id":3134
+-#          },
+-#          {
+-#             "CPU":1,
+-#             "current":false,
+-#             "halted":true,
+-#             "qom_path":"/machine/unattached/device[2]",
+-#             "arch":"x86",
+-#             "pc":7108165,
+-#             "thread_id":3135
+-#          }
+-#       ]
+-#    }
+-#
+-##
+-{ 'command': 'query-cpus', 'returns': ['CpuInfo'],
+-  'features': [ 'deprecated' ] }
+-
+ ##
+ # @CpuInfoFast:
+ #
+@@ -266,9 +111,7 @@
+ ##
+ # @query-cpus-fast:
+ #
+-# Returns information about all virtual CPUs. This command does not
+-# incur a performance penalty and should be used in production
+-# instead of query-cpus.
++# Returns information about all virtual CPUs.
+ #
+ # Returns: list of @CpuInfoFast
+ #
+diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
+index e49bf33fc5..f48f68fc6b 100644
+--- a/tests/acceptance/pc_cpu_hotplug_props.py
++++ b/tests/acceptance/pc_cpu_hotplug_props.py
+@@ -32,4 +32,4 @@ def test_no_die_id(self):
+         self.vm.add_args('-cpu', 'qemu64')
+         self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0')
+         self.vm.launch()
+-        self.assertEquals(len(self.vm.command('query-cpus')), 2)
++        self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
+diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
+index 2b7461bb41..77ed8597a4 100644
+--- a/tests/acceptance/x86_cpu_model_versions.py
++++ b/tests/acceptance/x86_cpu_model_versions.py
+@@ -246,7 +246,7 @@ class CascadelakeArchCapabilities(avocado_qemu.Test):
+     :avocado: tags=arch:x86_64
+     """
+     def get_cpu_prop(self, prop):
+-        cpu_path = self.vm.command('query-cpus')[0].get('qom_path')
++        cpu_path = self.vm.command('query-cpus-fast')[0].get('qom-path')
+         return self.vm.command('qom-get', path=cpu_path, property=prop)
+ 
+     def test_4_1(self):
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 5161e4ff81..5c965140f8 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -110,7 +110,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+         src_vcpu_time = []
+         src_pid = src.get_pid()
+ 
+-        vcpus = src.command("query-cpus")
++        vcpus = src.command("query-cpus-fast")
+         src_threads = []
+         for vcpu in vcpus:
+             src_threads.append(vcpu["thread_id"])
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index b25ebf97d8..dc0ec571ca 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -72,7 +72,7 @@ static void test_mon_partial(const void *data)
+ 
+ static QList *get_cpus(QTestState *qts, QDict **resp)
+ {
+-    *resp = qtest_qmp(qts, "{ 'execute': 'query-cpus' }");
++    *resp = qtest_qmp(qts, "{ 'execute': 'query-cpus-fast' }");
+     g_assert(*resp);
+     g_assert(qdict_haskey(*resp, "return"));
+     return qdict_get_qlist(*resp, "return");
+@@ -97,10 +97,10 @@ static void test_query_cpus(const void *data)
+         int64_t cpu_idx, node;
+ 
+         cpu = qobject_to(QDict, e);
+-        g_assert(qdict_haskey(cpu, "CPU"));
++        g_assert(qdict_haskey(cpu, "cpu-index"));
+         g_assert(qdict_haskey(cpu, "props"));
+ 
+-        cpu_idx = qdict_get_int(cpu, "CPU");
++        cpu_idx = qdict_get_int(cpu, "cpu-index");
+         props = qdict_get_qdict(cpu, "props");
+         g_assert(qdict_haskey(props, "node-id"));
+         node = qdict_get_int(props, "node-id");
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index 11614bf63f..cd27fae3de 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -252,7 +252,7 @@ static void test_qmp_oob(void)
+      * Try any command that does not support OOB but with OOB flag. We
+      * should get failure.
+      */
+-    resp = qtest_qmp(qts, "{ 'exec-oob': 'query-cpus' }");
++    resp = qtest_qmp(qts, "{ 'exec-oob': 'query-cpus-fast' }");
+     g_assert(qdict_haskey(resp, "error"));
+     qobject_unref(resp);
+ 
+@@ -289,7 +289,7 @@ static void test_qmp_preconfig(void)
+     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-commands' }")));
+ 
+     /* forbidden commands, expected error */
+-    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus' }")));
++    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
+ 
+     /* check that query-status returns preconfig state */
+     rsp = qtest_qmp(qs, "{ 'execute': 'query-status' }");
+@@ -313,7 +313,7 @@ static void test_qmp_preconfig(void)
+     g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'x-exit-preconfig' }")));
+ 
+     /* enabled commands, no error expected  */
+-    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus' }")));
++    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
+ 
+     qtest_quit(qs);
+ }
+diff --git a/tests/qtest/test-x86-cpuid-compat.c b/tests/qtest/test-x86-cpuid-compat.c
+index 6470f0a85d..f28848e06e 100644
+--- a/tests/qtest/test-x86-cpuid-compat.c
++++ b/tests/qtest/test-x86-cpuid-compat.c
+@@ -13,12 +13,12 @@ static char *get_cpu0_qom_path(void)
+     QDict *cpu0;
+     char *path;
+ 
+-    resp = qmp("{'execute': 'query-cpus', 'arguments': {}}");
++    resp = qmp("{'execute': 'query-cpus-fast', 'arguments': {}}");
+     g_assert(qdict_haskey(resp, "return"));
+     ret = qdict_get_qlist(resp, "return");
+ 
+     cpu0 = qobject_to(QDict, qlist_peek(ret));
+-    path = g_strdup(qdict_get_str(cpu0, "qom_path"));
++    path = g_strdup(qdict_get_str(cpu0, "qom-path"));
+     qobject_unref(resp);
+     return path;
+ }
 -- 
-2.26.2
+2.30.2
 
 
