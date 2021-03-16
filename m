@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F98233DB59
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:47:53 +0100 (CET)
-Received: from localhost ([::1]:44530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D5233DB11
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:37:07 +0100 (CET)
+Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMDnM-00012R-FM
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53164)
+	id 1lMDcw-0001GU-K6
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lMDAS-0004fR-2x
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:07:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1lMDAg-0004yp-UZ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:07:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20275)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lMDAQ-0005sw-9e
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:07:39 -0400
+ id 1lMDAb-0005xK-OC
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:07:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615914457;
+ s=mimecast20190719; t=1615914469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5httC4uvGDdHdev+bhurYgKh+LbsEq56qgX19Qx3it0=;
- b=SBaEkV5OKJiMs0pM1NyTjxt9NbQRhkgIJHoNy4xevcgWydooWJV1Y0Xzajbh87P2XtTT4L
- 0NbxESNt2QCrGfbmnOaCTlIAmdMCfyJMKpe0+pZwz6MK9TUmvsArHoeuVxxCoQBUI/tY2d
- 1XCo4wFCgDWD5v3EmWMZk//cFkFWvQA=
+ bh=H1RFMHMot9VQRi+TCvM+qcYlf4xdQtuq7It4W5NtbRk=;
+ b=I9i+KzLZrH0KDgAkpqCwXxalSASpa4WejkCQA1UJp4Fk8ANnWZAkS5rhqcai3T+xA38QIH
+ ZaL2MYO4cyEeUac/1mEXZx8WNwqN4OGmHJN7MRkfGg4+DWYuJ3nu4QdAN6Av/GhQ6intlK
+ zKkmgCMtc3wubXmfS1IfFWF1Mw8LMvA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-S4ZOVSCzO1ackgPFpEFW7A-1; Tue, 16 Mar 2021 13:07:34 -0400
-X-MC-Unique: S4ZOVSCzO1ackgPFpEFW7A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-531-bDmRWCmCOEuX92QTf74-bg-1; Tue, 16 Mar 2021 13:07:43 -0400
+X-MC-Unique: bDmRWCmCOEuX92QTf74-bg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7095ACC625;
- Tue, 16 Mar 2021 17:07:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFBB2800C78;
+ Tue, 16 Mar 2021 17:07:42 +0000 (UTC)
 Received: from rhel8vm.home.shazbot.org (ovpn-115-65.phx2.redhat.com
  [10.3.115.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03702614EF;
- Tue, 16 Mar 2021 17:07:28 +0000 (UTC)
-Subject: [PULL 08/10] vfio: Avoid disabling and enabling vectors repeatedly in
- VFIO migration
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9CFC19D61;
+ Tue, 16 Mar 2021 17:07:38 +0000 (UTC)
+Subject: [PULL 09/10] vfio: Support host translation granule size
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Mar 2021 11:07:29 -0600
-Message-ID: <161591444937.135549.17330848932429007536.stgit@rhel8vm.home.shazbot.org>
+Date: Tue, 16 Mar 2021 11:07:39 -0600
+Message-ID: <161591445947.135549.1776902921629998180.stgit@rhel8vm.home.shazbot.org>
 In-Reply-To: <161591414009.135549.5804863877511053803.stgit@rhel8vm.home.shazbot.org>
 References: <161591414009.135549.5804863877511053803.stgit@rhel8vm.home.shazbot.org>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,66 +81,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shenming Lu <lushenming@huawei.com>
+Cc: Kunkun Jiang <jiangkunkun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shenming Lu <lushenming@huawei.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
 
-In VFIO migration resume phase and some guest startups, there are
-already unmasked vectors in the vector table when calling
-vfio_msix_enable(). So in order to avoid inefficiently disabling
-and enabling vectors repeatedly, let's allocate all needed vectors
-first and then enable these unmasked vectors one by one without
-disabling.
+The cpu_physical_memory_set_dirty_lebitmap() can quickly deal with
+the dirty pages of memory by bitmap-traveling, regardless of whether
+the bitmap is aligned correctly or not.
 
-Signed-off-by: Shenming Lu <lushenming@huawei.com>
-Message-Id: <20210310030233.1133-4-lushenming@huawei.com>
+cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
+host page size. So it'd better to set bitmap_pgsize to host page size
+to support more translation granule sizes.
+
+[aw: The Fixes commit below introduced code to restrict migration
+support to configurations where the target page size intersects the
+host dirty page support.  For example, a 4K guest on a 4K host.
+Due to the above flexibility in bitmap handling, this restriction
+unnecessarily prevents mixed target/host pages size that could
+otherwise be supported.  Use host page size for dirty bitmap.]
+
+Fixes: 87ea529c502 ("vfio: Get migration capability flags for container")
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-Id: <20210304133446.1521-1-jiangkunkun@huawei.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/pci.c |   20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ hw/vfio/common.c |   48 +++++++++++++++++++++++++-----------------------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 759a3b1abf4b..5c65aa0a98e2 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -569,6 +569,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- 
- static void vfio_msix_enable(VFIOPCIDevice *vdev)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 35a41fd05251..ad08dfd729b9 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -378,7 +378,7 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
  {
-+    PCIDevice *pdev = &vdev->pdev;
-+    unsigned int nr, max_vec = 0;
-+
-     vfio_disable_interrupts(vdev);
+     struct vfio_iommu_type1_dma_unmap *unmap;
+     struct vfio_bitmap *bitmap;
+-    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
++    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size;
+     int ret;
  
-     vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
-@@ -587,11 +590,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-      * triggering to userspace, then immediately release the vector, leaving
-      * the physical device with no vectors enabled, but MSI-X enabled, just
-      * like the guest view.
-+     * If there are already unmasked vectors (in migration resume phase and
-+     * some guest startups) which will be enabled soon, we can allocate all
-+     * of them here to avoid inefficiently disabling and enabling vectors
-+     * repeatedly later.
+     unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+@@ -390,12 +390,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+     bitmap = (struct vfio_bitmap *)&unmap->data;
+ 
+     /*
+-     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+-     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
+-     * TARGET_PAGE_SIZE.
++     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
++     * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
++     * to qemu_real_host_page_size.
       */
--    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
--    vfio_msix_vector_release(&vdev->pdev, 0);
-+    if (!pdev->msix_function_masked) {
-+        for (nr = 0; nr < msix_nr_vectors_allocated(pdev); nr++) {
-+            if (!msix_is_masked(pdev, nr)) {
-+                max_vec = nr;
-+            }
-+        }
-+    }
-+    vfio_msix_vector_do_use(pdev, max_vec, NULL, NULL);
-+    vfio_msix_vector_release(pdev, max_vec);
  
--    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
-+    if (msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
-                                   vfio_msix_vector_release, NULL)) {
-         error_report("vfio: msix_set_vector_notifiers failed");
+-    bitmap->pgsize = TARGET_PAGE_SIZE;
++    bitmap->pgsize = qemu_real_host_page_size;
+     bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+                    BITS_PER_BYTE;
+ 
+@@ -674,16 +674,17 @@ static void vfio_listener_region_add(MemoryListener *listener,
+         return;
      }
+ 
+-    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+-                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
++    if (unlikely((section->offset_within_address_space &
++                  ~qemu_real_host_page_mask) !=
++                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
+         error_report("%s received unaligned region", __func__);
+         return;
+     }
+ 
+-    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
++    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+     llend = int128_make64(section->offset_within_address_space);
+     llend = int128_add(llend, section->size);
+-    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
++    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+ 
+     if (int128_ge(int128_make64(iova), llend)) {
+         return;
+@@ -892,8 +893,9 @@ static void vfio_listener_region_del(MemoryListener *listener,
+         return;
+     }
+ 
+-    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+-                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
++    if (unlikely((section->offset_within_address_space &
++                  ~qemu_real_host_page_mask) !=
++                 (section->offset_within_region & ~qemu_real_host_page_mask))) {
+         error_report("%s received unaligned region", __func__);
+         return;
+     }
+@@ -921,10 +923,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
+          */
+     }
+ 
+-    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
++    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+     llend = int128_make64(section->offset_within_address_space);
+     llend = int128_add(llend, section->size);
+-    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
++    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+ 
+     if (int128_ge(int128_make64(iova), llend)) {
+         return;
+@@ -1004,13 +1006,13 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+     range->size = size;
+ 
+     /*
+-     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+-     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
+-     * TARGET_PAGE_SIZE.
++     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
++     * qemu_real_host_page_size to mark those dirty. Hence set bitmap's pgsize
++     * to qemu_real_host_page_size.
+      */
+-    range->bitmap.pgsize = TARGET_PAGE_SIZE;
++    range->bitmap.pgsize = qemu_real_host_page_size;
+ 
+-    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
++    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size;
+     range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+                                          BITS_PER_BYTE;
+     range->bitmap.data = g_try_malloc0(range->bitmap.size);
+@@ -1114,8 +1116,8 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+                section->offset_within_region;
+ 
+     return vfio_get_dirty_bitmap(container,
+-                       TARGET_PAGE_ALIGN(section->offset_within_address_space),
+-                       int128_get64(section->size), ram_addr);
++                   REAL_HOST_PAGE_ALIGN(section->offset_within_address_space),
++                   int128_get64(section->size), ram_addr);
+ }
+ 
+ static void vfio_listener_log_sync(MemoryListener *listener,
+@@ -1655,10 +1657,10 @@ static void vfio_get_iommu_info_migration(VFIOContainer *container,
+                             header);
+ 
+     /*
+-     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+-     * TARGET_PAGE_SIZE to mark those dirty.
++     * cpu_physical_memory_set_dirty_lebitmap() supports pages in bitmap of
++     * qemu_real_host_page_size to mark those dirty.
+      */
+-    if (cap_mig->pgsize_bitmap & TARGET_PAGE_SIZE) {
++    if (cap_mig->pgsize_bitmap & qemu_real_host_page_size) {
+         container->dirty_pages_supported = true;
+         container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
+         container->dirty_pgsizes = cap_mig->pgsize_bitmap;
 
 
 
