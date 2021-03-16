@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA84933D1EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 11:40:42 +0100 (CET)
-Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3104633D1D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 11:34:59 +0100 (CET)
+Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM77x-0004Y0-TH
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 06:40:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43972)
+	id 1lM72Q-0004oa-02
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 06:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM70t-0003ER-MV
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:33:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58774)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM70p-00039V-UI
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:33:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM70n-0007ts-Ik
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:33:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM70l-0007sS-GJ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:33:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615890795;
+ s=mimecast20190719; t=1615890793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JCKceHJjmRCPI/XDDQVUYz1bp4FH1o5ZSRxjdXZdzlk=;
- b=bHsBXMvHqVcu8Hv5O6CjaI49jFMQ9rVE2p0EAHrb2ORzq9QgYmTWYd8Ox8Mn5ib+SLJwB2
- R3BnuT6rskqBheB8fM31FnWF6vOn6hNH9oAP6jfssy3ns/sheUGeXJ/0EZXGH8vOnF5A9t
- ZCAwkUuyEhGdDZl4mHFf7qQRYoBIae8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SUaXUOZnWoRaY9cL2RzSiqhkolT75Q9ZiMHlqDfjqkA=;
+ b=Zb33DO8r9liWhVGFIVx5qUe5IbC7uKKV/6MSoFB0LKJeF8VjZoCUUC2SVeoph3h3iNDcoU
+ j8tvCs1k679r5D7RxSCeARDbetpJLiLoAjyJ4Ygfc6uDMOPWme9gItaQfhy9eRxe9Ged3R
+ 4pf/l7sqZZZ8E4yI38UA1FOZmzVOfM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-8cak_RvWPeucaMWhZ2ua_A-1; Tue, 16 Mar 2021 06:33:11 -0400
-X-MC-Unique: 8cak_RvWPeucaMWhZ2ua_A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-507-3P2R-ASbNW6tNGoJSGO8YQ-1; Tue, 16 Mar 2021 06:33:11 -0400
+X-MC-Unique: 3P2R-ASbNW6tNGoJSGO8YQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7A2480006E;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF50469727;
  Tue, 16 Mar 2021 10:33:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
  [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 702196BC2D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F3115D9C0;
  Tue, 16 Mar 2021 10:33:10 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DDBEE1132C12; Tue, 16 Mar 2021 11:33:08 +0100 (CET)
+ id E122E1132C13; Tue, 16 Mar 2021 11:33:08 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/11] QAPI patches patches for 2021-03-16
-Date: Tue, 16 Mar 2021 11:32:57 +0100
-Message-Id: <20210316103308.3458293-1-armbru@redhat.com>
+Subject: [PULL 01/11] qemuutil: remove qemu_set_fd_handler duplicate symbol
+Date: Tue, 16 Mar 2021 11:32:58 +0100
+Message-Id: <20210316103308.3458293-2-armbru@redhat.com>
+In-Reply-To: <20210316103308.3458293-1-armbru@redhat.com>
+References: <20210316103308.3458293-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,77 +79,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2615a5e433aeb812c300d3a48e1a88e1303e2339:
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-03-15 19:23:00 +0000)
+libqemuutil has two definitions of qemu_set_fd_handler.  This
+is not needed since the only users of the function are
+qemu-io.c and the emulators, both of which already include
+util/main-loop.c.
 
-are available in the Git repository at:
-
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-03-16
-
-for you to fetch changes up to 5b728a7754e32ff6dac3501ded3ba820ef2edc7b:
-
-  qapi: New -compat deprecated-input=crash (2021-03-16 11:10:38 +0100)
-
-----------------------------------------------------------------
-QAPI patches patches for 2021-03-16
-
-----------------------------------------------------------------
-Markus Armbruster (10):
-      qemu-options: New -compat to set policy for deprecated interfaces
-      qapi: Implement deprecated-output=hide for QMP command results
-      qapi: Implement deprecated-output=hide for QMP events
-      qapi: Implement deprecated-output=hide for QMP event data
-      monitor: Drop query-qmp-schema 'gen': false hack
-      qapi: Implement deprecated-output=hide for QMP introspection
-      test-util-sockets: Add stub for monitor_set_cur()
-      qapi: Implement deprecated-input=reject for QMP commands
-      qapi: Implement deprecated-input=reject for QMP command arguments
-      qapi: New -compat deprecated-input=crash
-
-Paolo Bonzini (1):
-      qemuutil: remove qemu_set_fd_handler duplicate symbol
-
- qapi/compat.json                        |  52 +++++++++++++++++
- qapi/introspect.json                    |   2 +-
- qapi/qapi-schema.json                   |   1 +
- include/qapi/compat-policy.h            |  20 +++++++
- include/qapi/qmp/dispatch.h             |   1 +
- include/qapi/qobject-input-visitor.h    |   9 +++
- include/qapi/qobject-output-visitor.h   |   9 +++
- include/qapi/visitor-impl.h             |   6 ++
- include/qapi/visitor.h                  |  18 ++++++
- monitor/monitor-internal.h              |   3 -
- monitor/misc.c                          |   2 -
- monitor/qmp-cmds-control.c              | 100 ++++++++++++++++++++++++++++----
- qapi/qapi-visit-core.c                  |  18 ++++++
- qapi/qmp-dispatch.c                     |  17 ++++++
- qapi/qobject-input-visitor.c            |  29 +++++++++
- qapi/qobject-output-visitor.c           |  19 ++++++
- softmmu/vl.c                            |  17 ++++++
- storage-daemon/qemu-storage-daemon.c    |   2 -
- stubs/set-fd-handler.c                  |  10 ----
- tests/unit/test-qmp-cmds.c              |  91 +++++++++++++++++++++++++++--
- tests/unit/test-qmp-event.c             |  41 +++++++++++++
- tests/unit/test-util-sockets.c          |   1 +
- qapi/meson.build                        |   1 +
- qapi/trace-events                       |   2 +
- qemu-options.hx                         |  22 +++++++
- scripts/qapi/commands.py                |  14 +++--
- scripts/qapi/events.py                  |  20 ++++++-
- scripts/qapi/visit.py                   |  15 +++++
- stubs/meson.build                       |   1 -
- tests/qapi-schema/qapi-schema-test.json |  20 ++++---
- tests/qapi-schema/qapi-schema-test.out  |  20 ++++---
- 31 files changed, 522 insertions(+), 61 deletions(-)
- create mode 100644 qapi/compat.json
- create mode 100644 include/qapi/compat-policy.h
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <d0c5aa88-029e-4328-7a53-482a3010c5f8@redhat.com>
+Tested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ stubs/set-fd-handler.c | 10 ----------
+ stubs/meson.build      |  1 -
+ 2 files changed, 11 deletions(-)
  delete mode 100644 stubs/set-fd-handler.c
 
+diff --git a/stubs/set-fd-handler.c b/stubs/set-fd-handler.c
+deleted file mode 100644
+index bff7e0a45a..0000000000
+--- a/stubs/set-fd-handler.c
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+-
+-void qemu_set_fd_handler(int fd,
+-                         IOHandler *fd_read,
+-                         IOHandler *fd_write,
+-                         void *opaque)
+-{
+-    abort();
+-}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index a054d5877f..8a3e804cf0 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -34,7 +34,6 @@ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
+ stub_ss.add(files('replay.c'))
+ stub_ss.add(files('runstate-check.c'))
+-stub_ss.add(files('set-fd-handler.c'))
+ stub_ss.add(files('sysbus.c'))
+ stub_ss.add(files('target-get-monitor-def.c'))
+ stub_ss.add(files('target-monitor-defs.c'))
 -- 
 2.26.2
 
