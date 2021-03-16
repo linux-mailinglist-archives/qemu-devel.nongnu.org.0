@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112BA33D5F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:40:40 +0100 (CET)
-Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323DC33D604
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:47:04 +0100 (CET)
+Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMAsB-0005M2-0u
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44360)
+	id 1lMAyN-0004sZ-66
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMApy-0003e8-V8
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25262)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMAqB-0003kg-5d
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMApw-0002AZ-U5
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMAq3-0002Ew-7h
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:38:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615905500;
+ s=mimecast20190719; t=1615905505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QeghCcWJCEe+UCS0TAiCXU0ML+ql8ypkHN4QX9BicnE=;
- b=OVsNYg/RA9fg0MkiCD+RlJj37oE2MFl/0dTguaUPzMiRHxNNyK1GyfuywYddH3Z0nMvc7o
- ySUaRhvvb94PKb2wXLmS4zQysGs8Sg5hcn/HIXJ4qYNBvruwfZ8908TMTNz5UY8rcdFsaV
- y+7KicsV5q8GB1vGr5Qy3CLbGgZiF50=
+ bh=MiilbPim2Vhka8mV5z8eig4FD2pldmkQghkgRX0hEGo=;
+ b=GUPJBIGayBLtcPrFFg/0zVvKcojmKEo+ol/oW/1/LAzBh9B9ZhiV7XzlChZ0RbFlTNE5ft
+ XEZMZClZCi5Bt2XmslpohJ74bGI0JToDdYa0pvA9ehXy+wVfe/CorHNSRqW/5G5hn0IMzW
+ nYJK30SWHnTRc9uGgLUPOyvk1DsIhR0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-XWHa-iFuO1OOJrcFR-gbCQ-1; Tue, 16 Mar 2021 10:38:18 -0400
-X-MC-Unique: XWHa-iFuO1OOJrcFR-gbCQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-477-KOs_PFdxPxqWAnG8y6B17g-1; Tue, 16 Mar 2021 10:38:23 -0400
+X-MC-Unique: KOs_PFdxPxqWAnG8y6B17g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C0AA800FF0
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:38:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47FFEA40C0
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:38:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBC765DEAD;
- Tue, 16 Mar 2021 14:38:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C706E5D719;
+ Tue, 16 Mar 2021 14:38:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6254E180062B; Tue, 16 Mar 2021 15:38:12 +0100 (CET)
+ id 6D133180062D; Tue, 16 Mar 2021 15:38:12 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/9] edid: use dta extension block descriptors
-Date: Tue, 16 Mar 2021 15:38:07 +0100
-Message-Id: <20210316143812.2363588-5-kraxel@redhat.com>
+Subject: [PATCH 5/9] edid: prefer standard timings
+Date: Tue, 16 Mar 2021 15:38:08 +0100
+Message-Id: <20210316143812.2363588-6-kraxel@redhat.com>
 In-Reply-To: <20210316143812.2363588-1-kraxel@redhat.com>
 References: <20210316143812.2363588-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,35 +83,67 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the 4 descriptors in the base edid block are filled, jump to the
-dta extension block.  This allows for more than four descriptors.
-Happens for example when generating an edid blob with a serial number
-(qemu-edid -s $serial).
+Windows guests using the "Basic Display Adapter" don't parse the
+"Established timings III" block.  They also don't parse any edid
+extension.
+
+So prefer the "Standard Timings" block to store the display resolutions
+in edid_fill_modes().  Also reorder the mode list, so more exotic
+resolutions (specifically the ones which are not supported by vgabios)
+are moved down and the remaining ones have a better chance to get one of
+the eight slots in the "Standard Timings" block.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/edid-generate.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/display/edid-generate.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index 259ef7315217..489532c3bc5f 100644
+index 489532c3bc5f..42a130f0ff5c 100644
 --- a/hw/display/edid-generate.c
 +++ b/hw/display/edid-generate.c
-@@ -151,6 +151,14 @@ static uint8_t *edid_desc_next(uint8_t *edid, uint8_t *dta, uint8_t *desc)
-     if (desc + 18 + 18 < edid + 127) {
-         return desc + 18;
-     }
-+    if (dta) {
-+        if (desc < edid + 127) {
-+            return dta + dta[2];
-+        }
-+        if (desc + 18 + 18 < dta + 127) {
-+            return desc + 18;
-+        }
-+    }
-     return NULL;
- }
+@@ -25,19 +25,20 @@ static const struct edid_mode {
+     { .xres = 1920,   .yres = 1080,   .dta =  31 },
  
+     /* additional standard timings 3 (all @ 60Hz) */
+-    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
+     { .xres = 1920,   .yres = 1200,   .xtra3 = 10,   .bit = 0 },
+-    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
+-    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
+     { .xres = 1600,   .yres = 1200,   .xtra3 =  9,   .bit = 2 },
+     { .xres = 1680,   .yres = 1050,   .xtra3 =  9,   .bit = 5 },
+-    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
+     { .xres = 1440,   .yres =  900,   .xtra3 =  8,   .bit = 5 },
+-    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
+     { .xres = 1280,   .yres = 1024,   .xtra3 =  7,   .bit = 1 },
+     { .xres = 1280,   .yres =  960,   .xtra3 =  7,   .bit = 3 },
+     { .xres = 1280,   .yres =  768,   .xtra3 =  7,   .bit = 6 },
+ 
++    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
++    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
++    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
++    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
++    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
++
+     /* established timings (all @ 60Hz) */
+     { .xres = 1024,   .yres =  768,   .byte  = 36,   .bit = 3 },
+     { .xres =  800,   .yres =  600,   .byte  = 35,   .bit = 0 },
+@@ -109,13 +110,13 @@ static void edid_fill_modes(uint8_t *edid, uint8_t *xtra3, uint8_t *dta,
+ 
+         if (mode->byte) {
+             edid[mode->byte] |= (1 << mode->bit);
+-        } else if (mode->xtra3 && xtra3) {
+-            xtra3[mode->xtra3] |= (1 << mode->bit);
+         } else if (std < 54) {
+             rc = edid_std_mode(edid + std, mode->xres, mode->yres);
+             if (rc == 0) {
+                 std += 2;
+             }
++        } else if (mode->xtra3 && xtra3) {
++            xtra3[mode->xtra3] |= (1 << mode->bit);
+         }
+ 
+         if (dta && mode->dta) {
 -- 
 2.30.2
 
