@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A178933DD06
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 20:02:40 +0100 (CET)
-Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FEC33DD1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 20:07:07 +0100 (CET)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMExj-0001q9-Iw
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 15:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38206)
+	id 1lMF22-0006i4-5m
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 15:07:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMEZO-0001rg-RV
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:37:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:35642)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMEZM-0001q6-0U
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:37:28 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMEZI-0007gQ-SG
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:37:29 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMEZI-0007gO-UZ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 14:37:27 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E739BAEE7;
- Tue, 16 Mar 2021 18:37:10 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 73A02AEFE;
+ Tue, 16 Mar 2021 18:37:11 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v8 11/44] target/arm: move cpu definitions to common cpu module
-Date: Tue, 16 Mar 2021 19:36:29 +0100
-Message-Id: <20210316183702.10216-12-cfontana@suse.de>
+Subject: [RFC v8 12/44] target/arm: only perform TCG cpu and machine inits if
+ TCG enabled
+Date: Tue, 16 Mar 2021 19:36:30 +0100
+Message-Id: <20210316183702.10216-13-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210316183702.10216-1-cfontana@suse.de>
 References: <20210316183702.10216-1-cfontana@suse.de>
@@ -60,120 +61,201 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+of note, cpreg lists were previously initialized by TCG first,
+and then thrown away and replaced with the data coming from KVM.
+
+Now we just initialize once, either for TCG or for KVM.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu-common.c | 41 +++++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/helper.c | 29 -----------------------------
- target/arm/meson.build  |  1 +
- 3 files changed, 42 insertions(+), 29 deletions(-)
- create mode 100644 target/arm/cpu-common.c
+ target/arm/cpu.c     | 32 ++++++++++++++++++--------------
+ target/arm/kvm.c     | 18 +++++++++---------
+ target/arm/machine.c | 20 +++++++++++++-------
+ 3 files changed, 40 insertions(+), 30 deletions(-)
 
-diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
-new file mode 100644
-index 0000000000..0f8ca94815
---- /dev/null
-+++ b/target/arm/cpu-common.c
-@@ -0,0 +1,41 @@
-+/*
-+ * ARM CPU common definitions
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qom/object.h"
-+#include "qapi/qapi-commands-machine-target.h"
-+#include "qapi/error.h"
-+#include "cpu.h"
-+
-+static void arm_cpu_add_definition(gpointer data, gpointer user_data)
-+{
-+    ObjectClass *oc = data;
-+    CpuDefinitionInfoList **cpu_list = user_data;
-+    CpuDefinitionInfo *info;
-+    const char *typename;
-+
-+    typename = object_class_get_name(oc);
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strndup(typename,
-+                           strlen(typename) - strlen("-" TYPE_ARM_CPU));
-+    info->q_typename = g_strdup(typename);
-+
-+    QAPI_LIST_PREPEND(*cpu_list, info);
-+}
-+
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+{
-+    CpuDefinitionInfoList *cpu_list = NULL;
-+    GSList *list;
-+
-+    list = object_class_get_list(TYPE_ARM_CPU, false);
-+    g_slist_foreach(list, arm_cpu_add_definition, &cpu_list);
-+    g_slist_free(list);
-+
-+    return cpu_list;
-+}
-diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index 8e976ceb6a..08456aa50a 100644
---- a/target/arm/tcg/helper.c
-+++ b/target/arm/tcg/helper.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
- #include "qemu/range.h"
--#include "qapi/qapi-commands-machine-target.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
- #ifdef CONFIG_TCG
-@@ -697,34 +696,6 @@ void arm_cpu_list(void)
-     g_slist_free(list);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 048c904933..e47b09fe18 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -436,9 +436,11 @@ static void arm_cpu_reset(DeviceState *dev)
+     }
+ #endif
+ 
+-    hw_breakpoint_update_all(cpu);
+-    hw_watchpoint_update_all(cpu);
+-    arm_rebuild_hflags(env);
++    if (tcg_enabled()) {
++        hw_breakpoint_update_all(cpu);
++        hw_watchpoint_update_all(cpu);
++        arm_rebuild_hflags(env);
++    }
  }
  
--static void arm_cpu_add_definition(gpointer data, gpointer user_data)
--{
--    ObjectClass *oc = data;
--    CpuDefinitionInfoList **cpu_list = user_data;
--    CpuDefinitionInfo *info;
--    const char *typename;
--
--    typename = object_class_get_name(oc);
--    info = g_malloc0(sizeof(*info));
--    info->name = g_strndup(typename,
--                           strlen(typename) - strlen("-" TYPE_ARM_CPU));
--    info->q_typename = g_strdup(typename);
--
--    QAPI_LIST_PREPEND(*cpu_list, info);
--}
--
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
--{
--    CpuDefinitionInfoList *cpu_list = NULL;
--    GSList *list;
--
--    list = object_class_get_list(TYPE_ARM_CPU, false);
--    g_slist_foreach(list, arm_cpu_add_definition, &cpu_list);
--    g_slist_free(list);
--
--    return cpu_list;
--}
--
- static int bad_mode_switch(CPUARMState *env, int mode, CPSRWriteType write_type)
- {
-     /* Return true if it is not valid for us to switch to
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 2eee25dd0e..7a6d0d6ba4 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -6,6 +6,7 @@ arm_ss.add(files(
-   'cpu-mmu.c',
-   'cpregs.c',
-   'cpustate-list.c',
-+  'cpu-common.c',
- ))
- arm_ss.add(zlib)
+ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+@@ -1319,6 +1321,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         }
+     }
  
++#ifdef CONFIG_TCG
+     {
+         uint64_t scale;
+ 
+@@ -1344,7 +1347,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+                                                   arm_gt_hvtimer_cb, cpu);
+     }
+-#endif
++#endif /* CONFIG_TCG */
++#endif /* !CONFIG_USER_ONLY */
+ 
+     cpu_exec_realizefn(cs, &local_err);
+     if (local_err != NULL) {
+@@ -1645,17 +1649,16 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         unset_feature(env, ARM_FEATURE_PMU);
+     }
+     if (arm_feature(env, ARM_FEATURE_PMU)) {
+-        pmu_init(cpu);
+-
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
++            pmu_init(cpu);
+             arm_register_pre_el_change_hook(cpu, &pmu_pre_el_change, 0);
+             arm_register_el_change_hook(cpu, &pmu_post_el_change, 0);
+-        }
+ 
+ #ifndef CONFIG_USER_ONLY
+-        cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, arm_pmu_timer_cb,
+-                cpu);
++            cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, arm_pmu_timer_cb,
++                                          cpu);
+ #endif
++        }
+     } else {
+         cpu->isar.id_aa64dfr0 =
+             FIELD_DP64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
+@@ -1738,10 +1741,11 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         set_feature(env, ARM_FEATURE_VBAR);
+     }
+ 
+-    register_cp_regs_for_features(cpu);
+-    arm_cpu_register_gdb_regs_for_features(cpu);
+-
+-    init_cpreg_list(cpu);
++    if (tcg_enabled()) {
++        register_cp_regs_for_features(cpu);
++        arm_cpu_register_gdb_regs_for_features(cpu);
++        init_cpreg_list(cpu);
++    }
+ 
+ #ifndef CONFIG_USER_ONLY
+     MachineState *ms = MACHINE(qdev_get_machine());
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index d8381ba224..1b093cc52f 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -431,9 +431,11 @@ static uint64_t *kvm_arm_get_cpreg_ptr(ARMCPU *cpu, uint64_t regidx)
+     return &cpu->cpreg_values[res - cpu->cpreg_indexes];
+ }
+ 
+-/* Initialize the ARMCPU cpreg list according to the kernel's
+- * definition of what CPU registers it knows about (and throw away
+- * the previous TCG-created cpreg list).
++/*
++ * Initialize the ARMCPU cpreg list according to the kernel's
++ * definition of what CPU registers it knows about.
++ *
++ * The parallel for TCG is init_cpreg_list() in tcg/
+  */
+ int kvm_arm_init_cpreg_list(ARMCPU *cpu)
+ {
+@@ -475,12 +477,10 @@ int kvm_arm_init_cpreg_list(ARMCPU *cpu)
+         arraylen++;
+     }
+ 
+-    cpu->cpreg_indexes = g_renew(uint64_t, cpu->cpreg_indexes, arraylen);
+-    cpu->cpreg_values = g_renew(uint64_t, cpu->cpreg_values, arraylen);
+-    cpu->cpreg_vmstate_indexes = g_renew(uint64_t, cpu->cpreg_vmstate_indexes,
+-                                         arraylen);
+-    cpu->cpreg_vmstate_values = g_renew(uint64_t, cpu->cpreg_vmstate_values,
+-                                        arraylen);
++    cpu->cpreg_indexes = g_new(uint64_t, arraylen);
++    cpu->cpreg_values = g_new(uint64_t, arraylen);
++    cpu->cpreg_vmstate_indexes = g_new(uint64_t, arraylen);
++    cpu->cpreg_vmstate_values = g_new(uint64_t, arraylen);
+     cpu->cpreg_array_len = arraylen;
+     cpu->cpreg_vmstate_array_len = arraylen;
+ 
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index e568662cca..2982e8d7f4 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -2,6 +2,7 @@
+ #include "cpu.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/tcg.h"
+ #include "kvm_arm.h"
+ #include "internals.h"
+ #include "migration/cpu.h"
+@@ -635,7 +636,7 @@ static int cpu_pre_save(void *opaque)
+ {
+     ARMCPU *cpu = opaque;
+ 
+-    if (!kvm_enabled()) {
++    if (tcg_enabled()) {
+         pmu_op_start(&cpu->env);
+     }
+ 
+@@ -670,7 +671,7 @@ static int cpu_post_save(void *opaque)
+ {
+     ARMCPU *cpu = opaque;
+ 
+-    if (!kvm_enabled()) {
++    if (tcg_enabled()) {
+         pmu_op_finish(&cpu->env);
+     }
+ 
+@@ -689,7 +690,7 @@ static int cpu_pre_load(void *opaque)
+      */
+     env->irq_line_state = UINT32_MAX;
+ 
+-    if (!kvm_enabled()) {
++    if (tcg_enabled()) {
+         pmu_op_start(&cpu->env);
+     }
+ 
+@@ -759,13 +760,13 @@ static int cpu_post_load(void *opaque, int version_id)
+         }
+     }
+ 
+-    hw_breakpoint_update_all(cpu);
+-    hw_watchpoint_update_all(cpu);
++    if (tcg_enabled()) {
++        hw_breakpoint_update_all(cpu);
++        hw_watchpoint_update_all(cpu);
+ 
+-    if (!kvm_enabled()) {
+         pmu_op_finish(&cpu->env);
++        arm_rebuild_hflags(&cpu->env);
+     }
+-    arm_rebuild_hflags(&cpu->env);
+ 
+     return 0;
+ }
+@@ -815,8 +816,13 @@ const VMStateDescription vmstate_arm_cpu = {
+         VMSTATE_UINT32(env.exception.syndrome, ARMCPU),
+         VMSTATE_UINT32(env.exception.fsr, ARMCPU),
+         VMSTATE_UINT64(env.exception.vaddress, ARMCPU),
++#ifdef CONFIG_TCG
+         VMSTATE_TIMER_PTR(gt_timer[GTIMER_PHYS], ARMCPU),
+         VMSTATE_TIMER_PTR(gt_timer[GTIMER_VIRT], ARMCPU),
++#else
++        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
++        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
++#endif /* CONFIG_TCG */
+         {
+             .name = "power_state",
+             .version_id = 0,
 -- 
 2.26.2
 
