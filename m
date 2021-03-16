@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C26833CF72
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 09:15:11 +0100 (CET)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D3B33CF7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 09:16:46 +0100 (CET)
+Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM4r8-0004DZ-1k
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 04:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39478)
+	id 1lM4sf-000734-HB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 04:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lM4pL-0001yP-Q9
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:13:19 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:40705)
+ id 1lM4pO-00023v-E7
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:13:22 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lM4pJ-0007kA-6P
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:13:19 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id ci14so70454104ejc.7
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 01:13:16 -0700 (PDT)
+ id 1lM4pM-0007mP-Ml
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 04:13:22 -0400
+Received: by mail-ej1-x633.google.com with SMTP id e19so70701500ejt.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 01:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=EvxFf3WBo9tH1ZnVpWzayiw+8oX0XTNgDqvwoPFMymg=;
- b=udz+Ve9i2RI41/tO+ibxQc94qD33cboNhKOHJq2WGRnWuunUq0sGr7d1wsQHN7lz8N
- nWgUAn5/Fg1C56QwR6ILTRQ0ooqfcdcHSL+YqzxWu/2BXzUH9zd5dsLuPGhwqxg8+s23
- KYz7xnI7CW+5cIIRkuxTr+GR+iumLilegcq9CtXb8wR0zLJ5mi1ObhkH/HVG7tIum9KS
- uFuk/XEkMXBq1zc1kxp1Tvuct3GjbcGa2WnTCAJYYFfSVZmoTFEYo4PTRubfnRKidiJD
- 8Yt48d3wdqHdeAWglY+qndE4KP498uoP4PS5U8YQQrGt3nrBiPpO2qUKd3wgfa9EGBVc
- ceow==
+ bh=9ZQ6AOd1nro/moZocOdsvBQpIZ609NYlDfUQCOQCk48=;
+ b=OHGwo+SPUr4fnedP77sbQ+kKFi3+5N1HzSbQJ/0VKHpqN7m8QcMoWlpR5zlsLc6Q/3
+ 8/YaOimYxwqvP5RgNJQouKaUk1Z5BcPmtbObih/uFQna+FScmk3riEHm228qn4pnriob
+ ACdWGXTBNZSO23EnsLLjW8DJ8vJv21SbbvXD/HZzn95EBQqia5xkJN+/QvVfposfcuOJ
+ 0hrejphNO1MdZgajSU5/0pQ3uNHpYM2CvaM65Nqj1iy9kBR2K1wFYcDy5KrwRtsvMbAh
+ 6ZW7CALDVHP+1mIApPYkq3OT2jx0N8jQpuhxRAd3pXoUjWdbViQLJRiWMOjgixS7g/0l
+ usnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=EvxFf3WBo9tH1ZnVpWzayiw+8oX0XTNgDqvwoPFMymg=;
- b=mQxeLr784fjAhigbWXrNHGuN3JaEd6CciHRwogSRMAJslV685hWvVqluymmQpAUOF0
- v+ku6WB+XuBcfzOJo4FAVlxjFgrkTOCX/4YfTHnbbx6JnB9HwzgbjTOp2vTBPxtRXc+k
- yVNFDlj3WviwykUoMzDORYpkxsLtggweiCz/kNQoJTAvkqiNBUJz0T0lwK6RhHh5z99T
- lGififti+0Ua9ku/UykWRe7VdUOoPw02W6GRs59+852MUwsT/KOw378SYAgGZ/YNrEm0
- CuVpIklkDRCyDcR6NjF49YVGVaStXMpwM9PSiHb0PKwXjstQC27WU7jhFaRoit/EHjxa
- KaFQ==
-X-Gm-Message-State: AOAM531PnMiURC8HRZJbq1TqK8bTAB7J/c/OpWDY7AUSKeGfiwTfR4CF
- G3uMnAVV3CFH2cotqOVTNaE=
-X-Google-Smtp-Source: ABdhPJwfB2zFa6p6GaWW/OOTBsCMIkoGuE4S9YjLs5G+zNGm+jEpFkk6/FjqlBtl3Zt03QjGBdClxw==
-X-Received: by 2002:a17:907:76b3:: with SMTP id
- jw19mr27888212ejc.202.1615882395567; 
- Tue, 16 Mar 2021 01:13:15 -0700 (PDT)
+ bh=9ZQ6AOd1nro/moZocOdsvBQpIZ609NYlDfUQCOQCk48=;
+ b=eIB6g8h1ueLLgEI8yhbn8gVjc/whDpBNo2kX3HtZKs8NCQueiXK2AsrtJmJpqGtdoA
+ jf7lHMNfQCY/sDFmZMQApuVrJipgiSWfPCVLWCsEnptKozApXzIjhYvMKmoolZh1gbec
+ 6oGnPfIB0EnVb14uMHuuziHnUWJAqvemAagXQJr08bAwD+YoQHbNoagXCjpQognftpF1
+ gehQTmBy0ss0gDpCe+3RYy6n5k7i3L6ijjBQ/GVB5q0T1ZYQWCjfkDAu0WII/yYMzXFJ
+ KREmtwsckK4tVNrLupNlSMjUq9juCon0UJT/xesCVbSvV94gNC9JM+IxMflEAUEy2AQx
+ SMZQ==
+X-Gm-Message-State: AOAM533bbxOoMyeHuOsYv9KDGC8h9zcY+V+YFRhMv5+xwAi/FJlTn9up
+ nJ3spyL/EqrIgfXIr5PAo7k=
+X-Google-Smtp-Source: ABdhPJymblS7j+1W7dDToE9CqFPbb0Gd0563e/GbYsSoJhI4caCAbrt0BBhTOt3EB6Jj1mMaGk64IA==
+X-Received: by 2002:a17:906:f6ce:: with SMTP id
+ jo14mr28625514ejb.476.1615882399274; 
+ Tue, 16 Mar 2021 01:13:19 -0700 (PDT)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id a17sm5620333ejf.20.2021.03.16.01.13.11
+ by smtp.gmail.com with ESMTPSA id a17sm5620333ejf.20.2021.03.16.01.13.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 01:13:15 -0700 (PDT)
+ Tue, 16 Mar 2021 01:13:18 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v3 03/13] net: slirp: Pad short frames to minimum size before
+Subject: [PATCH v3 04/13] net: tap: Pad short frames to minimum size before
  send
-Date: Tue, 16 Mar 2021 16:12:44 +0800
-Message-Id: <20210316081254.72684-4-bmeng.cn@gmail.com>
+Date: Tue, 16 Mar 2021 16:12:45 +0800
+Message-Id: <20210316081254.72684-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210316081254.72684-1-bmeng.cn@gmail.com>
 References: <20210316081254.72684-1-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,82 +87,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The minimum Ethernet frame length is 60 bytes. For short frames with
-smaller length like ARP packets (only 42 bytes), on a real world NIC
-it can choose either padding its length to the minimum required 60
-bytes, or sending it out directly to the wire. Such behavior can be
-hardcoded or controled by a register bit. Similarly on the receive
-path, NICs can choose either dropping such short frames directly or
-handing them over to software to handle.
-
-On the other hand, for the network backends like SLiRP/TAP, they
-don't expose a way to control the short frame behavior. As of today
-they just send/receive data from/to the other end connected to them,
-which means any sized packet is acceptable. So they can send and
-receive short frames without any problem. It is observed that ARP
-packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-these ARP packets to the other end which might be a NIC model that
-does not allow short frames to pass through.
-
-To provide better compatibility, for packets sent from QEMU network
-backends like SLiRP/TAP, we change to pad short frames before sending
-it out to the other end, if the other end does not forbid it via the
-nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-does not violate the spec. But with this change, the behavior of
-dropping short frames from SLiRP/TAP interfaces in the NIC model
-cannot be emulated because it always receives a packet that is spec
-complaint. The capability of sending short frames from NIC models is
-still supported and short frames can still pass through SLiRP/TAP.
-
-This commit should be able to fix the issue as reported with some
-NIC models before, that ARP requests get dropped, preventing the
-guest from becoming visible on the network. It was workarounded in
-these NIC models on the receive path, that when a short frame is
-received, it is padded up to 60 bytes.
-
-The following 2 commits seem to be the one to workaround this issue
-in e1000 and vmxenet3 before, and should probably be reverted.
-
-  commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-  commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+Do the same for tap backend as what we did for slirp.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
 ---
 
 Changes in v3:
-- use the pad_short_frame() helper for slirp
+- use the pad_short_frame() helper for tap
 
- net/slirp.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ net/tap-win32.c | 9 +++++++++
+ net/tap.c       | 9 +++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/net/slirp.c b/net/slirp.c
-index be914c0be0..62a54d45dc 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
+diff --git a/net/tap-win32.c b/net/tap-win32.c
+index 2b5dcda36e..e044a5ca35 100644
+--- a/net/tap-win32.c
++++ b/net/tap-win32.c
 @@ -31,6 +31,7 @@
- #include <pwd.h>
- #include <sys/wait.h>
- #endif
+ 
+ #include "qemu-common.h"
+ #include "clients.h"            /* net_init_tap */
++#include "net/eth.h"
+ #include "net/net.h"
+ #include "net/tap.h"            /* tap_has_ufo, ... */
+ #include "qemu/error-report.h"
+@@ -688,9 +689,17 @@ static void tap_win32_send(void *opaque)
+     uint8_t *buf;
+     int max_size = 4096;
+     int size;
++    uint8_t min_pkt[ETH_ZLEN];
+ 
+     size = tap_win32_read(s->handle, &buf, max_size);
+     if (size > 0) {
++        if (!s->nc.peer->do_not_pad) {
++            if (pad_short_frame(min_pkt, buf, size)) {
++                buf = min_pkt;
++                size = ETH_ZLEN;
++            }
++        }
++
+         qemu_send_packet(&s->nc, buf, size);
+         tap_win32_free_buffer(s->handle, buf);
+     }
+diff --git a/net/tap.c b/net/tap.c
+index b7512853f4..aa69cf1c73 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -32,6 +32,7 @@
+ #include <sys/socket.h>
+ #include <net/if.h>
+ 
 +#include "net/eth.h"
  #include "net/net.h"
  #include "clients.h"
- #include "hub.h"
-@@ -115,6 +116,14 @@ static ssize_t net_slirp_send_packet(const void *pkt, size_t pkt_len,
-                                      void *opaque)
- {
-     SlirpState *s = opaque;
-+    uint8_t min_pkt[ETH_ZLEN];
-+
-+    if (!s->nc.peer->do_not_pad) {
-+        if (pad_short_frame(min_pkt, pkt, pkt_len)) {
-+            pkt = min_pkt;
-+            pkt_len = ETH_ZLEN;
-+        }
-+    }
+ #include "monitor/monitor.h"
+@@ -189,6 +190,7 @@ static void tap_send(void *opaque)
  
-     return qemu_send_packet(&s->nc, pkt, pkt_len);
- }
+     while (true) {
+         uint8_t *buf = s->buf;
++        uint8_t min_pkt[ETH_ZLEN];
+ 
+         size = tap_read_packet(s->fd, s->buf, sizeof(s->buf));
+         if (size <= 0) {
+@@ -200,6 +202,13 @@ static void tap_send(void *opaque)
+             size -= s->host_vnet_hdr_len;
+         }
+ 
++        if (!s->nc.peer->do_not_pad) {
++            if (pad_short_frame(min_pkt, buf, size)) {
++                buf = min_pkt;
++                size = ETH_ZLEN;
++            }
++        }
++
+         size = qemu_send_packet_async(&s->nc, buf, size, tap_send_completed);
+         if (size == 0) {
+             tap_read_poll(s, false);
 -- 
 2.17.1
 
