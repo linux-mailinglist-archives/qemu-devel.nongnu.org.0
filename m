@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0B533D3BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:20:21 +0100 (CET)
-Received: from localhost ([::1]:38266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A928033D3D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:29:45 +0100 (CET)
+Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM8gO-0005r5-SO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
+	id 1lM8pU-0006Hr-My
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lM8Rc-0003C9-96
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:05:04 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lM8Ra-0003yH-Ex
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:05:04 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- k23-20020a17090a5917b02901043e35ad4aso1197941pji.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 05:05:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Jyb/b1jyASe9wzHMIMHOmxI51zIjBjecJDfrWL1qudA=;
- b=gta/VsIdvuM0fEqL00ANq/JWY/iA7KV3kk6aDOgUeglu6CffZih6MP3sGIiHe8JGqs
- 5Zftg9TxZ583lCJgRTGizdQH/NupmBQrS53SQdhI4SAIpTmsVWn3BdQa/8Rxgp5MZSK3
- f2E6yr0U6bsuQZeD26fJUJf8czWKKWxjsx8jIHnLYVRQ5wUMTU1luWc9FOGPrFyVts+E
- axKDWjbjOAZL3VlcU1BQeqAyA51bxeFlBL6/Mr/kTMKIBOVE+v6pyqREQhBVx0D+YK79
- 3DA3LkhXpVeBm+b/TP/YRDmVvRMdGlRaQJrk8U5yzDjLPgadTVe3faeCgDOwobDdP9R3
- QeMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jyb/b1jyASe9wzHMIMHOmxI51zIjBjecJDfrWL1qudA=;
- b=PmWK8P8ztvLvpD5GtrcJtIUEey/U6TjVRb07af/vFQ+zJiSYSK+dvIreo9KJ7dgvKD
- 14a+bv9vYsM20rMGTh0te5YQtD2mOcBVEqcyovyOZeMtOgEe40zOPrwooB7nwHLv0pLj
- pOytpQyNI//dfpT8bLqO1/n7A9Iio5iO/eiwERVSWDHGfqyeGqYN0kkffEjtgyHzaVQV
- ufo5Sd2UQy+Yl8vBGMzG7nTAVv+PNHN0y4GH5r9eDtp/NSRmNNcv8urHM8Fu9rws5pOG
- ek266Ao3CmCyLVtTp3IA0EaZ2rO8P3Au9j1kTjgYgXwLKaOjgmwVvyz0vr52NBiGxqaD
- p4XQ==
-X-Gm-Message-State: AOAM530JyXrOj5x9ruqGP3UjoHmgThqZ5/VqwXeX5bkXo8j+kOncqUIQ
- IVgsJhOUvdNqY8EYQpCeLQ8=
-X-Google-Smtp-Source: ABdhPJwXxUZM4YpHeNGYvBpb/U8IZhYT79NepLlEPT9UovLk7qFoZ32gbyYxfY4yKF6OIpQlsWQynQ==
-X-Received: by 2002:a17:902:8303:b029:e6:4ef3:4f17 with SMTP id
- bd3-20020a1709028303b02900e64ef34f17mr16056972plb.22.1615896300211; 
- Tue, 16 Mar 2021 05:05:00 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id d5sm2722166pjo.12.2021.03.16.05.04.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 05:04:59 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v4 12/12] hw/net: sunhme: Remove the logic of padding short
- frames in the receive path
-Date: Tue, 16 Mar 2021 20:04:20 +0800
-Message-Id: <20210316120420.19658-13-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210316120420.19658-1-bmeng.cn@gmail.com>
-References: <20210316120420.19658-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lM8Y1-000192-IL; Tue, 16 Mar 2021 08:11:41 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:54373)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lM8Xx-0007XN-Gc; Tue, 16 Mar 2021 08:11:41 -0400
+Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MFspV-1lUezF2Gjf-00HNCg; Tue, 16 Mar 2021 13:11:22 +0100
+Subject: Re: [PATCH v7 0/8] Pegasos2 emulation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <85548594-aaa1-8d3a-cedf-d2dd92f05028@eik.bme.hu>
+ <b6bda254-ac3-d271-3e1b-bf73e4282e9b@eik.bme.hu>
+ <d6d7d87b-7c7d-69e8-a7f4-e6611a4096ea@vivier.eu>
+ <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <4ce33c11-af3c-4a18-fccb-9c9bdb2b26c2@vivier.eu>
+Date: Tue, 16 Mar 2021 13:11:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:974MCuKZgvw+v56jaMvK7yRPt4iXqc6OY+f7WeOL5mK51JD/Xub
+ JZAuoTTDpD7/UgqNEOPMbVrTNUFcIrcB2SIp8piFemI7PJD0jRAuBBuVMcXGPqzG44qNJ8c
+ fc9KmRdcEJ5hNU7KEM+tL+Fz/GS8fNCau3fW5iK3SZrpI3rODsasfSgjy7dJzRT9Y8uAmZu
+ 2/0suSzPF3B0gtlbByVEw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CsiqQ4mc8uY=:3Qx2zj6YsNZPlxvnDk71m/
+ JUS5beiA+6Ao3o2Micq3LcxUjQiL9WvgqqnxvAft04jm9w5vkaVbPQ7NrBvldulWmDdwKahGU
+ DyYNFVIIo8D0o18tl8WCq2wTtZUtUVpKRvntbTIewuExoJUBy0JtyzQ/jG1MTJVpfCTAzLK7p
+ ro2UXCUWA+RyJM+DovHqcta7lYIikPcS3qHtVC4A1t+Fqijt/gE+9BNl8DmUPO2lfIc6rsFkc
+ nYmGYJE0PCr3CFeEqbKondlMi5T0P1oWAANEMyVRYEkEaMSxTKQt02ZqGK46Ll24jT4ARrrCz
+ dOR/2tyWmDfWPQEvzkRMDaBP1FSH3aSXlHPlr1/rDnVOAnOpCU/rqJ++gWsVxJM4m2eE8/oVY
+ Acg3Gy0z9Fi1DENMx+n75zYaJ71lnNJDPyKmCjnShm9es6vXGcSpjdFPpbGsU5grD2XzN37AJ
+ Qh30D6jAHw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,59 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have implemented unified short frames padding in the
-QEMU networking codes, remove the same logic in the NIC codes.
+Le 16/03/2021 à 12:49, Philippe Mathieu-Daudé a écrit :
+> On 3/16/21 10:01 AM, Laurent Vivier wrote:
+>> Le 15/03/2021 à 13:33, BALATON Zoltan a écrit :
+>>> On Sat, 13 Mar 2021, BALATON Zoltan wrote:
+>>>> On Wed, 10 Mar 2021, BALATON Zoltan wrote:
+>>>>> Hello,
+>>>>
+>>>> I've started posting this series well in advance to get it into 6.0 and yet it seems like it may
+>>>> be missing it due to organisational issues (no real complaints were found with patches but
+>>>> Philippe seems to like more review that does not seem to happen as nobody is interested). Looks
+>>>> like David is waiting for an ack from Philippe but will be away next week so if this is not
+>>>> resolved now it may be too late on Monday. To avoid that:
+>>>>
+>>>> David, could you please send an ack before you leave for the last two patches so it could get
+>>>> committed via some other tree while you're away?
+>>>>
+>>>> Philippe, if you can't ack the vt82c686 patches now are you OK with taking the whole series via
+>>>> your tree before the freeze? That would give you some more days to review and it could always be
+>>>> reverted during the freeze but if it's not merged now I'll have to wait until the summer to get it
+>>>> in again which would be another long delay. I don't think this will get more reviews unless it's
+>>>> in master and people can start using and testing it better.
+>>>
+>>> Hello,
+>>>
+>>> Since David seems to be away for this week before seeing my mail asking for an ack from him, now
+>>> this can only get in by Philippe or Peter. (David said before he'd be OK with the series if Philippe
+>>> acked it so I think that can count as an implicit ack and it could always be reverted before the
+>>> releease.)
+>>>
+>>> Philippe, do you have anything against this to get merged now? If not please send a pull or ack it
+>>> so it has a chance to be in 6.0 or tell if you still intend to do anything about it before the
+>>> freeze. This series was on the list since January and the remaining parts you did not take are here
+>>> since February 22nd and the version after your first review since two weeks so it would be nice to
+>>> sort this out and not block it any further without a good reason.
+>>
+>> Pegasos looks like a New World PowerMac, so perhaps Mark can help?
+> 
+> The PPC part is mostly reviewed. The problem is the first patch:
+> "vt82c686: Implement control of serial port io ranges via config regs".
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+vt82c686.c is a Fuloong 2E file, why Fuloong 2E maintainers are not involved in the review?
 
----
+Thanks,
+Laurent
 
-(no changes since v1)
-
- hw/net/sunhme.c | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-index fc34905f87..6971796e57 100644
---- a/hw/net/sunhme.c
-+++ b/hw/net/sunhme.c
-@@ -714,8 +714,6 @@ static inline void sunhme_set_rx_ring_nr(SunHMEState *s, int i)
-     s->erxregs[HME_ERXI_RING >> 2] = ring;
- }
- 
--#define MIN_BUF_SIZE 60
--
- static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-                               size_t size)
- {
-@@ -724,7 +722,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-     dma_addr_t rb, addr;
-     uint32_t intstatus, status, buffer, buffersize, sum;
-     uint16_t csum;
--    uint8_t buf1[60];
-     int nr, cr, len, rxoffset, csum_offset;
- 
-     trace_sunhme_rx_incoming(size);
-@@ -775,14 +772,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
- 
-     trace_sunhme_rx_filter_accept();
- 
--    /* If too small buffer, then expand it */
--    if (size < MIN_BUF_SIZE) {
--        memcpy(buf1, buf, size);
--        memset(buf1 + size, 0, MIN_BUF_SIZE - size);
--        buf = buf1;
--        size = MIN_BUF_SIZE;
--    }
--
-     rb = s->erxregs[HME_ERXI_RING >> 2] & HME_ERXI_RING_ADDR;
-     nr = sunhme_get_rx_ring_count(s);
-     cr = sunhme_get_rx_ring_nr(s);
--- 
-2.25.1
 
 
