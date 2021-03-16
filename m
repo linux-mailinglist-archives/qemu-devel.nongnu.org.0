@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C46033D864
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 16:56:33 +0100 (CET)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB8833D869
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 16:57:19 +0100 (CET)
+Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMC3c-0005TG-5A
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 11:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33768)
+	id 1lMC4M-0005ya-01
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 11:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1lMBzG-0001rY-Hw
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 11:52:02 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:37726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1lMBzE-00040G-2w
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 11:52:02 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id s7so35677089qkg.4
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 08:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hUIIJ024tvjt9xLUvTB694f6LgQ00/XZ3b954DSCF5w=;
- b=g/4K8Eord8HHYZcD16H16UtYfKqXE0EX54mVgwc4MltVw9N6bclqJn2oFrBbmSz2c6
- JGLuR4eUuwr+UGHmi7NpafK440C6O9xWOQ27qAHiqGRgB+J9A57Exz+P4K0bHkunSVYa
- IIiT/PaWQw09IHIvPdndYoXzEKdhtIV4DighNwAPnqEXS4anxMTDrgxeMX1RC9K/VYhZ
- fQ/V0PeRBchmShQywhEhK6InqePYV58gW9mPImbrmwjn3aV6c2qFCriXaf1Vp/o34V5k
- zvA74+hgGGdLhy5HeoK25qwkoH6CrXXbqjh07wE7TYoasMUXGhYw6LqZF2W13yRwHzJB
- /Lcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hUIIJ024tvjt9xLUvTB694f6LgQ00/XZ3b954DSCF5w=;
- b=gXi6xZFNOt288sTXkd6LoLmy/m6JRRqEQPKTBBN3v/YqEAilTO/VHx2UfT4m3ZMBa9
- v6V2FLXUcIoBX3PGxU8pamUgUXvs201YwajcziSYJYwY02bLpwhULq3rEeXa2SZLpjTn
- 5dhVn/tPXFgN+q4Hz4663bx2VyxJYAw5J+bEUiMfz1/iHvgLSVVqxfxL0YQAKO8ULUOO
- BHlKpEb7zVpmdm7ziN0FCA3UU3Ke6M1sP4lNbcZ7d4mWFKvGN82fYET+C9OJxNOX/kkk
- FXi4SZFI0WFP5RraOzZbBbqAzl5vd/nIJdeN01WiSSKyX3bjvjSXhyVEFLLooefs0QQs
- SnHQ==
-X-Gm-Message-State: AOAM5308Ld+itE32SHQ3rS/u/uIHQoys0P77BXHinFXA6mZMlQK2Ysty
- HjFRNSlGytxmvs7NxH40ME0gHBWNe6HzoLr+x/hdmH0sLuKzHd3cKn+kqHGRrBUnpO6I3v0wOdV
- ++g6oNAu39tlc5HQGQLcPgR3jDkkWV4qEBW+ZEzFW/t9Z759K8UswDwkzxomsZU/c36QaWsM=
-X-Google-Smtp-Source: ABdhPJyUPV7gU+dRyXS0/+rmoUNkFg/6yXJuP7ENSLiCvA6+8f9DXnoiWOUo2HZV7PMi6Ltvkw4r8w==
-X-Received: by 2002:a05:620a:133b:: with SMTP id
- p27mr262957qkj.382.1615909918990; 
- Tue, 16 Mar 2021 08:51:58 -0700 (PDT)
-Received: from [10.0.10.142] (c-174-52-16-57.hsd1.ut.comcast.net.
- [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id e15sm13966861qtp.58.2021.03.16.08.51.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 08:51:58 -0700 (PDT)
-Subject: Re: [PATCH v3 1/3] target/arm: Add support for FEAT_TLBIRANGE
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20210310002917.8876-1-rebecca@nuviainc.com>
- <20210310002917.8876-2-rebecca@nuviainc.com>
- <3930c2d8-8972-0acf-7a48-71803072a559@linaro.org>
- <970813ec-f190-6faa-e1d6-763ba3a6ed60@nuviainc.com>
- <b57d6395-8487-6b1e-f202-856ae13614af@linaro.org>
-From: Rebecca Cran <rebecca@nuviainc.com>
-Message-ID: <d40c4ac2-5aa0-ce3b-28bc-1b807b16c64f@nuviainc.com>
-Date: Tue, 16 Mar 2021 09:51:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lMC0F-0002rW-WB; Tue, 16 Mar 2021 11:53:04 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:38908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lMC0B-0004WX-Fn; Tue, 16 Mar 2021 11:53:01 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 9E68D2E1617;
+ Tue, 16 Mar 2021 18:52:54 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ kAxjFCbh1d-qs0GW45I; Tue, 16 Mar 2021 18:52:54 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1615909974; bh=oUguTP24PuSfcYwe/PIxBvfEky2rFMDAgw+n1GNH42A=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=D6a1DtemIbwNIKc5EU6FCcsMvZ5zveNXe2llTYVEKfOSNp/ZTxMAxuJuE0iqmmm2N
+ YIk/nfw7ESr9mTuZGcpWYKJS6XcCp8r6cufRIXcAjKaZZQOtCNHbGUUbfJHPuyXxvY
+ BZM+Op0VlN++CuCQvYmu6ZHzfXn4y8PKwzUiPXME=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8817::1:e])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ zacFvtKbBI-qsn03sL0; Tue, 16 Mar 2021 18:52:54 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Tue, 16 Mar 2021 18:52:51 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 0/7] block/nbd: decouple reconnect from drain
+Message-ID: <YFDUU2zyJR17qkkr@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
+ <2f261dca-d478-67e8-1cf2-49b5ed2f4356@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <b57d6395-8487-6b1e-f202-856ae13614af@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=rebecca@nuviainc.com; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f261dca-d478-67e8-1cf2-49b5ed2f4356@virtuozzo.com>
+Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
+ helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,33 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/21 9:09 AM, Richard Henderson wrote:
-> On 3/16/21 12:20 AM, Rebecca Cran wrote:
->> On 3/10/21 12:24 PM, Richard Henderson wrote:
->>> On 3/9/21 6:29 PM, Rebecca Cran wrote:
->>
->>>> +    uint64_t addr = (value & 0xFFFFFFFFFUL) << TARGET_PAGE_BITS;
->>>
->>> The manual does not explicitly say, but I'm certain that this should 
->>> be a signed address, when regime_has_2_ranges().  Otherwise it would 
->>> be impossible to flush a range of kernel addresses.
->>
->> I see other functions have
->>
->> uint64_t pageaddr = sextract(value...);
->>
->> Would that be sufficient here too, or do we need to check 
->> regime_has_2_ranges()?
+On Mon, Mar 15, 2021 at 10:45:39PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 15.03.2021 09:06, Roman Kagan wrote:
+> > The reconnection logic doesn't need to stop while in a drained section.
+> > Moreover it has to be active during the drained section, as the requests
+> > that were caught in-flight with the connection to the server broken can
+> > only usefully get drained if the connection is restored.  Otherwise such
+> > requests can only either stall resulting in a deadlock (before
+> > 8c517de24a), or be aborted defeating the purpose of the reconnection
+> > machinery (after 8c517de24a).
+> > 
+> > This series aims to just stop messing with the drained section in the
+> > reconnection code.
+> > 
+> > While doing so it undoes the effect of 5ad81b4946 ("nbd: Restrict
+> > connection_co reentrance"); as I've missed the point of that commit I'd
+> > appreciate more scrutiny in this area.
 > 
-> We need to check the regime.
+> 
+> The actual point is:
+> 
+> connection_co (together with all functions called from it) has a lot of yield points. And we can't just enter the coroutine in any of the when we want, as it may break some BH which is actually waited for in this yield point..
+> 
+> Still, we should care only about yield points possible during drained section, so we don't need to care about direct qemu_coroutine_yield() inside nbd_connection_entry().
+> 
+> Many things changed since 5ad81b4946.. So probably, now all the (possible during drained section) yield points in nbd_connection_entry support reentering. But some analysis of possible yield points should be done.
 
-Thanks. I've just sent out a v4 patch, which I hope is closer to being 
-correct.
+Thanks for the explanation.  Will do this analysis.
 
--- 
-Rebecca Cran
+Roman.
 
