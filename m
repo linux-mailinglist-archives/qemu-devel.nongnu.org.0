@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F6E33E0AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:38:02 +0100 (CET)
-Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC58733E0CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:48:52 +0100 (CET)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHO5-0004kb-AP
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
+	id 1lMHYZ-0007Gn-T1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMHEh-0005ss-Ua
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:28:19 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38683)
+ id 1lMHON-0005df-QB
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:38:19 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMHEg-0000cq-4g
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:28:19 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id h13so23285536eds.5
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:28:17 -0700 (PDT)
+ id 1lMHOL-0005I7-RR
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:38:19 -0400
+Received: by mail-ej1-x629.google.com with SMTP id r17so74601729ejy.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 14:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VwzWbvIXgYcPIiliYcQckQScU84iY33E6zO3kbxrpXA=;
- b=YHJfwz0de1nRCaePHLfb6pA+IkBZ9wEr2GWztDQaktRpK8Vh9AObIAgjggEGeY9Fri
- EDw9nZCwJrzF3ew6ricH89ylpmwxUhRmnZIwKCq+0mmq3ZU65zELnzeYg+vWRWOtiQWG
- 1xdk1tyTlcNUUMU/jg7eigLu4LbloZheBISXTJ6uxfUAGjVhokS/2KSPFOdGv62K1B3m
- U7qpHg5NvzLdYf0igGMNGqWc50u9WuWbf/avCt4HDae8EjIU/50KOjAmIL9iT1WQYs2p
- ilpn23e1QuHXTdmJ05Hq4q4+e19pkRLwlpZlCYkCHUmC5CbZs8of2/zxvu5U8RS63XjT
- jygw==
+ :cc; bh=eVm9bu3OXx1vl3s2qCziympSex70U6GSa6LOCtAKJ+g=;
+ b=plRcLS8qMPo2bZWl6ECKNEgUX2QKFWgdchnsvLMt5+2NSqV9rMFjW1c1TubvAAdK4j
+ TmEa0pPSveHSa3skCBXkMDuWzru5dQnoo2WvnoWyjdWYghdj7B+4l5ZU7AhaTRo8VdwF
+ cIOYuile4sGEF0ubdV4uyMV+DFnjRwj9ulKputwtvz78M01Erj+UtN9LKCxWkw9w6Oxv
+ g4qDnonzEZZiLvYzucoDhpAjQQo0xKjcv+UaBLDMbZ91YuCacy7+8lxJV20W4Jw6nlYt
+ tSch4lBX9HsNNWmmqgnhJzr+Z92ZC8A2oFm1Ojgm0JjFNUNRY203OZBt1NKfQurAG0Os
+ ZO1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VwzWbvIXgYcPIiliYcQckQScU84iY33E6zO3kbxrpXA=;
- b=tzQI/y2v03aNPVdTrWG2bdHtaHyIlwKmaHBMkRPzy4FLyq0oKiCHQjQwx06OFIPhmi
- wUSWek+Uy5wmOvpQAPQwDJRI/uBwPPpQey6X0xO5KpEOri0tjA57L5OXPga9G9SXc2vU
- 4MEFzLjRDy/RyS5JWRHyPMqpiVO+Mtuy0pxx25CLNGbAQkvDYDNzIRn70R5LrzSeouIX
- SbgU52dwJJdB9Slm59Mbpv+UKJ04KKSBuQhNUPRxHlXQ2iHKcNHMxhCYxCLRvbKnV5iW
- /S/bGfRUlqDtrMgaKvi/A6WJSFnOB4dJQ8zWZYss7XkJDYZsEye83bp8MW1Pb2QNtkn0
- 41MQ==
-X-Gm-Message-State: AOAM533I1yNb3Rn0SnlB2hZfhyIVLSdB5nbnQ9+8e0tnFcFTbH7DDkKO
- cyfhVwcVeUz0kxRgkPr1CaFFLw9GXTJ3d23y6Qrk6g==
-X-Google-Smtp-Source: ABdhPJwXz41ipXGSKdfG67B/D2YeJEHHkNLwfSaZbLBQSmo1E3/nyx5sJQAZjqMuwB0cF8XDGM2wccwwqj8BBTYtd0c=
-X-Received: by 2002:a05:6402:19a:: with SMTP id
- r26mr37985127edv.44.1615930096023; 
- Tue, 16 Mar 2021 14:28:16 -0700 (PDT)
+ bh=eVm9bu3OXx1vl3s2qCziympSex70U6GSa6LOCtAKJ+g=;
+ b=O6YorD5ti3UkNXHQZvPvidIPX0i8g0oz+cQHs1PJ9eME5VhhyRAJTJElP9iiGHKUvP
+ K6U0SmkNHJ/E1TX4IaIC1f8tFHBHNEKaZw9blO/Zai28xIY35yI1Dhsiza6H0kbXXwkh
+ 5Ydbtf4Z1pFLiHuFmB7gPkegzPxtCQdYmqmtPAZGuQ18bxsiK4Reem1VZTyUG4O8N8OW
+ LZrCOkNF7qGvvXCMPMMCtm5c6cHI/1fapG00fvB9Xp4xi2neUoyy5bRdDMJ3eiCWT0nA
+ N077lTEF59HQHxhysrXmpPDYNfI8aTeeWSlrm60orpxDG8eA/7Y6LTGBeiHp8ERKZh77
+ xA5A==
+X-Gm-Message-State: AOAM531Ud+mfo0kf1Yyi8lR5mUL6Eq97EHY/jCb85kodjyz/Va3DOI3q
+ UrsIb42yKtX/Aysf3jDHwOGyqMVexYpJU9h2k3sx4g==
+X-Google-Smtp-Source: ABdhPJzcX8N9sRISiQafAxcw9hVu5GJ1nbFYWg75t6FgWO10/UKTVaMFZ4MWZsU29500jv6ugsyhhCFix3sHtDUNSqg=
+X-Received: by 2002:a17:906:c301:: with SMTP id
+ s1mr31331778ejz.382.1615930695779; 
+ Tue, 16 Mar 2021 14:38:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
  <1615799673-31549-17-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1615799673-31549-17-git-send-email-jasowang@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Mar 2021 21:27:53 +0000
-Message-ID: <CAFEAcA94g-5CEf2n=TiZ4yMK6KNyJY3KNv3YnrfmAaiRTo-w7w@mail.gmail.com>
+Date: Tue, 16 Mar 2021 21:37:53 +0000
+Message-ID: <CAFEAcA-7MiRBVvGhaA7XbzMoCHBBie6-w7miyg-kAzZ0F=-XPg@mail.gmail.com>
 Subject: Re: [PULL V2 16/20] qapi: net: Add query-netdev command
 To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,42 +103,63 @@ On Mon, 15 Mar 2021 at 09:15, Jason Wang <jasowang@redhat.com> wrote:
 > Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
 > Acked-by: Markus Armbruster <armbru@redhat.com>
 > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
 
-Hi; Coverity is doubtful (CID 1450841) about this code:
+Hi; Coverity complains about a memory leak in this code
+(CID 1450842):
 
-> @@ -668,12 +686,65 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-
-> +        if (!stored->has_fds) {
-> +            stored->has_fds = true;
-> +            stored->fds = g_strdup_printf("%d", fd);
-> +        } else {
-> +            char *tmp_s = stored->fds;
-> +            stored->fds = g_strdup_printf("%s:%d", stored->fds, fd);
-> +            g_free(tmp_s);
-> +        }
-
-Here we have a bit of code which maintains stored->fds as a
-colon-separated string of integers, by tacking the new fd onto
-the end of the old string if it's already present.
-
-> @@ -731,6 +813,15 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->          }
->          options.opaque = (void *)(uintptr_t)vhostfd;
+> @@ -581,15 +693,25 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+>      s->poll_notifier.notify = net_slirp_poll_notify;
+>      main_loop_poll_add_notifier(&s->poll_notifier);
 >
-> +        if (!stored->has_vhostfds) {
-> +            stored->has_vhostfds = true;
-> +            stored->vhostfds = g_strdup_printf("%d", vhostfd);
-> +        } else {
-> +            char *tmp_s = stored->vhostfds;
-> +            stored->vhostfds = g_strdup_printf("%s:%d", stored->fds, vhostfd);
-> +            g_free(tmp_s);
-> +        }
+> +    stored_hostfwd = &stored->hostfwd;
+> +    stored_guestfwd = &stored->guestfwd;
+> +
+>      for (config = slirp_configs; config; config = config->next) {
+> +        String *element = g_new0(String, 1);
 
-Here we have a bit of code that's kind of similar, except that
-the first argument to g_strdup_printf() is 'stored->fds', not
-'stored->vhostfds'.
+Here we allocate memory...
 
-Coverity suspects cut-n-paste error -- is it right ?
+> +
+> +        element->str = g_strdup(config->str);
+>          if (config->flags & SLIRP_CFG_HOSTFWD) {
+>              if (slirp_hostfwd(s, config->str, errp) < 0) {
+>                  goto error;
+
+...but if we take this error-exit path we have neither freed nor
+kept a pointer to that memory.
+
+>              }
+> +            stored->has_hostfwd = true;
+> +            QAPI_LIST_APPEND(stored_hostfwd, element);
+>          } else {
+>              if (slirp_guestfwd(s, config->str, errp) < 0) {
+>                  goto error;
+
+Similarly here.
+
+>              }
+> +            stored->has_guestfwd = true;
+> +            QAPI_LIST_APPEND(stored_guestfwd, element);
+>          }
+>      }
+>  #ifndef _WIN32
+
+More generally, what state is the net backend init function
+supposed to leave 'stored' in if it fails? Is it the backend's
+responsibility to free everything that it might have allocated
+and left a pointer to? eg if we did
+   stored->hostname = g_strdup(vhostname);
+do we need to go back and free(stored->hostname) ? Or is the caller
+guaranteeing to clean up 'stored' somehow ? Or is the backend
+supposed to not touch 'stored' until it's sure it's going to
+succeed ? (presumably not, as the current code does not do this...)
+
+This commit has no comments describing or documenting the
+API requirements the new functionality imposes on a net backend:
+could we have a followup patch which adds some documentation,
+please, so that authors of future backends know what they have to
+implement ?
 
 thanks
 -- PMM
