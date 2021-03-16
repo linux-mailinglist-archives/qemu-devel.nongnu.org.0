@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738E933DA24
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:03:11 +0100 (CET)
-Received: from localhost ([::1]:55498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05FF33DA00
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 18:01:09 +0100 (CET)
+Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMD66-0006hZ-5s
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
+	id 1lMD48-0004oX-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 13:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMCqQ-0000si-NJ
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:46:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38301)
+ id 1lMCqq-0001FT-Gk
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:47:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMCqO-0005Pp-3a
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:46:58 -0400
+ id 1lMCqm-0005cl-Io
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 12:47:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615913214;
+ s=mimecast20190719; t=1615913239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Hkj9bu1rac5VWkM23B50MKlNAUypLpHSMXQ0oeuLjs=;
- b=UlpgPG7Z1CpkgzdpxUBda8RuemhD9pACHofKDuu7ayWtSqFUrsO2SilRQZnxl/bVmcaEqK
- IAWWWsQi4J0bop4YnOt59/auXojdABbJ7qiFT73zqrkhH6qOmRHc32dW8Fu9EwciTUGw9D
- nL/r3hLKkJedl3gF5XaAKmNcJzuqc+g=
+ bh=wKYnTZ0nU+FpRg/NqaZrLn5vWKabWzYIniiQMyFJrQU=;
+ b=VtGeHiWwxz1Vym/ezdqEyUh1cSku2XlidI6dFaHEZoT23C5BFLsjBbjaVWQYS3irRzEHAz
+ kIDkuDLX+ModmoOjZYRTuoyclgq9p9cpoxnR3tmwYHsxl44hKMKBANnK1c2GQmF1Xpw/UB
+ UJY0wQyw8OiPNdx98JR0djKYpNVvPxI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-GFG71tTWOPGD7IKEg34NTA-1; Tue, 16 Mar 2021 12:46:53 -0400
-X-MC-Unique: GFG71tTWOPGD7IKEg34NTA-1
+ us-mta-410-aqFGEGfwMNm-JQQpc2ujMg-1; Tue, 16 Mar 2021 12:47:15 -0400
+X-MC-Unique: aqFGEGfwMNm-JQQpc2ujMg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F20B84BA40;
- Tue, 16 Mar 2021 16:46:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB0A801983;
+ Tue, 16 Mar 2021 16:47:13 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-185.ams2.redhat.com
  [10.36.115.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4F1B5C1A1;
- Tue, 16 Mar 2021 16:46:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A84425C1A1;
+ Tue, 16 Mar 2021 16:46:51 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/13] machine: remove 'query-cpus' QMP command
-Date: Tue, 16 Mar 2021 16:43:47 +0000
-Message-Id: <20210316164355.150519-6-berrange@redhat.com>
+Subject: [PULL 06/13] machine: remove 'arch' field from 'query-cpus-fast' QMP
+ command
+Date: Tue, 16 Mar 2021 16:43:48 +0000
+Message-Id: <20210316164355.150519-7-berrange@redhat.com>
 In-Reply-To: <20210316164355.150519-1-berrange@redhat.com>
 References: <20210316164355.150519-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,493 +100,158 @@ Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The newer 'query-cpus-fast' command avoids side effects on the guest
-execution. Note that some of the field names are different in the
-'query-cpus-fast' command.
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/system/deprecated.rst                 |   5 -
- docs/system/removed-features.rst           |   5 +
- hw/core/machine-hmp-cmds.c                 |   8 +-
- hw/core/machine-qmp-cmds.c                 |  79 ----------
- qapi/machine.json                          | 161 +--------------------
- tests/acceptance/pc_cpu_hotplug_props.py   |   2 +-
- tests/acceptance/x86_cpu_model_versions.py |   2 +-
- tests/migration/guestperf/engine.py        |   2 +-
- tests/qtest/numa-test.c                    |   6 +-
- tests/qtest/qmp-test.c                     |   6 +-
- tests/qtest/test-x86-cpuid-compat.c        |   4 +-
- 11 files changed, 22 insertions(+), 258 deletions(-)
+ docs/system/deprecated.rst       |  6 -----
+ docs/system/removed-features.rst |  6 +++++
+ hw/core/machine-qmp-cmds.c       | 41 --------------------------------
+ qapi/machine.json                | 22 -----------------
+ 4 files changed, 6 insertions(+), 69 deletions(-)
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index e68f80d0c8..fd377353f6 100644
+index fd377353f6..f196bbb9ec 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -229,11 +229,6 @@ Since the ``dirty-bitmaps`` field is optionally present in both the old and
+@@ -229,12 +229,6 @@ Since the ``dirty-bitmaps`` field is optionally present in both the old and
  new locations, clients must use introspection to learn where to anticipate
  the field if/when it does appear in command output.
  
--``query-cpus`` (since 2.12.0)
--'''''''''''''''''''''''''''''
+-``query-cpus-fast`` ``arch`` output member (since 3.0.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 -
--The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
+-The ``arch`` output member of the ``query-cpus-fast`` command is
+-replaced by the ``target`` output member.
 -
- ``query-cpus-fast`` ``arch`` output member (since 3.0.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ chardev client socket with ``wait`` option (since 4.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 6e653bfc4e..37946e2401 100644
+index 37946e2401..51f0e308d9 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -86,6 +86,11 @@ Use ``migrate_set_parameter`` and ``info migrate_parameters`` instead.
+@@ -91,6 +91,12 @@ Use ``migrate_set_parameter`` instead.
  
- Use ``migrate_set_parameter`` instead.
+ The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
  
-+``query-cpus`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''
++``query-cpus-fast`` ``arch`` output member (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
++The ``arch`` output member of the ``query-cpus-fast`` command is
++replaced by the ``target`` output member.
 +
  Human Monitor Protocol (HMP) commands
  -------------------------------------
  
-diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-index 6357be9c6b..58248cffa3 100644
---- a/hw/core/machine-hmp-cmds.c
-+++ b/hw/core/machine-hmp-cmds.c
-@@ -130,7 +130,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
- {
-     int i, nb_numa_nodes;
-     NumaNodeMem *node_mem;
--    CpuInfoList *cpu_list, *cpu;
-+    CpuInfoFastList *cpu_list, *cpu;
-     MachineState *ms = MACHINE(qdev_get_machine());
- 
-     nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
-@@ -139,7 +139,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    cpu_list = qmp_query_cpus(&error_abort);
-+    cpu_list = qmp_query_cpus_fast(&error_abort);
-     node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
- 
-     query_numa_node_mem(node_mem, ms);
-@@ -148,7 +148,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
-         for (cpu = cpu_list; cpu; cpu = cpu->next) {
-             if (cpu->value->has_props && cpu->value->props->has_node_id &&
-                 cpu->value->props->node_id == i) {
--                monitor_printf(mon, " %" PRIi64, cpu->value->CPU);
-+                monitor_printf(mon, " %" PRIi64, cpu->value->cpu_index);
-             }
-         }
-         monitor_printf(mon, "\n");
-@@ -157,6 +157,6 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
-         monitor_printf(mon, "node %d plugged: %" PRId64 " MB\n", i,
-                        node_mem[i].node_plugged_mem >> 20);
-     }
--    qapi_free_CpuInfoList(cpu_list);
-+    qapi_free_CpuInfoFastList(cpu_list);
-     g_free(node_mem);
- }
 diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 44e979e503..af60cd969d 100644
+index af60cd969d..68a942595a 100644
 --- a/hw/core/machine-qmp-cmds.c
 +++ b/hw/core/machine-qmp-cmds.c
-@@ -24,85 +24,6 @@
+@@ -24,46 +24,6 @@
  #include "sysemu/runstate.h"
  #include "sysemu/sysemu.h"
  
--CpuInfoList *qmp_query_cpus(Error **errp)
+-static CpuInfoArch sysemu_target_to_cpuinfo_arch(SysEmuTarget target)
 -{
--    MachineState *ms = MACHINE(qdev_get_machine());
--    MachineClass *mc = MACHINE_GET_CLASS(ms);
--    CpuInfoList *head = NULL, **tail = &head;
--    CPUState *cpu;
+-    /*
+-     * The @SysEmuTarget -> @CpuInfoArch mapping below is based on the
+-     * TARGET_ARCH -> TARGET_BASE_ARCH mapping in the "configure" script.
+-     */
+-    switch (target) {
+-    case SYS_EMU_TARGET_I386:
+-    case SYS_EMU_TARGET_X86_64:
+-        return CPU_INFO_ARCH_X86;
 -
--    CPU_FOREACH(cpu) {
--        CpuInfo *value;
--#if defined(TARGET_I386)
--        X86CPU *x86_cpu = X86_CPU(cpu);
--        CPUX86State *env = &x86_cpu->env;
--#elif defined(TARGET_PPC)
--        PowerPCCPU *ppc_cpu = POWERPC_CPU(cpu);
--        CPUPPCState *env = &ppc_cpu->env;
--#elif defined(TARGET_SPARC)
--        SPARCCPU *sparc_cpu = SPARC_CPU(cpu);
--        CPUSPARCState *env = &sparc_cpu->env;
--#elif defined(TARGET_RISCV)
--        RISCVCPU *riscv_cpu = RISCV_CPU(cpu);
--        CPURISCVState *env = &riscv_cpu->env;
--#elif defined(TARGET_MIPS)
--        MIPSCPU *mips_cpu = MIPS_CPU(cpu);
--        CPUMIPSState *env = &mips_cpu->env;
--#elif defined(TARGET_TRICORE)
--        TriCoreCPU *tricore_cpu = TRICORE_CPU(cpu);
--        CPUTriCoreState *env = &tricore_cpu->env;
--#elif defined(TARGET_S390X)
--        S390CPU *s390_cpu = S390_CPU(cpu);
--        CPUS390XState *env = &s390_cpu->env;
--#endif
+-    case SYS_EMU_TARGET_PPC:
+-    case SYS_EMU_TARGET_PPC64:
+-        return CPU_INFO_ARCH_PPC;
 -
--        cpu_synchronize_state(cpu);
+-    case SYS_EMU_TARGET_SPARC:
+-    case SYS_EMU_TARGET_SPARC64:
+-        return CPU_INFO_ARCH_SPARC;
 -
--        value = g_malloc0(sizeof(*value));
--        value->CPU = cpu->cpu_index;
--        value->current = (cpu == first_cpu);
--        value->halted = cpu->halted;
--        value->qom_path = object_get_canonical_path(OBJECT(cpu));
--        value->thread_id = cpu->thread_id;
--#if defined(TARGET_I386)
--        value->arch = CPU_INFO_ARCH_X86;
--        value->u.x86.pc = env->eip + env->segs[R_CS].base;
--#elif defined(TARGET_PPC)
--        value->arch = CPU_INFO_ARCH_PPC;
--        value->u.ppc.nip = env->nip;
--#elif defined(TARGET_SPARC)
--        value->arch = CPU_INFO_ARCH_SPARC;
--        value->u.q_sparc.pc = env->pc;
--        value->u.q_sparc.npc = env->npc;
--#elif defined(TARGET_MIPS)
--        value->arch = CPU_INFO_ARCH_MIPS;
--        value->u.q_mips.PC = env->active_tc.PC;
--#elif defined(TARGET_TRICORE)
--        value->arch = CPU_INFO_ARCH_TRICORE;
--        value->u.tricore.PC = env->PC;
--#elif defined(TARGET_S390X)
--        value->arch = CPU_INFO_ARCH_S390;
--        value->u.s390.cpu_state = env->cpu_state;
--#elif defined(TARGET_RISCV)
--        value->arch = CPU_INFO_ARCH_RISCV;
--        value->u.riscv.pc = env->pc;
--#else
--        value->arch = CPU_INFO_ARCH_OTHER;
--#endif
--        value->has_props = !!mc->cpu_index_to_instance_props;
--        if (value->has_props) {
--            CpuInstanceProperties *props;
--            props = g_malloc0(sizeof(*props));
--            *props = mc->cpu_index_to_instance_props(ms, cpu->cpu_index);
--            value->props = props;
--        }
+-    case SYS_EMU_TARGET_MIPS:
+-    case SYS_EMU_TARGET_MIPSEL:
+-    case SYS_EMU_TARGET_MIPS64:
+-    case SYS_EMU_TARGET_MIPS64EL:
+-        return CPU_INFO_ARCH_MIPS;
 -
--        QAPI_LIST_APPEND(tail, value);
+-    case SYS_EMU_TARGET_TRICORE:
+-        return CPU_INFO_ARCH_TRICORE;
+-
+-    case SYS_EMU_TARGET_S390X:
+-        return CPU_INFO_ARCH_S390;
+-
+-    case SYS_EMU_TARGET_RISCV32:
+-    case SYS_EMU_TARGET_RISCV64:
+-        return CPU_INFO_ARCH_RISCV;
+-
+-    default:
+-        return CPU_INFO_ARCH_OTHER;
 -    }
--
--    return head;
 -}
 -
- static CpuInfoArch sysemu_target_to_cpuinfo_arch(SysEmuTarget target)
+ static void cpustate_to_cpuinfo_s390(CpuInfoS390 *info, const CPUState *cpu)
  {
-     /*
+ #ifdef TARGET_S390X
+@@ -104,7 +64,6 @@ CpuInfoFastList *qmp_query_cpus_fast(Error **errp)
+             value->props = props;
+         }
+ 
+-        value->arch = sysemu_target_to_cpuinfo_arch(target);
+         value->target = target;
+         if (target == SYS_EMU_TARGET_S390X) {
+             cpustate_to_cpuinfo_s390(&value->u.s390x, cpu);
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 330189efe3..9811927504 100644
+index 9811927504..c0c52aef10 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -38,7 +38,7 @@
- # @CpuInfoArch:
- #
- # An enumeration of cpu types that enable additional information during
--# @query-cpus and @query-cpus-fast.
-+# @query-cpus-fast.
- #
- # @s390: since 2.12
- #
-@@ -49,114 +49,6 @@
- { 'enum': 'CpuInfoArch',
-   'data': ['x86', 'sparc', 'ppc', 'mips', 'tricore', 's390', 'riscv', 'other' ] }
+@@ -34,21 +34,6 @@
+              'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+              'x86_64', 'xtensa', 'xtensaeb' ] }
  
 -##
--# @CpuInfo:
+-# @CpuInfoArch:
 -#
--# Information about a virtual CPU
+-# An enumeration of cpu types that enable additional information during
+-# @query-cpus-fast.
 -#
--# @CPU: the index of the virtual CPU
+-# @s390: since 2.12
 -#
--# @current: this only exists for backwards compatibility and should be ignored
--#
--# @halted: true if the virtual CPU is in the halt state.  Halt usually refers
--#          to a processor specific low power mode.
--#
--# @qom_path: path to the CPU object in the QOM tree (since 2.4)
--#
--# @thread_id: ID of the underlying host thread
--#
--# @props: properties describing to which node/socket/core/thread
--#         virtual CPU belongs to, provided if supported by board (since 2.10)
--#
--# @arch: architecture of the cpu, which determines which additional fields
--#        will be listed (since 2.6)
--#
--# Since: 0.14
--#
--# Notes: @halted is a transient state that changes frequently.  By the time the
--#        data is sent to the client, the guest may no longer be halted.
--##
--{ 'union': 'CpuInfo',
--  'base': {'CPU': 'int', 'current': 'bool', 'halted': 'bool',
--           'qom_path': 'str', 'thread_id': 'int',
--           '*props': 'CpuInstanceProperties', 'arch': 'CpuInfoArch' },
--  'discriminator': 'arch',
--  'data': { 'x86': 'CpuInfoX86',
--            'sparc': 'CpuInfoSPARC',
--            'ppc': 'CpuInfoPPC',
--            'mips': 'CpuInfoMIPS',
--            'tricore': 'CpuInfoTricore',
--            's390': 'CpuInfoS390',
--            'riscv': 'CpuInfoRISCV' } }
--
--##
--# @CpuInfoX86:
--#
--# Additional information about a virtual i386 or x86_64 CPU
--#
--# @pc: the 64-bit instruction pointer
+-# @riscv: since 2.12
 -#
 -# Since: 2.6
 -##
--{ 'struct': 'CpuInfoX86', 'data': { 'pc': 'int' } }
--
--##
--# @CpuInfoSPARC:
--#
--# Additional information about a virtual SPARC CPU
--#
--# @pc: the PC component of the instruction pointer
--#
--# @npc: the NPC component of the instruction pointer
--#
--# Since: 2.6
--##
--{ 'struct': 'CpuInfoSPARC', 'data': { 'pc': 'int', 'npc': 'int' } }
--
--##
--# @CpuInfoPPC:
--#
--# Additional information about a virtual PPC CPU
--#
--# @nip: the instruction pointer
--#
--# Since: 2.6
--##
--{ 'struct': 'CpuInfoPPC', 'data': { 'nip': 'int' } }
--
--##
--# @CpuInfoMIPS:
--#
--# Additional information about a virtual MIPS CPU
--#
--# @PC: the instruction pointer
--#
--# Since: 2.6
--##
--{ 'struct': 'CpuInfoMIPS', 'data': { 'PC': 'int' } }
--
--##
--# @CpuInfoTricore:
--#
--# Additional information about a virtual Tricore CPU
--#
--# @PC: the instruction pointer
--#
--# Since: 2.6
--##
--{ 'struct': 'CpuInfoTricore', 'data': { 'PC': 'int' } }
--
--##
--# @CpuInfoRISCV:
--#
--# Additional information about a virtual RISCV CPU
--#
--# @pc: the instruction pointer
--#
--# Since 2.12
--##
--{ 'struct': 'CpuInfoRISCV', 'data': { 'pc': 'int' } }
+-{ 'enum': 'CpuInfoArch',
+-  'data': ['x86', 'sparc', 'ppc', 'mips', 'tricore', 's390', 'riscv', 'other' ] }
 -
  ##
  # @CpuS390State:
  #
-@@ -180,53 +72,6 @@
- ##
- { 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
- 
--##
--# @query-cpus:
+@@ -86,14 +71,9 @@
+ # @props: properties describing to which node/socket/core/thread
+ #         virtual CPU belongs to, provided if supported by board
+ #
+-# @arch: base architecture of the cpu
 -#
--# Returns a list of information about each virtual CPU.
--#
--# This command causes vCPU threads to exit to userspace, which causes
--# a small interruption to guest CPU execution. This will have a negative
--# impact on realtime guests and other latency sensitive guest workloads.
--#
+ # @target: the QEMU system emulation target, which determines which
+ #          additional fields will be listed (since 3.0)
+ #
 -# Features:
--# @deprecated: This command is deprecated, because it interferes with
--#              the guest.  Use 'query-cpus-fast' instead to avoid the vCPU
--#              interruption.
+-# @deprecated: Member @arch is deprecated.  Use @target instead.
 -#
--# Returns: a list of @CpuInfo for each virtual CPU
--#
--# Since: 0.14
--#
--# Example:
--#
--# -> { "execute": "query-cpus" }
--# <- { "return": [
--#          {
--#             "CPU":0,
--#             "current":true,
--#             "halted":false,
--#             "qom_path":"/machine/unattached/device[0]",
--#             "arch":"x86",
--#             "pc":3227107138,
--#             "thread_id":3134
--#          },
--#          {
--#             "CPU":1,
--#             "current":false,
--#             "halted":true,
--#             "qom_path":"/machine/unattached/device[2]",
--#             "arch":"x86",
--#             "pc":7108165,
--#             "thread_id":3135
--#          }
--#       ]
--#    }
--#
--##
--{ 'command': 'query-cpus', 'returns': ['CpuInfo'],
--  'features': [ 'deprecated' ] }
--
+ # Since: 2.12
+ #
  ##
- # @CpuInfoFast:
- #
-@@ -266,9 +111,7 @@
- ##
- # @query-cpus-fast:
- #
--# Returns information about all virtual CPUs. This command does not
--# incur a performance penalty and should be used in production
--# instead of query-cpus.
-+# Returns information about all virtual CPUs.
- #
- # Returns: list of @CpuInfoFast
- #
-diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
-index e49bf33fc5..f48f68fc6b 100644
---- a/tests/acceptance/pc_cpu_hotplug_props.py
-+++ b/tests/acceptance/pc_cpu_hotplug_props.py
-@@ -32,4 +32,4 @@ def test_no_die_id(self):
-         self.vm.add_args('-cpu', 'qemu64')
-         self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0')
-         self.vm.launch()
--        self.assertEquals(len(self.vm.command('query-cpus')), 2)
-+        self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
-diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
-index 2b7461bb41..77ed8597a4 100644
---- a/tests/acceptance/x86_cpu_model_versions.py
-+++ b/tests/acceptance/x86_cpu_model_versions.py
-@@ -246,7 +246,7 @@ class CascadelakeArchCapabilities(avocado_qemu.Test):
-     :avocado: tags=arch:x86_64
-     """
-     def get_cpu_prop(self, prop):
--        cpu_path = self.vm.command('query-cpus')[0].get('qom_path')
-+        cpu_path = self.vm.command('query-cpus-fast')[0].get('qom-path')
-         return self.vm.command('qom-get', path=cpu_path, property=prop)
- 
-     def test_4_1(self):
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 5161e4ff81..5c965140f8 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -110,7 +110,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-         src_vcpu_time = []
-         src_pid = src.get_pid()
- 
--        vcpus = src.command("query-cpus")
-+        vcpus = src.command("query-cpus-fast")
-         src_threads = []
-         for vcpu in vcpus:
-             src_threads.append(vcpu["thread_id"])
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index b25ebf97d8..dc0ec571ca 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -72,7 +72,7 @@ static void test_mon_partial(const void *data)
- 
- static QList *get_cpus(QTestState *qts, QDict **resp)
- {
--    *resp = qtest_qmp(qts, "{ 'execute': 'query-cpus' }");
-+    *resp = qtest_qmp(qts, "{ 'execute': 'query-cpus-fast' }");
-     g_assert(*resp);
-     g_assert(qdict_haskey(*resp, "return"));
-     return qdict_get_qlist(*resp, "return");
-@@ -97,10 +97,10 @@ static void test_query_cpus(const void *data)
-         int64_t cpu_idx, node;
- 
-         cpu = qobject_to(QDict, e);
--        g_assert(qdict_haskey(cpu, "CPU"));
-+        g_assert(qdict_haskey(cpu, "cpu-index"));
-         g_assert(qdict_haskey(cpu, "props"));
- 
--        cpu_idx = qdict_get_int(cpu, "CPU");
-+        cpu_idx = qdict_get_int(cpu, "cpu-index");
-         props = qdict_get_qdict(cpu, "props");
-         g_assert(qdict_haskey(props, "node-id"));
-         node = qdict_get_int(props, "node-id");
-diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-index 11614bf63f..cd27fae3de 100644
---- a/tests/qtest/qmp-test.c
-+++ b/tests/qtest/qmp-test.c
-@@ -252,7 +252,7 @@ static void test_qmp_oob(void)
-      * Try any command that does not support OOB but with OOB flag. We
-      * should get failure.
-      */
--    resp = qtest_qmp(qts, "{ 'exec-oob': 'query-cpus' }");
-+    resp = qtest_qmp(qts, "{ 'exec-oob': 'query-cpus-fast' }");
-     g_assert(qdict_haskey(resp, "error"));
-     qobject_unref(resp);
- 
-@@ -289,7 +289,7 @@ static void test_qmp_preconfig(void)
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-commands' }")));
- 
-     /* forbidden commands, expected error */
--    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus' }")));
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
- 
-     /* check that query-status returns preconfig state */
-     rsp = qtest_qmp(qs, "{ 'execute': 'query-status' }");
-@@ -313,7 +313,7 @@ static void test_qmp_preconfig(void)
-     g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'x-exit-preconfig' }")));
- 
-     /* enabled commands, no error expected  */
--    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus' }")));
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
- 
-     qtest_quit(qs);
- }
-diff --git a/tests/qtest/test-x86-cpuid-compat.c b/tests/qtest/test-x86-cpuid-compat.c
-index 6470f0a85d..f28848e06e 100644
---- a/tests/qtest/test-x86-cpuid-compat.c
-+++ b/tests/qtest/test-x86-cpuid-compat.c
-@@ -13,12 +13,12 @@ static char *get_cpu0_qom_path(void)
-     QDict *cpu0;
-     char *path;
- 
--    resp = qmp("{'execute': 'query-cpus', 'arguments': {}}");
-+    resp = qmp("{'execute': 'query-cpus-fast', 'arguments': {}}");
-     g_assert(qdict_haskey(resp, "return"));
-     ret = qdict_get_qlist(resp, "return");
- 
-     cpu0 = qobject_to(QDict, qlist_peek(ret));
--    path = g_strdup(qdict_get_str(cpu0, "qom_path"));
-+    path = g_strdup(qdict_get_str(cpu0, "qom-path"));
-     qobject_unref(resp);
-     return path;
- }
+@@ -102,8 +82,6 @@
+                       'qom-path'     : 'str',
+                       'thread-id'    : 'int',
+                       '*props'       : 'CpuInstanceProperties',
+-                      'arch'         : { 'type': 'CpuInfoArch',
+-                                         'features': [ 'deprecated' ] },
+                       'target'       : 'SysEmuTarget' },
+   'discriminator' : 'target',
+   'data'          : { 's390x'        : 'CpuInfoS390' } }
 -- 
 2.30.2
 
