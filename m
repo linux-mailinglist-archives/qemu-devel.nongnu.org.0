@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001FB33E126
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:09:05 +0100 (CET)
-Received: from localhost ([::1]:42346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B2E33E14E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:22:52 +0100 (CET)
+Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHs9-0006fh-0L
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
+	id 1lMI5T-0006nv-76
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lMHqn-0005e9-HJ
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:41 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:42634)
+ id 1lMHqo-0005fH-Oc
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:42 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:43813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lMHql-0002aq-T2
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:41 -0400
-Received: by mail-qt1-x835.google.com with SMTP id l13so18083qtu.9
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 15:07:39 -0700 (PDT)
+ id 1lMHqn-0002bX-2I
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:42 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id b130so36940561qkc.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 15:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7jz3fcXEB4BDzmBRZPOge0wYOIF8sZ5RLLGp4QiFaR4=;
- b=tRmeLBiVEv3NJjOFCG3IMGrvEyv/a9oib4yh+zcsn3i4t1+jeuu8ve0W2+18D1hNeP
- 7uSVcQ3DyxE2FfbU8Pp4I4F9rRGpzIM3wcNuoRv75Wru4Y/DhYXXsknVmpEG8iHEFcwb
- NlMdG57guGCG9w9R+s0mtPUHbVcVpGQ7MyHHghiEYw9skWlmwpUkNwP6U+Dky6TincyU
- S75jR+miCjdeYdcI9nF4XDzhRDaeUhZI05kMB/wHjEZDDDkx4DN4lLdyIVeDT+vCHKfI
- CxNrRP0w7DkCuCbhYUfTC622M/6n+EI8nbX3gsCVDjjcIz+GHAesAhLuJmCKnDhdQh68
- c/tg==
+ bh=yPAAjWDyig+xlHGQhaJtz36xF4S8yrbGq7nm4d8cwIk=;
+ b=vLhsWJLZ01GGVfU9I8YpizQfL5b4XIGriaSa4gwymIC2L9bF2MGD98Lm2xIHgnyJ5E
+ odjszg3d0iu82c+QChgPZR8cisrABuwQxmJbEd3Fp6wkPJyjwGau1FDNzOIR9vruSwLn
+ 4XbqwRyhxhhM/XFBeB+H3yWMblK70pMRIdRzXgziKithSf7c3oaFGOFbLFFkyU46Fyek
+ YQJVLTtTGrM83USQAtv44gV+NgQVTkUqYO/D0X1Es3Am5TBioVtOiUWDKKFEj42PstA1
+ 5z3iWL90xmX1js6h/nR59QNoqe4TS/6QE7PaEUnygT/3ozoR+YHWOD0ANMZpL0NdZLgi
+ VS/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7jz3fcXEB4BDzmBRZPOge0wYOIF8sZ5RLLGp4QiFaR4=;
- b=leUMckdgUYDmgY2OeYJXzUEE6vj3Trxex7/CsXQ2RQOzM1T/D8xQSPggGTK3TvJvd4
- eEY6/CrCekNDosBLfzMPbE528TJNdoEzDGUdjlyWtG1/SOqqWu9IyHYzGfZRdHPbsW8k
- +WV7NL9yHDQq4MmjwFqhubdNgam24Unx1D4I6qqs9BToCFZorSo5gBQttBmQB0OYbYuY
- deTJfCpSQ4wM9e3mU/ETRJRJJAL5gRBj1UxMc7fPLQ1kjR6criB7fgVRNThNLlgNOdqo
- Hu2KxpB/+33Pid+7J/2EDLne4e4csaWQynjG8/G7f7tjkE/jCZzpyOvVumXDRyEN39e3
- EK+g==
-X-Gm-Message-State: AOAM533VCf85RaprdZkaH3KNZU9sTNz6n5jRmPfWDBQkUjd/cX1ajIzi
- PJh+8Cw+W/EMtP5douPsFGOeGUNZdEW3bXEC
-X-Google-Smtp-Source: ABdhPJwS8vfOdVlRvv76ABxxBpPM9un6k0LRr2DY/dNhigA9+pdGz1SKqVrDVJcIigRvdznXM/gvsw==
-X-Received: by 2002:ac8:519a:: with SMTP id c26mr984625qtn.342.1615932458940; 
- Tue, 16 Mar 2021 15:07:38 -0700 (PDT)
+ bh=yPAAjWDyig+xlHGQhaJtz36xF4S8yrbGq7nm4d8cwIk=;
+ b=F5Jvczk0Gy7Jqk6/3CFjnp40s2gmTwt+2k8W6wzEdawgHWvzQpiNpTTlUoqBqH4zcK
+ /7StlstSRTepODCVQgFmDxnbQ8lDvsjeNhXY2rS810l0+hn69fZt2pBmoGV2qIYQkgD4
+ M12UE3sTlu7cFVEdQv7N4pRbNw6qvauwqSiwnlx004TlSsX4Sgvhw41tT1+oe6R5U9Sa
+ JFho3pFsu9X7u4tY4+Fn0fF6D9mM58Ye2sf+TUmWaQvXplzpbBHJn+4SUo7dWFDXVaAq
+ jW2e5moPjb89RJLe4Bi/9WaiO57q7ZwBC7C9ll2rIqF7Id47kEW9ejQzr8ww7GL6NhnR
+ OcAQ==
+X-Gm-Message-State: AOAM532Uge5KLmZJRERtN1TqUwC2G1qnyC4sU6X/d/8ofAKVl96VoVij
+ 6UMb5I629on/haSAlx46Y/89+hBfNWXEfj8q
+X-Google-Smtp-Source: ABdhPJytHDAaofizcwi63+kjWp+nbOYEuA5Y+p7QvOAlsdNLawQRzA9dOIb83RbsK5ZHbmAmAPIlgw==
+X-Received: by 2002:a05:620a:2111:: with SMTP id
+ l17mr1264012qkl.399.1615932460071; 
+ Tue, 16 Mar 2021 15:07:40 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id n77sm16546918qkn.128.2021.03.16.15.07.38
+ by smtp.gmail.com with ESMTPSA id n77sm16546918qkn.128.2021.03.16.15.07.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 15:07:38 -0700 (PDT)
+ Tue, 16 Mar 2021 15:07:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] tcg: Decode the operand to INDEX_op_mb in dumps
-Date: Tue, 16 Mar 2021 16:07:31 -0600
-Message-Id: <20210316220735.2048137-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/5] tcg: Do not elide memory barriers for CF_PARALLEL
+Date: Tue, 16 Mar 2021 16:07:32 -0600
+Message-Id: <20210316220735.2048137-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210316220735.2048137-1-richard.henderson@linaro.org>
 References: <20210316220735.2048137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,101 +88,35 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The virtio devices require proper memory ordering between
+the vcpus and the iothreads.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ tcg/tcg-op.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 2991112829..23a94d771c 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -2415,6 +2415,85 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
-                                 arg_label(op->args[k])->id);
-                 i++, k++;
-                 break;
-+            case INDEX_op_mb:
-+                {
-+                    TCGBar membar = op->args[k];
-+                    const char *b_op, *m_op;
-+
-+                    switch (membar & TCG_BAR_SC) {
-+                    case 0:
-+                        b_op = "none";
-+                        break;
-+                    case TCG_BAR_LDAQ:
-+                        b_op = "acq";
-+                        break;
-+                    case TCG_BAR_STRL:
-+                        b_op = "rel";
-+                        break;
-+                    case TCG_BAR_SC:
-+                        b_op = "seq";
-+                        break;
-+                    default:
-+                        g_assert_not_reached();
-+                    }
-+
-+                    switch (membar & TCG_MO_ALL) {
-+                    case 0:
-+                        m_op = "none";
-+                        break;
-+                    case TCG_MO_LD_LD:
-+                        m_op = "rr";
-+                        break;
-+                    case TCG_MO_LD_ST:
-+                        m_op = "rw";
-+                        break;
-+                    case TCG_MO_ST_LD:
-+                        m_op = "wr";
-+                        break;
-+                    case TCG_MO_ST_ST:
-+                        m_op = "ww";
-+                        break;
-+                    case TCG_MO_LD_LD | TCG_MO_LD_ST:
-+                        m_op = "rr+rw";
-+                        break;
-+                    case TCG_MO_LD_LD | TCG_MO_ST_LD:
-+                        m_op = "rr+wr";
-+                        break;
-+                    case TCG_MO_LD_LD | TCG_MO_ST_ST:
-+                        m_op = "rr+ww";
-+                        break;
-+                    case TCG_MO_LD_ST | TCG_MO_ST_LD:
-+                        m_op = "rw+wr";
-+                        break;
-+                    case TCG_MO_LD_ST | TCG_MO_ST_ST:
-+                        m_op = "rw+ww";
-+                        break;
-+                    case TCG_MO_ST_LD | TCG_MO_ST_ST:
-+                        m_op = "wr+ww";
-+                        break;
-+                    case TCG_MO_LD_LD | TCG_MO_LD_ST | TCG_MO_ST_LD:
-+                        m_op = "rr+rw+wr";
-+                        break;
-+                    case TCG_MO_LD_LD | TCG_MO_LD_ST | TCG_MO_ST_ST:
-+                        m_op = "rr+rw+ww";
-+                        break;
-+                    case TCG_MO_LD_LD | TCG_MO_ST_LD | TCG_MO_ST_ST:
-+                        m_op = "rr+wr+ww";
-+                        break;
-+                    case TCG_MO_LD_ST | TCG_MO_ST_LD | TCG_MO_ST_ST:
-+                        m_op = "rw+wr+ww";
-+                        break;
-+                    case TCG_MO_ALL:
-+                        m_op = "all";
-+                        break;
-+                    default:
-+                        g_assert_not_reached();
-+                    }
-+
-+                    col += qemu_log("%s%s:%s", (k ? "," : ""), b_op, m_op);
-+                    i++, k++;
-+                }
-+                break;
-             default:
-                 break;
-             }
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 70475773f4..76dc7d8dc5 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -97,9 +97,13 @@ void tcg_gen_op6(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3,
+ 
+ void tcg_gen_mb(TCGBar mb_type)
+ {
+-    if (tcg_ctx->tb_cflags & CF_PARALLEL) {
+-        tcg_gen_op1(INDEX_op_mb, mb_type);
+-    }
++    /*
++     * It is tempting to elide the barrier in a single-threaded context
++     * (i.e. !(tb_cflags & CF_PARALLEL)), however, even with a single cpu
++     * we have i/o threads running in parallel, and lack of memory order
++     * can result in e.g. virtio queue entries being read incorrectly.
++     */
++    tcg_gen_op1(INDEX_op_mb, mb_type);
+ }
+ 
+ /* 32 bit ops */
 -- 
 2.25.1
 
