@@ -2,58 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0B233D23E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 11:58:10 +0100 (CET)
-Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B87E33D235
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 11:57:31 +0100 (CET)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM7Or-0001Ic-CL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 06:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50072)
+	id 1lM7OE-0008Qu-BD
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 06:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lM7O0-0000KA-No
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:57:17 -0400
-Resent-Date: Tue, 16 Mar 2021 06:57:16 -0400
-Resent-Message-Id: <E1lM7O0-0000KA-No@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21322)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lM7Mf-0007jo-AL
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:55:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lM7Nv-0005O2-K3
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:57:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1615892223; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Dhz2PL29P3BM0pwA+0KCYSM91E0OhGWRuCilHBUQaAfc68jRS/ROi+dlI00v7CFHcBdIng5FGiV0eMRSr2zdrpChk7bmw+SXJrLCl2qr5mSKNakDFNbkUMgjGnnmYmcV4W/6vBkzlMdcgeVdiMXSj1KUnk+aON8C0a5f/nxMPCA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615892223;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=CDCxmHXEZC0PUzLb3MS9C6sCZG5vrfYk9ANNdWJy/xU=; 
- b=OMNK/ZzeG22YmqmhV4STd0urq/mEv0Ez931ltxesDsBf/7nvsCmOrEj+YNZKSBwv6JZ8lDLMIm1Pfy+idfqDIfE/mjoje/9jQb+90L787TuoOYTKQ3UIGSDyxwn5NsUsBG+Z7ja8YuG26AAy6+DYzWoQLTVwrDtCZ9mMTDxrWc4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615892087540821.8288642991314;
- Tue, 16 Mar 2021 03:54:47 -0700 (PDT)
-In-Reply-To: <20210316104745.2196286-1-kraxel@redhat.com>
-Subject: Re: [PULL 0/3] Audio 20210316 patches
-Message-ID: <161589208638.11496.6062259372003149885@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lM7Md-0004Ul-Gx
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 06:55:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615892150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ut3i0HY07uCTm0cwRjtGnL/F6vjL1ktmZLgRyY+bhY0=;
+ b=iBvFlbzhYTS3NuvieOj5+wdsrkli3dX+vkKFIi0dlm/Cyc9HeRJk/vylaBdCkkE9apEWU6
+ /mxCZRWT/LDTTaaJQWBcJKB0ukG7rYoUB14ILilT4WTVUZrKojMi/KvebuR8Bu1R/W1zs9
+ cD2Rt1iTaa2cwheZE3s7DYro0jHw9AQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-0KDyq2qUNy6z029VcDKb-g-1; Tue, 16 Mar 2021 06:55:48 -0400
+X-MC-Unique: 0KDyq2qUNy6z029VcDKb-g-1
+Received: by mail-wr1-f71.google.com with SMTP id r12so16494876wro.15
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 03:55:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ut3i0HY07uCTm0cwRjtGnL/F6vjL1ktmZLgRyY+bhY0=;
+ b=W87Mj5k62fIG9wDoLdDmNz4/zaTc+zglCfZpnRsU05+uIEnymYc7oIe3zTL/K4PqlA
+ VJhy1/OzKbC5AvC6AUTb28XBYJ+BZnAfL8rd76RONtJ6Cccn4cEGUghZGEfMAKf4/K3t
+ Ja+VI1NoE0rs0MO0jE4iwURrbS9bYlOxBfXPUNlUmt7+ae0OYWOTsaNX8hlCv+78eXZw
+ GYW+WSu+tf0KpQGmUhPPuHFEP7jss8HVYRlq30QKuMcH4XucauQlajOSn5Y4nFsXgnqA
+ 7rF+HzQZiEzmOoU0DOTbDDW2+n+B83OJPtsORKjm7UY4HGdHIOUxF15q+GdqEO3ILFRL
+ H8/w==
+X-Gm-Message-State: AOAM531QOA6yxXrhIqPhF9N5Gb5EAHtBMM7Ko62dqlblnlNIOA7GZXzP
+ kAlOw7J0SlzTtqOxEAKM2yM6R5FbDLni+f03IjJIH6FoQNRuwPXHzaCiSAdTMVgCbq1RuTYxndj
+ QsYaO8i/OZN0uRzs=
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr4096104wrp.383.1615892147673; 
+ Tue, 16 Mar 2021 03:55:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwaDaw1WSXbmRCVeoMXrKjUg3NGKYkS7IJXI02R0WbRjP63xMDpH3sO4hsKnt7LiaV5ElCw+Q==
+X-Received: by 2002:adf:f78f:: with SMTP id q15mr4096092wrp.383.1615892147518; 
+ Tue, 16 Mar 2021 03:55:47 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id p6sm21409446wru.2.2021.03.16.03.55.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 03:55:47 -0700 (PDT)
+Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210311231202.1536040-1-philmd@redhat.com>
+ <20210311231202.1536040-2-philmd@redhat.com>
+ <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com>
+ <87ft0va8wp.fsf@dusky.pond.sub.org>
+ <04e9cbd3-1773-c953-10a5-ad6299c35354@redhat.com>
+ <0b5efc04-817d-6e17-075c-86eab1b7ab1f@redhat.com>
+Message-ID: <74d442cd-5e39-f9a4-6ca5-e2656280aa73@redhat.com>
+Date: Tue, 16 Mar 2021 11:55:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Tue, 16 Mar 2021 03:54:47 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <0b5efc04-817d-6e17-075c-86eab1b7ab1f@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,113 +104,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNjEwNDc0NS4yMTk2
-Mjg2LTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMxNjEwNDc0NS4yMTk2
-Mjg2LTEta3JheGVsQHJlZGhhdC5jb20KU3ViamVjdDogW1BVTEwgMC8zXSBBdWRpbyAyMDIxMDMx
-NiBwYXRjaGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
-LzIwMjEwMzE2MTA0NzQ1LjIxOTYyODYtMS1rcmF4ZWxAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIw
-MjEwMzE2MTA0NzQ1LjIxOTYyODYtMS1rcmF4ZWxAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjU0Yzk3YmEgY29yZWF1ZGlvOiBIYW5kbGUgb3V0cHV0IGRldmljZSBj
-aGFuZ2UKMzAxM2E1NyBjb3JlYXVkaW86IEV4dHJhY3QgZGV2aWNlIG9wZXJhdGlvbnMKNDVkMWNi
-NCBjb3JlYXVkaW86IERyb3Agc3VwcG9ydCBmb3IgbWFjT1Mgb2xkZXIgdGhhbiAxMC42Cgo9PT0g
-T1VUUFVUIEJFR0lOID09PQoxLzMgQ2hlY2tpbmcgY29tbWl0IDQ1ZDFjYjRiYjdjNyAoY29yZWF1
-ZGlvOiBEcm9wIHN1cHBvcnQgZm9yIG1hY09TIG9sZGVyIHRoYW4gMTAuNikKMi8zIENoZWNraW5n
-IGNvbW1pdCAzMDEzYTU3NzhkMGEgKGNvcmVhdWRpbzogRXh0cmFjdCBkZXZpY2Ugb3BlcmF0aW9u
-cykKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVu
-IHBhcmVudGhlc2lzICcoJwojNzY6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjM4MzoKKyAgICAg
-ICAgY29yZWF1ZGlvX3BsYXliYWNrX2xvZ2VyciAoc3RhdHVzLAoKRVJST1I6IHNwYWNlIHByb2hp
-Yml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojODM6
-IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjM4ODoKKyAgICAgICAgZG9sb2cgKCJDb3VsZCBub3Qg
-aW5pdGlhbGl6ZSBwbGF5YmFjayAtIFVua25vd24gQXVkaW9kZXZpY2VcbiIpOwoKRVJST1I6IHNw
-YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
-ICcoJwojOTQ6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjM5NjoKKyAgICAgICAgY29yZWF1ZGlv
-X3BsYXliYWNrX2xvZ2VyciAoc3RhdHVzLAoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2Vl
-biBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMTIyOiBGSUxFOiBhdWRp
-by9jb3JlYXVkaW8uYzo0MTU6CisgICAgICAgIGNvcmVhdWRpb19wbGF5YmFja19sb2dlcnIgKHN0
-YXR1cywKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTIzOiBGSUxFOiBhdWRpby9j
-b3JlYXVkaW8uYzo0MTY6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiQ291
-bGQgbm90IHNldCBkZXZpY2UgYnVmZmVyIGZyYW1lIHNpemUgJSIgUFJJdTMyICJcbiIsCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTI0OiBGSUxFOiBhdWRpby9jb3JlYXVkaW8u
-Yzo0MTc6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAodWludDMyX3QpY29y
-ZS0+YXVkaW9EZXZpY2VQcm9wZXJ0eUJ1ZmZlckZyYW1lU2l6ZSk7CgpFUlJPUjogc3BhY2UgcHJv
-aGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygnCiMx
-MzU6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjQyNToKKyAgICAgICAgY29yZWF1ZGlvX3BsYXli
-YWNrX2xvZ2VyciAoc3RhdHVzLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE0
-MTogRklMRTogYXVkaW8vY29yZWF1ZGlvLmM6NDI5OgorICAgIGNvcmUtPmh3LnNhbXBsZXMgPSBj
-b3JlLT5idWZmZXJDb3VudCAqIGNvcmUtPmF1ZGlvRGV2aWNlUHJvcGVydHlCdWZmZXJGcmFtZVNp
-emU7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9w
-ZW4gcGFyZW50aGVzaXMgJygnCiMxNDk6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjQzNToKKyAg
-ICAgICAgY29yZWF1ZGlvX3BsYXliYWNrX2xvZ2VyciAoc3RhdHVzLAoKRVJST1I6IHNwYWNlIHBy
-b2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwoj
-MTY0OiBGSUxFOiBhdWRpby9jb3JlYXVkaW8uYzo0NDU6CisgICAgICAgIGNvcmVhdWRpb19wbGF5
-YmFja19sb2dlcnIgKHN0YXR1cywKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMx
-NjY6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjQ0NzoKKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgY29yZS0+b3V0cHV0U3RyZWFtQmFzaWNEZXNjcmlwdGlvbi5tU2FtcGxlUmF0
-ZSk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9w
-ZW4gcGFyZW50aGVzaXMgJygnCiMxODE6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjQ1OToKKyAg
-ICAgICAgY29yZWF1ZGlvX3BsYXliYWNrX2xvZ2VyciAoc3RhdHVzLCAiQ291bGQgbm90IHNldCBJ
-T1Byb2NcbiIpOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1l
-IGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjE4OiBGSUxFOiBhdWRpby9jb3JlYXVkaW8uYzo1
-MDE6CisgICAgICAgIGRvbG9nKCJDb3VsZCBub3QgY3JlYXRlIG11dGV4XG5SZWFzb246ICVzXG4i
-LCBzdHJlcnJvciAoZXJyKSk7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0
-aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygnCiMyMjU6IEZJTEU6IGF1ZGlvL2NvcmVh
-dWRpby5jOjUwODoKKyAgICBhdWRpb19wY21faW5pdF9pbmZvICgmaHctPmluZm8sIGFzKTsKCkVS
-Uk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJl
-bnRoZXNpcyAnKCcKIzI0MDogRklMRTogYXVkaW8vY29yZWF1ZGlvLmM6NTIzOgorc3RhdGljIHZv
-aWQgY29yZWF1ZGlvX2Zpbmlfb3V0IChIV1ZvaWNlT3V0ICpodykKCnRvdGFsOiAxMiBlcnJvcnMs
-IDMgd2FybmluZ3MsIDIyNCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzMgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KCjMvMyBDaGVja2luZyBjb21taXQgNTRjOTdiYWMwNTEwIChjb3JlYXVkaW86
-IEhhbmRsZSBvdXRwdXQgZGV2aWNlIGNoYW5nZSkKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0
-d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojNzQ6IEZJTEU6IGF1
-ZGlvL2NvcmVhdWRpby5jOjMzNToKKyAgICAgICAgY29yZWF1ZGlvX3VubG9jayAoY29yZSwgImF1
-ZGlvRGV2aWNlSU9Qcm9jKG9sZCBkZXZpY2UpIik7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
-Y3RlcnMKIzE2MDogRklMRTogYXVkaW8vY29yZWF1ZGlvLmM6NDk1OgorICAgICAgICAgICAgaWYg
-KHN0YXR1cyAhPSBrQXVkaW9IYXJkd2FyZUJhZERldmljZUVycm9yICYmIHN0YXR1cyAhPSBrQXVk
-aW9IYXJkd2FyZU5vRXJyb3IpIHsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMx
-NzA6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjUwNDoKKyAgICBpZiAoc3RhdHVzICE9IGtBdWRp
-b0hhcmR3YXJlQmFkRGV2aWNlRXJyb3IgJiYgc3RhdHVzICE9IGtBdWRpb0hhcmR3YXJlTm9FcnJv
-cikgewoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxOTU6IEZJTEU6IGF1ZGlvL2Nv
-cmVhdWRpby5jOjUyOToKKyAgICAgICAgICAgIGlmIChzdGF0dXMgIT0ga0F1ZGlvSGFyZHdhcmVC
-YWREZXZpY2VFcnJvciAmJiBzdGF0dXMgIT0ga0F1ZGlvSGFyZHdhcmVOb0Vycm9yKSB7CgpFUlJP
-Ujogc3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50
-aGVzaXMgJygnCiMxOTY6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjUzMDoKKyAgICAgICAgICAg
-ICAgICBjb3JlYXVkaW9fbG9nZXJyIChzdGF0dXMsICJDb3VsZCBub3QgcmVzdW1lIHBsYXliYWNr
-XG4iKTsKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMjA0OiBGSUxFOiBhdWRpby9j
-b3JlYXVkaW8uYzo1Mzg6CisgICAgICAgICAgICBpZiAoc3RhdHVzICE9IGtBdWRpb0hhcmR3YXJl
-QmFkRGV2aWNlRXJyb3IgJiYgc3RhdHVzICE9IGtBdWRpb0hhcmR3YXJlTm9FcnJvcikgewoKRVJS
-T1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVu
-dGhlc2lzICcoJwojMjMzOiBGSUxFOiBhdWRpby9jb3JlYXVkaW8uYzo1Njc6CisgICAgY29yZWF1
-ZGlvX3VubG9jayAoY29yZSwgX19mdW5jX18pOwoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0
-d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMjYzOiBGSUxFOiBh
-dWRpby9jb3JlYXVkaW8uYzo2MDc6CisgICAgICAgIGNvcmVhdWRpb19wbGF5YmFja19sb2dlcnIg
-KHN0YXR1cywKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBh
-bmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzI5MTogRklMRTogYXVkaW8vY29yZWF1ZGlvLmM6NjM1
-OgorICAgICAgICBkb2xvZygiQ291bGQgbm90IGRlc3Ryb3kgbXV0ZXhcblJlYXNvbjogJXNcbiIs
-IHN0cmVycm9yIChlcnIpKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMTI6
-IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjY1NzoKKyAgICAgICAgY29yZWF1ZGlvX2xvZ2Vycihz
-dGF0dXMsICJDb3VsZCBub3QgcmVtb3ZlIHZvaWNlIHByb3BlcnR5IGNoYW5nZSBsaXN0ZW5lclxu
-Iik7Cgp0b3RhbDogOCBlcnJvcnMsIDIgd2FybmluZ3MsIDMyMSBsaW5lcyBjaGVja2VkCgpQYXRj
-aCAzLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
-dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
-IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzE2MTA0NzQ1LjIxOTYyODYtMS1rcmF4
-ZWxAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
-IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
-XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 3/16/21 11:26 AM, Philippe Mathieu-Daudé wrote:
+> On 3/16/21 10:02 AM, Philippe Mathieu-Daudé wrote:
+>> On 3/16/21 7:51 AM, Markus Armbruster wrote:
+>>> Eric Blake <eblake@redhat.com> writes:
+>>>
+>>>> On 3/11/21 5:11 PM, Philippe Mathieu-Daudé wrote:
+>>> [...]
+>>>>> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
+>>>>> new file mode 100644
+>>>>> index 00000000000..f16e49b8956
+>>>>> --- /dev/null
+>>>>> +++ b/accel/accel-qmp.c
+>>>>> @@ -0,0 +1,47 @@
+>>>>> +/*
+>>>>> + * QEMU accelerators, QMP commands
+>>>>> + *
+>>>>> + * Copyright (c) 2021 Red Hat Inc.
+>>>>> + *
+>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>>>>> + */
+>>>>> +
+>>>>> +#include "qemu/osdep.h"
+>>>>> +#include "qapi/qapi-commands-machine.h"
+>>>>> +
+>>>>> +static const Accelerator accel_list[] = {
+>>>>> +    ACCELERATOR_QTEST,
+>>>>> +#ifdef CONFIG_TCG
+>>>>> +    ACCELERATOR_TCG,
+>>>>> +#endif
+>>>>> +#ifdef CONFIG_KVM
+>>>>> +    ACCELERATOR_KVM,
+>>>>> +#endif
+>>>>
+>>>> ...would it be worth compiling the enum to only list enum values that
+>>>> were actually compiled in?  That would change it to:
+>>>>
+>>>> { 'enum': 'Accelerator',
+>>>>   'data': [ 'qtest',
+>>>>             { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
+>>>> ...
+>>
+>> These accelerator definitions are supposed to be poisoned in generic
+>> code... But I like the simplicity of your suggestion, so I'll give it
+>> a try and see what happens with removing the poisoned definitions.
+> 
+> This is actually quite interesting :) Accelerator definitions are
+> declared in config-target.h, but acceleration is host specific...
+
+Thomas, I guess I hit Claudio's reported bug again...
+
+1/ generic libqemuutil.a is built without any CONFIG_accel definition.
+
+So this qapi-generated enum ... :
+
+typedef enum Accelerator {
+    ACCELERATOR_QTEST,
+#if defined(CONFIG_TCG)
+    ACCELERATOR_TCG,
+#endif /* defined(CONFIG_TCG) */
+#if defined(CONFIG_KVM)
+    ACCELERATOR_KVM,
+#endif /* defined(CONFIG_KVM) */
+#if defined(CONFIG_HAX)
+    ACCELERATOR_HAX,
+#endif /* defined(CONFIG_HAX) */
+#if defined(CONFIG_HVF)
+    ACCELERATOR_HVF,
+#endif /* defined(CONFIG_HVF) */
+#if defined(CONFIG_WHPX)
+    ACCELERATOR_WHPX,
+#endif /* defined(CONFIG_WHPX) */
+#if defined(CONFIG_XEN_BACKEND)
+    ACCELERATOR_XEN,
+#endif /* defined(CONFIG_XEN_BACKEND) */
+    ACCELERATOR__MAX,
+} Accelerator;
+
+... is expanded to:
+
+typedef enum Accelerator {
+    ACCELERATOR_QTEST,
+    ACCELERATOR__MAX,
+} Accelerator;
+
+2/ softmmu code and qtest do get the definition, the enum
+   is different:
+
+typedef enum Accelerator {
+    ACCELERATOR_QTEST,
+    ACCELERATOR_KVM,
+    ACCELERATOR__MAX,
+} Accelerator;
+
+qmp_query_accels() fills AcceleratorInfoList with 2 entries
+
+3/ trying to understand what's happening, query-qmp-schema
+   returns:
+
+        {
+            "name": "206",
+            "tag": "name",
+            "variants": [
+                {
+                    "case": "qtest",
+                    "type": "0"
+                },
+                {
+                    "case": "kvm",
+                    "type": "0"
+                }
+            ],
+            "members": [
+                {
+                    "name": "name",
+                    "type": "403"
+                }
+            ],
+            "meta-type": "object"
+        },
+        {
+            "name": "403",
+            "meta-type": "enum",
+            "values": [
+                "qtest",
+                "kvm"
+            ]
+        },
+
+So accelerators are listed, but with the same enum index?
+
+4/ Running 'query-accels' aborts in qapi_enum_lookup():
+
+The first entry 'qtest' is visited correctly.
+When the second entry 'kvm' is visited, this assertion fires:
+
+    assert(val >= 0 && val < lookup->size);
+
+because lookup->size = 1 (remember from 1/ Accelerator_lookup
+has been compiled without definitions, in libqemuutil.a).
+
+I'll keep the current patch, as it works, and address the rest
+of this series comments.
+
+Thanks,
+
+Phil.
+
 
