@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D775333D45B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:54:38 +0100 (CET)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0C433D45C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:54:44 +0100 (CET)
+Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9DW-0005Of-LB
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
+	id 1lM9Df-0005YL-2o
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM9C5-0004dM-50
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:53:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM9C3-0006Su-CU
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:53:04 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lM9C9-0004hS-P0
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:53:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lM9C8-0006V8-5i
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:53:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615899182;
+ s=mimecast20190719; t=1615899187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Z48HDQ/OopD2PDmpaP/PlGmELvMk04zaLeIL1YmgyYM=;
- b=RNTpu1DsWQcu4YQs7YIeDWkJvEE8DVhQ5JOPY0de7NvTg7303ZRetKbpqrFe4dH8NcfkCg
- GXz/lGtCqmBnr7gePZFcWnOisp4Qcrh2tfeSbhPWz53npzSOAEiXNjxwtZutLJU4h2ih2i
- PsN16AYhDDKpJBSzo87gXMU+jo+R2fE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iwiOTjG6YUTqFplzROCSG7B3Wo+QKdJBobUzhvYNtao=;
+ b=eg9NFFlQuI3onPw0MFB2YkDM7YCZJDLqzKrM3iXhaoTiqhCCrK5rXl0cdSGAaDPayxcbgt
+ LPHAj3nBRZwPJ6Kczr3wYFD9dTQm1zKZ+PY8+PV1iHzSH8fP7IyMF2Q4D9Yw7sSBOcjvTs
+ bbSAcWWYOatZESqhzww8NVzLGFZB2KA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-6FBobktOP7660a3pC41DGw-1; Tue, 16 Mar 2021 08:53:00 -0400
-X-MC-Unique: 6FBobktOP7660a3pC41DGw-1
+ us-mta-19-iUlJyX7GMr-kPJy3GuEg5w-1; Tue, 16 Mar 2021 08:53:05 -0400
+X-MC-Unique: iUlJyX7GMr-kPJy3GuEg5w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18766801817;
- Tue, 16 Mar 2021 12:52:59 +0000 (UTC)
-Received: from thuth.com (ovpn-112-110.ams2.redhat.com [10.36.112.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49BE410023B5;
- Tue, 16 Mar 2021 12:52:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] include/sysemu: Poison all accelerator CONFIG switches in
- common code
-Date: Tue, 16 Mar 2021 13:52:54 +0100
-Message-Id: <20210316125254.461525-1-thuth@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2F9F760C1;
+ Tue, 16 Mar 2021 12:53:03 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 437681001281;
+ Tue, 16 Mar 2021 12:53:03 +0000 (UTC)
+Date: Tue, 16 Mar 2021 13:53:01 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Reinoud Zandijk <reinoud@NetBSD.org>
+Subject: Re: Windows 10 won't run on default x86_64 machine anymore
+Message-ID: <20210316135301.4fd08476@redhat.com>
+In-Reply-To: <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
+References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
+ <20210315185302.29b0d90d@redhat.com>
+ <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -75,108 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, haxm-team@intel.com,
- Wenchao Wang <wenchao.wang@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Colin Xu <colin.xu@intel.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are already poisoning CONFIG_KVM since this switch is not working
-in common code. Do the same with the other accelerator switches, too
-(except for CONFIG_TCG, which is special, since it is also defined in
-config-host.h).
+On Mon, 15 Mar 2021 23:27:29 +0100
+Reinoud Zandijk <reinoud@NetBSD.org> wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- include/exec/poison.h | 4 ++++
- include/sysemu/hax.h  | 4 ++++
- include/sysemu/hvf.h  | 4 ++++
- include/sysemu/whpx.h | 4 ++++
- 4 files changed, 16 insertions(+)
+> On Mon, Mar 15, 2021 at 06:53:02PM +0100, Igor Mammedov wrote:
+> > Windows 10 1607x64 boots fine when I test it with default machine.
+> > 
+> > So
+> >   1) can you provide full QEMU command line used
+> >   2) What Windows build do you use
+> >   3) is it existing guest image (i.e. installed in older QEMU version)  
+[...]
+> 
+> The image file was downloaded pre-installed from Microsoft for Edge browser
+> evaluation. I used it first on Qemu 5.1 IIRC and it kept working in Qemu 5.2.
 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 4cd3f8abb4..3250fc1d52 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -88,8 +88,12 @@
- #pragma GCC poison CONFIG_SPARC_DIS
- #pragma GCC poison CONFIG_XTENSA_DIS
+issue looks similar to:
+0a343a5add7 i386/acpi: restore device paths for pre-5.1 vms
+
+I think that's the problem, the old Windows image (installed on old QEMU),
+may fail to boot if started on newest machine type of a newer QEMU.
+User should use versioned machine type (the same version it was installed on)
+to keep it working the same way otherwise there is no promise that machine ABI
+won't change.
+
+> 
+> The NVMM accelerator was presented here before but is not yet committed. Its
+> API/construction is similar to WHPX.
+does it work with kvm for the same image/configuration?
+
  
-+#pragma GCC poison CONFIG_HAX
-+#pragma GCC poison CONFIG_HVF
- #pragma GCC poison CONFIG_LINUX_USER
- #pragma GCC poison CONFIG_KVM
- #pragma GCC poison CONFIG_SOFTMMU
-+#pragma GCC poison CONFIG_WHPX
-+#pragma GCC poison CONFIG_XEN
- 
- #endif
-diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
-index 12fb54f990..247f0661d1 100644
---- a/include/sysemu/hax.h
-+++ b/include/sysemu/hax.h
-@@ -24,6 +24,8 @@
- 
- int hax_sync_vcpus(void);
- 
-+#ifdef NEED_CPU_H
-+
- #ifdef CONFIG_HAX
- 
- int hax_enabled(void);
-@@ -34,4 +36,6 @@ int hax_enabled(void);
- 
- #endif /* CONFIG_HAX */
- 
-+#endif /* NEED_CPU_H */
-+
- #endif /* QEMU_HAX_H */
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index c98636bc81..bb70082e45 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -16,6 +16,8 @@
- #include "qemu/accel.h"
- #include "qom/object.h"
- 
-+#ifdef NEED_CPU_H
-+
- #ifdef CONFIG_HVF
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
-@@ -26,6 +28,8 @@ extern bool hvf_allowed;
- #define hvf_get_supported_cpuid(func, idx, reg) 0
- #endif /* !CONFIG_HVF */
- 
-+#endif /* NEED_CPU_H */
-+
- #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
- 
- typedef struct HVFState HVFState;
-diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
-index 8ca1c1c4ac..2889fa2278 100644
---- a/include/sysemu/whpx.h
-+++ b/include/sysemu/whpx.h
-@@ -13,6 +13,8 @@
- #ifndef QEMU_WHPX_H
- #define QEMU_WHPX_H
- 
-+#ifdef NEED_CPU_H
-+
- #ifdef CONFIG_WHPX
- 
- int whpx_enabled(void);
-@@ -25,4 +27,6 @@ bool whpx_apic_in_platform(void);
- 
- #endif /* CONFIG_WHPX */
- 
-+#endif /* NEED_CPU_H */
-+
- #endif /* QEMU_WHPX_H */
--- 
-2.27.0
+> As for the cause, I don't know; q35-6.0 works so why isn't pc-i440fx-6.0 ?
+> 
+> With regards,
+> Reinoud
+> 
+> 
 
 
