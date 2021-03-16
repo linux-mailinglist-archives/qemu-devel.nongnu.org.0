@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDE833DDFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 20:46:49 +0100 (CET)
-Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993AC33DE48
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 20:58:12 +0100 (CET)
+Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMFeS-0000ES-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 15:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
+	id 1lMFpT-0006x9-Kc
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 15:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMF0j-000698-Qu
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 15:05:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMF0g-0002y1-D1
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 15:05:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lMF0d-0001Oc-Ez
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 19:05:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6FAF02E815D
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 19:05:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lMFEI-0003Jl-PX
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 15:19:46 -0400
+Resent-Date: Tue, 16 Mar 2021 15:19:46 -0400
+Resent-Message-Id: <E1lMFEI-0003Jl-PX@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lMFEE-0000YF-S3
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 15:19:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1615922367; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=DzqYCksyJpIOn/IIcA9How6trdU2a8bC7q/PWu5i6m77J3ELYs4ocAIPIgp15GJcVtZK3qROa1vtP4xeCMacKVXZXwXYva5l3toJsIooD9nfy3IfCQacfhftCeDnOZ+g960oREMSejLW8k91WCsz3uSEIXLUVMa8AD5AocxQdzM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615922367;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=G7/Z5Y0CjYbzDfTfd982tz6kSQFNJwKgibeU8i/950o=; 
+ b=lmxF1sEgnc/G7a/g/HnFhGlO3A1QFuCf16l+PwWpuGykh8csQrRNrdjXaNuOlOyygNGZ95c+IF1hZ4WkAPh71VhHf+t0ncIB3YKkHAfhb9KFaeA1A2azWVC7v2i2skvh4p31rK2q/1SWuUvHKCN+FIz5YMV8SSkLU8dnLTO7IlM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1615922365075176.34791104764167;
+ Tue, 16 Mar 2021 12:19:25 -0700 (PDT)
+In-Reply-To: <20210316183035.9424-1-cfontana@suse.de>
+Subject: Re: [PATCH v27 00/20] i386 cleanup PART 2
+Message-ID: <161592236328.17821.16084594864966772517@c9d4d6fbb2f1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 16 Mar 2021 18:59:06 -0000
-From: Apteryx <1919253@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: maxco
-X-Launchpad-Bug-Reporter: Apteryx (maxco)
-X-Launchpad-Bug-Modifier: Apteryx (maxco)
-References: <161584419612.2428.15389834064757426371.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161592114614.2958.2732829610856327322.malone@chaenomeles.canonical.com>
-Subject: [Bug 1919253] Re: QEMU doesn't build reproducibly anymore in 5.2.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: 11a5d0607b1755f8782a62eb514c6a4eead5c127
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: cfontana@suse.de
+Date: Tue, 16 Mar 2021 12:19:25 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,263 +67,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1919253 <1919253@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ ehabkost@redhat.com, philmd@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, r.bolshakov@yadro.com, cfontana@suse.de,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello, this problem is resolved when using Meson 0.57.1, as suggested by
-bonzini on #qemu (OFTC).
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1919253
-
-Title:
-  QEMU doesn't build reproducibly anymore in 5.2.0
-
-Status in QEMU:
-  New
-
-Bug description:
-  It used to be that building QEMU 5.1.0 twice in a row, using Guix,
-  would result in bit-for-bit identical results.
-
-  Starting with 5.2.0, this is no longer true.  Here's a summary of
-  which files have non-determinism:
-
-  Here's a summary of the differing files:
-
-  $ diff -r /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0{,-check}
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-aarch64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
-k/bin/qemu-aarch64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-aarch64_be and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
-heck/bin/qemu-aarch64_be differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-alpha and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-alpha differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-arm and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
-n/qemu-arm differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-armeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-armeb differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-cris and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-cris differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-edid and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-edid differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-ga and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
-/qemu-ga differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-hppa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-hppa differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-i386 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-i386 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-img and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
-n/qemu-img differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-io and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bin=
-/qemu-io differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-keymap and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
-/bin/qemu-keymap differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-m68k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-m68k differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-microblaze and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
-heck/bin/qemu-microblaze differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-microblazeel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-microblazeel differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-mips and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-mips differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-mips64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
-/bin/qemu-mips64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-mips64el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
-ck/bin/qemu-mips64el differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-mipsel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
-/bin/qemu-mipsel differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-mipsn32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
-k/bin/qemu-mipsn32 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-mipsn32el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
-eck/bin/qemu-mipsn32el differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-nbd and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
-n/qemu-nbd differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-nios2 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-nios2 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-or1k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/b=
-in/qemu-or1k differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-ppc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
-n/qemu-ppc differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-ppc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-ppc64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-ppc64le and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
-k/bin/qemu-ppc64le differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-pr-helper and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
-eck/bin/qemu-pr-helper differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-riscv32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
-k/bin/qemu-riscv32 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-riscv64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
-k/bin/qemu-riscv64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-s390x and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-s390x differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-sh4 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/bi=
-n/qemu-sh4 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-sh4eb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-sh4eb differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-sparc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check/=
-bin/qemu-sparc differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-sparc32plus and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-sparc32plus differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-sparc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-chec=
-k/bin/qemu-sparc64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-storage-daemon and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
-.0-check/bin/qemu-storage-daemon differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-aarch64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
-.0-check/bin/qemu-system-aarch64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-alpha and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-alpha differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-arm and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
-heck/bin/qemu-system-arm differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-avr and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
-heck/bin/qemu-system-avr differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-cris and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-system-cris differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-hppa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-system-hppa differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-i386 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-system-i386 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-m68k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-system-m68k differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-microblaze and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-=
-5.2.0-check/bin/qemu-system-microblaze differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-microblazeel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qem=
-u-5.2.0-check/bin/qemu-system-microblazeel differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-mips and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-system-mips differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-mips64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
-0-check/bin/qemu-system-mips64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-mips64el and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.=
-2.0-check/bin/qemu-system-mips64el differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-mipsel and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
-0-check/bin/qemu-system-mipsel differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-moxie and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-moxie differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-nios2 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-nios2 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-or1k and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-=
-check/bin/qemu-system-or1k differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-ppc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
-heck/bin/qemu-system-ppc differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-ppc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-ppc64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-riscv32 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
-.0-check/bin/qemu-system-riscv32 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-riscv64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
-.0-check/bin/qemu-system-riscv64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-rx and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-ch=
-eck/bin/qemu-system-rx differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-s390x and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-s390x differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-sh4 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-c=
-heck/bin/qemu-system-sh4 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-sh4eb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-sh4eb differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-sparc and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0=
--check/bin/qemu-system-sparc differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-sparc64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
-.0-check/bin/qemu-system-sparc64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-tricore and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2=
-.0-check/bin/qemu-system-tricore differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-x86_64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
-0-check/bin/qemu-system-x86_64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-xtensa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
-0-check/bin/qemu-system-xtensa differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-system-xtensaeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.=
-2.0-check/bin/qemu-system-xtensaeb differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-x86_64 and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
-/bin/qemu-x86_64 differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-xtensa and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-check=
-/bin/qemu-xtensa differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/bin/q=
-emu-xtensaeb and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
-ck/bin/qemu-xtensaeb differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libex=
-ec/qemu-bridge-helper and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-=
-5.2.0-check/libexec/qemu-bridge-helper differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libex=
-ec/vhost-user-gpu and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.=
-0-check/libexec/vhost-user-gpu differ
-  Binary files /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0/libex=
-ec/virtiofsd and /gnu/store/l286mbanw78qgbn54gs5j23qm0v9abhw-qemu-5.2.0-che=
-ck/libexec/virtiofsd differ
-
-  Attached is a sample log of diffoscope for the qemu-aarch64 binary.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1919253/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNjE4MzAzNS45NDI0
+LTEtY2ZvbnRhbmFAc3VzZS5kZS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzE2MTgzMDM1Ljk0MjQtMS1j
+Zm9udGFuYUBzdXNlLmRlClN1YmplY3Q6IFtQQVRDSCB2MjcgMDAvMjBdIGkzODYgY2xlYW51cCBQ
+QVJUIDIKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
+ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
+ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
+Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAy
+MTAzMTUxODM4MTIuMjc3NjAtMS1hbHhuZHJAYnUuZWR1IC0+IHBhdGNoZXcvMjAyMTAzMTUxODM4
+MTIuMjc3NjAtMS1hbHhuZHJAYnUuZWR1CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAy
+MTAzMTYxNzI0NDkuMzE0ODYzNC0xLXBoaWxtZEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAz
+MTYxNzI0NDkuMzE0ODYzNC0xLXBoaWxtZEByZWRoYXQuY29tCiAqIFtuZXcgdGFnXSAgICAgICAg
+IHBhdGNoZXcvMjAyMTAzMTYxODMwMzUuOTQyNC0xLWNmb250YW5hQHN1c2UuZGUgLT4gcGF0Y2hl
+dy8yMDIxMDMxNjE4MzAzNS45NDI0LTEtY2ZvbnRhbmFAc3VzZS5kZQpTd2l0Y2hlZCB0byBhIG5l
+dyBicmFuY2ggJ3Rlc3QnCmQyNTZkOGYgaTM4NjogbWFrZSBjcHVfbG9hZF9lZmVyIHN5c2VtdS1v
+bmx5Cjc0N2QxYTYgdGFyZ2V0L2kzODY6IGdkYnN0dWI6IG9ubHkgd3JpdGUgQ1IwL0NSMi9DUjMv
+RUZFUiBmb3Igc3lzZW11CjQyNmNhOTAgdGFyZ2V0L2kzODY6IGdkYnN0dWI6IGludHJvZHVjZSBh
+dXggZnVuY3Rpb25zIHRvIHJlYWQvd3JpdGUgQ1M2NCByZWdzCjgyNmVkNTUgaTM4Njogc3BsaXQg
+b2ZmIHN5c2VtdSBwYXJ0IG9mIGNwdS5jCjk5MjY3ZmQgaTM4Njogc3BsaXQgc2VnX2hlbHBlciBp
+bnRvIHVzZXItb25seSBhbmQgc3lzZW11IHBhcnRzCjcxMTEyYTcgaTM4Njogc3BsaXQgc3ZtX2hl
+bHBlciBpbnRvIHN5c2VtdSBhbmQgc3R1Yi1vbmx5IHVzZXIKOGQxZTRkZiBpMzg2OiBzZXBhcmF0
+ZSBmcHVfaGVscGVyIHN5c2VtdS1vbmx5IHBhcnRzCmRmZTdiNzYgaTM4Njogc3BsaXQgbWlzYyBo
+ZWxwZXIgdXNlciBzdHVicyBhbmQgc3lzZW11IHBhcnQKNzczOTBhYiBpMzg2OiBtb3ZlIFRDRyBi
+cHRfaGVscGVyIGludG8gc3lzZW11Lwo0M2VkNzlhIGkzODY6IHNwbGl0IHRjZyBleGNwX2hlbHBl
+ciBpbnRvIHN5c2VtdSBhbmQgdXNlciBwYXJ0cwo0NmIwZmM0IGkzODY6IHNwbGl0IHNtbSBoZWxw
+ZXIgKHN5c2VtdSkKNTA2MDA3MyBpMzg2OiBzcGxpdCBvZmYgc3lzZW11LW9ubHkgZnVuY3Rpb25h
+bGl0eSBpbiB0Y2ctY3B1CmJhMjhlZTAgbWVzb246IGFkZCB0YXJnZXRfdXNlcl9hcmNoCjYxMDcx
+MzggYWNjZWwtY3B1OiBtYWtlIGNwdV9yZWFsaXplZm4gcmV0dXJuIGEgYm9vbAowNzI1NmI3IHRh
+cmdldC9pMzg2OiBmaXggaG9zdF9jcHVfYWRqdXN0X3BoeXNfYml0cyBlcnJvciBoYW5kbGluZwo1
+MjY1NWRkIGFjY2VsOiBpbnRyb2R1Y2UgbmV3IGFjY2Vzc29yIGZ1bmN0aW9ucwoxZDIwNTliIGNw
+dTogY2FsbCBBY2NlbENQVUNsYXNzOjpjcHVfcmVhbGl6ZWZuIGluIGNwdV9leGVjX3JlYWxpemVm
+bgpmMmE4ZTYwIGkzODY6IHNwbGl0IGNwdSBhY2NlbGVyYXRvcnMgZnJvbSBjcHUuYywgdXNpbmcg
+QWNjZWxDUFVDbGFzcwphMDE5ZmZkIHRhcmdldC9pMzg2OiBTcGxpdCBvdXQgZG9fZnNhdmUsIGRv
+X2Zyc3RvciwgZG9fZnhzYXZlLCBkb19meHJzdG9yCjk3ZWU5OWQgdGFyZ2V0L2kzODY6IFJlbmFt
+ZSBoZWxwZXJfZmxkdCwgaGVscGVyX2ZzdHQKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjAgQ2hl
+Y2tpbmcgY29tbWl0IDk3ZWU5OWQxZjI4OCAodGFyZ2V0L2kzODY6IFJlbmFtZSBoZWxwZXJfZmxk
+dCwgaGVscGVyX2ZzdHQpCjIvMjAgQ2hlY2tpbmcgY29tbWl0IGEwMTlmZmRmMWY0ZSAodGFyZ2V0
+L2kzODY6IFNwbGl0IG91dCBkb19mc2F2ZSwgZG9fZnJzdG9yLCBkb19meHNhdmUsIGRvX2Z4cnN0
+b3IpCjMvMjAgQ2hlY2tpbmcgY29tbWl0IGYyYThlNjBjNzhlZSAoaTM4Njogc3BsaXQgY3B1IGFj
+Y2VsZXJhdG9ycyBmcm9tIGNwdS5jLCB1c2luZyBBY2NlbENQVUNsYXNzKQpXQVJOSU5HOiBsaW5l
+IG92ZXIgODAgY2hhcmFjdGVycwojMTMzNzogRklMRTogdGFyZ2V0L2kzODYvdGNnL3RjZy1jcHUu
+YzoxMjU6CisgICAgbWVtb3J5X3JlZ2lvbl9hZGRfc3VicmVnaW9uX292ZXJsYXAoY3B1LT5jcHVf
+YXNfcm9vdCwgMCwgY3B1LT5jcHVfYXNfbWVtLCAwKTsKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
+aW5ncywgMTI1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzIwIGhhcyBzdHlsZSBwcm9ibGVtcywg
+cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
+cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
+SU5FUlMuCjQvMjAgQ2hlY2tpbmcgY29tbWl0IDFkMjA1OWJlMmNiMiAoY3B1OiBjYWxsIEFjY2Vs
+Q1BVQ2xhc3M6OmNwdV9yZWFsaXplZm4gaW4gY3B1X2V4ZWNfcmVhbGl6ZWZuKQo1LzIwIENoZWNr
+aW5nIGNvbW1pdCA1MjY1NWRkN2I5ZmMgKGFjY2VsOiBpbnRyb2R1Y2UgbmV3IGFjY2Vzc29yIGZ1
+bmN0aW9ucykKNi8yMCBDaGVja2luZyBjb21taXQgMDcyNTZiN2YwZjVlICh0YXJnZXQvaTM4Njog
+Zml4IGhvc3RfY3B1X2FkanVzdF9waHlzX2JpdHMgZXJyb3IgaGFuZGxpbmcpCjcvMjAgQ2hlY2tp
+bmcgY29tbWl0IDYxMDcxMzhkZTM2ZSAoYWNjZWwtY3B1OiBtYWtlIGNwdV9yZWFsaXplZm4gcmV0
+dXJuIGEgYm9vbCkKOC8yMCBDaGVja2luZyBjb21taXQgYmEyOGVlMDJlODBkIChtZXNvbjogYWRk
+IHRhcmdldF91c2VyX2FyY2gpCjkvMjAgQ2hlY2tpbmcgY29tbWl0IDUwNjAwNzNiYTkzMyAoaTM4
+Njogc3BsaXQgb2ZmIHN5c2VtdS1vbmx5IGZ1bmN0aW9uYWxpdHkgaW4gdGNnLWNwdSkKVXNlIG9m
+IHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBlcSBhdCAu
+L3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
+ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMxOiAK
+bmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMx
+MTY6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy9zeXNlbXUvdGNnLWNwdS5jOjcyOgorICAgIG1lbW9y
+eV9yZWdpb25fYWRkX3N1YnJlZ2lvbl9vdmVybGFwKGNwdS0+Y3B1X2FzX3Jvb3QsIDAsIGNwdS0+
+Y3B1X2FzX21lbSwgMCk7Cgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDIxMiBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA5LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjEwLzIwIENoZWNr
+aW5nIGNvbW1pdCA0NmIwZmM0ZWE4MmYgKGkzODY6IHNwbGl0IHNtbSBoZWxwZXIgKHN5c2VtdSkp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzI0OiAKIHRhcmdldC9pMzg2L3RjZy97ID0+IHN5c2VtdX0vc21t
+X2hlbHBlci5jIHwgMTkgKystLS0tLS0tLS0tLS0tLS0tLQoKdG90YWw6IDAgZXJyb3JzLCAxIHdh
+cm5pbmdzLCA4NCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8yMCBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoxMS8yMCBDaGVja2luZyBjb21taXQgNDNlZDc5YTRlNzI0IChpMzg2OiBzcGxpdCB0
+Y2cgZXhjcF9oZWxwZXIgaW50byBzeXNlbXUgYW5kIHVzZXIgcGFydHMpClVzZSBvZiB1bmluaXRp
+YWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRl
+ZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1OTk6IApuZXcgZmls
+ZSBtb2RlIDEwMDY0NAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBv
+biBhIHNlcGFyYXRlIGxpbmUKIzc1NjogRklMRTogdGFyZ2V0L2kzODYvdGNnL3N5c2VtdS9leGNw
+X2hlbHBlci5jOjE1MzoKKyAgICAgICAgICAgIC8qIEJpdHMgMjAtMTMgcHJvdmlkZSBiaXRzIDM5
+LTMyIG9mIHRoZSBhZGRyZXNzLCBiaXQgMjEgaXMgcmVzZXJ2ZWQuCgpXQVJOSU5HOiBCbG9jayBj
+b21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojODMwOiBGSUxFOiB0
+YXJnZXQvaTM4Ni90Y2cvc3lzZW11L2V4Y3BfaGVscGVyLmM6MjI3OgorLyogcmV0dXJuIHZhbHVl
+OgoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzkzMTogRklMRTogdGFyZ2V0L2kz
+ODYvdGNnL3N5c2VtdS9leGNwX2hlbHBlci5jOjMyODoKKyAgICAgICAgICAgIHBkcGVfYWRkciA9
+ICgocG1sNGUgJiBQR19BRERSRVNTX01BU0spICsgKCgoYWRkciA+PiAzMCkgJiAweDFmZikgPDwg
+MykpICYKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBh
+cmF0ZSBsaW5lCiMxMDI1OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvc3lzZW11L2V4Y3BfaGVscGVy
+LmM6NDIyOgorICAgICAgICAgICAgLyogQml0cyAyMC0xMyBwcm92aWRlIGJpdHMgMzktMzIgb2Yg
+dGhlIGFkZHJlc3MsIGJpdCAyMSBpcyByZXNlcnZlZC4KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxMTIwOiBGSUxFOiB0YXJnZXQv
+aTM4Ni90Y2cvc3lzZW11L2V4Y3BfaGVscGVyLmM6NTE3OgorICAgICAgICAvKiBvbmx5IHNldCB3
+cml0ZSBhY2Nlc3MgaWYgYWxyZWFkeSBkaXJ0eS4uLiBvdGhlcndpc2Ugd2FpdAoKV0FSTklORzog
+QmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMTEyMTogRklMRTogdGFy
+Z2V0L2kzODYvdGNnL3N5c2VtdS9leGNwX2hlbHBlci5jOjUxODoKKyAgICAgICAgLyogb25seSBz
+ZXQgd3JpdGUgYWNjZXNzIGlmIGFscmVhZHkgZGlydHkuLi4gb3RoZXJ3aXNlIHdhaXQKKyAgICAg
+ICAgICAgZm9yIGRpcnR5IGFjY2VzcyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+dHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMxMTIxOiBGSUxFOiB0YXJnZXQvaTM4Ni90
+Y2cvc3lzZW11L2V4Y3BfaGVscGVyLmM6NTE4OgorICAgICAgICAgICBmb3IgZGlydHkgYWNjZXNz
+ICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJh
+dGUgbGluZQojMTEzNDogRklMRTogdGFyZ2V0L2kzODYvdGNnL3N5c2VtdS9leGNwX2hlbHBlci5j
+OjUzMToKKyAgICAvKiBFdmVuIGlmIDRNQiBwYWdlcywgd2UgbWFwIG9ubHkgb25lIDRLQiBwYWdl
+IGluIHRoZSBjYWNoZSB0bwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2Vx
+dWVudCBsaW5lcwojMTEzNTogRklMRTogdGFyZ2V0L2kzODYvdGNnL3N5c2VtdS9leGNwX2hlbHBl
+ci5jOjUzMjoKKyAgICAvKiBFdmVuIGlmIDRNQiBwYWdlcywgd2UgbWFwIG9ubHkgb25lIDRLQiBw
+YWdlIGluIHRoZSBjYWNoZSB0bworICAgICAgIGF2b2lkIGZpbGxpbmcgaXQgdG9vIGZhc3QgKi8K
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUg
+bGluZQojMTEzNTogRklMRTogdGFyZ2V0L2kzODYvdGNnL3N5c2VtdS9leGNwX2hlbHBlci5jOjUz
+MjoKKyAgICAgICBhdm9pZCBmaWxsaW5nIGl0IHRvbyBmYXN0ICovCgpFUlJPUjogYnJhY2VzIHt9
+IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxMTQ5OiBGSUxF
+OiB0YXJnZXQvaTM4Ni90Y2cvc3lzZW11L2V4Y3BfaGVscGVyLmM6NTQ2OgorICAgIGlmIChpc191
+c2VyKQpbLi4uXQoKdG90YWw6IDEgZXJyb3JzLCAxMSB3YXJuaW5ncywgNjMxIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDExLzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMi8yMCBDaGVja2lu
+ZyBjb21taXQgNzczOTBhYjk0YjliIChpMzg2OiBtb3ZlIFRDRyBicHRfaGVscGVyIGludG8gc3lz
+ZW11LykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0
+cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzM2NDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNTAwOiBGSUxFOiB0YXJnZXQv
+aTM4Ni90Y2cvc3lzZW11L2JwdF9oZWxwZXIuYzoxMzI6CisgICAgLyogSWYgbm90aGluZyBpcyBj
+aGFuZ2luZyBleGNlcHQgdGhlIGdsb2JhbC9sb2NhbCBlbmFibGUgYml0cywKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzUwMTogRklMRTogdGFyZ2V0
+L2kzODYvdGNnL3N5c2VtdS9icHRfaGVscGVyLmM6MTMzOgorICAgIC8qIElmIG5vdGhpbmcgaXMg
+Y2hhbmdpbmcgZXhjZXB0IHRoZSBnbG9iYWwvbG9jYWwgZW5hYmxlIGJpdHMsCisgICAgICAgdGhl
+biB3ZSBjYW4gbWFrZSB0aGUgY2hhbmdlIG1vcmUgZWZmaWNpZW50LiAgKi8KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojNTAxOiBG
+SUxFOiB0YXJnZXQvaTM4Ni90Y2cvc3lzZW11L2JwdF9oZWxwZXIuYzoxMzM6CisgICAgICAgdGhl
+biB3ZSBjYW4gbWFrZSB0aGUgY2hhbmdlIG1vcmUgZWZmaWNpZW50LiAgKi8KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM1MDM6IEZJ
+TEU6IHRhcmdldC9pMzg2L3RjZy9zeXNlbXUvYnB0X2hlbHBlci5jOjEzNToKKyAgICAgICAgLyog
+Rm9sZCB0aGUgZ2xvYmFsIGFuZCBsb2NhbCBlbmFibGUgYml0cyB0b2dldGhlciBpbnRvIHRoZQoK
+V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojNTA0OiBG
+SUxFOiB0YXJnZXQvaTM4Ni90Y2cvc3lzZW11L2JwdF9oZWxwZXIuYzoxMzY6CisgICAgICAgIC8q
+IEZvbGQgdGhlIGdsb2JhbCBhbmQgbG9jYWwgZW5hYmxlIGJpdHMgdG9nZXRoZXIgaW50byB0aGUK
+KyAgICAgICAgICAgZ2xvYmFsIGZpZWxkcywgdGhlbiB4b3IgdG8gc2hvdyB3aGljaCByZWdpc3Rl
+cnMgaGF2ZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBz
+ZXBhcmF0ZSBsaW5lCiM1MDU6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy9zeXNlbXUvYnB0X2hlbHBl
+ci5jOjEzNzoKKyAgICAgICAgICAgY2hhbmdlZCBjb2xsZWN0aXZlIGVuYWJsZSBzdGF0ZS4gICov
+Cgp0b3RhbDogMCBlcnJvcnMsIDcgd2FybmluZ3MsIDYyOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
+Mi8yMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMy8yMCBDaGVja2luZyBjb21taXQgZGZl
+N2I3NmFjZmVmIChpMzg2OiBzcGxpdCBtaXNjIGhlbHBlciB1c2VyIHN0dWJzIGFuZCBzeXNlbXUg
+cGFydCkKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0
+cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzUyNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogc3dpdGNoIGFuZCBjYXNl
+IHNob3VsZCBiZSBhdCB0aGUgc2FtZSBpbmRlbnQKIzgyMDogRklMRTogdGFyZ2V0L2kzODYvdGNn
+L3N5c2VtdS9taXNjX2hlbHBlci5jOjI4OToKKyAgICBzd2l0Y2ggKCh1aW50MzJfdCllbnYtPnJl
+Z3NbUl9FQ1hdKSB7ClsuLi5dCisgICAgIGNhc2UgTVNSX0lBMzJfVUNPREVfUkVWOgoKdG90YWw6
+IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMDEyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEzLzIwIGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxNC8yMCBDaGVja2luZyBjb21taXQgOGQxZTRkZmU4
+MGY0IChpMzg2OiBzZXBhcmF0ZSBmcHVfaGVscGVyIHN5c2VtdS1vbmx5IHBhcnRzKQpVc2Ugb2Yg
+dW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3RyaW5nIGVxIGF0IC4v
+c2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRkZWQsIG1vdmVkIG9y
+IGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTA4OiAK
+bmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTM1IGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDE0LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIw
+IENoZWNraW5nIGNvbW1pdCA3MTExMmE3MmFhODUgKGkzODY6IHNwbGl0IHN2bV9oZWxwZXIgaW50
+byBzeXNlbXUgYW5kIHN0dWItb25seSB1c2VyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
+ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzNDogCiB0YXJn
+ZXQvaTM4Ni90Y2cveyA9PiBzeXNlbXV9L3N2bV9oZWxwZXIuYyB8IDYyICstLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTY5IGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDE1LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE2LzIwIENoZWNraW5n
+IGNvbW1pdCA5OTI2N2ZkZGRhM2QgKGkzODY6IHNwbGl0IHNlZ19oZWxwZXIgaW50byB1c2VyLW9u
+bHkgYW5kIHN5c2VtdSBwYXJ0cykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVz
+dGV4cGVjdGVkIGluIHN0cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1
+MjkuCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
+SU5FUlMgbmVlZCB1cGRhdGluZz8KIzMyMTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjog
+ZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzM0ODogRklMRTogdGFyZ2V0L2kzODYvdGNnL3Nl
+Z19oZWxwZXIuaDoyMzoKKy8vI2RlZmluZSBERUJVR19QQ0FMTAoKV0FSTklORzogQmxvY2sgY29t
+bWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzYyMTogRklMRTogdGFy
+Z2V0L2kzODYvdGNnL3VzZXIvc2VnX2hlbHBlci5jOjczOgorICAgIC8qIFNpbmNlIHdlIGVtdWxh
+dGUgb25seSB1c2VyIHNwYWNlLCB3ZSBjYW5ub3QgZG8gbW9yZSB0aGFuCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiM2MjI6IEZJTEU6IHRhcmdldC9p
+Mzg2L3RjZy91c2VyL3NlZ19oZWxwZXIuYzo3NDoKKyAgICAvKiBTaW5jZSB3ZSBlbXVsYXRlIG9u
+bHkgdXNlciBzcGFjZSwgd2UgY2Fubm90IGRvIG1vcmUgdGhhbgorICAgICAgIGV4aXRpbmcgdGhl
+IGVtdWxhdGlvbiB3aXRoIHRoZSBzdWl0YWJsZSBleGNlcHRpb24gYW5kIGVycm9yCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzYy
+MzogRklMRTogdGFyZ2V0L2kzODYvdGNnL3VzZXIvc2VnX2hlbHBlci5jOjc1OgorICAgICAgIGNv
+ZGUuIFNvIHVwZGF0ZSBFSVAgZm9yIElOVCAweDgwIGFuZCBFWENQX1NZU0NBTEwuICovCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQoj
+NjM0OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvdXNlci9zZWdfaGVscGVyLmM6ODY6CisgICAgLyog
+aWYgdXNlciBtb2RlIG9ubHksIHdlIHNpbXVsYXRlIGEgZmFrZSBleGNlcHRpb24KCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzYzNTogRklMRTogdGFy
+Z2V0L2kzODYvdGNnL3VzZXIvc2VnX2hlbHBlci5jOjg3OgorICAgIC8qIGlmIHVzZXIgbW9kZSBv
+bmx5LCB3ZSBzaW11bGF0ZSBhIGZha2UgZXhjZXB0aW9uCisgICAgICAgd2hpY2ggd2lsbCBiZSBo
+YW5kbGVkIG91dHNpZGUgdGhlIGNwdSBleGVjdXRpb24KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojNjM2OiBGSUxFOiB0YXJnZXQv
+aTM4Ni90Y2cvdXNlci9zZWdfaGVscGVyLmM6ODg6CisgICAgICAgbG9vcCAqLwoKdG90YWw6IDEg
+ZXJyb3JzLCA3IHdhcm5pbmdzLCA1OTUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYvMjAgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
+ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
+QVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE3LzIwIENoZWNraW5nIGNvbW1pdCA4MjZlZDU1NWFjODgg
+KGkzODY6IHNwbGl0IG9mZiBzeXNlbXUgcGFydCBvZiBjcHUuYykKVXNlIG9mIHVuaW5pdGlhbGl6
+ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hl
+Y2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
+bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE4OiAKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBz
+ZXBhcmF0ZSBsaW5lCiM1MjogRklMRTogdGFyZ2V0L2kzODYvY3B1LWludGVybmFsLmg6MzA6Cisg
+ICAgLyogZmVhdHVyZSBmbGFncyBuYW1lcyBhcmUgdGFrZW4gZnJvbSAiSW50ZWwgUHJvY2Vzc29y
+IElkZW50aWZpY2F0aW9uIGFuZAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGlu
+ZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEzNTogRklMRTogdGFyZ2V0L2kzODYvY3B1LXN5c2Vt
+dS5jOjM3OgorLyogUmV0dXJuIGEgUURpY3QgY29udGFpbmluZyBrZXlzIGZvciBhbGwgcHJvcGVy
+dGllcyB0aGF0IGNhbiBiZSBpbmNsdWRlZAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+bGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE4ODogRklMRTogdGFyZ2V0L2kzODYvY3B1
+LXN5c2VtdS5jOjkwOgorLyogQ29udmVydCBDUFUgbW9kZWwgZGF0YSBmcm9tIFg4NkNQVSBvYmpl
+Y3QgdG8gYSBwcm9wZXJ0eSBkaWN0aW9uYXJ5CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+YSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjAyOiBGSUxFOiB0YXJnZXQvaTM4Ni9j
+cHUtc3lzZW11LmM6MTA0OgorLyogQ29udmVydCBDUFUgbW9kZWwgZGF0YSBmcm9tIFg4NkNQVSBv
+YmplY3QgdG8gYSBwcm9wZXJ0eSBkaWN0aW9uYXJ5CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjE4OiBGSUxFOiB0YXJnZXQvaTM4
+Ni9jcHUtc3lzZW11LmM6MTIwOgorICAgICAgICAvKiAiaG90cGx1Z2dlZCIgaXMgdGhlIG9ubHkg
+cHJvcGVydHkgdGhhdCBpcyBjb25maWd1cmFibGUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
+ZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzMDg6IEZJTEU6IHRhcmdldC9pMzg2
+L2NwdS1zeXNlbXUuYzoyMTA6CisgICAgICAgIC8qIEFzIHdlIGRvbid0IHJldHVybiBldmVyeSBz
+aW5nbGUgcHJvcGVydHksIGZ1bGwgZXhwYW5zaW9uIG5lZWRzCgp0b3RhbDogMCBlcnJvcnMsIDcg
+d2FybmluZ3MsIDkwMSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yMCBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoxOC8yMCBDaGVja2luZyBjb21taXQgNDI2Y2E5MDIyYzAyICh0YXJnZXQvaTM4
+NjogZ2Ric3R1YjogaW50cm9kdWNlIGF1eCBmdW5jdGlvbnMgdG8gcmVhZC93cml0ZSBDUzY0IHJl
+Z3MpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM2MjogRklMRTogdGFyZ2V0L2kz
+ODYvZ2Ric3R1Yi5jOjE2MzoKKyAgICAgICAgICAgIHJldHVybiBnZGJfcmVhZF9yZWdfY3M2NChl
+bnYtPmhmbGFncywgbWVtX2J1ZiwgZW52LT5zZWdzW1JfRlNdLmJhc2UpOwoKV0FSTklORzogbGlu
+ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzY4OiBGSUxFOiB0YXJnZXQvaTM4Ni9nZGJzdHViLmM6MTY1
+OgorICAgICAgICAgICAgcmV0dXJuIGdkYl9yZWFkX3JlZ19jczY0KGVudi0+aGZsYWdzLCBtZW1f
+YnVmLCBlbnYtPnNlZ3NbUl9HU10uYmFzZSk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
+dGVycwojMTU2OiBGSUxFOiB0YXJnZXQvaTM4Ni9nZGJzdHViLmM6MzE4OgorICAgICAgICAgICAg
+cmV0dXJuIGdkYl93cml0ZV9yZWdfY3M2NChlbnYtPmhmbGFncywgbWVtX2J1ZiwgJmVudi0+c2Vn
+c1tSX0ZTXS5iYXNlKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxNjU6IEZJ
+TEU6IHRhcmdldC9pMzg2L2dkYnN0dWIuYzozMjA6CisgICAgICAgICAgICByZXR1cm4gZ2RiX3dy
+aXRlX3JlZ19jczY0KGVudi0+aGZsYWdzLCBtZW1fYnVmLCAmZW52LT5zZWdzW1JfR1NdLmJhc2Up
+OwoKdG90YWw6IDAgZXJyb3JzLCA0IHdhcm5pbmdzLCAyMjEgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
+MTgvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTkvMjAgQ2hlY2tpbmcgY29tbWl0IDc0
+N2QxYTY0ZjRhZCAodGFyZ2V0L2kzODY6IGdkYnN0dWI6IG9ubHkgd3JpdGUgQ1IwL0NSMi9DUjMv
+RUZFUiBmb3Igc3lzZW11KQoyMC8yMCBDaGVja2luZyBjb21taXQgZDI1NmQ4ZmQwYmFkIChpMzg2
+OiBtYWtlIGNwdV9sb2FkX2VmZXIgc3lzZW11LW9ubHkpCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
+dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
+IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzE2MTgzMDM1Ljk0MjQtMS1jZm9udGFu
+YUBzdXNlLmRlL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
+ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
+bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
