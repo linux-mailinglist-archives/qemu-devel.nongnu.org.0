@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AE233D41E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:43:11 +0100 (CET)
-Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAE733D420
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:43:44 +0100 (CET)
+Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM92U-0008WA-IO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46482)
+	id 1lM931-00018Y-EQ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM918-0007Nh-6Y
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:41:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30692)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM91b-000811-OF
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:42:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lM916-0007h0-1p
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:41:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM91a-00082B-3t
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:42:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615898503;
+ s=mimecast20190719; t=1615898533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HdIBiSSk1ITCKFMZX0sTLsqG8NotVayE5GqnG32SN/I=;
- b=fRmmWMlO0glD22Pj1QpN/kXWytKMRyy32gg3IPIp6yQLXqtat6xu7AFbM1sP1yZXI3mL0g
- iDFKBMk9NSid3Vqnqed3++70JzM/rROBqyRbxuodCiZfzoXunDD80kV+9CyVpNkobo6Fza
- mBMVUIPdUNM2GKwvSZZgQprFtchfud0=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uTbGyBj/reHj7OstA2iSj4P9szN2HEnzeh0tTXKZi8I=;
+ b=c36+3swPeODzsLUQNlfNKTri8Cv9fKo6numxcybaKYkc65eHvtj/1mZthWM+YoGHYTcOcD
+ c9inF6e6y27lXsyd2SKN843m2qCZ04GvZzJnT107pTXLsAzlqOAyjCfNlsL4jTwr4e6vi1
+ xvwBvpjovkerMNolEK9ITmgNur/Wl9Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-jvPLb0UkN9WQrEiwTcNy1w-1; Tue, 16 Mar 2021 08:41:41 -0400
-X-MC-Unique: jvPLb0UkN9WQrEiwTcNy1w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-2-AmBiL1EfPFSWJKDsaOd3Dg-1; Tue, 16 Mar 2021 08:42:11 -0400
+X-MC-Unique: AmBiL1EfPFSWJKDsaOd3Dg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB2C91934100;
- Tue, 16 Mar 2021 12:41:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D4EF5D74F;
- Tue, 16 Mar 2021 12:41:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E06481132C12; Tue, 16 Mar 2021 13:41:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-2-philmd@redhat.com>
- <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com>
- <87ft0va8wp.fsf@dusky.pond.sub.org>
- <04e9cbd3-1773-c953-10a5-ad6299c35354@redhat.com>
- <0b5efc04-817d-6e17-075c-86eab1b7ab1f@redhat.com>
- <74d442cd-5e39-f9a4-6ca5-e2656280aa73@redhat.com>
-Date: Tue, 16 Mar 2021 13:41:34 +0100
-In-Reply-To: <74d442cd-5e39-f9a4-6ca5-e2656280aa73@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 16 Mar 2021 11:55:45
- +0100")
-Message-ID: <875z1rl18h.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFBC3802B7A
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 12:42:10 +0000 (UTC)
+Received: from thuth.com (ovpn-112-110.ams2.redhat.com [10.36.112.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B5D1610F0;
+ Tue, 16 Mar 2021 12:42:09 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] docs: Remove obsolete paragraph about config-target.mak
+Date: Tue, 16 Mar 2021 13:42:08 +0100
+Message-Id: <20210316124208.455456-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,110 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?Q?P=2EBerrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+$TARGET-NAME/config-target.mak has been removed a while ago.
+Remove it now from the documentation, too.
 
-> On 3/16/21 11:26 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 3/16/21 10:02 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 3/16/21 7:51 AM, Markus Armbruster wrote:
->>>> Eric Blake <eblake@redhat.com> writes:
->>>>
->>>>> On 3/11/21 5:11 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> [...]
->>>>>> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
->>>>>> new file mode 100644
->>>>>> index 00000000000..f16e49b8956
->>>>>> --- /dev/null
->>>>>> +++ b/accel/accel-qmp.c
->>>>>> @@ -0,0 +1,47 @@
->>>>>> +/*
->>>>>> + * QEMU accelerators, QMP commands
->>>>>> + *
->>>>>> + * Copyright (c) 2021 Red Hat Inc.
->>>>>> + *
->>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>>>>> + */
->>>>>> +
->>>>>> +#include "qemu/osdep.h"
->>>>>> +#include "qapi/qapi-commands-machine.h"
->>>>>> +
->>>>>> +static const Accelerator accel_list[] =3D {
->>>>>> +    ACCELERATOR_QTEST,
->>>>>> +#ifdef CONFIG_TCG
->>>>>> +    ACCELERATOR_TCG,
->>>>>> +#endif
->>>>>> +#ifdef CONFIG_KVM
->>>>>> +    ACCELERATOR_KVM,
->>>>>> +#endif
->>>>>
->>>>> ...would it be worth compiling the enum to only list enum values that
->>>>> were actually compiled in?  That would change it to:
->>>>>
->>>>> { 'enum': 'Accelerator',
->>>>>   'data': [ 'qtest',
->>>>>             { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
->>>>> ...
->>>
->>> These accelerator definitions are supposed to be poisoned in generic
->>> code... But I like the simplicity of your suggestion, so I'll give it
->>> a try and see what happens with removing the poisoned definitions.
->>=20
->> This is actually quite interesting :) Accelerator definitions are
->> declared in config-target.h, but acceleration is host specific...
->
-> Thomas, I guess I hit Claudio's reported bug again...
->
-> 1/ generic libqemuutil.a is built without any CONFIG_accel definition.
->
-> So this qapi-generated enum ... :
->
-> typedef enum Accelerator {
->     ACCELERATOR_QTEST,
-> #if defined(CONFIG_TCG)
->     ACCELERATOR_TCG,
-> #endif /* defined(CONFIG_TCG) */
-> #if defined(CONFIG_KVM)
->     ACCELERATOR_KVM,
-> #endif /* defined(CONFIG_KVM) */
-> #if defined(CONFIG_HAX)
->     ACCELERATOR_HAX,
-> #endif /* defined(CONFIG_HAX) */
-> #if defined(CONFIG_HVF)
->     ACCELERATOR_HVF,
-> #endif /* defined(CONFIG_HVF) */
-> #if defined(CONFIG_WHPX)
->     ACCELERATOR_WHPX,
-> #endif /* defined(CONFIG_WHPX) */
-> #if defined(CONFIG_XEN_BACKEND)
->     ACCELERATOR_XEN,
-> #endif /* defined(CONFIG_XEN_BACKEND) */
->     ACCELERATOR__MAX,
-> } Accelerator;
->
-> ... is expanded to:
->
-> typedef enum Accelerator {
->     ACCELERATOR_QTEST,
->     ACCELERATOR__MAX,
-> } Accelerator;
+Fixes: fdb75aeff7 ("configure: remove target configuration")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/devel/build-system.rst | 8 --------
+ 1 file changed, 8 deletions(-)
 
-CONFIG_KVM, CONFIG_TCG, ...  are defined in ${target}-config-target.h,
-and may only be used in target-specific code.
-
-If the enum ends up in libqemuutil.a, there are uses outside
-target-specific code.
-
-exec/poison.h lacks CONFIG_KVM, CONFIG_TCG, ...  Should they be added?
-
-[...]
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 69ce3087e3..7ef36f42d0 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -426,14 +426,6 @@ Built by configure:
+   build outputs. Variables which are potentially different for each
+   emulator target are defined by the next file...
+ 
+-`$TARGET-NAME/config-target.mak`
+-  TARGET-NAME is the name of a system or userspace emulator, for example,
+-  x86_64-softmmu denotes the system emulator for the x86_64 architecture.
+-  This file contains the variables which need to vary on a per-target
+-  basis. For example, it will indicate whether KVM or Xen are enabled for
+-  the target and any other potential custom libraries needed for linking
+-  the target.
+-
+ 
+ Built by Meson:
+ 
+-- 
+2.27.0
 
 
