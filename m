@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853BF33E0E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:56:52 +0100 (CET)
-Received: from localhost ([::1]:49546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3CC33E102
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:00:36 +0100 (CET)
+Received: from localhost ([::1]:55906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHgJ-00053o-E8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1lMHju-00086o-T6
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:00:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lMHXl-0006qA-TY; Tue, 16 Mar 2021 17:48:02 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48539)
+ id 1lMHXl-0006q7-GM; Tue, 16 Mar 2021 17:48:02 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:36441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lMHXj-0000tN-3r; Tue, 16 Mar 2021 17:48:01 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 2B4335C0130;
- Tue, 16 Mar 2021 17:47:58 -0400 (EDT)
+ id 1lMHXj-0000tW-Ux; Tue, 16 Mar 2021 17:48:01 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 06B875C00DC;
+ Tue, 16 Mar 2021 17:47:59 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 16 Mar 2021 17:47:58 -0400
+ by compute2.internal (MEProxy); Tue, 16 Mar 2021 17:47:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm2; bh=Ey2Se3LV8WJ84mqLgMF2JcwjWk
- eM6FlxH7E+3UoK7gE=; b=MNIkKAcYzseC+BPRaBJzUuE9gi6g9y+OwXzlDdpU1/
- x986bNo+JHu7aDuHSf9qz4zQWNuQOG9qlWE04XxArbNFiftbBPs1807dEBepQSZh
- 8DHQYvYxr/7IjtDnUs8V/qIDnTRrwJ/1kCDMGMfX4rjIeDo9EOkvBTuucZnmE6lA
- Krm7KhsZ0W89IphH1xx7hQlcP7Ew71y+OdtkkSW1pI8TKbYwQDlfP/kTxGq68mcj
- 5jbQ2EywoOhNgOmA49o3JWJ0EJvNtmHWrO2+Y/k3I2jXWu4lFyVkXDI5aJ+dBX7u
- jGGK/ABsUz1r7+ra4eMFdu9wt99EZO25egty/WyEA1Fw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=iAi3qmkcqzM56
+ LB69+5lI6StgzEvbzX2I5PvFLGx1IM=; b=riHQgwbsTp2x2FmnEkV80+pa7Z6cG
+ GFDV01GjTRtnj81bsUSHbiIQ/e7e/ijZLuvANZL5dCs8W20OvFBIyw39a9PBs41u
+ 8ukPQa1yPzrHP/O5OztJydqmw7KwXkvP/TYgivznG5qk5uwdXvbkjnYX1fxDAScJ
+ EH4GbqsOewMZdKw77zmAsF5nyIefTet3vitLAPqNrys3/0h6Xe4JkaAhW9Vxia3Z
+ nRAcTDDKiycpE8Mm0tekQGeIs5qLpgG4p6ecHDDU4mbo9gSBzXhAKYCUmNMF2z/n
+ AC84JoFGRFhx+yAmdTl2CfLYH7PYfYCe15pHCEzayszfIZDblotQpcVRA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Ey2Se3
- LV8WJ84mqLgMF2JcwjWkeM6FlxH7E+3UoK7gE=; b=ENIbSovUOdMKn9YP22TDR9
- 1Ey/eGjvdIN7aOow95Pmc14WwnAJNTDatn0uoHOwuR/wX1HGNzQmE7uWa/Qov10b
- gsXL/88TZ1Va0YE2dFfUFHWxbM8ctQTpZhbI/vvBgJ+XQtSHx2+/EinekdoUJJc1
- CDVP5nsIMS3plpTQU8+tsmDopW1HPRMOIUHtsdOqlBYgZIladsSSrqMtufDKyxwU
- Ei+uOlRXySJch1gKVBGg3/yqZVj9cl7KAe8kMYTSJ+4RFuZrXYqCvk7Ggyr3qsyx
- pO1ZYNbxIDg4Gorfg+MQM0erI7byfOJ8ji1crxgkVWWql10cULrI/YpPlr7j401Q
- ==
-X-ME-Sender: <xms:jCdRYBse2ooKEn-_g43gtYOa2yWjrwlI8u5z2_wR-OTj4xr3EtdHYA>
- <xme:jCdRYEHGYxxNGV2xeOcE84G6iyq1xwr-3M_CYTTwFjV-e5A0HBiMRv2VfO9Mi50M1
- vPccwptlbrXME-6PN0>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=iAi3qmkcqzM56LB69+5lI6StgzEvbzX2I5PvFLGx1IM=; b=WErqX+CJ
+ KuttYkO+zogQSavXoCG3DKBx0XnZ/+UFqhgUStsgDl1SNkUOgR1GFRFAgwRntMiz
+ 0GJzREgFuKQV4/rq+t7H17QSje3ICD386Ba6a425ZXEg38N3kVxhPavTmtyjzj/z
+ wKsn0Gs2/3YOBbs6qFvk7/i6BNXUzcAMhdIpcQGvxn/aUIF7OeK0pMPBsalrIwZm
+ zrZ1Mbw6otd0P1kGBRhY9dDtbBrQ/fMYH1a9ItAcStfKwtQ57QlNJsy+W4AmzpL0
+ 6r8a8258+lIzBcD5Y9gCxo2PQ5buwu+gTDKWJVxgsZA155qeZT33WasW4CAufVdK
+ wwr+Eywo9y0Mlg==
+X-ME-Sender: <xms:jidRYBqGOx31aTAr5iUWEYmJ7LmyCAl7E5E07Ae_ahthYCRNQsbxZQ>
+ <xme:jidRYBeD6_EOyJRAH9QL3_GTTq67LPU09qWVsvoOhmJ-XwRUwMzakVllGZfN1XxIh
+ VU1kBZ06j5hs9Pmjew>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefvddgudehhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofggtgfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedvhfeujeeujeekvddufedttedvtdfghfetleegleduvdevteeuhfefkeefueeh
- gfenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucfkphepkedtrdduieejrd
- elkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:jCdRYEzHV451MGxbc448YXtXiZaVK4Mx8WQ_E-6aFJsj86npmMgunQ>
- <xmx:jCdRYLgr_E5g-cgEqvQAaQfQXXQPB8OBuXab_eSXASCtYQwNeycxWg>
- <xmx:jCdRYPxwEPeqFeLhGZeGn8KC9EpYejQUm5ZcDkDnnWGbmaUsImq8Mw>
- <xmx:jidRYOyGutsplPRllBRV8sYCcdiG3Npmih1D6b56bJCWfI0oqVLrug>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:jidRYIqwghEaWeVqq_t7OLYRrTvFN1czLfUWJ5Y2mAs_tTiDlCDTbA>
+ <xmx:jidRYKF0D5nMD-t868K0EYiSvelMjBrZzFlqQb5MALYHw8g48eZMew>
+ <xmx:jidRYAtitLgezxZ5DEEjoGYJJjsDfd9JKIbDiZSiw18COOIQDnhoIw>
+ <xmx:jydRYFHwUde6HThVDDtqPYGiAS6GPGNvW2Yth4CJXUUEhDtp5zOhUw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9BD0B108005C;
- Tue, 16 Mar 2021 17:47:55 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1ED831080064;
+ Tue, 16 Mar 2021 17:47:57 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 00/11] emulated nvme updates and fixes
-Date: Tue, 16 Mar 2021 22:47:42 +0100
-Message-Id: <20210316214753.399389-1-its@irrelevant.dk>
+Subject: [PULL 01/11] hw/block/nvme: fix potential overflow
+Date: Tue, 16 Mar 2021 22:47:43 +0100
+Message-Id: <20210316214753.399389-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210316214753.399389-1-its@irrelevant.dk>
+References: <20210316214753.399389-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -100,72 +100,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Hi Peter,=0D
-=0D
-The following changes since commit 6e31b3a5c34c6e5be7ef60773e607f189eaa15f3=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' int=
-o staging (2021-03-16 10:53:47 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
-=0D
-for you to fetch changes up to e2c8dd15807886ca234ffffcdd06eba47fa65162:=0D
-=0D
-  hw/block/nvme: add support for the format nvm command (2021-03-16 22:30:4=
-7 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-emulated nvme updates and fixes=0D
-=0D
-* fixes for Coverity CID 1450756, 1450757 and 1450758 (me)=0D
-* fix for a bug in zone management receive (me)=0D
-* metadata and end-to-end data protection support (me & Gollu Appalanaidu)=
-=0D
-* verify support (Gollu Appalanaidu)=0D
-* multiple lba formats and format nvm support (Minwoo Im)=0D
-=0D
-and a couple of misc refactorings from me.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gollu Appalanaidu (1):=0D
-  hw/block/nvme: add verify command=0D
-=0D
-Klaus Jensen (8):=0D
-  hw/block/nvme: fix potential overflow=0D
-  hw/block/nvme: assert namespaces array indices=0D
-  hw/block/nvme: fix zone management receive reporting too many zones=0D
-  hw/block/nvme: add metadata support=0D
-  hw/block/nvme: end-to-end data protection=0D
-  hw/block/nvme: add non-mdts command size limit for verify=0D
-  hw/block/nvme: prefer runtime helpers instead of device parameters=0D
-  hw/block/nvme: pull lba format initialization=0D
-=0D
-Minwoo Im (2):=0D
-  hw/block/nvme: support multiple lba formats=0D
-  hw/block/nvme: add support for the format nvm command=0D
-=0D
- hw/block/nvme-dif.h    |   53 ++=0D
- hw/block/nvme-ns.h     |   50 +-=0D
- hw/block/nvme-subsys.h |    2 +=0D
- hw/block/nvme.h        |   44 +-=0D
- include/block/nvme.h   |   29 +-=0D
- hw/block/nvme-dif.c    |  508 ++++++++++++++++=0D
- hw/block/nvme-ns.c     |  124 +++-=0D
- hw/block/nvme-subsys.c |    7 +-=0D
- hw/block/nvme.c        | 1257 ++++++++++++++++++++++++++++++++++++----=0D
- hw/block/meson.build   |    2 +-=0D
- hw/block/trace-events  |   22 +-=0D
- 11 files changed, 1939 insertions(+), 159 deletions(-)=0D
- create mode 100644 hw/block/nvme-dif.h=0D
- create mode 100644 hw/block/nvme-dif.c=0D
-=0D
--- =0D
-2.30.1=0D
-=0D
+page_size is a uint32_t, and zasl is a uint8_t, so the expression
+`page_size << zasl` is done using 32-bit arithmetic and might overflow.
+Since we then compare this against a 64 bit data_size value, Coverity
+complains that we might overflow unintentionally. An MDTS/ZASL value in
+excess of 4GiB is probably impractical, but it is not entirely
+unrealistic, so add a cast such that we handle that case properly.
+
+Fixes: 578d914b263c ("hw/block/nvme: align zoned.zasl with mdts")
+Fixes: CID 1450756
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index d439e44db839..0d9b980151ae 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2188,7 +2188,8 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+                 goto invalid;
+             }
+ 
+-            if (n->params.zasl && data_size > n->page_size << n->params.zasl) {
++            if (n->params.zasl &&
++                data_size > (uint64_t)n->page_size << n->params.zasl) {
+                 trace_pci_nvme_err_zasl(data_size);
+                 return NVME_INVALID_FIELD | NVME_DNR;
+             }
+-- 
+2.30.1
+
 
