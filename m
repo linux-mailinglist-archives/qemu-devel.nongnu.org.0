@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7096433D43B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:51:29 +0100 (CET)
-Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D775333D45B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:54:38 +0100 (CET)
+Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9AW-0003io-Fw
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:51:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48132)
+	id 1lM9DW-0005Of-LB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lM99A-0003HS-Af
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:50:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36594)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM9C5-0004dM-50
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:53:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lM998-0004Tq-NK
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:50:04 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM9C3-0006Su-CU
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:53:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615899002;
+ s=mimecast20190719; t=1615899182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g6gJ6lDP82zWTItJ7E+Q8bG74Sl+AFGFXeVIizf4u50=;
- b=VrJDTKHmkwXq8IjydXRkcoFnzl/pDpNFiNkfcGpw8LCK51i0sWlWwVLi2hs3vH4rtnOlJo
- 7CWi/xzZr5KBMm/cSZzUDZ3U3kdMC/aepag3OaFSYY3LSTIIb1s4xwgl6ZrYCPP+epc0fl
- yHX1jbv5MAcQN5zVhlzVOlQbRJdosy0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-TXOlI4ksP1iHLUKwKY7RTw-1; Tue, 16 Mar 2021 08:50:00 -0400
-X-MC-Unique: TXOlI4ksP1iHLUKwKY7RTw-1
-Received: by mail-wr1-f71.google.com with SMTP id 75so16489892wrl.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 05:50:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=g6gJ6lDP82zWTItJ7E+Q8bG74Sl+AFGFXeVIizf4u50=;
- b=kG1yVbrbzoNXwuy0bhJLqPM8tLJrDkF+8nJ+Z5rsJnvv4dU1V84H1qeIzNY6Mkaf13
- 8eOjj7EfT0//KOVZuMT2Oab+EClmfrNafmOSk/EJXCE8eZBiTneM81Ts4VFl7g0YbYFl
- om4Tz0x0AEZk05qBKbWA1172gIyqkF165Na2+d9hyvxaTkHlFRxWktRVCgH+T0Uf6jM4
- GEM9pd0Ke85UV8tRmsv8elYROWv+OGrGJPKykPvSRtP9KSzxb0r72KzrY0TNqFfMOpna
- lKw6ThWj5wDBVzvsZEtBgVGplEEHhGg6oDZxuox8Ttz2JjxdBP5OdbKCkgKqbVnKk+Zl
- zHkA==
-X-Gm-Message-State: AOAM531RnJEUweN5K/UinAUGfWjjD6sc4TBvNSDGQPBngbVIhPhjzfn6
- z5yb2/5CmNVijOSuquWFgIe9kE5q6njOeXv/u8eZC02eHKk8rK2mZy4a8sh1M3n1TM0Q6VQqt/2
- C/FHHlplan0BBItlFiv+oCYbnfVnfOED5VeA22/hjaWwlwgbpllieFapnEO5+RycPgS8=
-X-Received: by 2002:a5d:4688:: with SMTP id u8mr4733227wrq.39.1615898998977;
- Tue, 16 Mar 2021 05:49:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIv+X7umhegw/W2ekhB1671nzPR/xwMITgi20A4OyCf6vR5vcGgBz4SaWUOyJTuhtPYReQig==
-X-Received: by 2002:a5d:4688:: with SMTP id u8mr4733206wrq.39.1615898998764;
- Tue, 16 Mar 2021 05:49:58 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k24sm2881465wmr.48.2021.03.16.05.49.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 05:49:58 -0700 (PDT)
-Subject: Re: Windows 10 won't run on default x86_64 machine anymore
-To: Igor Mammedov <imammedo@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>
-References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
- <20210315185302.29b0d90d@redhat.com> <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
- <20210316015503.GA1008366@private.email.ne.jp>
- <20210316131304.220a53b9@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9e2e1d83-29c1-053a-fd43-187f6f824b39@redhat.com>
-Date: Tue, 16 Mar 2021 13:49:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Z48HDQ/OopD2PDmpaP/PlGmELvMk04zaLeIL1YmgyYM=;
+ b=RNTpu1DsWQcu4YQs7YIeDWkJvEE8DVhQ5JOPY0de7NvTg7303ZRetKbpqrFe4dH8NcfkCg
+ GXz/lGtCqmBnr7gePZFcWnOisp4Qcrh2tfeSbhPWz53npzSOAEiXNjxwtZutLJU4h2ih2i
+ PsN16AYhDDKpJBSzo87gXMU+jo+R2fE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-6FBobktOP7660a3pC41DGw-1; Tue, 16 Mar 2021 08:53:00 -0400
+X-MC-Unique: 6FBobktOP7660a3pC41DGw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18766801817;
+ Tue, 16 Mar 2021 12:52:59 +0000 (UTC)
+Received: from thuth.com (ovpn-112-110.ams2.redhat.com [10.36.112.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49BE410023B5;
+ Tue, 16 Mar 2021 12:52:56 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] include/sysemu: Poison all accelerator CONFIG switches in
+ common code
+Date: Tue, 16 Mar 2021 13:52:54 +0100
+Message-Id: <20210316125254.461525-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210316131304.220a53b9@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,36 +75,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Reinoud Zandijk <reinoud@NetBSD.org>, qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, haxm-team@intel.com,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/21 13:13, Igor Mammedov wrote:
->>> Surprisingly without accelerator ie with tcg the default machine does seem to
->>> get to the login prompt. Is the ACPI data tailored to indicate an
->>> accelerator/VM or is it static? Could it be that the CPU reported by my
->>> machine is causing the issue? With the NVMM accelerator it passes on the hosts
->>
->> I think tcg case can be explained by x86_machine_is_smm_enabled()
->>
->>    bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
->>    ...
->>        if (tcg_enabled() || qtest_enabled()) {
->>            smm_available = true;
->>        } else if (kvm_enabled()) {
->>            smm_available = kvm_has_smm();
->>        }
->>    ...
->>
->> Although I don't know about nvmm case, this function also needs to be updated
->> if smi isn't supported.
-> can you submit a patch for this please?
+We are already poisoning CONFIG_KVM since this switch is not working
+in common code. Do the same with the other accelerator switches, too
+(except for CONFIG_TCG, which is special, since it is also defined in
+config-host.h).
 
-nvmm is not part of upstream yet, so I guess it's up to Reinoud to fix 
-it.  Still, reproducing his testing conditions with KVM and -M smm=off 
-is probably interesting because it also affects HAX, HVF and WHPX which 
-are supported upstream.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ include/exec/poison.h | 4 ++++
+ include/sysemu/hax.h  | 4 ++++
+ include/sysemu/hvf.h  | 4 ++++
+ include/sysemu/whpx.h | 4 ++++
+ 4 files changed, 16 insertions(+)
 
-Paolo
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 4cd3f8abb4..3250fc1d52 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -88,8 +88,12 @@
+ #pragma GCC poison CONFIG_SPARC_DIS
+ #pragma GCC poison CONFIG_XTENSA_DIS
+ 
++#pragma GCC poison CONFIG_HAX
++#pragma GCC poison CONFIG_HVF
+ #pragma GCC poison CONFIG_LINUX_USER
+ #pragma GCC poison CONFIG_KVM
+ #pragma GCC poison CONFIG_SOFTMMU
++#pragma GCC poison CONFIG_WHPX
++#pragma GCC poison CONFIG_XEN
+ 
+ #endif
+diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
+index 12fb54f990..247f0661d1 100644
+--- a/include/sysemu/hax.h
++++ b/include/sysemu/hax.h
+@@ -24,6 +24,8 @@
+ 
+ int hax_sync_vcpus(void);
+ 
++#ifdef NEED_CPU_H
++
+ #ifdef CONFIG_HAX
+ 
+ int hax_enabled(void);
+@@ -34,4 +36,6 @@ int hax_enabled(void);
+ 
+ #endif /* CONFIG_HAX */
+ 
++#endif /* NEED_CPU_H */
++
+ #endif /* QEMU_HAX_H */
+diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+index c98636bc81..bb70082e45 100644
+--- a/include/sysemu/hvf.h
++++ b/include/sysemu/hvf.h
+@@ -16,6 +16,8 @@
+ #include "qemu/accel.h"
+ #include "qom/object.h"
+ 
++#ifdef NEED_CPU_H
++
+ #ifdef CONFIG_HVF
+ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
+                                  int reg);
+@@ -26,6 +28,8 @@ extern bool hvf_allowed;
+ #define hvf_get_supported_cpuid(func, idx, reg) 0
+ #endif /* !CONFIG_HVF */
+ 
++#endif /* NEED_CPU_H */
++
+ #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
+ 
+ typedef struct HVFState HVFState;
+diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
+index 8ca1c1c4ac..2889fa2278 100644
+--- a/include/sysemu/whpx.h
++++ b/include/sysemu/whpx.h
+@@ -13,6 +13,8 @@
+ #ifndef QEMU_WHPX_H
+ #define QEMU_WHPX_H
+ 
++#ifdef NEED_CPU_H
++
+ #ifdef CONFIG_WHPX
+ 
+ int whpx_enabled(void);
+@@ -25,4 +27,6 @@ bool whpx_apic_in_platform(void);
+ 
+ #endif /* CONFIG_WHPX */
+ 
++#endif /* NEED_CPU_H */
++
+ #endif /* QEMU_WHPX_H */
+-- 
+2.27.0
 
 
