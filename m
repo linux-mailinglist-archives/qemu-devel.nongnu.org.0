@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F9A33D2DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 12:21:37 +0100 (CET)
-Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F1E33D35A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 12:51:13 +0100 (CET)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM7lY-0000RZ-Aa
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 07:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55832)
+	id 1lM8EC-0007Fd-7Z
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 07:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lM7kk-0008Qn-G1
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 07:20:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lM7ki-0002hU-2L
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 07:20:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615893642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wIs5Yq2a/iJ8dkDlOJcHXAz0Hzzj3hRzNNLHaGQd8Hc=;
- b=LU+6bn+vi1cF8E4+yBypnHVzoBR+2FjMYfUOYMpziVNYG+LnCw+acBQnCGQR/i4Gkl29B9
- qN3OJyGXFXM9IWahCgr/NN+DSlplF37LmqBp+BJpP9NWUJq+5836Z+kb5U7ndsGS37RKoA
- wLakC030pNY47lSsk1OR5Jf9upaurG0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-MfXkgxe8Oxe82AkRUJEB2g-1; Tue, 16 Mar 2021 07:20:40 -0400
-X-MC-Unique: MfXkgxe8Oxe82AkRUJEB2g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D97E818D6A2A;
- Tue, 16 Mar 2021 11:20:39 +0000 (UTC)
-Received: from work-vm (ovpn-113-133.ams2.redhat.com [10.36.113.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FD7E5D768;
- Tue, 16 Mar 2021 11:20:35 +0000 (UTC)
-Date: Tue, 16 Mar 2021 11:20:32 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] migration: Move populate_vfio_info() into a separate file
-Message-ID: <YFCUgJZXe0HxHbDn@work-vm>
-References: <20210315190756.317710-1-thuth@redhat.com>
- <f26d3ce6-b51a-7c44-2ec1-21a6bd2d4a46@redhat.com>
- <2e455379-15de-835c-014f-8ae2c26639a6@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lM8Cv-0006i6-MW; Tue, 16 Mar 2021 07:49:53 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lM8Cu-0003fG-3l; Tue, 16 Mar 2021 07:49:53 -0400
+Received: by mail-wm1-x335.google.com with SMTP id 12so4917644wmf.5;
+ Tue, 16 Mar 2021 04:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LGehRSnl2EqLsDsR39xZUYaPtbEg72xkCFY3ofHbw44=;
+ b=nWgimJwltTitGcgiw/nZT1+k05M/JCUQBvaQ2BKuLcMikobbnN7adq2hoA+xTx+Yw6
+ dqDquvAdgGRSYkjWN79iikzW4fkmjQ5xMRsJ9vctBBlW6iOqbPqm+vJ8UJ4rw65YDgxl
+ MRlVAZm8IPlkZ04ek8cVgkF5ZyzaAUYrMiuL0I4ThablKtDko5ir6WBhqaDoPuvGeyvK
+ 3cCu6H3UeETvAbJ4YiZBdhmi0VwYrtZUfBWTNX2w5417BMg7OaON9I3XFIamzVC/eupA
+ voDl/wlJnfY4zPBoGtJcL+WFeHlMbIru8TR8JZ8YvKDhjww5i84ORRlvYwMoMAtPHF9/
+ a/Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LGehRSnl2EqLsDsR39xZUYaPtbEg72xkCFY3ofHbw44=;
+ b=kgQ8GCX1eshUl4cUWK8Dx60MHYCc1oSU90CTWYNDEbtIjJDbcZE+RuMPlWHCcPRAaW
+ caMLZa4CrKtJRs+giZqpf8hMzqB00A1FEQuFGMwBmdVXG5yH0cnNQ1sDeFarjtxiRErq
+ CLhRgzj6RrJvnDSc0VhGTh9SVkkK8bhJ9DTEZcCwosGsawmh7r726sIQwF9AFYDEhboJ
+ fA/el3sk2yjx6m90iS6YS81FMUuhl4G+vmeiRmFx4obohX/ocwQ+8faWGTj4wMtfGKbh
+ nwJEtbA9X8LGHw0PqZj4UhIN65QDLUiObpVwZwB0RAvtj4lSutlkFWzodviUrslSn5sa
+ l7gw==
+X-Gm-Message-State: AOAM530W5FEY6WeUzg3Ft/ZqbDOaw98/nK3Ip/N/LuzG3AnDoDI03X9o
+ cDyP0Tupxf4T4TrdX5/Tpmk=
+X-Google-Smtp-Source: ABdhPJx6u7KfT1UbiOCs6zP0RanFZSNTCU90MWcwhCmI86paT87kZdSRXsLpPd99FyCBdgBpRxQzQA==
+X-Received: by 2002:a7b:cf16:: with SMTP id l22mr4241835wmg.26.1615895389861; 
+ Tue, 16 Mar 2021 04:49:49 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id s12sm2820044wmj.28.2021.03.16.04.49.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 04:49:48 -0700 (PDT)
+Subject: Re: [PATCH v7 0/8] Pegasos2 emulation
+To: Laurent Vivier <laurent@vivier.eu>, BALATON Zoltan <balaton@eik.bme.hu>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <85548594-aaa1-8d3a-cedf-d2dd92f05028@eik.bme.hu>
+ <b6bda254-ac3-d271-3e1b-bf73e4282e9b@eik.bme.hu>
+ <d6d7d87b-7c7d-69e8-a7f4-e6611a4096ea@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
+Date: Tue, 16 Mar 2021 12:49:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <2e455379-15de-835c-014f-8ae2c26639a6@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <d6d7d87b-7c7d-69e8-a7f4-e6611a4096ea@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,69 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ f4bug@amsat.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Thomas Huth (thuth@redhat.com) wrote:
-> On 15/03/2021 22.05, Philippe Mathieu-Daud� wrote:
-> > Hi Thomas,
-> > 
-> > +Alex
-> > 
-> > On 3/15/21 8:07 PM, Thomas Huth wrote:
-> > > The CONFIG_VFIO switch only works in target specific code. Since
-> > > migration/migration.c is common code, the #ifdef does not have
-> > > the intended behavior here. Move the related code to a separate
-> > > file now which gets compiled via specific_ss instead.
-> > > 
-> > > Fixes: 3710586caa ("qapi: Add VFIO devices migration stats in Migration stats")
-> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > ---
-> > >   migration/meson.build |  3 ++-
-> > >   migration/migration.c | 15 ---------------
-> > >   migration/migration.h |  2 ++
-> > >   migration/special.c   | 25 +++++++++++++++++++++++++
-> > >   4 files changed, 29 insertions(+), 16 deletions(-)
-> > >   create mode 100644 migration/special.c
-> > > 
-> > > diff --git a/migration/meson.build b/migration/meson.build
-> > > index 9645f44005..e1f72f6ba0 100644
-> > > --- a/migration/meson.build
-> > > +++ b/migration/meson.build
-> > > @@ -30,4 +30,5 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
-> > >   softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
-> > >   softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
-> > > -specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'ram.c'))
-> > > +specific_ss.add(when: 'CONFIG_SOFTMMU',
-> > > +                if_true: files('dirtyrate.c', 'ram.c', 'special.c'))
-> > 
-> > Why not simply name this migration/vfio.c? That way we do not start
-> > mixed bag of everything target specific.
+On 3/16/21 10:01 AM, Laurent Vivier wrote:
+> Le 15/03/2021 à 13:33, BALATON Zoltan a écrit :
+>> On Sat, 13 Mar 2021, BALATON Zoltan wrote:
+>>> On Wed, 10 Mar 2021, BALATON Zoltan wrote:
+>>>> Hello,
+>>>
+>>> I've started posting this series well in advance to get it into 6.0 and yet it seems like it may
+>>> be missing it due to organisational issues (no real complaints were found with patches but
+>>> Philippe seems to like more review that does not seem to happen as nobody is interested). Looks
+>>> like David is waiting for an ack from Philippe but will be away next week so if this is not
+>>> resolved now it may be too late on Monday. To avoid that:
+>>>
+>>> David, could you please send an ack before you leave for the last two patches so it could get
+>>> committed via some other tree while you're away?
+>>>
+>>> Philippe, if you can't ack the vt82c686 patches now are you OK with taking the whole series via
+>>> your tree before the freeze? That would give you some more days to review and it could always be
+>>> reverted during the freeze but if it's not merged now I'll have to wait until the summer to get it
+>>> in again which would be another long delay. I don't think this will get more reviews unless it's
+>>> in master and people can start using and testing it better.
+>>
+>> Hello,
+>>
+>> Since David seems to be away for this week before seeing my mail asking for an ack from him, now
+>> this can only get in by Philippe or Peter. (David said before he'd be OK with the series if Philippe
+>> acked it so I think that can count as an implicit ack and it could always be reverted before the
+>> releease.)
+>>
+>> Philippe, do you have anything against this to get merged now? If not please send a pull or ack it
+>> so it has a chance to be in 6.0 or tell if you still intend to do anything about it before the
+>> freeze. This series was on the list since January and the remaining parts you did not take are here
+>> since February 22nd and the version after your first review since two weeks so it would be nice to
+>> sort this out and not block it any further without a good reason.
 > 
-> I don't mind ... well, if we have other small functions there in the future
-> that depend on CONFIG switches, a mixed bag file might not be such a bad
-> idea instead of having lots and lots of small other files ... OTOH, if there
-> is more vfio migration code in the works that might fit here, a name like
-> vfio.c would be better, of course. What do the maintainers think?
+> Pegasos looks like a New World PowerMac, so perhaps Mark can help?
 
-Could this be done with stubs instead of an ifdef; i.e. a stub of
-'vfio_mig_active' and 'vfio_mig_bytes_transferred'?
+The PPC part is mostly reviewed. The problem is the first patch:
+"vt82c686: Implement control of serial port io ranges via config regs".
 
-As for naming 'special' is too generic.
-'vfio' is too specific (especially since most vfio code ends up under
-hw/vfio)
+I don't understand it. Zoltan said Paolo isn't acking it because
+he doesn't mind. I prefer to be cautious and think than Paolo is
+rather too busy.
 
-how about migration/target.c  as something which is explicit about why
-it's done that way.
+Laurent, Peter, can you have a look at it?
 
-Dave
+Thanks,
 
->  Thomas
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Phil.
 
