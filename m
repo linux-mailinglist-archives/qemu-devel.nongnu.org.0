@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D9033E15D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:26:22 +0100 (CET)
-Received: from localhost ([::1]:33778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B1733E127
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:09:37 +0100 (CET)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMI8s-0001ft-1E
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
+	id 1lMHse-0007hl-6b
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lMHqr-0005iI-18
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:45 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:45912)
+ id 1lMHqs-0005l1-ID
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:46 -0400
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:42394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lMHqp-0002ci-5N
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:44 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id t16so437270qvr.12
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 15:07:42 -0700 (PDT)
+ id 1lMHqq-0002dC-FV
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:07:46 -0400
+Received: by mail-qk1-x72a.google.com with SMTP id n24so6793217qkh.9
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 15:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4FGwbzRDCgp0mZG0M4BZazahJWTIBClTRPajuLNeTjw=;
- b=ei+lY0aNHb0IWHow2heU0NaDcfUjf9QNC63RaaAvxMnd6gygFxtINgSZv/G3yuckJF
- mCf/roSAAUhBaNjzP2MGUTceqR55E0O5mM8G3bWD6/FCg2cHNR/ZGfAoE6EsfmS62Qea
- lVUJQmZig1/1F6eTS5LsV81cCFl+Pjr/2XFhGZCt7HUKWciN07LMQRdbpFwU0oQEFfeO
- oqIxKNBYpi1I514spr/gGn950Q/bEh4TDXavWtMbD32eMjhhAO9Zyq7fRHBrFR3pivqo
- bs8zWEOSDO62y1q3u3KlYj/9DSTmgcGqqCpq8tWzYbScxG1QtpcPh+3yzHmCfEfG+TSU
- OCYQ==
+ bh=MNghjrViS6cE79RQ44HsI/7snhIGTmTSZYfbhec9QPE=;
+ b=Z64y44Hm0sBP41ACkPBnZCKdlSXkts6GgXwmOvkrXMqg2Y9JIUdTcJ40sZ7LVwREeI
+ AaBMObq9qx8jbx0/j5OThwrxQMv077BPiWFuOjnbqIYipRfXz/x0dGyEwRJLF7jYWYuH
+ 8MX30EPz5whaMZRt+AmqZJkuqLUshnoT6o2h24FZM5ej5b5/zLJYFVh7N193U73qe+bv
+ Z6QgqzV6ByuCsTYwBDdR0+65nkOTkdBLoeiAn1Q/utj3D/HX1SqCeorl/E4yHKe9QK13
+ +60GUUSezmgwgOHuiLTnHJ/y07HhpUCRiFE7jfLf6Yb7d0YmdVSDApdPQGlOMfbwRIkB
+ lrdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4FGwbzRDCgp0mZG0M4BZazahJWTIBClTRPajuLNeTjw=;
- b=j/KUrYTPAWKJGpHsDv4tDYBSBBNBhkqYRMOF9w8wg2893F8CKSsDIDRY99Y0mIpnuH
- UUVN+0YR7gqWhhhDtBmI1c/CG4Ex3S8/9FwciniHKhhWmxSTKEPDmHZM/HpM6RUDaR6T
- ob/c1SjnaPXLGaizpdvo5jamizJoXItNceZTNdNDp5VF2BdigOoVE8A9j+PjGt9PdfC9
- 4UnbvciyWwIkgm313Yn0qC5y8eGwmhWRTq3fPQbdzx3jjVmT/mkteRH25X6tRlhUpePi
- +oklJMcPn3INzUhjRcx4VAsfQIw++tvI3Ud1f2LusSJO9/obHvd0gL6JA+Zoc4TOXkm+
- ps+Q==
-X-Gm-Message-State: AOAM530VMIkEObSkYQYoTX869NKPOlYbKr7i0ULJO2qRrk8LtnS9K0hu
- 6JMfklievCQ2tzs0revyirb9YHngmO+D1VAg
-X-Google-Smtp-Source: ABdhPJw38uSCxnIOaXro6fzPEtjOfKifFsPPieCE/Uq5U2bXwozTze3d0acMLCJlzrsXhZKrxUG9OQ==
-X-Received: by 2002:a05:6214:2623:: with SMTP id
- gv3mr1692246qvb.35.1615932462237; 
- Tue, 16 Mar 2021 15:07:42 -0700 (PDT)
+ bh=MNghjrViS6cE79RQ44HsI/7snhIGTmTSZYfbhec9QPE=;
+ b=magti66Fceggbl/7VJtAm4Kf3JjllTGJTJVRZgoictKu+4EprCVnllM0JTaufoT6xQ
+ r501el5C3JRGuhSocKgQNVpM/UrDYGqn0R2vUvgcyifyIWtj3wlqSwByRdnH+Wjv+NiP
+ SQ1BfTwZqWHA7GcoZCvaref61pumLW/J6RFtZ+9KbePX7gohMJrHya+sNhveUgoj+3T3
+ Z5Tb1veCoBfsNIPB/AT1fcKe/myElUCiCsTOvnQVTYnAS2nso5X+Oqitm6TXc34MZRWi
+ Wnlflcoc8lYJrrzXK+i/Eo/jtP1fCYHlSzqCFE8jRtJLGBXNdKYvWdDD3PDq3QJ8ECGC
+ GIjw==
+X-Gm-Message-State: AOAM530Ak73eazk9CKURUGGTnwXShvoxIEAYgnE/jvXQyWIrqi9kYDs8
+ RDdRDmlFWvPnwkjloqqoh1kFDkgHfpgACDE+
+X-Google-Smtp-Source: ABdhPJx3bbqnD/o48AlSAmoBEdZ2w9/Zhn5JHgI+e2u8LLKENecs/1ENLUeEhI7ra1CVtYNXCZP5Uw==
+X-Received: by 2002:a37:5b84:: with SMTP id p126mr1398555qkb.142.1615932463341; 
+ Tue, 16 Mar 2021 15:07:43 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id n77sm16546918qkn.128.2021.03.16.15.07.41
+ by smtp.gmail.com with ESMTPSA id n77sm16546918qkn.128.2021.03.16.15.07.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 15:07:41 -0700 (PDT)
+ Tue, 16 Mar 2021 15:07:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] tcg: Create tcg_req_mo
-Date: Tue, 16 Mar 2021 16:07:34 -0600
-Message-Id: <20210316220735.2048137-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/5] tcg: Add host memory barriers to cpu_ldst.h interfaces
+Date: Tue, 16 Mar 2021 16:07:35 -0600
+Message-Id: <20210316220735.2048137-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210316220735.2048137-1-richard.henderson@linaro.org>
 References: <20210316220735.2048137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,85 +87,194 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out the logic to emit a host memory barrier in response to
-a guest memory operation.  Do not provide a true default for
-TCG_GUEST_DEFAULT_MO because the defined() check will still be
-useful for determining if a guest has been updated for MTTCG.
+Bring the majority of helpers into line with the rest of
+tcg in respecting guest memory ordering.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h   | 20 ++++++++++++++++++++
- accel/tcg/tcg-all.c |  6 +-----
- tcg/tcg-op.c        |  8 +-------
- 3 files changed, 22 insertions(+), 12 deletions(-)
+ include/exec/cpu_ldst.h |  7 +++++++
+ accel/tcg/cputlb.c      |  2 ++
+ accel/tcg/user-exec.c   | 17 +++++++++++++++++
+ 3 files changed, 26 insertions(+)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 0f0695e90d..395b3b6964 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1245,6 +1245,26 @@ static inline unsigned get_mmuidx(TCGMemOpIdx oi)
-     return oi & 15;
- }
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index ce6ce82618..f0ab79fe3c 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -169,6 +169,13 @@ void cpu_stl_le_data_ra(CPUArchState *env, abi_ptr ptr,
+ void cpu_stq_le_data_ra(CPUArchState *env, abi_ptr ptr,
+                         uint64_t val, uintptr_t ra);
  
-+/**
-+ * tcg_req_mo:
-+ * @type: TCGBar
-+ *
-+ * Filter @type to the barrier that is required for the guest
-+ * memory ordering vs the host memory ordering.  A non-zero
-+ * result indicates that some barrier is required.
-+ *
-+ * If TCG_GUEST_DEFAULT_MO is not defined, assume that the
-+ * guest requires strict alignment.
-+ *
-+ * This is a macro so that it's constant even without optimization.
-+ */
-+#ifdef TCG_GUEST_DEFAULT_MO
-+# define tcg_req_mo(type) \
-+    ((type) & TCG_GUEST_DEFAULT_MO & ~TCG_TARGET_DEFAULT_MO)
-+#else
-+# define tcg_req_mo(type) ((type) & ~TCG_TARGET_DEFAULT_MO)
-+#endif
++#define cpu_req_mo(type)          \
++    do {                          \
++        if (tcg_req_mo(type)) {   \
++            smp_mb();             \
++        }                         \
++    } while (0)
 +
- /**
-  * tcg_qemu_tb_exec:
-  * @env: pointer to CPUArchState for the CPU
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index e378c2db73..6ae51e3476 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -69,11 +69,7 @@ DECLARE_INSTANCE_CHECKER(TCGState, TCG_STATE,
+ #if defined(CONFIG_USER_ONLY)
  
- static bool check_tcg_memory_orders_compatible(void)
- {
--#if defined(TCG_GUEST_DEFAULT_MO) && defined(TCG_TARGET_DEFAULT_MO)
--    return (TCG_GUEST_DEFAULT_MO & ~TCG_TARGET_DEFAULT_MO) == 0;
--#else
--    return false;
--#endif
-+    return tcg_req_mo(TCG_MO_ALL) == 0;
+ extern __thread uintptr_t helper_retaddr;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 8a7b779270..a3503eaa71 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -2100,6 +2100,7 @@ static inline uint64_t cpu_load_helper(CPUArchState *env, abi_ptr addr,
+     meminfo = trace_mem_get_info(op, mmu_idx, false);
+     trace_guest_mem_before_exec(env_cpu(env), addr, meminfo);
+ 
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     op &= ~MO_SIGN;
+     oi = make_memop_idx(op, mmu_idx);
+     ret = full_load(env, addr, oi, retaddr);
+@@ -2542,6 +2543,7 @@ cpu_store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+     meminfo = trace_mem_get_info(op, mmu_idx, true);
+     trace_guest_mem_before_exec(env_cpu(env), addr, meminfo);
+ 
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     oi = make_memop_idx(op, mmu_idx);
+     store_helper(env, addr, val, oi, retaddr, op);
+ 
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 0d8cc27b21..34f6dfcef4 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -843,6 +843,7 @@ uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_UB, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldub_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -854,6 +855,7 @@ int cpu_ldsb_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_SB, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldsb_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -865,6 +867,7 @@ uint32_t cpu_lduw_be_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_BEUW, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = lduw_be_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -876,6 +879,7 @@ int cpu_ldsw_be_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_BESW, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldsw_be_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -887,6 +891,7 @@ uint32_t cpu_ldl_be_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_BEUL, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldl_be_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -898,6 +903,7 @@ uint64_t cpu_ldq_be_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_BEQ, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldq_be_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -909,6 +915,7 @@ uint32_t cpu_lduw_le_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_LEUW, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = lduw_le_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -920,6 +927,7 @@ int cpu_ldsw_le_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_LESW, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldsw_le_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -931,6 +939,7 @@ uint32_t cpu_ldl_le_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_LEUL, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldl_le_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -942,6 +951,7 @@ uint64_t cpu_ldq_le_data(CPUArchState *env, abi_ptr ptr)
+     uint16_t meminfo = trace_mem_get_info(MO_LEQ, MMU_USER_IDX, false);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     ret = ldq_le_p(g2h(env_cpu(env), ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+     return ret;
+@@ -1052,6 +1062,7 @@ void cpu_stb_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_UB, MMU_USER_IDX, true);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stb_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
  }
+@@ -1061,6 +1072,7 @@ void cpu_stw_be_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_BEUW, MMU_USER_IDX, true);
  
- static bool default_mttcg_enabled(void)
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index c8501508c2..12fc8a1b17 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2796,13 +2796,7 @@ static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
- 
- static void tcg_gen_req_mo(TCGBar type)
- {
--#ifdef TCG_GUEST_DEFAULT_MO
--    type &= TCG_GUEST_DEFAULT_MO;
--#endif
--    type &= ~TCG_TARGET_DEFAULT_MO;
--    if (type) {
--        tcg_gen_mb(type | TCG_BAR_SC);
--    }
-+    tcg_gen_mb(tcg_req_mo(type) | TCG_BAR_SC);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stw_be_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
  }
+@@ -1070,6 +1082,7 @@ void cpu_stl_be_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_BEUL, MMU_USER_IDX, true);
  
- static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stl_be_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+ }
+@@ -1079,6 +1092,7 @@ void cpu_stq_be_data(CPUArchState *env, abi_ptr ptr, uint64_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_BEQ, MMU_USER_IDX, true);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stq_be_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+ }
+@@ -1088,6 +1102,7 @@ void cpu_stw_le_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_LEUW, MMU_USER_IDX, true);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stw_le_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+ }
+@@ -1097,6 +1112,7 @@ void cpu_stl_le_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_LEUL, MMU_USER_IDX, true);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stl_le_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+ }
+@@ -1106,6 +1122,7 @@ void cpu_stq_le_data(CPUArchState *env, abi_ptr ptr, uint64_t val)
+     uint16_t meminfo = trace_mem_get_info(MO_LEQ, MMU_USER_IDX, true);
+ 
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
++    cpu_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     stq_le_p(g2h(env_cpu(env), ptr), val);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+ }
 -- 
 2.25.1
 
