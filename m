@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021F133E1E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 00:08:36 +0100 (CET)
-Received: from localhost ([::1]:41332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85EC33E1EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 00:12:16 +0100 (CET)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMInj-00042F-0q
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 19:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55406)
+	id 1lMIrH-0005wN-Ri
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 19:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMImX-0003Dx-3i
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:07:21 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42667)
+ id 1lMIq1-0005Hk-Of
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:10:57 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMImV-0004sn-P8
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:07:20 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id x13so8272303wrs.9
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 16:07:18 -0700 (PDT)
+ id 1lMIq0-0006Qj-Ad
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:10:57 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id t9so8277958wrn.11
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 16:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=004yRCy5uwvV0M7ViM5mfXqfcYV5hRW0r7vYMmcv1jw=;
- b=mv9/L6CWopiH4qUTuiT4XxnyaCG4fK7xJ+BrPrn5cnzWpft1DxR9GT3x0kzOxKdF0c
- s6J/kUzNI4OKZVXJGdyD7jG86X8znWlfPx1iCyr8f9R63yvCKKv4xVXblVd5hyOaFdwD
- sqmEH5BhU76c/aVGlDymgyJDRuRgXV1C+NRWT0StvU374VcJWbIRz/GCY3Q2u+Zcb13m
- dXod5wPO45Rzsu4BlL2Nxf8AfaNMjWKrvbL7iT67/7wffiSWx0TjDh7vH0hSuYuOWVsM
- ZgYjE3jupdjyV32cNkBPFv1HLSNr3T1xY6Dt16akoSI0OTG9I4OfcoBTXJOwEBPFHSS2
- hvoA==
+ bh=cB095gjeX/waj/BKHA77jkqpftujRQWUzdJ9TtrR+Ns=;
+ b=ZU6Y6m8/UvR7iJAfzZAQspDW9Yg69X0KxBk3P2BFaHSpqjxagoAq7TsF/tHBCbQ8NK
+ PDCVwjnDw0ZohHWXL1+JvtX1Fg+BPMCF3RQxgkPsm8wGiHjDpGB1MNkJ/+A1LSYI4UwZ
+ e8wnnRSWXY1iZa3No+7E6EFPL7L+2LMt5GDGe4hMUtmE4RX4A1km/OGLkPuzdqERfitv
+ 0DZN76/RgYaNqI/Tnwgeo/NaBYnk4DtxR7z9wDR6ZWt+4i5MfWIjhQMnrUeg8sPtZCN2
+ fbON8v06EBLF9ovl6i8uNvaYqMgdGbs/24R0cncAJ6/J5YuiKP3vPhAnpb/jXO7xMd9i
+ Nmgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=004yRCy5uwvV0M7ViM5mfXqfcYV5hRW0r7vYMmcv1jw=;
- b=E0guB3p1eFpXJgSKF3pXhRjMDt0v8IezLE05R+mahGH5Ux9tjlktHwgIxEL4n6NgCb
- cex6Kbjn54Mh/V6Sp4Gwziz6Cq8mdOpMEnSe/3tvWoTkTt45eTHvzxyzNwbgCFuy3/WG
- NIPU48RiPfWgfWu+ztilDscjN0Iql6JxLHOBJe+TP/ACw7EEDL2WlamD3ni0JXTPDQ1K
- PnZJ6MqHNaHeF1FaDpN5GEJxX2FdHHfc8vgzA1T6AIH+YTN0a8gRJ1FAep/TBgKzSRUi
- HRqCabZ8NdOKNVzaSSPWqIfmwSjBtGTBEnMC4DgONiGhNw7st1CTwz8SHIyHSQb+pw04
- m71Q==
-X-Gm-Message-State: AOAM533l2D7El6+q3p5c7IC1DVrp98UVLNu1QFBo62DZI39B5pdDW1TE
- /TRMQ5EM+5kQju6OyQiU1w8=
-X-Google-Smtp-Source: ABdhPJxR7wBlOSeapNAsChmqnj70QbhJpGDpemmsynQToeJPq7ELCN74KwUjI45ufAcCW6SGGTVqdw==
-X-Received: by 2002:a5d:6c6f:: with SMTP id r15mr1285372wrz.77.1615936037962; 
- Tue, 16 Mar 2021 16:07:17 -0700 (PDT)
+ bh=cB095gjeX/waj/BKHA77jkqpftujRQWUzdJ9TtrR+Ns=;
+ b=l/tLY0LjCG7NUnYDqaE39+d7UmzxPjDt45lYv1GIhzQ1+h94LjsweMGKA//ONL5MxY
+ jqD6ehDle5VLoXUksnqrDDfQYAiIlWAGgdd5xScAWEvFX7jng3pafYGnqGY2TssWsMyK
+ ExwKYWk8yNh/fRRPVO8VCWjp2iSG4j1Z63Pfuoa+GCayF0p+HCxkduzELQmFN/7c2xZ3
+ M8CabGrc4bddaFJdo/hwnhU+QNVUiZF2WjhwCy18mEaxcOvzWV1+hStIiwL+zvWjDdlB
+ V15hgeIg3e+9m1pWg3afjz7/CrPgOYpXVxexipQAOJduFDjRvabccfE5m71rfHMbgTaP
+ Iifg==
+X-Gm-Message-State: AOAM532jJ4Gnr9lFXZADiICXtAcmzDXikcDxKOYmDbA+ECd2Ir4G8Hqb
+ F8zRzvtm//86aJpMgUZfjdg=
+X-Google-Smtp-Source: ABdhPJzIs8u//Op9UfusWBpc8usXj8IrtzMdUUYcN+cJ3P674w/OKLLz1sqtCekTEFahIqW54YPvQg==
+X-Received: by 2002:a5d:5411:: with SMTP id g17mr1317847wrv.194.1615936254544; 
+ Tue, 16 Mar 2021 16:10:54 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a17sm665982wmj.9.2021.03.16.16.07.17
+ by smtp.gmail.com with ESMTPSA id p12sm23159212wrx.28.2021.03.16.16.10.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 16:07:17 -0700 (PDT)
-Subject: Re: [PATCH v5 14/57] tcg/tci: Split out tci_args_rrrrrr
+ Tue, 16 Mar 2021 16:10:54 -0700 (PDT)
+Subject: Re: [PATCH v5 17/57] tcg/tci: Reduce qemu_ld/st TCGMemOpIdx operand
+ to 32-bits
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
- <20210311143958.562625-15-richard.henderson@linaro.org>
+ <20210311143958.562625-18-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <00ba9a5c-eea6-4157-8765-4729834f7ab3@amsat.org>
-Date: Wed, 17 Mar 2021 00:07:16 +0100
+Message-ID: <726afa2b-e1b3-0df6-f338-90829e3c05b7@amsat.org>
+Date: Wed, 17 Mar 2021 00:10:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210311143958.562625-15-richard.henderson@linaro.org>
+In-Reply-To: <20210311143958.562625-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -94,10 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/11/21 3:39 PM, Richard Henderson wrote:
+> We are currently using the "natural" size routine, which
+> uses 64-bits on a 64-bit host.  The TCGMemOpIdx operand
+> has 11 bits, so we can safely reduce to 32-bits.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/tci.c | 31 ++++++++++++++++++++-----------
->  1 file changed, 20 insertions(+), 11 deletions(-)
+>  tcg/tci.c                | 8 ++++----
+>  tcg/tci/tcg-target.c.inc | 4 ++--
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
