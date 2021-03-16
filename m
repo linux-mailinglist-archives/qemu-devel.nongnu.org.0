@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E27233CCFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 06:14:47 +0100 (CET)
-Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F148733CD4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 06:29:10 +0100 (CET)
+Received: from localhost ([::1]:35298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM22X-0001We-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 01:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
+	id 1lM2GT-0003YX-O1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 01:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM21J-00015p-M9
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 01:13:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50674)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM2Fi-00037n-ND
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 01:28:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM21G-00069s-CJ
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 01:13:28 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM2Fh-0006vJ-30
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 01:28:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615871604;
+ s=mimecast20190719; t=1615872499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mPh8W1OKzHp5U2fvlkM/UpxXyDwo+jma0dA8zYPMLQ8=;
- b=Dsxjq0RYT4e6QRN7Gal9d3TKVmlPsKqh71Ze3mcuM6Yvpcib4Q+Nc46jchxKHgdyxE+DVq
- RbQXGurbptykvOgUZqQSuBed7WItYNGaBltjTi+sLhxHFuUQOqKE4qvhtKaPDv3vOvbl4f
- WkzNJ1DLTL1jHwN+ydMW5A6UUCYhUS0=
+ bh=kgvOVTf2kY1LzrzPfJ/qBq4yuGN55ZahxlLVIvPbFp4=;
+ b=VSKIa+00OaSDg3ask8S148ZCnVCLnc52318qnKebcfAZIT78zHZ3CnpYOiXWfehxl7QkS7
+ Z3gRlxvNIn7U8gTAEgAdew2e3OaxDB5KG9n+6RCrTW1uD1aVBCv7D01mgdO0twIRm5QYfO
+ aUkJR8PYnG7EGj7ToxlnFvcz4IwbYZw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-JGCkwZZJOwyGIzkbQa9OcA-1; Tue, 16 Mar 2021 01:13:20 -0400
-X-MC-Unique: JGCkwZZJOwyGIzkbQa9OcA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-302-GflIJ4bFN7ycmgdC54Xbjw-1; Tue, 16 Mar 2021 01:28:17 -0400
+X-MC-Unique: GflIJ4bFN7ycmgdC54Xbjw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A618100C619;
- Tue, 16 Mar 2021 05:13:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72EA63FD7
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 05:28:16 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A054746;
- Tue, 16 Mar 2021 05:13:14 +0000 (UTC)
-Subject: Re: [PATCH] migration: Move populate_vfio_info() into a separate file
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20210315190756.317710-1-thuth@redhat.com>
- <f26d3ce6-b51a-7c44-2ec1-21a6bd2d4a46@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90A915D768;
+ Tue, 16 Mar 2021 05:28:15 +0000 (UTC)
+Subject: Re: [RFC PATCH] configure: Poison (almost) all target-specific
+ #defines
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210315135410.221729-1-thuth@redhat.com>
+ <1a8dc3e5-0d8e-e52b-897d-69d0b2e28fd4@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2e455379-15de-835c-014f-8ae2c26639a6@redhat.com>
-Date: Tue, 16 Mar 2021 06:13:13 +0100
+Message-ID: <1d8f79e6-c8b7-b9a4-4af4-7a48e999d5cd@redhat.com>
+Date: Tue, 16 Mar 2021 06:28:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <f26d3ce6-b51a-7c44-2ec1-21a6bd2d4a46@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1a8dc3e5-0d8e-e52b-897d-69d0b2e28fd4@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,53 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2021 22.05, Philippe Mathieu-Daudé wrote:
-> Hi Thomas,
-> 
-> +Alex
-> 
-> On 3/15/21 8:07 PM, Thomas Huth wrote:
->> The CONFIG_VFIO switch only works in target specific code. Since
->> migration/migration.c is common code, the #ifdef does not have
->> the intended behavior here. Move the related code to a separate
->> file now which gets compiled via specific_ss instead.
+On 15/03/2021 19.24, Eric Blake wrote:
+> On 3/15/21 8:54 AM, Thomas Huth wrote:
+>> We are generating a lot of target-specific defines in the *-config-devices.h
+>> and *-config-target.h files. Using them in common code is wrong and leads
+>> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
+>> as expected. To avoid these issues, we are already poisoning some of the
+>> macros in include/exec/poison.h - but maintaining this list manually is
+>> cumbersome. Thus let's generate the list of poisoned macros automatically
+>> instead.
+>> Note that CONFIG_TCG (which is also defined in config-host.h) and
+>> CONFIG_USER_ONLY are special, so we have to filter these out.
 >>
->> Fixes: 3710586caa ("qapi: Add VFIO devices migration stats in Migration stats")
 >> Signed-off-by: Thomas Huth <thuth@redhat.com>
 >> ---
->>   migration/meson.build |  3 ++-
->>   migration/migration.c | 15 ---------------
->>   migration/migration.h |  2 ++
->>   migration/special.c   | 25 +++++++++++++++++++++++++
->>   4 files changed, 29 insertions(+), 16 deletions(-)
->>   create mode 100644 migration/special.c
+>>   RFC since the shell stuff in "configure" is quite ugly ... maybe there's
+>>   a better way to do this via meson, but my meson-foo is still lacking...
 >>
->> diff --git a/migration/meson.build b/migration/meson.build
->> index 9645f44005..e1f72f6ba0 100644
->> --- a/migration/meson.build
->> +++ b/migration/meson.build
->> @@ -30,4 +30,5 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
->>   softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
->>   softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
->>   
->> -specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'ram.c'))
->> +specific_ss.add(when: 'CONFIG_SOFTMMU',
->> +                if_true: files('dirtyrate.c', 'ram.c', 'special.c'))
 > 
-> Why not simply name this migration/vfio.c? That way we do not start
-> mixed bag of everything target specific.
+>> +++ b/configure
+>> @@ -6441,6 +6441,11 @@ if test -n "${deprecated_features}"; then
+>>       echo "  features: ${deprecated_features}"
+>>   fi
+>>   
+>> +cat *-config-devices.h *-config-target.h | grep '^#define '  \
+>> +    | grep -v CONFIG_TCG | grep -v CONFIG_USER_ONLY \
+>> +    | sed -e 's/#define //' -e 's/ .*//' | sort -u \
+>> +    | sed -e 's/^/#pragma GCC poison /' > config-poison.h
+> 
+> Most times, a 'grep | sed' pipeline can be rewritten in pure sed.  In
+> this case:
+> 
+> cat *-config-devices.h *-config-target.h | \
+>    sed -n -e '/^#define / { s///; /CONFIG_TCG/d; /CONFIG_USER_ONLY/d;' \
+>           -e 's/ .*//; s/^/#pragma GCC poison /p; }' | \
+>    sort -u > config-poison.h
 
-I don't mind ... well, if we have other small functions there in the future 
-that depend on CONFIG switches, a mixed bag file might not be such a bad 
-idea instead of having lots and lots of small other files ... OTOH, if there 
-is more vfio migration code in the works that might fit here, a name like 
-vfio.c would be better, of course. What do the maintainers think?
+Thanks! I'll update my patch and use your suggestion (unless someone comes 
+up with some Meson magic to do it there instead)
 
   Thomas
+
 
 
