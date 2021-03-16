@@ -2,88 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7B733DEF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 21:39:07 +0100 (CET)
-Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E255C33DF07
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 21:41:25 +0100 (CET)
+Received: from localhost ([::1]:35832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMGT4-0006rx-EY
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 16:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41796)
+	id 1lMGVI-00084X-Ly
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 16:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMGRv-0006Pp-Vk
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 16:37:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37117)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lMGTw-0007O6-Eu
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 16:40:00 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33012
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMGRq-0002Ph-5Y
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 16:37:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615927069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9dCmIqY4Kdj2E7M6QGNS6XbxnBe5AC6wbOrgE49vQ+4=;
- b=aHSnX0skmPCM/VJP02fw2qhYy59vVVV08GNKM/3O6iVZSyWsZUdV071pk7ORFQbpFnFDJq
- mcZUY5Q85uBDRrh4zlVUyDFkCz7Q427sqrxTKRAdz2eHqKfFPNZ7wWroWzKRCQThuNOJOa
- CpBA1AD9rbHX47cmA1tgZSES7J9CGHk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-jFkYHOTAOcCSJSa57MVcfA-1; Tue, 16 Mar 2021 16:37:46 -0400
-X-MC-Unique: jFkYHOTAOcCSJSa57MVcfA-1
-Received: by mail-wr1-f72.google.com with SMTP id i5so17225899wrp.8
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 13:37:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9dCmIqY4Kdj2E7M6QGNS6XbxnBe5AC6wbOrgE49vQ+4=;
- b=pJZ16I5XjtWzCFLPOg2VSiFV+KJmk2iKxaxvhCj59LtGzDbTAN6FpiYw8hWGqBCa9V
- 7Ys/a+2Tl50WuImIlh+wFj+YVIPVgYRzcQBS425PZO5zZ36MuzPmQT1SscQcsbnjetmO
- niuyh/vwL0+wIQbAKYhjZHgi0AiwKk1gViUUED7iEdjIjPEeWXQxVABUcV3n5f694SDI
- MkRi3dEZFtTTolNpleVfX1Sj+ttnHV0PHItSGVucajKAx/kE8i9WI4RZZQwavFWqiFQq
- 4/yk79aHijg7zEzPxe+6YV5aIPJ8MzRsBXg7VEGSt9Th17OPsOI1hqFPmsgbZmKt+k7S
- FxyA==
-X-Gm-Message-State: AOAM531M9UO3M8GsAqOZygh8DCb/FWjvp1igsoTET9EyKEmkx4IWJ377
- X0y0bCTdLyrKwYqJDmIhV35Kld/VP+nC/rgqxR+YNpGgRzJNpWgvwRMzfbCCZThVgGt+L+d+XpC
- 4faeis2s3RCgLoMw=
-X-Received: by 2002:adf:f1c4:: with SMTP id z4mr843958wro.404.1615927065044;
- Tue, 16 Mar 2021 13:37:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZpBPILt/rfvKa1f1DYxb7oNJYIfFs41EUB8lWA6iMzYqnuBpDEhZGUzQaNQH6sF+rMXGJ5Q==
-X-Received: by 2002:adf:f1c4:: with SMTP id z4mr843928wro.404.1615927064536;
- Tue, 16 Mar 2021 13:37:44 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id s3sm23292234wrt.93.2021.03.16.13.37.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 13:37:44 -0700 (PDT)
-Subject: Re: [PATCH] hw/core: fix link error with --disable-fdt
-To: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>, qemu-devel@nongnu.org
-References: <20210316202347.415131-1-anthoine.bourgeois@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <050a5da3-1049-dc1c-a839-6f141ff19c87@redhat.com>
-Date: Tue, 16 Mar 2021 21:37:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lMGTt-0003GE-Hy
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 16:40:00 -0400
+Received: from host109-156-104-46.range109-156.btcentralplus.com
+ ([109.156.104.46] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lMGTr-0005Bx-Ls; Tue, 16 Mar 2021 20:40:00 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Tue, 16 Mar 2021 20:39:45 +0000
+Message-Id: <20210316203946.21761-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210316202347.415131-1-anthoine.bourgeois@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.156.104.46
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 0/1] qemu-openbios queue 20210316
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,45 +59,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Anthoine,
+The following changes since commit 6e31b3a5c34c6e5be7ef60773e607f189eaa15f3:
 
-On 3/16/21 9:23 PM, Anthoine Bourgeois wrote:
-> The link error appends only with x86_64-softmmu as the only target.
-> 
-> Fixes: a33ff6d2c6bd480fbab3bc9f748655a9269881eb ("hw/core: implement a
-> guest-loader to support static hypervisor guests")
-> 
-> Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
-> ---
->  hw/core/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/core/meson.build b/hw/core/meson.build
-> index 9cd72edf51..5e61347779 100644
-> --- a/hw/core/meson.build
-> +++ b/hw/core/meson.build
-> @@ -37,7 +37,7 @@ softmmu_ss.add(files(
->    'clock-vmstate.c',
->  ))
->  
-> -softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('guest-loader.c'))
-> +softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_FDT'], if_true: files('guest-loader.c'))
->  
->  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
->    'machine-qmp-cmds.c',
+  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-03-16 10:53:47 +0000)
 
-I suggested this change first, but then figured it would be better to
-declare a Kconfig entry for guest-loader:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg791755.html
+are available in the Git repository at:
 
-Do you mind reviewing or testing it?
+  git://github.com/mcayland/qemu.git tags/qemu-openbios-20210316
 
-Thanks,
+for you to fetch changes up to ee2e67da8f882fcdef2c49fcc58e9962aa695f5a:
 
-Phil.
+  Update OpenBIOS images to 4a004110 built from submodule. (2021-03-16 20:03:00 +0000)
 
+----------------------------------------------------------------
+qemu-openbios queue
+
+----------------------------------------------------------------
+Mark Cave-Ayland (1):
+      Update OpenBIOS images to 4a004110 built from submodule.
+
+ pc-bios/openbios-ppc     | Bin 696912 -> 696912 bytes
+ pc-bios/openbios-sparc32 | Bin 382048 -> 382048 bytes
+ pc-bios/openbios-sparc64 | Bin 1593408 -> 1593408 bytes
+ roms/openbios            |   2 +-
+ 4 files changed, 1 insertion(+), 1 deletion(-)
 
