@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9153833D4D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:26:44 +0100 (CET)
-Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D962C33D4CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:26:08 +0100 (CET)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9id-00079N-Lq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55792)
+	id 1lM9i3-0006ox-C6
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lM9gB-0005gm-D7
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:24:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lM9g8-00084Y-Jb
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:24:10 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lM9gu-0005tN-Q8
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:24:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lM9gt-0008V1-9m
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:24:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615901046;
+ s=mimecast20190719; t=1615901093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=683DJgJa8y9NQNpNodZ8ur2wr5W54JXrvOhfSeN+qx8=;
- b=B2SIesxMh2rb0Ka43hT2WvGc0bS6KKOKV3aTllvGmxhSfXQ7DoA9TzCfEy1//Ijp0dHACF
- cKgfuV+gQxy8pZFsCs5XC0JglaKIc3R3EQ/nErZ5pemA5sasK4YwqGiP2lK0wJkquhCvzm
- om4SLvrI5yEw8bc3U8h6rtmUCPGM5E8=
+ bh=HfLvB7vmSTw69s58GD5SlbXgRdC6Vu3998J5qhNoEhs=;
+ b=dPFJwdaz9xdgnzCcyHBtrZCZ1aDWFdKxjw9ekQZ95jd33K0uIFnpf2xN0q1MBaE17oZ4uJ
+ NdWxtRgIruwJPmA8nJXJn6Balo3+DEA9xY9xcN4/uwBukMsa+0tk1MxUe/Wf1KLWOTbJsM
+ 2ww/pifue05gltetQKC8ubYNZJhaqps=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-Giz4_o2iPxyhsn4v8F-z5w-1; Tue, 16 Mar 2021 09:22:29 -0400
-X-MC-Unique: Giz4_o2iPxyhsn4v8F-z5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-379-_InW1STKOF2VVxnU_loPlQ-1; Tue, 16 Mar 2021 09:24:52 -0400
+X-MC-Unique: _InW1STKOF2VVxnU_loPlQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 636921054F9D;
- Tue, 16 Mar 2021 13:22:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF43F19057A2;
+ Tue, 16 Mar 2021 13:24:48 +0000 (UTC)
 Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6C67610F0;
- Tue, 16 Mar 2021 13:22:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9205119C46;
+ Tue, 16 Mar 2021 13:24:39 +0000 (UTC)
 Subject: Re: [PATCH v29 17/17] qapi: Add VFIO devices migration stats in
  Migration stats
+From: Eric Blake <eblake@redhat.com>
 To: Kirti Wankhede <kwankhede@nvidia.com>, alex.williamson@redhat.com,
  cjia@nvidia.com
 References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
  <1603704987-20977-18-git-send-email-kwankhede@nvidia.com>
-From: Eric Blake <eblake@redhat.com>
+ <d022e3b6-fbb9-7b34-71c6-ec6e01ebbb7d@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <d022e3b6-fbb9-7b34-71c6-ec6e01ebbb7d@redhat.com>
-Date: Tue, 16 Mar 2021 08:22:14 -0500
+Message-ID: <483de297-3d4d-367c-c0e5-3cf60a25b3eb@redhat.com>
+Date: Tue, 16 Mar 2021 08:24:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <1603704987-20977-18-git-send-email-kwankhede@nvidia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <d022e3b6-fbb9-7b34-71c6-ec6e01ebbb7d@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,59 +97,38 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 4:36 AM, Kirti Wankhede wrote:
-> Added amount of bytes transferred to the VM at destination by all VFIO
-> devices
+On 3/16/21 8:22 AM, Eric Blake wrote:
+> On 10/26/20 4:36 AM, Kirti Wankhede wrote:
+
+Hmm, just now realizing this is an old thread...
+
+>> Added amount of bytes transferred to the VM at destination by all VFIO
+>> devices
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> ---
 > 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
-
-> +++ b/qapi/migration.json
-> @@ -147,6 +147,18 @@
->              'active', 'postcopy-active', 'postcopy-paused',
->              'postcopy-recover', 'completed', 'failed', 'colo',
->              'pre-switchover', 'device', 'wait-unplug' ] }
-> +##
-> +# @VfioStats:
-> +#
-> +# Detailed VFIO devices migration statistics
-> +#
-> +# @transferred: amount of bytes transferred to the target VM by VFIO devices
-> +#
-> +# Since: 5.2
-
-5.2 is last year; this should be 6.0 (if this makes it in time for soft
-freeze) or even 6.1
-
-> +#
-> +##
-> +{ 'struct': 'VfioStats',
-> +  'data': {'transferred': 'int' } }
->  
->  ##
->  # @MigrationInfo:
-> @@ -208,11 +220,16 @@
->  #
->  # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
->  #
-> +# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
-> +#        only returned if VFIO device is present, migration is supported by all
-> +#        VFIO devices and status is 'active' or 'completed' (since 5.2)
-
-here, too
-
-> +#
->  # Since: 0.14.0
->  ##
->  { 'struct': 'MigrationInfo',
->    'data': {'*status': 'MigrationStatus', '*ram': 'MigrationStats',
->             '*disk': 'MigrationStats',
-> +           '*vfio': 'VfioStats',
->             '*xbzrle-cache': 'XBZRLECacheStats',
->             '*total-time': 'int',
->             '*expected-downtime': 'int',
+>> +++ b/qapi/migration.json
+>> @@ -147,6 +147,18 @@
+>>              'active', 'postcopy-active', 'postcopy-paused',
+>>              'postcopy-recover', 'completed', 'failed', 'colo',
+>>              'pre-switchover', 'device', 'wait-unplug' ] }
+>> +##
+>> +# @VfioStats:
+>> +#
+>> +# Detailed VFIO devices migration statistics
+>> +#
+>> +# @transferred: amount of bytes transferred to the target VM by VFIO devices
+>> +#
+>> +# Since: 5.2
 > 
+> 5.2 is last year; this should be 6.0 (if this makes it in time for soft
+> freeze) or even 6.1
+
+...but it was revived because of Thomas' notice of a problem with
+CONFIG_VFIO with what is already in-tree, rather than something still
+awaiting review.  My (untimely) review is thus unnecessary noise; sorry.
 
 -- 
 Eric Blake, Principal Software Engineer
