@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF0033D57A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:07:50 +0100 (CET)
-Received: from localhost ([::1]:37886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825E133D581
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:09:02 +0100 (CET)
+Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMAMP-0002rF-SL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37832)
+	id 1lMANZ-0003uu-Is
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMAKv-00022f-Sw
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:06:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27968)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMAMS-0003LH-Eu
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:07:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMAKt-000852-04
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:06:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMAMQ-0000ai-UL
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:07:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615903573;
+ s=mimecast20190719; t=1615903670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J4YA1Pgt5AwHaI1pvAxC3+He+sC6dfEUTT9J0J1iLoU=;
- b=DkJxrj7qH5WsEkYAvYIeGLBBoo1U/CZKw9sFNwqr7rIxSsqMM86UMSYuxN4EI89zypScr/
- MbUnU0wwAe/GgZysZJEzQbmkMpsnRcl+B/knHzThNkJgcrAphA6pYDTG3PbVW9AFkyFsdE
- q3sws23+SBpIBqjQaWM9Js/ORGUnbHk=
+ bh=rakqUSnMvzoH8X+ARQqrSDA4mMu8iUVSi+KMqE0qGok=;
+ b=C2YmdeqCQ1vh/bRT2Kr8sWA7H2f6ZgvGF0EXf8Obw09OVih0lprLfL0EJfrBrKj+8fwHHd
+ J7SWzC2omRhDAk+joOYmrvJZebnsHXtdHfOKSEtBh/dwCJGHiEHaYqMlM6lczPWW8wv1vY
+ //N5ieujZ4zU+Q+izmo2UWyMelPfLMc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-IYqLHFa6NEyl78qnj7rMHw-1; Tue, 16 Mar 2021 10:06:09 -0400
-X-MC-Unique: IYqLHFa6NEyl78qnj7rMHw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-319-n_-m7p1pMNmOrVeP9bCEeQ-1; Tue, 16 Mar 2021 10:07:47 -0400
+X-MC-Unique: n_-m7p1pMNmOrVeP9bCEeQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2071A835BD1;
- Tue, 16 Mar 2021 14:06:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9232F100C661;
+ Tue, 16 Mar 2021 14:07:46 +0000 (UTC)
 Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C14852B196;
- Tue, 16 Mar 2021 14:06:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0825A19D61;
+ Tue, 16 Mar 2021 14:07:45 +0000 (UTC)
 Subject: Re: [PATCH] yank: Avoid linking into executables that don't want it
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20210316135907.3646901-1-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <9b906931-f664-cc4e-6498-9a6282eec215@redhat.com>
-Date: Tue, 16 Mar 2021 09:06:06 -0500
+Message-ID: <cfda2d65-eb0a-b18c-f6a8-80ad1652cf42@redhat.com>
+Date: Tue, 16 Mar 2021 09:07:45 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
 In-Reply-To: <20210316135907.3646901-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,9 +93,6 @@ On 3/16/21 8:59 AM, Markus Armbruster wrote:
 > tests.  Amazingly, none of them fails to link.
 > 
 > To fix this, the non-stub yank.c from sourceset util_ss to sourceset
-
-This sentence no verb.
-
 > qmp_ss.  This requires moving it from util/ to monitor/.
 > 
 > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
@@ -107,9 +104,11 @@ This sentence no verb.
 >  util/meson.build         | 1 -
 >  4 files changed, 2 insertions(+), 2 deletions(-)
 >  rename {util => monitor}/yank.c (100%)
-> 
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+I'm still determining if I need an NBD pull request for soft freeze
+today; if so, I'm happy to include this one if it doesn't make it into
+the tree elsewhere first.  I also consider it to be a build issue and
+therefore suitable for inclusion in -rc1 if it misses the boat today.
 
 -- 
 Eric Blake, Principal Software Engineer
