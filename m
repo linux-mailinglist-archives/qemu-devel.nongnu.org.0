@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC5733D258
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 12:02:00 +0100 (CET)
-Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B287633D266
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 12:05:21 +0100 (CET)
+Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM7SZ-0002W0-Jo
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 07:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50932)
+	id 1lM7Vo-0003vY-P0
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 07:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lM7Qo-0001xY-BD
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 07:00:10 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40835)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lM7UV-0003MY-Gi
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 07:03:59 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lM7Qi-0007Cb-G7
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 07:00:09 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id b16so8184290eds.7
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 04:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u6ty3QwH1/N0OUy44wyEZjHd2VLz6sA4/YGm7cBnge8=;
- b=N2YRI2SGjfv2+dWAWbq28pkINBydl4wty7FRLDF71miYjRdQqADdpC/RWbWtIO0016
- v7ObmYxvpAPCbItvN6GBf8ezVKhQDgZhqgGdfLQf5DiYcCQiIz+2/zwalohjd3kgm+Mi
- LUcPJNDzJXslSdRB+dMkrXrx2jRr6toJpvyj9j9PtClPMMVuKti9ERkM7KxxQItLrAiN
- cRYKY0DJde/ZUHZjlprH3nnkrj2fUtOxrcN5h7tQZvhQ4P7GOGLVpsAmjNTPvHISCBwx
- FykSJOG+Wv8vwD5Bd5BzyvL5txvlIHmPUXoeWbdnhprTHxt7PQCRoDvfdqKhJa/aqVrz
- TJGQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lM7UU-0000y2-2g
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 07:03:59 -0400
+Received: by mail-wr1-x431.google.com with SMTP id l11so10216764wrp.7
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 04:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ISneqGSMsxbWHG/Kio+CQ5cuLJpxwgtIymNRH+OAHgw=;
+ b=IulU9SVUk2OdpfxhTmgCmTxCkCMpjP6VxEd+KYUeyesdONgXmHoXr1O/VWdeBouL6t
+ SrP2OzwLiN81c1sYTXZe903qS0pMw21gKYfiR0YrdiwkjpSacTcxjm1twSWyOrZpFbwN
+ GZJFh6Wj60zsQ7OWO3NyrRk5wiosnTtfZUMoDpaMmz6TBN0UUN8N21fTeaexvTH3o7W3
+ ZCzfm0aB2X6yRp7XOEj2ZNSxajYIPyOS1QMCwgNlymcix8XPxNXsALTXSOejGsyWCIMT
+ jq5e4RPs3FSwEspdLfcLstdLC7TAU7HDvANLWs+1/M1hDvzfM+PnvabohnsT7wkBihHh
+ ghLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u6ty3QwH1/N0OUy44wyEZjHd2VLz6sA4/YGm7cBnge8=;
- b=NZJdqXCyJCUPqIUOzZJD383svk+n87QGBpUTQWD8/lO5SE81PCnztevP8YSPKUUev7
- Xg51UODE17aIPrDLMXPpFMKj2CwKb20MvpeTn1vY4FXjC+qG3wrvq/ORMYwOH3pTKmIM
- 3dlqu4/3lb6y4GhunNX9b3mgLNGBP4XV/Atla+X7fp7A+Uy/oZ385KzzEPmkij8+cEd8
- CkqlkSp10RQg9bsatpErKH28sv4Sy5x76LFRo5nRNAazSZG4XQs90qsSOIkeT7Sg4K4O
- MAbFN5KO4EYra2bug4KGh3BV9WP4fh74WV07B7WBQ06mjN9BONi2bWIjHTTB+Atsf8La
- w/EQ==
-X-Gm-Message-State: AOAM532yTT3x8J7caLcMXVI5WM+d4Bny31rJhy95hoWz7q6lki1Tx62u
- TtLBGbYjKPfAh/SYzQ+84IMAktjzH2UqGqHKrXwsHA==
-X-Google-Smtp-Source: ABdhPJwR/f3PHWijXY8J1NtRNqQdJuz6FINzSHRCmLXvGQ1BeMeTnV8JHsMjrvZCV38mSFBcquT+swKULsqP1fUAi1U=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr34747135edt.251.1615892402443; 
- Tue, 16 Mar 2021 04:00:02 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ISneqGSMsxbWHG/Kio+CQ5cuLJpxwgtIymNRH+OAHgw=;
+ b=R/crl3XKqIGLbAkzPX85xk6BVxvjvvCmLmmcUqfz5et5bcDs1GL7fhk/ZXSiztoGXz
+ S9tCYYM5SQKc9wC8ddJUMruN2Kw00s3FlYW71oGN401mtAbVs2EJXYq2SXWIKKepadtn
+ xG3Ca+4//5eq1TUfwo2KyzP30dvrJbSVE6Je8pFBS89pGlUUil2zE6CdWGFKjm11XsS5
+ qdn5wwr0aB2hw3xxXqK3MjB65vMskQ2JOuFkoIZle6pPeAgQgeRX6XywSEareaiZcwlX
+ 4NhhT+6QAj3xVPANlEz2p7B7Aq/rjqNByh5yLlUeNkdoINXvUYodn6IjRQ03UVpeHxpt
+ tgoA==
+X-Gm-Message-State: AOAM533CYvD/iHlWtGETy89pJqCFaTp+IkhNqHqb4WlZx5J19o5CnSDq
+ NRF0lErfjDr+kezA5lXcDfVQiUMA5lJtDg==
+X-Google-Smtp-Source: ABdhPJynOBrDA2BjOHLetLK0US01LIgjZVB5xf+U08CpvxSZGSX5KZUjs/edx/Ts17soV4xnKvL4ag==
+X-Received: by 2002:a05:6000:18f:: with SMTP id
+ p15mr4278872wrx.23.1615892636364; 
+ Tue, 16 Mar 2021 04:03:56 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id c9sm21891990wrr.78.2021.03.16.04.03.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 04:03:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/isa/Kconfig: Add missing dependency VIA VT82C686 -> APM
+Date: Tue, 16 Mar 2021 12:03:53 +0100
+Message-Id: <20210316110353.3051738-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210315173912.197857-1-pbonzini@redhat.com>
- <CAFEAcA-XrOsZnUmxTCA+YbaL3rXxLMMmW5-bXJkRc0h_7v2E+A@mail.gmail.com>
-In-Reply-To: <CAFEAcA-XrOsZnUmxTCA+YbaL3rXxLMMmW5-bXJkRc0h_7v2E+A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Mar 2021 10:59:39 +0000
-Message-ID: <CAFEAcA8ku-32=G=Q9iFa41vLnT7+CfjWTmsyxXtvruQM2X7W=A@mail.gmail.com>
-Subject: Re: [PULL v2 0/5] Meson version update
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,82 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Mar 2021 at 22:04, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 15 Mar 2021 at 17:47, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > The following changes since commit 51204c2f188ec1e2a38f14718d38a3772f850a4b:
-> >
-> >   Merge remote-tracking branch 'remotes/bkoppelmann2/tags/pull-tricore-20210314' into staging (2021-03-15 15:34:27 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson-0.57
-> >
-> > for you to fetch changes up to 57d42c3b774d0716b9ad1a5a576480521edc7201:
-> >
-> >   hexagon: use env keyword argument to pass PYTHONPATH (2021-03-15 18:06:21 +0100)
-> >
-> > v1->v2: rebased
-> >
-> > ----------------------------------------------------------------
-> > Update Meson to 0.57.
-> >
-> > ----------------------------------------------------------------
-> > Paolo Bonzini (5):
-> >       hexagon: do not specify executables as inputs
-> >       hexagon: do not specify Python scripts as inputs
-> >       meson: bump submodule to 0.57.1
-> >       meson: switch minimum meson version to 0.57.0
-> >       hexagon: use env keyword argument to pass PYTHONPATH
->
-> Fails to build, on at least x86-64, s390, ppc, aarch32, aarch64
-> Linux hosts:
+TYPE_VIA_PM calls apm_init() in via_pm_realize(), so
+requires APM to be selected.
 
-This pullreq also caused a build failure on OSX when trying to build
-something else after rolling back the merge (but only on OSX, oddly):
+Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Rebased on usb-20210315-pull-request
+Based-on: <20210315180240.1597240-1-kraxel@redhat.com>
+---
+ hw/isa/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-make: Entering directory '/Users/pm215/src/qemu-for-merges/build/all'
-config-host.mak is out-of-date, running configure
-  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
-tests/fp/berkeley-softfloat-3 meson dtc capstone slirp
-Disabling PIE due to missing toolchain support
-/usr/local/bin/ninja  build.ninja && touch build.ninja.stamp
-[0/1] Regenerating build files.
-Traceback (most recent call last):
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonmain.py",
-line 140, in run
-    return options.run_func(options)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
-line 245, in run
-    app.generate()
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
-line 154, in generate
-    env = environment.Environment(self.source_dir, self.build_dir, self.options)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/environment.py",
-line 523, in __init__
-    self.coredata = coredata.load(self.get_build_dir())
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/coredata.py",
-line 1016, in load
-    obj = pickle.load(f)
-ModuleNotFoundError: No module named 'mesonbuild.mesonlib.universal';
-'mesonbuild.mesonlib' is not a package
-FAILED: build.ninja
-/usr/local/opt/python@3.8/bin/python3.8
-/Users/pm215/src/qemu-for-merges/meson/meson.py --internal regenerate
-/Users/pm215/src/qemu-for-merges
-/Users/pm215/src/qemu-for-merges/build/all --backend ninja
-ninja: error: rebuilding 'build.ninja': subcommand failed
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 2691eae2f0c..55e0003ce40 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -48,6 +48,7 @@ config VT82C686
+     select SERIAL_ISA
+     select FDC
+     select USB_UHCI
++    select APM
+ 
+ config SMC37C669
+     bool
+-- 
+2.26.2
 
-This kind of "breaks the build tree such that you can't
-just 'git reset' back to master" bug is irritating. Doesn't
-meson have an "is this the right version" check on the cached
-data it's loading out of the build tree ?
-
-thanks
--- PMM
 
