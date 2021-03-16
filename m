@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B88733E07B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:29:06 +0100 (CET)
-Received: from localhost ([::1]:49784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A25433E07A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:28:01 +0100 (CET)
+Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHFR-0006AM-BP
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
+	id 1lMHEO-0004Rc-C6
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lMH3a-0006vW-MG
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:16:50 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:49629)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lMH3W-0006ko-66
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:16:46 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:54465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lMH3Y-00041H-Hu
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:16:50 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lMH3U-0003yy-87
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:16:45 -0400
 Received: from localhost.localdomain ([82.142.20.38]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MmDAc-1m4NIW1RHU-00iFUB; Tue, 16 Mar 2021 22:16:40 +0100
+ id 1MrQMz-1m1NHy2Jxn-00oakO; Tue, 16 Mar 2021 22:16:41 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] mac_via: rename VBL timer to 60Hz timer
-Date: Tue, 16 Mar 2021 22:16:29 +0100
-Message-Id: <20210316211631.107417-6-laurent@vivier.eu>
+Subject: [PULL 6/7] mac_via: fix 60Hz VIA1 timer interval
+Date: Tue, 16 Mar 2021 22:16:30 +0100
+Message-Id: <20210316211631.107417-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210316211631.107417-1-laurent@vivier.eu>
 References: <20210316211631.107417-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:R1UaaEEbJtMOkT2Zoa3AxJRv8CBfFvcbHFKse1gu7Yt2oUmZL3f
- 4v0YB5M7dfIZz8GlkLswTiwYK74wlol8dY/rxAEOD8pQgc3JXIlQv5NQJHbnFRV4BmPLFOs
- PJUY44r0TOBk3MgPofs0GEPDnn2FY8TWHJdZTvVELsWtZ3LWpSqDqkZEE2+ljhtWVsTzoKc
- DiFzZaL9gXJQa9vb1Bldw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WzPqQCZVQSs=:IJEQH3VUmfMx1EPyG7C5vi
- 6Hu5PLD4SSPNTdTdYR5BG9GRQazs9O+6yNK3Yzg77lnPD12vAZDsKuVeYLrSUadKtD75PXid5
- +6Yx3OlUu5VKt/+wl4QFPK+VYM4PAZVg2lTfLP5dHPaJE3YPuNcabU7zALhED64fyrhvXc/Mj
- myheLGErdbw8eCx/i3wEdAMmQQgShrUk61y9V3LX5b3hdneKZlVn3cHU6EukeSoAwLwIx8K/F
- tugrPynxxev15PDexSr4aoJVQOVE0d8xHHJ6q3LVBDBkS/AW6keecl43U5YLrtlHc9ESIaiNr
- EHc44NdwDaFpJbfq0OdGhGUI3h9oIBTu8JDntCBY1vxkxjOQlBwwj7Ert9sh5L3+tkPdVQkjL
- KWSW0H08o8Vfr+53o8/pbinY87xyNw/pynpUteSk/DQYrNQe1UfeeQJlLo1yfw8aCMF1ukshN
- vQiDEbwKqA==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:HbgICZv4D4bZYNo8jh+W+S1quxJqTIpWeJOrIqOpy0cfr97a6iB
+ 5nuWinov0fEo7uVWqSSe3Nwb1SfpORMzLqyIw9fVufK1uQGvHZr8b5292x8jRvtZxvmwPeh
+ FLMdzu3Pj5TTymN1QWw6F2Rr71KtQ70JZCsgd6gSgqd0+7MgIlv5b4p0SUqrO7aSefleZTf
+ FpcPQpqjPCjbFd+xGyHKA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uEgqoFJwNXI=:OZewy82OK+oMF4izKo1Nqo
+ 4jPEjdDMlp6SsgHZvf3h0Lw/eht/dsW7eCEGod+COR9caK1tPWyh11faHWjWt9xUe4FwYmyr7
+ STFmbLnJjLlCzkABvdUkJgMXQyfKqHBFUbvFAe3k1o0fUiNXJrAsh/UVYYBl712k+xJrg+hOd
+ +xmxDHt+u62KSnlZTxxd6I5sw8mUHmjxo0s2IA7PlSz8ehSK4TdwMP2pCTvX+L40G9XTjZ3Za
+ fDbQE7RFUaoPMZrVqmcVUU90+bmPulCDUYSZXL+9QV3Mif/IaS6f77bZtrlFHNRZq6gw1ql73
+ 1bFj9yCUMjDSnr3mdCfnoygU8hxkuZL0GMtQfylAjeDJi2ba+AJlDZ/QVOImuJT56W19dIiOF
+ 9x7wtmel/T9IrqeEvhG8AiK2BAOG3xfmIpY0rOkf5PBymAJTmfNi+0QXhHwnZmihKk7XYKvoB
+ 3luoS/fkrg==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,166 +69,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-According to the "Guide To The Macintosh Family Hardware", the 60Hz VIA1 timer
-on newer Macs such as the Quadra only exists for compatibility with old software
-and is no longer synced to the VBL interval.
+The 60Hz timer is initialised using timer_new_ns() meaning that the timer
+interval should be measured in ns, and therefore its period is a thousand
+times too short.
 
-Rename the VBL timer to 60Hz timer to emphasise this and to prevent confusion
-when the real VBL interrupt (now handled as a NuBus slot interrupt) is added in
-future.
+Use a define for the 60Hz timer period taking the more precise value as
+documented in the Guide To The Macintosh Family Hardware.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <20210311100505.22596-6-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210311100505.22596-7-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/misc/mac_via.h |  8 ++++----
- hw/misc/mac_via.c         | 41 ++++++++++++++++++++-------------------
- 2 files changed, 25 insertions(+), 24 deletions(-)
+ hw/misc/mac_via.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index a59f0bd42235..3058b30685ae 100644
---- a/include/hw/misc/mac_via.h
-+++ b/include/hw/misc/mac_via.h
-@@ -17,7 +17,7 @@
- 
- /* VIA 1 */
- #define VIA1_IRQ_ONE_SECOND_BIT 0
--#define VIA1_IRQ_VBLANK_BIT     1
-+#define VIA1_IRQ_60HZ_BIT       1
- #define VIA1_IRQ_ADB_READY_BIT  2
- #define VIA1_IRQ_ADB_DATA_BIT   3
- #define VIA1_IRQ_ADB_CLOCK_BIT  4
-@@ -25,7 +25,7 @@
- #define VIA1_IRQ_NB             8
- 
- #define VIA1_IRQ_ONE_SECOND (1 << VIA1_IRQ_ONE_SECOND_BIT)
--#define VIA1_IRQ_VBLANK     (1 << VIA1_IRQ_VBLANK_BIT)
-+#define VIA1_IRQ_60HZ       (1 << VIA1_IRQ_60HZ_BIT)
- #define VIA1_IRQ_ADB_READY  (1 << VIA1_IRQ_ADB_READY_BIT)
- #define VIA1_IRQ_ADB_DATA   (1 << VIA1_IRQ_ADB_DATA_BIT)
- #define VIA1_IRQ_ADB_CLOCK  (1 << VIA1_IRQ_ADB_CLOCK_BIT)
-@@ -45,8 +45,8 @@ struct MOS6522Q800VIA1State {
-     /* external timers */
-     QEMUTimer *one_second_timer;
-     int64_t next_second;
--    QEMUTimer *VBL_timer;
--    int64_t next_VBL;
-+    QEMUTimer *sixty_hz_timer;
-+    int64_t next_sixty_hz;
- };
- 
- 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 4914cb809860..9617e04f02ef 100644
+index 9617e04f02ef..36e70674feda 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -297,18 +297,18 @@ enum {
-     REG_EMPTY = 0xff,
- };
+@@ -279,6 +279,12 @@
+ #define VIA_TIMER_FREQ (783360)
+ #define VIA_ADB_POLL_FREQ 50 /* XXX: not real */
  
--static void via1_VBL_update(MOS6522Q800VIA1State *v1s)
-+static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
- {
++/*
++ * Guide to the Macintosh Family Hardware ch. 12 "Displays" p. 401 gives the
++ * precise 60Hz interrupt frequency as ~60.15Hz with a period of 16625.8 us
++ */
++#define VIA_60HZ_TIMER_PERIOD_NS   16625800
++
+ /* VIA returns time offset from Jan 1, 1904, not 1970 */
+ #define RTC_OFFSET 2082844800
+ 
+@@ -302,8 +308,9 @@ static void via1_sixty_hz_update(MOS6522Q800VIA1State *v1s)
      MOS6522State *s = MOS6522(v1s);
  
      /* 60 Hz irq */
--    v1s->next_VBL = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
--                    16630 * 16630;
-+    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
-+                          16630 * 16630;
+-    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
+-                          16630 * 16630;
++    v1s->next_sixty_hz = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                          VIA_60HZ_TIMER_PERIOD_NS) /
++                          VIA_60HZ_TIMER_PERIOD_NS * VIA_60HZ_TIMER_PERIOD_NS;
  
--    if (s->ier & VIA1_IRQ_VBLANK) {
--        timer_mod(v1s->VBL_timer, v1s->next_VBL);
-+    if (s->ier & VIA1_IRQ_60HZ) {
-+        timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
-     } else {
--        timer_del(v1s->VBL_timer);
-+        timer_del(v1s->sixty_hz_timer);
-     }
- }
- 
-@@ -325,16 +325,16 @@ static void via1_one_second_update(MOS6522Q800VIA1State *v1s)
-     }
- }
- 
--static void via1_VBL(void *opaque)
-+static void via1_sixty_hz(void *opaque)
- {
-     MOS6522Q800VIA1State *v1s = opaque;
-     MOS6522State *s = MOS6522(v1s);
-     MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
- 
--    s->ifr |= VIA1_IRQ_VBLANK;
-+    s->ifr |= VIA1_IRQ_60HZ;
-     mdc->update_irq(s);
- 
--    via1_VBL_update(v1s);
-+    via1_sixty_hz_update(v1s);
- }
- 
- static void via1_one_second(void *opaque)
-@@ -897,12 +897,12 @@ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
- 
-     /*
-      * If IRQs are disabled, timers are disabled, but we need to update
--     * VIA1_IRQ_VBLANK and VIA1_IRQ_ONE_SECOND bits in the IFR
-+     * VIA1_IRQ_60HZ and VIA1_IRQ_ONE_SECOND bits in the IFR
-      */
- 
--    if (now >= s->next_VBL) {
--        ms->ifr |= VIA1_IRQ_VBLANK;
--        via1_VBL_update(s);
-+    if (now >= s->next_sixty_hz) {
-+        ms->ifr |= VIA1_IRQ_60HZ;
-+        via1_sixty_hz_update(s);
-     }
-     if (now >= s->next_second) {
-         ms->ifr |= VIA1_IRQ_ONE_SECOND;
-@@ -933,7 +933,7 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
-     }
- 
-     via1_one_second_update(v1s);
--    via1_VBL_update(v1s);
-+    via1_sixty_hz_update(v1s);
- }
- 
- static const MemoryRegionOps mos6522_q800_via1_ops = {
-@@ -983,8 +983,8 @@ static void mac_via_reset(DeviceState *dev)
- 
-     adb_set_autopoll_enabled(adb_bus, true);
- 
--    timer_del(v1s->VBL_timer);
--    v1s->next_VBL = 0;
-+    timer_del(v1s->sixty_hz_timer);
-+    v1s->next_sixty_hz = 0;
-     timer_del(v1s->one_second_timer);
-     v1s->next_second = 0;
- 
-@@ -1026,8 +1026,9 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     m->mos6522_via1.one_second_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
-                                                      via1_one_second,
-                                                      &m->mos6522_via1);
--    m->mos6522_via1.VBL_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via1_VBL,
--                                              &m->mos6522_via1);
-+    m->mos6522_via1.sixty_hz_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                                  via1_sixty_hz,
-+                                                  &m->mos6522_via1);
- 
-     qemu_get_timedate(&tm, 0);
-     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
-@@ -1116,8 +1117,8 @@ static const VMStateDescription vmstate_mac_via = {
-         VMSTATE_BUFFER(mos6522_via1.PRAM, MacVIAState),
-         VMSTATE_TIMER_PTR(mos6522_via1.one_second_timer, MacVIAState),
-         VMSTATE_INT64(mos6522_via1.next_second, MacVIAState),
--        VMSTATE_TIMER_PTR(mos6522_via1.VBL_timer, MacVIAState),
--        VMSTATE_INT64(mos6522_via1.next_VBL, MacVIAState),
-+        VMSTATE_TIMER_PTR(mos6522_via1.sixty_hz_timer, MacVIAState),
-+        VMSTATE_INT64(mos6522_via1.next_sixty_hz, MacVIAState),
-         VMSTATE_STRUCT(mos6522_via2.parent_obj, MacVIAState, 0, vmstate_mos6522,
-                        MOS6522State),
-         /* RTC */
+     if (s->ier & VIA1_IRQ_60HZ) {
+         timer_mod(v1s->sixty_hz_timer, v1s->next_sixty_hz);
 -- 
 2.30.2
 
