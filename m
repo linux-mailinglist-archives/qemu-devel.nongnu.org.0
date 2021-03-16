@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1112233E0B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:39:04 +0100 (CET)
-Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F6733E0B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:41:55 +0100 (CET)
+Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMHP5-0006Iz-4V
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
+	id 1lMHRq-0000l8-2z
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMHNh-0004xT-6w; Tue, 16 Mar 2021 17:37:37 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:26287)
+ id 1lMHNi-0004zL-DF; Tue, 16 Mar 2021 17:37:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMHNe-00050W-JM; Tue, 16 Mar 2021 17:37:36 -0400
+ id 1lMHNe-00050U-JN; Tue, 16 Mar 2021 17:37:38 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DA5417463C9;
- Tue, 16 Mar 2021 22:37:31 +0100 (CET)
+ by localhost (Postfix) with SMTP id 0F58D746403;
+ Tue, 16 Mar 2021 22:37:32 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B338E7463A6; Tue, 16 Mar 2021 22:37:31 +0100 (CET)
-Message-Id: <cover.1615930019.git.balaton@eik.bme.hu>
+ id C660D7463B7; Tue, 16 Mar 2021 22:37:31 +0100 (CET)
+Message-Id: <e4b10f7f303bfe277c8b0b4cd4282f0e0ccef048.1615930019.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1615930019.git.balaton@eik.bme.hu>
+References: <cover.1615930019.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v8 0/7] Pegasos2 emulation
+Subject: [PATCH v8 4/7] vt82c686: Add emulation of VT8231 south bridge
 Date: Tue, 16 Mar 2021 22:26:59 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,75 +59,151 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Add emulation of VT8231 south bridge ISA part based on the similar
+VT82C686B but implemented in a separate subclass that holds the
+differences while reusing parts that can be shared.
 
-This is adding a new PPC board called pegasos2. More info on it can be
-found at:
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/isa/vt82c686.c         | 84 +++++++++++++++++++++++++++++++++++++++
+ include/hw/isa/vt82c686.h |  1 +
+ include/hw/pci/pci_ids.h  |  1 +
+ 3 files changed, 86 insertions(+)
 
-https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
-
-Currently it needs a firmware ROM image that I cannot include due to
-original copyright holder (bPlan) did not release it under a free
-licence but I have plans to write a replacement in the future. With
-the original board firmware it can boot MorphOS now as:
-
-qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile="" -serial stdio
-
-then enter "boot cd boot.img" at the firmware "ok" prompt as described
-in the MorphOS.readme. To boot Linux use same command line with e.g.
--cdrom debian-8.11.0-powerpc-netinst.iso then enter
-"boot cd install/pegasos"
-
-The last patch adds the actual board code after previous patches
-adding VT8231 and MV64361 system controller chip emulation.
-
-Regards,
-BALATON Zoltan
-
-v8: Do not emulate setting of serial port address via register, just
-    hard code a default address instead
-
-v7: Fix errp usage in patch 2
-
-v6: Rebased on master, updated commit message about migration change
-
-v5: Changes for review comments from David and Philippe
-
-V4: Rename pegasos2_reset to pegasos2_cpu_reset
-    Add new files to MAINTAINERS
-
-BALATON Zoltan (6):
-  vt82c686: QOM-ify superio related functionality
-  vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
-  vt82c686: Introduce abstract TYPE_VIA_ISA and base vt82c686b_isa on it
-  vt82c686: Add emulation of VT8231 south bridge
-  hw/pci-host: Add emulation of Marvell MV64361 PPC system controller
-  hw/ppc: Add emulation of Genesi/bPlan Pegasos II
-
-Philippe Mathieu-Daudé (1):
-  hw/isa/Kconfig: Add missing dependency VIA VT82C686 -> APM
-
- MAINTAINERS                             |  10 +
- default-configs/devices/ppc-softmmu.mak |   2 +
- hw/isa/Kconfig                          |   1 +
- hw/isa/vt82c686.c                       | 422 +++++++++--
- hw/pci-host/Kconfig                     |   4 +
- hw/pci-host/meson.build                 |   2 +
- hw/pci-host/mv64361.c                   | 966 ++++++++++++++++++++++++
- hw/pci-host/mv643xx.h                   | 918 ++++++++++++++++++++++
- hw/pci-host/trace-events                |   6 +
- hw/ppc/Kconfig                          |   9 +
- hw/ppc/meson.build                      |   2 +
- hw/ppc/pegasos2.c                       | 144 ++++
- include/hw/isa/vt82c686.h               |   2 +-
- include/hw/pci-host/mv64361.h           |   8 +
- include/hw/pci/pci_ids.h                |   4 +-
- 15 files changed, 2418 insertions(+), 82 deletions(-)
- create mode 100644 hw/pci-host/mv64361.c
- create mode 100644 hw/pci-host/mv643xx.h
- create mode 100644 hw/ppc/pegasos2.c
- create mode 100644 include/hw/pci-host/mv64361.h
-
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index d29b009da4..18dfac74f3 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -8,6 +8,9 @@
+  *
+  * Contributions after 2012-01-13 are licensed under the terms of the
+  * GNU GPL, version 2 or (at your option) any later version.
++ *
++ * VT8231 south bridge support and general clean up to allow it
++ * Copyright (c) 2018-2020 BALATON Zoltan
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -640,6 +643,86 @@ static const TypeInfo vt82c686b_isa_info = {
+     .class_init    = vt82c686b_class_init,
+ };
+ 
++/* TYPE_VT8231_ISA */
++
++static void vt8231_write_config(PCIDevice *d, uint32_t addr,
++                                uint32_t val, int len)
++{
++    ViaISAState *s = VIA_ISA(d);
++
++    trace_via_isa_write(addr, val, len);
++    pci_default_write_config(d, addr, val, len);
++    if (addr == 0x50) {
++        /* BIT(2): enable or disable superio config io ports */
++        via_superio_io_enable(s->via_sio, val & BIT(2));
++    }
++}
++
++static void vt8231_isa_reset(DeviceState *dev)
++{
++    ViaISAState *s = VIA_ISA(dev);
++    uint8_t *pci_conf = s->dev.config;
++
++    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
++    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
++                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
++    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
++
++    pci_conf[0x58] = 0x40; /* Miscellaneous Control 0 */
++    pci_conf[0x67] = 0x08; /* Fast IR Config */
++    pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
++}
++
++static void vt8231_realize(PCIDevice *d, Error **errp)
++{
++    ViaISAState *s = VIA_ISA(d);
++    DeviceState *dev = DEVICE(d);
++    ISABus *isa_bus;
++    qemu_irq *isa_irq;
++    int i;
++
++    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++                          &error_fatal);
++    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++    i8257_dma_init(isa_bus, 0);
++    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus, TYPE_VT8231_SUPERIO));
++    mc146818_rtc_init(isa_bus, 2000, NULL);
++
++    for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
++        if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
++            d->wmask[i] = 0;
++        }
++    }
++}
++
++static void vt8231_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = vt8231_realize;
++    k->config_write = vt8231_write_config;
++    k->vendor_id = PCI_VENDOR_ID_VIA;
++    k->device_id = PCI_DEVICE_ID_VIA_8231_ISA;
++    k->class_id = PCI_CLASS_BRIDGE_ISA;
++    k->revision = 0x10;
++    dc->reset = vt8231_isa_reset;
++    dc->desc = "ISA bridge";
++    dc->vmsd = &vmstate_via;
++    /* Reason: part of VIA VT8231 southbridge, needs to be wired up */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo vt8231_isa_info = {
++    .name          = TYPE_VT8231_ISA,
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt8231_class_init,
++};
++
+ 
+ static void vt82c686b_register_types(void)
+ {
+@@ -651,6 +734,7 @@ static void vt82c686b_register_types(void)
+     type_register_static(&vt8231_superio_info);
+     type_register_static(&via_isa_info);
+     type_register_static(&vt82c686b_isa_info);
++    type_register_static(&vt8231_isa_info);
+ }
+ 
+ type_init(vt82c686b_register_types)
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 0692b9a527..0f01aaa471 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,6 +3,7 @@
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_PM "vt82c686b-pm"
++#define TYPE_VT8231_ISA "vt8231-isa"
+ #define TYPE_VT8231_PM "vt8231-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index aa3f67eaa4..ac0c23ebc7 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -210,6 +210,7 @@
+ #define PCI_DEVICE_ID_VIA_82C686B_PM     0x3057
+ #define PCI_DEVICE_ID_VIA_AC97           0x3058
+ #define PCI_DEVICE_ID_VIA_MC97           0x3068
++#define PCI_DEVICE_ID_VIA_8231_ISA       0x8231
+ #define PCI_DEVICE_ID_VIA_8231_PM        0x8235
+ 
+ #define PCI_VENDOR_ID_MARVELL            0x11ab
 -- 
 2.21.4
 
