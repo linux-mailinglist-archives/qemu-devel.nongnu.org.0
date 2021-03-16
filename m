@@ -2,52 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD9733D3CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:27:40 +0100 (CET)
-Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C597E33D3D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:28:13 +0100 (CET)
+Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM8nT-0003Qt-Bl
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
+	id 1lM8nz-00041j-2A
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lM8kx-0001q8-Qg; Tue, 16 Mar 2021 08:25:03 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:54999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lM8kv-00068d-Oy; Tue, 16 Mar 2021 08:25:03 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 27F1674639B;
- Tue, 16 Mar 2021 13:25:00 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F0C5D74639E; Tue, 16 Mar 2021 13:24:59 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id EEB80746396;
- Tue, 16 Mar 2021 13:24:59 +0100 (CET)
-Date: Tue, 16 Mar 2021 13:24:59 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v7 0/8] Pegasos2 emulation
-In-Reply-To: <4ce33c11-af3c-4a18-fccb-9c9bdb2b26c2@vivier.eu>
-Message-ID: <ea5f6f28-3be1-6a80-7b8a-c3563baec061@eik.bme.hu>
-References: <cover.1615345138.git.balaton@eik.bme.hu>
- <85548594-aaa1-8d3a-cedf-d2dd92f05028@eik.bme.hu>
- <b6bda254-ac3-d271-3e1b-bf73e4282e9b@eik.bme.hu>
- <d6d7d87b-7c7d-69e8-a7f4-e6611a4096ea@vivier.eu>
- <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
- <4ce33c11-af3c-4a18-fccb-9c9bdb2b26c2@vivier.eu>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lM8l8-0002BS-MC
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:25:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lM8l5-0006Fq-SQ
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:25:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615897511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EkNumiPDKeg76zYImKx6qX0AuvHLWBb+x2FrL/FG3EQ=;
+ b=MfdVNSgqQ6psrTXbfJY+ZmcV2tO59nNHbaH5m5E/Cm9zl4RMv160HuUGcWgCBKK1XukvkO
+ Ir9gOn+yQfKLXwQg0gZFnyLNTUAmUuIIpmM9kf8sP1sV9GBoxghdeusUitN4dmR+yTBnQu
+ /iRYwKe5Of7F5DR4L5tzxI48Fu1jqdo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-BKeZn5jCPMqIBLaDWCSglA-1; Tue, 16 Mar 2021 08:25:06 -0400
+X-MC-Unique: BKeZn5jCPMqIBLaDWCSglA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D25F51084C9D;
+ Tue, 16 Mar 2021 12:25:05 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-92.ams2.redhat.com
+ [10.36.115.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70A635C6DF;
+ Tue, 16 Mar 2021 12:25:04 +0000 (UTC)
+Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-7-vsementsov@virtuozzo.com>
+ <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
+ <d5acfe9d-2095-a601-20b7-bd0b677df68a@virtuozzo.com>
+ <6056196d-a0cc-7de2-5d6f-b223fdee98ff@redhat.com>
+ <7fb10a80-8001-966d-533e-3f74c739571a@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <cec9f2d3-af82-1de2-2ddf-be1b9dde73f9@redhat.com>
+Date: Tue, 16 Mar 2021 13:25:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-497302221-1615897499=:85087"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7fb10a80-8001-966d-533e-3f74c739571a@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,79 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 15.03.21 15:40, Vladimir Sementsov-Ogievskiy wrote:
+> 15.03.2021 12:58, Max Reitz wrote:
 
---3866299591-497302221-1615897499=:85087
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+[...]
 
-On Tue, 16 Mar 2021, Laurent Vivier wrote:
-> Le 16/03/2021 à 12:49, Philippe Mathieu-Daudé a écrit :
->> On 3/16/21 10:01 AM, Laurent Vivier wrote:
->>> Le 15/03/2021 à 13:33, BALATON Zoltan a écrit :
->>>> On Sat, 13 Mar 2021, BALATON Zoltan wrote:
->>>>> On Wed, 10 Mar 2021, BALATON Zoltan wrote:
->>>>>> Hello,
->>>>>
->>>>> I've started posting this series well in advance to get it into 6.0 and yet it seems like it may
->>>>> be missing it due to organisational issues (no real complaints were found with patches but
->>>>> Philippe seems to like more review that does not seem to happen as nobody is interested). Looks
->>>>> like David is waiting for an ack from Philippe but will be away next week so if this is not
->>>>> resolved now it may be too late on Monday. To avoid that:
->>>>>
->>>>> David, could you please send an ack before you leave for the last two patches so it could get
->>>>> committed via some other tree while you're away?
->>>>>
->>>>> Philippe, if you can't ack the vt82c686 patches now are you OK with taking the whole series via
->>>>> your tree before the freeze? That would give you some more days to review and it could always be
->>>>> reverted during the freeze but if it's not merged now I'll have to wait until the summer to get it
->>>>> in again which would be another long delay. I don't think this will get more reviews unless it's
->>>>> in master and people can start using and testing it better.
->>>>
->>>> Hello,
->>>>
->>>> Since David seems to be away for this week before seeing my mail asking for an ack from him, now
->>>> this can only get in by Philippe or Peter. (David said before he'd be OK with the series if Philippe
->>>> acked it so I think that can count as an implicit ack and it could always be reverted before the
->>>> releease.)
->>>>
->>>> Philippe, do you have anything against this to get merged now? If not please send a pull or ack it
->>>> so it has a chance to be in 6.0 or tell if you still intend to do anything about it before the
->>>> freeze. This series was on the list since January and the remaining parts you did not take are here
->>>> since February 22nd and the version after your first review since two weeks so it would be nice to
->>>> sort this out and not block it any further without a good reason.
->>>
->>> Pegasos looks like a New World PowerMac, so perhaps Mark can help?
+>> The question is whether it really makes sense to even have a 
+>> seqcache_read() path when in reality it’s probably never accessed.  I 
+>> mean, besides the fact that it seems based purely on chance whether a 
+>> read might fetch something from the cache even while we’re writing, in 
+>> practice I don’t know any case where we’d write to and read from a 
+>> compressed qcow2 image at the same time.  (I don’t know what you’re 
+>> doing with the 'compress' filter, though.)
 >>
->> The PPC part is mostly reviewed. The problem is the first patch:
->> "vt82c686: Implement control of serial port io ranges via config regs".
->
-> vt82c686.c is a Fuloong 2E file, why Fuloong 2E maintainers are not involved in the review?
+> 
+> Note, that for user that's not a parallel write and read to the same 
+> cluster:
+> 
+> 1. user writes cluster A, request succeeded, data is in the cache
+> 
+> 2. user writes some other clusters, cache filled, flush started
+> 
+> 3. in parallel to [2] user reads cluster A. From the POV of user, 
+> cluster A is written already, and should be read successfully
 
-Philippe is MIPS maintainer and he was involved and reviewed most patches. 
-Huacai did not respond much and Jiaxun's email adress is constantly 
-stripped by the list so whenrver I add him it will be lost the next time. 
-He seems to be more interested in Fuloong 3 anyway so did not respond much 
-either.
+Yes, but when would that happen?
 
-All in all I think there's just not enough interest in these 
-machines/devices so my stance is that if it does not break anything just 
-take it now and then we'll have enough time for further review, fixing or 
-reverting during the freeze. Whereas if this is kept pushing back then 
-nothing will happen with them for the next 2-3 months then we'll be back 
-to here and miss the next release as well.
+> And seqcache_read() gives a simple non-blocking way to support read 
+> operation.
 
-Regards,
-BALATON Zoltan
---3866299591-497302221-1615897499=:85087--
+OK, that makes sense.  We’d need to flush the cache before we can read 
+anything from the disk, so we should have a read-from-cache branch here.
+
+> But rewriting compressed clusters is sensible only when we run real 
+> guest on compressed image.. Can it be helpful? Maybe for scenarios with 
+> low disk usage ratio..
+
+I’m not sure, but the point is that rewrites are currently not 
+supported.  The whole compression implementation is mainly tailored 
+towards just writing a complete image (e.g. by qemu-img convert or the 
+backup job), so that’s where my question is coming from: It’s difficult 
+for me to see a currently working use case where you’d read from and 
+write to a compressed image at the same time.
+
+Max
+
 
