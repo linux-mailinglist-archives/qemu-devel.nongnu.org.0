@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BEC33DE59
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 21:03:05 +0100 (CET)
-Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A116233DE64
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 21:06:34 +0100 (CET)
+Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMFuC-00047s-GO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 16:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
+	id 1lMFxZ-0006ua-F5
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 16:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMFIM-0000F6-Qa
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 15:23:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33094)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMFIJ-0002Oz-KJ
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 15:23:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615922635;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SlMTUPrOBJt6W7zT6auXBeMCGFW+KREBVSKiFujd//w=;
- b=FoPkc7m56/TyAli3PWn/hWFg5uRu4YQyllczG3FG5TBa4QSJU9GLMs9LdMWixKjHu4v4SB
- UXBKSsyyHW/idjZlKBHdxUbOFN3TF5puejht8vIrSOAh1/Joj434pGSEvSya7o1NiAsrqk
- QUm0RuV5b6HU3TVzgIC2zzgm3qZCNCA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-sAK9irYCNFGoClzzhNxoTw-1; Tue, 16 Mar 2021 15:23:52 -0400
-X-MC-Unique: sAK9irYCNFGoClzzhNxoTw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03483107B004;
- Tue, 16 Mar 2021 19:23:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
- [10.3.112.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A8D160C0F;
- Tue, 16 Mar 2021 19:23:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3D187114200B; Tue, 16 Mar 2021 20:23:47 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 5/6] hw: Replace anti-social QOM type names
-Date: Tue, 16 Mar 2021 20:23:46 +0100
-Message-Id: <20210316192347.3918857-6-armbru@redhat.com>
-In-Reply-To: <20210316192347.3918857-1-armbru@redhat.com>
-References: <20210316192347.3918857-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lMFdg-0000iZ-Dw; Tue, 16 Mar 2021 15:46:00 -0400
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:32775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lMFdb-0003c1-FK; Tue, 16 Mar 2021 15:46:00 -0400
+Received: by mail-il1-x132.google.com with SMTP id r7so13867943ilb.0;
+ Tue, 16 Mar 2021 12:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ROCoQ6gv1iyqdAHy/Yd4XrPuV46wceGBrULURkcjZTI=;
+ b=vCs+GtULIwAM9fOSwjVmJn4CfOAF+98U9A4Ryq7K2BnCi4zrtlU7aASh91lIC4R2HJ
+ X8X2MR7yMwFehDNtOWV9WJiqJTLa9Xsu6rdH1LwQIUV6a5dikd3IvaB/xQ6nxBPlBG+A
+ wedKdzxpYUJMl2IVMWngdLKSEFiDtCXyRmYHHXz2zK51AXpMS0P1sikPzevMnVvma0pA
+ 2eSU7pxHzQUaxaEK/aDQYaerzBkgEARAVowYeqA4jD4u43/oQVrNHFvUWebArECiiami
+ +UjuOdMj1/4qiRvfy8g4v2x7Di8fgayjNdcRkRHdRl2ocu42yXbN/0mCchK4N+EGAuO7
+ 9gKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ROCoQ6gv1iyqdAHy/Yd4XrPuV46wceGBrULURkcjZTI=;
+ b=MC6RKPmQjVZ73gH8aetA72fa9XEPmJ+701BWnK3bbcgxAkX6cXtghghovLLUmKVyiY
+ RTKa1RgdYgmWfQscp0OyowV4MG7rFjKDpE5DsioZAEEWHXURvIPLwDIZWW1iIEbmPBhW
+ hgU6pDqKlqf+6QdjvYxyZh7A/oA7iXE3yjannMmdhXHxzlks9NTBt65Nz7Cnnc//61HT
+ +1D0DSajqZN07LQmVMGZYAOv0Rx6xLIbo0qJeyDWAepYIaaLMGwpUyskJ486tqJ4dPhW
+ Z99l6qvOJ1j8N21eDKQ4ONrc6txmCy+Ajvbp3aaVo3Qf6V0JXJ9i/FJJhx6H7oKVivyU
+ iUwA==
+X-Gm-Message-State: AOAM532SDqoI3LvyKW5dhm5DhQrNhOG5iCIISbzIeFseDiaK03qMQfdO
+ U0IEgxbCzAM54OLNZWDVMp4BaxCMKWt0+LXzWNw=
+X-Google-Smtp-Source: ABdhPJziY3wyjziS5LKVLxeOTT46f3da+imkqXxlW78pJOIA2ZuOYJ1boCJ/OtXmHY0KChK1YJ3sOySA7CdBDzZupbU=
+X-Received: by 2002:a05:6e02:1748:: with SMTP id
+ y8mr4899280ill.131.1615923953862; 
+ Tue, 16 Mar 2021 12:45:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <20210212150256.885-21-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210212150256.885-21-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 16 Mar 2021 15:44:17 -0400
+Message-ID: <CAKmqyKMDsJ8z6btDz9EsKnXN4sigGy_e1sg6=UUQizu+oNi=2A@mail.gmail.com>
+Subject: Re: [PATCH 20/38] target/riscv: Partial-SIMD Miscellaneous
+ Instructions
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,519 +78,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several QOM type names contain ',':
+On Fri, Feb 12, 2021 at 10:44 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-    ARM,bitband-memory
-    etraxfs,pic
-    etraxfs,serial
-    etraxfs,timer
-    fsl,imx25
-    fsl,imx31
-    fsl,imx6
-    fsl,imx6ul
-    fsl,imx7
-    grlib,ahbpnp
-    grlib,apbpnp
-    grlib,apbuart
-    grlib,gptimer
-    grlib,irqmp
-    qemu,register
-    SUNW,bpp
-    SUNW,CS4231
-    SUNW,DBRI
-    SUNW,DBRI.prom
-    SUNW,fdtwo
-    SUNW,sx
-    SUNW,tcx
-    xilinx,zynq_slcr
-    xlnx,zynqmp
-    xlnx,zynqmp-pmu-soc
-    xlnx,zynq-xadc
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-These are all device types.  They can't be plugged with -device /
-device_add, except for xlnx,zynqmp-pmu-soc, and I doubt that one
-actually works.
+Alistair
 
-They *can* be used with -device / device_add to request help.
-Usability is poor, though: you have to double the comma, like this:
-
-    $ qemu-system-x86_64 -device SUNW,,fdtwo,help
-
-Trap for the unwary.  The fact that this was broken in
-device-introspect-test for more than six years until commit e27bd49876
-fixed it demonstrates that "the unwary" includes seasoned developers.
-
-One QOM type name contains ' ': "ICH9 SMB".  Because having to
-remember just one way to quote would be too easy.
-
-Rename the "SUNW,FOO types to "sun-FOO".  Summarily replace ',' and '
-' by '-' in the other type names.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210304140229.575481-2-armbru@redhat.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/hw/arm/armv7m.h                      |  2 +-
- include/hw/arm/fsl-imx25.h                   |  2 +-
- include/hw/arm/fsl-imx31.h                   |  2 +-
- include/hw/arm/fsl-imx6.h                    |  2 +-
- include/hw/arm/fsl-imx6ul.h                  |  2 +-
- include/hw/arm/fsl-imx7.h                    |  2 +-
- include/hw/arm/xlnx-zynqmp.h                 |  2 +-
- include/hw/cris/etraxfs.h                    |  2 +-
- include/hw/i386/ich9.h                       |  2 +-
- include/hw/misc/grlib_ahb_apb_pnp.h          |  4 ++--
- include/hw/misc/zynq-xadc.h                  |  2 +-
- include/hw/register.h                        |  2 +-
- include/hw/sparc/grlib.h                     |  6 +++---
- hw/arm/xilinx_zynq.c                         |  2 +-
- hw/audio/cs4231.c                            |  2 +-
- hw/block/fdc.c                               |  4 ++--
- hw/char/etraxfs_ser.c                        |  2 +-
- hw/cris/axis_dev88.c                         |  6 +++---
- hw/display/tcx.c                             |  2 +-
- hw/intc/etraxfs_pic.c                        |  2 +-
- hw/microblaze/xlnx-zynqmp-pmu.c              |  2 +-
- hw/misc/zynq_slcr.c                          |  2 +-
- hw/sparc/sun4m.c                             | 12 ++++++------
- hw/timer/etraxfs_timer.c                     |  2 +-
- softmmu/vl.c                                 |  2 +-
- tests/vmstate-static-checker-data/dump1.json |  4 ++--
- tests/vmstate-static-checker-data/dump2.json |  4 ++--
- 27 files changed, 40 insertions(+), 40 deletions(-)
-
-diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
-index 0791dcb68a..189b23a8ce 100644
---- a/include/hw/arm/armv7m.h
-+++ b/include/hw/arm/armv7m.h
-@@ -15,7 +15,7 @@
- #include "target/arm/idau.h"
- #include "qom/object.h"
- 
--#define TYPE_BITBAND "ARM,bitband-memory"
-+#define TYPE_BITBAND "ARM-bitband-memory"
- OBJECT_DECLARE_SIMPLE_TYPE(BitBandState, BITBAND)
- 
- struct BitBandState {
-diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
-index c1603b2ac2..1b1086e945 100644
---- a/include/hw/arm/fsl-imx25.h
-+++ b/include/hw/arm/fsl-imx25.h
-@@ -34,7 +34,7 @@
- #include "target/arm/cpu.h"
- #include "qom/object.h"
- 
--#define TYPE_FSL_IMX25 "fsl,imx25"
-+#define TYPE_FSL_IMX25 "fsl-imx25"
- OBJECT_DECLARE_SIMPLE_TYPE(FslIMX25State, FSL_IMX25)
- 
- #define FSL_IMX25_NUM_UARTS 5
-diff --git a/include/hw/arm/fsl-imx31.h b/include/hw/arm/fsl-imx31.h
-index b9792d58ae..c116a73e0b 100644
---- a/include/hw/arm/fsl-imx31.h
-+++ b/include/hw/arm/fsl-imx31.h
-@@ -30,7 +30,7 @@
- #include "target/arm/cpu.h"
- #include "qom/object.h"
- 
--#define TYPE_FSL_IMX31 "fsl,imx31"
-+#define TYPE_FSL_IMX31 "fsl-imx31"
- OBJECT_DECLARE_SIMPLE_TYPE(FslIMX31State, FSL_IMX31)
- 
- #define FSL_IMX31_NUM_UARTS 2
-diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
-index 29cc425acc..83291457cf 100644
---- a/include/hw/arm/fsl-imx6.h
-+++ b/include/hw/arm/fsl-imx6.h
-@@ -36,7 +36,7 @@
- #include "cpu.h"
- #include "qom/object.h"
- 
--#define TYPE_FSL_IMX6 "fsl,imx6"
-+#define TYPE_FSL_IMX6 "fsl-imx6"
- OBJECT_DECLARE_SIMPLE_TYPE(FslIMX6State, FSL_IMX6)
- 
- #define FSL_IMX6_NUM_CPUS 4
-diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-index f8ebfba4f9..7812e516a5 100644
---- a/include/hw/arm/fsl-imx6ul.h
-+++ b/include/hw/arm/fsl-imx6ul.h
-@@ -40,7 +40,7 @@
- #include "cpu.h"
- #include "qom/object.h"
- 
--#define TYPE_FSL_IMX6UL "fsl,imx6ul"
-+#define TYPE_FSL_IMX6UL "fsl-imx6ul"
- OBJECT_DECLARE_SIMPLE_TYPE(FslIMX6ULState, FSL_IMX6UL)
- 
- enum FslIMX6ULConfiguration {
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 161fdc36da..f5d527a490 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -41,7 +41,7 @@
- #include "cpu.h"
- #include "qom/object.h"
- 
--#define TYPE_FSL_IMX7 "fsl,imx7"
-+#define TYPE_FSL_IMX7 "fsl-imx7"
- OBJECT_DECLARE_SIMPLE_TYPE(FslIMX7State, FSL_IMX7)
- 
- enum FslIMX7Configuration {
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 1676a84ec8..d3e2ef97f6 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -37,7 +37,7 @@
- #include "net/can_emu.h"
- #include "hw/dma/xlnx_csu_dma.h"
- 
--#define TYPE_XLNX_ZYNQMP "xlnx,zynqmp"
-+#define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
- OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
- 
- #define XLNX_ZYNQMP_NUM_APU_CPUS 4
-diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
-index 9e99380e0c..8b01ed67d3 100644
---- a/include/hw/cris/etraxfs.h
-+++ b/include/hw/cris/etraxfs.h
-@@ -41,7 +41,7 @@ static inline DeviceState *etraxfs_ser_create(hwaddr addr,
-     DeviceState *dev;
-     SysBusDevice *s;
- 
--    dev = qdev_new("etraxfs,serial");
-+    dev = qdev_new("etraxfs-serial");
-     s = SYS_BUS_DEVICE(dev);
-     qdev_prop_set_chr(dev, "chardev", chr);
-     sysbus_realize_and_unref(s, &error_fatal);
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index d1ea000d3d..23ee8e371b 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -216,7 +216,7 @@ struct ICH9LPCState {
- 
- 
- /* D31:F3 SMBus controller */
--#define TYPE_ICH9_SMB_DEVICE "ICH9 SMB"
-+#define TYPE_ICH9_SMB_DEVICE "ICH9-SMB"
- 
- #define ICH9_A2_SMB_REVISION                    0x02
- #define ICH9_SMB_PI                             0x00
-diff --git a/include/hw/misc/grlib_ahb_apb_pnp.h b/include/hw/misc/grlib_ahb_apb_pnp.h
-index 341451bff6..bab0b5f47f 100644
---- a/include/hw/misc/grlib_ahb_apb_pnp.h
-+++ b/include/hw/misc/grlib_ahb_apb_pnp.h
-@@ -25,10 +25,10 @@
- #define GRLIB_AHB_APB_PNP_H
- #include "qom/object.h"
- 
--#define TYPE_GRLIB_AHB_PNP "grlib,ahbpnp"
-+#define TYPE_GRLIB_AHB_PNP "grlib-ahbpnp"
- OBJECT_DECLARE_SIMPLE_TYPE(AHBPnp, GRLIB_AHB_PNP)
- 
--#define TYPE_GRLIB_APB_PNP "grlib,apbpnp"
-+#define TYPE_GRLIB_APB_PNP "grlib-apbpnp"
- OBJECT_DECLARE_SIMPLE_TYPE(APBPnp, GRLIB_APB_PNP)
- 
- void grlib_ahb_pnp_add_entry(AHBPnp *dev, uint32_t address, uint32_t mask,
-diff --git a/include/hw/misc/zynq-xadc.h b/include/hw/misc/zynq-xadc.h
-index 602bfb4ab1..2017b7a803 100644
---- a/include/hw/misc/zynq-xadc.h
-+++ b/include/hw/misc/zynq-xadc.h
-@@ -23,7 +23,7 @@
- #define ZYNQ_XADC_NUM_ADC_REGS  128
- #define ZYNQ_XADC_FIFO_DEPTH    15
- 
--#define TYPE_ZYNQ_XADC          "xlnx,zynq-xadc"
-+#define TYPE_ZYNQ_XADC          "xlnx-zynq-xadc"
- OBJECT_DECLARE_SIMPLE_TYPE(ZynqXADCState, ZYNQ_XADC)
- 
- struct ZynqXADCState {
-diff --git a/include/hw/register.h b/include/hw/register.h
-index 03c8926d27..b480e3882c 100644
---- a/include/hw/register.h
-+++ b/include/hw/register.h
-@@ -87,7 +87,7 @@ struct RegisterInfo {
-     void *opaque;
- };
- 
--#define TYPE_REGISTER "qemu,register"
-+#define TYPE_REGISTER "qemu-register"
- DECLARE_INSTANCE_CHECKER(RegisterInfo, REGISTER,
-                          TYPE_REGISTER)
- 
-diff --git a/include/hw/sparc/grlib.h b/include/hw/sparc/grlib.h
-index 2104f493f3..ef1946c7f8 100644
---- a/include/hw/sparc/grlib.h
-+++ b/include/hw/sparc/grlib.h
-@@ -32,14 +32,14 @@
-  */
- 
- /* IRQMP */
--#define TYPE_GRLIB_IRQMP "grlib,irqmp"
-+#define TYPE_GRLIB_IRQMP "grlib-irqmp"
- 
- void grlib_irqmp_ack(DeviceState *dev, int intno);
- 
- /* GPTimer */
--#define TYPE_GRLIB_GPTIMER "grlib,gptimer"
-+#define TYPE_GRLIB_GPTIMER "grlib-gptimer"
- 
- /* APB UART */
--#define TYPE_GRLIB_APB_UART "grlib,apbuart"
-+#define TYPE_GRLIB_APB_UART "grlib-apbuart"
- 
- #endif /* GRLIB_H */
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index b72772bc82..8db6cfd47f 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -231,7 +231,7 @@ static void zynq_init(MachineState *machine)
-     clock_set_hz(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
- 
-     /* Create slcr, keep a pointer to connect clocks */
--    slcr = qdev_new("xilinx,zynq_slcr");
-+    slcr = qdev_new("xilinx-zynq_slcr");
-     qdev_connect_clock_in(slcr, "ps_clk", zynq_machine->ps_clk);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(slcr), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
-diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
-index 209c05a0a0..aefc3edea1 100644
---- a/hw/audio/cs4231.c
-+++ b/hw/audio/cs4231.c
-@@ -37,7 +37,7 @@
- #define CS_DREGS 32
- #define CS_MAXDREG (CS_DREGS - 1)
- 
--#define TYPE_CS4231 "SUNW,CS4231"
-+#define TYPE_CS4231 "sun-CS4231"
- typedef struct CSState CSState;
- DECLARE_INSTANCE_CHECKER(CSState, CS4231,
-                          TYPE_CS4231)
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 32701c2bc5..82afda7f3a 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -2537,7 +2537,7 @@ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
-     DeviceState *dev;
-     FDCtrlSysBus *sys;
- 
--    dev = qdev_new("SUNW,fdtwo");
-+    dev = qdev_new("sun-fdtwo");
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sys = SYSBUS_FDC(dev);
-     sysbus_connect_irq(SYS_BUS_DEVICE(sys), 0, irq);
-@@ -2933,7 +2933,7 @@ static void sun4m_fdc_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo sun4m_fdc_info = {
--    .name          = "SUNW,fdtwo",
-+    .name          = "sun-fdtwo",
-     .parent        = TYPE_SYSBUS_FDC,
-     .instance_init = sun4m_fdc_initfn,
-     .class_init    = sun4m_fdc_class_init,
-diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
-index 6bee3ee18e..e8c3017724 100644
---- a/hw/char/etraxfs_ser.c
-+++ b/hw/char/etraxfs_ser.c
-@@ -50,7 +50,7 @@
- #define STAT_TR_IDLE 22
- #define STAT_TR_RDY  24
- 
--#define TYPE_ETRAX_FS_SERIAL "etraxfs,serial"
-+#define TYPE_ETRAX_FS_SERIAL "etraxfs-serial"
- typedef struct ETRAXSerial ETRAXSerial;
- DECLARE_INSTANCE_CHECKER(ETRAXSerial, ETRAX_SERIAL,
-                          TYPE_ETRAX_FS_SERIAL)
-diff --git a/hw/cris/axis_dev88.c b/hw/cris/axis_dev88.c
-index b0cb6d84af..af5a0e3517 100644
---- a/hw/cris/axis_dev88.c
-+++ b/hw/cris/axis_dev88.c
-@@ -289,7 +289,7 @@ void axisdev88_init(MachineState *machine)
-                                 &gpio_state.iomem);
- 
- 
--    dev = qdev_new("etraxfs,pic");
-+    dev = qdev_new("etraxfs-pic");
-     s = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(s, &error_fatal);
-     sysbus_mmio_map(s, 0, 0x3001c000);
-@@ -323,8 +323,8 @@ void axisdev88_init(MachineState *machine)
-     }
- 
-     /* 2 timers.  */
--    sysbus_create_varargs("etraxfs,timer", 0x3001e000, irq[0x1b], nmi[1], NULL);
--    sysbus_create_varargs("etraxfs,timer", 0x3005e000, irq[0x1b], nmi[1], NULL);
-+    sysbus_create_varargs("etraxfs-timer", 0x3001e000, irq[0x1b], nmi[1], NULL);
-+    sysbus_create_varargs("etraxfs-timer", 0x3005e000, irq[0x1b], nmi[1], NULL);
- 
-     for (i = 0; i < 4; i++) {
-         etraxfs_ser_create(0x30026000 + i * 0x2000, irq[0x14 + i], serial_hd(i));
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index d3db304657..d4d09d0df8 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -56,7 +56,7 @@
- #define TCX_THC_CURSMASK 0x900
- #define TCX_THC_CURSBITS 0x980
- 
--#define TYPE_TCX "SUNW,tcx"
-+#define TYPE_TCX "sun-tcx"
- OBJECT_DECLARE_SIMPLE_TYPE(TCXState, TCX)
- 
- struct TCXState {
-diff --git a/hw/intc/etraxfs_pic.c b/hw/intc/etraxfs_pic.c
-index 54ed4c77f7..bd37d1cca0 100644
---- a/hw/intc/etraxfs_pic.c
-+++ b/hw/intc/etraxfs_pic.c
-@@ -38,7 +38,7 @@
- #define R_R_GURU    4
- #define R_MAX       5
- 
--#define TYPE_ETRAX_FS_PIC "etraxfs,pic"
-+#define TYPE_ETRAX_FS_PIC "etraxfs-pic"
- DECLARE_INSTANCE_CHECKER(struct etrax_pic, ETRAX_FS_PIC,
-                          TYPE_ETRAX_FS_PIC)
- 
-diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
-index 1d1b4b5c19..5a2016672a 100644
---- a/hw/microblaze/xlnx-zynqmp-pmu.c
-+++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-@@ -28,7 +28,7 @@
- 
- /* Define the PMU device */
- 
--#define TYPE_XLNX_ZYNQMP_PMU_SOC "xlnx,zynqmp-pmu-soc"
-+#define TYPE_XLNX_ZYNQMP_PMU_SOC "xlnx-zynqmp-pmu-soc"
- OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPPMUSoCState, XLNX_ZYNQMP_PMU_SOC)
- 
- #define XLNX_ZYNQMP_PMU_ROM_SIZE    0x8000
-diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-index c66d7db177..5086e6b7ed 100644
---- a/hw/misc/zynq_slcr.c
-+++ b/hw/misc/zynq_slcr.c
-@@ -182,7 +182,7 @@ REG32(DDRIOB, 0xb40)
- #define ZYNQ_SLCR_MMIO_SIZE     0x1000
- #define ZYNQ_SLCR_NUM_REGS      (ZYNQ_SLCR_MMIO_SIZE / 4)
- 
--#define TYPE_ZYNQ_SLCR "xilinx,zynq_slcr"
-+#define TYPE_ZYNQ_SLCR "xilinx-zynq_slcr"
- OBJECT_DECLARE_SIMPLE_TYPE(ZynqSLCRState, ZYNQ_SLCR)
- 
- struct ZynqSLCRState {
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 312e2afaf9..1a00816d9a 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -496,7 +496,7 @@ static void tcx_init(hwaddr addr, qemu_irq irq, int vram_size, int width,
-     DeviceState *dev;
-     SysBusDevice *s;
- 
--    dev = qdev_new("SUNW,tcx");
-+    dev = qdev_new("sun-tcx");
-     qdev_prop_set_uint32(dev, "vram_size", vram_size);
-     qdev_prop_set_uint16(dev, "width", width);
-     qdev_prop_set_uint16(dev, "height", height);
-@@ -970,7 +970,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
-     }
- 
-     if (hwdef->sx_base) {
--        create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
-+        create_unimplemented_device("sun-sx", hwdef->sx_base, 0x2000);
-     }
- 
-     dev = qdev_new("sysbus-m48t08");
-@@ -1045,23 +1045,23 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
-                      slavio_irq[30], fdc_tc);
- 
-     if (hwdef->cs_base) {
--        sysbus_create_simple("SUNW,CS4231", hwdef->cs_base,
-+        sysbus_create_simple("sun-CS4231", hwdef->cs_base,
-                              slavio_irq[5]);
-     }
- 
-     if (hwdef->dbri_base) {
-         /* ISDN chip with attached CS4215 audio codec */
-         /* prom space */
--        create_unimplemented_device("SUNW,DBRI.prom",
-+        create_unimplemented_device("sun-DBRI.prom",
-                                     hwdef->dbri_base + 0x1000, 0x30);
-         /* reg space */
--        create_unimplemented_device("SUNW,DBRI",
-+        create_unimplemented_device("sun-DBRI",
-                                     hwdef->dbri_base + 0x10000, 0x100);
-     }
- 
-     if (hwdef->bpp_base) {
-         /* parallel port */
--        create_unimplemented_device("SUNW,bpp", hwdef->bpp_base, 0x20);
-+        create_unimplemented_device("sun-bpp", hwdef->bpp_base, 0x20);
-     }
- 
-     initrd_size = 0;
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 48f2e3ade2..5379006086 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -48,7 +48,7 @@
- #define R_INTR        0x50
- #define R_MASKED_INTR 0x54
- 
--#define TYPE_ETRAX_FS_TIMER "etraxfs,timer"
-+#define TYPE_ETRAX_FS_TIMER "etraxfs-timer"
- typedef struct ETRAXTimerState ETRAXTimerState;
- DECLARE_INSTANCE_CHECKER(ETRAXTimerState, ETRAX_TIMER,
-                          TYPE_ETRAX_FS_TIMER)
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 1be618655b..2329f16571 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -918,7 +918,7 @@ static const VGAInterfaceInfo vga_interfaces[VGA_TYPE_MAX] = {
-     [VGA_TCX] = {
-         .opt_name = "tcx",
-         .name = "TCX framebuffer",
--        .class_names = { "SUNW,tcx" },
-+        .class_names = { "sun-tcx" },
-     },
-     [VGA_CG3] = {
-         .opt_name = "cg3",
-diff --git a/tests/vmstate-static-checker-data/dump1.json b/tests/vmstate-static-checker-data/dump1.json
-index 786ca0b484..334ec07963 100644
---- a/tests/vmstate-static-checker-data/dump1.json
-+++ b/tests/vmstate-static-checker-data/dump1.json
-@@ -823,8 +823,8 @@
-       ]
-     }
-   },
--  "SUNW,fdtwo": {
--    "Name": "SUNW,fdtwo",
-+  "sun-fdtwo": {
-+    "Name": "sun-fdtwo",
-     "version_id": 2,
-     "minimum_version_id": 2,
-     "Description": {
-diff --git a/tests/vmstate-static-checker-data/dump2.json b/tests/vmstate-static-checker-data/dump2.json
-index 75719f5ec9..7184e9ccbb 100644
---- a/tests/vmstate-static-checker-data/dump2.json
-+++ b/tests/vmstate-static-checker-data/dump2.json
-@@ -628,8 +628,8 @@
-       ]
-     }
-   },
--  "SUNW,fdtwo": {
--    "Name": "SUNW,fdtwo",
-+  "sun-fdtwo": {
-+    "Name": "sun-fdtwo",
-     "version_id": 2,
-     "minimum_version_id": 2,
-     "Description": {
--- 
-2.26.2
-
+> ---
+>  target/riscv/helper.h                   |  8 +++
+>  target/riscv/insn32-64.decode           |  4 --
+>  target/riscv/insn32.decode              | 10 ++++
+>  target/riscv/insn_trans/trans_rvp.c.inc |  9 +++
+>  target/riscv/packed_helper.c            | 75 +++++++++++++++++++++++++
+>  5 files changed, 102 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 2511134610..7c3a0654d6 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -1315,3 +1315,11 @@ DEF_HELPER_4(kmsda, tl, env, tl, tl, tl)
+>  DEF_HELPER_4(kmsxda, tl, env, tl, tl, tl)
+>
+>  DEF_HELPER_3(smal, i64, env, i64, tl)
+> +
+> +DEF_HELPER_3(sclip32, tl, env, tl, tl)
+> +DEF_HELPER_3(uclip32, tl, env, tl, tl)
+> +DEF_HELPER_2(clrs32, tl, env, tl)
+> +DEF_HELPER_2(clz32, tl, env, tl)
+> +DEF_HELPER_2(clo32, tl, env, tl)
+> +DEF_HELPER_3(pbsad, tl, env, tl, tl)
+> +DEF_HELPER_4(pbsada, tl, env, tl, tl, tl)
+> diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
+> index 8157dee8b7..1094172210 100644
+> --- a/target/riscv/insn32-64.decode
+> +++ b/target/riscv/insn32-64.decode
+> @@ -19,10 +19,6 @@
+>  # This is concatenated with insn32.decode for risc64 targets.
+>  # Most of the fields and formats are there.
+>
+> -%sh5    20:5
+> -
+> -@sh5     .......  ..... .....  ... ..... ....... &shift  shamt=%sh5      %rs1 %rd
+> -
+>  # *** RV64I Base Instruction Set (in addition to RV32I) ***
+>  lwu      ............   ..... 110 ..... 0000011 @i
+>  ld       ............   ..... 011 ..... 0000011 @i
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index a022f660b7..12e95f9c5f 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -25,6 +25,7 @@
+>  %sh10    20:10
+>  %sh4    20:4
+>  %sh3    20:3
+> +%sh5    20:5
+>  %csr    20:12
+>  %rm     12:3
+>  %nf     29:3                     !function=ex_plus_1
+> @@ -64,6 +65,7 @@
+>  @sh      ......  ...... .....  ... ..... ....... &shift  shamt=%sh10      %rs1 %rd
+>  @sh4     ......  ...... .....  ... ..... ....... &shift  shamt=%sh4      %rs1 %rd
+>  @sh3     ......  ...... .....  ... ..... ....... &shift  shamt=%sh3      %rs1 %rd
+> +@sh5     ......  ...... .....  ... ..... ....... &shift  shamt=%sh5      %rs1 %rd
+>  @csr     ............   .....  ... ..... .......               %csr     %rs1 %rd
+>
+>  @atom_ld ..... aq:1 rl:1 ..... ........ ..... ....... &atomic rs2=0     %rs1 %rd
+> @@ -783,3 +785,11 @@ kmsda      0100110  ..... ..... 001 ..... 1111111 @r
+>  kmsxda     0100111  ..... ..... 001 ..... 1111111 @r
+>
+>  smal       0101111  ..... ..... 001 ..... 1111111 @r
+> +
+> +sclip32    1110010  ..... ..... 000 ..... 1111111 @sh5
+> +uclip32    1111010  ..... ..... 000 ..... 1111111 @sh5
+> +clrs32     1010111  11000 ..... 000 ..... 1111111 @r2
+> +clz32      1010111  11001 ..... 000 ..... 1111111 @r2
+> +clo32      1010111  11011 ..... 000 ..... 1111111 @r2
+> +pbsad      1111110  ..... ..... 000 ..... 1111111 @r
+> +pbsada     1111111  ..... ..... 000 ..... 1111111 @r
+> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
+> index 73a26bbfbd..42656682c6 100644
+> --- a/target/riscv/insn_trans/trans_rvp.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
+> @@ -656,3 +656,12 @@ static bool trans_##NAME(DisasContext *s, arg_r *a)    \
+>  }
+>
+>  GEN_RVP_R_D64_S64_OOL(smal);
+> +
+> +/* Partial-SIMD Miscellaneous Instructions */
+> +GEN_RVP_SHIFTI(sclip32, sclip32, NULL);
+> +GEN_RVP_SHIFTI(uclip32, uclip32, NULL);
+> +GEN_RVP_R2_OOL(clrs32);
+> +GEN_RVP_R2_OOL(clz32);
+> +GEN_RVP_R2_OOL(clo32);
+> +GEN_RVP_R_OOL(pbsad);
+> +GEN_RVP_R_ACC_OOL(pbsada);
+> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
+> index 8ad7ea8354..96e73c045b 100644
+> --- a/target/riscv/packed_helper.c
+> +++ b/target/riscv/packed_helper.c
+> @@ -1978,3 +1978,78 @@ uint64_t helper_smal(CPURISCVState *env, uint64_t a, target_ulong b)
+>      }
+>      return result;
+>  }
+> +
+> +/* Partial-SIMD Miscellaneous Instructions */
+> +static inline void do_sclip32(CPURISCVState *env, void *vd, void *va,
+> +                              void *vb, uint8_t i)
+> +{
+> +    int32_t *d = vd, *a = va;
+> +    uint8_t shift = *(uint8_t *)vb & 0x1f;
+> +
+> +    d[i] = sat64(env, a[i], shift);
+> +}
+> +
+> +RVPR(sclip32, 1, 4);
+> +
+> +static inline void do_uclip32(CPURISCVState *env, void *vd, void *va,
+> +                              void *vb, uint8_t i)
+> +{
+> +    int32_t *d = vd, *a = va;
+> +    uint8_t shift = *(uint8_t *)vb & 0x1f;
+> +
+> +    if (a[i] < 0) {
+> +        d[i] = 0;
+> +        env->vxsat = 0x1;
+> +    } else {
+> +        d[i] = satu64(env, a[i], shift);
+> +    }
+> +}
+> +
+> +RVPR(uclip32, 1, 4);
+> +
+> +static inline void do_clrs32(CPURISCVState *env, void *vd, void *va, uint8_t i)
+> +{
+> +    int32_t *d = vd, *a = va;
+> +    d[i] = clrsb32(a[i]);
+> +}
+> +
+> +RVPR2(clrs32, 1, 4);
+> +
+> +static inline void do_clz32(CPURISCVState *env, void *vd, void *va, uint8_t i)
+> +{
+> +    int32_t *d = vd, *a = va;
+> +    d[i] = clz32(a[i]);
+> +}
+> +
+> +RVPR2(clz32, 1, 4);
+> +
+> +static inline void do_clo32(CPURISCVState *env, void *vd, void *va, uint8_t i)
+> +{
+> +    int32_t *d = vd, *a = va;
+> +    d[i] = clo32(a[i]);
+> +}
+> +
+> +RVPR2(clo32, 1, 4);
+> +
+> +static inline void do_pbsad(CPURISCVState *env, void *vd, void *va,
+> +                            void *vb, uint8_t i)
+> +{
+> +    target_ulong *d = vd;
+> +    uint8_t *a = va, *b = vb;
+> +    *d += abs(a[i] - b[i]);
+> +}
+> +
+> +RVPR(pbsad, 1, 1);
+> +
+> +static inline void do_pbsada(CPURISCVState *env, void *vd, void *va,
+> +                             void *vb, void *vc, uint8_t i)
+> +{
+> +    target_ulong *d = vd, *c = vc;
+> +    uint8_t *a = va, *b = vb;
+> +    if (i == 0) {
+> +        *d += *c;
+> +    }
+> +    *d += abs(a[i] - b[i]);
+> +}
+> +
+> +RVPR_ACC(pbsada, 1, 1);
+> --
+> 2.17.1
+>
 
