@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EB633D5FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:44:36 +0100 (CET)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F6733D613
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:48:40 +0100 (CET)
+Received: from localhost ([::1]:53632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMAvz-0001tt-1g
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
+	id 1lMAzv-0006fO-3K
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:48:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lMAtk-0000D7-Qj; Tue, 16 Mar 2021 10:42:18 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:45257)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lMAtf-0004Qx-Cv; Tue, 16 Mar 2021 10:42:16 -0400
-Received: by mail-io1-xd33.google.com with SMTP id a7so37375410iok.12;
- Tue, 16 Mar 2021 07:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3ZI9hqrDGaCF2qFOuIrb0nvLLIXA959B0Uc2UNZBfR8=;
- b=ZeL2Hqe+XcK1qWxEVTDVETU75BL7HHHSrjd0bozda6kxDMhVocDZyVwtqGyaHd+/CZ
- 6+cEladOKjWZ/jWoy8SY5Spex422s8AW0zpYOX9Rc7aVvCC+L9qO+XF3cNxEi609VG2c
- tU1/vrHpO/OqKl4/c+YkbURPH5NSAzvPlNya2o+8kOICZn0JZDPhJAz42ar3spf0e2iO
- OwfSbLVrHWGEPv20d3V/wE+h19d1NBff+lU/318pFcognXaO9Miy4arnS1fYTEquWj4M
- 1kiPjCaI7RT4CiP1qaI4wyxZ6+IDhWkUeUuuDD6ZD9ZxNIV8RW7aQzXYmoIULu1YCLTW
- Xmvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3ZI9hqrDGaCF2qFOuIrb0nvLLIXA959B0Uc2UNZBfR8=;
- b=k/tHyxMU3vqUn6cP6j5aODNeC7eNxda/nMlabMxLeSNnMJgf5yBOV1oaFFZxa33uMn
- Nlguf66jqsu9VlmRBp05Zb/icCLL+bcNnKCJT9iaTABrzx+U4Rd6haf3D/T7BwBgMEsC
- 7F7IvvjGOfBWbFTXThK6scuS7OHQWXI1mRqnw+ko70RueqAZ2vMqrqi3V9cj1XuTYbjL
- ePbP4jJINCEITcHXWn0Yj+ewC2j8+Q9E0+wO/b8hRL5nhrudhECCCFHb2cXmjVUX49V8
- PkNbimTikbXFnDp5hI2n500J+eMhUfrce8JeOiWfuQ/GVuy8xgqW/T/tvPjrT5URiPIm
- 5ZDQ==
-X-Gm-Message-State: AOAM532nIdha7b3Ph6/hDXRZlIwKbk5zuBn0wsEza8vYGIKP45kgEtoF
- +WPAmamo2X6+YYYWehf5IdsnC2jGGyBWGHS8VltfEqC/YVM=
-X-Google-Smtp-Source: ABdhPJwu2A/waJXBotPgTcUBc4xvIWrws3ZLr9Tbm7DmxTO40ujyQxnzlwK53y3fWhJ3/7GsAcKynWgOSOPrVGAVexY=
-X-Received: by 2002:a02:cc1b:: with SMTP id n27mr14328017jap.106.1615905729642; 
- Tue, 16 Mar 2021 07:42:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMAtH-0007xi-I0
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:41:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25913)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMAtF-0004BM-TB
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:41:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615905705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wTva5Bj6uWnxCUvkQRCNaMHgi7w3X+VttkiPYgifBrQ=;
+ b=IEqrqXcLmXHaAKqJhaAzNVSj+tYHbwqaSipa9ZUZBLqeIB1AhF8TW/3yS5pnCwBzJLFPi9
+ t0jj4mQsfCSzP0bANhle5beBSJZ6UX1Rq8ANHDVTMD7czIpC3Ol26MI8sn+YSnklhOHSOK
+ xYsoVJEaJsCe1XIs9xLDYTpRLyapSzI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-XmQ_l36QMvuVqMd4IjCdVQ-1; Tue, 16 Mar 2021 10:41:41 -0400
+X-MC-Unique: XmQ_l36QMvuVqMd4IjCdVQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 023021015C84;
+ Tue, 16 Mar 2021 14:41:39 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5CFB6091A;
+ Tue, 16 Mar 2021 14:41:36 +0000 (UTC)
+Subject: Re: [PATCH 0/7] block/nbd: decouple reconnect from drain
+To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
+References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d6417ccf-04f3-be97-14a8-3aceda1e1e28@redhat.com>
+Date: Tue, 16 Mar 2021 09:41:36 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
- <20210212150256.885-15-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210212150256.885-15-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Mar 2021 10:40:33 -0400
-Message-ID: <CAKmqyKP4H0SLPWw9d0qSOiErni-JQAXp-DNCuALUzCGy89AGFg@mail.gmail.com>
-Subject: Re: [PATCH 14/38] target/riscv: 8-bit Unpacking Instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,216 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ yc-core@yandex-team.ru, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 10:32 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+On 3/15/21 1:06 AM, Roman Kagan wrote:
+> The reconnection logic doesn't need to stop while in a drained section.
+> Moreover it has to be active during the drained section, as the requests
+> that were caught in-flight with the connection to the server broken can
+> only usefully get drained if the connection is restored.  Otherwise such
+> requests can only either stall resulting in a deadlock (before
+> 8c517de24a), or be aborted defeating the purpose of the reconnection
+> machinery (after 8c517de24a).
+> 
+> This series aims to just stop messing with the drained section in the
+> reconnection code.
+> 
+> While doing so it undoes the effect of 5ad81b4946 ("nbd: Restrict
+> connection_co reentrance"); as I've missed the point of that commit I'd
+> appreciate more scrutiny in this area.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Soft freeze is today.  I'm leaning towards declaring this series as a
+bug fix (and so give it some more soak time to get right, but still okay
+for -rc1) rather than a feature addition (and therefore would need to be
+in a pull request today).  Speak up now if this characterization is off
+base.
 
-Alistair
+> 
+> Roman Kagan (7):
+>   block/nbd: avoid touching freed connect_thread
+>   block/nbd: use uniformly nbd_client_connecting_wait
+>   block/nbd: assert attach/detach runs in the proper context
+>   block/nbd: transfer reconnection stuff across aio_context switch
+>   block/nbd: better document a case in nbd_co_establish_connection
+>   block/nbd: decouple reconnect from drain
+>   block/nbd: stop manipulating in_flight counter
+> 
+>  block/nbd.c  | 191 +++++++++++++++++++++++----------------------------
+>  nbd/client.c |   2 -
+>  2 files changed, 86 insertions(+), 107 deletions(-)
+> 
 
-> ---
->  target/riscv/helper.h                   |  11 +++
->  target/riscv/insn32.decode              |  11 +++
->  target/riscv/insn_trans/trans_rvp.c.inc |  12 +++
->  target/riscv/packed_helper.c            | 121 ++++++++++++++++++++++++
->  4 files changed, 155 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 83778b532a..585905a689 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1252,3 +1252,14 @@ DEF_HELPER_2(clrs8, tl, env, tl)
->  DEF_HELPER_2(clz8, tl, env, tl)
->  DEF_HELPER_2(clo8, tl, env, tl)
->  DEF_HELPER_2(swap8, tl, env, tl)
-> +
-> +DEF_HELPER_2(sunpkd810, tl, env, tl)
-> +DEF_HELPER_2(sunpkd820, tl, env, tl)
-> +DEF_HELPER_2(sunpkd830, tl, env, tl)
-> +DEF_HELPER_2(sunpkd831, tl, env, tl)
-> +DEF_HELPER_2(sunpkd832, tl, env, tl)
-> +DEF_HELPER_2(zunpkd810, tl, env, tl)
-> +DEF_HELPER_2(zunpkd820, tl, env, tl)
-> +DEF_HELPER_2(zunpkd830, tl, env, tl)
-> +DEF_HELPER_2(zunpkd831, tl, env, tl)
-> +DEF_HELPER_2(zunpkd832, tl, env, tl)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index e158066353..fa4a02c9db 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -720,3 +720,14 @@ clrs8      1010111  00000 ..... 000 ..... 1111111 @r2
->  clz8       1010111  00001 ..... 000 ..... 1111111 @r2
->  clo8       1010111  00011 ..... 000 ..... 1111111 @r2
->  swap8      1010110  11000 ..... 000 ..... 1111111 @r2
-> +
-> +sunpkd810  1010110  01000 ..... 000 ..... 1111111 @r2
-> +sunpkd820  1010110  01001 ..... 000 ..... 1111111 @r2
-> +sunpkd830  1010110  01010 ..... 000 ..... 1111111 @r2
-> +sunpkd831  1010110  01011 ..... 000 ..... 1111111 @r2
-> +sunpkd832  1010110  10011 ..... 000 ..... 1111111 @r2
-> +zunpkd810  1010110  01100 ..... 000 ..... 1111111 @r2
-> +zunpkd820  1010110  01101 ..... 000 ..... 1111111 @r2
-> +zunpkd830  1010110  01110 ..... 000 ..... 1111111 @r2
-> +zunpkd831  1010110  01111 ..... 000 ..... 1111111 @r2
-> +zunpkd832  1010110  10111 ..... 000 ..... 1111111 @r2
-> diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
-> index 5ad057d7ac..b69e964cb4 100644
-> --- a/target/riscv/insn_trans/trans_rvp.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvp.c.inc
-> @@ -499,3 +499,15 @@ GEN_RVP_R2_OOL(clrs8);
->  GEN_RVP_R2_OOL(clz8);
->  GEN_RVP_R2_OOL(clo8);
->  GEN_RVP_R2_OOL(swap8);
-> +
-> +/* 8-bit Unpacking Instructions */
-> +GEN_RVP_R2_OOL(sunpkd810);
-> +GEN_RVP_R2_OOL(sunpkd820);
-> +GEN_RVP_R2_OOL(sunpkd830);
-> +GEN_RVP_R2_OOL(sunpkd831);
-> +GEN_RVP_R2_OOL(sunpkd832);
-> +GEN_RVP_R2_OOL(zunpkd810);
-> +GEN_RVP_R2_OOL(zunpkd820);
-> +GEN_RVP_R2_OOL(zunpkd830);
-> +GEN_RVP_R2_OOL(zunpkd831);
-> +GEN_RVP_R2_OOL(zunpkd832);
-> diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
-> index be91d308e5..d0dcb692f5 100644
-> --- a/target/riscv/packed_helper.c
-> +++ b/target/riscv/packed_helper.c
-> @@ -1202,3 +1202,124 @@ static inline void do_swap8(CPURISCVState *env, void *vd, void *va, uint8_t i)
->  }
->
->  RVPR2(swap8, 2, 1);
-> +
-> +/* 8-bit Unpacking Instructions */
-> +static inline void
-> +do_sunpkd810(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int8_t *a = va;
-> +    int16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i)];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 1)];
-> +}
-> +
-> +RVPR2(sunpkd810, 4, 1);
-> +
-> +static inline void
-> +do_sunpkd820(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int8_t *a = va;
-> +    int16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i)];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 2)];
-> +}
-> +
-> +RVPR2(sunpkd820, 4, 1);
-> +
-> +static inline void
-> +do_sunpkd830(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int8_t *a = va;
-> +    int16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i)];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 3)];
-> +}
-> +
-> +RVPR2(sunpkd830, 4, 1);
-> +
-> +static inline void
-> +do_sunpkd831(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int8_t *a = va;
-> +    int16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i) + 1];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 3)];
-> +}
-> +
-> +RVPR2(sunpkd831, 4, 1);
-> +
-> +static inline void
-> +do_sunpkd832(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    int8_t *a = va;
-> +    int16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i) + 2];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 3)];
-> +}
-> +
-> +RVPR2(sunpkd832, 4, 1);
-> +
-> +static inline void
-> +do_zunpkd810(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    uint8_t *a = va;
-> +    uint16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i)];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 1)];
-> +}
-> +
-> +RVPR2(zunpkd810, 4, 1);
-> +
-> +static inline void
-> +do_zunpkd820(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    uint8_t *a = va;
-> +    uint16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i)];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 2)];
-> +}
-> +
-> +RVPR2(zunpkd820, 4, 1);
-> +
-> +static inline void
-> +do_zunpkd830(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    uint8_t *a = va;
-> +    uint16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i)];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 3)];
-> +}
-> +
-> +RVPR2(zunpkd830, 4, 1);
-> +
-> +static inline void
-> +do_zunpkd831(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    uint8_t *a = va;
-> +    uint16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i) + 1];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 3)];
-> +}
-> +
-> +RVPR2(zunpkd831, 4, 1);
-> +
-> +static inline void
-> +do_zunpkd832(CPURISCVState *env, void *vd, void *va, uint8_t i)
-> +{
-> +    uint8_t *a = va;
-> +    uint16_t *d = vd;
-> +
-> +    d[H2(i / 2)] = a[H1(i) + 2];
-> +    d[H2(i / 2 + 1)] = a[H1(i + 3)];
-> +}
-> +
-> +RVPR2(zunpkd832, 4, 1);
-> --
-> 2.17.1
->
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
