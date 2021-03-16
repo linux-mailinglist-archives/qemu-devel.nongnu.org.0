@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC5933D4A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:15:01 +0100 (CET)
-Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0099733D4B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:19:03 +0100 (CET)
+Received: from localhost ([::1]:38544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9XI-0000rS-KN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
+	id 1lM9bB-0002Jv-FP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lM9WI-0000Kq-RM
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:13:58 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45026)
+ id 1lM9Zt-0001pp-VA
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:17:43 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lM9WH-0001bh-5T
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:13:58 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- j4-20020a05600c4104b029010c62bc1e20so1430669wmi.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 06:13:56 -0700 (PDT)
+ id 1lM9Zr-000406-RF
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:17:41 -0400
+Received: by mail-ej1-x633.google.com with SMTP id dx17so72121606ejb.2
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 06:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=70yTRYA7D/lEWfDwZ5uBcO2qIKIsAHfOHZkX9gFY1TA=;
- b=U0urDhskgTvJjiAv+8IcslB8HCgZYz7GY35OVAyZLXgAeOTlv5m27ghs7YihZfD158
- gZ4/dgam+DsfnKtwywxqvk38n3O7i/dajoiUjK/W9yn3N94zFyXMWAfycF0BFkbcVAyf
- anReVop5jLCy9WXzW1D+ShmtDa7VzGBLmWs4caCGF49qQarnIYXz2M1j7P0YzRP9+j1+
- iLvQ5ZBkiGyg7EcmbJhqswB+Aa8w0/uZqpR3N9ii0QgHwPTxhSz7f0OjIbK4faCfZz2e
- LzBUl5NTzK5+mDvFmjUpCYR0drGTbvOL1xaISMOFqagFmzCcq0gjoE9E/YSKzmGZTkW9
- HhXg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G+5rNugoKK23EdfVYRUhzDk5elqW9A1VTPJGWDMtxMM=;
+ b=hv1RCvJrY3u+tAA+FZFqMKu6nRqYiF4B9mfhD/dmQtFpTr276rKr3ZXZ89XisR7NHc
+ t9l6T5z0cXOKv/32VpO4VH42GLqhMOeOSWkcjIpZa1B5uywwaKtyQ/NOfV0mTJ87hXgQ
+ kt4+1lxEFhj7VgwDZ/EkPq8MBG7rOIKTiC4zfEyOYSfigO/y4I8PRl52NUDwdQnKmX9a
+ PWM9ASb1+3ngBJeywi0WfDaEeM0RpjH5h0GbVUkdRlb6bgb/ZX7xBcf7ah8n0owB5g+L
+ EkqcWOBggbKqG4tUVhhF5pyiFcFuR9q34mH/aFHgWcp2m5A2aH0OL+CoU0MFwcQRFyxq
+ e1AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=70yTRYA7D/lEWfDwZ5uBcO2qIKIsAHfOHZkX9gFY1TA=;
- b=Pc2IfKE+s/jiONP9c9jSImR1WI70r0eS4ONEaLEbJwKNznL9CM6PYcwDPLJPb/BOsa
- PPtZEhojZf4Id9v3SrCIMAj1RhfjjDZAWQ+M5extRrNIxcTbIm67QJ1RMUt9hiFEg1Fl
- vt89EfcqPW/gHBGBVNgyXkDYoDk4kJ+gdN/3AGtPnEw5UjZ2/fFPw82OFNrNWolQzWwb
- mCYHAMZ5U81TgVr3m08zfGEjj2h1HLeJpSOmsmDrgDVBh9UTxpQrynUezL9H1CCZFbmV
- Aj1XEMq6x4AT88x4km4Jat1mPTRvMP8B0Aq+vXxZZSQLtw2C+xyKW++Aw0mrF4/lwijp
- Ip5Q==
-X-Gm-Message-State: AOAM530dXR3ySyx/kmr6jI5eElSWVErYAutUSf6V4+MlTmkQ5Sq6No6Z
- 6oqgcg/uMPzOxWsg4aI7ZVDp4gaWBbhbfhui
-X-Google-Smtp-Source: ABdhPJxUmjw4vnhVFMlgqJ/Up8ZyZ6XZ6Xzc9vvh1EV4A7pNjh0JoUXv1RgNhmrOlFNJrL1l8j2pYw==
-X-Received: by 2002:a1c:bb89:: with SMTP id l131mr4828745wmf.47.1615900435655; 
- Tue, 16 Mar 2021 06:13:55 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v13sm25629186wrt.45.2021.03.16.06.13.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 06:13:55 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips/mxu_translate.c: Fix array overrun for
- D16MIN/D16MAX
-Date: Tue, 16 Mar 2021 13:13:53 +0000
-Message-Id: <20210316131353.4533-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G+5rNugoKK23EdfVYRUhzDk5elqW9A1VTPJGWDMtxMM=;
+ b=dRO5/+A5Grzjvu8A2fEnh8wiTNwFOVIc3EY2ZZhx7DOzcIv0fKvIPQKfy7XJZru9D2
+ alCZG91yfc8EpmW0wgVhto6QSsb5lr5xGgCM4/7JrhtdGs0F2rW/xHIrN8pyzDQw69tx
+ +vfrWBJdReOm7/Itx4zjk/gvKISbD9pI9HH5mtyGL581+dKc9M0GWCe24eM9RMjmrRyo
+ bLAhbzyYmswA4wXuCbMAR6k9Fgpdj9FqYkODwnaGWwVov5TwCmWH7DiErAIf1M3ViKa4
+ eMyLvqTkt0VdxfcS6+T4uMvCKPc32pbDaqfILNRe2APQoRjaS/NpfXng3xs4zoWhSYUN
+ GzCg==
+X-Gm-Message-State: AOAM532YSMYVmwD4p+nNAsYf6CjZ69cuOSbjZ6SNUGuXbsvUUGXiG/Xn
+ WdRPIrPyf292R2qe1AwZ5gK/8k+aARf+RK1EMVLOUg==
+X-Google-Smtp-Source: ABdhPJyDWFMm93Ej+8Eqmh+4aXThmGkayDvFXhmLWh29IeFuEh9dW80hyegViuFtFSLQnJjockjwLzmvB+42etU2VJw=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr30263697ejc.250.1615900658168; 
+ Tue, 16 Mar 2021 06:17:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+References: <20210315123520.118752-1-kwolf@redhat.com>
+In-Reply-To: <20210315123520.118752-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Mar 2021 13:17:15 +0000
+Message-ID: <CAFEAcA8ckSBYcONgQKXeWnSwL9inGAchUAAwy9=xcb2HEP=qVQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/42] Block layer patches and object-add QAPIfication
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,69 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity reported (CID 1450831) an array overrun in
-gen_mxu_D16MAX_D16MIN():
+On Mon, 15 Mar 2021 at 12:35, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 6157b0e19721aadb4c7fdcfe57b2924af6144b14:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-03-14 17:47:49 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 078ee48ef7d172df1b3ad020255d1eb6beda2daf:
+>
+>   qom: Support JSON in HMP object_add and tools --object (2021-03-15 13:04:27 +0100)
+>
+> ----------------------------------------------------------------
+> Block layer patches and object-add QAPIfication
+>
+> - QAPIfy object-add and --object for tools (keyval and JSON support)
+> - Add vhost-user-blk-test
+> - stream: Fail gracefully if permission is denied
+> - storage-daemon: Fix crash on quit when job is still running
+> - curl: Fix use after free
+> - char: Deprecate backend aliases, fix QMP query-chardev-backends
+> - Fix image creation option defaults that exist in both the format and
+>   the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
+>   default was incorrectly applied to the rbd layer)
+>
+> ----------------------------------------------------------------
 
-  1103     } else if (unlikely((XRb == 0) || (XRa == 0))) {
-  ....
-  1112         if (opc == OPC_MXU_D16MAX) {
-  1113             tcg_gen_smax_i32(mxu_gpr[XRa - 1], t0, t1);
-  1114         } else {
-  1115             tcg_gen_smin_i32(mxu_gpr[XRa - 1], t0, t1);
-  1116         }
+Fails 'make check' on x86-64 linux:
 
->>> Overrunning array "mxu_gpr" of 15 8-byte elements at element
-    index 4294967295 (byte offset 34359738367) using index "XRa - 1U"
-    (which evaluates to 4294967295).
+PASS 61 qtest-x86_64/qos-test
+/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/config
+PASS 62 qtest-x86_64/qos-test
+/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/basic
+PASS 63 qtest-x86_64/qos-test
+/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/resize
+**
+ERROR:../../tests/qtest/libqos/virtio.c:194:qvirtio_wait_status_byte_no_isr:
+assertion failed: (!d->bus->get_queue_isr_status(d, vq))
+ERROR qtest-x86_64/qos-test - Bail out!
+ERROR:../../tests/qtest/libqos/virtio.c:194:qvirtio_wait_status_byte_no_isr:
+assertion failed: (!d->bus->get_queue_isr_status(d, vq))
+Makefile.mtest:1008: recipe for target 'run-test-124' failed
+make: *** [run-test-124] Error 1
 
-This happens because the code is confused about which of XRa, XRb and
-XRc is the output, and which are the inputs.  XRa is the output, but
-most of the conditions separating out different special cases are
-written as if XRc is the output, with the result that we can end up
-in the code path that assumes XRa is non-0 even when it is zero.
 
-Fix the erroneous code, bringing it in to line with the structure
-used in functions like gen_mxu_S32MAX_S32MIN() and
-gen_mxu_Q8MAX_Q8MIN().
-
-Fixes: CID 1450831
-Fixes: bb84cbf38505bd1d8
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-NB: tested with 'make check' and 'make check-acceptance' only, which
-almost certainly don't exercise this code path.
-
- target/mips/mxu_translate.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/target/mips/mxu_translate.c b/target/mips/mxu_translate.c
-index afc008eeeef..fb0a811af6c 100644
---- a/target/mips/mxu_translate.c
-+++ b/target/mips/mxu_translate.c
-@@ -1095,12 +1095,12 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
- 
-     if (unlikely(pad != 0)) {
-         /* opcode padding incorrect -> do nothing */
--    } else if (unlikely(XRc == 0)) {
-+    } else if (unlikely(XRa == 0)) {
-         /* destination is zero register -> do nothing */
--    } else if (unlikely((XRb == 0) && (XRa == 0))) {
-+    } else if (unlikely((XRb == 0) && (XRc == 0))) {
-         /* both operands zero registers -> just set destination to zero */
--        tcg_gen_movi_i32(mxu_gpr[XRc - 1], 0);
--    } else if (unlikely((XRb == 0) || (XRa == 0))) {
-+        tcg_gen_movi_i32(mxu_gpr[XRa - 1], 0);
-+    } else if (unlikely((XRb == 0) || (XRc == 0))) {
-         /* exactly one operand is zero register - find which one is not...*/
-         uint32_t XRx = XRb ? XRb : XRc;
-         /* ...and do half-word-wise max/min with one operand 0 */
--- 
-2.20.1
-
+thanks
+-- PMM
 
