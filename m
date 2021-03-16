@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E32A33E069
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:22:24 +0100 (CET)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436AD33E06F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:24:51 +0100 (CET)
+Received: from localhost ([::1]:37154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMH8x-0005wb-A6
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
+	id 1lMHBK-0000pa-At
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMH2k-0005kQ-KQ
+ id 1lMH2k-0005jZ-9I
  for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:15:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24210)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMH2e-0003Xd-UY
+ id 1lMH2e-0003Xb-PI
  for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:15:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1615929352;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jh8sn3aqQA2d6yGp+dL+fOy2B9FyyZ4ULlc68iipLb0=;
- b=eE9ytzdRwP/bQMm6BtVDXf7MjwK7xUyZcYKveIDMjZk/vbuwSWQfG/JL3VQRAQCQciGKOD
- mjC4Fg2uBao004O4fRPUL3YGjtz74yqTSy+ozpiZbNs+GoQmY2Eds+PwYSWypF9sP+fyjt
- 2Pth7QpX2QxVqLz6RE7XiuqzIYjvHLU=
+ bh=EZtJYDQX+XcSW7/XY3Jkdf8eH7R1x9pqkUBgdJY7Deg=;
+ b=f+ijuGCyUorJspoTeQIjRtqSpoHNDbrvIQVfdjKFe7kIFJDejgv9gl2UcHD/2ZQryMM81P
+ FfebFii3tzr5fyQ6NE6YZVbFQCZKtvsKh6iv3dTNUFt1Bo7mKUTVPga6v37zn+ncHTElP7
+ /hd0Ow/uG5tee79H1h+xymX3WV7FGVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-ke5x-UPlMheJm7BmPn8JHQ-1; Tue, 16 Mar 2021 17:15:50 -0400
-X-MC-Unique: ke5x-UPlMheJm7BmPn8JHQ-1
+ us-mta-312-nqx6CsSrM3SuHryG2Jvf5w-1; Tue, 16 Mar 2021 17:15:50 -0400
+X-MC-Unique: nqx6CsSrM3SuHryG2Jvf5w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D46E387A82A;
- Tue, 16 Mar 2021 21:15:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B9B9100C61B
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 21:15:49 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 844B1610AF;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE4A91378D;
  Tue, 16 Mar 2021 21:15:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/16] hw/i8254: fix vmstate load
-Date: Tue, 16 Mar 2021 17:15:30 -0400
-Message-Id: <20210316211531.1649909-16-pbonzini@redhat.com>
+Subject: [PULL 16/16] qemu-timer: allow freeing a NULL timer
+Date: Tue, 16 Mar 2021 17:15:31 -0400
+Message-Id: <20210316211531.1649909-17-pbonzini@redhat.com>
 In-Reply-To: <20210316211531.1649909-1-pbonzini@redhat.com>
 References: <20210316211531.1649909-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,40 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Since 5f8e93c3e2 ("util/qemu-timer: Make timer_free() imply timer_del()", 2021-01-08)
+it is not possible anymore to pass a NULL pointer to timer_free().  Previously
+it would do nothing as it would simply pass NULL down to g_free().
 
-QEMU timer of channel 0 in i8254 is used to raise irq
-at the specified moment of time. This irq can be disabled
-with irq_disabled flag. But when vmstate of the pit is
-loaded, timer may be rearmed despite the disabled interrupts.
-This patch adds irq_disabled flag check to fix that.
+Rectify this, which also fixes "-chardev braille" when there is no device.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <161537170060.6654.9430112746749476215.stgit@pasha-ThinkPad-X280>
+Reported-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/timer/i8254.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/timer.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
-index c01ee2c72a..c8388ea432 100644
---- a/hw/timer/i8254.c
-+++ b/hw/timer/i8254.c
-@@ -324,7 +324,7 @@ static void pit_post_load(PITCommonState *s)
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index 5e76e3f8c2..301fa47b42 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -629,8 +629,10 @@ void timer_del(QEMUTimer *ts);
+  */
+ static inline void timer_free(QEMUTimer *ts)
  {
-     PITChannelState *sc = &s->channels[0];
+-    timer_del(ts);
+-    g_free(ts);
++    if (ts) {
++        timer_del(ts);
++        g_free(ts);
++    }
+ }
  
--    if (sc->next_transition_time != -1) {
-+    if (sc->next_transition_time != -1 && !sc->irq_disabled) {
-         timer_mod(sc->irq_timer, sc->next_transition_time);
-     } else {
-         timer_del(sc->irq_timer);
+ /**
 -- 
 2.26.2
-
 
 
