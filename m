@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A99733D642
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:57:22 +0100 (CET)
-Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380B333D645
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:59:00 +0100 (CET)
+Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMB8L-0003uK-Lk
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
+	id 1lMB9v-0004we-9e
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMB7I-0003KN-Qu
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:56:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMB7G-0004g2-59
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:56:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615906572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mgqgFWkIGF8tPWXbcf//kFMgzZm9lVpPpYCuAS8h5nY=;
- b=Ryn7GkDZOpFXIhnVaTICTQ9YDDONk+fJeid7bfNoAzudrgq+4kiy7Fz2g6LEMF8kZ1SDfg
- WgAFzTuOxEBJdkkTm1gEtz/N04asamPxPNCgtwiZ1rPxzL53KRsc/S9xbYHhOvfXdXxJ8o
- iYlCCnKnMAaw26gSU+IEFrPnBcLo6rY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-YcwniRNKP6iOZnqdr6ZC8g-1; Tue, 16 Mar 2021 10:56:10 -0400
-X-MC-Unique: YcwniRNKP6iOZnqdr6ZC8g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 755D6107ACCA;
- Tue, 16 Mar 2021 14:56:09 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-216.ams2.redhat.com [10.36.112.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0079D60C13;
- Tue, 16 Mar 2021 14:56:00 +0000 (UTC)
-Date: Tue, 16 Mar 2021 15:55:59 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 00/42] Block layer patches and object-add QAPIfication
-Message-ID: <YFDG/xfWFQoH9kMq@merkur.fritz.box>
-References: <20210315123520.118752-1-kwolf@redhat.com>
- <CAFEAcA8ckSBYcONgQKXeWnSwL9inGAchUAAwy9=xcb2HEP=qVQ@mail.gmail.com>
- <YFDCSMHXeP/qbeUZ@merkur.fritz.box>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMB8O-0004IY-IT
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:57:24 -0400
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:46467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMB8M-0005Oi-Nt
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:57:24 -0400
+Received: by mail-qk1-x732.google.com with SMTP id a9so35436534qkn.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 07:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Mobli1tHVBYwFNZIwFtcNl07stJYmyz/3j+OIeJj9Fg=;
+ b=OBpEkZOnm9JKZ1+45YUh1/Qrr0D5S8kkDh5ULVIUeRiufKzYPC5W/cUYPEqdJ4imE1
+ YJATluqZrSNHmXu0YHtLo2YiCM2WFYTdFxIOe1R7DXrUBTRuQ2ueKddvbm+Y+67+6omv
+ X3IKUZDlIPA59OZwhZd3L2eR/KXM4Q5qLjh5HL0uBnnSslj9Y/KOxUagycR6AQj5CDAc
+ s7TLwCOM5UHLsth/8hGHekJmsnc64sIxPLMVLUmUQyFJTFLALE2gCt1OqxWs8zRSCYx/
+ s1HfERapEy7r4Y+KFTMWIh3TXB6MB2FDbFPXGxPlgddobGFx7IjDJKr7b8DJV91chn3q
+ wfWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Mobli1tHVBYwFNZIwFtcNl07stJYmyz/3j+OIeJj9Fg=;
+ b=t0IagGWZFYydfvXnLgKWe88vCQibvj45J0naizibQwHBj+307+E4zyGSrmliaoioAv
+ RJ0j4w8h4XprI5f5l4hhPO0dJyqPDKwu8mOPFxfD/Zs2be+FoObYeTFEK4kGHMHurU17
+ wHC0Idv/QjuIafHOushIxVdK9gEUxvPo84AB9gRjoBBPoX21Wo0VmGrenH9c1XtkwvQR
+ MLr78llNYypwA/3mAkFwDffobRmpfyoZlAGcDQ7LCJml8vx+bthWGXbmnGx/+Di1AiWQ
+ solWZZ6Dky7Bkov24zsVh2Pz+hEtSMTrHZ9jnXiZfevzRsqwIB65wlNMWQDu16yTUWcF
+ tpvA==
+X-Gm-Message-State: AOAM530xUgWIW5lNFt+xT/QL2cn0Fp5rQbGGDW3FL7a8ApyTBagGKrrj
+ 8LtIR1/APbyMaEDBykMzUFSMtCOWvRS8A5+A
+X-Google-Smtp-Source: ABdhPJxxplvR0LmQtmpDXZHyBPSzAoEqSKT0GuuQinvw1FctFv9CxLf29/3QG9FNT8MIVhF4ihCdCA==
+X-Received: by 2002:a37:9d84:: with SMTP id
+ g126mr31014023qke.183.1615906641007; 
+ Tue, 16 Mar 2021 07:57:21 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id q143sm15345729qke.110.2021.03.16.07.57.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 07:57:20 -0700 (PDT)
+Subject: Re: [PATCH v2 03/29] tcg: Re-order tcg_region_init vs
+ tcg_prologue_init
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20210314212724.1917075-1-richard.henderson@linaro.org>
+ <20210314212724.1917075-4-richard.henderson@linaro.org>
+ <YE/vwNCE7EEukXll@SPB-NB-133.local>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a23627f0-75b8-770b-b202-0dfc0725885f@linaro.org>
+Date: Tue, 16 Mar 2021 08:57:17 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <YFDCSMHXeP/qbeUZ@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YE/vwNCE7EEukXll@SPB-NB-133.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,75 +91,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- stefanha@redhat.com
+Cc: qemu-devel@nongnu.org, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.03.2021 um 15:35 hat Kevin Wolf geschrieben:
-> Am 16.03.2021 um 14:17 hat Peter Maydell geschrieben:
-> > On Mon, 15 Mar 2021 at 12:35, Kevin Wolf <kwolf@redhat.com> wrote:
-> > >
-> > > The following changes since commit 6157b0e19721aadb4c7fdcfe57b2924af6144b14:
-> > >
-> > >   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-03-14 17:47:49 +0000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> > >
-> > > for you to fetch changes up to 078ee48ef7d172df1b3ad020255d1eb6beda2daf:
-> > >
-> > >   qom: Support JSON in HMP object_add and tools --object (2021-03-15 13:04:27 +0100)
-> > >
-> > > ----------------------------------------------------------------
-> > > Block layer patches and object-add QAPIfication
-> > >
-> > > - QAPIfy object-add and --object for tools (keyval and JSON support)
-> > > - Add vhost-user-blk-test
-> > > - stream: Fail gracefully if permission is denied
-> > > - storage-daemon: Fix crash on quit when job is still running
-> > > - curl: Fix use after free
-> > > - char: Deprecate backend aliases, fix QMP query-chardev-backends
-> > > - Fix image creation option defaults that exist in both the format and
-> > >   the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
-> > >   default was incorrectly applied to the rbd layer)
-> > >
-> > > ----------------------------------------------------------------
-> > 
-> > Fails 'make check' on x86-64 linux:
-> > 
-> > PASS 61 qtest-x86_64/qos-test
-> > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/config
-> > PASS 62 qtest-x86_64/qos-test
-> > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/basic
-> > PASS 63 qtest-x86_64/qos-test
-> > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/resize
-> > **
-> > ERROR:../../tests/qtest/libqos/virtio.c:194:qvirtio_wait_status_byte_no_isr:
-> > assertion failed: (!d->bus->get_queue_isr_status(d, vq))
-> > ERROR qtest-x86_64/qos-test - Bail out!
-> > ERROR:../../tests/qtest/libqos/virtio.c:194:qvirtio_wait_status_byte_no_isr:
-> > assertion failed: (!d->bus->get_queue_isr_status(d, vq))
-> > Makefile.mtest:1008: recipe for target 'run-test-124' failed
-> > make: *** [run-test-124] Error 1
+On 3/15/21 5:37 PM, Roman Bolshakov wrote:
+>>       tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
+>>       mttcg_enabled = s->mttcg_enabled;
+>> -
+>> -    /*
+>> -     * Initialize TCG regions only for softmmu.
+>> -     *
+>> -     * This needs to be done later for user mode, because the prologue
+>> -     * generation needs to be delayed so that GUEST_BASE is already set.
+>> -     */
+>> -#ifndef CONFIG_USER_ONLY
+>> -    tcg_region_init();
 > 
-> It didn't fail to me, so the condition must be a little more specific
-> than just x86_64 Linux.
+> Note that tcg_region_init() invokes tcg_n_regions() that depends on
+> qemu_tcg_mttcg_enabled() that evaluates mttcg_enabled. Likely you need
+> to move "mttcg_enabled = s->mttcg_enabled;" before tcg_exec_init() to
+> keep existing behaviour.
+
+Yes indeed.  This gets fixed in patch 12, which is why I didn't notice 
+breakage.  Will adjust.
+
+>> -    total_size = s->code_gen_buffer_size;
+>> -    s->code_ptr = buf0;
+>> -    s->code_buf = buf0;
+>> +    tcg_region_assign(s, 0);
+>> +    s->code_ptr = s->code_gen_ptr;
+>> +    s->code_buf = s->code_gen_ptr;
 > 
-> Stefan, can you have a look? I may have to drop these patches again.
+> Pardon me for asking a naive question, what's the difference between
+> s->code_buf and s->code_gen_buf and, respectively, s->code_ptr and
+> s->code_gen_ptr?
 
-Actually, these are not the new vhost-user-blk test, but just the normal
-virtio-blk ones and it's probably unrelated. This is weird, because this
-pull request doesn't include any change to virtio-blk or the related
-qtests. Could this be intermittent failure of a change introduced by an
-earlier pull request?
+I don't remember.  I actually had it in my mind to rename all of these, remove 
+one or two that feel redundant, and document them all.  But the patch set was 
+large enough already.
 
-Peter, which environment was this and are full logs available? It
-doesn't seem to be the Gitlab CI (because the build is still running
-there and hasn't failed yet). My first attempts to reproduce have failed
-so far.
 
-Kevin
-
+r~
 
