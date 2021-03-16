@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C78D33DC00
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 19:03:49 +0100 (CET)
-Received: from localhost ([::1]:55148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7674133DC01
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 19:03:57 +0100 (CET)
+Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lME2m-00017N-8d
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 14:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57718)
+	id 1lME2u-0001Qn-Gj
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 14:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMDVp-0004f6-MN
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:29:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24503)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMDVn-00040n-Br
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:29:45 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMDXW-0006Ef-ON
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:31:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMDXS-0004YL-Pl
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 13:31:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615915782;
+ s=mimecast20190719; t=1615915885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rpBEaMxOWm2clwXy6aplW1WF4Y9n84lR+f3+L0l+Lyo=;
- b=NWcJXfVYxlMPwLxS9LBzB7nNK6yhK6Dqy+eaG4MaRtU8ms1oIZ69ds8Y1QLGp/Qx+sahm1
- KSbgNi0zRcRm+owdEI6VHf5v3WgmdNOioWWEHfQe8ooVHL3D/eAQNATp5cWkF1XnGk8MLa
- jSPzwRKa5YX99x2ftB4cmkF8ewYr72M=
+ bh=9yBEYICh4gHnRYvZj5OlSNdlRg455KJ9DjCYsonyHW4=;
+ b=d++ROyWg0MbK5MvlEx+w4uXm4wVpBkZGUlwJtulfIYBDKxtE2GLZpKYgzSk8x6cIV8h1Nq
+ ZQJUz1zjq/ZZ71zPKcVkCm/0760DdqsZv0V2M4Yd/p4b8OmktFXo1bqaukC8SSer8S4QA/
+ IFLBAcD2yFC+8uYoxx5RmbG1PumOv0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-D_E_zOxSP4WKdzBSGrRSuw-1; Tue, 16 Mar 2021 13:29:41 -0400
-X-MC-Unique: D_E_zOxSP4WKdzBSGrRSuw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-585-bZPU95-UPI6CrTnXyibflA-1; Tue, 16 Mar 2021 13:31:23 -0400
+X-MC-Unique: bZPU95-UPI6CrTnXyibflA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE05056B9D;
- Tue, 16 Mar 2021 17:29:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91925800C78;
+ Tue, 16 Mar 2021 17:31:22 +0000 (UTC)
 Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E26B1001B2C;
- Tue, 16 Mar 2021 17:29:33 +0000 (UTC)
-Subject: Re: [PATCH v2 1/4] accel: Introduce 'query-accels' QMP command
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13B025C1A1;
+ Tue, 16 Mar 2021 17:31:18 +0000 (UTC)
+Subject: Re: [PATCH v2 2/4] tests/qtest: Add qtest_has_accel() method
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210316172449.3148634-1-philmd@redhat.com>
- <20210316172449.3148634-2-philmd@redhat.com>
+ <20210316172449.3148634-3-philmd@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <6f87212e-d00f-751e-1a2c-1dd4950698dc@redhat.com>
-Date: Tue, 16 Mar 2021 12:29:32 -0500
+Message-ID: <fda2668a-ae03-b554-8ef5-6d25aa65d7fb@redhat.com>
+Date: Tue, 16 Mar 2021 12:31:17 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210316172449.3148634-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210316172449.3148634-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,64 +95,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/16/21 12:24 PM, Philippe Mathieu-Daudé wrote:
-> Introduce the 'query-accels' QMP command which returns a list
-> of built-in accelerator names.
-> 
-> - Accelerator is a QAPI enum of all existing accelerators,
-> 
-> - AcceleratorInfo is a QAPI structure providing accelerator
->   specific information. Currently the common structure base
->   provides the name of the accelerator, while the specific
->   part is empty, but each accelerator can expand it.
-> 
+> Introduce the qtest_has_accel() method which allows
+> to query at runtime if a QEMU instance has an accelerator
 
+which allows a runtime query on whether a QEMU instance
+
+> built-in.
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
-> Since v1: 'type' -> 'name' in comments
+> Since v1:
+> - rename qtest_probe_accel() -> qtest_has_accel()
+> - run with -machine none before creating QTestState
 > ---
->  qapi/machine.json | 55 +++++++++++++++++++++++++++++++++++++++++++++++
->  accel/accel-qmp.c | 49 +++++++++++++++++++++++++++++++++++++++++
->  accel/meson.build |  2 +-
->  3 files changed, 105 insertions(+), 1 deletion(-)
->  create mode 100644 accel/accel-qmp.c
+>  tests/qtest/libqos/libqtest.h |  8 ++++++++
+>  tests/qtest/libqtest.c        | 29 +++++++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
 > 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 330189efe3d..610252fc25c 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1471,3 +1471,58 @@
->  ##
->  { 'event': 'MEM_UNPLUG_ERROR',
->    'data': { 'device': 'str', 'msg': 'str' } }
-> +
-> +##
-> +# @Accelerator:
-> +#
-> +# An enumeration of accelerator names.
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'enum': 'Accelerator',
-> +  'data': [ { 'name': 'qtest' },
-> +            { 'name': 'tcg' },
-> +            { 'name': 'kvm' },
-> +            { 'name': 'hax' },
-> +            { 'name': 'hvf' },
-> +            { 'name': 'whpx' },
-> +            { 'name': 'xen' } ] }
-
-Shorter, but semantically equivalent:
-{ 'enum': 'Accelerator', 'data': [ 'qtest', 'tcg', ... ] }
-
-I'd mention in the commit message body that we can't make the enum
-values or union branches conditional because of target-specific
-poisoning.  With that,
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
-If we're trying to get it into 6.0, it is a new feature, and so we
-should get it in a pull request before feature freeze today.  Otherwise
-we'll have to s/6.0/6.1/
 
 -- 
 Eric Blake, Principal Software Engineer
