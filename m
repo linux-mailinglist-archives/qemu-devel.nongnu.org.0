@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79B633E23B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 00:36:49 +0100 (CET)
-Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E20A33E22A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 00:34:13 +0100 (CET)
+Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMJF2-0000R4-Tu
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 19:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59816)
+	id 1lMJCW-0004jU-MD
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 19:34:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJ9e-0002aM-Rw
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33382
+ id 1lMJ9l-0002fR-2P
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:21 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33384
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJ9d-0007Ic-0j
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:14 -0400
+ id 1lMJ9j-0007LO-5v
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 19:31:20 -0400
 Received: from host109-156-104-46.range109-156.btcentralplus.com
  ([109.156.104.46] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJ9a-0006Mg-SC; Tue, 16 Mar 2021 23:31:16 +0000
+ id 1lMJ9g-0006Mg-PX; Tue, 16 Mar 2021 23:31:22 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	alxndr@bu.edu
-Date: Tue, 16 Mar 2021 23:30:23 +0000
-Message-Id: <20210316233024.13560-4-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 16 Mar 2021 23:30:24 +0000
+Message-Id: <20210316233024.13560-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
 References: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.156.104.46
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 3/4] esp: ensure cmdfifo is not empty and current_dev is
- non-NULL
+Subject: [PATCH 4/4] esp: always check current_req is not NULL before use in
+ DMA callbacks
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,32 +65,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When about to execute a SCSI command, ensure that cmdfifo is not empty and
-current_dev is non-NULL. This can happen if the guest tries to execute a TI
-(Transfer Information) command without issuing one of the select commands
-first.
+After issuing a SCSI command the SCSI layer can call the SCSIBusInfo .cancel
+callback which resets both current_req and current_dev to NULL. If any data
+is left in the transfer buffer (async_len != 0) then the next TI (Transfer
+Information) command will attempt to reference the NULL pointer causing a
+segfault.
 
 Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
 Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/scsi/esp.c | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index bbcbfa4a91..ae362c9dfb 100644
+index ae362c9dfb..7216903ce0 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -286,6 +286,9 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
-     trace_esp_do_busid_cmd(busid);
-     lun = busid & 7;
-     cmdlen = fifo8_num_used(&s->cmdfifo);
-+    if (!cmdlen || !s->current_dev) {
-+        return;
-+    }
-     buf = (uint8_t *)fifo8_pop_buf(&s->cmdfifo, cmdlen, &n);
+@@ -524,7 +524,9 @@ static void do_dma_pdma_cb(ESPState *s)
+         }
  
-     current_lun = scsi_device_find(&s->bus, 0, s->current_dev->id, lun);
+         if (s->async_len == 0) {
+-            scsi_req_continue(s->current_req);
++            if (s->current_req) {
++                scsi_req_continue(s->current_req);
++            }
+             return;
+         }
+ 
+@@ -674,14 +676,16 @@ static void esp_do_dma(ESPState *s)
+         s->ti_size -= len;
+     }
+     if (s->async_len == 0) {
+-        scsi_req_continue(s->current_req);
+-        /*
+-         * If there is still data to be read from the device then
+-         * complete the DMA operation immediately.  Otherwise defer
+-         * until the scsi layer has completed.
+-         */
+-        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
+-            return;
++        if (s->current_req) {
++            scsi_req_continue(s->current_req);
++            /*
++             * If there is still data to be read from the device then
++             * complete the DMA operation immediately.  Otherwise defer
++             * until the scsi layer has completed.
++             */
++            if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
++                return;
++            }
+         }
+     }
+ 
+@@ -744,10 +748,12 @@ static void esp_do_nodma(ESPState *s)
+     }
+ 
+     if (s->async_len == 0) {
+-        scsi_req_continue(s->current_req);
++        if (s->current_req) {
++            scsi_req_continue(s->current_req);
+ 
+-        if (to_device || s->ti_size == 0) {
+-            return;
++            if (to_device || s->ti_size == 0) {
++                return;
++            }
+         }
+     }
+ 
 -- 
 2.20.1
 
