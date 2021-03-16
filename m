@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012C833D48F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:06:36 +0100 (CET)
-Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA7133D49C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 14:10:12 +0100 (CET)
+Received: from localhost ([::1]:57940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9P9-0003q9-1S
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
+	id 1lM9Sd-0006PF-CO
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 09:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lM9Nd-0003LY-MZ
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:05:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lM9Na-0004eQ-OS
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:05:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615899896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xAsBKBHQn+iUf++02U3wiP4aq73IWlrYphutcm8aopU=;
- b=gqntgEhN6V7XDerXzihZf9RLLCLOLCOX9GTtzmgTgGSvj5tLhlBlocgHtjWNa2oQjxxOhH
- lZlttj0S3CkrIU0higQo+zdrU4mlZc6pL8Mm0r5Oan7Rb6fBTMkiwvl7R8uhblRn6ZQKtb
- aScAFQs1khems70jXLRqwjlikUyg83Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-cRo1lu9SP-anqT5FzeyUEw-1; Tue, 16 Mar 2021 09:04:53 -0400
-X-MC-Unique: cRo1lu9SP-anqT5FzeyUEw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE2C6800C78;
- Tue, 16 Mar 2021 13:04:52 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45BD460CCC;
- Tue, 16 Mar 2021 13:04:51 +0000 (UTC)
-Date: Tue, 16 Mar 2021 14:04:49 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: Windows 10 won't run on default x86_64 machine anymore
-Message-ID: <20210316140449.5e6695f9@redhat.com>
-In-Reply-To: <YFCnPEvCDdbHRl/o@redhat.com>
-References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
- <20210315220526.GB1004959@private.email.ne.jp>
- <20210316133354.20460aca@redhat.com> <YFCnPEvCDdbHRl/o@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lM9Pm-0004k0-OS
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:07:14 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:32878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lM9Pk-00061O-Um
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 09:07:14 -0400
+Received: by mail-ej1-x635.google.com with SMTP id jt13so72066296ejb.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 06:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3foB02F1ArhbKlkk66lHx3I6/emZkgSCR0+SIvNmEVU=;
+ b=kNykPyHYK+T8ve6DvzZKSTmJj4M7dI5GXr4bjnQWBOeioT3S/+0jRe/1t2+aPMRK8N
+ Ns/SgRfdWBTrWl3Uy9iPra5RQYBzsT2p6WtjgDmN35mvJHUOrtxjH6eyeT6HIMUhH2Ic
+ Ve4kXTKXAfDSjYIsMIOSJUfl9KtDqTdpXnjLT3mo/OEaLcapQHh0nOq6nRUVx1SeZ+Qc
+ cYh67csbI1S9PXxtH359T6tuIPWwZVJ6kO1LohfccRP9J8xUsJTiSbRorF3BzPMSpEzM
+ CuQ2pkhMfF2LaBdfdZCKZHTzPje1RKUGPT6cfCSeXu/X5/tlesI3R1ajevIH87EZleXd
+ 4jOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3foB02F1ArhbKlkk66lHx3I6/emZkgSCR0+SIvNmEVU=;
+ b=ImtyVEomnHFNVmZYspNB8cft8mUPETjIVnciOxS4KRxEAp8km1/iz6EBZNthZzgce2
+ 3NL4M3a7VBRzzXg5bpNbU7gfpXCyMhrAt40cUp9gj6lmpzPAq2zzSgcG2/W32Pi7mKh7
+ 7uLg7SO9ZRXwOOT6+jZbZYjnpfqI937INnUBb1SsOEtXmnpY5XaDtMXBHjuoEco2FE3d
+ JwBPjeQhkZuwCdhpIIpVEnXBcYH7OJIcX+tALqUklgFvBsnEu1JzZnPTronkPeEY/Usb
+ Jzcww+zcq+GGXlEsCYg2X6GBzJKF2+xmB9o0PRvPkbLdTkLTZE5GO2dhEfKHvtQI2wby
+ I6dw==
+X-Gm-Message-State: AOAM532w8SnZizE/K1DGsNinGTWwYdReDkiobSKx8JGuxCaWV/TbGv6L
+ 1YnjYLBZp6/bctu0k6SU3ffh4OXzRy2yjo+YFSA1Sw==
+X-Google-Smtp-Source: ABdhPJwIuO0cr3kVla6J2sys9n1SLP4f7iiLsZR271+yLk3DfYU7rN9YVrOB8KqVDXAtuv42Elob+MeRlWhdTCIg3NA=
+X-Received: by 2002:a17:907:10ce:: with SMTP id
+ rv14mr30011636ejb.56.1615900030726; 
+ Tue, 16 Mar 2021 06:07:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210316125254.461525-1-thuth@redhat.com>
+In-Reply-To: <20210316125254.461525-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Mar 2021 13:06:48 +0000
+Message-ID: <CAFEAcA8kHg7GEix+FYzmLTy5vU2niFP3iz3FaF3RtVap=Rq=cg@mail.gmail.com>
+Subject: Re: [PATCH] include/sysemu: Poison all accelerator CONFIG switches in
+ common code
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,68 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Reinoud Zandijk <reinoud@netbsd.org>, qemu-devel@nongnu.org,
- Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc: Colin Xu <colin.xu@intel.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Cameron Esfahani <dirty@apple.com>, Markus Armbruster <armbru@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, haxm-team@intel.com,
+ Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Mar 2021 12:40:28 +0000
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Tue, 16 Mar 2021 at 12:54, Thomas Huth <thuth@redhat.com> wrote:
+>
+> We are already poisoning CONFIG_KVM since this switch is not working
+> in common code. Do the same with the other accelerator switches, too
+> (except for CONFIG_TCG, which is special, since it is also defined in
+> config-host.h).
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  include/exec/poison.h | 4 ++++
+>  include/sysemu/hax.h  | 4 ++++
+>  include/sysemu/hvf.h  | 4 ++++
+>  include/sysemu/whpx.h | 4 ++++
+>  4 files changed, 16 insertions(+)
+>
+> diff --git a/include/exec/poison.h b/include/exec/poison.h
+> index 4cd3f8abb4..3250fc1d52 100644
+> --- a/include/exec/poison.h
+> +++ b/include/exec/poison.h
+> @@ -88,8 +88,12 @@
+>  #pragma GCC poison CONFIG_SPARC_DIS
+>  #pragma GCC poison CONFIG_XTENSA_DIS
+>
+> +#pragma GCC poison CONFIG_HAX
+> +#pragma GCC poison CONFIG_HVF
+>  #pragma GCC poison CONFIG_LINUX_USER
+>  #pragma GCC poison CONFIG_KVM
+>  #pragma GCC poison CONFIG_SOFTMMU
+> +#pragma GCC poison CONFIG_WHPX
+> +#pragma GCC poison CONFIG_XEN
+>
+>  #endif
+> diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
+> index 12fb54f990..247f0661d1 100644
+> --- a/include/sysemu/hax.h
+> +++ b/include/sysemu/hax.h
+> @@ -24,6 +24,8 @@
+>
+>  int hax_sync_vcpus(void);
+>
+> +#ifdef NEED_CPU_H
+> +
+>  #ifdef CONFIG_HAX
+>
+>  int hax_enabled(void);
+> @@ -34,4 +36,6 @@ int hax_enabled(void);
+>
+>  #endif /* CONFIG_HAX */
+>
+> +#endif /* NEED_CPU_H */
+> +
+>  #endif /* QEMU_HAX_H */
 
-> On Tue, Mar 16, 2021 at 01:33:54PM +0100, Igor Mammedov wrote:
-> > On Mon, 15 Mar 2021 15:05:26 -0700
-> > Isaku Yamahata <isaku.yamahata@gmail.com> wrote:
-> >  =20
-> > > On Mon, Mar 15, 2021 at 05:58:04PM +0100,
-> > > Reinoud Zandijk <reinoud@NetBSD.org> wrote:
-> > >  =20
-> > > > I think its better to revert this and fix Linux ;) or make it a sel=
-ectable
-> > > > feature as a workaround that's by default OFF :)   =20
-> > >=20
-> > > Anyway here is a patch to flip the default.
-> > > At the moment, this is compile-only tested to provide the change quic=
-kly
-> > > and make discussion progress.
-> > >=20
-> > > From 50deeed38832ceccfb68f78dd66de5a1741b2897 Mon Sep 17 00:00:00 200=
-1
-> > > Message-Id: <50deeed38832ceccfb68f78dd66de5a1741b2897.1615845421.git.=
-isaku.yamahata@intel.com>
-> > > From: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > Date: Mon, 15 Mar 2021 14:42:33 -0700
-> > > Subject: [PATCH] ich9, piix4: flip default value for smm-compat
-> > >=20
-> > > Make default value for smm-compat of ich9, piix4 true to keep old
-> > > behavior.
-> > > To get new (and more conformance to ACPI spec) behavior, explicitly
-> > > set "-global ICH9-LPC.smm-compat=3Doff" or
-> > > "-global PIIX4_PM.smm-compat=3Doff". =20
-> >=20
-> > I'm not sure we should do that,
-> > it's fine for non-versioned/new machine type to change in incompatible =
-way with old images,
-> > it's the job of old versioned machines types to maintain compatibility.
-> > It's of cause pain for users if they use are unable to boot old image
-> > on newest machine type, but we never promised that and if we made such
-> > promise we would never be able to fix bugs. =20
->=20
-> If this incompatibility with Windows 10 is confirmed though, I don't
-> think it is viable for QEMU to ship the default machine type with
-> settings that break Windows 10.
+Now we only get hax_enabled() if NEED_CPU_H was defined
+(which is different behaviour from kvm_enabled()).
 
-Choice is Windows vs Linux kernel
-the later behaves correctly (as spec dictates) and 'offending' commit
-fixes QEMU deviation from spec. It might be hard to convince kernel
-side to merge a hack for Windows sake that goes against spec.
-As for Windows, if new install works fine then that's all fine,
-users really should use version-ed machine types or instead of
-pushing old broken 'features' to [new] default machine types.
+I think we should structure all of these accel-specific
+headers the same way we do kvm.h:
+ * if we're being included from non-target-specific code, or
+   if we're in target-specific code and we know KVM is present,
+   you get the versions that reference functions/bools/etc
+ * if we're being included from target-specific code where we
+   know KVM is not present there are macros that evaluate
+   to always-false/always-fails
+ * there's a stub file that proivdes the functions/bools
+   for the KVM-not-actually-present case
 
->=20
->=20
->=20
-> Regards,
-> Daniel
+My argument here is basically consistency. We know already
+that the structure we use in kvm.h works, and it's the most
+solidly used/tested of the accelerators. Structuring the
+other accelerators differently for no particular reason
+is confusing to people trying to read or modify the code.
 
+thanks
+-- PMM
 
