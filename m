@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F6033D37F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:04:57 +0100 (CET)
-Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2914933D385
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:06:54 +0100 (CET)
+Received: from localhost ([::1]:43340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM8RT-0002Em-G2
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36554)
+	id 1lM8TN-0004EC-5i
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lM8QM-0001nM-7k
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:03:46 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41976)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lM8RA-0002OH-3U
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:04:36 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:56183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lM8QK-0003I4-J7
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:03:45 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id b9so7299952wrt.8
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 05:03:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lM8R4-0003gc-Jf
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:04:35 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id bt4so10503889pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 05:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1vJqP+RK9gQ8U/uUBqM5cSkJ1u4jTCMSvkvfI3cmRFg=;
- b=vLJRSLGDJy6oN/0PeiSWNVg5LV+W6Aucz+Y6sqYv2/42++kqLllcHp/9UpzVSONIt9
- 49bZC8D13RYN4VdbvlzZaclcJMai8mQ9TDY7YYGFZo3N9vyEMhCSsLKJpOQnB3rVwCOo
- 3x4qMjZSBZPeIravILqxHE6pEZcqZrk9gVE3HTCXb/p8Pe9E7XhyCfoZ4znb2okC/Kqu
- XdfzQqXxNEaSPtu+EaoharQLjlvG6V5+CqobrQOyikifaarcJxQY5Awcwk5sHy17ntXV
- tIGoKoXRwtrb/mtqk7KtwOSBHEsNiTD33cVx+jqTdEg6p5jY9cYuh6n3nTXtNR0IN0nA
- J+UA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XGs0cESKg54US3MieKzD9mjNvNrBnzNfShHqBVMa7GU=;
+ b=gzLCPTxZfXJqVNWqVDBKjh6lQ6HNcDK1VAhc85HPigNtuyCFn/6rLV8HNRY2UmPuEA
+ fQB0qhgHlxF6HyFlrDKXc0Q2isJ2gX+B8sTxFcRJzO6IKZp64ysD3FJZ5PfK5AxBm3uM
+ qHkkJJu2Xn6FjUOLqgmWwxG2zlvUq9Qh45EMnOcAHBFPWDmtqNY7Fy/1XcmU7oPnv1el
+ 4QgCGsq1F35pXeztlyA19xjZ6Y1TqvShe+OxaP8d/LYc4K0NRLhhWXDISpscllcgwFKu
+ Kh1f5VHzV8FYkRSrXpDeQPB5laoxQ05qXwlSKgnOSCotdlF8buBhK78nVIguutDBIRQH
+ z7XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=1vJqP+RK9gQ8U/uUBqM5cSkJ1u4jTCMSvkvfI3cmRFg=;
- b=Ch+UfzvA8EtlB9anyrs4c3X8DGZKXIp9MW/Vhd82gE4wcd8Anv4q0PGingeQDLtqEa
- OJIcK4KZiD20m256Kc/uekIpPc08yqTRUkvLTRLIGvZ5zqxu9uM6W7mVGxqzWGTEGnUT
- 5b07YhugnEODT5kn+Rma3xClPT6GoaxO6b0FCphGTcZlBJMdsE7t4G9I2Pqk5i/c4CbN
- scKPXmMrqz2OXhtgTq0UJKtSNaKTltT5SwsK9GGSXfHXW4iZ0jObQAt4PtHANEu9hFuD
- avDU8kjdWFHfjPgugFSX+bg/1uKbptpDmHNnDmE21wKAIdhC6Bp7aXqlUtObGFjjFrS1
- 2bqA==
-X-Gm-Message-State: AOAM5338FAynNWZwO3YV3bXxAWyNO1EsKml97pe0+Hb9BqYayVhZoq8k
- IJhoOeiy0yx5tC8I/pfS7DM=
-X-Google-Smtp-Source: ABdhPJwJqdgaoutkuI1l6IjA1iyyluOabSbpn7lw8ehTOqBdTWRLlkAqsRH+MGXlMLCpdyL0ct3UJg==
-X-Received: by 2002:a05:6000:1545:: with SMTP id
- 5mr4503238wry.90.1615896222770; 
- Tue, 16 Mar 2021 05:03:42 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id v14sm1629690wrd.48.2021.03.16.05.03.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 05:03:41 -0700 (PDT)
-Subject: Re: [PATCH] target/mips/mxu: Rewrite D16MIN / D16MAX opcodes
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210315223745.2953548-1-f4bug@amsat.org>
- <CAFEAcA-+m-eADtYini-2Mscom-RiuvzG4cXndMcuSKR80O8dow@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <63e49cce-203a-6674-9b37-4b331f6ef477@amsat.org>
-Date: Tue, 16 Mar 2021 13:03:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ bh=XGs0cESKg54US3MieKzD9mjNvNrBnzNfShHqBVMa7GU=;
+ b=WjSgDrtU8KEaVA4SS5UGc+6wAPeqBYmo8f9zFJnW/ik+7/+ZmgFs7jwxavRaGg7kPN
+ UuYThUZZ7Ly6/XrgIE6533mWvJwmhOq/p5PXMIFeDQZfDMojAe9Y7lETH04c7Wn8dXLA
+ UAu4ZWuV2VQq2RpBEzWxZpwXqgn1sH4HuLqjiwPaFpfsSyGsyA0BsXinybgXzNPFv2z2
+ IKz9+//szWWJB3N3dlNJeNNXctmv+YYmJ3P1EsUOACp8SvISLxexhv5ygtqfngA9hkBY
+ lUO3jTFuf0XtZmHM20dy9Stmt9iy/HSDze7JI+OR+ky4AZKWu1k3z2UHOmehcblAaufn
+ dUfw==
+X-Gm-Message-State: AOAM533pMFSJimb7gFQXcFlmjxqZ0WTSPcuIaD54UZD4tNWrJRmH2qWw
+ /u25q9utvWnuvozMix7NAek=
+X-Google-Smtp-Source: ABdhPJy69wSuNWRmsdyQrU2UFCvu3UUw/nGMBaF5DFe4EAji3CuFxOpd9ogsQL7Q0oslNP3YaijanQ==
+X-Received: by 2002:a17:902:b185:b029:e6:6d17:6ea with SMTP id
+ s5-20020a170902b185b02900e66d1706eamr16281739plr.40.1615896269141; 
+ Tue, 16 Mar 2021 05:04:29 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id d5sm2722166pjo.12.2021.03.16.05.04.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Mar 2021 05:04:28 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH v4 00/12] net: Pad short frames for network backends
+Date: Tue, 16 Mar 2021 20:04:08 +0800
+Message-Id: <20210316120420.19658-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-+m-eADtYini-2Mscom-RiuvzG4cXndMcuSKR80O8dow@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,67 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Craig Janeczek <jancraig@amazon.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/21 11:51 AM, Peter Maydell wrote:
-> On Mon, 15 Mar 2021 at 22:39, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Coverity reported (CID 1450831) an array overrun in
->> gen_mxu_D16MAX_D16MIN():
->>
->>   1103     } else if (unlikely((XRb == 0) || (XRa == 0))) {
->>   ....
->>   1112         if (opc == OPC_MXU_D16MAX) {
->>   1113             tcg_gen_smax_i32(mxu_gpr[XRa - 1], t0, t1);
->>   1114         } else {
->>   1115             tcg_gen_smin_i32(mxu_gpr[XRa - 1], t0, t1);
->>   1116         }
->>
->>>>> Overrunning array "mxu_gpr" of 15 8-byte elements at element
->>     index 4294967295 (byte offset 34359738367) using index "XRa - 1U"
->>     (which evaluates to 4294967295).
->>
->> Because we check if 'XRa == 0' then access 'XRa - 1' in array.
->>
->> I figured it could be easier to rewrite this function to something
->> simpler rather than trying to understand it.
-> 
-> This seems to drop half of the optimised cases the old
-> code had. Wouldn't it be simpler just to fix the bugs
-> in the conditions?
-> 
-> That is:
-> 
->>      if (unlikely(pad != 0)) {
->>          /* opcode padding incorrect -> do nothing */
->> -    } else if (unlikely(XRc == 0)) {
->> -        /* destination is zero register -> do nothing */
-> 
-> This should be "XRa == 0"
-> 
->> -    } else if (unlikely((XRb == 0) && (XRa == 0))) {
->> -        /* both operands zero registers -> just set destination to zero */
-> 
-> This should be "XRb == 0 && XRc == 0"
-> 
->> -        tcg_gen_movi_i32(mxu_gpr[XRc - 1], 0);
-> 
-> This should set mxu_gpr[XRa - 1]
-> 
->> -    } else if (unlikely((XRb == 0) || (XRa == 0))) {
-> 
-> This should be "XRb == 0 || XRc == 0"
-> 
-> And everything else in the function looks OK to me.
+The minimum Ethernet frame length is 60 bytes. For short frames with
+smaller length like ARP packets (only 42 bytes), on a real world NIC
+it can choose either padding its length to the minimum required 60
+bytes, or sending it out directly to the wire. Such behavior can be
+hardcoded or controled by a register bit. Similarly on the receive
+path, NICs can choose either dropping such short frames directly or
+handing them over to software to handle.
 
-If you have the changes clear, do you mind sending a patch?
+On the other hand, for the network backends like SLiRP/TAP, they
+don't expose a way to control the short frame behavior. As of today
+they just send/receive data from/to the other end connected to them,
+which means any sized packet is acceptable. So they can send and
+receive short frames without any problem. It is observed that ARP
+packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
+these ARP packets to the other end which might be a NIC model that
+does not allow short frames to pass through.
 
-Thanks,
+To provide better compatibility, for packets sent from QEMU network
+backends like SLiRP/TAP, we change to pad short frames before sending
+it out to the other end, if the other end does not forbid it via the
+nc->do_not_pad flag. This ensures a backend as an Ethernet sender
+does not violate the spec. But with this change, the behavior of
+dropping short frames from SLiRP/TAP interfaces in the NIC model
+cannot be emulated because it always receives a packet that is spec
+complaint. The capability of sending short frames from NIC models is
+still supported and short frames can still pass through SLiRP/TAP.
 
-Phil.
+This series should be able to fix the issue as reported with some
+NIC models before, that ARP requests get dropped, preventing the
+guest from becoming visible on the network. It was workarounded in
+these NIC models on the receive path, that when a short frame is
+received, it is padded up to 60 bytes.
+
+Changes in v4:
+- change 'ethernet' to 'Ethernet'
+- do not inline the helper
+- check the padded buffer size to avoid buffer overflow
+- squash slirp/tap commits into one
+
+Changes in v3:
+- use 'without' instead of 'sans'
+- add a helper to pad short frames
+- add a comment to 'do_not_pad'
+- use the pad_short_frame() helper
+
+Bin Meng (12):
+  net: eth: Add a helper to pad a short Ethernet frame
+  net: Add a 'do_not_pad" to NetClientState
+  net: Pad short frames to minimum size before sending from SLiRP/TAP
+  hw/net: virtio-net: Initialize nc->do_not_pad to true
+  hw/net: e1000: Remove the logic of padding short frames in the receive
+    path
+  hw/net: vmxnet3: Remove the logic of padding short frames in the
+    receive path
+  hw/net: i82596: Remove the logic of padding short frames in the
+    receive path
+  hw/net: ne2000: Remove the logic of padding short frames in the
+    receive path
+  hw/net: pcnet: Remove the logic of padding short frames in the receive
+    path
+  hw/net: rtl8139: Remove the logic of padding short frames in the
+    receive path
+  hw/net: sungem: Remove the logic of padding short frames in the
+    receive path
+  hw/net: sunhme: Remove the logic of padding short frames in the
+    receive path
+
+ include/net/eth.h   | 17 +++++++++++++++++
+ include/net/net.h   |  1 +
+ hw/net/e1000.c      | 11 +----------
+ hw/net/i82596.c     | 18 ------------------
+ hw/net/ne2000.c     | 12 ------------
+ hw/net/pcnet.c      |  9 ---------
+ hw/net/rtl8139.c    | 12 ------------
+ hw/net/sungem.c     | 14 --------------
+ hw/net/sunhme.c     | 11 -----------
+ hw/net/virtio-net.c |  4 ++++
+ hw/net/vmxnet3.c    | 10 ----------
+ net/eth.c           | 17 +++++++++++++++++
+ net/slirp.c         | 10 ++++++++++
+ net/tap-win32.c     | 10 ++++++++++
+ net/tap.c           | 10 ++++++++++
+ 15 files changed, 70 insertions(+), 96 deletions(-)
+
+-- 
+2.25.1
+
 
