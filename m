@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A736833D625
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:50:52 +0100 (CET)
-Received: from localhost ([::1]:59840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A99733D642
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 15:57:22 +0100 (CET)
+Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMB23-0000sS-NA
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46904)
+	id 1lMB8L-0003uK-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 10:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMAzU-000725-9M; Tue, 16 Mar 2021 10:48:13 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19306)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMB7I-0003KN-Qu
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:56:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMAzQ-0007yQ-4X; Tue, 16 Mar 2021 10:48:11 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 92DCC746353;
- Tue, 16 Mar 2021 15:48:04 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 698957462BD; Tue, 16 Mar 2021 15:48:04 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 681087456B4;
- Tue, 16 Mar 2021 15:48:04 +0100 (CET)
-Date: Tue, 16 Mar 2021 15:48:04 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v7 0/8] Pegasos2 emulation
-In-Reply-To: <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
-Message-ID: <c1579f1-1ef-9d53-aea8-6d975f70634e@eik.bme.hu>
-References: <cover.1615345138.git.balaton@eik.bme.hu>
- <85548594-aaa1-8d3a-cedf-d2dd92f05028@eik.bme.hu>
- <b6bda254-ac3-d271-3e1b-bf73e4282e9b@eik.bme.hu>
- <d6d7d87b-7c7d-69e8-a7f4-e6611a4096ea@vivier.eu>
- <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMB7G-0004g2-59
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 10:56:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615906572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mgqgFWkIGF8tPWXbcf//kFMgzZm9lVpPpYCuAS8h5nY=;
+ b=Ryn7GkDZOpFXIhnVaTICTQ9YDDONk+fJeid7bfNoAzudrgq+4kiy7Fz2g6LEMF8kZ1SDfg
+ WgAFzTuOxEBJdkkTm1gEtz/N04asamPxPNCgtwiZ1rPxzL53KRsc/S9xbYHhOvfXdXxJ8o
+ iYlCCnKnMAaw26gSU+IEFrPnBcLo6rY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-YcwniRNKP6iOZnqdr6ZC8g-1; Tue, 16 Mar 2021 10:56:10 -0400
+X-MC-Unique: YcwniRNKP6iOZnqdr6ZC8g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 755D6107ACCA;
+ Tue, 16 Mar 2021 14:56:09 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-216.ams2.redhat.com [10.36.112.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0079D60C13;
+ Tue, 16 Mar 2021 14:56:00 +0000 (UTC)
+Date: Tue, 16 Mar 2021 15:55:59 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/42] Block layer patches and object-add QAPIfication
+Message-ID: <YFDG/xfWFQoH9kMq@merkur.fritz.box>
+References: <20210315123520.118752-1-kwolf@redhat.com>
+ <CAFEAcA8ckSBYcONgQKXeWnSwL9inGAchUAAwy9=xcb2HEP=qVQ@mail.gmail.com>
+ <YFDCSMHXeP/qbeUZ@merkur.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YFDCSMHXeP/qbeUZ@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,115 +77,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another arrempt to explain patch 1. This is the via-superio class that's a 
-subclass of ISA superio:
+Am 16.03.2021 um 15:35 hat Kevin Wolf geschrieben:
+> Am 16.03.2021 um 14:17 hat Peter Maydell geschrieben:
+> > On Mon, 15 Mar 2021 at 12:35, Kevin Wolf <kwolf@redhat.com> wrote:
+> > >
+> > > The following changes since commit 6157b0e19721aadb4c7fdcfe57b2924af6144b14:
+> > >
+> > >   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-03-14 17:47:49 +0000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+> > >
+> > > for you to fetch changes up to 078ee48ef7d172df1b3ad020255d1eb6beda2daf:
+> > >
+> > >   qom: Support JSON in HMP object_add and tools --object (2021-03-15 13:04:27 +0100)
+> > >
+> > > ----------------------------------------------------------------
+> > > Block layer patches and object-add QAPIfication
+> > >
+> > > - QAPIfy object-add and --object for tools (keyval and JSON support)
+> > > - Add vhost-user-blk-test
+> > > - stream: Fail gracefully if permission is denied
+> > > - storage-daemon: Fix crash on quit when job is still running
+> > > - curl: Fix use after free
+> > > - char: Deprecate backend aliases, fix QMP query-chardev-backends
+> > > - Fix image creation option defaults that exist in both the format and
+> > >   the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
+> > >   default was incorrectly applied to the rbd layer)
+> > >
+> > > ----------------------------------------------------------------
+> > 
+> > Fails 'make check' on x86-64 linux:
+> > 
+> > PASS 61 qtest-x86_64/qos-test
+> > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/config
+> > PASS 62 qtest-x86_64/qos-test
+> > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/basic
+> > PASS 63 qtest-x86_64/qos-test
+> > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-blk-pci/virtio-blk/virtio-blk-tests/resize
+> > **
+> > ERROR:../../tests/qtest/libqos/virtio.c:194:qvirtio_wait_status_byte_no_isr:
+> > assertion failed: (!d->bus->get_queue_isr_status(d, vq))
+> > ERROR qtest-x86_64/qos-test - Bail out!
+> > ERROR:../../tests/qtest/libqos/virtio.c:194:qvirtio_wait_status_byte_no_isr:
+> > assertion failed: (!d->bus->get_queue_isr_status(d, vq))
+> > Makefile.mtest:1008: recipe for target 'run-test-124' failed
+> > make: *** [run-test-124] Error 1
+> 
+> It didn't fail to me, so the condition must be a little more specific
+> than just x86_64 Linux.
+> 
+> Stefan, can you have a look? I may have to drop these patches again.
 
-https://github.com/patchew-project/qemu/blob/ca5d88d2fee0016f939e91ae8b32c18e682064fa/hw/isa/vt82c686.c#L255
+Actually, these are not the new vhost-user-blk test, but just the normal
+virtio-blk ones and it's probably unrelated. This is weird, because this
+pull request doesn't include any change to virtio-blk or the related
+qtests. Could this be intermittent failure of a change introduced by an
+earlier pull request?
 
-#define TYPE_VIA_SUPERIO "via-superio"
-OBJECT_DECLARE_SIMPLE_TYPE(ViaSuperIOState, VIA_SUPERIO)
+Peter, which environment was this and are full logs available? It
+doesn't seem to be the Gitlab CI (because the build is still running
+there and hasn't failed yet). My first attempts to reproduce have failed
+so far.
 
-struct ViaSuperIOState {
-     ISASuperIODevice superio;
-     uint8_t regs[0x100];
-     const MemoryRegionOps *io_ops;
-     MemoryRegion io;
-     MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
-};
+Kevin
 
-[...]
-
-static void via_superio_realize(DeviceState *d, Error **errp)
-{
-     ViaSuperIOState *s = VIA_SUPERIO(d);
-     ISASuperIOClass *ic = ISA_SUPERIO_GET_CLASS(s);
-     Error *local_err = NULL;
-     int i;
-
-     assert(s->io_ops);
-     ic->parent_realize(d, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
-     /* Grab io regions of serial devices so we can control them */
-     for (i = 0; i < ic->serial.count; i++) {
-         ISADevice *sd = s->superio.serial[i];
-         MemoryRegion *io = isa_address_space_io(sd);
-         MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
-         if (!mr) {
-             error_setg(errp, "Could not get io region for serial %d", i);
-             return;
-         }
-         s->serial_io[i] = mr;
-     }
-
-     memory_region_init_io(&s->io, OBJECT(d), s->io_ops, s, "via-superio", 2);
-     memory_region_set_enabled(&s->io, false);
-     /* The floppy also uses 0x3f0 and 0x3f1 but this seems to work anyway */
-     memory_region_add_subregion(isa_address_space_io(ISA_DEVICE(s)), 0x3f0,
-                                 &s->io);
-}
-
-In realize we grab pointers to the MemoryRegions of the isa-serial devices 
-created by the ISA superio class. This is ISA superio:
-
-https://github.com/patchew-project/qemu/blob/ca5d88d2fee0016f939e91ae8b32c18e682064fa/include/hw/isa/superio.h#L23
-
-#define SUPERIO_MAX_SERIAL_PORTS 4
-
-struct ISASuperIODevice {
-     /*< private >*/
-     ISADevice parent_obj;
-     /*< public >*/
-
-     ISADevice *parallel[MAX_PARALLEL_PORTS];
-     ISADevice *serial[SUPERIO_MAX_SERIAL_PORTS];
-     ISADevice *floppy;
-     ISADevice *kbc;
-     ISADevice *ide;
-};
-
-The serial members we access are even public so this should be OK (other 
-models to that too) but we need to get their MemoryRegion as we need to 
-configure that based on VIA superio registers. ISADevice is defined in:
-
-https://github.com/patchew-project/qemu/blob/patchew/cover.1615345138.git.balaton%40eik.bme.hu/include/hw/isa/isa.h
-
-but it does not store a reference to its memory regions:
-
-struct ISADevice {
-     /*< private >*/
-     DeviceState parent_obj;
-     /*< public >*/
-
-     int8_t isairq[2];      /* -1 = unassigned */
-     int nirqs;
-     int ioport_id;
-};
-
-only an ioport_id which is the address of its first io region so we have 
-to get the actual MemoryRegion based on that. This works for isa-serial 
-that has a single mem region but would not for parallel or FDC that have 
-multiple regions. Those are created with isa_register_portio_list() I 
-think but we don't care about parallel and FDC only about serial.
-
-This may be possible to clean up but that would need changes to ISA 
-emulation that I don't want to change so the patch tries to achieve what's 
-needed without changing how ISA devices are emulated currently. I think 
-the solution proposed in patch 1 is relatively clean and by not changing 
-anything than vt82c686 it avoids any possible breakage to other machines 
-using ISA devices so unless there's a reason not to accept it this should 
-solve the problem and allow pegasos2 firmware to boot.
-
-Regards,
-BALATON Zoltan
 
