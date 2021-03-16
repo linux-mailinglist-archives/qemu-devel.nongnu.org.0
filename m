@@ -2,63 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF8233D469
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:57:14 +0100 (CET)
-Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228DB33D47A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:59:48 +0100 (CET)
+Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM9G5-0007Gm-3q
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
+	id 1lM9IZ-0000D4-5j
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lM9F8-0006jC-I8; Tue, 16 Mar 2021 08:56:14 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:44355)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lM9H8-0007or-HV
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:58:18 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lM9F6-0008Fe-Gr; Tue, 16 Mar 2021 08:56:14 -0400
-Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MHWzP-1lQo4h47wf-00DXUZ; Tue, 16 Mar 2021 13:55:55 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1615345138.git.balaton@eik.bme.hu>
- <85548594-aaa1-8d3a-cedf-d2dd92f05028@eik.bme.hu>
- <b6bda254-ac3-d271-3e1b-bf73e4282e9b@eik.bme.hu>
- <d6d7d87b-7c7d-69e8-a7f4-e6611a4096ea@vivier.eu>
- <276e8961-d058-c47e-82dd-1715881607d5@amsat.org>
- <4ce33c11-af3c-4a18-fccb-9c9bdb2b26c2@vivier.eu>
- <ea5f6f28-3be1-6a80-7b8a-c3563baec061@eik.bme.hu>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v7 0/8] Pegasos2 emulation
-Message-ID: <d5bdc780-4809-2666-35cb-a2096ed967e0@vivier.eu>
-Date: Tue, 16 Mar 2021 13:55:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lM9H1-0000xR-Vx
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:58:18 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F0CvD2M0GzNnSn;
+ Tue, 16 Mar 2021 20:55:36 +0800 (CST)
+Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 16 Mar 2021 20:57:52 +0800
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+To: David Edmondson <dme@dme.org>, Peter Xu <peterx@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Alexey Romko
+ <nevilad@yahoo.com>, "open list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: [PATCH v4 0/2] Some modification about ram_save_host_page()
+Date: Tue, 16 Mar 2021 20:57:14 +0800
+Message-ID: <20210316125716.1243-1-jiangkunkun@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <ea5f6f28-3be1-6a80-7b8a-c3563baec061@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LlUbvfHP7EaH0VLXg4p++NQwU1wnT1huAYbxcVnz6yC+74gt0QC
- oJOh3g/3o9UO7HCbci2hcX7kmFWWst0Zj9i1OeWSFOCIIsz/he258cBtj3IPygTOfUEA067
- 7xZ7ZJ/MbOXwm2g4aDChIB9FlfWfUTYrIiSb602WBxWveS3uJ0j9aTQiJBJoQ6dHMgvB1Lu
- EdmrkAHEUpyID5v0/29cw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eW87gf8GxWM=:dC+pPTr9UcIaXRVP46IRyW
- flYmTi6GKX1u0v3pHwBB5AFcxd5PzwB60IqCidSMYgJ3weU3ymtbvEMpwLvJyXZMj5ljJyKv5
- YOOLGqvMxwg3omp0r6Lc4DWpg1Yi1wt+Yc/JmVKW5TaP1l7cd+oo6/UayEfNS8/XYvCY7uOZ7
- /zBarya0Pmc+w+c097dNVujt4D8n/vO4cEaR/ECJsqhL+c7ZK7XSGaNkeMq5caFIR1WkwHdnM
- YUAnzB+x3D3hIxw6e/DMApYG3y+OaFpPUCSeJIinCnUnqACkwJOglCQxT4XjT49bJd6/w0u2E
- 5q4SosepUXCw1fCXag0a6RU3P20YlQs6P2C21bYGtqgVKgRGuYNzXnKIO3+BqEY/5615AZYbT
- ry7s9KbwZzV35PkrjfejviaPuTszK5qemQp0rCDQ0WC4pmWS3s0QjUHBdGEqcb4Rwy1NlkgSm
- j9+vODqMHw==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.210]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,81 +60,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 16/03/2021 à 13:24, BALATON Zoltan a écrit :
-> On Tue, 16 Mar 2021, Laurent Vivier wrote:
->> Le 16/03/2021 à 12:49, Philippe Mathieu-Daudé a écrit :
->>> On 3/16/21 10:01 AM, Laurent Vivier wrote:
->>>> Le 15/03/2021 à 13:33, BALATON Zoltan a écrit :
->>>>> On Sat, 13 Mar 2021, BALATON Zoltan wrote:
->>>>>> On Wed, 10 Mar 2021, BALATON Zoltan wrote:
->>>>>>> Hello,
->>>>>>
->>>>>> I've started posting this series well in advance to get it into 6.0 and yet it seems like it may
->>>>>> be missing it due to organisational issues (no real complaints were found with patches but
->>>>>> Philippe seems to like more review that does not seem to happen as nobody is interested). Looks
->>>>>> like David is waiting for an ack from Philippe but will be away next week so if this is not
->>>>>> resolved now it may be too late on Monday. To avoid that:
->>>>>>
->>>>>> David, could you please send an ack before you leave for the last two patches so it could get
->>>>>> committed via some other tree while you're away?
->>>>>>
->>>>>> Philippe, if you can't ack the vt82c686 patches now are you OK with taking the whole series via
->>>>>> your tree before the freeze? That would give you some more days to review and it could always be
->>>>>> reverted during the freeze but if it's not merged now I'll have to wait until the summer to
->>>>>> get it
->>>>>> in again which would be another long delay. I don't think this will get more reviews unless it's
->>>>>> in master and people can start using and testing it better.
->>>>>
->>>>> Hello,
->>>>>
->>>>> Since David seems to be away for this week before seeing my mail asking for an ack from him, now
->>>>> this can only get in by Philippe or Peter. (David said before he'd be OK with the series if
->>>>> Philippe
->>>>> acked it so I think that can count as an implicit ack and it could always be reverted before the
->>>>> releease.)
->>>>>
->>>>> Philippe, do you have anything against this to get merged now? If not please send a pull or ack it
->>>>> so it has a chance to be in 6.0 or tell if you still intend to do anything about it before the
->>>>> freeze. This series was on the list since January and the remaining parts you did not take are
->>>>> here
->>>>> since February 22nd and the version after your first review since two weeks so it would be nice to
->>>>> sort this out and not block it any further without a good reason.
->>>>
->>>> Pegasos looks like a New World PowerMac, so perhaps Mark can help?
->>>
->>> The PPC part is mostly reviewed. The problem is the first patch:
->>> "vt82c686: Implement control of serial port io ranges via config regs".
->>
->> vt82c686.c is a Fuloong 2E file, why Fuloong 2E maintainers are not involved in the review?
-> 
-> Philippe is MIPS maintainer and he was involved and reviewed most patches. Huacai did not respond
-> much and Jiaxun's email adress is constantly stripped by the list so whenrver I add him it will be
-> lost the next time. He seems to be more interested in Fuloong 3 anyway so did not respond much either.
-> 
-> All in all I think there's just not enough interest in these machines/devices so my stance is that
-> if it does not break anything just take it now and then we'll have enough time for further review,
-> fixing or reverting during the freeze. Whereas if this is kept pushing back then nothing will happen
-> with them for the next 2-3 months then we'll be back to here and miss the next release as well.
+Hi all,
 
-The PATCH 1 doesn't seem to be needed to have a working Pegasos 2 machine, does it?
+This series include patches as below:
+Patch 1:
+- reduce unnecessary rate limiting in ram_save_host_page()
 
-If the problem is only with the first patch perhaps you can remove it to have it merged and come
-back later with a cleaner implementation (it is presented to be a hack)?
+Patch 2:
+- optimized ram_save_host_page() by using migration_bitmap_find_dirty() to find
+dirty pages
 
-I think PATCH 6 can already be merged, and PATCH 2 can be done outside of the series as a pre-requisite.
+History:
 
-Then it will be easier to manage a series only adding devices for your new machine.
+v3 -> v4:
+- Remove the modification to ram_save_host_page() comment [Peter Xu]
+- Remove the renaming of tmppages 
 
-Thanks,
-Laurent
+v2 -> v3:
+- Reduce unnecessary rate limiting if nothing is sent in the current iteration [David Edmondson]
+- Invert the body of the loop in ram_save_host_page() [David Edmondson]
+
+v1 -> v2:
+- Modify ram_save_host_page() comment [David Edmondson]
+- Remove 'goto' [David Edmondson]
+
+Kunkun Jiang (2):
+  migration/ram: Reduce unnecessary rate limiting
+  migration/ram: Optimize ram_save_host_page()
+
+ migration/ram.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
+-- 
+2.23.0
 
 
