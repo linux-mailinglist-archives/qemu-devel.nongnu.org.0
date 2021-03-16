@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B9233CE15
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 07:48:31 +0100 (CET)
-Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EC733CE1B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 07:50:50 +0100 (CET)
+Received: from localhost ([::1]:60126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM3VF-0002wZ-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 02:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49398)
+	id 1lM3XW-0005Se-03
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 02:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lM3U9-0002VS-4C; Tue, 16 Mar 2021 02:47:21 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45208)
+ id 1lM3Vx-0004aR-DR; Tue, 16 Mar 2021 02:49:13 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:32822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lM3U7-00054w-Jm; Tue, 16 Mar 2021 02:47:20 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id c17so4561646pfv.12;
- Mon, 15 Mar 2021 23:47:18 -0700 (PDT)
+ id 1lM3Vu-0006HA-UM; Tue, 16 Mar 2021 02:49:13 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id c16so16506048ply.0;
+ Mon, 15 Mar 2021 23:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
  bh=yQhpZ5m2TAfpymIa9INYQdstPu0umbaEZF/uTq2krwA=;
- b=YRZV3iuTIe5Hrs4JSc6xGK1OogM6BuJTgtawVeJlJJ53eZe+xIS+6ItHhYfTk2rJHN
- DdTlIt0ZgdC/EaZzKvIOIHYVhz73QQAQsNVit7D0wZoi5tclsaaqWNBSmYa+GCPTzbMs
- TeZnf8hHocGeuahHqINXJBBqT670v+7GM7JrjvSHT834YTs4dp+77nvcu9n5B+yOwquX
- YR5JAIKxnPno9wnGNIEbV+C7k+OoYED68W4jVxyg5k63h5FPIJ6jzhsfX4xrsY9FRpXM
- rD4H7kW6hDc9cCGJURu9ws8d+xyLZ206Pfj5cR6z8Bv4D5akHtVVJk6PNEBtC0mFWY5d
- h0HQ==
+ b=ScePl3OlcwMEtltuoGLrOVo2a+EsqlWOeyAzA1fEQiwDd97jXdBjYQe3P6Pr+JXEK6
+ AVn/htYMGP/63Q3q0dLRxz7rbYNsZ8WMzxwXPtVNFvJN/fBmird+JJWWxZnuJpFVEGh6
+ A+VpFqOUZZ4WN6GxV8aKmkUGAPEs3mgF3uCf1Sn9111onphRYhS8z6rGEtEd6C1dsoK6
+ APbswTBF5CA1mqc4mOBeJYsGYIKOHP0Vxi2C8Kyp4lM+91f+6KL9Ga9YjFdfvmDBG3ec
+ eujloyt2hWy3UutXzIzrPNaNk1LSSSl6/ABip4HdF46VXttK1lhYrqRxpPDS4umJ3EVg
+ BmRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
  bh=yQhpZ5m2TAfpymIa9INYQdstPu0umbaEZF/uTq2krwA=;
- b=IE15WFtA5J/QvQBETAo38iedGUEEQ6WIcExxv9MhZka0ZEhgtVtvq4uS086JhalR0r
- 2bAQwHLr+hKByna0EOJ5aOoTdGJlqqEY3kfOndYA8o9LYcjOapWQxsV+YtgfBs0L5kqK
- idxsNqxW/IpQqbn269m8At2QauvepZc8pIWKUwt3JLlHLjEKggCTDu5cMCOTiETK7Tch
- Hu9KYEuqe8SebyoJhjtkGpNbdoRF0lsemnVhbRKcRq6xsOGusXy5ilQdx4fTcZYqpCxo
- krBctDGM0gYq6ZcUXxAr4GjluP4o58/6/4pT6pXW5J3fdM4nYB9HnPA8WmdtR+AEehb1
- HXrA==
-X-Gm-Message-State: AOAM531dw9KstZzoDdXolTOv22Tzs+vTEKLhGERAFBtoN4PsvlUaLlBb
- jq1ZpNYJgERhyYnWaeWVzok=
-X-Google-Smtp-Source: ABdhPJxCw9wEc4ct/AEmdMFxiXB4VO09Qcc0bLkx8FWSqZmp9sRSeATDZglOaZI5m4FNoMzumYSbHQ==
-X-Received: by 2002:a63:1303:: with SMTP id i3mr2606782pgl.32.1615877236931;
- Mon, 15 Mar 2021 23:47:16 -0700 (PDT)
+ b=SdbhmZX/R/fME7A29LNHdHepMoUTT7NGyF32XBP7R0CRnitgmwz+mGGCsBXWSVLl6a
+ 69UwqmaLKUPbFZ7zff/+8bD8pdO8oJ/lRTXRM/k4T/3IMpNh3mh7QMg0TcXYqFeDAmFZ
+ rakLPqKZvTOmjIlxUANz7jtBHKMSKJ3kOGvVoX8VuDFsxsnYF6x/cl95UgP2bBdLGOwE
+ D+b+7aUUkBgm24TpqVc8ZvdzV2NgktGgSsB3N8nMVFLwMTIt0RTK7pdEZKX2Wn0GB1a+
+ cdVkzzNm80Dlvx6D+zgx6DPJQiqOocDmm4rH59/KdLx1JwBerkbs0UWUYVtnw9iif0OQ
+ dU9A==
+X-Gm-Message-State: AOAM532bvCM2qB2cxq98omeTiKQ+KMRxrqVwLXrRvKXfzGu/+I1H0wFo
+ QR63eyDWJDse6++BLGivivc=
+X-Google-Smtp-Source: ABdhPJzsfedhAg1DAushOJ6rdH5dp+OMf1ZFKOlluReFq9jJeqF4jV3iPkjXJIEyHtQeRDz/Z5Pu9Q==
+X-Received: by 2002:a17:90b:b0d:: with SMTP id
+ bf13mr3270133pjb.7.1615877349078; 
+ Mon, 15 Mar 2021 23:49:09 -0700 (PDT)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id c25sm14584938pfo.101.2021.03.15.23.47.16
+ by smtp.gmail.com with ESMTPSA id y17sm1717377pju.50.2021.03.15.23.49.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 23:47:16 -0700 (PDT)
-Date: Tue, 16 Mar 2021 15:47:14 +0900
+ Mon, 15 Mar 2021 23:49:08 -0700 (PDT)
+Date: Tue, 16 Mar 2021 15:49:06 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v5 07/13] hw/block/nvme: prefer runtime helpers instead
- of device parameters
-Message-ID: <20210316064714.GA23761@localhost.localdomain>
+Subject: Re: [PATCH v5 08/13] hw/block/nvme: pull lba format initialization
+Message-ID: <20210316064906.GB23761@localhost.localdomain>
 References: <20210310095347.682395-1-its@irrelevant.dk>
- <20210310095347.682395-8-its@irrelevant.dk>
+ <20210310095347.682395-9-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210310095347.682395-8-its@irrelevant.dk>
+In-Reply-To: <20210310095347.682395-9-its@irrelevant.dk>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
