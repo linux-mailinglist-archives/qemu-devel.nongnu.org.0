@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C190033E05D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:19:47 +0100 (CET)
-Received: from localhost ([::1]:49090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7B333E06B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 22:22:28 +0100 (CET)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMH6Q-0002N5-Q3
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51988)
+	id 1lMH91-000659-9u
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 17:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMH2h-0005de-RV
+ id 1lMH2h-0005dn-ST
  for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:15:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31939)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMH2Z-0003WR-W1
+ id 1lMH2a-0003WB-2Z
  for qemu-devel@nongnu.org; Tue, 16 Mar 2021 17:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615929347;
+ s=mimecast20190719; t=1615929346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fBoqlLC/BhqsNfuI2cl/rqg1pW0BJW/8ArptsabiTFY=;
- b=JFGPjIVyguQHo9A6O/BRd5QZBHywlGY3/4TgRQM+rBWJ9s1W+HiK6p6cRWLJBNXnb6LTbr
- 4ZguJycorrlcFhurgIhzmBILWq01ogyRKkrXl9XBKVLcPu4ZguqBaiV3MxJzfSkUW7UpwF
- S9VesgpgE9kqVTjKercBlxM5nlZUMuI=
+ bh=DsN4/rvHHU48Yr6aQ62htF/9dKQLdus/U7a075wQNHE=;
+ b=ZoqjnNv/mWRf74xi7UiL7TCizhC2NybQOvzS1kyq9Ihnp3jtBFVZNytGmcryLi4IXUE9Ln
+ /FFRqPL4vRlU1+A+dgpmKoDxXow/UavDv2WeSWr+h1PEmITgts+G9xlscVgbD8EU8N/tQH
+ wpBUVFeA9A5q8+1kMyaTe32fEd/fI0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-IbMgs1J7NoqO5PgGHIXUTQ-1; Tue, 16 Mar 2021 17:15:44 -0400
-X-MC-Unique: IbMgs1J7NoqO5PgGHIXUTQ-1
+ us-mta-564-bNsMNdJhNMSs8l4nwOwlaQ-1; Tue, 16 Mar 2021 17:15:44 -0400
+X-MC-Unique: bNsMNdJhNMSs8l4nwOwlaQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81C7C80006E;
- Tue, 16 Mar 2021 21:15:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD01183DD21
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 21:15:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18EAC5032D;
- Tue, 16 Mar 2021 21:15:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BED150331
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 21:15:43 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/16] configure: add option to explicitly enable/disable libgio
-Date: Tue, 16 Mar 2021 17:15:27 -0400
-Message-Id: <20210316211531.1649909-13-pbonzini@redhat.com>
+Subject: [PULL 13/16] Revert "accel: kvm: Add aligment assert for
+ kvm_log_clear_one_slot"
+Date: Tue, 16 Mar 2021 17:15:28 -0400
+Message-Id: <20210316211531.1649909-14-pbonzini@redhat.com>
 In-Reply-To: <20210316211531.1649909-1-pbonzini@redhat.com>
 References: <20210316211531.1649909-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,124 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Plotnikov <den-plotnikov@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+This reverts commit 3920552846e881bafa9f9aad0bb1a6eef874d7fb.
+Thomas Huth reported a failure with CentOS 6 guests:
 
-Now, compilation of util/dbus is implicit and depends
-on libgio presence on the building host.
-The patch adds options to manage libgio dependencies explicitly.
+../../devel/qemu/accel/kvm/kvm-all.c:690: kvm_log_clear_one_slot: Assertion `QEMU_IS_ALIGNED(start | size, psize)' failed.
 
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-Message-Id: <20210312151440.405776-1-den-plotnikov@yandex-team.ru>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 60 ++++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 39 insertions(+), 21 deletions(-)
+ accel/kvm/kvm-all.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/configure b/configure
-index f7d022a5db..847bc4d095 100755
---- a/configure
-+++ b/configure
-@@ -465,6 +465,7 @@ fuse_lseek="auto"
- multiprocess="auto"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 37b0a1861e..b6d9f92f15 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -673,10 +673,6 @@ out:
+ #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
+ #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
  
- malloc_trim="auto"
-+gio="$default_feature"
- 
- # parse CC options second
- for opt do
-@@ -1560,6 +1561,10 @@ for opt do
-   ;;
-   --disable-multiprocess) multiprocess="disabled"
-   ;;
-+  --enable-gio) gio=yes
-+  ;;
-+  --disable-gio) gio=no
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1913,6 +1918,7 @@ disabled with --disable-FEATURE, default is enabled if available
-   fuse            FUSE block device export
-   fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
-   multiprocess    Out of process device emulation support
-+  gio             libgio support
- 
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -3319,17 +3325,19 @@ if test "$static" = yes && test "$mingw32" = yes; then
-     glib_cflags="-DGLIB_STATIC_COMPILATION $glib_cflags"
- fi
- 
--if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
--    gio_cflags=$($pkg_config --cflags gio-2.0)
--    gio_libs=$($pkg_config --libs gio-2.0)
--    gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
--    if [ ! -x "$gdbus_codegen" ]; then
--        gdbus_codegen=
--    fi
--    # Check that the libraries actually work -- Ubuntu 18.04 ships
--    # with pkg-config --static --libs data for gio-2.0 that is missing
--    # -lblkid and will give a link error.
--    cat > $TMPC <<EOF
-+if ! test "$gio" = "no"; then
-+    pass=no
-+    if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
-+        gio_cflags=$($pkg_config --cflags gio-2.0)
-+        gio_libs=$($pkg_config --libs gio-2.0)
-+        gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
-+        if [ ! -x "$gdbus_codegen" ]; then
-+            gdbus_codegen=
-+        fi
-+        # Check that the libraries actually work -- Ubuntu 18.04 ships
-+        # with pkg-config --static --libs data for gio-2.0 that is missing
-+        # -lblkid and will give a link error.
-+        cat > $TMPC <<EOF
- #include <gio/gio.h>
- int main(void)
+-/*
+- * As the granule of kvm dirty log is qemu_real_host_page_size,
+- * @start and @size are expected and restricted to align to it.
+- */
+ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+                                   uint64_t size)
  {
-@@ -3337,18 +3345,28 @@ int main(void)
-     return 0;
- }
- EOF
--    if compile_prog "$gio_cflags" "$gio_libs" ; then
--        gio=yes
--    else
--        gio=no
-+        if compile_prog "$gio_cflags" "$gio_libs" ; then
-+            pass=yes
-+        else
-+            pass=no
-+        fi
-+
-+        if test "$pass" = "yes" &&
-+            $pkg_config --atleast-version=$glib_req_ver gio-unix-2.0; then
-+            gio_cflags="$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
-+            gio_libs="$gio_libs $($pkg_config --libs gio-unix-2.0)"
-+        fi
-     fi
--else
--    gio=no
--fi
+@@ -686,9 +682,6 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+     unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
+     int ret;
  
--if $pkg_config --atleast-version=$glib_req_ver gio-unix-2.0; then
--    gio_cflags="$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
--    gio_libs="$gio_libs $($pkg_config --libs gio-unix-2.0)"
-+    if test "$pass" = "no"; then
-+        if test "$gio" = "yes"; then
-+            feature_not_found "gio" "Install libgio >= 2.0"
-+        else
-+            gio=no
-+        fi
-+    else
-+        gio=yes
-+    fi
- fi
- 
- # Sanity check that the current size_t matches the
+-    /* Make sure start and size are qemu_real_host_page_size aligned */
+-    assert(QEMU_IS_ALIGNED(start | size, psize));
+-
+     /*
+      * We need to extend either the start or the size or both to
+      * satisfy the KVM interface requirement.  Firstly, do the start
 -- 
 2.26.2
 
