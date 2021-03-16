@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4448A33D42E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:49:40 +0100 (CET)
-Received: from localhost ([::1]:60972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7096433D43B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 13:51:29 +0100 (CET)
+Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lM98l-0002mw-A8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47898)
+	id 1lM9AW-0003io-Fw
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 08:51:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM97X-0002Ed-Jw
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:48:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44763)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lM99A-0003HS-Af
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:50:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lM97V-0003SW-T2
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:48:23 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lM998-0004Tq-NK
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 08:50:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615898900;
+ s=mimecast20190719; t=1615899002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aEJIdtx3NygSAgiyhOoYN6SvXkEAQAJZhUpweFnx6Oc=;
- b=iwzy28XENoeONDcJe4uMpRKprI5zh+twf8ln7G6LDiXJdVaR1mrKf3H1lraSuKnBnV3ryI
- FVCHrxbv2H0OkBLONSD8KorlD9zVufpF2Kf35jrZPfexkdpjA1TU6n/wqm6Frf4da9PJ/M
- WeH9yoOM9zYrEIP3ClgwUd1MuEkVOb4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-bJPOeo6eMLi0Ou7u9JDUzg-1; Tue, 16 Mar 2021 08:48:19 -0400
-X-MC-Unique: bJPOeo6eMLi0Ou7u9JDUzg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C30E1801817;
- Tue, 16 Mar 2021 12:48:17 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34FE719CAD;
- Tue, 16 Mar 2021 12:48:11 +0000 (UTC)
-Subject: Re: [PATCH 1/6] accel: Introduce 'query-accels' QMP command
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20210311231202.1536040-1-philmd@redhat.com>
- <20210311231202.1536040-2-philmd@redhat.com>
- <b71367e7-eade-e7fb-d612-8bc18fba35c3@redhat.com>
- <87ft0va8wp.fsf@dusky.pond.sub.org>
- <04e9cbd3-1773-c953-10a5-ad6299c35354@redhat.com>
- <0b5efc04-817d-6e17-075c-86eab1b7ab1f@redhat.com>
- <74d442cd-5e39-f9a4-6ca5-e2656280aa73@redhat.com>
- <875z1rl18h.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <57f03668-a73a-32f2-bce8-4d70a13ccf77@redhat.com>
-Date: Tue, 16 Mar 2021 13:48:10 +0100
+ bh=g6gJ6lDP82zWTItJ7E+Q8bG74Sl+AFGFXeVIizf4u50=;
+ b=VrJDTKHmkwXq8IjydXRkcoFnzl/pDpNFiNkfcGpw8LCK51i0sWlWwVLi2hs3vH4rtnOlJo
+ 7CWi/xzZr5KBMm/cSZzUDZ3U3kdMC/aepag3OaFSYY3LSTIIb1s4xwgl6ZrYCPP+epc0fl
+ yHX1jbv5MAcQN5zVhlzVOlQbRJdosy0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-TXOlI4ksP1iHLUKwKY7RTw-1; Tue, 16 Mar 2021 08:50:00 -0400
+X-MC-Unique: TXOlI4ksP1iHLUKwKY7RTw-1
+Received: by mail-wr1-f71.google.com with SMTP id 75so16489892wrl.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 05:50:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=g6gJ6lDP82zWTItJ7E+Q8bG74Sl+AFGFXeVIizf4u50=;
+ b=kG1yVbrbzoNXwuy0bhJLqPM8tLJrDkF+8nJ+Z5rsJnvv4dU1V84H1qeIzNY6Mkaf13
+ 8eOjj7EfT0//KOVZuMT2Oab+EClmfrNafmOSk/EJXCE8eZBiTneM81Ts4VFl7g0YbYFl
+ om4Tz0x0AEZk05qBKbWA1172gIyqkF165Na2+d9hyvxaTkHlFRxWktRVCgH+T0Uf6jM4
+ GEM9pd0Ke85UV8tRmsv8elYROWv+OGrGJPKykPvSRtP9KSzxb0r72KzrY0TNqFfMOpna
+ lKw6ThWj5wDBVzvsZEtBgVGplEEHhGg6oDZxuox8Ttz2JjxdBP5OdbKCkgKqbVnKk+Zl
+ zHkA==
+X-Gm-Message-State: AOAM531RnJEUweN5K/UinAUGfWjjD6sc4TBvNSDGQPBngbVIhPhjzfn6
+ z5yb2/5CmNVijOSuquWFgIe9kE5q6njOeXv/u8eZC02eHKk8rK2mZy4a8sh1M3n1TM0Q6VQqt/2
+ C/FHHlplan0BBItlFiv+oCYbnfVnfOED5VeA22/hjaWwlwgbpllieFapnEO5+RycPgS8=
+X-Received: by 2002:a5d:4688:: with SMTP id u8mr4733227wrq.39.1615898998977;
+ Tue, 16 Mar 2021 05:49:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIv+X7umhegw/W2ekhB1671nzPR/xwMITgi20A4OyCf6vR5vcGgBz4SaWUOyJTuhtPYReQig==
+X-Received: by 2002:a5d:4688:: with SMTP id u8mr4733206wrq.39.1615898998764;
+ Tue, 16 Mar 2021 05:49:58 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k24sm2881465wmr.48.2021.03.16.05.49.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 05:49:58 -0700 (PDT)
+Subject: Re: Windows 10 won't run on default x86_64 machine anymore
+To: Igor Mammedov <imammedo@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>
+References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
+ <20210315185302.29b0d90d@redhat.com> <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
+ <20210316015503.GA1008366@private.email.ne.jp>
+ <20210316131304.220a53b9@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9e2e1d83-29c1-053a-fd43-187f6f824b39@redhat.com>
+Date: Tue, 16 Mar 2021 13:49:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <875z1rl18h.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210316131304.220a53b9@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,115 +103,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Reinoud Zandijk <reinoud@NetBSD.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/2021 13.41, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> 
->> On 3/16/21 11:26 AM, Philippe Mathieu-Daudé wrote:
->>> On 3/16/21 10:02 AM, Philippe Mathieu-Daudé wrote:
->>>> On 3/16/21 7:51 AM, Markus Armbruster wrote:
->>>>> Eric Blake <eblake@redhat.com> writes:
->>>>>
->>>>>> On 3/11/21 5:11 PM, Philippe Mathieu-Daudé wrote:
->>>>> [...]
->>>>>>> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
->>>>>>> new file mode 100644
->>>>>>> index 00000000000..f16e49b8956
->>>>>>> --- /dev/null
->>>>>>> +++ b/accel/accel-qmp.c
->>>>>>> @@ -0,0 +1,47 @@
->>>>>>> +/*
->>>>>>> + * QEMU accelerators, QMP commands
->>>>>>> + *
->>>>>>> + * Copyright (c) 2021 Red Hat Inc.
->>>>>>> + *
->>>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>>>>>> + */
->>>>>>> +
->>>>>>> +#include "qemu/osdep.h"
->>>>>>> +#include "qapi/qapi-commands-machine.h"
->>>>>>> +
->>>>>>> +static const Accelerator accel_list[] = {
->>>>>>> +    ACCELERATOR_QTEST,
->>>>>>> +#ifdef CONFIG_TCG
->>>>>>> +    ACCELERATOR_TCG,
->>>>>>> +#endif
->>>>>>> +#ifdef CONFIG_KVM
->>>>>>> +    ACCELERATOR_KVM,
->>>>>>> +#endif
->>>>>>
->>>>>> ...would it be worth compiling the enum to only list enum values that
->>>>>> were actually compiled in?  That would change it to:
->>>>>>
->>>>>> { 'enum': 'Accelerator',
->>>>>>    'data': [ 'qtest',
->>>>>>              { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
->>>>>> ...
->>>>
->>>> These accelerator definitions are supposed to be poisoned in generic
->>>> code... But I like the simplicity of your suggestion, so I'll give it
->>>> a try and see what happens with removing the poisoned definitions.
->>>
->>> This is actually quite interesting :) Accelerator definitions are
->>> declared in config-target.h, but acceleration is host specific...
+On 16/03/21 13:13, Igor Mammedov wrote:
+>>> Surprisingly without accelerator ie with tcg the default machine does seem to
+>>> get to the login prompt. Is the ACPI data tailored to indicate an
+>>> accelerator/VM or is it static? Could it be that the CPU reported by my
+>>> machine is causing the issue? With the NVMM accelerator it passes on the hosts
 >>
->> Thomas, I guess I hit Claudio's reported bug again...
+>> I think tcg case can be explained by x86_machine_is_smm_enabled()
 >>
->> 1/ generic libqemuutil.a is built without any CONFIG_accel definition.
+>>    bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
+>>    ...
+>>        if (tcg_enabled() || qtest_enabled()) {
+>>            smm_available = true;
+>>        } else if (kvm_enabled()) {
+>>            smm_available = kvm_has_smm();
+>>        }
+>>    ...
 >>
->> So this qapi-generated enum ... :
->>
->> typedef enum Accelerator {
->>      ACCELERATOR_QTEST,
->> #if defined(CONFIG_TCG)
->>      ACCELERATOR_TCG,
->> #endif /* defined(CONFIG_TCG) */
->> #if defined(CONFIG_KVM)
->>      ACCELERATOR_KVM,
->> #endif /* defined(CONFIG_KVM) */
->> #if defined(CONFIG_HAX)
->>      ACCELERATOR_HAX,
->> #endif /* defined(CONFIG_HAX) */
->> #if defined(CONFIG_HVF)
->>      ACCELERATOR_HVF,
->> #endif /* defined(CONFIG_HVF) */
->> #if defined(CONFIG_WHPX)
->>      ACCELERATOR_WHPX,
->> #endif /* defined(CONFIG_WHPX) */
->> #if defined(CONFIG_XEN_BACKEND)
->>      ACCELERATOR_XEN,
->> #endif /* defined(CONFIG_XEN_BACKEND) */
->>      ACCELERATOR__MAX,
->> } Accelerator;
->>
->> ... is expanded to:
->>
->> typedef enum Accelerator {
->>      ACCELERATOR_QTEST,
->>      ACCELERATOR__MAX,
->> } Accelerator;
-> 
-> CONFIG_KVM, CONFIG_TCG, ...  are defined in ${target}-config-target.h,
-> and may only be used in target-specific code.
-> 
-> If the enum ends up in libqemuutil.a, there are uses outside
-> target-specific code.
-> 
-> exec/poison.h lacks CONFIG_KVM, CONFIG_TCG, ...  Should they be added?
+>> Although I don't know about nvmm case, this function also needs to be updated
+>> if smi isn't supported.
+> can you submit a patch for this please?
 
-CONFIG_KVM is already in poison.h, and CONFIG_TCG cannot be added there 
-since it is also defined in config-host.h. But the other accelerator 
-switches should be marked as poisoned, too. I've got a patch for this in the 
-works already - I'll send it out in a minute...
+nvmm is not part of upstream yet, so I guess it's up to Reinoud to fix 
+it.  Still, reproducing his testing conditions with KVM and -M smm=off 
+is probably interesting because it also affects HAX, HVF and WHPX which 
+are supported upstream.
 
-  Thomas
+Paolo
 
 
