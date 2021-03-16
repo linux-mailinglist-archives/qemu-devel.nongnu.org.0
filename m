@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7670433E1BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:54:08 +0100 (CET)
-Received: from localhost ([::1]:46874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DB733E1C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Mar 2021 23:56:52 +0100 (CET)
+Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMIZj-0002lh-II
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52864)
+	id 1lMIcN-0004ZR-Sj
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 18:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMIYr-0002LO-KD
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:53:13 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46446)
+ id 1lMIb5-0003o2-ML
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:55:31 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMIYq-0006y7-8H
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:53:13 -0400
-Received: by mail-wr1-x436.google.com with SMTP id a18so11298357wrc.13
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 15:53:11 -0700 (PDT)
+ id 1lMIb4-000845-Am
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 18:55:31 -0400
+Received: by mail-wr1-x436.google.com with SMTP id b18so11317956wrn.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 15:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3e0R+siF4ZkudQr1iFVsx9qqDdA5GsU5RscHGJUV0rc=;
- b=VurQJVw4yXGl8Qz6+Uy7PyiwM/oXVg/fN5k4bj3OZxdHXSmdpn6My20LGd0W1jkzNF
- I5cfXrge4K/4aGVJpDxoaPo9ICbOjs/WddBUflw0V4DM9fMeBC0/CQ9OgGjpIGfnIPkQ
- 1p4C/VJ8AvwImlgPCHN6XlgQhDTae18b/Peq23TbpQZH+XhNjRsWOwbutDU+bUV8UXPe
- UZbEGAztU+Zc20zAubxO7tBcrqacY8A9BCR33NPx9pjp65U9/30sYr/4yRlpyCHZcS4H
- 2V5S0dd2vwWuNCJ9rlPYC/X0NndGZsbv51I0LsDKMkeKZruPKLKP6JkbgibsoCcXQCll
- Mp8w==
+ bh=R7nRSWfKq1S9ttW5761c0e8uunKL6fgnVrJlfJGU+s4=;
+ b=j0J3rAtcZCbaOq8OIWNtbtfQMu2SPQvNR8aMfppDzDnVOUfzA8+jnRUEjb7aXjLwUQ
+ Ff7lewqCyaSJLhuJKuPGG1bqgI2ZDts3vyXfZR9MxkMm60d10nNeVPI7FHEEKZEWN+Aw
+ /KIQ2mJxdUL9nfiQNSo1dzhcxU243rxMgV0L6hsn3LiZfZ8dqRcb2Mr37HEBqZnu4oXk
+ QifrfsQXExzFPSxeW7TUcVAZMXn00en7TAZt+6b+uhkeOUpm7kaKHajNAufhgHn5UKfk
+ CIxA8QWZkiuiAD3W1/qLpmLu5DATgAcN5cOKvONZnuzTXrl6L5HP2s54ZJUzNgjS/tb1
+ fvnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3e0R+siF4ZkudQr1iFVsx9qqDdA5GsU5RscHGJUV0rc=;
- b=kcT/OGyfw+y86EVsTkdTTlHhmO+/B5fW5FIvANMAXJi0zp+0VX1D71jmyLq2/BRb2r
- SVyUmvnhZBzZl60PVi+40ubd2fhFzdnC+hQbxS5p2wDcSQmUzljtRJSBbd9jt8PTPweZ
- B+e2uwgOeFxKxe6ftstX33YXEJLZ6Sp8n++QqRDvRqlVKSQCJHCQEBm5CWFgjpbC010g
- Wk3OLcWiGCg79Jtkm63AYUTrwjEaTxBptf2ewOMgqWcMrFWMBriFr9OxPaEBeqm3JBtf
- SrnPGIoR5KBqYFfjoz7owjsbazTGNh08nREosM8JTFRPwTrgglxqww9zog5tT90FOuAq
- diDA==
-X-Gm-Message-State: AOAM533Mfn9mcpvWdGlFgNEP0nOoA7Y5mGMLObrGEm1KV+pElUtWv3Km
- pw7SwWJFoD/Od0j0Vl84KKk=
-X-Google-Smtp-Source: ABdhPJzplALG7oBSsoY3nGrgdaRIFw05pSgNUJe3djNoPl74vw+03G/qwbeCNUimo3WFL1nQl/fdwA==
-X-Received: by 2002:a5d:4cc7:: with SMTP id c7mr1304420wrt.164.1615935190965; 
- Tue, 16 Mar 2021 15:53:10 -0700 (PDT)
+ bh=R7nRSWfKq1S9ttW5761c0e8uunKL6fgnVrJlfJGU+s4=;
+ b=Qug8TInACQVaD0HLfxFQ06umTLsyZCqDbfcIHhNK34fYAJ1z7cnObDKM9b9yCdLckP
+ YsxKj1oVTloUn0I16xAopjENNawQOgCG3dAtRVtx0vi4pRydHPot/l8SlvYK8jM71vYm
+ WQ6yel2ay57105Zyt9Qlhi3xS34sSMIUE6ZlGRmiabY1bOhHWCOf7foZcHzf9rao1b75
+ CLee1j7zKr6qxJJbpuM3UFKT0qdsWeHoU/9otgDtcm2li/zquGn5OC5kFIYa1SGIRoo6
+ UFdjHGEvyorY/0WrNTnIQqM3mLJpLcVyuJCABDCakwjR4x/CQxpR1CWXyS4ebEvZtaE0
+ uX7Q==
+X-Gm-Message-State: AOAM530dMM8AcyhhQ1LHTzKyFvBXHa6BYPrv5MSnywRv9xpJd1V5Q3d5
+ /kkIAZhJJ5CZfYwItYLrO3A=
+X-Google-Smtp-Source: ABdhPJyOXopvhCaRke1aopNI0uTJ0HdXh8HOd7/9twbTPEzPZ85sqCw92wrlTmFvktz1BruGP4TSLA==
+X-Received: by 2002:adf:cd8c:: with SMTP id q12mr1199442wrj.185.1615935329133; 
+ Tue, 16 Mar 2021 15:55:29 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id u63sm675399wmg.24.2021.03.16.15.53.10
+ by smtp.gmail.com with ESMTPSA id u15sm636954wmq.4.2021.03.16.15.55.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 15:53:10 -0700 (PDT)
-Subject: Re: [PATCH v5 05/57] tcg/tci: Split out tci_args_rrr
+ Tue, 16 Mar 2021 15:55:28 -0700 (PDT)
+Subject: Re: [PATCH v5 06/57] tcg/tci: Split out tci_args_rrrc
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210311143958.562625-1-richard.henderson@linaro.org>
- <20210311143958.562625-6-richard.henderson@linaro.org>
+ <20210311143958.562625-7-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <977a40d4-b874-0fef-be5b-3e0b86cbd843@amsat.org>
-Date: Tue, 16 Mar 2021 23:53:09 +0100
+Message-ID: <c6132273-59b2-fade-de02-0856b3eac03e@amsat.org>
+Date: Tue, 16 Mar 2021 23:55:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210311143958.562625-6-richard.henderson@linaro.org>
+In-Reply-To: <20210311143958.562625-7-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -96,10 +96,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/11/21 3:39 PM, Richard Henderson wrote:
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/tci.c | 154 ++++++++++++++++++++----------------------------------
->  1 file changed, 57 insertions(+), 97 deletions(-)
+>  tcg/tci.c | 23 +++++++++++++----------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tcg/tci.c b/tcg/tci.c
+> index 1c879a2536..bdd2127ec8 100644
+> --- a/tcg/tci.c
+> +++ b/tcg/tci.c
+> @@ -207,6 +207,15 @@ static void tci_args_rrs(const uint8_t **tb_ptr,
+>      *i2 = tci_read_s32(tb_ptr);
+>  }
+>  
+> +static void tci_args_rrrc(const uint8_t **tb_ptr,
+> +                          TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGCond *c3)
+> +{
+> +    *r0 = tci_read_r(tb_ptr);
+> +    *r1 = tci_read_r(tb_ptr);
+> +    *r2 = tci_read_r(tb_ptr);
+> +    *c3 = tci_read_b(tb_ptr);
+> +}
 
-Out of curiosity, did you do that manually or coccinelle?
+Can you describe 'c -> cond' in the previous comment?
 
+Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
