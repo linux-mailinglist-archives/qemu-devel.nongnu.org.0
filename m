@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EFF33F819
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 19:28:51 +0100 (CET)
-Received: from localhost ([::1]:47122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F2B33F81E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 19:29:43 +0100 (CET)
+Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMauY-0001JW-8i
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 14:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
+	id 1lMavO-0002k1-D4
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 14:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lMasX-0000PR-7q; Wed, 17 Mar 2021 14:26:45 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:38294)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMatp-0001Sl-G5
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:28:05 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lMasP-00060i-Ku; Wed, 17 Mar 2021 14:26:44 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id k2so240069ioh.5;
- Wed, 17 Mar 2021 11:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMatn-0006W2-Jx
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:28:05 -0400
+Received: by mail-ed1-x530.google.com with SMTP id h10so3462778edt.13
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 11:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TiXuv/NkAl3p35AOwhp8XviX1iMStiHRzHsQbJjcdzE=;
- b=YH7I6aKpvBevXzkTOZu6aQokcBNRu+0Iey9/uU1dvt9IYPuljg+0SU0v8coKGhv0X8
- UVab4v907qBAorvsq+8wixinsGVjyrvZX84e/9O4eWImQvbwhxFV+hOQ1lguSEfaQvMY
- HOmdC9I+nQWiB+ZCI7Ie4g2Miy4eGgvqaHThG53h1xvj6Iw/af3EoHU9BviqMvaOuCrY
- 3ksrRj8C1ni122KAGiKgoQUj/lZSHQnqSM3MCKcAyjy4+LnmHHvfQo592wySOrgKbHc3
- SpqCP64IMEThSpJr+94RvE9FoytAY7fL/CA4xFNV7T824+DCmVI3pww31I2DaGNgzhV0
- vpCg==
+ :cc; bh=aRmOQTk+J1nCPAiAWJQxe3kco7E2NQCgboZT/C/ee2U=;
+ b=XUIHpXtveAa+2dkGHYmfNsOooi8rQbq/+SpM/WQoALrIRruyQ1zFiAzvx1z2+yued5
+ aiKl6PqWm6lF+4/yzPWoN3AxwXo3TFK5fJGnXHt+V+cloGcPrr2t4+bqbiRqBLTcMLUc
+ et4ffjEvbgviVhmuFB8/TkYZqHvsxJvqoKRFNlO3aZE0l0eNyltnpcgH0jOzPcIomZMi
+ tkzR+GRDOAf7TJwl2HRTAthvamd48xzP1BcEfYU1tQaFU4H5iTBlLF9CZgEW6rsuRQ+m
+ ojBHNFDLBdiZTnwNc8sBZ5smWh/9YjTkfc9yrHHg9H2KNahKFn6eAGZFc8sQouARvPOo
+ GSyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TiXuv/NkAl3p35AOwhp8XviX1iMStiHRzHsQbJjcdzE=;
- b=XMKDriYa1QSir4rU5qacJS9D+y6XG+6noZEK+lZ+IAkpIk96OP9CfQO9opmaTTtqEf
- +WmHGkEK+YqrOfvwZwSOW4Y1F6T8X5gIEqgaW0fTi8p8Ie5pmaMCnQoYB57Ew6WjWq+3
- 29lMoZkecRjQ14mfHSkkC1TMNe6NJf9U/phWiR4HeupIEsT4djADc3/xCEVN3vhWYhpw
- SaC3W4vnAlxOEbq+/wvy5fnDBlHCdp08rYvqXeG7DMWFrwkcY03FUXD2LfaKKbNh49AE
- F559GPFGiosd5LFucLwzQFnrttlm7ac87Q9DC/ZphDx978qIRKdRtKw4O+RXotL12rD1
- AcKg==
-X-Gm-Message-State: AOAM532fhPPae7y9mPEJkKru4RtDalVtrahPM+bU5/bowZiZtPuULJIV
- yktmxfICxvH8m28qcmwOsMZhXDqDu+RrR2Z+Ec4=
-X-Google-Smtp-Source: ABdhPJxdyApg1yPWPVspYRmo+m8NYe2YWtuTsnYd6uTr6j9ouy3t/Wq431AfOvbmIqNNd7SMRzA/BCstobt4lzAeabA=
-X-Received: by 2002:a05:6638:3791:: with SMTP id
- w17mr3809899jal.91.1616005596069; 
- Wed, 17 Mar 2021 11:26:36 -0700 (PDT)
+ bh=aRmOQTk+J1nCPAiAWJQxe3kco7E2NQCgboZT/C/ee2U=;
+ b=hkFJNxVWujMnkBmbDtCKccl75L9shUA4J0+gJKPdxpPUI3LrBZ8B6GuC/AC8MBwNZP
+ JECTBmYhzwAba8bdwFARkc4GuJLVdCApdQZBanbEXJjbjRwZBQ8Ck0bgs7Hn2MN5z5dt
+ naKmcPb++agreyQ7w2rYGDTIhjqpX2YIWfH+TMB/Y0JscfbDb4OM1P2abTdQMHB1evOb
+ Bkp0ZKWMt+zsEw3eZjFBT7+ssc6aDEf+cmsxWJk6XpTG82m767k/ofqlHOtUkaYq0mdu
+ WyOw3NaHXAVPTBqPoge6362P1gizGvuqyDNoRjYuM0b1aF9fVKloTqJYBZ96TFtZOX/I
+ Tu/g==
+X-Gm-Message-State: AOAM531utzLThr3/bNoaxO1oMIbxbMqk9atJKywIWdd8ycCPxR3XMv9s
+ V3DXbIKvMQPZHkO1sp4iUL3dV3AQHxO/ZrFuByKrXU2vzEvk1w==
+X-Google-Smtp-Source: ABdhPJyg9WIktKLm+9zFff4jhSCEi/cQVk0R7G2blPVj72z40hbP5JUFFCfTfqc+sCCxc8yBrfiMBDtUeoAsIzXQWwc=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr43394366edt.36.1616005681912; 
+ Wed, 17 Mar 2021 11:28:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210311102924.1400371-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20210311102924.1400371-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 17 Mar 2021 14:24:58 -0400
-Message-ID: <CAKmqyKM-v4okNONFwCQJ+B_U8_mKsPqv7+H9uj6ocDQLoZ-j=g@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Add proper two-stage lookup exception
- detection
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+References: <20210316104745.2196286-1-kraxel@redhat.com>
+In-Reply-To: <20210316104745.2196286-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 17 Mar 2021 18:27:38 +0000
+Message-ID: <CAFEAcA-_hQ9c5Bg48S5_ny0FWA1vd5SoqbW0qhknp8amhx_ELg@mail.gmail.com>
+Subject: Re: [PULL 0/3] Audio 20210316 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,134 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 5:29 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
+On Tue, 16 Mar 2021 at 10:50, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> The current two-stage lookup detection in riscv_cpu_do_interrupt falls
-> short of its purpose, as all it checks is whether two-stage address
-> translation either via the hypervisor-load store instructions or the
-> MPRV feature would be allowed.
+> The following changes since commit 2615a5e433aeb812c300d3a48e1a88e1303e2339:
 >
-> What we really need instead is whether two-stage address translation was
-> active when the exception was raised. However, in riscv_cpu_do_interrupt
-> we do not have the information to reliably detect this. Therefore, when
-> we raise a memory fault exception we have to record whether two-stage
-> address translation is active.
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-reque=
+> st' into staging (2021-03-15 19:23:00 +0000)
 >
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/audio-20210316-pull-request
+>
+> for you to fetch changes up to 3ba6e3f6888d2825709eba2f623f0615069c036c:
+>
+>   coreaudio: Handle output device change (2021-03-16 07:17:50 +0100)
+>
+> ----------------------------------------------------------------
+> coreaudio fixes and cleanups.
+>
+> ----------------------------------------------------------------
+>
+> Akihiko Odaki (3):
+>   coreaudio: Drop support for macOS older than 10.6
+>   coreaudio: Extract device operations
+>   coreaudio: Handle output device change
+>
+>  audio/coreaudio.c | 428 +++++++++++++++++++++++++---------------------
+>  1 file changed, 235 insertions(+), 193 deletions(-)
 
-Thanks!
 
-Applied to riscv-to-apply.next
+Applied, thanks.
 
-Alistair
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-> ---
->  target/riscv/cpu.c        |  1 +
->  target/riscv/cpu.h        |  3 +++
->  target/riscv/cpu_helper.c | 21 ++++++++-------------
->  3 files changed, 12 insertions(+), 13 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ddea8fbeeb..865caddb06 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -358,6 +358,7 @@ static void riscv_cpu_reset(DeviceState *dev)
->      env->pc = env->resetvec;
->  #endif
->      cs->exception_index = EXCP_NONE;
-> +    env->two_stage_lookup = false;
->      env->load_res = -1;
->      set_default_nan_mode(1, &env->fp_status);
->  }
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0edb2826a2..1288ff5981 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -131,6 +131,9 @@ struct CPURISCVState {
->
->      target_ulong badaddr;
->      target_ulong guest_phys_fault_addr;
-> +    /* Signals whether the current exception occurred with two-stage address
-> +       translation active. */
-> +    bool two_stage_lookup;
->
->      target_ulong priv_ver;
->      target_ulong vext_ver;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 2f43939fb6..2de870d3a3 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -605,6 +605,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
->          g_assert_not_reached();
->      }
->      env->badaddr = address;
-> +    env->two_stage_lookup = two_stage;
->  }
->
->  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-> @@ -646,6 +647,8 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->      }
->
->      env->badaddr = addr;
-> +    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> +                            riscv_cpu_two_stage_lookup(mmu_idx);
->      riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
->  }
->
-> @@ -669,6 +672,8 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->          g_assert_not_reached();
->      }
->      env->badaddr = addr;
-> +    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> +                            riscv_cpu_two_stage_lookup(mmu_idx);
->      riscv_raise_exception(env, cs->exception_index, retaddr);
->  }
->  #endif /* !CONFIG_USER_ONLY */
-> @@ -910,16 +915,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->          /* handle the trap in S-mode */
->          if (riscv_has_ext(env, RVH)) {
->              target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
-> -            bool two_stage_lookup = false;
->
-> -            if (env->priv == PRV_M ||
-> -                (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-> -                (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
-> -                    get_field(env->hstatus, HSTATUS_HU))) {
-> -                    two_stage_lookup = true;
-> -            }
-> -
-> -            if ((riscv_cpu_virt_enabled(env) || two_stage_lookup) && write_tval) {
-> +            if (env->two_stage_lookup && write_tval) {
->                  /*
->                   * If we are writing a guest virtual address to stval, set
->                   * this to 1. If we are trapping to VS we will set this to 0
-> @@ -957,10 +954,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->                  riscv_cpu_set_force_hs_excep(env, 0);
->              } else {
->                  /* Trap into HS mode */
-> -                if (!two_stage_lookup) {
-> -                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
-> -                                             riscv_cpu_virt_enabled(env));
-> -                }
-> +                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
->                  htval = env->guest_phys_fault_addr;
->              }
->          }
-> @@ -1018,4 +1012,5 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->
->  #endif
->      cs->exception_index = EXCP_NONE; /* mark handled to qemu */
-> +    env->two_stage_lookup = false;
->  }
-> --
-> 2.30.1
->
->
+-- PMM
 
