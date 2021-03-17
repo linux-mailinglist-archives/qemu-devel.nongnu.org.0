@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A2D33E9BE
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBDA33E9BF
 	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:29:29 +0100 (CET)
-Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMPgN-0005DT-W6
+	id 1lMPgO-0005Ci-7W
 	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34218)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPe1-0003YK-C7
+ id 1lMPe1-0003Yq-SS
  for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:01 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39344)
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPdz-0008Ui-Kz
+ id 1lMPe0-0008Up-CX
  for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:01 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id p7so738719eju.6
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:26:56 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id h13so849602eds.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ofNCt4IqFempV2fS5VLJE6TwBn3PW2075cIcAlj7O8c=;
- b=WFKQFlYPPwSKaqtAJ6Gz/Bnxc0nSJ+TEh+IZSXq7LjPm3RgQ4yCnurKsUPN5rrSNT5
- 8PJwdKU58ftiG6KrA5LvADPYMH7a5342XxwgqDt+BKzug/91Eyt81Gkq0Ey2KTozsaaB
- 2iIgTnku3EaHzYZrMKJWoNSW4hv9nktjXhyixQ9HzTF2L3CYMlGVm3rIzflYC2Z7ySfv
- NviZ9s0+EqFj0iDeYg8Uoc1z6GR61i7+jtFClstTXXX7Ct5U47CwmlvYpGcBWfmYtSNj
- QR5IBlUGAEB+RlaVZUbnTibPPJMEJ/lCmDLtJeUaUqhDXQbMT8CJrl663A9bomah+Xgv
- Xwmg==
+ bh=KBK+oSYyQ3izYCwDMZ0s2I8Z5y9obtyOlXBYftAXE6U=;
+ b=Nh9rto9iku5u/XBSpnOEoYGZWur+QG6pLt+lqm28LdQUVP4u9PQc9djBTBATlFrkFR
+ Ylx9GqYaIHpG6uH4M2nbXqxGVN6saHjOvyI3/ZyZ7Jfp5lUTRJNdZylTkK5fuDZn/Hxe
+ 8MvH1HatceWbykfw3xwqLeVW/39K0UQZPxqri+J+vdFVVfgAgqGxW7VyjK+LkfHJ971Z
+ KKqHD0LnwdIukbBnDb6Hhtyst29fj4FCXDMs2u6H9fBfXTvdFjdhVDGHI6vuiuAYi/fo
+ UbNSqIBLHJTz1GWWPax3PTVM5z/BEY4RFo9+2MkZN+A2HUEOtXDeWEfxJ9dZmxsvGl8s
+ 0zXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ofNCt4IqFempV2fS5VLJE6TwBn3PW2075cIcAlj7O8c=;
- b=dEWf7hZCrcjP6AIM/ZbyR6dALF7U9/lTMdEoxrD2HUffbCzPxEu0yHuq2VLulWOnWm
- pVRdJszvCd0IctuD6CJStD+uvwqsNa3sFdEuqDLIlwv+BvVN8s45WcmB61Bc6Z11uBJe
- ss03NWs2neuLdODpQ1/r+5sDLk+ik2KDX5BZCRiNdUd6eVCaclqVP5ES4/cSSBa7t591
- rJ3ZyYvYEePyQhzav/RFy//dKW4sn9u13Sjgk+hL4sM90wG/zMmQasIo5olQyDpb0kM7
- HlrHdG2stGuFLG5Mr1DQx2DIiFhOSbtHTrS8gXAyIKSsK2lIqB3mMhl499lb85DZOMLm
- nTIQ==
-X-Gm-Message-State: AOAM533w8pxQVobLKBc5AnnhcqH/Inru32yEoHomwKS03pk+7pzKli9z
- 0eUi6G92UyNZbLXTXKtmTA8=
-X-Google-Smtp-Source: ABdhPJwVCRGujPH7Gbn6FkrgIaXpIZvnLQrRh6S8te0RlPXTYt4jwULvyjMps5MAM1KC4JEjgd1KMw==
-X-Received: by 2002:a17:906:5949:: with SMTP id
- g9mr1798906ejr.518.1615962415174; 
- Tue, 16 Mar 2021 23:26:55 -0700 (PDT)
+ bh=KBK+oSYyQ3izYCwDMZ0s2I8Z5y9obtyOlXBYftAXE6U=;
+ b=IiXAzLFVFxDm6hvzitSnIH86yo6gbQ967nKKLC90yIEWmEDdFKekkNlrmbTqlR+XUr
+ LN+H6Tsm5tZ4q3yDtQM+8rwKmF1LaWhOkj+dSlc01F8+wsGY3QftHtI0hkTydZMYOPLo
+ Ul7brwZPk/2KjXKe0lr9MRmM8nsTFAo+U6H38kZEw0SKyPeUZ2HnMp5/VuG26cH7js4S
+ kX/93SN5ScUhv0He05pAZcEOrTqdZY/fLTm9kASFGlXLdfzuBQRc7DZGC7FIw/5WQUMW
+ sbcEIpvlGtaKcBFm/isI14q1vZ61h/hMBTT/nTQLuAvIBPAVft93DgxC1O73p7jxw6fC
+ 7mcw==
+X-Gm-Message-State: AOAM530RGrFYc5Uh1yr1QqGxzrzDfzzEQGClQDMe+iY9YhDUh9F4Qwq2
+ ijb8zNW/8d6+1vBaao+ITmI=
+X-Google-Smtp-Source: ABdhPJwFfhS7qaII+uRT90b2ivEznNxRwA5CPW8uhg0FsvkKRTxJbzymYZJUPg5fGENxSrJPOSDw/w==
+X-Received: by 2002:a05:6402:2ce:: with SMTP id
+ b14mr40183437edx.13.1615962419043; 
+ Tue, 16 Mar 2021 23:26:59 -0700 (PDT)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.26.51
+ by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.26.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 23:26:54 -0700 (PDT)
+ Tue, 16 Mar 2021 23:26:58 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v5 01/12] net: eth: Add a helper to pad a short Ethernet frame
-Date: Wed, 17 Mar 2021 14:26:27 +0800
-Message-Id: <20210317062638.72626-2-bmeng.cn@gmail.com>
+Subject: [PATCH v5 02/12] net: Add a 'do_not_pad" to NetClientState
+Date: Wed, 17 Mar 2021 14:26:28 +0800
+Message-Id: <20210317062638.72626-3-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210317062638.72626-1-bmeng.cn@gmail.com>
 References: <20210317062638.72626-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,89 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a helper to pad a short Ethernet frame to the minimum required
-length, which can be used by backends' code.
+This adds a flag in NetClientState, so that a net client can tell
+its peer that the packets do not need to be padded to the minimum
+size of an Ethernet frame (60 bytes) before sending to it.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 ---
 
-Changes in v5:
-- minor update on commit message
-- update the eth_pad_short_frame() comment
-
-Changes in v4:
-- change 'ethernet' to 'Ethernet'
-- do not inline the helper
-- check the padded buffer size to avoid buffer overflow
+(no changes since v3)
 
 Changes in v3:
-- use 'without' instead of 'sans'
-- add a helper to pad short frames
+- add a comment to 'do_not_pad'
 
- include/net/eth.h | 17 +++++++++++++++++
- net/eth.c         | 17 +++++++++++++++++
- 2 files changed, 34 insertions(+)
+ include/net/net.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/net/eth.h b/include/net/eth.h
-index 0671be6916..7767ae880e 100644
---- a/include/net/eth.h
-+++ b/include/net/eth.h
-@@ -31,6 +31,7 @@
+diff --git a/include/net/net.h b/include/net/net.h
+index a02949f6db..3559f3ca19 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -103,6 +103,7 @@ struct NetClientState {
+     int vring_enable;
+     int vnet_hdr_len;
+     bool is_netdev;
++    bool do_not_pad; /* do not pad to the minimum ethernet frame length */
+     QTAILQ_HEAD(, NetFilterState) filters;
+ };
  
- #define ETH_ALEN 6
- #define ETH_HLEN 14
-+#define ETH_ZLEN 60     /* Min. octets in frame without FCS */
- 
- struct eth_header {
-     uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
-@@ -422,4 +423,20 @@ bool
- eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
-                    size_t ip6hdr_off, eth_ip6_hdr_info *info);
- 
-+/**
-+ * eth_pad_short_frame - pad a short frame to the minimum Ethernet frame length
-+ *
-+ * If the Ethernet frame size is shorter than 60 bytes, it will be padded to
-+ * 60 bytes at the address @padded_pkt.
-+ *
-+ * @padded_pkt: buffer address to hold the padded frame
-+ * @padded_buflen: pointer holding length of @padded_pkt. If the frame is
-+ *                 padded, the length will be updated to the padded one.
-+ * @pkt: address to hold the original Ethernet frame
-+ * @pkt_size: size of the original Ethernet frame
-+ * @return true if the frame is padded, otherwise false
-+ */
-+bool eth_pad_short_frame(uint8_t *padded_pkt, size_t *padded_buflen,
-+                         const void *pkt, size_t pkt_size);
-+
- #endif
-diff --git a/net/eth.c b/net/eth.c
-index 1e0821c5f8..f913e4396f 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -548,3 +548,20 @@ bool eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
-     info->l4proto = ext_hdr.ip6r_nxt;
-     return true;
- }
-+
-+bool eth_pad_short_frame(uint8_t *padded_pkt, size_t *padded_buflen,
-+                         const void *pkt, size_t pkt_size)
-+{
-+    assert(padded_buflen && *padded_buflen >= ETH_ZLEN);
-+
-+    if (pkt_size >= ETH_ZLEN) {
-+        return false;
-+    }
-+
-+    /* pad to minimum Ethernet frame length */
-+    memcpy(padded_pkt, pkt, pkt_size);
-+    memset(&padded_pkt[pkt_size], 0, ETH_ZLEN - pkt_size);
-+    *padded_buflen = ETH_ZLEN;
-+
-+    return true;
-+}
 -- 
 2.17.1
 
