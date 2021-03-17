@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36C633F7D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 19:09:30 +0100 (CET)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ABC33F7C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 19:04:03 +0100 (CET)
+Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMabq-0006WC-0I
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 14:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57248)
+	id 1lMaWY-0002ay-QK
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 14:04:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMaT3-0000kn-2X; Wed, 17 Mar 2021 14:00:25 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:39451)
+ id 1lMaT1-0000i9-6p; Wed, 17 Mar 2021 14:00:23 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMaT1-0004wV-Hx; Wed, 17 Mar 2021 14:00:24 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id bf3so3397900edb.6;
- Wed, 17 Mar 2021 11:00:22 -0700 (PDT)
+ id 1lMaSy-0004t5-Bi; Wed, 17 Mar 2021 14:00:22 -0400
+Received: by mail-ej1-x633.google.com with SMTP id jt13so4109411ejb.0;
+ Wed, 17 Mar 2021 11:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sB3+w5MPiq5YtSsSHBffd76Yw89YjLssV56LPOeeU7o=;
- b=JqxyAjNVsYWG8FD4nMDS2cjcip2DkQqlSsnCwTT1Wvxp0/DkaeI6Lfxiqd/oDEYxD1
- i2x1hJTMR6kRWtofzH3hzgNSKXh6l/ogJgrP56Vwg3E75BNNSWNR6kxAjkpmGt3KQm++
- DV4YS3FMwxm7k3QU6jTyNmI1V7asmL5KFHlkDXtU5erHBBEuJW9QdNx46Eyv11RFWpm3
- lpe9XqNby+JL/f3oqtr4TU+Njo3WpMZzHGuttExc4l37jj3mbcr7vAm/rPth3Afp+295
- Awpvg6X4eoQV/RNLK1JEFuH5JRpL+4eYNHNngJb4qyqoodOQflqgCoUHzdvspxFdypIz
- 8d/g==
+ bh=Xgtdm62nkB77KDEB509RPm6RJ/Eax7jgJ8G9QzqE+DA=;
+ b=d3B9zFF+hWfCt4GneGijwGdrShTr31SHNOXO72x/Tc9xOfjyslHitVe08SkrTPj0kd
+ vnKoneF6cL+CmdMEESxn+P14kLPP5xI9hzW06MCp2Apj9b1xA2gLP7EebiRpAEuqOeFt
+ CQ1/j7g8SdXm+FZvghYa5s7ftsz0aA7u6VuPRsCF2KxPJjQibcvk1H/hS548yBM5k1br
+ hE8c7LIS82lf4AXvNq7utYyXPwhKjvtxUizVO2/9mzF1+B6nPHiY0AVoL3NXBT7fudgG
+ 47RPvlgs2ubYU7010f2mzUvoLY39Mfat6Yed3IdBgMQwj+GJmuEreN7+EJLYyx3mx8V/
+ R5qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sB3+w5MPiq5YtSsSHBffd76Yw89YjLssV56LPOeeU7o=;
- b=pD27NPxv5vj/yRdy4VkkttgK2FozAhJh0T8VRW/zmMKMO1sbUTCWMr34TlyrJIw0rT
- mF964HtboHTFyaj1yL6guPTpu2oV+aGCzxdUUlgXQqSGv7zIme/njqp1BX2HXtpGlGKh
- WWvscbWVnuMoyrfuprX9U/BbJgUzAwXAANZviVsJ197Pwxmhdikk5Y+y3qL7eWEE2sYD
- /6Ub3o8S8gDtQj4Q2dwURljz56s7CpNsuWzFf78z9QWrjuDBXaQKAfsdVt1rAPvpBBXr
- fZdG5CKHPP/3ZkyDC3VesADsdNFCMC9IRZ4eu5ZYpeBr8V8ZLqkGjOp5KuHDVg8WAKdI
- pX/w==
-X-Gm-Message-State: AOAM532mG3IgkvUzK9o00xaGrzTnT9in6TFltXIMrgPXuiA2iQOyR2Uv
- XyN5xbZUEb1WuJhF7owXaaswSmx1Vyc=
-X-Google-Smtp-Source: ABdhPJwwtSAo5O4V66GDOrFLhHKQPgFAbNT6aSCZ622wdPQE3w2MkoURb6fGb7Shj8tmnBjxZ+80rA==
-X-Received: by 2002:aa7:dd4d:: with SMTP id o13mr10551709edw.53.1616004016916; 
- Wed, 17 Mar 2021 11:00:16 -0700 (PDT)
+ bh=Xgtdm62nkB77KDEB509RPm6RJ/Eax7jgJ8G9QzqE+DA=;
+ b=iFrgxDGgj57AjHoGqlris48ogFqZEuBa7ZMlbbq80RavEfBqTQpZwESk287NyWmGVX
+ jNno+2hEwRm5wctpX4jF5J7hzZ+urqBvk9CRsfAMcNVu6uRtax3SPjIMypglKCLyXtKj
+ AtW+dDRf8CMlVJh7df/4eKL6pFzk4a9S4MkjdwEbDLJ+KA1f/FoEots+y4V6hqN/rR22
+ rfnq8WYi3cX5qtL7F65r2mOoPREdlFHlRFv/bOwy+3AoGbOtPr1OHuUwvnHhRDHcsOsr
+ zAYy+CvOoNgunPBxLe6bRTmmMwl+2+l2pB5i+fAMDkhy1pnHW0CTBh2w+MRH1xBVbwx7
+ sQIg==
+X-Gm-Message-State: AOAM531ENJT1vr3jLaAodV4UdP1ka0DtsKjdBGZAnRYSIhLcXwQ9RjmK
+ XYDAnvehtoDPhQUJpQcC1yLJh8Ho7Ec=
+X-Google-Smtp-Source: ABdhPJyqt91cdCwgjAI1Gp7zDnee2nASdwo/DCaZw5dZfp1J8gOxbzY4NSetKVYyw2+IPE8omrpKDg==
+X-Received: by 2002:a17:906:5902:: with SMTP id
+ h2mr36594916ejq.416.1616004017891; 
+ Wed, 17 Mar 2021 11:00:17 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id b22sm13159303edv.96.2021.03.17.11.00.16
+ by smtp.gmail.com with ESMTPSA id b22sm13159303edv.96.2021.03.17.11.00.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 11:00:16 -0700 (PDT)
+ Wed, 17 Mar 2021 11:00:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] block/vdi: Don't assume that blocks are larger than
- VdiHeader
-Date: Wed, 17 Mar 2021 19:00:09 +0100
-Message-Id: <20210317180013.235231-3-pbonzini@redhat.com>
+Subject: [PATCH 3/6] coroutine/mutex: Store the coroutine in the CoWaitRecord
+ only once
+Date: Wed, 17 Mar 2021 19:00:10 +0100
+Message-Id: <20210317180013.235231-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210317180013.235231-1-pbonzini@redhat.com>
 References: <20210317180013.235231-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,53 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-block@nongnu.org
+Cc: david.edmondson@oracle.com, kwolf@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Edmondson <david.edmondson@oracle.com>
 
-Given that the block size is read from the header of the VDI file, a
-wide variety of sizes might be seen. Rather than re-using a block
-sized memory region when writing the VDI header, allocate an
-appropriately sized buffer.
+When taking the slow path for mutex acquisition, set the coroutine
+value in the CoWaitRecord in push_waiter(), rather than both there and
+in the caller.
 
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <20210309144015.557477-3-david.edmondson@oracle.com>
+Message-Id: <20210309144015.557477-4-david.edmondson@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/vdi.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ util/qemu-coroutine-lock.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/block/vdi.c b/block/vdi.c
-index 2a6dc26124..548f8a057b 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -696,18 +696,20 @@ nonallocating_write:
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 5816bf8900..eb73cf11dc 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -204,7 +204,6 @@ static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
+     unsigned old_handoff;
  
-     if (block) {
-         /* One or more new blocks were allocated. */
--        VdiHeader *header = (VdiHeader *) block;
-+        VdiHeader *header;
-         uint8_t *base;
-         uint64_t offset;
-         uint32_t n_sectors;
+     trace_qemu_co_mutex_lock_entry(mutex, self);
+-    w.co = self;
+     push_waiter(mutex, &w);
  
-+        g_free(block);
-+        header = g_malloc(sizeof(*header));
-+
-         logout("now writing modified header\n");
-         assert(VDI_IS_ALLOCATED(bmap_first));
-         *header = s->header;
-         vdi_header_to_le(header);
--        ret = bdrv_pwrite(bs->file, 0, block, sizeof(VdiHeader));
--        g_free(block);
--        block = NULL;
-+        ret = bdrv_pwrite(bs->file, 0, header, sizeof(*header));
-+        g_free(header);
- 
-         if (ret < 0) {
-             return ret;
+     /* This is the "Responsibility Hand-Off" protocol; a lock() picks from
 -- 
 2.29.2
 
