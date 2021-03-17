@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFCC33F62E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:02:01 +0100 (CET)
-Received: from localhost ([::1]:57180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6322533F64F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:12:32 +0100 (CET)
+Received: from localhost ([::1]:47302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZYW-00088J-Js
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:02:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
+	id 1lMZig-0007eE-0f
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMYzY-00052J-D7
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:25:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34102)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMYzW-0001zA-Nk
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:25:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lMYzV-0007ph-H5
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 16:25:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 805FB2E805B
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 16:25:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Mar 2021 16:17:06 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1891748@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lMZ7A-0000N4-F8
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:33:46 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lMZ75-0004jS-3G
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:33:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
+ Content-Type; bh=cOs5lK6sYyvwHZDboMekbywKe4agSAHQpulY6WbxnJ0=; b=sD6sP6IU9fgi
+ wKGWSe0ZuJz5zuaUb/Nr6Xzd9DhnOMNlaD8TdpDKdWGkcNsLZmeJDgBmQvV8tvpP4MELbxXvWdZ5X
+ UwU4ro7ZH6CTAzGTTygei6M0oNzSbfij0LgEUjNckKk4R2vODgDvwsaEgB0hvRfmCBwU9x7cAlOr5
+ ISz7c=;
+Received: from [192.168.15.248] (helo=andrey-MS-7B54.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lMZ6R-0034yI-S8; Wed, 17 Mar 2021 19:33:00 +0300
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=charms; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dilfridge ech1965 laurent-vivier mdevaev mirabilos
- rth th-huth tsp84
-X-Launchpad-Bug-Reporter: Ech (ech1965)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <161599782718.16344.6650530832051965637.launchpad@gac.canonical.com>
-Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: ab926e1aaa2a57390ff3519c0a2325967c2101fc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: [RFC PATCH 2/9] migration/snap-tool: Snapshot image create/open
+ routines for qemu-snap tool
+Date: Wed, 17 Mar 2021 19:32:15 +0300
+Message-Id: <20210317163222.182609-3-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
+References: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay.sw.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,42 +65,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: arm linux-user tcg
+Implementation of routines for QCOW2 image creation and opening. Some
+predefined parameters for image creation and opening are introduced that
+provide reasonable tradeoff between performance, file size and usability.
 
--- =
+Thus, it was chosen to disable preallocation and keep image file dense on
+host file system, the apparent file size equals allocated in this case
+which is anyways beneficial for the user experience.
+Larger 1MB cluster size is adopted to reduce allocation overhead and
+improve I/O performance while keeping internal fragmentation of snapshot
+image reasonably small.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891748
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+---
+ qemu-snap.c | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 90 insertions(+), 4 deletions(-)
 
-Title:
-  qemu-arm-static 5.1 can't run gcc
+diff --git a/qemu-snap.c b/qemu-snap.c
+index c7118927f7..c9f8d7166a 100644
+--- a/qemu-snap.c
++++ b/qemu-snap.c
+@@ -31,6 +31,16 @@
+ #include "migration/qemu-file.h"
+ #include "qemu-snap.h"
+ 
++/* QCOW2 image options */
++#define BLK_FORMAT_DRIVER       "qcow2"
++#define BLK_CREATE_OPT_STRING   "preallocation=off,lazy_refcounts=on,"  \
++                                        "extended_l2=off,compat=v3,cluster_size=1M,"    \
++                                        "refcount_bits=8"
++/* L2 cache size to cover 2TB of memory */
++#define BLK_L2_CACHE_SIZE       "16M"
++/* Single L2 cache entry for the whole L2 table */
++#define BLK_L2_CACHE_ENTRY_SIZE "1M"
++
+ #define OPT_CACHE   256
+ #define OPT_AIO     257
+ 
+@@ -104,30 +114,106 @@ static void snap_load_destroy_state(void)
+     /* TODO: implement */
+ }
+ 
++static BlockBackend *snap_create(const char *filename, int64_t image_size,
++        int flags, bool writethrough)
++{
++    char *create_opt_string;
++    QDict *blk_opts;
++    BlockBackend *blk;
++    Error *local_err = NULL;
++
++    /* Create QCOW2 image with given parameters */
++    create_opt_string = g_strdup(BLK_CREATE_OPT_STRING);
++    bdrv_img_create(filename, BLK_FORMAT_DRIVER, NULL, NULL,
++            create_opt_string, image_size, flags, true, &local_err);
++    g_free(create_opt_string);
++
++    if (local_err) {
++        error_reportf_err(local_err, "Could not create '%s': ", filename);
++        goto fail;
++    }
++
++    /* Block backend open options */
++    blk_opts = qdict_new();
++    qdict_put_str(blk_opts, "driver", BLK_FORMAT_DRIVER);
++    qdict_put_str(blk_opts, "l2-cache-size", BLK_L2_CACHE_SIZE);
++    qdict_put_str(blk_opts, "l2-cache-entry-size", BLK_L2_CACHE_ENTRY_SIZE);
++
++    /* Open block backend instance for the created image */
++    blk = blk_new_open(filename, NULL, blk_opts, flags, &local_err);
++    if (!blk) {
++        error_reportf_err(local_err, "Could not open '%s': ", filename);
++        /* Delete image file */
++        qemu_unlink(filename);
++        goto fail;
++    }
++
++    blk_set_enable_write_cache(blk, !writethrough);
++    return blk;
++
++fail:
++    return NULL;
++}
++
++static BlockBackend *snap_open(const char *filename, int flags)
++{
++    QDict *blk_opts;
++    BlockBackend *blk;
++    Error *local_err = NULL;
++
++    /* Block backend open options */
++    blk_opts = qdict_new();
++    qdict_put_str(blk_opts, "driver", BLK_FORMAT_DRIVER);
++    qdict_put_str(blk_opts, "l2-cache-size", BLK_L2_CACHE_SIZE);
++    qdict_put_str(blk_opts, "l2-cache-entry-size", BLK_L2_CACHE_ENTRY_SIZE);
++
++    /* Open block backend instance */
++    blk = blk_new_open(filename, NULL, blk_opts, flags, &local_err);
++    if (!blk) {
++        error_reportf_err(local_err, "Could not open '%s': ", filename);
++        return NULL;
++    }
++
++    return blk;
++}
++
+ static int snap_save(const SnapSaveParams *params)
+ {
+     SnapSaveState *sn;
++    int res = -1;
+ 
+     snap_save_init_state();
+     sn = snap_save_get_state();
+-    (void) sn;
+ 
++    sn->blk = snap_create(params->filename, params->image_size,
++            params->bdrv_flags, params->writethrough);
++    if (!sn->blk) {
++        goto fail;
++    }
++
++fail:
+     snap_save_destroy_state();
+ 
+-    return 0;
++    return res;
+ }
+ 
+ static int snap_load(SnapLoadParams *params)
+ {
+     SnapLoadState *sn;
++    int res = -1;
+ 
+     snap_load_init_state();
+     sn = snap_load_get_state();
+-    (void) sn;
+ 
++    sn->blk = snap_open(params->filename, params->bdrv_flags);
++    if (!sn->blk) {
++        goto fail;
++    }
++
++fail:
+     snap_load_destroy_state();
+ 
+-    return 0;
++    return res;
+ }
+ 
+ static int64_t cvtnum_full(const char *name, const char *value,
+-- 
+2.25.1
 
-Status in QEMU:
-  Fix Released
-Status in Juju Charms Collection:
-  New
-
-Bug description:
-  Issue discovered while trying to build pikvm (1)
-
-  Long story short: when using qemu-arm-static 5.1, gcc exits whith
-  message:
-
-  Allocating guest commpage: Operation not permitted
-
-  =
-
-  when using qemu-arm-static v5.0, gcc "works"
-
-  Steps to reproduce will follow
-
-  (1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891748/+subscriptions
 
