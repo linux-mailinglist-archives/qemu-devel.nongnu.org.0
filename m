@@ -2,46 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAD433F894
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 19:59:38 +0100 (CET)
-Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E695033F859
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 19:48:42 +0100 (CET)
+Received: from localhost ([::1]:35288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbOL-0000iA-Bk
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 14:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39794)
+	id 1lMbDl-0003Zc-Uh
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 14:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMax3-0004Or-JO
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48676)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lMawj-0004Fy-9N; Wed, 17 Mar 2021 14:31:06 -0400
+Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:46672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMawn-0007rK-Kg
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:25 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BD382AEBA;
- Wed, 17 Mar 2021 18:30:33 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v9 39/50] accel: move call to accel_init_interfaces
-Date: Wed, 17 Mar 2021 19:30:02 +0100
-Message-Id: <20210317183013.25772-40-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210317183013.25772-1-cfontana@suse.de>
-References: <20210317183013.25772-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lMawY-0007oN-0Q; Wed, 17 Mar 2021 14:31:04 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.98])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 87CA427467D;
+ Wed, 17 Mar 2021 19:30:48 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
+ 2021 19:30:47 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003b08b4680-14d8-4d46-a9e1-cc5150ffa689,
+ 10040688A1AB5364447EAD88D88247B833C1D39B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Do not sysbus-map mmio flash region
+ directly, use alias
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ <qemu-devel@nongnu.org>
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-3-f4bug@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <871fce3d-8b3c-bcce-6170-9010b1ed7d5c@kaod.org>
+Date: Wed, 17 Mar 2021 19:30:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210312182851.1922972-3-f4bug@amsat.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ad04cc7a-db81-4044-a38c-59d6b0348b08
+X-Ovh-Tracer-Id: 5393060554337848251
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,77 +72,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
+ Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move the call for sysemu specifically in machine_run_board_init,
-mirror the calling sequence for user mode too.
+On 3/12/21 7:28 PM, Philippe Mathieu-Daudé wrote:
+> The flash mmio region is exposed as an AddressSpace.
+> AddressSpaces must not be sysbus-mapped, therefore map
+> the region using an alias.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- bsd-user/main.c   | 2 +-
- hw/core/machine.c | 1 +
- linux-user/main.c | 2 +-
- softmmu/vl.c      | 1 -
- 4 files changed, 3 insertions(+), 3 deletions(-)
+That does the trick but you need an extra change in the model. 
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 798aba512c..ae0fd75aa1 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -914,8 +914,8 @@ int main(int argc, char **argv)
-     {
-         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
- 
--        ac->init_machine(NULL);
-         accel_init_interfaces(ac);
-+        ac->init_machine(NULL);
-     }
-     cpu = cpu_create(cpu_type);
-     env = cpu->env_ptr;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 257a664ea2..678558b9ac 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1216,6 +1216,7 @@ void machine_run_board_init(MachineState *machine)
-                                    "on", false);
-     }
- 
-+    accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
-     machine_class->init(machine);
-     phase_advance(PHASE_MACHINE_INITIALIZED);
- }
-diff --git a/linux-user/main.c b/linux-user/main.c
-index f956afccab..3ad442b82e 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -730,8 +730,8 @@ int main(int argc, char **argv, char **envp)
-     {
-         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
- 
--        ac->init_machine(NULL);
-         accel_init_interfaces(ac);
-+        ac->init_machine(NULL);
-     }
-     cpu = cpu_create(cpu_type);
-     env = cpu->env_ptr;
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index a750dae6b1..6015c18094 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3538,7 +3538,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         current_machine->cpu_type = parse_cpu_option(cpu_option);
-     }
-     /* NB: for machine none cpu_type could STILL be NULL here! */
--    accel_init_interfaces(ACCEL_GET_CLASS(current_machine->accelerator));
- 
-     qemu_resolve_machine_memdev();
-     parse_numa_opts(current_machine);
--- 
-2.26.2
+The fixes are in my aspeed-6.0 branch on GH and they survive the last
+patch of your series :
+
+  [PATCH 5/5] memory: Make sure root MR won't be added as subregion
+
+I will upstream for 6.1.
+
+Thanks,
+
+C. 
+
+> ---
+>  include/hw/ssi/aspeed_smc.h | 1 +
+>  hw/ssi/aspeed_smc.c         | 4 +++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+> index 16c03fe64f3..e3c96cecbd8 100644
+> --- a/include/hw/ssi/aspeed_smc.h
+> +++ b/include/hw/ssi/aspeed_smc.h
+> @@ -84,6 +84,7 @@ struct AspeedSMCState {
+>  
+>      MemoryRegion mmio;
+>      MemoryRegion mmio_flash;
+> +    MemoryRegion mmio_flash_alias;
+>  
+>      qemu_irq irq;
+>      int irqline;
+> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+> index 16addee4dc8..aa26578bdac 100644
+> --- a/hw/ssi/aspeed_smc.c
+> +++ b/hw/ssi/aspeed_smc.c
+> @@ -1386,7 +1386,9 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
+>      memory_region_init_io(&s->mmio_flash, OBJECT(s),
+>                            &aspeed_smc_flash_default_ops, s, name,
+>                            s->ctrl->flash_window_size);
+> -    sysbus_init_mmio(sbd, &s->mmio_flash);
+> +    memory_region_init_alias(&s->mmio_flash_alias, OBJECT(s), name,
+> +                             &s->mmio_flash, 0, s->ctrl->flash_window_size);
+> +    sysbus_init_mmio(sbd, &s->mmio_flash_alias);
+>  
+>      s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_peripherals);
+>  
+> 
 
 
