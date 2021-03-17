@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A01033F01E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:20:12 +0100 (CET)
-Received: from localhost ([::1]:53786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBD933F043
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:25:06 +0100 (CET)
+Received: from localhost ([::1]:32872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMV9n-0005H6-72
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57220)
+	id 1lMVEX-0008PN-Me
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMV6Y-0002Dm-JI; Wed, 17 Mar 2021 08:16:50 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:43670)
+ id 1lMV6Z-0002H2-TS; Wed, 17 Mar 2021 08:16:52 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMV6X-0007i9-4f; Wed, 17 Mar 2021 08:16:50 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id e7so1949315edu.10;
- Wed, 17 Mar 2021 05:16:44 -0700 (PDT)
+ id 1lMV6X-0007ip-Dv; Wed, 17 Mar 2021 08:16:51 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id p7so2239528eju.6;
+ Wed, 17 Mar 2021 05:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uioFA7kSJG6dSbTCJnInaEvZmY5RBbbDHDyMmMYCNBw=;
- b=gzheDU8k9NmiDG5YgtzWM2S501Ue3ugVRA2DEITq4Jps0hJFsXaWujVQcbRQBpR4MC
- UJrg4hpBLKO6aowt67Qiy50aq2zl1saCZbjJ5TMRqtR5Yk4bY9OCw5WXg0isJeHsio0N
- RqvN2hsCjLKrmLjI3GwyCIjn/UzqQVE+scxo6jPa2Xt9V/rAo2l6vTf6a5nIBJzJZgwH
- uZxjRv6xDSQli83CFbKjqw2Vcuq4mLqrhhYiEb7Oh9dC3iMrP+U/Vz3qMHg2lxfUHkyy
- aKRC9AlDlN++rFG3XDRjG85mTT1mNUVRL2/ljfQL2WEhhu++U909gETKeJJzD7QoWwj3
- 5WzA==
+ bh=sB3+w5MPiq5YtSsSHBffd76Yw89YjLssV56LPOeeU7o=;
+ b=VPa7OkfIBFuMIPg6IXR6b2rNuIdaNT2vqM7FR5TnUc5IDHTgJku2n8YeUsZdu7QctD
+ fSh2lJ26+N5OxiYx5Pg84+bDVzo6DsOIoaO/xhRvf2bFItf8LANrCbKDx+iO6qSrghke
+ 6FqmsFZwBcO5ger5S/MQhENcDqs80hgwleN3uj1srKBweAKWSYQWZJMTneU88SgO++bP
+ EfoQWRRfi0amPcAXjIU+GsBS9JkbQG+1jXjPMm2Ux361Z9KYLi2z3InUrFNdUhep19ts
+ c9k9W8Y4g5dRfjQmWhAqlM/m5XtT2cwm44u9oGK1qojPvtMS4Nh7ekpAVTkXZD4UYWda
+ mNFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uioFA7kSJG6dSbTCJnInaEvZmY5RBbbDHDyMmMYCNBw=;
- b=sCX4Os3WOmhp7mjUi6E46q/L0DwbB9YjrNgM85lveoVTUXjiyZYEnMstm5lJHhz5Yn
- YFswvi9U8il9sRRrANkwV6UIlaOQTz1ZdWb7CjM3aq51cXvRBRGMg9ag6Q0WM9mo9Ag8
- TrXOm9iQqQ5+fUrEXQ8U+MtG3GJsveT2e4tubEREJpyG00O5RyS0knfxvU+BKROBNqCm
- H4LOOluqi6JdlEEuPlqQArwzHMYf+qJMWdU0FULD87naLzMesP00GjQNbsMD2b0RbQnW
- NPucivHhrj7YIe/KkOuR0n9fwyoGfs//fZ158D7DZ7I3UBsc1wqkbc2g20e5c4Wnf2dY
- uirQ==
-X-Gm-Message-State: AOAM532kTMXvfLmGJuXxXE/9/Qns74uvAHbpScyFQjfCxWpSf5M/Ddde
- epJU/zUzx3R9GLxf3ziztgcYEZF9zPw=
-X-Google-Smtp-Source: ABdhPJxxEt/D3g0duWrjXpKGsTxGMkk2so1ZxnebEoXMuMryrpsx6gnz8d43YlebTztPuIfjc1FBmw==
-X-Received: by 2002:aa7:df14:: with SMTP id c20mr41604268edy.197.1615983403683; 
- Wed, 17 Mar 2021 05:16:43 -0700 (PDT)
+ bh=sB3+w5MPiq5YtSsSHBffd76Yw89YjLssV56LPOeeU7o=;
+ b=CKRt1cYpZ5yKWnfu7o7MaghVsFpE9PrjepZSQO8YriP8JKEDZR02MGfrnHNtZo8Adv
+ N3jcGzZaqnPNoKSKRgXmn3/hLJyfDtIIRuB9T1qS/OwR5Hj83sBNDDDUANEW/qtffypK
+ jHTdFybTiDVPWa7g0jaoGZK7iZ5JmUOgQRgcEFRx8YK5an9w8oaFw/5xtoLPRYQraUkN
+ Rh+NuIroTCuPz0m+qSHjd+8JBm2PN0fiL99ZvFhXOvEGM7QceJa6TnhNZ0wP8lwSFYCQ
+ gUrgSZ7FRYyRjtTTZAGhfCndklzB/DtO8ZmXri7E84y/xK+RVSBRTg9pwI6tH66vuKSa
+ W42A==
+X-Gm-Message-State: AOAM532L26pfbvjo5POTj2F17XNZlMwtaCH/ns9xYaRkWtBY+j1qwpMJ
+ R6pPR5NhQEycXkV9HZHtrkkgJhCVFTk=
+X-Google-Smtp-Source: ABdhPJy3dE9kGJ7QL8WMi98Ffukvg8Y9sTxeBUyR/opbydoGRQTbu9Sl7jgBkJWxc49nRWb5l5BheA==
+X-Received: by 2002:a17:906:2816:: with SMTP id
+ r22mr34459159ejc.2.1615983404471; 
+ Wed, 17 Mar 2021 05:16:44 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id gq25sm11520996ejb.85.2021.03.17.05.16.42
+ by smtp.gmail.com with ESMTPSA id gq25sm11520996ejb.85.2021.03.17.05.16.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 05:16:43 -0700 (PDT)
+ Wed, 17 Mar 2021 05:16:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] block/vdi: When writing new bmap entry fails,
- don't leak the buffer
-Date: Wed, 17 Mar 2021 13:16:36 +0100
-Message-Id: <20210317121641.215714-2-pbonzini@redhat.com>
+Subject: [PATCH 2/6] block/vdi: Don't assume that blocks are larger than
+ VdiHeader
+Date: Wed, 17 Mar 2021 13:16:37 +0100
+Message-Id: <20210317121641.215714-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210317121641.215714-1-pbonzini@redhat.com>
 References: <20210317121641.215714-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,38 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com, kwolf@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
+Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Edmondson <david.edmondson@oracle.com>
 
-If a new bitmap entry is allocated, requiring the entire block to be
-written, avoiding leaking the buffer allocated for the block should
-the write fail.
+Given that the block size is read from the header of the VDI file, a
+wide variety of sizes might be seen. Rather than re-using a block
+sized memory region when writing the VDI header, allocate an
+appropriately sized buffer.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <20210309144015.557477-2-david.edmondson@oracle.com>
+Message-Id: <20210309144015.557477-3-david.edmondson@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/vdi.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/vdi.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/block/vdi.c b/block/vdi.c
-index 5627e7d764..2a6dc26124 100644
+index 2a6dc26124..548f8a057b 100644
 --- a/block/vdi.c
 +++ b/block/vdi.c
-@@ -690,6 +690,7 @@ nonallocating_write:
+@@ -696,18 +696,20 @@ nonallocating_write:
  
-     logout("finished data write\n");
-     if (ret < 0) {
+     if (block) {
+         /* One or more new blocks were allocated. */
+-        VdiHeader *header = (VdiHeader *) block;
++        VdiHeader *header;
+         uint8_t *base;
+         uint64_t offset;
+         uint32_t n_sectors;
+ 
 +        g_free(block);
-         return ret;
-     }
++        header = g_malloc(sizeof(*header));
++
+         logout("now writing modified header\n");
+         assert(VDI_IS_ALLOCATED(bmap_first));
+         *header = s->header;
+         vdi_header_to_le(header);
+-        ret = bdrv_pwrite(bs->file, 0, block, sizeof(VdiHeader));
+-        g_free(block);
+-        block = NULL;
++        ret = bdrv_pwrite(bs->file, 0, header, sizeof(*header));
++        g_free(header);
  
+         if (ret < 0) {
+             return ret;
 -- 
 2.29.2
 
