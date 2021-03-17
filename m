@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10C633F2AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:32:32 +0100 (CET)
-Received: from localhost ([::1]:51828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF8D33F2AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:32:31 +0100 (CET)
+Received: from localhost ([::1]:51712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMXDr-000860-Rt
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60756)
+	id 1lMXDq-00082s-0H
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:32:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMXCG-00072S-0s
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54490)
+ id 1lMXCF-00072K-3S
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMXCD-0003au-8V
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:51 -0400
+ id 1lMXCD-0003bK-8U
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lMXCB-0006wS-8S
+ id 1lMXCB-0006wS-QW
  for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3E7DB2E815B
+ by loganberry.canonical.com (Postfix) with ESMTP id C79A62E8157
  for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Mar 2021 14:20:06 -0000
+Date: Wed, 17 Mar 2021 14:20:23 -0000
 From: Thorsten Glaser <1891748@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,14 +45,14 @@ X-Launchpad-Bug-Commenters: dilfridge ech1965 mdevaev mirabilos rth th-huth
 X-Launchpad-Bug-Reporter: Ech (ech1965)
 X-Launchpad-Bug-Modifier: Thorsten Glaser (mirabilos)
 References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <161599080693.2473.14096966291013218120.malone@chaenomeles.canonical.com>
+Message-Id: <161599082411.18765.17879703652357117562.malone@soybean.canonical.com>
 Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: c1c77514892ec94997db92bfa6d89bf7e41cf364
+X-Launchpad-Hash: f8f3665ea8ff6bf689baa8885226a69b5452e546
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -77,25 +77,7 @@ Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-$ qemu-arm --version
-qemu-arm version 5.2.0 (Debian 1:5.2+dfsg-6)
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-I=E2=80=99m seeing this error on a totally different file:
-
-I=E2=80=99ve made a short test program (hello world-ish) and compiled it wi=
-th
-the OpenWrt toolchain but added -static so I can run it on the host
-using qemu-user-arm:
-
-$ STAGING_DIR=3D$PWD/staging_dir PATH=3Dstaging_dir/toolchain-arm_cortex-a1=
-5+neon-vfpv4_gcc-7.5.0_musl_eabi/bin:$PATH arm-openwrt-linux-muslgnueabi-gc=
-c -Os -pipe -g3 -fno-caller-saves -fno-plt -fhonour-copts -mfloat-abi=3Dhar=
-d -fstack-protector -D_FORTIFY_SOURCE=3D1 -Wl,-z,now -Wl,-z,relro -static x=
-.c
-$ ./a.out =
-
-Allocating guest commpage: Operation not permitted
+Heh, even if I omit -static =E2=80=A6
 
 -- =
 
