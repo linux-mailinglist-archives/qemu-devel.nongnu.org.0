@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF3C33F0C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:56:49 +0100 (CET)
-Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E44333F0C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:59:18 +0100 (CET)
+Received: from localhost ([::1]:54700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVjE-0000VL-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37190)
+	id 1lMVld-0002nT-EQ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1lMVi6-00085g-CC
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:55:38 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:41549)
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1lMVkk-0002FQ-Lv
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:58:22 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:41776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1lMVhp-0004XA-T1
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:55:31 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id f26so2986129ljp.8
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 05:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=pixOirCX6zcbMFelvM1RT+OnO4nSfJyBvfN0OdCJOAI=;
- b=aHBsyw5KcBsQiPZ60y9Z66e0if4kZ57Li3OMGLmpp6H2MKv45O5hof1ho7xtyhI3lA
- FOn6RJeRjkjvTPQPhRu12z+CGiAMnwlSixCM2F7QaKIplduqtBfJfQpFqv3rk3tEBOJO
- Yi1fJO5xgIWe6MvG421sZG8Xz0Zl3kpmsgnymR2+sWP0MUuS2zzuRk+y2FzRnVysLu7t
- rXwu/DsYc9ybXdky8caZemYlh1MdrKcB7plmnF17ly8+3kdAVhx7h1sZ4dRLlYZCT1si
- BYQu6GYUF4xI9daNCbg7XnpuUGc/6duM4FYgJbDED4SJZ8wdAy5/wtZppsqsTDnbDdY8
- HCtg==
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1lMVke-0006Gj-Ct
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:58:19 -0400
+Received: by mail-qt1-x831.google.com with SMTP id x9so1251283qto.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 05:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5HHNLMHWml3+ETB5EKTIw52cmZO7wwFIrbJzsM104Vk=;
+ b=1J4ryd+DjpmM7rN+/SIxL7KATATXLyJvUfd50yalw7qYvmJ5boTWapASiC8O6fucGR
+ Oe1bw1fy8n6zVRj9BJi0A1VVMppnE4Vy9d9ix23xPClXg2/0+5pws+lvApUzAWxGb77f
+ TS8fQbO3n10E5rw79j9kexdhlQfirxQ85nsPm6gjQjoB94EiboRhuNO0BfjN4RtdhFtG
+ 4BKGxTWaLuG5b83opxXWljXbUSVj7N7vmfZIZ8YME/1jyh8pYRavFJAEtiVQmQeCQdyv
+ +MuRNqB9BXNYJzdRQ6l8JJO4yeIiVIMQu4c7aj8bP/CkK9TKa/XJ4QvRS5S/bcjdBFqg
+ E4XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=pixOirCX6zcbMFelvM1RT+OnO4nSfJyBvfN0OdCJOAI=;
- b=A7nleId7Yo5p5m+JK2M8mGURWNuuqlozAMKNlz/HVpePJ0A8iDA2Rm6T8thI1uzZDf
- kqbRv7c7LoiOerQrWtKpV+KqHylEGlI5slx2pYrvzoTqf52ax2zPOB3P2ZPTGYIK9N3d
- fwFwGOUTtpqZ+T29/idJC8hcgAwwpzN4S2+CRvdj41lI02Dt9y7CsXav6hQXlRbAlHLC
- Y4+W1h5iSaUNXIWEY0pLNErp1p7IPrUdDu+9rwfsOnRZVXlXZF01GCH1feAcYF7CqkMU
- VXdDvoG39dFXol+89b8nzyCDpeJKpnCX2Z8mRTckeQ/4HN8gOhVFNHM12Nm9T5iBHn0q
- bp8Q==
-X-Gm-Message-State: AOAM53284f2lHA5ijs3E90mwyguMaOiHELRY2P0U1krYt5xbgr+G0dNK
- cqpdGt9UuH2+/1m2PAGAD35vVsCg+GQx6Q==
-X-Google-Smtp-Source: ABdhPJwf0L2VyagZP7DMbjA9uD00j2NSTzBQFD49UVhB6aL15Jy49Xj2P+73vqaHgcU7bov5PrtneQ==
-X-Received: by 2002:a2e:9195:: with SMTP id f21mr2367803ljg.340.1615985717089; 
- Wed, 17 Mar 2021 05:55:17 -0700 (PDT)
-Received: from localhost.localdomain ([85.142.117.226])
- by smtp.gmail.com with ESMTPSA id d8sm3437382lfm.160.2021.03.17.05.55.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 05:55:16 -0700 (PDT)
-From: Arkadiy <arkaisp2021@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] block: increased maximum size of vvfat devices
-Date: Wed, 17 Mar 2021 15:54:57 +0300
-Message-Id: <20210317125457.5733-1-arkaisp2021@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=arkaisp2021@gmail.com; helo=mail-lj1-x22e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5HHNLMHWml3+ETB5EKTIw52cmZO7wwFIrbJzsM104Vk=;
+ b=UfzafDsy7+5m6JQuXgHwpiyE2VRjrtb8Yz96aBZaMJjc7OYPla7ODzBEWG+Jwwv5CR
+ Je0ghsLRZjnXpbZNkbK62wbzIZ0HZbyniCM77sqS+5IQjDQLfjl1QYdxdJURjAmi53rL
+ HPCwYPh5c4gIFYULkWKIPyWTt5nCfrSyoai7FAsMbHqAPP/Svcq1r4gth6iZWVS1JGJL
+ 1cErszWMk7MB91gmtG7uk0tZmtVBGmxZITqPlgZfr6X9rqrbJuPXlgEw21oS0BZKEyaS
+ wYv72rHmpjEzsgcnlHgZjlCf6JkmjocryHZlbL6fVXpjp8EbcEv/LPgPmXvWG4adZeFS
+ lNqg==
+X-Gm-Message-State: AOAM531yM5/80MrXxtDXAYdh7cWys3KxLyF1bPEyFQ77Gb7E7oO5JzRr
+ nYwp6+oXxPPmBoUruJzZwV+GIERZuUb7L7dL12mHJw==
+X-Google-Smtp-Source: ABdhPJzQdwGqB/FgSJXLwyFPBoR6T2r2RpXpXLilDe23AY3/qmv9l9Lqmo2vpiyecPMwGIrdkAGpOGNEqYgKQfxuYcQ=
+X-Received: by 2002:ac8:5c44:: with SMTP id j4mr2473220qtj.253.1615985879297; 
+ Wed, 17 Mar 2021 05:57:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+ <CAFQAk7hCqSMMfRjUO8vtK-B2cKxJZZTJgSDAbRycd1AOSktM_w@mail.gmail.com>
+ <YFHUbEdszo4nursr@stefanha-x1.localdomain> <1709993.NBFj2RoZ23@silver>
+In-Reply-To: <1709993.NBFj2RoZ23@silver>
+From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Date: Wed, 17 Mar 2021 20:57:47 +0800
+Message-ID: <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
+Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
+ reconnection
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="0000000000004dd13b05bdbb0845"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,180 +79,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, f4bug@amsat.org, mreitz@redhat.com,
- NDNF <arkaisp2021@gmail.com>, Arkasha <ivanovrkasha@gmail.com>,
- pavel.dovgaluk@ispras.ru
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ virtio-fs@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: NDNF <arkaisp2021@gmail.com>
+--0000000000004dd13b05bdbb0845
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This fixes the problem of the impossibility to create
-FAT16 disks larger than 504 mb:
-The change CHS made it possible to obtain a larger disk.
-Also, auto-detection of disk parameters was added depending
-on the volume of the connected files:
-The size of all folders and files on the created disk is calculated
-and the size of the FAT table is added.
-This size allows to choose the future size of the FAT drive
-from the standard limitations.
+On Wed, Mar 17, 2021 at 7:50 PM Christian Schoenebeck <
+qemu_oss@crudebyte.com> wrote:
 
-Signed-off-by: Arkasha <ivanovrkasha@gmail.com>
----
- block/vvfat.c | 94 ++++++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 85 insertions(+), 9 deletions(-)
+> On Mittwoch, 17. M=C3=A4rz 2021 11:05:32 CET Stefan Hajnoczi wrote:
+> > On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
+> > > Thanks for the suggestions. Actually, we choose to save all state
+> > > information to QEMU because a virtiofsd has the same lifecycle as its
+> > > QEMU master. However, saving things to a file do avoid communication
+> with
+> > > QEMU, and we no longer need to increase the complexity of vhost-user
+> > > protocol. The suggestion to save fds to the systemd is also very
+> > > reasonable
+> > > if we don't consider the lifecycle issues, we will try it.
+> >
+> > Hi,
+> > We recently discussed crash recovery in the virtio-fs bi-weekly call an=
+d
+> > I read some of this email thread because it's a topic I'm interested in=
+.
+>
+> I just had a quick fly over the patches so far. Shouldn't there be some
+> kind
+> of constraint for an automatic reconnection feature after a crash to
+> prevent
+> this being exploited by ROP brute force attacks?
+>
+> E.g. adding some (maybe continuously increasing) delay and/or limiting th=
+e
+> amount of reconnects within a certain time frame would come to my mind.
+>
+> Best regards,
+> Christian Schoenebeck
+>
+>
+>
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 54807f82ca..b9e3d7e003 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -932,8 +932,6 @@ static int init_directories(BDRVVVFATState* s,
-     /* Now build FAT, and write back information into directory */
-     init_fat(s);
- 
--    /* TODO: if there are more entries, bootsector has to be adjusted! */
--    s->root_entries = 0x02 * 0x10 * s->sectors_per_cluster;
-     s->cluster_count=sector2cluster(s, s->sector_count);
- 
-     mapping = array_get_next(&(s->mapping));
-@@ -1133,11 +1131,52 @@ static void vvfat_parse_filename(const char *filename, QDict *options,
-     qdict_put_bool(options, "rw", rw);
- }
- 
-+static bool check_size(uint32_t offset_to_bootsector, int cyls, int heads,
-+                      int secs, uint8_t sectors_per_cluster, int fat_type,
-+                      uint64_t sum, uint64_t size_disk)
-+{
-+    uint32_t sector_count = cyls * heads * secs - offset_to_bootsector;
-+    int i = 1 + sectors_per_cluster * 0x200 * 8 / fat_type;
-+    uint16_t sectors_per_fat = (sector_count + i) / i;
-+    /*size + FAT1 and FAT2 table size*/
-+    if ((sum + sectors_per_fat * 512 * 2) < size_disk) {
-+        return true;
-+    }
-+    return false;
-+}
-+
-+static uint64_t find_size(const char *dirname, unsigned int cluster)
-+{
-+    uint64_t sum = 0;
-+    DIR *dir = opendir(dirname);
-+    struct dirent *entry;
-+    while ((entry = readdir(dir))) {
-+        uint16_t length = strlen(dirname) + 2 + strlen(entry->d_name);
-+        char *buffer;
-+        struct stat st;
-+        buffer = g_malloc(length);
-+        snprintf(buffer, length, "%s/%s", dirname, entry->d_name);
-+        if (stat(buffer, &st) < 0) {
-+            g_free(buffer);
-+            continue;
-+        }
-+        if (strcmp(entry->d_name, ".") && strcmp(entry->d_name, "..")
-+                                            && S_ISDIR(st.st_mode)) {
-+            sum += find_size(buffer, cluster);
-+        }
-+        g_free(buffer);
-+        sum += (st.st_size + cluster - 1) / (cluster) * (cluster);
-+    }
-+    closedir(dir);
-+    return sum;
-+}
-+
- static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
-                       Error **errp)
- {
-     BDRVVVFATState *s = bs->opaque;
-     int cyls, heads, secs;
-+    uint64_t size_disk;
-     bool floppy;
-     const char *dirname, *label;
-     QemuOpts *opts;
-@@ -1163,6 +1202,28 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
-     s->fat_type = qemu_opt_get_number(opts, "fat-type", 0);
-     floppy = qemu_opt_get_bool(opts, "floppy", false);
- 
-+    uint64_t sum = 0;
-+    if (floppy) {
-+        if (!s->fat_type) {
-+            s->sectors_per_cluster = 2;
-+        } else {
-+            s->sectors_per_cluster = 1;
-+        }
-+    } else if (s->fat_type == 12) {
-+        s->offset_to_bootsector = 0x3f;
-+        s->sectors_per_cluster = 0x10;
-+    } else {
-+        s->offset_to_bootsector = 0x3f;
-+        /* LATER TODO: if FAT32, adjust */
-+        s->sectors_per_cluster = 0x80;
-+    }
-+
-+    sum += find_size(dirname, s->sectors_per_cluster * 0x200);
-+    /* TODO: if there are more entries, bootsector has to be adjusted! */
-+    s->root_entries = 0x02 * 0x10 * s->sectors_per_cluster;
-+    /*File size + boot sector size + root directory size*/
-+    sum += 512 + s->root_entries * 32;
-+
-     memset(s->volume_label, ' ', sizeof(s->volume_label));
-     label = qemu_opt_get(opts, "label");
-     if (label) {
-@@ -1182,22 +1243,40 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
-         if (!s->fat_type) {
-             s->fat_type = 12;
-             secs = 36;
--            s->sectors_per_cluster = 2;
-         } else {
-             secs = s->fat_type == 12 ? 18 : 36;
--            s->sectors_per_cluster = 1;
-         }
-         cyls = 80;
-         heads = 2;
-     } else {
--        /* 32MB or 504MB disk*/
-         if (!s->fat_type) {
-             s->fat_type = 16;
-         }
--        s->offset_to_bootsector = 0x3f;
-+        size_disk = 528482304;
-         cyls = s->fat_type == 12 ? 64 : 1024;
-         heads = 16;
-         secs = 63;
-+        if (!check_size(s->offset_to_bootsector, cyls, heads, secs,
-+                      s->sectors_per_cluster, s->fat_type, sum, 
-+                      size_disk)) {
-+            if (s->fat_type > 12) {
-+                size_disk = 4294950912;
-+                cyls = 8322;
-+                heads = 16;
-+                secs = 63;
-+
-+            } else {
-+                fprintf(stderr, "Requires Fat16 or Fat32\n");
-+                return -2;
-+            }
-+            if (!check_size(s->offset_to_bootsector, cyls, heads,
-+                                   secs, s->sectors_per_cluster,
-+                                   s->fat_type, sum, size_disk)) {
-+                fprintf(stderr, "Folder is larger than %f GB\n",
-+                                (float)size_disk / 1073741824);
-+                return -2;
-+            }
-+        }
-     }
- 
-     switch (s->fat_type) {
-@@ -1216,9 +1295,6 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     s->bs = bs;
- 
--    /* LATER TODO: if FAT32, adjust */
--    s->sectors_per_cluster=0x10;
--
-     s->current_cluster=0xffffffff;
- 
-     s->qcow = NULL;
--- 
-2.17.1
+Thanks, Christian. I am still trying to figure out the details of the ROP
+attacks.
 
+However, QEMU's vhost-user reconnection is based on chardev socket
+reconnection. The socket reconnection can be enabled by the "--chardev
+socket,...,reconnect=3DN" in QEMU command options, in which N means QEMU wi=
+ll
+try to connect the disconnected socket every N seconds. We can increase N
+to increase the reconnect delay. If we want to change the reconnect delay
+dynamically, I think we should change the chardev socket reconnection code.
+It is a more generic mechanism than vhost-user-fs and vhost-user backend.
+
+By the way, I also considered the socket reconnection delay time in the
+performance aspect. As the reconnection delay increase, if an application
+in the guest is doing I/Os, it will suffer larger tail latency. And for
+now, the smallest delay is 1 second, which is rather large for
+high-performance virtual I/O devices today. I think maybe a more performant
+and safer reconnect delay adjustment mechanism should be considered in the
+future. What are your thoughts?
+
+
+Jiachen
+
+--0000000000004dd13b05bdbb0845
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 17, 2021 at 7:50 PM Chris=
+tian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@cru=
+debyte.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Mittwoch, 17. M=C3=A4rz 2021 11:05:32 CET Stefan Hajnoczi wro=
+te:<br>
+&gt; On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:<br>
+&gt; &gt; Thanks for the suggestions. Actually, we choose to save all state=
+<br>
+&gt; &gt; information to QEMU because a virtiofsd has the same lifecycle as=
+ its<br>
+&gt; &gt; QEMU master. However, saving things to a file do avoid communicat=
+ion with<br>
+&gt; &gt; QEMU, and we no longer need to increase the complexity of vhost-u=
+ser<br>
+&gt; &gt; protocol. The suggestion to save fds to the systemd is also very<=
+br>
+&gt; &gt; reasonable<br>
+&gt; &gt; if we don&#39;t consider the lifecycle issues, we will try it.<br=
+>
+&gt; <br>
+&gt; Hi,<br>
+&gt; We recently discussed crash recovery in the virtio-fs bi-weekly call a=
+nd<br>
+&gt; I read some of this email thread because it&#39;s a topic I&#39;m inte=
+rested in.<br>
+<br>
+I just had a quick fly over the patches so far. Shouldn&#39;t there be some=
+ kind <br>
+of constraint for an automatic reconnection feature after a crash to preven=
+t <br>
+this being exploited by ROP brute force attacks?<br>
+<br>
+E.g. adding some (maybe continuously increasing) delay and/or limiting the =
+<br>
+amount of reconnects within a certain time frame would come to my mind.<br>
+<br>
+Best regards,<br>
+Christian Schoenebeck<br>
+<br>
+<br></blockquote><div><br></div><div><br></div><div>Thanks,=C2=A0Christian.=
+ I am still trying to figure out the details of the ROP attacks.=C2=A0</div=
+><div><br></div><div>However, QEMU&#39;s vhost-user reconnection is based o=
+n chardev socket reconnection. The socket reconnection can be enabled by th=
+e &quot;--chardev socket,...,reconnect=3DN&quot; in QEMU command options, i=
+n which N means QEMU will try to connect the disconnected socket every N se=
+conds. We can increase N to increase the reconnect delay. If we want to cha=
+nge the reconnect delay dynamically, I think we should change the chardev s=
+ocket reconnection code. It is a more generic mechanism than vhost-user-fs =
+and vhost-user backend.</div><div><br></div><div>By the way, I also conside=
+red the socket reconnection delay time in the performance aspect. As the re=
+connection delay increase, if an application in the guest is doing I/Os, it=
+ will suffer larger tail latency. And for now, the smallest delay is 1 seco=
+nd, which is rather large for high-performance virtual I/O devices today. I=
+ think maybe a more performant and safer reconnect delay adjustment mechani=
+sm should be considered in the future. What are your thoughts?</div><div><b=
+r></div><div><br></div><div>Jiachen</div><div><br></div><div>=C2=A0</div></=
+div></div>
+
+--0000000000004dd13b05bdbb0845--
 
