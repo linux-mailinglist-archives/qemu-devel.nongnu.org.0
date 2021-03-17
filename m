@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621B633F25F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:16:07 +0100 (CET)
-Received: from localhost ([::1]:38496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E634133F271
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:20:23 +0100 (CET)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMWxx-0001W6-Sr
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56492)
+	id 1lMX26-0002uV-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMWwZ-00014U-Uo
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:14:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMWwX-0002Dk-9r
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:14:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615990475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EWruc03gqNya2nMPAbGUPux/i4C+7gBE0BgrVtUVUHs=;
- b=DOW37nSKB2ZE6dt9OfeyzG1qRwK8B7RDA37FdwgTjAPkHoRddmLxqa6XpdeQ05qc8GZFa5
- kt7nn9nmDSRWHlnIZrLewLPA+wh1w0FdUaCTR2+u+j87tGcFWMy9TykYNc7KVqQvNwXAwE
- 7A8nFnPeaAPsG/K2HyA7aVKnfeHXmG8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-1ulWKPbLORCNhtlDqQ9U9w-1; Wed, 17 Mar 2021 10:14:31 -0400
-X-MC-Unique: 1ulWKPbLORCNhtlDqQ9U9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC5C2814314;
- Wed, 17 Mar 2021 14:14:29 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4AED5D6A1;
- Wed, 17 Mar 2021 14:14:21 +0000 (UTC)
-Subject: Re: [PATCH v3 3/5] tests/acceptance: Introduce QemuUserTest base class
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMWzz-0002I9-10
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:18:11 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMWzw-0004Qr-3L
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:18:10 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id x13so2000166wrs.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 07:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aSiVUjU+bzXVzbzMBHupiWrTUCdOmYeM9oN+jgPpbic=;
+ b=EFM+AQWi0DY6PFDgGRRtGGN2bNGtoEt7+zZPd84mZzrOvcPnMQGYzKhqfn2Bgx0vkd
+ xcMx2DoSh+8fZt60fUD66M8BAOPk3z/1x7nMAw+IT/9XgxCvqhSmCUzQiIHK+qlPIEYo
+ vTYMbW73uoNti7bbeBqX5LglhbnCwm2jBV5PdrCfEaJf4SKDCIfXcFHszeV48BXziT8p
+ SMOIacQtjnDPFgWWHdcX2Fp9of4Z7kTT1jOFHkfrSj6mWSBttibEZFAtpanRxdBmUZ/m
+ TpP5JjIXMDhwo+MnH15VMy9536AAd1qVOUYS/TABGAGonjhqHMpOOsxswJl0fHfhE78t
+ PpCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aSiVUjU+bzXVzbzMBHupiWrTUCdOmYeM9oN+jgPpbic=;
+ b=DoonHEQWqEdp2gs1DgUHOYhmATarwtdbocR8KH9w4+M33HEHQ755Wl6hb5cSwFYl5O
+ p62fhM0L8RVD3YXgrzdeoAl01grKAkKMc8jMTGgEY7ahDhr1kPZt3tvq5XvU0o8NJzhv
+ elM+Pd5vCZcgWbK8IhAeK10nja2HyybQwL18BjGzUMQLYX2gDnhmZZ6mmFOOAKjPGLbV
+ lJLuIEuDYbMsSJBUfgVRJrEFH3a+ykU61W38f4n09yjY+huEIidmTEKHy/h6Vzft0/8V
+ TGJKiuMVTAxbylQK1fLi1Xn/bU2uVpit77iJfec6gYlvQ2rAikbRGxcCNTqGXPuGj6ub
+ dOPQ==
+X-Gm-Message-State: AOAM532T/MWxxyEFjiTBJw4+Rawz+Ep5HmvKkFinNJvNHRthLeCahav1
+ mkp1sVEptIBXqjhZ+w3TgNk=
+X-Google-Smtp-Source: ABdhPJzpbpd9kNRBmvz84xxEALeCXCpW9xbEACTC633JVT3oWXKe/As2S5dkcrmtDvQbeUnpLwMzeg==
+X-Received: by 2002:adf:cf11:: with SMTP id o17mr4657308wrj.391.1615990686873; 
+ Wed, 17 Mar 2021 07:18:06 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id e13sm5813554wrg.72.2021.03.17.07.18.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 07:18:04 -0700 (PDT)
+Subject: Re: [PATCH v3 1/5] tests/acceptance: Extract QemuBaseTest from Test
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
 References: <20210315230838.2973103-1-f4bug@amsat.org>
- <20210315230838.2973103-4-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <3d83bd7b-0efa-5151-97d4-07505b8d56d3@redhat.com>
-Date: Wed, 17 Mar 2021 11:14:18 -0300
+ <20210315230838.2973103-2-f4bug@amsat.org>
+ <7d97e67e-e09d-a3cd-8b54-49d7fe51fc15@redhat.com>
+ <f66ad969-2648-b599-f1b5-b9d01e4146ca@amsat.org>
+ <9391ac87-4b6a-a785-b1ed-c4f796d71826@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <24efd45f-3fe6-95cb-ceef-f0ca44472a26@amsat.org>
+Date: Wed, 17 Mar 2021 15:18:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210315230838.2973103-4-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <9391ac87-4b6a-a785-b1ed-c4f796d71826@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,55 +98,33 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 3/17/21 2:44 PM, Wainer dos Santos Moschetta wrote:> On 3/17/21 10:26
+AM, Philippe Mathieu-Daudé wrote:
+>> On 3/17/21 2:08 PM, Wainer dos Santos Moschetta wrote:> On 3/15/21 8:08
+>> PM, Philippe Mathieu-Daudé wrote:
+>>>> The Avocado Test::fetch_asset() is handy to download artifacts
+>>>> before running tests. The current class is named Test but only
+>>>> tests system emulation. As we want to test user emulation,
+>>>> refactor the common code as QemuBaseTest.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>    tests/acceptance/avocado_qemu/__init__.py | 23
+>>>> ++++++++++++++++++++---
+>>>>    1 file changed, 20 insertions(+), 3 deletions(-)
 
-On 3/15/21 8:08 PM, Philippe Mathieu-Daudé wrote:
-> Similarly to the 'System' Test base class with methods for testing
-> system emulation, the QemuUserTest class contains methods useful to
-> test user-mode emulation.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   tests/acceptance/avocado_qemu/__init__.py | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 08b3fa1124f..b471bee66e0 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -20,6 +20,7 @@
->   from avocado.utils import cloudinit
->   from avocado.utils import datadrainer
->   from avocado.utils import network
-> +from avocado.utils import process
->   from avocado.utils import vmimage
->   from avocado.utils.path import find_command
->   
-> @@ -256,6 +257,19 @@ def fetch_asset(self, name,
->                           find_only=find_only,
->                           cancel_on_missing=cancel_on_missing)
->   
-> +class QemuUserTest(QemuBaseTest):
-> +    def setUp(self):
-> +        self._ldpath = []
-> +        super(QemuUserTest, self).setUp("qemu-%s")
+>>>> +# a.k.a. QemuSystemTest for system emulation...
+>>> Above comment could become the class docstring.
+>> No, there should be no comment at all. We have to see if we are OK to
+>> rename or not. You suggested this change:
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg659843.html
+>> But the there was more discussion and we never agreed on anything.
+>> I don't want to restart doing this change if it is ignored again,
+>> as it was a waste of time.
+> 
+> I stand my suggestion to rename the Test class. However, IMO this could
+> be done on a separate series later after we get this merged, so to avoid
+> more discussion. I can work on it myself. Sound as a good plan for you?
 
-There is my comment on patch 02 regarding the setUp() argument. Apart 
-from that, this code looks good to me:
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-> +
-> +    def add_ldpath(self, ldpath):
-> +        self._ldpath += [os.path.abspath(ldpath)]
-> +
-> +    def run(self, bin_path, args=[]):
-> +        qemu_args = " ".join(["-L %s" % ldpath for ldpath in self._ldpath])
-> +        bin_args = " ".join(args)
-> +        return process.run("%s %s %s %s" % (self.qemu_bin, qemu_args,
-> +                                            bin_path, bin_args))
->   
->   class LinuxTest(Test):
->       """Facilitates having a cloud-image Linux based available.
-
+Sure, certainly! Thanks.
 
