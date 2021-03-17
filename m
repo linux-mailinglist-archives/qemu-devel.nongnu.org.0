@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03EA33F5C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:42:11 +0100 (CET)
-Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B7D33F5C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:42:01 +0100 (CET)
+Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZFK-0007Uy-Ng
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56532)
+	id 1lMZF9-0007Ho-Gf
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lMYdf-0003OA-MC
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:03:15 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:36659)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMYhP-0007xv-OK; Wed, 17 Mar 2021 12:07:07 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lMYdc-0006G1-Gf
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:03:15 -0400
-Received: by mail-ed1-x532.google.com with SMTP id o19so2931905edc.3
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 09:03:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vKnBQRql1G8DVvyy9caNU13ZLqsgVIyaseCtUE3V0b0=;
- b=ABfasNPwBLkAgbws0ZBNzvYWwJ5giaWhDSL5y5Z1clJEnyMMC3iah6FWXc6H25t3qR
- gcOjbnQVGmVezM0f0XkItj/40IzMLCH0oSc+qGtch2V8XTjnmLDsGcjCRymYcHxLDHK7
- qdopim5iV9wRtVbQuxhvJJjmHH23BjlqpF2x/5eUhfc2b5bPQtSBPDQNIdW8oJdKPfcb
- ZgpRxiqOtPRqSYLM1LjzAHjF6BB1vmS5pC0Yf/MWdn08Bfps5WdL7Jxizv8PGlTPTCTE
- N1zD2Tv/ru77UC+E59zNHQ42fycRHwsTg2zSV2/sB38GhKvn0OIQQ4YKdotCf2bp6O4I
- iLrQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMYhO-0008T4-1X; Wed, 17 Mar 2021 12:07:07 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o16so2409664wrn.0;
+ Wed, 17 Mar 2021 09:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HUoaNr2jpx/Hqqgt1k4ocTq0Wd6cXBAgWL1v0SgJTr8=;
+ b=UMNfq+nCdUNkibfUBQMI//2Tq9vgLZMgyISMfOx1m4406Qe7o0WOJiTF1h9tzP4q6n
+ w7NF2UV2ipJklFTZQTbgW2T7QYINz5NdNWYmCzuSMg1oBtfS9bZtBVRhnI8WX2eyGICe
+ bOKwKyoFzIEZwxb4x6uFJwKjmiR61cXVUPjrIEqQSpNcw8c8N2jQ6OfXG4aE6ilb+Prw
+ jI0OLgwpBzrlEOpyR/SmEomPV0e6pxjMuSHq0AxU6oUBUzEYeKl313aUwacDxvRzhnWl
+ IdLoNt0dg8i9/T3cIWuec5zXF6ndHj0AEFoNkpFJHOLWKmXzUiH3I4BVoPg/l2DL5bO1
+ Eepg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:references:from:cc:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vKnBQRql1G8DVvyy9caNU13ZLqsgVIyaseCtUE3V0b0=;
- b=ZT2ZTz0zJCF0LABNlp435y5+xInZztFqRDRjB/SwiWxcy8DeKgdGLN+K4Wte7tzM58
- VuuCiu5TcYR3CQi22aPzlD4cLVY13qroTWKVMLmp9n4ifXdwV/lGsIJdBry5bxtjxokT
- nwmz7Vz2qj/L5nXMINElDvnqFGqQqbOofGhLIuNb6ngW25aY/ezolsYOjUvrccVglQ1s
- 6kGPmwU6VL3HII8IPPVLqR1QFCGqLIZ34KA5gny0fXNP1GTueXDYvi3NvDrIwpz/V3DV
- lRjMhcJqjKsKjs3hGDgCj2sL9YsVk483QwlfZ0Y0gg/RODdzAhyjwPFZE+8sI76fI39c
- Fouw==
-X-Gm-Message-State: AOAM533PoHt1ZXhzu3STFtYLQmOIaI0X8mrmMkF9tMHcVyAg2rvqtzVm
- F3JWQb/Nc4IuSUrIBlDZhDyFfg==
-X-Google-Smtp-Source: ABdhPJzj8WWGN9XqtFpwcysOt1vyiZQyWxPpn2Xe2ZTtjoq8SS6GMIMaVtunmotJxRSzXJsXkAaiNQ==
-X-Received: by 2002:a05:6402:48c:: with SMTP id
- k12mr43149916edv.237.1615996990614; 
- Wed, 17 Mar 2021 09:03:10 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y9sm11884600ejd.110.2021.03.17.09.03.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 09:03:09 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 76CAB1FF7E;
- Wed, 17 Mar 2021 16:03:08 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] support.md: add a link to matrix bridge to IRC
-Date: Wed, 17 Mar 2021 16:02:59 +0000
-Message-Id: <20210317160259.14098-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=HUoaNr2jpx/Hqqgt1k4ocTq0Wd6cXBAgWL1v0SgJTr8=;
+ b=j/1zoIOTp2FDpPGmWBzZLlnv0/f9HUnVtORL2u8kIH2PalOKOd0Lk8zXv/KrTfCCR9
+ 3LBiPiAS9JDtumDqe6H4OKxkVXqCgwa21EwpPuRCA2xV2yz3gfOBlYdKfX2kdyQ0UJmX
+ I92ilHJru1vCgGWJ3hPY28u+KiywK4TJjCTjN2KIVl0zReSkuu3a0oKvxGzND7b1awpR
+ stQH53OkXJJDrvF5bEY7+nx/zyvlyziKReOE4gQ66NNW3Nzbrk2AqqJ30Wo1TrcKaJI6
+ woKOLMDkzmlcQPTFT6jOuaEsYmsFCj9dVMGm71uj67FlOJmfWHJpUAFKFPbqj5Gk0CFH
+ Oddg==
+X-Gm-Message-State: AOAM5327eM+CR13gqP9QkO0kC668WC8qV0SLCp5H+eT+ZlaOvdN76LJc
+ 65o/qVpoXKmT/esCeGrA7m81g77m0xV8iQ==
+X-Google-Smtp-Source: ABdhPJzgAOUzMoZU8qhyHRzLYW9ZgA7iNRF72/MoSfI+fL1P+sdT5E1p00B618bOE/0CxNn+6A1C3Q==
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr5337559wrr.118.1615997223593; 
+ Wed, 17 Mar 2021 09:07:03 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id i26sm3022569wmb.18.2021.03.17.09.07.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 09:07:02 -0700 (PDT)
+Subject: Re: MIPS32 release 2 Instructions
+To: prashant chaturvedi <iamprashant13@gmail.com>, qemu-discuss@nongnu.org
+References: <CACiU002Jb7d5Zg1r8gRSACjS6hNuYogTSGMxGPzGVTqJ+4E3dw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <883d6f46-497c-85bd-2055-927c4c879c8e@amsat.org>
+Date: Wed, 17 Mar 2021 17:07:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <CACiU002Jb7d5Zg1r8gRSACjS6hNuYogTSGMxGPzGVTqJ+4E3dw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,43 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want users to be able to use newer tooling and not be stuck with
-IRC like the rest of the fossils. As the #QEMU channel is bridged by
-the matrix.org server lets point there as well. At least it's not
-Slack.
+On 3/17/21 12:20 PM, prashant chaturvedi wrote:
+> Hello all,
+> I'm trying execute a mips32r2 , little endian binary on qemu and the
+> instructions like enable interrupt(EI) and Pair upper Lower(PUL.PS
+> <http://PUL.PS>) are not supported by qemu as it gives "Illegal
+> Instruction" error.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- support.md | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+PUL.PS is microMIPS32, not MIPS32r2.
 
-diff --git a/support.md b/support.md
-index f6ee85c..252351c 100644
---- a/support.md
-+++ b/support.md
-@@ -33,10 +33,12 @@ want to send your question to another of [QEMU's mailing
- lists](https://wiki.qemu.org/MailingLists)
- 
- * A lot of developers hang around on IRC (network: irc.oftc.net,
--channel #qemu).<br> QEMU developers tend to hold normal office hours
--and are distributed around the world. Please be patient as you may
--have to wait some time for a response. If you can't leave IRC open and
--wait you may be better served by a mailing list.
-+channel #qemu, also available via
-+[Matrix](https://matrix.to/#/#_oftc_#qemu:matrix.org)).<br> QEMU
-+developers tend to hold normal office hours and are distributed around
-+the world. Please be patient as you may have to wait some time for a
-+response. If you can't leave IRC open and wait you may be better
-+served by a mailing list.
- 
- * If you think you have found a bug you can report it on [our bug
-   tracker](https://bugs.launchpad.net/qemu/).<br>
--- 
-2.20.1
+QEMU emulates microMIPS32 with the M14K/M14Kc CPUs.
+
+This instruction is available since 2010:
+
+commit 3c824109da076d2a1df4b798f9df81b385131f92
+Author: Nathan Froyd <froydnj@codesourcery.com>
+Date:   Tue Jun 8 13:29:59 2010 -0700
+
+    target-mips: microMIPS ASE support
+
+> I'm really confused with this, Those instructions are part of the ISA,
+> then why am I getting this error? Is there something that I'm missing?
+> someway that i can enable execution of those instructions? Any help
+> would be appreciated.
+> 
+> Thank you all in advance!
 
 
