@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF8D33F2AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:32:31 +0100 (CET)
-Received: from localhost ([::1]:51712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB7333F2B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:33:46 +0100 (CET)
+Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMXDq-00082s-0H
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60746)
+	id 1lMXF3-0001MA-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMXCF-00072K-3S
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54504)
+ id 1lMXCG-00072a-FS
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMXCD-0003bK-8U
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:50 -0400
+ id 1lMXCD-0003bw-GX
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lMXCB-0006wS-QW
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:47 +0000
+ id 1lMXCC-0006tB-EL
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C79A62E8157
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6A3122E815A
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Mar 2021 14:20:23 -0000
+Date: Wed, 17 Mar 2021 14:21:58 -0000
 From: Thorsten Glaser <1891748@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,14 +45,14 @@ X-Launchpad-Bug-Commenters: dilfridge ech1965 mdevaev mirabilos rth th-huth
 X-Launchpad-Bug-Reporter: Ech (ech1965)
 X-Launchpad-Bug-Modifier: Thorsten Glaser (mirabilos)
 References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <161599082411.18765.17879703652357117562.malone@soybean.canonical.com>
+Message-Id: <161599091863.15250.11196267717825120903.malone@gac.canonical.com>
 Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: f8f3665ea8ff6bf689baa8885226a69b5452e546
+X-Launchpad-Hash: f192ec6ed5e010e4c5388afbf4a066152e25a5ff
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -77,7 +77,7 @@ Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Heh, even if I omit -static =E2=80=A6
+It works with sudo, but that can=E2=80=99t be the fix=E2=80=A6
 
 -- =
 
