@@ -2,92 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7446333F8EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:15:56 +0100 (CET)
-Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9C033F921
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:27:39 +0100 (CET)
+Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbe7-0000wa-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:15:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
+	id 1lMbpS-0004GB-MC
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMbQF-0003RN-2T
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:01:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMbQ9-0003zq-GB
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:01:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616007687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ahOn/l85M3c3KP/ofNHl3zjbmCuvYamSt+TAuHTi4T4=;
- b=QtZM/T2qS9nPViuzjIVZl+ceDeZLzKK7Ll17mrmO1OrPJKoMxIA8AssKhQ9am4DRMi0Ppu
- mHbW9WYeFecz+VlzRMNWbz0T2o8vuYZ40mBJ41hUk3046ltQ9aUP52tZ7aB9hL6B7sacDa
- KYJweQNmoyDGke636glMWN7wJgfuSMA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-vx00XzdHOCGQz8egNGrK9w-1; Wed, 17 Mar 2021 15:01:26 -0400
-X-MC-Unique: vx00XzdHOCGQz8egNGrK9w-1
-Received: by mail-wr1-f72.google.com with SMTP id p15so18645564wre.13
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 12:01:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ahOn/l85M3c3KP/ofNHl3zjbmCuvYamSt+TAuHTi4T4=;
- b=jy9SQjTANrLKs0X9Rxu3yQ86f4lA+0AH5H0Njw5Bb+hFlAXXBC5ellgQbN0OfkLbBR
- Ch0nj/hdmwBktK1dqSn0ESpNJWFfskyvB6rZU7K9n6G0MQV/6zuaTxMhlzOXKIf2Y0yY
- Ev9E7Q2cN+0qqKO+0YRANoyVvotB716kGQxBR7fhcEaaSntr1a+aS6wnLLdjFgJBNTTk
- 8SONhXB5eAIWNs4bSR+nkDzpZVLMQH9QLP5vd5rBzmh8kxEBZaJppOtE1lx7+so7/5gw
- kJWlJNt53sXN+FSh44abshNmplGjegBaZ9yVWwmjt5fvOT0Z7oUrDtIOgpb6OP1VGaTh
- bBDw==
-X-Gm-Message-State: AOAM531YU5Lek9ewMhw/MDMa5Ss95X80t04uav2PEGqt3plB68bjxez1
- oyCLMxNA+2CjMp1rJXUaqD282IJd7eiXMFAyOV4vfsdUPtHDOrbAL3cS5FM7GfU3VpWSbTFqs4n
- +AFW37poVk7JdTBs=
-X-Received: by 2002:a5d:58ce:: with SMTP id o14mr6013681wrf.4.1616007685027;
- Wed, 17 Mar 2021 12:01:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzv7h9x5kYqofYxS+IDRQ3w2XHbSOvXe86031sk9OyGDwUVW98wfyoK/FKp8xlxOz+pFs6h2Q==
-X-Received: by 2002:a5d:58ce:: with SMTP id o14mr6013663wrf.4.1616007684821;
- Wed, 17 Mar 2021 12:01:24 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id v18sm28303113wrf.41.2021.03.17.12.01.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 12:01:24 -0700 (PDT)
-Subject: Re: [RFC v9 29/50] target/arm: cleanup cpu includes
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210317183013.25772-1-cfontana@suse.de>
- <20210317183013.25772-30-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3bcc1889-8479-7c00-b799-829938702515@redhat.com>
-Date: Wed, 17 Mar 2021 20:01:22 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMbRy-0005hl-UY
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:03:24 -0400
+Received: from 5.mo51.mail-out.ovh.net ([188.165.49.213]:44396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMbRs-0004g5-Mw
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:03:22 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.7])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id A57B2274A32;
+ Wed, 17 Mar 2021 20:03:13 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
+ 2021 20:03:12 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0052b3110f7-87aa-47c3-a1b4-d3208367bcb4,
+ 10040688A1AB5364447EAD88D88247B833C1D39B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Do not sysbus-map mmio flash region
+ directly, use alias
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ <qemu-devel@nongnu.org>
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-3-f4bug@amsat.org>
+ <871fce3d-8b3c-bcce-6170-9010b1ed7d5c@kaod.org>
+ <38ba72b0-ca80-11e9-3933-1da563748a83@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <fca7093f-ac77-e72a-edce-fa93f774a571@kaod.org>
+Date: Wed, 17 Mar 2021 20:03:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210317183013.25772-30-cfontana@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <38ba72b0-ca80-11e9-3933-1da563748a83@amsat.org>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 349db3b3-fdc6-4687-bf9f-2e102ae769a9
+X-Ovh-Tracer-Id: 5940529386346089403
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,37 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 7:29 PM, Claudio Fontana wrote:
-> cpu.c,
-> cpu32.c,
-> cpu64.c,
-> tcg/sysemu/tcg-cpu.c,
+On 3/17/21 8:00 PM, Philippe Mathieu-Daudé wrote:
+> On 3/17/21 7:30 PM, Cédric Le Goater wrote:
+>> On 3/12/21 7:28 PM, Philippe Mathieu-Daudé wrote:
+>>> The flash mmio region is exposed as an AddressSpace.
+>>> AddressSpaces must not be sysbus-mapped, therefore map
+>>> the region using an alias.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> That does the trick but you need an extra change in the model. 
+>>
+>> The fixes are in my aspeed-6.0 branch on GH and they survive the last
+>> patch of your series :
+>>
+>>   [PATCH 5/5] memory: Make sure root MR won't be added as subregion
 > 
-> all need a good cleanup when it comes to included header files.
+> I wondered about changing DMA_FLASH_ADDR() wasn't sure the tests
+> would use the flash.
+
+The acceptance tests (not merged yet) download firmware images
+in which u-boot does DMA accesses to calibrate the reads on the
+flash device. 
+
+C.
+  
 > 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  target/arm/cpu.c                |  8 ++------
->  target/arm/cpu32.c              | 14 --------------
->  target/arm/cpu64.c              |  6 ------
->  target/arm/tcg/sysemu/tcg-cpu.c | 22 +---------------------
->  roms/SLOF                       |  2 +-
->  5 files changed, 4 insertions(+), 48 deletions(-)
-
-> diff --git a/roms/SLOF b/roms/SLOF
-> index 33a7322de1..e18ddad851 160000
-> --- a/roms/SLOF
-> +++ b/roms/SLOF
-> @@ -1 +1 @@
-> -Subproject commit 33a7322de13e9dca4b38851a345a58d37e7a441d
-> +Subproject commit e18ddad8516ff2cfe36ec130200318f7251aa78c
-
-Besides this dubious change, the rest LGTM :)
+>> I will upstream for 6.1.
+> 
+> Thanks!
+> 
+> Phil.
+> 
 
 
