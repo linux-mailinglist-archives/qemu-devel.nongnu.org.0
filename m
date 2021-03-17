@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D466B33E284
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:10:14 +0100 (CET)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B6D33E291
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:18:26 +0100 (CET)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMJlN-00006v-Tc
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37650)
+	id 1lMJtJ-0001ni-3e
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMJk7-0007hU-NH
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:08:55 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:45043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMJk6-0007A7-42
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:08:55 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- j4-20020a05600c4104b029010c62bc1e20so306637wmi.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 17:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qRrWx8IecwqHRWv6pCms04wG8j4IFrru8/aKju64QgU=;
- b=eNVb7X/GiERZ6E77zlbGEcG/paT670kxcFVHkijALxLWBMvtShnnkst40iVmWSJaVV
- TEMPpkvgNWuQMv4KRIChdvj4gxxPfjSq0aUq0K7zft4UOUHMS5atZqilCMq5vvWKX0mc
- /vp2+fSNWa6GWqYTuDHa09BgQ1NhDLhf2N4dvLNrkXE1t79lnLvBildfrCWmw8aTObFH
- +PeWpLdmJK/mMxP7jymvGl/BQdS8BxH5G09DeXrCXprWRfAa1+LPpI/9MIgxKnGKGUXU
- F+F1WYuClb9K+rkOP0GQvqH08dvfpl31XNAtBstolcJSHIgLpSJlwkOYbw65tBQ6vxrp
- f2kw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMJru-0001DE-Cy
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:16:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMJrs-0002M3-3D
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:16:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615940213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gPxaUrgJTpkqTxod0daPMNseXWx1OJaVOiNLeL0Mjq4=;
+ b=Kz84s+y+KUhR1o+Mt1xXDfjfegrBOP7BJFeNtmC/4p84pCS8DviHSKsn7w6Yqo5hrYAg6K
+ O527Ew4GHOY1i+2LlAcxUCuibZXMv/VfVfX7T4zgqkKBxp8mqd3Mu5G/6rGAVt+QfWo4EG
+ lk8m0Q4V6qsnZnmOrdK1rLUojQUBebY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-DESrzlm5NBeuBjk8XIJPFA-1; Tue, 16 Mar 2021 20:16:51 -0400
+X-MC-Unique: DESrzlm5NBeuBjk8XIJPFA-1
+Received: by mail-wr1-f69.google.com with SMTP id 75so17357362wrl.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 17:16:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qRrWx8IecwqHRWv6pCms04wG8j4IFrru8/aKju64QgU=;
- b=kK0UmkTBXTmu6cyjg7QNzitM/3DNrD0xVdhwP3WXR+tlUTGNDxmcyo7ET+HYhZTl62
- OO8S5CshEbbe5dbRxAdu6OOm6cVQhmO+597hjEqgIAK0pOdCjtnbOdwe5IZ6mGZVRcRX
- XKJBmVqiViVpIHL4H0uD9NWHdO3oLT1wca8/zPMyPce7n70leDRlWl0lbVcSqXDq1h27
- 8C10PK3xHJWEtvOEsRybNGtmzVMEpcf6uuJmUaV+kgIjoZ9vsX7lKyMVwRrzoDvlN2S4
- 9wZaycfH3z+QdgVq5tZ/2Mh9mcH1SlY9wGLP+dJqgzxVAXiW6JmeM0FGvXUDj22mfD/H
- MYfA==
-X-Gm-Message-State: AOAM531xVbgHUvyHRROEYBXcAGbyLRZ176jVTs06sXZOwM6NXM9qrTim
- +xXX/k/TekQGRsiaTv6hwdw=
-X-Google-Smtp-Source: ABdhPJx56bHQLDuUkASAWBAegf5+rGSlJUTYpiqPJZymnPmdYKfvKfxmSlMFhA6Oux4drPjfn45JUg==
-X-Received: by 2002:a05:600c:4305:: with SMTP id
- p5mr1091684wme.58.1615939732663; 
- Tue, 16 Mar 2021 17:08:52 -0700 (PDT)
+ bh=gPxaUrgJTpkqTxod0daPMNseXWx1OJaVOiNLeL0Mjq4=;
+ b=AIu6XPzkvwFFqViTL12n5KN11LKr3OgU/8StsH9Xvj3BRfG3XEJNPi8sWJwbrSQqNn
+ wA0wLdQ3CkraoKDGsSxVK0sQGCtIry6u3DfwLH84xwVvX6lzab1DOKRmimmj4DfaxvJZ
+ YQNUWj7BdhOOrZ9jvrH63jLlTihM/GfP+si6zqTjsLfe++xD+icuC1COOV5LF+yMyB9t
+ 7D74LOIidK0ZJmYiQ7uGm0OPBKS7yx5ko09gXRBqZPsX48hhG4IHGg6O9K5J1jZXyogu
+ ejLUFo8MZQfwQAFp1jrc1sXCwW6QQDyYIBviZ5dyQcQfOBuaXA7gwTEx1KbcFgrsgG86
+ JrbQ==
+X-Gm-Message-State: AOAM533IBA8OVJNzo+k6VlXJkiJH/TVKIbMr06TJaBK5A1Prln99Agfz
+ IsrFnwMXt6aVg1VKDrG/Ag8y2xWBAhI4WMN7g9xdJlpOjXXBqYhvlu2KsfBxIsRA2m3/VHDLyY3
+ lcktTskhOQNnSHrk=
+X-Received: by 2002:a5d:4708:: with SMTP id y8mr1552630wrq.382.1615940210721; 
+ Tue, 16 Mar 2021 17:16:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrocL9jUxEN3TUc5sZWquXWQ0lm0uzy5CHm2VrcOCniDMwIAcG+Q/hYU0MwBofCcAkc0t9cA==
+X-Received: by 2002:a5d:4708:: with SMTP id y8mr1552616wrq.382.1615940210563; 
+ Tue, 16 Mar 2021 17:16:50 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id d204sm783204wmc.17.2021.03.16.17.08.51
+ by smtp.gmail.com with ESMTPSA id h20sm787637wmm.19.2021.03.16.17.16.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 17:08:51 -0700 (PDT)
-Subject: Re: [PATCH v7 00/35] Hexagon patch series
-To: Brian Cain <bcain@quicinc.com>, Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
- <02e7217d-6376-b93d-842d-197d9e13fc58@amsat.org>
- <BYAPR02MB4886C64A59EAC3B164159D5BDEBD9@BYAPR02MB4886.namprd02.prod.outlook.com>
- <SN6PR02MB4205631BE926DC85052330E9B8BD9@SN6PR02MB4205.namprd02.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9919a29f-95ae-8bb1-c029-74678fd9eefe@amsat.org>
-Date: Wed, 17 Mar 2021 01:08:50 +0100
+ Tue, 16 Mar 2021 17:16:50 -0700 (PDT)
+Subject: Re: [PATCH v1] piix: fix regression during unplug in Xen HVM domUs
+To: Olaf Hering <olaf@aepfle.de>, xen-devel@lists.xenproject.org,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20210316224412.11609-1-olaf@aepfle.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d8bc9849-8ffc-78aa-b39c-3fe9d6d9c6c0@redhat.com>
+Date: Wed, 17 Mar 2021 01:16:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <SN6PR02MB4205631BE926DC85052330E9B8BD9@SN6PR02MB4205.namprd02.prod.outlook.com>
+In-Reply-To: <20210316224412.11609-1-olaf@aepfle.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,48 +98,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>
+Cc: John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 12:28 AM, Brian Cain wrote:
->> -----Original Message-----
->> From: Taylor Simpson <tsimpson@quicinc.com>
->> Sent: Monday, January 25, 2021 5:09 PM
->> To: Philippe Mathieu-Daudé <f4bug@amsat.org>; qemu-devel@nongnu.org
->> Cc: richard.henderson@linaro.org; alex.bennee@linaro.org;
->> laurent@vivier.eu; ale@rev.ng; Brian Cain <bcain@quicinc.com>
->> Subject: RE: [PATCH v7 00/35] Hexagon patch series
->>
->>
->>
->>> -----Original Message-----
->>> From: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> On
->>> Behalf Of Philippe Mathieu-Daudé
->>> Sent: Monday, January 25, 2021 4:15 PM
->>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
->>> Cc: richard.henderson@linaro.org; alex.bennee@linaro.org;
->>> laurent@vivier.eu; ale@rev.ng; Brian Cain <bcain@quicinc.com>
->>> Subject: Re: [PATCH v7 00/35] Hexagon patch series
->>>
->>>
->>> Hi Taylor,
->>>
-> ...
->>>
->>> I'm looking at stressing a bit more your work.
-> ...
->>> Any other real-world binary you could share?
->>
->> In addition to busybox, we could build other open source packages.  Would
->> that be of interest?
+On 3/16/21 11:44 PM, Olaf Hering wrote:
+> Commit ee358e919e385fdc79d59d0d47b4a81e349cd5c9 causes a regression in
+> Xen HVM domUs which run xenlinux based kernels.
+> 
+> If the domU has an USB device assigned, for example with
+> "usbdevice=['tablet']" in domU.cfg, the late unplug of devices will
+> kill the emulated USB host. As a result the khubd thread hangs, and as
+> a result the entire boot process.
+> 
+> For some reason this does not affect pvops based kernels. This is
+> most likely caused by the fact that unplugging happens very early
+> during boot.
+> 
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
+> ---
+>  hw/ide/piix.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> index b9860e35a5..2a380a90e9 100644
+> --- a/hw/ide/piix.c
+> +++ b/hw/ide/piix.c
+> @@ -34,6 +34,7 @@
+>  #include "hw/ide/pci.h"
+>  #include "trace.h"
+>  
+> +static bool pci_piix3_xen_ide_unplug_done;
 
-ffmpeg.
+This field belongs to the device state (PCIIDEState or BMDMAState).
 
-> Taylor -- I have been running nightly builds of the cross toolchain which include busybox and Python (CPython) as test cases.  We could put one those binaries somewhere.
+>  static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
+>  {
+>      BMDMAState *bm = opaque;
+> @@ -109,6 +110,8 @@ static void piix_ide_reset(DeviceState *dev)
+>      uint8_t *pci_conf = pd->config;
+>      int i;
+>  
+> +    if (pci_piix3_xen_ide_unplug_done == true)
+> +        return;
+>      for (i = 0; i < 2; i++) {
+>          ide_bus_reset(&d->bus[i]);
+>      }
+> @@ -169,6 +172,7 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+>      IDEBus *idebus;
+>      BlockBackend *blk;
+>  
+> +    pci_piix3_xen_ide_unplug_done = true;
+>      pci_ide = PCI_IDE(dev);
+>  
+>      for (i = aux ? 1 : 0; i < 4; i++) {
+> @@ -259,6 +263,7 @@ static const TypeInfo piix4_ide_info = {
+>  
+>  static void piix_ide_register_types(void)
+>  {
+> +    pci_piix3_xen_ide_unplug_done = false;
+>      type_register_static(&piix3_ide_info);
+>      type_register_static(&piix3_ide_xen_info);
+>      type_register_static(&piix4_ide_info);
+> 
 
-Maybe a release tag on Githug?
 
