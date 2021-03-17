@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A44833F0D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:03:46 +0100 (CET)
-Received: from localhost ([::1]:57726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B5B33F0E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:09:53 +0100 (CET)
+Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVpx-0004Ku-2w
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39050)
+	id 1lMVvs-0005gX-N5
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMVoX-0003tB-0Q
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:02:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMVoU-0000CM-BO
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:02:16 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lMVuU-00056V-Rl
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:08:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lMVuS-0003oH-HN
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:08:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615986132;
+ s=mimecast20190719; t=1615986503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bpu6IJDxTASRB6GUkyPlf4ZHGHP7GwP/Q9eavCVSZIM=;
- b=P+UV5kS0klr+JPm9SwhTvfcfc7K7tsHD/s1hyXskyaxDYt7X/wVZtaeAFpRrs6wdgeyUwF
- 3OF3Y+Wpa9LpZUqR/LRqxr8OsYyWzBVKsz4dsbILOc7CFbyWuJYHOLuSAnfZsEdzhHWDyW
- NpJbtUASozqfWkhNmdBF5RrXkyr4viw=
+ bh=A48WwSoFYfHNhBMqKRae/JWJIJCGH66a0UN4/w8jjBE=;
+ b=MJmtrnOz3tg3Ga433ueaSLWJQHV8vfdGy2ObZ82wxgFdRDVerknciKg9NUjHCun1MtnIyw
+ Pr2kuqNY3sJFlpLQbGaMnHXxSVGfEsfqOPO4oTG+qvjsSaHcb6381Ir8E8zOD2YmircYe8
+ 2VQwv0y6FAiEf+OHO9sNbVMGkX1rKt0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-EST9DZWqMzefmsZ5jhaeqQ-1; Wed, 17 Mar 2021 09:02:08 -0400
-X-MC-Unique: EST9DZWqMzefmsZ5jhaeqQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-299-UdwoUw_zOpqytLgIhaqiNw-1; Wed, 17 Mar 2021 09:08:21 -0400
+X-MC-Unique: UdwoUw_zOpqytLgIhaqiNw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3894A10866A5;
- Wed, 17 Mar 2021 13:02:07 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE6655D9DE;
- Wed, 17 Mar 2021 13:02:06 +0000 (UTC)
-Subject: Re: [PATCH v2 1/1] utils: Use fixed-point arithmetic in qemu_strtosz
-From: Eric Blake <eblake@redhat.com>
-To: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210315155835.1970210-1-richard.henderson@linaro.org>
- <20210315155835.1970210-2-richard.henderson@linaro.org>
- <6ebe24d3-5424-5958-7ffb-80c90a020e18@redhat.com>
- <762b8658-f16f-5d64-2a6e-0a69b2fbeccf@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6aa20801-f310-9755-1b29-e40c303428a3@redhat.com>
-Date: Wed, 17 Mar 2021 08:02:06 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BD03107B783;
+ Wed, 17 Mar 2021 13:08:20 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EB271045E83;
+ Wed, 17 Mar 2021 13:08:11 +0000 (UTC)
+Subject: Re: [PATCH v3 1/5] tests/acceptance: Extract QemuBaseTest from Test
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210315230838.2973103-1-f4bug@amsat.org>
+ <20210315230838.2973103-2-f4bug@amsat.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <7d97e67e-e09d-a3cd-8b54-49d7fe51fc15@redhat.com>
+Date: Wed, 17 Mar 2021 10:08:08 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <762b8658-f16f-5d64-2a6e-0a69b2fbeccf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210315230838.2973103-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,85 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 6:16 AM, Eric Blake wrote:
-> On 3/17/21 2:09 AM, Thomas Huth wrote:
->> On 15/03/2021 16.58, Richard Henderson wrote:
->>> Once we've parsed the fractional value, extract it into an integral
->>> 64-bit fraction.  Perform the scaling with integer arithemetic, and
->>> simplify the overflow detection.
->>
->> I've put this patch in my local branch, but I'm still getting a failure
->> in the cutils test, this time in the Cirrus-CI with the MinGW build:
->>
->>  https://cirrus-ci.com/task/5413753530351616?command=test#L543
->>
->> Is it related or is this a different bug?
-> 
-> ERROR test-cutils - Bail out!
-> ERROR:../tests/unit/test-cutils.c:2233:test_qemu_strtosz_trailing:
-> assertion failed (res == 0): (1024 == 0)
-> 
-> That's testing behavior on:
-> 
->     str = "0x";
->     err = qemu_strtosz(str, &endptr, &res);
-> 
-> which should parse as "0" with a suffix of 'x'.  It is an independent
-> issue (unrelated to the rounding issues fixed in rth's patch), and
-> rather appears to be a bug in mingw's libc for strtoull although I have
-> not actually set up an environment to test that assumption yet.
+Hi,
 
-Confirmed:
-$ cat foo.c
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
+On 3/15/21 8:08 PM, Philippe Mathieu-Daudé wrote:
+> The Avocado Test::fetch_asset() is handy to download artifacts
+> before running tests. The current class is named Test but only
+> tests system emulation. As we want to test user emulation,
+> refactor the common code as QemuBaseTest.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   tests/acceptance/avocado_qemu/__init__.py | 23 ++++++++++++++++++++---
+>   1 file changed, 20 insertions(+), 3 deletions(-)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index df167b142cc..4f814047176 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -155,7 +155,7 @@ def exec_command_and_wait_for_pattern(test, command,
+>       """
+>       _console_interaction(test, success_message, failure_message, command + '\r')
+>   
+> -class Test(avocado.Test):
+> +class QemuBaseTest(avocado.Test):
 
-int main(void)
-{
-    unsigned long u;
-    const char *str = "0x";
-    char *end;
-    errno = 0;
-    u = strtoul(str, &end, 10);
-    printf("%lu %s %d\n", u, end, errno);
-    errno = 0;
-    u = strtoul(str, &end, 16);
-    printf("%lu %s %d\n", u, end, errno);
+The QemuBaseTest class still defines require_accelerator() which is only 
+used by qemu-system tests (thus, it should rather live on the Test 
+class). Same thing for self.machine, unless that property is used on 
+qemu-user tests.
 
-    str = "0xq";
-    errno = 0;
-    u = strtoul(str, &end, 10);
-    printf("%lu %s %d\n", u, end, errno);
-    errno = 0;
-    u = strtoul(str, &end, 16);
-    printf("%lu %s %d\n", u, end, errno);
-    return 0;
-}
-$ gcc -o foo-linux -Wall foo.c
-$ x86_64-w64-mingw32-gcc -o foo-mingw -Wall foo.c
-$ ./foo-linux
-0 x 0
-0 x 0
-0 xq 0
-0 xq 0
-$ wine ./foo-mingw 2>/dev/null
-0 x 0
-0 0x 0
-0 xq 0
-0 0xq 0
-
-Mingw has a bug (and therefore so do all our qemu_strto* functions) when
-parsing "0xgarbage" with a base of 0 or 16, in that it fails to advance
-past the leading '0' (which is a valid parse).  Patch coming up.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>       def _get_unique_tag_val(self, tag_name):
+>           """
+>           Gets a tag value, if unique for a key
+> @@ -188,8 +188,6 @@ def require_accelerator(self, accelerator):
+>                           "available" % accelerator)
+>   
+>       def setUp(self):
+> -        self._vms = {}
+> -
+>           self.arch = self.params.get('arch',
+>                                       default=self._get_unique_tag_val('arch'))
+>   
+> @@ -202,6 +200,25 @@ def setUp(self):
+>           if self.qemu_bin is None:
+>               self.cancel("No QEMU binary defined or found in the build tree")
+>   
+> +
+> +    def fetch_asset(self, name,
+> +                    asset_hash=None, algorithm=None,
+> +                    locations=None, expire=None,
+> +                    find_only=False, cancel_on_missing=True):
+> +        return super(QemuBaseTest, self).fetch_asset(name,
+> +                        asset_hash=asset_hash,
+> +                        algorithm=algorithm,
+> +                        locations=locations,
+> +                        expire=expire,
+> +                        find_only=find_only,
+> +                        cancel_on_missing=cancel_on_missing)
+Do you overwrite this fetch_asset() on class Test on purpose? I didn't 
+get why fetch_asset() is defined on the classes inherited from QemuBaseTest.
+> +
+> +# a.k.a. QemuSystemTest for system emulation...
+Above comment could become the class docstring.
+> +class Test(QemuBaseTest):
+> +    def setUp(self):
+> +        self._vms = {}
+> +        super(Test, self).setUp()
+> +
+>       def _new_vm(self, *args):
+>           self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
+>           vm = QEMUMachine(self.qemu_bin, sock_dir=self._sd.name)
 
 
