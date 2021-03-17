@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE6733EACD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 08:52:18 +0100 (CET)
-Received: from localhost ([::1]:41592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1681933EAD4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 08:53:42 +0100 (CET)
+Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMQyX-000631-2n
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 03:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
+	id 1lMQzt-0007xK-4h
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 03:53:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMQx3-0004oU-2C
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:50:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49998)
+ id 1lMQx6-0004tl-CW
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lMQx0-0008Ao-RV
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:50:44 -0400
+ id 1lMQx1-0008BH-Bp
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:50:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lMQwy-0008O5-Px
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 07:50:40 +0000
+ id 1lMQx0-0008NL-9V
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 07:50:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C2D912E8041
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 07:50:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 44AAF2E8041
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 07:50:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Mar 2021 07:42:12 -0000
-From: Mark Cave-Ayland <1919036@bugs.launchpad.net>
+Date: Wed, 17 Mar 2021 07:42:41 -0000
+From: Mark Cave-Ayland <1910723@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Tags: cve fuzzer qemu security
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr cwmyung mark-cave-ayland
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
+X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland mauro-cascella
+X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
 X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
-References: <161565757658.18021.4101884325766858864.malonedeb@soybean.canonical.com>
-Message-Id: <161596693305.18813.12082403725921293720.malone@soybean.canonical.com>
-Subject: [Bug 1919036] Re: Assertion failure in fifo8_push_all() through
- am53c974
+References: <161010205447.5394.7992680653208743690.malonedeb@gac.canonical.com>
+Message-Id: <161596696168.17863.9573447041823174123.malone@soybean.canonical.com>
+Subject: [Bug 1910723] Re: NULL pointer dereference issues in am53c974 SCSI
+ host bus adapter
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
-X-Launchpad-Hash: 2d2e75e5e86df84c2e1b036a24d1645267808e0b
+X-Launchpad-Hash: 810ca06da10903e516f2fa736730743d691f0a80
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -59,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1919036 <1919036@bugs.launchpad.net>
+Reply-To: Bug 1910723 <1910723@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,115 +84,126 @@ https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg06063.html
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1919036
+https://bugs.launchpad.net/bugs/1910723
 
 Title:
-  Assertion failure in fifo8_push_all() through am53c974
+  NULL pointer dereference issues in am53c974 SCSI host bus adapter
 
 Status in QEMU:
   New
 
 Bug description:
-  Hello,
+  Two NULL pointer dereference issues were found in the am53c974 SCSI
+  host bus adapter emulation of QEMU. They could occur while handling
+  the 'Information Transfer' command (CMD_TI) in function handle_ti() in
+  hw/scsi/esp.c, and could be abused by a malicious guest to crash the
+  QEMU process on the host resulting in a denial of service.
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  am53c974 emulator.
+  Both issues were reported by Cheolwoo Myung (Seoul National
+  University). To reproduce them, configure and run QEMU as follows.
+  Please find attached the required disk images.
 
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
+  $ ./configure --target-list=3Dx86_64-softmmu --enable-kvm --enable-saniti=
+zers
+  $ make
+  $ ./qemu-system-x86_64 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=
+=3Ddisk,format=3Draw \
+  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
+  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
 
-  This was found in version 5.2.0 (master, 3f8d1885e4)
+  Additional info:
+  RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909766
+  RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909769
 
-  =
+  ASAN logs:
+  =3D=3D672133=3D=3D         =
 
-  ```
-  qemu-system-i386: ../util/fifo8.c:43: fifo8_push_all: Assertion `fifo->nu=
-m + num <=3D fifo->capacity' failed.
+  hw/scsi/scsi-bus.c:1385:12: runtime error: member access within null poin=
+ter of type 'struct SCSIRequest'
+  AddressSanitizer:DEADLYSIGNAL                                            =
+                                =
 
-  #0  0x00007ffff0218fb7 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007ffff021a921 in __GI_abort () at abort.c:79
-  #2  0x00007ffff020a48a in __assert_fail_base (fmt=3D0x7ffff0391750 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5555=
-58ed2400 "fifo->num + num <=3D fifo->capacity", file=3Dfile@entry=3D0x55555=
-8ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x2b, function=3Dfunction@en=
-try=3D0x555558ed2560 <__PRETTY_FUNCTION__.16583> "fifo8_push_all")
-      at assert.c:92
-  #3  0x00007ffff020a502 in __GI___assert_fail (assertion=3Dassertion@entry=
-=3D0x555558ed2400 "fifo->num + num <=3D fifo->capacity", file=3Dfile@entry=
-=3D0x555558ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x2b, function=3Df=
-unction@entry=3D0x555558ed2560 <__PRETTY_FUNCTION__.16583> "fifo8_push_all"=
-) at assert.c:101
-  #4  0x00005555587749c4 in fifo8_push_all (fifo=3Dfifo@entry=3D0x61f000005=
-200, data=3Ddata@entry=3D0x7fff72bfa640 "", num=3Dnum@entry=3D0x24) at ../u=
-til/fifo8.c:43
-  #5  0x00005555572bd13e in esp_do_dma (s=3Ds@entry=3D0x61f000005088) at ..=
-/hw/scsi/esp.c:577
-  #6  0x00005555572bfc8f in handle_ti (s=3D0x61f000005088) at ../hw/scsi/es=
-p.c:845
-  #7  0x00005555572c419c in esp_reg_write (s=3D0x61f000005088, saddr=3Dsadd=
-r@entry=3D0x3, val=3D<optimized out>)
-      at ../hw/scsi/esp.c:987
-  #8  0x0000555557bb916a in esp_pci_io_write (opaque=3D0x61f000004680, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at ../hw=
-/scsi/esp-pci.c:214
-  #9  0x000055555817ea28 in memory_region_write_accessor (mr=3D0x61f000004f=
-70, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>=
-, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at ../softm=
-mu/memory.c:491
-  #10 0x0000555558176671 in access_with_adjusted_size (addr=3Daddr@entry=3D=
-0xc, value=3Dvalue@entry=3D0x7fff72bfb2a8, size=3Dsize@entry=3D0x1, access_=
-size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D
-      0x55555817e7c0 <memory_region_write_accessor>, mr=3D0x61f000004f70, a=
-ttrs=3D...) at ../softmmu/memory.c:552
-  #11 0x00005555581892aa in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
-x61f000004f70, addr=3D<optimized out>, data=3D<optimized out>, data@entry=
-=3D0xffffff90, op=3Dop@entry=3DMO_8, attrs=3D..., attrs@entry=3D...) at ../=
-softmmu/memory.c:1508
-  #12 0x0000555558024b66 in address_space_stb (as=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, attrs=3D..., result=3D0x0) at /h=
-ome/cwmyung/prj/hyfuzz/src/qemu-master/memory_ldst.c.inc:382
-  #13 0x00007fff9323641c in code_gen_buffer ()
-  #14 0x0000555557e793bb in cpu_tb_exec (tb_exit=3D<optimized out>, itb=3D<=
-optimized out>, cpu=3D0x62e0000004b4)
-      at ../accel/tcg/cpu-exec.c:190
-  #15 0x0000555557e793bb in cpu_loop_exec_tb (tb_exit=3D<optimized out>, la=
-st_tb=3D<optimized out>, tb=3D<optimized out>, cpu=3D0x62e0000004b4) at ../=
-accel/tcg/cpu-exec.c:673
-  #16 0x0000555557e793bb in cpu_exec (cpu=3Dcpu@entry=3D0x62e000000400) at =
-../accel/tcg/cpu-exec.c:798
-  #17 0x0000555557f5fc5a in tcg_cpus_exec (cpu=3Dcpu@entry=3D0x62e000000400=
-) at ../accel/tcg/tcg-accel-ops.c:68
-  #18 0x00005555582260af in mttcg_cpu_thread_fn (arg=3Darg@entry=3D0x62e000=
-000400) at ../accel/tcg/tcg-accel-ops-mttcg.c:70
-  #19 0x0000555558777b05 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #20 0x00007ffff05d26db in start_thread (arg=3D0x7fff72bff700) at pthread_=
-create.c:463
-  #21 0x00007ffff02fb71f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-  ```
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
 
-  =
+  =3D=3D672133=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000171 (pc 0x55bd63e20b85 bp 0x7f4b6fffdfa0 sp 0x7f4b6fffdf70 T7)
+  =3D=3D672133=3D=3DThe signal is caused by a READ memory access.         =
 
-  To reproduce the assertion failure, please run the QEMU with the followin=
-g command line.
+  =3D=3D672133=3D=3DHint: address points to the zero page.                 =
+                                        =
 
-  ```
+      #0 0x55bd63e20b85 in scsi_req_continue hw/scsi/scsi-bus.c:1385
+      #1 0x55bd63ab34fb in esp_do_dma hw/scsi/esp.c:453       =
 
-  $ ./qemu-system-i386 -m 512 -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device
-  am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive
-  id=3DSysDisk,if=3Dnone,file=3D./disk.img
+      #2 0x55bd63ab4b3c in handle_ti hw/scsi/esp.c:549          =
 
-  ```
+      #3 0x55bd63ab72a9 in esp_reg_write hw/scsi/esp.c:691                 =
 
-  Please let me know if I can provide any further info.
+      #4 0x55bd63d7b5dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
 
-  Thank you.
+      #5 0x55bd645d55a3 in memory_region_write_accessor softmmu/memory.c:491
+      #6 0x55bd645d5a24 in access_with_adjusted_size softmmu/memory.c:552
+      #7 0x55bd645e2baa in memory_region_dispatch_write softmmu/memory.c:15=
+01
+      #8 0x55bd646b75ff in flatview_write_continue softmmu/physmem.c:2759
+      #9 0x55bd646b79d1 in flatview_write softmmu/physmem.c:2799
+      #10 0x55bd646b8341 in address_space_write softmmu/physmem.c:2891   =
 
-  - Cheolwoo, Myung (Seoul National University)
+      #11 0x55bd646b83f9 in address_space_rw softmmu/physmem.c:2901
+      #12 0x55bd648c4736 in kvm_handle_io accel/kvm/kvm-all.c:2285
+      #13 0x55bd648c69c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
+      #14 0x55bd647b2413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
+      #15 0x55bd64f560de in qemu_thread_start util/qemu-thread-posix.c:521
+      #16 0x7f4b981763f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
+      #17 0x7f4b980a3902 in __GI___clone (/lib64/libc.so.6+0x101902)
+
+  ---
+
+  =3D=3D672020=3D=3D
+  hw/scsi/esp.c:196:62: runtime error: member access within null pointer of=
+ type 'struct SCSIDevice'
+  AddressSanitizer:DEADLYSIGNAL                                            =
+                                =
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+
+  =3D=3D672020=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000098 (pc 0x559bc99946fd bp 0x7f08bd737fb0 sp 0x7f08bd737f70 T7)
+  =3D=3D672020=3D=3DThe signal is caused by a READ memory access.         =
+
+  =3D=3D672020=3D=3DHint: address points to the zero page.                 =
+                                        =
+
+      #0 0x559bc99946fd in do_busid_cmd hw/scsi/esp.c:196        =
+
+      #1 0x559bc9994e71 in do_cmd hw/scsi/esp.c:220           =
+
+      #2 0x559bc999ae81 in handle_ti hw/scsi/esp.c:555          =
+
+      #3 0x559bc999d2a9 in esp_reg_write hw/scsi/esp.c:691                 =
+
+      #4 0x559bc9c615dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
+
+      #5 0x559bca4bb5a3 in memory_region_write_accessor softmmu/memory.c:491
+      #6 0x559bca4bba24 in access_with_adjusted_size softmmu/memory.c:552
+      #7 0x559bca4c8baa in memory_region_dispatch_write softmmu/memory.c:15=
+01
+      #8 0x559bca59d5ff in flatview_write_continue softmmu/physmem.c:2759
+      #9 0x559bca59d9d1 in flatview_write softmmu/physmem.c:2799
+      #10 0x559bca59e341 in address_space_write softmmu/physmem.c:2891   =
+
+      #11 0x559bca59e3f9 in address_space_rw softmmu/physmem.c:2901
+      #12 0x559bca7aa736 in kvm_handle_io accel/kvm/kvm-all.c:2285
+      #13 0x559bca7ac9c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
+      #14 0x559bca698413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
+      #15 0x559bcae3c0de in qemu_thread_start util/qemu-thread-posix.c:521
+      #16 0x7f08e57ba3f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
+      #17 0x7f08e56e7902 in __GI___clone (/lib64/libc.so.6+0x101902)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1919036/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1910723/+subscriptions
 
