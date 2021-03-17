@@ -2,136 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196EE33EB9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 09:37:01 +0100 (CET)
-Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B39133EBCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 09:47:30 +0100 (CET)
+Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMRfo-0002wI-5m
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 04:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57786)
+	id 1lMRpx-0004ZI-Cw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 04:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMRea-0002RO-Is; Wed, 17 Mar 2021 04:35:45 -0400
-Received: from mail-eopbgr00121.outbound.protection.outlook.com
- ([40.107.0.121]:64941 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lMRn3-0003og-JT
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:44:29 -0400
+Received: from mga14.intel.com ([192.55.52.115]:57389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMReW-0002Px-32; Wed, 17 Mar 2021 04:35:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d/W0W8sfuSVZZJFglQCvy2xLpIKPeJGnYwBL255Pj8gqh4f5MTS2AuhVBqlntHrjgh7RcCN7xCVLamyoniU+qTEZyMSque2EZJmoU9GypkhOmryLO84SeRy9R0tR02C/9W+MQXbEhLE9xLC/buuSRl2YL00qXBHd86/mpNTh4nj4lisvWaLA38rtArICoUrDkpOq5qAZhBopJx7emv4Caj9EiospjPsUMYUvwajt3Y8dIWo4eVYSkVCF0Cm6mDk8mXVkMkkn5dpU3nrNoxEuAK/69MenoiU++XVFzuK0yAILzh8+twPiC1UJIv2s4NjZI4mtc/YX24xRbcy7pbNcig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9RMKOXoNebNjTmhkwKpaMLowC1PaoQaxr4AqBRCAK64=;
- b=Cgz1FS/6GKULQ2Lh5h7T5LTY9npbvVKlc3W+1APAepG3M6EGqFgYGi5WCN6sshTVtDTsUNtDTOgfB28LqhCah4EUvXjoo8/i5P4z8wYrwo3SGuXwvFRU8VJsmVh0K9jBYI1CMIwIwtHZycofftkHCtGg1huBZ+jCXnwrDI6PFJYA+RUUlNv0p7761D1Jlr3A9bdwmYXOhqH6rU1RxxS1CpRFluivEys8H6WrRwiY/D5eXAeskHX7lHBe5KWjT+URFZQJW09lPuHm3WOUkwPiMG+Jk+/fafFmdjPDHgH6ERY7ZD9cHEM4olm3MSvF7vVtdY/mroRRSfhxJvz9OKeOww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9RMKOXoNebNjTmhkwKpaMLowC1PaoQaxr4AqBRCAK64=;
- b=d4amS44YJ/vtRPOqG3rfV7KHA9thn3VwSMCAlUhgC2hYZjnnFJDjSWRqmO/GBxIVHBFIjtJ8fkBMI+nJEt8LypFSYXGQICFGSykyW0EgSqJSTfg+3smylQLVKcAsguAlHkfsOLEULiL/pXfdnubrNMPTQIpuwTToNDh8/Z/MUW4=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4343.eurprd08.prod.outlook.com (2603:10a6:20b:ba::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 17 Mar
- 2021 08:35:34 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3933.032; Wed, 17 Mar 2021
- 08:35:34 +0000
-Subject: Re: [PATCH 0/7] block/nbd: decouple reconnect from drain
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, Eric Blake <eblake@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <2066b4a5-7a6b-1810-2522-9118540ae4a9@virtuozzo.com>
-Date: Wed, 17 Mar 2021 11:35:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: AM0P190CA0020.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- AM0P190CA0020.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Wed, 17 Mar 2021 08:35:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 60dbb6a2-fcd8-4134-54ab-08d8e91fa1c6
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4343:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4343C1663FAF308213A3C3F5C16A9@AM6PR08MB4343.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ut7BClYwCOLqdim2QWet/I5VCYvywmg/CD1HWyBcq6sC2AeGOOfCt5IPeT7Ck/+xUNAVvM3+7qNQlUDFdtBFg1+Iy0sEH/XUkp4ckGX5OkiNMKU0ep6+E4JBtf00gS+POUgtMVM21pnzPJOalbRI96LGy+NmDjgHsVG6HbKcXqjArh9c29hJST7Wzk1m91ZFuqY7uQWRroLAXFnDBIOhhdrTrjiXMPTYrh/j8t9F1UNRrcfrV9iiM8rybE/6pNYQSgLTr2O7fDg3RomZLkAXw58JZRdvF3Eox4KnuM7aK1+REs/J8rhTicwi5U0U+Pdmm6XGYZKPC7G4QR3Q0D88QER/EnpRJlHsuwnTgRcevZYozFaR8lsOVDqDkJxzzILWL+rrThgn/0wHqgjpDJbYnI7kkt+eCjJHDXzOrf9RUwLajXkkYG4TCVZCqaczBaOwGLnVhzZ8wwyuoY56ULHusepR2nTdF8K0OtaMQ3CSAJ4ON9lp8CBgHEC29f0ehLAjXPAHuFKtm/hjcLrraFfFidudUk3mvUR0c9qfejUwVitP7tJjA0sU20NNT5INU0ZBQRu0wCdWXGe4t3AhiBtjMDhPiPhd4Im3I/JD6x3ttXhl3hNfjfrAWlk5fcGCcuIMfK0tTujg3GL/CBk/D1JNlQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(366004)(376002)(136003)(396003)(8676002)(26005)(8936002)(2906002)(478600001)(83380400001)(186003)(16526019)(86362001)(4326008)(6486002)(36756003)(52116002)(316002)(16576012)(5660300002)(31686004)(31696002)(66946007)(66476007)(66556008)(54906003)(2616005)(956004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Z0VGVXZuaS93d3VHNjVmTlZicmlSNG5ZNG9QMSt1MFhsQ3kzQW5qZS9qdStH?=
- =?utf-8?B?YmJUbkI0UU0vam5seVlMNE53TDdXNFZlcVlSdDQ5QjRDejkxaVZlV2xDelI4?=
- =?utf-8?B?Qk5jZ2kzYnk3aWdpQmlld2k4T1RRL2NiQzk1K2creTlaMS84MjVaUVlOdnpj?=
- =?utf-8?B?Y2tIelhYWHlZUFhKQTRvSFFiM3RWakJjMTFiaFRYSUwzQXE0M0R2WjQvOWNx?=
- =?utf-8?B?M0xlM2N4Z0N2UVJXZU1FQ1Z6RENjaVNZUysrM0puL0p5SDNFT3pQVlBTclJO?=
- =?utf-8?B?aGV2aTNkV0xRaXV2c1pZUTB3QjM3aVNkaGp0WkVYTmlKMXBTOFNGNVNZc2pr?=
- =?utf-8?B?QUNhMmtwS1liWTNBR2IxbGtweGlGNVY1bmhBSXUzVTRhaHd5VUxOTThpN0NV?=
- =?utf-8?B?YTJVMG1QQ3JZT0R3R0FZNTZGUEk5YXk3MEZrQzhUKzQ0eHVvclJJZ2xtQkpI?=
- =?utf-8?B?c2FKVUZ6NmFDQVEwNTZ1TmtWVm5EengycU4xRzdwaGNIK0Z5RnVTTlNlazh5?=
- =?utf-8?B?dEsxWCt6MzZyM0tNalRhcmlvbWFsYVNmWWtKckhoWFBtWG45NVk4V0VPWlYz?=
- =?utf-8?B?TmVyS1J4S3BKRXpYTkdZN3FDZVBNZ2ZVQk1kYklEdkVxQ21NVkEwSjM3dkFY?=
- =?utf-8?B?clRYMXRtVDNWdXE4b0k5RFRiM3FFZzNlTEpTaHZOR1V4SVNiTVl0V2E5NUFI?=
- =?utf-8?B?WjM3OUdNUS90aE12a09uQXI0UWtDdUhid1hnWUxqaVc0YUlEWGExNGpLSjh4?=
- =?utf-8?B?ckswektvSEpzb1dCcThPa3l2WHo4VnFNcmRaQkVpU0N4K0ZnMmdYUzN6UENN?=
- =?utf-8?B?Tmt3cElvMUxjSERwWUJPbExqZUhyYU0yUHZlZnJSa3NxdEQ4NWp0NHRJRGpC?=
- =?utf-8?B?N1g5ZlR5RzRtN1JGOHpLNmpzYnpaNnVmSTdnOE83YUpZVnY0VlFleTRZUWFD?=
- =?utf-8?B?YUhnSkJUNldPbHBQeHhrQ1hVc0p6cDJYd2NWV2RqMWhxSFE2aGRSVkxDTlds?=
- =?utf-8?B?UlRwc3U0OG52VEtHV3BiT1Q2NVpsbjZtNnJ0SlJRdEoxV1pwcGROWTVSb29W?=
- =?utf-8?B?cWJpUEg0MG83d1F0cFdJdHo3V3c5SWhkbDQyOHdRc0trUFpkZU9vUStXRlV0?=
- =?utf-8?B?cmhoYit4RnM3K1piaU42djVLVlI3NkZzaUZkbHJac0xrSVRiYUR3bVB5Wndo?=
- =?utf-8?B?QW03MW1YODhlS21DelBUREJWK0lxYUJiV015b1pMQTRGOE1HQ1FnemZ3Ym9u?=
- =?utf-8?B?UDdvSmxnQ3JkRFJhdFlybW5ZUUFoV1NyZFN0SDdFRitjN2YxRm1YQ21zWXAz?=
- =?utf-8?B?Umxrc1J0bUdUOUYvclhZb0ZFN3dCWGQyQTc3TURaTjg1by9wdG1OcEIyQXlG?=
- =?utf-8?B?dnQ2d1hrUWZJQjFMdlVMSnozYjNKOTAvdEFMQW1XOWVDL2pxRWRoUzJFVjhi?=
- =?utf-8?B?Umw4bXJYL3NSR1NyZFNLV2hmTzc4bkt2RUJtMmNLeTI4dnpzbGk0TlJvbTFF?=
- =?utf-8?B?Sk5SNy9JMTUvS0V2M054QzA5cGVQdTJjT0FtM0RCRTIvS1I0cm1iMWk0R2hw?=
- =?utf-8?B?YUk3Z1Byc2lxWlMxZnVMMVBtbG1ldzJMRjd3ckRQOU9WdXg3K3NPVjNHd3NU?=
- =?utf-8?B?N3V3SUxuTFB6aEhDK3IwVjhuY2wwTlh3SnlaNFIwWTZjUkpSUURmUTNmSWl0?=
- =?utf-8?B?VFRleDZJQlp2Wk12Q1g2RnJZL2R1cEdjSHF3c01YaThxUHhRcGFkU0xidXpI?=
- =?utf-8?Q?F5RvQSRZPMbsdkcgx+T9eUyH7DS6H39nT00LZUs?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60dbb6a2-fcd8-4134-54ab-08d8e91fa1c6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 08:35:34.1308 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QyH1Gn2H+KEhZ6cZAe1RDhLoaJ+e4TfWzFsRU9tnv1szMV8My/iywAM8ut73yies2OBou2ZVYwVtKtPIDEgylai6YpCHfkpHru0RKKr+97s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4343
-Received-SPF: pass client-ip=40.107.0.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lMRn0-0007MD-BF
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:44:29 -0400
+IronPort-SDR: KP6ZBDcd74dSdhbv+Dx3NhKB0pZ315bxDuMzMYxa3XgA3GUWsLwri1OfDQRzFXMRM1lfRrgVIK
+ nb+X87xVmKRQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="188783380"
+X-IronPort-AV: E=Sophos;i="5.81,255,1610438400"; d="scan'208";a="188783380"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 01:44:16 -0700
+IronPort-SDR: Di7C1I4wGpSqwTLwB+fQ9C4nF2mddisyrM5sAoue/pkweCGuPRdxCXHiXnkH3K9yyJv/3sLmuK
+ duAOFAfhtdIA==
+X-IronPort-AV: E=Sophos;i="5.81,255,1610438400"; d="scan'208";a="412561274"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.24])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 01:44:14 -0700
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: [RFC PATCH] i386: Add ratelimit for bus locks acquired in guest
+Date: Wed, 17 Mar 2021 16:47:09 +0800
+Message-Id: <20210317084709.15605-1-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=chenyi.qiang@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -144,58 +60,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-15.03.2021 09:06, Roman Kagan wrote:
-> The reconnection logic doesn't need to stop while in a drained section.
-> Moreover it has to be active during the drained section, as the requests
-> that were caught in-flight with the connection to the server broken can
-> only usefully get drained if the connection is restored.  Otherwise such
-> requests can only either stall resulting in a deadlock (before
-> 8c517de24a), or be aborted defeating the purpose of the reconnection
-> machinery (after 8c517de24a).
-> 
-> This series aims to just stop messing with the drained section in the
-> reconnection code.
-> 
-> While doing so it undoes the effect of 5ad81b4946 ("nbd: Restrict
-> connection_co reentrance"); as I've missed the point of that commit I'd
-> appreciate more scrutiny in this area.
-> 
-> Roman Kagan (7):
->    block/nbd: avoid touching freed connect_thread
->    block/nbd: use uniformly nbd_client_connecting_wait
->    block/nbd: assert attach/detach runs in the proper context
->    block/nbd: transfer reconnection stuff across aio_context switch
->    block/nbd: better document a case in nbd_co_establish_connection
->    block/nbd: decouple reconnect from drain
->    block/nbd: stop manipulating in_flight counter
-> 
->   block/nbd.c  | 191 +++++++++++++++++++++++----------------------------
->   nbd/client.c |   2 -
->   2 files changed, 86 insertions(+), 107 deletions(-)
-> 
+Virtual Machines can exploit bus locks to degrade the performance of
+system. To address this kind of performance DOS attack, bus lock VM exit
+is introduced in KVM and it will report the bus locks detected in guest,
+which can help userspace to enforce throttling policies.
 
+The availability of bus lock VM exit can be detected through the
+KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
+policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
+bitmap is the only supported strategy at present. It indicates that KVM
+will exit to userspace to handle the bus locks.
 
-Hmm. The huge source of problems for this series is weird logic around drain and aio context switch in NBD driver.
+This patch adds a ratelimit on the bus locks acquired in guest as a
+mitigation policy.
 
-Why do we have all these too complicated logic with abuse of in_flight counter in NBD? The answer is connection_co. NBD differs from other drivers, it has a coroutine independent of request coroutines. And we have to move this coroutine carefully to new aio context. We can't just enter it from the new context, we want to be sure that connection_co is in one of yield points that supports reentering.
+Introduce a new field "bld" to record the limited speed of bus locks in
+target VM. The user can specify it through the "bus-lock-detection"
+as a machine property. In current implementation, the default value of
+the speed is 0 per second, which means no restriction on the bus locks.
 
-I have an idea of how to avoid this thing: drop connection_co at all.
+Ratelimit enforced in data transmission uses a time slice of 100ms to
+get smooth output during regular operations in block jobs. As for
+ratelimit on bus lock detection, simply set the ratelimit interval to 1s
+and restrict the quota of bus lock occurrence to the value of "bld". A
+potential alternative is to introduce the time slice as a property
+which can help the user achieve more precise control.
 
-1. nbd negotiation goes to connection thread and becomes independent of any aio context.
+The detail of Bus lock VM exit can be found in spec:
+https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
 
-2. waiting for server reply goes to request code. So, instead of reading the replay from socket always in connection_co, we read in the request coroutine, after sending the request. We'll need a CoMutex for it (as only one request coroutine should read from socket), and be prepared to coming reply is not for _this_ request (in this case we should wake another request and continue read from socket).
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+---
+ hw/i386/x86.c         |  6 ++++++
+ include/hw/i386/x86.h |  7 +++++++
+ target/i386/kvm/kvm.c | 44 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 57 insertions(+)
 
-but this may be too much for soft freeze.
-
-
-Another idea:
-
-You want all the requests be completed on drain_begin(), not cancelled. Actually, you don't need reconnect runnning during drained section for it. It should be enough just wait for all currenct requests before disabling the reconnect in drain_begin handler.
-
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 7865660e2c..a70a259e97 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1209,6 +1209,12 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->smp_dies = 1;
+     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
++    x86ms->bld = 0;
++
++    object_property_add_uint64_ptr(obj, "bus-lock-detection",
++                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
++    object_property_set_description(obj, "bus-lock-detection",
++            "Bus lock detection ratelimit");
+ }
+ 
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 56080bd1fb..1f0ffbcfb9 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -72,6 +72,13 @@ struct X86MachineState {
+      * will be translated to MSI messages in the address space.
+      */
+     AddressSpace *ioapic_as;
++
++    /*
++     * ratelimit enforced on detected bus locks, the default value
++     * is 0 per second
++     */
++    uint64_t bld;
++    RateLimit bld_limit;
+ };
+ 
+ #define X86_MACHINE_SMM              "smm"
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c8d61daf68..724862137d 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
+ static struct kvm_cpuid2 *cpuid_cache;
+ static struct kvm_msr_list *kvm_feature_msrs;
+ 
++#define SLICE_TIME 1000000000ULL /* ns */
++
+ int kvm_has_pit_state2(void)
+ {
+     return has_pit_state2;
+@@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+         }
+     }
+ 
++    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
++        X86MachineState *x86ms = X86_MACHINE(ms);
++
++        if (x86ms->bld > 0) {
++            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
++            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
++                error_report("kvm: bus lock detection unsupported");
++                return -ENOTSUP;
++            }
++            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
++                                    KVM_BUS_LOCK_DETECTION_EXIT);
++            if (ret < 0) {
++                error_report("kvm: Failed to enable bus lock detection cap: %s",
++                             strerror(-ret));
++                return ret;
++            }
++
++            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
++        }
++    }
++
+     return 0;
+ }
+ 
+@@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+     }
+ }
+ 
++static void kvm_rate_limit_on_bus_lock(void)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    X86MachineState *x86ms = X86_MACHINE(ms);
++
++    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
++
++    if (delay_ns) {
++        g_usleep(delay_ns / SCALE_US);
++    }
++}
++
+ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+ {
+     X86CPU *x86_cpu = X86_CPU(cpu);
+@@ -4236,6 +4271,11 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+     } else {
+         env->eflags &= ~IF_MASK;
+     }
++    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
++        kvm_cpu_synchronize_state(cpu);
++        warn_report("bus lock detected at rip: 0x%lx", env->eip);
++        kvm_rate_limit_on_bus_lock();
++    }
+ 
+     /* We need to protect the apic state against concurrent accesses from
+      * different threads in case the userspace irqchip is used. */
+@@ -4594,6 +4634,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+         ioapic_eoi_broadcast(run->eoi.vector);
+         ret = 0;
+         break;
++    case KVM_EXIT_X86_BUS_LOCK:
++        /* already handled in kvm_arch_post_run */
++        ret = 0;
++        break;
+     default:
+         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+         ret = -1;
 -- 
-Best regards,
-Vladimir
+2.17.1
+
 
