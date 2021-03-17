@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E44333F0C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:59:18 +0100 (CET)
-Received: from localhost ([::1]:54700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A44833F0D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:03:46 +0100 (CET)
+Received: from localhost ([::1]:57726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVld-0002nT-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
+	id 1lMVpx-0004Ku-2w
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1lMVkk-0002FQ-Lv
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:58:22 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:41776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1lMVke-0006Gj-Ct
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:58:19 -0400
-Received: by mail-qt1-x831.google.com with SMTP id x9so1251283qto.8
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 05:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5HHNLMHWml3+ETB5EKTIw52cmZO7wwFIrbJzsM104Vk=;
- b=1J4ryd+DjpmM7rN+/SIxL7KATATXLyJvUfd50yalw7qYvmJ5boTWapASiC8O6fucGR
- Oe1bw1fy8n6zVRj9BJi0A1VVMppnE4Vy9d9ix23xPClXg2/0+5pws+lvApUzAWxGb77f
- TS8fQbO3n10E5rw79j9kexdhlQfirxQ85nsPm6gjQjoB94EiboRhuNO0BfjN4RtdhFtG
- 4BKGxTWaLuG5b83opxXWljXbUSVj7N7vmfZIZ8YME/1jyh8pYRavFJAEtiVQmQeCQdyv
- +MuRNqB9BXNYJzdRQ6l8JJO4yeIiVIMQu4c7aj8bP/CkK9TKa/XJ4QvRS5S/bcjdBFqg
- E4XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5HHNLMHWml3+ETB5EKTIw52cmZO7wwFIrbJzsM104Vk=;
- b=UfzafDsy7+5m6JQuXgHwpiyE2VRjrtb8Yz96aBZaMJjc7OYPla7ODzBEWG+Jwwv5CR
- Je0ghsLRZjnXpbZNkbK62wbzIZ0HZbyniCM77sqS+5IQjDQLfjl1QYdxdJURjAmi53rL
- HPCwYPh5c4gIFYULkWKIPyWTt5nCfrSyoai7FAsMbHqAPP/Svcq1r4gth6iZWVS1JGJL
- 1cErszWMk7MB91gmtG7uk0tZmtVBGmxZITqPlgZfr6X9rqrbJuPXlgEw21oS0BZKEyaS
- wYv72rHmpjEzsgcnlHgZjlCf6JkmjocryHZlbL6fVXpjp8EbcEv/LPgPmXvWG4adZeFS
- lNqg==
-X-Gm-Message-State: AOAM531yM5/80MrXxtDXAYdh7cWys3KxLyF1bPEyFQ77Gb7E7oO5JzRr
- nYwp6+oXxPPmBoUruJzZwV+GIERZuUb7L7dL12mHJw==
-X-Google-Smtp-Source: ABdhPJzQdwGqB/FgSJXLwyFPBoR6T2r2RpXpXLilDe23AY3/qmv9l9Lqmo2vpiyecPMwGIrdkAGpOGNEqYgKQfxuYcQ=
-X-Received: by 2002:ac8:5c44:: with SMTP id j4mr2473220qtj.253.1615985879297; 
- Wed, 17 Mar 2021 05:57:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMVoX-0003tB-0Q
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:02:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMVoU-0000CM-BO
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:02:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615986132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bpu6IJDxTASRB6GUkyPlf4ZHGHP7GwP/Q9eavCVSZIM=;
+ b=P+UV5kS0klr+JPm9SwhTvfcfc7K7tsHD/s1hyXskyaxDYt7X/wVZtaeAFpRrs6wdgeyUwF
+ 3OF3Y+Wpa9LpZUqR/LRqxr8OsYyWzBVKsz4dsbILOc7CFbyWuJYHOLuSAnfZsEdzhHWDyW
+ NpJbtUASozqfWkhNmdBF5RrXkyr4viw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-EST9DZWqMzefmsZ5jhaeqQ-1; Wed, 17 Mar 2021 09:02:08 -0400
+X-MC-Unique: EST9DZWqMzefmsZ5jhaeqQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3894A10866A5;
+ Wed, 17 Mar 2021 13:02:07 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE6655D9DE;
+ Wed, 17 Mar 2021 13:02:06 +0000 (UTC)
+Subject: Re: [PATCH v2 1/1] utils: Use fixed-point arithmetic in qemu_strtosz
+From: Eric Blake <eblake@redhat.com>
+To: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210315155835.1970210-1-richard.henderson@linaro.org>
+ <20210315155835.1970210-2-richard.henderson@linaro.org>
+ <6ebe24d3-5424-5958-7ffb-80c90a020e18@redhat.com>
+ <762b8658-f16f-5d64-2a6e-0a69b2fbeccf@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <6aa20801-f310-9755-1b29-e40c303428a3@redhat.com>
+Date: Wed, 17 Mar 2021 08:02:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
- <CAFQAk7hCqSMMfRjUO8vtK-B2cKxJZZTJgSDAbRycd1AOSktM_w@mail.gmail.com>
- <YFHUbEdszo4nursr@stefanha-x1.localdomain> <1709993.NBFj2RoZ23@silver>
-In-Reply-To: <1709993.NBFj2RoZ23@silver>
-From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Date: Wed, 17 Mar 2021 20:57:47 +0800
-Message-ID: <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
-Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
- reconnection
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: multipart/alternative; boundary="0000000000004dd13b05bdbb0845"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <762b8658-f16f-5d64-2a6e-0a69b2fbeccf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,141 +85,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- virtio-fs@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004dd13b05bdbb0845
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/17/21 6:16 AM, Eric Blake wrote:
+> On 3/17/21 2:09 AM, Thomas Huth wrote:
+>> On 15/03/2021 16.58, Richard Henderson wrote:
+>>> Once we've parsed the fractional value, extract it into an integral
+>>> 64-bit fraction.  Perform the scaling with integer arithemetic, and
+>>> simplify the overflow detection.
+>>
+>> I've put this patch in my local branch, but I'm still getting a failure
+>> in the cutils test, this time in the Cirrus-CI with the MinGW build:
+>>
+>>  https://cirrus-ci.com/task/5413753530351616?command=test#L543
+>>
+>> Is it related or is this a different bug?
+> 
+> ERROR test-cutils - Bail out!
+> ERROR:../tests/unit/test-cutils.c:2233:test_qemu_strtosz_trailing:
+> assertion failed (res == 0): (1024 == 0)
+> 
+> That's testing behavior on:
+> 
+>     str = "0x";
+>     err = qemu_strtosz(str, &endptr, &res);
+> 
+> which should parse as "0" with a suffix of 'x'.  It is an independent
+> issue (unrelated to the rounding issues fixed in rth's patch), and
+> rather appears to be a bug in mingw's libc for strtoull although I have
+> not actually set up an environment to test that assumption yet.
 
-On Wed, Mar 17, 2021 at 7:50 PM Christian Schoenebeck <
-qemu_oss@crudebyte.com> wrote:
+Confirmed:
+$ cat foo.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 
-> On Mittwoch, 17. M=C3=A4rz 2021 11:05:32 CET Stefan Hajnoczi wrote:
-> > On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
-> > > Thanks for the suggestions. Actually, we choose to save all state
-> > > information to QEMU because a virtiofsd has the same lifecycle as its
-> > > QEMU master. However, saving things to a file do avoid communication
-> with
-> > > QEMU, and we no longer need to increase the complexity of vhost-user
-> > > protocol. The suggestion to save fds to the systemd is also very
-> > > reasonable
-> > > if we don't consider the lifecycle issues, we will try it.
-> >
-> > Hi,
-> > We recently discussed crash recovery in the virtio-fs bi-weekly call an=
-d
-> > I read some of this email thread because it's a topic I'm interested in=
-.
->
-> I just had a quick fly over the patches so far. Shouldn't there be some
-> kind
-> of constraint for an automatic reconnection feature after a crash to
-> prevent
-> this being exploited by ROP brute force attacks?
->
-> E.g. adding some (maybe continuously increasing) delay and/or limiting th=
-e
-> amount of reconnects within a certain time frame would come to my mind.
->
-> Best regards,
-> Christian Schoenebeck
->
->
->
+int main(void)
+{
+    unsigned long u;
+    const char *str = "0x";
+    char *end;
+    errno = 0;
+    u = strtoul(str, &end, 10);
+    printf("%lu %s %d\n", u, end, errno);
+    errno = 0;
+    u = strtoul(str, &end, 16);
+    printf("%lu %s %d\n", u, end, errno);
 
-Thanks, Christian. I am still trying to figure out the details of the ROP
-attacks.
+    str = "0xq";
+    errno = 0;
+    u = strtoul(str, &end, 10);
+    printf("%lu %s %d\n", u, end, errno);
+    errno = 0;
+    u = strtoul(str, &end, 16);
+    printf("%lu %s %d\n", u, end, errno);
+    return 0;
+}
+$ gcc -o foo-linux -Wall foo.c
+$ x86_64-w64-mingw32-gcc -o foo-mingw -Wall foo.c
+$ ./foo-linux
+0 x 0
+0 x 0
+0 xq 0
+0 xq 0
+$ wine ./foo-mingw 2>/dev/null
+0 x 0
+0 0x 0
+0 xq 0
+0 0xq 0
 
-However, QEMU's vhost-user reconnection is based on chardev socket
-reconnection. The socket reconnection can be enabled by the "--chardev
-socket,...,reconnect=3DN" in QEMU command options, in which N means QEMU wi=
-ll
-try to connect the disconnected socket every N seconds. We can increase N
-to increase the reconnect delay. If we want to change the reconnect delay
-dynamically, I think we should change the chardev socket reconnection code.
-It is a more generic mechanism than vhost-user-fs and vhost-user backend.
+Mingw has a bug (and therefore so do all our qemu_strto* functions) when
+parsing "0xgarbage" with a base of 0 or 16, in that it fails to advance
+past the leading '0' (which is a valid parse).  Patch coming up.
 
-By the way, I also considered the socket reconnection delay time in the
-performance aspect. As the reconnection delay increase, if an application
-in the guest is doing I/Os, it will suffer larger tail latency. And for
-now, the smallest delay is 1 second, which is rather large for
-high-performance virtual I/O devices today. I think maybe a more performant
-and safer reconnect delay adjustment mechanism should be considered in the
-future. What are your thoughts?
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-
-Jiachen
-
---0000000000004dd13b05bdbb0845
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 17, 2021 at 7:50 PM Chris=
-tian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@cru=
-debyte.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Mittwoch, 17. M=C3=A4rz 2021 11:05:32 CET Stefan Hajnoczi wro=
-te:<br>
-&gt; On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:<br>
-&gt; &gt; Thanks for the suggestions. Actually, we choose to save all state=
-<br>
-&gt; &gt; information to QEMU because a virtiofsd has the same lifecycle as=
- its<br>
-&gt; &gt; QEMU master. However, saving things to a file do avoid communicat=
-ion with<br>
-&gt; &gt; QEMU, and we no longer need to increase the complexity of vhost-u=
-ser<br>
-&gt; &gt; protocol. The suggestion to save fds to the systemd is also very<=
-br>
-&gt; &gt; reasonable<br>
-&gt; &gt; if we don&#39;t consider the lifecycle issues, we will try it.<br=
->
-&gt; <br>
-&gt; Hi,<br>
-&gt; We recently discussed crash recovery in the virtio-fs bi-weekly call a=
-nd<br>
-&gt; I read some of this email thread because it&#39;s a topic I&#39;m inte=
-rested in.<br>
-<br>
-I just had a quick fly over the patches so far. Shouldn&#39;t there be some=
- kind <br>
-of constraint for an automatic reconnection feature after a crash to preven=
-t <br>
-this being exploited by ROP brute force attacks?<br>
-<br>
-E.g. adding some (maybe continuously increasing) delay and/or limiting the =
-<br>
-amount of reconnects within a certain time frame would come to my mind.<br>
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br></blockquote><div><br></div><div><br></div><div>Thanks,=C2=A0Christian.=
- I am still trying to figure out the details of the ROP attacks.=C2=A0</div=
-><div><br></div><div>However, QEMU&#39;s vhost-user reconnection is based o=
-n chardev socket reconnection. The socket reconnection can be enabled by th=
-e &quot;--chardev socket,...,reconnect=3DN&quot; in QEMU command options, i=
-n which N means QEMU will try to connect the disconnected socket every N se=
-conds. We can increase N to increase the reconnect delay. If we want to cha=
-nge the reconnect delay dynamically, I think we should change the chardev s=
-ocket reconnection code. It is a more generic mechanism than vhost-user-fs =
-and vhost-user backend.</div><div><br></div><div>By the way, I also conside=
-red the socket reconnection delay time in the performance aspect. As the re=
-connection delay increase, if an application in the guest is doing I/Os, it=
- will suffer larger tail latency. And for now, the smallest delay is 1 seco=
-nd, which is rather large for high-performance virtual I/O devices today. I=
- think maybe a more performant and safer reconnect delay adjustment mechani=
-sm should be considered in the future. What are your thoughts?</div><div><b=
-r></div><div><br></div><div>Jiachen</div><div><br></div><div>=C2=A0</div></=
-div></div>
-
---0000000000004dd13b05bdbb0845--
 
