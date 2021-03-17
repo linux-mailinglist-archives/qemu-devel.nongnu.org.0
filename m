@@ -2,82 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0249933E5F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:21:57 +0100 (CET)
-Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E321033E633
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:35:24 +0100 (CET)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMKsl-0006g6-Qi
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:21:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48932)
+	id 1lML5o-0005rT-0l
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:35:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1lMKqm-0005uu-Cy
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 21:19:52 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:35173)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lMKye-0008PE-Dp; Tue, 16 Mar 2021 21:28:00 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1lMKqk-0005UG-Oq
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 21:19:52 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id B027DFA7;
- Tue, 16 Mar 2021 21:19:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 16 Mar 2021 21:19:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=49tXHCSg1y2E9z41iCbz08EjLB
- KFbM6SYF3OQt/Z0Bw=; b=ioIRDsjIm7r+Q2bBok1rNuZflUTDSZaTP+JjUGuF3Y
- Mroy/Bpy66UxP2YCOzT1NU4ADJbBrJLCUVIocb7pIcujwxVft4TVngJeQjnLHDXS
- MI9RkWHFvxh3i94UD/M1TKFWMzMIaYgEFER2Z79oK/ptd++eJpUNCodC7ARDN4gy
- JDTStAXWorjGP+cSJ5t2nlwvld+wNE3FSdjf8ThEa8tSoKvHmXPcPNzKtNngTEN0
- ujvWIT5t+FHONC4Ck+SKhjxWVP/teoACEFio2HAeCHNU30biI03X9xwD9RMABrzw
- DCfbXGpRDRhTXNnrcs2We4rqeqtXj56eNKSwnG0KOodw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=49tXHCSg1y2E9z41i
- Cbz08EjLBKFbM6SYF3OQt/Z0Bw=; b=Ia7qNSCW6YNfO571AyF52VKSOnBrGhwZs
- VexGQ4o+V/E2ZF6RLOiFjySy+EylEcPXOyu9aKna61Tbf2NrVAovp2Bj919GGXkg
- uXR0EVQ3r4gnDwrIW0eQn2ClEbJ0GN2Iss+eUmOM56SMShieHuxOqtOa0ld8RVFl
- kSC5CB/r0sbIyWj0rBsoUShF4AmGDohT4QkV/xnrZJCXQgWwUD3pqQyzgHIX6HIz
- YA652QuWyjzz3IpIK2z1iULItTLZnS/x72AlEjb/wxSpLfFrPxOi4ybW0ekm3hY2
- JOQtJnh+FbtM6j5E30X235ZPc4Ga64Vn8oPxjSSmZGei/poUvAhXA==
-X-ME-Sender: <xms:M1lRYFdDxtOJDrpGq2GS_GXZeZXfOs82_5w9Mpqi64z-PFgEIkstqg>
- <xme:M1lRYDPyFBpfPlA6-30sW1OHn5NcFlk2BqTEQMd07ZHaRIC3TNdiEeobrIUZSRYTQ
- IKE3MqIoqp4lKjFNY8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeffedgvdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihunhcu
- jggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrf
- grthhtvghrnhephfejtdektdeuhedtieefteekveffteejteefgeekveegffetvddugfel
- iefhtddunecukfhppedukedtrdduiedurdduvdefrddutdelnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
- hihgohgrthdrtghomh
-X-ME-Proxy: <xmx:M1lRYOhJ6WRuL89pQSgv65QLTd1c6xhJW7bddiDFY3mnuSYgvd3-lw>
- <xmx:M1lRYO9TfiZMNKcqVX7NlzVl4ZMKpIMJTwXTsgxR2VFFH0VvqvHIPw>
- <xmx:M1lRYBs7ysFJEMuVPGHoVV3PBqco8NXBSJFOpsKrdBJZ9iPLBABEew>
- <xmx:NFlRYCVOTBo-Bv8TZzVv4NMkVlwbgNDE-SMRtJZDdBGwjlMz6FnlEA>
-Received: from archlinux.U-LINK.com (unknown [180.161.123.109])
- by mail.messagingengine.com (Postfix) with ESMTPA id 64D70108005F;
- Tue, 16 Mar 2021 21:19:44 -0400 (EDT)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] linux-user: add missing MULTICAST_IF get/setsockopt option
-Date: Wed, 17 Mar 2021 09:19:36 +0800
-Message-Id: <20210317011936.9707-1-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lMKyY-0000So-LE; Tue, 16 Mar 2021 21:28:00 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9F95F7463C9;
+ Wed, 17 Mar 2021 02:27:51 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 783707462BD; Wed, 17 Mar 2021 02:27:51 +0100 (CET)
+Message-Id: <cover.1615943871.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v10 0/7] Pegasos2 emulation
+Date: Wed, 17 Mar 2021 02:17:51 +0100
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.21;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,57 +51,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yunqiang Su <syq@debian.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, f4bug@amsat.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-{IP,IPV6}_MULTICAST_IF was not supported.
+Hello,
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reported-by: Yunqiang Su <syq@debian.org>
----
-v3: Add missing reported-by.
----
- linux-user/syscall.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This is adding a new PPC board called pegasos2. More info on it can be
+found at:
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 389ec09764..77343130b3 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2219,6 +2219,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
- #ifdef IP_FREEBIND
-         case IP_FREEBIND:
- #endif
-+        case IP_MULTICAST_IF:
-         case IP_MULTICAST_TTL:
-         case IP_MULTICAST_LOOP:
-             val = 0;
-@@ -2265,6 +2266,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
-         case IPV6_V6ONLY:
-         case IPV6_RECVPKTINFO:
-         case IPV6_UNICAST_HOPS:
-+        case IPV6_MULTICAST_IF:
-         case IPV6_MULTICAST_HOPS:
-         case IPV6_MULTICAST_LOOP:
-         case IPV6_RECVERR:
-@@ -2891,6 +2893,7 @@ get_timeout:
- #ifdef IP_FREEBIND
-         case IP_FREEBIND:
- #endif
-+        case IP_MULTICAST_IF:
-         case IP_MULTICAST_TTL:
-         case IP_MULTICAST_LOOP:
-             if (get_user_u32(len, optlen))
-@@ -2926,6 +2929,7 @@ get_timeout:
-         case IPV6_V6ONLY:
-         case IPV6_RECVPKTINFO:
-         case IPV6_UNICAST_HOPS:
-+        case IPV6_MULTICAST_IF:
-         case IPV6_MULTICAST_HOPS:
-         case IPV6_MULTICAST_LOOP:
-         case IPV6_RECVERR:
+https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+
+Currently it needs a firmware ROM image that I cannot include due to
+original copyright holder (bPlan) did not release it under a free
+licence but I have plans to write a replacement in the future. With
+the original board firmware it can boot MorphOS now as:
+
+qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile="" -serial stdio
+
+then enter "boot cd boot.img" at the firmware "ok" prompt as described
+in the MorphOS.readme. To boot Linux use same command line with e.g.
+-cdrom debian-8.11.0-powerpc-netinst.iso then enter
+"boot cd install/pegasos"
+
+The last patch adds the actual board code after previous patches
+adding VT8231 and MV64361 system controller chip emulation.
+
+Regards,
+BALATON Zoltan
+
+v10: Updated comments and added R-b from Mark
+
+v9: Rebased to master
+
+v8: Do not emulate setting of serial port address via register, just
+    hard code a default address instead
+
+v7: Fix errp usage in patch 2
+
+v6: Rebased on master, updated commit message about migration change
+
+v5: Changes for review comments from David and Philippe
+
+V4: Rename pegasos2_reset to pegasos2_cpu_reset
+    Add new files to MAINTAINERS
+
+BALATON Zoltan (6):
+  vt82c686: QOM-ify superio related functionality
+  vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
+  vt82c686: Introduce abstract TYPE_VIA_ISA and base vt82c686b_isa on it
+  vt82c686: Add emulation of VT8231 south bridge
+  hw/pci-host: Add emulation of Marvell MV64361 PPC system controller
+  hw/ppc: Add emulation of Genesi/bPlan Pegasos II
+
+Philippe Mathieu-Daudé (1):
+  hw/isa/Kconfig: Add missing dependency VIA VT82C686 -> APM
+
+ MAINTAINERS                             |  10 +
+ default-configs/devices/ppc-softmmu.mak |   2 +
+ hw/isa/Kconfig                          |   1 +
+ hw/isa/vt82c686.c                       | 422 +++++++++--
+ hw/pci-host/Kconfig                     |   4 +
+ hw/pci-host/meson.build                 |   2 +
+ hw/pci-host/mv64361.c                   | 966 ++++++++++++++++++++++++
+ hw/pci-host/mv643xx.h                   | 918 ++++++++++++++++++++++
+ hw/pci-host/trace-events                |   6 +
+ hw/ppc/Kconfig                          |   9 +
+ hw/ppc/meson.build                      |   2 +
+ hw/ppc/pegasos2.c                       | 144 ++++
+ include/hw/isa/vt82c686.h               |   2 +-
+ include/hw/pci-host/mv64361.h           |   8 +
+ include/hw/pci/pci_ids.h                |   4 +-
+ 15 files changed, 2418 insertions(+), 82 deletions(-)
+ create mode 100644 hw/pci-host/mv64361.c
+ create mode 100644 hw/pci-host/mv643xx.h
+ create mode 100644 hw/ppc/pegasos2.c
+ create mode 100644 include/hw/pci-host/mv64361.h
+
 -- 
-2.30.2
+2.21.4
 
 
