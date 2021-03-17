@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1770F33F025
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:23:04 +0100 (CET)
-Received: from localhost ([::1]:58418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAED33F023
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:22:05 +0100 (CET)
+Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVCZ-0007Gv-54
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:23:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
+	id 1lMVBc-0006MH-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMV6Z-0002Gr-SK; Wed, 17 Mar 2021 08:16:52 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:39623)
+ id 1lMV6a-0002HR-BF; Wed, 17 Mar 2021 08:16:52 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMV6X-0007jN-DZ; Wed, 17 Mar 2021 08:16:51 -0400
-Received: by mail-ed1-x530.google.com with SMTP id bf3so1963126edb.6;
- Wed, 17 Mar 2021 05:16:47 -0700 (PDT)
+ id 1lMV6X-0007jm-Gd; Wed, 17 Mar 2021 08:16:51 -0400
+Received: by mail-ej1-x629.google.com with SMTP id dx17so2243256ejb.2;
+ Wed, 17 Mar 2021 05:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xvvv2l70qQm9QCjFzsbGDAhjoM/FYrf9gqA1A6uPvNg=;
- b=n/MR5Z++Q7RJ18bEJ1Od2M4AzLNhj0+MUecAyA5DS7FYoLRbJjITQFdVyvl12yRYE/
- P640Oltdbm1vlYWKKLJwdA7oD+GBS32qat+V8W2UDntoZimIU0pJRKSFAKYGKT/DLcLJ
- 5TaRSuRPa5udr0GNIZvHcuBlWtcfHleF3pNgdOh0/Jpm9X2MgqVw4YRDSuQPC/srkvIJ
- nm71l4BcnYiJtpHXvsInjll9Jl21N+jqSCnx9mo9TFQ0Z94v+Vs4eBjYx/YPSdR+i5PO
- GMQsDNV8lCly988BcTNN0rVSFXiebR/C89eP5NntbN87852NUaDZBS8dCacYX+UA/h62
- 7GkQ==
+ bh=smfqshe5rWL1zIyiqGH7+GywYlbeI5eZY7MNQuJ+Muk=;
+ b=ff/BMM0yYL2KOKRLefc27F7D0Mg4L1QZPERQBm/dtapY0VMiYI0hn8Xjc+TdPLhRIW
+ 5RiA0p9hSgyS3JJ1B6EGuPlLLlBv6ZmXwf/rb6xPYeFiBRvuAEiNVSjyPXxKk6KTjCxa
+ /iGRTp8+XZxtDsq6fhjmS8tstboUW32x4zK42c/qhZpO8UgifgYhpoLIq5ax4LtnLJHS
+ kCnCmymwPoNG0UKSlONMEe1BBNLHkgNDJA+Ur/katxy7SwgtlbKZera61shzGx7QSaTv
+ RCKeUYA5d3K94S+ooCiMOYhtgTrVaN23zlwcQHHYUPTHKV3qW9DH6fS+BsyOHHrCee0a
+ kCEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Xvvv2l70qQm9QCjFzsbGDAhjoM/FYrf9gqA1A6uPvNg=;
- b=LloySkQoMqxnvNEUKbh8tN9VpjfGNEIhzbu7WglAkSaHgzffJDwpFEYt/D9FeU6ArA
- p3flgNm2Y9BEIqRNXOuvT7v5EqpS8hxIr0fPyK97LT8FA4D7g/ZjAgRePHsW/02g0fL9
- EMLEFBmw5hIxKvGlCvh6VOyWZXfSdi8aW7F7h7woosQaHtJSXSn27/TuZhsXz1prLXmE
- RASmP7qPfVXbjxL0ixdTnwnpTh/E5rrYFwXh51xk1sJ6NiyfYk8cidMMOFNFvkHqy7I0
- 7hTNT/o2YCxrLMU5TiAUF9ya5nJ51fsGecwp6AZrUb6Mswmnmnj21wcT1ncvoyLMVEcK
- GZuA==
-X-Gm-Message-State: AOAM530RSyKhHVEo15vsVNSNay6TROxB2RxqEJf1UDp0NEpbv0OjjKd5
- uEJtZg+qvMRzQqWJ3UYmd+PPVUP+9c8=
-X-Google-Smtp-Source: ABdhPJzPTZU+TuiDdExmCF1cuEAuZ/nh3Wpso1zwoeukD7aCi4BLCzXF8xzfu7H9xjBgWMx9NOd3pw==
-X-Received: by 2002:aa7:d656:: with SMTP id v22mr41141009edr.119.1615983407060; 
+ bh=smfqshe5rWL1zIyiqGH7+GywYlbeI5eZY7MNQuJ+Muk=;
+ b=JtJxirP36pG8I8MLqgsfMz2tplblMdQU4Hbe2VkITvT2MOikSOTaHpfZLgZa94MNkS
+ dlnjEAkPsmSpIHJiraewnY1kjc57oB/eJJLMeog1jsWDIHiKcl4fvGITmk9FJEYfaRoA
+ bYFUplU0uopAcySQLn0G2JKEzR/BveFCAS2urdhwL/DodE1Zrz8oPEEuESgU6i0XBo4Z
+ HJYeTalFNXT8Nrm/PYikD7h4/+IlZSG4TxZ67RowCUQ6ABqF3aqq0Qtt6X/7ug6Nst0R
+ MGbIP2JdPQ1f+S7WR30r8zpikExDd4ODsbEP9GBox0tf2gJgiuMqIwKikCYzDWUXZEm+
+ CSKQ==
+X-Gm-Message-State: AOAM533ywveV2+xvK6A+LIw+U7d8JstS/1HchdbsLu4++F0g4K1icgRE
+ 0q0FKIx0tmHQ92XlmDBywdrfE0xKoIw=
+X-Google-Smtp-Source: ABdhPJy7aglDZLedtVIG91Ey87ZuCH5kokcUgj7oB25TmAXtsyFhd6gCrPrhsSg6xP8oq0USxWW8mA==
+X-Received: by 2002:a17:906:5611:: with SMTP id
+ f17mr35491731ejq.208.1615983407836; 
  Wed, 17 Mar 2021 05:16:47 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id gq25sm11520996ejb.85.2021.03.17.05.16.46
+ by smtp.gmail.com with ESMTPSA id gq25sm11520996ejb.85.2021.03.17.05.16.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 05:16:46 -0700 (PDT)
+ Wed, 17 Mar 2021 05:16:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] test-coroutine: add rwlock upgrade test
-Date: Wed, 17 Mar 2021 13:16:40 +0100
-Message-Id: <20210317121641.215714-6-pbonzini@redhat.com>
+Subject: [PATCH 6/6] test-coroutine: Add rwlock downgrade test
+Date: Wed, 17 Mar 2021 13:16:41 +0100
+Message-Id: <20210317121641.215714-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210317121641.215714-1-pbonzini@redhat.com>
 References: <20210317121641.215714-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,96 +86,165 @@ Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that rwlock upgrade is fair, and readers go back to sleep if a writer
-is in line.
+From: David Edmondson <david.edmondson@oracle.com>
 
+Test that downgrading an rwlock does not result in a failure to
+schedule coroutines queued on the rwlock.
+
+The diagram associated with test_co_rwlock_downgrade() describes the
+intended behaviour, but what was observed previously corresponds to:
+
+| c1     | c2         | c3         | c4       |
+|--------+------------+------------+----------|
+| rdlock |            |            |          |
+| yield  |            |            |          |
+|        | wrlock     |            |          |
+|        | <queued>   |            |          |
+|        |            | rdlock     |          |
+|        |            | <queued>   |          |
+|        |            |            | wrlock   |
+|        |            |            | <queued> |
+| unlock |            |            |          |
+| yield  |            |            |          |
+|        | <dequeued> |            |          |
+|        | downgrade  |            |          |
+|        | ...        |            |          |
+|        | unlock     |            |          |
+|        |            | <dequeued> |          |
+|        |            | <queued>   |          |
+
+This results in a failure...
+
+ERROR:../tests/test-coroutine.c:369:test_co_rwlock_downgrade: assertion failed: (c3_done)
+Bail out! ERROR:../tests/test-coroutine.c:369:test_co_rwlock_downgrade: assertion failed: (c3_done)
+
+...as a result of the c3 coroutine failing to run to completion.
+
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <20210309144015.557477-5-david.edmondson@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/test-coroutine.c | 62 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ tests/unit/test-coroutine.c | 99 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 99 insertions(+)
 
 diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index e946d93a65..6e6f51d480 100644
+index 6e6f51d480..aa77a3bcb3 100644
 --- a/tests/unit/test-coroutine.c
 +++ b/tests/unit/test-coroutine.c
-@@ -264,6 +264,67 @@ static void test_co_mutex_lockable(void)
-     g_assert(QEMU_MAKE_LOCKABLE(null_pointer) == NULL);
+@@ -325,6 +325,104 @@ static void test_co_rwlock_upgrade(void)
+     g_assert(c2_done);
  }
  
-+static CoRwlock rwlock;
-+
-+/* Test that readers are properly sent back to the queue when upgrading,
-+ * even if they are the sole readers.  The test scenario is as follows:
-+ *
-+ *
-+ * | c1           | c2         |
-+ * |--------------+------------+
-+ * | rdlock       |            |
-+ * | yield        |            |
-+ * |              | wrlock     |
-+ * |              | <queued>   |
-+ * | upgrade      |            |
-+ * | <queued>     | <dequeued> |
-+ * |              | unlock     |
-+ * | <dequeued>   |            |
-+ * | unlock       |            |
-+ */
-+
-+static void coroutine_fn rwlock_yield_upgrade(void *opaque)
++static void coroutine_fn rwlock_rdlock_yield(void *opaque)
 +{
 +    qemu_co_rwlock_rdlock(&rwlock);
 +    qemu_coroutine_yield();
 +
-+    qemu_co_rwlock_upgrade(&rwlock);
 +    qemu_co_rwlock_unlock(&rwlock);
-+
-+    *(bool *)opaque = true;
-+}
-+
-+static void coroutine_fn rwlock_wrlock_yield(void *opaque)
-+{
-+    qemu_co_rwlock_wrlock(&rwlock);
 +    qemu_coroutine_yield();
 +
++    *(bool *)opaque = true;
++}
++
++static void coroutine_fn rwlock_wrlock_downgrade(void *opaque)
++{
++    qemu_co_rwlock_wrlock(&rwlock);
++
++    qemu_co_rwlock_downgrade(&rwlock);
 +    qemu_co_rwlock_unlock(&rwlock);
 +    *(bool *)opaque = true;
 +}
 +
-+static void test_co_rwlock_upgrade(void)
++static void coroutine_fn rwlock_rdlock(void *opaque)
++{
++    qemu_co_rwlock_rdlock(&rwlock);
++
++    qemu_co_rwlock_unlock(&rwlock);
++    *(bool *)opaque = true;
++}
++
++static void coroutine_fn rwlock_wrlock(void *opaque)
++{
++    qemu_co_rwlock_wrlock(&rwlock);
++
++    qemu_co_rwlock_unlock(&rwlock);
++    *(bool *)opaque = true;
++}
++
++/*
++ * Check that downgrading a reader-writer lock does not cause a hang.
++ *
++ * Four coroutines are used to produce a situation where there are
++ * both reader and writer hopefuls waiting to acquire an rwlock that
++ * is held by a reader.
++ *
++ * The correct sequence of operations we aim to provoke can be
++ * represented as:
++ *
++ * | c1     | c2         | c3         | c4         |
++ * |--------+------------+------------+------------|
++ * | rdlock |            |            |            |
++ * | yield  |            |            |            |
++ * |        | wrlock     |            |            |
++ * |        | <queued>   |            |            |
++ * |        |            | rdlock     |            |
++ * |        |            | <queued>   |            |
++ * |        |            |            | wrlock     |
++ * |        |            |            | <queued>   |
++ * | unlock |            |            |            |
++ * | yield  |            |            |            |
++ * |        | <dequeued> |            |            |
++ * |        | downgrade  |            |            |
++ * |        |            | <dequeued> |            |
++ * |        |            | unlock     |            |
++ * |        | ...        |            |            |
++ * |        | unlock     |            |            |
++ * |        |            |            | <dequeued> |
++ * |        |            |            | unlock     |
++ */
++static void test_co_rwlock_downgrade(void)
 +{
 +    bool c1_done = false;
 +    bool c2_done = false;
-+    Coroutine *c1, *c2;
++    bool c3_done = false;
++    bool c4_done = false;
++    Coroutine *c1, *c2, *c3, *c4;
 +
 +    qemu_co_rwlock_init(&rwlock);
-+    c1 = qemu_coroutine_create(rwlock_yield_upgrade, &c1_done);
-+    c2 = qemu_coroutine_create(rwlock_wrlock_yield, &c2_done);
++
++    c1 = qemu_coroutine_create(rwlock_rdlock_yield, &c1_done);
++    c2 = qemu_coroutine_create(rwlock_wrlock_downgrade, &c2_done);
++    c3 = qemu_coroutine_create(rwlock_rdlock, &c3_done);
++    c4 = qemu_coroutine_create(rwlock_wrlock, &c4_done);
 +
 +    qemu_coroutine_enter(c1);
 +    qemu_coroutine_enter(c2);
++    qemu_coroutine_enter(c3);
++    qemu_coroutine_enter(c4);
 +
-+    /* c1 now should go to sleep.  */
 +    qemu_coroutine_enter(c1);
-+    g_assert(!c1_done);
 +
-+    qemu_coroutine_enter(c2);
-+    g_assert(c1_done);
 +    g_assert(c2_done);
++    g_assert(c3_done);
++    g_assert(c4_done);
++
++    qemu_coroutine_enter(c1);
++
++    g_assert(c1_done);
 +}
 +
  /*
   * Check that creation, enter, and return work
   */
-@@ -501,6 +562,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/basic/order", test_order);
+@@ -563,6 +661,7 @@ int main(int argc, char **argv)
      g_test_add_func("/locking/co-mutex", test_co_mutex);
      g_test_add_func("/locking/co-mutex/lockable", test_co_mutex_lockable);
-+    g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
+     g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
++    g_test_add_func("/locking/co-rwlock/downgrade", test_co_rwlock_downgrade);
      if (g_test_perf()) {
          g_test_add_func("/perf/lifecycle", perf_lifecycle);
          g_test_add_func("/perf/nesting", perf_nesting);
 -- 
 2.29.2
-
 
 
