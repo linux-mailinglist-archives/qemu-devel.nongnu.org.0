@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9C033F921
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:27:39 +0100 (CET)
-Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D833F90C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:22:19 +0100 (CET)
+Received: from localhost ([::1]:35914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbpS-0004GB-MC
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1lMbkI-0005X6-Aa
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMbRy-0005hl-UY
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:03:24 -0400
-Received: from 5.mo51.mail-out.ovh.net ([188.165.49.213]:44396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMbRs-0004g5-Mw
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:03:22 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.7])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id A57B2274A32;
- Wed, 17 Mar 2021 20:03:13 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
- 2021 20:03:12 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0052b3110f7-87aa-47c3-a1b4-d3208367bcb4,
- 10040688A1AB5364447EAD88D88247B833C1D39B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 2/5] hw/arm/aspeed: Do not sysbus-map mmio flash region
- directly, use alias
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- <qemu-devel@nongnu.org>
-References: <20210312182851.1922972-1-f4bug@amsat.org>
- <20210312182851.1922972-3-f4bug@amsat.org>
- <871fce3d-8b3c-bcce-6170-9010b1ed7d5c@kaod.org>
- <38ba72b0-ca80-11e9-3933-1da563748a83@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <fca7093f-ac77-e72a-edce-fa93f774a571@kaod.org>
-Date: Wed, 17 Mar 2021 20:03:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <38ba72b0-ca80-11e9-3933-1da563748a83@amsat.org>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1lMbZw-00064I-Fp
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:11:36 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:32975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1lMbZt-00084f-Iu
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:11:36 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id g4so214214pgj.0
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 12:11:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+cov/Pby034B8URCFDLJN6dtRs7lBzWNmP1hIcRFWjI=;
+ b=Igfo0t04sdhm7kZ+1Sum2AB8+J6AKxR0yBRJBzx9zKO62os37TYB5ICgBlEf9Rwjz9
+ huMBtoxMGjVc8ItiSm6dDZFvERDRhwPPGSN6GNVh4e6Wl+CCkuoZX29IixgfddcK9FtR
+ jBEhC/tHx0N1LOXUcpZR5VKqpEOPeCCKB0uXCutH0U2isQ2+mORgEZKqzs1g4u+hsHCl
+ tmKxRz75Q9Dhf1J3VZyb1QedR17+UbOcg5pUI4hRPz1DNh/5x2FOXxczwpyGFiYEcL2T
+ Ze9lFlSq99g/qAC8AZmGkODumwA/gO3h0ZpcEQlqO3wYyPd0TaTYvjTH12herlDC4rVg
+ ydqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+cov/Pby034B8URCFDLJN6dtRs7lBzWNmP1hIcRFWjI=;
+ b=V49O8+m8hDM62lL1gC4+z4GyZgao1MrEP3n7SGM+B0KVE2h/nE8wCuXxajq8FHf+DF
+ dYGTGRU0f5uqrU3N4IieHok02vTYBkP+aVpt9PSWjwGq0lY7BQMHryUbOaCkHwOs7VNm
+ NhW3jDL9SHoj6ddK5eE6AGXKkYOQP4BFZM16DOLA7f+VCR7fnP1Kk5DuextpoIeRU9po
+ QXjnYboLviqgQmyh2umK7iR/ayks+Uffes+ksvYZYtuUuVsSirHQYGmi0EpS1hCxYfos
+ 6AExia62HjBrX2NRK+9OUDGPbtAlSr7j6zKLLN1uochmpTYVsRKVKGKwJBlMYZ6Uun2L
+ dPDw==
+X-Gm-Message-State: AOAM530LKy/3+kT1DSibhWl9Pd0/uH7NMx2YRKkpmjC4oIQdEp999XqI
+ HCgKd26e7xdrtR0Pci3664xLjOnV8Aslkw==
+X-Google-Smtp-Source: ABdhPJzXrXw9dOV6PiL5EI/1HMyeRMwgDGHgoi42bQZGf6tomfA6eGpCdtbdVW9H3ApvCRUZiEH+Qw==
+X-Received: by 2002:a63:7c45:: with SMTP id l5mr3911006pgn.156.1616008288879; 
+ Wed, 17 Mar 2021 12:11:28 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id i20sm19077870pgg.65.2021.03.17.12.11.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Mar 2021 12:11:27 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] *** This is based on pull request from Alex =?utf-8?q?B?=
+ =?utf-8?q?enn=C3=A9e?= ***
+Date: Wed, 17 Mar 2021 19:11:13 +0000
+Message-Id: <20210317191115.1445-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.29.2.windows.3
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 349db3b3-fdc6-4687-bf9f-2e102ae769a9
-X-Ovh-Tracer-Id: 5940529386346089403
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,46 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 8:00 PM, Philippe Mathieu-Daudé wrote:
-> On 3/17/21 7:30 PM, Cédric Le Goater wrote:
->> On 3/12/21 7:28 PM, Philippe Mathieu-Daudé wrote:
->>> The flash mmio region is exposed as an AddressSpace.
->>> AddressSpaces must not be sysbus-mapped, therefore map
->>> the region using an alias.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> That does the trick but you need an extra change in the model. 
->>
->> The fixes are in my aspeed-6.0 branch on GH and they survive the last
->> patch of your series :
->>
->>   [PATCH 5/5] memory: Make sure root MR won't be added as subregion
-> 
-> I wondered about changing DMA_FLASH_ADDR() wasn't sure the tests
-> would use the flash.
-
-The acceptance tests (not merged yet) download firmware images
-in which u-boot does DMA accesses to calibrate the reads on the
-flash device. 
-
-C.
-  
-> 
->> I will upstream for 6.1.
-> 
-> Thanks!
-> 
-> Phil.
-> 
-
+*** BLURB HERE ***=0D
+The pull request=0D
+https://patchew.org/QEMU/20210317072216.16316-1-alex.bennee@linaro.org/=0D
+=0D
+Yonggang Luo (2):=0D
+  plugins: Update qemu-plugins.symbols to match qemu-plugins.h=0D
+  plugins: Move all typedef and type declaration to the front of the=0D
+    qemu-plugin.h=0D
+=0D
+ include/qemu/qemu-plugin.h   | 187 +++++++++++++++++------------------=0D
+ plugins/qemu-plugins.symbols |  25 +++--=0D
+ 2 files changed, 104 insertions(+), 108 deletions(-)=0D
+=0D
+-- =0D
+2.29.2.windows.3=0D
+=0D
 
