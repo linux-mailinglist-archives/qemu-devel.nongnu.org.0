@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A286133F647
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:08:52 +0100 (CET)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB42033F66C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:18:25 +0100 (CET)
+Received: from localhost ([::1]:58590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZf9-00059c-Ln
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43930)
+	id 1lMZoO-0004NT-Th
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMZcI-0003Tk-0Q
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:05:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMZcE-0002HO-1M
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:05:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616000747;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=82g/nrUa+b6LbZUe73RegfMJrk7ae4fIgx7vlIBJA/A=;
- b=DCuOdnOjBfHG6KEGTvK7S1MvS7emYYN71pf8hzD9mdHYDCVxTwUtepAF7Pvn8zUU+PvSsn
- 7v5OOUm1fqDaz7/vxYEyOtaPxSLxuCGOrzBgki6lRH6QdeednWbHgtQgf0yZ0yRrYExM/P
- GqEqON3qn3EUnJHE88ukTiBl1uLQAEg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-bQD-m6F-P_-WceyqWF4IdA-1; Wed, 17 Mar 2021 13:05:43 -0400
-X-MC-Unique: bQD-m6F-P_-WceyqWF4IdA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5E8A80006E;
- Wed, 17 Mar 2021 17:05:42 +0000 (UTC)
-Received: from redhat.com (ovpn-113-247.ams2.redhat.com [10.36.113.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E347C37DD;
- Wed, 17 Mar 2021 17:05:41 +0000 (UTC)
-Date: Wed, 17 Mar 2021 17:05:39 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Reinoud Zandijk <reinoud@netbsd.org>
-Subject: Re: Win10 always takes 100% cpu power even when idle
-Message-ID: <YFI24wf3rg993d7H@redhat.com>
-References: <YFIqKhlRclmy+kwN@diablo.13thmonkey.org>
- <YFIr7YJvjGXURoRl@redhat.com>
- <YFI1tThW/xpwNOsc@diablo.13thmonkey.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMZks-0002IS-Og
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:14:50 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMZkq-00060V-N8
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:14:46 -0400
+Received: by mail-ed1-x534.google.com with SMTP id y6so3229284eds.1
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 10:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hEFr6DNpuGLkoDoDiGl1CzZPRKZks3liSdFuHVgNlQA=;
+ b=rO9m5SRWSJSXGJcOIociFDqdXkIa2WsZoJFgoMEWv1be7bH0BkZjXsne4c5ip+p9OP
+ 5kxy1nj/plGX0+YSYEp3yTZh3QwcHTkRy3XIrjGXvzumjhkxX/C1iNXLIw+NveZnhykL
+ o30quxB+NQOBzchHLK1v1otXmzgCFsrzSSzK96fit64jZpNXYyjczD8urjPn63L16s+g
+ P4g/DbEE4ETX8XF93Ixs+pP4Z/WQyIhZbe94+EpTyMvLaVW6cYMCzFC0Eky0sjqGvQM4
+ SYlIxIhlmDubE5fuq14+vU6omsAPa5y077doVVF7UD22yT9TRSCEEt3UVpGhyntmpdxx
+ lhOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hEFr6DNpuGLkoDoDiGl1CzZPRKZks3liSdFuHVgNlQA=;
+ b=tP3GCaHXQp6TVGkaPHo77P5MhFXIPmLVTfFlwT7Z1Bjk2yMWFn1KyNzaHlx1HrMZQS
+ fP1O7YfhK9yo5SQvwMa7nSrYmAHOWCcDQQQVD24dHEuiJcwP3hGJeqQpOIpMsPYKlsl6
+ j4BmYYkmc9lOYMkOskKSSE9wbhll/wSDEpXQ3Z7TlKF8h09XU6+4runZ7iF1kSYPYiDj
+ pW1E49nOqwrJB142zIRxSt5NLwJ0TWeUT6MNyprPk3WZYGyGEvjVcOj2All6dyblzm1H
+ pbyp4Jeq9L/de0AS+SW1kqjWeloNXWb4ZnBmEMswC3VPq07CCtTHoz+1wEC0Za+xIC1r
+ rBOw==
+X-Gm-Message-State: AOAM530dKWDcNeOki3RXzavHkn0QuxzE/s42ebsgBrsctLKkaFpaUg/g
+ ZgRTVsqz/3pNnIlTpfvJdy/esi/upLEQAGn9mbDGuw==
+X-Google-Smtp-Source: ABdhPJwl9i4ot4SBjDxtlw/D1Tcnlb/US4Nod0sI0krfpVNDjf2Ew6FmN6NfuXjW1/TNtA8KV6nH27oKTxIib/v+Hck=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr31778115edb.204.1616001281836; 
+ Wed, 17 Mar 2021 10:14:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFI1tThW/xpwNOsc@diablo.13thmonkey.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210316103308.3458293-1-armbru@redhat.com>
+In-Reply-To: <20210316103308.3458293-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 17 Mar 2021 17:14:18 +0000
+Message-ID: <CAFEAcA9v1Ne4Ty4cB07RFVVoshVB5YiqjRLuKfLLda08hqBL+A@mail.gmail.com>
+Subject: Re: [PULL 00/11] QAPI patches patches for 2021-03-16
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,45 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 17, 2021 at 06:00:37PM +0100, Reinoud Zandijk wrote:
-> On Wed, Mar 17, 2021 at 04:18:53PM +0000, Daniel P. Berrangé wrote:
-> > On Wed, Mar 17, 2021 at 05:11:22PM +0100, Reinoud Zandijk wrote:
-> > > when executing Qemu with
-> > > 
-> > >   qemu-system-x86_64 -m 4G -smp cores=2 -M q35 -snapshot \
-> > >     -drive file=/home/reinoud/Downloads/Win10-demo.raw,format=raw \
-> > >     -rtc base=localtime,clock=host -spice port=5924,disable-ticketing=on \
-> > >     -vga qxl -usb -device usb-tablet -net nic -net tap,ifname=tap0,script=no
-> > > 
-> > > my cpu usage in Windows10 *allways* reports 100% cpu usage. On the host system
-> > > its always 190%+ ie it is really taking two cores completely.
-> 
-> > IIRC,  "-usb" still adds a USB-1 controller and that's known to be bad for
-> > causing high load in Windows guests in particular. So before debugging
-> > anything else, I'd suggest configuring a USB-3 controller instead - see
-> > docs/usb2.txt XHCI info.
-> 
-> I tried that and added `-device qemu-xhci' instead of the `-usb' and it indeed
-> showed an USB 3 interface. It didn't help though; its still consuming 100% CPU
-> from both configured CPUs.
-> 
-> When I completely remove USB, i get the jagged mouse again but it makes no
-> difference :-/
+On Tue, 16 Mar 2021 at 10:33, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit 2615a5e433aeb812c300d3a48e1a88e1303e2339:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-03-15 19:23:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-03-16
+>
+> for you to fetch changes up to 5b728a7754e32ff6dac3501ded3ba820ef2edc7b:
+>
+>   qapi: New -compat deprecated-input=crash (2021-03-16 11:10:38 +0100)
+>
+> ----------------------------------------------------------------
+> QAPI patches patches for 2021-03-16
+>
 
-Possibly you need some of the hyperv enlightenments enabled too. Though
-I can't recall the precise command line offhand, as I just rely on
-virt-install virt-manager to do the right thing for Windows guests.
+Fails to build, linux-user static config, when trynig to link the
+qemu-aarch64 etc executables:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+libqemuutil.a(qapi_qobject-output-visitor.c.o): In function
+`qobject_output_visitor_new_qmp':
+/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/../../qapi/qobject-output-visitor.c:283:
+undefined reference to `compat_policy'
+libqemuutil.a(qapi_qobject-input-visitor.c.o): In function
+`qobject_input_visitor_new_qmp':
+/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/../../qapi/qobject-input-visitor.c:746:
+undefined reference to `compat_policy'
+collect2: error: ld returned 1 exit status
 
+thanks
+-- PMM
 
