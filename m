@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8439633F3D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 16:10:09 +0100 (CET)
-Received: from localhost ([::1]:34406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAFF33F3DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 16:13:26 +0100 (CET)
+Received: from localhost ([::1]:41646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMXoG-00076A-H0
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 11:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
+	id 1lMXrR-0001la-4y
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 11:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMXIG-0005H7-KD; Wed, 17 Mar 2021 10:37:04 -0400
-Received: from mail-db8eur05on2106.outbound.protection.outlook.com
- ([40.107.20.106]:39072 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1lMXII-0005Ln-Jq; Wed, 17 Mar 2021 10:37:06 -0400
+Received: from mail-db8eur05on2128.outbound.protection.outlook.com
+ ([40.107.20.128]:5633 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMXIE-0007Ew-PX; Wed, 17 Mar 2021 10:37:04 -0400
+ id 1lMXIF-00079x-LG; Wed, 17 Mar 2021 10:37:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YN+bBc1zDPpov2l2EnllMkqgy2siOgsx7KbR02/4w6Qaca49+brnxT1Pz7E6P7Eq5uMHdisUCIeTqjHTOd1lXm0bbvITK1M5M2+cesAZFuYI4qZpuTTfR3p6kNnS58CbKvCGhrgJNigOaqYo8X6+Q9o2RYRyOzqjgCdI6Pie8A1zkvuuDrRUEoeU6uN7rdTf1QRofN1hdxBIy3nsTxxkZ3k5wd3e92/g2EQEIKL5jN95SWG+pRSZfMOfXesk5awccAiEnbEyQzkEcsAjsXPoMseB6dseDYRdu/P+ueafno2db2th+rNggYRpQJk0ZKV1wmGxDOFWaYTguWDWKnLXiQ==
+ b=Pb2lqXxXFFcrr9HkavsOaszjhB5Nf72vn73w/fRadCH9EMHBY3QcIOojbrabDsShP37AbyoSEep82oi9aUgNMNP3pdj7eycDPzVXxXfuuOquBiKxqD7AwGwx5fN82VvQlLiNavfdmIeUFN+/o2MfM5D7FY3SBv6NlaYfO9hSlNBzxiZHnt+OzN5+hT87DKsiVillJ4NWJ9CDEVlJNp+9vge++H7lrIDbJJB52gmkqzK4eEgiVRmQ/9TFeRBK2OdW8foISyKNWBAU1uYmTdb+qBKqh3Z/beGcwXRqUCmzMwl2QRSR2M6J4OGtVaVpvktogVh79eoMTAF4Xn+8t4hhNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIe9Xr+z696ADIyXME/Vjp0kA7jxWxzAJGy5IvgK+v4=;
- b=FMMOPfONfYcXMwB3D4ve3vWETWJW6eO9bP5GDo/ay+RQ2X7WQKlWisngJ3Z3WdGwP56xWisU4RdKjZyyw4Ne7bmdrY1qFqCjaOAWUvRXnNtasTityT7mQnl0f3z8e5ihgUYOFEP96S0JfcRVDrND4tzFgM4sR7IG4j8DylCxm4c43sfUumNBz/N/zh3yHEPj+5/T0QggWcwbPGlnK0+o+3jl17os9aAki/8ImLlVveBn+GUvqL81NYnf80N597aOu+fALID4JduNOhJeNYPdIf//DzgkEx8sYq/0NDsDm46sCcM/c6ePqzlsF5BKbvyZeJr72nDpwI+5Oo2/WV+Stw==
+ bh=tlyIqqfGc95vrVAc+TfWpMYFG0x760og6wpVbqxhXW0=;
+ b=DKw4Sow41x1C/FfgZCNNasTIRomB/LL49Sv0Q79uIsgSGsZ9a5JIUoRcAIdCROwr3ylwNsWVqe62y4lnPf3/geJkvuLNzd2bM+ddJC2fRwBk8ylYkofw6LAyyDEjcoy+wP1QOoNiIUI/8fqCBJZhjOO3qEsIfWu46frtKP/WW5aBeTjuBmi+QtqoWssVmFoJNfW8jz+/5R2g75t3176m5DWikQ9iKOO2Vt0lnPBJHM3WdnTNbrRDbAc4Fe7iQTrFk+jPLj47O7iNgQObCUni0NsxTDj4T7I47tL/0+3hPt6tmh5wQh8sYVGOfWpOZTquZJMjFwxKqlUbWyS7tZN6Ug==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIe9Xr+z696ADIyXME/Vjp0kA7jxWxzAJGy5IvgK+v4=;
- b=cx50mAzcibyIv6q93WQ1ZDAVllgGz4xq7ljeOXId5YyvI/+7Ew8HC8qeIbIt3xIE3niu7LaEKFu0mLUe3+DKU8Wh2m0D+XPA4KGWd9CgZr86i2wCNhLsENhuHa/dYfYtw4uZOfjnZ43ZmSn0OugVvWspsHyRmxQFSe5VPPjVTsw=
+ bh=tlyIqqfGc95vrVAc+TfWpMYFG0x760og6wpVbqxhXW0=;
+ b=g1NFsPNuFMGf7siBe/zSh4kIPGVyAEQyLBRHyqVx80IxzC6uqIBtxZ/fpzMiRxGvCJOLBU5D4yVURCTnp0rIFxx/zj3IFWhq13ZBZ97SsQB4WZIVCKHBnV8llUz1ID7DP8ucb4Sj1MRgGJ+hpmM8C9m3pxNp4tR2ywRwSchcXpo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6216.eurprd08.prod.outlook.com (2603:10a6:20b:29c::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Wed, 17 Mar
- 2021 14:36:45 +0000
+ 2021 14:36:46 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3933.032; Wed, 17 Mar 2021
- 14:36:45 +0000
+ 14:36:46 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
  stefanha@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v3 29/36] block: bdrv_reopen_multiple(): move bdrv_flush to
- separate pre-prepare
-Date: Wed, 17 Mar 2021 17:35:22 +0300
-Message-Id: <20210317143529.615584-30-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 30/36] block: bdrv_reopen_multiple: refresh permissions on
+ updated graph
+Date: Wed, 17 Mar 2021 17:35:23 +0300
+Message-Id: <20210317143529.615584-31-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210317143529.615584-1-vsementsov@virtuozzo.com>
 References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
@@ -67,63 +67,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.202) by
  HE1PR0401CA0052.eurprd04.prod.outlook.com (2603:10a6:3:19::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Wed, 17 Mar 2021 14:36:43 +0000
+ 15.20.3955.18 via Frontend Transport; Wed, 17 Mar 2021 14:36:45 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e6af7607-4bd1-4c2c-2c26-08d8e9521689
+X-MS-Office365-Filtering-Correlation-Id: edaa67ae-b44b-45f2-886a-08d8e952175f
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6216:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6216BAE91CD76EC63972DB78C16A9@AS8PR08MB6216.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6216EAB8452C6249200A691DC16A9@AS8PR08MB6216.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:114;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4Kt6UNPBnEJqHQ9xGJENYcelNFls+JLNPcPLn26goxy8fwo5kg7M8fCHx5oidmAvONy+8XXDI5FOyNZ8C7QrpP2lD1c3PWt3pfFFOs7GD4dPfeyrlrRuKLlz18eIrvkz4Kx7Itg+gr0SNfLv0Um4uEhgN29t1K/Ei5q8GhsTEY1VerrslrHx6uHQC9hwqZy9O+6upikTGXyc28V7r2dKlOZ1abNskse75n8atahOO4x/VNXwY3swRX16yFMvbOGnPtQ2wMURuLGznpC9YAIl873l7ZCIhxHQFz6XktwmAOa7B4Qz4aBuA0L1mGv6qatRuwUyySXWgzl6E2dHY9GfkI3+AUWHx0AfARQV3NCX+D/uWnS3/fVqBbS+TBwx9E/pwxH5uhNj08nofxLJoYswB1llhRRgeyYpAHVomSplgQ1OgvrvdqfHFXu9/adtGxsa8GnADsk4WiG01unVTuNbqiqmMTgr0yaI7AhYODatEOSM7+5wPfQUPastgN4rrgJK0IQSDOKeVk7soI7XYvfBRdQTlu2XbKxvE7+/HWN5Zwh9dY4fpkuoWP6EPk/8w1nwsU7r6zaAwtctZ7hEdntYMcQ2Dg0jO0Z0kuiULxXySwqQEdfSpMjAany/yzCAlCWs
+X-Microsoft-Antispam-Message-Info: tF2nekQluICHO7zhl215BZYmz+DBrQYmtRA5XfbokQyqNfxOL/dLutqEohGU/7MZuQgYz/o5EOMhYfjxKxNfondzYcSyVpQ0MHSVl9jNEqLoi89LOw8BvwH7SVAxSGUrT3ZISyXjylLmqSfnZEGUqZlyxO4EyldDuGHol++FF4e7nhtiOq+SCyaY/1p0SlwIhooQBanv4qTWRrlet2e37cJ3F4smszWVTgu/DU17poxYZ7s5zs8bp4NpSzaqgt4ULWh0yiD8DE4KhQh/HVDoQgNN2EEayNikfCS94nPR2WUTdKhbmDQL8hLf53ylNEjsiKfU0G5JfaWZv6UsUpy2DO2b8dpkaGvBAmD6y5gh0dMVgTB/VkDs92IO3IJ7yRq9tJ46dl/kAr4/ae+FraIt7f2Tc0CH7ndHbVyzOEhQjN8st1vA+ouI7c7YfMOlC9Hyvh860DJ9Rl/nI4ywEhc2KxLcpToBPulDN1g8+uC9J8dmnfEXqRjoHyDRdGOqaaXPlhcYiznaKOInkhwIpUBzq2OEn6vR/RwieTikEDmx6PzHbSw0AyZ6T6/itb6D628U2vo2rcQ/z8Y2Gil3r9Y2Bq20+k0wW4Wp3Sr674FHS5zLpSGl10mBxuj4leDqDPy3
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(346002)(376002)(39840400004)(136003)(6916009)(83380400001)(316002)(2616005)(66946007)(6512007)(66556008)(8676002)(956004)(26005)(1076003)(16526019)(6486002)(186003)(4326008)(36756003)(8936002)(2906002)(6666004)(5660300002)(478600001)(86362001)(66476007)(6506007)(52116002)(69590400012);
+ SFS:(4636009)(396003)(366004)(346002)(376002)(39840400004)(136003)(6916009)(83380400001)(316002)(2616005)(66946007)(6512007)(66556008)(8676002)(956004)(26005)(30864003)(1076003)(16526019)(6486002)(186003)(4326008)(36756003)(8936002)(15650500001)(2906002)(6666004)(5660300002)(478600001)(86362001)(66476007)(6506007)(52116002)(69590400012);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?wEq1nkNasH+2V2rIRq0RR/zDHATjrp92zeTmA7Ax6uV5JaM9s02aBWOMYfFM?=
- =?us-ascii?Q?Fl1oXhUaqBDd3uG7F6ldm7biGHm+5MO5sDPb4hYWpdx2Dk/kJCr7fdLYTVp+?=
- =?us-ascii?Q?i0111ue5WoxP97nq/0rVaz3eFPNh46tpniEKmD3e+o1ci/VDB+LgXxguaICy?=
- =?us-ascii?Q?7UJvU3N8m7PRv1xu+DNcoHSepOFEKIFYGl2UCZzwfZalOieJsB3dGyC/6qbx?=
- =?us-ascii?Q?hw0xYfg1TQvnDIiXKU1+Hr9iqSWFkfm4aVdmB++lZz6JIqO/Bilkpq9qU5YI?=
- =?us-ascii?Q?MMCxO9bfjiV+dM2kF14p0GvKSDa/wyvi8KoIY5zt+7yNWN/zkv0h0VBZuYsX?=
- =?us-ascii?Q?r2Ky15p6dMxyLrtZN6yweqSEDhwIGQ57k1nhNdkis1QFNiXegC2OUN2VsUWA?=
- =?us-ascii?Q?tUdxIPpl+gstF2K3KiAoy57hyKVAiPjswZtIrG2oKI2UlmDrYWfEuDUpULnj?=
- =?us-ascii?Q?HTLsA8bKU6AKrIdEhBmujiZyeo1IxscRQYp26tg5YJxO29hNYtRVHu10S62z?=
- =?us-ascii?Q?DqNKsKWD8P2bs/q/ps59ozuPgLSnb1oodZS+1NJiLvSluUJ5jYKelaVSWEn4?=
- =?us-ascii?Q?Bb/I6i4eYEOqm/E2cCpaeImwvsZhTV1EYPFhh++ixoeBYLjchUq73uI3Xysz?=
- =?us-ascii?Q?1/5b3vovTqcTV9CfoSxcUJXURl4iIx7NgpRoAUxs0b2kntSD9DyxoqEwuimx?=
- =?us-ascii?Q?5/luwH6bjV8zjePrGYMOuZxyOWSbT1WcX7ooTt5F6DX29r6GShm8oED0pCkR?=
- =?us-ascii?Q?glI77K1JANxe/fhtivW4CCgiAzRoA1oL+Mvb4d4LnOS26PSImLzzXc3Ar6Tt?=
- =?us-ascii?Q?cJREW0YzTUwMCW0Jd39GPj024TNtwiDqJvb1pFGbsk/6iJhwAkSVBvdQdpJC?=
- =?us-ascii?Q?JgkaTlX80FUUh4ZBtu/m+xLpwZdCd7stV69IXUcMmjzKHCh2yP/JY9oRmJEk?=
- =?us-ascii?Q?+K9gGJNJRMZjNOgnyTTrMV7OuNG5T8xgJEQTY9R4cdHeb7U2c7x2hJYEHyXa?=
- =?us-ascii?Q?c4T651o9qcjEjeeklx5oHxn32vVDUh2vT1pBXRAezarGk2mrixovxBosUaI4?=
- =?us-ascii?Q?uoFy9GT6QS0YYCcJuSzE22tPVZsGZ7ODMPeQfJqxq6hmqVuT6cL8swn9qiLZ?=
- =?us-ascii?Q?shPErWGJoLi7IRKqSto0L36kY9iJ1S1ZI5IXj3RUv35S9xdLweijXCqv7Siy?=
- =?us-ascii?Q?naD7V97CXjAozV+bX7wos3yWHaYT3U88wiyjb33VMUvRKhWecDZcTLql5FDI?=
- =?us-ascii?Q?W/yj6Zzg11encnOPWlqQafUOLwypQeFkqx4C0MrFjMtpmvyIm70uVFpPt5+y?=
- =?us-ascii?Q?cfPU/STWTThe4+WIEefMv4ob?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?sizADMl3EDh+1GPMzgJ19hcOmKGRRBfDDy4u7ffuePswdmAJ48ParzWELons?=
+ =?us-ascii?Q?lFlP3Zfx8fKSfPAmZf7CGjqIRjwPr9UWYHcNAT11XjBXJuAfKT/tMxeGYTIj?=
+ =?us-ascii?Q?MlOGN3qmCw+iD6BcLFeEj0Kf1W6Yo96Md7UeZVKpJvEJF5vADTjyNf3p5JTv?=
+ =?us-ascii?Q?Kte62Wzqy631QKoqh5Nu0elXcEmzeTENcFl9otfvlNfC4hLiV58dREtK0/C2?=
+ =?us-ascii?Q?zVSPYDlZwryvmLPhMZj4wq8Qup0A9mZ1Uc0cUcbQ4ghh9Bn21S+HZgkLCdON?=
+ =?us-ascii?Q?reAMJmmPe6Qr87f7LugNA3K2z9Drw7Sg00QA1iIcDvIBCZNQ4x66QVTNn+C3?=
+ =?us-ascii?Q?FL+94lkq9J/EyD8hP+KSRq9QSaofKbYkjSCu3Hz8rjQKHPqx8DewZ0W8wGf9?=
+ =?us-ascii?Q?TNZW0kyIkqrR9sAMBB/GoQUXFXDJjWIcx96tdOEArd+aUuIXbNR0gnWFbHen?=
+ =?us-ascii?Q?6DgPagYrRCn+O/OFicfSRAuAxhjAHdr4TsKyeCKvyHru9SHi38P80rMvbcmF?=
+ =?us-ascii?Q?mDgH0f/Hdulpd8KRY657YPvZbP/TyuAXIIkT1MnsbW6qdcGJrvfr+RHieue6?=
+ =?us-ascii?Q?//VU2DJCh55sOhjvONc+dinMZRZGu4ZZuPoJr5mKzYA3ES3yNxsHwjWmcIk1?=
+ =?us-ascii?Q?ef6CJex1JLVf9339nNVAZ/i/ub0uztoYtuwwsmeuvlBR0+x5dXzvBkqKfLls?=
+ =?us-ascii?Q?netfsTkwki9f8f1lJBUcJvgtLZbges/vQqHZhtO/bBA/CEhJrVLV/PynltR/?=
+ =?us-ascii?Q?rFSSNpiJpt6CSzT/AdYJViR+uN+Wxq6vP6MR2i3LhFAcHw0bXqnCdZAepY+u?=
+ =?us-ascii?Q?CdN/lm4zQS8qFRkb+HWHOaR0j8aGw/kaEF3Qif+oAyJkoxEeEjeJf2K++YrI?=
+ =?us-ascii?Q?lPtcySZBr1TJITbe22E964wPcIkY/EObczpKdJDJWYZVVqZVYnxNoZ1Tl/3n?=
+ =?us-ascii?Q?gkt5y1hD8vjka/ppkLvm20qOa+Y2swbuPADSc62tHSh9BviBmn1f03cP/lzH?=
+ =?us-ascii?Q?mAJf+JRlvr3Ztbi6uO/MR/k+H7NswvhZEST61gds5VA5x/0TADgDBwmkTAJU?=
+ =?us-ascii?Q?N+UyNF4GXWxgE1App1SapaFrXqht1Ea7dSl/p0zTkx/jFlCfWOzG6mnDVrg7?=
+ =?us-ascii?Q?BFBexGTprfLtdCXQ9AI9w3y4AaRV2uQVesnV71VCc+A5wF9z1Kj1cZDCb6qT?=
+ =?us-ascii?Q?dhFOOMMwqTkVO58KFm/NDU/h2puto6BXYDCl0NAY+Lqr7VG2aQg9bebUgT9z?=
+ =?us-ascii?Q?4VaUbyzxRwbZTNdwGf0+U4O8jYmltI28j46b7l/NXX/WZQSPors9Rl9+ahEC?=
+ =?us-ascii?Q?W2cxWbOA7y0xPANc/A2VG7ju?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6af7607-4bd1-4c2c-2c26-08d8e9521689
+X-MS-Exchange-CrossTenant-Network-Message-Id: edaa67ae-b44b-45f2-886a-08d8e952175f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 14:36:44.9366 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 14:36:46.3912 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7oKTNJwzM9d+LQgMACFoCGkdGjVozazUSfET5SzTTyIQScORftP2dUNEiWKTBing2lUa9w+NC2YruIUrgrps6DphNLIkHHmerjF5/AuGCWs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: JDypxI9rUsGyg1yXXQakMUOBIzJ5mCJ8vn49rwiokSFtp/arFmoaX+4ncFcossH+S+JBkUz00XoRdx3Dyc2WR7eENwL0jXTMCrQuV4eeFQk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6216
-Received-SPF: pass client-ip=40.107.20.106;
+Received-SPF: pass client-ip=40.107.20.128;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,63 +140,508 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During reopen we may add backing bs from other aio context, which may
-lead to changing original context of top bs.
+Move bdrv_reopen_multiple to new paradigm of permission update:
+first update graph relations, then do refresh the permissions.
 
-We are going to move graph modification to prepare stage. So, it will
-be possible that bdrv_flush() in bdrv_reopen_prepare called on bs in
-non-original aio context, which we didn't aquire which leads to crash.
-
-To avoid this problem move bdrv_flush() to be a separate reopen stage
-before bdrv_reopen_prepare().
-
-This doesn't seem correct to acquire only one aio context and not all
-contexts participating in reopen. But it's not obvious how to do it
-correctly, keeping in mind:
-
- 1. rules of bdrv_set_aio_context_ignore() that requires new_context
-    lock not being held
-
- 2. possible deadlocks because of holding all (or several?) AioContext
-    locks
+We have to modify reopen process in file-posix driver: with new scheme
+we don't have prepared permissions in raw_reopen_prepare(), so we
+should reconfigure fd in raw_check_perm(). Still this seems more native
+and simple anyway.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ include/block/block.h |   3 +-
+ block.c               | 187 ++++++++++++------------------------------
+ block/file-posix.c    |  91 +++++++-------------
+ 3 files changed, 84 insertions(+), 197 deletions(-)
 
+diff --git a/include/block/block.h b/include/block/block.h
+index ad38259c91..8d5b3ecebd 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -208,8 +208,7 @@ typedef struct BDRVReopenState {
+     BlockdevDetectZeroesOptions detect_zeroes;
+     bool backing_missing;
+     bool replace_backing_bs;  /* new_backing_bs is ignored if this is false */
+-    BlockDriverState *new_backing_bs; /* If NULL then detach the current bs */
+-    uint64_t perm, shared_perm;
++    BlockDriverState *old_backing_bs; /* keep pointer for permissions update */
+     QDict *options;
+     QDict *explicit_options;
+     void *opaque;
 diff --git a/block.c b/block.c
-index b58c8d3e10..fde4bb219d 100644
+index fde4bb219d..53a8af301a 100644
 --- a/block.c
 +++ b/block.c
-@@ -4239,6 +4239,14 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+@@ -95,8 +95,9 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
+ static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
+                                             Transaction *tran);
+ 
+-static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
+-                               *queue, Error **errp);
++static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
++                               BlockReopenQueue *queue,
++                               Transaction *set_backings_tran, Error **errp);
+ static void bdrv_reopen_commit(BDRVReopenState *reopen_state);
+ static void bdrv_reopen_abort(BDRVReopenState *reopen_state);
+ 
+@@ -2434,6 +2435,7 @@ static void bdrv_list_abort_perm_update(GSList *list)
+     }
+ }
+ 
++__attribute__((unused))
+ static void bdrv_abort_perm_update(BlockDriverState *bs)
+ {
+     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
+@@ -2529,6 +2531,7 @@ char *bdrv_perm_names(uint64_t perm)
+  *
+  * Needs to be followed by a call to either bdrv_set_perm() or
+  * bdrv_abort_perm_update(). */
++__attribute__((unused))
+ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+                                   uint64_t new_used_perm,
+                                   uint64_t new_shared_perm,
+@@ -4148,10 +4151,6 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+     bs_entry->state.explicit_options = explicit_options;
+     bs_entry->state.flags = flags;
+ 
+-    /* This needs to be overwritten in bdrv_reopen_prepare() */
+-    bs_entry->state.perm = UINT64_MAX;
+-    bs_entry->state.shared_perm = 0;
+-
+     /*
+      * If keep_old_opts is false then it means that unspecified
+      * options must be reset to their original value. We don't allow
+@@ -4236,6 +4235,9 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+ {
+     int ret = -1;
+     BlockReopenQueueEntry *bs_entry, *next;
++    Transaction *tran = tran_new();
++    g_autoptr(GHashTable) found = NULL;
++    g_autoptr(GSList) refresh_list = NULL;
  
      assert(bs_queue != NULL);
  
-+    QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
-+        ret = bdrv_flush(bs_entry->state.bs);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Error flushing drive");
-+            goto cleanup;
-+        }
-+    }
-+
+@@ -4249,33 +4251,33 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+ 
      QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
          assert(bs_entry->state.bs->quiesce_counter > 0);
-         if (bdrv_reopen_prepare(&bs_entry->state, bs_queue, errp)) {
-@@ -4634,12 +4642,6 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
-     bdrv_reopen_perm(queue, reopen_state->bs,
-                      &reopen_state->perm, &reopen_state->shared_perm);
+-        if (bdrv_reopen_prepare(&bs_entry->state, bs_queue, errp)) {
+-            goto cleanup;
++        ret = bdrv_reopen_prepare(&bs_entry->state, bs_queue, tran, errp);
++        if (ret < 0) {
++            goto abort;
+         }
+         bs_entry->prepared = true;
+     }
  
--    ret = bdrv_flush(reopen_state->bs);
--    if (ret) {
--        error_setg_errno(errp, -ret, "Error flushing drive");
--        goto error;
++    found = g_hash_table_new(NULL, NULL);
+     QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
+         BDRVReopenState *state = &bs_entry->state;
+-        ret = bdrv_check_perm(state->bs, bs_queue, state->perm,
+-                              state->shared_perm, errp);
+-        if (ret < 0) {
+-            goto cleanup_perm;
+-        }
+-        /* Check if new_backing_bs would accept the new permissions */
+-        if (state->replace_backing_bs && state->new_backing_bs) {
+-            uint64_t nperm, nshared;
+-            bdrv_child_perm(state->bs, state->new_backing_bs,
+-                            NULL, bdrv_backing_role(state->bs),
+-                            bs_queue, state->perm, state->shared_perm,
+-                            &nperm, &nshared);
+-            ret = bdrv_check_update_perm(state->new_backing_bs, NULL,
+-                                         nperm, nshared, errp);
+-            if (ret < 0) {
+-                goto cleanup_perm;
+-            }
++
++        refresh_list = bdrv_topological_dfs(refresh_list, found, state->bs);
++        if (state->old_backing_bs) {
++            refresh_list = bdrv_topological_dfs(refresh_list, found,
++                                                state->old_backing_bs);
+         }
+-        bs_entry->perms_checked = true;
++    }
++
++    /*
++     * Note that file-posix driver rely on permission update done during reopen
++     * (even if no permission changed), because it wants "new" permissions for
++     * reconfiguring the fd and that's why it does it in raw_check_perm(), not
++     * in raw_reopen_prepare() which is called with "old" permissions.
++     */
++    ret = bdrv_list_refresh_perms(refresh_list, bs_queue, tran, errp);
++    if (ret < 0) {
++        goto abort;
+     }
+ 
+     /*
+@@ -4291,51 +4293,31 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+         bdrv_reopen_commit(&bs_entry->state);
+     }
+ 
+-    ret = 0;
+-cleanup_perm:
+-    QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+-        BDRVReopenState *state = &bs_entry->state;
+-
+-        if (!bs_entry->perms_checked) {
+-            continue;
+-        }
+-
+-        if (ret == 0) {
+-            uint64_t perm, shared;
++    tran_commit(tran);
+ 
+-            bdrv_get_cumulative_perm(state->bs, &perm, &shared);
+-            assert(perm == state->perm);
+-            assert(shared == state->shared_perm);
++    QTAILQ_FOREACH_REVERSE(bs_entry, bs_queue, entry) {
++        BlockDriverState *bs = bs_entry->state.bs;
+ 
+-            bdrv_set_perm(state->bs);
+-        } else {
+-            bdrv_abort_perm_update(state->bs);
+-            if (state->replace_backing_bs && state->new_backing_bs) {
+-                bdrv_abort_perm_update(state->new_backing_bs);
+-            }
++        if (bs->drv->bdrv_reopen_commit_post) {
++            bs->drv->bdrv_reopen_commit_post(&bs_entry->state);
+         }
+     }
+ 
+-    if (ret == 0) {
+-        QTAILQ_FOREACH_REVERSE(bs_entry, bs_queue, entry) {
+-            BlockDriverState *bs = bs_entry->state.bs;
++    ret = 0;
++    goto cleanup;
+ 
+-            if (bs->drv->bdrv_reopen_commit_post)
+-                bs->drv->bdrv_reopen_commit_post(&bs_entry->state);
++abort:
++    tran_abort(tran);
++    QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
++        if (bs_entry->prepared) {
++            bdrv_reopen_abort(&bs_entry->state);
+         }
++        qobject_unref(bs_entry->state.explicit_options);
++        qobject_unref(bs_entry->state.options);
+     }
++
+ cleanup:
+     QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+-        if (ret) {
+-            if (bs_entry->prepared) {
+-                bdrv_reopen_abort(&bs_entry->state);
+-            }
+-            qobject_unref(bs_entry->state.explicit_options);
+-            qobject_unref(bs_entry->state.options);
+-        }
+-        if (bs_entry->state.new_backing_bs) {
+-            bdrv_unref(bs_entry->state.new_backing_bs);
+-        }
+         g_free(bs_entry);
+     }
+     g_free(bs_queue);
+@@ -4360,53 +4342,6 @@ int bdrv_reopen_set_read_only(BlockDriverState *bs, bool read_only,
+     return ret;
+ }
+ 
+-static BlockReopenQueueEntry *find_parent_in_reopen_queue(BlockReopenQueue *q,
+-                                                          BdrvChild *c)
+-{
+-    BlockReopenQueueEntry *entry;
+-
+-    QTAILQ_FOREACH(entry, q, entry) {
+-        BlockDriverState *bs = entry->state.bs;
+-        BdrvChild *child;
+-
+-        QLIST_FOREACH(child, &bs->children, next) {
+-            if (child == c) {
+-                return entry;
+-            }
+-        }
 -    }
+-
+-    return NULL;
+-}
+-
+-static void bdrv_reopen_perm(BlockReopenQueue *q, BlockDriverState *bs,
+-                             uint64_t *perm, uint64_t *shared)
+-{
+-    BdrvChild *c;
+-    BlockReopenQueueEntry *parent;
+-    uint64_t cumulative_perms = 0;
+-    uint64_t cumulative_shared_perms = BLK_PERM_ALL;
+-
+-    QLIST_FOREACH(c, &bs->parents, next_parent) {
+-        parent = find_parent_in_reopen_queue(q, c);
+-        if (!parent) {
+-            cumulative_perms |= c->perm;
+-            cumulative_shared_perms &= c->shared_perm;
+-        } else {
+-            uint64_t nperm, nshared;
+-
+-            bdrv_child_perm(parent->state.bs, bs, c, c->role, q,
+-                            parent->state.perm, parent->state.shared_perm,
+-                            &nperm, &nshared);
+-
+-            cumulative_perms |= nperm;
+-            cumulative_shared_perms &= nshared;
+-        }
+-    }
+-    *perm = cumulative_perms;
+-    *shared = cumulative_shared_perms;
+-}
+-
+ static bool bdrv_reopen_can_attach(BlockDriverState *parent,
+                                    BdrvChild *child,
+                                    BlockDriverState *new_child,
+@@ -4448,6 +4383,7 @@ static bool bdrv_reopen_can_attach(BlockDriverState *parent,
+  * Return 0 on success, otherwise return < 0 and set @errp.
+  */
+ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
++                                     Transaction *set_backings_tran,
+                                      Error **errp)
+ {
+     BlockDriverState *bs = reopen_state->bs;
+@@ -4524,6 +4460,8 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
+ 
+     /* If we want to replace the backing file we need some extra checks */
+     if (new_backing_bs != bdrv_filter_or_cow_bs(overlay_bs)) {
++        int ret;
++
+         /* Check for implicit nodes between bs and its backing file */
+         if (bs != overlay_bs) {
+             error_setg(errp, "Cannot change backing link if '%s' has "
+@@ -4544,9 +4482,11 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
+             return -EPERM;
+         }
+         reopen_state->replace_backing_bs = true;
+-        if (new_backing_bs) {
+-            bdrv_ref(new_backing_bs);
+-            reopen_state->new_backing_bs = new_backing_bs;
++        reopen_state->old_backing_bs = bs->backing ? bs->backing->bs : NULL;
++        ret = bdrv_set_backing_noperm(bs, new_backing_bs, set_backings_tran,
++                                      errp);
++        if (ret < 0) {
++            return ret;
+         }
+     }
+ 
+@@ -4571,7 +4511,8 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
+  *
+  */
+ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
+-                               BlockReopenQueue *queue, Error **errp)
++                               BlockReopenQueue *queue,
++                               Transaction *set_backings_tran, Error **errp)
+ {
+     int ret = -1;
+     int old_flags;
+@@ -4638,10 +4579,6 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
+         goto error;
+     }
+ 
+-    /* Calculate required permissions after reopening */
+-    bdrv_reopen_perm(queue, reopen_state->bs,
+-                     &reopen_state->perm, &reopen_state->shared_perm);
 -
      if (drv->bdrv_reopen_prepare) {
          /*
           * If a driver-specific option is missing, it means that we
+@@ -4695,7 +4632,7 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
+      * either a reference to an existing node (using its node name)
+      * or NULL to simply detach the current backing file.
+      */
+-    ret = bdrv_reopen_parse_backing(reopen_state, errp);
++    ret = bdrv_reopen_parse_backing(reopen_state, set_backings_tran, errp);
+     if (ret < 0) {
+         goto error;
+     }
+@@ -4817,22 +4754,6 @@ static void bdrv_reopen_commit(BDRVReopenState *reopen_state)
+         qdict_del(bs->explicit_options, child->name);
+         qdict_del(bs->options, child->name);
+     }
+-
+-    /*
+-     * Change the backing file if a new one was specified. We do this
+-     * after updating bs->options, so bdrv_refresh_filename() (called
+-     * from bdrv_set_backing_hd()) has the new values.
+-     */
+-    if (reopen_state->replace_backing_bs) {
+-        BlockDriverState *old_backing_bs = child_bs(bs->backing);
+-        assert(!old_backing_bs || !old_backing_bs->implicit);
+-        /* Abort the permission update on the backing bs we're detaching */
+-        if (old_backing_bs) {
+-            bdrv_abort_perm_update(old_backing_bs);
+-        }
+-        bdrv_set_backing_hd(bs, reopen_state->new_backing_bs, &error_abort);
+-    }
+-
+     bdrv_refresh_limits(bs, NULL, NULL);
+ }
+ 
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 05079b40ca..7b7e63cfa9 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -175,7 +175,6 @@ typedef struct BDRVRawState {
+ } BDRVRawState;
+ 
+ typedef struct BDRVRawReopenState {
+-    int fd;
+     int open_flags;
+     bool drop_cache;
+     bool check_cache_dropped;
+@@ -1080,7 +1079,6 @@ static int raw_reopen_prepare(BDRVReopenState *state,
+     BDRVRawReopenState *rs;
+     QemuOpts *opts;
+     int ret;
+-    Error *local_err = NULL;
+ 
+     assert(state != NULL);
+     assert(state->bs != NULL);
+@@ -1106,32 +1104,18 @@ static int raw_reopen_prepare(BDRVReopenState *state,
+      * bdrv_reopen_prepare() will detect changes and complain. */
+     qemu_opts_to_qdict(opts, state->options);
+ 
+-    rs->fd = raw_reconfigure_getfd(state->bs, state->flags, &rs->open_flags,
+-                                   state->perm, true, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        ret = -1;
+-        goto out;
+-    }
+-
+-    /* Fail already reopen_prepare() if we can't get a working O_DIRECT
+-     * alignment with the new fd. */
+-    if (rs->fd != -1) {
+-        raw_probe_alignment(state->bs, rs->fd, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            ret = -EINVAL;
+-            goto out_fd;
+-        }
+-    }
++    /*
++     * As part of reopen prepare we also want to create new fd by
++     * raw_reconfigure_getfd(). But it wants updated "perm", when in
++     * bdrv_reopen_multiple() .bdrv_reopen_prepare() callback called prior to
++     * permission update. Happily, permission update is always a part (a seprate
++     * stage) of bdrv_reopen_multiple() so we can rely on this fact and
++     * reconfigure fd in raw_check_perm().
++     */
+ 
+     s->reopen_state = state;
+     ret = 0;
+-out_fd:
+-    if (ret < 0) {
+-        qemu_close(rs->fd);
+-        rs->fd = -1;
+-    }
++
+ out:
+     qemu_opts_del(opts);
+     return ret;
+@@ -1145,10 +1129,6 @@ static void raw_reopen_commit(BDRVReopenState *state)
+     s->drop_cache = rs->drop_cache;
+     s->check_cache_dropped = rs->check_cache_dropped;
+     s->open_flags = rs->open_flags;
+-
+-    qemu_close(s->fd);
+-    s->fd = rs->fd;
+-
+     g_free(state->opaque);
+     state->opaque = NULL;
+ 
+@@ -1167,10 +1147,6 @@ static void raw_reopen_abort(BDRVReopenState *state)
+         return;
+     }
+ 
+-    if (rs->fd >= 0) {
+-        qemu_close(rs->fd);
+-        rs->fd = -1;
+-    }
+     g_free(state->opaque);
+     state->opaque = NULL;
+ 
+@@ -3078,39 +3054,30 @@ static int raw_check_perm(BlockDriverState *bs, uint64_t perm, uint64_t shared,
+                           Error **errp)
+ {
+     BDRVRawState *s = bs->opaque;
+-    BDRVRawReopenState *rs = NULL;
++    int input_flags = s->reopen_state ? s->reopen_state->flags : bs->open_flags;
+     int open_flags;
+     int ret;
+ 
+-    if (s->perm_change_fd) {
++    /* We may need a new fd if auto-read-only switches the mode */
++    ret = raw_reconfigure_getfd(bs, input_flags, &open_flags, perm,
++                                false, errp);
++    if (ret < 0) {
++        return ret;
++    } else if (ret != s->fd) {
++        Error *local_err = NULL;
++
+         /*
+-         * In the context of reopen, this function may be called several times
+-         * (directly and recursively while change permissions of the parent).
+-         * This is even true for children that don't inherit from the original
+-         * reopen node, so s->reopen_state is not set.
+-         *
+-         * Ignore all but the first call.
++         * Fail already check_perm() if we can't get a working O_DIRECT
++         * alignment with the new fd.
+          */
+-        return 0;
+-    }
+-
+-    if (s->reopen_state) {
+-        /* We already have a new file descriptor to set permissions for */
+-        assert(s->reopen_state->perm == perm);
+-        assert(s->reopen_state->shared_perm == shared);
+-        rs = s->reopen_state->opaque;
+-        s->perm_change_fd = rs->fd;
+-        s->perm_change_flags = rs->open_flags;
+-    } else {
+-        /* We may need a new fd if auto-read-only switches the mode */
+-        ret = raw_reconfigure_getfd(bs, bs->open_flags, &open_flags, perm,
+-                                    false, errp);
+-        if (ret < 0) {
+-            return ret;
+-        } else if (ret != s->fd) {
+-            s->perm_change_fd = ret;
+-            s->perm_change_flags = open_flags;
++        raw_probe_alignment(bs, ret, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return -EINVAL;
+         }
++
++        s->perm_change_fd = ret;
++        s->perm_change_flags = open_flags;
+     }
+ 
+     /* Prepare permissions on old fd to avoid conflicts between old and new,
+@@ -3132,7 +3099,7 @@ static int raw_check_perm(BlockDriverState *bs, uint64_t perm, uint64_t shared,
+     return 0;
+ 
+ fail:
+-    if (s->perm_change_fd && !s->reopen_state) {
++    if (s->perm_change_fd) {
+         qemu_close(s->perm_change_fd);
+     }
+     s->perm_change_fd = 0;
+@@ -3163,7 +3130,7 @@ static void raw_abort_perm_update(BlockDriverState *bs)
+ 
+     /* For reopen, .bdrv_reopen_abort is called afterwards and will close
+      * the file descriptor. */
+-    if (s->perm_change_fd && !s->reopen_state) {
++    if (s->perm_change_fd) {
+         qemu_close(s->perm_change_fd);
+     }
+     s->perm_change_fd = 0;
 -- 
 2.29.2
 
