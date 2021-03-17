@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413F033FA45
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 22:05:04 +0100 (CET)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9CA33FA47
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 22:08:25 +0100 (CET)
+Received: from localhost ([::1]:52914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMdLj-0001Rk-9L
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 17:05:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47018)
+	id 1lMdOy-0002dy-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 17:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMdJ7-0007ej-9J
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:02:21 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:41862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMdJ5-0007tm-H9
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:02:21 -0400
-Received: by mail-ed1-x534.google.com with SMTP id z1so4004897edb.8
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B7sACMuipmEGFyJbqN1C3YIplK9r5oIqaezwBhuHvfE=;
- b=N4ayVTV4DJlUodjxiA0GFheeDJq5Im+Q/ocOdwbMURafyW/Gk7Oz+HD97jkISgVDHe
- +oCIhrFa4vU/fK9kio1vb9IijfpeCDDKh2gUO+RnZ9sQi/YYya7kHxUi8P0UgwHU9thR
- VRmNDX/0SnaAjCKp21P52Ute5BJBn4HW2+GYRYByhzYVIzGUVDQclKKhgQexOyZRKTVl
- x5lnVvOgZVNDK7/9GOvub/9FpJrc/H//viN2yvciU8obtpF0sKLLZ2+zT81LGjF3SRFJ
- ytjBX4wGZKh12qg42wMcI1RW5JqtwiUYFtNirMphzyUHg8D0/mfvjN+W82SI0dz0eVzP
- BGRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B7sACMuipmEGFyJbqN1C3YIplK9r5oIqaezwBhuHvfE=;
- b=lfYwDjyRdkLh3kSeGt6/PrPlST02WOvX6ya10W5Oe8WZDrgaZ24Mq7N++bIolgd7nr
- cQiEWwTBoen1Qdj6YXD8M+XChjKHtJ7Hwc+S3wA2kHubECduJhiQaAciICc3DsfVWg4M
- TKyZ4BhwZukylAiSQGA1liYM3RdChPjBuIRQi2DX1EKdb3mhM2miKH38CqZ4bLj+ZFAq
- fW1s0cUrVvPMuePLToSc6WWSlIbplXSBoiTkESuAwY3v46pgI+y5bZBCvKYBGPX4rLl+
- PAhDX7EP9wcLo8rwNmlyQee1n681oScT6EQYb7M5hKaW/uPAIHgt19zNk1ww+Pd9mHR0
- vfAw==
-X-Gm-Message-State: AOAM530sYNoVLJQHYgfpRAeJoJdiTvgcLiqQ2hevjspRy323vmOrzxCD
- Pgzruyyb5aBSy5/ngEiKxCJ4U75KusKoyRoLvZXyZw==
-X-Google-Smtp-Source: ABdhPJy37GjHPfZKxxnnnAXGdMQuK+BoYjK60h1h7E1TKCralo43s84Xa+/verL+yJHWnxfIrZiGFGErKouOq6Ng7Vc=
-X-Received: by 2002:aa7:c3cd:: with SMTP id l13mr43893101edr.52.1616014938120; 
- Wed, 17 Mar 2021 14:02:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lMdNL-000249-Dm
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:06:43 -0400
+Received: from mout.web.de ([212.227.15.4]:57565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lMdNJ-0001Lw-MF
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:06:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1616015196;
+ bh=hnwS5Nq7h0qTYWCE9z+zKHlnLuGEf5eSv3fhhh25hyY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=Nsh9UElc7xdmij+B1yoLMoAoGH5Dc4/IaoklXkjsNhScn9ZjmoytzAj4jO5pRvpaL
+ 7z5E2Tn9klEGCn6FZV9Hc7NbtjPFKPzeutGnVhS8l9fxuYFSboWHc20IhFvOYznenO
+ PodE1yZFPghVkOhXQyd8gJ0Fx8JxjQablTKoGUHY=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([87.123.206.38]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M9Zdw-1lJLa423bY-005gnX; Wed, 17
+ Mar 2021 22:06:36 +0100
+Date: Wed, 17 Mar 2021 22:06:19 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Li Zhang <zhlcindy@gmail.com>
+Subject: Re: [PATCH 1/2] Fix the segment fault when calling
+ yank_register_instance
+Message-ID: <20210317220559.2fd3b297@gecko.fritz.box>
+In-Reply-To: <20210315170636.704201-1-zhlcindy@gmail.com>
+References: <20210315170636.704201-1-zhlcindy@gmail.com>
 MIME-Version: 1.0
-References: <20210316192347.3918857-1-armbru@redhat.com>
-In-Reply-To: <20210316192347.3918857-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Mar 2021 21:01:54 +0000
-Message-ID: <CAFEAcA8_Xu8EJs4m0YGJU9iG7ewkicTV1_N6cJFrBmaUgzsbzQ@mail.gmail.com>
-Subject: Re: [PULL v2 0/6] QOM and fdc patches patches for 2021-03-16
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/=864fwlIo1b=4IhUWDjjsXs";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:rBShx5JSdFbZ4j3P1rnQ08396F0zq9jHaefjpfW8MHGzsgsLqvD
+ tRZarADV4Sxrmym9auPycbCe3kTXi0E5TvAVqM3Y/tXHWRMkTnbTN1ckSl9+FYhTbi50pkZ
+ iRx2z1Cuxw0LTAdhZUtB4vQ913K7uqkIz0GZE34BeOIwuyaN+eYnTxQFLvO0IXbDz82KaUA
+ mKb9jcwu0pyX3qHTmlVdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QYoTeBd0M1U=:QCGmN0c0Kfl6t6i8kO1ezv
+ QmayeZLINNJGTZNtTnmLhp4/zYUWmGePYJvMvJRWKBL5gXFAiOd1rf5nDYW/hpLoJzd0bEig4
+ R4vDHixZczoyoFGRFEVmjJrzhq2/8YJxJrU7zsYiu3Lw35OPzXD7vz7vv87Ua5AQPgcUmkAq/
+ XOLrrKYlXsp7NHYzDYkfUHkz9eMjSxwrESY6JzaFCa7sahSfP8+9BEr/EjzmP/KPLDXM2bzjL
+ wfkU52pz98Z9zJsDE0gtBeIM62lB0bkBYi7RUAVkcB0/Kxr1t5Mvlihl98jTkHAo/RvmwfrRU
+ nHJIuuBY0TirnqUZ3N7N2nF3eU4b9yFvPq3i6vo3VW0xl0uJIak4tetwg3ZV7ex5dRocyxMqd
+ mnzQClQUvN61o5nUZgDmsKsw8NC6gpntjTrvx9/P3K28XDf97BWxpOQEvGWmxf+5zqFyaW7a8
+ ZStiB6lidFJQLycP3BN3tU+WMX3uv74lNiCXBiawD9XpJhpUWxuSGWaZA531Wv6Ngm32tr15k
+ h974bChv0e4XSfcZz4Q2LTGRRpfnDdO0Jq+5wDqf2f0g9a01p20nNfkSLwCVn4Yk3O0oh8P8k
+ XpbW8YOD1HqdMDgG9DId7qT8nGfTEr2iGZBTgHEWs0Rv20GoGU/AfT9pCVlhektrRKI1jqUiV
+ o2woL5cbjZehkXYZVXyTaFdxt9y8kzkZfNwEUGYfA+I5mcvoT9kgUXmzZd2iwpRoJY1YV4qrp
+ ZadpoqV4W3Y0YeHI44W5Jw+xUyXA7NaweosmP7YZYii3bSgC/Vs8pO8i1K3QLgOwLM4w6dtY2
+ ztJ0hVXgqaXaQ9YbjbQPaI0BVvPNPHUclPA5FSvwQZvW96y2CkqUgvJVnZ9d0LqhANEejxlvZ
+ 2U35e3JGxMom4I410eoQ==
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,32 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: alexandr.iarygin@profitbricks.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ Li Zhang <li.zhang@cloud.ionos.com>, pankaj.gupta@cloud.ionos.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Mar 2021 at 19:23, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 6e31b3a5c34c6e5be7ef60773e607f189eaa15f3:
->
->   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-03-16 10:53:47 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qom-fdc-2021-03-16
->
-> for you to fetch changes up to 901c36b68c327c5a4e4b3701cd991dd927ac07ae:
->
->   memory: Drop "qemu:" prefix from QOM memory region type names (2021-03-16 15:52:26 +0100)
->
-> ----------------------------------------------------------------
-> QOM and fdc patches patches for 2021-03-16
->
+--Sig_/=864fwlIo1b=4IhUWDjjsXs
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-CONFLICT (content): Merge conflict in docs/system/removed-features.rst
+On Mon, 15 Mar 2021 18:06:35 +0100
+Li Zhang <zhlcindy@gmail.com> wrote:
 
-Please fix up and resend.
+> From: Li Zhang <li.zhang@cloud.ionos.com>
+>=20
+> When executing the QMP commands "chardev-change" to change the
+> backend device to socket, it will cause a segment fault because
+> it assumes chr->label as non-NULL in function yank_register_instance.
+> The function qmp_chardev_change calls chardev_new, which label
+> is NULL when creating a new chardev. The label will be passed to
+> yank_register_instance which causes a segment fault. The callchain
+> is as the following:
+>         chardev_new ->
+>             qemu_char_open ->
+>                 cc->open ->
+>                 qmp_chardev_open_socket ->
+>                     yank_register_instance
 
-thanks
--- PMM
+Oh, I didn't consider the chardev-change case. I'll look into it.
+
+Regards,
+Lukas Straub
+
+--=20
+
+
+--Sig_/=864fwlIo1b=4IhUWDjjsXs
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBSb0sACgkQNasLKJxd
+sli7Gw//QbziAntZAoYRVb7k3TnOhfkgcfZwe7uVEKLBcbZtR7P1Nc2Ghiusdd0s
+t8o7TuHfj7VkVLA4rrGCSR/G2j7nQB3vJmTkzx/1N5mMy26/77ItC9ghEWiRBhZa
+dMNMFP7LoTb46S+M0Nip3oYETkLQOt+6MtvrkqdAa2WmCUHDIsHm0JE/03FxCy24
+yazyPLxw2qwIAjE04UNnz+0tKaCL+CJzCe2tGKA5KuglkERq06YjtQXvBTv0rPZQ
+elR6HQ6cTpuxxSAFbUc7ZrFUA9IfCzzeVWflnp1YIn80sm9mngcNVaPcICL72ndt
+mGhikb3wTk00av9a+RiwXzvxhK9/ywd+9zK7cJ1veGehk/nsLrTU3bYYSs6EL3es
+UAIcbDVIFE48RULS8k3RkXwJEPVaDc7tf3y1rCVctSMBnjYmzJhBe9EqZEcsz5bc
+6AriXzsYQFfcdfda1tjpOtPxhKbHjMPV7Etf+IwkpWNyHQaPw1gO1jSE8DSV4jfB
+T/waFDhhPl9wL0Rb9BMGom+PtVZ/++ubQXR7/RBEkpcaZLCZHlis7CoaII64kE01
+ULJlvuk8PlOhjofHOeb6c+ecrV4a8tGpjOiXMcL26gP1lZNOy/pdaw4c08j8XFcZ
+5rInkV8+GKMBR8+dagC8dbbfkowAAy6DYR8ECo9+Frdg5JhBFWA=
+=BEDS
+-----END PGP SIGNATURE-----
+
+--Sig_/=864fwlIo1b=4IhUWDjjsXs--
 
