@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EA433F8AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:02:13 +0100 (CET)
-Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CD233F8B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:05:32 +0100 (CET)
+Received: from localhost ([::1]:54704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbQp-0002qZ-N0
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
+	id 1lMbU3-0006WA-Nw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMawe-00046C-3M
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48332)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMawi-0004Eh-GT
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMawS-0007hH-3O
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:30:59 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMawc-0007nm-6H
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:04 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F1EBAAD74;
- Wed, 17 Mar 2021 18:30:23 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 9A634AEA3;
+ Wed, 17 Mar 2021 18:30:27 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v9 17/50] target/arm: move arm_mmu_idx* to cpu-mmu
-Date: Wed, 17 Mar 2021 19:29:40 +0100
-Message-Id: <20210317183013.25772-18-cfontana@suse.de>
+Subject: [RFC v9 25/50] target/arm: cpu: fix style
+Date: Wed, 17 Mar 2021 19:29:48 +0100
+Message-Id: <20210317183013.25772-26-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210317183013.25772-1-cfontana@suse.de>
 References: <20210317183013.25772-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -54,227 +55,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/cpu-mmu.c    | 95 +++++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/helper.c | 95 -----------------------------------------
- 2 files changed, 95 insertions(+), 95 deletions(-)
+ target/arm/cpu-sysemu.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/cpu-mmu.c b/target/arm/cpu-mmu.c
-index f463f8458e..c6ac90a61e 100644
---- a/target/arm/cpu-mmu.c
-+++ b/target/arm/cpu-mmu.c
-@@ -122,3 +122,98 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         .using64k = using64k,
-     };
- }
-+
-+/* Return the exception level we're running at if this is our mmu_idx */
-+int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
-+{
-+    if (mmu_idx & ARM_MMU_IDX_M) {
-+        return mmu_idx & ARM_MMU_IDX_M_PRIV;
-+    }
-+
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_SE10_0:
-+    case ARMMMUIdx_SE20_0:
-+        return 0;
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_E10_1_PAN:
-+    case ARMMMUIdx_SE10_1:
-+    case ARMMMUIdx_SE10_1_PAN:
-+        return 1;
-+    case ARMMMUIdx_E2:
-+    case ARMMMUIdx_E20_2:
-+    case ARMMMUIdx_E20_2_PAN:
-+    case ARMMMUIdx_SE2:
-+    case ARMMMUIdx_SE20_2:
-+    case ARMMMUIdx_SE20_2_PAN:
-+        return 2;
-+    case ARMMMUIdx_SE3:
-+        return 3;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+#ifndef CONFIG_TCG
-+ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
-+{
-+    g_assert_not_reached();
-+}
-+#endif
-+
-+ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
-+{
-+    ARMMMUIdx idx;
-+    uint64_t hcr;
-+
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
-+    }
-+
-+    /* See ARM pseudo-function ELIsInHost.  */
-+    switch (el) {
-+    case 0:
-+        hcr = arm_hcr_el2_eff(env);
-+        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+            idx = ARMMMUIdx_E20_0;
+diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
+index 126263dbf4..eb928832a9 100644
+--- a/target/arm/cpu-sysemu.c
++++ b/target/arm/cpu-sysemu.c
+@@ -372,7 +372,8 @@ int sve_exception_el(CPUARMState *env, int el)
+     if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+         bool disabled = false;
+ 
+-        /* The CPACR.ZEN controls traps to EL1:
++        /*
++         * The CPACR.ZEN controls traps to EL1:
+          * 0, 2 : trap EL0 and EL1 accesses
+          * 1    : trap only EL0 accesses
+          * 3    : trap no accesses
+@@ -398,7 +399,8 @@ int sve_exception_el(CPUARMState *env, int el)
+         }
+     }
+ 
+-    /* CPTR_EL2.  Since TZ and TFP are positive,
++    /*
++     * CPTR_EL2.  Since TZ and TFP are positive,
+      * they will be zero when EL2 is not present.
+      */
+     if (el <= 2 && arm_is_el2_enabled(env)) {
+@@ -625,10 +627,11 @@ static void arm_cpu_do_interrupt_aarch32(CPUState *cs)
+         new_mode = ARM_CPU_MODE_UND;
+         addr = 0x04;
+         mask = CPSR_I;
+-        if (env->thumb)
++        if (env->thumb) {
+             offset = 2;
+-        else
 +        } else {
-+            idx = ARMMMUIdx_E10_0;
+             offset = 4;
 +        }
-+        break;
-+    case 1:
-+        if (env->pstate & PSTATE_PAN) {
-+            idx = ARMMMUIdx_E10_1_PAN;
-+        } else {
-+            idx = ARMMMUIdx_E10_1;
-+        }
-+        break;
-+    case 2:
-+        /* Note that TGE does not apply at EL2.  */
-+        if (arm_hcr_el2_eff(env) & HCR_E2H) {
-+            if (env->pstate & PSTATE_PAN) {
-+                idx = ARMMMUIdx_E20_2_PAN;
-+            } else {
-+                idx = ARMMMUIdx_E20_2;
-+            }
-+        } else {
-+            idx = ARMMMUIdx_E2;
-+        }
-+        break;
-+    case 3:
-+        return ARMMMUIdx_SE3;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (arm_is_secure_below_el3(env)) {
-+        idx &= ~ARM_MMU_IDX_A_NS;
-+    }
-+
-+    return idx;
-+}
-+
-+ARMMMUIdx arm_mmu_idx(CPUARMState *env)
-+{
-+    return arm_mmu_idx_el(env, arm_current_el(env));
-+}
-diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index f35d2969b0..beaf252ca5 100644
---- a/target/arm/tcg/helper.c
-+++ b/target/arm/tcg/helper.c
-@@ -2161,101 +2161,6 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-     return 0;
+         break;
+     case EXCP_SWI:
+         new_mode = ARM_CPU_MODE_SVC;
+@@ -714,7 +717,8 @@ static void arm_cpu_do_interrupt_aarch32(CPUState *cs)
+         /* High vectors. When enabled, base address cannot be remapped. */
+         addr += 0xffff0000;
+     } else {
+-        /* ARM v7 architectures provide a vector base address register to remap
++        /*
++         * ARM v7 architectures provide a vector base address register to remap
+          * the interrupt vector table.
+          * This register is only followed in non-monitor mode, and is banked.
+          * Note: only bits 31:5 are valid.
+@@ -1013,7 +1017,8 @@ void arm_log_exception(int idx)
+     }
  }
  
--/* Return the exception level we're running at if this is our mmu_idx */
--int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
--{
--    if (mmu_idx & ARM_MMU_IDX_M) {
--        return mmu_idx & ARM_MMU_IDX_M_PRIV;
--    }
--
--    switch (mmu_idx) {
--    case ARMMMUIdx_E10_0:
--    case ARMMMUIdx_E20_0:
--    case ARMMMUIdx_SE10_0:
--    case ARMMMUIdx_SE20_0:
--        return 0;
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--    case ARMMMUIdx_SE10_1:
--    case ARMMMUIdx_SE10_1_PAN:
--        return 1;
--    case ARMMMUIdx_E2:
--    case ARMMMUIdx_E20_2:
--    case ARMMMUIdx_E20_2_PAN:
--    case ARMMMUIdx_SE2:
--    case ARMMMUIdx_SE20_2:
--    case ARMMMUIdx_SE20_2_PAN:
--        return 2;
--    case ARMMMUIdx_SE3:
--        return 3;
--    default:
--        g_assert_not_reached();
--    }
--}
--
--#ifndef CONFIG_TCG
--ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
--{
--    g_assert_not_reached();
--}
--#endif
--
--ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
--{
--    ARMMMUIdx idx;
--    uint64_t hcr;
--
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
--    }
--
--    /* See ARM pseudo-function ELIsInHost.  */
--    switch (el) {
--    case 0:
--        hcr = arm_hcr_el2_eff(env);
--        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
--            idx = ARMMMUIdx_E20_0;
--        } else {
--            idx = ARMMMUIdx_E10_0;
--        }
--        break;
--    case 1:
--        if (env->pstate & PSTATE_PAN) {
--            idx = ARMMMUIdx_E10_1_PAN;
--        } else {
--            idx = ARMMMUIdx_E10_1;
--        }
--        break;
--    case 2:
--        /* Note that TGE does not apply at EL2.  */
--        if (arm_hcr_el2_eff(env) & HCR_E2H) {
--            if (env->pstate & PSTATE_PAN) {
--                idx = ARMMMUIdx_E20_2_PAN;
--            } else {
--                idx = ARMMMUIdx_E20_2;
--            }
--        } else {
--            idx = ARMMMUIdx_E2;
--        }
--        break;
--    case 3:
--        return ARMMMUIdx_SE3;
--    default:
--        g_assert_not_reached();
--    }
--
--    if (arm_is_secure_below_el3(env)) {
--        idx &= ~ARM_MMU_IDX_A_NS;
--    }
--
--    return idx;
--}
--
--ARMMMUIdx arm_mmu_idx(CPUARMState *env)
--{
--    return arm_mmu_idx_el(env, arm_current_el(env));
--}
--
- #ifndef CONFIG_USER_ONLY
- ARMMMUIdx arm_stage1_mmu_idx(CPUARMState *env)
- {
+-/* Handle a CPU exception for A and R profile CPUs.
++/*
++ * Handle a CPU exception for A and R profile CPUs.
+  * Do any appropriate logging, handle PSCI calls, and then hand off
+  * to the AArch64-entry or AArch32-entry function depending on the
+  * target exception level's register width.
 -- 
 2.26.2
 
