@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2375D33E63F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:36:53 +0100 (CET)
-Received: from localhost ([::1]:48886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FFB33E643
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:38:38 +0100 (CET)
+Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lML7E-0006tW-7K
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
+	id 1lML8v-0000KK-Oe
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMKyf-0008Q1-P6; Tue, 16 Mar 2021 21:28:03 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:59608)
+ id 1lMKyj-0008SE-U8; Tue, 16 Mar 2021 21:28:07 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:59596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMKyc-0000VB-TP; Tue, 16 Mar 2021 21:28:01 -0400
+ id 1lMKyY-0000T7-G1; Tue, 16 Mar 2021 21:28:05 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3E2BC746429;
+ by localhost (Postfix) with SMTP id 0B95A746420;
  Wed, 17 Mar 2021 02:27:52 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9695A7463C7; Wed, 17 Mar 2021 02:27:51 +0100 (CET)
-Message-Id: <b1639705f196d229647a8fc36e5d1a92f6c58b76.1615943871.git.balaton@eik.bme.hu>
+ id 7E7357463A6; Wed, 17 Mar 2021 02:27:51 +0100 (CET)
+Message-Id: <9c673dfc451cb6a7fd5a55bed00b201a445c7480.1615943871.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1615943871.git.balaton@eik.bme.hu>
 References: <cover.1615943871.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v10 7/7] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
+Subject: [PATCH v10 1/7] vt82c686: QOM-ify superio related functionality
 Date: Wed, 17 Mar 2021 02:17:51 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,13 +34,13 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,241 +59,302 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
-a PowerPC board based on the Marvell MV64361 system controller and the
-VIA VT8231 integrated south bridge/superio chips. It can run Linux,
-AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
-image is needed to boot and only MorphOS has a video driver to produce
-graphics output. Linux could work too but distros that supported this
-machine don't include usual video drivers so those only run with
-serial console for now.
+Collect superio functionality and its controlling config registers
+handling in an abstract VIA_SUPERIO class that is a subclass of
+ISA_SUPERIO and put vt82c686b specific parts in a subclass of this
+abstract class.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- MAINTAINERS                             |  10 ++
- default-configs/devices/ppc-softmmu.mak |   2 +
- hw/ppc/Kconfig                          |   9 ++
- hw/ppc/meson.build                      |   2 +
- hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++++
- 5 files changed, 167 insertions(+)
- create mode 100644 hw/ppc/pegasos2.c
+ hw/isa/vt82c686.c         | 196 +++++++++++++++++++++++++-------------
+ include/hw/isa/vt82c686.h |   1 -
+ 2 files changed, 132 insertions(+), 65 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b6ab3d25a7..1c3c55ef09 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1353,6 +1353,16 @@ F: pc-bios/canyonlands.dt[sb]
- F: pc-bios/u-boot-sam460ex-20100605.bin
- F: roms/u-boot-sam460ex
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 05d084f698..6fb81c4ac6 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -249,15 +249,80 @@ static const TypeInfo vt8231_pm_info = {
+ };
  
-+pegasos2
-+M: BALATON Zoltan <balaton@eik.bme.hu>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+L: qemu-ppc@nongnu.org
-+S: Maintained
-+F: hw/ppc/pegasos2.c
-+F: hw/pci-host/mv64361.c
-+F: hw/pci-host/mv643xx.h
-+F: include/hw/pci-host/mv64361.h
-+
- RISC-V Machines
- ---------------
- OpenTitan
-diff --git a/default-configs/devices/ppc-softmmu.mak b/default-configs/devices/ppc-softmmu.mak
-index 61b78b844d..4535993d8d 100644
---- a/default-configs/devices/ppc-softmmu.mak
-+++ b/default-configs/devices/ppc-softmmu.mak
-@@ -14,5 +14,7 @@ CONFIG_SAM460EX=y
- CONFIG_MAC_OLDWORLD=y
- CONFIG_MAC_NEWWORLD=y
  
-+CONFIG_PEGASOS2=y
+-typedef struct SuperIOConfig {
++#define TYPE_VIA_SUPERIO "via-superio"
++OBJECT_DECLARE_SIMPLE_TYPE(ViaSuperIOState, VIA_SUPERIO)
 +
- # For PReP
- CONFIG_PREP=y
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index d11dc30509..e51e0e5e5a 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -68,6 +68,15 @@ config SAM460EX
-     select USB_OHCI
-     select FDT_PPC
- 
-+config PEGASOS2
-+    bool
-+    select MV64361
-+    select VT82C686
-+    select IDE_VIA
-+    select SMBUS_EEPROM
-+# This should come with VT82C686
-+    select ACPI_X86
++struct ViaSuperIOState {
++    ISASuperIODevice superio;
+     uint8_t regs[0x100];
++    const MemoryRegionOps *io_ops;
+     MemoryRegion io;
+-} SuperIOConfig;
++};
 +
- config PREP
-     bool
-     imply PCI_DEVICES
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index 218631c883..86d6f379d1 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -78,5 +78,7 @@ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
- ))
- # PowerPC 440 Xilinx ML507 reference board.
- ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
-+# Pegasos2
-+ppc_ss.add(when: 'CONFIG_PEGASOS2', if_true: files('pegasos2.c'))
- 
- hw_arch += {'ppc': ppc_ss}
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-new file mode 100644
-index 0000000000..0bfd0928aa
---- /dev/null
-+++ b/hw/ppc/pegasos2.c
-@@ -0,0 +1,144 @@
-+/*
-+ * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
-+ *
-+ * Copyright (c) 2018-2020 BALATON Zoltan
-+ *
-+ * This work is licensed under the GNU GPL license version 2 or later.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+#include "hw/hw.h"
-+#include "hw/ppc/ppc.h"
-+#include "hw/sysbus.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/irq.h"
-+#include "hw/pci-host/mv64361.h"
-+#include "hw/isa/vt82c686.h"
-+#include "hw/ide/pci.h"
-+#include "hw/i2c/smbus_eeprom.h"
-+#include "hw/qdev-properties.h"
-+#include "sysemu/reset.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "hw/fw-path-provider.h"
-+#include "elf.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/kvm.h"
-+#include "kvm_ppc.h"
-+#include "exec/address-spaces.h"
-+#include "trace.h"
-+#include "qemu/datadir.h"
-+#include "sysemu/device_tree.h"
-+
-+#define PROM_FILENAME "pegasos2.rom"
-+#define PROM_ADDR     0xfff00000
-+#define PROM_SIZE     0x80000
-+
-+#define BUS_FREQ_HZ 133333333
-+
-+static void pegasos2_cpu_reset(void *opaque)
++static inline void via_superio_io_enable(ViaSuperIOState *s, bool enable)
 +{
-+    PowerPCCPU *cpu = opaque;
-+
-+    cpu_reset(CPU(cpu));
-+    cpu->env.spr[SPR_HID1] = 7ULL << 28;
++    memory_region_set_enabled(&s->io, enable);
 +}
 +
-+static void pegasos2_init(MachineState *machine)
++static void via_superio_realize(DeviceState *d, Error **errp)
 +{
-+    PowerPCCPU *cpu = NULL;
-+    MemoryRegion *rom = g_new(MemoryRegion, 1);
-+    DeviceState *mv;
-+    PCIBus *pci_bus;
-+    PCIDevice *dev;
-+    I2CBus *i2c_bus;
-+    const char *fwname = machine->firmware ?: PROM_FILENAME;
-+    char *filename;
-+    int sz;
-+    uint8_t *spd_data;
++    ViaSuperIOState *s = VIA_SUPERIO(d);
++    ISASuperIOClass *ic = ISA_SUPERIO_GET_CLASS(s);
++    Error *local_err = NULL;
 +
-+    /* init CPU */
-+    cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
-+    if (PPC_INPUT(&cpu->env) != PPC_FLAGS_INPUT_6xx) {
-+        error_report("Incompatible CPU, only 6xx bus supported");
-+        exit(1);
++    assert(s->io_ops);
++    ic->parent_realize(d, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
 +    }
-+
-+    /* Set time-base frequency */
-+    cpu_ppc_tb_init(&cpu->env, BUS_FREQ_HZ / 4);
-+    qemu_register_reset(pegasos2_cpu_reset, cpu);
-+
-+    /* RAM */
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-+
-+    /* allocate and load firmware */
-+    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, fwname);
-+    if (!filename) {
-+        error_report("Could not find firmware '%s'", fwname);
-+        exit(1);
-+    }
-+    memory_region_init_rom(rom, NULL, "pegasos2.rom", PROM_SIZE, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), PROM_ADDR, rom);
-+    sz = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1,
-+                  PPC_ELF_MACHINE, 0, 0);
-+    if (sz <= 0) {
-+        sz = load_image_targphys(filename, PROM_ADDR, PROM_SIZE);
-+    }
-+    if (sz <= 0 || sz > PROM_SIZE) {
-+        error_report("Could not load firmware '%s'", filename);
-+        exit(1);
-+    }
-+    g_free(filename);
-+
-+    /* Marvell Discovery II system controller */
-+    mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-+                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_INT]));
-+    pci_bus = mv64361_get_pci_bus(mv, 1);
-+
-+    /* VIA VT8231 South Bridge (multifunction PCI device) */
-+    /* VT8231 function 0: PCI-to-ISA Bridge */
-+    dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
-+                                          TYPE_VT8231_ISA);
-+    qdev_connect_gpio_out(DEVICE(dev), 0,
-+                          qdev_get_gpio_in_named(mv, "gpp", 31));
-+
-+    /* VT8231 function 1: IDE Controller */
-+    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
-+    pci_ide_create_devs(dev);
-+
-+    /* VT8231 function 2-3: USB Ports */
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
-+
-+    /* VT8231 function 4: Power Management Controller */
-+    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
-+    i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
-+    spd_data = spd_data_generate(DDR, machine->ram_size);
-+    smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
-+
-+    /* VT8231 function 5-6: AC97 Audio & Modem */
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
-+
-+    /* other PC hardware */
-+    pci_vga_init(pci_bus);
++    memory_region_init_io(&s->io, OBJECT(d), s->io_ops, s, "via-superio", 2);
++    memory_region_set_enabled(&s->io, false);
++    /* The floppy also uses 0x3f0 and 0x3f1 but this seems to work anyway */
++    memory_region_add_subregion(isa_address_space_io(ISA_DEVICE(s)), 0x3f0,
++                                &s->io);
 +}
 +
-+static void pegasos2_machine(MachineClass *mc)
++static uint64_t via_superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    mc->desc = "Genesi/bPlan Pegasos II";
-+    mc->init = pegasos2_init;
-+    mc->block_default_type = IF_IDE;
-+    mc->default_boot_order = "cd";
-+    mc->default_display = "std";
-+    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
-+    mc->default_ram_id = "pegasos2.ram";
-+    mc->default_ram_size = 512 * MiB;
++    ViaSuperIOState *sc = opaque;
++    uint8_t idx = sc->regs[0];
++    uint8_t val = sc->regs[idx];
++
++    if (addr == 0) {
++        return idx;
++    }
++    if (addr == 1 && idx == 0) {
++        val = 0; /* reading reg 0 where we store index value */
++    }
++    trace_via_superio_read(idx, val);
++    return val;
 +}
 +
-+DEFINE_MACHINE("pegasos2", pegasos2_machine)
++static void via_superio_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
++
++    sc->parent_realize = dc->realize;
++    dc->realize = via_superio_realize;
++}
++
++static const TypeInfo via_superio_info = {
++    .name          = TYPE_VIA_SUPERIO,
++    .parent        = TYPE_ISA_SUPERIO,
++    .instance_size = sizeof(ViaSuperIOState),
++    .class_size    = sizeof(ISASuperIOClass),
++    .class_init    = via_superio_class_init,
++    .abstract      = true,
++};
++
++#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+ 
+-static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+-                              unsigned size)
++static void vt82c686b_superio_cfg_write(void *opaque, hwaddr addr,
++                                        uint64_t data, unsigned size)
+ {
+-    SuperIOConfig *sc = opaque;
++    ViaSuperIOState *sc = opaque;
+     uint8_t idx = sc->regs[0];
+ 
+     if (addr == 0) { /* config index register */
+@@ -288,25 +353,9 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+     sc->regs[idx] = data;
+ }
+ 
+-static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    SuperIOConfig *sc = opaque;
+-    uint8_t idx = sc->regs[0];
+-    uint8_t val = sc->regs[idx];
+-
+-    if (addr == 0) {
+-        return idx;
+-    }
+-    if (addr == 1 && idx == 0) {
+-        val = 0; /* reading reg 0 where we store index value */
+-    }
+-    trace_via_superio_read(idx, val);
+-    return val;
+-}
+-
+-static const MemoryRegionOps superio_cfg_ops = {
+-    .read = superio_cfg_read,
+-    .write = superio_cfg_write,
++static const MemoryRegionOps vt82c686b_superio_cfg_ops = {
++    .read = via_superio_cfg_read,
++    .write = vt82c686b_superio_cfg_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .impl = {
+         .min_access_size = 1,
+@@ -314,13 +363,66 @@ static const MemoryRegionOps superio_cfg_ops = {
+     },
+ };
+ 
++static void vt82c686b_superio_reset(DeviceState *dev)
++{
++    ViaSuperIOState *s = VIA_SUPERIO(dev);
++
++    memset(s->regs, 0, sizeof(s->regs));
++    /* Device ID */
++    vt82c686b_superio_cfg_write(s, 0, 0xe0, 1);
++    vt82c686b_superio_cfg_write(s, 1, 0x3c, 1);
++    /* Function select - all disabled */
++    vt82c686b_superio_cfg_write(s, 0, 0xe2, 1);
++    vt82c686b_superio_cfg_write(s, 1, 0x03, 1);
++    /* Floppy ctrl base addr 0x3f0-7 */
++    vt82c686b_superio_cfg_write(s, 0, 0xe3, 1);
++    vt82c686b_superio_cfg_write(s, 1, 0xfc, 1);
++    /* Parallel port base addr 0x378-f */
++    vt82c686b_superio_cfg_write(s, 0, 0xe6, 1);
++    vt82c686b_superio_cfg_write(s, 1, 0xde, 1);
++    /* Serial port 1 base addr 0x3f8-f */
++    vt82c686b_superio_cfg_write(s, 0, 0xe7, 1);
++    vt82c686b_superio_cfg_write(s, 1, 0xfe, 1);
++    /* Serial port 2 base addr 0x2f8-f */
++    vt82c686b_superio_cfg_write(s, 0, 0xe8, 1);
++    vt82c686b_superio_cfg_write(s, 1, 0xbe, 1);
++
++    vt82c686b_superio_cfg_write(s, 0, 0, 1);
++}
++
++static void vt82c686b_superio_init(Object *obj)
++{
++    VIA_SUPERIO(obj)->io_ops = &vt82c686b_superio_cfg_ops;
++}
++
++static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
++
++    dc->reset = vt82c686b_superio_reset;
++    sc->serial.count = 2;
++    sc->parallel.count = 1;
++    sc->ide.count = 0; /* emulated by via-ide */
++    sc->floppy.count = 1;
++}
++
++static const TypeInfo vt82c686b_superio_info = {
++    .name          = TYPE_VT82C686B_SUPERIO,
++    .parent        = TYPE_VIA_SUPERIO,
++    .instance_size = sizeof(ViaSuperIOState),
++    .instance_init = vt82c686b_superio_init,
++    .class_size    = sizeof(ISASuperIOClass),
++    .class_init    = vt82c686b_superio_class_init,
++};
++
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+ 
+ struct VT82C686BISAState {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+-    SuperIOConfig superio_cfg;
++    ViaSuperIOState *via_sio;
+ };
+ 
+ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+@@ -338,7 +440,7 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+     pci_default_write_config(d, addr, val, len);
+     if (addr == 0x85) {
+         /* BIT(1): enable or disable superio config io ports */
+-        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
++        via_superio_io_enable(s->via_sio, val & BIT(1));
+     }
+ }
+ 
+@@ -370,13 +472,6 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+     pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
+     pci_conf[0x5f] = 0x04;
+     pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
+-
+-    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
+-    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
+-    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
+-    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
+-    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
+-    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
+ }
+ 
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+@@ -394,7 +489,8 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+-    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
++    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus,
++                                               TYPE_VT82C686B_SUPERIO));
+     mc146818_rtc_init(isa_bus, 2000, NULL);
+ 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+@@ -402,16 +498,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+             d->wmask[i] = 0;
+         }
+     }
+-
+-    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
+-                          &s->superio_cfg, "superio_cfg", 2);
+-    memory_region_set_enabled(&s->superio_cfg.io, false);
+-    /*
+-     * The floppy also uses 0x3f0 and 0x3f1.
+-     * But we do not emulate a floppy, so just set it here.
+-     */
+-    memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+-                                &s->superio_cfg.io);
+ }
+ 
+ static void via_class_init(ObjectClass *klass, void *data)
+@@ -447,32 +533,14 @@ static const TypeInfo via_info = {
+ };
+ 
+ 
+-static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+-{
+-    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+-
+-    sc->serial.count = 2;
+-    sc->parallel.count = 1;
+-    sc->ide.count = 0;
+-    sc->floppy.count = 1;
+-}
+-
+-static const TypeInfo via_superio_info = {
+-    .name          = TYPE_VT82C686B_SUPERIO,
+-    .parent        = TYPE_ISA_SUPERIO,
+-    .instance_size = sizeof(ISASuperIODevice),
+-    .class_size    = sizeof(ISASuperIOClass),
+-    .class_init    = vt82c686b_superio_class_init,
+-};
+-
+-
+ static void vt82c686b_register_types(void)
+ {
+     type_register_static(&via_pm_info);
+     type_register_static(&vt82c686b_pm_info);
+     type_register_static(&vt8231_pm_info);
+-    type_register_static(&via_info);
+     type_register_static(&via_superio_info);
++    type_register_static(&vt82c686b_superio_info);
++    type_register_static(&via_info);
+ }
+ 
+ type_init(vt82c686b_register_types)
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 9b6d610e83..0692b9a527 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -2,7 +2,6 @@
+ #define HW_VT82C686_H
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+-#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+ #define TYPE_VT82C686B_PM "vt82c686b-pm"
+ #define TYPE_VT8231_PM "vt8231-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
 -- 
 2.21.4
 
