@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015B433F3F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 16:23:47 +0100 (CET)
-Received: from localhost ([::1]:39864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B761833F3FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 16:30:10 +0100 (CET)
+Received: from localhost ([::1]:51582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMY1R-0004r8-Bg
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 11:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40854)
+	id 1lMY7d-0001Jc-90
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 11:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMXi1-0000tX-NA
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:03:41 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMXhy-0005YR-M9
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:03:41 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j18so2165714wra.2
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 08:03:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cc03Djw+vrpkKhIfzySy4fjTbB1/6qB1mFaiGTS1EmQ=;
- b=f+zx16EaYCD+SWG85irwqfo2AfcMghGVGuQIEVicwwucuu/kzs/i2tws1iU9+Ru5VT
- KQNyJH69ftSTALitxx1PjlAFn5qV2jhheftAMoNGCXJT5kQzNPnFi0vKy9/B8n5PbKbQ
- OeLptnkq7vJp6m+U6PKpaiEhu72s/sGNMCtq8UOUr+3fq1Sy/mFVTrN3y38vWAz6HlXV
- 9TW2urIxaEPMX4qfJMD8b9FtcyOwt0VPEa1Ce+jzcNWWa/Wd4AyQcuqrmmFVfhY0IMuN
- 8oGzgz99VIKVlB/50wtpgiMTJ7rXniWWULpyyyz9tR3xRf9KvmcZA7YErtmZFyc9row3
- /54w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cc03Djw+vrpkKhIfzySy4fjTbB1/6qB1mFaiGTS1EmQ=;
- b=dDAPeyrH/Fl9wKCJGlXmeV3S3Qv2EbAbV6dpNjz+8/ATAvxkJZWOCF33yzH2kmHpPk
- DQ9AyyqsE9PkbJq+bhWAVjPdzUhdkxITjI2rjCG4uBrY2I7aBJdiFlQZgyGjSUMc5HOi
- 0ZNx6hC12/1wvBdBQ3H2S0HFmco8jjjCtkThaoV/VF7RXBSeF36tjruNvnjNuHQS5/gi
- rp6otilbE4X4jOsD3O31CgMT4hu6j7EDsKlQmZhF/4lc5CqTFZ88a1leYbnA4och/fwl
- fWG0DwzH8JuRHo+Ak/iU0ZNefwk4oO8YvefJMKtpPYNjOEEsKPwMwNpykHXpiPqTA/Nc
- xxHA==
-X-Gm-Message-State: AOAM5328NAznvg4QeIp+ble5a1wP1YhkAsQP+IzKuBdhtaomTRGKiElf
- 1A9oXTnmwr6c/w/mJ+qtfgM=
-X-Google-Smtp-Source: ABdhPJy/TQYdFU1SyZyT8xwqRLwC7YJox2WP9vRXiuww+4pkzA8JMJTcRqbG2cAGEDI5MaOrsLuSzA==
-X-Received: by 2002:adf:dd4f:: with SMTP id u15mr5022341wrm.260.1615993417221; 
- Wed, 17 Mar 2021 08:03:37 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id 13sm2744710wmw.5.2021.03.17.08.03.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 08:03:36 -0700 (PDT)
-Subject: Re: [PATCH v5 27/57] tcg/tci: Split out tcg_out_op_rrs
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210311143958.562625-1-richard.henderson@linaro.org>
- <20210311143958.562625-28-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d0876de8-6775-d2ff-bb76-faf118ec97ab@amsat.org>
-Date: Wed, 17 Mar 2021 16:03:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
+ id 1lMXr8-0002kK-Hs
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:13:08 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:65509
+ helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lMXr4-0002zr-C7
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:13:04 -0400
+Received: by diablo.13thmonkey.org (Postfix, from userid 103)
+ id 2096FC13ADD; Wed, 17 Mar 2021 16:13:01 +0100 (CET)
+Date: Wed, 17 Mar 2021 16:13:01 +0100
+From: Reinoud Zandijk <reinoud@NetBSD.org>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: Windows 10 won't run on default x86_64 machine anymore
+Message-ID: <YFIcfZwon4gtTg6C@diablo.13thmonkey.org>
+References: <YE+SHIG8qQFMsEJl@diablo.13thmonkey.org>
+ <20210315185302.29b0d90d@redhat.com>
+ <YE/fUQRiFBfrWi5W@dropje.13thmonkey.org>
+ <20210316135301.4fd08476@redhat.com>
+ <YFDcxAK8/XokMJoi@diablo.13thmonkey.org>
+ <20210316181750.6306bfc5@redhat.com>
+ <20210316213408.0de27ac2@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210311143958.562625-28-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210316213408.0de27ac2@redhat.com>
+Received-SPF: none client-ip=80.100.255.32;
+ envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,15 +56,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/21 3:39 PM, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/tci/tcg-target.c.inc | 84 +++++++++++++++++++---------------------
->  1 file changed, 39 insertions(+), 45 deletions(-)
+On Tue, Mar 16, 2021 at 09:34:08PM +0100, Igor Mammedov wrote:
+> Thanks for reporting it before it was released
+> please test/review fix that I've just posted:
+> 
+>  "[PATCH for-6.0] x86:acpi:piix4: reinitialize PM1.CNT on reset"
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reported-by: Reinoud Zandijk <reinoud@NetBSD.org>
+Tested-by: Reinoud Zandijk <reinoud@NetBSD.org>
+
 
