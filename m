@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289AF33EDDF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 11:02:07 +0100 (CET)
-Received: from localhost ([::1]:57100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E7C33EE0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 11:07:22 +0100 (CET)
+Received: from localhost ([::1]:60968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMT0A-0003HA-7c
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 06:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54368)
+	id 1lMT5F-0004zH-6C
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 06:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMSxl-0002Jj-2g
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 05:59:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38719)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lMT3s-0004U5-EQ
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 06:05:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMSxj-0003I2-JD
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 05:59:36 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lMT3k-0006o0-Py
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 06:05:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615975174;
+ s=mimecast20190719; t=1615975547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cogaPMEu8uK4jLHeYMnfCY9F5IFmWlVk4sG7XXhmk+w=;
- b=fUMNcuVRyQkpqX0y+llbqX/i/NJnMMQT17KeZEj/h4JLElKBppOb/atHBoJCZZKP13Opr+
- eoxSeE2aQw9g/O+guXqU4DLufeRqklM2HwmX1xtSVeFVPZn6WX0ntXxC50NUVVk/BE5Mq8
- B8cZftaioNlcKcO6MybDcHij3MGnZuM=
+ bh=DcuzOz03Ry4LC5ltIuOKLR1FeHi9mFBW/NbAs2dsypc=;
+ b=HC5XAVMir9uewPPy+Q/pe07NqVFX24RRWU/EWLA8Npxw0wWqB7cSSihveOv05jZgoguxEr
+ MxFcW1vLcn3fO+23ZK+zFBSNgbk9M25yw26OxG08ZnJuaJTrASU5Js7RFYX/uKGYnXXJ7I
+ KGsvmC2B/4qGZdLHeGXo7RArAQI9mrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-Z2Fr8DXEMZ2ZtdoNK_vrkQ-1; Wed, 17 Mar 2021 05:59:33 -0400
-X-MC-Unique: Z2Fr8DXEMZ2ZtdoNK_vrkQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-151-i_RGtdqpNS279sug-ADBYA-1; Wed, 17 Mar 2021 06:05:45 -0400
+X-MC-Unique: i_RGtdqpNS279sug-ADBYA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF267801817;
- Wed, 17 Mar 2021 09:59:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
- [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A360669ED;
- Wed, 17 Mar 2021 09:59:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B0A02180038B; Wed, 17 Mar 2021 10:59:29 +0100 (CET)
-Date: Wed, 17 Mar 2021 10:59:29 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Zihao Chang <changzihao1@huawei.com>
-Subject: Re: [PATCH v8 0/3] vnc: support reload x509 certificates
-Message-ID: <20210317095929.py4fftfvxabxmkw2@sirius.home.kraxel.org>
-References: <20210316075845.1476-1-changzihao1@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38A0E81746D;
+ Wed, 17 Mar 2021 10:05:44 +0000 (UTC)
+Received: from localhost (ovpn-114-113.ams2.redhat.com [10.36.114.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13B6E5C261;
+ Wed, 17 Mar 2021 10:05:33 +0000 (UTC)
+Date: Wed, 17 Mar 2021 10:05:32 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon
+ crash reconnection
+Message-ID: <YFHUbEdszo4nursr@stefanha-x1.localdomain>
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+ <CAJ+F1CLZ4VtgKp5fEdC70m22PgV2VHvRHunR-nPOWDnJPFvqqg@mail.gmail.com>
+ <CAFQAk7hCqSMMfRjUO8vtK-B2cKxJZZTJgSDAbRycd1AOSktM_w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210316075845.1476-1-changzihao1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAFQAk7hCqSMMfRjUO8vtK-B2cKxJZZTJgSDAbRycd1AOSktM_w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9Vc79ZT7RY7KtoLf"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,20 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, armbru@redhat.com, yebiaoxiang@huawei.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Xie Yongji <xieyongji@bytedance.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 16, 2021 at 03:58:42PM +0800, Zihao Chang wrote:
-> This series supports reload x509 certificates for vnc
-> 1. Support reload x509 certificates.
-> 2. Support reload vnc certificates.
-> 3. Add new qmp display-reload and implement reload x509 certificates for vnc.
+--9Vc79ZT7RY7KtoLf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Added to ui queue.
+On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
+> Thanks for the suggestions. Actually, we choose to save all state
+> information to QEMU because a virtiofsd has the same lifecycle as its
+> QEMU master. However, saving things to a file do avoid communication with
+> QEMU, and we no longer need to increase the complexity of vhost-user
+> protocol. The suggestion to save fds to the systemd is also very reasonab=
+le
+> if we don't consider the lifecycle issues, we will try it.
 
-thanks,
-  Gerd
+Hi,
+We recently discussed crash recovery in the virtio-fs bi-weekly call and
+I read some of this email thread because it's a topic I'm interested in.
+
+I agree with Marc-Andr=E9 that storing file descriptors does not need to
+be in the vhost-user protocol. The lifetime of a vhost-user device
+backend is not controlled by the VMM since the device backend is
+launched separately. Therefore it's reasonable for the component that
+launched the device backend to also have the responsibility of cleaning
+up the vhost-user device backend.
+
+Using the sd_notify(3) interface is a neat idea. It's supported natively
+by systemd but you can also implement a compatible interface in your own
+software. This way the vhost-user device backend can be launched using
+systemd or your own software.
+
+That said, if people find it more convenient to store fds using the
+vhost-user protocol, then I think that is enough justification to add a
+generic message to the vhost-user protocol. The important thing is to
+make the message generic so it solves all crash recovery use cases. The
+inflight fd messages were too specific and now we're having to think
+about adding more messages again.
+
+Stefan
+
+--9Vc79ZT7RY7KtoLf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBR1GwACgkQnKSrs4Gr
+c8jYOQf9E6s0sDs+N1LozftpB4f74CvIEp3WRfZUHlIxK70WayhhZXu41S7McL8I
+XOIod9IFtXJ01ZobnW5MqAFuuz/iLjwd2bqItZl/FiYB6xGLpNBzBNST9a5MIuFs
+CfRvdol5zaPKp1BMfXCKaBEMIAycyd3p+Pt1pfBt6MswfbSgFEKPaRB4UbNz8EmH
+Km7fKIjeLYqUHlTUgq5tFlfZaFtXW3uG8aMc2jm35SbCn2NxyYBBKJpyfpYBmVXH
+Xf6dVYNoPtLc/KPP8jCsKfWhhhQTHr9mR+m3yEXU9QUGQi4pQNnQ1i4RWpEnrSBi
+K3igrjfGyc6XiPYwaFaZXOZWSEapWQ==
+=GuLY
+-----END PGP SIGNATURE-----
+
+--9Vc79ZT7RY7KtoLf--
 
 
