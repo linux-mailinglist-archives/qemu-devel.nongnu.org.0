@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB4E33F06A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:34:23 +0100 (CET)
-Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC7133F073
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:37:59 +0100 (CET)
+Received: from localhost ([::1]:41490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVNW-0002wi-6o
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:34:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
+	id 1lMVR0-0004Pm-4E
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1lMVM1-0002Ei-T1
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:32:50 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:44243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1lMVLx-0008AJ-5i
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:32:47 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id 130so38593114qkh.11
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 05:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wwTbuNPne9pTDpqWEBar9ogzQkO9XEiXzRQcmGkEMNw=;
- b=gCKfMWfPRCBcIrEgzD5LWIEdI8O0W7zntE76aG7NhdKUvSoZf1JeDyCbr88wiMGMK/
- J1tzci2SDWrjpQ5vCqon8CEuU+Bxo32PzkaZa8tOSrP43PCCoNOKytVKL8nVrzjZR4Uo
- 4gBHZsHRh5ikmxRxUDqbXRhJCRqH7jsO/JoGjvrtT70S9Ioy4v262uLI9tqdPivgSN8x
- sfPmzNwpi8H4xeR2OtyeEmYQOt+FCjKdY7Tdeem5/PQ4QyCF/b0mrGB/xpgwkKbgTTrY
- hf8F8a6tadMu5leSdcbkMgJKBeiiNfOncIjGH0DL0xZO6+vC6CVjAnqXFUg2nwRyIBPS
- W4wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wwTbuNPne9pTDpqWEBar9ogzQkO9XEiXzRQcmGkEMNw=;
- b=pQ7KxiIQv8T0GxFdlRAXcq5NR9FXv/9x5yOOcyLh6cVAYDfCkZyc82OE5Fi8syTgsR
- MBO+GG0relvVEIkz94nEAegleaaBD8VOLfL8XGdXhqrYJ1ITYXOFL7Qzga8Y8nqCPMpL
- puAg4q8XROJWeD6Ewg4Xgt8gFtyAwr3kvbSdhvACDzexPCfNX7hmPWfgKDmkThlOBPMi
- eRh/Ap6+XMUV5q+LAr6ul4SghbzMFbsp3cpo79iEs3zFTCBz4bMQVUWeXQhYvx3N9M6X
- gekvpDB7BUnrGlAFLXcC4ezIBd5ihGp6/UjV3TduWMyUUcfbh1NC11usZtkRHuJ/ZYrw
- rcWw==
-X-Gm-Message-State: AOAM533U2a/JfKYMDk9kJPkfeBOjTLH4A3M6qi6pn1GAG92NmFhfR0fD
- Wz3WzUBzkk6p7bUJySGhWDKHvWEN5PJHFMrWbYxU0g==
-X-Google-Smtp-Source: ABdhPJzZgDNdO+gVeJeuTn368RmbdMATezSFJ5aX6j5XeR5hWrmRNXI6mLVn1GRv4pfv8J+a+8452vDfUJ6RwAltzK4=
-X-Received: by 2002:a37:cc7:: with SMTP id 190mr4572841qkm.99.1615984362653;
- Wed, 17 Mar 2021 05:32:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMVQ9-0003sf-R0
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:37:05 -0400
+Received: from 2.mo51.mail-out.ovh.net ([178.33.255.19]:41743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMVQ5-0002P7-Db
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 08:37:05 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id DDCE6273878;
+ Wed, 17 Mar 2021 13:36:57 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
+ 2021 13:36:57 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0052544a142-9edf-4ca3-9a64-3a8e0fe46106,
+ 10040688A1AB5364447EAD88D88247B833C1D39B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v3 1/3] hw: Model ASPEED's Hash and Crypto Engine
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Joel Stanley
+ <joel@jms.id.au>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
+ <lvivier@redhat.com>
+References: <20210312105711.551423-1-joel@jms.id.au>
+ <20210312105711.551423-2-joel@jms.id.au>
+ <d2969a4a-abaf-b4e5-1cdb-5fdac85fa388@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <6fcc0cc8-e09d-5390-dc3b-593612e404e6@kaod.org>
+Date: Wed, 17 Mar 2021 13:36:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
- <CAJ+F1CLZ4VtgKp5fEdC70m22PgV2VHvRHunR-nPOWDnJPFvqqg@mail.gmail.com>
- <CAFQAk7hCqSMMfRjUO8vtK-B2cKxJZZTJgSDAbRycd1AOSktM_w@mail.gmail.com>
- <YFHUbEdszo4nursr@stefanha-x1.localdomain>
-In-Reply-To: <YFHUbEdszo4nursr@stefanha-x1.localdomain>
-From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Date: Wed, 17 Mar 2021 20:32:31 +0800
-Message-ID: <CAFQAk7ia5HsX0e4WBrhDtytGKnd5LsPrUSz9DJVFoo+ShDRP7Q@mail.gmail.com>
-Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
- reconnection
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e66ecd05bdbaadc9"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qk1-x72c.google.com
+In-Reply-To: <d2969a4a-abaf-b4e5-1cdb-5fdac85fa388@amsat.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 88352d42-338b-4fb9-90d9-5ea971cb729a
+X-Ovh-Tracer-Id: 17863809400048945967
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedggeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelleeuveelvdejvdegtddugfdvkeejueehvdejuefgleeivdduhfduteffgeeinecuffhomhgrihhnpehmrghilhdqrghrtghhihhvvgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo51.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,133 +73,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Xie Yongji <xieyongji@bytedance.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e66ecd05bdbaadc9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/17/21 12:47 PM, Philippe Mathieu-Daudé wrote:
+> On 3/12/21 11:57 AM, Joel Stanley wrote:
+>> The HACE (Hash and Crypto Engine) is a device that offloads MD5, SHA1,
+>> SHA2, RSA and other cryptographic algorithms.
+>>
+>> This initial model implements a subset of the device's functionality;
+>> currently only direct access (non-scatter gather) hashing.
+>>
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> v3:
+>>  - rebase on upstream to fix meson.build conflict
+>> v2:
+>>  - reorder register defines
+>>  - mask src/dest/len registers according to hardware
+>> ---
+>>  include/hw/misc/aspeed_hace.h |  33 ++++
+>>  hw/misc/aspeed_hace.c         | 312 ++++++++++++++++++++++++++++++++++
+>>  hw/misc/meson.build           |   1 +
+>>  3 files changed, 346 insertions(+)
+>>  create mode 100644 include/hw/misc/aspeed_hace.h
+>>  create mode 100644 hw/misc/aspeed_hace.c
+>>
+>> diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
+>> new file mode 100644
+>> index 000000000000..e1fce670ef9e
+>> --- /dev/null
+>> +++ b/include/hw/misc/aspeed_hace.h
+>> @@ -0,0 +1,33 @@
+>> +/*
+>> + * ASPEED Hash and Crypto Engine
+>> + *
+>> + * Copyright (C) 2021 IBM Corp.
+>> + *
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + */
+>> +
+>> +#ifndef ASPEED_HACE_H
+>> +#define ASPEED_HACE_H
+>> +
+>> +#include "hw/sysbus.h"
+>> +
+>> +#define TYPE_ASPEED_HACE "aspeed.hace"
+>> +#define ASPEED_HACE(obj) OBJECT_CHECK(AspeedHACEState, (obj), TYPE_ASPEED_HACE)
+>> +
+>> +#define ASPEED_HACE_NR_REGS (0x64 >> 2)
+>> +
+>> +typedef struct AspeedHACEState {
+>> +    /* <private> */
+>> +    SysBusDevice parent;
+>> +
+>> +    /*< public >*/
+>> +    MemoryRegion iomem;
+>> +    qemu_irq irq;
+>> +
+>> +    uint32_t regs[ASPEED_HACE_NR_REGS];
+>> +
+>> +    MemoryRegion *dram_mr;
+>> +    AddressSpace dram_as;
+>> +} AspeedHACEState;
+>> +
+>> +#endif /* _ASPEED_HACE_H_ */
+>> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+>> new file mode 100644
+>> index 000000000000..3d02fae2dd62
+>> --- /dev/null
+>> +++ b/hw/misc/aspeed_hace.c
+>> @@ -0,0 +1,312 @@
+>> +/*
+>> + * ASPEED Hash and Crypto Engine
+>> + *
+>> + * Copyright (C) 2021 IBM Corp.
+>> + *
+>> + * Joel Stanley <joel@jms.id.au>
+>> + *
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu/log.h"
+>> +#include "qemu/error-report.h"
+>> +#include "hw/misc/aspeed_hace.h"
+>> +#include "qapi/error.h"
+>> +#include "migration/vmstate.h"
+>> +#include "crypto/hash.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/irq.h"
+>> +
+>> +#define R_CRYPT_CMD     (0x10 / 4)
+>> +
+>> +#define R_STATUS        (0x1c / 4)
+>> +#define HASH_IRQ        BIT(9)
+>> +#define CRYPT_IRQ       BIT(12)
+>> +#define TAG_IRQ         BIT(15)
+>> +
+>> +#define R_HASH_SRC      (0x20 / 4)
+>> +#define R_HASH_DEST     (0x24 / 4)
+>> +#define R_HASH_SRC_LEN  (0x2c / 4)
+>> +
+>> +#define R_HASH_CMD      (0x30 / 4)
+>> +/* Hash algorithim selection */
+>> +#define  HASH_ALGO_MASK                 (BIT(4) | BIT(5) | BIT(6))
+>> +#define  HASH_ALGO_MD5                  0
+>> +#define  HASH_ALGO_SHA1                 BIT(5)
+>> +#define  HASH_ALGO_SHA224               BIT(6)
+>> +#define  HASH_ALGO_SHA256               (BIT(4) | BIT(6))
+>> +#define  HASH_ALGO_SHA512_SERIES        (BIT(5) | BIT(6))
+>> +/* SHA512 algorithim selection */
+>> +#define  SHA512_HASH_ALGO_MASK          (BIT(10) | BIT(11) | BIT(12))
+>> +#define  HASH_ALGO_SHA512_SHA512        0
+>> +#define  HASH_ALGO_SHA512_SHA384        BIT(10)
+>> +#define  HASH_ALGO_SHA512_SHA256        BIT(11)
+>> +#define  HASH_ALGO_SHA512_SHA224        (BIT(10) | BIT(11))
+>> +/* HMAC modes */
+>> +#define  HASH_HMAC_MASK                 (BIT(7) | BIT(8))
+>> +#define  HASH_DIGEST                    0
+>> +#define  HASH_DIGEST_HMAC               BIT(7)
+>> +#define  HASH_DIGEST_ACCUM              BIT(8)
+>> +#define  HASH_HMAC_KEY                  (BIT(7) | BIT(8))
+>> +/* Cascscaed operation modes */
+>> +#define  HASH_ONLY                      0
+>> +#define  HASH_ONLY2                     BIT(0)
+>> +#define  HASH_CRYPT_THEN_HASH           BIT(1)
+>> +#define  HASH_HASH_THEN_CRYPT           (BIT(0) | BIT(1))
+>> +/* Other cmd bits */
+>> +#define  HASH_IRQ_EN                    BIT(9)
+>> +#define  HASH_SG_EN                     BIT(18)
+>> +
+>> +
+>> +static int do_hash_operation(AspeedHACEState *s, int algo)
+>> +{
+>> +    hwaddr src, len, dest;
+>> +    uint8_t *digest_buf = NULL;
+>> +    size_t digest_len = 0;
+>> +    char *src_buf;
+>> +    int rc;
+>> +
+>> +    src = 0x80000000 | s->regs[R_HASH_SRC];
+>> +    len = s->regs[R_HASH_SRC_LEN];
+>> +    dest = 0x80000000 | s->regs[R_HASH_DEST];
+>> +
+>> +    src_buf = address_space_map(&s->dram_as, src, &len, false,
+>> +                                MEMTXATTRS_UNSPECIFIED);
+> 
+> It seems the Aspeed machines aren't using correctly the AS API...
+> This device shouldn't worry about where it is physically mapped.
+> IOW its AS is too wide.
+> 
+> I'm trying to fix this in a series:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg791085.html
 
-On Wed, Mar 17, 2021 at 6:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
+The buffers can be anywhere in DRAM which is mapped at 0x80000000
+on the AST2600. This is correct and very similar to what we do 
+in the Aspeed SMC DMA models.
 
-> On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
-> > Thanks for the suggestions. Actually, we choose to save all state
-> > information to QEMU because a virtiofsd has the same lifecycle as its
-> > QEMU master. However, saving things to a file do avoid communication wi=
-th
-> > QEMU, and we no longer need to increase the complexity of vhost-user
-> > protocol. The suggestion to save fds to the systemd is also very
-> reasonable
-> > if we don't consider the lifecycle issues, we will try it.
->
-> Hi,
-> We recently discussed crash recovery in the virtio-fs bi-weekly call and
-> I read some of this email thread because it's a topic I'm interested in.
->
-> I agree with Marc-Andr=C3=A9 that storing file descriptors does not need =
-to
-> be in the vhost-user protocol. The lifetime of a vhost-user device
-> backend is not controlled by the VMM since the device backend is
-> launched separately. Therefore it's reasonable for the component that
-> launched the device backend to also have the responsibility of cleaning
-> up the vhost-user device backend.
->
-> Using the sd_notify(3) interface is a neat idea. It's supported natively
-> by systemd but you can also implement a compatible interface in your own
-> software. This way the vhost-user device backend can be launched using
-> systemd or your own software.
->
-> That said, if people find it more convenient to store fds using the
-> vhost-user protocol, then I think that is enough justification to add a
-> generic message to the vhost-user protocol. The important thing is to
-> make the message generic so it solves all crash recovery use cases. The
-> inflight fd messages were too specific and now we're having to think
-> about adding more messages again.
->
-> Stefan
->
+I would prefer if we did loads though.
 
+Cheers,
 
-Hi, Stefan,
+C.
 
-I agreed with you that a virtiofsd must be launched by a software like
-systemd. So we are planning to define more generic persist/restore
-interfaces (callbacks). Then anyone can implement their own persist/restore
-callbacks to store states to proper places.  And I think in the next
-version we will implement default callbacks for the interfaces. Instead of
-vhost-user messages, systemd's sd_notify(3) will be the default method for
-storing fds, and several tmpfs files can be the default place to store the
-shm regions.
-
-Jiachen
-
---000000000000e66ecd05bdbaadc9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Mar 17, 2021 at 6:05 PM Stefan Ha=
-jnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</a>&g=
-t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhan=
-g wrote:<br>
-&gt; Thanks for the suggestions. Actually, we choose to save all state<br>
-&gt; information to QEMU because a virtiofsd has the same lifecycle as its<=
-br>
-&gt; QEMU master. However, saving things to a file do avoid communication w=
-ith<br>
-&gt; QEMU, and we no longer need to increase the complexity of vhost-user<b=
-r>
-&gt; protocol. The suggestion to save fds to the systemd is also very reaso=
-nable<br>
-&gt; if we don&#39;t consider the lifecycle issues, we will try it.<br>
-<br>
-Hi,<br>
-We recently discussed crash recovery in the virtio-fs bi-weekly call and<br=
->
-I read some of this email thread because it&#39;s a topic I&#39;m intereste=
-d in.<br>
-<br>
-I agree with Marc-Andr=C3=A9 that storing file descriptors does not need to=
-<br>
-be in the vhost-user protocol. The lifetime of a vhost-user device<br>
-backend is not controlled by the VMM since the device backend is<br>
-launched separately. Therefore it&#39;s reasonable for the component that<b=
-r>
-launched the device backend to also have the responsibility of cleaning<br>
-up the vhost-user device backend.<br>
-<br>
-Using the sd_notify(3) interface is a neat idea. It&#39;s supported nativel=
-y<br>
-by systemd but you can also implement a compatible interface in your own<br=
->
-software. This way the vhost-user device backend can be launched using<br>
-systemd or your own software.<br>
-<br>
-That said, if people find it more convenient to store fds using the<br>
-vhost-user protocol, then I think that is enough justification to add a<br>
-generic message to the vhost-user protocol. The important thing is to<br>
-make the message generic so it solves all crash recovery use cases. The<br>
-inflight fd messages were too specific and now we&#39;re having to think<br=
->
-about adding more messages again.<br>
-<br>
-Stefan<br></blockquote><div><br></div><div><br></div><div>Hi, Stefan,</div>=
-<div><br></div><div>I agreed with you that a virtiofsd must be launched by =
-a software like systemd. So we are planning to define more generic persist/=
-restore interfaces (callbacks). Then anyone can implement their own persist=
-/restore callbacks to store states to proper places.=C2=A0 And I think in t=
-he next version we will implement default callbacks for the interfaces. Ins=
-tead of vhost-user messages, systemd&#39;s sd_notify(3) will be the default=
- method for storing fds, and several tmpfs files can be the default place t=
-o store the shm regions.</div><div><br></div><div>Jiachen</div><div><br></d=
-iv><div><br></div></div></div>
-
---000000000000e66ecd05bdbaadc9--
 
