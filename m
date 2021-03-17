@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79FB33F0E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:10:50 +0100 (CET)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5177733F0EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:14:46 +0100 (CET)
+Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVwn-0006SJ-SH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
+	id 1lMW0b-0000N2-3c
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMVvJ-0005an-Gy
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:09:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37131)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lMVyw-00086A-Hw
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:13:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMVvH-0004Gx-Pt
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:09:17 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lMVyp-0006o8-0p
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:13:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615986554;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0ZP9hWOCMObFvrBuDSNyfH5w21qCWfRoNuFS3Nz6Efo=;
- b=cAQqe61W7OQBAQjFpoOMEOUbVBEhzZn9xtjSbZ+cNJgKIuGsQcSqF5bKgvkBxIzgo01G6w
- 3eW68Whxns8Qc6BtSyADP2NHcESzS6/5QZG3LGnXYFQU28uH70L4w1XA1I41Yd89yepNfu
- DkoMAuJlhqWg76QuJoBOJ30fnmgaCps=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-lCDJOZbyO6Kqt7rAskZ1iQ-1; Wed, 17 Mar 2021 09:09:13 -0400
-X-MC-Unique: lCDJOZbyO6Kqt7rAskZ1iQ-1
-Received: by mail-wr1-f70.google.com with SMTP id z17so18370272wrv.23
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:09:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0ZP9hWOCMObFvrBuDSNyfH5w21qCWfRoNuFS3Nz6Efo=;
- b=bli2NHojwXIBPKhdNWCgMya+7m8J++3iWUTqdh/8xgHksTbyAi3FrWlE+FHb9UEEuD
- eK2L/IAdus1Z5i8bMjU3qQONAbUqfZ1l6XI3XlwXNv5HTMWOgXnyOEHRq94QVF5lJGOL
- wIQYHjq2W779Pd6e9DCNTMZEKr0ORjNqbwB8j9vmovL4qQ+hLDj1V5xRRJ+aJ6pn7C4T
- bitahR4Envx1bNSnvaYZ9H16MMIkZ/m/s3usofXRFfq/S0PLbFYo7INr9fS/TRit9YI7
- UmijzLyDlCZDA1ox0tCiIT5TWZ88smsyCwC5L+b+pg5K+6fh4JGLkXFY4zfivF78zmhR
- r8AQ==
-X-Gm-Message-State: AOAM533ICHMbRGX204rOl2zSVqY9sSOzfmZyagKA3Rj8YjR/od4IW9A6
- fDhPLFr0BeR97/e//xeMdm1mpufDSeRPxWeUV2WZC/bGGluNhRB1YbE9IiMKgJ4x+AIjEIoqbX0
- zor3z+ByXTfkdXEI=
-X-Received: by 2002:a5d:46c4:: with SMTP id g4mr4364163wrs.241.1615986552162; 
- Wed, 17 Mar 2021 06:09:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFesakAoO0qZ7Tzr5mGR1+eBMBus1Nk812NAa4KBXhrwT+jgG9idXgXKf7JuEbcHmYNop7gw==
-X-Received: by 2002:a5d:46c4:: with SMTP id g4mr4364127wrs.241.1615986551842; 
- Wed, 17 Mar 2021 06:09:11 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id 1sm2448357wmj.2.2021.03.17.06.09.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 06:09:11 -0700 (PDT)
-Subject: Re: [PATCH] hw/char/pl011: Fix clock migration failure
-To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210317044441.112313-1-gshan@redhat.com>
- <CAFEAcA8Wf+fYppz6kWurU=68NH7uvn0HFXc_FJ6twoA86bcBcg@mail.gmail.com>
- <73a30558-469e-8ef0-02b2-aaaaa2449cda@redhat.com>
- <CAFEAcA_yuSR=KkpBTh+21JkqiB7gKfnFvgvxYgPN2yLfvxpi_A@mail.gmail.com>
- <3e7ba090-c45e-8fa4-1a59-16856241cbdc@redhat.com>
- <CAFEAcA_zYaOXw5yaXWEjgBy6YeTpB5FRBCO96To-bv9xpQzbMQ@mail.gmail.com>
- <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4fbceae2-7a0f-49cc-3a91-e4fa6be8c6af@redhat.com>
-Date: Wed, 17 Mar 2021 14:09:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ s=mimecast20190719; t=1615986773;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=h2p7LjnNJaX3KuKm+T4UeCssHdDDxDjv+JiqXlnAX9c=;
+ b=NbPCtZTdR7oQVmyyb6mmSOZ1PU9nqSYhQ3g3QPNzP8sWzUlg24MZN+VQqgyn2lKwN4nRts
+ BKHBz3LbTZfLi2aqFYlsSkjRLzhN5yErBEb3VXBKzZ+BpHgOnQSFcg+MFZGjDAY0OUP4YF
+ CZ9v+/Dtpgfo9U4smQHJUpLYmcAPClw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-HNf8fBphNXWMEDf7qPBCqw-1; Wed, 17 Mar 2021 09:12:39 -0400
+X-MC-Unique: HNf8fBphNXWMEDf7qPBCqw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87EF61005D47;
+ Wed, 17 Mar 2021 13:12:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-247.ams2.redhat.com [10.36.113.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E3C760853;
+ Wed, 17 Mar 2021 13:12:23 +0000 (UTC)
+Date: Wed, 17 Mar 2021 13:12:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/2] cirrus.yml: Update the FreeBSD task to version 12.2
+Message-ID: <YFIANJSi+FtVRYQY@redhat.com>
+References: <20210317110512.583747-1-thuth@redhat.com>
+ <20210317110512.583747-3-thuth@redhat.com>
+ <CAFEAcA89BmZ7_d73Te=DXxDNc+W4NuqXZgpoi9JwsMN0_nh6pg@mail.gmail.com>
+ <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+In-Reply-To: <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,85 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gavin Shan <gshan@redhat.com>, Luc Michel <luc@lmichel.fr>,
- Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, avocado-devel <avocado-devel@redhat.com>,
- Shan Gavin <shan.gavin@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Beraldo
-
-On 3/17/21 1:54 PM, Andrew Jones wrote:
-> On Wed, Mar 17, 2021 at 11:14:56AM +0000, Peter Maydell wrote:
->> On Wed, 17 Mar 2021 at 10:59, Gavin Shan <gshan@redhat.com> wrote:
->>>
->>> Hi Peter,
->>>
->>> On 3/17/21 9:40 PM, Peter Maydell wrote:
->>>> On Wed, 17 Mar 2021 at 10:37, Gavin Shan <gshan@redhat.com> wrote:
->>>>> On 3/17/21 8:09 PM, Peter Maydell wrote:
->>>>>> On Wed, 17 Mar 2021 at 04:44, Gavin Shan <gshan@redhat.com> wrote:
->>>>>>>
->>>>>>>    static const VMStateDescription vmstate_pl011 = {
->>>>>>>        .name = "pl011",
->>>>>>>        .version_id = 2,
->>>>>>>        .minimum_version_id = 2,
->>>>>>> +    .post_load = pl011_post_load,
->>>>>>>        .fields = (VMStateField[]) {
->>>>>>>            VMSTATE_UINT32(readbuff, PL011State),
->>>>>>>            VMSTATE_UINT32(flags, PL011State),
->>>>>>> @@ -355,10 +355,6 @@ static const VMStateDescription vmstate_pl011 = {
->>>>>>>            VMSTATE_INT32(read_trigger, PL011State),
->>>>>>>            VMSTATE_END_OF_LIST()
->>>>>>>        },
->>>>>>> -    .subsections = (const VMStateDescription * []) {
->>>>>>> -        &vmstate_pl011_clock,
->>>>>>> -        NULL
->>>>>>> -    }
->>>>>>>    };
->>>>>>
->>>>>> Doesn't dropping the subsection break migration compat ?
->>>>>>
->>>>>
->>>>> It's why this patch needs to be backported to stable branches.
->>>>> In that way, we won't have migration compatible issue.
->>>>
->>>> No, migration has to work from the existing already
->>>> shipped 5.1, 5.2, etc releases to 6.0 (assuming you use
->>>> the correct "virt-5.2" &c versioned machine type.)
->>>>
->>>
->>> Commit aac63e0e6ea3 ("hw/char/pl011: add a clock input") is merged
->>> to v5.2.0. The migration failure happens during migration from v6.0
->>> to v5.1 with machine type as "virt-5.1", instead of migrating from
->>> v5.1 to v6.0. One question is if we need support backwards migration?
->>
->> Upstream doesn't care about backwards migration. AIUI
->> RedHat as a downstream care about the backwards-migration
->> case in some specific situations, but I don't know if that
->> would include this one.
+On Wed, Mar 17, 2021 at 01:44:05PM +0100, Thomas Huth wrote:
+> On 17/03/2021 12.16, Peter Maydell wrote:
+> > On Wed, 17 Mar 2021 at 11:09, Thomas Huth <thuth@redhat.com> wrote:
+> > > 
+> > > FreeBSD version 12.1 is out of service now, and the task in the
+> > > Cirrus-CI is failing. Update to 12.2 to get it working again.
+> > > Unfortunately, there is a bug in libtasn1 that triggers with the
+> > > new version of Clang that is used there (see this thread for details:
+> > > https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg00739.html ),
+> > > so we have to disable gnutls for now to make it work again. We can
+> > > enable it later again once libtasn1 has been fixed in FreeBSD.
+> > > 
+> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > 
+> > Is it feasible to make configure check for "is libtasn1 broken"?
+> > I guess since it only shows up as "when you try to use it
+> > it fails" that would be a runtime check rather than compile
+> > time, which isn't really possible :-(
 > 
-> Right, we do prefer to be able to support "ping-pong" migrations. For
-> example, if we start a virt-5.1 machine on a 5.1 build of QEMU, and then
-> migrate it to a 5.2 build of QEMU, we'd like to also be able to go back
-> to the 5.1 build.
-> 
-> I agree this patch is not the right approach. I think the right approach
-> is to introduce a compat property and make the "new" section dependent
-> on it. And then update the hw_compat_* arrays. Gavin, please take a look
-> at "Connecting subsections to properties" of docs/devel/migration.rst.
-> 
-> I'm also curious what the state of mach-virt's machine types are for
-> migration. It'd be nice to exhaustively test both forward migration of
-> all machine types and ping-pong migrations of all machine types.
+> I don't really have a clue about this crypto stuff... Daniel, Stefan, Roman,
+> Christian, Eric ... you debugged the original problem on macOS, do you think
+> it's possible to add a check for this libtasn1 problem to our "configure"
+> (or meson.build file)?
 
-FYI this test has been suggested to the Avocado team few times.
-They might already have a ticket to track any progress.
+It is tricky because the flaw is not specific to the version of
+tasn1, rather to the combination of tasn1 and the compiler used,
+so there's no simple way to detect it statically from configure.
 
-> We can
-> then consider each issue we find (the pessimist in me suggests we'll find
-> more than this pl011 issue) and how/if we want to resolve them.
+If don't want the big hammer of disabling gnutls, perhaps adding
+a flag to disable tasn1 would be simpler, as that would only
+disable test suite, and no actual QEMU core functionality (which
+is all working fine)
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
