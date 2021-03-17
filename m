@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC7033E9BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:29:08 +0100 (CET)
-Received: from localhost ([::1]:58434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A2D33E9BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:29:29 +0100 (CET)
+Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMPg3-00056n-1C
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
+	id 1lMPgN-0005DT-W6
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPe0-0003YC-L1
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:00 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34005)
+ id 1lMPe1-0003YK-C7
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:01 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPdu-0008St-ON
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:00 -0400
-Received: by mail-ej1-x631.google.com with SMTP id si25so759229ejb.1
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:26:54 -0700 (PDT)
+ id 1lMPdz-0008Ui-Kz
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:01 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id p7so738719eju.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:26:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=A6EMAPRNHxv0HDWqIU6UhE4M7wSOlBGdCjTJGl8tylA=;
- b=ox1/fecAsuiO1FLRSwlw7FfD6fGn1tYpQ5Z7YWuhVlnfzsr37vj6Aqo0ub9jE+a5Be
- So7Flo/mRd+4IyU2BgXUAxOuD9oM4+kzXxY/YrCSdwYwuFBaKxhZ677hL6u9YdzF5wSL
- ftEXqQ1GVV2L16GIWQNj/vsNZisnIWKXuTtrNxBvKyWgDeoXyXY9mNnglsnWpmxjQAJM
- RICu5svDlPKuP0IOzD2TOpmwfTuLyVQCMIq+H0s1jMMiEP9ZMHLjWeAlIRca8KQQCwI1
- 58LuS6JNqlIlwkmJMLzd7/yUAQ0lYW+AwwNIh3N6QBxHYkn0muIbTaVQE5O88XOxgybD
- jDuw==
+ bh=ofNCt4IqFempV2fS5VLJE6TwBn3PW2075cIcAlj7O8c=;
+ b=WFKQFlYPPwSKaqtAJ6Gz/Bnxc0nSJ+TEh+IZSXq7LjPm3RgQ4yCnurKsUPN5rrSNT5
+ 8PJwdKU58ftiG6KrA5LvADPYMH7a5342XxwgqDt+BKzug/91Eyt81Gkq0Ey2KTozsaaB
+ 2iIgTnku3EaHzYZrMKJWoNSW4hv9nktjXhyixQ9HzTF2L3CYMlGVm3rIzflYC2Z7ySfv
+ NviZ9s0+EqFj0iDeYg8Uoc1z6GR61i7+jtFClstTXXX7Ct5U47CwmlvYpGcBWfmYtSNj
+ QR5IBlUGAEB+RlaVZUbnTibPPJMEJ/lCmDLtJeUaUqhDXQbMT8CJrl663A9bomah+Xgv
+ Xwmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A6EMAPRNHxv0HDWqIU6UhE4M7wSOlBGdCjTJGl8tylA=;
- b=STLhbGZAbkPBU9u9kOWkCs/Uj0Lhvvghe1SI39zblWwZ4KhvFtCaW2pOgwnCm1CHvG
- kN7fwD10DozTz2LllVWJ0GuCHl9xZ9wqn3emEM8+dhGfIcTI5d07NJJNWFxizQbz2rxf
- M+zHJ2tJWjfMLeOiFCecGu8RgpsMtWH17AcIUjK6VL1wEODtuKFW4uYBnz6TGDPCcsgj
- kI2WlloYP/T+FAJKKfpI/fw/swTlU8459kuxA8tVwAdQsuZ0qlds6aCVQx1qLQvgKt/E
- ih4YR8rCLf/lyl8brNhgWJDupCXWrJJaTddKq9Tx7SmUXdvHFxqEDKFJWuztCGDuXnWe
- uc+Q==
-X-Gm-Message-State: AOAM532cFLxIllk3hPqpkmMAbJg9MnBtOCVNpFNS7cnteZk1rxezoa7e
- dNdvDkSzTXdaqM+/ajqtDZg=
-X-Google-Smtp-Source: ABdhPJyFcNHGHuBXKti0ZOqbc5TxCxFipXC0A+zERU/VyiP1dNh1uLiB/LX+HP5zNc+RNq0to0YaKQ==
-X-Received: by 2002:a17:906:1e4f:: with SMTP id
- i15mr33021268ejj.349.1615962411297; 
- Tue, 16 Mar 2021 23:26:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ofNCt4IqFempV2fS5VLJE6TwBn3PW2075cIcAlj7O8c=;
+ b=dEWf7hZCrcjP6AIM/ZbyR6dALF7U9/lTMdEoxrD2HUffbCzPxEu0yHuq2VLulWOnWm
+ pVRdJszvCd0IctuD6CJStD+uvwqsNa3sFdEuqDLIlwv+BvVN8s45WcmB61Bc6Z11uBJe
+ ss03NWs2neuLdODpQ1/r+5sDLk+ik2KDX5BZCRiNdUd6eVCaclqVP5ES4/cSSBa7t591
+ rJ3ZyYvYEePyQhzav/RFy//dKW4sn9u13Sjgk+hL4sM90wG/zMmQasIo5olQyDpb0kM7
+ HlrHdG2stGuFLG5Mr1DQx2DIiFhOSbtHTrS8gXAyIKSsK2lIqB3mMhl499lb85DZOMLm
+ nTIQ==
+X-Gm-Message-State: AOAM533w8pxQVobLKBc5AnnhcqH/Inru32yEoHomwKS03pk+7pzKli9z
+ 0eUi6G92UyNZbLXTXKtmTA8=
+X-Google-Smtp-Source: ABdhPJwVCRGujPH7Gbn6FkrgIaXpIZvnLQrRh6S8te0RlPXTYt4jwULvyjMps5MAM1KC4JEjgd1KMw==
+X-Received: by 2002:a17:906:5949:: with SMTP id
+ g9mr1798906ejr.518.1615962415174; 
+ Tue, 16 Mar 2021 23:26:55 -0700 (PDT)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.26.47
+ by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.26.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 23:26:50 -0700 (PDT)
+ Tue, 16 Mar 2021 23:26:54 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v5 00/12] net: Pad short frames for network backends
-Date: Wed, 17 Mar 2021 14:26:26 +0800
-Message-Id: <20210317062638.72626-1-bmeng.cn@gmail.com>
+Subject: [PATCH v5 01/12] net: eth: Add a helper to pad a short Ethernet frame
+Date: Wed, 17 Mar 2021 14:26:27 +0800
+Message-Id: <20210317062638.72626-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210317062638.72626-1-bmeng.cn@gmail.com>
+References: <20210317062638.72626-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,38 +90,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The minimum Ethernet frame length is 60 bytes. For short frames with
-smaller length like ARP packets (only 42 bytes), on a real world NIC
-it can choose either padding its length to the minimum required 60
-bytes, or sending it out directly to the wire. Such behavior can be
-hardcoded or controled by a register bit. Similarly on the receive
-path, NICs can choose either dropping such short frames directly or
-handing them over to software to handle.
+Add a helper to pad a short Ethernet frame to the minimum required
+length, which can be used by backends' code.
 
-On the other hand, for the network backends like SLiRP/TAP, they
-don't expose a way to control the short frame behavior. As of today
-they just send/receive data from/to the other end connected to them,
-which means any sized packet is acceptable. So they can send and
-receive short frames without any problem. It is observed that ARP
-packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-these ARP packets to the other end which might be a NIC model that
-does not allow short frames to pass through.
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-To provide better compatibility, for packets sent from QEMU network
-backends like SLiRP/TAP, we change to pad short frames before sending
-it out to the other end, if the other end does not forbid it via the
-nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-does not violate the spec. But with this change, the behavior of
-dropping short frames from SLiRP/TAP interfaces in the NIC model
-cannot be emulated because it always receives a packet that is spec
-complaint. The capability of sending short frames from NIC models is
-still supported and short frames can still pass through SLiRP/TAP.
-
-This series should be able to fix the issue as reported with some
-NIC models before, that ARP requests get dropped, preventing the
-guest from becoming visible on the network. It was workarounded in
-these NIC models on the receive path, that when a short frame is
-received, it is padded up to 60 bytes.
+---
 
 Changes in v5:
 - minor update on commit message
@@ -129,53 +106,73 @@ Changes in v4:
 - change 'ethernet' to 'Ethernet'
 - do not inline the helper
 - check the padded buffer size to avoid buffer overflow
-- squash slirp/tap commits into one
 
 Changes in v3:
 - use 'without' instead of 'sans'
 - add a helper to pad short frames
-- add a comment to 'do_not_pad'
-- use the pad_short_frame() helper
 
-Bin Meng (12):
-  net: eth: Add a helper to pad a short Ethernet frame
-  net: Add a 'do_not_pad" to NetClientState
-  net: Pad short frames to minimum size before sending from SLiRP/TAP
-  hw/net: virtio-net: Initialize nc->do_not_pad to true
-  hw/net: e1000: Remove the logic of padding short frames in the receive
-    path
-  hw/net: vmxnet3: Remove the logic of padding short frames in the
-    receive path
-  hw/net: i82596: Remove the logic of padding short frames in the
-    receive path
-  hw/net: ne2000: Remove the logic of padding short frames in the
-    receive path
-  hw/net: pcnet: Remove the logic of padding short frames in the receive
-    path
-  hw/net: rtl8139: Remove the logic of padding short frames in the
-    receive path
-  hw/net: sungem: Remove the logic of padding short frames in the
-    receive path
-  hw/net: sunhme: Remove the logic of padding short frames in the
-    receive path
+ include/net/eth.h | 17 +++++++++++++++++
+ net/eth.c         | 17 +++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
- hw/net/e1000.c      | 11 +----------
- hw/net/i82596.c     | 18 ------------------
- hw/net/ne2000.c     | 12 ------------
- hw/net/pcnet.c      |  9 ---------
- hw/net/rtl8139.c    | 12 ------------
- hw/net/sungem.c     | 14 --------------
- hw/net/sunhme.c     | 11 -----------
- hw/net/virtio-net.c |  4 ++++
- hw/net/vmxnet3.c    | 10 ----------
- include/net/eth.h   | 17 +++++++++++++++++
- include/net/net.h   |  1 +
- net/eth.c           | 17 +++++++++++++++++
- net/slirp.c         | 10 ++++++++++
- net/tap-win32.c     | 10 ++++++++++
- net/tap.c           | 10 ++++++++++
- 15 files changed, 70 insertions(+), 96 deletions(-)
-
+diff --git a/include/net/eth.h b/include/net/eth.h
+index 0671be6916..7767ae880e 100644
+--- a/include/net/eth.h
++++ b/include/net/eth.h
+@@ -31,6 +31,7 @@
+ 
+ #define ETH_ALEN 6
+ #define ETH_HLEN 14
++#define ETH_ZLEN 60     /* Min. octets in frame without FCS */
+ 
+ struct eth_header {
+     uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
+@@ -422,4 +423,20 @@ bool
+ eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+                    size_t ip6hdr_off, eth_ip6_hdr_info *info);
+ 
++/**
++ * eth_pad_short_frame - pad a short frame to the minimum Ethernet frame length
++ *
++ * If the Ethernet frame size is shorter than 60 bytes, it will be padded to
++ * 60 bytes at the address @padded_pkt.
++ *
++ * @padded_pkt: buffer address to hold the padded frame
++ * @padded_buflen: pointer holding length of @padded_pkt. If the frame is
++ *                 padded, the length will be updated to the padded one.
++ * @pkt: address to hold the original Ethernet frame
++ * @pkt_size: size of the original Ethernet frame
++ * @return true if the frame is padded, otherwise false
++ */
++bool eth_pad_short_frame(uint8_t *padded_pkt, size_t *padded_buflen,
++                         const void *pkt, size_t pkt_size);
++
+ #endif
+diff --git a/net/eth.c b/net/eth.c
+index 1e0821c5f8..f913e4396f 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -548,3 +548,20 @@ bool eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+     info->l4proto = ext_hdr.ip6r_nxt;
+     return true;
+ }
++
++bool eth_pad_short_frame(uint8_t *padded_pkt, size_t *padded_buflen,
++                         const void *pkt, size_t pkt_size)
++{
++    assert(padded_buflen && *padded_buflen >= ETH_ZLEN);
++
++    if (pkt_size >= ETH_ZLEN) {
++        return false;
++    }
++
++    /* pad to minimum Ethernet frame length */
++    memcpy(padded_pkt, pkt, pkt_size);
++    memset(&padded_pkt[pkt_size], 0, ETH_ZLEN - pkt_size);
++    *padded_buflen = ETH_ZLEN;
++
++    return true;
++}
 -- 
 2.17.1
 
