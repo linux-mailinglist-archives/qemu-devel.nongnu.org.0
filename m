@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5908433EB1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 09:11:11 +0100 (CET)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386C033EB26
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 09:14:27 +0100 (CET)
+Received: from localhost ([::1]:59002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMRGn-0003sz-QR
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 04:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52472)
+	id 1lMRJy-0005VB-9G
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 04:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMRFg-0002zf-1E
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:10:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMRFc-0002Wv-Av
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:09:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615968594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KibSYtgw08q+WmXa+ECBzHD/TPmZg47jXMEEUJmnx8s=;
- b=hn8wvLAz1FhIU6SA1fr7TNXZ6ehm8JsOGMGYvaH1Ab+9Qz/fs8CeKqXs6Uqp9WBIdVg6V/
- 8rglksvAahO9SLZ9XJ0M+a9re6J4A4jtFMC+y/6Kqlv3uIFDEG9BDEQeLfvwrt2aib05FI
- sFSuPbXREjJ1Y6Qmo1UmKIA+aB7vcfY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-Jf79oABvN6GWA-nLG3Vjow-1; Wed, 17 Mar 2021 04:09:52 -0400
-X-MC-Unique: Jf79oABvN6GWA-nLG3Vjow-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59573107ACCD;
- Wed, 17 Mar 2021 08:09:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-160.ams2.redhat.com
- [10.36.113.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3A4B19704;
- Wed, 17 Mar 2021 08:09:49 +0000 (UTC)
-Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
- <20210305173507.393137-7-vsementsov@virtuozzo.com>
- <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
- <d5acfe9d-2095-a601-20b7-bd0b677df68a@virtuozzo.com>
- <6056196d-a0cc-7de2-5d6f-b223fdee98ff@redhat.com>
- <7fb10a80-8001-966d-533e-3f74c739571a@virtuozzo.com>
- <cec9f2d3-af82-1de2-2ddf-be1b9dde73f9@redhat.com>
- <c03cd2eb-f4ca-448b-91ed-16c6f0a7b283@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <28f3c53f-fe0b-9a55-22b8-a6f016c5f52b@redhat.com>
-Date: Wed, 17 Mar 2021 09:09:47 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMRIv-0004xh-Dc
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:13:21 -0400
+Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:57427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lMRIr-0004iW-K8
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:13:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id B564D273601;
+ Wed, 17 Mar 2021 09:13:12 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
+ 2021 09:13:11 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0022a0792ff-5c45-40df-8306-268c1a0b7afb,
+ 10040688A1AB5364447EAD88D88247B833C1D39B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v3 1/3] hw: Model ASPEED's Hash and Crypto Engine
+To: Joel Stanley <joel@jms.id.au>, Thomas Huth <thuth@redhat.com>, Laurent
+ Vivier <lvivier@redhat.com>
+References: <20210312105711.551423-1-joel@jms.id.au>
+ <20210312105711.551423-2-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <327d6a42-e8dc-8a12-2a85-4f306e784747@kaod.org>
+Date: Wed, 17 Mar 2021 09:13:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <c03cd2eb-f4ca-448b-91ed-16c6f0a7b283@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210312105711.551423-2-joel@jms.id.au>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 52e7bac2-f862-4b3a-a437-a5090d1e3624
+X-Ovh-Tracer-Id: 13409467892667943788
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeffedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,69 +71,446 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, crosa@redhat.com
+Cc: Andrew Jeffery <andrew@aj.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.03.21 18:48, Vladimir Sementsov-Ogievskiy wrote:
-> 16.03.2021 15:25, Max Reitz wrote:
->> On 15.03.21 15:40, Vladimir Sementsov-Ogievskiy wrote:
->>> 15.03.2021 12:58, Max Reitz wrote:
->>
->> [...]
->>
->>>> The question is whether it really makes sense to even have a 
->>>> seqcache_read() path when in reality it’s probably never accessed.  
->>>> I mean, besides the fact that it seems based purely on chance 
->>>> whether a read might fetch something from the cache even while we’re 
->>>> writing, in practice I don’t know any case where we’d write to and 
->>>> read from a compressed qcow2 image at the same time.  (I don’t know 
->>>> what you’re doing with the 'compress' filter, though.)
->>>>
->>>
->>> Note, that for user that's not a parallel write and read to the same 
->>> cluster:
->>>
->>> 1. user writes cluster A, request succeeded, data is in the cache
->>>
->>> 2. user writes some other clusters, cache filled, flush started
->>>
->>> 3. in parallel to [2] user reads cluster A. From the POV of user, 
->>> cluster A is written already, and should be read successfully
->>
->> Yes, but when would that happen?
->>
->>> And seqcache_read() gives a simple non-blocking way to support read 
->>> operation.
->>
->> OK, that makes sense.  We’d need to flush the cache before we can read 
->> anything from the disk, so we should have a read-from-cache branch here.
->>
->>> But rewriting compressed clusters is sensible only when we run real 
->>> guest on compressed image.. Can it be helpful? Maybe for scenarios 
->>> with low disk usage ratio..
->>
->> I’m not sure, but the point is that rewrites are currently not 
->> supported.  The whole compression implementation is mainly tailored 
->> towards just writing a complete image (e.g. by qemu-img convert or the 
->> backup job), so that’s where my question is coming from: It’s 
->> difficult for me to see a currently working use case where you’d read 
->> from and write to a compressed image at the same time.
->>
+On 3/12/21 11:57 AM, Joel Stanley wrote:
+> The HACE (Hash and Crypto Engine) is a device that offloads MD5, SHA1,
+> SHA2, RSA and other cryptographic algorithms.
 > 
-> External backup works like the following:
+> This initial model implements a subset of the device's functionality;
+> currently only direct access (non-scatter gather) hashing.
 > 
->   - start backup sync=none from active disk to temporary disk
->   - export temporary disk through nbd
->   - external tool reads from nbd export
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> v3:
+>  - rebase on upstream to fix meson.build conflict
+> v2:
+>  - reorder register defines
+>  - mask src/dest/len registers according to hardware
+> ---
+>  include/hw/misc/aspeed_hace.h |  33 ++++
+>  hw/misc/aspeed_hace.c         | 312 ++++++++++++++++++++++++++++++++++
+>  hw/misc/meson.build           |   1 +
+>  3 files changed, 346 insertions(+)
+>  create mode 100644 include/hw/misc/aspeed_hace.h
+>  create mode 100644 hw/misc/aspeed_hace.c
 > 
-> For this scheme it may make sense to use compression,
+> diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
+> new file mode 100644
+> index 000000000000..e1fce670ef9e
+> --- /dev/null
+> +++ b/include/hw/misc/aspeed_hace.h
+> @@ -0,0 +1,33 @@
+> +/*
+> + * ASPEED Hash and Crypto Engine
+> + *
+> + * Copyright (C) 2021 IBM Corp.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef ASPEED_HACE_H
+> +#define ASPEED_HACE_H
+> +
+> +#include "hw/sysbus.h"
+> +
+> +#define TYPE_ASPEED_HACE "aspeed.hace"
+> +#define ASPEED_HACE(obj) OBJECT_CHECK(AspeedHACEState, (obj), TYPE_ASPEED_HACE)
+> +
+> +#define ASPEED_HACE_NR_REGS (0x64 >> 2)
+> +
+> +typedef struct AspeedHACEState {
+> +    /* <private> */
+> +    SysBusDevice parent;
+> +
+> +    /*< public >*/
+> +    MemoryRegion iomem;
+> +    qemu_irq irq;
+> +
+> +    uint32_t regs[ASPEED_HACE_NR_REGS];
+> +
+> +    MemoryRegion *dram_mr;
+> +    AddressSpace dram_as;
+> +} AspeedHACEState;
+> +
+> +#endif /* _ASPEED_HACE_H_ */
+> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+> new file mode 100644
+> index 000000000000..3d02fae2dd62
+> --- /dev/null
+> +++ b/hw/misc/aspeed_hace.c
+> @@ -0,0 +1,312 @@
+> +/*
+> + * ASPEED Hash and Crypto Engine
+> + *
+> + * Copyright (C) 2021 IBM Corp.
+> + *
+> + * Joel Stanley <joel@jms.id.au>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/misc/aspeed_hace.h"
+> +#include "qapi/error.h"
+> +#include "migration/vmstate.h"
+> +#include "crypto/hash.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/irq.h"
+> +
+> +#define R_CRYPT_CMD     (0x10 / 4)
+> +
+> +#define R_STATUS        (0x1c / 4)
+> +#define HASH_IRQ        BIT(9)
+> +#define CRYPT_IRQ       BIT(12)
+> +#define TAG_IRQ         BIT(15)
+> +
+> +#define R_HASH_SRC      (0x20 / 4)
+> +#define R_HASH_DEST     (0x24 / 4)
+> +#define R_HASH_SRC_LEN  (0x2c / 4)
+> +
+> +#define R_HASH_CMD      (0x30 / 4)
+> +/* Hash algorithim selection */
 
-Not sure whether it really does, because it’s my impression the 
-temporary disk is deleted after the backup, but no matter: You’re right, 
-that’s indeed a valid case.
+algorithm
 
-Max
+> +#define  HASH_ALGO_MASK                 (BIT(4) | BIT(5) | BIT(6))
+> +#define  HASH_ALGO_MD5                  0
+> +#define  HASH_ALGO_SHA1                 BIT(5)
+> +#define  HASH_ALGO_SHA224               BIT(6)
+> +#define  HASH_ALGO_SHA256               (BIT(4) | BIT(6))
+> +#define  HASH_ALGO_SHA512_SERIES        (BIT(5) | BIT(6))
+> +/* SHA512 algorithim selection */
+
+same
+
+> +#define  SHA512_HASH_ALGO_MASK          (BIT(10) | BIT(11) | BIT(12))
+> +#define  HASH_ALGO_SHA512_SHA512        0
+> +#define  HASH_ALGO_SHA512_SHA384        BIT(10)
+> +#define  HASH_ALGO_SHA512_SHA256        BIT(11)
+> +#define  HASH_ALGO_SHA512_SHA224        (BIT(10) | BIT(11))
+> +/* HMAC modes */
+> +#define  HASH_HMAC_MASK                 (BIT(7) | BIT(8))
+> +#define  HASH_DIGEST                    0
+> +#define  HASH_DIGEST_HMAC               BIT(7)
+> +#define  HASH_DIGEST_ACCUM              BIT(8)
+> +#define  HASH_HMAC_KEY                  (BIT(7) | BIT(8))
+> +/* Cascscaed operation modes */
+
+Cascaded.
+
+> +#define  HASH_ONLY                      0
+> +#define  HASH_ONLY2                     BIT(0)
+> +#define  HASH_CRYPT_THEN_HASH           BIT(1)
+> +#define  HASH_HASH_THEN_CRYPT           (BIT(0) | BIT(1))
+> +/* Other cmd bits */
+> +#define  HASH_IRQ_EN                    BIT(9)
+> +#define  HASH_SG_EN                     BIT(18)
+> +
+> +
+> +static int do_hash_operation(AspeedHACEState *s, int algo)
+> +{
+> +    hwaddr src, len, dest;
+> +    uint8_t *digest_buf = NULL;
+> +    size_t digest_len = 0;
+> +    char *src_buf;
+> +    int rc;
+> +
+> +    src = 0x80000000 | s->regs[R_HASH_SRC];
+> +    len = s->regs[R_HASH_SRC_LEN];
+> +    dest = 0x80000000 | s->regs[R_HASH_DEST];
+
+The model needs a "sdram-base" property. See aspeed-smc.
+
+> +
+> +    src_buf = address_space_map(&s->dram_as, src, &len, false,
+> +                                MEMTXATTRS_UNSPECIFIED);
+> +    if (!src_buf) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map dram\n", __func__);
+> +        return -EACCES;
+> +    }
+
+Instead of mapping the machine memory, we could allocate a buffer 
+to load the data with address_space_ldl_le routines. I think this
+would be safe for endianess, or we don't care ? 
+
+Also, HACE30 has byte swapping control bits in 3:2. How do they work ? 
+
+
+> +    rc = qcrypto_hash_bytes(algo, src_buf, len, &digest_buf, &digest_len,
+> +                            &error_fatal);
+> +    if (rc < 0) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
+> +        return rc;
+> +    }
+> +
+> +    rc = address_space_write(&s->dram_as, dest, MEMTXATTRS_UNSPECIFIED,
+> +                             digest_buf, digest_len);
+> +    if (rc) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: address space write failed\n", __func__);
+> +    }
+> +    g_free(digest_buf);
+> +
+> +    address_space_unmap(&s->dram_as, src_buf, len, false, len);
+> +
+> +    /*
+> +     * Set status bits to indicate completion. Testing shows hardware sets
+> +     * these irrespective of HASH_IRQ_EN.
+> +     */
+> +    s->regs[R_STATUS] |= HASH_IRQ;
+> +
+> +    return 0;
+> +}
+> +
+> +
+> +static uint64_t aspeed_hace_read(void *opaque, hwaddr addr, unsigned int size)
+> +{
+> +    AspeedHACEState *s = ASPEED_HACE(opaque);
+> +
+> +    addr >>= 2;
+> +
+> +    if (addr >= ASPEED_HACE_NR_REGS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
+> +                      __func__, addr << 2);
+> +        return 0;
+> +    }
+> +
+> +    return s->regs[addr];
+> +}
+> +
+> +static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+> +                              unsigned int size)
+> +{
+> +    AspeedHACEState *s = ASPEED_HACE(opaque);
+> +
+> +    addr >>= 2;
+> +
+> +    if (addr >= ASPEED_HACE_NR_REGS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
+> +                      __func__, addr << 2);
+> +        return;
+> +    }
+> +
+> +    switch (addr) {
+> +    case R_STATUS:
+> +        if (data & HASH_IRQ) {
+> +            data &= ~HASH_IRQ;
+> +
+> +            if (s->regs[addr] & HASH_IRQ) {
+> +                qemu_irq_lower(s->irq);
+> +            }
+> +        }
+> +        break;
+> +    case R_HASH_SRC:
+> +        data &= 0x7FFFFFFF;
+> +        break;
+> +    case R_HASH_DEST:
+> +        data &= 0x7FFFFFF8;
+> +        break;
+
+These mask values depend on the SoC revision since the SDRAM address space
+has a different size. I would add an Object Class for these values.
+
+> +    case R_HASH_SRC_LEN:
+> +        data &= 0x0FFFFFFF;
+> +        break;
+> +    case R_HASH_CMD: {
+> +        int algo = -1;
+> +        if ((data & HASH_HMAC_MASK)) {
+> +            qemu_log_mask(LOG_UNIMP,
+> +                          "%s: HMAC engine command mode %ld not implemented",
+
+%ld will surely raise a compile error on windows.
+
+> +                          __func__, (data & HASH_HMAC_MASK) >> 8);
+> +        }
+> +        if (data & HASH_SG_EN) {
+> +            qemu_log_mask(LOG_UNIMP,
+> +                          "%s: Hash scatter gather mode not implemented",
+> +                          __func__);
+> +        }
+> +        if (data & BIT(1)) {
+> +            qemu_log_mask(LOG_UNIMP,
+> +                          "%s: Cascaded mode not implemented",
+> +                          __func__);
+> +        }
+> +        switch (data & HASH_ALGO_MASK) {
+> +        case HASH_ALGO_MD5:
+> +            algo = QCRYPTO_HASH_ALG_MD5;
+> +            break;
+> +        case HASH_ALGO_SHA1:
+> +            algo = QCRYPTO_HASH_ALG_SHA1;
+> +            break;
+> +        case HASH_ALGO_SHA224:
+> +            algo = QCRYPTO_HASH_ALG_SHA224;
+> +            break;
+> +        case HASH_ALGO_SHA256:
+> +            algo = QCRYPTO_HASH_ALG_SHA256;
+> +            break;
+> +        case HASH_ALGO_SHA512_SERIES:
+> +            switch (data & SHA512_HASH_ALGO_MASK) {
+> +            case HASH_ALGO_SHA512_SHA512:
+> +                algo = QCRYPTO_HASH_ALG_SHA512;
+> +                break;
+> +            case HASH_ALGO_SHA512_SHA384:
+> +                algo = QCRYPTO_HASH_ALG_SHA384;
+> +                break;
+> +            case HASH_ALGO_SHA512_SHA256:
+> +                algo = QCRYPTO_HASH_ALG_SHA256;
+> +                break;
+> +            case HASH_ALGO_SHA512_SHA224:
+> +                algo = QCRYPTO_HASH_ALG_SHA224;
+> +                break;
+
+Couldn't we use an array of 
+
+   struct { 
+	uint64_t mask; 
+	int	 algo;
+   };
+
+and a lookup routine ? 
+
+> +            default:
+> +                qemu_log_mask(LOG_GUEST_ERROR,
+> +                        "%s: Invalid sha512 hash algorithm selection 0x%03lx\n",
+> +                        __func__, data & SHA512_HASH_ALGO_MASK);
+
+PRIx64 should be used.
+
+> +                break;
+> +            }
+> +            break;
+> +        default:
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Invalid hash algorithm selection 0x%03lx\n",
+
+also here.
+
+> +                      __func__, data & HASH_ALGO_MASK);
+> +            break;
+> +        }
+> +        if (algo >= 0) {
+> +            do_hash_operation(s, algo);
+> +
+> +            if (data & HASH_IRQ_EN) {
+> +                qemu_irq_raise(s->irq);
+> +            }
+> +        }
+> +
+> +        break;
+> +    }
+> +    case R_CRYPT_CMD:
+> +        qemu_log_mask(LOG_UNIMP, "%s: Crypt commands not implemented\n",
+> +                       __func__);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    s->regs[addr] = data;
+> +}
+> +
+> +static const MemoryRegionOps aspeed_hace_ops = {
+> +    .read = aspeed_hace_read,
+> +    .write = aspeed_hace_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    },
+> +};
+> +
+> +static void aspeed_hace_reset(DeviceState *dev)
+> +{
+> +    struct AspeedHACEState *s = ASPEED_HACE(dev);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +}
+> +
+> +static void aspeed_hace_realize(DeviceState *dev, Error **errp)
+> +{
+> +    AspeedHACEState *s = ASPEED_HACE(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +
+> +    sysbus_init_irq(sbd, &s->irq);
+> +
+> +    memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_hace_ops, s,
+> +            TYPE_ASPEED_HACE, 0x1000);
+> +
+> +    if (!s->dram_mr) {
+> +        error_setg(errp, TYPE_ASPEED_HACE ": 'dram' link not set");
+> +        return;
+> +    }
+> +
+> +    address_space_init(&s->dram_as, s->dram_mr, "dram");
+> +
+> +    sysbus_init_mmio(sbd, &s->iomem);
+> +}
+> +
+> +static Property aspeed_hace_properties[] = {
+> +    DEFINE_PROP_LINK("dram", AspeedHACEState, dram_mr,
+> +                     TYPE_MEMORY_REGION, MemoryRegion *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +
+> +static const VMStateDescription vmstate_aspeed_hace = {
+> +    .name = TYPE_ASPEED_HACE,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32_ARRAY(regs, AspeedHACEState, ASPEED_HACE_NR_REGS),
+> +        VMSTATE_END_OF_LIST(),
+> +    }
+> +};
+> +
+> +static void aspeed_hace_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = aspeed_hace_realize;
+> +    dc->reset = aspeed_hace_reset;
+> +    device_class_set_props(dc, aspeed_hace_properties);
+> +    dc->desc = "Aspeed Hash and Crypto Engine",
+> +    dc->vmsd = &vmstate_aspeed_hace;
+> +}
+> +
+> +static const TypeInfo aspeed_hace_info = {
+> +    .name = TYPE_ASPEED_HACE,
+> +    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(AspeedHACEState),
+> +    .class_init = aspeed_hace_class_init,
+> +};
+> +
+> +static void aspeed_hace_register_types(void)
+> +{
+> +    type_register_static(&aspeed_hace_info);
+> +}
+> +
+> +type_init(aspeed_hace_register_types);
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 00356cf12ec7..23b61d55f62e 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -104,6 +104,7 @@ softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'))
+>  softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
+>  softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+>  softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+> +  'aspeed_hace.c',
+>    'aspeed_lpc.c',
+>    'aspeed_scu.c',
+>    'aspeed_sdmc.c',
+> 
 
 
