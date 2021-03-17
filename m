@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0331933E68C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 03:06:57 +0100 (CET)
-Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB29833E69E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 03:08:19 +0100 (CET)
+Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMLaJ-0007iH-KD
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 22:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
+	id 1lMLbf-0000AO-0K
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 22:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lMLYi-00074B-Dp
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 22:05:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lMLYb-0000Wl-A8
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 22:05:15 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lMLZ6-0007Vb-V8
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 22:05:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lMLZ4-0000no-9p
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 22:05:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615946706;
+ s=mimecast20190719; t=1615946736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bgrIk/Dff7bIAxN/4yFOY5v6QHWPW5HJiV736mIknHs=;
- b=LUHOCF7j9adohj2CgvXZR1jB6gUWKLH+rW1M42EI9UbPStDmsxluetKrdZ03jgt+SQEiRX
- f9b4qfKSGk0DSFH5NgoEPgz4SCKn13PMSkosiInMW/OsClOF5wVHlqjhiBL5yX+lfuM8y7
- jQP6SdAcoUXXxwngE0W1bbe0kXFj/YY=
+ bh=HRbWDgc96q1NIOTlgFEb3AxL2oqObSZ3WEZhdefKPGc=;
+ b=B5RuwtPB54R1gq7IvNNwb+aaZ/TFtOhpwOK2H+7J62Vvmh17NnxpaoNsDjY7zQC63Sqbgp
+ aFx5D//wirF1TEe6zeV8UcJacHmhTWYmyEz7dv0I/3zbDp6UKrcl4sTPgiPm0JLzCBCm6y
+ diArM+jTee84SICIb/c3mboX+yBc1QI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-npakodA0OOa1GhM1ultIEA-1; Tue, 16 Mar 2021 22:05:02 -0400
-X-MC-Unique: npakodA0OOa1GhM1ultIEA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-368-G1-DOKZPMxG8q8yLcG4ttg-1; Tue, 16 Mar 2021 22:05:32 -0400
+X-MC-Unique: G1-DOKZPMxG8q8yLcG4ttg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD4731074659;
- Wed, 17 Mar 2021 02:05:00 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-113-107.rdu2.redhat.com
- [10.10.113.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7042860C13;
- Wed, 17 Mar 2021 02:04:56 +0000 (UTC)
-Date: Tue, 16 Mar 2021 22:04:54 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v2 1/2] tests/acceptance: Test ast2400 and ast2500 machines
-Message-ID: <YFFjxg3MNd9oJ0vu@localhost.localdomain>
-References: <20210304123951.163411-1-joel@jms.id.au>
- <20210304123951.163411-2-joel@jms.id.au>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95CEB1074644;
+ Wed, 17 Mar 2021 02:05:30 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-13-147.pek2.redhat.com
+ [10.72.13.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 373EC6A8E4;
+ Wed, 17 Mar 2021 02:05:21 +0000 (UTC)
+Subject: Re: [RFC v2 05/13] vhost: Route guest->host notification through
+ shadow virtqueue
+To: Eugenio Perez Martin <eperezma@redhat.com>
+References: <20210315194842.277740-1-eperezma@redhat.com>
+ <20210315194842.277740-6-eperezma@redhat.com>
+ <23e492d1-9e86-20d3-e2b3-b3d7c8c6da9c@redhat.com>
+ <CAJaqyWf6Vec1B+ybHdHoUVOG8Ga8hO0=ub8eVou+S0PfgyW+2A@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <2a64dae7-a1db-53b2-413d-45225d8653ca@redhat.com>
+Date: Wed, 17 Mar 2021 10:05:20 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210304123951.163411-2-joel@jms.id.au>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAJaqyWf6Vec1B+ybHdHoUVOG8Ga8hO0=ub8eVou+S0PfgyW+2A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pk2IiuFRYfvGL2eL"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,91 +86,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-arm@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Guru Prasad <guru.prasad@broadcom.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
+ Michael Lilja <ml@napatech.com>, Jim Harford <jim.harford@broadcom.com>,
+ Rob Miller <rob.miller@broadcom.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pk2IiuFRYfvGL2eL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 04, 2021 at 11:09:50PM +1030, Joel Stanley wrote:
-> Test MTD images from the OpenBMC project on AST2400 and AST2500 SoCs
-> from ASPEED, by booting Palmetto and Romulus BMC machines.
->=20
-> The images are fetched from OpenBMC's release directory on github.
->=20
-> Co-developed-by: C=E9dric Le Goater <clg@kaod.org>
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-> Tested-by: C=E9dric Le Goater <clg@kaod.org>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
+在 2021/3/16 下午6:31, Eugenio Perez Martin 写道:
+> On Tue, Mar 16, 2021 at 8:18 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2021/3/16 上午3:48, Eugenio Pérez 写道:
+>>> Shadow virtqueue notifications forwarding is disabled when vhost_dev
+>>> stops, so code flow follows usual cleanup.
+>>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>>    hw/virtio/vhost-shadow-virtqueue.h |   7 ++
+>>>    include/hw/virtio/vhost.h          |   4 +
+>>>    hw/virtio/vhost-shadow-virtqueue.c | 113 ++++++++++++++++++++++-
+>>>    hw/virtio/vhost.c                  | 143 ++++++++++++++++++++++++++++-
+>>>    4 files changed, 265 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+>>> index 6cc18d6acb..c891c6510d 100644
+>>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+>>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+>>> @@ -17,6 +17,13 @@
+>>>
+>>>    typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+>>>
+>>> +bool vhost_shadow_vq_start(struct vhost_dev *dev,
+>>> +                           unsigned idx,
+>>> +                           VhostShadowVirtqueue *svq);
+>>> +void vhost_shadow_vq_stop(struct vhost_dev *dev,
+>>> +                          unsigned idx,
+>>> +                          VhostShadowVirtqueue *svq);
+>>> +
+>>>    VhostShadowVirtqueue *vhost_shadow_vq_new(struct vhost_dev *dev, int idx);
+>>>
+>>>    void vhost_shadow_vq_free(VhostShadowVirtqueue *vq);
+>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+>>> index ac963bf23d..7ffdf9aea0 100644
+>>> --- a/include/hw/virtio/vhost.h
+>>> +++ b/include/hw/virtio/vhost.h
+>>> @@ -55,6 +55,8 @@ struct vhost_iommu {
+>>>        QLIST_ENTRY(vhost_iommu) iommu_next;
+>>>    };
+>>>
+>>> +typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+>>> +
+>>>    typedef struct VhostDevConfigOps {
+>>>        /* Vhost device config space changed callback
+>>>         */
+>>> @@ -83,7 +85,9 @@ struct vhost_dev {
+>>>        uint64_t backend_cap;
+>>>        bool started;
+>>>        bool log_enabled;
+>>> +    bool shadow_vqs_enabled;
+>>>        uint64_t log_size;
+>>> +    VhostShadowVirtqueue **shadow_vqs;
+>>
+>> Any reason that you don't embed the shadow virtqueue into
+>> vhost_virtqueue structure?
+>>
+> Not really, it could be relatively big and I would prefer SVQ
+> members/methods to remain hidden from any other part that includes
+> vhost.h. But it could be changed, for sure.
+>
+>> (Note that there's a masked_notifier in struct vhost_virtqueue).
+>>
+> They are used differently: in SVQ the masked notifier is a pointer,
+> and if it's NULL the SVQ code knows that device is not masked. The
+> vhost_virtqueue is the real owner.
 
-These seem quite stable, as not as slow as the comment on the seems to
-indicate.  On a reasonbly low powered machine:
 
-JOB ID     : 01fb73b0f5f4612e95f9f2c2a791df9c11d226ca
-JOB LOG    : /home/cleber/avocado/job-results/job-2021-03-16T21.58-01fb73b/=
-job.log
- (1/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2400_palmetto_openbmc_v2_9_0: STARTED
- (2/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2500_romulus_openbmc_v2_9_0: STARTED
- (3/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2400_palmetto_openbmc_v2_9_0: STARTED
- (4/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2500_romulus_openbmc_v2_9_0: STARTED
- (1/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2400_palmetto_openbmc_v2_9_0: PASS (32.70 s)
- (3/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2400_palmetto_openbmc_v2_9_0: PASS (32.86 s)
- (5/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2400_palmetto_openbmc_v2_9_0: STARTED
- (6/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2500_romulus_openbmc_v2_9_0: STARTED
- (4/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2500_romulus_openbmc_v2_9_0: PASS (42.46 s)
- (2/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2500_romulus_openbmc_v2_9_0: PASS (42.64 s)
- (5/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2400_palmetto_openbmc_v2_9_0: PASS (21.78 s)
- (6/6) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
-2500_romulus_openbmc_v2_9_0: PASS (26.11 s)
-RESULTS    : PASS 6 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CA=
-NCEL 0
-JOB HTML   : /home/cleber/avocado/job-results/job-2021-03-16T21.58-01fb73b/=
-results.html
-JOB TIME   : 61.04 s
+Yes, but it's an example for embedding auxciliary data structures in the 
+vhost_virtqueue.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 
---pk2IiuFRYfvGL2eL
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> It could be replaced by a boolean in SVQ or something like that, I
+> experimented with a tri-state too (UNMASKED, MASKED, MASKED_NOTIFIED)
+> and let vhost.c code to manage all the transitions. But I find clearer
+> the pointer use, since it's the more natural for the
+> vhost_virtqueue_mask, vhost_virtqueue_pending existing functions.
+>
+> This masking/unmasking is the part I dislike the most from this
+> series, so I'm very open to alternatives.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBRY8MACgkQZX6NM6Xy
-CfO3nQ//ffz90W2lO+oEo2bKrb6Es4BxviE+1+11bpvR3DptXAx4gbd0xfhsePr2
-P8ySGkPyrsKpjQsI2c1Q8NAl77sUK0TY0t9V6vlNddgCvG4IS1MFt6h6FOimZlF3
-RRknr+e9v3EjDcsxd9cQ9XJW0YMlg7PRgQhATZtUdeUcmy8RvsU9CcGYBWTBXgDK
-8AtVH/crbxY8DvMLT1rErCi6hfNq8oE8ZW1x2t7h4MfGLmq0ZCIY5EttzQJfoFnL
-rIK0rgzAlF6YptPdk/96HpQ+jbfhHz7stdjMVUyKieCFQmcw0zhuHV6gR2TFvzZk
-I4ynKuvtUOQpRdZWpP3rWR2tdbycl3I2gIklaHouVu9RUBYaI2c4K+LnLFMN9RRk
-503LEFbqm1RCJr7PxkZm2xHXa2BAyarS0vcxuMXJATq8QYdsNtp+rTIux8p19TzG
-+KpfiYlu0dto6ijeLCG8qQubDYFgSvFYKURbrs2LFHTtiMKeRMyOLhrsivsdAvPK
-MSrJXWcaWjNjCk9xw+bK/ZPWFq5a26hY42qKg1BY8gmWN4LLXzm6C/pgWY/uZnWv
-2wv+QdXZ6AIZBT9mVVuM0ugMj85ZJOKdqJAtd2WV9l2+RD9I6bgqEKkypIIThlv8
-VIaZhjZnRnazTwkR0Kojq4WSRKG483EDFj59n1xs9fD3KwmQbMw=
-=abaJ
------END PGP SIGNATURE-----
+See below. I think we don't even need to care about that.
 
---pk2IiuFRYfvGL2eL--
+
+>
+>>>        Error *migration_blocker;
+>>>        const VhostOps *vhost_ops;
+>>>        void *opaque;
+>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+>>> index 4512e5b058..3e43399e9c 100644
+>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+>>> @@ -8,9 +8,12 @@
+>>>     */
+>>>
+>>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
+>>> +#include "hw/virtio/vhost.h"
+>>> +
+>>> +#include "standard-headers/linux/vhost_types.h"
+>>>
+>>>    #include "qemu/error-report.h"
+>>> -#include "qemu/event_notifier.h"
+>>> +#include "qemu/main-loop.h"
+>>>
+>>>    /* Shadow virtqueue to relay notifications */
+>>>    typedef struct VhostShadowVirtqueue {
+>>> @@ -18,14 +21,121 @@ typedef struct VhostShadowVirtqueue {
+>>>        EventNotifier kick_notifier;
+>>>        /* Shadow call notifier, sent to vhost */
+>>>        EventNotifier call_notifier;
+>>> +
+>>> +    /*
+>>> +     * Borrowed virtqueue's guest to host notifier.
+>>> +     * To borrow it in this event notifier allows to register on the event
+>>> +     * loop and access the associated shadow virtqueue easily. If we use the
+>>> +     * VirtQueue, we don't have an easy way to retrieve it.
+>>
+>> So this is something that worries me. It looks like a layer violation
+>> that makes the codes harder to work correctly.
+>>
+> I don't follow you here.
+>
+> The vhost code already depends on virtqueue in the same sense:
+> virtio_queue_get_host_notifier is called on vhost_virtqueue_start. So
+> if this behavior ever changes it is unlikely for vhost to keep working
+> without changes. vhost_virtqueue has a kick/call int where I think it
+> should be stored actually, but they are never used as far as I see.
+>
+> Previous RFC did rely on vhost_dev_disable_notifiers. From its documentation:
+> /* Stop processing guest IO notifications in vhost.
+>   * Start processing them in qemu.
+>   ...
+> But it was easier for this mode to miss a notification, since they
+> create a new host_notifier in virtio_bus_set_host_notifier right away.
+> So I decided to use the file descriptor already sent to vhost in
+> regular operation mode, so guest-related resources change less.
+>
+> Having said that, maybe it's useful to assert that
+> vhost_dev_{enable,disable}_notifiers are never called on shadow
+> virtqueue mode. Also, it could be useful to retrieve it from
+> virtio_bus, not raw shadow virtqueue, so all get/set are performed
+> from it. Would that make more sense?
+>
+>> I wonder if it would be simpler to start from a vDPA dedicated shadow
+>> virtqueue implementation:
+>>
+>> 1) have the above fields embeded in vhost_vdpa structure
+>> 2) Work at the level of
+>> vhost_vdpa_set_vring_kick()/vhost_vdpa_set_vring_call()
+>>
+> This notifier is never sent to the device in shadow virtqueue mode.
+> It's for SVQ to react to guest's notifications, registering it on its
+> main event loop [1]. So if I perform these changes the way I
+> understand them, SVQ would still rely on this borrowed EventNotifier,
+> and it would send to the vDPA device the newly created kick_notifier
+> of VhostShadowVirtqueue.
+
+
+The point is that vhost code should be coupled loosely with virtio. If 
+you try to "borrow" EventNotifier from virtio, you need to deal with a 
+lot of synchrization. An exampleis the masking stuffs.
+
+
+>
+>> Then the layer is still isolated and you have a much simpler context to
+>> work that you don't need to care a lot of synchornization:
+>>
+>> 1) vq masking
+> This EventNotifier is not used for masking, it does not change from
+> the start of the shadow virtqueue operation through its end. Call fd
+> sent to vhost/vdpa device does not change either in shadow virtqueue
+> mode operation with masking/unmasking. I will try to document it
+> better.
+>
+> I think that we will need to handle synchronization with
+> masking/unmasking from the guest and dynamically enabling SVQ
+> operation mode, since they can happen at the same time as long as we
+> let the guest run. There may be better ways of synchronizing them of
+> course, but I don't see how moving to the vhost-vdpa backend helps
+> with this. Please expand if I've missed it.
+>
+> Or do you mean to forbid regular <-> SVQ operation mode transitions and delay it
+> to future patchsets?
+
+
+So my idea is to do all the shadow virtqueue in the vhost-vDPA codes and 
+hide them from the upper layers like virtio. This means it works at 
+vhost level which can see vhost_vring_file only. When enalbed, what it 
+needs is just:
+
+1) switch to use svq kickfd and relay ioeventfd to svq kickfd
+2) switch to use svq callfd and relay svq callfd to irqfd
+
+It will still behave like a vhost-backend that the switching is done 
+internally in vhost-vDPA which is totally transparent to the virtio 
+codes of Qemu.
+
+E.g:
+
+1) in the case of guest notifier masking, we don't need to do anything 
+since virtio codes will replace another irqfd for us.
+2) easily to deal with vhost dev start and stop
+
+The advantages are obvious, simple and easy to implement.
+
+
+>
+>> 2) vhost dev start and stop
+>>
+>> ?
+>>
+>>
+>>> +     *
+>>> +     * So shadow virtqueue must not clean it, or we would lose VirtQueue one.
+>>> +     */
+>>> +    EventNotifier host_notifier;
+>>> +
+>>> +    /* Virtio queue shadowing */
+>>> +    VirtQueue *vq;
+>>>    } VhostShadowVirtqueue;
+>>>
+>>> +/* Forward guest notifications */
+>>> +static void vhost_handle_guest_kick(EventNotifier *n)
+>>> +{
+>>> +    VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
+>>> +                                             host_notifier);
+>>> +
+>>> +    if (unlikely(!event_notifier_test_and_clear(n))) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    event_notifier_set(&svq->kick_notifier);
+>>> +}
+>>> +
+>>> +/*
+>>> + * Restore the vhost guest to host notifier, i.e., disables svq effect.
+>>> + */
+>>> +static int vhost_shadow_vq_restore_vdev_host_notifier(struct vhost_dev *dev,
+>>> +                                                     unsigned vhost_index,
+>>> +                                                     VhostShadowVirtqueue *svq)
+>>> +{
+>>> +    EventNotifier *vq_host_notifier = virtio_queue_get_host_notifier(svq->vq);
+>>> +    struct vhost_vring_file file = {
+>>> +        .index = vhost_index,
+>>> +        .fd = event_notifier_get_fd(vq_host_notifier),
+>>> +    };
+>>> +    int r;
+>>> +
+>>> +    /* Restore vhost kick */
+>>> +    r = dev->vhost_ops->vhost_set_vring_kick(dev, &file);
+>>> +    return r ? -errno : 0;
+>>> +}
+>>> +
+>>> +/*
+>>> + * Start shadow virtqueue operation.
+>>> + * @dev vhost device
+>>> + * @hidx vhost virtqueue index
+>>> + * @svq Shadow Virtqueue
+>>> + */
+>>> +bool vhost_shadow_vq_start(struct vhost_dev *dev,
+>>> +                           unsigned idx,
+>>> +                           VhostShadowVirtqueue *svq)
+>>
+>> It looks to me this assumes the vhost_dev is started before
+>> vhost_shadow_vq_start()?
+>>
+> Right.
+
+
+This might not true. Guest may enable and disable virtio drivers after 
+the shadow virtqueue is started. You need to deal with that.
+
+Thanks
 
 
