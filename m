@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC31933EAFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 09:01:34 +0100 (CET)
-Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5908433EB1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 09:11:11 +0100 (CET)
+Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMR7V-0001IJ-IM
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 04:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50720)
+	id 1lMRGn-0003sz-QR
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 04:11:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMR60-0000pZ-TQ
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:00:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29044)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMRFg-0002zf-1E
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:10:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMR5x-0005SN-Pq
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:00:00 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMRFc-0002Wv-Av
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 04:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615967995;
+ s=mimecast20190719; t=1615968594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2TOLjbzpSeNRBZx9cDkE494O5BsLe/X98e/4w9zrABk=;
- b=EFmVSDG3Ej/uPTMYMuJo2JhCaLHKhSfkw69FK2QJvQIfQ0mDu6Luo+SQ9lcdPvTEtn7KFW
- 620AukCVKGwlV1gvDXew4ZFIqnEYXfIP+Gp4AdOXXThUmtW0rqLinxRsTZp3QQsgHkyG1k
- h8HYXI5bgNBlqDEGVIYPRPZI9e7Xywk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-KdcKhBalPiao_cXUobjknQ-1; Wed, 17 Mar 2021 03:59:51 -0400
-X-MC-Unique: KdcKhBalPiao_cXUobjknQ-1
-Received: by mail-wr1-f69.google.com with SMTP id n17so18024338wrq.5
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 00:59:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2TOLjbzpSeNRBZx9cDkE494O5BsLe/X98e/4w9zrABk=;
- b=liiL/8Zx+iFiv2QKSgjouyprV4TilujBxNY3r9YgN2T8KM3QN3kMK5g0fRhykjrQks
- UJAfFLjshaaDzlb5KjFaVQolqRfzwT5HyuD5rjmmQf6eHpA+KFUjwnhO5iIYYXm7CM9h
- Yu9w7CVJ8WsDVASipw/Q8Y+l43urjBe8OUrXBkAhxFL+eduMB7MOWSqwjvSH38OwkQB1
- YHkJVnLNMYqu3Kp9bf6dW/xWRPU9wKgTnFdBWtDIIUmS97uYawBw4vr17Qy+FT+CAzpX
- pVTEfnXDWoB9MNf1wufKF++dVYhVPRBDGhyepI6CK9qK5AgOalQ0Hph2V0nx5ddy8fqS
- Y6aQ==
-X-Gm-Message-State: AOAM530SZZ5Bj2iimuccdm4cnEgqLxZb2n4lCk08dgVBpeo9b6a6QHAD
- 7b6HhWuMFkOum6SI0s3jr1zL++f6NE9lLSWgdh4JH/S+ha7HXADSUJ2iTOtGHMLc632rdNpmsE5
- Eha2XyTTA4SsdIz8=
-X-Received: by 2002:a5d:4e48:: with SMTP id r8mr1170208wrt.276.1615967990253; 
- Wed, 17 Mar 2021 00:59:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy17WzhZEviyrplRAONMVnsa3zeJFKnIjpTyXzRSQwlzDJSpf9tWl2nhuEcJmURiQ/ZMrDl0A==
-X-Received: by 2002:a5d:4e48:: with SMTP id r8mr1170194wrt.276.1615967990074; 
- Wed, 17 Mar 2021 00:59:50 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s16sm24515133wru.91.2021.03.17.00.59.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 00:59:49 -0700 (PDT)
-Subject: Re: [PATCH 0/4] esp: fix asserts/segfaults discovered by fuzzer
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- alxndr@bu.edu
-References: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d4b1bdcf-82e9-b921-9e28-d7a6a0ddf39a@redhat.com>
-Date: Wed, 17 Mar 2021 08:59:48 +0100
+ bh=KibSYtgw08q+WmXa+ECBzHD/TPmZg47jXMEEUJmnx8s=;
+ b=hn8wvLAz1FhIU6SA1fr7TNXZ6ehm8JsOGMGYvaH1Ab+9Qz/fs8CeKqXs6Uqp9WBIdVg6V/
+ 8rglksvAahO9SLZ9XJ0M+a9re6J4A4jtFMC+y/6Kqlv3uIFDEG9BDEQeLfvwrt2aib05FI
+ sFSuPbXREjJ1Y6Qmo1UmKIA+aB7vcfY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-Jf79oABvN6GWA-nLG3Vjow-1; Wed, 17 Mar 2021 04:09:52 -0400
+X-MC-Unique: Jf79oABvN6GWA-nLG3Vjow-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59573107ACCD;
+ Wed, 17 Mar 2021 08:09:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-160.ams2.redhat.com
+ [10.36.113.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3A4B19704;
+ Wed, 17 Mar 2021 08:09:49 +0000 (UTC)
+Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-7-vsementsov@virtuozzo.com>
+ <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
+ <d5acfe9d-2095-a601-20b7-bd0b677df68a@virtuozzo.com>
+ <6056196d-a0cc-7de2-5d6f-b223fdee98ff@redhat.com>
+ <7fb10a80-8001-966d-533e-3f74c739571a@virtuozzo.com>
+ <cec9f2d3-af82-1de2-2ddf-be1b9dde73f9@redhat.com>
+ <c03cd2eb-f4ca-448b-91ed-16c6f0a7b283@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <28f3c53f-fe0b-9a55-22b8-a6f016c5f52b@redhat.com>
+Date: Wed, 17 Mar 2021 09:09:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <c03cd2eb-f4ca-448b-91ed-16c6f0a7b283@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,34 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/03/21 00:30, Mark Cave-Ayland wrote:
-> Recently there have been a number of issues raised on Launchpad as a result of
-> fuzzing the am53c974 (ESP) device. I spent some time over the past couple of
-> days checking to see if anything had improved since my last patchset: from
-> what I can tell the issues are still present, but the cmdfifo related failures
-> now assert rather than corrupting memory.
+On 16.03.21 18:48, Vladimir Sementsov-Ogievskiy wrote:
+> 16.03.2021 15:25, Max Reitz wrote:
+>> On 15.03.21 15:40, Vladimir Sementsov-Ogievskiy wrote:
+>>> 15.03.2021 12:58, Max Reitz wrote:
+>>
+>> [...]
+>>
+>>>> The question is whether it really makes sense to even have a 
+>>>> seqcache_read() path when in reality it’s probably never accessed.  
+>>>> I mean, besides the fact that it seems based purely on chance 
+>>>> whether a read might fetch something from the cache even while we’re 
+>>>> writing, in practice I don’t know any case where we’d write to and 
+>>>> read from a compressed qcow2 image at the same time.  (I don’t know 
+>>>> what you’re doing with the 'compress' filter, though.)
+>>>>
+>>>
+>>> Note, that for user that's not a parallel write and read to the same 
+>>> cluster:
+>>>
+>>> 1. user writes cluster A, request succeeded, data is in the cache
+>>>
+>>> 2. user writes some other clusters, cache filled, flush started
+>>>
+>>> 3. in parallel to [2] user reads cluster A. From the POV of user, 
+>>> cluster A is written already, and should be read successfully
+>>
+>> Yes, but when would that happen?
+>>
+>>> And seqcache_read() gives a simple non-blocking way to support read 
+>>> operation.
+>>
+>> OK, that makes sense.  We’d need to flush the cache before we can read 
+>> anything from the disk, so we should have a read-from-cache branch here.
+>>
+>>> But rewriting compressed clusters is sensible only when we run real 
+>>> guest on compressed image.. Can it be helpful? Maybe for scenarios 
+>>> with low disk usage ratio..
+>>
+>> I’m not sure, but the point is that rewrites are currently not 
+>> supported.  The whole compression implementation is mainly tailored 
+>> towards just writing a complete image (e.g. by qemu-img convert or the 
+>> backup job), so that’s where my question is coming from: It’s 
+>> difficult for me to see a currently working use case where you’d read 
+>> from and write to a compressed image at the same time.
+>>
 > 
-> This patchset applied to master passes my local tests using the qtest fuzz test
-> cases added by Alexander for the following Launchpad bugs:
+> External backup works like the following:
 > 
->    https://bugs.launchpad.net/qemu/+bug/1919035
->    https://bugs.launchpad.net/qemu/+bug/1919036
->    https://bugs.launchpad.net/qemu/+bug/1910723
->    https://bugs.launchpad.net/qemu/+bug/1909247
->    
-> I'm posting this now just before soft freeze since I see that some of the issues
-> have recently been allocated CVEs and so it could be argued that even though
-> they have existed for some time, it is worth fixing them for 6.0.
+>   - start backup sync=none from active disk to temporary disk
+>   - export temporary disk through nbd
+>   - external tool reads from nbd export
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> For this scheme it may make sense to use compression,
 
-They are certainly something that we can fix for 6.0.  However, please 
-include the testcases even if they are ugly, they can be cleaned up 
-later or (if never cleaned up) they still count as regression tests.
+Not sure whether it really does, because it’s my impression the 
+temporary disk is deleted after the backup, but no matter: You’re right, 
+that’s indeed a valid case.
 
-Paolo
+Max
 
 
