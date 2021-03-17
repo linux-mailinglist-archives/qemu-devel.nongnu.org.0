@@ -2,126 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3714C33E79A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:26:08 +0100 (CET)
-Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C42433E7BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:39:12 +0100 (CET)
+Received: from localhost ([::1]:56270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMMox-0000Kl-7N
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37080)
+	id 1lMN1b-0006AA-9p
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1lMMls-0005Z3-L4
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:22:56 -0400
-Received: from mail-eopbgr750047.outbound.protection.outlook.com
- ([40.107.75.47]:20848 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ id 1lMN0A-0005ct-M2
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:37:42 -0400
+Received: from mail-eopbgr760042.outbound.protection.outlook.com
+ ([40.107.76.42]:12416 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1lMMlq-00018F-Gm
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:22:56 -0400
+ id 1lMN08-00023g-E7
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:37:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bgO/B0W9i6vCnA7RDylNwR9+UiO2vWEBS0zIF+HP2fsXjPuJ0yygpWz6ENf7PP5qfw3cjAvLeAFxtbBla4AHcEOKgbE6nfTVSnpgMtvGqcEQPMQwvs1YUMg0gOvODW0jDT4fIJ2Pr/CYT9t2KAAEWCHuF7FK3AYj0M5yXvmTuZhvadvCa/OACJQsczV+Tu756l1gc+qq5lR6k0ClcDhKr1ix3IDvKoYL/pJq32kqTAfIzynhmBgsGSHvbO7oXAEWoGDcuaIEBqFQABOIW+gV/uVWB6PkRvQWqjVNuacGdQFQgr0Wl0EfnxuDaiOJOskcJhD0uuESJvB7c2Y3i08waw==
+ b=HE1jyJwCZyYv/yDmSxWkK9RQqnrwFISFLFmu75+KMt1d4H1gTtq09rT8OKKqz/uSfmDDEyE9plD4DVAG7rIr6K61tEcQvp1cIPpkpktj2f7fO3lCT8W5cfkAbSUUa9t60yWQfqHc5ftmPoEbHsftfA0jnwI+Q99U+UktBdih3IBLISS5/kBlFMAyX8fN7U+AZP4Gbqz0/KYHIKPgGoyMClbmXLeRHCwWFBbX060J0QNgiqQAMN8pb8SqhfwbwImN8O3a5YmgwVvmetLvZ75OTqW0SkM/cHDzvUxHXKwR7GFZWuaVhUezzGaUP+520FhCb/4TLTKQmArfLXWRi+Fe/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=spA27DX+d5tWv3ROrnId2PcQlTdRTuV2WvVHXoDWhb4=;
- b=Sza+H/UVDc49aMZMFh3UbOXJaiwMhw83OysksVFMR+3mWmYQnDh4IBDkCZhlSgt6E4RyVlhZZxUDe9Bl6gwvN5gL537js50mV0RrISVI9Xgs8e7/F2GX4f5PW0drClvOW/D0CEg+gSROOsrHBg0Sh9Dp0xQpHG2lJYWewhPqa2b+sDuZPr+N2LAsJ68/U+Lx2Wu6VuA57mHNFK9/NXBwYHCRg9a+X6IV3y0SIOg7Fn1cFn3GD9pA8So435wzta9RTb8NCS2cy7rqZ/2LaPHZPQ4rc24FDh1MU32cYL36ISBqddtlJlxXF4TqTzIRxFfKb4b5pBhOWK3uuhabicgMNA==
+ bh=IJILAEf+v/tgHbbKtRfdDWNyW3Ot2xUBLSSP089uEi4=;
+ b=hn42e8coqHywxBdqg0wrSgoHUkaF5EZy2uuvy+lBMK0yystw/Jy3noTa793eLtifRtwi5tENxU3MgYWl3/NNcu9PapY0HbXbe5F57AhlmDywQdPvz90uHN9gEvdkBgea2QIKopa+ctyNA5pSUvgmcZbvuOgQcXrc+xWetSzTdAejl0W5jQ+zts3HwYUSYCPN6tIUnY3J9cwd04emb1oE7ONkyZeVD5cXY3pdXMiQWEshl1FsNB76xmyfRyfZF28OGnqmIb/Q5Qcwcszy7PeHM+BaH4IlDjMLM6lInxwlBoB41OX2lL4AjT7XPcqSI+qQ63neDb00ae7nAMx2nLxI+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=spA27DX+d5tWv3ROrnId2PcQlTdRTuV2WvVHXoDWhb4=;
- b=0BfGQWKjuiculbgw2Nv/L0YdOtAdnqX6fhnr93ko9b2r+BmySHuAMPVA40qanWVUMGOXx1mb9TgtbtOKwrqaRQxn4Fro7iEu0CDG0kDa/2QPg2llWCF5UOQQH1d8GetiBttuCmW9v9v+D7yaJzzEWeerqL3Is+iaSmZZHG7gFhE=
+ bh=IJILAEf+v/tgHbbKtRfdDWNyW3Ot2xUBLSSP089uEi4=;
+ b=yIyvW63yxzdI74xy+ipX2icqRWFwJdt8oMRIQvkbgY+E6e327ia1Xj5uXHYWQkGZgGQ+OVOyku7KzUlOIXjBpPujPE7JjZTv4EJg0dB/CHLmBLE6i0H2Oe9CG3AVsbu1nzV2vBZlqud6yNUbHRAK8gD6LLjXpeSNek1C1ICJH9w=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB4954.namprd12.prod.outlook.com (2603:10b6:610:63::18)
+ by CH2PR12MB3704.namprd12.prod.outlook.com (2603:10b6:610:21::26)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 17 Mar
- 2021 03:22:52 +0000
+ 2021 03:22:33 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::81f6:605c:f345:b99f]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::81f6:605c:f345:b99f%3]) with mapi id 15.20.3955.018; Wed, 17 Mar 2021
- 03:22:52 +0000
+ 03:22:33 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-6.0 6/6] qga: return a more explicit error on why a command
- is disabled
-Date: Tue, 16 Mar 2021 22:22:17 -0500
-Message-Id: <20210317032217.1460684-7-michael.roth@amd.com>
+Subject: [PULL for-6.0 0/6] qemu-ga patch queue for soft-freeze
+Date: Tue, 16 Mar 2021 22:22:11 -0500
+Message-Id: <20210317032217.1460684-1-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210317032217.1460684-1-michael.roth@amd.com>
-References: <20210317032217.1460684-1-michael.roth@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [165.204.84.11]
-X-ClientProxiedBy: BN8PR12CA0034.namprd12.prod.outlook.com
- (2603:10b6:408:60::47) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN9PR03CA0319.namprd03.prod.outlook.com
+ (2603:10b6:408:112::24) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.84.11) by
- BN8PR12CA0034.namprd12.prod.outlook.com (2603:10b6:408:60::47) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Wed, 17 Mar 2021 03:22:52 +0000
+ BN9PR03CA0319.namprd03.prod.outlook.com (2603:10b6:408:112::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
+ Transport; Wed, 17 Mar 2021 03:22:33 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fa90391e-2157-4f11-1784-08d8e8f3f30f
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4954:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4954F07B42B14A44C2787171956A9@CH2PR12MB4954.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:639;
+X-MS-Office365-Filtering-Correlation-Id: e251e9b4-905d-4b01-6a64-08d8e8f3e7b9
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3704:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB3704B384B870FF954CD96D72956A9@CH2PR12MB3704.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:913;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YL8glQLUy4HrYsUJhkqix67BTciUjeOnjHeOJOgZrtmBK0uEyWAjJ4s1Q8M/PB+P/V2GwzIdzLTVJy4zkz5cxP3bO67szyf47Jds326XJ63VgXlpUEoZBIwYWrGFZICZtO6V1bpi3jC0hHxxVGLJAJNo++YvwqYdTp4IWpORpc4vL7lCczWBbh63oGCF7BQ5A8iLO/EFhb9GnVDCM7eKEAQ6MklWDGjJJscKvUfU67mJSGvgnxnUlBDvKfhgaoVmBIpSxnWO52v8EvKOJV+8ZhK8CgV585OXKabLF9LFPfezjdsKUSs4mNqOP5mUceZ85XoSkT+RVasJ4zUryvSVPiF1MYGr6scP6wrufSVLnWQ/iFe0Ln+YdDip/vFymkNTJvGBGSFeeMe6IkbSxdPqUdcqTcTl9zNZBeXzodO3cnAyAgM7iW0JCb+YMTN3rG1a/26rjKM2HOinXI3DzHxct9bfq3tSRmiIbF+dgeHNLacPu6ItVH+0t/WHfZRaGoTyxW+Qa6sP1DInFjspN55ZG/EDRGVzSpvNl1nAIzE0eQ27ruHYrSkkcKrpzBCqEjmtTP0pJZHwGY9G64EwGPTUlKD2TtWKTRPCF0MGoOdj1ZhqDPVMfemZFD1mi+oHTwlGNO1MoglIx/Zk1P7GXzRqIw==
+X-Microsoft-Antispam-Message-Info: XKqEM8P74Q56hizeF3OQeBq6jR3W0xkyIlB1pvoAChEYURcvIo6/KuBNmcTHLfUGc3JGeAVDfAVI4e9XJIXvv72d3WYy4+ppSK3Ug/8fTzshNCIyD1mFKQmKlXvbCPohXSQmS9HRP4nR4HaisdDi8p0Fh8FuvSfh1l75YEDm8+IHVCaWQ7FXut/5KV8wnbKFSvRQoke1Y0GRYfRTxnTxYrtYfM74OmAbY86dqEquhrXgxgD72pVNP7yt3nPKQG4k+3ylWl2TuFgUsOMJKqvVi65mGvN2nTO30cbtTunjU+PAAuc5+2ff6Ldafwz/FNr1HkKv65Pn1ztkyBmpoP1pIZ+seu8+ithIyyztbyrwdPxM9byeepGL6UaoiLW+L9IuRWLWsncy85PpP7XTLR8vu5402Qo2hh+7VZB/TN4Sm+erZ4tTCbR+Q9SrGLFg6vtPEXtJESGwaSi97JicssH1lBAqWXLvQsQ89tlauUmDXYwWtrr4fg2IISdHixa6YE9dsbVPvlaOHl1ObG2JfGMAxH26wyq/MYFm6pQfveOro5RuUYlOGSGSOr9X87aqBebR
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(136003)(39860400002)(346002)(366004)(186003)(8676002)(8936002)(4326008)(478600001)(316002)(26005)(966005)(66946007)(83380400001)(1076003)(2616005)(66476007)(956004)(66556008)(86362001)(6916009)(36756003)(44832011)(6666004)(6486002)(52116002)(16526019)(6496006)(5660300002)(2906002);
+ SFS:(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(4326008)(36756003)(86362001)(316002)(1076003)(956004)(44832011)(2616005)(8936002)(6496006)(16526019)(186003)(6916009)(66946007)(66476007)(5660300002)(52116002)(8676002)(478600001)(26005)(66556008)(6486002)(6666004)(2906002)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RWk0MVB4aTlQbzlZdnVQZ0JtYTZXYTdNcE1XVG5obDdxVmZxOVRscThZUEIy?=
- =?utf-8?B?ZEVvUFBUUVNHckhXK0NlcWkwNnIxTUFhN2h6eWNHVE1JdWRDd3grVTJOeVNs?=
- =?utf-8?B?T3Q3NWd3ZVQ2RmpEeVZpVGVyeVVRUXdGWmRMVitsL214YkFHTlRsNWUxWWlx?=
- =?utf-8?B?QlJ1R1RSZWlWNzBXa1NPYk52RUNCVWQ2Y1hGLzJXRGVsaTFPdEJWaUxXWUVo?=
- =?utf-8?B?ZVBWN3lUQm5idnlSQ0Z5aytIUExMU1kzQ3RzOHRwQnlBUTlWaGhPNnhseTEr?=
- =?utf-8?B?NE56dDZjdTlLWXE5a3VGMkhHMGk2SEY4VHZKWHJNRGNKdEY5RlR6djlvbnNL?=
- =?utf-8?B?c1dYa0RhS3kvVlNNcVJlSGhKaEZTMUc0RG1DL2diWC9TWTBOL0p6SW9zTXJE?=
- =?utf-8?B?bEdBSTg4SGRhMzJ2SHdHMUNZbEJlVGVFc0huSks1UXBaZlowbmMyYnJyOUgx?=
- =?utf-8?B?YWhUSW9CNWMrVFJQNTdHZ3JsQWtaWXFnSGdmS2lUUUVTMXA5cjhlUS9uSnJE?=
- =?utf-8?B?aVJBUmhoeDFPT3Q5cHhYcnVwVE9nQStQeTB0YmpOTDltdURucVRYZzVlZzhl?=
- =?utf-8?B?MWJpWXBGelp4SmJZaGxkL3ZMell5OENhbUFsVGcyejFiUUU3cGJJczVmNTBt?=
- =?utf-8?B?SXZDMUhUTmZIbmQvWTRFeVZLQmNUbDF0RE13VEh2cm1KYVBYdEIwbUZwbzNl?=
- =?utf-8?B?RS9Zc3R4Z01LQmR4VVlkQ1M3R2c3RkswVmVyTnIzdWtnRWNYWndBNDQ1cmQ1?=
- =?utf-8?B?MjBjSjNwYThGcjI1WmpOck53cE0xRzNLUWtieTZRdUtJelRKZzIrYW5pZG5F?=
- =?utf-8?B?TXVCUWVqaFpBL0l2c3o3SDVGUnYvYjA3MmN1UGpkUWFMSlhTVGswQ1FDaVNB?=
- =?utf-8?B?aXV1MldENVpJa21TZDVaME54OHpTUDJqVnBTWVJxRStqaUErS2U1ZHZmODUx?=
- =?utf-8?B?c3U2UWowZUZXNkxsWFZ3N0xJeDJ2bFN2T3FWaVNZaWl2b0VNVUpxcm41K3Zs?=
- =?utf-8?B?MXlpNm0vcnl4UUpzVm9DNjhjU3FVZUpBVzM5WlZLdUJrVk14T1kvRHFvSTUr?=
- =?utf-8?B?QUpyRWtPTFhmeXRwSkVhQy9yTkhQWTJ5QlhhQUw5UXFSUGxJWGg0K29RZFp6?=
- =?utf-8?B?S0RvR1ZDQXZ6SVdiMVdqZThtMDFXS0RrR0FSdnAwWGo4b0pYeG1MTVBTZjJs?=
- =?utf-8?B?a0pyNGxhVDZYeVNPNVV3ZDhxWGJOd1lJZHBtcmt5MDBuZys4eUMxMER0dC9P?=
- =?utf-8?B?dll5TFV2S21ERmVGV2VsajY4c3A0NGtmcFUxRS83ckdHMGZyMVBqVUNTa1RJ?=
- =?utf-8?B?WU5xNmYxNWhXU2dNTE5JZk0yTiswUXo2Y29mKzgxQU9OczN6ZHJTTjRpQTJL?=
- =?utf-8?B?c0JUSlRwRlVxZDhhZ3JDWk9RTFo1UmkxeDJScCtOZjRzaWtUbVIzcjl4U1h2?=
- =?utf-8?B?a2x1L204ZEFxK3ovTUFFMzVXb0h5eE1vc2ZkVlpSUWw3WFJwYXc1L3h5dXJ6?=
- =?utf-8?B?WG9lby8yLzgvSkVuYjJnaXliaUNjekxuajF6di9DUXhtVGsrNm1ZUHlHbnF5?=
- =?utf-8?B?U28rK2J0QURMd2JMYTFybEJFTEUzZkZnaHI2SVZGVXRGRlp3M0tRL0Iyb2JM?=
- =?utf-8?B?L3pXanMwZkhTSXNrSGpsY3NsZW1RNWkxUjRaWmJldlRKcFI1d2ltT2UyWEVX?=
- =?utf-8?B?VWc5d0tCemw3dHA0WUdaR1ZWSXgwSE9lZ0d6djM4aExoUUVUU3JPM3lnY1hv?=
- =?utf-8?Q?YbmOAax+2xdmQx9L/l6mr7wRSFJ/HsENgSpBVFW?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L1FSMHg2d0Y3VnRZcXI3dHU2MFViUG5uRlhMWklYZENtOHQxWG5IYWR0WjFP?=
+ =?utf-8?B?Ykd4eURZZWthRzBSZjQzWlRxcy9vUGliNHR4WE9LYzFFNnk0dTNSVjRVeXJ1?=
+ =?utf-8?B?K0ZPRExEdlVvU2dPd1ZvRHJMRlhXKzZvMGJaeHN5ZVQ0Z3FEdU4xYTFUcDJp?=
+ =?utf-8?B?RU1kbGxkQml4aVhWRFUrbFhGNEFxZVhZZGRFM01iN1djOGRrWjFWMWc1bCsx?=
+ =?utf-8?B?Sm9NeFVENW9QL3RIVzZvQlV4a3U1TUsxNTlZaXQ5M0VZOXR5UCtKS3c2Ynph?=
+ =?utf-8?B?RkZHNGJ2V1QyUjJWdk9hUnlFQ1dhSXFFRHNFV2trRGZ6QXVjNVdBUnBzVHF2?=
+ =?utf-8?B?NE5yeXpoTUlRaythbTloZklzQy9tVkV2UVlyMWFvWVJoZVlrY0lyRmVtM0hp?=
+ =?utf-8?B?V2RiYzRYM2hUVlNVbnlGdGlXLys2WmYvRG83cGo5UlN6WXlSVnhveFl2ZlBl?=
+ =?utf-8?B?VjR3TlRCOXEvVEYrYnZRc3ZjZlY1QnpMbDlqNldDbEZNR1hVbFpXa2VmVjRx?=
+ =?utf-8?B?cC9GVzMvVU5hYVNqWlh0dmdIbjBMd1dLbyt0aHVnZnhjd0ZSaFNDRDFWUWVF?=
+ =?utf-8?B?RUFvLzRRYzBIWGp5aytyckVSL2VOdHIrbTNmV0xrZTYrRVdLWHdhTUNOSm5L?=
+ =?utf-8?B?bkd5d3diMGdxT2hoZzJNanZMNjY4WklJbkFaR0dQM3gxam9Rd2NJL1BiZFBI?=
+ =?utf-8?B?VXp1ZEpTZ2hsR2NMNzJwWkJLbzBKZC95V0FQRWFsc2ZQTUV0aDRSRklqLy84?=
+ =?utf-8?B?VVplaS9PSy9GOG0vSXJDR2IzMTBlUFdKZitPYnFhTHBsK0JtWVE3ZmJuSVAr?=
+ =?utf-8?B?bTQzQ2FsTmdGR0ZxZGVIN0hHckF5NElTdDdlYlIxbUpCS09RMjBVQ3kreXR1?=
+ =?utf-8?B?UWtWZjFodzNnUGh1VXVFL0JIM1BOdkppRUljbUVxTzlReXBMNlE0RE1nSkRa?=
+ =?utf-8?B?cUJwZW9jYnAxVUtyQXNQcW5saXljNnhZZVVrQ1l1VlA0UXZzU3F4MW80Z2Yw?=
+ =?utf-8?B?VnFheHFFVG9WM0FCRWJra2FzK0xFQTBsYVpWMHo1aU9LdnpJNkhJeHhBbWdS?=
+ =?utf-8?B?Nlkza0wrYTBrdXpyR1BWVFdFM3ArSzV1S2VJV3ZoYTQ0TVJQTktZZHFjS3c2?=
+ =?utf-8?B?Zmo4MDZTL1pxcmwrU3dwYjZYclNQMUxOTWtCcVpKMkFYdlN6cEFNNStoemI3?=
+ =?utf-8?B?TmtYZTFvWW9uVlU0VE5PbGd2NmlwcWI4ZGpSWlRkMzBEQWJ5WjJucUpLQmxO?=
+ =?utf-8?B?N1ZxWTFqYm1ML0hyU3RzK0NjU0g1MUZVMVRqaXpON25vTEhxQWhMK0JXRnJL?=
+ =?utf-8?B?ZGdtVS8zN3dyRW56ZlZGZEErd0VqeXoyZG8zalR6enJjUDNNWXQ1bFdUVE04?=
+ =?utf-8?B?ZEFpT3VMdkVaVk5BMFhQSjA0YTJWU0IvVjRwM1lvV21GOFNQeDNPU0Roay8w?=
+ =?utf-8?B?aVI4VmtHbFFiNFg5N3hOTmU1bUx6UDNyejViYkRwOVpLNWlrb2YvRFp1WGY2?=
+ =?utf-8?B?TVZqWjZhVjVxb0R5c0V0Z3ZXaGE2S2c4bWJ3TFpVOENXb2IrSm1BWWFSencv?=
+ =?utf-8?B?SVFTMnJqeUdHcW9LVkRud0RLR1BTMkRvQWZ3ejNLTlorbzIvUU5lUU1nTkdm?=
+ =?utf-8?B?Nmo2SDlTT1pzL1dNUWpUYzNnREVJamJZNWRaQ3BSM3ZMRGdWSlZxY0pCbVYz?=
+ =?utf-8?B?OHdsNXM0ZElGRHQ3UE5nRmppWjEwK3VqZHB1TmlTbWJQQUVIUmhEcHBJUlEr?=
+ =?utf-8?Q?BysjU9M7TXp960BeK9BowMsX/iCiavfDC8okxEa?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa90391e-2157-4f11-1784-08d8e8f3f30f
+X-MS-Exchange-CrossTenant-Network-Message-Id: e251e9b4-905d-4b01-6a64-08d8e8f3e7b9
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 03:22:52.7316 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 03:22:33.6943 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r5PmDxEnhMcF5oKGHUG7dnmGfkelk32YHSRrvCLZBk/C4aYhBzZ4k694mIJ0ta56yPbkDVlNv5KSdUG/Jz5oDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4954
-Received-SPF: softfail client-ip=40.107.75.47;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 49f7uOjQyMH/iqlwlQl/tHIzVmwsfLsW4ENNmFXQFGP/NA48uDQU/x1CWvXjxj99j1EVi3V5tbVmF7qurs1qUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3704
+Received-SPF: softfail client-ip=40.107.76.42;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM02-BL2-obe.outbound.protection.outlook.com
+ helo=NAM02-CY1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -142,127 +140,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+The following changes since commit 5b7f5586d182b0cafb1f8d558992a14763e2953e:
 
-qmp_disable_command() now takes an optional error string to return a
-more explicit error message.
+  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210315-pull-request' into staging (2021-03-16 13:17:54 +0000)
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1928806
+are available in the Git repository at:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-*fix up 80+ char line
-Signed-off-by: Michael Roth <michael.roth@amd.com>
----
- include/qapi/qmp/dispatch.h |  4 +++-
- qapi/qmp-dispatch.c         |  6 ++++--
- qapi/qmp-registry.c         | 10 ++++++----
- qga/main.c                  |  4 ++--
- 4 files changed, 15 insertions(+), 9 deletions(-)
+  git@github.com:mdroth/qemu.git tags/qga-pull-2021-03-16-tag
 
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 1486cac3ef..135dfdef71 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -36,6 +36,7 @@ typedef struct QmpCommand
-     QmpCommandOptions options;
-     QTAILQ_ENTRY(QmpCommand) node;
-     bool enabled;
-+    const char *disable_reason;
- } QmpCommand;
- 
- typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
-@@ -44,7 +45,8 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
-                           QmpCommandFunc *fn, QmpCommandOptions options);
- const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
-                                    const char *name);
--void qmp_disable_command(QmpCommandList *cmds, const char *name);
-+void qmp_disable_command(QmpCommandList *cmds, const char *name,
-+                         const char *err_msg);
- void qmp_enable_command(QmpCommandList *cmds, const char *name);
- 
- bool qmp_command_is_enabled(const QmpCommand *cmd);
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 0a2b20a4e4..5e597c76f7 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -157,8 +157,10 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-     }
-     if (!cmd->enabled) {
-         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
--                  "The command %s has been disabled for this instance",
--                  command);
-+                  "Command %s has been disabled%s%s",
-+                  command,
-+                  cmd->disable_reason ? ": " : "",
-+                  cmd->disable_reason ?: "");
-         goto out;
-     }
-     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
-diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-index 58c65b5052..f78c064aae 100644
---- a/qapi/qmp-registry.c
-+++ b/qapi/qmp-registry.c
-@@ -43,26 +43,28 @@ const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const char *name)
- }
- 
- static void qmp_toggle_command(QmpCommandList *cmds, const char *name,
--                               bool enabled)
-+                               bool enabled, const char *disable_reason)
- {
-     QmpCommand *cmd;
- 
-     QTAILQ_FOREACH(cmd, cmds, node) {
-         if (strcmp(cmd->name, name) == 0) {
-             cmd->enabled = enabled;
-+            cmd->disable_reason = disable_reason;
-             return;
-         }
-     }
- }
- 
--void qmp_disable_command(QmpCommandList *cmds, const char *name)
-+void qmp_disable_command(QmpCommandList *cmds, const char *name,
-+                         const char *disable_reason)
- {
--    qmp_toggle_command(cmds, name, false);
-+    qmp_toggle_command(cmds, name, false, disable_reason);
- }
- 
- void qmp_enable_command(QmpCommandList *cmds, const char *name)
- {
--    qmp_toggle_command(cmds, name, true);
-+    qmp_toggle_command(cmds, name, true, NULL);
- }
- 
- bool qmp_command_is_enabled(const QmpCommand *cmd)
-diff --git a/qga/main.c b/qga/main.c
-index ebb910773b..15fd3a4149 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
-     }
-     if (!whitelisted) {
-         g_debug("disabling command: %s", name);
--        qmp_disable_command(&ga_commands, name);
-+        qmp_disable_command(&ga_commands, name, "the agent is in frozen state");
-     }
- }
- 
-@@ -1328,7 +1328,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-         s->blacklist = config->blacklist;
-         do {
-             g_debug("disabling command: %s", (char *)l->data);
--            qmp_disable_command(&ga_commands, l->data);
-+            qmp_disable_command(&ga_commands, l->data, NULL);
-             l = g_list_next(l);
-         } while (l);
-     }
--- 
-2.25.1
+for you to fetch changes up to c98939daeca3beb21c85560acede8d3529e363d9:
+
+  qga: return a more explicit error on why a command is disabled (2021-03-16 20:21:47 -0500)
+
+----------------------------------------------------------------
+qemu-ga patch queue for soft-freeze
+
+* fix guest-get-vcpus reporting after vcpu unplug
+* coding style fix-ups
+* report a reason for disabled commands
+
+----------------------------------------------------------------
+AlexChen (4):
+      qga: Add spaces around operator
+      qga: Delete redundant spaces
+      qga: Open brace '{' following struct go on the same
+      qga: Switch and case should be at the same indent
+
+Lin Ma (1):
+      qga: Correct loop count in qmp_guest_get_vcpus()
+
+Marc-André Lureau (1):
+      qga: return a more explicit error on why a command is disabled
+
+ include/qapi/qmp/dispatch.h |  4 ++-
+ qapi/qmp-dispatch.c         |  6 +++--
+ qapi/qmp-registry.c         | 10 ++++---
+ qga/channel-win32.c         |  7 ++---
+ qga/commands-posix.c        | 47 ++++++++++++---------------------
+ qga/commands-win32.c        | 26 +++++++++----------
+ qga/commands.c              |  4 +--
+ qga/main.c                  | 63 ++++++++++++++++++++++-----------------------
+ 8 files changed, 79 insertions(+), 88 deletions(-)
+
 
 
