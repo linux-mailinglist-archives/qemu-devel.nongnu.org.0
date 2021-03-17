@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA98633E7E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:54:43 +0100 (CET)
-Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E5633E835
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 05:01:02 +0100 (CET)
+Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMNGc-0005U1-Un
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40750)
+	id 1lMNMj-0001sj-8e
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 00:01:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lMNFG-0003pS-N8
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:53:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57351)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lMNFF-0003C6-3D
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:53:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615953196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8GKG3PiDrEQBJLCs+5Ktm4SczTf0D+iveHDe3qTuE3A=;
- b=b88BBGutbFFnQcA35dvX+iSdKXJMW5lbb8k3o41PC6Q7KvTNn3UkMbEq/KJjs6Ua55ZvN9
- 76cY8BdHUgR3vf1PsP1vTapRcwUeZqwJEBRVic14sYmSiKyhKmaWEnrx+fKSE9fj32KCNy
- CUkaVWLWpnIRFfdwG958gQPTbh+T6UM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-N-jETTgeO3aZjPj77ONdQA-1; Tue, 16 Mar 2021 23:53:13 -0400
-X-MC-Unique: N-jETTgeO3aZjPj77ONdQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B2DB107ACCD;
- Wed, 17 Mar 2021 03:53:12 +0000 (UTC)
-Received: from localhost.net (ovpn-113-107.rdu2.redhat.com [10.10.113.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 637475D9C0;
- Wed, 17 Mar 2021 03:53:05 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 5/5] tests/acceptance: linux-related tests fix
-Date: Tue, 16 Mar 2021 23:52:42 -0400
-Message-Id: <20210317035242.24418-6-crosa@redhat.com>
-In-Reply-To: <20210317035242.24418-1-crosa@redhat.com>
-References: <20210317035242.24418-1-crosa@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMNLK-0001Sa-2w
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:59:34 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:38515)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMNLI-00074v-IA
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:59:33 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id f124so37625900qkj.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 20:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mg5eXazdh68LKi9mPMo9ldsAhwmw9VV59uJWGe/aHrE=;
+ b=n1YUyhiLjNny68Gd7pYx1ZbGez+ufOgg9XAEULsfBGh6xWKPK1Z+jBnWQAoanem86T
+ +2IOTogXP9mfhrUFSji8xaB/8fZKqgSnqVJDr84vw8arCj4yf8zGm7yG0G3OlAoQ8yJX
+ HIw3GBnksUonm4MaKBVLHWypvwBkfvo+i4O7PQWkz2O6VNmDxY3L2Z8IjjJGX42ptP+y
+ tKTHRzw/ESWEH8aF+0VZgd/R1CUe4n2qY7fbejYafkVGHpAG9/ixlbuI1Os8uHoKnP41
+ B9m7r/rXPGViVNPC4KPiB/hQOF9wN/vpfcxLwldJdhZJyHMvG89n8fI6svYd8wMaZjJF
+ Yq7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mg5eXazdh68LKi9mPMo9ldsAhwmw9VV59uJWGe/aHrE=;
+ b=FNDbGJ/8dOto5sGyWsGVGf5Rgtg4gZuEPXealY7HiKIGoLgnmCiadnk34+tmiozvp4
+ 2MAG27NRmk+7o4syyc2gHHBv59LO8nKKJt+lVEQW1mCCmuQz1U+0q3wKd3pvLXVNuFwh
+ EF1I/QeCtRz2/1wOvyyGU4Rdpyk7PzqeH5bYlpju9W/UhhVYkIDLU+0mN/zf8OUC37K2
+ WL2uvFgShcri84eFp3z99Vodpcn2qg07Ddf90Z5jbnQepPDZEcQ7TL93WEoKf14ws9Fz
+ FmLAUQlZj4wNnxqrU3Kq46iWmWeJsgbLbkOWKWYjhEM2SBaTRlZNa+Y1J2rhiAW2yuHR
+ kTfQ==
+X-Gm-Message-State: AOAM531dyZbZGs92p05qFadpi+auY2OlPGCjCYCC7Thv2+ebHqATl4hK
+ VcR2eXwcRaGAnumYhTWoOCbB/A==
+X-Google-Smtp-Source: ABdhPJycJ/RJVUlh3U4FxuRx/CjDhqtLegaiEJWrGOFqyw0ENTkUWXFSBQVU9HhSdNp0oeApAXLGEA==
+X-Received: by 2002:ae9:c30e:: with SMTP id n14mr2545671qkg.291.1615953570790; 
+ Tue, 16 Mar 2021 20:59:30 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id j18sm13311225qtl.83.2021.03.16.20.59.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 20:59:30 -0700 (PDT)
+Subject: Re: [PATCH v5 42/57] tcg/tci: Split out tcg_out_op_r[iI]
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210311143958.562625-1-richard.henderson@linaro.org>
+ <20210311143958.562625-43-richard.henderson@linaro.org>
+ <867ed16e-2457-c237-d349-fc56541e90ad@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8a99b724-75f1-bc9c-d155-30b892f190c1@linaro.org>
+Date: Tue, 16 Mar 2021 21:59:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <867ed16e-2457-c237-d349-fc56541e90ad@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,47 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: sw@weilnetz.de, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+On 3/16/21 5:39 PM, Philippe Mathieu-Daudé wrote:
+> "And support mov_i64 on 32-bit host"?
 
-This patch allows cloudinit images download when ssh
-key is not specified.
+Um, no...
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <161373266228.1608713.7614311331725780044.stgit@pasha-ThinkPad-X280>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+>> +    case TCG_TYPE_I32:
+>> +        tcg_out_op_ri(s, INDEX_op_tci_movi_i32, ret, arg);
+>> +        break;
+>>   #if TCG_TARGET_REG_BITS == 64
+>> +    case TCG_TYPE_I64:
+>> +        tcg_out_op_rI(s, INDEX_op_tci_movi_i64, ret, arg);
+>> +        break;
+>>   #endif
+>> +    default:
+>> +        g_assert_not_reached();
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index ac8041821fa..83b1741ec85 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -317,8 +317,10 @@ def prepare_cloudinit(self, ssh_pubkey=None):
-         try:
-             cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
-             self.phone_home_port = network.find_free_port()
--            with open(ssh_pubkey) as pubkey:
--                pubkey_content = pubkey.read()
-+            pubkey_content = None
-+            if ssh_pubkey:
-+                with open(ssh_pubkey) as pubkey:
-+                    pubkey_content = pubkey.read()
-             cloudinit.iso(cloudinit_iso, self.name,
-                           username='root',
-                           password='password',
--- 
-2.30.2
+... aborting if it happens.
 
+
+r~
 
