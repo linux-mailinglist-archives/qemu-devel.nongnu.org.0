@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAED733F0FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:18:00 +0100 (CET)
-Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315FF33F0FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:18:05 +0100 (CET)
+Received: from localhost ([::1]:44666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMW3j-0002ng-Pw
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
+	id 1lMW3o-0002uY-85
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1lMW2D-0001zh-Cb
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:16:25 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:47332 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1lMW2A-0000NH-RO
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:16:25 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id BE1424124F;
- Wed, 17 Mar 2021 13:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1615986977;
- x=1617801378; bh=H9k2/yWd8R1Nvaok9SUG8TDBrcL+Vn5gr16Ku2ezEWA=; b=
- E+ELzaeHwH6G98i+Eca+Bg07bmGSgvvjjb59yKQCM6s6OR78U8Ci6O27wvmf5vLT
- JQYnI8TQgR4ORjnRtPeY+/cmyXFU4kKRdwGATrf/9O1JtZhalGNc8KIO4rUIpc2A
- 8Od0tROnMKJf8tBD9Fpgi7S9L/J+Ezn1YwC8LNNGMIA=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qkANHlFg1_F3; Wed, 17 Mar 2021 16:16:17 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 9A66741207;
- Wed, 17 Mar 2021 16:16:16 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 17
- Mar 2021 16:16:16 +0300
-Date: Wed, 17 Mar 2021 16:16:15 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/2] cirrus.yml: Update the FreeBSD task to version 12.2
-Message-ID: <YFIBH1xIeTAep9p4@SPB-NB-133.local>
-References: <20210317110512.583747-1-thuth@redhat.com>
- <20210317110512.583747-3-thuth@redhat.com>
- <CAFEAcA89BmZ7_d73Te=DXxDNc+W4NuqXZgpoi9JwsMN0_nh6pg@mail.gmail.com>
- <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMW2O-00021j-9f
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:16:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMW2K-0000SE-8S
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:16:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615986987;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=67ER8ymn3RvOiFRP6UbBR+cbhZxq/8Mxqp/n/1Awsvo=;
+ b=f7rMOe6zP2K47iUvLrE+SlKi+P/+C735g1DshIhe7uTy5Hb481aIxnrfMQ6CtBEA2ZpXsb
+ 0q4vf8MbD1iIk8eEkBTfhfXONITEmIZyYCrJfA9n+YN8zo3d+8Z/havg4ijeNPoHTlJUFz
+ nYRtJojPcgpaAN6yWsk4juv565G3Z4U=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-e6H7VjqzNdyRjQ15AhYMNA-1; Wed, 17 Mar 2021 09:16:25 -0400
+X-MC-Unique: e6H7VjqzNdyRjQ15AhYMNA-1
+Received: by mail-wr1-f69.google.com with SMTP id h21so18238954wrc.19
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:16:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=67ER8ymn3RvOiFRP6UbBR+cbhZxq/8Mxqp/n/1Awsvo=;
+ b=r/Isv4R/cRTq+RDoCVRuV62pa+72peS53qNC2Fe9CUNf6rTq3Wc56LJT1W5l18uuwX
+ P6dV0JSdWmqvJv876WYGGHbDhex3xypl89c92/azWVG2pr8oYnANc0hJl3WBv+B80JA4
+ z0FpXhIOoMC5pxRwLB5TEvwqPT4G3PwHJ+npnNSyjLRNiJbGxhdisrHrJhL/boaHbi5H
+ INkXpZDHt2c4Q2no/K5SW6sATVGh0yqdhnmdt6o3ZNGQAkAsWXhgjbKxkG6/+ef8vopp
+ mvKla6DRhCoO64jNY5WAwqKVWKS6P9IjzFHLFPJ4b7K89SEg/aYSpsgFplS3hdo7aGHL
+ HtWA==
+X-Gm-Message-State: AOAM531xao38lmgxteoQVTgE02D/e96fzgOyDi2pHHYRbwQ/FGV/yNJR
+ qtom/GKl6VDvC3Ls8VlcUy/veOCmoPLd9wtadScaXxUNUwDyy/KX2MELYLJLOqxF1KBBz4tcWqA
+ oZr1LiPt8W3SHuSfOvxck2fxDHQisE51inQunXMmAQsPOd3zOscLfZXrPsBmXeLYP
+X-Received: by 2002:adf:ed87:: with SMTP id c7mr4473299wro.9.1615986983837;
+ Wed, 17 Mar 2021 06:16:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwm0VGLR7ddOduS/MUaFsggSwI7q1T5NXesG6xcPBafAOnwfRtrj4Ra0HXT00nEzNx14ogPJg==
+X-Received: by 2002:adf:ed87:: with SMTP id c7mr4473270wro.9.1615986983512;
+ Wed, 17 Mar 2021 06:16:23 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id m11sm25720599wrz.40.2021.03.17.06.16.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 06:16:23 -0700 (PDT)
+Subject: Re: [PULL v2 01/15] utils: Use fixed-point arithmetic in qemu_strtosz
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210317072216.16316-1-alex.bennee@linaro.org>
+ <20210317072216.16316-2-alex.bennee@linaro.org>
+ <a6e34081-89bd-2af1-fa0d-72a8fc8daa04@redhat.com> <87h7lac70s.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <285185a0-fa94-9e25-317f-cb24a39c001a@redhat.com>
+Date: Wed, 17 Mar 2021 14:16:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <87h7lac70s.fsf@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,78 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 17, 2021 at 01:44:05PM +0100, Thomas Huth wrote:
-> On 17/03/2021 12.16, Peter Maydell wrote:
-> > On Wed, 17 Mar 2021 at 11:09, Thomas Huth <thuth@redhat.com> wrote:
-> > > 
-> > > FreeBSD version 12.1 is out of service now, and the task in the
-> > > Cirrus-CI is failing. Update to 12.2 to get it working again.
-> > > Unfortunately, there is a bug in libtasn1 that triggers with the
-> > > new version of Clang that is used there (see this thread for details:
-> > > https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg00739.html ),
-> > > so we have to disable gnutls for now to make it work again. We can
-> > > enable it later again once libtasn1 has been fixed in FreeBSD.
-> > > 
-> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > 
-> > Is it feasible to make configure check for "is libtasn1 broken"?
-> > I guess since it only shows up as "when you try to use it
-> > it fails" that would be a runtime check rather than compile
-> > time, which isn't really possible :-(
+On 3/17/21 1:13 PM, Alex Bennée wrote:
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
 > 
-> I don't really have a clue about this crypto stuff... Daniel, Stefan, Roman,
-> Christian, Eric ... you debugged the original problem on macOS, do you think
-> it's possible to add a check for this libtasn1 problem to our "configure"
-> (or meson.build file)?
+>> Hi Alex,
+>>
+>> On 3/17/21 8:22 AM, Alex Bennée wrote:
+>>> From: Richard Henderson <richard.henderson@linaro.org>
+>>>
+>>> Once we've parsed the fractional value, extract it into an integral
+>>> 64-bit fraction.  Perform the scaling with integer arithmetic, and
+>>> simplify the overflow detection.
+>>>
+>>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Message-Id: <20210315185117.1986240-2-richard.henderson@linaro.org>
+>>
+>> Something is odd with your tooling, the '---' separator is missing.
 > 
+> Surely that's only when you have bellow the line comments? b4 strips
+> then when applying series.
 
-Hi,
+Yes, the problem is your series doesn't apply on top of 7625a1ed013
+("utils: Use fixed-point arithmetic in qemu_strtosz")
 
-We need to define an ASN.1 object
+$ git am v2_20210317_alex_bennee_misc_fixes_strtoz_plugins_guest_loader.mbx
+Applying: utils: Use fixed-point arithmetic in qemu_strtosz
+error: patch failed: tests/unit/test-cutils.c:2128
+error: tests/unit/test-cutils.c: patch does not apply
+error: patch failed: util/cutils.c:275
+error: util/cutils.c: patch does not apply
+Patch failed at 0001 utils: Use fixed-point arithmetic in qemu_strtosz
+hint: Use 'git am --show-current-patch=diff' to see the failed patch
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
 
-https://gitlab.com/gnutls/libtasn1/-/blob/master/tests/Test_tree.c#L230
+But skipping this patch, the rest can be applied properly by git-am.
 
-  {ACT_CREATE, "TEST_TREE.OidAndTimeTest", 0, 0, ASN1_SUCCESS, __LINE__},
-
-The object is:
-OidAndTimeTest ::= SEQUENCE{
-   set     SET OF INTEGER,
-   oid     OBJECT IDENTIFIER,
-   time2   GeneralizedTime,
-   bol     BOOLEAN,
-   oct     OCTET STRING,
-   bit     BIT STRING OPTIONAL,
-   bol2    BOOLEAN DEFAULT TRUE,
-   enum    ENUMERATED {v1(1),v2(2)} DEFAULT v1,
-   any     [1] ANY OPTIONAL,
-   gen     GeneralString OPTIONAL,
-   time1   UTCTime
-}
-
-Create it with:
-
-asn1_create_element (definitions, "TEST.OidAndTimeTest", &asn1_element);
-
-and try to get it's DER length to mimic the part of the failing test:
-
-https://gitlab.com/gnutls/libtasn1/-/blob/master/tests/Test_tree.c#L254
-
-  result = asn1_der_coding (asn1_element, "", NULL, &der_len, errorDescription);
-
-The result should be ASN1_MEM_ERROR.
-
-Something like this should work as configure-time test.
-
-Thanks,
-Roman
 
