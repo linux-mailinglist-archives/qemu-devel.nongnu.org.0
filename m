@@ -2,48 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B85C33FA8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 22:42:04 +0100 (CET)
-Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133C133FAA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 22:52:45 +0100 (CET)
+Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMdvV-0000Ih-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 17:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54196)
+	id 1lMe5r-0002d2-Iy
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 17:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lMdug-0008Jy-HU
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:41:10 -0400
-Received: from zangief.bwidawsk.net ([107.170.211.233]:44436
- helo=mail.bwidawsk.net)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1lMe53-00026e-7T
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:51:53 -0400
+Received: from mga11.intel.com ([192.55.52.93]:56330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lMdue-00008k-2B
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:41:10 -0400
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id 6E011120011; Wed, 17 Mar 2021 14:41:05 -0700 (PDT)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id A92DC120011;
- Wed, 17 Mar 2021 14:40:59 -0700 (PDT)
-Date: Wed, 17 Mar 2021 14:40:58 -0700
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-Subject: CXL 2.0 memory device design
-Message-ID: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1lMe4z-0005Df-TK
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:51:52 -0400
+IronPort-SDR: EOgu7rKNYsToXt5YYLvUrIaRTMI5bDI0nrGkZoQvA0f5pCZZ9yL3lMpgu48yhCVbZKVMzltkW2
+ Dpbwvj7qKIGg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9926"; a="186194601"
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="186194601"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 14:51:42 -0700
+IronPort-SDR: t6pkbIFussvQYx6jzhj6/Wtj0MGcGrksNkGGMVhM8MbCXM19J5rbRb3A62R2RIMDreLT9qJx71
+ V8tBj3/Gw/JQ==
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="412816439"
+Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 14:51:39 -0700
+From: isaku.yamahata@gmail.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] acpi:piix4, vt82c686: reinitialize acpi PM device on reset
+Date: Wed, 17 Mar 2021 14:49:31 -0700
+Message-Id: <1ceb31c6782f701674d3b907a419f5a82adb37bc.1616012290.git.isaku.yamahata@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210317104146.784de0c1@redhat.com>
+References: <20210317104146.784de0c1@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.93;
+ envelope-from=isaku.yamahata@intel.com; helo=mga11.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NML_ADSP_CUSTOM_MED=0.9,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,55 +64,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: isaku.yamahata@intel.com, berrange@redhat.com, mst@redhat.com,
+ f4bug@amsat.org, Reinoud Zandijk <reinoud@NetBSD.org>, aurelien@aurel32.net,
+ pbonzini@redhat.com, Igor Mammedov <imammedo@redhat.com>,
+ isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Phil, Igor, Markus
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-TL;DR: What to do about multiple capacities in a single device, and what to do
-about interleave?
+Commit 6be8cf56bc8b made sure that SCI is enabled in PM1.CNT
+on reset in acpi_only mode by modifying acpi_pm1_cnt_reset() and
+that worked for q35 as expected.
 
-I've hacked together a basic CXL 2.0 implementation which exposes a CXL "Type 3"
-memory device (CXL 2.0 Chapter 2.3). For what we were trying to do this was
-sufficient. There are two main capabilities that CXL spec exposes which I've not
-implemented that I'd like to start working toward and am realizing that I what I
-have so far might not be able to carry forward to that next milestone.
+The function was introduced by commit
+  eaba51c573a (acpi, acpi_piix, vt82c686: factor out PM1_CNT logic)
+that forgot to actually call it at piix4 reset time and as result
+SCI_EN wasn't set as was expected by 6be8cf56bc8b in acpi_only mode.
 
-Capability 1. A CXL memory device may have both a volatile, and a persistent
-	      capacity. https://bwidawsk.net/HDM_decoders.svg (lower right
-	      side). The current work only supports a single persistent
-	      capacity.
-Capability 2. CXL topologies can be interleaved. Basic example:
-              https://bwidawsk.net/HDM_decoders.svg (lower left side)
+So Windows crashes when it notices that SCI_EN is not set and FADT is
+not providing information about how to enable it anymore.
+Reproducer:
+   qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.0,smm=off -cdrom any_windows_10x64.iso
 
-Memory regions are configured via a CXL spec defined HDM decoder. The HDM
-decoder which is minimally implemented supports all the functionality mentioned
-above (base, size, interleave, type, etc.). A CXL component may have up to 10
-HDMs.
+Fix it by calling acpi_pm1_cnt_reset() at piix4 reset time.
 
-What I have today: https://bwidawsk.net/QEMU_objects.svg
-There's a single memory backend device for each host bridge. That backend is
-passed to any CXL component that is part of the hierarchy underneath that
-hostbridge. In the case of a Type 3 device memory capacity a subregion is
-created for that capacity from within the main backend. The device itself
-implements the TYPE_MEMORY_DEVICE interface. This allows me to utilize the
-existing memory region code to determine the next free address, and warn on
-overlaps. It hopefully will help when I'm ready to support hotplug.
+Occasionally this patch adds reset acpi PM related registers on
+piix4/vt582c686 reset time and de-assert sci.
+piix4_pm_realize() initializes acpi pm tmr, evt, cnt and gpe.
+via_pm_realize() initializes acpi pm tmr, evt and cnt.
+reset them on device reset. pm_reset() in ich9.c correctly calls
+corresponding reset functions.
 
-Where I've gotten stuck: A Memory Device expects only to have one region of
-memory. Trying to add a second breaks pretty much everything.
+Fixes: 6be8cf56bc8b (acpi/core: always set SCI_EN when SMM isn't supported)
+Reported-by: Reinoud Zandijk <reinoud@NetBSD.org>
+Co-developed-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+---
+CC: imammedo@redhat.com
+CC: isaku.yamahata@intel.com
+CC: mst@redhat.com
+CC: reinoud@NetBSD.org
+CC: isaku.yamahata@gmail.com
+CC: berrange@redhat.com
+CC: pbonzini@redhat.com
+CC: f4bug@amsat.org
+CC: aurelien@aurel32.net
+---
+ hw/acpi/piix4.c   | 7 +++++++
+ hw/isa/vt82c686.c | 5 +++++
+ 2 files changed, 12 insertions(+)
 
-I'm hoping to start the discussion about what the right way to emulate this in
-QEMU. Ideally something upstreamable would be great. I think adding a secondary
-(or more) capacity to a memory class device is doable, but probably not the
-right approach.
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 1efc0ded9f..a00525025b 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -325,6 +325,13 @@ static void piix4_pm_reset(DeviceState *dev)
+         /* Mark SMM as already inited (until KVM supports SMM). */
+         pci_conf[0x5B] = 0x02;
+     }
++
++    acpi_pm1_evt_reset(&s->ar);
++    acpi_pm1_cnt_reset(&s->ar);
++    acpi_pm_tmr_reset(&s->ar);
++    acpi_gpe_reset(&s->ar);
++    acpi_update_sci(&s->ar, s->irq);
++
+     pm_io_space_update(s);
+     acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
+ }
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 05d084f698..7bacad03e2 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -167,6 +167,11 @@ static void via_pm_reset(DeviceState *d)
+     /* SMBus IO base */
+     pci_set_long(s->dev.config + 0x90, 1);
+ 
++    acpi_pm1_evt_reset(&s->ar);
++    acpi_pm1_cnt_reset(&s->ar);
++    acpi_pm_tmr_reset(&s->ar);
++    pm_update_sci(s);
++
+     pm_io_space_update(s);
+     smb_io_space_update(s);
+ }
+-- 
+2.25.1
 
-For context, I've posted v3 previously. Here's a link to v4 which has some minor
-changes as well as moving back to using subregions instead of aliases:
-https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
-
-Thanks.
-Ben
 
