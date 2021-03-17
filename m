@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001D533F5CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:44:49 +0100 (CET)
-Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B83B33F5CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:44:39 +0100 (CET)
+Received: from localhost ([::1]:54408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZHt-0002Na-0y
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58158)
+	id 1lMZHi-0002AZ-LO
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lMYia-0000zA-BL
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:08:21 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:43753)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lMYjX-0001xm-5V
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:09:19 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:43766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lMYiW-0000j3-0i
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:08:19 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lMYjV-0001Nj-NW
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:09:18 -0400
 X-Envelope-From: alxndr@bu.edu
 X-BU-AUTH: mozz.bu.edu [128.197.127.33]
 Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
  bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12HG7ZAu006376
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12HG7wma006747
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 17 Mar 2021 12:07:37 -0400
-Date: Wed, 17 Mar 2021 12:07:35 -0400
+ Wed, 17 Mar 2021 12:08:01 -0400
+Date: Wed, 17 Mar 2021 12:07:58 -0400
 From: Alexander Bulekov <alxndr@bu.edu>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 1/4] esp: don't underflow cmdfifo if no message
- out/command data is present
-Message-ID: <20210317160735.lj6aw6nsiltecn6x@mozz.bu.edu>
+Subject: Re: [PATCH 2/4] esp: don't overflow cmdfifo if TC is larger than the
+ cmdfifo size
+Message-ID: <20210317160758.lagodz77czik5lte@mozz.bu.edu>
 References: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
- <20210316233024.13560-2-mark.cave-ayland@ilande.co.uk>
- <20210317151456.o7shs5qc4rxkunfs@mozz.bu.edu>
+ <20210316233024.13560-3-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210317151456.o7shs5qc4rxkunfs@mozz.bu.edu>
+In-Reply-To: <20210316233024.13560-3-mark.cave-ayland@ilande.co.uk>
 Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
  helo=relay64.bu.edu
 X-Spam_score_int: -31
@@ -61,19 +60,17 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210317 1114, Alexander Bulekov wrote:
-> On 210316 2330, Mark Cave-Ayland wrote:
-> > If a guest sends a TI (Transfer Information) command without previously sending
-> > any message out/command phase data then cmdfifo will underflow triggering an
-> > assert reading the IDENTIFY byte.
-> > 
-> > Buglink: https://bugs.launchpad.net/qemu/+bug/1919035
-> > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > ---
-> >  hw/scsi/esp.c | 22 ++++++++++++++--------
-> >  1 file changed, 14 insertions(+), 8 deletions(-)
+On 210316 2330, Mark Cave-Ayland wrote:
+> If a guest transfers the message out/command phase data using DMA with a TC
+> that is larger than the cmdfifo size then the cmdfifo overflows triggering
+> an assert. Limit the size of the transfer to the free space available in
+> cmdfifo.
 > 
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1919036
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/scsi/esp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Oops please disregard this. It was meant for PATCH 2/4
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
 
