@@ -2,55 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768C133E27E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:07:36 +0100 (CET)
-Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D466B33E284
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:10:14 +0100 (CET)
+Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMJip-0006ah-Gf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
+	id 1lMJlN-00006v-Tc
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJgf-0005uU-91; Tue, 16 Mar 2021 20:05:22 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33450
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJgY-0005an-VO; Tue, 16 Mar 2021 20:05:21 -0400
-Received: from host86-148-103-84.range86-148.btcentralplus.com
- ([86.148.103.84] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lMJgM-0006aw-PK; Wed, 17 Mar 2021 00:05:08 +0000
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1615932192.git.balaton@eik.bme.hu>
- <fe51b31de411857ba549a922a7db4bda0fe1f70d.1615932192.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <f352e8e5-92bb-c1df-2ada-85f0a903990c@ilande.co.uk>
-Date: Wed, 17 Mar 2021 00:04:57 +0000
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMJk7-0007hU-NH
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:08:55 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:45043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMJk6-0007A7-42
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:08:55 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ j4-20020a05600c4104b029010c62bc1e20so306637wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 17:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qRrWx8IecwqHRWv6pCms04wG8j4IFrru8/aKju64QgU=;
+ b=eNVb7X/GiERZ6E77zlbGEcG/paT670kxcFVHkijALxLWBMvtShnnkst40iVmWSJaVV
+ TEMPpkvgNWuQMv4KRIChdvj4gxxPfjSq0aUq0K7zft4UOUHMS5atZqilCMq5vvWKX0mc
+ /vp2+fSNWa6GWqYTuDHa09BgQ1NhDLhf2N4dvLNrkXE1t79lnLvBildfrCWmw8aTObFH
+ +PeWpLdmJK/mMxP7jymvGl/BQdS8BxH5G09DeXrCXprWRfAa1+LPpI/9MIgxKnGKGUXU
+ F+F1WYuClb9K+rkOP0GQvqH08dvfpl31XNAtBstolcJSHIgLpSJlwkOYbw65tBQ6vxrp
+ f2kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qRrWx8IecwqHRWv6pCms04wG8j4IFrru8/aKju64QgU=;
+ b=kK0UmkTBXTmu6cyjg7QNzitM/3DNrD0xVdhwP3WXR+tlUTGNDxmcyo7ET+HYhZTl62
+ OO8S5CshEbbe5dbRxAdu6OOm6cVQhmO+597hjEqgIAK0pOdCjtnbOdwe5IZ6mGZVRcRX
+ XKJBmVqiViVpIHL4H0uD9NWHdO3oLT1wca8/zPMyPce7n70leDRlWl0lbVcSqXDq1h27
+ 8C10PK3xHJWEtvOEsRybNGtmzVMEpcf6uuJmUaV+kgIjoZ9vsX7lKyMVwRrzoDvlN2S4
+ 9wZaycfH3z+QdgVq5tZ/2Mh9mcH1SlY9wGLP+dJqgzxVAXiW6JmeM0FGvXUDj22mfD/H
+ MYfA==
+X-Gm-Message-State: AOAM531xVbgHUvyHRROEYBXcAGbyLRZ176jVTs06sXZOwM6NXM9qrTim
+ +xXX/k/TekQGRsiaTv6hwdw=
+X-Google-Smtp-Source: ABdhPJx56bHQLDuUkASAWBAegf5+rGSlJUTYpiqPJZymnPmdYKfvKfxmSlMFhA6Oux4drPjfn45JUg==
+X-Received: by 2002:a05:600c:4305:: with SMTP id
+ p5mr1091684wme.58.1615939732663; 
+ Tue, 16 Mar 2021 17:08:52 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id d204sm783204wmc.17.2021.03.16.17.08.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 17:08:51 -0700 (PDT)
+Subject: Re: [PATCH v7 00/35] Hexagon patch series
+To: Brian Cain <bcain@quicinc.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
+ <02e7217d-6376-b93d-842d-197d9e13fc58@amsat.org>
+ <BYAPR02MB4886C64A59EAC3B164159D5BDEBD9@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <SN6PR02MB4205631BE926DC85052330E9B8BD9@SN6PR02MB4205.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9919a29f-95ae-8bb1-c029-74678fd9eefe@amsat.org>
+Date: Wed, 17 Mar 2021 01:08:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <fe51b31de411857ba549a922a7db4bda0fe1f70d.1615932192.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <SN6PR02MB4205631BE926DC85052330E9B8BD9@SN6PR02MB4205.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.103.84
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v9 1/7] vt82c686: QOM-ify superio related functionality
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,321 +94,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, f4bug@amsat.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/2021 22:03, BALATON Zoltan wrote:
+On 1/26/21 12:28 AM, Brian Cain wrote:
+>> -----Original Message-----
+>> From: Taylor Simpson <tsimpson@quicinc.com>
+>> Sent: Monday, January 25, 2021 5:09 PM
+>> To: Philippe Mathieu-Daudé <f4bug@amsat.org>; qemu-devel@nongnu.org
+>> Cc: richard.henderson@linaro.org; alex.bennee@linaro.org;
+>> laurent@vivier.eu; ale@rev.ng; Brian Cain <bcain@quicinc.com>
+>> Subject: RE: [PATCH v7 00/35] Hexagon patch series
+>>
+>>
+>>
+>>> -----Original Message-----
+>>> From: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> On
+>>> Behalf Of Philippe Mathieu-Daudé
+>>> Sent: Monday, January 25, 2021 4:15 PM
+>>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+>>> Cc: richard.henderson@linaro.org; alex.bennee@linaro.org;
+>>> laurent@vivier.eu; ale@rev.ng; Brian Cain <bcain@quicinc.com>
+>>> Subject: Re: [PATCH v7 00/35] Hexagon patch series
+>>>
+>>>
+>>> Hi Taylor,
+>>>
+> ...
+>>>
+>>> I'm looking at stressing a bit more your work.
+> ...
+>>> Any other real-world binary you could share?
+>>
+>> In addition to busybox, we could build other open source packages.  Would
+>> that be of interest?
 
-> Collect superio functionality and its controlling config registers
-> handling in an abstract VIA_SUPERIO class that is a subclass of
-> ISA_SUPERIO and put vt82c686b specific parts in a subclass of this
-> abstract class.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/isa/vt82c686.c         | 196 +++++++++++++++++++++++++-------------
->   include/hw/isa/vt82c686.h |   1 -
->   2 files changed, 132 insertions(+), 65 deletions(-)
-> 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 05d084f698..ede8f3b195 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -249,15 +249,80 @@ static const TypeInfo vt8231_pm_info = {
->   };
->   
->   
-> -typedef struct SuperIOConfig {
-> +#define TYPE_VIA_SUPERIO "via-superio"
-> +OBJECT_DECLARE_SIMPLE_TYPE(ViaSuperIOState, VIA_SUPERIO)
-> +
-> +struct ViaSuperIOState {
-> +    ISASuperIODevice superio;
->       uint8_t regs[0x100];
-> +    const MemoryRegionOps *io_ops;
->       MemoryRegion io;
-> -} SuperIOConfig;
-> +};
-> +
-> +static inline void via_superio_io_enable(ViaSuperIOState *s, bool enable)
-> +{
-> +    memory_region_set_enabled(&s->io, enable);
-> +}
-> +
-> +static void via_superio_realize(DeviceState *d, Error **errp)
-> +{
-> +    ViaSuperIOState *s = VIA_SUPERIO(d);
-> +    ISASuperIOClass *ic = ISA_SUPERIO_GET_CLASS(s);
-> +    Error *local_err = NULL;
-> +
-> +    assert(s->io_ops);
-> +    ic->parent_realize(d, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +    memory_region_init_io(&s->io, OBJECT(d), s->io_ops, s, "via-superio", 2);
-> +    memory_region_set_enabled(&s->io, false);
-> +    /* The floppy also uses 0x3f0 and 0x3f1 but this seems to work anyway */
-> +    memory_region_add_subregion(isa_address_space_io(ISA_DEVICE(s)), 0x3f0,
-> +                                &s->io);
-> +}
-> +
-> +static uint64_t via_superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    ViaSuperIOState *sc = opaque;
-> +    uint8_t idx = sc->regs[0];
-> +    uint8_t val = sc->regs[idx];
-> +
-> +    if (addr == 0) {
-> +        return idx;
-> +    }
-> +    if (addr == 1 && idx == 0) {
-> +        val = 0; /* reading reg 0 where we store index value */
-> +    }
-> +    trace_via_superio_read(idx, val);
-> +    return val;
-> +}
-> +
-> +static void via_superio_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
-> +
-> +    sc->parent_realize = dc->realize;
-> +    dc->realize = via_superio_realize;
-> +}
-> +
-> +static const TypeInfo via_superio_info = {
-> +    .name          = TYPE_VIA_SUPERIO,
-> +    .parent        = TYPE_ISA_SUPERIO,
-> +    .instance_size = sizeof(ViaSuperIOState),
-> +    .class_size    = sizeof(ISASuperIOClass),
-> +    .class_init    = via_superio_class_init,
-> +    .abstract      = true,
-> +};
-> +
-> +#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
->   
-> -static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-> -                              unsigned size)
-> +static void vt82c686b_superio_cfg_write(void *opaque, hwaddr addr,
-> +                                        uint64_t data, unsigned size)
->   {
-> -    SuperIOConfig *sc = opaque;
-> +    ViaSuperIOState *sc = opaque;
->       uint8_t idx = sc->regs[0];
->   
->       if (addr == 0) { /* config index register */
-> @@ -288,25 +353,9 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->       sc->regs[idx] = data;
->   }
->   
-> -static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
-> -{
-> -    SuperIOConfig *sc = opaque;
-> -    uint8_t idx = sc->regs[0];
-> -    uint8_t val = sc->regs[idx];
-> -
-> -    if (addr == 0) {
-> -        return idx;
-> -    }
-> -    if (addr == 1 && idx == 0) {
-> -        val = 0; /* reading reg 0 where we store index value */
-> -    }
-> -    trace_via_superio_read(idx, val);
-> -    return val;
-> -}
-> -
-> -static const MemoryRegionOps superio_cfg_ops = {
-> -    .read = superio_cfg_read,
-> -    .write = superio_cfg_write,
-> +static const MemoryRegionOps vt82c686b_superio_cfg_ops = {
-> +    .read = via_superio_cfg_read,
-> +    .write = vt82c686b_superio_cfg_write,
->       .endianness = DEVICE_NATIVE_ENDIAN,
->       .impl = {
->           .min_access_size = 1,
-> @@ -314,13 +363,66 @@ static const MemoryRegionOps superio_cfg_ops = {
->       },
->   };
->   
-> +static void vt82c686b_superio_reset(DeviceState *dev)
-> +{
-> +    ViaSuperIOState *s = VIA_SUPERIO(dev);
-> +
-> +    memset(s->regs, 0, sizeof(s->regs));
-> +    /* Device ID */
-> +    vt82c686b_superio_cfg_write(s, 0, 0xe0, 1);
-> +    vt82c686b_superio_cfg_write(s, 1, 0x3c, 1);
-> +    /* Function select - all disabled */
-> +    vt82c686b_superio_cfg_write(s, 0, 0xe2, 1);
-> +    vt82c686b_superio_cfg_write(s, 1, 0x03, 1);
-> +    /* Floppy ctrl base addr */
-> +    vt82c686b_superio_cfg_write(s, 0, 0xe3, 1);
-> +    vt82c686b_superio_cfg_write(s, 1, 0xfc, 1);
-> +    /* Parallel port base addr */
-> +    vt82c686b_superio_cfg_write(s, 0, 0xe6, 1);
-> +    vt82c686b_superio_cfg_write(s, 1, 0xde, 1);
-> +    /* Serial port 1 base addr */
-> +    vt82c686b_superio_cfg_write(s, 0, 0xe7, 1);
-> +    vt82c686b_superio_cfg_write(s, 1, 0xfe, 1);
-> +    /* Serial port 2 base addr */
-> +    vt82c686b_superio_cfg_write(s, 0, 0xe8, 1);
-> +    vt82c686b_superio_cfg_write(s, 1, 0xbe, 1);
-> +
-> +    vt82c686b_superio_cfg_write(s, 0, 0, 1);
-> +}
+ffmpeg.
 
-I'd say that you need to add the base addresses of the floppy/parallel/serial devices 
-into the comment as otherwise it's impossible to validate that the configuration 
-you're writing here matches what is visible in "info mtree"/the SuperIO defaults 
-without having to dig through the datasheet.
+> Taylor -- I have been running nightly builds of the cross toolchain which include busybox and Python (CPython) as test cases.  We could put one those binaries somewhere.
 
-> +static void vt82c686b_superio_init(Object *obj)
-> +{
-> +    VIA_SUPERIO(obj)->io_ops = &vt82c686b_superio_cfg_ops;
-> +}
-> +
-> +static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
-> +
-> +    dc->reset = vt82c686b_superio_reset;
-> +    sc->serial.count = 2;
-> +    sc->parallel.count = 1;
-> +    sc->ide.count = 0; /* emulated by via-ide */
-> +    sc->floppy.count = 1;
-> +}
-> +
-> +static const TypeInfo vt82c686b_superio_info = {
-> +    .name          = TYPE_VT82C686B_SUPERIO,
-> +    .parent        = TYPE_VIA_SUPERIO,
-> +    .instance_size = sizeof(ViaSuperIOState),
-> +    .instance_init = vt82c686b_superio_init,
-> +    .class_size    = sizeof(ISASuperIOClass),
-> +    .class_init    = vt82c686b_superio_class_init,
-> +};
-> +
->   
->   OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
->   
->   struct VT82C686BISAState {
->       PCIDevice dev;
->       qemu_irq cpu_intr;
-> -    SuperIOConfig superio_cfg;
-> +    ViaSuperIOState *via_sio;
->   };
->   
->   static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-> @@ -338,7 +440,7 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
->       pci_default_write_config(d, addr, val, len);
->       if (addr == 0x85) {
->           /* BIT(1): enable or disable superio config io ports */
-> -        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
-> +        via_superio_io_enable(s->via_sio, val & BIT(1));
->       }
->   }
->   
-> @@ -370,13 +472,6 @@ static void vt82c686b_isa_reset(DeviceState *dev)
->       pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
->       pci_conf[0x5f] = 0x04;
->       pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
-> -
-> -    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
-> -    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
-> -    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
-> -    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
-> -    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
-> -    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
->   }
->   
->   static void vt82c686b_realize(PCIDevice *d, Error **errp)
-> @@ -394,7 +489,8 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->       isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
->       i8254_pit_init(isa_bus, 0x40, 0, NULL);
->       i8257_dma_init(isa_bus, 0);
-> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-> +    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus,
-> +                                               TYPE_VT82C686B_SUPERIO));
->       mc146818_rtc_init(isa_bus, 2000, NULL);
->   
->       for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> @@ -402,16 +498,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->               d->wmask[i] = 0;
->           }
->       }
-> -
-> -    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
-> -                          &s->superio_cfg, "superio_cfg", 2);
-> -    memory_region_set_enabled(&s->superio_cfg.io, false);
-> -    /*
-> -     * The floppy also uses 0x3f0 and 0x3f1.
-> -     * But we do not emulate a floppy, so just set it here.
-> -     */
-> -    memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
-> -                                &s->superio_cfg.io);
->   }
->   
->   static void via_class_init(ObjectClass *klass, void *data)
-> @@ -447,32 +533,14 @@ static const TypeInfo via_info = {
->   };
->   
->   
-> -static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
-> -{
-> -    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
-> -
-> -    sc->serial.count = 2;
-> -    sc->parallel.count = 1;
-> -    sc->ide.count = 0;
-> -    sc->floppy.count = 1;
-> -}
-> -
-> -static const TypeInfo via_superio_info = {
-> -    .name          = TYPE_VT82C686B_SUPERIO,
-> -    .parent        = TYPE_ISA_SUPERIO,
-> -    .instance_size = sizeof(ISASuperIODevice),
-> -    .class_size    = sizeof(ISASuperIOClass),
-> -    .class_init    = vt82c686b_superio_class_init,
-> -};
-> -
-> -
->   static void vt82c686b_register_types(void)
->   {
->       type_register_static(&via_pm_info);
->       type_register_static(&vt82c686b_pm_info);
->       type_register_static(&vt8231_pm_info);
-> -    type_register_static(&via_info);
->       type_register_static(&via_superio_info);
-> +    type_register_static(&vt82c686b_superio_info);
-> +    type_register_static(&via_info);
->   }
->   
->   type_init(vt82c686b_register_types)
-> diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-> index 9b6d610e83..0692b9a527 100644
-> --- a/include/hw/isa/vt82c686.h
-> +++ b/include/hw/isa/vt82c686.h
-> @@ -2,7 +2,6 @@
->   #define HW_VT82C686_H
->   
->   #define TYPE_VT82C686B_ISA "vt82c686b-isa"
-> -#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
->   #define TYPE_VT82C686B_PM "vt82c686b-pm"
->   #define TYPE_VT8231_PM "vt8231-pm"
->   #define TYPE_VIA_AC97 "via-ac97"
-
-With the updated comments:
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
+Maybe a release tag on Githug?
 
