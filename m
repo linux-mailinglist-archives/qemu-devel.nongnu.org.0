@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C02233E565
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:04:55 +0100 (CET)
-Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320D033E5C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:14:14 +0100 (CET)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMKcH-0002Ip-S0
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:04:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46064)
+	id 1lMKlJ-000431-1O
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lMKbV-0001sS-F1
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 21:04:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20025)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1lMKk5-0003Za-S0
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 21:12:57 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lMKbS-0006qN-6f
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 21:04:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615943040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=c/YFlcWoAlLR0inYMU6/K9CFUr5QS2uZDV53+wUIpBA=;
- b=AfTBnJZbBSH4O2Til4HuxAQ3NbzQLHxy5Ndb1lgM7pqeJieGpeQE9drT/rN1foXWq0ARIk
- NarOtifBJtZKcvraM8qN7kxinDgXImRt7Sx5Eib0v5lLOXV1POCNHquL+lzckuGKKJ32UA
- ZuBNrjOO2YZMxKrieIvIOpoeLMY04/g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-3Qe-m9zSOT-xstcxOvl2OQ-1; Tue, 16 Mar 2021 21:03:57 -0400
-X-MC-Unique: 3Qe-m9zSOT-xstcxOvl2OQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16435107ACCA
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 01:03:57 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-113-107.rdu2.redhat.com
- [10.10.113.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71FE46A940;
- Wed, 17 Mar 2021 01:03:50 +0000 (UTC)
-Date: Tue, 16 Mar 2021 21:03:48 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH] tests/acceptance: Print expected message on
- wait_for_console_pattern
-Message-ID: <YFFVdJv06hnvwVz7@localhost.localdomain>
-References: <20210309153507.1905682-1-wainersm@redhat.com>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1lMKk3-0002MZ-Rm
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 21:12:57 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6126D5C00E2;
+ Tue, 16 Mar 2021 21:12:53 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 16 Mar 2021 21:12:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=EespId7H3o/W4EaTvL2QlocxIF
+ aKUwKIRiCKzCEpiys=; b=VN7vJN4mT2Y5ZAbMcQjsswTfbcsxNxXxeB+okwGrPl
+ m42uC/8JtiqrlLPnNc6+MCzgBpR+oYjDEFXHlsxx/icK6kFSBWJAAbOD/0L0tuoB
+ 4prvApp0DAAm0pA1Vnk6C+tKDzRP874FofiSIABfiIvt6oTx7k0F99KCly72USOm
+ EZnJQsVaU+ee28ZSbQ0qzUtJJsbVJEkTX5oMPHVgEB5saE6I78r6jiZTYe1djVoS
+ Axc1viyyzUqODiP6orj6AFRmz/2ewaYJOBdEVdfcj9YCxpifyr9Q/c6zAiIUVsZI
+ NXfJ/3Es4jIiuYkcwVCjYQipAeU1U8EVf9UReYXGn36Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EespId7H3o/W4EaTv
+ L2QlocxIFaKUwKIRiCKzCEpiys=; b=KTMO8ZMFn4FBja2HKI1qlZtZolbR1H7cJ
+ 0d2vZGs4yAyAypq2Xorny5M4FfEl2Ex4rWBozINgdXMpp7a7fXdVofz1XMRjTVnL
+ RzmKaIXobxh6TDLU7lC3d5Cd5P2QHsbkQ7aLScVVA1NrkTBsh8g05x508mpfvOUk
+ xAW+vB06TO0ox8bc7dofxAV4Lvo2gFCArA6LhFNf4ffTeiSNVb1fO3FNnfTPdwgi
+ 32zO/xV8FFSvFOdAEYmv4r49cTuziaLkNom/jetD0WzBIcAnlM3ti2NzjJzEbHUq
+ aphV6f+BlON3OP4nRk3q2GBLfWVuphTZY0IH1AqKOYNn4UFIZa9gg==
+X-ME-Sender: <xms:lFdRYLDsi369th9d15kr0dFLqEFTAZZOzj7MeoyY-b1_cChVn3sj9g>
+ <xme:lFdRYBgDcLI-72BKXVNoxoBdGOGxnQljTpLHDxwqFQnQWZBHgep1YGbKEPZfw3nDo
+ gHe_WsoqdJPkz5QwZs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeffedgvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihunhcu
+ jggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrf
+ grthhtvghrnhepkeduffeikeejleduudfhffeijefhhfejhedtfeefjeejgfefjeevfffg
+ ueeguddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepfeelrddugeegrd
+ dutdehrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+ rhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:lFdRYGk5-T0_HX7UlaMuWPNnNAbgM3M2GFA62CcdSXS7LpQtgV4IcQ>
+ <xmx:lFdRYNwzYYzuonfVaVJiU6NRf6s-ebKz9uNZQR2kX_zKd2yD6YgjYA>
+ <xmx:lFdRYASBDu3SIvSsH_PLaNi6OOqC2er-xA5KmPivXuoLxdkFgT_3_Q>
+ <xmx:lVdRYGejmA3OdIk4YFptqZ4fWRKSE8UZ6Rx4Bo_y0SlcELHuhV42uA>
+Received: from localhost.localdomain (unknown [39.144.105.103])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3388E108005C;
+ Tue, 16 Mar 2021 21:12:48 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] target/mips: Deprecate Trap-and-Emul KVM support
+Date: Wed, 17 Mar 2021 09:12:35 +0800
+Message-Id: <20210317011235.7425-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210309153507.1905682-1-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xBOCKAN2ci0GBeeV"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,57 +91,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: willianr@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---xBOCKAN2ci0GBeeV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Upstream kernel had removed both host[1] and guest[2] support.
 
-On Tue, Mar 09, 2021 at 12:35:07PM -0300, Wainer dos Santos Moschetta wrote=
-:
-> For the sake of improve debuggability of tests which use the
-> wait_for_console_pattern(), this changed the _console_interaction() so th=
-at
-> the expected message is printed if the test fail.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
-> While I was testing  "[PATCH v2 2/2] tests/acceptance: Test ast2600 machi=
-ne"
-> I could not clearly determine which of the called wait_for_console_patter=
-n()
-> was failing. So this patch improves debuggability in such as situations.
->=20
->  tests/acceptance/avocado_qemu/__init__.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git/commit/?id=45c7e8af4a5e3f0bea4ac209eea34118dd57ac64
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git/commit/?id=a1515ec7204edca770c07929df8538fcdb03ad46
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
---xBOCKAN2ci0GBeeV
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+v2: Fix up tittle and sphinx format (f4bug)
+Lost in the sea of emails :-)
+---
+ docs/system/deprecated.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBRVXEACgkQZX6NM6Xy
-CfOksQ/8Dsag7dopEYbZW1lstBWXmW9Aj4W54oPtk8dD39HEVBZDz0C/bAlLj6N0
-TSRN+rulcBXU+82vHrtp8NqExY6tjdZdQ8le6OysGQ4dzui+pgK/RFAjmH3zlzEX
-7mUBVPYQZPLgg5JUsNOjNvcbqp6Juqsv6D2oZLlHUqCfWK1e4fhbinhcQZm0v9Kx
-XqIx9hbruIS3MH+7huf16sgTA3TG436BQJRkrBBJ25NK0e4PY27byEMxl1Bk00kr
-O1V3D36n9Sq0qD4EVXtNYeikhjH4BWsbLN1hSCXe/78B/dqoNVg7vXw2TIpCXvQa
-HzndevaPB55r84TAptTgzVe9689fBo8vJ8pIXZjUrGwvDPEys7YgWCbQZhf8U//E
-GzWyaQtu4frWKEtVL5FDwLhy5EYfYWMQg05Ho1if9Dbwoi55Mx9yFFlq4BCAs5xM
-yT1HpyxVxsqiviaYFHFq3mt4FyDvdL3HDW9RiIGlz23Mk6AZtW1kUqYoHuoSZp+M
-P0eeXHVN3dY40ftbwDWo1QhgGTkb2KeKBOwDsX7GozVq7Pt7j/GmgiAd366CHa1h
-+2xB0d7pOuJTq0+i6U95vUgoD3IzytEppvjApYO3MRiKbyTrqPCWZVQLunDCCKTT
-PfaYay4I23XoB7ZMOnzki1PX9Opb8eC2xInUq6ZRRyUR0nTP6gk=
-=leA/
------END PGP SIGNATURE-----
-
---xBOCKAN2ci0GBeeV--
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 5e3a31c123..9286cdd475 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -292,6 +292,15 @@ The ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, and
+ ``acl_remove`` commands are deprecated with no replacement. Authorization
+ for VNC should be performed using the pluggable QAuthZ objects.
+ 
++System accelerators
++-------------------
++
++MIPS ``Trap-and-Emul`` KVM support (since 6.0)
++''''''''''''''''''''''''''''''''''''''''''''''
++
++The MIPS ``Trap-and-Emul`` KVM host and guest support has been removed
++from upstream kernel, declare it deprecated.
++
+ System emulator CPUS
+ --------------------
+ 
+-- 
+2.30.2
 
 
