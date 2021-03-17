@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CC933F137
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:34:17 +0100 (CET)
-Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D397E33F138
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:34:39 +0100 (CET)
+Received: from localhost ([::1]:37006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMWJU-0003aC-65
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
+	id 1lMWJq-0003kk-Am
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMWI6-0002eC-PL
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:32:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMWI2-0001hy-W5
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:32:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615987965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NpxmYajSjKdwvjK+mY/8RLagSI+XCbjRGXOqZH0+rRA=;
- b=KZUAPi+WWA2+YheuOhxtW8oROYRHgltVHxUG8QvfyFzJUw29ifopwOZdmwmqiO1kYXgW7+
- /xY9V+RYOvncmo5R1OqrevxMXVvggpcFzRcJL/BP5YUHDFucWOdWgZR0kWYCDOyHNtxwBa
- Z+tNFN2sqLRlYoPl3UW9SD6xWjoyBPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-iC-nvkG7OtWKDyOpXNb-5g-1; Wed, 17 Mar 2021 09:32:44 -0400
-X-MC-Unique: iC-nvkG7OtWKDyOpXNb-5g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B92BC10168CE;
- Wed, 17 Mar 2021 13:32:42 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CA6037DD;
- Wed, 17 Mar 2021 13:32:36 +0000 (UTC)
-Subject: Re: [PATCH v3 2/5] tests/acceptance: Make pick_default_qemu_bin()
- more generic
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210315230838.2973103-1-f4bug@amsat.org>
- <20210315230838.2973103-3-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <1bb15b0e-44d2-d761-e2d2-8ae5e906f2cd@redhat.com>
-Date: Wed, 17 Mar 2021 10:32:33 -0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMWIF-0002i9-4y
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:32:59 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMWID-0001pI-Fl
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:32:58 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ f22-20020a7bc8d60000b029010c024a1407so3401913wml.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:32:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SwKB6JcivXppjRR5wiiZPWBgGoz0ZW274heYRA8m9zE=;
+ b=iygEMV64XcTQPI7jCGiz+q4PDsdlLxeAAizNXXfmw1i5RUTjjwcUygkbajp+Dw/UwO
+ 3BOsGIVJBsC2n1bDDY0h+cV0q43TXKYtMjUkMigfLGtL/c5o8IDqqCwXpK4YB0dFJ3i6
+ d/Ihe/XAAP2ORFAQBEHxgmUL/CJRSzHtMCA46tVZMYwAqIYlRcKRCpbVWSf8AL07lnAe
+ i13jZMCPNzj+eerxlMDArWfTgewNgn0i8doWGlrR5JwurJvUT87T/ZfUSctLHuPMqKdM
+ eitEwrpJztN1w34uai7pk3jiElqmyvVS4hNYWp41r0EXtyMBNQrwF0Ly32z/JUn6yhBA
+ /AOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SwKB6JcivXppjRR5wiiZPWBgGoz0ZW274heYRA8m9zE=;
+ b=ADVXgCpP9mgEdgXaOZKfn0Z1hQ4SrKBM1nvTmAu7qRz5vkfu56p726knaf5lSvoHCY
+ oSFYwXyTy/nEBmkexA0VKPHw/d3fmerJINYGnVkoOVfBu3LCGJHPIHkW0H4deW7wChQ8
+ 7B2Ik5uewEfEcTVuMO+1CNSujDazcDxDfpG65n6GiaRTgP14P4iYDTNO9QjudyWuvUpF
+ ZVxfIIn/gG8MzFQFRLt0tF72VJIODRIH0kPVVSBCzhJkl6mvTRJOnUQxkaqHt4rXdmGO
+ gSKGxaY1xZAmSDfM01DjuQfOkY8jt4EY0OvWc7rkiA2lqucsNXHJ7BTMMtQtzpUAIrfU
+ bmSA==
+X-Gm-Message-State: AOAM532S3co1gMP2GVDKboYbxCQc1PE1eJJZkxXgY4W2/8EQO2/14OZN
+ 8JROxu4QJuWMb1/hKxsWGPY=
+X-Google-Smtp-Source: ABdhPJx8XCyw0MivZQc5aPS5FUFzwBW/+rjseIu4npGX7ra5DAsKiMTJZ+jCU4a5FGBdEcfQu6l1RA==
+X-Received: by 2002:a1c:7e45:: with SMTP id z66mr3712177wmc.126.1615987975850; 
+ Wed, 17 Mar 2021 06:32:55 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id b80sm1899259wmb.40.2021.03.17.06.32.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 06:32:54 -0700 (PDT)
+Subject: Re: [PATCH 1/5] tcg: Decode the operand to INDEX_op_mb in dumps
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210316220735.2048137-1-richard.henderson@linaro.org>
+ <20210316220735.2048137-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <42b607d2-e316-7d27-31e7-25f3a7c275aa@amsat.org>
+Date: Wed, 17 Mar 2021 14:32:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210315230838.2973103-3-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210316220735.2048137-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,86 +90,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 3/15/21 8:08 PM, Philippe Mathieu-Daudé wrote:
-> Make pick_default_qemu_bin() generic to find qemu-system or
-> qemu-user binaries.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 3/16/21 11:07 PM, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tests/acceptance/avocado_qemu/__init__.py | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 4f814047176..08b3fa1124f 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -48,7 +48,7 @@ def is_readable_executable_file(path):
->       return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
->   
->   
-> -def pick_default_qemu_bin(arch=None):
-> +def pick_default_qemu_bin(bin_fmt, arch=None):
-I suggest that bin_fmt defaults to "qemu-system-%" (or "qemu-system-", 
-see below) so that you don't need to change the existing callers.
->       """
->       Picks the path of a QEMU binary, starting either in the current working
->       directory or in the source tree root directory.
-> @@ -67,7 +67,7 @@ def pick_default_qemu_bin(arch=None):
->       # qemu binary path does not match arch for powerpc, handle it
->       if 'ppc64le' in arch:
->           arch = 'ppc64'
-> -    qemu_bin_relative_path = "./qemu-system-%s" % arch
-> +    qemu_bin_relative_path = os.path.join(".", bin_fmt % arch)
+>  tcg/tcg.c | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
 
-Above construct fails (unless I missed something):
-
-   >>> bin_fmt="qemu-system-%"
-
-   >>> arch="aarch64"
-   >>> qemu_bin_relative_path = os.path.join(".", bin_fmt % arch)
-   Traceback (most recent call last):
-     File "<stdin>", line 1, in <module>
-   ValueError: incomplete format
-
-Instead it could be "bin_prefix" where the value is either 
-"qemu-system-" or "qemu-", then "arch" is just appended.
-
->       if is_readable_executable_file(qemu_bin_relative_path):
->           return qemu_bin_relative_path
->   
-> @@ -187,14 +187,14 @@ def require_accelerator(self, accelerator):
->               self.cancel("%s accelerator does not seem to be "
->                           "available" % accelerator)
->   
-> -    def setUp(self):
-> +    def setUp(self, bin_fmt):
->           self.arch = self.params.get('arch',
->                                       default=self._get_unique_tag_val('arch'))
->   
->           self.machine = self.params.get('machine',
->                                          default=self._get_unique_tag_val('machine'))
->   
-> -        default_qemu_bin = pick_default_qemu_bin(arch=self.arch)
-> +        default_qemu_bin = pick_default_qemu_bin(bin_fmt, arch=self.arch)
->           self.qemu_bin = self.params.get('qemu_bin',
->                                           default=default_qemu_bin)
->           if self.qemu_bin is None:
-> @@ -217,7 +217,7 @@ def fetch_asset(self, name,
->   class Test(QemuBaseTest):
->       def setUp(self):
->           self._vms = {}
-> -        super(Test, self).setUp()
-> +        super(Test, self).setUp("qemu-system-%s")
->   
->       def _new_vm(self, *args):
->           self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
