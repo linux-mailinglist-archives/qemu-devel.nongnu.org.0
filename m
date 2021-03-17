@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D2233E7D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:44:02 +0100 (CET)
-Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA9F33E7D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:45:07 +0100 (CET)
+Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMN6H-0008OJ-7P
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
+	id 1lMN7K-0000qq-LU
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:45:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMN5J-0007sm-6v
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:43:01 -0400
-Resent-Date: Tue, 16 Mar 2021 23:43:01 -0400
-Resent-Message-Id: <E1lMN5J-0007sm-6v@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMN5G-0005KH-VT
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:43:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1615952570; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=BT+Hdk9aeT43ce4YJ64EQCbWJ9ODcp57EEA86II4TFlgxgK7seD/FVDuJ/Qf3yuYlGgTrEk/YwMBTxhuAWnUIvjDt7WAgEOzI8jarl0q02SwzLnt18tEtWE0isPqq6Zsvsw0doCjFuLvBb26Q23f54LngPqBJTzjIMRRVY1dTkU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615952570;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=YCR2eM38ERfyBaIq+MrpMbd/4pFQDdBpKSWFk17hvOI=; 
- b=elCAXDV9hPELrBIuukbsHoH3lkY8NUGprjKndb3yU1pUYcodbFQmGPWvto9o188VXGCKtjd4eKIr0OvpleNzumwn2h+LkeAf1+7U944QvG2LobOH8jTi/rEQ6DEqmaiA4coDw2+4cGP1yFkOi77nJ8Nu4I/9uqEw8FOux+KeUJ4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1615952567804466.5555189776817;
- Tue, 16 Mar 2021 20:42:47 -0700 (PDT)
-In-Reply-To: <20210317032217.1460684-1-michael.roth@amd.com>
-Subject: Re: [PULL for-6.0 0/6] qemu-ga patch queue for soft-freeze
-Message-ID: <161595256668.22200.12465110124579155432@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <xiaojun.zhao141@gmail.com>)
+ id 1lMN6T-0000NH-5i
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:44:13 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:44709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xiaojun.zhao141@gmail.com>)
+ id 1lMN6R-00064X-Lk
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:44:12 -0400
+Received: by mail-ot1-x331.google.com with SMTP id
+ y19-20020a0568301d93b02901b9f88a238eso504705oti.11
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 20:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=3yKH2zJ/PTflSGyf1i1Gg/5S89Ss7t+j8BN1GPvyZqE=;
+ b=ljY3SXM/PH/25X2GkmhoE0Y/hVevBHVWV/EC+fNE6Z/DQOfFCLm1Giiij4EqExkn4c
+ 30Lk90ovBoIY1KMKbobROaBtV/IYhNr+IXfNo8IsgoNlvtnD+sLUOXSOOh0Cw5PhKebF
+ 9kR7mPxGs96L/lqjJKuPN9zRspnia8l2e0a+ecajFhe9KunZC208kgKpMc18Cdec4B14
+ oJ6dULCRO99zSuJdv6xpBntgdrqxQMWzA71x5V/7QJVtnGfrJxIi8RT63146oP7XaY+j
+ N7blC3N6imsi2z0PFTqlptizAhe4tLZgh1mug32HuquAYCv3rFAWrfmyPcZBFh+bEvg+
+ pwew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=3yKH2zJ/PTflSGyf1i1Gg/5S89Ss7t+j8BN1GPvyZqE=;
+ b=GXZrCrrFOKC5XlAs++/YfYghOi6+nue68QYz4VYxebtKqehIBz/ysJUVeF/zFla5rS
+ XAf0tQMMr843sYT5G6OV6+yjllAcgvixEpMpgaxBGl9o6PNI5cikOA4pEeZfX0UFTsTw
+ fjSUjmCunWIFEDhJ6Gf4pvLk1NTFQj5xtPG2ll8aYfqaryU3uQ1ZaVXWY07ZgAE5X/It
+ ERCF2/EgLOpZeCNJwwN6vo43YuMSsTUFJMj9S9grTtd3aapeaIbY25PGpuKNPKUkkzCz
+ /vFAACetWZ0ir73YsAKz3uPR7D1GfBwUhRgGOoorqy6bGKCgtZxLRVkSDMyTNrqkXijj
+ iN2A==
+X-Gm-Message-State: AOAM532vIkEn9ldT7yNBvxglhXrbzJDlET/PfpiJ2+UfNjbbYoEz1hd9
+ PfA1aWAJl5Tnv0qYa04MSxEKOm5nCD8YulJSuTY/iTyfxYU=
+X-Google-Smtp-Source: ABdhPJy9f4SVnBBbeOBgitjzqyjSUl8yNXORlF61Sd9J1pGJhVpJ2/hlapHYH8n3KOmrd/aVMiRfy0fK/gNF4eMcrHc=
+X-Received: by 2002:a9d:340b:: with SMTP id v11mr1673428otb.284.1615952650271; 
+ Tue, 16 Mar 2021 20:44:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: michael.roth@amd.com
-Date: Tue, 16 Mar 2021 20:42:47 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+From: zhao xiaojun <xiaojun.zhao141@gmail.com>
+Date: Wed, 17 Mar 2021 11:43:59 +0800
+Message-ID: <CAAeqyDvGXBLRxB-KRe2QZH6SV7KKZp=oFQ3wQ_bdsUo1z1_rvw@mail.gmail.com>
+Subject: Can not use hmp block_resize command with -blockdev option
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b17ef205bdb34b82"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=xiaojun.zhao141@gmail.com; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,53 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNzAzMjIxNy4xNDYw
-Njg0LTEtbWljaGFlbC5yb3RoQGFtZC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMxNzAzMjIxNy4x
-NDYwNjg0LTEtbWljaGFlbC5yb3RoQGFtZC5jb20KU3ViamVjdDogW1BVTEwgZm9yLTYuMCAwLzZd
-IHFlbXUtZ2EgcGF0Y2ggcXVldWUgZm9yIHNvZnQtZnJlZXplCgo9PT0gVEVTVCBTQ1JJUFQgQkVH
-SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
-c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
-VCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRi
-ZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQog
-LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzA0MTIzOTUxLjE2MzQxMS0xLWpvZWxA
-am1zLmlkLmF1IC0+IHBhdGNoZXcvMjAyMTAzMDQxMjM5NTEuMTYzNDExLTEtam9lbEBqbXMuaWQu
-YXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxNzAzMjIxNy4xNDYwNjg0LTEt
-bWljaGFlbC5yb3RoQGFtZC5jb20gLT4gcGF0Y2hldy8yMDIxMDMxNzAzMjIxNy4xNDYwNjg0LTEt
-bWljaGFlbC5yb3RoQGFtZC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo3Mzdh
-MmIwIHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBvbiB3aHkgYSBjb21tYW5kIGlz
-IGRpc2FibGVkCjBiZjg4NjQgcWdhOiBTd2l0Y2ggYW5kIGNhc2Ugc2hvdWxkIGJlIGF0IHRoZSBz
-YW1lIGluZGVudAo1OWYxNTIzIHFnYTogT3BlbiBicmFjZSAneycgZm9sbG93aW5nIHN0cnVjdCBn
-byBvbiB0aGUgc2FtZQo5YTY1Y2EyIHFnYTogRGVsZXRlIHJlZHVuZGFudCBzcGFjZXMKZjQ1YTJj
-MSBxZ2E6IEFkZCBzcGFjZXMgYXJvdW5kIG9wZXJhdG9yCjBhMGVhYjEgcWdhOiBDb3JyZWN0IGxv
-b3AgY291bnQgaW4gcW1wX2d1ZXN0X2dldF92Y3B1cygpCgo9PT0gT1VUUFVUIEJFR0lOID09PQox
-LzYgQ2hlY2tpbmcgY29tbWl0IDBhMGVhYjE2MTBmNiAocWdhOiBDb3JyZWN0IGxvb3AgY291bnQg
-aW4gcW1wX2d1ZXN0X2dldF92Y3B1cygpKQoyLzYgQ2hlY2tpbmcgY29tbWl0IGY0NWEyYzFmNWJj
-NyAocWdhOiBBZGQgc3BhY2VzIGFyb3VuZCBvcGVyYXRvcikKMy82IENoZWNraW5nIGNvbW1pdCA5
-YTY1Y2EyNzgzZjAgKHFnYTogRGVsZXRlIHJlZHVuZGFudCBzcGFjZXMpCkVSUk9SOiBzcGFjZXMg
-cmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQojMzQ6IEZJTEU6IHFnYS9jb21tYW5k
-cy13aW4zMi5jOjIxNzc6CisgICAgdHlwZWRlZiBOVFNUQVRVUyhXSU5BUEkgKnJ0bF9nZXRfdmVy
-c2lvbl90KSgKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMSBlcnJvcnMs
-IDAgd2FybmluZ3MsIDE2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNiBoYXMgc3R5bGUgcHJvYmxl
-bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
-dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
-SU5UQUlORVJTLgoKNC82IENoZWNraW5nIGNvbW1pdCA1OWYxNTIzNDlhYzAgKHFnYTogT3BlbiBi
-cmFjZSAneycgZm9sbG93aW5nIHN0cnVjdCBnbyBvbiB0aGUgc2FtZSkKNS82IENoZWNraW5nIGNv
-bW1pdCAwYmY4ODY0MWFlMzcgKHFnYTogU3dpdGNoIGFuZCBjYXNlIHNob3VsZCBiZSBhdCB0aGUg
-c2FtZSBpbmRlbnQpCjYvNiBDaGVja2luZyBjb21taXQgNzM3YTJiMGU3OGQwIChxZ2E6IHJldHVy
-biBhIG1vcmUgZXhwbGljaXQgZXJyb3Igb24gd2h5IGEgY29tbWFuZCBpcyBkaXNhYmxlZCkKPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMTcw
-MzIyMTcuMTQ2MDY4NC0xLW1pY2hhZWwucm90aEBhbWQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+--000000000000b17ef205bdb34b82
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+I use -blockdev option to specify a drive when qemu boot and i want to
+resize it with hmp block_resize command. The hmp block_resize comand's
+arguments: block_resize device new_size.
+So I query the device by qmp query_block command, but the device filed of
+the result output is NULL string.
+
+result output:
+{
+  "return": [
+    {
+      "io-status": "ok",
+      "device": "",
+        ...
+}
+
+I noticed that the qmp block_resize command supports device or node-name as
+argument.
+
+If i can continue use the the hmp block_resize command with the device
+argument?
+
+Regards.
+
+--000000000000b17ef205bdb34b82
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,=C2=A0</div><div>I use -blockdev option to specify=
+ a drive when qemu boot and i want to resize it with hmp block_resize comma=
+nd. The hmp block_resize comand&#39;s arguments: block_resize device new_si=
+ze.</div><div>So I query the device by qmp query_block command, but the dev=
+ice filed of the result output is NULL string.</div><div><br></div><div>res=
+ult output:</div><div>{<br>=C2=A0 &quot;return&quot;: [<br>=C2=A0 =C2=A0 {<=
+br>=C2=A0 =C2=A0 =C2=A0 &quot;io-status&quot;: &quot;ok&quot;,<br>=C2=A0 =
+=C2=A0 =C2=A0 &quot;device&quot;: &quot;&quot;,<br></div><div>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ...</div><div>}</div><div><br></div><div>I noticed that the =
+qmp block_resize command supports device or node-name as argument.</div><di=
+v><br></div><div>If i can continue use the the hmp block_resize command wit=
+h the device argument?</div><div><br></div><div><span class=3D"gmail-op_dic=
+t3_font24 gmail-op_dict3_marginRight gmail-c-gap-right">Regards.</span><br>=
+</div></div>
+
+--000000000000b17ef205bdb34b82--
 
