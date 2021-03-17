@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA3933ED15
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 10:34:10 +0100 (CET)
-Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BCF33ED1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 10:36:21 +0100 (CET)
+Received: from localhost ([::1]:58628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMSZ7-0005Yg-Qj
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 05:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1lMSbE-0007ss-MD
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 05:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lMSTy-0001nv-EP
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 05:28:51 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51880)
+ id 1lMSU6-0001z7-2t
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 05:28:58 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:39817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lMSTv-00014R-UW
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 05:28:50 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id s21so781519pjq.1
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 02:28:47 -0700 (PDT)
+ id 1lMSU0-00016A-Vl
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 05:28:57 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id x184so697604pfd.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 02:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=69KRFSXYjzFlJT+Yhq6KsYSkZCWp63z+0u1KJALVHNA=;
- b=K6Z9UjHEZYHee0gFfJmGGCucD9CZzFrEKcarXyT4TXAo+E3rSf0FAOW8Iavko+tTSh
- kCGYxou/IKR+nL4CHNnPkzELpxp3K5DAfZTpgP3muHYxOXIZo0sBdQWUa2e4tuL3+MZd
- zHbsER/bGfrgYU1IeemiJPueLSeUKvhXdgqKf622ucyILlYNXvHV7X0hOtX3sr82EKD4
- 65D0ALDt7cA3IgQDEKCwKmMa5SmQC0u7HWMMBGB5pXD5kdJlKm3AO8EKvVu++xJYLFzK
- jZesvDwvf8+YTTGLd4btO6qHTenIcDs/tXUSLKb7Vx55+9atgSt35W7BbrMi8bPmmfAr
- RAag==
+ bh=kaO/3XjDddPfI9XqP7E0JoVJAI1xFWhKSBbTYqDo4uw=;
+ b=P9kRGEj8r95nOVyfGoLgAjvUiNZr1RHZiuytUoHL9d7+8P1Gw/rvOHNNbYsqpIjYI9
+ Wz4uoLyZvg+jANcAIvczMMdSj6O3m3dmg/wdcQJg0Nu+tbpUq+IC8HJMXNtQPcUy2IAB
+ SK3V1r6tEmf1BB+2lssC6alP6HgvyIe+kfC/XbFDbuAsYksko6sp8PzDJgWFYmnh0BLF
+ moJDHvUKDNuDjrocWv+a65itCWQ+CS387/b4LYCDL/H+iPBvzJGlb1yJcwuptTPPmEAP
+ RW9a6YT2oj4KgVPwPbnYoInusWDTuzbhoZdzd19Yt/BVwpg1p8FP9RT8XMzn91LRtTKT
+ 0bEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=69KRFSXYjzFlJT+Yhq6KsYSkZCWp63z+0u1KJALVHNA=;
- b=k0+4cYTKrxcBVxfJ57M0TeMZ8F33cUfLGB7oB+2KNb6POSQNMz0KahDCZsv3EzRjsy
- DcuTanwyP2YqccOj9hU7T8AKC5meWCqDektxKvfFDWK7/4ixSpbUsd+Rf1YxKoJh7sAt
- GWVz8pefZy3OsGqOdgCuJCOGnnd01M4LAzowAqGtnT5ljk/n6Dn5zx7G+Th5LfgTTmP6
- 3Z+vgpoTbPEKQX61ulHw7FtSs1jO1tm07u2Q6Iu0CgagXWhpiyd1yj+sF697HGeFWuGB
- w+GK3P4XN4LJaVY+qwfer2lmW2wsmUl4/jGiDwS9qgKitt+QQg6BQuKF+Ha2VzDR6XWD
- APCA==
-X-Gm-Message-State: AOAM5337xy+qfrMomSHnWpDp1MamDPVCLF+De/WtRJ+RcaNDHXOP7z05
- eEL9k7nbt5ya3mOeWAI4ee9Y
-X-Google-Smtp-Source: ABdhPJwfHs+AWfOVJzLEt+Eq70GPIH8o0n9PVGaYymF/EuexpwPXB5/l4CMXRuaZjJbjMxTqwOJEQA==
-X-Received: by 2002:a17:902:f1c2:b029:e4:6c23:489f with SMTP id
- e2-20020a170902f1c2b02900e46c23489fmr3813518plc.62.1615973326296; 
- Wed, 17 Mar 2021 02:28:46 -0700 (PDT)
+ bh=kaO/3XjDddPfI9XqP7E0JoVJAI1xFWhKSBbTYqDo4uw=;
+ b=HTNsw9cdyKki3FP6OL4n7Ba+CWlD4CM9Ge4s0mfyPr+emTbDRD+Czhq1XelpT7UeOO
+ SywP/zBXnWwGaUJ2AAzTQEeDTC9IdCI0I2GH3rCKkDFE3sovuhBGgoCe5n1Au5b0utfs
+ rB7maiQ6zcjFFKTUIP3jrFiE9L5/qm/tP68GrgXOlvGok4m6wFOSjj0UdHOl65nbOfRW
+ 48hz0TU8nNtyja5mRSQaIlLUVKpw6NMVbBKrfCT21zRqHIZpXmKS6JIBa9bEmyNj9ewm
+ G34p1MBkrDDwWEba8YVCqJGwiVS7HWAE0gXbXV7ykU/nDmOlxqDeqtny4s6bxnFCMsYe
+ 6n2g==
+X-Gm-Message-State: AOAM533CsI76tyijS2zE1rSIzuN+6VYy85YTf54+KH4dnehnSgcB+s7H
+ TGnezbFvbi2kbtdTU2JkXomx
+X-Google-Smtp-Source: ABdhPJwXi05rmmWj7FtuRyYAmCemqP5wwaCM8vbGra2CRNUhJI2NRoxBQlS9PkWr5tpUstpwr4VQzw==
+X-Received: by 2002:aa7:9532:0:b029:1f8:838e:7773 with SMTP id
+ c18-20020aa795320000b02901f8838e7773mr3426574pfp.15.1615973331737; 
+ Wed, 17 Mar 2021 02:28:51 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id r30sm18630163pgu.86.2021.03.17.02.28.44
+ by smtp.gmail.com with ESMTPSA id r30sm18630163pgu.86.2021.03.17.02.28.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 02:28:46 -0700 (PDT)
+ Wed, 17 Mar 2021 02:28:47 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: dgilbert@redhat.com, quintela@redhat.com, drjones@redhat.com,
  richard.henderson@linaro.org
-Subject: [RFC PATCH v2 2/5] Add basic MTE support to KVM guest
-Date: Wed, 17 Mar 2021 09:28:21 +0000
-Message-Id: <dc2ef2000f73aa9aded5d97b417289083bf52aa7.1615972140.git.haibo.xu@linaro.org>
+Subject: [RFC PATCH v2 3/5] Add APIs to get/set MTE tags
+Date: Wed, 17 Mar 2021 09:28:22 +0000
+Message-Id: <5f269099f5f06c23f11d41b45d64f77eca23a8ff.1615972140.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1615972140.git.haibo.xu@linaro.org>
 References: <cover.1615972140.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=haibo.xu@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=haibo.xu@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,124 +89,67 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable the virt machine feature "mte" to work with
-KVM guest. This feature is still hiden from the user
-in this patch, and will be available in a later patch.
+MTE spec provide instructions to retrieve the memory tags:
+(1) LDG, at 16 bytes granularity, and available in both user
+    and kernel space;
+(2) LDGM, at 256 bytes granularity in maximum, and only
+    available in kernel space
+
+To improve the performance, KVM has exposed the LDGM capability
+to user space by providing a new APIs. This patch is just a
+wrapper for the KVM APIs.
 
 Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
 ---
- hw/arm/virt.c      | 22 +++++++++++-----------
- target/arm/cpu.c   |  2 +-
- target/arm/kvm.c   |  9 +++++++++
- target/arm/kvm64.c |  7 +++++++
- 4 files changed, 28 insertions(+), 12 deletions(-)
+ target/arm/kvm64.c   | 24 ++++++++++++++++++++++++
+ target/arm/kvm_arm.h |  2 ++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index aa2bbd14e0..76658b93a3 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1988,18 +1988,18 @@ static void machvirt_init(MachineState *machine)
-         }
- 
-         if (vms->mte) {
-+            /*
-+             * The property exists only if MemTag is supported.
-+             * If it is, we must allocate the ram to back that up.
-+             */
-+            if (!object_property_find(cpuobj, "tag-memory")) {
-+                error_report("MTE requested, but not supported "
-+                             "by the guest CPU");
-+                exit(1);
-+            }
-+
-             /* Create the memory region only once, but link to all cpus. */
--            if (!tag_sysmem) {
--                /*
--                 * The property exists only if MemTag is supported.
--                 * If it is, we must allocate the ram to back that up.
--                 */
--                if (!object_property_find(cpuobj, "tag-memory")) {
--                    error_report("MTE requested, but not supported "
--                                 "by the guest CPU");
--                    exit(1);
--                }
--
-+            if (!tag_sysmem && !kvm_enabled()) {
-                 tag_sysmem = g_new(MemoryRegion, 1);
-                 memory_region_init(tag_sysmem, OBJECT(machine),
-                                    "tag-memory", UINT64_MAX / 32);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index ae04884408..47bf817b61 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1847,7 +1847,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-                                cpu->secure_memory);
-     }
- 
--    if (cpu->tag_memory != NULL) {
-+    if (cpu->tag_memory != NULL && !kvm_enabled()) {
-         cpu_address_space_init(cs, ARMASIdx_TagNS, "cpu-tag-memory",
-                                cpu->tag_memory);
-         if (has_secure) {
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index d8381ba224..3403e621ac 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -32,6 +32,7 @@
- #include "hw/boards.h"
- #include "hw/irq.h"
- #include "qemu/log.h"
-+#include "hw/arm/virt.h"
- 
- const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-     KVM_CAP_LAST_INFO
-@@ -274,6 +275,14 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
-     }
- 
-+    if (kvm_check_extension(s, KVM_CAP_ARM_MTE) &&
-+        object_dynamic_cast(OBJECT(ms), TYPE_VIRT_MACHINE) &&
-+        VIRT_MACHINE(ms)->mte) {
-+            if (kvm_vm_enable_cap(s, KVM_CAP_ARM_MTE, 0)) {
-+                error_report("Failed to enable KVM_CAP_ARM_MTE cap");
-+            }
-+    }
-+
-     return ret;
- }
- 
 diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index dff85f6db9..73a191f8e1 100644
+index 73a191f8e1..3157025316 100644
 --- a/target/arm/kvm64.c
 +++ b/target/arm/kvm64.c
-@@ -500,6 +500,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-      */
-     int fdarray[3];
-     bool sve_supported;
-+    bool mte_supported;
-     uint64_t features = 0;
-     uint64_t t;
-     int err;
-@@ -646,6 +647,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+@@ -1606,3 +1606,27 @@ bool kvm_arm_verify_ext_dabt_pending(CPUState *cs)
      }
+     return false;
+ }
++
++int kvm_arm_mte_get_tags(uint64_t ipa, uint64_t len, uint8_t *buf)
++{
++    struct kvm_arm_copy_mte_tags args = {
++        .guest_ipa = ipa,
++        .length = len,
++        .addr = buf,
++        .flags = KVM_ARM_TAGS_FROM_GUEST,
++    };
++
++    return kvm_vm_ioctl(kvm_state, KVM_ARM_MTE_COPY_TAGS, &args);
++}
++
++int kvm_arm_mte_set_tags(uint64_t ipa, uint64_t len, uint8_t *buf)
++{
++    struct kvm_arm_copy_mte_tags args = {
++        .guest_ipa = ipa,
++        .length = len,
++        .addr = buf,
++        .flags = KVM_ARM_TAGS_TO_GUEST,
++    };
++
++    return kvm_vm_ioctl(kvm_state, KVM_ARM_MTE_COPY_TAGS, &args);
++}
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 34f8daa377..bbb833d6c6 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -360,6 +360,8 @@ int kvm_arm_vgic_probe(void);
  
-     sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
-+    mte_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_MTE) > 0;
+ void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
+ void kvm_arm_pmu_init(CPUState *cs);
++int kvm_arm_mte_get_tags(uint64_t ipa, uint64_t len, uint8_t *buf);
++int kvm_arm_mte_set_tags(uint64_t ipa, uint64_t len, uint8_t *buf);
  
-     kvm_arm_destroy_scratch_host_vcpu(fdarray);
- 
-@@ -659,6 +661,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-         t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-         ahcf->isar.id_aa64pfr0 = t;
-     }
-+    if (mte_supported) {
-+        t = ahcf->isar.id_aa64pfr1;
-+        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
-+        ahcf->isar.id_aa64pfr1 = t;
-+    }
- 
-     /*
-      * We can assume any KVM supporting CPU is at least a v8
+ /**
+  * kvm_arm_pvtime_init:
 -- 
 2.17.1
 
