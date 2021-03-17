@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A079A33F4E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:02:41 +0100 (CET)
-Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5331933F532
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:11:54 +0100 (CET)
+Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMYd6-0001QQ-5w
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
+	id 1lMYm1-0003yW-9x
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMYGN-0000VU-J9; Wed, 17 Mar 2021 11:39:18 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMYGK-0000yf-3l; Wed, 17 Mar 2021 11:39:10 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- m20-20020a7bcb940000b029010cab7e5a9fso3626012wmi.3; 
- Wed, 17 Mar 2021 08:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lf9bpR7MdJMQaWq1ugevlKFytT0CViJcoKgPB4Z2M+0=;
- b=ejnBB+enYBNTE2HbLcRpNFmhmHbChbMWjwD2h1GQSY7EpP2zpjDyfqTsVUxImhHhx7
- fLJ5AslfsFeafXrpXBjit0yUaFu8rIgKSNChL1OLGmr9EkMVyIuTC1jv2Hfl9IX5gga4
- vePpIgagW1zmwXH6M5/iWnl5mqm5NvOJI0WEbubifSXcbbKPGlvVOuS2kghOrgKUrjkA
- 4EihQjIuano/CplV4tOz/GYhJ08XnLHvY3vgCLo/Ka3X0jetfI10XKezg575rLJHi2dG
- Kr/BfYWc0YTIDPLKTxFnvkhYWat873XXDvC62lxs2Pu18ZG3IO+uGKPPUwmP9tFGmwZe
- txIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lf9bpR7MdJMQaWq1ugevlKFytT0CViJcoKgPB4Z2M+0=;
- b=XkHe8nFvgHkCxUOpmt50Cy1Nz7LUGTkCiaI0MWFq/6kwLpmna89mEiiLmg1+1DnUYc
- 82PnIQdNVveU4Cb14iCjDm0Wi1SwNgwulr6SjYd23CSDArtsrQJSyejq6BpKBmrTqRTI
- clehYU/114Cv+77CtcvSoN+l9Ga8SoNIE0OHvqmUkDu3BexFz10v3FUWYinibU9WgsKo
- qvhOrFVWPVA7j50KyP27lOQXqmi4FpGyn9OdcECXn6olQ7FNUcMXhmZLqayxLJtopm+a
- LkoakAKDDA9MMUP1IKb6UrjVbPHGqCVeQ5i3tOA9dtdMIBSJ9NTGmtpYe3T/U81N0IF/
- yNsw==
-X-Gm-Message-State: AOAM533w5JyOAiqbNTUGqrN9BxHYHCmWPmzd0x7uP1ex3x6FnNkujKvm
- IhjmbPMlYawV/AfWz3zH73Q=
-X-Google-Smtp-Source: ABdhPJxOZYp0UX+6tjs0AeAifRczuYxw+wWpMhgm3clbDsm/bPizFy1yddWedxOQ5scYIk8l8KdaXg==
-X-Received: by 2002:a05:600c:252:: with SMTP id
- 18mr4200731wmj.67.1615995545337; 
- Wed, 17 Mar 2021 08:39:05 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id h6sm2771188wmi.6.2021.03.17.08.39.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 08:39:04 -0700 (PDT)
-Subject: Re: [PATCH] target/ppc/kvm: Cache timebase frequency
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <161599468311.1752480.3413807875011702040.stgit@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b10f7706-204b-6bb0-895a-c6e680acd2c3@amsat.org>
-Date: Wed, 17 Mar 2021 16:39:04 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMYNY-0000rS-Bb
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:46:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMYNP-0005NL-5Y
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:46:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615995985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h8p+6mhIvY4h6/xzF601Qz0KO4gPvOo8CNGStvlkdO4=;
+ b=b0kR9+9H+jXBgTmBK0uDKvBKfwrb7Wg87MUoIhNVqEPor/6xdHo2OP0lOUjtw0L+F43+AE
+ nHlkUG1acN4MGyD+bHVldHZzxUcyh9lFptJyrLGOaOFhX5KQU1aZq8hxkh/LoCkeLeJgh3
+ Gx9sLs8qQnKyXQoQhvcHjr/VmLVBpt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-56-uxJ32TQyO3eMIy-9uDIPXA-1; Wed, 17 Mar 2021 11:46:22 -0400
+X-MC-Unique: uxJ32TQyO3eMIy-9uDIPXA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF8E010866A6;
+ Wed, 17 Mar 2021 15:46:20 +0000 (UTC)
+Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CD501992D;
+ Wed, 17 Mar 2021 15:46:20 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210317151734.41656-1-kwolf@redhat.com>
+ <79654a81-d1aa-f2a2-a6a3-59737798e0e8@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [RFC PATCH] curl: Allow reading after EOF
+Message-ID: <0718a09a-e30d-fb5c-db53-77bcdec95bb3@redhat.com>
+Date: Wed, 17 Mar 2021 10:46:19 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <161599468311.1752480.3413807875011702040.stgit@bahia.lan>
+In-Reply-To: <79654a81-d1aa-f2a2-a6a3-59737798e0e8@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,106 +82,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: afrosi@redhat.com, "Richard W.M. Jones" <rjones@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 4:24 PM, Greg Kurz wrote:
-> Each vCPU core exposes its timebase frequency in the DT. When running
-> under KVM, this means parsing /proc/cpuinfo in order to get the timebase
-> frequency of the host CPU.
+On 3/17/21 10:32 AM, Eric Blake wrote:
+> On 3/17/21 10:17 AM, Kevin Wolf wrote:
+>> This makes the curl driver more consistent with file-posix in that it
+>> doesn't return errors any more for reading after the end of the remote
+>> file. Instead, zeros are returned for these areas.
+>>
+>> This inconsistency was reported in:
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1935061
+>>
+>> Note that the image used in this bug report has a corrupted snapshot
+>> table, which means that the qcow2 driver tries to do a zero-length read
+>> after EOF on its image file.
+>>
+>> The old behaviour of the curl driver can hardly be called a bug, but the
+>> inconsistency turned out to be confusing.
+>>
+>> Reported-by: Alice Frosi <afrosi@redhat.com>
+>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> ---
+>>
+>> It is not entirely clear to me if this is something we want to do. If we
+>> do care about consistency between protocol drivers, something like this
+>> should probably be done in block/io.c eventually - but that would
+>> require converting bs->total_sectors to byte granularity first.
 > 
-> The parsing appears to slow down the boot quite a bit with higher number
-> of cores:
-> 
-> # of cores     seconds spent in spapr_dt_cpus()
->       8                  0.550122
->      16                  1.342375
->      32                  2.850316
->      64                  5.922505
->      96                  9.109224
->     128                 12.245504
->     256                 24.957236
->     384                 37.389113
-> 
-> The timebase frequency of the host CPU is identical for all
-> cores and it is an invariant for the VM lifetime. Cache it
-> instead of doing the same expensive parsing again and again.
-> 
-> With this patch applied:
-> 
->     384                 0.518382
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  target/ppc/kvm.c |   11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 298c1f882c67..9ad3dae29132 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1819,7 +1819,13 @@ uint32_t kvmppc_get_tbfreq(void)
->  {
->      char line[512];
->      char *ns;
-> -    uint32_t retval = NANOSECONDS_PER_SECOND;
-> +    static uint32_t retval = -1;
+> Something that's been (low priority) on my todo list for a while.  NBD
+> has the same problem.
 
-Please document why in the code ...
+Actually, NBD has already been patched to fuzz around the lack of
+byte-accurateness in the block layer; see commit 9cf638508.  So doing
+something similar in the curl driver as a workaround until the block
+layer does it for everyone is tolerable, but does not scale.
 
-> +
-> +    if (retval != -1) {
-> +        return retval;
-> +    }
-> +
-> +    retval = NANOSECONDS_PER_SECOND;
->  
->      if (read_cpuinfo("timebase", line, sizeof(line))) {
->          return retval;
-> @@ -1832,7 +1838,8 @@ uint32_t kvmppc_get_tbfreq(void)
->  
->      ns++;
->  
-> -    return atoi(ns);
-> +    retval = atoi(ns);
-> +    return retval;
->  }
+> 
+>>
+>> Any opinions on what the most desirable semantics would be and whether
+>> we should patch individual drivers until we can have a generic solution?
+> 
+> In nbdkit, we took the following approach in the 'truncate' driver:
+> 
+> If presented with an image that is not a multiple of the desired block
+> size, we round the image size up (corner cases for images with sizes
+> near 2^63 where rounding would wrap to negative; and since qemu enforces
+> a max image size at 2^63-2^32 to avoid 32-bit operations ever
+> overflowing).  Reads of the virtual tail come back as zero, writes to
+> the virtual tail are allowed if they would write zero into the tail, and
+> fail with ENOSPC otherwise.
 
-... or alternatively use self-documented code:
+The current code in block/nbd.c does this for reads, but fails on EIO
+without regards to the content of what is being attempted to write into
+that tail.  I like the nbdkit behavior better.
 
--- >8 --
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 298c1f882c6..2b2fe5d8148 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1815,7 +1815,7 @@ static int read_cpuinfo(const char *field, char
-*value, int len)
-     return ret;
- }
+> 
+> Doing that in the block layer makes more sense than doing it per-driver.
+> 
+> Thus, I'm not sure if I'm a fan of this patch.
+> 
+>>
+>>  block/curl.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/block/curl.c b/block/curl.c
+>> index 50e741a0d7..a8d87a1813 100644
+>> --- a/block/curl.c
+>> +++ b/block/curl.c
+>> @@ -898,6 +898,7 @@ out:
+>>  static int coroutine_fn curl_co_preadv(BlockDriverState *bs,
+>>          uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags)
+>>  {
+>> +    BDRVCURLState *s = bs->opaque;
+>>      CURLAIOCB acb = {
+>>          .co = qemu_coroutine_self(),
+>>          .ret = -EINPROGRESS,
+>> @@ -906,6 +907,15 @@ static int coroutine_fn curl_co_preadv(BlockDriverState *bs,
+>>          .bytes = bytes
+>>      };
+>>  
+>> +    if (offset > s->len || bytes > s->len - offset) {
+>> +        uint64_t req_bytes = offset > s->len ? 0 : s->len - offset;
+>> +        qemu_iovec_memset(qiov, req_bytes, 0, bytes - req_bytes);
+>> +        bytes = req_bytes;
 
--uint32_t kvmppc_get_tbfreq(void)
-+static uint32_t kvmppc_get_tbfreq_procfs(void)
- {
-     char line[512];
-     char *ns;
-@@ -1835,6 +1835,17 @@ uint32_t kvmppc_get_tbfreq(void)
-     return atoi(ns);
- }
+In nbd.c, I also have:
+   if (offset >= client->info.size) {
+        assert(bytes < BDRV_SECTOR_SIZE);
 
-+uint32_t kvmppc_get_tbfreq(void)
-+{
-+    static uint32_t cached_tbfreq;
-+
-+    if (!cached_tbfreq) {
-+        cached_tbfreq = kvmppc_get_tbfreq_procfs();
-+    }
-+
-+    return cached_tbfreq;
-+}
-+
- bool kvmppc_get_host_serial(char **value)
- {
-     return g_file_get_contents("/proc/device-tree/system-id", value, NULL,
----
+    if (offset + bytes > client->info.size) {
+        assert(slop < BDRV_SECTOR_SIZE);
+
+With those assertions added, I can give it
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+>> +    }
+>> +    if (bytes == 0) {
+>> +        return 0;
+>> +    }
+>> +
+>>      curl_setup_preadv(bs, &acb);
+>>      while (acb.ret == -EINPROGRESS) {
+>>          qemu_coroutine_yield();
+>>
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
