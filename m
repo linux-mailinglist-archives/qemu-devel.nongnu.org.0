@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C16B33FA81
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 22:35:04 +0100 (CET)
-Received: from localhost ([::1]:46504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B85C33FA8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 22:42:04 +0100 (CET)
+Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMdok-000524-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 17:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52974)
+	id 1lMdvV-0000Ih-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 17:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lMdn1-00047h-By
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:33:15 -0400
-Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:33412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lMdmz-000522-RV
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:33:15 -0400
-Received: by mail-qv1-xf32.google.com with SMTP id o19so2214720qvu.0
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iE+xGoqKvaQE9pmhZmaSG4av+1bMkr7lb2FxmtQxirs=;
- b=MSkEWUwU6dPzRpKY1GUJLrwhrNlNv9gn4W+uUEtO4xv3D8W3z+IJI3FLbVqzJbTVKq
- shlL2gbvsbS0Dg2J0KYzL0a0a6wAYWoA8TPAFnUUcbaPDGzRM0F4ZG4vdUXvTDfMYEM0
- GXkQOewJTfs7/ychaZzTBPTMvKEoflvPPw52OV/oSId8+sjmk+EHcMdVL4dktnlHjxN8
- rmFhruuMj2VdP7wL6M8IxpK0JYhA2bSnoa3lYgaA1s2dfMJZFKMCXzDYko64w8Fsi03Z
- sQnW2FJcEZOPZhTn2k+DtIMVMeRBJZ9iT1UDhN4fraPkVxSxoaRBELIR9XCg/lI6lysU
- 0+fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iE+xGoqKvaQE9pmhZmaSG4av+1bMkr7lb2FxmtQxirs=;
- b=cjAZSUvdLZO9rkBnWWLygwM0W6nNDxqDCEqlyi4LC9pdMs5INxNeYldx/7hFwsK3Vz
- PYZ5ziSCxMccKiZ65zKO0D+CoqdtBCqtPjc0cEGTgza/HfBIhYKIvdRrhA0BS8JKGbNe
- 2ULqwxK9XnIBMglnZV3gHyuyP1oFGG7FLmDJtPfEA0U29kmpvhmnkzeJMAsa+B1eUxai
- TOQS0aCWTAFbmsIdpa5FY3dIT/PJFaECy7GYx2GOAgrx7Dy2S7JcxAS+6HMrDC+/1qA0
- Mrv/ztQ9pmBNjS6pcKQzuxgxCgqDxPSeq7IMoB7RKhQl1Deq6hL8/JG277YzlSaF5JZg
- S76Q==
-X-Gm-Message-State: AOAM530ZZ9+lMsb0M9WN63yonKFyPY5h7YbdyswoIPU52ZgltZelTmQe
- Eo9Y3vj6ZZke0AelMlMDv8HfPYHXVB/GeG+HbyI=
-X-Google-Smtp-Source: ABdhPJwQTqdpj82yQYd1XUhJv40Iem7Z17oX2k86SsOMw7PRfno3zcgRfFXip9zotvm/iO9w843FDie7swH16aHIbHY=
-X-Received: by 2002:ad4:52c2:: with SMTP id p2mr1210612qvs.45.1616016792175;
- Wed, 17 Mar 2021 14:33:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lMdug-0008Jy-HU
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:41:10 -0400
+Received: from zangief.bwidawsk.net ([107.170.211.233]:44436
+ helo=mail.bwidawsk.net)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lMdue-00008k-2B
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 17:41:10 -0400
+Received: by mail.bwidawsk.net (Postfix, from userid 5001)
+ id 6E011120011; Wed, 17 Mar 2021 14:41:05 -0700 (PDT)
+Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
+ [73.37.61.164])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by mail.bwidawsk.net (Postfix) with ESMTPSA id A92DC120011;
+ Wed, 17 Mar 2021 14:40:59 -0700 (PDT)
+Date: Wed, 17 Mar 2021 14:40:58 -0700
+From: Ben Widawsky <ben@bwidawsk.net>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+Subject: CXL 2.0 memory device design
+Message-ID: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
 MIME-Version: 1.0
-References: <YFJjIq45ggSZz0CX@work-vm>
-In-Reply-To: <YFJjIq45ggSZz0CX@work-vm>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Wed, 17 Mar 2021 23:32:36 +0200
-Message-ID: <CAK4993j08YrWb4CFZ_rgiCdGQDcc7fCcL4O3VT9Zz3mGL=9+2Q@mail.gmail.com>
-Subject: Re: of AVR target page size
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d9486d05bdc23af2"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
- envelope-from=mrolnik@gmail.com; helo=mail-qv1-xf32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
+ helo=mail.bwidawsk.net
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,89 +56,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d9486d05bdc23af2
-Content-Type: text/plain; charset="UTF-8"
+Phil, Igor, Markus
 
-Hi Dave.
+TL;DR: What to do about multiple capacities in a single device, and what to do
+about interleave?
 
-What is the smallest supported page size?
+I've hacked together a basic CXL 2.0 implementation which exposes a CXL "Type 3"
+memory device (CXL 2.0 Chapter 2.3). For what we were trying to do this was
+sufficient. There are two main capabilities that CXL spec exposes which I've not
+implemented that I'd like to start working toward and am realizing that I what I
+have so far might not be able to carry forward to that next milestone.
 
+Capability 1. A CXL memory device may have both a volatile, and a persistent
+	      capacity. https://bwidawsk.net/HDM_decoders.svg (lower right
+	      side). The current work only supports a single persistent
+	      capacity.
+Capability 2. CXL topologies can be interleaved. Basic example:
+              https://bwidawsk.net/HDM_decoders.svg (lower left side)
 
-On Wed, Mar 17, 2021 at 10:14 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
-wrote:
+Memory regions are configured via a CXL spec defined HDM decoder. The HDM
+decoder which is minimally implemented supports all the functionality mentioned
+above (base, size, interleave, type, etc.). A CXL component may have up to 10
+HDMs.
 
-> Hi Michael,
->   I noticed your AVR code defines:
->
->   #define TARGET_PAGE_BITS 8
->
-> and has an explanation of why.
->
-> Note however that's not going to work with the current live
-> migration/snapshotting code, since you're a couple of bits smaller
-> than the smallest page size we had so far, and for many years
-> the RAM migration code has stolen the bottom few bits of the address
-> as a flag field, and has already used 0x100 up; see migration/ram.c
-> RAM_SAVE_FLAG_*    - and it's actually tricky to change it, because if
-> you change it then it'll break migration compatibility with existing
-> qemu's.
->
-> Hmm.
->
-> Dave
->
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
->
+What I have today: https://bwidawsk.net/QEMU_objects.svg
+There's a single memory backend device for each host bridge. That backend is
+passed to any CXL component that is part of the hierarchy underneath that
+hostbridge. In the case of a Type 3 device memory capacity a subregion is
+created for that capacity from within the main backend. The device itself
+implements the TYPE_MEMORY_DEVICE interface. This allows me to utilize the
+existing memory region code to determine the next free address, and warn on
+overlaps. It hopefully will help when I'm ready to support hotplug.
 
--- 
-Best Regards,
-Michael Rolnik
+Where I've gotten stuck: A Memory Device expects only to have one region of
+memory. Trying to add a second breaks pretty much everything.
 
---000000000000d9486d05bdc23af2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm hoping to start the discussion about what the right way to emulate this in
+QEMU. Ideally something upstreamable would be great. I think adding a secondary
+(or more) capacity to a memory class device is doable, but probably not the
+right approach.
 
-<div dir=3D"ltr">Hi Dave.<div><br></div><div>What is the smallest supported=
- page size?</div><div><br></div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 17, 2021 at 10:14 PM Dr. David =
-Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Hi Michael,<br>
-=C2=A0 I noticed your AVR code defines:<br>
-<br>
-=C2=A0 #define TARGET_PAGE_BITS 8<br>
-<br>
-and has an explanation of why.<br>
-<br>
-Note however that&#39;s not going to work with the current live<br>
-migration/snapshotting code, since you&#39;re a couple of bits smaller<br>
-than the smallest page size we had so far, and for many years<br>
-the RAM migration code has stolen the bottom few bits of the address<br>
-as a flag field, and has already used 0x100 up; see migration/ram.c<br>
-RAM_SAVE_FLAG_*=C2=A0 =C2=A0 - and it&#39;s actually tricky to change it, b=
-ecause if<br>
-you change it then it&#39;ll break migration compatibility with existing<br=
->
-qemu&#39;s.<br>
-<br>
-Hmm.<br>
-<br>
-Dave<br>
-<br>
--- <br>
-Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
-blank">dgilbert@redhat.com</a> / Manchester, UK<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
+For context, I've posted v3 previously. Here's a link to v4 which has some minor
+changes as well as moving back to using subregions instead of aliases:
+https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
 
---000000000000d9486d05bdc23af2--
+Thanks.
+Ben
 
