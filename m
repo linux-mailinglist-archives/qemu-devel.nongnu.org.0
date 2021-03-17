@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20D933F723
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:34:36 +0100 (CET)
-Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEA133F72C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:36:36 +0100 (CET)
+Received: from localhost ([::1]:39128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMa43-0001Et-GX
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49964)
+	id 1lMa5z-0003SN-2M
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMZzB-0007s3-6Q
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:29:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44598)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMa2l-0001Js-7A
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:33:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMZz8-0003IS-Kf
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:29:32 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMa2i-0004Si-Hc
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 13:33:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616002169;
+ s=mimecast20190719; t=1616002391;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/nDBUWz3CxzQb3EP+Yv27nM+m9+gS0SOkyjqvFoGZb4=;
- b=H9DFOD14pucLRwihB83qNmgnzIK0Jdo8aV0d33PYuFTZMbqCxuq8xyupbamFzYn0t1lM6u
- LzVh7XVUmV8XTnrMCyaWlk8PELmDOuXX1qx1A/dSqQb5nGcykHBEiDsb7BZKCi4CNu4+Un
- JaGSe35FOPEAl89dQUNWURCl+J2sonY=
+ bh=NDp+Siik2BPZuXiVHKRGjIq1LBdLeGu+WqLvSxBVwXM=;
+ b=KKKmaGcNM3YnsEpY98r5mmPau3URekCZCArSuVk/KYuhVs1cNmxpWAaJ8jzlxDZU/8gJeJ
+ 1zhOvvJF7XzLwsVfEgmokmjeR/k3dH/VBuxm1pTyo5gxfL/znUlY52AuLog6ADXGkTB2N9
+ 2BWTe/bSpSn9CrtzbJQGN2Mazox3BlM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-u_04f-SjOTer0W42ubeBRA-1; Wed, 17 Mar 2021 13:29:26 -0400
-X-MC-Unique: u_04f-SjOTer0W42ubeBRA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-550-6ASEs1mzNgax8lQjHTQ6qw-1; Wed, 17 Mar 2021 13:33:08 -0400
+X-MC-Unique: 6ASEs1mzNgax8lQjHTQ6qw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D6EA107B784;
- Wed, 17 Mar 2021 17:29:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47468107B7C3;
+ Wed, 17 Mar 2021 17:33:07 +0000 (UTC)
 Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAEF85D6A1;
- Wed, 17 Mar 2021 17:29:24 +0000 (UTC)
-Subject: Re: [RFC PATCH] curl: Allow reading after EOF
-To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210317151734.41656-1-kwolf@redhat.com>
- <YFIqercny3vOpo34@redhat.com> <YFIxz4V4MuGdL2D0@merkur.fritz.box>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FFDD19C66;
+ Wed, 17 Mar 2021 17:33:03 +0000 (UTC)
+Subject: Re: [PATCH v3 00/36] block: update graph permissions update
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <161599451628.29996.16299734673859684875@c9d4d6fbb2f1>
+ <dba437c7-dea7-5675-9b88-b72ecca561ee@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <1ad036ed-3e69-26ec-8ecc-ec4dc98b627d@redhat.com>
-Date: Wed, 17 Mar 2021 12:29:24 -0500
+Message-ID: <80051665-bcbc-1d6e-a0fc-02da172f6a21@redhat.com>
+Date: Wed, 17 Mar 2021 12:33:02 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YFIxz4V4MuGdL2D0@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <dba437c7-dea7-5675-9b88-b72ecca561ee@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,68 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: afrosi@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
+ mreitz@redhat.com, stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 11:43 AM, Kevin Wolf wrote:
->>> It is not entirely clear to me if this is something we want to do. If we
->>> do care about consistency between protocol drivers, something like this
->>> should probably be done in block/io.c eventually - but that would
->>> require converting bs->total_sectors to byte granularity first.
->>>
->>> Any opinions on what the most desirable semantics would be and whether
->>> we should patch individual drivers until we can have a generic solution?
->>
->> What valid scenarios are there for wanting to read beyond the bounds
->> of the protocol driver storage ? Why was file-posix allowing this
->> so far ?
->>
+On 3/17/21 10:38 AM, Vladimir Sementsov-Ogievskiy wrote:
 
-Our block driver already filters all reads larger than the image size
-rounded to the nearest sector; so this discussion is ONLY about the 511
-bytes possible in an unaligned file at the protocol layer and its
-rounded-up size at the block layer.
-
->> If I've given file-posix a 10 GB plain file or device and something
->> requests a read from the 11 GB offset, IMHO, that is a sign of serious
->> error somewhere and possible impending doom.
-
-The block layer won't permit that; it's too far beyond the 511 bytes of
-rounding up a sector-unaligned image.
-
+>> 6/36 Checking commit 5780b805277e (block: drop ctx argument from
+>> bdrv_root_attach_child)
+>> 7/36 Checking commit 68189c099a3a (block: make bdrv_reopen_{prepare,
+>> commit, abort} private)
+>> ERROR: Author email address is mangled by the mailing list
+>> #2:
+>> Author: Vladimir Sementsov-Ogievskiy via <qemu-devel@nongnu.org>
 >>
->> For writable storage, I would think that read + write should be
->> symmetric, by which I mean if a read() at a particular offset
->> succeeds, then I would also expect a write() at the same offset to
->> succeed, and have its data later returned by a read().
->>
->> We generally can't write at an offset beyond the storage (unless we
->> are intending to auto-enlarge a plain file), so I think we shouldn't
->> allow reads either.
 > 
-> It is definitely related to format drivers that grow their image files.
-> I think the reason for allowing this may have been that with O_DIRECT,
-> you need aligned requests and when format drivers write just a few
-> bytes, we actually do a RMW - and you don't want to get an error during
-> the read part just because the image file will only be resized by the
-> write.
+> Who know what is it? Commit message, subject and "From:" header are
+> clean in the email..
 
-I like the nbdkit behavior for symmetry: since we can read the tail as
-zero, allowing write as zero does not change the size but also avoids an
-ENOSPC, while allowing the guest full control over the bytes prior to
-the unaligned tail.  But I can also live with the symmetry of reads from
-the final sector see zero, but writes to the final sector fail
-(basically, the final sector becomes read-only, even if the rest of the
-image is writable).
+The list mangles mails for setups where DKIM/SCP setups are strict
+enough that the mail would be rejected by various recipients otherwise.
+But I have no idea why the mailing list rewrote the headers for that one
+mail, but not the rest of your series - usually, DKIM setups are
+persistent enough that it will be an all-or-none conversion to the
+entire series.
 
-> 
-> Since curl is a read-only protocol driver (at the moment, I actually
-> have an experimental branch that adds write support so we can run
-> iotests for http), this reason doesn't really apply. At the moment, it
-> would be just for consistency.
-
+At any rate, a maintainer can manually fix it for one patch, or you can
+resend (if the mailing list keeps mangling headers, you can add a 'From:
+' line in the body of your email that will override the mangled header;
+but since the list doesn't usually mangle your headers, you may not need
+to resort to that).
 
 -- 
 Eric Blake, Principal Software Engineer
