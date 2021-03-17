@@ -2,46 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2545433F8C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:09:39 +0100 (CET)
-Received: from localhost ([::1]:38114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B2933F916
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:25:19 +0100 (CET)
+Received: from localhost ([::1]:46650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbY2-0002ud-4n
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39928)
+	id 1lMbnC-0001Pf-O4
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:25:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMaxB-0004aV-EC
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48798)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lMbCC-0003Lm-Mx; Wed, 17 Mar 2021 14:47:04 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:36039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lMaws-0007un-2P
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 14:31:32 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 82070AE5C;
- Wed, 17 Mar 2021 18:30:38 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v9 50/50] target/arm: refactor arm_cpu_finalize_features into
- cpu64
-Date: Wed, 17 Mar 2021 19:30:13 +0100
-Message-Id: <20210317183013.25772-51-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210317183013.25772-1-cfontana@suse.de>
-References: <20210317183013.25772-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lMbC6-0006RI-VI; Wed, 17 Mar 2021 14:47:04 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.195])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CC427915D364;
+ Wed, 17 Mar 2021 19:46:19 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
+ 2021 19:46:18 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R00567ebd040-bc2e-4e28-b982-3ede969a9a4f,
+ 10040688A1AB5364447EAD88D88247B833C1D39B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Do not sysbus-map mmio flash region
+ directly, use alias
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ <qemu-devel@nongnu.org>
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-3-f4bug@amsat.org>
+ <4a812dc9-b448-0b8f-6a66-95cb96acdc17@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <da1043ee-5945-86a3-450b-d73eee1b1685@kaod.org>
+Date: Wed, 17 Mar 2021 19:46:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <4a812dc9-b448-0b8f-6a66-95cb96acdc17@amsat.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 443d7359-2681-4cee-bb9b-c21af257b3a1
+X-Ovh-Tracer-Id: 5654832283019807675
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,271 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-all the features in arm_cpu_finalize_features are actually
-TARGET_AARCH64-only, since KVM is now only supported on 64bit.
+On 3/13/21 1:05 PM, Philippe Mathieu-Daudé wrote:
+> Incorrect subject prefix, should be "hw/ssi/aspeed_smc"
 
-Therefore move the function to cpu64, and rename it to
-aarch64_cpu_finalize_features.
+Is this just good practice or something that was agreed upon ? 
+We should update checkpatch if so.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/arm/cpu.h         |  3 +-
- target/arm/kvm/kvm_arm.h |  5 ++--
- target/arm/cpu.c         | 65 ++++++++++------------------------------
- target/arm/cpu64.c       | 25 ++++++++++++++++
- target/arm/kvm/kvm64.c   |  7 +++--
- target/arm/monitor.c     |  8 +++--
- 6 files changed, 54 insertions(+), 59 deletions(-)
+Thanks,
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e9cfb99ad9..99c03fd6b4 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1036,6 +1036,7 @@ int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
- #ifdef TARGET_AARCH64
- int aarch64_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int aarch64_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-+bool aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp);
- 
- static inline bool is_a64(CPUARMState *env)
- {
-@@ -2096,8 +2097,6 @@ static inline int arm_feature(CPUARMState *env, int feature)
-     return (env->features & (1ULL << feature)) != 0;
- }
- 
--void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp);
--
- #if !defined(CONFIG_USER_ONLY)
- /* Return true if exception levels below EL3 are in secure state,
-  * or would be following an exception return to that level.
-diff --git a/target/arm/kvm/kvm_arm.h b/target/arm/kvm/kvm_arm.h
-index 34f8daa377..5c0d58f527 100644
---- a/target/arm/kvm/kvm_arm.h
-+++ b/target/arm/kvm/kvm_arm.h
-@@ -275,7 +275,7 @@ void kvm_arm_add_vcpu_properties(Object *obj);
-  * Validate the kvm-steal-time property selection and set its default
-  * based on KVM support and guest configuration.
-  */
--void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
-+bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
- 
- /**
-  * kvm_arm_steal_time_supported:
-@@ -436,9 +436,10 @@ static inline void kvm_arm_pvtime_init(CPUState *cs, uint64_t ipa)
-     g_assert_not_reached();
- }
- 
--static inline void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
-+static inline bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
- {
-     g_assert_not_reached();
-+    return false;
- }
- 
- static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index cf4676e52c..1c95f958fd 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -23,7 +23,6 @@
- #include "target/arm/idau.h"
- #include "qapi/error.h"
- #include "cpu.h"
--#include "cpu-sve.h"
- #include "cpregs.h"
- 
- #ifdef CONFIG_TCG
-@@ -826,40 +825,6 @@ static void arm_cpu_finalizefn(Object *obj)
- #endif
- }
- 
--void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
--{
--    Error *local_err = NULL;
--
--#ifdef TARGET_AARCH64
--    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        if (!cpu_sve_finalize_features(cpu, &local_err)) {
--            error_propagate(errp, local_err);
--            return;
--        }
--
--        /*
--         * KVM does not support modifications to this feature.
--         * We have not registered the cpu properties when KVM
--         * is in use, so the user will not be able to set them.
--         */
--        if (tcg_enabled()) {
--            if (!cpu_pauth_finalize(cpu, &local_err)) {
--                error_propagate(errp, local_err);
--                return;
--            }
--        }
--    }
--#endif /* TARGET_AARCH64 */
--
--    if (kvm_enabled()) {
--        kvm_arm_steal_time_finalize(cpu, &local_err);
--        if (local_err != NULL) {
--            error_propagate(errp, local_err);
--            return;
--        }
--    }
--}
--
- static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-@@ -882,22 +847,22 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    arm_cpu_finalize_features(cpu, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
--        cpu->has_vfp != cpu->has_neon) {
--        /*
--         * This is an architectural requirement for AArch64; AArch32 is
--         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
--         */
--        error_setg(errp,
--                   "AArch64 CPUs must have both VFP and Neon or neither");
--        return;
-+#ifdef TARGET_AARCH64
-+    if (arm_feature(env, ARM_FEATURE_AARCH64)) {
-+        if (!aarch64_cpu_finalize_features(cpu, errp)) {
-+            return;
-+        }
-+        if (cpu->has_vfp != cpu->has_neon) {
-+            /*
-+             * This is an architectural requirement for AArch64; AArch32 is
-+             * more flexible and permits VFP-no-Neon and Neon-no-VFP.
-+             */
-+            error_setg(errp,
-+                       "AArch64 CPUs must have both VFP and Neon or neither");
-+            return;
-+        }
-     }
-+#endif /* TARGET_AARCH64 */
- 
-     if (!cpu->has_vfp) {
-         uint64_t t;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 9bc5ddfc09..d67c0b1be4 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -22,6 +22,8 @@
- #include "qapi/error.h"
- #include "qemu/qemu-print.h"
- #include "cpu.h"
-+#include "cpu-sve.h"
-+#include "tcg/cpu-pauth.h"
- #include "cpu-exceptions-aa64.h"
- #include "qemu/module.h"
- #include "sysemu/tcg.h"
-@@ -454,6 +456,29 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
-     return g_strdup("aarch64");
- }
- 
-+bool aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-+{
-+    if (!cpu_sve_finalize_features(cpu, errp)) {
-+        return false;
-+    }
-+    if (tcg_enabled()) {
-+        /*
-+         * KVM does not support modifications to this feature.
-+         * We have not registered the cpu properties when KVM
-+         * is in use, so the user will not be able to set them.
-+         */
-+        if (!cpu_pauth_finalize(cpu, errp)) {
-+            return false;
-+        }
-+    }
-+    if (kvm_enabled()) {
-+        if (!kvm_arm_steal_time_finalize(cpu, errp)) {
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
- static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-diff --git a/target/arm/kvm/kvm64.c b/target/arm/kvm/kvm64.c
-index b34642e74c..372957331b 100644
---- a/target/arm/kvm/kvm64.c
-+++ b/target/arm/kvm/kvm64.c
-@@ -677,7 +677,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-     return true;
- }
- 
--void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
-+bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
- {
-     bool has_steal_time = kvm_arm_steal_time_supported();
- 
-@@ -691,7 +691,7 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
-         if (!has_steal_time) {
-             error_setg(errp, "'kvm-steal-time' cannot be enabled "
-                              "on this host");
--            return;
-+            return false;
-         } else if (!arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-             /*
-              * DEN0057A chapter 2 says "This specification only covers
-@@ -702,9 +702,10 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
-              */
-             error_setg(errp, "'kvm-steal-time' cannot be enabled "
-                              "for AArch32 guests");
--            return;
-+            return false;
-         }
-     }
-+    return true;
- }
- 
- bool kvm_arm_aarch32_supported(void)
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 0c72bf7c31..8a31c4dd04 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -184,9 +184,11 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-         if (!err) {
-             visit_check_struct(visitor, &err);
-         }
-+#ifdef TARGET_AARCH64
-         if (!err) {
--            arm_cpu_finalize_features(ARM_CPU(obj), &err);
-+            aarch64_cpu_finalize_features(ARM_CPU(obj), &err);
-         }
-+#endif /* TARGET_AARCH64 */
-         visit_end_struct(visitor, NULL);
-         visit_free(visitor);
-         if (err) {
-@@ -195,7 +197,9 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-             return NULL;
-         }
-     } else {
--        arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
-+#ifdef TARGET_AARCH64
-+        aarch64_cpu_finalize_features(ARM_CPU(obj), &error_abort);
-+#endif /* TARGET_AARCH64 */
-     }
- 
-     expansion_info = g_new0(CpuModelExpansionInfo, 1);
--- 
-2.26.2
+C. 
+
+
+> 
+> On 3/12/21 7:28 PM, Philippe Mathieu-Daudé wrote:
+>> The flash mmio region is exposed as an AddressSpace.
+>> AddressSpaces must not be sysbus-mapped, therefore map
+>> the region using an alias.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  include/hw/ssi/aspeed_smc.h | 1 +
+>>  hw/ssi/aspeed_smc.c         | 4 +++-
+>>  2 files changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+>> index 16c03fe64f3..e3c96cecbd8 100644
+>> --- a/include/hw/ssi/aspeed_smc.h
+>> +++ b/include/hw/ssi/aspeed_smc.h
+>> @@ -84,6 +84,7 @@ struct AspeedSMCState {
+>>  
+>>      MemoryRegion mmio;
+>>      MemoryRegion mmio_flash;
+>> +    MemoryRegion mmio_flash_alias;
+>>  
+>>      qemu_irq irq;
+>>      int irqline;
+>> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+>> index 16addee4dc8..aa26578bdac 100644
+>> --- a/hw/ssi/aspeed_smc.c
+>> +++ b/hw/ssi/aspeed_smc.c
+>> @@ -1386,7 +1386,9 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
+>>      memory_region_init_io(&s->mmio_flash, OBJECT(s),
+>>                            &aspeed_smc_flash_default_ops, s, name,
+>>                            s->ctrl->flash_window_size);
+>> -    sysbus_init_mmio(sbd, &s->mmio_flash);
+>> +    memory_region_init_alias(&s->mmio_flash_alias, OBJECT(s), name,
+>> +                             &s->mmio_flash, 0, s->ctrl->flash_window_size);
+>> +    sysbus_init_mmio(sbd, &s->mmio_flash_alias);
+>>  
+>>      s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_peripherals);
 
 
