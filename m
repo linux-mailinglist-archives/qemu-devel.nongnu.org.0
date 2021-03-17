@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766BA33F90A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:22:16 +0100 (CET)
-Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9794C33F915
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:24:16 +0100 (CET)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbkF-0005RG-GR
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48858)
+	id 1lMbmB-00007S-K7
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1lMbZx-00066J-EJ
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:11:37 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1lMbZu-00084q-8X
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:11:37 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- nh23-20020a17090b3657b02900c0d5e235a8so1888097pjb.0
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 12:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3G9dJhhPVQ4RWufG4KKiXsuOdNnoDJci4dv2haWZIFM=;
- b=jYDJruSmI9FXZDZHgXKbmxOBCw5h+oeohU1b1cdc/gdedq/R7aHdOmM/HCUY5qpGk2
- kPL0MGix4EYsMBtD2O8WK/RjGfF7HIkmtJPYeyJCntP4XKmXhbdj8W2leteneG80RQGH
- ugTVq8z42ukaO+Z8EmISUc4fosohcVQLgSv+5X/V1vGP7RkeY9Dx9xtz7FsbNii48NtY
- ijNs4t2QekmjcIIwZAu9hdCuDEaUDvmQXiDYr37s86Herd+XR5UeS7lW22Rdqq88Bbwz
- bLMbHKULq4QaS2czttKjzTXwMysz+GgkFG3Hu1EX38m1I0UUngUwqj9UP5CT8PD4OEFs
- 4H7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3G9dJhhPVQ4RWufG4KKiXsuOdNnoDJci4dv2haWZIFM=;
- b=l0XSKCY9sHQe7G/JdY4+S11V5ZuVE05MJVsWMbblHc765VPn7Kkvbyv6rp0YFmgFVU
- yHAJQVNoPWTycoCg/GVc2DpDgeuaBWJX7bOZaRI+N1EFvr97O1cSTk1DXOR5J0zl6REb
- rPa98CXjz/jNi5DJQ4CK5bILR3hbk+If5yl7LF9H6bhyCJEVzHCf4zrqlkKt8i6Yq26X
- 0H8WtSSF9hAnlqEbho6ylgKnSCTYK3/Jg+sCv00I6YuuhooR3jslRY+1eIG+rF0I+7y5
- t6aodJXp/bT9RWupSNpefGwufWqZJO3aPOVEmA7PU6N0QYlYtI0diMUYSUzhtUZOU6QG
- CHyg==
-X-Gm-Message-State: AOAM530wCbcd3bt1nqX4DJgLnW3XpTztgYRzk63UeAWUlRAEpjDwm1nR
- p0iztuYAQc/kN7F16napy7ufzUE0KrVB8A==
-X-Google-Smtp-Source: ABdhPJzmynju2JifUloUQePErLUnB0u4mkYE960oPLIHcWYKMG0OoLmajsMfZDFiUcxoAMFE8XEL/A==
-X-Received: by 2002:a17:902:8a97:b029:e6:aa6b:92f1 with SMTP id
- p23-20020a1709028a97b02900e6aa6b92f1mr6036059plo.64.1616008292343; 
- Wed, 17 Mar 2021 12:11:32 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id i20sm19077870pgg.65.2021.03.17.12.11.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 12:11:31 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] plugins: Move all typedef and type declaration to the
- front of the qemu-plugin.h
-Date: Wed, 17 Mar 2021 19:11:15 +0000
-Message-Id: <20210317191115.1445-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.29.2.windows.3
-In-Reply-To: <20210317191115.1445-1-luoyonggang@gmail.com>
-References: <20210317191115.1445-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lMbee-0002TS-4G
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:16:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lMbea-0001eN-DX
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:16:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616008583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UQRYSp2L2DfGtOn232iC9yuuJmH4EI4XmCsl4N1uBew=;
+ b=H+AXn6fmOncYIbEF2/ypeGT1hlKm9bXaL5aX91t+6ZLDRMSCpUuWUKkuGF15O5c/oQSr3C
+ bNGr9vYfU9PEsRy5HlkrsmHlaVZokHngbFwI2oKo1lCBK7C1YV4sxegC9zKV6TZ2qWqdLc
+ yEJlk+XAIVqbykDhghsmY/d0sfOHjoQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-VO2jYzPJPum4OA8UcbWMNA-1; Wed, 17 Mar 2021 15:16:21 -0400
+X-MC-Unique: VO2jYzPJPum4OA8UcbWMNA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17D2910866A0;
+ Wed, 17 Mar 2021 19:16:20 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20DB45D9C0;
+ Wed, 17 Mar 2021 19:16:09 +0000 (UTC)
+Subject: Re: [PATCH 0/3] tests/acceptance: Handle tests with "cpu" tag
+To: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20210224212654.1146167-1-wainersm@redhat.com>
+ <20210309185237.GB2155904@amachine.somewhere>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <d2825a6a-fcc1-7037-a574-5c0cc8ffb879@redhat.com>
+Date: Wed, 17 Mar 2021 16:16:06 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210309185237.GB2155904@amachine.somewhere>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,260 +85,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, philmd@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- include/qemu/qemu-plugin.h | 187 ++++++++++++++++++-------------------
- 1 file changed, 92 insertions(+), 95 deletions(-)
+Added John and Eduardo,
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 97cdfd7761..2cb17f3051 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -81,27 +81,6 @@ typedef struct qemu_info_t {
-     };
- } qemu_info_t;
- 
--/**
-- * qemu_plugin_install() - Install a plugin
-- * @id: this plugin's opaque ID
-- * @info: a block describing some details about the guest
-- * @argc: number of arguments
-- * @argv: array of arguments (@argc elements)
-- *
-- * All plugins must export this symbol which is called when the plugin
-- * is first loaded. Calling qemu_plugin_uninstall() from this function
-- * is a bug.
-- *
-- * Note: @info is only live during the call. Copy any information we
-- * want to keep. @argv remains valid throughout the lifetime of the
-- * loaded plugin.
-- *
-- * Return: 0 on successful loading, !0 for an error.
-- */
--QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
--                                           const qemu_info_t *info,
--                                           int argc, char **argv);
--
- /**
-  * typedef qemu_plugin_simple_cb_t - simple callback
-  * @id: the unique qemu_plugin_id_t
-@@ -135,6 +114,98 @@ typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
- typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
-                                             void *userdata);
- 
-+/** struct qemu_plugin_tb - Opaque handle for a translation block */
-+struct qemu_plugin_tb;
-+/** struct qemu_plugin_insn - Opaque handle for a translated instruction */
-+struct qemu_plugin_insn;
-+
-+/**
-+ * enum qemu_plugin_cb_flags - type of callback
-+ *
-+ * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
-+ * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
-+ * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
-+ *
-+ * Note: currently unused, plugins cannot read or change system
-+ * register state.
-+ */
-+enum qemu_plugin_cb_flags {
-+    QEMU_PLUGIN_CB_NO_REGS,
-+    QEMU_PLUGIN_CB_R_REGS,
-+    QEMU_PLUGIN_CB_RW_REGS,
-+};
-+
-+enum qemu_plugin_mem_rw {
-+    QEMU_PLUGIN_MEM_R = 1,
-+    QEMU_PLUGIN_MEM_W,
-+    QEMU_PLUGIN_MEM_RW,
-+};
-+
-+/**
-+ * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
-+ * @id: unique plugin id
-+ * @tb: opaque handle used for querying and instrumenting a block.
-+ */
-+typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
-+                                               struct qemu_plugin_tb *tb);
-+
-+/**
-+ * enum qemu_plugin_op - describes an inline op
-+ *
-+ * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
-+ *
-+ * Note: currently only a single inline op is supported.
-+ */
-+
-+enum qemu_plugin_op {
-+    QEMU_PLUGIN_INLINE_ADD_U64,
-+};
-+
-+/**
-+ * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-+ *
-+ * This can be further queried using the qemu_plugin_mem_* query
-+ * functions.
-+ */
-+typedef uint32_t qemu_plugin_meminfo_t;
-+/** struct qemu_plugin_hwaddr - opaque hw address handle */
-+struct qemu_plugin_hwaddr;
-+
-+typedef void
-+(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
-+                             qemu_plugin_meminfo_t info, uint64_t vaddr,
-+                             void *userdata);
-+
-+typedef void
-+(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_index,
-+                                 int64_t num, uint64_t a1, uint64_t a2,
-+                                 uint64_t a3, uint64_t a4, uint64_t a5,
-+                                 uint64_t a6, uint64_t a7, uint64_t a8);
-+typedef void
-+(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_idx,
-+                                     int64_t num, int64_t ret);
-+
-+/**
-+ * qemu_plugin_install() - Install a plugin
-+ * @id: this plugin's opaque ID
-+ * @info: a block describing some details about the guest
-+ * @argc: number of arguments
-+ * @argv: array of arguments (@argc elements)
-+ *
-+ * All plugins must export this symbol which is called when the plugin
-+ * is first loaded. Calling qemu_plugin_uninstall() from this function
-+ * is a bug.
-+ *
-+ * Note: @info is only live during the call. Copy any information we
-+ * want to keep. @argv remains valid throughout the lifetime of the
-+ * loaded plugin.
-+ *
-+ * Return: 0 on successful loading, !0 for an error.
-+ */
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                                           const qemu_info_t *info,
-+                                           int argc, char **argv);
-+
- /**
-  * qemu_plugin_uninstall() - Uninstall a plugin
-  * @id: this plugin's opaque ID
-@@ -205,41 +276,6 @@ void qemu_plugin_register_vcpu_idle_cb(qemu_plugin_id_t id,
- void qemu_plugin_register_vcpu_resume_cb(qemu_plugin_id_t id,
-                                          qemu_plugin_vcpu_simple_cb_t cb);
- 
--/** struct qemu_plugin_tb - Opaque handle for a translation block */
--struct qemu_plugin_tb;
--/** struct qemu_plugin_insn - Opaque handle for a translated instruction */
--struct qemu_plugin_insn;
--
--/**
-- * enum qemu_plugin_cb_flags - type of callback
-- *
-- * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
-- * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
-- * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
-- *
-- * Note: currently unused, plugins cannot read or change system
-- * register state.
-- */
--enum qemu_plugin_cb_flags {
--    QEMU_PLUGIN_CB_NO_REGS,
--    QEMU_PLUGIN_CB_R_REGS,
--    QEMU_PLUGIN_CB_RW_REGS,
--};
--
--enum qemu_plugin_mem_rw {
--    QEMU_PLUGIN_MEM_R = 1,
--    QEMU_PLUGIN_MEM_W,
--    QEMU_PLUGIN_MEM_RW,
--};
--
--/**
-- * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
-- * @id: unique plugin id
-- * @tb: opaque handle used for querying and instrumenting a block.
-- */
--typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
--                                               struct qemu_plugin_tb *tb);
--
- /**
-  * qemu_plugin_register_vcpu_tb_trans_cb() - register a translate cb
-  * @id: plugin ID
-@@ -269,18 +305,6 @@ void qemu_plugin_register_vcpu_tb_exec_cb(struct qemu_plugin_tb *tb,
-                                           enum qemu_plugin_cb_flags flags,
-                                           void *userdata);
- 
--/**
-- * enum qemu_plugin_op - describes an inline op
-- *
-- * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
-- *
-- * Note: currently only a single inline op is supported.
-- */
--
--enum qemu_plugin_op {
--    QEMU_PLUGIN_INLINE_ADD_U64,
--};
--
- /**
-  * qemu_plugin_register_vcpu_tb_exec_inline() - execution inline op
-  * @tb: the opaque qemu_plugin_tb handle for the translation
-@@ -393,16 +417,6 @@ uint64_t qemu_plugin_insn_vaddr(const struct qemu_plugin_insn *insn);
-  */
- void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
- 
--/**
-- * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-- *
-- * This can be further queried using the qemu_plugin_mem_* query
-- * functions.
-- */
--typedef uint32_t qemu_plugin_meminfo_t;
--/** struct qemu_plugin_hwaddr - opaque hw address handle */
--struct qemu_plugin_hwaddr;
--
- /**
-  * qemu_plugin_mem_size_shift() - get size of access
-  * @info: opaque memory transaction handle
-@@ -480,11 +494,6 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
-  */
- const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h);
- 
--typedef void
--(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
--                             qemu_plugin_meminfo_t info, uint64_t vaddr,
--                             void *userdata);
--
- void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
-                                       qemu_plugin_vcpu_mem_cb_t cb,
-                                       enum qemu_plugin_cb_flags flags,
-@@ -496,21 +505,9 @@ void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *insn,
-                                           enum qemu_plugin_op op, void *ptr,
-                                           uint64_t imm);
- 
--
--
--typedef void
--(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_index,
--                                 int64_t num, uint64_t a1, uint64_t a2,
--                                 uint64_t a3, uint64_t a4, uint64_t a5,
--                                 uint64_t a6, uint64_t a7, uint64_t a8);
--
- void qemu_plugin_register_vcpu_syscall_cb(qemu_plugin_id_t id,
-                                           qemu_plugin_vcpu_syscall_cb_t cb);
- 
--typedef void
--(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_idx,
--                                     int64_t num, int64_t ret);
--
- void
- qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
-                                          qemu_plugin_vcpu_syscall_ret_cb_t cb);
--- 
-2.29.2.windows.3
+On 3/9/21 3:52 PM, Cleber Rosa wrote:
+> On Wed, Feb 24, 2021 at 06:26:51PM -0300, Wainer dos Santos Moschetta wrote:
+>> Currently the acceptance tests tagged with "machine" have the "-M TYPE"
+>> automatically added to the list of arguments of the QEMUMachine object.
+>> In other words, that option is passed to the launched QEMU. On this
+>> series it is implemented the same feature but instead for tests marked
+>> with "cpu".
+>>
+> Good!
+>
+>> There is a caveat, however, in case the test needs additional arguments to
+>> the CPU type they cannot be passed via tag, because the tags parser split
+>> values by comma. For example, in tests/acceptance/x86_cpu_model_versions.py,
+>> there are cases where:
+>>
+>>    * -cpu is set to "Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+>>    * if it was tagged like "cpu:Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+>>      then the parser would break it into 4 tags ("cpu:Cascadelake-Server",
+>>      "x-force-features=on", "check=off", "enforce=off")
+>>    * resulting on "-cpu Cascadelake-Server" and the remaining arguments are ignored.
+>>
+>> For the example above, one should tag it (or not at all) as "cpu:Cascadelake-Server"
+>> AND self.vm.add_args('-cpu', "Cascadelake-Server,x-force-features=on,check=off,enforce=off"),
+>> and that results on something like:
+>>
+>>    "qemu-system-x86_64 (...) -cpu Cascadelake-Server -cpu Cascadelake-Server,x-force-features=on,check=off,enforce=off".
+>>
+> There are clearly two problems here:
+>
+> 1) the tag is meant to be succinct, so that it can be used by users
+>     selecting which tests to run.  At the same time, it's a waste
+>     to throw away the other information or keep it duplicate or
+>     incosistent.
+>
+> 2) QEMUMachine doesn't keep track of command line arguments
+>     (add_args() makes it pretty clear what's doing).  But, on this type
+>     of use case, a "set_args()" is desirable, in which case it would
+>     overwrite the existing arguments for a given command line option.
+
+I like the idea of a "set_args()" to QEMUMachine as you describe above 
+but it needs further discussion because I can see at least one corner 
+case; for example, one can set the machine type as either -machine or 
+-M, then what key it should be searched-and-replaced (if any) on the 
+list of args?
+
+Unlike your suggestion, I thought on implement the method to deal with a 
+single argument at time, as:
+
+     def set_arg(self, arg: Union[str, list], value: str) -> None:
+         """
+         Set the value of an argument from the list of extra arguments to be
+         given to the QEMU binary. If the argument does not exist then it is
+         added to the list.
+
+         If the ``arg`` parameter is a list then it will search and 
+replace all
+         occurencies (if any). Otherwise a new argument is added and it is
+         used the first value of the ``arg`` list.
+         """
+         pass
+
+Does it sound good to you?
+
+Thanks!
+
+Wainer
+
+>> QEMU is going to ignore the first -cpu argument. See the patch 0003 for a reference.
+>>
+> But this would still be creating a QEMU command line with multiple
+> '-cpu' arguments, right?  I understand this could be useful for
+> testing the behavior of the parameter parsing (if that's intended) but
+> it's bad practice to be generating incorrect command line in tests.
+>
+> Maybe just by tackling issue #2 this could be avoided.
+>
+> Cheers,
+> - Cleber.
 
 
