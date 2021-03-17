@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CEDA33E292
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:20:38 +0100 (CET)
-Received: from localhost ([::1]:47050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BE733E293
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:21:41 +0100 (CET)
+Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMJvQ-0002sd-0x
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
+	id 1lMJwS-0003en-JW
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMJtg-0002IR-NA
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:18:48 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36067)
+ id 1lMJuY-0002iA-F1
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:19:42 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:44561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMJtf-0003At-66
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:18:48 -0400
-Received: by mail-wr1-x430.google.com with SMTP id y16so11414850wrw.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 17:18:46 -0700 (PDT)
+ id 1lMJuW-0003YB-Tc
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 20:19:42 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ j4-20020a05600c4104b029010c62bc1e20so315053wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 17:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rwUENxa3LIz19U4FjDUtZj2HCeI8d2GBaf9+ogYvnJQ=;
- b=EbiGqEGRpfCTemqjZB0F00xEyGMzelMDuN67SHT7VKf94RJsu7UcpXn8rVPkHQFw9q
- z6yQSjsft/KpVzyQs/4YYlErtsCPm5LN1Vn5AOWNSQvBZLanBtPkjiLozJlcJPKY2dUk
- Jng2Q0KCTDmx8jED5WlQfBfzPYAoNzRG96sDXzpbik6T2R+JbthCVwdClc0MfAW9sKIN
- veWiZiBpGLfoesK3sgwmTr0xpf/lVKo+Vlla1gxpOUQhFpKKLplDgiaTWuXl4LvslF7G
- mrFKFYXF/w2BGYNyelblbNGzEVndW9f8RdByNp5iSO+KAW+2N8Mw/aA7hOIEPm8G6CfW
- 6x5A==
+ bh=JppPbXV8R0j3gCfnDaOCPnDSuV0ex5VfiklBcZZWgJ8=;
+ b=ilny+WB5VBw3t4bjXiKm1JH8YGHKuF+xzcy2CpnjUygjn5yjmzhtGXP+QqnCiUFlHS
+ WjEF650zF43uJ75jVHa8xe0jYlpzh2MMP0W+ulXhUa/LZCp5vYnF1sOGTd+X78/uYIuG
+ 8EGp/fRE+1zwA+6+GEt4JuzRhcf+DlcDoQwIZmoGhIz43qJwP4pvXBvg+K68NpOhlNzx
+ wJ/vEmSDTnHsP02taDEs/Y+5koyxo49ekKiDU74ZOo1v9BdrQ6Xu+KSA6Mgx6DIiz9ec
+ nfAatmLW+/FCVFoWmbaiTp5nTGKgzZ1fTMOaqvlzP9/KmYZShZX0Ar53TBM2IDrF0CYY
+ UvQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rwUENxa3LIz19U4FjDUtZj2HCeI8d2GBaf9+ogYvnJQ=;
- b=jyAFd6YCTDVlKa/O+97pWhb7XTBAV07CejIGEFusMTs1ruUnZPUg7S+Ge3WQ1sPTir
- DJNC6cJ6//ydsAFuqRh/o8ntC+xH9bP61xcMAbSJkvm+SYcPHrKE1LGZSJQcEf4WWMCB
- bY94Yv5QR+LsaLN0y+umPqPWllQAdLkoEPv4pv+cVx3o9qVteBxLZ6rq3UVoGiVi+zJw
- 0TaLKkz3yfjn9XwAt2CnKMgQ+ECvWoFFJN/IAu5tatKYMAQelNJnvDVrmSF2zoqX8Ko4
- CJrbTQcp4Lr6s13XWN/YXQ5maPiD0xw5Yd+HLOdNX4PWKmQKKF62qRg1h3u+xL/xiJDf
- rQYQ==
-X-Gm-Message-State: AOAM531o0fZp5BNc//T10KyocYboRz6ai9u0SItIMIwZUa5z0MzVh/vF
- jQ/y8rodkoG0VMfcF+xE9xs=
-X-Google-Smtp-Source: ABdhPJzRTpVu5XQLbu80mNPfVCqId37Ww2YdmchzklLO0NVKUU8COtzK3Ye7y+/BbbHsJoAR14YYBw==
-X-Received: by 2002:a5d:6a81:: with SMTP id s1mr1462671wru.401.1615940325617; 
- Tue, 16 Mar 2021 17:18:45 -0700 (PDT)
+ bh=JppPbXV8R0j3gCfnDaOCPnDSuV0ex5VfiklBcZZWgJ8=;
+ b=iP9rB6K8NrupfN/wOxRPmBYX+t9d7ANBJTNW0YhCLlINxx0qRB6UvFEDyWJfXoHHiL
+ VoG/nC2g9FJX/FEJf2tIkMtE3EmkvRiT0nbFWpEID2WwvR3Ht0h2AyrfB/pHhNCIxmLV
+ ISDhJcGpWC5IEDmDj2JVRvxQhwsNw2oMARzc67hwKEdeuuk0AwlgoeH+3tMcaql6/sAJ
+ ZA1kt3NIy0zstNJzcUsS0DW88WzOzpjtJ1PPlfDAwsrbXv4yJoAlz5rB2sI49mhqL5C5
+ XRKzpJrq7WcTMullV0Y99m69rl76enTjgWaeL08xueeQdMGsLon52xyQvfgTnwmaO0mS
+ ipfQ==
+X-Gm-Message-State: AOAM5328ijK2462etZWQ3LLVb+LJXYgg4/smifzg8GGc0UivLL3lPqcx
+ YCIaLASzqzab/+uCdM/LGrc=
+X-Google-Smtp-Source: ABdhPJwjjXKSY0sSj/16SYDRQsXaFSTxlnev0874SOe01cOY4vQA5YCKqhKtXvqrU5s9AI1qS2+yFw==
+X-Received: by 2002:a1c:5416:: with SMTP id i22mr1120622wmb.146.1615940379614; 
+ Tue, 16 Mar 2021 17:19:39 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id y16sm23898584wrh.3.2021.03.16.17.18.44
+ by smtp.gmail.com with ESMTPSA id e18sm11439705wru.73.2021.03.16.17.19.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Mar 2021 17:18:45 -0700 (PDT)
-Subject: Re: [PATCH 3/4] esp: ensure cmdfifo is not empty and current_dev is
- non-NULL
+ Tue, 16 Mar 2021 17:19:38 -0700 (PDT)
+Subject: Re: [PATCH 2/4] esp: don't overflow cmdfifo if TC is larger than the
+ cmdfifo size
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  alxndr@bu.edu
 References: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
- <20210316233024.13560-4-mark.cave-ayland@ilande.co.uk>
+ <20210316233024.13560-3-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <97556d1d-b698-c501-8ec2-44f0bc8f52d3@amsat.org>
-Date: Wed, 17 Mar 2021 01:18:44 +0100
+Message-ID: <9016460d-0965-2f62-b14f-d9b8886c8115@amsat.org>
+Date: Wed, 17 Mar 2021 01:19:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210316233024.13560-4-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210316233024.13560-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,17 +96,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/17/21 12:30 AM, Mark Cave-Ayland wrote:
-> When about to execute a SCSI command, ensure that cmdfifo is not empty and
-> current_dev is non-NULL. This can happen if the guest tries to execute a TI
-> (Transfer Information) command without issuing one of the select commands
-> first.
+> If a guest transfers the message out/command phase data using DMA with a TC
+> that is larger than the cmdfifo size then the cmdfifo overflows triggering
+> an assert. Limit the size of the transfer to the free space available in
+> cmdfifo.
 > 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1919036
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  hw/scsi/esp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
