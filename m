@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C36133E9D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:37:53 +0100 (CET)
-Received: from localhost ([::1]:46262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FB133E9D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:37:56 +0100 (CET)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMPoW-0003Wh-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34438)
+	id 1lMPoZ-0003cZ-Bb
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPem-0004JR-KH
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:48 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPed-0000KQ-1M
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:46 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id u4so834421edv.9
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=UoAb4yJF98pSKNLLX7tPArXkVMkWUA3vT/8Fn5PTXcw=;
- b=EmRku6GuMCYMjwqM3UBQ7pwnPj6RNkEM0F7IendWpsUbBWiV9FQXFHFlXQ6o6639Iu
- G67rOS17wnh3dWcmqMg36glpgnU8yXrow1KhxuK/mkbtfjPyiBuZsJRCajPlAWklBJzG
- gk2n3epOGfRZMbBNLO73w5904PPrtcU7x44VC2qoX65PZoDQvixR4WmMd5mUJ0Furq2L
- cvNPrbhxsQOZao4hTcpCebjIIzm33ehIR0A03dXmrFp26RQ/F3rLyE+ihsFBWbZSh0yo
- adyh+6/erOEQa7wlYflOTu5rDuvg1PB5v8EkdZfqjCeerLTrTc1B8bnPbQNswtkPCX5L
- C8dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UoAb4yJF98pSKNLLX7tPArXkVMkWUA3vT/8Fn5PTXcw=;
- b=N1HUM4MQdM79FAVusQPu0dXudg7Z1tHeanzWr0IzeRnxMJ+0Ktlx2McvTknd/AUY9s
- II7KiiIRw2nr30qKFnrcvcXmCaJxOwHFEnHRTHb+h9jhw3lIhzld4k5Oq+6ExGpiOj6k
- 4GXvXZSODPKcdhbzaNNh+ojx9xMePrPRW2+o98bKYRi+Kn6WvvegEFGmrWDSAQRFbivM
- NXCy4JFzqBGc0WqEcPit1EkKYue/wBn8GncD4dSG0lQUyV13hbqu4VrRD9hhDLEtNRd+
- 19m7iR3I4BShAia+4Ldq5zsEVjinBht3g7l8VOdOkRZZrIjvibkZYnymWOLjfscFtey4
- ktWA==
-X-Gm-Message-State: AOAM531KwBx88nkCgZuMk/vp3SbikZURO7CozdpLxTyUL9B8Ih4KBTtw
- xoFjkk8kRLsbhYfTeZHaoyUjWF3kCvc=
-X-Google-Smtp-Source: ABdhPJyeWpyJkJBwBgXmO2uWO7K1LsFzOL++vIdW9x60eos5FqOLXdojkCCMlaE/qKePd4rjQKWkyg==
-X-Received: by 2002:a05:6402:4415:: with SMTP id
- y21mr20835438eda.70.1615962457490; 
- Tue, 16 Mar 2021 23:27:37 -0700 (PDT)
-Received: from pek-vx-bsp9.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.27.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 23:27:37 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v5 12/12] hw/net: sunhme: Remove the logic of padding short
- frames in the receive path
-Date: Wed, 17 Mar 2021 14:26:38 +0800
-Message-Id: <20210317062638.72626-13-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210317062638.72626-1-bmeng.cn@gmail.com>
-References: <20210317062638.72626-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMPhS-0007Sj-7K
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:30:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMPhO-0001ni-8a
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:30:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615962629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j/fZuvwg0LWeieYTgrnpesnTjDKxvoVQHJamHU6RRzo=;
+ b=DdUby01S1VCaHUmCL7PtlNZOZkfJT5ML8dhRmvp4U+eLDwwDdOAyW+JkWzH98n1CAL6dj4
+ jpbPn90Yr5Aw2xDYcrUBGFRWjZCTAhOAOLLJIG+dw0dEayMQg00vgWn8++GeQ240wDX1Y2
+ ZTwglRrgVuFPu3QM6C5NDc/4Tw59GTM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-WNTYyWo4OMSzgAIqeXOYhQ-1; Wed, 17 Mar 2021 02:30:27 -0400
+X-MC-Unique: WNTYyWo4OMSzgAIqeXOYhQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E36E107ACCD
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:30:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
+ [10.36.112.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B8F560C13;
+ Wed, 17 Mar 2021 06:30:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AD3ED180038B; Wed, 17 Mar 2021 07:30:20 +0100 (CET)
+Date: Wed, 17 Mar 2021 07:30:20 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Half a usb-redir idea
+Message-ID: <20210317063020.ldkuvwgdxxdvxlzt@sirius.home.kraxel.org>
+References: <YFDo/oHikOEcXFcg@work-vm>
+ <630f4307-20ed-8834-4df9-ed90c22ee018@redhat.com>
+ <YFD8mXa4P/fVIZd6@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YFD8mXa4P/fVIZd6@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,58 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ victortoso@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have implemented unified short frames padding in the
-QEMU networking codes, remove the same logic in the NIC codes.
+  Hi,
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > What about DMA accesses?
+> 
+> I was assuming it was wired to the other half of usbredir than
+> the current qemu client side code, so it would handle it.
 
----
+Yep, that is for the most part handled by the host adapter emulation.
+The usb device emulation will see an USBPacket struct with an iovec,
+typically pointing to guest ram, but you can easily have the usbredir
+server bits point to network packet content instead and the device
+emulation code wouldn't notice the difference.
 
-(no changes since v1)
-
- hw/net/sunhme.c | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-index fc34905f87..6971796e57 100644
---- a/hw/net/sunhme.c
-+++ b/hw/net/sunhme.c
-@@ -714,8 +714,6 @@ static inline void sunhme_set_rx_ring_nr(SunHMEState *s, int i)
-     s->erxregs[HME_ERXI_RING >> 2] = ring;
- }
- 
--#define MIN_BUF_SIZE 60
--
- static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-                               size_t size)
- {
-@@ -724,7 +722,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-     dma_addr_t rb, addr;
-     uint32_t intstatus, status, buffer, buffersize, sum;
-     uint16_t csum;
--    uint8_t buf1[60];
-     int nr, cr, len, rxoffset, csum_offset;
- 
-     trace_sunhme_rx_incoming(size);
-@@ -775,14 +772,6 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
- 
-     trace_sunhme_rx_filter_accept();
- 
--    /* If too small buffer, then expand it */
--    if (size < MIN_BUF_SIZE) {
--        memcpy(buf1, buf, size);
--        memset(buf1 + size, 0, MIN_BUF_SIZE - size);
--        buf = buf1;
--        size = MIN_BUF_SIZE;
--    }
--
-     rb = s->erxregs[HME_ERXI_RING >> 2] & HME_ERXI_RING_ADDR;
-     nr = sunhme_get_rx_ring_count(s);
-     cr = sunhme_get_rx_ring_nr(s);
--- 
-2.17.1
+take care,
+  Gerd
 
 
