@@ -2,77 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957DB33EE91
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 11:45:37 +0100 (CET)
-Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E49C33EE86
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 11:44:14 +0100 (CET)
+Received: from localhost ([::1]:52006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMTgG-0007rS-Lk
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 06:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36436)
+	id 1lMTev-0006fS-6I
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 06:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>)
- id 1lMTbd-0004hk-58; Wed, 17 Mar 2021 06:40:49 -0400
-Received: from forward2-smtp.messagingengine.com ([66.111.4.226]:35927)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1lMTcU-0005Rd-Gs
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 06:41:46 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:10628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>)
- id 1lMTba-0001eE-Nd; Wed, 17 Mar 2021 06:40:48 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailforward.nyi.internal (Postfix) with ESMTP id C20981940DA4;
- Wed, 17 Mar 2021 06:40:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 17 Mar 2021 06:40:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=mo2ib0NIXEOjfpUH2
- EvyLLNDUFZnb0O68VwTkGWPUrs=; b=Jrh9Cg0DelytQKwfWN4ig34+vwIvHt+MT
- LeEiycnvqMQlCZaxi3H+HDwga7pMh0+VS5boxsapyQ4Cg+SV9vWKJQ5k9rd4yn4H
- vCrMRTDnv44Nmh11VxUy+SIk0TvvQ5vNBMCcofkhBhYpRh4dCuIcB8sZs5aZdwVR
- eVgxp5/vi3LxS5yYRm4EJPbSUF1MiToZ/eTz4sz/kOLGByfcqCqQhsW4pYkukrmw
- KSnG46zy6t+lzup6UiOG7d4oAdrOpZK+ux789DIWaEj8dPwa0+sJSclROzgTrAUk
- ZxBr+7thTDQFGkna1Aq+QIZoIMRgsMSaBFEEq0uI0g/tS3IYiNiBQ==
-X-ME-Sender: <xms:q9xRYBz7_VV8J_bZUerRQs-NAFRqibjsVKS5m0zEbNuwkyu-55iNvA>
- <xme:q9xRYBQvhdrcbjMNKaU1x9tViaQAG28C8l2xDUQefqV5yWu3E0azIiWFd4GF5OJct
- gJAzFvzwITx_8DqJJ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepvffujgfhfffkgggtsehttdertddttddtnecuhfhrohhmpeffrghvihguucfg
- ughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnhepvd
- eihfehjefgveeutdelvedtvdeiueeikefgjefggeduudfgfefgudfhjeeviefgnecukfhp
- peekuddrudekjedrvdeirddvfeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomhepughmvgesughmvgdrohhrgh
-X-ME-Proxy: <xmx:q9xRYLVb0WiUuxWvbCBrMmaiE-jWQjmxghDlpHo3K91CRRDMvV_ggQ>
- <xmx:q9xRYDgWSH-5I5zqauILLSjPZ8q6FdeJBvuTUujXfxDeELjH7ED4bw>
- <xmx:q9xRYDCKiz0GZ_q6E2xmrc3dQh01nvquVB6xuj3E4K9eUmQmdr2zYA>
- <xmx:rNxRYKPOgqz4q3NzpxsPmqTq029iBSSpYbtXJuareSCwmuVo_XwI2g>
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
- [81.187.26.238])
- by mail.messagingengine.com (Postfix) with ESMTPA id 721B2240057;
- Wed, 17 Mar 2021 06:40:43 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id fab71987;
- Wed, 17 Mar 2021 10:40:42 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 4/5] coroutine-lock: reimplement CoRwLock to fix
- downgrade bug
-In-Reply-To: <20210316160007.135459-5-pbonzini@redhat.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-Date: Wed, 17 Mar 2021 10:40:42 +0000
-Message-ID: <m2o8fidpw5.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1lMTcQ-00026y-Tc
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 06:41:42 -0400
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12HAcMDx017124; Wed, 17 Mar 2021 03:41:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=k7lj+gE1r2RNY7zoDWs9emMehniV+mdmE1gGBprgS8s=;
+ b=siryVed7F2BdRMPTT0T6IFnhso8RkMFL7IGypC6aJhd9lhADbdDrs7G/vurz1m3L7xIh
+ NHdbAou9b78sJ8goVFk2rA2erDIvu21Mq3xyEOxDAMNa5Om1E+MlCkflZJk4iQhmpvMR
+ 9wU5L9wLe2+lif2ECPyJF51oKq0vh9umo/bD+pwIHEXg3RGYOp+CzyyjYde4HnQ0Yymu
+ XoY/L2idmLO5M5/avTSGRiBDdk+fgLX7UQiQNAbLZhUsKhKjCcQeTXO3ANVfDtXrH/F+
+ xqHabUHPaE9WKDMOfo7IXssbczHlunrEEkt1JaVE4+Ern6IjCqxmFSTRMHs/iHaPh5Nq dA== 
+Received: from nam04-bn3-obe.outbound.protection.outlook.com
+ (mail-bn3nam04lp2052.outbound.protection.outlook.com [104.47.46.52])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 378utersyy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Mar 2021 03:41:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cijO9OybCu0CUxJZTfIGuwYlGVlhdYspGGNn9hRp19dilzrmlFImpDyu0Z6P7BI0FLLquZRU8ZES9vBFlPioJH9hoRbiutFgmj1lz4MMGxWZzjTl8SEdaW137IUeew1F9rlHcVxMhnSEBq+H/ko5mVMV4Nhxa88yPGr0Z2vYYYWbbj1hncKcv2f/uTbiwD5Wkl6X0P7wqf+OkqNbOEDnZKI645P7e+9YYgZTcZKc5tnAkixJL00+QuTn5iQ8r5Q11NsP4tp7YMSxaAyfJFCZqHX/bW2V/Sj248bMzbLFvcGylDeHLDNyfuJLqDf+u5EZSOF9QxSD2oFWFEhvxmXaMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k7lj+gE1r2RNY7zoDWs9emMehniV+mdmE1gGBprgS8s=;
+ b=XdSeHZp1FvOYu1cg86/V6/zv1QEubU+7asrVC6M5+gvFQIZwAKE5a+bPUYftFU7ciqezcC+echbysZPaquCTcaJif4V3csPGBmLq0iqMKkjGp8wgfWIKcEUGb50OqLjhwKpj7LzNvurrbv70/sNE+MLbuQRriLbCZm8eTtiCUDgLZZGJ4J9jcKtLsZr/+7Qx6uSdfy3gBZWycoa9BNi29FJ7fHTP2X/3QiuaLtnI30eDR0dQMwg9wawsoXop/uEc1cZRP2Z9xMEYVEPZpuEkJXRU6wXsBP1WprCsZRPu/mUl0oYHXMpk0BaNT1BWSU2IA/oAJ0KvyE1go9koAaaNNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MW2PR02MB3723.namprd02.prod.outlook.com (2603:10b6:907:2::32)
+ by MW4PR02MB7235.namprd02.prod.outlook.com (2603:10b6:303:77::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Wed, 17 Mar
+ 2021 10:41:32 +0000
+Received: from MW2PR02MB3723.namprd02.prod.outlook.com
+ ([fe80::140e:841f:fd3e:eb3d]) by MW2PR02MB3723.namprd02.prod.outlook.com
+ ([fe80::140e:841f:fd3e:eb3d%4]) with mapi id 15.20.3912.029; Wed, 17 Mar 2021
+ 10:41:32 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Gerd Hoffmann <kraxel@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>
+Subject: RE: Half a usb-redir idea
+Thread-Topic: Half a usb-redir idea
+Thread-Index: AQHXGo2lp1KrCtGWa0WGNJfkkcq5dqqHtyUAgAAumYCAABJwAIAABl8w
+Date: Wed, 17 Mar 2021 10:41:32 +0000
+Message-ID: <MW2PR02MB372382DC9A56471C89ADBD458B6A9@MW2PR02MB3723.namprd02.prod.outlook.com>
+References: <YFDo/oHikOEcXFcg@work-vm>
+ <20210317062404.bkl5s4qmtaeg2yeo@sirius.home.kraxel.org>
+ <YFHHm8CWwUUc2B7o@work-vm>
+ <20210317101650.2jyc67vy7y7yasgo@sirius.home.kraxel.org>
+In-Reply-To: <20210317101650.2jyc67vy7y7yasgo@sirius.home.kraxel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-originating-ip: [88.106.77.121]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 831858a4-0fe1-4d51-e8dc-08d8e9313aca
+x-ms-traffictypediagnostic: MW4PR02MB7235:
+x-microsoft-antispam-prvs: <MW4PR02MB72359DF7BC3671E9BFF850B98B6A9@MW4PR02MB7235.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5Klsy+R0RkglG6HoNRMen2zT7ahlJR7imE1uyWnWuyf8UB4aDTjTUC93TcFyLqMqWFvuI+BxkWxqzWjgGvYtptXhDozpUlPwnJrt5gGh/dD9ZQp1F9zvncz9SEEBjpbFFaZZrLdtYaxVLqAhgxNgiW4b5tkuEADdAxmPJ6Xd1r4SZiyp/K5zCscATMM5qTmRbKelB0n9HPUfivlZGIEcPRiybESRoYEyezo/q5wv5cPI4bSPB9+Ss2VIcunpkCGwu7OmV4cX7ROReAyfw7BN8KjkaDoEdFYkNkXCAgvV3J+DGDX/A6AVZeLcylbKyxq+o/E6t0tNFBjg3m8EjvnrH/Dy5NOMdcqiuYf5qxnKm7U9zgR2/+0DgXxVvlsQlXuUviXpMLK/zUGXS9Wg/+3RqgKogijgqRshIzqrpyF1aQhrhtUZtcdhJyNi2/jyLOjlUvveKmReucJmsFuidNDC4/z6t7CA33/ORWtkem62u6ikCf2WfcmuuCL5sVvbv5eE2VdEm6uChxq2REXT8xfqPCUDLR1idEdtKw9+MBez9SVyJECDTk0Y5EXKVvepnbAH
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR02MB3723.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(346002)(136003)(376002)(366004)(396003)(3480700007)(4326008)(7696005)(6506007)(83380400001)(9686003)(478600001)(55016002)(66946007)(8936002)(33656002)(66476007)(64756008)(71200400001)(66446008)(44832011)(66556008)(8676002)(52536014)(53546011)(110136005)(76116006)(86362001)(2906002)(54906003)(316002)(5660300002)(26005)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?SBK1P4Av07F2wUMq19UIFDQ4W1WXR1mwRGEU902vykNT9mlVFmnL6TXVdfjM?=
+ =?us-ascii?Q?LryZAzr7JotSmfclN/lT1c4I/We5qOnxpa/v0XMBMvEuhAuk1EP12gIFl5Yq?=
+ =?us-ascii?Q?4DBAZNYmkZibh0n7EaRcNqZAF3tIWg0f5up9sn3Ehj7FF5gyUr65XzaUqUEI?=
+ =?us-ascii?Q?+OaWXck/pmaLLNvHU7unIpo1T/WjjXGZrqksZ6b534F/04QujIj81z/PATjp?=
+ =?us-ascii?Q?zgfiuqGIodWFRSzQw/eyYOJZTZJzk/ymUNPf2XP8yRxBYNTD6nLKDbcP/7Yu?=
+ =?us-ascii?Q?aqUoQdAQWKDvP3oahYHayL39WKK6g//qw1dzIPbX3+O62XmN16DDEeB4PBPI?=
+ =?us-ascii?Q?rW65VH8AQdvPgebFpXvQPN8QoscaDOPwFg0BrucCyVz2Nha/saYDebjsbW3O?=
+ =?us-ascii?Q?duzcwHE4C2DN73ElpJN5WZag9ELGDfjgLOnLL4atMwWdOPHOjHyL9Q+TyAjg?=
+ =?us-ascii?Q?1mQTQ2/AINA1OGTEPcz4OU2akdIJ7hoIBg33/sxIahaB5Dc/mv5yAk8H8am/?=
+ =?us-ascii?Q?DXBq3oVwL4IpjOdlRAtr3eQLO9Z0hnYIbMxfNmgbTa0alyqxsw6izkFbtI7v?=
+ =?us-ascii?Q?zIngOJQcGZjyuDZI/FzV1viXKK3wq28R4WgzJ+75vXr4+UL6Pd3ZRUNYnB2w?=
+ =?us-ascii?Q?PkNhX2uB2h1OIr6RU0ynzNY/UqEyK+CnGc1Js5BYlrd+PMU5RCH7lWP+kpAK?=
+ =?us-ascii?Q?RwO/RfvLM3toOnS3BoNXeq7ziIyx9uUO6BhQWtRK5T+ZR1Zp0s0uH6OyP+FA?=
+ =?us-ascii?Q?Jx/VTuGZMr2jtrde2VmmmLMPY26cXQfUgdnYCRFt9T+IEuLeELIkWBvSUd/C?=
+ =?us-ascii?Q?9FAvxnuwS8gfhLgZQ36T4A1QfJ9UFiCFtrTlminkOQk05inrkiJ2uh9YU16f?=
+ =?us-ascii?Q?c72G9qzKhfUX6U6DFcumq3DGTGjfShd4mzqnK7WXCyJs+hbhTGemcpjuT+LS?=
+ =?us-ascii?Q?zFSTujGdvvoBbdPNN0smKmM96CyFBCKqwpf5T5O1IT2Mcu14GKt5CXYDnAaH?=
+ =?us-ascii?Q?L4UIqL5gVlqM2xjj+oKzJIjeaNnseitKV61VtK6eCg/5KOYHk+/ItPjvnodq?=
+ =?us-ascii?Q?MpQSFP4SIswt5769vDeuFJpckwarxRQZB6N8MDFpL2mTOqXAGAeieAVQ87i+?=
+ =?us-ascii?Q?lmPuWfhomxwNH9F3IfIPAzgW7xsm6nJREKzNtQQXDcC0Fy4SOPV7w2GsvUGS?=
+ =?us-ascii?Q?4NrCqu2UD85Xod17Ojao3FIdX3G+0z/s5eQXcV3cvTRsZbmvKJVlXf/f3GTX?=
+ =?us-ascii?Q?G+fZ/XREmuxuYch+HZ1B/sc0z81QAb/Y6bxr488qwf4Dqb7yQRHLWrpVfTHU?=
+ =?us-ascii?Q?T0uI5GKwkdeL/PUKmsfTs3xQ?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=66.111.4.226; envelope-from=dme@dme.org;
- helo=forward2-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_NEUTRAL=0.779,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR02MB3723.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 831858a4-0fe1-4d51-e8dc-08d8e9313aca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2021 10:41:32.0681 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rLA0CH1+Q/tDJ90zcgiahtkyJb/0m+wcGEsaEOB+q/W26oodga9AVe4tQhNwQkOBDpwg/bAxvCvSTQN+y37QkVljePCRRTFD6JVwLhiGEnI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR02MB7235
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-17_05:2021-03-17,
+ 2021-03-17 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=thanos.makatos@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,281 +151,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: "berrange@redhat.com" <berrange@redhat.com>,
+ "victortoso@redhat.com" <victortoso@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2021-03-16 at 17:00:06 +01, Paolo Bonzini wrote:
 
-> A feature of the current rwlock is that if multiple coroutines hold a
-> reader lock, all must be runnable. The unlock implementation relies on
-> this, choosing to wake a single coroutine when the final read lock
-> holder exits the critical section, assuming that it will wake a
-> coroutine attempting to acquire a write lock.
->
-> The downgrade implementation violates this assumption by creating a
-> read lock owning coroutine that is exclusively runnable - any other
-> coroutines that are waiting to acquire a read lock are *not* made
-> runnable when the write lock holder converts its ownership to read
-> only.
->
-> To fix this, keep the queue of waiters explicitly in the CoRwLock
-> instead of using CoQueue, and store for each whether it is a
-> potential reader or a writer.  This way, downgrade can look at the
-> first queued coroutines and wake it if it is a reader, causing
-> all other readers to be released in turn.
->
-> Reported-by: David Edmondson <david.edmondson@oracle.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qemu/coroutine.h   |  10 ++-
->  util/qemu-coroutine-lock.c | 150 ++++++++++++++++++++++++-------------
->  2 files changed, 106 insertions(+), 54 deletions(-)
->
-> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-> index 84eab6e3bf..ae62d4bc8d 100644
-> --- a/include/qemu/coroutine.h
-> +++ b/include/qemu/coroutine.h
-> @@ -237,11 +237,15 @@ bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock);
->  bool qemu_co_queue_empty(CoQueue *queue);
->  
->  
-> +typedef struct CoRwTicket CoRwTicket;
->  typedef struct CoRwlock {
-> -    int pending_writer;
-> -    int reader;
->      CoMutex mutex;
-> -    CoQueue queue;
-> +
-> +    /* Number of readers, of -1 if owned for writing.  */
 
-s/, of/, or/
+> -----Original Message-----
+> From: Qemu-devel <qemu-devel-
+> bounces+thanos.makatos=3Dnutanix.com@nongnu.org> On Behalf Of Gerd
+> Hoffmann
+> Sent: 17 March 2021 10:17
+> To: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: victortoso@redhat.com; berrange@redhat.com; qemu-
+> devel@nongnu.org
+> Subject: Re: Half a usb-redir idea
+>=20
+> On Wed, Mar 17, 2021 at 09:10:51AM +0000, Dr. David Alan Gilbert wrote:
+> > * Gerd Hoffmann (kraxel@redhat.com) wrote:
+> > > On Tue, Mar 16, 2021 at 05:21:02PM +0000, Dr. David Alan Gilbert wrot=
+e:
+> > > > Hi,
+> > > >   I've got a half-baked idea, which I thought might be worth mentio=
+ning.
+> > > >
+> > > > How hard would it be to give qemu a usbredir server rather than cli=
+ent?
+> > >
+> > > The usb part is probably not that hard.  The devices are not
+> > > standalone though.  Tricky is the integration with the rest of qemu,
+> > > with the input subsystem (hid devices), chardevs (usb-serial),
+> > > network (usb-net), sound (usb-audio), block (usb-storage), ...
+> >
+> > As long as this was still the qemu binary would that be a problem?
+>=20
+> Well, depends a bit on where you are heading to ...
+>=20
+> If you just want move usb emulation to a separate process (using the mult=
+i-
+> process qemu infrastructure, or using something like "qemu -machine none =
+-
+> device usbredirserver") then no, for the most part it wouldn't be a probl=
+em.
+> You can just add chardevs, netdevs and blockdevs to the usbredirserver
+> qemu process then.  input + hid devices are still a bit tricky though.
+>=20
+> If you want refactor usb emulation to move it into a library and allow re=
+use
+> outside qemu (see vncviewer idea elsewhere in the thread) it would be
+> more of a problem of course.
+>=20
+> > > ccid and u2f are probably easierst.
+> > > mtp should not be hard too.
+> > > maybe storage when limiting support to storage daemon.
+> > > then it'll be tricky.
+> > > maybe the multi-process qemu effort solves (some of) these problems.
+> >
+> > It doesn't handle remote does it?
+>=20
+> Not fully sure, but I think vfio-user depends on a shared mapping of gues=
+t
+> ram, so no remote support.
 
-> +    int owner;
-> +
-> +    /* Waiting coroutines.  */
-> +    QSIMPLEQ_HEAD(, CoRwTicket) tickets;
->  } CoRwlock;
+The vfio-user spec allows for remote support, but it will be over a socket =
+so not particularly fast.
 
-Isn't this...
+>=20
+> take care,
+>   Gerd
+>=20
 
- * ... Also, @qemu_co_rwlock_upgrade
- * only overrides CoRwlock fairness if there are no concurrent readers, so
- * another writer might run while @qemu_co_rwlock_upgrade blocks.
-
-...now incorrect?
-
->  /**
-> diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-> index eb73cf11dc..655634d185 100644
-> --- a/util/qemu-coroutine-lock.c
-> +++ b/util/qemu-coroutine-lock.c
-> @@ -327,11 +327,70 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
->      trace_qemu_co_mutex_unlock_return(mutex, self);
->  }
->  
-> +struct CoRwTicket {
-> +    bool read;
-> +    Coroutine *co;
-> +    QSIMPLEQ_ENTRY(CoRwTicket) next;
-> +};
-> +
->  void qemu_co_rwlock_init(CoRwlock *lock)
->  {
-> -    memset(lock, 0, sizeof(*lock));
-> -    qemu_co_queue_init(&lock->queue);
->      qemu_co_mutex_init(&lock->mutex);
-> +    lock->owner = 0;
-> +    QSIMPLEQ_INIT(&lock->tickets);
-> +}
-> +
-> +/* Releases the internal CoMutex.  */
-> +static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
-> +{
-> +    CoRwTicket *tkt = QSIMPLEQ_FIRST(&lock->tickets);
-> +    Coroutine *co = NULL;
-> +
-> +    /*
-> +     * Setting lock->owner here prevents rdlock and wrlock from
-> +     * sneaking in between unlock and wake.
-> +     */
-> +
-> +    if (tkt) {
-> +        if (tkt->read) {
-> +            if (lock->owner >= 0) {
-> +                lock->owner++;
-> +                co = tkt->co;
-> +            }
-> +        } else {
-> +            if (lock->owner == 0) {
-> +                lock->owner = -1;
-> +                co = tkt->co;
-> +            }
-> +        }
-> +    }
-> +
-> +    if (co) {
-> +        QSIMPLEQ_REMOVE_HEAD(&lock->tickets, next);
-> +        qemu_co_mutex_unlock(&lock->mutex);
-> +        aio_co_wake(co);
-> +    } else {
-> +        qemu_co_mutex_unlock(&lock->mutex);
-> +    }
-> +}
-> +
-> +/* Releases the internal CoMutex.  */
-> +static void qemu_co_rwlock_sleep(bool read, CoRwlock *lock)
-> +{
-> +    CoRwTicket my_ticket = { read, qemu_coroutine_self() };
-> +
-> +    QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
-> +    qemu_co_mutex_unlock(&lock->mutex);
-> +    qemu_coroutine_yield();
-> +
-> +    if (read) {
-> +        /* Possibly wake another reader, which will wake the next in line.  */
-> +        assert(lock->owner >= 1);
-> +        qemu_co_mutex_lock(&lock->mutex);
-> +        qemu_co_rwlock_maybe_wake_one(lock);
-> +    } else {
-> +        assert(lock->owner == -1);
-> +    }
->  }
->  
->  void qemu_co_rwlock_rdlock(CoRwlock *lock)
-> @@ -339,13 +398,13 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock)
->  
->      qemu_co_mutex_lock(&lock->mutex);
->      /* For fairness, wait if a writer is in line.  */
-> -    while (lock->pending_writer) {
-> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
-> +    if (lock->owner == 0 || (lock->owner > 0 && QSIMPLEQ_EMPTY(&lock->tickets))) {
-> +        lock->owner++;
-> +        qemu_co_mutex_unlock(&lock->mutex);
-> +    } else {
-> +        qemu_co_rwlock_sleep(true, lock);
->      }
-> -    lock->reader++;
-> -    qemu_co_mutex_unlock(&lock->mutex);
->  
-> -    /* The rest of the read-side critical section is run without the mutex.  */
->      self->locks_held++;
->  }
->  
-> @@ -355,69 +413,58 @@ void qemu_co_rwlock_unlock(CoRwlock *lock)
->      Coroutine *self = qemu_coroutine_self();
->  
->      assert(qemu_in_coroutine());
-> -    if (!lock->reader) {
-> -        /* The critical section started in qemu_co_rwlock_wrlock.  */
-> -        qemu_co_queue_restart_all(&lock->queue);
-> +    self->locks_held--;
-> +
-> +    qemu_co_mutex_lock(&lock->mutex);
-> +    if (lock->owner == -1) {
-> +        lock->owner = 0;
->      } else {
-> -        self->locks_held--;
-> +        lock->owner--;
-> +    }
->  
-> -        qemu_co_mutex_lock(&lock->mutex);
-> -        lock->reader--;
-> -        assert(lock->reader >= 0);
-> -        /* Wakeup only one waiting writer */
-> -        if (!lock->reader) {
-> -            qemu_co_queue_next(&lock->queue);
-> -        }
-> +    if (lock->owner == 0) {
-> +        qemu_co_rwlock_maybe_wake_one(lock);
-> +    } else {
-> +        qemu_co_mutex_unlock(&lock->mutex);
->      }
-> -    qemu_co_mutex_unlock(&lock->mutex);
->  }
->  
->  void qemu_co_rwlock_downgrade(CoRwlock *lock)
->  {
-> -    Coroutine *self = qemu_coroutine_self();
-> -
-> -    /* lock->mutex critical section started in qemu_co_rwlock_wrlock or
-> -     * qemu_co_rwlock_upgrade.
-> -     */
-> -    assert(lock->reader == 0);
-> -    lock->reader++;
-> -    qemu_co_mutex_unlock(&lock->mutex);
-> +    qemu_co_mutex_lock(&lock->mutex);
-> +    assert(lock->owner == -1);
-> +    lock->owner = 1;
->  
-> -    /* The rest of the read-side critical section is run without the mutex.  */
-> -    self->locks_held++;
-> +    /* Possibly wake another reader, which will wake the next in line.  */
-> +    qemu_co_rwlock_maybe_wake_one(lock);
->  }
->  
->  void qemu_co_rwlock_wrlock(CoRwlock *lock)
->  {
-> +    Coroutine *self = qemu_coroutine_self();
-> +
->      qemu_co_mutex_lock(&lock->mutex);
-> -    lock->pending_writer++;
-> -    while (lock->reader) {
-> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
-> +    if (lock->owner == 0) {
-> +        lock->owner = -1;
-> +        qemu_co_mutex_unlock(&lock->mutex);
-> +    } else {
-> +        qemu_co_rwlock_sleep(false, lock);
->      }
-> -    lock->pending_writer--;
->  
-> -    /* The rest of the write-side critical section is run with
-> -     * the mutex taken, so that lock->reader remains zero.
-> -     * There is no need to update self->locks_held.
-> -     */
-> +    self->locks_held++;
->  }
->  
->  void qemu_co_rwlock_upgrade(CoRwlock *lock)
->  {
-> -    Coroutine *self = qemu_coroutine_self();
-> -
->      qemu_co_mutex_lock(&lock->mutex);
-> -    assert(lock->reader > 0);
-> -    lock->reader--;
-> -    lock->pending_writer++;
-> -    while (lock->reader) {
-> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
-> +    assert(lock->owner > 0);
-> +    /* For fairness, wait if a writer is in line.  */
-> +    if (lock->owner == 1 && QSIMPLEQ_EMPTY(&lock->tickets)) {
-> +        lock->owner = -1;
-> +        qemu_co_mutex_unlock(&lock->mutex);
-> +    } else {
-> +        lock->owner--;
-> +        qemu_co_rwlock_sleep(false, lock);
-
-Doesn't this need something for the case where lock->owner hits 0?
-
-If not, how is two readers both attempting to upgrade ever resolved?
-
-It feels like it should jump into the second half of
-qemu_co_rwlock_wrlock().
-
->      }
-> -    lock->pending_writer--;
->  
-> -    /* The rest of the write-side critical section is run with
-> -     * the mutex taken, similar to qemu_co_rwlock_wrlock.  Do
-> -     * not account for the lock twice in self->locks_held.
-> -     */
-> -    self->locks_held--;
->  }
-> -- 
-> 2.29.2
-
-dme.
--- 
-And you're standing here beside me, I love the passing of time.
 
