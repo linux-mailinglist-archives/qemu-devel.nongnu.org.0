@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F7133EA7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 08:26:30 +0100 (CET)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9A033EA8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 08:29:38 +0100 (CET)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMQZZ-0000Am-1e
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 03:26:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44282)
+	id 1lMQcb-0004hX-5t
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 03:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lMQVn-0003nl-Gz
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:22:35 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33714)
+ id 1lMQVr-0003wO-10
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:22:39 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:40929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lMQVl-0007xn-SW
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:22:35 -0400
-Received: by mail-ed1-x531.google.com with SMTP id w18so1028826edc.0
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 00:22:33 -0700 (PDT)
+ id 1lMQVo-0007zV-Ed
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 03:22:38 -0400
+Received: by mail-ed1-x530.google.com with SMTP id b16so977850eds.7
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 00:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oZoHAKKtaXp3YWXMdf36XUZYzFbYS4h/e3YtWNeuchc=;
- b=gy62vv54ZkbveyrTseLe9Ytdnu2+mMur/EF87SV7aEfRn3m+Td/zG2qtIOeeTq3cAe
- s5Yv8MOfsFSXNIHRwV/q2YR6DIits+y1xAQ0Jxhmj/7XvL8ZBQBZ09LPc6oSXZWnPQVC
- XAblA+c99vyxoAwBOqxy3JyQNntruUS8VDlE5U4toOBhpCfWsvxFic1jgBn0QWKDD1uE
- 0VSR02csYyBPl2ys0plRXmVc5XBbygDB1fBvsbwDJCF0tcOWjLu7IMbVE21LYsTcv+4Z
- wNm7NWgT25b8Hk/stUVzoYO3d7huueuRqgam3+a9NiK3ueagFyv3oBd3kZdao3GjYEtP
- nPow==
+ bh=rQc1qB+dj1Aep27H7tyCH6v/LAf+f1B6hR9k7rulrqQ=;
+ b=B8zu3exmsDI27bxT/ZQdAn2bvvSL81LymVUnEUr8oOWiLHZWkxMhARDhD//mMIO5Mj
+ nhLT27cC2gaiq8YmzZ7P+ds+eiwC9BkS0ftukDbPZQEe4ThIRmrn/fO4qllEManRJ8nL
+ VcocpmUPibYF9c6y+/VZy2kFuoBku7ePIz2EDUfnfN/mGvRMhf13R32y1k3qOYHdZJFy
+ tYNJ+yPvTXyg8hrfjeMv4PhDfZa6qaAyD8gReehvodfKDlgDodvnSoD8HOZ2+P0kHGAH
+ xWg56ObmhpeYMnKn43IIOx0gBvwX48tyrEN/wwcB90SaDOUb8Ire6w1X0Pm8vutHU68E
+ wjrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oZoHAKKtaXp3YWXMdf36XUZYzFbYS4h/e3YtWNeuchc=;
- b=gAhaFN9biHC9QqgMY3JV4CDLeob+C9EO0XVxUECFwhUm3Sd/u5kERo6wKF5jEUJVSL
- 23FAF4lGQjOjpbQLqs34LG6Ero6bLZW4aq8WC5EM2RXHQ0LKeuFT3dzX8etcV5Cz+PKm
- 1RRc1J0xZTq4X5A1w8Qqj7hl5Sl32gbJaceGlHDtJndlhtEnWCWVtgHAAozqnm5n5Ah4
- Cs5gfhf0g7Vno6iMRUZD9EoUn4hoFpwLm8BECmVp+P90R9NZXC3wWzUJlQ28QvHqc7cc
- lfSIrTkgUzvU9x2oNXa+n77VeJu1HcXa+JG3Qmc5AjcjC6XWXg76e8DbUuE9+sciKYZk
- p96A==
-X-Gm-Message-State: AOAM531BcFosz54alt0dUCylI1UPXXwfa04Sta1hw8zt78LMKn2Ea6X4
- 5O8nscGZbBy+SfLvGxEc1G1MxQ==
-X-Google-Smtp-Source: ABdhPJxnOfDFMkTGx1o4BqjzC1r+hIOwDvoc80ITVlDB/J+6/b1RoHwFZeqBJip99XPn6g6Y5hr66Q==
-X-Received: by 2002:a05:6402:32d:: with SMTP id
- q13mr40632958edw.17.1615965752655; 
- Wed, 17 Mar 2021 00:22:32 -0700 (PDT)
+ bh=rQc1qB+dj1Aep27H7tyCH6v/LAf+f1B6hR9k7rulrqQ=;
+ b=MDX99z9Hpt3LS6zVopKvegD+wjp4kNOhyTXunlHoLxm+m7usK6V5MBpDvRh8QOgQ8z
+ /vjzyGVpJnO0K2+UQimNEw2l7tvzcMCImBwReGrfcZ2JJ5RehV7r2dw0mU1qHLisJ1Ma
+ i1Tcpw3KBbQzH9rBZxzTyecGcVnQzTaI6U29Yc31WBF545VpKNz4JuMzSfFGR1Pzz1zd
+ +5dnLe3AT7ZvOFZBdN7qD7u/TNVSZEbLnCMfVoUjnp5RR2hXj7F8gyiZngirCDvnoXyS
+ aJnHynALuCBRt3FfAD/BZXzzAyr1rEIxd1Tbv2h0rPGkL7wIFm0A9iiZffrOBKsnkF2Y
+ nbKg==
+X-Gm-Message-State: AOAM533xPYvxQhWDp05UArHS9ld8xuhI/6tkt4Rl6ZIkwnuGT4Il5brm
+ HZaiw/HKL6yG/gAWGvnxPUWksg==
+X-Google-Smtp-Source: ABdhPJzWZeQsq8RHBLr3LUcO2Nw+1p4LMFjyoXma+bQOJM1aDChSpZ9gcGYfAOzI2MbV6d38XOZvZw==
+X-Received: by 2002:a05:6402:48c:: with SMTP id
+ k12mr40595149edv.237.1615965755118; 
+ Wed, 17 Mar 2021 00:22:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a26sm12622593edm.15.2021.03.17.00.22.22
+ by smtp.gmail.com with ESMTPSA id v1sm10347142ejd.3.2021.03.17.00.22.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 17 Mar 2021 00:22:29 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 78EF31FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 8CBE91FF99;
  Wed, 17 Mar 2021 07:22:17 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 09/15] plugins: add qemu_plugin_id_t to kernel-doc
-Date: Wed, 17 Mar 2021 07:22:10 +0000
-Message-Id: <20210317072216.16316-10-alex.bennee@linaro.org>
+Subject: [PULL v2 10/15] plugins: expand inline exec kernel-doc documentation.
+Date: Wed, 17 Mar 2021 07:22:11 +0000
+Message-Id: <20210317072216.16316-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210317072216.16316-1-alex.bennee@linaro.org>
 References: <20210317072216.16316-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,23 +92,49 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove the extraneous @cb parameter and document the non-atomic nature
+of the INLINE_ADD_U64 operation.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210312172821.31647-10-alex.bennee@linaro.org>
+Message-Id: <20210312172821.31647-11-alex.bennee@linaro.org>
 
 diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index e4d782b628..272d240a8f 100644
+index 272d240a8f..a3805bb299 100644
 --- a/include/qemu/qemu-plugin.h
 +++ b/include/qemu/qemu-plugin.h
-@@ -32,6 +32,9 @@
-   #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
- #endif
+@@ -269,6 +269,14 @@ void qemu_plugin_register_vcpu_tb_exec_cb(struct qemu_plugin_tb *tb,
+                                           enum qemu_plugin_cb_flags flags,
+                                           void *userdata);
  
 +/**
-+ * typedef qemu_plugin_id_t - Unique plugin ID
++ * enum qemu_plugin_op - describes an inline op
++ *
++ * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
++ *
++ * Note: currently only a single inline op is supported.
 + */
- typedef uint64_t qemu_plugin_id_t;
- 
- /*
++
+ enum qemu_plugin_op {
+     QEMU_PLUGIN_INLINE_ADD_U64,
+ };
+@@ -283,6 +291,9 @@ enum qemu_plugin_op {
+  * Insert an inline op to every time a translated unit executes.
+  * Useful if you just want to increment a single counter somewhere in
+  * memory.
++ *
++ * Note: ops are not atomic so in multi-threaded/multi-smp situations
++ * you will get inexact results.
+  */
+ void qemu_plugin_register_vcpu_tb_exec_inline(struct qemu_plugin_tb *tb,
+                                               enum qemu_plugin_op op,
+@@ -305,7 +316,6 @@ void qemu_plugin_register_vcpu_insn_exec_cb(struct qemu_plugin_insn *insn,
+ /**
+  * qemu_plugin_register_vcpu_insn_exec_inline() - insn execution inline op
+  * @insn: the opaque qemu_plugin_insn handle for an instruction
+- * @cb: callback function
+  * @op: the type of qemu_plugin_op (e.g. ADD_U64)
+  * @ptr: the target memory location for the op
+  * @imm: the op data (e.g. 1)
 -- 
 2.20.1
 
