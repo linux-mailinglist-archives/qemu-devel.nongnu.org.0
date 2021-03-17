@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B98533F95E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:34:18 +0100 (CET)
-Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAAE33F959
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 20:33:10 +0100 (CET)
+Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMbvt-0000FG-BB
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1lMbum-0007cO-Ob
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 15:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMbmH-0001IM-EL
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:24:21 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42985)
+ id 1lMbrw-0006HK-Qk
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:30:12 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:34749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMbmE-0004yn-QS
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:24:21 -0400
-Received: by mail-ed1-x532.google.com with SMTP id u4so3675369edv.9
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 12:24:18 -0700 (PDT)
+ id 1lMbru-0007oV-V0
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 15:30:12 -0400
+Received: by mail-ed1-x529.google.com with SMTP id y6so3729758eds.1
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 12:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mxwV2+kljZJ+8AZC2oEA25RlzoO43w3h/PsUfynUf/k=;
- b=RaS0TZSX32GAQ+63c2n2nsQ7vsErMydw2MVkhwd7BnYyceNIPRMCD3vffnA1QqUU1K
- IbRG2YVqG0gtV3EQRP53d1jX+2YBc2lrSDBPoDiTo22tiErnd1Vc54obmkeYKqPHVevk
- I2IVfeJ+s9Anwl9PjDhukRxxqAOFNNSsrzda4sn36Ne9Jdu2fBnfGWUC7UUNSbNwrQP0
- Ix4j+NeCYWymQNcPXu2B+Z9vTnrDm2u4wkzrfUXIL7dLzqhaMSmq79rNvoXAqlPAzeWJ
- ppiOZ3Zgc14jyRjNNLs+MxHBmUnMHhlD8iXAOtnwNiHR4DVMjfXdDZqfxPdHtDgcMXSN
- R8Kw==
+ :cc:content-transfer-encoding;
+ bh=CVWKKSF4G63PBAD9DBj8Ev4V36vcKZ+1vqAKTy4osM0=;
+ b=GHRvNMvzcwCgmltp9ZBEBzEI92FzS236UAw/CNhi67i07jd47M5lie/JSUyY2U/rRF
+ AlnHa9IbxWd7CxTTmxhtK2Z9pNikIUAKpWkz9qZMjIPCdQn6s5LFWeM6hxp+ALmoQGTV
+ QpudqpGYNU0NLYXD4m52rF82+wqxfgScEr0LJkdS6PawH5LoQP98RASqq6GXlKx6C6jS
+ 5yHCZlQ6amEHYDzsx+enITKvmx9n6MpILPZzONq6sE2DrKTzYLafM1dSZrmxoNHPtuaC
+ 0l6auqfDIXaSb2qoqJRzMJG6pVf9Qi/3u9NXuw9LYLg5sKU/od/UaH7SjxNqLaoLxg1V
+ 2UXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mxwV2+kljZJ+8AZC2oEA25RlzoO43w3h/PsUfynUf/k=;
- b=DweCdehbDWkDfawsssdhTl4M469j6T031fAVhR+XlPhbHg4Vv8ZWcVPf7lRvOTIO3C
- 37K6glu3ltfchm1AB8C7OvrkdZAE4k7NJcKxY08PlmW16KV9EXG5imbTvdlMr/zfuah2
- 9zUvGr3B5XYtrainKf0q3qNnb6ppwc/qQWkC06/0HcQHQfdC92Fvl8nWya1sweHwUq3C
- vBkgRX2qjR9gqB/vO2wMAcdwyITpuOSsbXJ6JgIN+Z18dr1xkdzSuj+xDcCUCOwJtuwA
- JadoGVUE1rHeykkIdww7K8rn7bZ44I65sRLZkodiYTtHfucrrsx1z1A/zT/0mnvF4w+Y
- QirA==
-X-Gm-Message-State: AOAM531njT7T5dRHdfxCYB9wkU6wTGezm5RELUVTNZRyCsBDlti37cKi
- KkciO46bgT/jnYICAwvjOU/ihIH/CJv82/uQDgOnxw==
-X-Google-Smtp-Source: ABdhPJwi4Vg5OhwFp3GxPSIsPi3HlQBy1nJ4KJpRuNVH0TaZiViQgAOEeKBhP5KA4Z9b/aeesRu5gDRryPz1kxbrSrI=
-X-Received: by 2002:a05:6402:4244:: with SMTP id
- g4mr32449337edb.204.1616009057068; 
- Wed, 17 Mar 2021 12:24:17 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CVWKKSF4G63PBAD9DBj8Ev4V36vcKZ+1vqAKTy4osM0=;
+ b=c7FvF4i3CinVcPbiXkfEZ0FMhDAOWtHZHEuUHjbgbS+xNfuN7LQE6G4zDQ2D8/XfQw
+ ZUaLqdHYH6UFRZYChKJ+sBqZbLiYTY/dAIrG8aXW3knVKQbdyXplXP+1BDeu/XxFGPGv
+ WmJ6/RLDSM9w+zuj57GZaIMpnTEB8VANfE5LB9kJZAH0HLOM6HijP8y8JCT3K2TRVRID
+ F8NWUAgmtaruylxTqVNBIiZKwDGhXJpAx+H/Nikjnc23I+/+koG4xnQaUD21FwM2Ujq8
+ zsDCp7HVczroGAIrSxv3YMh1mLRvXrPTRkMp35tgRcPT0UYU6x2hxjwdj6SQpi2cZUmy
+ zgQg==
+X-Gm-Message-State: AOAM533Pzgf0BB7cwc/UU3rzMohPCBIRgIsE6sPchbZyw/usTUEOlRxt
+ Xf4OiMMZw6Mkpd0qAcfXBy9FT2PhjhvSzJTS2YhzIw==
+X-Google-Smtp-Source: ABdhPJzDlhfoodoFRbI1eHWXPeeVOYunwMUF3oYWOzElBYBKKSaqVQHbA6+cvmOru8VxaZgnxLa6rS06SSbDY7DZYmc=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr43482157edv.44.1616009409002; 
+ Wed, 17 Mar 2021 12:30:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1615891769.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1615891769.git.qemu_oss@crudebyte.com>
+References: <20210316164355.150519-1-berrange@redhat.com>
+In-Reply-To: <20210316164355.150519-1-berrange@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Mar 2021 19:23:53 +0000
-Message-ID: <CAFEAcA9u3uO_+Fb1YF5ZkEP3TYkQowtFqJAYyXWAQNKbj0FAqA@mail.gmail.com>
-Subject: Re: [PULL 0/1] 9p queue 2021-03-16
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Wed, 17 Mar 2021 19:29:45 +0000
+Message-ID: <CAFEAcA-EKKWExs+Srx7+CM9wxvQGfS373xh7TgXqyDNVLUPmWg@mail.gmail.com>
+Subject: Re: [PULL 00/13] misc patches removing deprecated features
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,40 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Libvirt <libvir-list@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Mar 2021 at 11:00, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
+On Tue, 16 Mar 2021 at 16:55, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
 >
-> The following changes since commit 2615a5e433aeb812c300d3a48e1a88e1303e2339:
+> The following changes since commit 6e31b3a5c34c6e5be7ef60773e607f189eaa15=
+f3:
 >
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-03-15 19:23:00 +0000)
+>   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' i=
+nto staging (2021-03-16 10:53:47 +0000)
 >
 > are available in the Git repository at:
 >
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210316
+>   https://gitlab.com/berrange/qemu tags/dep-many-pull-request
 >
-> for you to fetch changes up to e4fd889f51094a8e76274ca1e9e0ed70375166f0:
+> for you to fetch changes up to 13bf1a48d1671e26ca2fa13817d388fbdc4215ff:
 >
->   hw/9pfs/9p-synth: Replaced qemu_mutex_lock with QEMU_LOCK_GUARD (2021-03-16 11:41:49 +0100)
->
-> ----------------------------------------------------------------
-> 9pfs: code cleanup
->
-> * Use lock-guard design pattern instead of manual lock/unlock.
+>   block: remove support for using "file" driver with block/char devices (=
+2021-03-16 16:33:52 +0000)
 >
 > ----------------------------------------------------------------
-> Mahmoud Mandour (1):
->       hw/9pfs/9p-synth: Replaced qemu_mutex_lock with QEMU_LOCK_GUARD
+> Remove many old deprecated features
 >
->  hw/9pfs/9p-synth.c | 12 ++++--------
+> The following features have been deprecated for well over the 2
+> release cycle we promise
+>
+>   ``-drive file=3Djson:{...{'driver':'file'}}`` (since 3.0)
+>   ``-vnc acl`` (since 4.0.0)
+>   ``-mon ...,control=3Dreadline,pretty=3Don|off`` (since 4.1)
+>   ``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
+>   ``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.=
+10.0)
+>   ``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.=
+0)
+>   ``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11=
+.0)
+>   ``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i]=
+.status (since 4.0)
+>   ``query-cpus`` (since 2.12.0)
+>   ``query-cpus-fast`` ``arch`` output member (since 3.0.0)
+>   ``query-events`` (since 4.0)
+>   chardev client socket with ``wait`` option (since 4.0)
+>   ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, ``acl_remove`=
+` (since 4.0.0)
+>   ``ide-drive`` (since 4.2)
+>   ``scsi-disk`` (since 4.2)
 
-Applied, thanks.
+Merge conflicts in the docs: could you fix up and resend,
+please? They're probably easy to fix, but I have a dozen
+pullreqs to process right now, so I am not spending any time
+on fixing conflicts...
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
