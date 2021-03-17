@@ -2,59 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7353F33F602
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:49:15 +0100 (CET)
-Received: from localhost ([::1]:37004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A4A33F61F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:57:57 +0100 (CET)
+Received: from localhost ([::1]:52264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZMA-00071S-Gd
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35924)
+	id 1lMZUa-0005bM-1c
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lMZ6Z-0000HF-7X; Wed, 17 Mar 2021 12:33:08 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37725)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1lMZ9u-0003M3-Jp; Wed, 17 Mar 2021 12:36:35 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:44058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lMZ6V-0004YA-2X; Wed, 17 Mar 2021 12:33:07 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B4220914B7E0;
- Wed, 17 Mar 2021 17:32:57 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Mar
- 2021 17:32:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00655174a42-8f6b-49f8-8ff1-c1d797057d18,
- 670D5B4C9DF7F327995E1DB97B2EE849A8F56C3D) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 17 Mar 2021 17:32:56 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH] target/ppc/kvm: Cache timebase frequency
-Message-ID: <20210317173256.6c87aca1@bahia.lan>
-In-Reply-To: <b10f7706-204b-6bb0-895a-c6e680acd2c3@amsat.org>
-References: <161599468311.1752480.3413807875011702040.stgit@bahia.lan>
- <b10f7706-204b-6bb0-895a-c6e680acd2c3@amsat.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1lMZ9p-00060C-Or; Wed, 17 Mar 2021 12:36:34 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12HGZdYh031154
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 17 Mar 2021 12:35:42 -0400
+Date: Wed, 17 Mar 2021 12:35:39 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v6 6/7] net/eth: Read ip6_ext_hdr_routing buffer before
+ accessing it
+Message-ID: <20210317163539.qgcuajqbp2iw6k3h@mozz.bu.edu>
+References: <20210310183123.1212612-1-philmd@redhat.com>
+ <20210310183123.1212612-7-philmd@redhat.com>
+ <20210317163335.twgoqhlsdwlmjdhj@mozz.bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 7785fc0a-1c5f-46bc-9d36-aec7e89f8d00
-X-Ovh-Tracer-Id: 3402750993471085024
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefgedgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210317163335.twgoqhlsdwlmjdhj@mozz.bu.edu>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,120 +58,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Mar 2021 16:39:04 +0100
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+Correction: there was a response suggesting to add padding to ip6_ext_hdr.
 
-> On 3/17/21 4:24 PM, Greg Kurz wrote:
-> > Each vCPU core exposes its timebase frequency in the DT. When running
-> > under KVM, this means parsing /proc/cpuinfo in order to get the timebase
-> > frequency of the host CPU.
-> >=20
-> > The parsing appears to slow down the boot quite a bit with higher number
-> > of cores:
-> >=20
-> > # of cores     seconds spent in spapr_dt_cpus()
-> >       8                  0.550122
-> >      16                  1.342375
-> >      32                  2.850316
-> >      64                  5.922505
-> >      96                  9.109224
-> >     128                 12.245504
-> >     256                 24.957236
-> >     384                 37.389113
-> >=20
-> > The timebase frequency of the host CPU is identical for all
-> > cores and it is an invariant for the VM lifetime. Cache it
-> > instead of doing the same expensive parsing again and again.
-> >=20
-> > With this patch applied:
-> >=20
-> >     384                 0.518382
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
+On 210317 1233, Alexander Bulekov wrote:
+> Just noticed that I also reported this to QEMU-Security on 2020-05-17.
+> The problem was acknowledged, but I don't think there was any
+> communication after that, so I'm not sure whether this is also stuck in
+> some private issue tracker. Seems pretty tame as far as
+> memory-corrputions go, but I'll send a followup to the private report,
+> to see if it went anywhere..
+> -Alex
+> 
+> On 210310 1931, Philippe Mathieu-Daudé wrote:
+> > We can't know the caller read enough data in the memory pointed
+> > by ext_hdr to cast it as a ip6_ext_hdr_routing.
+> > Declare rt_hdr on the stack and fill it again from the iovec.
+> > 
+> > Since we already checked there is enough data in the iovec buffer,
+> > simply add an assert() call to consume the bytes_read variable.
+> > 
+> > This fix a 2 bytes buffer overrun in eth_parse_ipv6_hdr() reported
+> > by QEMU fuzzer:
+> > 
+> >   $ cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 \
+> >     -accel qtest -monitor none \
+> >     -serial none -nographic -qtest stdio
+> >   outl 0xcf8 0x80001010
+> >   outl 0xcfc 0xe1020000
+> >   outl 0xcf8 0x80001004
+> >   outw 0xcfc 0x7
+> >   write 0x25 0x1 0x86
+> >   write 0x26 0x1 0xdd
+> >   write 0x4f 0x1 0x2b
+> >   write 0xe1020030 0x4 0x190002e1
+> >   write 0xe102003a 0x2 0x0807
+> >   write 0xe1020048 0x4 0x12077cdd
+> >   write 0xe1020400 0x4 0xba077cdd
+> >   write 0xe1020420 0x4 0x190002e1
+> >   write 0xe1020428 0x4 0x3509d807
+> >   write 0xe1020438 0x1 0xe2
+> >   EOF
+> >   =================================================================
+> >   ==2859770==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffdef904902 at pc 0x561ceefa78de bp 0x7ffdef904820 sp 0x7ffdef904818
+> >   READ of size 1 at 0x7ffdef904902 thread T0
+> >       #0 0x561ceefa78dd in _eth_get_rss_ex_dst_addr net/eth.c:410:17
+> >       #1 0x561ceefa41fb in eth_parse_ipv6_hdr net/eth.c:532:17
+> >       #2 0x561cef7de639 in net_tx_pkt_parse_headers hw/net/net_tx_pkt.c:228:14
+> >       #3 0x561cef7dbef4 in net_tx_pkt_parse hw/net/net_tx_pkt.c:273:9
+> >       #4 0x561ceec29f22 in e1000e_process_tx_desc hw/net/e1000e_core.c:730:29
+> >       #5 0x561ceec28eac in e1000e_start_xmit hw/net/e1000e_core.c:927:9
+> >       #6 0x561ceec1baab in e1000e_set_tdt hw/net/e1000e_core.c:2444:9
+> >       #7 0x561ceebf300e in e1000e_core_write hw/net/e1000e_core.c:3256:9
+> >       #8 0x561cef3cd4cd in e1000e_mmio_write hw/net/e1000e.c:110:5
+> > 
+> >   Address 0x7ffdef904902 is located in stack of thread T0 at offset 34 in frame
+> >       #0 0x561ceefa320f in eth_parse_ipv6_hdr net/eth.c:486
+> > 
+> >     This frame has 1 object(s):
+> >       [32, 34) 'ext_hdr' (line 487) <== Memory access at offset 34 overflows this variable
+> >   HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+> >         (longjmp and C++ exceptions *are* supported)
+> >   SUMMARY: AddressSanitizer: stack-buffer-overflow net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
+> >   Shadow bytes around the buggy address:
+> >     0x10003df188d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df188e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df188f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18910: 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1
+> >   =>0x10003df18920:[02]f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18930: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18940: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18950: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >     0x10003df18970: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >   Shadow byte legend (one shadow byte represents 8 application bytes):
+> >     Addressable:           00
+> >     Partially addressable: 01 02 03 04 05 06 07
+> >     Stack left redzone:      f1
+> >     Stack right redzone:     f3
+> >   ==2859770==ABORTING
+> > 
+> > Add the corresponding qtest case with the fuzzer reproducer.
+> > 
+> > FWIW GCC 11 similarly reported:
+> > 
+> >   net/eth.c: In function 'eth_parse_ipv6_hdr':
+> >   net/eth.c:410:15: error: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Werror=array-bounds]
+> >     410 |     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+> >         |          ~~~~~^~~~~~~
+> >   net/eth.c:485:24: note: while referencing 'ext_hdr'
+> >     485 |     struct ip6_ext_hdr ext_hdr;
+> >         |                        ^~~~~~~
+> >   net/eth.c:410:38: error: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Werror=array-bounds]
+> >     410 |     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+> >         |                                 ~~~~~^~~~~~~~~
+> >   net/eth.c:485:24: note: while referencing 'ext_hdr'
+> >     485 |     struct ip6_ext_hdr ext_hdr;
+> >         |                        ^~~~~~~
+> > 
+> > Cc: qemu-stable@nongnu.org
+> > Buglink: https://bugs.launchpad.net/qemu/+bug/1879531
+> > Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> > Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+> > Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> > Fixes: eb700029c78 ("net_pkt: Extend packet abstraction as required by e1000e functionality")
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > > ---
-> >  target/ppc/kvm.c |   11 +++++++++--
-> >  1 file changed, 9 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> > index 298c1f882c67..9ad3dae29132 100644
-> > --- a/target/ppc/kvm.c
-> > +++ b/target/ppc/kvm.c
-> > @@ -1819,7 +1819,13 @@ uint32_t kvmppc_get_tbfreq(void)
+> >  net/eth.c                      | 13 +++++----
+> >  tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++
+> >  MAINTAINERS                    |  1 +
+> >  tests/qtest/meson.build        |  1 +
+> >  4 files changed, 63 insertions(+), 5 deletions(-)
+> >  create mode 100644 tests/qtest/fuzz-e1000e-test.c
+> > 
+> > diff --git a/net/eth.c b/net/eth.c
+> > index b78aa526efc..284ade4ab0b 100644
+> > --- a/net/eth.c
+> > +++ b/net/eth.c
+> > @@ -405,17 +405,20 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+> >                          struct ip6_ext_hdr *ext_hdr,
+> >                          struct in6_address *dst_addr)
 > >  {
-> >      char line[512];
-> >      char *ns;
-> > -    uint32_t retval =3D NANOSECONDS_PER_SECOND;
-> > +    static uint32_t retval =3D -1;
->=20
-> Please document why in the code ...
->=20
-
-Yeah, I've been lazy :)
-
+> > -    struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+> > +    struct ip6_ext_hdr_routing rt_hdr;
+> >      size_t input_size = iov_size(pkt, pkt_frags);
+> >      size_t bytes_read;
+> >  
+> > -    if (input_size < ext_hdr_offset + sizeof(*rthdr) + sizeof(*dst_addr)) {
+> > +    if (input_size < ext_hdr_offset + sizeof(rt_hdr) + sizeof(*dst_addr)) {
+> >          return false;
+> >      }
+> >  
+> > -    if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+> > -        bytes_read = iov_to_buf(pkt, pkt_frags,
+> > -                                ext_hdr_offset + sizeof(*rthdr),
+> > +    bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset,
+> > +                            &rt_hdr, sizeof(rt_hdr));
+> > +    assert(bytes_read == sizeof(rt_hdr));
 > > +
-> > +    if (retval !=3D -1) {
-> > +        return retval;
+> > +    if ((rt_hdr.rtype == 2) && (rt_hdr.segleft == 1)) {
+> > +        bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset + sizeof(rt_hdr),
+> >                                  dst_addr, sizeof(*dst_addr));
+> >  
+> >          return bytes_read == sizeof(*dst_addr);
+> > diff --git a/tests/qtest/fuzz-e1000e-test.c b/tests/qtest/fuzz-e1000e-test.c
+> > new file mode 100644
+> > index 00000000000..66229e60964
+> > --- /dev/null
+> > +++ b/tests/qtest/fuzz-e1000e-test.c
+> > @@ -0,0 +1,53 @@
+> > +/*
+> > + * QTest testcase for e1000e device generated by fuzzer
+> > + *
+> > + * Copyright (c) 2021 Red Hat, Inc.
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +#include "libqos/libqtest.h"
+> > +
+> > +/*
+> > + * https://bugs.launchpad.net/qemu/+bug/1879531
+> > + */
+> > +static void test_lp1879531_eth_get_rss_ex_dst_addr(void)
+> > +{
+> > +    QTestState *s;
+> > +
+> > +    s = qtest_init("-nographic -monitor none -serial none -M pc-q35-5.0");
+> > +
+> > +    qtest_outl(s, 0xcf8, 0x80001010);
+> > +    qtest_outl(s, 0xcfc, 0xe1020000);
+> > +    qtest_outl(s, 0xcf8, 0x80001004);
+> > +    qtest_outw(s, 0xcfc, 0x7);
+> > +    qtest_writeb(s, 0x25, 0x86);
+> > +    qtest_writeb(s, 0x26, 0xdd);
+> > +    qtest_writeb(s, 0x4f, 0x2b);
+> > +
+> > +    qtest_writel(s, 0xe1020030, 0x190002e1);
+> > +    qtest_writew(s, 0xe102003a, 0x0807);
+> > +    qtest_writel(s, 0xe1020048, 0x12077cdd);
+> > +    qtest_writel(s, 0xe1020400, 0xba077cdd);
+> > +    qtest_writel(s, 0xe1020420, 0x190002e1);
+> > +    qtest_writel(s, 0xe1020428, 0x3509d807);
+> > +    qtest_writeb(s, 0xe1020438, 0xe2);
+> > +    qtest_writeb(s, 0x4f, 0x2b);
+> > +    qtest_quit(s);
+> > +}
+> > +
+> > +int main(int argc, char **argv)
+> > +{
+> > +    const char *arch = qtest_get_arch();
+> > +
+> > +    g_test_init(&argc, &argv, NULL);
+> > +
+> > +    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+> > +        qtest_add_func("fuzz/test_lp1879531_eth_get_rss_ex_dst_addr",
+> > +                       test_lp1879531_eth_get_rss_ex_dst_addr);
 > > +    }
 > > +
-> > +    retval =3D NANOSECONDS_PER_SECOND;
-> > =20
-> >      if (read_cpuinfo("timebase", line, sizeof(line))) {
-> >          return retval;
-> > @@ -1832,7 +1838,8 @@ uint32_t kvmppc_get_tbfreq(void)
-> > =20
-> >      ns++;
-> > =20
-> > -    return atoi(ns);
-> > +    retval =3D atoi(ns);
-> > +    return retval;
-> >  }
->=20
-> ... or alternatively use self-documented code:
->=20
-> -- >8 --
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 298c1f882c6..2b2fe5d8148 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1815,7 +1815,7 @@ static int read_cpuinfo(const char *field, char
-> *value, int len)
->      return ret;
->  }
->=20
-> -uint32_t kvmppc_get_tbfreq(void)
-> +static uint32_t kvmppc_get_tbfreq_procfs(void)
->  {
->      char line[512];
->      char *ns;
-> @@ -1835,6 +1835,17 @@ uint32_t kvmppc_get_tbfreq(void)
->      return atoi(ns);
->  }
->=20
-> +uint32_t kvmppc_get_tbfreq(void)
-> +{
-> +    static uint32_t cached_tbfreq;
-> +
-> +    if (!cached_tbfreq) {
-> +        cached_tbfreq =3D kvmppc_get_tbfreq_procfs();
-> +    }
-> +
-> +    return cached_tbfreq;
-> +}
-> +
-
-This is much nicer indeed. I'll do just that in v2.
-
-Thanks ! :)
-
->  bool kvmppc_get_host_serial(char **value)
->  {
->      return g_file_get_contents("/proc/device-tree/system-id", value, NUL=
-L,
-> ---
-
+> > +    return g_test_run();
+> > +}
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 738786146d6..cc5f3aa6b60 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2003,6 +2003,7 @@ e1000e
+> >  M: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+> >  S: Maintained
+> >  F: hw/net/e1000e*
+> > +F: tests/qtest/fuzz-e1000e-test.c
+> >  
+> >  eepro100
+> >  M: Stefan Weil <sw@weilnetz.de>
+> > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> > index 58efc46144e..7997d895449 100644
+> > --- a/tests/qtest/meson.build
+> > +++ b/tests/qtest/meson.build
+> > @@ -60,6 +60,7 @@
+> >    (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-test'] : []) +              \
+> >    (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
+> >    (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+> > +  (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
+> >    qtests_pci +                                                                              \
+> >    ['fdc-test',
+> >     'ide-test',
+> > -- 
+> > 2.26.2
+> > 
 
