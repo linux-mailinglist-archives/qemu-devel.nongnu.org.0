@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56ED333E9C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:29:49 +0100 (CET)
-Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B00433E9C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 07:34:59 +0100 (CET)
+Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMPgi-0005R7-Cf
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1lMPli-0000RE-4E
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 02:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPe6-0003gl-1O
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:06 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:36007)
+ id 1lMPe9-0003mA-06
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:09 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:39700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMPe4-000056-5y
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:05 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id e19so749803ejt.3
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:27:03 -0700 (PDT)
+ id 1lMPe7-00007Y-Eu
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 02:27:08 -0400
+Received: by mail-ed1-x530.google.com with SMTP id bf3so848315edb.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 23:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=rDQdQ31Ek+KqitukNgsTl2vL/K22ucZcSt0OxTt5Mtc=;
- b=UFv6XZy8hbJWJkW/XKJHaZmV806toP4HnbN9h5mv9CQfH83/SHxz3kBFv/6+5q17Fe
- 8rLnpmYp8s5ebxW4CjmZX/p4dctx4aUIOHa8V0eKa4AE6bAdx3YAgUn4g6PFJoEwknZa
- wi7Dqy1Ghmg93fXnlIcMvKrtO7uqTv8xe/d7pzpfJFWwdjcldOThraEYWixrRfVmS2bW
- yQSKDt4qOBH5fCuBpk4U8+eiNAwq9l4davuuntX3Z4FODn4OeqbWcQFSehssSz5XY2FD
- DPLTenQR8rb8b1nPQBcAMxbwAgEW9JUrdBCZUKpSg5aqMvrgGTBdTecDjHDr4lw6yjMd
- WQjA==
+ h=from:to:subject:date:message-id:in-reply-to:references;
+ bh=p/MLTxeMfbETxV9ik8tSzu3enBcQaEzeh7XBZdElKyw=;
+ b=ac81lsF39C6zWWoNcl1GlU0y1qy2QJA5z8flh/m75x/O8CjfH2/lFPJNW5SG/+FxyH
+ GB/AmZkz78y1fLJVq7lwHPuBmPomdamBeWMig6BsPMTCxQWDv3IglxZBshRgIU//xN2g
+ 3o29bre0b9RhL2CC5S9Iov0e7CPkvEk/TrGtiDqNH3O4iHXy3Vz2qFccVC4ya87NCzlx
+ OhZgjkzzyvGPIofTbKfsIZapmdNAFN1sI0hbM4miC4+9jGaozzbEwyPMdhfVPJ5zCj9R
+ vse0d7UUwekveXHkn1RJCtrqhqSQBfnkf8pkdy+pDVa+fk3LL8LsfsRgf9+ba7nGE7zn
+ L6IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rDQdQ31Ek+KqitukNgsTl2vL/K22ucZcSt0OxTt5Mtc=;
- b=KqoJBXg3XIZiBbLzfoPoxGV+d7fjqYMrOpFhZIzIMXIvYq/MA3Zp05ng9Rq4yduwDj
- w+I5EQxgjIFXwwq3hT/kds10oeCpAC1OaX5UIe3Q903CmHmkyFwSASVAsHQMwdv9KiPH
- 2FmuQrl8F/0N3CAX2sWVpcW61US/ifyg3BtKeNVXPX39IR73rjsE2+xwiAA7d3XsxxF/
- e+G4XDFlicTJ77U2hgP+3oHuG06jQTNA8EheT7lcK5PH9tqUoKkOpAZhNkTF7Dmvp9Jq
- B1S5zJAXjjrb6AAxs9Rca2Q9q/PIsUeC+mEnwhIo9ghR5MlqtIrqPGa2b7JdYqb26ZqL
- Bhiw==
-X-Gm-Message-State: AOAM533L2eJKpAd5Y2okRcPlwFILcuAG/9R1uE+bvulB69sJrWTSdhXb
- O0o0hOAFjTZ+xZkycwjvw8Y=
-X-Google-Smtp-Source: ABdhPJw9nET9Ic5ETRK2ZZ4p0PGY6iqp6nrIC2QUlLcadY2ZRHQZnCLIYiKkpjx9SytDWEfY7SCyQw==
-X-Received: by 2002:a17:907:7664:: with SMTP id
- kk4mr34725278ejc.352.1615962422820; 
- Tue, 16 Mar 2021 23:27:02 -0700 (PDT)
+ :references;
+ bh=p/MLTxeMfbETxV9ik8tSzu3enBcQaEzeh7XBZdElKyw=;
+ b=PesXYL2DyJuaSIZXvTe7sl6JaFo2HfL2Nr538xg/0sL9WaQNoVaIxxAVPtmghYvQyB
+ ShBlAXSTvq83XqvdaESn4rOz10LqzvDSyEMMqKJXceLYGaYpfNPpr6qryuFOjuUDe11c
+ bM1cY0c2H0bWQLy+K6jODS0y4i45mgNpryfgrEHdzTbrUOLdVccServcibgZQBbuebMx
+ scPG4glYpD0+ypTjSScLgcUGnp+mXh+yWfBNTeLpn2prl2E3otN7GO9IfHOUv0SfxOsx
+ Sef/rmGnt7SAajkKgZURVIUHfsoYFCQq/fs4m1+OuCKmoeduysX4kbo0mcVw28F/0Ctt
+ 5y5A==
+X-Gm-Message-State: AOAM532tIWYJ1Mc4hjmJeQx5Cd4R7Qmnd76RMNBk1IRwaiiE+b+ezvgo
+ qTRS2qTGz53c0M5FXzfJOy4=
+X-Google-Smtp-Source: ABdhPJytTjzVoklcyp5+MN3BrKkr/y+gWNzl2oabBklAgEyqY0aIwbedalNWokV7WJKSm0jt0VfvLQ==
+X-Received: by 2002:aa7:db95:: with SMTP id u21mr39909160edt.152.1615962426369; 
+ Tue, 16 Mar 2021 23:27:06 -0700 (PDT)
 Received: from pek-vx-bsp9.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.26.59
+ by smtp.gmail.com with ESMTPSA id d1sm10751349eje.26.2021.03.16.23.27.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Mar 2021 23:27:02 -0700 (PDT)
+ Tue, 16 Mar 2021 23:27:06 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v5 03/12] net: Pad short frames to minimum size before sending
- from SLiRP/TAP
-Date: Wed, 17 Mar 2021 14:26:29 +0800
-Message-Id: <20210317062638.72626-4-bmeng.cn@gmail.com>
+Subject: [PATCH v5 04/12] hw/net: virtio-net: Initialize nc->do_not_pad to true
+Date: Wed, 17 Mar 2021 14:26:30 +0800
+Message-Id: <20210317062638.72626-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210317062638.72626-1-bmeng.cn@gmail.com>
 References: <20210317062638.72626-1-bmeng.cn@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,157 +85,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The minimum Ethernet frame length is 60 bytes. For short frames with
-smaller length like ARP packets (only 42 bytes), on a real world NIC
-it can choose either padding its length to the minimum required 60
-bytes, or sending it out directly to the wire. Such behavior can be
-hardcoded or controled by a register bit. Similarly on the receive
-path, NICs can choose either dropping such short frames directly or
-handing them over to software to handle.
-
-On the other hand, for the network backends like SLiRP/TAP, they
-don't expose a way to control the short frame behavior. As of today
-they just send/receive data from/to the other end connected to them,
-which means any sized packet is acceptable. So they can send and
-receive short frames without any problem. It is observed that ARP
-packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-these ARP packets to the other end which might be a NIC model that
-does not allow short frames to pass through.
-
-To provide better compatibility, for packets sent from QEMU network
-backends like SLiRP/TAP, we change to pad short frames before sending
-it out to the other end, if the other end does not forbid it via the
-nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-does not violate the spec. But with this change, the behavior of
-dropping short frames from SLiRP/TAP interfaces in the NIC model
-cannot be emulated because it always receives a packet that is spec
-complaint. The capability of sending short frames from NIC models is
-still supported and short frames can still pass through SLiRP/TAP.
-
-This commit should be able to fix the issue as reported with some
-NIC models before, that ARP requests get dropped, preventing the
-guest from becoming visible on the network. It was workarounded in
-these NIC models on the receive path, that when a short frame is
-received, it is padded up to 60 bytes.
-
-The following 2 commits seem to be the one to workaround this issue
-in e1000 and vmxenet3 before, and should probably be reverted.
-
-  commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-  commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+For virtio-net, there is no need to pad the Ethernet frame size to
+60 bytes before sending to it.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
 ---
 
-(no changes since v4)
+(no changes since v1)
 
-Changes in v4:
-- squash slirp/tap commits into one
+ hw/net/virtio-net.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changes in v3:
-- use the pad_short_frame() helper
-
- net/slirp.c     | 10 ++++++++++
- net/tap-win32.c | 10 ++++++++++
- net/tap.c       | 10 ++++++++++
- 3 files changed, 30 insertions(+)
-
-diff --git a/net/slirp.c b/net/slirp.c
-index 9454a673d6..a9fdc7a08f 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -31,6 +31,7 @@
- #include <pwd.h>
- #include <sys/wait.h>
- #endif
-+#include "net/eth.h"
- #include "net/net.h"
- #include "clients.h"
- #include "hub.h"
-@@ -115,6 +116,15 @@ static ssize_t net_slirp_send_packet(const void *pkt, size_t pkt_len,
-                                      void *opaque)
- {
-     SlirpState *s = opaque;
-+    uint8_t min_pkt[ETH_ZLEN];
-+    size_t min_pktsz = sizeof(min_pkt);
-+
-+    if (!s->nc.peer->do_not_pad) {
-+        if (eth_pad_short_frame(min_pkt, &min_pktsz, pkt, pkt_len)) {
-+            pkt = min_pkt;
-+            pkt_len = min_pktsz;
-+        }
-+    }
- 
-     return qemu_send_packet(&s->nc, pkt, pkt_len);
- }
-diff --git a/net/tap-win32.c b/net/tap-win32.c
-index 21e451107b..d7c2a8759c 100644
---- a/net/tap-win32.c
-+++ b/net/tap-win32.c
-@@ -31,6 +31,7 @@
- 
- #include "qemu-common.h"
- #include "clients.h"            /* net_init_tap */
-+#include "net/eth.h"
- #include "net/net.h"
- #include "net/tap.h"            /* tap_has_ufo, ... */
- #include "qemu/error-report.h"
-@@ -688,9 +689,18 @@ static void tap_win32_send(void *opaque)
-     uint8_t *buf;
-     int max_size = 4096;
-     int size;
-+    uint8_t min_pkt[ETH_ZLEN];
-+    size_t min_pktsz = sizeof(min_pkt);
- 
-     size = tap_win32_read(s->handle, &buf, max_size);
-     if (size > 0) {
-+        if (!s->nc.peer->do_not_pad) {
-+            if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
-+                buf = min_pkt;
-+                size = min_pktsz;
-+            }
-+        }
-+
-         qemu_send_packet(&s->nc, buf, size);
-         tap_win32_free_buffer(s->handle, buf);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 96a3cc8357..66b9ff4511 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3314,6 +3314,10 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+                               object_get_typename(OBJECT(dev)), dev->id, n);
      }
-diff --git a/net/tap.c b/net/tap.c
-index 12a08d54fe..d6d8456188 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -32,6 +32,7 @@
- #include <sys/socket.h>
- #include <net/if.h>
  
-+#include "net/eth.h"
- #include "net/net.h"
- #include "clients.h"
- #include "monitor/monitor.h"
-@@ -189,6 +190,8 @@ static void tap_send(void *opaque)
- 
-     while (true) {
-         uint8_t *buf = s->buf;
-+        uint8_t min_pkt[ETH_ZLEN];
-+        size_t min_pktsz = sizeof(min_pkt);
- 
-         size = tap_read_packet(s->fd, s->buf, sizeof(s->buf));
-         if (size <= 0) {
-@@ -200,6 +203,13 @@ static void tap_send(void *opaque)
-             size -= s->host_vnet_hdr_len;
-         }
- 
-+        if (!s->nc.peer->do_not_pad) {
-+            if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
-+                buf = min_pkt;
-+                size = min_pktsz;
-+            }
-+        }
++    for (i = 0; i < n->max_queues; i++) {
++        n->nic->ncs[i].do_not_pad = true;
++    }
 +
-         size = qemu_send_packet_async(&s->nc, buf, size, tap_send_completed);
-         if (size == 0) {
-             tap_read_poll(s, false);
+     peer_test_vnet_hdr(n);
+     if (peer_has_vnet_hdr(n)) {
+         for (i = 0; i < n->max_queues; i++) {
 -- 
 2.17.1
 
