@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C025F33FBC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 00:25:29 +0100 (CET)
-Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D0433FBCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 00:27:30 +0100 (CET)
+Received: from localhost ([::1]:33242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMfXc-0002NK-8h
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 19:25:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
+	id 1lMfZZ-0003TP-9S
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 19:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lMfW2-0001rk-J3
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 19:23:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lMfVz-00062Z-4l
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 19:23:50 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lMfYb-0002zL-EG
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 19:26:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lMfYZ-0007BP-2x
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 19:26:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616023424;
+ s=mimecast20190719; t=1616023586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0/GebJ3KRBOXByyb6jm04RnrgWT+vhH72A3eFUqF4hk=;
- b=I6C2wmZjVQwZX1CqyF/rZyOqIaoTIevBdHf/cpPGHbGXN1aEXqZA5ydqIqWVJeuIU9SQcn
- tWYUY1Ui3hzJEDtpqHlvop9RO86Vmoa2hdYSy5szqNG/PLylW6o5vnNPREKTvqKGxBUXsV
- WO22GM8YtcxB/phdKzT67V9YNTCZYgo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-4-KNzwtmO4mMRpz6ZscVYQ-1; Wed, 17 Mar 2021 19:23:43 -0400
-X-MC-Unique: 4-KNzwtmO4mMRpz6ZscVYQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFBCF107B769;
- Wed, 17 Mar 2021 23:23:41 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 460395D6AC;
- Wed, 17 Mar 2021 23:23:41 +0000 (UTC)
-Subject: Re: [PATCH V3] file-posix: allow -EBUSY -EINVAL errors during write
- zeros on block
-To: ChangLimin <changlm@chinatelecom.cn>, qemu-block <qemu-block@nongnu.org>
-References: <2021031008163294066310@chinatelecom.cn>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <284d4c03-b7b1-cc77-c187-3dc468e83e0c@redhat.com>
-Date: Wed, 17 Mar 2021 19:23:40 -0400
+ bh=Hft1h2BP1K4v3XHZgMIZz6H7kWEzlDJ39RSSSjp9dWo=;
+ b=ZnaFUrcjGtuC8e6sl3cUPLaZbQMi9JmjFN3eL3JLl2GYiuH2NkworlXiMqBM154VtL5YPW
+ Uus8NK1CA/xCApcml5M34KtAnNj/uD41RBpOCWjJ+O+dLIBMqjxo4bUXjI93CmXMC4M0gJ
+ 9AvBBu52tfLXZ+03wW7NIniaiQQmKXk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-MEucZQALOe-inQMZQgQohQ-1; Wed, 17 Mar 2021 19:26:22 -0400
+X-MC-Unique: MEucZQALOe-inQMZQgQohQ-1
+Received: by mail-wr1-f70.google.com with SMTP id z6so19076134wrh.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 16:26:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hft1h2BP1K4v3XHZgMIZz6H7kWEzlDJ39RSSSjp9dWo=;
+ b=rbkABFNKzPMogR4KMCjWupDotZ65QqivIJ2h9ufbfrTOJ/+yCJgFyeHNK9PlkmfzXK
+ W8tU3iqU9nKPbrXuZHzobTyG2fSU/X0IoEp1joS+ql1OFM0cmT2bL1wSLq6i+EvPjJC8
+ 4kxna5GckwQI+YFeLBqAlbLLsStvfg/C7veh9mzNGOWg6FRd8b+/Row3srZXSoJT7lEd
+ VpqoWQfJ8dCd3Tp9fKQslR0DnqrsTEzmQYGAl76KN26ah7So3MCBE/+KVeLa2fo7TOop
+ s2v+g+0dpqn4RKk6BhZJ44ILvzIsOBwNobWrOHmqbO8oaEGmJyL79oBwoDAKlYyvr9EX
+ R8iQ==
+X-Gm-Message-State: AOAM531uaqzFk7NtStOadt3QH3xc6XYrLi32Xpu194Zjpz5n9igZMvbw
+ dVDTVsidc/4yJsIPBj5EUNQ9wc51UWm2rMPI6GCK/+3lRJ69gzhBZUr7s7wTo69plFtcx3iowov
+ HqHAolmRpZdPVrTE=
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr6839501wrr.118.1616023581252; 
+ Wed, 17 Mar 2021 16:26:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0q3h2g8sMEUBtkV2LIF5IezjLepa5//ca42tuZC8ZCJhPIMp/GaMUfh4PjP7Ns65p+IiiSw==
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr6839487wrr.118.1616023580967; 
+ Wed, 17 Mar 2021 16:26:20 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id k11sm333751wmj.1.2021.03.17.16.26.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 16:26:20 -0700 (PDT)
+Subject: Re: iotests failing on gitlab CI check-system-fedora job
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA_cZYF9u8RfW5mUY7TgOLsRYh1sN7oioztfSV8_990peg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6f3cd467-5013-a372-28f7-f1ca0b1f1d03@redhat.com>
+Date: Thu, 18 Mar 2021 00:26:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <2021031008163294066310@chinatelecom.cn>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAFEAcA_cZYF9u8RfW5mUY7TgOLsRYh1sN7oioztfSV8_990peg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -68,7 +87,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,74 +100,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- mreitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/21 7:16 PM, ChangLimin wrote:
-> Since Linux 5.10, write zeros to a multipath device using
-> ioctl(fd, BLKZEROOUT, range) with cache none or directsync return -EBUSY
-> permanently.
+On 17/03/21 23:23, Peter Maydell wrote:
+> The check-system-fedora job in the gitlab CI seems to have
+> started reliably failing on iotests 040 041 127 256 267:
+>   https://gitlab.com/qemu-project/qemu/-/jobs/1106977551
 > 
+> Could somebody have a look at what's happening, please?
+> (This is probably a regression that's got into master because
+> I stopped using "did gitlab CI pass" as a gate because gitlab
+> was running massively too slowly to be usable for that.)
 
-When do we get -EINVAL? Both of the commits referenced below don't 
-specifically mention it, so I am not sure in which circumstances that 
-might arise.
+It's caused by adding virtio devices to the m68k target.  Probably it 
+can be fixed by moving i386-softmmu to Fedora and m68k-softmmu to Debian.
 
-> Similar to handle_aiocb_write_zeroes_unmap, handle_aiocb_write_zeroes_block
-> allow -EBUSY and -EINVAL errors during ioctl(fd, BLKZEROOUT, range).
-> 
-> Reference commit in Linux 5.10:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=384d87ef2c954fc58e6c5fd8253e4a1984f5fe02 
-> <https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=384d87ef2c954fc58e6c5fd8253e4a1984f5fe02>
-> 
-> Although it will be fixed in 5.12, I think it's good to avoid similar 
-> problem in the future.
-> https://lore.kernel.org/linux-block/53689a67-7591-0ad8-3e7d-dca9a626cd99@kernel.dk/ 
-> <https://lore.kernel.org/linux-block/53689a67-7591-0ad8-3e7d-dca9a626cd99@kernel.dk/>
-> 
+But really, most of the tests we run are not ever going to fail in 
+isolation.  Do we really gain anything by building all or almost all 
+targets for each cross (as opposed to just one 32-bit and one 64-bit 
+target), or by running check-block many times on similar or identical 
+configurations?
 
-Wait, if they're fixing the function to actually apply a different 
-fallback path, shouldn't we *not* allow EBUSY?
-
-> Signed-off-by: ChangLimin <changlm@chinatelecom.cn>
-> ---
->   block/file-posix.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 05079b40ca..4e132db929 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1629,8 +1629,13 @@ static ssize_t 
-> handle_aiocb_write_zeroes_block(RawPosixAIOData *aiocb)
->           } while (errno == EINTR);
-> 
->           ret = translate_err(-errno);
-> -        if (ret == -ENOTSUP) {
-> -            s->has_write_zeroes = false;
-> +        switch (ret) {
-> +        case -ENOTSUP:
-> +            s->has_write_zeroes = false; /* fall through */
-> +        case -EINVAL:
-> +        case -EBUSY:
-> +            return -ENOTSUP;
-> +            break;
-
-oh, we're not "allowing" them, we're treating the failure *more 
-seriously* so that we avoid attempting to call this function ever again 
-for this FD.
-
-Can you please add a brief comment here, something like:
-
-/* Linux 5.10/5.11 may return these for multipath devices */
-
->           }
->       }
->   #endif
-> --
-> 2.27.0
-> 
+Paolo
 
 
