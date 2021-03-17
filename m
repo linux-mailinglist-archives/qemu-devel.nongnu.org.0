@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFEDA33E7AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:35:28 +0100 (CET)
-Received: from localhost ([::1]:53720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFA233E7BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:39:49 +0100 (CET)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMMxz-0004vO-NM
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:35:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
+	id 1lMN2C-00079e-Hk
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lMMxB-0004Up-Aq
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:34:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lMMx8-0008TM-6o
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:34:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615952071;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yV1ogZAuBcaU+cVzxa7Zw17jaTsUxLq773bxnFAhpdM=;
- b=LkoUYX/C1Qc5wIn4PpSBk5cqA7SO8n0s9a4tweZrHx3aPDPyCJyBZinWOZIg/BV7gMktU9
- Ljr3cVri9oHzOxTyB077fMIFO5pRODQ+Qt/jTMIhkTOW0CNDBEgIsOCX2Y87ShQvk7Wv76
- Yz+O+wp2FfrQC3pBf08StZjNgc1fJYU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-oRDI7WdbMnOeKC0DLuHfUA-1; Tue, 16 Mar 2021 23:34:29 -0400
-X-MC-Unique: oRDI7WdbMnOeKC0DLuHfUA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9202C1858F1A;
- Wed, 17 Mar 2021 03:34:28 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-188.pek2.redhat.com
- [10.72.12.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEEA160875;
- Wed, 17 Mar 2021 03:34:26 +0000 (UTC)
-Subject: Re: [PULL V2 16/20] qapi: net: Add query-netdev command
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1615799673-31549-1-git-send-email-jasowang@redhat.com>
- <1615799673-31549-17-git-send-email-jasowang@redhat.com>
- <CAFEAcA-7MiRBVvGhaA7XbzMoCHBBie6-w7miyg-kAzZ0F=-XPg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <cfd051e2-0bee-2d7d-16cd-0c70c8924ccf@redhat.com>
-Date: Wed, 17 Mar 2021 11:34:25 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMN14-0006Np-9e
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:38:38 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:40564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMN11-0002e1-EN
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:38:38 -0400
+Received: by mail-qk1-x733.google.com with SMTP id l132so37600541qke.7
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 20:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ELykj3fCVp8X1zz69UPHGjlBP84IimhTK44u1fScMYs=;
+ b=k3gyfktYTyCqKbBnze40dBgqd1AkHAZuQqyydS5sQCE+il+H8yuIN9/3UutBNWCFAC
+ +UQu3Q7WouFZHEai3V7BXTISOvXybisrbFk8h5O4Qo3hHm7jvkOZweyAbLtOIl9ExOLO
+ imkGiDz/LY4j/X+idRL0h1lFnSItKhIvKRvplfvytBaN+qbes3LdZJ3YiNSPXkIIv0GO
+ qWHZ1nuIRRkywjd/xFgWF+wmm0OoLzZ7LwUopYNn3quFIlZSzP6O7pV5MvzcY39pbHpe
+ tOfVdfUvo0qEHxqUY30KRi/Rqj5Ihs5maI+hmP/WUKbXby3hC15G1Flwl7Cj4tZjoCb0
+ Qr2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ELykj3fCVp8X1zz69UPHGjlBP84IimhTK44u1fScMYs=;
+ b=AODPm3XZZjvJdxgxqBlLMn5ZBHqmXQrDGikk56BNictjK9H8cLnq5unRD7JbP2cVPT
+ KF/9LNGK5rrS4o3Awret6dzzl/psJh7uh4ipPizaKF2UAjhJbLhPLJ4VL2d2TQ2lHPUP
+ RMsmVU2LZQMLq7NdtnzbnfN3ab6VTHqfQxHPGwRW0cuCdK7O5C3m64AGj8wSYvIMGNqj
+ dmLux3p9a0n85djKe7nwfvbH/F9H0DeEGrRkKa0H3sLOBvLs4MB85IbshJgAcjxrBuMI
+ u2sSfgvXj2nieSXyjc1S86YVRH9PwG8tnM+qpc85FPVNbVR+EBlZfd6YgWClvCTF1fE/
+ kgnA==
+X-Gm-Message-State: AOAM531SUXibzS/RiaCrLaSL3cXfcjnhYSWx+8j8yPSUwh7xrTPoblKR
+ nlU5/TF9YPKLX8GwMftbPsxo7b8rjldGqoMc
+X-Google-Smtp-Source: ABdhPJxT9pLkvpcrN6i+kZ5y43mnOWpHclOlWbQj5xmMQKeyKOJsOPzTB5qz7JtdxQ3saYomRtom+w==
+X-Received: by 2002:a37:5943:: with SMTP id n64mr2576509qkb.127.1615952314365; 
+ Tue, 16 Mar 2021 20:38:34 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id j3sm15574104qki.84.2021.03.16.20.38.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 20:38:34 -0700 (PDT)
+Subject: Re: [PATCH v5 05/57] tcg/tci: Split out tci_args_rrr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210311143958.562625-1-richard.henderson@linaro.org>
+ <20210311143958.562625-6-richard.henderson@linaro.org>
+ <977a40d4-b874-0fef-be5b-3e0b86cbd843@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <11b59502-4f44-e90a-bede-36ac0f71a650@linaro.org>
+Date: Tue, 16 Mar 2021 21:38:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-7MiRBVvGhaA7XbzMoCHBBie6-w7miyg-kAzZ0F=-XPg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <977a40d4-b874-0fef-be5b-3e0b86cbd843@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x733.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,105 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kirillov <lekiravi@yandex-team.ru>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: sw@weilnetz.de, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/3/17 上午5:37, Peter Maydell 写道:
-> On Mon, 15 Mar 2021 at 09:15, Jason Wang <jasowang@redhat.com> wrote:
->> From: Alexey Kirillov <lekiravi@yandex-team.ru>
->>
->> The query-netdev command is used to get the configuration of the current
->> network device backends (netdevs).
->> This is the QMP analog of the HMP command "info network" but only for
->> netdevs (i.e. excluding NIC and hubports).
->>
->> The query-netdev command returns an array of objects of the NetdevInfo
->> type, which are an extension of Netdev type. It means that response can
->> be used for netdev-add after small modification. This can be useful for
->> recreate the same netdev configuration.
->>
->> Information about the network device is filled in when it is created or
->> modified and is available through the NetClientState->stored_config.
->>
->> Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Jason Wang <jasowang@redhat.com>
+On 3/16/21 4:53 PM, Philippe Mathieu-Daudé wrote:
+> On 3/11/21 3:39 PM, Richard Henderson wrote:
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 >> ---
-> Hi; Coverity complains about a memory leak in this code
-> (CID 1450842):
->
->> @@ -581,15 +693,25 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->>       s->poll_notifier.notify = net_slirp_poll_notify;
->>       main_loop_poll_add_notifier(&s->poll_notifier);
->>
->> +    stored_hostfwd = &stored->hostfwd;
->> +    stored_guestfwd = &stored->guestfwd;
->> +
->>       for (config = slirp_configs; config; config = config->next) {
->> +        String *element = g_new0(String, 1);
-> Here we allocate memory...
->
->> +
->> +        element->str = g_strdup(config->str);
->>           if (config->flags & SLIRP_CFG_HOSTFWD) {
->>               if (slirp_hostfwd(s, config->str, errp) < 0) {
->>                   goto error;
-> ...but if we take this error-exit path we have neither freed nor
-> kept a pointer to that memory.
+>>   tcg/tci.c | 154 ++++++++++++++++++++----------------------------------
+>>   1 file changed, 57 insertions(+), 97 deletions(-)
+> 
+> Out of curiosity, did you do that manually or coccinelle?
+
+Manually.  I'm not so fast with spatch that I use it for such small things.
 
 
-Yes.
-
-
->
->>               }
->> +            stored->has_hostfwd = true;
->> +            QAPI_LIST_APPEND(stored_hostfwd, element);
->>           } else {
->>               if (slirp_guestfwd(s, config->str, errp) < 0) {
->>                   goto error;
-> Similarly here.
->
->>               }
->> +            stored->has_guestfwd = true;
->> +            QAPI_LIST_APPEND(stored_guestfwd, element);
->>           }
->>       }
->>   #ifndef _WIN32
-> More generally, what state is the net backend init function
-> supposed to leave 'stored' in if it fails? Is it the backend's
-> responsibility to free everything that it might have allocated
-> and left a pointer to? eg if we did
->     stored->hostname = g_strdup(vhostname);
-> do we need to go back and free(stored->hostname) ? Or is the caller
-> guaranteeing to clean up 'stored' somehow ? Or is the backend
-> supposed to not touch 'stored' until it's sure it's going to
-> succeed ? (presumably not, as the current code does not do this...)
-
-
-Clean and free in the function that do the allocation seems better 
-(self-conatined).
-
-
->
-> This commit has no comments describing or documenting the
-> API requirements the new functionality imposes on a net backend:
-> could we have a followup patch which adds some documentation,
-> please, so that authors of future backends know what they have to
-> implement ?
-
-
-Alexey, plase send patches to fix the above issues and document the API.
-
-Thanks
-
-
->
-> thanks
-> -- PMM
->
-
+r~
 
