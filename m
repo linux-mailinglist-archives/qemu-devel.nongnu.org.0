@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F4833EFC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 12:49:30 +0100 (CET)
-Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E552F33EFCB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 12:50:48 +0100 (CET)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMUg5-0005wd-AD
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 07:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51058)
+	id 1lMUhM-0006sr-0P
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 07:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMUfD-0005PH-5g
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 07:48:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMUf9-0007Sx-O7
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 07:48:34 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lMUgH-0006PR-8m
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 07:49:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lMUgF-00088n-MG
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 07:49:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615981710;
+ s=mimecast20190719; t=1615981777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ao9Rzi3KAol5qnb9F49xj1rBNe6HIVcD6HaSUcOHwh0=;
- b=dao0c7LJ92wcaSspVuldeJAdD1+WVMdJ6Mg8aNqdsvqbZgu6WbZTKrC/euftVIMcZtG01I
- Q/3feoqgS2b4rmbCaMPHgzI9dg5ozrzbXnugwzEPCRyXyRQ2yYPRVKu2Y880RH19mdmpEu
- 2FPq0zDpxSTgZFwr6j3FPRi7tnhlafo=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=l/ExN+Xvq+hBgoPAXYjqV/Yy5tSYobFom4wQ15iKhzw=;
+ b=g7lpGOcEjgsFIDsijsZ6Dp/NNM4ydu+0oK4MrUYDceyntFYy3nQxfCQu/2klHnOZ/dNR6/
+ rdCJ90viDUN4zbhHFHSU86ijZDXyUnhINJWXeXPdqSB+D59Z1OpUO97slMl5RoctsQJZ0x
+ 6bS1+B9/S4VjTSXnbSO9Ko3hrkvbIpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-603-sI3gEpZZNQaOTarrHook2Q-1; Wed, 17 Mar 2021 07:48:28 -0400
-X-MC-Unique: sI3gEpZZNQaOTarrHook2Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-56-tagz0UhsMHq5mLyCfT8QJA-1; Wed, 17 Mar 2021 07:49:34 -0400
+X-MC-Unique: tagz0UhsMHq5mLyCfT8QJA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 932421084CA4
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 11:48:27 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-202.ams2.redhat.com [10.36.114.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD4AA1017CF5;
- Wed, 17 Mar 2021 11:48:26 +0000 (UTC)
-Date: Wed, 17 Mar 2021 12:48:25 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 2/3] qom: move user_creatable_add_opts logic to vl.c
- and QAPIfy it
-Message-ID: <YFHsiQFjqbRqlN2w@merkur.fritz.box>
-References: <20210312173547.1283477-1-pbonzini@redhat.com>
- <20210312173547.1283477-3-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A22FD83DD29;
+ Wed, 17 Mar 2021 11:49:33 +0000 (UTC)
+Received: from localhost (ovpn-114-113.ams2.redhat.com [10.36.114.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EC3660C13;
+ Wed, 17 Mar 2021 11:49:32 +0000 (UTC)
+Date: Wed, 17 Mar 2021 11:49:31 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vishal Verma <vishal.l.verma@intel.com>,
+ Wei Yang <richardw.yang@linux.intel.com>,
+ Ross Zwisler <ross.zwisler@linux.intel.com>,
+ Haozhong Zhang <haozhong.zhang@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jeff Moyer <jmoyer@redhat.com>
+Subject: Microsoft and Intel NVDIMM ACPI _DSM interfaces status?
+Message-ID: <YFHsy8599w7KT1SB@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210312173547.1283477-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rW0AJdusovTaGGFy"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,78 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.03.2021 um 18:35 hat Paolo Bonzini geschrieben:
-> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
-> to parse the -object command line option.  This has one extra feature,
-> compared to keyval, which is automatic conversion of integers to lists
-> as well as support for lists as repeated options:
-> 
->   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
-> 
-> So we cannot replace OptsVisitor with keyval right now.  Still, this
-> patch moves the user_creatable_add_opts logic to vl.c since it is
-> not needed anywhere else, and makes it go through user_creatable_add_qapi.
-> 
-> In order to minimize code changes, the predicate still takes a string.
-> This can be changed later to use the ObjectType QAPI enum directly.
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+--rW0AJdusovTaGGFy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index ff488ea3e7..ae017de46c 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -117,6 +117,7 @@
->  #include "qapi/qapi-commands-block-core.h"
->  #include "qapi/qapi-commands-migration.h"
->  #include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-visit-qom.h"
->  #include "qapi/qapi-commands-ui.h"
->  #include "qapi/qmp/qerror.h"
->  #include "sysemu/iothread.h"
-> @@ -132,10 +133,16 @@ typedef struct BlockdevOptionsQueueEntry {
->  
->  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
->  
-> +typedef struct ObjectOption {
-> +    ObjectOptions *opts;
-> +    QTAILQ_ENTRY(ObjectOption) next;
-> +} ObjectOption;
-> +
->  static const char *cpu_option;
->  static const char *mem_path;
->  static const char *incoming;
->  static const char *loadvm;
-> +static QTAILQ_HEAD(, ObjectOption) object_opts = QTAILQ_HEAD_INITIALIZER(object_opts);
->  static ram_addr_t maxram_size;
->  static uint64_t ram_slots;
->  static int display_remote;
-> @@ -1684,6 +1691,49 @@ static int machine_set_property(void *opaque,
->      return object_parse_property_opt(opaque, name, value, "type", errp);
->  }
->  
-> +static void object_option_foreach_add(bool (*type_opt_predicate)(const char *))
-> +{
-> +    ObjectOption *opt, *next;
-> +
-> +    QTAILQ_FOREACH_SAFE(opt, &object_opts, next, next) {
-> +        const char *type = ObjectType_str(opt->opts->qom_type);
-> +        if (type_opt_predicate(type)) {
-> +            user_creatable_add_qapi(opt->opts, &error_fatal);
-> +            qapi_free_ObjectOptions(opt->opts);
-> +            QTAILQ_REMOVE(&object_opts, opt, next);
+Hi,
+Microsoft and Intel developed two different ACPI NVDIMM _DSM interfaces.
 
-I added a g_free(opt) here to fix CI failures (LeakSanitizer error).
+The specs for the Intel interface are available here:
+https://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
 
-> +        }
-> +    }
-> +}
+This is the interface that QEMU emulates. It has been reported that
+Windows 2016 Server and 2019 Server guests do not recognize QEMU's
+emulated NVDIMM devices using the Microsoft driver.
 
-Kevin
+I'd like to understand the path forward that will allow both Linux and
+Windows guests to successfully use QEMU's emulated NVDIMM device
+(https://gitlab.com/qemu-project/qemu/-/blob/master/hw/acpi/nvdimm.c).
+
+Are/have these two interfaces being/been unified?
+
+Should QEMU emulate both of them to make running Windows guests easy?
+
+Thanks,
+Stefan
+
+--rW0AJdusovTaGGFy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBR7MsACgkQnKSrs4Gr
+c8iz3QgAveO30F4nzdYcAN9wIMbNndhWezS8ydz3TYBKI0pGgAkA8IlHJSG7Z0p2
+7OcJZg1zn9tqHBFO9KxTFJUFjUhXG/pmY5FtcLA3xprji75h0o5KJspjN1q/oOnG
+bGAmL4mGvSccxvXQj60vY2uY+Ccqpir5xEhRpDdMkLHAcTpkWSqZyEjpTr9zuuY0
+NIHAktqNYzTXVnTuSqzp2fYpqZ7Oxv1l4NIvnE/pooBxPu6NwZHaunHMfmCk99GB
+aNz6d04Do03LKhOefwHbvUgFZCYPeIVdCZYmPDXmcTd6t3diNt6gzTbwgTSKf9+H
+IBZV4FRN2c9tHH8QeoOJz1mpL8WvRw==
+=VLvQ
+-----END PGP SIGNATURE-----
+
+--rW0AJdusovTaGGFy--
 
 
