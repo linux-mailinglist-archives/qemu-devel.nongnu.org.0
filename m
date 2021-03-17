@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE09B33F053
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:26:51 +0100 (CET)
-Received: from localhost ([::1]:35510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1770F33F025
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 13:23:04 +0100 (CET)
+Received: from localhost ([::1]:58418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVGF-0001D6-0i
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:26:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1lMVCZ-0007Gv-54
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 08:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMV6a-0002Hu-ED; Wed, 17 Mar 2021 08:16:52 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43174)
+ id 1lMV6Z-0002Gr-SK; Wed, 17 Mar 2021 08:16:52 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:39623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMV6X-0007j2-HB; Wed, 17 Mar 2021 08:16:52 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id p8so2202351ejb.10;
+ id 1lMV6X-0007jN-DZ; Wed, 17 Mar 2021 08:16:51 -0400
+Received: by mail-ed1-x530.google.com with SMTP id bf3so1963126edb.6;
  Wed, 17 Mar 2021 05:16:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tYCbgh+KOfRbcZnCn6zMIAeTgkH/DDMxlNrT19NgzJE=;
- b=i0bWDOEELuRTIAM7HbY3woLKx8GHenTkxAIXZ3LQe2w/xKH2Z6itIWrPQV5Ha9P+jA
- OYmNJ/+uYkgn0GUZ5EPJW7TjtsQYIobeitYHycJsuiQgKWIqys51fCyLY4vyK2a1eesQ
- nAy9NrB50NOoMD5I8NYikFkqTUzbfRle/ijHvfmbCC3ZPWGXPw47SL9RUb58CnBf/z8P
- 5yFQimla8jI7W6Wy18V9df5rGLL/p5x80QtwDw1rQHqABJNrPYj+Vts9kXIPwxdXgo+t
- 6AgJgDHS+mmF79RNHKYpcAUNLi2mQn2cOGQQHYIp1nHmgkbgKj7gdx3InibJd9aouOit
- uuMg==
+ bh=Xvvv2l70qQm9QCjFzsbGDAhjoM/FYrf9gqA1A6uPvNg=;
+ b=n/MR5Z++Q7RJ18bEJ1Od2M4AzLNhj0+MUecAyA5DS7FYoLRbJjITQFdVyvl12yRYE/
+ P640Oltdbm1vlYWKKLJwdA7oD+GBS32qat+V8W2UDntoZimIU0pJRKSFAKYGKT/DLcLJ
+ 5TaRSuRPa5udr0GNIZvHcuBlWtcfHleF3pNgdOh0/Jpm9X2MgqVw4YRDSuQPC/srkvIJ
+ nm71l4BcnYiJtpHXvsInjll9Jl21N+jqSCnx9mo9TFQ0Z94v+Vs4eBjYx/YPSdR+i5PO
+ GMQsDNV8lCly988BcTNN0rVSFXiebR/C89eP5NntbN87852NUaDZBS8dCacYX+UA/h62
+ 7GkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tYCbgh+KOfRbcZnCn6zMIAeTgkH/DDMxlNrT19NgzJE=;
- b=r70XYWytDe6u6I4su7D03BYhIWqHWFjCbK20l4vkv6qsHMhE4vy/JsfbnEiW4XRpD4
- xseub1c6OjFQoAM/8kzRWD/4rkkwiExv7bkyzavapRExIKQzo4eoXKuiFVFTBk/cFZ37
- bxGK5bn57DN2cHUx3VCR07NIX7gOX74ljYaIYH/1/fgdAiJ+r/0SLS+W3a2lt3hJW+nH
- mFoPElC4FtlNsuNj6RswE/Lmae4rezZon7xzwNCt/lMurVx0H2+d0ExH8MiqgXNmAo+O
- J0LRGBbgslUt8vydKI78zENToykjS5miYn+b/HaflI7szWtvZ1b3b6iOoHzHNYIkiQpE
- r99A==
-X-Gm-Message-State: AOAM533cB1eKCyqiu21fndBPUloFNiioLDA/5B3r0r3+0iJ8zzR30qaD
- aKyzFYU6OATLmqo7e+KeoScmD7E8ej4=
-X-Google-Smtp-Source: ABdhPJxK5QYMAIWTjZF4su3t6cpoAd04+3P5ZVJuxkHGsdrPHh0Ug4HE+hrqGl5Rf4c1ENTOx4aHDA==
-X-Received: by 2002:a17:906:12db:: with SMTP id
- l27mr34495455ejb.500.1615983406353; 
- Wed, 17 Mar 2021 05:16:46 -0700 (PDT)
+ bh=Xvvv2l70qQm9QCjFzsbGDAhjoM/FYrf9gqA1A6uPvNg=;
+ b=LloySkQoMqxnvNEUKbh8tN9VpjfGNEIhzbu7WglAkSaHgzffJDwpFEYt/D9FeU6ArA
+ p3flgNm2Y9BEIqRNXOuvT7v5EqpS8hxIr0fPyK97LT8FA4D7g/ZjAgRePHsW/02g0fL9
+ EMLEFBmw5hIxKvGlCvh6VOyWZXfSdi8aW7F7h7woosQaHtJSXSn27/TuZhsXz1prLXmE
+ RASmP7qPfVXbjxL0ixdTnwnpTh/E5rrYFwXh51xk1sJ6NiyfYk8cidMMOFNFvkHqy7I0
+ 7hTNT/o2YCxrLMU5TiAUF9ya5nJ51fsGecwp6AZrUb6Mswmnmnj21wcT1ncvoyLMVEcK
+ GZuA==
+X-Gm-Message-State: AOAM530RSyKhHVEo15vsVNSNay6TROxB2RxqEJf1UDp0NEpbv0OjjKd5
+ uEJtZg+qvMRzQqWJ3UYmd+PPVUP+9c8=
+X-Google-Smtp-Source: ABdhPJzPTZU+TuiDdExmCF1cuEAuZ/nh3Wpso1zwoeukD7aCi4BLCzXF8xzfu7H9xjBgWMx9NOd3pw==
+X-Received: by 2002:aa7:d656:: with SMTP id v22mr41141009edr.119.1615983407060; 
+ Wed, 17 Mar 2021 05:16:47 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id gq25sm11520996ejb.85.2021.03.17.05.16.45
+ by smtp.gmail.com with ESMTPSA id gq25sm11520996ejb.85.2021.03.17.05.16.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 05:16:45 -0700 (PDT)
+ Wed, 17 Mar 2021 05:16:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] coroutine-lock: reimplement CoRwLock to fix downgrade bug
-Date: Wed, 17 Mar 2021 13:16:39 +0100
-Message-Id: <20210317121641.215714-5-pbonzini@redhat.com>
+Subject: [PATCH 5/6] test-coroutine: add rwlock upgrade test
+Date: Wed, 17 Mar 2021 13:16:40 +0100
+Message-Id: <20210317121641.215714-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210317121641.215714-1-pbonzini@redhat.com>
 References: <20210317121641.215714-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,272 +85,94 @@ Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An invariant of the current rwlock is that if multiple coroutines hold a
-reader lock, all must be runnable. The unlock implementation relies on
-this, choosing to wake a single coroutine when the final read lock
-holder exits the critical section, assuming that it will wake a
-coroutine attempting to acquire a write lock.
+Test that rwlock upgrade is fair, and readers go back to sleep if a writer
+is in line.
 
-The downgrade implementation violates this assumption by creating a
-read lock owning coroutine that is exclusively runnable - any other
-coroutines that are waiting to acquire a read lock are *not* made
-runnable when the write lock holder converts its ownership to read
-only.
-
-More in general, the old implementation had lots of other fairness bugs.
-The root cause of the bugs was that CoQueue would wake up readers even
-if there were pending writers, and would wake up writers even if there
-were readers.  In that case, the coroutine would go back to sleep *at
-the end* of the CoQueue, losing its place at the head of the line.
-
-To fix this, keep the queue of waiters explicitly in the CoRwLock
-instead of using CoQueue, and store for each whether it is a
-potential reader or a writer.  This way, downgrade can look at the
-first queued coroutines and wake it only if it is a reader, causing
-all other readers in line to be released in turn.
-
-Reported-by: David Edmondson <david.edmondson@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
-v3->v4: clean up the code and fix upgrade logic.  Fix upgrade comment too.
+ tests/unit/test-coroutine.c | 62 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
- include/qemu/coroutine.h   |  17 +++--
- util/qemu-coroutine-lock.c | 148 ++++++++++++++++++++++++-------------
- 2 files changed, 106 insertions(+), 59 deletions(-)
-
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 84eab6e3bf..7919d3bb62 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -237,11 +237,15 @@ bool qemu_co_enter_next_impl(CoQueue *queue, QemuLockable *lock);
- bool qemu_co_queue_empty(CoQueue *queue);
- 
- 
-+typedef struct CoRwTicket CoRwTicket;
- typedef struct CoRwlock {
--    int pending_writer;
--    int reader;
-     CoMutex mutex;
--    CoQueue queue;
-+
-+    /* Number of readers, of -1 if owned for writing.  */
-+    int owners;
-+
-+    /* Waiting coroutines.  */
-+    QSIMPLEQ_HEAD(, CoRwTicket) tickets;
- } CoRwlock;
- 
- /**
-@@ -260,10 +264,9 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock);
- /**
-  * Write Locks the CoRwlock from a reader.  This is a bit more efficient than
-  * @qemu_co_rwlock_unlock followed by a separate @qemu_co_rwlock_wrlock.
-- * However, if the lock cannot be upgraded immediately, control is transferred
-- * to the caller of the current coroutine.  Also, @qemu_co_rwlock_upgrade
-- * only overrides CoRwlock fairness if there are no concurrent readers, so
-- * another writer might run while @qemu_co_rwlock_upgrade blocks.
-+ * Note that if the lock cannot be upgraded immediately, control is transferred
-+ * to the caller of the current coroutine; another writer might run while
-+ * @qemu_co_rwlock_upgrade blocks.
-  */
- void qemu_co_rwlock_upgrade(CoRwlock *lock);
- 
-diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index eb73cf11dc..2669403839 100644
---- a/util/qemu-coroutine-lock.c
-+++ b/util/qemu-coroutine-lock.c
-@@ -327,11 +327,51 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
-     trace_qemu_co_mutex_unlock_return(mutex, self);
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
+index e946d93a65..6e6f51d480 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.c
+@@ -264,6 +264,67 @@ static void test_co_mutex_lockable(void)
+     g_assert(QEMU_MAKE_LOCKABLE(null_pointer) == NULL);
  }
  
-+struct CoRwTicket {
-+    bool read;
-+    Coroutine *co;
-+    QSIMPLEQ_ENTRY(CoRwTicket) next;
-+};
++static CoRwlock rwlock;
 +
- void qemu_co_rwlock_init(CoRwlock *lock)
- {
--    memset(lock, 0, sizeof(*lock));
--    qemu_co_queue_init(&lock->queue);
-     qemu_co_mutex_init(&lock->mutex);
-+    lock->owners = 0;
-+    QSIMPLEQ_INIT(&lock->tickets);
++/* Test that readers are properly sent back to the queue when upgrading,
++ * even if they are the sole readers.  The test scenario is as follows:
++ *
++ *
++ * | c1           | c2         |
++ * |--------------+------------+
++ * | rdlock       |            |
++ * | yield        |            |
++ * |              | wrlock     |
++ * |              | <queued>   |
++ * | upgrade      |            |
++ * | <queued>     | <dequeued> |
++ * |              | unlock     |
++ * | <dequeued>   |            |
++ * | unlock       |            |
++ */
++
++static void coroutine_fn rwlock_yield_upgrade(void *opaque)
++{
++    qemu_co_rwlock_rdlock(&rwlock);
++    qemu_coroutine_yield();
++
++    qemu_co_rwlock_upgrade(&rwlock);
++    qemu_co_rwlock_unlock(&rwlock);
++
++    *(bool *)opaque = true;
 +}
 +
-+/* Releases the internal CoMutex.  */
-+static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
++static void coroutine_fn rwlock_wrlock_yield(void *opaque)
 +{
-+    CoRwTicket *tkt = QSIMPLEQ_FIRST(&lock->tickets);
-+    Coroutine *co = NULL;
++    qemu_co_rwlock_wrlock(&rwlock);
++    qemu_coroutine_yield();
 +
-+    /*
-+     * Setting lock->owners here prevents rdlock and wrlock from
-+     * sneaking in between unlock and wake.
-+     */
++    qemu_co_rwlock_unlock(&rwlock);
++    *(bool *)opaque = true;
++}
 +
-+    if (tkt) {
-+        if (tkt->read) {
-+            if (lock->owners >= 0) {
-+                lock->owners++;
-+                co = tkt->co;
-+            }
-+        } else {
-+            if (lock->owners == 0) {
-+                lock->owners = -1;
-+                co = tkt->co;
-+            }
-+        }
-+    }
++static void test_co_rwlock_upgrade(void)
++{
++    bool c1_done = false;
++    bool c2_done = false;
++    Coroutine *c1, *c2;
 +
-+    if (co) {
-+        QSIMPLEQ_REMOVE_HEAD(&lock->tickets, next);
-+        qemu_co_mutex_unlock(&lock->mutex);
-+        aio_co_wake(co);
-+    } else {
-+        qemu_co_mutex_unlock(&lock->mutex);
-+    }
- }
- 
- void qemu_co_rwlock_rdlock(CoRwlock *lock)
-@@ -340,13 +380,22 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock)
- 
-     qemu_co_mutex_lock(&lock->mutex);
-     /* For fairness, wait if a writer is in line.  */
--    while (lock->pending_writer) {
--        qemu_co_queue_wait(&lock->queue, &lock->mutex);
-+    if (lock->owners == 0 || (lock->owners > 0 && QSIMPLEQ_EMPTY(&lock->tickets))) {
-+        lock->owners++;
-+        qemu_co_mutex_unlock(&lock->mutex);
-+    } else {
-+        CoRwTicket my_ticket = { true, self };
++    qemu_co_rwlock_init(&rwlock);
++    c1 = qemu_coroutine_create(rwlock_yield_upgrade, &c1_done);
++    c2 = qemu_coroutine_create(rwlock_wrlock_yield, &c2_done);
 +
-+        QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
-+        qemu_co_mutex_unlock(&lock->mutex);
-+        qemu_coroutine_yield();
-+        assert(lock->owners >= 1);
++    qemu_coroutine_enter(c1);
++    qemu_coroutine_enter(c2);
 +
-+        /* Possibly wake another reader, which will wake the next in line.  */
-+        qemu_co_mutex_lock(&lock->mutex);
-+        qemu_co_rwlock_maybe_wake_one(lock);
-     }
--    lock->reader++;
--    qemu_co_mutex_unlock(&lock->mutex);
- 
--    /* The rest of the read-side critical section is run without the mutex.  */
-     self->locks_held++;
- }
- 
-@@ -355,69 +404,64 @@ void qemu_co_rwlock_unlock(CoRwlock *lock)
-     Coroutine *self = qemu_coroutine_self();
- 
-     assert(qemu_in_coroutine());
--    if (!lock->reader) {
--        /* The critical section started in qemu_co_rwlock_wrlock.  */
--        qemu_co_queue_restart_all(&lock->queue);
--    } else {
--        self->locks_held--;
-+    self->locks_held--;
- 
--        qemu_co_mutex_lock(&lock->mutex);
--        lock->reader--;
--        assert(lock->reader >= 0);
--        /* Wakeup only one waiting writer */
--        if (!lock->reader) {
--            qemu_co_queue_next(&lock->queue);
--        }
-+    qemu_co_mutex_lock(&lock->mutex);
-+    if (lock->owners > 0) {
-+        lock->owners--;
-+    } else {
-+        assert(lock->owners == -1);
-+        lock->owners = 0;
-     }
--    qemu_co_mutex_unlock(&lock->mutex);
++    /* c1 now should go to sleep.  */
++    qemu_coroutine_enter(c1);
++    g_assert(!c1_done);
 +
-+    qemu_co_rwlock_maybe_wake_one(lock);
- }
- 
- void qemu_co_rwlock_downgrade(CoRwlock *lock)
- {
--    Coroutine *self = qemu_coroutine_self();
--
--    /* lock->mutex critical section started in qemu_co_rwlock_wrlock or
--     * qemu_co_rwlock_upgrade.
--     */
--    assert(lock->reader == 0);
--    lock->reader++;
--    qemu_co_mutex_unlock(&lock->mutex);
-+    qemu_co_mutex_lock(&lock->mutex);
-+    assert(lock->owners == -1);
-+    lock->owners = 1;
- 
--    /* The rest of the read-side critical section is run without the mutex.  */
--    self->locks_held++;
-+    /* Possibly wake another reader, which will wake the next in line.  */
-+    qemu_co_rwlock_maybe_wake_one(lock);
- }
- 
- void qemu_co_rwlock_wrlock(CoRwlock *lock)
- {
-+    Coroutine *self = qemu_coroutine_self();
++    qemu_coroutine_enter(c2);
++    g_assert(c1_done);
++    g_assert(c2_done);
++}
 +
-     qemu_co_mutex_lock(&lock->mutex);
--    lock->pending_writer++;
--    while (lock->reader) {
--        qemu_co_queue_wait(&lock->queue, &lock->mutex);
-+    if (lock->owners == 0) {
-+        lock->owners = -1;
-+        qemu_co_mutex_unlock(&lock->mutex);
-+    } else {
-+        CoRwTicket my_ticket = { false, qemu_coroutine_self() };
-+
-+        QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
-+        qemu_co_mutex_unlock(&lock->mutex);
-+        qemu_coroutine_yield();
-+        assert(lock->owners == -1);
-     }
--    lock->pending_writer--;
- 
--    /* The rest of the write-side critical section is run with
--     * the mutex taken, so that lock->reader remains zero.
--     * There is no need to update self->locks_held.
--     */
-+    self->locks_held++;
- }
- 
- void qemu_co_rwlock_upgrade(CoRwlock *lock)
- {
--    Coroutine *self = qemu_coroutine_self();
--
-     qemu_co_mutex_lock(&lock->mutex);
--    assert(lock->reader > 0);
--    lock->reader--;
--    lock->pending_writer++;
--    while (lock->reader) {
--        qemu_co_queue_wait(&lock->queue, &lock->mutex);
--    }
--    lock->pending_writer--;
-+    assert(lock->owners > 0);
-+    /* For fairness, wait if a writer is in line.  */
-+    if (lock->owners == 1 && QSIMPLEQ_EMPTY(&lock->tickets)) {
-+        lock->owners = -1;
-+        qemu_co_mutex_unlock(&lock->mutex);
-+    } else {
-+        CoRwTicket my_ticket = { false, qemu_coroutine_self() };
- 
--    /* The rest of the write-side critical section is run with
--     * the mutex taken, similar to qemu_co_rwlock_wrlock.  Do
--     * not account for the lock twice in self->locks_held.
--     */
--    self->locks_held--;
-+        lock->owners--;
-+        QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
-+        qemu_co_rwlock_maybe_wake_one(lock);
-+        qemu_coroutine_yield();
-+        assert(lock->owners == -1);
-+    }
- }
+ /*
+  * Check that creation, enter, and return work
+  */
+@@ -501,6 +562,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/basic/order", test_order);
+     g_test_add_func("/locking/co-mutex", test_co_mutex);
+     g_test_add_func("/locking/co-mutex/lockable", test_co_mutex_lockable);
++    g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
+     if (g_test_perf()) {
+         g_test_add_func("/perf/lifecycle", perf_lifecycle);
+         g_test_add_func("/perf/nesting", perf_nesting);
 -- 
 2.29.2
 
