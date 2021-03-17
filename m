@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B5B33F0E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:09:53 +0100 (CET)
-Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79FB33F0E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:10:50 +0100 (CET)
+Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMVvs-0005gX-N5
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:09:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40372)
+	id 1lMVwn-0006SJ-SH
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:10:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMVuU-00056V-Rl
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:08:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40991)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMVuS-0003oH-HN
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:08:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMVvJ-0005an-Gy
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:09:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMVvH-0004Gx-Pt
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:09:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615986503;
+ s=mimecast20190719; t=1615986554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A48WwSoFYfHNhBMqKRae/JWJIJCGH66a0UN4/w8jjBE=;
- b=MJmtrnOz3tg3Ga433ueaSLWJQHV8vfdGy2ObZ82wxgFdRDVerknciKg9NUjHCun1MtnIyw
- Pr2kuqNY3sJFlpLQbGaMnHXxSVGfEsfqOPO4oTG+qvjsSaHcb6381Ir8E8zOD2YmircYe8
- 2VQwv0y6FAiEf+OHO9sNbVMGkX1rKt0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-UdwoUw_zOpqytLgIhaqiNw-1; Wed, 17 Mar 2021 09:08:21 -0400
-X-MC-Unique: UdwoUw_zOpqytLgIhaqiNw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BD03107B783;
- Wed, 17 Mar 2021 13:08:20 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EB271045E83;
- Wed, 17 Mar 2021 13:08:11 +0000 (UTC)
-Subject: Re: [PATCH v3 1/5] tests/acceptance: Extract QemuBaseTest from Test
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210315230838.2973103-1-f4bug@amsat.org>
- <20210315230838.2973103-2-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <7d97e67e-e09d-a3cd-8b54-49d7fe51fc15@redhat.com>
-Date: Wed, 17 Mar 2021 10:08:08 -0300
+ bh=0ZP9hWOCMObFvrBuDSNyfH5w21qCWfRoNuFS3Nz6Efo=;
+ b=cAQqe61W7OQBAQjFpoOMEOUbVBEhzZn9xtjSbZ+cNJgKIuGsQcSqF5bKgvkBxIzgo01G6w
+ 3eW68Whxns8Qc6BtSyADP2NHcESzS6/5QZG3LGnXYFQU28uH70L4w1XA1I41Yd89yepNfu
+ DkoMAuJlhqWg76QuJoBOJ30fnmgaCps=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-lCDJOZbyO6Kqt7rAskZ1iQ-1; Wed, 17 Mar 2021 09:09:13 -0400
+X-MC-Unique: lCDJOZbyO6Kqt7rAskZ1iQ-1
+Received: by mail-wr1-f70.google.com with SMTP id z17so18370272wrv.23
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:09:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0ZP9hWOCMObFvrBuDSNyfH5w21qCWfRoNuFS3Nz6Efo=;
+ b=bli2NHojwXIBPKhdNWCgMya+7m8J++3iWUTqdh/8xgHksTbyAi3FrWlE+FHb9UEEuD
+ eK2L/IAdus1Z5i8bMjU3qQONAbUqfZ1l6XI3XlwXNv5HTMWOgXnyOEHRq94QVF5lJGOL
+ wIQYHjq2W779Pd6e9DCNTMZEKr0ORjNqbwB8j9vmovL4qQ+hLDj1V5xRRJ+aJ6pn7C4T
+ bitahR4Envx1bNSnvaYZ9H16MMIkZ/m/s3usofXRFfq/S0PLbFYo7INr9fS/TRit9YI7
+ UmijzLyDlCZDA1ox0tCiIT5TWZ88smsyCwC5L+b+pg5K+6fh4JGLkXFY4zfivF78zmhR
+ r8AQ==
+X-Gm-Message-State: AOAM533ICHMbRGX204rOl2zSVqY9sSOzfmZyagKA3Rj8YjR/od4IW9A6
+ fDhPLFr0BeR97/e//xeMdm1mpufDSeRPxWeUV2WZC/bGGluNhRB1YbE9IiMKgJ4x+AIjEIoqbX0
+ zor3z+ByXTfkdXEI=
+X-Received: by 2002:a5d:46c4:: with SMTP id g4mr4364163wrs.241.1615986552162; 
+ Wed, 17 Mar 2021 06:09:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFesakAoO0qZ7Tzr5mGR1+eBMBus1Nk812NAa4KBXhrwT+jgG9idXgXKf7JuEbcHmYNop7gw==
+X-Received: by 2002:a5d:46c4:: with SMTP id g4mr4364127wrs.241.1615986551842; 
+ Wed, 17 Mar 2021 06:09:11 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id 1sm2448357wmj.2.2021.03.17.06.09.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 06:09:11 -0700 (PDT)
+Subject: Re: [PATCH] hw/char/pl011: Fix clock migration failure
+To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20210317044441.112313-1-gshan@redhat.com>
+ <CAFEAcA8Wf+fYppz6kWurU=68NH7uvn0HFXc_FJ6twoA86bcBcg@mail.gmail.com>
+ <73a30558-469e-8ef0-02b2-aaaaa2449cda@redhat.com>
+ <CAFEAcA_yuSR=KkpBTh+21JkqiB7gKfnFvgvxYgPN2yLfvxpi_A@mail.gmail.com>
+ <3e7ba090-c45e-8fa4-1a59-16856241cbdc@redhat.com>
+ <CAFEAcA_zYaOXw5yaXWEjgBy6YeTpB5FRBCO96To-bv9xpQzbMQ@mail.gmail.com>
+ <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4fbceae2-7a0f-49cc-3a91-e4fa6be8c6af@redhat.com>
+Date: Wed, 17 Mar 2021 14:09:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210315230838.2973103-2-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,81 +103,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Gavin Shan <gshan@redhat.com>, Luc Michel <luc@lmichel.fr>,
+ Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, avocado-devel <avocado-devel@redhat.com>,
+ Shan Gavin <shan.gavin@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
++Beraldo
 
-On 3/15/21 8:08 PM, Philippe Mathieu-Daudé wrote:
-> The Avocado Test::fetch_asset() is handy to download artifacts
-> before running tests. The current class is named Test but only
-> tests system emulation. As we want to test user emulation,
-> refactor the common code as QemuBaseTest.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   tests/acceptance/avocado_qemu/__init__.py | 23 ++++++++++++++++++++---
->   1 file changed, 20 insertions(+), 3 deletions(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index df167b142cc..4f814047176 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -155,7 +155,7 @@ def exec_command_and_wait_for_pattern(test, command,
->       """
->       _console_interaction(test, success_message, failure_message, command + '\r')
->   
-> -class Test(avocado.Test):
-> +class QemuBaseTest(avocado.Test):
+On 3/17/21 1:54 PM, Andrew Jones wrote:
+> On Wed, Mar 17, 2021 at 11:14:56AM +0000, Peter Maydell wrote:
+>> On Wed, 17 Mar 2021 at 10:59, Gavin Shan <gshan@redhat.com> wrote:
+>>>
+>>> Hi Peter,
+>>>
+>>> On 3/17/21 9:40 PM, Peter Maydell wrote:
+>>>> On Wed, 17 Mar 2021 at 10:37, Gavin Shan <gshan@redhat.com> wrote:
+>>>>> On 3/17/21 8:09 PM, Peter Maydell wrote:
+>>>>>> On Wed, 17 Mar 2021 at 04:44, Gavin Shan <gshan@redhat.com> wrote:
+>>>>>>>
+>>>>>>>    static const VMStateDescription vmstate_pl011 = {
+>>>>>>>        .name = "pl011",
+>>>>>>>        .version_id = 2,
+>>>>>>>        .minimum_version_id = 2,
+>>>>>>> +    .post_load = pl011_post_load,
+>>>>>>>        .fields = (VMStateField[]) {
+>>>>>>>            VMSTATE_UINT32(readbuff, PL011State),
+>>>>>>>            VMSTATE_UINT32(flags, PL011State),
+>>>>>>> @@ -355,10 +355,6 @@ static const VMStateDescription vmstate_pl011 = {
+>>>>>>>            VMSTATE_INT32(read_trigger, PL011State),
+>>>>>>>            VMSTATE_END_OF_LIST()
+>>>>>>>        },
+>>>>>>> -    .subsections = (const VMStateDescription * []) {
+>>>>>>> -        &vmstate_pl011_clock,
+>>>>>>> -        NULL
+>>>>>>> -    }
+>>>>>>>    };
+>>>>>>
+>>>>>> Doesn't dropping the subsection break migration compat ?
+>>>>>>
+>>>>>
+>>>>> It's why this patch needs to be backported to stable branches.
+>>>>> In that way, we won't have migration compatible issue.
+>>>>
+>>>> No, migration has to work from the existing already
+>>>> shipped 5.1, 5.2, etc releases to 6.0 (assuming you use
+>>>> the correct "virt-5.2" &c versioned machine type.)
+>>>>
+>>>
+>>> Commit aac63e0e6ea3 ("hw/char/pl011: add a clock input") is merged
+>>> to v5.2.0. The migration failure happens during migration from v6.0
+>>> to v5.1 with machine type as "virt-5.1", instead of migrating from
+>>> v5.1 to v6.0. One question is if we need support backwards migration?
+>>
+>> Upstream doesn't care about backwards migration. AIUI
+>> RedHat as a downstream care about the backwards-migration
+>> case in some specific situations, but I don't know if that
+>> would include this one.
+> 
+> Right, we do prefer to be able to support "ping-pong" migrations. For
+> example, if we start a virt-5.1 machine on a 5.1 build of QEMU, and then
+> migrate it to a 5.2 build of QEMU, we'd like to also be able to go back
+> to the 5.1 build.
+> 
+> I agree this patch is not the right approach. I think the right approach
+> is to introduce a compat property and make the "new" section dependent
+> on it. And then update the hw_compat_* arrays. Gavin, please take a look
+> at "Connecting subsections to properties" of docs/devel/migration.rst.
+> 
+> I'm also curious what the state of mach-virt's machine types are for
+> migration. It'd be nice to exhaustively test both forward migration of
+> all machine types and ping-pong migrations of all machine types.
 
-The QemuBaseTest class still defines require_accelerator() which is only 
-used by qemu-system tests (thus, it should rather live on the Test 
-class). Same thing for self.machine, unless that property is used on 
-qemu-user tests.
+FYI this test has been suggested to the Avocado team few times.
+They might already have a ticket to track any progress.
 
->       def _get_unique_tag_val(self, tag_name):
->           """
->           Gets a tag value, if unique for a key
-> @@ -188,8 +188,6 @@ def require_accelerator(self, accelerator):
->                           "available" % accelerator)
->   
->       def setUp(self):
-> -        self._vms = {}
-> -
->           self.arch = self.params.get('arch',
->                                       default=self._get_unique_tag_val('arch'))
->   
-> @@ -202,6 +200,25 @@ def setUp(self):
->           if self.qemu_bin is None:
->               self.cancel("No QEMU binary defined or found in the build tree")
->   
-> +
-> +    def fetch_asset(self, name,
-> +                    asset_hash=None, algorithm=None,
-> +                    locations=None, expire=None,
-> +                    find_only=False, cancel_on_missing=True):
-> +        return super(QemuBaseTest, self).fetch_asset(name,
-> +                        asset_hash=asset_hash,
-> +                        algorithm=algorithm,
-> +                        locations=locations,
-> +                        expire=expire,
-> +                        find_only=find_only,
-> +                        cancel_on_missing=cancel_on_missing)
-Do you overwrite this fetch_asset() on class Test on purpose? I didn't 
-get why fetch_asset() is defined on the classes inherited from QemuBaseTest.
-> +
-> +# a.k.a. QemuSystemTest for system emulation...
-Above comment could become the class docstring.
-> +class Test(QemuBaseTest):
-> +    def setUp(self):
-> +        self._vms = {}
-> +        super(Test, self).setUp()
-> +
->       def _new_vm(self, *args):
->           self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
->           vm = QEMUMachine(self.qemu_bin, sock_dir=self._sd.name)
+> We can
+> then consider each issue we find (the pessimist in me suggests we'll find
+> more than this pl011 issue) and how/if we want to resolve them.
 
 
