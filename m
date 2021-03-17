@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7837D33F66B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:18:20 +0100 (CET)
-Received: from localhost ([::1]:58022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE5233F68E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:21:10 +0100 (CET)
+Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZoJ-00049C-Ex
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
+	id 1lMZr3-00072n-Qz
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lMZ92-0002rc-LJ
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:35:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50398)
+ id 1lMZ9Y-0003CD-00
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:36:15 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lMZ8z-0005UD-21
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:35:40 -0400
+ id 1lMZ9O-0005im-GT
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:36:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=/1FvT4/rC1wGR/G2lPPw0+A45U6B1UCcaO9+4u019UY=; b=YrBZjiU1U4My
- vqJtraF7ioIpaKGoL7clYCaK8j91eu17wUI8THfnd4YwB1tx9RDXl9fRdywO2ETNIwjo9dW904gFy
- fqCHgS3VpZ+0y34PYCOnGKSw0MusOVrTJAjIZqTkBoarRfS6P6kgjVU7I0wZlGkL3sRIVAsLy2P5n
- 8ihUM=;
+ Content-Type; bh=KQSnYrifT5MGz3UBYuDBKnvuFBfN3TpZOQ1Wwyz4PIM=; b=Z0YzBg2acvde
+ YY1moErPWy9f6pXPswRxKfDqWZt07vSgIeXKv/HNG8PQ1t+veMBESQcJ2v5KEaTKppKb0iaMeLf3f
+ AcCcSvb6n6OSZ8kgDeE5w7msJAa1+JbKx+WUAMamIPtXZeDIIJDU3Z3ZBoS4h+ajh2H4ezzMNMERE
+ OiX3s=;
 Received: from [192.168.15.248] (helo=andrey-MS-7B54.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lMZ8N-0034yI-OL; Wed, 17 Mar 2021 19:34:59 +0300
+ id 1lMZ8l-0034yI-PH; Wed, 17 Mar 2021 19:35:23 +0300
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
@@ -36,10 +36,10 @@ Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [RFC PATCH 7/9] migration/snap-tool: Complete implementation of
- snapshot saving
-Date: Wed, 17 Mar 2021 19:32:20 +0300
-Message-Id: <20210317163222.182609-8-andrey.gruzdev@virtuozzo.com>
+Subject: [RFC PATCH 8/9] migration/snap-tool: Implementation of snapshot
+ loading in precopy
+Date: Wed, 17 Mar 2021 19:32:21 +0300
+Message-Id: <20210317163222.182609-9-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
 References: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
@@ -68,365 +68,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Includes code to parse incoming migration stream, dispatch data to
-section handlers and deal with complications of open-coded migration
-format without introducing strong dependencies on QEMU migration code.
+This part implements snapshot loading in precopy mode.
 
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 ---
- include/qemu-snap.h  |  42 +++
- qemu-snap-handlers.c | 717 ++++++++++++++++++++++++++++++++++++++++++-
- qemu-snap.c          |  54 +++-
- 3 files changed, 810 insertions(+), 3 deletions(-)
+ include/qemu-snap.h  |  24 ++
+ qemu-snap-handlers.c | 586 ++++++++++++++++++++++++++++++++++++++++++-
+ qemu-snap.c          |  44 +++-
+ 3 files changed, 649 insertions(+), 5 deletions(-)
 
 diff --git a/include/qemu-snap.h b/include/qemu-snap.h
-index f4b38d6442..570f200c9d 100644
+index 570f200c9d..f9f6db529f 100644
 --- a/include/qemu-snap.h
 +++ b/include/qemu-snap.h
-@@ -51,8 +51,47 @@ typedef struct AioBufferTask {
+@@ -26,6 +26,11 @@
+  */
+ #define PAGE_SIZE_MAX           16384
  
- typedef AioBufferStatus coroutine_fn (*AioBufferFunc)(AioBufferTask *task);
++/* Buffer size for RAM chunk loads via AIO buffer_pool */
++#define AIO_BUFFER_SIZE         (1024 * 1024)
++/* Max. concurrent AIO tasks */
++#define AIO_TASKS_MAX           8
++
+ typedef struct AioBufferPool AioBufferPool;
  
-+typedef struct QIOChannelBuffer QIOChannelBuffer;
-+
- typedef struct SnapSaveState {
-+    const char *filename;       /* Image file name */
-     BlockBackend *blk;          /* Block backend */
-+
-+    QEMUFile *f_fd;             /* Incoming migration stream QEMUFile */
-+    QEMUFile *f_vmstate;        /* Block backend vmstate area QEMUFile */
-+    /*
-+     * Buffer to stash first few KBs of incoming stream, part of it later will
-+     * go the the VMSTATE area of the image file. Specifically, these are VM
-+     * state header, configuration section and the section which contains
-+     * RAM block list.
-+     */
-+    QIOChannelBuffer *ioc_lbuf;
-+    /* Page coalescing buffer channel */
-+    QIOChannelBuffer *ioc_pbuf;
-+
-+    /* BDRV offset matching start of ioc_pbuf */
-+    int64_t bdrv_offset;
-+    /* Last BDRV offset saved to ioc_pbuf */
-+    int64_t last_bdrv_offset;
-+
-+    /* Stream read position, updated at the beginning of each new section */
-+    int64_t stream_pos;
-+
-+    /* Stream read position at the beginning of RAM block list section */
-+    int64_t ram_list_pos;
-+    /* Stream read position at the beginning of the first RAM data section */
-+    int64_t ram_pos;
-+    /* Stream read position at the beginning of the first device state section */
-+    int64_t device_pos;
-+
-+    /* Final status */
-+    int status;
-+
-+    /*
-+     * Keep first few bytes from the beginning of each section for the case
-+     * when we meet device state section and go into 'default_handler'.
-+     */
-+    uint8_t section_header[512];
- } SnapSaveState;
+ typedef struct AioBufferStatus {
+@@ -96,6 +101,25 @@ typedef struct SnapSaveState {
  
  typedef struct SnapLoadState {
-@@ -65,6 +104,9 @@ SnapLoadState *snap_load_get_state(void);
- int coroutine_fn snap_save_state_main(SnapSaveState *sn);
- int coroutine_fn snap_load_state_main(SnapLoadState *sn);
- 
-+void snap_ram_init_state(int page_bits);
-+void snap_ram_destroy_state(void);
+     BlockBackend *blk;          /* Block backend */
 +
- QEMUFile *qemu_fopen_bdrv_vmstate(BlockDriverState *bs, int is_writable);
++    QEMUFile *f_fd;             /* Outgoing migration stream QEMUFile */
++    QEMUFile *f_vmstate;        /* Block backend vmstate area QEMUFile */
++    /*
++     * Buffer to keep first few KBs of BDRV vmstate that we stashed at the
++     * start. Within this buffer are VM state header, configuration section
++     * and the first 'ram' section with RAM block list.
++     */
++    QIOChannelBuffer *ioc_lbuf;
++
++    /* AIO buffer pool */
++    AioBufferPool *aio_pool;
++
++    /* BDRV vmstate offset of RAM block list section */
++    int64_t state_ram_list_offset;
++    /* BDRV vmstate offset of the first device section */
++    int64_t state_device_offset;
++    /* BDRV vmstate End-Of-File */
++    int64_t state_eof;
+ } SnapLoadState;
  
- AioBufferPool *coroutine_fn aio_pool_new(int buf_align, int buf_size, int buf_count);
+ SnapSaveState *snap_save_get_state(void);
 diff --git a/qemu-snap-handlers.c b/qemu-snap-handlers.c
-index bdc1911909..4b63d42a29 100644
+index 4b63d42a29..7dfe950829 100644
 --- a/qemu-snap-handlers.c
 +++ b/qemu-snap-handlers.c
-@@ -23,11 +23,704 @@
- #include "migration/ram.h"
- #include "qemu-snap.h"
+@@ -41,12 +41,22 @@ typedef struct RAMBlockDesc {
+     int64_t length;             /* RAM block used_length */
+     int64_t nr_pages;           /* RAM block page count (length >> page_bits) */
  
-+/* BDRV vmstate area MAGIC for state header */
-+#define VMSTATE_MAGIC               0x5354564d
-+/* BDRV vmstate area header size */
-+#define VMSTATE_HEADER_SIZE         28
-+/* BDRV vmstate area header eof_pos field offset */
-+#define VMSTATE_HEADER_EOF_OFFSET   24
++    int64_t last_offset;        /* Last offset sent in precopy */
 +
-+/* Alignment of QEMU RAM block on backing storage */
-+#define BLK_RAM_BLOCK_ALIGN         (1024 * 1024)
-+/* Max. byte count for page coalescing buffer */
-+#define PAGE_COALESC_MAX            (512 * 1024)
+     char idstr[256];            /* RAM block id string */
+ 
++    unsigned long *bitmap;      /* Loaded pages bitmap */
 +
-+/* RAM block descriptor */
-+typedef struct RAMBlockDesc {
-+    int64_t bdrv_offset;        /* Offset on backing storage */
-+    int64_t length;             /* RAM block used_length */
-+    int64_t nr_pages;           /* RAM block page count (length >> page_bits) */
+     /* Link into ram_list */
+     QSIMPLEQ_ENTRY(RAMBlockDesc) next;
+ } RAMBlockDesc;
+ 
++/* Reference to the RAM page with block/page tuple */
++typedef struct RAMPageRef {
++    RAMBlockDesc *block;        /* RAM block containing page */
++    int64_t page;               /* Page index in RAM block */
++} RAMPageRef;
 +
-+    char idstr[256];            /* RAM block id string */
+ /* State reflecting RAM part of snapshot */
+ typedef struct RAMState {
+     int64_t page_size;          /* Page size */
+@@ -54,6 +64,15 @@ typedef struct RAMState {
+     int page_bits;              /* Page size bits */
+ 
+     int64_t normal_pages;       /* Total number of normal (non-zero) pages */
++    int64_t loaded_pages;       /* Current number of normal pages loaded */
 +
-+    /* Link into ram_list */
-+    QSIMPLEQ_ENTRY(RAMBlockDesc) next;
-+} RAMBlockDesc;
++    /* Last RAM block touched by load_send_ram_iterate() */
++    RAMBlockDesc *last_block;
++    /* Last page touched by load_send_ram_iterate() */
++    int64_t last_page;
 +
-+/* State reflecting RAM part of snapshot */
-+typedef struct RAMState {
-+    int64_t page_size;          /* Page size */
-+    int64_t page_mask;          /* Page mask */
-+    int page_bits;              /* Page size bits */
-+
-+    int64_t normal_pages;       /* Total number of normal (non-zero) pages */
-+
-+    /* List of RAM blocks */
-+    QSIMPLEQ_HEAD(, RAMBlockDesc) ram_block_list;
-+} RAMState;
-+
-+/* Section handler ops */
-+typedef struct SectionHandlerOps {
-+    int (*save_section)(QEMUFile *f, void *opaque, int version_id);
-+    int (*load_section)(QEMUFile *f, void *opaque, int version_id);
-+} SectionHandlerOps;
-+
-+/* Section handler */
-+typedef struct SectionHandlersEntry {
-+    const char *idstr;          /* Section id string */
-+    const int instance_id;      /* Section instance id */
-+    const int version_id;       /* Max. supported section version id */
-+
-+    int state_section_id;       /* Section id from migration stream */
-+    int state_version_id;       /* Version id from migration stream */
-+
-+    SectionHandlerOps *ops;     /* Section handler callbacks */
-+} SectionHandlersEntry;
-+
-+/* Available section handlers */
-+typedef struct SectionHandlers {
-+    /* Handler for sections not identified by 'handlers' array */
-+    SectionHandlersEntry default_entry;
-+    /* Array of section save/load handlers */
-+    SectionHandlersEntry entries[];
-+} SectionHandlers;
-+
-+#define SECTION_HANDLERS_ENTRY(_idstr, _instance_id, _version_id, _ops) {   \
-+    .idstr          = _idstr,           \
-+    .instance_id    = (_instance_id),   \
-+    .version_id     = (_version_id),    \
-+    .ops            = (_ops),           \
-+}
-+
-+#define SECTION_HANDLERS_END()  { NULL, }
-+
-+/* Forward declarations */
-+static int default_save(QEMUFile *f, void *opaque, int version_id);
-+static int ram_save(QEMUFile *f, void *opaque, int version_id);
-+static int save_state_complete(SnapSaveState *sn);
-+
-+static RAMState ram_state;
-+
-+static SectionHandlerOps default_handler_ops = {
-+    .save_section = default_save,
-+    .load_section = NULL,
-+};
-+
-+static SectionHandlerOps ram_handler_ops = {
-+    .save_section = ram_save,
-+    .load_section = NULL,
-+};
-+
-+static SectionHandlers section_handlers = {
-+    .default_entry =
-+        SECTION_HANDLERS_ENTRY("default", 0, 0, &default_handler_ops),
-+    .entries = {
-+        SECTION_HANDLERS_ENTRY("ram", 0, 4, &ram_handler_ops),
-+        SECTION_HANDLERS_END(),
-+    },
-+};
-+
-+static SectionHandlersEntry *find_se(const char *idstr, int instance_id)
-+{
-+    SectionHandlersEntry *se;
-+
-+    for (se = section_handlers.entries; se->idstr; se++) {
-+        if (!strcmp(se->idstr, idstr) && (instance_id == se->instance_id)) {
-+            return se;
-+        }
-+    }
-+    return NULL;
-+}
-+
-+static SectionHandlersEntry *find_se_by_section_id(int section_id)
-+{
-+    SectionHandlersEntry *se;
-+
-+    for (se = section_handlers.entries; se->idstr; se++) {
-+        if (section_id == se->state_section_id) {
-+            return se;
-+        }
-+    }
-+    return NULL;
-+}
-+
-+static bool check_section_footer(QEMUFile *f, SectionHandlersEntry *se)
-+{
-+    uint8_t token;
-+    int section_id;
-+
-+    token = qemu_get_byte(f);
-+    if (token != QEMU_VM_SECTION_FOOTER) {
-+        error_report("Missing footer for section '%s'", se->idstr);
-+        return false;
-+    }
-+
-+    section_id = qemu_get_be32(f);
-+    if (section_id != se->state_section_id) {
-+        error_report("Mismatched section_id in footer for section '%s':"
-+                     " read_id=%d expected_id=%d",
-+                se->idstr, section_id, se->state_section_id);
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static inline
-+bool ram_offset_in_block(RAMBlockDesc *block, int64_t offset)
-+{
-+    return (block && (offset < block->length));
-+}
-+
-+static inline
-+bool ram_bdrv_offset_in_block(RAMBlockDesc *block, int64_t bdrv_offset)
-+{
-+    return (block && (bdrv_offset >= block->bdrv_offset) &&
-+            (bdrv_offset < block->bdrv_offset + block->length));
-+}
-+
-+static inline
-+int64_t ram_bdrv_from_block_offset(RAMBlockDesc *block, int64_t offset)
-+{
-+    if (!ram_offset_in_block(block, offset)) {
-+        return INVALID_OFFSET;
-+    }
-+
-+    return block->bdrv_offset + offset;
-+}
-+
-+static inline
-+int64_t ram_block_offset_from_bdrv(RAMBlockDesc *block, int64_t bdrv_offset)
-+{
-+    int64_t offset;
-+
-+    if (!block) {
-+        return INVALID_OFFSET;
-+    }
-+    offset = bdrv_offset - block->bdrv_offset;
-+    return offset >= 0 ? offset : INVALID_OFFSET;
-+}
-+
-+static RAMBlockDesc *ram_block_by_idstr(const char *idstr)
++    /* Last RAM block sent by load_send_ram_iterate() */
++    RAMBlockDesc *last_sent_block;
+ 
+     /* List of RAM blocks */
+     QSIMPLEQ_HEAD(, RAMBlockDesc) ram_block_list;
+@@ -96,19 +115,22 @@ typedef struct SectionHandlers {
+ 
+ /* Forward declarations */
+ static int default_save(QEMUFile *f, void *opaque, int version_id);
++static int default_load(QEMUFile *f, void *opaque, int version_id);
+ static int ram_save(QEMUFile *f, void *opaque, int version_id);
++static int ram_load(QEMUFile *f, void *opaque, int version_id);
+ static int save_state_complete(SnapSaveState *sn);
++static int coroutine_fn load_send_pages_flush(SnapLoadState *sn);
+ 
+ static RAMState ram_state;
+ 
+ static SectionHandlerOps default_handler_ops = {
+     .save_section = default_save,
+-    .load_section = NULL,
++    .load_section = default_load,
+ };
+ 
+ static SectionHandlerOps ram_handler_ops = {
+     .save_section = ram_save,
+-    .load_section = NULL,
++    .load_section = ram_load,
+ };
+ 
+ static SectionHandlers section_handlers = {
+@@ -212,6 +234,18 @@ static RAMBlockDesc *ram_block_by_idstr(const char *idstr)
+     return NULL;
+ }
+ 
++static RAMBlockDesc *ram_block_by_bdrv_offset(int64_t bdrv_offset)
 +{
 +    RAMBlockDesc *block;
 +
 +    QSIMPLEQ_FOREACH(block, &ram_state.ram_block_list, next) {
-+        if (!strcmp(idstr, block->idstr)) {
++        if (ram_bdrv_offset_in_block(block, bdrv_offset)) {
 +            return block;
 +        }
 +    }
 +    return NULL;
 +}
 +
-+static RAMBlockDesc *ram_block_from_stream(QEMUFile *f, int flags)
-+{
-+    static RAMBlockDesc *block;
-+    char idstr[256];
-+
-+    if (flags & RAM_SAVE_FLAG_CONTINUE) {
-+        if (!block) {
-+            error_report("Corrupted 'ram' section: offset=0x%" PRIx64,
-+                    qemu_ftell2(f));
-+            return NULL;
-+        }
-+        return block;
-+    }
-+
-+    if (!qemu_get_counted_string(f, idstr)) {
-+        return NULL;
-+    }
-+    block = ram_block_by_idstr(idstr);
-+    if (!block) {
-+        error_report("Can't find RAM block '%s'", idstr);
-+        return NULL;
-+    }
-+    return block;
-+}
-+
-+static int64_t ram_block_next_bdrv_offset(void)
-+{
-+    RAMBlockDesc *last_block;
-+    int64_t offset;
-+
-+    last_block = QSIMPLEQ_LAST(&ram_state.ram_block_list, RAMBlockDesc, next);
-+    if (!last_block) {
-+        return 0;
-+    }
-+    offset = last_block->bdrv_offset + last_block->length;
-+    return ROUND_UP(offset, BLK_RAM_BLOCK_ALIGN);
-+}
-+
-+static void ram_block_add(const char *idstr, int64_t size)
+ static RAMBlockDesc *ram_block_from_stream(QEMUFile *f, int flags)
+ {
+     static RAMBlockDesc *block;
+@@ -289,6 +323,36 @@ static void ram_block_list_from_stream(QEMUFile *f, int64_t mem_size)
+     }
+ }
+ 
++static void ram_block_list_init_bitmaps(void)
 +{
 +    RAMBlockDesc *block;
 +
-+    block = g_new0(RAMBlockDesc, 1);
-+    block->length = size;
-+    block->bdrv_offset = ram_block_next_bdrv_offset();
-+    strcpy(block->idstr, idstr);
++    QSIMPLEQ_FOREACH(block, &ram_state.ram_block_list, next) {
++        block->nr_pages = block->length >> ram_state.page_bits;
 +
-+    QSIMPLEQ_INSERT_TAIL(&ram_state.ram_block_list, block, next);
-+}
-+
-+static void ram_block_list_from_stream(QEMUFile *f, int64_t mem_size)
-+{
-+    int64_t total_ram_bytes;
-+
-+    total_ram_bytes = mem_size;
-+    while (total_ram_bytes > 0) {
-+        char idstr[256];
-+        int64_t size;
-+
-+        if (!qemu_get_counted_string(f, idstr)) {
-+            error_report("Can't get RAM block id string in 'ram' "
-+                         "MEM_SIZE: offset=0x%" PRIx64 " error=%d",
-+                    qemu_ftell2(f), qemu_file_get_error(f));
-+            return;
-+        }
-+        size = (int64_t) qemu_get_be64(f);
-+
-+        ram_block_add(idstr, size);
-+        total_ram_bytes -= size;
-+    }
-+    if (total_ram_bytes != 0) {
-+        error_report("Mismatched MEM_SIZE vs sum of RAM block lengths:"
-+                     " mem_size=%" PRId64 " block_sum=%" PRId64,
-+                mem_size, (mem_size - total_ram_bytes));
++        block->bitmap = bitmap_new(block->nr_pages);
++        bitmap_set(block->bitmap, 0, block->nr_pages);
 +    }
 +}
 +
-+static void save_check_file_errors(SnapSaveState *sn, int *res)
++static inline
++int64_t ram_block_bitmap_find_next(RAMBlockDesc *block, int64_t start)
 +{
-+    /* Check for -EIO that indicates plane EOF */
-+    if (*res == -EIO) {
-+        *res = 0;
-+    }
-+    /* Check file errors for success and -EINVAL retcodes */
++    return find_next_bit(block->bitmap, block->nr_pages, start);
++}
++
++static inline
++int64_t ram_block_bitmap_find_next_clear(RAMBlockDesc *block, int64_t start)
++{
++    return find_next_zero_bit(block->bitmap, block->nr_pages, start);
++}
++
++static inline
++void ram_block_bitmap_clear(RAMBlockDesc *block, int64_t start, int64_t count)
++{
++    bitmap_clear(block->bitmap, start, count);
++}
++
+ static void save_check_file_errors(SnapSaveState *sn, int *res)
+ {
+     /* Check for -EIO that indicates plane EOF */
+@@ -723,11 +787,517 @@ int coroutine_fn snap_save_state_main(SnapSaveState *sn)
+     return sn->status;
+ }
+ 
++static void load_check_file_errors(SnapLoadState *sn, int *res)
++{
++    /* Check file errors even on success */
 +    if (*res >= 0 || *res == -EINVAL) {
 +        int f_res;
 +
 +        f_res = qemu_file_get_error(sn->f_fd);
-+        f_res = (f_res == -EIO) ? 0 : f_res;
 +        if (!f_res) {
 +            f_res = qemu_file_get_error(sn->f_vmstate);
 +        }
@@ -434,60 +261,10 @@ index bdc1911909..4b63d42a29 100644
 +    }
 +}
 +
-+static int ram_save_page(SnapSaveState *sn, uint8_t *page_ptr, int64_t bdrv_offset)
++static int ram_load(QEMUFile *f, void *opaque, int version_id)
 +{
-+    size_t pbuf_usage = sn->ioc_pbuf->usage;
-+    int page_size = ram_state.page_size;
-+    int res = 0;
-+
-+    if (bdrv_offset != sn->last_bdrv_offset ||
-+        (pbuf_usage + page_size) >= PAGE_COALESC_MAX) {
-+        if (pbuf_usage) {
-+            /* Flush coalesced pages to block device */
-+            res = blk_pwrite(sn->blk, sn->bdrv_offset,
-+                    sn->ioc_pbuf->data, pbuf_usage, 0);
-+            res = res < 0 ? res : 0;
-+        }
-+
-+        /* Reset coalescing buffer state */
-+        sn->ioc_pbuf->usage = 0;
-+        sn->ioc_pbuf->offset = 0;
-+        /* Switch to new starting bdrv_offset */
-+        sn->bdrv_offset = bdrv_offset;
-+    }
-+
-+    qio_channel_write(QIO_CHANNEL(sn->ioc_pbuf),
-+            (char *) page_ptr, page_size, NULL);
-+    sn->last_bdrv_offset = bdrv_offset + page_size;
-+    return res;
-+}
-+
-+static int ram_save_page_flush(SnapSaveState *sn)
-+{
-+    size_t pbuf_usage = sn->ioc_pbuf->usage;
-+    int res = 0;
-+
-+    if (pbuf_usage) {
-+        /* Flush coalesced pages to block device */
-+        res = blk_pwrite(sn->blk, sn->bdrv_offset,
-+                sn->ioc_pbuf->data, pbuf_usage, 0);
-+        res = res < 0 ? res : 0;
-+    }
-+
-+    /* Reset coalescing buffer state */
-+    sn->ioc_pbuf->usage = 0;
-+    sn->ioc_pbuf->offset = 0;
-+
-+    sn->last_bdrv_offset = INVALID_OFFSET;
-+    return res;
-+}
-+
-+static int ram_save(QEMUFile *f, void *opaque, int version_id)
-+{
-+    SnapSaveState *sn = (SnapSaveState *) opaque;
-+    RAMState *rs = &ram_state;
-+    int incompat_flags = (RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE);
-+    int page_size = rs->page_size;
++    int compat_flags = (RAM_SAVE_FLAG_MEM_SIZE | RAM_SAVE_FLAG_EOS);
++    int64_t page_mask = ram_state.page_mask;
 +    int flags = 0;
 +    int res = 0;
 +
@@ -497,66 +274,23 @@ index bdc1911909..4b63d42a29 100644
 +    }
 +
 +    while (!res && !(flags & RAM_SAVE_FLAG_EOS)) {
-+        RAMBlockDesc *block;
-+        int64_t bdrv_offset = INVALID_OFFSET;
-+        uint8_t *page_ptr;
-+        ssize_t count;
 +        int64_t addr;
 +
 +        addr = qemu_get_be64(f);
-+        flags = addr & ~rs->page_mask;
-+        addr &= rs->page_mask;
++        flags = addr & ~page_mask;
++        addr &= page_mask;
 +
-+        if (flags & incompat_flags) {
++        if (flags & ~compat_flags) {
 +            error_report("RAM page with incompatible flags: offset=0x%" PRIx64
 +                         " flags=0x%x", qemu_ftell2(f), flags);
 +            res = -EINVAL;
 +            break;
 +        }
 +
-+        if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE)) {
-+            block = ram_block_from_stream(f, flags);
-+            bdrv_offset = ram_bdrv_from_block_offset(block, addr);
-+            if (bdrv_offset == INVALID_OFFSET) {
-+                error_report("Corrupted RAM page: offset=0x%" PRIx64
-+                             " page_addr=0x%" PRIx64, qemu_ftell2(f), addr);
-+                res = -EINVAL;
-+                break;
-+            }
-+        }
-+
-+        switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
++        switch (flags) {
 +        case RAM_SAVE_FLAG_MEM_SIZE:
-+            /* Save position of the section containing list of RAM blocks */
-+            if (sn->ram_list_pos) {
-+                error_report("Unexpected RAM page with FLAG_MEM_SIZE:"
-+                             " offset=0x%" PRIx64 " page_addr=0x%" PRIx64
-+                             " flags=0x%x", qemu_ftell2(f), addr, flags);
-+                res = -EINVAL;
-+                break;
-+            }
-+            sn->ram_list_pos = sn->stream_pos;
-+
 +            /* Fill RAM block list */
 +            ram_block_list_from_stream(f, addr);
-+            break;
-+
-+        case RAM_SAVE_FLAG_ZERO:
-+            /* Nothing to do with zero page */
-+            qemu_get_byte(f);
-+            break;
-+
-+        case RAM_SAVE_FLAG_PAGE:
-+            count = qemu_peek_buffer(f, &page_ptr, page_size, 0);
-+            qemu_file_skip(f, count);
-+            if (count != page_size) {
-+                /* I/O error */
-+                break;
-+            }
-+
-+            res = ram_save_page(sn, page_ptr, bdrv_offset);
-+            /* Update normal page count */
-+            ram_state.normal_pages++;
 +            break;
 +
 +        case RAM_SAVE_FLAG_EOS:
@@ -570,150 +304,352 @@ index bdc1911909..4b63d42a29 100644
 +            res = -EINVAL;
 +        }
 +
-+        /* Make additional check for file errors */
++        /* Check for file errors even if all looks good */
 +        if (!res) {
 +            res = qemu_file_get_error(f);
 +        }
 +    }
-+
-+    /* Flush page coalescing buffer at RAM_SAVE_FLAG_EOS */
-+    if (!res) {
-+        res = ram_save_page_flush(sn);
-+    }
 +    return res;
 +}
 +
-+static int default_save(QEMUFile *f, void *opaque, int version_id)
++static int default_load(QEMUFile *f, void *opaque, int version_id)
 +{
-+    SnapSaveState *sn = (SnapSaveState *) opaque;
-+
-+    if (!sn->ram_pos) {
-+        error_report("Section with unknown ID before first 'ram' section:"
-+                     " offset=0x%" PRIx64, sn->stream_pos);
-+        return -EINVAL;
-+    }
-+    if (!sn->device_pos) {
-+        sn->device_pos = sn->stream_pos;
-+        /*
-+         * Save the rest of migration data needed to restore VM state.
-+         * It is the header, configuration section, first 'ram' section
-+         * with the list of RAM blocks and device state data.
-+         */
-+        return save_state_complete(sn);
-+    }
-+
-+    /* Should never get here */
-+    assert(false);
++    error_report("Section with unknown ID: offset=0x%" PRIx64,
++            qemu_ftell2(f));
 +    return -EINVAL;
 +}
 +
-+static int save_state_complete(SnapSaveState *sn)
++static void send_page_header(QEMUFile *f, RAMBlockDesc *block, int64_t offset)
 +{
-+    QEMUFile *f = sn->f_fd;
-+    int64_t pos;
-+    int64_t eof_pos;
++    uint8_t hdr_buf[512];
++    int hdr_len = 8;
 +
-+    /* Current read position */
-+    pos = qemu_ftell2(f);
++    stq_be_p(hdr_buf, offset);
++    if (!(offset & RAM_SAVE_FLAG_CONTINUE)) {
++        int id_len;
 +
-+    /* Put specific MAGIC at the beginning of saved BDRV vmstate stream */
-+    qemu_put_be32(sn->f_vmstate, VMSTATE_MAGIC);
-+    /* Target page size */
-+    qemu_put_be32(sn->f_vmstate, ram_state.page_size);
-+    /* Number of normal (non-zero) pages in snapshot */
-+    qemu_put_be64(sn->f_vmstate, ram_state.normal_pages);
-+    /* Offset of RAM block list section relative to QEMU_VM_FILE_MAGIC */
-+    qemu_put_be32(sn->f_vmstate, sn->ram_list_pos);
-+    /* Offset of first device state section relative to QEMU_VM_FILE_MAGIC */
-+    qemu_put_be32(sn->f_vmstate, sn->ram_pos);
-+    /*
-+     * Put a slot here since we don't really know how
-+     * long is the rest of migration stream.
-+     */
-+    qemu_put_be32(sn->f_vmstate, 0);
++        id_len = strlen(block->idstr);
++        assert(id_len < 256);
 +
-+    /*
-+     * At the completion stage we save the leading part of migration stream
-+     * which contains header, configuration section and the 'ram' section
-+     * with QEMU_VM_SECTION_FULL type containing the list of RAM blocks.
-+     *
-+     * All of this comes before the first QEMU_VM_SECTION_PART token for 'ram'.
-+     * That QEMU_VM_SECTION_PART token is pointed by sn->ram_pos.
-+     */
-+    qemu_put_buffer(sn->f_vmstate, sn->ioc_lbuf->data, sn->ram_pos);
-+    /*
-+     * And then we save the trailing part with device state.
-+     *
-+     * First we take section header which has already been skipped
-+     * by QEMUFile but we can get it from sn->section_header.
-+     */
-+    qemu_put_buffer(sn->f_vmstate, sn->section_header, (pos - sn->device_pos));
++        hdr_buf[hdr_len] = id_len;
++        memcpy((hdr_buf + hdr_len + 1), block->idstr, id_len);
 +
-+    /* Forward the rest of stream data to the BDRV vmstate file */
-+    file_transfer_to_eof(sn->f_vmstate, f);
-+    /* It does qemu_fflush() internally */
-+    eof_pos = qemu_ftell(sn->f_vmstate);
++        hdr_len += 1 + id_len;
++    }
 +
-+    /* Hack: simulate negative seek() */
-+    qemu_update_position(sn->f_vmstate,
-+            (size_t)(ssize_t) (VMSTATE_HEADER_EOF_OFFSET - eof_pos));
-+    qemu_put_be32(sn->f_vmstate, eof_pos - VMSTATE_HEADER_SIZE);
-+    /* Final flush to deliver eof_offset header field */
-+    qemu_fflush(sn->f_vmstate);
-+
-+    return 1;
++    qemu_put_buffer(f, hdr_buf, hdr_len);
 +}
 +
-+static int save_section_config(SnapSaveState *sn)
++static void send_zeropage(QEMUFile *f, RAMBlockDesc *block, int64_t offset)
 +{
-+    QEMUFile *f = sn->f_fd;
-+    uint32_t id_len;
++    send_page_header(f, block, offset | RAM_SAVE_FLAG_ZERO);
++    qemu_put_byte(f, 0);
++}
 +
-+    id_len = qemu_get_be32(f);
-+    if (id_len > 255) {
-+        error_report("Corrupted QEMU_VM_CONFIGURATION section");
-+        return -EINVAL;
++static int send_pages_from_buffer(QEMUFile *f, AioBuffer *buffer)
++{
++    RAMState *rs = &ram_state;
++    int page_size = rs->page_size;
++    RAMBlockDesc *block = rs->last_sent_block;
++    int64_t bdrv_offset = buffer->status.offset;
++    int64_t flags = RAM_SAVE_FLAG_CONTINUE;
++    int pages = 0;
++
++    /* Need to switch to the another RAM block? */
++    if (!ram_bdrv_offset_in_block(block, bdrv_offset)) {
++        /*
++         * Lookup RAM block by BDRV offset cause in postcopy we
++         * can issue AIO buffer loads from non-contiguous blocks.
++         */
++        block = ram_block_by_bdrv_offset(bdrv_offset);
++        rs->last_sent_block = block;
++        /* Reset RAM_SAVE_FLAG_CONTINUE */
++        flags = 0;
 +    }
-+    qemu_file_skip(f, id_len);
++
++    for (int offset = 0; offset < buffer->status.count;
++            offset += page_size, bdrv_offset += page_size) {
++        void *page_buf = buffer->data + offset;
++        int64_t addr;
++
++        addr = ram_block_offset_from_bdrv(block, bdrv_offset);
++
++        if (buffer_is_zero(page_buf, page_size)) {
++            send_zeropage(f, block, (addr | flags));
++        } else {
++            send_page_header(f, block,
++                    (addr | RAM_SAVE_FLAG_PAGE | flags));
++            qemu_put_buffer_async(f, page_buf, page_size, false);
++
++            /* Update non-zero page count */
++            rs->loaded_pages++;
++        }
++        /*
++         * AioBuffer is always within a single RAM block so we need
++         * to set RAM_SAVE_FLAG_CONTINUE here unconditionally.
++         */
++        flags = RAM_SAVE_FLAG_CONTINUE;
++        pages++;
++    }
++
++    /* Need to flush cause we use qemu_put_buffer_async() */
++    qemu_fflush(f);
++    return pages;
++}
++
++static bool find_next_unsent_page(RAMPageRef *p_ref)
++{
++    RAMState *rs = &ram_state;
++    RAMBlockDesc *block = rs->last_block;
++    int64_t page = rs->last_page;
++    bool found = false;
++    bool full_round = false;
++
++    if (!block) {
++restart:
++        block = QSIMPLEQ_FIRST(&rs->ram_block_list);
++        page = 0;
++        full_round = true;
++    }
++
++    while (!found && block) {
++        page = ram_block_bitmap_find_next(block, page);
++        if (page >= block->nr_pages) {
++            block = QSIMPLEQ_NEXT(block, next);
++            page = 0;
++            continue;
++        }
++        found = true;
++    }
++
++    if (!found && !full_round) {
++        goto restart;
++    }
++
++    if (found) {
++        p_ref->block = block;
++        p_ref->page = page;
++    }
++    return found;
++}
++
++static inline
++void get_unsent_page_range(RAMPageRef *p_ref, RAMBlockDesc **block,
++        int64_t *offset, int64_t *limit)
++{
++    int64_t page_limit;
++
++    *block = p_ref->block;
++    *offset = p_ref->page << ram_state.page_bits;
++    page_limit = ram_block_bitmap_find_next_clear(p_ref->block, (p_ref->page + 1));
++    *limit = page_limit << ram_state.page_bits;
++}
++
++static AioBufferStatus coroutine_fn load_buffers_task_co(AioBufferTask *task)
++{
++    SnapLoadState *sn = snap_load_get_state();
++    AioBufferStatus ret;
++    int count;
++
++    count = blk_pread(sn->blk, task->offset, task->buffer->data, task->size);
++
++    ret.offset = task->offset;
++    ret.count = count;
++
++    return ret;
++}
++
++static void coroutine_fn load_buffers_fill_queue(SnapLoadState *sn)
++{
++    RAMState *rs = &ram_state;
++    RAMPageRef p_ref;
++    RAMBlockDesc *block;
++    int64_t offset;
++    int64_t limit;
++    int64_t pages;
++
++    if (!find_next_unsent_page(&p_ref)) {
++        return;
++    }
++
++    get_unsent_page_range(&p_ref, &block, &offset, &limit);
++
++    do {
++        AioBuffer *buffer;
++        int64_t bdrv_offset;
++        int size;
++
++        /* Try to acquire next buffer from the pool */
++        buffer = aio_pool_try_acquire_next(sn->aio_pool);
++        if (!buffer) {
++            break;
++        }
++
++        bdrv_offset = ram_bdrv_from_block_offset(block, offset);
++        assert(bdrv_offset != INVALID_OFFSET);
++
++        /* Get maximum transfer size for current RAM block and offset */
++        size = MIN((limit - offset), buffer->size);
++        aio_buffer_start_task(buffer, load_buffers_task_co, bdrv_offset, size);
++
++        offset += size;
++    } while (offset < limit);
++
++    rs->last_block = block;
++    rs->last_page = offset >> rs->page_bits;
++
++    block->last_offset = offset;
++
++    pages = rs->last_page - p_ref.page;
++    ram_block_bitmap_clear(block, p_ref.page, pages);
++}
++
++static int coroutine_fn load_send_pages(SnapLoadState *sn)
++{
++    AioBuffer *compl_buffer;
++    int pages = 0;
++
++    load_buffers_fill_queue(sn);
++
++    compl_buffer = aio_pool_wait_compl_next(sn->aio_pool);
++    if (compl_buffer) {
++        /* Check AIO completion status */
++        pages = aio_pool_status(sn->aio_pool);
++        if (pages < 0) {
++            return pages;
++        }
++
++        pages = send_pages_from_buffer(sn->f_fd, compl_buffer);
++        aio_buffer_release(compl_buffer);
++    }
++
++    return pages;
++}
++
++static int coroutine_fn load_send_pages_flush(SnapLoadState *sn)
++{
++    AioBuffer *compl_buffer;
++
++    while ((compl_buffer = aio_pool_wait_compl_next(sn->aio_pool))) {
++        int res = aio_pool_status(sn->aio_pool);
++        /* Check AIO completion status */
++        if (res < 0) {
++            return res;
++        }
++
++        send_pages_from_buffer(sn->f_fd, compl_buffer);
++        aio_buffer_release(compl_buffer);
++    }
++
 +    return 0;
 +}
 +
-+static int save_section_start_full(SnapSaveState *sn)
++static void send_section_header_part_end(QEMUFile *f, SectionHandlersEntry *se,
++        uint8_t section_type)
 +{
-+    QEMUFile *f = sn->f_fd;
++    assert(section_type == QEMU_VM_SECTION_PART ||
++           section_type == QEMU_VM_SECTION_END);
++
++    qemu_put_byte(f, section_type);
++    qemu_put_be32(f, se->state_section_id);
++}
++
++static void send_section_footer(QEMUFile *f, SectionHandlersEntry *se)
++{
++    qemu_put_byte(f, QEMU_VM_SECTION_FOOTER);
++    qemu_put_be32(f, se->state_section_id);
++}
++
++#define YIELD_AFTER_MS  500 /* ms */
++
++static int coroutine_fn load_send_ram_iterate(SnapLoadState *sn)
++{
 +    SectionHandlersEntry *se;
++    int64_t t_start;
++    int tmp_res;
++    int res = 1;
++
++    /* Send 'ram' section header with QEMU_VM_SECTION_PART type */
++    se = find_se("ram", 0);
++    send_section_header_part_end(sn->f_fd, se, QEMU_VM_SECTION_PART);
++
++    t_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    for (int iter = 0; res > 0; iter++) {
++        res = load_send_pages(sn);
++
++        if (!(iter & 7)) {
++            int64_t t_cur = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++            if ((t_cur - t_start) > YIELD_AFTER_MS) {
++                break;
++            }
++        }
++    }
++
++    /* Zero return code means that there're no more pages to send */
++    if (res >= 0) {
++        res = res ? 0 : 1;
++    }
++
++    /* Flush AIO buffers cause some may still remain unsent */
++    tmp_res = load_send_pages_flush(sn);
++    res = tmp_res ? tmp_res : res;
++
++    /* Send EOS flag before section footer */
++    qemu_put_be64(sn->f_fd, RAM_SAVE_FLAG_EOS);
++    send_section_footer(sn->f_fd, se);
++
++    qemu_fflush(sn->f_fd);
++    return res;
++}
++
++static int load_send_leader(SnapLoadState *sn)
++{
++    qemu_put_buffer(sn->f_fd, (sn->ioc_lbuf->data + VMSTATE_HEADER_SIZE),
++            sn->state_device_offset);
++    return qemu_file_get_error(sn->f_fd);
++}
++
++static int load_send_complete(SnapLoadState *sn)
++{
++    /* Transfer device state to the output pipe */
++    file_transfer_bytes(sn->f_fd, sn->f_vmstate,
++            (sn->state_eof - sn->state_device_offset));
++    qemu_fflush(sn->f_fd);
++    return 1;
++}
++
++static int load_section_start_full(SnapLoadState *sn)
++{
++    QEMUFile *f = sn->f_vmstate;
 +    int section_id;
 +    int instance_id;
 +    int version_id;
-+    char id_str[256];
++    char idstr[256];
++    SectionHandlersEntry *se;
 +    int res;
 +
 +    /* Read section start */
 +    section_id = qemu_get_be32(f);
-+    if (!qemu_get_counted_string(f, id_str)) {
++    if (!qemu_get_counted_string(f, idstr)) {
 +        return qemu_file_get_error(f);
 +    }
 +    instance_id = qemu_get_be32(f);
 +    version_id = qemu_get_be32(f);
 +
-+    se = find_se(id_str, instance_id);
++    se = find_se(idstr, instance_id);
 +    if (!se) {
 +        se = &section_handlers.default_entry;
 +    } else if (version_id > se->version_id) {
 +        /* Validate version */
 +        error_report("Unsupported version %d for '%s' v%d",
-+                version_id, id_str, se->version_id);
++                version_id, idstr, se->version_id);
 +        return -EINVAL;
 +    }
 +
 +    se->state_section_id = section_id;
 +    se->state_version_id = version_id;
 +
-+    res = se->ops->save_section(f, sn, se->state_version_id);
-+    /*
-+     * Positive return value indicates save completion,
-+     * no need to check section footer.
-+     */
++    res = se->ops->load_section(f, sn, se->state_version_id);
 +    if (res) {
 +        return res;
 +    }
@@ -725,254 +661,202 @@ index bdc1911909..4b63d42a29 100644
 +    return 0;
 +}
 +
-+static int save_section_part_end(SnapSaveState *sn)
++static int load_setup_ramlist(SnapLoadState *sn)
 +{
-+    QEMUFile *f = sn->f_fd;
-+    SectionHandlersEntry *se;
-+    int section_id;
++    QEMUFile *f = sn->f_vmstate;
++    uint8_t section_type;
++    int64_t section_pos;
 +    int res;
 +
-+    /* First section with QEMU_VM_SECTION_PART type must be the 'ram' section */
-+    if (!sn->ram_pos) {
-+        sn->ram_pos = sn->stream_pos;
-+    }
++    section_pos = qemu_ftell2(f);
 +
-+    section_id = qemu_get_be32(f);
-+    se = find_se_by_section_id(section_id);
-+    if (!se) {
-+        error_report("Unknown section ID: %d", section_id);
++    /* Read section type token */
++    section_type = qemu_get_byte(f);
++    if (section_type == QEMU_VM_EOF) {
++        error_report("Unexpected EOF token: offset=0x%" PRIx64, section_pos);
++        return -EINVAL;
++    } else if (section_type != QEMU_VM_SECTION_FULL &&
++               section_type != QEMU_VM_SECTION_START) {
++        error_report("Unexpected section type %d: offset=0x%" PRIx64,
++                section_type, section_pos);
 +        return -EINVAL;
 +    }
 +
-+    res = se->ops->save_section(f, sn, se->state_version_id);
-+    if (res) {
-+        error_report("Error while saving section: id_str='%s' section_id=%d",
-+                se->idstr, section_id);
-+        return res;
++    res = load_section_start_full(sn);
++    if (!res) {
++        ram_block_list_init_bitmaps();
 +    }
-+
-+    /* Finally check section footer */
-+    if (!check_section_footer(f, se)) {
-+        return -EINVAL;
-+    }
-+    return 0;
++    return res;
 +}
 +
-+static int save_state_header(SnapSaveState *sn)
++static int load_state_header(SnapLoadState *sn)
 +{
-+    QEMUFile *f = sn->f_fd;
++    QEMUFile *f = sn->f_vmstate;
 +    uint32_t v;
 +
-+    /* Validate QEMU MAGIC */
++    /* Validate specific MAGIC in vmstate area */
 +    v = qemu_get_be32(f);
-+    if (v != QEMU_VM_FILE_MAGIC) {
-+        error_report("Not a migration stream");
++    if (v != VMSTATE_MAGIC) {
++        error_report("Not a valid VMSTATE");
 +        return -EINVAL;
 +    }
 +    v = qemu_get_be32(f);
-+    if (v == QEMU_VM_FILE_VERSION_COMPAT) {
-+        error_report("SaveVM v2 format is obsolete");
++    if (v != ram_state.page_size) {
++        error_report("VMSTATE page size not matching target");
 +        return -EINVAL;
 +    }
-+    if (v != QEMU_VM_FILE_VERSION) {
-+        error_report("Unsupported migration stream version");
++
++    /* Number of non-zero pages in all RAM blocks */
++    ram_state.normal_pages = qemu_get_be64(f);
++
++    /* VMSTATE area offsets, counted from QEMU_FILE_MAGIC */
++    sn->state_ram_list_offset = qemu_get_be32(f);
++    sn->state_device_offset = qemu_get_be32(f);
++    sn->state_eof = qemu_get_be32(f);
++
++    /* Check that offsets are within the limits */
++    if ((VMSTATE_HEADER_SIZE + sn->state_device_offset) > INPLACE_READ_MAX ||
++        sn->state_device_offset <= sn->state_ram_list_offset) {
++        error_report("Corrupted VMSTATE header");
 +        return -EINVAL;
 +    }
++
++    /* Skip up to RAM block list section */
++    qemu_file_skip(f, sn->state_ram_list_offset);
 +    return 0;
 +}
 +
- /* Save snapshot data from incoming migration stream */
- int coroutine_fn snap_save_state_main(SnapSaveState *sn)
+ /* Load snapshot data and send it with outgoing migration stream */
+ int coroutine_fn snap_load_state_main(SnapLoadState *sn)
  {
 -    /* TODO: implement */
 -    return 0;
-+    QEMUFile *f = sn->f_fd;
-+    uint8_t *buf;
-+    uint8_t section_type;
-+    int res = 0;
++    int res;
 +
-+    res = save_state_header(sn);
++    res = load_state_header(sn);
 +    if (res) {
-+        save_check_file_errors(sn, &res);
-+        return res;
++        goto fail;
++    }
++    res = load_setup_ramlist(sn);
++    if (res) {
++        goto fail;
++    }
++    res = load_send_leader(sn);
++    if (res) {
++        goto fail;
 +    }
 +
-+    while (!res) {
-+        /* Update current stream position so it points to the section type token */
-+        sn->stream_pos = qemu_ftell2(f);
++    do {
++        res = load_send_ram_iterate(sn);
++        /* Make additional check for file errors */
++        load_check_file_errors(sn, &res);
++    } while (!res);
 +
-+        /*
-+         * Keep some data from the beginning of the section to use it if it appears
-+         * that we have reached device state section and go into 'default_handler'.
-+         */
-+        qemu_peek_buffer(f, &buf, sizeof(sn->section_header), 0);
-+        memcpy(sn->section_header, buf, sizeof(sn->section_header));
-+
-+        /* Read section type token */
-+        section_type = qemu_get_byte(f);
-+
-+        switch (section_type) {
-+        case QEMU_VM_CONFIGURATION:
-+            res = save_section_config(sn);
-+            break;
-+
-+        case QEMU_VM_SECTION_FULL:
-+        case QEMU_VM_SECTION_START:
-+            res = save_section_start_full(sn);
-+            break;
-+
-+        case QEMU_VM_SECTION_PART:
-+        case QEMU_VM_SECTION_END:
-+            res = save_section_part_end(sn);
-+            break;
-+
-+        case QEMU_VM_EOF:
-+            /*
-+             * End of migration stream, but normally we will never really get here
-+             * since final part of migration stream is a series of QEMU_VM_SECTION_FULL
-+             * sections holding non-iterable device state. In our case all this
-+             * state is saved with single call to snap_save_section_start_full()
-+             * when we first meet unknown section id string.
-+             */
-+            res = -EINVAL;
-+            break;
-+
-+        default:
-+            error_report("Unknown section type %d", section_type);
-+            res = -EINVAL;
-+        }
-+
-+        /* Additional check for file errors on success and -EINVAL */
-+        save_check_file_errors(sn, &res);
++    if (res == 1) {
++        res = load_send_complete(sn);
 +    }
 +
++fail:
++    load_check_file_errors(sn, &res);
 +    /* Replace positive exit code with 0 */
-+    sn->status = res < 0 ? res : 0;
-+    return sn->status;
++    return res < 0 ? res : 0;
  }
  
- /* Load snapshot data and send it with outgoing migration stream */
-@@ -36,3 +729,23 @@ int coroutine_fn snap_load_state_main(SnapLoadState *sn)
-     /* TODO: implement */
-     return 0;
+ /* Initialize snapshot RAM state */
+@@ -748,4 +1318,12 @@ void snap_ram_init_state(int page_bits)
+ /* Destroy snapshot RAM state */
+ void snap_ram_destroy_state(void)
+ {
++    RAMBlockDesc *block;
++    RAMBlockDesc *next_block;
++
++    /* Free RAM blocks */
++    QSIMPLEQ_FOREACH_SAFE(block, &ram_state.ram_block_list, next, next_block) {
++        g_free(block->bitmap);
++        g_free(block);
++    }
  }
-+
-+/* Initialize snapshot RAM state */
-+void snap_ram_init_state(int page_bits)
-+{
-+    RAMState *rs = &ram_state;
-+
-+    memset(rs, 0, sizeof(ram_state));
-+
-+    rs->page_bits = page_bits;
-+    rs->page_size = (int64_t) 1 << page_bits;
-+    rs->page_mask = ~(rs->page_size - 1);
-+
-+    /* Initialize RAM block list head */
-+    QSIMPLEQ_INIT(&rs->ram_block_list);
-+}
-+
-+/* Destroy snapshot RAM state */
-+void snap_ram_destroy_state(void)
-+{
-+}
 diff --git a/qemu-snap.c b/qemu-snap.c
-index ec56aa55d2..a337a7667b 100644
+index a337a7667b..c5efbd6803 100644
 --- a/qemu-snap.c
 +++ b/qemu-snap.c
-@@ -105,11 +105,31 @@ SnapLoadState *snap_load_get_state(void)
- static void snap_save_init_state(void)
- {
-     memset(&save_state, 0, sizeof(save_state));
-+    save_state.status = -1;
- }
+@@ -139,7 +139,20 @@ static void snap_load_init_state(void)
  
- static void snap_save_destroy_state(void)
+ static void snap_load_destroy_state(void)
  {
 -    /* TODO: implement */
-+    SnapSaveState *sn = snap_save_get_state();
++    SnapLoadState *sn = snap_load_get_state();
 +
++    if (sn->aio_pool) {
++        aio_pool_free(sn->aio_pool);
++    }
 +    if (sn->ioc_lbuf) {
 +        object_unref(OBJECT(sn->ioc_lbuf));
-+    }
-+    if (sn->ioc_pbuf) {
-+        object_unref(OBJECT(sn->ioc_pbuf));
 +    }
 +    if (sn->f_vmstate) {
 +        qemu_fclose(sn->f_vmstate);
 +    }
 +    if (sn->blk) {
-+        blk_flush(sn->blk);
 +        blk_unref(sn->blk);
-+
-+        /* Delete image file in case of failure */
-+        if (sn->status) {
-+            qemu_unlink(sn->filename);
-+        }
 +    }
  }
  
- static void snap_load_init_state(void)
-@@ -190,6 +210,8 @@ static void coroutine_fn do_snap_save_co(void *opaque)
+ static BlockBackend *snap_create(const char *filename, int64_t image_size,
+@@ -221,6 +234,12 @@ static void coroutine_fn do_snap_load_co(void *opaque)
      SnapTaskState *task_state = opaque;
-     SnapSaveState *sn = snap_save_get_state();
+     SnapLoadState *sn = snap_load_get_state();
  
 +    /* Switch to non-blocking mode in coroutine context */
++    qemu_file_set_blocking(sn->f_vmstate, false);
 +    qemu_file_set_blocking(sn->f_fd, false);
++    /* Initialize AIO buffer pool in coroutine context */
++    sn->aio_pool = aio_pool_new(DEFAULT_PAGE_SIZE, AIO_BUFFER_SIZE,
++            AIO_TASKS_MAX);
      /* Enter main routine */
-     task_state->ret = snap_save_state_main(sn);
+     task_state->ret = snap_load_state_main(sn);
  }
-@@ -233,17 +255,46 @@ static int run_snap_task(CoroutineEntry *entry)
- static int snap_save(const SnapSaveParams *params)
+@@ -310,15 +329,37 @@ fail:
+ static int snap_load(SnapLoadParams *params)
  {
-     SnapSaveState *sn;
+     SnapLoadState *sn;
 +    QIOChannel *ioc_fd;
 +    uint8_t *buf;
 +    size_t count;
      int res = -1;
  
 +    snap_ram_init_state(ctz64(params->page_size));
-     snap_save_init_state();
-     sn = snap_save_get_state();
+     snap_load_init_state();
+     sn = snap_load_get_state();
  
-+    sn->filename = params->filename;
-+
 +    ioc_fd = qio_channel_new_fd(params->fd, NULL);
-+    qio_channel_set_name(QIO_CHANNEL(ioc_fd), "snap-channel-incoming");
-+    sn->f_fd = qemu_fopen_channel_input(ioc_fd);
++    qio_channel_set_name(QIO_CHANNEL(ioc_fd), "snap-channel-outgoing");
++    sn->f_fd = qemu_fopen_channel_output(ioc_fd);
 +    object_unref(OBJECT(ioc_fd));
 +
-+    /* Create buffer channel to store leading part of incoming stream */
+     sn->blk = snap_open(params->filename, params->bdrv_flags);
+     if (!sn->blk) {
+         goto fail;
+     }
++    /* Open QEMUFile for BDRV vmstate area */
++    sn->f_vmstate = qemu_fopen_bdrv_vmstate(blk_bs(sn->blk), 0);
++
++    /* Create buffer channel to store leading part of VMSTATE stream */
 +    sn->ioc_lbuf = qio_channel_buffer_new(INPLACE_READ_MAX);
 +    qio_channel_set_name(QIO_CHANNEL(sn->ioc_lbuf), "snap-leader-buffer");
 +
-+    count = qemu_peek_buffer(sn->f_fd, &buf, INPLACE_READ_MAX, 0);
-+    res = qemu_file_get_error(sn->f_fd);
++    count = qemu_peek_buffer(sn->f_vmstate, &buf, INPLACE_READ_MAX, 0);
++    res = qemu_file_get_error(sn->f_vmstate);
 +    if (res < 0) {
 +        goto fail;
 +    }
 +    qio_channel_write(QIO_CHANNEL(sn->ioc_lbuf), (char *) buf, count, NULL);
-+
-+    /* Used for incoming page coalescing */
-+    sn->ioc_pbuf = qio_channel_buffer_new(128 * 1024);
-+    qio_channel_set_name(QIO_CHANNEL(sn->ioc_pbuf), "snap-page-buffer");
-+
-     sn->blk = snap_create(params->filename, params->image_size,
-             params->bdrv_flags, params->writethrough);
-     if (!sn->blk) {
-         goto fail;
-     }
  
-+    /* Open QEMUFile so we can write to BDRV vmstate area */
-+    sn->f_vmstate = qemu_fopen_bdrv_vmstate(blk_bs(sn->blk), 1);
-+
-     res = run_snap_task(do_snap_save_co);
+     res = run_snap_task(do_snap_load_co);
      if (res) {
-         error_report("Failed to save snapshot: error=%d", res);
-@@ -251,6 +302,7 @@ static int snap_save(const SnapSaveParams *params)
+@@ -327,6 +368,7 @@ static int snap_load(SnapLoadParams *params)
  
  fail:
-     snap_save_destroy_state();
+     snap_load_destroy_state();
 +    snap_ram_destroy_state();
  
      return res;
