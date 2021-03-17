@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5348B33F11C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:23:59 +0100 (CET)
-Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321EE33F120
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:25:39 +0100 (CET)
+Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMW9W-00060A-5e
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
+	id 1lMWB8-0006wD-8P
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMW8f-0005Ps-K5
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:23:06 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37204)
+ id 1lMWAL-0006Vd-Hu
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:24:49 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:35821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMW8b-0004AJ-5Y
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:23:05 -0400
-Received: by mail-ej1-x636.google.com with SMTP id bm21so2592088ejb.4
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:23:00 -0700 (PDT)
+ id 1lMWAK-0005EE-2H
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:24:49 -0400
+Received: by mail-ed1-x535.google.com with SMTP id dm8so2264390edb.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rphJhjkCH8kuw+MPjRKlFNngaeDtByrEV/v9buyyszI=;
- b=QGmIM+DPndpdtVtKZwL6iNQrN/uXTpTOEQMPV8pm2a4cE8RvjmuseKSJ3p5Ke7NezF
- NN3WDo9DyrcUo4AF7W2BscZO8gH76XWIYZJJK71w3gNr6zlGZsniFKG3gKCGp4kK+eyv
- cAesUtpaePwSIleyjKbSDoJPxEggIWiVQiTM4CohTPwUWBLzXbQBUHtHcFafzaHvAkQR
- odgHehOPGOS9SglkvGQt+U7a4hrkD6z4tI7BGp979h5IrrISsTpGaNgqrQCeckf6+IV1
- VGRnpIz53GBfaAtAUGyGXYnYNDhE4ScKJypMEu8p8/TC6D6aAf0lKMMFdZN3EaB5uPHv
- y99w==
+ :cc; bh=jXtSol+iGpcs2V2OVVJMNo/VvJT786q/OHGL7jmIE+E=;
+ b=KgZHv6OMzCzzr/HxBsOLBCBEElO2/ZDee3jV2gHdS4SZlk3pzp8pI5AmloQcw7mMvg
+ KFnyM+h72cwOBw7AvCfRuJWQK7UcoR2dDm8x9q2dDsEC14/gdMcTSSbh1Ese105OkGjn
+ mh4+CrMqF7d+7C38ywYxa8TXJEnROsxageH0w1kJeeeL+RyuAvvuHHo3m5k1M+K6u8b/
+ SIRJnyASRCfuhXVYLHPHqH3nB09eTFfkE5mWCiYnodUg7455053hMHtBVQEMKtRx8oeP
+ bFPU2ESL9D+qKbUyo2FZlg7M9LRBzyr3/EbQ6w3LaK5CU4xbT8sbEIGM31qSV4pdw1hw
+ XdrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rphJhjkCH8kuw+MPjRKlFNngaeDtByrEV/v9buyyszI=;
- b=DVEupkwWCtBgl6fqEV9LtET1R5yIEdbgKteXz42fvTTsTY5BovqG8Kbfvh2Dx4HcjG
- R+KGJBwRVmJI69NJ9a+bwVaJEHbsgMML6aEhzlC7nITRugyDd/UZdcpdvNLjMfcy+B8z
- oA8UkueTOocOxxEgATshCdaGUo6g7yxKuwyHhv68LhyDmR/nA9LNHz+1uUkmKaZASN8P
- siqz9shuMNLPlFDYSQPX+g1DdMrgxJ1pLoT9KcxvdFv37pjDr2mOgQRCCwz4eyt4IKk3
- bSE/nuTcu73UN611Z76V+pcZp+SmEOmxVSkNP57FOVQV50nGw7VAXq2Po9VpP7Na18Gs
- 0e/Q==
-X-Gm-Message-State: AOAM533TKa2uWyPqS+2/5J+uWGO/ZNyN4tHFdMls/zWBzalZ9nrmnB4U
- qeKxDNx4LB9gT50c2RgvzpMVcHxv2J9g0f+54IDZOA==
-X-Google-Smtp-Source: ABdhPJy/WkAoCz+iieBMPGj4KtsyUAygclUt6rA3GjlXfWh2LEV+NAzdwmEy/C7FE5snmFFGXTpMwMootI16bJZQbQQ=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr36065258ejc.250.1615987379486; 
- Wed, 17 Mar 2021 06:22:59 -0700 (PDT)
+ bh=jXtSol+iGpcs2V2OVVJMNo/VvJT786q/OHGL7jmIE+E=;
+ b=ED41RPq50Xy5y18G9M/6vTo8wnEsokLsqffSMxI/CgbZOVWpmPUlqM44B90aIViHiX
+ URd+W+cbYzbsgHrXL7FNImHyhhj/KQt+TtSzLoGSnWvPKgJD0mRkWgim1iKJ17sZbHCA
+ GXY7iWvacm0GYKzVd8TrWEwKWjLandWqevIQkCsGZTBgxCvIV2YFkfvdp9UwsQcRPB3I
+ yUHwzDfEGdBpkqr0WLDnTlG41vYPkXnecfqlM1pUCAil+T++gjdUIO/+z8zMXKLNjKy6
+ qwbV7tonWDOvdHba4nXCI50h9pNhqKdMB/BK/N9+SpHpNgxJb2ben5cxQgN2AidE0hgF
+ K3SA==
+X-Gm-Message-State: AOAM530DX5tl5TCoVUgj5+881iDVHbxzU2VKoi8TqvbiwBJYqTYpwaxg
+ 00UlYpJ1CThCAwolNzumUwOyhqf+9BgstJaOgCx0Kg==
+X-Google-Smtp-Source: ABdhPJwudZS4yWF/imJRyT9b2ooH6gv/xSSEcaJFkw1AETFzK3LXOlKl57X9xOXZA1jOaUVKGuUbechFKI8fS+aLdcw=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr41486617edv.44.1615987486490; 
+ Wed, 17 Mar 2021 06:24:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210317044441.112313-1-gshan@redhat.com>
- <CAFEAcA8Wf+fYppz6kWurU=68NH7uvn0HFXc_FJ6twoA86bcBcg@mail.gmail.com>
- <73a30558-469e-8ef0-02b2-aaaaa2449cda@redhat.com>
- <CAFEAcA_yuSR=KkpBTh+21JkqiB7gKfnFvgvxYgPN2yLfvxpi_A@mail.gmail.com>
- <3e7ba090-c45e-8fa4-1a59-16856241cbdc@redhat.com>
- <CAFEAcA_zYaOXw5yaXWEjgBy6YeTpB5FRBCO96To-bv9xpQzbMQ@mail.gmail.com>
- <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
-In-Reply-To: <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+References: <20210317110512.583747-1-thuth@redhat.com>
+ <20210317110512.583747-3-thuth@redhat.com>
+ <CAFEAcA89BmZ7_d73Te=DXxDNc+W4NuqXZgpoi9JwsMN0_nh6pg@mail.gmail.com>
+ <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
+ <YFIBH1xIeTAep9p4@SPB-NB-133.local>
+In-Reply-To: <YFIBH1xIeTAep9p4@SPB-NB-133.local>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Mar 2021 13:22:48 +0000
-Message-ID: <CAFEAcA8RZB4-SYBq102T3ogCyTg8HCw2FZ3wV3KQ94zf9qSbwQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/char/pl011: Fix clock migration failure
-To: Andrew Jones <drjones@redhat.com>
+Date: Wed, 17 Mar 2021 13:24:35 +0000
+Message-ID: <CAFEAcA-z6708M67oXnOMx-r228192VPanATn16Yf=Sbk887hPA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] cirrus.yml: Update the FreeBSD task to version 12.2
+To: Roman Bolshakov <r.bolshakov@yadro.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,30 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc@lmichel.fr>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gavin Shan <gshan@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Mar 2021 at 12:55, Andrew Jones <drjones@redhat.com> wrote:
-> I'm also curious what the state of mach-virt's machine types are for
-> migration.
+On Wed, 17 Mar 2021 at 13:16, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+>   result = asn1_der_coding (asn1_element, "", NULL, &der_len, errorDescription);
+>
+> The result should be ASN1_MEM_ERROR.
+>
+> Something like this should work as configure-time test.
 
-Probably not great -- I don't think anybody is really testing
-cross-version migration, and I don't think there's a great
-deal of in-practice use of it for Arm either. (See also the
-issue with accidentally having env->features in the CPU
-migration data, which broke cross-version migration: that
-was around a while and we only got one user complaint about it.)
-
-Unless we have a serious test suite for this kind of thing
-upstream it's just going to continue to be broken, because at
-the moment all we have is "people make best-efforts to think
-about migration compat when coding and reviewing, but don't
-actually test".
+Unfortunately at configure time you can't run code, only
+compile and link it, because you might be cross-compiling.
+So a test that needs us to actually look at return values
+from function calls won't work for configure.
 
 thanks
 -- PMM
