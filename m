@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968E033EFC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 12:48:12 +0100 (CET)
-Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F4833EFC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 12:49:30 +0100 (CET)
+Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMUep-0004qa-34
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 07:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50832)
+	id 1lMUg5-0005wd-AD
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 07:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMUe4-0004PP-0B; Wed, 17 Mar 2021 07:47:24 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMUe1-0006lx-Gi; Wed, 17 Mar 2021 07:47:23 -0400
-Received: by mail-wr1-x436.google.com with SMTP id b9so1491664wrt.8;
- Wed, 17 Mar 2021 04:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WAwjDfu5KjyJF1DmpVJlox4BGUy6zwBgiblMWh4Plq4=;
- b=BxQ4ZZhPUW1qYVh977PDMKCVqRD3+AfpWSgd9et4GtI/+zcwExmAtN+I6Wd9U4/mwW
- lKn55A2Bzv2U+ul24l3JYasUaColWKoX0WeGAoW9Xh26Hv/H9+IdiQ6+ySrqY4dJFjv2
- zsIU0YKbxax2iIaf6kC8pX4yuUeeUmU4ZVNbBiJ++4sVcIIoT/6XUPkrMP+x6CLtlnCa
- yWguFt2HYvZ6bee2GhyaP8Dgi9CwdBBIHoGJFQesyoCaEjF4Y0/HJ3gS4tZeB/fWpn/E
- 7ioH/LxZzea09DRyf+KTFRoXDym5V7aDFm9TUAXjikrej9a4/56Y1f6dTHObQ51ndwkQ
- r0uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WAwjDfu5KjyJF1DmpVJlox4BGUy6zwBgiblMWh4Plq4=;
- b=iLCiaWLmNDPociTfBpPNgi/TPS2HYe04ww1t+9ayChEkgGY3k2jzhbDoV1M1EJygLP
- ML8ISG4NVf6xEJnGRJDJZGNN61YDxRjMkxBcZLRbEO1oYV7DTOiPu6N04XT1kMBVTTbW
- uRm9Sd2fh1GJvqXE38wuSAm5BPkkntSyuSVX1W6dUzEpIQ+4vaTNItAdyGMtHsq++pXe
- MvoGgc7WUSs4VjR5cnf2k03X5FhDx1d4nyRxM9icZDerGPlE4hSK+yUSPL74hZYa/6qi
- 9iNeex/z9HXoX+boxVmLQvF7mqiVdSrct/dy7lbjDfXiTUnsxYu/CmKzyZMsMqI6O5Xq
- XoIw==
-X-Gm-Message-State: AOAM531yB8FJ80c2chNLgH8Ct1OSaINDWy/wR8K90iGyTEfXrqGMS3VD
- hd9pJ2uaQ+5r0jOznwKdcBI=
-X-Google-Smtp-Source: ABdhPJztQLEc2yimnWuWUibMbaxHCl0e5uL5ynsIl7lxDoGN2nMuro18phqGa08Y5A/J4NUUsGj8DQ==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr4111519wrt.18.1615981639631;
- Wed, 17 Mar 2021 04:47:19 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id q4sm2257125wma.20.2021.03.17.04.47.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 04:47:19 -0700 (PDT)
-Subject: Re: [PATCH v3 1/3] hw: Model ASPEED's Hash and Crypto Engine
-To: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20210312105711.551423-1-joel@jms.id.au>
- <20210312105711.551423-2-joel@jms.id.au>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d2969a4a-abaf-b4e5-1cdb-5fdac85fa388@amsat.org>
-Date: Wed, 17 Mar 2021 12:47:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMUfD-0005PH-5g
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 07:48:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28284)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMUf9-0007Sx-O7
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 07:48:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1615981710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ao9Rzi3KAol5qnb9F49xj1rBNe6HIVcD6HaSUcOHwh0=;
+ b=dao0c7LJ92wcaSspVuldeJAdD1+WVMdJ6Mg8aNqdsvqbZgu6WbZTKrC/euftVIMcZtG01I
+ Q/3feoqgS2b4rmbCaMPHgzI9dg5ozrzbXnugwzEPCRyXyRQ2yYPRVKu2Y880RH19mdmpEu
+ 2FPq0zDpxSTgZFwr6j3FPRi7tnhlafo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-603-sI3gEpZZNQaOTarrHook2Q-1; Wed, 17 Mar 2021 07:48:28 -0400
+X-MC-Unique: sI3gEpZZNQaOTarrHook2Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 932421084CA4
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 11:48:27 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-202.ams2.redhat.com [10.36.114.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD4AA1017CF5;
+ Wed, 17 Mar 2021 11:48:26 +0000 (UTC)
+Date: Wed, 17 Mar 2021 12:48:25 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 2/3] qom: move user_creatable_add_opts logic to vl.c
+ and QAPIfy it
+Message-ID: <YFHsiQFjqbRqlN2w@merkur.fritz.box>
+References: <20210312173547.1283477-1-pbonzini@redhat.com>
+ <20210312173547.1283477-3-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210312105711.551423-2-joel@jms.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210312173547.1283477-3-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,160 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/21 11:57 AM, Joel Stanley wrote:
-> The HACE (Hash and Crypto Engine) is a device that offloads MD5, SHA1,
-> SHA2, RSA and other cryptographic algorithms.
+Am 12.03.2021 um 18:35 hat Paolo Bonzini geschrieben:
+> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
+> to parse the -object command line option.  This has one extra feature,
+> compared to keyval, which is automatic conversion of integers to lists
+> as well as support for lists as repeated options:
 > 
-> This initial model implements a subset of the device's functionality;
-> currently only direct access (non-scatter gather) hashing.
+>   -object memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
 > 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> v3:
->  - rebase on upstream to fix meson.build conflict
-> v2:
->  - reorder register defines
->  - mask src/dest/len registers according to hardware
-> ---
->  include/hw/misc/aspeed_hace.h |  33 ++++
->  hw/misc/aspeed_hace.c         | 312 ++++++++++++++++++++++++++++++++++
->  hw/misc/meson.build           |   1 +
->  3 files changed, 346 insertions(+)
->  create mode 100644 include/hw/misc/aspeed_hace.h
->  create mode 100644 hw/misc/aspeed_hace.c
+> So we cannot replace OptsVisitor with keyval right now.  Still, this
+> patch moves the user_creatable_add_opts logic to vl.c since it is
+> not needed anywhere else, and makes it go through user_creatable_add_qapi.
 > 
-> diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
-> new file mode 100644
-> index 000000000000..e1fce670ef9e
-> --- /dev/null
-> +++ b/include/hw/misc/aspeed_hace.h
-> @@ -0,0 +1,33 @@
-> +/*
-> + * ASPEED Hash and Crypto Engine
-> + *
-> + * Copyright (C) 2021 IBM Corp.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
+> In order to minimize code changes, the predicate still takes a string.
+> This can be changed later to use the ObjectType QAPI enum directly.
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff488ea3e7..ae017de46c 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -117,6 +117,7 @@
+>  #include "qapi/qapi-commands-block-core.h"
+>  #include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qapi-commands-misc.h"
+> +#include "qapi/qapi-visit-qom.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "sysemu/iothread.h"
+> @@ -132,10 +133,16 @@ typedef struct BlockdevOptionsQueueEntry {
+>  
+>  typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
+>  
+> +typedef struct ObjectOption {
+> +    ObjectOptions *opts;
+> +    QTAILQ_ENTRY(ObjectOption) next;
+> +} ObjectOption;
 > +
-> +#ifndef ASPEED_HACE_H
-> +#define ASPEED_HACE_H
-> +
-> +#include "hw/sysbus.h"
-> +
-> +#define TYPE_ASPEED_HACE "aspeed.hace"
-> +#define ASPEED_HACE(obj) OBJECT_CHECK(AspeedHACEState, (obj), TYPE_ASPEED_HACE)
-> +
-> +#define ASPEED_HACE_NR_REGS (0x64 >> 2)
-> +
-> +typedef struct AspeedHACEState {
-> +    /* <private> */
-> +    SysBusDevice parent;
-> +
-> +    /*< public >*/
-> +    MemoryRegion iomem;
-> +    qemu_irq irq;
-> +
-> +    uint32_t regs[ASPEED_HACE_NR_REGS];
-> +
-> +    MemoryRegion *dram_mr;
-> +    AddressSpace dram_as;
-> +} AspeedHACEState;
-> +
-> +#endif /* _ASPEED_HACE_H_ */
-> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-> new file mode 100644
-> index 000000000000..3d02fae2dd62
-> --- /dev/null
-> +++ b/hw/misc/aspeed_hace.c
-> @@ -0,0 +1,312 @@
-> +/*
-> + * ASPEED Hash and Crypto Engine
-> + *
-> + * Copyright (C) 2021 IBM Corp.
-> + *
-> + * Joel Stanley <joel@jms.id.au>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/misc/aspeed_hace.h"
-> +#include "qapi/error.h"
-> +#include "migration/vmstate.h"
-> +#include "crypto/hash.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/irq.h"
-> +
-> +#define R_CRYPT_CMD     (0x10 / 4)
-> +
-> +#define R_STATUS        (0x1c / 4)
-> +#define HASH_IRQ        BIT(9)
-> +#define CRYPT_IRQ       BIT(12)
-> +#define TAG_IRQ         BIT(15)
-> +
-> +#define R_HASH_SRC      (0x20 / 4)
-> +#define R_HASH_DEST     (0x24 / 4)
-> +#define R_HASH_SRC_LEN  (0x2c / 4)
-> +
-> +#define R_HASH_CMD      (0x30 / 4)
-> +/* Hash algorithim selection */
-> +#define  HASH_ALGO_MASK                 (BIT(4) | BIT(5) | BIT(6))
-> +#define  HASH_ALGO_MD5                  0
-> +#define  HASH_ALGO_SHA1                 BIT(5)
-> +#define  HASH_ALGO_SHA224               BIT(6)
-> +#define  HASH_ALGO_SHA256               (BIT(4) | BIT(6))
-> +#define  HASH_ALGO_SHA512_SERIES        (BIT(5) | BIT(6))
-> +/* SHA512 algorithim selection */
-> +#define  SHA512_HASH_ALGO_MASK          (BIT(10) | BIT(11) | BIT(12))
-> +#define  HASH_ALGO_SHA512_SHA512        0
-> +#define  HASH_ALGO_SHA512_SHA384        BIT(10)
-> +#define  HASH_ALGO_SHA512_SHA256        BIT(11)
-> +#define  HASH_ALGO_SHA512_SHA224        (BIT(10) | BIT(11))
-> +/* HMAC modes */
-> +#define  HASH_HMAC_MASK                 (BIT(7) | BIT(8))
-> +#define  HASH_DIGEST                    0
-> +#define  HASH_DIGEST_HMAC               BIT(7)
-> +#define  HASH_DIGEST_ACCUM              BIT(8)
-> +#define  HASH_HMAC_KEY                  (BIT(7) | BIT(8))
-> +/* Cascscaed operation modes */
-> +#define  HASH_ONLY                      0
-> +#define  HASH_ONLY2                     BIT(0)
-> +#define  HASH_CRYPT_THEN_HASH           BIT(1)
-> +#define  HASH_HASH_THEN_CRYPT           (BIT(0) | BIT(1))
-> +/* Other cmd bits */
-> +#define  HASH_IRQ_EN                    BIT(9)
-> +#define  HASH_SG_EN                     BIT(18)
-> +
-> +
-> +static int do_hash_operation(AspeedHACEState *s, int algo)
+>  static const char *cpu_option;
+>  static const char *mem_path;
+>  static const char *incoming;
+>  static const char *loadvm;
+> +static QTAILQ_HEAD(, ObjectOption) object_opts = QTAILQ_HEAD_INITIALIZER(object_opts);
+>  static ram_addr_t maxram_size;
+>  static uint64_t ram_slots;
+>  static int display_remote;
+> @@ -1684,6 +1691,49 @@ static int machine_set_property(void *opaque,
+>      return object_parse_property_opt(opaque, name, value, "type", errp);
+>  }
+>  
+> +static void object_option_foreach_add(bool (*type_opt_predicate)(const char *))
 > +{
-> +    hwaddr src, len, dest;
-> +    uint8_t *digest_buf = NULL;
-> +    size_t digest_len = 0;
-> +    char *src_buf;
-> +    int rc;
+> +    ObjectOption *opt, *next;
 > +
-> +    src = 0x80000000 | s->regs[R_HASH_SRC];
-> +    len = s->regs[R_HASH_SRC_LEN];
-> +    dest = 0x80000000 | s->regs[R_HASH_DEST];
-> +
-> +    src_buf = address_space_map(&s->dram_as, src, &len, false,
-> +                                MEMTXATTRS_UNSPECIFIED);
+> +    QTAILQ_FOREACH_SAFE(opt, &object_opts, next, next) {
+> +        const char *type = ObjectType_str(opt->opts->qom_type);
+> +        if (type_opt_predicate(type)) {
+> +            user_creatable_add_qapi(opt->opts, &error_fatal);
+> +            qapi_free_ObjectOptions(opt->opts);
+> +            QTAILQ_REMOVE(&object_opts, opt, next);
 
-It seems the Aspeed machines aren't using correctly the AS API...
-This device shouldn't worry about where it is physically mapped.
-IOW its AS is too wide.
+I added a g_free(opt) here to fix CI failures (LeakSanitizer error).
 
-I'm trying to fix this in a series:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg791085.html
+> +        }
+> +    }
+> +}
+
+Kevin
+
 
