@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E20233E631
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:33:32 +0100 (CET)
-Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2375D33E63F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 02:36:53 +0100 (CET)
+Received: from localhost ([::1]:48886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lML3z-0004Cy-HC
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50208)
+	id 1lML7E-0006tW-7K
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 21:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMKyb-0008NH-8R; Tue, 16 Mar 2021 21:27:58 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:59591)
+ id 1lMKyf-0008Q1-P6; Tue, 16 Mar 2021 21:28:03 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:59608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lMKyY-0000T6-1G; Tue, 16 Mar 2021 21:27:56 -0400
+ id 1lMKyc-0000VB-TP; Tue, 16 Mar 2021 21:28:01 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0418674641B;
+ by localhost (Postfix) with SMTP id 3E2BC746429;
  Wed, 17 Mar 2021 02:27:52 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 832C57463AD; Wed, 17 Mar 2021 02:27:51 +0100 (CET)
-Message-Id: <4a2ae16fddc423b095fec03ccae45568f18d0041.1615943871.git.balaton@eik.bme.hu>
+ id 9695A7463C7; Wed, 17 Mar 2021 02:27:51 +0100 (CET)
+Message-Id: <b1639705f196d229647a8fc36e5d1a92f6c58b76.1615943871.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1615943871.git.balaton@eik.bme.hu>
 References: <cover.1615943871.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v10 2/7] vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
+Subject: [PATCH v10 7/7] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
 Date: Wed, 17 Mar 2021 02:17:51 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,138 +59,241 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VT8231 south bridge is very similar to VT82C686B but there are
-some differences in register addresses and functionality, e.g. the
-VT8231 only has one serial port. This commit adds VT8231_SUPERIO
-subclass based on the abstract VIA_SUPERIO class to emulate the
-superio part of VT8231.
+Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
+a PowerPC board based on the Marvell MV64361 system controller and the
+VIA VT8231 integrated south bridge/superio chips. It can run Linux,
+AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
+image is needed to boot and only MorphOS has a video driver to produce
+graphics output. Linux could work too but distros that supported this
+machine don't include usual video drivers so those only run with
+serial console for now.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c | 102 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
+ MAINTAINERS                             |  10 ++
+ default-configs/devices/ppc-softmmu.mak |   2 +
+ hw/ppc/Kconfig                          |   9 ++
+ hw/ppc/meson.build                      |   2 +
+ hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++++
+ 5 files changed, 167 insertions(+)
+ create mode 100644 hw/ppc/pegasos2.c
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 6fb81c4ac6..b3048fd37e 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -417,6 +417,107 @@ static const TypeInfo vt82c686b_superio_info = {
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b6ab3d25a7..1c3c55ef09 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1353,6 +1353,16 @@ F: pc-bios/canyonlands.dt[sb]
+ F: pc-bios/u-boot-sam460ex-20100605.bin
+ F: roms/u-boot-sam460ex
  
- 
-+#define TYPE_VT8231_SUPERIO "vt8231-superio"
++pegasos2
++M: BALATON Zoltan <balaton@eik.bme.hu>
++R: David Gibson <david@gibson.dropbear.id.au>
++L: qemu-ppc@nongnu.org
++S: Maintained
++F: hw/ppc/pegasos2.c
++F: hw/pci-host/mv64361.c
++F: hw/pci-host/mv643xx.h
++F: include/hw/pci-host/mv64361.h
 +
-+static void vt8231_superio_cfg_write(void *opaque, hwaddr addr,
-+                                     uint64_t data, unsigned size)
+ RISC-V Machines
+ ---------------
+ OpenTitan
+diff --git a/default-configs/devices/ppc-softmmu.mak b/default-configs/devices/ppc-softmmu.mak
+index 61b78b844d..4535993d8d 100644
+--- a/default-configs/devices/ppc-softmmu.mak
++++ b/default-configs/devices/ppc-softmmu.mak
+@@ -14,5 +14,7 @@ CONFIG_SAM460EX=y
+ CONFIG_MAC_OLDWORLD=y
+ CONFIG_MAC_NEWWORLD=y
+ 
++CONFIG_PEGASOS2=y
++
+ # For PReP
+ CONFIG_PREP=y
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index d11dc30509..e51e0e5e5a 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -68,6 +68,15 @@ config SAM460EX
+     select USB_OHCI
+     select FDT_PPC
+ 
++config PEGASOS2
++    bool
++    select MV64361
++    select VT82C686
++    select IDE_VIA
++    select SMBUS_EEPROM
++# This should come with VT82C686
++    select ACPI_X86
++
+ config PREP
+     bool
+     imply PCI_DEVICES
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index 218631c883..86d6f379d1 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -78,5 +78,7 @@ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
+ ))
+ # PowerPC 440 Xilinx ML507 reference board.
+ ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
++# Pegasos2
++ppc_ss.add(when: 'CONFIG_PEGASOS2', if_true: files('pegasos2.c'))
+ 
+ hw_arch += {'ppc': ppc_ss}
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+new file mode 100644
+index 0000000000..0bfd0928aa
+--- /dev/null
++++ b/hw/ppc/pegasos2.c
+@@ -0,0 +1,144 @@
++/*
++ * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
++ *
++ * Copyright (c) 2018-2020 BALATON Zoltan
++ *
++ * This work is licensed under the GNU GPL license version 2 or later.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/units.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/ppc/ppc.h"
++#include "hw/sysbus.h"
++#include "hw/pci/pci_host.h"
++#include "hw/irq.h"
++#include "hw/pci-host/mv64361.h"
++#include "hw/isa/vt82c686.h"
++#include "hw/ide/pci.h"
++#include "hw/i2c/smbus_eeprom.h"
++#include "hw/qdev-properties.h"
++#include "sysemu/reset.h"
++#include "hw/boards.h"
++#include "hw/loader.h"
++#include "hw/fw-path-provider.h"
++#include "elf.h"
++#include "qemu/log.h"
++#include "qemu/error-report.h"
++#include "sysemu/kvm.h"
++#include "kvm_ppc.h"
++#include "exec/address-spaces.h"
++#include "trace.h"
++#include "qemu/datadir.h"
++#include "sysemu/device_tree.h"
++
++#define PROM_FILENAME "pegasos2.rom"
++#define PROM_ADDR     0xfff00000
++#define PROM_SIZE     0x80000
++
++#define BUS_FREQ_HZ 133333333
++
++static void pegasos2_cpu_reset(void *opaque)
 +{
-+    ViaSuperIOState *sc = opaque;
-+    uint8_t idx = sc->regs[0];
++    PowerPCCPU *cpu = opaque;
 +
-+    if (addr == 0) { /* config index register */
-+        sc->regs[0] = data;
-+        return;
++    cpu_reset(CPU(cpu));
++    cpu->env.spr[SPR_HID1] = 7ULL << 28;
++}
++
++static void pegasos2_init(MachineState *machine)
++{
++    PowerPCCPU *cpu = NULL;
++    MemoryRegion *rom = g_new(MemoryRegion, 1);
++    DeviceState *mv;
++    PCIBus *pci_bus;
++    PCIDevice *dev;
++    I2CBus *i2c_bus;
++    const char *fwname = machine->firmware ?: PROM_FILENAME;
++    char *filename;
++    int sz;
++    uint8_t *spd_data;
++
++    /* init CPU */
++    cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
++    if (PPC_INPUT(&cpu->env) != PPC_FLAGS_INPUT_6xx) {
++        error_report("Incompatible CPU, only 6xx bus supported");
++        exit(1);
 +    }
 +
-+    /* config data register */
-+    trace_via_superio_write(idx, data);
-+    switch (idx) {
-+    case 0x00 ... 0xdf:
-+    case 0xe7 ... 0xef:
-+    case 0xf0 ... 0xf1:
-+    case 0xf5:
-+    case 0xf8:
-+    case 0xfd:
-+        /* ignore write to read only registers */
-+        return;
-+    default:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "via_superio_cfg: unimplemented register 0x%x\n", idx);
-+        break;
++    /* Set time-base frequency */
++    cpu_ppc_tb_init(&cpu->env, BUS_FREQ_HZ / 4);
++    qemu_register_reset(pegasos2_cpu_reset, cpu);
++
++    /* RAM */
++    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
++
++    /* allocate and load firmware */
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, fwname);
++    if (!filename) {
++        error_report("Could not find firmware '%s'", fwname);
++        exit(1);
 +    }
-+    sc->regs[idx] = data;
++    memory_region_init_rom(rom, NULL, "pegasos2.rom", PROM_SIZE, &error_fatal);
++    memory_region_add_subregion(get_system_memory(), PROM_ADDR, rom);
++    sz = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1,
++                  PPC_ELF_MACHINE, 0, 0);
++    if (sz <= 0) {
++        sz = load_image_targphys(filename, PROM_ADDR, PROM_SIZE);
++    }
++    if (sz <= 0 || sz > PROM_SIZE) {
++        error_report("Could not load firmware '%s'", filename);
++        exit(1);
++    }
++    g_free(filename);
++
++    /* Marvell Discovery II system controller */
++    mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
++                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_INT]));
++    pci_bus = mv64361_get_pci_bus(mv, 1);
++
++    /* VIA VT8231 South Bridge (multifunction PCI device) */
++    /* VT8231 function 0: PCI-to-ISA Bridge */
++    dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
++                                          TYPE_VT8231_ISA);
++    qdev_connect_gpio_out(DEVICE(dev), 0,
++                          qdev_get_gpio_in_named(mv, "gpp", 31));
++
++    /* VT8231 function 1: IDE Controller */
++    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
++    pci_ide_create_devs(dev);
++
++    /* VT8231 function 2-3: USB Ports */
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
++
++    /* VT8231 function 4: Power Management Controller */
++    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
++    i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
++    spd_data = spd_data_generate(DDR, machine->ram_size);
++    smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
++
++    /* VT8231 function 5-6: AC97 Audio & Modem */
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
++
++    /* other PC hardware */
++    pci_vga_init(pci_bus);
 +}
 +
-+static const MemoryRegionOps vt8231_superio_cfg_ops = {
-+    .read = via_superio_cfg_read,
-+    .write = vt8231_superio_cfg_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+};
-+
-+static void vt8231_superio_reset(DeviceState *dev)
++static void pegasos2_machine(MachineClass *mc)
 +{
-+    ViaSuperIOState *s = VIA_SUPERIO(dev);
-+
-+    memset(s->regs, 0, sizeof(s->regs));
-+    /* Device ID */
-+    s->regs[0xf0] = 0x3c;
-+    /* Device revision */
-+    s->regs[0xf1] = 0x01;
-+    /* Function select - all disabled */
-+    vt8231_superio_cfg_write(s, 0, 0xf2, 1);
-+    vt8231_superio_cfg_write(s, 1, 0x03, 1);
-+    /* Serial port base addr */
-+    vt8231_superio_cfg_write(s, 0, 0xf4, 1);
-+    vt8231_superio_cfg_write(s, 1, 0xfe, 1);
-+    /* Parallel port base addr */
-+    vt8231_superio_cfg_write(s, 0, 0xf6, 1);
-+    vt8231_superio_cfg_write(s, 1, 0xde, 1);
-+    /* Floppy ctrl base addr */
-+    vt8231_superio_cfg_write(s, 0, 0xf7, 1);
-+    vt8231_superio_cfg_write(s, 1, 0xfc, 1);
-+
-+    vt8231_superio_cfg_write(s, 0, 0, 1);
++    mc->desc = "Genesi/bPlan Pegasos II";
++    mc->init = pegasos2_init;
++    mc->block_default_type = IF_IDE;
++    mc->default_boot_order = "cd";
++    mc->default_display = "std";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
++    mc->default_ram_id = "pegasos2.ram";
++    mc->default_ram_size = 512 * MiB;
 +}
 +
-+static void vt8231_superio_init(Object *obj)
-+{
-+    VIA_SUPERIO(obj)->io_ops = &vt8231_superio_cfg_ops;
-+}
-+
-+static uint16_t vt8231_superio_serial_iobase(ISASuperIODevice *sio,
-+                                             uint8_t index)
-+{
-+        return 0x2f8; /* FIXME: This should be settable via registers f2-f4 */
-+}
-+
-+static void vt8231_superio_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
-+
-+    dc->reset = vt8231_superio_reset;
-+    sc->serial.count = 1;
-+    sc->serial.get_iobase = vt8231_superio_serial_iobase;
-+    sc->parallel.count = 1;
-+    sc->ide.count = 0; /* emulated by via-ide */
-+    sc->floppy.count = 1;
-+}
-+
-+static const TypeInfo vt8231_superio_info = {
-+    .name          = TYPE_VT8231_SUPERIO,
-+    .parent        = TYPE_VIA_SUPERIO,
-+    .instance_size = sizeof(ViaSuperIOState),
-+    .instance_init = vt8231_superio_init,
-+    .class_size    = sizeof(ISASuperIOClass),
-+    .class_init    = vt8231_superio_class_init,
-+};
-+
-+
- OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
- 
- struct VT82C686BISAState {
-@@ -540,6 +641,7 @@ static void vt82c686b_register_types(void)
-     type_register_static(&vt8231_pm_info);
-     type_register_static(&via_superio_info);
-     type_register_static(&vt82c686b_superio_info);
-+    type_register_static(&vt8231_superio_info);
-     type_register_static(&via_info);
- }
- 
++DEFINE_MACHINE("pegasos2", pegasos2_machine)
 -- 
 2.21.4
 
