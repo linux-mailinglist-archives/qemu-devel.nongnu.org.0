@@ -2,58 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D4533EA62
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 08:15:11 +0100 (CET)
-Received: from localhost ([::1]:51106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F1533EA58
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 08:02:52 +0100 (CET)
+Received: from localhost ([::1]:40660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMQOb-0002Ff-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 03:15:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35926)
+	id 1lMQCg-0005mT-R6
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 03:02:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangliangzz@126.com>)
- id 1lMMch-0003uO-9f
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:13:27 -0400
-Received: from m15112.mail.126.com ([220.181.15.112]:39935)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wangliangzz@126.com>)
- id 1lMMcY-0003qn-2I
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:13:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=j8gVx
- /MCBNv8H6yTTmYihEOP3Ok+OEWnaq6RikILFZ8=; b=lZ6WOpQV//rZRRu4s/6Zs
- U1ePplUHcOzYKR+FnNHa14g2L6eFFehWsDoxpKaAit3PBvLocdfvBauLYfXlX1y0
- eZ4ElFOXObJm0Mes3Axct5O3ld0f6MxMNpd+HQXv1fBJYOY6/8Hw6pTAyRisNvYu
- 9v0z/01MjB83sQ8aJ9gPzM=
-Received: from localhost.localdomain (unknown [171.8.76.20])
- by smtp2 (Coremail) with SMTP id DMmowAD3yfZqbFFgYiVFMw--.21308S4;
- Wed, 17 Mar 2021 10:41:47 +0800 (CST)
-From: wangliangzz@126.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio-pmem: fix virtio_pmem_resp assign problem
-Date: Tue, 16 Mar 2021 22:41:45 -0400
-Message-Id: <20210317024145.271212-1-wangliangzz@126.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
+ id 1lMQAu-0005AX-Bl; Wed, 17 Mar 2021 03:01:00 -0400
+Received: from mo6-p00-ob.smtp.rzone.de ([2a01:238:400:100::c]:21849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
+ id 1lMQAs-0003EZ-F6; Wed, 17 Mar 2021 03:01:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1615964450; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=QhJziYMy38tKBzT+jnW2C4YmGZ1LpnM1yOXvawVOjXRBFWX8xjgf2Yc130VDLvcvQP
+ iaEdu9J+cagSPiEUt6y4FiNaE9Mt7V+UfKRWG+/6CtWlSmYzkRY5hajvM6f1Wx+mShpd
+ u0MfiP0I1K4TJ5WRfOiPNxAql3NaezGb51GKtNlVt1PX4p+EvQf7tGzbWDMzDVFVLjwN
+ r/WbxGEzgi+Tv/lkEHfTSL4BeWpXnQwNGXe0f3NPQhmVnxay8/GPYv15egHhFQ7CSS/m
+ 62b8dyr11AaIkhKRvBd+O8gPMMIaK2FDKAwF+Vu5F5kpvXfkd8mtoBYVwvFeT89crnK+
+ Xrnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1615964450;
+ s=strato-dkim-0002; d=strato.com;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=F5gsroM5N4Gb38oAx76awNUeg6mdAvkdztZJQE8rvpw=;
+ b=bD5n6UEJ0IumSyeyLQRM+en8Q2cd3gGFofEVOxEgpzMq4oF/jWSY7zYcuwLTkySv2v
+ i4ayvCeg67oMz7cu1ssPYNMeSOCFa5pOXDvpg1Xj/7ETx6rzoIPJC5zNOmdu7YvLUNmk
+ uAMhA0K7zghET97gJVGvHOehvZ5ZpSrpAI54FnAbb5aJVvsSZ6Z0wD/EyZ1TjJCF2FkP
+ yfyqVWbIzdrQmCPSxmZGgEQfahwQa0jdEEXSU+/SN2eLJWWL0TJs3yajIiQkznW4SHzO
+ vvOXxkiolOEWMAo9NWmmslcEoPQhcJhDEqNeDRg7hmlxD+2fxIRdbhUXdAv7wk5OxE+m
+ INvw==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1615964450;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=F5gsroM5N4Gb38oAx76awNUeg6mdAvkdztZJQE8rvpw=;
+ b=mzzd+qADwgwU7fgLB7cnhPrFYNn4DwI6ai1ZXd9r2AvGg3mLnzScIIjHwb5aUB+3tq
+ QnnYZd29ov7wQXeDwT0nHVAmoedYK3Ux7SMCdoU7gC5bvt5IPqn2/scQqDiqsPGl8MD2
+ ZK7Pt4IFRWWkDGP3RnYT8P12z/ds47aiTV046FGB0vr8tZKwoeC2vbxu7jaqrbl3j6QF
+ z4V9eVPR78NAPlzwyg3hItqK3Z5a2BJ52qtTryktJRpBiST/WsdYyF+WDgICcKGOWjio
+ ZwNcKxIatwSJcmD2oPJNu1H6E9J63C48tfSsPNRaEivaMQp7q+UPvh50GqnGWONBUafW
+ bRpg==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS325Pjw=="
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 47.21.0 SBL|AUTH)
+ with ESMTPSA id u08c13x2H70o88o
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 17 Mar 2021 08:00:50 +0100 (CET)
+From: Olaf Hering <olaf@aepfle.de>
+To: xen-devel@lists.xenproject.org, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] piix: fix regression during unplug in Xen HVM domUs
+Date: Wed, 17 Mar 2021 08:00:46 +0100
+Message-Id: <20210317070046.17860-1-olaf@aepfle.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMmowAD3yfZqbFFgYiVFMw--.21308S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Jry5Kw1xWryfAr48uF15urg_yoW3uwb_Kr
- y8Way7WryUXa4jkrWUAw1fXF42kayfXa1vkr4YqF1rCF1DJ3WUJrn7Gr4FgFs7XrWUGFZr
- Cr4Ygrs8Aw1agjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1j2M5UUUUU==
-X-Originating-IP: [171.8.76.20]
-X-CM-SenderInfo: pzdqwzpldqw6b26rjloofrz/1tbiuwpY1lpEDLg73gAAsw
-Received-SPF: pass client-ip=220.181.15.112; envelope-from=wangliangzz@126.com;
- helo=m15112.mail.126.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: none client-ip=2a01:238:400:100::c; envelope-from=olaf@aepfle.de;
+ helo=mo6-p00-ob.smtp.rzone.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 17 Mar 2021 03:14:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,39 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, david@redhat.com, mst@redhat.com, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, dan.j.williams@intel.com,
- Wang Liang <wangliangzz@inspur.com>
+Cc: Olaf Hering <olaf@aepfle.de>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wang Liang <wangliangzz@inspur.com>
+Commit ee358e919e385fdc79d59d0d47b4a81e349cd5c9 causes a regression in
+Xen HVM domUs which run xenlinux based kernels.
 
-ret in virtio_pmem_resp is a uint32_t variable, which should be assigned
-using virtio_stl_p.
+If the domU has an USB device assigned, for example with
+"usbdevice=['tablet']" in domU.cfg, the late unplug of devices will
+kill the emulated USB host. As a result the khubd thread hangs, and as
+a result the entire boot process.
 
-The kernel side driver does not guarantee virtio_pmem_resp to be initialized
-to zero in advance, So sometimes the flush operation will fail.
+For some reason this does not affect pvops based kernels. This is
+most likely caused by the fact that unplugging happens very early
+during boot.
 
-Signed-off-by: Wang Liang <wangliangzz@inspur.com>
+Signed-off-by: Olaf Hering <olaf@aepfle.de>
 ---
- hw/virtio/virtio-pmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ide/piix.c        | 5 +++++
+ include/hw/ide/pci.h | 1 +
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-index a3e0688a89..d1aeb90a31 100644
---- a/hw/virtio/virtio-pmem.c
-+++ b/hw/virtio/virtio-pmem.c
-@@ -47,7 +47,7 @@ static int worker_cb(void *opaque)
-         err = 1;
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index b9860e35a5..7f1998bf04 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -109,6 +109,9 @@ static void piix_ide_reset(DeviceState *dev)
+     uint8_t *pci_conf = pd->config;
+     int i;
+ 
++    if (d->xen_unplug_done == true) {
++        return;
++    }
+     for (i = 0; i < 2; i++) {
+         ide_bus_reset(&d->bus[i]);
      }
+@@ -151,6 +154,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+     PCIIDEState *d = PCI_IDE(dev);
+     uint8_t *pci_conf = dev->config;
  
--    virtio_stw_p(req_data->vdev, &req_data->resp.ret, err);
-+    virtio_stl_p(req_data->vdev, &req_data->resp.ret, err);
++    d->xen_unplug_done = false;
+     pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
  
-     return 0;
- }
--- 
-2.27.0
-
+     bmdma_setup_bar(d);
+@@ -170,6 +174,7 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+     BlockBackend *blk;
+ 
+     pci_ide = PCI_IDE(dev);
++    pci_ide->xen_unplug_done = true;
+ 
+     for (i = aux ? 1 : 0; i < 4; i++) {
+         idebus = &pci_ide->bus[i / 2];
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index d8384e1c42..9e71cfec3b 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -50,6 +50,7 @@ struct PCIIDEState {
+     IDEBus bus[2];
+     BMDMAState bmdma[2];
+     uint32_t secondary; /* used only for cmd646 */
++    bool xen_unplug_done;
+     MemoryRegion bmdma_bar;
+     MemoryRegion cmd_bar[2];
+     MemoryRegion data_bar[2];
 
