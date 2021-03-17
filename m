@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E3633F281
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:24:02 +0100 (CET)
-Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10C633F2AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 15:32:32 +0100 (CET)
+Received: from localhost ([::1]:51828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMX5d-0005tO-3a
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
+	id 1lMXDr-000860-Rt
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 10:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMX4b-0005NS-29
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:22:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMX4T-0007Ei-3F
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:22:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615990968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AcWSTZWAD2pHb4x/WQXk3Kz72u+GFNZ25WgIfMDo4ow=;
- b=dcO17I4K6XrzP9q5Ym8JcMN/3VpoEiisdewdSW/ZxOEUhqDm49jyLrB7DSFkMGUZye04Zx
- GDg4Rse8hukq2zn7AiFGPpG540IUEKcH1eOb06EiuUnsZYVHDEQLZCZ2dGQSMK3tL2DbrG
- UaOajTlFOi3jod0F+HVxftricc9IcDU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-t9IDeqlmOk-fFelXkurwWQ-1; Wed, 17 Mar 2021 10:22:44 -0400
-X-MC-Unique: t9IDeqlmOk-fFelXkurwWQ-1
-Received: by mail-wm1-f72.google.com with SMTP id z26so10791785wml.4
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 07:22:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AcWSTZWAD2pHb4x/WQXk3Kz72u+GFNZ25WgIfMDo4ow=;
- b=mIcnlj2C1ClRP50mj0sHJG1pdJuU3D+dUG0bJS58fGIdeP96jsA3x8HCN34A9OZWay
- XrGD5uOx4kBVPSLFh27uOJfIPJureAycv6sofnwYxgxHWjLeZYUeRhmnIgU0lFwYrGPR
- GjiuXlKBKnC2CQVL1qVxpQ5YbnQgIWjFUCAh2vL+IZHJTo4OS4LTL5tMqSFISwNFRTzB
- XDRZH1ZB3jIhi5sROBbXj63LLk+WJ46iI9a2f3yLDZR2YhrBt8utasXxjuJ3xmJlMVrH
- svdH3GidG8iRqzzWckH+nkIqNbfW7J1e7P3ln0wHXKM57qnwGIDY6g0zZWBk1Pmg/PvN
- mZFw==
-X-Gm-Message-State: AOAM532BRv4s3EJRsVLJEHQZHcEjJSEafBm3Qyb5ggv46dcdFDBmZYqd
- B/tVTpZtmvFyuNoRyfJaUaVbSpqXRslLvcM4Wt5PiS2LUehomeez1kI0r4IPXPa+wZ4IMD6IMLn
- BY4WpyROXINr8e1Y=
-X-Received: by 2002:adf:f509:: with SMTP id q9mr4728388wro.342.1615990963378; 
- Wed, 17 Mar 2021 07:22:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEu21k6SYsEtKFhBSVgbzCgA7nJxHrbuva7w6Tnpd0lDDjSi+yhmm5JA2upsupygedMF/alQ==
-X-Received: by 2002:adf:f509:: with SMTP id q9mr4728379wro.342.1615990963256; 
- Wed, 17 Mar 2021 07:22:43 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id 21sm2734255wme.6.2021.03.17.07.22.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 07:22:42 -0700 (PDT)
-Subject: Re: [PULL 00/11] pflash patches for 2021-03-16
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210315233527.2988483-1-philmd@redhat.com>
- <CAFEAcA-p+=NGEyydhboCON+qoNcRYFp86N+7KYyDA3cMZJwsFA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e258527c-527d-60b8-06b5-364b8fe1e38a@redhat.com>
-Date: Wed, 17 Mar 2021 15:22:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lMXCG-00072S-0s
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lMXCD-0003au-8V
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 10:30:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lMXCB-0006wS-8S
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3E7DB2E815B
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 14:30:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-p+=NGEyydhboCON+qoNcRYFp86N+7KYyDA3cMZJwsFA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Mar 2021 14:20:06 -0000
+From: Thorsten Glaser <1891748@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=charms; sourcepackage=None; component=None;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dilfridge ech1965 mdevaev mirabilos rth th-huth
+ tsp84
+X-Launchpad-Bug-Reporter: Ech (ech1965)
+X-Launchpad-Bug-Modifier: Thorsten Glaser (mirabilos)
+References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
+Message-Id: <161599080693.2473.14096966291013218120.malone@chaenomeles.canonical.com>
+Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: c1c77514892ec94997db92bfa6d89bf7e41cf364
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,55 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 2:37 PM, Peter Maydell wrote:
-> On Mon, 15 Mar 2021 at 23:37, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> The following changes since commit 2615a5e433aeb812c300d3a48e1a88e1303e2339:
->>
->>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-03-15 19:23:00 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/philmd/qemu.git tags/pflash-20210316
->>
->> for you to fetch changes up to 3b6a1da064ac6ce5256f1f6f16870ea79c2422d0:
->>
->>   hw/block/pflash_cfi: Replace DPRINTF with trace events (2021-03-16 00:28:33 +0100)
->>
->> ----------------------------------------------------------------
->> Parallel NOR Flash patches queue
->>
->> - Code movement to ease maintainability
->> - Tracing improvements
->> ----------------------------------------------------------------
-> 
-> Fails to build on 32-bit and OSX due to format string issues:
-> 
-> In file included from trace/trace-hw_block.c:5:
-> /Users/pm215/src/qemu-for-merges/hw/block/trace-events:36:38: error:
-> format specifies type 'unsigned long' but the argument has type
-> 'uint64_t' (aka 'unsigned long long') [-Werror,-Wformat]
->                      , name, offset, len);
->                                      ^~~
-> /Users/pm215/src/qemu-for-merges/hw/block/trace-events:33:121: error:
-> format specifies type 'unsigned long' but the argument has type
-> 'uint64_t' (aka 'unsigned long long') [-Werror,-Wformat]
->             qemu_log("pflash_write_block_erase " "%s: block erase
-> offset:0x%" PRIx64 " bytes:0x%lx" "\n", name, offset, len);
-> 
->                         ~~~                      ^~~
-> 
->                         %llx
+$ qemu-arm --version
+qemu-arm version 5.2.0 (Debian 1:5.2+dfsg-6)
+Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
 
-Oops. I lost access to Gitlab [*] so couldn't run the test suite.
-I tried to run all of them manually but forgot the win32 cross
-compilation job which usually show these problems.
+I=E2=80=99m seeing this error on a totally different file:
 
-[*] Which made me realize we put all your eggs in one basket.
+I=E2=80=99ve made a short test program (hello world-ish) and compiled it wi=
+th
+the OpenWrt toolchain but added -static so I can run it on the host
+using qemu-user-arm:
 
+$ STAGING_DIR=3D$PWD/staging_dir PATH=3Dstaging_dir/toolchain-arm_cortex-a1=
+5+neon-vfpv4_gcc-7.5.0_musl_eabi/bin:$PATH arm-openwrt-linux-muslgnueabi-gc=
+c -Os -pipe -g3 -fno-caller-saves -fno-plt -fhonour-copts -mfloat-abi=3Dhar=
+d -fstack-protector -D_FORTIFY_SOURCE=3D1 -Wl,-z,now -Wl,-z,relro -static x=
+.c
+$ ./a.out =
+
+Allocating guest commpage: Operation not permitted
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1891748
+
+Title:
+  qemu-arm-static 5.1 can't run gcc
+
+Status in QEMU:
+  Fix Released
+Status in Juju Charms Collection:
+  New
+
+Bug description:
+  Issue discovered while trying to build pikvm (1)
+
+  Long story short: when using qemu-arm-static 5.1, gcc exits whith
+  message:
+
+  Allocating guest commpage: Operation not permitted
+
+  =
+
+  when using qemu-arm-static v5.0, gcc "works"
+
+  Steps to reproduce will follow
+
+  (1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1891748/+subscriptions
 
