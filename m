@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA9F33E7D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:45:07 +0100 (CET)
-Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A24233E7DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 04:53:16 +0100 (CET)
+Received: from localhost ([::1]:38974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMN7K-0000qq-LU
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:45:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39854)
+	id 1lMNFD-0002vQ-Kg
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 23:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaojun.zhao141@gmail.com>)
- id 1lMN6T-0000NH-5i
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:44:13 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:44709)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMNDr-00025c-93
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:51:51 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:41607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xiaojun.zhao141@gmail.com>)
- id 1lMN6R-00064X-Lk
- for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:44:12 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- y19-20020a0568301d93b02901b9f88a238eso504705oti.11
- for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 20:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=3yKH2zJ/PTflSGyf1i1Gg/5S89Ss7t+j8BN1GPvyZqE=;
- b=ljY3SXM/PH/25X2GkmhoE0Y/hVevBHVWV/EC+fNE6Z/DQOfFCLm1Giiij4EqExkn4c
- 30Lk90ovBoIY1KMKbobROaBtV/IYhNr+IXfNo8IsgoNlvtnD+sLUOXSOOh0Cw5PhKebF
- 9kR7mPxGs96L/lqjJKuPN9zRspnia8l2e0a+ecajFhe9KunZC208kgKpMc18Cdec4B14
- oJ6dULCRO99zSuJdv6xpBntgdrqxQMWzA71x5V/7QJVtnGfrJxIi8RT63146oP7XaY+j
- N7blC3N6imsi2z0PFTqlptizAhe4tLZgh1mug32HuquAYCv3rFAWrfmyPcZBFh+bEvg+
- pwew==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMNDp-0002Lv-J0
+ for qemu-devel@nongnu.org; Tue, 16 Mar 2021 23:51:50 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id x10so37615665qkm.8
+ for <qemu-devel@nongnu.org>; Tue, 16 Mar 2021 20:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pq7HUPGXGyIJHq7oRnj1ofjFJRlk9NtnApCIc6UUcYU=;
+ b=DWh0Htq9xYwWUNGEl7CAqHVzezt9FXzbbNsiQg0SqiO2fR5QSZfG5+ZJ96utjmQKex
+ 91MoBVyOLUGmq2bRjjFPCHA3/zqFvVO3YqhVMPIupztzoLnnsGX7JMXK4C2p9QqdTAnY
+ c5kepAkSeBJF3yBGq8BoxSwF8ibkMIS1/mF3ZYngM4eZoGANdUz6DvFfw/z/qrKmX7my
+ mZkrkLRA+EbIpc7Ys9ZZE2Xjav69M2ZnXcyXRKy3X9hZzNMjjrJLY0TFtDlSdByScO/c
+ rQZAWZUulC9u5z2IlvoSmOTiwDxioeuPrXgZYvnoF1yrpEk+bF60GU5mgB/K0pgX/gPa
+ A9mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=3yKH2zJ/PTflSGyf1i1Gg/5S89Ss7t+j8BN1GPvyZqE=;
- b=GXZrCrrFOKC5XlAs++/YfYghOi6+nue68QYz4VYxebtKqehIBz/ysJUVeF/zFla5rS
- XAf0tQMMr843sYT5G6OV6+yjllAcgvixEpMpgaxBGl9o6PNI5cikOA4pEeZfX0UFTsTw
- fjSUjmCunWIFEDhJ6Gf4pvLk1NTFQj5xtPG2ll8aYfqaryU3uQ1ZaVXWY07ZgAE5X/It
- ERCF2/EgLOpZeCNJwwN6vo43YuMSsTUFJMj9S9grTtd3aapeaIbY25PGpuKNPKUkkzCz
- /vFAACetWZ0ir73YsAKz3uPR7D1GfBwUhRgGOoorqy6bGKCgtZxLRVkSDMyTNrqkXijj
- iN2A==
-X-Gm-Message-State: AOAM532vIkEn9ldT7yNBvxglhXrbzJDlET/PfpiJ2+UfNjbbYoEz1hd9
- PfA1aWAJl5Tnv0qYa04MSxEKOm5nCD8YulJSuTY/iTyfxYU=
-X-Google-Smtp-Source: ABdhPJy9f4SVnBBbeOBgitjzqyjSUl8yNXORlF61Sd9J1pGJhVpJ2/hlapHYH8n3KOmrd/aVMiRfy0fK/gNF4eMcrHc=
-X-Received: by 2002:a9d:340b:: with SMTP id v11mr1673428otb.284.1615952650271; 
- Tue, 16 Mar 2021 20:44:10 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pq7HUPGXGyIJHq7oRnj1ofjFJRlk9NtnApCIc6UUcYU=;
+ b=QkfigiVQHT4gKMOZiSvWEqY9AwztCeQPbI/Of/B2HYGUOpPcNpMoGoYlulwpa8WoF8
+ DjWcwHammhOMZENnxXu9+wDWWAgls60ZtAmUQC+gJHgCrPJFT+3uTdcmFLlEl7MTU58j
+ h/cAWYKQR1jx4/xMPlA6pPz+55G2yDyRaR/7LRYWK35+DCXeJ6QvE+JQYRBo4VY4zpex
+ VkwPJ8uCC9tPWmCPzT6jusWc0MerzpXJNDrDSi1BFI2trETXVCnzy/jPNAf/6UtPzQoW
+ wzEWhmcTA9wxM4AGyxL2/jqBvOvVuuDIacinJMSK1PNNLFR4WU8gG6D1CpV6h+7i8jOF
+ ndWQ==
+X-Gm-Message-State: AOAM531YSRNam7pySJCp2EBkcW+WAdrGgOk8r4Jk5gfoP2r17eN/Gdne
+ 7+sLHNP5T6gE9BVdifuusor43g==
+X-Google-Smtp-Source: ABdhPJxvQviM+szW+V5zEc4QxCZvKwsrZ8tk7+TDAyvsA+/0Qpgbik0MqDl6g5Zbs6/ysYhJYehpYQ==
+X-Received: by 2002:a05:620a:15d6:: with SMTP id
+ o22mr2582870qkm.181.1615953108297; 
+ Tue, 16 Mar 2021 20:51:48 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id x22sm12527783qts.41.2021.03.16.20.51.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Mar 2021 20:51:47 -0700 (PDT)
+Subject: Re: [PATCH v5 22/57] tcg: Build ffi data structures for helpers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210311143958.562625-1-richard.henderson@linaro.org>
+ <20210311143958.562625-23-richard.henderson@linaro.org>
+ <269e1fd0-dd33-c9db-8792-49c60be1ae16@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <eeb08266-967d-f47e-31ce-1eaebd024128@linaro.org>
+Date: Tue, 16 Mar 2021 21:51:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-From: zhao xiaojun <xiaojun.zhao141@gmail.com>
-Date: Wed, 17 Mar 2021 11:43:59 +0800
-Message-ID: <CAAeqyDvGXBLRxB-KRe2QZH6SV7KKZp=oFQ3wQ_bdsUo1z1_rvw@mail.gmail.com>
-Subject: Can not use hmp block_resize command with -blockdev option
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000b17ef205bdb34b82"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=xiaojun.zhao141@gmail.com; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+In-Reply-To: <269e1fd0-dd33-c9db-8792-49c60be1ae16@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -75,54 +91,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: sw@weilnetz.de, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b17ef205bdb34b82
-Content-Type: text/plain; charset="UTF-8"
+On 3/16/21 4:35 PM, Philippe Mathieu-Daudé wrote:
+> Hi Richard,
+> 
+> On 3/11/21 3:39 PM, Richard Henderson wrote:
+>> We will shortly use libffi for tci, as that is the only
+>> portable way of calling arbitrary functions.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   meson.build                            |   9 +-
+>>   include/exec/helper-ffi.h              | 115 +++++++++++++++++++++++++
+>>   include/exec/helper-tcg.h              |  24 ++++--
+>>   target/hppa/helper.h                   |   2 +
+>>   target/i386/ops_sse_header.h           |   6 ++
+>>   target/m68k/helper.h                   |   1 +
+>>   target/ppc/helper.h                    |   3 +
+>>   tcg/tcg.c                              |  20 +++++
+>>   tests/docker/dockerfiles/fedora.docker |   1 +
+>>   9 files changed, 172 insertions(+), 9 deletions(-)
+>>   create mode 100644 include/exec/helper-ffi.h
+> 
+>> diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
+>> index 27870509a2..a71b848576 100644
+>> --- a/include/exec/helper-tcg.h
+>> +++ b/include/exec/helper-tcg.h
+>> @@ -10,50 +10,57 @@
+>>      to get all the macros expanded first.  */
+>>   #define str(s) #s
+>>   
+>> +#ifdef CONFIG_TCG_INTERPRETER
+>> +# define DO_CIF(NAME)  .cif = &cif_##NAME,
+> 
+> The comma in the macro bugs me... What about adding it as last field?
 
-Hi,
-I use -blockdev option to specify a drive when qemu boot and i want to
-resize it with hmp block_resize command. The hmp block_resize comand's
-arguments: block_resize device new_size.
-So I query the device by qmp query_block command, but the device filed of
-the result output is NULL string.
+Hmm, I think I can rearrange things so that happens.
 
-result output:
-{
-  "return": [
-    {
-      "io-status": "ok",
-      "device": "",
-        ...
-}
+The first iteration(s) of these two patches Knew Things about the layout of 
+TCGHelperInfo, and the cif pointer needed to be immediately after the function 
+pointer.
 
-I noticed that the qmp block_resize command supports device or node-name as
-argument.
+But in the post-uint32_t conversion part of this patch set that's no longer true.
 
-If i can continue use the the hmp block_resize command with the device
-argument?
+So I think I can bodge things here pre-uint32_t conversion too.
 
-Regards.
+>> +++ b/tests/docker/dockerfiles/fedora.docker
+>> @@ -32,6 +32,7 @@ ENV PACKAGES \
+>>       libcurl-devel \
+>>       libepoxy-devel \
+>>       libfdt-devel \
+>> +    libffi-devel \
+>>       libiscsi-devel \
+>>       libjpeg-devel \
+>>       libpmem-devel \
+>>
+> 
+> What happened to the other Docker images?
+> 
+> Otherwise the rest LGTM.
 
---000000000000b17ef205bdb34b82
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is the one we use for the gitlab build-tci job.  Or rather, we did.  It 
+looks like build-tci was changed to debian-all-test-cross recently...
 
-<div dir=3D"ltr"><div>Hi,=C2=A0</div><div>I use -blockdev option to specify=
- a drive when qemu boot and i want to resize it with hmp block_resize comma=
-nd. The hmp block_resize comand&#39;s arguments: block_resize device new_si=
-ze.</div><div>So I query the device by qmp query_block command, but the dev=
-ice filed of the result output is NULL string.</div><div><br></div><div>res=
-ult output:</div><div>{<br>=C2=A0 &quot;return&quot;: [<br>=C2=A0 =C2=A0 {<=
-br>=C2=A0 =C2=A0 =C2=A0 &quot;io-status&quot;: &quot;ok&quot;,<br>=C2=A0 =
-=C2=A0 =C2=A0 &quot;device&quot;: &quot;&quot;,<br></div><div>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 ...</div><div>}</div><div><br></div><div>I noticed that the =
-qmp block_resize command supports device or node-name as argument.</div><di=
-v><br></div><div>If i can continue use the the hmp block_resize command wit=
-h the device argument?</div><div><br></div><div><span class=3D"gmail-op_dic=
-t3_font24 gmail-op_dict3_marginRight gmail-c-gap-right">Regards.</span><br>=
-</div></div>
 
---000000000000b17ef205bdb34b82--
+r~
+
 
