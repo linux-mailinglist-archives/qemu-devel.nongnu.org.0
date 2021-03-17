@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E26433F7AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:58:47 +0100 (CET)
-Received: from localhost ([::1]:59788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DDF33F78B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:53:01 +0100 (CET)
+Received: from localhost ([::1]:44850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMaRS-0007G0-0s
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
+	id 1lMaLs-00011e-2h
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=703660e7d=alistair.francis@wdc.com>)
- id 1lMaAU-0007xs-2O; Wed, 17 Mar 2021 13:41:14 -0400
+ id 1lMaAb-00083U-I5; Wed, 17 Mar 2021 13:41:21 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=703660e7d=alistair.francis@wdc.com>)
- id 1lMaAQ-0006uT-5E; Wed, 17 Mar 2021 13:41:13 -0400
+ id 1lMaAX-0006uT-Bf; Wed, 17 Mar 2021 13:41:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616002876; x=1647538876;
+ t=1616002887; x=1647538887;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hvP1fnwcwS3eNxqGwnTTpW7krCR2yGIVH5UQyMR2jvs=;
- b=Ofgz2JPjzdfNo8sPGFSVt5I9deyX58Wrvo0Ha/H+79WBOXldzZxJ07UY
- ztBzNkQ6J9Cdyxj4CiwJ8AP+NmJAO8paIadSns4fCMFpZHhdzIdjTnci2
- Tb0dN7dTClZozftJYdZF6DBLLdOJLl6X1zrdU4gqSy4ge6mcqClHDAqI+
- Hi91w9JJfHVF0Gaj+9TUn5qQ5q1xg45kYZpVW56b9nQykCXImmC584gEl
- FlPHciAd91MGnkhmwxwISqdDfvLXK0CARG5TeKfSy5N0AEk+A4zVnxemp
- Psl+j4tT1QVy0QkdguEaDEu0N4lbKwQzUlRxqfKwPSARqrz4N76vajT7u w==;
-IronPort-SDR: zQ5QFWCkiLOHJ40O6T6tIk39KC+b63ze1qRxyR1HwcaVeX9kftRyxfWbq9oqLKDaugY/i1i2D1
- oOKwW1NLGovJtgcPEH/+pxd4Z9f/Re4E2O0b+s/uM81wnyfKTjRlnNe4LISWjZyT9aB3wlWQFU
- kABxyKSsLITQnUz2iG7wHdaTX+mgpDfPHlYIsLdE/OBRTwB5XThU7NJjhJWkbOb2Usv52z1cuX
- sDzehzpT7mFbaV47WQG3LWrzsCkSptPbACamlDGSLTbhyCIaRHav2wmFnQcsed+jMdgp8HnX7F
- rCw=
-X-IronPort-AV: E=Sophos;i="5.81,257,1610380800"; d="scan'208";a="266778852"
+ bh=MTAmcgrCK5mxb86vl4p0tkm8GAMdAaL4hoje7fOGs9E=;
+ b=Ei1IjbIfFVDcW8ArW8PY6SBN8iM7oErecIx10w5NTwbLCbJU4P7vh/65
+ +h7ABDfEbozTLhT06DNmKSoQdAd2rMt4x8BoVPYwtx9pU7i88Ev4mYgeV
+ 4NMmbnoq7rvs4w2HD1qnLjHV6wIbagD09ArdHwKFUgx+XMKPxTXH4w5Jf
+ 5v/Np9eQ4wLsAWsmjn8kWllbbhnHh8aob9aHzJ14BuxNw/jvWv4RZdIZG
+ sM1pzI0HN4DjjFx4yJbiVbk+q61blAmGZzbpbcy7m2CQ9QvQk74Hq3Yin
+ NzZcBRKgvAPH2lpnOu+UfoKgYOAdSeIQBZlZnZIemkvoqmqEKli2WY6zA A==;
+IronPort-SDR: PdoduPwdoxzjQI4Y73T/hFv2DWTGqU8Qc5JhkfGq7dRhdBpJJCRFgLwD7RTDMCP1MrGkdX+7Vh
+ VNdv4AMhqtotf4TlJpeDVA5wsplDpkhCYOFUkkWUQGmYRuDaPiMO5Z40ZkjfEO/ImLDuZCK8oY
+ HcOLRxVRNI5OSnzzLos7L9etBOpzqoiMZUa/JnSbFHjNGBL6bYembILfXvfbUvdloaBWzWHBj3
+ LqdnaiBbDkIU97k+iXGJxqit9yBcjKNoVDB+nQdymw7hZelHpv7DaFElivsbrwpDfmCM21D1be
+ AcE=
+X-IronPort-AV: E=Sophos;i="5.81,257,1610380800"; d="scan'208";a="266778868"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Mar 2021 01:41:13 +0800
-IronPort-SDR: zkVy/U+FvSQ2XZC7djU5InjGr8dwJcBsA7xKDOu6wWZjHsXT/Dw2CFGr8GcVdJZFLqhlXYobH5
- HFt6ditLDsP6Wo76VX9Mf6eYyTvaftGluhcQoq6KwSmi9XiwcjUDeyNKm1MondWNNhdAmSpH6Y
- k4OfEpZdjEDCrozEYFi8lzh8mYkTmoa/ji8cQgQ6gSDRZcb0PmhLWiMlP7+W0OsSm2YgSv7lCf
- Bvo5jt2tZO1Nxa5sNy1EF2MxuEVNPzz4S8HVpv6uhaBh4wC4R1+RSRDRN/zvz7KYZPuvBsIGHg
- jzlqgRJA5wjYbowYgxmHGJyq
+ by ob1.hgst.iphmx.com with ESMTP; 18 Mar 2021 01:41:25 +0800
+IronPort-SDR: wDL280sxM9YKtNaBZ1jyM1EN06c1Uaj3PnjU40cuKfceIuUHj/oSuqVtQFgNO5aDFvbzTxd1vk
+ uQqC53k+UO5ItKRff5n+ski09HbwwL93MrsbDv215/OVpRVgxmWUURMAqcFTKqqNDFEK57BYKH
+ epKyT7rRLgNcdKm7SS0OyoILdYYvbS6ELTiztwEKE9kwDCgyNi/gO/56IDcr8yok/k4wiOMuFn
+ XL2htjXhIMRyBEars/5bwmHPt6CJmKgGpwQZcq6xCAaKU10XWAiWBAFnaABePYthNA+3M0ntw1
+ i/+ALzkbmIzjd1YUQKyKIgLl
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2021 10:23:27 -0700
-IronPort-SDR: AVFyNUFnF3/BWC4uiXgEDdW7bdA+m9omB+YrGmOE4d2wYZDvy6YBDnDItKEYrjvAhw9DG9jxAY
- iOLpHueRVKTUIMAm4RzGxRMCJohLH7u7FffqtoYopoca0UFnTphexF9Z14e/w0a/K4u6d0+lje
- x//wj8eKOZ1cwRelHvlMPSWTszcxEgBwduUtkjoQoySgKdSMQih78xlNoi4mDZkyGgl8zO9d+P
- dIeDX6nkp2LtD4kFKgrx0KRrJJOah+1+SJII0rJJsutA2l5TOTep1gBM8Eq3Rr9JK7sY58W2Al
- ydo=
+ 17 Mar 2021 10:23:35 -0700
+IronPort-SDR: oNA4YPL1nx+/LsU/9H2cqSla0uP1lDky/Mjt1rrdudSBchtXlzE4Sep5OOhPv05urscZK6LO/7
+ oXeRHFiSieUdnkrRQCroyqFY/+ejYNZ1Bf/a7ESPhhzbD2QDcbwnDDCpX7oATxX6j+zYavedoi
+ hoZgnvkwt1MaHJBJwl5Jexr0y0RG9y+mCREFIMQq+IKo8XHDkL+xDJr0WnSl6QCvKBTwkMeJot
+ qqugpKO6fXo236zcL7Enf0J4b55eVDQoMQL4R86ET9/mnm7qLAw1Z97x9W//r6fhKS4xN+L4SU
+ FIY=
 WDCIronportException: Internal
 Received: from fvwlp12.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.223])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Mar 2021 10:41:08 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Mar 2021 10:41:15 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 3/5] target/riscv: Fix 32-bit HS mode access permissions
-Date: Wed, 17 Mar 2021 13:39:55 -0400
-Message-Id: <36b83d45e6cdc072574363b6ea937b0a5dad245a.1616002766.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 5/5] target/riscv: Use RiscVException enum for CSR access
+Date: Wed, 17 Mar 2021 13:40:03 -0400
+Message-Id: <6834cb79431f394b05b06a26317799c9066ccd4f.1616002766.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <cover.1616002766.git.alistair.francis@wdc.com>
 References: <cover.1616002766.git.alistair.francis@wdc.com>
@@ -97,26 +97,221 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h       | 11 +++++++----
+ target/riscv/csr.c       | 37 ++++++++++++++++++-------------------
+ target/riscv/gdbstub.c   |  8 ++++----
+ target/riscv/op_helper.c | 18 +++++++++---------
+ 4 files changed, 38 insertions(+), 36 deletions(-)
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7af9fff776..179685d07b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -451,10 +451,13 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+     *pflags = flags;
+ }
+ 
+-int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+-                target_ulong new_value, target_ulong write_mask);
+-int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
+-                      target_ulong new_value, target_ulong write_mask);
++RiscVException riscv_csrrw(CPURISCVState *env, int csrno,
++                           target_ulong *ret_value,
++                           target_ulong new_value, target_ulong write_mask);
++RiscVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
++                                 target_ulong *ret_value,
++                                 target_ulong new_value,
++                                 target_ulong write_mask);
+ 
+ static inline void riscv_csr_write(CPURISCVState *env, int csrno,
+                                    target_ulong val)
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index da9baff6fb..d10f47c3fb 100644
+index 61b2abdc14..fbe38dd261 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -181,7 +181,11 @@ static RiscVException hmode(CPURISCVState *env, int csrno)
- static RiscVException hmode32(CPURISCVState *env, int csrno)
+@@ -1404,10 +1404,11 @@ static RiscVException write_pmpaddr(CPURISCVState *env, int csrno,
+  * csrrc  <->  riscv_csrrw(env, csrno, ret_value, 0, value);
+  */
+ 
+-int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+-                target_ulong new_value, target_ulong write_mask)
++RiscVException riscv_csrrw(CPURISCVState *env, int csrno,
++                           target_ulong *ret_value,
++                           target_ulong new_value, target_ulong write_mask)
  {
-     if (!riscv_cpu_is_32bit(env)) {
--        return RISCV_EXCP_NONE;
-+        if (riscv_cpu_virt_enabled(env)) {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        } else {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
+-    int ret;
++    RiscVException ret;
+     target_ulong old_value;
+     RISCVCPU *cpu = env_archcpu(env);
+ 
+@@ -1429,41 +1430,37 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+ 
+     if ((write_mask && read_only) ||
+         (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
+-        return -RISCV_EXCP_ILLEGAL_INST;
++        return RISCV_EXCP_ILLEGAL_INST;
+     }
+ #endif
+ 
+     /* ensure the CSR extension is enabled. */
+     if (!cpu->cfg.ext_icsr) {
+-        return -RISCV_EXCP_ILLEGAL_INST;
++        return RISCV_EXCP_ILLEGAL_INST;
      }
  
-     return hmode(env, csrno);
+     /* check predicate */
+     if (!csr_ops[csrno].predicate) {
+-        return -RISCV_EXCP_ILLEGAL_INST;
++        return RISCV_EXCP_ILLEGAL_INST;
+     }
+     ret = csr_ops[csrno].predicate(env, csrno);
+     if (ret != RISCV_EXCP_NONE) {
+-        return -ret;
++        return ret;
+     }
+ 
+     /* execute combined read/write operation if it exists */
+     if (csr_ops[csrno].op) {
+-        ret = csr_ops[csrno].op(env, csrno, ret_value, new_value, write_mask);
+-        if (ret != RISCV_EXCP_NONE) {
+-            return -ret;
+-        }
+-        return 0;
++        return csr_ops[csrno].op(env, csrno, ret_value, new_value, write_mask);
+     }
+ 
+     /* if no accessor exists then return failure */
+     if (!csr_ops[csrno].read) {
+-        return -RISCV_EXCP_ILLEGAL_INST;
++        return RISCV_EXCP_ILLEGAL_INST;
+     }
+     /* read old value */
+     ret = csr_ops[csrno].read(env, csrno, &old_value);
+     if (ret != RISCV_EXCP_NONE) {
+-        return -ret;
++        return ret;
+     }
+ 
+     /* write value if writable and write mask set, otherwise drop writes */
+@@ -1472,7 +1469,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+         if (csr_ops[csrno].write) {
+             ret = csr_ops[csrno].write(env, csrno, new_value);
+             if (ret != RISCV_EXCP_NONE) {
+-                return -ret;
++                return ret;
+             }
+         }
+     }
+@@ -1482,17 +1479,19 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+         *ret_value = old_value;
+     }
+ 
+-    return 0;
++    return RISCV_EXCP_NONE;
+ }
+ 
+ /*
+  * Debugger support.  If not in user mode, set env->debugger before the
+  * riscv_csrrw call and clear it after the call.
+  */
+-int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
+-                target_ulong new_value, target_ulong write_mask)
++RiscVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
++                                 target_ulong *ret_value,
++                                 target_ulong new_value,
++                                 target_ulong write_mask)
+ {
+-    int ret;
++    RiscVException ret;
+ #if !defined(CONFIG_USER_ONLY)
+     env->debugger = true;
+ #endif
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 5f96b7ea2a..fdc51ea165 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -71,7 +71,7 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
+          */
+         result = riscv_csrrw_debug(env, n - 32, &val,
+                                    0, 0);
+-        if (result == 0) {
++        if (result != RISCV_EXCP_NONE) {
+             return gdb_get_regl(buf, val);
+         }
+     }
+@@ -94,7 +94,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+          */
+         result = riscv_csrrw_debug(env, n - 32, NULL,
+                                    val, -1);
+-        if (result == 0) {
++        if (result != RISCV_EXCP_NONE) {
+             return sizeof(target_ulong);
+         }
+     }
+@@ -108,7 +108,7 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
+         int result;
+ 
+         result = riscv_csrrw_debug(env, n, &val, 0, 0);
+-        if (result == 0) {
++        if (result != RISCV_EXCP_NONE) {
+             return gdb_get_regl(buf, val);
+         }
+     }
+@@ -122,7 +122,7 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
+         int result;
+ 
+         result = riscv_csrrw_debug(env, n, NULL, val, -1);
+-        if (result == 0) {
++        if (result != RISCV_EXCP_NONE) {
+             return sizeof(target_ulong);
+         }
+     }
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 1eddcb94de..c84b9f8557 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -42,10 +42,10 @@ target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
+         target_ulong csr)
+ {
+     target_ulong val = 0;
+-    int ret = riscv_csrrw(env, csr, &val, src, -1);
++    RiscVException ret = riscv_csrrw(env, csr, &val, src, -1);
+ 
+-    if (ret < 0) {
+-        riscv_raise_exception(env, -ret, GETPC());
++    if (ret != RISCV_EXCP_NONE) {
++        riscv_raise_exception(env, ret, GETPC());
+     }
+     return val;
+ }
+@@ -54,10 +54,10 @@ target_ulong helper_csrrs(CPURISCVState *env, target_ulong src,
+         target_ulong csr, target_ulong rs1_pass)
+ {
+     target_ulong val = 0;
+-    int ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
++    RiscVException ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
+ 
+-    if (ret < 0) {
+-        riscv_raise_exception(env, -ret, GETPC());
++    if (ret != RISCV_EXCP_NONE) {
++        riscv_raise_exception(env, ret, GETPC());
+     }
+     return val;
+ }
+@@ -66,10 +66,10 @@ target_ulong helper_csrrc(CPURISCVState *env, target_ulong src,
+         target_ulong csr, target_ulong rs1_pass)
+ {
+     target_ulong val = 0;
+-    int ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
++    RiscVException ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
+ 
+-    if (ret < 0) {
+-        riscv_raise_exception(env, -ret, GETPC());
++    if (ret != RISCV_EXCP_NONE) {
++        riscv_raise_exception(env, ret, GETPC());
+     }
+     return val;
+ }
 -- 
 2.30.1
 
