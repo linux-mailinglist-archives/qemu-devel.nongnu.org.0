@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F1033F556
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:21:18 +0100 (CET)
-Received: from localhost ([::1]:39290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A943B33F527
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:10:57 +0100 (CET)
+Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMYv7-0007kL-Ka
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52944)
+	id 1lMYl6-0002X2-Iu
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:10:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lMYPH-0002Ui-W6
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:48:24 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:43446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lMYPC-0006L1-2N
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 11:48:23 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 12HFlZq7020494
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 17 Mar 2021 11:47:38 -0400
-Date: Wed, 17 Mar 2021 11:47:35 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 3/4] esp: ensure cmdfifo is not empty and current_dev is
- non-NULL
-Message-ID: <20210317154735.ieygunlmofefebhh@mozz.bu.edu>
-References: <20210316233024.13560-1-mark.cave-ayland@ilande.co.uk>
- <20210316233024.13560-4-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lMYbj-0001v1-No
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:01:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58146)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lMYbY-00058t-Bz
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:01:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lMYbW-0004n2-Ap
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 16:01:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4DFC12E8060
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 16:01:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210316233024.13560-4-mark.cave-ayland@ilande.co.uk>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Mar 2021 15:51:11 -0000
+From: Alexander Bulekov <1917085@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <161436919438.19312.17751990850754413614.malonedeb@soybean.canonical.com>
+Message-Id: <161599627202.3106.14474769454739852126.malone@chaenomeles.canonical.com>
+Subject: [Bug 1917085] Re: [OSS-Fuzz] Issue 30588 pcnet: Loopback-related
+ stack-overflow
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d4fcb062545ed29d3cd7773e52e43615e042623f"; Instance="production"
+X-Launchpad-Hash: c83fc957d0f8695e1474c540a6fbc4aabd50a92e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,31 +72,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1917085 <1917085@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mark,
+OSS-Fuzz says this has been fixed
 
-On 210316 2330, Mark Cave-Ayland wrote:
-> When about to execute a SCSI command, ensure that cmdfifo is not empty and
-> current_dev is non-NULL. This can happen if the guest tries to execute a TI
-> (Transfer Information) command without issuing one of the select commands
-> first.
-> 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-^ Can't reproduce this one anymore
+-- =
 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917085
 
-However, this still seems to cause a UAF:
-https://bugs.launchpad.net/qemu/+bug/1909247/comments/6
+Title:
+   [OSS-Fuzz] Issue 30588 pcnet: Loopback-related stack-overflow
 
--Alex
+Status in QEMU:
+  Fix Committed
 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c | 3 +++
->  1 file changed, 3 insertions(+)
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
+  512M -machine q35 -nodefaults -device pcnet,netdev=3Dnet0 -netdev \
+  user,id=3Dnet0 -qtest /dev/null -qtest stdio
+  outl 0xcf8 0x80000810
+  outl 0xcfc 0xc001
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  outl 0xc011 0xff14ff
+  outl 0xcf8 0x80000815
+  outl 0xcfc 0xffffffff
+  outl 0xc015 0x35a
+  inl 0xc012
+  outw 0xc010 0x6165
+  outw 0xc010 0x1127
+  write 0x0 0x1 0x56
+  write 0x2 0x1 0xff
+  write 0x15 0x1 0xff
+  write 0x16 0x1 0xff
+  write 0x17 0x1 0xff
+  write 0x18 0x1 0xfd
+  write 0x19 0x1 0x59
+  write 0x1a 0x1 0xfe
+  write 0x1b 0x1 0xff
+  outw 0xc010 0x1db
+  EOF
+
+  =3D=3D=3D Stack-trace =3D=3D=3D
+  =3D=3D312573=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
+fd5bb4cec8 (pc 0x55a8f1c9cf36 bp 0x7ffd5bb4d710 sp 0x7ffd5bb4ced0 T0)
+  #0 0x55a8f1c9cf36 in __asan_memcpy (/home/alxndr/Development/qemu/build/q=
+emu-system-i386+0x2baff36)
+  #1 0x55a8f2f54ddf in flatview_do_translate /home/alxndr/Development/qemu/=
+build/../softmmu/physmem.c:518:12
+  #2 0x55a8f2f6ec8e in flatview_translate /home/alxndr/Development/qemu/bui=
+ld/../softmmu/physmem.c:568:15
+  #3 0x55a8f2f6ec8e in flatview_read /home/alxndr/Development/qemu/build/..=
+/softmmu/physmem.c:2878:10
+  #4 0x55a8f2f6ec8e in address_space_read_full /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2892:18
+  #5 0x55a8f273036e in pcnet_rmd_load /home/alxndr/Development/qemu/build/.=
+./hw/net/pcnet.c:381:9
+  #6 0x55a8f272e386 in pcnet_rdte_poll /home/alxndr/Development/qemu/build/=
+../hw/net/pcnet.c:896:9
+  #7 0x55a8f27299d0 in pcnet_receive /home/alxndr/Development/qemu/build/..=
+/hw/net/pcnet.c:1016:9
+  #8 0x55a8f27406be in pcnet_transmit /home/alxndr/Development/qemu/build/.=
+./hw/net/pcnet.c:1253:13
+  #9 0x55a8f2735b4c in pcnet_poll_timer /home/alxndr/Development/qemu/build=
+/../hw/net/pcnet.c:1322:9
+  #10 0x55a8f273c353 in pcnet_ioport_readl /home/alxndr/Development/qemu/bu=
+ild/../hw/net/pcnet.c:1660:5
+  #11 0x55a8f2727361 in pcnet_ioport_read /home/alxndr/Development/qemu/bui=
+ld/../hw/net/pcnet-pci.c:107:20
+  #12 0x55a8f309e9f6 in memory_region_read_accessor /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:442:11
+  #13 0x55a8f3070d63 in access_with_adjusted_size /home/alxndr/Development/=
+qemu/build/../softmmu/memory.c:552:18
+  #14 0x55a8f306f222 in memory_region_dispatch_read1 /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c
+  #15 0x55a8f306f222 in memory_region_dispatch_read /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:1449:9
+  #16 0x55a8f2f6d88f in flatview_read_continue /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2839:23
+  #17 0x55a8f2f6ed1b in flatview_read /home/alxndr/Development/qemu/build/.=
+./softmmu/physmem.c:2879:12
+  #18 0x55a8f2f6ed1b in address_space_read_full /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2892:18
+  #19 0x55a8f273036e in pcnet_rmd_load /home/alxndr/Development/qemu/build/=
+../hw/net/pcnet.c:381:9
+  #20 0x55a8f2729d97 in pcnet_receive /home/alxndr/Development/qemu/build/.=
+./hw/net/pcnet.c:1028:17
+  #21 0x55a8f27406be in pcnet_transmit /home/alxndr/Development/qemu/build/=
+../hw/net/pcnet.c:1253:13
+  #22 0x55a8f2735b4c in pcnet_poll_timer /home/alxndr/Development/qemu/buil=
+d/../hw/net/pcnet.c:1322:9
+  #23 0x55a8f273c353 in pcnet_ioport_readl /home/alxndr/Development/qemu/bu=
+ild/../hw/net/pcnet.c:1660:5
+  #24 0x55a8f2727361 in pcnet_ioport_read /home/alxndr/Development/qemu/bui=
+ld/../hw/net/pcnet-pci.c:107:20
+  #25 0x55a8f309e9f6 in memory_region_read_accessor /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:442:11
+  #26 0x55a8f3070d63 in access_with_adjusted_size /home/alxndr/Development/=
+qemu/build/../softmmu/memory.c:552:18
+  #27 0x55a8f306f222 in memory_region_dispatch_read1 /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c
+  #28 0x55a8f306f222 in memory_region_dispatch_read /home/alxndr/Developmen=
+t/qemu/build/../softmmu/memory.c:1449:9
+  #29 0x55a8f2f6d88f in flatview_read_continue /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2839:23
+  #30 0x55a8f2f6ed1b in flatview_read /home/alxndr/Development/qemu/build/.=
+./softmmu/physmem.c:2879:12
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917085/+subscriptions
 
