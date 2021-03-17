@@ -2,82 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A3033F5C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:42:30 +0100 (CET)
-Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7399433F5F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 17:46:26 +0100 (CET)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZFd-0007e7-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34886)
+	id 1lMZJR-0003sF-Do
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 12:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lMZ1g-0006gE-7j
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:28:07 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42251)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lMZ1Z-0002pS-SL
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:28:03 -0400
-Received: by mail-ej1-x630.google.com with SMTP id c10so3571675ejx.9
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 09:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=dVcupL0ln5ZU+HxjYFRHM/+Sdx/teNRasSEqqfuDpGk=;
- b=KiWfmNeR2ZfxLGlsEKJBThX/8/eZhiBIBsj6gmTFqzj9ySBI4abV8x7FBJ3WreHsEe
- XWOMwg2NxT80OHX+zl6hBoKyNNxp1mdNBpr+0vldmLDTkyL4wqbq6TA0E5p+XutxAXDO
- +rYb4+xYS7mV6BI8qvzr18NHrDjBMm8pzF1PZay8Lz/Tkp3gofhDNy2oV1f19htZVVTx
- WG5h9CoDELMtihQpGPge3f+2rwXH/ZPeaoGeSWGWFs98ZmWKNUp+kemnOOZZOgHtNlBx
- Pp+xXxS7gd/LihRqQXEecZ4820nEFpX1nLC/BhYUajuM57gBkNbwEVbaHiuOsIdQgokw
- zUoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=dVcupL0ln5ZU+HxjYFRHM/+Sdx/teNRasSEqqfuDpGk=;
- b=eeNT+Cj0xmXPuQX3cmhw46u/FpGbPh1FnhimxOeeikejR35e8mrNZs9hNcOictx34m
- YrUNbp+lhBg0Y3+0+uMrf3sNSnfUVAYrTcJLihOFJkcVm9akcC8LZcBsmNJJH8fesD1D
- sv6rxwz/+8WdrH0+If6uNdXCOkR/3DnjoBvwe5abqD0yy3sglHBdEiDw2avx/KbN5Oo8
- aELE4DeD6Onblt62BDTmCm4RvEtQgcMXNQmwhG7rrWoRHWR11Mh2WcQpz0AknWpJHya1
- PviSHIyg51hT8ThlxiHNPbZH8hj3tL4z7X3TFxhyC47d7S/xv5+f8YACUv3Sr5D/q8Or
- YqjA==
-X-Gm-Message-State: AOAM532r64wozVYCMtRK8JxvHmCw1pvIM98oR4eTvRXWbHOEycVvz5VJ
- GlMlv0AwzEZ9VYZmggmVSTCjtg==
-X-Google-Smtp-Source: ABdhPJyEdIOHZaGCtT+KJYi1y8SbVTeOUYvvc8UfJ1rqBEJiqtCF57+AuO9FUepZbSnxELDQEmkaNQ==
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr36503226ejg.482.1615998475073; 
- Wed, 17 Mar 2021 09:27:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z9sm13833199edr.75.2021.03.17.09.27.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 09:27:53 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2A6751FF7E;
- Wed, 17 Mar 2021 16:27:53 +0000 (GMT)
-References: <20210317110512.583747-1-thuth@redhat.com>
- <20210317110512.583747-3-thuth@redhat.com>
- <CAFEAcA89BmZ7_d73Te=DXxDNc+W4NuqXZgpoi9JwsMN0_nh6pg@mail.gmail.com>
- <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
- <YFIANJSi+FtVRYQY@redhat.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/2] cirrus.yml: Update the FreeBSD task to version 12.2
-Date: Wed, 17 Mar 2021 16:24:35 +0000
-In-reply-to: <YFIANJSi+FtVRYQY@redhat.com>
-Message-ID: <87blbhd9ti.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lMZ6W-0000GJ-JY
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:33:04 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lMZ6O-0004V9-CN
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:33:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
+ Content-Type; bh=FQRVvxxgsnOia6qFWKKf6a3iDt5Gb5zVrTahUdF6KEo=; b=gotrzdGCutFU
+ ZHFRpuOx8zsO5AtMMKgKDxIBg4z2U94BUwgfIUO1fCOPYj0m0kyh3QjxFGfMf8iYdB8MNTHjpxS8q
+ mu38d+Alo1XCkkVYiNhfqWwr5m8BDvOaq4Kwo71wutmcHUzyrh6aznxJkvS/gTuJYIu7AOc5m5T8d
+ 7s3oU=;
+Received: from [192.168.15.248] (helo=andrey-MS-7B54.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lMZ5f-0034yI-Si; Wed, 17 Mar 2021 19:32:11 +0300
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: [RFC PATCH 0/9] migration/snap-tool: External snapshot utility
+Date: Wed, 17 Mar 2021 19:32:13 +0300
+Message-Id: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay.sw.ru
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,64 +62,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series is a kind of PoC for asynchronous snapshot reverting. This is
+about external snapshots only and doesn't involve block devices. Thus, it's
+mainly intended to be used with the new 'background-snapshot' migration
+capability and otherwise standard QEMU migration mechanism.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+The major ideas behind this first version were:
+  * Make it compatible with 'exec:'-style migration - options can be create
+    some separate tool or integrate into qemu-system.
+  * Support asynchronous revert stage by using unaltered postcopy logic
+    at destination. To do this, we should be capable of saving RAM pages
+    so that any particular page can be directly addressed by it's block ID
+    and page offset. Possible solutions here seem to be:
+      use separate index (and storing it somewhere)
+      create sparse file on host FS and address pages with file offset
+      use QCOW2 (or other) image container with inherent sparsity support
+  * Make snapshot image file dense on the host FS so we don't depend on
+    copy/backup tools and how they deal with sparse files. Off course,
+    there's some performance cost for this choice.
+  * Make the code which is parsing unstructered format of migration stream,
+    at least, not very sophisticated. Also, try to have minimum dependencies
+    on QEMU migration code, both RAM and device.
+  * Try to keep page save latencies small while not degrading migration
+    bandwidth too much.
 
-> On Wed, Mar 17, 2021 at 01:44:05PM +0100, Thomas Huth wrote:
->> On 17/03/2021 12.16, Peter Maydell wrote:
->> > On Wed, 17 Mar 2021 at 11:09, Thomas Huth <thuth@redhat.com> wrote:
->> > >=20
->> > > FreeBSD version 12.1 is out of service now, and the task in the
->> > > Cirrus-CI is failing. Update to 12.2 to get it working again.
->> > > Unfortunately, there is a bug in libtasn1 that triggers with the
->> > > new version of Clang that is used there (see this thread for details:
->> > > https://lists.gnu.org/archive/html/qemu-dove/2021-02/msg00739.html ),
->> > > so we have to disable gnutls for now to make it work again. We can
->> > > enable it later again once libtasn1 has been fixed in FreeBSD.
->> > >=20
->> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
->> >=20
->> > Is it feasible to make configure check for "is libtasn1 broken"?
->> > I guess since it only shows up as "when you try to use it
->> > it fails" that would be a runtime check rather than compile
->> > time, which isn't really possible :-(
->>=20
->> I don't really have a clue about this crypto stuff... Daniel, Stefan, Ro=
-man,
->> Christian, Eric ... you debugged the original problem on macOS, do you t=
-hink
->> it's possible to add a check for this libtasn1 problem to our "configure"
->> (or meson.build file)?
->
-> It is tricky because the flaw is not specific to the version of
-> tasn1, rather to the combination of tasn1 and the compiler used,
-> so there's no simple way to detect it statically from configure.
->
-> If don't want the big hammer of disabling gnutls, perhaps adding
-> a flag to disable tasn1 would be simpler, as that would only
-> disable test suite, and no actual QEMU core functionality (which
-> is all working fine)
+For this first version I decided not to integrate into main QEMU code but
+create a separate tool. The main reason is that there's not too much migration
+code that is target-specific and can be used in it's unmodified form. Also,
+it's still not very clear how to make 'qemu-system' integration in terms of
+command-line (or monitor/QMP?) interface extension.
 
-I suspect we'll forget to remove this flag as well when the time comes.
-Without adding new things I think this patch would be fine with an
-additional comments:
+For the storage format, QCOW2 as a container and large (1MB) cluster size seem
+to be an optimal choice. Larger cluster is beneficial for performance particularly
+in the case when image preallocation is disabled. Such cluster size does not result
+in too high internal fragmentation level (~10% of space waste in most cases) yet
+allows to reduce significantly the number of expensive cluster allocations.
 
-  # --disable-gnutls until libtasn1 is fixed in FreeBSD (#ref?)
+A bit tricky part is dispatching QEMU migration stream cause it is mostly
+unstructered and depends on configuration parameters like 'send-configuration'
+and 'send-section-footer'. But, for the case with default values in migration
+globals it seems that implemented dispatching code works well and won't have
+compatibility issues in a reasonably long time frame.
 
->
-> Regards,
-> Daniel
+I decided to keep RAM save path synchronous, anyhow it's better to use writeback
+cache mode for the live snapshots cause of it's interleaving page address pattern.
+Page coalescing buffer is used to merge contiguous pages to optimize block layer
+writes.
 
+Since for snapshot loading opening image file in cached mode would not do any good,
+it implies that Linux native AIO and O_DIRECT mode is used in a common scenario.
+AIO support in RAM loading path is implemented by using a ring of preallocated
+fixed-sized buffers in such a way that there's always a number of outstanding block
+requests anytime. It also ensures in-order request completion.
 
---=20
-Alex Benn=C3=A9e
+How to use:
+
+**Save:**
+* qemu> migrate_set_capability background-snapshot on
+* qemu> migrate "exec:<qemu-bin-path>/qemu-snap -s <virtual-size>
+           --cache=writeback --aio=threads save <image-file.qcow2>"
+
+**Load:**
+* Use 'qemu-system-* -incoming defer'
+* qemu> migrate_incoming "exec:<qemu-bin-path>/qemu-snap
+          --cache=none --aio=native load <image-file.qcow2>"
+
+**Load with postcopy:**
+* Use 'qemu-system-* -incoming defer'
+* qemu> migrate_set_capability postcopy-ram on
+* qemu> migrate_incoming "exec:<qemu-bin-path>/qemu-snap --postcopy=60
+          --cache=none --aio=native load <image-file.qcow2>"
+
+And yes, asynchronous revert works well only with SSD, not with rotational disk..
+
+Some performance stats:
+* SATA SSD drive with ~500/450 MB/s sequantial read/write and ~60K IOPS max.
+* 220 MB/s average save rate (depends on workload)
+* 440 MB/s average load rate in precopy
+* 260 MB/s average load rate in postcopy
+
+Andrey Gruzdev (9):
+  migration/snap-tool: Introduce qemu-snap tool
+  migration/snap-tool: Snapshot image create/open routines for qemu-snap
+    tool
+  migration/snap-tool: Preparations to run code in main loop context
+  migration/snap-tool: Introduce qemu_ftell2() routine to qemu-file.c
+  migration/snap-tool: Block layer AIO support and file utility routines
+  migration/snap-tool: Move RAM_SAVE_FLAG_xxx defines to migration/ram.h
+  migration/snap-tool: Complete implementation of snapshot saving
+  migration/snap-tool: Implementation of snapshot loading in precopy
+  migration/snap-tool: Implementation of snapshot loading in postcopy
+
+ include/qemu-snap.h   |  163 ++++
+ meson.build           |    2 +
+ migration/qemu-file.c |    6 +
+ migration/qemu-file.h |    1 +
+ migration/ram.c       |   16 -
+ migration/ram.h       |   16 +
+ qemu-snap-handlers.c  | 1801 +++++++++++++++++++++++++++++++++++++++++
+ qemu-snap-io.c        |  325 ++++++++
+ qemu-snap.c           |  673 +++++++++++++++
+ 9 files changed, 2987 insertions(+), 16 deletions(-)
+ create mode 100644 include/qemu-snap.h
+ create mode 100644 qemu-snap-handlers.c
+ create mode 100644 qemu-snap-io.c
+ create mode 100644 qemu-snap.c
+
+-- 
+2.25.1
+
 
