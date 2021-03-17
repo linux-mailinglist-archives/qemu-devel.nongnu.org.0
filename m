@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315FF33F0FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:18:05 +0100 (CET)
-Received: from localhost ([::1]:44666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5348B33F11C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:23:59 +0100 (CET)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMW3o-0002uY-85
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42196)
+	id 1lMW9W-00060A-5e
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMW2O-00021j-9f
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:16:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMW2K-0000SE-8S
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:16:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615986987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=67ER8ymn3RvOiFRP6UbBR+cbhZxq/8Mxqp/n/1Awsvo=;
- b=f7rMOe6zP2K47iUvLrE+SlKi+P/+C735g1DshIhe7uTy5Hb481aIxnrfMQ6CtBEA2ZpXsb
- 0q4vf8MbD1iIk8eEkBTfhfXONITEmIZyYCrJfA9n+YN8zo3d+8Z/havg4ijeNPoHTlJUFz
- nYRtJojPcgpaAN6yWsk4juv565G3Z4U=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-e6H7VjqzNdyRjQ15AhYMNA-1; Wed, 17 Mar 2021 09:16:25 -0400
-X-MC-Unique: e6H7VjqzNdyRjQ15AhYMNA-1
-Received: by mail-wr1-f69.google.com with SMTP id h21so18238954wrc.19
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:16:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMW8f-0005Ps-K5
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:23:06 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMW8b-0004AJ-5Y
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:23:05 -0400
+Received: by mail-ej1-x636.google.com with SMTP id bm21so2592088ejb.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rphJhjkCH8kuw+MPjRKlFNngaeDtByrEV/v9buyyszI=;
+ b=QGmIM+DPndpdtVtKZwL6iNQrN/uXTpTOEQMPV8pm2a4cE8RvjmuseKSJ3p5Ke7NezF
+ NN3WDo9DyrcUo4AF7W2BscZO8gH76XWIYZJJK71w3gNr6zlGZsniFKG3gKCGp4kK+eyv
+ cAesUtpaePwSIleyjKbSDoJPxEggIWiVQiTM4CohTPwUWBLzXbQBUHtHcFafzaHvAkQR
+ odgHehOPGOS9SglkvGQt+U7a4hrkD6z4tI7BGp979h5IrrISsTpGaNgqrQCeckf6+IV1
+ VGRnpIz53GBfaAtAUGyGXYnYNDhE4ScKJypMEu8p8/TC6D6aAf0lKMMFdZN3EaB5uPHv
+ y99w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=67ER8ymn3RvOiFRP6UbBR+cbhZxq/8Mxqp/n/1Awsvo=;
- b=r/Isv4R/cRTq+RDoCVRuV62pa+72peS53qNC2Fe9CUNf6rTq3Wc56LJT1W5l18uuwX
- P6dV0JSdWmqvJv876WYGGHbDhex3xypl89c92/azWVG2pr8oYnANc0hJl3WBv+B80JA4
- z0FpXhIOoMC5pxRwLB5TEvwqPT4G3PwHJ+npnNSyjLRNiJbGxhdisrHrJhL/boaHbi5H
- INkXpZDHt2c4Q2no/K5SW6sATVGh0yqdhnmdt6o3ZNGQAkAsWXhgjbKxkG6/+ef8vopp
- mvKla6DRhCoO64jNY5WAwqKVWKS6P9IjzFHLFPJ4b7K89SEg/aYSpsgFplS3hdo7aGHL
- HtWA==
-X-Gm-Message-State: AOAM531xao38lmgxteoQVTgE02D/e96fzgOyDi2pHHYRbwQ/FGV/yNJR
- qtom/GKl6VDvC3Ls8VlcUy/veOCmoPLd9wtadScaXxUNUwDyy/KX2MELYLJLOqxF1KBBz4tcWqA
- oZr1LiPt8W3SHuSfOvxck2fxDHQisE51inQunXMmAQsPOd3zOscLfZXrPsBmXeLYP
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr4473299wro.9.1615986983837;
- Wed, 17 Mar 2021 06:16:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwm0VGLR7ddOduS/MUaFsggSwI7q1T5NXesG6xcPBafAOnwfRtrj4Ra0HXT00nEzNx14ogPJg==
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr4473270wro.9.1615986983512;
- Wed, 17 Mar 2021 06:16:23 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id m11sm25720599wrz.40.2021.03.17.06.16.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 06:16:23 -0700 (PDT)
-Subject: Re: [PULL v2 01/15] utils: Use fixed-point arithmetic in qemu_strtosz
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210317072216.16316-1-alex.bennee@linaro.org>
- <20210317072216.16316-2-alex.bennee@linaro.org>
- <a6e34081-89bd-2af1-fa0d-72a8fc8daa04@redhat.com> <87h7lac70s.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <285185a0-fa94-9e25-317f-cb24a39c001a@redhat.com>
-Date: Wed, 17 Mar 2021 14:16:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rphJhjkCH8kuw+MPjRKlFNngaeDtByrEV/v9buyyszI=;
+ b=DVEupkwWCtBgl6fqEV9LtET1R5yIEdbgKteXz42fvTTsTY5BovqG8Kbfvh2Dx4HcjG
+ R+KGJBwRVmJI69NJ9a+bwVaJEHbsgMML6aEhzlC7nITRugyDd/UZdcpdvNLjMfcy+B8z
+ oA8UkueTOocOxxEgATshCdaGUo6g7yxKuwyHhv68LhyDmR/nA9LNHz+1uUkmKaZASN8P
+ siqz9shuMNLPlFDYSQPX+g1DdMrgxJ1pLoT9KcxvdFv37pjDr2mOgQRCCwz4eyt4IKk3
+ bSE/nuTcu73UN611Z76V+pcZp+SmEOmxVSkNP57FOVQV50nGw7VAXq2Po9VpP7Na18Gs
+ 0e/Q==
+X-Gm-Message-State: AOAM533TKa2uWyPqS+2/5J+uWGO/ZNyN4tHFdMls/zWBzalZ9nrmnB4U
+ qeKxDNx4LB9gT50c2RgvzpMVcHxv2J9g0f+54IDZOA==
+X-Google-Smtp-Source: ABdhPJy/WkAoCz+iieBMPGj4KtsyUAygclUt6rA3GjlXfWh2LEV+NAzdwmEy/C7FE5snmFFGXTpMwMootI16bJZQbQQ=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr36065258ejc.250.1615987379486; 
+ Wed, 17 Mar 2021 06:22:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87h7lac70s.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210317044441.112313-1-gshan@redhat.com>
+ <CAFEAcA8Wf+fYppz6kWurU=68NH7uvn0HFXc_FJ6twoA86bcBcg@mail.gmail.com>
+ <73a30558-469e-8ef0-02b2-aaaaa2449cda@redhat.com>
+ <CAFEAcA_yuSR=KkpBTh+21JkqiB7gKfnFvgvxYgPN2yLfvxpi_A@mail.gmail.com>
+ <3e7ba090-c45e-8fa4-1a59-16856241cbdc@redhat.com>
+ <CAFEAcA_zYaOXw5yaXWEjgBy6YeTpB5FRBCO96To-bv9xpQzbMQ@mail.gmail.com>
+ <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+In-Reply-To: <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 17 Mar 2021 13:22:48 +0000
+Message-ID: <CAFEAcA8RZB4-SYBq102T3ogCyTg8HCw2FZ3wV3KQ94zf9qSbwQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/char/pl011: Fix clock migration failure
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,48 +83,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Luc Michel <luc@lmichel.fr>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 1:13 PM, Alex Bennée wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> 
->> Hi Alex,
->>
->> On 3/17/21 8:22 AM, Alex Bennée wrote:
->>> From: Richard Henderson <richard.henderson@linaro.org>
->>>
->>> Once we've parsed the fractional value, extract it into an integral
->>> 64-bit fraction.  Perform the scaling with integer arithmetic, and
->>> simplify the overflow detection.
->>>
->>> Reviewed-by: Eric Blake <eblake@redhat.com>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Message-Id: <20210315185117.1986240-2-richard.henderson@linaro.org>
->>
->> Something is odd with your tooling, the '---' separator is missing.
-> 
-> Surely that's only when you have bellow the line comments? b4 strips
-> then when applying series.
+On Wed, 17 Mar 2021 at 12:55, Andrew Jones <drjones@redhat.com> wrote:
+> I'm also curious what the state of mach-virt's machine types are for
+> migration.
 
-Yes, the problem is your series doesn't apply on top of 7625a1ed013
-("utils: Use fixed-point arithmetic in qemu_strtosz")
+Probably not great -- I don't think anybody is really testing
+cross-version migration, and I don't think there's a great
+deal of in-practice use of it for Arm either. (See also the
+issue with accidentally having env->features in the CPU
+migration data, which broke cross-version migration: that
+was around a while and we only got one user complaint about it.)
 
-$ git am v2_20210317_alex_bennee_misc_fixes_strtoz_plugins_guest_loader.mbx
-Applying: utils: Use fixed-point arithmetic in qemu_strtosz
-error: patch failed: tests/unit/test-cutils.c:2128
-error: tests/unit/test-cutils.c: patch does not apply
-error: patch failed: util/cutils.c:275
-error: util/cutils.c: patch does not apply
-Patch failed at 0001 utils: Use fixed-point arithmetic in qemu_strtosz
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+Unless we have a serious test suite for this kind of thing
+upstream it's just going to continue to be broken, because at
+the moment all we have is "people make best-efforts to think
+about migration compat when coding and reviewing, but don't
+actually test".
 
-But skipping this patch, the rest can be applied properly by git-am.
-
+thanks
+-- PMM
 
