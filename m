@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837A033F63C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:03:56 +0100 (CET)
-Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC9233F644
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 18:08:14 +0100 (CET)
+Received: from localhost ([::1]:39420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMZaN-0001NG-Ip
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38838)
+	id 1lMZeX-0004Qr-6Y
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 13:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMZHI-0002Cc-2q
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:44:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMZHG-0000hx-BN
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 12:44:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615999449;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y+QsfFv44VuvpTsejIFPhyl21zlSkjR+9wrT9OEvrWc=;
- b=B0/vFxEQMGYclNSLUGmVc3QwljBbLCkOBK9UUSvuURFpSvEo8uF8F9MQVE7aYrc7chLw2R
- zQI3mO8L3O3bByMmWlwl03mscCWwf9xZUhp666F02I941CaPuqfsaW1oh4Nyd7uHLmX+W8
- 4X4sEdr82N8UX6xAQ+OnEBjCluhYXeo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-1Jg5eWd6MkO4jeYrimLouw-1; Wed, 17 Mar 2021 12:44:04 -0400
-X-MC-Unique: 1Jg5eWd6MkO4jeYrimLouw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84C2E107ACCA;
- Wed, 17 Mar 2021 16:44:02 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-202.ams2.redhat.com [10.36.114.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BDD55C23E;
- Wed, 17 Mar 2021 16:44:01 +0000 (UTC)
-Date: Wed, 17 Mar 2021 17:43:59 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH] curl: Allow reading after EOF
-Message-ID: <YFIxz4V4MuGdL2D0@merkur.fritz.box>
-References: <20210317151734.41656-1-kwolf@redhat.com>
- <YFIqercny3vOpo34@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMZHZ-0002rX-Mm; Wed, 17 Mar 2021 12:44:29 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMZHX-0000ov-AD; Wed, 17 Mar 2021 12:44:29 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id k8so2516209wrc.3;
+ Wed, 17 Mar 2021 09:44:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gAkkjgFfGytFx/lWr3Lt8yIxc2bkArlU6S4EA+hRPso=;
+ b=rfnAw3jIWpo87hMNkutcqJVSGfS4w0x9WXFx8EHVu9Upi2sSfq9zc5FKWM/eCJvl7x
+ DyIqlrppRCs28AReNwytrZlWn+x+qpW8QUPqvlVpLU6VDzQD7Aevun+dCxqCXMrhzSa5
+ HIy2sJBNilvLjkjIxNZZEg2odX1UMwktQFdiUO9WzViNGOPIi/5DZP403GKMumYcSc+i
+ B0O8dbEYIjznzGe5UHNIHVAIjeq8SN1mTsnN2kw3Sqf+D4W9xfF7/K6mB7qh983JL3p2
+ uQHNUVQv6FD47xNIHC/PczF/5dt0HLdgl3wNwvltqvxSjYQ/PX3xGHXdpHYaW727xXCj
+ /ZQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gAkkjgFfGytFx/lWr3Lt8yIxc2bkArlU6S4EA+hRPso=;
+ b=jbB1N50sV21ptHNXLGpDov8rZrlEqLvP1mng+whojMv3EVJX0IUdK8wUbzJ0hMD0t7
+ luQQIxh5HGdr7clkea0xUC/hsC7DtMuw4axIOpihJZ9IviKeYBzZ+lwRy5XA/z2G+/N0
+ FFs9hctrgrX7LUo/CWrRiGKjjRLBguWKYUeFhH1IIZ0pvLHOLuYoZY8TCoTR1G3sntnH
+ 4rmXM9fJ8F5Cnn0IP8cC1GGdH89+au+XzJdBp46xyDX+iwtTuOMhHaRVj4E9jVt6i1WJ
+ CiXly5P6cb+9ixcT9m2IEdT0+r4vLlkuXW0vpc77hWst2ESbH8w8cyyeutoT4B3VjjAo
+ Hwaw==
+X-Gm-Message-State: AOAM530O9iXDbQQMfqa2sv/kafj5mvgfZQnLuAWIhNWj9LbXcBARKfzf
+ 2bS2Ulb/nTODF4WKkOgeyBRwr6vix3k5OA==
+X-Google-Smtp-Source: ABdhPJyfk69aXHwflFjrYKuJEWzUGwzoIrZitQXRVisad3HvYVJybip52VfIhGc6nuwL7f28tbqzmw==
+X-Received: by 2002:adf:c752:: with SMTP id b18mr5273516wrh.233.1615999464921; 
+ Wed, 17 Mar 2021 09:44:24 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id c8sm2930096wmb.34.2021.03.17.09.44.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Mar 2021 09:44:24 -0700 (PDT)
+Subject: Re: [RFC PATCH] support.md: add a link to matrix bridge to IRC
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210317160259.14098-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bfd35b1f-0d1b-ad18-a4ff-86632f61412a@amsat.org>
+Date: Wed, 17 Mar 2021 17:44:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YFIqercny3vOpo34@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210317160259.14098-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,68 +87,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: afrosi@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, pbonzini@redhat.com,
+ thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.03.2021 um 17:12 hat Daniel P. Berrang� geschrieben:
-> On Wed, Mar 17, 2021 at 04:17:34PM +0100, Kevin Wolf wrote:
-> > This makes the curl driver more consistent with file-posix in that it
-> > doesn't return errors any more for reading after the end of the remote
-> > file. Instead, zeros are returned for these areas.
-> > 
-> > This inconsistency was reported in:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1935061
-> > 
-> > Note that the image used in this bug report has a corrupted snapshot
-> > table, which means that the qcow2 driver tries to do a zero-length read
-> > after EOF on its image file.
-> > 
-> > The old behaviour of the curl driver can hardly be called a bug, but the
-> > inconsistency turned out to be confusing.
-> > 
-> > Reported-by: Alice Frosi <afrosi@redhat.com>
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> > 
-> > It is not entirely clear to me if this is something we want to do. If we
-> > do care about consistency between protocol drivers, something like this
-> > should probably be done in block/io.c eventually - but that would
-> > require converting bs->total_sectors to byte granularity first.
-> > 
-> > Any opinions on what the most desirable semantics would be and whether
-> > we should patch individual drivers until we can have a generic solution?
+On 3/17/21 5:02 PM, Alex Bennée wrote:
+> We want users to be able to use newer tooling and not be stuck with
+> IRC like the rest of the fossils. As the #QEMU channel is bridged by
+> the matrix.org server lets point there as well. At least it's not
+> Slack.
 > 
-> What valid scenarios are there for wanting to read beyond the bounds
-> of the protocol driver storage ? Why was file-posix allowing this
-> so far ?
-> 
-> If I've given file-posix a 10 GB plain file or device and something
-> requests a read from the 11 GB offset, IMHO, that is a sign of serious
-> error somewhere and possible impending doom.
-> 
-> For writable storage, I would think that read + write should be
-> symmetric, by which I mean if a read() at a particular offset
-> succeeds, then I would also expect a write() at the same offset to
-> succeed, and have its data later returned by a read().
-> 
-> We generally can't write at an offset beyond the storage (unless we
-> are intending to auto-enlarge a plain file), so I think we shouldn't
-> allow reads either.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  support.md | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 
-It is definitely related to format drivers that grow their image files.
-I think the reason for allowing this may have been that with O_DIRECT,
-you need aligned requests and when format drivers write just a few
-bytes, we actually do a RMW - and you don't want to get an error during
-the read part just because the image file will only be resized by the
-write.
-
-Since curl is a read-only protocol driver (at the moment, I actually
-have an experimental branch that adds write support so we can run
-iotests for http), this reason doesn't really apply. At the moment, it
-would be just for consistency.
-
-Kevin
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
