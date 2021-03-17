@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321EE33F120
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:25:39 +0100 (CET)
-Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655FA33F121
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 14:26:36 +0100 (CET)
+Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMWB8-0006wD-8P
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1lMWC3-0007zC-E8
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 09:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMWAL-0006Vd-Hu
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:24:49 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:35821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMWAK-0005EE-2H
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:24:49 -0400
-Received: by mail-ed1-x535.google.com with SMTP id dm8so2264390edb.2
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 06:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jXtSol+iGpcs2V2OVVJMNo/VvJT786q/OHGL7jmIE+E=;
- b=KgZHv6OMzCzzr/HxBsOLBCBEElO2/ZDee3jV2gHdS4SZlk3pzp8pI5AmloQcw7mMvg
- KFnyM+h72cwOBw7AvCfRuJWQK7UcoR2dDm8x9q2dDsEC14/gdMcTSSbh1Ese105OkGjn
- mh4+CrMqF7d+7C38ywYxa8TXJEnROsxageH0w1kJeeeL+RyuAvvuHHo3m5k1M+K6u8b/
- SIRJnyASRCfuhXVYLHPHqH3nB09eTFfkE5mWCiYnodUg7455053hMHtBVQEMKtRx8oeP
- bFPU2ESL9D+qKbUyo2FZlg7M9LRBzyr3/EbQ6w3LaK5CU4xbT8sbEIGM31qSV4pdw1hw
- XdrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jXtSol+iGpcs2V2OVVJMNo/VvJT786q/OHGL7jmIE+E=;
- b=ED41RPq50Xy5y18G9M/6vTo8wnEsokLsqffSMxI/CgbZOVWpmPUlqM44B90aIViHiX
- URd+W+cbYzbsgHrXL7FNImHyhhj/KQt+TtSzLoGSnWvPKgJD0mRkWgim1iKJ17sZbHCA
- GXY7iWvacm0GYKzVd8TrWEwKWjLandWqevIQkCsGZTBgxCvIV2YFkfvdp9UwsQcRPB3I
- yUHwzDfEGdBpkqr0WLDnTlG41vYPkXnecfqlM1pUCAil+T++gjdUIO/+z8zMXKLNjKy6
- qwbV7tonWDOvdHba4nXCI50h9pNhqKdMB/BK/N9+SpHpNgxJb2ben5cxQgN2AidE0hgF
- K3SA==
-X-Gm-Message-State: AOAM530DX5tl5TCoVUgj5+881iDVHbxzU2VKoi8TqvbiwBJYqTYpwaxg
- 00UlYpJ1CThCAwolNzumUwOyhqf+9BgstJaOgCx0Kg==
-X-Google-Smtp-Source: ABdhPJwudZS4yWF/imJRyT9b2ooH6gv/xSSEcaJFkw1AETFzK3LXOlKl57X9xOXZA1jOaUVKGuUbechFKI8fS+aLdcw=
-X-Received: by 2002:a05:6402:19a:: with SMTP id
- r26mr41486617edv.44.1615987486490; 
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lMWAr-00070Q-LF
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:25:21 -0400
+Resent-Date: Wed, 17 Mar 2021 09:25:21 -0400
+Resent-Message-Id: <E1lMWAr-00070Q-LF@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lMWAo-0005WH-FY
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 09:25:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1615987489; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=XpfF5/tmhM6ZhOWOEPVirKDOxifyZ9Z6Ggu98AYteTiscvhIJw/wpZwyh7xiTWLStPNGukRM/jvfXHBW5iv/JL6G7sj8KbR/cimL8oYswTRxjDCH+njF10QAFcnmjCx9imyh/gW6ESapxaNv/RS8dcGgINtz9oQdoEhy/fKPhJU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1615987489;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=HH83vPvBAk2mIvkB76CsafnW79/ucNsb+mu0yHxI5z8=; 
+ b=hS/hd6aMq1RBINimI7VlmZaCAvxoHF/RKJirM76S+GRIcvPyXl2D+/nwJV2pFVVTJo9jycA9Pr/BRUT6+vMGsRGnBroq48mnhf3tBX4TkGOqGpl1TrMj8zHA1GNLUOXA+rFttTg6uz1ZYK9sMZbUuW6BokW6I+8Mcoynxyqv3kY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1615987486310941.3762774875769;
  Wed, 17 Mar 2021 06:24:46 -0700 (PDT)
+In-Reply-To: <20210317125457.5733-1-arkaisp2021@gmail.com>
+Subject: Re: [PATCH v2] block: increased maximum size of vvfat devices
+Message-ID: <161598748470.29996.5892485801339811586@c9d4d6fbb2f1>
 MIME-Version: 1.0
-References: <20210317110512.583747-1-thuth@redhat.com>
- <20210317110512.583747-3-thuth@redhat.com>
- <CAFEAcA89BmZ7_d73Te=DXxDNc+W4NuqXZgpoi9JwsMN0_nh6pg@mail.gmail.com>
- <61029024-17cd-41df-a9d9-ec3323654d76@redhat.com>
- <YFIBH1xIeTAep9p4@SPB-NB-133.local>
-In-Reply-To: <YFIBH1xIeTAep9p4@SPB-NB-133.local>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Mar 2021 13:24:35 +0000
-Message-ID: <CAFEAcA-z6708M67oXnOMx-r228192VPanATn16Yf=Sbk887hPA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] cirrus.yml: Update the FreeBSD task to version 12.2
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: arkaisp2021@gmail.com
+Date: Wed, 17 Mar 2021 06:24:46 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,28 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ arkaisp2021@gmail.com, ivanovrkasha@gmail.com, pavel.dovgaluk@ispras.ru,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Mar 2021 at 13:16, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
->   result = asn1_der_coding (asn1_element, "", NULL, &der_len, errorDescription);
->
-> The result should be ASN1_MEM_ERROR.
->
-> Something like this should work as configure-time test.
-
-Unfortunately at configure time you can't run code, only
-compile and link it, because you might be cross-compiling.
-So a test that needs us to actually look at return values
-from function calls won't work for configure.
-
-thanks
--- PMM
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNzEyNTQ1Ny41NzMz
+LTEtYXJrYWlzcDIwMjFAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMTcxMjU0NTcuNTcz
+My0xLWFya2Fpc3AyMDIxQGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIGJsb2NrOiBpbmNy
+ZWFzZWQgbWF4aW11bSBzaXplIG9mIHZ2ZmF0IGRldmljZXMKCj09PSBURVNUIFNDUklQVCBCRUdJ
+TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
+MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
+dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
+IFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJk
+ODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAq
+IFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMTcxMjU0NTcuNTczMy0xLWFya2Fpc3Ay
+MDIxQGdtYWlsLmNvbSAtPiBwYXRjaGV3LzIwMjEwMzE3MTI1NDU3LjU3MzMtMS1hcmthaXNwMjAy
+MUBnbWFpbC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo3MjJmNjgxIGJsb2Nr
+OiBpbmNyZWFzZWQgbWF4aW11bSBzaXplIG9mIHZ2ZmF0IGRldmljZXMKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMxNDA6IEZJTEU6IGJsb2NrL3Z2ZmF0
+LmM6MTI2MDoKKyAgICAgICAgICAgICAgICAgICAgICBzLT5zZWN0b3JzX3Blcl9jbHVzdGVyLCBz
+LT5mYXRfdHlwZSwgc3VtLCAkCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE0MSBsaW5l
+cyBjaGVja2VkCgpDb21taXQgNzIyZjY4MThiZjkxIChibG9jazogaW5jcmVhc2VkIG1heGltdW0g
+c2l6ZSBvZiB2dmZhdCBkZXZpY2VzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VU
+UFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwg
+bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDMxNzEyNTQ1
+Ny41NzMzLTEtYXJrYWlzcDIwMjFAZ21haWwuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
+ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
+cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
+ZGV2ZWxAcmVkaGF0LmNvbQ==
 
