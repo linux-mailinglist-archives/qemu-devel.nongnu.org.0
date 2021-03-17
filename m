@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3480E33FBF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 00:44:45 +0100 (CET)
-Received: from localhost ([::1]:49310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6C933FC02
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 00:53:25 +0100 (CET)
+Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMfqG-0002K1-93
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 19:44:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50154)
+	id 1lMfye-0004E6-IB
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 19:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMfoa-0001kU-Po; Wed, 17 Mar 2021 19:43:00 -0400
-Resent-Date: Wed, 17 Mar 2021 19:43:00 -0400
-Resent-Message-Id: <E1lMfoa-0001kU-Po@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMfoY-00067t-2A; Wed, 17 Mar 2021 19:43:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616024571; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nZgQxrVK6ATfUeYp9PFWdxWdk7UkmeKU9L1CVIw7iXqYCAUYmgRvDkcPX/iTf2CHJKXWAc8usMj+2pjBMzMPhbsElOBNwRt9SPdo1hiCtuL+47jriSF3w/pkEjxs/utVE6AWMNst1vQZAgwId4r/bmtCYfLisBEyzc0vEwCCuk4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616024571;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=xYIansm4jTXJc2Jyz2AkEaE8VTmmyUeTzvDVZQh8Kfc=; 
- b=e9tSXdqAY8cRnGj45actPX+y/QFoaWj5sUTMw2D71HkwAE1F3/s0IrQtSWF8aMVxcchOqV94+uBlH9y8/UpnHJKIxcOIFGVSIMDUEWMMOk4OV2LTYtmP7M5apjEwbGyPLM8qwrv5VJmOzu3U5q5UgbLrcZ5GceZeto3qR80UltI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616024568955603.6955479894941;
- Wed, 17 Mar 2021 16:42:48 -0700 (PDT)
-In-Reply-To: <20210317233301.4130-1-rebecca@nuviainc.com>
-Subject: Re: [PATCH v5 0/4] target/arm: Add support for FEAT_TLBIOS and
- FEAT_TLBIRANGE
-Message-ID: <161602456764.4054.11846486629167678471@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <dan.j.williams@intel.com>)
+ id 1lMfxb-0003ir-Ig
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 19:52:19 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dan.j.williams@intel.com>)
+ id 1lMfxX-0001u0-4o
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 19:52:19 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id k10so1088451ejg.0
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 16:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3JZmhqZDaCyCiXnyYvzi4b+uFUQC1FCMRAmuqpw0Nfo=;
+ b=PptBgH6Ou80L2nVQxOLeOD+zRfkT6M/pebwIyqENpwYZtMrs0h1iSYscd8Yw4wpJ5N
+ +WHgTYawEUmrN4q4oSJcVv6LAiLRlKipNcpRaAiJGmaKG184ejvfhcz8luEFP0M8Lo/g
+ pHa03m6XjzNAE1QJGwp2LenwtbHjJjU4FS56r30HsQyABioW6A9P2CFqaIHg6VNxbCE6
+ KwNLAlpFNp+Tu1cTBoAczJ1ezrmYCIPP2TMuqnZDtIJeFwG04oS05y9GSMutx25wpUFB
+ 0Btr79iIr6DrXG4IxXEWFGk5D/PaLTKEJ7RPNZjrHcjlxyb3Y3Sh5kUBkeAJei7jgbm7
+ ZstQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3JZmhqZDaCyCiXnyYvzi4b+uFUQC1FCMRAmuqpw0Nfo=;
+ b=YJZhoGvutWuth/JO13ke6pLTuca8ifrDBx5GhlsM+p4UmUrodm0ENyn4z2/3zMHxtg
+ Mj5avUdHAuBI6WDLBI13SOY2UL6ptvzTCSwWs1VNqKfAvwE23NGVjD/Z/09ZIidHD59Y
+ 3C1fLtZia4iWGfjSm6AfFMx7IFtN/6tVo5/5jkpRwxlYCJSh2oZ/pZqyDc0tdYUfovhn
+ Gil31pPmn+gxu5nQiH9OR7U18h8jVuKDCNAAam+hUyQ2eCWjjtveTrJtuuc9Hvt2vsF2
+ Y9N1WNr50dZXo7vUSlYUbrkFN7dP3b38njzLQrqKdf8I7szcfxAi2RrYWAGOMtaZeK8N
+ 4kng==
+X-Gm-Message-State: AOAM530f+et1OjOXcUoCFCquYjxuo1so4c3lCDH2SOchUzPgPvQbBc//
+ CRwjlnoZ4atDK0Zu0CMq6LAG4RTkitY445hoWooXmA==
+X-Google-Smtp-Source: ABdhPJyBAACIe/tmH1ozfTYbyVYtsgXnE90UaOLjas7vJTpw4mYZQ06AtZ9e4PuzP5r3koO6Vhi5BNzgRlw6WK9vILM=
+X-Received: by 2002:a17:906:ef2:: with SMTP id
+ x18mr38763976eji.323.1616025130658; 
+ Wed, 17 Mar 2021 16:52:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rebecca@nuviainc.com
-Date: Wed, 17 Mar 2021 16:42:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
+References: <YFHsy8599w7KT1SB@stefanha-x1.localdomain>
+In-Reply-To: <YFHsy8599w7KT1SB@stefanha-x1.localdomain>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 17 Mar 2021 16:52:03 -0700
+Message-ID: <CAPcyv4hONDtHmUFF70rCc3y3+GX4ix1BdqxMOrWBRwG3mtTXPw@mail.gmail.com>
+Subject: Re: Microsoft and Intel NVDIMM ACPI _DSM interfaces status?
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=dan.j.williams@intel.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,60 +77,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org,
- rebecca@nuviainc.com, qemu-devel@nongnu.org
+Cc: Qemu Developers <qemu-devel@nongnu.org>,
+ Vishal Verma <vishal.l.verma@intel.com>, Jeff Moyer <jmoyer@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>,
+ Haozhong Zhang <haozhong.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxNzIzMzMwMS40MTMw
-LTEtcmViZWNjYUBudXZpYWluYy5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMxNzIzMzMwMS40MTMw
-LTEtcmViZWNjYUBudXZpYWluYy5jb20KU3ViamVjdDogW1BBVENIIHY1IDAvNF0gdGFyZ2V0L2Fy
-bTogQWRkIHN1cHBvcnQgZm9yIEZFQVRfVExCSU9TIGFuZCBGRUFUX1RMQklSQU5HRQoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
-MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
-cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxNzIzMzMwMS40
-MTMwLTEtcmViZWNjYUBudXZpYWluYy5jb20gLT4gcGF0Y2hldy8yMDIxMDMxNzIzMzMwMS40MTMw
-LTEtcmViZWNjYUBudXZpYWluYy5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwoz
-OWIzYzM2IHRhcmdldC9hcm06IHNldCBJRF9BQTY0SVNBUjAuVExCIHRvIDIgZm9yIG1heCBBQVJD
-SDY0IENQVSB0eXBlCmUzYmMyNTMgdGFyZ2V0L2FybTogQWRkIHN1cHBvcnQgZm9yIEZFQVRfVExC
-SU9TCjk0ZTVjYzEgdGFyZ2V0L2FybTogQWRkIHN1cHBvcnQgZm9yIEZFQVRfVExCSVJBTkdFCjg1
-ZjhiYWYgYWNjZWwvdGNnOiBBZGQgVExCIGludmFsaWRhdGlvbiBzdXBwb3J0IGZvciByYW5nZXMg
-b2YgYWRkcmVzc2VzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzQgQ2hlY2tpbmcgY29tbWl0IDg1
-ZjhiYWZmNzRkYSAoYWNjZWwvdGNnOiBBZGQgVExCIGludmFsaWRhdGlvbiBzdXBwb3J0IGZvciBy
-YW5nZXMgb2YgYWRkcmVzc2VzKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjM4
-OiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwuaDozNTQ6CitzdGF0aWMgaW5saW5lIHZvaWQg
-dGxiX2ZsdXNoX3BhZ2VfcmFuZ2VfYml0c19ieV9tbXVpZHhfYWxsX2NwdXNfc3luY2VkKENQVVN0
-YXRlICpzcmNfY3B1LAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIzOTogRklM
-RTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6MzU1OgorICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRfdWxv
-bmcgYWRkciwKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMjQwOiBGSUxFOiBpbmNs
-dWRlL2V4ZWMvZXhlYy1hbGwuaDozNTY6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldF91bG9uZyBsZW5n
-dGgsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjQxOiBGSUxFOiBpbmNsdWRl
-L2V4ZWMvZXhlYy1hbGwuaDozNTc6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQxNl90IGlkeG1hcCwKCldB
-Uk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyNDI6IEZJTEU6IGluY2x1ZGUvZXhlYy9l
-eGVjLWFsbC5oOjM1ODoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgYml0cykKCnRvdGFsOiAxIGVy
-cm9ycywgNCB3YXJuaW5ncywgMjE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNCBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgoKMi80IENoZWNraW5nIGNvbW1pdCA5NGU1Y2MxMzk0YjQgKHRhcmdl
-dC9hcm06IEFkZCBzdXBwb3J0IGZvciBGRUFUX1RMQklSQU5HRSkKMy80IENoZWNraW5nIGNvbW1p
-dCBlM2JjMjUzOTI2Y2QgKHRhcmdldC9hcm06IEFkZCBzdXBwb3J0IGZvciBGRUFUX1RMQklPUykK
-NC80IENoZWNraW5nIGNvbW1pdCAzOWIzYzM2MDY4YjQgKHRhcmdldC9hcm06IHNldCBJRF9BQTY0
-SVNBUjAuVExCIHRvIDIgZm9yIG1heCBBQVJDSDY0IENQVSB0eXBlKQo9PT0gT1VUUFVUIEVORCA9
-PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
-YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDMxNzIzMzMwMS40MTMwLTEt
-cmViZWNjYUBudXZpYWluYy5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
-LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
-ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
-YXQuY29t
+On Wed, Mar 17, 2021 at 4:49 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> Hi,
+> Microsoft and Intel developed two different ACPI NVDIMM _DSM interfaces.
+>
+> The specs for the Intel interface are available here:
+> https://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
+>
+> This is the interface that QEMU emulates. It has been reported that
+> Windows 2016 Server and 2019 Server guests do not recognize QEMU's
+> emulated NVDIMM devices using the Microsoft driver.
+>
+> I'd like to understand the path forward that will allow both Linux and
+> Windows guests to successfully use QEMU's emulated NVDIMM device
+> (https://gitlab.com/qemu-project/qemu/-/blob/master/hw/acpi/nvdimm.c).
+>
+> Are/have these two interfaces being/been unified?
+
+No, they service 2 different classes of NVDIMMs. The Microsoft
+specification was defined for NVDIMM-N devices that are the
+traditional battery/super-capacitor backed DDR with sometimes an equal
+amount of flash to squirrel away data to non-volatile media on power
+loss. The Intel one is for a persistent media class of device where
+there is no need to communicate health attributes like "energy source
+died" or "restore from flash" failed.
+
+> Should QEMU emulate both of them to make running Windows guests easy?
+
+Depends on how tolerant Windows is to different format-interface-code
+implementations and what QEMU should return on each of the functions
+it decides to implement.
+
+Note that QEMU only implements a small subset of the Intel commands,
+i.e. just enough to provision namespaces in the NVDIMM label area.
+"NVDIMM label area" is a concept that is newer than the NVDIMM-N
+definition which is why you don't see labels mentioned in the
+Microsoft specification. Since then ACPI has developed common label
+area access methods, see "6.5.10 NVDIMM Label Methods" in the ACPI 6.4
+specification.
+
+Note that you'll also see "9.20.8 NVDIMM Device Methods" in that spec
+for some health management commands that overlap what the Microsoft
+and Intel specs communicate. Linux does not support them since any
+platform that might support them will also support the Intel
+specification so there's no driving need for Linux to migrate. I do
+not know the status of that command support in Windows, or the HPE
+command support in Windows for that matter.
+
+If you need to support guests that expect the Hyper-V command
+definition, and will fail to attach NVDIMM support in the absence of
+that definition then QEMU needs UUID_NFIT_DIMM_N_HYPERV support, note
+that is a different command set than even UUID_NFIT_DIMM_N_MSFT
+(include/acpi/acuuid.h). That would also require changes to virtual
+ACPI NFIT to advertise the correlated format interface code. There may
+be more... you would need someone from Hyper-V land to enumerate all
+that is expected.
 
