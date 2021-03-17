@@ -2,88 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA5833E27A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:05:13 +0100 (CET)
-Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 768C133E27E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Mar 2021 01:07:36 +0100 (CET)
+Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMJgV-0005PW-Qy
-	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36786)
+	id 1lMJip-0006ah-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 16 Mar 2021 20:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lMJem-0004s8-P0; Tue, 16 Mar 2021 20:03:24 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:51631)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lMJgf-0005uU-91; Tue, 16 Mar 2021 20:05:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33450
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lMJeh-0004vC-S8; Tue, 16 Mar 2021 20:03:24 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 750CE5C00B4;
- Tue, 16 Mar 2021 20:03:16 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Tue, 16 Mar 2021 20:03:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm2; bh=N8QCk
- O51Ivy+h98QyQ9WC1tuaG9547oUt0AzwY3UUCk=; b=UG0x9zBnsgjbR9ZzZ+Fve
- 5azz+vZaPYTGwC674x04k5o2mHrGSYyhzRo7VsGf2XyXyXKmsR/WAj58Z2wbqS/d
- 9wEDSYB1VCGhIKv2v4ZIviOoSjCGOTnlp2s912y8FuD76fLenxMQbAP3dfBs0wJU
- 5KAsSkt1/AGz6m/fqU31ESdR1xhUQ8edNsNwRv+JQi8umDDG63usssFj0KTyLkZZ
- GUkgos+EMLWp7bfWsanXjWtEGUDtwwM1lkSJUt9n7mnVKNF/a5rlTVnkrTpWf6hT
- f+ZwSphEZbu5FWhfgSzU0MQC9EiurUoLO14JLEXMNgnj0ntCzkUXaOWDoJtWBT0q
- w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=N8QCkO51Ivy+h98QyQ9WC1tuaG9547oUt0AzwY3UU
- Ck=; b=dmLElmC+hi5ckCBSNlcboaG5oXRvtyTLDu+DEhdQgG2KDLnHWy/Rsew0m
- kk3L0i0gFjg9Md2p+Km/GBiZJlgIKKCgItx7xLhLbhZSn5RYRzzx3copea8Tc4BQ
- 93xLWUXd8NN6lECo1TLQ4kPsVSCszY0sfXpEQ/vprYUqjlNAgcUUck5ADKR/zHR+
- OidQToV8s7n3/OjNqU2qC/n6TBr8XHUlTpO9Wd/Fa9fsr8vl8uK07gTVRER76GHq
- yDv45QcZ2mhxIiSR1967A2pBKLpYklIuTjYEyM82LHkOBbUJE4+BiGeMqbljOvLT
- 77BxBj85wj1UDDfHgZNs6l9nvrzbQ==
-X-ME-Sender: <xms:Q0dRYCreZXDjIsZdiu_DN_XaOyfS1YBWFSuPkyfVCVmrDGOfxSW1jQ>
- <xme:Q0dRYApwp-MBh2sh30-2aSL0iiRdQoolSkwp34b7AQyyCFa5xDRxkLgYRPMcVnnR7
- tm_wdt1c-YKnqJgQw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeffedgudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
- kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:Q0dRYHMIjEkLebTRlJbOgLjWh99CPfnaLLVF92HbbC7ytvb5eA32zQ>
- <xmx:Q0dRYB5XHulpc1lZWvkchhadWwo8lG5yRJAA_cVEr6gQmu1xRzhl7Q>
- <xmx:Q0dRYB7QGxQe6Rnf6ob3fGhUyl1Hd2nFwXAIdHIPEu3JAsNG3mmolQ>
- <xmx:REdRYPR9vt2pou1wOR0kw9LDGvZnd5KRikqf7wNn5-Jt8d33Cl6dPQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 18394A00073; Tue, 16 Mar 2021 20:03:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-206-g078a48fda5-fm-20210226.001-g078a48fd
-Mime-Version: 1.0
-Message-Id: <943cd3e4-1706-4c31-bb45-ffea4478ca70@www.fastmail.com>
-In-Reply-To: <20210312105711.551423-2-joel@jms.id.au>
-References: <20210312105711.551423-1-joel@jms.id.au>
- <20210312105711.551423-2-joel@jms.id.au>
-Date: Wed, 17 Mar 2021 10:32:43 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "Thomas Huth" <thuth@redhat.com>, "Laurent Vivier" <lvivier@redhat.com>
-Subject: Re: [PATCH v3 1/3] hw: Model ASPEED's Hash and Crypto Engine
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=andrew@aj.id.au;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lMJgY-0005an-VO; Tue, 16 Mar 2021 20:05:21 -0400
+Received: from host86-148-103-84.range86-148.btcentralplus.com
+ ([86.148.103.84] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lMJgM-0006aw-PK; Wed, 17 Mar 2021 00:05:08 +0000
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1615932192.git.balaton@eik.bme.hu>
+ <fe51b31de411857ba549a922a7db4bda0fe1f70d.1615932192.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <f352e8e5-92bb-c1df-2ada-85f0a903990c@ilande.co.uk>
+Date: Wed, 17 Mar 2021 00:04:57 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <fe51b31de411857ba549a922a7db4bda0fe1f70d.1615932192.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.148.103.84
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v9 1/7] vt82c686: QOM-ify superio related functionality
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,162 +63,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Cameron Esfahani via <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, f4bug@amsat.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 16/03/2021 22:03, BALATON Zoltan wrote:
 
-
-On Fri, 12 Mar 2021, at 21:27, Joel Stanley wrote:
-> The HACE (Hash and Crypto Engine) is a device that offloads MD5, SHA1,=
-
-> SHA2, RSA and other cryptographic algorithms.
->=20
-> This initial model implements a subset of the device's functionality;
-> currently only direct access (non-scatter gather) hashing.
->=20
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Collect superio functionality and its controlling config registers
+> handling in an abstract VIA_SUPERIO class that is a subclass of
+> ISA_SUPERIO and put vt82c686b specific parts in a subclass of this
+> abstract class.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
-> v3:
->  - rebase on upstream to fix meson.build conflict
-> v2:
->  - reorder register defines
->  - mask src/dest/len registers according to hardware
-> ---
->  include/hw/misc/aspeed_hace.h |  33 ++++
->  hw/misc/aspeed_hace.c         | 312 +++++++++++++++++++++++++++++++++=
-+
->  hw/misc/meson.build           |   1 +
->  3 files changed, 346 insertions(+)
->  create mode 100644 include/hw/misc/aspeed_hace.h
->  create mode 100644 hw/misc/aspeed_hace.c
->=20
-> diff --git a/include/hw/misc/aspeed_hace.h=20
-> b/include/hw/misc/aspeed_hace.h
-> new file mode 100644
-> index 000000000000..e1fce670ef9e
-> --- /dev/null
-> +++ b/include/hw/misc/aspeed_hace.h
-> @@ -0,0 +1,33 @@
-> +/*
-> + * ASPEED Hash and Crypto Engine
-> + *
-> + * Copyright (C) 2021 IBM Corp.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
+>   hw/isa/vt82c686.c         | 196 +++++++++++++++++++++++++-------------
+>   include/hw/isa/vt82c686.h |   1 -
+>   2 files changed, 132 insertions(+), 65 deletions(-)
+> 
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 05d084f698..ede8f3b195 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -249,15 +249,80 @@ static const TypeInfo vt8231_pm_info = {
+>   };
+>   
+>   
+> -typedef struct SuperIOConfig {
+> +#define TYPE_VIA_SUPERIO "via-superio"
+> +OBJECT_DECLARE_SIMPLE_TYPE(ViaSuperIOState, VIA_SUPERIO)
 > +
-> +#ifndef ASPEED_HACE_H
-> +#define ASPEED_HACE_H
+> +struct ViaSuperIOState {
+> +    ISASuperIODevice superio;
+>       uint8_t regs[0x100];
+> +    const MemoryRegionOps *io_ops;
+>       MemoryRegion io;
+> -} SuperIOConfig;
+> +};
 > +
-> +#include "hw/sysbus.h"
-> +
-> +#define TYPE_ASPEED_HACE "aspeed.hace"
-> +#define ASPEED_HACE(obj) OBJECT_CHECK(AspeedHACEState, (obj),=20
-> TYPE_ASPEED_HACE)
-> +
-> +#define ASPEED_HACE_NR_REGS (0x64 >> 2)
-> +
-> +typedef struct AspeedHACEState {
-> +    /* <private> */
-> +    SysBusDevice parent;
-> +
-> +    /*< public >*/
-> +    MemoryRegion iomem;
-> +    qemu_irq irq;
-> +
-> +    uint32_t regs[ASPEED_HACE_NR_REGS];
-> +
-> +    MemoryRegion *dram_mr;
-> +    AddressSpace dram_as;
-> +} AspeedHACEState;
-> +
-> +#endif /* _ASPEED_HACE_H_ */
-> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-> new file mode 100644
-> index 000000000000..3d02fae2dd62
-> --- /dev/null
-> +++ b/hw/misc/aspeed_hace.c
-> @@ -0,0 +1,312 @@
-> +/*
-> + * ASPEED Hash and Crypto Engine
-> + *
-> + * Copyright (C) 2021 IBM Corp.
-> + *
-> + * Joel Stanley <joel@jms.id.au>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/misc/aspeed_hace.h"
-> +#include "qapi/error.h"
-> +#include "migration/vmstate.h"
-> +#include "crypto/hash.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/irq.h"
-> +
-> +#define R_CRYPT_CMD     (0x10 / 4)
-> +
-> +#define R_STATUS        (0x1c / 4)
-> +#define HASH_IRQ        BIT(9)
-> +#define CRYPT_IRQ       BIT(12)
-> +#define TAG_IRQ         BIT(15)
-> +
-> +#define R_HASH_SRC      (0x20 / 4)
-> +#define R_HASH_DEST     (0x24 / 4)
-> +#define R_HASH_SRC_LEN  (0x2c / 4)
-> +
-> +#define R_HASH_CMD      (0x30 / 4)
-> +/* Hash algorithim selection */
-> +#define  HASH_ALGO_MASK                 (BIT(4) | BIT(5) | BIT(6))
-> +#define  HASH_ALGO_MD5                  0
-> +#define  HASH_ALGO_SHA1                 BIT(5)
-> +#define  HASH_ALGO_SHA224               BIT(6)
-> +#define  HASH_ALGO_SHA256               (BIT(4) | BIT(6))
-> +#define  HASH_ALGO_SHA512_SERIES        (BIT(5) | BIT(6))
-> +/* SHA512 algorithim selection */
-> +#define  SHA512_HASH_ALGO_MASK          (BIT(10) | BIT(11) | BIT(12))=
-
-> +#define  HASH_ALGO_SHA512_SHA512        0
-> +#define  HASH_ALGO_SHA512_SHA384        BIT(10)
-> +#define  HASH_ALGO_SHA512_SHA256        BIT(11)
-> +#define  HASH_ALGO_SHA512_SHA224        (BIT(10) | BIT(11))
-> +/* HMAC modes */
-> +#define  HASH_HMAC_MASK                 (BIT(7) | BIT(8))
-> +#define  HASH_DIGEST                    0
-> +#define  HASH_DIGEST_HMAC               BIT(7)
-> +#define  HASH_DIGEST_ACCUM              BIT(8)
-> +#define  HASH_HMAC_KEY                  (BIT(7) | BIT(8))
-> +/* Cascscaed operation modes */
-> +#define  HASH_ONLY                      0
-> +#define  HASH_ONLY2                     BIT(0)
-> +#define  HASH_CRYPT_THEN_HASH           BIT(1)
-> +#define  HASH_HASH_THEN_CRYPT           (BIT(0) | BIT(1))
-> +/* Other cmd bits */
-> +#define  HASH_IRQ_EN                    BIT(9)
-> +#define  HASH_SG_EN                     BIT(18)
-> +
-> +
-> +static int do_hash_operation(AspeedHACEState *s, int algo)
+> +static inline void via_superio_io_enable(ViaSuperIOState *s, bool enable)
 > +{
-> +    hwaddr src, len, dest;
-> +    uint8_t *digest_buf =3D NULL;
-> +    size_t digest_len =3D 0;
-> +    char *src_buf;
-> +    int rc;
+> +    memory_region_set_enabled(&s->io, enable);
+> +}
 > +
-> +    src =3D 0x80000000 | s->regs[R_HASH_SRC];
+> +static void via_superio_realize(DeviceState *d, Error **errp)
+> +{
+> +    ViaSuperIOState *s = VIA_SUPERIO(d);
+> +    ISASuperIOClass *ic = ISA_SUPERIO_GET_CLASS(s);
+> +    Error *local_err = NULL;
+> +
+> +    assert(s->io_ops);
+> +    ic->parent_realize(d, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +    memory_region_init_io(&s->io, OBJECT(d), s->io_ops, s, "via-superio", 2);
+> +    memory_region_set_enabled(&s->io, false);
+> +    /* The floppy also uses 0x3f0 and 0x3f1 but this seems to work anyway */
+> +    memory_region_add_subregion(isa_address_space_io(ISA_DEVICE(s)), 0x3f0,
+> +                                &s->io);
+> +}
+> +
+> +static uint64_t via_superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    ViaSuperIOState *sc = opaque;
+> +    uint8_t idx = sc->regs[0];
+> +    uint8_t val = sc->regs[idx];
+> +
+> +    if (addr == 0) {
+> +        return idx;
+> +    }
+> +    if (addr == 1 && idx == 0) {
+> +        val = 0; /* reading reg 0 where we store index value */
+> +    }
+> +    trace_via_superio_read(idx, val);
+> +    return val;
+> +}
+> +
+> +static void via_superio_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+> +
+> +    sc->parent_realize = dc->realize;
+> +    dc->realize = via_superio_realize;
+> +}
+> +
+> +static const TypeInfo via_superio_info = {
+> +    .name          = TYPE_VIA_SUPERIO,
+> +    .parent        = TYPE_ISA_SUPERIO,
+> +    .instance_size = sizeof(ViaSuperIOState),
+> +    .class_size    = sizeof(ISASuperIOClass),
+> +    .class_init    = via_superio_class_init,
+> +    .abstract      = true,
+> +};
+> +
+> +#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+>   
+> -static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+> -                              unsigned size)
+> +static void vt82c686b_superio_cfg_write(void *opaque, hwaddr addr,
+> +                                        uint64_t data, unsigned size)
+>   {
+> -    SuperIOConfig *sc = opaque;
+> +    ViaSuperIOState *sc = opaque;
+>       uint8_t idx = sc->regs[0];
+>   
+>       if (addr == 0) { /* config index register */
+> @@ -288,25 +353,9 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>       sc->regs[idx] = data;
+>   }
+>   
+> -static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+> -{
+> -    SuperIOConfig *sc = opaque;
+> -    uint8_t idx = sc->regs[0];
+> -    uint8_t val = sc->regs[idx];
+> -
+> -    if (addr == 0) {
+> -        return idx;
+> -    }
+> -    if (addr == 1 && idx == 0) {
+> -        val = 0; /* reading reg 0 where we store index value */
+> -    }
+> -    trace_via_superio_read(idx, val);
+> -    return val;
+> -}
+> -
+> -static const MemoryRegionOps superio_cfg_ops = {
+> -    .read = superio_cfg_read,
+> -    .write = superio_cfg_write,
+> +static const MemoryRegionOps vt82c686b_superio_cfg_ops = {
+> +    .read = via_superio_cfg_read,
+> +    .write = vt82c686b_superio_cfg_write,
+>       .endianness = DEVICE_NATIVE_ENDIAN,
+>       .impl = {
+>           .min_access_size = 1,
+> @@ -314,13 +363,66 @@ static const MemoryRegionOps superio_cfg_ops = {
+>       },
+>   };
+>   
+> +static void vt82c686b_superio_reset(DeviceState *dev)
+> +{
+> +    ViaSuperIOState *s = VIA_SUPERIO(dev);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +    /* Device ID */
+> +    vt82c686b_superio_cfg_write(s, 0, 0xe0, 1);
+> +    vt82c686b_superio_cfg_write(s, 1, 0x3c, 1);
+> +    /* Function select - all disabled */
+> +    vt82c686b_superio_cfg_write(s, 0, 0xe2, 1);
+> +    vt82c686b_superio_cfg_write(s, 1, 0x03, 1);
+> +    /* Floppy ctrl base addr */
+> +    vt82c686b_superio_cfg_write(s, 0, 0xe3, 1);
+> +    vt82c686b_superio_cfg_write(s, 1, 0xfc, 1);
+> +    /* Parallel port base addr */
+> +    vt82c686b_superio_cfg_write(s, 0, 0xe6, 1);
+> +    vt82c686b_superio_cfg_write(s, 1, 0xde, 1);
+> +    /* Serial port 1 base addr */
+> +    vt82c686b_superio_cfg_write(s, 0, 0xe7, 1);
+> +    vt82c686b_superio_cfg_write(s, 1, 0xfe, 1);
+> +    /* Serial port 2 base addr */
+> +    vt82c686b_superio_cfg_write(s, 0, 0xe8, 1);
+> +    vt82c686b_superio_cfg_write(s, 1, 0xbe, 1);
+> +
+> +    vt82c686b_superio_cfg_write(s, 0, 0, 1);
+> +}
 
-Tricky. Also doesn't work on the AST2400 where SDRAM is based at=20
-0x40000000?
+I'd say that you need to add the base addresses of the floppy/parallel/serial devices 
+into the comment as otherwise it's impossible to validate that the configuration 
+you're writing here matches what is visible in "info mtree"/the SuperIO defaults 
+without having to dig through the datasheet.
 
-Other than that it looks good to me.
+> +static void vt82c686b_superio_init(Object *obj)
+> +{
+> +    VIA_SUPERIO(obj)->io_ops = &vt82c686b_superio_cfg_ops;
+> +}
+> +
+> +static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+> +
+> +    dc->reset = vt82c686b_superio_reset;
+> +    sc->serial.count = 2;
+> +    sc->parallel.count = 1;
+> +    sc->ide.count = 0; /* emulated by via-ide */
+> +    sc->floppy.count = 1;
+> +}
+> +
+> +static const TypeInfo vt82c686b_superio_info = {
+> +    .name          = TYPE_VT82C686B_SUPERIO,
+> +    .parent        = TYPE_VIA_SUPERIO,
+> +    .instance_size = sizeof(ViaSuperIOState),
+> +    .instance_init = vt82c686b_superio_init,
+> +    .class_size    = sizeof(ISASuperIOClass),
+> +    .class_init    = vt82c686b_superio_class_init,
+> +};
+> +
+>   
+>   OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+>   
+>   struct VT82C686BISAState {
+>       PCIDevice dev;
+>       qemu_irq cpu_intr;
+> -    SuperIOConfig superio_cfg;
+> +    ViaSuperIOState *via_sio;
+>   };
+>   
+>   static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+> @@ -338,7 +440,7 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+>       pci_default_write_config(d, addr, val, len);
+>       if (addr == 0x85) {
+>           /* BIT(1): enable or disable superio config io ports */
+> -        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
+> +        via_superio_io_enable(s->via_sio, val & BIT(1));
+>       }
+>   }
+>   
+> @@ -370,13 +472,6 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+>       pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
+>       pci_conf[0x5f] = 0x04;
+>       pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
+> -
+> -    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
+> -    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
+> -    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
+> -    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
+> -    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
+> -    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
+>   }
+>   
+>   static void vt82c686b_realize(PCIDevice *d, Error **errp)
+> @@ -394,7 +489,8 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>       isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+>       i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>       i8257_dma_init(isa_bus, 0);
+> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+> +    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus,
+> +                                               TYPE_VT82C686B_SUPERIO));
+>       mc146818_rtc_init(isa_bus, 2000, NULL);
+>   
+>       for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+> @@ -402,16 +498,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>               d->wmask[i] = 0;
+>           }
+>       }
+> -
+> -    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
+> -                          &s->superio_cfg, "superio_cfg", 2);
+> -    memory_region_set_enabled(&s->superio_cfg.io, false);
+> -    /*
+> -     * The floppy also uses 0x3f0 and 0x3f1.
+> -     * But we do not emulate a floppy, so just set it here.
+> -     */
+> -    memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+> -                                &s->superio_cfg.io);
+>   }
+>   
+>   static void via_class_init(ObjectClass *klass, void *data)
+> @@ -447,32 +533,14 @@ static const TypeInfo via_info = {
+>   };
+>   
+>   
+> -static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+> -{
+> -    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+> -
+> -    sc->serial.count = 2;
+> -    sc->parallel.count = 1;
+> -    sc->ide.count = 0;
+> -    sc->floppy.count = 1;
+> -}
+> -
+> -static const TypeInfo via_superio_info = {
+> -    .name          = TYPE_VT82C686B_SUPERIO,
+> -    .parent        = TYPE_ISA_SUPERIO,
+> -    .instance_size = sizeof(ISASuperIODevice),
+> -    .class_size    = sizeof(ISASuperIOClass),
+> -    .class_init    = vt82c686b_superio_class_init,
+> -};
+> -
+> -
+>   static void vt82c686b_register_types(void)
+>   {
+>       type_register_static(&via_pm_info);
+>       type_register_static(&vt82c686b_pm_info);
+>       type_register_static(&vt8231_pm_info);
+> -    type_register_static(&via_info);
+>       type_register_static(&via_superio_info);
+> +    type_register_static(&vt82c686b_superio_info);
+> +    type_register_static(&via_info);
+>   }
+>   
+>   type_init(vt82c686b_register_types)
+> diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+> index 9b6d610e83..0692b9a527 100644
+> --- a/include/hw/isa/vt82c686.h
+> +++ b/include/hw/isa/vt82c686.h
+> @@ -2,7 +2,6 @@
+>   #define HW_VT82C686_H
+>   
+>   #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+> -#define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+>   #define TYPE_VT82C686B_PM "vt82c686b-pm"
+>   #define TYPE_VT8231_PM "vt8231-pm"
+>   #define TYPE_VIA_AC97 "via-ac97"
 
-Andrew
+With the updated comments:
+
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+ATB,
+
+Mark.
 
