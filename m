@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89791340BDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:29:29 +0100 (CET)
-Received: from localhost ([::1]:42240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABFD340BEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:34:56 +0100 (CET)
+Received: from localhost ([::1]:54608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMwSe-0000Us-Jm
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46862)
+	id 1lMwXv-0005eY-S4
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lMwQ9-0007dy-FY
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:26:55 -0400
-Received: from rev.ng ([5.9.113.41]:41771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lMwQ7-0007Yb-BC
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:26:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=AD70THabnrsdBeu7V+l8C/2H0hqEN6roInJ5rxOiQ38=; b=GqnIYhb/VCInAHrBuAWkvPn57e
- 2jFUqHV/3g0cO196HK99yq5yhKZLXPw9blQOK20tKHojKZcylNPOhvlu05rYJxwh/ljyYi4t0QsbR
- yIpsmCPCe0w8m+NYJz6Z6x/ZRW4rMqhzY44JOlCf29MFuTDGlVFcatKb4ROPhSKM/zDE=;
-Date: Thu, 18 Mar 2021 18:26:36 +0100
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Brian Cain
- <bcain@quicinc.com>, "babush@rev.ng" <babush@rev.ng>, "nizzo@rev.ng"
- <nizzo@rev.ng>, "philmd@redhat.com" <philmd@redhat.com>
-Subject: Re: [PATCH v2 02/10] target/hexagon: import README for idef-parser
-Message-ID: <20210318182636.17c75866@orange>
-In-Reply-To: <BYAPR02MB48867812389A9AE6031D7215DE919@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <20210225151856.3284701-1-ale.qemu@rev.ng>
- <20210225151856.3284701-3-ale.qemu@rev.ng>
- <3b3c6088-0ff2-beeb-e9fe-29c2dec012ca@linaro.org>
- <BYAPR02MB48867812389A9AE6031D7215DE919@BYAPR02MB4886.namprd02.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lMwHS-00086o-Hi; Thu, 18 Mar 2021 13:17:58 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lMwHM-0003UU-LK; Thu, 18 Mar 2021 13:17:51 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id d191so4037084wmd.2;
+ Thu, 18 Mar 2021 10:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:to:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+ b=lrS7Aw5DtJd9sevZH8Huf1a0LQjcDF4Jk2pWO2cbdFmZujJVhEpVq5mpQyoYdrXgzX
+ D13gwXZNFVljl4dUDJhj+dwjqBS1I9hfarZi75c49aovSxntQtsJAQI4I3gy37hRf/mL
+ P1lbsRPnCbYFYxTDfdUAc1zysJYWJpgKOILs1ldGKuMe/weyU8qR8bqA/UAe0jxg1pjQ
+ JF+9GPRylX0vBC1bdzpUsY8aRoBkFJekYhGT1sUt0lkRsp0GW05X3mKdri71W5pjolP4
+ KvZ1BqSm8bObP+75Hb8BThbM+ZhnXwad6y+jLQICl8VcC8fY5uO7TXPm729VPCxRKGg6
+ ityQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:to:from:subject:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+ b=uMUeNfb6LAXWwSjxssuSCDtDJWrS1kJDUtK2Moro265V5piKX0fz5EWXO4bLAJkdGn
+ Z964vKQi2bF32vSGZWdTKa8kZCJ6+ItwAhyRSeIDcWVxBYt0ApnvOnOF8wPR8JZN1hAu
+ +zLFj9pPo1VpZAuptpTgob5T7jUr6amAPMxeFeFxgRgY8OTwx77LZbTYv8WV19V9N7Gp
+ iG49HjrcFm97XQWHRWXN0eyQAjh8l43AcPmSFanDnxETlHzwuk5XU0ZmHXZEjKo2Fpyo
+ GLTVYykSlGRPj+l9iAySZCcRuqSQ96lS+mAahB30vCHNmJROP3ZC9xyEiFES1mDRcn+r
+ iEmA==
+X-Gm-Message-State: AOAM5325xHdbq+dKf8ZUoswU8kOFvIaJEPbF8C0mp56pxeB0Hq3PfviQ
+ KoUS5NyyftjRyOJOrNFLoBHCBZWUqIE=
+X-Google-Smtp-Source: ABdhPJwvRvbeLBpg4BEunV+ewmxUrgDpClPnQmnZVBKCPvAKCHyV9ztqHjT0n9VCkzbNDVsLburX8A==
+X-Received: by 2002:a7b:c409:: with SMTP id k9mr169766wmi.151.1616087866769;
+ Thu, 18 Mar 2021 10:17:46 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id 1sm7274268wmj.0.2021.03.18.10.17.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 10:17:46 -0700 (PDT)
+To: qemu-devel <qemu-devel@nongnu.org>
+From: Paolo Bonzini <bonzini@gnu.org>
+Subject: [not a patch] sorry folks this is the last test
+Message-ID: <48b9c36d-5c89-aec8-a258-44990c2eeeb3@gnu.org>
+Date: Thu, 18 Mar 2021 18:17:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: 29
+X-Spam_score: 2.9
+X-Spam_bar: ++
+X-Spam_report: (2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, PDS_TONAME_EQ_TOLOCAL_SHORT=1.999,
+ PDS_TONAME_EQ_TOLOCAL_VSHORT=0.999, PYZOR_CHECK=1.392,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,43 +86,5 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Wed, 10 Mar 2021 15:48:14 +0000
-Taylor Simpson <tsimpson@quicinc.com> wrote:
-
-> Which instructions require this?  There must be an attribute that we
-> could check to see if it is needed before emitting the TCG.
-
-The following should be an example of an instruction that requires
-zero-initialization:
-
-    /* S2_vsplatrh */
-    void emit_S2_vsplatrh(DisasContext *ctx, Insn *insn, Packet *pkt,
-                          TCGv_i64 RddV, TCGv_i32 RsV)
-    /*  for (i=0;i<4;i++) { fSETHALF(i,RddV, fGETHALF(0,RsV)); } } */
-    {
-      tcg_gen_movi_i64(RddV, 0);
-      for (int i = ((int64_t)0ULL); i < ((int64_t)4ULL); i++) {
-        TCGv_i32 tmp_0 = tcg_temp_new_i32();
-        tcg_gen_sextract_i32(tmp_0, RsV, ((int64_t)0ULL) * 16, 16);
-        TCGv_i64 tmp_1 = tcg_temp_new_i64();
-        tcg_gen_ext_i32_i64(tmp_1, tmp_0);
-        tcg_temp_free_i32(tmp_0);
-        tcg_gen_deposit_i64(RddV, RddV, tmp_1, i * 16, 16);
-        tcg_temp_free_i64(tmp_1);
-      }
-    }
-
-If we don't zero-initialize RddV, the deposit instruction will read
-uninitialized data.
-
-Note that, IIRC, `RddV` is not always a global variable, which could be
-safely read, but it might be an uninitialized TCGv that will be
-written to the CPU state in the commit phase.
-
--- 
-Alessandro Di Federico
-rev.ng
 
