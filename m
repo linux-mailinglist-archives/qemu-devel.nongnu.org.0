@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2327A34062D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:56:33 +0100 (CET)
-Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1A6340638
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:00:41 +0100 (CET)
+Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMsCV-0002dR-VA
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34850)
+	id 1lMsGW-0003s7-N6
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMsAx-0001yA-DT
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:54:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36742)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lMsFC-0003Jx-LY
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:59:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lMsAs-0007es-S8
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:54:54 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lMsFB-00022k-78
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:59:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616072089;
+ s=mimecast20190719; t=1616072356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ynG2mesKPIlYP7iFX6UPMoKxeMuyNHNT4ONNgxCziE4=;
- b=LTj65b/KgRMvP8ghTCFF9bNdak2nVZK8LWOQWltZNu68yXWPfzsoEvhB31ahsqfvcpK6kx
- cmqLzxxOEUiRUWQtxtnPtdwYFvUltK1IaGaeyxj6Uy4LYKdcTCXtu3jgl6U5oqja5+s3Om
- NBV8HInL06zoJA0m7Fx2Xj5xgEfqvGU=
+ bh=X1B7B1qQ6qUwfc6Z50q4pgKPBhtb9o34cGdMzKwnyN8=;
+ b=MnfR/UkyRKzlbTDnBtAQz0YsOm3XahU+EP6kvacvjXAwNH1RvUHUi3XhK1hOqphbHx59qH
+ qzoLQyu+Cq9A9PX+DiZpoZTbHCcc32hBIZdn3Q280fKgNuqhGGpTq1p5OAUZibISw6cMCk
+ 4KBFAdk4nLFQiuGjfkFdt+YlNa/2X3s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-WhGxUoGTMs6_AbYYwGV73A-1; Thu, 18 Mar 2021 08:54:47 -0400
-X-MC-Unique: WhGxUoGTMs6_AbYYwGV73A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-449-IMflEntJOJOf2XaFpXQ2UA-1; Thu, 18 Mar 2021 08:59:14 -0400
+X-MC-Unique: IMflEntJOJOf2XaFpXQ2UA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96C7C108BD06;
- Thu, 18 Mar 2021 12:54:46 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A48D35C1D1;
- Thu, 18 Mar 2021 12:54:43 +0000 (UTC)
-Subject: Re: [PATCH] docs/devel/testing.rst: Fix referencies to unit tests
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210317194849.2262346-1-wainersm@redhat.com>
- <6cd5da6e-c7d1-5eba-d842-4983671f5db8@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <14698b63-d3ab-eb9c-d450-6ee95d1e40a7@redhat.com>
-Date: Thu, 18 Mar 2021 09:54:40 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8E61922020;
+ Thu, 18 Mar 2021 12:59:13 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.196.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1EBC5D6AB;
+ Thu, 18 Mar 2021 12:59:10 +0000 (UTC)
+Date: Thu, 18 Mar 2021 13:59:08 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: arm_cpu_post_init (Was: Re: arm: "max" CPU class hierarchy
+ changes possible?)
+Message-ID: <20210318125908.zwpm47ftlsuen3zo@kamzik.brq.redhat.com>
+References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
+ <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
+ <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
+ <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
+ <CAFEAcA_j-0+vmNFtPjcxEXC9r4bFrebDfGjq-x1SfguzUG4qcw@mail.gmail.com>
+ <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
+ <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
+ <c3397f29-82eb-5a1b-803d-8184c9a8d508@suse.de>
+ <20210318120837.cg4gfdpchjwiabav@kamzik.brq.redhat.com>
+ <fc769a96-a304-7429-5dee-a65b52179b1c@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <6cd5da6e-c7d1-5eba-d842-4983671f5db8@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <fc769a96-a304-7429-5dee-a65b52179b1c@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,69 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com, thuth@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Mar 18, 2021 at 01:42:36PM +0100, Claudio Fontana wrote:
+> On 3/18/21 1:08 PM, Andrew Jones wrote:
+> > On Thu, Mar 18, 2021 at 12:32:30PM +0100, Claudio Fontana wrote:
+> >> And why do we have a separate arm_cpu_finalize_features()?
+> > 
+> > Separate, because it's not just called from arm_cpu_realizefn().
+> 
+> In particular it is also called by the monitor.c in qmp_query_cpu_model_expansion(),
+> 
+> which basically creates an object of the cpu subclass,
+> and then calls arm_cpu_finalize_[features]() explicitly on the object.
+> 
+> Is the qdev realize() method not called in this case? Should instead it be triggered, rather than initializing/realizing an incomplete object?
 
-On 3/17/21 6:55 PM, John Snow wrote:
-> typo in the commit summary; "references to"
->
-> On 3/17/21 3:48 PM, Wainer dos Santos Moschetta wrote:
->> With the recent move of the unit tests to tests/unit directory some
->> instructions under the "Unit tests" section became imprecise, which
->> are fixed by this change.
->>
->> Related-to: da668aa15b99 (tests: Move unit tests into a separate 
->> directory)
->
-> You can probably just use "Fixes", even though nothing is technically 
-> broken to avoid introducing a new one-off tag type.
+Can you elaborate on what you mean by "triggered"? The QMP query does the
+least that it can get away with while still reusing the CPU model's
+feature initialization code. Any suggestions for improving that,
+preferably in the form of a patch, would be welcome. If it works well for
+Arm, then it could probably be applied to other architectures. The Arm QMP
+query is modeled off the others.
 
-Yeah, I wasn't sure whether to use "Fixes" or not. Thanks for the tip!
-
-Going to send a v2 to fix those issues.
-
-- Wainer
-
+> 
+> > 
+> >>
+> >> Nothing in the ARM cpu classes initializations ever seems to be "final" to me.
+> > 
+> > Some CPU features cannot be simply switched on/off at the property
+> > parse time. For example, there could be dependencies on multiple
+> > properties, the mutual exclusion of properties, or other aspects
+> > that can only be known later than property parse time. That stuff
+> > goes in arm_cpu_finalize_features().
+> 
+> Seems like _part_ of that is in arm_cpu_finalize_[features]() (in practice, this ends up being AARCH64-only stuff,
+> ie SVE, PAUTH and KVM).
+> 
+> After calling that, the arm realizefn() also does further setting and unsetting of features, checking previous feature states.
+> 
+> There is a whole lot following the arm_cpu_finalize_[features]() call,
+> there are ~300 lines of features initializations happening _after_ the call to arm_cpu_finalize_[features]().
 >
->
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> ---
->>   docs/devel/testing.rst | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
->> index 1434a50cc4..1da4c4e4c4 100644
->> --- a/docs/devel/testing.rst
->> +++ b/docs/devel/testing.rst
->> @@ -34,17 +34,17 @@ If you are writing new code in QEMU, consider 
->> adding a unit test, especially
->>   for utility modules that are relatively stateless or have few 
->> dependencies. To
->>   add a new unit test:
->>   -1. Create a new source file. For example, ``tests/foo-test.c``.
->> +1. Create a new source file. For example, ``tests/unit/foo-test.c``.
->>     2. Write the test. Normally you would include the header file 
->> which exports
->>      the module API, then verify the interface behaves as expected 
->> from your
->>      test. The test code should be organized with the glib testing 
->> framework.
->>      Copying and modifying an existing test is usually a good idea.
->>   -3. Add the test to ``tests/meson.build``. The unit tests are 
->> listed in a
->> +3. Add the test to ``tests/unit/meson.build``. The unit tests are 
->> listed in a
->>      dictionary called ``tests``.  The values are any additional 
->> sources and
->>      dependencies to be linked with the test.  For a simple test 
->> whose source
->> -   is in ``tests/foo-test.c``, it is enough to add an entry like::
->> +   is in ``tests/unit/foo-test.c``, it is enough to add an entry like::
->>          {
->>          ...
->>
->
+
+Any feature that needs a finalizer (i.e. it can't be managed at property
+parsing time) and wants to be probable by the QMP query will need to have
+its finalizing moved to arm_cpu_finalize_features(). Some of those ~300
+lines might be better pushed into property set/get handlers, others will
+never want to be advertised in the QMP query, but the rest will get moved
+when the need is great enough.
+
+Thanks,
+drew
 
 
