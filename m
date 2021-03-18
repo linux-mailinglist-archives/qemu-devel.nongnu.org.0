@@ -2,58 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF8733FDFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 05:03:09 +0100 (CET)
-Received: from localhost ([::1]:36076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA79233FE23
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 05:19:46 +0100 (CET)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMjsL-0007xY-2W
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 00:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34660)
+	id 1lMk8P-0003MY-4u
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 00:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMjqZ-0007QA-VB
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 00:01:19 -0400
-Resent-Date: Thu, 18 Mar 2021 00:01:19 -0400
-Resent-Message-Id: <E1lMjqZ-0007QA-VB@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21333)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lMk6V-00025s-7h
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 00:17:47 -0400
+Received: from mga02.intel.com ([134.134.136.20]:25449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMjqW-0002Vx-HQ
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 00:01:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616040062; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=i6Io2oyTfQs9lHZnVTlODANtAgMy6uxF6JEiApGp6RWU3kaZkkqGgm/QJCclV1AvlL307yDg8AMs3L45aMKml44f395DmeJ9Kc5vQpsISQlKCaplOTzzkdBtCCHkJ7LOVFgsxZF79lTGAzmMycFI7By0be0aXSCtpRfegVj6ghw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616040062;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=74qULIcSaoV/TPSvJG+tNpZ/1mtq5XmCGMc7UpH6qvg=; 
- b=aUYZP18yJwGWu5RI/eOE+q+9YY8XHO4hBPaWbQmPfRsstcx8jwYUQRQPBQ4fCjCBGq+1P2hvSb0KBLDiWPC2pOt67joN7FN6GFlcY6LdOtOJCA5BHmJRzNP2sNr5FBbEMTldovXw7Gn/BvtsFBq1z3bcTZVg/z0fnkGW3jESTTI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616040059449597.4733120505783;
- Wed, 17 Mar 2021 21:00:59 -0700 (PDT)
-In-Reply-To: <20210318035427.13436-1-akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2] net/macos: implement vmnet-based netdev
-Message-ID: <161604005791.7441.15490694161720110760@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lMk6R-0004IM-B8
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 00:17:46 -0400
+IronPort-SDR: MszMCOBypmlM7+ZgLWnaZO1aq3VhwiucQzF86DTMaey7N4X/FxqJXJ8N+rg1Q2LaaXwfeya/6V
+ uI4cXmMMWPow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9926"; a="176727954"
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="176727954"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 21:17:34 -0700
+IronPort-SDR: jJl73iRyccfO6rEu3BJM+CbGJBT4GpBtIdPmd/GmFqzPcbc5GedHgGoYTrWyUN2/y7vrLBVOvD
+ KJ+uetX/DbMQ==
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="412913948"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 21:17:33 -0700
+From: Zhang Chen <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>,
+	qemu-dev <qemu-devel@nongnu.org>
+Subject: [PULL 0/2] 2021-03-18 COLO proxy patches
+Date: Thu, 18 Mar 2021 12:11:50 +0800
+Message-Id: <20210318041152.59367-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: akihiko.odaki@gmail.com
-Date: Wed, 17 Mar 2021 21:00:59 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=chen.zhang@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,66 +61,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, stefanha@gmail.com, jasowang@redhat.com,
- armbru@redhat.com, qemu-devel@nongnu.org, phillip@axleos.com,
- akihiko.odaki@gmail.com, hsp.cat7@gmail.com
+Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxODAzNTQyNy4xMzQz
-Ni0xLWFraWhpa28ub2Rha2lAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMTgwMzU0Mjcu
-MTM0MzYtMS1ha2loaWtvLm9kYWtpQGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIG5ldC9t
-YWNvczogaW1wbGVtZW50IHZtbmV0LWJhc2VkIG5ldGRldgoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICog
-W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMxODAzNTQyNy4xMzQzNi0xLWFraWhpa28u
-b2Rha2lAZ21haWwuY29tIC0+IHBhdGNoZXcvMjAyMTAzMTgwMzU0MjcuMTM0MzYtMS1ha2loaWtv
-Lm9kYWtpQGdtYWlsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmMzZTA1MDcg
-bmV0L21hY29zOiBpbXBsZW1lbnQgdm1uZXQtYmFzZWQgbmV0ZGV2Cgo9PT0gT1VUUFVUIEJFR0lO
-ID09PQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3Ry
-aW5nIGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojMTQ0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBi
-ZSBhdm9pZGVkIGluIC5jIGZpbGVzCiMxNzg6IEZJTEU6IG5ldC92bW5ldC1tYWNvcy5jOjMwOgor
-aW50IG5ldF9pbml0X3ZtbmV0X21hY29zKGNvbnN0IE5ldGRldiAqbmV0ZGV2LCBjb25zdCBjaGFy
-ICpuYW1lLAoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJl
-IGF2b2lkZWQKIzIwMzogRklMRTogbmV0L3ZtbmV0LW1hY29zLmM6NTU6CisjaWYgX19NQUNfT1Nf
-WF9WRVJTSU9OX01BWF9BTExPV0VEID49IDExMDAwMAoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnXicgKGN0eDpFeFYpCiMyODc6IEZJTEU6IG5ldC92bW5ldC1tYWNvcy5jOjEz
-OToKKyAgICAgICAgXmJvb2woc2l6ZV90IGluZGV4LCB4cGNfb2JqZWN0X3QgIF9Ob25udWxsIHZh
-bHVlKSB7CiAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJ14n
-IChjdHg6RXhWKQojMzAwOiBGSUxFOiBuZXQvdm1uZXQtbWFjb3MuYzoxNTI6CisgICAgICAgICAg
-ICBeYm9vbChzaXplX3QgaW5kZXgsIHhwY19vYmplY3RfdCAgX05vbm51bGwgdmFsdWUpIHsKICAg
-ICAgICAgICAgIF4KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzODU6IEZJTEU6
-IG5ldC92bW5ldC1tYWNvcy5jOjIzNzoKKyAgICB4cGNfb2JqZWN0X3QgaWZhY2VfZGVzYyA9IF9j
-b25zdHJ1Y3Rfdm1uZXRfaW50ZXJmYWNlX2Rlc2NyaXB0aW9uKHZtbmV0X29wdHMpOwoKRVJST1I6
-IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnXicgKGN0eDpFeFYpCiM0MTk6IEZJTEU6IG5l
-dC92bW5ldC1tYWNvcy5jOjI3MToKKyAgICAgICAgXih2bW5ldF9yZXR1cm5fdCBzdGF0dXMsIHhw
-Y19vYmplY3RfdCAgX051bGxhYmxlIGludGVyZmFjZV9wYXJhbSkgewogICAgICAgICBeCgpFUlJP
-Ujogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICdeJyAoY3R4OkV4VikKIzUwMDogRklMRTog
-bmV0L3ZtbmV0LW1hY29zLmM6MzUyOgorICAgICAgICBeKGludGVyZmFjZV9ldmVudF90IGV2ZW50
-X21hc2ssIHhwY19vYmplY3RfdCAgX05vbm51bGwgZXZlbnQpIHsKICAgICAgICAgXgoKV0FSTklO
-RzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzUz
-ODogRklMRTogbmV0L3ZtbmV0LW1hY29zLmM6MzkwOgorICAgICAgICAvKiBEaXNwYXRjaCB0aGlz
-IGJsb2NrIHRvIGEgZ2xvYmFsIHF1ZXVlIGluc3RlYWQgb2YgdGhlIG1haW4gcXVldWUsCgpFUlJP
-Ujogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICdeJyAoY3R4OkV4VikKIzU0NTogRklMRTog
-bmV0L3ZtbmV0LW1hY29zLmM6Mzk3OgorICAgICAgICAgICAgICAgICAgICAgICBeewogICAgICAg
-ICAgICAgICAgICAgICAgICBeCgp0b3RhbDogNiBlcnJvcnMsIDQgd2FybmluZ3MsIDY1MyBsaW5l
-cyBjaGVja2VkCgpDb21taXQgYzNlMDUwN2Y0Yzk1IChuZXQvbWFjb3M6IGltcGxlbWVudCB2bW5l
-dC1iYXNlZCBuZXRkZXYpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
-eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
-bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5E
-ID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMg
-YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzE4MDM1NDI3LjEzNDM2
-LTEtYWtpaGlrby5vZGFraUBnbWFpbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3Nh
-Z2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczov
-L3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZl
-bEByZWRoYXQuY29t
+Hi Jason, please merge this series to net queue.
+
+Lukas Straub (2):
+  net/colo-compare.c: Fix memory leak for non-tcp packet
+  net/colo-compare.c: Optimize removal of secondary packet
+
+ net/colo-compare.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
 
