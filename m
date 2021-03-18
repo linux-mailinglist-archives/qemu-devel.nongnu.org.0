@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A827D3409B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 17:10:00 +0100 (CET)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACB4340A25
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 17:25:31 +0100 (CET)
+Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMvDj-0005l5-Mp
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 12:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53070)
+	id 1lMvSe-0004S0-NR
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 12:25:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lMv7B-00011i-KP
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:03:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lMv74-0001tH-9p
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:03:13 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lMvAx-0003wJ-HA
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:07:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lMvAr-0003mE-KS
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:07:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616083384;
+ s=mimecast20190719; t=1616083620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ldqxknpOfcgNFPksS+U4LnfshA8OqWCXYgfo0WQE7lo=;
- b=NdzwcgbqDL157mGSKWaB8EdiZptoimxZ92OZVyFoIqaVy8mveSETgdG6B+HBKwmCICZv+Z
- ZRvc13mES7cUZT+H0/Nw5VL2YM33h7JAcb6FJtuhGQCjgC2PWODEjSDh6n/cI3tSbvYXzw
- DgP2ITCmX/qNx2ke76jF3dL121Tl9Q0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-_GRv6wlUMRKAldZY0jI80Q-1; Thu, 18 Mar 2021 12:03:02 -0400
-X-MC-Unique: _GRv6wlUMRKAldZY0jI80Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E41518189DB;
- Thu, 18 Mar 2021 16:03:01 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.194.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 289481045EBE;
- Thu, 18 Mar 2021 16:02:59 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] i386: Make sure kvm_arch_set_tsc_khz() succeeds on
- migration when 'hv-reenlightenment' was exposed
-Date: Thu, 18 Mar 2021 17:02:49 +0100
-Message-Id: <20210318160249.1084178-4-vkuznets@redhat.com>
-In-Reply-To: <20210318160249.1084178-1-vkuznets@redhat.com>
+ bh=DVo5JH+vGu60uHhHX5nnyx+nk+LURsoWNrBf8MGIOWI=;
+ b=WJdD0uPuw3pkiILN9MXAazBr4rb70oF4VZb1j9kRJ+kzYPe8uzimA0+X8jeL+rceXxGWOO
+ pIO6kya/zbktcrByWA+xV9LHyHpLD6I4fse1i55uNCgD8ks/t+glVTbb0KhP/X6DrlymRb
+ VnYbBpiC6sw4ivoqQaJkZSuYE82MIjM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-1oSHxGgZNniKJbkZPeVZrw-1; Thu, 18 Mar 2021 12:06:57 -0400
+X-MC-Unique: 1oSHxGgZNniKJbkZPeVZrw-1
+Received: by mail-ed1-f70.google.com with SMTP id bm8so8315087edb.4
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 09:06:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DVo5JH+vGu60uHhHX5nnyx+nk+LURsoWNrBf8MGIOWI=;
+ b=e7jc6broN90dYA7f4F5W/m6B/xf/5aKEVxJ4VWEGyJxCNahEb51eaifCs1G33j/v22
+ 0G95Ne3oaibSW/9HkddkSEVVmCqOC/VDxi2hh6ruwh90BIr8o33PniYBlN3ZC/p6Oc+D
+ P4jeOyw3TpM/Pr5l1Q4bKCxPIqaILUGSUvm2cjB+FgZY4UzOEuQgo6lePmEkA6Mb7Z2l
+ +j54wxQf/IIFFBvUDyFQQXlkpUkm1FHszjko7l5VVKpaFwAJu0ETFB7lvRRHVpO8JBLQ
+ qkZoBRemUe7xZjRlijp82KPf6Hbam2y27667VAD4WgXduzKfx3zVgd4rjeAO2BJF0wbs
+ j9sw==
+X-Gm-Message-State: AOAM533jRMD3WnVu3o+91I4MhqjWALNCpNeTC1g45QJeeEv8Y8f8OUyf
+ ZBPytnIF7Ge0z3TGYcOVXDsWmtKjSn3XvT/tsrDHjU6MImlMQQorIos5vFdqMss8cPc8UuvJSXD
+ wHZZ8UVPqSDCsCKM=
+X-Received: by 2002:a17:906:8546:: with SMTP id
+ h6mr41047942ejy.23.1616083616370; 
+ Thu, 18 Mar 2021 09:06:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyOxO5xXi/tu8TXve6PNPuPdnXVNY2fIYObTJ82F2Y8Mh/S9l0pNpKnEApLUS1YcyhJGrUVbw==
+X-Received: by 2002:a17:906:8546:: with SMTP id
+ h6mr41047927ejy.23.1616083616235; 
+ Thu, 18 Mar 2021 09:06:56 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id y12sm2189237ejb.104.2021.03.18.09.06.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 09:06:55 -0700 (PDT)
+Subject: Re: [PATCH 1/3] i386: Make Hyper-V related sections KVM only
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
 References: <20210318160249.1084178-1-vkuznets@redhat.com>
+ <20210318160249.1084178-2-vkuznets@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <060ef1a9-0447-ddac-4694-7aba4676a36b@redhat.com>
+Date: Thu, 18 Mar 2021 17:06:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210318160249.1084178-2-vkuznets@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,124 +102,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+Cc: Marcelo Tosatti <mtosatti@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM doesn't fully support Hyper-V reenlightenment notifications on
-migration. In particular, it doesn't support emulating TSC frequency
-of the source host by trapping all TSC accesses so unless TSC scaling
-is supported on the destination host and KVM_SET_TSC_KHZ succeeds, it
-is unsafe to proceed with migration.
+On 18/03/21 17:02, Vitaly Kuznetsov wrote:
+> Currently, Hyper-V enlightenments are only implemented by KVM so there's no
+> need to have corresponding vmstate_x86_cpu sections when !CONFIG_KVM.
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Normally, we only require KVM_SET_TSC_KHZ to succeed when 'user_tsc_khz'
-was set and just 'try' KVM_SET_TSC_KHZ without otherwise.
+I expect WHPX may implement at least some, so I'll leave this out.
 
-Introduce a new vmstate section (which is added when the guest has
-reenlightenment feature enabled) and add env.tsc_khz to it. We already
-have env.tsc_khz packed in 'cpu/tsc_khz' but we don't want to be dependent
-on the section order.
+Paolo
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- target/i386/kvm/hyperv.h |  1 +
- target/i386/kvm/kvm.c    | 11 +++++++++++
- target/i386/machine.c    | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 49 insertions(+)
-
-diff --git a/target/i386/kvm/hyperv.h b/target/i386/kvm/hyperv.h
-index 67543296c3a4..c65e5c85c4d3 100644
---- a/target/i386/kvm/hyperv.h
-+++ b/target/i386/kvm/hyperv.h
-@@ -20,6 +20,7 @@
- 
- #ifdef CONFIG_KVM
- int kvm_hv_handle_exit(X86CPU *cpu, struct kvm_hyperv_exit *exit);
-+int kvm_hv_tsc_frequency_loaded(X86CPU *cpu);
- #endif
- 
- int hyperv_x86_synic_add(X86CPU *cpu);
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 7fe9f527103c..f6c4093778e9 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1460,6 +1460,17 @@ static int hyperv_init_vcpu(X86CPU *cpu)
-     return 0;
- }
- 
-+int kvm_hv_tsc_frequency_loaded(X86CPU *cpu)
-+{
-+    CPUState *cs = CPU(cpu);
-+
-+    /*
-+     * KVM doens't fully support re-enlightenment notifications so we need to
-+     * make sure TSC frequency doesn't change upon migration.
-+     */
-+    return kvm_arch_set_tsc_khz(cs);
-+}
-+
- static Error *invtsc_mig_blocker;
- 
- #define KVM_MAX_CPUID_ENTRIES  100
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 715620c58809..369a8f1e7a7a 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -896,6 +896,42 @@ static const VMStateDescription vmstate_msr_hyperv_reenlightenment = {
-         VMSTATE_END_OF_LIST()
-     }
- };
-+
-+static bool hyperv_tsc_frequency_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->tsc_khz != 0 && (env->msr_hv_reenlightenment_control ||
-+                                 env->msr_hv_tsc_emulation_control);
-+}
-+
-+static int hyperv_tsc_frequency_post_load(void *opaque, int version_id)
-+{
-+    X86CPU *cpu = opaque;
-+    int r;
-+
-+    r = kvm_hv_tsc_frequency_loaded(cpu);
-+    if (r) {
-+        error_report("Failed to set the desired TSC frequency and "
-+                     "reenlightenment was exposed");
-+        return -EINVAL;
-+    }
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_msr_hyperv_tsc_frequency = {
-+    .name = "cpu/msr_hyperv_tsc_frequency",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = hyperv_tsc_frequency_needed,
-+    .post_load = hyperv_tsc_frequency_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_INT64(env.tsc_khz, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
- #endif
- 
- static bool avx512_needed(void *opaque)
-@@ -1495,6 +1531,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_hyperv_synic,
-         &vmstate_msr_hyperv_stimer,
-         &vmstate_msr_hyperv_reenlightenment,
-+        &vmstate_msr_hyperv_tsc_frequency,
- #endif
-         &vmstate_avx512,
-         &vmstate_xss,
--- 
-2.30.2
+> ---
+>   target/i386/machine.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/target/i386/machine.c b/target/i386/machine.c
+> index 3967dfc25763..a4777a73b0a9 100644
+> --- a/target/i386/machine.c
+> +++ b/target/i386/machine.c
+> @@ -697,6 +697,7 @@ static const VMStateDescription vmstate_mpx = {
+>       }
+>   };
+>   
+> +#ifdef CONFIG_KVM
+>   static bool hyperv_hypercall_enable_needed(void *opaque)
+>   {
+>       X86CPU *cpu = opaque;
+> @@ -895,6 +896,7 @@ static const VMStateDescription vmstate_msr_hyperv_reenlightenment = {
+>           VMSTATE_END_OF_LIST()
+>       }
+>   };
+> +#endif
+>   
+>   static bool avx512_needed(void *opaque)
+>   {
+> @@ -1484,6 +1486,7 @@ VMStateDescription vmstate_x86_cpu = {
+>           &vmstate_msr_ia32_feature_control,
+>           &vmstate_msr_architectural_pmu,
+>           &vmstate_mpx,
+> +#ifdef CONFIG_KVM
+>           &vmstate_msr_hypercall_hypercall,
+>           &vmstate_msr_hyperv_vapic,
+>           &vmstate_msr_hyperv_time,
+> @@ -1492,6 +1495,7 @@ VMStateDescription vmstate_x86_cpu = {
+>           &vmstate_msr_hyperv_synic,
+>           &vmstate_msr_hyperv_stimer,
+>           &vmstate_msr_hyperv_reenlightenment,
+> +#endif
+>           &vmstate_avx512,
+>           &vmstate_xss,
+>           &vmstate_umwait,
+> 
 
 
