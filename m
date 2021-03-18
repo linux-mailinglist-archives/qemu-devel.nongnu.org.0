@@ -2,128 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59193407CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 15:26:51 +0100 (CET)
-Received: from localhost ([::1]:54186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A7D340818
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 15:48:27 +0100 (CET)
+Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMtbu-0000xW-EA
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 10:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56218)
+	id 1lMtwi-0001BN-Qt
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 10:48:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMtaS-0000Rs-6g; Thu, 18 Mar 2021 10:25:20 -0400
-Received: from mail-vi1eur05on2134.outbound.protection.outlook.com
- ([40.107.21.134]:52033 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1lMtu3-0000As-5p; Thu, 18 Mar 2021 10:45:38 -0400
+Received: from mail-eopbgr30107.outbound.protection.outlook.com
+ ([40.107.3.107]:61825 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMtaN-0001s0-Gs; Thu, 18 Mar 2021 10:25:18 -0400
+ id 1lMtto-0005Px-4G; Thu, 18 Mar 2021 10:45:33 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SgoMhXS9SQZyTLaq4B38VF8N9AQz8/I6Stm8JmWgaXRuUXua4Kp0Y7hVf/eLVaMWno+7VV9Lj0lJv0Utais1p4MN9ypvUluFb7Ay4M9P5h170xsZLSH7rVuU6LbIvOobMFyfCJ1r2yIGaD1+dVtzta9Ltm83x3HFFO9PFEdbcIeOsdlMVB9t3gvpZ6AlTm2KOiM0G9CJjmQLhjOY3vvcCwO8jVLW1/uZ8EPSo62ii396A5viNL2fJDjmKHDPpmC56RB1Bud7hb1baVrlyoV9GJ7X7+6EtmFFZus6t9QBFgPhwv86glaRD+B9uJ0jb6lmwd+fdPu4h4Pgcx6BBjeTjQ==
+ b=hZRj07Sdbn+OczkL5cEOY1np+vAsIhyC2DhBSHjq6uvNZtpFoz1utTsCnZOp7T6zp8d8Vlr5xicgH15S0nFp4rw5dsCNHTDjbNWHc4DuVBa6/QlX8/VchKsQeIHpjfILGbAhLJFJ4P8HouX10h839NzqLwXxPznkLuk7VLPy/R9KgUBFiXMrC6D/9zEuXOGV+6VIZoPmBholXEy+oiETlMK774LT+mk2MX1EjDHpgKfPnNrTfu7Zz+E4XkfF1a8qj9cGlqOCHll1Vs0q3QCU9WbiPWYj0RlEajbUE+RHiCDLGDZYYf+eMp2EG2qHbL0hrPbq1Edjp19MjZw7Vj/TEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/gxGtSbVy6lM4xBdokfgQGNwkbrnbFs6e8f2On/7V0M=;
- b=hUPK8olQPDMyPdg3iuSffzlDlTYUhzKOj7Rv4rjVNreFzAS9B7DA/Q+MG8QLuiEguk2hXnCqTfjQkz3KvqHHmBFZ/PP2a0RRgHHiqghHzOixy8j1wTipnr19aFLJM3ajPgc+TX9swS1fkiPf+euhRjI0tbz68GkksN6NqR14HT+LsZFAzTF/XGYZ3wLgMjV5eis9oFg9yizqEd/nsk5A6ugPDPItaFqcidMgPav37zV7MKJU91UmVMzOaVESI6mxzeYfEPUey0XI6irKERxDZnDMRO47/nzSZaPH1YRz/bqF6vs4dRVx/Hqi65zi517DkyQp42dczhrYaHFWwW9m7g==
+ bh=oIpLgiit3PuocY29LjS+JRAcf3oayEzDGgXwEcEjoGQ=;
+ b=eQaCJqLoKyibn1bZF/c5dFdAUdEgtQf6NWNgBnmOUfyC2JJ/GiVdRyU8JpMu9RNHmudeIoYiexL/IAHGvzLyhvdbbfgiB4fPVp6GaBI04ud/BcjZod0Bbxq9KGfAOo2VhT/xjlu8YlVTznwms6SjOeTmTwBlpONgTbclgovCvj0yLyYmx7Eokn166eAQ4fJblGA5jcLFnE28lyDbGwDd3oKO5oQRsccumkGcPzM0Zsp5OzcLNQdthqckif7k7Wh/Zf1rGLxF82AB+8Cql2EZvT6MoywSn+0iCF7z8CKIPZJlGraFeoev5HHrP6fdYrTJc7YePQvy9TEei4hc/2QoAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/gxGtSbVy6lM4xBdokfgQGNwkbrnbFs6e8f2On/7V0M=;
- b=ijgzO2kSau3MSNkBE/yB1QpskmBDig7dGGU5c2mqp1n/BlIRr6B0rOegs2dCAmiX9o/S0T39gy0oiKCB2MNxhMHjbfz/DzzEzVL5N5HbavS7gM3mjaihl5xx5KZGrA3+g3ywImCw9YM7A60LxJ7Rzt5b04z++vNI8Lc1r0BmT0o=
+ bh=oIpLgiit3PuocY29LjS+JRAcf3oayEzDGgXwEcEjoGQ=;
+ b=JTjb+eo8+gSkxRDIOTYBprXXkqUdbym1wBwpboYxbT7tW8lcrGY28o2wstp4AQ6Y8pXaIesbLjUNbDBcocfo/vbiW1tL/04U1dyw4xHAjjJHQo34GiOh7Wyi4UXEFt8gUyroPB935ZaZvzGLcixxjBGKIkWoymvjZGYNwchPtTg=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6280.eurprd08.prod.outlook.com (2603:10a6:20b:29b::12)
+ by AM5PR0802MB2610.eurprd08.prod.outlook.com (2603:10a6:203:97::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.26; Thu, 18 Mar
- 2021 14:25:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 18 Mar
+ 2021 14:45:14 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.018; Thu, 18 Mar 2021
- 14:25:10 +0000
-Subject: Re: [PATCH v4 2/6] block: Allow changing bs->file on reopen
+ 14:45:14 +0000
+Subject: Re: [PATCH v4 4/6] block: Support multiple reopening with
+ x-blockdev-reopen
 To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  Max Reitz <mreitz@redhat.com>
 References: <cover.1616000692.git.berto@igalia.com>
- <31ccb1061199ee11bf9879f6c60608a19b83263d.1616000692.git.berto@igalia.com>
+ <ed95ecd1018e45869d02e4525fc65216e7ebd370.1616000692.git.berto@igalia.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1a4ca40e-5924-4bef-d8b7-6a6b3eac32f5@virtuozzo.com>
-Date: Thu, 18 Mar 2021 17:25:07 +0300
+Message-ID: <b0f51127-d3c0-7334-6dcf-45f7d66270c2@virtuozzo.com>
+Date: Thu, 18 Mar 2021 17:45:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
-In-Reply-To: <31ccb1061199ee11bf9879f6c60608a19b83263d.1616000692.git.berto@igalia.com>
+In-Reply-To: <ed95ecd1018e45869d02e4525fc65216e7ebd370.1616000692.git.berto@igalia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: ZR0P278CA0067.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:21::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR02CA0187.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28e::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.202) by
- ZR0P278CA0067.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:21::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Thu, 18 Mar 2021 14:25:09 +0000
+ AM0PR02CA0187.eurprd02.prod.outlook.com (2603:10a6:20b:28e::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
+ Transport; Thu, 18 Mar 2021 14:45:13 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f44d2682-7aeb-477e-705a-08d8ea19a304
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6280:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6280CDD9E4164A29DC6053ACC1699@AS8PR08MB6280.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Office365-Filtering-Correlation-Id: c0a87a53-063d-40da-6ad2-08d8ea1c706b
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2610:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB2610CA9D3A86DE5722015AA6C1699@AM5PR0802MB2610.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GvWDpYrO58Rgr9vaIoAbW22Ev3yabeAcwf/LaehNWCU3HokxETanxRRxqhzPMcR+ecmhQufRgJrZWESjBTFdezcLqDmX88WWgQq7yF19fjSFoXTUeC2WjKGjxU/ZMgCO+p6/2qSHdKx5aG+nXpUCUGVBhOvC/t767ofq4++K6Afjp7IiaZmD9MgWOyznJOjPzjm5w0JOLZzdl1eUBq6fLMD2/jnOWOQo6+wZypAajh02idMz2lxlOcB9sih28Nr/4pskFgOMTnp52625IJDuMEKFaiSebx514KIBs7mAuDN1hxARGBi2m7EcznDbHeP3kKJgiAGM+RITci2VLPcmb6PLrvcfBzpV3iJRnLh+i5E66Dnd/tat97I1N0fwuKOjNIA80f5rK94NBYSHWp+vvWHQLsc9yNAMGdnX3wifqTVbghe5xxBC8tOWyQtCVsrw30qBIuAloRF9dFgyG1h8MhY1hVofm34QPKt76IeXK5Ew0FivlPCxo2zP4hiJ0KdZUUJ1sQFcO3sMbsVoUi/Tn2dj275QIG50vloVyHeq9AJYsnbhd5d17bHonuCUVFI7mvXBnLuV0LFhERBuZisGYJBWTlmK4a4+3wybYJNwhJCc/3mjqCgSU8N4eo1ZfVh3Gdr6HKQOt5P4YyYR2u6f3g==
+X-Microsoft-Antispam-Message-Info: PIVJweSLEBLFbcunBdLWAjs/Mh24nCc91gM1AwEZntrKe9CxUQwPKPfYZYePGujeuei7UzMQwNtFmD+BF8vdnyRTZxi6UDdbyyl4l9qWE1NLIGs5+iTvljSkLtxezyEHwXmhUtjOAeYee6bvCSk4zAS+xmWyLuv0w8219cfZdyhYJ5VaX99kx74g1fQalbeQXZRxtpQxozqOArHA0ZlxjoKxwfW8Z9KHtT5LXgoxq3S9BUS6Tq4IpvFhb7Ig6psX9lfEnfB2d0EoPo/iVwnuFNq0nGzGxdewnL/4JXq5Dzc1sxuog02f76hTHNK1XPliFs9xMNXYD586EtC9DYetQCL6F1PqeVdWCuwPW1KdvAKj8nhyu0c35dvWR9lDrRJlhLA6RcSJi3qBFJs5+0JGyOknhVsWv99ZAfvrHewL+oi5ozVfW6ly070nwH4d2JCTNGNh+FUX9W25+sveAmh3is3ACdC3Cvw9qc12B2uOQoWO86ouc9JyAc8WrhkzdN4xw8grg6ZRrLEo0AjedUFR/R2CMRF78Yvp8l3B4RqsBg0a1zprxF5iJMOwkhui27iVgHJDlA57E6QmymRIwX6CXz2GxyaYv4qjjzfxssWPI7uheZgnVhu95SYO78Z4lAQWbrebMEBXbEazQCFzA1D3UG65FHpRV8RDdsVh0JOVmILACecwJNM0OCd4+O/4gCtM
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39840400004)(346002)(376002)(396003)(136003)(2616005)(54906003)(956004)(52116002)(478600001)(66476007)(66946007)(6486002)(38100700001)(186003)(66556008)(316002)(5660300002)(31686004)(4326008)(8936002)(8676002)(26005)(31696002)(16526019)(83380400001)(2906002)(36756003)(86362001)(30864003)(16576012)(43740500002)(45980500001);
+ SFS:(4636009)(396003)(346002)(39830400003)(366004)(376002)(136003)(83380400001)(52116002)(2906002)(86362001)(6486002)(478600001)(316002)(54906003)(31686004)(38100700001)(36756003)(4326008)(16576012)(26005)(8676002)(8936002)(66556008)(5660300002)(16526019)(186003)(31696002)(956004)(66476007)(2616005)(66946007)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bmZJUmM0cFFlWkI0VVYxdXB5WlVPYWNtVFdraWlUZlNxcnRwdVFvVVN0ODNQ?=
- =?utf-8?B?QUV3R1Yyc0cyTE5wRHBpTHhTRmplRWZ5bjFaQmU3WWt3UXZiaFRIMTFORnVC?=
- =?utf-8?B?cjRLZmt6a1VUcTRlcDM2K2w5TjcvN2RMWlFiWE15NVFIU2dDL1ZNQXRLV21J?=
- =?utf-8?B?Nlh4VGNEaE81aENtWWtwS2Nnazk3NFNWL2I4bjcrU282ZmlOSy9XVFU0RzBM?=
- =?utf-8?B?dkFvVHExdVJNLzFjb2ovS3loMjViVFFDWGswcG9jdUtUT04zYk0yZFVIM3BL?=
- =?utf-8?B?T3NuRGJYZXdYVlNhTG5sZExaYW1OMUMyYmhEaGs2MTR2Nm93Tkw2dFNvZXVT?=
- =?utf-8?B?ZFpCdWZMQm15ejBCSCtiM3JZaFZndjNCWW8wQU1uOGc5Y3hnVlRLclUxaERp?=
- =?utf-8?B?TVFJelZWWjl1SjFSemRlMkgvVkZWazRjTHo1ejZTbHI0WjNVU1NudElRd1hC?=
- =?utf-8?B?VTFpMHF0a1lnYTZHS2VDQnFwcXkwU1pCNUdlM1A3OW9OUUhqOUhOejFtU1Q0?=
- =?utf-8?B?b1NUbEVKSTgvMk96ZlBpQlNNbkhQY21PVG5KZDFaa1lmdGxjaDBkcTRZd1JH?=
- =?utf-8?B?aC9yT1A1TlhsRDJVQnFLQnVpUXNZOG4yamZTSGRhZ0YrVFVyV3R5L2RrT0po?=
- =?utf-8?B?ZjFvQWFxNzhDK3FLZjMxTEtock9RcUlCaFJQbVVDSE9XYW8vemhSZjFIVmZm?=
- =?utf-8?B?dmU2OU93L0cyYnV4MzF5OG5GOUNPc0cvOHEzSW1QcW9UMGlQbklXdGJvb1Za?=
- =?utf-8?B?ZEFkNS9sdGZBQUFzckkrTXprSnlLYWs5SzViS1ozaVhTeDZoV2ltTUVqaTA5?=
- =?utf-8?B?azJGYmgzNWRpK3JVVjE5STM1RkNsNDl1YkxoK2FDbWVGMXNtcnRVcURoSis0?=
- =?utf-8?B?d21kaWFVL3IyUVZFZS9zMm9EZ1FCNkRYWkt4QURGOGVITG1YSEVYMDNaTWJz?=
- =?utf-8?B?Tnphdi9BWDdsQXV4U1dGRG9wQW1rWGtCSFYwNVd6ZHY1MGNFM0pHOGkxa001?=
- =?utf-8?B?S0xMa0RKU09kYVlNa3VDTWFvd0htTWV2L1Y0d3l6T2plSTdkRkZ2NmlwMVE1?=
- =?utf-8?B?WHF4cGZMSDBmcnJYdVJxSy9YOHR1YXhmQTc5cjFtcVBQRXRTRmJBKzZnMEpY?=
- =?utf-8?B?bjB0NmRZWmE0N295N210YUVzaUU1UW1xVjJwZXdsc2Y5c1BRMUhkUHdVTUp5?=
- =?utf-8?B?NURGY045cEhVMzI1RjJ0cnVSVkdwbXRkOE9hZDBnQUcrcEJIQStmUGowbUxs?=
- =?utf-8?B?NlljUG1DeDk2MGlTcElXSkIyQ0JSWjJmQnM1RUpYc1FJblNxc2ZwNldHaWJP?=
- =?utf-8?B?VlRjaFl3eFg2OGF5elc4ZW4xbEFCdXZ3THN2dk5GSkJaZDg4QzljQWtQaW1C?=
- =?utf-8?B?YzhJM3lmZlFBaEVxUzU3V0xtUWNCYm94Rk4yN240OWlKVEVEc1JNK0tkT1JR?=
- =?utf-8?B?MEZUeEZtbzhEbGhKbndkTlBPU3ZKVHMvWGk1MXVEQjRmNVRDK3RHYnYreDA3?=
- =?utf-8?B?L2JkQVUxL2F6REd4N1Y0N0RVd3VZQzQ4b21YViszdnRQQlc4clN2YjhESDFw?=
- =?utf-8?B?OU1nZ2NOUjNTTmIzclJGOGtZalYzeWhrLytOYXRpSkdpd0M0aElreUlKbEtm?=
- =?utf-8?B?VEtCdVZZbElXWEFpTk8zWXkvcHRJcGg3V01CV1hhUW0zbmcwU1VlbS84N2xw?=
- =?utf-8?B?Nm5jcmhERHpUTHVLU2RSZ2FnKy95alVPZUc3RlU0UUFvV1hOQ1VZQm00ZTNi?=
- =?utf-8?Q?GYwy+9tBWnGymjLPZE7P8+EaThzLGC9gDOWpYtm?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?enVQdXQwY2djeHJRRkNkWjkrcWdCU3dWUlNSWlNEY1FDQ0IwOGcwYjE3Zkhv?=
+ =?utf-8?B?Yzgxd0RaV1FaRXV3RTAzSXczRGFLTXpDTGNjNUtRQTUvMlBJTnNZS3ZscEhu?=
+ =?utf-8?B?QXZlRE9vT1NRNnpZQTArYkg2d0grcllrU1Q5ak16cEMxdFRPVE9IQXFrOWhF?=
+ =?utf-8?B?OFpSVjdDUUloYVgwSGM2U2xFTmU2eFZlbTU3Zkp6bFp2dFVHZW5ITVRZc0NB?=
+ =?utf-8?B?QXZoZlJ6U1hQS1JwZUNVUk85eTk5ODhsRVowMEJySHdKdXBUbExzaHMya240?=
+ =?utf-8?B?MVUyZnEzQW9rdEE0MFpOUklNUW9HWS9QRlR6d3lJQ2x2TVVaVDNENytPNlNu?=
+ =?utf-8?B?OHE2NjY4OElTcUlIQlUzY0c0djJQMDNFTHRBajdZa3VwQTE1RkdKMmxxMHdw?=
+ =?utf-8?B?RkgxaHdIcFo0Z2IzQjlCa2k2Q2pkNEx2S0FwRExPeVNBeWtvQk1nSzFmMExp?=
+ =?utf-8?B?V04rNWtMV0hNNjhoSElvUEw1Mms3elJWYUR6Z1d4bVBrbTY2d0oyTjZvdTNz?=
+ =?utf-8?B?ZExqbEdZaUlDSU1RQW5SUHJ4aUkwVXU0NGdRS0w5STViRHVYMlB1THFKa0d1?=
+ =?utf-8?B?TFJFZGR5N1ZhTnRwT2YyRmtJNjJPN0prNEU5YURXNmkzYndGUTlqV1FKNUtt?=
+ =?utf-8?B?L3FNZlFRclBsVUxiREduc2k5TDU0K042NFRjVnpIdVpGTWp2M1A4dEFOTUhU?=
+ =?utf-8?B?T0ZBNXFNRmtlZTBzeFVETDVXK2RvdTZYTmpsb3Z6M1VkL08wRHB5T2d5Z0VQ?=
+ =?utf-8?B?OE5saWhVdm9tdDFKd2x5MmozcUhzTnVMUVNNanRxTnFueHFmT0JrUDM4di9Q?=
+ =?utf-8?B?ZHpHRjdFaEM4WVNWYTByWlJ4ckcrMmJMTUFEVEFaRldsQzRkZXFOdm55NUFH?=
+ =?utf-8?B?cmJmY1lyV29CWkUrSnVVRmFsNXZkRWZ4djNaRU1pT2oyK2xBZ3N1eUNYdEdU?=
+ =?utf-8?B?bWVZdDJ1blZoTXE0WUt6UURJb2YycGtHT0REZlQ3Z0FYeGxJeU53dXhuUmhR?=
+ =?utf-8?B?QUg2L2l0YThvTlZoUjNycmNaVTdtb0UrVXphWDYzajRTS09aRHdBMGt2RGZI?=
+ =?utf-8?B?ZnFiQ3E4d2ZrN3Q4bW9yc1J4Q0lqRkZlMXRRTGpPSFRwWjdZYWFoUkZKWGdl?=
+ =?utf-8?B?QjRWNFJTNkhTbWFvYzhhZlhBa012VGR0bVNDOVlWN1hoMi85UHpHcnNwWERv?=
+ =?utf-8?B?d1dZVkhlYzB3MHJjZWxoUVpwcGxVTHkrOG0vVXBIRkJSSWJBeDU5dkhJUHR0?=
+ =?utf-8?B?L3Y2R0xnVDJZdHI2bVFkdkVVaW1pWTlUa25jbXRjU1VUdHFHVUxvb1BycTN6?=
+ =?utf-8?B?bUdMYzl0azdHTWxQb2YyTklKV3pJT0ZCL0JLUFJ4T0U2Y1pQdXJsYWpnaEwz?=
+ =?utf-8?B?eGNQa2RWdld0SDdRUWVvakw5VGNBaUNlbXdaMHpqL0s1ZkY3M2NtQWFPblVi?=
+ =?utf-8?B?WS9jMVEwN2xkcEd5RkF5NkFSYmt3ZmJJY2tPZ1hjdjV5VVV5Z1lFYjU0UFlF?=
+ =?utf-8?B?YzNONnZCemh0QXlaSENwK2hsU1VKNmI3eHhiRXRFREs2WEg1ckJSY3ZCcGJp?=
+ =?utf-8?B?cUo0R3VLMDNTS2R1cVNZU3hLN01ZVDZ5Q3ZBRGhJNFJQSExRSTV1R3lzYkRF?=
+ =?utf-8?B?L1F3MTBqVFZrUFdQM21VYlF5OTQ1alU1OStZWlBldU55elhYVCtIQklYc0F1?=
+ =?utf-8?B?dVJ0clNDKzNaU0doQUh5aC9FQjJ6bVVzZHRsNm9Bd2l6aXQ5Vmc4WnFTcERS?=
+ =?utf-8?Q?QmodMa1IjSRJQtevK7MjL45zON2CHjhRP7oVxmf?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f44d2682-7aeb-477e-705a-08d8ea19a304
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0a87a53-063d-40da-6ad2-08d8ea1c706b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 14:25:10.5642 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 14:45:14.2342 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZpKSlAUJvCc8SJWkuw6gWQh+f+1yVMlPE1p/FnfDLb8FpYKvnFb2SgzSJIH9CqK+tm9yA7XpeKJlMIUAv7uRTfSzmvClGBcqQbfBG7Zfp7E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6280
-Received-SPF: pass client-ip=40.107.21.134;
+X-MS-Exchange-CrossTenant-UserPrincipalName: CGKRiszOt7DtBq/5rSiXWG0N3vtdODXi+/RfqpiF5Jfm8jg862LdgyF0XcpBbkVmcMZXlWllkjYcFBMWZwNbvXV7S1jBHqhGrhH9uem3pxg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2610
+Received-SPF: pass client-ip=40.107.3.107;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -148,321 +150,183 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 17.03.2021 20:15, Alberto Garcia wrote:
-> When the x-blockdev-reopen was added it allowed reconfiguring the
-> graph by replacing backing files, but changing the 'file' option was
-> forbidden. Because of this restriction some operations are not
-> possible, notably inserting and removing block filters.
-> 
-> This patch adds support for replacing the 'file' option. This is
-> similar to replacing the backing file and the user is likewise
-> responsible for the correctness of the resulting graph, otherwise this
-> can lead to data corruption.
-> 
 > Signed-off-by: Alberto Garcia <berto@igalia.com>
-
-In general patch looks OK for me, some comments below.
-
 > ---
->   include/block/block.h  |   1 +
->   block.c                | 119 ++++++++++++++++++++++++++---------------
->   tests/qemu-iotests/245 |   9 ++--
->   3 files changed, 81 insertions(+), 48 deletions(-)
+>   qapi/block-core.json       | 18 +++++----
+>   blockdev.c                 | 78 +++++++++++++++++++++++---------------
+>   tests/qemu-iotests/155     |  9 +++--
+>   tests/qemu-iotests/165     |  4 +-
+>   tests/qemu-iotests/245     | 27 +++++++------
+>   tests/qemu-iotests/248     |  2 +-
+>   tests/qemu-iotests/248.out |  2 +-
+>   tests/qemu-iotests/296     |  9 +++--
+>   tests/qemu-iotests/298     |  4 +-
+>   9 files changed, 92 insertions(+), 61 deletions(-)
 > 
-> diff --git a/include/block/block.h b/include/block/block.h
-> index 5eb1e4cab9..e2732a0187 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -209,6 +209,7 @@ typedef struct BDRVReopenState {
->       bool backing_missing;
->       bool replace_backing_bs;  /* new_backing_bs is ignored if this is false */
->       BlockDriverState *old_backing_bs; /* keep pointer for permissions update */
-> +    BlockDriverState *old_file_bs;    /* keep pointer for permissions update */
->       QDict *options;
->       QDict *explicit_options;
->       void *opaque;
-> diff --git a/block.c b/block.c
-> index 764cdbec7d..8ff0afd77b 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -98,7 +98,7 @@ static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
->   
->   static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
->                                  BlockReopenQueue *queue,
-> -                               Transaction *set_backings_tran, Error **errp);
-> +                               Transaction *tran, Error **errp);
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 9f555d5c1d..9150f765da 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -4181,13 +4181,15 @@
+>   ##
+>   # @x-blockdev-reopen:
+>   #
+> -# Reopens a block device using the given set of options. Any option
+> -# not specified will be reset to its default value regardless of its
+> -# previous status. If an option cannot be changed or a particular
+> +# Reopens one or more block devices using the given set of options.
+> +# Any option not specified will be reset to its default value regardless
+> +# of its previous status. If an option cannot be changed or a particular
+>   # driver does not support reopening then the command will return an
+> -# error.
+> +# error. All devices in the list are reopened in one transaction, so
+> +# if one of them fails then the whole transaction is cancelled.
+>   #
+> -# The top-level @node-name option (from BlockdevOptions) must be
+> +# The command receives a list of block devices to reopen. For each one
+> +# of them, the top-level @node-name option (from BlockdevOptions) must be
+>   # specified and is used to select the block device to be reopened.
+>   # Other @node-name options must be either omitted or set to the
+>   # current name of the appropriate node. This command won't change any
+> @@ -4207,8 +4209,8 @@
+>   #
+>   #  4) NULL: the current child (if any) is detached.
+>   #
+> -# Options (1) and (2) are supported in all cases, but at the moment
+> -# only @backing allows replacing or detaching an existing child.
+> +# Options (1) and (2) are supported in all cases. Option (3) is
+> +# supported for @file and @backing, and option (4) for @backing only.
 
-I'd not call it just "tran" to not interfere with transaction actions. Of course, reopen should be finally refactored to work cleanly on Transaction API, but that is not done yet. And here we pass a transaction pointer only to keep children modification.. So, let's make it change_child_tran, or something like this.
+A bit of it should be already updated in "[PATCH v4 2/6] block: Allow changing bs->file on reopen"
 
->   static void bdrv_reopen_commit(BDRVReopenState *reopen_state);
->   static void bdrv_reopen_abort(BDRVReopenState *reopen_state);
+>   #
+>   # Unlike with blockdev-add, the @backing option must always be present
+>   # unless the node being reopened does not have a backing file and its
+> @@ -4218,7 +4220,7 @@
+>   # Since: 4.0
+>   ##
+>   { 'command': 'x-blockdev-reopen',
+> -  'data': 'BlockdevOptions', 'boxed': true }
+> +  'data': { 'options': ['BlockdevOptions'] } }
 >   
-> @@ -4049,6 +4049,10 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
->               refresh_list = bdrv_topological_dfs(refresh_list, found,
->                                                   state->old_backing_bs);
->           }
-> +        if (state->old_file_bs) {
-> +            refresh_list = bdrv_topological_dfs(refresh_list, found,
-> +                                                state->old_file_bs);
+>   ##
+>   # @blockdev-del:
+> diff --git a/blockdev.c b/blockdev.c
+> index 825d40aa11..7019397b05 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -3580,46 +3580,64 @@ fail:
+>       visit_free(v);
+>   }
+>   
+> -void qmp_x_blockdev_reopen(BlockdevOptions *options, Error **errp)
+> +void qmp_x_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
+>   {
+> -    BlockDriverState *bs;
+> -    AioContext *ctx;
+> -    QObject *obj;
+> -    Visitor *v = qobject_output_visitor_new(&obj);
+> -    BlockReopenQueue *queue;
+> -    QDict *qdict;
+> +    BlockReopenQueue *queue = NULL;
+> +    GSList *aio_ctxs = NULL;
+> +    GSList *visitors = NULL;
+> +    GSList *drained = NULL;
+>   
+> -    /* Check for the selected node name */
+> -    if (!options->has_node_name) {
+> -        error_setg(errp, "node-name not specified");
+> -        goto fail;
+> -    }
+> +    /* Add each one of the BDS that we want to reopen to the queue */
+> +    for (; reopen_list != NULL; reopen_list = reopen_list->next) {
+> +        BlockdevOptions *options = reopen_list->value;
+> +        BlockDriverState *bs;
+> +        AioContext *ctx;
+> +        QObject *obj;
+> +        Visitor *v;
+> +        QDict *qdict;
+>   
+> -    bs = bdrv_find_node(options->node_name);
+> -    if (!bs) {
+> -        error_setg(errp, "Failed to find node with node-name='%s'",
+> +        /* Check for the selected node name */
+> +        if (!options->has_node_name) {
+> +            error_setg(errp, "node-name not specified");
+> +            goto fail;
 > +        }
->       }
->   
->       /*
-> @@ -4161,65 +4165,77 @@ static bool bdrv_reopen_can_attach(BlockDriverState *parent,
->    *
->    * Return 0 on success, otherwise return < 0 and set @errp.
->    */
-> -static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
-> -                                     Transaction *set_backings_tran,
-> -                                     Error **errp)
-> +static int bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
-> +                                             bool parse_file, Transaction *tran,
-> +                                             Error **errp)
->   {
->       BlockDriverState *bs = reopen_state->bs;
-> -    BlockDriverState *overlay_bs, *below_bs, *new_backing_bs;
-> +    BlockDriverState *overlay_bs, *below_bs, *new_child_bs;
-> +    BdrvChild *child = parse_file ? bs->file : bs->backing;
->       QObject *value;
->       const char *str;
->   
-> -    value = qdict_get(reopen_state->options, "backing");
-> +    value = qdict_get(reopen_state->options, parse_file ? "file" : "backing");
->       if (value == NULL) {
->           return 0;
->       }
->   
->       switch (qobject_type(value)) {
->       case QTYPE_QNULL:
-> -        new_backing_bs = NULL;
-> +        assert(!parse_file); /* The 'file' option does not allow a null value */
-> +        new_child_bs = NULL;
->           break;
->       case QTYPE_QSTRING:
->           str = qstring_get_str(qobject_to(QString, value));
-> -        new_backing_bs = bdrv_lookup_bs(NULL, str, errp);
-> -        if (new_backing_bs == NULL) {
-> +        new_child_bs = bdrv_lookup_bs(NULL, str, errp);
-> +        if (new_child_bs == NULL) {
->               return -EINVAL;
-> -        } else if (bdrv_recurse_has_child(new_backing_bs, bs)) {
-> -            error_setg(errp, "Making '%s' a backing file of '%s' "
-> -                       "would create a cycle", str, bs->node_name);
-> +        } else if (bdrv_recurse_has_child(new_child_bs, bs)) {
-> +            error_setg(errp, "Making '%s' a %s of '%s' would create a cycle",
-> +                       str, parse_file ? "file" : "backing file",
-
-maybe s/"file"/"file child"/
-
-> +                       bs->node_name);
->               return -EINVAL;
->           }
->           break;
->       default:
-> -        /* 'backing' does not allow any other data type */
-> +        /* The options QDict has been flattened, so 'backing' and 'file'
-> +         * do not allow any other data type here. */
-
-checkpatch should complain that you didn't fix style of the comment...
-
->           g_assert_not_reached();
->       }
->   
-> -    /*
-> -     * Check AioContext compatibility so that the bdrv_set_backing_hd() call in
-> -     * bdrv_reopen_commit() won't fail.
-> -     */
-> -    if (new_backing_bs) {
-> -        if (!bdrv_reopen_can_attach(bs, bs->backing, new_backing_bs, errp)) {
-> +    /* If 'file' points to the current child then there's nothing to do */
-> +    if (child_bs(child) == new_child_bs) {
-> +        return 0;
-> +    }
 > +
-> +    /* Check AioContext compatibility */
-> +    if (new_child_bs) {
-> +        if (!bdrv_reopen_can_attach(bs, child, new_child_bs, errp)) {
->               return -EINVAL;
->           }
->       }
->   
-> -    /*
-> -     * Ensure that @bs can really handle backing files, because we are
-> -     * about to give it one (or swap the existing one)
-> -     */
-> -    if (bs->drv->is_filter) {
-> -        /* Filters always have a file or a backing child */
-> -        if (!bs->backing) {
-> -            error_setg(errp, "'%s' is a %s filter node that does not support a "
-> -                       "backing child", bs->node_name, bs->drv->format_name);
-> +    if (parse_file) {
-> +        assert(child && child->bs);
-
-I'm not sure, that we can't get children without a bs at some point.. And we have so many checks about it in the code. Probably we can drop them all? But I don't want to care to much. If this assertion fires, we'll fix a bug.
-
-> +    } else {
-> +        /*
-> +         * Ensure that @bs can really handle backing files, because we are
-> +         * about to give it one (or swap the existing one)
-> +         */
-> +        if (bs->drv->is_filter) {
-> +            /* Filters always have a file or a backing child */
-
-Probably we can assert bs->backing, as otherwise backing option should be unsupported [preexisting, not about this patch]
-
-> +            if (!bs->backing) {
-> +                error_setg(errp, "'%s' is a %s filter node "
-> +                           "that does not support a backing child",
-> +                           bs->node_name, bs->drv->format_name);
-> +                return -EINVAL;
-> +            }
-> +        } else if (!bs->drv->supports_backing) {
-
-Probably we can assert bs->drv->supports_backing, as otherwise backing option should be unsupported [preexisting, not about this patch]
-
-> +            error_setg(errp, "Driver '%s' of node '%s' "
-> +                       "does not support backing files",
-> +                       bs->drv->format_name, bs->node_name);
->               return -EINVAL;
->           }
-> -    } else if (!bs->drv->supports_backing) {
-> -        error_setg(errp, "Driver '%s' of node '%s' does not support backing "
-> -                   "files", bs->drv->format_name, bs->node_name);
-> -        return -EINVAL;
->       }
->   
->       /*
-> @@ -4238,13 +4254,13 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
->       }
->   
->       /* If we want to replace the backing file we need some extra checks */
-
-You didn't update the comment.
-
-> -    if (new_backing_bs != bdrv_filter_or_cow_bs(overlay_bs)) {
-> +    if (new_child_bs != bdrv_filter_or_cow_bs(overlay_bs)) {
->           int ret;
->   
->           /* Check for implicit nodes between bs and its backing file */
->           if (bs != overlay_bs) {
-> -            error_setg(errp, "Cannot change backing link if '%s' has "
-> -                       "an implicit backing file", bs->node_name);
-> +            error_setg(errp, "Cannot change %s link if '%s' has an implicit "
-> +                       "child", parse_file ? "file" : "backing", bs->node_name);
->               return -EPERM;
->           }
->           /*
-> @@ -4256,16 +4272,24 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
->            * with bs->drv->supports_backing == true.
->            */
->           if (bdrv_is_backing_chain_frozen(overlay_bs,
-> -                                         child_bs(overlay_bs->backing), errp))
-> +                                         bdrv_filter_or_cow_bs(overlay_bs),
-> +                                         errp))
->           {
->               return -EPERM;
->           }
-> -        reopen_state->replace_backing_bs = true;
-> -        reopen_state->old_backing_bs = bs->backing ? bs->backing->bs : NULL;
-> -        ret = bdrv_set_backing_noperm(bs, new_backing_bs, set_backings_tran,
-> -                                      errp);
-> -        if (ret < 0) {
-> -            return ret;
-> +        if (parse_file) {
-> +            /* Store the old file bs, we'll need to refresh its permissions */
-> +            reopen_state->old_file_bs = bs->file->bs;
+> +        bs = bdrv_find_node(options->node_name);
+> +        if (!bs) {
+> +            error_setg(errp, "Failed to find node with node-name='%s'",
+>                      options->node_name);
+> -        goto fail;
+> +            goto fail;
+> +        }
 > +
-> +            /* And finally replace the child */
-> +            bdrv_replace_child(bs->file, new_child_bs, tran);
+> +        v = qobject_output_visitor_new(&obj);
+> +        visitors = g_slist_prepend(visitors, v);
 
-I think that actually, we need also to update inherits_from and do refresh_limits like in bdrv_set_backing_noperm().
+I'd better just call visit_free inside the block instead of putting v to list be freed later after the block..
 
-Probably, bdrv_replace_child should do it. Probably not (there are still a lot of things to refactor in block.c :)..
-
-Hm. Also, using blockdev-reopen probably means that we are in a blockdev word, so we should not care about inherits_from here.
-
-But at least calling bdrv_refresh_limits(bs, tran, NULL) will not hurt. (or we can check an error code and honestly return it as well).
-
-
-Also, you don't create reopen_state->replace_file_bs, like for backing.. On bdrv_reopen_comnmit replace_backing_bs is used to remove corresponding options.. Shouldn't we do the same with file options?
-
-> +        } else {
-> +            reopen_state->replace_backing_bs = true;
-> +            reopen_state->old_backing_bs = child_bs(bs->backing);
-> +            ret = bdrv_set_backing_noperm(bs, new_child_bs, tran, errp);
-> +            if (ret < 0) {
-> +                return ret;
-> +            }
->           }
->       }
->   
-> @@ -4291,7 +4315,7 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
->    */
->   static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
->                                  BlockReopenQueue *queue,
-> -                               Transaction *set_backings_tran, Error **errp)
-> +                               Transaction *tran, Error **errp)
->   {
->       int ret = -1;
->       int old_flags;
-> @@ -4411,12 +4435,19 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
->        * either a reference to an existing node (using its node name)
->        * or NULL to simply detach the current backing file.
->        */
-> -    ret = bdrv_reopen_parse_backing(reopen_state, set_backings_tran, errp);
-> +    ret = bdrv_reopen_parse_file_or_backing(reopen_state, false, tran, errp);
->       if (ret < 0) {
->           goto error;
->       }
->       qdict_del(reopen_state->options, "backing");
->   
-> +    /* Allow changing the 'file' option. In this case NULL is not allowed */
-> +    ret = bdrv_reopen_parse_file_or_backing(reopen_state, true, tran, errp);
-> +    if (ret < 0) {
-> +        goto error;
-> +    }
-> +    qdict_del(reopen_state->options, "file");
 > +
->       /* Options that are not handled are only okay if they are unchanged
->        * compared to the old state. It is expected that some options are only
->        * used for the initial open, but not reopen (e.g. filename) */
-> diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-> index fc5297e268..a4d0b10e9d 100755
-> --- a/tests/qemu-iotests/245
-> +++ b/tests/qemu-iotests/245
-> @@ -146,8 +146,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
->           self.reopen(opts, {'driver': 'raw'}, "Cannot change the option 'driver'")
->           self.reopen(opts, {'driver': ''}, "Invalid parameter ''")
->           self.reopen(opts, {'driver': None}, "Invalid parameter type for 'driver', expected: string")
-> -        self.reopen(opts, {'file': 'not-found'}, "Cannot change the option 'file'")
-> -        self.reopen(opts, {'file': ''}, "Cannot change the option 'file'")
-> +        self.reopen(opts, {'file': 'not-found'}, "Cannot find device='' nor node-name='not-found'")
+> +        /* Put all options in a QDict and flatten it */
+> +        visit_type_BlockdevOptions(v, NULL, &options, &error_abort);
+> +        visit_complete(v, &obj);
+> +        qdict = qobject_to(QDict, obj);
+> +
+> +        qdict_flatten(qdict);
+> +
+> +        ctx = bdrv_get_aio_context(bs);
+> +        if (!g_slist_find(aio_ctxs, ctx)) {
+> +            aio_ctxs = g_slist_prepend(aio_ctxs, ctx);
+> +            aio_context_acquire(ctx);
+> +        }
+> +        bdrv_subtree_drained_begin(bs);
 
-Interesting that error-message say about device='', not 'not-found'...
+I expect Kevin will complain that aquiring several context and drain them all is a bad idea as it leads to deadlocks..
+For more information look at the branches
+   [PATCH v2 29/36] blockdev: qmp_x_blockdev_reopen: acquire all contexts
+amd
+   [PATCH v2 30/36] block: bdrv_reopen_multiple: refresh permissions on updated graph
 
-> +        self.reopen(opts, {'file': ''}, "Cannot find device='' nor node-name=''")
->           self.reopen(opts, {'file': None}, "Invalid parameter type for 'file', expected: BlockdevRef")
->           self.reopen(opts, {'file.node-name': 'newname'}, "Cannot change the option 'node-name'")
->           self.reopen(opts, {'file.driver': 'host_device'}, "Cannot change the option 'driver'")
-> @@ -455,7 +455,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
->           # More illegal operations
->           self.reopen(opts[2], {'backing': 'hd1'},
->                       "Making 'hd1' a backing file of 'hd2' would create a cycle")
-> -        self.reopen(opts[2], {'file': 'hd0-file'}, "Cannot change the option 'file'")
-> +        self.reopen(opts[2], {'file': 'hd0-file'},
-> +                    "Conflicts with use by hd2 as 'file', which does not allow 'write, resize' on hd0-file")
+So, probably here we should acquire context in a loop to call bdrv_reopen_queue() (which I think shoud not require drained section).
+
+And then, bdrv_reopen_multiple() is called with no aio context acquired, and no drained section.. And it shoud be refactored to properly operate with acquiring and realeasing the contexts and drained sections when needed...
+
+(note preexisting problem of reopen, that during reopen the whole tree may be moved to another aio context, but we continue operations with acquired old aio context which is wrong).
+
+
+> +        queue = bdrv_reopen_queue(queue, bs, qdict, false);
+> +        drained = g_slist_prepend(drained, bs);
+>       }
 >   
->           result = self.vm.qmp('blockdev-del', conv_keys = True, node_name = 'hd2')
->           self.assert_qmp(result, 'error/class', 'GenericError')
-> @@ -969,7 +970,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+> -    /* Put all options in a QDict and flatten it */
+> -    visit_type_BlockdevOptions(v, NULL, &options, &error_abort);
+> -    visit_complete(v, &obj);
+> -    qdict = qobject_to(QDict, obj);
+> -
+> -    qdict_flatten(qdict);
+> -
+>       /* Perform the reopen operation */
+> -    ctx = bdrv_get_aio_context(bs);
+> -    aio_context_acquire(ctx);
+> -    bdrv_subtree_drained_begin(bs);
+> -    queue = bdrv_reopen_queue(NULL, bs, qdict, false);
+>       bdrv_reopen_multiple(queue, errp);
+> -    bdrv_subtree_drained_end(bs);
+> -    aio_context_release(ctx);
+> +    queue = NULL;
 >   
->           # We can't remove hd1 while the commit job is ongoing
->           opts['backing'] = None
-> -        self.reopen(opts, {}, "Cannot change backing link if 'hd0' has an implicit backing file")
-> +        self.reopen(opts, {}, "Cannot change backing link if 'hd0' has an implicit child")
+>   fail:
+> -    visit_free(v);
+> +    bdrv_reopen_queue_free(queue);
+> +    g_slist_free_full(drained, (GDestroyNotify) bdrv_subtree_drained_end);
+> +    g_slist_free_full(aio_ctxs, (GDestroyNotify) aio_context_release);
+> +    g_slist_free_full(visitors, (GDestroyNotify) visit_free);
+>   }
 >   
->           # hd2 <- hd0
->           self.vm.run_job('commit0', auto_finalize = False, auto_dismiss = True)
-> 
+
 
 -- 
 Best regards,
