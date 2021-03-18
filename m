@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00968340869
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:07:18 +0100 (CET)
-Received: from localhost ([::1]:60346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF2C340885
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:15:01 +0100 (CET)
+Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMuF3-0000tf-23
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36528)
+	id 1lMuMW-0001ug-3F
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMu8o-0005Z1-T2
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:00:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34072)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMuBf-0007UI-2o
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:03:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMu8l-0005bZ-Gc
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:00:49 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMuBd-0007EH-EG
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:03:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616079645;
+ s=mimecast20190719; t=1616079824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wlKHFHC0Q0JoUnvY6Xg/B0UUnONgzKq6R19/MfSXZJg=;
- b=blqtNE7CFaL+x5mFH3Yuze6I7+GbJxPdoIW8vhCRlsdOAk6YQUcsDm0Ma/BHY/KxHKzS8f
- DWKxgKix6NoVBe5tbvtk/HwFjUbWt2o9SV8Jn4+emQcqMzEazp/lhHNZC1FJGwq2JrrYTJ
- YEqBOhBA8NBqepbWsEQKX/2Q0pQ8Jhw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-v16nf2eiNC-I8tB4kvN7iA-1; Thu, 18 Mar 2021 11:00:43 -0400
-X-MC-Unique: v16nf2eiNC-I8tB4kvN7iA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DCA8107BA67
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 15:00:25 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE86667879
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 15:00:24 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/i386: svm: do not discard high 32 bits of EXITINFO1
-Date: Thu, 18 Mar 2021 11:00:22 -0400
-Message-Id: <20210318150022.1824646-4-pbonzini@redhat.com>
-In-Reply-To: <20210318150022.1824646-1-pbonzini@redhat.com>
-References: <20210318150022.1824646-1-pbonzini@redhat.com>
+ bh=Zy/+Q8zISyB0mTrv88w+N3/y0KdjuUg/Wu75gygO9N8=;
+ b=Z20SiJHYt7/6v/JZJ34ZnXvqGonhN3BKwX9yhA2Jk4Y+GJE2rk39ai9xWLwnYlnem+xBC/
+ TAHzROJng53u5xKHbB0/z/1peap+hScHvo2hK1281aWQHNyiz7xsd1BvuhmK16Xs2tZJWd
+ dnLNTq1+j5bOvSDtq3cKj/AnDVq6XUw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-g06kRKrsNBOcsVSh2Jju8Q-1; Thu, 18 Mar 2021 11:03:40 -0400
+X-MC-Unique: g06kRKrsNBOcsVSh2Jju8Q-1
+Received: by mail-wm1-f72.google.com with SMTP id k132so1872472wma.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:03:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Zy/+Q8zISyB0mTrv88w+N3/y0KdjuUg/Wu75gygO9N8=;
+ b=dtPZS8f2zK0Kl8JvyqEnjiSnQ0OvghdAKmmSil6neVRzVovbop/itRv4Jft/FRc04G
+ OT3Nv2EdbnPKM3ZHcvAubeX45+ksll7ThXJIkktKW8VeQDhVZD1l/hKCRRbwEALUMcHs
+ LMkZu5D2pRI9SSCeG0XlD+r+IDAr1mwujfLkipAAXzoKXafglZMRIbL4nwj1PxtXBTRv
+ fSB2v9TCOGnJSLpwKsJSbdJjpjEsdWPUrB8c+D4hQEB0GZolg6yvlC6ulN7KZylHtcHW
+ 7hQuHoS/+wzvruOJh6ZoWiy1FMB16LtxwMM77FI64rtoVthVgKavo4HM3EthMvITv3xU
+ TNIg==
+X-Gm-Message-State: AOAM531SJq15H4AR32wr98O5H+gTEhVYCh+exxYGpPcWcBeNQ0tb9UKZ
+ /N2By9+2RsYqwyp90L4nZJp7fepH0picd/iOh4lc6NIc8LuK1LOdHULIyNq1LRRCtkVeq55qQnq
+ 08AIP5LId6BhMgPg=
+X-Received: by 2002:a5d:67c8:: with SMTP id n8mr10181473wrw.351.1616079818486; 
+ Thu, 18 Mar 2021 08:03:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzb18N5ibFzgS7xhc3dEge9XtaPjU0LKFp9LTlp/KVlEhTFJ9Pw0uX5hKn32TFgtBkqTx/dA==
+X-Received: by 2002:a5d:67c8:: with SMTP id n8mr10181452wrw.351.1616079818270; 
+ Thu, 18 Mar 2021 08:03:38 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id w11sm3311253wrv.88.2021.03.18.08.03.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 08:03:37 -0700 (PDT)
+Subject: Re: "make check" broken with everything but tools disabled
+To: Claudio Fontana <cfontana@suse.de>, Markus Armbruster
+ <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <877dm7jkib.fsf@dusky.pond.sub.org>
+ <42de1769-e1c3-0486-b434-88813aec8ef4@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <76bb34a6-d12a-5909-04b0-fbc6dcf71e4f@redhat.com>
+Date: Thu, 18 Mar 2021 16:03:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <42de1769-e1c3-0486-b434-88813aec8ef4@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,91 +99,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-env->error_code is only 32-bits wide, so the high 32 bits of EXITINFO1
-are being lost.  However, even though saving guest state and restoring
-host state must be delayed to do_vmexit, because they might take tb_lock,
-it is always possible to write to the VMCB.  So do this for the exit
-code and EXITINFO1, just like it is already being done for EXITINFO2.
+On 3/18/21 10:16 AM, Claudio Fontana wrote:
+> On 3/16/21 2:28 PM, Markus Armbruster wrote:
+>> Watch this:
+>>
+>>     $ mkdir bld-tools
+>>     $ cd bld-tools
+>>     $ ../configure --disable-system --disable-user --enable-tools
+>>     $ make check
+>>     [...]
+>>     make: *** No rule to make target 'tests/qemu-iotests/socket_scm_helper', needed by 'check-block'.  Stop.
+>>
+>>
+> 
+> Hi Markus,
+> 
+> I can reproduce this error too.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/helper-tcg.h |  2 +-
- target/i386/tcg/seg_helper.c |  4 ++--
- target/i386/tcg/svm_helper.c | 15 +++++++--------
- 3 files changed, 10 insertions(+), 11 deletions(-)
+I'm having a slightly different one:
 
-diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
-index ef60e2e04b..bcdfca06f6 100644
---- a/target/i386/tcg/helper-tcg.h
-+++ b/target/i386/tcg/helper-tcg.h
-@@ -80,7 +80,7 @@ void cpu_load_eflags(CPUX86State *env, int eflags, int update_mask);
- /* svm_helper.c */
- void QEMU_NORETURN cpu_vmexit(CPUX86State *nenv, uint32_t exit_code,
-                               uint64_t exit_info_1, uintptr_t retaddr);
--void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
-+void do_vmexit(CPUX86State *env);
- 
- /* seg_helper.c */
- void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 180d47f0e9..d180a381d1 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -1305,9 +1305,9 @@ void x86_cpu_do_interrupt(CPUState *cs)
-     /* successfully delivered */
-     env->old_exception = -1;
- #else
--    if (cs->exception_index >= EXCP_VMEXIT) {
-+    if (cs->exception_index == EXCP_VMEXIT) {
-         assert(env->old_exception == -1);
--        do_vmexit(env, cs->exception_index - EXCP_VMEXIT, env->error_code);
-+        do_vmexit(env);
-     } else {
-         do_interrupt_all(cpu, cs->exception_index,
-                          env->exception_is_int,
-diff --git a/target/i386/tcg/svm_helper.c b/target/i386/tcg/svm_helper.c
-index 097bb9b83d..0145afceae 100644
---- a/target/i386/tcg/svm_helper.c
-+++ b/target/i386/tcg/svm_helper.c
-@@ -621,15 +621,19 @@ void cpu_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1,
-                                                    control.exit_info_2)),
-                   env->eip);
- 
--    cs->exception_index = EXCP_VMEXIT + exit_code;
--    env->error_code = exit_info_1;
-+    cs->exception_index = EXCP_VMEXIT;
-+    x86_stq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.exit_code),
-+             exit_code);
-+
-+    x86_stq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-+                                             control.exit_info_1), exit_info_1),
- 
-     /* remove any pending exception */
-     env->old_exception = -1;
-     cpu_loop_exit(cs);
- }
- 
--void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1)
-+void do_vmexit(CPUX86State *env)
- {
-     CPUState *cs = env_cpu(env);
-     uint32_t int_ctl;
-@@ -762,11 +766,6 @@ void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1)
-                           env->vm_hsave + offsetof(struct vmcb, save.dr7));
- 
-     /* other setups */
--    x86_stq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.exit_code),
--             exit_code);
--    x86_stq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.exit_info_1),
--             exit_info_1);
--
-     x86_stl_phys(cs,
-              env->vm_vmcb + offsetof(struct vmcb, control.exit_int_info),
-              x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--- 
-2.26.2
+$ make check-block
+/home/phil/.local/bin/meson introspect --targets --tests --benchmarks |
+/usr/bin/python3 -B scripts/mtest2make.py > Makefile.mtest
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+No such file: tests/qemu-iotests/../../qemu-img
+make: *** [/home/phil/source/qemu/tests/Makefile.include:148:
+check-block] Error 1
+
+Apparently I was luckier because still having an old socket_scm_helper
+built, not sure this is a good thing or not...
+
+$ ls -l tests/qemu-iotests/socket_scm_helper
+-rwxr-xr-x. 1 phil root   28824 Mar  3 15:50
+tests/qemu-iotests/socket_scm_helper
 
 
