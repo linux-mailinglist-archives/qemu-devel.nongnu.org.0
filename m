@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABFD340BEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:34:56 +0100 (CET)
-Received: from localhost ([::1]:54608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEFE340BDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:32:18 +0100 (CET)
+Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMwXv-0005eY-S4
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
+	id 1lMwVM-0003TQ-Qv
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMwHS-00086o-Hi; Thu, 18 Mar 2021 13:17:58 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lMwHM-0003UU-LK; Thu, 18 Mar 2021 13:17:51 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id d191so4037084wmd.2;
- Thu, 18 Mar 2021 10:17:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=lrS7Aw5DtJd9sevZH8Huf1a0LQjcDF4Jk2pWO2cbdFmZujJVhEpVq5mpQyoYdrXgzX
- D13gwXZNFVljl4dUDJhj+dwjqBS1I9hfarZi75c49aovSxntQtsJAQI4I3gy37hRf/mL
- P1lbsRPnCbYFYxTDfdUAc1zysJYWJpgKOILs1ldGKuMe/weyU8qR8bqA/UAe0jxg1pjQ
- JF+9GPRylX0vBC1bdzpUsY8aRoBkFJekYhGT1sUt0lkRsp0GW05X3mKdri71W5pjolP4
- KvZ1BqSm8bObP+75Hb8BThbM+ZhnXwad6y+jLQICl8VcC8fY5uO7TXPm729VPCxRKGg6
- ityQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:from:subject:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
- b=uMUeNfb6LAXWwSjxssuSCDtDJWrS1kJDUtK2Moro265V5piKX0fz5EWXO4bLAJkdGn
- Z964vKQi2bF32vSGZWdTKa8kZCJ6+ItwAhyRSeIDcWVxBYt0ApnvOnOF8wPR8JZN1hAu
- +zLFj9pPo1VpZAuptpTgob5T7jUr6amAPMxeFeFxgRgY8OTwx77LZbTYv8WV19V9N7Gp
- iG49HjrcFm97XQWHRWXN0eyQAjh8l43AcPmSFanDnxETlHzwuk5XU0ZmHXZEjKo2Fpyo
- GLTVYykSlGRPj+l9iAySZCcRuqSQ96lS+mAahB30vCHNmJROP3ZC9xyEiFES1mDRcn+r
- iEmA==
-X-Gm-Message-State: AOAM5325xHdbq+dKf8ZUoswU8kOFvIaJEPbF8C0mp56pxeB0Hq3PfviQ
- KoUS5NyyftjRyOJOrNFLoBHCBZWUqIE=
-X-Google-Smtp-Source: ABdhPJwvRvbeLBpg4BEunV+ewmxUrgDpClPnQmnZVBKCPvAKCHyV9ztqHjT0n9VCkzbNDVsLburX8A==
-X-Received: by 2002:a7b:c409:: with SMTP id k9mr169766wmi.151.1616087866769;
- Thu, 18 Mar 2021 10:17:46 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id 1sm7274268wmj.0.2021.03.18.10.17.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 10:17:46 -0700 (PDT)
-To: qemu-devel <qemu-devel@nongnu.org>
-From: Paolo Bonzini <bonzini@gnu.org>
-Subject: [not a patch] sorry folks this is the last test
-Message-ID: <48b9c36d-5c89-aec8-a258-44990c2eeeb3@gnu.org>
-Date: Thu, 18 Mar 2021 18:17:42 +0100
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMwSJ-0000xy-4H
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:29:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57066)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMwSF-0008TJ-BS
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:29:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616088542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fvA/9ajhHrOSAA6HXAhzhFAR24uudFHN6ZHTyvIziEw=;
+ b=AWXXKrNw1CPEFvT9nGJ9uPTDAP5J+uAchriz6x9iydt2rjJT1QiyN9IJO5y4NlX9lGh6iC
+ 9fOYa7sYzIvqeR2mGBYGLwSzxbQ7SJ50uHQ5ZbxLi1Vu8ufJb0LUdU2NCxzkW+mgysAnUT
+ 0UlcXpogK2DUE/C/cI79hjPHZxsLLXA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-mV5zejV-N1CnKI0Q93QLRA-1; Thu, 18 Mar 2021 13:28:59 -0400
+X-MC-Unique: mV5zejV-N1CnKI0Q93QLRA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC25D800FF0;
+ Thu, 18 Mar 2021 17:28:57 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-113.ams2.redhat.com
+ [10.36.113.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 20F955C1D1;
+ Thu, 18 Mar 2021 17:28:55 +0000 (UTC)
+Subject: Re: [PULL 5/5] m68k: add Virtual M68k Machine
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Qemu-block <qemu-block@nongnu.org>
+References: <20210315204226.3481044-1-laurent@vivier.eu>
+ <20210315204226.3481044-6-laurent@vivier.eu>
+ <2730eee0-6f1b-2139-f93c-6a0a64727e29@redhat.com>
+ <905c797a-25c3-bb43-5946-54b28d9530c0@vivier.eu>
+ <d515dabd-b84d-5aa3-0bf5-d824bdc7da6e@redhat.com>
+ <ffa12ba8-4988-b464-2267-5d14c59b43ab@vivier.eu>
+ <b06c176d-c4ab-6c27-c96f-0bf27f7fd036@redhat.com>
+ <27c791b2-dcc0-6c98-d765-ac1b60b7af3d@vivier.eu>
+ <0d55cabf-0fa0-f9fd-6436-de2e03422329@vivier.eu>
+ <0b3cedb8-f40a-18fd-5030-a596afb9298d@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <82f6dc3e-18bf-f90a-7e43-5568b319767c@redhat.com>
+Date: Thu, 18 Mar 2021 18:28:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <0b3cedb8-f40a-18fd-5030-a596afb9298d@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: 29
-X-Spam_score: 2.9
-X-Spam_bar: ++
-X-Spam_report: (2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, PDS_TONAME_EQ_TOLOCAL_SHORT=1.999,
- PDS_TONAME_EQ_TOLOCAL_VSHORT=0.999, PYZOR_CHECK=1.392,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,7 +92,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+On 18.03.21 17:25, Philippe Mathieu-Daudé wrote:
+> On 3/18/21 4:56 PM, Laurent Vivier wrote:
+>> Le 18/03/2021 à 16:51, Laurent Vivier a écrit :
+>>> Le 18/03/2021 à 16:36, Philippe Mathieu-Daudé a écrit :
+>>>> On 3/18/21 11:06 AM, Laurent Vivier wrote:
+>>>>> Le 18/03/2021 à 11:02, Philippe Mathieu-Daudé a écrit :
+>>>>>> On 3/18/21 10:52 AM, Laurent Vivier wrote:
+>>>>>>> Le 18/03/2021 à 10:19, Philippe Mathieu-Daudé a écrit :
+>>>>>>>> Hi Laurent,
+>>>>>>>>
+>>>>>>>> +Paolo / Thomas
+>>>>>>>>
+>>>>>>>> On 3/15/21 9:42 PM, Laurent Vivier wrote:
+>>>>>>>>> The machine is based on Goldfish interfaces defined by Google
+>>>>>>>>> for Android simulator. It uses Goldfish-rtc (timer and RTC),
+>>>>>>>>> Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).
+>>>>>>>>>
+>>>>>>>>> The machine is created with 128 virtio-mmio bus, and they can
+>>>>>>>>> be used to use serial console, GPU, disk, NIC, HID, ...
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>>>>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>>>>>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>>>>> Message-Id: <20210312214145.2936082-6-laurent@vivier.eu>
+>>>>>>>>> ---
+>>>>>>>>>   default-configs/devices/m68k-softmmu.mak      |   1 +
+>>>>>>>>>   .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +
+>>>>>>>>>   hw/m68k/virt.c                                | 313 ++++++++++++++++++
+>>>>>>>>>   MAINTAINERS                                   |  13 +
+>>>>>>>>>   hw/m68k/Kconfig                               |   9 +
+>>>>>>>>>   hw/m68k/meson.build                           |   1 +
+>>>>>>>>>   6 files changed, 355 insertions(+)
+>>>>>>>>>   create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h
+>>>>>>>>>   create mode 100644 hw/m68k/virt.c
+>>>>>>>>
+>>>>>>>>> diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
+>>>>>>>>> index 60d7bcfb8f2b..f839f8a03064 100644
+>>>>>>>>> --- a/hw/m68k/Kconfig
+>>>>>>>>> +++ b/hw/m68k/Kconfig
+>>>>>>>>> @@ -23,3 +23,12 @@ config Q800
+>>>>>>>>>       select ESP
+>>>>>>>>>       select DP8393X
+>>>>>>>>>       select OR_IRQ
+>>>>>>>>> +
+>>>>>>>>> +config M68K_VIRT
+>>>>>>>>> +    bool
+>>>>>>>>> +    select M68K_IRQC
+>>>>>>>>> +    select VIRT_CTRL
+>>>>>>>>> +    select GOLDFISH_PIC
+>>>>>>>>> +    select GOLDFISH_TTY
+>>>>>>>>> +    select GOLDFISH_RTC
+>>>>>>>>> +    select VIRTIO_MMIO
+>>>>>>>>
+>>>>>>>> I had this error on gitlab:
+>>>>>>>>
+>>>>>>>> (qemu) QEMU_PROG: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=virtio:
+>>>>>>>> 'virtio-blk-pci' is not a valid device model name
+>>>>>>>> job: check-system-fedora
+>>>>>>>> https://gitlab.com/philmd/qemu/-/jobs/1106469724
+>>>>>>>>
+>>>>>>>> I bisected locally to this commit.
+>>>>>>>>
+>>>>>>>> check-system-fedora uses build-system-fedora:
+>>>>>>>>
+>>>>>>>> build-system-fedora:
+>>>>>>>>      CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
+>>>>>>>>               --enable-fdt=system --enable-slirp=system
+>>>>>>>>               --enable-capstone=system
+>>>>>>>>
+>>>>>>>> I'm confused because the machine provides a VIRTIO bus
+>>>>>>>> via MMIO:
+>>>>>>>>
+>>>>>>>> config VIRTIO_MMIO
+>>>>>>>>      bool
+>>>>>>>>      select VIRTIO
+>>>>>>>>
+>>>>>>>> I remember I tested your machine with virtio-blk-device.
+>>>>>>>>
+>>>>>>>> config VIRTIO_BLK
+>>>>>>>>      bool
+>>>>>>>>      default y
+>>>>>>>>      depends on VIRTIO
+>>>>>>>>
+>>>>>>>> Ah, this is virtio-blk-pci, which has:
+>>>>>>>>
+>>>>>>>> virtio_pci_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true:
+>>>>>>>> files('virtio-blk-pci.c'))
+>>>>>>>> virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
+>>>>>>>>
+>>>>>>>> And VIRTIO_PCI isn't selected...
+>>>>>>>
+>>>>>>> This machine doesn't have virtio-pci, but only virtio-mmio buses.
+>>>>>>
+>>>>>> Yes. I meant "VIRTIO_PCI isn't selected, which is the correct config
+>>>>>> for this machine". So the problem isn't the m68k-virt machine addition,
+>>>>>> but it shows another problem elsewhere.
+>>>>>>
+>>>>>>>> Are the tests incorrect then?
+>>>>>>>>
+>>>>>>>> libqos isn't restricted to PCI:
+>>>>>>>>
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:24:#include "virtio-blk.h"
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:29:/* virtio-blk-device */
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:33:    if (!g_strcmp0(interface,
+>>>>>>>> "virtio-blk")) {
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:40:    fprintf(stderr, "%s not present
+>>>>>>>> in virtio-blk-device\n", interface);
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:109:    /* virtio-blk-device */
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:111:
+>>>>>>>> qos_node_create_driver("virtio-blk-device", virtio_blk_device_create);
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:112:
+>>>>>>>> qos_node_consumes("virtio-blk-device", "virtio-bus", &opts);
+>>>>>>>> tests/qtest/libqos/virtio-blk.c:113:
+>>>>>>>> qos_node_produces("virtio-blk-device", "virtio-blk");
+>>>>>>>>
+>>>>>>>> But qemu-iotests / qtests do use virtio-blk-pci. Maybe they should
+>>>>>>>> use a generic virtio-blk-device instead, hoping it get plugged correctly
+>>>>>>>> to the virtio bus...
+>>>>>>>
+>>>>>>> Yes, it's how the machine work: it has 128 virtio-mmio buses and virtio-devices are plugged directly
+>>>>>>> in the first free ones.
+>>>>>>>
+>>>>>>> I think the fix would be to disable the virtio-blk-pci test for the machines without PCI bus.
+>>>>>>>
+>>>>>>> Why is it executed for now?
+>>>>>>
+>>>>>> This is probably the problem root cause.
+>>>>>>
+>>>>>> Possible fix:
+>>>>>>
+>>>>>> -->8 --
+>>>>>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>>>>>> index 66ee9fbf450..d7f3fad51c1 100644
+>>>>>> --- a/tests/qtest/meson.build
+>>>>>> +++ b/tests/qtest/meson.build
+>>>>>> @@ -217,13 +217,17 @@
+>>>>>>     'emc141x-test.c',
+>>>>>>     'usb-hcd-ohci-test.c',
+>>>>>>     'virtio-test.c',
+>>>>>> -  'virtio-blk-test.c',
+>>>>>> -  'virtio-net-test.c',
+>>>>>> -  'virtio-rng-test.c',
+>>>>>> -  'virtio-scsi-test.c',
+>>>>>>     'virtio-serial-test.c',
+>>>>>>     'vmxnet3-test.c',
+>>>>>>   )
+>>>>>> +if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
+>>>>>> +  qos_test_ss.add(
+>>>>>> +    'virtio-blk-test.c',
+>>>>>> +    'virtio-net-test.c',
+>>>>>> +    'virtio-rng-test.c',
+>>>>>> +    'virtio-scsi-test.c',
+>>>>>> +  )
+>>>>>> +endif
+>>>>>>   if have_virtfs
+>>>>>>     qos_test_ss.add(files('virtio-9p-test.c'))
+>>>>>>   endif
+>>>>>> ---
+>>>>>>
+>>>>>> I'll test that locally but not on Gitlab.
+>>>>
+>>>> This approach doesn't work for the iotests.
+>>>>
+>>>>> This also removes the virtio-devices test, I think we should keep the files, but in the files to
+>>>>> disable the PCI part when it is not available.
+>>>> I don't understand how the virtio devices are created, it seems there
+>>>> is an alias to generic virtio hw that map to the arch virtio bus.
+>>>>
+>>>> I was not obvious to understand why start the virt machine with
+>>>> "-device virtio-blk" returns "'virtio-blk-pci' is not a valid device
+>>>> model name" at first, then I figured out the qdev_alias_table array.
+>>>>
+>>>> Maybe you need to complete it for your arch? I've been using that:
+>>>>
+>>>> -- >8 --
+>>>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>>>> index 8dc656becca..b326bd76c2a 100644
+>>>> --- a/softmmu/qdev-monitor.c
+>>>> +++ b/softmmu/qdev-monitor.c
+>>>> @@ -65,8 +65,10 @@ static const QDevAlias qdev_alias_table[] = {
+>>>>       { "virtio-balloon-ccw", "virtio-balloon", QEMU_ARCH_S390X },
+>>>>       { "virtio-balloon-pci", "virtio-balloon",
+>>>>               QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
+>>>> +    { "virtio-blk-device", "virtio-blk", QEMU_ARCH_M68K },
+>>>>       { "virtio-blk-ccw", "virtio-blk", QEMU_ARCH_S390X },
+>>>> -    { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
+>>>> +    { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_ALL
+>>>> +                                      & ~(QEMU_ARCH_S390X |
+>>>> QEMU_ARCH_M68K) },
+>>>>       { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_S390X },
+>>>>       { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
+>>>>       { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_S390X },
+>>>> @@ -84,8 +86,10 @@ static const QDevAlias qdev_alias_table[] = {
+>>>>       { "virtio-rng-pci", "virtio-rng", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
+>>>>       { "virtio-scsi-ccw", "virtio-scsi", QEMU_ARCH_S390X },
+>>>>       { "virtio-scsi-pci", "virtio-scsi", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
+>>>> +    { "virtio-serial-device", "virtio-serial", QEMU_ARCH_M68K },
+>>>>       { "virtio-serial-ccw", "virtio-serial", QEMU_ARCH_S390X },
+>>>> -    { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_ALL &
+>>>> ~QEMU_ARCH_S390X },
+>>>> +    { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_ALL
+>>>> +                                            & ~(QEMU_ARCH_S390X |
+>>>> QEMU_ARCH_M68K)},
+>>>>       { "virtio-tablet-ccw", "virtio-tablet", QEMU_ARCH_S390X },
+>>>>       { "virtio-tablet-pci", "virtio-tablet", QEMU_ARCH_ALL &
+>>>> ~QEMU_ARCH_S390X },
+>>>>       { }
+>>>> ---
+>>>>
+>>>> But this looks ugly, I don't think it should work that way (because
+>>>> a machine could provide virtio buses over multiple transport, mmio
+>>>> and pci...).
+>>>
+>>> IMHO, this looks like the solution.
+>>>
+>>> The alias is to define the prefered way, on PCI it's the -pci one otherwise it is the -device one.
+>>
+>> See:
+>>
+>> commit 5f629d943cb0b11c37a891cf4f40a9166aee6f53
+>> Author: Alexander Graf <agraf@csgraf.de>
+>> Date:   Fri May 18 02:36:26 2012 +0200
+>>
+>>      s390x: fix s390 virtio aliases
+>>
+>>      Some of the virtio devices have the same frontend name, but actually
+>>      implement different devices behind the scenes through aliases.
+>>
+>>      The indicator which device type to use is the architecture. On s390, we
+>>      want s390 virtio devices. On everything else, we want PCI devices.
+>>
+>>      Reflect this in the alias selection code. This way we fix commands like
+>>      -device virtio-blk on s390x which with this patch applied select the
+>>      correct virtio-blk-s390 device rather than virtio-blk-pci.
+>>
+>>      Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>>      Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+>>      Signed-off-by: Alexander Graf <agraf@suse.de>
+> 
+> So now than MMIO is available, we hit the "everything else" limit :)
+> 
+> The other function I had to modify is in tests/qemu-iotests/iotests.py:
+> 
+>    def get_virtio_scsi_device():
+>        if qemu_default_machine == 's390-ccw-virtio':
+>            return 'virtio-scsi-ccw'
+>        return 'virtio-scsi-pci'
+> 
+> But Max said there is no interest in testing the block devices here
+> (here = archs providing virtio via MMIO such ARM/m68k).
+
+(To elaborate on my perspective)
+
+I’m not exactly sure what you mean by this, i.e. whether you mean that 
+we don’t want to test at all on that target, or that we don’t want to 
+test specific devices.
+
+The former is not entirely true (but in practice kind of), the latter I 
+think is true.
+
+I think we’d like to be able to provide developers the ability to run 
+the iotests whatever target they’re working on, except where it’s just 
+too complicated to do and nobody cares.  The obvious problem is that 
+often nobody cares, so there’s a low threshold to disabling stuff.  (On 
+s390, there was some pain, but people did care, so that’s a 
+counter-story.)  The threshold is especially low if it’s just to silence 
+CI, obviously.
+
+The thing to note is that at least most iotests are not there to test 
+the guest device, but rather the block layer; and the block layer is 
+pretty much the same for every target, so there isn’t a big incentive 
+for the block layer developers to have it run it on different targets. 
+(I can’t rule out the possibility of a target-specific bug in how the 
+block layer is used, which the iotests might reveal, but I don’t 
+remember something like that to have happened so far.)
+
+ From that it follows that I don’t see much use in testing specific 
+devices either.  Say there’s a platform that provides both virtio-pci 
+and virtio-mmio, the default (say virtio-pci) is fine for the iotests. 
+I see little value in testing virtio-mmio as well.  (Perhaps I’m 
+short-sighted, though.)
+
+Max
 
 
