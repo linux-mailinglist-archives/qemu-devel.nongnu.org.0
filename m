@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0ECC34023A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:38:51 +0100 (CET)
-Received: from localhost ([::1]:37710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8888234023B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:39:10 +0100 (CET)
+Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMp7C-00007h-Ok
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38744)
+	id 1lMp7V-0000it-Jw
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMozu-0007cR-8a
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49470)
+ id 1lMp0L-0007j7-It
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMozr-0003Nu-4g
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:17 -0400
+ id 1lMp0D-0003aO-LI
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616059874;
+ s=mimecast20190719; t=1616059897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tZjK5InZ3EXD0maVDHC9kQTXNLmEi/MZBQqAomULPJc=;
- b=C7KYWJ6lAKJoeXsIlrb5j36qE83mTKWTMey6TvhP6+XUfwRG/Di0P2QMv+0RKGfW1ufaxV
- YvEfXsmdJRm2MY7+AuB2wOOYo+k16CR2d+XOrBBvN/rBQVhBvgQoRrle0jWBIcWIPpoYXa
- +KOtwryfpom/VsB0pTA9K5pJgxFDKnM=
+ bh=OuwoOMezitus7BBNFbdAJmKNupzsz77z9WUDoTQTwOk=;
+ b=YuOxMaxHg3v+DKcdDFzne7DUbMc3Co20oKbuwCpI/dTICA09yi9Vhw045pLOCZRm2bkbqh
+ OWyN+nFlK/yGlBEl5pd7vaaZCUf4UwHmld8fQXZSzvUUNJOEmojA+8W5c391eE4gCmK0Nm
+ eSPKwQQjq3tzSA0W6Wje9iXCRsOTHmY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-5HCe5s9GPfGDx31XzAhl-A-1; Thu, 18 Mar 2021 05:31:13 -0400
-X-MC-Unique: 5HCe5s9GPfGDx31XzAhl-A-1
+ us-mta-199-_UcZZe7ZO_6VPnO5dL_g9A-1; Thu, 18 Mar 2021 05:31:35 -0400
+X-MC-Unique: _UcZZe7ZO_6VPnO5dL_g9A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E6B987A83F;
- Thu, 18 Mar 2021 09:31:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B74D710866A6;
+ Thu, 18 Mar 2021 09:31:33 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-61.ams2.redhat.com
  [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E46862951;
- Thu, 18 Mar 2021 09:30:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB6CC62951;
+ Thu, 18 Mar 2021 09:31:11 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] block: remove 'dirty-bitmaps' field from 'BlockInfo'
- struct
-Date: Thu, 18 Mar 2021 09:25:11 +0000
-Message-Id: <20210318092512.250725-13-berrange@redhat.com>
+Subject: [PULL 13/13] block: remove support for using "file" driver with
+ block/char devices
+Date: Thu, 18 Mar 2021 09:25:12 +0000
+Message-Id: <20210318092512.250725-14-berrange@redhat.com>
 In-Reply-To: <20210318092512.250725-1-berrange@redhat.com>
 References: <20210318092512.250725-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,206 +100,121 @@ Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The same data is available in the 'BlockDeviceInfo' struct.
+The 'host_device' and 'host_cdrom' drivers must be used instead.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- block/qapi.c                                        |  5 -----
- docs/system/deprecated.rst                          | 13 -------------
- docs/system/removed-features.rst                    |  9 +++++++++
- qapi/block-core.json                                | 11 +----------
- tests/qemu-iotests/194                              |  4 ++--
- tests/qemu-iotests/236                              |  2 +-
- tests/qemu-iotests/246                              |  3 ++-
- tests/qemu-iotests/254                              |  2 +-
- tests/qemu-iotests/260                              |  5 +++--
- .../tests/migrate-bitmaps-postcopy-test             |  6 ++++--
- 10 files changed, 23 insertions(+), 37 deletions(-)
+ block/file-posix.c               | 17 ++++++-----------
+ docs/system/deprecated.rst       |  7 -------
+ docs/system/removed-features.rst |  7 +++++++
+ tests/qemu-iotests/226.out       | 10 +++++-----
+ 4 files changed, 18 insertions(+), 23 deletions(-)
 
-diff --git a/block/qapi.c b/block/qapi.c
-index 3acc118c44..943e7b15ad 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -383,11 +383,6 @@ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
-         info->io_status = blk_iostatus(blk);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 05079b40ca..20e14f8e96 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -719,15 +719,9 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
      }
  
--    if (bs && !QLIST_EMPTY(&bs->dirty_bitmaps)) {
--        info->has_dirty_bitmaps = true;
--        info->dirty_bitmaps = bdrv_query_dirty_bitmaps(bs);
--    }
--
-     if (bs && bs->drv) {
-         info->has_inserted = true;
-         info->inserted = bdrv_block_device_info(blk, bs, false, errp);
+     if (!device) {
+-        if (S_ISBLK(st.st_mode)) {
+-            warn_report("Opening a block device as a file using the '%s' "
+-                        "driver is deprecated", bs->drv->format_name);
+-        } else if (S_ISCHR(st.st_mode)) {
+-            warn_report("Opening a character device as a file using the '%s' "
+-                        "driver is deprecated", bs->drv->format_name);
+-        } else if (!S_ISREG(st.st_mode)) {
+-            error_setg(errp, "A regular file was expected by the '%s' driver, "
+-                       "but something else was given", bs->drv->format_name);
++        if (!S_ISREG(st.st_mode)) {
++            error_setg(errp, "'%s' driver requires '%s' to be a regular file",
++                       bs->drv->format_name, bs->filename);
+             ret = -EINVAL;
+             goto fail;
+         } else {
+@@ -736,8 +730,9 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+         }
+     } else {
+         if (!(S_ISCHR(st.st_mode) || S_ISBLK(st.st_mode))) {
+-            error_setg(errp, "'%s' driver expects either "
+-                       "a character or block device", bs->drv->format_name);
++            error_setg(errp, "'%s' driver requires '%s' to be either "
++                       "a character or block device",
++                       bs->drv->format_name, bs->filename);
+             ret = -EINVAL;
+             goto fail;
+         }
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index eadba0f288..c7e80fa731 100644
+index c7e80fa731..d5e80d66eb 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -198,19 +198,6 @@ Use arguments ``base-node`` and ``top-node`` instead.
+@@ -21,13 +21,6 @@ deprecated.
+ System emulator command line arguments
+ --------------------------------------
  
- Specify the properties for the object as top-level arguments instead.
- 
--``query-block`` result field ``dirty-bitmaps`` (Since 4.2)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+-'''''''''''''''''''''''''''''''''''''''''''''''''''''''
 -
--The ``dirty-bitmaps`` field of the ``BlockInfo`` structure, returned by
--the query-block command is itself now deprecated. The ``dirty-bitmaps``
--field of the ``BlockDeviceInfo`` struct should be used instead, which is the
--type of the ``inserted`` field in query-block replies, as well as the
--type of array items in query-named-block-nodes.
+-The 'file' driver for drives is no longer appropriate for character or host
+-devices and will only accept regular files (S_IFREG). The correct driver
+-for these file types is 'host_cdrom' or 'host_device' as appropriate.
 -
--Since the ``dirty-bitmaps`` field is optionally present in both the old and
--new locations, clients must use introspection to learn where to anticipate
--the field if/when it does appear in command output.
--
- ``nbd-server-add`` and ``nbd-server-remove`` (since 5.2)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ ``QEMU_AUDIO_`` environment variables and ``-audio-help`` (since 4.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 47fdfe6f72..d164d3f290 100644
+index d164d3f290..bff16b7b05 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -127,6 +127,15 @@ The ``status`` field of the ``BlockDirtyInfo`` structure, returned by
- these commands is removed. Two new boolean fields, ``recording`` and
- ``busy`` effectively replace it.
+@@ -57,6 +57,13 @@ by the ``tls-authz`` and ``sasl-authz`` options.
+ The ``pretty=on|off`` switch has no effect for HMP monitors and
+ its use is rejected.
  
-+``query-block`` result field ``dirty-bitmaps`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``-drive file=json:{...{'driver':'file'}}`` (removed 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+The ``dirty-bitmaps`` field of the ``BlockInfo`` structure, returned by
-+the query-block command is itself now removed. The ``dirty-bitmaps``
-+field of the ``BlockDeviceInfo`` struct should be used instead, which is the
-+type of the ``inserted`` field in query-block replies, as well as the
-+type of array items in query-named-block-nodes.
++The 'file' driver for drives is no longer appropriate for character or host
++devices and will only accept regular files (S_IFREG). The correct driver
++for these file types is 'host_cdrom' or 'host_device' as appropriate.
 +
- Human Monitor Protocol (HMP) commands
- -------------------------------------
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
  
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 2a0c345c2c..0399449e13 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -539,9 +539,6 @@
- # @tray_open: True if the device's tray is open
- #             (only present if it has a tray)
- #
--# @dirty-bitmaps: dirty bitmaps information (only present if the
--#                 driver has one or more dirty bitmaps) (Since 2.0)
--#
- # @io-status: @BlockDeviceIoStatus. Only present if the device
- #             supports it and the VM is configured to stop on errors
- #             (supported device models: virtio-blk, IDE, SCSI except
-@@ -550,18 +547,12 @@
- # @inserted: @BlockDeviceInfo describing the device if media is
- #            present
- #
--# Features:
--# @deprecated: Member @dirty-bitmaps is deprecated.  Use @inserted
--#              member @dirty-bitmaps instead.
--#
- # Since:  0.14
- ##
- { 'struct': 'BlockInfo',
-   'data': {'device': 'str', '*qdev': 'str', 'type': 'str', 'removable': 'bool',
-            'locked': 'bool', '*inserted': 'BlockDeviceInfo',
--           '*tray_open': 'bool', '*io-status': 'BlockDeviceIoStatus',
--           '*dirty-bitmaps': { 'type': ['BlockDirtyInfo'],
--                               'features': [ 'deprecated' ] } } }
-+           '*tray_open': 'bool', '*io-status': 'BlockDeviceIoStatus' } }
+diff --git a/tests/qemu-iotests/226.out b/tests/qemu-iotests/226.out
+index 42be973ff2..55504d29c4 100644
+--- a/tests/qemu-iotests/226.out
++++ b/tests/qemu-iotests/226.out
+@@ -3,23 +3,23 @@ QA output created by 226
+ === Testing with driver:file ===
  
- ##
- # @BlockMeasureInfo:
-diff --git a/tests/qemu-iotests/194 b/tests/qemu-iotests/194
-index 3889266afa..e44b8df728 100755
---- a/tests/qemu-iotests/194
-+++ b/tests/qemu-iotests/194
-@@ -95,7 +95,7 @@ with iotests.FilePath('source.img') as source_img_path, \
-     iotests.log(event, filters=[iotests.filter_qmp_event])
+ == Testing RO ==
+-qemu-io: can't open: A regular file was expected by the 'file' driver, but something else was given
+-qemu-io: warning: Opening a character device as a file using the 'file' driver is deprecated
++qemu-io: can't open: 'file' driver requires 'TEST_DIR/t.IMGFMT' to be a regular file
++qemu-io: can't open: 'file' driver requires '/dev/null' to be a regular file
+ == Testing RW ==
+ qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
+-qemu-io: warning: Opening a character device as a file using the 'file' driver is deprecated
++qemu-io: can't open: 'file' driver requires '/dev/null' to be a regular file
  
-     iotests.log('Check bitmaps on source:')
--    iotests.log(source_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
-+    iotests.log(source_vm.qmp('query-block')['return'][0]['inserted']['dirty-bitmaps'])
+ === Testing with driver:host_device ===
  
-     iotests.log('Check bitmaps on target:')
--    iotests.log(dest_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
-+    iotests.log(dest_vm.qmp('query-block')['return'][0]['inserted']['dirty-bitmaps'])
-diff --git a/tests/qemu-iotests/236 b/tests/qemu-iotests/236
-index f6c44517d6..20419bbb9e 100755
---- a/tests/qemu-iotests/236
-+++ b/tests/qemu-iotests/236
-@@ -39,7 +39,7 @@ overwrite = [("0xab", "0",         "64k"), # Full overwrite
+ == Testing RO ==
+-qemu-io: can't open: 'host_device' driver expects either a character or block device
++qemu-io: can't open: 'host_device' driver requires 'TEST_DIR/t.IMGFMT' to be either a character or block device
+ == Testing RW ==
+ qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
  
- def query_bitmaps(vm):
-     res = vm.qmp("query-block")
--    return { "bitmaps": { device['device']: device.get('dirty-bitmaps', []) for
-+    return { "bitmaps": { device['device']: device.get('inserted', {}).get('dirty-bitmaps', []) for
-                           device in res['return'] } }
+ === Testing with driver:host_cdrom ===
  
- with iotests.FilePath('img') as img_path, \
-diff --git a/tests/qemu-iotests/246 b/tests/qemu-iotests/246
-index fa3102c546..5932a0e8a9 100755
---- a/tests/qemu-iotests/246
-+++ b/tests/qemu-iotests/246
-@@ -30,7 +30,8 @@ gran_large = 128 * 1024
+ == Testing RO ==
+-qemu-io: can't open: 'host_cdrom' driver expects either a character or block device
++qemu-io: can't open: 'host_cdrom' driver requires 'TEST_DIR/t.IMGFMT' to be either a character or block device
+ == Testing RW ==
+ qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
  
- def query_bitmaps(vm):
-     res = vm.qmp("query-block")
--    return { "bitmaps": { device['device']: device.get('dirty-bitmaps', []) for
-+    return { "bitmaps": { device['device']: device.get('inserted', {})
-+                          .get('dirty-bitmaps', []) for
-                           device in res['return'] } }
- 
- with iotests.FilePath('img') as img_path, \
-diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
-index 49da948407..108bf5f894 100755
---- a/tests/qemu-iotests/254
-+++ b/tests/qemu-iotests/254
-@@ -73,7 +73,7 @@ vm.qmp_log('transaction', indent=2, actions=[
- result = vm.qmp('query-block')['return'][0]
- log("query-block: device = {}, node-name = {}, dirty-bitmaps:".format(
-     result['device'], result['inserted']['node-name']))
--log(result['dirty-bitmaps'], indent=2)
-+log(result['inserted']['dirty-bitmaps'], indent=2)
- log("\nbitmaps in backing image:")
- log(result['inserted']['image']['backing-image']['format-specific'] \
-     ['data']['bitmaps'], indent=2)
-diff --git a/tests/qemu-iotests/260 b/tests/qemu-iotests/260
-index a35cb7b61f..2ec64a9b99 100755
---- a/tests/qemu-iotests/260
-+++ b/tests/qemu-iotests/260
-@@ -32,8 +32,9 @@ size = 64 * 1024 * 3
- 
- def print_bitmap(msg, vm):
-     result = vm.qmp('query-block')['return'][0]
--    if 'dirty-bitmaps' in result:
--        bitmap = result['dirty-bitmaps'][0]
-+    info = result.get("inserted", {})
-+    if 'dirty-bitmaps' in info:
-+        bitmap = info['dirty-bitmaps'][0]
-         log('{}: name={} dirty-clusters={}'.format(msg, bitmap['name'],
-             bitmap['count'] // 64 // 1024))
-     else:
-diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-index dbf10e58d3..d046ebeb94 100755
---- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-+++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-@@ -67,10 +67,12 @@ def event_dist(e1, e2):
- def check_bitmaps(vm, count):
-     result = vm.qmp('query-block')
- 
-+    info = result['return'][0].get('inserted', {})
-+
-     if count == 0:
--        assert 'dirty-bitmaps' not in result['return'][0]
-+        assert 'dirty-bitmaps' not in info
-     else:
--        assert len(result['return'][0]['dirty-bitmaps']) == count
-+        assert len(info['dirty-bitmaps']) == count
- 
- 
- class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
 -- 
 2.30.2
 
