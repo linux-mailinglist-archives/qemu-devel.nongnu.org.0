@@ -2,100 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E931340AF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:04:51 +0100 (CET)
-Received: from localhost ([::1]:50206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A68340B41
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:12:28 +0100 (CET)
+Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMw4o-0004Y7-BX
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60930)
+	id 1lMwCB-0002ZT-9G
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lMvZb-00058m-PI; Thu, 18 Mar 2021 12:32:35 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43154
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lMvZY-0000Wj-Iz; Thu, 18 Mar 2021 12:32:35 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12IG43Vd059858; Thu, 18 Mar 2021 12:32:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=to : cc : from : subject
- : message-id : date : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=dybXEcvKR3MPheoZwaCk6CTSWe39xPTSbTtw+UVSvCg=;
- b=YXhAAJELp2lqphlhdZJZ4GughtMXL1s0JQAq+NWIWf2aosGDE2ZxG3BCJMTuozJQIi78
- LzUZMnKzL/f8ygGxNcaIyYpGEHrjx0DP6uR5E3D7XhBv3NEJInjsBHxpNfJRSUQv8Iaq
- dovZnEuxkfsAJMdBidCzTLO0Au6wOlWNnEDuYuxRggrhlCHi/B2F9TGbhCBShfqoiOxN
- bnLNkOs5fpsgWHCRE6QDlYS9Wj5TOabF/JOXNrOiRlVb7JShEqMoHQ/Ky0qV3L4lZ1cR
- NmpUSxhvL/xTzZ2NB7hPlepcaiEuzuIONUXDNxb2RImfkf0Z78ocoW1DdzA4Z76bz67m Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37by16d4mp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Mar 2021 12:32:29 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12IG4O0I065018;
- Thu, 18 Mar 2021 12:32:29 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37by16d4m0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Mar 2021 12:32:29 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12IGSPYt019080;
- Thu, 18 Mar 2021 16:32:27 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma02fra.de.ibm.com with ESMTP id 37brpfre85-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Mar 2021 16:32:27 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12IGWP6O36241788
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Mar 2021 16:32:25 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86BED11C058;
- Thu, 18 Mar 2021 16:32:25 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 527B011C04C;
- Thu, 18 Mar 2021 16:32:25 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.66.184])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 18 Mar 2021 16:32:25 +0000 (GMT)
-To: Max Reitz <mreitz@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: iotest 051 failure on s390
-Message-ID: <a574a10b-541f-ea49-9514-027b4a471e2a@de.ibm.com>
-Date: Thu, 18 Mar 2021 17:32:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMvey-00021j-14
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:38:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lMveu-00031U-9z
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:38:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616085482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9WAQJRyWnpHMiFi7xNe3N3oN1FfaosgQx8l3S12gz8I=;
+ b=A7akfPbQohJxtfBXh/liXyGtXcILgfv3PlqSyHjQina85ZHur1BhRwCt0p1484bmacSsUr
+ jSvUxzL33aMVhkqRPWCBFsfrN5qOA52Gq6H9SY/K2ngmBmDIUF9jJjHW+WZsFGfO3Qp+7j
+ yVIKXHOjj2FgJ1qZw9yBvQYMuezjTHI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-IS0xdXLGN_GVGJTvWT9ZAQ-1; Thu, 18 Mar 2021 12:38:00 -0400
+X-MC-Unique: IS0xdXLGN_GVGJTvWT9ZAQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0103887A83A;
+ Thu, 18 Mar 2021 16:37:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C47361899A;
+ Thu, 18 Mar 2021 16:37:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3639311385EE; Thu, 18 Mar 2021 17:37:57 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 01/11] qemuutil: remove qemu_set_fd_handler duplicate symbol
+Date: Thu, 18 Mar 2021 17:37:47 +0100
+Message-Id: <20210318163757.1345341-2-armbru@redhat.com>
+In-Reply-To: <20210318163757.1345341-1-armbru@redhat.com>
+References: <20210318163757.1345341-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-18_09:2021-03-17,
- 2021-03-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=619 clxscore=1015 mlxscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103180112
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,27 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On s390 with latest master I do get
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-051   fail       [17:30:00] [17:30:05]   5.4s                 output mismatch (see 051.out.bad)
---- /home/cborntra/REPOS/qemu/tests/qemu-iotests/051.out
-+++ 051.out.bad
-@@ -61,13 +61,13 @@
-  (qemu) quit
+libqemuutil has two definitions of qemu_set_fd_handler.  This
+is not needed since the only users of the function are
+qemu-io.c and the emulators, both of which already include
+util/main-loop.c.
 
-  Testing: -drive file=TEST_DIR/t.qcow2,node-name=123foo
--QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=123foo: Invalid node name
-+QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=123foo: Invalid node-name: '123foo'
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <d0c5aa88-029e-4328-7a53-482a3010c5f8@redhat.com>
+Tested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20210318155519.1224118-2-armbru@redhat.com>
+---
+ stubs/set-fd-handler.c | 10 ----------
+ stubs/meson.build      |  1 -
+ 2 files changed, 11 deletions(-)
+ delete mode 100644 stubs/set-fd-handler.c
 
-  Testing: -drive file=TEST_DIR/t.qcow2,node-name=_foo
--QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=_foo: Invalid node name
-+QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=_foo: Invalid node-name: '_foo'
+diff --git a/stubs/set-fd-handler.c b/stubs/set-fd-handler.c
+deleted file mode 100644
+index bff7e0a45a..0000000000
+--- a/stubs/set-fd-handler.c
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+-
+-void qemu_set_fd_handler(int fd,
+-                         IOHandler *fd_read,
+-                         IOHandler *fd_write,
+-                         void *opaque)
+-{
+-    abort();
+-}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index a054d5877f..8a3e804cf0 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -34,7 +34,6 @@ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
+ stub_ss.add(files('replay.c'))
+ stub_ss.add(files('runstate-check.c'))
+-stub_ss.add(files('set-fd-handler.c'))
+ stub_ss.add(files('sysbus.c'))
+ stub_ss.add(files('target-get-monitor-def.c'))
+ stub_ss.add(files('target-monitor-defs.c'))
+-- 
+2.26.3
 
-  Testing: -drive file=TEST_DIR/t.qcow2,node-name=foo#12
--QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=foo#12: Invalid node name
-+QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=foo#12: Invalid node-name: 'foo#12'
 
