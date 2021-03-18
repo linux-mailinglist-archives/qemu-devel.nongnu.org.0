@@ -2,89 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766D63408A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:20:44 +0100 (CET)
-Received: from localhost ([::1]:35178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F91340903
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:37:30 +0100 (CET)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMuS3-0006JV-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
+	id 1lMuiG-0002fS-Ko
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMuN0-0003PP-Jq
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:15:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMuMx-0006PI-KY
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:15:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616080526;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mUksXG3Roj7YFDjOyYsqm/VvXrn2teaj/1sb67Hdd2U=;
- b=NQj+oVERPEjTkNA7S8UTQoJ/yuJ4RyDsQ8q+2HgFeOMwBKsNCeNQhPaLHWOzYkJdDsV6g2
- SdEElfgVsWidv2sCNaulXZjvilCNLc4KpcXjvH38yZeHSiknjdrxaNYSljLPQK2f1/kuE2
- LFtwyXg28HGZtPd/FcbSd7jkg/Ahe1s=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-sH9kWQI5NjObvj9OoDu2Tg-1; Thu, 18 Mar 2021 11:15:21 -0400
-X-MC-Unique: sH9kWQI5NjObvj9OoDu2Tg-1
-Received: by mail-oo1-f72.google.com with SMTP id h18so21139531oot.8
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:15:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMugd-0002Cx-0l
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:35:47 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:32874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lMugb-0002Yy-Bo
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:35:46 -0400
+Received: by mail-qk1-x736.google.com with SMTP id l4so2423534qkl.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:35:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BB3knp/qYMDkd6gsCN8KcTYStzMCFeNux7zkBZQaJ0Y=;
+ b=c+djd/yOfGpN4r8IXJwddVUViV3SIOKONZQaI2QhX9R7BC6vUS2Aj9Zuyq6ZbFVN9r
+ A7J17f/BIjbDoQA1I53Wai9z9/Ekhh1P2rd2i/Bcz+ZnjgjeKwxa1ZvxdRjmH5qdDnHG
+ TIMWi5/jVaxRZfEI+EEQdlGy16/lbkDKjrQFIZDEs6gNsYg3uJc9Yx964MlMbXBs9S3V
+ LBSYB8u3d7P8XamhxAOu8oi0dil7fib0P2x3a3ntsDN6AnSsphXbGzbCoB9ot8GVVqnr
+ EKPWA50LgwaVBw0bC2tMy96617jL/ryd2+JSMnVW46sNbc+Z2Mm3jTTbMnPAV0FEnNOs
+ 6DNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mUksXG3Roj7YFDjOyYsqm/VvXrn2teaj/1sb67Hdd2U=;
- b=bN//8ylLWTZcqeZk96iYis46kUCEBjDp4VzMdNCQtmygbz/qlrjVH7PTO/IJnTxjF2
- /RcKGAjZeQyweRQP9h1oCax6/rO64KM3HTh0zplqmdBnWQUQCU4H6D0MGZk5VgTCw7lG
- GX0r4ZZcgZiQwVa9wYkPVpaH8kU9DlKJy1dQIfshAmVnrE/Sek3GKJHoY2nsXOHNzbiw
- YXZhnYiRDeNhggrMNaQKbWqlf8+HbT1i3Wynw+3NXy1WpcA4OA4+KEJGIgSBqld4LURG
- c+2s6p+Zze2yFbKV+3+e3xuRV5AyyYkavtcZaZVCZmRCe5+a1Vc5oX/oB+ZekKTkuJpO
- 7UFA==
-X-Gm-Message-State: AOAM530Tx97UR20RCs1uck28aqafRDKDtjse4nTElf9C5vOr5Etasf3u
- uZE7n5Hgu7790UnuEWxDbgs07w/4NjhrNTSEdRJ/YxQ1iYl/JVGrRVMO52LqI5mCtNbKb9oQb7q
- uOoexCVqjQ3GQfmM=
-X-Received: by 2002:aca:1904:: with SMTP id l4mr3455235oii.159.1616080520754; 
- Thu, 18 Mar 2021 08:15:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+Opx8UQfmL2RnCZ6om+pcpTVtp3RJJz9U2nA/ehvt5IGTtB78QwhIv+a8B6jS7oMNoKYbsw==
-X-Received: by 2002:aca:1904:: with SMTP id l4mr3455222oii.159.1616080520536; 
- Thu, 18 Mar 2021 08:15:20 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- y200sm561856oia.49.2021.03.18.08.15.19
+ bh=BB3knp/qYMDkd6gsCN8KcTYStzMCFeNux7zkBZQaJ0Y=;
+ b=gjBLMNQK822hAUFLDX4lZTVyj5w5AP/c9/2qfG4crAo3n1xo+KsfzjWhkI7n+Bkoo5
+ /Y07uGQoAT0Hcqqmyc+dOx6uTG4HTpdjyIfVn0Zid1nqp4hgLMMP+CA0udF/bFLQHxyK
+ JiMBhpQ8Ab/AFSJfuZxDBtGyXDhNVl5A6hoyZP6zqvZoKPrCgYSwJTJ1gvgfY6otdGYu
+ EcF/kq8yRTatJX1OZ4GEzuzvn7b2/5/z0vSR1W86qzEEn2KjPo8wjHXiGzoVktrTKOiD
+ BGEDlNwTo7iGKazNwwvO54Iga+T9kQ5CSr5EsDcuMwfSul+fn4Myi8p/5MKuA3Bk9a2j
+ O/1w==
+X-Gm-Message-State: AOAM531CFFqITCazRQzveniVzmzQIFFq68JPvIwoxR1rMB9Zb9DYQRUD
+ +ctqWl37Jibc78utgef+XXojTA==
+X-Google-Smtp-Source: ABdhPJwRnU9X9urOl1lSwCMJFG4tIPPV14UZvqw13Oj5jdl4CV36Yr7iHU3+T1mvp5ix2mpfV5e8Pw==
+X-Received: by 2002:a37:a282:: with SMTP id l124mr4778417qke.37.1616081743707; 
+ Thu, 18 Mar 2021 08:35:43 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id q143sm1967131qke.110.2021.03.18.08.35.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 08:15:20 -0700 (PDT)
-Subject: Re: [PATCH] tools/virtiofsd: include --socket-group in help
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210318100911.16261-1-alex.bennee@linaro.org>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <cca0d1bf-5901-cdc4-5b63-ba4376b57f32@redhat.com>
-Date: Thu, 18 Mar 2021 10:15:19 -0500
+ Thu, 18 Mar 2021 08:35:43 -0700 (PDT)
+Subject: Re: [PATCH v8 16/35] Hexagon (target/hexagon/conv_emu.[ch]) utility
+ functions
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-17-git-send-email-tsimpson@quicinc.com>
+ <f0ff8663-9ea2-e8be-9123-4afffc41bad2@linaro.org>
+ <BYAPR02MB4886A70EA367526D5834F501DE699@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <75d9fed2-ac04-846b-1426-6cd9fe657924@linaro.org>
+ <BYAPR02MB4886CE42E5E7E79CD9C5006FDE699@BYAPR02MB4886.namprd02.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <db5eac2a-09fc-bf74-9738-8f058c439f82@linaro.org>
+Date: Thu, 18 Mar 2021 09:35:40 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210318100911.16261-1-alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <BYAPR02MB4886CE42E5E7E79CD9C5006FDE699@BYAPR02MB4886.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,39 +94,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/21 5:09 AM, Alex Bennée wrote:
-> I confused myself wandering if this had been merged by looking at the
-> help output. It seems fuse_opt doesn't automagically add to help
-> output so lets do it now.
-> 
-> Updates: f6698f2b03 ("tools/virtiofsd: add support for --socket-group")
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tools/virtiofsd/fuse_lowlevel.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 1aa26c6333..58e32fc963 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -2450,6 +2450,7 @@ void fuse_lowlevel_help(void)
->       printf(
->           "    -o allow_root              allow access by root\n"
->           "    --socket-path=PATH         path for the vhost-user socket\n"
-> +        "    --socket-group=GRNAME      name of group for the vhost-user socket\n"
->           "    --fd=FDNUM                 fd number of vhost-user socket\n"
->           "    --thread-pool-size=NUM     thread pool size limit (default %d)\n",
->           THREAD_POOL_SIZE);
-> 
+On 3/18/21 8:11 AM, Taylor Simpson wrote:
+> Actually, softfloat raises inexact instead of invalid.  Is there a way to override?
 
-And it looks like this is already in the man page too, so I think this 
-patches the last place it was missing from, nice!
+Not true:
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+     switch (p.cls) {
+     case float_class_snan:
+     case float_class_qnan:
+         s->float_exception_flags = orig_flags | float_flag_invalid;
+         return max;
 
+
+r~
 
