@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9BE340E9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 20:48:30 +0100 (CET)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390C8340E9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 20:52:38 +0100 (CET)
+Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMyd4-0007Cz-A2
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 15:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44988)
+	id 1lMyhA-0000Qw-96
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 15:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lMyb1-0006dW-6T
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 15:46:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lMyav-0000H0-Nk
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 15:46:14 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lMyeq-0007yf-4h
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 15:50:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lMyeh-0001Z1-AV
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 15:50:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616096768;
+ s=mimecast20190719; t=1616097001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gA/lU2BliF1UUbINXnwfZv6d+vr6xPUMM/wKOZgqcT4=;
- b=IfMcBTzLRRQp1dIdtmSI55AXXsC06H28QDX+khPfgen6Y6948N2eqyG2V7T0mqx8BkAPNB
- Mkwohvc2rzDVwspH31R4KN8mOehpVfodbPYHUgeD3lwx+OGIIzAIvWTMTJPYYO8Q/nl14a
- weiBY/U9Jonhb1BlMf82Q2zRlSSkJ0I=
+ bh=qX9bn47uYp+Jz8jpXv8OoUVv0ykOs2WnbjzEvvBmG9I=;
+ b=P4k5OliJkVu+Nrf/XY/bfLaa3eI+F/T/mOvMI+n+ICKpRSeeAbWzeQYk5BqN285GRwi7h+
+ cD1QTSRUtW3hmgvydwl71AmSe8Syi7/sIQaYEdxD9+LzIQVxM7o8FxqC9CH7/2auTTS7iU
+ WaQI1M2JDfaWuyA2mSe6WGsZAO7ktjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-TKC2yWH6OV2FjdqD6YEjIw-1; Thu, 18 Mar 2021 15:46:04 -0400
-X-MC-Unique: TKC2yWH6OV2FjdqD6YEjIw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-269-g2A6RqIxNImCeL-F4VQJvg-1; Thu, 18 Mar 2021 15:49:56 -0400
+X-MC-Unique: g2A6RqIxNImCeL-F4VQJvg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 685EE520E;
- Thu, 18 Mar 2021 19:46:03 +0000 (UTC)
-Received: from localhost (ovpn-115-62.ams2.redhat.com [10.36.115.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5CBC610F1;
- Thu, 18 Mar 2021 19:46:02 +0000 (UTC)
-Date: Thu, 18 Mar 2021 19:46:01 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: Serious doubts about Gitlab CI
-Message-ID: <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93553190A7A0;
+ Thu, 18 Mar 2021 19:49:55 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F5156C32F;
+ Thu, 18 Mar 2021 19:49:55 +0000 (UTC)
+Subject: Re: How to create vhdx differencing disk using qemu-img
+To: qi zhou <atmgnd@outlook.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <ME3P282MB16654DBBEAE47620226F448DC9699@ME3P282MB1665.AUSP282.PROD.OUTLOOK.COM>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <3585d6b8-a94e-bd2e-5a38-6ddfc2fe089d@redhat.com>
+Date: Thu, 18 Mar 2021 15:49:54 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <ME3P282MB16654DBBEAE47620226F448DC9699@ME3P282MB1665.AUSP282.PROD.OUTLOOK.COM>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="l5CRXC39DiUNAvzO"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,49 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---l5CRXC39DiUNAvzO
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/17/21 10:37 PM, qi zhou wrote:
+> When I create vhdx differencing disk using qemu-img, It says
+>   qemu-img: xxx.vhd Backing file not supported for file format 'vhdx'
+> 
+> The command I used is
+> qemu-img create -f vhdx -b test.vhdx test-snapshot.vhdx
+> 
+> Here is my questions
+> 1. Is vhdx format [full] supported by qemu ?
 
-On Wed, Mar 17, 2021 at 09:29:32PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Now I'm having serious doubts about Gitlab usefulness for the QEMU
-> community...
+We support raw and qcow2 fully, read-write.
 
-The QEMU Project has 50,000 minutes of GitLab CI quota. Let's enable
-GitLab Merge Requests so that anyone can submit a merge request and get
-CI coverage.
+Everything else is "read-only", though write support might work, we 
+don't encourage its use in production environments.
 
-I think we need to expect free tiers to be insufficient for full CI
-coverage. In the longer term we probably need to rely on dedicated
-runners, although I'm not sure how much of the issue is QEMU's huge CI
-pipeline versus the performance limitations of shared runners.
+> 2. If not, is there any easy way to implement differencing disk of vhdx in qemu-img ?
 
-Stefan
+the -b flag is generally for qcow2 files; I am not very familiar with 
+VHDX but it appears as though we don't support it here.
 
---l5CRXC39DiUNAvzO
-Content-Type: application/pgp-signature; name="signature.asc"
+I imagine it's 
+https://www.altaro.com/hyper-v/hyper-v-differencing-disks-explained/ ?
 
------BEGIN PGP SIGNATURE-----
+I don't think we support those... ah, yeah, in block/vhdx.c:
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBTrfkACgkQnKSrs4Gr
-c8guyggAofuA3a5Qcp7/BE/2rOx0NdYl+5LCcZ/cWWkif5l6DwntyDigfCxNzL6i
-JgZPTT+2h1VQMKIvMdww7OA3JOO3CURH6CQ9IBqOfOnq5+avM2dNZj7WTPDc9MdD
-NbcK44+chcHEErxhnMSzlZNegxXP2EL+z6ZCy0m4EGw8Cjgrsd3/1JxYJ1zUff7a
-exIYLU6wHLvZzaqdOaNlUPzEPhQO0xo54kaVjjjSppiSvOmQbHHDTHHseFa2FZNA
-tNnz8JJnONG2W63mORebRmQnQ5aGu0gyBK0/QNXfQ2QPl0jvvNfhV8akhpxpaZ6f
-TRuyWelfhWAhh9Spb6yPNDlCZVMG7Q==
-=E1z4
------END PGP SIGNATURE-----
+typedef enum VHDXImageType {
+     VHDX_TYPE_DYNAMIC = 0,
+     VHDX_TYPE_FIXED,
+     VHDX_TYPE_DIFFERENCING,   /* Currently unsupported */
+} VHDXImageType;
 
---l5CRXC39DiUNAvzO--
+> 3. Is there any other tools support vhdx on linux ?
+> 
+
+Not that I'm aware of, but I can't say I've looked before.
 
 
