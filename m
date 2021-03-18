@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E9D340050
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 08:39:13 +0100 (CET)
-Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0033634008E
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 09:00:58 +0100 (CET)
+Received: from localhost ([::1]:45464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMnFQ-0005uu-8i
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 03:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44744)
+	id 1lMnaT-0001jB-FY
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 04:00:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lMnEE-0005Jq-Rt
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 03:37:59 -0400
-Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:33524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lMnEC-0004c5-Rs
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 03:37:58 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id o19so2782006qvu.0
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 00:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nG48u4ZbSmrEB7ymQ8mENzTvROX551slUGAaDZenXiI=;
- b=EkGe+MNyxcXAkVT03zgZNKuNDL3TjWDZQ0wK2yqc9EEsoq/s/5LR7eSQmsRVLoMSgA
- ahjgHZynRxPcmKfy5yclEdZVaM3pxV4U55508fKCDLZTiCchn6ZIEqILRkiQdVzw/DZP
- ew+5Xc95/1JwXdnb2YLVJuo1J7yR7kH1+HeAXAIIeG3UZa2bYjYcP45v9tPtK24L98L4
- dlS5c7vM3XyTapNjJBJc6pRJi1tq/6Q4B3vvFgN1fhkUzmkHQNaTCYH/SdSI7pV1sy7O
- FNBCoJLH6sgxdC3TMDz10wVG5yeFWIHHqN8pDngFklTH0+GYc3IAOMjFQG8PbVG6AOgR
- NKFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nG48u4ZbSmrEB7ymQ8mENzTvROX551slUGAaDZenXiI=;
- b=kExJ8MAKpNFGVoIM81wHBwBuqByCdQBpfuuUepcbOczw9mNgkpUdoYrfJ45NNpqB7k
- qmDjTZk6roIStFkKG9rnxh1b+gbnA+hDsYPCoW7GI5wMFr9GADc0xN+ImlWvQ8QqBNwP
- G2frEFcTS1eClpYHrePwRg7V6SSHNAMD/t1/aUA6ZmJ2wqyqu1wwsjL38v7bmOTGO6Wa
- dlCYTa+wst60mPF/yD7CTIwulJO0Gz2429wX34WqNwM0sGe18Jhckd8WBMaU74eMNTQh
- Q8aCx9XBKQbjMOaWPLUy+LDidO2GK3of4Eeq8KmOKAKvFtIZ2WiQfpz6AFh9lUXGEKGo
- MAPg==
-X-Gm-Message-State: AOAM530CGjOz5XE0aOJ+60wzeyKJW4ymNvwi/XeY+ZQ0DHhqKQpL2FHt
- 7heP1vwRLejXELyu2rTcnblNeK6K4raO7x5st8Q=
-X-Google-Smtp-Source: ABdhPJw1P8Yn6E3urfIyjbWOW3ipqspVCGa1MOFo/QUQxJOWiKJjAuHj6MD+TaCMYCRYjsjgjLn4a8E67AUZTULgFto=
-X-Received: by 2002:a05:6214:cc7:: with SMTP id 7mr3044279qvx.27.1616053073295; 
- Thu, 18 Mar 2021 00:37:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lMnZA-0001Ic-PU
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 03:59:36 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lMnZ6-000197-Uo
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 03:59:36 -0400
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4F1K901HG1zWMlP;
+ Thu, 18 Mar 2021 15:56:20 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 18 Mar 2021 15:59:23 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Thu, 18 Mar 2021 15:59:22 +0800
+Subject: Re: [RFC PATCH 0/3] vfio/migration: Support manual clear vfio dirty
+ log
+To: "Tian, Kevin" <kevin.tian@intel.com>, Alex Williamson
+ <alex.williamson@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Kirti Wankhede" <kwankhede@nvidia.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>, Tarun Gupta
+ <targupta@nvidia.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <20210310094106.2191-1-jiangkunkun@huawei.com>
+ <MWHPR11MB188608DDA524E353866268AE8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <ba20233b-c5c0-cf3f-e4fa-ecb1e054ff54@huawei.com>
+Date: Thu, 18 Mar 2021 15:59:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <YFJjIq45ggSZz0CX@work-vm>
- <CAFEAcA8aifakYwKn0umNbuCVtAsa_1svEGEq-coj9iVo3b1WPA@mail.gmail.com>
-In-Reply-To: <CAFEAcA8aifakYwKn0umNbuCVtAsa_1svEGEq-coj9iVo3b1WPA@mail.gmail.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Thu, 18 Mar 2021 09:37:17 +0200
-Message-ID: <CAK4993hXtU72mpBr=6BzwFeSDPz7x6-0qZ7O7Ji5hrSzhshKqQ@mail.gmail.com>
-Subject: Re: of AVR target page size
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000005f3ec005bdcaadb2"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=mrolnik@gmail.com; helo=mail-qv1-xf2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <MWHPR11MB188608DDA524E353866268AE8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,120 +74,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "shameerali.kolothum.thodi@huawei.com"
+ <shameerali.kolothum.thodi@huawei.com>, Eric Auger <eric.auger@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005f3ec005bdcaadb2
-Content-Type: text/plain; charset="UTF-8"
+Hi Kevin,
 
-I guess we can add some bits TARGET_PAGE_BITS, this will make us to push
-some portion of SRAM into the CPU.
-
-Michael Rolnik
-
-On Thu, Mar 18, 2021 at 12:33 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Wed, 17 Mar 2021 at 20:17, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > Hi Michael,
-> >   I noticed your AVR code defines:
-> >
-> >   #define TARGET_PAGE_BITS 8
-> >
-> > and has an explanation of why.
-> >
-> > Note however that's not going to work with the current live
-> > migration/snapshotting code, since you're a couple of bits smaller
-> > than the smallest page size we had so far, and for many years
-> > the RAM migration code has stolen the bottom few bits of the address
-> > as a flag field, and has already used 0x100 up; see migration/ram.c
-> > RAM_SAVE_FLAG_*    - and it's actually tricky to change it, because if
-> > you change it then it'll break migration compatibility with existing
-> > qemu's.
+On 2021/3/18 14:28, Tian, Kevin wrote:
+>> From: Kunkun Jiang
+>> Sent: Wednesday, March 10, 2021 5:41 PM
+>>
+>> Hi all,
+>>
+>> In the past, we clear dirty log immediately after sync dirty log to
+>> userspace. This may cause redundant dirty handling if userspace
+>> handles dirty log iteratively:
+>>
+>> After vfio clears dirty log, new dirty log starts to generate. These
+>> new dirty log will be reported to userspace even if they are generated
+>> before userspace handles the same dirty page.
+>>
+>> Since a new dirty log tracking method for vfio based on iommu hwdbm[1]
+>> has been introduced in the kernel and added a new capability named
+>> VFIO_DIRTY_LOG_MANUAL_CLEAR, we can eliminate some redundant dirty
+>> handling by supporting it.
+> Is there any performance data showing the benefit of this new method?
 >
-> If you want to use low bits as flags for other stuff, you
-> should have a compile time assert that you have the number
-> of bits you expect, or otherwise force a compile error.
-> Otherwise you'll end up with unpleasant surprises like this one...
+Current dirty log tracking method for VFIO:
+[1] All pages marked dirty if not all iommu_groups have pinned_scope
+[2] pinned pages by various vendor drivers if all iommu_groups have 
+pinned scope
+
+Both methods are coarse-grained and can not determine which pages are
+really dirty. Each round may mark the pages that are not really dirty as 
+dirty
+and send them to the destination. ( It might be better if the range of the
+pinned_scope was smaller. ) This will result in a waste of resources.
+
+HWDBM is short for Hardware Dirty Bit Management.
+(e.g. smmuv3 HTTU, Hardware Translation Table Update)
+
+About SMMU HTTU:
+HTTU is a feature of ARM SMMUv3, it can update access flag or/and dirty
+state of the TTD (Translation Table Descriptor) by hardware.
+
+With HTTU, stage1 TTD is classified into 3 types:
+                                  DBM bit AP[2](readonly bit)
+1. writable_clean          1                            1
+2. writable_dirty           1                            0
+3. readonly                   0                            1
+
+If HTTU_HD (manage dirty state) is enabled, smmu can change TTD from
+writable_clean to writable_dirty. Then software can scan TTD to sync dirty
+state into dirty bitmap. With this feature, we can track the dirty log of
+DMA continuously and precisely.
+
+The capability of VFIO_DIRTY_LOG_MANUAL_CLEAR is similar to that on
+the KVM side. We add this new log_clear() interface only to split the old
+log_sync() into two separated procedures:
+
+- use log_sync() to collect the collection only, and,
+- use log_clear() to clear the dirty bitmap.
+
+If you're interested in this new method, you can take a look at our set of
+patches.
+[1] 
+https://lore.kernel.org/linux-iommu/20210310090614.26668-1-zhukeqian1@huawei.com/
+
+Best regards,
+Kunkun Jiang
+
+>> This series include patches as below:
+>> Patch 1:
+>> - updated the linux-headers/linux/vfio.h from kernel side
+>>
+>> Patch 2:
+>> - introduced 'struct VFIODMARange' to describe a range of the given DMA
+>>    mapping and with respect to a VFIO_IOMMU_MAP_DMA operation
+>>
+>> Patch 3:
+>> - implemented the operation to manual clear vfio dirty log, which can
+>>    eliminate some redundant dirty handling
+>>
+>> Thanks,
+>> Kunkun Jiang
+>>
+>> [1] https://lore.kernel.org/linux-iommu/20210310090614.26668-1-
+>> zhukeqian1@huawei.com/T/#mb168c9738ecd3d8794e2da14f970545d5820f
+>> 863
+>>
+>> Zenghui Yu (3):
+>>    linux-headers: update against 5.12-rc2 and "vfio log clear" series
+>>    vfio: Maintain DMA mapping range for the container
+>>    vfio/migration: Support VFIO_IOMMU_DIRTY_PAGES_FLAG_CLEAR_BITMAP
+>>
+>>   hw/vfio/common.c              | 207 ++++++++++++++++++++++++++++++++--
+>>   include/hw/vfio/vfio-common.h |  10 ++
+>>   linux-headers/linux/vfio.h    |  55 ++++++++-
+>>   3 files changed, 264 insertions(+), 8 deletions(-)
+>>
+>> --
+>> 2.23.0
+>>
 >
-> I think that for the cpu-all.h uses of low bits we would
-> end up with a compile error for excessively small TARGET_PAGE_BITS
-> because we define the bits like this:
-> #define TLB_DISCARD_WRITE   (1 << (TARGET_PAGE_BITS_MIN - 6))
-> and I expect the compiler will complain if the RHS of the '<<'
-> is a negative constant. But I don't know if that's deliberate
-> or a happy accident :-)
->
-> thanks
-> -- PMM
->
+> .
 
 
--- 
-Best Regards,
-Michael Rolnik
-
---0000000000005f3ec005bdcaadb2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I guess we can add some bits TARGET_PAGE_BITS, this will m=
-ake us to push some portion of SRAM into the CPU.<div><br></div><div>Michae=
-l Rolnik</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Mar 18, 2021 at 12:33 AM Peter Maydell &lt;<a href=
-=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 17 Mar=
- 2021 at 20:17, Dr. David Alan Gilbert<br>
-&lt;<a href=3D"mailto:dgilbert@redhat.com" target=3D"_blank">dgilbert@redha=
-t.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Michael,<br>
-&gt;=C2=A0 =C2=A0I noticed your AVR code defines:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0#define TARGET_PAGE_BITS 8<br>
-&gt;<br>
-&gt; and has an explanation of why.<br>
-&gt;<br>
-&gt; Note however that&#39;s not going to work with the current live<br>
-&gt; migration/snapshotting code, since you&#39;re a couple of bits smaller=
-<br>
-&gt; than the smallest page size we had so far, and for many years<br>
-&gt; the RAM migration code has stolen the bottom few bits of the address<b=
-r>
-&gt; as a flag field, and has already used 0x100 up; see migration/ram.c<br=
->
-&gt; RAM_SAVE_FLAG_*=C2=A0 =C2=A0 - and it&#39;s actually tricky to change =
-it, because if<br>
-&gt; you change it then it&#39;ll break migration compatibility with existi=
-ng<br>
-&gt; qemu&#39;s.<br>
-<br>
-If you want to use low bits as flags for other stuff, you<br>
-should have a compile time assert that you have the number<br>
-of bits you expect, or otherwise force a compile error.<br>
-Otherwise you&#39;ll end up with unpleasant surprises like this one...<br>
-<br>
-I think that for the cpu-all.h uses of low bits we would<br>
-end up with a compile error for excessively small TARGET_PAGE_BITS<br>
-because we define the bits like this:<br>
-#define TLB_DISCARD_WRITE=C2=A0 =C2=A0(1 &lt;&lt; (TARGET_PAGE_BITS_MIN - 6=
-))<br>
-and I expect the compiler will complain if the RHS of the &#39;&lt;&lt;&#39=
-;<br>
-is a negative constant. But I don&#39;t know if that&#39;s deliberate<br>
-or a happy accident :-)<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---0000000000005f3ec005bdcaadb2--
 
