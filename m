@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1A6340638
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:00:41 +0100 (CET)
-Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2387C3406CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:25:08 +0100 (CET)
+Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMsGW-0003s7-N6
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:00:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35890)
+	id 1lMseA-0007J7-ML
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lMsFC-0003Jx-LY
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:59:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lMsFB-00022k-78
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:59:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616072356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X1B7B1qQ6qUwfc6Z50q4pgKPBhtb9o34cGdMzKwnyN8=;
- b=MnfR/UkyRKzlbTDnBtAQz0YsOm3XahU+EP6kvacvjXAwNH1RvUHUi3XhK1hOqphbHx59qH
- qzoLQyu+Cq9A9PX+DiZpoZTbHCcc32hBIZdn3Q280fKgNuqhGGpTq1p5OAUZibISw6cMCk
- 4KBFAdk4nLFQiuGjfkFdt+YlNa/2X3s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-IMflEntJOJOf2XaFpXQ2UA-1; Thu, 18 Mar 2021 08:59:14 -0400
-X-MC-Unique: IMflEntJOJOf2XaFpXQ2UA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8E61922020;
- Thu, 18 Mar 2021 12:59:13 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.196.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1EBC5D6AB;
- Thu, 18 Mar 2021 12:59:10 +0000 (UTC)
-Date: Thu, 18 Mar 2021 13:59:08 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: arm_cpu_post_init (Was: Re: arm: "max" CPU class hierarchy
- changes possible?)
-Message-ID: <20210318125908.zwpm47ftlsuen3zo@kamzik.brq.redhat.com>
-References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
- <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
- <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
- <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
- <CAFEAcA_j-0+vmNFtPjcxEXC9r4bFrebDfGjq-x1SfguzUG4qcw@mail.gmail.com>
- <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
- <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
- <c3397f29-82eb-5a1b-803d-8184c9a8d508@suse.de>
- <20210318120837.cg4gfdpchjwiabav@kamzik.brq.redhat.com>
- <fc769a96-a304-7429-5dee-a65b52179b1c@suse.de>
+ (Exim 4.90_1) (envelope-from <susinilorenzo1@gmail.com>)
+ id 1lMqpn-0000ow-NE
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:28:59 -0400
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:41871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <susinilorenzo1@gmail.com>)
+ id 1lMqpl-0001Kj-Tw
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:28:59 -0400
+Received: by mail-vs1-xe2e.google.com with SMTP id l13so1332930vst.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 04:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=GPi1R+/F5l5xMmx3avvBOsltXruDH5DoLlMjV8xOSmk=;
+ b=jlRSvUXHTD5TsUtnocuIZY6xhWSeveHXVc1xShYIN+znp3P2+hKhjjIsIqgD48pUMx
+ LGq9vTNeEBi7OPMEMD71iIaZTuABu6lNbr0gUtcNkgq9e7tiq9wnLrBNfI139JO+Bayp
+ yLrGx5iY6VKECPgmoNcWSTjPjfh5lbR+3kj6zlExJf9tjqot6VxUXxjDQny6aecRjH+/
+ r1wd2yLQaFLNOZ1JJZsGxUlUQ91d4GoBpHol7JMDfFDf9wKjN2P7xRXXy5gumzK9pNrB
+ Y/CDkO9u/omXF3RdeTFnBKxRkH+abbeOxmu0EcPG7Q5+q3QTCuGLzICWN2pPuJivLpbX
+ pKoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=GPi1R+/F5l5xMmx3avvBOsltXruDH5DoLlMjV8xOSmk=;
+ b=PagrNKpPHEEXuDrsFkWHXbXnCWRW+EffqDmKcHyScvfWXp4f/DRluiK5oSWJWFinjZ
+ 5+HMOQbb+UFKBeeNEth+tfa65qBJVsA2ayJ6trSUGBaVY17a0Q1cc9Pl5fvNUr6BXtFe
+ yMfdID4f5rvz6ZleAZdM51Ck7cUSpiaMvB4FQ+WbB6H9lqiCBnSEOIxOtx/M+Di40NaB
+ QvE5NPSj+qsizgzhYmbgp67MMz3Z00GLeryBWqX27/W9u+3WheaY5TRjsVY+JFmGeI9+
+ ZGUhWg5sL9vCxsOsy10stPh6L0mcxy64mCLdQU/aaUW4iGqQlCrAxLeuZmxdZPI7NM8m
+ zKnA==
+X-Gm-Message-State: AOAM5328ykrCp+s5s6cfLe4yLY5sQQ1dxbgFnYYOdVs6E+Zpmq3e6sLD
+ UDMgcaLEdUqOmx+f/MuEXiq4CEQiPPbgUQmiNKfbUTdBdACn0g==
+X-Google-Smtp-Source: ABdhPJwbMIzB7DBtiD+M4oEmMV4xiwIGYBT1D91MoJH6/L4wHBFCPmRgu1yFNMfaapruqlC/DeeFvHxX2x/h23eduBw=
+X-Received: by 2002:a67:fa05:: with SMTP id i5mr6246716vsq.41.1616066936194;
+ Thu, 18 Mar 2021 04:28:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <fc769a96-a304-7429-5dee-a65b52179b1c@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Lorenzo Susini <susinilorenzo1@gmail.com>
+Date: Thu, 18 Mar 2021 12:28:45 +0100
+Message-ID: <CAHFRQs1GuB+8tw+SDK11LOLXF4H6z+6+ZbQMTABXNK3gj7vffA@mail.gmail.com>
+Subject: KVM_MEM_READONLY slot flag not working properly
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000aa4a9305bdcde7d6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
+ envelope-from=susinilorenzo1@gmail.com; helo=mail-vs1-xe2e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 18 Mar 2021 09:24:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,64 +75,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 18, 2021 at 01:42:36PM +0100, Claudio Fontana wrote:
-> On 3/18/21 1:08 PM, Andrew Jones wrote:
-> > On Thu, Mar 18, 2021 at 12:32:30PM +0100, Claudio Fontana wrote:
-> >> And why do we have a separate arm_cpu_finalize_features()?
-> > 
-> > Separate, because it's not just called from arm_cpu_realizefn().
-> 
-> In particular it is also called by the monitor.c in qmp_query_cpu_model_expansion(),
-> 
-> which basically creates an object of the cpu subclass,
-> and then calls arm_cpu_finalize_[features]() explicitly on the object.
-> 
-> Is the qdev realize() method not called in this case? Should instead it be triggered, rather than initializing/realizing an incomplete object?
+--000000000000aa4a9305bdcde7d6
+Content-Type: text/plain; charset="UTF-8"
 
-Can you elaborate on what you mean by "triggered"? The QMP query does the
-least that it can get away with while still reusing the CPU model's
-feature initialization code. Any suggestions for improving that,
-preferably in the form of a patch, would be welcome. If it works well for
-Arm, then it could probably be applied to other architectures. The Arm QMP
-query is modeled off the others.
+Hello,
 
-> 
-> > 
-> >>
-> >> Nothing in the ARM cpu classes initializations ever seems to be "final" to me.
-> > 
-> > Some CPU features cannot be simply switched on/off at the property
-> > parse time. For example, there could be dependencies on multiple
-> > properties, the mutual exclusion of properties, or other aspects
-> > that can only be known later than property parse time. That stuff
-> > goes in arm_cpu_finalize_features().
-> 
-> Seems like _part_ of that is in arm_cpu_finalize_[features]() (in practice, this ends up being AARCH64-only stuff,
-> ie SVE, PAUTH and KVM).
-> 
-> After calling that, the arm realizefn() also does further setting and unsetting of features, checking previous feature states.
-> 
-> There is a whole lot following the arm_cpu_finalize_[features]() call,
-> there are ~300 lines of features initializations happening _after_ the call to arm_cpu_finalize_[features]().
->
+Have some of you successfully used the KVM_MEM_READONLY slot flag?
 
-Any feature that needs a finalizer (i.e. it can't be managed at property
-parsing time) and wants to be probable by the QMP query will need to have
-its finalizing moved to arm_cpu_finalize_features(). Some of those ~300
-lines might be better pushed into property set/get handlers, others will
-never want to be advertised in the QMP query, but the rest will get moved
-when the need is great enough.
+I'm working on a project and I'm trying to protect the guest's IDT by using
+KVM, modifying kvm-all.c.
+I'm able to correctly locate the IDT in the host by reading IDTR with
+KVM_GET_SREGS,
+translating it with KVM_TRANSLATE and, by using the KVMSlot struct, I'm
+able to find the corresponding
+host virtual address. I've double checked the addresses with the Qemu
+Monitor (gpa2hva and gva2gpa) and they
+are correct.
 
-Thanks,
-drew
+Then, I decided to split the slot where the IDT currently lives into three
+separate ones, setting the IDT in its own private slot and making it
+read-only with KVM_MEM_READONLY:
 
+INITIAL SLOT ===> PRE IDT SLOT |  IDT SLOT (KVM_MEM_READONLY)  |  POST IDT
+SLOT.
+
+By doing this, the VM continues its execution normally. Also, I'm not
+moving memory in the host when
+reassigning slots, so I'm just changing the sizes and the addresses when
+doing kvm_set_userspace_memory_region,
+there's no need to move data anywhere else in my opinion, and this is
+confirmed by the fact that VM, after doing so, behaves normally.
+
+However, when I try to register a new interrupt handler (for instance for
+the edu device, just to try it out), it works perfectly,
+meaning that the IDT is not really read-only. Do you have any idea why? Any
+suggestions on how to solve the problem?
+Of course I've also checked KVM_CAP_READONLY_MEM, no problem with that.
+
+Anyway, is this the right place to post?
+
+Thank you,
+Lorenzo
+
+--000000000000aa4a9305bdcde7d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,=C2=A0<div><br><div>Have some of you successfully us=
+ed the KVM_MEM_READONLY slot flag?</div><div><br><div>I&#39;m working on a =
+project and I&#39;m trying to protect the guest&#39;s IDT by using KVM,=C2=
+=A0modifying kvm-all.c.=C2=A0</div><div>I&#39;m able to correctly locate th=
+e IDT in the host by reading IDTR with KVM_GET_SREGS,=C2=A0</div><div>trans=
+lating it with KVM_TRANSLATE and, by using the KVMSlot struct, I&#39;m able=
+ to find the corresponding<br></div></div></div><div>host virtual address. =
+I&#39;ve double checked the addresses with the Qemu Monitor (gpa2hva and=C2=
+=A0gva2gpa) and they</div><div>are correct.=C2=A0</div><div><br></div><div>=
+Then, I decided to split the slot where the IDT currently lives into three =
+separate ones, setting the IDT in its own private slot and making it=C2=A0<=
+/div><div>read-only with KVM_MEM_READONLY:</div><div><br></div><div>INITIAL=
+ SLOT =3D=3D=3D&gt; PRE IDT SLOT |=C2=A0 IDT SLOT (KVM_MEM_READONLY)=C2=A0 =
+|=C2=A0 POST IDT SLOT.=C2=A0</div><div><br></div><div>By doing this, the VM=
+ continues its execution normally. Also, I&#39;m not moving memory in the h=
+ost when=C2=A0</div><div>reassigning slots, so I&#39;m just changing the si=
+zes and the addresses when doing kvm_set_userspace_memory_region,=C2=A0</di=
+v><div>there&#39;s no need to move data anywhere else in my opinion, and th=
+is is confirmed by the fact that VM, after doing so, behaves normally.=C2=
+=A0</div><div><br></div><div>However, when I try to register a new interrup=
+t handler (for instance for the edu device, just to try it out), it works p=
+erfectly,=C2=A0</div><div>meaning that the IDT is not really read-only. Do =
+you have any idea why? Any suggestions on how to solve the problem?=C2=A0</=
+div><div>Of course I&#39;ve also checked=C2=A0KVM_CAP_READONLY_MEM, no prob=
+lem with that.=C2=A0</div><div><br></div><div>Anyway, is this the right pla=
+ce to post?</div><div><br></div><div>Thank you,=C2=A0</div><div>Lorenzo</di=
+v></div>
+
+--000000000000aa4a9305bdcde7d6--
 
