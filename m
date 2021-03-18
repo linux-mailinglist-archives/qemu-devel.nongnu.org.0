@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B8B340ED2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 21:06:49 +0100 (CET)
-Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15BC340EDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 21:11:29 +0100 (CET)
+Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMyuv-0007Hs-3C
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 16:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
+	id 1lMyzQ-00014Z-LH
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 16:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lMytS-0006dw-AZ
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:05:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lMytJ-00086l-OQ
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:05:17 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMyxz-0008HE-Bc
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:10:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22333)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMyxt-0001ml-Pw
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616097909;
+ s=mimecast20190719; t=1616098192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K6FhCpUMabYETFCnNI6Q4JAbaREA4bQvzoGfrHADr4I=;
- b=KevMvqpcZ5DxzgSZ637nYfoDLbGlqQMcLqk/eqUu8rcZRzVnv8wx5RnTbU4E6fC2QUCB/P
- Mumh4boXSsXZRsyeX/lsfYXldl5AcRYJzxpFBsPCHJ7rDAbVfmu2GG2pO5FZGiCXR8Q2Y0
- 8xYX1Dw2XVwUvTJQX4xJHBw2t199RyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-bg0q-7wKOSChZtuQBvi_0g-1; Thu, 18 Mar 2021 16:05:05 -0400
-X-MC-Unique: bg0q-7wKOSChZtuQBvi_0g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 154775B361;
- Thu, 18 Mar 2021 20:05:04 +0000 (UTC)
-Received: from work-vm (ovpn-115-13.ams2.redhat.com [10.36.115.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8736EF48;
- Thu, 18 Mar 2021 20:05:02 +0000 (UTC)
-Date: Thu, 18 Mar 2021 20:05:00 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: of AVR target page size
-Message-ID: <YFOybOQAk6IXCL0R@work-vm>
-References: <YFJjIq45ggSZz0CX@work-vm>
- <CAFEAcA8aifakYwKn0umNbuCVtAsa_1svEGEq-coj9iVo3b1WPA@mail.gmail.com>
- <YFMpCPtMJzXUeeIk@work-vm>
- <CAFEAcA_+Yvn5S8P3zwPcsO9HF=0rXCJrfUZKs6RAQWhdyG_-fQ@mail.gmail.com>
- <YFMqmDmwDZwRQviM@work-vm>
- <CAFEAcA825k8uttjmJuwNM=rDa-m7nOWJZEAQzP9Zz3e7yyS9Aw@mail.gmail.com>
- <YFMvO/79vcSFOEix@work-vm>
- <CAFEAcA8+FfNaQ+26cSKYP8X05F-hqZ+0CxF7cS0hj=AW2M6O6g@mail.gmail.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qsgLPb/zF/jbyif5h3bZUc4fQpNap1o4n6/hx5I4dRM=;
+ b=Hf+2UlvQK6y47at8DIMqCf4uHSuUcumpmDrHhDYm3PxzbhnNvGRVdf+9fq9UtH+POvSdmd
+ kxUXg+supToRreBxdALEp8xJ5PhB6Swn+YOaiicRBUnGsStxNomopwSeeFV1lJSN4/nwSh
+ 8kK3R2c09kBbUNTI4pn4gwTbXPNSVqE=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-qfEJli4MM76AMV23D_h4Uw-1; Thu, 18 Mar 2021 16:09:51 -0400
+X-MC-Unique: qfEJli4MM76AMV23D_h4Uw-1
+Received: by mail-oi1-f197.google.com with SMTP id s26so13739518oij.6
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 13:09:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qsgLPb/zF/jbyif5h3bZUc4fQpNap1o4n6/hx5I4dRM=;
+ b=npBVsE6aVMr2nf0OgvsasqwSu1wmxvLLEcPZB/FDRDARudZxFY2nlihdujRYrVpixq
+ DsYaWxQ/DaONSmJsR1hCQD/igJAcFiMCStG5TpvsCvpHZghF2lVx6GmzNoAHjp7FjwHh
+ ysq8riQm4PJMKE8/XpFz8zutoAtSZ9Lj2koiknYzM5VXLBHBvumPug5vseelIhVBicKv
+ tt+tILgiCeJuLsxbpW+9pE1X43ZUNfVwf4uJXB1aA+YQRI2YUMx6FRGvBzodnvaeu3iw
+ iGRrcyCm9Tv3UaQce2KAmifBuxLu1DhyU356rtfMXxB4TsU+h8QsPhfo5UTRNSS/NUvn
+ +RIg==
+X-Gm-Message-State: AOAM533ZIp4DQ5uTnH97sItGdxRx6Qn7A3h+rfbeg/JQ7qs8uaUMCwzL
+ xcKBOieHjmwbu51FkC5hgKyHkIzotC18nrE0YcMdAk3WwFhAzMy9YmfwLdbMW5WgKtiqSrP38Tw
+ eY0+iM0MMmNtHbNU=
+X-Received: by 2002:a54:4891:: with SMTP id r17mr4363352oic.1.1616098190607;
+ Thu, 18 Mar 2021 13:09:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwB4d+HTkP3zZzNSbXVZyeIvN2o8qVmkFMWTCo8rqaoy47cPQkPx8Vd84RkcgXqZ4+ZXCH9SA==
+X-Received: by 2002:a54:4891:: with SMTP id r17mr4363341oic.1.1616098190454;
+ Thu, 18 Mar 2021 13:09:50 -0700 (PDT)
+Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id o23sm697833otp.45.2021.03.18.13.09.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Mar 2021 13:09:50 -0700 (PDT)
+From: Connor Kuehl <ckuehl@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/1] iotests: fix 051.out expected output after error
+Date: Thu, 18 Mar 2021 15:09:48 -0500
+Message-Id: <20210318200949.1387703-1-ckuehl@redhat.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8+FfNaQ+26cSKYP8X05F-hqZ+0CxF7cS0hj=AW2M6O6g@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,40 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Thu, 18 Mar 2021 at 10:45, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > > Also, what does the
-> > >  /* 0x80 is reserved in migration.h start with 0x100 next */
-> > > comment refer to? migration.h has no instances of "RAM_SAVE"
-> > > or 0x80 or 1 << 7...
-> >
-> > It looks like it got moved to qemu-file.h a few years ago
-> > as RAM_SAVE_FLAG_HOOK.
-> 
-> Could we put the define of RAM_SAVE_FLAG_HOOK in migration.h
-> with all the other RAM_SAVE_FLAG defines ? It looks like the two
-> places that use it already include migration.h...
+Oops, sorry about the churn. I can see why this would have caused a
+failure but I'm surprised I can't reproduce this when I run the test
+locally.
 
-Do you mean move the rest of the RAM_SAVE_FLAG_* from migration/ram.c
-into migration.h?
+Christian, would you be willing to test this patch out as a quick sanity
+check too?
 
-We could do - although they're never used by anything else.
+Connor Kuehl (1):
+  iotests: fix 051.out expected output after error text touchups
 
-Dave
+ tests/qemu-iotests/051.out | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> thanks
-> -- PMM
-> 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.30.2
 
 
