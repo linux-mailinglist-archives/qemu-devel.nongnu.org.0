@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4107F340275
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:51:07 +0100 (CET)
-Received: from localhost ([::1]:44208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9302B34027C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:52:24 +0100 (CET)
+Received: from localhost ([::1]:47214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMpJ4-00066E-CH
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
+	id 1lMpKJ-0007Oo-Me
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lMpHa-0004hY-Qi
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:49:34 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lMpHV-0005MQ-LV
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:49:34 -0400
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4F1MdJ6WTbzYKr5;
- Thu, 18 Mar 2021 17:47:32 +0800 (CST)
-Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Thu, 18 Mar 2021 17:49:17 +0800
-Received: from dggpemm000003.china.huawei.com (7.185.36.128) by
- dggpemm000001.china.huawei.com (7.185.36.245) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 18 Mar 2021 17:49:17 +0800
-Received: from dggpemm000003.china.huawei.com ([7.185.36.128]) by
- dggpemm000003.china.huawei.com ([7.185.36.128]) with mapi id 15.01.2106.013;
- Thu, 18 Mar 2021 17:49:17 +0800
-From: zhukeqian <zhukeqian1@huawei.com>
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: The windows guest can't bootup
-Thread-Topic: The windows guest can't bootup
-Thread-Index: AQHXG9nkH2r9s6n6K0qB9PTiTI9B96qJgDnh
-Date: Thu, 18 Mar 2021 09:49:17 +0000
-Message-ID: 0885149F-F56E-4533-A3C8-F49F8192901A
-References: <20210318092218.GA4275@yangzhon-Virtual>
-In-Reply-To: <20210318092218.GA4275@yangzhon-Virtual>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: multipart/alternative;
- boundary="_000_0885149FF56E4533A3C8F49F8192901A_"
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMpIf-0006P0-Qo
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:50:41 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMpId-000673-Vl
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:50:41 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id b9so4788227wrt.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 02:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hLkdZk3dMfqoBrYahapYWDE3tM3+E8bhOgu1WEoJcvE=;
+ b=LWzgNetWDt0IHeBP//PNUyGExkZN8Ff+pxvEtYrRzFS+dJcKllPGXg45yvfpfXmbWU
+ WbfI0Swf3wjewrix7yZ+qGbFiQ3QTuy95bsBM55rVFu/QGYxhz+HvhiqiiW3u04iSpX2
+ EBZjRnUu7ktRBDLSf8ge4k1GRnBwQt5zQLW2EwwbqV7QTeVJHGBrP6MV37Oyds+SQwFv
+ J7ntYExzImc+QiQt9i6IYhc36Xc+fdxnkl/lbFv2yTHBZNAhHVAYtrFEEFVfKrbn/piG
+ nfTXkw39c38jbJTj8lSKiCKpLtY8jopm/oY0tzYITa99ozwXnl8sa9++Ie8aa02EdSaA
+ sv0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hLkdZk3dMfqoBrYahapYWDE3tM3+E8bhOgu1WEoJcvE=;
+ b=WULZja4PcpOHaSB0pHHK4LNfeNIwoZdV3uFKhiQhwPLoDAfvTvIcPHchrQ546NDWt9
+ J73dQTWm7M3Uftb6tM8Af4O25+0/0KBwhsS7q5u7vqZ5tCqNCEwm4z3zMOw0L+MrDIGl
+ rdtL+to3spFniwMO6GEuAZ/P20jh3ngZBeOalP/iBkAdL5+YgFYEhdlUWAydjJNvrNme
+ YlcnconXBgIRjPgZ28hqvALpV3HMtVgGU0jhPcFlNMuXL4qEdPcluiUp+98yELoon3PJ
+ nKhAEAtugrPbC+srRSoLvkrY/BQqOhU8VuRmalHZTgpLIIuEnSvSBXldNvxbOo2D/lIb
+ BITw==
+X-Gm-Message-State: AOAM532f03oU9IafcRKaoNge9+b4RmIxzUbvP+4qlDVnUJLvyHXUS+ni
+ 9aDrL2hmBPD4risWuP1ind8=
+X-Google-Smtp-Source: ABdhPJwxkXA7iUOdnZMcG563Yn7RUTM7+sl0VMiyph6KiMmhDP98oTWOCmAhprdDnKvu+ljDjPP99w==
+X-Received: by 2002:adf:fd48:: with SMTP id h8mr8821071wrs.229.1616061038230; 
+ Thu, 18 Mar 2021 02:50:38 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id m17sm2214307wrx.92.2021.03.18.02.50.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 02:50:37 -0700 (PDT)
+Subject: Re: Serious doubts about Gitlab CI
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+ <YFMegwL6SXX2/+kZ@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8c804b8a-fc98-0619-21e5-cc5dfe7d4567@amsat.org>
+Date: Thu, 18 Mar 2021 10:50:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=zhukeqian1@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- INVALID_MSGID=0.568, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YFMegwL6SXX2/+kZ@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,57 +89,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "yang.zhong" <yang.zhong@intel.com>, pbonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_0885149FF56E4533A3C8F49F8192901A_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 3/18/21 10:33 AM, Daniel P. Berrangé wrote:
+> On Wed, Mar 17, 2021 at 09:29:32PM +0100, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> For some (unclear) reason I got my free tier Gitlab account renewed and
+>> lost the privilege for users opening account before the quota limit.
+>>
+>> I pushed a single branch to my namespace repo to trigger a pipeline.
+>> 1h later I was surprised to see the pipeline was stuck, having completed
+>> 99 jobs of 119. Looking closer there is a red comment on top of the
+>> pipeline:
+>>
+>>  philmd has exceeded its pipeline minutes quota. Unless you buy
+>>  additional pipeline minutes, no new jobs or pipelines in its projects
+>>  will run. [Buy more Pipelines minutes]
+>>
+>> So I exhausted my 400 monthly minutes credit.
+>>
+>> From this FAQ:
+>> https://about.gitlab.com/pricing/faq-consumption-cicd/#managing-your-cicd-minutes-usage
+>>
+>> Q. What happens if I hit the CI/CD Minutes allotted limit and forget to
+>> purchase additional CI/CD Minutes?
+>>
+>> A. You will not be able to run new jobs until you purchase additional
+>> CI/CD Minutes, or until the next month when you receive your monthly
+>> allotted CI/CD Minutes.
+>>
+>> Q. Will I be notified before I hit my limit on CI/CD Minutes?
+>>
+>> A. You will receive notification banners in-app when your group has less
+>> than 30%, 5% or exceeded your total allotted CI/CD minutes.
+>>
+>> I indeed received 3 warnings in 7 minutes.
+>>
+>> Now I'm having serious doubts about Gitlab usefulness for the QEMU
+>> community...
+> 
+> Per the discussions in the related Forum postings about CI limites, the
+> 400 minute limit is still only intended to apply to projects that are
+> marked as private.  Public projects are not even being tracked for
+> accounting, let alone have a limit enforced. They also said they want
+> to make sure they don't impact ability of users to contribute to OSS
+> projects hosted on GitLab that require use of CI.
+> 
+> It feels like what you hit here is fallout from your account accidentally
+> getting blocked, rather than something which is hitting every contributor
+> to QEMU. Did they restore projects as private perhaps ?
 
-SGksDQoNClllcC4gSXQgaXMga25vd24gaXNzdWUuIFBhb2xvIHdpbGwgcmV2ZXJ0IGl0Lg0KDQpU
-aGFua3MuDQoNCg0KDQoNCg0KDQoNCg0KSGVsbG8sDQoNCkkgc3luY2VkIHRvZGF5IHFlbXUgY29k
-ZSwgYW5kIGZvdW5kIHRoZSBxZW11IGNhbid0IGJvb3R1cCB0aGUgd2luZG93cyBndWVzdC4NClRo
-aXMgaXNzdWUgd2FzIGNhdXNlZCBieSBjb21taXQgaWQgMzkyMDU1MjggYW5kIHJldmVydCB0aGlz
-IHBhdGNoLCB0aGUgd2luZG93cw0KZ3Vlc3QgY2FuIGJvb3R1cC4NCg0KcWVtdS1zeXN0ZW0teDg2
-XzY0OiAuLi9hY2NlbC9rdm0va3ZtLWFsbC5jOjY5MDoga3ZtX2xvZ19jbGVhcl9vbmVfc2xvdDog
-QXNzZXJ0aW9uIGAoKChzdGFydCB8IHNpemUpICUgKHBzaXplKSkgPT0gMCknIGZhaWxlZC4NCg0K
-SSBhbHNvIGVuYWJsZWQgdGhlIHZnYSBkZXZpY2UgaW4gdGhlIExpbnV4IGd1ZXN0LCBhbmQgc2Ft
-ZSBpc3N1ZSB3YXMgZm91bmQuDQoNClJlZ2FyZHMsDQoNCllhbmcNCg0K
+Yes my repository was restored as private and I had to switch it to
+public. I'll try to blew everything (after backing it up) and recreate
+it as public from start, and see if I get the unlimited minutes back.
 
---_000_0885149FF56E4533A3C8F49F8192901A_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Thanks,
 
-PCFET0NUWVBFIGh0bWw+DQo8aHRtbD4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVu
-dC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPC9tYXRhPjxzdHls
-ZSB0eXBlPSJ0ZXh0L2NzcyI+Cioge2JveC1zaXppbmc6Ym9yZGVyLWJveDt9CmJvZHkge2ZvbnQt
-ZmFtaWx5OiBDYWxpYnJpO30KPC9zdHlsZT4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj4NCjxkaXYg
-aWQ9ImZvY3VzIj4NCjxkaXY+SGksIDwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+WWVw
-LiBJdCBpcyBrbm93biBpc3N1ZS4gUGFvbG8gd2lsbCByZXZlcnQgaXQuIDwvZGl2Pg0KPGRpdj48
-YnI+DQo8L2Rpdj4NCjxkaXY+VGhhbmtzLiA8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2
-Pjxicj4NCjxicj4NCjxicj4NCjxicj4NCjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjxk
-aXY+PC9kaXY+DQo8ZGl2IGlkPSJzaWduYXR1cmUiPjxicj4NCjwvZGl2Pg0KPGRpdiBuYW1lPSJB
-bnlPZmZpY2UtQmFja2dyb3VuZC1JbWFnZSIgc3R5bGU9ImJvcmRlci10b3A6MXB4IHNvbGlkICNC
-NUM0REY7cGFkZGluZzo4cHg7IGJhY2tncm91bmQtaW1hZ2U6dXJsKGRhdGE6aW1hZ2UvcG5nO2Jh
-c2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQUVBQUFCQkNBWUFBQUFRVGM3bEFBQUFDWEJJ
-V1hNQUFBc1RBQUFMRXdFQW1wd1lBQUFBQkdkQlRVRUFBTEdPZlB0Umt3QUFBQ0JqU0ZKTkFBQjZK
-UUFBZ0lNQUFQbi9BQUNBNlFBQWRUQUFBT3BnQUFBNm1BQUFGMiYjNDM7U1g4VkdBQUFBTjBsRVFW
-UjQybUo0OHU3UGZ5WUdCb1ovY09Jdktnc2I4UWVWaFovNGpZWDdHd3NYcHhoJiM0MztnZ2hUY0xv
-Rko0SG1TMndFVWxnQkJnQWpQa05SUWxHUGZBQUFBQUJKUlU1RXJrSmdnZz09KTsgYmFja2dyb3Vu
-ZC1yZXBlYXQ6IHJlcGVhdC14OyI+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8ZGl2IG5h
-bWU9Im1haWxfaGlzdF9jb250ZW50Ij48Zm9udCBzaXplPSIyIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOiAxMHB0OyBiYWNrZ3JvdW5kLWNvbG9yOiBpbmhlcml0OyI+DQo8ZGl2IGNsYXNzPSJQbGFp
-blRleHQiPkhlbGxvLCA8YnI+DQo8YnI+DQpJIHN5bmNlZCB0b2RheSBxZW11IGNvZGUsIGFuZCBm
-b3VuZCB0aGUgcWVtdSBjYW4ndCBib290dXAgdGhlIHdpbmRvd3MgZ3Vlc3QuIDxicj4NClRoaXMg
-aXNzdWUgd2FzIGNhdXNlZCBieSBjb21taXQgaWQgMzkyMDU1MjggYW5kIHJldmVydCB0aGlzIHBh
-dGNoLCB0aGUgd2luZG93cyA8YnI+DQpndWVzdCBjYW4gYm9vdHVwLiA8YnI+DQo8YnI+DQpxZW11
-LXN5c3RlbS14ODZfNjQ6IC4uL2FjY2VsL2t2bS9rdm0tYWxsLmM6NjkwOiBrdm1fbG9nX2NsZWFy
-X29uZV9zbG90OiBBc3NlcnRpb24gYCgoKHN0YXJ0IHwgc2l6ZSkgJSAocHNpemUpKSA9PSAwKScg
-ZmFpbGVkLg0KPGJyPg0KPGJyPg0KSSBhbHNvIGVuYWJsZWQgdGhlIHZnYSBkZXZpY2UgaW4gdGhl
-IExpbnV4IGd1ZXN0LCBhbmQgc2FtZSBpc3N1ZSB3YXMgZm91bmQuIDxicj4NCjxicj4NClJlZ2Fy
-ZHMsIDxicj4NCjxicj4NCllhbmcgPGJyPg0KPC9kaXY+DQo8L3NwYW4+PC9mb250Pjxicj4NCjwv
-ZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
-
---_000_0885149FF56E4533A3C8F49F8192901A_--
+Phil.
 
