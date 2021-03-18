@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDC333FD96
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 04:12:36 +0100 (CET)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AE633FD9D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 04:14:14 +0100 (CET)
+Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMj5P-00063F-Gc
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 23:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
+	id 1lMj6z-0000U5-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 23:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lMj3f-0004Hg-To
+ id 1lMj3f-0004Ha-7g
  for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:10:47 -0400
-Received: from mga09.intel.com ([134.134.136.24]:54698)
+Received: from mga09.intel.com ([134.134.136.24]:54700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lMj3d-0005re-Pk
+ id 1lMj3d-0005sv-G2
  for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:10:47 -0400
-IronPort-SDR: wC7nD/3PcYLUne/93nlvDyGPU0IsUxT8+5HC6Ox0vajR1iYc/kOYbK/fWkeesWNAn/MpK1ton2
- hUVcaZSmNqeQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9926"; a="189681333"
-X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="189681333"
+IronPort-SDR: c3R9nWlKCrpn0Up6ZR0+hXMUTobzLAZ5g2DjJGdq223P300KFTgaf2SGFKnjQ+iHzUHtd+/tOH
+ 9RBrsIqksZwQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9926"; a="189681337"
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="189681337"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2021 20:10:39 -0700
-IronPort-SDR: ata36DlWdHpFnPaX5n7HZG6RejG2k3i2JQswaxoTtQHyN0uHgbcUSOGzJ/Slwz3Kib+hxH/Nm8
- gleUFsLc5IAg==
-X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="412898197"
+ 17 Mar 2021 20:10:41 -0700
+IronPort-SDR: VToqeDUO/HLPVVKLiEpM9uaE4O0aGDCyCu+pYPJAaz77fnIxLXcLQJiPrxI2weSBAPqKgTGD61
+ rqtfOkWsaKCg==
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="412898213"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2021 20:10:37 -0700
+ 17 Mar 2021 20:10:39 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Eric Blake <eblake@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Lukas Straub <lukasstraub2@web.de>
-Subject: [PATCH V3 1/7] qapi/net.json: Add IP_PROTOCOL definition
-Date: Thu, 18 Mar 2021 11:04:54 +0800
-Message-Id: <20210318030500.55352-2-chen.zhang@intel.com>
+Subject: [PATCH V3 2/7] qapi/net.json: Add L4_Connection definition
+Date: Thu, 18 Mar 2021 11:04:55 +0800
+Message-Id: <20210318030500.55352-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210318030500.55352-1-chen.zhang@intel.com>
 References: <20210318030500.55352-1-chen.zhang@intel.com>
@@ -69,51 +69,48 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add IP_PROTOCOL as enum include TCP,UDP, ICMP... for other QMP commands.
+Add L4_Connection struct for other QMP commands.
+Except protocol field is necessary, other fields are optional.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- qapi/net.json | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ qapi/net.json | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/qapi/net.json b/qapi/net.json
-index c31748c87f..dc4c87dc7b 100644
+index dc4c87dc7b..b4958447f2 100644
 --- a/qapi/net.json
 +++ b/qapi/net.json
-@@ -714,3 +714,33 @@
+@@ -744,3 +744,29 @@
  ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
+ { 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp', 'udplite',
+     'icmp', 'igmp', 'ipv6' ] }
 +
 +##
-+# @IP_PROTOCOL:
++# @L4_Connection:
 +#
-+# Transport layer protocol.
++# Layer 4 network connection.
 +#
 +# Just for IPv4.
 +#
-+# @tcp: Transmission Control Protocol.
++# @protocol: Transport layer protocol like TCP/UDP...
 +#
-+# @udp: User Datagram Protocol.
++# @id: For specific module with Qemu object ID, If there is no such part,
++#      it means global rules.
 +#
-+# @dccp: Datagram Congestion Control Protocol.
++# @src_ip: Source IP.
 +#
-+# @sctp: Stream Control Transmission Protocol.
++# @dst_ip: Destination IP.
 +#
-+# @udplite: Lightweight User Datagram Protocol.
++# @src_port: Source port.
 +#
-+# @icmp: Internet Control Message Protocol.
-+#
-+# @igmp: Internet Group Management Protocol.
-+#
-+# @ipv6: IPv6 Encapsulation.
-+#
-+# TODO: Need to add more transport layer protocol.
++# @dst_port: Destination port.
 +#
 +# Since: 6.0
 +##
-+{ 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp', 'udplite',
-+    'icmp', 'igmp', 'ipv6' ] }
++{ 'struct': 'L4_Connection',
++  'data': { 'protocol': 'IP_PROTOCOL', '*id': 'str', '*src_ip': 'str', '*dst_ip': 'str',
++    '*src_port': 'int', '*dst_port': 'int' } }
 -- 
 2.25.1
 
