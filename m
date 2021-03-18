@@ -2,100 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D518A34092D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:50:37 +0100 (CET)
-Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760DD34094A
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:53:26 +0100 (CET)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMuux-0003aI-K4
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48680)
+	id 1lMuxh-0006Co-H6
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lMusG-0002iF-Lt; Thu, 18 Mar 2021 11:47:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3612
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lMusE-0001Xe-Vl; Thu, 18 Mar 2021 11:47:48 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12IFYUCK105120; Thu, 18 Mar 2021 11:47:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=s0gLlBJoVf6477OJA1zTzebYykL2NkKmyZgrCxLfazU=;
- b=s0AGUt53IZvL9WRbaDxcBZ217Z7b+HxkBG845+dBAEYnt9IBPl3MSEadqXc9cz37Cw9C
- XGrK4AfSJFphjVErlQ2gnrnUgn+1mt2vG6l/I6f32yp2dVPQYRLKNYkk3QGrLJ4r0g65
- +ynnHzCIaBVCTAmW2X/9N62hYczSktltVly+AhUYMO/ezF9v45tXTJ9ZdPsC/JIAHyEF
- 9ZV1T1hj0gL+465AEJ3ny2ro0eHM3zVWtAMwKAvGrN2Vn37CEH06d2mApTAjC3Vv7k2C
- IKOvfi5rygzQtPY8JxYWO9AC5oG4wdayB0qY4ZgMQ6QqUpg0aLXsJwHVoyGnoJsgCjo0 Dg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37by16brsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Mar 2021 11:47:44 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12IFZ2Hj109306;
- Thu, 18 Mar 2021 11:47:44 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37by16brrr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Mar 2021 11:47:43 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12IFWGht016183;
- Thu, 18 Mar 2021 15:47:41 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 378n18mwkj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Mar 2021 15:47:41 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 12IFlMBl34406674
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Mar 2021 15:47:22 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27C4B11C052;
- Thu, 18 Mar 2021 15:47:39 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 15F1211C04C;
- Thu, 18 Mar 2021 15:47:39 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu, 18 Mar 2021 15:47:39 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id AC451E165E; Thu, 18 Mar 2021 16:47:38 +0100 (CET)
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: "Michael S . Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] intc/i8259: avoid (false positive) gcc warning
-Date: Thu, 18 Mar 2021 16:47:38 +0100
-Message-Id: <20210318154738.27094-1-borntraeger@de.ibm.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMuto-0003YN-KI
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:49:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMutd-0002GK-UA
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:49:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616082550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GDtfl9XTcAeSw0MUyZtofRtqKGWy5nTCj/jrngDsxiw=;
+ b=EyukOpIulXlpjilDmSwG0plQMIBvaaG6G8EnkAXCMIw+m/kqrZzVDLyEGQUqPHnKs4RDgx
+ AFJ5wl+9sQ0+b6jujEJ+ih5ZWer77D2Gcr9h0CYg+kifsn4qBDEiyZLK3V3opTy1DhORoR
+ WVfUZ0iMfRWA1Lq8S2qYbqIxwLUsajQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-2WxsEVjGOv-BRFCRzIRvHA-1; Thu, 18 Mar 2021 11:49:07 -0400
+X-MC-Unique: 2WxsEVjGOv-BRFCRzIRvHA-1
+Received: by mail-wr1-f70.google.com with SMTP id h5so20256932wrr.17
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:49:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U321lw10ObS04yoo5eKD69BirD7DaD359om9MWH9VhU=;
+ b=HmjokC94tuv1NAvKbZ5/Umog/6pCQfJRlR/MOiuCMtLQUiM7nxBUlK23ZUUvQb1UJI
+ INR62wAAAH7jwGA0PkiM+SVUoVHtYb6rxAUJECjd3+sns2nANtEWK+ty6NuIgddS2Gq8
+ FaH/dsJ42XmBVdaEY6eq5iiqWc6odcDYUT6v4TqkcP7yjv+JPSbY+wuyGQvSBmEYw71X
+ CS5wknOSH7D7Si9PHjspVm/Sc+LwcJ5vSY8cpcQ/CVVGt1XuWDw48tNbK0KrwmfOsXXQ
+ ZANUmmgE7N9g+UuUATfXMzDcZ37ORePlX6w9Uwnx8auv3Ye8TUIWSIdiwZHnC5J/MjzP
+ +rGA==
+X-Gm-Message-State: AOAM5336TaZjgm49tvpY0YB9qR3JI3hEMwDPIKQB6L+hD2A+i8HnDxLp
+ wGz+JNU6v3x9NQ+cApb0hRmEfu0Mb4uemZdugSP1e+3Y1kVy0HAaIb86HZJVJ+oHVBERUP3VudX
+ /eOfGE8Qe2Yr4VhZdHsQLeGTzDOq8cEvUDbjnHVRjvn3TsKfsd7upTl6c7SJOrfKi
+X-Received: by 2002:a05:600c:2512:: with SMTP id
+ d18mr4216653wma.55.1616082546258; 
+ Thu, 18 Mar 2021 08:49:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLxe31YzgHoLi0VdTOpauf4UqifDGa9kECl3LYsqCgdU2pq175IKy9NGSkhXJ7MJtUbJHeKg==
+X-Received: by 2002:a05:600c:2512:: with SMTP id
+ d18mr4216638wma.55.1616082546073; 
+ Thu, 18 Mar 2021 08:49:06 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id p17sm2590936wmq.47.2021.03.18.08.49.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Mar 2021 08:49:05 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: 
+Subject: [PULL v2 00/11] pflash patches for 2021-03-18
+Date: Thu, 18 Mar 2021 16:48:53 +0100
+Message-Id: <20210318154854.3671458-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-18_09:2021-03-17,
- 2021-03-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=969 clxscore=1015 mlxscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103180111
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,45 +92,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
+Cc: David Edmondson <david.edmondson@oracle.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-some copiler versions are smart enough to detect a potentially
-uninitialized variable, but are not smart enough to detect that this
-cannot happen due to the code flow:
-
-../hw/intc/i8259.c: In function ‘pic_read_irq’:
-../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-   203 |         irq = irq2 + 8;
-       |         ~~~~^~~~~~~~~~
-
-Let us initialize irq2 to -1 to avoid this warning as the most simple
-solution.
-
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
----
- hw/intc/i8259.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 344fd04db14d..ade6fb726faf 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -176,7 +176,7 @@ static void pic_intack(PICCommonState *s, int irq)
- int pic_read_irq(DeviceState *d)
- {
-     PICCommonState *s = PIC_COMMON(d);
--    int irq, irq2, intno;
-+    int irq, irq2 = -1, intno;
- 
-     irq = pic_get_irq(s);
-     if (irq >= 0) {
--- 
-2.30.2
+Since v1:=0D
+- Fixed trace format string on 32-bit hosts (Peter)=0D
+=0D
+The following changes since commit 56b89f455894e4628ad7994fe5dd348145d1a9c5=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
+nto staging (2021-03-17 22:18:54 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/philmd/qemu.git tags/pflash-20210318=0D
+=0D
+for you to fetch changes up to 91316cbb3830bb845c42da2d6eab06de56b889b0:=0D
+=0D
+  hw/block/pflash_cfi: Replace DPRINTF with trace events (2021-03-18 11:16:=
+31 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Parallel NOR Flash patches queue=0D
+=0D
+- Code movement to ease maintainability=0D
+- Tracing improvements=0D
+----------------------------------------------------------------=0D
+=0D
+David Edmondson (2):=0D
+  hw/block/pflash_cfi01: Correct the type of PFlashCFI01.ro=0D
+  hw/block/pflash_cfi: Replace DPRINTF with trace events=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (9):=0D
+  hw/block/pflash_cfi: Fix code style for checkpatch.pl=0D
+  hw/block/pflash_cfi01: Extract pflash_cfi01_fill_cfi_table()=0D
+  hw/block/pflash_cfi02: Extract pflash_cfi02_fill_cfi_table()=0D
+  hw/block/pflash_cfi02: Set rom_mode to true in pflash_setup_mappings()=0D
+  hw/block/pflash_cfi02: Open-code pflash_register_memory(rom=3Dfalse)=0D
+  hw/block/pflash_cfi02: Rename register_memory(true) as mode_read_array=0D
+  hw/block/pflash_cfi02: Factor out pflash_reset_state_machine()=0D
+  hw/block/pflash_cfi02: Add DeviceReset method=0D
+  hw/block/pflash_cfi01: Clarify trace events=0D
+=0D
+ hw/block/pflash_cfi01.c | 253 ++++++++++++++++----------------=0D
+ hw/block/pflash_cfi02.c | 316 ++++++++++++++++++++--------------------=0D
+ hw/block/trace-events   |  40 +++--=0D
+ 3 files changed, 320 insertions(+), 289 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
