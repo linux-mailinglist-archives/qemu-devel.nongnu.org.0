@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A52E33FCAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 02:30:20 +0100 (CET)
-Received: from localhost ([::1]:55940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D48533FCF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 02:59:29 +0100 (CET)
+Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMhUR-0006g4-4O
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 21:30:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
+	id 1lMhwd-0001Mm-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 21:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMhT2-0006FG-Ut
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 21:28:52 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:45263)
+ id 1lMhvr-0000se-Rd; Wed, 17 Mar 2021 21:58:39 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:46208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMhT1-0004o1-7l
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 21:28:52 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id y133so796749ybe.12
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 18:28:50 -0700 (PDT)
+ id 1lMhvq-00021p-2D; Wed, 17 Mar 2021 21:58:39 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id h82so850157ybc.13;
+ Wed, 17 Mar 2021 18:58:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=e0ucuVJiZYc+FCuSGiK/lkLYvfsN0DasntUDfM/fyUE=;
- b=GC61keIARHGvlFl12OnyukI0Lb9Pz+ujSAWZA4MWgofAqocXDCnTpkWOMHLNDD2Wcg
- /pdJsBBHZcfiTycrVOMpvBc9D9/v3M250yTGIFBtZU5CUP2E5TmhPxJm6wVtKzFCYD/q
- s8L7TWRLgFXTjhAfDFbpCm7o/zx05yRmA+POnbsEn6bOEg5n9xPy3K6Nl5zzfJFtxHy3
- Es7/er29eiNX36EAUzYnI2XFjpSvYG4Y3Ar7tEzCmBNqk7VtCkpoVXKzt5XHoP4eWpeC
- QYglE8Frma8FhvbRRQDpHkw8DcTRqMZcqZuEKTyefoKNYzkH4j7Gd0Jc81z+vat3Zh0x
- rNKQ==
+ :cc; bh=M81rYKxtTy7FY9On3+9SUPbx9Fdn0saE3o9L+jQvg0s=;
+ b=TJOs8uQZ4eC1IYpi0mKUdgrr/3mse3akQkMUG7/J2pLGBdA/kJy2XM4F++bT1ya7Lg
+ lRISRymyCPVHNdmVsDPFFVoF2yMF7dRceUyMtaTGy+bsjb384Md0wpxOpWNFhigHlOEa
+ fhtn238FLL0eqazn7af87dD6F6OSnuRNrd0GQajAjywzaNhhPbKNc435aeFYsWF+3jvJ
+ bpB5/BGVMhTH+6XF7GAkOVGXcCdQ1/sc2wp4CWId9IAFglM5hMk2Wy10q1xiZH8MpPrh
+ 76/4IJAQ+VTNIH+imF0q2KEABoQ2nAsRME3FgWIX8RL+bKSC7aE5h1i5WAbRFQEPeXZw
+ 8auQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=e0ucuVJiZYc+FCuSGiK/lkLYvfsN0DasntUDfM/fyUE=;
- b=aBjfTforvRMvkxqmtZciLAJb97EuCrLmWj4kxhzZNxzzrmY6MeT8OZK4S9h/sF2ySq
- rJ+trpIvkz8x0G2rihkMf+T1uSFNuzZbt1zAjPOmUnphLEQp7NBcTH8BeLUlH2De6LeE
- PwtYeaS4iIppayxQ1Y0nKkOjwLzr9XsMi9/sR8ni96/SdJdFeg/TrDwtfBZ6f+uzTbHy
- tOUDbn0m9PTTArA0VWv45HbXqgSpfT62bEyaZK4hDLiZt4eQrw5l5AfsicA5vcca1rZQ
- r7FoWic9kwIGbvcK/JX+UP3b3QJpWiU+9tV5nSjowtLeJqJFhXPwrVNQ6+tulO/cAbD1
- tTPg==
-X-Gm-Message-State: AOAM530iMwYdoxhKC5l3F7QI/GMNSDu/OXI2PLr5HBsUoEQ3Xw76uAsH
- UOXIZW9RQNxMDCssFdCQ/DIYhXgh/rIdBdrIgt0=
-X-Google-Smtp-Source: ABdhPJwCRnl0g1O1AgIo0HUNE6hkVCHxnZUwYLLlVjujX9kIKbs3Y9Z/cBBsr2AsPZ5rxxa3LW+k8OvWnxAVwmk6sqw=
-X-Received: by 2002:a25:73d1:: with SMTP id o200mr7179640ybc.239.1616030929539; 
- Wed, 17 Mar 2021 18:28:49 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=M81rYKxtTy7FY9On3+9SUPbx9Fdn0saE3o9L+jQvg0s=;
+ b=FD+5/bIjAGzjB0IOMyFps9I2DGY7dqKqwHCzEpXFXtCDyhQ+wXiiR/24GrkRuxA6tN
+ r9sS2rHIBze+ndJJGC2mE2C9n5DWN9YnBKpEQBJFev04ndjIewT5vye4MhcKQ2qkkJhZ
+ Y2JBG66ki8fNqlgSJ4E4+sie1xflpsSJeyv3LN06QW9c8F+C1FtnQI10lhLobZrvudwZ
+ LtvWBYeG2wuxlJ1O9YDWHe+Q4w2k/w2KFdIxprbBFAdAamhReLrsqlpNouke8lT65pIR
+ sMqhxzaKJHu+ER9VZ4iiubgrpP0LhorKPrTC1IbLAzwBdjCpB8F5RFgBp3qhjjkoStQK
+ akEA==
+X-Gm-Message-State: AOAM531zZwSn1YdMffKR0LyWR5TzTapCvxk1Y39/XENIsx9CoWq+RPUn
+ puX/u/6HTdD7qoklcwdEkEzc62OA2nhf64inWAk=
+X-Google-Smtp-Source: ABdhPJwa5JEPMiZI+I+YuNtmTF1tpDkoAiFsjH7iXRPd3hjHytF8f7b8v7pCU5JbM6L5fILDzYDVwbOp3IGmMM900ao=
+X-Received: by 2002:a5b:147:: with SMTP id c7mr8624444ybp.332.1616032716370;
+ Wed, 17 Mar 2021 18:58:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
-In-Reply-To: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+References: <cover.1616002766.git.alistair.francis@wdc.com>
+ <685a79eb7992d8b780570501cdb784b607144f02.1616002766.git.alistair.francis@wdc.com>
+In-Reply-To: <685a79eb7992d8b780570501cdb784b607144f02.1616002766.git.alistair.francis@wdc.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 18 Mar 2021 09:28:38 +0800
-Message-ID: <CAEUhbmW=sGq+bH59xV4hiTyMp4TD6YwaTGz+K7RjyH4qQ2urFA@mail.gmail.com>
-Subject: Re: Serious doubts about Gitlab CI
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Thu, 18 Mar 2021 09:58:25 +0800
+Message-ID: <CAEUhbmVCmjFWs1SMh6ZLggC-i6wqXxwt9E6L_aXNuQvX8tPnuA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] target/riscv: Convert the RISC-V exceptions to an
+ enum
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
  envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
@@ -78,66 +76,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 18, 2021 at 4:32 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Thu, Mar 18, 2021 at 1:41 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
-> Hi,
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu_bits.h   | 44 ++++++++++++++++++++-------------------
+>  target/riscv/cpu.c        |  2 +-
+>  target/riscv/cpu_helper.c |  4 ++--
+>  3 files changed, 26 insertions(+), 24 deletions(-)
 >
-> For some (unclear) reason I got my free tier Gitlab account renewed and
-> lost the privilege for users opening account before the quota limit.
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index caf4599207..8ae404c32a 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -527,27 +527,29 @@
+>  #define DEFAULT_RSTVEC      0x1000
 >
-> I pushed a single branch to my namespace repo to trigger a pipeline.
-> 1h later I was surprised to see the pipeline was stuck, having completed
-> 99 jobs of 119. Looking closer there is a red comment on top of the
-> pipeline:
->
->  philmd has exceeded its pipeline minutes quota. Unless you buy
->  additional pipeline minutes, no new jobs or pipelines in its projects
->  will run. [Buy more Pipelines minutes]
->
-> So I exhausted my 400 monthly minutes credit.
->
-> From this FAQ:
-> https://about.gitlab.com/pricing/faq-consumption-cicd/#managing-your-cicd=
--minutes-usage
->
-> Q. What happens if I hit the CI/CD Minutes allotted limit and forget to
-> purchase additional CI/CD Minutes?
->
-> A. You will not be able to run new jobs until you purchase additional
-> CI/CD Minutes, or until the next month when you receive your monthly
-> allotted CI/CD Minutes.
->
-> Q. Will I be notified before I hit my limit on CI/CD Minutes?
->
-> A. You will receive notification banners in-app when your group has less
-> than 30%, 5% or exceeded your total allotted CI/CD minutes.
->
-> I indeed received 3 warnings in 7 minutes.
->
-> Now I'm having serious doubts about Gitlab usefulness for the QEMU
-> community...
->
-> Some screenshots FWIW:
->
-> https://pasteboard.co/JT51wGR.png
-> https://pasteboard.co/JT51Rqq.png
+>  /* Exception causes */
+> -#define EXCP_NONE                                -1 /* sentinel value */
+> -#define RISCV_EXCP_INST_ADDR_MIS                 0x0
+> -#define RISCV_EXCP_INST_ACCESS_FAULT             0x1
+> -#define RISCV_EXCP_ILLEGAL_INST                  0x2
+> -#define RISCV_EXCP_BREAKPOINT                    0x3
+> -#define RISCV_EXCP_LOAD_ADDR_MIS                 0x4
+> -#define RISCV_EXCP_LOAD_ACCESS_FAULT             0x5
+> -#define RISCV_EXCP_STORE_AMO_ADDR_MIS            0x6
+> -#define RISCV_EXCP_STORE_AMO_ACCESS_FAULT        0x7
+> -#define RISCV_EXCP_U_ECALL                       0x8
+> -#define RISCV_EXCP_S_ECALL                      0x9
+> -#define RISCV_EXCP_VS_ECALL                      0xa
+> -#define RISCV_EXCP_M_ECALL                       0xb
+> -#define RISCV_EXCP_INST_PAGE_FAULT               0xc /* since: priv-1.10.0 */
+> -#define RISCV_EXCP_LOAD_PAGE_FAULT               0xd /* since: priv-1.10.0 */
+> -#define RISCV_EXCP_STORE_PAGE_FAULT              0xf /* since: priv-1.10.0 */
+> -#define RISCV_EXCP_SEMIHOST                      0x10
+> -#define RISCV_EXCP_INST_GUEST_PAGE_FAULT         0x14
+> -#define RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT       0x15
+> -#define RISCV_EXCP_VIRT_INSTRUCTION_FAULT        0x16
+> -#define RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT  0x17
+> +typedef enum RiscVException {
 
-This snapshot shows that 2278 / 400 minutes (569%) were used. Strange?
+nits: looking at other places in the RISC-V codes, I believe it's
+better to name it "RISCVException"
 
-> https://pasteboard.co/JT52fNL.png
+> +    RISCV_EXCP_NONE = -1, /* sentinel value */
+> +    RISCV_EXCP_INST_ADDR_MIS = 0x0,
+> +    RISCV_EXCP_INST_ACCESS_FAULT = 0x1,
+> +    RISCV_EXCP_ILLEGAL_INST = 0x2,
+> +    RISCV_EXCP_BREAKPOINT = 0x3,
+> +    RISCV_EXCP_LOAD_ADDR_MIS = 0x4,
+> +    RISCV_EXCP_LOAD_ACCESS_FAULT = 0x5,
+> +    RISCV_EXCP_STORE_AMO_ADDR_MIS = 0x6,
+> +    RISCV_EXCP_STORE_AMO_ACCESS_FAULT = 0x7,
+> +    RISCV_EXCP_U_ECALL = 0x8,
+> +    RISCV_EXCP_S_ECALL = 0x9,
+> +    RISCV_EXCP_VS_ECALL = 0xa,
+> +    RISCV_EXCP_M_ECALL = 0xb,
+> +    RISCV_EXCP_INST_PAGE_FAULT = 0xc, /* since: priv-1.10.0 */
+> +    RISCV_EXCP_LOAD_PAGE_FAULT = 0xd, /* since: priv-1.10.0 */
+> +    RISCV_EXCP_STORE_PAGE_FAULT = 0xf, /* since: priv-1.10.0 */
+> +    RISCV_EXCP_SEMIHOST = 0x10,
+> +    RISCV_EXCP_INST_GUEST_PAGE_FAULT = 0x14,
+> +    RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT = 0x15,
+> +    RISCV_EXCP_VIRT_INSTRUCTION_FAULT = 0x16,
+> +    RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT = 0x17,
+> +} RiscVException;
+>
+>  #define RISCV_EXCP_INT_FLAG                0x80000000
+>  #define RISCV_EXCP_INT_MASK                0x7fffffff
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 2a990f6253..63584b4a20 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -357,7 +357,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+>      env->mcause = 0;
+>      env->pc = env->resetvec;
+>  #endif
+> -    cs->exception_index = EXCP_NONE;
+> +    cs->exception_index = RISCV_EXCP_NONE;
+>      env->load_res = -1;
+>      set_default_nan_mode(1, &env->fp_status);
+>  }
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 83a6bcfad0..af702f65b1 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -72,7 +72,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>      if (irqs) {
+>          return ctz64(irqs); /* since non-zero */
+>      } else {
+> -        return EXCP_NONE; /* indicates no pending interrupt */
+> +        return RISCV_EXCP_NONE; /* indicates no pending interrupt */
+>      }
+>  }
+>  #endif
+> @@ -1017,5 +1017,5 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>       */
+>
+>  #endif
+> -    cs->exception_index = EXCP_NONE; /* mark handled to qemu */
+> +    cs->exception_index = RISCV_EXCP_NONE; /* mark handled to qemu */
+>  }
+> --
 
-I checked my gitlab settings, and it shows 0 / 400 minutes. However I
-am pretty sure I have been using gitlab CI this month several times.
-
-Regards,
-Bin
+Otherwise,
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
