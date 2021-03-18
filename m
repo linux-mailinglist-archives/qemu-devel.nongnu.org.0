@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AD634042B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 12:06:58 +0100 (CET)
-Received: from localhost ([::1]:40440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCD2340432
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 12:08:11 +0100 (CET)
+Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMqUS-0003q5-VD
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 07:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1lMqVe-0004yJ-B6
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 07:08:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lMqS5-0002tm-Oo
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:04:31 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:45877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lMqS2-0008Jg-AL
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:04:29 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id u7so3677184qtq.12
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 04:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9bSSX8NczwPFTWjnpK+B3GTyYilsaY1d1Sii6iLs9qI=;
- b=j/UnQNrj4u6UA+5E6LO+g3CYrx1dgHCsO85qqGeemeC+/STesSCrYKcTfDe2HJcNHq
- OAQSbWa3G5zes9qSsRiwttVmJsQO+kBXLBMoOcXa32wn069gSdbRmkJK4+OVBtSe7N7R
- 0R1v33fLrI7NdlUDOxvUrDXNZh0SI2wz2s3X2tSUEdkV54f/S19k8nG5FUoAXaQibIin
- HDmXhUD8v0s4zwWOzJ5sQ8GQwBQL9MDtps6WyXAbF6l+kpGASMXWcLM74s/a/UXgclte
- LxvcVes2nB3DEYn1BosT2pfhNVbj2UrHmVPYPFyAdC9kD2N6udtYIkDYTTHHRbAdlKfV
- FVyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9bSSX8NczwPFTWjnpK+B3GTyYilsaY1d1Sii6iLs9qI=;
- b=V3cI83frkq9r/V3WnqUa372Vor7cgXRmFI7IF2X5matIlLeQ9IJIJw9EJadMAhokA3
- Eh80ZpFR9TKjTiERWU2uybgMkZ84pYo3+XU6fn5qYRhRQ5jVTA+L+lyy9xKaDVjwGF9W
- dj+286HrKOEzCLnkwBTHk07v+KzCj31bHtjcfjfC5+1HT1CkO2WVPs67YTlKnBLY4hmQ
- ZSdzSYdWsI42AJeGn1mXuEIvi4EN6QBSR51938o9xM/1fPUdAzIy98eg4AXjXm3Bq6M/
- gtGo4MlU/tFXUrS200fqbylzqHjJuX+AveNR+wScd03gTxmKGUx0AXKFpetAvIKaAUNX
- /d+w==
-X-Gm-Message-State: AOAM533i6yMgHtI/jmriRIjNpfi5pYeos54h1Cy/3326xKOJtQpfqm4Y
- 75icXFXMyylJl7wmbfLiztP6PzsU1pIiLCrc/sY=
-X-Google-Smtp-Source: ABdhPJyBPJ8cqy5LdY55BNIj/mAq397CBn/AO6YltlK7JO+4ObVrtqibS2IkZmtbtWtVUmdQb9sSjX7guSxSKpph1HE=
-X-Received: by 2002:ac8:734c:: with SMTP id q12mr3215564qtp.160.1616065461502; 
- Thu, 18 Mar 2021 04:04:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lMqUJ-00045w-Aw; Thu, 18 Mar 2021 07:06:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55896)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lMqU7-00011g-Re; Thu, 18 Mar 2021 07:06:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B6577AC75;
+ Thu, 18 Mar 2021 11:06:33 +0000 (UTC)
+Subject: arm_cpu_post_init (Was: Re: arm: "max" CPU class hierarchy changes
+ possible?)
+To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
+ <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
+ <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
+ <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
+ <CAFEAcA_j-0+vmNFtPjcxEXC9r4bFrebDfGjq-x1SfguzUG4qcw@mail.gmail.com>
+ <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
+Date: Thu, 18 Mar 2021 12:06:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <YFJjIq45ggSZz0CX@work-vm>
- <CAFEAcA8aifakYwKn0umNbuCVtAsa_1svEGEq-coj9iVo3b1WPA@mail.gmail.com>
- <YFMpCPtMJzXUeeIk@work-vm>
- <CAFEAcA_+Yvn5S8P3zwPcsO9HF=0rXCJrfUZKs6RAQWhdyG_-fQ@mail.gmail.com>
- <YFMqmDmwDZwRQviM@work-vm>
- <CAFEAcA825k8uttjmJuwNM=rDa-m7nOWJZEAQzP9Zz3e7yyS9Aw@mail.gmail.com>
- <YFMvO/79vcSFOEix@work-vm>
-In-Reply-To: <YFMvO/79vcSFOEix@work-vm>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Thu, 18 Mar 2021 13:03:45 +0200
-Message-ID: <CAK4993jx4zcuUTW--Qq-YLwqv-y3YxNZ0QU=KT0HVr09TpPLNg@mail.gmail.com>
-Subject: Re: of AVR target page size
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000c4482605bdcd8f9e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=mrolnik@gmail.com; helo=mail-qt1-x82a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,158 +60,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c4482605bdcd8f9e
-Content-Type: text/plain; charset="UTF-8"
+On 3/11/21 8:10 PM, Andrew Jones wrote:
+> On Thu, Mar 11, 2021 at 06:33:15PM +0000, Peter Maydell wrote:
+>> On Thu, 11 Mar 2021 at 17:16, Claudio Fontana <cfontana@suse.de> wrote:
+>>> Maybe Peter you could clarify similarly what the intended meaning of "max" is on ARM?
+>>
+>> "max" is "best we can do, whatever that is". (On KVM this is "same as
+>> the host".)
+>> "host" is "whatever the host is (KVM only)".
+>>
+>>> KVM: (aarch64-only): aarch64_max_initfn():
+>>>
+>>> The following comment in the code seems wrong to me:
+>>>
+>>> /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host); */
+>>>
+>>> This is not exactly true:
+>>>
+>>> "-cpu max" calls kvm_arm_set_cpu_features_from_host(), (which checks "dtb_compatible", and if not set gets the features from the host, if set ...?)
+>>> After that, calls aarch64_add_sve_properties() and then adds also "svw-max-vq". This code is common with TCG.
 
-how do I test my fix? Is there a procedure?
+
+As part of this research I noticed that arm_cpu_post_init() is quite confusing, seems really inconsistent to me.
+
+Apparently the intention was to call it from the leaf classes:
+
+commit 51e5ef459eca045d7e8afe880ee60190f0b75b26
+Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+Date:   Tue Nov 27 12:55:59 2018 +0400
+
+    arm: replace instance_post_init()
+    
+    Replace arm_cpu_post_init() instance callback by calling it from leaf
+    classes, to avoid potential ordering issue with other post_init callbacks.
+    
+    Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+    Suggested-by: Igor Mammedov <imammedo@redhat.com>
+    Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+    Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+
+
+but then we end up calling it multiple times in the class hierarch, which is a recipe for bugs, and makes it difficult to understand what arm_cpu_post_init()
+even means, what calling this function is supposed to do.
+
+For a "max" or "host" cpu on AArch64, this function is called:
+
+for the ARM CPU base class, TYPE_ARM_CPU, in
+
+cpu.c::arm_cpu_instance_init,
+
+then later again for the TYPE_AARCH64_CPU class, child of TYPE_ARM_CPU, in
+
+cpu64.c::aarch64_cpu_instance_init,
+
+then later again for the TYPE_ARM_HOST_CPU class, child of TYPE_AARCH64_CPU, in
+
+cpu.c::arm_host_initfn.
+
+Same for "max".
+
+When looking at 32bit CPUs instead, only the ARM CPU base class ends up calling arm_cpu_post_init.
+"Leaf" classes do not do it (see cpu_tcg.c).
+
+What is then arm_cpu_post_init even supposed to mean?
 
 Thanks,
-Michael Rolnik
 
-On Thu, Mar 18, 2021 at 12:45 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
-wrote:
+Claudio
 
-> * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > On Thu, 18 Mar 2021 at 10:25, Dr. David Alan Gilbert
-> > <dgilbert@redhat.com> wrote:
-> > > Oh yes, just:
-> > >
-> > > diff --git a/migration/ram.c b/migration/ram.c
-> > > index 52537f14ac..a7269955b5 100644
-> > > --- a/migration/ram.c
-> > > +++ b/migration/ram.c
-> > > @@ -81,6 +81,8 @@
-> > >  /* 0x80 is reserved in migration.h start with 0x100 next */
-> > >  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-> > >
-> > > +#define RAM_SAVE_FLAG__MAX RAM_SAVE_FLAG_COMPRESS_PAGE
-> > > +
-> > >  static inline bool is_zero_range(uint8_t *p, uint64_t size)
-> > >  {
-> > >      return buffer_is_zero(p, size);
-> > > @@ -4090,5 +4092,6 @@ static SaveVMHandlers savevm_ram_handlers = {
-> > >  void ram_mig_init(void)
-> > >  {
-> > >      qemu_mutex_init(&XBZRLE.lock);
-> > > +    QEMU_BUILD_BUG_ON(RAM_SAVE_FLAG__MAX >= (1 <<
-> TARGET_PAGE_BITS_MIN));
-> > >      register_savevm_live("ram", 0, 4, &savevm_ram_handlers,
-> &ram_state);
-> > >  }
-> > >
-> > >
-> > > works; lets keep that in mind somewhere after Michael fixes AVR.
-> >
-> > You don't have a great deal of headroom even after getting AVR
-> > to change, by the way -- TARGET_PAGE_BITS_MIN for Arm is 10.
-> > So you might want to think about ways to eg reclaim usage of
-> > that "obsolete, not used" RAM_SAVE_FLAG_FULL bit.
->
-> Yep, I've been warning anyone who adds one for ages
->
-> > Also, what does the
-> >  /* 0x80 is reserved in migration.h start with 0x100 next */
-> > comment refer to? migration.h has no instances of "RAM_SAVE"
-> > or 0x80 or 1 << 7...
->
-> It looks like it got moved to qemu-file.h a few years ago
-> as RAM_SAVE_FLAG_HOOK.
->
-> Dave
->
-> > thanks
-> > -- PMM
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
->
 
--- 
-Best Regards,
-Michael Rolnik
+>>>
+>>> In the case of cpu host instead,
+>>>
+>>> "-cpu host" calls kvm_arm_set_cpu_features_from_host(), same as max, then calls aarch64_add_sve_properties() but does NOT add "svw-max-vq".
+>>>
+>>> Is this a bug?
+> 
+> It was left out intentionally. More below.
+> 
+>>
+>> Maybe; that's a question for Richard or Drew...
+>>
+>>> Are "max" and "host" for KVM supposed to be the same like with x86?
+> 
+> Yes, but my understanding of "max" == "host" for KVM is that that only
+> applies to the perspective of the guest. What CPU and what CPU features
+> the guest can see should be exactly the same with either "max" or "host",
+> depending on the enabling/disabling of any optional CPU properties.
+> 
+> The question here seems to be that, if one has a CPU property, does that
+> imply the other should have the same? Which would effectively allow the
+> two to be aliases (when KVM is enabled). I don't know, does x86 ensure
+> 100% property compatibility?
+> 
+> I opted not to support sve-max-vq for "host" because I consider it a
+> legacy CPU property, one I didn't want to propagate. Indeed it may
+> make more sense to depreciate sve-max-vq than to "fix" this issue
+> by adding it to "host". Note, we can already create equivalent SVE
+> CPUs. The following are the same from the perspective of the guest
+> 
+>  -accel kvm -cpu host,sve512=on
+>  -accel kvm -cpu max,sve512=on
+> 
+> And, for TCG, these are the same from the perspective of the guest
+>  
+>  -accel tcg -cpu max,sve512=on
+>  -accel tcg -cpu max,sve-max-vq=4
+> 
+> So we already don't need sve-max-vq.
+> 
+> Thanks,
+> drew
+> 
 
---000000000000c4482605bdcd8f9e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">how do I test my fix? Is there a procedure?<div><br></div>=
-<div>Thanks,</div><div>Michael Rolnik</div></div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 18, 2021 at 12:45 PM=
- Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilbert=
-@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">* Peter Maydell (<a href=3D"mailto:peter.maydell@linaro.org" tar=
-get=3D"_blank">peter.maydell@linaro.org</a>) wrote:<br>
-&gt; On Thu, 18 Mar 2021 at 10:25, Dr. David Alan Gilbert<br>
-&gt; &lt;<a href=3D"mailto:dgilbert@redhat.com" target=3D"_blank">dgilbert@=
-redhat.com</a>&gt; wrote:<br>
-&gt; &gt; Oh yes, just:<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/migration/ram.c b/migration/ram.c<br>
-&gt; &gt; index 52537f14ac..a7269955b5 100644<br>
-&gt; &gt; --- a/migration/ram.c<br>
-&gt; &gt; +++ b/migration/ram.c<br>
-&gt; &gt; @@ -81,6 +81,8 @@<br>
-&gt; &gt;=C2=A0 /* 0x80 is reserved in migration.h start with 0x100 next */=
-<br>
-&gt; &gt;=C2=A0 #define RAM_SAVE_FLAG_COMPRESS_PAGE=C2=A0 =C2=A0 0x100<br>
-&gt; &gt;<br>
-&gt; &gt; +#define RAM_SAVE_FLAG__MAX RAM_SAVE_FLAG_COMPRESS_PAGE<br>
-&gt; &gt; +<br>
-&gt; &gt;=C2=A0 static inline bool is_zero_range(uint8_t *p, uint64_t size)=
-<br>
-&gt; &gt;=C2=A0 {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 return buffer_is_zero(p, size);<br>
-&gt; &gt; @@ -4090,5 +4092,6 @@ static SaveVMHandlers savevm_ram_handlers =
-=3D {<br>
-&gt; &gt;=C2=A0 void ram_mig_init(void)<br>
-&gt; &gt;=C2=A0 {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 qemu_mutex_init(&amp;XBZRLE.lock);<br>
-&gt; &gt; +=C2=A0 =C2=A0 QEMU_BUILD_BUG_ON(RAM_SAVE_FLAG__MAX &gt;=3D (1 &l=
-t;&lt; TARGET_PAGE_BITS_MIN));<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 register_savevm_live(&quot;ram&quot;, 0, 4, &=
-amp;savevm_ram_handlers, &amp;ram_state);<br>
-&gt; &gt;=C2=A0 }<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; works; lets keep that in mind somewhere after Michael fixes AVR.<=
-br>
-&gt; <br>
-&gt; You don&#39;t have a great deal of headroom even after getting AVR<br>
-&gt; to change, by the way -- TARGET_PAGE_BITS_MIN for Arm is 10.<br>
-&gt; So you might want to think about ways to eg reclaim usage of<br>
-&gt; that &quot;obsolete, not used&quot; RAM_SAVE_FLAG_FULL bit.<br>
-<br>
-Yep, I&#39;ve been warning anyone who adds one for ages<br>
-<br>
-&gt; Also, what does the<br>
-&gt;=C2=A0 /* 0x80 is reserved in migration.h start with 0x100 next */<br>
-&gt; comment refer to? migration.h has no instances of &quot;RAM_SAVE&quot;=
-<br>
-&gt; or 0x80 or 1 &lt;&lt; 7...<br>
-<br>
-It looks like it got moved to qemu-file.h a few years ago<br>
-as RAM_SAVE_FLAG_HOOK.<br>
-<br>
-Dave<br>
-<br>
-&gt; thanks<br>
-&gt; -- PMM<br>
-&gt; <br>
--- <br>
-Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
-blank">dgilbert@redhat.com</a> / Manchester, UK<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---000000000000c4482605bdcd8f9e--
 
