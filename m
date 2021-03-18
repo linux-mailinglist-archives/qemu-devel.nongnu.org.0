@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590AF340BFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:39:31 +0100 (CET)
-Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72420340C05
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:43:25 +0100 (CET)
+Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMwcM-00083v-Ea
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50224)
+	id 1lMwg8-0002Ht-Ar
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMwZh-00079r-Hn
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:36:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lMwZN-00034c-EV
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:36:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616088984;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ABlisHjZqdoZnrnYrlSjQPZOS8HqHrk+q+rn2Uj6VTs=;
- b=Vv0gMbkIvnrXUlzC7XeAjklESPl10953/sjOFcLmuxuqe1Zja0bsgdq3hC0kOkfzefAnAD
- xFVA8AOhg6Sp2yGR4KPXpqZrcJO9WXrWBYmqPJPNFnZa+8va4TM0nw0oRUIFcgVNNGdp3G
- 530NntgzS7QhVXorCn9R1x7Hc+mdXII=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-fccJqO0SN3WBOlHkssVuJQ-1; Thu, 18 Mar 2021 13:36:22 -0400
-X-MC-Unique: fccJqO0SN3WBOlHkssVuJQ-1
-Received: by mail-wm1-f72.google.com with SMTP id v5so12137438wml.9
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 10:36:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <susinilorenzo1@gmail.com>)
+ id 1lMwdR-00018Q-3N
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:40:37 -0400
+Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:37590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <susinilorenzo1@gmail.com>)
+ id 1lMwdP-0004gE-7T
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:40:36 -0400
+Received: by mail-vs1-xe31.google.com with SMTP id e5so2005158vse.4
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 10:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iUMkDgL9MbBUAhyCc80c7fjpwC5hjzQKGPuuQXK2k8w=;
+ b=IVLpDT+7K/081H1EEp64/4K+uBssa94wuTPKf+knSjvN2Z7ChJflEoQQ+6EvAEnJQa
+ 9u5U00z6Nla/7B6xUrfQxc2d41q5ckPiX3bpvmijgG3QzYyjunj4Uv4uDYOZL8esf4ST
+ um7CY/iFsnxcWA2Gg4DEkGdoAJPDlwtD8IhmBAnoh5GWxQHOa90QVvYkwn2/8emLK2hq
+ A8ZyfR3YfQ42KW+A2YYPFc2c2Hz1ZMkQVvhfMyDjacOrNAh7KXbyGe0iIfKMoEK2H7GI
+ GIs9QZQaO1WPfGwanmq5jtdozfvJvelqFaQFR1KN2AaYmwBYJ/pZ4kA084VODx9J6Jpg
+ HExQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ABlisHjZqdoZnrnYrlSjQPZOS8HqHrk+q+rn2Uj6VTs=;
- b=qGP1DFhqdaR9mIrZ0iDUdhVtZJf/LLSI7Q9JU1PyTHaFcjn+92rZWddsCq6TLUL7Xg
- bnTkuM9c+sh7FRC6nJ8nMEbi4EaSuscK6Qk0xIZ7yWitZ5Wj/+Ap9JrV9Y2LItQylPfK
- zOQRMvvi1sv7qf3VwtqrW07eBLhipqWuieo/LSDOJachXl0aN7sM9oOPMBIfM9/bXJLc
- 1BNt+++njMMSdU+whlnrTAe3Lz5z7yHH55YwSYgNXMdJtvcJWLFzEqFiRDJAxTpNoSRl
- NjgsjR9Q1Se45vQeASHHO8ddKBMDkT1HCnnLxuU59056W/r2rtt+fzY5IjXoMTPLSZ/g
- ZoTA==
-X-Gm-Message-State: AOAM530VUx4qGjiVEwMlhD6qYkoWUa/YoAYk0cFR9X4YUxG9lsSweA8u
- n64HELac9bXT3Qbs1daSe9CGp4NbUJHubTlXowPfM5RRMnL8N3zNDBosNbun3j8vtSB+o55Fh6S
- 5OZzYOFnqrw/AIPI=
-X-Received: by 2002:adf:fe01:: with SMTP id n1mr361617wrr.341.1616088981687;
- Thu, 18 Mar 2021 10:36:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXbCYZXHtQFsEd/V8DhDM4wV2OBNBefoQ6jqVSb/ghHrJjlkFY/RiqrtVhUlvv5DM6BBBDrQ==
-X-Received: by 2002:adf:fe01:: with SMTP id n1mr361597wrr.341.1616088981465;
- Thu, 18 Mar 2021 10:36:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p6sm3742062wru.2.2021.03.18.10.36.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 10:36:20 -0700 (PDT)
-Subject: Re: [PATCH 3/3] i386: Make sure kvm_arch_set_tsc_khz() succeeds on
- migration when 'hv-reenlightenment' was exposed
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20210318160249.1084178-1-vkuznets@redhat.com>
- <20210318160249.1084178-4-vkuznets@redhat.com>
- <2f377397-0427-95dc-6617-5dedf6533bc4@redhat.com>
- <87wnu45sev.fsf@vitty.brq.redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <104d7d27-48b9-d2f0-213f-54853270bcd6@redhat.com>
-Date: Thu, 18 Mar 2021 18:36:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iUMkDgL9MbBUAhyCc80c7fjpwC5hjzQKGPuuQXK2k8w=;
+ b=X3rj2LSCiWwxGkE9xy0xlrtTEd3ICKe8kXIPgRFZhxQ/rQtCz52cQi3BCsX+xrvQwW
+ zL+l4k9za8MxcWNvdyctyDYCH9/wKLpOfxfCDQO8hWg69bBj2vt8jh4h8nkeY1FCO/Ds
+ KlmK3RaeeQlfuTepqgMgO9m+ZMkcQN82ORZmtAp14jPPuCxvi77x0291JuI7pJpaOVzU
+ KGhjf71EnLPU3v7NqgvskzYV6sqBpCx2GrIpLJbgVsOky1hNWAQ11kFUg50DpX2JSzYy
+ 1JyvDuyC8d9tzotUCDbKQ8RncfKZzhLqHfoMZ1OPzkHo96N0grwVIaXW0IazhsA9wA21
+ 6kUw==
+X-Gm-Message-State: AOAM530amkJyWSh2mAzmD/1uD40nyGZ6XDFtrQ6eBZnak+sO30MeA/kI
+ SQknSMjIKokt1cOngTCTUmjc8hR4kH5enPlReNc=
+X-Google-Smtp-Source: ABdhPJwe3ks6WiJvIjBlIdJLSXfosEcRHyF+t9X4yHJgm4oVJZuWIOk53JI6FdTQ9LnvzOSmmnRpsh/tqSJxAPy6vHU=
+X-Received: by 2002:a67:bc11:: with SMTP id t17mr359563vsn.51.1616089234019;
+ Thu, 18 Mar 2021 10:40:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87wnu45sev.fsf@vitty.brq.redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CAHFRQs1GuB+8tw+SDK11LOLXF4H6z+6+ZbQMTABXNK3gj7vffA@mail.gmail.com>
+ <f05ce059-0802-404f-e2df-f8a7ddfc43c5@redhat.com>
+ <a82e8771-913c-8dc4-03cf-c6148db1e15d@redhat.com>
+In-Reply-To: <a82e8771-913c-8dc4-03cf-c6148db1e15d@redhat.com>
+From: Lorenzo Susini <susinilorenzo1@gmail.com>
+Date: Thu, 18 Mar 2021 18:40:22 +0100
+Message-ID: <CAHFRQs1TM_j4OYMQiqqf5fAAvFPkeaV+OF2FWm=r9jHPtkyB-Q@mail.gmail.com>
+Subject: Re: KVM_MEM_READONLY slot flag not working properly
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000b81a2805bdd31881"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
+ envelope-from=susinilorenzo1@gmail.com; helo=mail-vs1-xe31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,32 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/03/21 17:38, Vitaly Kuznetsov wrote:
->> Could we instead fail to load the reenlightenment section if
->> user_tsc_khz was not set?  This seems to be user (well, management)
->> error really, since reenlightenment has to be enabled manually (or with
->> hv-passthrough which blocks migration too).
+--000000000000b81a2805bdd31881
+Content-Type: text/plain; charset="UTF-8"
+
+Well I'm sorry but I didn't know IDT was marked as read only by Linux. If
+it is read only, how can you
+register any new interrupt handler? I guess it's a way of securing stuff
+against malicious attacks.
+I was taking for granted that the IDT was written when registering a new
+irq handler,
+given that when an interrupt is raised, the new specified handler has to be
+called
+and its address should be retrieved in some way, that is by storing it in
+the IDT.
+
+I'm sorry, I'm a student and I'm trying to understand things,
+Thank you,
+Lorenzo
+
+Il giorno gio 18 mar 2021 alle ore 18:04 Paolo Bonzini <pbonzini@redhat.com>
+ha scritto:
+
+> On 18/03/21 17:07, Laszlo Ersek wrote:
+> > However, when I try to register a new interrupt handler (for instance for
+> > the edu device, just to try it out), it works perfectly,
+> > meaning that the IDT is not really read-only. Do you have any idea why?
+> Any
+> > suggestions on how to solve the problem?
+> > Of course I've also checked KVM_CAP_READONLY_MEM, no problem with that.
 >
-> Yes, we certainly could do that but what's the added value of
-> user_tsc_khz which upper layer will have to set explicitly (probably to
-> the tsc frequency of the source host anyway)? In case we just want to
-> avoid calling KVM_SET_TSC_KHZ twice, we can probably achieve that by
-> adding a CPU flag or something.
+> Sorry for asking a question that might be extremely stupid, but: did you
+> check that the guest is writing to the IDT?  For example Linux never
+> modifies the IDT when it runs, in fact it even makes it read only (check
+> out idt_setup_apic_and_irq_gates in arch/x86/kernel/idt.c).
+>
+> Paolo
+>
+>
 
-What I want to achieve is to forbid migration of VMs with 
-reenlightenment, if they don't also specify tsc-khz to the frequency of 
-the TSC on the source host.  We can't check it at the beginning of 
-migration, but at least we can check it at the end.
+--000000000000b81a2805bdd31881
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Maybe we're talking about two different things?
+<div dir=3D"ltr"><div>Well I&#39;m sorry but I didn&#39;t know IDT was mark=
+ed as read only by Linux. If it is read only, how can you=C2=A0</div><div>r=
+egister any new interrupt handler? I guess it&#39;s a way of securing stuff=
+ against malicious attacks.=C2=A0</div>I was taking for granted that the ID=
+T was written when registering a new irq handler,=C2=A0<div>given that when=
+ an interrupt is raised, the new specified handler has to be called=C2=A0</=
+div><div>and its address should be retrieved in some way, that=C2=A0is by s=
+toring it in the IDT.</div><div><br></div><div>I&#39;m sorry, I&#39;m a stu=
+dent and I&#39;m trying to understand things,=C2=A0</div><div>Thank you,=C2=
+=A0</div><div>Lorenzo</div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">Il giorno gio 18 mar 2021 alle ore 18:04 Paolo B=
+onzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank">pbonzin=
+i@redhat.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 18/03/21 17:07, Laszlo Ersek wrote:<br>
+&gt; However, when I try to register a new interrupt handler (for instance =
+for<br>
+&gt; the edu device, just to try it out), it works perfectly,<br>
+&gt; meaning that the IDT is not really read-only. Do you have any idea why=
+? Any<br>
+&gt; suggestions on how to solve the problem?<br>
+&gt; Of course I&#39;ve also checked KVM_CAP_READONLY_MEM, no problem with =
+that.<br>
+<br>
+Sorry for asking a question that might be extremely stupid, but: did you <b=
+r>
+check that the guest is writing to the IDT?=C2=A0 For example Linux never <=
+br>
+modifies the IDT when it runs, in fact it even makes it read only (check <b=
+r>
+out idt_setup_apic_and_irq_gates in arch/x86/kernel/idt.c).<br>
+<br>
+Paolo<br>
+<br>
+</blockquote></div>
 
-Paolo
-
+--000000000000b81a2805bdd31881--
 
