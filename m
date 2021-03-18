@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D7B3406D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:27:00 +0100 (CET)
-Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F44D3406E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:32:25 +0100 (CET)
+Received: from localhost ([::1]:36584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMsfz-0008LE-1e
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
+	id 1lMslE-0002F1-A9
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lMseY-0007qI-SU
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:25:30 -0400
-Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:33299)
+ id 1lMsjS-0001ef-2K
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:30:34 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:36523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lMseX-0000X3-6n
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:25:30 -0400
-Received: by mail-qv1-xf32.google.com with SMTP id o19so3187528qvu.0
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 06:25:28 -0700 (PDT)
+ id 1lMsjM-0003jT-6s
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:30:33 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id x16so3162142qvk.3
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 06:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WExaGAKqF3gAJ7vqHPPLyDjFWie/MELjUvyG4RcAJjU=;
- b=V0J3V7p0Oc/6emESNB9fpV8fKVzflnX/LzPD61UFkOnNAAsJt79Q+i+Zb6l9ww1Si6
- Cq1Ore7XVH6WbpKqhdi+A/ZR5xcll/JB7HSmZmI9Nsw99VjMXVmaqSCQ0xiiHZRpgE++
- 7GlGf8CxSfXj4XExKK99tNlREVr9PpcfMjuVMuUTiaJWq/Vn1WMfvXF3GhviSiExjzBL
- JU8xLwnkORnlnIl8tWjYpTWBGCqFYA6sWnCUTpaR+QuEouIwh61os6fQ2rCMdo66rw2o
- R+oB8BriP9iinuZ+R7iEODrLk/YCRSmiN643SOXhoWtipjBIOYWpCCaIjyYSBhSWAwsY
- RNgg==
+ bh=7vgyiJVqlMIKO3ILylQtDjbWI90SN3kO7l9Wi+21SXM=;
+ b=v8dJ1PwcK23BHoepZQIpcj35FLu+dLf9r8hrIitlx1do8Zm9UBVdO6WoBDfAiPwJJR
+ eDunLFRi+H3psV5S1AzcPggh0nZEU+h21U1Dfu6snFUosDrJ1koVqIOSYXoN5RLG811l
+ gnPjPqCZg69PuTjzyJT01p18z5WemVGPron7U0S9psn8LR/1BZT4vpGSNUqq5zTCz0vp
+ vdSiBk+OmKFIhBjrOOlnh4qKzYcxZ39pTj10+VhFxo3szrZCKSyt/3HZuKiEVvIhpw6q
+ mVRscgZ0YfGyH3TytipENURlUSLQmrEDxlYOdFKoKNXibV5MmBZk7dGc0ZDC09689Lij
+ ooWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WExaGAKqF3gAJ7vqHPPLyDjFWie/MELjUvyG4RcAJjU=;
- b=G19rRWbJNLQrKfZJru+v36zDW8K8zrJ43wpS+vP/fBsr9wRSjJFv6wpHDbQdmlBxnu
- vtz83CzZfBmXUJKa2i3Xe16co6U8gdMDVW7EHhmIwYrZtytDXIHNntjBaCGFkFy5bhNa
- or8KB7DO2YIhcbVH6pUM+DvEgrz6j83EHRWf5r2+KnfqVpbUEBW5ZLWfZkuEBxsqO2UD
- h4I3ig3AXjOJi6Z9d86sVSEJoL0jTCFiMngOeMkwf0rKd8CmppDYG/Z7AQPlD2wFsaCv
- NtVUOyILEjPdkv+eqg3bmWSs7iJ8J2xpkSu9NgGUyvtJtpbcrOQHO4i4m1jykCBbdMHo
- TTBg==
-X-Gm-Message-State: AOAM532u0GAtLQETVQfnuw4yedlt/UnKkKl+Fp21dBUCD+4+pPbolCQI
- a5WpuOPjE0/DBu6RFIrEjWRMag==
-X-Google-Smtp-Source: ABdhPJwE3X8VUbGQrTS3mOAQvqfGbynUfG91vz0pErawkCRi9lJWWW6VAT9mlmtFuY1KsGyir1ucJg==
-X-Received: by 2002:a05:6214:b27:: with SMTP id
- w7mr4277613qvj.34.1616073928127; 
- Thu, 18 Mar 2021 06:25:28 -0700 (PDT)
+ bh=7vgyiJVqlMIKO3ILylQtDjbWI90SN3kO7l9Wi+21SXM=;
+ b=Sheeu8x8xHtYWuDAlrXiqUawerRfacUBbnTjeh7CD5BIZsn0+wTPT18U49pklIjD2j
+ LpKkWc5JXCqwoQGkLol7p3yoTbTIGEYjrf2H1JgTtO7BcY6vaHmsITy3YlpVsDo7cbkS
+ 2lKaNdjDkzmrnOUcxd1lU5qoexi/4cb5gI8wZfUSp8VjbhzBR2nGoB1MjgvBwGLuRQSs
+ Y4zl3eEKrvPfVB70Lcuqq0GKqzPFp6ahLxkwAj8x3PLSYXDwzImsAxT61zGt34hREEn+
+ scaYI9F2ZcfiBuFOFjFOcaa1zVxzvEuPSMag/Rx0kSOlQC5cZW/KuQxKsFKFiaeZClxT
+ Es0A==
+X-Gm-Message-State: AOAM532gJPD+kCO9c1aMRF19ri/d/HWeVZpbpynGENrPaxsnJUHcKE34
+ Dr9B+fta48mfW1OqNMevDCs0Gg==
+X-Google-Smtp-Source: ABdhPJwpm4nCzbryR6xsdbqkckydQo1HVSNlVySrPBmzPHj3RlV96OPVDy4cy7WgPzpkJNzl/7HFXw==
+X-Received: by 2002:a0c:d7d2:: with SMTP id g18mr4158488qvj.42.1616074226936; 
+ Thu, 18 Mar 2021 06:30:26 -0700 (PDT)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id i25sm1712984qka.38.2021.03.18.06.25.27
+ by smtp.gmail.com with ESMTPSA id p186sm1782751qka.66.2021.03.18.06.30.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 06:25:27 -0700 (PDT)
-Subject: Re: [PATCH v1 5/5] target/riscv: Use RiscVException enum for CSR
- access
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1616002766.git.alistair.francis@wdc.com>
- <6834cb79431f394b05b06a26317799c9066ccd4f.1616002766.git.alistair.francis@wdc.com>
+ Thu, 18 Mar 2021 06:30:26 -0700 (PDT)
+Subject: Re: [PATCH v8 16/35] Hexagon (target/hexagon/conv_emu.[ch]) utility
+ functions
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-17-git-send-email-tsimpson@quicinc.com>
+ <f0ff8663-9ea2-e8be-9123-4afffc41bad2@linaro.org>
+ <BYAPR02MB4886A70EA367526D5834F501DE699@BYAPR02MB4886.namprd02.prod.outlook.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20c52b91-3ddb-f384-3094-7efb344ca5ef@linaro.org>
-Date: Thu, 18 Mar 2021 07:25:22 -0600
+Message-ID: <75d9fed2-ac04-846b-1426-6cd9fe657924@linaro.org>
+Date: Thu, 18 Mar 2021 07:30:23 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <6834cb79431f394b05b06a26317799c9066ccd4f.1616002766.git.alistair.francis@wdc.com>
+In-Reply-To: <BYAPR02MB4886A70EA367526D5834F501DE699@BYAPR02MB4886.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,17 +92,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/21 11:40 AM, Alistair Francis wrote:
->           result = riscv_csrrw_debug(env, n - 32, &val,
->                                      0, 0);
-> -        if (result == 0) {
-> +        if (result != RISCV_EXCP_NONE) {
+On 3/17/21 9:57 PM, Taylor Simpson wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>> Sent: Sunday, February 14, 2021 2:57 PM
+>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+>> Cc: philmd@redhat.com; alex.bennee@linaro.org; laurent@vivier.eu;
+>> ale@rev.ng; Brian Cain <bcain@quicinc.com>
+>> Subject: Re: [PATCH v8 16/35] Hexagon (target/hexagon/conv_emu.[ch])
+>> utility functions
+>>
+>> On 2/7/21 9:46 PM, Taylor Simpson wrote:
+>>> +uint64_t conv_sf_to_8u(float32 in, float_status *fp_status);
+>>> +uint32_t conv_sf_to_4u(float32 in, float_status *fp_status);
+>>> +int64_t conv_sf_to_8s(float32 in, float_status *fp_status);
+>>> +int32_t conv_sf_to_4s(float32 in, float_status *fp_status);
+>>> +
+>>> +uint64_t conv_df_to_8u(float64 in, float_status *fp_status);
+>>> +uint32_t conv_df_to_4u(float64 in, float_status *fp_status);
+>>> +int64_t conv_df_to_8s(float64 in, float_status *fp_status);
+>>> +int32_t conv_df_to_4s(float64 in, float_status *fp_status);
+>>
+>> You need to either use the normal float conversion routines, or document
+>> what the differences are.
+> 
+> There are some differences in floating point flags raised, so I could write something like this:
+>      if (float32_is_infinity(RsV)) {
+>          float_raise(float_flag_invalid, &env->fp_status);
+>          if (float32_is_neg(RsV)) {
+>              RddV = 0ULL;
+>          } else {
+>              RddV = ~0ULL;
+>          }
 
-This was intending == NONE.  I.e. no exception raised, let gdb proceed.
+This isn't different from softfloat.c.
+
+>      } else if (float32_is_any_nan(RsV)) {
+>          float_raise(float_flag_invalid, &env->fp_status);
+>          RddV = ~0ULL;
+
+Nor is this.
+
+>      } else if (float32_is_zero(RsV)) {
+>          RddV = 0;
+
+Not exactly a special case.
+
+>      } else if (float32_is_neg(RsV)) {
+>          float_raise(float_flag_invalid, &env->fp_status);
+>          RddV = 0;
+
+Not different.
+
+>      } else {
+>          RddV = float32_to_uint64_round_to_zero(RsV, &env->fp_status);
+>      }
+> 
+> Does that work?
+
+This is 100% identical with round_to_uint_and_pack as used by 
+float32_to_uint64_round_to_zero.  It's all straight IEEE 754.
 
 
 r~
