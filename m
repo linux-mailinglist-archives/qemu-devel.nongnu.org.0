@@ -2,99 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE5434047A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 12:22:19 +0100 (CET)
-Received: from localhost ([::1]:34918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECD7340484
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 12:23:51 +0100 (CET)
+Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMqjK-0005Ky-BU
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 07:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
+	id 1lMqko-0006WK-EG
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 07:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMqhh-0004mo-3c
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:20:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMqhY-0004va-MU
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:20:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616066427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cWtkvykRAY/78KnpoF81DazzETT2/cX/5ttcrbhOAaU=;
- b=cW1XGXnln71Vrqb0+QAlqN4mvX7T/H59+0w5bc4QVtR8fajOVOrd1Bv/DhUNcontUG+G4n
- juINaEFcgmArz9odwbyyGUWuoxkNoIye1qbM0viWpoHiiyXUp/NL6sLn03OE7MGKqiJQwD
- 01rML1urjtxcMcGkgmTktk3vVIAJB5E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-FfNEP4fsMhiG4Gk8wrVOvQ-1; Thu, 18 Mar 2021 07:20:23 -0400
-X-MC-Unique: FfNEP4fsMhiG4Gk8wrVOvQ-1
-Received: by mail-wr1-f69.google.com with SMTP id 9so4375802wrb.16
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 04:20:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMqj0-0005eS-To
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:22:00 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMqiz-0005gq-67
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:21:58 -0400
+Received: by mail-ej1-x636.google.com with SMTP id w3so3317968ejc.4
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 04:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TBmsAe7eB1LNAmL48prbY+P6GemZK7dVs0kkS9eWE7A=;
+ b=GcVVGmMIGdgVOc0oswPBptQuo/vJCiTd19MPsQjn2Mcv1T0S+hBYJoxuTgBJhwvtnL
+ LrxqX2gTVKLZ8XWjZHImP1OyK8t2hdVyS97CCV5EiQZsr0pyk9hzhto3nUUm/YFYDSHD
+ CpHKsCHpkuWwgm1TKw7DwGM3oCcQl65wDDiskPywEcDU/eHFtsiv9VFKo5bd6f1aWlox
+ hieLEZU9RfUUZEz5KMij9/fNz5J+7fczrDRJzrC6u0yxleAP/7JaUb1u4H1l6CdP2fYj
+ xtSY2QjtqXVYFqRR8BtSTkkuHoRv3w9FzsZVjFaNd+EMUk02/q1zIWtmFMywz89yy1wu
+ Gufg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cWtkvykRAY/78KnpoF81DazzETT2/cX/5ttcrbhOAaU=;
- b=BS6kbq6y0P3zV/z46oiYD12ruay4xC6sZ2Q8YxYNADiF5sl+rrDP4YcMhLCGT6Ou4Z
- SigaM/kuSZEKLqT2k+f9fySqIIhqnzBMzX8+eQLSEUr1jym5q87joQdiOVLN8Rrfs0W+
- DVk6JLwxVUAdRjd9y0+vjTtAP/2jw/L7Gnj0xUdjNx2IeiJSpkKCH2D00fsm1I0OM37E
- 9cqiEYhkPfk1sPgmQCKnSYAGOYaQcb0rq8IcKsAVZ6AyN/EQ42e/JDzfnVtWWhy0vk12
- Wj0KOW0uYOBNKSz9D4KnUF6AYpsnSbr3NHGwo07evz+vJU6tXOXHWTZj9vK/Ef+Q6L2y
- qFrA==
-X-Gm-Message-State: AOAM531f7KbiNrrBx56wc7leMPrzgmV2JYaGQPYk2Ac+w2pz/G4Yq6P7
- l5lYIZakixUjujabyV8X60dlb9taoNAZWCqEYOemqXvphqLWFIkRYaYC4AtOcQoMrN0Ub2Nt9a2
- 8Q1IpQDrdeEjxzLY=
-X-Received: by 2002:adf:ea47:: with SMTP id j7mr8875976wrn.377.1616066422480; 
- Thu, 18 Mar 2021 04:20:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwWPbpjtZ2nx4rMBS2aL1O0Wir82V55QsQkPFBofV5yGziljkm7D3A4Pw74mJtc1bAQPCeBaA==
-X-Received: by 2002:adf:ea47:: with SMTP id j7mr8875957wrn.377.1616066422263; 
- Thu, 18 Mar 2021 04:20:22 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id 21sm2064652wme.6.2021.03.18.04.20.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 04:20:21 -0700 (PDT)
-Subject: Re: [PULL 5/5] m68k: add Virtual M68k Machine
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210315204226.3481044-1-laurent@vivier.eu>
- <20210315204226.3481044-6-laurent@vivier.eu>
- <2730eee0-6f1b-2139-f93c-6a0a64727e29@redhat.com>
- <905c797a-25c3-bb43-5946-54b28d9530c0@vivier.eu>
- <d515dabd-b84d-5aa3-0bf5-d824bdc7da6e@redhat.com>
- <ffa12ba8-4988-b464-2267-5d14c59b43ab@vivier.eu>
- <a90be442-97c9-cefc-df6f-655a6387d54d@redhat.com>
- <CAFEAcA_BcRkJHjoRaxQs2ZO=JJqPpvGhHkG2bNJOqh_-EHr_xg@mail.gmail.com>
- <0644d4cb-cfc6-83f0-5887-2bff29cb58c4@redhat.com>
- <CAFEAcA-6xAHOBC5e2uEh1EkXmWK+k9d5By9aXugA7hbxC8fZiQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3be69144-bb34-af3d-20fa-64c5cc56c520@redhat.com>
-Date: Thu, 18 Mar 2021 12:20:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TBmsAe7eB1LNAmL48prbY+P6GemZK7dVs0kkS9eWE7A=;
+ b=DOyq0OOr2FnKKuU/9eQruBzSfh231zACBctwjzwc8cTf3SxJDAIVDUXHiuAipLTQyS
+ m0wa8XKVJGQqiPvkdGMzxTal+luOBS2QqkPA2v9Gj67k4dC2tg3uVhLhsYJn1OURO+dH
+ LQ75MLVid+zg/oNPArEJRk5r2PBDwNgvbi4UL4xr2BRmgL49oOFbRiEjtDCy1tkHcW5K
+ 4nXn1dpQzjLdphjbtYvnpzkPsFc3rfOiODMhoB/B+cmc6wQuDt9mP6Uw3rdm/WWJ43rm
+ OEm8uOyILMQO55rmWasLe1Df1RY8JHRyM7TtmGmR5AZVReQcrTwkoiY15e0UhRuha5yA
+ 9l2Q==
+X-Gm-Message-State: AOAM530QYCkDS5VDl4wrYkK8fg5XBGn23rtDys4NRCQAmNuYOAkRoM6B
+ PwcS77WKfpu1jXzySkzXRTP5f5ViBl46UV3vhIGZnA==
+X-Google-Smtp-Source: ABdhPJxycTeSWeIpXE604Rv7OKOhyPwdB/C0l37cZ9XFoEJPadt8TLt0mFAkArntAiJ+Yjwi+jCN60eEeH/i+uBtyoY=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr41270972ejc.250.1616066515310; 
+ Thu, 18 Mar 2021 04:21:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-6xAHOBC5e2uEh1EkXmWK+k9d5By9aXugA7hbxC8fZiQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210221222617.2579610-1-f4bug@amsat.org>
+ <20210221222617.2579610-4-f4bug@amsat.org>
+ <c395479b-d2e0-a862-3446-4afef601ca1f@suse.de>
+ <8a302c84-b69c-b0c2-de45-607dd1f686a6@redhat.com>
+ <e0d11b2c-7b1c-c968-feb2-675a8c98c7a4@suse.de>
+ <ec296129-2c4d-fd74-d044-50c470e29609@redhat.com>
+ <cd4caf9d-c32c-25fd-a27f-d352ece74ed3@redhat.com>
+In-Reply-To: <cd4caf9d-c32c-25fd-a27f-d352ece74ed3@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 18 Mar 2021 11:21:31 +0000
+Message-ID: <CAFEAcA8YybFf1=wQ7-scC2JnQEHr9nx0LBvt16dTBOXV0KuMAg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] target/arm: Restrict v7A TCG cpus to TCG accel
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,43 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jones <drjones@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/21 12:10 PM, Peter Maydell wrote:
-> On Thu, 18 Mar 2021 at 10:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 18/03/21 11:40, Peter Maydell wrote:
->>> On Thu, 18 Mar 2021 at 10:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>>>
->>>> On 18/03/21 11:06, Laurent Vivier wrote:
->>>>> This also removes the virtio-devices test, I think we should keep the
->>>>> files, but in the files to disable the PCI part when it is not
->>>>> available.
->>>>
->>>> I think we should just shuffle the targets in the gitlab YAML to bypass
->>>> the issue.
->>>
->>> Then we'll hit it again later. I'm pretty sure this isn't the
->>> first time we've run into "some test makes dubious assumptions"...
->>
->> We can both fix qemu-iotests and CI configuration, but m68k is certainly
->> not the culprit here.  And we are going to make more assumptions over
->> time, not fewer, in order to keep the CI time at bay.
-> 
-> I don't see why CI time is relevant to whether the test says
-> "I require X,Y,Z, so don't run me on configs without those"
-> or whether it just randomly assumes X,Y,Z are always present
-> or that if it says "I require W" than W must imply X,Y,Z...
+On Thu, 18 Mar 2021 at 11:09, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> Still, I'm not sure it makes sense. If you want to migrate a such
+> machine, KVM can not virtualize it, so you'll be forced to use TCG
+> right? In that case cpu_tcg is built in and you have the A15.
+>
+> IOW the problem is not this patch, it is that since 82bf7ae84ce we
+> can not migrate A15.
 
-Recently we changed a bit our view and are trying to have smarter
-tests. In particular building target/device agnostic tests, and
-have the test queries the QEMU binary what features/devices are
-available before running. This will take some time before we get
-there, unlikely for the 6.0 release. For short term, Paolo's
-"shuffle gitlab YAML" suggestion is simpler.
+Do you mean "we can't migrate a TCG A15" ? That would be a problem.
+Or do you mean "we can't migrate a KVM A15" ? That's entirely
+expected when we drop support for KVM A15 :-)
+Or do you mean "migration from KVM to TCG doesn't work?" That's
+a pre-existing thing I don't expect to work (we don't put anything
+in to stop it working, but I'm pretty sure there will be a bunch
+of things that mean it doesn't in practice work.)
 
+> So we need both 1/ revert 82bf7ae84ce and 2/ be sure the kernel
+> support 32-bit host... Am I missing something?
+
+We're definitely not reverting 82bf7ae84ce if we can avoid it...
+
+thanks
+-- PMM
 
