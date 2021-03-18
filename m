@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEFE340BDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:32:18 +0100 (CET)
-Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66780340BEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 18:34:42 +0100 (CET)
+Received: from localhost ([::1]:53732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMwVM-0003TQ-Qv
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47424)
+	id 1lMwXh-0005Ix-G8
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 13:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMwSJ-0000xy-4H
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:29:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lMwSF-0008TJ-BS
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:29:06 -0400
+ (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
+ id 1lMwVn-0004Ht-DR
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:32:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
+ id 1lMwVf-0001bi-TL
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:32:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616088542;
+ s=mimecast20190719; t=1616088752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fvA/9ajhHrOSAA6HXAhzhFAR24uudFHN6ZHTyvIziEw=;
- b=AWXXKrNw1CPEFvT9nGJ9uPTDAP5J+uAchriz6x9iydt2rjJT1QiyN9IJO5y4NlX9lGh6iC
- 9fOYa7sYzIvqeR2mGBYGLwSzxbQ7SJ50uHQ5ZbxLi1Vu8ufJb0LUdU2NCxzkW+mgysAnUT
- 0UlcXpogK2DUE/C/cI79hjPHZxsLLXA=
+ bh=+QTzATGSTUECv9fRkj/YN/+2j1iJxqgkV1SCK/kS1gU=;
+ b=Cox0CRv0Ems2lKb6cft2MN9Ul9wMPZSFKw+za0xt8+Qy3IhCIlSfjPRjkhQ9/br7MPZ2Ij
+ VRln0ors4YPk9zlwo3sWArFw66DM143/WBb10inZHkvMg3qLBaNzafjIHrKrS0yLVo7Jlc
+ yVrWuSSODGbh7qscUt5cSqMkkyuklAA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-mV5zejV-N1CnKI0Q93QLRA-1; Thu, 18 Mar 2021 13:28:59 -0400
-X-MC-Unique: mV5zejV-N1CnKI0Q93QLRA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-567-_8TnpzSZNqqKKitwbtYGWg-1; Thu, 18 Mar 2021 13:32:28 -0400
+X-MC-Unique: _8TnpzSZNqqKKitwbtYGWg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC25D800FF0;
- Thu, 18 Mar 2021 17:28:57 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-113.ams2.redhat.com
- [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 20F955C1D1;
- Thu, 18 Mar 2021 17:28:55 +0000 (UTC)
-Subject: Re: [PULL 5/5] m68k: add Virtual M68k Machine
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Qemu-block <qemu-block@nongnu.org>
-References: <20210315204226.3481044-1-laurent@vivier.eu>
- <20210315204226.3481044-6-laurent@vivier.eu>
- <2730eee0-6f1b-2139-f93c-6a0a64727e29@redhat.com>
- <905c797a-25c3-bb43-5946-54b28d9530c0@vivier.eu>
- <d515dabd-b84d-5aa3-0bf5-d824bdc7da6e@redhat.com>
- <ffa12ba8-4988-b464-2267-5d14c59b43ab@vivier.eu>
- <b06c176d-c4ab-6c27-c96f-0bf27f7fd036@redhat.com>
- <27c791b2-dcc0-6c98-d765-ac1b60b7af3d@vivier.eu>
- <0d55cabf-0fa0-f9fd-6436-de2e03422329@vivier.eu>
- <0b3cedb8-f40a-18fd-5030-a596afb9298d@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <82f6dc3e-18bf-f90a-7e43-5568b319767c@redhat.com>
-Date: Thu, 18 Mar 2021 18:28:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B98C8801817;
+ Thu, 18 Mar 2021 17:32:26 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-2.gru2.redhat.com [10.97.112.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48FE117DC3;
+ Thu, 18 Mar 2021 17:32:26 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+ id E56F140E4C26; Thu, 18 Mar 2021 14:32:00 -0300 (-03)
+Date: Thu, 18 Mar 2021 14:32:00 -0300
+From: Marcelo Tosatti <mtosatti@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: Re: [RFC PATCH] i386: Add ratelimit for bus locks acquired in guest
+Message-ID: <20210318173200.GA35410@fuller.cnet>
+References: <20210317084709.15605-1-chenyi.qiang@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <0b3cedb8-f40a-18fd-5030-a596afb9298d@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210317084709.15605-1-chenyi.qiang@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mtosatti@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mtosatti@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,293 +80,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.03.21 17:25, Philippe Mathieu-Daudé wrote:
-> On 3/18/21 4:56 PM, Laurent Vivier wrote:
->> Le 18/03/2021 à 16:51, Laurent Vivier a écrit :
->>> Le 18/03/2021 à 16:36, Philippe Mathieu-Daudé a écrit :
->>>> On 3/18/21 11:06 AM, Laurent Vivier wrote:
->>>>> Le 18/03/2021 à 11:02, Philippe Mathieu-Daudé a écrit :
->>>>>> On 3/18/21 10:52 AM, Laurent Vivier wrote:
->>>>>>> Le 18/03/2021 à 10:19, Philippe Mathieu-Daudé a écrit :
->>>>>>>> Hi Laurent,
->>>>>>>>
->>>>>>>> +Paolo / Thomas
->>>>>>>>
->>>>>>>> On 3/15/21 9:42 PM, Laurent Vivier wrote:
->>>>>>>>> The machine is based on Goldfish interfaces defined by Google
->>>>>>>>> for Android simulator. It uses Goldfish-rtc (timer and RTC),
->>>>>>>>> Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).
->>>>>>>>>
->>>>>>>>> The machine is created with 128 virtio-mmio bus, and they can
->>>>>>>>> be used to use serial console, GPU, disk, NIC, HID, ...
->>>>>>>>>
->>>>>>>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>>>>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>>>>>>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>>>>> Message-Id: <20210312214145.2936082-6-laurent@vivier.eu>
->>>>>>>>> ---
->>>>>>>>>   default-configs/devices/m68k-softmmu.mak      |   1 +
->>>>>>>>>   .../standard-headers/asm-m68k/bootinfo-virt.h |  18 +
->>>>>>>>>   hw/m68k/virt.c                                | 313 ++++++++++++++++++
->>>>>>>>>   MAINTAINERS                                   |  13 +
->>>>>>>>>   hw/m68k/Kconfig                               |   9 +
->>>>>>>>>   hw/m68k/meson.build                           |   1 +
->>>>>>>>>   6 files changed, 355 insertions(+)
->>>>>>>>>   create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h
->>>>>>>>>   create mode 100644 hw/m68k/virt.c
->>>>>>>>
->>>>>>>>> diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
->>>>>>>>> index 60d7bcfb8f2b..f839f8a03064 100644
->>>>>>>>> --- a/hw/m68k/Kconfig
->>>>>>>>> +++ b/hw/m68k/Kconfig
->>>>>>>>> @@ -23,3 +23,12 @@ config Q800
->>>>>>>>>       select ESP
->>>>>>>>>       select DP8393X
->>>>>>>>>       select OR_IRQ
->>>>>>>>> +
->>>>>>>>> +config M68K_VIRT
->>>>>>>>> +    bool
->>>>>>>>> +    select M68K_IRQC
->>>>>>>>> +    select VIRT_CTRL
->>>>>>>>> +    select GOLDFISH_PIC
->>>>>>>>> +    select GOLDFISH_TTY
->>>>>>>>> +    select GOLDFISH_RTC
->>>>>>>>> +    select VIRTIO_MMIO
->>>>>>>>
->>>>>>>> I had this error on gitlab:
->>>>>>>>
->>>>>>>> (qemu) QEMU_PROG: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=virtio:
->>>>>>>> 'virtio-blk-pci' is not a valid device model name
->>>>>>>> job: check-system-fedora
->>>>>>>> https://gitlab.com/philmd/qemu/-/jobs/1106469724
->>>>>>>>
->>>>>>>> I bisected locally to this commit.
->>>>>>>>
->>>>>>>> check-system-fedora uses build-system-fedora:
->>>>>>>>
->>>>>>>> build-system-fedora:
->>>>>>>>      CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
->>>>>>>>               --enable-fdt=system --enable-slirp=system
->>>>>>>>               --enable-capstone=system
->>>>>>>>
->>>>>>>> I'm confused because the machine provides a VIRTIO bus
->>>>>>>> via MMIO:
->>>>>>>>
->>>>>>>> config VIRTIO_MMIO
->>>>>>>>      bool
->>>>>>>>      select VIRTIO
->>>>>>>>
->>>>>>>> I remember I tested your machine with virtio-blk-device.
->>>>>>>>
->>>>>>>> config VIRTIO_BLK
->>>>>>>>      bool
->>>>>>>>      default y
->>>>>>>>      depends on VIRTIO
->>>>>>>>
->>>>>>>> Ah, this is virtio-blk-pci, which has:
->>>>>>>>
->>>>>>>> virtio_pci_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true:
->>>>>>>> files('virtio-blk-pci.c'))
->>>>>>>> virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
->>>>>>>>
->>>>>>>> And VIRTIO_PCI isn't selected...
->>>>>>>
->>>>>>> This machine doesn't have virtio-pci, but only virtio-mmio buses.
->>>>>>
->>>>>> Yes. I meant "VIRTIO_PCI isn't selected, which is the correct config
->>>>>> for this machine". So the problem isn't the m68k-virt machine addition,
->>>>>> but it shows another problem elsewhere.
->>>>>>
->>>>>>>> Are the tests incorrect then?
->>>>>>>>
->>>>>>>> libqos isn't restricted to PCI:
->>>>>>>>
->>>>>>>> tests/qtest/libqos/virtio-blk.c:24:#include "virtio-blk.h"
->>>>>>>> tests/qtest/libqos/virtio-blk.c:29:/* virtio-blk-device */
->>>>>>>> tests/qtest/libqos/virtio-blk.c:33:    if (!g_strcmp0(interface,
->>>>>>>> "virtio-blk")) {
->>>>>>>> tests/qtest/libqos/virtio-blk.c:40:    fprintf(stderr, "%s not present
->>>>>>>> in virtio-blk-device\n", interface);
->>>>>>>> tests/qtest/libqos/virtio-blk.c:109:    /* virtio-blk-device */
->>>>>>>> tests/qtest/libqos/virtio-blk.c:111:
->>>>>>>> qos_node_create_driver("virtio-blk-device", virtio_blk_device_create);
->>>>>>>> tests/qtest/libqos/virtio-blk.c:112:
->>>>>>>> qos_node_consumes("virtio-blk-device", "virtio-bus", &opts);
->>>>>>>> tests/qtest/libqos/virtio-blk.c:113:
->>>>>>>> qos_node_produces("virtio-blk-device", "virtio-blk");
->>>>>>>>
->>>>>>>> But qemu-iotests / qtests do use virtio-blk-pci. Maybe they should
->>>>>>>> use a generic virtio-blk-device instead, hoping it get plugged correctly
->>>>>>>> to the virtio bus...
->>>>>>>
->>>>>>> Yes, it's how the machine work: it has 128 virtio-mmio buses and virtio-devices are plugged directly
->>>>>>> in the first free ones.
->>>>>>>
->>>>>>> I think the fix would be to disable the virtio-blk-pci test for the machines without PCI bus.
->>>>>>>
->>>>>>> Why is it executed for now?
->>>>>>
->>>>>> This is probably the problem root cause.
->>>>>>
->>>>>> Possible fix:
->>>>>>
->>>>>> -->8 --
->>>>>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
->>>>>> index 66ee9fbf450..d7f3fad51c1 100644
->>>>>> --- a/tests/qtest/meson.build
->>>>>> +++ b/tests/qtest/meson.build
->>>>>> @@ -217,13 +217,17 @@
->>>>>>     'emc141x-test.c',
->>>>>>     'usb-hcd-ohci-test.c',
->>>>>>     'virtio-test.c',
->>>>>> -  'virtio-blk-test.c',
->>>>>> -  'virtio-net-test.c',
->>>>>> -  'virtio-rng-test.c',
->>>>>> -  'virtio-scsi-test.c',
->>>>>>     'virtio-serial-test.c',
->>>>>>     'vmxnet3-test.c',
->>>>>>   )
->>>>>> +if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
->>>>>> +  qos_test_ss.add(
->>>>>> +    'virtio-blk-test.c',
->>>>>> +    'virtio-net-test.c',
->>>>>> +    'virtio-rng-test.c',
->>>>>> +    'virtio-scsi-test.c',
->>>>>> +  )
->>>>>> +endif
->>>>>>   if have_virtfs
->>>>>>     qos_test_ss.add(files('virtio-9p-test.c'))
->>>>>>   endif
->>>>>> ---
->>>>>>
->>>>>> I'll test that locally but not on Gitlab.
->>>>
->>>> This approach doesn't work for the iotests.
->>>>
->>>>> This also removes the virtio-devices test, I think we should keep the files, but in the files to
->>>>> disable the PCI part when it is not available.
->>>> I don't understand how the virtio devices are created, it seems there
->>>> is an alias to generic virtio hw that map to the arch virtio bus.
->>>>
->>>> I was not obvious to understand why start the virt machine with
->>>> "-device virtio-blk" returns "'virtio-blk-pci' is not a valid device
->>>> model name" at first, then I figured out the qdev_alias_table array.
->>>>
->>>> Maybe you need to complete it for your arch? I've been using that:
->>>>
->>>> -- >8 --
->>>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->>>> index 8dc656becca..b326bd76c2a 100644
->>>> --- a/softmmu/qdev-monitor.c
->>>> +++ b/softmmu/qdev-monitor.c
->>>> @@ -65,8 +65,10 @@ static const QDevAlias qdev_alias_table[] = {
->>>>       { "virtio-balloon-ccw", "virtio-balloon", QEMU_ARCH_S390X },
->>>>       { "virtio-balloon-pci", "virtio-balloon",
->>>>               QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
->>>> +    { "virtio-blk-device", "virtio-blk", QEMU_ARCH_M68K },
->>>>       { "virtio-blk-ccw", "virtio-blk", QEMU_ARCH_S390X },
->>>> -    { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
->>>> +    { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_ALL
->>>> +                                      & ~(QEMU_ARCH_S390X |
->>>> QEMU_ARCH_M68K) },
->>>>       { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_S390X },
->>>>       { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
->>>>       { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_S390X },
->>>> @@ -84,8 +86,10 @@ static const QDevAlias qdev_alias_table[] = {
->>>>       { "virtio-rng-pci", "virtio-rng", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
->>>>       { "virtio-scsi-ccw", "virtio-scsi", QEMU_ARCH_S390X },
->>>>       { "virtio-scsi-pci", "virtio-scsi", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
->>>> +    { "virtio-serial-device", "virtio-serial", QEMU_ARCH_M68K },
->>>>       { "virtio-serial-ccw", "virtio-serial", QEMU_ARCH_S390X },
->>>> -    { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_ALL &
->>>> ~QEMU_ARCH_S390X },
->>>> +    { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_ALL
->>>> +                                            & ~(QEMU_ARCH_S390X |
->>>> QEMU_ARCH_M68K)},
->>>>       { "virtio-tablet-ccw", "virtio-tablet", QEMU_ARCH_S390X },
->>>>       { "virtio-tablet-pci", "virtio-tablet", QEMU_ARCH_ALL &
->>>> ~QEMU_ARCH_S390X },
->>>>       { }
->>>> ---
->>>>
->>>> But this looks ugly, I don't think it should work that way (because
->>>> a machine could provide virtio buses over multiple transport, mmio
->>>> and pci...).
->>>
->>> IMHO, this looks like the solution.
->>>
->>> The alias is to define the prefered way, on PCI it's the -pci one otherwise it is the -device one.
->>
->> See:
->>
->> commit 5f629d943cb0b11c37a891cf4f40a9166aee6f53
->> Author: Alexander Graf <agraf@csgraf.de>
->> Date:   Fri May 18 02:36:26 2012 +0200
->>
->>      s390x: fix s390 virtio aliases
->>
->>      Some of the virtio devices have the same frontend name, but actually
->>      implement different devices behind the scenes through aliases.
->>
->>      The indicator which device type to use is the architecture. On s390, we
->>      want s390 virtio devices. On everything else, we want PCI devices.
->>
->>      Reflect this in the alias selection code. This way we fix commands like
->>      -device virtio-blk on s390x which with this patch applied select the
->>      correct virtio-blk-s390 device rather than virtio-blk-pci.
->>
->>      Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
->>      Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
->>      Signed-off-by: Alexander Graf <agraf@suse.de>
+On Wed, Mar 17, 2021 at 04:47:09PM +0800, Chenyi Qiang wrote:
+> Virtual Machines can exploit bus locks to degrade the performance of
+> system. To address this kind of performance DOS attack, bus lock VM exit
+> is introduced in KVM and it will report the bus locks detected in guest,
+> which can help userspace to enforce throttling policies.
+
 > 
-> So now than MMIO is available, we hit the "everything else" limit :)
+> The availability of bus lock VM exit can be detected through the
+> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
+> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
+> bitmap is the only supported strategy at present. It indicates that KVM
+> will exit to userspace to handle the bus locks.
 > 
-> The other function I had to modify is in tests/qemu-iotests/iotests.py:
+> This patch adds a ratelimit on the bus locks acquired in guest as a
+> mitigation policy.
 > 
->    def get_virtio_scsi_device():
->        if qemu_default_machine == 's390-ccw-virtio':
->            return 'virtio-scsi-ccw'
->        return 'virtio-scsi-pci'
+> Introduce a new field "bld" to record the limited speed of bus locks in
+> target VM. The user can specify it through the "bus-lock-detection"
+> as a machine property. In current implementation, the default value of
+> the speed is 0 per second, which means no restriction on the bus locks.
 > 
-> But Max said there is no interest in testing the block devices here
-> (here = archs providing virtio via MMIO such ARM/m68k).
+> Ratelimit enforced in data transmission uses a time slice of 100ms to
+> get smooth output during regular operations in block jobs. As for
+> ratelimit on bus lock detection, simply set the ratelimit interval to 1s
+> and restrict the quota of bus lock occurrence to the value of "bld". A
+> potential alternative is to introduce the time slice as a property
+> which can help the user achieve more precise control.
+> 
+> The detail of Bus lock VM exit can be found in spec:
+> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
+> 
+> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+> ---
+>  hw/i386/x86.c         |  6 ++++++
+>  include/hw/i386/x86.h |  7 +++++++
+>  target/i386/kvm/kvm.c | 44 +++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 57 insertions(+)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 7865660e2c..a70a259e97 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1209,6 +1209,12 @@ static void x86_machine_initfn(Object *obj)
+>      x86ms->acpi = ON_OFF_AUTO_AUTO;
+>      x86ms->smp_dies = 1;
+>      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+> +    x86ms->bld = 0;
+> +
+> +    object_property_add_uint64_ptr(obj, "bus-lock-detection",
+> +                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
+> +    object_property_set_description(obj, "bus-lock-detection",
+> +            "Bus lock detection ratelimit");
+>  }
+>  
+>  static void x86_machine_class_init(ObjectClass *oc, void *data)
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index 56080bd1fb..1f0ffbcfb9 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -72,6 +72,13 @@ struct X86MachineState {
+>       * will be translated to MSI messages in the address space.
+>       */
+>      AddressSpace *ioapic_as;
+> +
+> +    /*
+> +     * ratelimit enforced on detected bus locks, the default value
+> +     * is 0 per second
+> +     */
+> +    uint64_t bld;
+> +    RateLimit bld_limit;
+>  };
+>  
+>  #define X86_MACHINE_SMM              "smm"
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index c8d61daf68..724862137d 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
+>  static struct kvm_cpuid2 *cpuid_cache;
+>  static struct kvm_msr_list *kvm_feature_msrs;
+>  
+> +#define SLICE_TIME 1000000000ULL /* ns */
+> +
+>  int kvm_has_pit_state2(void)
+>  {
+>      return has_pit_state2;
+> @@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>          }
+>      }
+>  
+> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+> +        X86MachineState *x86ms = X86_MACHINE(ms);
+> +
+> +        if (x86ms->bld > 0) {
+> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
+> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
+> +                error_report("kvm: bus lock detection unsupported");
+> +                return -ENOTSUP;
+> +            }
+> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
+> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
+> +            if (ret < 0) {
+> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
+> +                             strerror(-ret));
+> +                return ret;
+> +            }
+> +
+> +            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
+> +        }
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> @@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+>      }
+>  }
+>  
+> +static void kvm_rate_limit_on_bus_lock(void)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+> +    X86MachineState *x86ms = X86_MACHINE(ms);
+> +
+> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
+> +
+> +    if (delay_ns) {
+> +        g_usleep(delay_ns / SCALE_US);
+> +    }
+> +}
 
-(To elaborate on my perspective)
+Hi,
 
-I’m not exactly sure what you mean by this, i.e. whether you mean that 
-we don’t want to test at all on that target, or that we don’t want to 
-test specific devices.
+Can't see a use-case where the throttling is very useful: this will
+slowdown the application to a halt (if its bus-lock instruction is
+being called frequently).
 
-The former is not entirely true (but in practice kind of), the latter I 
-think is true.
+However its very nice to know that it (bus lock) has happened.
 
-I think we’d like to be able to provide developers the ability to run 
-the iotests whatever target they’re working on, except where it’s just 
-too complicated to do and nobody cares.  The obvious problem is that 
-often nobody cares, so there’s a low threshold to disabling stuff.  (On 
-s390, there was some pain, but people did care, so that’s a 
-counter-story.)  The threshold is especially low if it’s just to silence 
-CI, obviously.
+So on KVM bus exit do you emulate the instruction or just execute it 
+in the guest (without a VM-exit for the second time) ?
 
-The thing to note is that at least most iotests are not there to test 
-the guest device, but rather the block layer; and the block layer is 
-pretty much the same for every target, so there isn’t a big incentive 
-for the block layer developers to have it run it on different targets. 
-(I can’t rule out the possibility of a target-specific bug in how the 
-block layer is used, which the iotests might reveal, but I don’t 
-remember something like that to have happened so far.)
-
- From that it follows that I don’t see much use in testing specific 
-devices either.  Say there’s a platform that provides both virtio-pci 
-and virtio-mmio, the default (say virtio-pci) is fine for the iotests. 
-I see little value in testing virtio-mmio as well.  (Perhaps I’m 
-short-sighted, though.)
-
-Max
+(But maybe there are usecases where the throttling makes sense, 
+sleep is performed outside global mutex lock, so patch looks good).
 
 
