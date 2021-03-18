@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704C934058D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:32:30 +0100 (CET)
-Received: from localhost ([::1]:57250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5641340589
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:31:32 +0100 (CET)
+Received: from localhost ([::1]:53180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMrpF-0007GZ-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
+	id 1lMroJ-0005Vd-KC
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lMrln-0004Cx-Uf
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:28:55 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2070)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lMrlk-0001aD-Bu
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:28:55 -0400
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4F1R9J2lLszRRQ7;
- Thu, 18 Mar 2021 20:27:00 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Thu, 18 Mar 2021 20:28:45 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Thu, 18 Mar 2021 20:28:45 +0800
-Subject: Re: [RFC PATCH 0/3] vfio/migration: Support manual clear vfio dirty
- log
-To: "Tian, Kevin" <kevin.tian@intel.com>, Alex Williamson
- <alex.williamson@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Kirti Wankhede" <kwankhede@nvidia.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>, Tarun Gupta
- <targupta@nvidia.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20210310094106.2191-1-jiangkunkun@huawei.com>
- <MWHPR11MB188608DDA524E353866268AE8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
- <ba20233b-c5c0-cf3f-e4fa-ecb1e054ff54@huawei.com>
- <MWHPR11MB1886BC40825E4FADA1BFB93F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <fa31ed64-1c6e-f7db-7650-656a22223501@huawei.com>
-Date: Thu, 18 Mar 2021 20:28:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lMrlo-0004Ei-Pc
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:28:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lMrlm-0001en-V8
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 08:28:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616070533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BwUzCzt6ozOQyrquizJaaztrHWH8uy/zLKE5hpPHy7Y=;
+ b=L9Un4DBUveOjrV7bIjFjXRTqnPFQFDU5IoF3Ml5wwDo2w6FU3lLx2ed5GfP8lkHWfGHYLk
+ +KE1GCFCU36hs0QnhoFTAoaUiReoMBwmlOoHyw4Ad/P6HH09KQyZl8DDNdPhyxJuxl3GCT
+ ZIM1CbSnadsw7EAmpThdPOelQjVxS8Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-U02AsBj_OkKcVcC7Do4tUw-1; Thu, 18 Mar 2021 08:28:50 -0400
+X-MC-Unique: U02AsBj_OkKcVcC7Do4tUw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4CF883DD21;
+ Thu, 18 Mar 2021 12:28:48 +0000 (UTC)
+Received: from gondolin (ovpn-115-53.ams2.redhat.com [10.36.115.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39E695D6A8;
+ Thu, 18 Mar 2021 12:28:43 +0000 (UTC)
+Date: Thu, 18 Mar 2021 13:28:40 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Tarun Gupta (SW-GPU)" <targupta@nvidia.com>
+Subject: Re: [PATCH v2 1/1] docs/devel: Add VFIO device migration documentation
+Message-ID: <20210318132840.22c8a6ef.cohuck@redhat.com>
+In-Reply-To: <c01589ee-d007-77da-83d1-fb6096f6f144@nvidia.com>
+References: <20210310192009.53848-1-targupta@nvidia.com>
+ <20210315182258.586dbf23.cohuck@redhat.com>
+ <c01589ee-d007-77da-83d1-fb6096f6f144@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <MWHPR11MB1886BC40825E4FADA1BFB93F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,101 +79,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "shameerali.kolothum.thodi@huawei.com"
- <shameerali.kolothum.thodi@huawei.com>, Eric Auger <eric.auger@redhat.com>,
- Peter Xu <peterx@redhat.com>, Zenghui Yu <yuzenghui@huawei.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: kevin.tian@intel.com, cjia@nvidia.com, quintela@redhat.com,
+ qemu-devel@nongnu.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ dgilbert@redhat.com, yan.y.zhao@intel.com, lushenming@huawei.com,
+ alex.williamson@redhat.com, dnigam@nvidia.com, berrange@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kevin,
+On Tue, 16 Mar 2021 21:48:38 +0530
+"Tarun Gupta (SW-GPU)" <targupta@nvidia.com> wrote:
 
-On 2021/3/18 17:04, Tian, Kevin wrote:
->> From: Kunkun Jiang <jiangkunkun@huawei.com>
->> Sent: Thursday, March 18, 2021 3:59 PM
->>
->> Hi Kevin,
->>
->> On 2021/3/18 14:28, Tian, Kevin wrote:
->>>> From: Kunkun Jiang
->>>> Sent: Wednesday, March 10, 2021 5:41 PM
->>>>
->>>> Hi all,
->>>>
->>>> In the past, we clear dirty log immediately after sync dirty log to
->>>> userspace. This may cause redundant dirty handling if userspace
->>>> handles dirty log iteratively:
->>>>
->>>> After vfio clears dirty log, new dirty log starts to generate. These
->>>> new dirty log will be reported to userspace even if they are generated
->>>> before userspace handles the same dirty page.
->>>>
->>>> Since a new dirty log tracking method for vfio based on iommu hwdbm[1]
->>>> has been introduced in the kernel and added a new capability named
->>>> VFIO_DIRTY_LOG_MANUAL_CLEAR, we can eliminate some redundant
->> dirty
->>>> handling by supporting it.
->>> Is there any performance data showing the benefit of this new method?
->>>
->> Current dirty log tracking method for VFIO:
->> [1] All pages marked dirty if not all iommu_groups have pinned_scope
->> [2] pinned pages by various vendor drivers if all iommu_groups have
->> pinned scope
->>
->> Both methods are coarse-grained and can not determine which pages are
->> really dirty. Each round may mark the pages that are not really dirty as
->> dirty
->> and send them to the destination. ( It might be better if the range of the
->> pinned_scope was smaller. ) This will result in a waste of resources.
->>
->> HWDBM is short for Hardware Dirty Bit Management.
->> (e.g. smmuv3 HTTU, Hardware Translation Table Update)
->>
->> About SMMU HTTU:
->> HTTU is a feature of ARM SMMUv3, it can update access flag or/and dirty
->> state of the TTD (Translation Table Descriptor) by hardware.
->>
->> With HTTU, stage1 TTD is classified into 3 types:
->>                                    DBM bit AP[2](readonly bit)
->> 1. writable_clean          1                            1
->> 2. writable_dirty           1                            0
->> 3. readonly                   0                            1
->>
->> If HTTU_HD (manage dirty state) is enabled, smmu can change TTD from
->> writable_clean to writable_dirty. Then software can scan TTD to sync dirty
->> state into dirty bitmap. With this feature, we can track the dirty log of
->> DMA continuously and precisely.
->>
->> The capability of VFIO_DIRTY_LOG_MANUAL_CLEAR is similar to that on
->> the KVM side. We add this new log_clear() interface only to split the old
->> log_sync() into two separated procedures:
->>
->> - use log_sync() to collect the collection only, and,
->> - use log_clear() to clear the dirty bitmap.
->>
->> If you're interested in this new method, you can take a look at our set of
->> patches.
->> [1]
->> https://lore.kernel.org/linux-iommu/20210310090614.26668-1-
->> zhukeqian1@huawei.com/
->>
-> I know what you are doing. Intel is also working on VT-d dirty bit support
-> based on above link. What I'm curious is the actual performance gain
-> with this optimization. KVM doing that is one good reference, but IOMMU
-> has different characteristics (e.g. longer invalidation latency) compared to
-> CPU MMU. It's always good to understand what a so-called optimization
-> can actually optimize in a context different from where it's originally proved.😊
->
-> Thanks
-> Kevin
+> On 3/15/2021 10:52 PM, Cornelia Huck wrote:
+> > 
+> > On Thu, 11 Mar 2021 00:50:09 +0530
+> > Tarun Gupta <targupta@nvidia.com> wrote:
+> >   
+> >> Document interfaces used for VFIO device migration. Added flow of state changes
+> >> during live migration with VFIO device. Tested by building docs with the new
+> >> vfio-migration.rst file.
+> >>
+> >> v2:
+> >> - Included the new vfio-migration.rst file in index.rst
+> >> - Updated dirty page tracking section, also added details about
+> >>    'pre-copy-dirty-page-tracking' opt-out option.
+> >> - Incorporated comments around wording of doc.
+> >>
+> >> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> ---
+> >>   MAINTAINERS                   |   1 +
+> >>   docs/devel/index.rst          |   1 +
+> >>   docs/devel/vfio-migration.rst | 135 ++++++++++++++++++++++++++++++++++
+> >>   3 files changed, 137 insertions(+)
+> >>   create mode 100644 docs/devel/vfio-migration.rst
+> >>  
+> > 
+> > (...)
+> >   
+> >> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+> >> new file mode 100644
+> >> index 0000000000..6196fb132c
+> >> --- /dev/null
+> >> +++ b/docs/devel/vfio-migration.rst
+> >> @@ -0,0 +1,135 @@
+> >> +=====================
+> >> +VFIO device Migration
+> >> +=====================  
+> > 
+> > Maybe add an introductory sentence or two describing the general
+> > approach? I.e. we have a general framework, and specific support for
+> > devices needs to be hooked up.  
+> 
+> Ummm, the below paragraph does describe the approach we're using for the 
+> migration framework involving pre-copy and stop-and-copy phase.
+> Can you help elaborate more on the general approach you'd like to have?
 
-My understanding is that this is a new method, which is quite different 
-from the
-previous two. So can you explain in more detail what performance data 
-you want?😁
+The document dives right in with how vfio devices are using an
+iterative approach etc. A quick overview of the general setup (before
+you are getting to the different phases) might be helpful, i.e. who
+does what. Not sure what we expect a reader of this document to know
+already.
 
-Thanks,
-Kunkun Jiang
+> 
+> >   
+> >> +
+> >> +VFIO devices use an iterative approach for migration because certain VFIO
+> >> +devices (e.g. GPU) have large amount of data to be transfered. The iterative
+> >> +pre-copy phase of migration allows for the guest to continue whilst the VFIO
+> >> +device state is transferred to the destination, this helps to reduce the total
+> >> +downtime of the VM. VFIO devices can choose to skip the pre-copy phase of
+> >> +migration by returning pending_bytes as zero during the pre-copy phase.  
+> > 
+> > What about something like:
+> > 
+> > "Migration of VFIO devices consists of two phases: the optional
+> > pre-copy phase, and the stop-and-copy phase. The pre-copy phase is
+> > iterative and allows to accommodate VFIO devices that have a large
+> > amount of data that needs to be transferred. The iterative pre-copy
+> > phase..."
+> >   
+> 
+> Thanks, this looks better. I'll update it in next version incorporating 
+> the other comments too below.
 
 
