@@ -2,54 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF45341071
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 23:41:46 +0100 (CET)
-Received: from localhost ([::1]:42460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB56234107F
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 23:48:50 +0100 (CET)
+Received: from localhost ([::1]:55780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN1Km-0005mk-Le
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 18:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47558)
+	id 1lN1Ri-000319-0k
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 18:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lN1Ij-00042U-2n; Thu, 18 Mar 2021 18:39:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:45899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lN1Ic-00040I-OI; Thu, 18 Mar 2021 18:39:32 -0400
-Received: from localhost.localdomain ([82.142.20.38]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M7sUE-1lI3DP14bK-004zRh; Thu, 18 Mar 2021 23:39:21 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] iotests: iothreads need ioeventfd
-Date: Thu, 18 Mar 2021 23:39:07 +0100
-Message-Id: <20210318223907.1344870-5-laurent@vivier.eu>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210318223907.1344870-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lN1PC-0002KR-GS; Thu, 18 Mar 2021 18:46:14 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53088)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lN1PA-0006oG-UE; Thu, 18 Mar 2021 18:46:14 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id d191so4462731wmd.2;
+ Thu, 18 Mar 2021 15:46:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EwAaR1vG1xN+ihd/4iiRHQB+7VXRaOERrZW334LjMsg=;
+ b=SnoiWNpqUG6dZsqu2fYsFmeHZOUnvd+IO83XHEc1asTMVjva9H/Z27eU/yXg80SGz+
+ VBUmP01EL7ZAWdj1KIUTLvuBj0VLAADHA3QpEuoVfWRtfwnhOPVr5eXciFtJO48kz12A
+ vBKbre4sl+57+EwfUCeU3eP8LX/mCBQuYny3J6rDK01TrD7w1R4EaiDymijAWPrcSSzG
+ knIfEJLYhvD+BoxDdKL9bkO6h24a4lBGS79xTRPzNF/3swr0ixTtMOgJAnaa860LNytj
+ 5PvzhnAG9KGY7SYN8le5MJpsA84AIVCCG+wnZ1Dtxve3/SKQqcinz7XjS8b+5H9kOAF0
+ Zc3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EwAaR1vG1xN+ihd/4iiRHQB+7VXRaOERrZW334LjMsg=;
+ b=FcCLsLMcQbQDTZnSnyOxk5vbEC5MiyqKgoGInlp+J3O0TqTEIK94+Ofa+tnlZGdsKT
+ 9KeSFhOZKRoDHopAdXZqQ7v7vKrQnBk7M+q/PAkq/s6qencrtoA7fY+tUspWLIFaVcWi
+ 8tNeQdBdolDM4KGLkdIyxZh+2BD3KSOotxBGyZIzJZst9ZwrDIjCQb9Qn0ASF05lJ4Xy
+ vzIImT2NAQOKs7l4MnxEm+8HyzThs9Dj3K366gN4SSDEM6NG/YRUEZ6lw5jUfedTGzEL
+ A/UaM+EvoKFHMjRUfa0y0mcm/XwSoaDBNrrnuA4BTOjTf8Wx+2IhdE23Lvw9kdY7NDGD
+ j4pA==
+X-Gm-Message-State: AOAM530/IoXagVuKLesYCGYLLkTF7pUdve0XY0UL+YVmCff/0oIANshL
+ 9KViOyhNc9P5sVlpHBAZ9g7OhYdEr1+dEA==
+X-Google-Smtp-Source: ABdhPJxnZx/tFEP0v5NfJRFAJI0S8ncRP1IYNFRbYrSc4VACip48aBySRnOX7nOGkGKMxEqRGLVTMw==
+X-Received: by 2002:a1c:e482:: with SMTP id b124mr1093334wmh.70.1616107569137; 
+ Thu, 18 Mar 2021 15:46:09 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id m11sm4507512wrz.40.2021.03.18.15.46.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 15:46:08 -0700 (PDT)
+Subject: Re: [PATCH 3/4] iotests: test m68k with the virt machine
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20210318223907.1344870-1-laurent@vivier.eu>
+ <20210318223907.1344870-4-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1bd3f7a2-e159-d3e2-fd70-749cc5ffde69@amsat.org>
+Date: Thu, 18 Mar 2021 23:46:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210318223907.1344870-4-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bbzX22WuGK9O0KmZrBF4uHkALslmTyPsZ0L/3E1OKGJ6KXO+heg
- n0GBFmKD8ER2YD4392WSZy8mMEFypBlgJoKuL2RpBpXo+GYhP/TINHFeYKBZaAUqe0Hplsy
- 4vmxsJtL6L7XfJB5dNik1Mdpne3eKv0uLnFmpRJyWfRjITAWs/K4fK3/hudixNdDrelRnck
- zYOe6FLZFV2OsbVKLqNhQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ejs4NeCSYM8=:di9A+qBtT9OloN2rr0dS1+
- rlLjgeC3taUpSmo6EYO89tH0jbBksvUoY4onB4nIQ3OTqmkCS/o6hzKN4lEswkQ3VMaTW1LEx
- JwAozKH6ty2L6p+S8LGxfd2W+mYg13aqSz6x8YtT8zWLfiMZApA6y1+YSIRI2Ono1+jgds2Zs
- 9lzppsrBGb9T2zeZgABo0kTO/wCepogNzygq+ITK0KfAqo+jrG6MPdNrO1eoxzqQOaXItcWN/
- iQbzz/QSp5b3/8b1m1MGc21n/DYJ/Ax5F241pvIfxvGk/nBJAgyQmO3lm1F2bRMPLsJBmtY8o
- zJe/uErRZbObsrhWIrumq/AM4DrUS3AY3Y8xDN61Na+l/wI+GWsYSLFkoIf6Z54ot47ymHUjA
- bpYXH0Vjg1kcUdoML7vEYc4oF1QmTZbhQbyjKrSm5mBiuFDqWS0q9R8i+sstk4DLJQOqu3vRm
- 4uB4G7LduA==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,78 +89,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
  Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And ioeventfd are only available with virtio-scsi-pci, so don't use the alias
-and add a rule to require virtio-scsi-pci for the tests that use iothreads.
+On 3/18/21 11:39 PM, Laurent Vivier wrote:
+> This allows to cover the virtio tests with a 32bit big-endian
+> virtio-mmio machine.
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  tests/qemu-iotests/testenv.py | 1 +
+>  1 file changed, 1 insertion(+)
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- tests/qemu-iotests/127        | 4 ++--
- tests/qemu-iotests/256        | 2 ++
- tests/qemu-iotests/iotests.py | 5 +++++
- 3 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
-index 98e8e82a8210..a3693533685a 100755
---- a/tests/qemu-iotests/127
-+++ b/tests/qemu-iotests/127
-@@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file fuse
- 
--_require_devices virtio-scsi scsi-hd
-+_require_devices virtio-scsi-pci scsi-hd
- 
- IMG_SIZE=64K
- 
-@@ -62,7 +62,7 @@ $QEMU_IO -c 'write 0 42' "$TEST_IMG.overlay0" | _filter_qemu_io
- _launch_qemu \
-     -object iothread,id=iothr \
-     -blockdev node-name=source,driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG.overlay0" \
--    -device virtio-scsi,id=scsi-bus,iothread=iothr \
-+    -device virtio-scsi-pci,id=scsi-bus,iothread=iothr \
-     -device scsi-hd,bus=scsi-bus.0,drive=source
- 
- _send_qemu_cmd $QEMU_HANDLE \
-diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256
-index 8d82a1dd865f..eb3af0dea80c 100755
---- a/tests/qemu-iotests/256
-+++ b/tests/qemu-iotests/256
-@@ -24,6 +24,8 @@ import os
- import iotests
- from iotests import log
- 
-+iotests._verify_virtio_scsi_pci()
-+
- iotests.script_initialize(supported_fmts=['qcow2'])
- size = 64 * 1024 * 1024
- 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 1e9e6a066e90..3404ed534bb5 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1146,6 +1146,11 @@ def _verify_virtio_blk() -> None:
-     if 'virtio-blk' not in out:
-         notrun('Missing virtio-blk in QEMU binary')
- 
-+def _verify_virtio_scsi_pci() -> None:
-+    out = qemu_pipe('-M', 'none', '-device', 'help')
-+    if 'virtio-scsi-pci' not in out:
-+        notrun('Missing virtio-scsi-pci in QEMU binary')
-+
- 
- def supports_quorum():
-     return 'quorum' in qemu_img_pipe('--help')
--- 
-2.30.2
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
