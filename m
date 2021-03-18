@@ -2,74 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F6533FDEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 04:55:56 +0100 (CET)
-Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A833FDF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 04:58:54 +0100 (CET)
+Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMjlL-00041M-Ep
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 23:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33668)
+	id 1lMjoD-0005R3-2o
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 23:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lMjkD-0003VY-9F
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:54:45 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lMjk9-000734-Dt
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:54:45 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id t18so2204497pjs.3
- for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 20:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NxgZUtfXeeHX1BL8BsKKpx3Kng5/2JMunUFuwCit17s=;
- b=JkAywEf71bZmQjKGRcbRA98Dq24oA+e1G1fmyc5+U7GcErUvnKs+ZiDPammHZnbVX0
- 6yejlZCXib9y57QnrnO3ulzDXcRAWcdIS1GU4RlAf+467H4Q1JmpfpzEEs2Fq5Pd4+Ea
- blb39z+mjAyfHb0qwr6uMUnNBjRVpubh5h0/GO6Ja5yq5VaDZNm5+Vkc4+iyj4MQHJKy
- Dw8ychY5KeDgiizChd8NYejec+KAv15RDdzIEoV7c8U/rDrKf6SqvEMOXuFnp2JWgG7w
- 3dDpMHedyKbdlR7uDQJwyi2jSJxndIdp4Qy0c6hSSVrRdly9+t8D9zO4zzres3Dy0o8O
- leJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NxgZUtfXeeHX1BL8BsKKpx3Kng5/2JMunUFuwCit17s=;
- b=kap3kUCYlCYERoD9RAo4eAhzb6NnMyUNQxuWkmNttLWVmxFqF7YAF09QPk9ViNVtxX
- AMBTHuSSy/w5Li05pdnlNacoVEKSr0ypj1ndFXdQCwkQA9WgYdO2qMgUcb4zv0q3TVn/
- RVdT5bmrce7bJyceV/yII3G+CWqqSCDqoMcLyaDNzJvjw1FNjruUWh8Rs7BcBzsTJ54J
- AVV+Z0JJJjW52Y2VCwv9DPEE5H0SGxMDSxwjCvJ/Pa0T+hneitLblTuUQpyomHIKuqQX
- 96NeGOOtDodpP1Za1eSsHEPZ3nDZzOKzBUWi7jyLkjjKL9hLCX0u2HDD9FM/XXic9OME
- ys4A==
-X-Gm-Message-State: AOAM533xVKbwRVfQWyuU/V90ObGcmWDjxO61x9y6GKp8xdtYUjkHCa+9
- Fir/WCt0st5oi7Wr1tOFndX3cgXQ0bnz9Q==
-X-Google-Smtp-Source: ABdhPJyi6cAVvG5SfnZ9pfd78ogdqEVt4hN3n8NWYAzTug/Xnq0D+/EM3oDaEbEiHltIcuIvYpuh6A==
-X-Received: by 2002:a17:90b:903:: with SMTP id
- bo3mr2190146pjb.198.1616039678787; 
- Wed, 17 Mar 2021 20:54:38 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:5929:7d96:e842:bf87])
- by smtp.gmail.com with ESMTPSA id 143sm539228pfx.144.2021.03.17.20.54.36
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 17 Mar 2021 20:54:38 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH v2] net/macos: implement vmnet-based netdev
-Date: Thu, 18 Mar 2021 12:54:27 +0900
-Message-Id: <20210318035427.13436-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lMjmj-0004cv-LI
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:57:21 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:44872)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lMjmh-0000Nv-EM
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1616039839; x=1647575839;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=s2wH3t9cbuFMQsZ0faic6XIduN8FZkIW6c64euW82yE=;
+ b=pzUYQ4dKNzWgLCJvHVKc1IReAEphyQ5z9bnV/UUSFfT/KLL0QTNfsGw2
+ 5LVvoY1zARnlePff/sYDMY8JZsoPRFYQA1jcyfEk1vaFK6Jfo4UvdTyIc
+ QIMQYgG8zmA4hckk7/MRGluy1dPEAflSlF1OgemiEGaHSn5C5G+BDrUks k=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Mar 2021 20:57:16 -0700
+X-QCInternal: smtphost
+Received: from nasanexm03c.na.qualcomm.com ([10.85.0.106])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 17 Mar 2021 20:57:16 -0700
+Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
+ nasanexm03c.na.qualcomm.com (10.85.0.106) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 17 Mar 2021 20:57:15 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Wed, 17 Mar 2021 20:57:15 -0700
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by BYAPR02MB4454.namprd02.prod.outlook.com (2603:10b6:a03:5f::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 18 Mar
+ 2021 03:57:14 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6%4]) with mapi id 15.20.3933.032; Thu, 18 Mar 2021
+ 03:57:14 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v8 17/35] Hexagon (target/hexagon/fma_emu.[ch]) utility
+ functions
+Thread-Topic: [PATCH v8 17/35] Hexagon (target/hexagon/fma_emu.[ch]) utility
+ functions
+Thread-Index: AQHW/d3JA2mZC7HMjEG+YDqSt7jZy6pYUrKAgDDr58A=
+Date: Thu, 18 Mar 2021 03:57:14 +0000
+Message-ID: <BYAPR02MB4886AB012781593E9881448DDE699@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-18-git-send-email-tsimpson@quicinc.com>
+ <cd233aee-e185-e9e5-2ad0-0493c93f1ad5@linaro.org>
+In-Reply-To: <cd233aee-e185-e9e5-2ad0-0493c93f1ad5@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [70.115.140.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f9da3515-a17a-44b4-e1ee-08d8e9c1ea87
+x-ms-traffictypediagnostic: BYAPR02MB4454:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB44540C000025A63FF4DB2C95DE699@BYAPR02MB4454.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: GqHJWvn7rSDCrLOof8dY2RG9zEuMl3GOw8vNQHQqVQLSc2cXd5fMcBgX4ztEwaMWYmmUFzRvHYmUNIUHDxBnZgeq+huiO77RElZj5vZ52CJtLCEztS9GTTjcmx1JLY53Epe40N83MUwY+qutixfYZEx4VXfkx+VV9FlHH3/5f9Ax4dJzBdSrKeUW0VsHI0Tag3GuMprSjb//DWXE3fGxGxhbS00K6wmL8ecx54tSJ5AMR/BtgFPksVGAbzXetfp8EcsYsPxRFbjuM7XgCtV+gU/j3sL2DmxZ6xCv+Z7Hkt76x7l4Brf3gWs8XTCOEKYx4Vh/8NeJE6bpZRsYbp99R6JvkJHnC45qpGey4a4FEKE7lk+0yA1A+N+JliiswUfLgFNRCA1b05TeCkm+UGHI2dX4QpQnYNO9GMNONUzI+d/l7i/vVvXJ0nzxb01vPHUU3wy+3c6NSD6SRuZSMnj0hyvWhkmqrWOmpNTCzcTz5tc+0QJhOC6pO05qTUDR29Kxp1/mqTi2e9Mi3f6xqoXKeCiA5OF6BMp3NDqjt6ZaOGVdS9eTY9SXn1w/r69IhDrAsa3FXQP68Pkro/6Rui+ngKONZZmieQWMuIY4DLpN4VuqhLG5jykuMz3SYGD3xWAX
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(396003)(366004)(346002)(136003)(4326008)(107886003)(33656002)(71200400001)(8676002)(26005)(8936002)(186003)(9686003)(5660300002)(66446008)(66556008)(66946007)(55016002)(52536014)(7696005)(2906002)(76116006)(6506007)(66476007)(478600001)(316002)(38100700001)(86362001)(54906003)(110136005)(83380400001)(53546011)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?WHNyQis5S1luSWhmSGxXNThOa0Y0YUFoSk83OU9IcFBtbms1VkhLeHBQL3Yx?=
+ =?utf-8?B?VlcrRHliTjVzRFBYc3p3bGdML2FPRHUvR0pCbzZ1WTAvQ0c4d2gzNm9xSm9R?=
+ =?utf-8?B?T3lhRGZBUjF0dU5BZlRWUHFEU05LYUV6cnBmTWR1c3pnM0NqME1WdkhYK2VZ?=
+ =?utf-8?B?NmtVUUZNQzh1Y0NZS3pNMC9MaVZPVk8ydElXLzhWc0ZMUnhEa2hBNlpkbFEv?=
+ =?utf-8?B?S2s5aldOdmZ5ZHY5WTRuVTIwMVVob1V5b1U5eS80dWpGWkd3bHpCR3cyS1dW?=
+ =?utf-8?B?a1c1WGtIQ1VZanBKVVBvR2ErK3l0WDh2Y2VIc2dBbjJEbE0zZHV6c01VVWwr?=
+ =?utf-8?B?dFNlZHovT1d4L3Q2dG5yOEUvTmVCM2lwSFpwOUw0WjZ4amE2SExtMm5xcVRK?=
+ =?utf-8?B?OVg1aVA5ZXNYaDNsSk1FWXVmcVhtaE5EN3Vrb2ZRSnU1cGJxRFlsSzg0OW9a?=
+ =?utf-8?B?RDFTd3M5ZVZ3aklldGV0QUVUSk1SdG1DNXRURFhNcWU2dzM0NjVkYlRFRWJH?=
+ =?utf-8?B?MStoV2FHL1RqbGhxazJzTlZmL0N6TXhtZWg1dlA2VDdsc0ZUN1FYS0h6bDIr?=
+ =?utf-8?B?S05Fa0NIazdsK1c4QURmVjNTdStDa3hOTUp6c25mekMrK2lRQXdJeVNMTXBQ?=
+ =?utf-8?B?TG1odUlOTEh5VzRwRkpJNExTZ2hVa2F6ekRzaUdoQ1p0Y1lUa3gwYk9SOUs1?=
+ =?utf-8?B?UnQ0MGhiQWI2RkhVcUlsTUkxb3J1bjYzOHVJWlpUM2E3c2FxWnpNS2swOWVu?=
+ =?utf-8?B?R25ISmIwcHozakpUYitpVnV1dVZVL3QwZnNuVnBhL2ZVcHVHYzR3MEw2c2VC?=
+ =?utf-8?B?OG9mZ1FzYTQ3NlRkRk5ma3huekM4YysxQXdBY245R0Q1TFArd2ZvU2tGcHoz?=
+ =?utf-8?B?MUhVWm5ub3Vjb00wbFh5N3kvVDhuNjMyaktLaWVWdEFzMlRJTEx6dzU5MjVC?=
+ =?utf-8?B?MzJlc3RlbkV6SWNtMW4rNGp2M1FFRmRtVkc3YzN4eTk5NVkxcHE0WGdmSEhP?=
+ =?utf-8?B?OTRTelRWN0NpbFdnZXdlQlBSbUhTY2lkUzljLzhNU3lTa00vNnZGeGovRlN6?=
+ =?utf-8?B?d3FrM3JzM3UzNmFaSHhXTjZLKzBvU29sRm9lTlgyaG52VzBwbkhyelc1YkY2?=
+ =?utf-8?B?NmNrTkI5NFJiNCtPemJ5NzMyaTd5b2h2OUw4NUF0cFZJUnlVc3pQUWtLTFM5?=
+ =?utf-8?B?K3AwYkRCVVZLcU9JbXRlcWt5cjVDV3puc2tScmU5SEVmazhUNTZqZlNZN1Vu?=
+ =?utf-8?B?Q1hHOHhnTVRvbitKWHcwbmUxOXRhd2x3TVNzYlppUCtSNkdsRllYZThFZVl6?=
+ =?utf-8?B?QU0ramdpWUZPbkxpeGkxLzBZb0ZRTVFBSDQ3Nkc1d3ltQW5DQVFORjJ5OFZs?=
+ =?utf-8?B?M1JtTWREeHpJeGZpQWpEUzdMTWEzS0VlSE1ZQTlHK3d3ZnV6dzJic0R4Nzd6?=
+ =?utf-8?B?SU9RZTg3OVpsRWljT0J0WFc2RW1Gd2lZaGxISVdUQ0Y4RWhWNCtIV3B3UnZS?=
+ =?utf-8?B?U2o1RTd4L0JSaGQreTN2OWtGS09wUXFZWGUwb3MwK1lLOGRaM2RSWmU5ODhr?=
+ =?utf-8?B?aklIanQ4a0wwZkQzWlBwNXBvajFtQm9FNUNZZGY3YitBN0dzRlRocEh0b3pJ?=
+ =?utf-8?B?aXg5OERDZ3dmeGtmelVuL3hEMG9nU0twbVZ1SklDWE84ek1CY2tEQ1UxV00r?=
+ =?utf-8?B?T0xTdEFLZHV0SG9zZVhZZDRuVUdBbDl6cHY1Um1wSGhsR1JlaUk4OXo0SUpN?=
+ =?utf-8?Q?3rxYAq4uUfCnR83GMS4PrPXCicCJFxBL5ChfjZw?=
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=itFlEvvMNMYa8q7dxadjhv0PkvAST7dEguICJ6eEFquPQOX22+axGPTbVOOA89rZqYJIGv8L4afPKqBwKQAXsOyrg0hhguLPieyHm11OiEU2yw/ezwgVaO8HavLL57UxilNi7mNnPYqIh/sB9TYY8qW4CTu6pqAOzqfBNyPVJjqwawM2QHJgDwOE+u15mDWlyFrn1EJSXyLTRUbEDXlj9Ac+85fsetE2CmFWmyIQgXf5T/SGG3HAQPJ9edUeUtoqohZ7T77w+1TC/bUY5CEB/9rTvnhl7Cwke4/uhI8S5QsWnTEO2IOC9laVg3MDe6L2Xb0lcq03haetQbzEfXR0JA==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=plzW1QzFiKgIBFSTud65G8Z4rfrqtmlmdGRY5nUYfag=;
+ b=B28SImEnDj6SbUGecS++yVkJRR89srUQeXlFMNzXwtIw7cY/VjyosEY1jdlQ5lzWBVCvHQZkGMhHZNQldxfj1nFw5yxaBCLITqLcWi0ff6cBvrtxyNuQIm5ktR6ZJqjqvhXjUXn3xRWYAKIfR6TKwcmVhvGP8bTP8h0DiU9v5opwg1Ol59D7d0ijGQLfUWoAlCaeqauItJjV8w9PQY3OrsscMAgUrW7q8T3t9nJDER31jIkhmnX4sUNEYQ9nF22OaFRpGLQ3B9zxIlXG6mZe1/CyeLEHACtszG51H9bzM1OYMZd6mVK8TOqwMZWu8U8GcS/K/vxgkdKtk678SuIDLA==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: f9da3515-a17a-44b4-e1ee-08d8e9c1ea87
+x-ms-exchange-crosstenant-originalarrivaltime: 18 Mar 2021 03:57:14.3430 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: OHDf5/rkdfyeMPiyA2Axe1D9Ze+adSZIB3pIzcWbshatsKFYU2pnt3o1iZ7PBlB9LPWchX6MOuiXxyUP4GlDwA==
+x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4454
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,778 +157,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, stefanha@gmail.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, Phillip Tennen <phillip@axleos.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, hsp.cat7@gmail.com
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Phillip Tennen <phillip@axleos.com>
-
-This patch implements a new netdev device, reachable via -netdev
-vmnet-macos, that’s backed by macOS’s vmnet framework.
-
-The vmnet framework provides native bridging support, and its usage in
-this patch is intended as a replacement for attempts to use a tap device
-via the tuntaposx kernel extension. Notably, the tap/tuntaposx approach
-never would have worked in the first place, as QEMU interacts with the
-tap device via poll(), and macOS does not support polling device files.
-
-vmnet requires either a special entitlement, granted via a provisioning
-profile, or root access. Otherwise attempts to create the virtual
-interface will fail with a “generic error” status code. QEMU may not
-currently be signed with an entitlement granted in a provisioning
-profile, as this would necessitate pre-signed binary build distribution,
-rather than source-code distribution. As such, using this netdev
-currently requires that qemu be run with root access. I’ve opened a
-feedback report with Apple to allow the use of the relevant entitlement
-with this use case:
-https://openradar.appspot.com/radar?id=5007417364447232
-
-vmnet offers three operating modes, all of which are supported by this
-patch via the “mode=host|shared|bridge” option:
-
-* "Host" mode: Allows the vmnet interface to communicate with other
-* vmnet
-interfaces that are in host mode and also with the native host.
-* "Shared" mode: Allows traffic originating from the vmnet interface to
-reach the Internet through a NAT. The vmnet interface can also
-communicate with the native host.
-* "Bridged" mode: Bridges the vmnet interface with a physical network
-interface.
-
-Each of these modes also provide some extra configuration that’s
-supported by this patch:
-
-* "Bridged" mode: The user may specify the physical interface to bridge
-with. Defaults to en0.
-* "Host" mode / "Shared" mode: The user may specify the DHCP range and
-subnet. Allocated by vmnet if not provided.
-
-vmnet also offers some extra configuration options that are not
-supported by this patch:
-
-* Enable isolation from other VMs using vmnet
-* Port forwarding rules
-* Enabling TCP segmentation offload
-* Only applicable in "shared" mode: specifying the NAT IPv6 prefix
-* Only available in "host" mode: specifying the IP address for the VM
-within an isolated network
-
-Note that this patch requires macOS 10.15 as a minimum, as this is when
-bridging support was implemented in vmnet.framework.
-
-Rebased to commit 571d413b5da6bc6f1c2aaca8484717642255ddb0 by Akihiko
-Odaki.
-
-Signed-off-by: Phillip Tennen <phillip@axleos.com>
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- meson.build       |   3 +
- net/clients.h     |   5 +
- net/meson.build   |   1 +
- net/net.c         |   3 +
- net/vmnet-macos.c | 446 ++++++++++++++++++++++++++++++++++++++++++++++
- qapi/net.json     | 120 ++++++++++++-
- qemu-options.hx   |   9 +
- 7 files changed, 585 insertions(+), 2 deletions(-)
- create mode 100644 net/vmnet-macos.c
-
-diff --git a/meson.build b/meson.build
-index 8b51b51c973..fb0cebce753 100644
---- a/meson.build
-+++ b/meson.build
-@@ -178,6 +178,7 @@ socket = []
- version_res = []
- coref = []
- iokit = []
-+vmnet = not_found
- emulator_link_args = []
- hvf = not_found
- if targetos == 'windows'
-@@ -191,6 +192,7 @@ if targetos == 'windows'
- elif targetos == 'darwin'
-   coref = dependency('appleframeworks', modules: 'CoreFoundation')
-   iokit = dependency('appleframeworks', modules: 'IOKit')
-+  vmnet = dependency('appleframeworks', modules: 'vmnet')
- elif targetos == 'sunos'
-   socket = [cc.find_library('socket'),
-             cc.find_library('nsl'),
-@@ -1147,6 +1149,7 @@ config_host_data.set('CONFIG_FUSE', fuse.found())
- config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
- config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
-+config_host_data.set('CONFIG_VMNET', vmnet.found())
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
-diff --git a/net/clients.h b/net/clients.h
-index 92f9b59aedc..2c2af67f82a 100644
---- a/net/clients.h
-+++ b/net/clients.h
-@@ -63,4 +63,9 @@ int net_init_vhost_user(const Netdev *netdev, const char *name,
- 
- int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp);
-+
-+#ifdef CONFIG_VMNET
-+int net_init_vmnet_macos(const Netdev *netdev, const char *name,
-+                        NetClientState *peer, Error **errp);
-+#endif
- #endif /* QEMU_NET_CLIENTS_H */
-diff --git a/net/meson.build b/net/meson.build
-index 1076b0a7ab4..ba6a5b7fa0b 100644
---- a/net/meson.build
-+++ b/net/meson.build
-@@ -37,5 +37,6 @@ endif
- softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files(tap_posix))
- softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('tap-win32.c'))
- softmmu_ss.add(when: 'CONFIG_VHOST_NET_VDPA', if_true: files('vhost-vdpa.c'))
-+softmmu_ss.add(when: vmnet, if_true: files('vmnet-macos.c'))
- 
- subdir('can')
-diff --git a/net/net.c b/net/net.c
-index 725a4e14500..7d0b507748b 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1005,6 +1005,9 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
- #ifdef CONFIG_L2TPV3
-         [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
- #endif
-+#ifdef CONFIG_VMNET
-+        [NET_CLIENT_DRIVER_VMNET_MACOS] = net_init_vmnet_macos,
-+#endif
- };
- 
- 
-diff --git a/net/vmnet-macos.c b/net/vmnet-macos.c
-new file mode 100644
-index 00000000000..18d0430aca1
---- /dev/null
-+++ b/net/vmnet-macos.c
-@@ -0,0 +1,446 @@
-+/*
-+ * vmnet.framework backed netdev for macOS 10.15+ hosts
-+ *
-+ * Copyright (c) 2021 Phillip Tennen <phillip@axleos.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/error-report.h"
-+#include "qapi/qapi-types-net.h"
-+#include "net/net.h"
-+/* macOS vmnet framework header */
-+#include <vmnet/vmnet.h>
-+
-+typedef struct vmnet_state {
-+    NetClientState nc;
-+    interface_ref vmnet_iface_ref;
-+    /* Switched on after vmnet informs us that the interface has started */
-+    bool link_up;
-+    /*
-+     * If qemu_send_packet_async returns 0, this is switched off until our
-+     * delivery callback is invoked
-+     */
-+    bool qemu_ready_to_receive;
-+} vmnet_state_t;
-+
-+int net_init_vmnet_macos(const Netdev *netdev, const char *name,
-+                         NetClientState *peer, Error **errp);
-+
-+static const char *_vmnet_status_repr(vmnet_return_t status)
-+{
-+    switch (status) {
-+    case VMNET_SUCCESS:
-+        return "success";
-+    case VMNET_FAILURE:
-+        return "generic failure";
-+    case VMNET_MEM_FAILURE:
-+        return "out of memory";
-+    case VMNET_INVALID_ARGUMENT:
-+        return "invalid argument";
-+    case VMNET_SETUP_INCOMPLETE:
-+        return "setup is incomplete";
-+    case VMNET_INVALID_ACCESS:
-+        return "insufficient permissions";
-+    case VMNET_PACKET_TOO_BIG:
-+        return "packet size exceeds MTU";
-+    case VMNET_BUFFER_EXHAUSTED:
-+        return "kernel buffers temporarily exhausted";
-+    case VMNET_TOO_MANY_PACKETS:
-+        return "number of packets exceeds system limit";
-+    /* This error code was introduced in macOS 11.0 */
-+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 110000
-+    case VMNET_SHARING_SERVICE_BUSY:
-+        return "sharing service busy";
-+#endif
-+    default:
-+        return "unknown status code";
-+    }
-+}
-+
-+static operating_modes_t _vmnet_operating_mode_enum_compat(
-+    VmnetOperatingMode mode)
-+{
-+    switch (mode) {
-+    case VMNET_OPERATING_MODE_HOST:
-+        return VMNET_HOST_MODE;
-+    case VMNET_OPERATING_MODE_SHARED:
-+        return VMNET_SHARED_MODE;
-+    case VMNET_OPERATING_MODE_BRIDGED:
-+        return VMNET_BRIDGED_MODE;
-+    default:
-+        /* Should never happen as the modes are parsed before we get here */
-+        assert(false);
-+    }
-+}
-+
-+static bool vmnet_can_receive(NetClientState *nc)
-+{
-+    vmnet_state_t *s = DO_UPCAST(vmnet_state_t, nc, nc);
-+    return s->link_up;
-+}
-+
-+static ssize_t vmnet_receive_iov(NetClientState *nc,
-+                                 const struct iovec *iovs,
-+                                 int iovcnt)
-+{
-+    vmnet_state_t *s = DO_UPCAST(vmnet_state_t, nc, nc);
-+
-+    /* Combine the provided iovs into a single vmnet packet */
-+    struct vmpktdesc *packet = g_new0(struct vmpktdesc, 1);
-+    packet->vm_pkt_iov = g_new0(struct iovec, iovcnt);
-+    memcpy(packet->vm_pkt_iov, iovs, sizeof(struct iovec) * iovcnt);
-+    packet->vm_pkt_iovcnt = iovcnt;
-+    packet->vm_flags = 0;
-+
-+    /* Figure out the packet size by iterating the iov's */
-+    for (int i = 0; i < iovcnt; i++) {
-+        const struct iovec *iov = iovs + i;
-+        packet->vm_pkt_size += iov->iov_len;
-+    }
-+
-+    /* Finally, write the packet to the vmnet interface */
-+    int packet_count = 1;
-+    vmnet_return_t result = vmnet_write(s->vmnet_iface_ref, packet,
-+                                        &packet_count);
-+    if (result != VMNET_SUCCESS || packet_count != 1) {
-+        error_printf("Failed to send packet to host: %s\n",
-+            _vmnet_status_repr(result));
-+    }
-+    ssize_t wrote_bytes = packet->vm_pkt_size;
-+    g_free(packet->vm_pkt_iov);
-+    g_free(packet);
-+    return wrote_bytes;
-+}
-+
-+static void vmnet_send_completed(NetClientState *nc, ssize_t len)
-+{
-+    vmnet_state_t *vmnet_client_state = DO_UPCAST(vmnet_state_t, nc, nc);
-+    /* Ready to receive more packets! */
-+    vmnet_client_state->qemu_ready_to_receive = true;
-+}
-+
-+static NetClientInfo net_vmnet_macos_info = {
-+    .type = NET_CLIENT_DRIVER_VMNET_MACOS,
-+    .size = sizeof(vmnet_state_t),
-+    .receive_iov = vmnet_receive_iov,
-+    .can_receive = vmnet_can_receive,
-+};
-+
-+static bool _validate_ifname_is_valid_bridge_target(const char *ifname)
-+{
-+    /* Iterate available bridge interfaces, ensure the provided one is valid */
-+    xpc_object_t bridge_interfaces = vmnet_copy_shared_interface_list();
-+    bool failed_to_match_iface_name = xpc_array_apply(
-+        bridge_interfaces,
-+        ^bool(size_t index, xpc_object_t  _Nonnull value) {
-+        if (!strcmp(xpc_string_get_string_ptr(value), ifname)) {
-+            /* The interface name is valid! Stop iterating */
-+            return false;
-+        }
-+        return true;
-+    });
-+
-+    if (failed_to_match_iface_name) {
-+        error_printf("Invalid bridge interface name provided: %s\n", ifname);
-+        error_printf("Valid bridge interfaces:\n");
-+        xpc_array_apply(
-+            vmnet_copy_shared_interface_list(),
-+            ^bool(size_t index, xpc_object_t  _Nonnull value) {
-+            error_printf("\t%s\n", xpc_string_get_string_ptr(value));
-+            /* Keep iterating */
-+            return true;
-+        });
-+        exit(1);
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static xpc_object_t _construct_vmnet_interface_description(
-+    const NetdevVmnetModeOptions *vmnet_opts)
-+{
-+    operating_modes_t mode = _vmnet_operating_mode_enum_compat(
-+        vmnet_opts->mode);
-+
-+    /* Validate options */
-+    if (mode == VMNET_HOST_MODE || mode == VMNET_SHARED_MODE) {
-+        NetdevVmnetModeOptionsHostOrShared mode_opts = vmnet_opts->u.host;
-+        /* If one DHCP parameter is configured, all 3 are required */
-+        if (mode_opts.has_dhcp_start_address ||
-+            mode_opts.has_dhcp_end_address ||
-+            mode_opts.has_dhcp_subnet_mask) {
-+            if (!(mode_opts.has_dhcp_start_address &&
-+                  mode_opts.has_dhcp_end_address &&
-+                  mode_opts.has_dhcp_subnet_mask)) {
-+                error_printf("Incomplete DHCP configuration provided\n");
-+                exit(1);
-+            }
-+        }
-+    } else if (mode == VMNET_BRIDGED_MODE) {
-+        /* Nothing to validate */
-+    } else {
-+        error_printf("Unknown vmnet mode %d\n", mode);
-+        exit(1);
-+    }
-+
-+    xpc_object_t interface_desc = xpc_dictionary_create(NULL, NULL, 0);
-+    xpc_dictionary_set_uint64(
-+        interface_desc,
-+        vmnet_operation_mode_key,
-+        mode
-+    );
-+
-+    if (mode == VMNET_BRIDGED_MODE) {
-+        /*
-+         * Configure the provided physical interface to act
-+         * as a bridge with QEMU
-+         */
-+        NetdevVmnetModeOptionsBridged mode_opts = vmnet_opts->u.bridged;
-+        /* Bridge with en0 by default */
-+        const char *physical_ifname = mode_opts.has_ifname ? mode_opts.ifname :
-+                                                             "en0";
-+        _validate_ifname_is_valid_bridge_target(physical_ifname);
-+        xpc_dictionary_set_string(interface_desc,
-+                                  vmnet_shared_interface_name_key,
-+                                  physical_ifname);
-+    } else if (mode == VMNET_HOST_MODE || mode == VMNET_SHARED_MODE) {
-+        /* Pass the DHCP configuration to vmnet, if the user provided one */
-+        NetdevVmnetModeOptionsHostOrShared mode_opts = vmnet_opts->u.host;
-+        if (mode_opts.has_dhcp_start_address) {
-+            /* All DHCP arguments are available, as per the checks above */
-+            xpc_dictionary_set_string(interface_desc,
-+                                      vmnet_start_address_key,
-+                                      mode_opts.dhcp_start_address);
-+            xpc_dictionary_set_string(interface_desc,
-+                                      vmnet_end_address_key,
-+                                      mode_opts.dhcp_end_address);
-+            xpc_dictionary_set_string(interface_desc,
-+                                      vmnet_subnet_mask_key,
-+                                      mode_opts.dhcp_subnet_mask);
-+        }
-+    }
-+
-+    return interface_desc;
-+}
-+
-+int net_init_vmnet_macos(const Netdev *netdev, const char *name,
-+                        NetClientState *peer, Error **errp)
-+{
-+    assert(netdev->type == NET_CLIENT_DRIVER_VMNET_MACOS);
-+
-+    NetdevVmnetModeOptions *vmnet_opts = netdev->u.vmnet_macos.options;
-+    xpc_object_t iface_desc = _construct_vmnet_interface_description(vmnet_opts);
-+
-+    NetClientState *nc = qemu_new_net_client(&net_vmnet_macos_info, peer,
-+                                             "vmnet", name);
-+    vmnet_state_t *vmnet_client_state = DO_UPCAST(vmnet_state_t, nc, nc);
-+
-+    dispatch_queue_t vmnet_dispatch_queue = dispatch_queue_create(
-+        "org.qemu.vmnet.iface_queue",
-+        DISPATCH_QUEUE_SERIAL
-+    );
-+
-+    __block vmnet_return_t vmnet_start_status = 0;
-+    __block uint64_t vmnet_iface_mtu = 0;
-+    __block uint64_t vmnet_max_packet_size = 0;
-+    __block const char *vmnet_mac_address = NULL;
-+    /*
-+     * We can't refer to an array type directly within a block,
-+     * so hold a pointer instead.
-+     */
-+    uuid_string_t vmnet_iface_uuid = {0};
-+    __block uuid_string_t *vmnet_iface_uuid_ptr = &vmnet_iface_uuid;
-+    /* These are only provided in VMNET_HOST_MODE and VMNET_SHARED_MODE */
-+    bool vmnet_provides_dhcp_info = (
-+        vmnet_opts->mode == VMNET_OPERATING_MODE_HOST ||
-+        vmnet_opts->mode == VMNET_OPERATING_MODE_SHARED);
-+    __block const char *vmnet_subnet_mask = NULL;
-+    __block const char *vmnet_dhcp_range_start = NULL;
-+    __block const char *vmnet_dhcp_range_end = NULL;
-+
-+    /* Create the vmnet interface */
-+    dispatch_semaphore_t vmnet_iface_sem = dispatch_semaphore_create(0);
-+    interface_ref vmnet_iface_ref = vmnet_start_interface(
-+        iface_desc,
-+        vmnet_dispatch_queue,
-+        ^(vmnet_return_t status, xpc_object_t  _Nullable interface_param) {
-+        vmnet_start_status = status;
-+        if (vmnet_start_status != VMNET_SUCCESS || !interface_param) {
-+            /* Early return if the interface couldn't be started */
-+            dispatch_semaphore_signal(vmnet_iface_sem);
-+            return;
-+        }
-+
-+        /*
-+         * Read the configuration that vmnet provided us.
-+         * The provided dictionary is owned by XPC and may be freed
-+         * shortly after this block's execution.
-+         * So, copy data buffers now.
-+         */
-+        vmnet_iface_mtu = xpc_dictionary_get_uint64(
-+            interface_param,
-+            vmnet_mtu_key
-+        );
-+        vmnet_max_packet_size = xpc_dictionary_get_uint64(
-+            interface_param,
-+            vmnet_max_packet_size_key
-+        );
-+        vmnet_mac_address = strdup(xpc_dictionary_get_string(
-+            interface_param,
-+            vmnet_mac_address_key
-+        ));
-+
-+        const uint8_t *iface_uuid = xpc_dictionary_get_uuid(
-+            interface_param,
-+            vmnet_interface_id_key
-+        );
-+        uuid_unparse_upper(iface_uuid, *vmnet_iface_uuid_ptr);
-+
-+        /* If we're in a mode that provides DHCP info, read it out now */
-+        if (vmnet_provides_dhcp_info) {
-+            vmnet_dhcp_range_start = strdup(xpc_dictionary_get_string(
-+                interface_param,
-+                vmnet_start_address_key
-+            ));
-+            vmnet_dhcp_range_end = strdup(xpc_dictionary_get_string(
-+                interface_param,
-+                vmnet_end_address_key
-+            ));
-+            vmnet_subnet_mask = strdup(xpc_dictionary_get_string(
-+                interface_param,
-+                vmnet_subnet_mask_key
-+            ));
-+        }
-+        dispatch_semaphore_signal(vmnet_iface_sem);
-+    });
-+
-+    /* And block until we receive a response from vmnet */
-+    dispatch_semaphore_wait(vmnet_iface_sem, DISPATCH_TIME_FOREVER);
-+
-+    /* Did we manage to start the interface? */
-+    if (vmnet_start_status != VMNET_SUCCESS || !vmnet_iface_ref) {
-+        error_printf("Failed to start interface: %s\n",
-+            _vmnet_status_repr(vmnet_start_status));
-+        if (vmnet_start_status == VMNET_FAILURE) {
-+            error_printf("Hint: vmnet requires running with root access\n");
-+        }
-+        return -1;
-+    }
-+
-+    info_report("Started vmnet interface with configuration:");
-+    info_report("MTU:              %llu", vmnet_iface_mtu);
-+    info_report("Max packet size:  %llu", vmnet_max_packet_size);
-+    info_report("MAC:              %s", vmnet_mac_address);
-+    if (vmnet_provides_dhcp_info) {
-+        info_report("DHCP IPv4 start:  %s", vmnet_dhcp_range_start);
-+        info_report("DHCP IPv4 end:    %s", vmnet_dhcp_range_end);
-+        info_report("IPv4 subnet mask: %s", vmnet_subnet_mask);
-+    }
-+    info_report("UUID:             %s", vmnet_iface_uuid);
-+
-+    /* The interface is up! Set a block to run when packets are received */
-+    vmnet_client_state->vmnet_iface_ref = vmnet_iface_ref;
-+    vmnet_return_t event_cb_stat = vmnet_interface_set_event_callback(
-+        vmnet_iface_ref,
-+        VMNET_INTERFACE_PACKETS_AVAILABLE,
-+        vmnet_dispatch_queue,
-+        ^(interface_event_t event_mask, xpc_object_t  _Nonnull event) {
-+        if (event_mask != VMNET_INTERFACE_PACKETS_AVAILABLE) {
-+            error_printf("Unknown vmnet interface event 0x%08x\n", event_mask);
-+            return;
-+        }
-+
-+        /* If we're unable to handle more packets now, drop this packet */
-+        if (!vmnet_client_state->qemu_ready_to_receive) {
-+            return;
-+        }
-+
-+        /*
-+         * TODO(Phillip Tennen <phillip@axleos.com>): There may be more than
-+         * one packet available.
-+         * As an optimization, we could read
-+         * vmnet_estimated_packets_available_key packets now.
-+         */
-+        char *packet_buf = g_malloc0(vmnet_max_packet_size);
-+        struct iovec *iov = g_new0(struct iovec, 1);
-+        iov->iov_base = packet_buf;
-+        iov->iov_len = vmnet_max_packet_size;
-+
-+        int pktcnt = 1;
-+        struct vmpktdesc *v = g_new0(struct vmpktdesc, pktcnt);
-+        v->vm_pkt_size = vmnet_max_packet_size;
-+        v->vm_pkt_iov = iov;
-+        v->vm_pkt_iovcnt = 1;
-+        v->vm_flags = 0;
-+
-+        vmnet_return_t result = vmnet_read(vmnet_iface_ref, v, &pktcnt);
-+        if (result != VMNET_SUCCESS) {
-+            error_printf("Failed to read packet from host: %s\n",
-+                _vmnet_status_repr(result));
-+        }
-+
-+        /* Ensure we read exactly one packet */
-+        assert(pktcnt == 1);
-+
-+        /* Dispatch this block to a global queue instead of the main queue,
-+         * which is only created when the program has a Cocoa event loop.
-+         * If QEMU is started with -nographic, no Cocoa event loop will be
-+         * created and thus the main queue will be unavailable.
-+         */
-+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,
-+                                                 0),
-+                       ^{
-+            qemu_mutex_lock_iothread();
-+
-+            /*
-+             * Deliver the packet to the guest
-+             * If the delivery succeeded synchronously, this returns the length
-+             * of the sent packet.
-+             */
-+            if (qemu_send_packet_async(nc, iov->iov_base,
-+                                       v->vm_pkt_size,
-+                                       vmnet_send_completed) == 0) {
-+                vmnet_client_state->qemu_ready_to_receive = false;
-+            }
-+
-+            /*
-+             * It's safe to free the packet buffers.
-+             * Even if delivery needs to wait, qemu_net_queue_append copies
-+             * the packet buffer.
-+             */
-+            g_free(v);
-+            g_free(iov);
-+            g_free(packet_buf);
-+
-+            qemu_mutex_unlock_iothread();
-+        });
-+    });
-+
-+    /* Did we manage to set an event callback? */
-+    if (event_cb_stat != VMNET_SUCCESS) {
-+        error_printf("Failed to set up a callback to receive packets: %s\n",
-+            _vmnet_status_repr(vmnet_start_status));
-+        exit(1);
-+    }
-+
-+    /* We're now ready to receive packets */
-+    vmnet_client_state->qemu_ready_to_receive = true;
-+    vmnet_client_state->link_up = true;
-+
-+    /* Include DHCP info if we're in a relevant mode */
-+    if (vmnet_provides_dhcp_info) {
-+        nc->info_str = g_strdup_printf("dhcp_start=%s,dhcp_end=%s,mask=%s",
-+                                       vmnet_dhcp_range_start,
-+                                       vmnet_dhcp_range_end,
-+                                       vmnet_subnet_mask);
-+    } else {
-+        nc->info_str = g_strdup_printf("mac=%s", vmnet_mac_address);
-+    }
-+
-+    return 0;
-+}
-diff --git a/qapi/net.json b/qapi/net.json
-index 87361ebd9a7..7650a69e35d 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -450,6 +450,115 @@
-     '*vhostdev':     'str',
-     '*queues':       'int' } }
- 
-+##
-+# @VmnetOperatingMode:
-+#
-+# The operating modes in which a vmnet netdev can run
-+# Only available on macOS
-+#
-+# @host: the guest may communicate with the host
-+#        and other guest network interfaces
-+#
-+# @shared: the guest may reach the Internet through a NAT,
-+#          and may communicate with the host and other guest
-+#          network interfaces
-+#
-+# @bridged: the guest's traffic is bridged with a
-+#           physical network interface of the host
-+#
-+# Since: 6.0
-+##
-+{ 'enum': 'VmnetOperatingMode',
-+  'data': [ 'host', 'shared', 'bridged' ],
-+  'if': 'defined(CONFIG_VMNET)' }
-+
-+##
-+# @NetdevVmnetModeOptionsBridged:
-+#
-+# Options for the vmnet-macos netdev
-+# that are only available in 'bridged' mode
-+# Only available on macOS
-+#
-+# @ifname: the physical network interface to bridge with
-+#          (defaults to en0 if not specified)
-+#
-+# Since: 6.0
-+##
-+{ 'struct': 'NetdevVmnetModeOptionsBridged',
-+  'data': { '*ifname':  'str' },
-+  'if': 'defined(CONFIG_VMNET)' }
-+
-+##
-+# @NetdevVmnetModeOptionsHostOrShared:
-+#
-+# Options for the vmnet-macos netdev
-+# that are only available in 'host' or 'shared' mode
-+# Only available on macOS
-+#
-+# @dhcp-start-address: the gateway address to use for the interface.
-+#                      The range to dhcp_end_address is placed in the DHCP pool.
-+#                      (only valid with mode=host|shared)
-+#                      (must be specified with dhcp-end-address and
-+#                       dhcp-subnet-mask)
-+#                      (allocated automatically if unset)
-+#
-+# @dhcp-end-address: the DHCP IPv4 range end address to use for the interface.
-+#                      (only valid with mode=host|shared)
-+#                      (must be specified with dhcp-start-address and
-+#                       dhcp-subnet-mask)
-+#                      (allocated automatically if unset)
-+#
-+# @dhcp-subnet-mask: the IPv4 subnet mask (string) to use on the interface.
-+#                    (only valid with mode=host|shared)
-+#                    (must be specified with dhcp-start-address and
-+#                     dhcp-end-address)
-+#                    (allocated automatically if unset)
-+#
-+# Since: 6.0
-+##
-+{ 'struct': 'NetdevVmnetModeOptionsHostOrShared',
-+  'data': {
-+    '*dhcp-start-address': 'str' ,
-+    '*dhcp-end-address':   'str',
-+    '*dhcp-subnet-mask':   'str' },
-+  'if': 'defined(CONFIG_VMNET)' }
-+
-+##
-+# @NetdevVmnetModeOptions:
-+#
-+# Options specific to different operating modes of a vmnet netdev
-+# Only available on macOS
-+#
-+# @mode: the operating mode vmnet should run in
-+#
-+# Since: 6.0
-+##
-+{ 'union': 'NetdevVmnetModeOptions',
-+  'base': { 'mode': 'VmnetOperatingMode' },
-+  'discriminator': 'mode',
-+  'data': {
-+    'bridged':      'NetdevVmnetModeOptionsBridged',
-+    'host':         'NetdevVmnetModeOptionsHostOrShared',
-+    'shared':       'NetdevVmnetModeOptionsHostOrShared' },
-+  'if': 'defined(CONFIG_VMNET)' }
-+
-+##
-+# @NetdevVmnetOptions:
-+#
-+# vmnet network backend
-+# Only available on macOS
-+#
-+# @options: a structure specifying the mode and mode-specific options
-+#           (once QAPI supports a union type as a branch to another union type,
-+#            this structure can be changed to a union, and the contents of
-+#            NetdevVmnetModeOptions moved here)
-+#
-+# Since: 6.0
-+##
-+{ 'struct': 'NetdevVmnetOptions',
-+  'data': {'options': 'NetdevVmnetModeOptions' },
-+  'if': 'defined(CONFIG_VMNET)' }
-+
- ##
- # @NetClientDriver:
- #
-@@ -458,10 +567,13 @@
- # Since: 2.7
- #
- #        @vhost-vdpa since 5.1
-+#
-+#        @vmnet-macos since 6.0 (only available on macOS)
- ##
- { 'enum': 'NetClientDriver',
-   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
--            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-+            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
-+            { 'name': 'vmnet-macos', 'if': 'defined(CONFIG_VMNET)' } ] }
- 
- ##
- # @Netdev:
-@@ -475,6 +587,8 @@
- # Since: 1.2
- #
- #        'l2tpv3' - since 2.1
-+#
-+#        'vmnet-macos' since 6.0 (only available on macOS)
- ##
- { 'union': 'Netdev',
-   'base': { 'id': 'str', 'type': 'NetClientDriver' },
-@@ -490,7 +604,9 @@
-     'hubport':  'NetdevHubPortOptions',
-     'netmap':   'NetdevNetmapOptions',
-     'vhost-user': 'NetdevVhostUserOptions',
--    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
-+    'vhost-vdpa': 'NetdevVhostVDPAOptions',
-+    'vmnet-macos': { 'type': 'NetdevVmnetOptions',
-+                     'if': 'defined(CONFIG_VMNET)' } } }
- 
- ##
- # @NetFilterDirection:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 9128dec5101..05ffff57caa 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2545,6 +2545,15 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
- #ifdef __linux__
-     "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
-     "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
-+#endif
-+#ifdef CONFIG_VMNET
-+    "-netdev vmnet-macos,id=str,mode=bridged[,ifname=ifname]\n"
-+    "         configure a macOS-provided vmnet network in \"physical interface bridge\" mode\n"
-+    "         the physical interface to bridge with defaults to en0 if unspecified\n"
-+    "-netdev vmnet-macos,id=str,mode=host|shared\n"
-+    "                     [,dhcp_start_address=addr,dhcp_end_address=addr,dhcp_subnet_mask=mask]\n"
-+    "         configure a macOS-provided vmnet network in \"host\" or \"shared\" mode\n"
-+    "         the DHCP configuration will be set automatically if unspecified\n"
- #endif
-     "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
-     "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
--- 
-2.24.3 (Apple Git-128)
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBIZW5kZXJz
+b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFN1bmRheSwgRmVicnVh
+cnkgMTQsIDIwMjEgNToxNSBQTQ0KPiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNp
+bmMuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBwaGlsbWRAcmVkaGF0LmNvbTsg
+YWxleC5iZW5uZWVAbGluYXJvLm9yZzsgbGF1cmVudEB2aXZpZXIuZXU7DQo+IGFsZUByZXYubmc7
+IEJyaWFuIENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY4
+IDE3LzM1XSBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbi9mbWFfZW11LltjaF0pDQo+IHV0aWxpdHkg
+ZnVuY3Rpb25zDQo+DQo+IE9uIDIvNy8yMSA5OjQ2IFBNLCBUYXlsb3IgU2ltcHNvbiB3cm90ZToN
+Cj4NCj4gUmVkdW5kYW50IHdpdGggc29mdGZsb2F0LiAgSXMgdGhlIGRlZmF1bHQgbmFuIHJlYWxs
+eSAtMT8gIEkgc3VwcG9zZSB0aGVuIHRoYXQNCj4gaGV4YWdvbiBkb2VzIG5vdCBkaXN0aW5ndWlz
+aCBRTmFOIGZyb20gU05hTj8NCj4NCj4gWW91J2xsIHdhbnQgdG8gcGF0Y2ggZnB1L3NvZnRmbG9h
+dC1zcGVjaWFsaXplLmMuaW5jIGZvciBib3RoIG9mIHRoZXNlIGNob2ljZXM6DQo+IG5vX3NpZ25h
+bGluZ19uYW5zIGFuZCBwYXJ0c19kZWZhdWx0X25hbi4NCg0KWWVzLCB0aGUgZGVmYXVsdCBpcyBy
+ZWFsbHkgLTEuICBXZSBkbyBkaXN0aW5ndWlzaCBTTmFOIC0gd2hlbiBhIFNOYU4gaXMgZmVkIHRv
+IGFuIGFyaXRobWV0aWMgb3BlcmF0aW9uLCBpdCByYWlzZXMgdGhlIGludmFsaWQgZmxhZyBhbmQg
+YSBRTmFOIGlzIHJldHVybmVkLg0KDQpTbywgaXQgbG9va3MgbGlrZSBJJ2xsIG5lZWQgdG8gcGF0
+Y2ggcGFydHNfZGVmYXVsdF9uYW4gYW5kIHBhcnRzX3NpbGVuY2VfbmFuIGFzIHdlbGwgYXMgc2V0
+IGRlZmF1bHRfbmFuX21vZGUgdG8gMS4NCg0KDQo+IFRoaXMgaXMgZHVwbGljYXRpbmcgY29kZSBm
+cm9tIGluY2x1ZGUvZnB1L3NvZnRmbG9hdC1tYWNyb3MuaCwgZXhjZXB0IGZvciB0aGUNCj4gd3Jh
+cHBpbmcgdG8gSW50MTI4LiAgVGhhdCBzYWlkLCBJIGRvbid0IHRoaW5rIHlvdSBzaG91bGQgYWN0
+dWFsbHkgbmVlZCB0aGlzLA0KPiBvciwgZnJhbmtseSwgdGhlIHZhc3QgbWFqb3JpdHkgb2YgdGhl
+IHJlc3Qgb2YgeW91ciBmcCBjb2RlLg0KDQpPSywgSSB3aWxsIGxvb2sgaW50byB0aGlzLg0KDQoN
+ClRoYW5rcywNClRheWxvcg0K
 
