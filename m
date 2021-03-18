@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A183403AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 11:41:55 +0100 (CET)
-Received: from localhost ([::1]:38926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F91B3403CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 11:49:24 +0100 (CET)
+Received: from localhost ([::1]:47088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMq6E-0007Mh-Tw
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 06:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
+	id 1lMqDT-0002dA-CZ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 06:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMq59-0006ml-15
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 06:40:47 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lMq56-0002hM-UW
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 06:40:46 -0400
-Received: by mail-ed1-x531.google.com with SMTP id e7so5976525edu.10
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 03:40:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O2NHF9bb+GfYNPFjnTLsYIuUZ54r7l47iLAMULCwQok=;
- b=bZzHCBWVyTKnXblDSoRMZbMXBi0EtPQ95fHwLAg+IrxsxcYofFNp90WCuJtXM7g5VM
- V30GAMQ7XX47N+Du1JKK0m29eyHUicXWfQI/pLrl9rmNvpKsbQkyMcNyWE3ID/5ph2LH
- WUHAbG4p1eLyvsy+KQ4tuDv7Rw/DmyKHhncTivTJG7Ed8axizO4FMAbNp6AfdhYSv/Ea
- ZiVPnvckpf0k//0SrpnYOAvAD6LkaCeFS8k9Z0578pmrhkIBVEGazFYvAUQg0pLGqDhs
- /xfuIxHH/TgdRMlPJrJOuvgrhqw9g96h/aafN6oKcJIooGUrI/ca659W1PM5nJx+GfKI
- lCuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O2NHF9bb+GfYNPFjnTLsYIuUZ54r7l47iLAMULCwQok=;
- b=CAWg6n7PsLyX4/MDr37LeXf+IBjjlqJ2h9P3avVZG98bFQe82Ov75t96P8Gutu2D/N
- 5dI6vpJnLsAmMIu2v3udRgrYM8HJUF24maXlQ84UOuXnX6Cs5j1iDZj0P1Rh+YiAj7bg
- 5se9cc1kErRwtj5wh1J6WzUUlo3REhgAv/j47drDcgEyrymcqcBIBqvkQtg1m7dRH9j8
- lFI0kCb8aM34xFsQT7AQv4sPmZvh5HynHmDUxrUbpCR8XG3EW1mQvV+kvKdYH13GTcPj
- oGuSFrPf6VhAjot/S8vSsOIxgaFBGa4ZAPk+jViQ+QStVV7KH9FFyNcXuFTHysY6Evfg
- YKwA==
-X-Gm-Message-State: AOAM533lyw5HgoYskjFSvfMkGMiTDwDR2VNILVRVN3KKRvyNNvmT6EPC
- MtQDaTJ2E6kXYZ0FogAeNIbqdV9hSBm7UnWRpZsv1w==
-X-Google-Smtp-Source: ABdhPJxuGVmyzUfbH2fecECO7FjstAuI8/j2Qzrr8B4Mr6DYQNEMA9ut2aDlrGRneoeKDvNi+88SuC0dIGNxbUft/rk=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr2697669edt.251.1616064041522; 
- Thu, 18 Mar 2021 03:40:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lMq9e-0000qF-Nx
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 06:45:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lMq9b-0005h7-1t
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 06:45:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616064321;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cz1WHJMAf2Ucc4LQY8VmHo9rnZ8v7mIPWBwVpw3skGk=;
+ b=CrhLTmA9evHiy6a1+ajTq1PH7MTMtnz4Eh8gq912F9UfRNakiEknJBJq9MTzs8E8nOvJLe
+ wJsELGVq+4WmpcC2BjRcqTlg8PCVRBWygfgVKxdBWWjmu+g0t+qIij3CUPmgMQW1YX+iYP
+ Dv0tmgvklkLMKMibjOMXdJaUa+fUcrk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-mENbnXq5OdKtX3QnROJm1g-1; Thu, 18 Mar 2021 06:45:19 -0400
+X-MC-Unique: mENbnXq5OdKtX3QnROJm1g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDF6C180FCA2;
+ Thu, 18 Mar 2021 10:45:18 +0000 (UTC)
+Received: from work-vm (ovpn-115-13.ams2.redhat.com [10.36.115.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FA366A83C;
+ Thu, 18 Mar 2021 10:45:17 +0000 (UTC)
+Date: Thu, 18 Mar 2021 10:45:15 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: of AVR target page size
+Message-ID: <YFMvO/79vcSFOEix@work-vm>
+References: <YFJjIq45ggSZz0CX@work-vm>
+ <CAFEAcA8aifakYwKn0umNbuCVtAsa_1svEGEq-coj9iVo3b1WPA@mail.gmail.com>
+ <YFMpCPtMJzXUeeIk@work-vm>
+ <CAFEAcA_+Yvn5S8P3zwPcsO9HF=0rXCJrfUZKs6RAQWhdyG_-fQ@mail.gmail.com>
+ <YFMqmDmwDZwRQviM@work-vm>
+ <CAFEAcA825k8uttjmJuwNM=rDa-m7nOWJZEAQzP9Zz3e7yyS9Aw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210315204226.3481044-1-laurent@vivier.eu>
- <20210315204226.3481044-6-laurent@vivier.eu>
- <2730eee0-6f1b-2139-f93c-6a0a64727e29@redhat.com>
- <905c797a-25c3-bb43-5946-54b28d9530c0@vivier.eu>
- <d515dabd-b84d-5aa3-0bf5-d824bdc7da6e@redhat.com>
- <ffa12ba8-4988-b464-2267-5d14c59b43ab@vivier.eu>
- <a90be442-97c9-cefc-df6f-655a6387d54d@redhat.com>
-In-Reply-To: <a90be442-97c9-cefc-df6f-655a6387d54d@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Mar 2021 10:40:17 +0000
-Message-ID: <CAFEAcA_BcRkJHjoRaxQs2ZO=JJqPpvGhHkG2bNJOqh_-EHr_xg@mail.gmail.com>
-Subject: Re: [PULL 5/5] m68k: add Virtual M68k Machine
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA825k8uttjmJuwNM=rDa-m7nOWJZEAQzP9Zz3e7yyS9Aw@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,25 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Rolnik <mrolnik@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Mar 2021 at 10:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 18/03/21 11:06, Laurent Vivier wrote:
-> > This also removes the virtio-devices test, I think we should keep the
-> > files, but in the files to disable the PCI part when it is not
-> > available.
->
-> I think we should just shuffle the targets in the gitlab YAML to bypass
-> the issue.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Thu, 18 Mar 2021 at 10:25, Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> > Oh yes, just:
+> >
+> > diff --git a/migration/ram.c b/migration/ram.c
+> > index 52537f14ac..a7269955b5 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -81,6 +81,8 @@
+> >  /* 0x80 is reserved in migration.h start with 0x100 next */
+> >  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+> >
+> > +#define RAM_SAVE_FLAG__MAX RAM_SAVE_FLAG_COMPRESS_PAGE
+> > +
+> >  static inline bool is_zero_range(uint8_t *p, uint64_t size)
+> >  {
+> >      return buffer_is_zero(p, size);
+> > @@ -4090,5 +4092,6 @@ static SaveVMHandlers savevm_ram_handlers = {
+> >  void ram_mig_init(void)
+> >  {
+> >      qemu_mutex_init(&XBZRLE.lock);
+> > +    QEMU_BUILD_BUG_ON(RAM_SAVE_FLAG__MAX >= (1 << TARGET_PAGE_BITS_MIN));
+> >      register_savevm_live("ram", 0, 4, &savevm_ram_handlers, &ram_state);
+> >  }
+> >
+> >
+> > works; lets keep that in mind somewhere after Michael fixes AVR.
+> 
+> You don't have a great deal of headroom even after getting AVR
+> to change, by the way -- TARGET_PAGE_BITS_MIN for Arm is 10.
+> So you might want to think about ways to eg reclaim usage of
+> that "obsolete, not used" RAM_SAVE_FLAG_FULL bit.
 
-Then we'll hit it again later. I'm pretty sure this isn't the
-first time we've run into "some test makes dubious assumptions"...
+Yep, I've been warning anyone who adds one for ages
 
--- PMM
+> Also, what does the
+>  /* 0x80 is reserved in migration.h start with 0x100 next */
+> comment refer to? migration.h has no instances of "RAM_SAVE"
+> or 0x80 or 1 << 7...
+
+It looks like it got moved to qemu-file.h a few years ago
+as RAM_SAVE_FLAG_HOOK.
+
+Dave
+
+> thanks
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
