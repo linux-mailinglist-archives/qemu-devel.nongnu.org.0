@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D48533FCF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 02:59:29 +0100 (CET)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D068333FD47
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 03:35:30 +0100 (CET)
+Received: from localhost ([::1]:39728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMhwd-0001Mm-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 21:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
+	id 1lMiVV-0006u5-CO
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 22:35:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMhvr-0000se-Rd; Wed, 17 Mar 2021 21:58:39 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:46208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lMhvq-00021p-2D; Wed, 17 Mar 2021 21:58:39 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id h82so850157ybc.13;
- Wed, 17 Mar 2021 18:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M81rYKxtTy7FY9On3+9SUPbx9Fdn0saE3o9L+jQvg0s=;
- b=TJOs8uQZ4eC1IYpi0mKUdgrr/3mse3akQkMUG7/J2pLGBdA/kJy2XM4F++bT1ya7Lg
- lRISRymyCPVHNdmVsDPFFVoF2yMF7dRceUyMtaTGy+bsjb384Md0wpxOpWNFhigHlOEa
- fhtn238FLL0eqazn7af87dD6F6OSnuRNrd0GQajAjywzaNhhPbKNc435aeFYsWF+3jvJ
- bpB5/BGVMhTH+6XF7GAkOVGXcCdQ1/sc2wp4CWId9IAFglM5hMk2Wy10q1xiZH8MpPrh
- 76/4IJAQ+VTNIH+imF0q2KEABoQ2nAsRME3FgWIX8RL+bKSC7aE5h1i5WAbRFQEPeXZw
- 8auQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M81rYKxtTy7FY9On3+9SUPbx9Fdn0saE3o9L+jQvg0s=;
- b=FD+5/bIjAGzjB0IOMyFps9I2DGY7dqKqwHCzEpXFXtCDyhQ+wXiiR/24GrkRuxA6tN
- r9sS2rHIBze+ndJJGC2mE2C9n5DWN9YnBKpEQBJFev04ndjIewT5vye4MhcKQ2qkkJhZ
- Y2JBG66ki8fNqlgSJ4E4+sie1xflpsSJeyv3LN06QW9c8F+C1FtnQI10lhLobZrvudwZ
- LtvWBYeG2wuxlJ1O9YDWHe+Q4w2k/w2KFdIxprbBFAdAamhReLrsqlpNouke8lT65pIR
- sMqhxzaKJHu+ER9VZ4iiubgrpP0LhorKPrTC1IbLAzwBdjCpB8F5RFgBp3qhjjkoStQK
- akEA==
-X-Gm-Message-State: AOAM531zZwSn1YdMffKR0LyWR5TzTapCvxk1Y39/XENIsx9CoWq+RPUn
- puX/u/6HTdD7qoklcwdEkEzc62OA2nhf64inWAk=
-X-Google-Smtp-Source: ABdhPJwa5JEPMiZI+I+YuNtmTF1tpDkoAiFsjH7iXRPd3hjHytF8f7b8v7pCU5JbM6L5fILDzYDVwbOp3IGmMM900ao=
-X-Received: by 2002:a5b:147:: with SMTP id c7mr8624444ybp.332.1616032716370;
- Wed, 17 Mar 2021 18:58:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lMiUZ-0006Mq-7D
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 22:34:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lMiUW-0000mF-FU
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 22:34:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616034867;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=acEEQ21TZPtYlWxUJ/CW39iyhDKUasjVlDjH7z1bEEE=;
+ b=cpuybEqZEGc1sJMiQBYcnlLXqda8sRyS+zpBDDWgeb2W50ci40gdtjhQ7nQTQGeFgGJAeF
+ 931Sy7X5u1NKk38fpkrxgnQFKOlq3eA99aAAXtDUKwcAArFd0Sda2TF1PYnzapjaNa/B9x
+ YiJfs/+/aCqqHarOUWb9emsE2+Cqd1g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-FuqVHVrOPB-zj-aTGy6PPA-1; Wed, 17 Mar 2021 22:34:25 -0400
+X-MC-Unique: FuqVHVrOPB-zj-aTGy6PPA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 087EE107B02F;
+ Thu, 18 Mar 2021 02:34:24 +0000 (UTC)
+Received: from [10.64.54.49] (vpn2-54-49.bne.redhat.com [10.64.54.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCF641F05D;
+ Thu, 18 Mar 2021 02:34:17 +0000 (UTC)
+Subject: Re: [PATCH] hw/char/pl011: Fix clock migration failure
+To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20210317044441.112313-1-gshan@redhat.com>
+ <CAFEAcA8Wf+fYppz6kWurU=68NH7uvn0HFXc_FJ6twoA86bcBcg@mail.gmail.com>
+ <73a30558-469e-8ef0-02b2-aaaaa2449cda@redhat.com>
+ <CAFEAcA_yuSR=KkpBTh+21JkqiB7gKfnFvgvxYgPN2yLfvxpi_A@mail.gmail.com>
+ <3e7ba090-c45e-8fa4-1a59-16856241cbdc@redhat.com>
+ <CAFEAcA_zYaOXw5yaXWEjgBy6YeTpB5FRBCO96To-bv9xpQzbMQ@mail.gmail.com>
+ <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <4f5155b3-829f-fdc3-6e72-57617a44b335@redhat.com>
+Date: Thu, 18 Mar 2021 13:34:15 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <cover.1616002766.git.alistair.francis@wdc.com>
- <685a79eb7992d8b780570501cdb784b607144f02.1616002766.git.alistair.francis@wdc.com>
-In-Reply-To: <685a79eb7992d8b780570501cdb784b607144f02.1616002766.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 18 Mar 2021 09:58:25 +0800
-Message-ID: <CAEUhbmVCmjFWs1SMh6ZLggC-i6wqXxwt9E6L_aXNuQvX8tPnuA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] target/riscv: Convert the RISC-V exceptions to an
- enum
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210317125453.t6f7xs7bqf2vvbgu@kamzik.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,117 +87,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: Luc Michel <luc@lmichel.fr>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 18, 2021 at 1:41 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu_bits.h   | 44 ++++++++++++++++++++-------------------
->  target/riscv/cpu.c        |  2 +-
->  target/riscv/cpu_helper.c |  4 ++--
->  3 files changed, 26 insertions(+), 24 deletions(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index caf4599207..8ae404c32a 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -527,27 +527,29 @@
->  #define DEFAULT_RSTVEC      0x1000
->
->  /* Exception causes */
-> -#define EXCP_NONE                                -1 /* sentinel value */
-> -#define RISCV_EXCP_INST_ADDR_MIS                 0x0
-> -#define RISCV_EXCP_INST_ACCESS_FAULT             0x1
-> -#define RISCV_EXCP_ILLEGAL_INST                  0x2
-> -#define RISCV_EXCP_BREAKPOINT                    0x3
-> -#define RISCV_EXCP_LOAD_ADDR_MIS                 0x4
-> -#define RISCV_EXCP_LOAD_ACCESS_FAULT             0x5
-> -#define RISCV_EXCP_STORE_AMO_ADDR_MIS            0x6
-> -#define RISCV_EXCP_STORE_AMO_ACCESS_FAULT        0x7
-> -#define RISCV_EXCP_U_ECALL                       0x8
-> -#define RISCV_EXCP_S_ECALL                      0x9
-> -#define RISCV_EXCP_VS_ECALL                      0xa
-> -#define RISCV_EXCP_M_ECALL                       0xb
-> -#define RISCV_EXCP_INST_PAGE_FAULT               0xc /* since: priv-1.10.0 */
-> -#define RISCV_EXCP_LOAD_PAGE_FAULT               0xd /* since: priv-1.10.0 */
-> -#define RISCV_EXCP_STORE_PAGE_FAULT              0xf /* since: priv-1.10.0 */
-> -#define RISCV_EXCP_SEMIHOST                      0x10
-> -#define RISCV_EXCP_INST_GUEST_PAGE_FAULT         0x14
-> -#define RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT       0x15
-> -#define RISCV_EXCP_VIRT_INSTRUCTION_FAULT        0x16
-> -#define RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT  0x17
-> +typedef enum RiscVException {
+Hi Drew,
 
-nits: looking at other places in the RISC-V codes, I believe it's
-better to name it "RISCVException"
+On 3/17/21 11:54 PM, Andrew Jones wrote:
+> On Wed, Mar 17, 2021 at 11:14:56AM +0000, Peter Maydell wrote:
+>> On Wed, 17 Mar 2021 at 10:59, Gavin Shan <gshan@redhat.com> wrote:
+>>> On 3/17/21 9:40 PM, Peter Maydell wrote:
+>>>> On Wed, 17 Mar 2021 at 10:37, Gavin Shan <gshan@redhat.com> wrote:
+>>>>> On 3/17/21 8:09 PM, Peter Maydell wrote:
+>>>>>> On Wed, 17 Mar 2021 at 04:44, Gavin Shan <gshan@redhat.com> wrote:
+>>>>>>>
+>>>>>>>     static const VMStateDescription vmstate_pl011 = {
+>>>>>>>         .name = "pl011",
+>>>>>>>         .version_id = 2,
+>>>>>>>         .minimum_version_id = 2,
+>>>>>>> +    .post_load = pl011_post_load,
+>>>>>>>         .fields = (VMStateField[]) {
+>>>>>>>             VMSTATE_UINT32(readbuff, PL011State),
+>>>>>>>             VMSTATE_UINT32(flags, PL011State),
+>>>>>>> @@ -355,10 +355,6 @@ static const VMStateDescription vmstate_pl011 = {
+>>>>>>>             VMSTATE_INT32(read_trigger, PL011State),
+>>>>>>>             VMSTATE_END_OF_LIST()
+>>>>>>>         },
+>>>>>>> -    .subsections = (const VMStateDescription * []) {
+>>>>>>> -        &vmstate_pl011_clock,
+>>>>>>> -        NULL
+>>>>>>> -    }
+>>>>>>>     };
+>>>>>>
+>>>>>> Doesn't dropping the subsection break migration compat ?
+>>>>>>
+>>>>>
+>>>>> It's why this patch needs to be backported to stable branches.
+>>>>> In that way, we won't have migration compatible issue.
+>>>>
+>>>> No, migration has to work from the existing already
+>>>> shipped 5.1, 5.2, etc releases to 6.0 (assuming you use
+>>>> the correct "virt-5.2" &c versioned machine type.)
+>>>>
+>>>
+>>> Commit aac63e0e6ea3 ("hw/char/pl011: add a clock input") is merged
+>>> to v5.2.0. The migration failure happens during migration from v6.0
+>>> to v5.1 with machine type as "virt-5.1", instead of migrating from
+>>> v5.1 to v6.0. One question is if we need support backwards migration?
+>>
+>> Upstream doesn't care about backwards migration. AIUI
+>> RedHat as a downstream care about the backwards-migration
+>> case in some specific situations, but I don't know if that
+>> would include this one.
+> 
+> Right, we do prefer to be able to support "ping-pong" migrations. For
+> example, if we start a virt-5.1 machine on a 5.1 build of QEMU, and then
+> migrate it to a 5.2 build of QEMU, we'd like to also be able to go back
+> to the 5.1 build.
+> 
+> I agree this patch is not the right approach. I think the right approach
+> is to introduce a compat property and make the "new" section dependent
+> on it. And then update the hw_compat_* arrays. Gavin, please take a look
+> at "Connecting subsections to properties" of docs/devel/migration.rst.
+> 
 
-> +    RISCV_EXCP_NONE = -1, /* sentinel value */
-> +    RISCV_EXCP_INST_ADDR_MIS = 0x0,
-> +    RISCV_EXCP_INST_ACCESS_FAULT = 0x1,
-> +    RISCV_EXCP_ILLEGAL_INST = 0x2,
-> +    RISCV_EXCP_BREAKPOINT = 0x3,
-> +    RISCV_EXCP_LOAD_ADDR_MIS = 0x4,
-> +    RISCV_EXCP_LOAD_ACCESS_FAULT = 0x5,
-> +    RISCV_EXCP_STORE_AMO_ADDR_MIS = 0x6,
-> +    RISCV_EXCP_STORE_AMO_ACCESS_FAULT = 0x7,
-> +    RISCV_EXCP_U_ECALL = 0x8,
-> +    RISCV_EXCP_S_ECALL = 0x9,
-> +    RISCV_EXCP_VS_ECALL = 0xa,
-> +    RISCV_EXCP_M_ECALL = 0xb,
-> +    RISCV_EXCP_INST_PAGE_FAULT = 0xc, /* since: priv-1.10.0 */
-> +    RISCV_EXCP_LOAD_PAGE_FAULT = 0xd, /* since: priv-1.10.0 */
-> +    RISCV_EXCP_STORE_PAGE_FAULT = 0xf, /* since: priv-1.10.0 */
-> +    RISCV_EXCP_SEMIHOST = 0x10,
-> +    RISCV_EXCP_INST_GUEST_PAGE_FAULT = 0x14,
-> +    RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT = 0x15,
-> +    RISCV_EXCP_VIRT_INSTRUCTION_FAULT = 0x16,
-> +    RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT = 0x17,
-> +} RiscVException;
->
->  #define RISCV_EXCP_INT_FLAG                0x80000000
->  #define RISCV_EXCP_INT_MASK                0x7fffffff
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 2a990f6253..63584b4a20 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -357,7 +357,7 @@ static void riscv_cpu_reset(DeviceState *dev)
->      env->mcause = 0;
->      env->pc = env->resetvec;
->  #endif
-> -    cs->exception_index = EXCP_NONE;
-> +    cs->exception_index = RISCV_EXCP_NONE;
->      env->load_res = -1;
->      set_default_nan_mode(1, &env->fp_status);
->  }
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 83a6bcfad0..af702f65b1 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -72,7 +72,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
->      if (irqs) {
->          return ctz64(irqs); /* since non-zero */
->      } else {
-> -        return EXCP_NONE; /* indicates no pending interrupt */
-> +        return RISCV_EXCP_NONE; /* indicates no pending interrupt */
->      }
->  }
->  #endif
-> @@ -1017,5 +1017,5 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->       */
->
->  #endif
-> -    cs->exception_index = EXCP_NONE; /* mark handled to qemu */
-> +    cs->exception_index = RISCV_EXCP_NONE; /* mark handled to qemu */
->  }
-> --
+Agree and thanks for the pointer. I will post another patch to have
+something in hw_compat_5_1 to address this particular issue.
 
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> I'm also curious what the state of mach-virt's machine types are for
+> migration. It'd be nice to exhaustively test both forward migration of
+> all machine types and ping-pong migrations of all machine types. We can
+> then consider each issue we find (the pessimist in me suggests we'll find
+> more than this pl011 issue) and how/if we want to resolve them.
+> 
+
+Yeah, I will think about it and do the testing to see if there are more
+issues. Also, it'd better to be integrated to existing testing framework
+as you suggested.
+
+Thanks,
+Gavin
+
 
