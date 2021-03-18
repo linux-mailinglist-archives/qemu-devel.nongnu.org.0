@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02527340D9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 19:58:14 +0100 (CET)
-Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03F4340DBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 20:03:21 +0100 (CET)
+Received: from localhost ([::1]:37670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMxqX-0000dR-2G
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 14:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58544)
+	id 1lMxvU-0003di-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 15:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1lMxoe-0007wm-KW
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 14:56:16 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41631)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMxt7-0002rW-3T
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 15:00:53 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1lMxoc-0002LV-Eq
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 14:56:16 -0400
-Received: by mail-pg1-x531.google.com with SMTP id m7so2045476pgj.8
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 11:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3G9dJhhPVQ4RWufG4KKiXsuOdNnoDJci4dv2haWZIFM=;
- b=j0IeJsD3/jYIHJI1+nTfnVAVuvDn28un9fzGUYgegJOnI94y4Ax+MZuzSA02O8EG77
- svCYfrByzYN9prCHCZZnSBmqjOkTKmD9ra+sfH8DIm2aFEwEWXqkUlZpDgqumy91wPyv
- +vQpt6+9k/l9bnySsFnpCC9T06mDw3NFP0uV2DkBjnSn3IJxjkXgwFua+W7vvzpAkjMC
- aLQzH4muf7q9QPfNrXh/YgDmBRSeWtw2MUD2albLe4HklqhDwWE79TENmmQAFFyo6Mgr
- QQOTvacQL9LH+aKfMphdtbMFRqcwqHw4CO/xfwuBgACBDid/2/dpup5P3vwpZ5uowvVV
- ESxw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lMxt5-0004KG-AV
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 15:00:52 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id dm8so8028222edb.2
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 12:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3ckylw5kRvd9EaD01fFCghWh9uV57LbKAYUwZlli7yQ=;
+ b=DM1BtRirkm8xD2ItCSeI1Ypxlw4URmGg+Z3WARnBktkefrfLdSRuQrUUrU/e1VxLry
+ X7pIvXVCwKHfm8Ukd12xtLsKplzvB7q35aLJkfv9E+q4GlwYtGvBuXjTlUBXmxTF9xSa
+ beGVa5UBHYPesok7PNdn54+JwCw/guZdnSP28iZNYZnZE3vHji2vuDPvHQADD04aXFWQ
+ JSw2Zx+UbH4xAYqE/6Nd1oY4L+0bW67cizkLWgXLEDqSL1hWd6X97PdVZmgeMONzCWRC
+ zxKJteqXQpcpMdzU552IEpOvaa/Kh+QH1l2D22T05IzMLc1Z5IEN6svqchE0+0vWTHzk
+ Ez8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3G9dJhhPVQ4RWufG4KKiXsuOdNnoDJci4dv2haWZIFM=;
- b=acYynVtp51NOlkGpWplUdFfDfSz7RHMz8TAuX24RnJm+1N9AsL5iBwOaO1KXj1bzjv
- 9/9dmTCFlYCHh7IwKwogsK/Nxs9oCzplFKoY4O/hd/yGTOFJ50IzvCKe7fO0W0WftJK7
- CDd9pqU0ejb+Va4UM0YPOW4m/Ti42vz9pdgsLt9kAPLOEol4ZG1NtC6BUovhmSeAr5GX
- xXIMfGK4tmQ15xkNtls+mYie7FwPRUY3c4/7AioCuiFwRJPT379q9aHNzsY3sl4noxIn
- JHTXzgDMC9vd56q9Fv2/7BfqcAkIEim0xl2rWEyjE9LQ+H+Ql26QyxiiDLoTYUOKxohf
- d+ew==
-X-Gm-Message-State: AOAM530fdJpgzlxvdJR9MWs+4UiCsmxKhWsoBuLfVgupUiIV4aSV19wp
- zcK0wRDCgSonx/9x7NKDMDEacm2lwZY1Sg==
-X-Google-Smtp-Source: ABdhPJxIqcOyj1TVfR4NgUm30FYGQCKLaYvnSENPZ7z1flXafNZYAi0u3AJAxNfqxWflc2S5O6w1WA==
-X-Received: by 2002:a62:1e46:0:b029:1f3:ad4f:9c6b with SMTP id
- e67-20020a621e460000b02901f3ad4f9c6bmr5577742pfe.64.1616093772354; 
- Thu, 18 Mar 2021 11:56:12 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id q66sm3274784pja.27.2021.03.18.11.56.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 11:56:11 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] plugins: Move all typedef and type declaration to the
- front of the qemu-plugin.h
-Date: Thu, 18 Mar 2021 18:55:55 +0000
-Message-Id: <20210318185555.434-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.29.2.windows.3
-In-Reply-To: <20210318185555.434-1-luoyonggang@gmail.com>
-References: <20210318185555.434-1-luoyonggang@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3ckylw5kRvd9EaD01fFCghWh9uV57LbKAYUwZlli7yQ=;
+ b=jbcowaaGv8DVljufJLQ50WFrH3p+EWGF83ZfhhFrcDjnd34NSYEmnkUIefkn2JPsND
+ nfiYVzTSY3kqygRgj0U6maVbbj2QwJP5HLQvmMu6eiONn1/cvj9HVDU+bd+Gc1lx9bia
+ lLl5lDvNUOc0a420dgpNapvdPfZVu9bTwMxyb32bsr4sN42lqcc0qrsUjasra+l6VCWF
+ 5hoJifDQ4/+ccvEoK1A0VbG53Fif8H3PgAEwMnY1LqKpljRTC8+sAOBAYhH2FRy5g8SE
+ uUKc4tLGavT9pa9bBBueXZbommO1JGlh7TNR+ajkqk62n7O+XFVHh2m6AasTNcEGlzos
+ B6ow==
+X-Gm-Message-State: AOAM532lCfQI0wTJwmCg7fLqJSVUFUN+DD1ufll6hRAIyfD9VQCvRle6
+ udR4tHL2OtzJa50nYrnPJJ+3mu7ZGaywxAObHZSf8A==
+X-Google-Smtp-Source: ABdhPJzrp7ZKaGIezKLf7dhw0+mYLjC/KxaHHH8WdTWCikp4wC+ft8tH48Z3c0PFYCb3ZB3vTvYP9Qa+0USTHxMIDIU=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr5425199edt.36.1616094049346; 
+ Thu, 18 Mar 2021 12:00:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x531.google.com
+References: <20210317153444.310566-1-richard.henderson@linaro.org>
+In-Reply-To: <20210317153444.310566-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 18 Mar 2021 19:00:24 +0000
+Message-ID: <CAFEAcA9M98zRLjU-cep8bNw3D5u_rMg-XttHSrR1ZgQWwxuVug@mail.gmail.com>
+Subject: Re: [PULL 00/38] tcg patch queue for 6.0
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,260 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- include/qemu/qemu-plugin.h | 187 ++++++++++++++++++-------------------
- 1 file changed, 92 insertions(+), 95 deletions(-)
+On Wed, 17 Mar 2021 at 15:34, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 5d1428d6c43942cfb40a909e4c30a5cbb81bda8f:
+>
+>   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210315' into staging (2021-03-17 09:07:28 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210317
+>
+> for you to fetch changes up to 5e8892db93f3fb6a7221f2d47f3c952a7e489737:
+>
+>   tcg: Fix prototypes for tcg_out_vec_op and tcg_out_op (2021-03-17 09:04:45 -0600)
+>
+> ----------------------------------------------------------------
+> TCI argument extraction helpers and disassembler
+> TCG build fix for gcc 11
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 97cdfd7761..2cb17f3051 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -81,27 +81,6 @@ typedef struct qemu_info_t {
-     };
- } qemu_info_t;
- 
--/**
-- * qemu_plugin_install() - Install a plugin
-- * @id: this plugin's opaque ID
-- * @info: a block describing some details about the guest
-- * @argc: number of arguments
-- * @argv: array of arguments (@argc elements)
-- *
-- * All plugins must export this symbol which is called when the plugin
-- * is first loaded. Calling qemu_plugin_uninstall() from this function
-- * is a bug.
-- *
-- * Note: @info is only live during the call. Copy any information we
-- * want to keep. @argv remains valid throughout the lifetime of the
-- * loaded plugin.
-- *
-- * Return: 0 on successful loading, !0 for an error.
-- */
--QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
--                                           const qemu_info_t *info,
--                                           int argc, char **argv);
--
- /**
-  * typedef qemu_plugin_simple_cb_t - simple callback
-  * @id: the unique qemu_plugin_id_t
-@@ -135,6 +114,98 @@ typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
- typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
-                                             void *userdata);
- 
-+/** struct qemu_plugin_tb - Opaque handle for a translation block */
-+struct qemu_plugin_tb;
-+/** struct qemu_plugin_insn - Opaque handle for a translated instruction */
-+struct qemu_plugin_insn;
-+
-+/**
-+ * enum qemu_plugin_cb_flags - type of callback
-+ *
-+ * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
-+ * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
-+ * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
-+ *
-+ * Note: currently unused, plugins cannot read or change system
-+ * register state.
-+ */
-+enum qemu_plugin_cb_flags {
-+    QEMU_PLUGIN_CB_NO_REGS,
-+    QEMU_PLUGIN_CB_R_REGS,
-+    QEMU_PLUGIN_CB_RW_REGS,
-+};
-+
-+enum qemu_plugin_mem_rw {
-+    QEMU_PLUGIN_MEM_R = 1,
-+    QEMU_PLUGIN_MEM_W,
-+    QEMU_PLUGIN_MEM_RW,
-+};
-+
-+/**
-+ * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
-+ * @id: unique plugin id
-+ * @tb: opaque handle used for querying and instrumenting a block.
-+ */
-+typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
-+                                               struct qemu_plugin_tb *tb);
-+
-+/**
-+ * enum qemu_plugin_op - describes an inline op
-+ *
-+ * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
-+ *
-+ * Note: currently only a single inline op is supported.
-+ */
-+
-+enum qemu_plugin_op {
-+    QEMU_PLUGIN_INLINE_ADD_U64,
-+};
-+
-+/**
-+ * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-+ *
-+ * This can be further queried using the qemu_plugin_mem_* query
-+ * functions.
-+ */
-+typedef uint32_t qemu_plugin_meminfo_t;
-+/** struct qemu_plugin_hwaddr - opaque hw address handle */
-+struct qemu_plugin_hwaddr;
-+
-+typedef void
-+(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
-+                             qemu_plugin_meminfo_t info, uint64_t vaddr,
-+                             void *userdata);
-+
-+typedef void
-+(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_index,
-+                                 int64_t num, uint64_t a1, uint64_t a2,
-+                                 uint64_t a3, uint64_t a4, uint64_t a5,
-+                                 uint64_t a6, uint64_t a7, uint64_t a8);
-+typedef void
-+(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_idx,
-+                                     int64_t num, int64_t ret);
-+
-+/**
-+ * qemu_plugin_install() - Install a plugin
-+ * @id: this plugin's opaque ID
-+ * @info: a block describing some details about the guest
-+ * @argc: number of arguments
-+ * @argv: array of arguments (@argc elements)
-+ *
-+ * All plugins must export this symbol which is called when the plugin
-+ * is first loaded. Calling qemu_plugin_uninstall() from this function
-+ * is a bug.
-+ *
-+ * Note: @info is only live during the call. Copy any information we
-+ * want to keep. @argv remains valid throughout the lifetime of the
-+ * loaded plugin.
-+ *
-+ * Return: 0 on successful loading, !0 for an error.
-+ */
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                                           const qemu_info_t *info,
-+                                           int argc, char **argv);
-+
- /**
-  * qemu_plugin_uninstall() - Uninstall a plugin
-  * @id: this plugin's opaque ID
-@@ -205,41 +276,6 @@ void qemu_plugin_register_vcpu_idle_cb(qemu_plugin_id_t id,
- void qemu_plugin_register_vcpu_resume_cb(qemu_plugin_id_t id,
-                                          qemu_plugin_vcpu_simple_cb_t cb);
- 
--/** struct qemu_plugin_tb - Opaque handle for a translation block */
--struct qemu_plugin_tb;
--/** struct qemu_plugin_insn - Opaque handle for a translated instruction */
--struct qemu_plugin_insn;
--
--/**
-- * enum qemu_plugin_cb_flags - type of callback
-- *
-- * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
-- * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
-- * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
-- *
-- * Note: currently unused, plugins cannot read or change system
-- * register state.
-- */
--enum qemu_plugin_cb_flags {
--    QEMU_PLUGIN_CB_NO_REGS,
--    QEMU_PLUGIN_CB_R_REGS,
--    QEMU_PLUGIN_CB_RW_REGS,
--};
--
--enum qemu_plugin_mem_rw {
--    QEMU_PLUGIN_MEM_R = 1,
--    QEMU_PLUGIN_MEM_W,
--    QEMU_PLUGIN_MEM_RW,
--};
--
--/**
-- * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
-- * @id: unique plugin id
-- * @tb: opaque handle used for querying and instrumenting a block.
-- */
--typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
--                                               struct qemu_plugin_tb *tb);
--
- /**
-  * qemu_plugin_register_vcpu_tb_trans_cb() - register a translate cb
-  * @id: plugin ID
-@@ -269,18 +305,6 @@ void qemu_plugin_register_vcpu_tb_exec_cb(struct qemu_plugin_tb *tb,
-                                           enum qemu_plugin_cb_flags flags,
-                                           void *userdata);
- 
--/**
-- * enum qemu_plugin_op - describes an inline op
-- *
-- * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
-- *
-- * Note: currently only a single inline op is supported.
-- */
--
--enum qemu_plugin_op {
--    QEMU_PLUGIN_INLINE_ADD_U64,
--};
--
- /**
-  * qemu_plugin_register_vcpu_tb_exec_inline() - execution inline op
-  * @tb: the opaque qemu_plugin_tb handle for the translation
-@@ -393,16 +417,6 @@ uint64_t qemu_plugin_insn_vaddr(const struct qemu_plugin_insn *insn);
-  */
- void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
- 
--/**
-- * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-- *
-- * This can be further queried using the qemu_plugin_mem_* query
-- * functions.
-- */
--typedef uint32_t qemu_plugin_meminfo_t;
--/** struct qemu_plugin_hwaddr - opaque hw address handle */
--struct qemu_plugin_hwaddr;
--
- /**
-  * qemu_plugin_mem_size_shift() - get size of access
-  * @info: opaque memory transaction handle
-@@ -480,11 +494,6 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr);
-  */
- const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h);
- 
--typedef void
--(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
--                             qemu_plugin_meminfo_t info, uint64_t vaddr,
--                             void *userdata);
--
- void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
-                                       qemu_plugin_vcpu_mem_cb_t cb,
-                                       enum qemu_plugin_cb_flags flags,
-@@ -496,21 +505,9 @@ void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *insn,
-                                           enum qemu_plugin_op op, void *ptr,
-                                           uint64_t imm);
- 
--
--
--typedef void
--(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_index,
--                                 int64_t num, uint64_t a1, uint64_t a2,
--                                 uint64_t a3, uint64_t a4, uint64_t a5,
--                                 uint64_t a6, uint64_t a7, uint64_t a8);
--
- void qemu_plugin_register_vcpu_syscall_cb(qemu_plugin_id_t id,
-                                           qemu_plugin_vcpu_syscall_cb_t cb);
- 
--typedef void
--(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_idx,
--                                     int64_t num, int64_t ret);
--
- void
- qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
-                                          qemu_plugin_vcpu_syscall_ret_cb_t cb);
--- 
-2.29.2.windows.3
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
