@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D83C340A53
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 17:39:25 +0100 (CET)
-Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E745340A4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 17:39:11 +0100 (CET)
+Received: from localhost ([::1]:33344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMvgC-0001Sw-Ew
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 12:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56696)
+	id 1lMvfy-0001JN-Lk
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 12:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMvKu-0006BX-Tt
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:17:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMvKr-0001d7-9z
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:17:24 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMvLY-0006nK-1O
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:18:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMvLV-0001v9-CG
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 12:18:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616084233;
+ s=mimecast20190719; t=1616084278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vyox48F9RnWLU/putyihb72tTWT6o5HHGl0Qa4uFJ1k=;
- b=QnsXGYyzTTStg+kWCAbhWfUdJHDyBr5Q7EG9Ku63RMiHD0Yn2QclC9fMD2AcDPObVmgoHo
- TJg4hl0IXEyPfujs03mzDKfzxLLMpGWbmh+JzcqjSnkVjpFjSzLZntV/ZQtgpIk1KYqxFW
- yz8WxgSc0StOfxwhxzxtl+o+cHbiUsw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-TGy_qPvdM0O_BaITE6HNLA-1; Thu, 18 Mar 2021 12:17:10 -0400
-X-MC-Unique: TGy_qPvdM0O_BaITE6HNLA-1
-Received: by mail-wr1-f72.google.com with SMTP id x9so20176493wro.9
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 09:17:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Vyox48F9RnWLU/putyihb72tTWT6o5HHGl0Qa4uFJ1k=;
- b=hF7mw+41+B7OnhRHKxOdiBvTOJIJ7hau2StsiZZ13hQ/U/9eJWekkbqI/9KdqyNKWo
- wgl+8I0GlA6OUmlViESk4BClD8yyDRjPrlwKWwmq4SmwlcP0HKsG7pdSoiANl//Lstkw
- XM2Xf39C87pmadcYPmJvGFGy93irNTTk7XSh0MO6Y9qtgZ/BJ1VJgk0TQIUGS4/1Z4Zp
- cEXEFGUJls2by8ZnxxB0ZT+oXrdJ4pHL1wmyGo8Ei5v9kyyGZnmm4GjxuDBcYvNjdW78
- PsrCJa8Hk5HYRbZ9O7ZIPSpwCE6ZhMzpsQinbcgEi/FB8fNkU73ORV2xO/fW3C0YWl8j
- 1xGg==
-X-Gm-Message-State: AOAM532i/5QJdu8w6Qq5uyiyTXwwYnXY9wEITieJdzEEclvtPxECkyPh
- WhZbjvRbkmUIB53bl11Tfz/aSQkKq9EiatzOBD5HveSp5tAl+rsaUESmlep6F1K4LLNeE4++wXs
- mYYE9x3ts43WnUNc=
-X-Received: by 2002:adf:fbce:: with SMTP id d14mr102161wrs.44.1616084228984;
- Thu, 18 Mar 2021 09:17:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz552TiAfx/J6ET59KQpueGbWzvjiYU6Bz+s1Zm806KPNHRUhTyJgNIK4S9O/uEEu9/P3Mj/Q==
-X-Received: by 2002:adf:fbce:: with SMTP id d14mr102140wrs.44.1616084228771;
- Thu, 18 Mar 2021 09:17:08 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id y18sm3688875wrq.61.2021.03.18.09.17.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 09:17:08 -0700 (PDT)
-Subject: Re: [PATCH] intc/i8259: avoid (false positive) gcc warning
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
-References: <20210318154738.27094-1-borntraeger@de.ibm.com>
- <69bb59c7-1f97-ba07-5150-d94d03210920@redhat.com>
- <bb7ec2df-db8e-2d3e-e392-1d2e16ce81e6@de.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c9515297-2472-c5d8-e85b-9b2741862c83@redhat.com>
-Date: Thu, 18 Mar 2021 17:17:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ bh=paTI3hVR1JiRKGRwheB/QrGWCdHi0eWAJ9qmmKhvR0s=;
+ b=WgyfLlELp7/+hPKh2UmDzRPlfZplhWFLQWcptEESQatriWVB84GQwtLN51FbUKb3TdlUDV
+ 4vSAe5LaZrgQU3eVGOwo20dtZUCkruiqPZpp9w9u0QZuaMi7VCPNrKA5L34Su92hwMfU0Q
+ Jy1r46EuzYebb9UtMsSk0KDmKLjER1o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-frPFwn-GNNqaZP7LxIZNZA-1; Thu, 18 Mar 2021 12:17:54 -0400
+X-MC-Unique: frPFwn-GNNqaZP7LxIZNZA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1309E180FCA7;
+ Thu, 18 Mar 2021 16:17:53 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12C0D5B4A6;
+ Thu, 18 Mar 2021 16:17:51 +0000 (UTC)
+Date: Thu, 18 Mar 2021 17:17:50 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: zhao xiaojun <xiaojun.zhao141@gmail.com>
+Subject: Re: Can not use hmp block_resize command with -blockdev option
+Message-ID: <YFN9LtEBpVsykSwV@merkur.fritz.box>
+References: <CAAeqyDvGXBLRxB-KRe2QZH6SV7KKZp=oFQ3wQ_bdsUo1z1_rvw@mail.gmail.com>
+ <ac58e1ea-6745-7e62-f8c2-68fceebe1c2d@redhat.com>
+ <YFMwWFbRi6wNWFtG@merkur.fritz.box>
+ <CAAeqyDsxuwuyeMR4zd-=LSSt3U-Ma-AzJmnqaBk0=V4zRzvGww@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <bb7ec2df-db8e-2d3e-e392-1d2e16ce81e6@de.ibm.com>
+In-Reply-To: <CAAeqyDsxuwuyeMR4zd-=LSSt3U-Ma-AzJmnqaBk0=V4zRzvGww@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,61 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/21 5:11 PM, Christian Borntraeger wrote:
-> On 18.03.21 17:03, Paolo Bonzini wrote:
->> On 18/03/21 16:47, Christian Borntraeger wrote:
->>> some copiler versions are smart enough to detect a potentially
->>> uninitialized variable, but are not smart enough to detect that this
->>> cannot happen due to the code flow:
->>>
->>> ../hw/intc/i8259.c: In function ‘pic_read_irq’:
->>> ../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in
->>> this function [-Werror=maybe-uninitialized]
->>>     203 |         irq = irq2 + 8;
->>>         |         ~~~~^~~~~~~~~~
->>>
->>> Let us initialize irq2 to -1 to avoid this warning as the most simple
->>> solution.
->>
->> What about:
+Am 18.03.2021 um 16:15 hat zhao xiaojun geschrieben:
+> Thanks you, that's really good idea. And I also have the following question:
 > 
-> This also works, but if you want to go down that path then it would be
-> good if you
-> could do this patch as I do not have the testing infrastructure to do
-> proper x86
-> changes.
->>
->> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
->> index 344fd04db1..bf28c179de 100644
->> --- a/hw/intc/i8259.c
->> +++ b/hw/intc/i8259.c
->> @@ -189,20 +189,18 @@ int pic_read_irq(DeviceState *d)
->>                   irq2 = 7;
->>               }
->>               intno = slave_pic->irq_base + irq2;
->> +            irq = irq2 + 8;
->> +            pic_intack(s, 2);
->>           } else {
->>               intno = s->irq_base + irq;
->> +            pic_intack(s, irq);
->>           }
->> -        pic_intack(s, irq);
->>       } else {
->>           /* spurious IRQ on host controller */
->>           irq = 7;
->>           intno = s->irq_base + irq;
->>       }
->>
->> -    if (irq == 2) {
->> -        irq = irq2 + 8;
->> -    }
->> -
+> There are some hmp and qmp commands in my scripts, they need the device as
+> an argument. Recently. i used the -blockdev replace the -drive to
+> specify the disk drive, then use  qmp's query_block to query the device,
+> but the device is NULL string. For the hmp's block_resize, I can use qmp's
+> block_resize do. But the other commands(qpm's block-job-cancel etc.), they
+> only support the device argument. So I can only continue to use -drive to
+> specify disk drive.
+> 
+> I was trying to see the source(qemu v5.1.0):
+> qmp_query_device()
+>   -> bdrv_query_info()
+>       info->device = g_strdup(blk_name(blk))
+> the device is set to blk_name(blk), and the blk->name is set in
+> the monitor_add_blk()
+> 
+> the -blockdev:
+> qmp_blockdev_add()
+>    -> bds_tree_init()
+>      -> bdrv_open()
+>    ...
+> the qmp_blockdev_add() doesn't call the monitor_add_blk().
+> 
+> Questions:
+> Why can not qmp_blockdev_add() call the monitor_add_blk()?
+> Will the hmp and qmp commands that only support device as an argument be
+> compat with the -blockdev option?
 
-This looks like the patch I just sent :)
+QMP doesn't have such commands. For commands that operate on the
+frontend (the guest device), they accept the id of the -device. For
+commands that relate to the backend, you can specify node-name.
+
+It's only HMP that may not support these alternatives in some places. We
+can just extend it.
+
+Kevin
 
 
