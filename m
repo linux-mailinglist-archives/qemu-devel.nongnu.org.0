@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC0D33FD53
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 03:42:19 +0100 (CET)
-Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D0F33FD94
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 04:12:33 +0100 (CET)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMic6-0001BV-PP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 22:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51572)
+	id 1lMj5M-0005vD-1I
+	for lists+qemu-devel@lfdr.de; Wed, 17 Mar 2021 23:12:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lMib8-0000lx-T8
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 22:41:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36018)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lMj3e-0004HT-Tl
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:10:46 -0400
+Received: from mga09.intel.com ([134.134.136.24]:54696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lMib6-0004RI-1l
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 22:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616035274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s6qL8GmNFVtMg04lgRNN82hgVlE/gENsGCzcPy0zbzg=;
- b=Rcm+EyJjKkWzGbfbGMf8JDFsvTrFogy3funOJ7eLriE7CFe50gxfn1SdOPFUhR2ng3M32O
- B2invauUnpwf8kkgO1uJOnxKRN0qZQTSJjDjdRDPeb6ZkoO6k2d4jM2RBpPMV2VuyqH/wF
- V4SviDVNxNzMRok5IGWhXqfNmYxyQUw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-oohoyAPIM4m_SafOnF6M1Q-1; Wed, 17 Mar 2021 22:41:10 -0400
-X-MC-Unique: oohoyAPIM4m_SafOnF6M1Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7458C1007467;
- Thu, 18 Mar 2021 02:41:09 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-131.pek2.redhat.com
- [10.72.13.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8A435B4A0;
- Thu, 18 Mar 2021 02:41:06 +0000 (UTC)
-Subject: Re: [PATCH 0/2] colo-compare: Fix memory leak for non-tcp packet
-To: "Zhang, Chen" <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>
-References: <cover.1605438886.git.lukasstraub2@web.de>
- <2cee934e177e4a778b3bcc8d5085f4f0@intel.com>
- <20210317222358.31864ded@gecko.fritz.box>
- <ea3c4558ebad42c8b12210c9b1b552de@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <e50552b2-d9d5-97f0-5d5a-d162266b2084@redhat.com>
-Date: Thu, 18 Mar 2021 10:41:05 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lMj3c-0005qP-3Y
+ for qemu-devel@nongnu.org; Wed, 17 Mar 2021 23:10:46 -0400
+IronPort-SDR: VHSER56XSfsO9jNtfwxzJZzhNuGneXSWWNc612QfwIhR3kYhubIW/uvPwNHa0F7m4BCBKFyQsh
+ 4IEbR2jHtbbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9926"; a="189681330"
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="189681330"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 20:10:37 -0700
+IronPort-SDR: b6yyz6jFDNe5uaLvEZnRtqs3x3lSHsskOxsVL5O/0WrhhkLizUTbTQdNfEKx3GhT6H9DS7QHOl
+ Qubd5NPWVaJw==
+X-IronPort-AV: E=Sophos;i="5.81,257,1610438400"; d="scan'208";a="412898182"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2021 20:10:35 -0700
+From: Zhang Chen <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Lukas Straub <lukasstraub2@web.de>
+Subject: [PATCH V3 0/7] Bypass specific network traffic in COLO
+Date: Thu, 18 Mar 2021 11:04:53 +0800
+Message-Id: <20210318030500.55352-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <ea3c4558ebad42c8b12210c9b1b552de@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=chen.zhang@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,74 +63,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Due to some real user scenarios don't need to monitor all traffic.
+And qemu net-filter also need function to more detailed flow control.  
+This series give user ability to bypass kinds of COLO network stream.
 
-ÔÚ 2021/3/18 ÉÏÎç9:22, Zhang, Chen Ð´µÀ:
-> Sorry for the delay. Current COLO tree just merged this series,
-> I originally wanted to merge other COLO related patches(Lei or me) and submit it together to Jason.
->
-> Hi Jason, do you need me to send this series first or do you want to do it together?
+For example, windows guest user want to enable windows remote desktop
+to touch guest(UDP/TCP 3389), This case use UDP and TCP mixed, and the
+tcp part payload always different caused by real desktop display
+data(for guest time/ mouse display....).
 
+Another case is some real user application will actively transmit information
+include guest time part, primary guest send data with time 10:01.000,
+At the same time secondary guest send data with time 10:01.001,
+it will always trigger COLO checkpoint(live migrate) to drop guest performance.
 
-We're in soft freeze, so if you can collect all the patches before hard 
-free, that would be better.
+  V3:
+    - Add COLO passthrough list lock.
+    - Add usage demo and more comments.
 
-Thanks
+  V2:
+    - Add the n-tuple support.
+    - Add some qapi definitions.
+    - Support multi colo-compare objects.
+    - Support setup each rules for each objects individually.
+    - Clean up COLO compare definition to .h file.
+    - Rebase HMP command for stable tree.
+    - Add redundant rules check.
 
+Zhang Chen (7):
+  qapi/net.json: Add IP_PROTOCOL definition
+  qapi/net.json: Add L4_Connection definition
+  qapi/net: Add new QMP command for COLO passthrough
+  hmp-commands: Add new HMP command for COLO passthrough
+  net/colo-compare: Move data structure and define to .h file.
+  net/colo-compare: Add passthrough list to CompareState
+  net/net.c: Add handler for COLO passthrough connection
 
->
-> Thanks
-> Chen
->
->> -----Original Message-----
->> From: Lukas Straub <lukasstraub2@web.de>
->> Sent: Thursday, March 18, 2021 5:24 AM
->> To: Zhang, Chen <chen.zhang@intel.com>
->> Cc: qemu-devel <qemu-devel@nongnu.org>; Li Zhijian
->> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>
->> Subject: Re: [PATCH 0/2] colo-compare: Fix memory leak for non-tcp packet
->>
->> Hi,
->> This hasn't been merged yet.
->>
->> Regards,
->> Lukas Straub
->>
->> On Mon, 16 Nov 2020 07:32:22 +0000
->> "Zhang, Chen" <chen.zhang@intel.com> wrote:
->>
->>> Queued this series to COLO tree.
->>>
->>> Thanks
->>> Chen
->>>
->>>> -----Original Message-----
->>>> From: Lukas Straub <lukasstraub2@web.de>
->>>> Sent: Sunday, November 15, 2020 7:19 PM
->>>> To: qemu-devel <qemu-devel@nongnu.org>
->>>> Cc: Zhang, Chen <chen.zhang@intel.com>; Li Zhijian
->>>> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>
->>>> Subject: [PATCH 0/2] colo-compare: Fix memory leak for non-tcp
->>>> packet
->>>>
->>>> Hello Everyone,
->>>> This fixes a memory leak for non-tcp packets and optimizes the
->>>> removal from the queue.
->>>>
->>>> Lukas Straub (2):
->>>>    net/colo-compare.c: Fix memory leak for non-tcp packet
->>>>    net/colo-compare.c: Optimize removal of secondary packet
->>>>
->>>>   net/colo-compare.c | 3 ++-
->>>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> --
->>>> 2.20.1
->>
->>
->> --
+ hmp-commands.hx       |  26 +++++++
+ include/monitor/hmp.h |   2 +
+ monitor/hmp-cmds.c    |  34 +++++++++
+ net/colo-compare.c    | 135 ++++++++--------------------------
+ net/colo-compare.h    | 117 ++++++++++++++++++++++++++++++
+ net/net.c             | 163 ++++++++++++++++++++++++++++++++++++++++++
+ qapi/net.json         |  96 +++++++++++++++++++++++++
+ 7 files changed, 467 insertions(+), 106 deletions(-)
+
+-- 
+2.25.1
 
 
