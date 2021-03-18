@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1035D340270
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:50:07 +0100 (CET)
-Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4107F340275
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:51:07 +0100 (CET)
+Received: from localhost ([::1]:44208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMpI5-0004gt-VU
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43428)
+	id 1lMpJ4-00066E-CH
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMpGM-0002h5-3d
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:48:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46518)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lMpHa-0004hY-Qi
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:49:34 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lMpGJ-0004gU-DQ
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:48:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616060893;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZHq3LNMJLH29zziczN/J+K7DJwC5jxK9Sb13RzZSyv0=;
- b=BHyAldI51y0m3uzj9TtlKqoXKE1ffXN9S8xtoNrl6DDLawzAMnrpVtx1QYPVZt6c1evxOL
- okb7lnfNoT0Pa3MXv8JmGgdzK+fOXiV/SPzSY+xM9KK73dbXWNDElN+YBJamr5/c3y2XjA
- efZuInz1lQdX1/8c7DVno3OiW9DIYKQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-LcjuNq8KOX6jF9xph20ytw-1; Thu, 18 Mar 2021 05:48:11 -0400
-X-MC-Unique: LcjuNq8KOX6jF9xph20ytw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6815F107ACCD;
- Thu, 18 Mar 2021 09:48:10 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-114-127.ams2.redhat.com [10.36.114.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73709669F2;
- Thu, 18 Mar 2021 09:48:09 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v4 00/42] Block layer patches and object-add QAPIfication
-Date: Thu, 18 Mar 2021 10:48:07 +0100
-Message-Id: <20210318094807.10472-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lMpHV-0005MQ-LV
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:49:34 -0400
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4F1MdJ6WTbzYKr5;
+ Thu, 18 Mar 2021 17:47:32 +0800 (CST)
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 18 Mar 2021 17:49:17 +0800
+Received: from dggpemm000003.china.huawei.com (7.185.36.128) by
+ dggpemm000001.china.huawei.com (7.185.36.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 18 Mar 2021 17:49:17 +0800
+Received: from dggpemm000003.china.huawei.com ([7.185.36.128]) by
+ dggpemm000003.china.huawei.com ([7.185.36.128]) with mapi id 15.01.2106.013;
+ Thu, 18 Mar 2021 17:49:17 +0800
+From: zhukeqian <zhukeqian1@huawei.com>
+To: Yang Zhong <yang.zhong@intel.com>, qemu-devel <qemu-devel@nongnu.org>
+Subject: RE: The windows guest can't bootup
+Thread-Topic: The windows guest can't bootup
+Thread-Index: AQHXG9nkH2r9s6n6K0qB9PTiTI9B96qJgDnh
+Date: Thu, 18 Mar 2021 09:49:17 +0000
+Message-ID: 0885149F-F56E-4533-A3C8-F49F8192901A
+References: <20210318092218.GA4275@yangzhon-Virtual>
+In-Reply-To: <20210318092218.GA4275@yangzhon-Virtual>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Content-Type: multipart/alternative;
+ boundary="_000_0885149FF56E4533A3C8F49F8192901A_"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ INVALID_MSGID=0.568, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,124 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: "yang.zhong" <yang.zhong@intel.com>, pbonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 571d413b5da6bc6f1c2aaca8484717642255ddb0:
+--_000_0885149FF56E4533A3C8F49F8192901A_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-20210316' into staging (2021-03-17 21:02:37 +0000)
+SGksDQoNClllcC4gSXQgaXMga25vd24gaXNzdWUuIFBhb2xvIHdpbGwgcmV2ZXJ0IGl0Lg0KDQpU
+aGFua3MuDQoNCg0KDQoNCg0KDQoNCg0KSGVsbG8sDQoNCkkgc3luY2VkIHRvZGF5IHFlbXUgY29k
+ZSwgYW5kIGZvdW5kIHRoZSBxZW11IGNhbid0IGJvb3R1cCB0aGUgd2luZG93cyBndWVzdC4NClRo
+aXMgaXNzdWUgd2FzIGNhdXNlZCBieSBjb21taXQgaWQgMzkyMDU1MjggYW5kIHJldmVydCB0aGlz
+IHBhdGNoLCB0aGUgd2luZG93cw0KZ3Vlc3QgY2FuIGJvb3R1cC4NCg0KcWVtdS1zeXN0ZW0teDg2
+XzY0OiAuLi9hY2NlbC9rdm0va3ZtLWFsbC5jOjY5MDoga3ZtX2xvZ19jbGVhcl9vbmVfc2xvdDog
+QXNzZXJ0aW9uIGAoKChzdGFydCB8IHNpemUpICUgKHBzaXplKSkgPT0gMCknIGZhaWxlZC4NCg0K
+SSBhbHNvIGVuYWJsZWQgdGhlIHZnYSBkZXZpY2UgaW4gdGhlIExpbnV4IGd1ZXN0LCBhbmQgc2Ft
+ZSBpc3N1ZSB3YXMgZm91bmQuDQoNClJlZ2FyZHMsDQoNCllhbmcNCg0K
 
-are available in the Git repository at:
+--_000_0885149FF56E4533A3C8F49F8192901A_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+PCFET0NUWVBFIGh0bWw+DQo8aHRtbD4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVu
+dC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPC9tYXRhPjxzdHls
+ZSB0eXBlPSJ0ZXh0L2NzcyI+Cioge2JveC1zaXppbmc6Ym9yZGVyLWJveDt9CmJvZHkge2ZvbnQt
+ZmFtaWx5OiBDYWxpYnJpO30KPC9zdHlsZT4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj4NCjxkaXYg
+aWQ9ImZvY3VzIj4NCjxkaXY+SGksIDwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+WWVw
+LiBJdCBpcyBrbm93biBpc3N1ZS4gUGFvbG8gd2lsbCByZXZlcnQgaXQuIDwvZGl2Pg0KPGRpdj48
+YnI+DQo8L2Rpdj4NCjxkaXY+VGhhbmtzLiA8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2
+Pjxicj4NCjxicj4NCjxicj4NCjxicj4NCjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjxk
+aXY+PC9kaXY+DQo8ZGl2IGlkPSJzaWduYXR1cmUiPjxicj4NCjwvZGl2Pg0KPGRpdiBuYW1lPSJB
+bnlPZmZpY2UtQmFja2dyb3VuZC1JbWFnZSIgc3R5bGU9ImJvcmRlci10b3A6MXB4IHNvbGlkICNC
+NUM0REY7cGFkZGluZzo4cHg7IGJhY2tncm91bmQtaW1hZ2U6dXJsKGRhdGE6aW1hZ2UvcG5nO2Jh
+c2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQUVBQUFCQkNBWUFBQUFRVGM3bEFBQUFDWEJJ
+V1hNQUFBc1RBQUFMRXdFQW1wd1lBQUFBQkdkQlRVRUFBTEdPZlB0Umt3QUFBQ0JqU0ZKTkFBQjZK
+UUFBZ0lNQUFQbi9BQUNBNlFBQWRUQUFBT3BnQUFBNm1BQUFGMiYjNDM7U1g4VkdBQUFBTjBsRVFW
+UjQybUo0OHU3UGZ5WUdCb1ovY09Jdktnc2I4UWVWaFovNGpZWDdHd3NYcHhoJiM0MztnZ2hUY0xv
+Rko0SG1TMndFVWxnQkJnQWpQa05SUWxHUGZBQUFBQUJKUlU1RXJrSmdnZz09KTsgYmFja2dyb3Vu
+ZC1yZXBlYXQ6IHJlcGVhdC14OyI+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8ZGl2IG5h
+bWU9Im1haWxfaGlzdF9jb250ZW50Ij48Zm9udCBzaXplPSIyIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOiAxMHB0OyBiYWNrZ3JvdW5kLWNvbG9yOiBpbmhlcml0OyI+DQo8ZGl2IGNsYXNzPSJQbGFp
+blRleHQiPkhlbGxvLCA8YnI+DQo8YnI+DQpJIHN5bmNlZCB0b2RheSBxZW11IGNvZGUsIGFuZCBm
+b3VuZCB0aGUgcWVtdSBjYW4ndCBib290dXAgdGhlIHdpbmRvd3MgZ3Vlc3QuIDxicj4NClRoaXMg
+aXNzdWUgd2FzIGNhdXNlZCBieSBjb21taXQgaWQgMzkyMDU1MjggYW5kIHJldmVydCB0aGlzIHBh
+dGNoLCB0aGUgd2luZG93cyA8YnI+DQpndWVzdCBjYW4gYm9vdHVwLiA8YnI+DQo8YnI+DQpxZW11
+LXN5c3RlbS14ODZfNjQ6IC4uL2FjY2VsL2t2bS9rdm0tYWxsLmM6NjkwOiBrdm1fbG9nX2NsZWFy
+X29uZV9zbG90OiBBc3NlcnRpb24gYCgoKHN0YXJ0IHwgc2l6ZSkgJSAocHNpemUpKSA9PSAwKScg
+ZmFpbGVkLg0KPGJyPg0KPGJyPg0KSSBhbHNvIGVuYWJsZWQgdGhlIHZnYSBkZXZpY2UgaW4gdGhl
+IExpbnV4IGd1ZXN0LCBhbmQgc2FtZSBpc3N1ZSB3YXMgZm91bmQuIDxicj4NCjxicj4NClJlZ2Fy
+ZHMsIDxicj4NCjxicj4NCllhbmcgPGJyPg0KPC9kaXY+DQo8L3NwYW4+PC9mb250Pjxicj4NCjwv
+ZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-for you to fetch changes up to ef11a2d8972147994492c36cd3d26677e831e4d7:
-
-  vl: allow passing JSON to -object (2021-03-18 10:45:01 +0100)
-
-----------------------------------------------------------------
-Block layer patches and object-add QAPIfication
-
-- QAPIfy object-add and --object
-- stream: Fail gracefully if permission is denied
-- storage-daemon: Fix crash on quit when job is still running
-- curl: Fix use after free
-- char: Deprecate backend aliases, fix QMP query-chardev-backends
-- Fix image creation option defaults that exist in both the format and
-  the protocol layer (e.g. 'cluster_size' in qcow2 and rbd; the qcow2
-  default was incorrectly applied to the rbd layer)
-
-----------------------------------------------------------------
-Kevin Wolf (35):
-      storage-daemon: Call job_cancel_sync_all() on shutdown
-      stream: Don't crash when node permission is denied
-      tests: Drop 'props' from object-add calls
-      qapi/qom: Drop deprecated 'props' from object-add
-      qapi/qom: Add ObjectOptions for iothread
-      qapi/qom: Add ObjectOptions for authz-*
-      qapi/qom: Add ObjectOptions for cryptodev-*
-      qapi/qom: Add ObjectOptions for dbus-vmstate
-      qapi/qom: Add ObjectOptions for memory-backend-*
-      qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
-      qapi/qom: Add ObjectOptions for throttle-group
-      qapi/qom: Add ObjectOptions for secret*, deprecate 'loaded'
-      qapi/qom: Add ObjectOptions for tls-*, deprecate 'loaded'
-      qapi/qom: Add ObjectOptions for can-*
-      qapi/qom: Add ObjectOptions for colo-compare
-      qapi/qom: Add ObjectOptions for filter-*
-      qapi/qom: Add ObjectOptions for pr-manager-helper
-      qapi/qom: Add ObjectOptions for confidential-guest-support
-      qapi/qom: Add ObjectOptions for input-*
-      qapi/qom: Add ObjectOptions for x-remote-object
-      qapi/qom: QAPIfy object-add
-      qom: Make "object" QemuOptsList optional
-      qemu-storage-daemon: Implement --object with qmp_object_add()
-      qom: Remove user_creatable_add_dict()
-      qom: Factor out user_creatable_process_cmdline()
-      qemu-io: Use user_creatable_process_cmdline() for --object
-      qemu-nbd: Use user_creatable_process_cmdline() for --object
-      qom: Add user_creatable_add_from_str()
-      qemu-img: Use user_creatable_process_cmdline() for --object
-      hmp: QAPIfy object_add
-      qom: Add user_creatable_parse_str()
-      char: Skip CLI aliases in query-chardev-backends
-      char: Deprecate backend aliases 'tty' and 'parport'
-      char: Simplify chardev_name_foreach()
-      qom: Support JSON in HMP object_add and tools --object
-
-Max Reitz (2):
-      curl: Store BDRVCURLState pointer in CURLSocket
-      curl: Disconnect sockets from CURLState
-
-Paolo Bonzini (3):
-      tests: convert check-qom-proplist to keyval
-      qom: move user_creatable_add_opts logic to vl.c and QAPIfy it
-      vl: allow passing JSON to -object
-
-Stefan Hajnoczi (1):
-      block/export: disable VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD for now
-
-Stefano Garzarella (1):
-      block: remove format defaults from QemuOpts in bdrv_create_file()
-
- qapi/authz.json                       |  61 +++-
- qapi/block-core.json                  |  27 ++
- qapi/common.json                      |  52 +++
- qapi/crypto.json                      | 159 +++++++++
- qapi/machine.json                     |  22 +-
- qapi/net.json                         |  20 --
- qapi/qom.json                         | 646 +++++++++++++++++++++++++++++++++-
- qapi/ui.json                          |  13 +-
- docs/system/deprecated.rst            |  31 +-
- docs/system/removed-features.rst      |   5 +
- docs/tools/qemu-img.rst               |   2 +-
- include/qom/object_interfaces.h       |  98 ++----
- block.c                               |  36 +-
- block/curl.c                          |  50 +--
- block/export/vhost-user-blk-server.c  |   3 +-
- block/stream.c                        |  15 +-
- chardev/char.c                        |  19 +-
- hw/block/xen-block.c                  |  16 +-
- monitor/hmp-cmds.c                    |  17 +-
- monitor/misc.c                        |   2 -
- qemu-img.c                            | 251 +++----------
- qemu-io.c                             |  33 +-
- qemu-nbd.c                            |  34 +-
- qom/object_interfaces.c               | 172 ++++-----
- qom/qom-qmp-cmds.c                    |  28 +-
- softmmu/vl.c                          |  84 ++++-
- storage-daemon/qemu-storage-daemon.c  |  28 +-
- tests/qtest/qmp-cmd-test.c            |  16 +-
- tests/qtest/test-netfilter.c          |  54 ++-
- tests/unit/check-qom-proplist.c       |  77 ++--
- tests/unit/test-char.c                |   6 -
- hmp-commands.hx                       |   2 +-
- storage-daemon/qapi/qapi-schema.json  |   1 +
- tests/qemu-iotests/tests/qsd-jobs     |  86 +++++
- tests/qemu-iotests/tests/qsd-jobs.out |  32 ++
- 35 files changed, 1517 insertions(+), 681 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/qsd-jobs
- create mode 100644 tests/qemu-iotests/tests/qsd-jobs.out
-
+--_000_0885149FF56E4533A3C8F49F8192901A_--
 
