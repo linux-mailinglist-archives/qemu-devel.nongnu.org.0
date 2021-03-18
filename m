@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA6634091A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:43:48 +0100 (CET)
-Received: from localhost ([::1]:54856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A9834091B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:44:18 +0100 (CET)
+Received: from localhost ([::1]:57014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMuoN-0007PZ-KQ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
+	id 1lMuor-0008IH-IF
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMukM-0004wt-Q8
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:39:41 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:46619)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lMukI-0004qM-Bk
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:39:35 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- z6-20020a1c4c060000b029010f13694ba2so3627454wmf.5
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=trxLBi+uUEHnyOiFt/O7VB4TGyvOMkeURqT3UCXFhmQ=;
- b=Z7Z3iQr7IIZSsdqVsLjy1+WQgxE/6ZzHKLVVRGsMSxrB50hAUx2ERxyGuJuUhUlkYW
- vHsdLbU2yXwMwWgQEBr7d32jV4XOtKYGeXRhU/sP+40NswSlxIIQlDofncdrryQQr+N8
- +D5KhjRq32Hn2WkxFgdZZNvnzmr1MGTMks4gG7qaGJAu2zTePgRhTP1hTN7r8/gLhxxj
- 3m2ceZNxLHoDMW6l5WKK0/A1v4nPLrdDVTnE03/g6t2kweZxlAERuc0Cl4FG84r9Wcqp
- hwX8wF55Pyu63v2JzlMEHK8q/qymFumkZ0cjY9d8jTP/n+onhWOmZ2UWpY238+gm6AQE
- O/oQ==
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMuml-0006qm-I6
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:42:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMumi-0006b4-FQ
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:42:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616082121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6bw/oksnvPCOG8oCqFDgfpFZQ1idTb0xwLL9PpqNnok=;
+ b=DUIYuvjgHAaHUXmeGgbfl/dqMFU4/VkD2oM96Nz2PfzP5xlRcs2XsWM4QCu9p4bXKlAczk
+ r6Y0OdWFu+YeZaQzNIA/VHRVvn2LxmQvp/+gbWgDTsyewWnelRZYeULVS3a30zorQdpDmb
+ dO/sz1FRYdCynxXYMywtCmwUUW48H1E=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-uPzRPjxfP-yYCouHlf927w-1; Thu, 18 Mar 2021 11:41:59 -0400
+X-MC-Unique: uPzRPjxfP-yYCouHlf927w-1
+Received: by mail-oo1-f69.google.com with SMTP id t23so21242823oou.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:41:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=trxLBi+uUEHnyOiFt/O7VB4TGyvOMkeURqT3UCXFhmQ=;
- b=jlRvKN+p8LBwaFjDaPv840FWlpjXjzdsWbLGbUY3ww+bMzHy6sgfECArDGnuoJ1fNu
- cWVRobdL8vSTzAm25AxxSC18lVYE8SuVkRwHrBntL6vI3xahbbXv41oha7NRXvpOuT4p
- Xnr+QTA8o8RT+R9bspAyAZrtbKHGDnVPa0FkMElGhzUiN2lCYc7qn/Ih6xryQfzP32r6
- 0aZ68TIjk+7U4z7CTp7p/KPby18f+1kIg6WArI4DWgF6Ya/evx/nc7PrAtSKiOQTTJVf
- +OlJA9BqVvzxcwynkbTYyKQlmWhkUm9Ke9Saj5mwipMPt3tqtrFUfUFxQ3rJ63D7ey2N
- Tm5A==
-X-Gm-Message-State: AOAM531w9hfBCJtHs9GvVN87qeH9dUQUsQR1DnrV5jc0MjXQosXJ0FQl
- wrWs+jIl1GXflrVMqmUVEos=
-X-Google-Smtp-Source: ABdhPJxxrHVmUolQegAe2LS5y0DLAWhDToKxxcPEl+1IwHMPtg9bPeXQtHiKVNYA33Hih0DLZcNLQQ==
-X-Received: by 2002:a1c:ba88:: with SMTP id k130mr4316816wmf.42.1616081972862; 
- Thu, 18 Mar 2021 08:39:32 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id g16sm3593795wrs.76.2021.03.18.08.39.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 08:39:32 -0700 (PDT)
-Subject: Re: [PATCH] memory: Display MemoryRegion name in read/write ops trace
- events
+ bh=6bw/oksnvPCOG8oCqFDgfpFZQ1idTb0xwLL9PpqNnok=;
+ b=pLwyoFk0V3T3xjxvw7qY0SXXxaInSoi9a/2t6y3ho/57FepZexh5sNNpNIkjtKuDyn
+ mrbBKUaWL1ir6hCNoXXu5nS1RPrOyocu9tv7HjPBYAzjZZVKb7msepVoRtV5fJB5481K
+ K60Ajbdzid5Xn6aWN8mhhS+jtEA9TitvUWjWp5GjiWgVg7uLWh0ftOmT/b4oZqE/KEXu
+ 7C1O+fXICHkusnJsdVM6aZKQhgJOb9eKsIHbAbxcaZnOm8ru14cmR/nYgp9QQpogId1+
+ ewuXWJQfsxSVEoceaAm63XO0Tlat/q6GZLLeRdsFxY3QcZu8+0JudtOm742kvHo6WtkI
+ o6kQ==
+X-Gm-Message-State: AOAM530F8HglWQzYYaA4TtA7g8rM+srKZtx7aQetGqEirDd77+x0CcC3
+ Z5P7VOLHHXn2PX8HT3G68bbI7B1h+Kf5OX4NFOTFYQUg+agT3koTkYuJJtil32XiaBp9ifB6zl3
+ PcYf345qoPoY4RvP05KeMcdKtNmwd9XzSrTYUjqdB6Ft77L3AGO9tmJCLuOwoNz+/
+X-Received: by 2002:a4a:4958:: with SMTP id z85mr7993706ooa.3.1616082118596;
+ Thu, 18 Mar 2021 08:41:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkcOgC9cdXeGII/YxSkoKFY26CakelyTrPj7sgsWstWCmhlBK6kbzcyxuVwwqXRRN/ri6aug==
+X-Received: by 2002:a4a:4958:: with SMTP id z85mr7993681ooa.3.1616082118398;
+ Thu, 18 Mar 2021 08:41:58 -0700 (PDT)
+Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id w16sm555622otq.15.2021.03.18.08.41.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Mar 2021 08:41:58 -0700 (PDT)
+From: Connor Kuehl <ckuehl@redhat.com>
 To: qemu-devel@nongnu.org
-References: <20210307074833.143106-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8892fbd6-a63c-ef02-78f3-935e4f95dbb1@amsat.org>
-Date: Thu, 18 Mar 2021 16:39:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Subject: [PATCH] MAINTAINERS: add virtio-fs mailing list
+Date: Thu, 18 Mar 2021 10:41:57 -0500
+Message-Id: <20210318154157.1357224-1-ckuehl@redhat.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210307074833.143106-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,81 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: virtio-fs@redhat.com, dgilbert@redhat.com, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+General discussion and patch reviews take place on this list for both
+virtiofsd (tools/virtiofsd/*) and the guest kernel module.
 
-On 3/7/21 8:48 AM, Philippe Mathieu-Daudé wrote:
-> MemoryRegion names is cached on first call to memory_region_name(),
-> so displaying the name is trace events is cheap. Add it for read /
-> write ops.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  softmmu/memory.c     | 12 ++++++++----
->  softmmu/trace-events |  4 ++--
->  2 files changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 874a8fccdee..d4d9ab8828e 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -444,7 +444,8 @@ static MemTxResult  memory_region_read_accessor(MemoryRegion *mr,
->          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
->      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
->          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-> -        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
-> +        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size,
-> +                                     memory_region_name(mr));
->      }
->      memory_region_shift_read_access(value, shift, mask, tmp);
->      return MEMTX_OK;
-> @@ -466,7 +467,8 @@ static MemTxResult memory_region_read_with_attrs_accessor(MemoryRegion *mr,
->          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
->      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
->          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-> -        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
-> +        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size,
-> +                                     memory_region_name(mr));
->      }
->      memory_region_shift_read_access(value, shift, mask, tmp);
->      return r;
-> @@ -486,7 +488,8 @@ static MemTxResult memory_region_write_accessor(MemoryRegion *mr,
->          trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp, size);
->      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_WRITE)) {
->          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-> -        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
-> +        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size,
-> +                                      memory_region_name(mr));
->      }
->      mr->ops->write(mr->opaque, addr, tmp, size);
->      return MEMTX_OK;
-> @@ -506,7 +509,8 @@ static MemTxResult memory_region_write_with_attrs_accessor(MemoryRegion *mr,
->          trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp, size);
->      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_WRITE)) {
->          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-> -        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
-> +        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size,
-> +                                      memory_region_name(mr));
->      }
->      return mr->ops->write_with_attrs(mr->opaque, addr, tmp, size, attrs);
->  }
-> diff --git a/softmmu/trace-events b/softmmu/trace-events
-> index b80ca042e1f..359fb37cc8d 100644
-> --- a/softmmu/trace-events
-> +++ b/softmmu/trace-events
-> @@ -9,8 +9,8 @@ cpu_in(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
->  cpu_out(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
->  
->  # memory.c
-> -memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> -memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> +memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
-> +memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
->  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
->  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
->  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> 
+Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 25fc49d1dc..8921bc2119 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1917,6 +1917,7 @@ F: tools/virtiofsd/*
+ F: hw/virtio/vhost-user-fs*
+ F: include/hw/virtio/vhost-user-fs.h
+ F: docs/tools/virtiofsd.rst
++L: virtio-fs@redhat.com
+ 
+ virtio-input
+ M: Gerd Hoffmann <kraxel@redhat.com>
+-- 
+2.30.2
+
 
