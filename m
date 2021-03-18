@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A571834022C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:36:03 +0100 (CET)
-Received: from localhost ([::1]:57690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3C1340241
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:42:02 +0100 (CET)
+Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMp4U-00059F-NA
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
+	id 1lMpAH-0004Ie-Au
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMozi-0007Ng-PN
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:06 -0400
-Resent-Date: Thu, 18 Mar 2021 05:31:06 -0400
-Resent-Message-Id: <E1lMozi-0007Ng-PN@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lMozd-0003CX-Mi
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616059853; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lBQl054Ffrr8OMCGO8yzaDqE6IgmOyVm/0MYjWicidi/U0MAb5hiKUSTifwx139dTCdXLM0W2hSv4x8acNwsnZy63oJDOFq4OWTyEMbP2vLB8RjLeCR0LTR3Bw/KLFpBmiTVeSaJLQujD5y8sDccpTpj7AFEyF69gwVNpRhlABs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616059853;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=MvrLbIHTPiRZFXqvPup/1HhM1P71vFH1MEhe3VoWysw=; 
- b=M9IQeqA4uWWQf/vtRJp9+Bedy39uo99KIz2ubeiVjpSzRMim9jWEXDmWETL3Khb2i/1UeXufsUX9NWkIc4e3mBCnR98XUHNydrhq3c7OuaKguF7rkqOp0uLtXo5wp3ABr9f2bbrWv3nJ6IkldcxVcYCYpwnY1IgDVMOpcAPXxiA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616059849666496.92031237481206;
- Thu, 18 Mar 2021 02:30:49 -0700 (PDT)
-In-Reply-To: <20210318091647.3233178-1-kraxel@redhat.com>
-Subject: Re: [PATCH v2 0/7] ui: add vdagent implementation and clipboard
- support.
-Message-ID: <161605984838.9709.10211452975747774135@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lMp2n-00039G-6D
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:34:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lMp2l-0004xn-CB
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:34:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616060054;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C2xz9a+4qFZYG+V+JSyN4TyVQvYav407sbGXSNeSqnY=;
+ b=G1gjtF6KQuUi+idHjgHqrbzP6ZpCbKjj4bR3P2dKwB0NsLGbknFLeRo/V5PcXlfHEECmQt
+ f7wnDteMM2joe9KfIwYkYMawwobiLJe88OFaji5qeurGTkSwtxliir+PrqUxygHJaILqF3
+ GcZlkoq3w1o+Jitje/lB3t3azEIeEQI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-GhpXDpxFO6Oud80hWjzuKA-1; Thu, 18 Mar 2021 05:34:04 -0400
+X-MC-Unique: GhpXDpxFO6Oud80hWjzuKA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DD7C5B365;
+ Thu, 18 Mar 2021 09:34:03 +0000 (UTC)
+Received: from redhat.com (ovpn-115-61.ams2.redhat.com [10.36.115.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D5F650AD5;
+ Thu, 18 Mar 2021 09:33:58 +0000 (UTC)
+Date: Thu, 18 Mar 2021 09:33:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: Serious doubts about Gitlab CI
+Message-ID: <YFMegwL6SXX2/+kZ@redhat.com>
+References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Thu, 18 Mar 2021 02:30:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,120 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, kraxel@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxODA5MTY0Ny4zMjMz
-MTc4LTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMxODA5MTY0Ny4zMjMz
-MTc4LTEta3JheGVsQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIHYyIDAvN10gdWk6IGFkZCB2
-ZGFnZW50IGltcGxlbWVudGF0aW9uIGFuZCBjbGlwYm9hcmQgc3VwcG9ydC4KCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
-ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
-dC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAzMTcxNDMzMjUuMjE2NTgy
-MS0xLWVibGFrZUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMTcxNDMzMjUuMjE2NTgyMS0x
-LWVibGFrZUByZWRoYXQuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAzMTcx
-OTQ4NDkuMjI2MjM0Ni0xLXdhaW5lcnNtQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDMxNzE5
-NDg0OS4yMjYyMzQ2LTEtd2FpbmVyc21AcmVkaGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBw
-YXRjaGV3LzIwMjEwMzE4MDIzODAxLjE4Mjg3LTEtZ3NoYW5AcmVkaGF0LmNvbSAtPiBwYXRjaGV3
-LzIwMjEwMzE4MDIzODAxLjE4Mjg3LTEtZ3NoYW5AcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAg
-ICAgICBwYXRjaGV3LzIwMjEwMzE4MDkxNjQ3LjMyMzMxNzgtMS1rcmF4ZWxAcmVkaGF0LmNvbSAt
-PiBwYXRjaGV3LzIwMjEwMzE4MDkxNjQ3LjMyMzMxNzgtMS1rcmF4ZWxAcmVkaGF0LmNvbQpTd2l0
-Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjUwOWYwZWMgdWkvZ3RrOiBhZGQgY2xpcGJvYXJk
-IHN1cHBvcnQKNjQxMzUzMSB1aS9ndGs6IG1vdmUgc3RydWN0IEd0a0Rpc3BsYXlTdGF0ZSB0byB1
-aS9ndGsuaApiZTRmOTk2IHVpL3ZuYzogY2xpcGJvYXJkIHN1cHBvcnQKMTVhYjJiOSB1aS92ZGFn
-ZW50OiBhZGQgY2xpcGJvYXJkIHN1cHBvcnQKYzkyMDcxNSB1aS92ZGFnZW50OiBhZGQgbW91c2Ug
-c3VwcG9ydApkMjM3NTlmIHVpL3ZkYWdlbnQ6IGNvcmUgaW5mcmFzdHJ1Y3R1cmUKZjU5ZTAyNSB1
-aTogYWRkIGNsaXBib2FyZCBpbmZyYXN0cnVjdHVyZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS83
-IENoZWNraW5nIGNvbW1pdCBmNTllMDI1YmRkNzEgKHVpOiBhZGQgY2xpcGJvYXJkIGluZnJhc3Ry
-dWN0dXJlKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4g
-c3RyaW5nIGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzog
-YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
-ZGF0aW5nPwojMjA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdh
-cm5pbmdzLCAxNjcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS83IGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCjIvNyBDaGVja2luZyBjb21taXQgZDIzNzU5ZmM1ZDE0ICh1aS92ZGFnZW50OiBjb3Jl
-IGluZnJhc3RydWN0dXJlKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhw
-ZWN0ZWQgaW4gc3RyaW5nIGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4K
-V0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVS
-UyBuZWVkIHVwZGF0aW5nPwojOTE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IGlmIHRo
-aXMgY29kZSBpcyByZWR1bmRhbnQgY29uc2lkZXIgcmVtb3ZpbmcgaXQKIzE0MTogRklMRTogdWkv
-dmRhZ2VudC5jOjQ2OgorI2lmIDAKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMx
-NDM6IEZJTEU6IHVpL3ZkYWdlbnQuYzo0ODoKKyAgICBbVkRfQUdFTlRfQ0FQX0NMSVBCT0FSRF9O
-T19SRUxFQVNFX09OX1JFR1JBQl0gPSAiY2xpcGJvYXJkLW5vLXJlbGVhc2Utb24tcmVncmFiIiwK
-CkVSUk9SOiBpZiB0aGlzIGNvZGUgaXMgcmVkdW5kYW50IGNvbnNpZGVyIHJlbW92aW5nIGl0CiMx
-NjQ6IEZJTEU6IHVpL3ZkYWdlbnQuYzo2OToKKyNpZiAwCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
-Y2hhcmFjdGVycwojMjE2OiBGSUxFOiB1aS92ZGFnZW50LmM6MTIxOgorICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplb2YoVkRBZ2VudEFubm91bmNlQ2Fw
-YWJpbGl0aWVzKSArCgp0b3RhbDogMiBlcnJvcnMsIDMgd2FybmluZ3MsIDMyMiBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCAyLzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvNyBDaGVja2luZyBj
-b21taXQgYzkyMDcxNTFhYzNjICh1aS92ZGFnZW50OiBhZGQgbW91c2Ugc3VwcG9ydCkKRVJST1I6
-IGlmIHRoaXMgY29kZSBpcyByZWR1bmRhbnQgY29uc2lkZXIgcmVtb3ZpbmcgaXQKIzEzNzogRklM
-RTogdWkvdmRhZ2VudC5jOjE3OToKKyNpZiAwCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3Ms
-IDIyOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-CjQvNyBDaGVja2luZyBjb21taXQgMTVhYjJiOTRmOTlhICh1aS92ZGFnZW50OiBhZGQgY2xpcGJv
-YXJkIHN1cHBvcnQpCkVSUk9SOiBpZiB0aGlzIGNvZGUgaXMgcmVkdW5kYW50IGNvbnNpZGVyIHJl
-bW92aW5nIGl0CiMxMjA6IEZJTEU6IHVpL3ZkYWdlbnQuYzoxMTI6CisjaWYgMAoKRVJST1I6IGxp
-bmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxNTk6IEZJTEU6IHVpL3ZkYWdlbnQuYzoyODY6CisgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNpemVvZih1aW50MzJf
-dCkgKiAoUUVNVV9DTElQQk9BUkRfVFlQRV9fQ09VTlQgKyAxKSk7CgpXQVJOSU5HOiBsaW5lIG92
-ZXIgODAgY2hhcmFjdGVycwojNDA2OiBGSUxFOiB1aS92ZGFnZW50LmM6NjUyOgorICAgIGNmZy0+
-Y2xpcGJvYXJkID0gcWVtdV9vcHRfZ2V0X2Jvb2wob3B0cywgImNsaXBib2FyZCIsIFZEQUdFTlRf
-Q0xJUEJPQVJEX0RFRkFVTFQpOwoKdG90YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCAzNTkgbGlu
-ZXMgY2hlY2tlZAoKUGF0Y2ggNC83IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzcgQ2hl
-Y2tpbmcgY29tbWl0IGJlNGY5OTZhNTQ2YyAodWkvdm5jOiBjbGlwYm9hcmQgc3VwcG9ydCkKVXNl
-IG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBlcSBh
-dCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBtb3Zl
-ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMz
-OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
-CiMyODA6IEZJTEU6IHVpL3ZuYy1jbGlwYm9hcmQuYzoyNDM6Cit2b2lkIHZuY19jbGllbnRfY3V0
-X3RleHRfZXh0KFZuY1N0YXRlICp2cywgaW50MzJfdCBsZW4sIHVpbnQzMl90IGZsYWdzLCB1aW50
-OF90ICpkYXRhKQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI4OTogRklMRTog
-dWkvdm5jLWNsaXBib2FyZC5jOjI1MjoKKyAgICAgICAgICAgIHFlbXVfY2xpcGJvYXJkX2luZm9f
-bmV3KCZ2cy0+Y2JwZWVyLCBRRU1VX0NMSVBCT0FSRF9TRUxFQ1RJT05fQ0xJUEJPQVJEKTsKCldB
-Uk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMzM6IEZJTEU6IHVpL3ZuYy1jbGlwYm9h
-cmQuYzoyOTY6CisgICAgICAgIHFlbXVfY2xpcGJvYXJkX2luZm9fbmV3KCZ2cy0+Y2JwZWVyLCBR
-RU1VX0NMSVBCT0FSRF9TRUxFQ1RJT05fQ0xJUEJPQVJEKTsKCkVSUk9SOiBsaW5lIG92ZXIgOTAg
-Y2hhcmFjdGVycwojNDIwOiBGSUxFOiB1aS92bmMuYzoyNDMwOgorICAgICAgICAgICAgdm5jX2Ns
-aWVudF9jdXRfdGV4dF9leHQodnMsIGFicyhyZWFkX3MzMihkYXRhLCA0KSksIHJlYWRfdTMyKGRh
-dGEsIDgpLCBkYXRhICsgMTIpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ5
-OTogRklMRTogdWkvdm5jLmg6NjQzOgordm9pZCB2bmNfY2xpZW50X2N1dF90ZXh0X2V4dChWbmNT
-dGF0ZSAqdnMsIGludDMyX3QgbGVuLCB1aW50MzJfdCBmbGFncywgdWludDhfdCAqZGF0YSk7Cgp0
-b3RhbDogMSBlcnJvcnMsIDUgd2FybmluZ3MsIDQ1MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA1Lzcg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjYvNyBDaGVja2luZyBjb21taXQgNjQxMzUzMTM1
-M2I3ICh1aS9ndGs6IG1vdmUgc3RydWN0IEd0a0Rpc3BsYXlTdGF0ZSB0byB1aS9ndGsuaCkKNy83
-IENoZWNraW5nIGNvbW1pdCA1MDlmMGVjNGQ2NDggKHVpL2d0azogYWRkIGNsaXBib2FyZCBzdXBw
-b3J0KQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3Ry
-aW5nIGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojNTI6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
-YXJhY3RlcnMKIzEzNTogRklMRTogdWkvZ3RrLWNsaXBib2FyZC5jOjc5OgorICAgIEd0a0Rpc3Bs
-YXlTdGF0ZSAqZ2QgPSBjb250YWluZXJfb2Yobm90aWZpZXIsIEd0a0Rpc3BsYXlTdGF0ZSwgY2Jw
-ZWVyLnVwZGF0ZSk7Cgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDIzMCBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCA3LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQg
-PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMTgwOTE2NDcuMzIzMzE3
-OC0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgot
-LS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRj
-aGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVk
-aGF0LmNvbQ==
+On Wed, Mar 17, 2021 at 09:29:32PM +0100, Philippe Mathieu-Daudé wrote:
+> Hi,
+> 
+> For some (unclear) reason I got my free tier Gitlab account renewed and
+> lost the privilege for users opening account before the quota limit.
+> 
+> I pushed a single branch to my namespace repo to trigger a pipeline.
+> 1h later I was surprised to see the pipeline was stuck, having completed
+> 99 jobs of 119. Looking closer there is a red comment on top of the
+> pipeline:
+> 
+>  philmd has exceeded its pipeline minutes quota. Unless you buy
+>  additional pipeline minutes, no new jobs or pipelines in its projects
+>  will run. [Buy more Pipelines minutes]
+> 
+> So I exhausted my 400 monthly minutes credit.
+> 
+> From this FAQ:
+> https://about.gitlab.com/pricing/faq-consumption-cicd/#managing-your-cicd-minutes-usage
+> 
+> Q. What happens if I hit the CI/CD Minutes allotted limit and forget to
+> purchase additional CI/CD Minutes?
+> 
+> A. You will not be able to run new jobs until you purchase additional
+> CI/CD Minutes, or until the next month when you receive your monthly
+> allotted CI/CD Minutes.
+> 
+> Q. Will I be notified before I hit my limit on CI/CD Minutes?
+> 
+> A. You will receive notification banners in-app when your group has less
+> than 30%, 5% or exceeded your total allotted CI/CD minutes.
+> 
+> I indeed received 3 warnings in 7 minutes.
+> 
+> Now I'm having serious doubts about Gitlab usefulness for the QEMU
+> community...
+
+Per the discussions in the related Forum postings about CI limites, the
+400 minute limit is still only intended to apply to projects that are
+marked as private.  Public projects are not even being tracked for
+accounting, let alone have a limit enforced. They also said they want
+to make sure they don't impact ability of users to contribute to OSS
+projects hosted on GitLab that require use of CI.
+
+It feels like what you hit here is fallout from your account accidentally
+getting blocked, rather than something which is hitting every contributor
+to QEMU. Did they restore projects as private perhaps ?
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
