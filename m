@@ -2,96 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2053404AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 12:35:12 +0100 (CET)
-Received: from localhost ([::1]:51296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61043404B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 12:35:16 +0100 (CET)
+Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMqvn-0004KC-Tg
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 07:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44672)
+	id 1lMqvr-0004RZ-Rm
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 07:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMqs7-0002ZZ-M8
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:31:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMqs2-0002fv-Fe
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:31:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616067076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+ysM6uPvCTnBFvFlgfILPpEME73b7cXiBO8cNe3ntmI=;
- b=gv0QeJEE6QJ4rN7bESlvRRdPq2gEyTqkaawyXdjTTC9L4YDYfLrvVOkxlcCyxcfPTRoeho
- pQkuf7zzdwtvgVl5VydnnJh+MtoVYT/w/YD47CPrWYGsdsOFZ9FZYZ3rsxTFaWATNpxUMW
- kAx0TNkadwZCI4Mrmz3ugn/CZ4/14v8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-n0zuLgtYNLW47yeJ8y4NWg-1; Thu, 18 Mar 2021 07:31:14 -0400
-X-MC-Unique: n0zuLgtYNLW47yeJ8y4NWg-1
-Received: by mail-wr1-f70.google.com with SMTP id f3so19949386wrt.14
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 04:31:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+ysM6uPvCTnBFvFlgfILPpEME73b7cXiBO8cNe3ntmI=;
- b=pDkUXFmjJ5QT+Js4kvKBHq7MBq+yszCzz1y1diwZWvuTbrYuXL0ixAqycQG/YXNGmt
- IumNB5gzlTt2QrCxuno91eR7oqE6/nx3q0OPeHDzraGdU/BsQSru5Cs/A7696EFUbv2f
- Lb9ih6N1lSj/zToni9zOXK+XSZiRdfV8jOLJw79gUQIeIZ+DFK3lCqBvm7Md9ZqEOmG9
- dUroN8jo+bEsDAhM0uoZBBwdP0GL8JVGgEl81aj9n1MRVdJ31FqCy7SKovHUdIdonxtc
- j/INfX0PbEe0LYpcauGWJdSwsqGylSidcwnSeUpUuOFh1XSeCOHNtf/onqphWcCnzOjm
- HZTw==
-X-Gm-Message-State: AOAM533BTKdupwApzFjtRyg82S3UBwJNBlJf8cktbhA9uIXTsJjw5xUA
- Em4f7xsLFiejTW5mdLiPBdC9HelVhyeWEWfm/6uUeZy0fxdSey2AfwsU3dc9XaamyhRShe5qZGF
- Qee45kxx6zz5m4t8=
-X-Received: by 2002:a5d:538d:: with SMTP id d13mr9349462wrv.92.1616067073628; 
- Thu, 18 Mar 2021 04:31:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBtyXngtfdfe4a3ao469XeAfdS3Vamiu9M9YqQBz3uMFREzDyznGqm9VT169ExwqNnVLyncg==
-X-Received: by 2002:a5d:538d:: with SMTP id d13mr9349439wrv.92.1616067073452; 
- Thu, 18 Mar 2021 04:31:13 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id p17sm1886330wmq.47.2021.03.18.04.31.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Mar 2021 04:31:13 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] target/arm: Restrict v7A TCG cpus to TCG accel
-To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>
-References: <20210221222617.2579610-1-f4bug@amsat.org>
- <20210221222617.2579610-4-f4bug@amsat.org>
- <c395479b-d2e0-a862-3446-4afef601ca1f@suse.de>
- <8a302c84-b69c-b0c2-de45-607dd1f686a6@redhat.com>
- <e0d11b2c-7b1c-c968-feb2-675a8c98c7a4@suse.de>
- <ec296129-2c4d-fd74-d044-50c470e29609@redhat.com>
- <cd4caf9d-c32c-25fd-a27f-d352ece74ed3@redhat.com>
- <CAFEAcA8YybFf1=wQ7-scC2JnQEHr9nx0LBvt16dTBOXV0KuMAg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <28540fd5-3bd3-30d7-624d-da21d0f39806@redhat.com>
-Date: Thu, 18 Mar 2021 12:31:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lMqtL-0003CR-AV; Thu, 18 Mar 2021 07:32:39 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38016)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lMqtG-0003JG-Ie; Thu, 18 Mar 2021 07:32:39 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BB65AAC1E;
+ Thu, 18 Mar 2021 11:32:31 +0000 (UTC)
+Subject: Re: arm_cpu_post_init (Was: Re: arm: "max" CPU class hierarchy
+ changes possible?)
+From: Claudio Fontana <cfontana@suse.de>
+To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
+ <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
+ <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
+ <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
+ <CAFEAcA_j-0+vmNFtPjcxEXC9r4bFrebDfGjq-x1SfguzUG4qcw@mail.gmail.com>
+ <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
+ <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
+Message-ID: <c3397f29-82eb-5a1b-803d-8184c9a8d508@suse.de>
+Date: Thu, 18 Mar 2021 12:32:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8YybFf1=wQ7-scC2JnQEHr9nx0LBvt16dTBOXV0KuMAg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,52 +61,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/21 12:21 PM, Peter Maydell wrote:
-> On Thu, 18 Mar 2021 at 11:09, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->> Still, I'm not sure it makes sense. If you want to migrate a such
->> machine, KVM can not virtualize it, so you'll be forced to use TCG
->> right? In that case cpu_tcg is built in and you have the A15.
+On 3/18/21 12:06 PM, Claudio Fontana wrote:
+> On 3/11/21 8:10 PM, Andrew Jones wrote:
+>> On Thu, Mar 11, 2021 at 06:33:15PM +0000, Peter Maydell wrote:
+>>> On Thu, 11 Mar 2021 at 17:16, Claudio Fontana <cfontana@suse.de> wrote:
+>>>> Maybe Peter you could clarify similarly what the intended meaning of "max" is on ARM?
+>>>
+>>> "max" is "best we can do, whatever that is". (On KVM this is "same as
+>>> the host".)
+>>> "host" is "whatever the host is (KVM only)".
+>>>
+>>>> KVM: (aarch64-only): aarch64_max_initfn():
+>>>>
+>>>> The following comment in the code seems wrong to me:
+>>>>
+>>>> /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host); */
+>>>>
+>>>> This is not exactly true:
+>>>>
+>>>> "-cpu max" calls kvm_arm_set_cpu_features_from_host(), (which checks "dtb_compatible", and if not set gets the features from the host, if set ...?)
+>>>> After that, calls aarch64_add_sve_properties() and then adds also "svw-max-vq". This code is common with TCG.
+> 
+> 
+> As part of this research I noticed that arm_cpu_post_init() is quite confusing, seems really inconsistent to me.
+> 
+> Apparently the intention was to call it from the leaf classes:
+> 
+> commit 51e5ef459eca045d7e8afe880ee60190f0b75b26
+> Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Date:   Tue Nov 27 12:55:59 2018 +0400
+> 
+>     arm: replace instance_post_init()
+>     
+>     Replace arm_cpu_post_init() instance callback by calling it from leaf
+>     classes, to avoid potential ordering issue with other post_init callbacks.
+>     
+>     Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>     Suggested-by: Igor Mammedov <imammedo@redhat.com>
+>     Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>     Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
+> 
+> but then we end up calling it multiple times in the class hierarch, which is a recipe for bugs, and makes it difficult to understand what arm_cpu_post_init()
+> even means, what calling this function is supposed to do.
+> 
+> For a "max" or "host" cpu on AArch64, this function is called:
+> 
+> for the ARM CPU base class, TYPE_ARM_CPU, in
+> 
+> cpu.c::arm_cpu_instance_init,
+> 
+> then later again for the TYPE_AARCH64_CPU class, child of TYPE_ARM_CPU, in
+> 
+> cpu64.c::aarch64_cpu_instance_init,
+> 
+> then later again for the TYPE_ARM_HOST_CPU class, child of TYPE_AARCH64_CPU, in
+> 
+> cpu.c::arm_host_initfn.
+> 
+> Same for "max".
+> 
+> When looking at 32bit CPUs instead, only the ARM CPU base class ends up calling arm_cpu_post_init.
+> "Leaf" classes do not do it (see cpu_tcg.c).
+> 
+> What is then arm_cpu_post_init even supposed to mean?
+
+
+And why do we have a separate arm_cpu_finalize_features()?
+
+Nothing in the ARM cpu classes initializations ever seems to be "final" to me.
+
+
+
+> 
+> Thanks,
+> 
+> Claudio
+> 
+> 
+>>>>
+>>>> In the case of cpu host instead,
+>>>>
+>>>> "-cpu host" calls kvm_arm_set_cpu_features_from_host(), same as max, then calls aarch64_add_sve_properties() but does NOT add "svw-max-vq".
+>>>>
+>>>> Is this a bug?
 >>
->> IOW the problem is not this patch, it is that since 82bf7ae84ce we
->> can not migrate A15.
+>> It was left out intentionally. More below.
+>>
+>>>
+>>> Maybe; that's a question for Richard or Drew...
+>>>
+>>>> Are "max" and "host" for KVM supposed to be the same like with x86?
+>>
+>> Yes, but my understanding of "max" == "host" for KVM is that that only
+>> applies to the perspective of the guest. What CPU and what CPU features
+>> the guest can see should be exactly the same with either "max" or "host",
+>> depending on the enabling/disabling of any optional CPU properties.
+>>
+>> The question here seems to be that, if one has a CPU property, does that
+>> imply the other should have the same? Which would effectively allow the
+>> two to be aliases (when KVM is enabled). I don't know, does x86 ensure
+>> 100% property compatibility?
+>>
+>> I opted not to support sve-max-vq for "host" because I consider it a
+>> legacy CPU property, one I didn't want to propagate. Indeed it may
+>> make more sense to depreciate sve-max-vq than to "fix" this issue
+>> by adding it to "host". Note, we can already create equivalent SVE
+>> CPUs. The following are the same from the perspective of the guest
+>>
+>>  -accel kvm -cpu host,sve512=on
+>>  -accel kvm -cpu max,sve512=on
+>>
+>> And, for TCG, these are the same from the perspective of the guest
+>>  
+>>  -accel tcg -cpu max,sve512=on
+>>  -accel tcg -cpu max,sve-max-vq=4
+>>
+>> So we already don't need sve-max-vq.
+>>
+>> Thanks,
+>> drew
+>>
 > 
-> Do you mean "we can't migrate a TCG A15" ? That would be a problem.
-
-No problem here.
-
-> Or do you mean "we can't migrate a KVM A15" ? That's entirely
-> expected when we drop support for KVM A15 :-)
-
-Yes, this is why I mentioned this is mostly a problem for downstream
-distributions.
-
-> Or do you mean "migration from KVM to TCG doesn't work?" That's
-> a pre-existing thing I don't expect to work (we don't put anything
-> in to stop it working, but I'm pretty sure there will be a bunch
-> of things that mean it doesn't in practice work.)
-> 
->> So we need both 1/ revert 82bf7ae84ce and 2/ be sure the kernel
->> support 32-bit host... Am I missing something?
-> 
-> We're definitely not reverting 82bf7ae84ce if we can avoid it...
-
-I tend to agree. The problem is for the running VMs started before
-82bf7ae84ce (so up to any fork based on v5.2). I don't know what
-the forks are supposed to do with the running VMs if they want to
-migrate them to newer QEMU (or upgrade the host QEMU).
-
-I don't expect a guest being happy and reliable if we underneath
-change its CPU by another one while migrating it...
-
-KVM to TCG is not tested much indeed, and I don't think the performance
-impact will be well accepted :)
 
 
