@@ -2,79 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD19340C77
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 19:07:51 +0100 (CET)
-Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82E3340CEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 19:27:55 +0100 (CET)
+Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMx3m-0003FP-9L
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 14:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
+	id 1lMxNC-0001ZM-St
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 14:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lMwo3-00007e-OF
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:51:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lMwnx-0000wv-Ov
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:51:34 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lMwqs-0002t0-80
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:54:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48397)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lMwqq-0002Sc-8G
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 13:54:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616089883;
+ s=mimecast20190719; t=1616090067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZLrySQOLEYLsKV5NF3SpeTIN8SG+7u9DfeWiXT/JzVw=;
- b=gsyOPPcyxMGAY+U5YDsHH6Wpq+QT1nnLeKk5wLw9J42ZwczuHFt0jCM+j4uh4Ev1b4wWY8
- bIbakYtTFcXO5TqGVFSpx0Jy2l5MFl8r21kjsM9ZpZUH2qrlywYd2L5U+Q5EaK7EPPneqf
- ahCuiWZgnUBQeqwWMtmjeozuyJvOJZM=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-NRLoKaLbPS20NXaE0XX2Qw-1; Thu, 18 Mar 2021 13:51:21 -0400
-X-MC-Unique: NRLoKaLbPS20NXaE0XX2Qw-1
-Received: by mail-vk1-f199.google.com with SMTP id s69so12505972vkd.20
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 10:51:21 -0700 (PDT)
+ bh=b2W4/MjWk4Gmbs7nm3MR0IPcF5vlRYdWNQ3T4yVcCUI=;
+ b=dmIKa775yRg8NMkBrGvTGxJREIATgPP4vc36TGEdBwHMNdWRxb/d9rHRoVddkQSGBcsArr
+ 5orXLN2zpZ18E1/l+0GdAhOKSuEOTaBMONz+/Ct9Tcj+wjmwQB80E1ER8JmLsUdVSxyNaE
+ av/7P871QN41cjZUDnS9N5vbg+JAgrU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-fsT_xO-FNUuaU27PfGIB0w-1; Thu, 18 Mar 2021 13:54:25 -0400
+X-MC-Unique: fsT_xO-FNUuaU27PfGIB0w-1
+Received: by mail-wr1-f72.google.com with SMTP id r12so20500187wro.15
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 10:54:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZLrySQOLEYLsKV5NF3SpeTIN8SG+7u9DfeWiXT/JzVw=;
- b=sxNRP+mhwRVHYz0gU5LqtCreNAzqKmYwI7p4Xhc87Uf6j1F4KxiItBS1b11zux5nxH
- uf2Bkq8/xaNaQ6MTpcitnXpO3IKi4yOc9fqizo1lUE27i7FHoZbUzjonw1F9d/orK+Xx
- ls/KYV6RzTNrFMUBFKYyoOrWLZ+G5LnXJI3wRD7Bhpbx6MWDU8k0ylQf3K6xl9lx0odB
- OHE7/cJ1hbx4w0pwePEplJx5oMMfdktLJi7rpJIi8C7tpRIDhZLmlaso/L580XOOp4M8
- jveR66rfLoqz10x/h+9ptA9W3l9PL0Y6op9xPhuw5rQNhsksY1+371ZE/yhdHK7jcF0v
- R+zQ==
-X-Gm-Message-State: AOAM531bd1v+fhkKASthbqOz6Xc0JqXK+OagfqALATJp7XgZFIRtts1c
- EKOI7Y06GZTU8tgGqIUnc3XC8P+CqDpH2x67SUycN/Qld6SB8A7cfUgoYzZ/BlBCMJNAdI5zlRX
- 22nYrZjXPQMOgpBg05a0lQfzypG3af8A=
-X-Received: by 2002:ab0:3388:: with SMTP id y8mr3234897uap.113.1616089881407; 
- Thu, 18 Mar 2021 10:51:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymxKozgua9JvqoRC7ToVgSa0jsjSFBqWJwyaXI+R0324dOPpjcRqcHScg0LpCwfo7UYt1Sql1q4UmDTfxpKLE=
-X-Received: by 2002:ab0:3388:: with SMTP id y8mr3234886uap.113.1616089881224; 
- Thu, 18 Mar 2021 10:51:21 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=b2W4/MjWk4Gmbs7nm3MR0IPcF5vlRYdWNQ3T4yVcCUI=;
+ b=qHP+TTAdS03RGb3k2vSL1Vl8Ppf9JZ0XuBgEGTzwtAuhoN9bg5zv5DQFHJVNCvBdhl
+ gSxsuRBEj2qaSnCDmz4Na/qlWU3VxNPdYGSd20hRSCdmjm3roq2JSiJeIFyaBCRHUnhL
+ pHlNR0Cpr0ETvOZaxYpu91laUi+lfAyodZlEz41P235ZvgHqjCm9HqPwXP2SCQcazEuu
+ SuOCzBLo5M+/w2DT+kbsAgTD6zl7ZCxCpou1HBXri3spYBgJNEDE9IwMj5EU8gaSQVBr
+ UEUQcELom1T+wWCOYig37lvx19hVt9pzTIaLTCnbhd6IxBTHwxya7wdXgSCwCdp14GaK
+ gbVA==
+X-Gm-Message-State: AOAM532g7Cpi3kdCT7JCca0XxWOAvo4F/23/8eij6kj9OV2bldo6PSlh
+ Qrya3atSsL7jwaoFnlD8Dsks7CbCd3Q+YdNTiI9elliS+3ARjSRzRsNb2g+scwFSEx46zN+ocFH
+ 52EOF1s5NIwOH/sM=
+X-Received: by 2002:a05:600c:21d4:: with SMTP id
+ x20mr353288wmj.58.1616090064198; 
+ Thu, 18 Mar 2021 10:54:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhvlczBKW22FfkDUFt6Hf/m1y9XH7oCDYoUvhfIa3FSDPP+SYAsRNM9FSOa9QBux06rZlEmQ==
+X-Received: by 2002:a05:600c:21d4:: with SMTP id
+ x20mr353272wmj.58.1616090064039; 
+ Thu, 18 Mar 2021 10:54:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v13sm4371104wrt.45.2021.03.18.10.54.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 10:54:23 -0700 (PDT)
+Subject: Re: KVM_MEM_READONLY slot flag not working properly
+To: Lorenzo Susini <susinilorenzo1@gmail.com>
+References: <CAHFRQs1GuB+8tw+SDK11LOLXF4H6z+6+ZbQMTABXNK3gj7vffA@mail.gmail.com>
+ <f05ce059-0802-404f-e2df-f8a7ddfc43c5@redhat.com>
+ <a82e8771-913c-8dc4-03cf-c6148db1e15d@redhat.com>
+ <CAHFRQs1TM_j4OYMQiqqf5fAAvFPkeaV+OF2FWm=r9jHPtkyB-Q@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0064fa7f-83cd-93ec-e4ec-9ef190cf7cef@redhat.com>
+Date: Thu, 18 Mar 2021 18:54:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210318174407.2299930-1-wainersm@redhat.com>
-In-Reply-To: <20210318174407.2299930-1-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 18 Mar 2021 14:50:55 -0300
-Message-ID: <CAKJDGDZeADLuQs-h4rqsgoLSohriJCv2VkUE2xoOOW2Je3PQwA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/devel/testing.rst: Fix references to unit tests
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+In-Reply-To: <CAHFRQs1TM_j4OYMQiqqf5fAAvFPkeaV+OF2FWm=r9jHPtkyB-Q@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,31 +104,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Laszlo Ersek <lersek@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 18, 2021 at 2:49 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> With the recent move of the unit tests to tests/unit directory some
-> instructions under the "Unit tests" section became imprecise, which
-> are fixed by this change.
->
-> Fixes: da668aa15b99 ("tests: Move unit tests into a separate directory")
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> ---
-> v1->v2:
->  * Fixed typo on subject [jsnow]
->  * Replaced Related-to with Fixes [jsnow]
->
->  docs/devel/testing.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
+On 18/03/21 18:40, Lorenzo Susini wrote:
+> Well I'm sorry but I didn't know IDT was marked as read only by
+> Linux. If it is read only, how can you register any new interrupt
+> handler? I guess it's a way of securing stuff against malicious
+> attacks. I was taking for granted that the IDT was written when
+> registering a new irq handler, given that when an interrupt is
+> raised, the new specified handler has to be called and its address
+> should be retrieved in some way, that is by storing it in the IDT.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+There's a list of handlers for each IDT entry.  This is because the  IDT 
+entrypoint has to do more stuff before and after calling the function 
+(and also it has to return with IRET instead of RET).  So the IDT entry 
+does not point directly to the function that you register.
+
+(Also some interrupts may be shared by multiple devices, in which case 
+you can have more than one handler).
+
+> I'm sorry, I'm a student and I'm trying to understand things, Thank
+> you, Lorenzo
+
+No problem. :)
+
+Paolo
 
 
