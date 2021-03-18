@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CD1340511
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:01:34 +0100 (CET)
-Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC5F340526
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:07:53 +0100 (CET)
+Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMrLG-00076a-1D
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:01:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
+	id 1lMrRQ-00029m-43
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lMrJ9-0006Xa-9y
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:59:19 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:36275)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lMrKM-0007Mw-7F; Thu, 18 Mar 2021 08:00:34 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lMrJ7-00024C-4R
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:59:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=FVNGMxw1Tu/ULPujLuXi4JIfnYLOLclI5Uy/fyQzbQo=; b=P1N1JMy4JcgwxiBIzw2XDOV80y
- A9esKRmwwbaLQdFVNiBefUYR6kNiwask4eGVHk9U/E9UwVLjyX9IwOdPTVSwZoO11NuC4GftfGMf4
- +LmVKMGMOKGHLts4awWHocsalKgD+bZ6tNJHz96fIUNmYLqXWdSws3GTNXCUxEFL1PbhrocNtWkmj
- udXL2WuENOAqgYjU9+1/tPBOfACYVXAtDvxZTqm5X85pGGD+nh/ljBUvrajppS6TxeC2j7lwWPbkX
- a8iJ/d2JdRw+P0ZhX5FRDY7LRrXoQsQEfZSSxEiqyY55x4cloGL72T25RXgQZsmtr4rq4zzuk9CBZ
- mVibXmekJS5jzV3lOVxUdeKtoq/tL3m5n5rXBIwzrRN2kX3UVpk73CvzEeqwOXCTW6Q56u8sbcVX0
- yVoSwWoGMdIKDhRaPZsJRdYrKWnbVuAQrK4zKw+VVOJNQxhksPgxsTBiGE47cxhA51ARXyKD1cBZo
- 78JrS1Z2/WvjH21/IZa0AKVnrATuoLU9KvjtclPSsxgfAajvwYIhMVBCFREofH1wkR40jb3a8o4he
- hU/CHaI1ErtHqo2d28bX32fynavSR8qtGF3drQOaUX/IbywdnhoClCyotH5cModT2GUF+sefBJQ7e
- GdGdBsRhbsG+DRt47R5AieJjZZDLoJ+f4Rt0hYgk0=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Xie Yongji <xieyongji@bytedance.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
- reconnection
-Date: Thu, 18 Mar 2021 12:58:46 +0100
-Message-ID: <1711593.yAA9ihpmTb@silver>
-In-Reply-To: <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
- <1709993.NBFj2RoZ23@silver>
- <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lMrKK-0002rt-9R; Thu, 18 Mar 2021 08:00:33 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 57D5B5C015A;
+ Thu, 18 Mar 2021 08:00:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 18 Mar 2021 08:00:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=2u5FhNOMTz4bVYJ8N/i1iQNShfY
+ YxTfuFizA/oGYjR4=; b=opZSqJ2W2Vn8iZW+nCqXdBN2xO8Rebznsdil5SWSyct
+ xZc//CzM17g4JXrG+sXVLEMKM7S581+M+JF9+Dk3fqLzdeuaiy9qtyi5YVbNkbs3
+ NDzNAxp5btfP8UTWWDcIgfMuKCA3b7R358QPKPGp8DX6A99LGUwwdYU5xsAbI2c3
+ 1Cjg78blAShcjzTbB4+85yUlf4VfZK0OLJBZM+aQyCpIYYbk5Ai7AJmkXE5Slx+g
+ neBVZRfG1H9BAvvjDq1TXjUUVviS6aGfiO9Hv6TPf9RoxgrkQ1XjBE93h5AdHlA+
+ J8gpCm+zA9FsfHHSzd89eBOTAJUE3DXFN/M2s9exveA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2u5FhN
+ OMTz4bVYJ8N/i1iQNShfYYxTfuFizA/oGYjR4=; b=ECNOmjqTCDDGGUpfHU4sZ8
+ fe1cIhPKu8DI7UA2Z69EAu8Daar9P2GzaOX3ilwRBu5FCtHbOv1i2ghO/q3QRIIw
+ vZzAdJcuv7vTtVLV8FIMX23LSQ4QEX5t/bemDiyxqoPZjIVdrU+IBcKTnj4USlgb
+ lf7cJP1shF/mprCanBRWaT/3DVOhvwSQsSH2AvD9/tDNbjM2v8Iqer52YS8SxJAc
+ D7PYgIg8/FaVLuNPf6KvubIGL1Y6vELmpYEr/xhNFz5L+FLDSSIJl7YcPcJ3CdNe
+ 2V5MtVV6jpzxc1oQS4+Tt7XvMwOeAZ1CxVR0DKt2zwGeTt8RJTtoICkIgDTGZTcQ
+ ==
+X-ME-Sender: <xms:3UBTYFqEJQjr7VKhmTnPPJj-geFcVsHN6otBLrNIwVBIm34sT1pIAA>
+ <xme:3UBTYDUGfUgfBBtNHd1vZ9_nmqznJZOIiY70ynjK10AJdcFSHbOvs2gmTHWkecTDz
+ o3aZJPhoGPCt5teyKA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefiedgfeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpedutdehleelvdetvdefueehgeevhfejueeliefhudfhiefffffhuddtkeekieek
+ feenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucfkphepkedtrdduieejrd
+ elkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+ ohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:3UBTYM6b83sm_VA_GDN0UkA_ZJaVAw8XfPmBslyH34kRpH2_5TTtUQ>
+ <xmx:3UBTYB2yxrhcoKOXThbV4raH3l941DBLW6ZOr2b9LvtyCHDbPu-JGw>
+ <xmx:3UBTYD8kGdJcqIEGIDz_T8JXNOnoTRXzWQdy08AIg3XfK05XyZjCaw>
+ <xmx:30BTYNVsy44O5LB18L7l_VOeJiiS3DH71X4QTC_kjfjOSwq4T6J8iw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 494E0240066;
+ Thu, 18 Mar 2021 08:00:28 -0400 (EDT)
+Date: Thu, 18 Mar 2021 13:00:26 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/11] emulated nvme updates and fixes
+Message-ID: <YFNA2qbDw9lJhXvE@apples.localdomain>
+References: <20210318115757.58923-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Z3DX2YwXwH2TZiuL"
+Content-Disposition: inline
+In-Reply-To: <20210318115757.58923-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,87 +94,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 17. M=E4rz 2021 13:57:47 CET Jiachen Zhang wrote:
-> On Wed, Mar 17, 2021 at 7:50 PM Christian Schoenebeck <
+
+--Z3DX2YwXwH2TZiuL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mar 18 12:57, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 >=20
-> qemu_oss@crudebyte.com> wrote:
-> > On Mittwoch, 17. M=E4rz 2021 11:05:32 CET Stefan Hajnoczi wrote:
-> > > On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
-> > > > Thanks for the suggestions. Actually, we choose to save all state
-> > > > information to QEMU because a virtiofsd has the same lifecycle as i=
-ts
-> > > > QEMU master. However, saving things to a file do avoid communication
-> >=20
-> > with
-> >=20
-> > > > QEMU, and we no longer need to increase the complexity of vhost-user
-> > > > protocol. The suggestion to save fds to the systemd is also very
-> > > > reasonable
-> > > > if we don't consider the lifecycle issues, we will try it.
-> > >=20
-> > > Hi,
-> > > We recently discussed crash recovery in the virtio-fs bi-weekly call =
-and
-> > > I read some of this email thread because it's a topic I'm interested =
-in.
-> >=20
-> > I just had a quick fly over the patches so far. Shouldn't there be some
-> > kind
-> > of constraint for an automatic reconnection feature after a crash to
-> > prevent
-> > this being exploited by ROP brute force attacks?
-> >=20
-> > E.g. adding some (maybe continuously increasing) delay and/or limiting =
-the
-> > amount of reconnects within a certain time frame would come to my mind.
-> >=20
-> > Best regards,
-> > Christian Schoenebeck
+> Hi Peter,
 >=20
-> Thanks, Christian. I am still trying to figure out the details of the ROP
-> attacks.
+> The following changes since commit b12498fc575f2ad30f09fe78badc7fef526e2d=
+76:
 >=20
-> However, QEMU's vhost-user reconnection is based on chardev socket
-> reconnection. The socket reconnection can be enabled by the "--chardev
-> socket,...,reconnect=3DN" in QEMU command options, in which N means QEMU =
-will
-> try to connect the disconnected socket every N seconds. We can increase N
-> to increase the reconnect delay. If we want to change the reconnect delay
-> dynamically, I think we should change the chardev socket reconnection cod=
-e.
-> It is a more generic mechanism than vhost-user-fs and vhost-user backend.
+>   Merge remote-tracking branch 'remotes/vivier/tags/q800-for-6.0-pull-req=
+uest' into staging (2021-03-18 10:05:37 +0000)
 >=20
-> By the way, I also considered the socket reconnection delay time in the
-> performance aspect. As the reconnection delay increase, if an application
-> in the guest is doing I/Os, it will suffer larger tail latency. And for
-> now, the smallest delay is 1 second, which is rather large for
-> high-performance virtual I/O devices today. I think maybe a more performa=
-nt
-> and safer reconnect delay adjustment mechanism should be considered in the
-> future. What are your thoughts?
+> are available in the Git repository at:
+>=20
+>   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
+>=20
+> for you to fetch changes up to dc04d25e2f3f7e26f7f97b860992076b5f04afdb:
+>=20
+>   hw/block/nvme: add support for the format nvm command (2021-03-18 12:41=
+:43 +0100)
+>=20
+> ----------------------------------------------------------------
+> emulated nvme updates and fixes
+>=20
+> * fixes for Coverity CID 1450756, 1450757 and 1450758 (me)
+> * fix for a bug in zone management receive (me)
+> * metadata and end-to-end data protection support (me & Gollu Appalanaidu)
+> * verify support (Gollu Appalanaidu)
+> * multiple lba formats and format nvm support (Minwoo Im)
+>=20
+> and a couple of misc refactorings from me.
+>=20
+> v2:
+>   - remove an unintended submodule update. Argh.
+>=20
+> ----------------------------------------------------------------
+>=20
+> Gollu Appalanaidu (1):
+>   hw/block/nvme: add verify command
+>=20
+> Klaus Jensen (8):
+>   hw/block/nvme: fix potential overflow
+>   hw/block/nvme: assert namespaces array indices
+>   hw/block/nvme: fix zone management receive reporting too many zones
+>   hw/block/nvme: add metadata support
+>   hw/block/nvme: end-to-end data protection
+>   hw/block/nvme: add non-mdts command size limit for verify
+>   hw/block/nvme: prefer runtime helpers instead of device parameters
+>   hw/block/nvme: pull lba format initialization
+>=20
+> Minwoo Im (2):
+>   hw/block/nvme: support multiple lba formats
+>   hw/block/nvme: add support for the format nvm command
+>=20
+>  hw/block/nvme-dif.h    |   53 ++
+>  hw/block/nvme-ns.h     |   50 +-
+>  hw/block/nvme-subsys.h |    2 +
+>  hw/block/nvme.h        |   44 +-
+>  include/block/nvme.h   |   29 +-
+>  hw/block/nvme-dif.c    |  508 ++++++++++++++++
+>  hw/block/nvme-ns.c     |  124 +++-
+>  hw/block/nvme-subsys.c |    7 +-
+>  hw/block/nvme.c        | 1257 ++++++++++++++++++++++++++++++++++++----
+>  hw/block/meson.build   |    2 +-
+>  hw/block/trace-events  |   22 +-
+>  11 files changed, 1939 insertions(+), 159 deletions(-)
+>  create mode 100644 hw/block/nvme-dif.h
+>  create mode 100644 hw/block/nvme-dif.c
+>=20
+> --=20
+> 2.30.1
+>=20
 
-So with N=3D1 an attacker could e.g. bypass a 16-bit PAC by brute-force in =
-~18=20
-hours (e.g. on Arm if PAC + MTE was enabled). With 24-bit PAC (no MTE) it=20
-would be ~194 days. Independent of what architecture and defend mechanism i=
-s=20
-used, there is always the possibility though that some kind of side channel=
-=20
-attack exists that might require a much lower amount of attempts. So in an=
-=20
-untrusted environment I would personally limit the amount of automatic=20
-reconnects and rather accept a down time for further investigation if a=20
-suspicious high amount of crashes happened.
+Following a convention I've seen on the list, I'm only re-sending the
+cover letter since there are no changes to any of the patches, only the
+tag.
 
-And yes, if a dynamic delay scheme was deployed in future then starting wit=
-h a=20
-value smaller than 1 second would make sense.
+--Z3DX2YwXwH2TZiuL
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
-Christian Schoenebeck
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBTQNkACgkQTeGvMW1P
+DemSoQf/U1Z1eTurKpV7ydayXGa6ZXjR7EPpVjr9ywVDLkTCT/B3DKZ1ZcrMO+iF
+BWGfA4/nqJfgOl1A8BlsWgYFX3wA3MNPIabhZwH7IM93rDUuyqQPdvUYCao33kw8
+cl4PhOhx2YiwizryD3CjQd7C5PxV02CgYM7Ivh4J1wlJM8W3J7oXrXGHb96QR979
+3bekCddveZ976YfhiuAu97Mcyk4GvDwtRI29hfCC7kn1jawI/Qm9gNjc1/bRDBCg
++3fV1Y7PLbEWwhMm5CKeJygGKppaGXKzng1asKvNd6vwSIiKA3J87pCrGTUKwcI5
+cL3I+N8Dj6Dj3pklfytSQImd2hvtOg==
+=zqYf
+-----END PGP SIGNATURE-----
 
+--Z3DX2YwXwH2TZiuL--
 
