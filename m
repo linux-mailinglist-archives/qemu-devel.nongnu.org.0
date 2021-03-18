@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4ACE340F62
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 21:49:06 +0100 (CET)
-Received: from localhost ([::1]:48748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F306340F69
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 21:54:25 +0100 (CET)
+Received: from localhost ([::1]:51538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMzZp-00047n-Co
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 16:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56742)
+	id 1lMzey-0005b5-9P
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 16:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMzXs-0003Qg-Jx
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:47:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lMzXp-0002pZ-3M
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:47:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616100419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z1k+BGkZdITeWXGqrY9iyhuq2RV95UjrN2ntKR6haLI=;
- b=TXD6R3lJ1+6JlNn0wYXsZ6rQsfahYvFIuRqu5PBqcd31DMrcbz6jZcmzk0ClPjqOI0IP+L
- TqVj0IKYD2KJXUcXZxoJ8DK+GMJldODoQV50bsqtWqZ9Fk2VKHR87ozVUOXKoIgchvykVl
- AzjvFwe5G26UTLlT3QN9v9MRtuD4hP8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-owbzKqv4Pz25Af75YqtwMg-1; Thu, 18 Mar 2021 16:46:55 -0400
-X-MC-Unique: owbzKqv4Pz25Af75YqtwMg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46B6E801596;
- Thu, 18 Mar 2021 20:46:53 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDDB75C1D1;
- Thu, 18 Mar 2021 20:46:30 +0000 (UTC)
-Subject: Re: [RFC v5 1/6] qmp: add QMP command x-debug-query-virtio
-To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org
-References: <1616084984-11263-1-git-send-email-jonah.palmer@oracle.com>
- <1616084984-11263-2-git-send-email-jonah.palmer@oracle.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <9d9c53a2-8fa1-f8f8-0ae8-59eff979cffe@redhat.com>
-Date: Thu, 18 Mar 2021 15:46:25 -0500
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMzdj-0004z0-SF
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:53:07 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51026)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lMzdi-0005UT-I6
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 16:53:07 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id g25so4384434wmh.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 13:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=K4nAcrGof4a5sdUxEtzWRu7RL3H2rpDVz2eBkROTnyo=;
+ b=W+JBBrURmOOSD/u+UAPquAI8AZrjTCPDaeis37KV0yv3Ck/XB9lR9/UDO09Nt2W4nI
+ ZhuFPkEvrZlDxLTbPjxpjkJjNUnPd0aRuxRd5WWBQ1/amvGWJXX9BD8UY16sKAjRvA0w
+ 6OHv7UWEFSvQuJD/Wdh9iPezH/Zxtx87g6HJdPVDfTmWsGy7+OSMlFI7Onu4sfWJfx9R
+ F5S/JWX15zzYxKMGnDD/0+NX1FoEvkhzZSdTcRy/jnMQcL4TZE6gIoydGbYaIkReWVPG
+ Tyd4I1ScCe7yha5lLQMC0DsayFDwlD2PQ/tLW54QCiH+mhWkqnZtO3Y8krG+qo8u1zuf
+ Pbmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=K4nAcrGof4a5sdUxEtzWRu7RL3H2rpDVz2eBkROTnyo=;
+ b=cZwg3kifdT1OlTDcGWJsuuDc3awOoHlC8bM96BM8MHgTuw/fnCjPckxKdNwTA1oFxc
+ IK7q13OqqxqU2tnhRAfdZwYD4YyEIEZN1pDEvmvTZ4Io4mGTjDUcA/4CMlPgpOrBtepq
+ fK0aHmmchhBKg5fWeSUt7W/HQarEPKORmHN7WY0pt1L1dVJAEG0GUMIUsDjjJNcqQY5G
+ ybDfroHTQ119AzIvZRXclqHdJuSTY3U0n++aoFafWM+RBSwCYvgjUSbIFa0CfjlmFf3a
+ PpkzxHostzOIEsznaBYuUvCnwyS60mJhp9XrVUZwaL4AKHl331/b1GPyPXAhXB0s7hiL
+ w+ZQ==
+X-Gm-Message-State: AOAM533Yb1n7++c2zBNjxTVry7lqcpMiqdPioFwlcX1DGflcPzSBGQ8f
+ qrRM9ybv15r9LstukWOEWuQ=
+X-Google-Smtp-Source: ABdhPJzITIF7YBs5BdBzpiDZ+rCxLtv/W9uKhnsTj8vusLb8IJQifZ8ZwJBnayPOrw67VxfuC39V2w==
+X-Received: by 2002:a1c:1f4a:: with SMTP id f71mr831380wmf.101.1616100784816; 
+ Thu, 18 Mar 2021 13:53:04 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id c6sm4300364wri.32.2021.03.18.13.53.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 13:53:04 -0700 (PDT)
+Subject: Re: Serious doubts about Gitlab CI
+To: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+ <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
+ <a4bf6d0c-e66d-1b57-edfe-b02c71c629da@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <acd9b21c-a03e-5839-4f9c-18418e37ec3b@amsat.org>
+Date: Thu, 18 Mar 2021 21:53:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <1616084984-11263-2-git-send-email-jonah.palmer@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <a4bf6d0c-e66d-1b57-edfe-b02c71c629da@redhat.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,121 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
- mst@redhat.com, michael.roth@amd.com, jasowang@redhat.com, david@redhat.com,
- armbru@redhat.com, amit@kernel.org, dgilbert@redhat.com, eric.auger@redhat.com,
- dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, si-wei.liu@oracle.com, marcandre.lureau@redhat.com,
- joao.m.martins@oracle.com, mreitz@redhat.com, laurent@vivier.eu
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/21 11:29 AM, Jonah Palmer wrote:
-> From: Laurent Vivier <lvivier@redhat.com>
+On 3/18/21 8:52 PM, John Snow wrote:
+> On 3/18/21 3:46 PM, Stefan Hajnoczi wrote:
+>> On Wed, Mar 17, 2021 at 09:29:32PM +0100, Philippe Mathieu-Daudé wrote:
+>>> Now I'm having serious doubts about Gitlab usefulness for the QEMU
+>>> community...
+>>
+>> The QEMU Project has 50,000 minutes of GitLab CI quota. Let's enable
+>> GitLab Merge Requests so that anyone can submit a merge request and get
+>> CI coverage.
+>>
 > 
-> This new command lists all the instances of VirtIODevice with
-> their path and virtio type
+> How does this workflow work?
 > 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-> ---
+> I push to my branch, I submit a MR, CI runs?
+> 
+> I suppose there must be a way for me to disable a CI run on my branch if
+> I intend to trigger it via a MR, to avoid eating minutes twice.
+I use that alias in ~/.gitconfig:
 
-We've missed soft freeze for 6.0, and this feels like a new feature;
-therefore...
+[alias]
+    skip-ci-push = push --push-option=ci.skip
 
-> +++ b/hw/virtio/virtio.c
+Then:
 
->  
-> +VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
-> +{
-> +    VirtioInfoList *list = NULL;
-> +    VirtioInfoList *node;
-> +    VirtIODevice *vdev;
-> +
-> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
-> +        DeviceState *dev = DEVICE(vdev);
-> +        node = g_new0(VirtioInfoList, 1);
-> +        node->value = g_new(VirtioInfo, 1);
-> +        node->value->path = g_strdup(dev->canonical_path);
-> +        node->value->type = qapi_enum_parse(&VirtioType_lookup, vdev->name,
-> +                                            VIRTIO_TYPE_UNKNOWN, NULL);
-> +        node->next = list;
-> +        list = node;
-
-This should be updated to use QAPI_LIST_PREPEND rather than open coding.
-
-> +    }
-> +
-> +    return list;
-> +}
-> +
->  static const TypeInfo virtio_device_info = {
->      .name = TYPE_VIRTIO_DEVICE,
->      .parent = TYPE_DEVICE,
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index b7ece7a..2470e09 100644
-> --- a/include/hw/virtio/virtio.h
-
-> +++ b/qapi/virtio.json
-> @@ -0,0 +1,68 @@
-> +##
-> +# = Virtio devices
-> +##
-> +
-> +##
-> +# @VirtioType:
-> +#
-> +# An enumeration of Virtio device types.
-> +#
-> +# Since: 6.0
-
-...this now needs to reference 6.1.
-
-> +##
-> +{ 'enum': 'VirtioType',
-> +  'data': [ 'unknown', 'virtio-9p', 'virtio-blk', 'virtio-serial',
-> +            'virtio-gpu', 'virtio-input', 'virtio-net', 'virtio-scsi',
-> +            'vhost-user-fs', 'vhost-vsock', 'virtio-balloon', 'virtio-crypto',
-> +            'virtio-iommu', 'virtio-pmem', 'virtio-rng' ]
-> +}
-> +
-> +##
-> +# @VirtioInfo:
-> +#
-> +# Information about a given VirtIODevice
-> +#
-> +# @path: VirtIO device canonical path.
-> +#
-> +# @type: VirtIO device type.
-> +#
-> +# Since: 6.0
-
-and throughout the series (I'll quit pointing it out)
-
-> +##
-> +# @x-debug-query-virtio:
-> +#
-> +# Return the list of all VirtIO devices
-> +#
-> +# Returns: list of @VirtioInfo
-> +#
-> +# Since: 6.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "x-debug-query-virtio" }
-
-That said, adding an 'x-' experimental feature is NOT locking us down,
-so if some maintainer still wants to include this in -rc1 on the grounds
-that it will help debugging other things, rather than pushing it out to
-6.1 as a new feature, then keeping things as 6.0 is tolerable in that
-border-line case.  (If it misses -rc1, then I will become more adamant
-that it does not belong in 6.0)
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+$ git skip-ci-push [-f] myrepo mybranch
 
