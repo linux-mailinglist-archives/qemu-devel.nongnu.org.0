@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3414F341127
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 00:43:48 +0100 (CET)
-Received: from localhost ([::1]:49112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABFA341138
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 00:52:18 +0100 (CET)
+Received: from localhost ([::1]:54404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN2It-0006TB-9j
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 19:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
+	id 1lN2R7-0000fv-LF
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 19:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lN2H8-0005cV-UQ
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 19:41:58 -0400
-Received: from zangief.bwidawsk.net ([107.170.211.233]:51754
- helo=mail.bwidawsk.net)
+ (Exim 4.90_1) (envelope-from <ashe@kivikakk.ee>)
+ id 1lN2Po-0007xp-Tv; Thu, 18 Mar 2021 19:50:56 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:39515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lN2H6-0006O0-V5
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 19:41:58 -0400
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id 22785122DF1; Thu, 18 Mar 2021 16:41:54 -0700 (PDT)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id 50314120011;
- Thu, 18 Mar 2021 16:41:48 -0700 (PDT)
-Date: Thu, 18 Mar 2021 16:41:47 -0700
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: CXL 2.0 memory device design
-Message-ID: <20210318233903.btckyz4e6b7srj3g@mail.bwidawsk.net>
-X-TUID: DXEZgoo3vqCe
-References: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
+ (Exim 4.90_1) (envelope-from <ashe@kivikakk.ee>)
+ id 1lN2Pn-00028b-48; Thu, 18 Mar 2021 19:50:56 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id F1F725C01BD;
+ Thu, 18 Mar 2021 19:50:53 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 18 Mar 2021 19:50:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivikakk.ee; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=ijy07SyVrS3d5iGhjM9ihIJBFn
+ pZdzVF92m89uqHOJI=; b=DmG0QFqB01/wFZa03cI3XspBLFFYnMn+x5reLHImBW
+ 4azQ8fV5A01+EGNTyfh7XYbjyypSpoV4LWilrC5b/898cmdBRfAaJ67kUosdV8rc
+ WIL65xt3vOC+7ph7aU8rMw0xOtX4RK4DqW+8Em94OyiTQuvvn9MxoU6mzEgmryu7
+ I0cd6mCXTZxPVcbu9xxPEFufbqOACnhRDkme4jl4id4ICvaRR/Q3EUs6syBoRye0
+ fB3/yjlg4D0CytpTzYF64OsrtCHcCdosXPB73LTGrUXeAJ4Ca68it/Z9q1eDvuq7
+ +QuvmdKSt4k8qLIoMVTrznwdgpd4DTdcpw8qdDuGIidw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ijy07SyVrS3d5iGhj
+ M9ihIJBFnpZdzVF92m89uqHOJI=; b=b1G3Bica5uCucNZvBqtr4DtTKsmr7M3p5
+ LMvFFNQhs38QQN2N5oo9x84P8GwjPfoAQMuKP7GP1B6z0kXxqnW44T6erKrh4ysy
+ EeLBZagd4uNLXA0KSYm3Zix23ERg26MUxSE/H2TFtqUFup/AYctLOVKVP8X5aC1c
+ c6hlDtmAmcpPkUz3HG0aT1VYqtoT+ACwH+1pq4dKARRN7yZFUk7ThTZ1okzrFsfS
+ vKPkBj9vfClgWie489LK6MQYTumgCagcAAlx/J9qw0g/zj2vmCo3xsw18beujQAv
+ CoyCa3DQTvpnEJSE/hIT9Hx+EH7S4rNhnGtuPAB52RJu2bJ89/+Lg==
+X-ME-Sender: <xms:XOdTYDD-xlKq4Wvq07TYUM7UGcIxw-Y54iqHQb6rVBSlDcJuTLxaDg>
+ <xme:XOdTYJh2T0Ol_rUyG6nJdBPoekD3ryWGf9rLJ72_3ahUEFeISZWlo8JQJIKXp7i0b
+ fNaJtehuQqWx_aIe5c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefjedgudegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeetshhhvghrrghh
+ ucevohhnnhhorhcuoegrshhhvgeskhhivhhikhgrkhhkrdgvvgeqnecuggftrfgrthhtvg
+ hrnhepjeejjeelhedvuedtgeeuieekffdvtedvfeejueffueettdeitdfhgfekieefieef
+ necukfhppeduudelrddukedrfedurddufeehnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomheprghshhgvsehkihhvihhkrghkkhdrvggv
+X-ME-Proxy: <xmx:XOdTYOlm4igbQKt3eFXwYiNMNMBzR5kBjhFvNcGmLodZDiTWX6Aalw>
+ <xmx:XOdTYFyTigIqymUgw_yfILaA78v_l6q2VxuvwScWfpCptlGSLmqf_g>
+ <xmx:XOdTYIQqeXJdURx8vCEB804uZUIiVNmacMFtzRxwpPa6M0LOuAaHvQ>
+ <xmx:XedTYNJl-GlYZRiFfpIFCNxSVaaQvcd3h_xwfVYJwWKhYvAYifmRbw>
+Received: from ravenlin.tomodachi
+ (119-18-31-135.77121f.mel.static.aussiebb.net [119.18.31.135])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BE0FA108005F;
+ Thu, 18 Mar 2021 19:50:49 -0400 (EDT)
+From: Asherah Connor <ashe@kivikakk.ee>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/2] hw/riscv: Add fw_cfg support, allow ramfb
+Date: Fri, 19 Mar 2021 10:50:39 +1100
+Message-Id: <20210318235041.17175-1-ashe@kivikakk.ee>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=ashe@kivikakk.ee;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,70 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Asherah Connor <ashe@kivikakk.ee>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-03-17 14:40:58, Ben Widawsky wrote:
-> Phil, Igor, Markus
-> 
-> TL;DR: What to do about multiple capacities in a single device, and what to do
-> about interleave?
-> 
-> I've hacked together a basic CXL 2.0 implementation which exposes a CXL "Type 3"
-> memory device (CXL 2.0 Chapter 2.3). For what we were trying to do this was
-> sufficient. There are two main capabilities that CXL spec exposes which I've not
-> implemented that I'd like to start working toward and am realizing that I what I
-> have so far might not be able to carry forward to that next milestone.
-> 
-> Capability 1. A CXL memory device may have both a volatile, and a persistent
-> 	      capacity. https://bwidawsk.net/HDM_decoders.svg (lower right
-> 	      side). The current work only supports a single persistent
-> 	      capacity.
-> Capability 2. CXL topologies can be interleaved. Basic example:
->               https://bwidawsk.net/HDM_decoders.svg (lower left side)
-> 
-> Memory regions are configured via a CXL spec defined HDM decoder. The HDM
-> decoder which is minimally implemented supports all the functionality mentioned
-> above (base, size, interleave, type, etc.). A CXL component may have up to 10
-> HDMs.
-> 
-> What I have today: https://bwidawsk.net/QEMU_objects.svg
-> There's a single memory backend device for each host bridge. That backend is
-> passed to any CXL component that is part of the hierarchy underneath that
-> hostbridge. In the case of a Type 3 device memory capacity a subregion is
-> created for that capacity from within the main backend. The device itself
-> implements the TYPE_MEMORY_DEVICE interface. This allows me to utilize the
-> existing memory region code to determine the next free address, and warn on
-> overlaps. It hopefully will help when I'm ready to support hotplug.
-> 
-> Where I've gotten stuck: A Memory Device expects only to have one region of
-> memory. Trying to add a second breaks pretty much everything.
-> 
-> I'm hoping to start the discussion about what the right way to emulate this in
-> QEMU. Ideally something upstreamable would be great. I think adding a secondary
-> (or more) capacity to a memory class device is doable, but probably not the
-> right approach.
-> 
-> For context, I've posted v3 previously. Here's a link to v4 which has some minor
-> changes as well as moving back to using subregions instead of aliases:
-> https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
-> 
-> Thanks.
-> Ben
-> 
+This is version 4 of the series to bring fw_cfg and ramfb support to
+riscv's virt machine, adapted for the latest master.  It is still tested
+as working against a modified U-Boot with ramfb support.
 
-Hello.
 
-I spent some time thinking a bit about this. Right now a have a CXL type 3
-memory device which implements TYPE_MEMORY_DEVICE interface. Perhaps the easiest
-solution would be to have that same device which doesn't implement
-TYPE_MEMORY_DEVICE, but does object_initialize_child_with_props() a TYPE_PC_DIMM
-and a TYPE_NVDIMM kind of thing. In the current design, those would be
-subclassed (or simply rewritten) to not have their own memory backend, and carve
-out from the main memory backend as I describe above.
+Changes in v4:
+* Adapt for changes made in c65d7080d8 "hw/riscv: migrate fdt field to
+  generic MachineState".
 
-Thanks. I'm looking forward to hearing some feedback or other suggestions.
-Ben
+Changes in v3:
+* Document why fw_cfg is done when it is.
+* Move VIRT_FW_CFG before VIRT_FLASH.
+
+Changes in v2:
+* Add DMA support (needed for writes).
+* Add ramfb as allowed on riscv virt machine class.
+
+Asherah Connor (2):
+  hw/riscv: Add fw_cfg support to virt
+  hw/riscv: allow ramfb on virt
+
+ hw/riscv/Kconfig        |  1 +
+ hw/riscv/virt.c         | 33 +++++++++++++++++++++++++++++++++
+ include/hw/riscv/virt.h |  2 ++
+ 3 files changed, 36 insertions(+)
+
+-- 
+2.20.1
+
 
