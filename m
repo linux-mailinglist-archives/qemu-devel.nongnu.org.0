@@ -2,139 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDAE33FFB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 07:35:59 +0100 (CET)
-Received: from localhost ([::1]:51370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8289033FFBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 07:40:47 +0100 (CET)
+Received: from localhost ([::1]:54662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMmGE-0003Pv-BT
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 02:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48942)
+	id 1lMmKs-00052m-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 02:40:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <decui@microsoft.com>)
- id 1lMiCI-00042c-T7
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 22:15:40 -0400
-Received: from mail-bn7nam10on2139.outbound.protection.outlook.com
- ([40.107.92.139]:33825 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <decui@microsoft.com>)
- id 1lMiCF-0000jB-Ia
- for qemu-devel@nongnu.org; Wed, 17 Mar 2021 22:15:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OicwHxAqlSdnuG4UTNbJBUuct4cb6DDBBMwRDd2UdF3+NDgEBec83e9Ei4i2t2uZa2fw3nx5G0VjgGnZX/PeTvnLMpiUw8ysp1Lo6fo9wQ5vusVbbGM67kQUsCzBDBbFaeXpSvihXl63LSnUVuR7FPdoeM4BEHuJ9B6+cyyMCzKPI3il+gFjhQz7hfrv7OMnLT54Hg8YDlLxLh+FTFxhir1rCtBGbxHU6wDHH7/CQGnF2rPgUntIuaEJaCS4oKZT6S8F3CVgiN551dEGIP4OZ0f4D04Rs1QFO5fGLRIh0l7OdsgRiO0qEKhruqmpQ6TMyYiJsYGldXqkvCCfmbIR9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MBjHhW/YA3RGVZ7HJYFvGgIYN2hR5OR9/h9hmBf+ozI=;
- b=PhJw4sUXIBcl43LRldq5Cz9AvI/91Ta+ZsKFD7vUtCS0jUaGR3P0ZWrLCoai74yRNTtUKijTK7+WT7R84S1CqSs2TkW3cYZUBAwW1zueXQi+2wT1CHgHhboGboFmNpJlCGb+v+EzAUc64PW+bU2Ph6PCczbIUBmvkZOf+gViHGxqCh+c07PP8um5okt5idT4Nt8S5hrWJLFx6bLxt3KLsoRLTevIAjl50USIiBP8cheqQVdH4uh2nUoQKCxM6yvS7kihqlmwpxZU02QukRxnVkbUFtqK6aWq8teK5NUqf59Tn4t9zx8JI3uJNM8uWxs1d18pHfpXOAZRt7F9Cw6hOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MBjHhW/YA3RGVZ7HJYFvGgIYN2hR5OR9/h9hmBf+ozI=;
- b=Tztoa28zynDSFSVoHeETd2N0T+1/Gq3hlWU9sOzh/SKEpU1Pro7/KURefXoFNBCrefqnQRMbThzICGOw7Qa59h/QQ5J2rh4AfhzkWLNjuh73OkBe2Y61vHBdMKzj7UZPf3jDi3R+AZcLPrm4L0PgHBcsd+BCOrLC+XDutBlaX+k=
-Received: from MW2PR2101MB1756.namprd21.prod.outlook.com (2603:10b6:302:d::31)
- by MW2PR2101MB1834.namprd21.prod.outlook.com (2603:10b6:302:7::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.2; Thu, 18 Mar
- 2021 02:00:29 +0000
-Received: from MW2PR2101MB1756.namprd21.prod.outlook.com
- ([fe80::bced:1ffd:80dd:b192]) by MW2PR2101MB1756.namprd21.prod.outlook.com
- ([fe80::bced:1ffd:80dd:b192%7]) with mapi id 15.20.3977.005; Thu, 18 Mar 2021
- 02:00:29 +0000
-From: Dexuan Cui <decui@microsoft.com>
-To: Laszlo Ersek <lersek@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>, Wei Yang
- <richardw.yang@linux.intel.com>, Ross Zwisler <ross.zwisler@linux.intel.com>, 
- Haozhong Zhang <haozhong.zhang@intel.com>, "Williams, Dan J"
- <dan.j.williams@intel.com>, Jeff Moyer <jmoyer@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: Microsoft and Intel NVDIMM ACPI _DSM interfaces status?
-Thread-Topic: Microsoft and Intel NVDIMM ACPI _DSM interfaces status?
-Thread-Index: AQHXG3+/P6Bcw06/i0CDTlKjiPP+JKqI8TIg
-Date: Thu, 18 Mar 2021 02:00:29 +0000
-Message-ID: <MW2PR2101MB1756B8A06546D00D9307BA4CBF699@MW2PR2101MB1756.namprd21.prod.outlook.com>
-References: <YFHsy8599w7KT1SB@stefanha-x1.localdomain>
- <eaee4c20-5fd7-f257-eddf-331ffe4e39ef@redhat.com>
-In-Reply-To: <eaee4c20-5fd7-f257-eddf-331ffe4e39ef@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=d6e40ed7-7fb8-465b-8877-d9b7b9663ed9;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-03-18T01:14:51Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [76.104.247.152]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7be57455-de05-4817-049d-08d8e9b19b5b
-x-ms-traffictypediagnostic: MW2PR2101MB1834:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <MW2PR2101MB18342796B5E232DF029616B9BF699@MW2PR2101MB1834.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: m22mb9Mfz3ZZPg/W+RgZM1IYf8hkas/pWJFvjD+yR00foeBvCKU4cuX+jq9t9XnwODRP5ID03ygrKUjq7xRjkg91TClgT0GXS/MQ2TQAoNqzwj7eUo5JbWFiLSs8sqkyCMYomRYBKEy3crkePyFLp4LLaYJOmOg9cv4PzGkK/r4rhKpZVMhN7zXKZZ1y0MGb/CVa4HxNuD00KpBHqlL3qDQLTonFmgqMI+ZCjGaCxK1eYzpruq2vb4y6v8hJB69MoUgAIwdLisJ2sNHXNOHFRGfRuVfmTMlSIgFXKS5Nw1uxZEvbTCFosUy3WFl1YJMDolXtQ69ptp/6/fzC28SSTSQ/zy9LWfMa2PdfUwXqmGbHjJ9vEwNp+Y5WPU2146KlEldUHlrqbsXivYZThBJAmx20W19ZRqaOA30ZUgA5Ufl1yk6dU3BPFY1gB01IfqGN4DT+MTLJuLmkyzIVr/q51EHHSCYcw4jpURj6GNfBF0C/2wSsANG/1xClnW+VeO5EC7C0MrZSoElJn7xKHQDYXnoJOjH9F2SJfxgKN2muHNd1QWIUGZKpmJkm6CSTKFJW2gHeOR+m4Ah8UudLtJ3VG+yEgQ1S2hbErSdov/731FdDTSHxc4xVcn2iIIv3s6Fw
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR2101MB1756.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(376002)(346002)(366004)(39860400002)(47530400004)(83380400001)(64756008)(478600001)(33656002)(316002)(186003)(38100700001)(110136005)(82950400001)(7696005)(8990500004)(54906003)(86362001)(82960400001)(6506007)(66556008)(2906002)(66476007)(26005)(66946007)(71200400001)(9686003)(4326008)(55016002)(5660300002)(8936002)(76116006)(66446008)(8676002)(10290500003)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?0Fq5g4p2dwH5+5ufkxGqq5smqSvlxy3KKL3qEpr42aEIGnYFbleD18nxDKp7?=
- =?us-ascii?Q?PIg5jXc1K9Ac+rKFJOd74GkHc1B7x1vemDO1Kk10DA5KBStzRaRFWO2mhHG+?=
- =?us-ascii?Q?E0v59JZaBSlIyQhppsWpCKquu9S/zhqOshwDyAqCexmmdb52q73cDbr1R5yd?=
- =?us-ascii?Q?uTdUYzQaMJAFAsqKG1fNa5rFLxp7e9Lj13KhDkvGgPc19CNufxr7RexZcyUO?=
- =?us-ascii?Q?iEJx2vCkcYgrOvzJvl0nKE9HJfwORJFQDyWGVXmRiuuSxxtI4yCYH+hlJ9ZG?=
- =?us-ascii?Q?McKqL/ME//tlQztQdF151yAocT8izEnbSIL4oCVMOFbU1H/GgAhLqZBV2kk1?=
- =?us-ascii?Q?YpWXS+tMW2VTF8lQ45hbN4XgnK7R425vMMMPPTuzfYmFgPImvPUHBjfZ6TZc?=
- =?us-ascii?Q?VVVjaUD6ITm3t3kja/jzngXGifXLkEjpYhdRJNV1M4xIab4zohY/YifYid4Z?=
- =?us-ascii?Q?XnRLFFZsvdLYg0Z8pCs41l6Eqhhma4qsbEvJ4B9VdGmO8V+g3xMee18LdLZk?=
- =?us-ascii?Q?7MoDQUDR4neMMYAdHovbnVE//gU+MnohP6RqBX41EPNlr7L/oha0Hi4hJo04?=
- =?us-ascii?Q?1kmO7vPTxV+eUCP6YAnj88iozJoMOQoryY7xyQsBb/c0XaadUPANwU8Rh8b8?=
- =?us-ascii?Q?N03uFMT3KC8JLm/timv4aCZikOsPTYAm1UM6KlZ8BixozxQU5tywKCjbdsWU?=
- =?us-ascii?Q?8IeMmoEHju+u3Qhz3YSFdGn/duW3AE5kLE2QBIi4+Zv5WcHjvs8pS/B0yvj1?=
- =?us-ascii?Q?nDrnmWbTDFQ1mTXRiHjjW85PZ9e9Qxa821gTvilThLS5P6kH/QnycyyFIe8J?=
- =?us-ascii?Q?vcInHKqXc0vABAl19cZSr+VvLPRwBI585Yi6K2ptcz8yUTfN4wufCK6kxW3N?=
- =?us-ascii?Q?fty7bgqkZdxuv8jjmXcYD0qKmV3Tq1sgZ7I+AxawK1Lnj7f4IE4hWtEt2F2N?=
- =?us-ascii?Q?ehcmTc4zkeHxXqCNilZmqtkYurP9tT9zLmSys5prugOKNrQ/OXdkPIWitCO4?=
- =?us-ascii?Q?XGBteLlIlnbEouyCe8Z+vZZLEYlmyx4cRfS7XfMpqWW0pQcKdw/hdE8umNRQ?=
- =?us-ascii?Q?clNE0iBzjAj1cD8+ON02BEWNgSnJrNqS0OwBUPJgn/WC8zJ/lEggc3R3+iXd?=
- =?us-ascii?Q?cVOYZWdyHHRAPYMvFKbWFKldt1v7dT8jeoKHamZIrIErM6Nj60esCjvNUdjW?=
- =?us-ascii?Q?O6bbWxVNPeYp9+/9MM0zEZjyTQs6E5JUjmvoqg309U85e2yBda3WdnC1uBW/?=
- =?us-ascii?Q?X0xUBD2i97a2gvwkplT89GBLZ/SEYVr7xGY96u2Ua6PnCNBnl3hWGV1QCYKu?=
- =?us-ascii?Q?z6JZ017mqe44dFJ8N4Fz6NdV?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1lMmIq-0004Sv-1L
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 02:38:40 -0400
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:41631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1lMmIk-0002sw-ON
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 02:38:39 -0400
+Received: by mail-il1-x129.google.com with SMTP id r8so3877144ilo.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Mar 2021 23:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zl7Uz7H3foCnWcmqohsaaTcPclg+booF+/w62oA7Rrk=;
+ b=sT+0dtYWjlPHiT0sPQDnjJ6JYefWm5qsT0C+NCJQy7egqVC1QpxDgCol/SCA7s3ayg
+ eGC7wBIUdGwAaDx8b8LkpxqGrlFbplWDeW21CFUJ4Xazea0rnVqqnGVLsvPoFdEGsVbm
+ LbuvunuAeCYrLeknAE9c+RG0+t8B1wq6nwvSCluhrp8/EOMd0KyxPwDuMxcluHrIJVcW
+ +TvR9ltNFo4C4Ovbid1m4pBIYMk2nqrg2YUccT47XPDVMha7ytV0BYrvnJmqn8iHGzhU
+ 0FZ6CqSwzlqt8QhjsBhGx7FrymeuvFvR4GN0euG+R2PpQD3QcTZihSpDiAe6TAv5xIEY
+ aePA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zl7Uz7H3foCnWcmqohsaaTcPclg+booF+/w62oA7Rrk=;
+ b=V0ny851Ggu6U9O6kbcB4iaSFp++P/ffLZo75MOLqhbqTByDrAPvpe5vC+anNruHSw0
+ xgRSPGFrMJA+fcgrM1fmszabri/FDTfwGrZms3GFqL3JcdN7Q2J0nBNY/gdHOGhi3Xr7
+ QElzYVA/husoOstgvLZzWJLsHmvGb5hLif/Lo3gAa1O0XQg7e+JIIkIh0yJgSZsWyf0S
+ ZGo+lu7bxSqjmYRRAJoyt7VvDypIVVbau/lA+iFMiXktoI76xDmJAd5BHLOVeABhgXq/
+ +9PxxOMTS1guZoT3BimIxQereJ/XAR9obiavvE5hIkXPrMMWIYWBQ4COuEFh0UHAzKBK
+ QJIg==
+X-Gm-Message-State: AOAM532X4OONRgCUemRZOnCaVgcY5g0Ca8OIK57ve4C+RawT4Wei+KI6
+ Y8zT2pwLpEEnKjJO85Uf2Iacv+hrBVzg4gSPaPth
+X-Google-Smtp-Source: ABdhPJzU5LNI7Us3HhZwqfANSmF7Ci2gyafuQ+LPffTHZE6cSTZpQhyJOGJ3hFwl2GW5whHfNyi4USeZsPkbE5SLDjA=
+X-Received: by 2002:a92:1312:: with SMTP id 18mr9607323ilt.92.1616049513233;
+ Wed, 17 Mar 2021 23:38:33 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1756.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7be57455-de05-4817-049d-08d8e9b19b5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2021 02:00:29.6372 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Df758tVbmhFbisXIW876c/9VRlDKw91Y1ukJTviiWrMf7mgxQGzlr3cOX02TDL49KB7f4jsdGlEpM3bPoefXJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1834
-Received-SPF: pass client-ip=40.107.92.139; envelope-from=decui@microsoft.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <cover.1615972140.git.haibo.xu@linaro.org>
+ <881871e8394fa18a656dfb105d42e6099335c721.1615972140.git.haibo.xu@linaro.org>
+ <YFJiZSW0OjdQdOXZ@work-vm>
+In-Reply-To: <YFJiZSW0OjdQdOXZ@work-vm>
+From: Haibo Xu <haibo.xu@linaro.org>
+Date: Thu, 18 Mar 2021 14:38:22 +0800
+Message-ID: <CAJc+Z1FVwgVHGP6b0cbFaeWOqTGe9WJDV7UQgf6TP1Qthu2O4w@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/5] Add migration support for KVM guest with MTE
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
+ envelope-from=haibo.xu@linaro.org; helo=mail-il1-x129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 18 Mar 2021 02:33:24 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -146,94 +78,304 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Laszlo Ersek <lersek@redhat.com>
-> Sent: Wednesday, March 17, 2021 3:45 PM
-> > The specs for the Intel interface are available here:
-> > ...
-> > This is the interface that QEMU emulates. It has been reported that
-> > Windows 2016 Server and 2019 Server guests do not recognize QEMU's
-> > emulated NVDIMM devices using the Microsoft driver.
+On Thu, 18 Mar 2021 at 04:11, Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> * Haibo Xu (haibo.xu@linaro.org) wrote:
+> > To make it easier to keep the page tags sync with
+> > the page data, tags for one page are appended to
+> > the data during ram save iteration.
+> >
+> > This patch only add the pre-copy migration support.
+> > Post-copy and compress as well as zero page saving
+> > are not supported yet.
+> >
+> > Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+>
+> My guess is that this doesn't work with a lot of other options; e.g.
+> postcopy and probably compression and a bunch of other things.
+> Postcopy I can see you'll need some interesting kernel changes for -
+> you'd need to be able to atomically place a  page with it's tag data.
+>
+> You probably need to add stuff to migrate_caps_check  to disable
+> features that you don't support.
+>
 
-I'm not sure why this happens -- sorry, I have no Windows knowledge.
-=20
-> > Should QEMU emulate both of them to make running Windows guests easy?
+Hi David,
 
-I'm not sure about the background here, but since it looks like QEMU is alr=
-eady
-able to emulate the Intel NVDIMM, I suppose it should be quick to add the
-emulation of the Hyper-V NVDIMM. I think they're pretty similar, and the
-_DSM interface supported by Hyper-V NVDIMM is simple.
-=20
-> In my (uneducated) opinion: yes. Microsoft standarized their Region
-> Format Interface, with their _DSM UUID and all; and right now, that spec
-> seems to be the *only* officially approved format in the RFIC registry.
-> So it's plausible to me that, unlike the Linux kernel, Microsoft's
-> driver doesn't support the -- technically unapproved, nonstandard --
-> Intel Region Format Interface.
->=20
-> Dexuan, please correct me if I'm wrong.
->=20
-> Thanks,
-> Laszlo
+Thanks so much for the comments!
 
-Hi Laszlo, I'm not 100% sure, but I guess your may be correct.
+You are right, this RFC patch only supports pre-copy mode, no
+postcopy, no compression.
+As a RFC, here just want to finalize the tag migration process, that is:
+1. let the tag go with the page data(the current choice) which may be
+a little complex to put
+    them into the current migration process.
+2. migrate them separately which is easy to implement with the current
+migration(treat the tags
+    as device status), but it would be hard to keep the page data and
+tag to sync with each other.
+3. Any other ways?
 
-BTW, earlier in 2019, we made the below patches (which are in the mainline)=
-:
+Once the tag migration process is finalized, a new formal patch series
+with postcopy as well as
+compression should be reworked.
 
-2019-02-28    libnvdimm/btt: Fix LBA masking during 'free list' population
-2019-02-12    acpi/nfit: Require opt-in for read-only label configurations
-2019-02-02    libnvdimm/dimm: Add a no-BLK quirk based on NVDIMM family
-2019-01-29    nfit: Add Hyper-V NVDIMM DSM command set to white list
-2019-01-29    nfit: acpi_nfit_ctl(): Check out_obj->type in the right place
+What's more, you mentioned that "some interesting kernel changes are
+needed to atomically
+place a  page with it's tag data". You mean a single kernel API to
+store page data and tag in
+the migration load process?
 
-The patches improve the interoperability between Windows VM and=20
-Linux VM, e.g. the same Hyper-V NVDIMM device can work this way:
-the Windows VM creates an NTFS partition based on the device, and
-creates a text file in the partition, and later we shut down the Windows VM
-and assign the device to Linux VM, and Linux VM is able to read the text fi=
-le.
+Regards,
+Haibo
 
-Before the patches, IIRC, Linux VM could only use the Hyper-V NVIDMM
-device in label-less mode.
+> > ---
+> >  include/hw/arm/virt.h    |  2 +
+> >  include/migration/misc.h |  1 +
+> >  migration/ram.c          | 86 +++++++++++++++++++++++++++++++++++++++-
+> >  3 files changed, 88 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> > index 921416f918..8b28cde8bf 100644
+> > --- a/include/hw/arm/virt.h
+> > +++ b/include/hw/arm/virt.h
+> > @@ -166,6 +166,8 @@ struct VirtMachineState {
+> >      PCIBus *bus;
+> >      char *oem_id;
+> >      char *oem_table_id;
+> > +    /* migrate memory tags */
+> > +    NotifierWithReturn precopy_notifier;
+> >  };
+> >
+> >  #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
+> > diff --git a/include/migration/misc.h b/include/migration/misc.h
+> > index bccc1b6b44..005133f471 100644
+> > --- a/include/migration/misc.h
+> > +++ b/include/migration/misc.h
+> > @@ -38,6 +38,7 @@ void precopy_add_notifier(NotifierWithReturn *n);
+> >  void precopy_remove_notifier(NotifierWithReturn *n);
+> >  int precopy_notify(PrecopyNotifyReason reason, Error **errp);
+> >  void precopy_enable_free_page_optimization(void);
+> > +void precopy_enable_metadata_migration(void);
+> >
+> >  void ram_mig_init(void);
+> >  void qemu_guest_free_page_hint(void *addr, size_t len);
+> > diff --git a/migration/ram.c b/migration/ram.c
+> > index 72143da0ac..e67b798c3b 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -53,10 +53,12 @@
+> >  #include "block.h"
+> >  #include "sysemu/sysemu.h"
+> >  #include "sysemu/cpu-throttle.h"
+> > +#include "sysemu/kvm.h"
+> >  #include "savevm.h"
+> >  #include "qemu/iov.h"
+> >  #include "multifd.h"
+> >  #include "sysemu/runstate.h"
+> > +#include "kvm_arm.h"
+> >
+> >  #if defined(__linux__)
+> >  #include "qemu/userfaultfd.h"
+> > @@ -80,6 +82,9 @@
+> >  #define RAM_SAVE_FLAG_XBZRLE   0x40
+> >  /* 0x80 is reserved in migration.h start with 0x100 next */
+> >  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+> > +#define RAM_SAVE_FLAG_MTE              0x200
+>
+> I think that's using the last free bit in the flags field, which is a
+> bit painful.
+>
 
-Let me share some old 2019 notes about Hyper-V NVDIMM, in case the
-info may be helpful to you:=20
+Yes, only 0x80(reserved) and 0x200 are available.
 
-"
-In Linux VM, IMO the label-less mode is preferred for Hyper-V NVDIMM,
-because Hyper-V does not support _LSW (I'm not sure about the latest
-status), so Dan made the patch "acpi/nfit: Require opt-in for read-only
-label configurations" to not use the Hyper-V label info, by default.
-In label-less mode, when creating a namespace, Linux can set it to
-one of the 4 namespace modes: fsdax, devdax, sector, and raw (these
-namespace modes are Linux-specific and can not be recognized
-by Windows.).=20
+> > +#define MTE_GRANULE_SIZE   (16)
+> >
+> >  static inline bool is_zero_range(uint8_t *p, uint64_t size)
+> >  {
+> > @@ -317,6 +322,8 @@ struct RAMState {
+> >      bool ram_bulk_stage;
+> >      /* The free page optimization is enabled */
+> >      bool fpo_enabled;
+> > +    /* The RAM meta data(e.t memory tag) is enabled */
+> > +    bool metadata_enabled;
+> >      /* How many times we have dirty too many pages */
+> >      int dirty_rate_high_cnt;
+> >      /* these variables are used for bitmap sync */
+> > @@ -394,6 +401,15 @@ void precopy_enable_free_page_optimization(void)
+> >      ram_state->fpo_enabled = true;
+> >  }
+> >
+> > +void precopy_enable_metadata_migration(void)
+> > +{
+> > +    if (!ram_state) {
+> > +        return;
+> > +    }
+> > +
+> > +    ram_state->metadata_enabled = true;
+> > +}
+> > +
+> >  uint64_t ram_bytes_remaining(void)
+> >  {
+> >      return ram_state ? (ram_state->migration_dirty_pages * TARGET_PAGE_SIZE) :
+> > @@ -1134,6 +1150,61 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+> >      return true;
+> >  }
+> >
+> > +static int save_normal_page_mte_tags(QEMUFile *f, uint8_t *addr)
+> > +{
+> > +    uint8_t *tag_buf = NULL;
+> > +    uint64_t ipa;
+> > +    int size = TARGET_PAGE_SIZE / MTE_GRANULE_SIZE;
+>
+> This function needs to be mostly somewhere aarch specific; or somehow
+> made more generic.
+> We shouldn't have RAM_SAVE_FLAG_MTE as well - we should be something
+> like RAM_SAVE_FLAG_ARCH_METADATA and that way other architectures with
+> something else glued onto pages can do something similar.
+> Try and keep migration/ architecture independent.
 
-With the "nfit.force_labels" bootup-time kernel parameter, Linux can
-be forced to be in label mode, and then if Hyper-V initializes the 4KB
-BTT Info Block(s) with the standard EFI_BTT_ABSTRACTION_GUID
-(which is defined in UEFI 2.7 spec), we're supposed to support the
-"interoperability" between Windows VM and Linux VM.
+Yes, it should be arch independent and handled with a more abstract way.
 
-Note: label-less mode is incompatible with label mode. A namespace
-created in one mode can't be recognized when Linux runs in the other
-mode. In label mode, so far, only 2 namespace modes (raw and sector)
-can be supported by the Hyper-V NVDIMM, because Hyper-V doesn't
-support _LSW, yet. If Hyper-V sets the EFI_BTT_ABSTRACTION_GUID,
-the namespace is "BTT-capable" and can be in sector namespace
-mode, otherwise it's in raw namespace mode.
+>
+> > +    if (kvm_physical_memory_addr_from_host(kvm_state, addr, &ipa)) {
+> > +        /* Buffer for the page tags(one byte per tag) */
+> > +        tag_buf = g_try_malloc0(size);
+>
+> It feels like you want to allocate tag_buf in setup and free it at the
+> end rather than doing this in every page.
 
-After a Windows VM initializes a BTT-capable namespace in a Hyper-V
-NVDIMM device by creating a NTFS file system in the namespace, we
-can re-assign the Hyper-V NVDIMM device to Linux VM, and in label
-mode Linux VM is supposed to be able to read and write the files in
-the NTFS file system.
-"
+Yes, the tag buffer allocation could be moved to migration save/load
+setup and cleanup function.
 
-Thanks,
--- Dexuan
+>
+> > +        if (!tag_buf) {
+> > +            error_report("%s: Error allocating MTE tag_buf", __func__);
+> > +            return 0;
+> > +        }
+> > +
+> > +        if (kvm_arm_mte_get_tags(ipa, TARGET_PAGE_SIZE, tag_buf) < 0) {
+> > +            error_report("%s: Can't get MTE tags from guest", __func__);
+>
+> For any error like this you probably want to say the addresses to make
+> it easier to debug when it fails.
+>
+
+Good suggestion! Will add the "address" info to the log.
+
+> > +            g_free(tag_buf);
+> > +            return 0;
+> > +        }
+> > +
+> > +        qemu_put_buffer(f, tag_buf, size);
+> > +
+> > +        g_free(tag_buf);
+> > +
+> > +        return size;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static void load_normal_page_mte_tags(QEMUFile *f, uint8_t *addr)
+> > +{
+> > +    uint8_t *tag_buf = NULL;
+> > +    uint64_t ipa;
+> > +    int size = TARGET_PAGE_SIZE / MTE_GRANULE_SIZE;
+> > +
+> > +    if (kvm_physical_memory_addr_from_host(kvm_state, addr, &ipa)) {
+> > +        /* Buffer for the page tags(one byte per tag) */
+> > +        tag_buf = g_try_malloc0(size);
+> > +        if (!tag_buf) {
+> > +            error_report("%s: Error allocating MTE tag_buf", __func__);
+> > +            return;
+> > +        }
+> > +
+> > +        qemu_get_buffer(f, tag_buf, size);
+> > +        if (kvm_arm_mte_set_tags(ipa, TARGET_PAGE_SIZE, tag_buf) < 0) {
+>
+> what protections are there here to stop you setting the mte on something
+> useful, like part of the host kernel or qemu?
+
+Kernel would do some parameter check(e.t ipa within a valid slot)
+before setting the tag data.
+
+>
+> > +            error_report("%s: Can't set MTE tags to guest", __func__);
+> > +        }
+> > +
+> > +        g_free(tag_buf);
+> > +    }
+> > +
+> > +    return;
+> > +}
+> > +
+> >  /*
+> >   * directly send the page to the stream
+> >   *
+> > @@ -1148,6 +1219,10 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+> >  static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+> >                              uint8_t *buf, bool async)
+> >  {
+> > +    if (rs->metadata_enabled) {
+> > +        offset |= RAM_SAVE_FLAG_MTE;
+> > +    }
+> > +
+> >      ram_counters.transferred += save_page_header(rs, rs->f, block,
+> >                                                   offset | RAM_SAVE_FLAG_PAGE);
+> >      if (async) {
+> > @@ -1159,6 +1234,11 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+> >      }
+> >      ram_counters.transferred += TARGET_PAGE_SIZE;
+> >      ram_counters.normal++;
+> > +
+> > +    if (rs->metadata_enabled) {
+> > +        ram_counters.transferred += save_normal_page_mte_tags(rs->f, buf);
+> > +    }
+> > +
+> >      return 1;
+> >  }
+> >
+> > @@ -2189,6 +2269,7 @@ static void ram_state_reset(RAMState *rs)
+> >      rs->last_version = ram_list.version;
+> >      rs->ram_bulk_stage = true;
+> >      rs->fpo_enabled = false;
+> > +    rs->metadata_enabled = false;
+> >  }
+> >
+> >  #define MAX_WAIT 50 /* ms, half buffered_file limit */
+> > @@ -3779,7 +3860,7 @@ static int ram_load_precopy(QEMUFile *f)
+> >              trace_ram_load_loop(block->idstr, (uint64_t)addr, flags, host);
+> >          }
+> >
+> > -        switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
+> > +        switch (flags & ~(RAM_SAVE_FLAG_CONTINUE | RAM_SAVE_FLAG_MTE)) {
+> >          case RAM_SAVE_FLAG_MEM_SIZE:
+> >              /* Synchronize RAM block list */
+> >              total_ram_bytes = addr;
+> > @@ -3849,6 +3930,9 @@ static int ram_load_precopy(QEMUFile *f)
+> >
+> >          case RAM_SAVE_FLAG_PAGE:
+> >              qemu_get_buffer(f, host, TARGET_PAGE_SIZE);
+> > +            if (flags & RAM_SAVE_FLAG_MTE) {
+> > +                load_normal_page_mte_tags(f, host);
+> > +            }
+> >              break;
+> >
+> >          case RAM_SAVE_FLAG_COMPRESS_PAGE:
+> > --
+> > 2.17.1
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
 
