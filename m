@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52ACF3401CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:19:39 +0100 (CET)
-Received: from localhost ([::1]:38142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56E33401E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:22:44 +0100 (CET)
+Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMooc-0002Kj-BP
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
+	id 1lMorb-0005o4-Id
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMomB-0000aY-8i
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43298)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMomG-0000lb-D7
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:17:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMom6-0004XH-9X
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:17:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lMomD-0004Zu-M4
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:17:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616059021;
+ s=mimecast20190719; t=1616059029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a/2XDauPyoJ4jBMH8iOImOGFnZR5XASKDvgEqnvYupw=;
- b=A7rWZOFJkfd5e6bSK1+wVpz+kc8QVOwZlNznQPK/OcoluiIm+i1LPUi02iMwMqJ8AmkW93
- Oj3Vby2xL2XzIxgK3qYddGkpb1/11Dgre3/UAl1EA2JWGtzI5f2zZkiozqvgZHXN759dG1
- /4+onhVQtPcE1IpwVt4KDsrQ6tyr9XY=
+ bh=b5cVStgepbC4UTIzVkpLmXq4w3u4k+iqtTEjAhYUHR8=;
+ b=byjByfFZ5ijRd4mRMSnymoY7lxD/Ow/o/LTugrXzDS7tHLmhBk17eAzJGMQNzFov780Y0q
+ DRfcsqLHNqcEAmkjji8WCv1IIadDQzrD5l86/oeZ2JKq6Mx0a43zUHmZicBZmr4155m1UW
+ In9ONp2xhK4T+K5FljrFCH76HFi1PT8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-8yXdMLNgPMSQLnTNQLaTvQ-1; Thu, 18 Mar 2021 05:16:57 -0400
-X-MC-Unique: 8yXdMLNgPMSQLnTNQLaTvQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-417-3GDkus62PbuR-dIyt3SlaQ-1; Thu, 18 Mar 2021 05:17:06 -0400
+X-MC-Unique: 3GDkus62PbuR-dIyt3SlaQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FD3A81744F
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 09:16:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B5B51009465
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 09:17:05 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-141.ams2.redhat.com
  [10.36.112.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 545E310013C1;
- Thu, 18 Mar 2021 09:16:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53BC15D9DE;
+ Thu, 18 Mar 2021 09:16:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E7CE2180062B; Thu, 18 Mar 2021 10:16:47 +0100 (CET)
+ id 05836180062E; Thu, 18 Mar 2021 10:16:48 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/7] ui/vdagent: add clipboard support
-Date: Thu, 18 Mar 2021 10:16:44 +0100
-Message-Id: <20210318091647.3233178-5-kraxel@redhat.com>
+Subject: [PATCH v2 5/7] ui/vnc: clipboard support
+Date: Thu, 18 Mar 2021 10:16:45 +0100
+Message-Id: <20210318091647.3233178-6-kraxel@redhat.com>
 In-Reply-To: <20210318091647.3233178-1-kraxel@redhat.com>
 References: <20210318091647.3233178-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,184 +85,309 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds support for clipboard messages to the qemu vdagent
-implementation, which allows the guest exchange clipboard data with
-qemu.  Clipboard support can be enabled/disabled using the new
-'clipboard' parameter for the vdagent chardev.  Default is off.
+This patch adds support for cut+paste to the qemu vnc server, which
+allows the vnc client exchange clipbaord data with qemu and other peers
+like the qemu vdagent implementation.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- chardev/char.c  |   3 +
- ui/vdagent.c    | 259 ++++++++++++++++++++++++++++++++++++++++++++++++
- qapi/char.json  |   4 +-
- ui/trace-events |   2 +
- 4 files changed, 267 insertions(+), 1 deletion(-)
+ ui/vnc.h           |  24 ++++
+ ui/vnc-clipboard.c | 323 +++++++++++++++++++++++++++++++++++++++++++++
+ ui/vnc.c           |  20 ++-
+ ui/meson.build     |   1 +
+ 4 files changed, 362 insertions(+), 6 deletions(-)
+ create mode 100644 ui/vnc-clipboard.c
 
-diff --git a/chardev/char.c b/chardev/char.c
-index fd4d86d0dd3f..353f3eb298d9 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -930,6 +930,9 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "mouse",
-             .type = QEMU_OPT_BOOL,
-+        },{
-+            .name = "clipboard",
-+            .type = QEMU_OPT_BOOL,
- #ifdef CONFIG_LINUX
-         },{
-             .name = "tight",
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 61c12b02b573..89485973c512 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -3,6 +3,7 @@
- #include "chardev/char.h"
- #include "hw/qdev-core.h"
- #include "qemu/option.h"
+diff --git a/ui/vnc.h b/ui/vnc.h
+index d4f3e1555809..a7149831f906 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -29,6 +29,7 @@
+ 
+ #include "qemu/queue.h"
+ #include "qemu/thread.h"
 +#include "ui/clipboard.h"
  #include "ui/console.h"
- #include "ui/input.h"
- #include "trace.h"
-@@ -13,12 +14,14 @@
- #include "spice/vd_agent.h"
+ #include "audio/audio.h"
+ #include "qemu/bitmap.h"
+@@ -348,6 +349,10 @@ struct VncState
  
- #define VDAGENT_MOUSE_DEFAULT true
-+#define VDAGENT_CLIPBOARD_DEFAULT false
+     Notifier mouse_mode_notifier;
  
- struct VDAgentChardev {
-     Chardev parent;
- 
-     /* config */
-     bool mouse;
-+    bool clipboard;
- 
-     /* guest vdagent */
-     uint32_t caps;
-@@ -33,6 +36,11 @@ struct VDAgentChardev {
-     uint32_t mouse_y;
-     uint32_t mouse_btn;
-     QemuInputHandlerState *mouse_hs;
-+
-+    /* clipboard */
 +    QemuClipboardPeer cbpeer;
-+    QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
-+    uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
- };
- typedef struct VDAgentChardev VDAgentChardev;
- 
-@@ -88,6 +96,24 @@ static const char *msg_name[] = {
- #endif
++    QemuClipboardInfo *cbinfo;
++    uint32_t cbpending;
++
+     QTAILQ_ENTRY(VncState) next;
  };
  
-+static const char *sel_name[] = {
-+    [VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD] = "clipboard",
-+    [VD_AGENT_CLIPBOARD_SELECTION_PRIMARY]   = "primary",
-+    [VD_AGENT_CLIPBOARD_SELECTION_SECONDARY] = "secondary",
-+};
-+
-+static const char *type_name[] = {
-+    [VD_AGENT_CLIPBOARD_NONE]       = "none",
-+    [VD_AGENT_CLIPBOARD_UTF8_TEXT]  = "text",
-+    [VD_AGENT_CLIPBOARD_IMAGE_PNG]  = "png",
-+    [VD_AGENT_CLIPBOARD_IMAGE_BMP]  = "bmp",
-+    [VD_AGENT_CLIPBOARD_IMAGE_TIFF] = "tiff",
-+    [VD_AGENT_CLIPBOARD_IMAGE_JPG]  = "jpg",
-+#if 0
-+    [VD_AGENT_CLIPBOARD_FILE_LIST]  = "files",
-+#endif
-+};
-+
- #define GET_NAME(_m, _v) \
-     (((_v) < ARRAY_SIZE(_m) && (_m[_v])) ? (_m[_v]) : "???")
+@@ -417,6 +422,7 @@ enum {
+ #define VNC_ENCODING_XVP                  0XFFFFFECB /* -309 */
+ #define VNC_ENCODING_ALPHA_CURSOR         0XFFFFFEC6 /* -314 */
+ #define VNC_ENCODING_WMVi                 0x574D5669
++#define VNC_ENCODING_CLIPBOARD_EXT        0xc0a1e5ce
  
-@@ -144,6 +170,10 @@ static void vdagent_send_caps(VDAgentChardev *vd)
-     if (vd->mouse) {
-         caps->caps[0] |= (1 << VD_AGENT_CAP_MOUSE_STATE);
-     }
-+    if (vd->clipboard) {
-+        caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND);
-+        caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
-+    }
- 
-     vdagent_send_msg(vd, msg);
- }
-@@ -236,6 +266,209 @@ static QemuInputHandler vdagent_mouse_handler = {
-     .sync  = vdagent_pointer_sync,
+ /*****************************************************************************
+  *
+@@ -458,6 +464,7 @@ enum VncFeatures {
+     VNC_FEATURE_ZYWRLE,
+     VNC_FEATURE_LED_STATE,
+     VNC_FEATURE_XVP,
++    VNC_FEATURE_CLIPBOARD_EXT,
  };
  
-+/* ------------------------------------------------------------------ */
-+/* clipboard                                                          */
+ #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
+@@ -474,6 +481,7 @@ enum VncFeatures {
+ #define VNC_FEATURE_ZYWRLE_MASK              (1 << VNC_FEATURE_ZYWRLE)
+ #define VNC_FEATURE_LED_STATE_MASK           (1 << VNC_FEATURE_LED_STATE)
+ #define VNC_FEATURE_XVP_MASK                 (1 << VNC_FEATURE_XVP)
++#define VNC_FEATURE_CLIPBOARD_EXT_MASK       (1 <<  VNC_FEATURE_CLIPBOARD_EXT)
+ 
+ 
+ /* Client -> Server message IDs */
+@@ -535,6 +543,17 @@ enum VncFeatures {
+ #define VNC_XVP_ACTION_REBOOT 3
+ #define VNC_XVP_ACTION_RESET 4
+ 
++/* extended clipboard flags  */
++#define VNC_CLIPBOARD_TEXT     (1 << 0)
++#define VNC_CLIPBOARD_RTF      (1 << 1)
++#define VNC_CLIPBOARD_HTML     (1 << 2)
++#define VNC_CLIPBOARD_DIB      (1 << 3)
++#define VNC_CLIPBOARD_FILES    (1 << 4)
++#define VNC_CLIPBOARD_CAPS     (1 << 24)
++#define VNC_CLIPBOARD_REQUEST  (1 << 25)
++#define VNC_CLIPBOARD_PEEK     (1 << 26)
++#define VNC_CLIPBOARD_NOTIFY   (1 << 27)
++#define VNC_CLIPBOARD_PROVIDE  (1 << 28)
+ 
+ /*****************************************************************************
+  *
+@@ -618,4 +637,9 @@ int vnc_zrle_send_framebuffer_update(VncState *vs, int x, int y, int w, int h);
+ int vnc_zywrle_send_framebuffer_update(VncState *vs, int x, int y, int w, int h);
+ void vnc_zrle_clear(VncState *vs);
+ 
++/* vnc-clipboard.c */
++void vnc_server_cut_text_caps(VncState *vs);
++void vnc_client_cut_text(VncState *vs, size_t len, uint8_t *text);
++void vnc_client_cut_text_ext(VncState *vs, int32_t len, uint32_t flags, uint8_t *data);
 +
-+static uint32_t type_qemu_to_vdagent(enum QemuClipboardType type)
+ #endif /* QEMU_VNC_H */
+diff --git a/ui/vnc-clipboard.c b/ui/vnc-clipboard.c
+new file mode 100644
+index 000000000000..10ada8004f38
+--- /dev/null
++++ b/ui/vnc-clipboard.c
+@@ -0,0 +1,323 @@
++/*
++ * QEMU VNC display driver -- clipboard support
++ *
++ * Copyright (C) 2021 Gerd Hoffmann <kraxel@redhat.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "vnc.h"
++#include "vnc-jobs.h"
++
++static uint8_t *inflate_buffer(uint8_t *in, uint32_t in_len, uint32_t *size)
 +{
-+    switch (type) {
-+    case QEMU_CLIPBOARD_TYPE_TEXT:
-+        return VD_AGENT_CLIPBOARD_UTF8_TEXT;
-+    default:
-+        return VD_AGENT_CLIPBOARD_NONE;
++    z_stream stream = {
++        .next_in  = in,
++        .avail_in = in_len,
++        .zalloc   = Z_NULL,
++        .zfree    = Z_NULL,
++    };
++    uint32_t out_len = 8;
++    uint8_t *out = g_malloc(out_len);
++    int ret;
++
++    stream.next_out = out + stream.total_out;
++    stream.avail_out = out_len - stream.total_out;
++
++    ret = inflateInit(&stream);
++    if (ret != Z_OK) {
++        goto err;
 +    }
-+}
 +
-+static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
-+                                        QemuClipboardInfo *info)
-+{
-+    g_autofree VDAgentMessage *msg = g_malloc0(sizeof(VDAgentMessage) +
-+                                               sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));
-+    uint8_t *s = msg->data;
-+    uint32_t *data = (uint32_t *)(msg->data + 4);
-+    uint32_t q, v, type;
-+
-+    for (q = 0, v = 0; q < QEMU_CLIPBOARD_TYPE__COUNT; q++) {
-+        type = type_qemu_to_vdagent(q);
-+        if (type != VD_AGENT_CLIPBOARD_NONE && info->types[q].available) {
-+            data[v++] = type;
++    while (stream.avail_in) {
++        ret = inflate(&stream, Z_FINISH);
++        switch (ret) {
++        case Z_OK:
++        case Z_STREAM_END:
++            break;
++        case Z_BUF_ERROR:
++            out_len <<= 1;
++            if (out_len > (1 << 20)) {
++                goto err_end;
++            }
++            out = g_realloc(out, out_len);
++            stream.next_out = out + stream.total_out;
++            stream.avail_out = out_len - stream.total_out;
++            break;
++        default:
++            goto err_end;
 +        }
 +    }
 +
-+    *s = info->selection;
-+    msg->type = VD_AGENT_CLIPBOARD_GRAB;
-+    msg->size = sizeof(uint32_t) * (v + 1);
++    *size = stream.total_out;
++    inflateEnd(&stream);
 +
-+    vdagent_send_msg(vd, msg);
++    return out;
++
++err_end:
++    inflateEnd(&stream);
++err:
++    g_free(out);
++    return NULL;
 +}
 +
-+static void vdagent_send_clipboard_data(VDAgentChardev *vd,
-+                                        QemuClipboardInfo *info,
-+                                        QemuClipboardType type)
++static uint8_t *deflate_buffer(uint8_t *in, uint32_t in_len, uint32_t *size)
 +{
-+    g_autofree VDAgentMessage *msg = g_malloc0(sizeof(VDAgentMessage) +
-+                                               sizeof(uint32_t) * 2 +
-+                                               info->types[type].size);
++    z_stream stream = {
++        .next_in  = in,
++        .avail_in = in_len,
++        .zalloc   = Z_NULL,
++        .zfree    = Z_NULL,
++    };
++    uint32_t out_len = 8;
++    uint8_t *out = g_malloc(out_len);
++    int ret;
 +
-+    uint8_t *s = msg->data;
-+    uint32_t *t = (uint32_t *)(msg->data + 4);
-+    uint8_t *d = msg->data + 8;
++    stream.next_out = out + stream.total_out;
++    stream.avail_out = out_len - stream.total_out;
 +
-+    *s = info->selection;
-+    *t = type_qemu_to_vdagent(type);
-+    memcpy(d, info->types[type].data, info->types[type].size);
++    ret = deflateInit(&stream, Z_DEFAULT_COMPRESSION);
++    if (ret != Z_OK) {
++        goto err;
++    }
 +
-+    msg->type = VD_AGENT_CLIPBOARD;
-+    msg->size = sizeof(uint32_t) * 2 + info->types[type].size;
++    while (ret != Z_STREAM_END) {
++        ret = deflate(&stream, Z_FINISH);
++        switch (ret) {
++        case Z_OK:
++        case Z_STREAM_END:
++            break;
++        case Z_BUF_ERROR:
++            out_len <<= 1;
++            if (out_len > (1 << 20)) {
++                goto err_end;
++            }
++            out = g_realloc(out, out_len);
++            stream.next_out = out + stream.total_out;
++            stream.avail_out = out_len - stream.total_out;
++            break;
++        default:
++            goto err_end;
++        }
++    }
 +
-+    vdagent_send_msg(vd, msg);
++    *size = stream.total_out;
++    deflateEnd(&stream);
++
++    return out;
++
++err_end:
++    deflateEnd(&stream);
++err:
++    g_free(out);
++    return NULL;
 +}
 +
-+static void vdagent_clipboard_notify(Notifier *notifier, void *data)
++static void vnc_clipboard_send(VncState *vs, uint32_t count, uint32_t *dwords)
 +{
-+    VDAgentChardev *vd = container_of(notifier, VDAgentChardev, cbpeer.update);
++    int i;
++
++    vnc_lock_output(vs);
++    vnc_write_u8(vs, VNC_MSG_SERVER_CUT_TEXT);
++    vnc_write_u8(vs, 0);
++    vnc_write_u8(vs, 0);
++    vnc_write_u8(vs, 0);
++    vnc_write_s32(vs, -(count * sizeof(uint32_t)));  /* -(message length) */
++    for (i = 0; i < count; i++) {
++        vnc_write_u32(vs, dwords[i]);
++    }
++    vnc_unlock_output(vs);
++    vnc_flush(vs);
++}
++
++static void vnc_clipboard_provide(VncState *vs,
++                                  QemuClipboardInfo *info,
++                                  QemuClipboardType type)
++{
++    uint32_t flags = 0;
++    g_autofree uint8_t *buf = NULL;
++    g_autofree void *zbuf = NULL;
++    uint32_t zsize;
++
++    switch (type) {
++    case QEMU_CLIPBOARD_TYPE_TEXT:
++        flags |= VNC_CLIPBOARD_TEXT;
++        break;
++    default:
++        return;
++    }
++    flags |= VNC_CLIPBOARD_PROVIDE;
++
++    buf = g_malloc(info->types[type].size + 4);
++    buf[0] = (info->types[type].size >> 24) & 0xff;
++    buf[1] = (info->types[type].size >> 16) & 0xff;
++    buf[2] = (info->types[type].size >>  8) & 0xff;
++    buf[3] = (info->types[type].size >>  0) & 0xff;
++    memcpy(buf + 4, info->types[type].data, info->types[type].size);
++    zbuf = deflate_buffer(buf, info->types[type].size + 4, &zsize);
++    if (!zbuf) {
++        return;
++    }
++
++    vnc_lock_output(vs);
++    vnc_write_u8(vs, VNC_MSG_SERVER_CUT_TEXT);
++    vnc_write_u8(vs, 0);
++    vnc_write_u8(vs, 0);
++    vnc_write_u8(vs, 0);
++    vnc_write_s32(vs, -(sizeof(uint32_t) + zsize));  /* -(message length) */
++    vnc_write_u32(vs, flags);
++    vnc_write(vs, zbuf, zsize);
++    vnc_unlock_output(vs);
++    vnc_flush(vs);
++}
++
++static void vnc_clipboard_notify(Notifier *notifier, void *data)
++{
++    VncState *vs = container_of(notifier, VncState, cbpeer.update);
 +    QemuClipboardInfo *info = data;
-+    QemuClipboardSelection s = info->selection;
 +    QemuClipboardType type;
-+    bool self_update = info->owner == &vd->cbpeer;
++    bool self_update = info->owner == &vs->cbpeer;
++    uint32_t flags = 0;
 +
-+    if (info != vd->cbinfo[s]) {
-+        qemu_clipboard_info_put(vd->cbinfo[s]);
-+        vd->cbinfo[s] = qemu_clipboard_info_get(info);
-+        vd->cbpending[s] = 0;
++    if (info != vs->cbinfo) {
++        qemu_clipboard_info_put(vs->cbinfo);
++        vs->cbinfo = qemu_clipboard_info_get(info);
++        vs->cbpending = 0;
 +        if (!self_update) {
-+            vdagent_send_clipboard_grab(vd, info);
++            if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
++                flags |= VNC_CLIPBOARD_TEXT;
++            }
++            flags |= VNC_CLIPBOARD_NOTIFY;
++            vnc_clipboard_send(vs, 1, &flags);
 +        }
 +        return;
 +    }
@@ -272,221 +397,189 @@ index 61c12b02b573..89485973c512 100644
 +    }
 +
 +    for (type = 0; type < QEMU_CLIPBOARD_TYPE__COUNT; type++) {
-+        if (vd->cbpending[s] & (1 << type)) {
-+            vd->cbpending[s] &= ~(1 << type);
-+            vdagent_send_clipboard_data(vd, info, type);
++        if (vs->cbpending & (1 << type)) {
++            vs->cbpending &= ~(1 << type);
++            vnc_clipboard_provide(vs, info, type);
 +        }
 +    }
 +}
 +
-+static void vdagent_clipboard_request(QemuClipboardInfo *info,
-+                                      QemuClipboardType qtype)
++static void vnc_clipboard_request(QemuClipboardInfo *info,
++                                  QemuClipboardType type)
 +{
-+    VDAgentChardev *vd = container_of(info->owner, VDAgentChardev, cbpeer);
-+    g_autofree VDAgentMessage *msg = g_malloc0(sizeof(VDAgentMessage) +
-+                                               sizeof(uint32_t) * 2);
-+    uint32_t type = type_qemu_to_vdagent(qtype);
-+    uint8_t *s = msg->data;
-+    uint32_t *data = (uint32_t *)(msg->data + 4);
++    VncState *vs = container_of(info->owner, VncState, cbpeer);
++    uint32_t flags = 0;
 +
-+    if (type == VD_AGENT_CLIPBOARD_NONE) {
++    if (type == QEMU_CLIPBOARD_TYPE_TEXT) {
++        flags |= VNC_CLIPBOARD_TEXT;
++    }
++    if (!flags) {
++        return;
++    }
++    flags |= VNC_CLIPBOARD_REQUEST;
++
++    vnc_clipboard_send(vs, 1, &flags);
++}
++
++void vnc_client_cut_text_ext(VncState *vs, int32_t len, uint32_t flags, uint8_t *data)
++{
++    if (flags & VNC_CLIPBOARD_CAPS) {
++        /* need store caps somewhere ? */
 +        return;
 +    }
 +
-+    *s = info->selection;
-+    *data = type;
-+    msg->type = VD_AGENT_CLIPBOARD_REQUEST;
-+    msg->size = sizeof(uint32_t) * 2;
-+
-+    vdagent_send_msg(vd, msg);
-+}
-+
-+static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
-+{
-+    uint8_t s = VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD;
-+    uint32_t size = msg->size;
-+    void *data = msg->data;
-+    QemuClipboardInfo *info;
-+    QemuClipboardType type;
-+
-+    if (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION)) {
-+        if (size < 4) {
-+            return;
-+        }
-+        s = *(uint8_t *)data;
-+        data += 4;
-+        size -= 4;
-+    }
-+
-+    switch (msg->type) {
-+    case VD_AGENT_CLIPBOARD_GRAB:
-+        trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
-+        info = qemu_clipboard_info_new(&vd->cbpeer, s);
-+        if (size > sizeof(uint32_t) * 10) {
-+            /*
-+             * spice has 6 types as of 2021. Limiting to 10 entries
-+             * so we we have some wiggle room.
-+             */
-+            return;
-+        }
-+        while (size >= sizeof(uint32_t)) {
-+            trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t *)data));
-+            switch (*(uint32_t *)data) {
-+            case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-+                info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
-+                break;
-+            default:
-+                break;
-+            }
-+            data += sizeof(uint32_t);
-+            size -= sizeof(uint32_t);
++    if (flags & VNC_CLIPBOARD_NOTIFY) {
++        QemuClipboardInfo *info =
++            qemu_clipboard_info_new(&vs->cbpeer, QEMU_CLIPBOARD_SELECTION_CLIPBOARD);
++        if (flags & VNC_CLIPBOARD_TEXT) {
++            info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
 +        }
 +        qemu_clipboard_update(info);
 +        qemu_clipboard_info_put(info);
-+        break;
-+    case VD_AGENT_CLIPBOARD_REQUEST:
-+        if (size < sizeof(uint32_t)) {
-+            return;
-+        }
-+        switch (*(uint32_t *)data) {
-+        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-+            type = QEMU_CLIPBOARD_TYPE_TEXT;
-+            break;
-+        default:
-+            return;
-+        }
-+        if (vd->cbinfo[s] &&
-+            vd->cbinfo[s]->types[type].available &&
-+            vd->cbinfo[s]->owner != &vd->cbpeer) {
-+            if (vd->cbinfo[s]->types[type].data) {
-+                vdagent_send_clipboard_data(vd, vd->cbinfo[s], type);
-+            } else {
-+                vd->cbpending[s] |= (1 << type);
-+                qemu_clipboard_request(vd->cbinfo[s], type);
++        return;
++    }
++
++    if (flags & VNC_CLIPBOARD_PROVIDE &&
++        vs->cbinfo &&
++        vs->cbinfo->owner == &vs->cbpeer) {
++        uint32_t size = 0;
++        g_autofree uint8_t *buf = inflate_buffer(data, len - 4, &size);
++        if ((flags & VNC_CLIPBOARD_TEXT) &&
++            buf && size >= 4) {
++            uint32_t tsize = read_u32(buf, 0);
++            uint8_t *tbuf = buf + 4;
++            if (tsize < size) {
++                qemu_clipboard_set_data(&vs->cbpeer, vs->cbinfo,
++                                        QEMU_CLIPBOARD_TYPE_TEXT,
++                                        tsize, tbuf, true);
 +            }
 +        }
-+        break;
-+    case VD_AGENT_CLIPBOARD: /* data */
-+        if (size < sizeof(uint32_t)) {
-+            return;
++    }
++
++    if (flags & VNC_CLIPBOARD_REQUEST &&
++        vs->cbinfo &&
++        vs->cbinfo->owner != &vs->cbpeer) {
++        if ((flags & VNC_CLIPBOARD_TEXT) &&
++            vs->cbinfo->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
++            if (vs->cbinfo->types[QEMU_CLIPBOARD_TYPE_TEXT].data) {
++                vnc_clipboard_provide(vs, vs->cbinfo, QEMU_CLIPBOARD_TYPE_TEXT);
++            } else {
++                vs->cbpending |= (1 << QEMU_CLIPBOARD_TYPE_TEXT);
++                qemu_clipboard_request(vs->cbinfo, QEMU_CLIPBOARD_TYPE_TEXT);
++            }
 +        }
-+        switch (*(uint32_t *)data) {
-+        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-+            type = QEMU_CLIPBOARD_TYPE_TEXT;
-+            break;
-+        default:
-+            return;
-+        }
-+        data += 4;
-+        size -= 4;
-+        qemu_clipboard_set_data(&vd->cbpeer, vd->cbinfo[s], type,
-+                                size, data, true);
-+        break;
-+    case VD_AGENT_CLIPBOARD_RELEASE: /* data */
-+        if (vd->cbinfo[s] &&
-+            vd->cbinfo[s]->owner == &vd->cbpeer) {
-+            /* set empty clipboard info */
-+            info = qemu_clipboard_info_new(NULL, s);
-+            qemu_clipboard_update(info);
-+            qemu_clipboard_info_put(info);
-+        }
-+        break;
 +    }
 +}
 +
- /* ------------------------------------------------------------------ */
- /* chardev backend                                                    */
- 
-@@ -252,6 +485,11 @@ static void vdagent_chr_open(Chardev *chr,
-         vd->mouse = cfg->mouse;
-     }
- 
-+    vd->clipboard = VDAGENT_CLIPBOARD_DEFAULT;
-+    if (cfg->has_clipboard) {
-+        vd->clipboard = cfg->clipboard;
++void vnc_client_cut_text(VncState *vs, size_t len, uint8_t *text)
++{
++    QemuClipboardInfo *info =
++        qemu_clipboard_info_new(&vs->cbpeer, QEMU_CLIPBOARD_SELECTION_CLIPBOARD);
++
++    qemu_clipboard_set_data(&vs->cbpeer, info, QEMU_CLIPBOARD_TYPE_TEXT,
++                            len, text, true);
++    qemu_clipboard_info_put(info);
++}
++
++void vnc_server_cut_text_caps(VncState *vs)
++{
++    uint32_t caps[2];
++
++    if (!vnc_has_feature(vs, VNC_FEATURE_CLIPBOARD_EXT)) {
++        return;
 +    }
 +
-     if (vd->mouse) {
-         vd->mouse_hs = qemu_input_handler_register(&vd->mouse_dev,
-                                                    &vdagent_mouse_handler);
-@@ -283,6 +521,15 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)
-     if (vd->caps & (1 << VD_AGENT_CAP_MOUSE_STATE) && vd->mouse_hs) {
-         qemu_input_handler_activate(vd->mouse_hs);
++    caps[0] = (VNC_CLIPBOARD_PROVIDE |
++               VNC_CLIPBOARD_NOTIFY  |
++               VNC_CLIPBOARD_REQUEST |
++               VNC_CLIPBOARD_CAPS    |
++               VNC_CLIPBOARD_TEXT);
++    caps[1] = 0;
++    vnc_clipboard_send(vs, 2, caps);
++
++    vs->cbpeer.name = "vnc";
++    vs->cbpeer.update.notify = vnc_clipboard_notify;
++    vs->cbpeer.request = vnc_clipboard_request;
++    qemu_clipboard_peer_register(&vs->cbpeer);
++}
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 9c004a11f495..040e707cc89a 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -25,6 +25,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "vnc.h"
+ #include "vnc-jobs.h"
+ #include "trace.h"
+@@ -1324,6 +1325,9 @@ void vnc_disconnect_finish(VncState *vs)
+         /* last client gone */
+         vnc_update_server_surface(vs->vd);
      }
-+    if (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND) &&
-+        vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION) &&
-+        vd->clipboard &&
-+        vd->cbpeer.update.notify == NULL) {
-+        vd->cbpeer.name = "vdagent";
-+        vd->cbpeer.update.notify = vdagent_clipboard_notify;
-+        vd->cbpeer.request = vdagent_clipboard_request;
-+        qemu_clipboard_peer_register(&vd->cbpeer);
++    if (vs->cbpeer.update.notify) {
++        qemu_clipboard_peer_unregister(&vs->cbpeer);
 +    }
+ 
+     vnc_unlock_output(vs);
+ 
+@@ -1749,10 +1753,6 @@ uint32_t read_u32(uint8_t *data, size_t offset)
+             (data[offset + 2] << 8) | data[offset + 3]);
  }
  
- static void vdagent_chr_recv(VDAgentChardev *vd)
-@@ -307,6 +554,12 @@ static void vdagent_chr_recv(VDAgentChardev *vd)
-     case VD_AGENT_ANNOUNCE_CAPABILITIES:
-         vdagent_chr_recv_caps(vd, msg);
-         break;
-+    case VD_AGENT_CLIPBOARD:
-+    case VD_AGENT_CLIPBOARD_GRAB:
-+    case VD_AGENT_CLIPBOARD_REQUEST:
-+    case VD_AGENT_CLIPBOARD_RELEASE:
-+        vdagent_chr_recv_clipboard(vd, msg);
-+        break;
-     default:
-         break;
-     }
-@@ -375,6 +628,10 @@ static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
-         if (vd->mouse_hs) {
-             qemu_input_handler_deactivate(vd->mouse_hs);
+-static void client_cut_text(VncState *vs, size_t len, uint8_t *text)
+-{
+-}
+-
+ static void check_pointer_type_change(Notifier *notifier, void *data)
+ {
+     VncState *vs = container_of(notifier, VncState, mouse_mode_notifier);
+@@ -2194,6 +2194,10 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+                 send_xvp_message(vs, VNC_XVP_CODE_INIT);
+             }
+             break;
++        case VNC_ENCODING_CLIPBOARD_EXT:
++            vs->features |= VNC_FEATURE_CLIPBOARD_EXT_MASK;
++            vnc_server_cut_text_caps(vs);
++            break;
+         case VNC_ENCODING_COMPRESSLEVEL0 ... VNC_ENCODING_COMPRESSLEVEL0 + 9:
+             vs->tight->compression = (enc & 0x0F);
+             break;
+@@ -2410,7 +2414,7 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+             return 8;
          }
-+        if (vd->cbpeer.update.notify) {
-+            qemu_clipboard_peer_unregister(&vd->cbpeer);
-+            memset(&vd->cbpeer, 0, sizeof(vd->cbpeer));
+         if (len == 8) {
+-            uint32_t dlen = read_u32(data, 4);
++            uint32_t dlen = abs(read_s32(data, 4));
+             if (dlen > (1 << 20)) {
+                 error_report("vnc: client_cut_text msg payload has %u bytes"
+                              " which exceeds our limit of 1MB.", dlen);
+@@ -2422,7 +2426,11 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+             }
+         }
+ 
+-        client_cut_text(vs, read_u32(data, 4), data + 8);
++        if (read_s32(data, 4) < 0) {
++            vnc_client_cut_text_ext(vs, abs(read_s32(data, 4)), read_u32(data, 8), data + 12);
++            break;
 +        }
-         return;
-     }
- 
-@@ -391,6 +648,8 @@ static void vdagent_chr_parse(QemuOpts *opts, ChardevBackend *backend,
-     qemu_chr_parse_common(opts, qapi_ChardevVDAgent_base(cfg));
-     cfg->has_mouse = true;
-     cfg->mouse = qemu_opt_get_bool(opts, "mouse", VDAGENT_MOUSE_DEFAULT);
-+    cfg->has_clipboard = true;
-+    cfg->clipboard = qemu_opt_get_bool(opts, "clipboard", VDAGENT_CLIPBOARD_DEFAULT);
- }
- 
- /* ------------------------------------------------------------------ */
-diff --git a/qapi/char.json b/qapi/char.json
-index 586ef2137368..86b8e202b0ba 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -396,11 +396,13 @@
- # Configuration info for vdagent.
- #
- # @mouse: enable/disable mouse, default is enabled.
-+# @clipboard: enable/disable clipboard, default is disabled.
- #
- # Since: 6.0
- ##
- { 'struct': 'ChardevVDAgent',
--  'data': { '*mouse'    : 'bool' },
-+  'data': { '*mouse'    : 'bool',
-+            '*clipboard': 'bool' },
-   'base': 'ChardevCommon' }
- 
- ##
-diff --git a/ui/trace-events b/ui/trace-events
-index c286065f1a94..bcb5954a549a 100644
---- a/ui/trace-events
-+++ b/ui/trace-events
-@@ -132,3 +132,5 @@ vdagent_send(const char *name) "msg %s"
- vdagent_recv_chunk(uint32_t size) "size %d"
- vdagent_recv_msg(const char *name) "msg %s"
- vdagent_peer_cap(const char *name) "cap %s"
-+vdagent_cb_grab_selection(const char *name) "selection %s"
-+vdagent_cb_grab_type(const char *name) "type %s"
++        vnc_client_cut_text(vs, read_u32(data, 4), data + 8);
+         break;
+     case VNC_MSG_CLIENT_XVP:
+         if (!(vs->features & VNC_FEATURE_XVP)) {
+diff --git a/ui/meson.build b/ui/meson.build
+index 3d382b3b9019..6c0c6ddd74eb 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -30,6 +30,7 @@ vnc_ss.add(files(
+   'vnc-auth-vencrypt.c',
+   'vnc-ws.c',
+   'vnc-jobs.c',
++  'vnc-clipboard.c',
+ ))
+ vnc_ss.add(zlib, png, jpeg, gnutls)
+ vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
 -- 
 2.30.2
 
