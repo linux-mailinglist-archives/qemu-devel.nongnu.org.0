@@ -2,70 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C431E3406AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:17:07 +0100 (CET)
-Received: from localhost ([::1]:47832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5AC3406B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 14:19:11 +0100 (CET)
+Received: from localhost ([::1]:50628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMsWQ-00032z-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39604)
+	id 1lMsYQ-0004FM-9P
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 09:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lMsTy-00029G-Fx
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:14:34 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2737)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lMsTr-0002g7-P6
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:14:34 -0400
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4F1S8Q1KrDz1462q;
- Thu, 18 Mar 2021 21:11:18 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Thu, 18 Mar 2021 21:14:20 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Thu, 18 Mar 2021 21:14:20 +0800
-Subject: Re: [RFC PATCH 0/3] vfio/migration: Support manual clear vfio dirty
- log
-To: "Tian, Kevin" <kevin.tian@intel.com>, Alex Williamson
- <alex.williamson@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Kirti Wankhede" <kwankhede@nvidia.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>, Tarun Gupta
- <targupta@nvidia.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20210310094106.2191-1-jiangkunkun@huawei.com>
- <MWHPR11MB188608DDA524E353866268AE8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
- <ba20233b-c5c0-cf3f-e4fa-ecb1e054ff54@huawei.com>
- <MWHPR11MB1886BC40825E4FADA1BFB93F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
- <fa31ed64-1c6e-f7db-7650-656a22223501@huawei.com>
- <MWHPR11MB18868922447227A48272039F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <7610d1fd-fe04-df6e-dc92-542ef16c6cee@huawei.com>
-Date: Thu, 18 Mar 2021 21:14:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMsUC-0002Dh-Cq
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:14:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMsU6-0002r8-Ub
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 09:14:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616073281;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BA+uJn4Ntz99Gp12CgG1dlcwx0agf5Wm10r7y0nxsOs=;
+ b=ViJhiISxgCeetwX2iciJKBBSk6CSDsfvazRyPLVI4q6xJFx0a0RVtSEQu8WPi3rTZH3O2i
+ Etb0s5nm8dpZ17wbJQ4AenIgzXwUq3ls10oqlGlbjcSynJo+Em7et2TawMuGm77b6lCCEy
+ PfGAbbg3OIWyn9KGV43xjXLVLh+Tc2g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-bOo_lvlEObKuTKkZj_t3sw-1; Thu, 18 Mar 2021 09:14:39 -0400
+X-MC-Unique: bOo_lvlEObKuTKkZj_t3sw-1
+Received: by mail-wr1-f69.google.com with SMTP id z17so20085645wrv.23
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 06:14:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BA+uJn4Ntz99Gp12CgG1dlcwx0agf5Wm10r7y0nxsOs=;
+ b=ras4MkQopeRUikLVQ6UmdbcpLc3e2zXKJMvKOiwCNj0Zhij9Ns90aHfYcuXQCsw29B
+ HIM4wXQio84S6EiQjjtT6b3VEXlIFmKTdoMl1+8AWTfyRyPEfHcOeIkwdSxaUCTWCQLi
+ qeKwLKLMfOfYTrj3MIQWldbDT59fY70VEcm4069NS7rcXEw+wMFlKgDQN23HQWlfALHA
+ patj8fmkvZNcEKT1S4Be/4ceMCdpLydlDmFwj7+zQlOMg+U8DpXMgRGCpn/3JlxyFVrY
+ XaJMxNdQOATjjAv/54kP8L5SKgd4NPFPWbyNaSmp8mhi+SuH3QWgTQwJVfEu5RJuJbYW
+ PD2w==
+X-Gm-Message-State: AOAM531YNJxjCPkyF+2P9kvZssj6eB7/TNUAF8+tnYlhjO2sWFZz6zoK
+ rK+VYHFtXygZpnnEgCpgYK/uOWltEhG0DC8ujohpLh8FKQze6Qpit2QMicGvmhL1qNb/fif7QXK
+ DR3pV9EAjCU/osf8=
+X-Received: by 2002:adf:b609:: with SMTP id f9mr9329701wre.223.1616073278617; 
+ Thu, 18 Mar 2021 06:14:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDfWmSW5F2qKKFzwmJKvqv9ntqgoApVfKkoMvuMDvxEgQFDa1XArd2T40Sg+igym839enkJw==
+X-Received: by 2002:adf:b609:: with SMTP id f9mr9329682wre.223.1616073278436; 
+ Thu, 18 Mar 2021 06:14:38 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id j123sm2316078wmb.1.2021.03.18.06.14.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 06:14:38 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] target/arm: Restrict v7A TCG cpus to TCG accel
+To: Claudio Fontana <cfontana@suse.de>, Andrew Jones <drjones@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210221222617.2579610-1-f4bug@amsat.org>
+ <20210221222617.2579610-4-f4bug@amsat.org>
+ <c395479b-d2e0-a862-3446-4afef601ca1f@suse.de>
+ <8a302c84-b69c-b0c2-de45-607dd1f686a6@redhat.com>
+ <e0d11b2c-7b1c-c968-feb2-675a8c98c7a4@suse.de>
+ <ec296129-2c4d-fd74-d044-50c470e29609@redhat.com>
+ <cd4caf9d-c32c-25fd-a27f-d352ece74ed3@redhat.com>
+ <CAFEAcA8YybFf1=wQ7-scC2JnQEHr9nx0LBvt16dTBOXV0KuMAg@mail.gmail.com>
+ <28540fd5-3bd3-30d7-624d-da21d0f39806@redhat.com>
+ <CAFEAcA8t3Roq2qL1RTru1H+WZAQMVmWcN=VjCtJkvAzmyws_YQ@mail.gmail.com>
+ <20210318123727.vfjaecuklzicmprn@kamzik.brq.redhat.com>
+ <f41c34dc-2cad-5929-06d8-6ea098ab5b8a@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cec1eb2b-197f-b3d5-4187-f06b59be1657@redhat.com>
+Date: Thu, 18 Mar 2021 14:14:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <MWHPR11MB18868922447227A48272039F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <f41c34dc-2cad-5929-06d8-6ea098ab5b8a@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme717-chm.china.huawei.com (10.1.199.113) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=jiangkunkun@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,116 +109,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- "shameerali.kolothum.thodi@huawei.com"
- <shameerali.kolothum.thodi@huawei.com>, Zenghui Yu <yuzenghui@huawei.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/3/18 20:36, Tian, Kevin wrote:
->> From: Kunkun Jiang <jiangkunkun@huawei.com>
->> Sent: Thursday, March 18, 2021 8:29 PM
+On 3/18/21 1:50 PM, Claudio Fontana wrote:
+> On 3/18/21 1:37 PM, Andrew Jones wrote:
+>> On Thu, Mar 18, 2021 at 11:38:51AM +0000, Peter Maydell wrote:
+>>> On Thu, 18 Mar 2021 at 11:31, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>>> I tend to agree. The problem is for the running VMs started before
+>>>> 82bf7ae84ce (so up to any fork based on v5.2). I don't know what
+>>>> the forks are supposed to do with the running VMs if they want to
+>>>> migrate them to newer QEMU (or upgrade the host QEMU).
+>>>
+>>> Anybody with a Cortex-A15 KVM VM is just going to have to stay
+>>> with their pre-existing ancient hardware, their pre-existing
+>>> host kernel and their pre-existing QEMU binary. That's what
+>>> "we deprecated and then dropped support for this" means:
+>>> we no longer support running that kind of VM, so users who
+>>> were doing it need to either do something else instead, or
+>>> else just keep on going with the old versions they have.
+>>>
 >>
->> Hi Kevin,
+>> I strongly agree.
 >>
->> On 2021/3/18 17:04, Tian, Kevin wrote:
->>>> From: Kunkun Jiang <jiangkunkun@huawei.com>
->>>> Sent: Thursday, March 18, 2021 3:59 PM
->>>>
->>>> Hi Kevin,
->>>>
->>>> On 2021/3/18 14:28, Tian, Kevin wrote:
->>>>>> From: Kunkun Jiang
->>>>>> Sent: Wednesday, March 10, 2021 5:41 PM
->>>>>>
->>>>>> Hi all,
->>>>>>
->>>>>> In the past, we clear dirty log immediately after sync dirty log to
->>>>>> userspace. This may cause redundant dirty handling if userspace
->>>>>> handles dirty log iteratively:
->>>>>>
->>>>>> After vfio clears dirty log, new dirty log starts to generate. These
->>>>>> new dirty log will be reported to userspace even if they are generated
->>>>>> before userspace handles the same dirty page.
->>>>>>
->>>>>> Since a new dirty log tracking method for vfio based on iommu
->> hwdbm[1]
->>>>>> has been introduced in the kernel and added a new capability named
->>>>>> VFIO_DIRTY_LOG_MANUAL_CLEAR, we can eliminate some redundant
->>>> dirty
->>>>>> handling by supporting it.
->>>>> Is there any performance data showing the benefit of this new method?
->>>>>
->>>> Current dirty log tracking method for VFIO:
->>>> [1] All pages marked dirty if not all iommu_groups have pinned_scope
->>>> [2] pinned pages by various vendor drivers if all iommu_groups have
->>>> pinned scope
->>>>
->>>> Both methods are coarse-grained and can not determine which pages are
->>>> really dirty. Each round may mark the pages that are not really dirty as
->>>> dirty
->>>> and send them to the destination. ( It might be better if the range of the
->>>> pinned_scope was smaller. ) This will result in a waste of resources.
->>>>
->>>> HWDBM is short for Hardware Dirty Bit Management.
->>>> (e.g. smmuv3 HTTU, Hardware Translation Table Update)
->>>>
->>>> About SMMU HTTU:
->>>> HTTU is a feature of ARM SMMUv3, it can update access flag or/and dirty
->>>> state of the TTD (Translation Table Descriptor) by hardware.
->>>>
->>>> With HTTU, stage1 TTD is classified into 3 types:
->>>>                                     DBM bit AP[2](readonly bit)
->>>> 1. writable_clean          1                            1
->>>> 2. writable_dirty           1                            0
->>>> 3. readonly                   0                            1
->>>>
->>>> If HTTU_HD (manage dirty state) is enabled, smmu can change TTD from
->>>> writable_clean to writable_dirty. Then software can scan TTD to sync dirty
->>>> state into dirty bitmap. With this feature, we can track the dirty log of
->>>> DMA continuously and precisely.
->>>>
->>>> The capability of VFIO_DIRTY_LOG_MANUAL_CLEAR is similar to that on
->>>> the KVM side. We add this new log_clear() interface only to split the old
->>>> log_sync() into two separated procedures:
->>>>
->>>> - use log_sync() to collect the collection only, and,
->>>> - use log_clear() to clear the dirty bitmap.
->>>>
->>>> If you're interested in this new method, you can take a look at our set of
->>>> patches.
->>>> [1]
->>>> https://lore.kernel.org/linux-iommu/20210310090614.26668-1-
->>>> zhukeqian1@huawei.com/
->>>>
->>> I know what you are doing. Intel is also working on VT-d dirty bit support
->>> based on above link. What I'm curious is the actual performance gain
->>> with this optimization. KVM doing that is one good reference, but IOMMU
->>> has different characteristics (e.g. longer invalidation latency) compared to
->>> CPU MMU. It's always good to understand what a so-called optimization
->>> can actually optimize in a context different from where it's originally
->> proved.😊
->>> Thanks
->>> Kevin
->> My understanding is that this is a new method, which is quite different
->> from the
->> previous two. So can you explain in more detail what performance data
->> you want?😁
->>
->> Thanks,
->> Kunkun Jiang
-> When you have HTTU enabled, compare the migration efficiency with and
-> without this manual clear interface.
->
-> Thanks
-> Kevin
+>> And, downstream-wise, I can't speak for anything but RHEL, but RHEL
+>> cannot have this problem. There are no 32-bit ARM builds for RHEL.
 
-Oh, I see. From a theoretical analysis, this manual clear interface will be
-effective.  I will perform some tests on it and send out the results.
+Great then. Sorry for the confusion.
 
-Thanks,
-Kunkun Jiang
+> I don't see a strong issue with this either, there is no 32bit support for KVM ARM.
 
 
