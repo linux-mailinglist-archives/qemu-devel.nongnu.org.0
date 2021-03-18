@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943A534021D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:33:40 +0100 (CET)
-Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2605034022D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:36:08 +0100 (CET)
+Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMp2B-0000Y7-JK
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37850)
+	id 1lMp4Z-0005Cj-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMox9-0004AN-I0
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:28:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1lMoxS-0004ex-JA
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:28:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMowv-0001kA-TL
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:28:27 -0400
+ id 1lMoxN-0001wK-Df
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:28:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616059693;
+ s=mimecast20190719; t=1616059717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OAI/WYL1pM7rNQfMDUyRAx4f17t9mCtevKH6WmN1TF8=;
- b=THnlCqTh/MGj1eFsa4+uLFXMYGhgsM7VB543qeHnLKPs2CLS0TXefWq2kn7J8pyQQ5pz6+
- CPUFVq1bcSwSnWad7uqbdoJDRVZYkjdxOlHpWYWBRT9vEQUToVUZurmuhzlhG99hqRcsDa
- +8pOTH1UjEJE+iZuzUMryL7DM9ZR/H8=
+ bh=tGjbv8uCL1tGi9ZgWoOjs31fDbABsBK8/ldrtJoT/zM=;
+ b=BNnqMjTj67bH/hkl6WdMpjwhylSg65oYBqfd5EO8Hf5amDIkWwNWoH5rqLinCef14Z3THB
+ AAfJXFTTYKT9t0JRHZKmogCTwu+WcYDX5laXXYj0LditVjkaVyx/9W+RySkjj6fw2DF9nH
+ 5JmqOrCc3gmTMQpIpu1rsjGmCS1SgoQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-nO-zYG3qOESgbyQq2_qETw-1; Thu, 18 Mar 2021 05:28:11 -0400
-X-MC-Unique: nO-zYG3qOESgbyQq2_qETw-1
+ us-mta-428-BKnEQsxRPEeTtHpchsMQow-1; Thu, 18 Mar 2021 05:28:33 -0400
+X-MC-Unique: BKnEQsxRPEeTtHpchsMQow-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F452814314;
- Thu, 18 Mar 2021 09:28:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43541814315;
+ Thu, 18 Mar 2021 09:28:31 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-61.ams2.redhat.com
  [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9751D63634;
- Thu, 18 Mar 2021 09:27:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99CCF629BF;
+ Thu, 18 Mar 2021 09:28:09 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/13] migrate: remove QMP/HMP commands for speed,
- downtime and cache size
-Date: Thu, 18 Mar 2021 09:25:03 +0000
-Message-Id: <20210318092512.250725-5-berrange@redhat.com>
+Subject: [PULL 05/13] machine: remove 'query-cpus' QMP command
+Date: Thu, 18 Mar 2021 09:25:04 +0000
+Message-Id: <20210318092512.250725-6-berrange@redhat.com>
 In-Reply-To: <20210318092512.250725-1-berrange@redhat.com>
 References: <20210318092512.250725-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,634 +99,493 @@ Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generic 'migrate_set_parameters' command handle all types of param.
+The newer 'query-cpus-fast' command avoids side effects on the guest
+execution. Note that some of the field names are different in the
+'query-cpus-fast' command.
 
-Only the QMP commands were documented in the deprecations page, but the
-rationale for deprecating applies equally to HMP, and the replacements
-exist. Furthermore the HMP commands are just shims to the QMP commands,
-so removing the latter breaks the former unless they get re-implemented.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/devel/migration.rst            |  2 +-
- docs/rdma.txt                       |  2 +-
- docs/system/deprecated.rst          | 10 ---
- docs/system/removed-features.rst    | 20 ++++++
- docs/xbzrle.txt                     |  5 --
- hmp-commands-info.hx                | 13 ----
- hmp-commands.hx                     | 45 -------------
- include/monitor/hmp.h               |  4 --
- migration/migration.c               | 45 -------------
- migration/ram.c                     |  2 +-
- monitor/hmp-cmds.c                  | 34 ----------
- qapi/migration.json                 | 98 -----------------------------
- tests/migration/guestperf/engine.py | 16 ++---
- tests/qemu-iotests/181              |  2 +-
- tests/qtest/migration-test.c        | 48 --------------
- tests/qtest/test-hmp.c              |  6 +-
- tests/qtest/vhost-user-test.c       |  8 +--
- 17 files changed, 40 insertions(+), 320 deletions(-)
+ docs/system/deprecated.rst                 |   5 -
+ docs/system/removed-features.rst           |   5 +
+ hw/core/machine-hmp-cmds.c                 |   8 +-
+ hw/core/machine-qmp-cmds.c                 |  79 ----------
+ qapi/machine.json                          | 161 +--------------------
+ tests/acceptance/pc_cpu_hotplug_props.py   |   2 +-
+ tests/acceptance/x86_cpu_model_versions.py |   2 +-
+ tests/migration/guestperf/engine.py        |   2 +-
+ tests/qtest/numa-test.c                    |   6 +-
+ tests/qtest/qmp-test.c                     |   6 +-
+ tests/qtest/test-x86-cpuid-compat.c        |   4 +-
+ 11 files changed, 22 insertions(+), 258 deletions(-)
 
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index ad381b89b2..19c3d4f3ea 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -641,7 +641,7 @@ time per vCPU.
- 
- .. note::
-   During the postcopy phase, the bandwidth limits set using
--  ``migrate_set_speed`` is ignored (to avoid delaying requested pages that
-+  ``migrate_set_parameter`` is ignored (to avoid delaying requested pages that
-   the destination is waiting for).
- 
- Postcopy device transfer
-diff --git a/docs/rdma.txt b/docs/rdma.txt
-index 49dc9f8bca..2b4cdea1d8 100644
---- a/docs/rdma.txt
-+++ b/docs/rdma.txt
-@@ -89,7 +89,7 @@ RUNNING:
- First, set the migration speed to match your hardware's capabilities:
- 
- QEMU Monitor Command:
--$ migrate_set_speed 40g # or whatever is the MAX of your RDMA device
-+$ migrate_set_parameter max_bandwidth 40g # or whatever is the MAX of your RDMA device
- 
- Next, on the destination machine, add the following to the QEMU command line:
- 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index bffc7e4d59..c92387180c 100644
+index c92387180c..9a62afa6de 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -183,11 +183,6 @@ Use argument ``id`` instead.
+@@ -228,11 +228,6 @@ Since the ``dirty-bitmaps`` field is optionally present in both the old and
+ new locations, clients must use introspection to learn where to anticipate
+ the field if/when it does appear in command output.
  
- Use argument ``id`` instead.
- 
--``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-``query-cpus`` (since 2.12.0)
+-'''''''''''''''''''''''''''''
 -
--Use ``migrate-set-parameters`` instead.
+-The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
 -
- ``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-@@ -203,11 +198,6 @@ Always false.
- 
- Use argument value ``null`` instead.
- 
--``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--Use ``migrate-set-parameters`` and ``query-migrate-parameters`` instead.
--
- ``block-commit`` arguments ``base`` and ``top`` (since 3.1.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ ``query-cpus-fast`` ``arch`` output member (since 3.0.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index e932d023a2..d7f46a6ebc 100644
+index d7f46a6ebc..d7d86b3143 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -83,6 +83,16 @@ Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
- The ``query-events`` command has been superseded by the more powerful
- and accurate ``query-qmp-schema`` command.
+@@ -93,6 +93,11 @@ Use ``migrate_set_parameter`` and ``info migrate_parameters`` instead.
  
-+``migrate_set_cache_size`` and ``query-migrate-cache-size`` (removed in 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ Use ``migrate_set_parameter`` instead.
+ 
++``query-cpus`` (removed in 6.0)
++'''''''''''''''''''''''''''''''
 +
-+Use ``migrate_set_parameter`` and ``info migrate_parameters`` instead.
-+
-+``migrate_set_downtime`` and ``migrate_set_speed`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Use ``migrate_set_parameter`` instead.
++The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
 +
  Human Monitor Protocol (HMP) commands
  -------------------------------------
  
-@@ -111,6 +121,16 @@ The ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, and
- ``acl_remove`` commands were removed with no replacement. Authorization
- for VNC should be performed using the pluggable QAuthZ objects.
+diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+index 6357be9c6b..58248cffa3 100644
+--- a/hw/core/machine-hmp-cmds.c
++++ b/hw/core/machine-hmp-cmds.c
+@@ -130,7 +130,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+ {
+     int i, nb_numa_nodes;
+     NumaNodeMem *node_mem;
+-    CpuInfoList *cpu_list, *cpu;
++    CpuInfoFastList *cpu_list, *cpu;
+     MachineState *ms = MACHINE(qdev_get_machine());
  
-+``migrate-set-cache-size`` and ``info migrate-cache-size`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Use ``migrate-set-parameters`` and ``info migrate-parameters`` instead.
-+
-+``migrate_set_downtime`` and ``migrate_set_speed`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Use ``migrate-set-parameters`` instead.
-+
- Guest Emulator ISAs
- -------------------
+     nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
+@@ -139,7 +139,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+         return;
+     }
  
-diff --git a/docs/xbzrle.txt b/docs/xbzrle.txt
-index 6bd1828f34..bcb3f0c901 100644
---- a/docs/xbzrle.txt
-+++ b/docs/xbzrle.txt
-@@ -90,11 +90,6 @@ Usage
+-    cpu_list = qmp_query_cpus(&error_abort);
++    cpu_list = qmp_query_cpus_fast(&error_abort);
+     node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
  
- 3. Set the XBZRLE cache size - the cache size is in MBytes and should be a
- power of 2. The cache default value is 64MBytes. (on source only)
--    {qemu} migrate_set_cache_size 256m
--
--Commit 73af8dd8d7 "migration: Make xbzrle_cache_size a migration parameter"
--(v2.11.0) deprecated migrate-set-cache-size, therefore, the new parameter
--is recommended.
-     {qemu} migrate_set_parameter xbzrle-cache-size 256m
- 
- 4. Start outgoing migration
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 117ba25f91..ab0c7aa5ee 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -567,19 +567,6 @@ SRST
-     Show current migration parameters.
- ERST
- 
--    {
--        .name       = "migrate_cache_size",
--        .args_type  = "",
--        .params     = "",
--        .help       = "show current migration xbzrle cache size",
--        .cmd        = hmp_info_migrate_cache_size,
--    },
--
--SRST
--  ``info migrate_cache_size``
--    Show current migration xbzrle cache size.
--ERST
--
-     {
-         .name       = "balloon",
-         .args_type  = "",
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index b500b8526d..2bbe133bb6 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -979,51 +979,6 @@ SRST
-   Pause an ongoing migration.  Currently it only supports postcopy.
- ERST
- 
--    {
--        .name       = "migrate_set_cache_size",
--        .args_type  = "value:o",
--        .params     = "value",
--        .help       = "set cache size (in bytes) for XBZRLE migrations,"
--                      "the cache size will be rounded down to the nearest "
--                      "power of 2.\n"
--                      "The cache size affects the number of cache misses."
--                      "In case of a high cache miss ratio you need to increase"
--                      " the cache size",
--        .cmd        = hmp_migrate_set_cache_size,
--    },
--
--SRST
--``migrate_set_cache_size`` *value*
--  Set cache size to *value* (in bytes) for xbzrle migrations.
--ERST
--
--    {
--        .name       = "migrate_set_speed",
--        .args_type  = "value:o",
--        .params     = "value",
--        .help       = "set maximum speed (in bytes) for migrations. "
--	"Defaults to MB if no size suffix is specified, ie. B/K/M/G/T",
--        .cmd        = hmp_migrate_set_speed,
--    },
--
--SRST
--``migrate_set_speed`` *value*
--  Set maximum speed to *value* (in bytes) for migrations.
--ERST
--
--    {
--        .name       = "migrate_set_downtime",
--        .args_type  = "value:T",
--        .params     = "value",
--        .help       = "set maximum tolerated downtime (in seconds) for migrations",
--        .cmd        = hmp_migrate_set_downtime,
--    },
--
--SRST
--``migrate_set_downtime`` *second*
--  Set maximum tolerated downtime (in seconds) for migration.
--ERST
--
-     {
-         .name       = "migrate_set_capability",
-         .args_type  = "capability:s,state:b",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index ed2913fd18..605d57287a 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -28,7 +28,6 @@ void hmp_info_mice(Monitor *mon, const QDict *qdict);
- void hmp_info_migrate(Monitor *mon, const QDict *qdict);
- void hmp_info_migrate_capabilities(Monitor *mon, const QDict *qdict);
- void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict);
--void hmp_info_migrate_cache_size(Monitor *mon, const QDict *qdict);
- void hmp_info_cpus(Monitor *mon, const QDict *qdict);
- void hmp_info_vnc(Monitor *mon, const QDict *qdict);
- void hmp_info_spice(Monitor *mon, const QDict *qdict);
-@@ -64,11 +63,8 @@ void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
- void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
- void hmp_migrate_recover(Monitor *mon, const QDict *qdict);
- void hmp_migrate_pause(Monitor *mon, const QDict *qdict);
--void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict);
--void hmp_migrate_set_speed(Monitor *mon, const QDict *qdict);
- void hmp_migrate_set_capability(Monitor *mon, const QDict *qdict);
- void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict);
--void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict);
- void hmp_client_migrate_info(Monitor *mon, const QDict *qdict);
- void hmp_migrate_start_postcopy(Monitor *mon, const QDict *qdict);
- void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict);
-diff --git a/migration/migration.c b/migration/migration.c
-index 36768391b6..ca8b97baa5 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2316,51 +2316,6 @@ void qmp_migrate_continue(MigrationStatus state, Error **errp)
-     qemu_sem_post(&s->pause_sem);
+     query_numa_node_mem(node_mem, ms);
+@@ -148,7 +148,7 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+         for (cpu = cpu_list; cpu; cpu = cpu->next) {
+             if (cpu->value->has_props && cpu->value->props->has_node_id &&
+                 cpu->value->props->node_id == i) {
+-                monitor_printf(mon, " %" PRIi64, cpu->value->CPU);
++                monitor_printf(mon, " %" PRIi64, cpu->value->cpu_index);
+             }
+         }
+         monitor_printf(mon, "\n");
+@@ -157,6 +157,6 @@ void hmp_info_numa(Monitor *mon, const QDict *qdict)
+         monitor_printf(mon, "node %d plugged: %" PRId64 " MB\n", i,
+                        node_mem[i].node_plugged_mem >> 20);
+     }
+-    qapi_free_CpuInfoList(cpu_list);
++    qapi_free_CpuInfoFastList(cpu_list);
+     g_free(node_mem);
  }
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 44e979e503..af60cd969d 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -24,85 +24,6 @@
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
  
--void qmp_migrate_set_cache_size(int64_t value, Error **errp)
+-CpuInfoList *qmp_query_cpus(Error **errp)
 -{
--    MigrateSetParameters p = {
--        .has_xbzrle_cache_size = true,
--        .xbzrle_cache_size = value,
--    };
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-    MachineClass *mc = MACHINE_GET_CLASS(ms);
+-    CpuInfoList *head = NULL, **tail = &head;
+-    CPUState *cpu;
 -
--    qmp_migrate_set_parameters(&p, errp);
--}
+-    CPU_FOREACH(cpu) {
+-        CpuInfo *value;
+-#if defined(TARGET_I386)
+-        X86CPU *x86_cpu = X86_CPU(cpu);
+-        CPUX86State *env = &x86_cpu->env;
+-#elif defined(TARGET_PPC)
+-        PowerPCCPU *ppc_cpu = POWERPC_CPU(cpu);
+-        CPUPPCState *env = &ppc_cpu->env;
+-#elif defined(TARGET_SPARC)
+-        SPARCCPU *sparc_cpu = SPARC_CPU(cpu);
+-        CPUSPARCState *env = &sparc_cpu->env;
+-#elif defined(TARGET_RISCV)
+-        RISCVCPU *riscv_cpu = RISCV_CPU(cpu);
+-        CPURISCVState *env = &riscv_cpu->env;
+-#elif defined(TARGET_MIPS)
+-        MIPSCPU *mips_cpu = MIPS_CPU(cpu);
+-        CPUMIPSState *env = &mips_cpu->env;
+-#elif defined(TARGET_TRICORE)
+-        TriCoreCPU *tricore_cpu = TRICORE_CPU(cpu);
+-        CPUTriCoreState *env = &tricore_cpu->env;
+-#elif defined(TARGET_S390X)
+-        S390CPU *s390_cpu = S390_CPU(cpu);
+-        CPUS390XState *env = &s390_cpu->env;
+-#endif
 -
--uint64_t qmp_query_migrate_cache_size(Error **errp)
--{
--    return migrate_xbzrle_cache_size();
--}
+-        cpu_synchronize_state(cpu);
 -
--void qmp_migrate_set_speed(int64_t value, Error **errp)
--{
--    MigrateSetParameters p = {
--        .has_max_bandwidth = true,
--        .max_bandwidth = value,
--    };
+-        value = g_malloc0(sizeof(*value));
+-        value->CPU = cpu->cpu_index;
+-        value->current = (cpu == first_cpu);
+-        value->halted = cpu->halted;
+-        value->qom_path = object_get_canonical_path(OBJECT(cpu));
+-        value->thread_id = cpu->thread_id;
+-#if defined(TARGET_I386)
+-        value->arch = CPU_INFO_ARCH_X86;
+-        value->u.x86.pc = env->eip + env->segs[R_CS].base;
+-#elif defined(TARGET_PPC)
+-        value->arch = CPU_INFO_ARCH_PPC;
+-        value->u.ppc.nip = env->nip;
+-#elif defined(TARGET_SPARC)
+-        value->arch = CPU_INFO_ARCH_SPARC;
+-        value->u.q_sparc.pc = env->pc;
+-        value->u.q_sparc.npc = env->npc;
+-#elif defined(TARGET_MIPS)
+-        value->arch = CPU_INFO_ARCH_MIPS;
+-        value->u.q_mips.PC = env->active_tc.PC;
+-#elif defined(TARGET_TRICORE)
+-        value->arch = CPU_INFO_ARCH_TRICORE;
+-        value->u.tricore.PC = env->PC;
+-#elif defined(TARGET_S390X)
+-        value->arch = CPU_INFO_ARCH_S390;
+-        value->u.s390.cpu_state = env->cpu_state;
+-#elif defined(TARGET_RISCV)
+-        value->arch = CPU_INFO_ARCH_RISCV;
+-        value->u.riscv.pc = env->pc;
+-#else
+-        value->arch = CPU_INFO_ARCH_OTHER;
+-#endif
+-        value->has_props = !!mc->cpu_index_to_instance_props;
+-        if (value->has_props) {
+-            CpuInstanceProperties *props;
+-            props = g_malloc0(sizeof(*props));
+-            *props = mc->cpu_index_to_instance_props(ms, cpu->cpu_index);
+-            value->props = props;
+-        }
 -
--    qmp_migrate_set_parameters(&p, errp);
--}
--
--void qmp_migrate_set_downtime(double value, Error **errp)
--{
--    if (value < 0 || value > MAX_MIGRATE_DOWNTIME_SECONDS) {
--        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
--                   "downtime_limit",
--                   "an integer in the range of 0 to "
--                    stringify(MAX_MIGRATE_DOWNTIME_SECONDS)" seconds");
--        return;
+-        QAPI_LIST_APPEND(tail, value);
 -    }
 -
--    value *= 1000; /* Convert to milliseconds */
--
--    MigrateSetParameters p = {
--        .has_downtime_limit = true,
--        .downtime_limit = (int64_t)value,
--    };
--
--    qmp_migrate_set_parameters(&p, errp);
+-    return head;
 -}
 -
- bool migrate_release_ram(void)
+ static CpuInfoArch sysemu_target_to_cpuinfo_arch(SysEmuTarget target)
  {
-     MigrationState *s;
-diff --git a/migration/ram.c b/migration/ram.c
-index 52537f14ac..40e78952ad 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -121,7 +121,7 @@ static void XBZRLE_cache_unlock(void)
- /**
-  * xbzrle_cache_resize: resize the xbzrle cache
-  *
-- * This function is called from qmp_migrate_set_cache_size in main
-+ * This function is called from migrate_params_apply in main
-  * thread, possibly while a migration is in progress.  A running
-  * migration may be using the cache and might finish during this call,
-  * hence changes to the cache are protected by XBZRLE.lock().
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 3c88a4faef..8a47ba8fbb 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -518,12 +518,6 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-     qapi_free_MigrationParameters(params);
- }
- 
--void hmp_info_migrate_cache_size(Monitor *mon, const QDict *qdict)
--{
--    monitor_printf(mon, "xbzrel cache size: %" PRId64 " kbytes\n",
--                   qmp_query_migrate_cache_size(NULL) >> 10);
--}
--
- 
- #ifdef CONFIG_VNC
- /* Helper for hmp_info_vnc_clients, _servers */
-@@ -1226,34 +1220,6 @@ void hmp_migrate_pause(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
- 
--/* Kept for backwards compatibility */
--void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict)
--{
--    Error *err = NULL;
--
--    double value = qdict_get_double(qdict, "value");
--    qmp_migrate_set_downtime(value, &err);
--    hmp_handle_error(mon, err);
--}
--
--void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict)
--{
--    int64_t value = qdict_get_int(qdict, "value");
--    Error *err = NULL;
--
--    qmp_migrate_set_cache_size(value, &err);
--    hmp_handle_error(mon, err);
--}
--
--/* Kept for backwards compatibility */
--void hmp_migrate_set_speed(Monitor *mon, const QDict *qdict)
--{
--    Error *err = NULL;
--
--    int64_t value = qdict_get_int(qdict, "value");
--    qmp_migrate_set_speed(value, &err);
--    hmp_handle_error(mon, err);
--}
- 
- void hmp_migrate_set_capability(Monitor *mon, const QDict *qdict)
- {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 6e5943fbb4..9bf0bc4d25 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1398,104 +1398,6 @@
- ##
- { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
- 
--##
--# @migrate_set_downtime:
--#
--# Set maximum tolerated downtime for migration.
--#
--# @value: maximum downtime in seconds
--#
--# Features:
--# @deprecated: This command is deprecated.  Use
--#              'migrate-set-parameters' instead.
--#
--# Returns: nothing on success
--#
--# Since: 0.14
--#
--# Example:
--#
--# -> { "execute": "migrate_set_downtime", "arguments": { "value": 0.1 } }
--# <- { "return": {} }
--#
--##
--{ 'command': 'migrate_set_downtime', 'data': {'value': 'number'},
--  'features': [ 'deprecated' ] }
--
--##
--# @migrate_set_speed:
--#
--# Set maximum speed for migration.
--#
--# @value: maximum speed in bytes per second.
--#
--# Features:
--# @deprecated: This command is deprecated.  Use
--#              'migrate-set-parameters' instead.
--#
--# Returns: nothing on success
--#
--# Since: 0.14
--#
--# Example:
--#
--# -> { "execute": "migrate_set_speed", "arguments": { "value": 1024 } }
--# <- { "return": {} }
--#
--##
--{ 'command': 'migrate_set_speed', 'data': {'value': 'int'},
--  'features': [ 'deprecated' ] }
--
--##
--# @migrate-set-cache-size:
--#
--# Set cache size to be used by XBZRLE migration
--#
--# @value: cache size in bytes
--#
--# Features:
--# @deprecated: This command is deprecated.  Use
--#              'migrate-set-parameters' instead.
--#
--# The size will be rounded down to the nearest power of 2.
--# The cache size can be modified before and during ongoing migration
--#
--# Returns: nothing on success
--#
--# Since: 1.2
--#
--# Example:
--#
--# -> { "execute": "migrate-set-cache-size",
--#      "arguments": { "value": 536870912 } }
--# <- { "return": {} }
--#
--##
--{ 'command': 'migrate-set-cache-size', 'data': {'value': 'int'},
--  'features': [ 'deprecated' ] }
--
--##
--# @query-migrate-cache-size:
--#
--# Query migration XBZRLE cache size
--#
--# Features:
--# @deprecated: This command is deprecated.  Use
--#              'query-migrate-parameters' instead.
--#
--# Returns: XBZRLE cache size in bytes
--#
--# Since: 1.2
--#
--# Example:
--#
--# -> { "execute": "query-migrate-cache-size" }
--# <- { "return": 67108864 }
--#
--##
--{ 'command': 'query-migrate-cache-size', 'returns': 'size',
--  'features': [ 'deprecated' ] }
--
- ##
- # @migrate:
+     /*
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 330189efe3..9811927504 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -38,7 +38,7 @@
+ # @CpuInfoArch:
  #
+ # An enumeration of cpu types that enable additional information during
+-# @query-cpus and @query-cpus-fast.
++# @query-cpus-fast.
+ #
+ # @s390: since 2.12
+ #
+@@ -49,114 +49,6 @@
+ { 'enum': 'CpuInfoArch',
+   'data': ['x86', 'sparc', 'ppc', 'mips', 'tricore', 's390', 'riscv', 'other' ] }
+ 
+-##
+-# @CpuInfo:
+-#
+-# Information about a virtual CPU
+-#
+-# @CPU: the index of the virtual CPU
+-#
+-# @current: this only exists for backwards compatibility and should be ignored
+-#
+-# @halted: true if the virtual CPU is in the halt state.  Halt usually refers
+-#          to a processor specific low power mode.
+-#
+-# @qom_path: path to the CPU object in the QOM tree (since 2.4)
+-#
+-# @thread_id: ID of the underlying host thread
+-#
+-# @props: properties describing to which node/socket/core/thread
+-#         virtual CPU belongs to, provided if supported by board (since 2.10)
+-#
+-# @arch: architecture of the cpu, which determines which additional fields
+-#        will be listed (since 2.6)
+-#
+-# Since: 0.14
+-#
+-# Notes: @halted is a transient state that changes frequently.  By the time the
+-#        data is sent to the client, the guest may no longer be halted.
+-##
+-{ 'union': 'CpuInfo',
+-  'base': {'CPU': 'int', 'current': 'bool', 'halted': 'bool',
+-           'qom_path': 'str', 'thread_id': 'int',
+-           '*props': 'CpuInstanceProperties', 'arch': 'CpuInfoArch' },
+-  'discriminator': 'arch',
+-  'data': { 'x86': 'CpuInfoX86',
+-            'sparc': 'CpuInfoSPARC',
+-            'ppc': 'CpuInfoPPC',
+-            'mips': 'CpuInfoMIPS',
+-            'tricore': 'CpuInfoTricore',
+-            's390': 'CpuInfoS390',
+-            'riscv': 'CpuInfoRISCV' } }
+-
+-##
+-# @CpuInfoX86:
+-#
+-# Additional information about a virtual i386 or x86_64 CPU
+-#
+-# @pc: the 64-bit instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoX86', 'data': { 'pc': 'int' } }
+-
+-##
+-# @CpuInfoSPARC:
+-#
+-# Additional information about a virtual SPARC CPU
+-#
+-# @pc: the PC component of the instruction pointer
+-#
+-# @npc: the NPC component of the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoSPARC', 'data': { 'pc': 'int', 'npc': 'int' } }
+-
+-##
+-# @CpuInfoPPC:
+-#
+-# Additional information about a virtual PPC CPU
+-#
+-# @nip: the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoPPC', 'data': { 'nip': 'int' } }
+-
+-##
+-# @CpuInfoMIPS:
+-#
+-# Additional information about a virtual MIPS CPU
+-#
+-# @PC: the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoMIPS', 'data': { 'PC': 'int' } }
+-
+-##
+-# @CpuInfoTricore:
+-#
+-# Additional information about a virtual Tricore CPU
+-#
+-# @PC: the instruction pointer
+-#
+-# Since: 2.6
+-##
+-{ 'struct': 'CpuInfoTricore', 'data': { 'PC': 'int' } }
+-
+-##
+-# @CpuInfoRISCV:
+-#
+-# Additional information about a virtual RISCV CPU
+-#
+-# @pc: the instruction pointer
+-#
+-# Since 2.12
+-##
+-{ 'struct': 'CpuInfoRISCV', 'data': { 'pc': 'int' } }
+-
+ ##
+ # @CpuS390State:
+ #
+@@ -180,53 +72,6 @@
+ ##
+ { 'struct': 'CpuInfoS390', 'data': { 'cpu-state': 'CpuS390State' } }
+ 
+-##
+-# @query-cpus:
+-#
+-# Returns a list of information about each virtual CPU.
+-#
+-# This command causes vCPU threads to exit to userspace, which causes
+-# a small interruption to guest CPU execution. This will have a negative
+-# impact on realtime guests and other latency sensitive guest workloads.
+-#
+-# Features:
+-# @deprecated: This command is deprecated, because it interferes with
+-#              the guest.  Use 'query-cpus-fast' instead to avoid the vCPU
+-#              interruption.
+-#
+-# Returns: a list of @CpuInfo for each virtual CPU
+-#
+-# Since: 0.14
+-#
+-# Example:
+-#
+-# -> { "execute": "query-cpus" }
+-# <- { "return": [
+-#          {
+-#             "CPU":0,
+-#             "current":true,
+-#             "halted":false,
+-#             "qom_path":"/machine/unattached/device[0]",
+-#             "arch":"x86",
+-#             "pc":3227107138,
+-#             "thread_id":3134
+-#          },
+-#          {
+-#             "CPU":1,
+-#             "current":false,
+-#             "halted":true,
+-#             "qom_path":"/machine/unattached/device[2]",
+-#             "arch":"x86",
+-#             "pc":7108165,
+-#             "thread_id":3135
+-#          }
+-#       ]
+-#    }
+-#
+-##
+-{ 'command': 'query-cpus', 'returns': ['CpuInfo'],
+-  'features': [ 'deprecated' ] }
+-
+ ##
+ # @CpuInfoFast:
+ #
+@@ -266,9 +111,7 @@
+ ##
+ # @query-cpus-fast:
+ #
+-# Returns information about all virtual CPUs. This command does not
+-# incur a performance penalty and should be used in production
+-# instead of query-cpus.
++# Returns information about all virtual CPUs.
+ #
+ # Returns: list of @CpuInfoFast
+ #
+diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
+index e49bf33fc5..f48f68fc6b 100644
+--- a/tests/acceptance/pc_cpu_hotplug_props.py
++++ b/tests/acceptance/pc_cpu_hotplug_props.py
+@@ -32,4 +32,4 @@ def test_no_die_id(self):
+         self.vm.add_args('-cpu', 'qemu64')
+         self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0')
+         self.vm.launch()
+-        self.assertEquals(len(self.vm.command('query-cpus')), 2)
++        self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
+diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
+index 2b7461bb41..77ed8597a4 100644
+--- a/tests/acceptance/x86_cpu_model_versions.py
++++ b/tests/acceptance/x86_cpu_model_versions.py
+@@ -246,7 +246,7 @@ class CascadelakeArchCapabilities(avocado_qemu.Test):
+     :avocado: tags=arch:x86_64
+     """
+     def get_cpu_prop(self, prop):
+-        cpu_path = self.vm.command('query-cpus')[0].get('qom_path')
++        cpu_path = self.vm.command('query-cpus-fast')[0].get('qom-path')
+         return self.vm.command('qom-get', path=cpu_path, property=prop)
+ 
+     def test_4_1(self):
 diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 83bfc3b6bb..5161e4ff81 100644
+index 5161e4ff81..5c965140f8 100644
 --- a/tests/migration/guestperf/engine.py
 +++ b/tests/migration/guestperf/engine.py
-@@ -149,11 +149,11 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                      "state": True }
-                                ])
+@@ -110,7 +110,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+         src_vcpu_time = []
+         src_pid = src.get_pid()
  
--        resp = src.command("migrate_set_speed",
--                           value=scenario._bandwidth * 1024 * 1024)
-+        resp = src.command("migrate-set-parameters",
-+                           max_bandwidth=scenario._bandwidth * 1024 * 1024)
+-        vcpus = src.command("query-cpus")
++        vcpus = src.command("query-cpus-fast")
+         src_threads = []
+         for vcpu in vcpus:
+             src_threads.append(vcpu["thread_id"])
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index b25ebf97d8..dc0ec571ca 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -72,7 +72,7 @@ static void test_mon_partial(const void *data)
  
--        resp = src.command("migrate_set_downtime",
--                           value=scenario._downtime / 1024.0)
-+        resp = src.command("migrate-set-parameters",
-+                           downtime_limit=scenario._downtime / 1024.0)
+ static QList *get_cpus(QTestState *qts, QDict **resp)
+ {
+-    *resp = qtest_qmp(qts, "{ 'execute': 'query-cpus' }");
++    *resp = qtest_qmp(qts, "{ 'execute': 'query-cpus-fast' }");
+     g_assert(*resp);
+     g_assert(qdict_haskey(*resp, "return"));
+     return qdict_get_qlist(*resp, "return");
+@@ -97,10 +97,10 @@ static void test_query_cpus(const void *data)
+         int64_t cpu_idx, node;
  
-         if scenario._compression_mt:
-             resp = src.command("migrate-set-capabilities",
-@@ -182,9 +182,11 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                    { "capability": "xbzrle",
-                                      "state": True }
-                                ])
--            resp = src.command("migrate-set-cache-size",
--                               value=(hardware._mem * 1024 * 1024 * 1024 / 100 *
--                                      scenario._compression_xbzrle_cache))
-+            resp = src.command("migrate-set-parameters",
-+                               xbzrle_cache_size=(
-+                                   hardware._mem *
-+                                   1024 * 1024 * 1024 / 100 *
-+                                   scenario._compression_xbzrle_cache))
+         cpu = qobject_to(QDict, e);
+-        g_assert(qdict_haskey(cpu, "CPU"));
++        g_assert(qdict_haskey(cpu, "cpu-index"));
+         g_assert(qdict_haskey(cpu, "props"));
  
-         resp = src.command("migrate", uri=connect_uri)
+-        cpu_idx = qdict_get_int(cpu, "CPU");
++        cpu_idx = qdict_get_int(cpu, "cpu-index");
+         props = qdict_get_qdict(cpu, "props");
+         g_assert(qdict_haskey(props, "node-id"));
+         node = qdict_get_int(props, "node-id");
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index 11614bf63f..cd27fae3de 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -252,7 +252,7 @@ static void test_qmp_oob(void)
+      * Try any command that does not support OOB but with OOB flag. We
+      * should get failure.
+      */
+-    resp = qtest_qmp(qts, "{ 'exec-oob': 'query-cpus' }");
++    resp = qtest_qmp(qts, "{ 'exec-oob': 'query-cpus-fast' }");
+     g_assert(qdict_haskey(resp, "error"));
+     qobject_unref(resp);
  
-diff --git a/tests/qemu-iotests/181 b/tests/qemu-iotests/181
-index 820c53ef35..cb96d09ae5 100755
---- a/tests/qemu-iotests/181
-+++ b/tests/qemu-iotests/181
-@@ -109,7 +109,7 @@ if [ ${QEMU_STATUS[$dest]} -lt 0 ]; then
-     _notrun 'Postcopy is not supported'
- fi
+@@ -289,7 +289,7 @@ static void test_qmp_preconfig(void)
+     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-commands' }")));
  
--_send_qemu_cmd $src 'migrate_set_speed 4k' "(qemu)"
-+_send_qemu_cmd $src 'migrate_set_parameter max_bandwidth 4k' "(qemu)"
- _send_qemu_cmd $src 'migrate_set_capability postcopy-ram on' "(qemu)"
- _send_qemu_cmd $src "migrate -d unix:${MIG_SOCKET}" "(qemu)"
- _send_qemu_cmd $src 'migrate_start_postcopy' "(qemu)"
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index f2142fbd3c..3a711bb492 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -658,53 +658,6 @@ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
-     cleanup("dest_serial");
+     /* forbidden commands, expected error */
+-    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus' }")));
++    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
+ 
+     /* check that query-status returns preconfig state */
+     rsp = qtest_qmp(qs, "{ 'execute': 'query-status' }");
+@@ -313,7 +313,7 @@ static void test_qmp_preconfig(void)
+     g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'x-exit-preconfig' }")));
+ 
+     /* enabled commands, no error expected  */
+-    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus' }")));
++    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'query-cpus-fast' }")));
+ 
+     qtest_quit(qs);
  }
+diff --git a/tests/qtest/test-x86-cpuid-compat.c b/tests/qtest/test-x86-cpuid-compat.c
+index 6470f0a85d..f28848e06e 100644
+--- a/tests/qtest/test-x86-cpuid-compat.c
++++ b/tests/qtest/test-x86-cpuid-compat.c
+@@ -13,12 +13,12 @@ static char *get_cpu0_qom_path(void)
+     QDict *cpu0;
+     char *path;
  
--static void deprecated_set_downtime(QTestState *who, const double value)
--{
--    QDict *rsp;
--
--    rsp = qtest_qmp(who,
--                    "{ 'execute': 'migrate_set_downtime',"
--                    " 'arguments': { 'value': %f } }", value);
--    g_assert(qdict_haskey(rsp, "return"));
--    qobject_unref(rsp);
--    migrate_check_parameter_int(who, "downtime-limit", value * 1000);
--}
--
--static void deprecated_set_speed(QTestState *who, long long value)
--{
--    QDict *rsp;
--
--    rsp = qtest_qmp(who, "{ 'execute': 'migrate_set_speed',"
--                          "'arguments': { 'value': %lld } }", value);
--    g_assert(qdict_haskey(rsp, "return"));
--    qobject_unref(rsp);
--    migrate_check_parameter_int(who, "max-bandwidth", value);
--}
--
--static void deprecated_set_cache_size(QTestState *who, long long value)
--{
--    QDict *rsp;
--
--    rsp = qtest_qmp(who, "{ 'execute': 'migrate-set-cache-size',"
--                         "'arguments': { 'value': %lld } }", value);
--    g_assert(qdict_haskey(rsp, "return"));
--    qobject_unref(rsp);
--    migrate_check_parameter_int(who, "xbzrle-cache-size", value);
--}
--
--static void test_deprecated(void)
--{
--    QTestState *from;
--
--    from = qtest_init("-machine none");
--
--    deprecated_set_downtime(from, 0.12345);
--    deprecated_set_speed(from, 12345);
--    deprecated_set_cache_size(from, 4096);
--
--    qtest_quit(from);
--}
--
- static int migrate_postcopy_prepare(QTestState **from_ptr,
-                                     QTestState **to_ptr,
-                                     MigrateStart *args)
-@@ -1486,7 +1439,6 @@ int main(int argc, char **argv)
+-    resp = qmp("{'execute': 'query-cpus', 'arguments': {}}");
++    resp = qmp("{'execute': 'query-cpus-fast', 'arguments': {}}");
+     g_assert(qdict_haskey(resp, "return"));
+     ret = qdict_get_qlist(resp, "return");
  
-     qtest_add_func("/migration/postcopy/unix", test_postcopy);
-     qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
--    qtest_add_func("/migration/deprecated", test_deprecated);
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix", test_precopy_unix);
-     qtest_add_func("/migration/precopy/tcp", test_precopy_tcp);
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index 94a8023173..413eb95d2a 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -45,9 +45,9 @@ static const char *hmp_cmds[] = {
-     "log all",
-     "log none",
-     "memsave 0 4096 \"/dev/null\"",
--    "migrate_set_cache_size 1",
--    "migrate_set_downtime 1",
--    "migrate_set_speed 1",
-+    "migrate_set_parameter xbzrle_cache_size 1",
-+    "migrate_set_parameter downtime_limit 1",
-+    "migrate_set_parameter max_bandwidth 1",
-     "netdev_add user,id=net1",
-     "set_link net1 off",
-     "set_link net1 on",
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 1a5f5313ff..3d6337fb5c 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -756,8 +756,8 @@ static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
- 
-     /* slow down migration to have time to fiddle with log */
-     /* TODO: qtest could learn to break on some places */
--    rsp = qmp("{ 'execute': 'migrate_set_speed',"
--              "'arguments': { 'value': 10 } }");
-+    rsp = qmp("{ 'execute': 'migrate-set-parameters',"
-+              "'arguments': { 'max-bandwidth': 10 } }");
-     g_assert(qdict_haskey(rsp, "return"));
-     qobject_unref(rsp);
- 
-@@ -776,8 +776,8 @@ static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
-     munmap(log, size);
- 
-     /* speed things up */
--    rsp = qmp("{ 'execute': 'migrate_set_speed',"
--              "'arguments': { 'value': 0 } }");
-+    rsp = qmp("{ 'execute': 'migrate-set-parameters',"
-+              "'arguments': { 'max-bandwidth': 0 } }");
-     g_assert(qdict_haskey(rsp, "return"));
-     qobject_unref(rsp);
- 
+     cpu0 = qobject_to(QDict, qlist_peek(ret));
+-    path = g_strdup(qdict_get_str(cpu0, "qom_path"));
++    path = g_strdup(qdict_get_str(cpu0, "qom-path"));
+     qobject_unref(resp);
+     return path;
+ }
 -- 
 2.30.2
 
