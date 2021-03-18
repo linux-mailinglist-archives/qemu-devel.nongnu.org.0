@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DA1340520
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:04:53 +0100 (CET)
-Received: from localhost ([::1]:49324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CD1340511
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 13:01:34 +0100 (CET)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMrOV-00083x-Am
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50554)
+	id 1lMrLG-00076a-1D
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 08:01:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lMrI2-00066K-Bx; Thu, 18 Mar 2021 07:58:13 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:42851)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lMrJ9-0006Xa-9y
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:59:19 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:36275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lMrHy-0001YZ-PC; Thu, 18 Mar 2021 07:58:10 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 6F9185C0131;
- Thu, 18 Mar 2021 07:58:01 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 18 Mar 2021 07:58:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm2; bh=3goACMAD07JmUEIpl3fZnWsJ7X
- /o2dfDZ08z9anN08E=; b=CYFdFj14BFL6EMhQ4j5///PkyUDrxNXuL3yUOx/zbi
- 0hSkfcilvCwb+pMVOkWg7B7l5WddOFWdIz+pVb5gtn7Wo9CzUT0jY1w5O8q82oPw
- M70uZupzm7v4rmNuIrYkrIr5sUx6vW6Z2rXDxIuM6nL+HFnI8WiZ/P1c3gPisj7y
- JhgQhna9lXJqwNlJyfG7sJMZz67u6UPXP/tlXL6PyaIknzBb4XYZABs5ybJzaCAp
- zJcGz1OGyaTXj3/glAYj9wfZgQD+ggjKW6zggGpTwF9UqKOt2XeUPInuFx8eEUdl
- uIhOHuvc4jdL8R74pJ2EuJ2gXeM7pJlWMM/4vak+h3mw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3goACM
- AD07JmUEIpl3fZnWsJ7X/o2dfDZ08z9anN08E=; b=bMw0dYQ+7imFaiVoaG8Z+R
- IIQufABRmb0ZdPEzGoepRF6bqE9GNFwSjQgj5PzivabvvTHm1k+hybYUiw4gbuDv
- KFX+szlz8ImvIi53hp293BRdPKBKgp09sd+waegiAZUd2IrtFwR8GWkiTByFJEy3
- c12X900JucvkhoJgFQLr5s47nEDk+6RBmTXQg4Jw49Ypd6dO+y63sVDnG2spXcvz
- aCbtCfI0EUCO3uxo5GleInycTT1XNcjBdEZmCS8SRU3+FaXMhpONn1msBjY31ZZQ
- N1CgT4bJ4CN3rFVdllv+UgSKjmKP45sta7DnEnqxWmBS5WOONy6RteQGdj0EFfZA
- ==
-X-ME-Sender: <xms:R0BTYIsKEQIeJBGFFPEPQgTcPi6rAWYjSxYiryAiRQJAaxyLAba8xQ>
- <xme:R0BTYFbgU9vGT7SSjoeslx8KsI5G5RkStmhRQrwamlHEBh93ZMH9I8ognfcsWR0CS
- dMhfpni3UI9XOJ5QfE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefiedgfeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepvdfhueejueejkedvudeftdetvddtgffhteelgeeluddvveetuefhfeekfeeuhefg
- necuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecukfhppeektddrudeijedrle
- ekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:R0BTYAq-sML7pDyvDDhAaDzblc5es9VJqJPBOi7jQIAADlKbJiJdbA>
- <xmx:R0BTYC_T4E7gBX_U3LbP-C7OVFl2Ump83XvmcN6q44KySN87C1rvsw>
- <xmx:R0BTYH8uyROrMKKXocaBHezi7X5hk9JQ-UZG_Fv_3UGYQnk4Ffe81g>
- <xmx:SUBTYEjx-KBt6024odoJJ9_cYpalbd03ge5t9HgsKTmmSb-5byFWKg>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 58A97108005F;
- Thu, 18 Mar 2021 07:57:58 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 00/11] emulated nvme updates and fixes
-Date: Thu, 18 Mar 2021 12:57:57 +0100
-Message-Id: <20210318115757.58923-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.1
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lMrJ7-00024C-4R
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 07:59:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=FVNGMxw1Tu/ULPujLuXi4JIfnYLOLclI5Uy/fyQzbQo=; b=P1N1JMy4JcgwxiBIzw2XDOV80y
+ A9esKRmwwbaLQdFVNiBefUYR6kNiwask4eGVHk9U/E9UwVLjyX9IwOdPTVSwZoO11NuC4GftfGMf4
+ +LmVKMGMOKGHLts4awWHocsalKgD+bZ6tNJHz96fIUNmYLqXWdSws3GTNXCUxEFL1PbhrocNtWkmj
+ udXL2WuENOAqgYjU9+1/tPBOfACYVXAtDvxZTqm5X85pGGD+nh/ljBUvrajppS6TxeC2j7lwWPbkX
+ a8iJ/d2JdRw+P0ZhX5FRDY7LRrXoQsQEfZSSxEiqyY55x4cloGL72T25RXgQZsmtr4rq4zzuk9CBZ
+ mVibXmekJS5jzV3lOVxUdeKtoq/tL3m5n5rXBIwzrRN2kX3UVpk73CvzEeqwOXCTW6Q56u8sbcVX0
+ yVoSwWoGMdIKDhRaPZsJRdYrKWnbVuAQrK4zKw+VVOJNQxhksPgxsTBiGE47cxhA51ARXyKD1cBZo
+ 78JrS1Z2/WvjH21/IZa0AKVnrATuoLU9KvjtclPSsxgfAajvwYIhMVBCFREofH1wkR40jb3a8o4he
+ hU/CHaI1ErtHqo2d28bX32fynavSR8qtGF3drQOaUX/IbywdnhoClCyotH5cModT2GUF+sefBJQ7e
+ GdGdBsRhbsG+DRt47R5AieJjZZDLoJ+f4Rt0hYgk0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Xie Yongji <xieyongji@bytedance.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
+ reconnection
+Date: Thu, 18 Mar 2021 12:58:46 +0100
+Message-ID: <1711593.yAA9ihpmTb@silver>
+In-Reply-To: <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+ <1709993.NBFj2RoZ23@silver>
+ <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,82 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+On Mittwoch, 17. M=E4rz 2021 13:57:47 CET Jiachen Zhang wrote:
+> On Wed, Mar 17, 2021 at 7:50 PM Christian Schoenebeck <
+>=20
+> qemu_oss@crudebyte.com> wrote:
+> > On Mittwoch, 17. M=E4rz 2021 11:05:32 CET Stefan Hajnoczi wrote:
+> > > On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
+> > > > Thanks for the suggestions. Actually, we choose to save all state
+> > > > information to QEMU because a virtiofsd has the same lifecycle as i=
+ts
+> > > > QEMU master. However, saving things to a file do avoid communication
+> >=20
+> > with
+> >=20
+> > > > QEMU, and we no longer need to increase the complexity of vhost-user
+> > > > protocol. The suggestion to save fds to the systemd is also very
+> > > > reasonable
+> > > > if we don't consider the lifecycle issues, we will try it.
+> > >=20
+> > > Hi,
+> > > We recently discussed crash recovery in the virtio-fs bi-weekly call =
+and
+> > > I read some of this email thread because it's a topic I'm interested =
+in.
+> >=20
+> > I just had a quick fly over the patches so far. Shouldn't there be some
+> > kind
+> > of constraint for an automatic reconnection feature after a crash to
+> > prevent
+> > this being exploited by ROP brute force attacks?
+> >=20
+> > E.g. adding some (maybe continuously increasing) delay and/or limiting =
+the
+> > amount of reconnects within a certain time frame would come to my mind.
+> >=20
+> > Best regards,
+> > Christian Schoenebeck
+>=20
+> Thanks, Christian. I am still trying to figure out the details of the ROP
+> attacks.
+>=20
+> However, QEMU's vhost-user reconnection is based on chardev socket
+> reconnection. The socket reconnection can be enabled by the "--chardev
+> socket,...,reconnect=3DN" in QEMU command options, in which N means QEMU =
+will
+> try to connect the disconnected socket every N seconds. We can increase N
+> to increase the reconnect delay. If we want to change the reconnect delay
+> dynamically, I think we should change the chardev socket reconnection cod=
+e.
+> It is a more generic mechanism than vhost-user-fs and vhost-user backend.
+>=20
+> By the way, I also considered the socket reconnection delay time in the
+> performance aspect. As the reconnection delay increase, if an application
+> in the guest is doing I/Os, it will suffer larger tail latency. And for
+> now, the smallest delay is 1 second, which is rather large for
+> high-performance virtual I/O devices today. I think maybe a more performa=
+nt
+> and safer reconnect delay adjustment mechanism should be considered in the
+> future. What are your thoughts?
 
-Hi Peter,=0D
-=0D
-The following changes since commit b12498fc575f2ad30f09fe78badc7fef526e2d76=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/vivier/tags/q800-for-6.0-pull-reque=
-st' into staging (2021-03-18 10:05:37 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
-=0D
-for you to fetch changes up to dc04d25e2f3f7e26f7f97b860992076b5f04afdb:=0D
-=0D
-  hw/block/nvme: add support for the format nvm command (2021-03-18 12:41:4=
-3 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-emulated nvme updates and fixes=0D
-=0D
-* fixes for Coverity CID 1450756, 1450757 and 1450758 (me)=0D
-* fix for a bug in zone management receive (me)=0D
-* metadata and end-to-end data protection support (me & Gollu Appalanaidu)=
-=0D
-* verify support (Gollu Appalanaidu)=0D
-* multiple lba formats and format nvm support (Minwoo Im)=0D
-=0D
-and a couple of misc refactorings from me.=0D
-=0D
-v2:=0D
-  - remove an unintended submodule update. Argh.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gollu Appalanaidu (1):=0D
-  hw/block/nvme: add verify command=0D
-=0D
-Klaus Jensen (8):=0D
-  hw/block/nvme: fix potential overflow=0D
-  hw/block/nvme: assert namespaces array indices=0D
-  hw/block/nvme: fix zone management receive reporting too many zones=0D
-  hw/block/nvme: add metadata support=0D
-  hw/block/nvme: end-to-end data protection=0D
-  hw/block/nvme: add non-mdts command size limit for verify=0D
-  hw/block/nvme: prefer runtime helpers instead of device parameters=0D
-  hw/block/nvme: pull lba format initialization=0D
-=0D
-Minwoo Im (2):=0D
-  hw/block/nvme: support multiple lba formats=0D
-  hw/block/nvme: add support for the format nvm command=0D
-=0D
- hw/block/nvme-dif.h    |   53 ++=0D
- hw/block/nvme-ns.h     |   50 +-=0D
- hw/block/nvme-subsys.h |    2 +=0D
- hw/block/nvme.h        |   44 +-=0D
- include/block/nvme.h   |   29 +-=0D
- hw/block/nvme-dif.c    |  508 ++++++++++++++++=0D
- hw/block/nvme-ns.c     |  124 +++-=0D
- hw/block/nvme-subsys.c |    7 +-=0D
- hw/block/nvme.c        | 1257 ++++++++++++++++++++++++++++++++++++----=0D
- hw/block/meson.build   |    2 +-=0D
- hw/block/trace-events  |   22 +-=0D
- 11 files changed, 1939 insertions(+), 159 deletions(-)=0D
- create mode 100644 hw/block/nvme-dif.h=0D
- create mode 100644 hw/block/nvme-dif.c=0D
-=0D
--- =0D
-2.30.1=0D
-=0D
+So with N=3D1 an attacker could e.g. bypass a 16-bit PAC by brute-force in =
+~18=20
+hours (e.g. on Arm if PAC + MTE was enabled). With 24-bit PAC (no MTE) it=20
+would be ~194 days. Independent of what architecture and defend mechanism i=
+s=20
+used, there is always the possibility though that some kind of side channel=
+=20
+attack exists that might require a much lower amount of attempts. So in an=
+=20
+untrusted environment I would personally limit the amount of automatic=20
+reconnects and rather accept a down time for further investigation if a=20
+suspicious high amount of crashes happened.
+
+And yes, if a dynamic delay scheme was deployed in future then starting wit=
+h a=20
+value smaller than 1 second would make sense.
+
+Best regards,
+Christian Schoenebeck
+
+
 
