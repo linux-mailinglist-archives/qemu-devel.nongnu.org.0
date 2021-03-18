@@ -2,136 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F4134090B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:40:47 +0100 (CET)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E2A340909
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:40:32 +0100 (CET)
+Received: from localhost ([::1]:49240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMulS-0005Cx-LF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46224)
+	id 1lMulD-0004s9-Q1
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMuid-0003Zb-3q; Thu, 18 Mar 2021 11:37:51 -0400
-Received: from mail-eopbgr00122.outbound.protection.outlook.com
- ([40.107.0.122]:1662 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lMuiZ-0003go-Rx; Thu, 18 Mar 2021 11:37:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fBwuW+F/91X4km8pZpP3gl1gb6B4cxpwvznFG+0nOTtBKQioXa3Q4GryhVAdMWpqLE0zDt8HkoJiNBrVQI5NjiJWmzzIr/xRgHuwDl6FYP0mR3OFebARpXXrSQ86W39t/51p4wfMgphyjm/N/PZ7SdxzogSksp9qI9SoOuRNqUwpfYzonNE9b2/mJqLORokULG2YR9MaeZIhS/ab95ZZVlruo5TismP1T4Kh4w9w1I0NSYOVznp49658ECb1moc9TSIg+feWN3+GnJQXKgPOhEWJNXRWqgs7glNlAAv+yQx+RBIMypEpXlJzANh/70xCmkDzb/c4JwTjWkwi3cVsig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZCxct72LIkhFrQcSnA40/QqpDVGjE0c3OH0cPCYQrIk=;
- b=AuoTnZt7Sgtl0yjbIiQ0ZFDzlMJOsKqEozdzZ6BRahaOBDEmVAiSCX7UmJ4MdOu73/BnpxKB+znj5KG54atS9LVBacyNIfHRuzeRdNe3GCRdlS7nagTDs8dRbjlWqLzrNFIESFgWHsTokFWzSipg45s/mUA3ifuM63KQeNs7cSVYKT5v/O9o6e+eAj/FvYbEX+kXFJBK1I/U0wWooj15q4PiSfcBWpBShyJ4wmeXkUt9HpUU3nddAjgYr+eb/WfZIcSb8bL2iUuz9KRQZ3ERQCdEfP99f4Fl3MfLS8CwDS9zNxanfQ3sXEHW7sa0d75lR4f3O+Oyi6iFSFdnqYef9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZCxct72LIkhFrQcSnA40/QqpDVGjE0c3OH0cPCYQrIk=;
- b=kXd1IiBhSBFYFUgmr7IjomsxMI00V0q6ijH7KA5BX/km2/dBqNrllR51PU7wzS7+oJh6xsgU4m58ql03QYpCXA1hVKV9w6wmhnXaatUu3QyjW5MVXRNMPSqbSNauo4cOsli+poKofWT/eMme8CkznCql9EG6FQao+gI/Pb/U1qY=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6294.eurprd08.prod.outlook.com (2603:10a6:20b:29a::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 18 Mar
- 2021 15:37:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.018; Thu, 18 Mar 2021
- 15:37:43 +0000
-Subject: Re: [PATCH v2(RFC) 0/3] qcow2: fix parallel rewrite and discard
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- den@openvz.org
-References: <20210225115205.249923-1-vsementsov@virtuozzo.com>
- <YEuHkB4Uz0lAiSqm@merkur.fritz.box>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <93cd353e-1b9e-4f42-a404-1db0d1972cbb@virtuozzo.com>
-Date: Thu, 18 Mar 2021 18:37:42 +0300
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMujJ-0003xx-7z
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:38:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lMujH-000478-Lo
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:38:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616081910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=prZ50HFcvEU/WIUL0wzCBfrqQw7ok75M3qNWi0dyHSs=;
+ b=MtA9hpUAnVy+gMA8zyO3mvDId72BLdjQMdXuqe9tmm9VCeCvN25g4/kyuJov22+PTUnDpz
+ TgcyNXUjd4ZR5Y/CMfsvBtIlQdD+DVgpIzTZ5rB9vF1oFR1ceMwC1xD6yE/xw0e3h3R700
+ Jz45uIB1PJQad0WyxL5Y99nCM5o0ecY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-5uRwE-HuO-q_my5-VzkLnA-1; Thu, 18 Mar 2021 11:38:28 -0400
+X-MC-Unique: 5uRwE-HuO-q_my5-VzkLnA-1
+Received: by mail-wr1-f70.google.com with SMTP id i5so20295876wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:38:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=prZ50HFcvEU/WIUL0wzCBfrqQw7ok75M3qNWi0dyHSs=;
+ b=I1KrWBv4IwJimtljxyhCr6nP3DalTa5VblWM9DzGA8+Wzh4BP9UiAtUWFI4bSs6skT
+ PhhH2CaAxX5hDBEnVVEQxgZl8oJ+rizjmdaHD1sVmuRIQSAx4Tnu0sJzntyHPobqhXAa
+ jwTZKp/m+1iTrHOEXDA+EjdtoFIAIkniJ3AfqKPsbDBrBS5HNriJ1xUGIybpVnpxlVC8
+ stVlOmKXJA+tvBRYMw9GXqqHyar4qBnFVgOj3QJuVURjILJqX8qkF4tlwBdvfDpuLfdU
+ N2xRX9j2GCvqfJ8cDMAQc78uYMqYd1UP9LG0Guzef0yg3fKJSFyIuOiC83z6ZCPHELi8
+ OWLw==
+X-Gm-Message-State: AOAM530pdKrkkiR1BqN99YZN/c7D+PVnK6dTcsjugHf3G0SvekrThyZO
+ R3ReWFY/T2apygB+3VRdZIVS3lOCejbRc/XD7YLfxifZWkF1gTWUkJbGo3dLgoXg/b4tTL+Ue3x
+ VIJR9IFYtdsRE9cU=
+X-Received: by 2002:a5d:4bcd:: with SMTP id l13mr10543071wrt.56.1616081906460; 
+ Thu, 18 Mar 2021 08:38:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJymk2C20h0j0rXK1+hzEazShq/VG2gurAqO5OlWXTiu6wA82CT8BsIsdlGCy6NuoKbg91LPAA==
+X-Received: by 2002:a5d:4bcd:: with SMTP id l13mr10543052wrt.56.1616081906348; 
+ Thu, 18 Mar 2021 08:38:26 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id b17sm3431052wrt.17.2021.03.18.08.38.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Mar 2021 08:38:25 -0700 (PDT)
+Subject: Re: [PATCH] target/i386/sev: Ensure sev_fw_errlist is sync with
+ update-linux-headers
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20210219180131.2061072-1-philmd@redhat.com>
+ <bb91385d-ce8d-c949-d261-ec5315888b30@redhat.com>
+Message-ID: <590b0e2c-361a-e339-6b39-1793a5be6ea8@redhat.com>
+Date: Thu, 18 Mar 2021 16:38:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <YEuHkB4Uz0lAiSqm@merkur.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: AM3PR04CA0149.eurprd04.prod.outlook.com (2603:10a6:207::33)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- AM3PR04CA0149.eurprd04.prod.outlook.com (2603:10a6:207::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Thu, 18 Mar 2021 15:37:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a0afa7bd-e6e9-40bb-b4f8-08d8ea23c5cd
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6294:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB629487A2CF3E87949FA22622C1699@AS8PR08MB6294.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0cuAcOZ01YCQZv4PDBQHyinzNp/FEWZkczDxscmNxyeVC+mJ9b/FJFhZg9TJAcvvkbfdzKegBd9U3xcqF+o6/xkQXu7Z4C9CCcrhEH0sD5vg2dMNqrFvAlebyVn/Zyd4WvYoKOYUC5eDGkvR9YnCr1uhRelZCeejTM8/NvXYTVjS7iYOx9IxWDjlYZzaQJ8umJIT3q7UsDbXrvATey+ogQmys0V9/bK4IePxq2QYHLT+mz8IsYlW9LVFazbYxFiPJue3jN4ZIi8EGV9kN+dCzwC9/ziENwLs8rPL7MADb7nnhzJxg+d4a1HlfGws45uzvwq9ejV5CVDPfPRLZslnBz4B6EZ8bN7BuO4qN+tdcPsotPasJafzbLuejjsLQmSBSGxo9WWmagYPf4s3AHJ2MgBf2Ptr3jlT38kl6EQ7lP+OEqUBMf89F6szTSQvu57xo0tADw2SweiHAZFd3CTY5ujqqoGIYSrF8mPCDsY1Pf4/xbbHi3r1U+RNUXx3WhPBBNX+OWMDeAEwZU07fUI5wgi7ctggOLiYOi4OKNB5x86I2VqFfAJQs8bdE6CfpVuWK21+oVhE9/+DvU3amFSFiRQazIyogxd6kumaWI0taPBTSdsJfWzgLeWNzLrqGElPjO8tjQ6yB2Mn9VN6HSJiD3iPWrInq4TGK3z1OFBcwA15nIRk3vqvUfZZSp3MYN7G
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(346002)(376002)(39830400003)(136003)(86362001)(6916009)(66476007)(31686004)(38100700001)(5660300002)(66946007)(6486002)(8936002)(4326008)(107886003)(52116002)(316002)(31696002)(36756003)(186003)(16526019)(478600001)(26005)(8676002)(16576012)(956004)(2616005)(66556008)(2906002)(83380400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aWZBRWdOcVlLdGp3STFSaUZ0NTluUmlic2RJdUQ1Q25NU0ZNeStGaDhQWDBK?=
- =?utf-8?B?bjBMUlJuQXkwbHhLcjAybTJuYVhMbU5WRU1OWnhxV2M5Vzh1UkllMW5rblI5?=
- =?utf-8?B?RS8ydW9COTJtQzNhbEZTTmVnekU1M1pkWk5vUjZFaVc2bEVvSzB5VVZ0U0Qr?=
- =?utf-8?B?Q05OMXhoZlBqbEIrczREaGtnNEtPaXAvTkVKWXFXeTVCcDlCY1VFQzg1aDM5?=
- =?utf-8?B?SSs2c1dlMGwrZDk0UmJDdlE2R3NDYmVKUUNpaUpHL09NOVhLRVJJSEh6WEpW?=
- =?utf-8?B?RDRBU2M0SnlPUVhOUGE5VWxaUEgvNFJDcEQzeVlKaUhYZnVyVkJuVE5sdlZX?=
- =?utf-8?B?SUV3TzZRTlhHVWNpQ2tqL1h1MVBKWEJxa0tmVkZoYWwreGd5WjRIeUJKR2tB?=
- =?utf-8?B?akNwVFk4Ujd0Q1VNQy81Qm9yWEUyRG04UnpXRUNDMHVkcytONklJc1R5cTU4?=
- =?utf-8?B?bisyU0x4aFcycmxSeHRxTGQya1hhQVZHdU5zQkxraDk5Y0REc015a3dRSVZj?=
- =?utf-8?B?SFJJdmxOdFI5WXRmQmJieXJIdW1vN2Rnay9rbDhDVGcwbFdJTjlSUVRqblB4?=
- =?utf-8?B?RDM5ZG12QkxndGRqeGFCTUVGcDJLVGIxWktFWElrOWpzNzlIci9wd3FzK01t?=
- =?utf-8?B?eUpIYXVTYUtUd21RN2daY2VSNDFaL0FzWDBFdHM3eUFacTdBL3N3Z092T3hx?=
- =?utf-8?B?R09Ra0g1NDJpMG45dXFtWi9OOThYOUd4Sm1vZ1hWK1VDbU0rOHBwWkhaZ2Nn?=
- =?utf-8?B?ekJkVG15Umlyc0dTOE5oVi8xc2liL1ovQ3lTYVZOcFNpN1F0d1Rvb1Q3MUN0?=
- =?utf-8?B?by8xQ3krcTZnck1uVnNMMVlZWEpEaFRQL0xiVlZsMHdSSWpaTjFwcGdmWFor?=
- =?utf-8?B?WTA3SlIrN25iSWJMNVhibHNiOXlqSGhHdWhlRC9CV3hHQThQenpBWHpPTzQr?=
- =?utf-8?B?S3pJTThjUFR6TGI2cnpSUjQzZ0xhTG5XVjFuaXJ5S09YQ1BXQWJwb2twQVVP?=
- =?utf-8?B?SmsveWNBQUUzT2hkUVpoUi9IL2lmN1ZSZjAzZkFxQ05VTzA2czN0b1RxejVv?=
- =?utf-8?B?ZzNGakRFY2FtYXU1TjNLUkhBL3gzRWQ1RnVlM2U5RnlCcjR2YjhJbEcySDc1?=
- =?utf-8?B?MTFBWk5YR0diWFkxb3E5NFdndTVMdjdPdVdQcWF4K0VSTkFLUU45MTg4aS9a?=
- =?utf-8?B?NHdmNWF0Sng1aWxLQi9GcnJmVDdUZzJIbC84b2dUcWhXclVxQUFyaEdnUUJw?=
- =?utf-8?B?dFoxTG51VUV2bG5ZcUt6bzlKKzVJOXRjYTFGa0huNTAvUWhpaFYzTHV0N3pP?=
- =?utf-8?B?bDh6Ynl2YXkwTWhMZ3ZZSFdiQ1FCeVA3VXF4NnI3cGdpMVh1QnI3Nkxta3NZ?=
- =?utf-8?B?eTRIYlZpYmJHRXlJK2IydlI0SDJhTzlKVjlrTU9xQVFabjNLcG1rZittSzRo?=
- =?utf-8?B?cXJqdEVoQkZxdEUwMUNsaXAvdVJQV25wUy9Yb2dvaC9lM1AySlBSS0dMVjJL?=
- =?utf-8?B?cTlURHRuWDdtc0VhbVVzSmh3YmpqNWQ2L3IyZGlNa0VaSVp5aXlwU05GRVNp?=
- =?utf-8?B?NCszcjNoaS8vOUcxTTl2U2NoY050NFBtdzRyMlhFdVJZa3dNdVpXNXdzYTI0?=
- =?utf-8?B?Tndmb0U3Z0k4RXZXQ3NFTGwxZUdLajNGRENzdWtQVitKZUJ1Rm5vcE43VkpF?=
- =?utf-8?B?WG10MUF5ZEI4UXRtZjVHOVh2S3ViRHk1RnlRdnFSb3g0Z09VeElCRm53K1c3?=
- =?utf-8?Q?LCSfVBJn2gh1msn+0iOUB7m/cZcvIAYZyVnf2O1?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0afa7bd-e6e9-40bb-b4f8-08d8ea23c5cd
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 15:37:43.8244 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ne9M29TIwGlPzHI590yp0MNNCZelFVfpfhKvXZ0MPnyXO9KuXmsBW8JPU2Pc5WZm0Gb3PQafqTsG5R51ZtGa5gx6ujmI99PDoO//uI/7+k8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6294
-Received-SPF: pass client-ip=40.107.0.122;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <bb91385d-ce8d-c949-d261-ec5315888b30@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,95 +99,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.03.2021 18:24, Kevin Wolf wrote:
-> Am 25.02.2021 um 12:52 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> Hi all! It occurs that nothing prevents discarding and reallocating host
->> cluster during data writing. This way data writing will pollute another
->> newly allocated cluster of data or metadata.
+ping^2?
+
+On 3/8/21 11:21 AM, Philippe Mathieu-Daudé wrote:
+> ping?
+> 
+> On 2/19/21 7:01 PM, Philippe Mathieu-Daudé wrote:
+>> Ensure sev_fw_errlist[] is updated after running
+>> the update-linux-headers.sh script.
 >>
->> OK, v2 is a try to solve the problem with CoRwlock.. And it is marked
->> RFC, because of a lot of iotest failures.. Some of problems with v2:
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Based-on: <20210218151633.215374-1-ckuehl@redhat.com>
+>> ---
+>>  target/i386/sev.c | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
 >>
->> 1. It's a more complicated to make a test, as everything is blocking
->> and I can't just break write and do discard.. I have to implement
->> aio_discard in qemu-io and rewrite test into several portions of io
->> commands splitted by "sleep 1".. OK, it's not a big problem, and I've
->> solved it.
-> 
-> Right, this just demonstrates that it's doing what it's supposed to.
-> 
->> 2. iotest 7 fails with several leaked clusters. Seems, that it depend on
->> the fact that discard may be done in parallel with writes. Iotest 7 does
->> snapshots, so I think l1 table is updated to the moment when discard is
->> finally unlocked.. But I didn't dig into it, it's all my assumptions.
-> 
-> This one looks a bit odd, but it may be related to the bug in your code
-> that you forgot that qcow2_cluster_discard() is not a coroutine_fn.
-> Later tests fail during the unlock:
-> 
-> qemu-img: ../util/qemu-coroutine-lock.c:358: qemu_co_rwlock_unlock: Assertion `qemu_in_coroutine()' failed.
-> 
-> #0  0x00007ff33f7d89d5 in raise () from /lib64/libc.so.6
-> #1  0x00007ff33f7c18a4 in abort () from /lib64/libc.so.6
-> #2  0x00007ff33f7c1789 in __assert_fail_base.cold () from /lib64/libc.so.6
-> #3  0x00007ff33f7d1026 in __assert_fail () from /lib64/libc.so.6
-> #4  0x0000556f4ffd3c94 in qemu_co_rwlock_unlock (lock=0x556f51f63ca0) at ../util/qemu-coroutine-lock.c:358
-> #5  0x0000556f4fef5e09 in qcow2_cluster_discard (bs=0x556f51f56a80, offset=37748736, bytes=0, type=QCOW2_DISCARD_NEVER, full_discard=false) at ../block/qcow2-cluster.c:1970
-> #6  0x0000556f4ff46c23 in qcow2_snapshot_create (bs=0x556f51f56a80, sn_info=0x7fff89fb9a30) at ../block/qcow2-snapshot.c:736
-> #7  0x0000556f4ff0d7b6 in bdrv_snapshot_create (bs=0x556f51f56a80, sn_info=0x7fff89fb9a30) at ../block/snapshot.c:227
-> #8  0x0000556f4fe85526 in img_snapshot (argc=4, argv=0x7fff89fb9d30) at ../qemu-img.c:3337
-> #9  0x0000556f4fe8a227 in main (argc=4, argv=0x7fff89fb9d30) at ../qemu-img.c:5375
-> 
->> 3. iotest 13 (and I think a lot more iotests) crashes on
->> assert(!to->locks_held); .. So with this assertion we can't keep rwlock
->> locked during data writing...
+>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>> index 37690ae809c..92c69a23769 100644
+>> --- a/target/i386/sev.c
+>> +++ b/target/i386/sev.c
+>> @@ -87,7 +87,7 @@ typedef struct __attribute__((__packed__)) SevInfoBlock {
+>>  static SevGuestState *sev_guest;
+>>  static Error *sev_mig_blocker;
+>>  
+>> -static const char *const sev_fw_errlist[] = {
+>> +static const char *const sev_fw_errlist[SEV_RET_MAX] = {
+>>      [SEV_RET_SUCCESS]                = "",
+>>      [SEV_RET_INVALID_PLATFORM_STATE] = "Platform state is invalid",
+>>      [SEV_RET_INVALID_GUEST_STATE]    = "Guest state is invalid",
+>> @@ -114,6 +114,8 @@ static const char *const sev_fw_errlist[] = {
+>>      [SEV_RET_RESOURCE_LIMIT]         = "Required firmware resource depleted",
+>>      [SEV_RET_SECURE_DATA_INVALID]    = "Part-specific integrity check failure",
+>>  };
+>> +/* Ensure sev_fw_errlist[] is updated after running update-linux-headers.sh */
+>> +QEMU_BUILD_BUG_ON(SEV_RET_SECURE_DATA_INVALID + 1 != SEV_RET_MAX);
+>>  
+>>  #define SEV_FW_MAX_ERROR      ARRAY_SIZE(sev_fw_errlist)
+>>  
+>> @@ -160,6 +162,7 @@ fw_error_to_str(int code)
+>>      if (code < 0 || code >= SEV_FW_MAX_ERROR) {
+>>          return "unknown error";
+>>      }
+>> +    assert(sev_fw_errlist[code]);
+>>  
+>>      return sev_fw_errlist[code];
+>>  }
 >>
->>    #3  in __assert_fail () from /lib64/libc.so.6
->>    #4  in qemu_aio_coroutine_enter (ctx=0x55762120b700, co=0x55762121d700)
->>        at ../util/qemu-coroutine.c:158
->>    #5  in aio_co_enter (ctx=0x55762120b700, co=0x55762121d700) at ../util/async.c:628
->>    #6  in aio_co_wake (co=0x55762121d700) at ../util/async.c:612
->>    #7  in thread_pool_co_cb (opaque=0x7f17950daab0, ret=0) at ../util/thread-pool.c:279
->>    #8  in thread_pool_completion_bh (opaque=0x5576211e5070) at ../util/thread-pool.c:188
->>    #9  in aio_bh_call (bh=0x557621205df0) at ../util/async.c:136
->>    #10 in aio_bh_poll (ctx=0x55762120b700) at ../util/async.c:164
->>    #11 in aio_poll (ctx=0x55762120b700, blocking=true) at ../util/aio-posix.c:659
->>    #12 in blk_prw (blk=0x557621205790, offset=4303351808,
->>        buf=0x55762123e000 '\364' <repeats 199 times>, <incomplete sequence \364>..., bytes=12288,
->>        co_entry=0x557620d9dc97 <blk_write_entry>, flags=0) at ../block/block-backend.c:1335
->>    #13 in blk_pwrite (blk=0x557621205790, offset=4303351808, buf=0x55762123e000,
->>        count=12288, flags=0) at ../block/block-backend.c:1501
 > 
-> This is another bug in your code: A taken lock belongs to its coroutine.
-> You can't lock in one coroutine and unlock in another.
-> 
-> The changes you made to the write code seem unnecessarily complicated
-> anyway: Why not just qemu_co_rwlock_rdlock() right at the start of
-> qcow2_co_pwritev_part() and unlock at its end, without taking and
-> dropping the lock repeatedly? It makes both the locking more obviously
-> correct and also fixes the bug (013 passes with this change).
-> 
->> So now I think that v1 is simpler.. It's more complicated (but not too
->> much) in code. But it keeps discards and data writes non-blocking each
->> other and avoids yields in critical sections.
-> 
-> I think an approach with additional data structures is almost certainly
-> more complex and harder to maintain (and as the review from Max showed,
-> also to understand). I wouldn't give up yet on the CoRwlock based
-> approach, it's almost trivial code in comparison.
-> 
-> True, making qcow2_cluster_discard() a coroutine_fn requires a
-> preparational patch that is less trivial, but at least this can be seen
-> as something that we would want to do sooner or later anyway.
 
-
-Actually, recount of cluster may become not only because of guest discard. So correct thing is rwlock in update_refcount(), when we want to decrease refcount from 1 to 0.. And for this update_refcount() should be moved to coroutine, and better the whole qcow2 driver..
-
-
--- 
-Best regards,
-Vladimir
 
