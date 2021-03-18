@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F9F340222
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:33:58 +0100 (CET)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB59340242
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 10:42:55 +0100 (CET)
+Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMp2T-0001B9-Sx
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:33:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38538)
+	id 1lMpB8-00055g-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 05:42:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMozC-0006pB-7U
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:30:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44387)
+ id 1lMozc-0007LX-Mw
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lMoz8-0002vi-Vf
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:30:33 -0400
+ id 1lMozV-000388-Pw
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 05:31:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616059830;
+ s=mimecast20190719; t=1616059852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5EoAnxj7kpfKh6O6JjCAkPQFA2IYTD4zk+nXrO1wGJw=;
- b=CCPA+9oUF2VgqWd52Q5AO8mLhZtJYy9GBA9HiNXPlFICmbdwnERb8FTVrw99FS9+mr6n+K
- YLr08cWd9Z0nyVbVbVnLAyQReMj6uL0t4PqlRVTJgvjsTKK5vc1DWz3+1vFGjpBukSNq/g
- Yr6TOlBZSi+mO8w++ROM0MOynBHT43A=
+ bh=fXH2ljgDWHZGdiw/KvbnvKsh4+MBmCNTirBE6hx5z2s=;
+ b=CFjRlB36OeYdody9a9xeWPXMvPN3P4IHLwv4QS8VTKgcoZ0QcZDbSyCeGXmxeGugoCGcYE
+ ZUnfk40ekh6ZtoP3s5HMfGvYXZXEiyJVotk+MwQPg2TecH2zzlqjMInFC8o0i0VeDDQksG
+ e7lf8D0H31xkke+lJS2tokDdEvWxcbk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-jzU4RYrAN8qgPHICILr4LA-1; Thu, 18 Mar 2021 05:30:26 -0400
-X-MC-Unique: jzU4RYrAN8qgPHICILr4LA-1
+ us-mta-228-xznyhFcNNdKBl-Y-alQKPA-1; Thu, 18 Mar 2021 05:30:50 -0400
+X-MC-Unique: xznyhFcNNdKBl-Y-alQKPA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B64110866B0;
- Thu, 18 Mar 2021 09:30:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C45958D1B63;
+ Thu, 18 Mar 2021 09:30:48 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-61.ams2.redhat.com
  [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7737E66A05;
- Thu, 18 Mar 2021 09:30:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F099769320;
+ Thu, 18 Mar 2021 09:30:24 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/13] block: remove 'encryption_key_missing' flag from QAPI
-Date: Thu, 18 Mar 2021 09:25:09 +0000
-Message-Id: <20210318092512.250725-11-berrange@redhat.com>
+Subject: [PULL 11/13] block: remove dirty bitmaps 'status' field
+Date: Thu, 18 Mar 2021 09:25:10 +0000
+Message-Id: <20210318092512.250725-12-berrange@redhat.com>
 In-Reply-To: <20210318092512.250725-1-berrange@redhat.com>
 References: <20210318092512.250725-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,352 +99,1904 @@ Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has been hardcoded to "false" since 2.10.0, since secrets required
-to unlock block devices are now always provided up front instead of using
-interactive prompts.
+The same information is available via the 'recording' and 'busy' fields.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- block/qapi.c                     |  1 -
- docs/system/deprecated.rst       | 10 -------
- docs/system/removed-features.rst | 10 +++++++
- qapi/block-core.json             |  8 ------
- tests/qemu-iotests/184.out       |  6 ++--
- tests/qemu-iotests/191.out       | 48 +++++++++++---------------------
- tests/qemu-iotests/273.out       | 15 ++++------
- 7 files changed, 33 insertions(+), 65 deletions(-)
+ block/dirty-bitmap.c             |  38 ----
+ docs/system/deprecated.rst       |   7 -
+ docs/system/removed-features.rst |   7 +
+ include/block/dirty-bitmap.h     |   1 -
+ qapi/block-core.json             |  45 ----
+ tests/qemu-iotests/124           |   4 -
+ tests/qemu-iotests/194.out       |   4 +-
+ tests/qemu-iotests/236.out       |  42 ++--
+ tests/qemu-iotests/246.out       |  66 ++----
+ tests/qemu-iotests/254.out       |   9 +-
+ tests/qemu-iotests/257.out       | 378 +++++++++++--------------------
+ 11 files changed, 174 insertions(+), 427 deletions(-)
 
-diff --git a/block/qapi.c b/block/qapi.c
-index 84a0aadc09..3acc118c44 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -62,7 +62,6 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
-     info->ro                     = bs->read_only;
-     info->drv                    = g_strdup(bs->drv->format_name);
-     info->encrypted              = bs->encrypted;
--    info->encryption_key_missing = false;
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index a0eaa28785..68d295d6e3 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -166,43 +166,6 @@ bool bdrv_dirty_bitmap_enabled(BdrvDirtyBitmap *bitmap)
+     return !bitmap->disabled;
+ }
  
-     info->cache = g_new(BlockdevCacheInfo, 1);
-     *info->cache = (BlockdevCacheInfo) {
+-/**
+- * bdrv_dirty_bitmap_status: This API is now deprecated.
+- * Called with BQL taken.
+- *
+- * A BdrvDirtyBitmap can be in four possible user-visible states:
+- * (1) Active:   successor is NULL, and disabled is false: full r/w mode
+- * (2) Disabled: successor is NULL, and disabled is true: qualified r/w mode,
+- *               guest writes are dropped, but monitor writes are possible,
+- *               through commands like merge and clear.
+- * (3) Frozen:   successor is not NULL.
+- *               A frozen bitmap cannot be renamed, deleted, cleared, set,
+- *               enabled, merged to, etc. A frozen bitmap can only abdicate()
+- *               or reclaim().
+- *               In this state, the anonymous successor bitmap may be either
+- *               Active and recording writes from the guest (e.g. backup jobs),
+- *               or it can be Disabled and not recording writes.
+- * (4) Locked:   Whether Active or Disabled, the user cannot modify this bitmap
+- *               in any way from the monitor.
+- * (5) Inconsistent: This is a persistent bitmap whose "in use" bit is set, and
+- *                   is unusable by QEMU. It can be deleted to remove it from
+- *                   the qcow2.
+- */
+-DirtyBitmapStatus bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap)
+-{
+-    if (bdrv_dirty_bitmap_inconsistent(bitmap)) {
+-        return DIRTY_BITMAP_STATUS_INCONSISTENT;
+-    } else if (bdrv_dirty_bitmap_has_successor(bitmap)) {
+-        return DIRTY_BITMAP_STATUS_FROZEN;
+-    } else if (bdrv_dirty_bitmap_busy(bitmap)) {
+-        return DIRTY_BITMAP_STATUS_LOCKED;
+-    } else if (!bdrv_dirty_bitmap_enabled(bitmap)) {
+-        return DIRTY_BITMAP_STATUS_DISABLED;
+-    } else {
+-        return DIRTY_BITMAP_STATUS_ACTIVE;
+-    }
+-}
+-
+ /* Called with BQL taken.  */
+ static bool bdrv_dirty_bitmap_recording(BdrvDirtyBitmap *bitmap)
+ {
+@@ -582,7 +545,6 @@ BlockDirtyInfoList *bdrv_query_dirty_bitmaps(BlockDriverState *bs)
+         info->granularity = bdrv_dirty_bitmap_granularity(bm);
+         info->has_name = !!bm->name;
+         info->name = g_strdup(bm->name);
+-        info->status = bdrv_dirty_bitmap_status(bm);
+         info->recording = bdrv_dirty_bitmap_recording(bm);
+         info->busy = bdrv_dirty_bitmap_busy(bm);
+         info->persistent = bm->persistent;
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index ced6adf752..d6051ef6b4 100644
+index d6051ef6b4..eadba0f288 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -183,16 +183,6 @@ Use argument ``id`` instead.
+@@ -198,13 +198,6 @@ Use arguments ``base-node`` and ``top-node`` instead.
  
- Use argument ``id`` instead.
+ Specify the properties for the object as top-level arguments instead.
  
--``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].status (since 4.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 -
--Always false.
+-The ``status`` field of the ``BlockDirtyInfo`` structure, returned by
+-these commands is deprecated. Two new boolean fields, ``recording`` and
+-``busy`` effectively replace it.
 -
--``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--Always false.
--
- ``blockdev-add`` empty string argument ``backing`` (since 2.10.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ ``query-block`` result field ``dirty-bitmaps`` (Since 4.2)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 2d6ff6aaf6..eeff82b5ec 100644
+index eeff82b5ec..47fdfe6f72 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -110,6 +110,16 @@ chardev client socket with ``wait`` option (removed in 6.0)
- Character devices creating sockets in client mode should not specify
- the 'wait' field, which is only applicable to sockets in server mode
+@@ -120,6 +120,13 @@ Removed with no replacement.
  
-+``query-named-block-nodes`` result ``encryption_key_missing`` (removed in 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ Removed with no replacement.
+ 
++``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].status (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+Removed with no replacement.
-+
-+``query-block`` result ``inserted.encryption_key_missing`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Removed with no replacement.
++The ``status`` field of the ``BlockDirtyInfo`` structure, returned by
++these commands is removed. Two new boolean fields, ``recording`` and
++``busy`` effectively replace it.
 +
  Human Monitor Protocol (HMP) commands
  -------------------------------------
  
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index f581cf9fd7..40950ae3d5 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -46,7 +46,6 @@ bool bdrv_dirty_bitmap_enabled(BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_has_successor(BdrvDirtyBitmap *bitmap);
+ const char *bdrv_dirty_bitmap_name(const BdrvDirtyBitmap *bitmap);
+ int64_t bdrv_dirty_bitmap_size(const BdrvDirtyBitmap *bitmap);
+-DirtyBitmapStatus bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap);
+ void bdrv_set_dirty_bitmap(BdrvDirtyBitmap *bitmap,
+                            int64_t offset, int64_t bytes);
+ void bdrv_reset_dirty_bitmap(BdrvDirtyBitmap *bitmap,
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 9f555d5c1d..d256b7b776 100644
+index d256b7b776..2a0c345c2c 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -319,8 +319,6 @@
- #
- # @encrypted: true if the backing device is encrypted
- #
--# @encryption_key_missing: always false
+@@ -418,43 +418,6 @@
+ ##
+ { 'enum': 'BlockDeviceIoStatus', 'data': [ 'ok', 'failed', 'nospace' ] }
+ 
+-##
+-# @DirtyBitmapStatus:
 -#
- # @detect_zeroes: detect and optimize zero writes (Since 2.1)
+-# An enumeration of possible states that a dirty bitmap can report to the user.
+-#
+-# @frozen: The bitmap is currently in-use by some operation and is immutable.
+-#          If the bitmap was @active prior to the operation, new writes by the
+-#          guest are being recorded in a temporary buffer, and will not be lost.
+-#          Generally, bitmaps are cleared on successful use in an operation and
+-#          the temporary buffer is committed into the bitmap. On failure, the
+-#          temporary buffer is merged back into the bitmap without first
+-#          clearing it.
+-#          Please refer to the documentation for each bitmap-using operation,
+-#          See also @blockdev-backup, @drive-backup.
+-#
+-# @disabled: The bitmap is not currently recording new writes by the guest.
+-#            This is requested explicitly via @block-dirty-bitmap-disable.
+-#            It can still be cleared, deleted, or used for backup operations.
+-#
+-# @active: The bitmap is actively monitoring for new writes, and can be cleared,
+-#          deleted, or used for backup operations.
+-#
+-# @locked: The bitmap is currently in-use by some operation and is immutable.
+-#          If the bitmap was @active prior to the operation, it is still
+-#          recording new writes. If the bitmap was @disabled, it is not
+-#          recording new writes. (Since 2.12)
+-#
+-# @inconsistent: This is a persistent dirty bitmap that was marked in-use on
+-#                disk, and is unusable by QEMU. It can only be deleted.
+-#                Please rely on the inconsistent field in @BlockDirtyInfo
+-#                instead, as the status field is deprecated. (Since 4.0)
+-#
+-# Since: 2.4
+-##
+-{ 'enum': 'DirtyBitmapStatus',
+-  'data': ['active', 'disabled', 'frozen', 'locked', 'inconsistent'] }
+-
+ ##
+ # @BlockDirtyInfo:
  #
- # @bps: total throughput limit in bytes per second is specified
-@@ -385,10 +383,6 @@
- # @dirty-bitmaps: dirty bitmaps information (only present if node
- #                 has one or more dirty bitmaps) (Since 4.2)
+@@ -466,8 +429,6 @@
+ #
+ # @granularity: granularity of the dirty bitmap in bytes (since 1.4)
+ #
+-# @status: current status of the dirty bitmap (since 2.4)
+-#
+ # @recording: true if the bitmap is recording new writes from the guest.
+ #             Replaces `active` and `disabled` statuses. (since 4.0)
+ #
+@@ -483,17 +444,11 @@
+ #                @busy to be false. This bitmap cannot be used. To remove
+ #                it, use @block-dirty-bitmap-remove. (Since 4.0)
  #
 -# Features:
--# @deprecated: Member @encryption_key_missing is deprecated.  It is
--#              always false.
+-# @deprecated: Member @status is deprecated.  Use @recording and
+-#              @locked instead.
 -#
- # Since: 0.14
- #
+ # Since: 1.3
  ##
-@@ -396,8 +390,6 @@
-   'data': { 'file': 'str', '*node-name': 'str', 'ro': 'bool', 'drv': 'str',
-             '*backing_file': 'str', 'backing_file_depth': 'int',
-             'encrypted': 'bool',
--            'encryption_key_missing': { 'type': 'bool',
--                                        'features': [ 'deprecated' ] },
-             'detect_zeroes': 'BlockdevDetectZeroesOptions',
-             'bps': 'int', 'bps_rd': 'int', 'bps_wr': 'int',
-             'iops': 'int', 'iops_rd': 'int', 'iops_wr': 'int',
-diff --git a/tests/qemu-iotests/184.out b/tests/qemu-iotests/184.out
-index 87c73070e3..77e5489d65 100644
---- a/tests/qemu-iotests/184.out
-+++ b/tests/qemu-iotests/184.out
-@@ -54,8 +54,7 @@ Testing:
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "json:{\"throttle-group\": \"group0\", \"driver\": \"throttle\", \"file\": {\"driver\": \"null-co\"}}",
--            "encryption_key_missing": false
-+            "file": "json:{\"throttle-group\": \"group0\", \"driver\": \"throttle\", \"file\": {\"driver\": \"null-co\"}}"
-         },
-         {
-             "iops_rd": 0,
-@@ -82,8 +81,7 @@ Testing:
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "null-co://",
--            "encryption_key_missing": false
-+            "file": "null-co://"
-         }
+ { 'struct': 'BlockDirtyInfo',
+   'data': {'*name': 'str', 'count': 'int', 'granularity': 'uint32',
+            'recording': 'bool', 'busy': 'bool',
+-           'status': { 'type': 'DirtyBitmapStatus',
+-                       'features': [ 'deprecated' ] },
+            'persistent': 'bool', '*inconsistent': 'bool' } }
+ 
+ ##
+diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
+index 90cdbd8e24..845ab5303c 100755
+--- a/tests/qemu-iotests/124
++++ b/tests/qemu-iotests/124
+@@ -348,7 +348,6 @@ class TestIncrementalBackup(TestIncrementalBackupBase):
+                 'name': 'bitmap0',
+                 'count': 458752,
+                 'granularity': 65536,
+-                'status': 'active',
+                 'persistent': False
+             }))
+ 
+@@ -705,7 +704,6 @@ class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
+             drive0['id'], bitmap.name, {
+                 'count': 458752,
+                 'granularity': 65536,
+-                'status': 'active',
+                 'busy': False,
+                 'recording': True
+             }))
+@@ -736,7 +734,6 @@ class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
+             drive0['id'], bitmap.name, {
+                 'count': 458752,
+                 'granularity': 65536,
+-                'status': 'frozen',
+                 'busy': True,
+                 'recording': True
+             }))
+@@ -751,7 +748,6 @@ class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
+             drive0['id'], bitmap.name, {
+                 'count': 0,
+                 'granularity': 65536,
+-                'status': 'active',
+                 'busy': False,
+                 'recording': True
+             }))
+diff --git a/tests/qemu-iotests/194.out b/tests/qemu-iotests/194.out
+index a51bdb2d4f..4e6df1565a 100644
+--- a/tests/qemu-iotests/194.out
++++ b/tests/qemu-iotests/194.out
+@@ -24,6 +24,6 @@ Stopping the NBD server on destination...
+ Wait for migration completion on target...
+ {"data": {"status": "completed"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ Check bitmaps on source:
+-[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
++[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true}]
+ Check bitmaps on target:
+-[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
++[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true}]
+diff --git a/tests/qemu-iotests/236.out b/tests/qemu-iotests/236.out
+index 815cd053f0..7448ceea02 100644
+--- a/tests/qemu-iotests/236.out
++++ b/tests/qemu-iotests/236.out
+@@ -27,8 +27,7 @@ write -P0xcd 0x3ff0000 64k
+         "granularity": 65536,
+         "name": "bitmapB",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -36,8 +35,7 @@ write -P0xcd 0x3ff0000 64k
+         "granularity": 65536,
+         "name": "bitmapA",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
      ]
- }
-diff --git a/tests/qemu-iotests/191.out b/tests/qemu-iotests/191.out
-index 022021efab..ea88777374 100644
---- a/tests/qemu-iotests/191.out
-+++ b/tests/qemu-iotests/191.out
-@@ -150,8 +150,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.ovl2",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.ovl2"
-         },
-         {
-             "iops_rd": 0,
-@@ -179,8 +178,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.ovl2",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.ovl2"
-         },
-         {
-             "iops_rd": 0,
-@@ -221,8 +219,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT"
-         },
-         {
-             "iops_rd": 0,
-@@ -250,8 +247,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT"
-         },
-         {
-             "iops_rd": 0,
-@@ -292,8 +288,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.mid",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.mid"
-         },
-         {
-             "iops_rd": 0,
-@@ -321,8 +316,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.mid",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.mid"
-         },
-         {
-             "iops_rd": 0,
-@@ -351,8 +345,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.base",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.base"
-         },
-         {
-             "iops_rd": 0,
-@@ -380,8 +373,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.base",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.base"
-         }
+   }
+@@ -93,8 +91,7 @@ write -P0xcd 0x3ff0000 64k
+         "granularity": 65536,
+         "name": "bitmapB",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -102,8 +99,7 @@ write -P0xcd 0x3ff0000 64k
+         "granularity": 65536,
+         "name": "bitmapA",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
      ]
- }
-@@ -565,8 +557,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.ovl2",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.ovl2"
-         },
-         {
-             "iops_rd": 0,
-@@ -594,8 +585,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.ovl2",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.ovl2"
-         },
-         {
-             "iops_rd": 0,
-@@ -647,8 +637,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.ovl3",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.ovl3"
-         },
-         {
-             "iops_rd": 0,
-@@ -676,8 +665,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.ovl3",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.ovl3"
-         },
-         {
-             "iops_rd": 0,
-@@ -706,8 +694,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.base",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.base"
-         },
-         {
-             "iops_rd": 0,
-@@ -735,8 +722,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.base",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.base"
-         },
-         {
-             "iops_rd": 0,
-@@ -777,8 +763,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT"
-         },
-         {
-             "iops_rd": 0,
-@@ -806,8 +791,7 @@ wrote 65536/65536 bytes at offset 1048576
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT"
-         }
+   }
+@@ -197,8 +193,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapC",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -206,8 +201,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapB",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -215,8 +209,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapA",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       }
      ]
- }
-diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
-index 8247cbaea1..4e840b6730 100644
---- a/tests/qemu-iotests/273.out
-+++ b/tests/qemu-iotests/273.out
-@@ -69,8 +69,7 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT"
-         },
-         {
-             "iops_rd": 0,
-@@ -98,8 +97,7 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT"
-         },
-         {
-             "iops_rd": 0,
-@@ -139,8 +137,7 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.mid",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.mid"
-         },
-         {
-             "iops_rd": 0,
-@@ -168,8 +165,7 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.mid",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.mid"
-         },
-         {
-             "iops_rd": 0,
-@@ -197,8 +193,7 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "direct": false,
-                 "writeback": true
-             },
--            "file": "TEST_DIR/t.IMGFMT.base",
--            "encryption_key_missing": false
-+            "file": "TEST_DIR/t.IMGFMT.base"
-         }
+   }
+@@ -270,8 +263,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapC",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -279,8 +271,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapB",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -288,8 +279,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapA",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       }
      ]
- }
+   }
+@@ -336,8 +326,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapD",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -345,8 +334,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapC",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -354,8 +342,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapB",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+@@ -363,8 +350,7 @@ write -P0xea 0x3fe0000 64k
+         "granularity": 65536,
+         "name": "bitmapA",
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       }
+     ]
+   }
+diff --git a/tests/qemu-iotests/246.out b/tests/qemu-iotests/246.out
+index 6671a11fdd..eeb98ab37c 100644
+--- a/tests/qemu-iotests/246.out
++++ b/tests/qemu-iotests/246.out
+@@ -24,8 +24,7 @@
+         "granularity": 65536,
+         "name": "Transient",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -33,8 +32,7 @@
+         "granularity": 131072,
+         "name": "Large",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -42,8 +40,7 @@
+         "granularity": 65536,
+         "name": "Medium",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -51,8 +48,7 @@
+         "granularity": 32768,
+         "name": "Small",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -68,8 +64,7 @@
+         "granularity": 32768,
+         "name": "Small",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -77,8 +72,7 @@
+         "granularity": 65536,
+         "name": "Medium",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -86,8 +80,7 @@
+         "granularity": 131072,
+         "name": "Large",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -108,8 +101,7 @@
+         "granularity": 65536,
+         "name": "Newtwo",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -117,8 +109,7 @@
+         "granularity": 65536,
+         "name": "New",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -126,8 +117,7 @@
+         "granularity": 32768,
+         "name": "Small",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -135,8 +125,7 @@
+         "granularity": 65536,
+         "name": "Medium",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -144,8 +133,7 @@
+         "granularity": 131072,
+         "name": "Large",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -163,8 +151,7 @@
+         "granularity": 65536,
+         "name": "New",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -172,8 +159,7 @@
+         "granularity": 65536,
+         "name": "Newtwo",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -181,8 +167,7 @@
+         "granularity": 32768,
+         "name": "Small",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -190,8 +175,7 @@
+         "granularity": 65536,
+         "name": "Medium",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -199,8 +183,7 @@
+         "granularity": 131072,
+         "name": "Large",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -232,8 +215,7 @@
+         "granularity": 65536,
+         "name": "NewB",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -241,8 +223,7 @@
+         "granularity": 65536,
+         "name": "NewC",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -250,8 +231,7 @@
+         "granularity": 32768,
+         "name": "Small",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -259,8 +239,7 @@
+         "granularity": 65536,
+         "name": "Medium",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": false,
+@@ -268,8 +247,7 @@
+         "granularity": 131072,
+         "name": "Large",
+         "persistent": true,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
+index d185c0532f..fe52da9338 100644
+--- a/tests/qemu-iotests/254.out
++++ b/tests/qemu-iotests/254.out
+@@ -99,8 +99,7 @@ query-block: device = drive0, node-name = snap, dirty-bitmaps:
+     "granularity": 65536,
+     "name": "bitmap2",
+     "persistent": true,
+-    "recording": true,
+-    "status": "active"
++    "recording": true
+   },
+   {
+     "busy": false,
+@@ -108,8 +107,7 @@ query-block: device = drive0, node-name = snap, dirty-bitmaps:
+     "granularity": 65536,
+     "name": "bitmap1",
+     "persistent": true,
+-    "recording": true,
+-    "status": "active"
++    "recording": true
+   },
+   {
+     "busy": false,
+@@ -117,8 +115,7 @@ query-block: device = drive0, node-name = snap, dirty-bitmaps:
+     "granularity": 65536,
+     "name": "bitmap0",
+     "persistent": false,
+-    "recording": true,
+-    "status": "active"
++    "recording": true
+   }
+ ]
+ 
+diff --git a/tests/qemu-iotests/257.out b/tests/qemu-iotests/257.out
+index a7ba512f4c..50cbd8e882 100644
+--- a/tests/qemu-iotests/257.out
++++ b/tests/qemu-iotests/257.out
+@@ -58,8 +58,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -113,16 +112,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -130,8 +127,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -156,8 +152,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -185,8 +180,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -234,8 +228,7 @@ expecting 15 dirty sectors; have 15. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -318,8 +311,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -367,8 +359,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -396,8 +387,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -445,8 +435,7 @@ expecting 14 dirty sectors; have 14. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -529,8 +518,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -584,16 +572,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -601,8 +587,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -627,8 +612,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -656,8 +640,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -705,8 +688,7 @@ expecting 15 dirty sectors; have 15. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -789,8 +771,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -844,16 +825,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -861,8 +840,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -887,8 +865,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -916,8 +893,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -965,8 +941,7 @@ expecting 15 dirty sectors; have 15. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1049,8 +1024,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1098,8 +1072,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1127,8 +1100,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1176,8 +1148,7 @@ expecting 14 dirty sectors; have 14. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1260,8 +1231,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1315,16 +1285,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -1332,8 +1300,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -1358,8 +1325,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1387,8 +1353,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1436,8 +1401,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1520,8 +1484,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1575,16 +1538,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -1592,8 +1553,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -1618,8 +1578,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1647,8 +1606,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1696,8 +1654,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1780,8 +1737,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1829,8 +1785,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1858,8 +1813,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1907,8 +1861,7 @@ expecting 13 dirty sectors; have 13. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -1991,8 +1944,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2046,16 +1998,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -2063,8 +2013,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -2089,8 +2038,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2118,8 +2066,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2167,8 +2114,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2251,8 +2197,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2306,16 +2251,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -2323,8 +2266,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -2349,8 +2291,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2378,8 +2319,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2427,8 +2367,7 @@ expecting 15 dirty sectors; have 15. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2511,8 +2450,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2560,8 +2498,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2589,8 +2526,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2638,8 +2574,7 @@ expecting 14 dirty sectors; have 14. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2722,8 +2657,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2777,16 +2711,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -2794,8 +2726,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -2820,8 +2751,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2849,8 +2779,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2898,8 +2827,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -2982,8 +2910,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3037,16 +2964,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -3054,8 +2979,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -3080,8 +3004,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3109,8 +3032,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3158,8 +3080,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3242,8 +3163,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3291,8 +3211,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3320,8 +3239,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3369,8 +3287,7 @@ expecting 1014 dirty sectors; have 1014. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3453,8 +3370,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3508,16 +3424,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -3525,8 +3439,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -3551,8 +3464,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3580,8 +3492,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3629,8 +3540,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3713,8 +3623,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3768,16 +3677,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -3785,8 +3692,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -3811,8 +3717,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3840,8 +3745,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3889,8 +3793,7 @@ expecting 15 dirty sectors; have 15. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -3973,8 +3876,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4022,8 +3924,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4051,8 +3952,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4100,8 +4000,7 @@ expecting 14 dirty sectors; have 14. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4184,8 +4083,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4239,16 +4137,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -4256,8 +4152,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -4282,8 +4177,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4311,8 +4205,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4360,8 +4253,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4444,8 +4336,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4499,16 +4390,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -4516,8 +4405,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -4542,8 +4430,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4571,8 +4458,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4620,8 +4506,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4704,8 +4589,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4753,8 +4637,7 @@ expecting 6 dirty sectors; have 6. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4782,8 +4665,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4831,8 +4713,7 @@ expecting 14 dirty sectors; have 14. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4915,8 +4796,7 @@ write -P0x69 0x3fe0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -4970,16 +4850,14 @@ write -P0x67 0x3fe0000 0x20000
+         "count": 0,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": false,
+-        "status": "disabled"
++        "recording": false
+       },
+       {
+         "busy": false,
+         "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       },
+       {
+         "busy": true,
+@@ -4987,8 +4865,7 @@ write -P0x67 0x3fe0000 0x20000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "frozen"
++        "recording": true
+       }
+     ]
+   }
+@@ -5013,8 +4890,7 @@ expecting 7 dirty sectors; have 7. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -5042,8 +4918,7 @@ write -P0xdd 0x3fc0000 0x10000
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
+@@ -5091,8 +4966,7 @@ expecting 12 dirty sectors; have 12. OK!
+         "granularity": 65536,
+         "name": "bitmap0",
+         "persistent": false,
+-        "recording": true,
+-        "status": "active"
++        "recording": true
+       }
+     ]
+   }
 -- 
 2.30.2
 
