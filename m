@@ -2,81 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A9834091B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:44:18 +0100 (CET)
-Received: from localhost ([::1]:57014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D518A34092D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Mar 2021 16:50:37 +0100 (CET)
+Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lMuor-0008IH-IF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
+	id 1lMuux-0003aI-K4
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 11:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMuml-0006qm-I6
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:42:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lMumi-0006b4-FQ
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 11:42:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616082121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6bw/oksnvPCOG8oCqFDgfpFZQ1idTb0xwLL9PpqNnok=;
- b=DUIYuvjgHAaHUXmeGgbfl/dqMFU4/VkD2oM96Nz2PfzP5xlRcs2XsWM4QCu9p4bXKlAczk
- r6Y0OdWFu+YeZaQzNIA/VHRVvn2LxmQvp/+gbWgDTsyewWnelRZYeULVS3a30zorQdpDmb
- dO/sz1FRYdCynxXYMywtCmwUUW48H1E=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-uPzRPjxfP-yYCouHlf927w-1; Thu, 18 Mar 2021 11:41:59 -0400
-X-MC-Unique: uPzRPjxfP-yYCouHlf927w-1
-Received: by mail-oo1-f69.google.com with SMTP id t23so21242823oou.5
- for <qemu-devel@nongnu.org>; Thu, 18 Mar 2021 08:41:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6bw/oksnvPCOG8oCqFDgfpFZQ1idTb0xwLL9PpqNnok=;
- b=pLwyoFk0V3T3xjxvw7qY0SXXxaInSoi9a/2t6y3ho/57FepZexh5sNNpNIkjtKuDyn
- mrbBKUaWL1ir6hCNoXXu5nS1RPrOyocu9tv7HjPBYAzjZZVKb7msepVoRtV5fJB5481K
- K60Ajbdzid5Xn6aWN8mhhS+jtEA9TitvUWjWp5GjiWgVg7uLWh0ftOmT/b4oZqE/KEXu
- 7C1O+fXICHkusnJsdVM6aZKQhgJOb9eKsIHbAbxcaZnOm8ru14cmR/nYgp9QQpogId1+
- ewuXWJQfsxSVEoceaAm63XO0Tlat/q6GZLLeRdsFxY3QcZu8+0JudtOm742kvHo6WtkI
- o6kQ==
-X-Gm-Message-State: AOAM530F8HglWQzYYaA4TtA7g8rM+srKZtx7aQetGqEirDd77+x0CcC3
- Z5P7VOLHHXn2PX8HT3G68bbI7B1h+Kf5OX4NFOTFYQUg+agT3koTkYuJJtil32XiaBp9ifB6zl3
- PcYf345qoPoY4RvP05KeMcdKtNmwd9XzSrTYUjqdB6Ft77L3AGO9tmJCLuOwoNz+/
-X-Received: by 2002:a4a:4958:: with SMTP id z85mr7993706ooa.3.1616082118596;
- Thu, 18 Mar 2021 08:41:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkcOgC9cdXeGII/YxSkoKFY26CakelyTrPj7sgsWstWCmhlBK6kbzcyxuVwwqXRRN/ri6aug==
-X-Received: by 2002:a4a:4958:: with SMTP id z85mr7993681ooa.3.1616082118398;
- Thu, 18 Mar 2021 08:41:58 -0700 (PDT)
-Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id w16sm555622otq.15.2021.03.18.08.41.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Mar 2021 08:41:58 -0700 (PDT)
-From: Connor Kuehl <ckuehl@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: add virtio-fs mailing list
-Date: Thu, 18 Mar 2021 10:41:57 -0500
-Message-Id: <20210318154157.1357224-1-ckuehl@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lMusG-0002iF-Lt; Thu, 18 Mar 2021 11:47:49 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3612
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lMusE-0001Xe-Vl; Thu, 18 Mar 2021 11:47:48 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12IFYUCK105120; Thu, 18 Mar 2021 11:47:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=s0gLlBJoVf6477OJA1zTzebYykL2NkKmyZgrCxLfazU=;
+ b=s0AGUt53IZvL9WRbaDxcBZ217Z7b+HxkBG845+dBAEYnt9IBPl3MSEadqXc9cz37Cw9C
+ XGrK4AfSJFphjVErlQ2gnrnUgn+1mt2vG6l/I6f32yp2dVPQYRLKNYkk3QGrLJ4r0g65
+ +ynnHzCIaBVCTAmW2X/9N62hYczSktltVly+AhUYMO/ezF9v45tXTJ9ZdPsC/JIAHyEF
+ 9ZV1T1hj0gL+465AEJ3ny2ro0eHM3zVWtAMwKAvGrN2Vn37CEH06d2mApTAjC3Vv7k2C
+ IKOvfi5rygzQtPY8JxYWO9AC5oG4wdayB0qY4ZgMQ6QqUpg0aLXsJwHVoyGnoJsgCjo0 Dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37by16brsr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Mar 2021 11:47:44 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12IFZ2Hj109306;
+ Thu, 18 Mar 2021 11:47:44 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37by16brrr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Mar 2021 11:47:43 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12IFWGht016183;
+ Thu, 18 Mar 2021 15:47:41 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 378n18mwkj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Mar 2021 15:47:41 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12IFlMBl34406674
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Mar 2021 15:47:22 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 27C4B11C052;
+ Thu, 18 Mar 2021 15:47:39 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 15F1211C04C;
+ Thu, 18 Mar 2021 15:47:39 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 18 Mar 2021 15:47:39 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id AC451E165E; Thu, 18 Mar 2021 16:47:38 +0100 (CET)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] intc/i8259: avoid (false positive) gcc warning
+Date: Thu, 18 Mar 2021 16:47:38 +0100
+Message-Id: <20210318154738.27094-1-borntraeger@de.ibm.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-18_09:2021-03-17,
+ 2021-03-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ impostorscore=0 suspectscore=0 mlxlogscore=969 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103180111
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,31 +108,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, dgilbert@redhat.com, stefanha@redhat.com,
- vgoyal@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-General discussion and patch reviews take place on this list for both
-virtiofsd (tools/virtiofsd/*) and the guest kernel module.
+some copiler versions are smart enough to detect a potentially
+uninitialized variable, but are not smart enough to detect that this
+cannot happen due to the code flow:
 
-Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+../hw/intc/i8259.c: In function ‘pic_read_irq’:
+../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+   203 |         irq = irq2 + 8;
+       |         ~~~~^~~~~~~~~~
+
+Let us initialize irq2 to -1 to avoid this warning as the most simple
+solution.
+
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ hw/intc/i8259.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 25fc49d1dc..8921bc2119 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1917,6 +1917,7 @@ F: tools/virtiofsd/*
- F: hw/virtio/vhost-user-fs*
- F: include/hw/virtio/vhost-user-fs.h
- F: docs/tools/virtiofsd.rst
-+L: virtio-fs@redhat.com
+diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+index 344fd04db14d..ade6fb726faf 100644
+--- a/hw/intc/i8259.c
++++ b/hw/intc/i8259.c
+@@ -176,7 +176,7 @@ static void pic_intack(PICCommonState *s, int irq)
+ int pic_read_irq(DeviceState *d)
+ {
+     PICCommonState *s = PIC_COMMON(d);
+-    int irq, irq2, intno;
++    int irq, irq2 = -1, intno;
  
- virtio-input
- M: Gerd Hoffmann <kraxel@redhat.com>
+     irq = pic_get_irq(s);
+     if (irq >= 0) {
 -- 
 2.30.2
 
