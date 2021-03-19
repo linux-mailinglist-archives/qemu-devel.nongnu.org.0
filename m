@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F6C3412AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 03:18:02 +0100 (CET)
-Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1CE3412DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 03:32:40 +0100 (CET)
+Received: from localhost ([::1]:36946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN4i9-0005TZ-8r
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 22:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50392)
+	id 1lN4wJ-0001Iu-JG
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 22:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@nh2.me>)
- id 1lN4h8-0004xJ-9b; Thu, 18 Mar 2021 22:16:58 -0400
-Received: from mail.nh2.me ([116.202.188.98]:43927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@nh2.me>)
- id 1lN4h6-0001rY-5U; Thu, 18 Mar 2021 22:16:57 -0400
-Subject: Re: [PATCH] net/slirp: Fix incorrect permissions on samba >= 2.0.5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nh2.me; s=mail;
- t=1616120210; bh=4V1eiws8WdUo6+MuRUZ4WRbC9/xj7a6H3HSMiRAOBlQ=;
- h=Subject:From:To:Cc:References:Date:In-Reply-To;
- b=jJS22cnP5cI4iI9TGaAkS+PNp9yWTHlj1DBB7hnSkT+kqmlmx8BEfRLxR/OjGaGOJ
- EadRixe7CtMMEjC3KLGfhjnk0eWOEN5EHWcjJVgSvzVcZUPP2LvaZXKbSQJ3D8RtUf
- GVR2kIrpqKWWnFuV6QX5igCnJ/C7HzstEhwD+SyoaXimC32S0FCEmCU15UN9R2PnDY
- hPgA+rFeS68WNGpydbSnzMr5Xg+mRJxnsoazGVNVU0cObWDyNhSm4sxBcJXy0OLRXv
- PfzbxEip7dkco4U1qGNlXW0X0UtOVvvYzM3+j/4lLetEnIm1BeKUgPx75JV960lrQ0
- krYcgC7XeRsVQ==
-From: =?UTF-8?Q?Niklas_Hamb=c3=bcchen?= <mail@nh2.me>
-To: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, qemu-trivial@nongnu.org
-References: <c2b98872-4649-c291-bfb2-0fd5b3d40ac4@nh2.me>
-Message-ID: <98ecfb50-c14c-4c66-5f9d-4ad761717f23@nh2.me>
-Date: Fri, 19 Mar 2021 03:16:49 +0100
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lN4uG-0000km-Q2
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 22:30:33 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:41285
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lN4uE-0008Qj-HP
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 22:30:32 -0400
+HMM_SOURCE_IP: 172.18.0.48:5542.1285586883
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.38?logid-de65d07bcb3640c49a8b4ec1eb81fc7b
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 731702800A5;
+ Fri, 19 Mar 2021 10:30:21 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by App0024 with ESMTP id de65d07bcb3640c49a8b4ec1eb81fc7b for
+ qemu-devel@nongnu.org; Fri Mar 19 10:30:25 2021
+X-Transaction-ID: de65d07bcb3640c49a8b4ec1eb81fc7b
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v1] MAINTAINERS: Fix tests/migration maintainers
+Date: Fri, 19 Mar 2021 10:25:13 +0800
+Message-Id: <2d8e1deedd754dda36802f26bcdfcbf7adde2679.1616120469.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <c2b98872-4649-c291-bfb2-0fd5b3d40ac4@nh2.me>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=116.202.188.98; envelope-from=mail@nh2.me;
- helo=mail.nh2.me
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9,
+ PDS_TONAME_EQ_TOLOCAL_SHORT=1.999, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,13 +63,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 3:41 AM, Niklas Hambüchen wrote:
-> This broke `-net user,smb=/path/to/folder`:
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Hey, just a short ping on whether anyone would have a moment to review this `qemu-trivial` patch; it would be very nice to have SMB support to work out of the box again.
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks!
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 25fc49d1dc..20e2387c66 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2525,6 +2525,7 @@ M: Cleber Rosa <crosa@redhat.com>
+ S: Odd Fixes
+ F: scripts/*.py
+ F: tests/*.py
++F: tests/migration/
+ 
+ Benchmark util
+ M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+-- 
+2.24.3
+
 
