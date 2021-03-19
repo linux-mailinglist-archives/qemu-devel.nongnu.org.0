@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9736434205B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:59:58 +0100 (CET)
-Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170ED34204B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:56:44 +0100 (CET)
+Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNGbV-0002ci-Na
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
+	id 1lNGYN-0007aW-6m
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lNGUt-00048y-UD
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:53:07 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58484)
+ id 1lNGUn-00042y-Kq
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:53:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:58480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lNGUh-0003xR-18
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:53:07 -0400
+ id 1lNGUh-0003xQ-0y
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:53:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=ZYZPVhNa7xPEx+K9sFiaEdCpLxvJMtvrhHmu8VpOhkc=; b=NLGOwmqhTOy5
- aUZSksFgrUOee0jBKnGqz2+Sva44fowZsdEvdku/lqVmEeNc3Q5/HLjsl9WLNumbHc8scglB8SzFv
- mEeezIrA7XA2luJeVavNG3fVKZ4AZ9RHgo3JilH9Ax/alVK8A+rnTbI6Eb+LGKgoElYJ7aTFAXcQP
- TXa9s=;
+ Content-Type; bh=jH0WZ/RmDE/Z2aVjOBynPZMT/xmSLmwmRqUG0uuuXok=; b=B/6H6uU022Oo
+ sbZPEslU4m+iauFlowAQ7EdXwGT+Kf62QWmrwQx2UZw9hB7gRGX5rNNjmKt0/OTVLo2kSdmDO2443
+ 7wY6ijJAGPVSSWz6ZkT3H93/C5f+3fH5VduJYXyWx0x2aVhgEfy/mpF2e0jGivdo2aVY8wJ+k03d2
+ F7BL0=;
 Received: from [192.168.15.248] (helo=andrey-MS-7B54.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lNGUX-00010K-OQ; Fri, 19 Mar 2021 17:52:45 +0300
+ id 1lNGUX-00010K-SG; Fri, 19 Mar 2021 17:52:45 +0300
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
@@ -37,10 +37,13 @@ Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v1 0/3] migration: Fixes to the 'background-snapshot' code
-Date: Fri, 19 Mar 2021 17:52:46 +0300
-Message-Id: <20210319145249.425189-1-andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v1 1/3] migration: Fix missing qemu_fflush() on buffer file in
+ bg_migration_thread
+Date: Fri, 19 Mar 2021 17:52:47 +0300
+Message-Id: <20210319145249.425189-2-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210319145249.425189-1-andrey.gruzdev@virtuozzo.com>
+References: <20210319145249.425189-1-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=185.231.240.75;
@@ -66,31 +69,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes v0->v1:
- * Using qemu_real_host_page_size instead of TARGET_PAGE_SIZE for host
-   page size in ram_block_populate_pages()
- * More elegant implementation of ram_block_populate_pages()
+Added missing qemu_fflush() on buffer file holding precopy device state.
+Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
+Typical configurations often require >200KB for device state and VMDESC.
 
-This patch series contains:
- * Fix to the issue with occasionally truncated non-iterable device state
- * Solution to compatibility issues with virtio-balloon device
- * Fix to the issue when discarded or never populated pages miss UFFD
-   write protection and get into migration stream in dirty state
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+---
+ migration/migration.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Andrey Gruzdev (3):
-  migration: Fix missing qemu_fflush() on buffer file in
-    bg_migration_thread
-  migration: Inhibit virtio-balloon for the duration of background
-    snapshot
-  migration: Pre-fault memory before starting background snasphot
-
- hw/virtio/virtio-balloon.c |  8 +++++--
- include/migration/misc.h   |  2 ++
- migration/migration.c      | 18 +++++++++++++-
- migration/ram.c            | 48 ++++++++++++++++++++++++++++++++++++++
- migration/ram.h            |  1 +
- 5 files changed, 74 insertions(+), 3 deletions(-)
-
+diff --git a/migration/migration.c b/migration/migration.c
+index ca8b97baa5..32b48fe9f5 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
+      * with vCPUs running and, finally, write stashed non-RAM part of
+      * the vmstate from the buffer to the migration stream.
+      */
+-    s->bioc = qio_channel_buffer_new(128 * 1024);
++    s->bioc = qio_channel_buffer_new(512 * 1024);
+     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
+     fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
+     object_unref(OBJECT(s->bioc));
+@@ -3866,6 +3866,8 @@ static void *bg_migration_thread(void *opaque)
+     if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+         goto fail;
+     }
++    qemu_fflush(fb);
++
+     /* Now initialize UFFD context and start tracking RAM writes */
+     if (ram_write_tracking_start()) {
+         goto fail;
 -- 
 2.25.1
 
