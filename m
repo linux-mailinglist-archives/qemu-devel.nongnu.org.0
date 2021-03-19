@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4C83424E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 19:39:24 +0100 (CET)
-Received: from localhost ([::1]:43150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B322342613
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 20:21:19 +0100 (CET)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNK1r-0001NY-6X
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 14:39:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
+	id 1lNKgP-0008SP-N2
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 15:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lNJxz-00076q-8i; Fri, 19 Mar 2021 14:35:23 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:42695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lNJxr-0006b6-PJ; Fri, 19 Mar 2021 14:35:22 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id l13so7485693qtu.9;
- Fri, 19 Mar 2021 11:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TXhvhsAsjTPYbXGvNxr2c2Ly+MOvhfbMfUVP+cDgOWo=;
- b=jGKXfdt/gEeoKuh25uwqAGyVa6g1oLH+Wa5oO2AZbbyr4RhuBngNbeRz/r5wfI95bE
- cgGRZWmDsARKxp5nt2qVB8KBLu6s7iArkpqMZIQ6OFL6P1BEWZx4IqLrNCZHM21MGdsV
- s67bxZXUVYnmQxK6tk6a6zcjRUwc3ySrIpTlPMnN8fsExFHXYHRylqLjPrfpU68l2vre
- dZ04rQ2oPPfp6fkJ0QtO+me3fkWoRlJKs184B+FPdL61Mzdzr3PLsaf4PaU7G0/wSjRI
- XI+d6oElb0w/T3/4X+fWflyC3iScZ0bBxq/7mky7YLRPqCdkDnC0JPtOEV2B2OUl9Y5w
- 1j9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TXhvhsAsjTPYbXGvNxr2c2Ly+MOvhfbMfUVP+cDgOWo=;
- b=GXL3Sr5UL2nbZKDNxSmrgJRJFf5AytwPnPGGLdcWl9BvYGjh5O1o/0rdCW7YgVJlVq
- HFTD489fX4FvxHNSpMqSw5mPagVRwp807ATvXrL6BXUXfN3z70Cx+fVjU3rwNv8L5IIk
- 3ogkhPoDwswz00KYZxA8V5VmjuZxLgGDJ4Fm4MmAmrBROYNoL1qyYJP0OVUmbflMqrnL
- 4lhwxrIzOh7oAT7Xf12q07KsUKGJc3GiymPyajmolRZ0krnAS0xTnW9A7FwbsMU9UwdP
- 0K4/W4C9BS78pvoloULT7ibFW2SPX62i5/HhXDvI1VrurXHoMChc4MN1Xi+DHpmZHha7
- SIHA==
-X-Gm-Message-State: AOAM532nxC/MQ30Aq5gNdsj1MITgPi3j7YTFI1MEaAq5BKEH8ygBSayl
- rTjKHvQ4QAV5BPnpYTYhRzrugewb6Bg=
-X-Google-Smtp-Source: ABdhPJyz8IHpMZObBdxDsFCWikEF2a1I+0FYyYpqKyqmwO2qG82VEEtsWtAjSkLMlCdvi2RjJOdYLA==
-X-Received: by 2002:aed:20cd:: with SMTP id 71mr9717421qtb.346.1616178914320; 
- Fri, 19 Mar 2021 11:35:14 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7c7:cc80:21a:fa87:b9b8:5376])
- by smtp.gmail.com with ESMTPSA id
- r35sm2660225qtd.95.2021.03.19.11.35.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 11:35:14 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] spapr.c: remove 'ibm,chip-id' from DT
-Date: Fri, 19 Mar 2021 15:34:53 -0300
-Message-Id: <20210319183453.4466-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210319183453.4466-1-danielhb413@gmail.com>
-References: <20210319183453.4466-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lNKf0-0007yC-Lb
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 15:19:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:44947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lNKey-0006QU-He
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 15:19:50 -0400
+Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N95mR-1lintX1EJj-0169oV; Fri, 19 Mar 2021 20:19:44 +0100
+Subject: Re: [PULL 26/40] linux-user/aarch64: Pass syndrome to EXC_*_ABORT
+From: Laurent Vivier <laurent@vivier.eu>
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20210216161658.29881-1-peter.maydell@linaro.org>
+ <20210216161658.29881-27-peter.maydell@linaro.org>
+ <f484737b-8dc1-fc16-06a5-753500104bf0@vivier.eu>
+Message-ID: <d7e3c7d3-e21e-8549-70a2-e6997e95b4f7@vivier.eu>
+Date: Fri, 19 Mar 2021 20:19:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f484737b-8dc1-fc16-06a5-753500104bf0@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Provags-ID: V03:K1:XayBFmhwPHpX20No2H06iyaw2vmWTUhHfboN2vKdfLsaN5CRhkv
+ Btsll2JLVqdi2k1pcUVZZ18t2Ur1aM6qmQYGiaIFuNH5TbYinjSAwQIcKa+lZ0ikrt1JiSj
+ e4GnlcrRcDK36TawobC2wF7hkTxkq8KJ/jrYqAtKi1T9OXrqu72Qiyi5O61LaHXdY+ag7Ik
+ EtjJ/nACA2iPka0ku8YvQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SMUZVHdRDT0=:XsZvMENJnQMzG8ap/HESxn
+ 9yUyws5CHKKQ/rwZrRTZKrLkTUuI8VgWn74fXKZ1ogjwCYH6E6NXE503udCtcAhydv6IusfOb
+ 88pWyoHUUraEW9wI1ljnLc4+T0wMQTCGkFBFrcxo4Nq55lbhejU4cG29KN8UvhtVK4jJdj4eH
+ RTLlqxnclWcIFXp5vsWOKPQwGF/opxEIuWpoDwQyz8n0SlwrhYEulSE1LMnbiMtXYr3gsGVPz
+ IslP3De3iRS0kN1V70Ih8BJ/wD7XEq1qE90vwgv3rt1Y9T4c7FrZvsCRPh45yTEhB2X19+DFf
+ tVRTEPKjgn9eIN1lQV0R6jeVY/jtOeT4Bk5PT4FLiiGRkgLwvJ6fHHjjcZkWCmYBA+kzEwgxo
+ toV9vZsZzmpXnTOsEjcoXIgpd+cuDIHIo+Z0Ho6E+XBY8NHSzeraGvozELZMzusecmkMdfKI4
+ 1bOFcbDqkg==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,73 +67,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The attribute 'ibm,chip-id' does not exist in PAPR. This alone would be
-enough reason to remove it from the spapr DT, but before doing that,
-let's give a brief context on how and why it was introduced.
+Richard,
 
-'ibm,chip-id' was added in the spapr DT by commit 10582ff83279. This
-commit references kernel commit 256f2d4b463d ("powerpc: Use ibm,chip-id
-property to compute cpu_core_mask if available"). In this kernel commit,
-the 'ibm,chip-id' DT attribute is being used to calculate the
-cpu_core_mask in traverse_siblings_chip_id(). This function still need
-to consider 'ibm,chip-id' not being available as well to avoid breaking
-older guests.
+do you have any idea how to fix this problem?
 
-Later on, kernel commit df52f6714071 ("powerpc/smp: Rework CPU topology
-construction") removed traverse_siblings_chip_id() and its callers,
-making the CPU topology calculation independent of the 'ibm,chip-id'
-attribute.
+Thanks,
+Laurent
 
-Last, but perhaps most relevant, kernel commit 4ca234a9cbd7
-("powerpc/smp: Stop updating cpu_core_mask") changed the way the kernel
-calculates the cpu_core_mask, removing the use of 'ibm,chip-id' in the
-calculation altogether, with consequences already discussed in the
-previous patch.
-
-All that said, since it's not in PAPR and the pseries kernel does not
-rely on it, let's remove ibm,chip-id from the DT for the default machine
-type. This removal is related to the previous SMP change, so re-use the
-same smc->pre_6_0_smp_topology flag.
-
-CC: Alexey Kardashevskiy <aik@ozlabs.ru>
-Suggested-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 745f71c243..58efb51ac7 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -649,6 +649,7 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cs);
-+    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(ms);
-     int index = spapr_get_vcpu_id(cpu);
-     uint32_t segs[] = {cpu_to_be32(28), cpu_to_be32(40),
-                        0xffffffff, 0xffffffff};
-@@ -745,8 +746,10 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
- 
-     spapr_dt_pa_features(spapr, cpu, fdt, offset);
- 
--    _FDT((fdt_setprop_cell(fdt, offset, "ibm,chip-id",
--                           cs->cpu_index / vcpus_per_socket)));
-+    if (smc->pre_6_0_smp_topology) {
-+        _FDT((fdt_setprop_cell(fdt, offset, "ibm,chip-id",
-+                               cs->cpu_index / vcpus_per_socket)));
-+    }
- 
-     _FDT((fdt_setprop(fdt, offset, "ibm,pft-size",
-                       pft_size_prop, sizeof(pft_size_prop))));
--- 
-2.29.2
+Le 12/03/2021 à 12:09, Laurent Vivier a écrit :
+> Hi,
+> 
+> On 16/02/2021 17:16, Peter Maydell wrote:
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> A proper syndrome is required to fill in the proper si_code.
+>> Use page_get_flags to determine permission vs translation for user-only.
+>>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Message-id: 20210212184902.1251044-27-richard.henderson@linaro.org
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>  linux-user/aarch64/cpu_loop.c | 24 +++++++++++++++++++++---
+>>  target/arm/tlb_helper.c       | 15 +++++++++------
+>>  2 files changed, 30 insertions(+), 9 deletions(-)
+> 
+> While I was testing my next linux-user pull request I found this patch breaks something.
+> 
+> Following LTP tests are broken:
+> 
+> mmap05
+> mprotect02
+> mprotect03
+> mprotect04
+> shmat01
+> 
+> with arm64/sid, arm64/trusty, arm64/bionic
+> 
+> Bisecting only using mmap05 test I find this patch.
+> 
+> Symptoms are:
+> 
+> $ sudo unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root
+> chroot/arm64/sid /opt/ltp/testcases/bin/mmap05
+> **
+> ERROR:../../../Projects/qemu/linux-user/aarch64/cpu_loop.c:141:cpu_loop: code should not
+> be reached
+> Bail out! ERROR:../../../Projects/qemu/linux-user/aarch64/cpu_loop.c:141:cpu_loop: code
+> should not be reached
+> qemu:handle_cpu_signal received signal outside vCPU context @ pc=0x7f45c1cd9706
+> 
+> Expected result is:
+> 
+> mmap05      1  TPASS  :  Got SIGSEGV as expected
+> 
+> Thanks,
+> Laurent
+> 
+>>
+>> diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+>> index 42b9c15f536..4e43906e66a 100644
+>> --- a/linux-user/aarch64/cpu_loop.c
+>> +++ b/linux-user/aarch64/cpu_loop.c
+>> @@ -23,6 +23,7 @@
+>>  #include "cpu_loop-common.h"
+>>  #include "qemu/guest-random.h"
+>>  #include "hw/semihosting/common-semi.h"
+>> +#include "target/arm/syndrome.h"
+>>  
+>>  #define get_user_code_u32(x, gaddr, env)                \
+>>      ({ abi_long __r = get_user_u32((x), (gaddr));       \
+>> @@ -76,7 +77,7 @@
+>>  void cpu_loop(CPUARMState *env)
+>>  {
+>>      CPUState *cs = env_cpu(env);
+>> -    int trapnr;
+>> +    int trapnr, ec, fsc;
+>>      abi_long ret;
+>>      target_siginfo_t info;
+>>  
+>> @@ -117,9 +118,26 @@ void cpu_loop(CPUARMState *env)
+>>          case EXCP_DATA_ABORT:
+>>              info.si_signo = TARGET_SIGSEGV;
+>>              info.si_errno = 0;
+>> -            /* XXX: check env->error_code */
+>> -            info.si_code = TARGET_SEGV_MAPERR;
+>>              info._sifields._sigfault._addr = env->exception.vaddress;
+>> +
+>> +            /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
+>> +            ec = syn_get_ec(env->exception.syndrome);
+>> +            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
+>> +
+>> +            /* Both EC have the same format for FSC, or close enough. */
+>> +            fsc = extract32(env->exception.syndrome, 0, 6);
+>> +            switch (fsc) {
+>> +            case 0x04 ... 0x07: /* Translation fault, level {0-3} */
+>> +                info.si_code = TARGET_SEGV_MAPERR;
+>> +                break;
+>> +            case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
+>> +            case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
+>> +                info.si_code = TARGET_SEGV_ACCERR;
+>> +                break;
+>> +            default:
+>> +                g_assert_not_reached();
+>> +            }
+>> +
+>>              queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+>>              break;
+>>          case EXCP_DEBUG:
+>> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+>> index df85079d9f0..9609333cbdf 100644
+>> --- a/target/arm/tlb_helper.c
+>> +++ b/target/arm/tlb_helper.c
+>> @@ -154,21 +154,24 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>>                        bool probe, uintptr_t retaddr)
+>>  {
+>>      ARMCPU *cpu = ARM_CPU(cs);
+>> +    ARMMMUFaultInfo fi = {};
+>>  
+>>  #ifdef CONFIG_USER_ONLY
+>> -    cpu->env.exception.vaddress = address;
+>> -    if (access_type == MMU_INST_FETCH) {
+>> -        cs->exception_index = EXCP_PREFETCH_ABORT;
+>> +    int flags = page_get_flags(useronly_clean_ptr(address));
+>> +    if (flags & PAGE_VALID) {
+>> +        fi.type = ARMFault_Permission;
+>>      } else {
+>> -        cs->exception_index = EXCP_DATA_ABORT;
+>> +        fi.type = ARMFault_Translation;
+>>      }
+>> -    cpu_loop_exit_restore(cs, retaddr);
+>> +
+>> +    /* now we have a real cpu fault */
+>> +    cpu_restore_state(cs, retaddr, true);
+>> +    arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
+>>  #else
+>>      hwaddr phys_addr;
+>>      target_ulong page_size;
+>>      int prot, ret;
+>>      MemTxAttrs attrs = {};
+>> -    ARMMMUFaultInfo fi = {};
+>>      ARMCacheAttrs cacheattrs = {};
+>>  
+>>      /*
+>>
+> 
+> 
 
 
