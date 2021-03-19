@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E68834137A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 04:33:07 +0100 (CET)
-Received: from localhost ([::1]:51814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8F434137E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 04:34:40 +0100 (CET)
+Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN5so-0002AQ-J0
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 23:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34034)
+	id 1lN5uJ-00057q-Te
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 23:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lN5qi-0000Yt-OK
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 23:30:56 -0400
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lN5qm-0000bn-CM
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 23:31:00 -0400
 Received: from mga12.intel.com ([192.55.52.136]:34574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lN5qf-0002um-8Y
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 23:30:56 -0400
-IronPort-SDR: fGCwR80GbUh+iwNB0X7pxpfA6XqMkd7FWwbXcJmDCq4Qk0LkMK/eTZjcr6TmD6v/tniuZF445i
- DVLMvAPkxnmA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="169117055"
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="169117055"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lN5qj-0002um-9n
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 23:31:00 -0400
+IronPort-SDR: PIEj+AGEKGCms8PZmc1F5F2pGaG0KtFl1DCEiYCsFnlU4vY7uHX2QSN+sXV2Xs7rBJ2ySjyFzx
+ UIsT7lxZxmrA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="169117080"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="169117080"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 20:30:50 -0700
-IronPort-SDR: fkjDAWZkJ56KDL8m11oCpG6pJ6rPrt/P7ypdIf2Q2OYuNp/zdIAfal2pU0dWkzIyjW63ZTUgbQ
- SQUZHC5Q2Afw==
+ 18 Mar 2021 20:30:55 -0700
+IronPort-SDR: r99VZ1SnJYzDKg1GlZMbVHhnoJAMN59L1nbv3Eo/0muV36UqsSNBgpC/VsRy2VCkO9jOchpfyO
+ dTzbvgpSyE6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="606448856"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="606448879"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga005.fm.intel.com with ESMTP; 18 Mar 2021 20:30:48 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 18 Mar 2021 20:30:51 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v3 02/10] Fix the qemu crash when guest shutdown during
- checkpoint
-Date: Fri, 19 Mar 2021 11:07:40 +0800
-Message-Id: <1616123268-89517-3-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v3 03/10] Optimize the function of filter_send
+Date: Fri, 19 Mar 2021 11:07:41 +0800
+Message-Id: <1616123268-89517-4-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1616123268-89517-1-git-send-email-lei.rao@intel.com>
 References: <1616123268-89517-1-git-send-email-lei.rao@intel.com>
@@ -67,28 +66,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-This patch fixes the following:
-    qemu-system-x86_64: invalid runstate transition: 'colo' ->'shutdown'
-    Aborted (core dumped)
+The iov_size has been calculated in filter_send(). we can directly
+return the size.In this way, this is no need to repeat calculations
+in filter_redirector_receive_iov();
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
 ---
- softmmu/runstate.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/filter-mirror.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 2874417..884f8fa 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -126,6 +126,7 @@ static const RunStateTransition runstate_transitions_def[] = {
-     { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
+diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+index f8e6500..f20240c 100644
+--- a/net/filter-mirror.c
++++ b/net/filter-mirror.c
+@@ -88,7 +88,7 @@ static int filter_send(MirrorState *s,
+         goto err;
+     }
  
-     { RUN_STATE_COLO, RUN_STATE_RUNNING },
-+    { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
+-    return 0;
++    return size;
  
-     { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
-     { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
+ err:
+     return ret < 0 ? ret : -EIO;
+@@ -159,7 +159,7 @@ static ssize_t filter_mirror_receive_iov(NetFilterState *nf,
+     int ret;
+ 
+     ret = filter_send(s, iov, iovcnt);
+-    if (ret) {
++    if (ret < 0) {
+         error_report("filter mirror send failed(%s)", strerror(-ret));
+     }
+ 
+@@ -182,10 +182,10 @@ static ssize_t filter_redirector_receive_iov(NetFilterState *nf,
+ 
+     if (qemu_chr_fe_backend_connected(&s->chr_out)) {
+         ret = filter_send(s, iov, iovcnt);
+-        if (ret) {
++        if (ret < 0) {
+             error_report("filter redirector send failed(%s)", strerror(-ret));
+         }
+-        return iov_size(iov, iovcnt);
++        return ret;
+     } else {
+         return 0;
+     }
 -- 
 1.8.3.1
 
