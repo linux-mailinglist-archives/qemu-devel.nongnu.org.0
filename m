@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFF7341A41
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:41:48 +0100 (CET)
-Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348DC341A40
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:41:30 +0100 (CET)
+Received: from localhost ([::1]:48450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNCZf-0001zF-27
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53556)
+	id 1lNCZN-0001UU-9a
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNCXv-0000uW-OF
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:39:59 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40943)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNCXt-00083E-Us
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:39:59 -0400
-Received: by mail-ed1-x532.google.com with SMTP id b16so10169550eds.7
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 03:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5Xd9y8/h0n8mRP1lWzgA2xcvgwuyaQks5VOO9ScO+4k=;
- b=yyUCGPdngRxm4X9x2OLb34OLQQmaEkPJrtuBaTUeWnsQHr70PDyUYZWaHKusJpxfXz
- +2Awy6p/6Ef6KXVah2iuPn8BoWkE/e2Kfi1lBP+pNQsy8qOGBk2EO7zalYivlDtPc3UG
- KBPKhhWLnEcBKSFklt9crV55G3uZbYVaim9avaHlSejR5jAsAWuSXE/eNDc6votBSd6Z
- GmuB0L8jRdYOnYYhmb1TPfz0WXwVqtq8K24qQ5lDX48Ap2sBpq9KYeRQyEFqCXKuAq3x
- 6Z7ITdtnZJObLUKMVOjM+nObg3WZ6ogcbN/I6hbGWq9b4e10+qxH59ohqBHs//6u70QT
- 79SQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNCXf-0000cF-Rp
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:39:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38243)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNCXd-0007tE-Nx
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:39:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616150380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3QRV9/eVFB89Zg05BsodBwTU8Ehr1hRVMUw3++dIfvA=;
+ b=hWBwHAf2aJwWta3+MkH56HxHcev7zFjbIvfhTgBbm9dUcpTT2YnZZWd9E7PteoA9UZU2te
+ SL4fwSOB4N1sGhtli7CP3R/DbJaPexopW3bEe5djwOvNBpWPvfl3A0PPjiWGvF+UEnGvsG
+ 0EMQINqj5IsZoW0fJNK1+bJ2uabzTyo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-SkFHTlQhMc-WqNbzl-yhzw-1; Fri, 19 Mar 2021 06:39:38 -0400
+X-MC-Unique: SkFHTlQhMc-WqNbzl-yhzw-1
+Received: by mail-wm1-f72.google.com with SMTP id b20so7042451wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 03:39:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5Xd9y8/h0n8mRP1lWzgA2xcvgwuyaQks5VOO9ScO+4k=;
- b=aiO++1AOHnwcIceRvgK4sRrMB9Jr9vyB9m06gkzThVVo1t/OtZQblmwHsGgFZyY8w2
- MavxrvQvKoBtnkJcYtha8j0mWAQZl+lo2/olJvcGPz2WmQS1aAX6G63gdHo7lIXCVZ/H
- B2vTNrmyep+azQAzARRCnheVXM7aOwHc6+gpG5qXQjofZzW30gtTj/JDuoRt7ftjaST0
- N/WPrjo3i2RY++n0eEG5T8WSEryFpavwfFpjghLieCjl9iFlatRnV1plfLJwxYPJXvBi
- bdSj3UzL1tkUHlujQGvAosR9yESqFPzUbDE59MzABPYi1HMuU6ef4yCf06rxXag+BACb
- sF+w==
-X-Gm-Message-State: AOAM532cLWgxkwdIbT3YpJIE+7hq0DxCQKig8hldoyZTx+viW1bxJmrb
- B4fhxbOXS3CtifxbhhggbrCNTmVfCxoC6fCb8JFCZg==
-X-Google-Smtp-Source: ABdhPJwgtHrEx/Up3jvxT676gZhyX2cf/X1qbWmWh6usapeNXOBor7sD0vTR8yQCVUnoyauj4sevA5IiMiMkuDzY6ZQ=
-X-Received: by 2002:aa7:d686:: with SMTP id d6mr8860266edr.146.1616150395789; 
- Fri, 19 Mar 2021 03:39:55 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3QRV9/eVFB89Zg05BsodBwTU8Ehr1hRVMUw3++dIfvA=;
+ b=D7Pj9DQ56IfJaKNyJQmBTAqwGLhs0pQ7yB+SQrtF/iF4FVTeAPQuk+R6APQ19jqiyg
+ g/8VxGjxw7A1M/Bd8+MVOz6g4y6SMhWtLvl6KNCfS95D/VN9dJC23YOYd6Q/GhWGPbRi
+ qce/288K5SF8djaSVpI8V4IvZSA86yyd5fFwwWZXkkEWD0swqSc+1C65xcu03ZEIsf7Z
+ 6F1Xd9N31pK2ZUk/yPjQXGvv8Bf7u2+FWQ9EVVqXDbYSklskdbIpXCgEBsIyJNkb30Wx
+ MJgV13SuVn5j+0pX6cxyhVfzZC5LyVVW9HOND1NlwVwbY6cmSg7qPTUSzbocRmcr94tj
+ ILPw==
+X-Gm-Message-State: AOAM5327wH/RR3DE8tWNSEgLo4en65WXFhTeouoBuD2Y5994mxAp/zk3
+ qjFeoQwIVAaR4JQsSnLtJMD3u0yqs9fNKdoncNIK7og2/roVzEfZCYgIpRbHCVWcEWoYihV50fB
+ f+miWfLMzubr3k6I=
+X-Received: by 2002:a5d:534b:: with SMTP id t11mr3808411wrv.186.1616150377734; 
+ Fri, 19 Mar 2021 03:39:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3fSIn3jfaf4sG8zfPvs3OUmGM5G8bT7ve6VYxS0BVsyI3rbCIsaNaneU8dJj0ZOvDGWA3MA==
+X-Received: by 2002:a5d:534b:: with SMTP id t11mr3808391wrv.186.1616150377556; 
+ Fri, 19 Mar 2021 03:39:37 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id 1sm5895615wmj.2.2021.03.19.03.39.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 03:39:36 -0700 (PDT)
+Subject: Re: [PATCH 2/4] iotests: Revert "iotests: use -ccw on s390x for 040, 
+ 139, and 182"
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210318223907.1344870-1-laurent@vivier.eu>
+ <20210318223907.1344870-3-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2acfce7b-9b53-f376-4ba6-1d74882e0f68@redhat.com>
+Date: Fri, 19 Mar 2021 11:39:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210311165947.27470-1-peter.maydell@linaro.org>
-In-Reply-To: <20210311165947.27470-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Mar 2021 10:39:30 +0000
-Message-ID: <CAFEAcA-Q2CY9CMJAgf73yeWqVCHzgH63VCgcVxvi68opHU4TZA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Make number of counters in PMCR follow the CPU
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210318223907.1344870-3-laurent@vivier.eu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,226 +99,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- Leif Lindholm <leif@nuviainc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for review, testing, opinions on whether this should go into 6.0 ?
-I think I would overall prefer it to the just-bump-PMCR_NUM_COUNTERS
-patch...
-
-thanks
--- PMM
-
-On Thu, 11 Mar 2021 at 16:59, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Currently we give all the v7-and-up CPUs a PMU with 4 counters.  This
-> means that we don't provide the 6 counters that are required by the
-> Arm BSA (Base System Architecture) specification if the CPU supports
-> the Virtualization extensions.
->
-> Instead of having a single PMCR_NUM_COUNTERS, make each CPU type
-> specify the PMCR reset value (obtained from the appropriate TRM), and
-> use the 'N' field of that value to define the number of counters
-> provided.
->
-> This means that we now supply 6 counters for Cortex-A53, A57, A72,
-> A15 and A9 as well as '-cpu max'; Cortex-A7 and A8 stay at 4; and
-> Cortex-R5 goes down to 3.
->
-> Note that because we now use the PMCR reset value of the specific
-> implementation, we no longer set the LC bit out of reset.  This has
-> an UNKNOWN value out of reset for all cores with any AArch32 support,
-> so guest software should be setting it anyway if it wants it.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 3/18/21 11:39 PM, Laurent Vivier wrote:
+> Commit f1d5516ab583 introduces a test in some iotests to check if
+> the machine is a s390-ssw-virtio and to select virtio-*-ccw rather
+> than virtio-*-pci.
+> 
+> We don't need that because QEMU already provides aliases to use the correct
+> virtio interface according to the machine type.
+> 
+> This patch removes all virtio-*-pci and virtio-*-ccw to use virtio-*
+> instead.
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> cc: Cornelia Huck <cohuck@redhat.com>
 > ---
-> This is pretty much untested (I just checked Linux still boots;
-> haven't tried it with KVM either). It's an alternative to
-> just bumping PMCR_NUM_COUNTERS to 6.
-> ---
->  target/arm/cpu.h     |  1 +
->  target/arm/cpu64.c   |  3 +++
->  target/arm/cpu_tcg.c |  5 +++++
->  target/arm/helper.c  | 29 +++++++++++++++++------------
->  target/arm/kvm64.c   |  2 ++
->  5 files changed, 28 insertions(+), 12 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 193a49ec7fa..fe68f464b3a 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -942,6 +942,7 @@ struct ARMCPU {
->          uint64_t id_aa64mmfr2;
->          uint64_t id_aa64dfr0;
->          uint64_t id_aa64dfr1;
-> +        uint64_t reset_pmcr_el0;
->      } isar;
->      uint64_t midr;
->      uint32_t revidr;
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index f0a9e968c9c..5d9d56a33c3 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -141,6 +141,7 @@ static void aarch64_a57_initfn(Object *obj)
->      cpu->gic_num_lrs = 4;
->      cpu->gic_vpribits = 5;
->      cpu->gic_vprebits = 5;
-> +    cpu->isar.reset_pmcr_el0 = 0x41013000;
->      define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
->  }
->
-> @@ -194,6 +195,7 @@ static void aarch64_a53_initfn(Object *obj)
->      cpu->gic_num_lrs = 4;
->      cpu->gic_vpribits = 5;
->      cpu->gic_vprebits = 5;
-> +    cpu->isar.reset_pmcr_el0 = 0x41033000;
->      define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
->  }
->
-> @@ -245,6 +247,7 @@ static void aarch64_a72_initfn(Object *obj)
->      cpu->gic_num_lrs = 4;
->      cpu->gic_vpribits = 5;
->      cpu->gic_vprebits = 5;
-> +    cpu->isar.reset_pmcr_el0 = 0x41023000;
->      define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
->  }
->
-> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> index 046e476f65f..8252fd29f90 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -301,6 +301,7 @@ static void cortex_a8_initfn(Object *obj)
->      cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
->      cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
->      cpu->reset_auxcr = 2;
-> +    cpu->isar.reset_pmcr_el0 = 0x41002000;
->      define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
->  }
->
-> @@ -373,6 +374,7 @@ static void cortex_a9_initfn(Object *obj)
->      cpu->clidr = (1 << 27) | (1 << 24) | 3;
->      cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
->      cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
-> +    cpu->isar.reset_pmcr_el0 = 0x41093000;
->      define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
->  }
->
-> @@ -443,6 +445,7 @@ static void cortex_a7_initfn(Object *obj)
->      cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
->      cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
->      cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
-> +    cpu->isar.reset_pmcr_el0 = 0x41072000;
->      define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
->  }
->
-> @@ -485,6 +488,7 @@ static void cortex_a15_initfn(Object *obj)
->      cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
->      cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
->      cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
-> +    cpu->isar.reset_pmcr_el0 = 0x410F3000;
->      define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
->  }
->
-> @@ -717,6 +721,7 @@ static void cortex_r5_initfn(Object *obj)
->      cpu->isar.id_isar6 = 0x0;
->      cpu->mp_is_up = true;
->      cpu->pmsav7_dregion = 16;
-> +    cpu->isar.reset_pmcr_el0 = 0x41151800;
->      define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
->  }
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 904b0927cd2..2f3867cad79 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -38,7 +38,6 @@
->  #endif
->
->  #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
-> -#define PMCR_NUM_COUNTERS 4 /* QEMU IMPDEF choice */
->
->  #ifndef CONFIG_USER_ONLY
->
-> @@ -1149,7 +1148,9 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
->
->  static inline uint32_t pmu_num_counters(CPUARMState *env)
->  {
-> -  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
-> +    ARMCPU *cpu = env_archcpu(env);
-> +
-> +    return (cpu->isar.reset_pmcr_el0 & PMCRN_MASK) >> PMCRN_SHIFT;
->  }
->
->  /* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
-> @@ -5753,13 +5754,6 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
->        .resetvalue = 0,
->        .writefn = gt_hyp_ctl_write, .raw_writefn = raw_write },
->  #endif
-> -    /* The only field of MDCR_EL2 that has a defined architectural reset value
-> -     * is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
-> -     */
-> -    { .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
-> -      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
-> -      .access = PL2_RW, .resetvalue = PMCR_NUM_COUNTERS,
-> -      .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2), },
->      { .name = "HPFAR", .state = ARM_CP_STATE_AA32,
->        .cp = 15, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 4,
->        .access = PL2_RW, .accessfn = access_el3_aa32ns,
-> @@ -6689,7 +6683,7 @@ static void define_pmu_regs(ARMCPU *cpu)
->       * field as main ID register, and we implement four counters in
->       * addition to the cycle count register.
->       */
-> -    unsigned int i, pmcrn = PMCR_NUM_COUNTERS;
-> +    unsigned int i, pmcrn = pmu_num_counters(&cpu->env);
->      ARMCPRegInfo pmcr = {
->          .name = "PMCR", .cp = 15, .crn = 9, .crm = 12, .opc1 = 0, .opc2 = 0,
->          .access = PL0_RW,
-> @@ -6704,10 +6698,10 @@ static void define_pmu_regs(ARMCPU *cpu)
->          .access = PL0_RW, .accessfn = pmreg_access,
->          .type = ARM_CP_IO,
->          .fieldoffset = offsetof(CPUARMState, cp15.c9_pmcr),
-> -        .resetvalue = (cpu->midr & 0xff000000) | (pmcrn << PMCRN_SHIFT) |
-> -                      PMCRLC,
-> +        .resetvalue = cpu->isar.reset_pmcr_el0,
->          .writefn = pmcr_write, .raw_writefn = raw_write,
->      };
-> +
->      define_one_arm_cp_reg(cpu, &pmcr);
->      define_one_arm_cp_reg(cpu, &pmcr64);
->      for (i = 0; i < pmcrn; i++) {
-> @@ -7825,6 +7819,17 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->                .fieldoffset = offsetof(CPUARMState, cp15.vmpidr_el2) },
->              REGINFO_SENTINEL
->          };
-> +        /*
-> +         * The only field of MDCR_EL2 that has a defined architectural reset
-> +         * value is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
-> +         */
-> +        ARMCPRegInfo mdcr_el2 = {
-> +            .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
-> +            .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
-> +            .access = PL2_RW, .resetvalue = pmu_num_counters(env),
-> +            .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el2),
-> +        };
-> +        define_one_arm_cp_reg(cpu, &mdcr_el2);
->          define_arm_cp_regs(cpu, vpidr_regs);
->          define_arm_cp_regs(cpu, el2_cp_reginfo);
->          if (arm_feature(env, ARM_FEATURE_V8)) {
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index dff85f6db94..581335e49d3 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -566,6 +566,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->                                ARM64_SYS_REG(3, 0, 0, 7, 1));
->          err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
->                                ARM64_SYS_REG(3, 0, 0, 7, 2));
-> +        err |= read_sys_reg64(fdarray[2], &ahcf->isar.reset_pmcr_el0,
-> +                              ARM64_SYS_REG(3, 3, 9, 12, 0));
->
->          /*
->           * Note that if AArch32 support is not present in the host,
-> --
-> 2.20.1
+>  blockdev.c                    |  6 +-----
+>  tests/qemu-iotests/040        |  2 +-
+>  tests/qemu-iotests/051        | 12 +-----------
+>  tests/qemu-iotests/068        |  4 +---
+>  tests/qemu-iotests/093        |  3 +--
+>  tests/qemu-iotests/139        |  9 ++-------
+>  tests/qemu-iotests/182        | 13 ++-----------
+>  tests/qemu-iotests/238        |  4 +---
+>  tests/qemu-iotests/240        | 10 +++++-----
+>  tests/qemu-iotests/257        |  4 ++--
+>  tests/qemu-iotests/307        |  4 +---
+>  tests/qemu-iotests/iotests.py |  5 -----
+>  12 files changed, 18 insertions(+), 58 deletions(-)
+
+> diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+> index 7cbd1415ce7b..00382cc55e25 100755
+> --- a/tests/qemu-iotests/051
+> +++ b/tests/qemu-iotests/051
+> @@ -119,17 +119,7 @@ echo
+>  echo === Device without drive ===
+>  echo
+>  
+> -case "$QEMU_DEFAULT_MACHINE" in
+> -  s390-ccw-virtio)
+> -      virtio_scsi=virtio-scsi-ccw
+> -      ;;
+> -  *)
+> -      virtio_scsi=virtio-scsi-pci
+> -      ;;
+> -esac
+> -
+> -run_qemu -device $virtio_scsi -device scsi-hd |
+> -    sed -e "s/$virtio_scsi/VIRTIO_SCSI/"
+> +run_qemu -device virtio-scsi -device scsi-hd
+>  
+>  echo
+>  echo === Overriding backing file ===
+
+This one failed (but the fix is trivial):
+
+051   fail       [05:49:47] [05:50:01]   13.3s                output
+mismatch (see 051.out.bad)
+--- /builds/philmd/qemu2/tests/qemu-iotests/051.pc.out
++++ 051.out.bad
+@@ -72,7 +72,7 @@
+ === Device without drive ===
+-Testing: -device VIRTIO_SCSI -device scsi-hd
++Testing: -device virtio-scsi -device scsi-hd
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) QEMU_PROG: -device scsi-hd: drive property not set
+
+Failures: 051
+Failed 1 of 56 iotests
+
 
