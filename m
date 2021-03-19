@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7819341E7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:38:17 +0100 (CET)
-Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADA4341E59
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:31:32 +0100 (CET)
+Received: from localhost ([::1]:39780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFKS-0007dQ-Pv
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
+	id 1lNFDv-0005w8-5t
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNF9E-0001LA-JH; Fri, 19 Mar 2021 09:26:40 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:43770)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lNF8Y-0000To-Gv
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:25:58 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNF9B-0004E2-Rv; Fri, 19 Mar 2021 09:26:40 -0400
-Received: by mail-il1-x130.google.com with SMTP id d2so7993649ilm.10;
- Fri, 19 Mar 2021 06:26:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lNF8V-0003kH-7V
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:25:58 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id 61so9094767wrm.12
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EGxnHo6rhYvRulaCLuWojgNdIZVvwzc0ljEN6vPl4b8=;
- b=VPqUeK4N4HVX9ub0cJyNu8MfBuT7BSOuy45ekYn5QhqvXeXapW8IEtTrN/LT+KdeWQ
- vBkteV5JLjb7wCuHq9t0J814XGoDuy1Z0kwPzfT5usIl2eYAlIinKNFUyIWwlYG6JF2W
- Piyo5F1nnDB6cTf25X/gWe18hUwG7X0mCDrdueuPjT52o6S57JmGHRmnqWHsoElKYagD
- zFpEX02vtjQlydrL4U+Y7Ph+pcXPF+HBpbuZlqpbPsQRen2YzAR4YQs9Zq+gF0+XQDKE
- yYVlp390KaxWQNA63lYOC3UVImbrVhh/i7q5Rh77yqrCK8ePUTx+ffO7FrLW0Tjhfeb0
- gHrw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j665TjhM5QLq44DfBf+bJ2/D8M1KJ7ZU5RVFKMjbxY4=;
+ b=FqCp7viG9VcjNWGJXWO3PMdiILkg+Eol/J9wFyOYigU0EK39A8J/N6nn3QjOK/Dzc6
+ Qr+KEycFH15EwfzfLZDMoxqoljXWhMWSpZymOlH7GI3wog9qGeeulYv9ARdO7L3EUoIB
+ zdFE2DtLZgBIXgOnMJgda5l8eYWdGUsu5QQwgRN4kjsGzrT558gOhsuxwDZ5yPF/+tV1
+ zPp5CQeHIYWJ9Gje4BSQYghc1DXZmib0LgFL1JOSS8KMpB/sFWKHukIGm3u6S/a/oOMI
+ hOb40gskdT/OtJwJ/OPBs9P12h9nbraIh34jwJRU8GMH3zoDh1SpvzQMrDKvkkDBp+pu
+ VxRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EGxnHo6rhYvRulaCLuWojgNdIZVvwzc0ljEN6vPl4b8=;
- b=az7Jt5KQpGk1P3/7+gOJz/jI5AheeCO6WLMD2w+ieJeN3imhVdTGqzCqmxmmmFhBfe
- JCDZCJiY7MVI8Og8JnUWI6FA8+8KSFgt1NQUmXPBMb6u5iGE4ZY0D21lyzrWpeMtPCG+
- gZvWaKVhr4nCJD7jOL3QkrEtx2PFQoisVfgp7NKW7P9DqbCeNGHogpVWpmQuF2t41qi+
- xMkox6cXAxAUgQctAie73BlV1IydU//XHXko3b3Lh73bXSNDd8TJnb/s44gMWvXumG7D
- RU9fOeNXnHJcd7NnJ1N5dT+oe/rxhla6hzergyRFRLMFy9gssRdkAgNHiIvP74wdqy2I
- tGcA==
-X-Gm-Message-State: AOAM531sUCs5/LSnlQFWj1BONMOhAu2I+CsXbpImaRmQq6R0u0Jr58Ez
- WFtutbN2ArwMVCGKZhYZVfSk6ft4Tkjoa3N6u2k=
-X-Google-Smtp-Source: ABdhPJygqsDad0+VdcpnH+Nl4iJHBh66ajMkMNJefcfy3rS967n86dx4NfHxWsAx0u8LpVw7JzKszYXyD2zHAPe1i/c=
-X-Received: by 2002:a05:6e02:f81:: with SMTP id
- v1mr2697755ilo.267.1616160396052; 
- Fri, 19 Mar 2021 06:26:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j665TjhM5QLq44DfBf+bJ2/D8M1KJ7ZU5RVFKMjbxY4=;
+ b=Td5L6eNa/QkW2PmogsqfSPP2LShWx+hbImemIF985zj7y7pAfVeTngY6QNq2pPgErG
+ ILWGjpaI5RvTwICubMIhVLDcDpwvWYasIENFwRpgOPsmr1DNsjm9FT5VUqQoeyvqvhFL
+ fsZ8pDJ/lrjeFrb1M/5MzAgEL1tgU9RM6ZHcHPmWb9zLYArNVhVAEMjFhDg/Gk4LZt0E
+ 6c4ajCwZd1v2inqyEfq/fjk6PwCQzMye69Xj8IXLO6OKW6D0p5uGBJzjnMxm5Vsm1ppc
+ FgWSqQhcrsvlOlTot7a5CnwE6z95jF3P8lBzfriWEHp98UCr+u3St9o1jDyb8FR/z4Mm
+ Q8Ew==
+X-Gm-Message-State: AOAM531g+Tsy6Vxvu/qrfWuOi9CWZ/KIr1UPSdi+exIT7pv7vu0fWCxF
+ fFJCg4959MBlJ123w9bDRq9G2QUAgy8=
+X-Google-Smtp-Source: ABdhPJywvQ0OTFHBLmy6Tue+555FBR53EkeUG0djz1zIYPF51krBWyPzoxsyTPU5X0FCni2J3T0QPA==
+X-Received: by 2002:a5d:6052:: with SMTP id j18mr4554944wrt.295.1616160353032; 
+ Fri, 19 Mar 2021 06:25:53 -0700 (PDT)
+Received: from localhost.localdomain ([102.47.92.134])
+ by smtp.googlemail.com with ESMTPSA id v13sm8889584wrt.45.2021.03.19.06.25.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Mar 2021 06:25:52 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] virtiofsd: Changed various allocations to GLib functions
+Date: Fri, 19 Mar 2021 15:25:19 +0200
+Message-Id: <20210319132527.3118-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Mar 2021 09:24:47 -0400
-Message-ID: <CAKmqyKN37xAZ_nGWcSVjUWvqHX2XZAZ4VmYTCjUSg4DhfQKWkw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix read and write accesses to vsip and vsie
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,146 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 4:49 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
->
-> The previous implementation was broken in many ways:
->  - Used mideleg instead of hideleg to mask accesses
->  - Used MIP_VSSIP instead of VS_MODE_INTERRUPTS to mask writes to vsie
->  - Did not shift between S bits and VS bits (VSEIP <-> SEIP, ...)
->
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Replaced allocations done using malloc(), calloc(), and realloc()
+to their equivalent functions in GLib. 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Memory that is allocated locally and freed when the function exits
+are annotated g_autofree so that the deallocation is automatically
+handled. Subsequently, I could remove a bunch of free() calls.
 
-Alistair
+Also, tried to keep the semantics of the code as is, but when the 
+allocation is a small one, or a crucial one, I replaced the 
+NULL-checking mechanisms with glib's functions that crash on error.
 
-> ---
->  target/riscv/csr.c | 68 +++++++++++++++++++++++-----------------------
->  1 file changed, 34 insertions(+), 34 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index fd2e6363f3..4a5b362ec1 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -748,30 +748,42 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
->      return write_mstatus(env, CSR_MSTATUS, newval);
->  }
->
-> +static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    /* Shift the VS bits to their S bit location in vsie */
-> +    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
-> +    return 0;
-> +}
-> +
->  static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->      if (riscv_cpu_virt_enabled(env)) {
-> -        /* Tell the guest the VS bits, shifted to the S bit locations */
-> -        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
-> +        read_vsie(env, CSR_VSIE, val);
->      } else {
->          *val = env->mie & env->mideleg;
->      }
->      return 0;
->  }
->
-> -static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-> +static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    target_ulong newval;
-> +    /* Shift the S bits to their VS bit location in mie */
-> +    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-> +                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
-> +    return write_mie(env, CSR_MIE, newval);
-> +}
->
-> +static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-> +{
->      if (riscv_cpu_virt_enabled(env)) {
-> -        /* Shift the guests S bits to VS */
-> -        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-> -                 ((val << 1) & VS_MODE_INTERRUPTS);
-> +        write_vsie(env, CSR_VSIE, val);
->      } else {
-> -        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
-> +        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
-> +                              (val & S_MODE_INTERRUPTS);
-> +        write_mie(env, CSR_MIE, newval);
->      }
->
-> -    return write_mie(env, CSR_MIE, newval);
-> +    return 0;
->  }
->
->  static int read_stvec(CPURISCVState *env, int csrno, target_ulong *val)
-> @@ -852,17 +864,25 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
->      return 0;
->  }
->
-> +static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> +                    target_ulong new_value, target_ulong write_mask)
-> +{
-> +    /* Shift the S bits to their VS bit location in mip */
-> +    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
-> +                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
-> +    *ret_value &= VS_MODE_INTERRUPTS;
-> +    /* Shift the VS bits to their S bit location in vsip */
-> +    *ret_value >>= 1;
-> +    return ret;
-> +}
-> +
->  static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
->                     target_ulong new_value, target_ulong write_mask)
->  {
->      int ret;
->
->      if (riscv_cpu_virt_enabled(env)) {
-> -        /* Shift the new values to line up with the VS bits */
-> -        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
-> -                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
-> -        ret &= vsip_writable_mask;
-> -        ret >>= 1;
-> +        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
->      } else {
->          ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
->                        write_mask & env->mideleg & sip_writable_mask);
-> @@ -1121,26 +1141,6 @@ static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
->      return 0;
->  }
->
-> -static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> -                    target_ulong new_value, target_ulong write_mask)
-> -{
-> -    int ret = rmw_mip(env, 0, ret_value, new_value,
-> -                      write_mask & env->mideleg & vsip_writable_mask);
-> -    return ret;
-> -}
-> -
-> -static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
-> -{
-> -    *val = env->mie & env->mideleg & VS_MODE_INTERRUPTS;
-> -    return 0;
-> -}
-> -
-> -static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
-> -{
-> -    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg & MIP_VSSIP);
-> -    return write_mie(env, CSR_MIE, newval);
-> -}
-> -
->  static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->      *val = env->vstvec;
-> --
-> 2.30.1
->
->
+This is related to a patch that I had submitted as a part of a 
+previous series. The previous patch had some errors. Also, I thought 
+that it's better to split the patch into smaller pieces. 
+
+The previous patch can be found here: 
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg05153.html
+
+Mahmoud Mandour (8):
+  virtiofsd: Changed allocations of fuse_req to GLib functions
+  virtiofds: Changed allocations of iovec to GLib's functions
+  virtiofsd: Changed fuse_pollhandle allocation to GLib's functions
+  virtiofsd: Changed allocations of fuse_session to GLib's functions
+  virtiofsd: Changed allocation of lo_map_elems to GLib's functions
+  virtiofsd: Changed allocations of fv_VuDev & its internals to GLib
+    functions
+  virtiofsd/passthrough_ll.c: Changed local allocations to GLib
+    functions
+  virtiofsd/fuse_virtio.c: Changed allocations of locals to GLib
+
+ tools/virtiofsd/fuse_lowlevel.c  | 43 +++++++++++---------------------
+ tools/virtiofsd/fuse_virtio.c    | 34 ++++++++-----------------
+ tools/virtiofsd/passthrough_ll.c | 21 ++++++----------
+ 3 files changed, 34 insertions(+), 64 deletions(-)
+
+-- 
+2.25.1
+
 
