@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF08D341EB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:48:51 +0100 (CET)
-Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A47341EA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:45:06 +0100 (CET)
+Received: from localhost ([::1]:55498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFUg-0002Yx-DZ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36644)
+	id 1lNFR3-0007AU-5F
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:45:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFNI-0003BG-40; Fri, 19 Mar 2021 09:41:12 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:42793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFND-0003g9-Ux; Fri, 19 Mar 2021 09:41:11 -0400
-Received: by mail-il1-x134.google.com with SMTP id l5so8046097ilv.9;
- Fri, 19 Mar 2021 06:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VDhVdjrIeJL/fx+Wr0yCVN5yD3Au/UgAMX3yD0ckpd8=;
- b=WuWxJg104dXPdluLvIDZ2MLxNf7t5iJ9NdcpNEYGPcvS3ns/jVRckp5dluu0HJLV+J
- J7HWpB1XdYEDAwW2vxJdFNzWIEFfc9dQgFh/uAgaMI/StQC/TqXXq6j8Ftqd7dzcF/kQ
- VT1WyJO8Scyzfzr4zfJOQg3b2uSVW7ue58sEEfnzh2e0X2fW8rsB6iRsGHSloLUkZRwr
- 2w8pnxm95fAzfzCU6x9/oGLDxAByI9eWPOpUOl+NceMhM3KJ6WxpNT56JPpXn1vft30/
- QI+EmsBC1V+C1jtqstbze186RlG93XaFl0GyYbd3boyBSJb8NKZsy/7avB/YV3TFARqt
- dQGA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFOk-00058V-6T
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:42:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFOe-0004SU-Nx
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616161353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xMG4OSx1c8wUB1Y0SbDa6Sf7HSb/fXCz62BHvrdv8B4=;
+ b=NYSO/MJ6+MJqy3mS8Bw6Nn7+aCnLOD11aZZFcQz3ZwH4l2zAzJAFk7NpYlBHf4hMZxse5h
+ 4oFB/5e6owB0yxQyfT2Vrkixb3PScyI4sMWdGP2wSvb6McTSuREc47o8v5m4aSg+QCMdSd
+ 8jqYzP8LIcf/FLMqU6lxLIRpdjIVbnM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-8VAjLW3dPJyMPUHT95-rVw-1; Fri, 19 Mar 2021 09:42:31 -0400
+X-MC-Unique: 8VAjLW3dPJyMPUHT95-rVw-1
+Received: by mail-wr1-f71.google.com with SMTP id r12so21884554wro.15
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:42:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VDhVdjrIeJL/fx+Wr0yCVN5yD3Au/UgAMX3yD0ckpd8=;
- b=KS/Xf+LyQyqLBQIjQVkblHgkT4Yk9khU1oGCjd5bKFlW3LM0UGpbHtBgEsr1/zfKuM
- NUYdH3xeKkkoF74H30g/FB3Tzm6ysf4ERKOLRc28oVkRaC29hKUyAOTKzzIpuSfG45AI
- yKMJIWwzhq/N4i9UkDG8/kLyx8BKQt1ywQnXwyS7wILMqNU6HywW4cRKSF50M0ZDUacE
- nnwBEAb8VGy3ELnOz8kV0GIrdsKU5xlWLfhIapVO7O0DELL/iGB/oi8JRm2S9Jvi/Q9m
- o7cgcQp1MaycYtJaIGtcG9uPch2CmcANi2knI6gftp444cn79NfXkaxJNJEa/GBSOxpd
- dCoA==
-X-Gm-Message-State: AOAM531ZyffAO6HxRiDET3I3cn/fn2WY6E2MEnpffQ8YLA9Y/PqHG5Pn
- +Hw5omC93cpJWJrXQKAWI3k0bWlcao9f4FYVKI4=
-X-Google-Smtp-Source: ABdhPJzaQcJZaVOHHo8c317Ur4YbkQFqbQD8gP5dr0SqOGoQNUCuV9j9za8FGJxeK4fc0rKHqFgcqpV6ZeNN2A50P+c=
-X-Received: by 2002:a05:6e02:218c:: with SMTP id
- j12mr2843645ila.177.1616161266124; 
- Fri, 19 Mar 2021 06:41:06 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xMG4OSx1c8wUB1Y0SbDa6Sf7HSb/fXCz62BHvrdv8B4=;
+ b=qdxY4ITVhKSU+dlTz3VgkKzALNqefJz/383IpDN0NiZneJwRgs/S9oAOJLfGbFqNfc
+ v9zVzZ9lnvyJO3IfeXI+CbPGnFajmXMabMFtIe7X/GGQtK7JsnGPHhtYOXbt58IB20HP
+ cWn1fEECX5Tw7m0AaVD6OFD9hDzRDvp99bl81n7V8V4auAV/tCYUOjT/6v0D0lQw7gAw
+ rHFHiTP93nbhkLBk15bX8yoSvR2OZj7uTFJwvPB9seWxhgYH6Jmp+r0doGyu5Zr/XXjO
+ sv48kVn/BCu2t6jS004wpeSDjHw/FrTdkjJuJsE6QdcCyyY4LZE/d2O9+ygtrwN37YSt
+ Q27Q==
+X-Gm-Message-State: AOAM530q64szooBqWWZRYwYFGIe+C5zvhypo46TRcb8aPdhnFCzDIJVh
+ i7blFfymudQPy6HK5tCVuPKiie0m3sZtd2qMMOzed2qBftdj3BPutHTBMx8zc1ZjIuqSnmuNzcX
+ TBD5cr4NgJcvR8xs=
+X-Received: by 2002:a5d:4445:: with SMTP id x5mr4778375wrr.30.1616161350732;
+ Fri, 19 Mar 2021 06:42:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOEG/M402IlXDKucqrH1Yh2dPokOuIbmXPzMwDypfoeMeyrxHa1zQcdf/KeQyg7urr89LaQQ==
+X-Received: by 2002:a5d:4445:: with SMTP id x5mr4778357wrr.30.1616161350567;
+ Fri, 19 Mar 2021 06:42:30 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id q15sm8012644wrr.58.2021.03.19.06.42.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 06:42:30 -0700 (PDT)
+Subject: Re: [PATCH v2 4/6] iotests: Revert "iotests: use -ccw on s390x for
+ 040, 139, and 182"
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210319132537.2046339-1-laurent@vivier.eu>
+ <20210319132537.2046339-5-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6a50dfd3-2ece-b43d-4035-19dc17673541@redhat.com>
+Date: Fri, 19 Mar 2021 14:42:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210314083936.76269-1-vijai@behindbytes.com>
- <20210314083936.76269-2-vijai@behindbytes.com>
-In-Reply-To: <20210314083936.76269-2-vijai@behindbytes.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Mar 2021 09:39:17 -0400
-Message-ID: <CAKmqyKOt5M9M6ftNxZ_6tBEq5txM3ivWbKwLEZ8UA1tEkX3TJg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] riscv: Add initial support for Shakti C class
-To: Vijai Kumar K <vijai@behindbytes.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210319132537.2046339-5-laurent@vivier.eu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,436 +99,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 14, 2021 at 5:10 AM Vijai Kumar K <vijai@behindbytes.com> wrote:
->
-> C-Class is a member of the SHAKTI family of processors from Indian
-> Institute of Technology - Madras(IIT-M).
-> It is an extremely configurable and commercial-grade 5-stage in-order
-> core supporting the standard RV64GCSUN ISA extensions.
->
-> Add support for emulating Shakti SoC based on C-class running on arty-100T
-> platform.
->
-> https://gitlab.com/shaktiproject/cores/shakti-soc/-/blob/master/README.rst
->
-> Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
+On 3/19/21 2:25 PM, Laurent Vivier wrote:
+> Commit f1d5516ab583 introduces a test in some iotests to check if
+> the machine is a s390-ccw-virtio and to select virtio-*-ccw rather
+> than virtio-*-pci.
+> 
+> We don't need that because QEMU already provides aliases to use the correct
+> virtio interface according to the machine type.
+
+And get_virtio_scsi_device() is removed because we use the alias
+instead.
+
+> 
+> This patch removes all virtio-*-pci and virtio-*-ccw to use virtio-*
+> instead. This also enables virtio-mmio devices (virtio-*-device)
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> cc: Cornelia Huck <cohuck@redhat.com>
 > ---
->  MAINTAINERS                                 |   7 +
->  default-configs/devices/riscv64-softmmu.mak |   1 +
->  hw/riscv/Kconfig                            |  10 ++
->  hw/riscv/meson.build                        |   1 +
->  hw/riscv/shakti_c.c                         | 178 ++++++++++++++++++++
->  include/hw/riscv/shakti_c.h                 |  74 ++++++++
->  target/riscv/cpu.c                          |   9 +
->  target/riscv/cpu.h                          |   1 +
->  8 files changed, 281 insertions(+)
->  create mode 100644 hw/riscv/shakti_c.c
->  create mode 100644 include/hw/riscv/shakti_c.h
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8e9f0d591e..9f71c4cc3f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1380,6 +1380,13 @@ F: include/hw/misc/mchp_pfsoc_dmc.h
->  F: include/hw/misc/mchp_pfsoc_ioscb.h
->  F: include/hw/misc/mchp_pfsoc_sysreg.h
->
-> +Shakti C class SoC
-> +M: Vijai Kumar K <vijai@behindbytes.com>
-> +L: qemu-riscv@nongnu.org
-> +S: Supported
-> +F: hw/riscv/shakti_c.c
-> +F: include/hw/riscv/shakti_c.h
-> +
->  SiFive Machines
->  M: Alistair Francis <Alistair.Francis@wdc.com>
->  M: Bin Meng <bin.meng@windriver.com>
-> diff --git a/default-configs/devices/riscv64-softmmu.mak b/default-configs/devices/riscv64-softmmu.mak
-> index d5eec75f05..bc69301fa4 100644
-> --- a/default-configs/devices/riscv64-softmmu.mak
-> +++ b/default-configs/devices/riscv64-softmmu.mak
-> @@ -13,3 +13,4 @@ CONFIG_SIFIVE_E=y
->  CONFIG_SIFIVE_U=y
->  CONFIG_RISCV_VIRT=y
->  CONFIG_MICROCHIP_PFSOC=y
-> +CONFIG_SHAKTI_C=y
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index d139074b02..92a62b5ce9 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -19,6 +19,16 @@ config OPENTITAN
->      select IBEX
->      select UNIMP
->
-> +config SHAKTI
-> +    bool
-> +
-> +config SHAKTI_C
-> +    bool
-> +    select UNIMP
-> +    select SHAKTI
-> +    select SIFIVE_CLINT
-> +    select SIFIVE_PLIC
-> +
->  config RISCV_VIRT
->      bool
->      imply PCI_DEVICES
-> diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-> index 275c0f7eb7..a97454661c 100644
-> --- a/hw/riscv/meson.build
-> +++ b/hw/riscv/meson.build
-> @@ -4,6 +4,7 @@ riscv_ss.add(files('numa.c'))
->  riscv_ss.add(files('riscv_hart.c'))
->  riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c'))
->  riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
-> +riscv_ss.add(when: 'CONFIG_SHAKTI_C', if_true: files('shakti_c.c'))
->  riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
->  riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
->  riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
-> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-> new file mode 100644
-> index 0000000000..e96436a3bf
-> --- /dev/null
-> +++ b/hw/riscv/shakti_c.c
-> @@ -0,0 +1,178 @@
-> +/*
-> + * Shakti C-class SoC emulation
-> + *
-> + * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/boards.h"
-> +#include "hw/riscv/shakti_c.h"
-> +#include "qapi/error.h"
-> +#include "hw/intc/sifive_plic.h"
-> +#include "hw/intc/sifive_clint.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/qdev-properties.h"
-> +#include "exec/address-spaces.h"
-> +#include "hw/riscv/boot.h"
-> +
-> +#define DEBUG_SHAKTI_C 0
-> +#define DPRINTF(fmt, args...) \
-> +    do { \
-> +        if (DEBUG_SHAKTI_C) { \
-> +            fprintf(stderr, "[%s]%s: " fmt , TYPE_RISCV_SHAKTI_SOC, \
-> +                                             __func__, ##args); \
-> +        } \
-> +    } while (0)
+>  tests/qemu-iotests/040        |  2 +-
+>  tests/qemu-iotests/051        | 12 +-----------
+>  tests/qemu-iotests/051.out    |  2 +-
+>  tests/qemu-iotests/051.pc.out |  2 +-
+>  tests/qemu-iotests/068        |  4 +---
+>  tests/qemu-iotests/093        |  3 +--
+>  tests/qemu-iotests/139        |  9 ++-------
+>  tests/qemu-iotests/182        | 13 ++-----------
+>  tests/qemu-iotests/238        |  4 +---
+>  tests/qemu-iotests/240        | 10 +++++-----
+>  tests/qemu-iotests/257        |  4 ++--
+>  tests/qemu-iotests/307        |  4 +---
+>  tests/qemu-iotests/iotests.py |  5 -----
+>  13 files changed, 19 insertions(+), 55 deletions(-)
 
-This doesn't seem to be used, can you remove it?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> +
-> +static const struct MemmapEntry {
-> +    hwaddr base;
-> +    hwaddr size;
-> +} shakti_c_memmap[] = {
-> +    [SHAKTI_C_ROM]   =  {  0x00001000,  0x2000   },
-> +    [SHAKTI_C_RAM]   =  {  0x80000000,  0x0      },
-> +    [SHAKTI_C_UART]  =  {  0x00011300,  0x00040  },
-> +    [SHAKTI_C_GPIO]  =  {  0x020d0000,  0x00100  },
-> +    [SHAKTI_C_PLIC]  =  {  0x0c000000,  0x20000  },
-> +    [SHAKTI_C_CLINT] =  {  0x02000000,  0xc0000  },
-> +    [SHAKTI_C_DEBUG] =  {  0x00000000,  0x00010  },
-> +    [SHAKTI_C_I2C]   =  {  0x20c00000,  0x00100  },
-> +};
-> +
-> +static void shakti_c_machine_state_init(MachineState *mstate)
-> +{
-> +    ShaktiCMachineState *sms = RISCV_SHAKTI_MACHINE(mstate);
-> +    MemoryRegion *system_memory = get_system_memory();
-> +    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-> +    int i;
-> +
-> +    /* Initialize SoC */
-> +    object_initialize_child(OBJECT(mstate), "soc", &sms->soc,
-> +                            TYPE_RISCV_SHAKTI_SOC);
-> +    qdev_realize(DEVICE(&sms->soc), NULL, &error_abort);
-> +
-> +    /* register RAM */
-> +    memory_region_init_ram(main_mem, NULL, "riscv.shakti.c.ram",
-> +                           mstate->ram_size, &error_fatal);
-> +    memory_region_add_subregion(system_memory,
-> +                                shakti_c_memmap[SHAKTI_C_RAM].base,
-> +                                main_mem);
-> +
-> +    /* ROM reset vector */
-> +    uint32_t reset_vec[3];
-> +
-> +    reset_vec[0] = 0x080002b7;      /*  lui     t0,0x08000  */
-> +    reset_vec[1] = 0x00429293;      /*  slli    t0,t0,4     */
-> +    reset_vec[2] = 0x00028067;      /*  jr      t0          */
-
-Is there a reason you can't use riscv_setup_rom_reset_vec()?
-
-> +
-> +    /* copy in the reset vector in little_endian byte order */
-> +    for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
-> +        reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> +    }
-> +    rom_add_blob_fixed_as("rom.reset", reset_vec, sizeof(reset_vec),
-> +                          shakti_c_memmap[SHAKTI_C_ROM].base,
-> +                          &address_space_memory);
-> +    riscv_load_firmware(mstate->firmware, shakti_c_memmap[SHAKTI_C_RAM].base,
-> +                        NULL);
-> +}
-> +
-> +static void shakti_c_machine_instance_init(Object *obj)
-> +{
-> +}
-> +
-> +static void shakti_c_machine_class_init(ObjectClass *klass, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(klass);
-> +    mc->desc = "RISC-V Board compatible with Shakti SDK";
-> +    mc->init = shakti_c_machine_state_init;
-> +    mc->default_cpu_type = TYPE_RISCV_CPU_SHAKTI_C;
-> +}
-> +
-> +static const TypeInfo shakti_c_machine_type_info = {
-> +    .name = TYPE_RISCV_SHAKTI_MACHINE,
-> +    .parent = TYPE_MACHINE,
-> +    .class_init = shakti_c_machine_class_init,
-> +    .instance_init = shakti_c_machine_instance_init,
-> +    .instance_size = sizeof(ShaktiCMachineState),
-> +};
-> +
-> +static void shakti_c_machine_type_info_register(void)
-> +{
-> +    type_register_static(&shakti_c_machine_type_info);
-> +}
-> +type_init(shakti_c_machine_type_info_register)
-> +
-> +static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
-> +{
-> +    ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
-> +    MemoryRegion *system_memory = get_system_memory();
-
-Can you add a newline here.
-
-> +    sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
-
-and here
-
-> +    sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
-> +        (char *)SHAKTI_C_PLIC_HART_CONFIG, 0,
-> +        SHAKTI_C_PLIC_NUM_SOURCES,
-> +        SHAKTI_C_PLIC_NUM_PRIORITIES,
-> +        SHAKTI_C_PLIC_PRIORITY_BASE,
-> +        SHAKTI_C_PLIC_PENDING_BASE,
-> +        SHAKTI_C_PLIC_ENABLE_BASE,
-> +        SHAKTI_C_PLIC_ENABLE_STRIDE,
-> +        SHAKTI_C_PLIC_CONTEXT_BASE,
-> +        SHAKTI_C_PLIC_CONTEXT_STRIDE,
-> +        shakti_c_memmap[SHAKTI_C_PLIC].size);
-
-and here
-
-> +    sifive_clint_create(shakti_c_memmap[SHAKTI_C_CLINT].base,
-> +        shakti_c_memmap[SHAKTI_C_CLINT].size, 0, 1,
-> +        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-> +        SIFIVE_CLINT_TIMEBASE_FREQ, false);
-
-and here
-
-> +    /* ROM */
-> +    memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
-> +                           shakti_c_memmap[SHAKTI_C_ROM].size, &error_fatal);
-> +    memory_region_add_subregion(system_memory,
-> +        shakti_c_memmap[SHAKTI_C_ROM].base, &sss->rom);
-> +}
-> +
-> +static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    dc->realize = shakti_c_soc_state_realize;
-> +}
-> +
-> +static void shakti_c_soc_instance_init(Object *obj)
-> +{
-> +    ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(obj);
-> +
-> +    object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY);
-> +
-> +    /*
-> +     * CPU type is fixed and we are not supporting passing from commandline yet.
-> +     * So let it be in instance_init. When supported should use ms->cpu_type
-> +     * instead of TYPE_RISCV_CPU_SHAKTI_C
-> +     */
-
-You need to return an error then if the user tries to change the
-number or type of CPU instead of ignoring it.
-
-> +    object_property_set_str(OBJECT(&sss->cpus), "cpu-type",
-> +                            TYPE_RISCV_CPU_SHAKTI_C, &error_abort);
-> +    object_property_set_int(OBJECT(&sss->cpus), "num-harts", 1,
-> +                            &error_abort);
-> +}
-> +
-> +static const TypeInfo shakti_c_type_info = {
-> +    .name = TYPE_RISCV_SHAKTI_SOC,
-> +    .parent = TYPE_DEVICE,
-> +    .class_init = shakti_c_soc_class_init,
-> +    .instance_init = shakti_c_soc_instance_init,
-> +    .instance_size = sizeof(ShaktiCSoCState),
-> +};
-> +
-> +static void shakti_c_type_info_register(void)
-> +{
-> +    type_register_static(&shakti_c_type_info);
-> +}
-> +type_init(shakti_c_type_info_register)
-> diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h
-> new file mode 100644
-> index 0000000000..6c66a160f5
-> --- /dev/null
-> +++ b/include/hw/riscv/shakti_c.h
-> @@ -0,0 +1,74 @@
-> +/*
-> + * Shakti C-class SoC emulation
-> + *
-> + * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HW_SHAKTI_H
-> +#define HW_SHAKTI_H
-> +
-> +#include "hw/riscv/riscv_hart.h"
-> +#include "hw/boards.h"
-> +
-> +#define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc"
-> +#define RISCV_SHAKTI_SOC(obj) \
-> +    OBJECT_CHECK(ShaktiCSoCState, (obj), TYPE_RISCV_SHAKTI_SOC)
-> +
-> +typedef struct ShaktiCSoCState {
-> +    /*< private >*/
-> +    DeviceState parent_obj;
-> +
-> +    /*< public >*/
-> +    RISCVHartArrayState cpus;
-> +    DeviceState *plic;
-> +    MemoryRegion rom;
-> +
-> +} ShaktiCSoCState;
-> +
-> +#define TYPE_RISCV_SHAKTI_MACHINE MACHINE_TYPE_NAME("shakti_c")
-> +#define RISCV_SHAKTI_MACHINE(obj) \
-> +    OBJECT_CHECK(ShaktiCMachineState, (obj), TYPE_RISCV_SHAKTI_MACHINE)
-> +typedef struct ShaktiCMachineState {
-> +    /*< private >*/
-> +    MachineState parent_obj;
-> +
-> +    /*< public >*/
-> +    ShaktiCSoCState soc;
-> +} ShaktiCMachineState;
-> +
-> +enum {
-> +    SHAKTI_C_ROM,
-> +    SHAKTI_C_RAM,
-> +    SHAKTI_C_UART,
-> +    SHAKTI_C_GPIO,
-> +    SHAKTI_C_PLIC,
-> +    SHAKTI_C_CLINT,
-> +    SHAKTI_C_DEBUG,
-> +    SHAKTI_C_I2C,
-> +};
-> +
-> +#define SHAKTI_C_PLIC_HART_CONFIG "MS"
-> +/* Including Interrupt ID 0 (no interrupt)*/
-> +#define SHAKTI_C_PLIC_NUM_SOURCES 28
-> +/* Excluding Priority 0 */
-> +#define SHAKTI_C_PLIC_NUM_PRIORITIES 2
-> +#define SHAKTI_C_PLIC_PRIORITY_BASE 0x04
-> +#define SHAKTI_C_PLIC_PENDING_BASE 0x1000
-> +#define SHAKTI_C_PLIC_ENABLE_BASE 0x2000
-> +#define SHAKTI_C_PLIC_ENABLE_STRIDE 0x80
-> +#define SHAKTI_C_PLIC_CONTEXT_BASE 0x200000
-> +#define SHAKTI_C_PLIC_CONTEXT_STRIDE 0x1000
-> +
-> +#endif
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 2a990f6253..618d203aa0 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -159,6 +159,14 @@ static void rv64_base_cpu_init(Object *obj)
->      set_misa(env, RV64);
->  }
->
-> +static void rv64_shakti_c_cpu_init(Object *obj)
-> +{
-> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-
-Don't use RVXLEN, this is a 64-bit CPU right?
-
-This is also exactly the same as the rv64_sifive_u_cpu_init() can we
-just use an existing CPU instead of adding a new one?
-
-> +    set_priv_version(env, PRIV_VERSION_1_10_0);
-> +    set_resetvec(env, DEFAULT_RSTVEC);
-> +}
-> +
->  static void rv64_sifive_u_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> @@ -707,6 +715,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
->      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_shakti_c_cpu_init),
->  #endif
->  };
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0edb2826a2..ebbf15fb1c 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -38,6 +38,7 @@
->  #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
->  #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
->  #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
-> +#define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
-
-Can you add the CPU in a separate patch?
-
-Alistair
-
->  #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
->  #define TYPE_RISCV_CPU_SIFIVE_E34       RISCV_CPU_TYPE_NAME("sifive-e34")
->  #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
-> --
-> 2.25.1
->
->
->
 
