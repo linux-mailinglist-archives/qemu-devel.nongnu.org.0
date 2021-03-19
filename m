@@ -2,67 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A1D342316
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 18:18:15 +0100 (CET)
-Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601F63422CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 18:05:50 +0100 (CET)
+Received: from localhost ([::1]:34306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNIlK-0007eP-9B
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 13:18:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33792)
+	id 1lNIZI-0001Hl-LF
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 13:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lNIjE-00076T-2R
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:16:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39210)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lNIjB-0003Dk-4a
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:16:03 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lNIj6-0001Ke-6O
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 17:15:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E80B62E818F
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 17:15:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNIXj-0000n9-Fi
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:04:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNIXg-00051b-Vn
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616173445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jqJ0M4AdcvtflBCvBsapazzX3Or/4S0IRIIDGtSr/Uc=;
+ b=Q/sp/26sijV/fahgC/XBPrcmqQ5SVjsMdo1BVzl/R8u51BJLzrFHRwmxPEJBPoL0xC/Qeq
+ qUBEG+8JsSEHpDZ0uw8MqmSdEpc9JjcsIXbpCB2s+bwcYAOStYYcBnxvD6wWSUoFdfJ1xZ
+ M60EaqYeirpqTxqoTwppy0Se7G6tccE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-2HouptVuOyCeM_J_xIAXIA-1; Fri, 19 Mar 2021 13:04:04 -0400
+X-MC-Unique: 2HouptVuOyCeM_J_xIAXIA-1
+Received: by mail-ej1-f72.google.com with SMTP id en21so18502475ejc.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 10:04:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jqJ0M4AdcvtflBCvBsapazzX3Or/4S0IRIIDGtSr/Uc=;
+ b=eWAj+iR/k8PRKbu/X0lJK9Ytd2j0I6HKosGG2QQRuzbAMq4H3AT1I6hRa4yCzCdMrm
+ aH7MlUiwpDQL7C44tSbT4wngB6ocIo+NxnxYk5zXFc2MS/2//b+Okv4BRa9VUHV/dkr8
+ +adl4Yzz25RmG6KT4rVmiR+Q5w5iIAwrBvahb+X79MrlgkmvDcQjN7iYxwX2bfW/UsqS
+ tGkO8LyeLdMwNzH0DvD6Uy0+lHKJv2v/2R5W2+7uznfk2HawFtq1g2MaL2Vw2pWAd4pe
+ sZrGWLk+CtuTp0LqRcB+Czz1KnWUreYBAAUgMd+QdUA4b8yJzC0+aGEUSwYtxzZObth9
+ zIHg==
+X-Gm-Message-State: AOAM531z14arQMEX032bjUuWwKdX63a/kbb+/NCYaSqGsE14VzmHvdQ/
+ 6llW0Zk7tCeTfmu0VCrHIL7O0icxWOO6VxyvQxBGhwcoXjUS+IINOZ54s2D/wK2MARhNqhjsliQ
+ +t1AJRcD77DpRiHhRp04zvmb83wtWmloqlO4BBsmVI+pv2x5HcllpzigXGmNyH5T0F1Q=
+X-Received: by 2002:a05:6402:31e9:: with SMTP id
+ dy9mr10906242edb.186.1616173442653; 
+ Fri, 19 Mar 2021 10:04:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxX09AwEzaUjWkzm1JqwctHgz9CXKzRSK0U8Ckwd0NWQEhzIeNloVTGtJbd9ttqam41c7mOqw==
+X-Received: by 2002:a05:6402:31e9:: with SMTP id
+ dy9mr10906214edb.186.1616173442468; 
+ Fri, 19 Mar 2021 10:04:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id c12sm516538edx.54.2021.03.19.10.03.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 10:04:00 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+References: <1549390526-24246-1-git-send-email-pbonzini@redhat.com>
+ <1549390526-24246-19-git-send-email-pbonzini@redhat.com>
+ <e3d925e6-a48e-07b9-6418-05c5a4d2cd36@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [Qemu-devel] [PULL 18/76] optionrom: add new PVH option rom
+Message-ID: <f33bf6fa-1fa3-4e33-bd8e-843bec2d5638@redhat.com>
+Date: Fri, 19 Mar 2021 18:03:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Mar 2021 17:03:17 -0000
-From: Peter Maydell <1918917@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arnd-arndb dvyukov pmaydell
-X-Launchpad-Bug-Reporter: Dmitry Vyukov (dvyukov)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161554541665.16519.7546318758364401915.malonedeb@wampee.canonical.com>
-Message-Id: <161617339857.24511.10526180732210927937.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1918917] Re: synchronous about on accessing unused I/O ports on
- aarch64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 3f2f09c8fc62c91f56bca5e1ffb915c8d01588ff
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e3d925e6-a48e-07b9-6418-05c5a4d2cd36@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,121 +104,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918917 <1918917@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: arm
+On 19/03/21 15:06, Philippe Mathieu-Daudé wrote:
+>> +
+>> +/* Search RSDP signature. */
+>> +static uintptr_t search_rsdp(uint32_t start_addr, uint32_t end_addr)
+>> +{
+>> +    uint64_t *rsdp_p;
+>> +
+>> +    /* RSDP signature is always on a 16 byte boundary */
+>> +    for (rsdp_p = (uint64_t *)start_addr; rsdp_p < (uint64_t *)end_addr;
+>> +         rsdp_p += 2) {
+>> +        if (*rsdp_p == RSDP_SIGNATURE) {
+>> +            return (uintptr_t)rsdp_p;
+>> +        }
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+> gcc 10.2.1 "cc (Alpine 10.2.1_pre2) 10.2.1 20210313" reports:
+> 
+> pc-bios/optionrom/pvh_main.c: In function 'search_rsdp':
+> pc-bios/optionrom/pvh_main.c:61:21: warning: comparison is always false
+> due to limited range of data type [-Wtype-limits]
+>     61 |         if (*rsdp_p == RSDP_SIGNATURE) {
+>        |                     ^~
 
--- =
+This is probably a different bug, but I'll also add that uint64_t is 
+supposed to be aligned to 64 bits, so you need either 
+__attribute__((packed)), or use char* and memcmp.  If you go for the 
+latter, it would fix the issue that Philippe is reporting.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918917
+Paolo
 
-Title:
-  synchronous about on accessing unused I/O ports on aarch64
-
-Status in QEMU:
-  New
-
-Bug description:
-  version: QEMU emulator version 5.2.0 (Debian 1:5.2+dfsg-6)
-  command line: qemu-system-aarch64 \
-  	-machine virt,virtualization=3Don,graphics=3Don,usb=3Don -cpu cortex-a57=
- -smp 2 -m 2G \
-  	-device virtio-blk-device,drive=3Dhd0 \
-  	-drive if=3Dnone,format=3Draw,id=3Dhd0,file=3Dbuildroot \
-  	-kernel arch/arm64/boot/Image \
-  	-nographic \
-  	-device virtio-rng-pci \
-  	-net user,host=3D10.0.2.10,hostfwd=3Dtcp::10022-:22 -net nic,model=3Dvir=
-tio-net-pci \
-  	-append "root=3D/dev/vda earlyprintk=3Dserial console=3DttyAMA0 earlycon"
-
-  I am observing "synchronous external abort" when kernel tries to
-  access unused I/O ports (see below), while hardware/qemu should return
-  0xffffffff in this case.
-
-  This is factored out of this LKML thread where Arnd describes it in more =
-details:
-  https://lore.kernel.org/lkml/CAK8P3a0HVu+x0T6+K3d0v1bvU-Pes0F0CSjqm5x=3Db=
-xFgv5Y3mA@mail.gmail.com/
-
-  Internal error: synchronous external abort: 96000050 [#1] PREEMPT SMP
-  Dumping ftrace buffer:
-     (ftrace buffer empty)
-  Modules linked in:
-  CPU: 0 PID: 11231 Comm: syz-executor.1 Not tainted 5.12.0-rc2-syzkaller-0=
-0302-g28806e4d9b97 #0
-  Hardware name: linux,dummy-virt (DT)
-  pstate: 80000085 (Nzcv daIf -PAN -UAO -TCO BTYPE=3D--)
-  pc : __raw_writeb arch/arm64/include/asm/io.h:27 [inline]
-  pc : _outb include/asm-generic/io.h:501 [inline]
-  pc : logic_outb+0x3c/0x114 lib/logic_pio.c:302
-  lr : io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
-  sp : ffff000015f0f980
-  x29: ffff000015f0f980 x28: ffff80001de0005d =
-
-  x27: ffff80001601df00 x26: ffff000015f0fc90 =
-
-  x25: ffff80001de00000 x24: ffff80001de00000 =
-
-  x23: ffff00000e27f600 x22: 0000000000000000 =
-
-  x21: 0000000000000002 x20: 0000000000000002 =
-
-  x19: fffffbfffe800001 x18: ffff00006a678b48 =
-
-  x17: 0000000000000000 x16: 0000000000000000 =
-
-  x15: ffff8000197be810 x14: 1fffe00002be1f0e =
-
-  x13: 1fffe00002be1e90 x12: ffff600002be1f39 =
-
-  x11: 1fffe00002be1f38 x10: ffff600002be1f38 =
-
-  x9 : dfff800000000000 x8 : 0000000000000003 =
-
-  x7 : 0000000000000001 x6 : 0000000000000004 =
-
-  x5 : ffff000015f0f9c0 x4 : dfff800000000000 =
-
-  x3 : 0000000000000001 x2 : 1ffff00003494e6b =
-
-  x1 : fffffbfffe800000 x0 : 0000000000ffbffe =
-
-  Call trace:
-   _outb include/asm-generic/io.h:501 [inline]
-   logic_outb+0x3c/0x114 lib/logic_pio.c:302
-   io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
-   serial_out drivers/tty/serial/8250/8250.h:118 [inline]
-   serial8250_set_THRI drivers/tty/serial/8250/8250.h:138 [inline]
-   __start_tx drivers/tty/serial/8250/8250_port.c:1566 [inline]
-   serial8250_start_tx+0x338/0x6c0 drivers/tty/serial/8250/8250_port.c:1666
-   __uart_start.isra.0+0x10c/0x154 drivers/tty/serial/serial_core.c:127
-   uart_start+0xe0/0x210 drivers/tty/serial/serial_core.c:137
-   uart_flush_chars+0x10/0x20 drivers/tty/serial/serial_core.c:573
-   __receive_buf drivers/tty/n_tty.c:1646 [inline]
-   n_tty_receive_buf_common+0x588/0x22c0 drivers/tty/n_tty.c:1739
-   n_tty_receive_buf+0x14/0x20 drivers/tty/n_tty.c:1768
-   tiocsti drivers/tty/tty_io.c:2317 [inline]
-   tty_ioctl+0xed0/0x1aec drivers/tty/tty_io.c:2718
-   vfs_ioctl fs/ioctl.c:48 [inline]
-   __do_sys_ioctl fs/ioctl.c:753 [inline]
-   __se_sys_ioctl fs/ioctl.c:739 [inline]
-   __arm64_sys_ioctl+0x120/0x18c fs/ioctl.c:739
-   __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
-   invoke_syscall arch/arm64/kernel/syscall.c:49 [inline]
-   el0_svc_common.constprop.0+0xf0/0x2c0 arch/arm64/kernel/syscall.c:129
-   do_el0_svc+0xa4/0xd0 arch/arm64/kernel/syscall.c:168
-   el0_svc+0x24/0x34 arch/arm64/kernel/entry-common.c:416
-   el0_sync_handler+0x1a4/0x1b0 arch/arm64/kernel/entry-common.c:432
-   el0_sync+0x170/0x180 arch/arm64/kernel/entry.S:699
-  Code: d2bfd001 f2df7fe1 f2ffffe1 8b010273 (39000274) =
-
-  ---[ end trace 79cb47219936c254 ]---
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918917/+subscriptions
 
