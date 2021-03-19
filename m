@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CF234211B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 16:42:51 +0100 (CET)
-Received: from localhost ([::1]:39452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C7C34212B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 16:48:12 +0100 (CET)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNHH0-0004Io-DH
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 11:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39724)
+	id 1lNHM1-0005mB-Do
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 11:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNHEn-0003Ww-Hl
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 11:40:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34615)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNHKk-0005LW-Co
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 11:46:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNHEk-0007pY-01
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 11:40:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNHKi-0003Cp-5X
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 11:46:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616168426;
+ s=mimecast20190719; t=1616168798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1kW8DS8ocqEjJeHBDKuYCxP2E/6F+x8HbwsmPfdNNkQ=;
- b=VhkC4dh5D17eNY1W50QZKbjzvjFQoNjO+y7hW1lWreg+WPnKmKI9Or5AyNGk5dAwPDyns8
- o9tdgAgXWB0vs97sxr/1T+duatiHAgTYFzTNElBmVUeZ1ZU0e+PI3fjRErIiNBQeQ8ppdQ
- CRrR8kz220RMWjxKvRx2k1pmF4aTNQ0=
+ bh=V8vWsTu9dWdWU5absJruvpwUZdIvDwQOdOBUYZKFxKc=;
+ b=FFbBi/gX7OPHIehTTLM0ImWSjjuyXnXE8nr0mgrAHTMcJsu2ziwhrDqtnNvLE5ntNt77FL
+ N+cSEUu1E2tx3UIoG10K8WidWwMPnIg5zEXaKsVtF4g24nsdVmTApX0kDGyYw6BLWGLMUG
+ rTd+3gVMIgkZTZXKJWA+2q79PQk9Mzs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-UvDJvFzpN1Kyoo6y6g69ZQ-1; Fri, 19 Mar 2021 11:40:25 -0400
-X-MC-Unique: UvDJvFzpN1Kyoo6y6g69ZQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-570-MDtraFrjMYCrF0eaomtCpw-1; Fri, 19 Mar 2021 11:46:34 -0400
+X-MC-Unique: MDtraFrjMYCrF0eaomtCpw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9430681431D;
- Fri, 19 Mar 2021 15:40:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 845E0107ACCA;
+ Fri, 19 Mar 2021 15:46:33 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7618A60CEB;
- Fri, 19 Mar 2021 15:40:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C61510013D6;
+ Fri, 19 Mar 2021 15:46:33 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 045DA11386A7; Fri, 19 Mar 2021 16:40:09 +0100 (CET)
+ id B2EBD11386A7; Fri, 19 Mar 2021 16:46:31 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v4 13/14] qmp: Include "reserve" property of memory
- backends
-References: <20210319101230.21531-1-david@redhat.com>
- <20210319101230.21531-14-david@redhat.com>
-Date: Fri, 19 Mar 2021 16:40:08 +0100
-In-Reply-To: <20210319101230.21531-14-david@redhat.com> (David Hildenbrand's
- message of "Fri, 19 Mar 2021 11:12:29 +0100")
-Message-ID: <87ft0ri23r.fsf@dusky.pond.sub.org>
+To: Zhang Chen <chen.zhang@intel.com>
+Subject: Re: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL definition
+References: <20210319035508.113741-1-chen.zhang@intel.com>
+ <20210319035508.113741-2-chen.zhang@intel.com>
+Date: Fri, 19 Mar 2021 16:46:31 +0100
+In-Reply-To: <20210319035508.113741-2-chen.zhang@intel.com> (Zhang Chen's
+ message of "Fri, 19 Mar 2021 11:55:02 +0800")
+Message-ID: <87blbfi1t4.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,72 +80,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Hildenbrand <david@redhat.com> writes:
+Zhang Chen <chen.zhang@intel.com> writes:
 
-> Let's include the new property.
+> Add IP_PROTOCOL as enum include TCP,UDP, ICMP... for other QMP commands.
 >
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 > ---
->  hw/core/machine-qmp-cmds.c | 1 +
->  qapi/machine.json          | 6 ++++++
->  2 files changed, 7 insertions(+)
+>  qapi/net.json | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 >
-> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-> index 68a942595a..bd2a7f2dd0 100644
-> --- a/hw/core/machine-qmp-cmds.c
-> +++ b/hw/core/machine-qmp-cmds.c
-> @@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
->          m->merge = object_property_get_bool(obj, "merge", &error_abort);
->          m->dump = object_property_get_bool(obj, "dump", &error_abort);
->          m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
-> +        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
->          m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
->                                               &error_abort);
->          host_nodes = object_property_get_qobject(obj,
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index c0c52aef10..12860a1f79 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -814,6 +814,11 @@
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 87361ebd9a..498ea7aa72 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -794,3 +794,34 @@
 >  #
->  # @prealloc: enables or disables memory preallocation
->  #
-> +# @reserve: enables or disables reservation of swap space (or huge pages
-> +#           if applicable). If reservation is enabled (default), actual
-> +#           reservation depends on underlying OS support. In contrast,
-> +#           disabling reservation without OS support will bail out. (since 6.1)
+>  ##
+>  { 'command': 'query-netdev', 'returns': ['NetdevInfo'] }
+> +
+> +##
+> +# @IP_PROTOCOL:
 > +#
+> +# Transport layer protocol.
+> +#
+> +# Just for IPv4.
 
-Provides two settings: "enable reservation if possible", and "disable
-reservation or else fail".
+Really?
 
-Does "enable reservation or else fail" make no sense, or is it merely
-unimplemented?
+> +#
+> +# @tcp: Transmission Control Protocol.
+> +#
+> +# @udp: User Datagram Protocol.
+> +#
+> +# @dccp: Datagram Congestion Control Protocol.
+> +#
+> +# @sctp: Stream Control Transmission Protocol.
+> +#
+> +# @udplite: Lightweight User Datagram Protocol.
+> +#
+> +# @icmp: Internet Control Message Protocol.
+> +#
+> +# @igmp: Internet Group Management Protocol.
+> +#
+> +# @ipv6: IPv6 Encapsulation.
+> +#
+> +# TODO: Need to add more transport layer protocol.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp', 'udplite',
+> +    'icmp', 'igmp', 'ipv6' ] }
+> +
 
->  # @host-nodes: host nodes for its memory policy
->  #
->  # @policy: memory policy of memory backend
-> @@ -827,6 +832,7 @@
->      'merge':      'bool',
->      'dump':       'bool',
->      'prealloc':   'bool',
-> +    'reserve':    'bool',
->      'host-nodes': ['uint16'],
->      'policy':     'HostMemPolicy' }}
+docs/devel/qapi-code-gen.txt: "type definitions should always use
+CamelCase".
+
+Make this something like 'enum': 'IpProtocol', please.
 
 
