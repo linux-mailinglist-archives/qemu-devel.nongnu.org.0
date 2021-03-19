@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0A93423EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 19:02:14 +0100 (CET)
-Received: from localhost ([::1]:41266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCFB3423EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 19:03:39 +0100 (CET)
+Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNJRs-0002cz-NN
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 14:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
+	id 1lNJTG-00044Z-BR
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 14:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lNJOx-00029N-5H
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:59:11 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43564)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lNJRF-00032S-BP
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 14:01:33 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:38474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lNJOu-0003bX-OR
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:59:10 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id l4so11103289ejc.10
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 10:59:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lNJQz-0004bH-Mo
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 14:01:32 -0400
+Received: by mail-ed1-x534.google.com with SMTP id h13so11803916eds.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 11:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=KJHq3RERaMvNYsE2ObJAkwNV+j+Fd+aV9jB09QG+gKA=;
- b=lTO7WMHe7P5MKuzBrlsiTHdEFe59tqZUgrP+VETnJH8hB8u0QJ7nE/JHWWZGjF25ra
- 4JRy9rJVBTjEVbeAdOQ0OhtkOkUzIJq12HYJMBY/UWLDS2yyt88o8yAu/hIweRny9ybc
- IIbTjrIZf679eiji31woZ8KzOjWwzr5fOJsoHhDgQu723uTW2Hjmaw1wmnhN1AJjirif
- Q6lgHkTK1QUFkHNuKoMibW700P94iMhZT8+IcXopAncFi9sbO+8ePed6iUNYrzCA8R8G
- OJpzDmiWVwC/2wRT2ttTpi0XWgB9t8Mxx1aMIojkAwI+3/6w+muV9MIT2YBxJVyf+Hjg
- d9WA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lg+1EFpUNObhbEKEsPjfZNN6NzEf5myZraMO91KszkY=;
+ b=VovapAG1Y6sfF/ZrtcexPhmH/Pys6NJGId3TN9gUmfOTBmzRDNg5O5UvY11a9fAFC2
+ OMTn63zThMDxEWqqsVPTZmscKX1jj1a3Q528dCdcCl1rxA4N5vu71442qlI+mXCALE2p
+ HRS63n89McEStUDN/WzMaeLdj9sLi50N/04YRP/HB3+02ZX4+dvMWAeAu37FTs3i1ZxQ
+ A4TJQDboYf5XT39PL0j6cdrpV3/GddYyWBwESMOPTmBo1CdD+qYSS4PxiqEsgw9IcZOh
+ IEIMDVqcYj46RL3Us8Z39KVy2xwqC94eArQyZsoKGStKmxfcmYBmtSxgPG6Eup2Yoi5V
+ 8tzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=KJHq3RERaMvNYsE2ObJAkwNV+j+Fd+aV9jB09QG+gKA=;
- b=s9rFm7Kw8auezKO0ukxTH6faFkb9N2yBsmupir7rlBdXVpOsFNk8iIdH4B3nHnzAVd
- KySRRQXFai3opqjz8ZqcNgENrRukvN6VhaBQAzG0SGRryeAAY/7ejBymKPDOo11m7KWl
- dhZlvzwCj8oQsbJvRapD+bKJg8MTskitH6IggoDA38E5jSCyCU+VGi7LFXD8AtEB9sYA
- uIb2geII3pVPV6is8NShtcQfFiheel1LVeQf0EiLTbOf7mvwaSK5m6urxXlHLR5qyOCF
- QxETobtLNzA4WEAQKQYVJXlBKGubOtGy+S5j7rZaB45PlN9136BLuccBGYS2I7YSNj/V
- g1pQ==
-X-Gm-Message-State: AOAM531a7Qh4C7kkb5RXAITV8MES05ByLMkxw8H2TSIyBwuoYpWJUDXP
- pPCUnAkplokfhU/ti5r+axhiCA==
-X-Google-Smtp-Source: ABdhPJxkxAAnkn1xxiEB49kIl2EyL6KRRhM50dvy8FWPoIvtrXfUFgTUQfwkfiPRDWzTJgkEnuhIsw==
-X-Received: by 2002:a17:906:2c0c:: with SMTP id
- e12mr5799210ejh.408.1616176747272; 
- Fri, 19 Mar 2021 10:59:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id yk8sm4068409ejb.123.2021.03.19.10.59.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 10:59:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6AB161FF7E;
- Fri, 19 Mar 2021 17:59:05 +0000 (GMT)
-References: <20210317143325.2165821-1-eblake@redhat.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 0/2] More qemu_strtosz fixes
-Date: Fri, 19 Mar 2021 17:58:53 +0000
-In-reply-to: <20210317143325.2165821-1-eblake@redhat.com>
-Message-ID: <87blbf9g9i.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lg+1EFpUNObhbEKEsPjfZNN6NzEf5myZraMO91KszkY=;
+ b=mGAS5yaV8RMOU2MHrtt1TW7z6U2QhI7jat/CGTZrA3Sg/2nykJoE9UHKrY6D1Tl7is
+ dwwJaYHRGQa7Quc0zxwwXSNU3pkBEEu1Uo3DqTghbWvrb5V9GdaE7yJLK95zF3Vl0oEw
+ LFlalDZYTKfMzPa6JNVza9ntTYi8p9OvGnVFI7/B/S77alY8OZWznEUpjOU5y+oBJWAP
+ wtT8RYPX/n5VmwT/eUMUviLAVSnwnQPArh0lnGT1J+NPgn49+Qre4Gk9aZJH/yD+mvOq
+ a2oaye2Flv+WIecBeVJjAEhYHZ5rxNyZ2kHYCwc79vj2v+i6qyjbXeDpho/r7Ly1wiU0
+ glIA==
+X-Gm-Message-State: AOAM533S/PN/fyENhlNtnSNy457EgEpewbfJFbdeeHEamdxO+53HUleX
+ El3zArUODnVyzi8T9xEX3Dv88/qtuV6eWlb0rZxeWg==
+X-Google-Smtp-Source: ABdhPJzqocH9KVKuACCgbkxrMgNlAY2RZX1KUTe71qZO/H8/xDAIcCSw/6gre6ie4z+3D2bfEK0ca/fibwYGrluG1BA=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr10895924edv.44.1616176875468; 
+ Fri, 19 Mar 2021 11:01:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+References: <20210319152337.2321634-1-armbru@redhat.com>
+In-Reply-To: <20210319152337.2321634-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Mar 2021 18:00:50 +0000
+Message-ID: <CAFEAcA9Ymw=L3iaEuWVK_mCG7_tuwk+QDBTQ1aonemN6Ac33JQ@mail.gmail.com>
+Subject: Re: [PULL v4 00/11] QAPI patches patches for 2021-03-16
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,30 +77,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, thuth@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Eric Blake <eblake@redhat.com> writes:
-
-> The MSYS2 build exposed a latent problem in qemu_strto*l, which in
-> turn now causes failures ever since test-utils added tests for
-> qemu_strtosz that depends on a particular behavior when parsing "0x".
+On Fri, 19 Mar 2021 at 15:23, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> https://cirrus-ci.com/task/5180846782021632?command=3Dtest#L543
+> The following changes since commit 92566947b3ac5ca75f91a34acb188219c455fc71:
 >
-> Eric Blake (2):
->   utils: Tighter tests for qemu_strtosz
->   utils: Work around mingw strto*l bug with 0x
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-03-19 11:27:40 +0000)
 >
->  tests/unit/test-cutils.c | 171 +++++++++++++++++++++++++++++++++++++--
->  util/cutils.c            |  33 +++++---
->  2 files changed, 189 insertions(+), 15 deletions(-)
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-03-16-v4
+>
+> for you to fetch changes up to dbb675c19aa6ca328f4449ccd1ff605f9cb744e9:
+>
+>   qapi: New -compat deprecated-input=crash (2021-03-19 16:05:11 +0100)
+>
+> ----------------------------------------------------------------
+> QAPI patches patches for 2021-03-16
 
-Queued to for-6.0/fixes-for-rc1, thanks.
 
---=20
-Alex Benn=C3=A9e
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
