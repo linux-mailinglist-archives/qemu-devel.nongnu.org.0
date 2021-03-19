@@ -2,60 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FBB341BFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 13:11:18 +0100 (CET)
-Received: from localhost ([::1]:50270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2066C341CF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 13:33:44 +0100 (CET)
+Received: from localhost ([::1]:60744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNDyH-00050K-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 08:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44354)
+	id 1lNEJy-0002T4-Oq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 08:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNDwT-000454-Dy; Fri, 19 Mar 2021 08:09:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:55923)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lNEIh-00021I-Lj
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:32:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNDwJ-0000kD-B3; Fri, 19 Mar 2021 08:09:25 -0400
-Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MyNoa-1lbRRQ3zGW-00yjjE; Fri, 19 Mar 2021 13:09:09 +0100
-Subject: Re: [PATCH 2/4] iotests: Revert "iotests: use -ccw on s390x for 040, 
- 139, and 182"
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20210318223907.1344870-1-laurent@vivier.eu>
- <20210318223907.1344870-3-laurent@vivier.eu>
- <20210319124339.6acd05d8.cohuck@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <2c100509-6136-9340-d812-c320e41bdc00@vivier.eu>
-Date: Fri, 19 Mar 2021 13:09:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lNEIf-0005Jb-Ot
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:32:23 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3F0E6AC17;
+ Fri, 19 Mar 2021 12:32:20 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC] accel: add cpu_reset
+Date: Fri, 19 Mar 2021 13:32:11 +0100
+Message-Id: <20210319123211.21676-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210319124339.6acd05d8.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LpKsfgybnA269TlII+7hvvX1txrx94JwIIhvzFAHaRPv4DiEj2Y
- PLoxvvkgu6jhQjfBIZJvNUoyeQrLtqPNkCVoH7N3sTr72eyBJw3ipXw8s98a4IO1rP8n4Al
- MgUzFlxMewMNK6RJoufMXhGStd/DhOONlWkP7WOSR3FQ8SaSsvvA0Q2bKtJSKaVALA5k5gk
- BOdofD/9htM19Q7Z9nitA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZtQzojlEFGA=:eVMLviOBSCEYG5gqDd+Kkn
- kcKKMfZ9/rP9pGelt2A6JL3+vcaShFtF7442MXOMhQOYk6xC94nM6GDPvoH1d1YMBkh6PtvjN
- JdnUxKw5btiJ0ohmqNDq6tPdK0HzFtiwsVrFqgMWOljlXd3sUoUpalWle6XP3C6d/G/C0hJc0
- 5peDwq0yxEWCpLSO1hPxTh2DOGCRr61t0yQumIWL9mVxAG5M92kOlLPufhyURwVcp7iS429G3
- uCBnQ31Et9pjcoUCwuRMqGE4BJoFERB7xT6IRYAgAjTokvCukbT3/32k3M5aA4ZGa5FjGVcz/
- kmDCkQE5KsR12xXI3UsE0g2bCDLadZ4vwYfPH9YfaGH1Dur1R8xTGHBP1wDJcmWcLay9ASuvB
- glntDhsLiD6XllwrGJNBYxzORdZu33aEhOwlKXraW9na3CPcEjlj8CsQyqTzQJW1QsBen5dwy
- k0if3OuhbQ==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,51 +49,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/03/2021 à 12:43, Cornelia Huck a écrit :
-> On Thu, 18 Mar 2021 23:39:05 +0100
-> Laurent Vivier <laurent@vivier.eu> wrote:
-> 
->> Commit f1d5516ab583 introduces a test in some iotests to check if
->> the machine is a s390-ssw-virtio and to select virtio-*-ccw rather
-> 
-> s/ssw/ccw/
-> 
->> than virtio-*-pci.
->>
->> We don't need that because QEMU already provides aliases to use the correct
->> virtio interface according to the machine type.
-> 
-> Maybe add a comment that this also enables virtio-mmio?
+XXX
+---
+ accel/accel-common.c        | 9 +++++++++
+ hw/core/cpu.c               | 3 ++-
+ include/hw/core/accel-cpu.h | 2 ++
+ include/qemu/accel.h        | 6 ++++++
+ target/i386/cpu.c           | 4 ----
+ target/i386/kvm/kvm-cpu.c   | 6 ++++++
+ 6 files changed, 25 insertions(+), 5 deletions(-)
 
-ok
 
->>
->> This patch removes all virtio-*-pci and virtio-*-ccw to use virtio-*
->> instead.
->>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> cc: Cornelia Huck <cohuck@redhat.com>
->> ---
->>  blockdev.c                    |  6 +-----
-> 
-> Hm, that also tweaks how -drive behaves, IIUC. Intended, I think; but
-> worth a note as well?
-> 
+This surprisingly works without moving cpu_reset() to a
+specific_ss module, even though
 
-You're right. I think it needs a separate patch, in fact.
+accel-common.c is specific_ss,
+hw/core/cpu.c  is common_ss.
 
-Thanks,
-Laurent
+How come the call to accel_reset_cpu works?
+
+Ciao,
+
+Claudio
+
+
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index cf07f78421..3331a9dcfd 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -121,6 +121,15 @@ bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
+     return true;
+ }
+ 
++void accel_cpu_reset(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->accel_cpu && cc->accel_cpu->cpu_reset) {
++        cc->accel_cpu->cpu_reset(cpu);
++    }
++}
++
+ static const TypeInfo accel_cpu_type = {
+     .name = TYPE_ACCEL_CPU,
+     .parent = TYPE_OBJECT,
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 00330ba07d..590a0d934f 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -35,6 +35,7 @@
+ #include "trace/trace-root.h"
+ #include "qemu/plugin.h"
+ #include "sysemu/hw_accel.h"
++#include "qemu/accel.h"
+ 
+ CPUState *cpu_by_arch_id(int64_t id)
+ {
+@@ -230,7 +231,7 @@ void cpu_dump_statistics(CPUState *cpu, int flags)
+ void cpu_reset(CPUState *cpu)
+ {
+     device_cold_reset(DEVICE(cpu));
+-
++    accel_cpu_reset(cpu);
+     trace_guest_cpu_reset(cpu);
+ }
+ 
+diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
+index 5dbfd79955..700a5bd266 100644
+--- a/include/hw/core/accel-cpu.h
++++ b/include/hw/core/accel-cpu.h
+@@ -33,6 +33,8 @@ typedef struct AccelCPUClass {
+     void (*cpu_class_init)(CPUClass *cc);
+     void (*cpu_instance_init)(CPUState *cpu);
+     bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
++    void (*cpu_reset)(CPUState *cpu);
++
+ } AccelCPUClass;
+ 
+ #endif /* ACCEL_CPU_H */
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index 4f4c283f6f..8d3a15b916 100644
+--- a/include/qemu/accel.h
++++ b/include/qemu/accel.h
+@@ -91,4 +91,10 @@ void accel_cpu_instance_init(CPUState *cpu);
+  */
+ bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
+ 
++/**
++ * accel_cpu_reset:
++ * @cpu: The CPU that needs to call accel-specific reset.
++ */
++void accel_cpu_reset(CPUState *cpu);
++
+ #endif /* QEMU_ACCEL_H */
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 48a08df438..ad233b823d 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5780,10 +5780,6 @@ static void x86_cpu_reset(DeviceState *dev)
+     apic_designate_bsp(cpu->apic_state, s->cpu_index == 0);
+ 
+     s->halted = !cpu_is_bsp(cpu);
+-
+-    if (kvm_enabled()) {
+-        kvm_arch_reset_vcpu(cpu);
+-    }
+ #endif
+ }
+ 
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index c660ad4293..ffdc9afddb 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -130,12 +130,18 @@ static void kvm_cpu_instance_init(CPUState *cs)
+     }
+ }
+ 
++static void kvm_cpu_reset(CPUState *cpu)
++{
++    kvm_arch_reset_vcpu(X86_CPU(cpu));
++}
++
+ static void kvm_cpu_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
+ 
+     acc->cpu_realizefn = kvm_cpu_realizefn;
+     acc->cpu_instance_init = kvm_cpu_instance_init;
++    acc->cpu_reset = kvm_cpu_reset;
+ }
+ static const TypeInfo kvm_cpu_accel_type_info = {
+     .name = ACCEL_CPU_NAME("kvm"),
+-- 
+2.26.2
 
 
