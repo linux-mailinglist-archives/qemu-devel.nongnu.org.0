@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD74C3418B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 10:48:12 +0100 (CET)
-Received: from localhost ([::1]:49658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFCE3418ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 10:57:25 +0100 (CET)
+Received: from localhost ([::1]:54200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNBjn-0006nT-QD
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 05:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
+	id 1lNBsi-0000vk-6Q
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 05:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lNBiJ-0006Kb-Jp
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:46:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lNBiH-0001ao-KX
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:46:39 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNBqR-0000Gp-Fg
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:55:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNBqP-0006SW-19
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:55:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616147196;
+ s=mimecast20190719; t=1616147698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VwJMrTMffy+iU7PI35gM/YDKMc250/hvS+cJYKfiK3I=;
- b=DfdEb05R1Ri2Zjr4Q1oKYHDsVZZX26XZZs7xR21iiCuzloNiVdrfrMTsPfpf7woUe8UBn8
- e+ySv+JqgCqU3+UJrAc29VkdUEan8gMdZjbOsVFh+60a1lIuVp60pn6YMSOxlFDC9ltcFC
- n1vEOxbBePnP1FojnH3i5FlV+ypFFu8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-F6YQAmUTN0C-ILvYi5sNQw-1; Fri, 19 Mar 2021 05:46:34 -0400
-X-MC-Unique: F6YQAmUTN0C-ILvYi5sNQw-1
-Received: by mail-ej1-f70.google.com with SMTP id au15so18103913ejc.8
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 02:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=VwJMrTMffy+iU7PI35gM/YDKMc250/hvS+cJYKfiK3I=;
- b=SjeWpM4T7fEcLWnKRZfeB5f6KuxajStxkG2Jy+fOFFKaEFxTFTgcKeccsPczgD5MiG
- VKvyAw/EysqXY3adoUtI/Ug72iMxFz/iFwh0ov4r7aJWL+8WGnU2IbTzmOn0oPkbuoW1
- b5ztmaig5cFqguhDM2EqVwfgmjxCfjJDqv02PO839haY+9riR8//eFfnvzzgQ6evJrEY
- jkxUiz1SJaQqpPMrzJcalmafMjAlma0ge2juqE8xDHveMdUUrrJbh+/4BbLRoklj2Guu
- hwrTucztw+Wlkh9eUQKBWbC/7X5ZcbexUQuNUv1FUfuCHIvTHMR3i9o+a3/bhLnOtqd6
- VNwQ==
-X-Gm-Message-State: AOAM5314nVUd0fp9YF5ngInYX3IAZX3z2gi9dRlV+AIW9dvLwn68E8r2
- hip623pOX7ujlRQYMvbNvlfMcSfAT2n2OPZnv/NEZfZweSXkhVkc47MyVwQh49+6A+dBELtlctD
- lwcHoVvr5hGevA74=
-X-Received: by 2002:a05:6402:4244:: with SMTP id
- g4mr8505681edb.204.1616147193541; 
- Fri, 19 Mar 2021 02:46:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwj/Qd2wnGur7+37QrVwjDmifJsXB6hXZDVbXB0BsLB2RuatfPrsI6KAo+366Dl8NThcMmtFw==
-X-Received: by 2002:a05:6402:4244:: with SMTP id
- g4mr8505665edb.204.1616147193385; 
- Fri, 19 Mar 2021 02:46:33 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id j14sm3686459edr.97.2021.03.19.02.46.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 02:46:33 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH 3/3] i386: Make sure kvm_arch_set_tsc_khz() succeeds on
- migration when 'hv-reenlightenment' was exposed
-In-Reply-To: <20210318180332.GA39091@fuller.cnet>
-References: <20210318160249.1084178-1-vkuznets@redhat.com>
- <20210318160249.1084178-4-vkuznets@redhat.com>
- <2f377397-0427-95dc-6617-5dedf6533bc4@redhat.com>
- <87wnu45sev.fsf@vitty.brq.redhat.com> <20210318180332.GA39091@fuller.cnet>
-Date: Fri, 19 Mar 2021 10:46:32 +0100
-Message-ID: <87k0q35vd3.fsf@vitty.brq.redhat.com>
+ bh=se2s0NJAMuTQv12+p971FKb8mqkaQmxbtGRs3ruVda4=;
+ b=aMpfvyjy8nt5JHQo0k1SaeayHAO2XSyCWxk6SqLYpJyT67RQ1A/SjFZlhv8DhP8Xa/LLnC
+ CEcy+9NnVY1/yaU2DJSA7UDiAGjXiFHyiomoW3o+1m58GOd5SO/L/xsugC0MJQFTSra9q7
+ QTc4QdubY6eOQzfz56eTe6/FQWK+2XY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-XQj1UfDsOq2TeVmxSaMjow-1; Fri, 19 Mar 2021 05:54:57 -0400
+X-MC-Unique: XQj1UfDsOq2TeVmxSaMjow-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95AE3100747F;
+ Fri, 19 Mar 2021 09:54:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A3285D9C6;
+ Fri, 19 Mar 2021 09:54:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B395611386A7; Fri, 19 Mar 2021 10:54:53 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/2] floppy: add a regression test for CVE-2020-25741
+References: <20200827113806.1850687-1-ppandit@redhat.com>
+ <20210319050906.14875-1-alxndr@bu.edu>
+ <87lfajsn7w.fsf@dusky.pond.sub.org>
+ <5a572879-02d6-d525-627c-892bd3903c25@redhat.com>
+Date: Fri, 19 Mar 2021 10:54:53 +0100
+In-Reply-To: <5a572879-02d6-d525-627c-892bd3903c25@redhat.com> (Paolo
+ Bonzini's message of "Fri, 19 Mar 2021 10:26:52 +0100")
+Message-ID: <87v99nmpsi.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,75 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-block@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Marcelo Tosatti <mtosatti@redhat.com> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On Thu, Mar 18, 2021 at 05:38:00PM +0100, Vitaly Kuznetsov wrote:
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->> 
->> > On 18/03/21 17:02, Vitaly Kuznetsov wrote:
->> >> KVM doesn't fully support Hyper-V reenlightenment notifications on
->> >> migration. In particular, it doesn't support emulating TSC frequency
->> >> of the source host by trapping all TSC accesses so unless TSC scaling
->> >> is supported on the destination host and KVM_SET_TSC_KHZ succeeds, it
->> >> is unsafe to proceed with migration.
->> >> 
->> >> Normally, we only require KVM_SET_TSC_KHZ to succeed when 'user_tsc_khz'
->> >> was set and just 'try' KVM_SET_TSC_KHZ without otherwise.
->> >> 
->> >> Introduce a new vmstate section (which is added when the guest has
->> >> reenlightenment feature enabled) and add env.tsc_khz to it. We already
->> >> have env.tsc_khz packed in 'cpu/tsc_khz' but we don't want to be dependent
->> >> on the section order.
->> >> 
->> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> >
->> > Could we instead fail to load the reenlightenment section if 
->> > user_tsc_khz was not set?  This seems to be user (well, management) 
->> > error really, since reenlightenment has to be enabled manually (or with 
->> > hv-passthrough which blocks migration too).
+> On 19/03/21 06:53, Markus Armbruster wrote:
+>> I guess this is a reproducer.  Please also describe actual and expected
+>> result.  Same for PATCH 2.
 >
-> Seems to match the strategy of the patchset...
->
->> Yes, we certainly could do that but what's the added value of
->> user_tsc_khz which upper layer will have to set explicitly (probably to
->> the tsc frequency of the source host anyway)?
->
-> Yes. I think what happened was "evolution":
->
-> 1) Added support to set tsc frequency (with hardware multiplier)
-> in KVM, so add -tsc-khz VAL (kHz) option to KVM.
->
-> 2) Scaling is enabled only if -tsc-khz VAL is supplied.
->
-> 3) libvirt switches to using -tsc-khz HVAL, where HVAL it retrieves
-> from KVM_GET_TSC_KHZ of newly created KVM_CREATE_VM instance.
->
-> It could have been done inside qemu instead.
->
->> In case we just want to avoid calling KVM_SET_TSC_KHZ twice, we can probably achieve that by
->> adding a CPU flag or something.
->
-> Avoid calling KVM_SET_TSC_KHZ twice ? Don't see why you would avoid
-> that.
->
+> Isn't it in the patch itself?
 
-Actually, we already do KVM_SET_TSC_KHZ twice, my patch adds just
-another call for KVM_SET_TSC_KHZ. We already do one call in
-kvm_arch_put_registers() but we don't propagate errors from it so in case
-TSC scaling is unsupported, migration still succeeds and this is
-intentional unless 'tsc-khz' was explicitly specified. When 'tsc-khz' is
-specified, the error is propageted from kvm_arch_init_vcpu() (second
-call site). We can also achieve the goal of this patch if we follow
-Paolo's suggestion: just make 'tsc-khz' a must with reenlightenment.
+A commit message should tell me what the patch is trying to accomplish.
 
--- 
-Vitaly
+This commit message's title tells me it's a test for a CVE.  Okay.  The
+body additionally gives me the reproducer.  To be useful, a reproducer
+needs to come with actual and expected result.  Yes, I can find those in
+the patch.  But I could find the reproducer there, too.  If you're nice
+enough to save me the trouble of digging through the patch for the
+reproducer (thanks), please consider saving me the trouble digging for
+the information I need to make use of it (thanks again).  That's all :)
+
+[...]
 
 
