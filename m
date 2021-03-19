@@ -2,58 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED30341212
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 02:24:55 +0100 (CET)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4113412D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 03:30:22 +0100 (CET)
+Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN3sj-0006yN-KV
-	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 21:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
+	id 1lN4u4-0000GK-W4
+	for lists+qemu-devel@lfdr.de; Thu, 18 Mar 2021 22:30:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1lN3s0-0006YD-0D
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 21:24:08 -0400
-Received: from mga07.intel.com ([134.134.136.100]:54488)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lN4tG-00084v-Kk
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 22:29:30 -0400
+Received: from mga14.intel.com ([192.55.52.115]:7566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1lN3rx-0002Di-JY
- for qemu-devel@nongnu.org; Thu, 18 Mar 2021 21:24:07 -0400
-IronPort-SDR: aAswBcLbv18a8dd6gTM4/kVl5aox5M3LSArCfb/9xMYz/F8Uddtm4+i5j2ftcmsVC37GD7N1xB
- XFuGDugjl0RA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="253809164"
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="253809164"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 18:23:57 -0700
-IronPort-SDR: tevrsQ4M3sGGfqDZw627/hrzqBs3G5ELEjRwaJT6LTsj+HrPWYpPUImjXQxiograZKHWVehmNH
- Tw5ESTcaN1eg==
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="413316108"
-Received: from unknown (HELO [10.239.13.106]) ([10.239.13.106])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 18:23:51 -0700
-Subject: Re: [RFC PATCH] i386: Add ratelimit for bus locks acquired in guest
-To: Chenyi Qiang <chenyi.qiang@intel.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
-References: <20210317084709.15605-1-chenyi.qiang@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-ID: <1760f09a-fc0c-047e-c38b-8180e4f23517@intel.com>
-Date: Fri, 19 Mar 2021 09:23:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lN4tD-0007ua-So
+ for qemu-devel@nongnu.org; Thu, 18 Mar 2021 22:29:29 -0400
+IronPort-SDR: iLjadN7G9fRMqzpwJth2gs5nMRUfWGiqLeynth9TfBQZyeBGvqCxRpGpDTPCp2Mhvphave76Nq
+ 2I61Dhm1/xfg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="189188733"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="189188733"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2021 19:29:22 -0700
+IronPort-SDR: SH0xQBV/rozcMk2XFt5eAtW8C8zj7XtKhOic7Hg6FvhCGvNh+jkfK6+ZnwyV6kZoGnmp6YiWcN
+ gSYWF7HlxO3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="602974049"
+Received: from icx-2s.bj.intel.com ([10.240.192.119])
+ by fmsmga006.fm.intel.com with ESMTP; 18 Mar 2021 19:29:21 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] i386/cpu: Expose AVX_VNNI instruction to guset
+Date: Fri, 19 Mar 2021 09:59:47 +0800
+Message-Id: <20210319015947.79420-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 MIME-Version: 1.0
-In-Reply-To: <20210317084709.15605-1-chenyi.qiang@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=yang.zhong@intel.com;
+ helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,44 +59,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: yang.zhong@intel.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/2021 4:47 PM, Chenyi Qiang wrote:
-[...]
->   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->   {
->       X86CPU *x86_cpu = X86_CPU(cpu);
-> @@ -4236,6 +4271,11 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->       } else {
->           env->eflags &= ~IF_MASK;
->       }
-> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
-> +        kvm_cpu_synchronize_state(cpu);
-> +        warn_report("bus lock detected at rip: 0x%lx", env->eip);
+Expose AVX (VEX-encoded) versions of the Vector Neural Network
+Instructions to guest.
 
-Chenyi,
+The bit definition:
+CPUID.(EAX=7,ECX=1):EAX[bit 4] AVX_VNNI
 
-Let's drop the eip here since QEMU has no idea whether it points to the 
-next instruction or the exact instruction acquires bus lock.
+The following instructions are available when this feature is
+present in the guest.
+  1. VPDPBUS: Multiply and Add Unsigned and Signed Bytes
+  2. VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
+  3. VPDPWSSD: Multiply and Add Signed Word Integers
+  4. VPDPWSSDS: Multiply and Add Signed Integers with Saturation
 
-> +        kvm_rate_limit_on_bus_lock();
-> +    }
->   
->       /* We need to protect the apic state against concurrent accesses from
->        * different threads in case the userspace irqchip is used. */
-> @@ -4594,6 +4634,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->           ioapic_eoi_broadcast(run->eoi.vector);
->           ret = 0;
->           break;
-> +    case KVM_EXIT_X86_BUS_LOCK:
-> +        /* already handled in kvm_arch_post_run */
-> +        ret = 0;
-> +        break;
->       default:
->           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->           ret = -1;
-> 
+The release document ref below link:
+https://software.intel.com/content/www/us/en/develop/download/\
+intel-architecture-instruction-set-extensions-programming-reference.html
+
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+---
+ target/i386/cpu.c | 4 ++--
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ae9fd9f31d..f748989860 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -996,7 +996,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             NULL, NULL, NULL, NULL,
+-            NULL, "avx512-bf16", NULL, NULL,
++            "avx-vnni", "avx512-bf16", NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+@@ -3273,7 +3273,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
+             MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
+         .features[FEAT_7_1_EAX] =
+-            CPUID_7_1_EAX_AVX512_BF16,
++            CPUID_7_1_EAX_AVX_VNNI | CPUID_7_1_EAX_AVX512_BF16,
+         /*
+          * Missing: XSAVES (not supported by some Linux versions,
+          * including v4.1 to v4.12).
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index b4b136cd0d..efda0d6178 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -805,6 +805,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ /* Speculative Store Bypass Disable */
+ #define CPUID_7_0_EDX_SPEC_CTRL_SSBD    (1U << 31)
+ 
++/* AVX VNNI Instruction */
++#define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
+ /* AVX512 BFloat16 Instruction */
+ #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
+ 
+-- 
+2.29.2.334.gfaefdd61ec
 
 
