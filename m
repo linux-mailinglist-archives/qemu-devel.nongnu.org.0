@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F19C341B79
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:29:11 +0100 (CET)
-Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2254F341B68
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:26:03 +0100 (CET)
+Received: from localhost ([::1]:57352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNDJW-00019u-Iy
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34160)
+	id 1lNDGU-0005E8-4U
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:26:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCe-0008MK-CG
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCb-0007gp-Ad
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCm-0000Cw-Uk
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCj-0007nP-IC
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616152920;
+ s=mimecast20190719; t=1616152928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FqAYOsMnPWZx85KmwaW1n5DtDkhnNWnH1Jn/W4qaUiE=;
- b=YXJZFlwKqIxS8DmySUGhIbhCb18fhuOtc5xMv10nE8/6LtNAE6XLOFDdZrhMhiSPxASmO9
- jhp6Oyb7Xv7IVHNH2Qh7BrvSmJT/fjspSVUQRmcp0/9ohu2Ats2K4rshI1QmK2Pncl+Z0M
- 9ItXhGIOcZ/PciFIfDPlLT1ghg5Nd2M=
+ bh=MrUBPmX0a7ukZtBLDdNpkTALSF38NEwT5OsVHKJDdhY=;
+ b=IJMedD7QxfY8PrnnThIdq2HcnrmHNVHN6QzGdlPxSO73iMt15t6uI9sRzgikeYhquti6JD
+ nw3fY0q8JRo/DO3s4dA1AtJBBQrNYvrhP8waSMfzGzCsg/c0Q6Wf+7N9WzLUNH95IH2icG
+ RP8zhKrxAePQZ4Zsd1HgBN2XuQhpypQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-wagQog0VMyW7BoQ1jIcSlA-1; Fri, 19 Mar 2021 07:21:58 -0400
-X-MC-Unique: wagQog0VMyW7BoQ1jIcSlA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-343-eVKJuFk7PgmucemqF74u2Q-1; Fri, 19 Mar 2021 07:22:07 -0400
+X-MC-Unique: eVKJuFk7PgmucemqF74u2Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99DFD1007CAD;
- Fri, 19 Mar 2021 11:21:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6CB881620;
+ Fri, 19 Mar 2021 11:22:05 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
  [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B89819C79;
- Fri, 19 Mar 2021 11:21:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D4A5F706;
+ Fri, 19 Mar 2021 11:21:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 660421800795; Fri, 19 Mar 2021 12:21:48 +0100 (CET)
+ id 7212A1800796; Fri, 19 Mar 2021 12:21:48 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/15] virtio-gpu: drop VIRGL() macro
-Date: Fri, 19 Mar 2021 12:21:44 +0100
-Message-Id: <20210319112147.4138943-13-kraxel@redhat.com>
+Subject: [PATCH 13/15] virtio-gpu: move virtio-gpu-gl-device to separate module
+Date: Fri, 19 Mar 2021 12:21:45 +0100
+Message-Id: <20210319112147.4138943-14-kraxel@redhat.com>
 In-Reply-To: <20210319112147.4138943-1-kraxel@redhat.com>
 References: <20210319112147.4138943-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,41 +84,60 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drops last virgl/opengl dependency from virtio-gpu-device.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/virtio-gpu.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ util/module.c          |  4 +++-
+ hw/display/meson.build | 11 ++++++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 2c0065277ffd..34cf35127a3d 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -39,23 +39,6 @@ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
- static void virtio_gpu_cleanup_mapping(VirtIOGPU *g,
-                                        struct virtio_gpu_simple_resource *res);
+diff --git a/util/module.c b/util/module.c
+index 0bbe2b25fbec..ffff98a7e751 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -182,6 +182,8 @@ static const struct {
+     { "ui-spice-app",   "ui-spice-core" },
+     { "ui-spice-app",   "chardev-spice" },
  
--#ifdef CONFIG_VIRGL
--#include <virglrenderer.h>
--#define VIRGL(_g, _virgl, _simple, ...)                     \
--    do {                                                    \
--        if (_g->parent_obj.use_virgl_renderer) {            \
--            _virgl(__VA_ARGS__);                            \
--        } else {                                            \
--            _simple(__VA_ARGS__);                           \
--        }                                                   \
--    } while (0)
--#else
--#define VIRGL(_g, _virgl, _simple, ...)                 \
--    do {                                                \
--        _simple(__VA_ARGS__);                           \
--    } while (0)
--#endif
--
- void virtio_gpu_update_cursor_data(VirtIOGPU *g,
-                                    struct virtio_gpu_scanout *s,
-                                    uint32_t resource_id)
++    { "hw-display-virtio-gpu-gl", "hw-display-virtio-gpu" },
++
+ #ifdef CONFIG_OPENGL
+     { "ui-egl-headless", "ui-opengl"    },
+     { "ui-gtk",          "ui-opengl"    },
+@@ -300,7 +302,7 @@ static struct {
+     { "qxl-vga",               "hw-", "display-qxl"           },
+     { "qxl",                   "hw-", "display-qxl"           },
+     { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
+-    { "virtio-gpu-gl-device",  "hw-", "display-virtio-gpu"    },
++    { "virtio-gpu-gl-device",  "hw-", "display-virtio-gpu-gl" },
+     { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
+     { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
+     { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
+diff --git a/hw/display/meson.build b/hw/display/meson.build
+index 5161efa08a6e..7cd5a1129812 100644
+--- a/hw/display/meson.build
++++ b/hw/display/meson.build
+@@ -56,13 +56,18 @@ softmmu_ss.add(when: [pixman, 'CONFIG_ATI_VGA'], if_true: files('ati.c', 'ati_2d
+ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
+   virtio_gpu_ss = ss.source_set()
+   virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
+-                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c'), pixman, virgl])
+-  virtio_gpu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL'],
+-                    if_true: [files('virtio-gpu-gl.c', 'virtio-gpu-virgl.c'), pixman, virgl])
++                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c'), pixman])
+   virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
+   hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
+ endif
+ 
++if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
++  virtio_gpu_gl_ss = ss.source_set()
++  virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL', opengl],
++                       if_true: [files('virtio-gpu-gl.c', 'virtio-gpu-virgl.c'), pixman, virgl])
++  hw_display_modules += {'virtio-gpu-gl': virtio_gpu_gl_ss}
++endif
++
+ if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
+   virtio_gpu_pci_ss = ss.source_set()
+   virtio_gpu_pci_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI'],
 -- 
 2.30.2
 
