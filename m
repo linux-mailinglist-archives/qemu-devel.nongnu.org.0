@@ -2,71 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA95B342010
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:47:29 +0100 (CET)
-Received: from localhost ([::1]:56398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B807A341FEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:45:25 +0100 (CET)
+Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNGPQ-0005Y6-Uf
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:47:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
+	id 1lNGNQ-00035c-NR
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lNGHm-0005K9-18
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:39:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25075)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lNGHk-0004ow-68
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:39:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616164770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vS2/ndZYQdE/ri/XWMoUI04OsVq11Xm8ankxYhvipqo=;
- b=KXyOlp8lR5xl3YxlMT+7hIOuMu3hWkPeseiw1/REkqBqxT5Pooeq8gaHNUC9NlscP1Gdle
- NeEBgqJtc71qFDBlaBxfjZV2wfObUsx1mTtVShZju4zCJPxHQHXyjoBrNqvEPtvj+OKCB6
- SS/M8Gs7ZCfHWPyPb5olm1fIAfr8CaE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-W9LvjZV9OHSwrFyub65a6g-1; Fri, 19 Mar 2021 10:39:28 -0400
-X-MC-Unique: W9LvjZV9OHSwrFyub65a6g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB0618C8C00
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 14:39:27 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A06E60C04;
- Fri, 19 Mar 2021 14:39:27 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] tests/qtest: cleanup the testcase for bug 1878642
-Date: Fri, 19 Mar 2021 10:39:24 -0400
-Message-Id: <20210319143924.2173798-9-pbonzini@redhat.com>
-In-Reply-To: <20210319143924.2173798-1-pbonzini@redhat.com>
-References: <20210319143924.2173798-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lNGJJ-0006lO-Br
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:41:09 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:53570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lNGJH-0005bR-Ev
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:41:08 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 12JEeGC6016050
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 19 Mar 2021 10:40:19 -0400
+Date: Fri, 19 Mar 2021 10:40:16 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] fuzz: Avoid deprecated misuse of -drive if=sd
+Message-ID: <20210319144016.cxbkgsh2u7ot5vlg@mozz.bu.edu>
+References: <20210319132008.1830950-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210319132008.1830950-1-armbru@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,80 +54,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org, bsd@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clean up the writes to the configuration space and the PM region, and
-rename the test to lpc-ich9-test.
+On 210319 1420, Markus Armbruster wrote:
+> qemu-fuzz-i386-target-generic-fuzz-sdhci-v3 uses -drive=sd where it
+> should use -drive if=none instead.  This prints a deprecation warning:
+> 
+>     $ ./build-oss-fuzz/DEST_DIR/qemu-fuzz-i386-target-generic-fuzz-sdhci-v3 -runs=1 -seed=1
+>     [ASan warnings snipped...]
+> --> i386: -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive: warning: bogus if=sd is deprecated, use if=none
+>     INFO: Seed: 1
+>     [More normal output snipped...]
+> 
+> Support for this usage will be gone soon.  Adjust the test.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  tests/qtest/fuzz/generic_fuzz_configs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/qtest/{fuzz-test.c => lpc-ich9-test.c} | 12 +++++++-----
- tests/qtest/meson.build                      |  2 +-
- 2 files changed, 8 insertions(+), 6 deletions(-)
- rename tests/qtest/{fuzz-test.c => lpc-ich9-test.c} (71%)
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
-diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/lpc-ich9-test.c
-similarity index 71%
-rename from tests/qtest/fuzz-test.c
-rename to tests/qtest/lpc-ich9-test.c
-index 00149abec7..fe0bef9980 100644
---- a/tests/qtest/fuzz-test.c
-+++ b/tests/qtest/lpc-ich9-test.c
-@@ -1,5 +1,5 @@
- /*
-- * QTest testcase for fuzz case
-+ * QTest testcases for ich9 case
-  *
-  * Copyright (c) 2020 Li Qiang <liq3ea@gmail.com>
-  *
-@@ -18,9 +18,11 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
-     s = qtest_init("-M pc-q35-5.0 "
-                    "-nographic -monitor none -serial none");
- 
--    qtest_outl(s, 0xcf8, 0x8400f841);
--    qtest_outl(s, 0xcfc, 0xebed205d);
--    qtest_outl(s, 0x5d02, 0xebed205d);
-+    qtest_outl(s, 0xcf8, 0x8000f840); /* PMBASE */
-+    qtest_outl(s, 0xcfc, 0x5d00);
-+    qtest_outl(s, 0xcf8, 0x8000f844); /* ACPI_CTRL */
-+    qtest_outl(s, 0xcfc, 0xeb);
-+    qtest_outw(s, 0x5d02, 0x205d);
-     qtest_quit(s);
- }
- 
-@@ -31,7 +33,7 @@ int main(int argc, char **argv)
-     g_test_init(&argc, &argv, NULL);
- 
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
--        qtest_add_func("fuzz/test_lp1878642_pci_bus_get_irq_level_assert",
-+        qtest_add_func("ich9/test_lp1878642_pci_bus_get_irq_level_assert",
-                        test_lp1878642_pci_bus_get_irq_level_assert);
-     }
- 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 6e871077c1..9731606c31 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -57,6 +57,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_HDA') ? ['intel-hda-test'] : []) +                    \
-   (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
-   (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
-+  (config_all_devices.has_key('CONFIG_LPC_ICH9') ? ['lpc-ich9-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_USB_UHCI') and                                        \
-    config_all_devices.has_key('CONFIG_USB_EHCI') ? ['usb-hcd-ehci-test'] : []) +            \
-@@ -74,7 +75,6 @@ qtests_i386 = \
-    'bios-tables-test',
-    'rtc-test',
-    'i440fx-test',
--   'fuzz-test',
-    'fw_cfg-test',
-    'device-plug-test',
-    'drive_del-test',
--- 
-2.26.2
-
+Thanks
 
