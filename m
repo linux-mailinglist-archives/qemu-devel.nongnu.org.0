@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69BA341BB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:44:27 +0100 (CET)
-Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28898341BCA
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:51:52 +0100 (CET)
+Received: from localhost ([::1]:57982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNDYI-0006Qv-O9
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
+	id 1lNDfT-0003se-8c
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lNDWz-0005fJ-8a
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:43:05 -0400
-Resent-Date: Fri, 19 Mar 2021 07:43:05 -0400
-Resent-Message-Id: <E1lNDWz-0005fJ-8a@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21384)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lNDXm-0006Tt-NU
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:43:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lNDWw-0002un-GP
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:43:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616154173; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hD2AJcomNx/+UXzgqcKLropSutxBAzQ7zYMxYn1yJ+HZgdcKCfbOdD/WtxxH2buHb8xs13NJWL9hzD52Z7MAp+52K7ppWr4Z9BxQzGFNzoPxBlHbfMl1RTfDwnfxCnKxgDykfyTugH8dUiMTjetsZ8WBJyNcLqugeaAxE4e/A1U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616154173;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=QAfeWrrXdMGmXCAH1oA2qYMXWLTMa7+mrLEoQq79NBg=; 
- b=aBB//IS7gKzfvjsy4Nv/JPPbe4k+ZgNk9EfpjtwaApNX0WbPxIwfsEblIyimi7Zy918wkv2i2yDcGqFCZtLc6nOinupS4+DIwhNOqjK7onUWMQuqvOCkxAgBuXCre4ydMjVk4KhnA+OrGLna65kcKd+PwQTCzL34EZkDQrQhg4o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616154169271603.6211026326845;
- Fri, 19 Mar 2021 04:42:49 -0700 (PDT)
-In-Reply-To: <20210319112147.4138943-1-kraxel@redhat.com>
-Subject: Re: [PATCH 00/15] virtio-gpu: split into two devices.
-Message-ID: <161615416773.20533.1052216686135482410@c9d4d6fbb2f1>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lNDXh-0003Ls-Gi
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:43:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616154228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5LmwMQjU6KGoditx1XSYgNuj+HpTm+J9/zNdPcf8xBk=;
+ b=hVnULsQ4p6SNQowtTUj45mXl/2V1kLUJfrdZ4B9zL9WRVn8PbwZpbXsBhpYj9JFW7hZwsz
+ BeH1Si3ho0c6Xvooha+br1WrKxIUBOlPIpyZrnofcOKGU7w6gwnnjHj2S58KxkVQo8TW7+
+ xHBC0OO0v0R2MLyVQtexYD88jMK+uNo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-dbab35tVM1msKL0T1kNBuw-1; Fri, 19 Mar 2021 07:43:46 -0400
+X-MC-Unique: dbab35tVM1msKL0T1kNBuw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E438189CD03;
+ Fri, 19 Mar 2021 11:43:45 +0000 (UTC)
+Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8212319C79;
+ Fri, 19 Mar 2021 11:43:42 +0000 (UTC)
+Date: Fri, 19 Mar 2021 12:43:39 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 2/4] iotests: Revert "iotests: use -ccw on s390x for
+ 040, 139, and 182"
+Message-ID: <20210319124339.6acd05d8.cohuck@redhat.com>
+In-Reply-To: <20210318223907.1344870-3-laurent@vivier.eu>
+References: <20210318223907.1344870-1-laurent@vivier.eu>
+ <20210318223907.1344870-3-laurent@vivier.eu>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Fri, 19 Mar 2021 04:42:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,91 +79,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: vivek.kasireddy@intel.com, tina.zhang@intel.com, kraxel@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGll?= =?UTF-8?B?dS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMxOTExMjE0Ny40MTM4
-OTQzLTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMxOTExMjE0Ny40MTM4
-OTQzLTEta3JheGVsQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIDAwLzE1XSB2aXJ0aW8tZ3B1
-OiBzcGxpdCBpbnRvIHR3byBkZXZpY2VzLgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
-aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
-YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
-Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
-RCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQK
-RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRh
-dGVdICAgICAgcGF0Y2hldy8yMDIxMDMxMTE2NTk0Ny4yNzQ3MC0xLXBldGVyLm1heWRlbGxAbGlu
-YXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMzExMTY1OTQ3LjI3NDcwLTEtcGV0ZXIubWF5ZGVsbEBs
-aW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMTkxMTIxNDcuNDEz
-ODk0My0xLWtyYXhlbEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAzMTkxMTIxNDcuNDEzODk0
-My0xLWtyYXhlbEByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDcw
-MWJkOCB2aXJ0aW8tZ3B1OiBtb3ZlIGZpZWxkcyB0byBzdHJ1Y3QgVmlydElPR1BVR0wKM2VmYTlk
-MiB2aXJ0aW8tZ3B1OiBkcm9wIHVzZV92aXJnbF9yZW5kZXJlcgpiMzQ3MjEzIHZpcnRpby1ncHU6
-IG1vdmUgdmlydGlvLWdwdS1nbC1kZXZpY2UgdG8gc2VwYXJhdGUgbW9kdWxlCmQwOWMxZjAgdmly
-dGlvLWdwdTogZHJvcCBWSVJHTCgpIG1hY3JvCjA1ZDkyNTUgdmlydGlvLWdwdTogbW92ZSB1cGRh
-dGVfY3Vyc29yX2RhdGEKMTkyZDMzNiB2aXJ0aW8tZ3B1OiBtb3ZlIHZpcmdsIHByb2Nlc3NfY21k
-CjhlZWIyOWYgdmlydGlvLWdwdTogbW92ZSB2aXJnbCBnbF9mbHVzaGVkCjllNzZkMTAgdmlydGlv
-LWdwdTogbW92ZSB2aXJnbCBoYW5kbGVfY3RybApkMjcyNTU1IHZpcnRpby1ncHU6IHVzZSBjbGFz
-cyBmdW5jdGlvbiBmb3IgY3RybCBxdWV1ZSBoYW5kbGVycwpjMzc0NzliIHZpcnRpby1ncHU6IG1v
-dmUgdmlyZ2wgcmVzZXQKNTc2Y2ZmMyB2aXJ0aW8tZ3B1OiBtb3ZlIHZpcmdsIHJlYWxpemUgKyBw
-cm9wZXJ0aWVzCjA0YzljMTcgdmlydGlvLWdwdTogYWRkIHZpcnRpby12Z2EtZ2wKZTY5MzRlYyB2
-aXJ0aW8tZ3B1OiBhZGQgdmlydGlvLWdwdS1nbC1wY2kKNTdjMWIyOSB2aXJ0aW8tZ3B1OiBhZGQg
-dmlydGlvLWdwdS1nbC1kZXZpY2UKNjYwMTAwZSB2aXJ0aW8tZ3B1OiByZW5hbWUgdmlyZ2wgc291
-cmNlIGZpbGUuCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE1IENoZWNraW5nIGNvbW1pdCA2NjAx
-MDBlYjg0NmUgKHZpcnRpby1ncHU6IHJlbmFtZSB2aXJnbCBzb3VyY2UgZmlsZS4pCldBUk5JTkc6
-IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
-cGRhdGluZz8KIzE0OiAKIGh3L2Rpc3BsYXkve3ZpcnRpby1ncHUtM2QuYyA9PiB2aXJ0aW8tZ3B1
-LXZpcmdsLmN9IHwgMAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA4IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDEvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8xNSBDaGVja2luZyBj
-b21taXQgNTdjMWIyOTM0ODAyICh2aXJ0aW8tZ3B1OiBhZGQgdmlydGlvLWdwdS1nbC1kZXZpY2Up
-ClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcg
-ZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMzMjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDc1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-My8xNSBDaGVja2luZyBjb21taXQgZTY5MzRlYzM3ZDNkICh2aXJ0aW8tZ3B1OiBhZGQgdmlydGlv
-LWdwdS1nbC1wY2kpCjQvMTUgQ2hlY2tpbmcgY29tbWl0IDA0YzljMTc5YTA5MyAodmlydGlvLWdw
-dTogYWRkIHZpcnRpby12Z2EtZ2wpCjUvMTUgQ2hlY2tpbmcgY29tbWl0IDU3NmNmZjNhOTM4ZSAo
-dmlydGlvLWdwdTogbW92ZSB2aXJnbCByZWFsaXplICsgcHJvcGVydGllcykKNi8xNSBDaGVja2lu
-ZyBjb21taXQgYzM3NDc5YjA2Mjc2ICh2aXJ0aW8tZ3B1OiBtb3ZlIHZpcmdsIHJlc2V0KQo3LzE1
-IENoZWNraW5nIGNvbW1pdCBkMjcyNTU1NGZjZTMgKHZpcnRpby1ncHU6IHVzZSBjbGFzcyBmdW5j
-dGlvbiBmb3IgY3RybCBxdWV1ZSBoYW5kbGVycykKOC8xNSBDaGVja2luZyBjb21taXQgOWU3NmQx
-MGUzMTkwICh2aXJ0aW8tZ3B1OiBtb3ZlIHZpcmdsIGhhbmRsZV9jdHJsKQo5LzE1IENoZWNraW5n
-IGNvbW1pdCA4ZWViMjlmOTQ1NDEgKHZpcnRpby1ncHU6IG1vdmUgdmlyZ2wgZ2xfZmx1c2hlZCkK
-MTAvMTUgQ2hlY2tpbmcgY29tbWl0IDE5MmQzMzYwYjMxOSAodmlydGlvLWdwdTogbW92ZSB2aXJn
-bCBwcm9jZXNzX2NtZCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEwMTogRklM
-RTogaW5jbHVkZS9ody92aXJ0aW8vdmlydGlvLWdwdS5oOjIzMjoKK3ZvaWQgdmlydGlvX2dwdV9z
-aW1wbGVfcHJvY2Vzc19jbWQoVmlydElPR1BVICpnLCBzdHJ1Y3QgdmlydGlvX2dwdV9jdHJsX2Nv
-bW1hbmQgKmNtZCk7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDcwIGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDEwLzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
-eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
-bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjExLzE1IENoZWNraW5n
-IGNvbW1pdCAwNWQ5MjU1MjBhYzAgKHZpcnRpby1ncHU6IG1vdmUgdXBkYXRlX2N1cnNvcl9kYXRh
-KQoxMi8xNSBDaGVja2luZyBjb21taXQgZDA5YzFmMGFjNDVhICh2aXJ0aW8tZ3B1OiBkcm9wIFZJ
-UkdMKCkgbWFjcm8pCjEzLzE1IENoZWNraW5nIGNvbW1pdCBiMzQ3MjEzY2ZkZTYgKHZpcnRpby1n
-cHU6IG1vdmUgdmlydGlvLWdwdS1nbC1kZXZpY2UgdG8gc2VwYXJhdGUgbW9kdWxlKQoxNC8xNSBD
-aGVja2luZyBjb21taXQgM2VmYTlkMjZlYTE4ICh2aXJ0aW8tZ3B1OiBkcm9wIHVzZV92aXJnbF9y
-ZW5kZXJlcikKRVJST1I6ICJmb28gKiBiYXIiIHNob3VsZCBiZSAiZm9vICpiYXIiCiM5NjogRklM
-RTogaHcvZGlzcGxheS92aXJ0aW8tZ3B1LWdsLmM6NDc6CisgICAgbWVtY3B5KHMtPmN1cnJlbnRf
-Y3Vyc29yLT5kYXRhLCBkYXRhLCBwaXhlbHMgKiBzaXplb2YodWludDMyX3QpKTsKCnRvdGFsOiAx
-IGVycm9ycywgMCB3YXJuaW5ncywgMTE2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE0LzE1IGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxNS8xNSBDaGVja2luZyBjb21taXQgZDcwMWJkODdjYThl
-ICh2aXJ0aW8tZ3B1OiBtb3ZlIGZpZWxkcyB0byBzdHJ1Y3QgVmlydElPR1BVR0wpCj09PSBPVVRQ
-VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzE5MTEyMTQ3
-LjQxMzg5NDMtMS1rcmF4ZWxAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On Thu, 18 Mar 2021 23:39:05 +0100
+Laurent Vivier <laurent@vivier.eu> wrote:
+
+> Commit f1d5516ab583 introduces a test in some iotests to check if
+> the machine is a s390-ssw-virtio and to select virtio-*-ccw rather
+
+s/ssw/ccw/
+
+> than virtio-*-pci.
+> 
+> We don't need that because QEMU already provides aliases to use the correct
+> virtio interface according to the machine type.
+
+Maybe add a comment that this also enables virtio-mmio?
+
+> 
+> This patch removes all virtio-*-pci and virtio-*-ccw to use virtio-*
+> instead.
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> cc: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  blockdev.c                    |  6 +-----
+
+Hm, that also tweaks how -drive behaves, IIUC. Intended, I think; but
+worth a note as well?
+
+>  tests/qemu-iotests/040        |  2 +-
+>  tests/qemu-iotests/051        | 12 +-----------
+>  tests/qemu-iotests/068        |  4 +---
+>  tests/qemu-iotests/093        |  3 +--
+>  tests/qemu-iotests/139        |  9 ++-------
+>  tests/qemu-iotests/182        | 13 ++-----------
+>  tests/qemu-iotests/238        |  4 +---
+>  tests/qemu-iotests/240        | 10 +++++-----
+>  tests/qemu-iotests/257        |  4 ++--
+>  tests/qemu-iotests/307        |  4 +---
+>  tests/qemu-iotests/iotests.py |  5 -----
+>  12 files changed, 18 insertions(+), 58 deletions(-)
+
 
