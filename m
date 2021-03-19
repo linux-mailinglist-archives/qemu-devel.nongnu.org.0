@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BC9341EDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:54:27 +0100 (CET)
-Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A823F341EE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:57:10 +0100 (CET)
+Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFa6-0001ZD-QQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39272)
+	id 1lNFcj-00053u-OC
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNFXx-0007zZ-QK; Fri, 19 Mar 2021 09:52:13 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:49055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNFXs-00010q-UC; Fri, 19 Mar 2021 09:52:13 -0400
-Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MjPYI-1m7omR2RYI-00ktz1; Fri, 19 Mar 2021 14:52:01 +0100
-Subject: Re: [PATCH v2 6/6] iotests: iothreads need ioeventfd
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210319132537.2046339-1-laurent@vivier.eu>
- <20210319132537.2046339-7-laurent@vivier.eu>
- <95209fe1-9b85-0eec-ace2-b3eff20ee88e@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b5e6476f-ae52-056b-8ac8-8a3d17118ca3@vivier.eu>
-Date: Fri, 19 Mar 2021 14:51:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lNFaQ-0003Cr-Od; Fri, 19 Mar 2021 09:54:46 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:46916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lNFaP-0002O8-1f; Fri, 19 Mar 2021 09:54:46 -0400
+Received: by mail-io1-xd35.google.com with SMTP id j26so6155644iog.13;
+ Fri, 19 Mar 2021 06:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ybobm4xRlDne4W42noQKXgBEHx4LUhMfSBPhb/nWQaI=;
+ b=KF2uZsAGD069nblh14gGPuI5JLZQLB1XHEZmwktD1Nst1KJnHv2aR++Y/5/KD4uFa/
+ bU8TQWT/oGU2eyvY27BC9tbucHGBdhSKvaJqJ4mCJZJnIuQ6E5kJMISr6QPXg4JOI0Cj
+ D/uTqVGft9yXwu9E6TQ2mZYCXZMYJSz1/BJAVF6sEs4ODzXPKoczsfWjatcoqEscfblJ
+ G4c2fX76B0dLF4oxfwKO2CJ7bs1n1lsLV8jBSXGNZFgrEwdcAJ5k2vPNzvhSgASvQs/y
+ lJq5dpijFFHd6+pBzq0JP3kB8B5yPDiD32UZaRclY7/bgjGqXkGnpvh1mrhPmJ9efBYQ
+ ouxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ybobm4xRlDne4W42noQKXgBEHx4LUhMfSBPhb/nWQaI=;
+ b=Dp+N7FGY1kx9yeOz0onvwKE53kU4SZmp7QhY/Rgrovhj6yTtK0BprcyML4kQxixwfm
+ gkWHrkVJ2+JQ7bBe6tZW8B9I5nVQlOyn+yQgPlbVNfR9NIny0whnmPn4/Anoq1an4aQB
+ IFOmkdczlMiWtlEXRiiiiiPijM7VuPvTREDuMpEfCapQyToo+O9VNVJmOqA+K/QXgX9l
+ MOSwNTW4kCkMNznO+UIUzjf03h5gF9lxhas7HzC1fH0mVoICeREAv3aZFlPZVLa+MaAR
+ ti4r21AzxBy7uacNmDO9me1Zqzd/tvPLzDA/exFyjQzr8nDdDdTq26fwdfNSqQn3Gizz
+ PsBg==
+X-Gm-Message-State: AOAM533bwwWwXll6aF+1K+t6x3CewaXTceSlBXU21JBGgM9ow5MXzN4L
+ IrFykgs4vN79wv5iRBOG4mwr9KelHDLRi+XNSVk+rUdzC/I=
+X-Google-Smtp-Source: ABdhPJyb3H1K6sFOA+mZkp9KHurJc/XhdFVcvFTt+aFxhZwDjrDQ0PrWDJVnOoyJ2bShfnBfybt8sXwDzlH6r53xLrM=
+X-Received: by 2002:a05:6638:3791:: with SMTP id
+ w17mr1420179jal.91.1616162083381; 
+ Fri, 19 Mar 2021 06:54:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <95209fe1-9b85-0eec-ace2-b3eff20ee88e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QclmjX2bRUd9SZbugpE0WYHKKV7bdVV40LeJkXX2F2Wy7DXcdc+
- ZSpeigxs1+sP3KzZjlhC3VIdG1aQAdvKUQSs6t+b4cOD7Rb1hpXpTXEyivqKtFn7ZfqaSoe
- ly7p4peWD61xDURg0AdEfbrb/1INGPSOIyF1AMPIWtYnfq2WBlG47CHXaSx4+r4aZ8iW1rF
- ERefkZyd1/YtuMVzk/QUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gd5oo08wtJ0=:2taPA3zaKH8fMzsJxUW/wr
- BOVtx2bRdyfh9rGnZffdMWZZLwXmp01fUscb3seBS7cToQtEDcnBzaspEglMgjh6hsI0pR1PX
- pNkaKUepLszUNJcVpRbo7o1/ibPC0srnTO24Tbw66kMf0ngIRIpPU4CpyrMaGqPfT4cKibL0e
- YQhqXWkxUMt8kUePfb1gyaxM/0psUgUBHOFFly40ttgyNRELFdVBYdNjgWplcEVxA4SFBWXnw
- 6bHFYTRmTt+U0/LehIOGhaDvx7OponA8KyqBCrA+LczwLnecHh8SDLAtAysh/zhkZvHXzSkuh
- OSMJuZKrSaHZWUwArsh7b40bL9k0eZekxyEuOMLYHxfi5VnPLIRX74Ia5aTHIDri57yHXf2sr
- NHbEcoBv5CMwDy6xWeR/EAjTYOSvbU7X+BZK2/70tAK/FGuFI9DyPGE3nlfXX
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20210316150354.1948265-1-georg.kotheimer@kernkonzept.com>
+In-Reply-To: <20210316150354.1948265-1-georg.kotheimer@kernkonzept.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Mar 2021 09:52:54 -0400
+Message-ID: <CAKmqyKMp3aRCjRq2_c+_uybSS_GZDip8C3hoH5an=5a1A+1Lew@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Prevent lost illegal instruction exceptions
+To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,45 +76,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/03/2021 à 14:36, Philippe Mathieu-Daudé a écrit :
-> On 3/19/21 2:25 PM, Laurent Vivier wrote:
->> And ioeventfd are only available with virtio-scsi-pci or virtio-scsi-ccw,
->> use the alias but add a rule to require virtio-scsi-pci or virtio-scsi-ccw
->> for the tests that use iothreads.
->>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>  tests/qemu-iotests/127        | 3 ++-
->>  tests/qemu-iotests/256        | 6 ++++--
->>  tests/qemu-iotests/iotests.py | 5 +++++
->>  3 files changed, 11 insertions(+), 3 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
->> index 98e8e82a8210..abe24861100d 100755
->> --- a/tests/qemu-iotests/127
->> +++ b/tests/qemu-iotests/127
->> @@ -44,7 +44,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
->>  _supported_fmt qcow2
->>  _supported_proto file fuse
->>  
->> -_require_devices virtio-scsi scsi-hd
->> +_require_devices scsi-hd
->> +_require_devices virtio-scsi-pci || _require_devices virtio-scsi-ccw
+On Tue, Mar 16, 2021 at 11:05 AM Georg Kotheimer
+<georg.kotheimer@kernkonzept.com> wrote:
+>
+> When decode_insn16() fails, we fall back to decode_RV32_64C() for
+> further compressed instruction decoding. However, prior to this change,
+> we did not raise an illegal instruction exception, if decode_RV32_64C()
+> fails to decode the instruction. This means that we skipped illegal
+> compressed instructions instead of raising an illegal instruction
+> exception.
+>
+> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
-Re-reading the code, I think this cannot work because we have an "exit" if the test fails.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-The test is executed anyway because s390x provides virtio-scsi-ccw and virtio-scsi-pci.
+Alistair
 
-Thanks,
-Laurent
+> ---
+>  target/riscv/translate.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 0f28b5f41e..8c00734252 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -537,7 +537,7 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+>      tcg_temp_free_i32(t0);
+>  }
+>
+> -static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
+> +static bool decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
+>  {
+>      uint8_t funct3 = extract16(opcode, 13, 3);
+>      uint8_t rd_rs2 = GET_C_RS2S(opcode);
+> @@ -554,7 +554,7 @@ static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
+>          gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
+>                      GET_C_LW_IMM(opcode));
+>  #endif
+> -        break;
+> +        return true;
+>      case 7:
+>  #if defined(TARGET_RISCV64)
+>          /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
+> @@ -565,18 +565,21 @@ static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
+>          gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
+>                       GET_C_LW_IMM(opcode));
+>  #endif
+> -        break;
+> +        return true;
+> +    default:
+> +        return false;
+>      }
+>  }
+>
+> -static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
+> +static bool decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
+>  {
+>      uint8_t op = extract16(opcode, 0, 2);
+>
+>      switch (op) {
+>      case 0:
+> -        decode_RV32_64C0(ctx, opcode);
+> -        break;
+> +        return decode_RV32_64C0(ctx, opcode);
+> +    default:
+> +        return false;
+>      }
+>  }
+>
+> @@ -780,7 +783,9 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>              ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>              if (!decode_insn16(ctx, opcode)) {
+>                  /* fall back to old decoder */
+> -                decode_RV32_64C(ctx, opcode);
+> +                if (!decode_RV32_64C(ctx, opcode)) {
+> +                    gen_exception_illegal(ctx);
+> +                }
+>              }
+>          }
+>      } else {
+> --
+> 2.30.1
+>
+>
 
