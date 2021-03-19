@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB96341DB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:08:02 +0100 (CET)
-Received: from localhost ([::1]:57284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD260341DC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:10:43 +0100 (CET)
+Received: from localhost ([::1]:33482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNErB-0005cy-Tu
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
+	id 1lNEtm-0007PS-S1
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNEpl-0004n0-8B
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:06:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50883)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNEph-0000Lx-Ul
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:06:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616159189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9yTgRrINJonAtco3i7NVt6A5XuZqMvkn+D9W3oiGZic=;
- b=ZELxuC9wly/87W1E3Z8hqNhqWmXpGlA7eH2zr6hID9i+CGQDkp83K3XIqR7zjaazpSAzvU
- /imppuBH7A5xKvUOZ486ajTdzls3S2bfUPPG7Q938YjDzetla2IlVnnWxbdgJ/OobjRubV
- GMw1gfmhdM4PdKV3A/dT3Du/fEGr35E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-_CEYbA_9PiCePAM3Av_oBA-1; Fri, 19 Mar 2021 09:06:27 -0400
-X-MC-Unique: _CEYbA_9PiCePAM3Av_oBA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62382107ACCA;
- Fri, 19 Mar 2021 13:06:26 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56CBD60C5E;
- Fri, 19 Mar 2021 13:06:21 +0000 (UTC)
-Subject: Re: Serious doubts about Gitlab CI
-To: Markus Armbruster <armbru@redhat.com>, Andrew Jones <drjones@redhat.com>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
- <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
- <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
- <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
- <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
- <87v99nl52n.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <58d0a768-2a59-949a-051e-143e05493601@redhat.com>
-Date: Fri, 19 Mar 2021 14:06:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lNEsF-0006wi-Iu; Fri, 19 Mar 2021 09:09:07 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:37645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lNEsE-0001oD-1Q; Fri, 19 Mar 2021 09:09:07 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id b10so5990480iot.4;
+ Fri, 19 Mar 2021 06:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=s3YVosDOHXtscmPMs8euaOMeqVtoqrnRF4CTe32hWo0=;
+ b=sv0gWZwLzEbnQ+SBz+ve5Vq+iK13XXmMsBdIsO5ujccsRaPbdVzpCGysO8R+pD+xd1
+ NCSza0uNIfqNoFZTxHhhz3uumMHKrNjmiIUb1dO41TpAE+a6ux3c3Q36T7QfEAOz2vL2
+ KvxMpiT3HW6L0CrUD6rNBX/UDI6fH4aDYZoyc3p/X/rB/uMJqC1SxQPsznOFNSXaM2cJ
+ ifKkxPEXxgBJ9vkdvmvAvhbUOF8dtPGr9YXIdbOLcf22RaFA/NC2snu87ubF+ezf8yrk
+ mkaBZ7nut0JPJR6BYsdh8ADfWnTh7JQp/XEBK8wScfk6+jnBnNdVirsUA3jcur3nk8dc
+ 9gRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=s3YVosDOHXtscmPMs8euaOMeqVtoqrnRF4CTe32hWo0=;
+ b=pLW4N/NMheYziBg1vu8umClOFNBbY3hn7QAc1uMZFSiAOHH7LQgr0feJfjB4GbVosS
+ G7sbugEGc2+T3aX9BwLnf20Mrze6/2PwN3T8htLpaezDkv1fKtNLb7mh8uKtfCtUsF8c
+ eN2FiKkprkgZo6C4cu4Gzl4/VCCbSzGxtaewiRODpEf/SuEpCfbMgiZF2yiQgXP9YuaW
+ bDH0FOx009+tlFSqZTE9C/39ASPBqNHCogw0c7kgd7PRxTe3yzEPtIhI/6gIqM1FKBw5
+ 4vfdPMvHtw6zhvfw9mNLePQD0uiYBX08YTy5XsvEs2MNYKTNui+tauqUwvUbOlDMm5fB
+ P3/A==
+X-Gm-Message-State: AOAM530ExfPzeAzjNHK/G+3+RiGwSd0kap8P4+HubBfiVr/eiJvqN8bb
+ kODI491KggUg83icqUGrSNyREUjaiQZZytJe0Eo=
+X-Google-Smtp-Source: ABdhPJzl8cGuJqfnHaZIXG1DlCKOES97yhCaSsiNTAIHx3/YN5ArfJz1Yv93v+eaFgjSKE+hmwmTyTvXo0JakoLG2ck=
+X-Received: by 2002:a05:6638:3791:: with SMTP id
+ w17mr1242121jal.91.1616159344094; 
+ Fri, 19 Mar 2021 06:09:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87v99nl52n.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210318235041.17175-1-ashe@kivikakk.ee>
+In-Reply-To: <20210318235041.17175-1-ashe@kivikakk.ee>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Mar 2021 09:07:15 -0400
+Message-ID: <CAKmqyKNj9HB7c3+ESYzPTWn_TXY-AZ-w+pBP1BePpNqpHUpuMg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] hw/riscv: Add fw_cfg support, allow ramfb
+To: Asherah Connor <ashe@kivikakk.ee>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,44 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/03/2021 13.07, Markus Armbruster wrote:
-> Andrew Jones <drjones@redhat.com> writes:
-> 
->> On Fri, Mar 19, 2021 at 09:33:43AM +0000, Stefan Hajnoczi wrote:
->>> On Thu, Mar 18, 2021 at 09:30:41PM +0100, Paolo Bonzini wrote:
->>>> On 18/03/21 20:46, Stefan Hajnoczi wrote:
->>>>> The QEMU Project has 50,000 minutes of GitLab CI quota. Let's enable
->>>>> GitLab Merge Requests so that anyone can submit a merge request and get
->>>>> CI coverage.
->>>>
->>>> Each merge request consumes about 2500.  That won't last long.
->>>
->>> Yikes, that is 41 hours per CI run. I wonder if GitLab's CI minutes are
->>> on slow machines or if we'll hit the same issue with dedicated runners.
->>> It seems like CI optimization will be necessary...
->>>
->>
->> We need to reduce the amount of CI we do, not only because we can't afford
->> it, but because it's wasteful. I hate to think of all the kWhs spent
->> testing the exact same code in the exact same way, since everyone runs
->> everything with a simple 'git push'.
-> 
-> I normally refrain from posting +1s, but I feel this message really
-> needs "plussing": right you are!  This kind of wastefulness has bothered
-> me a lot.
+On Thu, Mar 18, 2021 at 7:51 PM Asherah Connor <ashe@kivikakk.ee> wrote:
+>
+> This is version 4 of the series to bring fw_cfg and ramfb support to
+> riscv's virt machine, adapted for the latest master.  It is still tested
+> as working against a modified U-Boot with ramfb support.
+>
+>
+> Changes in v4:
+> * Adapt for changes made in c65d7080d8 "hw/riscv: migrate fdt field to
+>   generic MachineState".
+>
+> Changes in v3:
+> * Document why fw_cfg is done when it is.
+> * Move VIRT_FW_CFG before VIRT_FLASH.
+>
+> Changes in v2:
+> * Add DMA support (needed for writes).
+> * Add ramfb as allowed on riscv virt machine class.
+>
+> Asherah Connor (2):
+>   hw/riscv: Add fw_cfg support to virt
+>   hw/riscv: allow ramfb on virt
+>
+>  hw/riscv/Kconfig        |  1 +
+>  hw/riscv/virt.c         | 33 +++++++++++++++++++++++++++++++++
+>  include/hw/riscv/virt.h |  2 ++
+>  3 files changed, 36 insertions(+)
 
-Patches for a more intelligent CI setup are certainly welcome!
+Thanks!
 
-  Thomas
+Applied to riscv-to-apply.next
 
+Alistair
+
+>
+> --
+> 2.20.1
+>
+>
 
