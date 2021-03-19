@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DAB341EDC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:55:10 +0100 (CET)
-Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BC9341EDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:54:27 +0100 (CET)
+Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFan-0002hY-QC
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
+	id 1lNFa6-0001ZD-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFZ6-0000rg-Ak; Fri, 19 Mar 2021 09:53:24 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:44870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFZ4-0001b8-Ha; Fri, 19 Mar 2021 09:53:24 -0400
-Received: by mail-io1-xd29.google.com with SMTP id v26so6149833iox.11;
- Fri, 19 Mar 2021 06:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BnlocOX1wZxMPdCaZ3ZJ9JU+GBq93paBNxTd0ADSigI=;
- b=iIgTven8V6KIVmPaN7OFBUCameMuc6S4mM2BzhCG+a+sZxCC1YWceY8GQYdlSjx3ii
- +d6jDfyeFEyFN+JK4u7b50Uk+w1CS7QkzZ4JPJxeeNpBuXTNt5BxXv3YzygRLksHaTTA
- 02EMD1r19ubAnvNJu/VNtvf/KTe8AcQU8T2kaFMaGOz/G7Gm1uD0MbvxEMSS0qwFrL7e
- n/JOe/DA1LHZV6QFV+mSDnF7M+XWgsDAoX2L1bmJWQMmLHzj3cRl/4ssj1UqVVWrsGOP
- hjapaFwnAXZtKM0tkusiFHyj4Prz2mFiEVEQxSLQOV3JGqF74pXJiu13NWVcuuq2EAmr
- 4a4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BnlocOX1wZxMPdCaZ3ZJ9JU+GBq93paBNxTd0ADSigI=;
- b=M8uMKRR954K4xN05m36N+InT8x+Br4d8cCDsu3bjf0qF+zpAVtF6VCSDFI/1UES5Og
- YGC7/xnh683MKnSDsyDIhIea4dvuaAFipj5i/UTuLOdxX3TCPTHxnNMYqBX9C84tNyu0
- HOtEo20DXiW8SlEuAPJxETohD7PlTTzUGT6fqRZR1aJ4oARI44YrrFG5Pb1ERVI/kDiD
- uL67ZZ3cZ0MxomERU7eBYJBFgb48UfVhBUSjJd0eSzpdEtgrHae6jMf2GhnxiG2FXI8J
- 3zLOp71sXu36C6wVasCgQzfnA2zSJXgnnVDlanpyxIevqzaz73baXxxdpB5mE6NwZqcw
- qp0g==
-X-Gm-Message-State: AOAM533XWCzTDzlkZlyKXmQ1Rq/zQpCRmIOb2l7fZ3MKP4kO46w3X9fj
- jECaZJhw/OSyrge7S11rvgs+eyj9IUH2xSZdHhQ=
-X-Google-Smtp-Source: ABdhPJx2bgbcEt0VnXo0BCrXeYfZhip+n9/RXwgi7+2/CM3jVQhxc1iLksDn3lmyMZUymRkm59RqeDipI2yYQdBKt2U=
-X-Received: by 2002:a05:6638:224e:: with SMTP id
- m14mr1511661jas.8.1616162000047; 
- Fri, 19 Mar 2021 06:53:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lNFXx-0007zZ-QK; Fri, 19 Mar 2021 09:52:13 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lNFXs-00010q-UC; Fri, 19 Mar 2021 09:52:13 -0400
+Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MjPYI-1m7omR2RYI-00ktz1; Fri, 19 Mar 2021 14:52:01 +0100
+Subject: Re: [PATCH v2 6/6] iotests: iothreads need ioeventfd
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210319132537.2046339-1-laurent@vivier.eu>
+ <20210319132537.2046339-7-laurent@vivier.eu>
+ <95209fe1-9b85-0eec-ace2-b3eff20ee88e@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <b5e6476f-ae52-056b-8ac8-8a3d17118ca3@vivier.eu>
+Date: Fri, 19 Mar 2021 14:51:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Mar 2021 09:51:31 -0400
-Message-ID: <CAKmqyKOgAA9d8hgUo4YCZE6Yo6uVAj2JwyE+_ivJNGzNii3vdQ@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix read and write accesses to vsip and vsie
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <95209fe1-9b85-0eec-ace2-b3eff20ee88e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:QclmjX2bRUd9SZbugpE0WYHKKV7bdVV40LeJkXX2F2Wy7DXcdc+
+ ZSpeigxs1+sP3KzZjlhC3VIdG1aQAdvKUQSs6t+b4cOD7Rb1hpXpTXEyivqKtFn7ZfqaSoe
+ ly7p4peWD61xDURg0AdEfbrb/1INGPSOIyF1AMPIWtYnfq2WBlG47CHXaSx4+r4aZ8iW1rF
+ ERefkZyd1/YtuMVzk/QUw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gd5oo08wtJ0=:2taPA3zaKH8fMzsJxUW/wr
+ BOVtx2bRdyfh9rGnZffdMWZZLwXmp01fUscb3seBS7cToQtEDcnBzaspEglMgjh6hsI0pR1PX
+ pNkaKUepLszUNJcVpRbo7o1/ibPC0srnTO24Tbw66kMf0ngIRIpPU4CpyrMaGqPfT4cKibL0e
+ YQhqXWkxUMt8kUePfb1gyaxM/0psUgUBHOFFly40ttgyNRELFdVBYdNjgWplcEVxA4SFBWXnw
+ 6bHFYTRmTt+U0/LehIOGhaDvx7OponA8KyqBCrA+LczwLnecHh8SDLAtAysh/zhkZvHXzSkuh
+ OSMJuZKrSaHZWUwArsh7b40bL9k0eZekxyEuOMLYHxfi5VnPLIRX74Ia5aTHIDri57yHXf2sr
+ NHbEcoBv5CMwDy6xWeR/EAjTYOSvbU7X+BZK2/70tAK/FGuFI9DyPGE3nlfXX
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,148 +67,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 11, 2021 at 4:49 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
->
-> The previous implementation was broken in many ways:
->  - Used mideleg instead of hideleg to mask accesses
->  - Used MIP_VSSIP instead of VS_MODE_INTERRUPTS to mask writes to vsie
->  - Did not shift between S bits and VS bits (VSEIP <-> SEIP, ...)
->
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Le 19/03/2021 à 14:36, Philippe Mathieu-Daudé a écrit :
+> On 3/19/21 2:25 PM, Laurent Vivier wrote:
+>> And ioeventfd are only available with virtio-scsi-pci or virtio-scsi-ccw,
+>> use the alias but add a rule to require virtio-scsi-pci or virtio-scsi-ccw
+>> for the tests that use iothreads.
+>>
+>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>> ---
+>>  tests/qemu-iotests/127        | 3 ++-
+>>  tests/qemu-iotests/256        | 6 ++++--
+>>  tests/qemu-iotests/iotests.py | 5 +++++
+>>  3 files changed, 11 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
+>> index 98e8e82a8210..abe24861100d 100755
+>> --- a/tests/qemu-iotests/127
+>> +++ b/tests/qemu-iotests/127
+>> @@ -44,7 +44,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+>>  _supported_fmt qcow2
+>>  _supported_proto file fuse
+>>  
+>> -_require_devices virtio-scsi scsi-hd
+>> +_require_devices scsi-hd
+>> +_require_devices virtio-scsi-pci || _require_devices virtio-scsi-ccw
 
-Thanks!
+Re-reading the code, I think this cannot work because we have an "exit" if the test fails.
 
-Applied to riscv-to-apply.next
+The test is executed anyway because s390x provides virtio-scsi-ccw and virtio-scsi-pci.
 
-Alistair
-
-> ---
->  target/riscv/csr.c | 68 +++++++++++++++++++++++-----------------------
->  1 file changed, 34 insertions(+), 34 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index fd2e6363f3..4a5b362ec1 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -748,30 +748,42 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
->      return write_mstatus(env, CSR_MSTATUS, newval);
->  }
->
-> +static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +    /* Shift the VS bits to their S bit location in vsie */
-> +    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
-> +    return 0;
-> +}
-> +
->  static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->      if (riscv_cpu_virt_enabled(env)) {
-> -        /* Tell the guest the VS bits, shifted to the S bit locations */
-> -        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
-> +        read_vsie(env, CSR_VSIE, val);
->      } else {
->          *val = env->mie & env->mideleg;
->      }
->      return 0;
->  }
->
-> -static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-> +static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    target_ulong newval;
-> +    /* Shift the S bits to their VS bit location in mie */
-> +    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-> +                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
-> +    return write_mie(env, CSR_MIE, newval);
-> +}
->
-> +static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-> +{
->      if (riscv_cpu_virt_enabled(env)) {
-> -        /* Shift the guests S bits to VS */
-> -        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-> -                 ((val << 1) & VS_MODE_INTERRUPTS);
-> +        write_vsie(env, CSR_VSIE, val);
->      } else {
-> -        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
-> +        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
-> +                              (val & S_MODE_INTERRUPTS);
-> +        write_mie(env, CSR_MIE, newval);
->      }
->
-> -    return write_mie(env, CSR_MIE, newval);
-> +    return 0;
->  }
->
->  static int read_stvec(CPURISCVState *env, int csrno, target_ulong *val)
-> @@ -852,17 +864,25 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
->      return 0;
->  }
->
-> +static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> +                    target_ulong new_value, target_ulong write_mask)
-> +{
-> +    /* Shift the S bits to their VS bit location in mip */
-> +    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
-> +                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
-> +    *ret_value &= VS_MODE_INTERRUPTS;
-> +    /* Shift the VS bits to their S bit location in vsip */
-> +    *ret_value >>= 1;
-> +    return ret;
-> +}
-> +
->  static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
->                     target_ulong new_value, target_ulong write_mask)
->  {
->      int ret;
->
->      if (riscv_cpu_virt_enabled(env)) {
-> -        /* Shift the new values to line up with the VS bits */
-> -        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
-> -                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
-> -        ret &= vsip_writable_mask;
-> -        ret >>= 1;
-> +        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
->      } else {
->          ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
->                        write_mask & env->mideleg & sip_writable_mask);
-> @@ -1121,26 +1141,6 @@ static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
->      return 0;
->  }
->
-> -static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> -                    target_ulong new_value, target_ulong write_mask)
-> -{
-> -    int ret = rmw_mip(env, 0, ret_value, new_value,
-> -                      write_mask & env->mideleg & vsip_writable_mask);
-> -    return ret;
-> -}
-> -
-> -static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
-> -{
-> -    *val = env->mie & env->mideleg & VS_MODE_INTERRUPTS;
-> -    return 0;
-> -}
-> -
-> -static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
-> -{
-> -    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg & MIP_VSSIP);
-> -    return write_mie(env, CSR_MIE, newval);
-> -}
-> -
->  static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->      *val = env->vstvec;
-> --
-> 2.30.1
->
->
+Thanks,
+Laurent
 
