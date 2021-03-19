@@ -2,40 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2066C341CF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 13:33:44 +0100 (CET)
-Received: from localhost ([::1]:60744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C14E341D05
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 13:37:42 +0100 (CET)
+Received: from localhost ([::1]:37872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNEJy-0002T4-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 08:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
+	id 1lNENp-0004nX-Cw
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 08:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lNEIh-00021I-Lj
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:32:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lNEIf-0005Jb-Ot
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:32:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3F0E6AC17;
- Fri, 19 Mar 2021 12:32:20 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC] accel: add cpu_reset
-Date: Fri, 19 Mar 2021 13:32:11 +0100
-Message-Id: <20210319123211.21676-1-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lNEMC-0004Ad-1g
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:36:00 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lNEMA-0007am-CM
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:35:59 -0400
+Received: by mail-ej1-x642.google.com with SMTP id k10so9457296ejg.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 05:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=KfuyKxWe9P9ezrEsS2BHH7PlP3MAwLIxKY1IZ3xUGFM=;
+ b=lhxWZaqO4mdl7bI935SnUMGETBxqH2wpYKCZK+JIaamct+JOTussE+9fKYNrjpOU1p
+ Jcr8T9FJrLxhKw7rHpTnWhsMfM/XdV0jhGAh9cFUzwNkbN5Y2GllD4WpN5xQkarq6gfW
+ fUMidtNRQooRZP07bvl2jpPTa1bvc8o/afZUGyPEKzVYa94mw6EMF3h570voq3Z8LWDi
+ PhXDOFZvj55dfn4J2XH4kIHCFiyvjsxdE7WPG/D2eLfCh9Xogjl+7nkvjQol1Q0d+Spd
+ iTXdN7np4ytJRkPpehRzg0KaZYpq+QvbexTE5TpfzBaf4hvkbqH5K5Qx21Y0YMBOsLzo
+ Ckow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=KfuyKxWe9P9ezrEsS2BHH7PlP3MAwLIxKY1IZ3xUGFM=;
+ b=c14z0ho+abIX6RsSyNfLcQ/KMUIA6iLRwhcukTWgMkhfHZbt8YTZhreblTde/1tg8p
+ o6p2QNZGgKq2Ll9rSTrhvOPcdQSSozKNbdl+xzga8u90hsNZiOFAHHH05Upbk47mvI07
+ HNTldYdPjRDHXhR/QmRkJIsJ6Z1RofPl3Y0teTYM8gqD9KyaHJvgA3AvZ4nTJ2az1sv+
+ ZaL1CFepJzY8Gn2ZuPYCSMu9KQbrhDtLwRNeBORoBIUvy5qqvKzpxTm995H6V0p1f1MJ
+ 3RkPSJIWShHaoT6xNO0ahipiJ/8ZuIhQlpsAjYYLjcWz4YQ2ybM1U88+eO9GS5+I2Ohi
+ b/dQ==
+X-Gm-Message-State: AOAM531o/Yx7me88BTD/xOtKrnwaXUyfrA7u3K4LJPdygvUJYmNywHG3
+ J2mv6mAQTa6areG17zpM9h4/dk8y7EGPpkfAy89uvwBNQdKoUl8v
+X-Google-Smtp-Source: ABdhPJw0YdkWYzzFfWmsdOe9E1AxdY0EZ+LiEbhIO3hh0A/DgZKzBzL2A9ijdJyl5wvswAGCOAhiMA7I1fWHHJxadzQ=
+X-Received: by 2002:a17:906:1ecc:: with SMTP id
+ m12mr4070876ejj.4.1616157356241; 
+ Fri, 19 Mar 2021 05:35:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Mar 2021 12:35:31 +0000
+Message-ID: <CAFEAcA_M4zK1aLdO2QdOUgNROTLdHUwLHnCKoUT1BpTcF-cTMw@mail.gmail.com>
+Subject: QEMU PCI subsystem: what code is responsible for making accesses to
+ non-mapped addresses read as -1?
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -49,142 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-XXX
----
- accel/accel-common.c        | 9 +++++++++
- hw/core/cpu.c               | 3 ++-
- include/hw/core/accel-cpu.h | 2 ++
- include/qemu/accel.h        | 6 ++++++
- target/i386/cpu.c           | 4 ----
- target/i386/kvm/kvm-cpu.c   | 6 ++++++
- 6 files changed, 25 insertions(+), 5 deletions(-)
+I'm looking at a bug reported against the QEMU arm virt board's pci-gpex
+PCI controller: https://bugs.launchpad.net/qemu/+bug/1918917
+where an attempt to write to an address within the PCI IO window
+where the guest hasn't mapped a BAR causes a CPU exception rather than
+(what I believe is) the PCI-required behaviour of writes-ignored, reads
+return -1.
 
+What in the QEMU PCI code is responsible for giving the PCI-spec
+behaviour for accesses to the PCI IO and memory windows where there
+is no BAR? I was expecting the generic PCI code to map a background
+memory region over the whole window to do this, but it looks like it
+doesn't...
 
-This surprisingly works without moving cpu_reset() to a
-specific_ss module, even though
-
-accel-common.c is specific_ss,
-hw/core/cpu.c  is common_ss.
-
-How come the call to accel_reset_cpu works?
-
-Ciao,
-
-Claudio
-
-
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index cf07f78421..3331a9dcfd 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -121,6 +121,15 @@ bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
-     return true;
- }
- 
-+void accel_cpu_reset(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_reset) {
-+        cc->accel_cpu->cpu_reset(cpu);
-+    }
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 00330ba07d..590a0d934f 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -35,6 +35,7 @@
- #include "trace/trace-root.h"
- #include "qemu/plugin.h"
- #include "sysemu/hw_accel.h"
-+#include "qemu/accel.h"
- 
- CPUState *cpu_by_arch_id(int64_t id)
- {
-@@ -230,7 +231,7 @@ void cpu_dump_statistics(CPUState *cpu, int flags)
- void cpu_reset(CPUState *cpu)
- {
-     device_cold_reset(DEVICE(cpu));
--
-+    accel_cpu_reset(cpu);
-     trace_guest_cpu_reset(cpu);
- }
- 
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 5dbfd79955..700a5bd266 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -33,6 +33,8 @@ typedef struct AccelCPUClass {
-     void (*cpu_class_init)(CPUClass *cc);
-     void (*cpu_instance_init)(CPUState *cpu);
-     bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
-+    void (*cpu_reset)(CPUState *cpu);
-+
- } AccelCPUClass;
- 
- #endif /* ACCEL_CPU_H */
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index 4f4c283f6f..8d3a15b916 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -91,4 +91,10 @@ void accel_cpu_instance_init(CPUState *cpu);
-  */
- bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
- 
-+/**
-+ * accel_cpu_reset:
-+ * @cpu: The CPU that needs to call accel-specific reset.
-+ */
-+void accel_cpu_reset(CPUState *cpu);
-+
- #endif /* QEMU_ACCEL_H */
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 48a08df438..ad233b823d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5780,10 +5780,6 @@ static void x86_cpu_reset(DeviceState *dev)
-     apic_designate_bsp(cpu->apic_state, s->cpu_index == 0);
- 
-     s->halted = !cpu_is_bsp(cpu);
--
--    if (kvm_enabled()) {
--        kvm_arch_reset_vcpu(cpu);
--    }
- #endif
- }
- 
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index c660ad4293..ffdc9afddb 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -130,12 +130,18 @@ static void kvm_cpu_instance_init(CPUState *cs)
-     }
- }
- 
-+static void kvm_cpu_reset(CPUState *cpu)
-+{
-+    kvm_arch_reset_vcpu(X86_CPU(cpu));
-+}
-+
- static void kvm_cpu_accel_class_init(ObjectClass *oc, void *data)
- {
-     AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
- 
-     acc->cpu_realizefn = kvm_cpu_realizefn;
-     acc->cpu_instance_init = kvm_cpu_instance_init;
-+    acc->cpu_reset = kvm_cpu_reset;
- }
- static const TypeInfo kvm_cpu_accel_type_info = {
-     .name = ACCEL_CPU_NAME("kvm"),
--- 
-2.26.2
-
+thanks
+-- PMM
 
