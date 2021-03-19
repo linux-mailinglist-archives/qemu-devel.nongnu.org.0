@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D62341639
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 08:02:54 +0100 (CET)
-Received: from localhost ([::1]:35068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F8C341640
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 08:04:03 +0100 (CET)
+Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN99p-0004Ac-Ug
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 03:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34406)
+	id 1lN9Aw-0005WO-DA
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 03:04:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lN982-0003LS-Ux
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 03:01:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lN97v-0006be-B9
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 03:00:59 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lN98L-0003QA-SH
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 03:01:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lN98I-0006uL-7j
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 03:01:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616137253;
+ s=mimecast20190719; t=1616137277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T+MfxlqM5KuVZDt0yA3zwg2aSsrzimlyWOOZ2N4LP7w=;
- b=SyP7r8lwMKAEcQ02buNFsYEq7JzIYKARGhZpKeaE1gdqqmfzuSyZPVjPLVdO78qeYqJWn9
- pt9h9LEnpftVSnCS9mqk/1D6eN+QlKlShLJ6b6X93Hhk5c44H5+Ymj4V7Om7BRNF1Psi5n
- nIEKQZ3+Bz9zME5+jsi6uwFyvsii8o8=
+ bh=7tDK/f+GoP3LhgF4evPSpBtFzyZzx1/rk7EHwTVf0Ps=;
+ b=G/6ANX6446fR1Wvu/p9Ypv6yuY1ZBydwPW78HsqSw0kwap08cSuZKFkQSQBa62pIyUg0wO
+ Jx1OS3aqdZx094NjPTqfc0lzb5SwEzdtW+y3KzrTWuJCA553e1n+ilevLOjObkpj3H0Wmc
+ 6J4/Th4WnxOOWjytPMx9TmI/QjDcRjQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-Wgmv1QirNGesMArLNL-ZmQ-1; Fri, 19 Mar 2021 03:00:52 -0400
-X-MC-Unique: Wgmv1QirNGesMArLNL-ZmQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-424-sNSovej1MNCqPoN1ljgdxA-1; Fri, 19 Mar 2021 03:01:13 -0400
+X-MC-Unique: sNSovej1MNCqPoN1ljgdxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 311AF81431F
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 07:00:51 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-239.pek2.redhat.com
- [10.72.12.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99DE75FCA6
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 07:00:50 +0000 (UTC)
-Subject: Re: [PULL 0/2] 2021-03-18 COLO proxy patches
-To: qemu-devel@nongnu.org
-References: <20210318041152.59367-1-chen.zhang@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <09ec3197-01b3-e200-432a-e270ae28645f@redhat.com>
-Date: Fri, 19 Mar 2021 15:00:48 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B03E81431E;
+ Fri, 19 Mar 2021 07:01:12 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E7FD6F973;
+ Fri, 19 Mar 2021 07:01:10 +0000 (UTC)
+Subject: Re: [PATCH v1] MAINTAINERS: Fix tests/migration maintainers
+To: huangy81@chinatelecom.cn, qemu-devel <qemu-devel@nongnu.org>
+References: <2d8e1deedd754dda36802f26bcdfcbf7adde2679.1616120469.git.huangy81@chinatelecom.cn>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <369341d8-c12c-bf96-5cdc-44f77c86eee3@redhat.com>
+Date: Fri, 19 Mar 2021 08:01:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210318041152.59367-1-chen.zhang@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <2d8e1deedd754dda36802f26bcdfcbf7adde2679.1616120469.git.huangy81@chinatelecom.cn>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,26 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 19/03/2021 03.25, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
+> 
+> Signed-off-by: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 25fc49d1dc..20e2387c66 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2525,6 +2525,7 @@ M: Cleber Rosa <crosa@redhat.com>
+>   S: Odd Fixes
+>   F: scripts/*.py
+>   F: tests/*.py
+> +F: tests/migration/
 
-ÔÚ 2021/3/18 ÏÂÎç12:11, Zhang Chen Ð´µÀ:
-> Hi Jason, please merge this series to net queue.
->
-> Lukas Straub (2):
->    net/colo-compare.c: Fix memory leak for non-tcp packet
->    net/colo-compare.c: Optimize removal of secondary packet
->
->   net/colo-compare.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+  Hi,
 
+that looks like you've added it to the "Python" section ... but I think this 
+should rather be be added to the "Migration" section instead?
 
-Applied.
-
-Thanks
-
-
->
+  Thomas
 
 
