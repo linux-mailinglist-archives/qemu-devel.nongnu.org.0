@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032A93419D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:21:48 +0100 (CET)
-Received: from localhost ([::1]:36696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C4D3419D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:21:32 +0100 (CET)
+Received: from localhost ([::1]:34554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNCGI-0001VW-R8
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48054)
+	id 1lNCFy-0000W4-5g
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC9a-0002Ur-L4
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC9Y-0000s5-04
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:50 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC9d-0002bm-HY
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC9b-0000uz-Om
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616148887;
+ s=mimecast20190719; t=1616148891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zK9hhhHxbWWPxb79BkDcnoV4ZWXfg43du8jJ26GFzAc=;
- b=gHX1VmFnNZ2EJo1HIimG68geSjTlqXP4Og3mCsWtFEJLh4J3SoMnRu9JeFRUKnKsBJQ9r4
- mFXMrFBmVIiOgicxsvYDWEfshrzpsH+E5xgP4JEY/br8it5l46AlHQ8i2CnxBD20256EZl
- fDgOB9Yk01slJ8ttQv5gNTlsb8APBjQ=
+ bh=QUR8gorllWZwvQCZwhqEHzJng6E9sI3RmMbewm0UBm4=;
+ b=Vrw12Y4OwGDK22rm23K1wLmOdoKkroCFQw/SEjfnRQJlLpICvaYg13Or+h6e7oVUi65pJK
+ qflR6EaHYBe1eabUqFE9ufUUUYKDdX82+OTPrjUGE3XUc7Soq5MuSwOmd2YdeFJdcFOGbl
+ DJ/3Gk/2ubLCHai0TWIdXDKjSyef+P4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-at6AjTbRPHm5QV8XMdJCsQ-1; Fri, 19 Mar 2021 06:14:46 -0400
-X-MC-Unique: at6AjTbRPHm5QV8XMdJCsQ-1
+ us-mta-106-QmgZDO0yP9ayWIuHEGcmVQ-1; Fri, 19 Mar 2021 06:14:49 -0400
+X-MC-Unique: QmgZDO0yP9ayWIuHEGcmVQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ED7D8189C7;
- Fri, 19 Mar 2021 10:14:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29BCB1007467;
+ Fri, 19 Mar 2021 10:14:48 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-11.ams2.redhat.com [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4122910013C1;
- Fri, 19 Mar 2021 10:14:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD53410013C1;
+ Fri, 19 Mar 2021 10:14:44 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/14] hostmem: Wire up RAM_NORESERVE via "reserve" property
-Date: Fri, 19 Mar 2021 11:12:28 +0100
-Message-Id: <20210319101230.21531-13-david@redhat.com>
+Subject: [PATCH v4 13/14] qmp: Include "reserve" property of memory backends
+Date: Fri, 19 Mar 2021 11:12:29 +0100
+Message-Id: <20210319101230.21531-14-david@redhat.com>
 In-Reply-To: <20210319101230.21531-1-david@redhat.com>
 References: <20210319101230.21531-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,161 +90,52 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's provide a way to control the use of RAM_NORESERVE via memory
-backends using the "reserve" property which defaults to true (old
-behavior).
+Let's include the new property.
 
-Only Linux currently supports setting the flag (and support is checked at
-runtime, depending on the setting of "/proc/sys/vm/overcommit_memory").
-Windows and other POSIX systems will bail out.
-
-The target use case is virtio-mem, which dynamically exposes memory
-inside a large, sparse memory area to the VM. This essentially allows
-avoiding to set "/proc/sys/vm/overcommit_memory == 0") when using
-virtio-mem and also supporting hugetlbfs in the future.
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- backends/hostmem-file.c  | 11 ++++++-----
- backends/hostmem-memfd.c |  1 +
- backends/hostmem-ram.c   |  1 +
- backends/hostmem.c       | 33 +++++++++++++++++++++++++++++++++
- include/sysemu/hostmem.h |  2 +-
- 5 files changed, 42 insertions(+), 6 deletions(-)
+ hw/core/machine-qmp-cmds.c | 1 +
+ qapi/machine.json          | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index b683da9daf..9d550e53d4 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -40,6 +40,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-                object_get_typename(OBJECT(backend)));
- #else
-     HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(backend);
-+    uint32_t ram_flags;
-     gchar *name;
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 68a942595a..bd2a7f2dd0 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
+         m->merge = object_property_get_bool(obj, "merge", &error_abort);
+         m->dump = object_property_get_bool(obj, "dump", &error_abort);
+         m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
++        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
+         m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
+                                              &error_abort);
+         host_nodes = object_property_get_qobject(obj,
+diff --git a/qapi/machine.json b/qapi/machine.json
+index c0c52aef10..12860a1f79 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -814,6 +814,11 @@
+ #
+ # @prealloc: enables or disables memory preallocation
+ #
++# @reserve: enables or disables reservation of swap space (or huge pages
++#           if applicable). If reservation is enabled (default), actual
++#           reservation depends on underlying OS support. In contrast,
++#           disabling reservation without OS support will bail out. (since 6.1)
++#
+ # @host-nodes: host nodes for its memory policy
+ #
+ # @policy: memory policy of memory backend
+@@ -827,6 +832,7 @@
+     'merge':      'bool',
+     'dump':       'bool',
+     'prealloc':   'bool',
++    'reserve':    'bool',
+     'host-nodes': ['uint16'],
+     'policy':     'HostMemPolicy' }}
  
-     if (!backend->size) {
-@@ -52,11 +53,11 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-     }
- 
-     name = host_memory_backend_get_name(backend);
--    memory_region_init_ram_from_file(&backend->mr, OBJECT(backend),
--                                     name,
--                                     backend->size, fb->align,
--                                     (backend->share ? RAM_SHARED : 0) |
--                                     (fb->is_pmem ? RAM_PMEM : 0),
-+    ram_flags = backend->share ? RAM_SHARED : 0;
-+    ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
-+    ram_flags |= fb->is_pmem ? RAM_PMEM : 0;
-+    memory_region_init_ram_from_file(&backend->mr, OBJECT(backend), name,
-+                                     backend->size, fb->align, ram_flags,
-                                      fb->mem_path, fb->readonly, errp);
-     g_free(name);
- #endif
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index 93b5d1a4cf..f3436b623d 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -55,6 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
- 
-     name = host_memory_backend_get_name(backend);
-     ram_flags = backend->share ? RAM_SHARED : 0;
-+    ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
-     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend), name,
-                                    backend->size, ram_flags, fd, 0, errp);
-     g_free(name);
-diff --git a/backends/hostmem-ram.c b/backends/hostmem-ram.c
-index 741e701062..b8e55cdbd0 100644
---- a/backends/hostmem-ram.c
-+++ b/backends/hostmem-ram.c
-@@ -29,6 +29,7 @@ ram_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
- 
-     name = host_memory_backend_get_name(backend);
-     ram_flags = backend->share ? RAM_SHARED : 0;
-+    ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
-     memory_region_init_ram_flags_nomigrate(&backend->mr, OBJECT(backend), name,
-                                            backend->size, ram_flags, errp);
-     g_free(name);
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index c6c1ff5b99..9ec5141112 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -217,6 +217,11 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
-     Error *local_err = NULL;
-     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
- 
-+    if (!backend->reserve && value) {
-+        error_setg(errp, "'prealloc=on' and 'reserve=off' are incompatible");
-+        return;
-+    }
-+
-     if (!host_memory_backend_mr_inited(backend)) {
-         backend->prealloc = value;
-         return;
-@@ -268,6 +273,7 @@ static void host_memory_backend_init(Object *obj)
-     /* TODO: convert access to globals to compat properties */
-     backend->merge = machine_mem_merge(machine);
-     backend->dump = machine_dump_guest_core(machine);
-+    backend->reserve = true;
-     backend->prealloc_threads = 1;
- }
- 
-@@ -426,6 +432,28 @@ static void host_memory_backend_set_share(Object *o, bool value, Error **errp)
-     backend->share = value;
- }
- 
-+static bool host_memory_backend_get_reserve(Object *o, Error **errp)
-+{
-+    HostMemoryBackend *backend = MEMORY_BACKEND(o);
-+
-+    return backend->reserve;
-+}
-+
-+static void host_memory_backend_set_reserve(Object *o, bool value, Error **errp)
-+{
-+    HostMemoryBackend *backend = MEMORY_BACKEND(o);
-+
-+    if (host_memory_backend_mr_inited(backend)) {
-+        error_setg(errp, "cannot change property value");
-+        return;
-+    }
-+    if (backend->prealloc && !value) {
-+        error_setg(errp, "'prealloc=on' and 'reserve=off' are incompatible");
-+        return;
-+    }
-+    backend->reserve = value;
-+}
-+
- static bool
- host_memory_backend_get_use_canonical_path(Object *obj, Error **errp)
- {
-@@ -494,6 +522,11 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
-         host_memory_backend_get_share, host_memory_backend_set_share);
-     object_class_property_set_description(oc, "share",
-         "Mark the memory as private to QEMU or shared");
-+    object_class_property_add_bool(oc, "reserve",
-+        host_memory_backend_get_reserve, host_memory_backend_set_reserve);
-+    object_class_property_set_description(oc, "reserve",
-+        "Reserve swap space (or huge pages if applicable) for the whole memory"
-+        " backend, if supported by the OS.");
-     /*
-      * Do not delete/rename option. This option must be considered stable
-      * (as if it didn't have the 'x-' prefix including deprecation period) as
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index df5644723a..9ff5c16963 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -64,7 +64,7 @@ struct HostMemoryBackend {
-     /* protected */
-     uint64_t size;
-     bool merge, dump, use_canonical_path;
--    bool prealloc, is_mapped, share;
-+    bool prealloc, is_mapped, share, reserve;
-     uint32_t prealloc_threads;
-     DECLARE_BITMAP(host_nodes, MAX_NODES + 1);
-     HostMemPolicy policy;
 -- 
 2.29.2
 
