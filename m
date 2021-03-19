@@ -2,71 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F8C341640
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 08:04:03 +0100 (CET)
-Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730453416D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 08:44:15 +0100 (CET)
+Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN9Aw-0005WO-DA
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 03:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
+	id 1lN9nq-0007UQ-2C
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 03:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lN98L-0003QA-SH
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 03:01:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47111)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lN9mv-0006xf-TU; Fri, 19 Mar 2021 03:43:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29344
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lN98I-0006uL-7j
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 03:01:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616137277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7tDK/f+GoP3LhgF4evPSpBtFzyZzx1/rk7EHwTVf0Ps=;
- b=G/6ANX6446fR1Wvu/p9Ypv6yuY1ZBydwPW78HsqSw0kwap08cSuZKFkQSQBa62pIyUg0wO
- Jx1OS3aqdZx094NjPTqfc0lzb5SwEzdtW+y3KzrTWuJCA553e1n+ilevLOjObkpj3H0Wmc
- 6J4/Th4WnxOOWjytPMx9TmI/QjDcRjQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-sNSovej1MNCqPoN1ljgdxA-1; Fri, 19 Mar 2021 03:01:13 -0400
-X-MC-Unique: sNSovej1MNCqPoN1ljgdxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B03E81431E;
- Fri, 19 Mar 2021 07:01:12 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E7FD6F973;
- Fri, 19 Mar 2021 07:01:10 +0000 (UTC)
-Subject: Re: [PATCH v1] MAINTAINERS: Fix tests/migration maintainers
-To: huangy81@chinatelecom.cn, qemu-devel <qemu-devel@nongnu.org>
-References: <2d8e1deedd754dda36802f26bcdfcbf7adde2679.1616120469.git.huangy81@chinatelecom.cn>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <369341d8-c12c-bf96-5cdc-44f77c86eee3@redhat.com>
-Date: Fri, 19 Mar 2021 08:01:09 +0100
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lN9mt-0000Ox-Ku; Fri, 19 Mar 2021 03:43:17 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12J7YCF6066370; Fri, 19 Mar 2021 03:43:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UU76RkvDtpXAMrKVTTnXCUDn8B+cHg+3JT8dnJF9YYE=;
+ b=MRlfXlPMNRR/mHI04hiidJKFet44Mz5M7v01ubYYCH2KRCYV1PM9CNAitPRNreiv9TwP
+ pHvucLQnq6wPKD7pr+qfDCnGF3WMlWlSOqkkZSN9FEwgZUWL/HDasiR6G2cNeHfGD5Nq
+ FRn4YGSDLkf7b8vKqn86gjijj8cvJCiH2ETCqdPm+e0p2Kskb6uzEqDsC1qyQpTOvc8v
+ ObauoXwKCKYpKwarEMiyHTmfICgZMGJnartLyZF5LRKSoGZll+ImJhbAG38a2+PV84pM
+ Yzwx4dOZ4MPJKlmkdBnkAhbZM3zmTkmpR1lk2ozt+8El1a23ITnhmusgIGaFec96aL0i tA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37c10gdwf5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 03:43:13 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12J7ZJ8M072818;
+ Fri, 19 Mar 2021 03:43:13 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37c10gdweq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 03:43:12 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12J7gPXO017160;
+ Fri, 19 Mar 2021 07:43:11 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 37b30p2b20-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 07:43:11 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12J7gpeX35914138
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Mar 2021 07:42:51 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E13F642041;
+ Fri, 19 Mar 2021 07:43:08 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C3884203F;
+ Fri, 19 Mar 2021 07:43:08 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.72.169])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 19 Mar 2021 07:43:08 +0000 (GMT)
+Subject: Re: [PATCH 1/1] iotests: fix 051.out expected output after error text
+ touchups
+To: Connor Kuehl <ckuehl@redhat.com>, qemu-block@nongnu.org
+References: <20210318200949.1387703-1-ckuehl@redhat.com>
+ <20210318200949.1387703-2-ckuehl@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <882fa38e-1779-d50a-a641-84c0c1037fa0@de.ibm.com>
+Date: Fri, 19 Mar 2021 08:43:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <2d8e1deedd754dda36802f26bcdfcbf7adde2679.1616120469.git.huangy81@chinatelecom.cn>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210318200949.1387703-2-ckuehl@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-19_02:2021-03-17,
+ 2021-03-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ malwarescore=0 bulkscore=0 clxscore=1011 suspectscore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103190051
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,36 +112,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: kwolf@redhat.com, qemu-s390x@nongnu.org, jsnow@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/03/2021 03.25, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+
+
+On 18.03.21 21:09, Connor Kuehl wrote:
+> A patch was recently applied that touched up some error messages that
+> pertained to key names like 'node-name'. The trouble is it only updated
+> tests/qemu-iotests/051.pc.out and not tests/qemu-iotests/051.out as
+> well.
 > 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> Do that now.
+> 
+> Fixes: 785ec4b1b9 ("block: Clarify error messages pertaining to
+> 'node-name'")
+> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+
+Thanks for the quick response.
+
 > ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
+>   tests/qemu-iotests/051.out | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 25fc49d1dc..20e2387c66 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2525,6 +2525,7 @@ M: Cleber Rosa <crosa@redhat.com>
->   S: Odd Fixes
->   F: scripts/*.py
->   F: tests/*.py
-> +F: tests/migration/
-
-  Hi,
-
-that looks like you've added it to the "Python" section ... but I think this 
-should rather be be added to the "Migration" section instead?
-
-  Thomas
-
+> diff --git a/tests/qemu-iotests/051.out b/tests/qemu-iotests/051.out
+> index de4771bcb3..db8c14b903 100644
+> --- a/tests/qemu-iotests/051.out
+> +++ b/tests/qemu-iotests/051.out
+> @@ -61,13 +61,13 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>   (qemu) quit
+>   
+>   Testing: -drive file=TEST_DIR/t.qcow2,node-name=123foo
+> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=123foo: Invalid node name
+> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=123foo: Invalid node-name: '123foo'
+>   
+>   Testing: -drive file=TEST_DIR/t.qcow2,node-name=_foo
+> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=_foo: Invalid node name
+> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=_foo: Invalid node-name: '_foo'
+>   
+>   Testing: -drive file=TEST_DIR/t.qcow2,node-name=foo#12
+> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=foo#12: Invalid node name
+> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=foo#12: Invalid node-name: 'foo#12'
+>   
+>   
+>   === Device without drive ===
+> 
 
