@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0A03414F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 06:42:37 +0100 (CET)
-Received: from localhost ([::1]:35182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B245341529
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 06:55:04 +0100 (CET)
+Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN7u8-0004Ag-Oa
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 01:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
+	id 1lN86A-0005zw-VE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 01:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lN7sr-0003ja-Bk
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 01:41:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lN7sp-0007xZ-H8
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 01:41:17 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lN85E-0005Vm-Gf
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 01:54:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lN85D-0007Dx-4Y
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 01:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616132474;
+ s=mimecast20190719; t=1616133242;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NaaH+z1CXotTLPuYQfhu/oYwbK6S3VICGMHINVDKbPU=;
- b=NsachZlOvDrIiAIOh+Jzy5XGllD9xnOllvcUWxYBJ22S+eAI+FudqaE3ujeVo2VxA2z5XR
- iq9GVafNewi6DAHfEGHf0f6uZ2ltnwsBp8S1UYcoEJdNU536bv9eUPJhNKh1etcdz3xS8D
- vfXFWO6TOoGoSRggfHsjagEfMHaVh2E=
+ bh=PB5JcJDqFY9cIkeGMDr5ZJJIK2ByoxQdeytt2yQ/wO4=;
+ b=DFELV0pp7Av8BOdESQpusnCMwFYQM5r8x98NUx0ZrXEfamQFLLs2Pry8mx7gDm9b5s+dOx
+ J6UMeVVN9OwJTzwzeRhRneiBFVB987QLk96zKyBuHTUmOm6CbPdKQ6hFhgFi6C3eqHUuPx
+ DzsIGuto3X+tBwtJW31Cj4vg8odk1io=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-n2bFnXMiNn6bwREjUxoqwg-1; Fri, 19 Mar 2021 01:41:10 -0400
-X-MC-Unique: n2bFnXMiNn6bwREjUxoqwg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-403-aaD0ogPwNvq5-9HW8Fw1gQ-1; Fri, 19 Mar 2021 01:53:58 -0400
+X-MC-Unique: aaD0ogPwNvq5-9HW8Fw1gQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 850225B361;
- Fri, 19 Mar 2021 05:41:09 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91AAD6F97E;
- Fri, 19 Mar 2021 05:40:57 +0000 (UTC)
-Subject: Re: [PATCH] gitlab-ci: Restrict jobs using Docker to runners having
- 'docker' tag
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210319004300.3800583-1-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
-Date: Fri, 19 Mar 2021 06:40:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58E9680006E;
+ Fri, 19 Mar 2021 05:53:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-83.phx2.redhat.com
+ [10.3.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1281E5D9C6;
+ Fri, 19 Mar 2021 05:53:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 75A2111386A7; Fri, 19 Mar 2021 06:53:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH 1/2] floppy: add a regression test for CVE-2020-25741
+References: <20200827113806.1850687-1-ppandit@redhat.com>
+ <20210319050906.14875-1-alxndr@bu.edu>
+Date: Fri, 19 Mar 2021 06:53:55 +0100
+In-Reply-To: <20210319050906.14875-1-alxndr@bu.edu> (Alexander Bulekov's
+ message of "Fri, 19 Mar 2021 01:09:05 -0400")
+Message-ID: <87lfajsn7w.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210319004300.3800583-1-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Li Qiang <liq3ea@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/03/2021 01.43, Philippe Mathieu-Daudé wrote:
-> When a job is based on a Docker image [1], or is using a Docker
-> service, it requires a runner with Docker installed.
-> 
-> Gitlab shared runners provide the 'docker' tag when they have it
-> installed.
-> 
-> Are Gitlab shared runners are limited resources, we'd like to
+Alexander Bulekov <alxndr@bu.edu> writes:
 
-s/Are/As/
+> dd if=/dev/zero of=/tmp/fda.img bs=1024 count=1440
+> cat << EOF | ./qemu-system-i386 -nographic -m 512M -nodefaults \
+> -accel qtest -fda /tmp/fda.img -qtest stdio
+> outw 0x3f4 0x0500
+> outb 0x3f5 0x00
+> outb 0x3f5 0x00
+> outw 0x3f4 0x00
+> outb 0x3f5 0x00
+> outw 0x3f1 0x0400
+> outw 0x3f4 0x0
+> outw 0x3f4 0x00
+> outb 0x3f5 0x0
+> outb 0x3f5 0x01
+> outw 0x3f1 0x0500
+> outb 0x3f5 0x00
+> EOF
+>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-> add more runners to QEMU repositories hosted on Gitlab. If a
-> runner doesn't provide Docker, our jobs requiring it will fail.
-> 
-> Use the standard 'docker' tag to mark the jobs requiring Docker
-> on the runner.
-> 
-> [1] https://docs.gitlab.com/ee/ci/yaml/#image
-> [2] https://docs.gitlab.com/ee/ci/yaml/#services
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[...]
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index f65cb11c4d3..d4511cf7dea 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -14,6 +14,8 @@ include:
->     - local: '/.gitlab-ci.d/crossbuilds.yml'
->   
->   .native_build_job_template: &native_build_job_definition
-> +  tags:
-> +  - docker
->     stage: build
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     before_script:
-> @@ -38,6 +40,8 @@ include:
->         fi
->   
->   .native_test_job_template: &native_test_job_definition
-> +  tags:
-> +  - docker
->     stage: test
->     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->     script:
-
-If you add it to the templates ... won't this disable most of the jobs on 
-the dedicated runners that don't have docker? Wouldn't it be better to add 
-the tag only to the jobs that run "make check-tcg" ?
-
-  Thomas
+I guess this is a reproducer.  Please also describe actual and expected
+result.  Same for PATCH 2.
 
 
