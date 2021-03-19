@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA48234267D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 20:51:39 +0100 (CET)
-Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E79342682
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 20:53:30 +0100 (CET)
+Received: from localhost ([::1]:54478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNL9m-0004VU-Vc
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 15:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40750)
+	id 1lNLBZ-0005iU-Uc
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 15:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=705762e65=atish.patra@wdc.com>)
- id 1lNL4H-0006gC-44; Fri, 19 Mar 2021 15:45:58 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:41239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=705762e65=atish.patra@wdc.com>)
- id 1lNL4D-0004R4-7O; Fri, 19 Mar 2021 15:45:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616183153; x=1647719153;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OusL5Xq3lC16FrXHeRHXQTKogSDaF/nRWu6zTxeknPU=;
- b=A5LqtmSV7YIai8hBXahMd4NLXIDifQFyooS8nRvTtKHqNVmMWyh97UgR
- AGoD0B7Kdcpkdvy4tnbHrHIwTqr4fGmfuUZ+0b/3thhxB4i9da/ppbBlF
- NRXHTcbHp5RiMOgLZ4L5UzdE+RF9Ubn2yV9dt9mcC+ZRv6dwTRvFBiWxn
- e9E5V3R+WjsXuwLgthQdWPShdKRpI7XgFLpydmjoPXdBIv6K/W6MPfeHY
- 0hvUq1VxfXcw0uFnuoEldWjTcGFfwjTJzd9RbBbFZzr4bGsuUGi+GJFsD
- /RazIRsYnbd4e3pzgxgINic4lLEDINSaZdszi0Nrjm7ImASjJ9LxK2s/6 w==;
-IronPort-SDR: VPrnoPdKLkISLntFwWT/d/NH7BwFI9dLvujGWsPJX1TMt3HW465scB9zyh2Av6u+9ZNCiPzr+J
- 806l3cIF3AtCxOwebD3JeqdHR5XcmvfoEylFZrQ0AGosCFZrAyv24lnAcjSmAJPu/Yp/cLS69y
- qKN58FQNkv8h96ennUTuCrZ23WeOaKuMZ2yWXXhy6SYihd3XpPDOegtvZupqf9UeuhmS5U8705
- GWq0CSvPSwfAR7gawngBjAO81mlJz6ybpAK+jXvSSkfpNKoepDem1nGBJO4CMs/yUTPI+pUEAz
- AG8=
-X-IronPort-AV: E=Sophos;i="5.81,262,1610380800"; d="scan'208";a="273319153"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Mar 2021 03:45:43 +0800
-IronPort-SDR: hQ8KO/oo8Ql10Q0cv2gvtFEzzpeN4t18fAZiquo1AHTg36ZeWOJo0Rf7oNNkZUyoYXTk+eeNns
- sftByK55pkFBfiAT9dKyuBLdL7438/mN4QnSyrVgqWwlQ4AskSnc3RYzyHdwsCFMVU7Gegolru
- WKh6+6RoEwQcIqsE8RlnzP4xL//NVtneXKT5erCVpIGnnXZIm9JythfryOTPy2x1y6VHBnL81k
- yHQ3qxVMk0ilW1lggN13rJrgy8jl4c+WVk1G8f9z+t6H9txTyHS/dsuVt3ZIOReIZbtf+lSuum
- EA1o7e0ULkGru8wO42qUJXo7
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Mar 2021 12:27:56 -0700
-IronPort-SDR: W9hjd2AutVxU9lmpO9HFJTomnJU9cuDgZoFzyuf4V7PLj/738ajflCjbreqOL35qGfbtSVNrA9
- JYyBRFbNWdyEUyeRLAJr6dZ/g2Jj6rksNgTUcdxiydMktUylYobdVBnZbAFr/anFo7NiwF70yc
- jlaMoPqTWkAWrRUqHliGyqbdeBX/8Fvk/85JVjmPVTSngBrQBw8W3I98DfzSX/PW+SJ9Dt5WUE
- Bb7eafroAiUp+3yVOICbHhlZajvZtX1BCf7nXWOohBYwFTPc1Xz0foJnDsKtoLkmVkTZ22Wo4p
- 5cQ=
-WDCIronportException: Internal
-Received: from ind002560.ad.shared (HELO jedi-01.hgst.com) ([10.86.48.105])
- by uls-op-cesaip01.wdc.com with ESMTP; 19 Mar 2021 12:45:44 -0700
-From: Atish Patra <atish.patra@wdc.com>
-To: qemu-devel@nongnu.org
-Subject: [ RFC 6/6] hw/riscv: virt: DEBUG PATCH to test PMU
-Date: Fri, 19 Mar 2021 12:45:34 -0700
-Message-Id: <20210319194534.2082397-7-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210319194534.2082397-1-atish.patra@wdc.com>
-References: <20210319194534.2082397-1-atish.patra@wdc.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=705762e65=atish.patra@wdc.com; helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3pABVYAMKCgMgmhjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--dje.bounces.google.com>)
+ id 1lNL9F-0004ge-O8
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 15:51:05 -0400
+Received: from mail-vk1-xa49.google.com ([2607:f8b0:4864:20::a49]:49365)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3pABVYAMKCgMgmhjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--dje.bounces.google.com>)
+ id 1lNL9D-0007J5-6I
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 15:51:05 -0400
+Received: by mail-vk1-xa49.google.com with SMTP id o133so3462366vkd.16
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 12:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=j46CI3Og4hVkDDNrH53Wwik7HYlH8KkukwySRapqCWU=;
+ b=GYj7hsz0MkYuOu42/ryzsO7gctCRvx5eRxK58FVdd+1vbOGi4nIXcyQ8s18Gs+mtvq
+ dXcpIlzj979Q/Jw9YFs9y66jF3+Lu27r8H0egEjuJHmDesIt0osR87PetYIaNfnN+6An
+ wzy+TC46WtJaL1NQbM6aSR93OdFsME4hCPxlDhI42DX9XF4o4ZxTy1QSH58pwlRwqB7x
+ dnYU0/+vyZQT4cajSZf/J2CqJanXF6V+rwk5SfQS+gaWSa0sUWSiHDacMrXBCpGw2yRj
+ 72RB1M0hRH2amRWio72xE2gmzEFwvonnV/GD94/jyPbPeauv4QhwiwGQGe8cb/28//1Y
+ Q2SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=j46CI3Og4hVkDDNrH53Wwik7HYlH8KkukwySRapqCWU=;
+ b=Fb9WJSQPq+sbB8/+N+xhkCxf9PDJTKx9u9q4hNzf3BYmFWWcFqkEQyE0zGISAUbdfl
+ gkfoOScVug/3cSo6WIx6hCylesX8FUgjA9Av+4rZ8RLIOwuk5WuvD23HW3LFBA9SS9J8
+ AT5MbVTGa+TvCKwX4Y4zDLwNhTbqVWvtG7AHBY/wCGIZuC4d/pMrOV5w5T8YT2yXa8mB
+ alhT+GG0ujUQxfeRH11IxQrzk3WdPPlDWYGohko+RwaaDVpn851ITf2NzzFf6GTvr5C8
+ 5zw27+E8Bupn2hYHFxNU/C92OSRL+RF/WC6WN0oTnLOsgQTRv63/4a7lI3O8ARmD/eOJ
+ JFGg==
+X-Gm-Message-State: AOAM5309HQuM62dnC4yhLiabzq9Q69Z9/gSO2x7XZHJKonocG+DAu5/P
+ 3a1QV76jFzIORCn1k3cfKGizZQk=
+X-Google-Smtp-Source: ABdhPJxfMTn+EzfJdgiHiYNmbStb38x6TMfLciSYqacItz7O3+p05P+7IxaaxnZMtHnFPL2XxxKje3E=
+X-Received: from ruffy.mtv.corp.google.com
+ ([2620:0:1000:1412:e514:6b57:7d74:59ea])
+ (user=dje job=sendgmr) by 2002:ab0:2b06:: with SMTP id
+ e6mr163139uar.43.1616183460527; 
+ Fri, 19 Mar 2021 12:51:00 -0700 (PDT)
+Date: Fri, 19 Mar 2021 12:50:44 -0700
+Message-Id: <20210319195044.741821-1-dje@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
+Subject: [PATCH] net/npcm7xx_emc.c: Fix handling of receiving packets when
+ RSDR not set
+From: Doug Evans <dje@google.com>
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Havard Skinnemoen <hskinnemoen@google.com>,
+ Tyrone Ting <kfting@nuvoton.com>, 
+ Jason Wang <jasowang@redhat.com>, Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a49;
+ envelope-from=3pABVYAMKCgMgmhjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--dje.bounces.google.com;
+ helo=mail-vk1-xa49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,90 +84,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, anup.patel@wdc.com,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** DO NOT MERGE IT **
+Turning REG_MCMDR_RXON is enough to start receiving packets.
 
-This is just a test patch to test various kinds of PMU events. The counters
-don't actually increment as virt machine doesn't support any of the PMU
-events. However, it helps to test the OpenSBI/Kernel implementation.
-
-Please ignore this patch while merging it.
-
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Signed-off-by: Doug Evans <dje@google.com>
 ---
- hw/riscv/virt.c | 34 ++++++++++++++++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+ hw/net/npcm7xx_emc.c           |  4 +++-
+ tests/qtest/npcm7xx_emc-test.c | 30 +++++++++++++++++++++---------
+ 2 files changed, 24 insertions(+), 10 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 84570ad6425b..59d8325bf2a1 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -194,7 +194,9 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-     char *name, *clint_name, *plic_name, *clust_name, *pmu_name;
-     hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
-     hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
--    uint32_t pmu_event_ctr_map[6] = {};
-+    uint32_t pmu_event_map[6] = {};
-+    uint32_t pmu_event_ctr_map[12] = {};
-+    uint32_t pmu_raw_event_ctr_map[6] = {};
- 
-     if (mc->dtb) {
-         fdt = s->fdt = load_device_tree(mc->dtb, &s->fdt_size);
-@@ -288,18 +290,46 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
- 
-         rc = fdt_path_offset(fdt, "/pmu");
-         if (rc == -FDT_ERR_NOTFOUND) {
-+                pmu_event_map[0] = cpu_to_be32(0x00000009);
-+                pmu_event_map[1] = cpu_to_be32(0x00000000);
-+                pmu_event_map[2] = cpu_to_be32(0x00000200);
-+                pmu_event_map[3] = cpu_to_be32(0x00010000);
-+                pmu_event_map[4] = cpu_to_be32(0x00000100);
-+                pmu_event_map[5] = cpu_to_be32(0x00000002);
-                 pmu_name = g_strdup_printf("/pmu");
-                 qemu_fdt_add_subnode(fdt, pmu_name);
-                 qemu_fdt_setprop_string(fdt, pmu_name, "compatible",
-                                         "riscv,pmu");
-+                qemu_fdt_setprop(fdt, pmu_name, "opensbi,event-to-mhpmevent",
-+                                 pmu_event_map, sizeof(pmu_event_map));
-+
-                 pmu_event_ctr_map[0] = cpu_to_be32(0x00000001);
-                 pmu_event_ctr_map[1] = cpu_to_be32(0x00000001);
-                 pmu_event_ctr_map[2] = cpu_to_be32(0x00000001);
-                 pmu_event_ctr_map[3] = cpu_to_be32(0x00000002);
-                 pmu_event_ctr_map[4] = cpu_to_be32(0x00000002);
-                 pmu_event_ctr_map[5] = cpu_to_be32(0x00000004);
-+
-+                pmu_event_ctr_map[6] = cpu_to_be32(0x00000003);
-+                pmu_event_ctr_map[7] = cpu_to_be32(0x0000000A);
-+                pmu_event_ctr_map[8] = cpu_to_be32(0x00000FF8);
-+                pmu_event_ctr_map[9] = cpu_to_be32(0x00010000);
-+                pmu_event_ctr_map[10] = cpu_to_be32(0x001C000);
-+                pmu_event_ctr_map[11] = cpu_to_be32(0x00001F0);
-+
-                 qemu_fdt_setprop(fdt, pmu_name, "opensbi,event-to-counters",
--                                 pmu_event_ctr_map, sizeof(pmu_event_ctr_map));
-+                             pmu_event_ctr_map, sizeof(pmu_event_ctr_map));
-+
-+                pmu_raw_event_ctr_map[0] = cpu_to_be32(0x00000000);
-+                pmu_raw_event_ctr_map[1] = cpu_to_be32(0x00000002);
-+                pmu_raw_event_ctr_map[2] = cpu_to_be32(0x00000F00);
-+                pmu_raw_event_ctr_map[3] = cpu_to_be32(0x00000000);
-+                pmu_raw_event_ctr_map[4] = cpu_to_be32(0x00000003);
-+                pmu_raw_event_ctr_map[5] = cpu_to_be32(0x000000F0);
-+                qemu_fdt_setprop(fdt, pmu_name, "opensbi,raw-event-to-counters",
-+                                 pmu_raw_event_ctr_map,
-+                                 sizeof(pmu_raw_event_ctr_map));
-+
-                 g_free(pmu_name);
+diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
+index 714a742ba7..7c892f820f 100644
+--- a/hw/net/npcm7xx_emc.c
++++ b/hw/net/npcm7xx_emc.c
+@@ -702,7 +702,9 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
+                    !(value & REG_MCMDR_RXON)) {
+             emc->regs[REG_MGSTA] |= REG_MGSTA_RXHA;
          }
-         addr = memmap[VIRT_DRAM].base + riscv_socket_mem_offset(mc, socket);
+-        if (!(value & REG_MCMDR_RXON)) {
++        if (value & REG_MCMDR_RXON) {
++            emc->rx_active = true;
++        } else {
+             emc_halt_rx(emc, 0);
+         }
+         break;
+diff --git a/tests/qtest/npcm7xx_emc-test.c b/tests/qtest/npcm7xx_emc-test.c
+index 7a28173195..9eec71d87c 100644
+--- a/tests/qtest/npcm7xx_emc-test.c
++++ b/tests/qtest/npcm7xx_emc-test.c
+@@ -492,9 +492,6 @@ static void enable_tx(QTestState *qts, const EMCModule *mod,
+         mcmdr |= REG_MCMDR_TXON;
+         emc_write(qts, mod, REG_MCMDR, mcmdr);
+     }
+-
+-    /* Prod the device to send the packet. */
+-    emc_write(qts, mod, REG_TSDR, 1);
+ }
+ 
+ static void emc_send_verify1(QTestState *qts, const EMCModule *mod, int fd,
+@@ -558,6 +555,9 @@ static void emc_send_verify(QTestState *qts, const EMCModule *mod, int fd,
+     enable_tx(qts, mod, &desc[0], NUM_TX_DESCRIPTORS, desc_addr,
+               with_irq ? REG_MIEN_ENTXINTR : 0);
+ 
++    /* Prod the device to send the packet. */
++    emc_write(qts, mod, REG_TSDR, 1);
++
+     /*
+      * It's problematic to observe the interrupt for each packet.
+      * Instead just wait until all the packets go out.
+@@ -643,13 +643,10 @@ static void enable_rx(QTestState *qts, const EMCModule *mod,
+         mcmdr |= REG_MCMDR_RXON | mcmdr_flags;
+         emc_write(qts, mod, REG_MCMDR, mcmdr);
+     }
+-
+-    /* Prod the device to accept a packet. */
+-    emc_write(qts, mod, REG_RSDR, 1);
+ }
+ 
+ static void emc_recv_verify(QTestState *qts, const EMCModule *mod, int fd,
+-                            bool with_irq)
++                            bool with_irq, bool pump_rsdr)
+ {
+     NPCM7xxEMCRxDesc desc[NUM_RX_DESCRIPTORS];
+     uint32_t desc_addr = DESC_ADDR;
+@@ -679,6 +676,15 @@ static void emc_recv_verify(QTestState *qts, const EMCModule *mod, int fd,
+     enable_rx(qts, mod, &desc[0], NUM_RX_DESCRIPTORS, desc_addr,
+               with_irq ? REG_MIEN_ENRXINTR : 0, 0);
+ 
++    /*
++     * If requested, prod the device to accept a packet.
++     * This isn't necessary, the linux driver doesn't do this.
++     * Test doing/not-doing this for robustness.
++     */
++    if (pump_rsdr) {
++        emc_write(qts, mod, REG_RSDR, 1);
++    }
++
+     /* Send test packet to device's socket. */
+     ret = iov_send(fd, iov, 2, 0, sizeof(len) + sizeof(test));
+     g_assert_cmpint(ret, == , sizeof(test) + sizeof(len));
+@@ -826,8 +832,14 @@ static void test_rx(gconstpointer test_data)
+ 
+     qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
+ 
+-    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/false);
+-    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/true);
++    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/false,
++                    /*pump_rsdr=*/false);
++    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/false,
++                    /*pump_rsdr=*/true);
++    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/true,
++                    /*pump_rsdr=*/false);
++    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/true,
++                    /*pump_rsdr=*/true);
+     emc_test_ptle(qts, td->module, test_sockets[0]);
+ 
+     qtest_quit(qts);
 -- 
-2.25.1
+2.31.0.rc2.261.g7f71774620-goog
 
 
