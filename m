@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E68341BEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 13:06:07 +0100 (CET)
-Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7058F341BF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 13:09:09 +0100 (CET)
+Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNDtG-00014Z-5s
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 08:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42516)
+	id 1lNDwB-0003UT-C7
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 08:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNDqs-0008W8-2W
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:03:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNDqp-0005y6-6l
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 08:03:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616155414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X8vpHL/3mD6SxS/B4iCCZD3oKOKvuVAi2nVFI2qwVBQ=;
- b=J2cViaT79vodXB8WMN1AUt04igcfKSduhTmtlwEEoBhMVA8oOrHdUxx5+xtuXkjQXGhKmJ
- xZkSjbCoR8PclWFHMHrFYItDSow0khqgjjbyjVve8r+hlVA+vD9cyp8Qwaw/rHvzOORWnI
- R9j4y1qu0P35qXJ9H/gr2oQ3lyywoUQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-wLBXHbaQMG24qEBXgSzSkw-1; Fri, 19 Mar 2021 08:03:32 -0400
-X-MC-Unique: wLBXHbaQMG24qEBXgSzSkw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34DDA87504E;
- Fri, 19 Mar 2021 12:03:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07AC75C1BB;
- Fri, 19 Mar 2021 12:03:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8E84811386A7; Fri, 19 Mar 2021 13:03:29 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Misleading configure failure GLIB_SIZEOF_SIZE_T
-References: <87v99oiq13.fsf@dusky.pond.sub.org>
- <CAFEAcA8597jFxaNLdwEtM0Q9o6Wjx1JrGdeaePkkEDJz5-Y=ow@mail.gmail.com>
- <87zgyzmqg3.fsf@dusky.pond.sub.org>
- <a404bba1-1635-c173-c882-71f3aaab743e@redhat.com>
-Date: Fri, 19 Mar 2021 13:03:29 +0100
-In-Reply-To: <a404bba1-1635-c173-c882-71f3aaab743e@redhat.com> (Paolo
- Bonzini's message of "Fri, 19 Mar 2021 12:29:25 +0100")
-Message-ID: <87zgyzl59q.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lNDuh-0002f1-JI; Fri, 19 Mar 2021 08:07:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:40337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lNDue-000818-TL; Fri, 19 Mar 2021 08:07:35 -0400
+Received: from [192.168.100.1] ([82.142.20.38]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M4K6z-1lNUtQ44Cf-000KcQ; Fri, 19 Mar 2021 13:07:26 +0100
+Subject: Re: [PATCH 1/4] m68k: add the virtio devices aliases
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20210318223907.1344870-1-laurent@vivier.eu>
+ <20210318223907.1344870-2-laurent@vivier.eu>
+ <20210319123620.211ae2ea.cohuck@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <beca9758-d02f-dace-301b-20b261450ff4@vivier.eu>
+Date: Fri, 19 Mar 2021 13:07:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210319123620.211ae2ea.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UhrzyuabdnglBFfJB+wsoegd8WNPcQJy4n1v79u4c6ds07tIBXb
+ AODDSw1MseAuwFz+mo1i/3ZVE9X0YoyWgJd2CDwUXeQQAt2J2Yh67b0r8eq94rzprmpiY5J
+ 5jIQrAAHllumIgBYJbSjknFReT8LIaqg8aw9iqvUKr06OzX2RLZoB1k5gfn8xHYyiBo+G6q
+ VikVRB2Kw6Ru4SiM6iGSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+qUwp7fIwY8=:DB2y53DQNBYM8E7yHN1njh
+ PmOEaMpjWnIKfbPfJOAe3asNRAaqK3z2f+RI7SXOuLZFR7OzgdmMAmQJXoMDJNP55ZOfX7Dyp
+ h7Lw/TMkvhQgxtwXZ+U/blNLqG4HnHaYw7Bbqg6mUL7r9kW2NTqpI8sxxd2OWE/g3u//7HnUC
+ GK2bUN7KO1L/S4zjxcnxV+j6L6vpe1U7kFj7/KmKvyjkgibsq282dufnmHo7lUTezMSgsV3t2
+ sOiHnwnAGRrcdCr4tgMFaObUhGlHUm9MeKo6ajR6IeFGrV7HQcPJeg7GrPqIAdNyFnqqyoeoG
+ lJdwYbw55vB2ERcdppeP54ejzsuISg0kU8wnWdUj7CiLfF6+DdtXtZZXYBbO2dSfheU6PT5vn
+ TrVDLhSdf63pz2esFl3cNKm5iYXiEA+rB4Drzf4lJlqtp1vDDNwwvIUvhth4g9STnnOUXVrIc
+ IJ/G9gZIFg==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,41 +67,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Le 19/03/2021 à 12:36, Cornelia Huck a écrit :
+> On Thu, 18 Mar 2021 23:39:04 +0100
+> Laurent Vivier <laurent@vivier.eu> wrote:
+> 
+>> Similarly to 5f629d943cb0 ("s390x: fix s390 virtio aliases"),
+>> define the virtio aliases.
+>>
+>> This allows to start machines with virtio devices without
+>> knowledge of the implementation type.
+>>
+>> For instance, we can use "-device virtio-scsi" on
+>> m68k, s390x or PC, and the device will be
+>> "virtio-scsi-device", "virtio-scsi-ccw" or "virtio-scsi-pci".
+>>
+>> This already exists for s390x and -ccw interfaces, adds them
+>> for m68k and MMIO (-device) interfaces.
+>>
+>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>> ---
+>>  softmmu/qdev-monitor.c | 46 +++++++++++++++++++++++++++---------------
+>>  1 file changed, 30 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index 8dc656becca9..262d38b8c01e 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -42,6 +42,8 @@
+>>  #include "hw/qdev-properties.h"
+>>  #include "hw/clock.h"
+>>  
+>> +#define QEMU_ARCH_NO_PCI (QEMU_ARCH_S390X | QEMU_ARCH_M68K)
+> 
+> The name of the #define is a tad misleading (we do have virtio-pci
+> devices on s390x, unlike in 2012, we just don't want the aliases to
+> point to them.) Maybe QEMU_ARCH_NONPCI_DEFAULT?
 
-> On 19/03/21 10:40, Markus Armbruster wrote:
->>      $ cc -std=gnu99 -Wall -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -o config-temp/qemu-conf.exe config-temp/qemu-conf.c -m64
->>      $ echo $?
->>      0
->> The test program doesn't actually need libc, so not having
->> glibc-static
->> installed doesn't bother the linker.
->
-> I guess the bug is that the invocation does not use -static?
+I have changed this patch to define QEMU_ARCH_VIRTIO_PCI with the list of archs with virtio-pci
+devices, and QEMU_ARCH_VIRTIO_CCW and then QEMU_ARCH_VIRTIO_MMIO
 
-I totally missed that %-}
+> 
+>> +
+>>  /*
+>>   * Aliases were a bad idea from the start.  Let's keep them
+>>   * from spreading further.
+> 
+> Otherwise, LGTM.
+> 
 
-With -static, cc fails nicely:
-
-    $ cc -std=gnu99 -Wall -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -o config-temp/qemu-conf.exe config-temp/qemu-conf.c -m64 -static
-    /usr/bin/ld: cannot find -lc
-    collect2: error: ld returned 1 exit status
-
-Good.  Next test: I install glibc-static and uninstall glib2-static.
-
-    $ ./config.status 
-
-    ERROR: sizeof(size_t) doesn't match GLIB_SIZEOF_SIZE_T.
-           You probably need to set PKG_CONFIG_LIBDIR
-           to point to the right pkg-config files for your
-           build target
-
-*Boing*
+Thanks,
+Laurent
 
 
