@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6CC341EE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:58:16 +0100 (CET)
-Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DAB341EDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:55:10 +0100 (CET)
+Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFdi-0005y9-7h
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38512)
+	id 1lNFan-0002hY-QC
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFUz-0004NS-0g
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:49:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFUw-0007rZ-VH
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:49:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616161745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IqUpf49Cj84L1DtcnfTB9G0j9EvstEWvObvzS4KNOPY=;
- b=NfcXtA8ehFoHtHH3D+i20KMED90ryuU5o+LbSHbYFRlPpLxCR1fmJILqk2/ixOCzPj6WPi
- tLgsG7r4U2x3gs5m1v8glrjdpVb14KFc83Xcp84GNq5GCmYkNpcU8EGlQ3k3D6KK4jJc8f
- YLOe4Afguvzy9bPuzgmOS7Qdymq1Dso=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-IimrmMp0Pr-EbsVREMb_rg-1; Fri, 19 Mar 2021 09:49:03 -0400
-X-MC-Unique: IimrmMp0Pr-EbsVREMb_rg-1
-Received: by mail-wm1-f72.google.com with SMTP id b20so7258057wmj.3
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:49:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lNFZ6-0000rg-Ak; Fri, 19 Mar 2021 09:53:24 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:44870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lNFZ4-0001b8-Ha; Fri, 19 Mar 2021 09:53:24 -0400
+Received: by mail-io1-xd29.google.com with SMTP id v26so6149833iox.11;
+ Fri, 19 Mar 2021 06:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BnlocOX1wZxMPdCaZ3ZJ9JU+GBq93paBNxTd0ADSigI=;
+ b=iIgTven8V6KIVmPaN7OFBUCameMuc6S4mM2BzhCG+a+sZxCC1YWceY8GQYdlSjx3ii
+ +d6jDfyeFEyFN+JK4u7b50Uk+w1CS7QkzZ4JPJxeeNpBuXTNt5BxXv3YzygRLksHaTTA
+ 02EMD1r19ubAnvNJu/VNtvf/KTe8AcQU8T2kaFMaGOz/G7Gm1uD0MbvxEMSS0qwFrL7e
+ n/JOe/DA1LHZV6QFV+mSDnF7M+XWgsDAoX2L1bmJWQMmLHzj3cRl/4ssj1UqVVWrsGOP
+ hjapaFwnAXZtKM0tkusiFHyj4Prz2mFiEVEQxSLQOV3JGqF74pXJiu13NWVcuuq2EAmr
+ 4a4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IqUpf49Cj84L1DtcnfTB9G0j9EvstEWvObvzS4KNOPY=;
- b=eMFp1iNlpkfx5NV4L5h/SfgTVhMX7hHxFtZ2m1XtefQdGh12QJcZ2OntTLT+f6Vn/y
- iATF9xMYPaT9osy7Jd2v38MZW370GXwx6hOTaiyPZ/seHOSjhrO2LmzoDsKH+vAdUxK2
- QVwy4Jso9aJCalGqgU6cY5aXQ75H05RAUVg2xueub7hZ6Wooxw54OEKLe/yH/wMjyx9Q
- 24UHgkrEACJja60cQGq7gwODEDVV7nOg7oetWBl+8KtxFy6ErErgiPhzQTqXKEqFJDqU
- b7vZWEDoOaOuI7MuyFsEe9h0A9w2JWryIg1vpyfMYFQpSR4HzvIHBE0ILrjDUj5reqbK
- rS1w==
-X-Gm-Message-State: AOAM532yP4/6ZHbN6vUMiznJ71/U149hqM9pFf42MRbHK17JN4gjzcEc
- x1NBDt+MOLET13FHV7VmiVME9vpRsjf7ELU4MUeYNapLR8sdurgt5T214tzVh/uFegbL7oWbsGp
- wynWn8NSSkZU/zq8=
-X-Received: by 2002:a05:600c:3581:: with SMTP id
- p1mr3791042wmq.91.1616161742911; 
- Fri, 19 Mar 2021 06:49:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwh9EJ1IvgoX9f6ZRxjaI/QQ5T0YIoQ2rnzCYTWr3L7epAsiJWwxVKS6uNrO7qxT5GrcgOY5A==
-X-Received: by 2002:a05:600c:3581:: with SMTP id
- p1mr3791032wmq.91.1616161742805; 
- Fri, 19 Mar 2021 06:49:02 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id m132sm6406763wmf.45.2021.03.19.06.49.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 06:49:02 -0700 (PDT)
-Subject: Re: make: /usr/bin/env: Operation not permitted on Alpine container
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <08d872e9-841b-5880-1a38-e6088cce69db@redhat.com>
-Message-ID: <15fdbff3-b02b-9afe-2325-99945d2458cc@redhat.com>
-Date: Fri, 19 Mar 2021 14:49:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BnlocOX1wZxMPdCaZ3ZJ9JU+GBq93paBNxTd0ADSigI=;
+ b=M8uMKRR954K4xN05m36N+InT8x+Br4d8cCDsu3bjf0qF+zpAVtF6VCSDFI/1UES5Og
+ YGC7/xnh683MKnSDsyDIhIea4dvuaAFipj5i/UTuLOdxX3TCPTHxnNMYqBX9C84tNyu0
+ HOtEo20DXiW8SlEuAPJxETohD7PlTTzUGT6fqRZR1aJ4oARI44YrrFG5Pb1ERVI/kDiD
+ uL67ZZ3cZ0MxomERU7eBYJBFgb48UfVhBUSjJd0eSzpdEtgrHae6jMf2GhnxiG2FXI8J
+ 3zLOp71sXu36C6wVasCgQzfnA2zSJXgnnVDlanpyxIevqzaz73baXxxdpB5mE6NwZqcw
+ qp0g==
+X-Gm-Message-State: AOAM533XWCzTDzlkZlyKXmQ1Rq/zQpCRmIOb2l7fZ3MKP4kO46w3X9fj
+ jECaZJhw/OSyrge7S11rvgs+eyj9IUH2xSZdHhQ=
+X-Google-Smtp-Source: ABdhPJx2bgbcEt0VnXo0BCrXeYfZhip+n9/RXwgi7+2/CM3jVQhxc1iLksDn3lmyMZUymRkm59RqeDipI2yYQdBKt2U=
+X-Received: by 2002:a05:6638:224e:: with SMTP id
+ m14mr1511661jas.8.1616162000047; 
+ Fri, 19 Mar 2021 06:53:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <08d872e9-841b-5880-1a38-e6088cce69db@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
+In-Reply-To: <20210311094738.1376795-1-georg.kotheimer@kernkonzept.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Mar 2021 09:51:31 -0400
+Message-ID: <CAKmqyKOgAA9d8hgUo4YCZE6Yo6uVAj2JwyE+_ivJNGzNii3vdQ@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix read and write accesses to vsip and vsie
+To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,19 +76,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/21 2:31 PM, Philippe Mathieu-Daudé wrote:
-> Yet another odd error, this time on the build-system-alpine job:
-> 
-> $ make -j"$JOBS"
-> make: /usr/bin/env: Operation not permitted
-> make: *** [Makefile:51: git-submodule-update] Error 127
+On Thu, Mar 11, 2021 at 4:49 AM Georg Kotheimer
+<georg.kotheimer@kernkonzept.com> wrote:
+>
+> The previous implementation was broken in many ways:
+>  - Used mideleg instead of hideleg to mask accesses
+>  - Used MIP_VSSIP instead of VS_MODE_INTERRUPTS to mask writes to vsie
+>  - Did not shift between S bits and VS bits (VSEIP <-> SEIP, ...)
+>
+> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
-I clicked on [Retry] and this time it worked...
+Thanks!
 
+Applied to riscv-to-apply.next
+
+Alistair
+
+> ---
+>  target/riscv/csr.c | 68 +++++++++++++++++++++++-----------------------
+>  1 file changed, 34 insertions(+), 34 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index fd2e6363f3..4a5b362ec1 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -748,30 +748,42 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
+>      return write_mstatus(env, CSR_MSTATUS, newval);
+>  }
+>
+> +static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
+> +{
+> +    /* Shift the VS bits to their S bit location in vsie */
+> +    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
+> +    return 0;
+> +}
+> +
+>  static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
+>  {
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        /* Tell the guest the VS bits, shifted to the S bit locations */
+> -        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
+> +        read_vsie(env, CSR_VSIE, val);
+>      } else {
+>          *val = env->mie & env->mideleg;
+>      }
+>      return 0;
+>  }
+>
+> -static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
+> +static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
+>  {
+> -    target_ulong newval;
+> +    /* Shift the S bits to their VS bit location in mie */
+> +    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
+> +                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
+> +    return write_mie(env, CSR_MIE, newval);
+> +}
+>
+> +static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
+> +{
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        /* Shift the guests S bits to VS */
+> -        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
+> -                 ((val << 1) & VS_MODE_INTERRUPTS);
+> +        write_vsie(env, CSR_VSIE, val);
+>      } else {
+> -        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
+> +        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
+> +                              (val & S_MODE_INTERRUPTS);
+> +        write_mie(env, CSR_MIE, newval);
+>      }
+>
+> -    return write_mie(env, CSR_MIE, newval);
+> +    return 0;
+>  }
+>
+>  static int read_stvec(CPURISCVState *env, int csrno, target_ulong *val)
+> @@ -852,17 +864,25 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
+>      return 0;
+>  }
+>
+> +static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+> +                    target_ulong new_value, target_ulong write_mask)
+> +{
+> +    /* Shift the S bits to their VS bit location in mip */
+> +    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
+> +                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
+> +    *ret_value &= VS_MODE_INTERRUPTS;
+> +    /* Shift the VS bits to their S bit location in vsip */
+> +    *ret_value >>= 1;
+> +    return ret;
+> +}
+> +
+>  static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+>                     target_ulong new_value, target_ulong write_mask)
+>  {
+>      int ret;
+>
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        /* Shift the new values to line up with the VS bits */
+> -        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
+> -                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
+> -        ret &= vsip_writable_mask;
+> -        ret >>= 1;
+> +        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
+>      } else {
+>          ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
+>                        write_mask & env->mideleg & sip_writable_mask);
+> @@ -1121,26 +1141,6 @@ static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
+>      return 0;
+>  }
+>
+> -static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+> -                    target_ulong new_value, target_ulong write_mask)
+> -{
+> -    int ret = rmw_mip(env, 0, ret_value, new_value,
+> -                      write_mask & env->mideleg & vsip_writable_mask);
+> -    return ret;
+> -}
+> -
+> -static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
+> -{
+> -    *val = env->mie & env->mideleg & VS_MODE_INTERRUPTS;
+> -    return 0;
+> -}
+> -
+> -static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
+> -{
+> -    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg & MIP_VSSIP);
+> -    return write_mie(env, CSR_MIE, newval);
+> -}
+> -
+>  static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
+>  {
+>      *val = env->vstvec;
+> --
+> 2.30.1
+>
+>
 
