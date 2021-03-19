@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A823F341EE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:57:10 +0100 (CET)
-Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9049F341EE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:58:57 +0100 (CET)
+Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFcj-00053u-OC
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39952)
+	id 1lNFeS-0006xh-LP
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFaQ-0003Cr-Od; Fri, 19 Mar 2021 09:54:46 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:46916)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lNFcK-0005PH-U0
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:56:44 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:42589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFaP-0002O8-1f; Fri, 19 Mar 2021 09:54:46 -0400
-Received: by mail-io1-xd35.google.com with SMTP id j26so6155644iog.13;
- Fri, 19 Mar 2021 06:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ybobm4xRlDne4W42noQKXgBEHx4LUhMfSBPhb/nWQaI=;
- b=KF2uZsAGD069nblh14gGPuI5JLZQLB1XHEZmwktD1Nst1KJnHv2aR++Y/5/KD4uFa/
- bU8TQWT/oGU2eyvY27BC9tbucHGBdhSKvaJqJ4mCJZJnIuQ6E5kJMISr6QPXg4JOI0Cj
- D/uTqVGft9yXwu9E6TQ2mZYCXZMYJSz1/BJAVF6sEs4ODzXPKoczsfWjatcoqEscfblJ
- G4c2fX76B0dLF4oxfwKO2CJ7bs1n1lsLV8jBSXGNZFgrEwdcAJ5k2vPNzvhSgASvQs/y
- lJq5dpijFFHd6+pBzq0JP3kB8B5yPDiD32UZaRclY7/bgjGqXkGnpvh1mrhPmJ9efBYQ
- ouxQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lNFcJ-0003oD-9J
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:56:44 -0400
+Received: by mail-ed1-x535.google.com with SMTP id l18so2666804edc.9
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=afdYsiptNua+wlGTimsyXroVNqoa8d9SWnqMGNR0qwU=;
+ b=pH7ILzxS9Y5uVaaj3jFyOjVk5b+ChmrJ0Dh0qXtorcSeHqzxM8kvv/mUMMQ9/W0mC0
+ v6D6EyhHRoiJF/OGJDz79s1TBG8ULdg8vKxPOcarRcHvQuUfOH0iaOtYhWTufXgwX3Mg
+ RKE34mhRiIyoqO1BnzkuEOPtlwDQxT7bOJDbOLQxONeG/RpdC5tHWuCQk6kv3CXyqFbc
+ EFGSjuf1g1EIbMbSlF13Hm/QfxySDACerPDC/SWpkFcoXUbJIkL/7XKr0rRPi0ofv4VY
+ 5n5Mv3W63MZ+Z6TBMung2eYx45kNV2auqBp+D/BLWvQdZFNPk+C7Iq0FJN9Kz2BbnRVJ
+ B/Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ybobm4xRlDne4W42noQKXgBEHx4LUhMfSBPhb/nWQaI=;
- b=Dp+N7FGY1kx9yeOz0onvwKE53kU4SZmp7QhY/Rgrovhj6yTtK0BprcyML4kQxixwfm
- gkWHrkVJ2+JQ7bBe6tZW8B9I5nVQlOyn+yQgPlbVNfR9NIny0whnmPn4/Anoq1an4aQB
- IFOmkdczlMiWtlEXRiiiiiPijM7VuPvTREDuMpEfCapQyToo+O9VNVJmOqA+K/QXgX9l
- MOSwNTW4kCkMNznO+UIUzjf03h5gF9lxhas7HzC1fH0mVoICeREAv3aZFlPZVLa+MaAR
- ti4r21AzxBy7uacNmDO9me1Zqzd/tvPLzDA/exFyjQzr8nDdDdTq26fwdfNSqQn3Gizz
- PsBg==
-X-Gm-Message-State: AOAM533bwwWwXll6aF+1K+t6x3CewaXTceSlBXU21JBGgM9ow5MXzN4L
- IrFykgs4vN79wv5iRBOG4mwr9KelHDLRi+XNSVk+rUdzC/I=
-X-Google-Smtp-Source: ABdhPJyb3H1K6sFOA+mZkp9KHurJc/XhdFVcvFTt+aFxhZwDjrDQ0PrWDJVnOoyJ2bShfnBfybt8sXwDzlH6r53xLrM=
-X-Received: by 2002:a05:6638:3791:: with SMTP id
- w17mr1420179jal.91.1616162083381; 
- Fri, 19 Mar 2021 06:54:43 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=afdYsiptNua+wlGTimsyXroVNqoa8d9SWnqMGNR0qwU=;
+ b=UXhESWTHkc+93crLbzT/nGJTIzTuGawfYbTUnX6IQTIqNlvsWCzg64WVabXW1Mfpv7
+ cdJ/0n5STlG+ykgcRQ+aJh7haBJfVtCoVvYb6wSV8jaj3IC0PfwrmUJiEyQejdICdDtf
+ YXzjx+LH8zbnKAKEwW3bEM3qwcT45/29Jvizja+R9ImRJhLJl/I5JKeMOlB3HZBn6vs2
+ tDDBw6JiVd/FP3+Z0fHd+pJr1KJj1irpU+GclTIU9RBJ44oeAz3JIE/+VeWx7vtx38rv
+ i8H1gjtODdod6pG/EfTa5azXFx8IOjNPGWTajBVzxr7J+cCbakLscf7ahQgtYZDeHiYC
+ uxmA==
+X-Gm-Message-State: AOAM5318QMzeHmW/BVJZHrR5f9fOyfUynDb8LYrlzc4BOQAB1FAXK41r
+ T/IuURVh48GaaeSMfOTzRR36Dw==
+X-Google-Smtp-Source: ABdhPJysQA08ATCVquMj20Li2ynT/IqXIt/kXLb1TKx2a7AP1VVim0cxrcIWNHiBRcz6K5+bqKyCSg==
+X-Received: by 2002:a05:6402:b48:: with SMTP id
+ bx8mr10034040edb.162.1616162201110; 
+ Fri, 19 Mar 2021 06:56:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b22sm3899022edv.96.2021.03.19.06.56.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Mar 2021 06:56:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 733A11FF7E;
+ Fri, 19 Mar 2021 13:56:39 +0000 (GMT)
+References: <20210319095726.45965-1-thuth@redhat.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] gitlab-ci.yml: Merge the trace-backend testing into
+ other jobs
+Date: Fri, 19 Mar 2021 13:56:33 +0000
+In-reply-to: <20210319095726.45965-1-thuth@redhat.com>
+Message-ID: <87k0q39rhk.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210316150354.1948265-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20210316150354.1948265-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Mar 2021 09:52:54 -0400
-Message-ID: <CAKmqyKMp3aRCjRq2_c+_uybSS_GZDip8C3hoH5an=5a1A+1Lew@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Prevent lost illegal instruction exceptions
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,94 +88,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 16, 2021 at 11:05 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
->
-> When decode_insn16() fails, we fall back to decode_RV32_64C() for
-> further compressed instruction decoding. However, prior to this change,
-> we did not raise an illegal instruction exception, if decode_RV32_64C()
-> fails to decode the instruction. This means that we skipped illegal
-> compressed instructions instead of raising an illegal instruction
-> exception.
->
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thomas Huth <thuth@redhat.com> writes:
 
-Alistair
+> Our gitlab-ci got quite slow in the past weeks, due to the immense amount
+> of jobs that we have, so we should try to reduce the number of jobs.
+> There is no real good reason for having separate jobs just to test the
+> trace backends, we can do this just fine in other jobs, too.
 
-> ---
->  target/riscv/translate.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 0f28b5f41e..8c00734252 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -537,7 +537,7 @@ static void gen_set_rm(DisasContext *ctx, int rm)
->      tcg_temp_free_i32(t0);
->  }
->
-> -static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
-> +static bool decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
->  {
->      uint8_t funct3 = extract16(opcode, 13, 3);
->      uint8_t rd_rs2 = GET_C_RS2S(opcode);
-> @@ -554,7 +554,7 @@ static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
->          gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
->                      GET_C_LW_IMM(opcode));
->  #endif
-> -        break;
-> +        return true;
->      case 7:
->  #if defined(TARGET_RISCV64)
->          /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
-> @@ -565,18 +565,21 @@ static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
->          gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
->                       GET_C_LW_IMM(opcode));
->  #endif
-> -        break;
-> +        return true;
-> +    default:
-> +        return false;
->      }
->  }
->
-> -static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
-> +static bool decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
->  {
->      uint8_t op = extract16(opcode, 0, 2);
->
->      switch (op) {
->      case 0:
-> -        decode_RV32_64C0(ctx, opcode);
-> -        break;
-> +        return decode_RV32_64C0(ctx, opcode);
-> +    default:
-> +        return false;
->      }
->  }
->
-> @@ -780,7 +783,9 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->              ctx->pc_succ_insn = ctx->base.pc_next + 2;
->              if (!decode_insn16(ctx, opcode)) {
->                  /* fall back to old decoder */
-> -                decode_RV32_64C(ctx, opcode);
-> +                if (!decode_RV32_64C(ctx, opcode)) {
-> +                    gen_exception_illegal(ctx);
-> +                }
->              }
->          }
->      } else {
-> --
-> 2.30.1
->
->
+Queued to for-6.0/fixes-for-rc1, thanks.
+
+--=20
+Alex Benn=C3=A9e
 
