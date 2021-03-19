@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16AA341E5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:31:34 +0100 (CET)
-Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A99341E66
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:34:03 +0100 (CET)
+Received: from localhost ([::1]:48914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFDx-00064k-Nn
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
+	id 1lNFGM-0001Ct-IM
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNF8W-0000Pm-OJ; Fri, 19 Mar 2021 09:25:56 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:34229)
+ id 1lNF8Z-0000X2-OK; Fri, 19 Mar 2021 09:25:59 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:53889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNF8U-0003iQ-VH; Fri, 19 Mar 2021 09:25:56 -0400
+ id 1lNF8X-0003lh-P9; Fri, 19 Mar 2021 09:25:59 -0400
 Received: from localhost.localdomain ([82.142.20.38]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MqsGv-1m0xjt33Vx-00mtAl; Fri, 19 Mar 2021 14:25:44 +0100
+ id 1MtO4E-1lgQRZ18BC-00uqAC; Fri, 19 Mar 2021 14:25:47 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/6] blockdev: with -drive if=virtio, use generic virtio-blk
-Date: Fri, 19 Mar 2021 14:25:34 +0100
-Message-Id: <20210319132537.2046339-4-laurent@vivier.eu>
+Subject: [PATCH v2 5/6] iotests: test m68k with the virt machine
+Date: Fri, 19 Mar 2021 14:25:36 +0100
+Message-Id: <20210319132537.2046339-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210319132537.2046339-1-laurent@vivier.eu>
 References: <20210319132537.2046339-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xOx9VxqUkLOu2NSxK/kCzFFxEx/YtZarAkHl9WFSjsauxIwkAQd
- d8yVj/fjmCl8TTU0OgkJasUnPCBoLfCt8he0zDMDiI73CLywv8D43BfkntUH4Fon9Reyp3x
- OM7Tl7Ouv2Zx+MM9j9wNR2k7uuHsQLgZEV6bdFglxy1M0qG5YtWq1OLeCurOohtzGD798ug
- eWaBzjpGo+Q9IbVhAq/4Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1z2ypyFFSbM=:SaeS/ffYLz6TRwISG4jLbf
- CxVcpj9yUwUukWqXgmIvM/IMfgQMwOIbb+d0BjH5Q8mFW5ycYtnE8PyxhwllrmJXSsG7P+Bp3
- TqSu7wFKRRMFoFlpeSSbUmThUCTBeBYjjf4gSZTOTRFVOafXjuA1j3mJY1avl7p/U58ZViDYO
- BI2ETBT1s+HY8xs7lEctkRbS2g9UCJBxxefQYWNmRdjUNtlczwetTbg9BoGHNYO8/hLMLnaYW
- bnnP+jUkK7bRdA8fgUTvjkxcWDCqStqtWe9W2rVJiRQW1X1SeGekil8QWKt5fCG0lPiGNK5WL
- AAldz3+m4PnIoWjDnuNDgz0ZEzKAkGqvaIWcYEDLEAGJyYI4fGoiHRRkl1FL4RK5YTHA5PRaL
- Og4glKVxHPJ+cWtGbsHC6420eRq2keQTMdfpS1crWAIAl4JJ47gWPOeFSTmty
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:knVKPj2vfl5glMpKifxhMYz8gEGPS4zwMpXq/Z6NcjDhBa4LJn/
+ 9ee7uOs8dkjppVWIyaefkuvwpIw1kFySPv5kRjyuJ7CofBr+uc8SHu15WBtVQIfKpdarce1
+ NdheHA1oUND7zSnZb0vxw73p5E3iZLnKku/LEkWIWFngLrIke6yatdyDglsgcDgW9lWyiXa
+ IH5dUezeoFg5VaYk21Axw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:t65QEJffBuU=:KJi+yCM6iOnVs6LfEsGnqq
+ ketv6eTdnQzR+4KpWLgdd812u2dssxtcSf07ulaT/RObYUgANA0Xwb9oow81bmIEf9YBsow8t
+ u8fwU5fI988tjjunFEFUamara507TsV71anwQg9CLc8DQA3TTjVNTq5dpPgYEB/jYyAg8Tuqi
+ sSAdGbhwdDRjaX30hhlGqRL3be/kt16Eg+Xppk1HmIp+joxHOXXSZHQQ0FOOM7318hjsr/ROm
+ nmi/QUb6iVhrzKsaqMTPSq5eDDaVbJXZo75S+PDOn4HlMhipg0IR884+g5O2Vjxg+SZwDFe1S
+ 38hXGdk2Xsov9FsBdQSWftAZ7SuKZEfYkAd/A4oSrA70LNKiVTE7TeTBNgjoStY+0a3Hyv1/X
+ JkUL1V0veU9VMVmjX59FZ3dNhIcrJE2a+yuvCUSvGmtUuJodFLHZmP5It2WwkCTcASFY/ogaa
+ 0W2Te0eF7Q==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,6 +66,7 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -72,35 +75,27 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than checking if the machine is an s390x to use virtio-blk-ccw
-instead of virtio-blk-pci, use the alias virtio-blk that is set to
-the expected target.
+This allows to cover the virtio tests with a 32bit big-endian
+virtio-mmio machine.
 
-This also enables the use of virtio-blk-device for targets without
-PCI or CCW.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- blockdev.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ tests/qemu-iotests/testenv.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/blockdev.c b/blockdev.c
-index 5cc7c7effe9f..64da5350e3ad 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -969,11 +969,7 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
-         QemuOpts *devopts;
-         devopts = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
-                                    &error_abort);
--        if (arch_type == QEMU_ARCH_S390X) {
--            qemu_opt_set(devopts, "driver", "virtio-blk-ccw", &error_abort);
--        } else {
--            qemu_opt_set(devopts, "driver", "virtio-blk-pci", &error_abort);
--        }
-+        qemu_opt_set(devopts, "driver", "virtio-blk", &error_abort);
-         qemu_opt_set(devopts, "drive", qdict_get_str(bs_opts, "id"),
-                      &error_abort);
-     }
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 1fbec854c1f7..6d27712617a3 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -208,6 +208,7 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
+             ('arm', 'virt'),
+             ('aarch64', 'virt'),
+             ('avr', 'mega2560'),
++            ('m68k', 'virt'),
+             ('rx', 'gdbsim-r5f562n8'),
+             ('tricore', 'tricore_testboard')
+         )
 -- 
 2.30.2
 
