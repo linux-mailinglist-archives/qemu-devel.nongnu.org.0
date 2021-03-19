@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DAE341A88
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:59:11 +0100 (CET)
-Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84475341A8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:00:31 +0100 (CET)
+Received: from localhost ([::1]:50592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNCqU-0004Z7-Nh
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57124)
+	id 1lNCrm-00066Z-Le
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:00:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lNCom-0003If-3Z
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45794)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNCql-0005da-1f
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:59:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lNCok-0001sz-9m
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:57:23 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNCqj-00030W-AC
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:59:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616151441;
+ s=mimecast20190719; t=1616151564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/g06Ltb4mpu6mLi4pBpR4hKMMqd5T3KFQ7bYqMp1vNQ=;
- b=Adwdy549rVOBactdsRdv3bon20PKVAE058CXXmutlp2jcplmCIoraw+NWOFzgLy16/Z3wF
- j/c/hoRSvX2jRyh/1FTI9JlspfOjSiuALT9RIMeMxQLf3FhJ+iQ9vczeTJHzwt75/e/2t4
- kQIbi6SVwnkCpoYckZM/Jxdx8gBwg74=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-7yXhIhgMNC2uGeOAi7p6JA-1; Fri, 19 Mar 2021 06:57:19 -0400
-X-MC-Unique: 7yXhIhgMNC2uGeOAi7p6JA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B9485B36A;
- Fri, 19 Mar 2021 10:57:18 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-166.ams2.redhat.com
- [10.36.113.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3C4110013D6;
- Fri, 19 Mar 2021 10:57:16 +0000 (UTC)
-Subject: Re: [PULL 5/5] m68k: add Virtual M68k Machine
-From: Max Reitz <mreitz@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>
-References: <20210315204226.3481044-1-laurent@vivier.eu>
- <20210315204226.3481044-6-laurent@vivier.eu>
- <2730eee0-6f1b-2139-f93c-6a0a64727e29@redhat.com>
- <905c797a-25c3-bb43-5946-54b28d9530c0@vivier.eu>
- <d515dabd-b84d-5aa3-0bf5-d824bdc7da6e@redhat.com>
- <ffa12ba8-4988-b464-2267-5d14c59b43ab@vivier.eu>
- <b06c176d-c4ab-6c27-c96f-0bf27f7fd036@redhat.com>
- <27c791b2-dcc0-6c98-d765-ac1b60b7af3d@vivier.eu>
- <0d55cabf-0fa0-f9fd-6436-de2e03422329@vivier.eu>
- <0b3cedb8-f40a-18fd-5030-a596afb9298d@redhat.com>
- <82f6dc3e-18bf-f90a-7e43-5568b319767c@redhat.com>
- <3bcc22b2-eb25-b0a0-f47b-72c747ca6f0a@redhat.com>
- <1a2a91a4-0425-0da9-482b-f46a6e17b6b0@redhat.com>
- <9743c786-e620-8e50-be7d-f0c38984e29e@vivier.eu>
- <fdfaff0c-39e1-909d-3421-84a03807f49b@redhat.com>
-Message-ID: <5a660e21-264c-bfa0-f4ac-794488acd30d@redhat.com>
-Date: Fri, 19 Mar 2021 11:57:15 +0100
+ bh=tZDQNYL0VQWKTReBnLGjNA6X6/l5g4xiPHcnQc4cQpg=;
+ b=KXkonHYKbJWGrfGR9WDg//fUeVZC7RUV+8DWKY3b+/O2yzaVfGflt4dSD7oUOXr+NXwW1t
+ OvbbRpqhy3DqxxIi9AZCjoEN3SSM40r73rru8otchAfcOfcb22wC5wFxasBScDUaS9+qIf
+ qfDCgn1Xzno+MnILE2pArAJCQEdIRuU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-k7AdJ_70NAi-cG7kZUPTbw-1; Fri, 19 Mar 2021 06:59:22 -0400
+X-MC-Unique: k7AdJ_70NAi-cG7kZUPTbw-1
+Received: by mail-wr1-f70.google.com with SMTP id 75so21476321wrl.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 03:59:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tZDQNYL0VQWKTReBnLGjNA6X6/l5g4xiPHcnQc4cQpg=;
+ b=UvqJGSTh+AxovqrkkOFyGsEb+zZafH3ArARrdkStF3sOSBytzZPdg93Cg3Sffv4RZL
+ fWN8FqNDAKJlTKwqPJEw8/+XTbByegTl0VvzLfCQIBGbRdjkKoM9Akplk0ds9HYAN7Oq
+ XWXanjUyQ9F1l+fnQuGPDmEmClm/37IuV5kvlS6NhtQOMW/T7FkzXzpIRHIebOHCcwSE
+ cINYqeC4HQK4Qi3U9vT2Bc7xYISCpZUZ9juDS52s7BUNcjgE2JUNUYCJCrjmHQbxae7T
+ KNHRWQhdS+SKb8dSnsgTiaRIoWneIsV2E0e8N+dFSmZR7dWWHOi1iu2DuD5bUsACr40d
+ jjoA==
+X-Gm-Message-State: AOAM530L2kP23wvO0S4kX7VUI/eD8psO/SkHo7nTiCxshnrmfOxBBGnK
+ yf1pTDS4hr4LyL4TJ9D+xFAy1EtmOK0OxHUrbXDFIOmnhOLwKS5ItpKijnlu9cFmjIvKPJ8SJ0u
+ Q1eKsDHs07wJ8rN0=
+X-Received: by 2002:a5d:4523:: with SMTP id j3mr4058489wra.288.1616151561779; 
+ Fri, 19 Mar 2021 03:59:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYihqJlHzUx91s9gpp1n1A44nO/H7Vw1y/pkOblluOalcfV3w1S1LOcYgdLZaGnng62tICeA==
+X-Received: by 2002:a5d:4523:: with SMTP id j3mr4058469wra.288.1616151561541; 
+ Fri, 19 Mar 2021 03:59:21 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m132sm5788538wmf.45.2021.03.19.03.59.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 03:59:20 -0700 (PDT)
+Subject: Re: Serious doubts about Gitlab CI
+To: Andrew Jones <drjones@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+ <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
+ <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
+ <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
+ <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
+Date: Fri, 19 Mar 2021 11:59:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <fdfaff0c-39e1-909d-3421-84a03807f49b@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,52 +103,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.03.21 11:51, Max Reitz wrote:
-> On 19.03.21 11:50, Laurent Vivier wrote:
->> Le 19/03/2021 à 10:20, Max Reitz a écrit :
->>> On 19.03.21 07:32, Thomas Huth wrote:
->>>> On 18/03/2021 18.28, Max Reitz wrote:
->>>> [...]
->>>>>   From that it follows that I don’t see much use in testing 
->>>>> specific devices either.  Say there’s
->>>>> a platform that provides both virtio-pci and virtio-mmio, the 
->>>>> default (say virtio-pci) is fine
->>>>> for the iotests. I see little value in testing virtio-mmio as 
->>>>> well.  (Perhaps I’m short-sighted,
->>>>> though.)
->>>>
->>>> That's a fair point. But still, if someone compiled QEMU only with a 
->>>> target that only provided
->>>> virtio-mmio, the iotests should not fail when running "make check".
->>>> To avoid that we continue playing whack-a-mole here in the future, 
->>>> maybe it would be better to
->>>> restrict the iotests to the "main" targets only, e.g. modify 
->>>> check-block.sh so that the tests only
->>>> run with x86, aarch64, s390x and ppc64 ?
->>>
->>> Right, that would certainly be the simplest solution.
->>>
+On 19/03/21 11:18, Andrew Jones wrote:
+>> Yikes, that is 41 hours per CI run. I wonder if GitLab's CI minutes are
+>> on slow machines or if we'll hit the same issue with dedicated runners.
+>> It seems like CI optimization will be necessary...
 >>
->> The problem with that is we can't run the tests if target-list doesn't 
->> contain one of these targets.
-> 
-> Yes, but is that really a problem?
+> We need to reduce the amount of CI we do, not only because we can't afford
+> it, but because it's wasteful. I hate to think of all the kWhs spent
+> testing the exact same code in the exact same way, since everyone runs
+> everything with a simple 'git push'.
 
-I should add: The thing is, I wouldn’t really call it a problem.  But 
-still, as I said before somewhere in this thread, in theory we want to 
-allow running the tests with every configuration.  It’s just that it’s a 
-tradeoff between how much it helps and how much work it is to make them 
-work.  (I gave s390 as an example, where effort was undertaken to make 
-the iotests work.)
+Yes, I thought the same.
 
-You’ve sent patches, so it seems you’re willing to invest the work. 
-Sounds good to me, as long as we know it won’t rot.
+> IMHO, 'git push' shouldn't trigger
+> anything. Starting CI should be an explicit step.
 
-Max
+It is possible to do that on a project that uses merge requests, for 
+example like this:
+
+workflow:
+   rules:
+     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+     - if: '$CI_COMMIT_BRANCH
+       when: never
+
+For us it's a bit more complicated (no merge requests).
+
+Another common feature is failing the pipeline immediately if one of the 
+jobs fail, but GitLab does not support it 
+(https://gitlab.com/gitlab-org/gitlab/-/issues/23605).
+
+> Also, the default CI
+> should only trigger tests associated with the code changed. One should
+> have to explicitly trigger a complete CI when they deem it worthwhile.
+
+This is interesting.  We could add a stage that looks for changed files 
+using "git diff" and sets some variables (e.g. softmmu, user, TCG, 
+various targets) based on the results.  Then you use those to skip some 
+jobs or some tests, for example skipping check-tcg.  See 
+https://docs.gitlab.com/ee/ci/variables/#inherit-cicd-variables for more 
+information.
+
+Paolo
 
 
