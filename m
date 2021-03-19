@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18B5341B5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:23:30 +0100 (CET)
-Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B56341B70
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:27:39 +0100 (CET)
+Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNDE1-0001Yf-T6
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
+	id 1lNDI2-0007Nu-IX
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCe-0008Mc-Hq
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21425)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCc-0007il-U5
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCj-00005B-G8
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lNDCh-0007lj-H3
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:22:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616152922;
+ s=mimecast20190719; t=1616152926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+yIAG3Al8HNgrwLzCfgMacdoXn6DrIUneGS5xZzZMIA=;
- b=T8emCjz+8TxgM8mDhZAewB7W/KvgF4qp4ywm8GrEPdtrQ4AYyCwoXLjsXLLnPIMZ7YXils
- XT69mSmlnjvGLLVHEVJWZBM1ZPIpCNnHklAThz1b22D2Qe3LwedDylBbaZPrCk/3vu8QJ2
- CkHfTpNOSxJY2WcmcfcgPhd7X4b3hik=
+ bh=W5msPHfDPE8ZjYfXa0hRMK1hPCL03sJxjOy2f0Kvi2Q=;
+ b=BPzgmEJh7SjsargEHPqqRpZn0ecuzc6jQiVB4JKPCWSINF+z8/+K6mayrGGbqQCkMP1zTm
+ JUNog/WyMSc939Dm+4MCYM6I7PYJfAmsZnPa6eD5+gD4Afa7UdWl4I2R5g8mejDjThvxN/
+ MGneYNdgC61T5rZNoL2PPklgv5HbjF8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-yZLpKJQTO5mwO7N-TYDOow-1; Fri, 19 Mar 2021 07:21:58 -0400
-X-MC-Unique: yZLpKJQTO5mwO7N-TYDOow-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-566-E4IqtrRLMyyxC3SA4RGq0w-1; Fri, 19 Mar 2021 07:22:05 -0400
+X-MC-Unique: E4IqtrRLMyyxC3SA4RGq0w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58734802B7E;
- Fri, 19 Mar 2021 11:21:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 117A881622;
+ Fri, 19 Mar 2021 11:22:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
  [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72F5A5D9F2;
- Fri, 19 Mar 2021 11:21:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5945460CD7;
+ Fri, 19 Mar 2021 11:21:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EA27918003A8; Fri, 19 Mar 2021 12:21:47 +0100 (CET)
+ id 0589D18003A9; Fri, 19 Mar 2021 12:21:48 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/15] virtio-gpu: add virtio-vga-gl
-Date: Fri, 19 Mar 2021 12:21:36 +0100
-Message-Id: <20210319112147.4138943-5-kraxel@redhat.com>
+Subject: [PATCH 05/15] virtio-gpu: move virgl realize + properties
+Date: Fri, 19 Mar 2021 12:21:37 +0100
+Message-Id: <20210319112147.4138943-6-kraxel@redhat.com>
 In-Reply-To: <20210319112147.4138943-1-kraxel@redhat.com>
 References: <20210319112147.4138943-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,71 +84,128 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add pci proxy for virtio-gpu-gl-device, with vga compatibility.
+Move device init (realize) and properties.
+
+Drop the virgl property, the virtio-gpu-gl-device has virgl enabled no
+matter what.  Just use virtio-gpu-device instead if you don't want
+enable virgl and opengl.  This simplifies the logic and reduces the test
+matrix.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/virtio-vga.c | 30 ++++++++++++++++++++++++++++++
- util/module.c           |  1 +
- 2 files changed, 31 insertions(+)
+ include/hw/virtio/virtio-gpu.h |  1 +
+ hw/display/virtio-gpu-gl.c     | 33 +++++++++++++++++++++++++++++++++
+ hw/display/virtio-gpu.c        | 23 +----------------------
+ 3 files changed, 35 insertions(+), 22 deletions(-)
 
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index d3c640406152..f45ebe97d3ed 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -269,10 +269,40 @@ static VirtioPCIDeviceTypeInfo virtio_vga_info = {
-     .instance_init = virtio_vga_inst_initfn,
- };
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 8ee6b8fe0fb8..4c1a8faebec9 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -220,6 +220,7 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+ void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
+                                     struct iovec *iov, uint32_t count);
+ void virtio_gpu_process_cmdq(VirtIOGPU *g);
++void virtio_gpu_device_realize(DeviceState *qdev, Error **errp);
  
-+#define TYPE_VIRTIO_VGA_GL "virtio-vga-gl"
-+
-+typedef struct VirtIOVGAGL VirtIOVGAGL;
-+DECLARE_INSTANCE_CHECKER(VirtIOVGAGL, VIRTIO_VGA_GL,
-+                         TYPE_VIRTIO_VGA_GL)
-+
-+struct VirtIOVGAGL {
-+    VirtIOVGABase parent_obj;
-+
-+    VirtIOGPUGL   vdev;
-+};
-+
-+static void virtio_vga_gl_inst_initfn(Object *obj)
+ /* virtio-gpu-3d.c */
+ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+index a477cbe186d3..9b7b5f00d7e6 100644
+--- a/hw/display/virtio-gpu-gl.c
++++ b/hw/display/virtio-gpu-gl.c
+@@ -16,14 +16,47 @@
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
++#include "sysemu/sysemu.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-gpu.h"
+ #include "hw/virtio/virtio-gpu-bswap.h"
+ #include "hw/virtio/virtio-gpu-pixman.h"
+ #include "hw/qdev-properties.h"
+ 
++static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
 +{
-+    VirtIOVGAGL *dev = VIRTIO_VGA_GL(obj);
++    VirtIOGPU *g = VIRTIO_GPU(qdev);
 +
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VIRTIO_GPU_GL);
-+    VIRTIO_VGA_BASE(dev)->vgpu = VIRTIO_GPU_BASE(&dev->vdev);
++#if defined(HOST_WORDS_BIGENDIAN)
++    error_setg(errp, "virgl is not supported on bigendian platforms");
++    return;
++#endif
++
++    if (!display_opengl) {
++        error_setg(errp, "opengl is not available");
++        return;
++    }
++
++    g->parent_obj.conf.flags |= (1 << VIRTIO_GPU_FLAG_VIRGL_ENABLED);
++    VIRTIO_GPU_BASE(g)->virtio_config.num_capsets =
++        virtio_gpu_virgl_get_num_capsets(g);
++
++    virtio_gpu_device_realize(qdev, errp);
 +}
 +
-+
-+static VirtioPCIDeviceTypeInfo virtio_vga_gl_info = {
-+    .generic_name  = TYPE_VIRTIO_VGA_GL,
-+    .parent        = TYPE_VIRTIO_VGA_BASE,
-+    .instance_size = sizeof(VirtIOVGAGL),
-+    .instance_init = virtio_vga_gl_inst_initfn,
++static Property virtio_gpu_gl_properties[] = {
++    DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj.conf.flags,
++                    VIRTIO_GPU_FLAG_STATS_ENABLED, false),
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
- static void virtio_vga_register_types(void)
+ static void virtio_gpu_gl_class_init(ObjectClass *klass, void *data)
  {
-     type_register_static(&virtio_vga_base_info);
-     virtio_pci_types_register(&virtio_vga_info);
-+    virtio_pci_types_register(&virtio_vga_gl_info);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
++
++    vdc->realize = virtio_gpu_gl_device_realize;
++    device_class_set_props(dc, virtio_gpu_gl_properties);
  }
  
- type_init(virtio_vga_register_types)
-diff --git a/util/module.c b/util/module.c
-index f825b071baa2..0bbe2b25fbec 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -308,6 +308,7 @@ static struct {
-     { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
-     { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
-     { "virtio-vga",            "hw-", "display-virtio-vga"    },
-+    { "virtio-vga-gl",         "hw-", "display-virtio-vga"    },
-     { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
-     { "chardev-braille",       "chardev-", "baum"             },
-     { "chardev-spicevmc",      "chardev-", "spice"            },
+ static const TypeInfo virtio_gpu_gl_info = {
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index c9f5e36fd076..2ee6ba756aba 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1105,25 +1105,10 @@ static int virtio_gpu_load(QEMUFile *f, void *opaque, size_t size,
+     return 0;
+ }
+ 
+-static void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
++void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(qdev);
+     VirtIOGPU *g = VIRTIO_GPU(qdev);
+-    bool have_virgl;
+-
+-#if !defined(CONFIG_VIRGL) || defined(HOST_WORDS_BIGENDIAN)
+-    have_virgl = false;
+-#else
+-    have_virgl = display_opengl;
+-#endif
+-    if (!have_virgl) {
+-        g->parent_obj.conf.flags &= ~(1 << VIRTIO_GPU_FLAG_VIRGL_ENABLED);
+-    } else {
+-#if defined(CONFIG_VIRGL)
+-        VIRTIO_GPU_BASE(g)->virtio_config.num_capsets =
+-            virtio_gpu_virgl_get_num_capsets(g);
+-#endif
+-    }
+ 
+     if (!virtio_gpu_base_device_realize(qdev,
+                                         virtio_gpu_handle_ctrl_cb,
+@@ -1235,12 +1220,6 @@ static Property virtio_gpu_properties[] = {
+     VIRTIO_GPU_BASE_PROPERTIES(VirtIOGPU, parent_obj.conf),
+     DEFINE_PROP_SIZE("max_hostmem", VirtIOGPU, conf_max_hostmem,
+                      256 * MiB),
+-#ifdef CONFIG_VIRGL
+-    DEFINE_PROP_BIT("virgl", VirtIOGPU, parent_obj.conf.flags,
+-                    VIRTIO_GPU_FLAG_VIRGL_ENABLED, true),
+-    DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj.conf.flags,
+-                    VIRTIO_GPU_FLAG_STATS_ENABLED, false),
+-#endif
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.30.2
 
