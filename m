@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505023426DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 21:28:58 +0100 (CET)
-Received: from localhost ([::1]:53390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5803426EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 21:31:30 +0100 (CET)
+Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNLjZ-0001jV-Cy
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 16:28:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47692)
+	id 1lNLmL-0004a8-J9
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 16:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNLf1-0004hj-Fq; Fri, 19 Mar 2021 16:23:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:33073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lNLex-0001PB-5k; Fri, 19 Mar 2021 16:23:55 -0400
-Received: from localhost.localdomain ([82.142.20.38]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MKKIZ-1l7BxG2KbP-00LrCS; Fri, 19 Mar 2021 21:23:45 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] iotests: iothreads need ioeventfd
-Date: Fri, 19 Mar 2021 21:23:35 +0100
-Message-Id: <20210319202335.2397060-7-laurent@vivier.eu>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210319202335.2397060-1-laurent@vivier.eu>
-References: <20210319202335.2397060-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lNLfq-00065v-Iw
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 16:24:46 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:38457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lNLfl-0001ld-Lx
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 16:24:46 -0400
+Received: by mail-ot1-x331.google.com with SMTP id
+ w21-20020a9d63950000b02901ce7b8c45b4so9729939otk.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 13:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=E6ky6tK1daP3TetAERWckLy+AlZziuPEx2vt1lKxAks=;
+ b=T68jS8lSXcXyOaOztwOdgHYO7F9U8waSr2c/hKqbem24Tsmn4FUcA9VJkM2fzm3oR9
+ CEw2+qzWdmlVwiFNSpIR0u87bM8VAVf5nuk/zq1imG2g1eBvliocmnXAfupD+GSyuDJg
+ T5k7YBv4Z4PlfZKBS7POpE+htpqg6Ph38O8jnpZ5W2ZQ4gHc9RIp0HTPgRQlw82w7Mfq
+ jOycQCuuVXMPjBE4UWrFk3FQru6ZMJzlPJTEyLnkmjYtDYWECPbZJOvkLyRkIEryFzS6
+ FysmGRf5VmXlh3p+R/MBeiFYJPbBI3iHvkUqNWwUz5NAf3lZTWBiJaf7xpdisVFIbww+
+ vAnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E6ky6tK1daP3TetAERWckLy+AlZziuPEx2vt1lKxAks=;
+ b=BVA7ykLtjj6oc0XIsAM84/ypGyUmpX5X33utxcZcnYSrmTyAnSlbdcXjFd9VKGoEUB
+ eN2jvJNmnwSOwdRCx47zBAdHZmTuVFy/ceYs+fm/z8SOspByjOS9PQneJZ1n8/v36qhz
+ +xHuImvzx6FTg4eq0uabXmXwKPDc4DISOCYCugLBqNlYwG5iOrX8diXfg2H4BWmLperO
+ XCEjzbRoUzmyx4AAho2ijh2bAq6nemeYppfxikeSt2/fylXV+aW9rk4iFWJA+ulx90JW
+ bQo5TCvSwXGJ43y/KTwam7A8t1GVo0kHU1k2F18rDs6nkqvQ6YSha9yVBdgUUcD7Z6+Q
+ dW3g==
+X-Gm-Message-State: AOAM531TzklqKz8ohho0mzeVA3r8YTzyLz7Sg1MA/KUIxamLtO0kqENq
+ dzgrrQ0v8rQpeZ7uSp6updAJ5bNjDm/yM9AN
+X-Google-Smtp-Source: ABdhPJwDetrmQn+SNwsh+4o6VQ1HYA5MQgfHlAGVXHajlu4mnA8RhQ4yGJ5JkpgyhZa27nz1jT+gQQ==
+X-Received: by 2002:a05:6830:1e51:: with SMTP id
+ e17mr2433907otj.292.1616185479835; 
+ Fri, 19 Mar 2021 13:24:39 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id z6sm1463608otq.48.2021.03.19.13.24.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 13:24:39 -0700 (PDT)
+Subject: Re: [PULL 26/40] linux-user/aarch64: Pass syndrome to EXC_*_ABORT
+To: Laurent Vivier <laurent@vivier.eu>
+References: <20210216161658.29881-1-peter.maydell@linaro.org>
+ <20210216161658.29881-27-peter.maydell@linaro.org>
+ <f484737b-8dc1-fc16-06a5-753500104bf0@vivier.eu>
+ <d7e3c7d3-e21e-8549-70a2-e6997e95b4f7@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <57cb906c-7540-f568-b458-b8952fb0fb7d@linaro.org>
+Date: Fri, 19 Mar 2021 14:24:35 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <d7e3c7d3-e21e-8549-70a2-e6997e95b4f7@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Bvr2lMNLeWFB6ix2L7INbQjVwPfsB0Cd5IFjUjpHS0KtvsDGMR9
- ZlP4KCWbMBXS6cT1ZONF84AD2WtGoP64I177hZvBcTiji85TRVmGWdyPRsfoP2wfSHxDoep
- mHxplD6vXQuSwIVW64jDsZJOiv0ZKW7cYM9Ih4nH04+Dt42g1FeKQfpb/hSE/Lk5hQ57eN7
- Tu60Me1+7i34V9tyQyIAw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lbiQ0Lcfwxo=:3DyiptjdbaIuF0ninv4s4n
- Y7jKE2n6dRWGJmoqAYNPJiJxxide7qfejXySBzt+gpUaX8ekPREy60xC6L4nYdnXTaY+eIB+X
- SrvAX7x0yaPF3gQQNkB8P+OwdUMlDjWclJrR47dUmcDnZRLTUx9LlkBaI4A8G4DBfdH1g/a2y
- s74DX2pGNcvn64/laGVCp+9dmHbXb/n6crfFxXVgNtk7sXOufDGqDhpr94PQZ8AZp+CxxRSOY
- iTHutYOnKBmgEqitzWzyDYR0Q2d9EPxlij21ozogBV1LwUCmDEnTny+bCqiTTl1Yc4H7NZc9S
- lnX1lp+KalxttfV/pCABtKkuzIPzrbUTFa4lPZiIKQskr4SzIfjsbrKATOCBEL6e+CI4+Ibg/
- jq4g2znhe3z5zo7wWU+P4NkSmFyi+zBixAbWym69pxEwxldK1MDGJXJq0AQ78iDE6iHndEMA3
- dSUOYmPfuw==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,108 +92,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And ioeventfd are only available with virtio-scsi-pci or virtio-scsi-ccw,
-use the alias but add a rule to require virtio-scsi-pci or virtio-scsi-ccw
-for the tests that use iothreads.
+On 3/19/21 1:19 PM, Laurent Vivier wrote:
+> Richard,
+> 
+> do you have any idea how to fix this problem?
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- tests/qemu-iotests/127        |  3 ++-
- tests/qemu-iotests/256        |  6 ++++--
- tests/qemu-iotests/common.rc  | 13 +++++++++++++
- tests/qemu-iotests/iotests.py |  5 +++++
- 4 files changed, 24 insertions(+), 3 deletions(-)
+Oops, started building ltp, then forgot about it.  Looking now.
 
-diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
-index 98e8e82a8210..32edc3b0685e 100755
---- a/tests/qemu-iotests/127
-+++ b/tests/qemu-iotests/127
-@@ -44,7 +44,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file fuse
- 
--_require_devices virtio-scsi scsi-hd
-+_require_devices scsi-hd
-+_require_one_device_of virtio-scsi-pci virtio-scsi-ccw
- 
- IMG_SIZE=64K
- 
-diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256
-index 8d82a1dd865f..13666813bd8f 100755
---- a/tests/qemu-iotests/256
-+++ b/tests/qemu-iotests/256
-@@ -24,6 +24,8 @@ import os
- import iotests
- from iotests import log
- 
-+iotests._verify_virtio_scsi_pci_or_ccw()
-+
- iotests.script_initialize(supported_fmts=['qcow2'])
- size = 64 * 1024 * 1024
- 
-@@ -61,8 +63,8 @@ with iotests.FilePath('img0') as img0_path, \
-     log('--- Preparing images & VM ---\n')
-     vm.add_object('iothread,id=iothread0')
-     vm.add_object('iothread,id=iothread1')
--    vm.add_device('virtio-scsi-pci,id=scsi0,iothread=iothread0')
--    vm.add_device('virtio-scsi-pci,id=scsi1,iothread=iothread1')
-+    vm.add_device('virtio-scsi,id=scsi0,iothread=iothread0')
-+    vm.add_device('virtio-scsi,id=scsi1,iothread=iothread1')
-     iotests.qemu_img_create('-f', iotests.imgfmt, img0_path, str(size))
-     iotests.qemu_img_create('-f', iotests.imgfmt, img1_path, str(size))
-     vm.add_drive(img0_path, interface='none')
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 65cdba5723ba..7f49c9716db7 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -977,5 +977,18 @@ _require_devices()
-     done
- }
- 
-+_require_one_device_of()
-+{
-+    available=$($QEMU -M none -device help | \
-+                grep ^name | sed -e 's/^name "//' -e 's/".*$//')
-+    for device
-+    do
-+        if echo "$available" | grep -q "$device" ; then
-+            return
-+        fi
-+    done
-+    _notrun "$* not available"
-+}
-+
- # make sure this script returns success
- true
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 1e9e6a066e90..5af01828951e 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1146,6 +1146,11 @@ def _verify_virtio_blk() -> None:
-     if 'virtio-blk' not in out:
-         notrun('Missing virtio-blk in QEMU binary')
- 
-+def _verify_virtio_scsi_pci_or_ccw() -> None:
-+    out = qemu_pipe('-M', 'none', '-device', 'help')
-+    if 'virtio-scsi-pci' not in out and 'virtio-scsi-ccw' not in out:
-+        notrun('Missing virtio-scsi-pci or virtio-scsi-ccw in QEMU binary')
-+
- 
- def supports_quorum():
-     return 'quorum' in qemu_img_pipe('--help')
--- 
-2.30.2
+
+r~
+
+> 
+> Thanks,
+> Laurent
+> 
+> Le 12/03/2021 à 12:09, Laurent Vivier a écrit :
+>> Hi,
+>>
+>> On 16/02/2021 17:16, Peter Maydell wrote:
+>>> From: Richard Henderson <richard.henderson@linaro.org>
+>>>
+>>> A proper syndrome is required to fill in the proper si_code.
+>>> Use page_get_flags to determine permission vs translation for user-only.
+>>>
+>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Message-id: 20210212184902.1251044-27-richard.henderson@linaro.org
+>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>>> ---
+>>>   linux-user/aarch64/cpu_loop.c | 24 +++++++++++++++++++++---
+>>>   target/arm/tlb_helper.c       | 15 +++++++++------
+>>>   2 files changed, 30 insertions(+), 9 deletions(-)
+>>
+>> While I was testing my next linux-user pull request I found this patch breaks something.
+>>
+>> Following LTP tests are broken:
+>>
+>> mmap05
+>> mprotect02
+>> mprotect03
+>> mprotect04
+>> shmat01
+>>
+>> with arm64/sid, arm64/trusty, arm64/bionic
+>>
+>> Bisecting only using mmap05 test I find this patch.
+>>
+>> Symptoms are:
+>>
+>> $ sudo unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root
+>> chroot/arm64/sid /opt/ltp/testcases/bin/mmap05
+>> **
+>> ERROR:../../../Projects/qemu/linux-user/aarch64/cpu_loop.c:141:cpu_loop: code should not
+>> be reached
+>> Bail out! ERROR:../../../Projects/qemu/linux-user/aarch64/cpu_loop.c:141:cpu_loop: code
+>> should not be reached
+>> qemu:handle_cpu_signal received signal outside vCPU context @ pc=0x7f45c1cd9706
+>>
+>> Expected result is:
+>>
+>> mmap05      1  TPASS  :  Got SIGSEGV as expected
+>>
+>> Thanks,
+>> Laurent
+>>
+>>>
+>>> diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+>>> index 42b9c15f536..4e43906e66a 100644
+>>> --- a/linux-user/aarch64/cpu_loop.c
+>>> +++ b/linux-user/aarch64/cpu_loop.c
+>>> @@ -23,6 +23,7 @@
+>>>   #include "cpu_loop-common.h"
+>>>   #include "qemu/guest-random.h"
+>>>   #include "hw/semihosting/common-semi.h"
+>>> +#include "target/arm/syndrome.h"
+>>>   
+>>>   #define get_user_code_u32(x, gaddr, env)                \
+>>>       ({ abi_long __r = get_user_u32((x), (gaddr));       \
+>>> @@ -76,7 +77,7 @@
+>>>   void cpu_loop(CPUARMState *env)
+>>>   {
+>>>       CPUState *cs = env_cpu(env);
+>>> -    int trapnr;
+>>> +    int trapnr, ec, fsc;
+>>>       abi_long ret;
+>>>       target_siginfo_t info;
+>>>   
+>>> @@ -117,9 +118,26 @@ void cpu_loop(CPUARMState *env)
+>>>           case EXCP_DATA_ABORT:
+>>>               info.si_signo = TARGET_SIGSEGV;
+>>>               info.si_errno = 0;
+>>> -            /* XXX: check env->error_code */
+>>> -            info.si_code = TARGET_SEGV_MAPERR;
+>>>               info._sifields._sigfault._addr = env->exception.vaddress;
+>>> +
+>>> +            /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
+>>> +            ec = syn_get_ec(env->exception.syndrome);
+>>> +            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
+>>> +
+>>> +            /* Both EC have the same format for FSC, or close enough. */
+>>> +            fsc = extract32(env->exception.syndrome, 0, 6);
+>>> +            switch (fsc) {
+>>> +            case 0x04 ... 0x07: /* Translation fault, level {0-3} */
+>>> +                info.si_code = TARGET_SEGV_MAPERR;
+>>> +                break;
+>>> +            case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
+>>> +            case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
+>>> +                info.si_code = TARGET_SEGV_ACCERR;
+>>> +                break;
+>>> +            default:
+>>> +                g_assert_not_reached();
+>>> +            }
+>>> +
+>>>               queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+>>>               break;
+>>>           case EXCP_DEBUG:
+>>> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+>>> index df85079d9f0..9609333cbdf 100644
+>>> --- a/target/arm/tlb_helper.c
+>>> +++ b/target/arm/tlb_helper.c
+>>> @@ -154,21 +154,24 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>>>                         bool probe, uintptr_t retaddr)
+>>>   {
+>>>       ARMCPU *cpu = ARM_CPU(cs);
+>>> +    ARMMMUFaultInfo fi = {};
+>>>   
+>>>   #ifdef CONFIG_USER_ONLY
+>>> -    cpu->env.exception.vaddress = address;
+>>> -    if (access_type == MMU_INST_FETCH) {
+>>> -        cs->exception_index = EXCP_PREFETCH_ABORT;
+>>> +    int flags = page_get_flags(useronly_clean_ptr(address));
+>>> +    if (flags & PAGE_VALID) {
+>>> +        fi.type = ARMFault_Permission;
+>>>       } else {
+>>> -        cs->exception_index = EXCP_DATA_ABORT;
+>>> +        fi.type = ARMFault_Translation;
+>>>       }
+>>> -    cpu_loop_exit_restore(cs, retaddr);
+>>> +
+>>> +    /* now we have a real cpu fault */
+>>> +    cpu_restore_state(cs, retaddr, true);
+>>> +    arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
+>>>   #else
+>>>       hwaddr phys_addr;
+>>>       target_ulong page_size;
+>>>       int prot, ret;
+>>>       MemTxAttrs attrs = {};
+>>> -    ARMMMUFaultInfo fi = {};
+>>>       ARMCacheAttrs cacheattrs = {};
+>>>   
+>>>       /*
+>>>
+>>
+>>
+> 
 
 
