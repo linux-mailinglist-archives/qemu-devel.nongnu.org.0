@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B610C3419C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:18:08 +0100 (CET)
-Received: from localhost ([::1]:54352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DD23419B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:16:07 +0100 (CET)
+Received: from localhost ([::1]:47704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNCCl-0005PA-NE
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47702)
+	id 1lNCAo-0002XE-2i
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC80-0000iD-4A
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:13:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC7y-0008Pz-5T
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:13:11 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC83-0000ox-PF
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:13:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC82-0008SP-48
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:13:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616148789;
+ s=mimecast20190719; t=1616148793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3vLM41dGGQX7Z4ez6WRCbGvwPkiRef9yP0VgkIZZicA=;
- b=HOgcbO31yzLNyIqJjQnLhAPFQX3tiW82FJB+wKQ4RxflQnhxM5tmRWlRrLrHzaXSa1Mchb
- eiRmTZtwEBho/T4NmaWdBDZNyMUPwAJdGo9aymFuVRo5LWpVAxoEf524cDTRjVW/Ifd+X1
- uPPMfeYGWQNYrtf5vqL8pT57UVYeXNA=
+ bh=gm0bKn2AknzXfWOrVnF1vpMqFpQSv+NvTkNokQkf9SU=;
+ b=Lfg1hNaLeN2DVlYzBI2VlvXKGN+V8CEE45rGU8cZ+CKodMdejqfB+136enlCMHyx37qtkx
+ BaJBRoC/u5NCHwU847h/w1b2IptxrHDCJAWOvVzdKEZZTvymVvNbAALFrA2sxMXYPooc8C
+ LDh3j1BxhmWVkgjHRrCWOj8vOZotw+4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588--HY1WqLWNq2Y3YlxtDEnGg-1; Fri, 19 Mar 2021 06:13:07 -0400
-X-MC-Unique: -HY1WqLWNq2Y3YlxtDEnGg-1
+ us-mta-169-jfFwo_aXOjmwTPLhBgSbbw-1; Fri, 19 Mar 2021 06:13:11 -0400
+X-MC-Unique: jfFwo_aXOjmwTPLhBgSbbw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AB3B180FCA0;
- Fri, 19 Mar 2021 10:13:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D411180FCAC;
+ Fri, 19 Mar 2021 10:13:10 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-11.ams2.redhat.com [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D62C10013C1;
- Fri, 19 Mar 2021 10:12:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E87F910013C1;
+ Fri, 19 Mar 2021 10:13:06 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/14] softmmu/physmem: Fix ram_block_discard_range() to
- handle shared anonymous memory
-Date: Fri, 19 Mar 2021 11:12:18 +0100
-Message-Id: <20210319101230.21531-3-david@redhat.com>
+Subject: [PATCH v4 03/14] softmmu/physmem: Fix qemu_ram_remap() to handle
+ shared anonymous memory
+Date: Fri, 19 Mar 2021 11:12:19 +0100
+Message-Id: <20210319101230.21531-4-david@redhat.com>
 In-Reply-To: <20210319101230.21531-1-david@redhat.com>
 References: <20210319101230.21531-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,56 +91,36 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can create shared anonymous memory via
-    "-object memory-backend-ram,share=on,..."
-which is, for example, required by PVRDMA for mremap() to work.
-
-Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
-have to use MADV_REMOVE: MADV_DONTNEED will only remove / zap all
-relevant page table entries of the current process, the backend storage
-will not get removed, resulting in no reduced memory consumption and
-a repopulation of previous content on next access.
-
-Shared anonymous memory is internally really just shmem, but without a
-fd exposed. As we cannot use fallocate() without the fd to discard the
-backing storage, MADV_REMOVE gets the same job done without a fd as
-documented in "man 2 madvise". Removing backing storage implicitly
-invalidates all page table entries with relevant mappings - an additional
-MADV_DONTNEED is not required.
+RAM_SHARED now also properly indicates shared anonymous memory. Let's check
+that flag for anonymous memory as well, to restore the proper mapping.
 
 Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- softmmu/physmem.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ softmmu/physmem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 76bb8e324e..afff96a6dc 100644
+index afff96a6dc..cc59f05593 100644
 --- a/softmmu/physmem.c
 +++ b/softmmu/physmem.c
-@@ -3506,6 +3506,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
-         /* The logic here is messy;
-          *    madvise DONTNEED fails for hugepages
-          *    fallocate works on hugepages and shmem
-+         *    shared anonymous memory requires madvise REMOVE
-          */
-         need_madvise = (rb->page_size == qemu_host_page_size);
-         need_fallocate = rb->fd != -1;
-@@ -3539,7 +3540,11 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
-              * fallocate'd away).
-              */
- #if defined(CONFIG_MADVISE)
--            ret =  madvise(host_startaddr, length, MADV_DONTNEED);
-+            if (qemu_ram_is_shared(rb) && rb->fd < 0) {
-+                ret = madvise(host_startaddr, length, MADV_REMOVE);
-+            } else {
-+                ret = madvise(host_startaddr, length, MADV_DONTNEED);
-+            }
-             if (ret) {
-                 ret = -errno;
-                 error_report("ram_block_discard_range: Failed to discard range "
+@@ -2222,13 +2222,13 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
+                 abort();
+             } else {
+                 flags = MAP_FIXED;
++                flags |= block->flags & RAM_SHARED ?
++                         MAP_SHARED : MAP_PRIVATE;
+                 if (block->fd >= 0) {
+-                    flags |= (block->flags & RAM_SHARED ?
+-                              MAP_SHARED : MAP_PRIVATE);
+                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
+                                 flags, block->fd, offset);
+                 } else {
+-                    flags |= MAP_PRIVATE | MAP_ANONYMOUS;
++                    flags |= MAP_ANONYMOUS;
+                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
+                                 flags, -1, 0);
+                 }
 -- 
 2.29.2
 
