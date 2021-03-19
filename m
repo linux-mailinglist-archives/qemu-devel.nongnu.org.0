@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629F7342229
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 17:42:45 +0100 (CET)
-Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6809234225C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 17:43:56 +0100 (CET)
+Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNICy-0006aS-00
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 12:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
+	id 1lNIE7-0007Qs-FD
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 12:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNIAN-0005sf-HV
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:40:03 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:45614)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNIAJ-0007jO-Vw
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:40:03 -0400
-Received: by mail-ed1-x529.google.com with SMTP id bx7so11506057edb.12
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 09:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3klji1FmXjnwAmVav7aIHYxG0BX0zcCVY0eMfcs0DaM=;
- b=smOhA88eQ8s6m8X5dWuJ6szkgRw5earqb8VxNqVUbq2qEZ+ixLldfXFObKYDWX/AhP
- F/lCdf78ZzL/6zVLU0kanGAmSQ70klbe5SUkhqPsytOySvHm36oCTps0jrNf2NtqmxM5
- 3OaxFhuIf52dLMRXfU4q/DKE1WKI8hB3ZuZWE/067FiWnnpmlxmwbk4iPyjkXNG6037T
- QFo2l55N3G3lfJQ3YSVToHd4f0EfiOY1osyR2/rP0vx+w5qq/PYx5EzeZlb1nZzjj4Vn
- l1/MRh5C8FjSrUMbMvnwI1yxPRqNSOh455BF6VQXZMpHgS9SVm4BdyzMm5oyHhwoq6Z9
- Tu2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3klji1FmXjnwAmVav7aIHYxG0BX0zcCVY0eMfcs0DaM=;
- b=Hucm2+zSYUprXiRRALd1oe0WZWcPXZHbL/CrnYbFgNUSu57PhiUlXuxPHh8N2xJnxf
- 17wwdV5YrYbjk0LeN6LdDvE4klKKs6Qvwa+mFudYh1k5dVPmbDJJNRd69Y99OVXkJEM4
- yZWUHhxE/4QAb1hiOTSzEgoggk3uSr4g7L3AhuS4yz7cfQoQik7pLLQCQfFWvn3RTalj
- Hn+wgTe+vCYTEPtg6UOR4w6KM1/qXRRy8JScsPIFffo8VWBsa1mzYSjv/ZMvB8AdrGAW
- Nv+bTotUpPtra5+Vh12BDwY3eWlGBYOvIFo7MQethi903oLs8U75HIfkWoXdES42EHdq
- YYzg==
-X-Gm-Message-State: AOAM533YbEYhpY6V6dWQltdyVHSMMZ7Zm+TAXcVrOVZoeP4xtwDiE4cH
- mIVJoYpfnEsV9FVtdhB7p68GjpYy+/dbxH3WNJBfwQ==
-X-Google-Smtp-Source: ABdhPJwm81AhBAcrIzgvexdHqhpiLAY3QIxuuk7BLtpjUcIPUkNSEdTBDTcrztv6pqVf63TXwwSw/FDwOVeLhtzkZSE=
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr10431476edu.100.1616171998412; 
- Fri, 19 Mar 2021 09:39:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210319144312.2082946-1-armbru@redhat.com>
-In-Reply-To: <20210319144312.2082946-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Mar 2021 16:39:33 +0000
-Message-ID: <CAFEAcA-3UmJ5r-iv_hUXwKo4KRQQ9xxE+rXG7YmwgsL+FBekSw@mail.gmail.com>
-Subject: Re: [PULL v5 0/7] QOM and fdc patches patches for 2021-03-16
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNIBV-0006Kq-HE
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:41:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNIBS-0008Ve-71
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:41:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616172068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/J21uGETHrwDAQyywr78OoqTBzmfq1JJzK21QIoQzG0=;
+ b=awfqUL0E7f4jS2Ub6AwmVAW2N/3KCYeA3AXSrdBfKJpXnF1mecwfSEHtERiYry6U1P8cLC
+ aTNMUY2Mly96JnwT8+DJ3cGh86j7AjfcP5CSp9XI21iIT/PVxtTgo1ifTrkm0oLbogDqQs
+ r05cd8kk/HeG9e5XPNxir5QzCIjTqF0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-COPPw1gYM6OcsCEWKDXr9A-1; Fri, 19 Mar 2021 12:41:07 -0400
+X-MC-Unique: COPPw1gYM6OcsCEWKDXr9A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD94B107ACCA;
+ Fri, 19 Mar 2021 16:41:05 +0000 (UTC)
+Received: from [10.36.112.130] (ovpn-112-130.ams2.redhat.com [10.36.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0994160BF1;
+ Fri, 19 Mar 2021 16:40:52 +0000 (UTC)
+Subject: Re: [PATCH v4 13/14] qmp: Include "reserve" property of memory
+ backends
 To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210319101230.21531-1-david@redhat.com>
+ <20210319101230.21531-14-david@redhat.com>
+ <87ft0ri23r.fsf@dusky.pond.sub.org>
+ <84f961a5-6292-8364-9491-f8330b401a65@redhat.com>
+ <87zgyzf6jq.fsf@dusky.pond.sub.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <9763d3e3-3313-ac5c-035e-89175f2460a2@redhat.com>
+Date: Fri, 19 Mar 2021 17:40:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <87zgyzf6jq.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,43 +86,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Mar 2021 at 14:43, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 92566947b3ac5ca75f91a34acb188219c455fc71:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-03-19 11:27:40 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qom-fdc-2021-03-16-v5
->
-> for you to fetch changes up to bb3c92ed105f0704ffd1cc1dc6031b6d457c829e:
->
->   memory: Drop "qemu:" prefix from QOM memory region type names (2021-03-19 15:18:43 +0100)
->
-> ----------------------------------------------------------------
-> QOM and fdc patches patches for 2021-03-16
->
-> ----------------------------------------------------------------
-> Markus Armbruster (7):
->       fuzz: Avoid deprecated misuse of -drive if=sd
->       docs/system/deprecated: Fix note on fdc drive properties
->       fdc: Drop deprecated floppy configuration
->       fdc: Inline fdctrl_connect_drives() into fdctrl_realize_common()
->       blockdev: Drop deprecated bogus -drive interface type
->       hw: Replace anti-social QOM type names
->       memory: Drop "qemu:" prefix from QOM memory region type names
->
+On 19.03.21 17:32, Markus Armbruster wrote:
+> David Hildenbrand <david@redhat.com> writes:
+> 
+>> On 19.03.21 16:40, Markus Armbruster wrote:
+>>> David Hildenbrand <david@redhat.com> writes:
+>>>
+>>>> Let's include the new property.
+>>>>
+>>>> Cc: Eric Blake <eblake@redhat.com>
+>>>> Cc: Markus Armbruster <armbru@redhat.com>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>    hw/core/machine-qmp-cmds.c | 1 +
+>>>>    qapi/machine.json          | 6 ++++++
+>>>>    2 files changed, 7 insertions(+)
+>>>>
+>>>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+>>>> index 68a942595a..bd2a7f2dd0 100644
+>>>> --- a/hw/core/machine-qmp-cmds.c
+>>>> +++ b/hw/core/machine-qmp-cmds.c
+>>>> @@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
+>>>>            m->merge = object_property_get_bool(obj, "merge", &error_abort);
+>>>>            m->dump = object_property_get_bool(obj, "dump", &error_abort);
+>>>>            m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
+>>>> +        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
+>>>>            m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
+>>>>                                                 &error_abort);
+>>>>            host_nodes = object_property_get_qobject(obj,
+>>>> diff --git a/qapi/machine.json b/qapi/machine.json
+>>>> index c0c52aef10..12860a1f79 100644
+>>>> --- a/qapi/machine.json
+>>>> +++ b/qapi/machine.json
+>>>> @@ -814,6 +814,11 @@
+>>>>    #
+>>>>    # @prealloc: enables or disables memory preallocation
+>>>>    #
+>>>> +# @reserve: enables or disables reservation of swap space (or huge pages
+>>>> +#           if applicable). If reservation is enabled (default), actual
+>>>> +#           reservation depends on underlying OS support. In contrast,
+>>>> +#           disabling reservation without OS support will bail out. (since 6.1)
+>>>> +#
+>>>
+>>> Provides two settings: "enable reservation if possible", and "disable
+>>> reservation or else fail".
+>>>
+>>> Does "enable reservation or else fail" make no sense, or is it merely
+>>> unimplemented?
+>>
+>> The default for now used to be "enable reservation if possible". For
+>> example, Windows always reserves/commits the whole region. Under
+>> Linux, reservation is always done for private memory mappings,
+>> however, especially for basically all (with one exception) shared
+>> memory there is no reservation of any kind (with another exception).
+>>
+>> For example, it does not make sense to reserve swap space for a
+>> file-backed mapping; we can just writeback to the file in case we run
+>> out of memory. Therefore, Linux will never reserve swap space in that case.
+>>
+>> So if we were to implement a "enable reservation or else fail", the
+>> default ("true") would no longer work for existing setups.
+>>
+>> Usually we want "enable reservation if possible" unless in spacial
+>> cases ("definitely avoid the reservation")
+> 
+> Wait a second...  struct Memdev is actually the result of query-memdev,
+> and *not* a command or option argument.
+> 
+> Saying "enables or disables reservation of swap space" is misleading.
+> This isn't ever about enabling or disabling things, it's about querying
+> whether things are enabled or disabled.
+> 
+> Existing member documentation has the same issue:
+> 
+>      # @merge: enables or disables memory merge support
+>      #
+>      # @dump: includes memory backend's memory in a core dump or not
+>      #
+>      # @prealloc: enables or disables memory preallocation
+
+Yes, I was only playing along although it looked kind of weird ...
+
+> 
+> Should be something like
+> 
+>      # @merge: whether memory merge support is enabled
+>      #
+>      # @dump: whether the memory backend's memory is included in a core dump
+>      #
+>      # @prealloc: whether memory is preallocated
+> 
+
+I'll include a cleanup for these in the next version.
 
 
-Applied, thanks.
+> The new member could be phrased like:
+> 
+>      # @reserved: whether swap space (or huge pages if applicable) have
+>      # been reserved.
+> 
+> Mind, I'm proposing how to phrase things, not how things are.  You'll
+> likely have to adjust the contents of my proposal to match reality.
+> 
+> If we can't always tell whether swap space (or whatever) has been
+> reserved, then
+> 
+> * If we can only ever tell when it has *not* been reserved, make false
+>    mean "not reserved", and true mean "dunno".
+> 
+> * If we can tell sometimes
+> 
+>    - but nobody cares for the difference between "reserved" and "dunno",
+>      same as above.
+> 
+>    - and users may care for the difference, we need three values: "not
+>      reserved", "reserved", and "dunno".  There are various ways to do
+>      that.  No use talking about them before we know we need one of them.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+Right, usually we care about "reserve is a reservation makes sense and 
+is possible" - decided by the OS and "definitely don't reserve if you 
+would have reserved anything".
 
--- PMM
+Thanks!
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
