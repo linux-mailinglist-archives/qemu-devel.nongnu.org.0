@@ -2,55 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDDA34174C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 09:24:45 +0100 (CET)
-Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C2B341780
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 09:28:51 +0100 (CET)
+Received: from localhost ([::1]:35478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNAR2-0004Wu-VE
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 04:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
+	id 1lNAV0-0006uc-AS
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 04:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lNAQ6-0003y4-Dk; Fri, 19 Mar 2021 04:23:46 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44960)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lNAUA-0006U8-Ne
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 04:27:58 -0400
+Received: from mail-eopbgr150124.outbound.protection.outlook.com
+ ([40.107.15.124]:14880 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lNAQ4-00011Y-GZ; Fri, 19 Mar 2021 04:23:46 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E6847AE04;
- Fri, 19 Mar 2021 08:23:42 +0000 (UTC)
-Subject: Re: arm_cpu_post_init (Was: Re: arm: "max" CPU class hierarchy
- changes possible?)
-From: Claudio Fontana <cfontana@suse.de>
-To: Andrew Jones <drjones@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
- <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
- <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
- <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
- <CAFEAcA_j-0+vmNFtPjcxEXC9r4bFrebDfGjq-x1SfguzUG4qcw@mail.gmail.com>
- <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
- <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
-Message-ID: <fcfae16c-cfba-db2e-6d4e-e5c88cd64fa8@suse.de>
-Date: Fri, 19 Mar 2021 09:23:42 +0100
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lNAU8-0003n3-2k
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 04:27:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mJwlO3mk6Yx9ZgzLKQR48MXTn3u/ZGxBEQSxMb6LnlXFgxFiXokLXRhEQ5OLfRDhKs9/xiLKKHZIaE01WTLiEYXW0CGIEiieQAvQXM2vFs6qmg17NS8e2LI0+iriOQtB9BmwXaZ0sscTIZor0/qR1uFs07rvhup3HCf9miuL1z09YtXIdrTwz+9ehv1lj8zsLfn81aPdyZAbHZecfLMgXlCX4vjEQJa9RLvLHmN16y+A0BDc50IVxEitGdhbetlo4nsJt+D/vKK2wu9bz2EElZ2DWa/zI5QXbieQfvJ8UC6akfxf+x5FPPFUrL33M0uq2gWNkk7gU96ek2uQZsWdnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GvapmxS7nG1tXaBmeh3H6BkaJAzB/G8rx56otRUUB2Y=;
+ b=DREhORhxj1h+O2p3yNqlsi6B1Vji3GXzN+A02/+eQi/m7ICdHccTSP4qgG8Nr0zFh8K+k0ss/GnyCcgCVhWVyAKvBaWr4iDadOQvZ8XkOqwp7b8k/pBMGzsvBzUj7YVwvZV09sfCIFNSNvfNkIQjJYV7LbAaYOmLPlkYO4NEcZF+0AvxcQe3vtboh5qOr6k5xg3pyu1dXLP7cGRvts6FlqOqwngEWeIXK7w3WKomKQIJSPZDvkWQyusTTnTtgGOwSABNaQUhAcbFfMORGxlr0O06pqV/ZGvDJUxVZUL2JBk8DVAQD6XryEi2t2YDTbEVdwOUESyGN94YKohg+im42Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GvapmxS7nG1tXaBmeh3H6BkaJAzB/G8rx56otRUUB2Y=;
+ b=WdTLY0Jg8g555y4Dx0JS+7hMxvXQ+j09ugPCZw5fPJfkshG4ZoKijo0Wo8A+DMLyX8Zzrda+FOXdc5hYC3MU2eT68abcWvG9zzl3OC9I88SsbktzgHBNJ/MKq4uLt70lGENScyJsCF9hYvOGcNUJQi3vQ3MwVhP7RNqtSXUVZWU=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
+ by AM4PR0802MB2180.eurprd08.prod.outlook.com (2603:10a6:200:59::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Fri, 19 Mar
+ 2021 08:27:52 +0000
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3955.023; Fri, 19 Mar 2021
+ 08:27:52 +0000
+Subject: Re: [PATCH 2/3] migration: Inhibit virtio-balloon for the duration of
+ background snapshot
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>
+References: <20210318174611.293520-1-andrey.gruzdev@virtuozzo.com>
+ <20210318174611.293520-3-andrey.gruzdev@virtuozzo.com>
+ <1892eefd-4405-705d-9242-50145c0d3fcd@redhat.com>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <aabbd493-5610-f8dc-ce58-ae8fba3ab283@virtuozzo.com>
+Date: Fri, 19 Mar 2021 11:27:49 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ Thunderbird/68.10.0
+In-Reply-To: <1892eefd-4405-705d-9242-50145c0d3fcd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM0PR10CA0084.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::37) To AM0PR08MB3364.eurprd08.prod.outlook.com
+ (2603:10a6:208:e4::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM0PR10CA0084.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Fri, 19 Mar 2021 08:27:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 696dd58f-ed80-48b8-4329-08d8eab0e32b
+X-MS-TrafficTypeDiagnostic: AM4PR0802MB2180:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM4PR0802MB2180780DB5C3294D2914A2F79F689@AM4PR0802MB2180.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:42;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wmKeO1hl++tEbaq1ByJnGH+yotveWW0h0qZN0WBS4MUQKKtl+ukzgzZMnfJW/NANCdohhtqNbwzIqMAcHjzYFx7MikXQOj72AVhAcMBQBmyzy1eMqnJpsvqKgJ8fqnSXCwB5DmO+vlcm/5F9kj00dEMgYQjCZWCXVwtmWNByUNSwrzUNmL1oH/f3/YDS7jGUrJw4wE2gULNR8x98bVM1fVnUIGRA4KcJusY3WBkMuU7LdwmMR8+PbeODNnhnzQIjlOljyUHPA0iZkd/1iS59cbaFARj60sYbYhNFaP1nC7YXM9X0h/KNxWB354bxoltTptD3ytFA3YsNbGCJjRHP0Ca/9CIFVSSopyRDcbBYf3ODoSTfVHw/yPBaN7A1orzV57kHqbbnZSd2aFgHpnkKW5ZM2GITHuxgzMf5ursw0XURLXy/dSl49D2TKck1GF3lOZoirso2s5UdSV3Tp7gDjJUIKi3piHhUtDfp/X02Ay0qQHH3lpkk2Wnm79H3n3bxlQ0b3rDDCdU6EVri8I2C9GREPQOzQ62FKA5b3HIw4F8Lm6aTouGo7LumQhDIxh2O6tqFbAnTPM0+v2w960qXATyKIte5TfYLaQROzCTVZnwjaIy9NeUVFTii9U+uM/bbBRMk8CtFoZsDP6LpZy8NfXgkR876iiVW6e/Jd70fkLwstRlao0/CP7/fV/CY8HIcKMOJX9sdpaHJoyRxI+A9Gg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39840400004)(366004)(136003)(396003)(346002)(53546011)(8676002)(5660300002)(478600001)(52116002)(4326008)(38100700001)(6486002)(86362001)(2906002)(316002)(956004)(2616005)(54906003)(83380400001)(16576012)(44832011)(26005)(8936002)(31686004)(31696002)(186003)(16526019)(66556008)(66946007)(66476007)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?T0NBaWpFZVBZYU1iZmVSYkZSRFhpN0VodUdicU1TK0pTdWp1K1ZWRG5HWHZY?=
+ =?utf-8?B?OHMvVWQrZ0VTNENxRURzQWludVRBMlFiTFE2aENFODRlOUoyeXFIdCs4bFF2?=
+ =?utf-8?B?cGV1ektVVXZ2M1lFN2pVaHNGZmxreHNYRlVka081Zzhjc3k3em5mUVBCdjNK?=
+ =?utf-8?B?WEdKS1NjMk1DaXJzNWRENTFIa2dzQ0RCOGVyRG5EQzRuekR4cGJ4djZEQVIx?=
+ =?utf-8?B?Sk5sT3FiL2J2NzhDTmhJZnJXYnVJcE5LUDBRekU3anM5N3I2dWNwQWcreElM?=
+ =?utf-8?B?ZnJHeFhMQTVndldvVFdmdTN3Mk1nK0RLaG56anI0WEpLektJaDdKZEtCam9k?=
+ =?utf-8?B?Q2tyVE5saWkrNFpBSW1ybEUyMEpsakRXZWdjUkoyaS92VXJoYjM0b3lSTkRI?=
+ =?utf-8?B?N0ZHYS9hMnZRZU9uVzZQSG8yN28yRk1jdWNOS3RiVGtmVTVmOWtQK0dyQVlT?=
+ =?utf-8?B?a3V6SnI0RTNFQmkwcWtyUHdnYzVOV0l1RHNFWWhORlErcmlIVmZxbm4wbnU0?=
+ =?utf-8?B?bFl1U1B2aTRkTGNoL3QwaEV5ME84WDZXSnA3akUxcTRLU1c2VE5zUXQ5NGxQ?=
+ =?utf-8?B?YnpCa1A1TTR0bEJncS9pczY0ZTZtV08yVk5KTjkreVVnZWUra29FTWt3a1Fu?=
+ =?utf-8?B?US9zQWVZdDhiaUt1dlhYdGRXQXoxRVVvSmhiTkZXb0w0S3JWcFhXZ1VXelQ2?=
+ =?utf-8?B?M05TQURldXNjb0pjdlZFSjlhdjQwTmw3bHJCcWYxc3ZMczQ0aHdaZWF0dGow?=
+ =?utf-8?B?eldBd1lKaDdiaFYwMWI0aHBsbDZLUzNlTzNoK2VlUkVyNGF3OGd5UHduS3cy?=
+ =?utf-8?B?YURhL09EZEEvb2F3N3Jab0JFRWhHM09JSXlmQ0EwZzVuTmVqRkdJRXphd21J?=
+ =?utf-8?B?ZG5zSit5dktmcFJqbnZiWXRTdWxzaGMwaUg5N1FhWHNKeUpMN29ZYWtzd1NL?=
+ =?utf-8?B?Y1ZWQnpEa05NUXlwWTI0NW0vRzdoejh2eDY2WC8xUHI5ZUlsSWtLODY1S0g0?=
+ =?utf-8?B?SDZ6WTNZdXExeVAraWh1dTBCWGk0Tlhock9pT0hnamZZSmFQVWJCU0dJc0hy?=
+ =?utf-8?B?YklPbkg3a2ZBTjdKeHlCZ1lNNkRQbWdVUjNtSzlabC9qZmVndTNZa21Qcnli?=
+ =?utf-8?B?Q2pXMDhLd1RwZWtyVFBSZm1HbjJnMDJZMW8xMnI5NzVwWjVsR0x1Mkc1UEJk?=
+ =?utf-8?B?Ynp0TUw2Q3VjVWQrb1FjbmRaeUs0cUZVWjFqdVpia0tsbDEvSDJ4Zk0yZWRw?=
+ =?utf-8?B?dm9KZWlHNTAramxKMXNtUFZWeVNlcjhsb1FTRnRUbEc3ekFYY0xocSt4T2tV?=
+ =?utf-8?B?TVN2eHZITWdDalp4ZlNselFEd2Fsc25nUDJ6aGtUdGZOSjExRGZVVlBxQmwv?=
+ =?utf-8?B?QkkrQkVIWDZjV1ZuZG1jeW9Lb2k1Qk5LSW5VMUozbnhNcHVJTUwzNUV6QVN6?=
+ =?utf-8?B?N3FwZDVMRVZrT1BtOXcyaHRDY21TZ041bG9kU01mN25KbThqd2VpS1JjWHY0?=
+ =?utf-8?B?Vi9ZUnpyVTlpTmZZWmhuZXZKVG83SGNZdkh4a1FYYlphd2xmckZIZGNRYkk3?=
+ =?utf-8?B?MVhFdXdTNlhvaG91YnFHSHFQc3l1S1J4Rm9ENnpLWHkwRUFCNmdmeFlVVkFk?=
+ =?utf-8?B?MzZWK3VIaFpXT1BvM08yZU1VYVRBdmE2c0hISDdSTmZkOExrTitaSVpteTY2?=
+ =?utf-8?B?MmMxdVorOURPWE9Bc05Oc3lXSUF1VzZwYW02czBiZ0ZVZHVpbVlkOTVqNTdj?=
+ =?utf-8?Q?8BlsExgDkfH7VXLFIxaXYkP3lwwmihh8wWO5eZy?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 696dd58f-ed80-48b8-4329-08d8eab0e32b
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 08:27:52.0911 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PY5FDomZU8Z41YZb95pAuq9o1oyO2uYY/3HGotdYEGJN+Z/fOY0eyfu4dDjeDR9V0GeDmO7sMrYbqcQMSBFCXuoGV/WVwMVQrZOsedwx6Mc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0802MB2180
+Received-SPF: pass client-ip=40.107.15.124;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,148 +151,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+On 18.03.2021 21:16, David Hildenbrand wrote:
+> On 18.03.21 18:46, Andrey Gruzdev wrote:
+>> The same thing as for incoming postcopy - we cannot deal with concurrent
+>> RAM discards when using background snapshot feature in outgoing 
+>> migration.
+>>
+>> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>> ---
+>>   hw/virtio/virtio-balloon.c | 8 ++++++--
+>>   include/migration/misc.h   | 2 ++
+>>   migration/migration.c      | 8 ++++++++
+>>   3 files changed, 16 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+>> index e770955176..d120bf8f43 100644
+>> --- a/hw/virtio/virtio-balloon.c
+>> +++ b/hw/virtio/virtio-balloon.c
+>> @@ -66,8 +66,12 @@ static bool 
+>> virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
+>>     static bool virtio_balloon_inhibited(void)
+>>   {
+>> -    /* Postcopy cannot deal with concurrent discards, so it's 
+>> special. */
+>> -    return ram_block_discard_is_disabled() || 
+>> migration_in_incoming_postcopy();
+>> +    /*
+>> +     * Postcopy cannot deal with concurrent discards,
+>> +     * so it's special, as well as background snapshots.
+>> +     */
+>> +    return ram_block_discard_is_disabled() || 
+>> migration_in_incoming_postcopy() ||
+>> +            migration_in_bg_snapshot();
+>>   }
+>>     static void balloon_inflate_page(VirtIOBalloon *balloon,
+>> diff --git a/include/migration/misc.h b/include/migration/misc.h
+>> index bccc1b6b44..738675ef52 100644
+>> --- a/include/migration/misc.h
+>> +++ b/include/migration/misc.h
+>> @@ -70,6 +70,8 @@ bool 
+>> migration_in_postcopy_after_devices(MigrationState *);
+>>   void migration_global_dump(Monitor *mon);
+>>   /* True if incomming migration entered POSTCOPY_INCOMING_DISCARD */
+>>   bool migration_in_incoming_postcopy(void);
+>> +/* True if background snapshot is active */
+>> +bool migration_in_bg_snapshot(void);
+>>     /* migration/block-dirty-bitmap.c */
+>>   void dirty_bitmap_mig_init(void);
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 496cf6e17b..656d6249a6 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -1976,6 +1976,14 @@ bool migration_in_incoming_postcopy(void)
+>>       return ps >= POSTCOPY_INCOMING_DISCARD && ps < 
+>> POSTCOPY_INCOMING_END;
+>>   }
+>>   +bool migration_in_bg_snapshot(void)
+>> +{
+>> +    MigrationState *s = migrate_get_current();
+>> +
+>> +    return migrate_background_snapshot() &&
+>> +            migration_is_setup_or_active(s->state);
+>> +}
+>> +
+>>   bool migration_is_idle(void)
+>>   {
+>>       MigrationState *s = current_migration;
+>>
+>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+>
+Thanks!
 
-could you help me untangle the arm_cpu_post_init question?
-
-I am trying to cleanup a bit the initialization path for ARM,
-and it seems that arm_cpu_post_init is called numerous times for AArch64 in particular,
-
-while for "tcg cpus", 32bit it is called only once.
-
-Any reason for the multiple calls in the hierarchy?
-Was the intention to actually call this just once from the final leaf classes?
-
-The ability to execute code after the initialization would come in handy in an ARM CPU class refactoring I am doing,
-but I stopped short of adding anything to arm_cpu_post_init since I noticed the inconsistencies.
-
-Thanks,
-
-Claudio
-
-
-On 3/18/21 12:06 PM, Claudio Fontana wrote:
-> On 3/11/21 8:10 PM, Andrew Jones wrote:
->> On Thu, Mar 11, 2021 at 06:33:15PM +0000, Peter Maydell wrote:
->>> On Thu, 11 Mar 2021 at 17:16, Claudio Fontana <cfontana@suse.de> wrote:
->>>> Maybe Peter you could clarify similarly what the intended meaning of "max" is on ARM?
->>>
->>> "max" is "best we can do, whatever that is". (On KVM this is "same as
->>> the host".)
->>> "host" is "whatever the host is (KVM only)".
->>>
->>>> KVM: (aarch64-only): aarch64_max_initfn():
->>>>
->>>> The following comment in the code seems wrong to me:
->>>>
->>>> /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host); */
->>>>
->>>> This is not exactly true:
->>>>
->>>> "-cpu max" calls kvm_arm_set_cpu_features_from_host(), (which checks "dtb_compatible", and if not set gets the features from the host, if set ...?)
->>>> After that, calls aarch64_add_sve_properties() and then adds also "svw-max-vq". This code is common with TCG.
-> 
-> 
-> As part of this research I noticed that arm_cpu_post_init() is quite confusing, seems really inconsistent to me.
-> 
-> Apparently the intention was to call it from the leaf classes:
-> 
-> commit 51e5ef459eca045d7e8afe880ee60190f0b75b26
-> Author: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Date:   Tue Nov 27 12:55:59 2018 +0400
-> 
->     arm: replace instance_post_init()
->     
->     Replace arm_cpu_post_init() instance callback by calling it from leaf
->     classes, to avoid potential ordering issue with other post_init callbacks.
->     
->     Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->     Suggested-by: Igor Mammedov <imammedo@redhat.com>
->     Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->     Acked-by: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> 
-> but then we end up calling it multiple times in the class hierarch, which is a recipe for bugs, and makes it difficult to understand what arm_cpu_post_init()
-> even means, what calling this function is supposed to do.
-> 
-> For a "max" or "host" cpu on AArch64, this function is called:
-> 
-> for the ARM CPU base class, TYPE_ARM_CPU, in
-> 
-> cpu.c::arm_cpu_instance_init,
-> 
-> then later again for the TYPE_AARCH64_CPU class, child of TYPE_ARM_CPU, in
-> 
-> cpu64.c::aarch64_cpu_instance_init,
-> 
-> then later again for the TYPE_ARM_HOST_CPU class, child of TYPE_AARCH64_CPU, in
-> 
-> cpu.c::arm_host_initfn.
-> 
-> Same for "max".
-> 
-> When looking at 32bit CPUs instead, only the ARM CPU base class ends up calling arm_cpu_post_init.
-> "Leaf" classes do not do it (see cpu_tcg.c).
-> 
-> What is then arm_cpu_post_init even supposed to mean?
-> 
-> Thanks,
-> 
-> Claudio
-> 
-> 
->>>>
->>>> In the case of cpu host instead,
->>>>
->>>> "-cpu host" calls kvm_arm_set_cpu_features_from_host(), same as max, then calls aarch64_add_sve_properties() but does NOT add "svw-max-vq".
->>>>
->>>> Is this a bug?
->>
->> It was left out intentionally. More below.
->>
->>>
->>> Maybe; that's a question for Richard or Drew...
->>>
->>>> Are "max" and "host" for KVM supposed to be the same like with x86?
->>
->> Yes, but my understanding of "max" == "host" for KVM is that that only
->> applies to the perspective of the guest. What CPU and what CPU features
->> the guest can see should be exactly the same with either "max" or "host",
->> depending on the enabling/disabling of any optional CPU properties.
->>
->> The question here seems to be that, if one has a CPU property, does that
->> imply the other should have the same? Which would effectively allow the
->> two to be aliases (when KVM is enabled). I don't know, does x86 ensure
->> 100% property compatibility?
->>
->> I opted not to support sve-max-vq for "host" because I consider it a
->> legacy CPU property, one I didn't want to propagate. Indeed it may
->> make more sense to depreciate sve-max-vq than to "fix" this issue
->> by adding it to "host". Note, we can already create equivalent SVE
->> CPUs. The following are the same from the perspective of the guest
->>
->>  -accel kvm -cpu host,sve512=on
->>  -accel kvm -cpu max,sve512=on
->>
->> And, for TCG, these are the same from the perspective of the guest
->>  
->>  -accel tcg -cpu max,sve512=on
->>  -accel tcg -cpu max,sve-max-vq=4
->>
->> So we already don't need sve-max-vq.
->>
->> Thanks,
->> drew
->>
-> 
-> 
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
 
