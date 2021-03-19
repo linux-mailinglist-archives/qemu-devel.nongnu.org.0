@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B053418A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 10:42:35 +0100 (CET)
-Received: from localhost ([::1]:41608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A732F3418A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 10:43:18 +0100 (CET)
+Received: from localhost ([::1]:43410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNBeM-00031i-OQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 05:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
+	id 1lNBf3-0003nG-OG
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 05:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNBck-0002Wb-Lw
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:40:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42996)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lNBch-0006a2-MN
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:40:53 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNBdi-0002u8-9Q
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:41:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNBdg-0007Iv-4c
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 05:41:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616146849;
+ s=mimecast20190719; t=1616146910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P3JxzCaJ1RRMTzTWQ3FgoyQSFQEGYB2R0QppZ+j5hM0=;
- b=TPmeAqUKNQHcMef7iO4bv88ZDEDot3iSjjIodta6E9zSMfb+m+RX8Ox7uHDzx0UV358ArV
- Wunq01rZfciQJf5ZYxBzlmLNeFq9qceka6XOltRkNoKkJrpEIkDOxB0U6zrzYkW+fHT7l+
- kYBylFaa09SznRgIOKgRG5yHyvsWS7U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-VamtDK_WNXee49Q77mVxVw-1; Fri, 19 Mar 2021 05:40:47 -0400
-X-MC-Unique: VamtDK_WNXee49Q77mVxVw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 828F3108BD06;
- Fri, 19 Mar 2021 09:40:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FA8B60CCB;
- Fri, 19 Mar 2021 09:40:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C2EB811386A7; Fri, 19 Mar 2021 10:40:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Misleading configure failure GLIB_SIZEOF_SIZE_T
-References: <87v99oiq13.fsf@dusky.pond.sub.org>
- <CAFEAcA8597jFxaNLdwEtM0Q9o6Wjx1JrGdeaePkkEDJz5-Y=ow@mail.gmail.com>
-Date: Fri, 19 Mar 2021 10:40:44 +0100
-In-Reply-To: <CAFEAcA8597jFxaNLdwEtM0Q9o6Wjx1JrGdeaePkkEDJz5-Y=ow@mail.gmail.com>
- (Peter Maydell's message of "Thu, 18 Mar 2021 13:32:36 +0000")
-Message-ID: <87zgyzmqg3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=e3qfCzOQdneNzh0cNJd42CQUjSdBw/mhJ9vgjRUb3b0=;
+ b=hvuffN2dlAUExK7mc+NHgbCSwt44djRdmOboeJEs2iJYSatQcw+oNBojNTeoxThH7PchMc
+ 2hPC7KIbXzJ42ztLi+nBSVntcS5N/h1V7L4AZZ0D1uOGobMC9e8z6ixem1vbxJSHw43dJ4
+ nTQlLHkATcZ7UdNgi3jAR400DuPpr9Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-140-MlPRsNPQP3mRrTllD2SoiQ-1; Fri, 19 Mar 2021 05:41:49 -0400
+X-MC-Unique: MlPRsNPQP3mRrTllD2SoiQ-1
+Received: by mail-wr1-f71.google.com with SMTP id r12so21583307wro.15
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 02:41:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e3qfCzOQdneNzh0cNJd42CQUjSdBw/mhJ9vgjRUb3b0=;
+ b=gKDQkx+SNHfnt8YlDLg/oP+XL/OmD4G4MKwS1X0SA1FNebBrTsaH9V/QgGHDhmqgQd
+ zcnv4pmKpYoCKyodZWzHrLRipSu5ZflQv+0zstXcjlx0O4y/jNCGTSW8rwVK68WWNoDf
+ 9QAy8SFut5NGNhUY1Yj5JSXRwY36t80SLINc2NiVJTNDGHh+VT8E7lV6Q4evgnB1pcOv
+ e00AJUq3EvQ2Ivwhhht/xswEde5hWegnj5Q4tqz8L8C45hwFrEpEUeakO1GaQapenyM/
+ /1pNwj7hPPWE0OW9+5BlzYZeZU7lLeCR93Epa/X8XVuDJHZeC+ER83H6VqIfVbLph4bY
+ 4GnQ==
+X-Gm-Message-State: AOAM530wj6Hn5TOrSHa5yBJWeaS78nUZTV7MDZorR+7owtrHzud0/8+W
+ 1AAYEdVJIPg3U1tUsxHTBHnhY4wDb5cnWDhxl7cOvEwBclXJzPVKih6qdhqgFC9RPzCM8LHqH2J
+ tUe/xsx3WSmbtnMKiSZwE0RUAhH5cTHKtbGYSVFoJjAI7vHiFtca/Ep/CaJwFekS/Igk=
+X-Received: by 2002:adf:f94c:: with SMTP id q12mr3492489wrr.283.1616146908033; 
+ Fri, 19 Mar 2021 02:41:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxatrxHdjXv15huYp9HPjAM+kTnCY1LezJ65xQmN2SwRgeNOl74X4SmTcouOM6HTS0vUZDE9g==
+X-Received: by 2002:adf:f94c:: with SMTP id q12mr3492464wrr.283.1616146907724; 
+ Fri, 19 Mar 2021 02:41:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u2sm7282132wmm.5.2021.03.19.02.41.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 02:41:47 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+ <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
+ <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
+ <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Serious doubts about Gitlab CI
+Message-ID: <ea7bf28e-c0e2-8350-04be-b7052c2238ee@redhat.com>
+Date: Fri, 19 Mar 2021 10:41:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,69 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Thu, 18 Mar 2021 at 12:53, Markus Armbruster <armbru@redhat.com> wrote:
+On 19/03/21 10:33, Stefan Hajnoczi wrote:
+> On Thu, Mar 18, 2021 at 09:30:41PM +0100, Paolo Bonzini wrote:
+>> On 18/03/21 20:46, Stefan Hajnoczi wrote:
+>>> The QEMU Project has 50,000 minutes of GitLab CI quota. Let's enable
+>>> GitLab Merge Requests so that anyone can submit a merge request and get
+>>> CI coverage.
 >>
->> I just ran into this failure:
->>
->>     $ ../configure --disable-tools --disable-system --static
->>
->>     ERROR: sizeof(size_t) doesn't match GLIB_SIZEOF_SIZE_T.
->>            You probably need to set PKG_CONFIG_LIBDIR
->>            to point to the right pkg-config files for your
->>            build target
->
-> The interesting question here is why the earlier configure check:
->
-> write_c_skeleton;
-> if compile_object ; then
->   : C compiler works ok
-> else
->     error_exit "\"$cc\" either does not exist or does not work"
-> fi
-> if ! compile_prog ; then
->     error_exit "\"$cc\" cannot build an executable (is your linker broken?)"
-> fi
->
-> didn't fail. That is deliberately early in configure in an attempt
-> to capture this kind of "the compiler can't link anything" case
-> before we get into specific feature testing.
+>> Each merge request consumes about 2500.  That won't last long.
+> 
+> Yikes, that is 41 hours per CI run. I wonder if GitLab's CI minutes are
+> on slow machines or if we'll hit the same issue with dedicated runners.
+> It seems like CI optimization will be necessary...
 
-I've since installed the libraries...  uninstalling glibc-static for a
-quick check...  Yep, dies in the GLIB_SIZEOF_SIZE_T test.  Let's have a
-look at my config.log.  To more easily find the check you pointed out, I
-stuck "exit 42" right behind it, and get:
+Shared runners are 1 vCPU, so it's really 41 CPU hours per CI run. 
+That's a lot but not unheard of.
 
-    $ ./config.status 
-    [Exit 42 ]
-    $ echo $?
-    42
-    $ tail -n 4 config.log 
+Almost every 2-socket server these days will have at least 50 CPUs; with 
+some optimization we probably can get it down to half an hour of real 
+time, on a single server running 3-4 runners with 16 vCPUs.
 
-    funcs: do_compiler do_cc compile_prog main
-    lines: 145 183 2017 0
-    cc -std=gnu99 -Wall -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -o config-temp/qemu-conf.exe config-temp/qemu-conf.c -m64
-    $ cat config-temp/qemu-conf.c 
-    int main(void) { return 0; }
-
-Run the compiler by hand to confirm:
-
-    $ cc -std=gnu99 -Wall -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -o config-temp/qemu-conf.exe config-temp/qemu-conf.c -m64
-    $ echo $?
-    0
-
-The test program doesn't actually need libc, so not having glibc-static
-installed doesn't bother the linker.
-
-If it used something from libc, then I'd expect the issue to merely
-shift to the next library.  Remember, the failure I reported attempts to
-link with -lgthread-2.0 -pthread -lglib-2.0 -pthread -lpcre -pthread.
+Paolo
 
 
