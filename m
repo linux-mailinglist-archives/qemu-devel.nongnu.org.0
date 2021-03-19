@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA383341970
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:04:42 +0100 (CET)
-Received: from localhost ([::1]:58602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8F8341980
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:08:04 +0100 (CET)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNBzm-0003Fn-0e
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
+	id 1lNC31-0004bk-Me
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNByK-0002mz-Tv
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:03:12 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:42526)
+ id 1lNC1q-00049c-CN
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:06:50 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:34752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNByI-0002Jl-78
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:03:12 -0400
-Received: by mail-ej1-x631.google.com with SMTP id hq27so8718945ejc.9
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 03:03:09 -0700 (PDT)
+ id 1lNC1o-0004XW-U1
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:06:50 -0400
+Received: by mail-ed1-x532.google.com with SMTP id y6so10079905eds.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 03:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rYN32JnTg+8oresjd1OmiXJFw2Per28SxLFKm7Xyntk=;
- b=DDklLqTTluiqASnfkgW8s7A/ODlC1Y7U1GbJYUsjGQQI6BeKjMUhtD0N8BVNTPTfOu
- /mbLvAR5u+bIvx5dsgsam8dUYyWJadHiqbWYnwJlaCce5x5MCn4IuyAnMj3rDvxDnfoR
- oN6Z40CxIg81gAtB3ea9d3E/DoV4qxwqhocbW7JWihSvsE+VJctrdBe6KcdmcIbqBb1j
- lTty9rebfptk3Va9l+Bn0vhsxwdavG92jm3GcK4WRyBNR9TV11Ti4mQBmkYDnzGxXpJR
- jY7DtFrb1BvwIpmI14XV669NcEjfdZP8uOzF0vP/EBnOWj0CW9v0JagVEZtbu1TeXdfG
- cGAw==
+ :cc; bh=3MxlMexY7hj1/d1Z5EzOl5WOwSRwYy6cLFLFoMig/AI=;
+ b=YMZ7b8Hf3gpcTpNvbgEZMk1AWh/10puGLBbugHPTWXVVJd4bbhikcxw96qWt0/vUVo
+ rE/Be0WszBPTg3bu6wGVeg4E7QRW2CjV+Bp8pHMc7qgRSvUeMo09IMALk4+gYmvd2dIC
+ bX6/ofZGqey0/rkGfMmbPjg7d7QntrnOkBCwjq8MmV49iPSlbGyG9T6SJvIH3j3jmlGN
+ cwU6EhPta1tv5l9wp4ZWwPcTpkZmdUJ6Vv9rl15prt/fik3Jlc2ZEB2lmTfEW1n1KtxA
+ yYXdmcyJCWTBzpTOcIkS6q/lYIWf0pYRffJxTYrz35zn74C8L0tQMD9Va0YW8GO6Apq+
+ Ie/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rYN32JnTg+8oresjd1OmiXJFw2Per28SxLFKm7Xyntk=;
- b=WdXG/mKOd5i3DxIjv8lsKogOkONRk9y62pLok8cYSudB0PHQAjTInlZ+bfufhnZN7a
- 30KSnEQ20fP2fjwkOoitbKBpEnemUgLa8TI+I1rXkTE39wmVjiWPSvSpjWnMTnmwyqPy
- fP9Z623aZW3BWg2ovUqNggEs8j+ZS2v4yW6Rga7D8JrKwPZ0GsnWw2laeLMZHwGSAuNx
- S62PeWqKGlcs8YRbVGjw9mXvdDMw5dziMfc37EO/7hhgPKo4RzqfIPOi5iTkKuOD+9Lb
- Ph6Pk4FMOqCQC147rEikp+3rRekJk6sDEImQ1y4Vava4ak02A/983bpXl3NYLoshqwqt
- Cv5Q==
-X-Gm-Message-State: AOAM533uOQU/eiATsO39WRReI9T5CTQHsU7PHNPiL/FpV2M+RvVNaBUq
- /PSreY0HlkgfriMyYkMxR06OHubeTyoPTIK9tzlBUQ==
-X-Google-Smtp-Source: ABdhPJz2T9Bc4p4Bdt50vuIA0iLMF7NikUhvkv9cDgZEeSjFBqj56gL3l868b6joDwB66O6LuLHfCvCS+UltBmuOCas=
-X-Received: by 2002:a17:907:629e:: with SMTP id
- nd30mr3326580ejc.407.1616148188513; 
- Fri, 19 Mar 2021 03:03:08 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=3MxlMexY7hj1/d1Z5EzOl5WOwSRwYy6cLFLFoMig/AI=;
+ b=gEvlru6DoBx8794+LsERsQBiDXpJg4XtI+KcPeiZ0dYUMzHs7UFG/HtIv1UO+DSlk1
+ Lz/GOiyaUBLTI87K8PFKpTFve+sgOdEDRV5/Bu9KaTxKwWIrBSep823reuB/HnGIQoEU
+ ZypdY1E24T0qLKWVgvY4raR4V233gv0323qS+Bw2oryhaX5Z324QCqjaKuYnncdzS+qf
+ UAMKxUs0yjjRhR9rxGzQl3cc9rorRF748JawfQgaiPuqutRkgmiPdO80KR4aR31JUTRz
+ ezeDBjU9F+mn08Mv2TBMiQrsYh+eucJUvHyMfDhBXbp4DCJa7PsOGTFUbuWLi/mccYGJ
+ zkIg==
+X-Gm-Message-State: AOAM532OmiVvPWi1gNeasprh0ZOegfvsmdihgMlR3dPx4NjuZuLOyxha
+ YmmgJNyeLPLCK+PoOd/u8p/ldNg4j3x39+hwFQlNBuls5mMzcc7t
+X-Google-Smtp-Source: ABdhPJwpZPuZGiZcUQSA7ZVOBsC0CZP+5Kr41Id5WJf8lxjs9bTwnqFdBIJrlzlBHZv5W/+x4O+sw/pI1iWOAAnFH7o=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr8383228edu.100.1616148407395; 
+ Fri, 19 Mar 2021 03:06:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210318154854.3671458-1-philmd@redhat.com>
-In-Reply-To: <20210318154854.3671458-1-philmd@redhat.com>
+References: <20210318163757.1345341-1-armbru@redhat.com>
+In-Reply-To: <20210318163757.1345341-1-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Mar 2021 10:02:43 +0000
-Message-ID: <CAFEAcA9p=YrkYA-3AYdpDVW6mm8jFOd4JAOvqyGOuyznX1daiQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/11] pflash patches for 2021-03-18
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Fri, 19 Mar 2021 10:06:22 +0000
+Message-ID: <CAFEAcA8irrVpnE+vT4e5EW_gh28Qfn45EXS90nFkgYoVEPpXrA@mail.gmail.com>
+Subject: Re: [PULL v2 00/11] QAPI patches patches for 2021-03-16
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,44 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Mar 2021 at 15:53, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Thu, 18 Mar 2021 at 16:38, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> Since v1:
-> - Fixed trace format string on 32-bit hosts (Peter)
+> The following changes since commit 1db136a29ce8594b693938ab8e788d8bcef54770:
 >
-> The following changes since commit 56b89f455894e4628ad7994fe5dd348145d1a9=
-c5:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
- into staging (2021-03-17 22:18:54 +0000)
+>   Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull-request' into staging (2021-03-18 14:07:31 +0000)
 >
 > are available in the Git repository at:
 >
->   https://github.com/philmd/qemu.git tags/pflash-20210318
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-03-16-v2
 >
-> for you to fetch changes up to 91316cbb3830bb845c42da2d6eab06de56b889b0:
+> for you to fetch changes up to 6dbe64a7eeaf01cb2de939edb7226aff411b2816:
 >
->   hw/block/pflash_cfi: Replace DPRINTF with trace events (2021-03-18 11:1=
-6:31 +0100)
+>   qapi: New -compat deprecated-input=crash (2021-03-18 16:58:29 +0100)
 >
 > ----------------------------------------------------------------
-> Parallel NOR Flash patches queue
+> QAPI patches patches for 2021-03-16
 >
-> - Code movement to ease maintainability
-> - Tracing improvements
 > ----------------------------------------------------------------
+> Markus Armbruster (10):
+>       qemu-options: New -compat to set policy for deprecated interfaces
+>       qapi: Implement deprecated-output=hide for QMP command results
+>       qapi: Implement deprecated-output=hide for QMP events
+>       qapi: Implement deprecated-output=hide for QMP event data
+>       monitor: Drop query-qmp-schema 'gen': false hack
+>       qapi: Implement deprecated-output=hide for QMP introspection
+>       test-util-sockets: Add stub for monitor_set_cur()
+>       qapi: Implement deprecated-input=reject for QMP commands
+>       qapi: Implement deprecated-input=reject for QMP command arguments
+>       qapi: New -compat deprecated-input=crash
 >
+> Paolo Bonzini (1):
+>       qemuutil: remove qemu_set_fd_handler duplicate symbol
 
-Applied, thanks.
+CONFLICT (content): Merge conflict in monitor/qmp-cmds-control.c
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
