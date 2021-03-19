@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FFC34178C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 09:35:48 +0100 (CET)
-Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7C83417D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 09:59:44 +0100 (CET)
+Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNAbj-0001Sf-LH
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 04:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54884)
+	id 1lNAyp-0001dT-3u
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 04:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lNAZw-0000uy-DW; Fri, 19 Mar 2021 04:33:56 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lNAZu-0007ZZ-GM; Fri, 19 Mar 2021 04:33:56 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 99E9BAE5C;
- Fri, 19 Mar 2021 08:33:52 +0000 (UTC)
-Subject: Re: arm_cpu_post_init (Was: Re: arm: "max" CPU class hierarchy
- changes possible?)
-From: Claudio Fontana <cfontana@suse.de>
-To: Andrew Jones <drjones@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-References: <11e9d3bb-c94c-4ad7-35b0-b698376c5e00@suse.de>
- <CAFEAcA8T+u6QG9PQWs40PTSZ86SEeLQrciT8WHxFyH3UVbipiA@mail.gmail.com>
- <2e6a5d98-e022-0b39-5f30-92eb74491d3b@redhat.com>
- <2277fdf5-ec92-476a-8fe5-0d4eee23dfef@suse.de>
- <CAFEAcA_j-0+vmNFtPjcxEXC9r4bFrebDfGjq-x1SfguzUG4qcw@mail.gmail.com>
- <20210311191046.ykcelkwq7orajyu7@kamzik.brq.redhat.com>
- <5467e45c-cc8e-6422-0c56-398405a7c331@suse.de>
- <fcfae16c-cfba-db2e-6d4e-e5c88cd64fa8@suse.de>
-Message-ID: <b0e3089b-719a-e073-2c29-a88c2baa4ae2@suse.de>
-Date: Fri, 19 Mar 2021 09:33:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNAwA-0000lI-0l
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 04:56:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNAw6-0004xq-47
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 04:56:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616144208;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Q48qegkcKEI5XfF58CApS5VUgLsly5FkYipIGNLKris=;
+ b=c3yD/GCGzMEPqmeeBIPWgTR/nRZE6Jaw3tF/wHy8C3S9748TpSElU7VSSCF5PEWWibwj7X
+ 5ob4Nca8nGWnF20+6Rbrg8QMphA+EWRLh5unEnd5amjKsdSygWQRCtGcY6ZLUNzuoEKySX
+ V6/CwG/JEBFHJZCKb87BpLMll6Zip30=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-SyuQq2NeMdi1krsvWm6hbw-1; Fri, 19 Mar 2021 04:56:46 -0400
+X-MC-Unique: SyuQq2NeMdi1krsvWm6hbw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80D2187A83C
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 08:56:45 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3EF4F60BF1;
+ Fri, 19 Mar 2021 08:56:45 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/qtest: cleanup the testcase for bug 1878642
+Date: Fri, 19 Mar 2021 04:56:44 -0400
+Message-Id: <20210319085644.2082315-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fcfae16c-cfba-db2e-6d4e-e5c88cd64fa8@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,161 +76,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/21 9:23 AM, Claudio Fontana wrote:
-> Hi Markus,
-> 
-> could you help me untangle the arm_cpu_post_init question?
+Clean up the writes to the configuration space and the PM region, and
+rename the test to lpc-ich9-test.
 
-Nevermind, I think I figured it out. The arm_cpu_post_init are indeed called only for the "leaf" class,
-via the "instance_init" functions.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/qtest/{fuzz-test.c => lpc-ich9-test.c} | 12 +++++++-----
+ tests/qtest/meson.build                      |  2 +-
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+ rename tests/qtest/{fuzz-test.c => lpc-ich9-test.c} (71%)
 
-I think I can use it to do things reliably "post init" for all classes in there.
-
-Thanks,
-
-Claudio
-
-> 
-> I am trying to cleanup a bit the initialization path for ARM,
-> and it seems that arm_cpu_post_init is called numerous times for AArch64 in particular,
-> 
-> while for "tcg cpus", 32bit it is called only once.
-> 
-> Any reason for the multiple calls in the hierarchy?
-> Was the intention to actually call this just once from the final leaf classes?
-> 
-> The ability to execute code after the initialization would come in handy in an ARM CPU class refactoring I am doing,
-> but I stopped short of adding anything to arm_cpu_post_init since I noticed the inconsistencies.
-> 
-> Thanks,
-> 
-> Claudio
-> 
-> 
-> On 3/18/21 12:06 PM, Claudio Fontana wrote:
->> On 3/11/21 8:10 PM, Andrew Jones wrote:
->>> On Thu, Mar 11, 2021 at 06:33:15PM +0000, Peter Maydell wrote:
->>>> On Thu, 11 Mar 2021 at 17:16, Claudio Fontana <cfontana@suse.de> wrote:
->>>>> Maybe Peter you could clarify similarly what the intended meaning of "max" is on ARM?
->>>>
->>>> "max" is "best we can do, whatever that is". (On KVM this is "same as
->>>> the host".)
->>>> "host" is "whatever the host is (KVM only)".
->>>>
->>>>> KVM: (aarch64-only): aarch64_max_initfn():
->>>>>
->>>>> The following comment in the code seems wrong to me:
->>>>>
->>>>> /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host); */
->>>>>
->>>>> This is not exactly true:
->>>>>
->>>>> "-cpu max" calls kvm_arm_set_cpu_features_from_host(), (which checks "dtb_compatible", and if not set gets the features from the host, if set ...?)
->>>>> After that, calls aarch64_add_sve_properties() and then adds also "svw-max-vq". This code is common with TCG.
->>
->>
->> As part of this research I noticed that arm_cpu_post_init() is quite confusing, seems really inconsistent to me.
->>
->> Apparently the intention was to call it from the leaf classes:
->>
->> commit 51e5ef459eca045d7e8afe880ee60190f0b75b26
->> Author: Marc-André Lureau <marcandre.lureau@redhat.com>
->> Date:   Tue Nov 27 12:55:59 2018 +0400
->>
->>     arm: replace instance_post_init()
->>     
->>     Replace arm_cpu_post_init() instance callback by calling it from leaf
->>     classes, to avoid potential ordering issue with other post_init callbacks.
->>     
->>     Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->>     Suggested-by: Igor Mammedov <imammedo@redhat.com>
->>     Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->>     Acked-by: Eduardo Habkost <ehabkost@redhat.com>
->>
->>
->> but then we end up calling it multiple times in the class hierarch, which is a recipe for bugs, and makes it difficult to understand what arm_cpu_post_init()
->> even means, what calling this function is supposed to do.
->>
->> For a "max" or "host" cpu on AArch64, this function is called:
->>
->> for the ARM CPU base class, TYPE_ARM_CPU, in
->>
->> cpu.c::arm_cpu_instance_init,
->>
->> then later again for the TYPE_AARCH64_CPU class, child of TYPE_ARM_CPU, in
->>
->> cpu64.c::aarch64_cpu_instance_init,
->>
->> then later again for the TYPE_ARM_HOST_CPU class, child of TYPE_AARCH64_CPU, in
->>
->> cpu.c::arm_host_initfn.
->>
->> Same for "max".
->>
->> When looking at 32bit CPUs instead, only the ARM CPU base class ends up calling arm_cpu_post_init.
->> "Leaf" classes do not do it (see cpu_tcg.c).
->>
->> What is then arm_cpu_post_init even supposed to mean?
->>
->> Thanks,
->>
->> Claudio
->>
->>
->>>>>
->>>>> In the case of cpu host instead,
->>>>>
->>>>> "-cpu host" calls kvm_arm_set_cpu_features_from_host(), same as max, then calls aarch64_add_sve_properties() but does NOT add "svw-max-vq".
->>>>>
->>>>> Is this a bug?
->>>
->>> It was left out intentionally. More below.
->>>
->>>>
->>>> Maybe; that's a question for Richard or Drew...
->>>>
->>>>> Are "max" and "host" for KVM supposed to be the same like with x86?
->>>
->>> Yes, but my understanding of "max" == "host" for KVM is that that only
->>> applies to the perspective of the guest. What CPU and what CPU features
->>> the guest can see should be exactly the same with either "max" or "host",
->>> depending on the enabling/disabling of any optional CPU properties.
->>>
->>> The question here seems to be that, if one has a CPU property, does that
->>> imply the other should have the same? Which would effectively allow the
->>> two to be aliases (when KVM is enabled). I don't know, does x86 ensure
->>> 100% property compatibility?
->>>
->>> I opted not to support sve-max-vq for "host" because I consider it a
->>> legacy CPU property, one I didn't want to propagate. Indeed it may
->>> make more sense to depreciate sve-max-vq than to "fix" this issue
->>> by adding it to "host". Note, we can already create equivalent SVE
->>> CPUs. The following are the same from the perspective of the guest
->>>
->>>  -accel kvm -cpu host,sve512=on
->>>  -accel kvm -cpu max,sve512=on
->>>
->>> And, for TCG, these are the same from the perspective of the guest
->>>  
->>>  -accel tcg -cpu max,sve512=on
->>>  -accel tcg -cpu max,sve-max-vq=4
->>>
->>> So we already don't need sve-max-vq.
->>>
->>> Thanks,
->>> drew
->>>
->>
->>
-> 
-> 
+diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/lpc-ich9-test.c
+similarity index 71%
+rename from tests/qtest/fuzz-test.c
+rename to tests/qtest/lpc-ich9-test.c
+index 00149abec7..fe0bef9980 100644
+--- a/tests/qtest/fuzz-test.c
++++ b/tests/qtest/lpc-ich9-test.c
+@@ -1,5 +1,5 @@
+ /*
+- * QTest testcase for fuzz case
++ * QTest testcases for ich9 case
+  *
+  * Copyright (c) 2020 Li Qiang <liq3ea@gmail.com>
+  *
+@@ -18,9 +18,11 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
+     s = qtest_init("-M pc-q35-5.0 "
+                    "-nographic -monitor none -serial none");
+ 
+-    qtest_outl(s, 0xcf8, 0x8400f841);
+-    qtest_outl(s, 0xcfc, 0xebed205d);
+-    qtest_outl(s, 0x5d02, 0xebed205d);
++    qtest_outl(s, 0xcf8, 0x8000f840); /* PMBASE */
++    qtest_outl(s, 0xcfc, 0x5d00);
++    qtest_outl(s, 0xcf8, 0x8000f844); /* ACPI_CTRL */
++    qtest_outl(s, 0xcfc, 0xeb);
++    qtest_outw(s, 0x5d02, 0x205d);
+     qtest_quit(s);
+ }
+ 
+@@ -31,7 +33,7 @@ int main(int argc, char **argv)
+     g_test_init(&argc, &argv, NULL);
+ 
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+-        qtest_add_func("fuzz/test_lp1878642_pci_bus_get_irq_level_assert",
++        qtest_add_func("ich9/test_lp1878642_pci_bus_get_irq_level_assert",
+                        test_lp1878642_pci_bus_get_irq_level_assert);
+     }
+ 
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 5bee1acd51..72d0f83592 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -57,6 +57,7 @@ qtests_i386 = \
+   (config_all_devices.has_key('CONFIG_HDA') ? ['intel-hda-test'] : []) +                    \
+   (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
+   (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
++  (config_all_devices.has_key('CONFIG_LPC_ICH9') ? ['lpc-ich9-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +            \
+   (config_all_devices.has_key('CONFIG_USB_UHCI') and                                        \
+    config_all_devices.has_key('CONFIG_USB_EHCI') ? ['usb-hcd-ehci-test'] : []) +            \
+@@ -74,7 +75,6 @@ qtests_i386 = \
+    'bios-tables-test',
+    'rtc-test',
+    'i440fx-test',
+-   'fuzz-test',
+    'fw_cfg-test',
+    'device-plug-test',
+    'drive_del-test',
+-- 
+2.26.2
 
 
