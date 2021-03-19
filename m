@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6809234225C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 17:43:56 +0100 (CET)
-Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003EF34227D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 17:53:47 +0100 (CET)
+Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNIE7-0007Qs-FD
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 12:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54296)
+	id 1lNINe-0003mj-Is
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 12:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNIBV-0006Kq-HE
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33827)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNIM0-0003K1-O7
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:52:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNIBS-0008Ve-71
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:41:12 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNILw-0006K2-RU
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 12:52:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616172068;
+ s=mimecast20190719; t=1616172718;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/J21uGETHrwDAQyywr78OoqTBzmfq1JJzK21QIoQzG0=;
- b=awfqUL0E7f4jS2Ub6AwmVAW2N/3KCYeA3AXSrdBfKJpXnF1mecwfSEHtERiYry6U1P8cLC
- aTNMUY2Mly96JnwT8+DJ3cGh86j7AjfcP5CSp9XI21iIT/PVxtTgo1ifTrkm0oLbogDqQs
- r05cd8kk/HeG9e5XPNxir5QzCIjTqF0=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qH9Y6qjjeiKVP2v7yOq1evrnjl8KGdPB1T+dq7N0qtM=;
+ b=OfNPGoH2Zm3xmOwsdsjhqK19LSwgnW5pc+by0i2TVvXJMzq0CmV9Odp1+g2pQoBroBMpGX
+ PjxcdyX+qUtmnkBKnwUgkZ+vFT7PDBYBKTuCrKKgZWGv+4m7ZTJx+IdutHW+9eLTuhGdv9
+ m4O8Rcd+yC/2gTz2Rqs7wzv17QtQSUM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-COPPw1gYM6OcsCEWKDXr9A-1; Fri, 19 Mar 2021 12:41:07 -0400
-X-MC-Unique: COPPw1gYM6OcsCEWKDXr9A-1
+ us-mta-427-goOTj4NBP66CU3SljbGiVw-1; Fri, 19 Mar 2021 12:51:54 -0400
+X-MC-Unique: goOTj4NBP66CU3SljbGiVw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD94B107ACCA;
- Fri, 19 Mar 2021 16:41:05 +0000 (UTC)
-Received: from [10.36.112.130] (ovpn-112-130.ams2.redhat.com [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0994160BF1;
- Fri, 19 Mar 2021 16:40:52 +0000 (UTC)
-Subject: Re: [PATCH v4 13/14] qmp: Include "reserve" property of memory
- backends
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210319101230.21531-1-david@redhat.com>
- <20210319101230.21531-14-david@redhat.com>
- <87ft0ri23r.fsf@dusky.pond.sub.org>
- <84f961a5-6292-8364-9491-f8330b401a65@redhat.com>
- <87zgyzf6jq.fsf@dusky.pond.sub.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <9763d3e3-3313-ac5c-035e-89175f2460a2@redhat.com>
-Date: Fri, 19 Mar 2021 17:40:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64B12A40C2;
+ Fri, 19 Mar 2021 16:51:53 +0000 (UTC)
+Received: from thuth.com (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5913B610F3;
+ Fri, 19 Mar 2021 16:51:40 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] FreeBSD: Upgrade to 12.2 release
+Date: Fri, 19 Mar 2021 17:51:38 +0100
+Message-Id: <20210319165138.117225-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87zgyzf6jq.fsf@dusky.pond.sub.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,145 +74,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Ed Maste <emaste@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.03.21 17:32, Markus Armbruster wrote:
-> David Hildenbrand <david@redhat.com> writes:
-> 
->> On 19.03.21 16:40, Markus Armbruster wrote:
->>> David Hildenbrand <david@redhat.com> writes:
->>>
->>>> Let's include the new property.
->>>>
->>>> Cc: Eric Blake <eblake@redhat.com>
->>>> Cc: Markus Armbruster <armbru@redhat.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>    hw/core/machine-qmp-cmds.c | 1 +
->>>>    qapi/machine.json          | 6 ++++++
->>>>    2 files changed, 7 insertions(+)
->>>>
->>>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
->>>> index 68a942595a..bd2a7f2dd0 100644
->>>> --- a/hw/core/machine-qmp-cmds.c
->>>> +++ b/hw/core/machine-qmp-cmds.c
->>>> @@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
->>>>            m->merge = object_property_get_bool(obj, "merge", &error_abort);
->>>>            m->dump = object_property_get_bool(obj, "dump", &error_abort);
->>>>            m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
->>>> +        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
->>>>            m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
->>>>                                                 &error_abort);
->>>>            host_nodes = object_property_get_qobject(obj,
->>>> diff --git a/qapi/machine.json b/qapi/machine.json
->>>> index c0c52aef10..12860a1f79 100644
->>>> --- a/qapi/machine.json
->>>> +++ b/qapi/machine.json
->>>> @@ -814,6 +814,11 @@
->>>>    #
->>>>    # @prealloc: enables or disables memory preallocation
->>>>    #
->>>> +# @reserve: enables or disables reservation of swap space (or huge pages
->>>> +#           if applicable). If reservation is enabled (default), actual
->>>> +#           reservation depends on underlying OS support. In contrast,
->>>> +#           disabling reservation without OS support will bail out. (since 6.1)
->>>> +#
->>>
->>> Provides two settings: "enable reservation if possible", and "disable
->>> reservation or else fail".
->>>
->>> Does "enable reservation or else fail" make no sense, or is it merely
->>> unimplemented?
->>
->> The default for now used to be "enable reservation if possible". For
->> example, Windows always reserves/commits the whole region. Under
->> Linux, reservation is always done for private memory mappings,
->> however, especially for basically all (with one exception) shared
->> memory there is no reservation of any kind (with another exception).
->>
->> For example, it does not make sense to reserve swap space for a
->> file-backed mapping; we can just writeback to the file in case we run
->> out of memory. Therefore, Linux will never reserve swap space in that case.
->>
->> So if we were to implement a "enable reservation or else fail", the
->> default ("true") would no longer work for existing setups.
->>
->> Usually we want "enable reservation if possible" unless in spacial
->> cases ("definitely avoid the reservation")
-> 
-> Wait a second...  struct Memdev is actually the result of query-memdev,
-> and *not* a command or option argument.
-> 
-> Saying "enables or disables reservation of swap space" is misleading.
-> This isn't ever about enabling or disabling things, it's about querying
-> whether things are enabled or disabled.
-> 
-> Existing member documentation has the same issue:
-> 
->      # @merge: enables or disables memory merge support
->      #
->      # @dump: includes memory backend's memory in a core dump or not
->      #
->      # @prealloc: enables or disables memory preallocation
+From: Warner Losh <imp@bsdimp.com>
 
-Yes, I was only playing along although it looked kind of weird ...
+FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD's
+project's packages will work.  Update which timezone to pick. Work around a QEMU
+bug that incorrectly raises an exception on a CRC32 instruction with the FPU
+disabled.  The qemu bug is described here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg784158.html
 
-> 
-> Should be something like
-> 
->      # @merge: whether memory merge support is enabled
->      #
->      # @dump: whether the memory backend's memory is included in a core dump
->      #
->      # @prealloc: whether memory is preallocated
-> 
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+Message-Id: <20210307155654.993-2-imp@bsdimp.com>
+[thuth: Disable gnutls to work-around a problem with libtasn1]
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/vm/freebsd | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-I'll include a cleanup for these in the next version.
-
-
-> The new member could be phrased like:
-> 
->      # @reserved: whether swap space (or huge pages if applicable) have
->      # been reserved.
-> 
-> Mind, I'm proposing how to phrase things, not how things are.  You'll
-> likely have to adjust the contents of my proposal to match reality.
-> 
-> If we can't always tell whether swap space (or whatever) has been
-> reserved, then
-> 
-> * If we can only ever tell when it has *not* been reserved, make false
->    mean "not reserved", and true mean "dunno".
-> 
-> * If we can tell sometimes
-> 
->    - but nobody cares for the difference between "reserved" and "dunno",
->      same as above.
-> 
->    - and users may care for the difference, we need three values: "not
->      reserved", "reserved", and "dunno".  There are various ways to do
->      that.  No use talking about them before we know we need one of them.
-
-Right, usually we care about "reserve is a reservation makes sense and 
-is possible" - decided by the OS and "definitely don't reserve if you 
-would have reserved anything".
-
-Thanks!
-
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 09f3ee6cb8..6e20e84322 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -20,12 +20,16 @@ import socket
+ import subprocess
+ import basevm
+ 
++FREEBSD_CONFIG = {
++    'cpu'	: "max,sse4.2=off",
++}
++
+ class FreeBSDVM(basevm.BaseVM):
+     name = "freebsd"
+     arch = "x86_64"
+ 
+-    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
+-    csum = "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cfcd88"
++    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
++    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
+     size = "20G"
+     pkgs = [
+         # build tools
+@@ -61,6 +65,8 @@ class FreeBSDVM(basevm.BaseVM):
+         "zstd",
+     ]
+ 
++    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
++    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+     BUILD_SCRIPT = """
+         set -e;
+         rm -rf /home/qemu/qemu-test.*
+@@ -68,7 +74,7 @@ class FreeBSDVM(basevm.BaseVM):
+         mkdir src build; cd src;
+         tar -xf /dev/vtbd1;
+         cd ../build
+-        ../src/configure --python=python3.7 {configure_opts};
++        ../src/configure --python=python3.7 --disable-gnutls {configure_opts};
+         gmake --output-sync -j{jobs} {target} {verbose};
+     """
+ 
+@@ -125,7 +131,7 @@ class FreeBSDVM(basevm.BaseVM):
+         self.console_wait_send("IPv6",                  "n")
+         self.console_wait_send("Resolver",              "\n")
+ 
+-        self.console_wait_send("Time Zone Selector",    "a\n")
++        self.console_wait_send("Time Zone Selector",    "0\n")
+         self.console_wait_send("Confirmation",          "y")
+         self.console_wait_send("Time & Date",           "\n")
+         self.console_wait_send("Time & Date",           "\n")
+@@ -206,4 +212,4 @@ class FreeBSDVM(basevm.BaseVM):
+         self.print_step("All done")
+ 
+ if __name__ == "__main__":
+-    sys.exit(basevm.main(FreeBSDVM))
++    sys.exit(basevm.main(FreeBSDVM, config=FREEBSD_CONFIG))
 -- 
-Thanks,
-
-David / dhildenb
+2.27.0
 
 
