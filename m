@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1F6341992
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:11:03 +0100 (CET)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F65534199E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:12:30 +0100 (CET)
+Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNC5u-0006ZH-H4
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46578)
+	id 1lNC7J-00084W-6b
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lNC3Y-00056r-Jh; Fri, 19 Mar 2021 06:08:36 -0400
+ id 1lNC3b-0005BR-EX; Fri, 19 Mar 2021 06:08:39 -0400
 Received: from mail-db8eur05on2125.outbound.protection.outlook.com
  ([40.107.20.125]:53216 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lNC3W-0005Ve-Nz; Fri, 19 Mar 2021 06:08:36 -0400
+ id 1lNC3Z-0005Ve-7d; Fri, 19 Mar 2021 06:08:39 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nU8/YHr/TXNAPuCoNz5EMW+8CV+aJVq2NubolC9z7vJzpreX7r15DIZHfBHdawSD5JXogV9U9U3jS+9cIk3FW61Kucwtgz+RYD+Q9j+mJWMvqCuN+lvHNLdqC1gob/zIxJhaSVjjkincOwkdePbN6IQr7yPZ04CAvPXInBqnGCxR0YPSxo4YsMwLM8JOmlIxNaWprHNI5Fo8iyXLulFJUEVYRJavIHTSVmghI8pEXRVeGst/hnfK9WLYJKsaIWOJI0grRbquQpesKGTxhQorCDDPgR+Z+N8FmFpVmGgdZSx7f0avpYQJyLJAAOLi7w52NdcuCU/8hlyfHjat0oEw7w==
+ b=P9vik0a3RumVeeu1P3+QaolNSk3jwgf99mnqFobFdCBdtvaFZRij3MYecjAJPJaP80fOowYs98fbFDvJhMyE//fkDfDhGkPIb/mjMTlxhzY61NVCmOGJ5kwBjczwBYGHrNZRD+09botrscoH+cSrOLZkGAhkQ8B2C0j8pUpuhXbhJfmoaYGUTPK10dBHpSA5DJD7LcG51beaDXccrYOFObPb1t/WH+i5Yor1DmZ8uvGSLZqb1qskvAU+/3iT5XwszOPSYUSVWmD11AuvFFPQKI3o5qZ2Ce/9l1NqJH8piqt+UhddfGEPc9NZlDpXr9KKF4AX3I2Q8zlmto+WjtAMUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tqyq/wzrWvPl3Y8oX+bTp4PhAiv+/b/Ay3++YaCl4A8=;
- b=JNQt/NjcPwZsr+9Q3j47TMEGQ5pXm1J0gifRtZdmRMOnkQhgNulshUmhlbNoVbr20GeapfLEabEPshJL8VsLLwWaEFM2WGXf+ZvxRaaOHv/Brb26ToB/hA3MzqL3l+n/hy9er9HnDziS4BOd8zQfOdbnxf2o/3wplN84xZdrkNUy42ewQVwNG/aXFsNjhuJFdme3PXlhcxTJSmG7WR0gEgY/zjEMzDxj/RI72nE/LeSoMJLExuxFsOvItv7As9E8XHK3sBIrCWnn3zpCUV7ufZjgICq/rDiiEHjrlatkSbWSB0ob+hr+wRnttrEbdADK3uaiNj1C7YunZLCxpdiNJg==
+ bh=16r3DiadWOxkQ42LojADZo+zQt/YAQng9PMqIguR3yA=;
+ b=fzErwfjVvv0QQeNJNX+Jvx1D4quEKp06lfdUffQr3UerOGnIANNkLLpMU2ZDBnViS83Rm5Hi8J434R3KRry1Bf/Jns33nEJZUy2265ocs8uSW9LCcAYosRwd9Oam3oZ4xuj69GKtNp0r3HSUeB/yhsQLjf1JdKg1X4chFRE538JYoOfZ7xValB/dsrd9pKyVoN7JYl7Lf2JT5OqMRfMq/wdlpzaNPV2lDeIyBOfzEbjoVGPWgOf+AcRWACTDyyD5nmqeDWxvmmMfM8e6DHLMG922ciFjk0MCzSkRWZLzX+VgvZ7LbnTNombenxXT38AhQHjuFWOt3Ds71H3Le4Tt2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tqyq/wzrWvPl3Y8oX+bTp4PhAiv+/b/Ay3++YaCl4A8=;
- b=HkHPG6nV9SUllhavV/zzctcsOHoJkZBLZUenfNVhApUl4Wkj81V3MUEZB3c/qVInaXxAbzEBScKxNBLrIdYD/kKMrrkXJH0K70TqWWV0PzWUJLismoubb2TVcmPDYa87iSRa7JJR7TeDcSZxCDt1nnF9+lbB76/l6pR80NDaDFY=
+ bh=16r3DiadWOxkQ42LojADZo+zQt/YAQng9PMqIguR3yA=;
+ b=NiBjj8FCfh4YJ3E+fcirtD3CDRm+slacCkw4F+8oNaqnnfHGuI3EkjYe+ii5bDLM5lQh2F4i8Z6W29SzvPYyY6t7c6Md4wNTpPvzfczEMiDYPm3G9edjfI3XdRnefGumL07u9yEBdfQYQJ87CiIOK9B1fpEJmSyqnD6/CUgydsc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -43,14 +43,14 @@ Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.018; Fri, 19 Mar 2021
- 10:08:28 +0000
+ 10:08:29 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH v4 1/3] qemu-io: add aio_discard
-Date: Fri, 19 Mar 2021 13:08:09 +0300
-Message-Id: <20210319100811.342464-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 2/3] iotests: add qcow2-discard-during-rewrite
+Date: Fri, 19 Mar 2021 13:08:10 +0300
+Message-Id: <20210319100811.342464-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210319100811.342464-1-vsementsov@virtuozzo.com>
 References: <20210319100811.342464-1-vsementsov@virtuozzo.com>
@@ -66,52 +66,52 @@ Received: from localhost.localdomain (185.215.60.202) by
  AM0PR01CA0082.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Fri, 19 Mar 2021 10:08:26 +0000
+ Transport; Fri, 19 Mar 2021 10:08:28 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f28bde9e-3ebc-475d-83ef-08d8eabef087
+X-MS-Office365-Filtering-Correlation-Id: c5fb078a-da50-43f1-fbf4-08d8eabef136
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3720:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB372079B10A7E09565A289A9EC1689@AM6PR08MB3720.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3720449E45C1E213337C9B35C1689@AM6PR08MB3720.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oTJ/muLfNFiKyXKaNS4eJ03kmcJ/i0MPMMKgNpjoZWuxrvvwNKQuaDm8RvVqUkfWksa+/S6TzbsP7Pq/pZMgqfs+H+kyGsYnokklGJ6ldtB8L4Q/UEgwmGza8E4rpbPRiTIxrZa0U2EDNX1yB4Kd9RDIBzaga69t9M+FQgqKrtMx+/1U+SpkC6N0se94VAT0Qut/boYuZ4OxiezrlHIlueB4eGVNC4T+bIDQH6AAHWNsOTORmmlM4h4/XJHoS02PBdgAoXKUUCypCcYtZoiMq+tMDcuTxl1TcCIumKy52+1ixGPILBooAd3Mk4I0OwX71wIM2MuR2EPcjn1zfBMb3whS8bR53sI3peytLJIe3Aw4QDvK/iejW/DsBw8eaWey2jBE7PXdoeUGwYwM+rQTmBaLk52V/ZdB/y266PYH48beivAUKZujnYMeEMB4CqmxkRE3AqkdFCMOCPp5FlGwfrvrBkGQgbvZDyXzHDbEZ19denUbmvoFZ+LeclNaJbEe1lDvNN0WWGDKABj64nsZQ3Fs720N1HpOUyyqMTNt+Gk1dHyElWx2fudACL4l8ZHHYAyDa+GulEgZt0ktugdZ5932wJFseun2dWeOlz1KrCpPThrLPMHh4oqZBf6+9cuOJ+NlSmDihWO4AO80whjlEzyyCrodAq1Q6U6qR7b2YqYexm1GPRFdjRdtgz86Gtsg
+X-Microsoft-Antispam-Message-Info: RMsnL8pDuJjkObXe68ObKoDHeeVkucbhRNCnkGWzECjNH9MVJMEyON/Aa56Ow/7yjslCNsZDC7MtLzYPtzl0bAmmNVWfiA/CsoZplFgtHaPoXrTAzDoM8HEy0Li+77OF6ubyfNB106XB0rWWfclQQAmgZGCzulXp88EEcnc3wbufjf/TrXODpFXCfbGCWnynDbMlkm/aV+0gOwJvCfPMmdAySohEvQoSnxoflu3fD1vxwzsPMIqeu87xUHxq06jMZFicK8JeX5oc1/ZEmI2mBMzqFCMZr4nMTcSV1vd4qgCRsczKL/GSjl2/AYSW+L9ywvknCkE+xlu2YOTABbXOtAa17KU+EmFD4FiuGUNUK1Bro+v0UEfNJEIFDGRwydlhFanYph+ZPCXSjWqmnt8thXwbpseFMhjHKN8LKw4V3oLFKkxDMLZPKuagz9JlTfbYek3tAmuqXc+zelKg4/BoKqo/xoJ1bUVVVWpVjsLoOmJh6AyYuMAubcUT8kDlNSqNT0JQsWCDlPhgRA9U+x9jgpAMtKweE3C+H91SKVdmSUhLvLB0HCR5fSnIdIrGn32bDLpFFoC4m4zctXIn/hC/VFagfInfHlSlJmecRZCFPH1OqXCZkd0+g0kbPp3EIzkIzkcFRcdqpHOY7GaMcU3vUQV+ppilNNIp9EQWrieB+GfDn83A2dqgDb2o53MpE8rH5mKxfTZyxw0aAm5BxJnae6JvbfpAI3EH+QuO0bV6hKW4aoPmhvlwu+RaQZr5dyTOZhXzacptWus+98di52JWXhhrwAjYbOpy/m5/KaRJSN+bYgr0ak75aO0S/pFiddE8
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(396003)(39840400004)(346002)(136003)(186003)(956004)(69590400012)(2616005)(83380400001)(16526019)(107886003)(66556008)(6506007)(38100700001)(66946007)(316002)(2906002)(86362001)(6512007)(5660300002)(8936002)(1076003)(6916009)(8676002)(36756003)(6666004)(478600001)(26005)(4326008)(66476007)(6486002)(52116002);
+ SFS:(4636009)(366004)(376002)(396003)(39840400004)(346002)(136003)(186003)(956004)(69590400012)(2616005)(83380400001)(16526019)(107886003)(66556008)(6506007)(38100700001)(66946007)(316002)(2906002)(86362001)(6512007)(5660300002)(8936002)(1076003)(6916009)(8676002)(36756003)(6666004)(478600001)(26005)(4326008)(66476007)(6486002)(52116002)(2004002)(21314003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Ovp0NZJEpONnfIDjonp+Mcqu8i/lf2n3cCJoAEhuoeLB6fZrKkjTu3/bvuG6?=
- =?us-ascii?Q?QLhA0EYaX0XqbWwtU/blQy8xxPpdjovPX3ODHeYEo6DKrrYleH+0bQBuQ1ni?=
- =?us-ascii?Q?WTbo/xWskCAY7+CuqveBSZlObTG9xALrUQzA0W7Y1spgbChtiNBv/3siRHsJ?=
- =?us-ascii?Q?2MzDQECYPLluvfQ05cSsS+aKvavSmdBx6xn4WiA18JJG+GGSb8hFk8tYq0Fu?=
- =?us-ascii?Q?uFV6mry70mXl75e0F2w2U2nQxio3WKmQfM7aYynOOk8eN1oMXdQQHGu85ja8?=
- =?us-ascii?Q?J4aUmjMDnhjxYUfgpQ2XXF0J/VEjsttPbmnRZM0PrFrMuhmkHzEgJ5uAeSpk?=
- =?us-ascii?Q?eOM8CJHZPQkLGdjijUkSEUDQGPqBxMNmH6JzZ8jlPt2huAI8TxRNcHj1E8Wt?=
- =?us-ascii?Q?GZfR/AOFxWW02p2X1l7yvJFiMCq9esXferWoZgjVis0i4gnaZPercMiOIfYp?=
- =?us-ascii?Q?+WHUnU3V4Y6e85o9H2hgl0cQA1PCPnrsdEPX2RFu/Y8rDt1OI9BZBqZEp1r1?=
- =?us-ascii?Q?RYVEpENZ4c5MSAD0o4w5HxJGTqkvAXTguOLpp5t4WB5CDUTPdaL34WqxIoPz?=
- =?us-ascii?Q?e1KJNpoIFCpD7RsgPST+yK08+MNm99IKEP2Zx+ySCYx7EW1YU4r6BCIMrnm/?=
- =?us-ascii?Q?nwVVwVzOoUYFBMXxXthMzZcdxgwIbotEJXd3laeeHU0LLVK3uTXvfr8VP5ES?=
- =?us-ascii?Q?dLxPWaXbZDwkV6xfAfPc0S7jX3OdcBm31q8FCjpFu20bnWBqzelJmaxU3yXt?=
- =?us-ascii?Q?JTjD+v35U5QvSHXhE9yQr/OGPNE1nsg7UxADNqmmeKBHJWLaznYBJdqwPa/E?=
- =?us-ascii?Q?xtLrkeTZyHM+BMAhaYa+TDvPDpnS9i7kVVY0z/JJJmdrJcuoD7RAp9ybCXXx?=
- =?us-ascii?Q?F79qp+65D8fbXxRXsx85ifGyOlA8YI36yr2sLg8kJ3t3dY43SyDvytOpo3PR?=
- =?us-ascii?Q?QdjlbMHSmX1Hj6gdUUSxNWD9xx1u88buJwl82V7/OJCd2T73vNGzL5kuFLp1?=
- =?us-ascii?Q?X8x0Xp92OuQHyWiAoX+wEK52ENzYc8WPWm+uLgPKGJGPBj7AiulkWLLu1Pa2?=
- =?us-ascii?Q?grRDH/39dFbWSPVcVVrpjJDuCUcFExV8vinnlz2YRufYlU3+siPyTAM4xjsj?=
- =?us-ascii?Q?0P6C/H1+7SPKm6QUp6UKEthROaZN/RmNAYOYF2cEnpWWwwoed6K+fNhumkEq?=
- =?us-ascii?Q?DbAGbqKvo2Lf7ZUhA5wr5T+nCGfZ1FsOzQgCISpFgFgPP9d+8sEtSrfiyjGT?=
- =?us-ascii?Q?lSDND5ag8SDtGuLAGSJ+uuTqnM+7L5LHvcceP/GVnoH5T2TDemq4d0vox3Fa?=
- =?us-ascii?Q?vwP2T1Wgbzvoc3O5jbdb1QG7?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?1mXbv1p5rHHtmFHcAtQ9SbgFg3QjkiwveAp9bikWkWLE4TId9MgB5dwfw5KY?=
+ =?us-ascii?Q?PJOH7uM92PVC3HDwLunKQ/4sQZow3cpog6cmfCG0WfbrnV7NYtz/xr3TUt0I?=
+ =?us-ascii?Q?J+BDxUTws0qji2pWtCFyUJ3WuPDtrlrpgAuFy7704Le85iXwi2Ehuo7cmP7W?=
+ =?us-ascii?Q?SzY8Mv3p+DmlD+BZsV20JGchUyx4/e5qVMDfTxyOHBPIoOk2DMK86HFfHadD?=
+ =?us-ascii?Q?p4/cqz3cKDexCetbPJzBqrrZglZ7hQESfXqKKBF+sGT3qqgLUKQcxOvZa/uy?=
+ =?us-ascii?Q?7liXp0GjurZ+r08pYPENP5uTMwtKnNF4GOtTAin3/lXl7F9peSkV0J3607PB?=
+ =?us-ascii?Q?RBGaO5JrCswPU9YVq+h5414Fn8Ox3B85S9FkF1YhM6sttsMmtlbahJklkGs7?=
+ =?us-ascii?Q?+DTfzNtjTPFTCRHacPN5sna9+vz1+fgFd2VCEQZKKP8HYiFEMCytKIxQdoXg?=
+ =?us-ascii?Q?DhYEaQHdQxOeSa4qpSHQAZAPnd3mRYfEyo4HTRyPWmOJaIqv7wnTUabl+O43?=
+ =?us-ascii?Q?K/02qqCrV9VQ5FjDERjtJq+guckxQmV/06VQ0+euKIgl1FbxaDnky26s69f5?=
+ =?us-ascii?Q?qVX7FvlVMImuki1TiujWi/5xILEvwHXUvztqL3V+uA6nTegshc1R4Qd9SSvA?=
+ =?us-ascii?Q?QS9L3KCgciCOsFWFWEjZmzibS1WOHYLe5mAs5WJ03iVPPE7yIDDL5lIi0syl?=
+ =?us-ascii?Q?Q9xbYtRXJITXmmSMvxzV3qg3qTeqPMaCQqd18mbNYpkalmdhUTIOrGPJ9jBR?=
+ =?us-ascii?Q?Ml+5HMHvr17ZS/eLu/dKFuGpibHdXM3GXUOcZfpPGVFcq0EDJhI4+501mNVt?=
+ =?us-ascii?Q?5oHsQyaZzhaYAIhCOmad5RMW3TprBUrCQlWclBVrUsf9884I1TDjy3u28EsN?=
+ =?us-ascii?Q?UvhYkU/hyDnMll+7UV26WJTnkPSlXgLlYjUH0WoSwd4/ZT20b16LbPOp7jKR?=
+ =?us-ascii?Q?rfZA5f2+6s0i/HZBNCzPuuj6AKT8Zzyi9gd7/FapEvpe+pjZt5mnePZwKOfD?=
+ =?us-ascii?Q?cVCTDXxdOzXX/pTZkWr2Oq2lMA7KQAWQusq/ORoDIc4CvQ6wfR1C79LoyZ0n?=
+ =?us-ascii?Q?lp5F4cz1kg7CmOlRpqtCWXh/jY+M2JQwgTS7jN5OLoTZ4KBTx0TloZWRjsP+?=
+ =?us-ascii?Q?MAMl6c7Atuj1otgcU+DnRdRbYDTxhiSQ68HiAA3H9Nie5fgRjFgVrfbmk7dz?=
+ =?us-ascii?Q?S6l2FAyN7pOomqZ1NhlMrLAPCHzZMI2SVRrsMbTB7q3oOHH9yGYEiV7LQ7nw?=
+ =?us-ascii?Q?8j9DnpnQkdKC2/5U9vc+48Iqk/YL7l5jJqIHt90GiDpqbXQK7ujqolUXgx1B?=
+ =?us-ascii?Q?Ye/68rcxwDDQZwW0IPeJ/Y1A?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f28bde9e-3ebc-475d-83ef-08d8eabef087
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5fb078a-da50-43f1-fbf4-08d8eabef136
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 10:08:27.9216 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2021 10:08:28.6534 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hmUxH31PENI1YBaYdS+YYiz9Gmvn56XI8cpPSx+DfOfy8u0xsq9A7gTrz+Kv8wrf6qXyVoeQdjciqzNslgBXOEMI34z1k0xHVlC0AxSmiUA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pv6i0iqZx6Xp1+m++vnb0HwXf+dQU+MnywvADQOckJLc3lDYQ/s6RAr0KX2k04p6ANHJEThDA6zZjxO7ZgDl99pYRdFGWZz4C63SmwYNq4g=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3720
 Received-SPF: pass client-ip=40.107.20.125;
  envelope-from=vsementsov@virtuozzo.com;
@@ -138,163 +138,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add aio_discard command like existing aio_write. It will be used in
-further test.
+Simple test:
+ - start writing to allocated cluster A
+ - discard this cluster
+ - write to another unallocated cluster B (it's allocated in same place
+   where A was allocated)
+ - continue writing to A
+
+For now last action pollutes cluster B which is a bug fixed by the
+following commit.
+
+For now, add test to "disabled" group, so that it doesn't run
+automatically.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qemu-io-cmds.c | 117 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 117 insertions(+)
+ .../tests/qcow2-discard-during-rewrite        | 99 +++++++++++++++++++
+ .../tests/qcow2-discard-during-rewrite.out    | 17 ++++
+ 2 files changed, 116 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+ create mode 100644 tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 97611969cb..28b5c3c092 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1332,6 +1332,7 @@ struct aio_ctx {
-     BlockBackend *blk;
-     QEMUIOVector qiov;
-     int64_t offset;
-+    int64_t discard_bytes;
-     char *buf;
-     bool qflag;
-     bool vflag;
-@@ -1343,6 +1344,34 @@ struct aio_ctx {
-     struct timespec t1;
- };
- 
-+static void aio_discard_done(void *opaque, int ret)
+diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+new file mode 100755
+index 0000000000..dd9964ef3f
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+@@ -0,0 +1,99 @@
++#!/usr/bin/env bash
++# group: quick disabled
++#
++# Test discarding (and reusing) host cluster during writing data to it.
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=vsementsov@virtuozzo.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
 +{
-+    struct aio_ctx *ctx = opaque;
-+    struct timespec t2;
-+
-+    clock_gettime(CLOCK_MONOTONIC, &t2);
-+
-+
-+    if (ret < 0) {
-+        printf("aio_discard failed: %s\n", strerror(-ret));
-+        block_acct_failed(blk_get_stats(ctx->blk), &ctx->acct);
-+        goto out;
-+    }
-+
-+    block_acct_done(blk_get_stats(ctx->blk), &ctx->acct);
-+
-+    if (ctx->qflag) {
-+        goto out;
-+    }
-+
-+    /* Finally, report back -- -C gives a parsable format */
-+    t2 = tsub(t2, ctx->t1);
-+    print_report("discarded", &t2, ctx->offset, ctx->discard_bytes,
-+                 ctx->discard_bytes, 1, ctx->Cflag);
-+out:
-+    g_free(ctx);
++    _cleanup_test_img
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
- static void aio_write_done(void *opaque, int ret)
- {
-     struct aio_ctx *ctx = opaque;
-@@ -1671,6 +1700,93 @@ static int aio_write_f(BlockBackend *blk, int argc, char **argv)
-     return 0;
- }
- 
-+static void aio_discard_help(void)
-+{
-+    printf(
-+"\n"
-+" asynchronously discards a range of bytes from the given offset\n"
-+"\n"
-+" Example:\n"
-+" 'aio_discard 0 64k' - discards 64K at start of a disk\n"
-+"\n"
-+" Note that due to its asynchronous nature, this command will be\n"
-+" considered successful once the request is submitted, independently\n"
-+" of potential I/O errors or pattern mismatches.\n"
-+" -C, -- report statistics in a machine parsable format\n"
-+" -i, -- treat request as invalid, for exercising stats\n"
-+" -q, -- quiet mode, do not show I/O statistics\n"
-+"\n");
-+}
++# get standard environment, filters and checks
++. ./../common.rc
++. ./../common.filter
 +
-+static int aio_discard_f(BlockBackend *blk, int argc, char **argv);
++_supported_fmt qcow2
++_supported_proto file fuse
++_supported_os Linux
 +
-+static const cmdinfo_t aio_discard_cmd = {
-+    .name       = "aio_discard",
-+    .cfunc      = aio_discard_f,
-+    .perm       = BLK_PERM_WRITE,
-+    .argmin     = 2,
-+    .argmax     = -1,
-+    .args       = "[-Ciq] off len",
-+    .oneline    = "asynchronously discards a number of bytes",
-+    .help       = aio_discard_help,
-+};
++size=1M
++_make_test_img $size
 +
-+static int aio_discard_f(BlockBackend *blk, int argc, char **argv)
-+{
-+    int ret;
-+    int c;
-+    struct aio_ctx *ctx = g_new0(struct aio_ctx, 1);
++(
++cat <<EOF
++write -P 1 0 64K
 +
-+    ctx->blk = blk;
-+    while ((c = getopt(argc, argv, "Ciq")) != -1) {
-+        switch (c) {
-+        case 'C':
-+            ctx->Cflag = true;
-+            break;
-+        case 'q':
-+            ctx->qflag = true;
-+            break;
-+        case 'i':
-+            printf("injecting invalid discard request\n");
-+            block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_UNMAP);
-+            g_free(ctx);
-+            return 0;
-+        default:
-+            g_free(ctx);
-+            qemuio_command_usage(&aio_write_cmd);
-+            return -EINVAL;
-+        }
-+    }
++break pwritev A
++aio_write -P 2 0 64K
++wait_break A
 +
-+    if (optind != argc - 2) {
-+        g_free(ctx);
-+        qemuio_command_usage(&aio_write_cmd);
-+        return -EINVAL;
-+    }
++aio_discard 0 64K
++EOF
 +
-+    ctx->offset = cvtnum(argv[optind]);
-+    if (ctx->offset < 0) {
-+        ret = ctx->offset;
-+        print_cvtnum_err(ret, argv[optind]);
-+        g_free(ctx);
-+        return ret;
-+    }
-+    optind++;
++# Now discard must be blocked by discard_rw_lock.
++# Prior to introducing of discard_rw_lock discard
++# will run and discard the cluster we are writing
++# to. Give it a chance to do it.
++sleep 1
 +
-+    ctx->discard_bytes = cvtnum(argv[optind]);
-+    if (ctx->discard_bytes < 0) {
-+        ret = ctx->discard_bytes;
-+        print_cvtnum_err(ret, argv[optind]);
-+        g_free(ctx);
-+        return ret;
-+    }
++# Write another cluster. Data writing should be
++# blocked by discard_rw_lock (as we have pending
++# writer). Prior to introducing of the lock this
++# write will allocate same cluster that was
++# discarded and successfully write to it.
++# Give it a chance.
++cat <<EOF
++aio_write -P 3 128K 64K
++EOF
 +
-+    blk_aio_pdiscard(blk, ctx->offset, ctx->discard_bytes,
-+                     aio_discard_done, ctx);
++# a chance for write to finish
++sleep 1
 +
-+    return 0;
-+}
++cat <<EOF
++resume A
++EOF
 +
- static int aio_flush_f(BlockBackend *blk, int argc, char **argv)
- {
-     BlockAcctCookie cookie;
-@@ -2494,6 +2610,7 @@ static void __attribute((constructor)) init_qemuio_commands(void)
-     qemuio_add_command(&readv_cmd);
-     qemuio_add_command(&write_cmd);
-     qemuio_add_command(&writev_cmd);
-+    qemuio_add_command(&aio_discard_cmd);
-     qemuio_add_command(&aio_read_cmd);
-     qemuio_add_command(&aio_write_cmd);
-     qemuio_add_command(&aio_flush_cmd);
++# On good scenario wait for
++# 1. finish first write
++# 2. finish discard
++# 3. finish second write
++# On bad scenario discard and second write are finished,
++# wait only for first write, which will pollute data
++# of second write
++sleep 1
++
++cat <<EOF
++read -P 0 0 64K
++read -P 3 128K 64K
++EOF
++) | $QEMU_IO blkdebug::$TEST_IMG | _filter_qemu_io
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+new file mode 100644
+index 0000000000..dd54e928a6
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+@@ -0,0 +1,17 @@
++QA output created by qcow2-discard-during-rewrite
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++blkdebug: Suspended request 'A'
++blkdebug: Resuming request 'A'
++discarded 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
 -- 
 2.29.2
 
