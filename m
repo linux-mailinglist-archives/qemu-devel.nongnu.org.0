@@ -2,42 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8674C341F33
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:17:16 +0100 (CET)
-Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B4E341F38
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:20:31 +0100 (CET)
+Received: from localhost ([::1]:39328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFwB-0000mB-Jg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46242)
+	id 1lNFzL-0002rp-0E
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
- id 1lNFuv-00005D-HM; Fri, 19 Mar 2021 10:15:57 -0400
-Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:47627
- helo=mx.kernkonzept.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFyK-0002Pe-QV
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:19:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
- id 1lNFut-0007Cm-AW; Fri, 19 Mar 2021 10:15:57 -0400
-Received: from [89.16.135.166] (helo=broc.lan)
- by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) id 1lNFuo-0001S2-K4; Fri, 19 Mar 2021 15:15:50 +0100
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2] target/riscv: Add proper two-stage lookup exception
- detection
-Date: Fri, 19 Mar 2021 15:14:59 +0100
-Message-Id: <20210319141459.1196741-1-georg.kotheimer@kernkonzept.com>
-X-Mailer: git-send-email 2.31.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFyH-00015G-Ek
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:19:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616163563;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G8H0c+F61SEyapz8q5/c6cy/S8Gn8xQpKdpW7ClZ7bQ=;
+ b=b4URN5CYFh3/4jxjezGwYKvYySc73OZRUrYF/7YTfy9j1sle1Uy/Wc2GHI2/tg4g5jTcPH
+ LsY8tLm+U6Yays7uNE5NFYhLp2bwEygSXm7FRN+Ia1gngXek+EQAujVWQMHSW9AIJaUllk
+ USoPectVqJ67cYT8F/aBJ4qQL6i0F4c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-xjOV0cBmMMGkStx0Qy3v0Q-1; Fri, 19 Mar 2021 10:19:21 -0400
+X-MC-Unique: xjOV0cBmMMGkStx0Qy3v0Q-1
+Received: by mail-wm1-f70.google.com with SMTP id r18so12945697wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 07:19:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G8H0c+F61SEyapz8q5/c6cy/S8Gn8xQpKdpW7ClZ7bQ=;
+ b=cDd7aRbIQH4HiHi9Ot+Dk6c1/NgzT/dtSeD1WKbghOk/fV7/v64+JC5um+K7fCLgQX
+ Oiqi+gqopwQliVjwUbjJqqRF+HmGs4shkaSDtczbkisxo2um5B839OURjR9tKu4761QA
+ L9UmffLSuGdu3TQZ+N0e6irtSwX2LaHQE9LKFvhiditau5Xk9H4hBVgdrpMot6sXJ0P8
+ fpLem3uUdIssoW/kKl0JV9PRS48bR4r8xnyv3YLBelscaaJ1IYrY+cqorVo2a8yohevS
+ qW9FtG2yp6ZgUbDbZY8gAH6MisShxIlu39hf+yfz5dNGLUgyGTAlHyDVMbl7s5r0ydR0
+ IWtw==
+X-Gm-Message-State: AOAM533je90SWmH/87WAyMwERC95RKccdqL/BJYlWh2v5WI09RGOiYTi
+ 8dkjzrnEDp1CE0KXZq6wlcKS5FO4aDnOMf+FqEqdVpF5mR5UMi6KcRxTOZwwbDc9DWdUeesLuym
+ cfkKi5WU3WqwwUBvyEw3j5yPhA+HX5muroNCTlOqawCbdcj92z3QfpzeS3w8yLUww
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr4994689wrw.235.1616163560365; 
+ Fri, 19 Mar 2021 07:19:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcqe6Gmg/2DJuTcpO9ufoZWhzNvESjwPtj7qBNm0aOhbjDQaE7mQK60Wj5h0gC9Zqb4UmRqg==
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr4994666wrw.235.1616163560165; 
+ Fri, 19 Mar 2021 07:19:20 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id i8sm8138709wrx.43.2021.03.19.07.19.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 07:19:19 -0700 (PDT)
+Subject: Re: [PATCH] tests/qtest: cleanup the testcase for bug 1878642
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210319085644.2082315-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <46788dcb-d195-2bae-ed3f-8e895bc7e008@redhat.com>
+Date: Fri, 19 Mar 2021 15:19:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210319085644.2082315-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2a01:4f8:1c1c:b490::2;
- envelope-from=georg.kotheimer@kernkonzept.com; helo=mx.kernkonzept.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,131 +97,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current two-stage lookup detection in riscv_cpu_do_interrupt falls
-short of its purpose, as all it checks is whether two-stage address
-translation either via the hypervisor-load store instructions or the
-MPRV feature would be allowed.
+On 3/19/21 9:56 AM, Paolo Bonzini wrote:
+> Clean up the writes to the configuration space and the PM region, and
+> rename the test to lpc-ich9-test.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/qtest/{fuzz-test.c => lpc-ich9-test.c} | 12 +++++++-----
+>  tests/qtest/meson.build                      |  2 +-
+>  2 files changed, 8 insertions(+), 6 deletions(-)
+>  rename tests/qtest/{fuzz-test.c => lpc-ich9-test.c} (71%)
 
-What we really need instead is whether two-stage address translation was
-active when the exception was raised. However, in riscv_cpu_do_interrupt
-we do not have the information to reliably detect this. Therefore, when
-we raise a memory fault exception we have to record whether two-stage
-address translation is active.
-
-Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
----
-Unfortunately, I tested the previous version of the patch only against
-the RISC-V softmmu target, not against the linux-user target.
-I modified the patch, so that the two_stage_lookup is neither present
-nor updated for the linux-user target.
-
- target/riscv/cpu.c        |  1 +
- target/riscv/cpu.h        |  4 ++++
- target/riscv/cpu_helper.c | 21 ++++++++-------------
- 3 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ddea8fbeeb..e8c4455525 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -356,6 +356,7 @@ static void riscv_cpu_reset(DeviceState *dev)
-     env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
-     env->mcause = 0;
-     env->pc = env->resetvec;
-+    env->two_stage_lookup = false;
- #endif
-     cs->exception_index = EXCP_NONE;
-     env->load_res = -1;
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0edb2826a2..0a33d387ba 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -213,6 +213,10 @@ struct CPURISCVState {
-     target_ulong satp_hs;
-     uint64_t mstatus_hs;
- 
-+    /* Signals whether the current exception occurred with two-stage address
-+       translation active. */
-+    bool two_stage_lookup;
-+
-     target_ulong scounteren;
-     target_ulong mcounteren;
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 2f43939fb6..af00728829 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -605,6 +605,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-         g_assert_not_reached();
-     }
-     env->badaddr = address;
-+    env->two_stage_lookup = two_stage;
- }
- 
- hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-@@ -646,6 +647,8 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-     }
- 
-     env->badaddr = addr;
-+    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-+                            riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
- }
- 
-@@ -669,6 +672,8 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-         g_assert_not_reached();
-     }
-     env->badaddr = addr;
-+    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-+                            riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(env, cs->exception_index, retaddr);
- }
- #endif /* !CONFIG_USER_ONLY */
-@@ -910,16 +915,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         /* handle the trap in S-mode */
-         if (riscv_has_ext(env, RVH)) {
-             target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
--            bool two_stage_lookup = false;
- 
--            if (env->priv == PRV_M ||
--                (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
--                (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
--                    get_field(env->hstatus, HSTATUS_HU))) {
--                    two_stage_lookup = true;
--            }
--
--            if ((riscv_cpu_virt_enabled(env) || two_stage_lookup) && write_tval) {
-+            if (env->two_stage_lookup && write_tval) {
-                 /*
-                  * If we are writing a guest virtual address to stval, set
-                  * this to 1. If we are trapping to VS we will set this to 0
-@@ -957,10 +954,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-                 riscv_cpu_set_force_hs_excep(env, 0);
-             } else {
-                 /* Trap into HS mode */
--                if (!two_stage_lookup) {
--                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
--                                             riscv_cpu_virt_enabled(env));
--                }
-+                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
-                 htval = env->guest_phys_fault_addr;
-             }
-         }
-@@ -1016,6 +1010,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-      * RISC-V ISA Specification.
-      */
- 
-+    env->two_stage_lookup = false;
- #endif
-     cs->exception_index = EXCP_NONE; /* mark handled to qemu */
- }
--- 
-2.31.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
