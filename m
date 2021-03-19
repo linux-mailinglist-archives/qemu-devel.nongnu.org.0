@@ -2,91 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EE0341E1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:27:39 +0100 (CET)
-Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CADA341E2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:29:55 +0100 (CET)
+Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFAA-0000bb-Ry
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60568)
+	id 1lNFCM-00049l-41
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:29:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNF7r-0008HO-Au
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:25:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34351)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lNF8Q-0000K3-0e; Fri, 19 Mar 2021 09:25:50 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:38965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNF7p-0003I2-OM
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:25:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616160313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6iqW29n8PutI1qW6ISANlhLcnKb6IOpRCRxFE5kuc8w=;
- b=ZOkfyOFad8HtGq//Z7yxwXAoFHZnMcvLIViTSCROIbvbRHdJWeAxlrS+2IrdUpRmBhPNrW
- SaCkDpz28xDnlBM/5Dpn/oFfVO1WUUt0cckrP1YdZ/1gBhYxR6+10L9y76931TvkMBBJBX
- ZyqgHz6VdZogAboEj+hoqVCVwyNSNd4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-nABVHi4-MrW1-_wRmkGy-w-1; Fri, 19 Mar 2021 09:25:09 -0400
-X-MC-Unique: nABVHi4-MrW1-_wRmkGy-w-1
-Received: by mail-wm1-f69.google.com with SMTP id s192so12934381wme.6
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:25:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6iqW29n8PutI1qW6ISANlhLcnKb6IOpRCRxFE5kuc8w=;
- b=LkLMuIISuFbCODHUvlgIJn+bzBYElgfLiTZK2lXGkLrpCpRBz/fneEorNRDX2tFJkU
- y0d29Ihe0j+8oG5sZkkX47dWCDsijOWfklY/BAXUUKtCVU1ZD8Yc5cpC/eoNUL5OsGbC
- Fb5zeu6RPCOz1rEWiWCtlG1L/Nl2pLQFtfakCqEXuVFNcveS5f3/zmcUHED+OaI0Sya0
- sePiAKhQtZi7PKuyZI7JJkByysMlmU9gOWliRTE1ki10Zc3TYbaonhuOsuaTeuRW5E8p
- enmmPCcILUHzF3dpccMWjZPsGAgxAtNJ0AT34UwWJd1U2OI4KKD6MwDz5Y4VJnHDDjCk
- ecHA==
-X-Gm-Message-State: AOAM533ymC6iyskubcgZ3AHyCIgRjlRnAXq3hLqlyG3w11+ii7C3UDMD
- SccdY1EjwS1qciIzv1QOzfwKnIjhZbQiOBbnKSmKkK/v2tpRMdUG0wSKsV/mEoNcc4AZxd6GuiD
- PlKrDzV+Yw1AvsZQ=
-X-Received: by 2002:adf:8b5c:: with SMTP id v28mr4531556wra.272.1616160308303; 
- Fri, 19 Mar 2021 06:25:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZAYTz/tzHwO70Um1VtpWq9guofFgoYSnsOShswZkls3fHJw3zZCKUTJUqXCfxbWhRrdbO3w==
-X-Received: by 2002:adf:8b5c:: with SMTP id v28mr4531538wra.272.1616160308152; 
- Fri, 19 Mar 2021 06:25:08 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id j12sm7973231wrx.59.2021.03.19.06.25.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 06:25:07 -0700 (PDT)
-Subject: Re: gitlab-ci: cross-i386-system job timeouting
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, "Daniel P . Berrange" <berrange@redhat.com>
-References: <e34b63a3-87e6-ff84-0a4c-306ac6091120@redhat.com>
- <77a34c82-8c80-3f9e-2afa-bdf3dc3269b9@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <586a9860-1f01-20a1-9c2f-249a40ccde8b@redhat.com>
-Date: Fri, 19 Mar 2021 14:25:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lNF8O-0003fZ-71; Fri, 19 Mar 2021 09:25:49 -0400
+Received: from localhost.localdomain ([82.142.20.38]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1N4hex-1lnG4o2KAx-011gjB; Fri, 19 Mar 2021 14:25:41 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] iotests: fix failures with non-PCI machines
+Date: Fri, 19 Mar 2021 14:25:31 +0100
+Message-Id: <20210319132537.2046339-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <77a34c82-8c80-3f9e-2afa-bdf3dc3269b9@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:PzW1L1sYVskSkc0isfni0Xv9K6bHteWLS8oGS04pQWU66XAAA/I
+ qoGPJwtI57TSFjjasS9xW5k8gNzwJlWD0vdsx0i1vgj2+1zTW2pQehvYP/y+WhgayvSDZ4m
+ g/RRisCd/Ur+Hlh+VZGJ/7KQg6ptNQuOqNesE/7qQ2ol2aLswp3dQweVALqcU51MZSCdfFn
+ PuwFbgz1A9zAeSgLARwdw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Vw8yU/Lpwc8=:IIauFs4a06FZFesBqk8Y8F
+ Zp451PW4bQwLqNnpgdAI8Wjqqkj8UUVPv6wtVqI2khB04DuKX/OUSSZxm7YIn9dQC01o8ubbt
+ DxQusC23n7dn4GYzsMaNbXxQk2aCFGBMGAaVHDXFrFJbfRZKCUUjOpk0aoH6Uc2dtpOtervzK
+ G/OSZVIwUfADASAV97splVizOIwaoU374j/9tH2lIMDk55HDVXm0EXH7Jb0oQIUr9c7AA8O1j
+ uTje/PEu8nGtzQGpcMTDFmzlGzSKg7Ccmj6Rikp6SGS+V1lBakVjSad7/REe71TyuUyELUZWp
+ MncilQzkFjvcm+fTX3xaf9lN4zZNNpZLrwBnBETT4BRk5R45zFaRh7gGI49UszOQynYok3PH2
+ muhgWQiJ2NiSSwC/yPNlbWSy/vDC1sPC2WGKVHN5XBqzTuqMW/WDjl9WOapYQAzUAFAqmyOMB
+ rnwi8d9fTg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,32 +60,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <wrampazz@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/21 12:19 PM, Thomas Huth wrote:
-> On 19/03/2021 11.56, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> With all the recent pull requests merged, I'm now seeing
->> the cross-i386-system reaching the timeout limit:
-> 
-> I just took 53 minutes in the main repo:
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/1111677521
-> 
-> I assume you were just temporarily out of luck ... but let's keep an eye
-> on it...
-
-I clicked on [Retry] and it succeeded:
-
-Duration: 13 minutes 26 seconds
-
-I'm lost by this 1h20m0s -> 13m26s difference...
-
-Any idea how we can distinct between broken runner
-and broken test?
-
+Tests are executed using virtio-*-pci even on a non PCI machine.=0D
+=0D
+The problem can be easily fixed using the virtio aliases=0D
+(virtio-*), to run virtio-*-ccw on s390x and virtio-*-device on=0D
+m68k.=0D
+=0D
+A first attempt was tried with virtio-*-ccw by detecting=0D
+the machine type, this series removes it to use the aliases that=0D
+are a cleaner approach.=0D
+=0D
+v2:=0D
+   Fix typos and comments=0D
+   Don't define QEMU_ARCH_NO_PCI but QEMU_ARCH_VIRTIO_PCI,=0D
+   QEMU_ARCH_VIRTIO_CCW and QEMU_ARCH_VIRTIO_MMIO=0D
+   Update test 127 and 256 to run with ccw=0D
+   Update .out of test 051=0D
+   Add a patch to update "-drive if=3Dvirtio"=0D
+=0D
+Laurent Vivier (6):=0D
+  qdev: define list of archs with virtio-pci or virtio-ccw=0D
+  m68k: add the virtio devices aliases=0D
+  blockdev: with -drive if=3Dvirtio, use generic virtio-blk=0D
+  iotests: Revert "iotests: use -ccw on s390x for 040, 139, and 182"=0D
+  iotests: test m68k with the virt machine=0D
+  iotests: iothreads need ioeventfd=0D
+=0D
+ include/sysemu/arch_init.h    |  8 +++++=0D
+ blockdev.c                    |  6 +---=0D
+ softmmu/qdev-monitor.c        | 65 ++++++++++++++++++++---------------=0D
+ tests/qemu-iotests/040        |  2 +-=0D
+ tests/qemu-iotests/051        | 12 +------=0D
+ tests/qemu-iotests/051.out    |  2 +-=0D
+ tests/qemu-iotests/051.pc.out |  2 +-=0D
+ tests/qemu-iotests/068        |  4 +--=0D
+ tests/qemu-iotests/093        |  3 +-=0D
+ tests/qemu-iotests/127        |  3 +-=0D
+ tests/qemu-iotests/139        |  9 ++---=0D
+ tests/qemu-iotests/182        | 13 ++-----=0D
+ tests/qemu-iotests/238        |  4 +--=0D
+ tests/qemu-iotests/240        | 10 +++---=0D
+ tests/qemu-iotests/256        |  6 ++--=0D
+ tests/qemu-iotests/257        |  4 +--=0D
+ tests/qemu-iotests/307        |  4 +--=0D
+ tests/qemu-iotests/iotests.py | 10 +++---=0D
+ tests/qemu-iotests/testenv.py |  1 +=0D
+ 19 files changed, 77 insertions(+), 91 deletions(-)=0D
+=0D
+-- =0D
+2.30.2=0D
+=0D
 
