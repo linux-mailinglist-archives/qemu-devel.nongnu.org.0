@@ -2,83 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5653420F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 16:28:30 +0100 (CET)
-Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AF43420F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 16:28:41 +0100 (CET)
+Received: from localhost ([::1]:54110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNH37-0005hb-65
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 11:28:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37138)
+	id 1lNH3I-0005xI-Mu
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 11:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lNH26-0004yw-16
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 11:27:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lNH24-0000RM-9c
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 11:27:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616167643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/YI2sLH5O7vRZj/FhxbkaAE6jVfQ/U2crRwjJsktYes=;
- b=FCu6I+n5iT0NNYl301P1sDd3RV6m9AA0iWgpzrzuLIZ61HHnb7IE66I/usdMGnNpBwQAjM
- bnroUQOh5til5ALFgDsBv20CDlRcg9UnYOGL2/wFT2BIwhRdcjjRvzI5m0xC97dYP1Nt6O
- VKfryA5jwmHPiqPaeHB8sdHw/O9asR4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-rs1CaJHhMmOkNcOI-ymzSQ-1; Fri, 19 Mar 2021 11:27:20 -0400
-X-MC-Unique: rs1CaJHhMmOkNcOI-ymzSQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 738998189DD;
- Fri, 19 Mar 2021 15:27:19 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-73.gru2.redhat.com
- [10.97.116.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5E645D9E3;
- Fri, 19 Mar 2021 15:27:13 +0000 (UTC)
-Subject: Re: Serious doubts about Gitlab CI
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
- <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
- <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
- <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
- <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
- <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
- <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
-Date: Fri, 19 Mar 2021 12:27:10 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lNH2I-00055a-8X; Fri, 19 Mar 2021 11:27:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52262
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lNH2G-0000Xp-Ha; Fri, 19 Mar 2021 11:27:38 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12JFEYix084582; Fri, 19 Mar 2021 11:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=OHUlDg4N1k2TM7haoY+3V19DKiU8r0pc/bS5MbDTY+w=;
+ b=badC218pVxl6AQdirChR7rgO5lWnjy2RmnsE2E79td3d9rYymFcYOTO0bsoZX5FgT/pT
+ W8K/lAdIWFEkzwnaYVWdVNv0q0uX0BuEsF0PzMaPgfUC4eGqWt0QDHvv2vPy9/sYvVV8
+ 53cpePVEXDUeSZP7Vl3KAkq/a36ebnchdj9De6qtHO5HVMq5b0VEAqlq/l9UjY5Bxkg+
+ FApqRMFSLBTqYDd7IuKdkmq0CLW8rY4iSiwSzowJxkBkFHBVY875ksiqpJxaNFST2YXM
+ nB/8WNIu+H/ICcKyJawx9/ZKL88ecvlRz/eGpDpDsqevaasvAdAXooRKCIctj6taQeD9 Xw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37c6tg60bw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 11:27:28 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12JFFq2s093997;
+ Fri, 19 Mar 2021 11:27:28 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37c6tg60b0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 11:27:28 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12JFMuDN013334;
+ Fri, 19 Mar 2021 15:27:26 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 37crcrgac1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Mar 2021 15:27:26 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12JFR6EC36831524
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Mar 2021 15:27:06 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 66030A4054;
+ Fri, 19 Mar 2021 15:27:23 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9EFFBA405B;
+ Fri, 19 Mar 2021 15:27:21 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.16.62])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 19 Mar 2021 15:27:21 +0000 (GMT)
+Date: Fri, 19 Mar 2021 16:27:19 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 1/2] modules: introduce target specific modules
+Message-ID: <20210319162719.5779e251.pasic@linux.ibm.com>
+In-Reply-To: <9b103263-c3fa-79b9-5ff7-349bfbf60d78@redhat.com>
+References: <20210316122648.3372459-1-pasic@linux.ibm.com>
+ <20210316122648.3372459-2-pasic@linux.ibm.com>
+ <9b103263-c3fa-79b9-5ff7-349bfbf60d78@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-19_06:2021-03-19,
+ 2021-03-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxscore=0
+ suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ malwarescore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2103190107
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,72 +110,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Anup Patel <anup@brainfault.org>, Bruce Rogers <brogers@suse.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, "Daniel P.
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, 18 Mar 2021 12:36:48 +0100
+Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
 
-On 3/19/21 8:34 AM, Philippe Mathieu-Daudé wrote:
-> On 3/19/21 11:59 AM, Paolo Bonzini wrote:
->> On 19/03/21 11:18, Andrew Jones wrote:
->>>> Yikes, that is 41 hours per CI run. I wonder if GitLab's CI minutes are
->>>> on slow machines or if we'll hit the same issue with dedicated runners.
->>>> It seems like CI optimization will be necessary...
->>>>
->>> We need to reduce the amount of CI we do, not only because we can't
->>> afford
->>> it, but because it's wasteful. I hate to think of all the kWhs spent
->>> testing the exact same code in the exact same way, since everyone runs
->>> everything with a simple 'git push'.
->> Yes, I thought the same.
->>
->>> IMHO, 'git push' shouldn't trigger
->>> anything. Starting CI should be an explicit step.
-> * tests/acceptance: Only run tests tagged 'gating-ci' on GitLab CI
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg756464.html
->
-> * gitlab-ci: Allow forks to select & restrict build jobs
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg758331.html
+> > diff --git a/roms/SLOF b/roms/SLOF
+> > index 33a7322de1..e18ddad851 160000
+> > --- a/roms/SLOF
+> > +++ b/roms/SLOF
+> > @@ -1 +1 @@
+> > -Subproject commit 33a7322de13e9dca4b38851a345a58d37e7a441d
+> > +Subproject commit e18ddad8516ff2cfe36ec130200318f7251aa78c
+> > diff --git a/roms/opensbi b/roms/opensbi
+> > index 234ed8e427..a98258d0b5 160000
+> > --- a/roms/opensbi
+> > +++ b/roms/opensbi
+> > @@ -1 +1 @@
+> > -Subproject commit 234ed8e427f4d92903123199f6590d144e0d9351
+> > +Subproject commit a98258d0b537a295f517bbc8d813007336731fa9  
+> 
+> While your patch deals with "target modules", the 2 submodule
+> changes are unrelated, right?
 
-In my opinion that series is the first step towards a smart CI. It got 
-some reviews of Thomas and myself already but it didn't move ahead. If 
-Philippe for some reason cannot continue that work, I'm volunteering to 
-take it over.
+Hi Philippe!
 
-- Wainer
+Not only unrelated but also unintentional. Seems I was not careful
+enough with "git add -u". Should we decide to go in this direction
+(symlinks) I will make sure to drop these changes next time.
 
->
->> It is possible to do that on a project that uses merge requests, for
->> example like this:
->>
->> workflow:
->>    rules:
->>      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
->>      - if: '$CI_COMMIT_BRANCH
->>        when: never
->>
->> For us it's a bit more complicated (no merge requests).
->>
->> Another common feature is failing the pipeline immediately if one of the
->> jobs fail, but GitLab does not support it
->> (https://gitlab.com/gitlab-org/gitlab/-/issues/23605).
->>
->>> Also, the default CI
->>> should only trigger tests associated with the code changed. One should
->>> have to explicitly trigger a complete CI when they deem it worthwhile.
->> This is interesting.  We could add a stage that looks for changed files
->> using "git diff" and sets some variables (e.g. softmmu, user, TCG,
->> various targets) based on the results.  Then you use those to skip some
->> jobs or some tests, for example skipping check-tcg.  See
->> https://docs.gitlab.com/ee/ci/variables/#inherit-cicd-variables for more
->> information.
->>
->> Paolo
->>
->>
-
+Regards,
+Halil
 
