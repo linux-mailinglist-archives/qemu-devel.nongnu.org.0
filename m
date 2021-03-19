@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5803426EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 21:31:30 +0100 (CET)
-Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22367342736
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 21:52:15 +0100 (CET)
+Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNLmL-0004a8-J9
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 16:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47880)
+	id 1lNM6Q-0003Do-7K
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 16:52:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNLfq-00065v-Iw
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 16:24:46 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:38457)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lNM5H-0002jB-Gu
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 16:51:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNLfl-0001ld-Lx
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 16:24:46 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- w21-20020a9d63950000b02901ce7b8c45b4so9729939otk.5
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 13:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=E6ky6tK1daP3TetAERWckLy+AlZziuPEx2vt1lKxAks=;
- b=T68jS8lSXcXyOaOztwOdgHYO7F9U8waSr2c/hKqbem24Tsmn4FUcA9VJkM2fzm3oR9
- CEw2+qzWdmlVwiFNSpIR0u87bM8VAVf5nuk/zq1imG2g1eBvliocmnXAfupD+GSyuDJg
- T5k7YBv4Z4PlfZKBS7POpE+htpqg6Ph38O8jnpZ5W2ZQ4gHc9RIp0HTPgRQlw82w7Mfq
- jOycQCuuVXMPjBE4UWrFk3FQru6ZMJzlPJTEyLnkmjYtDYWECPbZJOvkLyRkIEryFzS6
- FysmGRf5VmXlh3p+R/MBeiFYJPbBI3iHvkUqNWwUz5NAf3lZTWBiJaf7xpdisVFIbww+
- vAnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E6ky6tK1daP3TetAERWckLy+AlZziuPEx2vt1lKxAks=;
- b=BVA7ykLtjj6oc0XIsAM84/ypGyUmpX5X33utxcZcnYSrmTyAnSlbdcXjFd9VKGoEUB
- eN2jvJNmnwSOwdRCx47zBAdHZmTuVFy/ceYs+fm/z8SOspByjOS9PQneJZ1n8/v36qhz
- +xHuImvzx6FTg4eq0uabXmXwKPDc4DISOCYCugLBqNlYwG5iOrX8diXfg2H4BWmLperO
- XCEjzbRoUzmyx4AAho2ijh2bAq6nemeYppfxikeSt2/fylXV+aW9rk4iFWJA+ulx90JW
- bQo5TCvSwXGJ43y/KTwam7A8t1GVo0kHU1k2F18rDs6nkqvQ6YSha9yVBdgUUcD7Z6+Q
- dW3g==
-X-Gm-Message-State: AOAM531TzklqKz8ohho0mzeVA3r8YTzyLz7Sg1MA/KUIxamLtO0kqENq
- dzgrrQ0v8rQpeZ7uSp6updAJ5bNjDm/yM9AN
-X-Google-Smtp-Source: ABdhPJwDetrmQn+SNwsh+4o6VQ1HYA5MQgfHlAGVXHajlu4mnA8RhQ4yGJ5JkpgyhZa27nz1jT+gQQ==
-X-Received: by 2002:a05:6830:1e51:: with SMTP id
- e17mr2433907otj.292.1616185479835; 
- Fri, 19 Mar 2021 13:24:39 -0700 (PDT)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id z6sm1463608otq.48.2021.03.19.13.24.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 13:24:39 -0700 (PDT)
-Subject: Re: [PULL 26/40] linux-user/aarch64: Pass syndrome to EXC_*_ABORT
-To: Laurent Vivier <laurent@vivier.eu>
-References: <20210216161658.29881-1-peter.maydell@linaro.org>
- <20210216161658.29881-27-peter.maydell@linaro.org>
- <f484737b-8dc1-fc16-06a5-753500104bf0@vivier.eu>
- <d7e3c7d3-e21e-8549-70a2-e6997e95b4f7@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <57cb906c-7540-f568-b458-b8952fb0fb7d@linaro.org>
-Date: Fri, 19 Mar 2021 14:24:35 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lNM5F-0004g5-7H
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 16:51:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lNM5B-0006RU-H3
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 20:50:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F062F2E81AA
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 20:50:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <d7e3c7d3-e21e-8549-70a2-e6997e95b4f7@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Mar 2021 20:39:46 -0000
+From: "Laszlo Ersek \(Red Hat\)" <1918917@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arnd-arndb dvyukov pmaydell
+X-Launchpad-Bug-Reporter: Dmitry Vyukov (dvyukov)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <161554541665.16519.7546318758364401915.malonedeb@wampee.canonical.com>
+Message-Id: <161618638677.19918.3316209428640864258.launchpad@wampee.canonical.com>
+Subject: [Bug 1918917] Re: synchronous abort on accessing unused I/O ports on
+ aarch64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: e94b473c070bb043231c64087863aab87e019a5d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,163 +71,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Reply-To: Bug 1918917 <1918917@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/21 1:19 PM, Laurent Vivier wrote:
-> Richard,
-> 
-> do you have any idea how to fix this problem?
+** Summary changed:
 
-Oops, started building ltp, then forgot about it.  Looking now.
+- synchronous about on accessing unused I/O ports on aarch64
++ synchronous abort on accessing unused I/O ports on aarch64
 
+-- =
 
-r~
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918917
 
-> 
-> Thanks,
-> Laurent
-> 
-> Le 12/03/2021 à 12:09, Laurent Vivier a écrit :
->> Hi,
->>
->> On 16/02/2021 17:16, Peter Maydell wrote:
->>> From: Richard Henderson <richard.henderson@linaro.org>
->>>
->>> A proper syndrome is required to fill in the proper si_code.
->>> Use page_get_flags to determine permission vs translation for user-only.
->>>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> Message-id: 20210212184902.1251044-27-richard.henderson@linaro.org
->>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>   linux-user/aarch64/cpu_loop.c | 24 +++++++++++++++++++++---
->>>   target/arm/tlb_helper.c       | 15 +++++++++------
->>>   2 files changed, 30 insertions(+), 9 deletions(-)
->>
->> While I was testing my next linux-user pull request I found this patch breaks something.
->>
->> Following LTP tests are broken:
->>
->> mmap05
->> mprotect02
->> mprotect03
->> mprotect04
->> shmat01
->>
->> with arm64/sid, arm64/trusty, arm64/bionic
->>
->> Bisecting only using mmap05 test I find this patch.
->>
->> Symptoms are:
->>
->> $ sudo unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root
->> chroot/arm64/sid /opt/ltp/testcases/bin/mmap05
->> **
->> ERROR:../../../Projects/qemu/linux-user/aarch64/cpu_loop.c:141:cpu_loop: code should not
->> be reached
->> Bail out! ERROR:../../../Projects/qemu/linux-user/aarch64/cpu_loop.c:141:cpu_loop: code
->> should not be reached
->> qemu:handle_cpu_signal received signal outside vCPU context @ pc=0x7f45c1cd9706
->>
->> Expected result is:
->>
->> mmap05      1  TPASS  :  Got SIGSEGV as expected
->>
->> Thanks,
->> Laurent
->>
->>>
->>> diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
->>> index 42b9c15f536..4e43906e66a 100644
->>> --- a/linux-user/aarch64/cpu_loop.c
->>> +++ b/linux-user/aarch64/cpu_loop.c
->>> @@ -23,6 +23,7 @@
->>>   #include "cpu_loop-common.h"
->>>   #include "qemu/guest-random.h"
->>>   #include "hw/semihosting/common-semi.h"
->>> +#include "target/arm/syndrome.h"
->>>   
->>>   #define get_user_code_u32(x, gaddr, env)                \
->>>       ({ abi_long __r = get_user_u32((x), (gaddr));       \
->>> @@ -76,7 +77,7 @@
->>>   void cpu_loop(CPUARMState *env)
->>>   {
->>>       CPUState *cs = env_cpu(env);
->>> -    int trapnr;
->>> +    int trapnr, ec, fsc;
->>>       abi_long ret;
->>>       target_siginfo_t info;
->>>   
->>> @@ -117,9 +118,26 @@ void cpu_loop(CPUARMState *env)
->>>           case EXCP_DATA_ABORT:
->>>               info.si_signo = TARGET_SIGSEGV;
->>>               info.si_errno = 0;
->>> -            /* XXX: check env->error_code */
->>> -            info.si_code = TARGET_SEGV_MAPERR;
->>>               info._sifields._sigfault._addr = env->exception.vaddress;
->>> +
->>> +            /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
->>> +            ec = syn_get_ec(env->exception.syndrome);
->>> +            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
->>> +
->>> +            /* Both EC have the same format for FSC, or close enough. */
->>> +            fsc = extract32(env->exception.syndrome, 0, 6);
->>> +            switch (fsc) {
->>> +            case 0x04 ... 0x07: /* Translation fault, level {0-3} */
->>> +                info.si_code = TARGET_SEGV_MAPERR;
->>> +                break;
->>> +            case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
->>> +            case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
->>> +                info.si_code = TARGET_SEGV_ACCERR;
->>> +                break;
->>> +            default:
->>> +                g_assert_not_reached();
->>> +            }
->>> +
->>>               queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
->>>               break;
->>>           case EXCP_DEBUG:
->>> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
->>> index df85079d9f0..9609333cbdf 100644
->>> --- a/target/arm/tlb_helper.c
->>> +++ b/target/arm/tlb_helper.c
->>> @@ -154,21 +154,24 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->>>                         bool probe, uintptr_t retaddr)
->>>   {
->>>       ARMCPU *cpu = ARM_CPU(cs);
->>> +    ARMMMUFaultInfo fi = {};
->>>   
->>>   #ifdef CONFIG_USER_ONLY
->>> -    cpu->env.exception.vaddress = address;
->>> -    if (access_type == MMU_INST_FETCH) {
->>> -        cs->exception_index = EXCP_PREFETCH_ABORT;
->>> +    int flags = page_get_flags(useronly_clean_ptr(address));
->>> +    if (flags & PAGE_VALID) {
->>> +        fi.type = ARMFault_Permission;
->>>       } else {
->>> -        cs->exception_index = EXCP_DATA_ABORT;
->>> +        fi.type = ARMFault_Translation;
->>>       }
->>> -    cpu_loop_exit_restore(cs, retaddr);
->>> +
->>> +    /* now we have a real cpu fault */
->>> +    cpu_restore_state(cs, retaddr, true);
->>> +    arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
->>>   #else
->>>       hwaddr phys_addr;
->>>       target_ulong page_size;
->>>       int prot, ret;
->>>       MemTxAttrs attrs = {};
->>> -    ARMMMUFaultInfo fi = {};
->>>       ARMCacheAttrs cacheattrs = {};
->>>   
->>>       /*
->>>
->>
->>
-> 
+Title:
+  synchronous abort on accessing unused I/O ports on aarch64
 
+Status in QEMU:
+  New
+
+Bug description:
+  version: QEMU emulator version 5.2.0 (Debian 1:5.2+dfsg-6)
+  command line: qemu-system-aarch64 \
+  	-machine virt,virtualization=3Don,graphics=3Don,usb=3Don -cpu cortex-a57=
+ -smp 2 -m 2G \
+  	-device virtio-blk-device,drive=3Dhd0 \
+  	-drive if=3Dnone,format=3Draw,id=3Dhd0,file=3Dbuildroot \
+  	-kernel arch/arm64/boot/Image \
+  	-nographic \
+  	-device virtio-rng-pci \
+  	-net user,host=3D10.0.2.10,hostfwd=3Dtcp::10022-:22 -net nic,model=3Dvir=
+tio-net-pci \
+  	-append "root=3D/dev/vda earlyprintk=3Dserial console=3DttyAMA0 earlycon"
+
+  I am observing "synchronous external abort" when kernel tries to
+  access unused I/O ports (see below), while hardware/qemu should return
+  0xffffffff in this case.
+
+  This is factored out of this LKML thread where Arnd describes it in more =
+details:
+  https://lore.kernel.org/lkml/CAK8P3a0HVu+x0T6+K3d0v1bvU-Pes0F0CSjqm5x=3Db=
+xFgv5Y3mA@mail.gmail.com/
+
+  Internal error: synchronous external abort: 96000050 [#1] PREEMPT SMP
+  Dumping ftrace buffer:
+     (ftrace buffer empty)
+  Modules linked in:
+  CPU: 0 PID: 11231 Comm: syz-executor.1 Not tainted 5.12.0-rc2-syzkaller-0=
+0302-g28806e4d9b97 #0
+  Hardware name: linux,dummy-virt (DT)
+  pstate: 80000085 (Nzcv daIf -PAN -UAO -TCO BTYPE=3D--)
+  pc : __raw_writeb arch/arm64/include/asm/io.h:27 [inline]
+  pc : _outb include/asm-generic/io.h:501 [inline]
+  pc : logic_outb+0x3c/0x114 lib/logic_pio.c:302
+  lr : io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
+  sp : ffff000015f0f980
+  x29: ffff000015f0f980 x28: ffff80001de0005d =
+
+  x27: ffff80001601df00 x26: ffff000015f0fc90 =
+
+  x25: ffff80001de00000 x24: ffff80001de00000 =
+
+  x23: ffff00000e27f600 x22: 0000000000000000 =
+
+  x21: 0000000000000002 x20: 0000000000000002 =
+
+  x19: fffffbfffe800001 x18: ffff00006a678b48 =
+
+  x17: 0000000000000000 x16: 0000000000000000 =
+
+  x15: ffff8000197be810 x14: 1fffe00002be1f0e =
+
+  x13: 1fffe00002be1e90 x12: ffff600002be1f39 =
+
+  x11: 1fffe00002be1f38 x10: ffff600002be1f38 =
+
+  x9 : dfff800000000000 x8 : 0000000000000003 =
+
+  x7 : 0000000000000001 x6 : 0000000000000004 =
+
+  x5 : ffff000015f0f9c0 x4 : dfff800000000000 =
+
+  x3 : 0000000000000001 x2 : 1ffff00003494e6b =
+
+  x1 : fffffbfffe800000 x0 : 0000000000ffbffe =
+
+  Call trace:
+   _outb include/asm-generic/io.h:501 [inline]
+   logic_outb+0x3c/0x114 lib/logic_pio.c:302
+   io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
+   serial_out drivers/tty/serial/8250/8250.h:118 [inline]
+   serial8250_set_THRI drivers/tty/serial/8250/8250.h:138 [inline]
+   __start_tx drivers/tty/serial/8250/8250_port.c:1566 [inline]
+   serial8250_start_tx+0x338/0x6c0 drivers/tty/serial/8250/8250_port.c:1666
+   __uart_start.isra.0+0x10c/0x154 drivers/tty/serial/serial_core.c:127
+   uart_start+0xe0/0x210 drivers/tty/serial/serial_core.c:137
+   uart_flush_chars+0x10/0x20 drivers/tty/serial/serial_core.c:573
+   __receive_buf drivers/tty/n_tty.c:1646 [inline]
+   n_tty_receive_buf_common+0x588/0x22c0 drivers/tty/n_tty.c:1739
+   n_tty_receive_buf+0x14/0x20 drivers/tty/n_tty.c:1768
+   tiocsti drivers/tty/tty_io.c:2317 [inline]
+   tty_ioctl+0xed0/0x1aec drivers/tty/tty_io.c:2718
+   vfs_ioctl fs/ioctl.c:48 [inline]
+   __do_sys_ioctl fs/ioctl.c:753 [inline]
+   __se_sys_ioctl fs/ioctl.c:739 [inline]
+   __arm64_sys_ioctl+0x120/0x18c fs/ioctl.c:739
+   __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
+   invoke_syscall arch/arm64/kernel/syscall.c:49 [inline]
+   el0_svc_common.constprop.0+0xf0/0x2c0 arch/arm64/kernel/syscall.c:129
+   do_el0_svc+0xa4/0xd0 arch/arm64/kernel/syscall.c:168
+   el0_svc+0x24/0x34 arch/arm64/kernel/entry-common.c:416
+   el0_sync_handler+0x1a4/0x1b0 arch/arm64/kernel/entry-common.c:432
+   el0_sync+0x170/0x180 arch/arm64/kernel/entry.S:699
+  Code: d2bfd001 f2df7fe1 f2ffffe1 8b010273 (39000274) =
+
+  ---[ end trace 79cb47219936c254 ]---
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918917/+subscriptions
 
