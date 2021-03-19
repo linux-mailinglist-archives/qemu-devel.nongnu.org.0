@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE86341F4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:24:32 +0100 (CET)
-Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7AF341F4E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:24:40 +0100 (CET)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNG3D-0004xp-1y
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48562)
+	id 1lNG3L-0005CO-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNG20-00049w-QW
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:23:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21123)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lNG29-0004H3-7r
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:23:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNG1z-0003SE-9s
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:23:16 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lNG27-0003Y4-NV
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:23:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616163794;
+ s=mimecast20190719; t=1616163802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=L6ao+ru9GH1VH9Sp7obIJ//NGjertJqEquapjCNSKrA=;
- b=AzyGQ8831U7vCNMgBHASG0jSHQ8+IEoBrRK+w32lVelppzN93p3m99dYn6DOfTbXALF3xY
- 0KE49AWjxtsyJ94KhS9eYSEeLjomR9RkyutQtVXzayhu9NtizzHEWJIz0HtCrtFVBwdv0v
- dwLlBzTYkoAOmF3l1mPbk/BL/gzrbnU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-SToV8M2cPTSIJIqEZ8eaVw-1; Fri, 19 Mar 2021 10:23:13 -0400
-X-MC-Unique: SToV8M2cPTSIJIqEZ8eaVw-1
-Received: by mail-wr1-f69.google.com with SMTP id r12so21937620wro.15
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 07:23:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L6ao+ru9GH1VH9Sp7obIJ//NGjertJqEquapjCNSKrA=;
- b=sVeOp0OYikL28UkArepRfjadBKvD5VfzkuTvk8OEGJ1AH02WwACfLN1WaNd6C2oYM3
- 0UJ65Vpk7E5MBRMzrJ/0bryQDLo+SwRVzGR8aUaBIH4/lMHT8oC2DZSVywMEd9fcukrN
- ne2EDlXhIMnx6OBMkoZVsqO5pZU9WFxv2Vk2r1OZAID+NvA7K02s99af+cOBGIhSMWqf
- TyBS8RXz9h+kf2f9zN0k3N6VBMIcVqE+ibiVSWxs6ou2tZagN9AHJ2Fu7TowBd4+9D/4
- SEFHq5w9WP4PutePh/BQODib4YXRRUHuZE2xvz86hDuCCDYwEhuUtVRLEQPxr4stNEsD
- stnw==
-X-Gm-Message-State: AOAM5336SbjQT5gKwLL91CxwbAnR8+qhgPUUdwIlaxaVrCh7uBKhfG0g
- KByEcRYTCr3YfX442K1ACsj1CglDb4XfZm77dugsbuLsdiEjvbOtiZ+8PD7xclqhIkuaWY+z3NS
- vEopbf+oVT1cwbKYVnaecgEGX1EZN1qzermsIGtTfNceK4F1AExhGlsnFXdYEnTJV
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr4072754wma.39.1616163791809;
- Fri, 19 Mar 2021 07:23:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzVXeq9zGV0MwTCURc+u/z/1LTnGR59UPmCyrzxwAxcB9RNe/ijSh7ITyL9F7ip/ibiRGTfvQ==
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr4072736wma.39.1616163791616;
- Fri, 19 Mar 2021 07:23:11 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id n6sm8411011wrt.1.2021.03.19.07.23.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 07:23:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.0 v4] hw/intc/i8259: Refactor pic_read_irq() to avoid
- uninitialized variable
-Date: Fri, 19 Mar 2021 15:23:08 +0100
-Message-Id: <20210319142308.3980259-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lc683i3tg3HsmogPiK22tJHskuAK0oomx8HiwxaDlYg=;
+ b=TA2hNRaBl34qr92wCg/zJFlfkt43WAkEd0OvtPwjFqebJtrWFueVFLCX0/r1iXdIUNwIyM
+ T5GVNwNJS/QJKxxODkTZlSuXBSb5JqmDoI/1W7G8fJ/PPRNrDDN+DumtfuKON9TIHQBFZN
+ exaTrKKXm73ECAojRrfedCI1Afb67B8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-6_qVwL6hMsWnSFvCQ4EUQw-1; Fri, 19 Mar 2021 10:23:21 -0400
+X-MC-Unique: 6_qVwL6hMsWnSFvCQ4EUQw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1707881431C;
+ Fri, 19 Mar 2021 14:23:20 +0000 (UTC)
+Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 531621F419;
+ Fri, 19 Mar 2021 14:23:17 +0000 (UTC)
+Date: Fri, 19 Mar 2021 15:23:14 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2 6/6] iotests: iothreads need ioeventfd
+Message-ID: <20210319152314.7151c275.cohuck@redhat.com>
+In-Reply-To: <b5e6476f-ae52-056b-8ac8-8a3d17118ca3@vivier.eu>
+References: <20210319132537.2046339-1-laurent@vivier.eu>
+ <20210319132537.2046339-7-laurent@vivier.eu>
+ <95209fe1-9b85-0eec-ace2-b3eff20ee88e@redhat.com>
+ <b5e6476f-ae52-056b-8ac8-8a3d17118ca3@vivier.eu>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -91,82 +80,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some compiler versions are smart enough to detect a potentially
-uninitialized variable, but are not smart enough to detect that this
-cannot happen due to the code flow:
+On Fri, 19 Mar 2021 14:51:59 +0100
+Laurent Vivier <laurent@vivier.eu> wrote:
 
-../hw/intc/i8259.c: In function ‘pic_read_irq’:
-../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-   203 |         irq = irq2 + 8;
-       |         ~~~~^~~~~~~~~~
+> Le 19/03/2021 =C3=A0 14:36, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
+=A0:
+> > On 3/19/21 2:25 PM, Laurent Vivier wrote: =20
+> >> And ioeventfd are only available with virtio-scsi-pci or virtio-scsi-c=
+cw,
+> >> use the alias but add a rule to require virtio-scsi-pci or virtio-scsi=
+-ccw
+> >> for the tests that use iothreads.
+> >>
+> >> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> >> ---
+> >>  tests/qemu-iotests/127        | 3 ++-
+> >>  tests/qemu-iotests/256        | 6 ++++--
+> >>  tests/qemu-iotests/iotests.py | 5 +++++
+> >>  3 files changed, 11 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
+> >> index 98e8e82a8210..abe24861100d 100755
+> >> --- a/tests/qemu-iotests/127
+> >> +++ b/tests/qemu-iotests/127
+> >> @@ -44,7 +44,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+> >>  _supported_fmt qcow2
+> >>  _supported_proto file fuse
+> >> =20
+> >> -_require_devices virtio-scsi scsi-hd
+> >> +_require_devices scsi-hd
+> >> +_require_devices virtio-scsi-pci || _require_devices virtio-scsi-ccw =
+=20
+>=20
+> Re-reading the code, I think this cannot work because we have an "exit" i=
+f the test fails.
 
-Restrict irq2 variable use to the inner statement.
+We could try to make _require_devices accept alternatives, but that is
+probably overkill...
 
-Fixes: 78ef2b6989f ("i8259: Reorder intack in pic_read_irq")
-Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Since v3:
-- Declare irq2 really local (Richard)
-Since v2:
-- Remove pic_intack() call (Zoltan)
----
- hw/intc/i8259.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+>=20
+> The test is executed anyway because s390x provides virtio-scsi-ccw and vi=
+rtio-scsi-pci.
 
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 344fd04db14..d67c4710f15 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -176,12 +176,13 @@ static void pic_intack(PICCommonState *s, int irq)
- int pic_read_irq(DeviceState *d)
- {
-     PICCommonState *s = PIC_COMMON(d);
--    int irq, irq2, intno;
-+    int irq, intno;
- 
-     irq = pic_get_irq(s);
-     if (irq >= 0) {
-         if (irq == 2) {
--            irq2 = pic_get_irq(slave_pic);
-+            int irq2 = pic_get_irq(slave_pic);
-+
-             if (irq2 >= 0) {
-                 pic_intack(slave_pic, irq2);
-             } else {
-@@ -189,20 +190,18 @@ int pic_read_irq(DeviceState *d)
-                 irq2 = 7;
-             }
-             intno = slave_pic->irq_base + irq2;
-+            pic_intack(s, irq);
-+            irq = irq2 + 8;
-         } else {
-             intno = s->irq_base + irq;
-+            pic_intack(s, irq);
-         }
--        pic_intack(s, irq);
-     } else {
-         /* spurious IRQ on host controller */
-         irq = 7;
-         intno = s->irq_base + irq;
-     }
- 
--    if (irq == 2) {
--        irq = irq2 + 8;
--    }
--
- #ifdef DEBUG_IRQ_LATENCY
-     printf("IRQ%d latency=%0.3fus\n",
-            irq,
--- 
-2.26.2
+...because of this.
+
+Maybe just add a comment that we require pci or ccw because iothreads
+depend on ioventfd, but checking for pci is enough, as we have pci when
+we have ccw?
+
+>=20
+> Thanks,
+> Laurent
+>=20
 
 
