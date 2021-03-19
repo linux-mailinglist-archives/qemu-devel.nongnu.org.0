@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C4D3419D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:21:32 +0100 (CET)
-Received: from localhost ([::1]:34554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765573419D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 11:23:38 +0100 (CET)
+Received: from localhost ([::1]:42472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNCFy-0000W4-5g
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
+	id 1lNCI5-0003uz-Hc
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 06:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC9d-0002bm-HY
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35560)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNC8z-0001p2-8O
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lNC9b-0000uz-Om
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNC8w-0000Wh-GZ
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 06:14:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616148891;
+ s=mimecast20190719; t=1616148849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QUR8gorllWZwvQCZwhqEHzJng6E9sI3RmMbewm0UBm4=;
- b=Vrw12Y4OwGDK22rm23K1wLmOdoKkroCFQw/SEjfnRQJlLpICvaYg13Or+h6e7oVUi65pJK
- qflR6EaHYBe1eabUqFE9ufUUUYKDdX82+OTPrjUGE3XUc7Soq5MuSwOmd2YdeFJdcFOGbl
- DJ/3Gk/2ubLCHai0TWIdXDKjSyef+P4=
+ bh=CqMqGk0e/3h+GQjFr39PNPm7y8l8h6Y1BbFGYHxAhQk=;
+ b=JJ6P25dZZrnV/XlGx4f7ChVzTXsa48epQ5ljPfq01YBmHsMR6ffoHoSPionCFXoeZMz6b9
+ POPf9bcuDrfFKAYwcyabez1ETNJGVaTvaMkRAkZdY3N6BZZsZbC+5ShZKPIpTsJePjq574
+ xn21nrZjx2KOwIExMEys3VXDyJePXkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-QmgZDO0yP9ayWIuHEGcmVQ-1; Fri, 19 Mar 2021 06:14:49 -0400
-X-MC-Unique: QmgZDO0yP9ayWIuHEGcmVQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-30-U1PEoZjvOvKPfFIkD9jVHw-1; Fri, 19 Mar 2021 06:14:06 -0400
+X-MC-Unique: U1PEoZjvOvKPfFIkD9jVHw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29BCB1007467;
- Fri, 19 Mar 2021 10:14:48 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-112-11.ams2.redhat.com [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD53410013C1;
- Fri, 19 Mar 2021 10:14:44 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/14] qmp: Include "reserve" property of memory backends
-Date: Fri, 19 Mar 2021 11:12:29 +0100
-Message-Id: <20210319101230.21531-14-david@redhat.com>
-In-Reply-To: <20210319101230.21531-1-david@redhat.com>
-References: <20210319101230.21531-1-david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A99D910866A8;
+ Fri, 19 Mar 2021 10:14:05 +0000 (UTC)
+Received: from thuth.com (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F32A60CCB;
+ Fri, 19 Mar 2021 10:14:04 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v2 2/2] cirrus.yml: Update the FreeBSD task to version 12.2
+Date: Fri, 19 Mar 2021 11:14:02 +0100
+Message-Id: <20210319101402.48871-1-thuth@redhat.com>
+In-Reply-To: <87blbhd9ti.fsf@linaro.org>
+References: <87blbhd9ti.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -76,67 +77,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's include the new property.
+FreeBSD version 12.1 is out of service now, and the task in the
+Cirrus-CI is failing. Update to 12.2 to get it working again.
+Unfortunately, there is a bug in libtasn1 that triggers with the
+new version of Clang that is used there (see this thread for details:
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg00739.html ),
+so we have to disable gnutls for now to make it work again. We can
+enable it later again once libtasn1 has been fixed in FreeBSD.
 
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/core/machine-qmp-cmds.c | 1 +
- qapi/machine.json          | 6 ++++++
- 2 files changed, 7 insertions(+)
+ v2: Added a TODO comment so that we remember to enable gnutls later again
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 68a942595a..bd2a7f2dd0 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
-         m->merge = object_property_get_bool(obj, "merge", &error_abort);
-         m->dump = object_property_get_bool(obj, "dump", &error_abort);
-         m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
-+        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
-         m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
-                                              &error_abort);
-         host_nodes = object_property_get_qobject(obj,
-diff --git a/qapi/machine.json b/qapi/machine.json
-index c0c52aef10..12860a1f79 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -814,6 +814,11 @@
- #
- # @prealloc: enables or disables memory preallocation
- #
-+# @reserve: enables or disables reservation of swap space (or huge pages
-+#           if applicable). If reservation is enabled (default), actual
-+#           reservation depends on underlying OS support. In contrast,
-+#           disabling reservation without OS support will bail out. (since 6.1)
-+#
- # @host-nodes: host nodes for its memory policy
- #
- # @policy: memory policy of memory backend
-@@ -827,6 +832,7 @@
-     'merge':      'bool',
-     'dump':       'bool',
-     'prealloc':   'bool',
-+    'reserve':    'bool',
-     'host-nodes': ['uint16'],
-     'policy':     'HostMemPolicy' }}
+ .cirrus.yml | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index bc40a0550d..f53c519447 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -3,7 +3,7 @@ env:
+ 
+ freebsd_12_task:
+   freebsd_instance:
+-    image_family: freebsd-12-1
++    image_family: freebsd-12-2
+     cpu: 8
+     memory: 8G
+   install_script:
+@@ -13,7 +13,10 @@ freebsd_12_task:
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --enable-werror || { cat config.log meson-logs/meson-log.txt; exit 1; }
++    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
++    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
++    - ../configure --enable-werror --disable-gnutls
++      || { cat config.log meson-logs/meson-log.txt; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake -j$(sysctl -n hw.ncpu) check V=1
  
 -- 
-2.29.2
+2.27.0
 
 
