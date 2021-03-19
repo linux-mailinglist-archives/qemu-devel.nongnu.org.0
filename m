@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55BC3422D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 18:09:00 +0100 (CET)
-Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6C0342374
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 18:37:06 +0100 (CET)
+Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNIcO-0004Qp-0K
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 13:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60086)
+	id 1lNJ3Y-0003qy-Tk
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 13:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lNIal-0003ND-8d
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:07:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lNIai-0006qL-GE
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:07:18 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lNJ28-0003KA-NC
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:35:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lNJ25-0006uH-AK
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 13:35:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616173634;
+ s=mimecast20190719; t=1616175329;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZFPLfspLySboLHEll0+K4sHaOAdRNI+16o74aVZRbuI=;
- b=dVvJJr1gdXTngTDZn/Np2Aj3CrTIlqym3FcnNOixzb/6sEujqVIJqS8qFf5WUDGeMYJyRB
- sGRN3AI2OYrUua5+P7WiIVKXpLTMe5pvigGg0b7UePU29x0ILeHmw+mnS9lZgRcdvaurvP
- Stc4dtymT/JSGPjn3LPEFdCR7Z35QcU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-Uyqrbin5Ns6bcCbV8RL2FA-1; Fri, 19 Mar 2021 13:07:11 -0400
-X-MC-Unique: Uyqrbin5Ns6bcCbV8RL2FA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16727801817;
- Fri, 19 Mar 2021 17:07:10 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54ECA5D6D5;
- Fri, 19 Mar 2021 17:07:08 +0000 (UTC)
-Date: Fri, 19 Mar 2021 18:07:05 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ben Widawsky <ben@bwidawsk.net>
-Subject: Re: CXL 2.0 memory device design
-Message-ID: <20210319180705.6ede9091@redhat.com>
-In-Reply-To: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
-References: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
+ bh=aoo5DWNRCtLoRGxLuCNWqvZCer/UGebp5QKZNjpByXM=;
+ b=h1527dzVrqc+KMHwimA559LA5PsT1aad4dkNkjTP+z5yl6C/KqA/9Crg2o6MxNSPDu9EOW
+ GENr5xNnPwK0Ne5i9KMWrgwo0kYREakXAufxHA4NH4nA8yLZrbp7+oCxYtKDJ04UoCXXqy
+ WgyyA7QgzHRRL5BCK7E3Ywnoj/njSao=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-aWT05G2xPqS9QLqAB6vogA-1; Fri, 19 Mar 2021 13:35:28 -0400
+X-MC-Unique: aWT05G2xPqS9QLqAB6vogA-1
+Received: by mail-wr1-f71.google.com with SMTP id 75so21969784wrl.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 10:35:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=aoo5DWNRCtLoRGxLuCNWqvZCer/UGebp5QKZNjpByXM=;
+ b=LXvMHpK8Xdp7vzVCjxAFVGN0VefHe9xuawgCUblBv52T29CLWjVQQg8AL7lPUoQG9N
+ Y/G54vEPFttD2ljbFPzYuB5QWmSFQrk2HHboIcO5GCYin8bpuIZLRZag/+oqPhJm+MtR
+ fd3xLG9cUAbqiPWDeZriMEcd6FVNzo9n8G00GLs/FLj4UiZ8/A7PnqzdU6ORlpsjTT5B
+ XBeyRljv9yMlFjfVseWxwMK7QURc8eTWUFiE+4PsQtVRxUHzp8/p8zCR8IbNIJFt2PN6
+ Nz10+j3jSvqF4r7WQ8z1rkGoryWbcqguFEcn0y4VpOcykwy44Xi2X/60G1nXsrhfiAaZ
+ iGeg==
+X-Gm-Message-State: AOAM532tOvoY7G52yDuk0VmUg8mwHolR6c74koDgt0c+prHecp1Z5Mi8
+ QFHDlaf3cFwPZP+s7XXXZuVL/FkuPqtJnOmSI+5xiRg19NY3dVEB4xGAjSF+LAs4SMT2kfwnhuA
+ GHVZDqA76W/+pnME=
+X-Received: by 2002:adf:ed49:: with SMTP id u9mr5659190wro.337.1616175326934; 
+ Fri, 19 Mar 2021 10:35:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmAbpQ4Xk+FIFuaN74mstyHYBOtSasg7KhqHN7ecYawx32XhpKCsoNWZ0USPkLWo7ywNlWVg==
+X-Received: by 2002:adf:ed49:: with SMTP id u9mr5659179wro.337.1616175326742; 
+ Fri, 19 Mar 2021 10:35:26 -0700 (PDT)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id g15sm6620860wmq.31.2021.03.19.10.35.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Mar 2021 10:35:26 -0700 (PDT)
+Date: Fri, 19 Mar 2021 18:35:24 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [Qemu-devel] [PULL 18/76] optionrom: add new PVH option rom
+Message-ID: <20210319173524.rnrxslpmdjck6uxv@steredhat>
+References: <1549390526-24246-1-git-send-email-pbonzini@redhat.com>
+ <1549390526-24246-19-git-send-email-pbonzini@redhat.com>
+ <e3d925e6-a48e-07b9-6418-05c5a4d2cd36@redhat.com>
+ <f33bf6fa-1fa3-4e33-bd8e-843bec2d5638@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <f33bf6fa-1fa3-4e33-bd8e-843bec2d5638@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,109 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Dan Williams <dan.j.williams@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Mar 2021 14:40:58 -0700
-Ben Widawsky <ben@bwidawsk.net> wrote:
+On Fri, Mar 19, 2021 at 06:03:59PM +0100, Paolo Bonzini wrote:
+>On 19/03/21 15:06, Philippe Mathieu-Daudé wrote:
+>>>+
+>>>+/* Search RSDP signature. */
+>>>+static uintptr_t search_rsdp(uint32_t start_addr, uint32_t end_addr)
+>>>+{
+>>>+    uint64_t *rsdp_p;
+>>>+
+>>>+    /* RSDP signature is always on a 16 byte boundary */
+>>>+    for (rsdp_p = (uint64_t *)start_addr; rsdp_p < (uint64_t *)end_addr;
+>>>+         rsdp_p += 2) {
+>>>+        if (*rsdp_p == RSDP_SIGNATURE) {
+>>>+            return (uintptr_t)rsdp_p;
+>>>+        }
+>>>+    }
+>>>+
+>>>+    return 0;
+>>>+}
+>>gcc 10.2.1 "cc (Alpine 10.2.1_pre2) 10.2.1 20210313" reports:
+>>
+>>pc-bios/optionrom/pvh_main.c: In function 'search_rsdp':
+>>pc-bios/optionrom/pvh_main.c:61:21: warning: comparison is always false
+>>due to limited range of data type [-Wtype-limits]
+>>    61 |         if (*rsdp_p == RSDP_SIGNATURE) {
+>>       |                     ^~
+>
+>This is probably a different bug, but I'll also add that uint64_t is 
+>supposed to be aligned to 64 bits, so you need either 
+>__attribute__((packed)), or use char* and memcmp.  If you go for the 
+>latter, it would fix the issue that Philippe is reporting.
 
-> Phil, Igor, Markus
-> 
-> TL;DR: What to do about multiple capacities in a single device, and what to do
-> about interleave?
-> 
-> I've hacked together a basic CXL 2.0 implementation which exposes a CXL "Type 3"
-> memory device (CXL 2.0 Chapter 2.3). For what we were trying to do this was
-> sufficient. There are two main capabilities that CXL spec exposes which I've not
-> implemented that I'd like to start working toward and am realizing that I what I
-> have so far might not be able to carry forward to that next milestone.
-> 
-> Capability 1. A CXL memory device may have both a volatile, and a persistent
-> 	      capacity. https://bwidawsk.net/HDM_decoders.svg (lower right
-> 	      side). The current work only supports a single persistent
-> 	      capacity.
-> Capability 2. CXL topologies can be interleaved. Basic example:
->               https://bwidawsk.net/HDM_decoders.svg (lower left side)
-> 
-> Memory regions are configured via a CXL spec defined HDM decoder. The HDM
-> decoder which is minimally implemented supports all the functionality mentioned
-> above (base, size, interleave, type, etc.). A CXL component may have up to 10
-> HDMs.
-> 
-> What I have today: https://bwidawsk.net/QEMU_objects.svg
-> There's a single memory backend device for each host bridge. That backend is
-> passed to any CXL component that is part of the hierarchy underneath that
-> hostbridge. In the case of a Type 3 device memory capacity a subregion is
-> created for that capacity from within the main backend. The device itself
-> implements the TYPE_MEMORY_DEVICE interface. This allows me to utilize the
-> existing memory region code to determine the next free address, and warn on
-> overlaps. It hopefully will help when I'm ready to support hotplug.
+Yes, memcmp maybe is also more readable, but being baremetal, I have to 
+implement it right?
 
-As was mentioned on IRC (and maybe on my first attempt to review your patches)
-
-Backends are for managing host resource (RAM/file/fd) and its properties.
-A backend should match a corresponding device model (frontend/emulated hw, i.e. CXL type 3 device),
-the later should manage how it looks to guest.
-
-i.e. in CXL case I'd imagine CLI adding memory look like:
-
--machine cxl=on \
--device cxl-host-bridge,id=foo \
--device cxl-rp,id=rp0,bus="foo" ]
--object memory-backend-file,mem-path=somefile,id=mem1 \
--device cxl-mem,backend=mem1[,bus=rp0]
-
-if you need to add CXL memory you add pair memory-backend-file + cxl-mem
-(which practically reflects what would happen on real hw)
-
-Sharing a single backend between several CXL devices as a means to implement
-interleaving, looks to me as abusing backend concept.
-(that's not how it's done on real hw, memory chips (backend) that belong to a CXL memory
-card are not shared with other CXL devices). It's probably address space
-that gets partitioned in small chunks to map them to one or another CXL memory dev.
-
-I'd suggest to forget about interleaving for now and implement
-a simplified variant without it.
-
-> Where I've gotten stuck: A Memory Device expects only to have one region of
-> memory. Trying to add a second breaks pretty much everything.
-
-Memory device has very simplistic rules to map devices in address space
-(we basically open-coded part of 'memory controller' into machine code
-to do address allocation/mapping, due to PC machine historically not having
-it implemented properly).
-
-> I'm hoping to start the discussion about what the right way to emulate this in
-> QEMU. Ideally something upstreamable would be great. I think adding a secondary
-> (or more) capacity to a memory class device is doable, but probably not the
-> right approach.
-
-Also earlier you mentioned that it's guest who programs where CXL memory is mapped,
-that isn't compatible with simplistic Memory device interface where guest
-has no say where memory is mapped, in Memory Device case, machine code picks
-the next free gap in fixed hotplug region and maps it there.
-
-So I would not use Memory Device interface in CXL case, but rather implement CXL
-own interfaces that work as spec declares. Somewhere in hierarchy there will
-be a device that manages mapping memory into address space (maybe host-bridge
-or a dedicated memory controller above it). And BIOS will program window for mapping
-as it's done on real hw.
-PS:
-I don't we hardcode in QEMU PCI device initialization, usually it's done by BIOS,
-probably the same should apply to CXL.
-
-In case of secondary volatile region, I'd add the second backend to cxl device.
-
-> For context, I've posted v3 previously. Here's a link to v4 which has some minor
-> changes as well as moving back to using subregions instead of aliases:
-> https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
-> 
-> Thanks.
-> Ben
-> 
+Thanks,
+Stefano
 
 
