@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FFD341EC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:52:09 +0100 (CET)
-Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6CC341EE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:58:16 +0100 (CET)
+Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFXs-0006zs-D4
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
+	id 1lNFdi-0005y9-7h
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFVe-00058H-Mh; Fri, 19 Mar 2021 09:49:50 -0400
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:42928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lNFVd-0008BS-1k; Fri, 19 Mar 2021 09:49:50 -0400
-Received: by mail-io1-xd2e.google.com with SMTP id r193so6137248ior.9;
- Fri, 19 Mar 2021 06:49:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FJRso0dYhAE/AkfzPdVUEaet7iAN0gow10UI1owp3R4=;
- b=n39AvQtfaxwgvHUO9PPYd8enlb5XIAjuaDdKOEZPlp0uRj3q6Y/wfeQ/XqMtbpjZx+
- OZXONbjSxZiWwizWwZ4h/ZfUKHpUyjWzsxJVtAbYAhdCgM0T9WlpHoL0O3xZfLXQ6QW6
- VwOoXAYYS+CO3NnJTlTcuxWqWKKNas9yQovzRVkiGE14Ms+CO0v/E9cyuuERK9ycL3ny
- lM5bz3uC1YoDUKLJ+LxJczc5JTu1CegRBX6fbEt7HuOnuAoHztTpI5GiWvMIvi/XpyXK
- KLeqq1+Nvf3Q+QcqJO+E+mcZYnLxEz1m8UYL+h3r1Gvr4ra+VDCexALKjuqA+o49iyz6
- F7RQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFUz-0004NS-0g
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:49:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lNFUw-0007rZ-VH
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:49:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616161745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IqUpf49Cj84L1DtcnfTB9G0j9EvstEWvObvzS4KNOPY=;
+ b=NfcXtA8ehFoHtHH3D+i20KMED90ryuU5o+LbSHbYFRlPpLxCR1fmJILqk2/ixOCzPj6WPi
+ tLgsG7r4U2x3gs5m1v8glrjdpVb14KFc83Xcp84GNq5GCmYkNpcU8EGlQ3k3D6KK4jJc8f
+ YLOe4Afguvzy9bPuzgmOS7Qdymq1Dso=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-IimrmMp0Pr-EbsVREMb_rg-1; Fri, 19 Mar 2021 09:49:03 -0400
+X-MC-Unique: IimrmMp0Pr-EbsVREMb_rg-1
+Received: by mail-wm1-f72.google.com with SMTP id b20so7258057wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:49:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FJRso0dYhAE/AkfzPdVUEaet7iAN0gow10UI1owp3R4=;
- b=e6ADloMpkdgN4Wszvbj2pv1KcJzThDaWAjs2v4R90XlR2fOWHGGdqP682phhUKhaOW
- vOnJIRYL5+JE18vlP3Pv5TCBGZGLAcfjgwwY6XtJNNrkHfrKO6fEnRLt7GBw7nnmHdaW
- Y6JEwDDikTNFQkzQqlLKGNHtjTaCzocLzm+RWuHHNvUDA0rwspVO8GNzOCybAsxHB4TP
- Zpvb0FT5q7jEQSPSTwGdvK83n+jfoxR7uuDppBG92xIKkgZAA+LTVZhqHJDmmmta5z2J
- mSSRzG8V3NDYG3mzQP2urib29+FQUUgYIZNNMAwsDnCFeZEy59vSHRS0Yhn+d1UIGA9T
- kyOQ==
-X-Gm-Message-State: AOAM533m6WYwRCdyyPs8AAh3KGxIf2pfZP7grEKpaKf9gstuIJrv5vQ5
- m8sriuvCM9QfzbA8yE1filTtax1QBFO4ZG+CfAk=
-X-Google-Smtp-Source: ABdhPJxG48f+KMAslRyYuK3jrCOrLlaMtGI9rmpS6Ot20qEWWT56x8kjqoQkvEZo+NnYC1UTLN2b4j1KT8wGX3Ckz7U=
-X-Received: by 2002:a05:6602:14cb:: with SMTP id
- b11mr2895550iow.175.1616161787556; 
- Fri, 19 Mar 2021 06:49:47 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IqUpf49Cj84L1DtcnfTB9G0j9EvstEWvObvzS4KNOPY=;
+ b=eMFp1iNlpkfx5NV4L5h/SfgTVhMX7hHxFtZ2m1XtefQdGh12QJcZ2OntTLT+f6Vn/y
+ iATF9xMYPaT9osy7Jd2v38MZW370GXwx6hOTaiyPZ/seHOSjhrO2LmzoDsKH+vAdUxK2
+ QVwy4Jso9aJCalGqgU6cY5aXQ75H05RAUVg2xueub7hZ6Wooxw54OEKLe/yH/wMjyx9Q
+ 24UHgkrEACJja60cQGq7gwODEDVV7nOg7oetWBl+8KtxFy6ErErgiPhzQTqXKEqFJDqU
+ b7vZWEDoOaOuI7MuyFsEe9h0A9w2JWryIg1vpyfMYFQpSR4HzvIHBE0ILrjDUj5reqbK
+ rS1w==
+X-Gm-Message-State: AOAM532yP4/6ZHbN6vUMiznJ71/U149hqM9pFf42MRbHK17JN4gjzcEc
+ x1NBDt+MOLET13FHV7VmiVME9vpRsjf7ELU4MUeYNapLR8sdurgt5T214tzVh/uFegbL7oWbsGp
+ wynWn8NSSkZU/zq8=
+X-Received: by 2002:a05:600c:3581:: with SMTP id
+ p1mr3791042wmq.91.1616161742911; 
+ Fri, 19 Mar 2021 06:49:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwh9EJ1IvgoX9f6ZRxjaI/QQ5T0YIoQ2rnzCYTWr3L7epAsiJWwxVKS6uNrO7qxT5GrcgOY5A==
+X-Received: by 2002:a05:600c:3581:: with SMTP id
+ p1mr3791032wmq.91.1616161742805; 
+ Fri, 19 Mar 2021 06:49:02 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id m132sm6406763wmf.45.2021.03.19.06.49.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 06:49:02 -0700 (PDT)
+Subject: Re: make: /usr/bin/env: Operation not permitted on Alpine container
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <08d872e9-841b-5880-1a38-e6088cce69db@redhat.com>
+Message-ID: <15fdbff3-b02b-9afe-2325-99945d2458cc@redhat.com>
+Date: Fri, 19 Mar 2021 14:49:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210314083936.76269-1-vijai@behindbytes.com>
- <20210314083936.76269-4-vijai@behindbytes.com>
-In-Reply-To: <20210314083936.76269-4-vijai@behindbytes.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Mar 2021 09:47:58 -0400
-Message-ID: <CAKmqyKOJ43cf__vXXpEQANPRfyyNFT5WVEcc-hnkfWAPg2kt_g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] hw/riscv: Connect Shakti UART to Shakti platform
-To: Vijai Kumar K <vijai@behindbytes.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <08d872e9-841b-5880-1a38-e6088cce69db@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,74 +100,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 14, 2021 at 5:11 AM Vijai Kumar K <vijai@behindbytes.com> wrote:
->
-> Connect one shakti uart to the shakti_c machine.
->
-> Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
-> ---
->  hw/riscv/shakti_c.c         | 7 +++++++
->  include/hw/riscv/shakti_c.h | 2 ++
->  2 files changed, 9 insertions(+)
->
-> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-> index e96436a3bf..07cc42a380 100644
-> --- a/hw/riscv/shakti_c.c
-> +++ b/hw/riscv/shakti_c.c
-> @@ -133,6 +133,12 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
->          shakti_c_memmap[SHAKTI_C_CLINT].size, 0, 1,
->          SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
->          SIFIVE_CLINT_TIMEBASE_FREQ, false);
-> +    qdev_prop_set_chr(DEVICE(&(sss->uart)), "chardev", serial_hd(0));
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&sss->uart), errp)) {
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&sss->uart), 0,
-> +                    shakti_c_memmap[SHAKTI_C_UART].base);
+On 3/19/21 2:31 PM, Philippe Mathieu-Daudé wrote:
+> Yet another odd error, this time on the build-system-alpine job:
+> 
+> $ make -j"$JOBS"
+> make: /usr/bin/env: Operation not permitted
+> make: *** [Makefile:51: git-submodule-update] Error 127
 
-Are there no interrupts?
+I clicked on [Retry] and this time it worked...
 
-Alistair
-
->      /* ROM */
->      memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
->                             shakti_c_memmap[SHAKTI_C_ROM].size, &error_fatal);
-> @@ -151,6 +157,7 @@ static void shakti_c_soc_instance_init(Object *obj)
->      ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(obj);
->
->      object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY);
-> +    object_initialize_child(obj, "uart", &sss->uart, TYPE_SHAKTI_UART);
->
->      /*
->       * CPU type is fixed and we are not supporting passing from commandline yet.
-> diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h
-> index 6c66a160f5..3abb080d3c 100644
-> --- a/include/hw/riscv/shakti_c.h
-> +++ b/include/hw/riscv/shakti_c.h
-> @@ -21,6 +21,7 @@
->
->  #include "hw/riscv/riscv_hart.h"
->  #include "hw/boards.h"
-> +#include "hw/char/shakti_uart.h"
->
->  #define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc"
->  #define RISCV_SHAKTI_SOC(obj) \
-> @@ -33,6 +34,7 @@ typedef struct ShaktiCSoCState {
->      /*< public >*/
->      RISCVHartArrayState cpus;
->      DeviceState *plic;
-> +    ShaktiUartState uart;
->      MemoryRegion rom;
->
->  } ShaktiCSoCState;
-> --
-> 2.25.1
->
->
->
 
