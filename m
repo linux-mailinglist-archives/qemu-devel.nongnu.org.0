@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0F73413F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 05:03:22 +0100 (CET)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458CC341400
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 05:07:40 +0100 (CET)
+Received: from localhost ([::1]:38252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lN6M5-00009x-95
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 00:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39100)
+	id 1lN6QF-0004mi-BK
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 00:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lN6Jp-0006vJ-IH
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 00:01:01 -0400
-Received: from mga18.intel.com ([134.134.136.126]:65160)
+ id 1lN6Jt-0006xC-Hk
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 00:01:07 -0400
+Received: from mga18.intel.com ([134.134.136.126]:65167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lN6Jf-0004P3-59
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 00:00:59 -0400
-IronPort-SDR: mKrAEJi88jUD2A/A1Bedrrc6YB3aoVRShBdr3Ry8nQtmVtaCgTF8Ya00MOkwSTm2rOzy1Ci2RV
- dZVrglg2F1rQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="177409906"
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="177409906"
+ id 1lN6Ji-0004RO-K7
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 00:01:02 -0400
+IronPort-SDR: aXxdyPE+jqOwzQogHe/xdxFh2YCpx4MzbLiRcgBGgSV+yioIzVxH1JSjNVZQY8kvhOjM21GA3e
+ 3sRw4iSdMK5w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="177409914"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="177409914"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 21:00:48 -0700
-IronPort-SDR: gQROqdB514rQXKH9NVCObihYXXkQTKh1jtRQ6PchPaL/0DKBQSSSJQpYqM/C+NFJ+J5MAc9wHQ
- d0QhzbepSkgQ==
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="606456635"
+ 18 Mar 2021 21:00:51 -0700
+IronPort-SDR: O8fRVmxRXzgGEdPkESruVaYGl4NMdsOg3t+zWK3iLdPz3apUOgbW83akxDoSFCVR7OuWHEaQED
+ sHfGKsD2c93w==
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; d="scan'208";a="606456682"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2021 21:00:45 -0700
+ 18 Mar 2021 21:00:47 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Eric Blake <eblake@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
-Date: Fri, 19 Mar 2021 11:55:03 +0800
-Message-Id: <20210319035508.113741-3-chen.zhang@intel.com>
+Subject: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO passthrough
+Date: Fri, 19 Mar 2021 11:55:04 +0800
+Message-Id: <20210319035508.113741-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210319035508.113741-1-chen.zhang@intel.com>
 References: <20210319035508.113741-1-chen.zhang@intel.com>
@@ -70,47 +70,84 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add L4_Connection struct for other QMP commands.
-Except protocol field is necessary, other fields are optional.
+Since the real user scenario does not need COLO to monitor all traffic.
+Add colo-passthrough-add and colo-passthrough-del to maintain
+a COLO network passthrough list.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- qapi/net.json | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ net/net.c     | 10 ++++++++++
+ qapi/net.json | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
 
+diff --git a/net/net.c b/net/net.c
+index 725a4e1450..7c7cefe0e0 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1199,6 +1199,16 @@ void qmp_netdev_del(const char *id, Error **errp)
+     }
+ }
+ 
++void qmp_colo_passthrough_add(L4_Connection *conn, Error **errp)
++{
++    /* Setup passthrough connection */
++}
++
++void qmp_colo_passthrough_del(L4_Connection *conn, Error **errp)
++{
++    /* Delete passthrough connection */
++}
++
+ static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+ {
+     char *str;
 diff --git a/qapi/net.json b/qapi/net.json
-index 498ea7aa72..cd4a8ed95e 100644
+index cd4a8ed95e..ec7d3b1128 100644
 --- a/qapi/net.json
 +++ b/qapi/net.json
-@@ -825,3 +825,29 @@
- { 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp', 'udplite',
-     'icmp', 'igmp', 'ipv6' ] }
+@@ -851,3 +851,43 @@
+   'data': { 'protocol': 'IP_PROTOCOL', '*id': 'str', '*src_ip': 'str', '*dst_ip': 'str',
+     '*src_port': 'int', '*dst_port': 'int' } }
  
 +##
-+# @L4_Connection:
++# @colo-passthrough-add:
 +#
-+# Layer 4 network connection.
++# Add passthrough entry according to customer's needs in COLO-compare.
 +#
-+# Just for IPv4.
-+#
-+# @protocol: Transport layer protocol like TCP/UDP...
-+#
-+# @id: For specific module with Qemu object ID, If there is no such part,
-+#      it means global rules.
-+#
-+# @src_ip: Source IP.
-+#
-+# @dst_ip: Destination IP.
-+#
-+# @src_port: Source port.
-+#
-+# @dst_port: Destination port.
++# Returns: Nothing on success
 +#
 +# Since: 6.1
++#
++# Example:
++#
++# -> { "execute": "colo-passthrough-add",
++#      "arguments": { "protocol": "tcp", "id": "object0", "src_ip": "192.168.1.1",
++#      "dst_ip": "192.168.1.2", "src_port": 1234, "dst_port": 4321 } }
++# <- { "return": {} }
++#
 +##
-+{ 'struct': 'L4_Connection',
-+  'data': { 'protocol': 'IP_PROTOCOL', '*id': 'str', '*src_ip': 'str', '*dst_ip': 'str',
-+    '*src_port': 'int', '*dst_port': 'int' } }
++{ 'command': 'colo-passthrough-add', 'boxed': true,
++     'data': 'L4_Connection' }
++
++##
++# @colo-passthrough-del:
++#
++# Delete passthrough entry according to customer's needs in COLO-compare.
++#
++# Returns: Nothing on success
++#
++# Since: 6.1
++#
++# Example:
++#
++# -> { "execute": "colo-passthrough-del",
++#      "arguments": { "protocol": "tcp", "id": "object0", "src_ip": "192.168.1.1",
++#      "dst_ip": "192.168.1.2", "src_port": 1234, "dst_port": 4321 } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'colo-passthrough-del', 'boxed': true,
++     'data': 'L4_Connection' }
 +
 -- 
 2.25.1
