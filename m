@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A32B341B2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:09:54 +0100 (CET)
-Received: from localhost ([::1]:56870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF47341B30
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 12:11:02 +0100 (CET)
+Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lND0r-0000xH-HN
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
+	id 1lND1x-0002FV-KG
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 07:11:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lNCy7-0007z9-B9
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:07:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ id 1lNCzk-0000YA-SY
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:08:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lNCxu-00079W-5K
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:07:02 -0400
+ id 1lNCzj-0007pR-4Y
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 07:08:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616152009;
+ s=mimecast20190719; t=1616152122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=StbM7Nh8IkVqbfYzrAnoXH8jZiNIg8DlqQScigD4aqk=;
- b=irMyr4gKeLesEciYn3TUbB76/vznnvb+RwClpI/F2WTkhvm6Ss2uGC+uVr8fTwwyC6GzLP
- WFJXYLjSVcFVJlgc2XXd9B8FdxpWtdLv/SHXFKgcQalCWG7aWejEtU6a5GUlecAkLecXGx
- XMs78rBlp0sWSu54pgS6PdYG9KcBUJE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-T8vZ5ee6NK2-WyXg37JZgw-1; Fri, 19 Mar 2021 07:06:47 -0400
-X-MC-Unique: T8vZ5ee6NK2-WyXg37JZgw-1
-Received: by mail-wm1-f72.google.com with SMTP id l16so8172506wmc.0
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 04:06:47 -0700 (PDT)
+ bh=ZPXjJYmiFJIwMTCbQJGlvL3wM/IknWzxETBIcfvbHSs=;
+ b=C8Eh/5Mcnb+A1Nplg8XvgZbTGZy5IkAkolLcYkakKiJjDUtdlwv1hKwqY4/tIWVojzS5yv
+ xdnVays1hzezQDFOWb9dDJ30g5divk6qYnDsAzevfO31FoLAUz0YC1YjwW22H8AnqsiFAT
+ LPusS2/3wQjyIn939TTBUo3v+02WPhI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-WvaGBTGGMXmzlsu8B1HLKw-1; Fri, 19 Mar 2021 07:08:40 -0400
+X-MC-Unique: WvaGBTGGMXmzlsu8B1HLKw-1
+Received: by mail-wr1-f70.google.com with SMTP id r12so21692748wro.15
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 04:08:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=StbM7Nh8IkVqbfYzrAnoXH8jZiNIg8DlqQScigD4aqk=;
- b=g1IVLHhmfsykw8rjYKF1UTHPk1gQ6AIs9/O8pNHS9aB4C8Er+ieRc6BaZrxml/Obx3
- Y5rB/rktx55YZ/Nh1obd+0c9eSgYMRsMvZu4i4oLJizpfmBMwg9MZTB4XpnP713fNwBY
- ILzwgBrPOO3jmNzqG+cdWTyzrbBVQvAhP8KlzKLgCemoCmgXk098mIxnrpal3zs3tXSE
- TGb3O0cizZzNNTv1ZkdY3jZMatspYXoVS6msTQjMbxk5pKB+YgxiJ29EjuDEBjmrRjkD
- jnPCzQiTCU0E7ZqxVCV4nI+i0ZZH1m5SoTZ4oRMzOK47GXrX8XJsOi93lW9SAY3McmI6
- yIkA==
-X-Gm-Message-State: AOAM530rdFSLQJRzlD4wNlRwoMKEVxhDRrCFnRmWZyJoi8ZsMILsr7K5
- EyLm0pwZ3bVW0v+d2clGyLLfFx59oY4nT6sSIpzbnA9QyoZefPoWbZ+Xx0cDQk+Y1ZWhIW8Wy8B
- kV6SklGmN6eoy9no=
-X-Received: by 2002:a5d:6989:: with SMTP id g9mr4185733wru.198.1616152005402; 
- Fri, 19 Mar 2021 04:06:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzd60/EPwxaZl82D7pnCNkJRPRq30LVFnpR12yUFAKszrRGjyx5jXXGX7syG9DLDRsQ1Gy3Dw==
-X-Received: by 2002:a5d:6989:: with SMTP id g9mr4185705wru.198.1616152005224; 
- Fri, 19 Mar 2021 04:06:45 -0700 (PDT)
+ bh=ZPXjJYmiFJIwMTCbQJGlvL3wM/IknWzxETBIcfvbHSs=;
+ b=XrlQ0H4l6Be9BTaZQzSiiH6t7YcnNnrq+SdRxl2561aKHn4ewabHXtHY7YTw0qMzcm
+ GwShHn3ZAaNLd4JRSxIkb+TT4xOgiXQ54XeAn7wk9/JP2oREsUcdfkZ6c4na2NESZoN3
+ SR29jab3SDqb05FKPWZjsXfuviHoi6Z087cbS6wvTjPHY1df83Z8PjbRl1Mm3tt2AmE/
+ 9FBBCOKecz9R3JE0v5h81r36lVeF2n+XjRyonBs4gEDZ/5dxTkibtzlWt4hWxk6sJNrE
+ gR4Y2+h/3Bo1RZHBFi12DRRPLjXQKuojtUkjh2J/ifmF3/3Dns8JNvqVEUCvYdYIYNK0
+ XtKw==
+X-Gm-Message-State: AOAM532rJIW9RuE/WkWbfj6Gfcyb8K4kiLVpLgItbl/goMBphJ5FuzdZ
+ tEy5IzqN7sYYLasX5HlHRsRGBhd61XCVbnykyYVZUhnHxZkLIXoUxtUZ8+KZvlHmB4O6VEzTgWu
+ wr8cA5R+Ki2/6MI0=
+X-Received: by 2002:a5d:4587:: with SMTP id p7mr3942818wrq.205.1616152119675; 
+ Fri, 19 Mar 2021 04:08:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz89dMQJjr1DIHI7BBumwdNiPKieFmFD2uF8Wk9adBzkjH5ryfwChnWWiWvxBYRtputSK9S5A==
+X-Received: by 2002:a5d:4587:: with SMTP id p7mr3942801wrq.205.1616152119536; 
+ Fri, 19 Mar 2021 04:08:39 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id e17sm8885292wra.65.2021.03.19.04.06.43
+ by smtp.gmail.com with ESMTPSA id q4sm5977480wma.20.2021.03.19.04.08.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 04:06:44 -0700 (PDT)
-Subject: Re: [PATCH 4/4] iotests: iothreads need ioeventfd
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210318223907.1344870-1-laurent@vivier.eu>
- <20210318223907.1344870-5-laurent@vivier.eu>
+ Fri, 19 Mar 2021 04:08:38 -0700 (PDT)
+To: Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, qemu-devel@nongnu.org,
+ Qemu-block <qemu-block@nongnu.org>
+References: <20210315204226.3481044-1-laurent@vivier.eu>
+ <20210315204226.3481044-6-laurent@vivier.eu>
+ <2730eee0-6f1b-2139-f93c-6a0a64727e29@redhat.com>
+ <905c797a-25c3-bb43-5946-54b28d9530c0@vivier.eu>
+ <d515dabd-b84d-5aa3-0bf5-d824bdc7da6e@redhat.com>
+ <ffa12ba8-4988-b464-2267-5d14c59b43ab@vivier.eu>
+ <b06c176d-c4ab-6c27-c96f-0bf27f7fd036@redhat.com>
+ <27c791b2-dcc0-6c98-d765-ac1b60b7af3d@vivier.eu>
+ <0d55cabf-0fa0-f9fd-6436-de2e03422329@vivier.eu>
+ <0b3cedb8-f40a-18fd-5030-a596afb9298d@redhat.com>
+ <82f6dc3e-18bf-f90a-7e43-5568b319767c@redhat.com>
+ <3bcc22b2-eb25-b0a0-f47b-72c747ca6f0a@redhat.com>
+ <1a2a91a4-0425-0da9-482b-f46a6e17b6b0@redhat.com>
+ <f69095dc-7021-4f3a-ef59-debcf3df2784@redhat.com>
+ <42717291-e5ac-091b-1272-c997536728aa@vivier.eu>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4c03ef1c-d39f-dd53-c13a-7620b7899e35@redhat.com>
-Date: Fri, 19 Mar 2021 12:06:43 +0100
+Subject: Re: [PULL 5/5] m68k: add Virtual M68k Machine
+Message-ID: <49100ad9-f3ef-0948-d558-8076782af4d6@redhat.com>
+Date: Fri, 19 Mar 2021 12:08:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210318223907.1344870-5-laurent@vivier.eu>
+In-Reply-To: <42717291-e5ac-091b-1272-c997536728aa@vivier.eu>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -87,7 +103,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,44 +116,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/03/21 23:39, Laurent Vivier wrote:
-> And ioeventfd are only available with virtio-scsi-pci, so don't use the alias
-> and add a rule to require virtio-scsi-pci for the tests that use iothreads.
-> 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   tests/qemu-iotests/127        | 4 ++--
->   tests/qemu-iotests/256        | 2 ++
->   tests/qemu-iotests/iotests.py | 5 +++++
->   3 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
-> index 98e8e82a8210..a3693533685a 100755
-> --- a/tests/qemu-iotests/127
-> +++ b/tests/qemu-iotests/127
-> @@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
->   _supported_fmt qcow2
->   _supported_proto file fuse
->   
-> -_require_devices virtio-scsi scsi-hd
-> +_require_devices virtio-scsi-pci scsi-hd
+On 19/03/21 11:51, Laurent Vivier wrote:
+>> It would also make the patches that Laurent sent this morning unnecessary, and avoid the use of
+>> aliases in the tests (so that it's clear what is tested).
+>
+> We don't test the virtio frontend, but the blockdev backend, so we don't care what we use here.
 
-Maybe
+Sort of, see for example the iothreads which, with your patch, would not 
+be covered anymore on s390.
 
-_require_devices scsi-hd
-_require_devices virtio-scsi-pci || _require_devices virtio-scsi ccw
+> Aliases simplify the code...
 
-?
+Aliases are not deprecated but... let's say despised, because of the 
+special casing they add.  But yes, the code simplification from your 
+patch is hard to brush away.
+
+So I agree, since you have already mostly written the patches let's just 
+complete them.
 
 Paolo
 
