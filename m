@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29787341E7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:37:46 +0100 (CET)
-Received: from localhost ([::1]:33490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334C5341E7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:38:22 +0100 (CET)
+Received: from localhost ([::1]:36784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFJx-0006Rh-9K
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
+	id 1lNFKX-0007nF-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lNF9C-0001HN-TL
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:38 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:45579)
+ id 1lNF9B-0001Eq-JY
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:37 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lNF96-0004Bf-LL
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:38 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- r10-20020a05600c35cab029010c946c95easo5233573wmq.4
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:26:31 -0700 (PDT)
+ id 1lNF96-0004C8-RU
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:37 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id 12so5453381wmf.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dughqH1cx9PZP0psDeqXff4h8j75pyRUTE0x8cTekeU=;
- b=QaOvPmtgIJAVBkzxC7G5f5APK5fBiY5URqmRLkpyB2Z7sRlgn7DlPoHIF3X2SciaZs
- l1rICCeNsimSjC2Ve30ECSCijm4gdi8Ul6abCVb09wtcfjnaq1j5fiieMdLSB2eoziGQ
- HXM2falcM7a8vevshPILGEuF+Yai4+z1XA5ZJIe+NiF8CFO5GaidYdbJLtdO2VaBVT5O
- 8XAXYX8KfRkIE/BbYjMBXZ4uAby6n33GPsgYsQDhqv14Bg6Kp2Lbkc/Q1BWGzf+TsN5q
- nXJ1rJOD29cGoYlOhqM9h19G5ObT0vi1J6TeXlNK+9XvXnMjayFMEDak95FooL6ZntzO
- LGqA==
+ bh=pYkY/2Z/pLbSHd+jTUePpf2Jwa7tCLrS2ddiXxwQybM=;
+ b=JA8INJ/EjLhiJttUKSQ1qbYZGiQRnPZrQ5Ys2eSo2N0fAx8cNp9VR1hJ6/8NHrQ3wh
+ 2dQTtnUjwGzEHWclphqWsy/5e1G+Nmhmtaq49ia3cIBJkOBna1S+NEojW/Mic5VH5r+C
+ JnhF9rcvMvvtGJfuL0/CZjTKvk7RK8+/Po+4cqc/jSMp6DrfiLYF1f/FGeCnkIwqihWc
+ H5NUycl9zOp29fUrgrZO+4EmpWd8n9Ou86B7DLgB9fYFbozvKncoG0sl8Jc72ll7dTVj
+ JcbWCW+Ni4zVpJw/q/aG2URFhDR4L42ItfNRXSl6QzbCVf7S+9GTs/vZ8XsA7QnJpcJn
+ iypg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dughqH1cx9PZP0psDeqXff4h8j75pyRUTE0x8cTekeU=;
- b=fQVsF2WC6SD6AG7j5EA5o2hch7dwJ8lv085TQc/690Y9fl0k3AKbDZ1JJNDraSOCuc
- TwwmmAXrnaMdEMmc70jYsMNEq1mCAMxd0WJptLayB+W8MK4GnIY5gSZamd20O8c2vTZF
- PiZJfkbTakvG+PI6op5eNgjlsYzDi2CjxTYEF9Siw13gdI1LPWHIslNLPutWJF/v9uBK
- TrCafrg5K4I9hm4ZDQhbXCBV1U4NxvW8UoR4MQVAQoqIH1tFxQWKXbhtRqtezNN12c0S
- DTiH6+zDdZK144s8Zk0UsPU49nLGKa41lRsCJPpemxzPbEjS8EEnGiFZV0HHsLlUGIJg
- ZbJw==
-X-Gm-Message-State: AOAM5314n/MPaAcgJhENrhlVUJAffRZSPMTGYJwVpiIbIi51G2BRsl4I
- feYkTegDq21qm03bA782fVZsD1zXFLs=
-X-Google-Smtp-Source: ABdhPJyrJ+pHeR+G2D2JQyq4huZZ/vjRg/4z/LN0JvkxAv8+/YT+l7VrWAF+Scs48NFIQNdSKLDjSw==
-X-Received: by 2002:a05:600c:2109:: with SMTP id
- u9mr3773540wml.44.1616160390077; 
+ bh=pYkY/2Z/pLbSHd+jTUePpf2Jwa7tCLrS2ddiXxwQybM=;
+ b=nnSnfmTc9NATOqbLX3NR8l2XNCG8IqUzJw6I+6dN7MqvoL17uoCNmn6Yy5b9TJCfZ2
+ Co+RrJPUs4pG03+klk4up+jBIg53Zb22xRg8gdHqVRqC4xeburwqlVgiQv7HXCFnz0dF
+ wkDFaKIh9005M1o2kPe7DKtBO6g/8uvL7240YnAKbY+c6PpmWu6gnmaL1TTaAgcOPDAO
+ S8bgTpqHNVOXqk8FotNsco+OY/mrzeXYU4+WVVsQyKfeKdkpQ93U5KaJqqPqgDCnXVPh
+ qeDukL5eTw0CvR6ajSVRM3bCJqLQsRQeOEEU2CL9edCW3Gazmgk1q2UgZFpSswioctfe
+ 7jLQ==
+X-Gm-Message-State: AOAM532lz0CwTLPDBvo186lKK8KkvcGxy/rSlj/7f1mhJFl+VpKOkDcV
+ aEp11wfipZ5n652DgqvGaZjX98KLiac=
+X-Google-Smtp-Source: ABdhPJw+GZe4pSB1/ybcG0At/uiwB+A5TeddMMAJEvx7k6KblvGEOm/vkVT3X7WFmT7hEg6DCT4WXA==
+X-Received: by 2002:a1c:f20e:: with SMTP id s14mr3805771wmc.100.1616160390904; 
  Fri, 19 Mar 2021 06:26:30 -0700 (PDT)
 Received: from localhost.localdomain ([102.47.92.134])
- by smtp.googlemail.com with ESMTPSA id v13sm8889584wrt.45.2021.03.19.06.26.29
+ by smtp.googlemail.com with ESMTPSA id v13sm8889584wrt.45.2021.03.19.06.26.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 06:26:29 -0700 (PDT)
+ Fri, 19 Mar 2021 06:26:30 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/8] virtiofsd: Changed fuse_pollhandle allocation to GLib's
+Subject: [PATCH 4/8] virtiofsd: Changed allocations of fuse_session to GLib's
  functions
-Date: Fri, 19 Mar 2021 15:25:22 +0200
-Message-Id: <20210319132527.3118-4-ma.mandourr@gmail.com>
+Date: Fri, 19 Mar 2021 15:25:23 +0200
+Message-Id: <20210319132527.3118-5-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210319132527.3118-1-ma.mandourr@gmail.com>
 References: <20210319132527.3118-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,43 +87,53 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed allocation of fuse_pollhandle structs to GLib's g_new().
+Replaced the allocation and deallocation of fuse_session structs
+from calloc() and free() calls to g_new0() and g_free().
 
-Removed the null checking as allocating such a small memory segment
-should always succeed on a healthy system. Otherwise, the system
-is already in a critical state.
+Removed the NULL-check and used g_new0() mainly because fuse_session
+creation is critical and an exit will occur anyway if fuse_session
+allocation failed.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 66607100f2..45527ff703 100644
+index 45527ff703..b0e9ef29a7 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1755,7 +1755,7 @@ static void do_ioctl(fuse_req_t req, fuse_ino_t nodeid,
+@@ -2467,7 +2467,7 @@ void fuse_session_destroy(struct fuse_session *se)
+     free(se->vu_socket_path);
+     se->vu_socket_path = NULL;
  
- void fuse_pollhandle_destroy(struct fuse_pollhandle *ph)
- {
--    free(ph);
-+    g_free(ph);
+-    free(se);
++    g_free(se);
  }
  
- static void do_poll(fuse_req_t req, fuse_ino_t nodeid,
-@@ -1778,11 +1778,7 @@ static void do_poll(fuse_req_t req, fuse_ino_t nodeid,
-         struct fuse_pollhandle *ph = NULL;
  
-         if (arg->flags & FUSE_POLL_SCHEDULE_NOTIFY) {
--            ph = malloc(sizeof(struct fuse_pollhandle));
--            if (ph == NULL) {
--                fuse_reply_err(req, ENOMEM);
--                return;
--            }
-+            ph = g_new(struct fuse_pollhandle, 1);
-             ph->kh = arg->kh;
-             ph->se = req->se;
-         }
+@@ -2490,11 +2490,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
+         return NULL;
+     }
+ 
+-    se = (struct fuse_session *)calloc(1, sizeof(struct fuse_session));
+-    if (se == NULL) {
+-        fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate fuse object\n");
+-        goto out1;
+-    }
++    se = g_new0(struct fuse_session, 1);
+     se->fd = -1;
+     se->vu_listen_fd = -1;
+     se->thread_pool_size = THREAD_POOL_SIZE;
+@@ -2550,7 +2546,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
+ out4:
+     fuse_opt_free_args(args);
+ out2:
+-    free(se);
++    g_free(se);
+ out1:
+     return NULL;
+ }
 -- 
 2.25.1
 
