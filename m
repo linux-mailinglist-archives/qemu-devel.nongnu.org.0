@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4138341E5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:31:56 +0100 (CET)
-Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409BE341E69
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 14:34:30 +0100 (CET)
+Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFEJ-0006lA-Tt
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:31:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32980)
+	id 1lNFGn-0001sq-AI
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 09:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lNF9C-0001HU-Uz
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:38 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42594)
+ id 1lNF9D-0001Jb-Qc
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:39 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lNF99-0004Ck-MU
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:38 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id x13so9113053wrs.9
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:26:34 -0700 (PDT)
+ id 1lNF9A-0004D7-Hd
+ for qemu-devel@nongnu.org; Fri, 19 Mar 2021 09:26:39 -0400
+Received: by mail-wm1-x335.google.com with SMTP id g25so5491677wmh.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 06:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eiWZx+mACoCrFVRPV7yfaFTS0OqnVjieeU+w0fMK/vM=;
- b=R2B8n6+PVJ33LQk3cWXqWrBdDPLZ0Py5YEC58bBd5rbxEjDrx3N/U4ejPPOAYB53Hm
- 13r9r5qS9eAxuDZrpz6RjTNhXgWKLmEJ+qW/kp0cru0G4RKrzT2JW9QlZJHJEzjQ0cQd
- FkVMxzqQLePjYzzbTqqR4xpyaHPZOKODu4dPu6Afahh7MXv8sudVBBg3I5c/j+aY8TB5
- hVhfIfSsBOLbRf+1/Vh3bxiBE4980hb/ywaXaqZUMjZ1sL6zgVQln+zI+2Oi1pA+Z10T
- 2pFiigMgAPw7jz5WcV92od26iVQid/Xx98KXXe4d+SJJXUZYUjP2qRq6gNzp1mhrKb1S
- 7K1A==
+ bh=tRiDkt/PZdT5UYxHG4CdXIwPFvqt4OqFWKCOPiH+A5w=;
+ b=vfRGdKzO6KmrMTkQh9J4s6ZMiSoUgtAYRrUF/evsr6PvXoUrl3WZKD6jo0rp4slJ/n
+ Zfv7Cus0ljJMyrgnarQrztcz1QZahozZT71+A2mn1bkDvgOBxcammZlaAQWBeRXgTf8d
+ 1saUkoJLegRkWXTD/NgYrgwGgJjZ9LsOTCxS1OWObCvhqntRoJakAPdtnPT8M00R26JH
+ n98pVFoPwlcMZVz5jiYTc14G7oCwYsK6DCZli+Yd+ZgKyiBo2I9teqKmtcjawFxIT+jI
+ r4T+wQisWCvfeIoQ6M/WqYk8t1EXIdlX5a0tSNTM91FFSMHa3XpXpY5vaa3q1zoAfZxd
+ Qczg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eiWZx+mACoCrFVRPV7yfaFTS0OqnVjieeU+w0fMK/vM=;
- b=T8jWeJrceRgC28eBenCwEwtir2JRbiUQkll6nzO2xrHrTHf/JU2Zz1xUFC7T8DJhwj
- V2kxFp9oLIZ3pSrVMmg4SeN1VcmL7hbrX6NAtKGlFjNfY6D/HSynNE0tsetFRpyNoUAc
- BctLjaBPCy/lkefdx2v7Oh8wLjfUG8ie8UYwgJ0lrp0ReQCABi+T4vLy5H+QFlK6PA0T
- gbqkqKfogU5jjnxRaYk1O7Iflo9d7ilBCHnk4s9FzRGx3ExXHgbAIpR8aFPRrP2kztjk
- DGlobPQ+IplupsRdlnNrmBZjUzXvgjE7/dG8woW2bqSn0qtW3rqrwg5lf6V3mJm3SEe+
- xzgA==
-X-Gm-Message-State: AOAM530jxxuFzonjqHvF8Fddc2iZbU5IX4I4WTdWUAiLkESCUvzpnnth
- TQGsEVzX1zAfhwE722b5g4DZnRYEyUw=
-X-Google-Smtp-Source: ABdhPJwg+2c68Wc56HxZ5vNFPS4yCseuk7pNaBWZ4n2jj9zjSl8XT/xHHxPA272eTXxquR5n+A72vQ==
-X-Received: by 2002:adf:ea0e:: with SMTP id q14mr4602850wrm.389.1616160393236; 
- Fri, 19 Mar 2021 06:26:33 -0700 (PDT)
+ bh=tRiDkt/PZdT5UYxHG4CdXIwPFvqt4OqFWKCOPiH+A5w=;
+ b=gR+bcxOnkP1n5u2FdzTaGpRKJg7R09dMiqlvnWx7xCnHThF8KkcSY9HvkfwLMAkkT2
+ jXbF9YSF4JxC4RrvAGwg0qGCsyeHpOwS9BJ7dqhrBePmFZiouPWvZ8h/r9ctQ6iu6e6T
+ GP2ixbflHqorBpRnq3zXepnJZ6NAV526KOnu3L/s6X4P0xJEPgfkWzwzeqlVcXzGH85P
+ 68gyUdsOT3lZoQbyyZciXnMRywXuH+IsDplN/vRK/2wQXENoixrPpnwgZ9ZNnuRU9Tnf
+ 6gE4LROSfEGrJRtYYZGU81RNdIw4if3s0/4no2G11FtVF7/GOwWur9bIQz7Es092gfOG
+ WRQg==
+X-Gm-Message-State: AOAM5303NOUe2lT9BPIVxzsNQFhtpzRlQiRRJe/pFbH/HqkziuVJXs9a
+ 7fl4eVWVHhm6tguu78DG9jTz+0qn6qk=
+X-Google-Smtp-Source: ABdhPJxGJbH18sqefbIBK4SKUQqBmLO1I/R5KbSAAsZXNTE5JQ/C6Yef23dwRgLKPZR7kQ2x5T9pkg==
+X-Received: by 2002:a1c:43c5:: with SMTP id q188mr3696767wma.94.1616160395013; 
+ Fri, 19 Mar 2021 06:26:35 -0700 (PDT)
 Received: from localhost.localdomain ([102.47.92.134])
- by smtp.googlemail.com with ESMTPSA id v13sm8889584wrt.45.2021.03.19.06.26.31
+ by smtp.googlemail.com with ESMTPSA id v13sm8889584wrt.45.2021.03.19.06.26.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 06:26:32 -0700 (PDT)
+ Fri, 19 Mar 2021 06:26:33 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] virtiofsd: Changed allocations of fv_VuDev & its
- internals to GLib functions
-Date: Fri, 19 Mar 2021 15:25:25 +0200
-Message-Id: <20210319132527.3118-7-ma.mandourr@gmail.com>
+Subject: [PATCH 7/8] virtiofsd/passthrough_ll.c: Changed local allocations to
+ GLib functions
+Date: Fri, 19 Mar 2021 15:25:26 +0200
+Message-Id: <20210319132527.3118-8-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210319132527.3118-1-ma.mandourr@gmail.com>
 References: <20210319132527.3118-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,81 +87,99 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed the allocations of fv_VuDev structs, VuDev structs, and
-fv_QueueInfo strcuts from using calloc()/realloc() & free() to using
-the equivalent functions from GLib.
-
-In instances, removed the pair of allocation and assertion for
-non-NULL checking with a GLib function that aborts on error.
-
-Removed NULL-checking for fv_VuDev struct allocation and used
-a GLib function that crashes on error; namely, g_new0(). This
-is because allocating one struct should not be a problem on an
-healthy system. Also following the pattern of aborting-on-null
-behaviour that is taken with allocating VuDev structs and
-fv_QueueInfo structs.
+Changed the allocations of some local variables to GLib's allocation
+functions, such as g_try_malloc0(), and annotated those variables
+as g_autofree. Subsequently, I was able to remove the calls to free().
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 07e5d91a9f..5828b9a76f 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -729,7 +729,7 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-     pthread_mutex_destroy(&ourqi->vq_lock);
-     close(ourqi->kill_fd);
-     ourqi->kick_fd = -1;
--    free(vud->qi[qidx]);
-+    g_free(vud->qi[qidx]);
-     vud->qi[qidx] = NULL;
- }
- 
-@@ -760,15 +760,13 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-     if (started) {
-         /* Fire up a thread to watch this queue */
-         if (qidx >= vud->nqueues) {
--            vud->qi = realloc(vud->qi, (qidx + 1) * sizeof(vud->qi[0]));
--            assert(vud->qi);
-+            vud->qi = g_realloc_n(vud->qi, qidx + 1, sizeof(vud->qi[0]));
-             memset(vud->qi + vud->nqueues, 0,
-                    sizeof(vud->qi[0]) * (1 + (qidx - vud->nqueues)));
-             vud->nqueues = qidx + 1;
-         }
-         if (!vud->qi[qidx]) {
--            vud->qi[qidx] = calloc(sizeof(struct fv_QueueInfo), 1);
--            assert(vud->qi[qidx]);
-+            vud->qi[qidx] = g_new0(struct fv_QueueInfo, 1);
-             vud->qi[qidx]->virtio_dev = vud;
-             vud->qi[qidx]->qidx = qidx;
-         } else {
-@@ -1034,12 +1032,7 @@ int virtio_session_mount(struct fuse_session *se)
-              __func__);
- 
-     /* TODO: Some cleanup/deallocation! */
--    se->virtio_dev = calloc(sizeof(struct fv_VuDev), 1);
--    if (!se->virtio_dev) {
--        fuse_log(FUSE_LOG_ERR, "%s: virtio_dev calloc failed\n", __func__);
--        close(data_sock);
--        return -1;
--    }
-+    se->virtio_dev = g_new0(struct fv_VuDev, 1);
- 
-     se->vu_socketfd = data_sock;
-     se->virtio_dev->se = se;
-@@ -1061,8 +1054,8 @@ void virtio_session_close(struct fuse_session *se)
-         return;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index d049013428..4263b383f0 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1653,7 +1653,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+     struct lo_data *lo = lo_data(req);
+     struct lo_dirp *d = NULL;
+     struct lo_inode *dinode;
+-    char *buf = NULL;
++    g_autofree char *buf = NULL;
+     char *p;
+     size_t rem = size;
+     int err = EBADF;
+@@ -1669,7 +1669,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
      }
  
--    free(se->virtio_dev->qi);
-+    g_free(se->virtio_dev->qi);
-     pthread_rwlock_destroy(&se->virtio_dev->vu_dispatch_rwlock);
--    free(se->virtio_dev);
-+    g_free(se->virtio_dev);
-     se->virtio_dev = NULL;
+     err = ENOMEM;
+-    buf = calloc(1, size);
++    buf = g_try_malloc0(size);
+     if (!buf) {
+         goto error;
+     }
+@@ -1755,7 +1755,6 @@ error:
+     } else {
+         fuse_reply_buf(req, buf, size - rem);
+     }
+-    free(buf);
  }
+ 
+ static void lo_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+@@ -2726,7 +2725,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+                         size_t size)
+ {
+     struct lo_data *lo = lo_data(req);
+-    char *value = NULL;
++    g_autofree char *value = NULL;
+     char procname[64];
+     const char *name;
+     char *mapped_name;
+@@ -2767,7 +2766,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+              ino, name, size);
+ 
+     if (size) {
+-        value = malloc(size);
++        value = g_try_malloc(size);
+         if (!value) {
+             goto out_err;
+         }
+@@ -2806,8 +2805,6 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         fuse_reply_xattr(req, ret);
+     }
+ out_free:
+-    free(value);
+-
+     if (fd >= 0) {
+         close(fd);
+     }
+@@ -2826,7 +2823,7 @@ out:
+ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+ {
+     struct lo_data *lo = lo_data(req);
+-    char *value = NULL;
++    g_autofree char *value = NULL;
+     char procname[64];
+     struct lo_inode *inode;
+     ssize_t ret;
+@@ -2848,7 +2845,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+              size);
+ 
+     if (size) {
+-        value = malloc(size);
++        value = g_try_malloc(size);
+         if (!value) {
+             goto out_err;
+         }
+@@ -2933,8 +2930,6 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+         fuse_reply_xattr(req, ret);
+     }
+ out_free:
+-    free(value);
+-
+     if (fd >= 0) {
+         close(fd);
+     }
 -- 
 2.25.1
 
