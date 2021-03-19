@@ -2,83 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4579341F2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:16:01 +0100 (CET)
-Received: from localhost ([::1]:60368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8674C341F33
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Mar 2021 15:17:16 +0100 (CET)
+Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNFuy-00087O-5X
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45836)
+	id 1lNFwB-0000mB-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 10:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lNFte-0007cY-Si
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:14:38 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lNFtc-0006Nz-PT
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 10:14:38 -0400
-Received: by mail-wr1-x435.google.com with SMTP id j7so9288351wrd.1
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 07:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ktBVkmahJUFDI0GdAgFTyQf46g4Zkpjce+j5UNqb9MI=;
- b=mXeNGK5WNKsC4AlXKSVBUE7g5Ooew4zsHai0DCcOAHdzR4MrVzC3dpkYk2+IQp17lY
- IT02NZqjxRGlw/e4PijXI/1ElM74IDj5WUmO/0/NRxCto87HI5mhCYuT+ihnXRVd5RxP
- A4lRRFTyActe3qsZB3s7hV9UXODAQXg7+hBK0p6WgSz21zhusaid/jswNKsJOyBjZCIJ
- nxgXD8SIEi8dJpHEGSKo71RvF0AaxEYu4sTCIwWIUXDxjmF146ZwdyFB8OWw7fa4hdfK
- q8f9p91WutQvfgjzeWRsZhWGmcLc2SZFBouAdHiDQoQddNfBJV3KLqTl+6r/nk3oVxl8
- uU9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ktBVkmahJUFDI0GdAgFTyQf46g4Zkpjce+j5UNqb9MI=;
- b=EA5HlLoGlNcpWxtHlbeG/SR8SSFc6gaTOLtH9tmI3GBd5okDGy9eLTyjgPbfjg1D1o
- g9GA8H73kd6/PWwaLvdBJwmzOzRmEdc0zUwAS/44Jt6N1LTpYW/9TPamhTmk0AYdnn6H
- zv/kVvXz9t6B6YC5PTqopvqteMjh0sfHZWViFIeWPiNMqILlacAfh4HF3lXPSbYKqiFH
- ocTf2SDulYwcTiGDfh5Zp/qh/YM7Gqjet+vBCCykc7mMQfsli/0mWgxeSDP6xVTZlFlh
- 1vqjGD8uqg6i4ehSNPBaGe1G3keybebP50f/Q7m/N9/RHARtFQk29jI82+HyFfRDl1Xg
- +IWQ==
-X-Gm-Message-State: AOAM530XkmbYxj3cmRjxZgbmj5IVPQocEmVbOdNCht8TMNEt4gn0Bz1C
- bfQ6S84npEuw5es/HXlVs/w=
-X-Google-Smtp-Source: ABdhPJythqfYlYVgcNFeKyDt+h22hUKOE2E8SD+Xj9Ehv4d2y38JnX23uG8AWdrUT5NXQXOSqCk2iA==
-X-Received: by 2002:adf:f843:: with SMTP id d3mr4726244wrq.55.1616163275313;
- Fri, 19 Mar 2021 07:14:35 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id c131sm6683288wma.37.2021.03.19.07.14.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Mar 2021 07:14:34 -0700 (PDT)
-Subject: Re: QEMU PCI subsystem: what code is responsible for making accesses
- to non-mapped addresses read as -1?
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <CAFEAcA_M4zK1aLdO2QdOUgNROTLdHUwLHnCKoUT1BpTcF-cTMw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <75fa2ebd-7a7b-a4af-54f2-290b7ffe5d13@amsat.org>
-Date: Fri, 19 Mar 2021 15:14:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
+ id 1lNFuv-00005D-HM; Fri, 19 Mar 2021 10:15:57 -0400
+Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:47627
+ helo=mx.kernkonzept.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
+ id 1lNFut-0007Cm-AW; Fri, 19 Mar 2021 10:15:57 -0400
+Received: from [89.16.135.166] (helo=broc.lan)
+ by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) id 1lNFuo-0001S2-K4; Fri, 19 Mar 2021 15:15:50 +0100
+From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2] target/riscv: Add proper two-stage lookup exception
+ detection
+Date: Fri, 19 Mar 2021 15:14:59 +0100
+Message-Id: <20210319141459.1196741-1-georg.kotheimer@kernkonzept.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_M4zK1aLdO2QdOUgNROTLdHUwLHnCKoUT1BpTcF-cTMw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=2a01:4f8:1c1c:b490::2;
+ envelope-from=georg.kotheimer@kernkonzept.com; helo=mx.kernkonzept.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +50,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/21 1:35 PM, Peter Maydell wrote:
-> I'm looking at a bug reported against the QEMU arm virt board's pci-gpex
-> PCI controller: https://bugs.launchpad.net/qemu/+bug/1918917
-> where an attempt to write to an address within the PCI IO window
-> where the guest hasn't mapped a BAR causes a CPU exception rather than
-> (what I believe is) the PCI-required behaviour of writes-ignored, reads
-> return -1.
-> 
-> What in the QEMU PCI code is responsible for giving the PCI-spec
-> behaviour for accesses to the PCI IO and memory windows where there
-> is no BAR? I was expecting the generic PCI code to map a background
-> memory region over the whole window to do this, but it looks like it
-> doesn't...
+The current two-stage lookup detection in riscv_cpu_do_interrupt falls
+short of its purpose, as all it checks is whether two-stage address
+translation either via the hypervisor-load store instructions or the
+MPRV feature would be allowed.
 
-Indeed, this is something I noticed in my generic AddressSpace
-cleanup series.
+What we really need instead is whether two-stage address translation was
+active when the exception was raised. However, in riscv_cpu_do_interrupt
+we do not have the information to reliably detect this. Therefore, when
+we raise a memory fault exception we have to record whether two-stage
+address translation is active.
 
-Currently it is (incorrectly?) done locally by each pci-host
-implementation, some register the regions behaving as RAZ/WI,
-some don't.
+Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+---
+Unfortunately, I tested the previous version of the patch only against
+the RISC-V softmmu target, not against the linux-user target.
+I modified the patch, so that the two_stage_lookup is neither present
+nor updated for the linux-user target.
+
+ target/riscv/cpu.c        |  1 +
+ target/riscv/cpu.h        |  4 ++++
+ target/riscv/cpu_helper.c | 21 ++++++++-------------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ddea8fbeeb..e8c4455525 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -356,6 +356,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+     env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
+     env->mcause = 0;
+     env->pc = env->resetvec;
++    env->two_stage_lookup = false;
+ #endif
+     cs->exception_index = EXCP_NONE;
+     env->load_res = -1;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0edb2826a2..0a33d387ba 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -213,6 +213,10 @@ struct CPURISCVState {
+     target_ulong satp_hs;
+     uint64_t mstatus_hs;
+ 
++    /* Signals whether the current exception occurred with two-stage address
++       translation active. */
++    bool two_stage_lookup;
++
+     target_ulong scounteren;
+     target_ulong mcounteren;
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 2f43939fb6..af00728829 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -605,6 +605,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+         g_assert_not_reached();
+     }
+     env->badaddr = address;
++    env->two_stage_lookup = two_stage;
+ }
+ 
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+@@ -646,6 +647,8 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     }
+ 
+     env->badaddr = addr;
++    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
++                            riscv_cpu_two_stage_lookup(mmu_idx);
+     riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
+ }
+ 
+@@ -669,6 +672,8 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+         g_assert_not_reached();
+     }
+     env->badaddr = addr;
++    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
++                            riscv_cpu_two_stage_lookup(mmu_idx);
+     riscv_raise_exception(env, cs->exception_index, retaddr);
+ }
+ #endif /* !CONFIG_USER_ONLY */
+@@ -910,16 +915,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         /* handle the trap in S-mode */
+         if (riscv_has_ext(env, RVH)) {
+             target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
+-            bool two_stage_lookup = false;
+ 
+-            if (env->priv == PRV_M ||
+-                (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+-                (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+-                    get_field(env->hstatus, HSTATUS_HU))) {
+-                    two_stage_lookup = true;
+-            }
+-
+-            if ((riscv_cpu_virt_enabled(env) || two_stage_lookup) && write_tval) {
++            if (env->two_stage_lookup && write_tval) {
+                 /*
+                  * If we are writing a guest virtual address to stval, set
+                  * this to 1. If we are trapping to VS we will set this to 0
+@@ -957,10 +954,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 riscv_cpu_set_force_hs_excep(env, 0);
+             } else {
+                 /* Trap into HS mode */
+-                if (!two_stage_lookup) {
+-                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+-                                             riscv_cpu_virt_enabled(env));
+-                }
++                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+                 htval = env->guest_phys_fault_addr;
+             }
+         }
+@@ -1016,6 +1010,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+      * RISC-V ISA Specification.
+      */
+ 
++    env->two_stage_lookup = false;
+ #endif
+     cs->exception_index = EXCP_NONE; /* mark handled to qemu */
+ }
+-- 
+2.31.0
+
 
