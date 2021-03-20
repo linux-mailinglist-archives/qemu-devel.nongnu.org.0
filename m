@@ -2,76 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0BF342E90
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 18:16:02 +0100 (CET)
-Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52EE342EB0
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 18:53:32 +0100 (CET)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNfCj-0008SI-Gj
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 13:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
+	id 1lNfn1-0000mT-9z
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 13:53:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1lNf9R-0007UN-MN
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 13:12:41 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1lNf9K-0000zk-0n
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 13:12:36 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id t4so1865804wrn.11
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 10:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jrtc27.com; s=gmail.jrtc27.user;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OjKczt/EBILj8A+L4FwwJQkBWsGDBGnkl5PPrm7RF4A=;
- b=LN7ZxtcpRBzaSAmSNqMIfIFgAOLOvfkQOH/JdPxDNYiLb7LcoVi3o4rQmmSXne265h
- 5+NxAb/V76L0zN0VwjGoFtHCmhzigSNt12WnXNCX9H65dux1+lxUDmNhn1iQxUrd1IFA
- 9vilu6xcuN+0Qd1qGp0NLXga0iNCLzbDmJXvtuj9u0/lEvdUuG5+V0lJTG1U5aVSKjdv
- HizYYHkYepxPJS6MN2+7o+Rw3rHCFXgx3kn3Sk0puYAcHMVM5Hwnb6Ui6HCs+GnfXjfr
- PH/H1dh2ORqQ/IvoaZCR0IvubVEbyAjatAfYfHd6hh0ZxSxUZEU13P6TayRSfKTAQjmx
- AGBA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNfli-0008Tm-J5
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 13:52:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30421)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lNflf-0000a0-E4
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 13:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616262725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+jZAd9HhlZg4BnTjX6jXLJJEr/uXVf9dPfUKNRs07Nc=;
+ b=bxY6W/j62A7KmJyD+kKksM8FTcUobn7wAkMDzUK+2aqYNtJECJO+b6hZvGYyTnT9sggP7+
+ zvWFFrCVvK5jbuY52GnIsvPcwQEOmu0JN3drwXot+zfCyyTaeZtHoY2wkTejDSktKCFIl2
+ 2EZUs71j92ioDTrAZ8N0uiraPFj8gE0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-601-w2US_pLUOUC3qLXWhyfKag-1; Sat, 20 Mar 2021 13:52:03 -0400
+X-MC-Unique: w2US_pLUOUC3qLXWhyfKag-1
+Received: by mail-ed1-f72.google.com with SMTP id o24so24709425edt.15
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 10:52:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OjKczt/EBILj8A+L4FwwJQkBWsGDBGnkl5PPrm7RF4A=;
- b=oTLPokxAuFpb/W/upr4m9bqP4+mc0HREhuh6cg95i+k427b1SjevWaVhsKrvOxBq7J
- mtQ1+29grsfUt5SgRiqb2kAS+tsixJVnByCs9wQvd4ncM5Ik8IR6jkjHGSgQfN/EqK8U
- bhZzVcl3y6wSljTm/GVQcoly908vXhTHvhaWSCXxIRY+rGds8YleYc+yxNUull6144LW
- YR/IQqC5AtoZKY63u39WT7otfTOrkoKO4Pp6ZfIDMapwwktidBlphAPBV4BZkEXvxyg1
- uynEZKotk1KbX70DSyN4ngJ0J3Tomh2IEDfgWXiY/TQ6GUVWkeSQWtAuZsOVjPnmrPbO
- FoWA==
-X-Gm-Message-State: AOAM532pYkxBPQ+dXWxzESOKspZft9BzuAHtPTiXpfaVIVkVXJ64hKf0
- BL1DyXYnH9kpa9vt8T3gueX3NQ==
-X-Google-Smtp-Source: ABdhPJxjmhSNB7dRmjKBLqX9OZvb4mVPIXumTwq2Fu8qG+//Mo3mdaHqtpG1lQY/ZLD25sTB9k/MKg==
-X-Received: by 2002:adf:c401:: with SMTP id v1mr10415656wrf.242.1616260348338; 
- Sat, 20 Mar 2021 10:12:28 -0700 (PDT)
-Received: from Jessicas-MacBook-Pro.local
- (trinity-students-nat.trin.cam.ac.uk. [131.111.193.104])
- by smtp.gmail.com with ESMTPSA id p6sm13073587wru.2.2021.03.20.10.12.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 20 Mar 2021 10:12:28 -0700 (PDT)
-Received: by Jessicas-MacBook-Pro.local (Postfix, from userid 501)
- id 96296337EA2; Sat, 20 Mar 2021 17:12:26 +0000 (GMT)
-From: Jessica Clarke <jrtc27@jrtc27.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] meson: Propagate gnutls dependency to migration
-Date: Sat, 20 Mar 2021 17:12:21 +0000
-Message-Id: <20210320171221.37437-1-jrtc27@jrtc27.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210320164730.33285-1-jrtc27@jrtc27.com>
-References: <20210320164730.33285-1-jrtc27@jrtc27.com>
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+jZAd9HhlZg4BnTjX6jXLJJEr/uXVf9dPfUKNRs07Nc=;
+ b=lgl0csUZP3Krq744iXXDtBgb0UHjQEGJHQ0qkF+f9Xu7f+OIqXMzyUN1wAqNFKmWXd
+ VFCWigH24v7AbcNtKXM9Mrn0so7nlomSCQzR0MspFclqkSCZJ4axlErxbxfCnRDW/VzV
+ ZRofV7rbd4vxmUyKQ96q+JIFl5PRF+Y0NlLNQyDZ60lBp5Mt0v7wXFfFXJqq45wXF5U1
+ K5VE5h7XCI/qZm/0l5icPN8aSb1d94s3U+FjkfzKwnwqBOgYEdQ3VprydMXJpJXnltmL
+ 749SmxCzElTA/5LG9GQUX08qyTwjGo0yUcgmquCouxEb3jNVeNXil1g6iTN1tN3319ZT
+ zCbg==
+X-Gm-Message-State: AOAM5319u4wJAf0JQ3is6HYfsgtm0uuExdLBzCndGOJVQkj/q7vpZ10H
+ iUvJBF1QnLNi32YJF8TYkgpwu56MIazehwyP514Z3kbfpyKlaGRFko6AS4oOn08Ncxd+MpxW3S/
+ iS6LvCXjTsDfND/A=
+X-Received: by 2002:a17:906:688:: with SMTP id
+ u8mr10532204ejb.38.1616262722443; 
+ Sat, 20 Mar 2021 10:52:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5S8kMIL/kAPRDlQWbkggLy3yaOQdK9bQKjqd3DYXOZkS8rGk2OqEmS10T/KMS5d4l1254Vw==
+X-Received: by 2002:a17:906:688:: with SMTP id
+ u8mr10532188ejb.38.1616262722265; 
+ Sat, 20 Mar 2021 10:52:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id r17sm6572102edm.89.2021.03.20.10.52.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 Mar 2021 10:52:01 -0700 (PDT)
+To: Gavin Shan <gshan@redhat.com>, qemu-devel@nongnu.org
+References: <20210320042753.69297-1-gshan@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] configure: Improve alias attribute check
+Message-ID: <5a6e5d96-7b23-7a56-3096-fb80155cac26@redhat.com>
+Date: Sat, 20 Mar 2021 18:52:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210320042753.69297-1-gshan@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,50 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jessica Clarke <jrtc27@jrtc27.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: thuth@redhat.com, richard.henderson@linaro.org, laurent@vivier.eu,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 3eacf70bb5a83e4775ad8003cbca63a40f70c8c2 neglected to fix this
-for softmmu configs, which pull in migration's use of gnutls.
+On 20/03/21 05:27, Gavin Shan wrote:
+> It's still possible that the wrong value is returned from the alias
+> of variable even if the program can be compiled without issue. This
+> improves the check by executing the binary to check the result.
+> 
+> If alias attribute can't be working properly, the @target_page in
+> exec-vary.c will always return zeroes when we have the following gcc
+> version.
+> 
+>   # gcc --version
+>   gcc (GCC) 11.0.0 20210210 (Red Hat 11.0.0-0)
+> 
+> This abstracts the code from exec-vary.c and use it as indicator to
+> enable gcc alias attribute or not.
+> 
+> +void write_x(int val);
+> +
+> +void write_x(int val)
+> +{
+> +    x = val;
+> +}
+> +
+> +int main(void)
+> +{
+> +    return read_y();
+> +}
 
-This fixes the following compilation failure on Arm-based Macs:
+I think this should be "read_y() == 1 ? 0 : 1".
 
-  In file included from migration/multifd.c:23:
-  In file included from migration/tls.h:25:
-  In file included from include/io/channel-tls.h:26:
-  In file included from include/crypto/tlssession.h:24:
-  include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
-  #include <gnutls/gnutls.h>
-           ^~~~~~~~~~~~~~~~~
-  1 error generated.
+I can reproduce it with -flto -O2 but not without -flto, do you agree?
 
-(as well as for channel.c and tls.c)
+Perhaps we can obtain the same optimization by wrapping reads of the 
+page size in an inline __attribute__((const)) function.  Richard, what 
+do you think?
 
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
----
-Changes in v2:
- * Added error to commit message
-
- migration/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/migration/meson.build b/migration/meson.build
-index 9645f44005..6fa2f8745d 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -24,7 +24,7 @@ softmmu_ss.add(files(
-   'savevm.c',
-   'socket.c',
-   'tls.c',
--))
-+), gnutls)
- 
- softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
- softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
--- 
-2.31.0
+Paolo
 
 
