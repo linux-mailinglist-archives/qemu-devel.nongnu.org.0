@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67371342E35
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:13:20 +0100 (CET)
-Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB5A342E73
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:49:48 +0100 (CET)
+Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNeE3-0002Je-FB
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
+	id 1lNenL-0000bu-4u
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:49:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNeCd-0001hK-Gy
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:11:51 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:38468)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1lNelt-0008PA-K7
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:48:17 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNeCZ-00024d-EI
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:11:51 -0400
-Received: by mail-ot1-x335.google.com with SMTP id
- w21-20020a9d63950000b02901ce7b8c45b4so11545796otk.5
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=dpg3d2BFnCjaKCo2NJOCLfOA2/ap/GVXBNq5i9rifkM=;
- b=nhNJYivaqaE4+zoh3he3VKtZPW3VjsC6FuDRSmEET9wJ6mmK0i+3PIjVJCGARorV3R
- t9RmQE2NB/bfMJUJYRJ/PLSODbAwM9F1OrH+v+FM6dpbs25TJF7xmwTJQR1jJ2TPAZNH
- BkqyzI9kRoTK/hZOHJdf7YrhYjxrNZl6npBFy3nF2d4k61lk3RoEW3XMsP/9I/fLajdi
- Tk9ydqGiOvllhIXbXF5WZVaug0xRFz7I+yhHobt1S/auRf3DfAQgKqE5jyrWXT1UkkVL
- AwoxUfYUVYi4IBhRg9GzflM2IM2qAvmtLNH4u5mnmALwXpkyYdx+SnM4zcDbLFgkq6BK
- aDyg==
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1lNelp-00062E-HW
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:48:17 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id j7so12269712wrd.1
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jrtc27.com; s=gmail.jrtc27.user;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dLteRjOk20aLA3lfO0lOsZkfXiLgV3PDYmI6pn7R4ak=;
+ b=ef1IuWahYvxptHEvqtOGvqn2FXIeFIVHG1ONWBeK8X9Az5zin4xXodLiplU4D2J0V7
+ QIrRMPLg/6uZ/QI6CvfrdzW2w6NjYL/0fGChgFLCFzy6XHGyK8ybnGI9HHgQLFGn/bTD
+ 0So0haXk4PqDud3wHywz407v+aos5eje7kU5M51M105Kp2VECHUYoCIzp/ILYntAtjs2
+ XAWc9soFGnUJikwp+2uB/sOApgOeZbS4Ckb1R1NscWSs5SpCHMRjx8gk6IfgT6AYVm91
+ W+61KuAGjwdG2OUPGm1sXkYU8WXhD+V3eXfnxVgqpakDEkEDqTgDFrQnta2cp2MeWw+a
+ 14Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dpg3d2BFnCjaKCo2NJOCLfOA2/ap/GVXBNq5i9rifkM=;
- b=BHL1Szahoiql/HVLS31BxoZ9o4LKp+SpJGJSZr+r0nZ0VXn4wJIpp9MTkeQ5PNNuj5
- kNm9G6Jwyugm6duBEvds2lsbyx0dV8nlMjEsgmNhyuHFIuvGwU2nSb6PnfJ2RS7slsNN
- sOoeMRFsJzqsKrH6PUkciaZR+8YKa1buX6a3XqQTZ4f2FvpWY89FnXIqVH4E6mKQGD3R
- tP1IOw79ltlld9tzpy3sQNUwryle1qsWc4qsDOswR5MVbq+9NvGY7jpqsBxdp/YvjUh8
- 1u+3BUohO65vEvPl8KzjffHiKlAufmgEkj8KJP6nS/QxtiNPF0DF8LwmGBO0eoaLMFTa
- D3+g==
-X-Gm-Message-State: AOAM532cLh6NLpLGA2CBaq5G7wS27pg+YkO41KHfBcjH0pm1CQbD9UXJ
- MOYQXrmSAzq5RFruoBrEIpZ7H6r2QDV452LB
-X-Google-Smtp-Source: ABdhPJzjs2LNxmNLl1TENDMQq+LexDL4hFnt6WLSIWP4prZaMz0RArw4Knd/pFmwgPULCffxGNg8PA==
-X-Received: by 2002:a9d:4584:: with SMTP id x4mr1700408ote.255.1616256703599; 
- Sat, 20 Mar 2021 09:11:43 -0700 (PDT)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id w22sm336121oth.51.2021.03.20.09.11.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Mar 2021 09:11:43 -0700 (PDT)
-Subject: Re: [PATCH v1 09/14] tests/tcg: add HeapInfo checking to semihosting
- test
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210320133706.21475-1-alex.bennee@linaro.org>
- <20210320133706.21475-10-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b74d09e5-0e42-6705-0890-3b5df74e0509@linaro.org>
-Date: Sat, 20 Mar 2021 10:11:38 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ bh=dLteRjOk20aLA3lfO0lOsZkfXiLgV3PDYmI6pn7R4ak=;
+ b=NJhrQ2hpro6+TJFvnSCK1ipw2EDZ32YjCU0S6Z/qEymbgV/bC5ieQgygi27V5TlBwR
+ TJfe6I1/hfPXmm0YUYUuXCB4YH1OG1+nwmAgrxXwwvXmIrG83A1ojiNjU8RnG6fx4Ki5
+ X83slsjdJontHF34aixVfvHJVPSTZi2y/LU3tea+GIqLjxCpwXiScaQtJmypF/pMog1b
+ oDiz3Y3op7+HB+Aea0xb6A2Ga2b2jt6ApUMpsSvuG1Mv3/+ZNExGcG8bRfZ/54XQvGYe
+ QI1YrUFQvxWLt+ewXNOtc3nnCKGlaafz3dGPtZLgsANSKnMUmc16bARItFEm11ZoJPri
+ EPcg==
+X-Gm-Message-State: AOAM530roHO5NkinqOpx94yE36kdXZNS1+1Hl97Dct6s3f0VKhyzSyml
+ +vVRByxRAqSkyl6JQaqgwU+ZsA==
+X-Google-Smtp-Source: ABdhPJx0ZDafoeYvc1BTz+DA8cCwwoPpXtyEhZA8K3Yvtdyt5z54Ef/GIuwUfew3O1knfMyyKGCZRA==
+X-Received: by 2002:a5d:66c8:: with SMTP id k8mr10142175wrw.163.1616258891148; 
+ Sat, 20 Mar 2021 09:48:11 -0700 (PDT)
+Received: from Jessicas-MacBook-Pro.local
+ (trinity-students-nat.trin.cam.ac.uk. [131.111.193.104])
+ by smtp.gmail.com with ESMTPSA id p16sm16367184wrt.54.2021.03.20.09.48.10
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sat, 20 Mar 2021 09:48:10 -0700 (PDT)
+Received: by Jessicas-MacBook-Pro.local (Postfix, from userid 501)
+ id 6F650336127; Sat, 20 Mar 2021 16:48:09 +0000 (GMT)
+From: Jessica Clarke <jrtc27@jrtc27.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] meson: Propagate gnutls dependency to migration
+Date: Sat, 20 Mar 2021 16:47:30 +0000
+Message-Id: <20210320164730.33285-1-jrtc27@jrtc27.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <20210320133706.21475-10-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Jessica Clarke <jrtc27@jrtc27.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/20/21 7:37 AM, Alex Bennée wrote:
-> +    if (info.heap_base == NULL || info.heap_limit == NULL) {
-> +        printf("null heap: %p -> %p\n", info.heap_base, info.heap_limit);
-> +        exit(1);
-> +    } else if (info.heap_base != NULL && info.heap_limit != NULL) {
+Commit 3eacf70bb5a83e4775ad8003cbca63a40f70c8c2 neglected to fix this
+for softmmu configs, which pull in migration's use of gnutls.
 
-Useless inversion of first test?
+Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+---
+ migration/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +    if (info.stack_base == NULL) {
-> +        printf("null stack: %p -> %p\n", info.stack_base, info.stack_limit);
-> +        exit(3);
-> +    } else if (info.stack_base != NULL && info.stack_limit != NULL) {
+diff --git a/migration/meson.build b/migration/meson.build
+index 9645f44005..6fa2f8745d 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -24,7 +24,7 @@ softmmu_ss.add(files(
+   'savevm.c',
+   'socket.c',
+   'tls.c',
+-))
++), gnutls)
+ 
+ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
+ softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
+-- 
+2.31.0
 
-So... we're expecting stack_limit unset is valid?
-
-Perhaps a check that stack and heap do not intersect?
-Perhaps a check that &info is within the stack bounds?
-
-
-r~
 
