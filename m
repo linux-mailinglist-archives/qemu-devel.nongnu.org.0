@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45203342949
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 01:08:19 +0100 (CET)
-Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAE0342A78
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 05:20:12 +0100 (CET)
+Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNPA9-0001rC-U1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Mar 2021 20:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60606)
+	id 1lNT5v-0004h7-Ct
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 00:20:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNP8C-0001Im-Oa
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 20:06:16 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:34322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNP88-0007Y1-0f
- for qemu-devel@nongnu.org; Fri, 19 Mar 2021 20:06:16 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id l79so6592331oib.1
- for <qemu-devel@nongnu.org>; Fri, 19 Mar 2021 17:06:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=50D/9t9mW9UHwUGC/sHHaB7xF9nAx1NkJISt8YSPxJs=;
- b=zyEPRp0pisRS6EH80TkrjGT1bVL6QRFo5XEp4th3BPHuelE4MoK8sLDNYhlp5SKznP
- Yp0xRERT8QloMU1h3uIAxOlN9Fc6WROxX8RGNsJ+4BOl78ka+wMSb2iMLLUQ3Y7NIRSD
- bcYpQcF6gBXeWc+nrNQQx5pm3wJobNmaYOGvG8ygqxgJpGfsW6iaC98+9LxvoMec83f8
- M12cRm8C5XRx2AQDJwgu74C9JUeatOiUiIL+8xmdP08qyyxNUL5WZh0SF23wJAgxo+F8
- XRwWmzoa3q8ALAIOvn16UxXBEHcMFpIvElkoS4IEpIfXZe32vwDTWzqaibaCljDSZWoP
- eDmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=50D/9t9mW9UHwUGC/sHHaB7xF9nAx1NkJISt8YSPxJs=;
- b=AyIRc8UR3mOYAGEQUO76jVp1h30B0y80PldlVTWHR1CSUYOht/CXFbOEwOX70vHurM
- XRI7vxgyN54eSl9gc+ILyDOiCRm8BxAQgAShAc46BRUYg5DW53c+b8v2z/aYxDt4o4J6
- VjmNjLkQbwZFqEt4oJ7hALisekP+WE+HKfOVk4+q7GmYdoa1bdbKn/aojAmdouQweM2h
- PffQNaccb55L9VL54YjgZ+z+u/XU7FvJjdTWNOno7k62DotKdyQw1n+gaxDScnmqtCG3
- 40E2+s/ef9PVS70C4/91RRVoNtqV+dlYKfKT28aCa8Lsr/40rQ+yzjq3A7M8+VJsDybl
- Wl2g==
-X-Gm-Message-State: AOAM530Z05g/2rfUr/Uj7sZ7ouUa0VyW9xLD8Ez92fG9Ggo9xX2uEjkQ
- ffi7oAVwxM0+Y9lT9iliq7C32nCGFQCJ5/yS
-X-Google-Smtp-Source: ABdhPJxHSo9iszYzgntgaA+V7ftmsWQHL3ZQ/PcE3jcYqreI8vzur+WkuWKQNJ8TDRfh58rbvsgq3w==
-X-Received: by 2002:aca:4c52:: with SMTP id z79mr2783411oia.125.1616198769606; 
- Fri, 19 Mar 2021 17:06:09 -0700 (PDT)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k24sm1609953oic.51.2021.03.19.17.06.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Mar 2021 17:06:09 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0] target/arm: Set ARMMMUFaultInfo.level in user-only
- arm_cpu_tlb_fill
-Date: Fri, 19 Mar 2021 18:06:06 -0600
-Message-Id: <20210320000606.1788699-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lNT4x-00044A-RE
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 00:19:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20061)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lNT4s-0001ma-Ho
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 00:19:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616213944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lUnwcybZywkU5SwBHHcOsvqNm6NDwGhyBTSUV07CaOU=;
+ b=ByV6APJjhfALSdRDYpXY/JvENAdzP5JDJpHp8uKR0/LdklD4ipQZYhbp7NNAVXFdJC5tWA
+ FUChJIEaoUlzf31wInAxpsm9C0wc8DiY4ZqE8tKeHwCoG3VBqh5yugSEtQb210o+076e1z
+ cNxLd1FVrKgwwuSOJVCqlbF4iS84q+8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227--mex6WckOJCd8rIK0_Co_A-1; Sat, 20 Mar 2021 00:19:01 -0400
+X-MC-Unique: -mex6WckOJCd8rIK0_Co_A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E23107ACCA;
+ Sat, 20 Mar 2021 04:18:58 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-40.bne.redhat.com [10.64.54.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 279005C1D1;
+ Sat, 20 Mar 2021 04:18:56 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH 1/2] disas/arm-a64.cc: Fix build error
+Date: Sat, 20 Mar 2021 12:18:54 +0800
+Message-Id: <20210320041854.68668-1-gshan@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Laurent Vivier <laurent@vivier.eu>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pretend the fault always happens at page table level 3.
+This fixes the following build error with gcc v11.0.0:
 
-Failure to set this leaves level = 0, which is impossible for
-ARMFault_Permission, and produces an invalid syndrome, which
-reaches g_assert_not_reached in cpu_loop.
+  # gcc --version
+  gcc (GCC) 11.0.0 20210210 (Red Hat 11.0.0-0)
 
-Fixes: 8db94ab4e5db ("linux-user/aarch64: Pass syndrome to EXC_*_ABORT")
-Reported-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+  [969/2604] Compiling C++ object libcommon.fa.p/disas_arm-a64.cc.o
+  FAILED: libcommon.fa.p/disas_arm-a64.cc.o
+    :
+  In file included from /usr/include/glib-2.0/glib/gmacros.h:241,
+                   from /usr/lib64/glib-2.0/include/glibconfig.h:9,
+                   from /usr/include/glib-2.0/glib/gtypes.h:32,
+                   from /usr/include/glib-2.0/glib/galloca.h:32,
+                   from /usr/include/glib-2.0/glib.h:30,
+                   from /home/gavin/sandbox/qemu.main/include/glib-compat.h:32,
+                   from /home/gavin/sandbox/qemu.main/include/qemu/osdep.h:126,
+                   from ../disas/arm-a64.cc:21:
+  /usr/include/c++/11/type_traits:56:3: error: template with C linkage
+     56 |   template<typename _Tp, _Tp __v>
+        |   ^~~~~~~~
+  ../disas/arm-a64.cc:20:1: note: ‘extern "C"’ linkage started here
+     20 | extern "C" {
+        | ^~~~~~~~~~
+
+Signed-off-by: Gavin Shan <gshan@redhat.com>
 ---
- target/arm/tlb_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ disas/arm-a64.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index 9609333cbd..3107f9823e 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -163,6 +163,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else {
-         fi.type = ARMFault_Translation;
-     }
-+    fi.level = 3;
+diff --git a/disas/arm-a64.cc b/disas/arm-a64.cc
+index 9fa779e175..8545c04038 100644
+--- a/disas/arm-a64.cc
++++ b/disas/arm-a64.cc
+@@ -17,13 +17,13 @@
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
  
-     /* now we have a real cpu fault */
-     cpu_restore_state(cs, retaddr, true);
++#include "vixl/a64/disasm-a64.h"
++
+ extern "C" {
+ #include "qemu/osdep.h"
+ #include "disas/dis-asm.h"
+ }
+ 
+-#include "vixl/a64/disasm-a64.h"
+-
+ using namespace vixl;
+ 
+ static Decoder *vixl_decoder = NULL;
 -- 
-2.25.1
+2.23.0
 
 
