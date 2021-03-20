@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F3D342A98
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 05:50:18 +0100 (CET)
-Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6923A342AA2
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 06:08:53 +0100 (CET)
+Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNTZ2-0001Pk-Md
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 00:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55716)
+	id 1lNTr1-0004ZS-TI
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 01:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNTXb-0000dV-Tj
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 00:48:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59326)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNTpY-00045H-23
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 01:07:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNTXY-0003Bi-FC
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 00:48:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lNTpS-0005c1-J6
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 01:07:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616215722;
+ s=mimecast20190719; t=1616216832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DIlC0yFaVwd1Mn2tnr/miENdMF3yBBzUtKisv14gNog=;
- b=Dwqg8mtTv/D5qR2KeHq5FZSpesTsF3pdjNMIrhOYA7xoSH7h2PXGxiPc8MAchCSufpDmj0
- JBlaONF7R7O+Q/mNEyu9azS/2IHs5nyoyqo5/HoLHBphw+t8LOwvpymJtipOuWzPoIigob
- TA+SRcuxp/6Tzuc6ROQ3kCJOuP7GanI=
+ bh=bI8UStCA9HY8XKJbPZu5vUc6pOHdZrOF4U0hQJgDDKo=;
+ b=dzILfsM1fNRRAA2wIILAFpIIXaEGQKaujXueCQqvi8/tR3V57ViaqkFVVejTm0vZ9+fFnl
+ k4Y0BAxdIY+CQ78iLUUv0PYMZ+ZIW/2scGK3DIQRlkzjiPDsNxAJzulC/GAVqpcDjHnOHT
+ k6gkNtNRrAZN0/0q+ujj/3rJN4ATPtc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-kVo_TSNeMNemOJyqhuHajw-1; Sat, 20 Mar 2021 00:48:40 -0400
-X-MC-Unique: kVo_TSNeMNemOJyqhuHajw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-344-kuV1bJs3M1G9aQta0xLHqg-1; Sat, 20 Mar 2021 01:07:10 -0400
+X-MC-Unique: kuV1bJs3M1G9aQta0xLHqg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ED96107ACCA;
- Sat, 20 Mar 2021 04:48:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CFE2800D53;
+ Sat, 20 Mar 2021 05:07:09 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-13.ams2.redhat.com [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EBCA6F125;
- Sat, 20 Mar 2021 04:48:33 +0000 (UTC)
-Subject: Re: [PATCH] configure: Improve alias attribute check
-To: Gavin Shan <gshan@redhat.com>, qemu-devel@nongnu.org
-References: <20210320042753.69297-1-gshan@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8736D5D6D5;
+ Sat, 20 Mar 2021 05:07:06 +0000 (UTC)
+Subject: Re: [PATCH v3 6/6] iotests: iothreads need ioeventfd
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210319202335.2397060-1-laurent@vivier.eu>
+ <20210319202335.2397060-7-laurent@vivier.eu>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <584e6cec-dd1d-7aa5-5f67-43bfcd9ae66a@redhat.com>
-Date: Sat, 20 Mar 2021 05:48:32 +0100
+Message-ID: <d639e327-8320-ee3a-6207-5d77846362aa@redhat.com>
+Date: Sat, 20 Mar 2021 06:07:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210320042753.69297-1-gshan@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210319202335.2397060-7-laurent@vivier.eu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,84 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, laurent@vivier.eu, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, pbonzini@redhat.com, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/03/2021 05.27, Gavin Shan wrote:
-> It's still possible that the wrong value is returned from the alias
-> of variable even if the program can be compiled without issue. This
-> improves the check by executing the binary to check the result.
+On 19/03/2021 21.23, Laurent Vivier wrote:
+> And ioeventfd are only available with virtio-scsi-pci or virtio-scsi-ccw,
+> use the alias but add a rule to require virtio-scsi-pci or virtio-scsi-ccw
+> for the tests that use iothreads.
 > 
-> If alias attribute can't be working properly, the @target_page in
-> exec-vary.c will always return zeroes when we have the following gcc
-> version.
-> 
->    # gcc --version
->    gcc (GCC) 11.0.0 20210210 (Red Hat 11.0.0-0)
-> 
-> This abstracts the code from exec-vary.c and use it as indicator to
-> enable gcc alias attribute or not.
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->   configure | 34 ++++++++++++++++++++++++++++++----
->   1 file changed, 30 insertions(+), 4 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index f7d022a5db..8321f380d5 100755
-> --- a/configure
-> +++ b/configure
-> @@ -75,6 +75,7 @@ fi
->   
->   TMPB="qemu-conf"
->   TMPC="${TMPDIR1}/${TMPB}.c"
-> +TMPC_B="${TMPDIR1}/${TMPB}_b.c"
->   TMPO="${TMPDIR1}/${TMPB}.o"
->   TMPCXX="${TMPDIR1}/${TMPB}.cxx"
->   TMPE="${TMPDIR1}/${TMPB}.exe"
-> @@ -4878,13 +4879,38 @@ fi
->   
->   attralias=no
->   cat > $TMPC << EOF
-> -int x = 1;
-> +static int x;
->   extern const int y __attribute__((alias("x")));
-> -int main(void) { return 0; }
-> +extern int read_y(void);
-> +void write_x(int val);
-> +
-> +void write_x(int val)
-> +{
-> +    x = val;
-> +}
-> +
-> +int main(void)
-> +{
-> +    return read_y();
-> +}
->   EOF
-> -if compile_prog "" "" ; then
-> -    attralias=yes
-> +cat > $TMPC_B << EOF
-> +extern const int y;
-> +extern void write_x(int val);
-> +int read_y(void);
-> +
-> +int read_y(void)
-> +{
-> +     write_x(1);
-> +     return y;
-> +}
-> +EOF
-> +
-> +TMPC+=" ${TMPC_B}"
-> +if compile_prog "" "" && ! $TMPE; then
+>   tests/qemu-iotests/127        |  3 ++-
+>   tests/qemu-iotests/256        |  6 ++++--
+>   tests/qemu-iotests/common.rc  | 13 +++++++++++++
+>   tests/qemu-iotests/iotests.py |  5 +++++
+>   4 files changed, 24 insertions(+), 3 deletions(-)
 
-What about cross-compiling? Running an executable won't work if QEMU gets 
-cross-compiled...
-
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
