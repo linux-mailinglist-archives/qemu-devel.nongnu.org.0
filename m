@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8A5342E21
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:04:12 +0100 (CET)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6D0342E32
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:10:18 +0100 (CET)
+Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNe53-0003RQ-1m
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
+	id 1lNeB7-0000fZ-Rv
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNe1O-0001Fl-DZ
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:00:14 -0400
-Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b]:42763)
+ id 1lNe4U-0003vz-Nl
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:03:26 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNe1L-0003zl-OP
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:00:13 -0400
-Received: by mail-oo1-xc2b.google.com with SMTP id
- h3-20020a4ae8c30000b02901b68b39e2d3so3069067ooe.9
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:00:10 -0700 (PDT)
+ id 1lNe4T-0005qp-60
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:03:26 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ l23-20020a05683004b7b02901b529d1a2fdso11518203otd.8
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:03:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=7aDOM7H28yVXC9CDp2XAWBfvH8jKFVG0/3+xQVMmra4=;
- b=AO94rG2Qc8p+WIZNzW8RuNq9WY2YYJG+9DUCMjMq5YV5WY4buaAxSHa8o+AvFzDINE
- a4g2N4bcIHvPDXP2NP2NC/yZ+jwzyzUOeyqTs/vDpt8nkdljBVLg8N1KorB10cycVJ+X
- ms3bN4BEe0GLLq3P5smi+siJxQL5ek1VoxjU/MH/bELxuF97MUMHRjlFvzKh50jU3WVJ
- S3B0gn5pspYY1Xd/1MyVXdVSs1uPUPYAJ1BHyr4iFJSb15AQSmJ5HJnjjwproSWm5r+5
- N2MkUyWfXeNe3smhYLYiz8XK7R8XeKsN8dlYoey6qGqvboIoVVaGmOvSMvZ67pc7O6wn
- TEAQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KFysDJ08D9omJTXIYlcLRJ7jgqI0qmUjZq0yFR6tzCE=;
+ b=XghXtDIiYlIVe+ByLL40W8wbwWTnH97u0CpksdXCN01QLz/Z8pV+3mtKc72X1A2uXy
+ ppYPF4z8z10PwHH8Pce4PkQT5fS0dLsgkzM5ioZ87w3Lo5zGLhNZtBGudGvnCZyxe+DC
+ e2nh+JWSxrnBxpSsrR/ZwUx5Jad52Y1u7NryPkIvRV2d8E+m8KJdsDg1Ia/kp7GxallR
+ DtcC2dW573vGnCdV8Po+WjeUVyEUySW3yMiCEKqkLld6a18LBnXGgCLJSyCw8F3JRkU0
+ 4JeTkLSjw/zFr20xJEUyjncVy7ogh998N+ap/zdhnpIt72Tmpx2YSPXcfq/QchTcH7Oe
+ KnAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7aDOM7H28yVXC9CDp2XAWBfvH8jKFVG0/3+xQVMmra4=;
- b=gglHaOe9jOvdLrA3TJ1LV8+AzzmTmcWfDFmYvpViA7iGY7cfq6bKlxGe0pqr9H8UbV
- 8YrS7bFyON2UGSfsgZbZbbF9syauwGabJw+iCB9hQTRv5e1pyDy6ugvQU0GOVu6UZzXZ
- u1zJ3X2IVNhXPR7wkaNf2tGt+ARWX8YelRK5yfPvve7MSB8MNHMSddgRtyrvkfMSWseF
- GIevAoGkvssOun5ksnqz+Am8PAaDbt8xktcqGC9v5TBTihofX0VAxAap/FqofopILgUx
- 555YGwwJHRz18yh8rz4H8vankd6CHyvLQfNaRmTR0/oMQi88bvvlSPAA3DP249CfZ/ir
- j3YA==
-X-Gm-Message-State: AOAM530XxwXtL0mGppysMC3SvX+Dj+lne3+RSnec8oLseORjC+npJtfg
- 25L6HShc0dWfTvbiLo3ONCvk66/XkSeaP7JZ
-X-Google-Smtp-Source: ABdhPJx61NGtkmT7rgioI7VAJONlx+Akl4OzCX/KBZcX7qPJq+pwIvDvtpqCxls9xW327W7D16lVAw==
-X-Received: by 2002:a4a:d296:: with SMTP id h22mr5543339oos.23.1616256009901; 
- Sat, 20 Mar 2021 09:00:09 -0700 (PDT)
+ bh=KFysDJ08D9omJTXIYlcLRJ7jgqI0qmUjZq0yFR6tzCE=;
+ b=EOSywdjCct77F/aoOToa/ZIlt7HS9PMVcn5N8LdG3sBHFTT/SxhETMt3eD7oh9FsP3
+ Xj3uwsQYUNU2G/WCvI8dIoj1w1xIqXFVqkup87YskvSZzBSdeRwtcRXxUGKfOWEtH4Sy
+ tWbNIMmhpd1sglgR559Pipp3aTB/thv9oItRzGQTyYk3xgT5CypiAmZmtqS+Iqf7IFSo
+ m3sAkm22F/Ff7B1ff47nQRu0+U1dSJGm8da277rNtyaY8dBd+eVR05xOM77IPS2t5L6a
+ 4P0JUQwuFJHMsC2AGBirSZ9rwSzcGWxAvFNFEH1jK1MS7iQY46jiP8awNwR9MEQja6Z9
+ YIMQ==
+X-Gm-Message-State: AOAM530vUABtcj08hSdfyj1sTwGoBcklvkla88vbZSKk6aqT6dxgN8wu
+ MKIQ7cdMuyV6tT8CH6a2ISDcVQ==
+X-Google-Smtp-Source: ABdhPJwxdjfuLVMFES428jSmwjO39VPbcodbtPjDmHkG+IzEjpliyDcqFb93lXdvtlPJvbXcKpAnqg==
+X-Received: by 2002:a9d:3b85:: with SMTP id k5mr5125431otc.237.1616256203790; 
+ Sat, 20 Mar 2021 09:03:23 -0700 (PDT)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id a73sm1992900oii.26.2021.03.20.09.00.08
+ by smtp.gmail.com with ESMTPSA id m19sm1946701oop.6.2021.03.20.09.03.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Mar 2021 09:00:09 -0700 (PDT)
-Subject: Re: [PATCH v1 03/14] docs/devel: expand style section of memory
- management
+ Sat, 20 Mar 2021 09:03:23 -0700 (PDT)
+Subject: Re: [PATCH v1 05/14] semihosting: move semihosting tests to multiarch
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210320133706.21475-1-alex.bennee@linaro.org>
- <20210320133706.21475-4-alex.bennee@linaro.org>
+ <20210320133706.21475-6-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1247d86e-6265-3f72-13ac-94952ec6b4e1@linaro.org>
-Date: Sat, 20 Mar 2021 10:00:06 -0600
+Message-ID: <ecfe75b0-1275-bca5-68d7-e6ed2e1abbaf@linaro.org>
+Date: Sat, 20 Mar 2021 10:03:19 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210320133706.21475-4-alex.bennee@linaro.org>
+In-Reply-To: <20210320133706.21475-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,17 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/20/21 7:36 AM, Alex Bennée wrote:
-> This aims to provide a bit more guidance for those who take on one of
-> our "clean up memory allocation" bite-sized tasks.
+> It may be arm-compat-semihosting but more than one architecture uses
+> it so lets move the tests into the multiarch area. We gate it on the
+> feature and split the semicall.h header between the arches.
+> 
+> Also clean-up a bit of the Makefile messing about to one common set of
+> runners.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   docs/devel/style.rst | 46 ++++++++++++++++++++++++++++++++------------
->   1 file changed, 34 insertions(+), 12 deletions(-)
+> Message-Id:<20210312102029.17017-2-alex.bennee@linaro.org>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
