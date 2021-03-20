@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8947B342F19
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 20:02:07 +0100 (CET)
-Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F12C342F8F
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 21:42:47 +0100 (CET)
+Received: from localhost ([::1]:55804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNgrO-00041n-6x
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 15:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
+	id 1lNiQn-0008On-Nn
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 16:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lNgob-0003ZI-8a
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 14:59:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lNgoY-0004cY-H7
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 14:59:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616266747;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XL8lKKvTvlpBGgfWPV/xs126CxF+okHxjrJ2bfWFuoE=;
- b=aSQqRyG/jeQz6sPFSuzfF0eFarmlWqv12+xR06uYMFM8syEW+PaRi3dwDIQJZ3QMOw00Y8
- m0JEuVu26H1e2QX5wtXOOQMWNBMX0T+OMKTdCrm3YEPpk/J/qqj0bv7mvgbe/fbFGWHPKm
- By076spumH01TY3/Sqvfu6fXOpUhMsg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-Pkn_P6VcNfm9bP9nFKJN2g-1; Sat, 20 Mar 2021 14:59:03 -0400
-X-MC-Unique: Pkn_P6VcNfm9bP9nFKJN2g-1
-Received: by mail-wr1-f72.google.com with SMTP id b6so8287004wrq.22
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 11:59:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lNiOs-0007jM-3Y
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 16:40:47 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lNiOo-0005i7-A6
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 16:40:45 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id o19so14802022edc.3
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 13:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8Hl1t8SZdRJAGRxBqows1Jd45ybb17/bEPf02hYVARA=;
+ b=Z/ppwOqCU+R3SULy7S+t1CGxioTz0cPdiWPWhpJU82jn3GephgbELi8Vd2gqz1xRr8
+ rCOOfKpQf6UlfKfCSKddImTycd5MNF4Fi3jN1Bz51Z+lmLY12M+9Syo9x1NpN677W72+
+ NKGaFzFpfmYIxndc9QsOpYfeDG6Q27DXj5XgEZzh3I6PTifPAmGbS/rbqev85ZJkNJfk
+ 4ZfKypeHAaqMR+FUIRIUGCaaJVpHn2blEw7RuuPtejtfmHVl+pbs18tnH1is0sms7yYm
+ eI4RdqOzmHwea5AG6fvGoIzFflXBKl4NbpICLEo5Pe3elnC0m8peINAXdbXiAzQuI/U7
+ Bduw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=XL8lKKvTvlpBGgfWPV/xs126CxF+okHxjrJ2bfWFuoE=;
- b=FZUTL/0Seln4YrLP7GSSQIOkVI4qw+OvEvUmeswTEYvzAf/kcg/7g95lQRukaRXpu/
- 8zL90WP5wLkzN+jsfDfGu/Azk1OvzNFPr+EMkiOW0eL7H8nBQjOei+jBns4TF5qlpW4A
- Kp1WHCZofwUCgtP64pD0OgFVKpe2gkCKCqdqhNWZOR1C74qwIXo7QAQf4n3UnggboHjz
- vcDZk8jr//7tkmIHWo0olwU/m+XQMYvvVZRwKg1Z8dIWLLci9eVNuMMfIh8nSQ8408zR
- DoiKj/2oKevyyiMpkenbxXo9BwqjD9vcgzXN6tB9gFb2VGcaCcZ/9dAhpclfWx3Q7B16
- xajQ==
-X-Gm-Message-State: AOAM53042e6DT5C8k3i5L/8bEysK2ObsBVN91QI8T0fS1uYnrMKGjDcn
- 5AH86Z9gH1iOqPTZR6YkqwVDAFy6yXGsQOmDq7VnjtMZeS4HRux5D+WaUpzGOwoNzmwo1yu3HMX
- M9nuQtP4h95+KBqA=
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr10734798wrt.18.1616266741997; 
- Sat, 20 Mar 2021 11:59:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/KaH8G3Bpa0Vnm6cb2vSjiWkwa4Ntb2dTJ92n0z/BrQ/vvY7b/Q3TB0Sek3ykTx1DcfHMwg==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr10734789wrt.18.1616266741845; 
- Sat, 20 Mar 2021 11:59:01 -0700 (PDT)
-Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id c26sm14699721wrb.87.2021.03.20.11.59.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Mar 2021 11:59:01 -0700 (PDT)
-Date: Sat, 20 Mar 2021 14:58:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8Hl1t8SZdRJAGRxBqows1Jd45ybb17/bEPf02hYVARA=;
+ b=SQ6k/y0o82GGjwaui8kfT8Jk5ZfZ9+MzU27cYRJSNnLpPRiF477IEYrf9xQEnapJ5D
+ Zw7BQvk7TsiwFugYmIRcfr/YjXSis9U5s00kIEOfb+GYcqmVeBpxRaVzED5OvD5+U5at
+ krXlwANAgz4LMttGEZuM93jTr/cemDInnpHxSA34fF+eqBMOBgGH6XqpwsxqgrjYxJxb
+ MM8WpBU9T6akenykKb0Q49lYxmr75AycE8kXiMLM2d5Q6oygQ88Pqcw5kizniJIde0k1
+ zNLjGdfVq+plOt2UUtc+tbjp7A0aeK3KtpxW3ILXP6IaEYOYC7ekT7OKC0h2MomhwyJm
+ Qstw==
+X-Gm-Message-State: AOAM533cfDB0i2SD791RxB5mT/EAkQsIuXQ/n1CPi3rhDJplK7Q7sYa2
+ avSmuY76/rgdOSSNAt83dMawKrjNM+Ftq0XNQ8d2uA==
+X-Google-Smtp-Source: ABdhPJxIPCWuKKa+zUB+N3K3yWsWLKV9WjWpG4ttjHo6p5HDdIPti9II1RTiiWPwNQsKJyX7U2W7ebgwZ89wOiB7wiM=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr16998175edv.44.1616272839759; 
+ Sat, 20 Mar 2021 13:40:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAFEAcA_M4zK1aLdO2QdOUgNROTLdHUwLHnCKoUT1BpTcF-cTMw@mail.gmail.com>
+ <20210320144325-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210320144325-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 20 Mar 2021 20:40:13 +0000
+Message-ID: <CAFEAcA-TWsG8wbc8jtEHvnKU5RFJrif77miWDb76y937tmMyGw@mail.gmail.com>
 Subject: Re: QEMU PCI subsystem: what code is responsible for making accesses
  to non-mapped addresses read as -1?
-Message-ID: <20210320144325-mutt-send-email-mst@kernel.org>
-References: <CAFEAcA_M4zK1aLdO2QdOUgNROTLdHUwLHnCKoUT1BpTcF-cTMw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_M4zK1aLdO2QdOUgNROTLdHUwLHnCKoUT1BpTcF-cTMw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,47 +83,67 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 19, 2021 at 12:35:31PM +0000, Peter Maydell wrote:
-> I'm looking at a bug reported against the QEMU arm virt board's pci-gpex
-> PCI controller: https://bugs.launchpad.net/qemu/+bug/1918917
-> where an attempt to write to an address within the PCI IO window
-> where the guest hasn't mapped a BAR causes a CPU exception rather than
-> (what I believe is) the PCI-required behaviour of writes-ignored, reads
-> return -1.
-> 
-> What in the QEMU PCI code is responsible for giving the PCI-spec
-> behaviour for accesses to the PCI IO and memory windows where there
-> is no BAR? I was expecting the generic PCI code to map a background
-> memory region over the whole window to do this, but it looks like it
-> doesn't...
-> 
-> thanks
-> -- PMM
+On Sat, 20 Mar 2021 at 18:59, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Mar 19, 2021 at 12:35:31PM +0000, Peter Maydell wrote:
+> > I'm looking at a bug reported against the QEMU arm virt board's pci-gpex
+> > PCI controller: https://bugs.launchpad.net/qemu/+bug/1918917
+> > where an attempt to write to an address within the PCI IO window
+> > where the guest hasn't mapped a BAR causes a CPU exception rather than
+> > (what I believe is) the PCI-required behaviour of writes-ignored, reads
+> > return -1.
+> >
+> > What in the QEMU PCI code is responsible for giving the PCI-spec
+> > behaviour for accesses to the PCI IO and memory windows where there
+> > is no BAR? I was expecting the generic PCI code to map a background
+> > memory region over the whole window to do this, but it looks like it
+> > doesn't...
 
-As far as I know, at the PCI level what happens is Master Abort
-on PCI/PCI-X and Unsupported Request on Express.
-PCI spec says:
-	The host bus bridge, in PC compatible systems, must return all 1's on a read transaction and
-	discard data on a write transaction when terminated with Master-Abort.
+> As far as I know, at the PCI level what happens is Master Abort
+> on PCI/PCI-X and Unsupported Request on Express.
+> PCI spec says:
+>         The host bus bridge, in PC compatible systems, must return all 1's on a read transaction and
+>         discard data on a write transaction when terminated with Master-Abort.
+>
+> We thus implement this per host e.g. on pc compatible systems by
+> calling pc_pci_as_mapping_init.
 
-We thus implement this per host e.g. on pc compatible systems by
-calling pc_pci_as_mapping_init.
+Isn't pc_pci_as_mapping_init() "put the PCI space into the system
+address space", rather than "define the default behaviour for
+accesses in PCI space" ? IIRC x86 has -1/discard for everywhere,
+though, so maybe you get that without having to do anything special.
 
-A note aside:
+Q: if PCI device A does a bus-mastering DMA read to a PCI address
+where no other device has been mapped, does the spec require
+it to (a) get back a "transaction failed" response or (b) get
+back read-data of -1 ? It sounds like the answer based on what
+you write above is (a), device A gets a Master Abort.
+(Put another way, is the -1/discard behaviour general to PCI
+transactions or is it strictly something that happens at the host
+bridge where the host bridge turns host CPU transactions into PCI
+transactions ?)
 
-PCI Express spec has this weird text:
+If this is host-bridge specific then I guess our current
+implementation of "leave it up to the host bridge code" makes
+sense, but it also seems like a recipe for all our host bridges
+forgetting this corner case, in the absence of support from
+the common code for making it easy/the default...
 
-Read Data Values with UR Completion Status
-	Some system configuration software depends on reading a data value of all 1’s when a Configuration
-	Read Request is terminated as an Unsupported Request, particularly when probing to determine the
-	existence of a device in the system. A Root Complex intended for use with software that depends
-	on a read-data value of all 1’s must synthesize this value when UR Completion Status is returned for
-	a Configuration Read Request.
+Anyway, I think that for hw/pci-host/gpex.c we would need
+to change the current
+    memory_region_init(&s->io_mmio, OBJECT(s), "gpex_mmio", UINT64_MAX);
+    [...]
+    sysbus_init_mmio(sbd, &s->io_mmio);
+    [...]
+    pci->bus = pci_register_root_bus(dev, "pcie.0", gpex_set_irq,
+                                     pci_swizzle_map_irq_fn, s, &s->io_mmio,
+                                     &s->io_ioport, 0, 4, TYPE_PCIE_BUS);
 
-the title says "Read Data" while the text says "Configuration Read".
-Can't say whether that is intentional.
+to also create a container MR with a background set of io read/write
+functions to give the -1/discard behaviour, map s->io_mmio into
+that container, and return the container as the sysbus MMIO region.
+(and same again for the IO window).
 
--- 
-MST
-
+thanks
+-- PMM
 
