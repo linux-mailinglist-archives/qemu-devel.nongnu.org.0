@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A28342E77
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:57:03 +0100 (CET)
-Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73AD342E78
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:59:23 +0100 (CET)
+Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNeuL-0003zO-NJ
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
+	id 1lNewc-0005Qk-Pk
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNet6-0003Pd-Pu
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:55:44 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46597)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lNeuo-0004Xx-QK
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:57:31 -0400
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:34405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lNet5-0002K1-2U
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:55:44 -0400
-Received: by mail-ej1-x633.google.com with SMTP id t18so14542525ejc.13
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:55:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lNeui-00037t-GC
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:57:30 -0400
+Received: by mail-oo1-xc32.google.com with SMTP id
+ j10-20020a4ad18a0000b02901b677a0ba98so3094747oor.1
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:57:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iJbanrUcfAD0cuRuzNTqqSmA3kn/C9QT/3L9u79Ed2s=;
- b=JfwojN0dOUYssikwxO8LMuPfxthAE2mmYHUT6D5KZD+WY86FzBR2Y+5VgSxSu2+fWC
- CYec8eIebOMh6ESHky3L8/Y8ksmCRY2Aylp8rTVz8iY2MaLXynkpP1Q16txfLsw1G7rz
- wieZanTREpZAF0a6QGml9i4RhsB7WiUcv863IyCiDaAPbrVo7kYZaZbnM6O5fKG/9lv2
- T47oryPW/tHakdNcqhfc6CbDsTIkGm9w3uBLHyM00nip7ZYaAZrMQoj40z5huFkjGNo3
- JklSTzrW1jFSAYVHyxh0maam3fVmd23RbdNAQv5H8UDIMSdSLP6O38JvlTEbj1Ai7r9C
- d0Gg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ymhRzlRNogRgnY5VhOwqtok6y502erb84zagUqOEckQ=;
+ b=yAnFEvkFdnTxMrArYr8d6djzPm8HwqGr3bHveyoDdKapAXahHW+v3W9ji3Qa/iWxu+
+ Lxgh07AC+w/NYdSH3FIMpW3niOquJMqHirf758319t/GF48tUuTsfv9MoTrGE8IEE19h
+ 0a7Td0unRV9KjA+K2vQVH6jA9D/5iVX3onWqlMx/WufDZbAhaAlUiORR7GmMghVQgfGG
+ fb87mqlB0Mv1NsZzpb5fwr6nWzVE0802Zim99Xk+nzC1xvxz6zd3P99TAqHTVnEqi4+p
+ PResor4KH4RkYwiaZnpNjZBbL7ZT45FZyk7P5P+4dlNuvoNPF2AOI67LNWCOZFPXNsG4
+ SXag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iJbanrUcfAD0cuRuzNTqqSmA3kn/C9QT/3L9u79Ed2s=;
- b=DTsY3862qXep1/RqTEgpgoLQSTcCAP5m2nRiyv1tdsYSeA4T4pr/4en87nqtUQhng+
- l4QHd9uCfdwT8C3lJTb9WJj9jZUmFpgC0WX2t3Ffs7CfjQHPGP+r4j3SMeXRwKZIPhuj
- FE062981r3AZKXUcnOE5fNPfp+7Fue4jnR5hd5dvYeWcfhHBej/rZJmha/cdTOfPsOwi
- q+kMva5Pw4bloAp6vABzw21gcgD6kevhoLc/d0KQoCakH10T5Kb4cxJthJVuTt00gwyU
- 9qiWpOrzEbfTHTR3snXASs8oB35FNEjoIPm1SyYhyoMm2hkj28hmN38ZaT8v4bnIbH5M
- BPVg==
-X-Gm-Message-State: AOAM5328X3L1n7wNZjdp7Nw5JthPKF3pzkgLCLkWRSb9BTzyvchXH+lg
- /MMhGEJTbUZcXr1TnuoWMnTo2W9JJT8JGNLN9p5RBQ==
-X-Google-Smtp-Source: ABdhPJykyrBcMDb7AbyET6HLW6icVUfbmB04UUdsnvNN9u6TO+qzCUkcFfIGBv+slbQhMwiw+rCASa0mmlBouf3yJUk=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr10652705ejd.85.1616259341002; 
- Sat, 20 Mar 2021 09:55:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ymhRzlRNogRgnY5VhOwqtok6y502erb84zagUqOEckQ=;
+ b=pYoWU5/hxurJX6N79DU81/kQb1fesvhVdTgQn4mKlyE7mqC4Ui4+tw/HdMV9dyRlD5
+ pOygBX4ubbINDp7Y745R/yCtruArUFu0SnBIjcJtOrSeDjyKdP8himd5jwN5ihL0BeS0
+ kfYPKPwb8z29+mcd3eef6PjTtktxy8b1s1HRyZzvdVpsXJAdSxkyZFRZPCbhMX9Ks8aP
+ Pz2Qp30U5/w3ObvCk3AoTeGA4dY0P+dEEx1VMOvvYUdpGNQeTFn8m72dOlLDZh1iOPcN
+ W+3Ecdihg7L6mNkGpKY/9aNFu8Y7niJi8gh34RV5Wa+pwLAr7dyhjUX4lh6bknYFzdrB
+ oOBw==
+X-Gm-Message-State: AOAM531bojPBgvoqhSGAZtO3FvsQC+oVF4G1YjqjeW0Zx5tr5909YItD
+ ffcCaCUR+yc2V7370JiQ76dl1tL92/z++9Dq
+X-Google-Smtp-Source: ABdhPJwAIthJiX/f5OyK0K36YP3SjMtSFNBhdKoJIX9fLqpGQErhQvwyu4Hs8AahrpLu8TzCX5+WbQ==
+X-Received: by 2002:a4a:eb8a:: with SMTP id d10mr5692546ooj.32.1616259442782; 
+ Sat, 20 Mar 2021 09:57:22 -0700 (PDT)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id i11sm1953966otp.76.2021.03.20.09.57.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Mar 2021 09:57:22 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 for-6.0 0/2] tcg: Workaround macOS 11.2 mprotect bug
+Date: Sat, 20 Mar 2021 10:57:18 -0600
+Message-Id: <20210320165720.1813545-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210319143924.2173798-1-pbonzini@redhat.com>
-In-Reply-To: <20210319143924.2173798-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 20 Mar 2021 16:55:14 +0000
-Message-ID: <CAFEAcA_phNxvEwc_3DmZ=6iULe1XZ97_rQx+PxzvX--9cX5O5w@mail.gmail.com>
-Subject: Re: [PULL 0/8] Misc bugfixes for QEMU soft freeze
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,35 +82,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Mar 2021 at 14:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit cf6b56d4f2107259f52413f979a1d474dad0c1e1:
->
->   Merge remote-tracking branch 'remotes/philmd/tags/pflash-20210318' into staging (2021-03-18 23:04:41 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to af05ffffd7fa28010d4df9f5744514b16e71055d:
->
->   tests/qtest: cleanup the testcase for bug 1878642 (2021-03-19 10:37:46 -0400)
->
-> ----------------------------------------------------------------
-> * fixes for i386 TCG paging
-> * fixes for Hyper-V enlightenments
-> * avoid uninitialized variable warning
->
+My 29 patch series cleaning up buffer allocation really came
+a week too late for 6.0.  Let me do something quite minimal
+instead -- simply ignore the failure to create the guard pages.
 
 
-Applied, thanks.
+r~
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
 
--- PMM
+Richard Henderson (2):
+  tcg: Do not set guard pages on the rx portion of code_gen_buffer
+  tcg: Workaround macOS 11.2 mprotect bug
+
+ tcg/tcg.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+-- 
+2.25.1
+
 
