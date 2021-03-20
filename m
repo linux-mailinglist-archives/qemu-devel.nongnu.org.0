@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7AC342D74
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 15:52:29 +0100 (CET)
-Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706EC342E05
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 16:52:13 +0100 (CET)
+Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNcxo-0007Hm-8D
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 10:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
+	id 1lNdtc-00088w-3i
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 11:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lNcw6-0006iH-Oy
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 10:50:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41770)
+ id 1lNds8-0007cI-LW
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 11:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lNcw2-0004iw-Ps
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 10:50:41 -0400
+ id 1lNds6-0006iT-G5
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 11:50:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lNcw0-0005HX-Or
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 14:50:36 +0000
+ id 1lNds4-0002bR-0Y
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 15:50:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B8DB02E815A
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 14:50:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F1BA22E8157
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 15:50:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Mar 2021 14:44:51 -0000
+Date: Sat, 20 Mar 2021 15:41:55 -0000
 From: Aaro Koskinen <1920602@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: aaro-koskinen
 X-Launchpad-Bug-Reporter: Aaro Koskinen (aaro-koskinen)
 X-Launchpad-Bug-Modifier: Aaro Koskinen (aaro-koskinen)
 References: <161624570188.19824.1091833072893020317.malonedeb@wampee.canonical.com>
-Message-Id: <161625149185.24462.8339532425580927603.malone@chaenomeles.canonical.com>
+Message-Id: <161625491573.19730.12278217554181722118.malone@wampee.canonical.com>
 Subject: [Bug 1920602] Re: QEMU crash after a QuickBASIC program integer
  overflow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: ec306b44f4c5f3ec9e81280366f4daa246cc8dae
+X-Launchpad-Hash: 019bf71bee289c37cc2dca39f23650e97d755bde
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,15 +74,8 @@ Reply-To: Bug 1920602 <1920602@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The program works (in TCQ mode) with QEMU v5.0.0.
-
-QEMU starts crashing with the commit:
-
-commit 975af797f1e04e4d1b1a12f1731141d3770fdbce
-Author: Joseph Myers <joseph@codesourcery.com>
-Date:   Fri May 15 21:21:24 2020 +0000
-
-    target/i386: fix IEEE x87 floating-point exception raising
+For -enable-kvm I haven't been able to find a working commit. All
+versions since v3.1.0 just silently hang with the program.
 
 -- =
 
