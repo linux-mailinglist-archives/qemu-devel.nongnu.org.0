@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6D0342E32
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:10:18 +0100 (CET)
-Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D49342E2A
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 17:07:58 +0100 (CET)
+Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNeB7-0000fZ-Rv
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50778)
+	id 1lNe8q-0006KZ-Tb
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 12:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNe4U-0003vz-Nl
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:03:26 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41905)
+ id 1lNe5I-0004qq-IZ
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:04:16 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:35479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lNe4T-0005qp-60
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:03:26 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- l23-20020a05683004b7b02901b529d1a2fdso11518203otd.8
- for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:03:24 -0700 (PDT)
+ id 1lNe5G-0006Mk-R9
+ for qemu-devel@nongnu.org; Sat, 20 Mar 2021 12:04:16 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ v24-20020a9d69d80000b02901b9aec33371so11543022oto.2
+ for <qemu-devel@nongnu.org>; Sat, 20 Mar 2021 09:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KFysDJ08D9omJTXIYlcLRJ7jgqI0qmUjZq0yFR6tzCE=;
- b=XghXtDIiYlIVe+ByLL40W8wbwWTnH97u0CpksdXCN01QLz/Z8pV+3mtKc72X1A2uXy
- ppYPF4z8z10PwHH8Pce4PkQT5fS0dLsgkzM5ioZ87w3Lo5zGLhNZtBGudGvnCZyxe+DC
- e2nh+JWSxrnBxpSsrR/ZwUx5Jad52Y1u7NryPkIvRV2d8E+m8KJdsDg1Ia/kp7GxallR
- DtcC2dW573vGnCdV8Po+WjeUVyEUySW3yMiCEKqkLld6a18LBnXGgCLJSyCw8F3JRkU0
- 4JeTkLSjw/zFr20xJEUyjncVy7ogh998N+ap/zdhnpIt72Tmpx2YSPXcfq/QchTcH7Oe
- KnAQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=z4dArdd5Nw5FEYMyNtfqm9A1y6tmSFz+ppwtftrOUso=;
+ b=vy7LrhBZOj2BGQhVYVt+ebp6+UDhUlbaMX+sX13c+PKzT+GtKoSSsGCG0mTGno9Pwd
+ 1lc00cklyDUsflE6ejXwuDHR5tlDRqdM3qEnvT4GGR3EN9PwBDGs92AdXVpGlcdTA43a
+ oa3Oq37klOkQmBs2rlnhiA0MXK5xtUe4t8Li0hSsU4qj4kumqjXdvwU4Fqc5HOQxG4Jr
+ aNAoge50UmytUI5QArknrdxfg34bI7klDlvpI39HIZBkmu3EYEVQM09c7ryx1R0FYDtg
+ wimxeSPkrr1sEQ5PdHo+boXbnd0ULCbjeAqZh7J9GcMmz7rNUNOqO9fVPcMtF/PgSAdz
+ lwuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KFysDJ08D9omJTXIYlcLRJ7jgqI0qmUjZq0yFR6tzCE=;
- b=EOSywdjCct77F/aoOToa/ZIlt7HS9PMVcn5N8LdG3sBHFTT/SxhETMt3eD7oh9FsP3
- Xj3uwsQYUNU2G/WCvI8dIoj1w1xIqXFVqkup87YskvSZzBSdeRwtcRXxUGKfOWEtH4Sy
- tWbNIMmhpd1sglgR559Pipp3aTB/thv9oItRzGQTyYk3xgT5CypiAmZmtqS+Iqf7IFSo
- m3sAkm22F/Ff7B1ff47nQRu0+U1dSJGm8da277rNtyaY8dBd+eVR05xOM77IPS2t5L6a
- 4P0JUQwuFJHMsC2AGBirSZ9rwSzcGWxAvFNFEH1jK1MS7iQY46jiP8awNwR9MEQja6Z9
- YIMQ==
-X-Gm-Message-State: AOAM530vUABtcj08hSdfyj1sTwGoBcklvkla88vbZSKk6aqT6dxgN8wu
- MKIQ7cdMuyV6tT8CH6a2ISDcVQ==
-X-Google-Smtp-Source: ABdhPJwxdjfuLVMFES428jSmwjO39VPbcodbtPjDmHkG+IzEjpliyDcqFb93lXdvtlPJvbXcKpAnqg==
-X-Received: by 2002:a9d:3b85:: with SMTP id k5mr5125431otc.237.1616256203790; 
- Sat, 20 Mar 2021 09:03:23 -0700 (PDT)
+ bh=z4dArdd5Nw5FEYMyNtfqm9A1y6tmSFz+ppwtftrOUso=;
+ b=iIp33Fo8d5VAuRh+QisSKHHJQRhb4OPp5yRo2O/TT4y/jfxAegzXqBN3Ua1g88bxG8
+ rBhIPZZ6/1ACmJADdPyhDkrtxMuy9STyw5J9qz3Hoa0vXyYi+SVr/O7+nv6MhcAclg9B
+ OKGImWiEwFdmM0/6IGRs99OTtN7LzMWkfObu154LNO3Zx5qEKCd4z1mxQHcso5crYqfm
+ AidFg4mbEo887hGFLEMyZKXgeVAs2xe9Ur9/9GOaxiPi9WwkkUpgkZddMXqEcp/WFzEg
+ dT280gryX8DQjiT2i8OpZS3FgMsvy+ZVH6LWBwDF6muYWAh+ZyTtBV+sngCrj22qziR4
+ eh1A==
+X-Gm-Message-State: AOAM530yO+mq57GhzVWQ+9rYuYsaaKzvrtwcnls/V6zPND46ftiIOwqd
+ sOl8mZQAX88bYcEV5213X9srqRgPMSePXoFv
+X-Google-Smtp-Source: ABdhPJx9k0EAC/562bTTRAgBH/MOPtUuDjxqsvcz/ERxPRRxdbnubaP9iZm4HZj6rIfEtc1W0+zjSQ==
+X-Received: by 2002:a9d:a0f:: with SMTP id 15mr4876394otg.263.1616256253645;
+ Sat, 20 Mar 2021 09:04:13 -0700 (PDT)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id m19sm1946701oop.6.2021.03.20.09.03.22
+ by smtp.gmail.com with ESMTPSA id y143sm1945105oie.50.2021.03.20.09.04.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Mar 2021 09:03:23 -0700 (PDT)
-Subject: Re: [PATCH v1 05/14] semihosting: move semihosting tests to multiarch
+ Sat, 20 Mar 2021 09:04:13 -0700 (PDT)
+Subject: Re: [PATCH v1 01/14] scripts/kernel-doc: strip QEMU_ from function
+ definitions
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210320133706.21475-1-alex.bennee@linaro.org>
- <20210320133706.21475-6-alex.bennee@linaro.org>
+ <20210320133706.21475-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ecfe75b0-1275-bca5-68d7-e6ed2e1abbaf@linaro.org>
-Date: Sat, 20 Mar 2021 10:03:19 -0600
+Message-ID: <ea6665d2-1952-7b57-2bb3-f9ac35c67335@linaro.org>
+Date: Sat, 20 Mar 2021 10:04:10 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210320133706.21475-6-alex.bennee@linaro.org>
+In-Reply-To: <20210320133706.21475-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,22 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/20/21 7:36 AM, Alex Bennée wrote:
-> It may be arm-compat-semihosting but more than one architecture uses
-> it so lets move the tests into the multiarch area. We gate it on the
-> feature and split the semicall.h header between the arches.
+> Some packaged versions of Sphinx (fedora33/alpine so far) have issues
+> with the annotated C code that kernel-doc spits out. Without knowing
+> about things like QEMU_PLUGIN_EXPORT it chokes trying to understand
+> the code. Evidently this is a problem for the kernel as well as the
+> long stream of regex substitutions we add to in this patch can attest.
 > 
-> Also clean-up a bit of the Makefile messing about to one common set of
-> runners.
+> Fortunately we have a fairly common format for all our compiler
+> shenanigans as applied to functions so lets just filter them all out.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Message-Id:<20210312102029.17017-2-alex.bennee@linaro.org>
+> ---
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
