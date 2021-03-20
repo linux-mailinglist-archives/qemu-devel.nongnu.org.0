@@ -2,57 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7AF3342B6F
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 10:38:53 +0100 (CET)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B03342B71
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Mar 2021 10:43:16 +0100 (CET)
+Received: from localhost ([::1]:58784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNY4F-0006bh-U4
-	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 05:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55712)
+	id 1lNY8Z-0000Mf-GK
+	for lists+qemu-devel@lfdr.de; Sat, 20 Mar 2021 05:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
- id 1lNXzW-0003t9-7W
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 05:33:54 -0400
-Received: from mxe2.seznam.cz ([2a02:598:2::34]:48899)
+ (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
+ id 1lNY1C-0005QS-Qe; Sat, 20 Mar 2021 05:35:39 -0400
+Received: from sender-of-o51.zoho.in ([103.117.158.51]:2296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
- id 1lNXzF-0005gZ-7t
- for qemu-devel@nongnu.org; Sat, 20 Mar 2021 05:33:47 -0400
-Received: from email.seznam.cz
- by email-smtpc15b.ng.seznam.cz (email-smtpc15b.ng.seznam.cz [10.23.14.195])
- id 421e225b221105e9442d694c; Sat, 20 Mar 2021 10:33:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=emailprofi.seznam.cz; s=beta; t=1616232815;
- bh=LOrFaL5skzHDoWoBjlljQTlgSVrL0mw690dXxzPM/wc=;
- h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
- References:MIME-Version:Content-Type:Content-Transfer-Encoding;
- b=HWfrvA0xE/LU2zK+ElSvIU1XIEAWIMibqMlv8gBh/bH6xpUOH639dFxXSVWWqg+7O
- COnWr5gPNXOMfIZoq7aQH7tdIl6DHiZet1dSaz4omAgwgc90h8ImDXSKWnYLsPzu+p
- tFKDpU5X+m5lEO43Ha1qjuQaxeoembDwc+3SA95o=
-Received: from archlinux.localdomain (2a01:510:d502:b200:c1b:ad27:bde0:341a
- [2a01:510:d502:b200:c1b:ad27:bde0:341a])
- by email-relay4.ng.seznam.cz (Seznam SMTPD 1.3.124) with ESMTP;
- Sat, 20 Mar 2021 10:33:32 +0100 (CET)  
-From: =?UTF-8?q?Patrik=20Janou=C5=A1ek?= <pj@patrikjanousek.cz>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qapi: implementation of the block-dirty-bitmap-dump
- command
-Date: Sat, 20 Mar 2021 10:32:35 +0100
-Message-Id: <20210320093235.461485-3-pj@patrikjanousek.cz>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210320093235.461485-1-pj@patrikjanousek.cz>
-References: <20210320093235.461485-1-pj@patrikjanousek.cz>
+ (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
+ id 1lNY1A-0006e1-0R; Sat, 20 Mar 2021 05:35:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1616232921; cv=none; d=zohomail.in; s=zohoarc; 
+ b=DIoPCiUyIP7kEPoQPo15ipd13YQQCckTQMxn2hQX9oBNOzahWt7hkgJhm+QHiZTWLjR+D7QBx8R3KkAnDQVDqa07gRJXDPVtfuR11E2nzAdgkyHuZyWMwnkkSw8AaCizoTjMkCYEFIvvCjs0wB6/98LkMLmHdBaeqEdN4OR87qA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1616232921;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=ADKOgabrLJYijRTByHXNUpvHeMzzz9ifJatn4atOPHs=; 
+ b=BSAyiSnTAHIN5/HhlOXgupFHIaC4inhuCO32kNnUGsvCbnqcMCyYN4JRuJehBSz3/bG6HSBCCY6UOo7tA9rwTr7gn9tRLs9DnSNkYbTox//+JmgoSo4u96uN1hzgFGbHvZ4YXuTKAjoXz+/r/YwiMeevqi1DNPquBXJjvd+hrYM=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+ dkim=pass  header.i=behindbytes.com;
+ spf=pass  smtp.mailfrom=vijai@behindbytes.com;
+ dmarc=pass header.from=<vijai@behindbytes.com>
+ header.from=<vijai@behindbytes.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1616232921; 
+ s=yrk; d=behindbytes.com; i=vijai@behindbytes.com;
+ h=From:To:Cc:Message-ID:Subject:Date:MIME-Version:Content-Transfer-Encoding:Content-Type;
+ bh=ADKOgabrLJYijRTByHXNUpvHeMzzz9ifJatn4atOPHs=;
+ b=w3Aceovu7En/LYVrBci1+EnEwv+yaxy2El4TmsBfg/3oHmCCc33tOoo3X9VB1I46
+ /913sfrcX5fsUDsknQ4Ql27fUosl2tEH/XDpmxJA6/Rl+C5l12blKBaPV+JADftTb1Z
+ uXfqhdwhSzqTvRKMZaMDSVRALp/rj6enBghwyCvY=
+Received: from localhost.localdomain (49.207.212.3 [49.207.212.3]) by
+ mx.zoho.in with SMTPS id 1616232918156279.8627736546946;
+ Sat, 20 Mar 2021 15:05:18 +0530 (IST)
+From: Vijai Kumar K <vijai@behindbytes.com>
+To: qemu-riscv@nongnu.org,
+	alistair23@gmail.com
+Message-ID: <20210320093509.80016-1-vijai@behindbytes.com>
+Subject: [PATCH] hw/riscv: Drop the unused fdt pointer
+Date: Sat, 20 Mar 2021 15:05:09 +0530
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:598:2::34; envelope-from=pj@patrikjanousek.cz;
- helo=mxe2.seznam.cz
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
+Received-SPF: pass client-ip=103.117.158.51;
+ envelope-from=vijai@behindbytes.com; helo=sender-of-o51.zoho.in
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,206 +71,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Patrik=20Janou=C5=A1ek?= <pj@patrikjanousek.cz>,
- lmatejka@kiv.zcu.cz
+Cc: Vijai Kumar K <vijai@behindbytes.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, dirty bitmaps are for internal use only and there is
-no support for accessing their content from third party-apps.
-This patch implements new command block-dirty-bitmap-dump, which
-returns content of the dirty bitmap encoded in base64. This is
-very useful especially in combination with a drive that uses raw
-format because third-party apps can easily use it to create
-incremental or differential backup.
+Drop the unused fdt pointer in riscv_setup_rom_reset_vec API.
 
-Signed-off-by: Patrik Janoušek <pj@patrikjanousek.cz>
+Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
 ---
- block/monitor/bitmap-qmp-cmds.c | 61 +++++++++++++++++++++++++++++++
- qapi/block-core.json            | 64 ++++++++++++++++++++++++++++++++-
- 2 files changed, 124 insertions(+), 1 deletion(-)
+ hw/riscv/boot.c         | 2 +-
+ hw/riscv/spike.c        | 2 +-
+ hw/riscv/virt.c         | 2 +-
+ include/hw/riscv/boot.h | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 9f11deec64..7f296e9ba7 100644
---- a/block/monitor/bitmap-qmp-cmds.c
-+++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -146,6 +146,67 @@ out:
-     aio_context_release(aio_context);
- }
- 
-+BlockDirtyBitmapContent *qmp_block_dirty_bitmap_dump(const char *node,
-+                                                     const char *name,
-+                                                     bool has_clear, bool clear,
-+                                                     Error **errp)
-+{
-+    BlockDriverState *bs;
-+    BdrvDirtyBitmap *bitmap;
-+    BlockDirtyBitmapContent *bdbc;
-+    HBitmap *hb;
-+    AioContext *aio_context;
-+
-+    if (!name || name[0] == '\0') {
-+        error_setg(errp, "Bitmap name cannot be empty");
-+        return NULL;
-+    }
-+
-+    bs = bdrv_lookup_bs(node, node, errp);
-+    if (!bs) {
-+        return NULL;
-+    }
-+
-+    aio_context = bdrv_get_aio_context(bs);
-+    aio_context_acquire(aio_context);
-+
-+    bitmap = block_dirty_bitmap_lookup(node, name, &bs, errp);
-+    if (!bitmap || !bs) {
-+        return NULL;
-+    }
-+
-+    if (has_clear && clear) {
-+        /**
-+         * Transactions cannot return value, so "clear" functionality must be
-+         * implemented here while holding AiO context
-+         */
-+
-+        bdrv_clear_dirty_bitmap(bitmap, &hb);
-+
-+        uint64_t bm_size = bdrv_dirty_bitmap_size(bitmap);
-+        uint64_t tb_size = hbitmap_serialization_size(hb, 0, bm_size);
-+        uint8_t *buf = g_malloc(tb_size);
-+
-+        hbitmap_serialize_part(hb, buf, 0, bm_size);
-+
-+        bdbc = g_new0(BlockDirtyBitmapContent, 1);
-+        bdbc->content = g_base64_encode((guchar *) buf, tb_size);
-+    } else {
-+        uint64_t bm_size = bdrv_dirty_bitmap_size(bitmap);
-+        uint64_t tb_size = bdrv_dirty_bitmap_serialization_size(bitmap, 0, bm_size);
-+        uint8_t *buf = g_malloc(tb_size);
-+
-+        bdrv_dirty_bitmap_serialize_part(bitmap, buf, 0, bm_size);
-+
-+        bdbc = g_new0(BlockDirtyBitmapContent, 1);
-+        bdbc->content = g_base64_encode((guchar *) buf, tb_size);
-+    }
-+
-+    aio_context_release(aio_context);
-+
-+    return bdbc;
-+}
-+
- BdrvDirtyBitmap *block_dirty_bitmap_remove(const char *node, const char *name,
-                                            bool release,
-                                            BlockDriverState **bitmap_bs,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 04ad80bc1e..cbe3dac384 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2031,6 +2031,14 @@
- { 'struct': 'BlockDirtyBitmap',
-   'data': { 'node': 'str', 'name': 'str' } }
- 
-+##
-+# @BlockDirtyBitmapContent:
-+#
-+# @content: content of dirty bitmap (encoded in base64)
-+##
-+{ 'struct': 'BlockDirtyBitmapContent',
-+  'data': { 'content': 'str' } }
-+
- ##
- # @BlockDirtyBitmapAdd:
- #
-@@ -2056,6 +2064,18 @@
-   'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
-             '*persistent': 'bool', '*disabled': 'bool' } }
- 
-+##
-+# @BlockDirtyBitmapDump:
-+#
-+# @node: name of device/node which the bitmap is tracking
-+#
-+# @name: name of the dirty bitmap (must be less than 1024 bytes)
-+#
-+# @clear: true if bitmap should be cleared after dump
-+##
-+{ 'struct': 'BlockDirtyBitmapDump',
-+  'data': { 'node': 'str', 'name': 'str', '*clear': 'bool' } }
-+
- ##
- # @BlockDirtyBitmapMergeSource:
- #
-@@ -2086,6 +2106,26 @@
-   'data': { 'node': 'str', 'target': 'str',
-             'bitmaps': ['BlockDirtyBitmapMergeSource'] } }
- 
-+##
-+# @block-dirty-bitmap-dump:
-+#
-+# Dump a dirty bitmap with a name on the node.
-+#
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device or node, DeviceNotFound
-+#          - If @name is already taken, GenericError with an explanation
-+#
-+# Example:
-+#
-+# -> { "execute": "block-dirty-bitmap-dump",
-+#      "arguments": { "node": "drive0", "name": "bitmap0" } }
-+# <- { "return": { "content": "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFt... (trunc)" } }
-+#
-+##
-+{ 'command': 'block-dirty-bitmap-dump',
-+  'data': 'BlockDirtyBitmapDump',
-+  'returns': 'BlockDirtyBitmapContent' }
-+
- ##
- # @block-dirty-bitmap-add:
- #
-@@ -3908,6 +3948,26 @@
-             '*x-dirty-bitmap': 'str',
-             '*reconnect-delay': 'uint32' } }
- 
-+##
-+# @BlockdevOptionsRawDirtyBitmap:
-+#
-+# Dirty bitmap options for the raw driver.
-+#
-+# @name: the name of the dirty bitmap (Since 2.4)
-+#
-+# @filename: the filename of the dirty bitmap
-+#
-+# @granularity: granularity of the dirty bitmap in bytes (since 1.4)
-+#
-+# @persistent: true if the bitmap was stored on disk, is scheduled to be stored
-+#              on disk, or both. (since 4.0)
-+#
-+# @disabled: true if the bitmap should not be loaded (and saved) automatically
-+##
-+{ 'struct': 'BlockdevOptionsRawDirtyBitmap',
-+  'data': {'*name': 'str', 'filename': 'str', 'granularity': 'uint32',
-+           'persistent': 'bool', '*disabled': 'bool' } }
-+
- ##
- # @BlockdevOptionsRaw:
- #
-@@ -3915,12 +3975,14 @@
- #
- # @offset: position where the block device starts
- # @size: the assumed size of the device
-+# @dirty-bitmaps: dirty bitmaps of the raw block device
- #
- # Since: 2.9
- ##
- { 'struct': 'BlockdevOptionsRaw',
-   'base': 'BlockdevOptionsGenericFormat',
--  'data': { '*offset': 'int', '*size': 'int' } }
-+  'data': { '*offset': 'int', '*size': 'int' ,
-+            '*dirty-bitmaps': ['BlockdevOptionsRawDirtyBitmap'] } }
- 
- ##
- # @BlockdevOptionsThrottle:
--- 
-2.31.0
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 0d38bb7426..893e307da6 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -249,7 +249,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, R=
+ISCVHartArrayState *harts
+                                hwaddr start_addr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+-                               uint32_t fdt_load_addr, void *fdt)
++                               uint32_t fdt_load_addr)
+ {
+     int i;
+     uint32_t start_addr_hi32 =3D 0x00000000;
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index ec7cb2f707..0b68710afb 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -298,7 +298,7 @@ static void spike_board_init(MachineState *machine)
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base=
+,
+                               memmap[SPIKE_MROM].base,
+                               memmap[SPIKE_MROM].size, kernel_entry,
+-                              fdt_load_addr, s->fdt);
++                              fdt_load_addr);
+=20
+     /* initialize HTIF using symbols found in load_kernel */
+     htif_mm_init(system_memory, mask_rom,
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 0b39101a5e..7c247626c8 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -695,7 +695,7 @@ static void virt_machine_init(MachineState *machine)
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+                               virt_memmap[VIRT_MROM].base,
+                               virt_memmap[VIRT_MROM].size, kernel_entry,
+-                              fdt_load_addr, machine->fdt);
++                              fdt_load_addr);
+=20
+     /* SiFive Test MMIO device */
+     sifive_test_create(memmap[VIRT_TEST].base);
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index 11a21dd584..27b9569e2f 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -46,7 +46,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RIS=
+CVHartArrayState *harts
+                                hwaddr saddr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+-                               uint32_t fdt_load_addr, void *fdt);
++                               uint32_t fdt_load_addr);
+ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+                                   hwaddr rom_size,
+                                   uint32_t reset_vec_size,
+--=20
+2.25.1
+
 
 
