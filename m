@@ -2,64 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3240E3430F0
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Mar 2021 06:13:03 +0100 (CET)
-Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737053432A1
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Mar 2021 13:56:02 +0100 (CET)
+Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNqOb-00071M-ML
-	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 01:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
+	id 1lNxce-0000Ig-Tn
+	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 08:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
- id 1lNqLP-0005bR-1V; Sun, 21 Mar 2021 01:09:44 -0400
-Received: from sender-of-o51.zoho.in ([103.117.158.51]:2361)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
- id 1lNqLL-0007Wx-Jw; Sun, 21 Mar 2021 01:09:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616303370; cv=none; d=zohomail.in; s=zohoarc; 
- b=PRZ2MVjBRMFHmhJgTG1zTCtrJHg7dzPn5yTQPrBqxgbwUuzoSPfsSxKvlsuHVAMiFMo3zbvy/vjwElRTHIRwQ3GPD8Od7mldve6QQxkcsMPgqXtF639jfQLm/ejTiT6YVjPczfyfnLrwILLkEkAZIAJvSueUNp3hi9DwuaYA2Nk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1616303370;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=NeGMkLCyRzOrWrCVfoNa8ejZ4AI+lXIeZ7X1pOaEsdc=; 
- b=T/gMitCOBjdphPuxHf2PUxLiAP3518SHX7NnFqVp92HABw4x+BN6Z6+L5Ui1RYuO95p263DlJYh2yQr30etRDGIoh9csAlCvwqsh51/3PIwjnp47RT7BmABHi5zj5arbPVNVYe+KNKbzqv9cJkkpgpE2Ef2fcw+yUEp3RBr9+JA=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
- dkim=pass  header.i=behindbytes.com;
- spf=pass  smtp.mailfrom=vijai@behindbytes.com;
- dmarc=pass header.from=<vijai@behindbytes.com>
- header.from=<vijai@behindbytes.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1616303370; 
- s=yrk; d=behindbytes.com; i=vijai@behindbytes.com;
- h=From:To:Cc:Message-ID:Subject:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type;
- bh=NeGMkLCyRzOrWrCVfoNa8ejZ4AI+lXIeZ7X1pOaEsdc=;
- b=sDSomJq/+prpxV5TAea8BXP+aGkua1HrsQcYft3Gcz52O4Qxx8b/mpw5ENe/jqwe
- qLkUb84c6YfqD8TcpQJNtNZzS9Jbf8PchTy9Lvlad1eqyVfJFOeiFltBILDrMElcFx9
- rmR95Ky1VcOkmnxB3C+CuWk9FnWOmt/VILrrwOUk=
-Received: from helium.Dlink (49.207.205.35 [49.207.205.35]) by mx.zoho.in
- with SMTPS id 1616303369263805.7780473785069;
- Sun, 21 Mar 2021 10:39:29 +0530 (IST)
-From: Vijai Kumar K <vijai@behindbytes.com>
-To: qemu-riscv@nongnu.org,
-	alistair23@gmail.com
-Message-ID: <20210321050917.24621-5-vijai@behindbytes.com>
-Subject: [PATCH v2 4/4] hw/riscv: Connect Shakti UART to Shakti platform
-Date: Sun, 21 Mar 2021 10:39:17 +0530
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210321050917.24621-1-vijai@behindbytes.com>
-References: <20210321050917.24621-1-vijai@behindbytes.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>) id 1lNxb9-0008Fq-L9
+ for qemu-devel@nongnu.org; Sun, 21 Mar 2021 08:54:27 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:33689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>) id 1lNxb7-0000iK-Hd
+ for qemu-devel@nongnu.org; Sun, 21 Mar 2021 08:54:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=VlRO/q9Nd+cqhknSh9QgUQhyj9h+HOCjfj0Cz8OYE98=; 
+ b=NFGvKHzo+3r8l4I8IfhEvMh093pAY9toUjSj3c0ZIbooUwKvK3dx5mRAVHwq/PrdrDxQE1VI52pl/cxofDfRbuBZehhM7ly+vTPXWrZ/GhU3G4NgAhcAUcEcNu+JLJRWBmmlUoOxyvInCLuWFAkQNged7FSzDGPDAML06Pi/aJn8bHQ+3ynWgcH+QAtuCstiyoSkPHZoci+ecuNKo1/iWIpMC+JrSVUpHk7w9mpZ5sy8H6vQPHuzCP0z87aIiR/Vw4NSzParAHt6961MzW20+28F9+D9cPa/cCs9hFhhxkkBfEh5Na6WHI814ytpggwLmHjdGEWjZ13+zQKAMBeAKQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1lNxab-00005w-PC; Sun, 21 Mar 2021 13:53:53 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1lNxab-0007z2-Fq; Sun, 21 Mar 2021 13:53:53 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/unit/test-block-iothread: fix maybe-uninitialized
+ error on GCC 11
+In-Reply-To: <20210319112218.49609-1-eesposit@redhat.com>
+References: <20210319112218.49609-1-eesposit@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Sun, 21 Mar 2021 13:53:53 +0100
+Message-ID: <w51tup4fz1a.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
-Content-Type: text/plain; charset=utf8
-Received-SPF: pass client-ip=103.117.158.51;
- envelope-from=vijai@behindbytes.com; helo=sender-of-o51.zoho.in
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,70 +61,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vijai Kumar K <vijai@behindbytes.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect one shakti uart to the shakti_c machine.
+On Fri 19 Mar 2021 12:22:18 PM CET, Emanuele Giuseppe Esposito <eesposit@re=
+dhat.com> wrote:
+> When building qemu with GCC 11, test-block-iothread produces the following
+> warning:
+>
+> ../tests/unit/test-block-iothread.c:148:11: error: =E2=80=98buf=E2=80=99 =
+may be used
+> uninitialized [-Werror=3Dmaybe-uninitialized]
+>
+> This is caused by buf[512] left uninitialized and passed to
+> bdrv_save_vmstate() that expects a const uint8_t *, so the compiler
+> assumes it will be read and expects the parameter to be initialized.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
----
- hw/riscv/shakti_c.c         | 8 ++++++++
- include/hw/riscv/shakti_c.h | 2 ++
- 2 files changed, 10 insertions(+)
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
-diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-index 45d0eedabd..6174136ffa 100644
---- a/hw/riscv/shakti_c.c
-+++ b/hw/riscv/shakti_c.c
-@@ -126,6 +126,13 @@ static void shakti_c_soc_state_realize(DeviceState *de=
-v, Error **errp)
-         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-         SIFIVE_CLINT_TIMEBASE_FREQ, false);
-=20
-+    qdev_prop_set_chr(DEVICE(&(sss->uart)), "chardev", serial_hd(0));
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&sss->uart), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&sss->uart), 0,
-+                    shakti_c_memmap[SHAKTI_C_UART].base);
-+
-     /* ROM */
-     memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
-                            shakti_c_memmap[SHAKTI_C_ROM].size, &error_fata=
-l);
-@@ -144,6 +151,7 @@ static void shakti_c_soc_instance_init(Object *obj)
-     ShaktiCSoCState *sss =3D RISCV_SHAKTI_SOC(obj);
-=20
-     object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY=
-);
-+    object_initialize_child(obj, "uart", &sss->uart, TYPE_SHAKTI_UART);
-=20
-     /*
-      * CPU type is fixed and we are not supporting passing from commandlin=
-e yet.
-diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h
-index 6c66a160f5..3abb080d3c 100644
---- a/include/hw/riscv/shakti_c.h
-+++ b/include/hw/riscv/shakti_c.h
-@@ -21,6 +21,7 @@
-=20
- #include "hw/riscv/riscv_hart.h"
- #include "hw/boards.h"
-+#include "hw/char/shakti_uart.h"
-=20
- #define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc"
- #define RISCV_SHAKTI_SOC(obj) \
-@@ -33,6 +34,7 @@ typedef struct ShaktiCSoCState {
-     /*< public >*/
-     RISCVHartArrayState cpus;
-     DeviceState *plic;
-+    ShaktiUartState uart;
-     MemoryRegion rom;
-=20
- } ShaktiCSoCState;
---=20
-2.25.1
-
-
+Berto
 
