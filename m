@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CEC3435C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 00:33:37 +0100 (CET)
-Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB97B3435CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 00:37:17 +0100 (CET)
+Received: from localhost ([::1]:54744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lO7Zg-0000pK-2l
-	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 19:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33220)
+	id 1lO7dE-0004ex-U7
+	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 19:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lO7Y5-0007yO-7V
- for qemu-devel@nongnu.org; Sun, 21 Mar 2021 19:31:57 -0400
-Received: from mout.web.de ([217.72.192.78]:50867)
+ id 1lO7Y9-00084w-3B
+ for qemu-devel@nongnu.org; Sun, 21 Mar 2021 19:32:01 -0400
+Received: from mout.web.de ([212.227.17.11]:37551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lO7Y3-0000Gh-9G
- for qemu-devel@nongnu.org; Sun, 21 Mar 2021 19:31:56 -0400
+ id 1lO7Y7-0000Is-6N
+ for qemu-devel@nongnu.org; Sun, 21 Mar 2021 19:32:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616369511;
- bh=g96QoTGwedFUXA0fm9qRHfwgSpJ5sKc88uQ9mOYbs8g=;
+ s=dbaedf251592; t=1616369515;
+ bh=U/L3Q2NvRQad/NYnXasRUe7+xtntL2sQsIlsQlfr38A=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=HldLYBfnwi/K6EMLBLsNFThCJvvRXoNQ/MaQVybK1DBp8sswnUBpROay0kfcukKvq
- xXNPj8jBrprHmLhSg/qKqASmTbme1d5H4swnZdAOlrdV9dJV/3ok2gCDTNVSPL6ZAO
- TlZetMq4CR0D8hsTDVLfb6nBxo37bPRIYOZ/ukY4=
+ b=kKpaFXVAci4MZu9ItDtR1CJwXE2JT+rzSfWL1XG76AS0rAXlz1Vndq4FE1Zo38k8R
+ aSgMvAmJCoQFKcZ9/HtFAuJkjOtn3htCcehJ+cW//r9NKDcapjv0vykMqP8YD9lfK5
+ 3PpEk/pdiTdFeJA4GifwxAfDGTxJuZPFFU2//nao=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.131]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LfAoO-1m3o5P0R9U-00omLQ; Mon, 22
- Mar 2021 00:31:51 +0100
-Date: Mon, 22 Mar 2021 00:31:49 +0100
+Received: from gecko.fritz.box ([94.134.180.131]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M09hY-1lgcMw3dgS-00uL6H; Mon, 22
+ Mar 2021 00:31:54 +0100
+Date: Mon, 22 Mar 2021 00:31:53 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 2/5] tests: Add tests for yank with the chardev-change
-Message-ID: <a9bbe2d090df2a88ff5d71f95ff3888873c5e4ad.1616368879.git.lukasstraub2@web.de>
+Subject: [PATCH 3/5] chardev/char.c: Move object_property_try_add_child out
+ of chardev_new
+Message-ID: <4d61f31f4c2ba1e768d91b2d8f946ea49b3a36fe.1616368879.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1616368879.git.lukasstraub2@web.de>
 References: <cover.1616368879.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0yWvBSAJSpD2xkySF0CPHfM";
+Content-Type: multipart/signed; boundary="Sig_/_JVFYvpv4SSo7.qmy/1ZEKG";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:uBbVE/AGt6Cs/n1SLeOx7krvvnF1f2SiUvcmPVjMKH325m8ypIL
- 8HDXMcGIfdCtJbD424GTZKzaUb96B6XoMYH85a9cJjxx8WAgfCQO+vJWTK331WY26nr1DT+
- nrTmWP9C0Z59swCDB97hcLrmbv8zF+ECb+TAgNjcgGr59W5B8ZZ63UNxs+ezHeyAPdqZ4T7
- eiZGbUSvbUp2Es48mPekA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5WIsvmLIz/4=:1IBQmfxnOCkHfc5bUSf6fy
- 05+f5jQ2y0tPwCKvgNnmlwyyorUPbBeADsUkCHt/Q/HCx0Jbe1y/k9aNCAoqISZstpIbfMZgL
- IAckN6EJ1YqRw/C17itkqN6oL56xLOaxihnyHCVLwgPo5UiqKrFOVnQY/qLQfQgIqeYD88HMg
- shzoY521bQduu/Ft2VGDEuCvtdOlr0iPUaoRCfvWfCPitYfx9MBo1QDJDgn1/yDjrMaPBXkY0
- EuRzvFHCe6aYyf1WPwKBjQiw7mXEyJ+VfHQqes2muk6ji8jNytvYvuUGUICrqHPXK0bBDXzNb
- 1qAbxGk0TQ1Im1MS1RHvOjzUoBkGYW6OmD/AZd5e1/O+v/UuMyX1oe92U9rXCv17xWS7TNBpr
- CceVjNW+B24cWfMmoHIR2NVANH7mCBqCPkhBwbGrFINAUh1a61rdztu4uS1xLcfti2sHjWH7+
- 5cztiVuWQg3FLYwBkgjqAk+HOVa0tr8oN7qwqkZn/O/df05inn1+zslM6sUQs9T8BYiGJmoMZ
- LfSncZm1Uxq5mm8r6jWXbkfvE7bVaDERRIGgc1JLVYCQsryNRJPLwGa5gplaoGVcrTcFykBT0
- 7ryI9/hkqUg9b41j1kfFUD6/M90+ebEg2K6e8kVsMxYG8NGOeY8TKcgC94Ld6qhCRdWOK2/mk
- CCEEffXJ4HFwANAnqCeteRdswRM2fSALw4yEeoxTIzVlinAHX2yCBm/ROxE2k53rtFAlsA5wn
- l3jP8GVNF2hUDk0jmx3ulZFubSTYYTA7HL6C/el5aXJmh5B2ZJWTl0v0ZDtPxXsM9TJ7TLxIp
- qWImah9BvgfS4Dzk8gW2qhtydcc9yh545NOdv6oaFo4dGqv9j9gIe8fQAw3p9L4CUJtQYuVlo
- Tv1KTCr/Eor/BrkGMR7cskgYj2SngW5DPfNE6e0yo=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:W77HgDixPhRrWxlghc1U5hPGmtWVGbMZ+2tQIL1UuyHrmG1A74A
+ Aa/p5V9FzR+9MCCT+JXz6bxp2YH4gtiCYE+IecoWqJ2XMSsMYjPXjx3LeVPpScyzJzwy7Dw
+ /6PPRffMxvaaR6dcluZM/usl0HJwDO9VbbL3m8N5cH0n1FxYixUr0NK0upzSXLJNd4g0edB
+ gn4+pg8BF80iAbwNto0SA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Vp3fwZzT1Ko=:Dy/cj/a/NC96eNZl7MwWLP
+ cGoaesrDyCsJ1W/oFP9mLg4JMcIzorHvYwUTg7mu8UYun9aMmHYxvbAcEO213WYScc14M5Mel
+ V6gcEQbt0vCZ26mV0lHmRgW8lcqSLg/goyw09Xvr1QgXefmTkW5P+I/yCTLoBHMGgpH3WjLHW
+ 5eRs8itD2dht5X8gN+cChDqZGLH3OoFvRQ9aMM9WcyranMNn687G4R8CEboUIKNHc4EAP+OQ6
+ ajHekWtmHzBCO38Hiimn68pIRIcLGOOQfvrNwZeTU+0QPzBR/vJXif64XuyYxT2PftSVGvzRG
+ 7iqcq3zbLzkimdhNhZpEaXFQsf1VQtflKBWdOXxC/BUFt6oXR0/RJCVjrqdb5b7RCr9Nl7mXE
+ hFCUN5akUKuqHzdCfJmD0jvq8bZd5N3bX8cY9UG6Ha9zNHYkeSqig6mrZuaDbqxYTK16r+AgP
+ T6QzkivSWxGEnILByMY007H+4ewo2hfzzSdqsqdKhUiTNrq6Ac0JtEFDcV+PTC79K944o2cVR
+ lMqvnJqc0/PpyXxcTlJiZ7OxSz5u+sAWTFtb9KPQca2hABx0DGDL1I6fjOdiOYtFgJUZ0vLCJ
+ eJtXaTlLNQD50tTY3+0XcrogCUXU2OWjP5Bxj+wWtNvwRhzRLNAzUBqFho8CcDHqIrc2TU75v
+ Pic21/RGtJk0Q3WKLKmWcMSPUGHyiZFSc7hVY4ZGPHUDfHjuhU1ggorXGPh7BpxWxfQYZZhUB
+ vBty2bGp2I4eXELJZ/AjyKg2S0lO+xwwoT6/SvkpArozx3fSGaG24XBRx6BdNbFC2hcz28sGk
+ ZgmI5yDMoNhR1yD8sMCqW1r8F4n0VSvFJAXyq+0RMQpU2vQKs5bruYQq3uxM08BawtO2zn6Zf
+ AdEMS5N9kz18VdyXMLghHSVBaH75WybrjUGjHbclazdai5kxbQieXNN9aJ9aSyCJ0QECUHVSI
+ gRdW0Gz/3Kg+V7v/6fmfZSrHRR5zP/fjE9aiLy1hBF+gxbRWxMxVedL+iYryr92QKD2OIiZm7
+ bJ6z4xfPgEglLstF3pItoFUCfTpjDjBuUNUReMH1aZaJNbk/KckFegzQtH/07yml/u/TBlDLI
+ sEyb2ZswR5vZEtrvsnfQzk2hu8O+uEFL6z1cTcoYhagoCBIlPAD1ilnMHvPDwklkYr1GilOtH
+ WWtdOuexhhawmpq0wkk0yTuez2i0ldEpB9E6InWdi9KimiFe/kZmnT96Yldcamj6d3Zz6UTqE
+ pSrLH7lA/j3fmzc7s5GPJiSRwCT/zF91i5td9Qw==
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
 X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,317 +92,131 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/0yWvBSAJSpD2xkySF0CPHfM
+--Sig_/_JVFYvpv4SSo7.qmy/1ZEKG
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Add tests for yank with the chardev-change case.
+Move object_property_try_add_child out of chardev_new into it's
+callers. This is a preparation for the next patches to fix yank
+with the chardev-change case.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- MAINTAINERS            |   1 +
- tests/unit/meson.build |   3 +-
- tests/unit/test-yank.c | 240 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 243 insertions(+), 1 deletion(-)
- create mode 100644 tests/unit/test-yank.c
+ chardev/char.c | 42 ++++++++++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aa024eed17..a8a7f0d1c2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2817,6 +2817,7 @@ F: monitor/yank.c
- F: stubs/yank.c
- F: include/qemu/yank.h
- F: qapi/yank.json
-+F: tests/unit/test-yank.c
+diff --git a/chardev/char.c b/chardev/char.c
+index 97cafd6849..1584865027 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -972,7 +972,9 @@ static Chardev *chardev_new(const char *id, const char =
+*typename,
 
- COLO Framework
- M: zhanghailiang <zhang.zhanghailiang@huawei.com>
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 8ccf60af66..38e5dba920 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -123,7 +123,8 @@ if have_system
-     'test-util-sockets': ['socket-helpers.c'],
-     'test-base64': [],
-     'test-bufferiszero': [],
--    'test-vmstate': [migration, io, '../../monitor/yank.c']
-+    'test-vmstate': [migration, io, '../../monitor/yank.c'],
-+    'test-yank': ['socket-helpers.c', qom, io, chardev, '../../monitor/yan=
-k.c']
-   }
-   if 'CONFIG_INOTIFY1' in config_host
-     tests +=3D {'test-util-filemonitor': []}
-diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c
-new file mode 100644
-index 0000000000..44f24c45a8
---- /dev/null
-+++ b/tests/unit/test-yank.c
-@@ -0,0 +1,240 @@
-+#include "qemu/osdep.h"
-+#include <glib/gstdio.h>
-+
-+#include "qemu/config-file.h"
-+#include "qemu/module.h"
-+#include "qemu/option.h"
-+#include "qemu/sockets.h"
-+#include "chardev/char-fe.h"
-+#include "sysemu/sysemu.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-char.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qom/qom-qobject.h"
-+#include "io/channel-socket.h"
-+#include "qapi/qobject-input-visitor.h"
-+#include "qapi/qapi-visit-sockets.h"
-+#include "socket-helpers.h"
-+#include "qapi/qapi-commands-yank.h"
-+#include "qapi/qapi-types-yank.h"
-+
-+static int chardev_change(void *opaque)
-+{
-+    return 0;
-+}
-+
-+static bool is_yank_instance_registered(void)
-+{
-+    YankInstanceList *list;
-+    bool ret;
-+
-+    list =3D qmp_query_yank(&error_abort);
-+
-+    ret =3D !!list;
-+
-+    qapi_free_YankInstanceList(list);
-+
-+    return ret;
-+}
-+
-+static void char_change_to_yank_test(gconstpointer opaque)
-+{
-+    SocketAddress *addr =3D (gpointer) opaque;
+     qemu_char_open(chr, backend, &be_opened, &local_err);
+     if (local_err) {
+-        goto end;
++        error_propagate(errp, local_err);
++        object_unref(obj);
++        return NULL;
+     }
+
+     if (!chr->filename) {
+@@ -982,22 +984,6 @@ static Chardev *chardev_new(const char *id, const char=
+ *typename,
+         qemu_chr_be_event(chr, CHR_EVENT_OPENED);
+     }
+
+-    if (id) {
+-        object_property_try_add_child(get_chardevs_root(), id, obj,
+-                                      &local_err);
+-        if (local_err) {
+-            goto end;
+-        }
+-        object_unref(obj);
+-    }
+-
+-end:
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        object_unref(obj);
+-        return NULL;
+-    }
+-
+     return chr;
+ }
+
+@@ -1006,6 +992,7 @@ Chardev *qemu_chardev_new(const char *id, const char *=
+typename,
+                           GMainContext *gcontext,
+                           Error **errp)
+ {
 +    Chardev *chr;
-+    CharBackend be;
-+    ChardevReturn *ret;
-+    QIOChannelSocket *ioc;
-+
-+    /*
-+     * Setup a listener socket and determine its address
-+     * so we know the TCP port for the client later
-+     */
-+    ioc =3D qio_channel_socket_new();
-+    g_assert_nonnull(ioc);
-+    qio_channel_socket_listen_sync(ioc, addr, 1, &error_abort);
-+    addr =3D qio_channel_socket_get_local_address(ioc, &error_abort);
-+    g_assert_nonnull(addr);
-+
-+    ChardevBackend old_backend =3D { .type =3D CHARDEV_BACKEND_KIND_NULL };
-+    ChardevBackend new_backend =3D {
-+            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-+            .u.socket.data =3D &(ChardevSocket) {
-+                .addr =3D &(SocketAddressLegacy) {
-+                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .u.inet.data =3D &addr->u.inet
-+                },
-+                .has_server =3D true,
-+                .server =3D false
-+            } };
-+
-+    g_assert(!is_yank_instance_registered());
-+
-+    ret =3D qmp_chardev_add("chardev", &old_backend, &error_abort);
-+    qapi_free_ChardevReturn(ret);
-+    chr =3D qemu_chr_find("chardev");
-+    g_assert_nonnull(chr);
-+
-+    g_assert(!is_yank_instance_registered());
-+
-+    qemu_chr_wait_connected(chr, &error_abort);
-+    qemu_chr_fe_init(&be, chr, &error_abort);
-+    /* allow chardev-change */
-+    qemu_chr_fe_set_handlers(&be, NULL, NULL,
-+                             NULL, chardev_change, NULL, NULL, true);
-+
-+    ret =3D qmp_chardev_change("chardev", &new_backend, &error_abort);
-+    g_assert_nonnull(ret);
-+    g_assert(be.chr !=3D chr);
-+    g_assert(is_yank_instance_registered());
-+
-+    object_unparent(OBJECT(be.chr));
-+    object_unref(OBJECT(ioc));
-+    qapi_free_ChardevReturn(ret);
-+}
-+
-+static void char_change_yank_to_yank_test(gconstpointer opaque)
-+{
-+    SocketAddress *addr =3D (gpointer) opaque;
-+    Chardev *chr;
-+    CharBackend be;
-+    ChardevReturn *ret;
-+    QIOChannelSocket *ioc;
-+
-+    /*
-+     * Setup a listener socket and determine its address
-+     * so we know the TCP port for the client later
-+     */
-+    ioc =3D qio_channel_socket_new();
-+    g_assert_nonnull(ioc);
-+    qio_channel_socket_listen_sync(ioc, addr, 1, &error_abort);
-+    addr =3D qio_channel_socket_get_local_address(ioc, &error_abort);
-+    g_assert_nonnull(addr);
-+
-+    ChardevBackend backend =3D {
-+            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-+            .u.socket.data =3D &(ChardevSocket) {
-+                .addr =3D &(SocketAddressLegacy) {
-+                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .u.inet.data =3D &addr->u.inet
-+                },
-+                .has_server =3D true,
-+                .server =3D false
-+            } };
-+
-+    g_assert(!is_yank_instance_registered());
-+
-+    ret =3D qmp_chardev_add("chardev", &backend, &error_abort);
-+    qapi_free_ChardevReturn(ret);
-+    chr =3D qemu_chr_find("chardev");
-+    g_assert_nonnull(chr);
-+
-+    g_assert(is_yank_instance_registered());
-+
-+    qemu_chr_wait_connected(chr, &error_abort);
-+    qemu_chr_fe_init(&be, chr, &error_abort);
-+    /* allow chardev-change */
-+    qemu_chr_fe_set_handlers(&be, NULL, NULL,
-+                             NULL, chardev_change, NULL, NULL, true);
-+
-+    ret =3D qmp_chardev_change("chardev", &backend, &error_abort);
-+    g_assert_nonnull(ret);
-+    g_assert(be.chr !=3D chr);
-+    g_assert(is_yank_instance_registered());
-+
-+    object_unparent(OBJECT(be.chr));
-+    object_unref(OBJECT(ioc));
-+    qapi_free_ChardevReturn(ret);
-+}
-+
-+static void char_change_from_yank_test(gconstpointer opaque)
-+{
-+    SocketAddress *addr =3D (gpointer) opaque;
-+    Chardev *chr;
-+    CharBackend be;
-+    ChardevReturn *ret;
-+    QIOChannelSocket *ioc;
-+
-+    /*
-+     * Setup a listener socket and determine its address
-+     * so we know the TCP port for the client later
-+     */
-+    ioc =3D qio_channel_socket_new();
-+    g_assert_nonnull(ioc);
-+    qio_channel_socket_listen_sync(ioc, addr, 1, &error_abort);
-+    addr =3D qio_channel_socket_get_local_address(ioc, &error_abort);
-+    g_assert_nonnull(addr);
-+
-+    ChardevBackend old_backend =3D {
-+            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-+            .u.socket.data =3D &(ChardevSocket) {
-+                .addr =3D &(SocketAddressLegacy) {
-+                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .u.inet.data =3D &addr->u.inet
-+                },
-+                .has_server =3D true,
-+                .server =3D false
-+            } };
-+    ChardevBackend new_backend =3D { .type =3D CHARDEV_BACKEND_KIND_NULL };
-+
-+    g_assert(!is_yank_instance_registered());
-+
-+    ret =3D qmp_chardev_add("chardev", &old_backend, &error_abort);
-+    qapi_free_ChardevReturn(ret);
-+    chr =3D qemu_chr_find("chardev");
-+    g_assert_nonnull(chr);
-+
-+    g_assert(is_yank_instance_registered());
-+
-+    qemu_chr_wait_connected(chr, &error_abort);
-+    qemu_chr_fe_init(&be, chr, &error_abort);
-+    /* allow chardev-change */
-+    qemu_chr_fe_set_handlers(&be, NULL, NULL,
-+                             NULL, chardev_change, NULL, NULL, true);
-+
-+    ret =3D qmp_chardev_change("chardev", &new_backend, &error_abort);
-+    g_assert_nonnull(ret);
-+    g_assert(be.chr !=3D chr);
-+    g_assert(!is_yank_instance_registered());
-+
-+    object_unparent(OBJECT(be.chr));
-+    object_unref(OBJECT(ioc));
-+    qapi_free_ChardevReturn(ret);
-+}
-+
-+static SocketAddress tcpaddr =3D {
-+    .type =3D SOCKET_ADDRESS_TYPE_INET,
-+    .u.inet.host =3D (char *)"127.0.0.1",
-+    .u.inet.port =3D (char *)"0",
-+};
-+
-+int main(int argc, char **argv)
-+{
-+    bool has_ipv4, has_ipv6;
-+
-+    qemu_init_main_loop(&error_abort);
-+    socket_init();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
-+        g_printerr("socket_check_protocol_support() failed\n");
-+        goto end;
+     g_autofree char *genid =3D NULL;
+
+     if (!id) {
+@@ -1013,7 +1000,19 @@ Chardev *qemu_chardev_new(const char *id, const char=
+ *typename,
+         id =3D genid;
+     }
+
+-    return chardev_new(id, typename, backend, gcontext, errp);
++    chr =3D chardev_new(id, typename, backend, gcontext, errp);
++    if (!chr) {
++        return NULL;
 +    }
 +
-+    if (!has_ipv4) {
-+        goto end;
++    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr=
+),
++                                       errp)) {
++        object_unref(OBJECT(chr));
++        return NULL;
 +    }
++    object_unref(OBJECT(chr));
 +
-+    module_call_init(MODULE_INIT_QOM);
-+    qemu_add_opts(&qemu_chardev_opts);
++    return chr;
+ }
+
+ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+@@ -1034,6 +1033,13 @@ ChardevReturn *qmp_chardev_add(const char *id, Chard=
+evBackend *backend,
+         return NULL;
+     }
+
++    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr=
+),
++                                       errp)) {
++        object_unref(OBJECT(chr));
++        return NULL;
++    }
++    object_unref(OBJECT(chr));
 +
-+    g_test_add_data_func("/yank/char_change_to_yank", &tcpaddr,
-+                         char_change_to_yank_test);
-+    g_test_add_data_func("/yank/char_change_yank_to_yank", &tcpaddr,
-+                         char_change_yank_to_yank_test);
-+    g_test_add_data_func("/yank/char_change_from_yank", &tcpaddr,
-+                         char_change_from_yank_test);
-+
-+end:
-+    return g_test_run();
-+}
+     ret =3D g_new0(ChardevReturn, 1);
+     if (CHARDEV_IS_PTY(chr)) {
+         ret->pty =3D g_strdup(chr->filename + 4);
 --
 2.30.2
 
 
---Sig_/0yWvBSAJSpD2xkySF0CPHfM
+--Sig_/_JVFYvpv4SSo7.qmy/1ZEKG
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBX12UACgkQNasLKJxd
-slhsTBAArDjIO2P2bCZ1s3lfcNPEgCioQMPOUdQnMWMmgRA+sYjw9ZeaNmHdEKom
-x0KPEC9fHrlvnxcyvCh9XQ05RE9bwRXGZ7AWDDLIqoFpugw99TcmRsjvTivpvIAg
-/vjz91g/K7QWuhOSExIujYoPt03YgHhHVzzsD6DBSAAokHDhxWMI7jPR9CY25SJa
-NnRHzTngdRyfi+CdE0VYmS41QTOGs8UxIz44qwuNFiaEk6KTsmM2QTIXi7RaufnL
-NDd1AEXDd2Rp37s4TEPlajrPbkXSr0huK/E7K4klY4z0ccywefQOjmZ63oSojjCm
-zykT0XDgp7GUdBUMiw/smtjOCWQWKLs8A2SqqKeMHwdo+LE/BGnUVD0zgirvBceU
-mYXQ3IV49Q7kubpdJ3DNdYIgj8BpoX/0pifvFZMNklB/ootn11RvFYt/yKavv/El
-5GreGZ9k96Em8OLFNzVjBzcM9tf89JEE88nP3T7ctSZMP14TAhttffEreOGN1BQ+
-6VYmz/ASMVGOhtJ86NTbWkOasSG4Z3cEZnk60riTuvMSlGVfy6z7ydwbxiCZlVfO
-pdP1cV9l39K+RJ0ZJaBlTWg4sW4ye/7ikma36mmwrfeR9uUV8gzsaq1yZ8Ic1G/n
-FNRJEHLFGDK8lCPjNsU4E/vQjMPN44NroEyGngjgdrjV2HDJpNk=
-=KkWY
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBX12kACgkQNasLKJxd
+slh55xAAgwkKdyX3fCHQY6ZE4iGZPQRasaU4lvvMb3gqMhL+QQYpo9eTTR5qnxQM
+4fJmEgEWndFGiP6zWpYY5ZPT71/3HfQqPPQtwy01dK7sXl0/KK9J/sgQJydB3InU
+TXV8V9MWpmnaow2B4Jgkcb8Ve0j7TgbbsF7bYXmwxZr6+R5+sSC2Hv5/f9qyJ04l
+Xrl571J65Bk0+q6ofReJo4G4/+nITHVwj8DV2HNCG1U5KWdCplZhViT0bC9mM1A4
+vJXJlmXTDTR3lgaYn47QgTS05f/mFA0248FjAAH6AXa+pangU6SUy74gB6C3ymZm
+UGsp2b9+utGnDO8eX0nZ0A9611ClRXrvjNR4oSHuaqZQ1aSiwdkwzGKBcNvz+HOC
+1+PbiU6HjXayr8kFguUOFRaw3N7nhSC+cn/CMyPpAgX+WVtPI9NPoS5CPUxuIobJ
+xi4O3IyUbiicnus0U/t4I6Le1O0MIZH6ujLD1yZZlj2jXKTJhUQ7gQ/9GdeGpNl/
+8h+qfHA3oc5X4iWoOpBHyWjEbIcqVnoTRbz254XnhYHXgXnUr0rqGphanJrd8tQg
+wY0127LDFjGVNtbMPotbeKSG7SUf26cRVX91wONbE3bzN22sD0morsUzNd+GpVXa
+uJedw+UkUxKB+9Rs+yEvldTDT0jMSq+PnExTB8i4yjElNYEZWU4=
+=NBd+
 -----END PGP SIGNATURE-----
 
---Sig_/0yWvBSAJSpD2xkySF0CPHfM--
+--Sig_/_JVFYvpv4SSo7.qmy/1ZEKG--
 
