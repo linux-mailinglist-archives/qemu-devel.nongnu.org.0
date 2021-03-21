@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D2F3430F5
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Mar 2021 06:16:42 +0100 (CET)
-Received: from localhost ([::1]:36164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3240E3430F0
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Mar 2021 06:13:03 +0100 (CET)
+Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lNqS9-0000at-Bt
-	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 01:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43766)
+	id 1lNqOb-00071M-ML
+	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 01:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
- id 1lNqLR-0005bl-K6; Sun, 21 Mar 2021 01:09:45 -0400
-Received: from sender-of-o51.zoho.in ([103.117.158.51]:2359)
+ id 1lNqLP-0005bR-1V; Sun, 21 Mar 2021 01:09:44 -0400
+Received: from sender-of-o51.zoho.in ([103.117.158.51]:2361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
- id 1lNqLL-0007Wy-Oh; Sun, 21 Mar 2021 01:09:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616303369; cv=none; d=zohomail.in; s=zohoarc; 
- b=bcvKHvS+5l7F+RBsvps+FFTV3zggdsQzHTRb2YUFwXONE1/QtujNREmvFWNHySQKy3uIMcTguB3cSDzfLSDK4oypgBJ+nQTC5H7qeCGlcUnCM7CSFYmifzgHS5EeRQUIZXdCFifYs0xKmysYVX2Is8xaNqJCWTyshDqCRIVyBmE=
+ id 1lNqLL-0007Wx-Jw; Sun, 21 Mar 2021 01:09:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1616303370; cv=none; d=zohomail.in; s=zohoarc; 
+ b=PRZ2MVjBRMFHmhJgTG1zTCtrJHg7dzPn5yTQPrBqxgbwUuzoSPfsSxKvlsuHVAMiFMo3zbvy/vjwElRTHIRwQ3GPD8Od7mldve6QQxkcsMPgqXtF639jfQLm/ejTiT6YVjPczfyfnLrwILLkEkAZIAJvSueUNp3hi9DwuaYA2Nk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1616303369;
+ s=zohoarc; t=1616303370;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=xFo9r9JEtBqpLxIEtXqPr/jj7ZNiZVgywVbyzxMJVCU=; 
- b=Y/FND51OliZk4Xkf3K62SNnXS5ZwGNYApHYtRnSFYgCrjcy/CNVdOPnl40meBQEBoEN6e5IJa1Om1P/rM83OUYchtNJu5QFr2avoaUM/YRyfdIAjh94RTzBGNAQX7F+tfTOPd2kXQy/7OF/R0AO1cPz2bATOkF3mJ4Iyl+OyR5k=
+ bh=NeGMkLCyRzOrWrCVfoNa8ejZ4AI+lXIeZ7X1pOaEsdc=; 
+ b=T/gMitCOBjdphPuxHf2PUxLiAP3518SHX7NnFqVp92HABw4x+BN6Z6+L5Ui1RYuO95p263DlJYh2yQr30etRDGIoh9csAlCvwqsh51/3PIwjnp47RT7BmABHi5zj5arbPVNVYe+KNKbzqv9cJkkpgpE2Ef2fcw+yUEp3RBr9+JA=
 ARC-Authentication-Results: i=1; mx.zohomail.in;
  dkim=pass  header.i=behindbytes.com;
  spf=pass  smtp.mailfrom=vijai@behindbytes.com;
  dmarc=pass header.from=<vijai@behindbytes.com>
  header.from=<vijai@behindbytes.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1616303369; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1616303370; 
  s=yrk; d=behindbytes.com; i=vijai@behindbytes.com;
  h=From:To:Cc:Message-ID:Subject:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type;
- bh=xFo9r9JEtBqpLxIEtXqPr/jj7ZNiZVgywVbyzxMJVCU=;
- b=rIWneoS2ku+FS2itVnWfSnW2v1wHBjcvE1pC0RZToRBkAqotoVxa0gEKJnuHxIqa
- 24CHZyAL1l8jTorBVNUKLtDC1UMxO0h5V2helAAcg9m0fcj6Sd5xsAHdVrV0F7Q6qiU
- 2ir0CF1nCLhdO1v2FguMa8HiQY4Z+SBx2ivzIEaA=
+ bh=NeGMkLCyRzOrWrCVfoNa8ejZ4AI+lXIeZ7X1pOaEsdc=;
+ b=sDSomJq/+prpxV5TAea8BXP+aGkua1HrsQcYft3Gcz52O4Qxx8b/mpw5ENe/jqwe
+ qLkUb84c6YfqD8TcpQJNtNZzS9Jbf8PchTy9Lvlad1eqyVfJFOeiFltBILDrMElcFx9
+ rmR95Ky1VcOkmnxB3C+CuWk9FnWOmt/VILrrwOUk=
 Received: from helium.Dlink (49.207.205.35 [49.207.205.35]) by mx.zoho.in
- with SMTPS id 1616303368837317.21930478009847;
- Sun, 21 Mar 2021 10:39:28 +0530 (IST)
+ with SMTPS id 1616303369263805.7780473785069;
+ Sun, 21 Mar 2021 10:39:29 +0530 (IST)
 From: Vijai Kumar K <vijai@behindbytes.com>
 To: qemu-riscv@nongnu.org,
 	alistair23@gmail.com
-Message-ID: <20210321050917.24621-4-vijai@behindbytes.com>
-Subject: [PATCH v2 3/4] hw/char: Add Shakti UART emulation
-Date: Sun, 21 Mar 2021 10:39:16 +0530
+Message-ID: <20210321050917.24621-5-vijai@behindbytes.com>
+Subject: [PATCH v2 4/4] hw/riscv: Connect Shakti UART to Shakti platform
+Date: Sun, 21 Mar 2021 10:39:17 +0530
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210321050917.24621-1-vijai@behindbytes.com>
 References: <20210321050917.24621-1-vijai@behindbytes.com>
@@ -77,363 +77,64 @@ Cc: Vijai Kumar K <vijai@behindbytes.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the initial implementation of Shakti UART.
+Connect one shakti uart to the shakti_c machine.
 
 Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
 ---
- MAINTAINERS                   |   2 +
- hw/char/meson.build           |   1 +
- hw/char/shakti_uart.c         | 185 ++++++++++++++++++++++++++++++++++
- hw/char/trace-events          |   4 +
- include/hw/char/shakti_uart.h |  74 ++++++++++++++
- 5 files changed, 266 insertions(+)
- create mode 100644 hw/char/shakti_uart.c
- create mode 100644 include/hw/char/shakti_uart.h
+ hw/riscv/shakti_c.c         | 8 ++++++++
+ include/hw/riscv/shakti_c.h | 2 ++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9f71c4cc3f..be084865db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1385,7 +1385,9 @@ M: Vijai Kumar K <vijai@behindbytes.com>
- L: qemu-riscv@nongnu.org
- S: Supported
- F: hw/riscv/shakti_c.c
-+F: hw/char/shakti_uart.c
- F: include/hw/riscv/shakti_c.h
-+F: include/hw/char/shakti_uart.h
+diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+index 45d0eedabd..6174136ffa 100644
+--- a/hw/riscv/shakti_c.c
++++ b/hw/riscv/shakti_c.c
+@@ -126,6 +126,13 @@ static void shakti_c_soc_state_realize(DeviceState *de=
+v, Error **errp)
+         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+         SIFIVE_CLINT_TIMEBASE_FREQ, false);
 =20
- SiFive Machines
- M: Alistair Francis <Alistair.Francis@wdc.com>
-diff --git a/hw/char/meson.build b/hw/char/meson.build
-index 7ba38dbd96..61c43d4b51 100644
---- a/hw/char/meson.build
-+++ b/hw/char/meson.build
-@@ -19,6 +19,7 @@ softmmu_ss.add(when: 'CONFIG_SERIAL', if_true: files('ser=
-ial.c'))
- softmmu_ss.add(when: 'CONFIG_SERIAL_ISA', if_true: files('serial-isa.c'))
- softmmu_ss.add(when: 'CONFIG_SERIAL_PCI', if_true: files('serial-pci.c'))
- softmmu_ss.add(when: 'CONFIG_SERIAL_PCI_MULTI', if_true: files('serial-pci=
--multi.c'))
-+softmmu_ss.add(when: 'CONFIG_SHAKTI', if_true: files('shakti_uart.c'))
- softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-consol=
-e.c'))
- softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_console.c'))
- softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'))
-diff --git a/hw/char/shakti_uart.c b/hw/char/shakti_uart.c
-new file mode 100644
-index 0000000000..6870821325
---- /dev/null
-+++ b/hw/char/shakti_uart.c
-@@ -0,0 +1,185 @@
-+/*
-+ * SHAKTI UART
-+ *
-+ * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
++    qdev_prop_set_chr(DEVICE(&(sss->uart)), "chardev", serial_hd(0));
++    if (!sysbus_realize(SYS_BUS_DEVICE(&sss->uart), errp)) {
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&sss->uart), 0,
++                    shakti_c_memmap[SHAKTI_C_UART].base);
 +
-+#include "qemu/osdep.h"
+     /* ROM */
+     memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
+                            shakti_c_memmap[SHAKTI_C_ROM].size, &error_fata=
+l);
+@@ -144,6 +151,7 @@ static void shakti_c_soc_instance_init(Object *obj)
+     ShaktiCSoCState *sss =3D RISCV_SHAKTI_SOC(obj);
+=20
+     object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY=
+);
++    object_initialize_child(obj, "uart", &sss->uart, TYPE_SHAKTI_UART);
+=20
+     /*
+      * CPU type is fixed and we are not supporting passing from commandlin=
+e yet.
+diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h
+index 6c66a160f5..3abb080d3c 100644
+--- a/include/hw/riscv/shakti_c.h
++++ b/include/hw/riscv/shakti_c.h
+@@ -21,6 +21,7 @@
+=20
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/boards.h"
 +#include "hw/char/shakti_uart.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "qemu/log.h"
-+
-+static uint64_t shakti_uart_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    ShaktiUartState *s =3D opaque;
-+
-+    switch (addr) {
-+    case SHAKTI_UART_BAUD:
-+        return s->uart_baud;
-+    case SHAKTI_UART_RX:
-+        qemu_chr_fe_accept_input(&s->chr);
-+        s->uart_status &=3D ~SHAKTI_UART_STATUS_RX_NOT_EMPTY;
-+        return s->uart_rx;
-+    case SHAKTI_UART_STATUS:
-+        return s->uart_status;
-+    case SHAKTI_UART_DELAY:
-+        return s->uart_delay;
-+    case SHAKTI_UART_CONTROL:
-+        return s->uart_control;
-+    case SHAKTI_UART_INT_EN:
-+        return s->uart_interrupt;
-+    case SHAKTI_UART_IQ_CYCLES:
-+        return s->uart_iq_cycles;
-+    case SHAKTI_UART_RX_THRES:
-+        return s->uart_rx_threshold;
-+    default:
-+        /* Also handles TX REG which is write only */
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr)=
-;
-+    }
-+
-+    return 0;
-+}
-+
-+static void shakti_uart_write(void *opaque, hwaddr addr,
-+                              uint64_t data, unsigned size)
-+{
-+    ShaktiUartState *s =3D opaque;
-+    uint32_t value =3D data;
-+    uint8_t ch;
-+
-+    switch (addr) {
-+    case SHAKTI_UART_BAUD:
-+        s->uart_baud =3D value;
-+        break;
-+    case SHAKTI_UART_TX:
-+        ch =3D value;
-+        qemu_chr_fe_write_all(&s->chr, &ch, 1);
-+        s->uart_status &=3D ~SHAKTI_UART_STATUS_TX_FULL;
-+        break;
-+    case SHAKTI_UART_STATUS:
-+        s->uart_status =3D value;
-+        break;
-+    case SHAKTI_UART_DELAY:
-+        s->uart_delay =3D value;
-+        break;
-+    case SHAKTI_UART_CONTROL:
-+        s->uart_control =3D value;
-+        break;
-+    case SHAKTI_UART_INT_EN:
-+        s->uart_interrupt =3D value;
-+        break;
-+    case SHAKTI_UART_IQ_CYCLES:
-+        s->uart_iq_cycles =3D value;
-+        break;
-+    case SHAKTI_UART_RX_THRES:
-+        s->uart_rx_threshold =3D value;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr)=
-;
-+    }
-+}
-+
-+static const MemoryRegionOps shakti_uart_ops =3D {
-+    .read =3D shakti_uart_read,
-+    .write =3D shakti_uart_write,
-+    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .impl =3D {.min_access_size =3D 1, .max_access_size =3D 4},
-+    .valid =3D {.min_access_size =3D 1, .max_access_size =3D 4},
-+};
-+
-+static void shakti_uart_reset(DeviceState *dev)
-+{
-+    ShaktiUartState *s =3D SHAKTI_UART(dev);
-+
-+    s->uart_baud =3D SHAKTI_UART_BAUD_DEFAULT;
-+    s->uart_tx =3D 0x0;
-+    s->uart_rx =3D 0x0;
-+    s->uart_status =3D 0x0000;
-+    s->uart_delay =3D 0x0000;
-+    s->uart_control =3D SHAKTI_UART_CONTROL_DEFAULT;
-+    s->uart_interrupt =3D 0x0000;
-+    s->uart_iq_cycles =3D 0x00;
-+    s->uart_rx_threshold =3D 0x00;
-+}
-+
-+static int shakti_uart_can_receive(void *opaque)
-+{
-+    ShaktiUartState *s =3D opaque;
-+
-+    return !(s->uart_status & SHAKTI_UART_STATUS_RX_NOT_EMPTY);
-+}
-+
-+static void shakti_uart_receive(void *opaque, const uint8_t *buf, int size=
-)
-+{
-+    ShaktiUartState *s =3D opaque;
-+
-+    s->uart_rx =3D *buf;
-+    s->uart_status |=3D SHAKTI_UART_STATUS_RX_NOT_EMPTY;
-+}
-+
-+static void shakti_uart_realize(DeviceState *dev, Error **errp)
-+{
-+    ShaktiUartState *sus =3D SHAKTI_UART(dev);
-+    qemu_chr_fe_set_handlers(&sus->chr, shakti_uart_can_receive,
-+                             shakti_uart_receive, NULL, NULL, sus, NULL, t=
-rue);
-+}
-+
-+static void shakti_uart_instance_init(Object *obj)
-+{
-+    ShaktiUartState *sus =3D SHAKTI_UART(obj);
-+    memory_region_init_io(&sus->mmio,
-+                          obj,
-+                          &shakti_uart_ops,
-+                          sus,
-+                          TYPE_SHAKTI_UART,
-+                          0x1000);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &sus->mmio);
-+}
-+
-+static Property shakti_uart_properties[] =3D {
-+    DEFINE_PROP_CHR("chardev", ShaktiUartState, chr),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void shakti_uart_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    dc->reset =3D shakti_uart_reset;
-+    dc->realize =3D shakti_uart_realize;
-+    device_class_set_props(dc, shakti_uart_properties);
-+}
-+
-+static const TypeInfo shakti_uart_info =3D {
-+    .name =3D TYPE_SHAKTI_UART,
-+    .parent =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size =3D sizeof(ShaktiUartState),
-+    .class_init =3D shakti_uart_class_init,
-+    .instance_init =3D shakti_uart_instance_init,
-+};
-+
-+static void shakti_uart_register_types(void)
-+{
-+    type_register_static(&shakti_uart_info);
-+}
-+type_init(shakti_uart_register_types)
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 81026f6612..54aeeb899c 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -80,6 +80,10 @@ cmsdk_apb_uart_set_params(int speed) "CMSDK APB UART: pa=
-rams set to %d 8N1"
- nrf51_uart_read(uint64_t addr, uint64_t r, unsigned int size) "addr 0x%" P=
-RIx64 " value 0x%" PRIx64 " size %u"
- nrf51_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0=
-x%" PRIx64 " value 0x%" PRIx64 " size %u"
 =20
-+# shakti_uart.c
-+shakti_uart_read(uint64_t addr, uint16_t r, unsigned int size) "addr 0x%" =
-PRIx64 " value 0x%" PRIx16 " size %u"
-+shakti_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr =
-0x%" PRIx64 " value 0x%" PRIx64 " size %u"
-+
- # exynos4210_uart.c
- exynos_uart_dmabusy(uint32_t channel) "UART%d: DMA busy (Rx buffer empty)"
- exynos_uart_dmaready(uint32_t channel) "UART%d: DMA ready"
-diff --git a/include/hw/char/shakti_uart.h b/include/hw/char/shakti_uart.h
-new file mode 100644
-index 0000000000..526c408233
---- /dev/null
-+++ b/include/hw/char/shakti_uart.h
-@@ -0,0 +1,74 @@
-+/*
-+ * SHAKTI UART
-+ *
-+ * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef HW_SHAKTI_UART_H
-+#define HW_SHAKTI_UART_H
-+
-+#include "hw/sysbus.h"
-+#include "chardev/char-fe.h"
-+
-+#define SHAKTI_UART_BAUD        0x00
-+#define SHAKTI_UART_TX          0x04
-+#define SHAKTI_UART_RX          0x08
-+#define SHAKTI_UART_STATUS      0x0C
-+#define SHAKTI_UART_DELAY       0x10
-+#define SHAKTI_UART_CONTROL     0x14
-+#define SHAKTI_UART_INT_EN      0x18
-+#define SHAKTI_UART_IQ_CYCLES   0x1C
-+#define SHAKTI_UART_RX_THRES    0x20
-+
-+#define SHAKTI_UART_STATUS_TX_EMPTY     (1 << 0)
-+#define SHAKTI_UART_STATUS_TX_FULL      (1 << 1)
-+#define SHAKTI_UART_STATUS_RX_NOT_EMPTY (1 << 2)
-+#define SHAKTI_UART_STATUS_RX_FULL      (1 << 3)
-+/* 9600 8N1 is the default setting */
-+/* Reg value =3D (50000000 Hz)/(16 * 9600)*/
-+#define SHAKTI_UART_BAUD_DEFAULT    0x0145
-+#define SHAKTI_UART_CONTROL_DEFAULT 0x0100
-+
-+#define TYPE_SHAKTI_UART "shakti-uart"
-+#define SHAKTI_UART(obj) \
-+    OBJECT_CHECK(ShaktiUartState, (obj), TYPE_SHAKTI_UART)
-+
-+typedef struct {
-+    /* <private> */
-+    SysBusDevice parent_obj;
-+
-+    /* <public> */
-+    MemoryRegion mmio;
-+
-+    uint32_t uart_baud;
-+    uint32_t uart_tx;
-+    uint32_t uart_rx;
-+    uint32_t uart_status;
-+    uint32_t uart_delay;
-+    uint32_t uart_control;
-+    uint32_t uart_interrupt;
-+    uint32_t uart_iq_cycles;
-+    uint32_t uart_rx_threshold;
-+
-+    CharBackend chr;
-+} ShaktiUartState;
-+
-+#endif /* HW_SHAKTI_UART_H */
+ #define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc"
+ #define RISCV_SHAKTI_SOC(obj) \
+@@ -33,6 +34,7 @@ typedef struct ShaktiCSoCState {
+     /*< public >*/
+     RISCVHartArrayState cpus;
+     DeviceState *plic;
++    ShaktiUartState uart;
+     MemoryRegion rom;
+=20
+ } ShaktiCSoCState;
 --=20
 2.25.1
 
