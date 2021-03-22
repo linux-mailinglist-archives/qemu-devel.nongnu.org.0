@@ -2,72 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C3934447E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:03:59 +0100 (CET)
-Received: from localhost ([::1]:50630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00061343E52
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:48:54 +0100 (CET)
+Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKDu-0002Qc-JL
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:03:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1lOI7B-0007J4-Fr
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <li.zhang@ionos.com>)
- id 1lOHrV-0005dl-QF
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:32:41 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <li.zhang@ionos.com>)
- id 1lOHrS-0007hB-TJ
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:32:41 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id kt15so10859347ejb.12
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 03:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WJcAxKoLOyu7tVpNhfyDAr5e2Be97fRA4Y0qjbOKOP0=;
- b=UmQlQ3xtNw4Z8A91jgUkDZ1rvJKGXXMdI5P6t3qYSqq4KaTZUVNxFeDI4KWD3jGBVb
- XmdFIctZ8ZKG9d3dhnJyNyho+e37Owam5gusM3UOvxvBSlvCAkVIM+r2MVMW0OPJxMYN
- O+w4dcvhQg24VwDyLhOjSt/lnM3dUZQJxGes+1vf8MVq1ewxVPK//VunkcqNVGoO30Ih
- 8vg73EwOVY5ilLXSpMGe+lxs7TxUqoVn8sP36kFACa+ss1PXg9Ps2/05tCMaCPSNy8gf
- qs+ePBLEQKUMMNN0//Av3CqHIXVyN92+66zrD7DjDjXN19/9gRx5C4dvBRAOaFA/R05o
- LMyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WJcAxKoLOyu7tVpNhfyDAr5e2Be97fRA4Y0qjbOKOP0=;
- b=fGdh0r2F9RQR0xCzZMSgqMSeo0hsX0cp9Ft+I3iDLZjyAm3fbBSyAkNbFh1wk38wd9
- j4XyBZCaD5aLcaITT53Ibw90VB16P7HvBPqeVzrI/PT4LK4QUAliAMPpPhwD+A4v8wKX
- C71ACzKNhTz4UQMxy/9e7a7xKIC3AaaQHFDMjixCGEtCuEb+LMDMUtdEOnK2CwlFuqg5
- j544BIcZTplToQVrF+icIkA6iniv9/3MzOwYoRh83gqwChF9Urxw3vDr/WmKB9DTe150
- VIgHbMwyRdai69xUA2fXaSRFdb2yyLmjJc0wxjdzEbeyLjetp7RgCJWT5J0EbxXj3Fpt
- njsQ==
-X-Gm-Message-State: AOAM531xU2jX/yYCDVKidPMhG0KJwD+lLA/s271Hf/cKnitsW/MRnLbv
- hCrjyOpfx46whEz/GB1T33vryQ06ipxuGWC46ozWWA==
-X-Google-Smtp-Source: ABdhPJyy9wcASOFNBzNfIqnXG1Xcxb+23i2/dZP+LUgptpts31BFp7wPDqBPs1YY9fpryyJa6uuVURtCc0ovlui3prQ=
-X-Received: by 2002:a17:906:7d82:: with SMTP id
- v2mr18624834ejo.524.1616409155268; 
- Mon, 22 Mar 2021 03:32:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lOI5R-0006qy-QW
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:47:05 -0400
+Received: from mail-vi1eur05on2091.outbound.protection.outlook.com
+ ([40.107.21.91]:2976 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lOI5O-0007yy-72
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:47:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cEBhWJzCjy3RSZzqHe8sg2za1n4Ki3l52PfxB43alCk32JkJuAAVbanPGsfkvqt3XBGE8N7q8aoi3/VmlxVmXnP4rAfoC/v2IZscONrTuF83OtyREs7Gm/OJTc1xAoOz+XLvajzS+RGehxqxAry+LNAzBRxBeCaNLPlFV7tVKugaqJBHqHEjEjcrah1DIHagij9V9+QmH38BsVFSXp92SIbonwETeQHd9be+OTC+Zm8f7jo6GakyOKZdkCEtjeacw5qipIaYO2CDQGlXG4ukfcF0cHMfqP5rQMyKPhgUF61NTKXw5ifsDrvuJjxqqUNToLh+X+Gje7faPDeY7PefpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yd2wt1s1awY2jKsic6tQ39ApOchT7qCH60WvtOGQQ08=;
+ b=dPRr6J5emt+77eHawA213IVZr4uoOmjUgz67ck2itew0mK7T1c038x3jVD05ML8kC8OSe+p/jhtG05Lk85c/q6zI3e9fF7rwREgYVzmK+v3jHK4M9PipduzsNfoBRXtyeb9gFBAonyx3VjwuNf6EpUmumRNaK6u9uSZDDBBurxfCnUZRawyrgwvY795XUlL1DgJJGHxXOOKgrMS2yMZ2IVdhUoj0UI8QEcSreLhpXsrhLM73zbcC1/PcLOR+RhTcvck291m/G73Vlp9mj/zboOX67195qhi6vhjSt0cCaj3xqN5ce2fyRZFu4KS7pdZ7luSOQB6iqPEOLM2TLgSTiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yd2wt1s1awY2jKsic6tQ39ApOchT7qCH60WvtOGQQ08=;
+ b=v1PwbRgxuUaHZ4yaz3sFvvIBrOH8XJeQFQW+JqozXmIGp7rkdWVI4kZfBBmsFDHzPH2kbIXwjdzCkJVIU2rG48D1YkfDA/2D5FSGQZnKdtiLLmNIlLWXt42EPyFcuiTf6L2oRW05v+e7dbI9P6xKfCi8v3TQSEf3rbwdqVAGSBA=
+Authentication-Results: kiv.zcu.cz; dkim=none (message not signed)
+ header.d=none;kiv.zcu.cz; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VE1PR08MB5838.eurprd08.prod.outlook.com (2603:10a6:800:1a7::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
+ 2021 10:46:57 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::f947:3484:b0d7:ab52]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::f947:3484:b0d7:ab52%9]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
+ 10:46:57 +0000
+Subject: Re: [PATCH 1/2] block/raw: added support of persistent dirty bitmaps
+To: =?UTF-8?Q?Patrik_Janou=c5=a1ek?= <pj@patrikjanousek.cz>,
+ qemu-devel@nongnu.org
+Cc: lmatejka@kiv.zcu.cz
+References: <20210320093235.461485-1-pj@patrikjanousek.cz>
+ <20210320093235.461485-2-pj@patrikjanousek.cz>
+ <ee8fc7cd-1da8-45f3-6cfc-05ea5f1e9430@virtuozzo.com>
+ <4848c5a4-b301-a8d7-b21b-b59ebbeb12c7@patrikjanousek.cz>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <c65eddbd-d29f-207a-2295-7176a9e65fae@virtuozzo.com>
+Date: Mon, 22 Mar 2021 13:46:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <4848c5a4-b301-a8d7-b21b-b59ebbeb12c7@patrikjanousek.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.202]
+X-ClientProxiedBy: AM0PR03CA0013.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::26) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
 MIME-Version: 1.0
-References: <cover.1616368879.git.lukasstraub2@web.de>
- <a378d9426980c97a5cbbf2e72815f366c158ef71.1616368879.git.lukasstraub2@web.de>
-In-Reply-To: <a378d9426980c97a5cbbf2e72815f366c158ef71.1616368879.git.lukasstraub2@web.de>
-From: Li Zhang <li.zhang@ionos.com>
-Date: Mon, 22 Mar 2021 11:32:24 +0100
-Message-ID: <CAEM4iGEgkrVXvywDZ47C0sTP4wT_uk+5vfVA-XqmKNT0bjZ0rw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] chardev/char.c: Always pass id to chardev_new
-To: Lukas Straub <lukasstraub2@web.de>
-Content-Type: multipart/alternative; boundary="00000000000083027505be1d9584"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::62a;
- envelope-from=li.zhang@ionos.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.202) by
+ AM0PR03CA0013.eurprd03.prod.outlook.com (2603:10a6:208:14::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 10:46:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 72716e5c-9bf2-4f2b-13d5-08d8ed1fd079
+X-MS-TrafficTypeDiagnostic: VE1PR08MB5838:
+X-Microsoft-Antispam-PRVS: <VE1PR08MB583843BB18B583F8C44EC48EC1659@VE1PR08MB5838.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SGnqs964vzEn71qVGlDX/gP380rRalB+SA8fnMSfZkZWKcHdvdY28dx0euzoCiVpLgSFczHLx+F4YwsLVpuhHBGi2yCQxS08rs7wByXKQcJQaGLehEfwGPGMqzNmx+wQIZoN+V4jSW18TgPNjwgNlgUTpTakY8tA7fOc51pROgUm/3W2EQVyS9zILo8Leg7zoLRvDLRK9nE4FbniMTxVXcc4Px9fS5d5bhhKVKMPOQnrssnupvK0ldDYb9pWXNDAgrZXuTvJhqN58q9gSgIkPna0VuWFvJnYoy9oaiWLYZtIAJegWH9xvYq2qc7t96cHs10aTPM3gqikCbN7zQC++VAnVwxaJ6li0K3Y47GCr4BNWlab9Wsfj14QPtkC9RDIzErdus4pu2TVO5yU5I5jRUh4EbToklUO0+O6hmozAmQUCMHibSa35gzctNLBS9fNEW3NwOubTzPE3Wx4c6nu36PK9W0P+1F3vVwhHCnjUGtJyW5Ku2AZASLq59KgIaGvkz9F24c/TWflgV1EDXc9iiC6rpjVVH/tJ9DXGVYXvEpDX8ohsfOWIDQ0OCwYrhyEHVGthaebLe5CwoU/n/7Vr4SSXhrBixayeBRV2Bpj9XLBwtyJhVzcHo2Xz8dndTbFM3Fk9zg0n/2tDQMUVe6XUC9VLkRQL9g7ZzRbaN55XbB3Dc1U3B+r8k1Mh/lYZeI8cnBst/idVYoN3OJYw71DfpoCA1nU8GbU+NfGz1VQ4nhhqrlgKePFkJPL+d43iaXV
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(39840400004)(136003)(376002)(396003)(66476007)(66556008)(83380400001)(2906002)(38100700001)(478600001)(8676002)(66946007)(4326008)(66574015)(6486002)(8936002)(31686004)(26005)(186003)(2616005)(16526019)(31696002)(956004)(53546011)(52116002)(316002)(16576012)(86362001)(36756003)(5660300002)(14143004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?YktoWmZVT1k2VVFhUi9iRGttVGJJbUxYc2xnb050MTIzVHFzQ2tXb1E0bjh1?=
+ =?utf-8?B?WGlRV0VhUEhTQzNQbzdvNFZoN2Fuc2Q5Z3JONVhsQUtYVHM5TXlJRGZoeUFF?=
+ =?utf-8?B?Y2FYYXhIcG5qZUoxYkJ4Z29MR2pIQ3BtTHhqMEQ5WXRtVlJpY0lkY0JWNlpS?=
+ =?utf-8?B?NTBmNHhyNUsvVHc2ekZDdmMzU2UxQXZDZmF6WmVjSDFtSDQyR2RNNlBranlH?=
+ =?utf-8?B?Q0prc3dVN1ZySHNKcnNBTnAwbkFwU0lvWUs1Y1ppZmFXdzYzbUx4MHFEM0pj?=
+ =?utf-8?B?ejZ0bkJlajdad3pmNm5iNnQ4MkJQcGg3eU0yek50RXptcFhBd0pvenY0UzNh?=
+ =?utf-8?B?NEgvZUJHaUxGYU56S3FQdnVzV0NKanVSaEwzVStOSlp3Y2FoVlBZdjc3ZVBU?=
+ =?utf-8?B?T1dpWUVRa2hEcjlPeWxNMFAvQnJWL211VHZsWUNtbDBLNitGZ0E2RGlOUzls?=
+ =?utf-8?B?bE1IUUtJMWd4dWdueEQzN0gyWXpnV1JlUzIyaEZvOWtMM3ZRa0IyR2VqTktl?=
+ =?utf-8?B?Z1VaRi9MYTFlS0ljN0JVSzE4aTdwUXRhM21qOEJtRlkwYzJITzdBVlk4QXNr?=
+ =?utf-8?B?M08yK3dTVFNJMnB6MDBaZTJnYzZuQkZKbURFWmxtTzUyWTZSM0hUTkllZW9m?=
+ =?utf-8?B?aThTOGtYdWNtMGNKNHVxRlZ1ZGNZcFdwSkk4OVQ4QjJFb2xzRVQ0dHpSaUp5?=
+ =?utf-8?B?dEVEOXRKb3g4NUx1QkxBYlc5UUNvZkRzc3RGYUluaTJkdkxHblNFcmJyS1Aw?=
+ =?utf-8?B?R1E4amtCek1MNnNUOWVRRDdDNDIybmxoOTNxVU54ZzMrTm5RMyttVWFEUXg2?=
+ =?utf-8?B?aEtzbjkwSGJXblhWdmNSVUtXNldwZHZybytYUGhUU01sb2hPMEhBbHZpVWNl?=
+ =?utf-8?B?ZGRNekFFekNabzVMV29NaDJkYmFZRnBCckhORkttS3UxdWtIV3BXeS82UXJU?=
+ =?utf-8?B?ZngzRkl5T3hrVi8wMnZuV2w0SEZCcUJUM215WWhMVDlFZXMwVmtiL3d0MDZm?=
+ =?utf-8?B?TVN2c242ZVdaWE1pbVJaQUE2cEJjQysxU1NSYlY2K1d5ZVhMM2lNUUxwY1Nl?=
+ =?utf-8?B?R3MyVlBKblFhVE11V3FnTXZhU0M0bWkrQ0ExNTdmQXJWcTBtYVYwbVJTRDZw?=
+ =?utf-8?B?ZGppOCt0RVdOUkdvVzRTaHR3c2tVdUNyZEdjMUE2YXJVMzNXcVlpSTkrZmg3?=
+ =?utf-8?B?OEJOb21ZajFRdGZOQm8yNFJuc0pOWjVQbCtFK1JDN0JiVlZzalZ2ZHZ6WVBN?=
+ =?utf-8?B?bDFvNkRMWHMwcWFUOHZwZmthWmgzMjkxQ2RQa29iaHpHRHR6Q1NSMVR0ZTdY?=
+ =?utf-8?B?TVJ3NDcyanlzV0NLUHM3R2FuaGEzdTVjaVdLUjNVWmRiaW1JYk9EaHdyZ000?=
+ =?utf-8?B?bjNnMkJYd0dUazF2YUNYWWF6ckQ5YkorVjg1TC9XODhuWmVzR3hSejN1M3ho?=
+ =?utf-8?B?QXVKTXdTYWZTSHUzZkE4MEIxVGJsUEIxM2h0a2h2S25FQUJLcFhiZHlxNUUx?=
+ =?utf-8?B?L2pFZFpZYkcxYzR3RG5jcmRlaEpVTFBaaXhzMFUyVzh5NHo1VG5LTWNaa1J6?=
+ =?utf-8?B?bVd6LzEwTWhvOHRiaVlnL3pCZTRjZS9qK2VlN2xvbmJaSDdjRXBQUTc4QXVp?=
+ =?utf-8?B?UXdiaTRITk4xdDNhMXBtMDVldWxTMCsxNWlEa0Y1NkpYVGVmYW5hMTN4cjQz?=
+ =?utf-8?B?clNJVm0wZFFBY2d1U0NKcGVPZlNwOTltWCtvSUdOTTJzaS9FRlRSd1RmUGpp?=
+ =?utf-8?Q?+2i/2/RXEGEE9k1q24nkHoIols4mHzFHi+6ZEfK?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72716e5c-9bf2-4f2b-13d5-08d8ed1fd079
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 10:46:57.1962 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D8OWeMvjWysAOwMQluEcQt9K87SIgX/4lGBp/KvsB8Y5c86fX6X5RbW/EHxVir6m4DAUwfifqWERzD/1LE+sFMjD/kaYHUfuLaHwONhvSLU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5838
+Received-SPF: pass client-ip=40.107.21.91;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 22 Mar 2021 09:01:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,134 +148,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Li Zhang <zhlcindy@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marc-Andre Lureau <marcandre.lureau@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000083027505be1d9584
-Content-Type: text/plain; charset="UTF-8"
+22.03.2021 13:18, Patrik Janoušek wrote:
+> On 3/22/21 9:41 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> 20.03.2021 12:32, Patrik Janoušek wrote:
+>>> Current implementation of dirty bitmaps for raw format is very
+>>> limited, because those bitmaps cannot be persistent. Basically it
+>>> makes sense, because the raw format doesn't have space where could
+>>> be dirty bitmap stored when QEMU is offline. This patch solves it
+>>> by storing content of every dirty bitmap in separate file on the
+>>> host filesystem.
+>>>
+>>> However, this only solves one part of the problem. We also have to
+>>> store information about the existence of the dirty bitmap. This is
+>>> solved by adding custom options, that stores all required metadata
+>>> about dirty bitmap (filename where is the bitmap stored on the
+>>> host filesystem, granularity, persistence, etc.).
+>>>
+>>> Signed-off-by: Patrik Janoušek<pj@patrikjanousek.cz>
+>>
+>>
+>> Hmm. Did you considered other ways? Honestly, I don't see a reason for
+>> yet another storing format for bitmaps.
+>>
+>> The task could be simply solved with existing features:
+>>
+>> 1. We have extenal-data-file feature in qcow2 (read
+>> docs/interop/qcow2.txt). With this thing enabled, qcow2 file contains
+>> only metadata (persistent bitmaps for example) and data is stored in
+>> separate sequential raw file. I think you should start from it.
+> 
+> I didn't know about that feature. I'll look at it.
+> 
+> In case I use NBD to access the bitmap context and qcow2 as a solution
+> for persistent layer. Would the patch be acceptable? This is significant
+> change to my solution and I don't have enought time for it at the moment
+> (mainly due to other parts of my bachelor's thesis). I just want to know
+> if this kind of feature is interesting to you and its implementation is
+> worth my time.
 
-Looks good to me. I have tested this series, it works well.
-Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
+Honestly, at this point I think it doesn't. If existing features satisfy your use-case, no reason to increase complexity of file-posix driver and QAPI.
 
-Thanks
-Li
+And if existing features are not enough, we should start from understanding why they are not enough, and probably true way would be improving the existing features instead of implementing from scratch.
 
-On Mon, Mar 22, 2021 at 12:35 AM Lukas Straub <lukasstraub2@web.de> wrote:
+> 
+>>
+>> 2. If for some reason [1] doesn't work for you, you can anyway use an
+>> empty qcow2 file to store bitmaps instead of inventing and
+>> implementing new format of bitmaps storing. (Same as your approach,
+>> you'll have a simple raw node, and additional options will say "load
+>> bitmaps from this qcow2 file". But for such options we'll need good
+>> reasons why [1] isn't enough.
+>>
+> 
 
-> Always pass the id to chardev_new, since it is needed to register
-> the yank instance for the chardev. Also, after checking that
-> nothing calls chardev_new with id=NULL, assert() that id!=NULL.
->
-> This fixes a crash when using chardev-change to change a chardev
-> to chardev-socket, which attempts to register a yank instance.
-> This in turn tries to dereference the NULL-pointer.
->
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->  chardev/char.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/chardev/char.c b/chardev/char.c
-> index 1584865027..ad416c0714 100644
-> --- a/chardev/char.c
-> +++ b/chardev/char.c
-> @@ -964,6 +964,7 @@ static Chardev *chardev_new(const char *id, const char
-> *typename,
->      bool be_opened = true;
->
->      assert(g_str_has_prefix(typename, "chardev-"));
-> +    assert(id);
->
->      obj = object_new(typename);
->      chr = CHARDEV(obj);
-> @@ -1092,12 +1093,11 @@ ChardevReturn *qmp_chardev_change(const char *id,
-> ChardevBackend *backend,
->          return NULL;
->      }
->
-> -    chr_new = chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
-> +    chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
->                            backend, chr->gcontext, errp);
->      if (!chr_new) {
->          return NULL;
->      }
-> -    chr_new->label = g_strdup(id);
->
->      if (chr->be_open && !chr_new->be_open) {
->          qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
-> --
-> 2.30.2
->
->
 
---00000000000083027505be1d9584
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div>Looks good to me. I have tested this series, it w=
-orks well.=C2=A0</div><div>Tested-by: Li Zhang &lt;<a href=3D"mailto:li.zha=
-ng@cloud.ionos.com">li.zhang@cloud.ionos.com</a>&gt;=C2=A0</div><div><br></=
-div><div>Thanks</div><div>Li</div></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 22, 2021 at 12:35 AM Lukas St=
-raub &lt;<a href=3D"mailto:lukasstraub2@web.de">lukasstraub2@web.de</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Always p=
-ass the id to chardev_new, since it is needed to register<br>
-the yank instance for the chardev. Also, after checking that<br>
-nothing calls chardev_new with id=3DNULL, assert() that id!=3DNULL.<br>
-<br>
-This fixes a crash when using chardev-change to change a chardev<br>
-to chardev-socket, which attempts to register a yank instance.<br>
-This in turn tries to dereference the NULL-pointer.<br>
-<br>
-Signed-off-by: Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de" targ=
-et=3D"_blank">lukasstraub2@web.de</a>&gt;<br>
----<br>
-=C2=A0chardev/char.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/chardev/char.c b/chardev/char.c<br>
-index 1584865027..ad416c0714 100644<br>
---- a/chardev/char.c<br>
-+++ b/chardev/char.c<br>
-@@ -964,6 +964,7 @@ static Chardev *chardev_new(const char *id, const char =
-*typename,<br>
-=C2=A0 =C2=A0 =C2=A0bool be_opened =3D true;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0assert(g_str_has_prefix(typename, &quot;chardev-&quot;)=
-);<br>
-+=C2=A0 =C2=A0 assert(id);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0obj =3D object_new(typename);<br>
-=C2=A0 =C2=A0 =C2=A0chr =3D CHARDEV(obj);<br>
-@@ -1092,12 +1093,11 @@ ChardevReturn *qmp_chardev_change(const char *id, C=
-hardevBackend *backend,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 chr_new =3D chardev_new(NULL, object_class_get_name(OBJECT_C=
-LASS(cc)),<br>
-+=C2=A0 =C2=A0 chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLA=
-SS(cc)),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0backend, chr-&gt;gcontext, errp);<br>
-=C2=A0 =C2=A0 =C2=A0if (!chr_new) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 chr_new-&gt;label =3D g_strdup(id);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (chr-&gt;be_open &amp;&amp; !chr_new-&gt;be_open) {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_be_event(chr, CHR_EVENT_CLOSED);=
-<br>
---<br>
-2.30.2<br>
-<br>
-</blockquote></div>
-
---00000000000083027505be1d9584--
+-- 
+Best regards,
+Vladimir
 
