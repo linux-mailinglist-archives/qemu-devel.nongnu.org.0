@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E008D344802
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:51:00 +0100 (CET)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523F034482A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:53:01 +0100 (CET)
+Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLtU-0001WX-0J
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35344)
+	id 1lOLvQ-00053y-B2
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9C-0005sJ-TO
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44850)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9G-00060s-IP
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:14 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL96-0005Oz-DV
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:10 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL96-0005Oy-HN
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:14 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 058B1AE92;
+ by mx2.suse.de (Postfix) with ESMTP id 7125FAF83;
  Mon, 22 Mar 2021 14:02:31 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v10 47/49] target/arm: cpu-pauth: new module for ARMv8.3 Pointer
- Authentication
-Date: Mon, 22 Mar 2021 15:02:04 +0100
-Message-Id: <20210322140206.9513-48-cfontana@suse.de>
+Subject: [RFC v10 48/49] target/arm: refactor arm_cpu_finalize_features into
+ cpu64
+Date: Mon, 22 Mar 2021 15:02:05 +0100
+Message-Id: <20210322140206.9513-49-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210322140206.9513-1-cfontana@suse.de>
 References: <20210322140206.9513-1-cfontana@suse.de>
@@ -61,246 +61,264 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pointer Authentication is an AARCH64-only ARMv8.3 optional
-extension, whose cpu properties can be separated out in its own module.
+all the features in arm_cpu_finalize_features are actually
+TARGET_AARCH64-only, since KVM is now only supported on 64bit.
+
+Therefore move the function to cpu64, and rename it to
+aarch64_cpu_finalize_features.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu.h           | 13 +-------
- target/arm/tcg/cpu-pauth.h | 38 ++++++++++++++++++++++
- target/arm/cpu.c           |  3 +-
- target/arm/cpu64.c         | 34 +-------------------
- target/arm/tcg/cpu-pauth.c | 66 ++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/meson.build |  1 +
- 6 files changed, 108 insertions(+), 47 deletions(-)
- create mode 100644 target/arm/tcg/cpu-pauth.h
- create mode 100644 target/arm/tcg/cpu-pauth.c
+ target/arm/cpu.h         |  3 +-
+ target/arm/kvm/kvm_arm.h |  5 ++--
+ target/arm/cpu.c         | 65 ++++++++++------------------------------
+ target/arm/cpu64.c       | 25 ++++++++++++++++
+ target/arm/kvm/kvm64.c   |  7 +++--
+ target/arm/monitor.c     |  8 +++--
+ 6 files changed, 54 insertions(+), 59 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 662ac5ee62..e9cfb99ad9 100644
+index e9cfb99ad9..99c03fd6b4 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -203,6 +203,7 @@ typedef struct {
+@@ -1036,6 +1036,7 @@ int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
  #ifdef TARGET_AARCH64
- # define ARM_MAX_VQ    16
- # include "cpu-sve.h"
-+# include "tcg/cpu-pauth.h"
- #else
- # define ARM_MAX_VQ    1
- #endif /* TARGET_AARCH64 */
-@@ -211,18 +212,6 @@ typedef struct ARMVectorReg {
-     uint64_t d[2 * ARM_MAX_VQ] QEMU_ALIGNED(16);
- } ARMVectorReg;
+ int aarch64_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int aarch64_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
++bool aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp);
  
--/* ARMv8.3 Pointer Authentication Extension (AARCH64-only) */
--
--#ifdef TARGET_AARCH64
--void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
--/* In AArch32 mode, PAC keys do not exist at all.  */
--typedef struct ARMPACKey {
--    uint64_t lo, hi;
--} ARMPACKey;
--#else
--static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
--#endif
--
- typedef struct CPUARMState {
-     /* Regs for current mode.  */
-     uint32_t regs[16];
-diff --git a/target/arm/tcg/cpu-pauth.h b/target/arm/tcg/cpu-pauth.h
-new file mode 100644
-index 0000000000..5b130cdada
---- /dev/null
-+++ b/target/arm/tcg/cpu-pauth.h
-@@ -0,0 +1,38 @@
-+/*
-+ * QEMU AArch64 Pointer Authentication Extensions
-+ *
-+ * Copyright (c) 2013 Linaro Ltd
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License
-+ * as published by the Free Software Foundation; either version 2
-+ * of the License, or (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see
-+ * <http://www.gnu.org/licenses/gpl-2.0.html>
-+ */
-+
-+#ifndef CPU_PAUTH_H
-+#define CPU_PAUTH_H
-+
-+/* ARMv8.3 pauth is an AARCH64 option, only include this for TARGET_AARCH64 */
-+
-+/* called by arm_cpu_finalize_features in realizefn */
-+bool cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
-+
-+/* add the CPU Pointer Authentication properties */
-+void cpu_pauth_add_props(Object *obj);
-+
-+/* Pointer Authentication Code Key */
-+
-+typedef struct ARMPACKey {
-+    uint64_t lo, hi;
-+} ARMPACKey;
-+
-+#endif /* CPU_PAUTH_H */
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 195fe49fbf..82c55b4820 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -832,8 +832,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-          * is in use, so the user will not be able to set them.
-          */
-         if (tcg_enabled()) {
--            arm_cpu_pauth_finalize(cpu, &local_err);
--            if (local_err != NULL) {
-+            if (!cpu_pauth_finalize(cpu, &local_err)) {
-                 error_propagate(errp, local_err);
-                 return;
-             }
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 70345fbecb..9bc5ddfc09 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -245,36 +245,6 @@ static void aarch64_a72_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
+ static inline bool is_a64(CPUARMState *env)
+ {
+@@ -2096,8 +2097,6 @@ static inline int arm_feature(CPUARMState *env, int feature)
+     return (env->features & (1ULL << feature)) != 0;
  }
  
--void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
+-void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp);
+-
+ #if !defined(CONFIG_USER_ONLY)
+ /* Return true if exception levels below EL3 are in secure state,
+  * or would be following an exception return to that level.
+diff --git a/target/arm/kvm/kvm_arm.h b/target/arm/kvm/kvm_arm.h
+index 34f8daa377..5c0d58f527 100644
+--- a/target/arm/kvm/kvm_arm.h
++++ b/target/arm/kvm/kvm_arm.h
+@@ -275,7 +275,7 @@ void kvm_arm_add_vcpu_properties(Object *obj);
+  * Validate the kvm-steal-time property selection and set its default
+  * based on KVM support and guest configuration.
+  */
+-void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
++bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
+ 
+ /**
+  * kvm_arm_steal_time_supported:
+@@ -436,9 +436,10 @@ static inline void kvm_arm_pvtime_init(CPUState *cs, uint64_t ipa)
+     g_assert_not_reached();
+ }
+ 
+-static inline void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
++static inline bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+ {
+     g_assert_not_reached();
++    return false;
+ }
+ 
+ static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 82c55b4820..46afe3f134 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -23,7 +23,6 @@
+ #include "target/arm/idau.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "cpu-sve.h"
+ #include "cpregs.h"
+ 
+ #ifdef CONFIG_TCG
+@@ -815,40 +814,6 @@ static void arm_cpu_finalizefn(Object *obj)
+ #endif
+ }
+ 
+-void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
 -{
--    int arch_val = 0, impdef_val = 0;
--    uint64_t t;
+-    Error *local_err = NULL;
 -
--    /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
--    if (cpu->prop_pauth) {
--        if (cpu->prop_pauth_impdef) {
--            impdef_val = 1;
--        } else {
--            arch_val = 1;
+-#ifdef TARGET_AARCH64
+-    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        if (!cpu_sve_finalize_features(cpu, &local_err)) {
+-            error_propagate(errp, local_err);
+-            return;
 -        }
--    } else if (cpu->prop_pauth_impdef) {
--        error_setg(errp, "cannot enable pauth-impdef without pauth");
--        error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
--    }
 -
--    t = cpu->isar.id_aa64isar1;
--    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
--    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
--    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
--    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
--    cpu->isar.id_aa64isar1 = t;
+-        /*
+-         * KVM does not support modifications to this feature.
+-         * We have not registered the cpu properties when KVM
+-         * is in use, so the user will not be able to set them.
+-         */
+-        if (tcg_enabled()) {
+-            if (!cpu_pauth_finalize(cpu, &local_err)) {
+-                error_propagate(errp, local_err);
+-                return;
+-            }
+-        }
+-    }
+-#endif /* TARGET_AARCH64 */
+-
+-    if (kvm_enabled()) {
+-        kvm_arm_steal_time_finalize(cpu, &local_err);
+-        if (local_err != NULL) {
+-            error_propagate(errp, local_err);
+-            return;
+-        }
+-    }
 -}
 -
--static Property arm_cpu_pauth_property =
--    DEFINE_PROP_BOOL("pauth", ARMCPU, prop_pauth, true);
--static Property arm_cpu_pauth_impdef_property =
--    DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
--
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
-  * otherwise, a CPU with as many features enabled as our emulation supports.
-  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-@@ -433,9 +403,7 @@ static void aarch64_max_initfn(Object *obj)
-         cpu->dcz_blocksize = 7; /*  512 bytes */
- #endif
- 
--        /* Default to PAUTH on, with the architected algorithm. */
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
-+        cpu_pauth_add_props(obj);
+ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+@@ -871,22 +836,22 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
      }
  
-     cpu_sve_add_props(obj);
-diff --git a/target/arm/tcg/cpu-pauth.c b/target/arm/tcg/cpu-pauth.c
-new file mode 100644
-index 0000000000..4f087923ac
---- /dev/null
-+++ b/target/arm/tcg/cpu-pauth.c
-@@ -0,0 +1,66 @@
-+/*
-+ * QEMU AArch64 Pointer Authentication Extensions
-+ *
-+ * Copyright (c) 2012 SUSE LINUX Products GmbH
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License
-+ * as published by the Free Software Foundation; either version 2
-+ * of the License, or (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see
-+ * <http://www.gnu.org/licenses/gpl-2.0.html>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "cpu.h"
-+#include "sysemu/tcg.h"
-+#include "tcg/cpu-pauth.h"
-+#include "hw/qdev-properties.h"
-+
-+bool cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
-+{
-+    bool result = true;
-+    int arch_val = 0, impdef_val = 0;
-+    uint64_t t;
-+
-+    /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
-+    if (cpu->prop_pauth) {
-+        if (cpu->prop_pauth_impdef) {
-+            impdef_val = 1;
-+        } else {
-+            arch_val = 1;
+-    arm_cpu_finalize_features(cpu, &local_err);
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
+-        cpu->has_vfp != cpu->has_neon) {
+-        /*
+-         * This is an architectural requirement for AArch64; AArch32 is
+-         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
+-         */
+-        error_setg(errp,
+-                   "AArch64 CPUs must have both VFP and Neon or neither");
+-        return;
++#ifdef TARGET_AARCH64
++    if (arm_feature(env, ARM_FEATURE_AARCH64)) {
++        if (!aarch64_cpu_finalize_features(cpu, errp)) {
++            return;
 +        }
-+    } else if (cpu->prop_pauth_impdef) {
-+        error_setg(errp, "cannot enable pauth-impdef without pauth");
-+        error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
-+        result = false;
-+    }
-+
-+    t = cpu->isar.id_aa64isar1;
-+    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
-+    cpu->isar.id_aa64isar1 = t;
-+    return result;
-+}
-+
-+static Property arm_cpu_pauth_property =
-+    DEFINE_PROP_BOOL("pauth", ARMCPU, prop_pauth, true);
-+static Property arm_cpu_pauth_impdef_property =
-+    DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
-+
-+void cpu_pauth_add_props(Object *obj)
-+{
-+    /* Default to PAUTH on, with the architected algorithm. */
-+    qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
-+    qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
-+}
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index d22e5efb84..47d80a06f5 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -40,6 +40,7 @@ arm_ss.add(when: ['TARGET_AARCH64', 'CONFIG_TCG'], if_true: files(
-   'pauth_helper.c',
-   'sve_helper.c',
-   'cpu-sve.c',
-+  'cpu-pauth.c',
- ))
++        if (cpu->has_vfp != cpu->has_neon) {
++            /*
++             * This is an architectural requirement for AArch64; AArch32 is
++             * more flexible and permits VFP-no-Neon and Neon-no-VFP.
++             */
++            error_setg(errp,
++                       "AArch64 CPUs must have both VFP and Neon or neither");
++            return;
++        }
+     }
++#endif /* TARGET_AARCH64 */
  
- subdir('user')
+     if (!cpu->has_vfp) {
+         uint64_t t;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 9bc5ddfc09..d67c0b1be4 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -22,6 +22,8 @@
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
++#include "cpu-sve.h"
++#include "tcg/cpu-pauth.h"
+ #include "cpu-exceptions-aa64.h"
+ #include "qemu/module.h"
+ #include "sysemu/tcg.h"
+@@ -454,6 +456,29 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
+     return g_strdup("aarch64");
+ }
+ 
++bool aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp)
++{
++    if (!cpu_sve_finalize_features(cpu, errp)) {
++        return false;
++    }
++    if (tcg_enabled()) {
++        /*
++         * KVM does not support modifications to this feature.
++         * We have not registered the cpu properties when KVM
++         * is in use, so the user will not be able to set them.
++         */
++        if (!cpu_pauth_finalize(cpu, errp)) {
++            return false;
++        }
++    }
++    if (kvm_enabled()) {
++        if (!kvm_arm_steal_time_finalize(cpu, errp)) {
++            return false;
++        }
++    }
++    return true;
++}
++
+ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+diff --git a/target/arm/kvm/kvm64.c b/target/arm/kvm/kvm64.c
+index b34642e74c..372957331b 100644
+--- a/target/arm/kvm/kvm64.c
++++ b/target/arm/kvm/kvm64.c
+@@ -677,7 +677,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+     return true;
+ }
+ 
+-void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
++bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+ {
+     bool has_steal_time = kvm_arm_steal_time_supported();
+ 
+@@ -691,7 +691,7 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+         if (!has_steal_time) {
+             error_setg(errp, "'kvm-steal-time' cannot be enabled "
+                              "on this host");
+-            return;
++            return false;
+         } else if (!arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+             /*
+              * DEN0057A chapter 2 says "This specification only covers
+@@ -702,9 +702,10 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+              */
+             error_setg(errp, "'kvm-steal-time' cannot be enabled "
+                              "for AArch32 guests");
+-            return;
++            return false;
+         }
+     }
++    return true;
+ }
+ 
+ bool kvm_arm_aarch32_supported(void)
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 0c72bf7c31..8a31c4dd04 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -184,9 +184,11 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+         if (!err) {
+             visit_check_struct(visitor, &err);
+         }
++#ifdef TARGET_AARCH64
+         if (!err) {
+-            arm_cpu_finalize_features(ARM_CPU(obj), &err);
++            aarch64_cpu_finalize_features(ARM_CPU(obj), &err);
+         }
++#endif /* TARGET_AARCH64 */
+         visit_end_struct(visitor, NULL);
+         visit_free(visitor);
+         if (err) {
+@@ -195,7 +197,9 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+             return NULL;
+         }
+     } else {
+-        arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
++#ifdef TARGET_AARCH64
++        aarch64_cpu_finalize_features(ARM_CPU(obj), &error_abort);
++#endif /* TARGET_AARCH64 */
+     }
+ 
+     expansion_info = g_new0(CpuModelExpansionInfo, 1);
 -- 
 2.26.2
 
