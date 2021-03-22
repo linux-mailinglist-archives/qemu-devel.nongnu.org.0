@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180EB3448F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:14:22 +0100 (CET)
-Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A3F3448E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:11:57 +0100 (CET)
+Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMG5-0000do-4S
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
+	id 1lOMDk-0006m2-7c
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lOLw7-0007Rs-Kv
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lOLw0-0001MM-9T
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:53:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616424811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rcxk5vhjH1wxrKDE2+8fIGeGj89yiOK3ZY2tSd0Frpg=;
- b=RDAcFJg3lGkZDxJH88BU122JBoIGBi1QZrEfpo0/7fYsuAz+b0snhyGcNM7Sl6d1D6TmOq
- p2TUWcsQ0a9aQSn9rJpsXe8I+mygYYuJOFfe/IUJFxuJN8itEdEfN6aXGSRw0FU+pV7t05
- yh+ruibCIyVRGTlSraiVK2gvgBPmyXs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-aXs42cm0P2SKz-7S9UmQTw-1; Mon, 22 Mar 2021 10:53:27 -0400
-X-MC-Unique: aXs42cm0P2SKz-7S9UmQTw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CC3D612A1;
- Mon, 22 Mar 2021 14:53:26 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-125.ams2.redhat.com [10.36.115.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B59339A5F;
- Mon, 22 Mar 2021 14:53:24 +0000 (UTC)
-Date: Mon, 22 Mar 2021 15:53:22 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Patrik =?utf-8?B?SmFub3XFoWVr?= <pj@patrikjanousek.cz>
-Subject: Re: [PATCH 0/2] block/raw: implemented persistent dirty bitmap and
- ability to dump bitmap content via qapi
-Message-ID: <YFivYmPMRyqbM4zf@merkur.fritz.box>
-References: <20210320093235.461485-1-pj@patrikjanousek.cz>
- <09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com>
- <a87aadc1-d795-27cd-35c7-a5c4175df687@patrikjanousek.cz>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOM3M-0002Ki-Fs
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:01:13 -0400
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:46834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOM3E-00068f-8j
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:01:12 -0400
+Received: by mail-qk1-x72a.google.com with SMTP id z10so10812985qkz.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=k6yYVgdHMbls86lruY2GltksH7U/k3QNgSOe/qSwH2M=;
+ b=Az9+kwCoMQwOCnT5r/n4Xob+hC7rrAtLu8vpvA5TneTo55u+lY8gFTCAqzNYtwOJYC
+ 6tdaHshI1Wy9fV4KDkRQKQ2VPS5SjMVmZwzI4YNKcH78IcyjFhrXTPT803/NuqcPN99y
+ +/a0CDqldZR3tjKYzsqoxjYNPk0h5fdS6Gfi1e7YQAMp4nU8Rd4HZVltYVzguDfQRO+D
+ uwfCnM4B/E0+EVUPRWnsCnqAKbvNxIyiot8JjB4aq1UhNm4DZTz1lXBMA0YnI8rOS7JB
+ Rzfc0hD+QTJMEAOdPlfg90asd9piLS88WxvdL0yRZntWUFXvStfx6WwtSlWj5L6hC8z3
+ uhZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=k6yYVgdHMbls86lruY2GltksH7U/k3QNgSOe/qSwH2M=;
+ b=Vt9hbWdX9rPunufkYXKr74jJSdcBArveLZmh9AkeXWJb9DPrtODOR3NeJmjGxMS8Vu
+ O52c26tZTBaH+ZIeLUOpP5wC1xDktyNnZZlg/5UFMrT9jc4y3cWiVbjoSXizp9r2NBHW
+ noVP0jC9bzUUjoN7kdLJMHeH3yhWIFeaYavOzwa0kFH2ea+JF4+2rgEsPwFd5H9jFsVL
+ sF1yrdcrSzmGRT5FISrnYN++xCCVcdTzTdA3jlmON2cikI0BD4gcHP/IHYslYLAHU5LN
+ fwSKQWR4JIdnsb1l89Vmkl9egpW4+dSfINCGVZc/CoLzENdzWG9H/AO08GrLcha1Bxtj
+ DmfA==
+X-Gm-Message-State: AOAM531KNG6co4+V8FIWUjMgIRU/R+AoNnpa3pP/S5p+mRtn5J1pOLfT
+ fvm20L9FADi2tShjndZl5ue58Q==
+X-Google-Smtp-Source: ABdhPJyHATn6Vn87Sm3YWwo4aWwzK25h8HGlGUE/h9TBjeXc5HGVRBHHnOhQLqc+IaYvDB6mOf9YXg==
+X-Received: by 2002:a37:755:: with SMTP id 82mr481967qkh.52.1616425260466;
+ Mon, 22 Mar 2021 08:01:00 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id k126sm11230432qkb.4.2021.03.22.08.00.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 08:01:00 -0700 (PDT)
+Subject: Re: [PATCH v3 for-6.0 2/2] tcg: Workaround macOS 11.2 mprotect bug
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210320165720.1813545-1-richard.henderson@linaro.org>
+ <20210320165720.1813545-3-richard.henderson@linaro.org>
+ <6155888a-e1af-0a47-a669-1bc12c4478fa@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7b4307e4-d7ea-f0fa-9d40-8324d37aca5c@linaro.org>
+Date: Mon, 22 Mar 2021 09:00:57 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <a87aadc1-d795-27cd-35c7-a5c4175df687@patrikjanousek.cz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <6155888a-e1af-0a47-a669-1bc12c4478fa@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, lmatejka@kiv.zcu.cz
+Cc: r.bolshakov@yadro.com, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Patrik,
+On 3/22/21 4:03 AM, Philippe Mathieu-Daudé wrote:
+>> -        rc = qemu_mprotect_none(end, page_size);
+> 
+> What about:
+> 
+> #ifdef CONFIG_DARWIN
+> 
+>             /* ... */
+>             (void)rc;
+> #else
+> 
+>> -        g_assert(!rc);
+> 
+> #endif
 
-Am 22.03.2021 um 09:57 hat Patrik Janoušek geschrieben:
-> On 3/22/21 9:29 AM, Vladimir Sementsov-Ogievskiy wrote:
-> > We do have external incremental backups, based on Qemu bitmap API. But
-> > it depends of course on qcow2 persistent bitmaps feature.
->
-> Yes, I know. And that's the problem. The point of my bachelor thesis is
-> to implement a backup solution for the raw format.
+What does that buy us, really?  It seems like it just clutters the code with 
+ifdefs.
 
-the problem with this is that raw isn't really a format, it's more the
-absence of a format. You just have the content of the virtual disk in a
-file and that's it. This means not having any metadata (apart from the
-metadata stored in the filesystem, of course).
 
-As soon as you add metadata in some way (in your case, by referencing
-additional metadata files in runtime options), it's not raw any more. If
-you write to the raw image file without updating the metadata, the
-metadata becomes inconsistent with the content. In other words, both
-files form a single disk image together and can only be used together or
-you're breaking them.
-
-This in turn means that you have just invented a new image format. It's
-a bit unconventional in that it's spread across multiple files, and that
-some of the metadata that brings everything together is even in command
-line options instead of a file, but you have to combine these components
-in the same way every time you start the VM, so it really is a new image
-format.
-
-We have gone through such discussions a while ago because obviously "raw
-with dirty bitmaps" was a request that came soon after we discussed
-persistent dirty maps. But as we came to the conclusion that any
-addition to raw would create another new image format specific to QEMU,
-we decided that we can as well use qcow2 for this, which is already the
-fully featured QEMU image format.
-
-I hope this background helps a bit to explain the reactions you have
-received so far.
-
-Kevin
-
+r~
 
