@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91B33437E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:26:50 +0100 (CET)
-Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F3B3437DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:19:57 +0100 (CET)
+Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOC9R-00032J-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47120)
+	id 1lOC2l-0005OM-3t
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBv9-0006Pa-80; Mon, 22 Mar 2021 00:12:03 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:57421)
+ id 1lOBv9-0006PV-4y; Mon, 22 Mar 2021 00:12:03 -0400
+Received: from ozlabs.org ([203.11.71.1]:59139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBv3-0004jf-5O; Mon, 22 Mar 2021 00:11:59 -0400
+ id 1lOBv3-0004kO-57; Mon, 22 Mar 2021 00:11:59 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3gzz1KB1z9sWg; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
+ id 4F3gzz1hPnz9sWr; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616386303;
- bh=8OEj8Thj1Np1EpJPeBsC1jbvXvVLGxacadxVYTLY4JM=;
+ bh=BZA6aPxj+hQD/Q4Q1CtKRWc79z4Imn5hwZaC0sr3raA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nudaVMua7Mq9kFBLSWmXwmaeyLFRHd2AXUzZgCshJE+xW8Ic+Kq6r56NBFTztCrdn
- YB4D+K8n/TsZojU21urzeMTdYLjFw4bNZmxcoxpyw6zSauDbhXD9z0E9V5+Q2rZPiG
- gbXUD/q0iv2kMork1s4tJj6GdyZVX8/A2hVhRkUQ=
-Date: Mon, 22 Mar 2021 14:41:44 +1100
+ b=BAhSFdj//mostf3JR/MDKvTmjf6EDkH1cUUZyigUbvsgeOap9Fs7jzsx7I/dWYi+k
+ kIDu4sfEdSRGNxP88PlNonHTI4suolotpL++hBpEVyBfnoYXQNgsmid3DIoHjmCkb8
+ bL9z/sx8nHI9CLlvOMN6PF+3QBmd4jqnaG5+yspQ=
+Date: Mon, 22 Mar 2021 14:42:44 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 05/17] target/ppc: Retain hflags_nmsr only for migration
-Message-ID: <YFgR+EKGCLmphxw5@yekko.fritz.box>
+Subject: Re: [PATCH v4 06/17] target/ppc: Fix comment for MSR_FE{0,1}
+Message-ID: <YFgSNPFsdZXJl5Af@yekko.fritz.box>
 References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-6-richard.henderson@linaro.org>
+ <20210315184615.1985590-7-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Je882/pIaNPvpsPA"
+ protocol="application/pgp-signature"; boundary="QITrqQq6QLYlGzhK"
 Content-Disposition: inline
-In-Reply-To: <20210315184615.1985590-6-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210315184615.1985590-7-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -63,88 +63,61 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Je882/pIaNPvpsPA
+--QITrqQq6QLYlGzhK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 12:46:03PM -0600, Richard Henderson wrote:
-> We have eliminated all normal uses of hflags_nmsr.  We need
-> not even compute it except when we want to migrate.  Rename
-> the field to emphasize this.
+On Mon, Mar 15, 2021 at 12:46:04PM -0600, Richard Henderson wrote:
+> As per hreg_compute_hflags:
 >=20
-> Remove the fixme comment for migrating access_type.  This value
-> is only ever used with the current executing instruction, and
-> is never live when the cpu is halted for migration.
+>   We 'forget' FE0 & FE1: we'll never generate imprecise exceptions
+>=20
+> remove the hflags marker from the respective comments.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  target/ppc/cpu.h         | 4 ++--
->  target/ppc/helper_regs.c | 2 --
->  target/ppc/machine.c     | 9 ++++++---
->  3 files changed, 8 insertions(+), 7 deletions(-)
+>  target/ppc/cpu.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 061d2eed1b..79c4033a42 100644
+> index 79c4033a42..fd13489dce 100644
 > --- a/target/ppc/cpu.h
 > +++ b/target/ppc/cpu.h
-> @@ -1105,8 +1105,8 @@ struct CPUPPCState {
->  #endif
-> =20
->      /* These resources are used only in QEMU core */
-> -    target_ulong hflags;      /* hflags is MSR & HFLAGS_MASK */
-> -    target_ulong hflags_nmsr; /* specific hflags, not coming from MSR */
-> +    target_ulong hflags;
-> +    target_ulong hflags_compat_nmsr; /* for migration compatibility */
->      int immu_idx;     /* precomputed MMU index to speed up insn accesses=
- */
->      int dmmu_idx;     /* precomputed MMU index to speed up data accesses=
- */
-> =20
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 95b9aca61f..a87e354ca2 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -104,8 +104,6 @@ void hreg_compute_hflags(CPUPPCState *env)
->           */
->          uint32_t le =3D extract32(env->spr[SPR_HID0], 3, 1);
->          env->hflags |=3D le << MSR_LE;
-> -        /* Retain for backward compatibility with migration. */
-> -        env->hflags_nmsr =3D le << MSR_LE;
->      }
->  }
-> =20
-> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-> index f6eeda9642..1f7a353c78 100644
-> --- a/target/ppc/machine.c
-> +++ b/target/ppc/machine.c
-> @@ -310,6 +310,10 @@ static int cpu_pre_save(void *opaque)
->          }
->      }
-> =20
-> +    /* Retain migration compatibility for pre 6.0 for 601 machines. */
-> +    env->hflags_compat_nmsr =3D (env->flags & POWERPC_FLAG_HID0_LE
-> +                               ? env->hflags & MSR_LE : 0);
-> +
->      return 0;
->  }
-> =20
-> @@ -829,9 +833,8 @@ const VMStateDescription vmstate_ppc_cpu =3D {
->          /* Supervisor mode architected state */
->          VMSTATE_UINTTL(env.msr, PowerPCCPU),
-> =20
-> -        /* Internal state */
-> -        VMSTATE_UINTTL(env.hflags_nmsr, PowerPCCPU),
-> -        /* FIXME: access_type? */
-> +        /* Backward compatible internal state */
-> +        VMSTATE_UINTTL(env.hflags_compat_nmsr, PowerPCCPU),
-> =20
->          /* Sanity checking */
->          VMSTATE_UINTTL_TEST(mig_msr_mask, PowerPCCPU, cpu_pre_2_8_migrat=
-ion),
+> @@ -322,13 +322,13 @@ typedef struct ppc_v3_pate_t {
+>  #define MSR_PR   14 /* Problem state                                  hf=
+lags */
+>  #define MSR_FP   13 /* Floating point available                       hf=
+lags */
+>  #define MSR_ME   12 /* Machine check interrupt enable                   =
+     */
+> -#define MSR_FE0  11 /* Floating point exception mode 0                hf=
+lags */
+> +#define MSR_FE0  11 /* Floating point exception mode 0                  =
+     */
+>  #define MSR_SE   10 /* Single-step trace enable                     x hf=
+lags */
+>  #define MSR_DWE  10 /* Debug wait enable on 405                     x   =
+     */
+>  #define MSR_UBLE 10 /* User BTB lock enable on e500                 x   =
+     */
+>  #define MSR_BE   9  /* Branch trace enable                          x hf=
+lags */
+>  #define MSR_DE   9  /* Debug interrupts enable on embedded PowerPC  x   =
+     */
+> -#define MSR_FE1  8  /* Floating point exception mode 1                hf=
+lags */
+> +#define MSR_FE1  8  /* Floating point exception mode 1                  =
+     */
+>  #define MSR_AL   7  /* AL bit on POWER                                  =
+     */
+>  #define MSR_EP   6  /* Exception prefix on 601                          =
+     */
+>  #define MSR_IR   5  /* Instruction relocate                             =
+     */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -152,25 +125,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Je882/pIaNPvpsPA
+--QITrqQq6QLYlGzhK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYEfgACgkQbDjKyiDZ
-s5LlCw/+KlZpvyUkQJC0IMmBxzUt25ev3lGecVAMPVdgRHXDe2qMfcrkqqHHQ9Ne
-Xx4qO/DjH7mIInAdUvL3rfG0xIzuqii1BSG03YB04VVoYtpcXI8fQ9bG3PG3blmR
-4yBmvq71g/aosRnIJw89jrjqpWiQpjogvRYDrlc/3wmATwEUpPbdl3wRYqRpRZx1
-A0CmcMMS0srLeg/9eOSg1otkMHtWmgyyVKHJMYulTNaUuv1tgTmhlQ+Dyj6AjcTR
-JeJitRMFh0+7UaqMZFe8Uk8wQWYAbYDfWmfhadY3KSvDUy8tbzZHp2uk4i/O7wQ8
-pXov2OWr3NH+8nljXXbLjBllFlYn1z2inhi27SqcYlbvi8rp16697E3B37kejc6o
-PAlYK0EGWGxIRU1beYvWXgVAfhRTingKn9w2wfBZO31yt2pYiyKB9qc2ii7Ditd+
-/1QYandGO2n/Pv6ED9DVLU/Twyt2ONwmAfDmnNtRAbcuMhO1jnxrJpbNYEo0sMdr
-6DfUEo5Kui7HE2a9Ym0wuNo5eXSl0939QWWuMESMQFWMkc9Z334x0azHsamJARoS
-dZidicvvGDeaHAJaTY87ncoI88SmvoN4DJsa5N8I37Zfu+BnewKE4zA8aifCQnvi
-6ctX2JB/DSBs6SQyzkwJO+owu5jWTWgzJ0fZx3+9ORzzpnXytVo=
-=nUWt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYEjQACgkQbDjKyiDZ
+s5KtzA/+LQNIlCQUAFPalZzevmdWY6QrGyd2JgGzWS3tNzx0pn44/jnee8kx5AnX
+p4T/BcJ+orCwGScZD4yuEzXNgSIZGKtyTiKGi+PpKz6Vv7Mw7mZsqbivtvvZckk1
+0sJCejy6RM65m0x7dLWWOhpFwbCNCTH4ZRqZ29jVFITpOlB5Qj1w1ytPsO005fcy
+bz35uoFyTBRIX2TIzZMHhN+mYrtyrcFXoNN+IPiJ1B89+o8lQKkPyry2Miqjmyyb
+8te9en9TAIi5+T8wbAo3TRjtpPfV4t6ijPdow6fbKradlUNH+qxoRgJmUoloO1Wg
+Rb6LDjJMkR8WJP3XDkgEqFwOzWGM1aovk+vnGwGe4DM8aU1lidfFIHGGKYs+g91Z
+xBqSViyZGz3aX7bqikwxRq1mlBf/fZ5+6FwXtBFbB39fObjvSl+hBdPdi2TFAD4E
+wblbdyJJScGNcjPhiCFJ6fvDQOGKKHdgmz0+8t3WpH4qgHGGRYv4WO3OWXnrCIgD
+yXYh5Bbl2zau0LNbUrud5Ks2cscOCyf0N73PU5NHnkT2cIf7ya7NOtrSSZbyGOlO
+8x1GhdX9XtddeHFyginmWz0//OdR5eHzbVUnNQ+Pk5pfplNe+d4DqKm/9oyY6s8w
+YNr/OEFywG+fH/9PwdeFGVWtOITy9MGjVq6+ZGGrxM8i1+RBg7M=
+=pcCp
 -----END PGP SIGNATURE-----
 
---Je882/pIaNPvpsPA--
+--QITrqQq6QLYlGzhK--
 
