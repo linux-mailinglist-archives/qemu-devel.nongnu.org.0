@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734D634478B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:40:39 +0100 (CET)
-Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E008D344802
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:51:00 +0100 (CET)
+Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLjR-00076i-TT
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
+	id 1lOLtU-0001WX-0J
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9A-0005n9-Si
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44848)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9C-0005sJ-TO
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:10 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL96-0005Oa-3a
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:08 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL96-0005Oz-DV
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:10 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8D809AE56;
- Mon, 22 Mar 2021 14:02:30 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 058B1AE92;
+ Mon, 22 Mar 2021 14:02:31 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v10 46/49] target/arm: tcg: restrict ZCR cpregs to TARGET_AARCH64
-Date: Mon, 22 Mar 2021 15:02:03 +0100
-Message-Id: <20210322140206.9513-47-cfontana@suse.de>
+Subject: [RFC v10 47/49] target/arm: cpu-pauth: new module for ARMv8.3 Pointer
+ Authentication
+Date: Mon, 22 Mar 2021 15:02:04 +0100
+Message-Id: <20210322140206.9513-48-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210322140206.9513-1-cfontana@suse.de>
 References: <20210322140206.9513-1-cfontana@suse.de>
@@ -60,161 +61,246 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-restrict zcr_el1, zcr_el2, zcr_no_el2, zcr_el3 reginfo,
-as well as related SVE functions.
+Pointer Authentication is an AARCH64-only ARMv8.3 optional
+extension, whose cpu properties can be separated out in its own module.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu.h                 |  7 -------
- target/arm/tcg/cpu-sve.h         |  7 +++++++
- linux-user/syscall.c             |  4 ++++
- target/arm/cpu-exceptions-aa64.c |  1 +
- target/arm/tcg/cpregs.c          | 10 ++++++++--
- target/arm/tcg/helper-a64.c      |  1 +
- target/arm/tcg/helper.c          |  1 +
- 7 files changed, 22 insertions(+), 9 deletions(-)
+ target/arm/cpu.h           | 13 +-------
+ target/arm/tcg/cpu-pauth.h | 38 ++++++++++++++++++++++
+ target/arm/cpu.c           |  3 +-
+ target/arm/cpu64.c         | 34 +-------------------
+ target/arm/tcg/cpu-pauth.c | 66 ++++++++++++++++++++++++++++++++++++++
+ target/arm/tcg/meson.build |  1 +
+ 6 files changed, 108 insertions(+), 47 deletions(-)
+ create mode 100644 target/arm/tcg/cpu-pauth.h
+ create mode 100644 target/arm/tcg/cpu-pauth.c
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ba41053111..662ac5ee62 100644
+index 662ac5ee62..e9cfb99ad9 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1047,9 +1047,6 @@ int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+@@ -203,6 +203,7 @@ typedef struct {
  #ifdef TARGET_AARCH64
- int aarch64_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int aarch64_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
--void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
--void aarch64_sve_change_el(CPUARMState *env, int old_el,
--                           int new_el, bool el0_a64);
+ # define ARM_MAX_VQ    16
+ # include "cpu-sve.h"
++# include "tcg/cpu-pauth.h"
+ #else
+ # define ARM_MAX_VQ    1
+ #endif /* TARGET_AARCH64 */
+@@ -211,18 +212,6 @@ typedef struct ARMVectorReg {
+     uint64_t d[2 * ARM_MAX_VQ] QEMU_ALIGNED(16);
+ } ARMVectorReg;
  
- static inline bool is_a64(CPUARMState *env)
- {
-@@ -1081,10 +1078,6 @@ static inline uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
+-/* ARMv8.3 Pointer Authentication Extension (AARCH64-only) */
+-
+-#ifdef TARGET_AARCH64
+-void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
+-/* In AArch32 mode, PAC keys do not exist at all.  */
+-typedef struct ARMPACKey {
+-    uint64_t lo, hi;
+-} ARMPACKey;
+-#else
+-static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
+-#endif
+-
+ typedef struct CPUARMState {
+     /* Regs for current mode.  */
+     uint32_t regs[16];
+diff --git a/target/arm/tcg/cpu-pauth.h b/target/arm/tcg/cpu-pauth.h
+new file mode 100644
+index 0000000000..5b130cdada
+--- /dev/null
++++ b/target/arm/tcg/cpu-pauth.h
+@@ -0,0 +1,38 @@
++/*
++ * QEMU AArch64 Pointer Authentication Extensions
++ *
++ * Copyright (c) 2013 Linaro Ltd
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see
++ * <http://www.gnu.org/licenses/gpl-2.0.html>
++ */
++
++#ifndef CPU_PAUTH_H
++#define CPU_PAUTH_H
++
++/* ARMv8.3 pauth is an AARCH64 option, only include this for TARGET_AARCH64 */
++
++/* called by arm_cpu_finalize_features in realizefn */
++bool cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
++
++/* add the CPU Pointer Authentication properties */
++void cpu_pauth_add_props(Object *obj);
++
++/* Pointer Authentication Code Key */
++
++typedef struct ARMPACKey {
++    uint64_t lo, hi;
++} ARMPACKey;
++
++#endif /* CPU_PAUTH_H */
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 195fe49fbf..82c55b4820 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -832,8 +832,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+          * is in use, so the user will not be able to set them.
+          */
+         if (tcg_enabled()) {
+-            arm_cpu_pauth_finalize(cpu, &local_err);
+-            if (local_err != NULL) {
++            if (!cpu_pauth_finalize(cpu, &local_err)) {
+                 error_propagate(errp, local_err);
+                 return;
+             }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 70345fbecb..9bc5ddfc09 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -245,36 +245,6 @@ static void aarch64_a72_initfn(Object *obj)
+     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
  }
  
- #else
--static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
--static inline void aarch64_sve_change_el(CPUARMState *env, int o,
--                                         int n, bool a)
--{ }
- 
- #define is_a64(env) (false)
- 
-diff --git a/target/arm/tcg/cpu-sve.h b/target/arm/tcg/cpu-sve.h
-index 49f6ad021b..fc53b26998 100644
---- a/target/arm/tcg/cpu-sve.h
-+++ b/target/arm/tcg/cpu-sve.h
-@@ -21,4 +21,11 @@ uint32_t tcg_cpu_sve_disable_lens(unsigned long *sve_vq_map,
- bool tcg_cpu_sve_validate_lens(unsigned long *sve_vq_map, uint32_t max_vq,
-                                Error **errp);
- 
-+/* tcg/helper.c */
-+
-+void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
-+
-+void aarch64_sve_change_el(CPUARMState *env, int old_el,
-+                           int new_el, bool el0_a64);
-+
- #endif /* TCG_CPU_SVE_H */
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1e508576c7..9dbfe6fdc0 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -134,6 +134,10 @@
- #include "fd-trans.h"
- #include "tcg/tcg.h"
- 
-+#ifdef TARGET_AARCH64
-+#include "tcg/cpu-sve.h"
-+#endif /* TARGET_AARCH64 */
-+
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
+-void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
+-{
+-    int arch_val = 0, impdef_val = 0;
+-    uint64_t t;
+-
+-    /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
+-    if (cpu->prop_pauth) {
+-        if (cpu->prop_pauth_impdef) {
+-            impdef_val = 1;
+-        } else {
+-            arch_val = 1;
+-        }
+-    } else if (cpu->prop_pauth_impdef) {
+-        error_setg(errp, "cannot enable pauth-impdef without pauth");
+-        error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
+-    }
+-
+-    t = cpu->isar.id_aa64isar1;
+-    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
+-    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
+-    cpu->isar.id_aa64isar1 = t;
+-}
+-
+-static Property arm_cpu_pauth_property =
+-    DEFINE_PROP_BOOL("pauth", ARMCPU, prop_pauth, true);
+-static Property arm_cpu_pauth_impdef_property =
+-    DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
+-
+ /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+  * otherwise, a CPU with as many features enabled as our emulation supports.
+  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+@@ -433,9 +403,7 @@ static void aarch64_max_initfn(Object *obj)
+         cpu->dcz_blocksize = 7; /*  512 bytes */
  #endif
-diff --git a/target/arm/cpu-exceptions-aa64.c b/target/arm/cpu-exceptions-aa64.c
-index 5ac52d0a58..ac42cb8626 100644
---- a/target/arm/cpu-exceptions-aa64.c
-+++ b/target/arm/cpu-exceptions-aa64.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "cpu.h"
-+#include "tcg/cpu-sve.h"
- #include "internals.h"
- #include "sysemu/tcg.h"
  
-diff --git a/target/arm/tcg/cpregs.c b/target/arm/tcg/cpregs.c
-index a72c9378b2..7376fad2eb 100644
---- a/target/arm/tcg/cpregs.c
-+++ b/target/arm/tcg/cpregs.c
-@@ -5792,6 +5792,10 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
+-        /* Default to PAUTH on, with the architected algorithm. */
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
++        cpu_pauth_add_props(obj);
+     }
  
-+#ifdef TARGET_AARCH64
+     cpu_sve_add_props(obj);
+diff --git a/target/arm/tcg/cpu-pauth.c b/target/arm/tcg/cpu-pauth.c
+new file mode 100644
+index 0000000000..4f087923ac
+--- /dev/null
++++ b/target/arm/tcg/cpu-pauth.c
+@@ -0,0 +1,66 @@
++/*
++ * QEMU AArch64 Pointer Authentication Extensions
++ *
++ * Copyright (c) 2012 SUSE LINUX Products GmbH
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see
++ * <http://www.gnu.org/licenses/gpl-2.0.html>
++ */
 +
-+#include "tcg/cpu-sve.h"
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "cpu.h"
++#include "sysemu/tcg.h"
++#include "tcg/cpu-pauth.h"
++#include "hw/qdev-properties.h"
 +
- static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                       uint64_t value)
- {
-@@ -5844,6 +5848,8 @@ static const ARMCPRegInfo zcr_el3_reginfo = {
-     .writefn = zcr_write, .raw_writefn = raw_write
- };
- 
-+#endif /* TARGET_AARCH64 */
++bool cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
++{
++    bool result = true;
++    int arch_val = 0, impdef_val = 0;
++    uint64_t t;
 +
- static void dbgwvr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                          uint64_t value)
- {
-@@ -7573,6 +7579,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         define_arm_cp_regs(cpu, vhe_reginfo);
-     }
++    /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
++    if (cpu->prop_pauth) {
++        if (cpu->prop_pauth_impdef) {
++            impdef_val = 1;
++        } else {
++            arch_val = 1;
++        }
++    } else if (cpu->prop_pauth_impdef) {
++        error_setg(errp, "cannot enable pauth-impdef without pauth");
++        error_append_hint(errp, "Add pauth=on to the CPU property list.\n");
++        result = false;
++    }
++
++    t = cpu->isar.id_aa64isar1;
++    t = FIELD_DP64(t, ID_AA64ISAR1, APA, arch_val);
++    t = FIELD_DP64(t, ID_AA64ISAR1, GPA, arch_val);
++    t = FIELD_DP64(t, ID_AA64ISAR1, API, impdef_val);
++    t = FIELD_DP64(t, ID_AA64ISAR1, GPI, impdef_val);
++    cpu->isar.id_aa64isar1 = t;
++    return result;
++}
++
++static Property arm_cpu_pauth_property =
++    DEFINE_PROP_BOOL("pauth", ARMCPU, prop_pauth, true);
++static Property arm_cpu_pauth_impdef_property =
++    DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
++
++void cpu_pauth_add_props(Object *obj)
++{
++    /* Default to PAUTH on, with the architected algorithm. */
++    qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
++    qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
++}
+diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
+index d22e5efb84..47d80a06f5 100644
+--- a/target/arm/tcg/meson.build
++++ b/target/arm/tcg/meson.build
+@@ -40,6 +40,7 @@ arm_ss.add(when: ['TARGET_AARCH64', 'CONFIG_TCG'], if_true: files(
+   'pauth_helper.c',
+   'sve_helper.c',
+   'cpu-sve.c',
++  'cpu-pauth.c',
+ ))
  
-+#ifdef TARGET_AARCH64
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-         define_one_arm_cp_reg(cpu, &zcr_el1_reginfo);
-         if (arm_feature(env, ARM_FEATURE_EL2)) {
-@@ -7585,7 +7592,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         }
-     }
- 
--#ifdef TARGET_AARCH64
-     if (cpu_isar_feature(aa64_pauth, cpu)) {
-         define_arm_cp_regs(cpu, pauth_reginfo);
-     }
-@@ -7615,7 +7621,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         define_arm_cp_regs(cpu, mte_tco_ro_reginfo);
-         define_arm_cp_regs(cpu, mte_el0_cacheop_reginfo);
-     }
--#endif
-+#endif /* TARGET_AARCH64 */
- 
-     if (cpu_isar_feature(any_predinv, cpu)) {
-         define_arm_cp_regs(cpu, predinv_reginfo);
-diff --git a/target/arm/tcg/helper-a64.c b/target/arm/tcg/helper-a64.c
-index b75ce80473..157a5bb549 100644
---- a/target/arm/tcg/helper-a64.c
-+++ b/target/arm/tcg/helper-a64.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "cpu.h"
-+#include "tcg/cpu-sve.h"
- #include "cpu-exceptions-aa64.h"
- #include "exec/gdbstub.h"
- #include "exec/helper-proto.h"
-diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index 493f5b066d..2e8b122cc4 100644
---- a/target/arm/tcg/helper.c
-+++ b/target/arm/tcg/helper.c
-@@ -16,6 +16,7 @@
- #include <zlib.h> /* For crc32 */
- #include "arm_ldst.h"
- #include "cpu-mmu.h"
-+#include "tcg/cpu-sve.h"
- #include "cpregs.h"
- #include "tcg-cpu.h"
- 
+ subdir('user')
 -- 
 2.26.2
 
