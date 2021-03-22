@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B1B344981
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:44:08 +0100 (CET)
-Received: from localhost ([::1]:50536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1197C344994
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:47:57 +0100 (CET)
+Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMit-000296-O1
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
+	id 1lOMmZ-0006QA-Vo
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:47:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lOMgg-0000Nu-9G
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:50 -0400
-Received: from mout.web.de ([217.72.192.78]:48125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lOMgY-0005FO-3c
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616427696;
- bh=OF6dwf/LvxT6SIekZpv6byIhoBmvfTGfPJjzhen9Z3A=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=FPgyQSpWLXeEbvdC/pqT+Y9R+I0jXOpqMXVJDIKzZ5p2wDsU3B/GSPgpZ28QXnGuL
- ZcO9s8pJEGcmACnNYOC6f1a5sXLeDpBMBF9Tloqx+XcnCGGkz2XH7rUQctmdz5O4I8
- ZwJgLoIlo+0kJukSleTIh+cgRT2+vQmYAzmL+rdo=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.232]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MPYNR-1lKDwn0tHN-004o0c; Mon, 22
- Mar 2021 16:41:36 +0100
-Date: Mon, 22 Mar 2021 16:41:34 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 5/5] chardev: Fix yank with the chardev-change case
-Message-ID: <9d26845c5dc18241bcfd2ef5b8c4797c35b4b178.1616427054.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1616427054.git.lukasstraub2@web.de>
-References: <cover.1616427054.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1lOMir-0003Le-5Q
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1lOMio-0006P9-L1
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616427841;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EDJemio96d8tkoZ6jV/4FbNdtDb7eGAaj0+0SsP6A8Y=;
+ b=E+EY72y2R47Ib15l42o68HHh7RfDRsF42Q4fp+1UdW+lA0JLz6SVr/kxba/tyOnbBguciV
+ wQUGnMDh1Eu4sBfbaU80fuotgid1O734XzGPQLTi0qaqHNS+83mLkN2zjQRqB43cDkpZ/b
+ PJg2f1wHJfSTV6BfbeLKGfe6Xopa+sg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-ED0fzuqpOAWBk7JqJM4ddw-1; Mon, 22 Mar 2021 11:42:30 -0400
+X-MC-Unique: ED0fzuqpOAWBk7JqJM4ddw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DDF38018A1;
+ Mon, 22 Mar 2021 15:42:29 +0000 (UTC)
+Received: from harajuku.usersys.redhat.com (unknown [10.40.195.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4663C60BE5;
+ Mon, 22 Mar 2021 15:42:25 +0000 (UTC)
+Message-ID: <4b35e1dc2c6a2af117542eca6571ddf1e261fe10.camel@redhat.com>
+Subject: Re: [PATCH 0/3] target/arm: Add nested virtualization support
+From: Andrea Bolognani <abologna@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Mon, 22 Mar 2021 16:42:23 +0100
+In-Reply-To: <cover.1616052889.git.haibo.xu@linaro.org>
+References: <cover.1616052889.git.haibo.xu@linaro.org>
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/oblpt4EBIBb7yhv0j5oGeeT";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:lXvr+MJ5KpTYUuw7HQExiNErNLCmHFMbdSxyIypPLEbU+76CQN6
- DRHEXOWPU2ImyIuQ12IslnHEpX4ogfTcuh5l+jFuyU0k0MwuboHDH3JvgpAhe1adi3CyICk
- ouFFXJrz8F3g8lv51wYLD4UVcJ68g/G0CgXmC3gOVcYBYZiF2zWzTBaoN5rMAnu8WkGxoCI
- ylBkeDjry7lw9ptBQ6A1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:skz1ysuLjlU=:vXfnpYSG18ol6FeCIC3vBh
- 3RIyMP03vP2QAkfCO9Asva0G0lxQZAKTY3cCc1458W8Tpv+SR/1ruK58Es3WJTcd/BO4NAA3W
- F1Dg6aas78vS1gTPBf43614dZbtnCSgu/sD4hUol7INid1DzcElu8srW7VoyyFf9gOYlp2wUE
- 95ISvgWuOT60rHKDCAcngErGL6Q7EKwK58pOhywg/vdqtoWopJr9OSLC3TKteOhN/YW/cHy+R
- 8X2jRUU/D+B/tCcAsTzt24xmf8aDRWIcIBzWV5XbOlKDB/u/dYbks85rvQDOSkzYvMBvAvTJ1
- yMkHzIM/V3aWIPH14WgP6eGOHDuScHMptlEHtBEk3LQhT3RdHyw1rY0udoi2yq9er3Jjvq+cl
- Q5E8RDtJkTszQm033lr17fsXRhfqaX3N5VfXvoBVNuEZ+/m7YX1o8wFQVhCY1RAq9ArPP2cRU
- WOfSG2Ex99ydruW8bj7FZrPmQf4U8rqDl1ILYkKSaOUjRCjA/l4gbBmFKQD8NIwFu5vn9aAS4
- GO2hlv9JN7MvNhK/r/cCCc+ihfJntSB+h8rjEOuGYsGguAZXyN7DopAEByC05hcd6zghWB6Gs
- OGcEQ+TpNQ+7gcL45CfVSsib4h7RCTpybJFdz0IN9ewf8Hzr2zrARvbHooNk3HohclyIzvNn1
- UKRvXFMGVOHtRvBY4jv8ZoV2pBilipUVggwIbgM0Np/dlWHxYzxx15ghjnA4hRLR6AdXv6a2c
- fMfwY8aj1Lt9gp/GKaH4nXy6UwwvvObugkHA+H6Ba+Mw8fZvmFOEMPThLSM5bUspXyBecK/Kj
- b6BBl6waLg5kXtDWMbqQvJpQ08ejVZTGOtkMUTK3qfNiDQTR45GXBFSvdEvdiEDgM7VwPZNIh
- a2z+CBh/5jhZjieo+1oQ==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,254 +79,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Marc-Andre Lureau <marcandre.lureau@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Li Zhang <zhlcindy@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/oblpt4EBIBb7yhv0j5oGeeT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2021-03-22 at 10:07 +0000, Haibo Xu wrote:
+> This series add support for ARMv8.3/8.4 nested virtualization support
+> in KVM mode. It's based on Marc Zyngier's kernel KVM patches[1], and
+> has been tested on a FVP model to run a L2 guest with Qemu. Now the
+> feature can be enabled by "-M virt,accel=kvm,virtualization=on" when
+> starting a VM.
 
-When changing from chardev-socket (which supports yank) to
-chardev-socket again, it fails, because the new chardev attempts
-to register a new yank instance. This in turn fails, as there
-still is the yank instance from the current chardev. Also,
-the old chardev shouldn't unregister the yank instance when it
-is freed.
+Why the need to enable this explicitly? AFAIK, that's not necessary
+for any other architecture: on x86, you just need to make sure you're
+using '-cpu host' and pass a parameter to the kernel module.
 
-To fix this, now the new chardev only registers a yank instance if
-the current chardev doesn't support yank and thus hasn't registered
-one already. Also, when the old chardev is freed, it now only
-unregisters the yank instance if the new chardev doesn't need it.
+Even assuming this can't be enabled transparently, wouldn't its
+availability it be controlled by a CPU feature flag, similar to what
+already happens for SVE and PMU, rather than a machine type option?
 
-If the initialization of the new chardev fails, it still has
-chr->handover_yank_instance set and won't unregister the yank
-instance when it is freed.
+That would also address the discoverability issue: unless I'm
+mistaken (which I very well might be :), with the current
+implementation there's no way to tell whether nested KVM will be
+usable short of trying and seeing whether QEMU errors out.
 
-s->registered_yank is always true here, as chardev-change only works
-on user-visible chardevs and those are guraranteed to register a
-yank instance as they are initialized via
-chardev_new()
- qemu_char_open()
-  cc->open() (qmp_chardev_open_socket()).
+-- 
+Andrea Bolognani / Red Hat / Virtualization
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
----
- chardev/char-socket.c  | 20 +++++++++++++++++---
- chardev/char.c         | 35 ++++++++++++++++++++++++++++-------
- include/chardev/char.h |  3 +++
- 3 files changed, 48 insertions(+), 10 deletions(-)
-
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index c8bced76b7..0cbe91f002 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1119,7 +1119,13 @@ static void char_socket_finalize(Object *obj)
-     }
-     g_free(s->tls_authz);
-     if (s->registered_yank) {
--        yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
-+        /*
-+         * In the chardev-change special-case, we shouldn't unregister the=
- yank
-+         * instance, as it still may be needed.
-+         */
-+        if (!chr->handover_yank_instance) {
-+            yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
-+        }
-     }
-
-     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
-@@ -1421,8 +1427,14 @@ static void qmp_chardev_open_socket(Chardev *chr,
-         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
-     }
-
--    if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), errp)) {
--        return;
-+    /*
-+     * In the chardev-change special-case, we shouldn't register a new yank
-+     * instance, as there already may be one.
-+     */
-+    if (!chr->handover_yank_instance) {
-+        if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), err=
-p)) {
-+            return;
-+        }
-     }
-     s->registered_yank =3D true;
-
-@@ -1564,6 +1576,8 @@ static void char_socket_class_init(ObjectClass *oc, v=
-oid *data)
- {
-     ChardevClass *cc =3D CHARDEV_CLASS(oc);
-
-+    cc->supports_yank =3D true;
-+
-     cc->parse =3D qemu_chr_parse_socket;
-     cc->open =3D qmp_chardev_open_socket;
-     cc->chr_wait_connected =3D tcp_chr_wait_connected;
-diff --git a/chardev/char.c b/chardev/char.c
-index ad416c0714..9d8ec81a73 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -39,6 +39,7 @@
- #include "qemu/option.h"
- #include "qemu/id.h"
- #include "qemu/coroutine.h"
-+#include "qemu/yank.h"
-
- #include "chardev-internal.h"
-
-@@ -266,6 +267,7 @@ static void char_init(Object *obj)
- {
-     Chardev *chr =3D CHARDEV(obj);
-
-+    chr->handover_yank_instance =3D false;
-     chr->logfd =3D -1;
-     qemu_mutex_init(&chr->chr_write_lock);
-
-@@ -956,6 +958,7 @@ void qemu_chr_set_feature(Chardev *chr,
- static Chardev *chardev_new(const char *id, const char *typename,
-                             ChardevBackend *backend,
-                             GMainContext *gcontext,
-+                            bool handover_yank_instance,
-                             Error **errp)
- {
-     Object *obj;
-@@ -968,6 +971,7 @@ static Chardev *chardev_new(const char *id, const char =
-*typename,
-
-     obj =3D object_new(typename);
-     chr =3D CHARDEV(obj);
-+    chr->handover_yank_instance =3D handover_yank_instance;
-     chr->label =3D g_strdup(id);
-     chr->gcontext =3D gcontext;
-
-@@ -1001,7 +1005,7 @@ Chardev *qemu_chardev_new(const char *id, const char =
-*typename,
-         id =3D genid;
-     }
-
--    chr =3D chardev_new(id, typename, backend, gcontext, errp);
-+    chr =3D chardev_new(id, typename, backend, gcontext, false, errp);
-     if (!chr) {
-         return NULL;
-     }
-@@ -1029,7 +1033,7 @@ ChardevReturn *qmp_chardev_add(const char *id, Charde=
-vBackend *backend,
-     }
-
-     chr =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
--                      backend, NULL, errp);
-+                      backend, NULL, false, errp);
-     if (!chr) {
-         return NULL;
-     }
-@@ -1054,9 +1058,10 @@ ChardevReturn *qmp_chardev_change(const char *id, Ch=
-ardevBackend *backend,
-                                   Error **errp)
- {
-     CharBackend *be;
--    const ChardevClass *cc;
-+    const ChardevClass *cc, *cc_new;
-     Chardev *chr, *chr_new;
-     bool closed_sent =3D false;
-+    bool handover_yank_instance;
-     ChardevReturn *ret;
-
-     chr =3D qemu_chr_find(id);
-@@ -1088,13 +1093,20 @@ ChardevReturn *qmp_chardev_change(const char *id, C=
-hardevBackend *backend,
-         return NULL;
-     }
-
--    cc =3D char_get_class(ChardevBackendKind_str(backend->type), errp);
--    if (!cc) {
-+    cc =3D CHARDEV_GET_CLASS(chr);
-+    cc_new =3D char_get_class(ChardevBackendKind_str(backend->type), errp);
-+    if (!cc_new) {
-         return NULL;
-     }
-
--    chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
--                          backend, chr->gcontext, errp);
-+    /*
-+     * The new chardev should not register a yank instance if the current
-+     * chardev has registered one already.
-+     */
-+    handover_yank_instance =3D cc->supports_yank && cc_new->supports_yank;
-+
-+    chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc_new)=
-),
-+                          backend, chr->gcontext, handover_yank_instance, =
-errp);
-     if (!chr_new) {
-         return NULL;
-     }
-@@ -1118,6 +1130,15 @@ ChardevReturn *qmp_chardev_change(const char *id, Ch=
-ardevBackend *backend,
-         return NULL;
-     }
-
-+    /* change successfull, clean up */
-+    chr_new->handover_yank_instance =3D false;
-+
-+    /*
-+     * When the old chardev is freed, it should not unregister the yank
-+     * instance if the new chardev needs it.
-+     */
-+    chr->handover_yank_instance =3D handover_yank_instance;
-+
-     object_unparent(OBJECT(chr));
-     object_property_add_child(get_chardevs_root(), chr_new->label,
-                               OBJECT(chr_new));
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index 4181a2784a..7c0444f90d 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -65,6 +65,8 @@ struct Chardev {
-     char *filename;
-     int logfd;
-     int be_open;
-+    /* used to coordinate the chardev-change special-case: */
-+    bool handover_yank_instance;
-     GSource *gsource;
-     GMainContext *gcontext;
-     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
-@@ -251,6 +253,7 @@ struct ChardevClass {
-     ObjectClass parent_class;
-
-     bool internal; /* TODO: eventually use TYPE_USER_CREATABLE */
-+    bool supports_yank;
-     void (*parse)(QemuOpts *opts, ChardevBackend *backend, Error **errp);
-
-     void (*open)(Chardev *chr, ChardevBackend *backend,
---
-2.30.2
-
---Sig_/oblpt4EBIBb7yhv0j5oGeeT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBYuq4ACgkQNasLKJxd
-slg1rg//csv4jjK2RJG1FcuLSWS1ZTLrkkYcfICIFpGIp/sMAJrc8sU5ySfBF9eI
-nsmHjIndYtlRf6RDy1dKKLtimmHhTpyP4ASlJN8tvjNViy0yz6eRKoEFRMDGVaVb
-mDTNfKgyQT3/M796qDAE2nSQwLedXL1IVrbMpEbVmHHQPUSuVj3jC7mQGWz9RFmy
-fp4ovwmfyN6VNAe5DpmemtCgMrTH1Y3fV9jMqln9h6+9cxcSIWWCwp21rkRnYqKu
-aGy6RJjAx+MmjfNfLn3wHtKozepUenufACEg1lloJt2CoW9vqUZbYBbnFvYFRxYI
-lWbpefITIWqhpR8bSBzJ0bAuKWMa9v/a6eJx0fZECHHLKnB7sST0BKxNlzhvLUd6
-+sF47wLnAw4gfxu/hLonQgz/Ol69kgFDOYMuQRHKKNRJP8tMmtFSVE0u5yYYwKHx
-qeSYobASa4IbeMp4CCE01cn6tVGEZJFn6HXYg5aec+mI2D1isI5yGvnRiRR5BOVK
-KAFRk282VLgJmGYkQkpqRDLf5uJ3qdmbuUdsFDk+Lz6WsiBh0YKTFSZwSwsGuxb4
-mONWuvm0qPTRbKwJrEdxGIpuAFipn8VCOO2CBz6UYeiHiwIJrPEZoFFZkSMLuiC8
-DQ+XRR3K4kLyDF1/2GBykGnW7b3CH0hhotiDIMeyC+YC+VDS/B4=
-=ZQNk
------END PGP SIGNATURE-----
-
---Sig_/oblpt4EBIBb7yhv0j5oGeeT--
 
