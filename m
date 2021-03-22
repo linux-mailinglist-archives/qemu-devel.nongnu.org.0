@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBC9345037
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:47:37 +0100 (CET)
-Received: from localhost ([::1]:40888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6BC34503D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:51:02 +0100 (CET)
+Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOQWW-0006Sv-41
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
+	id 1lOQZp-000067-ES
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOQUl-0005VI-Mc
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:45:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60048)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOQUg-0007oy-80
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:45:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616442339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DI/RT1yLgQOTl9Th/SB5vifBpMsaiyIamvkBbFSBY4U=;
- b=c2twu4/hWws/RGyaFHIJCVS9UaS37SG1XXA3G+VMIIGZS0EWtJUdkXZIpxliWuZ4dHDT0I
- h6qTzWXrYcjT7M58Kyk6Kncpbo3/e83y6QkoZW1wYjIh8hPDkdvCI8CYh4qMyWvq8Feyk3
- NfslJLVjUBkjfL+j2CeHav1YHIn0jz0=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-fgy6Mc4WNfSnGWaGIU8Rmg-1; Mon, 22 Mar 2021 15:45:36 -0400
-X-MC-Unique: fgy6Mc4WNfSnGWaGIU8Rmg-1
-Received: by mail-qv1-f69.google.com with SMTP id dz17so160258qvb.14
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:45:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lOQXF-0007n1-HM
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:48:21 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lOQXD-0000Yy-3w
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:48:21 -0400
+Received: by mail-ej1-x636.google.com with SMTP id hq27so23268360ejc.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SIv5Or7AsgDnog2H3SvVd9N9RdOHn7iGHNFWQXxGWns=;
+ b=NHh27IT2eOF/Io1ctp9gAXq8jedHspDdSjKrJ6z1a64AM33OSylt7EbE7TsL3oUo59
+ cL1QR1GRJgSYUdoeJSBh98/05r0fgDlV1avKGd2/aXHk4o9PJ/h+7BhYxxrdL5uthVP4
+ J9bvMj6pjHgamvmgiD94ppi+yKYQso67JNFVOMpoXLP+VeWNIVAEQA+MRkV1fv4ep5bZ
+ U8hLcdD0kF8kxhRZ6WHbSi4DOz0GKbBxX9iAsTbFKRBWmh9+BOjdnNX+WBKdiU4GRu8B
+ ZH8l5ocU2eT7ItfXL+A5BhBJMqfchItKkfL5fVOahTCM5vY1wamo+BLbIxT+VpXdVXlO
+ 8PAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DI/RT1yLgQOTl9Th/SB5vifBpMsaiyIamvkBbFSBY4U=;
- b=ilWnXXkSjhb9FtY0nGJv0rqqvCGK3OLYEXnQs3kiBaY1TWVa7gmrvMi+FVZX/YhYkD
- LOt90jbfQvobM6f1hnQ8y1vlnmZCESplsK2zs3vDNm14iFZa+0TQhiIUDkLS65Lvd2n+
- PfSGq2w8KwJgpcrMWOLgw+82hsUgdfDYPtVc6VhDv9xsXuRuvdz/nGlnhmcDXXVVArtL
- OAw62tmLwXxKHg4vTV9lzP4uPqgFX73JNw0gJ6oLGdXPYRMwS7gm9Oe6KLuaoMXBv/U2
- 80GPRflRTJgVdL4Ndzi2H32n8Egfju3OxfqkaB8Paprc39ppEHSajl0lqMvm3x08zJBa
- 1gHg==
-X-Gm-Message-State: AOAM533Ph3HqfCrxL2L+dOoD80ck1212px3gZSZxwLQzvyxLAT+eRtmz
- XohFw882qlQJMWvc2VAvnVPAqOQbCB1r3EODuQ2rqif2HrGIqY9+ftfNzwqgzzIHkFvXOcETEwX
- c6t0qJ19D3eYbmzE=
-X-Received: by 2002:a37:d202:: with SMTP id f2mr1730001qkj.273.1616442336088; 
- Mon, 22 Mar 2021 12:45:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTpD4wqVhTyJQ0Xwd/GGS7mFXB2zmpP4k6qPO575PnTqYgXiUO0hppBc35YzX4XbEYb2qp8Q==
-X-Received: by 2002:a37:d202:: with SMTP id f2mr1729974qkj.273.1616442335740; 
- Mon, 22 Mar 2021 12:45:35 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
- [174.91.135.175])
- by smtp.gmail.com with ESMTPSA id m3sm11489340qkk.15.2021.03.22.12.45.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 12:45:35 -0700 (PDT)
-Date: Mon, 22 Mar 2021 15:45:33 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
-Message-ID: <20210322194533.GE16645@xz-x1>
-References: <20210310203301.194842-1-peterx@redhat.com>
- <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SIv5Or7AsgDnog2H3SvVd9N9RdOHn7iGHNFWQXxGWns=;
+ b=DXcO8k61pon+76R4WmU2urXGuf2X601skflBmJt0SteoCSNUCxXXaH8mYuDTuGUO/e
+ ewisJz+2GpSd3mdI+tftbXXymr592xa/FIIUk2odjqkyklJ+VCeyemLDoRkCqQIpavFq
+ PdQQugegZffaBkeOKzPVW33uj9pnnZvvrj/H3dK+pSkXu+wwFGFGF1dTu2pJJxGpezJg
+ 22XrAuoF/nMv915bdQqNlcuAqVMNMCQ6wCBclB5PXOD377CFA2SHnlrmrXrSDlRfqNIP
+ pmTw5c+FGm/9TwvPrEtDz4nyqgfARVI3LNHTWBpCkYVygwQwgTJfqS3+EGDkyJr0KiOZ
+ 1XOw==
+X-Gm-Message-State: AOAM530jdMjcfTIGlJUtcMdlPI/+jXceGldxlIHJ2irVzQSJKf8iM+Y1
+ eRkp9AZ9eKSc/PQoBQ6BGEfrLwC2aessarC8xfY=
+X-Google-Smtp-Source: ABdhPJyBxi8R5tgS8wd4BQuGB/JTx6maR4FlSneQz29yl3LhIdbWkGgk4cFlt3LW1cVT3LL5jn9BKCcWCOUcGzt7ZD8=
+X-Received: by 2002:a17:906:3643:: with SMTP id
+ r3mr1317860ejb.527.1616442497423; 
+ Mon, 22 Mar 2021 12:48:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210322155040.4009256-1-marcandre.lureau@redhat.com>
+ <CAFEAcA95saRMvwkst1tr5wpihtKOK3GX-KSgUNe+J2T8aAcbSw@mail.gmail.com>
+ <2671f94e-b0a2-61e7-d4e9-f5163df3e442@redhat.com>
+In-Reply-To: <2671f94e-b0a2-61e7-d4e9-f5163df3e442@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 22 Mar 2021 23:48:05 +0400
+Message-ID: <CAJ+F1CJTbnZNEmVa1j1xggJbSZs191Lkuu7je8r5W3Zx62dFyA@mail.gmail.com>
+Subject: Re: [PATCH] docs: simplify each section title
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000dbdc1e05be255888"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,84 +79,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 10:02:38PM +0800, Keqian Zhu wrote:
-> Hi Peter,
+--000000000000dbdc1e05be255888
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Keqian,
+Hi
 
-[...]
+On Mon, Mar 22, 2021 at 10:23 PM John Snow <jsnow@redhat.com> wrote:
 
-> You emphasize that dirty ring is a "Thread-local buffers", but dirty bitmap is global,
-> but I don't see it has optimization about "locking" compared to dirty bitmap.
-> 
-> The thread-local means that vCPU can flush hardware buffer into dirty ring without
-> locking, but for bitmap, vCPU can also use atomic set to mark dirty without locking.
-> Maybe I miss something?
+> On 3/22/21 12:36 PM, Peter Maydell wrote:
+> > On Mon, 22 Mar 2021 at 16:03, <marcandre.lureau@redhat.com> wrote:
+> >>
+> >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>
+> >> Now that we merged into one doc, it makes the nav looks nicer.
+> >>
+> >> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> ---
+> >>   docs/devel/index.rst   | 4 ++--
+> >>   docs/interop/index.rst | 4 ++--
+> >>   docs/specs/index.rst   | 4 ++--
+> >>   docs/system/index.rst  | 4 ++--
+> >>   docs/tools/index.rst   | 4 ++--
+> >>   docs/user/index.rst    | 4 ++--
+> >>   6 files changed, 12 insertions(+), 12 deletions(-)
+> >>
+> >> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> >> index 7c424ea6d7..09d21d3514 100644
+> >> --- a/docs/devel/index.rst
+> >> +++ b/docs/devel/index.rst
+> >> @@ -1,8 +1,8 @@
+> >>   .. This is the top level page for the 'devel' manual.
+> >>
+> >>
+> >> -QEMU Developer's Guide
+> >> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +Developers
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > I think this should be "Developer's Guide" or "Developer Information"
+> > or something. Just "Developers" doesn't really read right to me:
+> > it is not "documentation of developers" in the way that the "Tools"
+> > section is "documentation of tools", etc.
+> >
+> > thanks
+> > -- PMM
+> >
+>
+> Changing it to a verb - "Development" - might fit the intent, by analogy
+> with "System Emulation Management and Interoperability", "System
+> Emulation", and "User Mode Emulation".
+>
+> Keeping it as a noun with "Developer Information" or "Information for
+> Developers" also reads fine to me.
+>
+>
+It's a collection of developer's documents regrouped in a section. Maybe we
+should consider a title like "Internals" instead? Tbh, I think "Developers"
+was about right too.. "Guide" does not uphold its promise.
 
-Yes, the atomic ops guaranteed locking as you said, but afaiu atomics are
-expensive already, since at least on x86 I think it needs to lock the memory
-bus.  IIUC that'll become even slower as cores grow, as long as the cores share
-the memory bus.
+Ok, last call for "Developer Information" ?
 
-KVM dirty ring is per-vcpu, it means its metadata can be modified locally
-without atomicity at all (but still, we'll need READ_ONCE/WRITE_ONCE to
-guarantee ordering of memory accesses).  It should scale better especially with
-hosts who have lots of cores.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-> 
-> The second question is that you observed longer migration time (55s->73s) when guest
-> has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
-> ring enabled, Qemu can get dirty info faster which means it handles dirty page more
-> quick, and guest can be throttled which means dirty page is generated slower. What's
-> the rationale for the longer migration time?
+--000000000000dbdc1e05be255888
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Because dirty ring is more sensitive to dirty rate, while dirty bitmap is more
-sensitive to memory footprint.  In above 24G mem + 800MB/s dirty rate
-condition, dirty bitmap seems to be more efficient, say, collecting dirty
-bitmap of 24G mem (24G/4K/8=0.75MB) for each migration cycle is fast enough.
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 22, 2021 at 10:23 PM Jo=
+hn Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On 3/22/21 12:36 PM, Peter Maydell wrote:<br>
+&gt; On Mon, 22 Mar 2021 at 16:03, &lt;<a href=3D"mailto:marcandre.lureau@r=
+edhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Now that we merged into one doc, it makes the nav looks nicer.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcan=
+dre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt=
+;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 =C2=A0docs/devel/index.rst=C2=A0 =C2=A0| 4 ++--<br>
+&gt;&gt;=C2=A0 =C2=A0docs/interop/index.rst | 4 ++--<br>
+&gt;&gt;=C2=A0 =C2=A0docs/specs/index.rst=C2=A0 =C2=A0| 4 ++--<br>
+&gt;&gt;=C2=A0 =C2=A0docs/system/index.rst=C2=A0 | 4 ++--<br>
+&gt;&gt;=C2=A0 =C2=A0docs/tools/index.rst=C2=A0 =C2=A0| 4 ++--<br>
+&gt;&gt;=C2=A0 =C2=A0docs/user/index.rst=C2=A0 =C2=A0 | 4 ++--<br>
+&gt;&gt;=C2=A0 =C2=A06 files changed, 12 insertions(+), 12 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/docs/devel/index.rst b/docs/devel/index.rst<br>
+&gt;&gt; index 7c424ea6d7..09d21d3514 100644<br>
+&gt;&gt; --- a/docs/devel/index.rst<br>
+&gt;&gt; +++ b/docs/devel/index.rst<br>
+&gt;&gt; @@ -1,8 +1,8 @@<br>
+&gt;&gt;=C2=A0 =C2=A0.. This is the top level page for the &#39;devel&#39; =
+manual.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -QEMU Developer&#39;s Guide<br>
+&gt;&gt; -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D<br>
+&gt;&gt; +Developers<br>
+&gt;&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+&gt; <br>
+&gt; I think this should be &quot;Developer&#39;s Guide&quot; or &quot;Deve=
+loper Information&quot;<br>
+&gt; or something. Just &quot;Developers&quot; doesn&#39;t really read righ=
+t to me:<br>
+&gt; it is not &quot;documentation of developers&quot; in the way that the =
+&quot;Tools&quot;<br>
+&gt; section is &quot;documentation of tools&quot;, etc.<br>
+&gt; <br>
+&gt; thanks<br>
+&gt; -- PMM<br>
+&gt; <br>
+<br>
+Changing it to a verb - &quot;Development&quot; - might fit the intent, by =
+analogy <br>
+with &quot;System Emulation Management and Interoperability&quot;, &quot;Sy=
+stem <br>
+Emulation&quot;, and &quot;User Mode Emulation&quot;.<br>
+<br>
+Keeping it as a noun with &quot;Developer Information&quot; or &quot;Inform=
+ation for <br>
+Developers&quot; also reads fine to me.<br clear=3D"all"><br></blockquote><=
+div><br></div><div>It&#39;s a collection of developer&#39;s documents regro=
+uped in a section. Maybe we should consider a title like &quot;Internals&qu=
+ot; instead? Tbh, I think &quot;Developers&quot; was about right too.. &quo=
+t;Guide&quot; does not uphold its promise.</div><div><br></div><div>Ok, las=
+t call for &quot;Developer Information&quot; ?<br></div></div><br>-- <br><d=
+iv dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-Not to mention that current implementation of dirty ring in QEMU is not
-complete - we still have two more layers of dirty bitmap, so it's actually a
-mixture of dirty bitmap and dirty ring.  This series is more like a POC on
-dirty ring interface, so as to let QEMU be able to run on KVM dirty ring.
-E.g., we won't have hang issue when getting dirty pages since it's totally
-async, however we'll still have some legacy dirty bitmap issues e.g. memory
-consumption of userspace dirty bitmaps are still linear to memory footprint.
-
-Moreover, IMHO another important feature that dirty ring provided is actually
-the full-exit, where we can pause a vcpu when it dirties too fast, while other
-vcpus won't be affected.  That's something I really wanted to POC too but I
-don't have enough time.  I think it's a worth project in the future to really
-make the full-exit throttle vcpus, then ideally we'll remove all the dirty
-bitmaps in QEMU as long as dirty ring is on.
-
-So I'd say the number I got at that time is not really helping a lot - as you
-can see for small VMs it won't make things faster.  Maybe a bit more efficient?
-I can't tell.  From design-wise it looks actually still better.  However dirty
-logging still has the reasoning to be the default interface we use for small
-vms, imho.
-
-> 
-> PS: As the dirty ring is still converted into dirty_bitmap of kvm_slot, so the
-> "get dirty info faster" maybe not true. :-(
-
-We can get dirty info faster even now, I think, because previously we only do
-KVM_GET_DIRTY_LOG once per migration iteration, which could be tens of seconds
-for a VM mentioned above with 24G and 800MB/s dirty rate.  Dirty ring is fully
-async, we'll get that after the reaper thread timeout.  However I must also
-confess "get dirty info faster" doesn't help us a lot on anything yet, afaict,
-comparing to a full-featured dirty logging where clear dirty log and so on.
-
-Hope above helps.
-
-Thanks,
-
--- 
-Peter Xu
-
+--000000000000dbdc1e05be255888--
 
