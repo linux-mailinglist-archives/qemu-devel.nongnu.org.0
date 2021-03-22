@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F1A34461B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:44:54 +0100 (CET)
-Received: from localhost ([::1]:39110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E072834467E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:04:07 +0100 (CET)
+Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKrV-0001GQ-Gb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57092)
+	id 1lOLA6-0005mS-SB
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOKof-0007qw-Lj
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:41:57 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:46668)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOKpV-00006q-Ez
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:42:49 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOKod-0001SM-Qw
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:41:57 -0400
-Received: by mail-ej1-x630.google.com with SMTP id u21so3380267ejo.13
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=1jAXJ16t1yazFUusUkzI7dbOnkRXCXlLwL1nTNSeZ3s=;
- b=KJch9B9ephF7ThkhhaF11AQVcsPu6+SbI8ZzT6RCqb/n7JQzZX5r71iQJ1rI+uVCnd
- 2Ytauh9+FdrOqxhvg0LvUSYDXIw0T+ZOZOc/HGrMMRwvF9z/raHn5kgIAr92rs81BF4u
- F+2L0aiTDZVqoQrdeM4QshyFxAjbRJPRRvzEa2DRziiZu/AjU7Cr6gxuv7ApK6L02BOU
- /p4zOuwNCyLpJ2cR5edgxhS5Pg0oqx7sRZQjCFWChPtE3rNCzXnGpOiJw+7aXCqMalcr
- bnzy9JjPLaR7xULUD1YGJxglDgMATxp1oE6MEecZamL7k9zsP5N79lQQhUrea78yi7CL
- nhlA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOKpT-0001rr-4G
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:42:49 -0400
+Received: by mail-wr1-x429.google.com with SMTP id v11so16837708wro.7
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s9OgrQ2oNu6wym2o4ytyBDrLNQFLTQMtP09Bo+Zw1Qg=;
+ b=LOFoezkgN9OyVo5sx64AwEnFm2jxpBlU+G1uGp75F8QFhrhSOrAqC3kax6Qp7xlvlf
+ XCW8iLg3Wir0DVjQPq6kxqMmSF/p0BsjesGpLcVuwtNhNV8nErNCd4ZJS34o1Xbcjk4t
+ tJ/zcdTbGiEgJu6lHgnXWGfxL4UkOxcGb50Wx0HWVzeOEvSMPeXhrlxEs/ZYhJ20Wdn3
+ 1KyIUy6rdb9EADLKAcZM6gag8zIrVPyDiltKbKskpe7anAhFQvxuiA0QJtrfsqGW/UAY
+ 7oLCdNAcC+6bm6FNTOxF1X0PKGSngsE+RWcfpwW6nPLG+ryc63IvnZEwgV7IE1Hclptx
+ KUOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=1jAXJ16t1yazFUusUkzI7dbOnkRXCXlLwL1nTNSeZ3s=;
- b=EdhdP8mD1H0fOgm6ZL2CIhnW9TUdXm+jcHZPBOaHa2i2Qn/KmWy4r0ZnsC967bZ/kL
- vyWarYz72GRIBmtE55aBfJFn0DzQeiSzoDvJj/SHfYdDOWseqcDxpzNK4Gr8htwdei4F
- 3tor/900lKQbqGRkQ1/nICsfx9FTrdVIxmLcmwt1NohAEQg7ndENsv/b+Qaz5rQyrb5c
- oXC2jZ+hCr7oBNZNU+/z9gYPljMkaCrfGIZn/2yHKRm78Wt66UyKarNlPFutHMhLOIab
- lfN/kkUFKNsgkoXQP/bKF3LHhF5pyFEaimSckURYUejmkjAYyPLWmUlQ1/TvVECP4NkB
- emDw==
-X-Gm-Message-State: AOAM53179kGf4PuNW13Tu/c1bhmj1bUgUtcQfLmC1/ih+XH2aLohiyn3
- FMt8cRjpACmmyMKiU8S/xz67qA==
-X-Google-Smtp-Source: ABdhPJzoFvcNrZ907SABz7fRO/SReFbW9yDGhbmbXeTa8e1BvlZhZzBU/anhen5FGojmoVm/aW+b8g==
-X-Received: by 2002:a17:906:9152:: with SMTP id
- y18mr19511302ejw.19.1616420514185; 
- Mon, 22 Mar 2021 06:41:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id mp36sm9368021ejc.48.2021.03.22.06.41.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 06:41:53 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E7F061FF7E;
- Mon, 22 Mar 2021 13:41:51 +0000 (GMT)
-References: <20210322114739.4078408-1-f4bug@amsat.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] tests/meson: Only build softfloat objects if TCG is
- selected
-Date: Mon, 22 Mar 2021 13:41:45 +0000
-In-reply-to: <20210322114739.4078408-1-f4bug@amsat.org>
-Message-ID: <8735wnl2zk.fsf@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s9OgrQ2oNu6wym2o4ytyBDrLNQFLTQMtP09Bo+Zw1Qg=;
+ b=Zi2hmqpkIasBOwOvZhN4Nb/+Oo6h41dYtAH8JTW1bVlVVsGzgp1Y7CprL1a9s3Peiv
+ DRSdwnV2ZKLIUjS4n20axY00GHAUr/buAhxN+pi9z9GMlcVfPLJeiomZxmlqNIcps0FE
+ 6lq4l5EtG2DAGptbiX4ZDz6nLg1CLNwkavtBDOKdgR9vD5VNP9C9COFmtQH3baTXUWF7
+ XQ9emkJKStfgtaKKIXssN7gLtSesRWn39HzzGNlHPi/p8MFwBhi0jlKcbzoiVTZD/PvR
+ TbxLBp6MgVEaf6va1ptaMm/5KsnswJMciaWLe4EGrCoht+0yztq+ysWwZthv+uHglPP3
+ +ALQ==
+X-Gm-Message-State: AOAM532ooP9eUhz1nH1jyQXhtyHadm+RSwFbjoahbZWe1SK8UEyL80ta
+ scLARkBXhwAhixg6Tt5XAW9lp6QSpo8tFg==
+X-Google-Smtp-Source: ABdhPJx9Fo0cpOoPUYnWnibZ1EU9RD+ZMRFvaveoGQjByEfH4f1bco53Y2rxvdN4RyFv72WfwhbKLA==
+X-Received: by 2002:adf:a302:: with SMTP id c2mr18417824wrb.212.1616420562855; 
+ Mon, 22 Mar 2021 06:42:42 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id u2sm20673634wmm.5.2021.03.22.06.42.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 06:42:42 -0700 (PDT)
+Subject: Re: [RFC] accel: add cpu_reset
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210322132800.7470-1-cfontana@suse.de>
+ <20210322132800.7470-2-cfontana@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e7e0cfe6-d9c8-8cd4-39bc-65374771824a@amsat.org>
+Date: Mon, 22 Mar 2021 14:42:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210322132800.7470-2-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,29 +93,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G . Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/22/21 2:27 PM, Claudio Fontana wrote:
+> XXX
+> ---
+>  accel/accel-common.c        | 9 +++++++++
+>  hw/core/cpu.c               | 3 ++-
+>  include/hw/core/accel-cpu.h | 2 ++
+>  include/qemu/accel.h        | 6 ++++++
+>  target/i386/cpu.c           | 4 ----
+>  target/i386/kvm/kvm-cpu.c   | 6 ++++++
+>  6 files changed, 25 insertions(+), 5 deletions(-)
+> 
+> 
+> This surprisingly works without moving cpu_reset() to a
+> specific_ss module, even though
+> 
+> accel-common.c is specific_ss,
+> hw/core/cpu.c  is common_ss.
+> 
+> How come the call to accel_reset_cpu works?
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Each CPU optionally calls cpu_reset() manually?
 
-> The previous attempt (commit f77147cd4de) doesn't work as
-> expected, as we still have CONFIG_TCG=3D1 when using:
->
->   configure --disable-system --disable-user
->
-> Use Meson's get_option() instead to remove the softfloat tests
-> when building with --disable-tcg.
->
-> Suggested-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+$ git grep register_reset.*cpu
+hw/arm/armv7m.c:334:    qemu_register_reset(armv7m_reset, cpu);
+hw/arm/boot.c:1290:        qemu_register_reset(do_cpu_reset, ARM_CPU(cs));
+hw/cris/boot.c:101:    qemu_register_reset(main_cpu_reset, cpu);
+hw/lm32/lm32_boards.c:162:    qemu_register_reset(main_cpu_reset,
+reset_info);
+hw/lm32/lm32_boards.c:289:    qemu_register_reset(main_cpu_reset,
+reset_info);
+hw/lm32/milkymist.c:238:    qemu_register_reset(main_cpu_reset, reset_info);
+hw/m68k/q800.c:247:    qemu_register_reset(main_cpu_reset, cpu);
+hw/m68k/virt.c:132:    qemu_register_reset(main_cpu_reset, cpu);
+hw/microblaze/boot.c:134:    qemu_register_reset(main_cpu_reset, cpu);
+hw/mips/cps.c:107:        qemu_register_reset(main_cpu_reset, cpu);
+hw/mips/fuloong2e.c:269:    qemu_register_reset(main_cpu_reset, cpu);
+hw/mips/jazz.c:195:    qemu_register_reset(main_cpu_reset, cpu);
+hw/mips/loongson3_virt.c:545:        qemu_register_reset(main_cpu_reset,
+cpu);
+hw/mips/malta.c:1185:        qemu_register_reset(main_cpu_reset, cpu);
+hw/mips/mipssim.c:170:    qemu_register_reset(main_cpu_reset, reset_info);
+hw/moxie/moxiesim.c:120:    qemu_register_reset(main_cpu_reset, cpu);
+hw/nios2/boot.c:138:    qemu_register_reset(main_cpu_reset, cpu);
+hw/openrisc/openrisc_sim.c:160:
+qemu_register_reset(main_cpu_reset, cpus[n]);
+hw/ppc/e500.c:903:            qemu_register_reset(ppce500_cpu_reset, cpu);
+hw/ppc/e500.c:907:            qemu_register_reset(ppce500_cpu_reset_sec,
+cpu);
+hw/ppc/mac_newworld.c:156:        qemu_register_reset(ppc_core99_reset,
+cpu);
+hw/ppc/mac_oldworld.c:118:
+qemu_register_reset(ppc_heathrow_reset, cpu);
+hw/ppc/ppc440_bamboo.c:192:    qemu_register_reset(main_cpu_reset, cpu);
+hw/ppc/ppc4xx_devs.c:75:    qemu_register_reset(ppc4xx_reset, cpu);
+hw/ppc/ppc_booke.c:369:
+qemu_register_reset(ppc_booke_timer_reset_handle, cpu);
+hw/ppc/prep.c:270:    qemu_register_reset(ppc_prep_reset, cpu);
+hw/ppc/sam460ex.c:306:    qemu_register_reset(main_cpu_reset, cpu);
+hw/ppc/spapr_cpu_core.c:245:
+qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
+hw/ppc/spapr_cpu_core.c:326:
+qemu_register_reset(spapr_cpu_core_reset_handler, sc);
+hw/ppc/virtex_ml507.c:233:    qemu_register_reset(main_cpu_reset, cpu);
+hw/riscv/riscv_hart.c:51:    qemu_register_reset(riscv_harts_cpu_reset,
+&s->harts[idx]);
+hw/sh4/r2d.c:251:    qemu_register_reset(main_cpu_reset, reset_info);
+hw/sparc/leon3.c:213:    qemu_register_reset(main_cpu_reset, reset_info);
+hw/sparc/sun4m.c:828:    qemu_register_reset(sun4m_cpu_reset, cpu);
+hw/sparc64/sparc64.c:357:    qemu_register_reset(main_cpu_reset,
+reset_info);
+hw/xtensa/sim.c:68:        qemu_register_reset(sim_reset, cpu);
+hw/xtensa/xtfpga.c:270:        qemu_register_reset(xtfpga_reset, cpu);
+target/i386/cpu.c:6859:    qemu_register_reset(x86_cpu_machine_reset_cb,
+cpu);
+target/i386/cpu.c:6942:
+qemu_unregister_reset(x86_cpu_machine_reset_cb, dev);
+target/i386/hax/hax-all.c:230:
+qemu_register_reset(hax_reset_vcpu_state, (CPUArchState *) (cpu->env_ptr));
+target/s390x/cpu.c:232:
+qemu_register_reset(s390_cpu_machine_reset_cb, cpu);
+target/s390x/cpu.c:319:
+qemu_unregister_reset(s390_cpu_machine_reset_cb, cpu);
 
