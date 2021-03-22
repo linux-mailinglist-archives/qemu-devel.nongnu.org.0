@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074C7344964
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:37:36 +0100 (CET)
-Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746C234495E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:37:07 +0100 (CET)
+Received: from localhost ([::1]:39700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMcZ-0006LR-4a
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
+	id 1lOMc6-0005sd-1a
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1lOMaC-0004m5-UF
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:35:09 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:59755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1lOMaA-0001B3-BM
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:35:08 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 30850418B4;
- Mon, 22 Mar 2021 16:26:13 +0100 (CET)
-Subject: Re: [PATCH] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-To: Wolfgang Bumiller <w.bumiller@proxmox.com>
-References: <20210318133550.13120-1-s.reiter@proxmox.com>
- <20210322110847.cdo477ve2gydab64@wobu-vie.proxmox.com>
-From: Stefan Reiter <s.reiter@proxmox.com>
-Message-ID: <b5c777bf-d8c7-00df-4373-58ab4f06ae2a@proxmox.com>
-Date: Mon, 22 Mar 2021 16:26:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOMad-0004sF-G8
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOMaa-0001Th-KS
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:35:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOMaW-0004nN-Kw
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7A7F52E815F
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:35:28 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210322110847.cdo477ve2gydab64@wobu-vie.proxmox.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Mar 2021 15:27:10 -0000
+From: Peter Maydell <1920672@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: betim pmaydell
+X-Launchpad-Bug-Reporter: Betim (betim)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161633479458.23431.12957243006449145143.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161642683089.27899.18250678769900287484.malone@gac.canonical.com>
+Subject: [Bug 1920672] Re: Compilation fails silently
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 2c00118665c47fd8d82c98d2e1a1854dd6ee6cd9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,91 +70,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Reply-To: Bug 1920672 <1920672@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 12:08 PM, Wolfgang Bumiller wrote:
-> On Thu, Mar 18, 2021 at 02:35:50PM +0100, Stefan Reiter wrote:
->> If OOB is disabled, events received in monitor_qmp_event will be handled
->> in the main context. Thus, we must not acquire a qmp_queue_lock there,
->> as the dispatcher coroutine holds one over a yield point, where it
->> expects to be rescheduled from the main context. If a CHR_EVENT_CLOSED
->> event is received just then, it can race and block the main thread by
->> waiting on the queue lock.
->>
->> Run monitor_qmp_cleanup_queue_and_resume in a BH on the iohandler
->> thread, so the main thread can always make progress during the
->> reschedule.
->>
->> The delaying of the cleanup is safe, since the dispatcher always moves
->> back to the iothread afterward, and thus the cleanup will happen before
->> it gets to its next iteration.
->>
->> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->> ---
-> 
-> This is a tough one. It *may* be fine, but I wonder if we can approach
-> this differently:
-> 
->  From what I can gather we have the following call stacks & contexts:
-> 
-> Guarded lock (lock & release):
->    * monitor_qmp_cleanup_queue_and_resume
->      by monitor_qmp_event
->      by file handler (from I/O loop)
->      ^ iohandler_context (assuming that's where the file handling happens...)
->      (after this patch as BH though)
-> 
->    * handle_qmp_command
->      a) by the json parser (which is also re-initialized by
->         monitor_qmp_event btw., haven't checked if that can also
->         "trigger" its methods immediately)
->      b) by monitor_qmp_read
->      by file handler (from I/O loop)
->      ^ iohandler_context
-> 
-> Lock-"returning":
->    * monitor_qmp_requests_pop_any_with_lock
->      by coroutine_fn monitor_qmp_dispatcher_co
->      ^ iohandler_context
-> 
-> Lock-releasing:
->    * coroutine_fn monitor_qmp_dispatcher_co
->      ^ qemu_aio_context
-> 
-> The only *weird* thing that immediately pops out here is
-> `monitor_qmp_requests_pop_any_with_lock()` keeping a lock while
-> switching contexts.
+This is already fixed in upstream QEMU in commit bbd2d5a8120771, which
+will be in 6.0 and 5.2.1.
 
-monitor_qmp_dispatcher_co? _pop_any_ doesn't switch contexts...
 
-But yes, that is weird, as I mentioned in my original mail too.
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-> This is done in order to allow `AIO_WAIT_WHILE` to work while making
-> progress on the events, but do we actually already need to be in this
-> context for the OOB `monitor_resume()` call or can we defer the context
-> switch to after having done that and released the lock?
-> `monitor_resume()` itself seems to simply schedule a BH which should
-> work regardless if I'm not mistaken. There's also a
-> `readline_show_prompt()` call, but that *looks* harmless?
+** Summary changed:
 
-The BH should indeed be harmless since we don't schedule on 
-qemu_get_current_aio_context, and the readline_show_prompt call we can 
-ignore here since it's guarded with "!monitor_is_qmp(mon)".
+- Compilation fails silently
++ Compilation fails with "ld: Error: unable to disambiguate: -no-pie (did y=
+ou mean --no-pie ?)"
 
-> `monitor_resume()` is also called without the lock later on, so even if
-> it needs to be in this context at that point for whatever reason, does
-> it need the lock?
-> 
+-- =
 
-It doesn't access the queue, so I don't see why it'd need the lock. And 
-as you said, it currently works without too, actually, before commit 
-88daf0996c ("qmp: Resume OOB-enabled monitor before processing the 
-request") it always did so.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920672
 
-I'll cobble together a v2 with this in mind.
+Title:
+  Compilation fails with "ld: Error: unable to disambiguate: -no-pie
+  (did you mean --no-pie ?)"
 
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  It compiles until the end and then just:
+  [6102/6103] Linking target qemu-system-alpha
+  [6103/6103] Linking target qemu-system-aarch64
+  make[1]: Leaving directory '/home/t/.cache/kiss/proc/32129/build/qemu/bui=
+ld'
+  make: *** [GNUmakefile:11: all] Error 2
+
+  Attached is the complete log including configure. I can't find why
+  this is happening maybe I have a wrong version of a required library?
+
+  Any ideas?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920672/+subscriptions
 
