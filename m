@@ -2,45 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7598E344823
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:52:32 +0100 (CET)
-Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C88344728
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:29:57 +0100 (CET)
+Received: from localhost ([::1]:43638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLux-0004J7-CZ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35452)
+	id 1lOLZ6-0002Hb-Ly
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9L-0006CD-Bb
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44858)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lOL92-0005Sf-E5
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:00 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL97-0005Pf-Qy
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:19 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DD159AE42;
- Mon, 22 Mar 2021 14:02:31 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v10 49/49] XXX target/arm: experiment refactoring cpu "max"
-Date: Mon, 22 Mar 2021 15:02:06 +0100
-Message-Id: <20210322140206.9513-50-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210322140206.9513-1-cfontana@suse.de>
-References: <20210322140206.9513-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lOL8t-0005Kk-8B
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:02:59 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F3x303gY4znVGC;
+ Mon, 22 Mar 2021 22:00:12 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 22 Mar 2021 22:02:39 +0800
+Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
+To: Peter Xu <peterx@redhat.com>, <qemu-devel@nongnu.org>
+References: <20210310203301.194842-1-peterx@redhat.com>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
+Date: Mon, 22 Mar 2021 22:02:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
+In-Reply-To: <20210310203301.194842-1-peterx@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,565 +59,373 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-XXX Someone who really understands which properties should be added
-where should review this attentively.
+Hi Peter,
 
-What goes into cpu leaf class initialization?
-What goes into arm_post_init / accel_cpu?
-What goes into arm_cpu_finalize_features / aarch64_cpu_finalize_features?
+On 2021/3/11 4:32, Peter Xu wrote:
+> This is v5 of the qemu dirty ring interface support.
+> 
+> 
+> 
+> v5:
+> 
+> - rebase
+> 
+> - dropped patch "update-linux-headers: Include const.h" after rebase
+> 
+> - dropped patch "KVM: Fixup kvm_log_clear_one_slot() ioctl return check" since
+> 
+>   similar patch got merged recently (38e0b7904eca7cd32f8953c3)
+> 
+> 
+> 
+> ========= v4 cover letter below =============
+> 
+> 
+> 
+> It is merely the same as v3 content-wise, but there're a few things to mention
+> 
+> besides the rebase itself:
+> 
+> 
+> 
+>   - I picked up two patches from Eric Farman for the linux-header updates (from
+> 
+>     Eric's v3 series) for convenience just in case any of the series would got
+> 
+>     queued by any maintainer.
+> 
+> 
+> 
+>   - One more patch is added as "KVM: Disable manual dirty log when dirty ring
+> 
+>     enabled".  I found this when testing the branch after rebasing to latest
+> 
+>     qemu, that not only the manual dirty log capability is not needed for kvm
+> 
+>     dirty ring, but more importantly INITIALLY_ALL_SET is totally against kvm
+> 
+>     dirty ring and it could silently crash the guest after migration.  For this
+> 
+>     new commit, I touched up "KVM: Add dirty-gfn-count property" a bit.
+> 
+> 
+> 
+>   - A few more documentation lines in qemu-options.hx.
+> 
+> 
+> 
+>   - I removed the RFC tag after kernel series got merged.
+> 
+> 
+> 
+> Again, this is only the 1st step to support dirty ring.  Ideally dirty ring
+> 
+> should grant QEMU the possibility to remove the whole layered dirty bitmap so
+> 
+> that dirty ring will work similarly as auto-converge enabled but should better;
+> 
+> we will just throttle vcpus with the dirty ring kvm exit rather than explicitly
+> 
+> adding a timer to stop the vcpu thread from entering the guest again (like what
+> 
+> we did with current migration auto-converge).  Some more information could also
+> 
+> be found in the kvm forum 2020 talk regarding kvm dirty ring (slides 21/22 [1]).
+I have read this pdf and code, and I have some questions, hope you can help me. :)
 
-Should there be shift of more code into finalize_features?
+You emphasize that dirty ring is a "Thread-local buffers", but dirty bitmap is global,
+but I don't see it has optimization about "locking" compared to dirty bitmap.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/arm/cpu.h                |   3 +
- target/arm/cpu64.c              | 167 ++---------------------
- target/arm/kvm/kvm-cpu.c        |   4 +-
- target/arm/tcg/tcg-cpu-models.c |  62 +--------
- target/arm/tcg/tcg-cpu.c        | 228 +++++++++++++++++++++++++++++++-
- 5 files changed, 242 insertions(+), 222 deletions(-)
+The thread-local means that vCPU can flush hardware buffer into dirty ring without
+locking, but for bitmap, vCPU can also use atomic set to mark dirty without locking.
+Maybe I miss something?
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 99c03fd6b4..f3443ecb42 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -997,6 +997,9 @@ struct ARMCPU {
- 
-     /* Generic timer counter frequency, in Hz */
-     uint64_t gt_cntfrq_hz;
-+
-+    /* MAX features requested via cpu="max" */
-+    bool max_features;
- };
- 
- unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d67c0b1be4..bf2bd84ee7 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -247,169 +247,30 @@ static void aarch64_a72_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
- }
- 
--/* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
-- * otherwise, a CPU with as many features enabled as our emulation supports.
-- * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-- * this only needs to handle 64 bits.
-+/*
-+ * -cpu max: if KVM is enabled, like -cpu host (best possible with this host),
-+ *           plus some "max"-only properties, see f.e. cpu_sve_add_props_max().
-+ *
-+ *           if TCG is enabled, a CPU with as many features enabled as our
-+ *           emulation supports.
-+ *
-+ *           The version of '-cpu max' for qemu-system-arm is defined in
-+ *           tcg/tcg-cpu-models.c, while this version only handles 64bit.
-  */
- static void aarch64_max_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
- 
--    if (kvm_enabled()) {
--        kvm_arm_set_cpu_features_from_host(cpu);
--    }
-     if (tcg_enabled()) {
--        uint64_t t;
--        uint32_t u;
-         aarch64_a57_initfn(obj);
--
--        /*
--         * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
--         * one and try to apply errata workarounds or use impdef features we
--         * don't provide.
--         * An IMPLEMENTER field of 0 means "reserved for software use";
--         * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
--         * to see which features are present";
--         * the VARIANT, PARTNUM and REVISION fields are all implementation
--         * defined and we choose to define PARTNUM just in case guest
--         * code needs to distinguish this QEMU CPU from other software
--         * implementations, though this shouldn't be needed.
--         */
--        t = FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0);
--        t = FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
--        t = FIELD_DP64(t, MIDR_EL1, PARTNUM, 'Q');
--        t = FIELD_DP64(t, MIDR_EL1, VARIANT, 0);
--        t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
--        cpu->midr = t;
--
--        t = cpu->isar.id_aa64isar0;
--        t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
--        t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 2); /* SHA512 */
--        t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);
--        t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, SHA3, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, SM3, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, SM4, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
--        t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
--        cpu->isar.id_aa64isar0 = t;
--
--        t = cpu->isar.id_aa64isar1;
--        t = FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
--        t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
--        cpu->isar.id_aa64isar1 = t;
--
--        t = cpu->isar.id_aa64pfr0;
--        t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
--        t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);
--        t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);
--        t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);
--        t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);
--        cpu->isar.id_aa64pfr0 = t;
--
--        t = cpu->isar.id_aa64pfr1;
--        t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
--        t = FIELD_DP64(t, ID_AA64PFR1, SSBS, 2);
--        /*
--         * Begin with full support for MTE. This will be downgraded to MTE=0
--         * during realize if the board provides no tag memory, much like
--         * we do for EL2 with the virtualization=on property.
--         */
--        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
--        cpu->isar.id_aa64pfr1 = t;
--
--        t = cpu->isar.id_aa64mmfr0;
--        t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 5); /* PARange: 48 bits */
--        cpu->isar.id_aa64mmfr0 = t;
--
--        t = cpu->isar.id_aa64mmfr1;
--        t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
--        t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
--        t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
--        t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
--        t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* VMID16 */
--        t = FIELD_DP64(t, ID_AA64MMFR1, XNX, 1); /* TTS2UXN */
--        cpu->isar.id_aa64mmfr1 = t;
--
--        t = cpu->isar.id_aa64mmfr2;
--        t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
--        t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
--        t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
--        cpu->isar.id_aa64mmfr2 = t;
--
--        /* Replicate the same data to the 32-bit id registers.  */
--        u = cpu->isar.id_isar5;
--        u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
--        u = FIELD_DP32(u, ID_ISAR5, SHA1, 1);
--        u = FIELD_DP32(u, ID_ISAR5, SHA2, 1);
--        u = FIELD_DP32(u, ID_ISAR5, CRC32, 1);
--        u = FIELD_DP32(u, ID_ISAR5, RDM, 1);
--        u = FIELD_DP32(u, ID_ISAR5, VCMA, 1);
--        cpu->isar.id_isar5 = u;
--
--        u = cpu->isar.id_isar6;
--        u = FIELD_DP32(u, ID_ISAR6, JSCVT, 1);
--        u = FIELD_DP32(u, ID_ISAR6, DP, 1);
--        u = FIELD_DP32(u, ID_ISAR6, FHM, 1);
--        u = FIELD_DP32(u, ID_ISAR6, SB, 1);
--        u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
--        cpu->isar.id_isar6 = u;
--
--        u = cpu->isar.id_pfr0;
--        u = FIELD_DP32(u, ID_PFR0, DIT, 1);
--        cpu->isar.id_pfr0 = u;
--
--        u = cpu->isar.id_pfr2;
--        u = FIELD_DP32(u, ID_PFR2, SSBS, 1);
--        cpu->isar.id_pfr2 = u;
--
--        u = cpu->isar.id_mmfr3;
--        u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
--        cpu->isar.id_mmfr3 = u;
--
--        u = cpu->isar.id_mmfr4;
--        u = FIELD_DP32(u, ID_MMFR4, HPDS, 1); /* AA32HPD */
--        u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
--        u = FIELD_DP32(u, ID_MMFR4, CNP, 1); /* TTCNP */
--        u = FIELD_DP32(u, ID_MMFR4, XNX, 1); /* TTS2UXN */
--        cpu->isar.id_mmfr4 = u;
--
--        t = cpu->isar.id_aa64dfr0;
--        t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
--        cpu->isar.id_aa64dfr0 = t;
--
--        u = cpu->isar.id_dfr0;
--        u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
--        cpu->isar.id_dfr0 = u;
--
--        u = cpu->isar.mvfr1;
--        u = FIELD_DP32(u, MVFR1, FPHP, 3);      /* v8.2-FP16 */
--        u = FIELD_DP32(u, MVFR1, SIMDHP, 2);    /* v8.2-FP16 */
--        cpu->isar.mvfr1 = u;
--
--#ifdef CONFIG_USER_ONLY
--        /* For usermode -cpu max we can use a larger and more efficient DCZ
--         * blocksize since we don't have to follow what the hardware does.
--         */
--        cpu->ctr = 0x80038003; /* 32 byte I and D cacheline size, VIPT icache */
--        cpu->dcz_blocksize = 7; /*  512 bytes */
--#endif
--
--        cpu_pauth_add_props(obj);
-     }
--
-+    if (kvm_enabled()) {
-+        kvm_arm_set_cpu_features_from_host(cpu);
-+    }
-     cpu_sve_add_props(obj);
-     cpu_sve_add_props_max(obj);
-+
-+    cpu->max_features = true;
- }
- 
- static const ARMCPUInfo aarch64_cpus[] = {
-diff --git a/target/arm/kvm/kvm-cpu.c b/target/arm/kvm/kvm-cpu.c
-index 1ec31c03dd..020ef311c9 100644
---- a/target/arm/kvm/kvm-cpu.c
-+++ b/target/arm/kvm/kvm-cpu.c
-@@ -87,9 +87,7 @@ static void host_cpu_instance_init(Object *obj)
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-     kvm_arm_set_cpu_features_from_host(cpu);
--    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        cpu_sve_add_props(obj);
--    }
-+    cpu_sve_add_props(obj);
-     arm_cpu_post_init(obj);
- }
- 
-diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-models.c
-index 2f44fd1b41..1f40fc849f 100644
---- a/target/arm/tcg/tcg-cpu-models.c
-+++ b/target/arm/tcg/tcg-cpu-models.c
-@@ -873,67 +873,7 @@ static void arm_max_initfn(Object *obj)
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-     cortex_a15_initfn(obj);
--
--    /* old-style VFP short-vector support */
--    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
--
--#ifdef CONFIG_USER_ONLY
--    /*
--     * We don't set these in system emulation mode for the moment,
--     * since we don't correctly set (all of) the ID registers to
--     * advertise them.
--     */
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    {
--        uint32_t t;
--
--        t = cpu->isar.id_isar5;
--        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
--        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
--        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
--        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
--        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
--        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
--        cpu->isar.id_isar5 = t;
--
--        t = cpu->isar.id_isar6;
--        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
--        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
--        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
--        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
--        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
--        cpu->isar.id_isar6 = t;
--
--        t = cpu->isar.mvfr1;
--        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
--        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
--        cpu->isar.mvfr1 = t;
--
--        t = cpu->isar.mvfr2;
--        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
--        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--        cpu->isar.mvfr2 = t;
--
--        t = cpu->isar.id_mmfr3;
--        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
--        cpu->isar.id_mmfr3 = t;
--
--        t = cpu->isar.id_mmfr4;
--        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
--        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
--        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
--        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
--        cpu->isar.id_mmfr4 = t;
--
--        t = cpu->isar.id_pfr0;
--        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
--        cpu->isar.id_pfr0 = t;
--
--        t = cpu->isar.id_pfr2;
--        t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
--        cpu->isar.id_pfr2 = t;
--    }
--#endif /* CONFIG_USER_ONLY */
-+    cpu->max_features = true;
- }
- #endif /* !TARGET_AARCH64 */
- 
-diff --git a/target/arm/tcg/tcg-cpu.c b/target/arm/tcg/tcg-cpu.c
-index d6c3a0ba41..e7aec9391e 100644
---- a/target/arm/tcg/tcg-cpu.c
-+++ b/target/arm/tcg/tcg-cpu.c
-@@ -235,16 +235,234 @@ void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
-     cc->tcg_ops = &arm_tcg_ops;
- }
- 
-+#ifdef TARGET_AARCH64
-+static void tcg_cpu_max_instance_init(CPUState *cs)
-+{
-+    uint64_t t;
-+    uint32_t u;
-+    Object *obj = OBJECT(cs);
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    /*
-+     * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
-+     * one and try to apply errata workarounds or use impdef features we
-+     * don't provide.
-+     * An IMPLEMENTER field of 0 means "reserved for software use";
-+     * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
-+     * to see which features are present";
-+     * the VARIANT, PARTNUM and REVISION fields are all implementation
-+     * defined and we choose to define PARTNUM just in case guest
-+     * code needs to distinguish this QEMU CPU from other software
-+     * implementations, though this shouldn't be needed.
-+     */
-+    t = FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0);
-+    t = FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
-+    t = FIELD_DP64(t, MIDR_EL1, PARTNUM, 'Q');
-+    t = FIELD_DP64(t, MIDR_EL1, VARIANT, 0);
-+    t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
-+    cpu->midr = t;
-+
-+    t = cpu->isar.id_aa64isar0;
-+    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
-+    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 2); /* SHA512 */
-+    t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, SHA3, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, SM3, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, SM4, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
-+    t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
-+    cpu->isar.id_aa64isar0 = t;
-+
-+    t = cpu->isar.id_aa64isar1;
-+    t = FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
-+    t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
-+    cpu->isar.id_aa64isar1 = t;
-+
-+    t = cpu->isar.id_aa64pfr0;
-+    t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-+    t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);
-+    t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);
-+    t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);
-+    t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);
-+    cpu->isar.id_aa64pfr0 = t;
-+
-+    t = cpu->isar.id_aa64pfr1;
-+    t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
-+    t = FIELD_DP64(t, ID_AA64PFR1, SSBS, 2);
-+    /*
-+     * Begin with full support for MTE. This will be downgraded to MTE=0
-+     * during realize if the board provides no tag memory, much like
-+     * we do for EL2 with the virtualization=on property.
-+     */
-+    t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
-+    cpu->isar.id_aa64pfr1 = t;
-+
-+    t = cpu->isar.id_aa64mmfr0;
-+    t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 5); /* PARange: 48 bits */
-+    cpu->isar.id_aa64mmfr0 = t;
-+
-+    t = cpu->isar.id_aa64mmfr1;
-+    t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
-+    t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
-+    t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
-+    t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
-+    t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* VMID16 */
-+    t = FIELD_DP64(t, ID_AA64MMFR1, XNX, 1); /* TTS2UXN */
-+    cpu->isar.id_aa64mmfr1 = t;
-+
-+    t = cpu->isar.id_aa64mmfr2;
-+    t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
-+    t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
-+    t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
-+    cpu->isar.id_aa64mmfr2 = t;
-+
-+    /* Replicate the same data to the 32-bit id registers.  */
-+    u = cpu->isar.id_isar5;
-+    u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
-+    u = FIELD_DP32(u, ID_ISAR5, SHA1, 1);
-+    u = FIELD_DP32(u, ID_ISAR5, SHA2, 1);
-+    u = FIELD_DP32(u, ID_ISAR5, CRC32, 1);
-+    u = FIELD_DP32(u, ID_ISAR5, RDM, 1);
-+    u = FIELD_DP32(u, ID_ISAR5, VCMA, 1);
-+    cpu->isar.id_isar5 = u;
-+
-+    u = cpu->isar.id_isar6;
-+    u = FIELD_DP32(u, ID_ISAR6, JSCVT, 1);
-+    u = FIELD_DP32(u, ID_ISAR6, DP, 1);
-+    u = FIELD_DP32(u, ID_ISAR6, FHM, 1);
-+    u = FIELD_DP32(u, ID_ISAR6, SB, 1);
-+    u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-+    cpu->isar.id_isar6 = u;
-+
-+    u = cpu->isar.id_pfr0;
-+    u = FIELD_DP32(u, ID_PFR0, DIT, 1);
-+    cpu->isar.id_pfr0 = u;
-+
-+    u = cpu->isar.id_pfr2;
-+    u = FIELD_DP32(u, ID_PFR2, SSBS, 1);
-+    cpu->isar.id_pfr2 = u;
-+
-+    u = cpu->isar.id_mmfr3;
-+    u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+    cpu->isar.id_mmfr3 = u;
-+
-+    u = cpu->isar.id_mmfr4;
-+    u = FIELD_DP32(u, ID_MMFR4, HPDS, 1); /* AA32HPD */
-+    u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-+    u = FIELD_DP32(u, ID_MMFR4, CNP, 1); /* TTCNP */
-+    u = FIELD_DP32(u, ID_MMFR4, XNX, 1); /* TTS2UXN */
-+    cpu->isar.id_mmfr4 = u;
-+
-+    t = cpu->isar.id_aa64dfr0;
-+    t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
-+    cpu->isar.id_aa64dfr0 = t;
-+
-+    u = cpu->isar.id_dfr0;
-+    u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
-+    cpu->isar.id_dfr0 = u;
-+
-+    u = cpu->isar.mvfr1;
-+    u = FIELD_DP32(u, MVFR1, FPHP, 3);      /* v8.2-FP16 */
-+    u = FIELD_DP32(u, MVFR1, SIMDHP, 2);    /* v8.2-FP16 */
-+    cpu->isar.mvfr1 = u;
-+
-+#ifdef CONFIG_USER_ONLY
-+    /*
-+     * For usermode -cpu max we can use a larger and more efficient DCZ
-+     * blocksize since we don't have to follow what the hardware does.
-+     */
-+    cpu->ctr = 0x80038003; /* 32 byte I and D cacheline size, VIPT icache */
-+    cpu->dcz_blocksize = 7; /*  512 bytes */
-+#endif
-+    cpu_pauth_add_props(obj);
-+}
-+
-+#else /* !TARGET_AARCH64 */
-+static void tcg_cpu_max_instance_init(CPUState *cs)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    /* old-style VFP short-vector support */
-+    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
-+
-+#ifdef CONFIG_USER_ONLY
-+    /*
-+     * We don't set these in system emulation mode for the moment,
-+     * since we don't correctly set (all of) the ID registers to
-+     * advertise them.
-+     */
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    {
-+        uint32_t t;
-+
-+        t = cpu->isar.id_isar5;
-+        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-+        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-+        cpu->isar.id_isar5 = t;
-+
-+        t = cpu->isar.id_isar6;
-+        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-+        cpu->isar.id_isar6 = t;
-+
-+        t = cpu->isar.mvfr1;
-+        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-+        cpu->isar.mvfr1 = t;
-+
-+        t = cpu->isar.mvfr2;
-+        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-+        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-+        cpu->isar.mvfr2 = t;
-+
-+        t = cpu->isar.id_mmfr3;
-+        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+        cpu->isar.id_mmfr3 = t;
-+
-+        t = cpu->isar.id_mmfr4;
-+        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-+        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-+        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-+        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-+        cpu->isar.id_mmfr4 = t;
-+
-+        t = cpu->isar.id_pfr0;
-+        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
-+        cpu->isar.id_pfr0 = t;
-+
-+        t = cpu->isar.id_pfr2;
-+        t = FIELD_DP32(t, ID_PFR2, SSBS, 1);
-+        cpu->isar.id_pfr2 = t;
-+    }
-+#endif /* CONFIG_USER_ONLY */
-+}
-+#endif /* TARGET_AARCH64 */
-+
- static void tcg_cpu_instance_init(CPUState *cs)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
- 
--    /*
--     * this would be the place to move TCG-specific props
--     * in future refactoring of cpu properties.
--     */
--
-     cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
-+    if (cpu->max_features) {
-+        tcg_cpu_max_instance_init(cs);
-+    }
- }
- 
- static void tcg_cpu_reset(CPUState *cs)
--- 
-2.26.2
+The second question is that you observed longer migration time (55s->73s) when guest
+has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
+ring enabled, Qemu can get dirty info faster which means it handles dirty page more
+quick, and guest can be throttled which means dirty page is generated slower. What's
+the rationale for the longer migration time?
 
+PS: As the dirty ring is still converted into dirty_bitmap of kvm_slot, so the
+"get dirty info faster" maybe not true. :-(
+
+Thanks,
+Keqian
+
+> 
+> 
+> 
+> That next step (to remove all the dirty bitmaps, as mentioned above) is still
+> 
+> discussable: firstly I don't know whether there's anything I've overlooked in
+> 
+> there.  Meanwhile that's also only services huge VM cases, may not be extremely
+> 
+> helpful with a lot major scenarios where VMs are not that huge.
+> 
+> 
+> 
+> There's probably other ways to fix huge VM migration issues, majorly focusing
+> 
+> on responsiveness and convergence.  For example, Google has proposed some new
+> 
+> userfaultfd kernel capability called "minor modes" [2] to track page minor
+> 
+> faults and that could be finally served for that purpose too using postcopy.
+> 
+> That's another long story so I'll stop here, but just as a marker along with
+> 
+> the dirty ring series so there'll still be a record to reference.
+> 
+> 
+> 
+> Said that, I still think this series is very worth merging even if we don't
+> 
+> persue the next steps yet, since dirty ring is disabled by default, and we can
+> 
+> always work upon this series.
+> 
+> 
+> 
+> Please review, thanks.
+> 
+> 
+> 
+> V3: https://lore.kernel.org/qemu-devel/20200523232035.1029349-1-peterx@redhat.com/
+> 
+>     (V3 contains all the pre-v3 changelog)
+> 
+> 
+> 
+> QEMU branch for testing (requires kernel version 5.11-rc1+):
+> 
+>     https://github.com/xzpeter/qemu/tree/kvm-dirty-ring
+> 
+> 
+> 
+> [1] https://static.sched.com/hosted_files/kvmforum2020/97/kvm_dirty_ring_peter.pdf
+> 
+> [2] https://lore.kernel.org/lkml/20210107190453.3051110-1-axelrasmussen@google.com/
+> 
+> 
+> 
+> ---------------------------8<---------------------------------
+> 
+> 
+> 
+> Overview
+> 
+> ========
+> 
+> 
+> 
+> KVM dirty ring is a new interface to pass over dirty bits from kernel
+> 
+> to the userspace.  Instead of using a bitmap for each memory region,
+> 
+> the dirty ring contains an array of dirtied GPAs to fetch, one ring
+> 
+> per vcpu.
+> 
+> 
+> 
+> There're a few major changes comparing to how the old dirty logging
+> 
+> interface would work:
+> 
+> 
+> 
+> - Granularity of dirty bits
+> 
+> 
+> 
+>   KVM dirty ring interface does not offer memory region level
+> 
+>   granularity to collect dirty bits (i.e., per KVM memory
+> 
+>   slot). Instead the dirty bit is collected globally for all the vcpus
+> 
+>   at once.  The major effect is on VGA part because VGA dirty tracking
+> 
+>   is enabled as long as the device is created, also it was in memory
+> 
+>   region granularity.  Now that operation will be amplified to a VM
+> 
+>   sync.  Maybe there's smarter way to do the same thing in VGA with
+> 
+>   the new interface, but so far I don't see it affects much at least
+> 
+>   on regular VMs.
+> 
+> 
+> 
+> - Collection of dirty bits
+> 
+> 
+> 
+>   The old dirty logging interface collects KVM dirty bits when
+> 
+>   synchronizing dirty bits.  KVM dirty ring interface instead used a
+> 
+>   standalone thread to do that.  So when the other thread (e.g., the
+> 
+>   migration thread) wants to synchronize the dirty bits, it simply
+> 
+>   kick the thread and wait until it flushes all the dirty bits to the
+> 
+>   ramblock dirty bitmap.
+> 
+> 
+> 
+> A new parameter "dirty-ring-size" is added to "-accel kvm".  By
+> 
+> default, dirty ring is still disabled (size==0).  To enable it, we
+> 
+> need to be with:
+> 
+> 
+> 
+>   -accel kvm,dirty-ring-size=65536
+> 
+> 
+> 
+> This establishes a 64K dirty ring buffer per vcpu.  Then if we
+> 
+> migrate, it'll switch to dirty ring.
+> 
+> 
+> 
+> I gave it a shot with a 24G guest, 8 vcpus, using 10g NIC as migration
+> 
+> channel.  When idle or dirty workload small, I don't observe major
+> 
+> difference on total migration time.  When with higher random dirty
+> 
+> workload (800MB/s dirty rate upon 20G memory, worse for kvm dirty
+> 
+> ring). Total migration time is (ping pong migrate for 6 times, in
+> 
+> seconds):
+> 
+> 
+> 
+> |-------------------------+---------------|
+> 
+> | dirty ring (4k entries) | dirty logging |
+> 
+> |-------------------------+---------------|
+> 
+> |                      70 |            58 |
+> 
+> |                      78 |            70 |
+> 
+> |                      72 |            48 |
+> 
+> |                      74 |            52 |
+> 
+> |                      83 |            49 |
+> 
+> |                      65 |            54 |
+> 
+> |-------------------------+---------------|
+> 
+> 
+> 
+> Summary:
+> 
+> 
+> 
+> dirty ring average:    73s
+> 
+> dirty logging average: 55s
+> 
+> 
+> 
+> The KVM dirty ring will be slower in above case.  The number may show
+> 
+> that the dirty logging is still preferred as a default value because
+> 
+> small/medium VMs are still major cases, and high dirty workload
+> 
+> happens frequently too.  And that's what this series did.
+> 
+> 
+> 
+> TODO:
+> 
+> 
+> 
+> - Consider to drop the BQL dependency: then we can run the reaper thread in
+> 
+>   parallel of main thread.  Needs some thought around the race conditions.
+> 
+> 
+> 
+> - Consider to drop the kvmslot bitmap: logically this can be dropped with kvm
+> 
+>   dirty ring, not only for space saving, but also it's still another layer
+> 
+>   linear to guest mem size which is against the whole idea of kvm dirty ring.
+> 
+>   This should make above number (of kvm dirty ring) even smaller (but still may
+> 
+>   not be as good as dirty logging when with such high workload).
+> 
+> 
+> 
+> Please refer to the code and comment itself for more information.
+> 
+> 
+> 
+> Thanks,
+> 
+> 
+> 
+> Peter Xu (10):
+> 
+>   memory: Introduce log_sync_global() to memory listener
+> 
+>   KVM: Use a big lock to replace per-kml slots_lock
+> 
+>   KVM: Create the KVMSlot dirty bitmap on flag changes
+> 
+>   KVM: Provide helper to get kvm dirty log
+> 
+>   KVM: Provide helper to sync dirty bitmap from slot to ramblock
+> 
+>   KVM: Simplify dirty log sync in kvm_set_phys_mem
+> 
+>   KVM: Cache kvm slot dirty bitmap size
+> 
+>   KVM: Add dirty-gfn-count property
+> 
+>   KVM: Disable manual dirty log when dirty ring enabled
+> 
+>   KVM: Dirty ring support
+> 
+> 
+> 
+>  accel/kvm/kvm-all.c      | 585 +++++++++++++++++++++++++++++++++------
+> 
+>  accel/kvm/trace-events   |   7 +
+> 
+>  include/exec/memory.h    |  12 +
+> 
+>  include/hw/core/cpu.h    |   8 +
+> 
+>  include/sysemu/kvm_int.h |   7 +-
+> 
+>  qemu-options.hx          |  12 +
+> 
+>  softmmu/memory.c         |  33 ++-
+> 
+>  7 files changed, 565 insertions(+), 99 deletions(-)
+> 
+> 
+> 
 
