@@ -2,94 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F40344662
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:00:26 +0100 (CET)
-Received: from localhost ([::1]:50690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BA23446B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:08:22 +0100 (CET)
+Received: from localhost ([::1]:41364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOL6W-0001Zf-RQ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60034)
+	id 1lOLED-0001p4-LR
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOL0v-0005bg-A7
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:54:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28164)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL1L-0006If-MA
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:55:05 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOL0t-0000S6-PN
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:54:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616421274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VTPQWG4L8hpbn4jepf8byCEIva0s+LEF8Vx2DYaxmDk=;
- b=THrSk8JG85BKBS97t0RtZZjR1IhO/DJTZg7WJKdCvD7ZweQHQs4eKYmnDpxY8W5OeEOJJX
- vVQCplKs0/SSSvy+6xbgcv9RuI6gZyUigjieM8TKsgkqu+u5d1Z7hpUdPfHu6qg6eCZpzq
- +wnqjFdc/FyqcR16AZtTnmuDhm7w+EI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-5n8irmykOTCt9ylHqCgzlQ-1; Mon, 22 Mar 2021 09:54:32 -0400
-X-MC-Unique: 5n8irmykOTCt9ylHqCgzlQ-1
-Received: by mail-wr1-f70.google.com with SMTP id b6so10721750wrq.22
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:54:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VTPQWG4L8hpbn4jepf8byCEIva0s+LEF8Vx2DYaxmDk=;
- b=TDlDCXGOFRdJ5kXjcYfDla0AB7OcLHkHNCyfg5heYosIiscZ6aDF9A4S41xe1mebe1
- tyHdIbM29ZN6wEqXPdyWhRfxc0HWx1MV2pGkJ14Oosf70de3GbgWr0V+KP9SKyC6qpL0
- Bcxbx1imtJcygVLqeX6AtDAUuvyjrZZ7oKDp730EfcAr6elhacfozlfR+cx5lX9Fshz5
- CSU8HQekcwESNOQDg+SC1aSSVp1y977v2TlWAaM8lVkUqN93Tom3z62+d9P7XXt+P0TT
- tF8uo74n7TOoZDiTlQF7HKny9URf35Ds+RLX1HoLx85tAN6SkoYAVwrRlYyBe3R/tP8K
- +xIA==
-X-Gm-Message-State: AOAM530QRkEFs0ar2EfjtpZas0LPfVLUgJfpLXnIChFHVCCRo1RF7rR4
- FIvcCdIFu1ULXiGlTgNLaLxC3ydImXUftSJSZ5jLO1zgtWYqaAJcXLgQK5m2AedUkc6COY6/L8a
- lwEFMwtMNCVm1mJY=
-X-Received: by 2002:a5d:4ac7:: with SMTP id y7mr5130109wrs.395.1616421271882; 
- Mon, 22 Mar 2021 06:54:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyAodF8+yVzsVirMaKLj7BiF1aS810UeSxPfuOEHyfeWn+/Pk6XJZs+xy6W8Ip4KDgf6i+ew==
-X-Received: by 2002:a5d:4ac7:: with SMTP id y7mr5130098wrs.395.1616421271739; 
- Mon, 22 Mar 2021 06:54:31 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s12sm16247576wmj.28.2021.03.22.06.54.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 06:54:31 -0700 (PDT)
-Subject: Re: [PATCH v5 02/10] KVM: Use a big lock to replace per-kml slots_lock
-To: Keqian Zhu <zhukeqian1@huawei.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210310203301.194842-1-peterx@redhat.com>
- <20210310203301.194842-3-peterx@redhat.com>
- <71e85a52-7385-e88a-f51f-9371bc371d06@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b1f2727e-2583-6bfc-bb34-4ebd8da1216d@redhat.com>
-Date: Mon, 22 Mar 2021 14:54:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL1J-0000jb-Ot
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:55:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 39748AD4A;
+ Mon, 22 Mar 2021 13:55:00 +0000 (UTC)
+Subject: Re: [RFC] accel: add cpu_reset
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210322132800.7470-1-cfontana@suse.de>
+ <20210322132800.7470-2-cfontana@suse.de>
+ <e7e0cfe6-d9c8-8cd4-39bc-65374771824a@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <a387d69e-f202-d4e4-476e-9452072fd238@suse.de>
+Date: Mon, 22 Mar 2021 14:54:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <71e85a52-7385-e88a-f51f-9371bc371d06@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <e7e0cfe6-d9c8-8cd4-39bc-65374771824a@amsat.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,17 +61,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman <huangy81@chinatelecom.cn>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/21 11:47, Keqian Zhu wrote:
->> +    qemu_mutex_init(&kml_slots_lock);
-> As you said, x86 has two address spaces, is it a problem that we may have multi initialization for kml_slots_lock?
+On 3/22/21 2:42 PM, Philippe Mathieu-Daudé wrote:
+> On 3/22/21 2:27 PM, Claudio Fontana wrote:
+>> XXX
+>> ---
+>>  accel/accel-common.c        | 9 +++++++++
+>>  hw/core/cpu.c               | 3 ++-
+>>  include/hw/core/accel-cpu.h | 2 ++
+>>  include/qemu/accel.h        | 6 ++++++
+>>  target/i386/cpu.c           | 4 ----
+>>  target/i386/kvm/kvm-cpu.c   | 6 ++++++
+>>  6 files changed, 25 insertions(+), 5 deletions(-)
+>>
+>>
+>> This surprisingly works without moving cpu_reset() to a
+>> specific_ss module, even though
+>>
+>> accel-common.c is specific_ss,
+>> hw/core/cpu.c  is common_ss.
+>>
+>> How come the call to accel_reset_cpu works?
+> 
+> Each CPU optionally calls cpu_reset() manually?
 
-Agreed, the lock can be initialized (if only for cleanliness) in kvm_init.
+Hi Philippe, are you concerned about these calls?
+Or what are you highlighting here?
 
-Paolo
+They in turn call cpu_reset() so we should be good right?
+
+Ciao,
+
+Claudio
+
+> 
+> $ git grep register_reset.*cpu
+> hw/arm/armv7m.c:334:    qemu_register_reset(armv7m_reset, cpu);
+> hw/arm/boot.c:1290:        qemu_register_reset(do_cpu_reset, ARM_CPU(cs));
+> hw/cris/boot.c:101:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/lm32/lm32_boards.c:162:    qemu_register_reset(main_cpu_reset,
+> reset_info);
+> hw/lm32/lm32_boards.c:289:    qemu_register_reset(main_cpu_reset,
+> reset_info);
+> hw/lm32/milkymist.c:238:    qemu_register_reset(main_cpu_reset, reset_info);
+> hw/m68k/q800.c:247:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/m68k/virt.c:132:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/microblaze/boot.c:134:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/mips/cps.c:107:        qemu_register_reset(main_cpu_reset, cpu);
+> hw/mips/fuloong2e.c:269:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/mips/jazz.c:195:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/mips/loongson3_virt.c:545:        qemu_register_reset(main_cpu_reset,
+> cpu);
+> hw/mips/malta.c:1185:        qemu_register_reset(main_cpu_reset, cpu);
+> hw/mips/mipssim.c:170:    qemu_register_reset(main_cpu_reset, reset_info);
+> hw/moxie/moxiesim.c:120:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/nios2/boot.c:138:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/openrisc/openrisc_sim.c:160:
+> qemu_register_reset(main_cpu_reset, cpus[n]);
+> hw/ppc/e500.c:903:            qemu_register_reset(ppce500_cpu_reset, cpu);
+> hw/ppc/e500.c:907:            qemu_register_reset(ppce500_cpu_reset_sec,
+> cpu);
+> hw/ppc/mac_newworld.c:156:        qemu_register_reset(ppc_core99_reset,
+> cpu);
+> hw/ppc/mac_oldworld.c:118:
+> qemu_register_reset(ppc_heathrow_reset, cpu);
+> hw/ppc/ppc440_bamboo.c:192:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/ppc/ppc4xx_devs.c:75:    qemu_register_reset(ppc4xx_reset, cpu);
+> hw/ppc/ppc_booke.c:369:
+> qemu_register_reset(ppc_booke_timer_reset_handle, cpu);
+> hw/ppc/prep.c:270:    qemu_register_reset(ppc_prep_reset, cpu);
+> hw/ppc/sam460ex.c:306:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/ppc/spapr_cpu_core.c:245:
+> qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
+> hw/ppc/spapr_cpu_core.c:326:
+> qemu_register_reset(spapr_cpu_core_reset_handler, sc);
+> hw/ppc/virtex_ml507.c:233:    qemu_register_reset(main_cpu_reset, cpu);
+> hw/riscv/riscv_hart.c:51:    qemu_register_reset(riscv_harts_cpu_reset,
+> &s->harts[idx]);
+> hw/sh4/r2d.c:251:    qemu_register_reset(main_cpu_reset, reset_info);
+> hw/sparc/leon3.c:213:    qemu_register_reset(main_cpu_reset, reset_info);
+> hw/sparc/sun4m.c:828:    qemu_register_reset(sun4m_cpu_reset, cpu);
+> hw/sparc64/sparc64.c:357:    qemu_register_reset(main_cpu_reset,
+> reset_info);
+> hw/xtensa/sim.c:68:        qemu_register_reset(sim_reset, cpu);
+> hw/xtensa/xtfpga.c:270:        qemu_register_reset(xtfpga_reset, cpu);
+> target/i386/cpu.c:6859:    qemu_register_reset(x86_cpu_machine_reset_cb,
+> cpu);
+> target/i386/cpu.c:6942:
+> qemu_unregister_reset(x86_cpu_machine_reset_cb, dev);
+> target/i386/hax/hax-all.c:230:
+> qemu_register_reset(hax_reset_vcpu_state, (CPUArchState *) (cpu->env_ptr));
+> target/s390x/cpu.c:232:
+> qemu_register_reset(s390_cpu_machine_reset_cb, cpu);
+> target/s390x/cpu.c:319:
+> qemu_unregister_reset(s390_cpu_machine_reset_cb, cpu);
+> 
 
 
