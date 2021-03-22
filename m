@@ -2,68 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC3334402A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:50:10 +0100 (CET)
-Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F057344030
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:54:01 +0100 (CET)
+Received: from localhost ([::1]:59728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJ4T-0007pG-MG
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
+	id 1lOJ8C-0001Sw-Ip
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lOJ35-0006bk-0I
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:48:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lOJ32-0001jz-77
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:48:42 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOJ6y-0000pt-MB
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:52:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOJ6x-0003yX-6r
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:52:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616413718;
+ s=mimecast20190719; t=1616413962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ko9zM2jAY2fH+UULMVv8FsbZM7/HnoIPRNffQ+seJ6Y=;
- b=cgD44a9piuv0BDUGH8K9nS7UF0L5VJf45Jn2OlYcDppHV5imajze2b0DXldwRdMIEOKHXT
- Y+0JI/D43Rlu9V6RmWNBs/g3RcRLfrcy1BVrw0VMFiUqe+6pEoCH29oaq8pt/NHdklV6nF
- HLnbD43iovxN47nby1+6JSE9zrw5smQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-xI4w9c0ANKeVk5sSHO2RWg-1; Mon, 22 Mar 2021 07:48:37 -0400
-X-MC-Unique: xI4w9c0ANKeVk5sSHO2RWg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4496C10082E1
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 11:48:36 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-114-157.ams2.redhat.com
- [10.36.114.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53D225D742;
- Mon, 22 Mar 2021 11:48:35 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] optionrom/pvh: use memcmp() to find the RSDP signature
-Date: Mon, 22 Mar 2021 12:48:34 +0100
-Message-Id: <20210322114834.166798-1-sgarzare@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kvKZCTQ9iZG7mTzYZ8ESbjIA0odafiji0yVLbt2HKzc=;
+ b=LDQlTxILAjwBn7JPb9sIzqoo3EMz5uUkIh6yzwTcudgRv4bbnnMltWqjmGbqRIrq8lZsVI
+ GJsqXhI5IGaHjUJp2iMm3ke3cJkUCyncMIlB5zQJ8ijoKHdOJPQLOIh7y34QoWRVnekG1h
+ kDc7eB2tQltJ/OA3GHH4j0+ngxYk8ik=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-5UjjVfp1MSiPL_E9nJze6g-1; Mon, 22 Mar 2021 07:52:40 -0400
+X-MC-Unique: 5UjjVfp1MSiPL_E9nJze6g-1
+Received: by mail-wr1-f70.google.com with SMTP id p15so25663179wre.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:52:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kvKZCTQ9iZG7mTzYZ8ESbjIA0odafiji0yVLbt2HKzc=;
+ b=HGgdQvlrp690k/SXnlRIdPQMnjm+SA8/kTkt43qyVHXwuCvS5KPM1QJMlRTUQICK6L
+ UDSM/Bz0ySBq/Q1EqeYWr1L1t2Kq36HAp3jWY9KeaLmnOpmEv44swLzJnXyMtTc3GQTq
+ 1wFV04Zz9aHfrDwXS9867UZpyOxh742bhzbq2VBjkBglSJT7yODU3FaJMMh7OyIWVLma
+ BK+EtjlAFc7GrsHIG2dtIxHeKUFUHid7R2QXixPR6aa18hp+Dtvvg6G4mHn/f8hnal1w
+ 0EyClPl6n4mjuPEsI/JhbHZqXPOeDxrLrICFf+3w0nqlFqdeIrpf5E+qYy0aUO4AaYgE
+ /rSQ==
+X-Gm-Message-State: AOAM533i+JOZ1oDPlpxbYF2jNECW9lpQatwWlH6UGKailg7v3CcIw0ST
+ U+N+hbunP3OtdFNkrFr579Ug8aILowSny7bLKadHNxEbTH4iVDPTL9uaDcTlEW45WMYAT7bxuJQ
+ vZRko439zty3PtwcB6CzRjuVQgp0MSoBrch4fKTJje+vg32EF8ZmpoZmKYg3k9REJ1Ho=
+X-Received: by 2002:a1c:e341:: with SMTP id a62mr16091230wmh.152.1616413959291; 
+ Mon, 22 Mar 2021 04:52:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwn7xIiSOEkR1RRBce4JkjHDtnoLSEjWHeFuht2rul0O1cQEh0DMeG6x9Z+DV2ZG2GQ7JwvOQ==
+X-Received: by 2002:a1c:e341:: with SMTP id a62mr16091209wmh.152.1616413959045; 
+ Mon, 22 Mar 2021 04:52:39 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h62sm18268959wmf.37.2021.03.22.04.52.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 04:52:38 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PULL 18/76] optionrom: add new PVH option rom
+To: Stefano Garzarella <sgarzare@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <1549390526-24246-1-git-send-email-pbonzini@redhat.com>
+ <1549390526-24246-19-git-send-email-pbonzini@redhat.com>
+ <e3d925e6-a48e-07b9-6418-05c5a4d2cd36@redhat.com>
+ <f33bf6fa-1fa3-4e33-bd8e-843bec2d5638@redhat.com>
+ <20210319173524.rnrxslpmdjck6uxv@steredhat>
+ <CABgObfZHP1aSMpbdWh6TwCN_D5gy5TS5+Q7-La8d7E5czvn7Rg@mail.gmail.com>
+ <20210319182022.veha5gbcg3p4idgk@steredhat>
+ <CAGxU2F7hNoJeDpsCtU0ypKd=3+3mrxcc3QU6Yx9SK9e_7y6Khw@mail.gmail.com>
+ <CAGxU2F5x_TNQZJ3f+baam3pHzzP+0k57FFNB5ms-qt3B25gSVQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c7f0fb65-5d9b-9b38-8348-30eaa5ff5594@redhat.com>
+Date: Mon, 22 Mar 2021 12:52:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAGxU2F5x_TNQZJ3f+baam3pHzzP+0k57FFNB5ms-qt3B25gSVQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,66 +108,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New versions of gcc report a potential error and there may be alignment
-issues using uint64_t pointer to check the RSDP signature:
+On 22/03/21 11:59, Stefano Garzarella wrote:
+> 
+> If I build with gcc 10.2.1 20210313 (Alpine 10.2.1_pre2) uint64_t and
+> UINT64_C(1) have a size of 4 bytes, while UINT64_C(0x2052545020445352)
+> has a size of 8 bytes:
+> 
+>     warning: initialization of ‘char (*)[4]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>     74 |     char (*__size1)[sizeof(uint64_t)] = 1;
+>        |                                         ^
+>     warning: initialization of ‘char (*)[4]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>     75 |     char (*__size2)[sizeof(UINT64_C(1))] = 1;
+>        |                                            ^
+>     warning: initialization of ‘char (*)[8]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>     76 |     char (*__size3)[sizeof(UINT64_C(0x2052545020445352))] = 1;
 
-    gcc 10.2.1 "cc (Alpine 10.2.1_pre2) 10.2.1 20210313" reports:
+Looks like long is 4 bytes long with -m16 and -m32, but 8 bytes with 
+-m64.  The large constant is extended to long long because it's the only 
+way to fit it.
 
-    pc-bios/optionrom/pvh_main.c: In function 'search_rsdp':
-    pc-bios/optionrom/pvh_main.c:61:21: warning: comparison is always false
-    due to limited range of data type [-Wtype-limits]
-       61 |         if (*rsdp_p == RSDP_SIGNATURE) {
-          |                     ^~
-
-Let's use memcmp() to get more readable code and avoid these issues.
-Since pvh optionrom is baremetal, we use the compiler's __builtin_memcmp.
-
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- pc-bios/optionrom/pvh_main.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
-index 28e79d7fc4..12202e38c2 100644
---- a/pc-bios/optionrom/pvh_main.c
-+++ b/pc-bios/optionrom/pvh_main.c
-@@ -27,7 +27,8 @@ asm (".code32"); /* this code will be executed in protected mode */
- #include "optrom_fw_cfg.h"
- #include "../../include/hw/xen/start_info.h"
- 
--#define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
-+#define RSDP_SIGNATURE          "RSD PTR "
-+#define RSDP_SIGNATURE_SIZE     8
- #define RSDP_AREA_ADDR          0x000E0000
- #define RSDP_AREA_SIZE          0x00020000
- #define EBDA_BASE_ADDR          0x0000040E
-@@ -53,12 +54,14 @@ static uint8_t cmdline_buffer[CMDLINE_BUFSIZE];
- /* Search RSDP signature. */
- static uintptr_t search_rsdp(uint32_t start_addr, uint32_t end_addr)
- {
--    uint64_t *rsdp_p;
-+    char rsdp_signature[RSDP_SIGNATURE_SIZE] = RSDP_SIGNATURE;
-+    char *rsdp_p;
- 
-     /* RSDP signature is always on a 16 byte boundary */
--    for (rsdp_p = (uint64_t *)start_addr; rsdp_p < (uint64_t *)end_addr;
--         rsdp_p += 2) {
--        if (*rsdp_p == RSDP_SIGNATURE) {
-+    for (rsdp_p = (char *)start_addr; rsdp_p < (char *)end_addr;
-+         rsdp_p += 16) {
-+        if (__builtin_memcmp(rsdp_p, rsdp_signature,
-+                             RSDP_SIGNATURE_SIZE) == 0) {
-             return (uintptr_t)rsdp_p;
-         }
-     }
--- 
-2.30.2
+Paolo
 
 
