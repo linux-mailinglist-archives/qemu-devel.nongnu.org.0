@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B79A3437E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:26:22 +0100 (CET)
-Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF0A3437CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:13:33 +0100 (CET)
+Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOC8z-0002d0-5K
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
+	id 1lOBwa-0007ER-Gp
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:13:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBvB-0006WI-V6; Mon, 22 Mar 2021 00:12:06 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42241 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lOBuW-000688-MS
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 00:11:26 -0400
+Received: from mga02.intel.com ([134.134.136.20]:13663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBv9-0004l5-P8; Mon, 22 Mar 2021 00:12:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3gzz3d71z9sXb; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616386303;
- bh=hgCrvoiOO4PwbCOlIJdhV7WU80RIE0Sh0/lc4YaksA4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FocDcS61R74qspkipR/ftD1i4BFZYAwahUn9GFjgSdVFgoXVtjBoHg8bLSCPF+uud
- F7UJ67T4lHcf3dFWcbTq4wKMVfU10nPq7C+2H6BDDiu+WmsC/EzLu4JP0oqxDiEnyG
- 0yewMPn64cNkNVFRXYHwd2BDt0q0hQaoXrdWN094=
-Date: Mon, 22 Mar 2021 15:09:04 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 3/5] hw/pci-host/prep: Remove unuseful memory region
- mapping
-Message-ID: <YFgYYHOroOLHBbm7@yekko.fritz.box>
-References: <20210312182851.1922972-1-f4bug@amsat.org>
- <20210312182851.1922972-4-f4bug@amsat.org>
- <20210312203821.GN194839@xz-x1>
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lOBuQ-0004La-Ci
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 00:11:24 -0400
+IronPort-SDR: srQhpsgVIA5Ig7JzR8iODYVgjB8UDCq99JTaAKwGTAvlGx4EmS3dZlr84MjEq7CdtThOg2JnTL
+ /AVHL1zil/Bg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="177328925"
+X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; d="scan'208";a="177328925"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2021 21:11:09 -0700
+IronPort-SDR: E1jFeE662j+SputdVxBvmtGYkBNxgzO+J6MonVKiuprxT1YVIvw222iFGB+dJlNWChf/8FwvW3
+ gex7fhw0svDA==
+X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; d="scan'208";a="414323026"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.2.5])
+ ([10.238.2.5])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2021 21:11:07 -0700
+Subject: Re: [RFC PATCH] i386: Add ratelimit for bus locks acquired in guest
+To: Marcelo Tosatti <mtosatti@redhat.com>
+References: <20210317084709.15605-1-chenyi.qiang@intel.com>
+ <20210318173200.GA35410@fuller.cnet>
+ <bdae25cb-49c6-76be-db9b-fd2a5f890531@intel.com>
+ <20210319123707.GA72513@fuller.cnet>
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+Message-ID: <4f35e9e1-4322-b4a1-f877-ebeaf5f5be44@intel.com>
+Date: Mon, 22 Mar 2021 12:11:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5PRomczws350pwBI"
-Content-Disposition: inline
-In-Reply-To: <20210312203821.GN194839@xz-x1>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210319123707.GA72513@fuller.cnet>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,129 +69,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>,
- Greg Kurz <groug@kaod.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5PRomczws350pwBI
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 12, 2021 at 03:38:21PM -0500, Peter Xu wrote:
-> On Fri, Mar 12, 2021 at 07:28:49PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> > The pci_io_non_contiguous region is mapped on top of pci_io
-> > with higher priority, but simply dispatch into this region
-> > address space. Simplify by directly registering the former
-> > region in place, and adapt the address space dispatch offsets.
-> >=20
-> > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > ---
-> >  hw/pci-host/prep.c | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> > index 0a9162fba97..00a28c2d18c 100644
-> > --- a/hw/pci-host/prep.c
-> > +++ b/hw/pci-host/prep.c
-> > @@ -159,8 +159,7 @@ static uint64_t raven_io_read(void *opaque, hwaddr =
-addr,
-> >      uint8_t buf[4];
-> > =20
-> >      addr =3D raven_io_address(s, addr);
-> > -    address_space_read(&s->pci_io_as, addr + 0x80000000,
-> > -                       MEMTXATTRS_UNSPECIFIED, buf, size);
-> > +    address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, bu=
-f, size);
-> > =20
-> >      if (size =3D=3D 1) {
-> >          return buf[0];
-> > @@ -191,8 +190,7 @@ static void raven_io_write(void *opaque, hwaddr add=
-r,
-> >          g_assert_not_reached();
-> >      }
-> > =20
-> > -    address_space_write(&s->pci_io_as, addr + 0x80000000,
-> > -                        MEMTXATTRS_UNSPECIFIED, buf, size);
-> > +    address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, b=
-uf, size);
->=20
-> This changes access to s->pci_io_as, but below didn't change s->pci_io_as
-> layout at all (below is about address_space_mem).  Is this intended?
->=20
-> >  }
-> > =20
-> >  static const MemoryRegionOps raven_io_ops =3D {
-> > @@ -294,9 +292,8 @@ static void raven_pcihost_initfn(Object *obj)
-> >      address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
-> > =20
-> >      /* CPU address space */
-> > -    memory_region_add_subregion(address_space_mem, 0x80000000, &s->pci=
-_io);
-> > -    memory_region_add_subregion_overlap(address_space_mem, 0x80000000,
-> > -                                        &s->pci_io_non_contiguous, 1);
-> > +    memory_region_add_subregion(address_space_mem, 0x80000000,
-> > +                                &s->pci_io_non_contiguous);
->=20
-> I don't know any of this code at all... but it seems the two memory regio=
-ns are
-> not identical in size:
->=20
->     memory_region_init(&s->pci_io, obj, "pci-io", 0x3f800000);
->     memory_region_init_io(&s->pci_io_non_contiguous, obj, &raven_io_ops, =
-s,
->                           "pci-io-non-contiguous", 0x00800000);
->=20
-> Then it seems the memory access dispatching to (0x00800000, 0x3f800000) w=
-ould
-> change too, from s->pci_io to nothing.  Raise this up too since I don't k=
-now
-> either whether it's intended..
+On 3/19/2021 8:37 PM, Marcelo Tosatti wrote:
+> On Fri, Mar 19, 2021 at 10:59:20AM +0800, Chenyi Qiang wrote:
+>> Hi Marcelo,
+>>
+>> Thank you for your comment.
+>>
+>> On 3/19/2021 1:32 AM, Marcelo Tosatti wrote:
+>>> On Wed, Mar 17, 2021 at 04:47:09PM +0800, Chenyi Qiang wrote:
+>>>> Virtual Machines can exploit bus locks to degrade the performance of
+>>>> system. To address this kind of performance DOS attack, bus lock VM exit
+>>>> is introduced in KVM and it will report the bus locks detected in guest,
+>>>> which can help userspace to enforce throttling policies.
+>>>
+>>>>
+>>>> The availability of bus lock VM exit can be detected through the
+>>>> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
+>>>> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
+>>>> bitmap is the only supported strategy at present. It indicates that KVM
+>>>> will exit to userspace to handle the bus locks.
+>>>>
+>>>> This patch adds a ratelimit on the bus locks acquired in guest as a
+>>>> mitigation policy.
+>>>>
+>>>> Introduce a new field "bld" to record the limited speed of bus locks in
+>>>> target VM. The user can specify it through the "bus-lock-detection"
+>>>> as a machine property. In current implementation, the default value of
+>>>> the speed is 0 per second, which means no restriction on the bus locks.
+>>>>
+>>>> Ratelimit enforced in data transmission uses a time slice of 100ms to
+>>>> get smooth output during regular operations in block jobs. As for
+>>>> ratelimit on bus lock detection, simply set the ratelimit interval to 1s
+>>>> and restrict the quota of bus lock occurrence to the value of "bld". A
+>>>> potential alternative is to introduce the time slice as a property
+>>>> which can help the user achieve more precise control.
+>>>>
+>>>> The detail of Bus lock VM exit can be found in spec:
+>>>> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
+>>>>
+>>>> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+>>>> ---
+>>>>    hw/i386/x86.c         |  6 ++++++
+>>>>    include/hw/i386/x86.h |  7 +++++++
+>>>>    target/i386/kvm/kvm.c | 44 +++++++++++++++++++++++++++++++++++++++++++
+>>>>    3 files changed, 57 insertions(+)
+>>>>
+>>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>>>> index 7865660e2c..a70a259e97 100644
+>>>> --- a/hw/i386/x86.c
+>>>> +++ b/hw/i386/x86.c
+>>>> @@ -1209,6 +1209,12 @@ static void x86_machine_initfn(Object *obj)
+>>>>        x86ms->acpi = ON_OFF_AUTO_AUTO;
+>>>>        x86ms->smp_dies = 1;
+>>>>        x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+>>>> +    x86ms->bld = 0;
+>>>> +
+>>>> +    object_property_add_uint64_ptr(obj, "bus-lock-detection",
+>>>> +                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
+>>>> +    object_property_set_description(obj, "bus-lock-detection",
+>>>> +            "Bus lock detection ratelimit");
+>>>>    }
+>>>>    static void x86_machine_class_init(ObjectClass *oc, void *data)
+>>>> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+>>>> index 56080bd1fb..1f0ffbcfb9 100644
+>>>> --- a/include/hw/i386/x86.h
+>>>> +++ b/include/hw/i386/x86.h
+>>>> @@ -72,6 +72,13 @@ struct X86MachineState {
+>>>>         * will be translated to MSI messages in the address space.
+>>>>         */
+>>>>        AddressSpace *ioapic_as;
+>>>> +
+>>>> +    /*
+>>>> +     * ratelimit enforced on detected bus locks, the default value
+>>>> +     * is 0 per second
+>>>> +     */
+>>>> +    uint64_t bld;
+>>>> +    RateLimit bld_limit;
+>>>>    };
+>>>>    #define X86_MACHINE_SMM              "smm"
+>>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>>>> index c8d61daf68..724862137d 100644
+>>>> --- a/target/i386/kvm/kvm.c
+>>>> +++ b/target/i386/kvm/kvm.c
+>>>> @@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
+>>>>    static struct kvm_cpuid2 *cpuid_cache;
+>>>>    static struct kvm_msr_list *kvm_feature_msrs;
+>>>> +#define SLICE_TIME 1000000000ULL /* ns */
+>>>> +
+>>>>    int kvm_has_pit_state2(void)
+>>>>    {
+>>>>        return has_pit_state2;
+>>>> @@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>>>            }
+>>>>        }
+>>>> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+>>>> +        X86MachineState *x86ms = X86_MACHINE(ms);
+>>>> +
+>>>> +        if (x86ms->bld > 0) {
+>>>> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
+>>>> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
+>>>> +                error_report("kvm: bus lock detection unsupported");
+>>>> +                return -ENOTSUP;
+>>>> +            }
+>>>> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
+>>>> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
+>>>> +            if (ret < 0) {
+>>>> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
+>>>> +                             strerror(-ret));
+>>>> +                return ret;
+>>>> +            }
+>>>> +
+>>>> +            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>>        return 0;
+>>>>    }
+>>>> @@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+>>>>        }
+>>>>    }
+>>>> +static void kvm_rate_limit_on_bus_lock(void)
+>>>> +{
+>>>> +    MachineState *ms = MACHINE(qdev_get_machine());
+>>>> +    X86MachineState *x86ms = X86_MACHINE(ms);
+>>>> +
+>>>> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
+>>>> +
+>>>> +    if (delay_ns) {
+>>>> +        g_usleep(delay_ns / SCALE_US);
+>>>> +    }
+>>>> +}
+>>>
+>>> Hi,
+>>>
+>>> Can't see a use-case where the throttling is very useful: this will
+>>> slowdown the application to a halt (if its bus-lock instruction is
+>>> being called frequently).
+>>>
+>>
+>> The throttling is aimed to only slowdown the target application and avoid
+>> slowdown the whole system (if bus-lock is frequent).
+> 
+> Right.
+> 
+>> As you known, bus locks
+>> takes more cycles and disrupt performance on other cores.
+> 
+> Right, testcase shows its pretty bad (cyclictest latency goes from 5us to >
+> 200us).
+>>
+>>> However its very nice to know that it (bus lock) has happened.
+>>>
+>>> So on KVM bus exit do you emulate the instruction or just execute it
+>>> in the guest (without a VM-exit for the second time) ?
+>>>
+>> Bus lock VM exit is a trap-like VM exit and delivered following the
+>> execution of the instruction acquiring the bus lock. Thus, it can just
+>> detect the occurrence of bus locks and can't intercept it. In KVM, we don't
+>> emulate the instruction. Bus lock already happens and guest will proceed to
+>> execute.
+> 
+> I see.
+> 
+> Question: its possible to #AC trap the split-lock in a KVM guest, right?
+> 
+> https://lwn.net/Articles/810317/
+> 
 
-Right, it seems like this removes the mapping of s->pci_io entirely.
+Right. Split lock can be detected by #AC trap, the trap is triggered 
+*before* the instruction acquires bus lock.
 
->=20
-> >      memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci=
-_memory);
-> >      pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(o=
-bj), NULL,
-> >                               &s->pci_memory, &s->pci_io, 0, TYPE_PCI_B=
-US);
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---5PRomczws350pwBI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYGGAACgkQbDjKyiDZ
-s5LwtA/+PqtXEJnp/uS4dT+1vL0W4zGiza4spBIfipj9AkKKonshV+99xXxnjbNm
-UQ6nLNcf8z3go9I53vWiOGGLMzG335KOp3Tp7wXwqJQE6AHj11hq6YudDAQiwnrD
-3EJgl0df/3dIyCtzylz8hgUOJb5iq+5ox1T/5hRGg3S6fbczOYrkMYUnPXAYWE0L
-e+kF+uzfc/4KTbSh7TjbHn6ZZ+p3CJ1Y4RCJ5XXCnf5Y90GkYezMOUQMjb/I7qqQ
-EawMyq6SUDSBIwhH2+WU3DrU7Uww/YOZaw92AB5kjRXsOsaFr1uOYdLIS97frcXS
-4s+sa4xcrVx3JWq+8+mjbOq5piwDRK5LkgzT+P/7BcxcefpvHSW6fg+BmzjApD/b
-X1iLTbPEkb8KIHD6F27hflPBfrlN9zdsYy1M2TgiivJNre3oCSKnhOeeGi3mKrrv
-OUciimpKpMPWVe5oW7td/Damt54V8DELsRLhVPTOLh9xK3Qtsg3GghbUyZfThrLo
-dlXZK999nlHw9SuyE6QtxJdQ3nHz44QxzgQ31U4k+9XZhCfQhvdKIuLyAVrGBKX7
-T3IcIxAUdkgOEX4WR1OrKoHv/51pY2/1yhTLPm9UnD9/aMYV7X6fdal6txX447PC
-1xzzUaahDxzT34UXE+XuJY2kzhkPQ58RJ3EbNsrUPGEUB4mx/wk=
-=8Qql
------END PGP SIGNATURE-----
-
---5PRomczws350pwBI--
+> 
 
