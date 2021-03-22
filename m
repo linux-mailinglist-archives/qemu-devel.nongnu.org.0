@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DC7344BCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:39:13 +0100 (CET)
-Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6136344BE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:40:58 +0100 (CET)
+Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONaC-0000Da-22
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55092)
+	id 1lONbt-0002Tr-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lONUh-0004Cy-PZ
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:33:31 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46774)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lONY0-0007VD-HZ
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:36:57 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lONUf-0000lk-TV
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:33:31 -0400
-Received: by mail-ed1-x533.google.com with SMTP id h10so20093800edt.13
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:33:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lONXy-0002iw-2H
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:36:56 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id bf3so20163600edb.6
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=glJSf7YlZCDeqAIWO9isv6NRlkZeqcky6yE8J+NKZdM=;
- b=kM+8d4szvchUVRqqIkITFVYRI0xGnvfMf+MYIpqqHkd8J0a8QhY+BCwDQuiB8fZiMF
- uCFtTnd1NzIKv6BsQj1zajQR41S14V7qiFVbRh7Lf1FoeO5SXpsCEfkxarGBWqAtqHY9
- TS9JoevnwD3NupuvgC+NzMMALgnZ9u5djtXMuseQeUHe/NmMIm4+/GD+9JpJakjvV9tm
- H3R0baRS8Jr3VD7z+vkMyspEqel4ckm9HQFmHN2T3wTFicDqERCaNa/KtvFYHC9UjSQ3
- kJNVnDKeuGIMIBuWAYrXZX124Y/H+UFqolng0XUkbhkS/komZyd5npcH+k27vaMxlR6/
- 2btg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SL/qu7KjJ3dW08+smYmEiwVp6Yz9jJTneKDV4WPn+34=;
+ b=Ek2L2nk4lL2zQNCjOeQf3vbrtAtTAczeni9qBjW2L/BXwm8dBV05JpPiFqYLMsXV4r
+ w6E6EOfAP58ldKGj9S/VhxM/0HHd6vhs2rwdEqdhMSg0t76gsa/s4UI9i4FVbXM9aWYb
+ iHc9MgSxVvgajQJ3vpK3nSkoMrvBwirrovHAWxG2U75McZEoGqJs/MGNbe1pagVexbph
+ zjZU2hRFdwJKepC/Esg5yrEmW3uxY4LOf+RFNhmhKRXItIy1fwdjNpRzUIBE/WLTu3FF
+ lSeRrdT4Hu7sucMFB8G1g3JldF4R57gyVe8F49rvR8AysWbtazjUV8lA+lADmxyaES5s
+ 45ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=glJSf7YlZCDeqAIWO9isv6NRlkZeqcky6yE8J+NKZdM=;
- b=eoTfPtXqhIZVseAAdesX68UfNVrTVsGeG11G194q/l3S32YjbfafIRINqa5JUkqIcM
- K8A8nCOBkYBlZ8L6q4oz7a6gGHleKg6yYr0Y0x6sBG8zLAx3meSND5hvMXSZvcRwS8DW
- W+dZLqLqKPz2o8j5USXzur7iqDqWkYvy8nNExBq75Zlx+p6Ew4euBlg7USeU8jFxzyA2
- uv6V78KcpR2nS6cz1/l3Oz68xvZ29IDS0dJJn1LKUHzW+wxucGJpXVgpFkJBr6dhsAjv
- H3ahWJiWjF49QFLj1VcLSdKZOx8RV52ieFIOQjIQ2ZYZ1j9wCHTv422d/qomN8CBhMP+
- j/4A==
-X-Gm-Message-State: AOAM530GHxyJf9f6fJtJMnlIhDqs3695cjEJBYXMZ7Q9JCXEq7krpGu1
- Dm4CDI2Oje/qcEj6tCwpaV5CXw==
-X-Google-Smtp-Source: ABdhPJyp9xgFpTpsNp0VKzDumf/JRVF20crT8zEU0wmN/VkaHMs3fjG+MKaqVmLUn6pQKidBFJ/WXg==
-X-Received: by 2002:aa7:d4d6:: with SMTP id t22mr444648edr.376.1616430808373; 
- Mon, 22 Mar 2021 09:33:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j1sm9883124ejt.18.2021.03.22.09.33.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 09:33:27 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 647151FF7E;
- Mon, 22 Mar 2021 16:33:26 +0000 (GMT)
-References: <20210322140206.9513-1-cfontana@suse.de>
- <20210322140206.9513-5-cfontana@suse.de>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v10 04/49] target/arm: tcg: add sysemu and user subsirs
-Date: Mon, 22 Mar 2021 16:32:55 +0000
-In-reply-to: <20210322140206.9513-5-cfontana@suse.de>
-Message-ID: <87ft0njgh5.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SL/qu7KjJ3dW08+smYmEiwVp6Yz9jJTneKDV4WPn+34=;
+ b=s3/uE53NvEBJ+FaLrwXWx4rHHH3a/fDlxv/nVP5JhHSKl69sZZ6FudVLG5TL0bO8PK
+ At0bt4pQ4jSyP9bToQ9uto8bPGS//fEun6XmmXyiAzzIanFsvymEiNGz1XLdrXhNw8QA
+ 6AR2tB4PxqNw8SRQN3tulTkWqO4p/lomxPyRKYIyYjo5H2fkoRn2C1joN5dSZsmA8RxL
+ 8CBDj2f/8Mjst7VchYnP7nbmo7F+CbU7s5oHsQGF+m3UGnCqPuBgON2jZuDhIvWRK4et
+ Y4bHd5TCDlkyWhnkiRx+arLFC3iNk+aLQzUzFgEBIQlcO/QKn/ImC1eamF/vd161N1oK
+ p67Q==
+X-Gm-Message-State: AOAM532dnn2GFwqqzGYAAWSpweOJx667LFmThTcdaUM6wF9+AXIyBQuW
+ UwMjXEUrNTvNuGvXtQYAxNkZNlufZROVOQP5ZiTBR5vBMN9qDA==
+X-Google-Smtp-Source: ABdhPJzc1Yi1ZW2CRmvJZiUFx2zl6F1ydNjWAT43ExDNqd5vrad/t3teXDQ9tnzFDVM1KHvVTEtwRxAURclA7aWlbo0=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr504973edt.36.1616431012756;
+ Mon, 22 Mar 2021 09:36:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210322155040.4009256-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210322155040.4009256-1-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Mar 2021 16:36:24 +0000
+Message-ID: <CAFEAcA95saRMvwkst1tr5wpihtKOK3GX-KSgUNe+J2T8aAcbSw@mail.gmail.com>
+Subject: Re: [PATCH] docs: simplify each section title
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,23 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <philmd@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 22 Mar 2021 at 16:03, <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Now that we merged into one doc, it makes the nav looks nicer.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/devel/index.rst   | 4 ++--
+>  docs/interop/index.rst | 4 ++--
+>  docs/specs/index.rst   | 4 ++--
+>  docs/system/index.rst  | 4 ++--
+>  docs/tools/index.rst   | 4 ++--
+>  docs/user/index.rst    | 4 ++--
+>  6 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index 7c424ea6d7..09d21d3514 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -1,8 +1,8 @@
+>  .. This is the top level page for the 'devel' manual.
+>
+>
+> -QEMU Developer's Guide
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Developers
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Claudio Fontana <cfontana@suse.de> writes:
+I think this should be "Developer's Guide" or "Developer Information"
+or something. Just "Developers" doesn't really read right to me:
+it is not "documentation of developers" in the way that the "Tools"
+section is "documentation of tools", etc.
 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-
-s/subsirs/subdirs/ for $SUBJECT, otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
