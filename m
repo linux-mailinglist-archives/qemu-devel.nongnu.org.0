@@ -2,82 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F55345210
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:52:18 +0100 (CET)
-Received: from localhost ([::1]:54120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F1D345225
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:58:08 +0100 (CET)
+Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOSTB-0001Px-1h
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51986)
+	id 1lOSYp-0004P9-SO
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOSQs-0000mM-L2
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:49:55 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:40618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOSQr-0003bR-AF
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:49:54 -0400
-Received: by mail-qt1-x836.google.com with SMTP id r14so13534833qtt.7
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 14:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hQMsZgHbBPcS2HLJBCuemMeV59cLUHQaJ9foEaflzms=;
- b=qhA6qD8XamByUQfKGwzSez1GZuVRZN9vtyznsu/y6fArvL9Pd6qHrWQ1Id0v9jpZFb
- Z5TidI5iW17uCxjqgWWb+V94Ya91Kr5FyghYUCANZUPb0nNFr/dQuNKD0w90AknwBC8a
- JHWxDevSyPUoPRr65hb/bxapGTS/X39rohDaNt+6lvRgLDgW02Pg6OpxVJLFXSnCsGFm
- zHdXzYloC7gUumwY+MOHoztms1O2H+1nBtGwgUkZTstbaMSnzAE/uPGI8cNJj99UVfmt
- xWtfzVTvVGiQhvs3iVmWPV4JIiDelYw6O0r0jJd3woJCeMydBpigHjgxCjuEa6ZGrSc/
- YoYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hQMsZgHbBPcS2HLJBCuemMeV59cLUHQaJ9foEaflzms=;
- b=N3fwbbvkI4SuQpD9zYKH7bqc90cn/BfCP4kTOuev/XOChfhAe8NhlPAuXtscIdy/oN
- pnWzOM9E8cq5stDsy4d0UFeympFI2V+PViMa3TPyqHm5lzmQL5splF0VjtMpQupHKthS
- jMsnTQ+2v+KXKOZ5rnGrun+GcBq46qsq7WjBBZPsBca119ZKvRg5atxF5KEPewUFORSR
- x87fLDz16neQZQcN8BG5HSSP9OqDHdgqtGhRiR3miAa0YYaZJx57Uz6Bbve/OIRtyyn2
- pi2TMMyV/iQ3TzmIG1PVREU8lNaMzbGBkjx6G32NXjxT1CbHEHPT4oIN7yMHnMWPkjWS
- /ssw==
-X-Gm-Message-State: AOAM53057qKHdosaYZHFGKN0/SQECFYZV+Lpvt2HbfkNQgY/veB+wZtf
- VhE8/NDo+fkZFT21yGyy3nchjg==
-X-Google-Smtp-Source: ABdhPJyp99xKZtC4P+vCwtrP3qZGF25820h6XJ8VEXsdjTfYAeH9cU0MVaAGTQxfjWXwjLh3oLM8Jw==
-X-Received: by 2002:ac8:6c3b:: with SMTP id k27mr1871997qtu.354.1616449792151; 
- Mon, 22 Mar 2021 14:49:52 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id g14sm11866181qkm.98.2021.03.22.14.49.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 14:49:51 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] exec: Build page-vary-common.c with -fno-lto
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210322112427.4045204-1-f4bug@amsat.org>
- <a0a7f1e2-2266-79e3-11f0-8fb6ef6ddc32@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3e85f930-b361-3cdd-2698-a362dc03d0d1@linaro.org>
-Date: Mon, 22 Mar 2021 15:49:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1lOSWr-0003IM-Cy; Mon, 22 Mar 2021 17:56:05 -0400
+Received: from mail.mutex.one ([62.77.152.124]:56044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1lOSWo-0005xk-KQ; Mon, 22 Mar 2021 17:56:05 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id 74FB4BF426A2;
+ Mon, 22 Mar 2021 23:55:58 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6CvHQ_3wAryT; Mon, 22 Mar 2021 23:55:57 +0200 (EET)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [79.112.115.168])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id BA2AEBF42692;
+ Mon, 22 Mar 2021 23:55:56 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1616450156; bh=56gKa/9K+bohAh0JX6G0ndA+B07XW+dnsNawaoFpzO4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Fo7Wp4F2jxxjm4ZN1nAV0uPVEXTEjU1IzSivIX68sWVIJPh11Z6CSx4jE2RoMZj8D
+ fLMOdmJamH7mk76AVqyyCtI8wTJ7heua+mIATBDyAxhvkkobln1N2wRRgn73gsqawp
+ pZRehoQkhaSIylJd53gXa1g2xzXyitY0kGkNimyc=
+From: Marian Postevca <posteuca@mutex.one>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/1] Rework ACPI OEM fields handling to simplify code (was:
+ acpi: Remove duplicated code handling OEM ID and OEM table ID fields)
+Date: Mon, 22 Mar 2021 23:55:53 +0200
+Message-Id: <20210322215554.24875-1-posteuca@mutex.one>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <a0a7f1e2-2266-79e3-11f0-8fb6ef6ddc32@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=marian@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,28 +64,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gavin Shan <gshan@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Marian Postevca <posteuca@mutex.one>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 7:00 AM, Paolo Bonzini wrote:
-> On 22/03/21 12:24, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> While reviewing Richard's original patch, I split it in 3
->> to make it more digestible to my review taste. I then simply
->> filled the patch descriptions. Feel free to keep Richard's v1
->> if this isn't worth it.
->>
->> What is still missing is adding the new files to a MAINTAINERS
->> section.
-> 
-> Both versions look good, thanks (the split is indeed more digestible)! Richard, 
-> are you going to queue one of them?
-
-Yes, I'll take Phil's split, move the new files into softmmu/, and update 
-MAINTAINERS.
-
-
-r~
+This patch consolidates ACPI OEM fields handling=0D
+by:=0D
+- Moving common code in PC and MICROVM to X86.=0D
+- Changes unnecessary dynamic memory allocation to static allocation=0D
+- Uses dedicated structure to keep values of fields instead of two=0D
+  separate strings=0D
+- Adds helper macros to initialize the structure=0D
+=0D
+v2:=0D
+- Move the setters/getters of OEM fields to X86MachineState to=0D
+  remove duplication=0D
+- Change commit message to make it clear the second commit is=0D
+  a re-factor=0D
+=0D
+v3:=0D
+- Rebase "acpi: Consolidate the handling of OEM ID and OEM=0D
+          Table ID fields to latest" to latest HEAD=0D
+- Dropped "acpi: Move setters/getters of oem fields to=0D
+           X86MachineState" since it was accepted already=0D
+=0D
+Marian Postevca (1):=0D
+  acpi: Consolidate the handling of OEM ID and OEM Table ID fields=0D
+=0D
+ hw/acpi/hmat.h                   |  2 +-=0D
+ hw/i386/acpi-common.h            |  2 +-=0D
+ include/hw/acpi/acpi-build-oem.h | 55 ++++++++++++++++++++++=0D
+ include/hw/acpi/aml-build.h      | 15 +++---=0D
+ include/hw/acpi/ghes.h           |  2 +-=0D
+ include/hw/acpi/pci.h            |  2 +-=0D
+ include/hw/acpi/vmgenid.h        |  2 +-=0D
+ include/hw/arm/virt.h            |  4 +-=0D
+ include/hw/i386/x86.h            |  4 +-=0D
+ include/hw/mem/nvdimm.h          |  4 +-=0D
+ hw/acpi/aml-build.c              | 27 ++++++-----=0D
+ hw/acpi/ghes.c                   |  5 +-=0D
+ hw/acpi/hmat.c                   |  4 +-=0D
+ hw/acpi/nvdimm.c                 | 22 +++++----=0D
+ hw/acpi/pci.c                    |  4 +-=0D
+ hw/acpi/vmgenid.c                |  6 ++-=0D
+ hw/arm/virt-acpi-build.c         | 40 ++++++----------=0D
+ hw/arm/virt.c                    | 16 +++----=0D
+ hw/i386/acpi-build.c             | 78 +++++++++++++++-----------------=0D
+ hw/i386/acpi-common.c            |  4 +-=0D
+ hw/i386/acpi-microvm.c           | 13 ++----=0D
+ hw/i386/x86.c                    | 19 ++++----=0D
+ 22 files changed, 182 insertions(+), 148 deletions(-)=0D
+ create mode 100644 include/hw/acpi/acpi-build-oem.h=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
