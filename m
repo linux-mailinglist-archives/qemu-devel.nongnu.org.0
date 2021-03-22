@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134A6344980
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:44:05 +0100 (CET)
-Received: from localhost ([::1]:50220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBF6344991
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:47:38 +0100 (CET)
+Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMiq-00020s-0z
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
+	id 1lOMmH-0005fy-17
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lOMgG-0000IJ-EO
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:26 -0400
-Received: from mout.web.de ([212.227.17.12]:38745)
+ id 1lOMgi-0000SC-4W
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:52 -0400
+Received: from mout.web.de ([212.227.17.12]:47719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lOMgE-00052e-FI
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:24 -0400
+ id 1lOMgd-0005GL-Q7
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616427677;
- bh=Seds2x/uRPH8CueU9WBlv+slAJOyRLmoXlrz0O6G/0c=;
+ s=dbaedf251592; t=1616427684;
+ bh=5qU7aaCHSk1bI1bCEfLbJChxRnkYoxmqTr9kqFB2wZU=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=nhgtTlSKOkHWxdyiCsHehapW2EgHz4UXtJzTsshL8inTLGhN9V32M593BbGFjVana
- LkdEkXqEWuShfqu9Lnemzdt0tv29Z/aybUKVZJTcrwNiWVS7rMGjaia6X9+MuWaRJj
- hjzdrdy37hGFYY6+tb4K9VyvG8VXtjgnzhl76XHs=
+ b=CUmdrJpunjdB6rPC/4+nMxL+gYavH77PuDVUcQxsRIi1J6i/iBRgeg1G6iA4CuNRk
+ xCIOSUapYX78uC8ihkbcOxQ94dAFWdEwV5WqaBn+KRyxv8QK6YME+3SqlMI3pSQjWe
+ NfHwtRZUeSrNRa6lTBUg3T0UvTREN4vLtTnD7lZY=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.232]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MgfJz-1l4LW61XvD-00NzkG; Mon, 22
- Mar 2021 16:41:17 +0100
-Date: Mon, 22 Mar 2021 16:41:15 +0100
+Received: from gecko.fritz.box ([94.134.180.232]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M8T7K-1lJwpw2w0u-004hOH; Mon, 22
+ Mar 2021 16:41:24 +0100
+Date: Mon, 22 Mar 2021 16:41:23 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 1/5] tests: Use the normal yank code instead of stubs in
- relevant tests
-Message-ID: <950007e82e19e75831b29fac07ab990c213d2352.1616427054.git.lukasstraub2@web.de>
+Subject: [PATCH v2 2/5] tests: Add tests for yank with the chardev-change case
+Message-ID: <22ff5d8a4714a492e34609f21888e62abb06db43.1616427054.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1616427054.git.lukasstraub2@web.de>
 References: <cover.1616427054.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//PrJ5vlsuz+nY_uAjJx4sNV";
+Content-Type: multipart/signed; boundary="Sig_/_hMhZUq/sMde1ij=AUzzIzp";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:qDEc5Hrg2PMbxUtiF40TEuke7tXgnIwEwTKLdnkRYEKabLhC8lE
- TQGmxVyZvK9QbAMQyKC/bzR7i4KH+QLYBO8LE+veSbJZ322KKGM6QMKFp3Df9dA7Djx2VMp
- 2380Ht7EccXqUwuXC4nNgUgTZjwUYxdVaioYXy9PnQgjmu/0aROLgSsFsO2yINqB/OZAVyj
- rKyZE1d0XptbmkOYS02qA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:py2NFqFjVAY=:2ZWSErJTLMOzzJTIk0Puil
- i+Io2XkzwjfXzudtbBjQZzAyprrHMv7fAhjztBm/ruWkcb3Zg05MdgPeP9WJpqpHY3bX/P/p+
- nOeywACnKeIpdbHZSh/J65PCeKorL5/C6sAK1N7aNAYhP5ddbxpabafIeMby7NNUAh+BuDCeJ
- rNZBFJ6i2xYVzce9znZ8IA4BYMELDj7CIK4RI44GdwQu797evI5oxK1vorIdVR8iFlOsTnr6e
- +GQATuo4o8pwEBxNT5pcWOk8BK426WX4gTk7URyH0CPQ1rGb1e8GjUrBPFLT02KlzybkVSKw7
- ynHqngqzXS7G8RStEuZ6sdVp2D0rdeyIP1hMD0a8n34YrYw5CQOuk75xqwtFK3F1ezpem5eYi
- GzgW2daYHvzRswXrDMzHlD6f+SKLsaDEibm5KKtF6NS07tC9DAMxqtwX5ozV/2RsOoNeyhObM
- ppqY2v+D+vt80/mSKrw0CSv2XrnNKzGOnErJewj6+c2QCh6t/NOrHyhG7fUwAFD6gZ5aUgSd4
- x3v/lU1G8QpkCla6uYWS7XVhueYb066Qos8rmMVz9TmVbXi+ciYM5r2WjoKF1cHspub7D/PR3
- tROTVpAvwfSdDcDmdGhsUTgvjARBWu3wsbfTnLLPIbNzFai6cd+YUuzG88QrAWNA/mwskQBZ7
- xPfIiaSzWyBxlyXQZvwJpg1DyWtla2XQ/YAgwUKUHEc/EibeKg7REMlzBBb/K/M5QXZWP+yaN
- tOPrVYKEQzrhWEqHQp8SVAY2UeTCPn8r+wLI4x36Gm6GJ1/SHbqwANLRvyE4fWRXFDfY6iw+m
- pi5EjPilVZik7wmYhrViXhSHvQIf7UuNA9KkjA2S/GjmjNcIiOp4rnk0fxJ8cca+9e34bfgUn
- KNAV3haKJTy39qNQL8Tg==
+X-Provags-ID: V03:K1:+T+bVaWdPeyTmRfCdrFiq3LzURsgFOXl7EZGwyKn7T52R36nzZr
+ yQOfnQvjcgcILSieceqajeoa3spgFei2gN2TyU0ls41N1FIRNCkk/6XIZ2KxrfkIA38BTbJ
+ ySglHk6dbVEz7yqu9YoQykC4u0v9npabgrVzCuBH/PACcVhFh9M0fXYiqlqEbydM6+p/ior
+ FEdSAZu3XoM6X9x4MaojQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k1GiqNboc4I=:gsFwCbvKO7Oi+D2FtqsVv/
+ /CRsNzDyjmoopJXAVo54M59CnIhRGcfiz2Fdxkc8wTX6FkXkjSAQibLe+vKLJ9/9jXND6SQgq
+ ONmAo4k96430pbYNYvjAKgPbnFLUZTizCv6B7LnGaeWAY4Ms8NAw40C1CFIl4Vr0XGZWvtdD0
+ F/U8crRP/CO41nWQXXyw2Tr7qa77ofLTzXl0ygubRCBLA78ODgtiYhhQKJ9UKw7YXre+k81Rh
+ 7X1W49ZccDQyQKIPX4EPKFf1VFqvikB2szEspgsUFqpfjPf3+kd6hAYweG/PW9NvU27T/3DFW
+ sTTzEGPGQzm1NGcTeQ/XaSeKrjfMN5edLS3Pkx2qG2ZQZqOoVN0XmwEyGzLcv9xMhpN3sBP8f
+ 8SG9EPVworKr4TRW1/5/iwjcfZrvMU7y18qxjJZ2fSMu6Bi5GigU4eedy8vwZFxj9qIz7X1EO
+ x84eJBtntvSi58Y+lBGG/RpjyFjeOBM2cewLP9MIMRV/A2SrjjKub1+I6zmrBQAHz7xnwLfUy
+ nj6/YJju/xRFrHDOMOKzbxLDUcqCtL3jdXYDbnVwf5Qk2rfO3WgxBQqCJFIPkqwckLsA20oIg
+ ndOKlHXqOUvSAb1g4Js2m64f/LkIhxU6QfFfGEfiYgkebAA+1T1gUQfvW29jW06eqcymtq2S2
+ U1ymGT7gERCNGmjClCkqab92639xEM79FPmrWIcMZPWXCblllmTrpJAu5Y6RIgi6BXe4Ik/gc
+ GcnfFKpplNk0mf66b7nK/wvIKXMjH0g+dUDICHXuGWYsMeBCQBxHYk+msIPoTYwldK0tcBpmy
+ OrK79fZPB538eCMPkiqGH8NK+IJ1xcdJ5F6faARA+SlW/7nVN6xi7mdeJjV4D0VFWCIqH/y/P
+ LodwvCBd64QInCDqFShg==
 Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -24
@@ -87,97 +86,295 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_//PrJ5vlsuz+nY_uAjJx4sNV
+--Sig_/_hMhZUq/sMde1ij=AUzzIzp
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Use the normal yank code instead of stubs in relevant tests to
-increase coverage and to ensure that registering and unregistering
-of yank instances and functions is done correctly.
+Add tests for yank with the chardev-change case.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- tests/qtest/meson.build | 6 +++---
- tests/unit/meson.build  | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ MAINTAINERS            |   1 +
+ tests/unit/meson.build |   3 +-
+ tests/unit/test-yank.c | 201 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 204 insertions(+), 1 deletion(-)
+ create mode 100644 tests/unit/test-yank.c
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 66ee9fbf45..40e1f495f7 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -234,9 +234,9 @@ tpmemu_files =3D ['tpm-emu.c', 'tpm-util.c', 'tpm-tests=
-.c']
- qtests =3D {
-   'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
-   'cdrom-test': files('boot-sector.c'),
--  'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
-+  'dbus-vmstate-test': ['migration-helpers.c', dbus_vmstate1, '../../monit=
-or/yank.c'],
-   'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
--  'migration-test': files('migration-helpers.c'),
-+  'migration-test': ['migration-helpers.c', io, '../../monitor/yank.c'],
-   'pxe-test': files('boot-sector.c'),
-   'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).=
-sources()],
-   'tpm-crb-swtpm-test': [io, tpmemu_files],
-@@ -266,7 +266,7 @@ foreach dir : target_dirs
-   endif
-   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vm=
-state-daemon.sh')
-   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
--
-+
-   foreach test : target_qtests
-     # Executables are shared across targets, declare them only the first t=
-ime we
-     # encounter them
+diff --git a/MAINTAINERS b/MAINTAINERS
+index aa024eed17..a8a7f0d1c2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2817,6 +2817,7 @@ F: monitor/yank.c
+ F: stubs/yank.c
+ F: include/qemu/yank.h
+ F: qapi/yank.json
++F: tests/unit/test-yank.c
+
+ COLO Framework
+ M: zhanghailiang <zhang.zhanghailiang@huawei.com>
 diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 4bfe4627ba..8ccf60af66 100644
+index 8ccf60af66..38e5dba920 100644
 --- a/tests/unit/meson.build
 +++ b/tests/unit/meson.build
-@@ -123,7 +123,7 @@ if have_system
+@@ -123,7 +123,8 @@ if have_system
      'test-util-sockets': ['socket-helpers.c'],
      'test-base64': [],
      'test-bufferiszero': [],
--    'test-vmstate': [migration, io]
-+    'test-vmstate': [migration, io, '../../monitor/yank.c']
+-    'test-vmstate': [migration, io, '../../monitor/yank.c']
++    'test-vmstate': [migration, io, '../../monitor/yank.c'],
++    'test-yank': ['socket-helpers.c', qom, io, chardev, '../../monitor/yan=
+k.c']
    }
    if 'CONFIG_INOTIFY1' in config_host
      tests +=3D {'test-util-filemonitor': []}
-@@ -135,7 +135,7 @@ if have_system
-   if 'CONFIG_TSAN' not in config_host
-     if 'CONFIG_POSIX' in config_host
-         tests +=3D {
--          'test-char': ['socket-helpers.c', qom, io, chardev]
-+          'test-char': ['socket-helpers.c', qom, io, chardev, '../../monit=
-or/yank.c']
-         }
-     endif
-
+diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c
+new file mode 100644
+index 0000000000..5cb94c2fe4
+--- /dev/null
++++ b/tests/unit/test-yank.c
+@@ -0,0 +1,201 @@
++/*
++ * Tests for QEMU yank feature
++ *
++ * Copyright (c) Lukas Straub <lukasstraub2@web.de>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include <glib/gstdio.h>
++
++#include "qemu/config-file.h"
++#include "qemu/module.h"
++#include "qemu/option.h"
++#include "chardev/char-fe.h"
++#include "sysemu/sysemu.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-char.h"
++#include "qapi/qapi-types-char.h"
++#include "qapi/qapi-commands-yank.h"
++#include "qapi/qapi-types-yank.h"
++#include "io/channel-socket.h"
++#include "socket-helpers.h"
++
++typedef struct {
++    SocketAddress *addr;
++    bool old_yank;
++    bool new_yank;
++    bool fail;
++} CharChangeTestConfig;
++
++static int chardev_change(void *opaque)
++{
++    return 0;
++}
++
++static bool is_yank_instance_registered(void)
++{
++    YankInstanceList *list;
++    bool ret;
++
++    list =3D qmp_query_yank(&error_abort);
++
++    ret =3D !!list;
++
++    qapi_free_YankInstanceList(list);
++
++    return ret;
++}
++
++static void char_change_test(gconstpointer opaque)
++{
++    CharChangeTestConfig *conf =3D (gpointer) opaque;
++    SocketAddress *addr;
++    Chardev *chr;
++    CharBackend be;
++    ChardevReturn *ret;
++    QIOChannelSocket *ioc;
++
++    /*
++     * Setup a listener socket and determine its address
++     * so we know the TCP port for the client later
++     */
++    ioc =3D qio_channel_socket_new();
++    g_assert_nonnull(ioc);
++    qio_channel_socket_listen_sync(ioc, conf->addr, 1, &error_abort);
++    addr =3D qio_channel_socket_get_local_address(ioc, &error_abort);
++    g_assert_nonnull(addr);
++
++    ChardevBackend backend[2] =3D {
++        /* doesn't support yank */
++        { .type =3D CHARDEV_BACKEND_KIND_NULL },
++        /* supports yank */
++        {
++            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
++            .u.socket.data =3D &(ChardevSocket) {
++                .addr =3D &(SocketAddressLegacy) {
++                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
++                    .u.inet.data =3D &addr->u.inet
++                },
++                .has_server =3D true,
++                .server =3D false
++            }
++        } };
++
++    ChardevBackend fail_backend[2] =3D {
++        /* doesn't support yank */
++        {
++            .type =3D CHARDEV_BACKEND_KIND_UDP,
++            .u.udp.data =3D &(ChardevUdp) {
++                .remote =3D &(SocketAddressLegacy) {
++                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_UNIX,
++                    .u.q_unix.data =3D &(UnixSocketAddress) {
++                        .path =3D (char *)""
++                    }
++                }
++            }
++        },
++        /* supports yank */
++        {
++            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
++            .u.socket.data =3D &(ChardevSocket) {
++                .addr =3D &(SocketAddressLegacy) {
++                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
++                    .u.inet.data =3D &(InetSocketAddress) {
++                        .host =3D (char *)"127.0.0.1",
++                        .port =3D (char *)"0"
++                    }
++                },
++                .has_server =3D true,
++                .server =3D false
++            }
++        } };
++
++    g_assert(!is_yank_instance_registered());
++
++    ret =3D qmp_chardev_add("chardev", &backend[conf->old_yank], &error_ab=
+ort);
++    qapi_free_ChardevReturn(ret);
++    chr =3D qemu_chr_find("chardev");
++    g_assert_nonnull(chr);
++
++    g_assert(is_yank_instance_registered() =3D=3D conf->old_yank);
++
++    qemu_chr_wait_connected(chr, &error_abort);
++    qemu_chr_fe_init(&be, chr, &error_abort);
++    /* allow chardev-change */
++    qemu_chr_fe_set_handlers(&be, NULL, NULL,
++                             NULL, chardev_change, NULL, NULL, true);
++
++    if (conf->fail) {
++        g_setenv("QTEST_SILENT_ERRORS", "1", 1);
++        ret =3D qmp_chardev_change("chardev", &fail_backend[conf->new_yank=
+],
++                                 NULL);
++        g_assert_null(ret);
++        g_assert(be.chr =3D=3D chr);
++        g_assert(is_yank_instance_registered() =3D=3D conf->old_yank);
++        g_unsetenv("QTEST_SILENT_ERRORS");
++    } else {
++        ret =3D qmp_chardev_change("chardev", &backend[conf->new_yank],
++                                 &error_abort);
++        g_assert_nonnull(ret);
++        g_assert(be.chr !=3D chr);
++        g_assert(is_yank_instance_registered() =3D=3D conf->new_yank);
++    }
++
++    object_unparent(OBJECT(be.chr));
++    object_unref(OBJECT(ioc));
++    qapi_free_ChardevReturn(ret);
++}
++
++static SocketAddress tcpaddr =3D {
++    .type =3D SOCKET_ADDRESS_TYPE_INET,
++    .u.inet.host =3D (char *)"127.0.0.1",
++    .u.inet.port =3D (char *)"0",
++};
++
++int main(int argc, char **argv)
++{
++    bool has_ipv4, has_ipv6;
++
++    qemu_init_main_loop(&error_abort);
++    socket_init();
++
++    g_test_init(&argc, &argv, NULL);
++
++    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
++    }
++
++    if (!has_ipv4) {
++        goto end;
++    }
++
++    module_call_init(MODULE_INIT_QOM);
++    qemu_add_opts(&qemu_chardev_opts);
++
++#define CHAR_CHANGE_TEST(name, _old_yank, _new_yank)                      =
+     \
++    do {                                                                  =
+     \
++        g_test_add_data_func("/yank/char_change/success/" # name,         =
+     \
++                             &(CharChangeTestConfig) { .addr =3D &tcpaddr,=
+       \
++                                                       .old_yank =3D (_old=
+_yank),\
++                                                       .new_yank =3D (_new=
+_yank),\
++                                                       .fail =3D false }, =
+       \
++                             char_change_test);                           =
+     \
++        g_test_add_data_func("/yank/char_change/fail/" # name,            =
+     \
++                             &(CharChangeTestConfig) { .addr =3D &tcpaddr,=
+       \
++                                                       .old_yank =3D (_old=
+_yank),\
++                                                       .new_yank =3D (_new=
+_yank),\
++                                                       .fail =3D true },  =
+       \
++                             char_change_test);                           =
+     \
++    } while (0)
++
++    CHAR_CHANGE_TEST(to_yank, false, true);
++    CHAR_CHANGE_TEST(yank_to_yank, true, true);
++    CHAR_CHANGE_TEST(from_yank, true, false);
++
++end:
++    return g_test_run();
++}
 --
 2.30.2
 
 
---Sig_//PrJ5vlsuz+nY_uAjJx4sNV
+--Sig_/_hMhZUq/sMde1ij=AUzzIzp
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBYupsACgkQNasLKJxd
-sljS8g//bbAOJ8jkwNrEr2PLX8hN22P0tc5P4uDsPVwmH+SEEsQLrNEEpTzJ1xRD
-1lQhkaxBjArd3kGDOZ243VVJz2idxMa4AyuKPnHHvNKGUkRULfa959avEu5yB3aH
-SZoicXP7oWhuYXBZxEpZZj3OuV+VXvM3S3y70oxlCzhQQ3pfY1ozonfxiCgqOhov
-FZ/luzxa8mQar1xeyap+2/SnchLHXOnbSxTs53zMQukNrzRQTFP3/ct+mkwgiRLx
-ITOc6fXgLJOu35YVgO2XugqAUr9S7Jh6fTGDSGHnJYVBK/jTT6SBFIBfEMEn89wd
-ReROaul1EnckvpPE6tVajUFC5pFyyMqxTj0EHdgpGclRrn30X1N2ik4LAaftTQFy
-hvopWMw0OOIiPox7kYOWrvyIwZFvPRluqxg84hYhoWFsj5HcpjPLkmT38xYRddFv
-0dsK84NOjRPH6SzJBifkZNhi78dUe4SeFutADdsi7C8N4/sgwJeoDneUKFUmIC60
-WGH9r/qK3Qyg8Od5tkWiQPGOXdrrPS68M7aqtgERiSLjeQxi2376/1AM4bo1bArb
-XWbLZlH1kj6JR9JXytX4nzXHFToUHqxkp6tynzqKKUV1uc5w/LDkMkZgjRKuco6h
-bH/ewT+DSp1ZKQs0+mpKI/z5kdQwb1TdhcXU9U/UHEo3bnjP4Iw=
-=ze9p
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBYuqMACgkQNasLKJxd
+sljScg//QQ+UwwY/P/TaKgywVIu5jGyOn3PcTIPS+F/HjuCTIrUDBG+Vp1pHw6Ap
+Cy8X7m0Iqu2WomUM11kwPwfhHKTf6zF/la+GCRYmh60GZ7W7dBAHhGIHXpWPXFmk
+ELmTevrIkaXQc5GvcLB/pDAjLKhbPsXfKL5eT3HRhlxAMPHXs8gFUkJo7p4eDYCS
+/PZwNpzrA1kDZd/T3iLAhiHvoqSQgaw/kpkUJnC320Y0yEW+HHFudr+LssoJHDpZ
+R8gYyVtr5R7L68TF6YmSPrDK5fhbarVPqfi1RTfmx42FVkUHjKXBxGNRorfA9210
+UM7o4MmP1x7UylYYCwx29IVIWcAgb42ZvaFex7BgoKbyIpHmVhgAtPPRrN7lnio8
+IpjQI/U9kSIfscWZ3EFe2GvkD6tFOmXZNjPXMv/dWr5VKTy9oMdBX45FGwzVIP9f
+vY1ganuQ1JGfn8VMS0C3tZJyZPpaspvdF9GsY6/jlQvzR/JbeXjS3xc+FTEH+bAu
+P1ee6VlRk52DZEAiCOjGeXm7EUrcHQp6tKY0uEWuSVJUXu5fftI4wXQuT4QZTzlo
+kWcSgI2bRLGmLDzlW6a9K1stc+Si46AXjDmBO5ZzxqsdbCCju57T6ReuqaiUU1Yp
+F4FnEcGmADo+PkqTP+wHEBdOQjtzGC0cmKRCR74QSdgoa6EWrbg=
+=VMmg
 -----END PGP SIGNATURE-----
 
---Sig_//PrJ5vlsuz+nY_uAjJx4sNV--
+--Sig_/_hMhZUq/sMde1ij=AUzzIzp--
 
