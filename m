@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD847344868
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:59:51 +0100 (CET)
-Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DE634485B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:58:45 +0100 (CET)
+Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOM22-0008Mr-UI
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40372)
+	id 1lOM0y-0006MQ-PR
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOLQz-0000uh-H7
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:21:33 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:44943)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOLTE-0003iu-55; Mon, 22 Mar 2021 10:23:52 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOLQo-0007SS-Jl
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:21:28 -0400
-Received: by mail-ej1-x630.google.com with SMTP id e14so3373153ejz.11
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 07:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oDq1IMBEFkt8p8P0xZzdYQb6WinJ/O7r1P0SbeEQonc=;
- b=mIPgiGh/ykIiC6A7ukpGFFBw9YM/wkCXHr68i5WIs+mzbChi4YlAn6r0l6M+cRf/up
- FuWuyvcOgDplxRFHH9UXqyxLIa4CjayjFMH+3e/KIJ6w/T+gLTMKscWlPGqmwpXItOPq
- t12dUEtkw2KCoiOc804b8KaFWc8btRuNosmbDAnQlYlvctVZXzG5BX1XwcN/M9/oVUIw
- L1steZgvtJpzUAXVxu8hLK8CAjgbMJx/RvRVuM/BieiSim5Gj/Iw6oXjUBc+P/vSXVy9
- kLtheQeAvV34ONhw0G3JrN/FiFaHpFZcsrNDeMjFwf1DQDZmUSXw+WE/4gWNGA154pDj
- IAfw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOLTC-0000I8-OW; Mon, 22 Mar 2021 10:23:51 -0400
+Received: by mail-wr1-x432.google.com with SMTP id j18so17146999wra.2;
+ Mon, 22 Mar 2021 07:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jnIo8HPggCqKZrBl1Zx42TTPHS5LxfE/2ye8p2BPFwg=;
+ b=qwwApDjgsB0PiMjpUFUI+GXpZ9oMnvC4z1pX5rsZyNWPBIWDocnE5hlo9CDRjoGM1D
+ 7JO0GG4u7SvqYk7uFmUGH0Qa3D80KLfI30jBS4yY5vMejJgbh0N7KjVz0kl0myAciXGO
+ FZIncabB8AwWC6YkAwswWkopi+OhvrF4V0dxFh+ljubNIUpi/QU2/bR97QnmB0+fP6/r
+ UX4/eUifMY0SaqzQtgggGXOIA2kTneW6Bu3JEErlih1Eo9szPBp8PXstcWRQtmPtfxPy
+ l266wz//Ma80TB7wdr1YUgzqD+IQWbXSvnnwXlrpp280Lc9ixQ6R5a1h2dgabD7o/Gtp
+ qS9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oDq1IMBEFkt8p8P0xZzdYQb6WinJ/O7r1P0SbeEQonc=;
- b=FSY/H0GgBl2rUaEcFWvKm4gGQr+890dE7GF+GSACMHr1HuBjRCO8J7A8FTGxiXOa9E
- PcvjtE0O2MqNUFuX+Moi9nqzkUIzwjRp0Hm2jJB2NM5vnuL3E20ryYjZcv4NM9+gM4as
- H6R2c7Z7YqlmllfBBh87Q18WJuoJUciSO9SHfbolPx+/+Tb1NsV+1Fq4rY+DrOrOKu9I
- K9SqF6As6Tm9EzNvZ89tZ1SnGItYJc97AELST8vkjohpdCVyQLFoAf02X24CktchROgJ
- W0dSPtlTYBRtqaN0jyfP2g66e0HMN2BB1q3XPXUi/stsOxxOjQLIyiHH7YmBcQtEvGP2
- er6w==
-X-Gm-Message-State: AOAM533rdU2MwqehJQPGkY7N34QGihVXRhCqeasg7KykDQ9Nj+Pn9TXw
- x7SQHELyK4XU+/y/DIYiZ4wndg==
-X-Google-Smtp-Source: ABdhPJxToWuDLiHkhU+YASddQQ7BqF4Jmwc7jBlEh9Yui9BlX0ys9H+VwXbHW8EWTebfnOgLOmPzQw==
-X-Received: by 2002:a17:906:95d1:: with SMTP id
- n17mr19119950ejy.394.1616422880548; 
- Mon, 22 Mar 2021 07:21:20 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l10sm11531668edr.87.2021.03.22.07.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 07:21:19 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 928681FF7E;
- Mon, 22 Mar 2021 14:21:18 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] gitlab: extend timeouts for CFI builds
-Date: Mon, 22 Mar 2021 14:21:10 +0000
-Message-Id: <20210322142110.4766-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=jnIo8HPggCqKZrBl1Zx42TTPHS5LxfE/2ye8p2BPFwg=;
+ b=i/0zM/Gsqs9QHs3DbnadHRgoT8F39IyZyaXSJ+aUFTpg8tClBqsDpOqEJwU7p0XPFz
+ NystjFecUwyAcJQsQ640sMO/AAxYlLUdgP/aKBbNtrKbA9DXqQWDl7tm6G9Q1gUfpxV5
+ pLmal4jvNqsNhImq3uwEvOCHwRpST1Z/87Swq583XwXlL2/cRu++w7+7no1jT1SOWQQc
+ kNJvEkSD8rcaO2Y24Na5xkyX9EAUGoJhwKvgLOvyJVAYFrW8lhZJm8FBwdZ/GT2bmNGU
+ gVmpeHqBDf3AzwDD3cG223tMasiJQk9GK8JTLo8vItSHGj0b1AjwpIi77ybBCLrC12SA
+ rBeA==
+X-Gm-Message-State: AOAM5336Jd+JAMT13L53n+u9ktvbVk3qb69OCSOrAdsBHoa3/taYT5Le
+ l2LX0SdyaUNfVpyKzwv24ByqErq61wLxbg==
+X-Google-Smtp-Source: ABdhPJyhEiASes8WHpcXaKzH03YL38L28ABps0WvU6odUIJCsIAPZ6m126MAla5RZkl8zKPqhvN2SQ==
+X-Received: by 2002:a5d:5744:: with SMTP id q4mr19058562wrw.390.1616423029011; 
+ Mon, 22 Mar 2021 07:23:49 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id h9sm17078822wmb.35.2021.03.22.07.23.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 07:23:48 -0700 (PDT)
+Subject: Re: [PATCH] hw/sd: sd: Fix build error when DEBUG_SD is on
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20210228050609.24779-1-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e539790d-cb05-32a4-1a80-649d3cc02ffe@amsat.org>
+Date: Mon, 22 Mar 2021 15:23:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210228050609.24779-1-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,53 +86,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- dbuono@linux.vnet.ibm.com
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These builds are running very close to the default build limit and as
-they are already pared down the only other option is to extend the
-timeout a little to give some breathing room.
+On 2/28/21 6:06 AM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> "qemu-common.h" should be included to provide the forward declaration
+> of qemu_hexdump() when DEBUG_SD is on.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>  hw/sd/sd.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.yml | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index f746d5fbea..9ffbaa7ffb 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -502,6 +502,7 @@ build-cfi-aarch64:
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: aarch64-softmmu
-     MAKE_CHECK_ARGS: check-build
-+  timeout: 70m
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -538,6 +539,7 @@ build-cfi-ppc64-s390x:
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: ppc64-softmmu s390x-softmmu
-     MAKE_CHECK_ARGS: check-build
-+  timeout: 70m
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -574,6 +576,7 @@ build-cfi-x86_64:
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: x86_64-softmmu
-     MAKE_CHECK_ARGS: check-build
-+  timeout: 70m
-   artifacts:
-     expire_in: 2 days
-     paths:
--- 
-2.20.1
-
+Thanks, patch applied to sdmmc-fixes.
 
