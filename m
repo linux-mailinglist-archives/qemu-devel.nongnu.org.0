@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742E3344877
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:01:51 +0100 (CET)
-Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A614344899
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:06:09 +0100 (CET)
+Received: from localhost ([::1]:41480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOM3y-0001hb-Dx
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:01:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
+	id 1lOM88-0007Us-MT
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOLaT-0005I0-48; Mon, 22 Mar 2021 10:31:21 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOLaR-0004rG-GP; Mon, 22 Mar 2021 10:31:20 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id v11so17179307wro.7;
- Mon, 22 Mar 2021 07:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/OaQRvnohnanmTyNOZ6gFn0pd+hZ+6cn3xRtPcJUUM8=;
- b=KB/6PchzRvb4UrmntdFySTtDq9iVs29+02P21j7GRkzRHe+gMveeGulz5++3rVq/0b
- q/d/CVAaUNqIURpgoAZRwcPlqGO14xYhcC0mMoTicc+hD/BvIZnbFBMOpOw2YNpa9JLH
- 6AqowG9VOcVf7phdr9lBPFYAf4L35eNA0Es+hPDps4/iokBdPew/q22Fu4ebbYLpAvMg
- RMYBONCT+O2/DJg9xVO9RCm1GLoVBR6E6TqviU4BZxfhAwqHL8gEPSmYw0ecDKJmwPdL
- YF4sVrO1m4nHl7wYNlQfG6GI+pfmtRSi/uWsrgYOJE8foCA471Mr4exMcN4+ENeLlwN4
- /abw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/OaQRvnohnanmTyNOZ6gFn0pd+hZ+6cn3xRtPcJUUM8=;
- b=FQOTLDJSdt1T6qcFbsWoCsagyeypzyR1KzE/amoDmGqwngJUz1zPaKhzzsmDcV9zP+
- u8CBupOFGjztGY96BfKY8ZxBjbgNxcKP7tVGqNWfqSnvYxhexeoOTDe8Tti2q3niyVDV
- CX4CZwl6skSlR7ggk3oRtMuGfqNFX3rcNZGvKw4VSH3QoRZKQM96DFmmM7q/Hfnihtog
- v3bKelE/yBpTlUJjxugdmvZwiO3ah0B91FQOr2HWDdOKLIKiuxj7HUnC6bdHh2Ue2sBf
- nanh3nqtvc3hbbRSUk7bX18miWTvRFTKzEESsoqMxKiocA0G0hlUFvzA+eQYFHdUB8Op
- fhZw==
-X-Gm-Message-State: AOAM530JRohOj9CLJ1J3M++wjf6GR0kh2ItmI0Shzdz7JtY2vwsDG2oM
- VQfDfrySgnNaKhHVL2PechI=
-X-Google-Smtp-Source: ABdhPJykgAy5A5aw3WwgbYK3/JDDUZqYTLXmNc0asfdiCzzy8ploKMnfF4uk1Qmy+MeZZDHr7nAP2w==
-X-Received: by 2002:a1c:68c5:: with SMTP id d188mr114321wmc.119.1616423477457; 
- Mon, 22 Mar 2021 07:31:17 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id c2sm16744870wmr.22.2021.03.22.07.31.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 07:31:16 -0700 (PDT)
-Subject: Re: [PATCH v3] hw/sd: sd: Actually perform the erase operation
-To: Bin Meng <bmeng.cn@gmail.com>, Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-References: <1613811493-58815-1-git-send-email-bmeng.cn@gmail.com>
- <CAEUhbmW-D9fCnu8jeKb-9VicdG81nCPysyX0M6uPxVTZgbZaqQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a3ddb875-30e0-14e5-492a-1a5cac7f38b1@amsat.org>
-Date: Mon, 22 Mar 2021 15:31:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1lOLbK-00064C-E0; Mon, 22 Mar 2021 10:32:15 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:52314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1lOLb9-0005EC-Oz; Mon, 22 Mar 2021 10:32:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1616423523;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=nyr8KSk+KDPShgitquX43mntR61x5GxDgHO+N7oBzic=;
+ b=dOEtW+gyp47Wjdo8XrOuTAtiyufygIrCbAr52jcnFm+7lw9sztsTtx5j
+ Y3hqtdd1p2DBUqTeSnYIvSKTPMmL5G5sDVQ8oflUmct+HaRWTs6zBgsnA
+ N4L5xIlMQs8WiKdmuUFgKmxL+QD0D7dfBX6caBY/rzGK6Qc751L0yoAOP c=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: YVWbBJuBGOAQTWgyEqclvkf4VOJr4eJz3KJSkuniw0VkBeBN7px9XY5p504LvHluUxBhdTehuV
+ KjDHwF3WBcrfdo1Qr7ySAEUI/l8H3hl8Y+nW2htupQqOOGmLbazAJtSkklQ0A9bIhMR1T4Cmpy
+ tvtUM/K6v5f8qdcH7kC0X7c8xU+mfnOl3SK5zAd8rcad4mr/4InKcks+XwS/6xONHrRCpHFYUT
+ BDrIfJrkesy+727zF0QB5ruwUG82YhASU8hV4KmBzb6N5PjxIn0fhLCFJFuU7nBin9NQBAkfc/
+ u+g=
+X-SBRS: 5.1
+X-MesageID: 39812241
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+IronPort-HdrOrdr: A9a23:qTNpx66woxGi2m+VigPXweaEI+orLtY04lQ7vn1ZYSd+NuSFis
+ Gjm+ka3xfoiDAXHEotg8yEJbPoexzh3LZPy800Ma25VAfr/FGpIoZr8Jf4z1TbdxHW3tV2kZ
+ 1te60WMrDNJHBxh8ri/U2cG9Ev3NGI/MmT9J3j5l1GJDsaCZ1IxQF/FwqdDwlSTA5JGZI2GP
+ Onl7d6jhCnfmkaadn+O2kdU4H41pD2vb/vfBJuPW9A1CCgljWtgYSbLzG52VMkXypL0fMe9w
+ H+4nfEz4GCl93+9RPGzW/U6P1t6Zfc4/9OHtaFhMRQChiEsHfQWK1bV7ePvC84rYiUgT5A+r
+ esnz4aM8t+8H/XdG2uyCGdozXI6zoy92TkjWaRnHqLm728eBsBF8FDiYhFGyGpjnYIgdBm3K
+ pHm0KfupZHZCmw+xjV2tnSWxlm0nezuHop+NRj60B3bI12Us4zkaUvuGduVLsQFiPz744qVM
+ N0CtvH2fpQeVSGK1jEo2hG2rWXLzsONybDZnJHlt2e0jBQknw85VAf3tYjknAJ8494Y4VY5t
+ 7DLr9jmNh1P4ErRJM4IN1Ebdq8C2TLTx6JGnmVO07bGKYOPG+IjJLr/rMv5qWPdIYTxJU/3L
+ TNOWko9FIaSgbLM4mjzZdL+hfCTCGWRjL20PxT4JB/p/nyX7zuPSqfSE0/kseprvkFa/erGM
+ qbCdZzObvOPGHuEYFG00nVQJ9JM0QTV8UTp5I6Vju104D2A7yvktaeXOfYJbLrHzphcHj4GG
+ E/UD/6I9gF6FuqVH/+iB3YQGjsZUT74JJ1HMHhjqgu4blIErcJnhkeiFy/6M3OFCZLtbYuel
+ BiZJn9lLmgmGWw9WHUzmlgNxZHFHxJ6LH4X34in35OD2rENZI4//SWYyR7wWaOLB4XdbKrLC
+ dv43BMvZ+RA7PV7yY4EN6jOn+dlBIo1Q23ZqZZvLaC68fjco4/FbA8VsVKZEL2PhRohAdnr3
+ pCYgcYRknZUijjk7mhkYZ8PpCgS/BsxAisOsJasnTZqAGVotwuXGISW3q0XdeQmhtGfUseun
+ Rht6seiqGHgzChNC82h/k5KkRFbA2scft7JRXAYIVfgbbwfg5sCW+MmDyBkhk2Pm7n7V8biG
+ CkLSqaf5jwcxJgk2Ed1qbh61VvcGqBO0p2d3BhqIV4UX3cpWwb657+WoOjl2+KLlcSyOAUNz
+ /IJTMUPwN13tiykBqYgiyLG3kqzognV9atRogLYvXWwDegOYeInaYJE7tP8JFpOMvnv+ULXe
+ icEjXlWg/QGqcswUiYt3wlMC57pD04ivvuwgTi93X903glA/beSW4WMo0zMpWZ9SzjSPmJ2p
+ ki0o5wsuu0L2nratmJjavQdCVOLxvPoWiwC+EkwKokzp4apf92Bd3cVzCNyXRMmBM5J83wnF
+ kFQKt67KvaU7UfCPA6amZc5B4xiN+LLEE3qQT4De81YEE1gxbgTqO0yquNraBqH1aIqwTxM0
+ SO6iFR///KWC2YyL4RYphAU1h+eQw783Rt/OSLao3WBkGrboh4jSuHDkM=
+X-IronPort-AV: E=Sophos;i="5.81,269,1610427600"; d="scan'208";a="39812241"
+Date: Mon, 22 Mar 2021 14:31:54 +0000
+To: <qemu-devel@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, Paul
+ Durrant <paul@xen.org>
+CC: <xen-devel@lists.xenproject.org>, <qemu-block@nongnu.org>
+Subject: Re: [PATCH] xen-block: Fix removal of backend instance via xenstore
+Message-ID: <YFiqWsUC2q+01xQD@perard>
+References: <20210308143232.83388-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmW-D9fCnu8jeKb-9VicdG81nCPysyX0M6uPxVTZgbZaqQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210308143232.83388-1-anthony.perard@citrix.com>
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,33 +92,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-On 3/10/21 8:16 AM, Bin Meng wrote:
-> Hi Philippe,
+Hi Paul, Stefano,
+
+Could one of you could give a Ack to this patch?
+
+Thanks,
+
+
+On Mon, Mar 08, 2021 at 02:32:32PM +0000, Anthony PERARD wrote:
+> From: Anthony PERARD <anthony.perard@citrix.com>
 > 
-> On Sat, Feb 20, 2021 at 4:58 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> At present the sd_erase() does not erase the requested range of card
->> data to 0xFFs. Let's make the erase operation actually happen.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->>
->> ---
->>
->> Changes in v3:
->> - fix the skip erase logic for SDSC cards
->>
+> Whenever a Xen block device is detach via xenstore, the image
+> associated with it remained open by the backend QEMU and an error is
+> logged:
+>     qemu-system-i386: failed to destroy drive: Node xvdz-qcow2 is in use
 > 
-> Any comments for v3?
+> This happened since object_unparent() doesn't immediately frees the
+> object and thus keep a reference to the node we are trying to free.
+> The reference is hold by the "drive" property and the call
+> xen_block_drive_destroy() fails.
+> 
+> In order to fix that, we call drain_call_rcu() to run the callback
+> setup by bus_remove_child() via object_unparent().
+> 
+> Fixes: 2d24a6466154 ("device-core: use RCU for list of children of a bus")
+> 
+> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+> ---
+> CCing people whom introduced/reviewed the change to use RCU to give
+> them a chance to say if the change is fine.
+> ---
+>  hw/block/xen-block.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+> index a3b69e27096f..fe5f828e2d25 100644
+> --- a/hw/block/xen-block.c
+> +++ b/hw/block/xen-block.c
+> @@ -972,6 +972,15 @@ static void xen_block_device_destroy(XenBackendInstance *backend,
+>  
+>      object_unparent(OBJECT(xendev));
+>  
+> +    /*
+> +     * Drall all pending RCU callbacks as object_unparent() frees `xendev'
+> +     * in a RCU callback.
+> +     * And due to the property "drive" still existing in `xendev', we
+> +     * cann't destroy the XenBlockDrive associated with `xendev' with
+> +     * xen_block_drive_destroy() below.
+> +     */
+> +    drain_call_rcu();
+> +
+>      if (iothread) {
+>          xen_block_iothread_destroy(iothread, errp);
+>          if (*errp) {
+> -- 
+> Anthony PERARD
+> 
 
-None :)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Patch applied to sdmmc-fixes.
+-- 
+Anthony PERARD
 
