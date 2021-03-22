@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B34B344920
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:21:11 +0100 (CET)
-Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A52344925
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:23:40 +0100 (CET)
+Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMMg-0004qm-J9
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59202)
+	id 1lOMP5-0007Qy-FT
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:23:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOML0-0003vg-GX; Mon, 22 Mar 2021 11:19:26 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:35810)
+ id 1lOMMK-0005Cg-TV; Mon, 22 Mar 2021 11:20:48 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:46060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOMKt-0000ME-KB; Mon, 22 Mar 2021 11:19:26 -0400
-Received: by mail-io1-xd36.google.com with SMTP id x17so3041565iog.2;
- Mon, 22 Mar 2021 08:19:17 -0700 (PDT)
+ id 1lOMMG-00017n-Rw; Mon, 22 Mar 2021 11:20:48 -0400
+Received: by mail-io1-xd29.google.com with SMTP id k8so14316479iop.12;
+ Mon, 22 Mar 2021 08:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F27Ano31Gep1hj0U6MW2Dizj6/P0yKIdLsqatvpKEbo=;
- b=qqZnaifaVYuOFA+tf57AyavQIhC7p3+Zad9UZf5RuGy+ialGCMxerKlbt48IxlbJUZ
- lFYzCS21g/BSK9ZMVnUL7HYWDn50t+pM1INEEIBQ5AsJCi270Tvxu8kIUOdoaRdqWDqN
- LdKM4F95TJHZln5DeneUSrC/pq1BPCPKDwCJykLMTyv7joE1m0BtaJadWuxcnj9N/lgo
- ocorhePv+DoHVUs6drB88JCMQsl8t7Uhbza2EV78ua9S+uNDFTjvFMfGwc5y+z7OSlwn
- tEEptaesmyHLKywg6vZF8lVflIfjqFsAn6hX62dd4LA5SLWl1vK/ZkVO0mA8MmJA0TNU
- mBhg==
+ :cc; bh=sH0qnymjhFhxYT8ynBH81ELAUK3f4OUCdGjABIDiIb4=;
+ b=JckoNdw1xyNdCiwn7vqqL/KgyfZ7d3nARCGtjkwHdwQ45WVsuI6Gk0k6SgF55+JCVm
+ j6LR2Cp2EH/YK27EW3AsdPGU/esFUQNtua/NA7LI0C8YDzkEJ1ytW4SeBHuaDrquCkJe
+ MJ3jFq/6ffKKR4uN7W+MhnZ6OqSLBXP8Ov0NOGg9kAt0vRf1XM46Jg3uuxmgyLaqJeaE
+ lydsFyJ4dAVvUXXxVdtend03QvJ1f537FzH/u+QeES6GTNiJdcCsnMjEGb8x0FASW/mi
+ u25qJb1oR3S/6cU1fHYEtZpN4AFGw5NmBcGHsx2RHbqBAGrFQ6ZmxvyFlt/Mc/PR/ZiZ
+ zssQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=F27Ano31Gep1hj0U6MW2Dizj6/P0yKIdLsqatvpKEbo=;
- b=hTRlgKsNBd6H+KAQ0QjPdzMMTXAOwLDlcJkkVVTqQfCe6u3tuebevCZg4UZjRYTP7r
- aP8VJNMIAXkSQkueHxmsOc8Hg1aCtYNyajSbmI8laAP3ht91DARrnaMOTCR4LALjATE2
- d80ABG8NsUBSyXk8VioFdkDqEZ/tT9YOJCE8tkUo2dwbl6VOMyIPsDJcmMyQFIvllMG+
- +GWIsqPhbaFiHE+p25ftpBcVff6IidNGZtpo5MnPTNKTZDHoJgkNSzXV+iJVuafSzmG8
- +5yrWIThAYmcoeLbkPl43ac1bjgMtzVsMWukU2tljKygLG+6vaDNPuUXvoazRglZ2Q0O
- QF/A==
-X-Gm-Message-State: AOAM532cg2NzJOjW9tx5ZRnoawP3B+W9cupMTMGO3K1OnZsdc5xVY80c
- vfrheOKFnnjw/Qy4HAokukcEnFoGYHuCBIQCO5Q=
-X-Google-Smtp-Source: ABdhPJyJlu8wfl1aJNpaTZ5V3YB6DbK4MEWDOPlrcoP6ItwQCwvH/w7OEVjJPYopJeOElUdjIiX0ixFP3+78eq2HHbg=
-X-Received: by 2002:a05:6638:3791:: with SMTP id
- w17mr11434577jal.91.1616426356909; 
- Mon, 22 Mar 2021 08:19:16 -0700 (PDT)
+ bh=sH0qnymjhFhxYT8ynBH81ELAUK3f4OUCdGjABIDiIb4=;
+ b=loVqhW9FipqNs6dS2vmY05lUxH4t7dz529ZTQZOG3m/9F3qdaXneEY6LI8UFFKDdG4
+ xZvom774yw+M9Zux3UywERKWLv9sWtgkmVMUJ6PKUo9P683Bvf1d4xJBoUpQYElXiYfX
+ CXc507f+XDfDnZ2UeoMfAbcjqj9qYFJEoRg8tmUO+xghBtTsUKnrL+zF6bdwY3kdT6yJ
+ Gcn/hKrGfzQd65OE00ixTWJ5lDYSwBmmq+tC1LDV1Du2ZQOytWPN2Vi14i1kELRbvSN6
+ kqN96E5tMfJenWHdBcqR5BC3OxJwhZJI35z9tKet4EcGIBZrcLmo2x3dddbNDiznv952
+ 6h+g==
+X-Gm-Message-State: AOAM533HTdLoT6shzDtbyVUDGAAOQnJn4v9toKGvXrXBupq4zz2Cwuc6
+ 3WRGeX4FSjVSxLiSulCCQJvGoHBRRDyFo9UDaBko9P/ATOM=
+X-Google-Smtp-Source: ABdhPJxDfRbdtaW04Ag2Gt/sdtiuvJRUdEURQLaA0e2QWegcy3HYYscyVcoHQAkEWbcgpmUlzxmvkAqcdi0OhPKARNA=
+X-Received: by 2002:a05:6602:2287:: with SMTP id
+ d7mr247026iod.42.1616426443442; 
+ Mon, 22 Mar 2021 08:20:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210306060152.7250-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210306060152.7250-1-bmeng.cn@gmail.com>
+References: <20210321050917.24621-1-vijai@behindbytes.com>
+ <20210321050917.24621-2-vijai@behindbytes.com>
+In-Reply-To: <20210321050917.24621-2-vijai@behindbytes.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Mar 2021 11:17:20 -0400
-Message-ID: <CAKmqyKMw_O+p5ni+aTPVS8_ihfRL5QkwHWCAKLX7CgpmKzyZvQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/block: m25p80: Support fast read for SST flashes
-To: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 22 Mar 2021 11:18:47 -0400
+Message-ID: <CAKmqyKOtnnLA31E8XCN_+bp-24Mr-kUycLx+=3uPfBdkZkbj7A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] target/riscv: Add Shakti C class CPU
+To: Vijai Kumar K <vijai@behindbytes.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,54 +77,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 6, 2021 at 1:02 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Sun, Mar 21, 2021 at 1:09 AM Vijai Kumar K <vijai@behindbytes.com> wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> C-Class is a member of the SHAKTI family of processors from IIT-M.
 >
-> Per SST25VF016B datasheet [1], SST flash requires a dummy byte after
-> the address bytes. Note only SPI mode is supported by SST flashes.
+> It is an extremely configurable and commercial-grade 5-stage in-order
+> core supporting the standard RV64GCSUN ISA extensions.
 >
-> [1] http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
 
-Thanks!
-
-Applied to riscv-to-apply.next
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
->
 > ---
+>  target/riscv/cpu.c | 1 +
+>  target/riscv/cpu.h | 1 +
+>  2 files changed, 2 insertions(+)
 >
-> Changes in v2:
-> - rebase on qemu/master
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 2a990f6253..140094fd52 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -707,6 +707,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+>      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
+>      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
+>      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+> +    DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
+>  #endif
+>  };
 >
->  hw/block/m25p80.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 5f9471d83c..183d3f44c2 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -895,6 +895,9 @@ static void decode_fast_read_cmd(Flash *s)
->      s->needed_bytes = get_addr_length(s);
->      switch (get_man(s)) {
->      /* Dummy cycles - modeled with bytes writes instead of bits */
-> +    case MAN_SST:
-> +        s->needed_bytes += 1;
-> +        break;
->      case MAN_WINBOND:
->          s->needed_bytes += 8;
->          break;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0edb2826a2..ebbf15fb1c 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -38,6 +38,7 @@
+>  #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+>  #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
+>  #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
+> +#define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
+>  #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
+>  #define TYPE_RISCV_CPU_SIFIVE_E34       RISCV_CPU_TYPE_NAME("sifive-e34")
+>  #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
 > --
 > 2.25.1
 >
