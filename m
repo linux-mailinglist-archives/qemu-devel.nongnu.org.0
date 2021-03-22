@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC893452C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:06:45 +0100 (CET)
-Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1722F3452B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:03:13 +0100 (CET)
+Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOTdE-0003bK-PF
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
+	id 1lOTZo-0000UG-34
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:03:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX4-00075g-M8
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42399)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX7-0007AS-4y
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX2-0001Dv-U2
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:22 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX4-0001F5-LW
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616454020;
+ s=mimecast20190719; t=1616454022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JvOManbKVW60cRwLAfNSDeNnb3glbQKDFfztyXD6vBs=;
- b=Lt1E3JDszVNtgjY1T7qhtdyRUEVRqR9zHj25kizNVq8SsEBOBy+yyj7W+IDy8f3U2H3r2f
- sGOj5z1wG3X/FcnGDRwwllKMjYpwT0ckUX0021xNa4lPCnZ+sUTRqFPT5foYJ+kFFocSQ9
- i05NQg+pteaQwyj3xHxDwW05ARrFxbM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-vlRgijupOUu90We1j667ZQ-1; Mon, 22 Mar 2021 19:00:17 -0400
-X-MC-Unique: vlRgijupOUu90We1j667ZQ-1
-Received: by mail-wm1-f70.google.com with SMTP id z26so171954wml.4
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:16 -0700 (PDT)
+ bh=yRTMNBKw7FKwBdiOn8Z7rlkQXm7qiYXIhC+rts1BLws=;
+ b=h05kcmDSryHgy/pgPZhnanfvEXwJz2VmIgY0S/AZZXLXVqaC6jVrksKLnP0z/ug/qPUFYR
+ Aqt5woy2jXu+UVr5ldiRdOtKccea4PVsTsMGMKc43dENjdsIt1gIfdUks6vZ305PFAT8SD
+ aU1IMu5/mSpwCz2he3NrN9sq1BAFnYY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-OkIO_jUQOk2cH4zvvLKOkQ-1; Mon, 22 Mar 2021 19:00:20 -0400
+X-MC-Unique: OkIO_jUQOk2cH4zvvLKOkQ-1
+Received: by mail-wr1-f71.google.com with SMTP id n16so161917wro.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=JvOManbKVW60cRwLAfNSDeNnb3glbQKDFfztyXD6vBs=;
- b=UUMejm5v50mCJkZHpea8p7n1y9OB/nrH3ESirW2RFtV5G6VIxJifZ7P6uDGi9JRN1f
- NG+MjhL/jptpRWZNeTjJMCJgW511jzLhtP3sCz8g5sJL/DfFpR450k8vaNTJcq8ns+wX
- AcuqjJ4Bas+a31Ue/l9Noe+rVFNf1jopneqh82xVx1pj66nAOw/LLGxh2l+/KEfRahiS
- 9Z/EiaVBs7IWQEl7HGrBrt5pEO1fyr0jh3rliESZEYDvGvAy6k1dt0uG5h2kuyt7u75U
- hUhmiauE2/KMW5sr0zaO1RACvwPKyp+bv+XpNO82g6uZghF3UGom0MNLA/dBi5rvsw0F
- j5Hw==
-X-Gm-Message-State: AOAM53140QzFdK2q1rn1WOowlxbXBzoWC2kxdu5m0d3mX+aoz+rm3y5o
- V5n+PyLkAQF1yZHja3u2JsHwH2SK6UEunchy/Je1TswaTQGYcn8M8qHbG6If0Ifp8+fimM1AKsc
- /ET5U45sDGxDByqKZo/ZWa/SttdEp55HkujDrl8M8y5zg88Qdx/U0wCHoncHG
-X-Received: by 2002:a7b:c10c:: with SMTP id w12mr624410wmi.112.1616454015660; 
- Mon, 22 Mar 2021 16:00:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOcSb1zegdbu/19hB4c4541utruv3md93NinRUFM81GH07q2dbx1ggDmAO6Te6J92N0/wcjw==
-X-Received: by 2002:a7b:c10c:: with SMTP id w12mr624399wmi.112.1616454015402; 
- Mon, 22 Mar 2021 16:00:15 -0700 (PDT)
+ bh=yRTMNBKw7FKwBdiOn8Z7rlkQXm7qiYXIhC+rts1BLws=;
+ b=WppxcFv4h+7mSbJSyLF8bRJ/9DqNnPpfZF/Y6zCTFK96AXOFX3OepXFd2ZpYV8d9eJ
+ ChK14+Y4mADHDT9sGUFyi9ROoCYAX5FVWbmSdbf3WX1rZ+zYxShQWIqCwesLsv/lzJxB
+ 9K5vfd8SOBMEdigUSjXjw86IqA6+xCe1uFySTYkL6uKNVHy96puQtdypIImA+KorTKEy
+ 64z9CoOnWjhOIf+3lSlwzG3ZxE3acRyWA8Fe45u3609jt9/VaxTQzBqfiDLBLfIMdfG3
+ Pr3b1FKQyJ/yXzkMHUIRUiexCoEbnY443bZOJSPIHa6yZAL6HFVMfVLzPCIZLogcyPPO
+ Qatw==
+X-Gm-Message-State: AOAM531GMYfpQS9yeofz9jZAIRudGG5MA/FUhiKq+JV2Xu1yY4pxQjNk
+ WjHZizZJrF2j85WBj8+s20O3PbR1UO9rcK4p9if41Zv+9MTBYm8lXhk+CPpSCaVeN2WmaLs/waS
+ 38XWmzRClXgHbAWqx35Ew5XQin/b2jrhVGxvlqhuFNsaJO3xeBq7nlfvS48H6
+X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr588394wmg.171.1616454018514; 
+ Mon, 22 Mar 2021 16:00:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGmWqRPXITbBpDzgi/ebjO5MnXhUAShFw4dYvChbrn1og34hvYJ136EmDeZiSFfJqPma0STg==
+X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr588368wmg.171.1616454018173; 
+ Mon, 22 Mar 2021 16:00:18 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id k11sm764791wmj.1.2021.03.22.16.00.14
+ by smtp.gmail.com with ESMTPSA id n6sm21846032wrt.1.2021.03.22.16.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 16:00:15 -0700 (PDT)
-Date: Mon, 22 Mar 2021 19:00:13 -0400
+ Mon, 22 Mar 2021 16:00:17 -0700 (PDT)
+Date: Mon, 22 Mar 2021 19:00:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 09/19] tests: acpi: temporary whitelist DSDT changes
-Message-ID: <20210322225907.541943-10-mst@redhat.com>
+Subject: [PULL v2 10/19] pci: introduce acpi-index property for PCI device
+Message-ID: <20210322225907.541943-11-mst@redhat.com>
 References: <20210322225907.541943-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322225907.541943-1-mst@redhat.com>
@@ -71,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,37 +93,320 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+In x86/ACPI world, linux distros are using predictable
+network interface naming since systemd v197. Which on
+QEMU based VMs results into path based naming scheme,
+that names network interfaces based on PCI topology.
+
+With itm on has to plug NIC in exactly the same bus/slot,
+which was used when disk image was first provisioned/configured
+or one risks to loose network configuration due to NIC being
+renamed to actually used topology.
+That also restricts freedom to reshape PCI configuration of
+VM without need to reconfigure used guest image.
+
+systemd also offers "onboard" naming scheme which is
+preferred over PCI slot/topology one, provided that
+firmware implements:
+    "
+    PCI Firmware Specification 3.1
+    4.6.7.  DSM for Naming a PCI or PCI Express Device Under
+            Operating Systems
+    "
+that allows to assign user defined index to PCI device,
+which systemd will use to name NIC. For example, using
+  -device e1000,acpi-index=100
+guest will rename NIC to 'eno100', where 'eno' is default
+prefix for "onboard" naming scheme. This doesn't require
+any advance configuration on guest side to com in effect
+at 'onboard' scheme takes priority over path based naming.
+
+Hope is that 'acpi-index' it will be easier to consume by
+management layer, compared to forcing specific PCI topology
+and/or having several disk image templates for different
+topologies and will help to simplify process of spawning
+VM from the same template without need to reconfigure
+guest NIC.
+
+This patch adds, 'acpi-index'* property and wires up
+a 32bit register on top of pci hotplug register block
+to pass index value to AML code at runtime.
+Following patch will add corresponding _DSM code and
+wire it up to PCI devices described in ACPI.
+
+*) name comes from linux kernel terminology
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210315180102.3008391-2-imammedo@redhat.com>
+Message-Id: <20210315180102.3008391-3-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/hw/acpi/pcihp.h |  9 +++++--
+ include/hw/pci/pci.h    |  1 +
+ hw/acpi/pci.c           |  1 -
+ hw/acpi/pcihp.c         | 58 +++++++++++++++++++++++++++++++++++++++--
+ hw/acpi/piix4.c         |  3 ++-
+ hw/i386/acpi-build.c    | 13 ++++++++-
+ hw/pci/pci.c            |  1 +
+ hw/acpi/trace-events    |  2 ++
+ 8 files changed, 81 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..fddcfc061f 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,12 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index dfd375820f..2dd90aea30 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -46,6 +46,7 @@ typedef struct AcpiPciHpPciStatus {
+ typedef struct AcpiPciHpState {
+     AcpiPciHpPciStatus acpi_pcihp_pci_status[ACPI_PCIHP_MAX_HOTPLUG_BUS];
+     uint32_t hotplug_select;
++    uint32_t acpi_index;
+     PCIBus *root;
+     MemoryRegion io;
+     bool legacy_piix;
+@@ -71,13 +72,17 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+ 
+ extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+ 
+-#define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp) \
++bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id);
++
++#define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
+         VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
+                             test_pcihp), \
+         VMSTATE_STRUCT_ARRAY_TEST(pcihp.acpi_pcihp_pci_status, state, \
+                                   ACPI_PCIHP_MAX_HOTPLUG_BUS, \
+                                   test_pcihp, 1, \
+                                   vmstate_acpi_pcihp_pci_status, \
+-                                  AcpiPciHpPciStatus)
++                                  AcpiPciHpPciStatus), \
++        VMSTATE_UINT32_TEST(pcihp.acpi_index, state, \
++                            test_acpi_index)
+ 
+ #endif
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 1bc231480f..6be4e0c460 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -359,6 +359,7 @@ struct PCIDevice {
+ 
+     /* ID of standby device in net_failover pair */
+     char *failover_pair_id;
++    uint32_t acpi_index;
+ };
+ 
+ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+index ec455c3b25..75b1103ec4 100644
+--- a/hw/acpi/pci.c
++++ b/hw/acpi/pci.c
+@@ -59,4 +59,3 @@ void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info,
+     build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
+                  "MCFG", table_data->len - mcfg_start, 1, oem_id, oem_table_id);
+ }
+-
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 9dc4d3e2db..ceab287bd3 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -39,12 +39,13 @@
+ #include "trace.h"
+ 
+ #define ACPI_PCIHP_ADDR 0xae00
+-#define ACPI_PCIHP_SIZE 0x0014
++#define ACPI_PCIHP_SIZE 0x0018
+ #define PCI_UP_BASE 0x0000
+ #define PCI_DOWN_BASE 0x0004
+ #define PCI_EJ_BASE 0x0008
+ #define PCI_RMV_BASE 0x000c
+ #define PCI_SEL_BASE 0x0010
++#define PCI_AIDX_BASE 0x0014
+ 
+ typedef struct AcpiPciHpFind {
+     int bsel;
+@@ -251,9 +252,13 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+     acpi_pcihp_update(s);
+ }
+ 
++#define ONBOARD_INDEX_MAX (16 * 1024 - 1)
++
+ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                    DeviceState *dev, Error **errp)
+ {
++    PCIDevice *pdev = PCI_DEVICE(dev);
++
+     /* Only hotplugged devices need the hotplug capability. */
+     if (dev->hotplugged &&
+         acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))) < 0) {
+@@ -261,6 +266,17 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                    ACPI_PCIHP_PROP_BSEL "' set");
+         return;
+     }
++
++    /*
++     * capped by systemd (see: udev-builtin-net_id.c)
++     * as it's the only known user honor it to avoid users
++     * misconfigure QEMU and then wonder why acpi-index doesn't work
++     */
++    if (pdev->acpi_index > ONBOARD_INDEX_MAX) {
++        error_setg(errp, "acpi-index should be less or equal to %u",
++                   ONBOARD_INDEX_MAX);
++        return;
++    }
+ }
+ 
+ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+@@ -347,7 +363,6 @@ static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
+         trace_acpi_pci_down_read(val);
+         break;
+     case PCI_EJ_BASE:
+-        /* No feature defined yet */
+         trace_acpi_pci_features_read(val);
+         break;
+     case PCI_RMV_BASE:
+@@ -357,6 +372,12 @@ static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
+     case PCI_SEL_BASE:
+         val = s->hotplug_select;
+         trace_acpi_pci_sel_read(val);
++        break;
++    case PCI_AIDX_BASE:
++        val = s->acpi_index;
++        s->acpi_index = 0;
++        trace_acpi_pci_acpi_index_read(val);
++        break;
+     default:
+         break;
+     }
+@@ -367,8 +388,35 @@ static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
+ static void pci_write(void *opaque, hwaddr addr, uint64_t data,
+                       unsigned int size)
+ {
++    int slot;
++    PCIBus *bus;
++    BusChild *kid, *next;
+     AcpiPciHpState *s = opaque;
++
++    s->acpi_index = 0;
+     switch (addr) {
++    case PCI_AIDX_BASE:
++        /*
++         * fetch acpi-index for specified slot so that follow up read from
++         * PCI_AIDX_BASE can return it to guest
++         */
++        slot = ctz32(data);
++
++        if (s->hotplug_select >= ACPI_PCIHP_MAX_HOTPLUG_BUS) {
++            break;
++        }
++
++        bus = acpi_pcihp_find_hotplug_bus(s, s->hotplug_select);
++        QTAILQ_FOREACH_SAFE(kid, &bus->qbus.children, sibling, next) {
++            Object *o = OBJECT(kid->child);
++            PCIDevice *dev = PCI_DEVICE(o);
++            if (PCI_SLOT(dev->devfn) == slot) {
++                s->acpi_index = object_property_get_uint(o, "acpi-index", NULL);
++                break;
++            }
++        }
++        trace_acpi_pci_acpi_index_write(s->hotplug_select, slot, s->acpi_index);
++        break;
+     case PCI_EJ_BASE:
+         if (s->hotplug_select >= ACPI_PCIHP_MAX_HOTPLUG_BUS) {
+             break;
+@@ -413,6 +461,12 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+                                    OBJ_PROP_FLAG_READ);
+ }
+ 
++bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
++{
++     AcpiPciHpState *s = opaque;
++     return s->acpi_index;
++}
++
+ const VMStateDescription vmstate_acpi_pcihp_pci_status = {
+     .name = "acpi_pcihp_pci_status",
+     .version_id = 1,
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 1efc0ded9f..6056d51667 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -297,7 +297,8 @@ static const VMStateDescription vmstate_acpi = {
+             2, vmstate_pci_status,
+             struct AcpiPciHpPciStatus),
+         VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
+-                            vmstate_test_use_acpi_hotplug_bridge),
++                            vmstate_test_use_acpi_hotplug_bridge,
++                            vmstate_acpi_pcihp_use_acpi_index),
+         VMSTATE_END_OF_LIST()
+     },
+     .subsections = (const VMStateDescription*[]) {
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 442b4629a9..e49fae2bfd 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1168,9 +1168,10 @@ static void build_piix4_pci_hotplug(Aml *table)
+     aml_append(scope, field);
+ 
+     aml_append(scope,
+-        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x04));
++        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x08));
+     field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("BNUM", 32));
++    aml_append(field, aml_named_field("PIDX", 32));
+     aml_append(scope, field);
+ 
+     aml_append(scope, aml_mutex("BLCK", 0));
+@@ -1184,6 +1185,16 @@ static void build_piix4_pci_hotplug(Aml *table)
+     aml_append(method, aml_return(aml_int(0)));
+     aml_append(scope, method);
+ 
++    method = aml_method("AIDX", 2, AML_NOTSERIALIZED);
++    aml_append(method, aml_acquire(aml_name("BLCK"), 0xFFFF));
++    aml_append(method, aml_store(aml_arg(0), aml_name("BNUM")));
++    aml_append(method,
++        aml_store(aml_shiftleft(aml_int(1), aml_arg(1)), aml_name("PIDX")));
++    aml_append(method, aml_store(aml_name("PIDX"), aml_local(0)));
++    aml_append(method, aml_release(aml_name("BLCK")));
++    aml_append(method, aml_return(aml_local(0)));
++    aml_append(scope, method);
++
+     aml_append(table, scope);
+ }
+ 
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 0eadcdbc9e..ac9a24889c 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -79,6 +79,7 @@ static Property pci_props[] = {
+                     QEMU_PCIE_EXTCAP_INIT_BITNR, true),
+     DEFINE_PROP_STRING("failover_pair_id", PCIDevice,
+                        failover_pair_id),
++    DEFINE_PROP_UINT32("acpi-index",  PCIDevice, acpi_index, 0),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+index f91ced477d..dcc1438f3a 100644
+--- a/hw/acpi/trace-events
++++ b/hw/acpi/trace-events
+@@ -41,6 +41,8 @@ acpi_pci_unplug_request(int bsel, int slot) "bsel: %d slot: %d"
+ acpi_pci_up_read(uint32_t val) "%" PRIu32
+ acpi_pci_down_read(uint32_t val) "%" PRIu32
+ acpi_pci_features_read(uint32_t val) "%" PRIu32
++acpi_pci_acpi_index_read(uint32_t val) "%" PRIu32
++acpi_pci_acpi_index_write(unsigned bsel, unsigned slot, uint32_t aidx) "bsel: %u slot: %u aidx: %" PRIu32
+ acpi_pci_rmv_read(uint32_t val) "%" PRIu32
+ acpi_pci_sel_read(uint32_t val) "%" PRIu32
+ acpi_pci_ej_write(uint64_t addr, uint64_t data) "0x%" PRIx64 " <== %" PRIu64
 -- 
 MST
 
