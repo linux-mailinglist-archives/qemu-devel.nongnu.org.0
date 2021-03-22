@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B87F343832
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:17:02 +0100 (CET)
-Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DC034383C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:19:34 +0100 (CET)
+Received: from localhost ([::1]:36916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOCw0-00060j-Aw
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
+	id 1lOCyT-0000rF-4i
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOCtz-0004HW-Ct; Mon, 22 Mar 2021 01:14:55 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:34061)
+ id 1lOCu3-0004K8-Ts; Mon, 22 Mar 2021 01:15:00 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36443 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOCtw-0004aw-7L; Mon, 22 Mar 2021 01:14:55 -0400
+ id 1lOCu2-0004fp-65; Mon, 22 Mar 2021 01:14:59 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3jNk3LZhz9sWP; Mon, 22 Mar 2021 16:14:46 +1100 (AEDT)
+ id 4F3jNk3mKCz9sW1; Mon, 22 Mar 2021 16:14:46 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616390086;
- bh=RReFNwkNXddDPnYtmlDbgmw93yEKIAn5msGpBVEADFU=;
+ bh=S4052RCXa/Kle34NuoTcgoDUrOWt0GzEcV3u9QvDHbQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fwJzPQlFgQEkI8Bjsblf0HYlgemtyzTOho/OujDof8jKoQ8EYWK+lhNhy4gwRAapq
- otQzt+3yWzXKDdeUuXO/D8SyqxxKrl5JfirbWhMKUhEufmO3jHTXTZKtzNk60PsJ96
- rqYwBYdWiQsRMUurGNAuFMqWaZor9tX1bzSZKSDc=
-Date: Mon, 22 Mar 2021 15:27:55 +1100
+ b=ooVemf7v3WowUjVDPZl5PEFrBWmpBnCjC2DAdt384UvRfp7Kofy8lAojZuLMI9xNW
+ jU3Qyx+25L2C2yO+01IFHgf7kZjBPx/Mn4b2IDjW/9Bm4sMfJHAF8HIXbyAOWYml7I
+ 5cxY/Ue3Z8Aq791BlgSRC6eEaJtYyZwdaFa48SXk=
+Date: Mon, 22 Mar 2021 15:34:26 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 15/17] hw/ppc/spapr_rtas: Update hflags after setting
- msr
-Message-ID: <YFgcy8GT6zWzQLNH@yekko.fritz.box>
-References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-16-richard.henderson@linaro.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Assert DIMM unplug state in spapr_memory_unplug()
+Message-ID: <YFgeUnA5ZEZ1GWCz@yekko.fritz.box>
+References: <161562021166.948373.15092876234470478331.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TH6dS0bv3U8eoMZe"
+ protocol="application/pgp-signature"; boundary="rrwbh2sb16C5iMxc"
 Content-Disposition: inline
-In-Reply-To: <20210315184615.1985590-16-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <161562021166.948373.15092876234470478331.stgit@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,47 +57,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---TH6dS0bv3U8eoMZe
+--rrwbh2sb16C5iMxc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 12:46:13PM -0600, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Sat, Mar 13, 2021 at 08:23:31AM +0100, Greg Kurz wrote:
+> spapr_memory_unplug() is the last step of the hot unplug sequence.
+> It is indirectly called by:
+>=20
+>  spapr_lmb_release()
+>   hotplug_handler_unplug()
+>=20
+> and spapr_lmb_release() already buys us that DIMM unplug state is
+> present : it gets restored with spapr_recover_pending_dimm_state()
+> if missing.
+>=20
+> g_assert() that spapr_pending_dimm_unplugs_find() cannot return NULL
+> in spapr_memory_unplug() to make this clear and silence Coverity.
+>=20
+> Fixes: Coverity CID 1450767
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/spapr_rtas.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  hw/ppc/spapr.c |    3 +++
+>  1 file changed, 3 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 8a79f9c628..6ec3e71757 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -51,6 +51,7 @@
->  #include "target/ppc/mmu-hash64.h"
->  #include "target/ppc/mmu-book3s-v3.h"
->  #include "migration/blocker.h"
-> +#include "helper_regs.h"
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index d56418ca2942..73a06df3b1b1 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3660,6 +3660,9 @@ static void spapr_memory_unplug(HotplugHandler *hot=
+plug_dev, DeviceState *dev)
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(hotplug_dev);
+>      SpaprDimmState *ds =3D spapr_pending_dimm_unplugs_find(spapr, PC_DIM=
+M(dev));
 > =20
->  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
-papr,
->                                     uint32_t token, uint32_t nargs,
-> @@ -163,6 +164,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spapr=
-MachineState *spapr,
->      cpu_synchronize_state(CPU(newcpu));
-> =20
->      env->msr =3D (1ULL << MSR_SF) | (1ULL << MSR_ME);
-> +    hreg_compute_hflags(env);
-> =20
->      /* Enable Power-saving mode Exit Cause exceptions for the new CPU */
->      lpcr =3D env->spr[SPR_LPCR];
+> +    /* We really shouldn't get this far without anything to unplug */
+> +    g_assert(ds);
+> +
+>      pc_dimm_unplug(PC_DIMM(dev), MACHINE(hotplug_dev));
+>      qdev_unrealize(dev);
+>      spapr_pending_dimm_unplugs_remove(spapr, ds);
+>=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -107,25 +116,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---TH6dS0bv3U8eoMZe
+--rrwbh2sb16C5iMxc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYHMsACgkQbDjKyiDZ
-s5IqexAAv35QaOPi1+5nut26TbUysVVUVGfCrDuqJfK8hDk44FDMnb2dGUSW8VbD
-kRQIi7IAHUvuyXSe4keGBnn4JNgq9gXljVV6zDPa5CdiQZyY/RKYCPAP4FD/kwKE
-ns6pqTKMtvxiIJJIxXkJzYBr3Y9cTHA+eGO//NLcLYkfM8mGJ12DS+9IdRiSSxx0
-Lvr1MDPAW/Q17YXu+GEIP8/xsCj7k/0zLhIsbP82NWCYEhjUNN0eWvvR4YKqQC2L
-i1Cjj9LIjhmhTHypJGOcnhZW7UDrUUccD8/ptmsrtPytXSiT7hHJoWPMvVgEmiwX
-466zoxvl6cPo7n2LP0N6Zbdb/tVVTp+lh1lHFHpRlV92IWUTu0OMiD4ATPeLmTz4
-T7Qdnd4iie7wVt5deN/cFjJd9TyLwbjiz6TvLKvkcYj/BSJrSx8e5X2lOlt/Kf/+
-wk946L61Ntb9jGzGKZ9a+n3CLhfsvNagWe3iZHlsv9j6Le4pH+liQ9gwpIkkB+BR
-yBgSPn/dtsEw8vXe6e9bW+l3f2V6RSs4eQWguuMAY8VSLrQecBed+fj2bLejnEJs
-Z+5uF2knpUWR4vbWjN/tyYbbzgnS0ptoxqyvLh15+H6mNQaYM3Q50fQ1G+qXLuyq
-8OiFsXKDGqV+eVJYP1kb/pJyCr4R8T0rlryjU4Dhi26G/UunNBg=
-=62wQ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYHlIACgkQbDjKyiDZ
+s5LVuxAA1c8d5V/QHPZSYH+rYxmUXpxPzZJmVKMJkAKj+CVCGShLwL3u5BYlp87M
+mgPWgJXJCaojiMLrmDC5HW3TxLqRcM3WSpsI6+iKsAWshDCn9juH+4o5rpuySfyh
+Hu0Eis5B6NMuEJ9BJsRgVwOZ2Lk7hoHTvu3mVdZ1hr/QGr7EIqGy+UAfW3YzX+tR
+/68PJWRUTGFr4h1HoLrX12YnSdpfXa5dczGFhj5spXgqNcU6GZQlzf1/YX8PtKVm
+axO7iZKf9ah9L7sjnZKvROAaHChZkmPm33v3zIxpE22RYAd9U/6oLvPF42SoSDDR
+so5sOLNx4OVc0mNfYpK3COSRd+Qh52IUXxXGPjBWZsOgmuHBkuuLN+dZQVpIOAlO
+tMDxX3iOWsXJGFEhidMr5dNC8Lhbhd0NCxjsy90rqOgTfGKPDmxSj2zSgu109OR1
+e551V0q5whL2baflDQxJPOkqeksSwMr8tKDTjTQ+LrhIcMzMZkvTORtviOnUoVX+
+32SPa8VQt9B4U+n+bjnwk+Q41bcZqv7DNOjJCXforEAZKs9TnUQiDELDXa0H9IaU
+Y5i9cDou80fJaKa3cknVMBBvHyksWlYwlwrigJf51PJgoS6Hlxu7QRcDUxcovaLe
+rQp1scQWacJWzcuf0hTpfDsvOt/29Djo1qlspSktddD46zbPRbU=
+=6wZK
 -----END PGP SIGNATURE-----
 
---TH6dS0bv3U8eoMZe--
+--rrwbh2sb16C5iMxc--
 
