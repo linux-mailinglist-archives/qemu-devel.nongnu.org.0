@@ -2,63 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13FED343C2E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 09:58:58 +0100 (CET)
-Received: from localhost ([::1]:57634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA1343C3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 10:04:24 +0100 (CET)
+Received: from localhost ([::1]:34250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOGOm-0007Ri-KU
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 04:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
+	id 1lOGU3-0001Hz-9n
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 05:04:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
- id 1lOGNP-00070b-4T
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:57:31 -0400
-Received: from mxe2.seznam.cz ([2a02:598:2::34]:58899)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lOGS3-0000fF-GD
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 05:02:19 -0400
+Received: from mail-eopbgr80109.outbound.protection.outlook.com
+ ([40.107.8.109]:53729 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
- id 1lOGNL-0002c9-H3
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:57:30 -0400
-Received: from email.seznam.cz
- by email-smtpc14b.ng.seznam.cz (email-smtpc14b.ng.seznam.cz [10.23.14.165])
- id 44923c4b249d1bf942a1775c; Mon, 22 Mar 2021 09:57:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=emailprofi.seznam.cz; s=beta; t=1616403440;
- bh=+VFcbuWPznL9wzW8dZFEiy/my8vK2zFtroTAmmZjxtE=;
- h=Received:To:Cc:References:From:Subject:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Language;
- b=QdqQuQpEyrpPF+zZUJddt3v53Mi19+pJ1zjyi/09C7qEyXXDPp9L5GwEa9JBcbtUM
- 7NDXycrCS55yifwaZpzq7cg84ezjVADaAHD3Pb0DQ1DH/o4iFQRsMlUY8QBAe0DJNq
- xok8h4AzhFBe/0oh96RgDITSD9HrgQZ6vKW7AuGg=
-Received: from [IPv6:2a01:510:d502:b200:c1b:ad27:bde0:341a]
- (2a01:510:d502:b200:c1b:ad27:bde0:341a
- [2a01:510:d502:b200:c1b:ad27:bde0:341a])
- by email-relay28.ng.seznam.cz (Seznam SMTPD 1.3.124) with ESMTP;
- Mon, 22 Mar 2021 09:57:17 +0100 (CET)  
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lOGRy-0005UM-70
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 05:02:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AZzq7frIN3j29Kx4fguVsYcOCSDCVJrELSRuMTeUQlCwr0UyvZQrYly0VF6xYaClYow926eVzJj4/QdOjICJm62JZx3hjXuBWyEs3c3HKnAEaqoIFGcAEp7maQLnolGCNdUpysmlNzP4Mgnhbq5nxb6lnISad6mOHKrRTxHoTNmkjubeoe1O3J8dFCXXbkBJkDWLD55jsBtoiWJNtTNk3Db2B85kRpcMAje7M8zQBmAqXWPn0VwF7N5SzBmNbOHIxgz8M0WgsEy1qjmwNl0RxuG5EgyUuZixiCLxlduSZrM2yveoyTqqwIlXNJ/0JSLWIX1L+hXXAyBNsr8odi9XlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oqSt4RHxnk1EWYnWTjJHCiJM1MjqSpdwI9DJDRlxeUk=;
+ b=bv/ARfFjaBSmtSZ6CcZ1YaxLN+BmHyePtBzxTIUIqWq1WddxfKOtdP8KGqc/9JS3gh2saYT4Q+C4XKNYHM6X26zuJOY5RE40zbomKzOyNDSFqPSuv3ftdEYhI20qQzOCZHd9ehbVHT9afY+4yEl/JFYzBUd8gU73WhE8dLfWgUmhK6qRN0r15qDgDeizm7dHpTC+voLsdGVZuIc239Ty3tYWlsTgKhSP63nbU9iEOot6t68LTwOHuoufFgBxa61qiEfnUgr/3/82/rZ4WvmAMZyxChKb76KNTKOjrF3oRFRlItunl6FUmW3zV8Y2N5vUv+nchyStsKRF9bW7Zi6ddw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oqSt4RHxnk1EWYnWTjJHCiJM1MjqSpdwI9DJDRlxeUk=;
+ b=ZMvtIQEADfcWKpP8/yfu6RSal9st6lFyDZyz6VQ4s0ZnBzSCQ3gECLhXJOVMP2AlzP6Nyw5h75Uo4YrEU88qAp2l3g3bZ3Bf53vpwBu9hZeytTN6Wx6Ms1HthUXpC05Z7cWVYmgzbiiiYtOCqQbTOPsu7qL8bbc6jlYcyeKgedw=
+Authentication-Results: kiv.zcu.cz; dkim=none (message not signed)
+ header.d=none;kiv.zcu.cz; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VE1PR08MB4944.eurprd08.prod.outlook.com (2603:10a6:803:116::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
+ 2021 09:02:10 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::f947:3484:b0d7:ab52]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::f947:3484:b0d7:ab52%9]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
+ 09:02:09 +0000
+Subject: Re: [PATCH 2/2] qapi: implementation of the block-dirty-bitmap-dump
+ command
+To: =?UTF-8?Q?Patrik_Janou=c5=a1ek?= <pj@patrikjanousek.cz>,
  qemu-devel@nongnu.org
+Cc: lmatejka@kiv.zcu.cz
 References: <20210320093235.461485-1-pj@patrikjanousek.cz>
- <09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com>
-From: =?UTF-8?Q?Patrik_Janou=c5=a1ek?= <pj@patrikjanousek.cz>
-Subject: Re: [PATCH 0/2] block/raw: implemented persistent dirty bitmap and
- ability to dump bitmap content via qapi
-Message-ID: <a87aadc1-d795-27cd-35c7-a5c4175df687@patrikjanousek.cz>
-Date: Mon, 22 Mar 2021 09:57:15 +0100
+ <20210320093235.461485-3-pj@patrikjanousek.cz>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <4796a949-1ffa-acfb-ac59-5f42b4f74b04@virtuozzo.com>
+Date: Mon, 22 Mar 2021 12:02:07 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
+In-Reply-To: <20210320093235.461485-3-pj@patrikjanousek.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.202]
+X-ClientProxiedBy: AM0PR01CA0151.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:aa::20) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
 MIME-Version: 1.0
-In-Reply-To: <09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com>
-Content-Type: multipart/alternative;
- boundary="------------2660444B817F14DD0A9770FE"
-Content-Language: cs
-Received-SPF: pass client-ip=2a02:598:2::34; envelope-from=pj@patrikjanousek.cz;
- helo=mxe2.seznam.cz
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.202) by
+ AM0PR01CA0151.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
+ Transport; Mon, 22 Mar 2021 09:02:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 76924cb3-c634-4e3c-7087-08d8ed112cda
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4944:
+X-Microsoft-Antispam-PRVS: <VE1PR08MB4944439880735073E35CBCDAC1659@VE1PR08MB4944.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:449;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PnEBZrH4kQWtq7BHpjZksdXUySN3I2mFpvbhcuzN2pncYTLu7CZ7Bjw8VB1/HNE7Z0Nbn1M0cNIvU5vSKVDyYPzZrF31vZRdNIIKQ37fAzc6jsuA5WwjgYO0Lnaayr/scEl0j4c4DeANKs5uh9htKGq5Q+UA8nMA8m6lOjhoVeVw1FjDebuilfoOuGQ2ne67Rn0WxPzlRWZqGgLeL5L74XFPLQhZxr9XSho/Tb36EHeJ3tQlfACxVgXJ8LNOkZiyYBYuL6Umwh3RLM8beUd5kV8MKQ0p31GbPqmTCHCH5FUYFv8gNjWqplQYt9tU7TPUGvmQea0f/P9Zjx0LuyW5QgU6iXTWqwmaVUS9ytfTHmL15GXowooo1ZfRmrvmKLX6w49/wzwYpNFwD8McSEuBcdEgu6syY0X3ATDILVhjh+y0DIxcpycjWIFmk13JK/uhoZgmCTUy1T5EhJiohpY8iZ3KzweuwMVaPjuzpBzfCVLKKyOjIwSU5Zdyn8IfnN/3OeJSafQzgRv4Xt97zcxcM+Fmu3nrW/0jvpzFLGv0ipVbqibXTcNDnbPzZ3npBPylqww9ROveZP7qbjjZwVCO6EVyvopNu57oB3sO4aqwwqLAGZ6mn/gWznlagNQspxzq3jSOm1CU9lzLR58/dSH4CFKpCDqVQU+gDmz+dZZLWf3/Kce7yp0ngRn271HkllTsRZOVXs0ZoWqBk2Yo5gRylFwVSMd1CS5k/A2Ey0ta7NkB/qowt5SzFwz3Du6sZ7G/k4Mv3D9nq/ukeF3F6Xr5XZdFtOQ2LlUcCq3qE33tp20=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(366004)(136003)(39840400004)(346002)(4326008)(38100700001)(2616005)(956004)(2906002)(966005)(16576012)(26005)(8936002)(316002)(36756003)(8676002)(66946007)(186003)(4744005)(66556008)(52116002)(6486002)(16526019)(5660300002)(31696002)(66476007)(83380400001)(86362001)(478600001)(31686004)(14143004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TXZaUFBUeFVCa2d4VjJmSUtETDBDbUZQZFR1QU02T1BWNHJKdk1mMmx4TUJ1?=
+ =?utf-8?B?cWY2NW9TVE1RUmlRWGVyNnhaN09uRnBraWh6YW95bllXQUVTbjQwNTJBbTVH?=
+ =?utf-8?B?a041UHg1YU9tNlU5VjBtclJ2NWljMm5yVFZ1VFFBd09TVlpnR2M5UkxBNVBC?=
+ =?utf-8?B?OWZ4d1BSYWNUQUhCZllWcDB1cUdKNElZMVZyQWpFNU8ybnRjWEEvTk5WeFZB?=
+ =?utf-8?B?NGI1ZG9BdWwzZ2EzMEQxOFBBeGg2cTZhdTRjUHMyeExRd3gwcTR1eTJ3cGZ0?=
+ =?utf-8?B?a2dock1CekNsSVNFOW5GZityS1lXY1dIdGs3R1hxR08ra0F2OE5WejY4TWd5?=
+ =?utf-8?B?OGczdGJwenV5dnZQYTd2cmZjaUlUYmVtaWludkdlK1RZaE51YmxVdjVZR3kw?=
+ =?utf-8?B?V2trK2ZCWXNOczVISmdOcVFuWlBrV01ObExWdGx2NHZFN2VGcDRiTmdIMUFP?=
+ =?utf-8?B?UXQ5eHhtZnpYMnZPTGcvRFFWdFFrN3F0VFVPOGtqREIyNDllQnU2K280b3Fu?=
+ =?utf-8?B?ZDh1TGwwWW5FS0VWVzlJVFVOSk0xb25rL3ZEVXQvb0cyVDg3K1hOZkE2eW1M?=
+ =?utf-8?B?Qlh6dTQyV2FkNkpVNCsrL21td2p0SzBXMHVsWW81MC9aWHFCcU1KZStRVkhF?=
+ =?utf-8?B?V010M3JKeGxSYWV0dmdkbXpJaDZaKzQyQ0JuVVlYd1pqdGxGcWZSV3VrWmdM?=
+ =?utf-8?B?NUNCa3RzbmRWQ0pIYWNNRm11NmREM1NENFBEY1BweW8ySCt5bkF6aW9aTDZj?=
+ =?utf-8?B?YnF0TkYvVjM0bTQ0VjBMUkVLUXdGR3F3RTNIV0dXZ0d0dXZSZDlmWjlBWld6?=
+ =?utf-8?B?ditNbUhUd2dpMXMxSGt2Y1FsY1RHRXlHbGxDUndSSmllYTAzZ0dNNHA5ZG40?=
+ =?utf-8?B?dFpDMC9VMVY0dUp2WXh3ZGFXQ3phOFU0Sk5wcjNOZk5GL21mOGJvY2w2MDhh?=
+ =?utf-8?B?VzFsaXNQa3pVWTRTNUZSdHM3b3ViY0V2N0pWazNqMnR1R2dvQkpVQXNrdE9Q?=
+ =?utf-8?B?ajZ1cVNZblNQZWJIVFYyQmRLcXZPL0kxOWJBRjFBNG9YR2VTc0RvZ0tGVTQv?=
+ =?utf-8?B?OWZRMS9YcldaMzRlMWc3SmtYYnZFQTFQRXJ3OE95bEcyZTlRU3I2QUY5MTVz?=
+ =?utf-8?B?Z0hDd29RWmo5SmJwdkJFV0RsdmJ0U0U5ZlUySVByOVdoK3hqckNNd1JZOGpU?=
+ =?utf-8?B?Wng0VE53VnFLOEh1UzE0aGVkZXZGQ05QSXlqdjVBdXZXOEs3aUNyWlNaZlV1?=
+ =?utf-8?B?TVZLZ0RDOEgyTmZabXpKUlRiaThmd25lUFg1TTZ3MXdzR0dmWm0vaHowaHdj?=
+ =?utf-8?B?NDNvcWFJN2xTSGVtb1JmamxkWjRObkFrWkZLdmk0cEdmZzFDSW5yaDVCYmVo?=
+ =?utf-8?B?ZXY0c3ovSkszRzJ6ZU54NU1hYlpQZ29tOXVQUmdyWFBZeTgwdUdtb1E2VS8z?=
+ =?utf-8?B?cEppYVZYejNtWXVScGRHeS9BQWExcFV1SlU4NTJTVUpackxQbG8wdHlENWdu?=
+ =?utf-8?B?cG0xUnJXazVsK0srNkw4T1RwcjJvOGdWOWd6cTFPQlVSQi9WdmtuTzhUS3J2?=
+ =?utf-8?B?bTR3a1NyaGsvM2pxZjRRdHdCQjV5ekxad2V4Vi82eGg1L0FZUzF1VlNxODNH?=
+ =?utf-8?B?Y21tcFFYeGZMZXZrNlNGSzU1Sk9xRjdQZk1oeXJ4bkppOUw2ajlJaXJzUE52?=
+ =?utf-8?B?YnNucXZKVVIrNW1JUWdOZzYzdFNrMGgxYXJMTENpTVhhMmN1ckJMUE5ONUl2?=
+ =?utf-8?Q?ccquu3OEv2QwlhEvPPAFEAzbSMIoCt9QuFY0yr9?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76924cb3-c634-4e3c-7087-08d8ed112cda
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 09:02:09.7985 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2oYEzvWQ61pRBcoOIgNe0V4Ccn915SNz7f+RQ4UAvOxVBfbAjZk3O0xw9IZOM12DD6Ml9c3Ua5q78peZ0Ho3ccB8gOHxncz49GpU0psvHcg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4944
+Received-SPF: pass client-ip=40.107.8.109;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,383 +148,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lmatejka@kiv.zcu.cz
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------2660444B817F14DD0A9770FE
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+20.03.2021 12:32, Patrik Janoušek wrote:
+> Currently, dirty bitmaps are for internal use only
 
-Hello, thank you for the quick reply.
+As I said, that's not correct: for external use we have bitmap export through NBD protocol.
 
-On 3/22/21 9:29 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Hi Patrik!
->
-> 20.03.2021 12:32, Patrik Janou=C5=A1ek wrote:
->> Currently, QEMU doesn't support persistent dirty bitmaps for raw forma=
-t
->
-> That's right, we don't have such feature now.
->
->> and also dirty bitmaps are for internal use only, and cannot be access=
-ed
->> using third-party applications.
->
-> And that's is not. Bitmaps are accessible through bitmap QMP API
->
-> =C2=A0 block-dirty-bitmap-{add,remove,clear,merge}
-I know about these commands, but they're useless to me without providing
-access to the content of bitmap.
->
-> And to retrieve the context of dirty bitmap you can export it through
-> NBD protocol (see bitmaps argument in nbd specific options of
-> block-export-add command)
-Ok, I'll look at it.
->
->> These facts are very limiting
->> in case someone would like to develop their own backup tool becaouse
->> without access to the dirty bitmap it would be possible to implement
->> only full backups.
->
-> We do have external incremental backups, based on Qemu bitmap API. But
-> it depends of course on qcow2 persistent bitmaps feature.
-Yes, I know. And that's the problem. The point of my bachelor thesis is
-to implement a backup solution for the raw format.
->
->> And without persistent dirty bitmaps, it wouldn't
->> be possible to keep track of changed data after QEMU is restarted. And=
+Protocol description is here https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md  (you need "Metadata querying" section)
 
->> this is exactly what I do as a part of my bachelor thesis. I've
->> developed a tool that is able to create incremental backups of drives
->> in raw format that are LVM volumes (ability to create snapshot is
->> required).
->>
->> Please keep in mind that this is my first submission to such a large
->> project and also the first time when I send patch over the email.
->> So I hope I did it correctly.
->>
->> Patrik Janou=C5=A1ek (2):
->> =C2=A0=C2=A0 block/raw: added support of persistent dirty bitmaps
->> =C2=A0=C2=A0 qapi: implementation of the block-dirty-bitmap-dump comma=
-nd
->>
->> =C2=A0 block/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> =C2=A0 block/monitor/bitmap-qmp-cmds.c |=C2=A0 61 ++++++++
->> =C2=A0 block/raw-format-bitmap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 163 ++++++++++++++++++++
->> =C2=A0 block/raw-format.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 256 ++++++++++++++++++++++++++++++--
->> =C2=A0 block/raw-format.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 50 +++++++
->> =C2=A0 qapi/block-core.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 64 +++++++-
->> =C2=A0 6 files changed, 583 insertions(+), 12 deletions(-)
->> =C2=A0 create mode 100644 block/raw-format-bitmap.c
->> =C2=A0 create mode 100644 block/raw-format.h
->>
->
->
-Patrik=C2=A0Janou=C5=A1ek
-
-I=C4=8CO: 09291849
+And qemu bitmap export through NBD "metadata querying" feature is described here: docs/interop/nbd.txt
 
 
-	+420 724 123 897 <tel:+420 724 123 897>
-
-	pj@patrikjanousek.cz <mailto:pj@patrikjanousek.cz>
-
-
---------------2660444B817F14DD0A9770FE
-Content-Type: multipart/related;
- boundary="------------AF18D4E68AD6C022094A8651"
-
-
---------------AF18D4E68AD6C022094A8651
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hello, thank you for the quick reply.<br>
-    </p>
-    <div class="moz-cite-prefix">On 3/22/21 9:29 AM, Vladimir
-      Sementsov-Ogievskiy wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com">Hi
-      Patrik!
-      <br>
-      <br>
-      20.03.2021 12:32, Patrik Janoušek wrote:
-      <br>
-      <blockquote type="cite">Currently, QEMU doesn't support persistent
-        dirty bitmaps for raw format
-        <br>
-      </blockquote>
-      <br>
-      That's right, we don't have such feature now.
-      <br>
-      <br>
-      <blockquote type="cite">and also dirty bitmaps are for internal
-        use only, and cannot be accessed
-        <br>
-        using third-party applications.
-        <br>
-      </blockquote>
-      <br>
-      And that's is not. Bitmaps are accessible through bitmap QMP API
-      <br>
-      <br>
-        block-dirty-bitmap-{add,remove,clear,merge}
-      <br>
-    </blockquote>
-    I know about these commands, but they're useless to me without
-    providing access to the content of bitmap.<br>
-    <blockquote type="cite"
-      cite="mid:09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com">
-      <br>
-      And to retrieve the context of dirty bitmap you can export it
-      through NBD protocol (see bitmaps argument in nbd specific options
-      of block-export-add command)
-      <br>
-    </blockquote>
-    Ok, I'll look at it.<br>
-    <blockquote type="cite"
-      cite="mid:09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com">
-      <br>
-      <blockquote type="cite">These facts are very limiting
-        <br>
-        in case someone would like to develop their own backup tool
-        becaouse
-        <br>
-        without access to the dirty bitmap it would be possible to
-        implement
-        <br>
-        only full backups.
-        <br>
-      </blockquote>
-      <br>
-      We do have external incremental backups, based on Qemu bitmap API.
-      But it depends of course on qcow2 persistent bitmaps feature.
-      <br>
-    </blockquote>
-    Yes, I know. And that's the problem. The point of my bachelor thesis
-    is to implement a backup solution for the raw format.<br>
-    <blockquote type="cite"
-      cite="mid:09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com">
-      <br>
-      <blockquote type="cite">And without persistent dirty bitmaps, it
-        wouldn't
-        <br>
-        be possible to keep track of changed data after QEMU is
-        restarted. And
-        <br>
-        this is exactly what I do as a part of my bachelor thesis. I've
-        <br>
-        developed a tool that is able to create incremental backups of
-        drives
-        <br>
-        in raw format that are LVM volumes (ability to create snapshot
-        is
-        <br>
-        required).
-        <br>
-        <br>
-        Please keep in mind that this is my first submission to such a
-        large
-        <br>
-        project and also the first time when I send patch over the
-        email.
-        <br>
-        So I hope I did it correctly.
-        <br>
-        <br>
-        Patrik Janoušek (2):
-        <br>
-           block/raw: added support of persistent dirty bitmaps
-        <br>
-           qapi: implementation of the block-dirty-bitmap-dump command
-        <br>
-        <br>
-          block/meson.build               |   1 +
-        <br>
-          block/monitor/bitmap-qmp-cmds.c |  61 ++++++++
-        <br>
-          block/raw-format-bitmap.c       | 163 ++++++++++++++++++++
-        <br>
-          block/raw-format.c              | 256
-        ++++++++++++++++++++++++++++++--
-        <br>
-          block/raw-format.h              |  50 +++++++
-        <br>
-          qapi/block-core.json            |  64 +++++++-
-        <br>
-          6 files changed, 583 insertions(+), 12 deletions(-)
-        <br>
-          create mode 100644 block/raw-format-bitmap.c
-        <br>
-          create mode 100644 block/raw-format.h
-        <br>
-        <br>
-      </blockquote>
-      <br>
-      <br>
-    </blockquote>
-    <div class="moz-signature">
-      <table class="sc-gPEVay eQYmiW" style="vertical-align:
-        -webkit-baseline-middle; font-size: medium; font-family: Arial;"
-        cellspacing="0" cellpadding="0">
-        <tbody>
-          <tr>
-            <td>
-              <table class="sc-gPEVay eQYmiW" style="vertical-align:
-                -webkit-baseline-middle; font-size: medium; font-family:
-                Arial;" cellspacing="0" cellpadding="0">
-                <tbody>
-                  <tr>
-                    <td style="padding: 0px; vertical-align: middle;">
-                      <p color="#000000" class="sc-fBuWsC eeihxG"
-                        style="margin: 0px;font-size: 14px;font-weight:
-                        bold;color: rgb(0, 0, 0);"><span>Patrik</span><span> </span><span>Janoušek</span></p>
-                      <p color="#000000" font-size="medium"
-                        class="sc-eqIVtm kRufpp" style="color: rgb(0, 0,
-                        0);margin: 0px;font-size: 12px;line-height:
-                        22px;"><span>IČO: 09291849</span></p>
-                      <table class="sc-gPEVay eQYmiW"
-                        style="vertical-align:
-                        -webkit-baseline-middle;font-size:
-                        medium;font-family: Arial;width:
-                        100%;margin-top: 10px;" cellspacing="0"
-                        cellpadding="0">
-                        <tbody>
-                          <tr>
-                            <td color="#54a2f2" direction="horizontal"
-                              class="sc-jhAzac hmXDXQ" style="width:
-                              100%; border-bottom: 1px solid rgb(84,
-                              162, 242); border-left: none; display:
-                              block;" height="1"><br>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <table class="sc-gPEVay eQYmiW"
-                        style="vertical-align:
-                        -webkit-baseline-middle;font-size:
-                        medium;font-family: Arial;" cellspacing="0"
-                        cellpadding="0">
-                        <tbody>
-                          <tr style="vertical-align: middle;"
-                            height="25">
-                            <td style="vertical-align: middle;"
-                              width="30">
-                              <table class="sc-gPEVay eQYmiW"
-                                style="vertical-align:
-                                -webkit-baseline-middle; font-size:
-                                medium; font-family: Arial;"
-                                cellspacing="0" cellpadding="0">
-                                <tbody>
-                                  <tr>
-                                    <td style="vertical-align: bottom;"><span
-                                        color="#54a2f2" width="11"
-                                        class="sc-jlyJG bbyJzT"
-                                        style="display: block;
-                                        background-color: rgb(84, 162,
-                                        242);"><img
-                                          src="cid:part1.7B719948.5AA7E82F@patrikjanousek.cz"
-                                          color="#54a2f2"
-                                          class="sc-iRbamj blSEcj"
-                                          style="display: block;
-                                          background-color: rgb(84, 162,
-                                          242);" width="13"></span></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                            <td style="padding: 0px; color: rgb(0, 0,
-                              0);"><a href="tel:+420 724 123 897"
-                                color="#000000" class="sc-gipzik iyhjGb"
-                                style="text-decoration: none; color:
-                                rgb(0, 0, 0); font-size: 12px;"><span>+420
-                                  724 123 897</span></a></td>
-                          </tr>
-                          <tr style="vertical-align: middle;"
-                            height="25">
-                            <td style="vertical-align: middle;"
-                              width="30">
-                              <table class="sc-gPEVay eQYmiW"
-                                style="vertical-align:
-                                -webkit-baseline-middle; font-size:
-                                medium; font-family: Arial;"
-                                cellspacing="0" cellpadding="0">
-                                <tbody>
-                                  <tr>
-                                    <td style="vertical-align: bottom;"><span
-                                        color="#54a2f2" width="11"
-                                        class="sc-jlyJG bbyJzT"
-                                        style="display: block;
-                                        background-color: rgb(84, 162,
-                                        242);"><img
-                                          src="cid:part3.778A8751.4A1C40AD@patrikjanousek.cz"
-                                          color="#54a2f2"
-                                          class="sc-iRbamj blSEcj"
-                                          style="display: block;
-                                          background-color: rgb(84, 162,
-                                          242);" width="13"></span></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                            <td style="padding: 0px;"><a
-                                href="mailto:pj@patrikjanousek.cz"
-                                color="#000000" class="sc-gipzik iyhjGb"
-                                style="text-decoration: none; color:
-                                rgb(0, 0, 0); font-size: 12px;"><span>pj@patrikjanousek.cz</span></a></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </body>
-</html>
-
---------------AF18D4E68AD6C022094A8651
-Content-Type: image/png;
- name="kaohbpgmkipimblo.png"
-Content-Transfer-Encoding: base64
-Content-ID: <part1.7B719948.5AA7E82F@patrikjanousek.cz>
-Content-Disposition: inline;
- filename="kaohbpgmkipimblo.png"
-
-iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAAeElEQVR4AQXBoQ3CAAAAwU+Q
-LECDxVYUwRgEhWAIEuYiQTAL6QR13aDmuMvmbrIAAORZcrIAADlWyRkAyFAlDwAgt5KrDQDI
-u+QHABAuMloBgDDby2jF5mGyEPjayejnWnKyBPjaV1WVTAGYXaqq5B4A+Lg5GLxsf0ch2ZQh
-OuUBAAAAAElFTkSuQmCC
---------------AF18D4E68AD6C022094A8651
-Content-Type: image/png;
- name="biakegienjdedpnc.png"
-Content-Transfer-Encoding: base64
-Content-ID: <part3.778A8751.4A1C40AD@patrikjanousek.cz>
-Content-Disposition: inline;
- filename="biakegienjdedpnc.png"
-
-iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAAcUlEQVR42pWPsQmAMBREbwAD
-Fs5hI2aAqJXgCg6UQS2EkEzwLKJiBAv/VXeveHzxcfoGnob6lQYvDJYePWKxGCEcEXfPZ8tl
-IZ3IkVjQBVZ2IjMzkZ31AgOBlomNjZGWwIiyvCvkXZZ7TDELUeH1+/MDOILUFTkKgt8AAAAA
-SUVORK5CYII=
---------------AF18D4E68AD6C022094A8651--
-
---------------2660444B817F14DD0A9770FE--
+-- 
+Best regards,
+Vladimir
 
