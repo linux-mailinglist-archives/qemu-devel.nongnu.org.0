@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A3B344BD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:39:22 +0100 (CET)
-Received: from localhost ([::1]:46184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4D9344B76
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:35:27 +0100 (CET)
+Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONaL-0000c4-T3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:39:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54910)
+	id 1lONWY-00056V-QB
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lONTp-0003PI-1s
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:32:42 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lONTm-0000Il-IH
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:32:36 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id a7so22318581ejs.3
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=58oByHRQENKiTCsgJ5OOlEzdGn1qtJ2SPqsRrI/y+oY=;
- b=oJntCw1vHeZii/gZtL3ZRxhJnB8fENKMJY3LsMvSgvYqW1aFh5QI+ynR+9MU0gXTjX
- /xa4YsChqOLmBxXWAQZNWyQH261Low1GhpXOjAM5a+AvFgaCl97eGbPXjMp25nOTL4aY
- 6x1abjL8golqLPlNIX0lanKdt9QQoioNI2kgE1eRX8cvV+Ioma+o0K7AF0NLHMK5EMU0
- 87CQmZdPgS5XaRbINXY5GyMQvBkshMdklwMk4Gzjv39goKqe7zOXFDrcqv7kk99Kjbsl
- kZQqOgFyy9Mji3SN2IO1k8cTikJ0+s6XgIv44piyPbLxh9iETagp3A/yrb+qfavT8Oh/
- 1q6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=58oByHRQENKiTCsgJ5OOlEzdGn1qtJ2SPqsRrI/y+oY=;
- b=mq+0gqxOmKvE+xrf/HShkj/l46fgvLoMVFiRIPRHbQYmf8q+Gltu47gIyzWZ/QHvnU
- 3KOHLbf/ibDI+aSdlYvEROKmFXO1Z3il10cYuMRg70lGBEbvHqgmnuhiBRvf0r+cZojJ
- NUwouzsAahA5qbjTGz+XFiik1Lpzu7eXzesiZIsQw0fnM8zOTMHXT0KhCvHdD9ZzdAXo
- yZpXBDmjZTLwfsR3Z65vLM3X/wosNXdy20NsS0mT3hDfoX6pvt9dJNpFnMad/24urBGd
- O/idQqpUM+slrT8onKWeAYhafFoKlMrIrFA5M5PDUqjpPTTR6ErPSN/xahP6f+f9vGW3
- dKUg==
-X-Gm-Message-State: AOAM5324/MQZie7X33RridCHXG74eAhvTtLFXqc2kBN5+W0vXLkwSskg
- 8al+4IiRMdnBJ0q/q2pXUXknkw==
-X-Google-Smtp-Source: ABdhPJyfdzgJr9oK9vLgwUDzIhQn0pMl1ZFAGfxnx1BnvFn+jGqi2BDCH4U7YlNiQVHuxd5E10gghA==
-X-Received: by 2002:a17:906:2b46:: with SMTP id
- b6mr591539ejg.521.1616430752392; 
- Mon, 22 Mar 2021 09:32:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o20sm11624615eds.65.2021.03.22.09.32.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 09:32:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 848941FF7E;
- Mon, 22 Mar 2021 16:32:30 +0000 (GMT)
-References: <20210322140206.9513-1-cfontana@suse.de>
- <20210322140206.9513-4-cfontana@suse.de>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v10 03/49] arm: tcg: only build under CONFIG_TCG
-Date: Mon, 22 Mar 2021 16:32:25 +0000
-In-reply-to: <20210322140206.9513-4-cfontana@suse.de>
-Message-ID: <87im5jjgip.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lONU4-0003RV-RV
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:32:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lONU0-0000Qe-NR
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:32:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616430767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KU2dTkFiOnuGIjl3xtTylH84ggAkTIgZTxZocXWGU2Y=;
+ b=KdQ7V0yI1Dc0PS8kur/WBIgZpJUvEZnyELa2pAI/YyI8EeuT99GEFiLPy3UyletsGQ/8u5
+ JVSVOmy422djoac0jTHGfbbUO+PkxmEMUhjA+ul2vRhPVcSmW79pQKLJp4utMa2xzUIM6s
+ 2/8F2+RMJ2SlFdoCBXBeclcrB1Z4ZQY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-eDG7b7nDMiKEn35JmBxenA-1; Mon, 22 Mar 2021 12:32:45 -0400
+X-MC-Unique: eDG7b7nDMiKEn35JmBxenA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752315F9C6;
+ Mon, 22 Mar 2021 16:32:44 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD1E360C0F;
+ Mon, 22 Mar 2021 16:32:41 +0000 (UTC)
+Date: Mon, 22 Mar 2021 17:32:38 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Subject: Re: [PATCH 0/3] target/arm: Add nested virtualization support
+Message-ID: <20210322163238.kkuvtvmqeb437cke@kamzik.brq.redhat.com>
+References: <cover.1616052889.git.haibo.xu@linaro.org>
+ <4b35e1dc2c6a2af117542eca6571ddf1e261fe10.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <4b35e1dc2c6a2af117542eca6571ddf1e261fe10.camel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,22 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, Haibo Xu <haibo.xu@linaro.org>,
+ pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 22, 2021 at 04:42:23PM +0100, Andrea Bolognani wrote:
+> On Mon, 2021-03-22 at 10:07 +0000, Haibo Xu wrote:
+> > This series add support for ARMv8.3/8.4 nested virtualization support
+> > in KVM mode. It's based on Marc Zyngier's kernel KVM patches[1], and
+> > has been tested on a FVP model to run a L2 guest with Qemu. Now the
+> > feature can be enabled by "-M virt,accel=kvm,virtualization=on" when
+> > starting a VM.
+> 
+> Why the need to enable this explicitly? AFAIK, that's not necessary
+> for any other architecture: on x86, you just need to make sure you're
+> using '-cpu host' and pass a parameter to the kernel module.
+> 
+> Even assuming this can't be enabled transparently, wouldn't its
+> availability it be controlled by a CPU feature flag, similar to what
+> already happens for SVE and PMU, rather than a machine type option?
 
-Claudio Fontana <cfontana@suse.de> writes:
+I 100% agree. We should control this feature with a CPU feature property.
+NV is a CPU feature, after all. Also, we should add it to the properties
+that we can probe in cpu_model_advertised_features[].
 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Thanks,
+drew
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> 
+> That would also address the discoverability issue: unless I'm
+> mistaken (which I very well might be :), with the current
+> implementation there's no way to tell whether nested KVM will be
+> usable short of trying and seeing whether QEMU errors out.
+> 
+> -- 
+> Andrea Bolognani / Red Hat / Virtualization
+> 
+> 
 
---=20
-Alex Benn=C3=A9e
 
