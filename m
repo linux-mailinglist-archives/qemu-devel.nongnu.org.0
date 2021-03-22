@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F88E3451DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:37:12 +0100 (CET)
-Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B369B3451FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:48:03 +0100 (CET)
+Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOSEY-0004L9-LA
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49220)
+	id 1lOSP4-0007nZ-1m
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@arndb.de>)
- id 1lOSCp-0003mf-Ph; Mon, 22 Mar 2021 17:35:23 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:55609)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@arndb.de>)
- id 1lOSCm-0005XD-NC; Mon, 22 Mar 2021 17:35:23 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1M5wTt-1lI8fw48jr-007VoN; Mon, 22 Mar 2021 22:35:16 +0100
-Received: by mail-ot1-f42.google.com with SMTP id
- 68-20020a9d0f4a0000b02901b663e6258dso17448899ott.13; 
- Mon, 22 Mar 2021 14:35:15 -0700 (PDT)
-X-Gm-Message-State: AOAM530xUWsceAcbnHYVFIQNEm/Rkpz//bpbdSvNe/tEPtOZGaZD3wwH
- 8UR2Fdox77SNt8JpYcftygO6/cuHiwBE7CJAeh0=
-X-Google-Smtp-Source: ABdhPJwYNpTv72zbnyElPWebbi4aZy8PUJ0JloNnvLjbDOI2WlpWRhZHTJoxRyg9l/j/IR+uYlDbunGcvlydZGaXXR8=
-X-Received: by 2002:a9d:316:: with SMTP id 22mr1549535otv.210.1616448914233;
- Mon, 22 Mar 2021 14:35:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOSMK-0006nu-9I
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:45:13 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:35813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOSMI-0001Y3-0L
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:45:11 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id i9so12275606qka.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 14:45:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WCUNcsc6Kglt1QBzKXb9G+rVopHRlh1lNA0iZNdg2kI=;
+ b=TNpNZNKepYxzxFpBmWaHPC3EaSh3SleQgHuNkFjRUMTqxj+QXCDBzlYQ6XyFKKB6Rs
+ neaSejO/SdPilnqjqtsdl5x25XeoZSqIUwZQk3OT972+Bib6g+6Dr0tJA8VzqMY2M7Z/
+ ShI9CxoihJY/N0DasoMQn9PoKwg+0FlTMjNAurD/XFr/rOeyomob0yxA9yfX/zrvpdAJ
+ JUFgF19SWrQ7hVs3vbap4EJNMeCt1SgwgHkZwry4+BPPuYAwjJjRSuCTYflY8Gv9oDuA
+ /gzXKVR71rwKibrbvKTqLni7+18uMsvRRNt+em17Ah9dUvI3ELjSJQ/MZunREL3BmsXN
+ pPog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WCUNcsc6Kglt1QBzKXb9G+rVopHRlh1lNA0iZNdg2kI=;
+ b=QwRqvqp4LjCPoC760qPweDpuJOHz5rBn/RHsRySrggWo6SphvbhKXtw0alyOo7ey0a
+ tyTFUEMWjinIhdAEYDfUrKbToWaP2UXPZ8PhfXbTFG+7AvLaoPdujKwD+SNKgNx0bzYW
+ w3WnYo6lz6/Byo8fRFHpZ8DXa3wPApbmXM+NmTKV+VPTxutPO8LMZTm/FGQn4oIzG+V0
+ FGKTCCKlwYcIizPXHljhOWL3LYxfJWC2Dvz/MHSoAs9E5ORXHTC+LPasg7YGA2DknPd/
+ MgqbzGnxkMQoKC13QFFp2ZqvHXOYWqOBqFAxYtujZe0GGrCSiSXlN31DoiJXf1QzkQxF
+ 8HOw==
+X-Gm-Message-State: AOAM53164BXhhxHKEORO2paIyutg2zUPDqyc5lPyXqp9KtEKQ3oPSHzV
+ PkTPgxub4gOO1Q6xs9Ga6Wi6QA==
+X-Google-Smtp-Source: ABdhPJwUjOwcFhe+ADrop86x5yCPLKDmjfXI4D+42areabT5HnmlVrXGBn2e8uwfaXmrQZlS+pkoQw==
+X-Received: by 2002:a37:aac9:: with SMTP id t192mr2261155qke.408.1616449508206; 
+ Mon, 22 Mar 2021 14:45:08 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id a187sm5777699qkd.69.2021.03.22.14.45.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 14:45:07 -0700 (PDT)
+Subject: Re: [PATCH] exec: Build page-varry-common.c with -fno-lto
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210321211534.2101231-1-richard.henderson@linaro.org>
+ <646b88fe-99b8-cc93-2f9f-497f241ce118@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <65a3b4aa-73e1-741c-e90a-2c6417230320@linaro.org>
+Date: Mon, 22 Mar 2021 15:45:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210322201336.9539-1-peter.maydell@linaro.org>
-In-Reply-To: <20210322201336.9539-1-peter.maydell@linaro.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 22 Mar 2021 22:34:58 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0WJ0x3dvEg2MjNRpFXzWw=gR5wz5-7UfpTqeggxa+n7g@mail.gmail.com>
-Message-ID: <CAK8P3a0WJ0x3dvEg2MjNRpFXzWw=gR5wz5-7UfpTqeggxa+n7g@mail.gmail.com>
-Subject: Re: [PATCH] hw/pci-host/gpex: Don't fault for unmapped parts of MMIO
- and PIO windows
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:pNTT/xVPe4C4/n+IgCVjxrMKLsAGq9mT0k9bvqQEu+NrL924wHr
- YzzDPsnj6M4JRZfFGgp1Vekr4h1mI+tnv6Kv4WvZY42WEwSev8nzdArLv8hv/g1Vkfy2C7S
- 5BUzwaeOg/MCdIby+S/fKrdY7n4dkXrnayQsI51kKT2rwGouKaONGSgAcgutZQCGL4ohDrb
- bbThqkHkYfSqK2KEld1YQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mlZuUCdVKK0=:dDrV90+ognQAgviNnOHEeC
- USPcXEQSiipY9AQU0R4eSvi5ksGO8rQVgHYAQ2cvqTHQzEStMyZbixwupMtasKYNsB6l6QybC
- +lz8k5pEkYnRyqTZ8l28s/ZoKN+KYzK+4myJUNvOo/2DwuUXj+4wIUh/Vdg8Hmc1iKU6Dr6BH
- I+29VlU1H5r2idhnjEXYORYU5peNvswY7sVpXJJ36NaSKpoWtMbD3fuXBVgBohUtt7bOWOjl8
- iUncfGBiasamRPAOhOLuAbx8hXuAKvDZ2A2k3T4b+kIkOqNE0+7cyqXB/uH/fCMkSiK5PWwaI
- 1aXoGRmgKDAmiyWGByuHn6rXRL9AYb87ZTE6w8jJqb/ICxQ3FuW6cHoGjqfyHAKjtjwwQP3wS
- lqxNeDVp3VMN5hsLjlCkNoLoNxq0rlCogo20XLD3C/MxQD6SJhD09FVnq+Wa5
-Received-SPF: none client-ip=217.72.192.73; envelope-from=arnd@arndb.de;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <646b88fe-99b8-cc93-2f9f-497f241ce118@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,64 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>, Dmitry Vyukov <dvyukov@google.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: pbonzini@redhat.com, gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-6On Mon, Mar 22, 2021 at 9:13 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Currently the gpex PCI controller implements no special behaviour for
-> guest accesses to areas of the PIO and MMIO where it has not mapped
-> any PCI devices, which means that for Arm you end up with a CPU
-> exception due to a data abort.
->
-> Most host OSes expect "like an x86 PC" behaviour, where bad accesses
-> like this return -1 for reads and ignore writes.  In the interests of
-> not being surprising, make host CPU accesses to these windows behave
-> as -1/discard where there's no mapped PCI device.
->
-> Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Not convinced that this is 6.0 material, because IMHO the
-> kernel shouldn't be doing this in the first place.
-> Do we need to have the property machinery so that old
-> virt-5.2 etc retain the previous behaviour ?
+On 3/22/21 5:14 AM, Philippe Mathieu-Daudé wrote:
+>>   configure                |  19 -------
+>>   meson.build              |  18 ++++++-
+>>   include/exec/cpu-all.h   |  15 ++----
+>>   include/exec/page-vary.h |  34 ++++++++++++
+>>   exec-vary.c              | 108 ---------------------------------------
+>>   page-vary-common.c       |  54 ++++++++++++++++++++
+>>   page-vary.c              |  41 +++++++++++++++
+>>   7 files changed, 150 insertions(+), 139 deletions(-)
+>>   create mode 100644 include/exec/page-vary.h
+>>   delete mode 100644 exec-vary.c
+>>   create mode 100644 page-vary-common.c
+>>   create mode 100644 page-vary.c
+> 
+> In which MAINTAINERS section this files belong to?
 
-I think it would be sufficient to do this for the ioport window,
-which is what old-style ISA drivers access. I am not aware
-of any driver accessing hardcoded addresses in the mmio
-window, at least not without probing io ports first (the VGA
-text console would use both).
+Hmm, yes.  I see exec-vary.c wasn't listed either.
 
-I checked which SoCs the kernel supports that do require a special
-hook to avoid an abort and found these:
+It looks like exec-vary.c should have gone into softmmu/ when that was created. 
+  And should be part of "Overall TCG CPUs".
 
-arch/arm/mach-bcm/bcm_5301x.c:  hook_fault_code(16 + 6,
-bcm5301x_abort_handler, SIGBUS, BUS_OBJERR,
-arch/arm/mach-cns3xxx/pcie.c:   hook_fault_code(16 + 6,
-cns3xxx_pcie_abort_handler, SIGBUS, 0,
-arch/arm/mach-iop32x/pci.c:     hook_fault_code(16+6,
-iop3xx_pci_abort, SIGBUS, 0, "imprecise external abort");
-arch/arm/mach-ixp4xx/common-pci.c:      hook_fault_code(16+6,
-abort_handler, SIGBUS, 0,
-drivers/pci/controller/dwc/pci-imx6.c:  hook_fault_code(8,
-imx6q_pcie_abort_handler, SIGBUS, 0,
-drivers/pci/controller/dwc/pci-keystone.c:      hook_fault_code(17,
-ks_pcie_fault, SIGBUS, 0,
-
-The first four (bcm5301x, cns3xxx, iop32x and ixp4xx) generate an
-'imprecise external abort' (16+6), imx6q has a "precise external abort on
-non-linefetch" (8), and keystone in LPAE mode has an "asynchronous external
-abort". The only SoC among those that is emulated by qemu to my knowledge
-is the i.MX6q in the 'sabrelite' machine.
-
-It's possible that some of these are not caused by a PCI master abort
-but some other error condition on the PCI host though. I think most other
-PCI implementations either ignore the error or generate an I/O interrupt.
-
-        Arnd
+r~
 
