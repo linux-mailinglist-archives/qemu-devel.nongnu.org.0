@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C114343BA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 09:26:01 +0100 (CET)
-Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FB1343BC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 09:28:22 +0100 (CET)
+Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOFsu-0005Mg-LX
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 04:26:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
+	id 1lOFvB-0006k2-EK
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 04:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lOFrm-0004pg-3B; Mon, 22 Mar 2021 04:24:50 -0400
-Received: from mail-pj1-f48.google.com ([209.85.216.48]:36657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lOFrk-0001gw-M4; Mon, 22 Mar 2021 04:24:49 -0400
-Received: by mail-pj1-f48.google.com with SMTP id
- f2-20020a17090a4a82b02900c67bf8dc69so10073156pjh.1; 
- Mon, 22 Mar 2021 01:24:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fl3OQjdbtb4zTynG/YTW6tsfd9xdCAiC3RsTypoYN+0=;
- b=qTqcRIKl4jDBdkm0ZDxETvV/s20jFK4zOLhc7vx6sxYIkUzr96fMUTX77DvphCfMsf
- ZG4wJqZT/aIdkEnjqM8O1TaL20X/gvi7p7t5WkgU5gk8b4n59XPmOqNbQ58ZRLJdWskg
- 8DE/JWQrK0B2BxUsidLlZoPQjIvQ+so7EAmNqvtnKFWD+aT8roWt8g1oV91btjh+QhtS
- z630Bju/XrtD2v0d1o+mM5nG0o69Cv5Xbj8AeBqGIb9kSWTLWC3kCtxFF/2cykrrlCMG
- L7jtoXHkYtdGfUHXH1rqBgNc0+k5Vvw0732yqtLQVDeB2YYkV/O25aOrq+5XsLWowZQl
- l3Vw==
-X-Gm-Message-State: AOAM530S6/XdutQwyiOjVoE2p6d+DiFN1w/K+DiqyKa228Qft1kcFO9I
- h+jB3z0mAAFhsDjNVwsakJZPCd+qFQIkwg==
-X-Google-Smtp-Source: ABdhPJyCWCoPbYIeZCZeheaSdbYbd3sEm3D+Kc8axb2cFSBl4ekvx7J5eSPI5XqLOYG877sa+DYYOg==
-X-Received: by 2002:a17:902:c083:b029:e4:84c5:6ac8 with SMTP id
- j3-20020a170902c083b02900e484c56ac8mr26399494pld.71.1616401486186; 
- Mon, 22 Mar 2021 01:24:46 -0700 (PDT)
-Received: from localhost.localdomain ([73.93.153.15])
- by smtp.gmail.com with ESMTPSA id y7sm13095917pfq.70.2021.03.22.01.24.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Mar 2021 01:24:45 -0700 (PDT)
-From: Joelle van Dyne <j@getutm.app>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] nvme: expose 'bootindex' property
-Date: Mon, 22 Mar 2021 01:24:44 -0700
-Message-Id: <20210322082444.12916-1-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lOFu4-000637-JX
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:27:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lOFtv-00035M-Oe
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:27:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616401622;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2EJoCR8oTRLLlf4GbQtzyxOWC0heCiR/4lIYUShFTQM=;
+ b=O1Fx3WSXfUGvdMkj6c4dlDeJtUno1yjQYChRPoL3xa0JIHVKzgo/BZHpoy1ne8zLplE9hv
+ xTVpxIBzHGyNFMOkIfK6e25X/pBOg70A0QhkvUruZV92jVJ2Agyi200Xwyo9KuqfKNIUD1
+ h7MD87xLqnvSVy5hTF15gUP6rDXvgP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-D2GfVo96OAaR_ANe2cwoig-1; Mon, 22 Mar 2021 04:26:59 -0400
+X-MC-Unique: D2GfVo96OAaR_ANe2cwoig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EEA2107ACCD;
+ Mon, 22 Mar 2021 08:26:58 +0000 (UTC)
+Received: from [10.64.54.40] (vpn2-54-40.bne.redhat.com [10.64.54.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C80060BE5;
+ Mon, 22 Mar 2021 08:26:55 +0000 (UTC)
+Subject: Re: [PATCH] exec: Build page-varry-common.c with -fno-lto
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210321211534.2101231-1-richard.henderson@linaro.org>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <32ae3eb4-4a14-0610-e31b-0d9bf12a0da8@redhat.com>
+Date: Mon, 22 Mar 2021 22:26:28 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.48; envelope-from=osy86dev@gmail.com;
- helo=mail-pj1-f48.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210321211534.2101231-1-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,40 +81,426 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:nvme" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Joelle van Dyne <j@getutm.app>, Keith Busch <kbusch@kernel.org>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The check for `n->namespace.blkconf.blk` always fails because
-this is in the initialization function.
+On 3/22/21 8:15 AM, Richard Henderson wrote:
+> In bbc17caf81f, we used an alias attribute to allow target_page
+> to be declared const, and yet be initialized late.
+> 
+> This fails when using LTO with several versions of gcc.
+> The compiler looks through the alias and decides that the const
+> variable is statically initialized to zero, then propagates that
+> zero to many uses of the variable.
+> 
+> This can be avoided by compiling one object file with -fno-lto.
+> In this way, any initializer cannot be seen, and the constant
+> propagation does not occur.
+> 
+> Since are certain to have this separate compilation unit, we can
+> drop the alias attribute as well.  We simply have differing
+> declarations for target_page in different compilation units.
+> Drop the use of init_target_page, and drop the configure detection
+> for CONFIG_ATTRIBUTE_ALIAS.
+> 
+> In order to change the compilation flags for a file with meson,
+> we must use a static_library.  This runs into specific_ss, where
+> we would need to create many static_library instances.
+> 
+> Fix this by splitting exec-page.c: the page-vary-common.c part is
+> compiled once as a static_library, while the page-vary.c part is
+> left in specific_ss in order to handle the target-specific value
+> of TARGET_PAGE_BITS_MIN.
+> 
+> Reported-by: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   configure                |  19 -------
+>   meson.build              |  18 ++++++-
+>   include/exec/cpu-all.h   |  15 ++----
+>   include/exec/page-vary.h |  34 ++++++++++++
+>   exec-vary.c              | 108 ---------------------------------------
+>   page-vary-common.c       |  54 ++++++++++++++++++++
+>   page-vary.c              |  41 +++++++++++++++
+>   7 files changed, 150 insertions(+), 139 deletions(-)
+>   create mode 100644 include/exec/page-vary.h
+>   delete mode 100644 exec-vary.c
+>   create mode 100644 page-vary-common.c
+>   create mode 100644 page-vary.c
+> 
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- hw/block/nvme.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+It works for me. With this applied, the migration won't fail because
+of @target_page.bits:
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6842b01ab5..42605fc55d 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -6330,11 +6330,9 @@ static void nvme_instance_init(Object *obj)
- {
-     NvmeCtrl *n = NVME(obj);
- 
--    if (n->namespace.blkconf.blk) {
--        device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
--                                      "bootindex", "/namespace@1,0",
--                                      DEVICE(obj));
--    }
-+    device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
-+                                  "bootindex", "/namespace@1,0",
-+                                  DEVICE(obj));
- 
-     object_property_add(obj, "smart_critical_warning", "uint8",
-                         nvme_get_smart_warning,
--- 
-2.28.0
+Tested-by: Gavin Shan <gshan@redhat.com>
+
+> diff --git a/configure b/configure
+> index 847bc4d095..dbb873e09c 100755
+> --- a/configure
+> +++ b/configure
+> @@ -4889,21 +4889,6 @@ if  test "$plugins" = "yes" &&
+>         "for this purpose. You can't build with --static."
+>   fi
+>   
+> -########################################
+> -# See if __attribute__((alias)) is supported.
+> -# This false for Xcode 9, but has been remedied for Xcode 10.
+> -# Unfortunately, travis uses Xcode 9 by default.
+> -
+> -attralias=no
+> -cat > $TMPC << EOF
+> -int x = 1;
+> -extern const int y __attribute__((alias("x")));
+> -int main(void) { return 0; }
+> -EOF
+> -if compile_prog "" "" ; then
+> -    attralias=yes
+> -fi
+> -
+>   ########################################
+>   # check if getauxval is available.
+>   
+> @@ -5935,10 +5920,6 @@ if test "$atomic64" = "yes" ; then
+>     echo "CONFIG_ATOMIC64=y" >> $config_host_mak
+>   fi
+>   
+> -if test "$attralias" = "yes" ; then
+> -  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
+> -fi
+> -
+>   if test "$getauxval" = "yes" ; then
+>     echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
+>   fi
+> diff --git a/meson.build b/meson.build
+> index 5c85a15364..24e8897ba2 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1933,7 +1933,6 @@ subdir('softmmu')
+>   
+>   common_ss.add(capstone)
+>   specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+> -specific_ss.add(files('exec-vary.c'))
+>   specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+>     'fpu/softfloat.c',
+>     'tcg/optimize.c',
+> @@ -1945,6 +1944,23 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+>   ))
+>   specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+>   
+> +# Work around a gcc bug/misfeature wherein constant propagation looks
+> +# through an alias:
+> +#   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
+> +# to guess that a const variable is always zero.  Without lto, this is
+> +# impossible, as the alias is restricted to page-vary-common.c.  Indeed,
+> +# without lto, not even the alias is required -- we simply use different
+> +# declarations in different compilation units.
+> +pagevary = files('page-vary-common.c')
+> +if get_option('b_lto')
+> +  pagevary = static_library('page-vary-common',
+> +                            sources: pagevary,
+> +                            c_args: ['-fno-lto'])
+> +  pagevary = declare_dependency(link_with: pagevary)
+> +endif
+> +common_ss.add(pagevary)
+> +specific_ss.add(files('page-vary.c'))
+> +
+>   subdir('backends')
+>   subdir('disas')
+>   subdir('migration')
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index 76443eb11d..d76b0b9e02 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -215,22 +215,15 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
+>   /* page related stuff */
+>   
+>   #ifdef TARGET_PAGE_BITS_VARY
+> -typedef struct {
+> -    bool decided;
+> -    int bits;
+> -    target_long mask;
+> -} TargetPageBits;
+> -#if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
+> +# include "exec/page-vary.h"
+>   extern const TargetPageBits target_page;
+> -#else
+> -extern TargetPageBits target_page;
+> -#endif
+>   #ifdef CONFIG_DEBUG_TCG
+>   #define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
+> -#define TARGET_PAGE_MASK   ({ assert(target_page.decided); target_page.mask; })
+> +#define TARGET_PAGE_MASK   ({ assert(target_page.decided); \
+> +                              (target_long)target_page.mask; })
+>   #else
+>   #define TARGET_PAGE_BITS   target_page.bits
+> -#define TARGET_PAGE_MASK   target_page.mask
+> +#define TARGET_PAGE_MASK   ((target_long)target_page.mask)
+>   #endif
+>   #define TARGET_PAGE_SIZE   (-(int)TARGET_PAGE_MASK)
+>   #else
+> diff --git a/include/exec/page-vary.h b/include/exec/page-vary.h
+> new file mode 100644
+> index 0000000000..c22a7a742e
+> --- /dev/null
+> +++ b/include/exec/page-vary.h
+> @@ -0,0 +1,34 @@
+> +/*
+> + * Definitions for cpus with variable page sizes.
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef EXEC_PAGE_VARY_H
+> +#define EXEC_PAGE_VARY_H
+> +
+> +typedef struct {
+> +    bool decided;
+> +    int bits;
+> +    uint64_t mask;
+> +} TargetPageBits;
+> +
+> +#ifdef IN_PAGE_VARY
+> +extern bool set_preferred_target_page_bits_common(int bits);
+> +extern void finalize_target_page_bits_common(int min);
+> +#endif
+> +
+> +#endif /* EXEC_PAGE_VARY_H */
+> diff --git a/exec-vary.c b/exec-vary.c
+> deleted file mode 100644
+> index a603b1b433..0000000000
+> --- a/exec-vary.c
+> +++ /dev/null
+> @@ -1,108 +0,0 @@
+> -/*
+> - * Variable page size handling
+> - *
+> - *  Copyright (c) 2003 Fabrice Bellard
+> - *
+> - * This library is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public
+> - * License as published by the Free Software Foundation; either
+> - * version 2.1 of the License, or (at your option) any later version.
+> - *
+> - * This library is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> - * Lesser General Public License for more details.
+> - *
+> - * You should have received a copy of the GNU Lesser General Public
+> - * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> - */
+> -
+> -#include "qemu/osdep.h"
+> -#include "qemu-common.h"
+> -
+> -#define IN_EXEC_VARY 1
+> -
+> -#include "exec/exec-all.h"
+> -
+> -#ifdef TARGET_PAGE_BITS_VARY
+> -# ifdef CONFIG_ATTRIBUTE_ALIAS
+> -/*
+> - * We want to declare the "target_page" variable as const, which tells
+> - * the compiler that it can cache any value that it reads across calls.
+> - * This avoids multiple assertions and multiple reads within any one user.
+> - *
+> - * This works because we finish initializing the data before we ever read
+> - * from the "target_page" symbol.
+> - *
+> - * This also requires that we have a non-constant symbol by which we can
+> - * perform the actual initialization, and which forces the data to be
+> - * allocated within writable memory.  Thus "init_target_page", and we use
+> - * that symbol exclusively in the two functions that initialize this value.
+> - *
+> - * The "target_page" symbol is created as an alias of "init_target_page".
+> - */
+> -static TargetPageBits init_target_page;
+> -
+> -/*
+> - * Note that this is *not* a redundant decl, this is the definition of
+> - * the "target_page" symbol.  The syntax for this definition requires
+> - * the use of the extern keyword.  This seems to be a GCC bug in
+> - * either the syntax for the alias attribute or in -Wredundant-decls.
+> - *
+> - * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
+> - */
+> -#  pragma GCC diagnostic push
+> -#  pragma GCC diagnostic ignored "-Wredundant-decls"
+> -
+> -extern const TargetPageBits target_page
+> -    __attribute__((alias("init_target_page")));
+> -
+> -#  pragma GCC diagnostic pop
+> -# else
+> -/*
+> - * When aliases are not supported then we force two different declarations,
+> - * by way of suppressing the header declaration with IN_EXEC_VARY.
+> - * We assume that on such an old compiler, LTO cannot be used, and so the
+> - * compiler cannot not detect the mismatched declarations, and all is well.
+> - */
+> -TargetPageBits target_page;
+> -#  define init_target_page target_page
+> -# endif
+> -#endif
+> -
+> -bool set_preferred_target_page_bits(int bits)
+> -{
+> -    /*
+> -     * The target page size is the lowest common denominator for all
+> -     * the CPUs in the system, so we can only make it smaller, never
+> -     * larger. And we can't make it smaller once we've committed to
+> -     * a particular size.
+> -     */
+> -#ifdef TARGET_PAGE_BITS_VARY
+> -    assert(bits >= TARGET_PAGE_BITS_MIN);
+> -    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
+> -        if (init_target_page.decided) {
+> -            return false;
+> -        }
+> -        init_target_page.bits = bits;
+> -    }
+> -#endif
+> -    return true;
+> -}
+> -
+> -void finalize_target_page_bits(void)
+> -{
+> -#ifdef TARGET_PAGE_BITS_VARY
+> -    if (init_target_page.bits == 0) {
+> -        init_target_page.bits = TARGET_PAGE_BITS_MIN;
+> -    }
+> -    init_target_page.mask = (target_long)-1 << init_target_page.bits;
+> -    init_target_page.decided = true;
+> -
+> -    /*
+> -     * For the benefit of an -flto build, prevent the compiler from
+> -     * hoisting a read from target_page before we finish initializing.
+> -     */
+> -    barrier();
+> -#endif
+> -}
+> diff --git a/page-vary-common.c b/page-vary-common.c
+> new file mode 100644
+> index 0000000000..9175556498
+> --- /dev/null
+> +++ b/page-vary-common.c
+> @@ -0,0 +1,54 @@
+> +/*
+> + * Variable page size handling -- target independent part.
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#define IN_PAGE_VARY 1
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "exec/page-vary.h"
+> +
+> +/* WARNING: This file must *not* be complied with -flto. */
+> +
+> +TargetPageBits target_page;
+> +
+> +bool set_preferred_target_page_bits_common(int bits)
+> +{
+> +    /*
+> +     * The target page size is the lowest common denominator for all
+> +     * the CPUs in the system, so we can only make it smaller, never
+> +     * larger. And we can't make it smaller once we've committed to
+> +     * a particular size.
+> +     */
+> +    if (target_page.bits == 0 || target_page.bits > bits) {
+> +        if (target_page.decided) {
+> +            return false;
+> +        }
+> +        target_page.bits = bits;
+> +    }
+> +    return true;
+> +}
+> +
+> +void finalize_target_page_bits_common(int min)
+> +{
+> +    if (target_page.bits == 0) {
+> +        target_page.bits = min;
+> +    }
+> +    target_page.mask = -1ull << target_page.bits;
+> +    target_page.decided = true;
+> +}
+> diff --git a/page-vary.c b/page-vary.c
+> new file mode 100644
+> index 0000000000..057c7f1815
+> --- /dev/null
+> +++ b/page-vary.c
+> @@ -0,0 +1,41 @@
+> +/*
+> + * Variable page size handling -- target specific part.
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#define IN_PAGE_VARY 1
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "exec/exec-all.h"
+> +
+> +bool set_preferred_target_page_bits(int bits)
+> +{
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +    assert(bits >= TARGET_PAGE_BITS_MIN);
+> +    return set_preferred_target_page_bits_common(bits);
+> +#else
+> +    return true;
+> +#endif
+> +}
+> +
+> +void finalize_target_page_bits(void)
+> +{
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +    finalize_target_page_bits_common(TARGET_PAGE_BITS_MIN);
+> +#endif
+> +}
+> 
 
 
