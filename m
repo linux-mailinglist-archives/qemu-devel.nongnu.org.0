@@ -2,86 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64304345098
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 21:20:32 +0100 (CET)
-Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FCB345312
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:33:18 +0100 (CET)
+Received: from localhost ([::1]:57762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOR2L-0004iR-KP
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 16:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59690)
+	id 1lOU2u-0000eb-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOQzO-0003f4-Do
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 16:17:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28825)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=VkUl=IU=matejka.sk=lubos@adminit.cz>)
+ id 1lOR9n-0000lV-46; Mon, 22 Mar 2021 16:28:11 -0400
+Received: from posta.adminit.cz ([77.93.206.226]:34862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOQzM-0005MW-4Z
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 16:17:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616444241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jJ56t/iS9IL8L4TpxOQZ74ZRWCZXyy1v4jx/547MNhk=;
- b=Bko0RjdVK5iSlqD8NwICkumgewnA/l/+ccKhHq+PRN2EZPEXLOVkHoYHHwhpgRDFgdwe+O
- N0Uo+g8gC4DaF/ijbJFY8MOUcO4ap5wu6q8uU6OUvnEM2qcdT6AwpfAV2ODdnBtJ2peE7I
- Ed4lDsc0NyQXwFHSdxh0OLlaxRhJvWM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-VpJhlQl0MDmRcSDiKJL2DQ-1; Mon, 22 Mar 2021 16:17:20 -0400
-X-MC-Unique: VpJhlQl0MDmRcSDiKJL2DQ-1
-Received: by mail-qv1-f71.google.com with SMTP id n1so228118qvi.4
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 13:17:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jJ56t/iS9IL8L4TpxOQZ74ZRWCZXyy1v4jx/547MNhk=;
- b=iaVBTy9Lk/2kxFglu2PQaIdlkII1mIowgsa7DsjU+UlziB0Oanr0J5bi3cAk+9FuS+
- z78Dtl8pq0LkaIDJBSS4zgyQWU6JWYOTOuhKEW6aOEyfg2oWAUOgzGtmqbjtyGgjYD5q
- cTVYlJ9oqfsrtayKSCdQk02A1hObDxJmo+lbma4TkQucqnP2S47ZpxK9mZIuboezN82E
- qJ6uF/E2jTs4CQgpdimIXcRN9n8OPWK273Pr3XuwXzA5Y1d9AdCpdfs0zlT3dwxBDQWV
- w/S80jhLk0siYZ9tAJSa3bnI2Whpq4XTOejIQ84EGCi23UkcuGwH1PBya2Nmob0I3140
- zdcA==
-X-Gm-Message-State: AOAM533WBhq8r5t7tnQYu06j/ULKHMiOvUI/CbkLS+B4TfjM7/2fIABR
- bPeY3TfRJK9P/HmRSwmUmfbMB5P5TRh9jgh2AygQFOAmthdyK+mYbDKSS1RufqKzDUF7HXAFnkk
- 1wBSxPt6F7RnjVkM=
-X-Received: by 2002:ac8:7b3a:: with SMTP id l26mr1635813qtu.150.1616444239450; 
- Mon, 22 Mar 2021 13:17:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzN2g+rJdNVLB2Pa4zS0xjJcAe/ZVkMdeFYcD4kE2lGCrvXjE8J22hxI6VIdRSzNwcdrJDnqA==
-X-Received: by 2002:ac8:7b3a:: with SMTP id l26mr1635790qtu.150.1616444239156; 
- Mon, 22 Mar 2021 13:17:19 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
- [174.91.135.175])
- by smtp.gmail.com with ESMTPSA id r8sm9817196qtu.49.2021.03.22.13.17.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 13:17:18 -0700 (PDT)
-Date: Mon, 22 Mar 2021 16:17:16 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v1 1/3] migration: Fix missing qemu_fflush() on buffer
- file in bg_migration_thread
-Message-ID: <20210322201716.GG16645@xz-x1>
-References: <20210319145249.425189-1-andrey.gruzdev@virtuozzo.com>
- <20210319145249.425189-2-andrey.gruzdev@virtuozzo.com>
-MIME-Version: 1.0
-In-Reply-To: <20210319145249.425189-2-andrey.gruzdev@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1)
+ (envelope-from <SRS0=VkUl=IU=matejka.sk=lubos@adminit.cz>)
+ id 1lOR9k-0001B1-GG; Mon, 22 Mar 2021 16:28:10 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by posta.adminit.cz (Postfix) with ESMTP id 9CADF5E87;
+ Mon, 22 Mar 2021 21:28:03 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at posta.adminit.cz
+Received: from posta.adminit.cz ([127.0.0.1])
+ by localhost (posta.adminit.cz [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id H46cgfSxBMM9; Mon, 22 Mar 2021 21:28:01 +0100 (CET)
+X-Envelope-To: qemu-devel@nongnu.org
+X-Envelope-To: eblake@redhat.com
+X-Envelope-To: vsementsov@virtuozzo.com
+X-Envelope-To: pj@patrikjanousek.cz
+X-Envelope-To: lmatejka@kiv.zcu.cz
+X-Envelope-To: qemu-block@nongnu.org
+Received: from [10.0.0.172] (nero.matejka.sk [90.179.133.32])
+ by posta.adminit.cz (Postfix) with ESMTPSA id C0E0446A4;
+ Mon, 22 Mar 2021 21:28:00 +0100 (CET)
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+From: Lubos Matejka <lubos@matejka.sk>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 1/2] block/raw: added support of persistent dirty bitmaps
+Date: Mon, 22 Mar 2021 21:27:59 +0100
+Message-Id: <FB0214FC-650A-41FF-B021-97C850F4F367@matejka.sk>
+References: <c4e59b6c-2c42-c106-8855-ceccdb481447@patrikjanousek.cz>
+In-Reply-To: <c4e59b6c-2c42-c106-8855-ceccdb481447@patrikjanousek.cz>
+To: =?utf-8?Q?Patrik_Janou=C5=A1ek?= <pj@patrikjanousek.cz>
+X-Mailer: iPhone Mail (18D52)
+Received-SPF: pass client-ip=77.93.206.226;
+ envelope-from=SRS0=VkUl=IU=matejka.sk=lubos@adminit.cz; helo=posta.adminit.cz
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 22 Mar 2021 19:31:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,51 +67,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu block <qemu-block@nongnu.org>, Lmatejka@kiv.zcu.cz
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 19, 2021 at 05:52:47PM +0300, Andrey Gruzdev wrote:
-> Added missing qemu_fflush() on buffer file holding precopy device state.
-> Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
-> Typical configurations often require >200KB for device state and VMDESC.
-> 
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> ---
->  migration/migration.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index ca8b97baa5..32b48fe9f5 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
->       * with vCPUs running and, finally, write stashed non-RAM part of
->       * the vmstate from the buffer to the migration stream.
->       */
-> -    s->bioc = qio_channel_buffer_new(128 * 1024);
-> +    s->bioc = qio_channel_buffer_new(512 * 1024);
->      qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
->      fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
->      object_unref(OBJECT(s->bioc));
-> @@ -3866,6 +3866,8 @@ static void *bg_migration_thread(void *opaque)
->      if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
->          goto fail;
->      }
-> +    qemu_fflush(fb);
+Kdy si muzem cinknout k dalsimu vyvoji?
 
-What will happen if the vmstates are bigger than 512KB?  Would the extra data
-be dropped?
+Odesl=C3=A1no z iPhonu
 
-In that case, I'm wondering whether we'll need a qemu_file_get_error() after
-the flush to detect it, and whether we need to retry with a bigger buffer size?
+> 22. 3. 2021 v 12:37, Patrik Janou=C5=A1ek <pj@patrikjanousek.cz>:
+>=20
+> =EF=BB=BF
+>> On 3/22/21 12:18 PM, Vladimir Sementsov-Ogievskiy wrote:
+>> 22.03.2021 13:46, Vladimir Sementsov-Ogievskiy wrote:
+>>> 22.03.2021 13:18, Patrik Janou=C5=A1ek wrote:
+>>>> On 3/22/21 9:41 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> 20.03.2021 12:32, Patrik Janou=C5=A1ek wrote:
+>>>>>> Current implementation of dirty bitmaps for raw format is very
+>>>>>> limited, because those bitmaps cannot be persistent. Basically it
+>>>>>> makes sense, because the raw format doesn't have space where could
+>>>>>> be dirty bitmap stored when QEMU is offline. This patch solves it
+>>>>>> by storing content of every dirty bitmap in separate file on the
+>>>>>> host filesystem.
+>>>>>>=20
+>>>>>> However, this only solves one part of the problem. We also have to
+>>>>>> store information about the existence of the dirty bitmap. This is
+>>>>>> solved by adding custom options, that stores all required metadata
+>>>>>> about dirty bitmap (filename where is the bitmap stored on the
+>>>>>> host filesystem, granularity, persistence, etc.).
+>>>>>>=20
+>>>>>> Signed-off-by: Patrik Janou=C5=A1ek<pj@patrikjanousek.cz>
+>>>>>=20
+>>>>>=20
+>>>>> Hmm. Did you considered other ways? Honestly, I don't see a reason for=
 
-Thanks,
+>>>>> yet another storing format for bitmaps.
+>>>>>=20
+>>>>> The task could be simply solved with existing features:
+>>>>>=20
+>>>>> 1. We have extenal-data-file feature in qcow2 (read
+>>>>> docs/interop/qcow2.txt). With this thing enabled, qcow2 file contains
+>>>>> only metadata (persistent bitmaps for example) and data is stored in
+>>>>> separate sequential raw file. I think you should start from it.
+>>>>=20
+>>>> I didn't know about that feature. I'll look at it.
+>>>>=20
+>>>> In case I use NBD to access the bitmap context and qcow2 as a solution
+>>>> for persistent layer. Would the patch be acceptable? This is
+>>>> significant
+>>>> change to my solution and I don't have enought time for it at the
+>>>> moment
+>>>> (mainly due to other parts of my bachelor's thesis). I just want to
+>>>> know
+>>>> if this kind of feature is interesting to you and its implementation is=
 
--- 
-Peter Xu
-
+>>>> worth my time.
+>>>=20
+>>> Honestly, at this point I think it doesn't. If existing features
+>>> satisfy your use-case, no reason to increase complexity of file-posix
+>>> driver and QAPI.
+>>>=20
+>>=20
+>> It's unpleasant to say this, keeping in mind that that's your first
+>> submission :(
+>>=20
+>> I can still recommend in a connection with your bachelor's thesis to
+>> look at the videos at kvm-forum youtube channel, searching for backup:
+>>=20
+>> =20
+>> https://www.youtube.com/channel/UCRCSQmAOh7yzgheq-emy1xA/search?query=3Db=
+ackup
+>>=20
+>> You'll get a lot of information about current developments of external
+>> backup API.
+>>=20
+>> Also note, that there is (or there will be ?) libvirt Backup API,
+>> which includes an API for external backup. I don't know the current
+>> status of it, but if your project is based on libvirt, it's better to
+>> use libvirt backup API instead of using qemu directly. About Libvirt
+>> Backup API it's better to ask Eric Blake (adding him to CC).
+> Unfortunately, my solution is based on Proxmox so I can't use libvirt's
+> features. I know that a beta version of Proxmox Backup Server has been
+> released and it would be much better to improve their solution, but they
+> did it too late so I couldn't change assignment of my bachelor's thesis.
+>=20
 
