@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA8F34508D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 21:17:02 +0100 (CET)
-Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC8A34508A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 21:16:28 +0100 (CET)
+Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOQyz-0002XW-EO
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 16:17:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58954)
+	id 1lOQyQ-00027O-JG
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 16:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lOQvs-0000TB-Hl
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOQvr-0000TD-PH
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 16:13:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lOQvn-0003ky-Ck
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOQvl-0003jk-J6
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 16:13:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616444021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2Tjsy0TRG9F/748Z7nhr2t0JTajHETw6ZbWrsy8kovU=;
- b=cI7g+N8TiHChuGzP4o4Ox7Lm/V9/UVs670mo5Pn5UNvihBF4gwFyewYKJTJ7icoKOz4CgC
- GQNPbV2UKE13w5vL3aOyv/QwTzfW9fN7O6InmTZ+5tIjRb8PhZWZdtAgGRs//45xVT3T92
- qwkgzLFJhsCmoL3D0MfvR16MRlLkNmg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-gK9ZrbZ7M4qd2tPiCPm4RQ-1; Mon, 22 Mar 2021 16:13:38 -0400
-X-MC-Unique: gK9ZrbZ7M4qd2tPiCPm4RQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54E82612A2;
- Mon, 22 Mar 2021 20:13:37 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-114-132.rdu2.redhat.com [10.10.114.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 799B41007606;
- Mon, 22 Mar 2021 20:13:27 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id C9791220BCF; Mon, 22 Mar 2021 16:13:26 -0400 (EDT)
-Date: Mon, 22 Mar 2021 16:13:26 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [Virtio-fs] [External] Re: [RFC PATCH 0/9] Support for Virtio-fs
- daemon crash reconnection
-Message-ID: <20210322201326.GH446288@redhat.com>
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
- <CAJ+F1CLZ4VtgKp5fEdC70m22PgV2VHvRHunR-nPOWDnJPFvqqg@mail.gmail.com>
- <CAFQAk7hCqSMMfRjUO8vtK-B2cKxJZZTJgSDAbRycd1AOSktM_w@mail.gmail.com>
- <YFHUbEdszo4nursr@stefanha-x1.localdomain>
- <CAFQAk7ia5HsX0e4WBrhDtytGKnd5LsPrUSz9DJVFoo+ShDRP7Q@mail.gmail.com>
- <YFh45AUkh1OzbE6H@stefanha-x1.localdomain>
+Received: by mail-wr1-x444.google.com with SMTP id v11so18478118wro.7
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 13:13:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VRN75fiZq3z0KsQUrseR+n6u9jCms7lasgObIRtwiok=;
+ b=r4dR3MBOpVmKBR+8fSZcoMzu2dgyUoK3HFccRcnWoQ50uKFwhgY0TuttELxN+QhBAG
+ tjPC8kuaPop+3jl5xR3lAHgWxcfl3mJ4PXrCElWUPMRhIwHj497UBKHZ31M3f/a+biBp
+ T3TSG3fjhLMcu7gYiInhcRNazQ+umDYIF58SlpjVXT2lGjciewzA2irKVRhuxwYa2Jtx
+ 2gjngSFOmWi7yQlo1cii5KWRicJOWu54m/lc9zwmZ0y82/ZBCLW+oSdFVq55fKWskNM7
+ pMkju6A++2ts2rJH2WyaY3cHWRKJtAcjxpipc/EVUj2Stdlj/YkuFqtHHYtlHvDacfno
+ glUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VRN75fiZq3z0KsQUrseR+n6u9jCms7lasgObIRtwiok=;
+ b=bZyKSMHmu61OFdB5Ed7OZInEZV9uT3OhhlEMd9PTjqZGkTuITN8ej83ytkxHKSoa+X
+ s6ErBghhW/kXYjdw5++RlFrQM5aCkyf+ZnPJmMMYvHKT4scrBcSMwpSkooZdMiplTq+M
+ oud2MDmZ0kWrswIgncpO7sUWTevdr3fF+dYgI2Nt58TLZ4BWSzSYKEvG0lkCJV6nah8V
+ oZeVZztxuL3Z8GT6jkU/qCVJ0E5pwCDsqrW4aDPoYQtDEtzylxkuDmZXnOucEij++A5W
+ WTu94ctIV5/x+O9mSX/sbUcJGq8lVJ+m0TajtcmNxYroyXmnMSCLhXmSYNzjbZ126nAJ
+ uE7Q==
+X-Gm-Message-State: AOAM530k2QYnmmmgL02SbNYdBY2JOkHmTML17WxqG15R0A9RL/NjK2CJ
+ RFmBPEPyvDRmZkFRyMw1nYNbvg==
+X-Google-Smtp-Source: ABdhPJzkP0IPwo6bOiyP11H38QjB34BsAu320k+R1ahZ6nrP+ybblj8oyBYxZVfdOV0LeioZHwLdfg==
+X-Received: by 2002:adf:8151:: with SMTP id 75mr323008wrm.152.1616444019883;
+ Mon, 22 Mar 2021 13:13:39 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id u15sm419548wmq.4.2021.03.22.13.13.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 13:13:39 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/pci-host/gpex: Don't fault for unmapped parts of MMIO and
+ PIO windows
+Date: Mon, 22 Mar 2021 20:13:36 +0000
+Message-Id: <20210322201336.9539-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <YFh45AUkh1OzbE6H@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,44 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- virtio-fs@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Cc: qemu-riscv@nongnu.org, Arnd Bergmann <arnd@arndb.de>,
+ Dmitry Vyukov <dvyukov@google.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 11:00:52AM +0000, Stefan Hajnoczi wrote:
-> On Wed, Mar 17, 2021 at 08:32:31PM +0800, Jiachen Zhang wrote:
-> > On Wed, Mar 17, 2021 at 6:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > > On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
-> > I agreed with you that a virtiofsd must be launched by a software like
-> > systemd. So we are planning to define more generic persist/restore
-> > interfaces (callbacks). Then anyone can implement their own persist/restore
-> > callbacks to store states to proper places.  And I think in the next
-> > version we will implement default callbacks for the interfaces. Instead of
-> > vhost-user messages, systemd's sd_notify(3) will be the default method for
-> > storing fds, and several tmpfs files can be the default place to store the
-> > shm regions.
-> 
-> Okay, great!
-> 
-> I was thinking about how to make the crash recovery mechanism reusable
-> as a C library or Rust crate. The mechanism is a combination of:
-> 1. sd_listen_fds(3) for restoring the fds on restart.
-> 2. sd_notify(3) for storing the fds.
-> 3. memfd or tmpfs for storing state (could be mmapped).
-> 
-> I'm not sure if there is enough common behavior to create a reusable API
-> or if this is quite application-specific.
+Currently the gpex PCI controller implements no special behaviour for
+guest accesses to areas of the PIO and MMIO where it has not mapped
+any PCI devices, which means that for Arm you end up with a CPU
+exception due to a data abort.
 
-I am wondering what will happen for use cases where virtiofsd is running
-inside a container (with no systemd inside containers).
+Most host OSes expect "like an x86 PC" behaviour, where bad accesses
+like this return -1 for reads and ignore writes.  In the interests of
+not being surprising, make host CPU accesses to these windows behave
+as -1/discard where there's no mapped PCI device.
 
-Do container managers offer systemd like services to save and restore
-state.
+Reported-by: Dmitry Vyukov <dvyukov@google.com>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Not convinced that this is 6.0 material, because IMHO the
+kernel shouldn't be doing this in the first place.
+Do we need to have the property machinery so that old
+virt-5.2 etc retain the previous behaviour ?
+---
+ include/hw/pci-host/gpex.h |  2 ++
+ hw/pci-host/gpex.c         | 37 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 37 insertions(+), 2 deletions(-)
 
-Vivek
+diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
+index d48a020a952..ad876ecd209 100644
+--- a/include/hw/pci-host/gpex.h
++++ b/include/hw/pci-host/gpex.h
+@@ -49,6 +49,8 @@ struct GPEXHost {
+ 
+     MemoryRegion io_ioport;
+     MemoryRegion io_mmio;
++    MemoryRegion io_ioport_window;
++    MemoryRegion io_mmio_window;
+     qemu_irq irq[GPEX_NUM_IRQS];
+     int irq_num[GPEX_NUM_IRQS];
+ };
+diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
+index 2bdbe7b4561..1f48c89ac6a 100644
+--- a/hw/pci-host/gpex.c
++++ b/hw/pci-host/gpex.c
+@@ -82,13 +82,46 @@ static void gpex_host_realize(DeviceState *dev, Error **errp)
+     PCIExpressHost *pex = PCIE_HOST_BRIDGE(dev);
+     int i;
+ 
++    /*
++     * Note that the MemoryRegions io_mmio and io_ioport that we pass
++     * to pci_register_root_bus() are not the same as the
++     * MemoryRegions io_mmio_window and io_ioport_window that we
++     * expose as SysBus MRs. The difference is in the behaviour of
++     * accesses to addresses where no PCI device has been mapped.
++     *
++     * io_mmio and io_ioport are the underlying PCI view of the PCI
++     * address space, and when a PCI device does a bus master access
++     * to a bad address this is reported back to it as a transaction
++     * failure.
++     *
++     * io_mmio_window and io_ioport_window implement "unmapped
++     * addresses read as -1 and ignore writes"; this is traditional
++     * x86 PC behaviour, which is not mandated by the PCI spec proper
++     * but expected by much PCI-using guest software, including Linux.
++     *
++     * In the interests of not being unnecessarily surprising, we
++     * implement it in the gpex PCI host controller, by providing the
++     * _window MRs, which are containers with io ops that implement
++     * the 'background' behaviour and which hold the real PCI MRs as
++     * subregions.
++     */
+     pcie_host_mmcfg_init(pex, PCIE_MMCFG_SIZE_MAX);
+     memory_region_init(&s->io_mmio, OBJECT(s), "gpex_mmio", UINT64_MAX);
+     memory_region_init(&s->io_ioport, OBJECT(s), "gpex_ioport", 64 * 1024);
+ 
++    memory_region_init_io(&s->io_mmio_window, OBJECT(s),
++                          &unassigned_io_ops, OBJECT(s),
++                          "gpex_mmio_window", UINT64_MAX);
++    memory_region_init_io(&s->io_ioport_window, OBJECT(s),
++                          &unassigned_io_ops, OBJECT(s),
++                          "gpex_ioport_window", 64 * 1024);
++
++    memory_region_add_subregion(&s->io_mmio_window, 0, &s->io_mmio);
++    memory_region_add_subregion(&s->io_ioport_window, 0, &s->io_ioport);
++
+     sysbus_init_mmio(sbd, &pex->mmio);
+-    sysbus_init_mmio(sbd, &s->io_mmio);
+-    sysbus_init_mmio(sbd, &s->io_ioport);
++    sysbus_init_mmio(sbd, &s->io_mmio_window);
++    sysbus_init_mmio(sbd, &s->io_ioport_window);
+     for (i = 0; i < GPEX_NUM_IRQS; i++) {
+         sysbus_init_irq(sbd, &s->irq[i]);
+         s->irq_num[i] = -1;
+-- 
+2.20.1
 
 
