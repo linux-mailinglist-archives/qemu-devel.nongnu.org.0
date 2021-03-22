@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A9B3446D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:12:08 +0100 (CET)
-Received: from localhost ([::1]:49926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4133446E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:16:07 +0100 (CET)
+Received: from localhost ([::1]:57798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLHr-0005rE-Cx
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60634)
+	id 1lOLLh-0000uy-UQ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:16:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOL2A-0006lB-ID
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:55:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22814)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1lOL2w-0007N3-Ij
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:56:42 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:58046 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOL28-0001Jl-QG
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:55:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616421352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ufjCVgkloKh99R/n/E/khvAq8OxZdbzci6YY9jXkhE8=;
- b=ROlMjSlDofy+sb9RZ6PyKLpIaIz90T6436wRa+LCO4vWIQRpXKOmkCNQWHkb5DswmsCWE+
- XvYw6RI/pxelaDDh30iVUShFwBlkE67bdqJwSrld+gh+SzmFKVeUzX31GqbXzAc8UMr61s
- ukX9f3sLo3HMgX4gJ20F7ZeLbqAsxYM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-Q0_LiCi6MP21623drp-FgQ-1; Mon, 22 Mar 2021 09:55:47 -0400
-X-MC-Unique: Q0_LiCi6MP21623drp-FgQ-1
-Received: by mail-wr1-f72.google.com with SMTP id x9so25875948wro.9
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:55:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ufjCVgkloKh99R/n/E/khvAq8OxZdbzci6YY9jXkhE8=;
- b=qrvMqKw14ywD5X/P9JVsSWQUnEZyYRO261rp8lWPH0EfexAuF7ChXPzoKwNECZBpRl
- nxZ1iKnwnL3yJMLMJi7QbSGHrw02kjSvv/C+SqDvAf8uVWOvnnp1D0X7fcdIPD0RmYE5
- lLqGGplDM4y0y2d8qJVec4O1hhoAEYX2DjhNTMrgDyQoGi1Lum45ietZHs8Pp4kgNWGG
- LU32BjHqiSZ+heeskv6J2np5/P633yjAWgrjnmg72FNJpKscPEEvhPzQrG8qGkxmWOXz
- plaAple56ZoGUFxGGQ23eB6Qean8fvXqV2WXyCq6yzCFUJQomAidTM+pD1zpmi4JaNqO
- Q/kA==
-X-Gm-Message-State: AOAM532hEYf8Cs7Np77qRmrqefUqQ3DxnQyhwDEDRnJwqGXTp2kDcKee
- D/c8f3S4mSSp1NiMPeMgfqB0byKwHQy6bly7QOKRk1LEyZSUR8b3icLrkCzi5rbvHfCoKjGpf3D
- NbmOmKKNkukF1qN4=
-X-Received: by 2002:a1c:9a47:: with SMTP id c68mr15897197wme.63.1616421346282; 
- Mon, 22 Mar 2021 06:55:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyC+vyLBUPWJTDlUykBCZghbmh6m/eUgvNGOJi83rC86SinX+26VrDKUqJvWPA399uItWNdWA==
-X-Received: by 2002:a1c:9a47:: with SMTP id c68mr15897192wme.63.1616421346143; 
- Mon, 22 Mar 2021 06:55:46 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x11sm18812019wme.9.2021.03.22.06.55.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 06:55:45 -0700 (PDT)
-Subject: Re: [PATCH v5 09/10] KVM: Disable manual dirty log when dirty ring
- enabled
-To: Keqian Zhu <zhukeqian1@huawei.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210310203301.194842-1-peterx@redhat.com>
- <20210310203301.194842-10-peterx@redhat.com>
- <c49abf47-412c-26b8-0a28-c1007eed0159@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <47bfae75-9e2e-50da-a944-a45f64f41514@redhat.com>
-Date: Mon, 22 Mar 2021 14:55:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1lOL2i-0001bI-0Y
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:56:34 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 6947F40418;
+ Mon, 22 Mar 2021 13:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1616421382;
+ x=1618235783; bh=ywAxiStTGQqS9s7CTU2v+VI0w9ANXe59o55iLefalho=; b=
+ ULmn8CmPHCLr+839VJINqj518KmzP0adhxIC5B+ERYXhfnGa2zQjzSq47WnRuYLt
+ ufO527Tx3YzESgeqzqQrLIQbdp0WkJFF+pMCHTwqKRa1jqZmOEd8pFN24+0dKZ/u
+ tKoFy5kHCDQ3qCZWYLOMNxyCkLeXrj/zJzo6dDah6ac=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZSK-a2m5l8Ni; Mon, 22 Mar 2021 16:56:22 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 1606841283;
+ Mon, 22 Mar 2021 16:56:21 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 22
+ Mar 2021 16:56:21 +0300
+Date: Mon, 22 Mar 2021 16:56:20 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 for-6.0 1/2] tcg: Do not set guard pages on the rx
+ portion of code_gen_buffer
+Message-ID: <YFiiBAwESsbf2lOZ@SPB-NB-133.local>
+References: <20210320165720.1813545-1-richard.henderson@linaro.org>
+ <20210320165720.1813545-2-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <c49abf47-412c-26b8-0a28-c1007eed0159@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210320165720.1813545-2-richard.henderson@linaro.org>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,33 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman <huangy81@chinatelecom.cn>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/21 10:17, Keqian Zhu wrote:
-> Hi Peter,
+On Sat, Mar 20, 2021 at 10:57:19AM -0600, Richard Henderson wrote:
+> The rw portion of the buffer is the only one in which overruns
+> can be generated.  Allow the rx portion to be more completely
+> covered by huge pages.
 > 
-> On 2021/3/11 4:33, Peter Xu wrote:
->> KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 is for KVM_CLEAR_DIRTY_LOG, which is only
->> useful for KVM_GET_DIRTY_LOG.  Skip enabling it for kvm dirty ring.
->>
->> More importantly, KVM_DIRTY_LOG_INITIALLY_SET will not wr-protect all the pages
->> initially, which is against how kvm dirty ring is used - there's no way for kvm
->> dirty ring to re-protect a page before it's notified as being written first
->> with a GFN entry in the ring!  So when KVM_DIRTY_LOG_INITIALLY_SET is enabled
->> with dirty ring, we'll see silent data loss after migration.
-> I feel a little regret that dirty ring can not work with KVM_DIRTY_LOG_INITIALLY_SET ...
-> With KVM_DIRTY_LOG_INITIALLY_SET, we can speedup dirty log start. More important, we can
-> enable dirty log gradually. For write fault based dirty log, it greatly reduces the side
-> effect of dirty log over guest.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/tcg.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 > 
-> I hope we can put forward another similar optimization under dirty ring mode. :)
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index de91bb6e9e..88c9e6f8a4 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -828,7 +828,6 @@ void tcg_region_init(void)
+>      size_t region_size;
+>      size_t n_regions;
+>      size_t i;
+> -    uintptr_t splitwx_diff;
+>  
+>      n_regions = tcg_n_regions();
+>  
+> @@ -858,8 +857,11 @@ void tcg_region_init(void)
+>      /* account for that last guard page */
+>      region.end -= page_size;
+>  
+> -    /* set guard pages */
+> -    splitwx_diff = tcg_splitwx_diff;
+> +    /*
+> +     * Set guard pages in the rw buffer, as that's the one into which
+> +     * buffer overruns could occur.  Do not set guard pages in the rx
+> +     * buffer -- let that one use hugepages throughout.
+> +     */
+>      for (i = 0; i < region.n; i++) {
+>          void *start, *end;
+>          int rc;
+> @@ -867,10 +869,6 @@ void tcg_region_init(void)
+>          tcg_region_bounds(i, &start, &end);
+>          rc = qemu_mprotect_none(end, page_size);
+>          g_assert(!rc);
+> -        if (splitwx_diff) {
+> -            rc = qemu_mprotect_none(end + splitwx_diff, page_size);
+> -            g_assert(!rc);
+> -        }
+>      }
+>  
+>      tcg_region_trees_init();
+> -- 
+> 2.25.1
+> 
 
-Indeed, perhaps (even though KVM_GET_DIRTY_LOG does not make sense with 
-dirty ring) we could allow KVM_CLEAR_DIRTY_LOG.
+Thanks for fixing the issue, Richard,
 
-Paolo
+I have two questions:
+ - Should we keep guards pages for rx on all platforms except darwin?
+   (that would make it similar to what Philippe proposed in the comments
+   to patch 2).
+ - What does mean that rx might be covered by huge pages? (perhaps I'm
+   missing some context)
 
+Otherwise,
+
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+
+BR,
+Roman
 
