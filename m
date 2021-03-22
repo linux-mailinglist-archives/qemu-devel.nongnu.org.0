@@ -2,108 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5B134480F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:51:45 +0100 (CET)
-Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBF3344852
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:57:43 +0100 (CET)
+Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLuC-0002QH-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1lOLzy-0004UZ-Qj
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lOLEl-0003rx-Nx
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:08:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50496
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lOLEe-0000Hs-Q7
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:08:55 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12ME5HUT014969; Mon, 22 Mar 2021 10:08:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=xTlyB7ABFSM/IXV7NnKL8TQYMq5m5UB2HRRlXzVbgCA=;
- b=HIKXIotrsvDM4uXd2UtUJi6Cx1dU2cxBth+pulgx3oky6SGW+5J/PXF99v2NMOL/fRMB
- 5okZoihtRVjznWBUjEwULbTxmJgTWd36ja6BSxejAZ66yU4JeFhTgEPwN4hGHw8NGyAM
- /4Eq9D4oAmGhsoFE2Wivt8+Z/mQm8SH0tcUga6fdDKbNZL/YoY/jiLCzmccl93i4S4I5
- EDIQssLc9e/FKgGcyyR8tsQmgp5gB2k8uBMG/+MzgrMzeZaCQT4AcEFBI4vcj0svQxaB
- 5mOKbE+6gD3xUuu6ojdlvWDN/278k4l3FMWiZxX9ac4yi5f9VZH3rmRP48zSFj19DpYk oQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37e023grut-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Mar 2021 10:08:37 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12ME5Ivu014991;
- Mon, 22 Mar 2021 10:08:36 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37e023gru8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Mar 2021 10:08:36 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12ME7B24010632;
- Mon, 22 Mar 2021 14:08:35 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01dal.us.ibm.com with ESMTP id 37equd2am7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Mar 2021 14:08:35 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12ME8YPl14811458
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Mar 2021 14:08:34 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5A1546A058;
- Mon, 22 Mar 2021 14:08:34 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D05556A051;
- Mon, 22 Mar 2021 14:08:33 +0000 (GMT)
-Received: from [9.211.124.231] (unknown [9.211.124.231])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 22 Mar 2021 14:08:33 +0000 (GMT)
-Subject: Re: [PULL v2 04/15] gitlab-ci.yml: Add jobs to test CFI flags
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20210310160002.11659-1-alex.bennee@linaro.org>
- <20210310160002.11659-5-alex.bennee@linaro.org>
- <a374fee5-7771-c9c2-489f-d496d3042196@amsat.org>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <de549089-8b8b-19b5-d360-ce3afa096747@linux.vnet.ibm.com>
-Date: Mon, 22 Mar 2021 10:08:30 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lOLFo-0004uI-Ln
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:10:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38016)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lOLFl-0000lq-UT
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:10:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616422189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6+pRs2xi6aoq2CsnXMuWN3Ce/jzNWvWsbbhqMJ0Alfg=;
+ b=gjY6DTVNFesatVhIyEY6K4L41E3dvfIn5jjgUxCr06K/xgdjNxRbQXjxnXUea26DQc+IxM
+ CWVpwQUSexQqDu3qQ4dZQSp0O7Vn9YDGbGK8TTaHBY2Zs0Qp7Ou1nZNDeh+SQm6ZgvUf1M
+ 1JKrNMB/E3Tvw9eXV1+OFn5+V4yR0u0=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-lRdqpdtiP4OvScNX2Rs9pw-1; Mon, 22 Mar 2021 10:09:46 -0400
+X-MC-Unique: lRdqpdtiP4OvScNX2Rs9pw-1
+Received: by mail-oi1-f199.google.com with SMTP id o125so9908990oif.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 07:09:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6+pRs2xi6aoq2CsnXMuWN3Ce/jzNWvWsbbhqMJ0Alfg=;
+ b=uKFIEGCtuRYNUnXbTANVaCqew9/Z2Nejo4ju70iXxfoQG/HVuOls1TxcJCgGc1ZOEO
+ 62sPNBJfvLTA8oiR/wJJENtbHUBmeXLlkLmk4CQoxOQy/JZLeEr3Qud7yri5UveVBdJi
+ MdIsyOKnCOlMTGbwiTsi7TyzGbDpdLyniHjjYppNCHCC/cziEwXIh1N3Uh3xTJsOTFe6
+ ySjSQI5UW8W+Q8ebQmuqVtnxWkJD6i8wwU2tKMStLEehSabgdRfKMni4CmfQugZvwd6v
+ 4o2GMYQn1tjaki8IFEZeoo+sLCLesSqOyxL6YDo5Nm1j1I3AKI+Orr1rPL44BJhZSl1v
+ W7mA==
+X-Gm-Message-State: AOAM530nIZLbt48n6ffdnO6UUVG0fGSoCZHxRRkcRw2CytBEAeh+sAOY
+ 6OscWsNQPuZQWM7HTekIpl25qgmozupGK3WwS5q4BrccX0WWeN8FKwywqmSodQ81DK4auzXBN1L
+ lpmYGU/p/FZLlG1U=
+X-Received: by 2002:a9d:22e2:: with SMTP id y89mr124851ota.15.1616422186057;
+ Mon, 22 Mar 2021 07:09:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyz5gJM2VipoXkx/ZGVo2MJaHYfcL8rdbEjHpg1+DO2xNqGz3jl1BpUASLrt3Wv4U44yBSPmA==
+X-Received: by 2002:a9d:22e2:: with SMTP id y89mr124840ota.15.1616422185895;
+ Mon, 22 Mar 2021 07:09:45 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ i11sm3351094otp.76.2021.03.22.07.09.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 07:09:45 -0700 (PDT)
+Subject: Re: [PATCH 0/2] SEV firmware error list touchups
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210218151633.215374-1-ckuehl@redhat.com>
+ <cd383ad9-21c6-340d-8821-c151e1b9714e@redhat.com>
+ <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <3644aa5f-ee80-358c-f563-faa15c2c8a9f@redhat.com>
+Date: Mon, 22 Mar 2021 09:09:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <a374fee5-7771-c9c2-489f-d496d3042196@amsat.org>
+In-Reply-To: <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-22_07:2021-03-22,
- 2021-03-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- mlxscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103220103
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,44 +100,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
+ brijesh.singh@amd.com, thomas.lendacky@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-I'm looking at the public QEMU pipelines and it seems that that job
-usually takes between 50 and 55 minutes, but there are higher spikes at
-56, 57 and one where it failed at 1h.
-
-We could perhaps set the timeout a bit higher, like 1h 10m, to not
-terminate the outliers immediately?
-The job you linked was almost over, there were just about 20-ish tests
-to be linked, so it was probably next to completion.
-
-On 3/22/2021 9:39 AM, Philippe Mathieu-Daudé wrote:
->> +build-cfi-x86_64:
->> +  <<: *native_build_job_definition
->> +  needs:
->> +  - job: amd64-fedora-container
->> +  variables:
->> +    LD_JOBS: 1
->> +    AR: llvm-ar
->> +    IMAGE: fedora
->> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
->> +      --enable-safe-stack --enable-slirp=git
->> +    TARGETS: x86_64-softmmu
->> +    MAKE_CHECK_ARGS: check-build
->> +  artifacts:
->> +    expire_in: 2 days
->> +    paths:
->> +      - build
-> FYI this job is timeouting:
+On 3/22/21 5:18 AM, Philippe Mathieu-Daudé wrote:
+> Hi Connor,
 > 
-> ERROR: Job failed: execution took longer than 1h0m0s seconds
+> On 3/15/21 3:08 PM, Connor Kuehl wrote:
+>> On 2/18/21 9:16 AM, Connor Kuehl wrote:
+>>> Connor Kuehl (2):
+>>>     sev: use explicit indices for mapping firmware error codes to strings
+>>>     sev: add missing firmware error conditions
+>>>
+>>>    target/i386/sev.c | 48 ++++++++++++++++++++++++-----------------------
+>>>    1 file changed, 25 insertions(+), 23 deletions(-)
+>>>
+>>
+>> Eduardo, Paolo, Richard: ping
 > 
-> https://gitlab.com/qemu-project/qemu/-/jobs/1112829128
+> Looks too late for 6.0 now.
 > 
+> Can you repost/ping after QEMU 6.0 is release?
+
+Sure.
+
+Connor
+
 
