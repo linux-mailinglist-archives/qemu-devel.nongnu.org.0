@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806B4344B4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:28:57 +0100 (CET)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C962344B2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:25:38 +0100 (CET)
+Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONQG-0008Tr-Ai
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51548)
+	id 1lONN3-0005Nr-2i
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:25:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lONJR-0002Ro-0l
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:21:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lONJO-0002QZ-EO
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:21:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616430109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fprn856YzTLynwknrBj2ikx4QLSrRE1u4QGA15i6xoU=;
- b=BhbGYffu5EE5FoVNybrpeTNOZvD5mPq8r/jatw7JaVTrMDXhLKvQgz0Ez+2bauaJGhAXda
- cu6inxHt2W2BEeB6/5pkE4q7BBB6CtoWizXV9wp6abs+zNMjNgLoIrU3r3iFWFF9kydbwt
- exr3bxViY09A7et6anqhgsGX91VryPg=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-FDl90qDxN4GTpJfY88Ybig-1; Mon, 22 Mar 2021 12:21:47 -0400
-X-MC-Unique: FDl90qDxN4GTpJfY88Ybig-1
-Received: by mail-qv1-f71.google.com with SMTP id ev19so20420354qvb.7
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:21:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lONM2-0004n8-BN
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:24:34 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lONM0-00046S-4H
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:24:33 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id bf3so20111394edb.6
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=u0iVDaA+S69KQJO5fAOQSPiRKRNoOAE++J9qElb9g0U=;
+ b=WIIzXD/BuCOUHnzLuJNzMIkPJbHc7YrXpNFkCSjz1HIYsi5fosFBgDKsAYUmnVt2oY
+ ACaAtVD/IdD+S3VnI9vdev/eph9AOfUVT7fvDru/kOLRSK0tmtNL4Rl06PTSYXgaP3o7
+ fNHUhOZPpoEj2MzTcE06jvQQVXKnOSkGEVxMLL4i8VrMAWLd7Vj/3wO/gIawE6P3YAAJ
+ cv8RnglaVOMIKq2PWhI6Qgc1kAKoxH1MmMxWuqFl7LdiDky78EgAcjJ0jO0Hj74GV3/N
+ xIvsvVyllHAty7fjlZTrYumS5LBiDwMwyHl6UiOeBG9DJveKkrMA88vsvFOBPHy2gDPp
+ c1iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fprn856YzTLynwknrBj2ikx4QLSrRE1u4QGA15i6xoU=;
- b=o/TnW3GAuXopAn2uoCPDPeWfEJe7MYTPHLL+OSbX9XkRk3F2T3yLw87q6jEMfe2Gab
- eIrVCPSNFZKslru9uhLGQsFiLWM8d+ycsFKAmpFjRqFXpzAFQ7McG3altvdmBD7Q2NuG
- uHERp4egeVNHEa/ZWANYyNSVQrtAySY3nB5ZMyW7vbpX9GZXJ4FmV9Zrwlvro4r3yLXO
- NTmdwG6RR1TMYPe8oNNvE2JTNTYpi+sJy6eeU4nSxK3lvbeiDqDbQdEe9JIsDfsDyoFs
- WJW4kzJhBi5hHOkvuh+FizXH8MZMhLyEvxOc8CoTN2KFEUk+H/ZzIBxAoI86PYkgIlRb
- R5yQ==
-X-Gm-Message-State: AOAM531eAnjAXrJmibCRsuaV1YLQUuZ3Ai8LlYL0B+RhiWxM9PN1gOOA
- JJ1jf0VXo6At12Un27uj5P58dsKSoQ0iLBzarpLlFNG/QF2vw2v/MPbV7qCyQGEPhdTNtX1Nw8t
- /czH3d+d4AxE+pvM=
-X-Received: by 2002:a05:620a:214a:: with SMTP id
- m10mr863739qkm.372.1616430107014; 
- Mon, 22 Mar 2021 09:21:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtE87eYKtfe6JabwFumUY4QsSrZWI6HUluKUr7nFhz80dYXo+tQZvgXhOKz83GgzFPb3VahQ==
-X-Received: by 2002:a05:620a:214a:: with SMTP id
- m10mr863717qkm.372.1616430106679; 
- Mon, 22 Mar 2021 09:21:46 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
- [174.91.135.175])
- by smtp.gmail.com with ESMTPSA id 131sm11645872qkl.74.2021.03.22.09.21.45
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=u0iVDaA+S69KQJO5fAOQSPiRKRNoOAE++J9qElb9g0U=;
+ b=pAPtomisJjahvNXBMSZvsGUNRDhL+kYKfaHGCND5AWpa1ZziVyrBec5P9gg9E0/z/A
+ f1nqU1WXJdbY/cEXnumYMWC4cvqtOIwZDYAJBGbXG2qL1B7/JJb1k89/LunfPl2IaD51
+ QOkeDU/kKYQqdS9W3d+EO1gm7CZsQxd/K0JYHT0VMIAGr9z9aagwqi3fW5a9dfwSHnMJ
+ J8IrDlA41HTVcX/trBRk9XPX9402whBq83Bu4CmK50oFM6PBkXP+LsVKEZZRGJsYPu+7
+ hc+7KyDba+2CadMq7Cx11GbuUbjn1BCdMDJbd/tZu2ZXcRocoESvlJ0OxGZXnf3Fqeol
+ XVtw==
+X-Gm-Message-State: AOAM533MkGxhDaOwT90JuaAHEZfm/Unzgyyn/1FQJktw4SqjKWUqm/qG
+ SwEp5I6y71tlci6uj3Mi0VKsEA==
+X-Google-Smtp-Source: ABdhPJzp8Bxag1CP5Czmvbs1BLADECn4Twi2Ivpn+9K/m7mXFSuvpo7CuSGWjGaMmX1llHbBW+Wy7g==
+X-Received: by 2002:a05:6402:13ca:: with SMTP id
+ a10mr388226edx.320.1616430270257; 
+ Mon, 22 Mar 2021 09:24:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a9sm11947795edt.82.2021.03.22.09.24.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 09:21:45 -0700 (PDT)
-Date: Mon, 22 Mar 2021 12:21:44 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v5 09/10] KVM: Disable manual dirty log when dirty ring
- enabled
-Message-ID: <20210322162144.GB16645@xz-x1>
-References: <20210310203301.194842-1-peterx@redhat.com>
- <20210310203301.194842-10-peterx@redhat.com>
- <c49abf47-412c-26b8-0a28-c1007eed0159@huawei.com>
- <47bfae75-9e2e-50da-a944-a45f64f41514@redhat.com>
+ Mon, 22 Mar 2021 09:24:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A3C9E1FF7E;
+ Mon, 22 Mar 2021 16:24:28 +0000 (GMT)
+References: <20210322144140.13505-1-alex.bennee@linaro.org>
+ <e4946ac6-8580-c8fc-ae1b-f1907f00bdce@redhat.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] gitlab: default to not building the documentation
+Date: Mon, 22 Mar 2021 16:24:04 +0000
+In-reply-to: <e4946ac6-8580-c8fc-ae1b-f1907f00bdce@redhat.com>
+Message-ID: <87r1k7jgw3.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <47bfae75-9e2e-50da-a944-a45f64f41514@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,51 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman <huangy81@chinatelecom.cn>, Keqian Zhu <zhukeqian1@huawei.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 02:55:44PM +0100, Paolo Bonzini wrote:
-> On 22/03/21 10:17, Keqian Zhu wrote:
-> > Hi Peter,
-> > 
-> > On 2021/3/11 4:33, Peter Xu wrote:
-> > > KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 is for KVM_CLEAR_DIRTY_LOG, which is only
-> > > useful for KVM_GET_DIRTY_LOG.  Skip enabling it for kvm dirty ring.
-> > > 
-> > > More importantly, KVM_DIRTY_LOG_INITIALLY_SET will not wr-protect all the pages
-> > > initially, which is against how kvm dirty ring is used - there's no way for kvm
-> > > dirty ring to re-protect a page before it's notified as being written first
-> > > with a GFN entry in the ring!  So when KVM_DIRTY_LOG_INITIALLY_SET is enabled
-> > > with dirty ring, we'll see silent data loss after migration.
-> > I feel a little regret that dirty ring can not work with KVM_DIRTY_LOG_INITIALLY_SET ...
-> > With KVM_DIRTY_LOG_INITIALLY_SET, we can speedup dirty log start. More important, we can
-> > enable dirty log gradually. For write fault based dirty log, it greatly reduces the side
-> > effect of dirty log over guest.
-> > 
-> > I hope we can put forward another similar optimization under dirty ring mode. :)
-> 
-> Indeed, perhaps (even though KVM_GET_DIRTY_LOG does not make sense with
-> dirty ring) we could allow KVM_CLEAR_DIRTY_LOG.
 
-Right, KVM_CLEAR_DIRTY_LOG is a good interface to reuse so as to grant
-userspace more flexibility to explicit wr-protect some guest pages.  However
-that'll need kernel reworks - obviously when I worked on the kernel part I
-didn't notice this issue..
+Thomas Huth <thuth@redhat.com> writes:
 
-To make it a complete work, IMHO we'll also need QEMU to completely drop the
-whole dirty bitmap in all the layers, then I'd expect the dirty ring idea as a
-whole start to make more difference on huge vms.  They all just need some more
-work which should be based on this series.
+> On 22/03/2021 15.41, Alex Benn=C3=A9e wrote:
+>> In d0f26e68a0 ("gitlab: force enable docs build in Fedora, Ubuntu,
+>> Debian") we made sure we can build the documents on more than one
+>> system. However we don't want to build documents all the time as it's
+>> a waste of cycles (and energy). So lets reduce the total amount of
+>> documentation we build while still keeping some coverage.
+>> Fixes: a8a3abe0b3 ("gitlab: move docs and tools build across from
+>> Travis")
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   .gitlab-ci.yml | 12 ++++++------
+>>   1 file changed, 6 insertions(+), 6 deletions(-)
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index 9ffbaa7ffb..7714c7cac8 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -23,9 +23,9 @@ include:
+>>       - cd build
+>>       - if test -n "$TARGETS";
+>>         then
+>> -        ../configure --enable-werror $CONFIGURE_ARGS --target-list=3D"$=
+TARGETS" ;
+>> +        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS --t=
+arget-list=3D"$TARGETS" ;
+>>         else
+>> -        ../configure --enable-werror $CONFIGURE_ARGS ;
+>> +        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS ;
+>>         fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
+>>       - if test -n "$LD_JOBS";
+>>         then
+>> @@ -119,7 +119,7 @@ build-system-ubuntu:
+>>       job: amd64-ubuntu2004-container
+>>     variables:
+>>       IMAGE: ubuntu2004
+>> -    CONFIGURE_ARGS: --enable-fdt=3Dsystem --enable-slirp=3Dsystem
+>> +    CONFIGURE_ARGS: --enable-docs --enable-fdt=3Dsystem --enable-slirp=
+=3Dsystem
+>
+> I think it might be better to add it to the Fedora job - it will
+> likely have a newer version of Sphinx and gets updated more often.
 
-Shall we make it a "TODO" though?  E.g., I can add a comment here mentioning
-about this issue.  I still hope we can have the qemu series lands soon first,
-since it'll be bigger project to fully complete it.  Paolo?
+It's already in build-system-fedora, just the ubuntu one was squashed
+when I moved tools and docs across.
 
-Thanks,
 
--- 
-Peter Xu
+>
+>  Thomas
 
+
+--=20
+Alex Benn=C3=A9e
 
