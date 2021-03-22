@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6843344C53
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:52:51 +0100 (CET)
-Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65986344C5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:54:32 +0100 (CET)
+Received: from localhost ([::1]:45188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONnO-0002qE-M9
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59246)
+	id 1lONp1-00046i-5O
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lONmd-0002Q4-HG
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:52:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lONmb-0003Md-O8
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:52:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616431920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ibLmIMxLgqrU0mntaLOr1gRhVjzk4aj5KeVxkz7kra4=;
- b=D8IlPGIuyfAJvEjy06jOEk15sCNwkHQFLfl+Fv+CQiInWQsijOSLpZFDamait093+Awrn9
- 8axS8n/7ZoKNnL7VCarVlgnLGXfs3569HV7sAS+UIOXx2MOwr7Ym8F+yUoyV40M72JNP4i
- NKjjYneb2GnOaqOAHeRw61KCQZg1ohI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-sZUllBywM16zY9arsbMBvA-1; Mon, 22 Mar 2021 12:51:57 -0400
-X-MC-Unique: sZUllBywM16zY9arsbMBvA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 826921052A1A
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:51:56 +0000 (UTC)
-Received: from localhost (ovpn-114-89.ams2.redhat.com [10.36.114.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1355C60936;
- Mon, 22 Mar 2021 16:51:51 +0000 (UTC)
-Date: Mon, 22 Mar 2021 16:51:50 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: add virtio-fs mailing list
-Message-ID: <YFjLJhoWq5FvFvsM@stefanha-x1.localdomain>
-References: <20210318154157.1357224-1-ckuehl@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lONnh-0003It-HI
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:53:09 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:33550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lONne-00041R-A5
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:53:07 -0400
+Received: by mail-qt1-x836.google.com with SMTP id 94so12874031qtc.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GZ6bmem4X/JYuDUXEGgF0WqqxO2+uoXRFat+sdKRWEQ=;
+ b=O7Kdj7Zb4n0RGOkg9bypG2eTxUKq7lSVx7YvUlaSIKQ3zlpBHXVPZLu9Cs9WI0s4g5
+ +h36LTa18msKhUbrqJ0aR699rsv8N8AlG6LNMM2MMvO/Vct8zcQoOV1CigA9NbCNBdWX
+ YFOzya04PNHGJEE3RhPMTfaymDLMRVJpAMkwDa8EsEAtcTmqfDB0ojTa7/53Y2Oh8Mu6
+ fxtBc03ny0n3jkG4jbp9n9Mc9BGdg8g6daz6EJc2tMPMKxP9xqflHM8EZ65Ud04UxJbS
+ 6v6+Dd/nYGyT35jGfl1rU07Q8o4FukkC/t7n1+PGb+VieNVgDCkzp3DVJsJkerkgKeJP
+ Glwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GZ6bmem4X/JYuDUXEGgF0WqqxO2+uoXRFat+sdKRWEQ=;
+ b=sfa5r/vXj6UqdiU26Q5CQh0890Iz/f4h8Hgu9QZagFUPxXaJlKntle9FghBHmZIPxm
+ 6lyoxrFGnT3tdJyk4+2JI9v+ApzCzS4gLH3g157i4gGM+1S1FO80l7VT1uD2l88+Brg8
+ bYE0KXLm6hJuTOMHcD870JyjJdri9n2GhryNkFh6YJwwTZhzYtGUAldn4XxuRRjkeZVp
+ f0KzxpYOnNfhMCK/JmxDqqV3gQqY484k61srIFE/A0mJMhYtf0dcqE5/oyeeRIdJytfO
+ gfp+10Hpn60ngcxPHFj5i1Ei5sQA6PCBW5BZD2nVhHwKmJuFEY8A33a8LfGaMd4y36oZ
+ 20pg==
+X-Gm-Message-State: AOAM531hWA+TOPmibkuojkS8JxFrVwy5A8CQyOj8tbyGu/9sn8OZUDSf
+ TpTnpobYQPmhOL1xR8acRhHwpg==
+X-Google-Smtp-Source: ABdhPJyxMqVyTVb9MLXym0YXI9V1NxeJ606x272SOLM9H5+wln9hoU17m161CHE7Fl1tk6b7E/OZIg==
+X-Received: by 2002:ac8:5212:: with SMTP id r18mr766223qtn.290.1616431984438; 
+ Mon, 22 Mar 2021 09:53:04 -0700 (PDT)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id l27sm3008090qki.133.2021.03.22.09.53.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 09:53:04 -0700 (PDT)
+Subject: Re: [PATCH v4 03/17] target/ppc: Properly sync cpu state with new msr
+ in cpu_load_old
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20210315184615.1985590-1-richard.henderson@linaro.org>
+ <20210315184615.1985590-4-richard.henderson@linaro.org>
+ <d54aebb1-59b6-cea2-556c-4434845bf0c3@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b1548d17-042b-3959-ac31-254fd0cc724b@linaro.org>
+Date: Mon, 22 Mar 2021 10:53:01 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210318154157.1357224-1-ckuehl@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KNpvOIHK1jcV75R2"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <d54aebb1-59b6-cea2-556c-4434845bf0c3@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
- dgilbert@redhat.com
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---KNpvOIHK1jcV75R2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/16/21 2:15 AM, Cédric Le Goater wrote:
+> On 3/15/21 7:46 PM, Richard Henderson wrote:
+>> Match cpu_post_load in using ppc_store_msr to set all of
+>> the cpu state implied by the value of msr.  Do not restore
+>> hflags or hflags_nmsr, as we recompute them in ppc_store_msr.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> Could we add a common routine used by cpu_post_load() and cpu_load_old() ?
 
-On Thu, Mar 18, 2021 at 10:41:57AM -0500, Connor Kuehl wrote:
-> General discussion and patch reviews take place on this list for both
-> virtiofsd (tools/virtiofsd/*) and the guest kernel module.
->=20
-> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+Will do.  David, would you like to unqueue this one, or shall I send another 
+patch on top?
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---KNpvOIHK1jcV75R2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBYyyYACgkQnKSrs4Gr
-c8gh8wgAoQ6hvmljU15VNNLv7yOdDevR1VsY3gJ6jEQB6sLXCMHHtzrAyMvGFDUr
-9LXLcZxRVcDP90LJ54llUCtU8kWF3MrhIxsGPVnem2eiuVMq6UV7W+4z8zEi8FtR
-m7u/9EVSdMb/HcMvrqBP1ReWv64M5YRIRiJMDLdVfoBAgcniCI0hxoqOMx+DJjdU
-Cb/2hrCPEEjXl+/v/E3KSqELLPvdRYpSGLCz6lLIjJQ76MHtEa0xcAyuYHa873MO
-ajv18kFbXr1te15aypc08jQV1XWXp5ZUxiESWPM2jgw3OyyWkFY7InPFyUyx818R
-3o1fYF7xSAx1Wzr5JwKP3xyt+awo8Q==
-=iFDI
------END PGP SIGNATURE-----
-
---KNpvOIHK1jcV75R2--
-
+r~
 
