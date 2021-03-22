@@ -2,100 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D4F344533
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:15:17 +0100 (CET)
-Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F7334454D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:16:38 +0100 (CET)
+Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKOp-0003S4-K2
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:15:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48746)
+	id 1lOKQ9-0004ej-TE
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lOKMf-0002Jq-0O; Mon, 22 Mar 2021 09:13:01 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61556
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lOKPE-0004BJ-5t
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:15:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lOKMd-0000cr-9d; Mon, 22 Mar 2021 09:13:00 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12MD3XjA160451; Mon, 22 Mar 2021 09:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=etKoyiVBUsYhYlaJyU2TOcAeBun97LCqc3RETgyOxjc=;
- b=rvD8EHKd5/UsvH9zMSqbk+qXIPw3/iqV390r9GFg16RZUn1Gj7vdu6W2flExVyofELAd
- Q3laarkjbx1L+3H//qnsvQZ+aqmfzZJd+av1qJGIYDcP6e2KMnKJqB4xPCfNYMzhvRck
- CSe6nD+2v3dk6+ahdH70ua5DVUZFqV7fW6wJcaJCk5kgWjDXO8eb6FEAUb38gttzUM1z
- ZZ6i7sEkOh3ZsIgKJ45hALUImlM5Sy911FUW1y90039OF+u4NHgev1urQky1DDQ9jLOO
- NGgD0+upl4VH9RbbwQKs3W1+n9JWKYIYJcbsB/HoDS7V9Ti7Wr1+VT+Ti+2znC10SAkr cw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37eb1pcqvj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Mar 2021 09:12:56 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12MD3iKY161374;
- Mon, 22 Mar 2021 09:12:55 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37eb1pcqum-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Mar 2021 09:12:55 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12MD7NgB013363;
- Mon, 22 Mar 2021 13:12:53 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 37d99xh7pb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Mar 2021 13:12:53 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12MDCpN318874824
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Mar 2021 13:12:51 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC1F311C064;
- Mon, 22 Mar 2021 13:12:50 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4035111C054;
- Mon, 22 Mar 2021 13:12:50 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.57.111])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon, 22 Mar 2021 13:12:50 +0000 (GMT)
-Date: Mon, 22 Mar 2021 14:12:48 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 0/3] s390x: modularize virtio-gpu-ccw
-Message-ID: <20210322141248.031f7538.pasic@linux.ibm.com>
-In-Reply-To: <20210317095622.2839895-1-kraxel@redhat.com>
-References: <20210317095622.2839895-1-kraxel@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lOKP8-0002IR-Vd
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:15:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616418933;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q1T4Hbedi8xQBlDN6tCmYJOv4gLPEBBhWj52oN2mg8I=;
+ b=Xt4zeQHyrHfeEAwRhJWToGMAokebBTR9pdmgdc53AGnrjaWKubQI7HHX0fgj0xwxjsOENq
+ wBxXBmT2xPOefCNw2WnlH8Bo08bhcLZ98+hNw1r8+HUjnuIB2S5E5gQGfsLUHXaxmvjaGQ
+ bq63kBmEafh9LLKv/5tuAtxTqFlzgwQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-LcjNNiPuMUGq7beN1FHLjA-1; Mon, 22 Mar 2021 09:15:29 -0400
+X-MC-Unique: LcjNNiPuMUGq7beN1FHLjA-1
+Received: by mail-wr1-f71.google.com with SMTP id 75so25798256wrl.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:15:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q1T4Hbedi8xQBlDN6tCmYJOv4gLPEBBhWj52oN2mg8I=;
+ b=EATT5TGiDMaIliR17UL3V6BOnlNCG2sWslEl+5r/7Hwyfd0cX443Hr/4WTUcvO/5U+
+ pEqCQZDt2qCCbHMJpVkj7W87IL9kuyGTgJ+FbjnNAf+q5jy49C8Cy+k8dvrih0hsTBge
+ cLsQzcB9hJPmHS6tS/wLsXFVVGaOBnGOwj35oJbhySYMnFzH8ci4/UcmBd2xNghy8wnU
+ Updf/PIPGTVikq0zoDc9MmqbR7idlKHOk/yGYY7JgHcnVMt1H069hy8pziSuHwnngmmR
+ u0MfP7GOdfLTXCe1cgl6cQJlYgiatYPEVGQ6ppka0JSw3tdUbv9Q2VPuGqcLDv2Mvyeb
+ 9k3Q==
+X-Gm-Message-State: AOAM530zAWpfc6vLz4Zfb6HC0cdnBWC7dEkrE23L9F+HHmuShjKNesPx
+ z1v1F/m9LMw/ZTUcUaQXXJNDa6vEbPG1yi0XPm80ZMGiC+qK4eDqkCR7ekXMwxvtr4UJbekza+3
+ wgS0szOYG9lvTqP7tyWhtXam12jidAoHe7oySMDwE0Ww9XiTWF+JUifRfM0ROalYq
+X-Received: by 2002:a1c:df46:: with SMTP id w67mr15793868wmg.176.1616418927997; 
+ Mon, 22 Mar 2021 06:15:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEbc+Oh23Cb+QJ5kELilQdLwy67S0SZGqIKunjopfVz1fLpedwUbMYoHw72yuvIzCnghGxrw==
+X-Received: by 2002:a1c:df46:: with SMTP id w67mr15793839wmg.176.1616418927652; 
+ Mon, 22 Mar 2021 06:15:27 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id h13sm15895299wmq.29.2021.03.22.06.15.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 06:15:27 -0700 (PDT)
+Subject: Re: [PATCH] optionrom/pvh: use memcmp() to find the RSDP signature
+To: Stefano Garzarella <sgarzare@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210322114834.166798-1-sgarzare@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <38e9c458-f931-1fa7-3070-8c2d90b543de@redhat.com>
+Date: Mon, 22 Mar 2021 14:15:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210322114834.166798-1-sgarzare@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-22_07:2021-03-22,
- 2021-03-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 lowpriorityscore=0 clxscore=1015 priorityscore=1501
- phishscore=0 spamscore=0 adultscore=0 malwarescore=0 suspectscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103220093
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,57 +98,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Mar 2021 10:56:19 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+On 3/22/21 12:48 PM, Stefano Garzarella wrote:
+> New versions of gcc report a potential error and there may be alignment
+> issues using uint64_t pointer to check the RSDP signature:
+> 
+>     gcc 10.2.1 "cc (Alpine 10.2.1_pre2) 10.2.1 20210313" reports:
+> 
+>     pc-bios/optionrom/pvh_main.c: In function 'search_rsdp':
+>     pc-bios/optionrom/pvh_main.c:61:21: warning: comparison is always false
+>     due to limited range of data type [-Wtype-limits]
+>        61 |         if (*rsdp_p == RSDP_SIGNATURE) {
+>           |                     ^~
+> 
+> Let's use memcmp() to get more readable code and avoid these issues.
+> Since pvh optionrom is baremetal, we use the compiler's __builtin_memcmp.
+> 
+> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>  pc-bios/optionrom/pvh_main.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
+> index 28e79d7fc4..12202e38c2 100644
+> --- a/pc-bios/optionrom/pvh_main.c
+> +++ b/pc-bios/optionrom/pvh_main.c
+> @@ -27,7 +27,8 @@ asm (".code32"); /* this code will be executed in protected mode */
+>  #include "optrom_fw_cfg.h"
+>  #include "../../include/hw/xen/start_info.h"
+>  
+> -#define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
+> +#define RSDP_SIGNATURE          "RSD PTR "
+> +#define RSDP_SIGNATURE_SIZE     8
+>  #define RSDP_AREA_ADDR          0x000E0000
+>  #define RSDP_AREA_SIZE          0x00020000
+>  #define EBDA_BASE_ADDR          0x0000040E
+> @@ -53,12 +54,14 @@ static uint8_t cmdline_buffer[CMDLINE_BUFSIZE];
+>  /* Search RSDP signature. */
+>  static uintptr_t search_rsdp(uint32_t start_addr, uint32_t end_addr)
+>  {
+> -    uint64_t *rsdp_p;
+> +    char rsdp_signature[RSDP_SIGNATURE_SIZE] = RSDP_SIGNATURE;
 
-> Maybe not the most elegant but rather simple approach to the "parent
-> object missing" problem: Use a symbol reference to make sure ccw modules
-> load only in case ccw support is present.
+static const?
 
-[..]
+> +    char *rsdp_p;
+>  
+>      /* RSDP signature is always on a 16 byte boundary */
+> -    for (rsdp_p = (uint64_t *)start_addr; rsdp_p < (uint64_t *)end_addr;
+> -         rsdp_p += 2) {
+> -        if (*rsdp_p == RSDP_SIGNATURE) {
+> +    for (rsdp_p = (char *)start_addr; rsdp_p < (char *)end_addr;
+> +         rsdp_p += 16) {
+> +        if (__builtin_memcmp(rsdp_p, rsdp_signature,
+> +                             RSDP_SIGNATURE_SIZE) == 0) {
+>              return (uintptr_t)rsdp_p;
+>          }
+>      }
+> 
 
-Hi Gerd! I've tested this and I think mostly does what it should. The
-only thing that I'm inclined to consider a little quirky is the first
-message:
-
-$ ./qemu-system-x86_64 -device virtio-gpu-ccw
-Failed to open module: /home/pasic/build/qemu/hw-s390x-virtio-gpu-ccw.so: undefined symbol: have_virtio_ccw
-qemu-system-x86_64: -device virtio-gpu-ccw: 'virtio-gpu-ccw' is not a valid device model name
-
-But with something like --help we don't see it, and I assume neither do
-we when probing, because there the modules are loaded with mayfail. So
-for me this is acceptable, because it happens only if one tries to use a
-device that ain't advertised.
-
-Compared to Daniels suggestion, I find that one conceptually clearer,
-and even more flexible. Implementation-wise I find this patch-set
-simpler. I don't know how would it scale to modules depending on modules
-(and it feels a little hackish), but we can address such problems as they
-emerge if they emerge, so I did not think too hard.
-
-Let me also note, that you took authorship of all three patches, which
-I'm fine with. All I really care about at this stage is getting this
-fixed in a remotely sane way, and this is definitely one. I'm also
-willing to invest more work in that symlink based approach, if that is
-what the community wants, but I would prefer this fixed as soon as
-possible.
-
-If you keep the authorship for all the patches, I would like to offer:
-Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
-Tested-by: Halil Pasic <pasic@linux.ibm.com>
-for all three patches. (If I'm going to be the author of some of the
-patches, those tags don't make sense for those).
-
-Thanks for your work!
-
-Regards,
-Halil
 
