@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77445343D85
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:11:50 +0100 (CET)
-Received: from localhost ([::1]:58122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AE3343DD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:29:02 +0100 (CET)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOHXJ-0001O5-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56278)
+	id 1lOHnx-0000c6-IF
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lOHUE-000856-Ki
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1lOHUF-00085O-BQ
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lOHU8-0002rz-81
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:38 -0400
+ id 1lOHUD-0002te-D4
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616407711;
+ s=mimecast20190719; t=1616407716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=BClgL8X6CYDBNEnB8IhH3K3msQNGI5b3vAfum8/NNg4=;
- b=GCnEUMcpNyCDkZlWExvFe2ZDZSm289/DvgPX/60D24WjjHnz5auR77Jwf+QwNfLcuf6dpK
- AzP9CigYXPHFunDMveKFLBax7ysvcjxRnovg7RxRnJbKlge0NHuVOtq8jeZPqJSXpAeB2v
- fOUBrZgtk4XHly6ddZ54KNFcXphMtAc=
+ references:references; bh=li1/W5hrKx84TypTdp+t+l1qRxUaNARzTlMho5yOCv4=;
+ b=ZuomJQGcNGrJaJJ5kJ9N6D1NvkZNEazX672AMuJO2juRVotiaF8UUHb7ulytCImREUbQhS
+ urek0JJU8t6CVt3nBqKYPZ4jOVlXYyuCiMk18/BKAJaAZzpb48XgsoaMZswqvM2wkUFEgQ
+ iFRN00JKOucbj3KTAPDb4elOxBR1Le8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-HCLfLcxLO82pB262OLuZWQ-1; Mon, 22 Mar 2021 06:08:29 -0400
-X-MC-Unique: HCLfLcxLO82pB262OLuZWQ-1
+ us-mta-532-CBgDfmmVNoqAKJ3NBgpixQ-1; Mon, 22 Mar 2021 06:08:33 -0400
+X-MC-Unique: CBgDfmmVNoqAKJ3NBgpixQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32AC0190A7A1;
- Mon, 22 Mar 2021 10:08:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B93BB612A9;
+ Mon, 22 Mar 2021 10:08:32 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-83.pek2.redhat.com
  [10.72.12.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 886C95D9CD;
- Mon, 22 Mar 2021 10:08:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2EAF5D9CD;
+ Mon, 22 Mar 2021 10:08:28 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 04/13] hw/net: virtio-net: Initialize nc->do_not_pad to true
-Date: Mon, 22 Mar 2021 18:08:03 +0800
-Message-Id: <1616407692-693-5-git-send-email-jasowang@redhat.com>
+Subject: [PULL 05/13] net/colo-compare.c: Fix memory leak for non-tcp packet
+Date: Mon, 22 Mar 2021 18:08:04 +0800
+Message-Id: <1616407692-693-6-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1616407692-693-1-git-send-email-jasowang@redhat.com>
 References: <1616407692-693-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -55,7 +55,7 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,36 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Lukas Straub <lukasstraub2@web.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Lukas Straub <lukasstraub2@web.de>
 
-For virtio-net, there is no need to pad the Ethernet frame size to
-60 bytes before sending to it.
+Additional to removing the packet from the secondary queue,
+we also need to free it.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/virtio-net.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ net/colo-compare.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 96a3cc8..66b9ff4 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3314,6 +3314,10 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-                               object_get_typename(OBJECT(dev)), dev->id, n);
-     }
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 84db497..2e819ff 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -690,6 +690,7 @@ static void colo_compare_packet(CompareState *s, Connection *conn,
  
-+    for (i = 0; i < n->max_queues; i++) {
-+        n->nic->ncs[i].do_not_pad = true;
-+    }
-+
-     peer_test_vnet_hdr(n);
-     if (peer_has_vnet_hdr(n)) {
-         for (i = 0; i < n->max_queues; i++) {
+         if (result) {
+             colo_release_primary_pkt(s, pkt);
++            packet_destroy(result->data, NULL);
+             g_queue_remove(&conn->secondary_list, result->data);
+         } else {
+             /*
 -- 
 2.7.4
 
