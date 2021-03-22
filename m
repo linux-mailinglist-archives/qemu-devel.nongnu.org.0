@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484E034515B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:03:20 +0100 (CET)
-Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2F2345168
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:10:04 +0100 (CET)
+Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lORhm-0003or-HA
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40784)
+	id 1lORoI-0002SK-Qy
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lORef-0003CZ-4W
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:00:05 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:42866)
+ id 1lORlE-0008NS-2Z
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:06:52 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:36715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lORed-0006gX-I5
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:00:04 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id l13so13426704qtu.9
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 14:00:02 -0700 (PDT)
+ id 1lORlC-0001J5-1S
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:06:51 -0400
+Received: by mail-qk1-x736.google.com with SMTP id c4so12179471qkg.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 14:06:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kmfsQ9944Q39q6dV55jIMMTTwMe1fSIxbJbNh+/2AIE=;
- b=UpCAZipHwEg3884oXBA/gSYsNNmEL327jTDBR9GN3P9gHRfo12OMBhggv2212Ujyjv
- u5NOwMMgym9aGap7VjYet5sfMsmvpnOEkidjiC/mOHA3/aiEemrxRlj3c6/HtHMUczU0
- pXdQ1NiZQcq5TowETmRAmsPiqwDki8JHMsK8m0p+QhNs5gU267+uomQJZUargZ8Gx9gF
- NEpDLt81PVUcNn3KSZ5EJ/vxhmwrRrkFWXDFRjmCuE3evL74hQje382BV5kbSKWTBctv
- Zop57qDlSSpYqoKnyuE41U4mFN7aS1E53mkddpLvOGq4aJGo9OW1k7BLHPfQ4u0JXptl
- ZzDA==
+ bh=ZpVVQ4Ie0TykcrQv6GwiXOFMv8aqoj9bAsg/Fwuq3uc=;
+ b=PJt7tBRD6Lt4z1+LRxTP58iDVXWZWKgvS5c8TypO8mrBteg+bazOlXUmJxjZKB+XKC
+ 8WduRawFsRYPtVkniTSkmb31yl8LWVHnPuG9PHzbzaQqCEktxEcO1tfdJcYrJq57BiHK
+ 51FNVzpAmQ68n56sHORdWGq8DWZ13NXDYXmtqdd+rgofpFRn47fektWYm8zE77Wc9+9k
+ xAh9Pp83nSQOHaqUA1440XNEsZxoCBqVtrgiUxOyEDUvA/SGZXCl+PbHgzQ6UeJGcn4b
+ 1kY+5rowGlDZQWiqvBSlV/RH0Hr099eeM6El07hc0IPrUUSGRK4c/lgdMNp4m+uU2xKo
+ zr7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kmfsQ9944Q39q6dV55jIMMTTwMe1fSIxbJbNh+/2AIE=;
- b=JTAPoR5HEg9rGOYfhAljacNS3tRQi2b2B0zFWeqI7hBKpfiMKbI6cb9Ruw4eQ3ukeZ
- CcGh9L1RzYnk9RaSu9qN0eoOmzF9vsgwK0IoL9ensS8YP/A4WHZStJhuzu1V6s+DPAIU
- Cra8n7T2CI94PdvFY+0Ox3expTOh5RYPwHFnhiwRmyCEF6ioR80HJT3bz4rrj+f/UPTz
- vaulQiQlXywwE3XmxBIa8/YzdW5JN4SfHCFz5IPBWuxBwa5pn6q3G6WmKjXO/oSs8w4a
- hs7POtbJfLxoMl4HA6zKpHv5guxk1lr9sfpTEZWz+joul2i+kHvfabmUFchI6UOrGTYk
- icMA==
-X-Gm-Message-State: AOAM531igVZCXuF3v1W4afJxltZdbRkHpiwuu9Q5Mb63Eo8FCzloWvlG
- btfYrwK/gGnNZsT96UKPQu0RUg==
-X-Google-Smtp-Source: ABdhPJyGpP0nT85o7pw0x8llp7pFul22OkELSLU31AnxQj9jUqir71pnOeq5P180sEivkumryxLvXg==
-X-Received: by 2002:ac8:4755:: with SMTP id k21mr1734581qtp.102.1616446802068; 
- Mon, 22 Mar 2021 14:00:02 -0700 (PDT)
+ bh=ZpVVQ4Ie0TykcrQv6GwiXOFMv8aqoj9bAsg/Fwuq3uc=;
+ b=Zhn0rpPUV00/ojNqj0P9D+fOyTzk1+eCJQ/DtkqEnmzOB+2jN41X6S1m4uJLxTSiKi
+ HAtKx5JCzzr2XvjpBVu7XJwm/a18Gg4HeWguFlErPOrKzeqb2XnSq9rhJxq19fs1JDAK
+ xYoxw7rfU8PA+owTIdadSyjPs0kBy50Zq454sudt7ZbxBcNyZZxO3SoUy9tj3m6R7K3l
+ oXUHOmUL7l37w9x0+70CYq4V+i6WoHk094wFx6N2mtVkN2rEHzOnqFiTJSKhxnKLR/tf
+ LEnp800sBCoXpPZRvBUCu0SvTzHHSEbKtUrNx97wciqgYKOwFjOqBcA2CpDX+oa4OSVm
+ oQhg==
+X-Gm-Message-State: AOAM531lvOGWSS+I01h3NBLtAYCOYcbgRDDsntTwKCQXRNbmq02n4S/k
+ MZXtbPpzj5p6KJYtl+2h8iiespFRbKbGDLRR
+X-Google-Smtp-Source: ABdhPJxweg94MG1L9t3xFMr07wSEF9hvr0udtzXBygSZqcoCkPHi+2d62QsOxGfErVCIdezq4pOkhw==
+X-Received: by 2002:ae9:d60a:: with SMTP id r10mr2040143qkk.411.1616447208840; 
+ Mon, 22 Mar 2021 14:06:48 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id z7sm11676949qkf.136.2021.03.22.14.00.00
+ by smtp.gmail.com with ESMTPSA id j30sm9887407qtv.90.2021.03.22.14.06.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 14:00:01 -0700 (PDT)
-Subject: Re: [PATCH] configure: Improve alias attribute check
-To: Gavin Shan <gshan@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210320042753.69297-1-gshan@redhat.com>
- <5a6e5d96-7b23-7a56-3096-fb80155cac26@redhat.com>
- <107a73a0-aafe-bfce-7c28-8ed5fe6c022f@linaro.org>
- <4c8d854e-a8a1-2a44-5a02-96a5ce5598bc@linaro.org>
- <CABgObfafUvCAriWa+mFQKL=Js4GGuMrNr3Gw8v2Z+Z=J3xT7XA@mail.gmail.com>
- <fefde0c1-5670-7cd5-4f7c-ab11af6aeb62@linaro.org>
- <CABgObfbG701a-_TB2v7irYe1DpPY-_zExgJ4SPMfyUEJD_2uXw@mail.gmail.com>
- <CABgObfazrLonuARgBUOfOC-13qQ4riKQx14x7uDbWnVba9xzSQ@mail.gmail.com>
- <0cad2de8-1150-be7c-237b-9f3ddea52473@linaro.org>
- <4231d15c-493f-cb3d-39ef-aff40e3618ee@redhat.com>
+ Mon, 22 Mar 2021 14:06:48 -0700 (PDT)
+Subject: Re: [PATCH] i386/cpu_dump: support AVX512 ZMM regs dump
+To: Robert Hoo <robert.hu@linux.intel.com>, pbonzini@redhat.com,
+ ehabkost@redhat.com
+References: <1616410796-43167-1-git-send-email-robert.hu@linux.intel.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <696de0d3-3b35-6c9a-1242-3761e6d6ec83@linaro.org>
-Date: Mon, 22 Mar 2021 14:59:58 -0600
+Message-ID: <6afd2662-d9eb-35c1-4401-6e699c8f861e@linaro.org>
+Date: Mon, 22 Mar 2021 15:06:45 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <4231d15c-493f-cb3d-39ef-aff40e3618ee@redhat.com>
+In-Reply-To: <1616410796-43167-1-git-send-email-robert.hu@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -96,21 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aldy Hernandez <aldyh@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
- Philippe Mathieu Daude <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 4:54 AM, Gavin Shan wrote:
-> It looks this issue can be avoided after "volatile" is applied to
-> @target_page. However, I'm not sure if it's the correct fix to have.
+On 3/22/21 4:59 AM, Robert Hoo wrote:
+> Since commit fa4518741e (target-i386: Rename struct XMMReg to ZMMReg),
+> CPUX86State.xmm_regs[] has already been extended to 512bit to support
+> AVX512.
+> Also, other qemu level supports for AVX512 registers are there for
+> years.
+> But in x86_cpu_dump_state(), still only dump XMM registers.
+> This patch is just to complement this part, let it dump ZMM of 512bits.
 
-Certainly not.
+I think you should examine the state of the cpu to determine what of SSE, AVX 
+or AVX512 is currently enabled, then dump that.
 
-That is the exact opposite of what we want.  We want to minimize the number of 
-reads from the variable, not maximize them.
+> -        if (env->hflags & HF_CS64_MASK)
+> -            nb = 16;
+> -        else
+> -            nb = 8;
+> -        for(i=0;i<nb;i++) {
+> -            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
+> +
+> +        nb = sizeof(env->xmm_regs) / sizeof(env->xmm_regs[0]);
+
+E.g., you're dumping all of the registers in 32-bit mode, which is restricted 
+to 8 registers, not 32.
 
 
 r~
