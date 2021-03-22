@@ -2,91 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0191E344509
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:11:52 +0100 (CET)
-Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D4F344533
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:15:17 +0100 (CET)
+Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKLX-0000lf-1f
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48160)
+	id 1lOKOp-0003S4-K2
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lOKKY-0008P7-Dv
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:10:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50874)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lOKMf-0002Jq-0O; Mon, 22 Mar 2021 09:13:01 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61556
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lOKKU-0007ZU-7M
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:10:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616418644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RgRSzlp9o9+YR8oJp7GgP0xsFpiOfQygvu7LSWanYdA=;
- b=IwOEHmaCKrbjCpMvWb0Bb+PrpHb3r/Kczkvl9mkgCVQYDbLC4bRQxXWL+RVHlP6tl4SXdA
- Os/hBlXYAx7ixthGDf6uWk9bxJ4BJ1SVyen0eswppzVrFpXVzMT+40UOUkJfKSSupFw02E
- M14MQ/zaYgwd/2dFsi8GojLmTu/ThZg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-xowy_QTpMPKTl1pn0FeesA-1; Mon, 22 Mar 2021 09:10:42 -0400
-X-MC-Unique: xowy_QTpMPKTl1pn0FeesA-1
-Received: by mail-wr1-f69.google.com with SMTP id h30so26040712wrh.10
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:10:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RgRSzlp9o9+YR8oJp7GgP0xsFpiOfQygvu7LSWanYdA=;
- b=RWY998AqNUngSeUKgY9YGKhNHbFL1Ckze12xtowaQWDQyv19Wk4NiKPZmKa+QM4XnR
- N7X7NZAmNObJHxWef+5U124pMx5WxqtsPnSZSNc+nKvh4Hz0MuYVnZMafsirclTeBFZx
- ZuwKljZTuWqvQt0UWP3OsTYIvJAqtmCib6O0AmANeGGZtIosE4v0xoOTSApdCnXzfA1U
- UGcSIld2thOm9qZza7j2c5iyCVoelFhwn0jkjzsE7poKHP8nFylWyGqyefePTxm/GXtR
- TW5RE38v96TkrHMieFn3wNgBxDe/uxPkbvYXY+XjH0tI5CNyglI1BJDeAO03mxWyom+E
- KVbg==
-X-Gm-Message-State: AOAM533BV0ueuvM+L/aGznN6ce+MB7yhMnCIG6MofbeN6GKS1jKXVXPH
- vL7m8JvaEeML59ZnC61lhHsCOooPb9kk0uh/hOACuIL2SfNkTtJQvjAY37HfI7DZn5vnEyR26GM
- xuhbAtGWCPGxIaOQ=
-X-Received: by 2002:a5d:4d8d:: with SMTP id b13mr15762788wru.259.1616418641111; 
- Mon, 22 Mar 2021 06:10:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFfFpL09eMjfcjI3QPmQrG0f8ATq2zJ2R/7v3heWaWADNK9e/TUBnXM9NEVJW1iKPLiPUgVw==
-X-Received: by 2002:a5d:4d8d:: with SMTP id b13mr15762771wru.259.1616418641002; 
- Mon, 22 Mar 2021 06:10:41 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id x11sm18691549wme.9.2021.03.22.06.10.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 06:10:40 -0700 (PDT)
-Subject: Re: [PATCH] nvme: expose 'bootindex' property
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20210322082444.12916-1-j@getutm.app>
- <a7030c4b-943d-c88d-655d-dfd6398d68d5@redhat.com>
- <YFiPfnX8is7tCS16@apples.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <79302867-4160-8a39-bc0b-a981e04d8b1d@redhat.com>
-Date: Mon, 22 Mar 2021 14:10:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lOKMd-0000cr-9d; Mon, 22 Mar 2021 09:13:00 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12MD3XjA160451; Mon, 22 Mar 2021 09:12:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=etKoyiVBUsYhYlaJyU2TOcAeBun97LCqc3RETgyOxjc=;
+ b=rvD8EHKd5/UsvH9zMSqbk+qXIPw3/iqV390r9GFg16RZUn1Gj7vdu6W2flExVyofELAd
+ Q3laarkjbx1L+3H//qnsvQZ+aqmfzZJd+av1qJGIYDcP6e2KMnKJqB4xPCfNYMzhvRck
+ CSe6nD+2v3dk6+ahdH70ua5DVUZFqV7fW6wJcaJCk5kgWjDXO8eb6FEAUb38gttzUM1z
+ ZZ6i7sEkOh3ZsIgKJ45hALUImlM5Sy911FUW1y90039OF+u4NHgev1urQky1DDQ9jLOO
+ NGgD0+upl4VH9RbbwQKs3W1+n9JWKYIYJcbsB/HoDS7V9Ti7Wr1+VT+Ti+2znC10SAkr cw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37eb1pcqvj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Mar 2021 09:12:56 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12MD3iKY161374;
+ Mon, 22 Mar 2021 09:12:55 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37eb1pcqum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Mar 2021 09:12:55 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12MD7NgB013363;
+ Mon, 22 Mar 2021 13:12:53 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 37d99xh7pb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Mar 2021 13:12:53 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12MDCpN318874824
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Mar 2021 13:12:51 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC1F311C064;
+ Mon, 22 Mar 2021 13:12:50 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4035111C054;
+ Mon, 22 Mar 2021 13:12:50 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.57.111])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 22 Mar 2021 13:12:50 +0000 (GMT)
+Date: Mon, 22 Mar 2021 14:12:48 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 0/3] s390x: modularize virtio-gpu-ccw
+Message-ID: <20210322141248.031f7538.pasic@linux.ibm.com>
+In-Reply-To: <20210317095622.2839895-1-kraxel@redhat.com>
+References: <20210317095622.2839895-1-kraxel@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YFiPfnX8is7tCS16@apples.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-22_07:2021-03-22,
+ 2021-03-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 clxscore=1015 priorityscore=1501
+ phishscore=0 spamscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103220093
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,30 +108,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:nvme" <qemu-block@nongnu.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Joelle van Dyne <j@getutm.app>, Keith Busch <kbusch@kernel.org>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 1:37 PM, Klaus Jensen wrote:
-> On Mar 22 10:58, Philippe Mathieu-Daudé wrote:
->> On 3/22/21 9:24 AM, Joelle van Dyne wrote:
->>> The check for `n->namespace.blkconf.blk` always fails because
->>> this is in the initialization function.
->>
->> This usually mean the code depends to some state only available
->> during the QOM 'realization' step, so this code should be in
->> nvme_realize(). Maybe in this case we don't need it there and
->> can add the property regardless a block drive is provided, I
->> haven't checked.
->>
-> 
-> If we defer to realization, it won't be available as a parameter on the
-> command line, but as far as I can test, adding it unconditionally
-> doesn't break anything when there is no drive attached to the controller
-> device.
+On Wed, 17 Mar 2021 10:56:19 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Patch is good then :)
+> Maybe not the most elegant but rather simple approach to the "parent
+> object missing" problem: Use a symbol reference to make sure ccw modules
+> load only in case ccw support is present.
 
+[..]
+
+Hi Gerd! I've tested this and I think mostly does what it should. The
+only thing that I'm inclined to consider a little quirky is the first
+message:
+
+$ ./qemu-system-x86_64 -device virtio-gpu-ccw
+Failed to open module: /home/pasic/build/qemu/hw-s390x-virtio-gpu-ccw.so: undefined symbol: have_virtio_ccw
+qemu-system-x86_64: -device virtio-gpu-ccw: 'virtio-gpu-ccw' is not a valid device model name
+
+But with something like --help we don't see it, and I assume neither do
+we when probing, because there the modules are loaded with mayfail. So
+for me this is acceptable, because it happens only if one tries to use a
+device that ain't advertised.
+
+Compared to Daniels suggestion, I find that one conceptually clearer,
+and even more flexible. Implementation-wise I find this patch-set
+simpler. I don't know how would it scale to modules depending on modules
+(and it feels a little hackish), but we can address such problems as they
+emerge if they emerge, so I did not think too hard.
+
+Let me also note, that you took authorship of all three patches, which
+I'm fine with. All I really care about at this stage is getting this
+fixed in a remotely sane way, and this is definitely one. I'm also
+willing to invest more work in that symlink based approach, if that is
+what the community wants, but I would prefer this fixed as soon as
+possible.
+
+If you keep the authorship for all the patches, I would like to offer:
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Tested-by: Halil Pasic <pasic@linux.ibm.com>
+for all three patches. (If I'm going to be the author of some of the
+patches, those tags don't make sense for those).
+
+Thanks for your work!
+
+Regards,
+Halil
 
