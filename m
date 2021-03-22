@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F127C344ACB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:13:52 +0100 (CET)
-Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046853449FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:59:31 +0100 (CET)
+Received: from localhost ([::1]:38370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONBf-0003CS-VB
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
+	id 1lOMxm-00042a-3a
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMkJ-0005bq-J6
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMkJ-0005cQ-RG
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:45:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMk9-0007KD-Jl
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMkC-0007Kv-UC
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:45:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616427923;
+ s=mimecast20190719; t=1616427924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=943xaER/uZ2yx+0NU3LkWfKz9OTuumEUfbOODT+zbzU=;
- b=Gr6Pflsq/Y7q5HYIcxW4Gu0Ft94ObZxi4Edkf9U5oU9HnzL4701gPesrHYytCXqs1mHVC7
- dzTjWxduVs/daDtChfaezhl62eFLswI2b5FcUc8MacCbkMLaTEyOcsIB49K8yAre/f7D9G
- 9JqwEXQuLOrACPOMqegONbro0hVHp9s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-qcWipTwBNla57fE6Q_LOdw-1; Mon, 22 Mar 2021 11:45:20 -0400
-X-MC-Unique: qcWipTwBNla57fE6Q_LOdw-1
-Received: by mail-wr1-f69.google.com with SMTP id y5so26308158wrp.2
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:45:20 -0700 (PDT)
+ bh=merc1D0xul3Ny+Jrf4XDcCdbekcd0CVvJdhC+IhKUGI=;
+ b=JfV1DiySTiuQ4Cok5yD2r4fst2wBeBS6Q13B7RuQ6+B3FnX0JITHbO5MAvvvn5M1A8IN9S
+ nkyV0iovVfU5rfPBUtHxdzbHuSOUfQRBKvEZ+S4QIqo1KCJJCIvL0WbSHS6tqneqzpkPYF
+ hF9d5jyW4hc3qjHZX0mD/RPD6MfYe6U=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-fEIInjb8PXC5NeHR1jdZRw-1; Mon, 22 Mar 2021 11:45:22 -0400
+X-MC-Unique: fEIInjb8PXC5NeHR1jdZRw-1
+Received: by mail-wr1-f71.google.com with SMTP id h30so26370706wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:45:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=943xaER/uZ2yx+0NU3LkWfKz9OTuumEUfbOODT+zbzU=;
- b=mGqHFjEuOT/iOQsMp4TZvBpkGnqPgH4pQJQWuTzylzbqdyyn66fxVHszMzLiJNnzPi
- 7dnGsCWQX++KcDUqJdMYGYppVfbuV4DKeY/7jXRDNuX6cjcQsJb4MAqtCvcmKxFakpAd
- whYkM8MieaERb9b+hLByhVwWyIa9mDLJXaku0xrDYJoJjOvrMDBKDkSD3izLL61IR3GE
- 07kdY+cu/RNqhIb7c9Oal+4pyCI5EoNFFqDerY1hYjLDqexlYHtqaCrpgWwKQ6htutKn
- noVX4DCegxGJvCH8qsa9OOVEEh3ngX46Pof9+aQeKyQUhybuiOutFPKkL/Zy3LwKRJRy
- B+pg==
-X-Gm-Message-State: AOAM5301li3/nrVx0WVEywvLEwRjOiVi4YqVL/7Q5nUc3PTtfM867fir
- 8q6Udf+AptVNr0830I/oHnh2TxkA5TdfMd3i39V0/iRJIMDnKbyyPnQaQgrJiI+qgsclOlSeuQZ
- KfR8FKGO+962yIlYVfFekFEZxycExWJoMk4Syo2SoW8Vp5N89jw49FidDfQB7
-X-Received: by 2002:a05:600c:1992:: with SMTP id
- t18mr412875wmq.125.1616427919235; 
- Mon, 22 Mar 2021 08:45:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynUi1Bmna/FmKD/BEfYPS4sXRzFCWuOexaWR94GvrA+T6qNk7S4rP3u5sHssnXDCWjJXcaDg==
-X-Received: by 2002:a05:600c:1992:: with SMTP id
- t18mr412843wmq.125.1616427918959; 
- Mon, 22 Mar 2021 08:45:18 -0700 (PDT)
+ bh=merc1D0xul3Ny+Jrf4XDcCdbekcd0CVvJdhC+IhKUGI=;
+ b=V+I46StNzB7d0nM7EK2HmEkYM30ySLRk88OOpuyM88cVPeHHG7oX2vHnCb7aTRpqsY
+ 6myULcmDoHfKMDZTlIIURjyXXYkvdT0o1qu86cRFA/yTsKfpNkqBQhZ0njet3y7iZ3h/
+ 5TYWp6xI2ZpjqQSH/4y63q9mqWQepKLZTg5GePyWz860kzbO1rEyf6wxxaaYfAUMEZih
+ 9+dr+L7+EtkSLL+di0XTS9fnZbZJEdq3AC0sSZKjEj+487Xbo1vfyVpR6kgHEkho2Vd3
+ d081CKhVBE1avLChbFLV5BKf1HDNI+MNw7BlOq8GmKbTCWcrNy40MZjeWbWY2vjzExhd
+ 39Eg==
+X-Gm-Message-State: AOAM5317901mpbkMITxlqllyHL1gvSrqSctcI58nk/T/jSEo5/sPwzMV
+ 45Ez5wvfdA+4xWy+KjTjS+IajXqMJWYHGj0k6wckmtLtLD3jxSFgK9l5eq/N3wurgalDjYPPqqD
+ R7q3Q3+BQ787uwgKRGRW3GeUtF0SmUHE1Njzj5w7x/4b7NSzM/NRWvOgusn1c
+X-Received: by 2002:a05:600c:4292:: with SMTP id
+ v18mr423374wmc.23.1616427921525; 
+ Mon, 22 Mar 2021 08:45:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3avifdnvlip5F/YWy/UMIOtTLtyeg56gDGEXxFaqtXmuaBYkeS+F3JKSXK+lzJMRsZTdn2Q==
+X-Received: by 2002:a05:600c:4292:: with SMTP id
+ v18mr423352wmc.23.1616427921319; 
+ Mon, 22 Mar 2021 08:45:21 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id u2sm20840802wrp.12.2021.03.22.08.45.17
+ by smtp.gmail.com with ESMTPSA id e17sm23852877wra.65.2021.03.22.08.45.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 08:45:18 -0700 (PDT)
-Date: Mon, 22 Mar 2021 11:45:16 -0400
+ Mon, 22 Mar 2021 08:45:20 -0700 (PDT)
+Date: Mon, 22 Mar 2021 11:45:19 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/20] acpi: Move maximum size logic into acpi_add_rom_blob()
-Message-ID: <20210322154417.524229-19-mst@redhat.com>
+Subject: [PULL 19/20] acpi: Set proper maximum size for "etc/acpi/rsdp" blob
+Message-ID: <20210322154417.524229-20-mst@redhat.com>
 References: <20210322154417.524229-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322154417.524229-1-mst@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,21 +95,29 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@xilinx.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We want to have safety margins for all tables based on the table type.
-Let's move the maximum size logic into acpi_add_rom_blob() and make it
-dependent on the table name, so we don't have to replicate for each and
-every instance that creates such tables.
+Let's also set a maximum size for "etc/acpi/rsdp", so the maximum
+size doesn't get implicitly set based on the initial table size. In my
+experiments, the table size was in the range of 22 bytes, so a single
+page (== what we used until now) seems to be good enough.
+
+Now that we have defined maximum sizes for all currently used table types,
+let's assert that we catch usage with new tables that need a proper maximum
+size definition.
+
+Also assert that our initial size does not exceed the maximum size; while
+qemu_ram_alloc_internal() properly asserts that the initial RAMBlock size
+is <= its maximum size, the result might differ when the host page size
+is bigger than 4k.
 
 Suggested-by: Laszlo Ersek <lersek@redhat.com>
 Cc: Alistair Francis <alistair.francis@xilinx.com>
@@ -123,161 +131,40 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Richard Henderson <richard.henderson@linaro.org>
 Cc: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210304105554.121674-4-david@redhat.com>
+Message-Id: <20210304105554.121674-5-david@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/aml-build.h |  4 ----
- include/hw/acpi/utils.h     |  3 +--
- hw/acpi/utils.c             | 12 ++++++++++--
- hw/arm/virt-acpi-build.c    | 13 ++++++-------
- hw/i386/acpi-build.c        |  8 +++-----
- hw/i386/acpi-microvm.c      | 16 ++++++----------
- 6 files changed, 26 insertions(+), 30 deletions(-)
+ hw/acpi/utils.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index ca781f3531..471266d739 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -4,10 +4,6 @@
- #include "hw/acpi/acpi-defs.h"
- #include "hw/acpi/bios-linker-loader.h"
- 
--/* Reserve RAM space for tables: add another order of magnitude. */
--#define ACPI_BUILD_TABLE_MAX_SIZE         0x200000
--#define ACPI_BUILD_LOADER_MAX_SIZE        0x10000
--
- #define ACPI_BUILD_APPNAME6 "BOCHS "
- #define ACPI_BUILD_APPNAME8 "BXPC    "
- 
-diff --git a/include/hw/acpi/utils.h b/include/hw/acpi/utils.h
-index 140b4de603..0022df027d 100644
---- a/include/hw/acpi/utils.h
-+++ b/include/hw/acpi/utils.h
-@@ -4,6 +4,5 @@
- #include "hw/nvram/fw_cfg.h"
- 
- MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
--                                GArray *blob, const char *name,
--                                uint64_t max_size);
-+                                GArray *blob, const char *name);
- #endif
 diff --git a/hw/acpi/utils.c b/hw/acpi/utils.c
-index a134a4d554..f2d69a6d92 100644
+index f2d69a6d92..0c486ea29f 100644
 --- a/hw/acpi/utils.c
 +++ b/hw/acpi/utils.c
-@@ -27,9 +27,17 @@
- #include "hw/loader.h"
- 
+@@ -29,14 +29,19 @@
  MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
--                                GArray *blob, const char *name,
--                                uint64_t max_size)
-+                                GArray *blob, const char *name)
+                                 GArray *blob, const char *name)
  {
-+    uint64_t max_size = 0;
-+
-+    /* Reserve RAM space for tables: add another order of magnitude. */
-+    if (!strcmp(name, ACPI_BUILD_TABLE_FILE)) {
-+        max_size = 0x200000;
-+    } else if (!strcmp(name, ACPI_BUILD_LOADER_FILE)) {
-+        max_size = 0x10000;
-+    }
-+
+-    uint64_t max_size = 0;
++    uint64_t max_size;
+ 
+     /* Reserve RAM space for tables: add another order of magnitude. */
+     if (!strcmp(name, ACPI_BUILD_TABLE_FILE)) {
+         max_size = 0x200000;
+     } else if (!strcmp(name, ACPI_BUILD_LOADER_FILE)) {
+         max_size = 0x10000;
++    } else if (!strcmp(name, ACPI_BUILD_RSDP_FILE)) {
++        max_size = 0x1000;
++    } else {
++        g_assert_not_reached();
+     }
++    g_assert(acpi_data_len(blob) <= max_size);
+ 
      return rom_add_blob(name, blob->data, acpi_data_len(blob), max_size, -1,
                          name, update, opaque, NULL, true);
- }
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index a91550de6f..f5a2b2d4cb 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -859,14 +859,13 @@ void virt_acpi_setup(VirtMachineState *vms)
-     /* Now expose it all to Guest */
-     build_state->table_mr = acpi_add_rom_blob(virt_acpi_build_update,
-                                               build_state, tables.table_data,
--                                              ACPI_BUILD_TABLE_FILE,
--                                              ACPI_BUILD_TABLE_MAX_SIZE);
-+                                              ACPI_BUILD_TABLE_FILE);
-     assert(build_state->table_mr != NULL);
- 
--    build_state->linker_mr =
--        acpi_add_rom_blob(virt_acpi_build_update, build_state,
--                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE,
--                          ACPI_BUILD_LOADER_MAX_SIZE);
-+    build_state->linker_mr = acpi_add_rom_blob(virt_acpi_build_update,
-+                                               build_state,
-+                                               tables.linker->cmd_blob,
-+                                               ACPI_BUILD_LOADER_FILE);
- 
-     fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
-                     acpi_data_len(tables.tcpalog));
-@@ -880,7 +879,7 @@ void virt_acpi_setup(VirtMachineState *vms)
- 
-     build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
-                                              build_state, tables.rsdp,
--                                             ACPI_BUILD_RSDP_FILE, 0);
-+                                             ACPI_BUILD_RSDP_FILE);
- 
-     qemu_register_reset(virt_acpi_build_reset, build_state);
-     virt_acpi_build_reset(build_state);
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index dc56006353..3aeae15e57 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2628,14 +2628,12 @@ void acpi_setup(void)
-     /* Now expose it all to Guest */
-     build_state->table_mr = acpi_add_rom_blob(acpi_build_update,
-                                               build_state, tables.table_data,
--                                              ACPI_BUILD_TABLE_FILE,
--                                              ACPI_BUILD_TABLE_MAX_SIZE);
-+                                              ACPI_BUILD_TABLE_FILE);
-     assert(build_state->table_mr != NULL);
- 
-     build_state->linker_mr =
-         acpi_add_rom_blob(acpi_build_update, build_state,
--                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE,
--                          ACPI_BUILD_LOADER_MAX_SIZE);
-+                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE);
- 
-     fw_cfg_add_file(x86ms->fw_cfg, ACPI_BUILD_TPMLOG_FILE,
-                     tables.tcpalog->data, acpi_data_len(tables.tcpalog));
-@@ -2674,7 +2672,7 @@ void acpi_setup(void)
-         build_state->rsdp = NULL;
-         build_state->rsdp_mr = acpi_add_rom_blob(acpi_build_update,
-                                                  build_state, tables.rsdp,
--                                                 ACPI_BUILD_RSDP_FILE, 0);
-+                                                 ACPI_BUILD_RSDP_FILE);
-     }
- 
-     qemu_register_reset(acpi_build_reset, build_state);
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index 502aac0ba2..271710eb92 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -249,16 +249,12 @@ void acpi_setup_microvm(MicrovmMachineState *mms)
-     acpi_build_microvm(&tables, mms);
- 
-     /* Now expose it all to Guest */
--    acpi_add_rom_blob(acpi_build_no_update, NULL,
--                      tables.table_data,
--                      ACPI_BUILD_TABLE_FILE,
--                      ACPI_BUILD_TABLE_MAX_SIZE);
--    acpi_add_rom_blob(acpi_build_no_update, NULL,
--                      tables.linker->cmd_blob,
--                      ACPI_BUILD_LOADER_FILE, ACPI_BUILD_LOADER_MAX_SIZE);
--    acpi_add_rom_blob(acpi_build_no_update, NULL,
--                      tables.rsdp,
--                      ACPI_BUILD_RSDP_FILE, 0);
-+    acpi_add_rom_blob(acpi_build_no_update, NULL, tables.table_data,
-+                      ACPI_BUILD_TABLE_FILE);
-+    acpi_add_rom_blob(acpi_build_no_update, NULL, tables.linker->cmd_blob,
-+                      ACPI_BUILD_LOADER_FILE);
-+    acpi_add_rom_blob(acpi_build_no_update, NULL, tables.rsdp,
-+                      ACPI_BUILD_RSDP_FILE);
- 
-     acpi_build_tables_cleanup(&tables, false);
- }
 -- 
 MST
 
