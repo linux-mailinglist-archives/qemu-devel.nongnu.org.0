@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E613452CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:09:42 +0100 (CET)
-Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC893452C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:06:45 +0100 (CET)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOTg5-0007Up-NN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:09:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37586)
+	id 1lOTdE-0003bK-PF
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX1-0006ys-Ac
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52473)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX4-00075g-M8
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWz-0001CU-KD
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:19 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX2-0001Dv-U2
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616454017;
+ s=mimecast20190719; t=1616454020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vJdnuz4O5jTyvKH1AcU41+VrJbgX4Tt2CgNqnbi0l3s=;
- b=JprzvDlrLv/1pBkCbQfgiF/iexu+cM+yq6KsIruSaBTDeKnWzOAP3US3+Dgd0bL11xh6iu
- 3GjivIRocldQSgQhsApaJn99yK6mW4hs2Z3HD5mI1F6r6lkMNOXf8DKTuknHHUgMFznbqv
- bSTWCrptEAUY0Ajj4KoECMOgmm/XSBU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-SYebeE59PASxdYp2Eb-b4Q-1; Mon, 22 Mar 2021 19:00:14 -0400
-X-MC-Unique: SYebeE59PASxdYp2Eb-b4Q-1
-Received: by mail-wr1-f72.google.com with SMTP id p15so146804wre.13
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:14 -0700 (PDT)
+ bh=JvOManbKVW60cRwLAfNSDeNnb3glbQKDFfztyXD6vBs=;
+ b=Lt1E3JDszVNtgjY1T7qhtdyRUEVRqR9zHj25kizNVq8SsEBOBy+yyj7W+IDy8f3U2H3r2f
+ sGOj5z1wG3X/FcnGDRwwllKMjYpwT0ckUX0021xNa4lPCnZ+sUTRqFPT5foYJ+kFFocSQ9
+ i05NQg+pteaQwyj3xHxDwW05ARrFxbM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-vlRgijupOUu90We1j667ZQ-1; Mon, 22 Mar 2021 19:00:17 -0400
+X-MC-Unique: vlRgijupOUu90We1j667ZQ-1
+Received: by mail-wm1-f70.google.com with SMTP id z26so171954wml.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vJdnuz4O5jTyvKH1AcU41+VrJbgX4Tt2CgNqnbi0l3s=;
- b=TxEormLfD5l4uyf1kSi4iXhx6yp2i0+gf6Nc+HGBg9S076oCGZMUN+IbJvE8gT8vmu
- y6sCDtfZp/YutETzBYh9zlpDZeSGnLHedam2TWZtuZwAdtXx8tQno8jXQfvefQ0Oppw0
- G7gSDbBoFqdt6kSd4xscaSJxF0Ll15jeAG6in0F/sGfu8+uaHB9dfdRVXpfkjzsKVI+j
- 7RMi3lOCE4t2/OH9z4mFGl1qyudH+0JUVhKv2UOQA9O+5RGnz7HqGfQtu51fK1BwnkDB
- xyUxrtbWMpr6pKo0AjxHmN2L+V67ya+VPYStdMsHBWx/wsGZm58XBKCzdfbKvTq9nkMh
- dMtQ==
-X-Gm-Message-State: AOAM532KuLcN7RdC3+fyNY0acujqoWF/cFHRdGAdQskeIts8HdtWnUY3
- ZYjAg2OjcNkSyffBGrSXygljQ6IDCK8JqA/2I99nlSZ943BXyNlsDm9hsFOSy1f2ILL9+MIg0zN
- /6eHq0ivdVEFZUoHvYdtKUj9F23dPAPO/bd4i/jg15Dc9afqoRn11OyZr8uq1
-X-Received: by 2002:a05:600c:47d7:: with SMTP id
- l23mr582439wmo.155.1616454013307; 
- Mon, 22 Mar 2021 16:00:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJykrWQpJADG2OTWqKItljcWh2pfv0ofZ/Qvqjg3VTJOl3oTiILRksi6ebGv5HsA6GSt/PzBRQ==
-X-Received: by 2002:a05:600c:47d7:: with SMTP id
- l23mr582422wmo.155.1616454013111; 
- Mon, 22 Mar 2021 16:00:13 -0700 (PDT)
+ bh=JvOManbKVW60cRwLAfNSDeNnb3glbQKDFfztyXD6vBs=;
+ b=UUMejm5v50mCJkZHpea8p7n1y9OB/nrH3ESirW2RFtV5G6VIxJifZ7P6uDGi9JRN1f
+ NG+MjhL/jptpRWZNeTjJMCJgW511jzLhtP3sCz8g5sJL/DfFpR450k8vaNTJcq8ns+wX
+ AcuqjJ4Bas+a31Ue/l9Noe+rVFNf1jopneqh82xVx1pj66nAOw/LLGxh2l+/KEfRahiS
+ 9Z/EiaVBs7IWQEl7HGrBrt5pEO1fyr0jh3rliESZEYDvGvAy6k1dt0uG5h2kuyt7u75U
+ hUhmiauE2/KMW5sr0zaO1RACvwPKyp+bv+XpNO82g6uZghF3UGom0MNLA/dBi5rvsw0F
+ j5Hw==
+X-Gm-Message-State: AOAM53140QzFdK2q1rn1WOowlxbXBzoWC2kxdu5m0d3mX+aoz+rm3y5o
+ V5n+PyLkAQF1yZHja3u2JsHwH2SK6UEunchy/Je1TswaTQGYcn8M8qHbG6If0Ifp8+fimM1AKsc
+ /ET5U45sDGxDByqKZo/ZWa/SttdEp55HkujDrl8M8y5zg88Qdx/U0wCHoncHG
+X-Received: by 2002:a7b:c10c:: with SMTP id w12mr624410wmi.112.1616454015660; 
+ Mon, 22 Mar 2021 16:00:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOcSb1zegdbu/19hB4c4541utruv3md93NinRUFM81GH07q2dbx1ggDmAO6Te6J92N0/wcjw==
+X-Received: by 2002:a7b:c10c:: with SMTP id w12mr624399wmi.112.1616454015402; 
+ Mon, 22 Mar 2021 16:00:15 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id x14sm20450547wrw.13.2021.03.22.16.00.11
+ by smtp.gmail.com with ESMTPSA id k11sm764791wmj.1.2021.03.22.16.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 16:00:12 -0700 (PDT)
-Date: Mon, 22 Mar 2021 19:00:10 -0400
+ Mon, 22 Mar 2021 16:00:15 -0700 (PDT)
+Date: Mon, 22 Mar 2021 19:00:13 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/19] virtio-pmem: fix virtio_pmem_resp assign problem
-Message-ID: <20210322225907.541943-9-mst@redhat.com>
+Subject: [PULL v2 09/19] tests: acpi: temporary whitelist DSDT changes
+Message-ID: <20210322225907.541943-10-mst@redhat.com>
 References: <20210322225907.541943-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322225907.541943-1-mst@redhat.com>
@@ -73,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,44 +93,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Wang Liang <wangliangzz@inspur.com>, David Hildenbrand <david@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wang Liang <wangliangzz@inspur.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-ret in virtio_pmem_resp is a uint32_t variable, which should be assigned
-using virtio_stl_p.
-
-The kernel side driver does not guarantee virtio_pmem_resp to be initialized
-to zero in advance, So sometimes the flush operation will fail.
-
-Signed-off-by: Wang Liang <wangliangzz@inspur.com>
-Message-Id: <20210317024145.271212-1-wangliangzz@126.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20210315180102.3008391-2-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-index a3e0688a89..d1aeb90a31 100644
---- a/hw/virtio/virtio-pmem.c
-+++ b/hw/virtio/virtio-pmem.c
-@@ -47,7 +47,7 @@ static int worker_cb(void *opaque)
-         err = 1;
-     }
- 
--    virtio_stw_p(req_data->vdev, &req_data->resp.ret, err);
-+    virtio_stl_p(req_data->vdev, &req_data->resp.ret, err);
- 
-     return 0;
- }
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..fddcfc061f 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,12 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
 -- 
 MST
 
