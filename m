@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5B2344938
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:27:23 +0100 (CET)
-Received: from localhost ([::1]:60544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074C7344964
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:37:36 +0100 (CET)
+Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMSg-0002Oj-EA
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
+	id 1lOMcZ-0006LR-4a
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOMRJ-0001Or-6A; Mon, 22 Mar 2021 11:25:57 -0400
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:34709)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOMRE-0003vF-3n; Mon, 22 Mar 2021 11:25:56 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id x16so14341173iob.1;
- Mon, 22 Mar 2021 08:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gdzcd17w02nFW6OSyJ1t3QvINzfm5kR+CItYNa7a2zU=;
- b=dxnWax9uZnW2O+DzCssIDrbBzJBNLU0tM+Ea/5dnM4VN9zwaLdMsSYJrgtlnTBUtLb
- Ht6Ip+elKKuqCPtbRAawQ6L4ilIuKjMwyhMDu91rWEB6wg69wRxP344aMWpjuhS0kfyC
- Rvyx1pfCYZCUpAv+C1jJV5fDm57KBHbRR54N3hyXUGBCRbEa0RIHv3LhzrYqRvgqH496
- gmOEFbOAURapDG05iuW2UQMBPGA00Ik3j2FRkhLmp41lmaCkgQg8RBSuX1IrtrwBc0MQ
- RxCqsAEm/Gsccdl6nBXWTgyOliPJ8w0jR7g5MYvfNkMqQAClBVodeY7Nja6SVuMjHUbK
- TT0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gdzcd17w02nFW6OSyJ1t3QvINzfm5kR+CItYNa7a2zU=;
- b=g66VkX99V0A5Mtt/x65+MC6Nypsw4EhI9p6db/6/zNwCXvRvvLP8eL8PcMKmipHqd3
- 7+r/AzjjB+xyiRo6KY669sKA8w6zkD74/ZF1RbpdEKJcehEfxhJRHBL0jUWqmillgVms
- N13aXazhtsIy9GF/B5caQwXlm+U96ehF0C2uDzbYRIFEC+hp6rr10yvv6mdyQWO/Vs1i
- yxaDssJBqyR00A1eyJVDvx5Bt4t4eGyyikGvYpD/UCwno6TAUtoofDW2T6CGT7jqsvLE
- FF63NiZIO6CqQFHx3tMxE6SQ1VIt6ahJ3XGlpwuuBSR0Y6GCwW1MdE+9y012KD6U/32a
- 1MoA==
-X-Gm-Message-State: AOAM532HUmUfwlMqxrkz5xWibzje2XA73OpGKiqNlbuKgZxAilj/CiW5
- Y6QAbjvGu5Do9o4K0FRlWa+vgM3dSzIzssXXv1A=
-X-Google-Smtp-Source: ABdhPJyRHeg0E9cFGy3BFlK11Nfixp4xITQ0G5UcXDaSCMQGhb+NkHT/Nv2at3dbRq5D1s8mu6DuBXzuSdRL4Tcbq+4=
-X-Received: by 2002:a02:11c9:: with SMTP id 192mr11599239jaf.135.1616426750083; 
- Mon, 22 Mar 2021 08:25:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1lOMaC-0004m5-UF
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:35:09 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:59755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1lOMaA-0001B3-BM
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:35:08 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 30850418B4;
+ Mon, 22 Mar 2021 16:26:13 +0100 (CET)
+Subject: Re: [PATCH] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
+To: Wolfgang Bumiller <w.bumiller@proxmox.com>
+References: <20210318133550.13120-1-s.reiter@proxmox.com>
+ <20210322110847.cdo477ve2gydab64@wobu-vie.proxmox.com>
+From: Stefan Reiter <s.reiter@proxmox.com>
+Message-ID: <b5c777bf-d8c7-00df-4373-58ab4f06ae2a@proxmox.com>
+Date: Mon, 22 Mar 2021 16:26:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20210322075248.136255-1-bmeng.cn@gmail.com>
- <20210322075248.136255-2-bmeng.cn@gmail.com>
-In-Reply-To: <20210322075248.136255-2-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Mar 2021 11:23:54 -0400
-Message-ID: <CAKmqyKPxa=CShXBK-0svxqhAEyUF+OrSWGiT11Vym02Acj63JQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs/system: riscv: Add documentation for
- 'microchip-icicle-kit' machine
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210322110847.cdo477ve2gydab64@wobu-vie.proxmox.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,141 +56,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 3:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> This adds the documentation to describe what is supported for the
-> 'microchip-icicle-kit' machine, and how to boot the machine in QEMU.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 3/22/21 12:08 PM, Wolfgang Bumiller wrote:
+> On Thu, Mar 18, 2021 at 02:35:50PM +0100, Stefan Reiter wrote:
+>> If OOB is disabled, events received in monitor_qmp_event will be handled
+>> in the main context. Thus, we must not acquire a qmp_queue_lock there,
+>> as the dispatcher coroutine holds one over a yield point, where it
+>> expects to be rescheduled from the main context. If a CHR_EVENT_CLOSED
+>> event is received just then, it can race and block the main thread by
+>> waiting on the queue lock.
+>>
+>> Run monitor_qmp_cleanup_queue_and_resume in a BH on the iohandler
+>> thread, so the main thread can always make progress during the
+>> reschedule.
+>>
+>> The delaying of the cleanup is safe, since the dispatcher always moves
+>> back to the iothread afterward, and thus the cleanup will happen before
+>> it gets to its next iteration.
+>>
+>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> ---
+> 
+> This is a tough one. It *may* be fine, but I wonder if we can approach
+> this differently:
+> 
+>  From what I can gather we have the following call stacks & contexts:
+> 
+> Guarded lock (lock & release):
+>    * monitor_qmp_cleanup_queue_and_resume
+>      by monitor_qmp_event
+>      by file handler (from I/O loop)
+>      ^ iohandler_context (assuming that's where the file handling happens...)
+>      (after this patch as BH though)
+> 
+>    * handle_qmp_command
+>      a) by the json parser (which is also re-initialized by
+>         monitor_qmp_event btw., haven't checked if that can also
+>         "trigger" its methods immediately)
+>      b) by monitor_qmp_read
+>      by file handler (from I/O loop)
+>      ^ iohandler_context
+> 
+> Lock-"returning":
+>    * monitor_qmp_requests_pop_any_with_lock
+>      by coroutine_fn monitor_qmp_dispatcher_co
+>      ^ iohandler_context
+> 
+> Lock-releasing:
+>    * coroutine_fn monitor_qmp_dispatcher_co
+>      ^ qemu_aio_context
+> 
+> The only *weird* thing that immediately pops out here is
+> `monitor_qmp_requests_pop_any_with_lock()` keeping a lock while
+> switching contexts.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+monitor_qmp_dispatcher_co? _pop_any_ doesn't switch contexts...
 
-Alistair
+But yes, that is weird, as I mentioned in my original mail too.
 
-> ---
->
->  docs/system/riscv/microchip-icicle-kit.rst | 89 ++++++++++++++++++++++
->  docs/system/target-riscv.rst               |  1 +
->  2 files changed, 90 insertions(+)
->  create mode 100644 docs/system/riscv/microchip-icicle-kit.rst
->
-> diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
-> new file mode 100644
-> index 0000000000..4fe97bce3f
-> --- /dev/null
-> +++ b/docs/system/riscv/microchip-icicle-kit.rst
-> @@ -0,0 +1,89 @@
-> +Microchip PolarFire SoC Icicle Kit (``microchip-icicle-kit``)
-> +=============================================================
-> +
-> +Microchip PolarFire SoC Icicle Kit integrates a PolarFire SoC, with one
-> +SiFive's E51 plus four U54 cores and many on-chip peripherals and an FPGA.
-> +
-> +For more details about Microchip PolarFire SoC, please see:
-> +https://www.microsemi.com/product-directory/soc-fpgas/5498-polarfire-soc-fpga
-> +
-> +The Icicle Kit board information can be found here:
-> +https://www.microsemi.com/existing-parts/parts/152514
-> +
-> +Supported devices
-> +-----------------
-> +
-> +The ``microchip-icicle-kit`` machine supports the following devices:
-> +
-> + * 1 E51 core
-> + * 4 U54 cores
-> + * Core Level Interruptor (CLINT)
-> + * Platform-Level Interrupt Controller (PLIC)
-> + * L2 Loosely Integrated Memory (L2-LIM)
-> + * DDR memory controller
-> + * 5 MMUARTs
-> + * 1 DMA controller
-> + * 2 GEM Ethernet controllers
-> + * 1 SDHC storage controller
-> +
-> +Boot options
-> +------------
-> +
-> +The ``microchip-icicle-kit`` machine can start using the standard -bios
-> +functionality for loading its BIOS image, aka Hart Software Services (HSS_).
-> +HSS loads the second stage bootloader U-Boot from an SD card. It does not
-> +support direct kernel loading via the -kernel option. One has to load kernel
-> +from U-Boot.
-> +
-> +The memory is set to 1537 MiB by default which is the minimum required high
-> +memory size by HSS. A sanity check on ram size is performed in the machine
-> +init routine to prompt user to increase the RAM size to > 1537 MiB when less
-> +than 1537 MiB ram is detected.
-> +
-> +Boot the machine
-> +----------------
-> +
-> +HSS 2020.12 release is tested at the time of writing. To build an HSS image
-> +that can be booted by the ``microchip-icicle-kit`` machine, type the following
-> +in the HSS source tree:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export CROSS_COMPILE=riscv64-linux-
-> +  $ cp boards/mpfs-icicle-kit-es/def_config .config
-> +  $ make BOARD=mpfs-icicle-kit-es
-> +
-> +Download the official SD card image released by Microchip and prepare it for
-> +QEMU usage:
-> +
-> +.. code-block:: bash
-> +
-> +  $ wget ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
-> +  $ gunzip core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
-> +  $ qemu-img resize core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic 4G
-> +
-> +Then we can boot the machine by:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M microchip-icicle-kit -smp 5 \
-> +      -bios path/to/hss.bin -sd path/to/sdcard.img \
-> +      -nic user,model=cadence_gem \
-> +      -nic tap,ifname=tap,model=cadence_gem,script=no \
-> +      -display none -serial stdio \
-> +      -chardev socket,id=serial1,path=serial1.sock,server=on,wait=on \
-> +      -serial chardev:serial1
-> +
-> +With above command line, current terminal session will be used for the first
-> +serial port. Open another terminal window, and use `minicom` to connect the
-> +second serial port.
-> +
-> +.. code-block:: bash
-> +
-> +  $ minicom -D unix\#serial1.sock
-> +
-> +HSS output is on the first serial port (stdio) and U-Boot outputs on the
-> +second serial port. U-Boot will automatically load the Linux kernel from
-> +the SD card image.
-> +
-> +.. _HSS: https://github.com/polarfire-soc/hart-software-services
-> diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-> index 94d99c4c82..8d5946fbbb 100644
-> --- a/docs/system/target-riscv.rst
-> +++ b/docs/system/target-riscv.rst
-> @@ -66,6 +66,7 @@ undocumented; you can get a complete list by running
->  .. toctree::
->     :maxdepth: 1
->
-> +   riscv/microchip-icicle-kit
->     riscv/sifive_u
->
->  RISC-V CPU features
-> --
-> 2.25.1
->
->
+> This is done in order to allow `AIO_WAIT_WHILE` to work while making
+> progress on the events, but do we actually already need to be in this
+> context for the OOB `monitor_resume()` call or can we defer the context
+> switch to after having done that and released the lock?
+> `monitor_resume()` itself seems to simply schedule a BH which should
+> work regardless if I'm not mistaken. There's also a
+> `readline_show_prompt()` call, but that *looks* harmless?
+
+The BH should indeed be harmless since we don't schedule on 
+qemu_get_current_aio_context, and the readline_show_prompt call we can 
+ignore here since it's guarded with "!monitor_is_qmp(mon)".
+
+> `monitor_resume()` is also called without the lock later on, so even if
+> it needs to be in this context at that point for whatever reason, does
+> it need the lock?
+> 
+
+It doesn't access the queue, so I don't see why it'd need the lock. And 
+as you said, it currently works without too, actually, before commit 
+88daf0996c ("qmp: Resume OOB-enabled monitor before processing the 
+request") it always did so.
+
+I'll cobble together a v2 with this in mind.
+
 
