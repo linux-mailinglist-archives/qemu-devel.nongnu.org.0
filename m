@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AE8344D48
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 18:29:54 +0100 (CET)
-Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECAF344D6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 18:34:31 +0100 (CET)
+Received: from localhost ([::1]:43334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOONF-0003tE-ID
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 13:29:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
+	id 1lOORi-0007nZ-V4
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 13:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOOLM-0002Qe-3c
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 13:27:57 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:34662)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1lOOOZ-0006FR-4K; Mon, 22 Mar 2021 13:31:15 -0400
+Received: from mail-il1-f179.google.com ([209.85.166.179]:34344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOOLJ-0006AT-Ig
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 13:27:55 -0400
-Received: by mail-oi1-x236.google.com with SMTP id l79so13866760oib.1
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 10:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=k6l0ldrTj60B8dIzBi6ALKVNDfLa2g2zMslosUj7gsc=;
- b=f4NNyfng1Gl6KJzrWXdV9hf4v+tD6CTCOP88tMUD3fWsGRFXvLWJQ8KBJjlAnC5q5B
- vh5NZn3t0LHD3Oe4/cA8cG2eozzMAip2nYLHc+0j3Lm6bKARmnhmAKDh9tgjffPYiOj7
- 4ErcfHOMPe8CQUCVp7eJKF2OdIRQhPP6X2dxKgABy2XOfv4XI1ofpMV36Hd5qjARarZQ
- Vvfo7oub0IS1hAv/TLNnKi4wzOKahJuaJW/sHYoQPunGLk9NkRIvWdyYoGFz10AnBb0l
- qSjqJdDYpjBtGmRMq8AqwC+0gB/P+4wChrn00gCdU6yYs/L1u2GOGdfm+7JPXGLk+fjq
- g7PA==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1lOOOX-0008Kh-FE; Mon, 22 Mar 2021 13:31:14 -0400
+Received: by mail-il1-f179.google.com with SMTP id h1so15602713ilr.1;
+ Mon, 22 Mar 2021 10:31:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=k6l0ldrTj60B8dIzBi6ALKVNDfLa2g2zMslosUj7gsc=;
- b=TlGl64aMtGCt7irchK/H4ox50L/BDXrH7axvwBQaGjLvLzudJM5N5yMecPXTXPPXRu
- HDwiaLFlyIQppaM2kQMjAeh27txxPsEd6GLQZTGVS7itZyrKyAJn+nNFBceIxEliQ8Cs
- XhVe0xB3b2OspJwhz4tM7nVXpnpSjjfTGVqI2iFcC+rqxi+nyHba/j+y3lWZklulpCUM
- kAgWJoa+cEnVY9VA690eYKQk8Ef/1S/y63hTz7z/t4DrWYL+IQVZPAaEWHyzFdhYXdCg
- EAHiZ9pBJOfJ3FwuMosF4UwcM8bLucEf5CPhb+2qb+BvwH9SUndcN9/DJYADBqpyfTk8
- ffsw==
-X-Gm-Message-State: AOAM532qJBueGIdcDIBz3LwlTkuhBUIYl4txyraThTay6rO9HAKR6X+n
- atzhHT8+QgNAZftN1oSRrRNH9A==
-X-Google-Smtp-Source: ABdhPJxMS+myQhnmdgTHa3/8jShMNLV2TySRYFzLBG3DErFHz0amQqdNle9YHIpwBMMf3thktX30Iw==
-X-Received: by 2002:a54:4696:: with SMTP id k22mr109531oic.168.1616434071993; 
- Mon, 22 Mar 2021 10:27:51 -0700 (PDT)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id p22sm3610766otf.25.2021.03.22.10.27.50
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o5H2f6ieU2jwZOl2UmRjOv3HmmdlCIi1nY621Y9V4LE=;
+ b=cR9yCgXepHqyI+I5mYE8QbJzuY2433kijmppCGMm170jM7nHvwmiAexGTFkzT/GMQP
+ 32HR3z0QFGgQ/M7TWHx3JlTofhBSXsmZCkDlEPWCEIZo6u3c6yvVj/0mQ5ynRQ9Ap8QY
+ MPjjyWM3ia+NwrXa1Hgz7yuuvX+6Z/3k1IGv4rbWnkRQCnw2ZU1qFUgAI8BSIon5yFyV
+ yvnE0+ToJ6GsWvRVQ20dZ+/XdgjNw0bNRqZGQoNJGVH7h6qdP6sDj05c+o7nw373pCp3
+ jBQvacGyUsFE0D23PZIjFkcAbZPwDzTYAfpu7Nfof4vYuYDyuj3NRkN+8rtyJTd0ZTAy
+ M+cg==
+X-Gm-Message-State: AOAM5331b7uZ75eSzxuNPkn3F7yoU3upACwmVnOqVvKBlhXslBal0J3E
+ 7IXQ0sfmRFB9btoE3RIgZ/SgFFQ9NWY=
+X-Google-Smtp-Source: ABdhPJyH8TEfTmOduFWdRYOsRdG0vis66/FlWjmirJtdd5K1X7CXpAj0R9yN41I1v+881BiexFVMpw==
+X-Received: by 2002:a92:d7c5:: with SMTP id g5mr922111ilq.140.1616434271726;
+ Mon, 22 Mar 2021 10:31:11 -0700 (PDT)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
+ [209.85.166.54])
+ by smtp.gmail.com with ESMTPSA id g6sm8267321ilj.28.2021.03.22.10.31.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 10:27:51 -0700 (PDT)
-Subject: Re: [PATCH v4 13/17] target/ppc: Remove env->immu_idx and
- env->dmmu_idx
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-14-richard.henderson@linaro.org>
- <YFgcbsRHrTxRqKI8@yekko.fritz.box>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9e0425b8-6239-5b34-7fc4-7a8b59532d6f@linaro.org>
-Date: Mon, 22 Mar 2021 11:27:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Mon, 22 Mar 2021 10:31:11 -0700 (PDT)
+Received: by mail-io1-f54.google.com with SMTP id z136so14785425iof.10;
+ Mon, 22 Mar 2021 10:31:11 -0700 (PDT)
+X-Received: by 2002:a6b:f308:: with SMTP id m8mr655906ioh.193.1616434271212;
+ Mon, 22 Mar 2021 10:31:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFgcbsRHrTxRqKI8@yekko.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210315180341.31638-1-j@getutm.app>
+ <20210315180341.31638-2-j@getutm.app>
+In-Reply-To: <20210315180341.31638-2-j@getutm.app>
+From: Joelle van Dyne <j@getutm.app>
+Date: Mon, 22 Mar 2021 10:31:00 -0700
+X-Gmail-Original-Message-ID: <CA+E+eSDn-qZWtf_j1WXAR24yoVx3DZjywJ_hmkK2CBFp-kUpwA@mail.gmail.com>
+Message-ID: <CA+E+eSDn-qZWtf_j1WXAR24yoVx3DZjywJ_hmkK2CBFp-kUpwA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] block: feature detection for host block support
+To: Joelle van Dyne <j@getutm.app>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.179; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f179.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,30 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:raw" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/21/21 10:26 PM, David Gibson wrote:
-> On Mon, Mar 15, 2021 at 12:46:11PM -0600, Richard Henderson wrote:
->> We weren't recording MSR_GS in hflags, which means that BookE
->> memory accesses were essentially random vs Guest State.
->>
->> Instead of adding this bit directly, record the completed mmu
->> indexes instead.  This makes it obvious that we are recording
->> exactly the information that we need.
->>
->> This also means that we can stop directly recording MSR_IR.
-> 
-> What still uses MSR_DR, that you can't also drop it?
+On Mon, Mar 15, 2021 at 11:03 AM Joelle van Dyne <j@getutm.app> wrote:
+>
+> On Darwin (iOS), there are no system level APIs for directly accessing
+> host block devices. We detect this at configure time.
+>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
 
-#define CHK_HVRM                                            \
-     do {                                                    \
-         if (unlikely(ctx->pr || !ctx->hv || ctx->dr)) {     \
+Hi all, this is the last patch in this set that has to be reviewed. I
+was wondering if it's still possible to make it into 6.0? Thanks.
 
-I have this notion that this (and CHK_HV and CHK_SV) could be a test against 
-mmu_idx instead, but was reluctant to make that change.
-
-
-r~
+-j
 
