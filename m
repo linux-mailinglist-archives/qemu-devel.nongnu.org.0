@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3E13438C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:49:26 +0100 (CET)
-Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAE534396E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 07:27:00 +0100 (CET)
+Received: from localhost ([::1]:33518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lODRN-0007eF-0A
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36558)
+	id 1lOE1j-0005hy-7I
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 02:26:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lODQM-00079N-HH; Mon, 22 Mar 2021 01:48:22 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:39634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lODQK-0006Sw-P3; Mon, 22 Mar 2021 01:48:22 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id z1so5322479ybf.6;
- Sun, 21 Mar 2021 22:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RbkMMSTrhZJ63IVNAym0gPAKU7Q4rG7/TthZrg0Zgkc=;
- b=XKdmLOMqRDad/ksqErej3ZFLQPk/D4wygm2x4hmz6WxnIjiB4vr3H6X0+ciwag3uV+
- NMJ0RHxMjRkTm8osq/8jOgEvvCYdGYmS/g/5cHeWWmnAqD0eYZ7QktOUn5pElAHWfFdu
- /mO4kHMW/W9HNBVbYS7BHHqR3gQ0bqCxRfRri+TYsPs2ET7ml2c/phuVxx3IhKgBMxvy
- rhydMlCDGRuMDpa7oZyqruyVybM3XoTxdbevzVeqhTF9+qzfyl/37C9Tjf7GIQGspueH
- rbou+XvyLEI3mB2IqPfD33oz/b98yU4uheR/UJaltS4By++GBkOVyPyCmcVd2C2l0QDu
- oxxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RbkMMSTrhZJ63IVNAym0gPAKU7Q4rG7/TthZrg0Zgkc=;
- b=Hp+zbF3AwJV60OX8hyxPKefMJXnGHypqR7WtNRU4IPdwxyCXU7jvChgdBE7A2sqnSL
- N01PTN3PwjED2PtJwcgXq/sem/MwOkYmLnoGx9IdUyNt/dtgDyrRZGspuMDn5atdJkua
- mqOK0bNK18WMEkj2QXn0IUKvV2v5tpq2MBdcX+cP29bZVLqHoPaoAuTVmrg58denPXEY
- SmvsoBizG2s5lZoI9a26QC2HizfDdsJ6AuoC5a7yUUI2c40Vb2BY5UYLxzArNO7s6E38
- 9dtS+JPAnko7Ies2QfgnIFe3YlCnjVW766SY43lV0AZXDcpp95GhDT05j1vLB12AL5J2
- EqeA==
-X-Gm-Message-State: AOAM531tP3IFGMRQlEjy2wkg/ldGRDcWgU/UALw5RooTq1oNg0B4j2Hu
- ihrzbobgYLkM4Sd1V3NS1jRsSy6b/4918P5ZBTY=
-X-Google-Smtp-Source: ABdhPJzIYBqMLNk31hwFQylOy+QQhK+5Pcah6ZmzG1PVUkc6zZ92PS8io2yAsDJI901aTXTcqlicFZPoo5tFPfC3EBQ=
-X-Received: by 2002:a25:ed0a:: with SMTP id k10mr23280257ybh.152.1616392099241; 
- Sun, 21 Mar 2021 22:48:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lODv3-00044l-Tc; Mon, 22 Mar 2021 02:20:05 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:44049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lODuz-0007Fh-Nn; Mon, 22 Mar 2021 02:20:05 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id BFB3A11F4;
+ Mon, 22 Mar 2021 02:19:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 22 Mar 2021 02:19:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=zvmOUxX3kek4y
+ VoWEZEgSTTkeyiNBoyFAWFOrokm8r8=; b=D/piJdB3oxlQcZXKQtMy2rqS9knC8
+ eU0btpNyxxYKwR6uDzgnRbDh8gnyzfXvoC5QU32aRu1M9JykWWwHCDE4FNHjnQBg
+ BmK3jloXaX1ptGEz1PusF9/uk//EdF2N9VHti4+yOjKqehBWL+NDf/F9zNDQzp+4
+ cUaNAJXGRAMIW8+RjJmxs1APSmw+v08yQoNf9dl8+VITPCqzZf3RGws0JAmeeZY0
+ 8HlpTXvdmopsfmVrMlePrbwZUOV6GoRLZyHoJpd6MOQr053CxyQjRxp0tloiPIsi
+ MQd5zu9NwFgqPd98yDYEnENNeqr33TFjqNt57Dyj+oZoaDygosKaFvgVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=zvmOUxX3kek4yVoWEZEgSTTkeyiNBoyFAWFOrokm8r8=; b=e3IHEmgh
+ fyR1wsovT3oc5yG+Gjzcjkn9BchBhPt5fixV2ZlK/XMYDEBD9mHTg0aWESWEqeLe
+ bMTmOAarcNWdFyOi4vU90Uca7JkNXW8Glh9wPTx+5WfKXR/mvmzFIDfJG32XIKTO
+ vbWJmoZLc33dBm22I0awq1NXZ+uiLSa+0eq7o+j6mT5ALUhDGTcSUxzuU40oy8cd
+ a8Ny5qSJCF9b668uhH0KzZxErNr3l2K0WplX7Z2EXkm/gevmAF4gbIXbnLpeg5WD
+ D11XdFKbTZz6s09Gh4r4Igmvo1LD6xW83Ifd69xOo7XHRWDSUAQoyy6tAnJA5VqS
+ HKSseyNNGN/GdA==
+X-ME-Sender: <xms:DDdYYOkBWBmpRlQmgtTjQ8AgS7BNyhvu9JssaRe_eiwColv2BQs2tQ>
+ <xme:DDdYYF1C8vRXP2Zyp4jojagCGNZVBk-yFR2eTCjNDeteHKEXNcNIimXUnJcU8zxDq
+ jPWeeGW9J3gIt5JHXE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegfedgleegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:DDdYYMon4r11GuRw1QivxuK1JR_dcYOKQbL0IB4BLYbokboLXCRHEQ>
+ <xmx:DDdYYCnZJSgu7Kprh5oMLN17lT5R50wTIgEBGKrT0SjJAiDtCAhvAw>
+ <xmx:DDdYYM0QSBUatqp9LP5xLA72G3R2Z75Mb0-gQuJo8gQOVPOD-ZpTlg>
+ <xmx:DDdYYPQs0NQRBNCeNF09XJT3NrV2VnP14o-MUq2tuFbzzhgebvoCOg>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5AEA724041D;
+ Mon, 22 Mar 2021 02:19:55 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] hw/block/nvme: fix resource leak in nvme_dif_rw
+Date: Mon, 22 Mar 2021 07:19:50 +0100
+Message-Id: <20210322061951.186748-2-its@irrelevant.dk>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210322061951.186748-1-its@irrelevant.dk>
+References: <20210322061951.186748-1-its@irrelevant.dk>
 MIME-Version: 1.0
-References: <20210316081505.72898-1-bmeng.cn@gmail.com>
- <YFgNZFAKjVhder2R@yekko.fritz.box>
- <CAEUhbmV4=yz1Df9YDxsM1Evjd4dJA2rM8xoiSUvxEtOoL2z2xg@mail.gmail.com>
- <YFgoXU8tRCKWd0pk@yekko.fritz.box>
-In-Reply-To: <YFgoXU8tRCKWd0pk@yekko.fritz.box>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 22 Mar 2021 13:48:07 +0800
-Message-ID: <CAEUhbmUrJYx-yOyVTVOV4M-+9gS5VtaSbTzMzvHVTvDqEkb8Lg@mail.gmail.com>
-Subject: Re: [PATCH] hw/net: fsl_etsec: Tx padding length should exclude CRC
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,50 +92,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On Mon, Mar 22, 2021 at 1:24 PM David Gibson
-<david@gibson.dropbear.id.au> wrote:
->
-> On Mon, Mar 22, 2021 at 12:33:06PM +0800, Bin Meng wrote:
-> > Hi David,
-> >
-> > On Mon, Mar 22, 2021 at 12:11 PM David Gibson
-> > <david@gibson.dropbear.id.au> wrote:
-> > >
-> > > On Tue, Mar 16, 2021 at 04:15:05PM +0800, Bin Meng wrote:
-> > > > As the comment of tx_padding_and_crc() says: "Never add CRC in QEMU",
-> > > > min_frame_len should excluce CRC, so it should be 60 instead of 64.
-> > >
-> > > Sorry, your reasoning still isn't clear to me.  If qemu is not adding
-> > > the CRC, what is?
-> >
-> > No one is padding CRC in QEMU. QEMU network backends pass payload
-> > without CRC in between.
->
-> Ok, but the CRCs must be added if the packets are bridged onto a real
-> device, yes?  Where does that happen?
+If nvme_map_dptr() fails, nvme_dif_rw() will leak the bounce context.
+Fix this by using the same error handling as everywhere else in the
+function.
 
-I've never used it like that before. What's the command line to test that?
+Reported-by: Coverity (CID 1451080)
+Fixes: 146f720c5563 ("hw/block/nvme: end-to-end data protection")
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme-dif.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> >
-> > > Will it always append a CRC after this padding is complete?
-> >
-> > No.
->
-> If that's true, then won't the packets still be shorter than expected
-> if we only pad to 60 bytes?
+diff --git a/hw/block/nvme-dif.c b/hw/block/nvme-dif.c
+index 2038d724bda5..e6f04faafb5f 100644
+--- a/hw/block/nvme-dif.c
++++ b/hw/block/nvme-dif.c
+@@ -432,7 +432,7 @@ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_map_dptr(n, &req->sg, mapped_len, &req->cmd);
+     if (status) {
+-        return status;
++        goto err;
+     }
+ 
+     ctx->data.bounce = g_malloc(len);
+-- 
+2.31.0
 
-In QEMU packets are transmitted without CRC between network backends,
-and when a NIC receives a packet, the minimum required payload length
-is 60 bytes without a CRC.
-
-Regards,
-Bin
 
