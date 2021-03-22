@@ -2,49 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962B434430A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:51:33 +0100 (CET)
-Received: from localhost ([::1]:39670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A8B3443F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:59:02 +0100 (CET)
+Received: from localhost ([::1]:42028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOK1q-0005be-Kg
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43744)
+	id 1lOK97-00073Q-Cl
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1lOK0W-00055K-Uj; Mon, 22 Mar 2021 08:50:08 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:42786)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOK7X-0006a1-EG
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:57:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1lOK0U-0003ST-GI; Mon, 22 Mar 2021 08:50:08 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 77382462C2;
- Mon, 22 Mar 2021 13:44:28 +0100 (CET)
-Date: Mon, 22 Mar 2021 13:44:20 +0100
-From: Fabian =?iso-8859-1?q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>
-Subject: Re: Fwd: [PATCH 0/2] block/raw: implemented persistent dirty bitmap
- and ability to dump bitmap content via qapi
-To: Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>, Kevin Wolf
- <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Patrik =?iso-8859-2?q?Janou=B9ek?= <pj@patrikjanousek.cz>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20210320093235.461485-1-pj@patrikjanousek.cz>
- <856ca6ba-3871-068f-f821-269c40a5a4d5@patrikjanousek.cz>
- <6e142c5b-053c-dc58-277c-59a8ce67f8a7@redhat.com>
- <a779e20f-4720-3762-fa3d-d15f4980c0fb@patrikjanousek.cz>
-In-Reply-To: <a779e20f-4720-3762-fa3d-d15f4980c0fb@patrikjanousek.cz>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOK7U-00087A-GH
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616417837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2HExmfu/eRKNSuBK1450fAaB6tWFPZuzzGPsOpr722U=;
+ b=dQukdNjtZCulDsZ1EZwC85+VLTzuOnhcZMSigTFi1pDvmnE0ZLFtEmVEY+Asrs34qIrA5L
+ 9VO18XHhKPXRmcA/8AmNVFnffR0Z85yfclca6eLtqnJhHcVfZP4nFeOO2yetn/Cfgm2KeK
+ T2ziNlMx0inewGALPzm4qVaL38fEL2U=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-F6_C7SY2OGOEufaDjQbbrw-1; Mon, 22 Mar 2021 08:57:15 -0400
+X-MC-Unique: F6_C7SY2OGOEufaDjQbbrw-1
+Received: by mail-wr1-f70.google.com with SMTP id h30so26016426wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 05:57:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2HExmfu/eRKNSuBK1450fAaB6tWFPZuzzGPsOpr722U=;
+ b=baHqhWTUd8izI9wyn5SjbwWVGRDT4T6Efm8UK6iBqfpvIawd0XS+5hIL2kCpwc0Yon
+ jFGyW6MLgTFkKuS6iXAKkqm+S5mmjiymbHvpUzQV5goURUPrVOIW/E93DPO1l7e5NFPa
+ E9+jvoF04TRKTwSxyXL3r+nKpHdS43WxFPVCpDwMW6VLgOjEOmQZLAlQrQv7kTODfB1o
+ UlgGKKPyb9gDN9w3s4y+6m/ltl29Ky2owBfFRdmiVr3oYFtCPwYbkeCPi/Iphm5jgFpb
+ Ar1+Kz3gynABOX2lpjfMCUMpMVzxYZp3/Yo2HWQqWqCVty0ohpckFKnF9EX1Lkd8dd3F
+ sHsQ==
+X-Gm-Message-State: AOAM533he7Fsp/rxWCQVr+zjcl8tdhAsZCQBtfSDnRC2xcG8C6dSggtB
+ lOBtKZC5nSvpVbhoQMe8prDrQWGyuy7Li+SzsABbfQqJQdJrYAEDZR2TsFc2Om7HACVQTr7igju
+ 4VUmnTGIS33oXSiU=
+X-Received: by 2002:adf:a2cf:: with SMTP id t15mr18788798wra.250.1616417834165; 
+ Mon, 22 Mar 2021 05:57:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyL7BZIwr6Rv4cAepg2WQUpV0D7vv533xdeirFDeFFCEYH94vtQBw1sM8rr+BhkbznfR7wMQw==
+X-Received: by 2002:adf:a2cf:: with SMTP id t15mr18788783wra.250.1616417833961; 
+ Mon, 22 Mar 2021 05:57:13 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u15sm15423111wmq.4.2021.03.22.05.57.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 05:57:13 -0700 (PDT)
+Subject: Re: [PATCH] tests/meson: Only build softfloat objects if TCG is
+ selected
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210322114739.4078408-1-f4bug@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4962691b-b5fb-535e-2aec-55eaa0cfa9a9@redhat.com>
+Date: Mon, 22 Mar 2021 13:57:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
-Message-Id: <1616416414.3jwa7o8xvx.astroid@nora.none>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=f.gruenbichler@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210322114739.4078408-1-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,137 +101,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lmatejka@kiv.zcu.cz, Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Emilio G . Cota" <cota@braap.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On March 22, 2021 12:27 pm, Patrik Janou=C5=A1ek wrote:
-> On 3/22/21 11:48 AM, Max Reitz wrote:
->> Hi,
->>
->> On 20.03.21 11:01, Patrik Janou=C5=A1ek wrote:
->>> I'm sorry, but I forgot to add you to the cc, so I'm forwarding the
->>> patch to you additionally. I don't want to spam the mailing list
->>> unnecessarily.
->>
->> I think it=E2=80=99s better to still CC the list.=C2=A0 It=E2=80=99s so =
-full of mail, one
->> more won=E2=80=99t hurt. :)
->>
->> (Re-adding qemu-block and qemu-devel, because the discussion belongs
->> on the list(s).)
->>
->>> -------- Forwarded Message --------
->>> Subject:=C2=A0=C2=A0=C2=A0=C2=A0 [PATCH 0/2] block/raw: implemented per=
-sistent dirty
->>> bitmap and ability to dump bitmap content via qapi
->>> Date:=C2=A0=C2=A0=C2=A0=C2=A0 Sat, 20 Mar 2021 10:32:33 +0100
->>> From:=C2=A0=C2=A0=C2=A0=C2=A0 Patrik Janou=C5=A1ek <pj@patrikjanousek.c=
-z>
->>> To:=C2=A0=C2=A0=C2=A0=C2=A0 qemu-devel@nongnu.org
->>> CC:=C2=A0=C2=A0=C2=A0=C2=A0 Patrik Janou=C5=A1ek <pj@patrikjanousek.cz>=
-, lmatejka@kiv.zcu.cz
->>>
->>>
->>>
->>> Currently, QEMU doesn't support persistent dirty bitmaps for raw format
->>> and also dirty bitmaps are for internal use only, and cannot be accesse=
-d
->>> using third-party applications. These facts are very limiting
->>> in case someone would like to develop their own backup tool becaouse
->>> without access to the dirty bitmap it would be possible to implement
->>> only full backups. And without persistent dirty bitmaps, it wouldn't
->>> be possible to keep track of changed data after QEMU is restarted. And
->>> this is exactly what I do as a part of my bachelor thesis. I've
->>> developed a tool that is able to create incremental backups of drives
->>> in raw format that are LVM volumes (ability to create snapshot is
->>> required).
->>
->> Similarly to what Vladimir has said already, the thing is that
->> conceptually I can see no difference between having a raw image with
->> the bitmaps stored in some other file, i.e.:
->>
->> =C2=A0 { "driver": "raw",
->> =C2=A0=C2=A0=C2=A0 "dirty-bitmaps": [ {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "sdc1.bitmap",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "persistent": true
->> =C2=A0=C2=A0=C2=A0 } ],
->> =C2=A0=C2=A0=C2=A0 "file": {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "driver": "file",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "/dev/sdc1"
->> =C2=A0=C2=A0=C2=A0 } }
->>
->> And having a qcow2 image with the raw data stored in some other file,
->> i.e.:
->>
->> =C2=A0 { "driver": "qcow2",
->> =C2=A0=C2=A0=C2=A0 "file": {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "driver": "file",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "sdc1.metadata"
->> =C2=A0=C2=A0=C2=A0 },
->> =C2=A0=C2=A0=C2=A0 "data-file": {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "driver": "file",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "/dev/sdc1"
->> =C2=A0=C2=A0=C2=A0 } }
->>
->> (Where sdc1.metadata is a qcow2 file created with
->> =E2=80=9Cdata-file=3D/dev/sdc1,data-file-raw=3Don=E2=80=9D.)
->>
->> To use persistent bitmaps with raw images, you need to add metadata
->> (namely, the bitmaps).=C2=A0 Why not store that metadata in a qcow2 file=
-?
->>
->> Max
->=20
-> So if I understand it correctly. I can configure dirty bitmaps in the
-> latest version of QEMU to be persistently stored in some other file.
-> Because even Proxmox Backup Server can't perform an incremental backup
-> after restarting QEMU, and that means something to me. I think they
-> would implement it if it was that simple.
+On 22/03/21 12:47, Philippe Mathieu-Daudé wrote:
+> The previous attempt (commit f77147cd4de) doesn't work as
+> expected, as we still have CONFIG_TCG=1 when using:
+> 
+>    configure --disable-system --disable-user
 
-the main reason we haven't implemented something like that (yet) is not=20
-that it is technically difficult, but that we have no way to safeguard=20
-against external manipulation of the (raw) image:
+But there's no change in behavior with this patch, right?
 
-- VM is running, backup happens, bitmap represents the delta since this=20
-  backup
-- VM is stopped
-- user/admin does something to VM disk image, believing such an action=20
-  is safe because VM is not running
-- VM is started again - bitmap does not contain the manual changes
-- VM is running, backup happens, backup is inconsistent with actual data=20
-  stored in image
+I would rather first start removing CONFIG_TCG from target-dependent 
+files (such as tests/qtest/bios-tables-test.c and 
+tests/qtest/qmp-cmd-test.c), and then just remove the
 
-because of persistence, this error is now carried forward indefinitely=20
-(it might self-correct at some point if all the invalid stuff has been=20
-dirtied by the guest).
+   config_host += { 'CONFIG_TCG': 'y' }
 
-while it is of course possible to argue that this is entirely the user's=20
-fault, it looks like it's the backup software/hypervisor's fault (no=20
-indication anything is wrong, backup data is bogus).
+line that is not needed anymore.
 
-it might happen at some point as opt-in feature with all the warnings=20
-associated with potentially dangerous features, but for now we are okay=20
-with just carrying the bitmap as long as the VM instance is running=20
-(including migrations), and having to re-read and chunk/hash the disks=20
-for fresh instances. the latter is expensive, but less expensive than=20
-having to explain to users why their backups are bogus.
-
->=20
-> Could you please send me simple example on how to configure (via command
-> line args) one raw format drive that can store dirty bitmaps
-> persistently in other qcow2 file? I may be missing something, but I
-> thought QEMU couldn't do it, because Proxmox community wants this
-> feature for a long time.
->=20
-> Patrik
->=20
->=20
->=20
->=20
->=20
->=20
-=
+Paolo
 
 
