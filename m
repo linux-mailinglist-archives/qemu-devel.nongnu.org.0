@@ -2,41 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8543440F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:29:18 +0100 (CET)
-Received: from localhost ([::1]:42092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106743440B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:19:27 +0100 (CET)
+Received: from localhost ([::1]:52040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJgL-0002VZ-LZ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:29:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34876)
+	id 1lOJWo-0002tt-5n
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
- id 1lOJU1-0001r5-0f; Mon, 22 Mar 2021 08:16:33 -0400
-Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:52977
- helo=mx.kernkonzept.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOJU2-0001rk-E9
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:16:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
- id 1lOJTr-0000z5-M5; Mon, 22 Mar 2021 08:16:27 -0400
-Received: from [95.168.140.111] (helo=broc.lan)
- by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) id 1lOJTj-0000Vv-N8; Mon, 22 Mar 2021 13:16:15 +0100
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2] target/riscv: Prevent lost illegal instruction exceptions
-Date: Mon, 22 Mar 2021 13:16:09 +0100
-Message-Id: <20210322121609.3097928-1-georg.kotheimer@kernkonzept.com>
-X-Mailer: git-send-email 2.31.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOJTo-00010t-Q8
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:16:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616415377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GKYYX+iDIghg4+aeaAWO54T6vYMhnIs6iHKbEwY/1yU=;
+ b=Oqd2vU0xslkND6ylblpGbqCptlBCfhu2KuyiAdJ4K8bq6Adio1jESHmsJFNRIQcCZdNDMi
+ Hg1OfAwPPbVIvovVgiTFkmcsiNv+TV/jhDrp+rWVk2ywjqxwsiblsCDci0vZ7ItyhrHTEB
+ 489MlahkcqRMKpVutB1KIzNTEpK0zcM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-oHL6JKMpNDe3fSvKp5NyCA-1; Mon, 22 Mar 2021 08:16:13 -0400
+X-MC-Unique: oHL6JKMpNDe3fSvKp5NyCA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39EA3107BF0A;
+ Mon, 22 Mar 2021 12:16:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4A035D742;
+ Mon, 22 Mar 2021 12:16:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5E60B11327E1; Mon, 22 Mar 2021 13:16:10 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO passthrough
+References: <20210319035508.113741-1-chen.zhang@intel.com>
+ <20210319035508.113741-4-chen.zhang@intel.com>
+ <87tup7gmgu.fsf@dusky.pond.sub.org>
+ <ecf5a9f4ba3044bebefbb7c19be9fb93@intel.com>
+Date: Mon, 22 Mar 2021 13:16:10 +0100
+In-Reply-To: <ecf5a9f4ba3044bebefbb7c19be9fb93@intel.com> (Chen Zhang's
+ message of "Mon, 22 Mar 2021 09:59:46 +0000")
+Message-ID: <87pmzr4c51.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2a01:4f8:1c1c:b490::2;
- envelope-from=georg.kotheimer@kernkonzept.com; helo=mx.kernkonzept.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -49,246 +82,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When decode_insn16() fails, we fall back to decode_RV32_64C() for
-further compressed instruction decoding. However, prior to this change,
-we did not raise an illegal instruction exception, if decode_RV32_64C()
-fails to decode the instruction. This means that we skipped illegal
-compressed instructions instead of raising an illegal instruction
-exception.
+"Zhang, Chen" <chen.zhang@intel.com> writes:
 
-Instead of patching decode_RV32_64C(), we can just remove it,
-as it is dead code since f330433b363 anyway.
+>> -----Original Message-----
+>> From: Markus Armbruster <armbru@redhat.com>
+>> Sent: Saturday, March 20, 2021 12:03 AM
+>> To: Zhang, Chen <chen.zhang@intel.com>
+>> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+>> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
+>> Gilbert <dgilbert@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>; Lukas
+>> Straub <lukasstraub2@web.de>; Zhang Chen <zhangckid@gmail.com>
+>> Subject: Re: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO
+>> passthrough
+>> 
+>> Zhang Chen <chen.zhang@intel.com> writes:
+>> 
+>> > Since the real user scenario does not need COLO to monitor all traffic.
+>> > Add colo-passthrough-add and colo-passthrough-del to maintain a COLO
+>> > network passthrough list.
+>> >
+>> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>> > ---
+>> >  net/net.c     | 10 ++++++++++
+>> >  qapi/net.json | 40 ++++++++++++++++++++++++++++++++++++++++
+>> >  2 files changed, 50 insertions(+)
+>> >
+>> > diff --git a/net/net.c b/net/net.c
+>> > index 725a4e1450..7c7cefe0e0 100644
+>> > --- a/net/net.c
+>> > +++ b/net/net.c
+>> > @@ -1199,6 +1199,16 @@ void qmp_netdev_del(const char *id, Error
+>> **errp)
+>> >      }
+>> >  }
+>> >
+>> > +void qmp_colo_passthrough_add(L4_Connection *conn, Error **errp) {
+>> > +    /* Setup passthrough connection */
+>> 
+>> Do you mean to say
+>> 
+>>        /* TODO implement */
+>> 
+>> ?
+>
+> Yes, I will input real code here in 7/7 patch.
 
-Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
----
- target/riscv/translate.c | 179 +--------------------------------------
- 1 file changed, 1 insertion(+), 178 deletions(-)
+Use a TODO comment then.
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0f28b5f41e..2f9f5ccc62 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -67,20 +67,6 @@ typedef struct DisasContext {
-     CPUState *cs;
- } DisasContext;
- 
--#ifdef TARGET_RISCV64
--/* convert riscv funct3 to qemu memop for load/store */
--static const int tcg_memop_lookup[8] = {
--    [0 ... 7] = -1,
--    [0] = MO_SB,
--    [1] = MO_TESW,
--    [2] = MO_TESL,
--    [3] = MO_TEQ,
--    [4] = MO_UB,
--    [5] = MO_TEUW,
--    [6] = MO_TEUL,
--};
--#endif
--
- #ifdef TARGET_RISCV64
- #define CASE_OP_32_64(X) case X: case glue(X, W)
- #else
-@@ -374,48 +360,6 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
- 
--#ifdef TARGET_RISCV64
--static void gen_load_c(DisasContext *ctx, uint32_t opc, int rd, int rs1,
--        target_long imm)
--{
--    TCGv t0 = tcg_temp_new();
--    TCGv t1 = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--    int memop = tcg_memop_lookup[(opc >> 12) & 0x7];
--
--    if (memop < 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, memop);
--    gen_set_gpr(rd, t1);
--    tcg_temp_free(t0);
--    tcg_temp_free(t1);
--}
--
--static void gen_store_c(DisasContext *ctx, uint32_t opc, int rs1, int rs2,
--        target_long imm)
--{
--    TCGv t0 = tcg_temp_new();
--    TCGv dat = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--    gen_get_gpr(dat, rs2);
--    int memop = tcg_memop_lookup[(opc >> 12) & 0x7];
--
--    if (memop < 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx, memop);
--    tcg_temp_free(t0);
--    tcg_temp_free(dat);
--}
--#endif
--
- #ifndef CONFIG_USER_ONLY
- /* The states of mstatus_fs are:
-  * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
-@@ -447,83 +391,6 @@ static void mark_fs_dirty(DisasContext *ctx)
- static inline void mark_fs_dirty(DisasContext *ctx) { }
- #endif
- 
--#if !defined(TARGET_RISCV64)
--static void gen_fp_load(DisasContext *ctx, uint32_t opc, int rd,
--        int rs1, target_long imm)
--{
--    TCGv t0;
--
--    if (ctx->mstatus_fs == 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    t0 = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--
--    switch (opc) {
--    case OPC_RISC_FLW:
--        if (!has_ext(ctx, RVF)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_ld_i64(cpu_fpr[rd], t0, ctx->mem_idx, MO_TEUL);
--        /* RISC-V requires NaN-boxing of narrower width floating point values */
--        tcg_gen_ori_i64(cpu_fpr[rd], cpu_fpr[rd], 0xffffffff00000000ULL);
--        break;
--    case OPC_RISC_FLD:
--        if (!has_ext(ctx, RVD)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_ld_i64(cpu_fpr[rd], t0, ctx->mem_idx, MO_TEQ);
--        break;
--    do_illegal:
--    default:
--        gen_exception_illegal(ctx);
--        break;
--    }
--    tcg_temp_free(t0);
--
--    mark_fs_dirty(ctx);
--}
--
--static void gen_fp_store(DisasContext *ctx, uint32_t opc, int rs1,
--        int rs2, target_long imm)
--{
--    TCGv t0;
--
--    if (ctx->mstatus_fs == 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    t0 = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--
--    switch (opc) {
--    case OPC_RISC_FSW:
--        if (!has_ext(ctx, RVF)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_st_i64(cpu_fpr[rs2], t0, ctx->mem_idx, MO_TEUL);
--        break;
--    case OPC_RISC_FSD:
--        if (!has_ext(ctx, RVD)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_st_i64(cpu_fpr[rs2], t0, ctx->mem_idx, MO_TEQ);
--        break;
--    do_illegal:
--    default:
--        gen_exception_illegal(ctx);
--        break;
--    }
--
--    tcg_temp_free(t0);
--}
--#endif
--
- static void gen_set_rm(DisasContext *ctx, int rm)
- {
-     TCGv_i32 t0;
-@@ -537,49 +404,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-     tcg_temp_free_i32(t0);
- }
- 
--static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
--{
--    uint8_t funct3 = extract16(opcode, 13, 3);
--    uint8_t rd_rs2 = GET_C_RS2S(opcode);
--    uint8_t rs1s = GET_C_RS1S(opcode);
--
--    switch (funct3) {
--    case 3:
--#if defined(TARGET_RISCV64)
--        /* C.LD(RV64/128) -> ld rd', offset[7:3](rs1')*/
--        gen_load_c(ctx, OPC_RISC_LD, rd_rs2, rs1s,
--                 GET_C_LD_IMM(opcode));
--#else
--        /* C.FLW (RV32) -> flw rd', offset[6:2](rs1')*/
--        gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
--                    GET_C_LW_IMM(opcode));
--#endif
--        break;
--    case 7:
--#if defined(TARGET_RISCV64)
--        /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
--        gen_store_c(ctx, OPC_RISC_SD, rs1s, rd_rs2,
--                  GET_C_LD_IMM(opcode));
--#else
--        /* C.FSW (RV32) -> fsw rs2', offset[6:2](rs1')*/
--        gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
--                     GET_C_LW_IMM(opcode));
--#endif
--        break;
--    }
--}
--
--static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
--{
--    uint8_t op = extract16(opcode, 0, 2);
--
--    switch (op) {
--    case 0:
--        decode_RV32_64C0(ctx, opcode);
--        break;
--    }
--}
--
- static int ex_plus_1(DisasContext *ctx, int nf)
- {
-     return nf + 1;
-@@ -779,8 +603,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-         } else {
-             ctx->pc_succ_insn = ctx->base.pc_next + 2;
-             if (!decode_insn16(ctx, opcode)) {
--                /* fall back to old decoder */
--                decode_RV32_64C(ctx, opcode);
-+                gen_exception_illegal(ctx);
-             }
-         }
-     } else {
--- 
-2.31.0
+>> 
+>> > +}
+>> > +
+>> > +void qmp_colo_passthrough_del(L4_Connection *conn, Error **errp) {
+>> > +    /* Delete passthrough connection */ }
+>> 
+>> Likewise.
+>> 
+>> > +
+>> >  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)  {
+>> >      char *str;
+>> > diff --git a/qapi/net.json b/qapi/net.json index
+>> > cd4a8ed95e..ec7d3b1128 100644
+>> > --- a/qapi/net.json
+>> > +++ b/qapi/net.json
+>> > @@ -851,3 +851,43 @@
+>> >    'data': { 'protocol': 'IP_PROTOCOL', '*id': 'str', '*src_ip': 'str', '*dst_ip': 'str',
+>> >      '*src_port': 'int', '*dst_port': 'int' } }
+>> >
+>> > +##
+>> > +# @colo-passthrough-add:
+>> > +#
+>> > +# Add passthrough entry according to customer's needs in COLO-compare.
+>> 
+>> QEMU doesn't have customers, it has users :)
+>
+> Thanks note.
+>
+>> 
+>> > +#
+>> > +# Returns: Nothing on success
+>> > +#
+>> > +# Since: 6.1
+>> > +#
+>> > +# Example:
+>> > +#
+>> > +# -> { "execute": "colo-passthrough-add",
+>> > +#      "arguments": { "protocol": "tcp", "id": "object0", "src_ip": "192.168.1.1",
+>> > +#      "dst_ip": "192.168.1.2", "src_port": 1234, "dst_port": 4321 } }
+>> > +# <- { "return": {} }
+>> > +#
+>> > +##
+>> > +{ 'command': 'colo-passthrough-add', 'boxed': true,
+>> > +     'data': 'L4_Connection' }
+>> > +
+>> > +##
+>> > +# @colo-passthrough-del:
+>> > +#
+>> > +# Delete passthrough entry according to customer's needs in COLO-compare.
+>> > +#
+>> > +# Returns: Nothing on success
+>> > +#
+>> > +# Since: 6.1
+>> > +#
+>> > +# Example:
+>> > +#
+>> > +# -> { "execute": "colo-passthrough-del",
+>> > +#      "arguments": { "protocol": "tcp", "id": "object0", "src_ip": "192.168.1.1",
+>> > +#      "dst_ip": "192.168.1.2", "src_port": 1234, "dst_port": 4321 } }
+>> > +# <- { "return": {} }
+>> > +#
+>> > +##
+>> > +{ 'command': 'colo-passthrough-del', 'boxed': true,
+>> > +     'data': 'L4_Connection' }
+>> > +
+>> 
+>> To make sense of this, I have to refer back to PATCH 1 and 2:
+>> 
+>>    { 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp', 'udplite',
+>>        'icmp', 'igmp', 'ipv6' ] }
+>> 
+>>    { 'struct': 'L4_Connection',
+>>      'data': { 'protocol': 'IP_PROTOCOL', '*id': 'str', '*src_ip': 'str', '*dst_ip': 'str',
+>>        '*src_port': 'int', '*dst_port': 'int' } }
+>> 
+>> Please squash the three patches together.
+>
+> OK.
+>
+>> 
+>> I figure colo-passthrough-add adds some kind of packet matching thingy that
+>> can match packets by source IP, source port, destination IP, destination port,
+>> and protocol.  Correct?
+>
+> Yes, you are right.
+>
+>> 
+>> The protocol is mandatory, all others are optional.  What does it mean to omit
+>> an optional one?  Match all?
+>
+> Yes, match all. The idea from Jason Wang, for example:
+> User just set the protocol/source IP(tcp/192.168.1.1) , others empty.
+> The rule will bypass all the TCP packet from the source IP.
+
+Work this into the doc comment, please.
+
+>> I have no idea what @id is supposed to mean.  Please explain intended use.
+>
+> The @id means packet hander in Qemu. Because not all the guest network packet into the colo-compare module, the net-filters are same cases.
+> There modules attach to NIC or chardev socket to work, VM maybe have multi modules running. So we use the ID to set the rule to the specific module. 
+
+I'm not sure I understand, but then I'm a QEMU networking ignoramus :)
+
+Work it into the doc comment.
+
+> Thanks
+> Chen
+>
+>> 
+>> I'm ignoring colo-passthrough-del for now, because I feel need to
+>> understand -add first.
 
 
