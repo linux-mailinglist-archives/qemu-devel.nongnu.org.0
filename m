@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9305134383A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:19:25 +0100 (CET)
-Received: from localhost ([::1]:36388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B87F343832
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:17:02 +0100 (CET)
+Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOCyK-0000du-B5
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59460)
+	id 1lOCw0-00060j-Aw
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOCu0-0004Hp-RJ; Mon, 22 Mar 2021 01:14:56 -0400
-Received: from ozlabs.org ([203.11.71.1]:51397)
+ id 1lOCtz-0004HW-Ct; Mon, 22 Mar 2021 01:14:55 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:34061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOCtw-0004as-3F; Mon, 22 Mar 2021 01:14:56 -0400
+ id 1lOCtw-0004aw-7L; Mon, 22 Mar 2021 01:14:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3jNk2yJgz9sWL; Mon, 22 Mar 2021 16:14:46 +1100 (AEDT)
+ id 4F3jNk3LZhz9sWP; Mon, 22 Mar 2021 16:14:46 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616390086;
- bh=ukdD7qdlH0wtLxNN+PyL43gdzvwUFuwsQ3U5HrhjvBo=;
+ bh=RReFNwkNXddDPnYtmlDbgmw93yEKIAn5msGpBVEADFU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cLFd0yXIZ5D/3eN8bJ2v8uH2JaxUZ24Wj0HlBGYSIH8uGJaNu/0Cw+4giR2ItBh3p
- WVvb0AGQgnk1DWZ9i2e6E4PdAPVwnZ/FUdBMacrcmEGCEBYuKfjXqqwWl0eVQFaMrL
- 49frMtB1oUfktXW+7EZ+caLh1ZuwR2Rx3vr+Qp0A=
-Date: Mon, 22 Mar 2021 15:27:15 +1100
+ b=fwJzPQlFgQEkI8Bjsblf0HYlgemtyzTOho/OujDof8jKoQ8EYWK+lhNhy4gwRAapq
+ otQzt+3yWzXKDdeUuXO/D8SyqxxKrl5JfirbWhMKUhEufmO3jHTXTZKtzNk60PsJ96
+ rqYwBYdWiQsRMUurGNAuFMqWaZor9tX1bzSZKSDc=
+Date: Mon, 22 Mar 2021 15:27:55 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 14/17] hw/ppc/pnv_core: Update hflags after setting msr
-Message-ID: <YFgcoyfkHORXO7sF@yekko.fritz.box>
+Subject: Re: [PATCH v4 15/17] hw/ppc/spapr_rtas: Update hflags after setting
+ msr
+Message-ID: <YFgcy8GT6zWzQLNH@yekko.fritz.box>
 References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-15-richard.henderson@linaro.org>
+ <20210315184615.1985590-16-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="P5i4nDRP20Upgnut"
+ protocol="application/pgp-signature"; boundary="TH6dS0bv3U8eoMZe"
 Content-Disposition: inline
-In-Reply-To: <20210315184615.1985590-15-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210315184615.1985590-16-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -63,43 +64,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---P5i4nDRP20Upgnut
+--TH6dS0bv3U8eoMZe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 12:46:12PM -0600, Richard Henderson wrote:
+On Mon, Mar 15, 2021 at 12:46:13PM -0600, Richard Henderson wrote:
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/pnv_core.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/ppc/spapr_rtas.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index bd2bf2e044..8c2a15a0fb 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -29,6 +29,7 @@
->  #include "hw/ppc/pnv_xscom.h"
->  #include "hw/ppc/xics.h"
->  #include "hw/qdev-properties.h"
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 8a79f9c628..6ec3e71757 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -51,6 +51,7 @@
+>  #include "target/ppc/mmu-hash64.h"
+>  #include "target/ppc/mmu-book3s-v3.h"
+>  #include "migration/blocker.h"
 > +#include "helper_regs.h"
 > =20
->  static const char *pnv_core_cpu_typename(PnvCore *pc)
->  {
-> @@ -55,8 +56,8 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU =
-*cpu)
->      env->gpr[3] =3D PNV_FDT_ADDR;
->      env->nip =3D 0x10;
->      env->msr |=3D MSR_HVB; /* Hypervisor mode */
-> -
->      env->spr[SPR_HRMOR] =3D pc->hrmor;
+>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
+papr,
+>                                     uint32_t token, uint32_t nargs,
+> @@ -163,6 +164,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spapr=
+MachineState *spapr,
+>      cpu_synchronize_state(CPU(newcpu));
+> =20
+>      env->msr =3D (1ULL << MSR_SF) | (1ULL << MSR_ME);
 > +    hreg_compute_hflags(env);
 > =20
->      pcc->intc_reset(pc->chip, cpu);
->  }
+>      /* Enable Power-saving mode Exit Cause exceptions for the new CPU */
+>      lpcr =3D env->spr[SPR_LPCR];
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -107,25 +107,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---P5i4nDRP20Upgnut
+--TH6dS0bv3U8eoMZe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYHKMACgkQbDjKyiDZ
-s5Ijjg/+KChmLmuoMYvW21lXENtPIMvUR7EWO9s7LzeM1soJqYziMp5e012CHLUI
-dTsXyCaaP5bFF/j9HWj6jo4PRa07v7ZtgMfH6gsyhspCTOp9ybwrgfJt3DBMcYiP
-t2VCW3iFOCWlvq/DOB1P92usL9VxqZ+dNF1JT4mbbvRCi8FEVnhto45ahBvNur1H
-KP4olhsL5dPubfCJ53n2yaRdXAe7SqWuIVPRoXNNLBLUEXqYs23XTdc85d/XYK52
-zwwIVQzG6iagGkeJ1pjXJ8JvWWgUMy/mwILPQdlkGo6WXhaQOqOssL9oUOItT792
-l9Y+7rz2EgpjH+DUOUDK0ZDovWLTwKWeh5kpHILjBgC0q/XBiG0Yb7RPTYjfG5IQ
-qD9qvH7nd/Vvag+I1VDDgr6NYCX3DFJXCiXAASdorOsFp/CFfLSCJ21VvW4Ikygj
-qLKbU9YMEmbh2y+ecnEl+jrftRIfHl/uam0dexSH9tHjSGV7ju4mKND+JEZNxmde
-i1p2mCEAYTCvKoijDRaze7MThK+ctmEc8W1aBLveF/KAfZbJgReo9IBPubp9vZ7e
-y4BJ0oH/4S0yYHblN2z/+Nc/gJ1PNEbLhuMrTUJLEIeTwnMiEqal7YyIa8qMF269
-LMuUDSg9yDiWUEOuEnsr4QOnKhf9yuNAoOTEoc6GDgDkDNeVaZk=
-=U868
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYHMsACgkQbDjKyiDZ
+s5IqexAAv35QaOPi1+5nut26TbUysVVUVGfCrDuqJfK8hDk44FDMnb2dGUSW8VbD
+kRQIi7IAHUvuyXSe4keGBnn4JNgq9gXljVV6zDPa5CdiQZyY/RKYCPAP4FD/kwKE
+ns6pqTKMtvxiIJJIxXkJzYBr3Y9cTHA+eGO//NLcLYkfM8mGJ12DS+9IdRiSSxx0
+Lvr1MDPAW/Q17YXu+GEIP8/xsCj7k/0zLhIsbP82NWCYEhjUNN0eWvvR4YKqQC2L
+i1Cjj9LIjhmhTHypJGOcnhZW7UDrUUccD8/ptmsrtPytXSiT7hHJoWPMvVgEmiwX
+466zoxvl6cPo7n2LP0N6Zbdb/tVVTp+lh1lHFHpRlV92IWUTu0OMiD4ATPeLmTz4
+T7Qdnd4iie7wVt5deN/cFjJd9TyLwbjiz6TvLKvkcYj/BSJrSx8e5X2lOlt/Kf/+
+wk946L61Ntb9jGzGKZ9a+n3CLhfsvNagWe3iZHlsv9j6Le4pH+liQ9gwpIkkB+BR
+yBgSPn/dtsEw8vXe6e9bW+l3f2V6RSs4eQWguuMAY8VSLrQecBed+fj2bLejnEJs
+Z+5uF2knpUWR4vbWjN/tyYbbzgnS0ptoxqyvLh15+H6mNQaYM3Q50fQ1G+qXLuyq
+8OiFsXKDGqV+eVJYP1kb/pJyCr4R8T0rlryjU4Dhi26G/UunNBg=
+=62wQ
 -----END PGP SIGNATURE-----
 
---P5i4nDRP20Upgnut--
+--TH6dS0bv3U8eoMZe--
 
