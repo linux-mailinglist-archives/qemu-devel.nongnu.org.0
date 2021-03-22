@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941A13447B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:47:54 +0100 (CET)
-Received: from localhost ([::1]:35640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B393234477C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:38:03 +0100 (CET)
+Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLqT-0006Pj-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35302)
+	id 1lOLgw-0003hH-Eg
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9A-0005kn-0R
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL9A-0005mg-Nt
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44832)
+Received: from mx2.suse.de ([195.135.220.15]:44834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL95-0005Nk-5D
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:07 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOL95-0005Nl-5o
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:03:08 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 37696AF59;
+ by mx2.suse.de (Postfix) with ESMTP id 9F6ECAF75;
  Mon, 22 Mar 2021 14:02:29 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v10 43/49] target/arm: make is_aa64 and arm_el_is_aa64 a macro
- for !TARGET_AARCH64
-Date: Mon, 22 Mar 2021 15:02:00 +0100
-Message-Id: <20210322140206.9513-44-cfontana@suse.de>
+Subject: [RFC v10 44/49] target/arm: arch_dump: restrict ELFCLASS64 to AArch64
+Date: Mon, 22 Mar 2021 15:02:01 +0100
+Message-Id: <20210322140206.9513-45-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210322140206.9513-1-cfontana@suse.de>
 References: <20210322140206.9513-1-cfontana@suse.de>
@@ -61,125 +60,182 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-when TARGET_AARCH64 is not defined, it is helpful to make
-is_aa64() and arm_el_is_aa64 macros defined to "false".
-
-This way we can make more code TARGET_AARCH64-only.
+this will allow us to restrict more code to TARGET_AARCH64
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu.h            | 37 ++++++++++++++++++++++++-------------
- target/arm/cpu-mmu-sysemu.c |  6 ++----
- 2 files changed, 26 insertions(+), 17 deletions(-)
+ target/arm/helper-a64.h |  2 ++
+ target/arm/helper.h     |  1 -
+ target/arm/arch_dump.c  | 12 +++++++-----
+ target/arm/cpu.c        |  1 -
+ target/arm/cpu64.c      |  4 ++++
+ target/arm/tcg/helper.c | 13 +++++++++++--
+ 6 files changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a7646d56c5..50a7544d40 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1051,6 +1051,11 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
- 
-+static inline bool is_a64(CPUARMState *env)
-+{
-+    return env->aarch64;
-+}
+diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+index c139fa81f9..342f55d577 100644
+--- a/target/arm/helper-a64.h
++++ b/target/arm/helper-a64.h
+@@ -119,3 +119,5 @@ DEF_HELPER_FLAGS_2(st2g_stub, TCG_CALL_NO_WG, void, env, i64)
+ DEF_HELPER_FLAGS_2(ldgm, TCG_CALL_NO_WG, i64, env, i64)
+ DEF_HELPER_FLAGS_3(stgm, TCG_CALL_NO_WG, void, env, i64, i64)
+ DEF_HELPER_FLAGS_3(stzgm_tags, TCG_CALL_NO_WG, void, env, i64, i64)
 +
- /*
-  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-  * The byte at offset i from the start of the in-memory representation contains
-@@ -1080,7 +1085,10 @@ static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
- static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-                                          int n, bool a)
- { }
--#endif
-+
-+#define is_a64(env) (false)
-+
-+#endif /* TARGET_AARCH64 */
++DEF_HELPER_FLAGS_2(rebuild_hflags_a64, TCG_CALL_NO_RWG, void, env, int)
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index ff8148ddc6..37dd9797a1 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -94,7 +94,6 @@ DEF_HELPER_FLAGS_1(rebuild_hflags_m32_newel, TCG_CALL_NO_RWG, void, env)
+ DEF_HELPER_FLAGS_2(rebuild_hflags_m32, TCG_CALL_NO_RWG, void, env, int)
+ DEF_HELPER_FLAGS_1(rebuild_hflags_a32_newel, TCG_CALL_NO_RWG, void, env)
+ DEF_HELPER_FLAGS_2(rebuild_hflags_a32, TCG_CALL_NO_RWG, void, env, int)
+-DEF_HELPER_FLAGS_2(rebuild_hflags_a64, TCG_CALL_NO_RWG, void, env, int)
  
- void aarch64_sync_32_to_64(CPUARMState *env);
- void aarch64_sync_64_to_32(CPUARMState *env);
-@@ -1089,11 +1097,6 @@ int fp_exception_el(CPUARMState *env, int cur_el);
- int sve_exception_el(CPUARMState *env, int cur_el);
- uint32_t sve_zcr_len_for_el(CPUARMState *env, int el);
+ DEF_HELPER_FLAGS_5(probe_access, TCG_CALL_NO_WG, void, env, tl, i32, i32, i32)
  
--static inline bool is_a64(CPUARMState *env)
--{
--    return env->aarch64;
--}
--
- /* you can call this signal handler from your SIGBUS and SIGSEGV
-    signal handlers to inform the virtual CPU of exceptions. non zero
-    is returned if the signal was handled by the virtual CPU.  */
-@@ -2193,13 +2196,7 @@ static inline bool arm_is_el2_enabled(CPUARMState *env)
- }
- #endif
+diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
+index 0184845310..9cc75a6fda 100644
+--- a/target/arm/arch_dump.c
++++ b/target/arm/arch_dump.c
+@@ -23,6 +23,8 @@
+ #include "elf.h"
+ #include "sysemu/dump.h"
  
--/**
-- * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
-- * E.g. when in secure state, fields in HCR_EL2 are suppressed,
-- * "for all purposes other than a direct read or write access of HCR_EL2."
-- * Not included here is HCR_RW.
-- */
--uint64_t arm_hcr_el2_eff(CPUARMState *env);
 +#ifdef TARGET_AARCH64
- 
- /* Return true if the specified exception level is running in AArch64 state. */
- static inline bool arm_el_is_aa64(CPUARMState *env, int el)
-@@ -2234,6 +2231,20 @@ static inline bool arm_el_is_aa64(CPUARMState *env, int el)
-     return aa64;
++
+ /* struct user_pt_regs from arch/arm64/include/uapi/asm/ptrace.h */
+ struct aarch64_user_regs {
+     uint64_t regs[31];
+@@ -141,7 +143,6 @@ static int aarch64_write_elf64_prfpreg(WriteCoreDumpFunction f,
+     return 0;
  }
  
-+#else
-+
-+#define arm_el_is_aa64(env, el) (false)
-+
-+#endif /* TARGET_AARCH64 */
-+
-+/**
-+ * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
-+ * E.g. when in secure state, fields in HCR_EL2 are suppressed,
-+ * "for all purposes other than a direct read or write access of HCR_EL2."
-+ * Not included here is HCR_RW.
-+ */
-+uint64_t arm_hcr_el2_eff(CPUARMState *env);
-+
- /* Function for determing whether guest cp register reads and writes should
-  * access the secure or non-secure bank of a cp register.  When EL3 is
-  * operating in AArch32 state, the NS-bit determines whether the secure
-diff --git a/target/arm/cpu-mmu-sysemu.c b/target/arm/cpu-mmu-sysemu.c
-index 9d4735a190..4faa68fcd1 100644
---- a/target/arm/cpu-mmu-sysemu.c
-+++ b/target/arm/cpu-mmu-sysemu.c
-@@ -787,7 +787,6 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+-#ifdef TARGET_AARCH64
+ static off_t sve_zreg_offset(uint32_t vq, int n)
+ {
+     off_t off = sizeof(struct aarch64_user_sve_header);
+@@ -229,7 +230,6 @@ static int aarch64_write_elf64_sve(WriteCoreDumpFunction f,
+ 
+     return 0;
+ }
+-#endif
+ 
+ int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+                              int cpuid, void *opaque)
+@@ -272,15 +272,15 @@ int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+         return ret;
      }
  
-     if (is_aa64) {
--        CPUARMState *env = &cpu->env;
-         unsigned int pamax = arm_pamax(cpu);
+-#ifdef TARGET_AARCH64
+     if (cpu_isar_feature(aa64_sve, cpu)) {
+         ret = aarch64_write_elf64_sve(f, env, cpuid, s);
+     }
+-#endif
  
-         switch (stride) {
-@@ -812,7 +811,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+     return ret;
+ }
  
-         /* Inputsize checks.  */
-         if (inputsize > pamax &&
--            (arm_el_is_aa64(env, 1) || inputsize > 40)) {
-+            (arm_el_is_aa64(&cpu->env, 1) || inputsize > 40)) {
-             /* This is CONSTRAINED UNPREDICTABLE and we choose to fault.  */
-             return false;
++#endif /* TARGET_AARCH64 */
++
+ /* struct pt_regs from arch/arm/include/asm/ptrace.h */
+ struct arm_user_regs {
+     uint32_t regs[17];
+@@ -449,12 +449,14 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+     size_t note_size;
+ 
+     if (class == ELFCLASS64) {
++#ifdef TARGET_AARCH64
+         note_size = AARCH64_PRSTATUS_NOTE_SIZE;
+         note_size += AARCH64_PRFPREG_NOTE_SIZE;
+-#ifdef TARGET_AARCH64
+         if (cpu_isar_feature(aa64_sve, cpu)) {
+             note_size += AARCH64_SVE_NOTE_SIZE(&cpu->env);
          }
-@@ -967,9 +966,8 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-     int addrsize, inputsize;
-     TCR *tcr = regime_tcr(env, mmu_idx);
-     int ap, ns, xn, pxn;
--    uint32_t el = regime_el(env, mmu_idx);
-     uint64_t descaddrmask;
--    bool aarch64 = arm_el_is_aa64(env, el);
-+    bool aarch64 = arm_el_is_aa64(env, regime_el(env, mmu_idx));
-     bool guarded = false;
++#else
++        return -1; /* unsupported */
+ #endif
+     } else {
+         note_size = ARM_PRSTATUS_NOTE_SIZE;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 78ffd72f6a..195fe49fbf 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1391,7 +1391,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->asidx_from_attrs = arm_asidx_from_attrs;
+     cc->vmsd = &vmstate_arm_cpu;
+     cc->virtio_is_big_endian = arm_cpu_virtio_is_big_endian;
+-    cc->write_elf64_note = arm_cpu_write_elf64_note;
+     cc->write_elf32_note = arm_cpu_write_elf32_note;
+ #endif
  
-     /* TODO: This code does not support shareability levels. */
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 971a4474b9..b0026e7ae9 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -623,6 +623,10 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_arch_name = aarch64_gdb_arch_name;
+     cc->dump_state = aarch64_cpu_dump_state;
+ 
++#ifndef CONFIG_USER_ONLY
++    cc->write_elf64_note = arm_cpu_write_elf64_note;
++#endif /* !CONFIG_USER_ONLY */
++
+     object_class_property_add_bool(oc, "aarch64", aarch64_cpu_get_aarch64,
+                                    aarch64_cpu_set_aarch64);
+     object_class_property_set_description(oc, "aarch64",
+diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
+index 548c94e057..05a8563cea 100644
+--- a/target/arm/tcg/helper.c
++++ b/target/arm/tcg/helper.c
+@@ -18,6 +18,9 @@
+ #include "cpregs.h"
+ #include "tcg-cpu.h"
+ 
++uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
++                            ARMMMUIdx mmu_idx);
++
+ static int vfp_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -1152,8 +1155,10 @@ static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
+     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
+ 
+-static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+-                                   ARMMMUIdx mmu_idx)
++#ifdef TARGET_AARCH64
++
++uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
++                            ARMMMUIdx mmu_idx)
+ {
+     uint32_t flags = rebuild_hflags_aprofile(env);
+     ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
+@@ -1272,6 +1277,8 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
+ }
+ 
++#endif /* TARGET_AARCH64 */
++
+ static uint32_t rebuild_hflags_internal(CPUARMState *env)
+ {
+     int el = arm_current_el(env);
+@@ -1332,6 +1339,7 @@ void HELPER(rebuild_hflags_a32)(CPUARMState *env, int el)
+     env->hflags = rebuild_hflags_a32(env, fp_el, mmu_idx);
+ }
+ 
++#ifdef TARGET_AARCH64
+ void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
+ {
+     int fp_el = fp_exception_el(env, el);
+@@ -1339,6 +1347,7 @@ void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
+ 
+     env->hflags = rebuild_hflags_a64(env, el, fp_el, mmu_idx);
+ }
++#endif /* TARGET_AARCH64 */
+ 
+ static inline void assert_hflags_rebuild_correctly(CPUARMState *env)
+ {
 -- 
 2.26.2
 
