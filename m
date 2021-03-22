@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF03445F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:38:56 +0100 (CET)
-Received: from localhost ([::1]:54074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C143445B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:29:51 +0100 (CET)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKlj-0003uB-Km
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
+	id 1lOKcw-0001SN-Ou
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbL-0000qC-Gy
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:11 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45180)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbI-0001ii-6o
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:11 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 44430ADE3;
- Mon, 22 Mar 2021 13:28:05 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v28 05/23] accel: introduce new accessor functions
-Date: Mon, 22 Mar 2021 14:27:42 +0100
-Message-Id: <20210322132800.7470-7-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210322132800.7470-1-cfontana@suse.de>
-References: <20210322132800.7470-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOKaz-0000QZ-FL
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:27:49 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOKax-0001Ts-VM
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:27:49 -0400
+Received: by mail-wr1-x436.google.com with SMTP id x13so16758977wrs.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=b74ar1E1yW7SF8EXC2Ncbif+ClKawjMInqOISoAB2ig=;
+ b=JhRWwzhd4RCfYuChC3BSFTTa0oY93bie4QGgeKYnzzhryXQIopBY8ip/oSa/zlboYg
+ s9oRh6qa0Zx2PNIVXSyjwusy4p3PSXxHLIgXUXMAfuFHY9ISKIh3KqzfUT7XWic8JDLa
+ TySqyq+NT+jmAC3pt+++8XBv9ze/kzFCrEf79Jw3h5fmeHZRlTiyHDsU41MHRHNTiA9t
+ YmBWpA2qd+Cm3B7nRxk7avO0kK0bnI5NCFtmOI4IUleFI/93XqIisFbLXzVtQSlEk1Eo
+ NXlpRtJuw6Kr9DbrobnNlmo1Lq5lz93RFmeW36Q1kIui3khas0WTbq/n4LNoeRQW5AsD
+ 7PtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=b74ar1E1yW7SF8EXC2Ncbif+ClKawjMInqOISoAB2ig=;
+ b=ARro4yoFQAYIOog+37NT3SVlRMf6ikjCPM7+bNMZJkaWkDRglDkMMCgskLOeY0vghw
+ HG+HSn0bUlMc7n1VXdmyw3spHUxUWyHtiNwti0hUbdE4bPxIfxFXPnz6DT6w/I1/xoP0
+ nqR364iTziYai2V/Nz90pi2/TLzenLbieysnyDy+EoIg3ugHyrrSgu6RfFoJHJ0N1xHV
+ mFubS4EeRnwnoIsouHhJcNIlc/fMSRwAiXpb2oMWygJZijZD/UqVKWvK4ol8pVjrz1GF
+ sncfQd579SELBJrIbCdPmbvgooBaSvqX4ZQbLpPMdCJhOHDlPtEftnUS9NgLFO/6A/T0
+ is8A==
+X-Gm-Message-State: AOAM532ArHeFmr3m7M0brzJZHUn8lykTbUl0/KKvCwXeDL7bOOIjYViG
+ kBneFBh3YwUFGZ2Xv8Ie9Ps=
+X-Google-Smtp-Source: ABdhPJxCuVbD0qkId9bgtZ7SZF4uQ9XZ/xHfsjj1kD2OQDquGlT4gZVcSN0dzgav2UETAywrOfXH3g==
+X-Received: by 2002:a7b:c92d:: with SMTP id h13mr16176258wml.147.1616419666102; 
+ Mon, 22 Mar 2021 06:27:46 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id k13sm10309465wri.27.2021.03.22.06.27.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 06:27:44 -0700 (PDT)
+Subject: Re: [PATCH] tests/meson: Only build softfloat objects if TCG is
+ selected
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210322114739.4078408-1-f4bug@amsat.org>
+ <4962691b-b5fb-535e-2aec-55eaa0cfa9a9@redhat.com>
+ <faf72503-ce74-d04a-bafb-79db97937b51@amsat.org>
+Message-ID: <64240581-58b3-7639-f160-6187dbfc955f@amsat.org>
+Date: Mon, 22 Mar 2021 14:27:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <faf72503-ce74-d04a-bafb-79db97937b51@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,135 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Emilio G . Cota" <cota@braap.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-avoid open coding the accesses to cpu->accel_cpu interfaces,
-and instead introduce:
+On 3/22/21 2:09 PM, Philippe Mathieu-Daudé wrote:
+> On 3/22/21 1:57 PM, Paolo Bonzini wrote:
+>> On 22/03/21 12:47, Philippe Mathieu-Daudé wrote:
 
-accel_cpu_instance_init,
-accel_cpu_realizefn
+>> I would rather first start removing CONFIG_TCG from target-dependent
+>> files (such as tests/qtest/bios-tables-test.c and
+>> tests/qtest/qmp-cmd-test.c), and then just remove the
+>>
+>>   config_host += { 'CONFIG_TCG': 'y' }
+>>
+>> line that is not needed anymore.
 
-to be used by the targets/ initfn code,
-and by cpu_exec_realizefn respectively.
+This looks the correct thing to do but not something I'm
+willing to do now, so please simply disregard this patch.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/qemu/accel.h | 13 +++++++++++++
- accel/accel-common.c | 19 +++++++++++++++++++
- cpu.c                |  6 +-----
- target/i386/cpu.c    |  9 ++-------
- 4 files changed, 35 insertions(+), 12 deletions(-)
+Regards,
 
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index b9d6d69eb8..da0c8ab523 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -78,4 +78,17 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
- void accel_setup_post(MachineState *ms);
- #endif /* !CONFIG_USER_ONLY */
- 
-+/**
-+ * accel_cpu_instance_init:
-+ * @cpu: The CPU that needs to do accel-specific object initializations.
-+ */
-+void accel_cpu_instance_init(CPUState *cpu);
-+
-+/**
-+ * accel_cpu_realizefn:
-+ * @cpu: The CPU that needs to call accel-specific cpu realization.
-+ * @errp: currently unused.
-+ */
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+
- #endif /* QEMU_ACCEL_H */
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 9901b0531c..0f6fb4fb66 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -89,6 +89,25 @@ void accel_init_interfaces(AccelClass *ac)
-     accel_init_cpu_interfaces(ac);
- }
- 
-+void accel_cpu_instance_init(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_instance_init) {
-+        cc->accel_cpu->cpu_instance_init(cpu);
-+    }
-+}
-+
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
-+        /* NB: errp parameter is unused currently */
-+        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+    }
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
-diff --git a/cpu.c b/cpu.c
-index ba5d272c1e..25e6fbfa2c 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,11 +130,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--
--    if (cc->accel_cpu) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
--    }
-+    accel_cpu_realizefn(cpu, errp);
- 
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e1da3b1dd6..ce344a214c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "sysemu/whpx.h"
- #include "kvm/kvm_i386.h"
-@@ -6788,8 +6787,6 @@ static void x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
--    CPUClass *cc = CPU_CLASS(xcc);
--
-     CPUX86State *env = &cpu->env;
- 
-     env->nr_dies = 1;
-@@ -6838,10 +6835,8 @@ static void x86_cpu_initfn(Object *obj)
-         x86_cpu_load_model(cpu, xcc->model);
-     }
- 
--    /* if required, do the accelerator-specific cpu initialization */
--    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_instance_init(CPU(obj));
--    }
-+    /* if required, do accelerator-specific cpu initializations */
-+    accel_cpu_instance_init(CPU(obj));
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
--- 
-2.26.2
-
+Phil.
 
