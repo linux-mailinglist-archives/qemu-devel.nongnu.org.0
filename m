@@ -2,90 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D0D343E0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:35:59 +0100 (CET)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD4A343E07
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:35:14 +0100 (CET)
+Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOHug-0000CF-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58836)
+	id 1lOHtx-0007Op-RA
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lOHdX-0000Nt-Mn
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:18:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27758)
+ (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
+ id 1lOHeB-0001Fy-Al
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:18:56 -0400
+Received: from mxe2.seznam.cz ([2a02:598:2::34]:48307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lOHdV-0008Mx-QH
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:18:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616408292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=afhaqhtCB+SEPaiKG2wDavx+tt3TeOZzCRrQUDXcb88=;
- b=HUEUy4TDnYWJ5UkbmXG0ckEgrJArWcM5RDf7obrLw1efQRXuAZ7aawR74chVEYT1xM7zun
- yukLTZXntBFllUBIasN5bze1kO+uYWA5wCH9V+bzzja1iHYbaN+PIfCBg11r0uLyjnlvtC
- A006sUJjUL13LyeNtWruBW1RQ9BoUZA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-LBYSIG1iNNuHPGGZbNNQSQ-1; Mon, 22 Mar 2021 06:18:11 -0400
-X-MC-Unique: LBYSIG1iNNuHPGGZbNNQSQ-1
-Received: by mail-wm1-f69.google.com with SMTP id b20so9154595wmj.3
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 03:18:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=afhaqhtCB+SEPaiKG2wDavx+tt3TeOZzCRrQUDXcb88=;
- b=RxemOppVIp3lFEhQyR/9gQiqYJWw6T8Kw9fCYXfmaEtazgI8AOswb8ZAYy/WBcnf1M
- 8DNTWZjaN3NquDvyzwtzFS6dW9RdMAoH0kN7CRkgp03PXMit0MADsc3STJNm0UyuKGJw
- HqmL3kUkxhHs3YZEI8EMLXm6DHC6zbmi6UoKI1V2ydhkYtqUG2vF4LXB6KSNB6gDrciV
- AXzZPh4RRoUw85p1WYrMRKfwJZpnkbnt8D6Ke3AD47Tk0ozAMqLN2AR13UuAhfHW7zlZ
- DEKm7AcV7+r2gMcTgcPLKNuIEW47I7CwH0HxsoztedEshB1EvxRIU9Bbfde2wqTSgJYy
- QYBw==
-X-Gm-Message-State: AOAM532SDwKCmjVxs4iocVB59YjWQgP6BqbupxlnONnk25km3exxhrnW
- ccdCX1LknGCSPbOz5Jp/hpjEzGVKpPTHgosoz0y2CXr231zw5z2eJX0ZkrKrLI2424WZIBT6CXm
- CSvUVuL3Alt4hBpE=
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr17104270wru.316.1616408289790; 
- Mon, 22 Mar 2021 03:18:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0P106cL8R+MQcx452dP33onJVbLeXFbtzz9/Ke04x74aUGcwnZwz8B8Dm11bQmobtOIHXzw==
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr17104255wru.316.1616408289630; 
- Mon, 22 Mar 2021 03:18:09 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id b17sm18831973wrt.17.2021.03.22.03.18.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 03:18:09 -0700 (PDT)
-Subject: Re: [PATCH 0/2] SEV firmware error list touchups
-To: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org
-References: <20210218151633.215374-1-ckuehl@redhat.com>
- <cd383ad9-21c6-340d-8821-c151e1b9714e@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
-Date: Mon, 22 Mar 2021 11:18:08 +0100
+ (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
+ id 1lOHe4-0000G8-3N
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:18:55 -0400
+Received: from email.seznam.cz
+ by email-smtpc1a.ng.seznam.cz (email-smtpc1a.ng.seznam.cz [10.23.10.15])
+ id 719f2b0511900cb777ac6012; Mon, 22 Mar 2021 11:18:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=emailprofi.seznam.cz; s=beta; t=1616408323;
+ bh=zxYIhbaxEVg5HIu+LzRl+RT5/iUQzTxNhEDVxWwUAP4=;
+ h=Received:To:Cc:References:From:Subject:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ Content-Language;
+ b=CrGs/f8qxfnwQDMFWc+598uJpG87gOpkHrFjnr6a1qEVI46ltdQnUeaYaMkQwv/so
+ lug160OfaWrK6pEct6Jp+jIB9bEOui3Kh6S8RvN8ax3EesEPFPxIZ8klrUoRpFg5pp
+ nhCZNfty+wccLz1264w4fIuRhteEDM/aNUqsBYk0=
+Received: from [IPv6:2a01:510:d502:b200:c1b:ad27:bde0:341a]
+ (2a01:510:d502:b200:c1b:ad27:bde0:341a
+ [2a01:510:d502:b200:c1b:ad27:bde0:341a])
+ by email-relay4.ng.seznam.cz (Seznam SMTPD 1.3.124) with ESMTP;
+ Mon, 22 Mar 2021 11:18:40 +0100 (CET)  
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20210320093235.461485-1-pj@patrikjanousek.cz>
+ <20210320093235.461485-2-pj@patrikjanousek.cz>
+ <ee8fc7cd-1da8-45f3-6cfc-05ea5f1e9430@virtuozzo.com>
+From: =?UTF-8?Q?Patrik_Janou=c5=a1ek?= <pj@patrikjanousek.cz>
+Subject: Re: [PATCH 1/2] block/raw: added support of persistent dirty bitmaps
+Message-ID: <4848c5a4-b301-a8d7-b21b-b59ebbeb12c7@patrikjanousek.cz>
+Date: Mon, 22 Mar 2021 11:18:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <cd383ad9-21c6-340d-8821-c151e1b9714e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <ee8fc7cd-1da8-45f3-6cfc-05ea5f1e9430@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: cs
+Received-SPF: pass client-ip=2a02:598:2::34; envelope-from=pj@patrikjanousek.cz;
+ helo=mxe2.seznam.cz
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,31 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
- brijesh.singh@amd.com, thomas.lendacky@amd.com
+Cc: lmatejka@kiv.zcu.cz
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Connor,
-
-On 3/15/21 3:08 PM, Connor Kuehl wrote:
-> On 2/18/21 9:16 AM, Connor Kuehl wrote:
->> Connor Kuehl (2):
->>    sev: use explicit indices for mapping firmware error codes to strings
->>    sev: add missing firmware error conditions
+On 3/22/21 9:41 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 20.03.2021 12:32, Patrik Janou=C5=A1ek wrote:
+>> Current implementation of dirty bitmaps for raw format is very
+>> limited, because those bitmaps cannot be persistent. Basically it
+>> makes sense, because the raw format doesn't have space where could
+>> be dirty bitmap stored when QEMU is offline. This patch solves it
+>> by storing content of every dirty bitmap in separate file on the
+>> host filesystem.
 >>
->>   target/i386/sev.c | 48 ++++++++++++++++++++++++-----------------------
->>   1 file changed, 25 insertions(+), 23 deletions(-)
+>> However, this only solves one part of the problem. We also have to
+>> store information about the existence of the dirty bitmap. This is
+>> solved by adding custom options, that stores all required metadata
+>> about dirty bitmap (filename where is the bitmap stored on the
+>> host filesystem, granularity, persistence, etc.).
 >>
-> 
-> Eduardo, Paolo, Richard: ping
+>> Signed-off-by: Patrik Janou=C5=A1ek<pj@patrikjanousek.cz>
+>
+>
+> Hmm. Did you considered other ways? Honestly, I don't see a reason for
+> yet another storing format for bitmaps.
+>
+> The task could be simply solved with existing features:
+>
+> 1. We have extenal-data-file feature in qcow2 (read
+> docs/interop/qcow2.txt). With this thing enabled, qcow2 file contains
+> only metadata (persistent bitmaps for example) and data is stored in
+> separate sequential raw file. I think you should start from it.
 
-Looks too late for 6.0 now.
+I didn't know about that feature. I'll look at it.
 
-Can you repost/ping after QEMU 6.0 is release?
+In case I use NBD to access the bitmap context and qcow2 as a solution
+for persistent layer. Would the patch be acceptable? This is significant
+change to my solution and I don't have enought time for it at the moment
+(mainly due to other parts of my bachelor's thesis). I just want to know
+if this kind of feature is interesting to you and its implementation is
+worth my time.
 
-Thanks,
-
-Phil.
+>
+> 2. If for some reason [1] doesn't work for you, you can anyway use an
+> empty qcow2 file to store bitmaps instead of inventing and
+> implementing new format of bitmaps storing. (Same as your approach,
+> you'll have a simple raw node, and additional options will say "load
+> bitmaps from this qcow2 file". But for such options we'll need good
+> reasons why [1] isn't enough.
+>
 
 
