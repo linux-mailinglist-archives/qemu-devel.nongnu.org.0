@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F057344030
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:54:01 +0100 (CET)
-Received: from localhost ([::1]:59728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CA4344068
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:05:15 +0100 (CET)
+Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJ8C-0001Sw-Ip
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:54:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56944)
+	id 1lOJJ3-0003QV-Qa
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOJ6y-0000pt-MB
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:52:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56879)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lOJHu-0002zK-AV
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:04:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOJ6x-0003yX-6r
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:52:44 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lOJHr-0002kI-NB
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:04:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616413962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kvKZCTQ9iZG7mTzYZ8ESbjIA0odafiji0yVLbt2HKzc=;
- b=LDQlTxILAjwBn7JPb9sIzqoo3EMz5uUkIh6yzwTcudgRv4bbnnMltWqjmGbqRIrq8lZsVI
- GJsqXhI5IGaHjUJp2iMm3ke3cJkUCyncMIlB5zQJ8ijoKHdOJPQLOIh7y34QoWRVnekG1h
- kDc7eB2tQltJ/OA3GHH4j0+ngxYk8ik=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-5UjjVfp1MSiPL_E9nJze6g-1; Mon, 22 Mar 2021 07:52:40 -0400
-X-MC-Unique: 5UjjVfp1MSiPL_E9nJze6g-1
-Received: by mail-wr1-f70.google.com with SMTP id p15so25663179wre.13
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:52:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kvKZCTQ9iZG7mTzYZ8ESbjIA0odafiji0yVLbt2HKzc=;
- b=HGgdQvlrp690k/SXnlRIdPQMnjm+SA8/kTkt43qyVHXwuCvS5KPM1QJMlRTUQICK6L
- UDSM/Bz0ySBq/Q1EqeYWr1L1t2Kq36HAp3jWY9KeaLmnOpmEv44swLzJnXyMtTc3GQTq
- 1wFV04Zz9aHfrDwXS9867UZpyOxh742bhzbq2VBjkBglSJT7yODU3FaJMMh7OyIWVLma
- BK+EtjlAFc7GrsHIG2dtIxHeKUFUHid7R2QXixPR6aa18hp+Dtvvg6G4mHn/f8hnal1w
- 0EyClPl6n4mjuPEsI/JhbHZqXPOeDxrLrICFf+3w0nqlFqdeIrpf5E+qYy0aUO4AaYgE
- /rSQ==
-X-Gm-Message-State: AOAM533i+JOZ1oDPlpxbYF2jNECW9lpQatwWlH6UGKailg7v3CcIw0ST
- U+N+hbunP3OtdFNkrFr579Ug8aILowSny7bLKadHNxEbTH4iVDPTL9uaDcTlEW45WMYAT7bxuJQ
- vZRko439zty3PtwcB6CzRjuVQgp0MSoBrch4fKTJje+vg32EF8ZmpoZmKYg3k9REJ1Ho=
-X-Received: by 2002:a1c:e341:: with SMTP id a62mr16091230wmh.152.1616413959291; 
- Mon, 22 Mar 2021 04:52:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwn7xIiSOEkR1RRBce4JkjHDtnoLSEjWHeFuht2rul0O1cQEh0DMeG6x9Z+DV2ZG2GQ7JwvOQ==
-X-Received: by 2002:a1c:e341:: with SMTP id a62mr16091209wmh.152.1616413959045; 
- Mon, 22 Mar 2021 04:52:39 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h62sm18268959wmf.37.2021.03.22.04.52.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 04:52:38 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PULL 18/76] optionrom: add new PVH option rom
-To: Stefano Garzarella <sgarzare@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <1549390526-24246-1-git-send-email-pbonzini@redhat.com>
- <1549390526-24246-19-git-send-email-pbonzini@redhat.com>
- <e3d925e6-a48e-07b9-6418-05c5a4d2cd36@redhat.com>
- <f33bf6fa-1fa3-4e33-bd8e-843bec2d5638@redhat.com>
- <20210319173524.rnrxslpmdjck6uxv@steredhat>
- <CABgObfZHP1aSMpbdWh6TwCN_D5gy5TS5+Q7-La8d7E5czvn7Rg@mail.gmail.com>
- <20210319182022.veha5gbcg3p4idgk@steredhat>
- <CAGxU2F7hNoJeDpsCtU0ypKd=3+3mrxcc3QU6Yx9SK9e_7y6Khw@mail.gmail.com>
- <CAGxU2F5x_TNQZJ3f+baam3pHzzP+0k57FFNB5ms-qt3B25gSVQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c7f0fb65-5d9b-9b38-8348-30eaa5ff5594@redhat.com>
-Date: Mon, 22 Mar 2021 12:52:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ s=mimecast20190719; t=1616414638;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=QtplmnR9ZwVmTpOtQTRUgc3Lv447otPaozVxZv0xSpo=;
+ b=FmeojcETJv8cpySly49WGsHjSz9cjDCXXC/MltWHR2a8FBDvJuxdZe2mlfl7USHTDe6KUt
+ jvr/6bNfzyeC+tL5578BMU4ourp8l/uUZxr7+im4jZHZFECXMuOJylEeq5gycXgikDzjRe
+ WlG4/j+cs58L/WzLcinyTRnN3oPinVI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-e7UTYLnDPJKshNj0pFOkzw-1; Mon, 22 Mar 2021 08:03:54 -0400
+X-MC-Unique: e7UTYLnDPJKshNj0pFOkzw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A8B884E20A
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:03:53 +0000 (UTC)
+Received: from redhat.com (ovpn-112-245.ams2.redhat.com [10.36.112.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAD0017D7E;
+ Mon, 22 Mar 2021 12:03:45 +0000 (UTC)
+Date: Mon, 22 Mar 2021 12:03:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
+Message-ID: <YFiHnr/uguP8/Vtz@redhat.com>
+References: <20210121125028.3247190-1-kraxel@redhat.com>
+ <20210203163202.GF241524@stefanha-x1.localdomain>
+ <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAGxU2F5x_TNQZJ3f+baam3pHzzP+0k57FFNB5ms-qt3B25gSVQ@mail.gmail.com>
+In-Reply-To: <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,29 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/21 11:59, Stefano Garzarella wrote:
+On Mon, Feb 22, 2021 at 04:13:32PM +0100, Gerd Hoffmann wrote:
+>   Hi,
 > 
-> If I build with gcc 10.2.1 20210313 (Alpine 10.2.1_pre2) uint64_t and
-> UINT64_C(1) have a size of 4 bytes, while UINT64_C(0x2052545020445352)
-> has a size of 8 bytes:
+> > > TODO:
+> > > Enabling modular tracepoints via -trace cmd line doesn't work yet.
+> > > Guess we need to store the list somewhere for later re-processing.
+> > > Error handling is tricky, specifically the "tracepoint doesn't exist"
+> > > error.  Suggestions / ideas are welcome.
+> > 
+> > Two ideas:
+> > 
+> > Global trace event name list
+> > ----------------------------
+> > Build *some* global information about all trace events, including
+> > modules, into the main QEMU binary. For example, generate an array of
+> > all trace event names so QEMU can always print an error if a
+> > non-existent trace event name is used. (This is similar to the
+> > trace-events-all file, which is a global list of all trace events.)
+> > 
+> > Module name prefixes
+> > --------------------
+> > Allow an optional module/group prefix like qxl:my_trace_event. When the
+> > user says:
+> > 
+> >   --trace qxl:my_trace_event
+> > 
+> > QEMU knows that this trace event belongs to the "qxl" module/group. It
+> > will not attempt to load it until the qxl module registers itself.
+> > 
+> > If "my_trace_event" doesn't exist in the qxl module:
+> > 1. If the qxl module is not loaded we don't hit an error. Nevermind.
+> > 2. When the qxl module is loaded pending events are resolved and an
+> >    error is printed.
 > 
->     warning: initialization of ‘char (*)[4]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
->     74 |     char (*__size1)[sizeof(uint64_t)] = 1;
->        |                                         ^
->     warning: initialization of ‘char (*)[4]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
->     75 |     char (*__size2)[sizeof(UINT64_C(1))] = 1;
->        |                                            ^
->     warning: initialization of ‘char (*)[8]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
->     76 |     char (*__size3)[sizeof(UINT64_C(0x2052545020445352))] = 1;
+> Finally found the time to look at this again... 
+> 
+> So, we already have a "group".  Which is basically the sub-directory of
+> the trace-events file right now, and it seems to be mostly a build system
+> thing.  We get many small lists instead of one huge, but there seems to
+> be no other effect.  We could change that though, by giving each group
+> an (optional?) prefix.
+> 
+> There also is a probe prefix, apparently used by dtrace only.  Not sure
+> how to deal with that.  It prefix is qemu-<target-type>-<target-name>.
+> Giving qemu modules its own dtrace prefix looks sensible to me.  That
+> would probably something like "qemu-module-<name>".
 
-Looks like long is 4 bytes long with -m16 and -m32, but 8 bytes with 
--m64.  The large constant is extended to long long because it's the only 
-way to fit it.
+The prefix is used by the systemtap backend. It lets us define
+friendly probes, scoped for each QEMU emulator target.
 
-Paolo
+eg a trace point "dma_map_wait" gets mapped to probes in many
+.stp files, once per target, because we need to match based on
+the executable path:
+
+  probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
+  probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-ppc64").mark("dma_map_wait")
+  probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-aarch64").mark("dma_map_wait")
+
+there is nothing here that reqiures us to change the prefix for
+a module - we can carry on using the same systemtap probe name
+whether modules are used or not.
+
+
+Currently we kind of unofficially have a convention that the name
+of a trace point should reflect its functional area. So all QXL
+related probes have a name prefix "qxl_".
+
+We could make that explicit, by having the trace-events files
+support a group, IOW instead of
+
+  qxl_destroy_primary(int qid) "%d"
+  qxl_enter_vga_mode(int qid) "%d"
+  qxl_exit_vga_mode(int qid) "%d"
+
+We could say that a dot separates the group from the probe
+name, and thus have
+
+
+  qxl.destroy_primary(int qid) "%d"
+  qxl.enter_vga_mode(int qid) "%d"
+  qxl.exit_vga_mode(int qid) "%d"
+
+this would be backwards compatible, as we can turn the "." back into
+a "_" for all existing trace backends, except stp.
+
+NB this is all tagential to use of modules at a build system /runtime
+level. I think this explicit grouping of probes would make sense for
+everything, to make the naming convention explicit instead of implicit.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
