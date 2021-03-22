@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5A1345029
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:45:06 +0100 (CET)
-Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBC9345037
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:47:37 +0100 (CET)
+Received: from localhost ([::1]:40888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOQU4-0004r5-L4
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:45:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50460)
+	id 1lOQWW-0006Sv-41
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOQOs-0000v7-Ht
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:39:42 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOQOo-00050X-BR
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:39:42 -0400
-Received: by mail-ej1-x633.google.com with SMTP id w3so23236955ejc.4
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=kprDOaVSa4s7UXNRoHa8XnrcKBOMX5ybwZXYW7et6Do=;
- b=Lur6Kk3bdHakXnFNcE3hVHWgUXmR8a3P92pDd2UPsOsObsmRoCTPMbOqGYtzaGSf38
- q3EkjhUqWb+dHO6PXG9F109aBO1Pn8U1yEuyyLsZGcWkbiKd435U4XJjCGWFcPg82Ajf
- WjYqmyyUAzramZ9MO+a0qDfvkr5dzWcOl+tyqzCaR9uYJ3eqXcCFF7mqaQLROBI70B+U
- PDh8dqs2FwSRPB10sFjdJo6aZ4fmFX1cvU85ZOrTrWQWbiCdziOtZKS1oQ9ROATJPneE
- uEkW4+9C7Z0JvIz9ieAzcRDa/1GKMJYWiKEk0puKG3VnZbs0sQSstIXbJHRTEDhj+l6o
- KlmQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOQUl-0005VI-Mc
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:45:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOQUg-0007oy-80
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:45:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616442339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DI/RT1yLgQOTl9Th/SB5vifBpMsaiyIamvkBbFSBY4U=;
+ b=c2twu4/hWws/RGyaFHIJCVS9UaS37SG1XXA3G+VMIIGZS0EWtJUdkXZIpxliWuZ4dHDT0I
+ h6qTzWXrYcjT7M58Kyk6Kncpbo3/e83y6QkoZW1wYjIh8hPDkdvCI8CYh4qMyWvq8Feyk3
+ NfslJLVjUBkjfL+j2CeHav1YHIn0jz0=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-fgy6Mc4WNfSnGWaGIU8Rmg-1; Mon, 22 Mar 2021 15:45:36 -0400
+X-MC-Unique: fgy6Mc4WNfSnGWaGIU8Rmg-1
+Received: by mail-qv1-f69.google.com with SMTP id dz17so160258qvb.14
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:45:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=kprDOaVSa4s7UXNRoHa8XnrcKBOMX5ybwZXYW7et6Do=;
- b=IimGQ2wOhFvCLS/3L5k2/Du/WF2Zehuwo65P9vrDVhZAnijbgqJ7w/itSJ5koa/z4E
- YaGnpn7gPk5GrkuRLWuMItFOHddLs2C+G4f00ky9xmiQMgQMj/UhEOF9C7t4rAh+LFZL
- oFOGCyUCiLP4FaDUspBGVP39j42VAlgiq8a50JXYTRQ8XrktAJwXelX0FiJQxJ74TarF
- K5Z+x7D572QLlhhPt3wtWbCFXRcpLpd4b47EelmZ+UErUGWrks5/FWXPpUA2GE7kU+Bt
- AEYIXQimEjxnflreFKT2ds+vUKURLbJN0rLaXsGJsjpgdF90KuzW29PAT9BkLIi50ziD
- JkWw==
-X-Gm-Message-State: AOAM531A0Ew/C3QQiq0Hc1SQ0HXT+eoncxKNnbKQ5s4bA4AaiSv7SmpW
- GXOrB2oSYB9knGr1WNmfspqPZg==
-X-Google-Smtp-Source: ABdhPJzSKal96eu5uN2msfqNp5ZwHHB13sv+LIrA94QpPCy6/PFio5IxmJfE8WB1icae8fdm2vf+zw==
-X-Received: by 2002:a17:907:778d:: with SMTP id
- ky13mr1360637ejc.291.1616441976686; 
- Mon, 22 Mar 2021 12:39:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id da17sm12041220edb.83.2021.03.22.12.39.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DI/RT1yLgQOTl9Th/SB5vifBpMsaiyIamvkBbFSBY4U=;
+ b=ilWnXXkSjhb9FtY0nGJv0rqqvCGK3OLYEXnQs3kiBaY1TWVa7gmrvMi+FVZX/YhYkD
+ LOt90jbfQvobM6f1hnQ8y1vlnmZCESplsK2zs3vDNm14iFZa+0TQhiIUDkLS65Lvd2n+
+ PfSGq2w8KwJgpcrMWOLgw+82hsUgdfDYPtVc6VhDv9xsXuRuvdz/nGlnhmcDXXVVArtL
+ OAw62tmLwXxKHg4vTV9lzP4uPqgFX73JNw0gJ6oLGdXPYRMwS7gm9Oe6KLuaoMXBv/U2
+ 80GPRflRTJgVdL4Ndzi2H32n8Egfju3OxfqkaB8Paprc39ppEHSajl0lqMvm3x08zJBa
+ 1gHg==
+X-Gm-Message-State: AOAM533Ph3HqfCrxL2L+dOoD80ck1212px3gZSZxwLQzvyxLAT+eRtmz
+ XohFw882qlQJMWvc2VAvnVPAqOQbCB1r3EODuQ2rqif2HrGIqY9+ftfNzwqgzzIHkFvXOcETEwX
+ c6t0qJ19D3eYbmzE=
+X-Received: by 2002:a37:d202:: with SMTP id f2mr1730001qkj.273.1616442336088; 
+ Mon, 22 Mar 2021 12:45:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTpD4wqVhTyJQ0Xwd/GGS7mFXB2zmpP4k6qPO575PnTqYgXiUO0hppBc35YzX4XbEYb2qp8Q==
+X-Received: by 2002:a37:d202:: with SMTP id f2mr1729974qkj.273.1616442335740; 
+ Mon, 22 Mar 2021 12:45:35 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
+ [174.91.135.175])
+ by smtp.gmail.com with ESMTPSA id m3sm11489340qkk.15.2021.03.22.12.45.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 12:39:36 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3285F1FF7E;
- Mon, 22 Mar 2021 19:39:35 +0000 (GMT)
-References: <20210322175238.4503-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2] gitlab: default to not building the documentation
-Date: Mon, 22 Mar 2021 19:39:05 +0000
-In-reply-to: <20210322175238.4503-1-alex.bennee@linaro.org>
-Message-ID: <874kh3j7uw.fsf@linaro.org>
+ Mon, 22 Mar 2021 12:45:35 -0700 (PDT)
+Date: Mon, 22 Mar 2021 15:45:33 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
+Message-ID: <20210322194533.GE16645@xz-x1>
+References: <20210310203301.194842-1-peterx@redhat.com>
+ <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
 MIME-Version: 1.0
+In-Reply-To: <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,161 +92,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 22, 2021 at 10:02:38PM +0800, Keqian Zhu wrote:
+> Hi Peter,
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Hi, Keqian,
 
-> In d0f26e68a0 ("gitlab: force enable docs build in Fedora, Ubuntu,
-> Debian") we made sure we can build the documents on more than one
-> system. However we don't want to build documents all the time as it's
-> a waste of cycles (and energy). So lets reduce the total amount of
-> documentation we build while still keeping coverage of at least one
-> build on each supported target.
->
-> Fixes: a8a3abe0b3 ("gitlab: move docs and tools build across from Travis")
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
->
-> ---
-> v2
->   - enable for OpenSUSE LEAP and Centos8 as well
+[...]
 
-Predictably these two fail the documentation build :-/
+> You emphasize that dirty ring is a "Thread-local buffers", but dirty bitmap is global,
+> but I don't see it has optimization about "locking" compared to dirty bitmap.
+> 
+> The thread-local means that vCPU can flush hardware buffer into dirty ring without
+> locking, but for bitmap, vCPU can also use atomic set to mark dirty without locking.
+> Maybe I miss something?
 
->   - disable for all cross builds
->   - minor re-word of the commit text
-> ---
->  .gitlab-ci.d/crossbuilds.yml | 15 ++++++++-------
->  .gitlab-ci.yml               | 16 ++++++++--------
->  2 files changed, 16 insertions(+), 15 deletions(-)
->
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index d5098c986b..2d95784ed5 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -6,10 +6,10 @@
->      - mkdir build
->      - cd build
->      - PKG_CONFIG_PATH=3D$PKG_CONFIG_PATH
-> -      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-user
-> -        --target-list-exclude=3D"arm-softmmu cris-softmmu i386-softmmu
-> -          microblaze-softmmu mips-softmmu mipsel-softmmu mips64-softmmu
-> -          ppc-softmmu sh4-softmmu xtensa-softmmu"
-> +      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-> +        --disable-user --target-list-exclude=3D"arm-softmmu cris-softmmu
-> +          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-> +          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
->      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->=20=20
->  # Job to cross-build specific accelerators.
-> @@ -25,8 +25,8 @@
->      - mkdir build
->      - cd build
->      - PKG_CONFIG_PATH=3D$PKG_CONFIG_PATH
-> -      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-tools
-> -        --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
-> +      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-> +        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
->      - make -j$(expr $(nproc) + 1) all check-build
->=20=20
->  .cross_user_build_job:
-> @@ -36,7 +36,8 @@
->      - mkdir build
->      - cd build
->      - PKG_CONFIG_PATH=3D$PKG_CONFIG_PATH
-> -      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
-> +      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-> +        --disable-system
->      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->=20=20
->  cross-armel-system:
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 9ffbaa7ffb..c9c4079dbb 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -23,9 +23,9 @@ include:
->      - cd build
->      - if test -n "$TARGETS";
->        then
-> -        ../configure --enable-werror $CONFIGURE_ARGS --target-list=3D"$T=
-ARGETS" ;
-> +        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS --ta=
-rget-list=3D"$TARGETS" ;
->        else
-> -        ../configure --enable-werror $CONFIGURE_ARGS ;
-> +        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS ;
->        fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
->      - if test -n "$LD_JOBS";
->        then
-> @@ -119,7 +119,7 @@ build-system-ubuntu:
->      job: amd64-ubuntu2004-container
->    variables:
->      IMAGE: ubuntu2004
-> -    CONFIGURE_ARGS: --enable-fdt=3Dsystem --enable-slirp=3Dsystem
-> +    CONFIGURE_ARGS: --enable-docs --enable-fdt=3Dsystem --enable-slirp=
-=3Dsystem
->      TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
->        moxie-softmmu microblazeel-softmmu mips64el-softmmu
->      MAKE_CHECK_ARGS: check-build
-> @@ -223,7 +223,7 @@ build-system-centos:
->    variables:
->      IMAGE: centos8
->      CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=3Dsyst=
-em
-> -                    --enable-modules
-> +                    --enable-modules --enable-docs
->      TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
->        x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
->      MAKE_CHECK_ARGS: check-build
-> @@ -257,7 +257,7 @@ build-system-opensuse:
->      job: amd64-opensuse-leap-container
->    variables:
->      IMAGE: opensuse-leap
-> -    CONFIGURE_ARGS: --enable-fdt=3Dsystem
-> +    CONFIGURE_ARGS: --enable-docs --enable-fdt=3Dsystem
->      TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
->      MAKE_CHECK_ARGS: check-build
->    artifacts:
-> @@ -443,7 +443,7 @@ build-user-centos7:
->      job: amd64-centos7-container
->    variables:
->      IMAGE: centos7
-> -    CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
-> +    CONFIGURE_ARGS: --disable-system --disable-tools
->      MAKE_CHECK_ARGS: check-tcg
->=20=20
->  build-some-softmmu-plugins:
-> @@ -607,7 +607,7 @@ tsan-build:
->      job: amd64-ubuntu2004-container
->    variables:
->      IMAGE: ubuntu2004
-> -    CONFIGURE_ARGS: --enable-tsan --cc=3Dclang-10 --cxx=3Dclang++-10 --d=
-isable-docs
-> +    CONFIGURE_ARGS: --enable-tsan --cc=3Dclang-10 --cxx=3Dclang++-10
->            --enable-trace-backends=3Dust --enable-fdt=3Dsystem --enable-s=
-lirp=3Dsystem
->      TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-u=
-ser
->      MAKE_CHECK_ARGS: bench V=3D1
-> @@ -619,7 +619,7 @@ build-deprecated:
->      job: amd64-debian-user-cross-container
->    variables:
->      IMAGE: debian-all-test-cross
-> -    CONFIGURE_ARGS: --disable-docs --disable-tools
-> +    CONFIGURE_ARGS: --disable-tools
->      MAKE_CHECK_ARGS: build-tcg
->      TARGETS: ppc64abi32-linux-user lm32-softmmu unicore32-softmmu
->    artifacts:
+Yes, the atomic ops guaranteed locking as you said, but afaiu atomics are
+expensive already, since at least on x86 I think it needs to lock the memory
+bus.  IIUC that'll become even slower as cores grow, as long as the cores share
+the memory bus.
 
+KVM dirty ring is per-vcpu, it means its metadata can be modified locally
+without atomicity at all (but still, we'll need READ_ONCE/WRITE_ONCE to
+guarantee ordering of memory accesses).  It should scale better especially with
+hosts who have lots of cores.
 
---=20
-Alex Benn=C3=A9e
+> 
+> The second question is that you observed longer migration time (55s->73s) when guest
+> has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
+> ring enabled, Qemu can get dirty info faster which means it handles dirty page more
+> quick, and guest can be throttled which means dirty page is generated slower. What's
+> the rationale for the longer migration time?
+
+Because dirty ring is more sensitive to dirty rate, while dirty bitmap is more
+sensitive to memory footprint.  In above 24G mem + 800MB/s dirty rate
+condition, dirty bitmap seems to be more efficient, say, collecting dirty
+bitmap of 24G mem (24G/4K/8=0.75MB) for each migration cycle is fast enough.
+
+Not to mention that current implementation of dirty ring in QEMU is not
+complete - we still have two more layers of dirty bitmap, so it's actually a
+mixture of dirty bitmap and dirty ring.  This series is more like a POC on
+dirty ring interface, so as to let QEMU be able to run on KVM dirty ring.
+E.g., we won't have hang issue when getting dirty pages since it's totally
+async, however we'll still have some legacy dirty bitmap issues e.g. memory
+consumption of userspace dirty bitmaps are still linear to memory footprint.
+
+Moreover, IMHO another important feature that dirty ring provided is actually
+the full-exit, where we can pause a vcpu when it dirties too fast, while other
+vcpus won't be affected.  That's something I really wanted to POC too but I
+don't have enough time.  I think it's a worth project in the future to really
+make the full-exit throttle vcpus, then ideally we'll remove all the dirty
+bitmaps in QEMU as long as dirty ring is on.
+
+So I'd say the number I got at that time is not really helping a lot - as you
+can see for small VMs it won't make things faster.  Maybe a bit more efficient?
+I can't tell.  From design-wise it looks actually still better.  However dirty
+logging still has the reasoning to be the default interface we use for small
+vms, imho.
+
+> 
+> PS: As the dirty ring is still converted into dirty_bitmap of kvm_slot, so the
+> "get dirty info faster" maybe not true. :-(
+
+We can get dirty info faster even now, I think, because previously we only do
+KVM_GET_DIRTY_LOG once per migration iteration, which could be tens of seconds
+for a VM mentioned above with 24G and 800MB/s dirty rate.  Dirty ring is fully
+async, we'll get that after the reaper thread timeout.  However I must also
+confess "get dirty info faster" doesn't help us a lot on anything yet, afaict,
+comparing to a full-featured dirty logging where clear dirty log and so on.
+
+Hope above helps.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
