@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A8B3443F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:59:02 +0100 (CET)
-Received: from localhost ([::1]:42028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85A334447A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:03:08 +0100 (CET)
+Received: from localhost ([::1]:47438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOK97-00073Q-Cl
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44846)
+	id 1lOKD5-00017b-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOK7X-0006a1-EG
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:57:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1lOKAg-00080g-Uj
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:00:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOK7U-00087A-GH
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:57:21 -0400
+ id 1lOKAX-0001UC-HG
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:00:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616417837;
+ s=mimecast20190719; t=1616418028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2HExmfu/eRKNSuBK1450fAaB6tWFPZuzzGPsOpr722U=;
- b=dQukdNjtZCulDsZ1EZwC85+VLTzuOnhcZMSigTFi1pDvmnE0ZLFtEmVEY+Asrs34qIrA5L
- 9VO18XHhKPXRmcA/8AmNVFnffR0Z85yfclca6eLtqnJhHcVfZP4nFeOO2yetn/Cfgm2KeK
- T2ziNlMx0inewGALPzm4qVaL38fEL2U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-F6_C7SY2OGOEufaDjQbbrw-1; Mon, 22 Mar 2021 08:57:15 -0400
-X-MC-Unique: F6_C7SY2OGOEufaDjQbbrw-1
-Received: by mail-wr1-f70.google.com with SMTP id h30so26016426wrh.10
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 05:57:15 -0700 (PDT)
+ bh=uh9+YbVwwU4LVXMrG96CwoVaO0AeFcShL/Xud0h7E50=;
+ b=C/DiYfeSWr4nRoCV8zP02sK04xPhlaowSG5GdjQHbUaVhf7G4GIqWHq7VxsC3IEye/xD2D
+ AbPVGIhAlk4yhU473b+2rG+9/Xync1cH6XbpbUsPS1VhvlWtZdSuffODWrvpEgyz/RYODM
+ PwTlKoyAjrFQteyKoTE4U7FYxcTNWwQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-dxFu6uLqPTiHkE0WH5XSxA-1; Mon, 22 Mar 2021 09:00:24 -0400
+X-MC-Unique: dxFu6uLqPTiHkE0WH5XSxA-1
+Received: by mail-wm1-f72.google.com with SMTP id r18so14975992wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 06:00:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2HExmfu/eRKNSuBK1450fAaB6tWFPZuzzGPsOpr722U=;
- b=baHqhWTUd8izI9wyn5SjbwWVGRDT4T6Efm8UK6iBqfpvIawd0XS+5hIL2kCpwc0Yon
- jFGyW6MLgTFkKuS6iXAKkqm+S5mmjiymbHvpUzQV5goURUPrVOIW/E93DPO1l7e5NFPa
- E9+jvoF04TRKTwSxyXL3r+nKpHdS43WxFPVCpDwMW6VLgOjEOmQZLAlQrQv7kTODfB1o
- UlgGKKPyb9gDN9w3s4y+6m/ltl29Ky2owBfFRdmiVr3oYFtCPwYbkeCPi/Iphm5jgFpb
- Ar1+Kz3gynABOX2lpjfMCUMpMVzxYZp3/Yo2HWQqWqCVty0ohpckFKnF9EX1Lkd8dd3F
- sHsQ==
-X-Gm-Message-State: AOAM533he7Fsp/rxWCQVr+zjcl8tdhAsZCQBtfSDnRC2xcG8C6dSggtB
- lOBtKZC5nSvpVbhoQMe8prDrQWGyuy7Li+SzsABbfQqJQdJrYAEDZR2TsFc2Om7HACVQTr7igju
- 4VUmnTGIS33oXSiU=
-X-Received: by 2002:adf:a2cf:: with SMTP id t15mr18788798wra.250.1616417834165; 
- Mon, 22 Mar 2021 05:57:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyL7BZIwr6Rv4cAepg2WQUpV0D7vv533xdeirFDeFFCEYH94vtQBw1sM8rr+BhkbznfR7wMQw==
-X-Received: by 2002:adf:a2cf:: with SMTP id t15mr18788783wra.250.1616417833961; 
- Mon, 22 Mar 2021 05:57:13 -0700 (PDT)
+ bh=uh9+YbVwwU4LVXMrG96CwoVaO0AeFcShL/Xud0h7E50=;
+ b=qzfnSLqd7yF4QYM972UAH6ZCCI2E9QRStSpy6VzUBO6grJ1DAam9LflA05IkOiXki6
+ 0ypbgt0fbjVsK2zneb4KJff5x82tR/+S4xJZqoNhA0wurpsC5fx9fvZjhrvG9VLclnFd
+ 800ySepR1c5zdNK+VG+T3DSOXphdDCXsptshdavJuBbUWBCXRvVqSANwCF6G2FZ5QOH6
+ auRpvodRoFY2NyHlF+eavyZEDPQ8WOsHQ4GhJRRnGeZujzz/lvhRmJnwXKYNxm8TEC1b
+ EF48w5aJzxQnAFWSRDl6ZtW+FYf7RQR/p69/6gOs3z+/y9zybko2aRKWMvf26pX6hRUM
+ mLDg==
+X-Gm-Message-State: AOAM532VKWaoSrAyJE8+lNkTawmAo84BJpkOu3+K/LLDcCy6INjBzeue
+ N3nuQ5Ol/Z/RJxgQzNPh4x0lY+vltEELp+i091WUha1j9bv5WFXBXZ+g1wONY2wkgbG+3GK+6yO
+ DRxBxgrDLjIOVW7M=
+X-Received: by 2002:a05:600c:4292:: with SMTP id
+ v18mr15865513wmc.23.1616418023174; 
+ Mon, 22 Mar 2021 06:00:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXBkWhMYD/iSnRrijMK5sGXceb97+Xrq/QGF205RoI/lSWa1FvisVyKxSzB014zscfk4v1Og==
+X-Received: by 2002:a05:600c:4292:: with SMTP id
+ v18mr15865494wmc.23.1616418022964; 
+ Mon, 22 Mar 2021 06:00:22 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u15sm15423111wmq.4.2021.03.22.05.57.12
+ by smtp.gmail.com with ESMTPSA id b15sm18949708wmd.41.2021.03.22.06.00.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 05:57:13 -0700 (PDT)
-Subject: Re: [PATCH] tests/meson: Only build softfloat objects if TCG is
- selected
+ Mon, 22 Mar 2021 06:00:22 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] exec: Build page-vary-common.c with -fno-lto
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20210322114739.4078408-1-f4bug@amsat.org>
+References: <20210322112427.4045204-1-f4bug@amsat.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4962691b-b5fb-535e-2aec-55eaa0cfa9a9@redhat.com>
-Date: Mon, 22 Mar 2021 13:57:11 +0100
+Message-ID: <a0a7f1e2-2266-79e3-11f0-8fb6ef6ddc32@redhat.com>
+Date: Mon, 22 Mar 2021 14:00:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210322114739.4078408-1-f4bug@amsat.org>
+In-Reply-To: <20210322112427.4045204-1-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,29 +102,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Emilio G . Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Gavin Shan <gshan@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/21 12:47, Philippe Mathieu-Daudé wrote:
-> The previous attempt (commit f77147cd4de) doesn't work as
-> expected, as we still have CONFIG_TCG=1 when using:
+On 22/03/21 12:24, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
->    configure --disable-system --disable-user
+> While reviewing Richard's original patch, I split it in 3
+> to make it more digestible to my review taste. I then simply
+> filled the patch descriptions. Feel free to keep Richard's v1
+> if this isn't worth it.
+> 
+> What is still missing is adding the new files to a MAINTAINERS
+> section.
 
-But there's no change in behavior with this patch, right?
-
-I would rather first start removing CONFIG_TCG from target-dependent 
-files (such as tests/qtest/bios-tables-test.c and 
-tests/qtest/qmp-cmd-test.c), and then just remove the
-
-   config_host += { 'CONFIG_TCG': 'y' }
-
-line that is not needed anymore.
+Both versions look good, thanks (the split is indeed more digestible)! 
+Richard, are you going to queue one of them?
 
 Paolo
+
+> Regards,
+> 
+> Phil.
+> 
+> Supersedes: <20210321211534.2101231-1-richard.henderson@linaro.org>
+> 
+> Richard Henderson (3):
+>    exec: Rename exec-vary.c as page-vary.c
+>    exec: Extract 'page-vary.h' header
+>    exec: Build page-vary-common.c with -fno-lto
+> 
+>   configure                |  19 -------
+>   meson.build              |  18 ++++++-
+>   include/exec/cpu-all.h   |  15 ++----
+>   include/exec/page-vary.h |  34 ++++++++++++
+>   exec-vary.c              | 108 ---------------------------------------
+>   page-vary-common.c       |  54 ++++++++++++++++++++
+>   page-vary.c              |  41 +++++++++++++++
+>   7 files changed, 150 insertions(+), 139 deletions(-)
+>   create mode 100644 include/exec/page-vary.h
+>   delete mode 100644 exec-vary.c
+>   create mode 100644 page-vary-common.c
+>   create mode 100644 page-vary.c
+> 
 
 
