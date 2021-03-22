@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53743449C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:53:05 +0100 (CET)
-Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2390344A42
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:04:19 +0100 (CET)
+Received: from localhost ([::1]:50504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMrY-0004bv-OQ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
+	id 1lON2Q-0000bH-NC
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:04:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjg-0004qP-Mj
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMje-0006wK-FV
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:56 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjj-0004w7-4h
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjh-0006yG-B9
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616427893;
+ s=mimecast20190719; t=1616427896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6xWs/CEw54bPeKwwY9J/GoUWPgYTmmSzfK7BGIvIz68=;
- b=RVd4v4BnAxezo1IuOB/5ELswDKRlxvy3H2lqsW5isSXnkN39D702Ouwq1Rbhgr6MJHEXJy
- ZSAgnT0GdNeye+8xwtf5PG/e1FiUrdQP1LfD5eSToxEd7j3IvXM5pdv7cLy1rrenxFefpR
- 9rgyPJiws9udWcv8WZoUhMq1UKSk9lo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-uWHFZlekM-WtVUjVSo7ypg-1; Mon, 22 Mar 2021 11:44:51 -0400
-X-MC-Unique: uWHFZlekM-WtVUjVSo7ypg-1
-Received: by mail-wm1-f69.google.com with SMTP id i14so15009763wmq.7
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:44:51 -0700 (PDT)
+ bh=nQQq4fHiGykQygfi1oKmBz5Z/Rv0I+HheOSqIDO6h3I=;
+ b=ZbiJW1VLFUcdh7/5XXbqOLza5sNWZvJfx/XywssB7oKcQsAnriPWbG4Hkmo0eolqUO2jJK
+ BS9q3AW52t6czDQFoNO/5lnM8PfAL00qiaGUh7JRMX1PHQkz2bHpmSCYx5Skif74wFCj4g
+ w6cbfxGM/GIz8HwvNBozZMq6ZhdGhPs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-U9WV5r_0OKiaGRzc2hExCA-1; Mon, 22 Mar 2021 11:44:53 -0400
+X-MC-Unique: U9WV5r_0OKiaGRzc2hExCA-1
+Received: by mail-wr1-f71.google.com with SMTP id 75so26114296wrl.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:44:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=6xWs/CEw54bPeKwwY9J/GoUWPgYTmmSzfK7BGIvIz68=;
- b=nfCeYGtaJOJewsu8WD1geK66NRy9WbJtJTL9clFdpGn30qr71fZJoe3rBTlDuwAVL6
- k/QT6IXGed59zjHKHCx4wohwMjiRemsqJWybbXJtYHC8s77b8nW/wmp+o/ry86ovy0nv
- bXe4fFvNVBoGPnCaaSwjLCAT3HB7Bv8sEFLtt8XUUUe3UtxZbPGZgOzKhijLeARS22lv
- WRUUmRS/Y+sy/xloZzFh2FbKcIbmnbRe4fJPOMW7meOSuuU6kgHd9gEzVs+yKvVoopgP
- ZU3/E4ujCh6gNmBPB+iqQ5MXUJ6twwEzsR1YDMbrQga+tLHoG/rjOKpdcbd0SbTgr7CS
- WXOw==
-X-Gm-Message-State: AOAM530cFXS3LWTcFNjS5k+VheIgxHyGVw+OwFKvcaDQlaPaXZ7iUtbU
- uOtKYFFnXCcX84TSNpTS05+V35gGegngperdC+IyuN6D3851DmaHvnLo6YPPBUVc9DXE5bk7Nsv
- 1k83FqjTeSjkijEjMl6eLL0fvSG8Hhd3WGBBIGDgne2GLiudZ5uddc4p2dz8P
-X-Received: by 2002:adf:e548:: with SMTP id z8mr189369wrm.246.1616427889846;
- Mon, 22 Mar 2021 08:44:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywO3wziiYkQtK59DGOMe3eRvsrm0gKqCN1ljZRLJahUtTAipk9hr7APEPIIYyD8k7C1FFHeQ==
-X-Received: by 2002:adf:e548:: with SMTP id z8mr189348wrm.246.1616427889573;
- Mon, 22 Mar 2021 08:44:49 -0700 (PDT)
+ bh=nQQq4fHiGykQygfi1oKmBz5Z/Rv0I+HheOSqIDO6h3I=;
+ b=d3KZGF6uAARxErol/EvdE/mzDchJ3OPQQ0nCaSJyb64tFGE1/KI1y1mScHc+Cx4O3t
+ QBqC/39DKD+RNpPDIZsqWY3EqBTP6DbH12Oauwj8+Y/iQ4ATMV9OviyU4Tko4Jw3VDCc
+ IvsdWC07JAOJJ4FZLS0eW3DtTl5QjoAUtmAkYSybAbDTDS0ofx4ME2/X25J+jUt1Nf8Z
+ 66Fg3gdaFMOuPvBjJT/jgBaia+O4RtFD4mUpNHRyOB5KpDa7soVpEi+NoeTqDHDhvOAQ
+ JWepbLTVavYlyMs8IbpZWNqNvseaUXrzX0yqvmq8SCzlpqdvzSljj4pMj+t8zcWE3Mjx
+ jZgQ==
+X-Gm-Message-State: AOAM531UWNApLT4ELnESt3dYx3oBGUQiMPZ5ciNJ0iMQA7iNIhg0vzWC
+ UfbHSc/00CPczTxf9iL4P+4snnHZWaoZNGBjLPtmx8+RaPGz80S8IBthfDDE23mTUTS0jTCix1L
+ wk23zLJSB0/p3sjT/ODeog9i1+jKz8pDnUFG4nkLvoVhNOrKxXb8JTLtIdRNQ
+X-Received: by 2002:a5d:4523:: with SMTP id j3mr185297wra.288.1616427892054;
+ Mon, 22 Mar 2021 08:44:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5u8bm475fiwy41kgWHmCfGfH9t9RWxTe2NJ5j/GQ1TUEtU8wdGr2I/NAwTQTFQdp6mzQx9w==
+X-Received: by 2002:a5d:4523:: with SMTP id j3mr185277wra.288.1616427891818;
+ Mon, 22 Mar 2021 08:44:51 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id q4sm17255582wma.20.2021.03.22.08.44.48
+ by smtp.gmail.com with ESMTPSA id p18sm19827303wrs.68.2021.03.22.08.44.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 08:44:49 -0700 (PDT)
-Date: Mon, 22 Mar 2021 11:44:47 -0400
+ Mon, 22 Mar 2021 08:44:51 -0700 (PDT)
+Date: Mon, 22 Mar 2021 11:44:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/20] vhost-user: Introduce nested event loop in
- vhost_user_read()
-Message-ID: <20210322154417.524229-7-mst@redhat.com>
+Subject: [PULL 07/20] vhost-user: Monitor slave channel in vhost_user_read()
+Message-ID: <20210322154417.524229-8-mst@redhat.com>
 References: <20210322154417.524229-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322154417.524229-1-mst@redhat.com>
@@ -72,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,150 +99,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-A deadlock condition potentially exists if a vhost-user process needs
-to request something to QEMU on the slave channel while processing a
-vhost-user message.
+Now that everything is in place, have the nested event loop to monitor
+the slave channel. The source in the main event loop is destroyed and
+recreated to ensure any pending even for the slave channel that was
+previously detected is purged. This guarantees that the main loop
+wont invoke slave_read() based on an event that was already handled
+by the nested loop.
 
-This doesn't seem to affect any vhost-user implementation so far, but
-this is currently biting the upcoming enablement of DAX with virtio-fs.
-The issue is being observed when the guest does an emergency reboot while
-a mapping still exits in the DAX window, which is very easy to get with
-a busy enough workload (e.g. as simulated by blogbench [1]) :
-
-- QEMU sends VHOST_USER_GET_VRING_BASE to virtiofsd.
-
-- In order to complete the request, virtiofsd then asks QEMU to remove
-  the mapping on the slave channel.
-
-All these dialogs are synchronous, hence the deadlock.
-
-As pointed out by Stefan Hajnoczi:
-
-When QEMU's vhost-user master implementation sends a vhost-user protocol
-message, vhost_user_read() does a "blocking" read during which slave_fd
-is not monitored by QEMU.
-
-The natural solution for this issue is an event loop. The main event
-loop cannot be nested though since we have no guarantees that its
-fd handlers are prepared for re-entrancy.
-
-Introduce a new event loop that only monitors the chardev I/O for now
-in vhost_user_read() and push the actual reading to a one-shot handler.
-A subsequent patch will teach the loop to monitor and process messages
-from the slave channel as well.
-
-[1] https://github.com/jedisct1/Blogbench
-
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20210312092212.782255-6-groug@kaod.org>
+Message-Id: <20210312092212.782255-7-groug@kaod.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/vhost-user.c | 65 ++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 60 insertions(+), 5 deletions(-)
+ hw/virtio/vhost-user.c | 35 ++++++++++++++++++++++++++++++++---
+ 1 file changed, 32 insertions(+), 3 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 3c1e1611b0..00256fa318 100644
+index 00256fa318..ded0c10453 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -296,15 +296,27 @@ static int vhost_user_read_header(struct vhost_dev *dev, VhostUserMsg *msg)
-     return 0;
+@@ -345,6 +345,35 @@ end:
+     return G_SOURCE_REMOVE;
  }
  
--static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
-+struct vhost_user_read_cb_data {
-+    struct vhost_dev *dev;
-+    VhostUserMsg *msg;
-+    GMainLoop *loop;
-+    int ret;
-+};
++static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
++                           gpointer opaque);
 +
-+static gboolean vhost_user_read_cb(GIOChannel *source, GIOCondition condition,
-+                                   gpointer opaque)
- {
-+    struct vhost_user_read_cb_data *data = opaque;
-+    struct vhost_dev *dev = data->dev;
-+    VhostUserMsg *msg = data->msg;
-     struct vhost_user *u = dev->opaque;
-     CharBackend *chr = u->user->chr;
-     uint8_t *p = (uint8_t *) msg;
-     int r, size;
- 
-     if (vhost_user_read_header(dev, msg) < 0) {
--        return -1;
-+        data->ret = -1;
-+        goto end;
-     }
- 
-     /* validate message size is sane */
-@@ -312,7 +324,8 @@ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
-         error_report("Failed to read msg header."
-                 " Size %d exceeds the maximum %zu.", msg->hdr.size,
-                 VHOST_USER_PAYLOAD_SIZE);
--        return -1;
-+        data->ret = -1;
-+        goto end;
-     }
- 
-     if (msg->hdr.size) {
-@@ -322,11 +335,53 @@ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
-         if (r != size) {
-             error_report("Failed to read msg payload."
-                          " Read %d instead of %d.", r, msg->hdr.size);
--            return -1;
-+            data->ret = -1;
-+            goto end;
-         }
-     }
- 
--    return 0;
-+end:
-+    g_main_loop_quit(data->loop);
-+    return G_SOURCE_REMOVE;
-+}
-+
-+static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
++/*
++ * This updates the read handler to use a new event loop context.
++ * Event sources are removed from the previous context : this ensures
++ * that events detected in the previous context are purged. They will
++ * be re-detected and processed in the new context.
++ */
++static void slave_update_read_handler(struct vhost_dev *dev,
++                                      GMainContext *ctxt)
 +{
 +    struct vhost_user *u = dev->opaque;
-+    CharBackend *chr = u->user->chr;
-+    GMainContext *prev_ctxt = chr->chr->gcontext;
-+    GMainContext *ctxt = g_main_context_new();
-+    GMainLoop *loop = g_main_loop_new(ctxt, FALSE);
-+    struct vhost_user_read_cb_data data = {
-+        .dev = dev,
-+        .loop = loop,
-+        .msg = msg,
-+        .ret = 0
-+    };
 +
-+    /*
-+     * We want to be able to monitor the slave channel fd while waiting
-+     * for chr I/O. This requires an event loop, but we can't nest the
-+     * one to which chr is currently attached : its fd handlers might not
-+     * be prepared for re-entrancy. So we create a new one and switch chr
-+     * to use it.
-+     */
-+    qemu_chr_be_update_read_handlers(chr->chr, ctxt);
-+    qemu_chr_fe_add_watch(chr, G_IO_IN | G_IO_HUP, vhost_user_read_cb, &data);
++    if (!u->slave_ioc) {
++        return;
++    }
 +
-+    g_main_loop_run(loop);
++    if (u->slave_src) {
++        g_source_destroy(u->slave_src);
++        g_source_unref(u->slave_src);
++    }
 +
-+    /*
-+     * Restore the previous event loop context. This also destroys/recreates
-+     * event sources : this guarantees that all pending events in the original
-+     * context that have been processed by the nested loop are purged.
-+     */
-+    qemu_chr_be_update_read_handlers(chr->chr, prev_ctxt);
++    u->slave_src = qio_channel_add_watch_source(u->slave_ioc,
++                                                G_IO_IN | G_IO_HUP,
++                                                slave_read, dev, NULL,
++                                                ctxt);
++}
 +
-+    g_main_loop_unref(loop);
-+    g_main_context_unref(ctxt);
-+
-+    return data.ret;
- }
+ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
+ {
+     struct vhost_user *u = dev->opaque;
+@@ -366,6 +395,7 @@ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
+      * be prepared for re-entrancy. So we create a new one and switch chr
+      * to use it.
+      */
++    slave_update_read_handler(dev, ctxt);
+     qemu_chr_be_update_read_handlers(chr->chr, ctxt);
+     qemu_chr_fe_add_watch(chr, G_IO_IN | G_IO_HUP, vhost_user_read_cb, &data);
  
- static int process_message_reply(struct vhost_dev *dev,
+@@ -377,6 +407,7 @@ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
+      * context that have been processed by the nested loop are purged.
+      */
+     qemu_chr_be_update_read_handlers(chr->chr, prev_ctxt);
++    slave_update_read_handler(dev, NULL);
+ 
+     g_main_loop_unref(loop);
+     g_main_context_unref(ctxt);
+@@ -1580,9 +1611,7 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+         return -1;
+     }
+     u->slave_ioc = ioc;
+-    u->slave_src = qio_channel_add_watch_source(u->slave_ioc,
+-                                                G_IO_IN | G_IO_HUP,
+-                                                slave_read, dev, NULL, NULL);
++    slave_update_read_handler(dev, NULL);
+ 
+     if (reply_supported) {
+         msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
 -- 
 MST
 
