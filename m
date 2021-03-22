@@ -2,32 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086E5344FCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:23:12 +0100 (CET)
-Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560CD344FC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:20:30 +0100 (CET)
+Received: from localhost ([::1]:43088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOQ8t-0001fL-2A
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44994)
+	id 1lOQ6G-0006cG-QO
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:20:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lOQ1x-0004xO-FR; Mon, 22 Mar 2021 15:16:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48512)
+ id 1lOQ1u-0004tQ-Jx; Mon, 22 Mar 2021 15:15:58 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lOQ1s-0003SB-Q4; Mon, 22 Mar 2021 15:16:01 -0400
+ id 1lOQ1s-0003SC-Pv; Mon, 22 Mar 2021 15:15:58 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9860EAB8A;
- Mon, 22 Mar 2021 19:15:53 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0F10AAE37;
+ Mon, 22 Mar 2021 19:15:54 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [RFC v1 0/5] s390x cleanup
-Date: Mon, 22 Mar 2021 20:15:46 +0100
-Message-Id: <20210322191551.25752-1-cfontana@suse.de>
+Subject: [RFC v1 1/5] hw/s390x: only build qemu-tod from the CONFIG_TCG build
+Date: Mon, 22 Mar 2021 20:15:47 +0100
+Message-Id: <20210322191551.25752-2-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210322191551.25752-1-cfontana@suse.de>
+References: <20210322191551.25752-1-cfontana@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
@@ -57,102 +59,65 @@ Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, I am starting a cleanup series for s390x,
+this allows to remove unneeded stubs for target/s390x.
 
-with the goal of doing similar splits of KVM vs TCG,
-sysemu vs user mode, as for the existing work on x86 and ARM.
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ hw/s390x/tod.c       | 9 ++++++++-
+ hw/s390x/meson.build | 5 ++++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-S/390 target looks very good already, and seems much easier to work
-with. I hope that with some patches it will be even better.
-
-I will pile up more patches later on, but I start sharing something
-here with these few RFC patches for your eyes,
-
-they are based on the pre-requisite series:
-
-https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg07461.html
-
-Motivation and higher level steps:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
-
-Comments welcome, thanks,
-
-Claudio
-
-Claudio Fontana (5):
-  hw/s390x: only build qemu-tod from the CONFIG_TCG build
-  target/s390x: start moving TCG-only code to tcg/
-  target/s390x: move sysemu-only code out to cpu-sysemu.c
-  target/s390x: split cpu-dump from helper.c
-  target/s390x: make helper.c sysemu-only
-
- include/hw/s390x/tod.h                        |   2 +-
- target/s390x/{internal.h => s390x-internal.h} |   6 +
- target/s390x/{ => tcg}/s390-tod.h             |   0
- target/s390x/{ => tcg}/tcg_s390x.h            |   0
- target/s390x/{ => tcg}/vec.h                  |   0
- hw/s390x/tod-qemu.c                           |   2 +-
- hw/s390x/tod.c                                |   9 +-
- target/s390x/arch_dump.c                      |   2 +-
- target/s390x/cpu-dump.c                       | 131 ++++++++
- target/s390x/cpu-sysemu.c                     | 304 ++++++++++++++++++
- target/s390x/cpu.c                            | 285 +---------------
- target/s390x/cpu_models.c                     |   2 +-
- target/s390x/diag.c                           |   2 +-
- target/s390x/gdbstub.c                        |   2 +-
- target/s390x/helper.c                         | 113 +------
- target/s390x/interrupt.c                      |   4 +-
- target/s390x/ioinst.c                         |   2 +-
- target/s390x/kvm.c                            |   2 +-
- target/s390x/machine.c                        |   4 +-
- target/s390x/mmu_helper.c                     |   2 +-
- target/s390x/sigp.c                           |   2 +-
- target/s390x/tcg-stub.c                       |  30 --
- target/s390x/{ => tcg}/cc_helper.c            |   2 +-
- target/s390x/{ => tcg}/crypto_helper.c        |   2 +-
- target/s390x/{ => tcg}/excp_helper.c          |   2 +-
- target/s390x/{ => tcg}/fpu_helper.c           |   2 +-
- target/s390x/{ => tcg}/int_helper.c           |   2 +-
- target/s390x/{ => tcg}/mem_helper.c           |   2 +-
- target/s390x/{ => tcg}/misc_helper.c          |   2 +-
- target/s390x/{ => tcg}/translate.c            |   2 +-
- target/s390x/{ => tcg}/vec_fpu_helper.c       |   2 +-
- target/s390x/{ => tcg}/vec_helper.c           |   2 +-
- target/s390x/{ => tcg}/vec_int_helper.c       |   0
- target/s390x/{ => tcg}/vec_string_helper.c    |   2 +-
- target/s390x/{ => tcg}/translate_vx.c.inc     |   0
- hw/s390x/meson.build                          |   5 +-
- target/s390x/meson.build                      |  21 +-
- target/s390x/{ => tcg}/insn-data.def          |   0
- target/s390x/{ => tcg}/insn-format.def        |   0
- target/s390x/tcg/meson.build                  |  14 +
- target/s390x/trace-events                     |   2 +-
- 41 files changed, 512 insertions(+), 458 deletions(-)
- rename target/s390x/{internal.h => s390x-internal.h} (98%)
- rename target/s390x/{ => tcg}/s390-tod.h (100%)
- rename target/s390x/{ => tcg}/tcg_s390x.h (100%)
- rename target/s390x/{ => tcg}/vec.h (100%)
- create mode 100644 target/s390x/cpu-dump.c
- create mode 100644 target/s390x/cpu-sysemu.c
- delete mode 100644 target/s390x/tcg-stub.c
- rename target/s390x/{ => tcg}/cc_helper.c (99%)
- rename target/s390x/{ => tcg}/crypto_helper.c (98%)
- rename target/s390x/{ => tcg}/excp_helper.c (99%)
- rename target/s390x/{ => tcg}/fpu_helper.c (99%)
- rename target/s390x/{ => tcg}/int_helper.c (99%)
- rename target/s390x/{ => tcg}/mem_helper.c (99%)
- rename target/s390x/{ => tcg}/misc_helper.c (99%)
- rename target/s390x/{ => tcg}/translate.c (99%)
- rename target/s390x/{ => tcg}/vec_fpu_helper.c (99%)
- rename target/s390x/{ => tcg}/vec_helper.c (99%)
- rename target/s390x/{ => tcg}/vec_int_helper.c (100%)
- rename target/s390x/{ => tcg}/vec_string_helper.c (99%)
- rename target/s390x/{ => tcg}/translate_vx.c.inc (100%)
- rename target/s390x/{ => tcg}/insn-data.def (100%)
- rename target/s390x/{ => tcg}/insn-format.def (100%)
- create mode 100644 target/s390x/tcg/meson.build
-
+diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
+index 3c2979175e..322732d7fd 100644
+--- a/hw/s390x/tod.c
++++ b/hw/s390x/tod.c
+@@ -14,6 +14,8 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/tcg.h"
++#include "sysemu/qtest.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/register.h"
+ 
+@@ -23,8 +25,13 @@ void s390_init_tod(void)
+ 
+     if (kvm_enabled()) {
+         obj = object_new(TYPE_KVM_S390_TOD);
+-    } else {
++    } else if (tcg_enabled()) {
+         obj = object_new(TYPE_QEMU_S390_TOD);
++    } else if (qtest_enabled()) {
++        return;
++    } else {
++        warn_report("current accelerator not handled in s390_init_tod!");
++        return;
+     }
+     object_property_add_child(qdev_get_machine(), TYPE_S390_TOD, obj);
+     object_unref(obj);
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index 91495b5631..7f31f9e5d5 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -16,7 +16,6 @@ s390x_ss.add(files(
+   'sclp.c',
+   'sclpcpu.c',
+   'sclpquiesce.c',
+-  'tod-qemu.c',
+   'tod.c',
+ ))
+ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
+@@ -25,6 +24,10 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
+   's390-stattrib-kvm.c',
+   'pv.c',
+ ))
++s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'tod-qemu.c',
++))
++
+ s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
+ s390x_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('3270-ccw.c'))
+ s390x_ss.add(when: 'CONFIG_VFIO', if_true: files('s390-pci-vfio.c'))
 -- 
 2.26.2
 
