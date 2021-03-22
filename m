@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBF3344852
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:57:43 +0100 (CET)
-Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43EC344850
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:57:33 +0100 (CET)
+Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLzy-0004UZ-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
+	id 1lOLzo-0004JA-SW
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lOLFo-0004uI-Ln
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:10:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lOLFl-0000lq-UT
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:10:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616422189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6+pRs2xi6aoq2CsnXMuWN3Ce/jzNWvWsbbhqMJ0Alfg=;
- b=gjY6DTVNFesatVhIyEY6K4L41E3dvfIn5jjgUxCr06K/xgdjNxRbQXjxnXUea26DQc+IxM
- CWVpwQUSexQqDu3qQ4dZQSp0O7Vn9YDGbGK8TTaHBY2Zs0Qp7Ou1nZNDeh+SQm6ZgvUf1M
- 1JKrNMB/E3Tvw9eXV1+OFn5+V4yR0u0=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-lRdqpdtiP4OvScNX2Rs9pw-1; Mon, 22 Mar 2021 10:09:46 -0400
-X-MC-Unique: lRdqpdtiP4OvScNX2Rs9pw-1
-Received: by mail-oi1-f199.google.com with SMTP id o125so9908990oif.0
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 07:09:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOLGp-0005gw-Bt
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:11:03 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOLGn-0001LE-3D
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:11:02 -0400
+Received: by mail-ed1-x529.google.com with SMTP id j3so19479598edp.11
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 07:11:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7TpV+bCO2xaHCJsOvJimOy4ll+LR+x9pNBj3mDgNrr8=;
+ b=EUAbsjlsbLgq3UIvBmNVsJ3Y7p7eNJwCcFg/W78WpN+c/G468lNM2gMu3vAhUyWrK1
+ qYYvVHjqQsLvJ3F6X7hIRT+uMSSZpHUvxhXc4i5U6ZCzxlYTmVk+hBU/aQWzeQZXd73Z
+ oPuzdRwTXhNZbI7MGFEmaSjwV/J3XNomEotRjunwhq84mOvbY9QVkxCyCi+alAqyswYJ
+ OWVWGoWjWgIZwvbMZWnNtoqlwDmK9vkIkU27QyVAhK2nBGA1bH22i8Y2PPvoTmCqtIlQ
+ ZS+4uITMSooxpVLHkzxY8LR7PWJX+/WlpghWxiucwKGsDhEg6LukA/tM/qjGWspg38ul
+ 2InQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6+pRs2xi6aoq2CsnXMuWN3Ce/jzNWvWsbbhqMJ0Alfg=;
- b=uKFIEGCtuRYNUnXbTANVaCqew9/Z2Nejo4ju70iXxfoQG/HVuOls1TxcJCgGc1ZOEO
- 62sPNBJfvLTA8oiR/wJJENtbHUBmeXLlkLmk4CQoxOQy/JZLeEr3Qud7yri5UveVBdJi
- MdIsyOKnCOlMTGbwiTsi7TyzGbDpdLyniHjjYppNCHCC/cziEwXIh1N3Uh3xTJsOTFe6
- ySjSQI5UW8W+Q8ebQmuqVtnxWkJD6i8wwU2tKMStLEehSabgdRfKMni4CmfQugZvwd6v
- 4o2GMYQn1tjaki8IFEZeoo+sLCLesSqOyxL6YDo5Nm1j1I3AKI+Orr1rPL44BJhZSl1v
- W7mA==
-X-Gm-Message-State: AOAM530nIZLbt48n6ffdnO6UUVG0fGSoCZHxRRkcRw2CytBEAeh+sAOY
- 6OscWsNQPuZQWM7HTekIpl25qgmozupGK3WwS5q4BrccX0WWeN8FKwywqmSodQ81DK4auzXBN1L
- lpmYGU/p/FZLlG1U=
-X-Received: by 2002:a9d:22e2:: with SMTP id y89mr124851ota.15.1616422186057;
- Mon, 22 Mar 2021 07:09:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyz5gJM2VipoXkx/ZGVo2MJaHYfcL8rdbEjHpg1+DO2xNqGz3jl1BpUASLrt3Wv4U44yBSPmA==
-X-Received: by 2002:a9d:22e2:: with SMTP id y89mr124840ota.15.1616422185895;
- Mon, 22 Mar 2021 07:09:45 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- i11sm3351094otp.76.2021.03.22.07.09.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 07:09:45 -0700 (PDT)
-Subject: Re: [PATCH 0/2] SEV firmware error list touchups
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210218151633.215374-1-ckuehl@redhat.com>
- <cd383ad9-21c6-340d-8821-c151e1b9714e@redhat.com>
- <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <3644aa5f-ee80-358c-f563-faa15c2c8a9f@redhat.com>
-Date: Mon, 22 Mar 2021 09:09:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7TpV+bCO2xaHCJsOvJimOy4ll+LR+x9pNBj3mDgNrr8=;
+ b=WJoAN4KW87fUSoVk11k4rv8PhRfzTObDSz5NIxbqqwGeeXdztEfijkFRkjC8ohWzfD
+ at74OygjJuRMhflAY8+OWB77GFfwbRTRrlRJaQ9gCUh6CyfnQWMD91iBfqI0Zifjwag6
+ HHEA5Gho4fNTugH9lY+5u3qF5dcNE33acYXWrXRxd8ISfKuiICzhOVh75l4uhDz1iTPX
+ HVsPWh95aSERxEKWfUXzFvxs4N8xEqpc9v9lT8XSxeOUCRsbu9kRFkq5yQKvCjkJHCn4
+ BPqZEXDrY31Qb9r07aMaEjn9n1ru5IUHRTgZMiM4/56+Pcpv1o3Mg6A9Tki3SIH3xRNO
+ 5H6Q==
+X-Gm-Message-State: AOAM531Kz5D7HUNEYNh7Eqd0Mqc29DVn1PfZa9GtzFioWwMByO08FFwY
+ jck29ZyncdhNB9kMVizbDjnyaLqAol3n3ftfDUww9eoWrqxrQw==
+X-Google-Smtp-Source: ABdhPJy/kL955D2LPVfTMu5iYHDNDAe6SlHuemAb6Lc/cCCV7XwIqh2LB89zWZcdc0apS11EINTp41m301I7r7jxpIs=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr25611320edv.44.1616422259335; 
+ Mon, 22 Mar 2021 07:10:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210320000606.1788699-1-richard.henderson@linaro.org>
+In-Reply-To: <20210320000606.1788699-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Mar 2021 14:10:31 +0000
+Message-ID: <CAFEAcA_gVEMzgaVgE5U6hvoE+H38EiCr7NeZejVHztJta5sM=g@mail.gmail.com>
+Subject: Re: [PATCH for-6.0] target/arm: Set ARMMMUFaultInfo.level in
+ user-only arm_cpu_tlb_fill
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,32 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
- brijesh.singh@amd.com, thomas.lendacky@amd.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 5:18 AM, Philippe Mathieu-Daudé wrote:
-> Hi Connor,
-> 
-> On 3/15/21 3:08 PM, Connor Kuehl wrote:
->> On 2/18/21 9:16 AM, Connor Kuehl wrote:
->>> Connor Kuehl (2):
->>>     sev: use explicit indices for mapping firmware error codes to strings
->>>     sev: add missing firmware error conditions
->>>
->>>    target/i386/sev.c | 48 ++++++++++++++++++++++++-----------------------
->>>    1 file changed, 25 insertions(+), 23 deletions(-)
->>>
->>
->> Eduardo, Paolo, Richard: ping
-> 
-> Looks too late for 6.0 now.
-> 
-> Can you repost/ping after QEMU 6.0 is release?
+On Sat, 20 Mar 2021 at 00:06, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Pretend the fault always happens at page table level 3.
+>
+> Failure to set this leaves level = 0, which is impossible for
+> ARMFault_Permission, and produces an invalid syndrome, which
+> reaches g_assert_not_reached in cpu_loop.
+>
+> Fixes: 8db94ab4e5db ("linux-user/aarch64: Pass syndrome to EXC_*_ABORT")
+> Reported-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/tlb_helper.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 9609333cbd..3107f9823e 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -163,6 +163,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      } else {
+>          fi.type = ARMFault_Translation;
+>      }
+> +    fi.level = 3;
+>
+>      /* now we have a real cpu fault */
+>      cpu_restore_state(cs, retaddr, true);
 
-Sure.
 
-Connor
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
