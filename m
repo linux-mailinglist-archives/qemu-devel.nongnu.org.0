@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F343450F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 21:39:08 +0100 (CET)
-Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484E034515B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 22:03:20 +0100 (CET)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lORKM-0004Q6-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 16:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35338)
+	id 1lORhm-0003or-HA
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 17:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lORHw-00038l-J3; Mon, 22 Mar 2021 16:36:36 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:40873)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lORef-0003CZ-4W
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:00:05 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:42866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lORHs-0004tg-V3; Mon, 22 Mar 2021 16:36:36 -0400
-Received: by mail-io1-xd34.google.com with SMTP id n21so15377013ioa.7;
- Mon, 22 Mar 2021 13:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gdzcd17w02nFW6OSyJ1t3QvINzfm5kR+CItYNa7a2zU=;
- b=e5kEDQ/bM3HXRAc+IME07ofoigQmjY2zDG5kymfxqNUgWwfeFQA1LdwVEW87vlSMUf
- bhjOE8DpjgDCtyXsT7gSET3ssYsE15jlvRcsiNSCoZl6qIPGCqPAv+doiKpcVOagdmt7
- ryb3leMZQR1CkxJ1+AQOuoO1tWCuViOcIrKIXo3biE/6TM1NbbHOmmiBaN4BPE6lLvSC
- 32XASJC4x6d6LaW/NOHQ2H0jmEe5LTlqA2RVSwh32uZXMGxURKi0+WU2CGLdjw86OGYF
- xUfJNm28iZe6Nmob+leSFEsEwINMxEblBA3xZ8/ge1Ac0lZdJ2bSlo98oryBBT3h9fk8
- 2Diw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lORed-0006gX-I5
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 17:00:04 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id l13so13426704qtu.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 14:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kmfsQ9944Q39q6dV55jIMMTTwMe1fSIxbJbNh+/2AIE=;
+ b=UpCAZipHwEg3884oXBA/gSYsNNmEL327jTDBR9GN3P9gHRfo12OMBhggv2212Ujyjv
+ u5NOwMMgym9aGap7VjYet5sfMsmvpnOEkidjiC/mOHA3/aiEemrxRlj3c6/HtHMUczU0
+ pXdQ1NiZQcq5TowETmRAmsPiqwDki8JHMsK8m0p+QhNs5gU267+uomQJZUargZ8Gx9gF
+ NEpDLt81PVUcNn3KSZ5EJ/vxhmwrRrkFWXDFRjmCuE3evL74hQje382BV5kbSKWTBctv
+ Zop57qDlSSpYqoKnyuE41U4mFN7aS1E53mkddpLvOGq4aJGo9OW1k7BLHPfQ4u0JXptl
+ ZzDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gdzcd17w02nFW6OSyJ1t3QvINzfm5kR+CItYNa7a2zU=;
- b=lQ96fS3qGw5MXN5LtaL+yvjQjTcxW6ozxgGSHWdFSPie21owBu1LXvsH2PyiJVTnAT
- e2aIs9fSaTtD8SvmJ8v3JqS5A5vpKzQL6Aa7ok+bb+ug0s9JY1FncaIIEfCDUETDKMFz
- uPgJOCfYk6BwPFDJi24r9eGlMfUw65IFBz2Y5VM1nuS6PZFjjfei+Lr9rYo71ouUycnQ
- 5DDYPPLQk3f0jA46gvnPgKrbkWXK4tGeLEtny7732xJZweBRw7Wd8X+jPfw2mup8qtBu
- iL39MMrRc5Z3no6UYLJcHXfXNBgmH5fITuOkkRa77ux0dT7S8muTxbzE2bms3Xlloa11
- qxFg==
-X-Gm-Message-State: AOAM531MfRHss6gp9ooAAISpjPvg81sUcXml1Vc8HNmEcsZPnIdF5p6g
- VzwYETuDVsOu3k3BnGR5spfggdD6LpAlM13ywLM=
-X-Google-Smtp-Source: ABdhPJyT9aDuYO+E7yNBIR5mspjZAonxm44AKz6mascR/E1yexmfcXrYhzZEfbyh9VG1e36U5VWFCp5Acc/mhDmjFCI=
-X-Received: by 2002:a05:6638:224e:: with SMTP id
- m14mr1205943jas.8.1616445391459; 
- Mon, 22 Mar 2021 13:36:31 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kmfsQ9944Q39q6dV55jIMMTTwMe1fSIxbJbNh+/2AIE=;
+ b=JTAPoR5HEg9rGOYfhAljacNS3tRQi2b2B0zFWeqI7hBKpfiMKbI6cb9Ruw4eQ3ukeZ
+ CcGh9L1RzYnk9RaSu9qN0eoOmzF9vsgwK0IoL9ensS8YP/A4WHZStJhuzu1V6s+DPAIU
+ Cra8n7T2CI94PdvFY+0Ox3expTOh5RYPwHFnhiwRmyCEF6ioR80HJT3bz4rrj+f/UPTz
+ vaulQiQlXywwE3XmxBIa8/YzdW5JN4SfHCFz5IPBWuxBwa5pn6q3G6WmKjXO/oSs8w4a
+ hs7POtbJfLxoMl4HA6zKpHv5guxk1lr9sfpTEZWz+joul2i+kHvfabmUFchI6UOrGTYk
+ icMA==
+X-Gm-Message-State: AOAM531igVZCXuF3v1W4afJxltZdbRkHpiwuu9Q5Mb63Eo8FCzloWvlG
+ btfYrwK/gGnNZsT96UKPQu0RUg==
+X-Google-Smtp-Source: ABdhPJyGpP0nT85o7pw0x8llp7pFul22OkELSLU31AnxQj9jUqir71pnOeq5P180sEivkumryxLvXg==
+X-Received: by 2002:ac8:4755:: with SMTP id k21mr1734581qtp.102.1616446802068; 
+ Mon, 22 Mar 2021 14:00:02 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id z7sm11676949qkf.136.2021.03.22.14.00.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 14:00:01 -0700 (PDT)
+Subject: Re: [PATCH] configure: Improve alias attribute check
+To: Gavin Shan <gshan@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210320042753.69297-1-gshan@redhat.com>
+ <5a6e5d96-7b23-7a56-3096-fb80155cac26@redhat.com>
+ <107a73a0-aafe-bfce-7c28-8ed5fe6c022f@linaro.org>
+ <4c8d854e-a8a1-2a44-5a02-96a5ce5598bc@linaro.org>
+ <CABgObfafUvCAriWa+mFQKL=Js4GGuMrNr3Gw8v2Z+Z=J3xT7XA@mail.gmail.com>
+ <fefde0c1-5670-7cd5-4f7c-ab11af6aeb62@linaro.org>
+ <CABgObfbG701a-_TB2v7irYe1DpPY-_zExgJ4SPMfyUEJD_2uXw@mail.gmail.com>
+ <CABgObfazrLonuARgBUOfOC-13qQ4riKQx14x7uDbWnVba9xzSQ@mail.gmail.com>
+ <0cad2de8-1150-be7c-237b-9f3ddea52473@linaro.org>
+ <4231d15c-493f-cb3d-39ef-aff40e3618ee@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <696de0d3-3b35-6c9a-1242-3761e6d6ec83@linaro.org>
+Date: Mon, 22 Mar 2021 14:59:58 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210322075248.136255-1-bmeng.cn@gmail.com>
- <20210322075248.136255-2-bmeng.cn@gmail.com>
-In-Reply-To: <20210322075248.136255-2-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Mar 2021 16:34:36 -0400
-Message-ID: <CAKmqyKNS6mjc4DHNhc5j6YLOP=Z=9cYPgHGvDU5apA-h6CS96g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs/system: riscv: Add documentation for
- 'microchip-icicle-kit' machine
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <4231d15c-493f-cb3d-39ef-aff40e3618ee@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,141 +96,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Aldy Hernandez <aldyh@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 3:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> This adds the documentation to describe what is supported for the
-> 'microchip-icicle-kit' machine, and how to boot the machine in QEMU.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 3/22/21 4:54 AM, Gavin Shan wrote:
+> It looks this issue can be avoided after "volatile" is applied to
+> @target_page. However, I'm not sure if it's the correct fix to have.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Certainly not.
 
-Alistair
+That is the exact opposite of what we want.  We want to minimize the number of 
+reads from the variable, not maximize them.
 
-> ---
->
->  docs/system/riscv/microchip-icicle-kit.rst | 89 ++++++++++++++++++++++
->  docs/system/target-riscv.rst               |  1 +
->  2 files changed, 90 insertions(+)
->  create mode 100644 docs/system/riscv/microchip-icicle-kit.rst
->
-> diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
-> new file mode 100644
-> index 0000000000..4fe97bce3f
-> --- /dev/null
-> +++ b/docs/system/riscv/microchip-icicle-kit.rst
-> @@ -0,0 +1,89 @@
-> +Microchip PolarFire SoC Icicle Kit (``microchip-icicle-kit``)
-> +=============================================================
-> +
-> +Microchip PolarFire SoC Icicle Kit integrates a PolarFire SoC, with one
-> +SiFive's E51 plus four U54 cores and many on-chip peripherals and an FPGA.
-> +
-> +For more details about Microchip PolarFire SoC, please see:
-> +https://www.microsemi.com/product-directory/soc-fpgas/5498-polarfire-soc-fpga
-> +
-> +The Icicle Kit board information can be found here:
-> +https://www.microsemi.com/existing-parts/parts/152514
-> +
-> +Supported devices
-> +-----------------
-> +
-> +The ``microchip-icicle-kit`` machine supports the following devices:
-> +
-> + * 1 E51 core
-> + * 4 U54 cores
-> + * Core Level Interruptor (CLINT)
-> + * Platform-Level Interrupt Controller (PLIC)
-> + * L2 Loosely Integrated Memory (L2-LIM)
-> + * DDR memory controller
-> + * 5 MMUARTs
-> + * 1 DMA controller
-> + * 2 GEM Ethernet controllers
-> + * 1 SDHC storage controller
-> +
-> +Boot options
-> +------------
-> +
-> +The ``microchip-icicle-kit`` machine can start using the standard -bios
-> +functionality for loading its BIOS image, aka Hart Software Services (HSS_).
-> +HSS loads the second stage bootloader U-Boot from an SD card. It does not
-> +support direct kernel loading via the -kernel option. One has to load kernel
-> +from U-Boot.
-> +
-> +The memory is set to 1537 MiB by default which is the minimum required high
-> +memory size by HSS. A sanity check on ram size is performed in the machine
-> +init routine to prompt user to increase the RAM size to > 1537 MiB when less
-> +than 1537 MiB ram is detected.
-> +
-> +Boot the machine
-> +----------------
-> +
-> +HSS 2020.12 release is tested at the time of writing. To build an HSS image
-> +that can be booted by the ``microchip-icicle-kit`` machine, type the following
-> +in the HSS source tree:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export CROSS_COMPILE=riscv64-linux-
-> +  $ cp boards/mpfs-icicle-kit-es/def_config .config
-> +  $ make BOARD=mpfs-icicle-kit-es
-> +
-> +Download the official SD card image released by Microchip and prepare it for
-> +QEMU usage:
-> +
-> +.. code-block:: bash
-> +
-> +  $ wget ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
-> +  $ gunzip core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
-> +  $ qemu-img resize core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic 4G
-> +
-> +Then we can boot the machine by:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M microchip-icicle-kit -smp 5 \
-> +      -bios path/to/hss.bin -sd path/to/sdcard.img \
-> +      -nic user,model=cadence_gem \
-> +      -nic tap,ifname=tap,model=cadence_gem,script=no \
-> +      -display none -serial stdio \
-> +      -chardev socket,id=serial1,path=serial1.sock,server=on,wait=on \
-> +      -serial chardev:serial1
-> +
-> +With above command line, current terminal session will be used for the first
-> +serial port. Open another terminal window, and use `minicom` to connect the
-> +second serial port.
-> +
-> +.. code-block:: bash
-> +
-> +  $ minicom -D unix\#serial1.sock
-> +
-> +HSS output is on the first serial port (stdio) and U-Boot outputs on the
-> +second serial port. U-Boot will automatically load the Linux kernel from
-> +the SD card image.
-> +
-> +.. _HSS: https://github.com/polarfire-soc/hart-software-services
-> diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-> index 94d99c4c82..8d5946fbbb 100644
-> --- a/docs/system/target-riscv.rst
-> +++ b/docs/system/target-riscv.rst
-> @@ -66,6 +66,7 @@ undocumented; you can get a complete list by running
->  .. toctree::
->     :maxdepth: 1
->
-> +   riscv/microchip-icicle-kit
->     riscv/sifive_u
->
->  RISC-V CPU features
-> --
-> 2.25.1
->
->
+
+r~
 
