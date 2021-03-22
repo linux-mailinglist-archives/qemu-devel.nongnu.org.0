@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24777344C00
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:44:40 +0100 (CET)
-Received: from localhost ([::1]:56582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FEA344C07
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:45:30 +0100 (CET)
+Received: from localhost ([::1]:59792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONfT-0005AI-5b
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56994)
+	id 1lONgH-0006Sh-HV
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:45:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lONdd-00048g-8e
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:42:45 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:42923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lONdb-0006B3-Sg
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:42:45 -0400
-Received: by mail-ed1-x536.google.com with SMTP id l18so11964913edc.9
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=X5MlLLJmPc8qH+lyuJsaS6mGhIJ7ZupxW6nNuVd0vAU=;
- b=LRPuz7LreogXOVZHwGrJWGwfQWulJ/Jtv5Af+iVDOZVxvtf/lbUHOd4NxbDsWPv621
- 681rTp8SqS5TctahDI87g4xDul/Z0geDy1x9mQovDMjlme7+hfNyAgCEWoUls5mFy5Xj
- Q5oTa2dkgLpJqOMdDhEoYCO+4jVsNxQqM2dKgdcR0rpkjOKGEZFQLc0OkHqoqArBCaJc
- gbNoRekkxqioTLWO8Bc0mUifJVDv+PIlVGOfOAvtLXi96xzORvzJeKdSTfMB8LqkNJCJ
- HvRkeGIvqC8Gz9OjtqwP2f+QzpU4pWeLakDCkRgPp0COB7iNPoI7/ZpdpT3TGxBkx/Nm
- v85g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=X5MlLLJmPc8qH+lyuJsaS6mGhIJ7ZupxW6nNuVd0vAU=;
- b=r+sNFWEixIYlol9Jd4ZTTRDC6ud70VIj8joCZ15cAiWW+18ZX5yXWPb2QfVnkKwmfQ
- u33WoiYAkn7ki12FJhRPYOx1w+0d8qHXS//rdtUss7h/03F/q41hApF7tGwRyY6u3RgO
- o+LNvScqHlKaXB/QqRH+shIUV/VqjcgVFA0CzV+6r4gRwrBH0SsucEFoPhp1d5jhCtzO
- Qz4VsfSgbE41SME064arqPhwMJvbVGFYYPOBUl0JdOFSyugbm43s9ajol1hJAolqlnvX
- AKpsyUFqI13tZUtNuVF34EwHA/YA9TJC5mvm3yPPhIC+4dGJotIZtb9fxUERHXopP68O
- 525A==
-X-Gm-Message-State: AOAM532tBa86jNtQh3XTs9za0qKp0sQq/WfVoaJQqAE74ZZdfYQhkuNu
- AF6dSNtTJqzKaGrdSJk1ev07y6zb931vH0NK7mCrdA==
-X-Google-Smtp-Source: ABdhPJxI12HBWJoHjQM1YcI/LjdQB4nyoog9uDHNJQuGO9xPacoqi9B3rEO6qu8yegIARfAFetR7d+pyucKt76Dr3X8=
-X-Received: by 2002:a05:6402:19a:: with SMTP id
- r26mr524924edv.44.1616431361404; 
- Mon, 22 Mar 2021 09:42:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lONeV-0004qA-SI
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:43:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lONeQ-0006cT-JQ
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:43:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616431413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JRA34qHfdrG/05J8zTTarZr0sUhykbyxYnTtu6Zp5Ws=;
+ b=VKcr+ePLttwuMdtP0dgTBaSBWYs6qryIMrzf+1RnUQ9FcgjlnWs/HNGHjo6vNEpu4sTQly
+ K1N1Xn2up+C0ZgRFXVHkdNSrQM+aNuJcyueDI2ETwX8bKShWLHsXrINVGW/35NIllReyB2
+ 3dm2Qt6GWDZsDLgJzXrcnR/O1NYVJm8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-e2cyFp91P2qetLnuF8SbLg-1; Mon, 22 Mar 2021 12:43:29 -0400
+X-MC-Unique: e2cyFp91P2qetLnuF8SbLg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C7C51009456;
+ Mon, 22 Mar 2021 16:43:28 +0000 (UTC)
+Received: from localhost (ovpn-3-103.rdu2.redhat.com [10.22.3.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11CC719C78;
+ Mon, 22 Mar 2021 16:43:27 +0000 (UTC)
+Date: Mon, 22 Mar 2021 12:43:27 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Connor Kuehl <ckuehl@redhat.com>
+Subject: Re: [PATCH 0/2] SEV firmware error list touchups
+Message-ID: <20210322164327.GX3139005@habkost.net>
+References: <20210218151633.215374-1-ckuehl@redhat.com>
+ <cd383ad9-21c6-340d-8821-c151e1b9714e@redhat.com>
+ <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
+ <3644aa5f-ee80-358c-f563-faa15c2c8a9f@redhat.com>
 MIME-Version: 1.0
-References: <20210322144140.13505-1-alex.bennee@linaro.org>
-In-Reply-To: <20210322144140.13505-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Mar 2021 16:42:13 +0000
-Message-ID: <CAFEAcA_jG9_ehYOe3RQ7OxazTLE1JHjZbuUTfu+b7wY7uV4pKg@mail.gmail.com>
-Subject: Re: [RFC PATCH] gitlab: default to not building the documentation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <3644aa5f-ee80-358c-f563-faa15c2c8a9f@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Mar 2021 at 15:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> In d0f26e68a0 ("gitlab: force enable docs build in Fedora, Ubuntu,
-> Debian") we made sure we can build the documents on more than one
-> system. However we don't want to build documents all the time as it's
-> a waste of cycles (and energy). So lets reduce the total amount of
-> documentation we build while still keeping some coverage.
+On Mon, Mar 22, 2021 at 09:09:44AM -0500, Connor Kuehl wrote:
+> On 3/22/21 5:18 AM, Philippe Mathieu-Daudé wrote:
+> > Hi Connor,
+> > 
+> > On 3/15/21 3:08 PM, Connor Kuehl wrote:
+> > > On 2/18/21 9:16 AM, Connor Kuehl wrote:
+> > > > Connor Kuehl (2):
+> > > >     sev: use explicit indices for mapping firmware error codes to strings
+> > > >     sev: add missing firmware error conditions
+> > > > 
+> > > >    target/i386/sev.c | 48 ++++++++++++++++++++++++-----------------------
+> > > >    1 file changed, 25 insertions(+), 23 deletions(-)
+> > > > 
+> > > 
+> > > Eduardo, Paolo, Richard: ping
+> > 
+> > Looks too late for 6.0 now.
+> > 
+> > Can you repost/ping after QEMU 6.0 is release?
+> 
+> Sure.
 
-We specifically do want to build the docs on every host OS version
-we support, because Sphinx is very prone to having docs constructs
-that work on one version but not on another, and this is how we
-maintain coverage of "do our docs build on every Sphinx version we
-claim to support".
+My apologies for not replying before and not reviewing or merging
+this in time for 6.0.  I'm seriously behind on all my upstream
+maintainer work.
 
-thanks
--- PMM
+-- 
+Eduardo
+
 
