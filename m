@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836C93440B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:19:09 +0100 (CET)
-Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE2A3440BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:20:26 +0100 (CET)
+Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJWV-0001J1-TK
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
+	id 1lOJXk-00020d-Sh
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:20:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lOJNb-0007Lv-Gb; Mon, 22 Mar 2021 08:09:55 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:54513)
+ id 1lOJNc-0007NP-QS; Mon, 22 Mar 2021 08:09:56 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:36991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lOJNZ-0005x6-AT; Mon, 22 Mar 2021 08:09:55 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 68C321674;
- Mon, 22 Mar 2021 08:09:50 -0400 (EDT)
+ id 1lOJNZ-0005xN-Ja; Mon, 22 Mar 2021 08:09:56 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id 841111687;
+ Mon, 22 Mar 2021 08:09:51 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 22 Mar 2021 08:09:50 -0400
+ by compute2.internal (MEProxy); Mon, 22 Mar 2021 08:09:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=zvmOUxX3kek4y
- VoWEZEgSTTkeyiNBoyFAWFOrokm8r8=; b=vqycC2QQM6ZxAYy3AiZNhRr3opNG+
- IXoIc03WY7/rG9886Ynovdpx8hw7/532RhxFrdS8WZykVm0rSFBniZ//58EPYhNa
- h8i7/MSpYRgf3msJdI8R9imMiK0a0bfO2KLxCZO1gVFpTWc1ossb99a0eg8lG9ur
- is8tuCAK9itXXPh8D69oE9hrAavbPmEtH7prlvAiBWrMLpLg6yvYPWICTNBvbyFV
- G43SskQvSzqv4Fe8MmOj0Gkx79pbBZj62/va6tn71MEJMO8/Re8qhuxPPzllsxN7
- MLIhFMyhMS7P5BCpy+K0BHYApQLX/32Qe8RQRJiUxyHU6f2Gn+WdB39tw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=8R+6fypkk9NqC
+ 8iq/W3FBFK+qJhM25Gah7l+8xTCQ3Q=; b=J8mlDRv3lSdlusmNVuVHOxeKEOpKE
+ DW04GMVtz2CwfBTQKzFZ5b7PiT/rUBm9hRkj2QnYJBcKZMAVbCZcRl09xzyJMd87
+ DdiW6SkucpZiB2du8KdblcxVVBNGI5JqNWB9H6Vk7J5wyvMzHZYyCyVamHfUA3ca
+ dWlGSpqOYTRPwGx2z/SaPULbK8VQQfRyvcF8zt9dXtAflx5tin6jhJY877yOVa7+
+ 0e+ouQ3ahv+sQ9LBtxUYXhf4anv9J13l5yzNfeT5yQqJLk5WOf4AylPuNocgvho4
+ WEZUMloPF2QYfi+aJkmHhc7PExrRwDRuhoB+LBn9cxUYlYj4IPc5nhbFQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=zvmOUxX3kek4yVoWEZEgSTTkeyiNBoyFAWFOrokm8r8=; b=fHCsJxOE
- NTsszRnd1LR6+JepmSEtt99ID9oRMtkukKEukYPExggpytqWBtcGr72G6ou8RRYF
- vK2oumBGs0p1tYw1RakqUov8EDwTMsy4HW7DLNu0WFjx+vgJ521ENWr1PTgAcpWe
- i+iRBZc+FezaLhAkRWoS8ns5MoOa4r57eLIYTCmlbkM+MkhsOqKPlFVmcIFRYGxg
- jkfcanyHl2YTWIo5k5BEtui66ByXCW6jmP6gAHXINR97od2S2OlKusHRUJW/5dFX
- XtnI6OmMOWNaNagqoeZbTfLnnpoPJnPVwmaG1U93NbgOjol1saQIJJGkwe9FJLl7
- 6mT+Wem8exTDyg==
-X-ME-Sender: <xms:DYlYYNfIVzB4A8Nu5IrPsQy-PwT6rMe8Buv8QYjGmDNoCZTL5aEWzw>
- <xme:DYlYYLPJ-1PRnc5ib6MeAQ98Nf42TPHQ4oGkgz0N_Yx80tuK6XGsZqXl-IJM2on6k
- aIZMRqA8hENM_DsmXc>
+ fm2; bh=8R+6fypkk9NqC8iq/W3FBFK+qJhM25Gah7l+8xTCQ3Q=; b=SzavBE/C
+ kh+1DEnRdSofFHkA9C/SbywMqw3r6mQnSes9ZNuTPgT7k+vXSq76PMmCvccx/9Em
+ A5m7gKdwbpi1Epsd4Ph51cVDI4nfV28z8k2QhI22To1+5NjId+wtRYEyfBldY/Pg
+ NiN2198Wo6sQLDaz/MUmN5F5y44KpJPchPlWy3hG5+NDXMWILjZa71LRFmWuWbW4
+ nrwkSkPJizmRMF+cPebORssekIV6cjR6vJLfCLmuUf/03/a8XuVH/CJaOzfvD8LV
+ tbqzs03VVqKbCPKygpYI8lrEVncDUTlTS2oV7OSwOSKEPq9VNvCylUlBekXFNske
+ HvKf0ujMkq+esg==
+X-ME-Sender: <xms:DolYYK_d3KvQZC0pX7ZTSWIgBuMdPyUcn1fb0ypG62dJG3TAkexJtA>
+ <xme:DolYYKZfBEWCnWUh1WhkELwx6SUyS8cidbLD_Yf258ec7F7QfcDAMBw2V_XJDI39K
+ LUZAAwmv26fxovW98w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggedgfeeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggedgfeeiucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:DYlYYGgL0BuvDd6k61yfoGKWfWcfy8SuUwLs78c11H5WlVmxMGQJmQ>
- <xmx:DYlYYG-3l7o1XyAXH4_dF3uASW4pTt9uts9qr2wygNioKCpJGcIOrw>
- <xmx:DYlYYJuY_lmMCZ-_jqZGDodg59iSLy-ggA4sXILwBaCtOkblASpXeQ>
- <xmx:DolYYDIe2XICZvxkBVuoUoDkbMyI9bqpw-tsvbeAzNCrlwtxf98QWA>
+X-ME-Proxy: <xmx:DolYYLpjTNTd3_jlAf3KGulObZcJPH45-7tUY4WYgV1dgk2MmG0IuA>
+ <xmx:DolYYOTV5TiUw3vR5e2vehAUtYEQgi_49ei0zYO57FEo-SN0t6IBPg>
+ <xmx:DolYYPq8G5VFvSwyyAEYKVf6WhYQy5Q8LwT1caDdzzZxtibtaIWJWg>
+ <xmx:D4lYYHtE9Vtv_Xx7X4asVU2n2qpNESIFzq3pnq5utUDuuJRo2Eq6eA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id A3D12240423;
- Mon, 22 Mar 2021 08:09:48 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C57BD24042F;
+ Mon, 22 Mar 2021 08:09:49 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] hw/block/nvme: fix resource leak in nvme_dif_rw
-Date: Mon, 22 Mar 2021 13:09:43 +0100
-Message-Id: <20210322120944.225643-2-its@irrelevant.dk>
+Subject: [PATCH v2 2/2] hw/block/nvme: fix ref counting in nvme_format_ns
+Date: Mon, 22 Mar 2021 13:09:44 +0100
+Message-Id: <20210322120944.225643-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210322120944.225643-1-its@irrelevant.dk>
 References: <20210322120944.225643-1-its@irrelevant.dk>
@@ -100,30 +100,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-If nvme_map_dptr() fails, nvme_dif_rw() will leak the bounce context.
-Fix this by using the same error handling as everywhere else in the
-function.
+Max noticed that since blk_aio_pwrite_zeroes() may invoke the callback
+before returning, the callbacks will never see *count == 0 and thus
+never free the count variable or decrement num_formats causing a CQE to
+never be posted.
 
-Reported-by: Coverity (CID 1451080)
-Fixes: 146f720c5563 ("hw/block/nvme: end-to-end data protection")
+Coverity (CID 1451082) also picked up on the fact that count would not
+be free'ed if the namespace was of zero size.
+
+Fix both of these issues by explicitly checking *count and finalize for
+the given namespace if --(*count) is zero. Enqueing a CQE if there are
+no AIOs outstanding after this case is already handled by nvme_format()
+by inspecting *num_formats.
+
+Reported-by: Max Reitz <mreitz@redhat.com>
+Reported-by: Coverity (CID 1451082)
+Fixes: dc04d25e2f3f ("hw/block/nvme: add support for the format nvm command")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-dif.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme-dif.c b/hw/block/nvme-dif.c
-index 2038d724bda5..e6f04faafb5f 100644
---- a/hw/block/nvme-dif.c
-+++ b/hw/block/nvme-dif.c
-@@ -432,7 +432,7 @@ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req)
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 6842b01ab58b..c54ec3c9523c 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -5009,9 +5009,15 @@ static uint16_t nvme_format_ns(NvmeCtrl *n, NvmeNamespace *ns, uint8_t lbaf,
  
-     status = nvme_map_dptr(n, &req->sg, mapped_len, &req->cmd);
-     if (status) {
--        return status;
-+        goto err;
      }
  
-     ctx->data.bounce = g_malloc(len);
+-    (*count)--;
++    if (--(*count)) {
++        return NVME_NO_COMPLETE;
++    }
+ 
+-    return NVME_NO_COMPLETE;
++    g_free(count);
++    ns->status = 0x0;
++    (*num_formats)--;
++
++    return NVME_SUCCESS;
+ }
+ 
+ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
 -- 
 2.31.0
 
