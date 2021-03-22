@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5987A3452B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:03:01 +0100 (CET)
-Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF143452D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:11:19 +0100 (CET)
+Received: from localhost ([::1]:52858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOTZc-0000BH-E0
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37480)
+	id 1lOThe-00012X-OQ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWs-0006lU-Ed
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWp-00017Y-I2
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWu-0006nt-5H
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWs-00018g-BP
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616454005;
+ s=mimecast20190719; t=1616454009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/f4sPKYnR+jmUvWYKdHqcmtAZpHXplnd+zjl3HCMvLg=;
- b=I2+q6aLW+zNgO2xsTJ/NVQyBEkjf2Btv+kNYJvT7xHeVVXxmXStGWNc1rFBlQED+mp5Pzk
- miLr02+h5umrCR9jLUoGujnfJbe7WtsWJH4Z959F46iDHPLe40zKhPkB1msXVKpdhKqQXq
- 0udshFxgs9aG0r6cu6K4w43vRP72UJc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-YfDodTdgMnWVeQhoQ8rS1Q-1; Mon, 22 Mar 2021 19:00:03 -0400
-X-MC-Unique: YfDodTdgMnWVeQhoQ8rS1Q-1
-Received: by mail-wr1-f71.google.com with SMTP id p15so146506wre.13
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:03 -0700 (PDT)
+ bh=OODRMeLBe2YwGT9N6jsblOs6YEuAMEZWHaowpQ1bt8o=;
+ b=Jbiv3vhp5DwwWJhbam8sH7q4UJ5B25O6ZnbiQm1pscgx0kCio2iNxXHPnJGlvNKraOCiXw
+ OOMRLXJncFBnq5+cUB3dVhbWU0HL/vdGI46Fh3OmH2BYcSv3dd4qIua7B2OUsZEzoR3unP
+ 1Ow0E5Apk7CDHgixIFopVA8vecm1cDI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-601-OHcAtKITP9KZCzSX2T1uwg-1; Mon, 22 Mar 2021 19:00:05 -0400
+X-MC-Unique: OHcAtKITP9KZCzSX2T1uwg-1
+Received: by mail-wr1-f69.google.com with SMTP id h30so149962wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=/f4sPKYnR+jmUvWYKdHqcmtAZpHXplnd+zjl3HCMvLg=;
- b=Gxr3UcFx2tBoNvYg/vWmCJ6+ed2sBgrANtp9oPtC+lsfbSNPPPAj5h9jyen21VXHO8
- tc9n6grlnQpJ/InSK+uVDBfkrTvD09OAO3c4DuT4l+be4VCI/4kU3LR8NiIjdfdps86u
- pelnUx1M+GlYOTMr6x2fb8RJvbTTGcqrAJjH4qK5Nhuffqz/DEnsoetEk2r60pWlP9f5
- pQe0zIkzHX8YtgpRXOjIHOBSHsSZNt1t9i1+pNi7Gkf+yN8JKuXsDVNXKDMePnj9Kgcu
- yOgkD3p3b2bdQV5tTHfKjw4XBzKWRD4+x62koOm//sxlKUULgfRlhAsxrV9+qHmaQreo
- yTYQ==
-X-Gm-Message-State: AOAM531GbVuvm6hoqJa7/GjSHDIIQqhuHRwCr8mpD/O0UwStc+Gaz4oG
- JyLhC5ErqUPwz1w5U+N67JFdP8lUiOijSkl05rLvg6J3YSedqeu4SoUE3Kajbafe8tjvd9maPRm
- 2oWVMrBlFBR1PRwv4NlxV7YA2fUC5qk0TcUuCMUwuS5fZ0hjFc4Kgby+Hg7aK
-X-Received: by 2002:a7b:cd8f:: with SMTP id y15mr576750wmj.185.1616454002138; 
- Mon, 22 Mar 2021 16:00:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmq1n8eU3OQbtAvF31rAUHxo0tI01XhCZNqi3wPGpKsw51axNjjvITZjuOUB1tVfwF9hA2QQ==
-X-Received: by 2002:a7b:cd8f:: with SMTP id y15mr576729wmj.185.1616454001846; 
- Mon, 22 Mar 2021 16:00:01 -0700 (PDT)
+ bh=OODRMeLBe2YwGT9N6jsblOs6YEuAMEZWHaowpQ1bt8o=;
+ b=S7IQDesU7v8knM3Ty31f9vYEhRWoLjK24EBxNAWtsfmOUMwUp/Rf9FpYEs2aimFJDN
+ mqPUSTLAUkO/8vQiFgI5orvMEkEdyUmZZxpnPypoqHvfpFeOrShYXgw8VfzwNRBiHdC4
+ X75cMQqV0VB8YHQtMTy4qnhukiUsMxeAYZ8T1RmpmAZkADHPHAhhgU1ngF2TFcm69h79
+ ZDxUc4xUtqatV8wxwunz9ad3Ozw51eFPKOFEIHg4Bzvu+MtqmFpyOTAZc4CSx6G/aINQ
+ 5FDlGe5TD4k1QZGNOQXvbGDoKb+5U+nJiEU22QS9cGXuy3N3kTmzc5m/O/cNi2avPPxs
+ k0ZA==
+X-Gm-Message-State: AOAM533zX3rXIrGT9tlsCUpS3ALrn8b4BJdYvP/g8PfbcdXNGFHgVORg
+ BfrXcACE9IZ0pCZNq3qFCwiqjJXMmzbllY3tqHH+WpG9avIZEwlkem+izBgEoaGCIFrZ/2avTPr
+ NynHDaqvou3lImG0WH2Y7099tpfyn9bzYTc62bR83wT08TREhMsXE+6DRydJF
+X-Received: by 2002:a05:6000:18ab:: with SMTP id
+ b11mr766797wri.403.1616454004293; 
+ Mon, 22 Mar 2021 16:00:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCxH5YsEPfS2KT/lwooIUGagW1phE4FdvsJoxiNgTUnMhgUe1xEtuOY19lw2Cmt3B0HG8GMA==
+X-Received: by 2002:a05:6000:18ab:: with SMTP id
+ b11mr766774wri.403.1616454004032; 
+ Mon, 22 Mar 2021 16:00:04 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id i3sm22429110wra.66.2021.03.22.16.00.00
+ by smtp.gmail.com with ESMTPSA id c11sm22316286wrm.67.2021.03.22.16.00.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 16:00:01 -0700 (PDT)
-Date: Mon, 22 Mar 2021 18:59:59 -0400
+ Mon, 22 Mar 2021 16:00:03 -0700 (PDT)
+Date: Mon, 22 Mar 2021 19:00:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/19] vhost-user: Fix double-close on slave_read() error
- path
-Message-ID: <20210322225907.541943-4-mst@redhat.com>
+Subject: [PULL v2 04/19] vhost-user: Factor out duplicated slave_fd teardown
+ code
+Message-ID: <20210322225907.541943-5-mst@redhat.com>
 References: <20210322225907.541943-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322225907.541943-1-mst@redhat.com>
@@ -72,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,68 +102,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Some message types, e.g. VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG,
-can convey file descriptors. These must be closed before returning
-from slave_read() to avoid being leaked. This can currently be done
-in two different places:
-
-[1] just after the request has been processed
-
-[2] on the error path, under the goto label err:
-
-These path are supposed to be mutually exclusive but they are not
-actually. If the VHOST_USER_NEED_REPLY_MASK flag was passed and the
-sending of the reply fails, both [1] and [2] are performed with the
-same descriptor values. This can potentially cause subtle bugs if one
-of the descriptor was recycled by some other thread in the meantime.
-
-This code duplication complicates rollback for no real good benefit.
-Do the closing in a unique place, under a new fdcleanup: goto label
-at the end of the function.
-
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20210312092212.782255-3-groug@kaod.org>
+Message-Id: <20210312092212.782255-4-groug@kaod.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/vhost-user.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ hw/virtio/vhost-user.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 6af9b43a72..acde1d2936 100644
+index acde1d2936..cb0c98f30a 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -1475,13 +1475,6 @@ static void slave_read(void *opaque)
-         ret = -EINVAL;
-     }
+@@ -1392,6 +1392,13 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     return 0;
+ }
  
--    /* Close the remaining file descriptors. */
--    for (i = 0; i < fdsize; i++) {
--        if (fd[i] != -1) {
--            close(fd[i]);
--        }
--    }
--
-     /*
-      * REPLY_ACK feature handling. Other reply types has to be managed
-      * directly in their request handlers.
-@@ -1511,12 +1504,14 @@ static void slave_read(void *opaque)
-         }
-     }
- 
--    return;
-+    goto fdcleanup;
++static void close_slave_channel(struct vhost_user *u)
++{
++    qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
++    close(u->slave_fd);
++    u->slave_fd = -1;
++}
++
+ static void slave_read(void *opaque)
+ {
+     struct vhost_dev *dev = opaque;
+@@ -1507,9 +1514,7 @@ static void slave_read(void *opaque)
+     goto fdcleanup;
  
  err:
-     qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
-     close(u->slave_fd);
-     u->slave_fd = -1;
-+
-+fdcleanup:
+-    qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+-    close(u->slave_fd);
+-    u->slave_fd = -1;
++    close_slave_channel(u);
+ 
+ fdcleanup:
      for (i = 0; i < fdsize; i++) {
-         if (fd[i] != -1) {
-             close(fd[i]);
+@@ -1560,9 +1565,7 @@ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+ out:
+     close(sv[1]);
+     if (ret) {
+-        qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+-        close(u->slave_fd);
+-        u->slave_fd = -1;
++        close_slave_channel(u);
+     }
+ 
+     return ret;
+@@ -1915,9 +1918,7 @@ static int vhost_user_backend_cleanup(struct vhost_dev *dev)
+         u->postcopy_fd.handler = NULL;
+     }
+     if (u->slave_fd >= 0) {
+-        qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
+-        close(u->slave_fd);
+-        u->slave_fd = -1;
++        close_slave_channel(u);
+     }
+     g_free(u->region_rb);
+     u->region_rb = NULL;
 -- 
 MST
 
