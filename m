@@ -2,72 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FB1343BC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 09:28:22 +0100 (CET)
-Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DE7343C08
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 09:47:47 +0100 (CET)
+Received: from localhost ([::1]:52736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOFvB-0006k2-EK
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 04:28:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59596)
+	id 1lOGDy-0004WE-Kd
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 04:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lOFu4-000637-JX
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:27:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60398)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lOGBN-0003XI-2w
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:45:12 -0400
+Received: from mail-eopbgr00098.outbound.protection.outlook.com
+ ([40.107.0.98]:56094 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1lOFtv-00035M-Oe
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:27:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616401622;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2EJoCR8oTRLLlf4GbQtzyxOWC0heCiR/4lIYUShFTQM=;
- b=O1Fx3WSXfUGvdMkj6c4dlDeJtUno1yjQYChRPoL3xa0JIHVKzgo/BZHpoy1ne8zLplE9hv
- xTVpxIBzHGyNFMOkIfK6e25X/pBOg70A0QhkvUruZV92jVJ2Agyi200Xwyo9KuqfKNIUD1
- h7MD87xLqnvSVy5hTF15gUP6rDXvgP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-D2GfVo96OAaR_ANe2cwoig-1; Mon, 22 Mar 2021 04:26:59 -0400
-X-MC-Unique: D2GfVo96OAaR_ANe2cwoig-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EEA2107ACCD;
- Mon, 22 Mar 2021 08:26:58 +0000 (UTC)
-Received: from [10.64.54.40] (vpn2-54-40.bne.redhat.com [10.64.54.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C80060BE5;
- Mon, 22 Mar 2021 08:26:55 +0000 (UTC)
-Subject: Re: [PATCH] exec: Build page-varry-common.c with -fno-lto
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210321211534.2101231-1-richard.henderson@linaro.org>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <32ae3eb4-4a14-0610-e31b-0d9bf12a0da8@redhat.com>
-Date: Mon, 22 Mar 2021 22:26:28 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
-MIME-Version: 1.0
-In-Reply-To: <20210321211534.2101231-1-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lOGBI-0004B9-L3
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 04:45:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FIzOL9NoLJ538yhczLxb4tHZo9j1n2SJgY2NazSY7K3ybo2L7wxjI61vE+n4qZ7FOU9K7y28Ic8Xnq5zWwYSVnGaHnsK6XieuXoO/dwKnDfzisSqKA8f2RlcM6RmsLxolg/aMqwnztRndulBlkDpLv7zSTEqpJ+PxmSTZ5xekVmhuG6m102+DwZa2RO7Nu1sNn2NL2xPaVR2YIx8xYmgvSDHPJ6/p6m7Dm0panLNTRsO6gSbw8TSysvrVXmWMzT8MuXF8W7P754Wk8o92EP/5SByL0u6l4Vs5lZUTV0XkYZk4X3Aw9RJxuymXFlwgKLnv8p3Pf4ZUIUPDZ3wSSJbWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vu+xwdYB+fkIPm6SbEJ9vmfs7HTLG6dn1Rh17cbYVJo=;
+ b=CA8KrEuzfxrHfs2hmrbFEwac2vd+5MkxKmwsOlnWxi9bBcLcWlF4QvX64++L3/iaCGSPi6EVV3YWNCIP6vg+LuJAyo60lV9d/c6JfGAhH+mq7ce2d+sHlY04AZYnO3YkVBelPzhhDGEeGVSsrIv/hmFyNeZw2aYVAqaRgv0AMI14fRqayOdhPyKNwwbAn62o04PsbJK7/G2W8vnQkaKxoDJyQfm4tAyhh92T8+zuCeNMfoBKBxUxws/C0CLbhXEnFPrsTJ2cmPUiwiqe8m2ymCNWb33N9SkZoMm+Bf3Lh0qWmSeOYiBrut/e2ZmpvXVuYsyg3ADavrw2/ALJVnNODw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vu+xwdYB+fkIPm6SbEJ9vmfs7HTLG6dn1Rh17cbYVJo=;
+ b=o4q/6TbKOBciZ7tGnJLmiwlAsDgl+pl4bc/QRNRdxFPgICNTEjoB0jSEHbnbog3kQl7owya/VjR23lHgfcDsc3kHINinnNLx377l7JbI4WtEoTBm2lDfK12Fay7NJcuPkZt2SgjVT9Kr1JdXf4AKOQK3HcOa8q8GGQbsYSHc1nM=
+Authentication-Results: kiv.zcu.cz; dkim=none (message not signed)
+ header.d=none;kiv.zcu.cz; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VI1PR08MB4493.eurprd08.prod.outlook.com (2603:10a6:803:ff::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
+ 2021 08:29:53 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::f947:3484:b0d7:ab52]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::f947:3484:b0d7:ab52%9]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
+ 08:29:53 +0000
+Subject: Re: [PATCH 0/2] block/raw: implemented persistent dirty bitmap and
+ ability to dump bitmap content via qapi
+To: =?UTF-8?Q?Patrik_Janou=c5=a1ek?= <pj@patrikjanousek.cz>,
+ qemu-devel@nongnu.org
+Cc: lmatejka@kiv.zcu.cz
+References: <20210320093235.461485-1-pj@patrikjanousek.cz>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <09609aa8-5e79-1389-f9d6-b7b8ab745866@virtuozzo.com>
+Date: Mon, 22 Mar 2021 11:29:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <20210320093235.461485-1-pj@patrikjanousek.cz>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.202]
+X-ClientProxiedBy: AM9P192CA0020.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21d::25) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.202) by
+ AM9P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.22 via Frontend Transport; Mon, 22 Mar 2021 08:29:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 092b1a56-dded-4401-7891-08d8ed0ca9c1
+X-MS-TrafficTypeDiagnostic: VI1PR08MB4493:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB4493E97621E6852DA2BB9C15C1659@VI1PR08MB4493.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yBr1gp8qs4BE2bQBsm+1laIfBarhCffwksCTuGcBfwtLsy1s4e/BraY9TvCUbXP6erQyGLHcCEtK64yeKLsFQQw14qt8MP0ZfcP3CkkdZ2mw1l8T55ZtfSLte7SC8E+/arrtG+Cl/gPw60kORhurINqFX/yVB3+mWB3lqXfTovFvGUkPZ+2OUim5v1HADE3A5KHEX+fr0QFNFbQsjpKfpPHw+aPhU1R87JL3AK98YX313k6b9rbSn86YgMwESbuaNV0whx8doX6DTYchf3WsPFJ3XM+epAjG4wdusq6P+dMU4MeCU/+t8AonNvZ6fkA07sCDM7PV0XecmN7WtiuaORHlsSn+MK58NwOYfVZksBz+zhr4Inhkj/jF7Ukxh79EUVPzO1/VPfr/QK+a2d+CoWXFR6TFqgCCs0seR7DTTnEeOLWe/tKt6bzvNqs5atEGgB31fCww1aJ6VQ3kxh0apcJkNTh3ETCp6btk7mHOim7aQ/20Ke/hW+BYEhjnztsclMTYlYzw4u2TNnuur7ALYO81Q2Nb9CNJTBE8/bl3pgZdvpgAA4lZ1ADnxOD5ZQ94TjVrF4Ul9ZCLvv6dwZA6Bb1nnAKKsw2ZCStnvrOk0/SRRFwv9CQzkpnr74MP9jR31cempZHLPz7sNxAJqEH+5bf1cG7j8OdTtqpzZ1dnSoEIU4uBtFIdhubKCpGcO4q01POGs7B348XOl+kGsBLyEpFYevO5a014D5tyszspoIK6gJJJ8cxsa7EgBsVgu5/P
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(39840400004)(346002)(136003)(396003)(2616005)(16526019)(186003)(31686004)(8676002)(478600001)(66556008)(66476007)(66946007)(86362001)(316002)(31696002)(8936002)(4326008)(956004)(6486002)(66574015)(16576012)(5660300002)(36756003)(83380400001)(38100700001)(2906002)(52116002)(26005)(14143004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VzlZV2FqbHNDYUdVKzE5WTJ6b0NhUk16aUloU1pvSW11ekFscHdzZnJXRkZh?=
+ =?utf-8?B?Ky8vS0J0eUIzb3ZBNTY4N1gzT0pHbTJNZ1BrZE0vYnpNVHZVQnk5VXJ1MndZ?=
+ =?utf-8?B?amQxMjFSOWNGT0I1V2hxQzVVbkpmaWU0b3JXVHkxY3NFZHNzNWkwbitJZWwx?=
+ =?utf-8?B?cGVmc1BPc3pJVXN3RFVHM2dIVWd0SDFZcHVvYWZ4aFB2eXdyUU5Ld29JQUNu?=
+ =?utf-8?B?bU8rYzI2UkZ2TGdPdFNXWXZsWjN3ckRQaUN1UzR0M1pqU1VybEpDazY5WXJR?=
+ =?utf-8?B?ek41NXVOU29XYkFPNHF6RlVhcUtyakd5WWNnUHU5UlRwRmFWZzEvRGJrVklX?=
+ =?utf-8?B?ZzFCWThUSmdpMXdGb1dXRlZCUnNkRjJaV1pDbWZ1Z1NoSmUxVldYOHB3cUxl?=
+ =?utf-8?B?S1RMbWwreVczSjZUNGNHTzZBbGZBaFR3UWw4VVRSYVQ4MDBlc2NkRW1sbkRN?=
+ =?utf-8?B?SFRyTDN3NlVnVlpEWTBQTW1BWlhubGE4UVBOcjc3WWFNb1FQWnQ2Z3JxUHU3?=
+ =?utf-8?B?ckhiMUFTdGNPOVZzZTVHcDlaK3Y1VWlrYXFhLzJZbUVVZEhDeUNUQzhTdnlm?=
+ =?utf-8?B?TVowQ3lzZ0liZFcyRlY5QlNiSlBLdWxsTWxlR25xWTZzVEtXbGQ2dGY1UktS?=
+ =?utf-8?B?TXRoZ1VWWTl3M3NDOFhiTmRNSldXZzFEamx6TjBHcUVQMWpSUElRaEp4MW5G?=
+ =?utf-8?B?S1pmSGhFS3RzSGY4Q3lRZCtTMWVJQXFQWjJFQXZzL2hydnVXbWhuRENyM092?=
+ =?utf-8?B?M2NDdStRdHNPQVh2SDFIdkQ0bDhSWDJBRytWUlJldmNoL05QZWJXb2QxcWRs?=
+ =?utf-8?B?SGRCeEpORFRQUkIzbjZlY3Qwd2dHRG02OUdqYm85RDN3UVE1VndxdC9KbGhs?=
+ =?utf-8?B?TVd0TU5MSTdIbkFUQ25pckxkMnJqY2FYQSsramgxQ0dBWDd1MTVXSVRzNjJV?=
+ =?utf-8?B?ZzlVV2JzdysxS3hoRzY1amJQcmJLZzlmM1grOUFsdG5Ja0IrZjcwNmpLamRM?=
+ =?utf-8?B?YzVGSkRBaE9qbXgrbjdzaVI2Y01sZjh2VE5uem14aXBPQjdsMDBZTGN5WDk2?=
+ =?utf-8?B?S1NIUHhhdHllVHpZdWFNbGl0OGdrYUJaYUQ5L3cvKzBNSGxHN2dDelZRVS9K?=
+ =?utf-8?B?dkh4VFBIM1lUSU9EcGUwVlIrMzVzaU5vcDBFWVR3emxQa3B1SHRybmdsa2RY?=
+ =?utf-8?B?WFV4RnAyZ3MvdEdlU0FYb0tTK1pjTFQySERBZ1RNOTc0WElFcWViUTJmN2Ft?=
+ =?utf-8?B?bmVIUnYrTzFBbldETnlXRlFaNWd1R2xzck1qZ3NheVN3Rll1K2s4MCtNR1I1?=
+ =?utf-8?B?cmhTakxNMDRMUVpScDhUVS9rUzd3ZDM3Wklhdm40UVk5NHg0MnMwN0w2Z21V?=
+ =?utf-8?B?MUV4Q3ZHdHZSTGdXRkRQMGY4R21DUThXSCtRcm5kQlJ0bXNjanhKWmF6VlZV?=
+ =?utf-8?B?SDNwNnE1YWNuOTRxNFlOYmhRZ2hOZmcxT1JvQWE4TlVJd2dTU1RwbWpqMzFR?=
+ =?utf-8?B?cVZiMDBvYm8ybkRUME4ya05IN1VIeElEeW91QVN3V0FQeUNUMVcrYkJIbkl5?=
+ =?utf-8?B?elRNdTNmV3VHendPcEI0bXUvV1lNTG1DNy9BL3k5OUVqdEMwWE1CRk9MRmtD?=
+ =?utf-8?B?b0UyQWVYekR1QnRmcVRyWDFTTzl2b2NDWHJJOXNGVnRwU2N6YU5ETTlSRGxs?=
+ =?utf-8?B?dVhkb1dERGtuWWxLclcwOTNnMENvZHhqVGdHTGIzMUlQYWJ1MUZTVWZMakYx?=
+ =?utf-8?Q?Pl+r0i0s+9R4TX7U2Fmrspe7F3qm3Oxg8N75w1i?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 092b1a56-dded-4401-7891-08d8ed0ca9c1
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 08:29:52.9317 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kfP+qstAPPGsnaPvkzDfXKhNmznUvHvrP59GpdNVHFI6E92h7J+hNkQUPZDYybxsiUCxFHjbnfyc0TTdjZ7U4dYq8jmDFosvxLIIND0ULyk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4493
+Received-SPF: pass client-ip=40.107.0.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,426 +146,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 8:15 AM, Richard Henderson wrote:
-> In bbc17caf81f, we used an alias attribute to allow target_page
-> to be declared const, and yet be initialized late.
+Hi Patrik!
+
+20.03.2021 12:32, Patrik Janoušek wrote:
+> Currently, QEMU doesn't support persistent dirty bitmaps for raw format
+
+That's right, we don't have such feature now.
+
+> and also dirty bitmaps are for internal use only, and cannot be accessed
+> using third-party applications.
+
+And that's is not. Bitmaps are accessible through bitmap QMP API
+
+   block-dirty-bitmap-{add,remove,clear,merge}
+
+And to retrieve the context of dirty bitmap you can export it through NBD protocol (see bitmaps argument in nbd specific options of block-export-add command)
+
+> These facts are very limiting
+> in case someone would like to develop their own backup tool becaouse
+> without access to the dirty bitmap it would be possible to implement
+> only full backups.
+
+We do have external incremental backups, based on Qemu bitmap API. But it depends of course on qcow2 persistent bitmaps feature.
+
+> And without persistent dirty bitmaps, it wouldn't
+> be possible to keep track of changed data after QEMU is restarted. And
+> this is exactly what I do as a part of my bachelor thesis. I've
+> developed a tool that is able to create incremental backups of drives
+> in raw format that are LVM volumes (ability to create snapshot is
+> required).
 > 
-> This fails when using LTO with several versions of gcc.
-> The compiler looks through the alias and decides that the const
-> variable is statically initialized to zero, then propagates that
-> zero to many uses of the variable.
+> Please keep in mind that this is my first submission to such a large
+> project and also the first time when I send patch over the email.
+> So I hope I did it correctly.
 > 
-> This can be avoided by compiling one object file with -fno-lto.
-> In this way, any initializer cannot be seen, and the constant
-> propagation does not occur.
+> Patrik Janoušek (2):
+>    block/raw: added support of persistent dirty bitmaps
+>    qapi: implementation of the block-dirty-bitmap-dump command
 > 
-> Since are certain to have this separate compilation unit, we can
-> drop the alias attribute as well.  We simply have differing
-> declarations for target_page in different compilation units.
-> Drop the use of init_target_page, and drop the configure detection
-> for CONFIG_ATTRIBUTE_ALIAS.
-> 
-> In order to change the compilation flags for a file with meson,
-> we must use a static_library.  This runs into specific_ss, where
-> we would need to create many static_library instances.
-> 
-> Fix this by splitting exec-page.c: the page-vary-common.c part is
-> compiled once as a static_library, while the page-vary.c part is
-> left in specific_ss in order to handle the target-specific value
-> of TARGET_PAGE_BITS_MIN.
-> 
-> Reported-by: Gavin Shan <gshan@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   configure                |  19 -------
->   meson.build              |  18 ++++++-
->   include/exec/cpu-all.h   |  15 ++----
->   include/exec/page-vary.h |  34 ++++++++++++
->   exec-vary.c              | 108 ---------------------------------------
->   page-vary-common.c       |  54 ++++++++++++++++++++
->   page-vary.c              |  41 +++++++++++++++
->   7 files changed, 150 insertions(+), 139 deletions(-)
->   create mode 100644 include/exec/page-vary.h
->   delete mode 100644 exec-vary.c
->   create mode 100644 page-vary-common.c
->   create mode 100644 page-vary.c
+>   block/meson.build               |   1 +
+>   block/monitor/bitmap-qmp-cmds.c |  61 ++++++++
+>   block/raw-format-bitmap.c       | 163 ++++++++++++++++++++
+>   block/raw-format.c              | 256 ++++++++++++++++++++++++++++++--
+>   block/raw-format.h              |  50 +++++++
+>   qapi/block-core.json            |  64 +++++++-
+>   6 files changed, 583 insertions(+), 12 deletions(-)
+>   create mode 100644 block/raw-format-bitmap.c
+>   create mode 100644 block/raw-format.h
 > 
 
-It works for me. With this applied, the migration won't fail because
-of @target_page.bits:
 
-Tested-by: Gavin Shan <gshan@redhat.com>
-
-> diff --git a/configure b/configure
-> index 847bc4d095..dbb873e09c 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4889,21 +4889,6 @@ if  test "$plugins" = "yes" &&
->         "for this purpose. You can't build with --static."
->   fi
->   
-> -########################################
-> -# See if __attribute__((alias)) is supported.
-> -# This false for Xcode 9, but has been remedied for Xcode 10.
-> -# Unfortunately, travis uses Xcode 9 by default.
-> -
-> -attralias=no
-> -cat > $TMPC << EOF
-> -int x = 1;
-> -extern const int y __attribute__((alias("x")));
-> -int main(void) { return 0; }
-> -EOF
-> -if compile_prog "" "" ; then
-> -    attralias=yes
-> -fi
-> -
->   ########################################
->   # check if getauxval is available.
->   
-> @@ -5935,10 +5920,6 @@ if test "$atomic64" = "yes" ; then
->     echo "CONFIG_ATOMIC64=y" >> $config_host_mak
->   fi
->   
-> -if test "$attralias" = "yes" ; then
-> -  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
-> -fi
-> -
->   if test "$getauxval" = "yes" ; then
->     echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
->   fi
-> diff --git a/meson.build b/meson.build
-> index 5c85a15364..24e8897ba2 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1933,7 +1933,6 @@ subdir('softmmu')
->   
->   common_ss.add(capstone)
->   specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
-> -specific_ss.add(files('exec-vary.c'))
->   specific_ss.add(when: 'CONFIG_TCG', if_true: files(
->     'fpu/softfloat.c',
->     'tcg/optimize.c',
-> @@ -1945,6 +1944,23 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
->   ))
->   specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
->   
-> +# Work around a gcc bug/misfeature wherein constant propagation looks
-> +# through an alias:
-> +#   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
-> +# to guess that a const variable is always zero.  Without lto, this is
-> +# impossible, as the alias is restricted to page-vary-common.c.  Indeed,
-> +# without lto, not even the alias is required -- we simply use different
-> +# declarations in different compilation units.
-> +pagevary = files('page-vary-common.c')
-> +if get_option('b_lto')
-> +  pagevary = static_library('page-vary-common',
-> +                            sources: pagevary,
-> +                            c_args: ['-fno-lto'])
-> +  pagevary = declare_dependency(link_with: pagevary)
-> +endif
-> +common_ss.add(pagevary)
-> +specific_ss.add(files('page-vary.c'))
-> +
->   subdir('backends')
->   subdir('disas')
->   subdir('migration')
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index 76443eb11d..d76b0b9e02 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -215,22 +215,15 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
->   /* page related stuff */
->   
->   #ifdef TARGET_PAGE_BITS_VARY
-> -typedef struct {
-> -    bool decided;
-> -    int bits;
-> -    target_long mask;
-> -} TargetPageBits;
-> -#if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
-> +# include "exec/page-vary.h"
->   extern const TargetPageBits target_page;
-> -#else
-> -extern TargetPageBits target_page;
-> -#endif
->   #ifdef CONFIG_DEBUG_TCG
->   #define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
-> -#define TARGET_PAGE_MASK   ({ assert(target_page.decided); target_page.mask; })
-> +#define TARGET_PAGE_MASK   ({ assert(target_page.decided); \
-> +                              (target_long)target_page.mask; })
->   #else
->   #define TARGET_PAGE_BITS   target_page.bits
-> -#define TARGET_PAGE_MASK   target_page.mask
-> +#define TARGET_PAGE_MASK   ((target_long)target_page.mask)
->   #endif
->   #define TARGET_PAGE_SIZE   (-(int)TARGET_PAGE_MASK)
->   #else
-> diff --git a/include/exec/page-vary.h b/include/exec/page-vary.h
-> new file mode 100644
-> index 0000000000..c22a7a742e
-> --- /dev/null
-> +++ b/include/exec/page-vary.h
-> @@ -0,0 +1,34 @@
-> +/*
-> + * Definitions for cpus with variable page sizes.
-> + *
-> + *  Copyright (c) 2003 Fabrice Bellard
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef EXEC_PAGE_VARY_H
-> +#define EXEC_PAGE_VARY_H
-> +
-> +typedef struct {
-> +    bool decided;
-> +    int bits;
-> +    uint64_t mask;
-> +} TargetPageBits;
-> +
-> +#ifdef IN_PAGE_VARY
-> +extern bool set_preferred_target_page_bits_common(int bits);
-> +extern void finalize_target_page_bits_common(int min);
-> +#endif
-> +
-> +#endif /* EXEC_PAGE_VARY_H */
-> diff --git a/exec-vary.c b/exec-vary.c
-> deleted file mode 100644
-> index a603b1b433..0000000000
-> --- a/exec-vary.c
-> +++ /dev/null
-> @@ -1,108 +0,0 @@
-> -/*
-> - * Variable page size handling
-> - *
-> - *  Copyright (c) 2003 Fabrice Bellard
-> - *
-> - * This library is free software; you can redistribute it and/or
-> - * modify it under the terms of the GNU Lesser General Public
-> - * License as published by the Free Software Foundation; either
-> - * version 2.1 of the License, or (at your option) any later version.
-> - *
-> - * This library is distributed in the hope that it will be useful,
-> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> - * Lesser General Public License for more details.
-> - *
-> - * You should have received a copy of the GNU Lesser General Public
-> - * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> - */
-> -
-> -#include "qemu/osdep.h"
-> -#include "qemu-common.h"
-> -
-> -#define IN_EXEC_VARY 1
-> -
-> -#include "exec/exec-all.h"
-> -
-> -#ifdef TARGET_PAGE_BITS_VARY
-> -# ifdef CONFIG_ATTRIBUTE_ALIAS
-> -/*
-> - * We want to declare the "target_page" variable as const, which tells
-> - * the compiler that it can cache any value that it reads across calls.
-> - * This avoids multiple assertions and multiple reads within any one user.
-> - *
-> - * This works because we finish initializing the data before we ever read
-> - * from the "target_page" symbol.
-> - *
-> - * This also requires that we have a non-constant symbol by which we can
-> - * perform the actual initialization, and which forces the data to be
-> - * allocated within writable memory.  Thus "init_target_page", and we use
-> - * that symbol exclusively in the two functions that initialize this value.
-> - *
-> - * The "target_page" symbol is created as an alias of "init_target_page".
-> - */
-> -static TargetPageBits init_target_page;
-> -
-> -/*
-> - * Note that this is *not* a redundant decl, this is the definition of
-> - * the "target_page" symbol.  The syntax for this definition requires
-> - * the use of the extern keyword.  This seems to be a GCC bug in
-> - * either the syntax for the alias attribute or in -Wredundant-decls.
-> - *
-> - * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
-> - */
-> -#  pragma GCC diagnostic push
-> -#  pragma GCC diagnostic ignored "-Wredundant-decls"
-> -
-> -extern const TargetPageBits target_page
-> -    __attribute__((alias("init_target_page")));
-> -
-> -#  pragma GCC diagnostic pop
-> -# else
-> -/*
-> - * When aliases are not supported then we force two different declarations,
-> - * by way of suppressing the header declaration with IN_EXEC_VARY.
-> - * We assume that on such an old compiler, LTO cannot be used, and so the
-> - * compiler cannot not detect the mismatched declarations, and all is well.
-> - */
-> -TargetPageBits target_page;
-> -#  define init_target_page target_page
-> -# endif
-> -#endif
-> -
-> -bool set_preferred_target_page_bits(int bits)
-> -{
-> -    /*
-> -     * The target page size is the lowest common denominator for all
-> -     * the CPUs in the system, so we can only make it smaller, never
-> -     * larger. And we can't make it smaller once we've committed to
-> -     * a particular size.
-> -     */
-> -#ifdef TARGET_PAGE_BITS_VARY
-> -    assert(bits >= TARGET_PAGE_BITS_MIN);
-> -    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
-> -        if (init_target_page.decided) {
-> -            return false;
-> -        }
-> -        init_target_page.bits = bits;
-> -    }
-> -#endif
-> -    return true;
-> -}
-> -
-> -void finalize_target_page_bits(void)
-> -{
-> -#ifdef TARGET_PAGE_BITS_VARY
-> -    if (init_target_page.bits == 0) {
-> -        init_target_page.bits = TARGET_PAGE_BITS_MIN;
-> -    }
-> -    init_target_page.mask = (target_long)-1 << init_target_page.bits;
-> -    init_target_page.decided = true;
-> -
-> -    /*
-> -     * For the benefit of an -flto build, prevent the compiler from
-> -     * hoisting a read from target_page before we finish initializing.
-> -     */
-> -    barrier();
-> -#endif
-> -}
-> diff --git a/page-vary-common.c b/page-vary-common.c
-> new file mode 100644
-> index 0000000000..9175556498
-> --- /dev/null
-> +++ b/page-vary-common.c
-> @@ -0,0 +1,54 @@
-> +/*
-> + * Variable page size handling -- target independent part.
-> + *
-> + *  Copyright (c) 2003 Fabrice Bellard
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#define IN_PAGE_VARY 1
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "exec/page-vary.h"
-> +
-> +/* WARNING: This file must *not* be complied with -flto. */
-> +
-> +TargetPageBits target_page;
-> +
-> +bool set_preferred_target_page_bits_common(int bits)
-> +{
-> +    /*
-> +     * The target page size is the lowest common denominator for all
-> +     * the CPUs in the system, so we can only make it smaller, never
-> +     * larger. And we can't make it smaller once we've committed to
-> +     * a particular size.
-> +     */
-> +    if (target_page.bits == 0 || target_page.bits > bits) {
-> +        if (target_page.decided) {
-> +            return false;
-> +        }
-> +        target_page.bits = bits;
-> +    }
-> +    return true;
-> +}
-> +
-> +void finalize_target_page_bits_common(int min)
-> +{
-> +    if (target_page.bits == 0) {
-> +        target_page.bits = min;
-> +    }
-> +    target_page.mask = -1ull << target_page.bits;
-> +    target_page.decided = true;
-> +}
-> diff --git a/page-vary.c b/page-vary.c
-> new file mode 100644
-> index 0000000000..057c7f1815
-> --- /dev/null
-> +++ b/page-vary.c
-> @@ -0,0 +1,41 @@
-> +/*
-> + * Variable page size handling -- target specific part.
-> + *
-> + *  Copyright (c) 2003 Fabrice Bellard
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#define IN_PAGE_VARY 1
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "exec/exec-all.h"
-> +
-> +bool set_preferred_target_page_bits(int bits)
-> +{
-> +#ifdef TARGET_PAGE_BITS_VARY
-> +    assert(bits >= TARGET_PAGE_BITS_MIN);
-> +    return set_preferred_target_page_bits_common(bits);
-> +#else
-> +    return true;
-> +#endif
-> +}
-> +
-> +void finalize_target_page_bits(void)
-> +{
-> +#ifdef TARGET_PAGE_BITS_VARY
-> +    finalize_target_page_bits_common(TARGET_PAGE_BITS_MIN);
-> +#endif
-> +}
-> 
-
+-- 
+Best regards,
+Vladimir
 
