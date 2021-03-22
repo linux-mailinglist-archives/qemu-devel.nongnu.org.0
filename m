@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8513437E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:29:37 +0100 (CET)
-Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B79A3437E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:26:22 +0100 (CET)
+Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOCC7-0005FC-UH
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47156)
+	id 1lOC8z-0002d0-5K
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBvA-0006Tm-NM; Mon, 22 Mar 2021 00:12:04 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55741 helo=ozlabs.org)
+ id 1lOBvB-0006WI-V6; Mon, 22 Mar 2021 00:12:06 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42241 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBv3-0004ku-M7; Mon, 22 Mar 2021 00:12:04 -0400
+ id 1lOBv9-0004l5-P8; Mon, 22 Mar 2021 00:12:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3gzz3Fr9z9sXM; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
+ id 4F3gzz3d71z9sXb; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616386303;
- bh=bOT190nzx8WfxK3q/b0xIai1Lh21nmYciEw5Gta/sPI=;
+ bh=hgCrvoiOO4PwbCOlIJdhV7WU80RIE0Sh0/lc4YaksA4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OZ3sDF7kVYuSkPlgDUk70i2uVu+ARyb6bvLTBJ/ZS1HyO70PfzLtVrEDVSiCKPSUP
- qDO/pMI1edKyZp9xBID2jM9NgPnJYiWp9y8EfZtzmWF8407Tt8P5i5oMHbnL6xnKBq
- ZOR8giKIeFeAX8obumrHOCcYxpHpmX4YarQSdqFw=
-Date: Mon, 22 Mar 2021 15:00:33 +1100
+ b=FocDcS61R74qspkipR/ftD1i4BFZYAwahUn9GFjgSdVFgoXVtjBoHg8bLSCPF+uud
+ F7UJ67T4lHcf3dFWcbTq4wKMVfU10nPq7C+2H6BDDiu+WmsC/EzLu4JP0oqxDiEnyG
+ 0yewMPn64cNkNVFRXYHwd2BDt0q0hQaoXrdWN094=
+Date: Mon, 22 Mar 2021 15:09:04 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 10/17] target/ppc: Create helper_scv
-Message-ID: <YFgWYQ8tPzWfwxDl@yekko.fritz.box>
-References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-11-richard.henderson@linaro.org>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 3/5] hw/pci-host/prep: Remove unuseful memory region
+ mapping
+Message-ID: <YFgYYHOroOLHBbm7@yekko.fritz.box>
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-4-f4bug@amsat.org>
+ <20210312203821.GN194839@xz-x1>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DlcEFU0pcae8bIkJ"
+ protocol="application/pgp-signature"; boundary="5PRomczws350pwBI"
 Content-Disposition: inline
-In-Reply-To: <20210315184615.1985590-11-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210312203821.GN194839@xz-x1>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,117 +60,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>,
+ Greg Kurz <groug@kaod.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DlcEFU0pcae8bIkJ
-Content-Type: text/plain; charset=us-ascii
+--5PRomczws350pwBI
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 12:46:08PM -0600, Richard Henderson wrote:
-> Perform the test against FSCR_SCV at runtime, in the helper.
+On Fri, Mar 12, 2021 at 03:38:21PM -0500, Peter Xu wrote:
+> On Fri, Mar 12, 2021 at 07:28:49PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> > The pci_io_non_contiguous region is mapped on top of pci_io
+> > with higher priority, but simply dispatch into this region
+> > address space. Simplify by directly registering the former
+> > region in place, and adapt the address space dispatch offsets.
+> >=20
+> > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> > ---
+> >  hw/pci-host/prep.c | 11 ++++-------
+> >  1 file changed, 4 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+> > index 0a9162fba97..00a28c2d18c 100644
+> > --- a/hw/pci-host/prep.c
+> > +++ b/hw/pci-host/prep.c
+> > @@ -159,8 +159,7 @@ static uint64_t raven_io_read(void *opaque, hwaddr =
+addr,
+> >      uint8_t buf[4];
+> > =20
+> >      addr =3D raven_io_address(s, addr);
+> > -    address_space_read(&s->pci_io_as, addr + 0x80000000,
+> > -                       MEMTXATTRS_UNSPECIFIED, buf, size);
+> > +    address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, bu=
+f, size);
+> > =20
+> >      if (size =3D=3D 1) {
+> >          return buf[0];
+> > @@ -191,8 +190,7 @@ static void raven_io_write(void *opaque, hwaddr add=
+r,
+> >          g_assert_not_reached();
+> >      }
+> > =20
+> > -    address_space_write(&s->pci_io_as, addr + 0x80000000,
+> > -                        MEMTXATTRS_UNSPECIFIED, buf, size);
+> > +    address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, b=
+uf, size);
 >=20
-> This means we can remove the incorrect set against SCV in
-> ppc_tr_init_disas_context and do not need to add an HFLAGS bit.
+> This changes access to s->pci_io_as, but below didn't change s->pci_io_as
+> layout at all (below is about address_space_mem).  Is this intended?
 >=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/ppc/helper.h      |  1 +
->  target/ppc/excp_helper.c |  9 +++++++++
->  target/ppc/translate.c   | 20 +++++++-------------
->  3 files changed, 17 insertions(+), 13 deletions(-)
+> >  }
+> > =20
+> >  static const MemoryRegionOps raven_io_ops =3D {
+> > @@ -294,9 +292,8 @@ static void raven_pcihost_initfn(Object *obj)
+> >      address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
+> > =20
+> >      /* CPU address space */
+> > -    memory_region_add_subregion(address_space_mem, 0x80000000, &s->pci=
+_io);
+> > -    memory_region_add_subregion_overlap(address_space_mem, 0x80000000,
+> > -                                        &s->pci_io_non_contiguous, 1);
+> > +    memory_region_add_subregion(address_space_mem, 0x80000000,
+> > +                                &s->pci_io_non_contiguous);
 >=20
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 6a4dccf70c..513066d54d 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -13,6 +13,7 @@ DEF_HELPER_1(rfci, void, env)
->  DEF_HELPER_1(rfdi, void, env)
->  DEF_HELPER_1(rfmci, void, env)
->  #if defined(TARGET_PPC64)
-> +DEF_HELPER_2(scv, noreturn, env, i32)
->  DEF_HELPER_2(pminsn, void, env, i32)
->  DEF_HELPER_1(rfid, void, env)
->  DEF_HELPER_1(rfscv, void, env)
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 85de7e6c90..5c95e0c103 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1130,6 +1130,15 @@ void helper_store_msr(CPUPPCState *env, target_ulo=
-ng val)
->  }
-> =20
->  #if defined(TARGET_PPC64)
-> +void helper_scv(CPUPPCState *env, uint32_t lev)
-> +{
-> +    if (env->spr[SPR_FSCR] & (1ull << FSCR_SCV)) {
-> +        raise_exception_err(env, POWERPC_EXCP_SYSCALL_VECTORED, lev);
-> +    } else {
-> +        raise_exception_err(env, POWERPC_EXCP_FU, FSCR_IC_SCV);
-> +    }
-> +}
-> +
->  void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
->  {
->      CPUState *cs;
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 7912495f28..d48c554290 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -173,7 +173,6 @@ struct DisasContext {
->      bool vsx_enabled;
->      bool spe_enabled;
->      bool tm_enabled;
-> -    bool scv_enabled;
->      bool gtse;
->      ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
->      int singlestep_enabled;
-> @@ -4081,15 +4080,16 @@ static void gen_sc(DisasContext *ctx)
->  #if !defined(CONFIG_USER_ONLY)
->  static void gen_scv(DisasContext *ctx)
->  {
-> -    uint32_t lev;
-> +    uint32_t lev =3D (ctx->opcode >> 5) & 0x7F;
-> =20
-> -    if (unlikely(!ctx->scv_enabled)) {
-> -        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_SCV);
-> -        return;
-> +    /* Set the PC back to the faulting instruction. */
-> +    if (ctx->exception =3D=3D POWERPC_EXCP_NONE) {
-> +        gen_update_nip(ctx, ctx->base.pc_next - 4);
->      }
+> I don't know any of this code at all... but it seems the two memory regio=
+ns are
+> not identical in size:
+>=20
+>     memory_region_init(&s->pci_io, obj, "pci-io", 0x3f800000);
+>     memory_region_init_io(&s->pci_io_non_contiguous, obj, &raven_io_ops, =
+s,
+>                           "pci-io-non-contiguous", 0x00800000);
+>=20
+> Then it seems the memory access dispatching to (0x00800000, 0x3f800000) w=
+ould
+> change too, from s->pci_io to nothing.  Raise this up too since I don't k=
+now
+> either whether it's intended..
 
-I don't quite understand this.  Don't we need the NIP to be on the scv
-instruction itself for the case where we get a facility unavailable
-exception, but on the next instruction if we actually take the system
-call?  This appears to be unconditional.
+Right, it seems like this removes the mapping of s->pci_io entirely.
 
-> +    gen_helper_scv(cpu_env, tcg_constant_i32(lev));
-> =20
-> -    lev =3D (ctx->opcode >> 5) & 0x7F;
-> -    gen_exception_err(ctx, POWERPC_SYSCALL_VECTORED, lev);
-> +    /* This need not be exact, just not POWERPC_EXCP_NONE */
-> +    ctx->exception =3D POWERPC_SYSCALL_VECTORED;
->  }
->  #endif
->  #endif
-> @@ -7907,12 +7907,6 @@ static void ppc_tr_init_disas_context(DisasContext=
-Base *dcbase, CPUState *cs)
->      ctx->spe_enabled =3D (hflags >> HFLAGS_SPE) & 1;
->      ctx->altivec_enabled =3D (hflags >> HFLAGS_VR) & 1;
->      ctx->vsx_enabled =3D (hflags >> HFLAGS_VSX) & 1;
-> -    if ((env->flags & POWERPC_FLAG_SCV)
-> -        && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {
-> -        ctx->scv_enabled =3D true;
-> -    } else {
-> -        ctx->scv_enabled =3D false;
-> -    }
->      ctx->tm_enabled =3D (hflags >> HFLAGS_TM) & 1;
->      ctx->gtse =3D !!(env->spr[SPR_LPCR] & LPCR_GTSE);
-> =20
+>=20
+> >      memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci=
+_memory);
+> >      pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(o=
+bj), NULL,
+> >                               &s->pci_memory, &s->pci_io, 0, TYPE_PCI_B=
+US);
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -176,25 +164,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DlcEFU0pcae8bIkJ
+--5PRomczws350pwBI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYFmEACgkQbDjKyiDZ
-s5Lxdg//RigoisgxdDdv0CjEkjivSlTIgjvDzMSqEnfM/8Z8uW/rD+8XZaW4mLYh
-s3TvR1DA/gVUVIAr3mO/Y9WXGj4gI4db6mjr4f+ASTaGNKzoJ++Qy5a0baP/FtcT
-SKPAHjk1qF0+nbxOt+MTa50r+xijYADID45q00XySKSsufShr17n/WfLgk9pVRYt
-sOq/elG0OUsQkCoJTuTZW7Scl/TSLLNQhorWYaOv74u2FwgZQ4ZWKcAqZ6Qt3yTM
-lK74NzjRfkBCoilplaCOA3UrknXcsmGysA/0jUtuLEhuaeJyk9dxny+Hrea2KNJQ
-CNqN4JpQTco6lWwFRUQ8K8DOM8Rl1hIqkHnJe10uA5jsXSBSlGXl7lpVg1EpriIT
-wzljqLWvrOkbsihTh6n4HYpLQ/71QzxPPaC+ixJzWRY+Wu//26KFG0vLptMr8hXA
-NS6mH44XVWqOYvgcc8SNeNggpN+TZagyOlZZWOkb5+OTUG9RsTIr+UnMdZgCSoU3
-gi2SzzJ+gL9nKMHKVEZreqc2OOQuOhtNdIFF5ozgS4uEsmNIv01YNxMDO1qnMSgO
-H7uYlD2lo580YPWQZLhCdsKKAFPchEnGb7kTII6U77lspFJALorfZDxrnwyWsc3S
-pmHqIU1K7eVcrXkmOUWo5DWWCQhqspD8BHczV9d0+xr/J8ahmI4=
-=MvZ6
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYGGAACgkQbDjKyiDZ
+s5LwtA/+PqtXEJnp/uS4dT+1vL0W4zGiza4spBIfipj9AkKKonshV+99xXxnjbNm
+UQ6nLNcf8z3go9I53vWiOGGLMzG335KOp3Tp7wXwqJQE6AHj11hq6YudDAQiwnrD
+3EJgl0df/3dIyCtzylz8hgUOJb5iq+5ox1T/5hRGg3S6fbczOYrkMYUnPXAYWE0L
+e+kF+uzfc/4KTbSh7TjbHn6ZZ+p3CJ1Y4RCJ5XXCnf5Y90GkYezMOUQMjb/I7qqQ
+EawMyq6SUDSBIwhH2+WU3DrU7Uww/YOZaw92AB5kjRXsOsaFr1uOYdLIS97frcXS
+4s+sa4xcrVx3JWq+8+mjbOq5piwDRK5LkgzT+P/7BcxcefpvHSW6fg+BmzjApD/b
+X1iLTbPEkb8KIHD6F27hflPBfrlN9zdsYy1M2TgiivJNre3oCSKnhOeeGi3mKrrv
+OUciimpKpMPWVe5oW7td/Damt54V8DELsRLhVPTOLh9xK3Qtsg3GghbUyZfThrLo
+dlXZK999nlHw9SuyE6QtxJdQ3nHz44QxzgQ31U4k+9XZhCfQhvdKIuLyAVrGBKX7
+T3IcIxAUdkgOEX4WR1OrKoHv/51pY2/1yhTLPm9UnD9/aMYV7X6fdal6txX447PC
+1xzzUaahDxzT34UXE+XuJY2kzhkPQ58RJ3EbNsrUPGEUB4mx/wk=
+=8Qql
 -----END PGP SIGNATURE-----
 
---DlcEFU0pcae8bIkJ--
+--5PRomczws350pwBI--
 
