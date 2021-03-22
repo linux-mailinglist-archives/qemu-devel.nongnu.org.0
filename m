@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8055B3448C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:07:57 +0100 (CET)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6923448D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:10:45 +0100 (CET)
+Received: from localhost ([::1]:56092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOM9s-0001I6-H9
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52312)
+	id 1lOMCa-00056o-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOM35-000262-PY
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:00:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45718)
+ id 1lOM36-000275-6d
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:00:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOM32-000621-2N
+ id 1lOM32-00062N-2M
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:00:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOM2y-0000KK-FZ
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:00:48 +0000
+ id 1lOM2z-0000KJ-3J
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:00:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 749FF2E8157
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:00:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 16DF32E815A
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:00:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Mar 2021 14:50:03 -0000
+Date: Mon, 22 Mar 2021 14:51:15 -0000
 From: Ravishankar <1920752@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: philmd rreddy78
 X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
 X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
 References: <161641534336.27708.1507547188965412298.malonedeb@gac.canonical.com>
-Message-Id: <161642460373.27464.13406458056667916012.malone@gac.canonical.com>
+Message-Id: <161642467571.32224.17228498881397041257.malone@soybean.canonical.com>
 Subject: [Bug 1920752] Re: USB SoundCard Passthrough not working on arm64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 828ba89ea14a5bb8d3710afa2e39cc4acd969c5b
+X-Launchpad-Hash: 1a365932f578fc1623a22e2735891c0afdb01082
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,16 +74,16 @@ Reply-To: Bug 1920752 <1920752@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not much.
+This time I used it differently i.e:
 
-Here is the log
+rreddy78@jetson-nano:~/debian-buster-qemu$ lsusb -s 1:8
+Bus 001 Device 008: ID 041e:324d Creative Technology, Ltd =
 
-gic_cpu_read: Bad offset fc
-gic_cpu_read: Bad offset fc
-virtio_mmio_write: attempt to write guest features with guest_features_sel =
-> 0 in legacy mode
-virtio_mmio_write: attempt to write guest features with guest_features_sel =
-> 0 in legacy mode
+
+And
+
+-device usb-host,vendorid=3D0x041e,productid=3D0x324d -D guest_errors.log -d
+guest_errors
 
 -- =
 
