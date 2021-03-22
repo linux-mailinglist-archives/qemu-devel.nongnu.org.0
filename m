@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A6E343FBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:29:32 +0100 (CET)
-Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DF7343FC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:30:49 +0100 (CET)
+Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOIkV-0002Qk-7i
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:29:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49544)
+	id 1lOIlk-0003XC-3p
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:30:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOIfv-0006kb-7f
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:47 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOIfs-0005Ih-WC
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:46 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- w203-20020a1c49d40000b029010c706d0642so11013870wma.0
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RYln04rPdXP16oTRf4bLDfPYDelgruJglulvhLpq8Eg=;
- b=bbDcH2f46kqE7WSNJezMhVvj7Ur3xXCY+3u3SIzO1ihY7RZGSufFyBNUgmlDn9sLIS
- +X5U6PZ/yezmFuF519g21NEGrNXbuEu2wMdZpFfMsp+f/tSXGjRkwB4dDOhh8NtrRcbG
- caF+i5C2vPGDCIH3FzfWAys08xsLsw5VNdoQsEEqd0hKfrFcP76SrfcOlnIsX2f8RUxz
- vGMUnPQwUcKTIC5770uuPRjbvalpFu4tjJ6B87WrSbyOw2xZmRBEW3m3IBQTgEI7jxCy
- argmtXBxNp09JLDdxMbbk4jOsySlMG2ebOh4/+Cfi8IooYj6rc57YR5mH5sfHrAUedtD
- DBKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RYln04rPdXP16oTRf4bLDfPYDelgruJglulvhLpq8Eg=;
- b=TC1FbCtRbZGr+ZvWR/NFcepBOtQjDvrFf8yuyE9BAvRk6ULB58th26ySfCUTnDBGSg
- 0uGuvY1NLf+zFsBPmOukschJUy+vphoSoJRyS7rBxs7m/+V6/3rTjpHwT/3GRV7Mm65y
- QLgBF5ic1cE/aw549KQPuY6RF1GlCvwDvNghLJjQ6TVGRe34EiivAwDK6fW50XYZuutd
- JN15o27z+MD1BB6MvjecQrGuxaQfx+S9MTkozn78Qdk5tdOFa/46hoBOKryWWS8liFBE
- fTqdCoOUURqgkx+hnnc9ElCGWfZ+MD6zIIJ8AK1MvUK5vfKBZCC70Tsnm8t3RIoTQKR9
- 4O8g==
-X-Gm-Message-State: AOAM5331b03+xAY5vdDy5bCbPix4zAkMtJcCmxLQ5umT8sgif0hHzoL1
- uJOY4BgaVDtFzDSiiElj5KI2xs/fHcd8+g==
-X-Google-Smtp-Source: ABdhPJwx6cIl43GRxETVCbDAdoaE9cQGm7qhdfZsL7MkQ14rwFgAEOtD9ndsIgLBgISerYpEqoy6vA==
-X-Received: by 2002:a1c:3d8b:: with SMTP id k133mr15645394wma.6.1616412283397; 
- Mon, 22 Mar 2021 04:24:43 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id u3sm19515610wrt.82.2021.03.22.04.24.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 04:24:42 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] exec: Build page-vary-common.c with -fno-lto
-Date: Mon, 22 Mar 2021 12:24:26 +0100
-Message-Id: <20210322112427.4045204-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210322112427.4045204-1-f4bug@amsat.org>
-References: <20210322112427.4045204-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
+ id 1lOIj5-0001Q2-OD; Mon, 22 Mar 2021 07:28:03 -0400
+Received: from mxe2.seznam.cz ([2a02:598:2::34]:33209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pj@patrikjanousek.cz>)
+ id 1lOIj2-00077G-T5; Mon, 22 Mar 2021 07:28:03 -0400
+Received: from email.seznam.cz
+ by email-smtpc23b.ng.seznam.cz (email-smtpc23b.ng.seznam.cz [10.23.18.31])
+ id 1aaf2c807aa00b321c9c6797; Mon, 22 Mar 2021 12:27:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=emailprofi.seznam.cz; s=beta; t=1616412476;
+ bh=2yyRxzRDnP2K9N3+Gp9YPVxFGg8fBlfFRVJyGZLv4Cg=;
+ h=Received:To:Cc:References:From:Subject:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ Content-Language;
+ b=FtNo/b9q/A5S0mDswAk4d1xUJsjlgm8jMBjVHqKMCY1sLSy1CMVisnUFYINpd9Zy9
+ dRDLnrJ/njKMdMexQp518wez3pvmZ0ajtYWr3eBQ/hj5Q451m7sZC2m7tpiKaQXFlW
+ tWuLTCTfiuGrTz/zxrEpNlJ+mANaehlENt1bmcV4=
+Received: from [IPv6:2a01:510:d502:b200:c1b:ad27:bde0:341a]
+ (2a01:510:d502:b200:c1b:ad27:bde0:341a
+ [2a01:510:d502:b200:c1b:ad27:bde0:341a])
+ by email-relay13.ng.seznam.cz (Seznam SMTPD 1.3.124) with ESMTP;
+ Mon, 22 Mar 2021 12:27:52 +0100 (CET)  
+To: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>
+References: <20210320093235.461485-1-pj@patrikjanousek.cz>
+ <856ca6ba-3871-068f-f821-269c40a5a4d5@patrikjanousek.cz>
+ <6e142c5b-053c-dc58-277c-59a8ce67f8a7@redhat.com>
+From: =?UTF-8?Q?Patrik_Janou=c5=a1ek?= <pj@patrikjanousek.cz>
+Subject: Re: Fwd: [PATCH 0/2] block/raw: implemented persistent dirty bitmap
+ and ability to dump bitmap content via qapi
+Message-ID: <a779e20f-4720-3762-fa3d-d15f4980c0fb@patrikjanousek.cz>
+Date: Mon, 22 Mar 2021 12:27:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <6e142c5b-053c-dc58-277c-59a8ce67f8a7@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Received-SPF: pass client-ip=2a02:598:2::34; envelope-from=pj@patrikjanousek.cz;
+ helo=mxe2.seznam.cz
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,315 +73,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gavin Shan <gshan@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, lmatejka@kiv.zcu.cz
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 3/22/21 11:48 AM, Max Reitz wrote:
+> Hi,
+>
+> On 20.03.21 11:01, Patrik Janou=C5=A1ek wrote:
+>> I'm sorry, but I forgot to add you to the cc, so I'm forwarding the
+>> patch to you additionally. I don't want to spam the mailing list
+>> unnecessarily.
+>
+> I think it=E2=80=99s better to still CC the list.=C2=A0 It=E2=80=99s so=
+ full of mail, one
+> more won=E2=80=99t hurt. :)
+>
+> (Re-adding qemu-block and qemu-devel, because the discussion belongs
+> on the list(s).)
+>
+>> -------- Forwarded Message --------
+>> Subject:=C2=A0=C2=A0=C2=A0=C2=A0 [PATCH 0/2] block/raw: implemented pe=
+rsistent dirty
+>> bitmap and ability to dump bitmap content via qapi
+>> Date:=C2=A0=C2=A0=C2=A0=C2=A0 Sat, 20 Mar 2021 10:32:33 +0100
+>> From:=C2=A0=C2=A0=C2=A0=C2=A0 Patrik Janou=C5=A1ek <pj@patrikjanousek.=
+cz>
+>> To:=C2=A0=C2=A0=C2=A0=C2=A0 qemu-devel@nongnu.org
+>> CC:=C2=A0=C2=A0=C2=A0=C2=A0 Patrik Janou=C5=A1ek <pj@patrikjanousek.cz=
+>, lmatejka@kiv.zcu.cz
+>>
+>>
+>>
+>> Currently, QEMU doesn't support persistent dirty bitmaps for raw forma=
+t
+>> and also dirty bitmaps are for internal use only, and cannot be access=
+ed
+>> using third-party applications. These facts are very limiting
+>> in case someone would like to develop their own backup tool becaouse
+>> without access to the dirty bitmap it would be possible to implement
+>> only full backups. And without persistent dirty bitmaps, it wouldn't
+>> be possible to keep track of changed data after QEMU is restarted. And=
 
-In bbc17caf81f, we used an alias attribute to allow target_page
-to be declared const, and yet be initialized late.
+>> this is exactly what I do as a part of my bachelor thesis. I've
+>> developed a tool that is able to create incremental backups of drives
+>> in raw format that are LVM volumes (ability to create snapshot is
+>> required).
+>
+> Similarly to what Vladimir has said already, the thing is that
+> conceptually I can see no difference between having a raw image with
+> the bitmaps stored in some other file, i.e.:
+>
+> =C2=A0 { "driver": "raw",
+> =C2=A0=C2=A0=C2=A0 "dirty-bitmaps": [ {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "sdc1.bitmap",
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "persistent": true
+> =C2=A0=C2=A0=C2=A0 } ],
+> =C2=A0=C2=A0=C2=A0 "file": {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "driver": "file",
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "/dev/sdc1"
+> =C2=A0=C2=A0=C2=A0 } }
+>
+> And having a qcow2 image with the raw data stored in some other file,
+> i.e.:
+>
+> =C2=A0 { "driver": "qcow2",
+> =C2=A0=C2=A0=C2=A0 "file": {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "driver": "file",
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "sdc1.metadata"
+> =C2=A0=C2=A0=C2=A0 },
+> =C2=A0=C2=A0=C2=A0 "data-file": {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "driver": "file",
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "filename": "/dev/sdc1"
+> =C2=A0=C2=A0=C2=A0 } }
+>
+> (Where sdc1.metadata is a qcow2 file created with
+> =E2=80=9Cdata-file=3D/dev/sdc1,data-file-raw=3Don=E2=80=9D.)
+>
+> To use persistent bitmaps with raw images, you need to add metadata
+> (namely, the bitmaps).=C2=A0 Why not store that metadata in a qcow2 fil=
+e?
+>
+> Max
 
-This fails when using LTO with several versions of gcc.
-The compiler looks through the alias and decides that the const
-variable is statically initialized to zero, then propagates that
-zero to many uses of the variable.
+So if I understand it correctly. I can configure dirty bitmaps in the
+latest version of QEMU to be persistently stored in some other file.
+Because even Proxmox Backup Server can't perform an incremental backup
+after restarting QEMU, and that means something to me. I think they
+would implement it if it was that simple.
 
-This can be avoided by compiling one object file with -fno-lto.
-In this way, any initializer cannot be seen, and the constant
-propagation does not occur.
+Could you please send me simple example on how to configure (via command
+line args) one raw format drive that can store dirty bitmaps
+persistently in other qcow2 file? I may be missing something, but I
+thought QEMU couldn't do it, because Proxmox community wants this
+feature for a long time.
 
-Since are certain to have this separate compilation unit, we can
-drop the alias attribute as well.  We simply have differing
-declarations for target_page in different compilation units.
-Drop the use of init_target_page, and drop the configure detection
-for CONFIG_ATTRIBUTE_ALIAS.
+Patrik
 
-In order to change the compilation flags for a file with meson,
-we must use a static_library.  This runs into specific_ss, where
-we would need to create many static_library instances.
 
-Fix this by splitting exec-page.c: the page-vary-common.c part is
-compiled once as a static_library, while the page-vary.c part is
-left in specific_ss in order to handle the target-specific value
-of TARGET_PAGE_BITS_MIN.
-
-Reported-by: Gavin Shan <gshan@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Gavin Shan <gshan@redhat.com>
-Message-Id: <20210321211534.2101231-1-richard.henderson@linaro.org>
-[PMD: Fix typo in subject, split original patch in 3]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- configure                | 19 ----------
- meson.build              | 15 ++++++++
- include/exec/cpu-all.h   |  4 --
- include/exec/page-vary.h |  5 +++
- page-vary-common.c       | 54 +++++++++++++++++++++++++++
- page-vary.c              | 79 +++-------------------------------------
- 6 files changed, 80 insertions(+), 96 deletions(-)
- create mode 100644 page-vary-common.c
-
-diff --git a/configure b/configure
-index 847bc4d0957..dbb873e09cb 100755
---- a/configure
-+++ b/configure
-@@ -4889,21 +4889,6 @@ if  test "$plugins" = "yes" &&
-       "for this purpose. You can't build with --static."
- fi
- 
--########################################
--# See if __attribute__((alias)) is supported.
--# This false for Xcode 9, but has been remedied for Xcode 10.
--# Unfortunately, travis uses Xcode 9 by default.
--
--attralias=no
--cat > $TMPC << EOF
--int x = 1;
--extern const int y __attribute__((alias("x")));
--int main(void) { return 0; }
--EOF
--if compile_prog "" "" ; then
--    attralias=yes
--fi
--
- ########################################
- # check if getauxval is available.
- 
-@@ -5935,10 +5920,6 @@ if test "$atomic64" = "yes" ; then
-   echo "CONFIG_ATOMIC64=y" >> $config_host_mak
- fi
- 
--if test "$attralias" = "yes" ; then
--  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
--fi
--
- if test "$getauxval" = "yes" ; then
-   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index f0dd8aa0898..24e8897ba2c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1944,6 +1944,21 @@
- ))
- specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
- 
-+# Work around a gcc bug/misfeature wherein constant propagation looks
-+# through an alias:
-+#   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
-+# to guess that a const variable is always zero.  Without lto, this is
-+# impossible, as the alias is restricted to page-vary-common.c.  Indeed,
-+# without lto, not even the alias is required -- we simply use different
-+# declarations in different compilation units.
-+pagevary = files('page-vary-common.c')
-+if get_option('b_lto')
-+  pagevary = static_library('page-vary-common',
-+                            sources: pagevary,
-+                            c_args: ['-fno-lto'])
-+  pagevary = declare_dependency(link_with: pagevary)
-+endif
-+common_ss.add(pagevary)
- specific_ss.add(files('page-vary.c'))
- 
- subdir('backends')
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index b0a422c7b62..d76b0b9e02d 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -216,11 +216,7 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
- 
- #ifdef TARGET_PAGE_BITS_VARY
- # include "exec/page-vary.h"
--#if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
- extern const TargetPageBits target_page;
--#else
--extern TargetPageBits target_page;
--#endif
- #ifdef CONFIG_DEBUG_TCG
- #define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
- #define TARGET_PAGE_MASK   ({ assert(target_page.decided); \
-diff --git a/include/exec/page-vary.h b/include/exec/page-vary.h
-index 799d6310d6c..c22a7a742e7 100644
---- a/include/exec/page-vary.h
-+++ b/include/exec/page-vary.h
-@@ -26,4 +26,9 @@ typedef struct {
-     uint64_t mask;
- } TargetPageBits;
- 
-+#ifdef IN_PAGE_VARY
-+extern bool set_preferred_target_page_bits_common(int bits);
-+extern void finalize_target_page_bits_common(int min);
-+#endif
-+
- #endif /* EXEC_PAGE_VARY_H */
-diff --git a/page-vary-common.c b/page-vary-common.c
-new file mode 100644
-index 00000000000..91755564985
---- /dev/null
-+++ b/page-vary-common.c
-@@ -0,0 +1,54 @@
-+/*
-+ * Variable page size handling -- target independent part.
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define IN_PAGE_VARY 1
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "exec/page-vary.h"
-+
-+/* WARNING: This file must *not* be complied with -flto. */
-+
-+TargetPageBits target_page;
-+
-+bool set_preferred_target_page_bits_common(int bits)
-+{
-+    /*
-+     * The target page size is the lowest common denominator for all
-+     * the CPUs in the system, so we can only make it smaller, never
-+     * larger. And we can't make it smaller once we've committed to
-+     * a particular size.
-+     */
-+    if (target_page.bits == 0 || target_page.bits > bits) {
-+        if (target_page.decided) {
-+            return false;
-+        }
-+        target_page.bits = bits;
-+    }
-+    return true;
-+}
-+
-+void finalize_target_page_bits_common(int min)
-+{
-+    if (target_page.bits == 0) {
-+        target_page.bits = min;
-+    }
-+    target_page.mask = -1ull << target_page.bits;
-+    target_page.decided = true;
-+}
-diff --git a/page-vary.c b/page-vary.c
-index 344f9fcf76a..057c7f18152 100644
---- a/page-vary.c
-+++ b/page-vary.c
-@@ -17,92 +17,25 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#define IN_PAGE_VARY 1
-+
- #include "qemu/osdep.h"
- #include "qemu-common.h"
--
--#define IN_EXEC_VARY 1
--
- #include "exec/exec-all.h"
- 
--#ifdef TARGET_PAGE_BITS_VARY
--# ifdef CONFIG_ATTRIBUTE_ALIAS
--/*
-- * We want to declare the "target_page" variable as const, which tells
-- * the compiler that it can cache any value that it reads across calls.
-- * This avoids multiple assertions and multiple reads within any one user.
-- *
-- * This works because we finish initializing the data before we ever read
-- * from the "target_page" symbol.
-- *
-- * This also requires that we have a non-constant symbol by which we can
-- * perform the actual initialization, and which forces the data to be
-- * allocated within writable memory.  Thus "init_target_page", and we use
-- * that symbol exclusively in the two functions that initialize this value.
-- *
-- * The "target_page" symbol is created as an alias of "init_target_page".
-- */
--static TargetPageBits init_target_page;
--
--/*
-- * Note that this is *not* a redundant decl, this is the definition of
-- * the "target_page" symbol.  The syntax for this definition requires
-- * the use of the extern keyword.  This seems to be a GCC bug in
-- * either the syntax for the alias attribute or in -Wredundant-decls.
-- *
-- * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
-- */
--#  pragma GCC diagnostic push
--#  pragma GCC diagnostic ignored "-Wredundant-decls"
--
--extern const TargetPageBits target_page
--    __attribute__((alias("init_target_page")));
--
--#  pragma GCC diagnostic pop
--# else
--/*
-- * When aliases are not supported then we force two different declarations,
-- * by way of suppressing the header declaration with IN_EXEC_VARY.
-- * We assume that on such an old compiler, LTO cannot be used, and so the
-- * compiler cannot not detect the mismatched declarations, and all is well.
-- */
--TargetPageBits target_page;
--#  define init_target_page target_page
--# endif
--#endif
--
- bool set_preferred_target_page_bits(int bits)
- {
--    /*
--     * The target page size is the lowest common denominator for all
--     * the CPUs in the system, so we can only make it smaller, never
--     * larger. And we can't make it smaller once we've committed to
--     * a particular size.
--     */
- #ifdef TARGET_PAGE_BITS_VARY
-     assert(bits >= TARGET_PAGE_BITS_MIN);
--    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
--        if (init_target_page.decided) {
--            return false;
--        }
--        init_target_page.bits = bits;
--    }
--#endif
-+    return set_preferred_target_page_bits_common(bits);
-+#else
-     return true;
-+#endif
- }
- 
- void finalize_target_page_bits(void)
- {
- #ifdef TARGET_PAGE_BITS_VARY
--    if (init_target_page.bits == 0) {
--        init_target_page.bits = TARGET_PAGE_BITS_MIN;
--    }
--    init_target_page.mask = (target_long)-1 << init_target_page.bits;
--    init_target_page.decided = true;
--
--    /*
--     * For the benefit of an -flto build, prevent the compiler from
--     * hoisting a read from target_page before we finish initializing.
--     */
--    barrier();
-+    finalize_target_page_bits_common(TARGET_PAGE_BITS_MIN);
- #endif
- }
--- 
-2.26.2
 
 
