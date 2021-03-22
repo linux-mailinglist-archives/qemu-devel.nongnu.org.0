@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347423452C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:06:58 +0100 (CET)
-Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB493452E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:15:57 +0100 (CET)
+Received: from localhost ([::1]:33552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOTdR-0003zy-8g
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37666)
+	id 1lOTm8-0004ug-DK
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:15:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTXC-0007CJ-Fd
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56157)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTXF-0007EL-84
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTX8-0001Gf-FI
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTXC-0001IS-9D
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616454025;
+ s=mimecast20190719; t=1616454028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7MCCUAv4xuBxw3NN3h6dkjufSelH9In4sztB/9L9w9g=;
- b=Qc0I3DPtxsxu83s1+XT8azJYae6iMw8PwecQxtbbcZIJUEvrw2SYqMf2BiBRsDV9AAJSfB
- ZCzUWzZFw0JvBhoxOuj1VnTaYFohEiLYKAuSgjDid0v4GmAUOGLvo7wto7u1rDDEG5aaIo
- qGPKDM0iXVtG20X/8V1VmOxhC3/kXyw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-R_dxmVTNNgKM59dMNVDVwg-1; Mon, 22 Mar 2021 19:00:24 -0400
-X-MC-Unique: R_dxmVTNNgKM59dMNVDVwg-1
-Received: by mail-wr1-f72.google.com with SMTP id 75so157538wrl.3
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:23 -0700 (PDT)
+ bh=oP0DWqO2hTVUoBgftUJivGqbVs8/LxKOJqfcj2wPLwU=;
+ b=H8m4eKfNpNK454B6KdilL0Dhx740p6rQkWuAYCP0xzLu70fTGurORXtFp11j6CtGGHhFTL
+ AEyeso55ib75eNjqDsKRmqLwwbVoHK7QDdXuSa8ueIwSKvcSXQ0rsttahN8gXZDnwUZap+
+ HdG75lFlBAYO1iGiomKRtbrQ/7V/NLs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-wGuPFBfSNIe-FNHuQ00MvA-1; Mon, 22 Mar 2021 19:00:26 -0400
+X-MC-Unique: wGuPFBfSNIe-FNHuQ00MvA-1
+Received: by mail-wr1-f70.google.com with SMTP id p15so147091wre.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 16:00:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7MCCUAv4xuBxw3NN3h6dkjufSelH9In4sztB/9L9w9g=;
- b=HdPyTvrD42Tc6uYlhXqjaj/McOrOr5+BaoNJvDKtIOH5J4crqXjb0XVdzvd7n9PgRU
- 5RzgwmlB7k7kFwgRtRQQLrtIK3xQqgjg7pqmp0Yny1oVlgwc1gqPPtsOILN4SPxzTiQE
- opc63ZEK/kR9PgS9qi1OOYB9QqAoRAYbi4clDHi2u0TTTCq9O+FxZLOITKstbmpHF9hG
- JqfAINTaN7pC+VirNKU9B0ThDOUL4DhFMSe7jr6wXh3GdUzcxEkMNVvWx3+YyNJlxQ/E
- oO9V92kVDlGGHFT/hyeWApEp/Z5g4x7O6bRdOMXHtJVUnhcvnrNOWSZz4rI2q6iftBFb
- 94wQ==
-X-Gm-Message-State: AOAM531TQrOK0BMkh4QqJP6XEyZsLcfrHFx6vrtgJRKnF1Iqo1d6YDQf
- z3L/87SqfKIyt2Fx/JjNU3sTj79/2Dhkgj0Zd8NNfE76k3lYME2lKzqVHM3mWIUkvzr0aafHKLQ
- iCuSW6Z2uLTtGZs4+n9Plry3z0b0/7lw9pyxeYLRg4wcWc+t1MtHyvwJW0RpC
-X-Received: by 2002:a05:600c:4f03:: with SMTP id
- l3mr575040wmq.149.1616454022628; 
- Mon, 22 Mar 2021 16:00:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbsiaweEsba1J/eja9tw08n3gbJA/zQB/N65lMg8sVjD33NHIPLsZKbZVnbzJ60JNMCz1SCw==
-X-Received: by 2002:a05:600c:4f03:: with SMTP id
- l3mr575029wmq.149.1616454022410; 
- Mon, 22 Mar 2021 16:00:22 -0700 (PDT)
+ bh=oP0DWqO2hTVUoBgftUJivGqbVs8/LxKOJqfcj2wPLwU=;
+ b=IhSB+X4HkzT09ZtEdjg4CjYg35LCFu1CC1RGaXJz+wPfN7wMyoFyKjnNxlAqBQTTeW
+ 8vLjSiFwS+YwJPcnckWhlJvBFFW7o6VLeguxmeex61VL5mZOgYz4Ru8+7ur/RnDXR0aR
+ z8kJqclVCAO3/eC6UPZFim3LSruhN1luN+eOMgQ6fjsgcoz/cI+/bCWRvcKaGRmKgxAy
+ xqNSchOg85ObfU0uqbmoUIzVmJI/ku/jtd0pB9TXenpRcBESbjpwd5mUCnwAKO9bm1B5
+ doGeYrxLSn1obrYMOJv66Jw9EJ9kI+LkWD8HRi5QLdPqTnjMql3NNrCIo+Vtbwh1MaEV
+ 7rqA==
+X-Gm-Message-State: AOAM533IojIXTxHtzv70BMK7Yj0pawGh+H2x4NKHBptAGfa8PfWpZl1q
+ 8NpZesYc7nQ30swAkxhaF0cF2B1urYUbPqn3oCpf0TjgYgFNp4uHP2ZLvbBPkH69vqr1TtUFdoQ
+ T1lzGqpKrL+i0503jWZX5YIS1vnruH1QPEu96u6O59wMiefCxAVQ9KO+ilMZ5
+X-Received: by 2002:adf:b313:: with SMTP id j19mr823777wrd.188.1616454025262; 
+ Mon, 22 Mar 2021 16:00:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyNFwZvzfCE0Hq/wN0YCXtwQzVtflOW5WR9UQM17iUw3iihNuZiOCmMsJESXI/FVIFzlZ1GQ==
+X-Received: by 2002:adf:b313:: with SMTP id j19mr823750wrd.188.1616454024945; 
+ Mon, 22 Mar 2021 16:00:24 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id e13sm24840415wrg.72.2021.03.22.16.00.21
+ by smtp.gmail.com with ESMTPSA id z2sm24204646wrm.0.2021.03.22.16.00.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 16:00:22 -0700 (PDT)
-Date: Mon, 22 Mar 2021 19:00:20 -0400
+ Mon, 22 Mar 2021 16:00:24 -0700 (PDT)
+Date: Mon, 22 Mar 2021 19:00:22 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 12/19] acpi: add aml_to_decimalstring() and aml_call6()
- helpers
-Message-ID: <20210322225907.541943-13-mst@redhat.com>
+Subject: [PULL v2 13/19] pci: acpi: add _DSM method to PCI devices
+Message-ID: <20210322225907.541943-14-mst@redhat.com>
 References: <20210322225907.541943-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322225907.541943-1-mst@redhat.com>
@@ -74,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,90 +93,201 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-it will be used by follow up patches
+Implement _DSM according to:
+    PCI Firmware Specification 3.1
+    4.6.7.  DSM for Naming a PCI or PCI Express Device Under
+            Operating Systems
+and wire it up to cold and hot-plugged PCI devices.
+Feature depends on ACPI hotplug being enabled (as that provides
+PCI devices descriptions in ACPI and MMIO registers that are
+reused to fetch acpi-index).
+
+acpi-index should work for
+  - cold plugged NICs:
+      $QEMU -device e1000,acpi-index=100
+         => 'eno100'
+  - hot-plugged
+      (monitor) device_add e1000,acpi-index=200,id=remove_me
+         => 'eno200'
+  - re-plugged
+      (monitor) device_del remove_me
+      (monitor) device_add e1000,acpi-index=1
+         => 'eno1'
+
+Windows also sees index under "PCI Label Id" field in properties
+dialog but otherwise it doesn't seem to have any effect.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210315180102.3008391-5-imammedo@redhat.com>
+Message-Id: <20210315180102.3008391-6-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/aml-build.h |  3 +++
- hw/acpi/aml-build.c         | 28 ++++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ include/hw/acpi/pci.h |   1 +
+ hw/i386/acpi-build.c  | 105 ++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 103 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index 380d3e3924..e652106e26 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -301,6 +301,7 @@ Aml *aml_arg(int pos);
- Aml *aml_to_integer(Aml *arg);
- Aml *aml_to_hexstring(Aml *src, Aml *dst);
- Aml *aml_to_buffer(Aml *src, Aml *dst);
-+Aml *aml_to_decimalstring(Aml *src, Aml *dst);
- Aml *aml_store(Aml *val, Aml *target);
- Aml *aml_and(Aml *arg1, Aml *arg2, Aml *dst);
- Aml *aml_or(Aml *arg1, Aml *arg2, Aml *dst);
-@@ -323,6 +324,8 @@ Aml *aml_call3(const char *method, Aml *arg1, Aml *arg2, Aml *arg3);
- Aml *aml_call4(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4);
- Aml *aml_call5(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
-                Aml *arg5);
-+Aml *aml_call6(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
-+               Aml *arg5, Aml *arg6);
- Aml *aml_gpio_int(AmlConsumerAndProducer con_and_pro,
-                   AmlLevelAndEdge edge_level,
-                   AmlActiveHighAndLow active_level, AmlShared shared,
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index a2cd7a5830..d33ce8954a 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -634,6 +634,19 @@ Aml *aml_to_buffer(Aml *src, Aml *dst)
-     return var;
+diff --git a/include/hw/acpi/pci.h b/include/hw/acpi/pci.h
+index e514f179d8..b5deee0a9d 100644
+--- a/include/hw/acpi/pci.h
++++ b/include/hw/acpi/pci.h
+@@ -35,4 +35,5 @@ typedef struct AcpiMcfgInfo {
+ 
+ void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info,
+                 const char *oem_id, const char *oem_table_id);
++Aml *aml_pci_device_dsm(void);
+ #endif
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index e49fae2bfd..a95b42c8b3 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -397,6 +397,13 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+                     aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+                 );
+                 aml_append(dev, method);
++                method = aml_method("_DSM", 4, AML_SERIALIZED);
++                aml_append(method,
++                    aml_return(aml_call6("PDSM", aml_arg(0), aml_arg(1),
++                                         aml_arg(2), aml_arg(3),
++                                         aml_name("BSEL"), aml_name("_SUN")))
++                );
++                aml_append(dev, method);
+                 aml_append(parent_scope, dev);
+ 
+                 build_append_pcihp_notify_entry(notify_method, slot);
+@@ -424,6 +431,16 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
+         aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
+ 
++        if (bsel) {
++            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
++            method = aml_method("_DSM", 4, AML_SERIALIZED);
++            aml_append(method, aml_return(
++                aml_call6("PDSM", aml_arg(0), aml_arg(1), aml_arg(2),
++                          aml_arg(3), aml_name("BSEL"), aml_name("_SUN"))
++            ));
++            aml_append(dev, method);
++        }
++
+         if (pc->class_id == PCI_CLASS_DISPLAY_VGA) {
+             /* add VGA specific AML methods */
+             int s3d;
+@@ -446,9 +463,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             aml_append(method, aml_return(aml_int(s3d)));
+             aml_append(dev, method);
+         } else if (hotplug_enabled_dev) {
+-            /* add _SUN/_EJ0 to make slot hotpluggable  */
+-            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+-
++            /* add _EJ0 to make slot hotpluggable  */
+             method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+             aml_append(method,
+                 aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+@@ -511,6 +526,88 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+     qobject_unref(bsel);
  }
  
-+/* ACPI 2.0a: 17.2.4.4 Type 2 Opcodes Encoding: DefToDecimalString */
-+Aml *aml_to_decimalstring(Aml *src, Aml *dst)
++Aml *aml_pci_device_dsm(void)
 +{
-+    Aml *var = aml_opcode(0x97 /* ToDecimalStringOp */);
-+    aml_append(var, src);
-+    if (dst) {
-+        aml_append(var, dst);
-+    } else {
-+        build_append_byte(var->buf, 0x00 /* NullNameOp */);
++    Aml *method, *UUID, *ifctx, *ifctx1, *ifctx2, *ifctx3, *elsectx;
++    Aml *acpi_index = aml_local(0);
++    Aml *zero = aml_int(0);
++    Aml *bnum = aml_arg(4);
++    Aml *func = aml_arg(2);
++    Aml *rev = aml_arg(1);
++    Aml *sun = aml_arg(5);
++
++    method = aml_method("PDSM", 6, AML_SERIALIZED);
++
++    /*
++     * PCI Firmware Specification 3.1
++     * 4.6.  _DSM Definitions for PCI
++     */
++    UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
++    ifctx = aml_if(aml_equal(aml_arg(0), UUID));
++    {
++        aml_append(ifctx, aml_store(aml_call2("AIDX", bnum, sun), acpi_index));
++        ifctx1 = aml_if(aml_equal(func, zero));
++        {
++            uint8_t byte_list[1];
++
++            ifctx2 = aml_if(aml_equal(rev, aml_int(2)));
++            {
++                /*
++                 * advertise function 7 if device has acpi-index
++                 * acpi_index values:
++                 *            0: not present (default value)
++                 *     FFFFFFFF: not supported (old QEMU without PIDX reg)
++                 *        other: device's acpi-index
++                 */
++                ifctx3 = aml_if(aml_lnot(
++                    aml_or(aml_equal(acpi_index, zero),
++                           aml_equal(acpi_index, aml_int(0xFFFFFFFF)), NULL)
++                ));
++                {
++                    byte_list[0] =
++                        1 /* have supported functions */ |
++                        1 << 7 /* support for function 7 */
++                    ;
++                    aml_append(ifctx3, aml_return(aml_buffer(1, byte_list)));
++                }
++                aml_append(ifctx2, ifctx3);
++             }
++             aml_append(ifctx1, ifctx2);
++
++             byte_list[0] = 0; /* nothing supported */
++             aml_append(ifctx1, aml_return(aml_buffer(1, byte_list)));
++         }
++         aml_append(ifctx, ifctx1);
++         elsectx = aml_else();
++         /*
++          * PCI Firmware Specification 3.1
++          * 4.6.7. _DSM for Naming a PCI or PCI Express Device Under
++          *        Operating Systems
++          */
++         ifctx1 = aml_if(aml_equal(func, aml_int(7)));
++         {
++             Aml *pkg = aml_package(2);
++             Aml *ret = aml_local(1);
++
++             aml_append(pkg, zero);
++             /*
++              * optional, if not impl. should return null string
++              */
++             aml_append(pkg, aml_string("%s", ""));
++             aml_append(ifctx1, aml_store(pkg, ret));
++             /*
++              * update acpi-index to actual value
++              */
++             aml_append(ifctx1, aml_store(acpi_index, aml_index(ret, zero)));
++             aml_append(ifctx1, aml_return(ret));
++         }
++         aml_append(elsectx, ifctx1);
++         aml_append(ifctx, elsectx);
 +    }
-+    return var;
++    aml_append(method, ifctx);
++    return method;
 +}
 +
- /* ACPI 1.0b: 16.2.5.4 Type 2 Opcodes Encoding: DefStore */
- Aml *aml_store(Aml *val, Aml *target)
- {
-@@ -835,6 +848,21 @@ Aml *aml_call5(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
-     return var;
+ /**
+  * build_prt_entry:
+  * @link_name: link name for PCI route entry
+@@ -1195,6 +1292,8 @@ static void build_piix4_pci_hotplug(Aml *table)
+     aml_append(method, aml_return(aml_local(0)));
+     aml_append(scope, method);
+ 
++    aml_append(scope, aml_pci_device_dsm());
++
+     aml_append(table, scope);
  }
  
-+/* helper to call method with 5 arguments */
-+Aml *aml_call6(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
-+               Aml *arg5, Aml *arg6)
-+{
-+    Aml *var = aml_alloc();
-+    build_append_namestring(var->buf, "%s", method);
-+    aml_append(var, arg1);
-+    aml_append(var, arg2);
-+    aml_append(var, arg3);
-+    aml_append(var, arg4);
-+    aml_append(var, arg5);
-+    aml_append(var, arg6);
-+    return var;
-+}
-+
- /*
-  * ACPI 5.0: 6.4.3.8.1 GPIO Connection Descriptor
-  * Type 1, Large Item Name 0xC
 -- 
 MST
 
