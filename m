@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B7734497F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:44:02 +0100 (CET)
-Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134A6344980
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:44:05 +0100 (CET)
+Received: from localhost ([::1]:50220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMin-0001wy-PS
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
+	id 1lOMiq-00020s-0z
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lOMgE-0000Fi-13
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:22 -0400
-Received: from mout.web.de ([212.227.17.11]:39141)
+ id 1lOMgG-0000IJ-EO
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:26 -0400
+Received: from mout.web.de ([212.227.17.12]:38745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lOMgA-00050w-2q
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:21 -0400
+ id 1lOMgE-00052e-FI
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:41:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616427673;
- bh=VQmQHxOlIwWuvWEaxswc56/uNCL+NMy4m2qTKNaKpPw=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=dlbm3Z7LqlA6JivuN3lWDHDtkxKSirIU/gHfd07Sv7CwEhyRBSanKRCRIgD7ZidLz
- TRhl1+fipJgvnxnJW303Kcb++i2P2elb2IFpf6Y0BChaHTCn//cKsjViyWh38Ik/9s
- gx4SgfK7/edDSWAYYeKZPhqD/jy+/j1BWx4yxqbw=
+ s=dbaedf251592; t=1616427677;
+ bh=Seds2x/uRPH8CueU9WBlv+slAJOyRLmoXlrz0O6G/0c=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=nhgtTlSKOkHWxdyiCsHehapW2EgHz4UXtJzTsshL8inTLGhN9V32M593BbGFjVana
+ LkdEkXqEWuShfqu9Lnemzdt0tv29Z/aybUKVZJTcrwNiWVS7rMGjaia6X9+MuWaRJj
+ hjzdrdy37hGFYY6+tb4K9VyvG8VXtjgnzhl76XHs=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.232]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M2dg1-1lhH6j3dgL-00sMFd; Mon, 22
- Mar 2021 16:41:13 +0100
-Date: Mon, 22 Mar 2021 16:40:55 +0100
+Received: from gecko.fritz.box ([94.134.180.232]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MgfJz-1l4LW61XvD-00NzkG; Mon, 22
+ Mar 2021 16:41:17 +0100
+Date: Mon, 22 Mar 2021 16:41:15 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/5] yank: Add chardev tests and fixes
-Message-ID: <cover.1616427054.git.lukasstraub2@web.de>
+Subject: [PATCH v2 1/5] tests: Use the normal yank code instead of stubs in
+ relevant tests
+Message-ID: <950007e82e19e75831b29fac07ab990c213d2352.1616427054.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1616427054.git.lukasstraub2@web.de>
+References: <cover.1616427054.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/c=tGVWTLF0wnpnscJnujf.6";
+Content-Type: multipart/signed; boundary="Sig_//PrJ5vlsuz+nY_uAjJx4sNV";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:/FHdOplOIMworDNi1A+aTrWEaJ2eqjNP0CtSk4UwDmBtcX6n3KP
- RdHl+37pzgCWVRA9IZqaWewijAarrmkI3Rzl2F3jsqJW7oTuN18axyhqE28FWZxKUPmmRpa
- Yfluc0KqnDqnCByFadLFLGEaHaV2k3Mq0o71DBfoYkmk5efUShQOaqn2H3nannnQD9nwena
- d+TzX+vBIS0F9jm3x8oSw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BS0FpqjoZnU=:sJ4HRKbgIw3AYqk/kGjwE5
- 2q8YfXzngkfrm2AlPHjw/ZbTf1BJZpdREMhY3lR4E9rErsjeGU2oT3V5a5v6417vezXS4RYWL
- k0aoKRMguDpbob/EiUk9ETl+YwlgIr2APTNh2uNBwNLtOraIi67FfhQsh7jEVLD9Q3T2hwPTS
- g6dGcOyul1HN2DiZP3feCHhD/wKzgjMgD0QIK1Jx3GAdm/VItyVj9yMJkuhKNl7kk9Nhtejqe
- fYTZFIIN5WfxuJGShPF3eOIvg1bCwWGNTWV80oQ3XlbAQ+3kFFs0gN3nFu2mRt/8WRYGclBVw
- 2/zrKNByPlWKb9QNQmXUk1zvaRH3h1M2Fi3UrmE2puJFKpaEMTX55fg1ygoG0CWL84JaWvVsn
- XHBYJz//7R3084/iqJMbLPE0Rb/riOrZDUUwF0toty1jhplVG2ntX+KTMYbscVIcxnX4MjK29
- WzWfgic9OeoJTbbgigyeAMt1yEVnrwX6T5w7SHTf5R0t1y7W7EudaQL40eYvwWqDWh8R8t9Z/
- I/s/n+U1IjoxNd0ZNzGehWDLQkeMSyBBeXAO12SBKLIej3UaWiT+lExrFpcQFso06QZ6ptaHT
- uTUDDm2VkibnthRubOgZypu9bzDNfticfmEDb1EtS5Z7i9Rh/qbKZeqnjbel6FfU+gPyRLR03
- pTAEuvXTGARg/0UwL8TVnVkw1cDhTwy3Iq/oC3aTWY1se1SVSLiJpK31usmBf4lAYlzFZG/VL
- RNyyeE3MMB4/OmcxwHQU9B/BoJAef1MHmwDz/OGN1YzM8sLgyW1oValeCm5ISUfOzqxkQH/kW
- bLR4sfI3vHBoN/hk1nCvCkTC2sy7EOIVt62wmvpDFhn5zxU3UORBCjMpjVEIm5233+arVUSoQ
- CToriJ4TWJYWmdEbZDCDrj+bp3xDoWG0KH2sSpNSqNUGfa7IycjdbJTf1dHxbeXH0zL0KYwZu
- 4FtQDZBY2k1dcQPSAzaKVVat8RCuvu+rMiakByThPQXFTQNir7MxpygNvdAucOJAEe9cXrEil
- ZtlkU+JLQLNACiNjcWsvVS5vKGqCJeUWCgtF4qA8Hsgh779m3+YbVRzP/VSU9UdGTfYFt87QC
- z4HUaq/BhttZZDx3IfwUYh8TQLj9s/x00UuVI4pFLHB6fo0iv/oTqURwEsmF1Bf/ruPoNfmRh
- f3dFlZYzp8J1qdkuFgkHJQD5Z99Wb0Cb4UGPyDqKpsCm/o+MuGH9Z6BT+JPZc58wOVoFA=
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:qDEc5Hrg2PMbxUtiF40TEuke7tXgnIwEwTKLdnkRYEKabLhC8lE
+ TQGmxVyZvK9QbAMQyKC/bzR7i4KH+QLYBO8LE+veSbJZ322KKGM6QMKFp3Df9dA7Djx2VMp
+ 2380Ht7EccXqUwuXC4nNgUgTZjwUYxdVaioYXy9PnQgjmu/0aROLgSsFsO2yINqB/OZAVyj
+ rKyZE1d0XptbmkOYS02qA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:py2NFqFjVAY=:2ZWSErJTLMOzzJTIk0Puil
+ i+Io2XkzwjfXzudtbBjQZzAyprrHMv7fAhjztBm/ruWkcb3Zg05MdgPeP9WJpqpHY3bX/P/p+
+ nOeywACnKeIpdbHZSh/J65PCeKorL5/C6sAK1N7aNAYhP5ddbxpabafIeMby7NNUAh+BuDCeJ
+ rNZBFJ6i2xYVzce9znZ8IA4BYMELDj7CIK4RI44GdwQu797evI5oxK1vorIdVR8iFlOsTnr6e
+ +GQATuo4o8pwEBxNT5pcWOk8BK426WX4gTk7URyH0CPQ1rGb1e8GjUrBPFLT02KlzybkVSKw7
+ ynHqngqzXS7G8RStEuZ6sdVp2D0rdeyIP1hMD0a8n34YrYw5CQOuk75xqwtFK3F1ezpem5eYi
+ GzgW2daYHvzRswXrDMzHlD6f+SKLsaDEibm5KKtF6NS07tC9DAMxqtwX5ozV/2RsOoNeyhObM
+ ppqY2v+D+vt80/mSKrw0CSv2XrnNKzGOnErJewj6+c2QCh6t/NOrHyhG7fUwAFD6gZ5aUgSd4
+ x3v/lU1G8QpkCla6uYWS7XVhueYb066Qos8rmMVz9TmVbXi+ciYM5r2WjoKF1cHspub7D/PR3
+ tROTVpAvwfSdDcDmdGhsUTgvjARBWu3wsbfTnLLPIbNzFai6cd+YUuzG88QrAWNA/mwskQBZ7
+ xPfIiaSzWyBxlyXQZvwJpg1DyWtla2XQ/YAgwUKUHEc/EibeKg7REMlzBBb/K/M5QXZWP+yaN
+ tOPrVYKEQzrhWEqHQp8SVAY2UeTCPn8r+wLI4x36Gm6GJ1/SHbqwANLRvyE4fWRXFDfY6iw+m
+ pi5EjPilVZik7wmYhrViXhSHvQIf7UuNA9KkjA2S/GjmjNcIiOp4rnk0fxJ8cca+9e34bfgUn
+ KNAV3haKJTy39qNQL8Tg==
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -88,71 +87,97 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/c=tGVWTLF0wnpnscJnujf.6
+--Sig_//PrJ5vlsuz+nY_uAjJx4sNV
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hello Everyone,
-These patches increase test coverage for yank, add tests and fix bugs and
-crashes in yank in combination with chardev-change.
+Use the normal yank code instead of stubs in relevant tests to
+increase coverage and to ensure that registering and unregistering
+of yank instances and functions is done correctly.
 
-Regards,
-Lukas Straub
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+---
+ tests/qtest/meson.build | 6 +++---
+ tests/unit/meson.build  | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Changes:
--v2:
- -test: add license
- -test: factorize testcases to a single function
- -test: test chardev_change with initialization of new chardev failing
- -fix chardev_change with initialization of new chardev failing
- -add reviewed-by and tested-by tags
-
-Based-on: <20210316135907.3646901-1-armbru@redhat.com>
-([PATCH] yank: Avoid linking into executables that don't want it)
-
-Alternative based on:
-https://github.com/Lukey3332/qemu.git yank_next
-
-Lukas Straub (5):
-  tests: Use the normal yank code instead of stubs in relevant tests
-  tests: Add tests for yank with the chardev-change case
-  chardev/char.c: Move object_property_try_add_child out of chardev_new
-  chardev/char.c: Always pass id to chardev_new
-  chardev: Fix yank with the chardev-change case
-
- MAINTAINERS             |   1 +
- chardev/char-socket.c   |  20 +++-
- chardev/char.c          |  77 ++++++++++-----
- include/chardev/char.h  |   3 +
- tests/qtest/meson.build |   6 +-
- tests/unit/meson.build  |   5 +-
- tests/unit/test-yank.c  | 201 ++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 280 insertions(+), 33 deletions(-)
- create mode 100644 tests/unit/test-yank.c
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 66ee9fbf45..40e1f495f7 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -234,9 +234,9 @@ tpmemu_files =3D ['tpm-emu.c', 'tpm-util.c', 'tpm-tests=
+.c']
+ qtests =3D {
+   'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+   'cdrom-test': files('boot-sector.c'),
+-  'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
++  'dbus-vmstate-test': ['migration-helpers.c', dbus_vmstate1, '../../monit=
+or/yank.c'],
+   'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
+-  'migration-test': files('migration-helpers.c'),
++  'migration-test': ['migration-helpers.c', io, '../../monitor/yank.c'],
+   'pxe-test': files('boot-sector.c'),
+   'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).=
+sources()],
+   'tpm-crb-swtpm-test': [io, tpmemu_files],
+@@ -266,7 +266,7 @@ foreach dir : target_dirs
+   endif
+   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vm=
+state-daemon.sh')
+   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
+-
++
+   foreach test : target_qtests
+     # Executables are shared across targets, declare them only the first t=
+ime we
+     # encounter them
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 4bfe4627ba..8ccf60af66 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -123,7 +123,7 @@ if have_system
+     'test-util-sockets': ['socket-helpers.c'],
+     'test-base64': [],
+     'test-bufferiszero': [],
+-    'test-vmstate': [migration, io]
++    'test-vmstate': [migration, io, '../../monitor/yank.c']
+   }
+   if 'CONFIG_INOTIFY1' in config_host
+     tests +=3D {'test-util-filemonitor': []}
+@@ -135,7 +135,7 @@ if have_system
+   if 'CONFIG_TSAN' not in config_host
+     if 'CONFIG_POSIX' in config_host
+         tests +=3D {
+-          'test-char': ['socket-helpers.c', qom, io, chardev]
++          'test-char': ['socket-helpers.c', qom, io, chardev, '../../monit=
+or/yank.c']
+         }
+     endif
 
 --
 2.30.2
 
---Sig_/c=tGVWTLF0wnpnscJnujf.6
+
+--Sig_//PrJ5vlsuz+nY_uAjJx4sNV
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBYuocACgkQNasLKJxd
-slgQIQ//atwmJYVZZYBZ8dEt5jAPhrxuGVUKRlZl29TJaLpzwsmQRAWXySuSfgq0
-sWPmnY3ThbvzTqkuzy2+n0zeVkocCFrTNNVXY+BxsEH0s2vARjqavH+NArcrec5A
-luEnX8qwP6MGWFzzeP3dOqsErInQYGHmPrKCesjFi3gcPb+BEB3DDVLfB3GgzbV6
-4oWG9x+4cL3U+IJMy+omNo38XMnPHkHI7lWLDyncpddzL7kYnNBQqzL7pplYi4MY
-6ZixeeqUTl2HY1gT8fu/VCgfyCMJQCoAR09xSqtOl67ngZc5b8j9IOZ7h0UiO9M7
-wEqhCGhxzRAlB47xQK/flNy4eCsI+uFAsdL1fDqu2mHSon6/UpHj/JuGykHyCR3r
-WVYnZiD/T95EYMWie4xNjF71FASo5gQnNHXT0fMQ6noIxNPfN7JZxgIBrfrGA0jx
-J9dDWwbPcXYdNFDCrCiraUmR84XiaFlz6S45NqS+9PhyOTUovpPFJdOc4PsUj6xT
-iN7D6JqFmiDY7JWX4foPGkYLKUOpFuA7Cx4LlaWqS9jEEljq6e88aP7aS0g8Vpve
-1wbNW2M0QCUjvaSxbOBCywazdTQv76g1cUO/6A0+NyCmBVpJ8RJM6AFOJUlm0x4y
-QFu/GYA2VzPL7CWIT5Ys/9ubDDPQFpzdJlewttHQkfSfNA8xqXg=
-=5LIH
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBYupsACgkQNasLKJxd
+sljS8g//bbAOJ8jkwNrEr2PLX8hN22P0tc5P4uDsPVwmH+SEEsQLrNEEpTzJ1xRD
+1lQhkaxBjArd3kGDOZ243VVJz2idxMa4AyuKPnHHvNKGUkRULfa959avEu5yB3aH
+SZoicXP7oWhuYXBZxEpZZj3OuV+VXvM3S3y70oxlCzhQQ3pfY1ozonfxiCgqOhov
+FZ/luzxa8mQar1xeyap+2/SnchLHXOnbSxTs53zMQukNrzRQTFP3/ct+mkwgiRLx
+ITOc6fXgLJOu35YVgO2XugqAUr9S7Jh6fTGDSGHnJYVBK/jTT6SBFIBfEMEn89wd
+ReROaul1EnckvpPE6tVajUFC5pFyyMqxTj0EHdgpGclRrn30X1N2ik4LAaftTQFy
+hvopWMw0OOIiPox7kYOWrvyIwZFvPRluqxg84hYhoWFsj5HcpjPLkmT38xYRddFv
+0dsK84NOjRPH6SzJBifkZNhi78dUe4SeFutADdsi7C8N4/sgwJeoDneUKFUmIC60
+WGH9r/qK3Qyg8Od5tkWiQPGOXdrrPS68M7aqtgERiSLjeQxi2376/1AM4bo1bArb
+XWbLZlH1kj6JR9JXytX4nzXHFToUHqxkp6tynzqKKUV1uc5w/LDkMkZgjRKuco6h
+bH/ewT+DSp1ZKQs0+mpKI/z5kdQwb1TdhcXU9U/UHEo3bnjP4Iw=
+=ze9p
 -----END PGP SIGNATURE-----
 
---Sig_/c=tGVWTLF0wnpnscJnujf.6--
+--Sig_//PrJ5vlsuz+nY_uAjJx4sNV--
 
