@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C361D3452B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:02:35 +0100 (CET)
-Received: from localhost ([::1]:58808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C8B3452C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 00:06:35 +0100 (CET)
+Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOTZB-0008O8-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
+	id 1lOTd4-0003MJ-0W
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 19:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWj-0006iu-U7
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35909)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWp-0006jx-SO
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWh-00013E-Kn
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTWj-00014b-QU
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 19:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616453998;
+ s=mimecast20190719; t=1616454001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=21V/jRtjsGuAf9r7ym8qXaSjs0hcdhUTrSVNqStxmV4=;
- b=dinNbRimGAYBV2flQaY51MqLXmy3t+zQrObsYyDQFZ+k9pHm2G/kYZoVc0IaZBmlYfftZr
- Cw5GQP1zw49s+0E0RDzYzTyCUkzP5jUm72efHlIW0pB7ZfZjvXkbv3k9WA0IylDECKD6tS
- oSLEGQ8W3K2cQmWDdMlt7b2aEBD142I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-SpskVgYjPuak_emaDSJc4g-1; Mon, 22 Mar 2021 18:59:56 -0400
-X-MC-Unique: SpskVgYjPuak_emaDSJc4g-1
-Received: by mail-wr1-f71.google.com with SMTP id z6so149677wrh.11
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:59:56 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nqu5CR5/71RBCEO2pfu+7+JzFwUquycm34gwnLoLIUQ=;
+ b=F6U0AHmO/eFcvU6wiS0rtDg8leB8dZAYNPn6M7eUrAWEgtXxhXxNgHh1anPCC0h2pADGgy
+ +EDfqj7r8N/ZcwvowfWi9lAzOJcBqYxICN583+z9x/3tPF4ISw6jCjzxLaqyT2RMpxYS07
+ 8p7V7Qo6uZufdDv1yVoMlb5+jtE2LsY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384--rPUKOOIMXCBHKk7kcalWw-1; Mon, 22 Mar 2021 18:59:58 -0400
+X-MC-Unique: -rPUKOOIMXCBHKk7kcalWw-1
+Received: by mail-wr1-f70.google.com with SMTP id h5so143414wrr.17
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:59:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=21V/jRtjsGuAf9r7ym8qXaSjs0hcdhUTrSVNqStxmV4=;
- b=X0nFPZ4XqsJLu7R+NSO/YqxWvHEuXWOJmQDC5vNLvTHMVVC6yFV18s/SDPORdeuPaP
- GT7n7wJR64hYFuISzE0VV7P7a9R+590HMx37EcFtG+JDG+2i0tSgTUt04duXsrJ1DKd7
- Ugje6PlbymI5lcPPQQxxGHQUnkw5Ku7ivi8xtWr65UQRghty9iPV/cAnqBZ2E7sBzEY9
- //Em0CwfrFhlU5mQvu5shbkux5iYVr0MlLkOlTmN6J0v2I3eNqVVsU5gpGfTkSUanjSH
- H/+4qGOsoUbqo1TunAlagXpmRSajGb3teIa02Nrb3xN4LQ2qr3260OJo3dHfC93uju0Z
- PxFQ==
-X-Gm-Message-State: AOAM533VXhNREkSIPGLScH25zba0UGANQ/ze8rDTzPRgS4OFHib0ettC
- HM38Wak3GeTxB/5ItkPwAb+A65lkSLBklJbHoTTOrn489jTarsOYWfO6Ic5JSk4thwRbV9Mv69c
- jZGYrsk7+TV8JG3j3LQL5gRtQKbDCJSQ3KcpxIAYEWGALDezdou2YQzRN7mjS
-X-Received: by 2002:a5d:6103:: with SMTP id v3mr753508wrt.375.1616453995261;
- Mon, 22 Mar 2021 15:59:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzICBnHmfsgJ4JpuYITK8xidVfiX9lPS7ttPY8vOWLvFVGpEL8FHiPrgn63/E8xrOQ6wKUw3g==
-X-Received: by 2002:a5d:6103:: with SMTP id v3mr753500wrt.375.1616453995036;
- Mon, 22 Mar 2021 15:59:55 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Nqu5CR5/71RBCEO2pfu+7+JzFwUquycm34gwnLoLIUQ=;
+ b=Rtvqv7uTcv5F6Xjnl1QtY2n2lPL4iPLTjz5rx+2+mpo2DaPlP6wrPTftbmA0rphqjs
+ s/vkSqlZP9Es14+MOqiidE7y1oUvwJf+WUt3jVmmurxxLbzo9U72ngfL+GQ21OEisn0T
+ 81a5C+FK6MLx3cdrJSmLNajrDtklMl++s7LZ+Z8ZV+1wLCBzL/AEbbEmVMFI5Wl5CEZM
+ l/xjmBbwuP4AsHpwNgfPK7CikBBVY2w+Ke0F/mW4ZL5BWyc6BWsKbys/h+3blrfo2cGZ
+ DUVQM9To7QGg6KzkgOUZKeCVuovMDctIQrOiTzt72M0tt8POd/JbRXF8um/D9f7nb2KC
+ Dq9A==
+X-Gm-Message-State: AOAM5320tOz6msry/B20zFSakysGNz9848DZXNA75fa3RUDz4z9LiuwI
+ UF7rdJJOHEPftiC3Jdueo0ztnEAW/xLKVYF5b/boLtyGeg+mE2XGyS2WwVH3H2Q2E76Bd8sxpdt
+ sS7RCB5Un4nNDF8etbwmOlTUjQacRH/Usaaxe2kPwSWTB0QcTjAb5Vf5oiMb1
+X-Received: by 2002:adf:a302:: with SMTP id c2mr833660wrb.212.1616453997354;
+ Mon, 22 Mar 2021 15:59:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXlFiMnvLYdab8pPcOXb+/G1FxDQ0BM5Gatuk+fKo29jYA5dTW33zzIhJuIwdTKqI4R6oQwQ==
+X-Received: by 2002:adf:a302:: with SMTP id c2mr833644wrb.212.1616453997196;
+ Mon, 22 Mar 2021 15:59:57 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id i3sm22428922wra.66.2021.03.22.15.59.53
+ by smtp.gmail.com with ESMTPSA id u2sm997328wmm.5.2021.03.22.15.59.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 15:59:54 -0700 (PDT)
-Date: Mon, 22 Mar 2021 18:59:53 -0400
+ Mon, 22 Mar 2021 15:59:56 -0700 (PDT)
+Date: Mon, 22 Mar 2021 18:59:55 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/19] pc,virtio,pci: fixes, features
-Message-ID: <20210322225907.541943-1-mst@redhat.com>
+Subject: [PULL v2 01/19] virtio: Fix virtio_mmio_read()/virtio_mmio_write()
+Message-ID: <20210322225907.541943-2-mst@redhat.com>
+References: <20210322225907.541943-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210322225907.541943-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
@@ -89,100 +92,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes from v1:
-    dropped an acpi patch causing regressions reported by clang
+From: Laurent Vivier <laurent@vivier.eu>
 
-The following changes since commit f0f20022a0c744930935fdb7020a8c18347d391a:
+Both functions don't check the personality of the interface (legacy or
+modern) before accessing the configuration memory and always use
+virtio_config_readX()/virtio_config_writeX().
 
-  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-03-21' into staging (2021-03-22 10:05:45 +0000)
+With this patch, they now check the personality and in legacy mode
+call virtio_config_readX()/virtio_config_writeX(), otherwise call
+virtio_config_modern_readX()/virtio_config_modern_writeX().
 
-are available in the Git repository at:
+This change has been tested with virtio-mmio guests (virt stretch/armhf and
+virt sid/m68k) and virtio-pci guests (pseries RHEL-7.3/ppc64 and /ppc64le).
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to d07b22863b8e0981bdc9384a787a703f1fd4ba42:
-
-  acpi: Move setters/getters of oem fields to X86MachineState (2021-03-22 18:58:19 -0400)
-
-----------------------------------------------------------------
-pc,virtio,pci: fixes, features
-
-Fixes all over the place.
-ACPI index support.
-
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210314200300.3259170-1-laurent@vivier.eu>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/virtio/virtio-mmio.c | 74 +++++++++++++++++++++++++++++------------
+ 1 file changed, 52 insertions(+), 22 deletions(-)
 
-----------------------------------------------------------------
-David Hildenbrand (4):
-      acpi: Set proper maximum size for "etc/table-loader" blob
-      microvm: Don't open-code "etc/table-loader"
-      acpi: Move maximum size logic into acpi_add_rom_blob()
-      acpi: Set proper maximum size for "etc/acpi/rsdp" blob
-
-Greg Kurz (6):
-      vhost-user: Drop misleading EAGAIN checks in slave_read()
-      vhost-user: Fix double-close on slave_read() error path
-      vhost-user: Factor out duplicated slave_fd teardown code
-      vhost-user: Convert slave channel to QIOChannelSocket
-      vhost-user: Introduce nested event loop in vhost_user_read()
-      vhost-user: Monitor slave channel in vhost_user_read()
-
-Igor Mammedov (6):
-      tests: acpi: temporary whitelist DSDT changes
-      pci: introduce acpi-index property for PCI device
-      pci: acpi: ensure that acpi-index is unique
-      acpi: add aml_to_decimalstring() and aml_call6() helpers
-      pci: acpi: add _DSM method to PCI devices
-      tests: acpi: update expected blobs
-
-Laurent Vivier (1):
-      virtio: Fix virtio_mmio_read()/virtio_mmio_write()
-
-Marian Postevca (1):
-      acpi: Move setters/getters of oem fields to X86MachineState
-
-Wang Liang (1):
-      virtio-pmem: fix virtio_pmem_resp assign problem
-
- include/hw/acpi/aml-build.h      |   6 +-
- include/hw/acpi/pci.h            |   1 +
- include/hw/acpi/pcihp.h          |   9 +-
- include/hw/acpi/utils.h          |   3 +-
- include/hw/i386/microvm.h        |   4 -
- include/hw/i386/pc.h             |   4 -
- include/hw/i386/x86.h            |   4 +
- include/hw/pci/pci.h             |   1 +
- hw/acpi/aml-build.c              |  28 +++++
- hw/acpi/pci.c                    |   1 -
- hw/acpi/pcihp.c                  | 104 ++++++++++++++++++-
- hw/acpi/piix4.c                  |   3 +-
- hw/acpi/utils.c                  |  17 ++-
- hw/arm/virt-acpi-build.c         |  12 +--
- hw/i386/acpi-build.c             | 173 +++++++++++++++++++++++++------
- hw/i386/acpi-microvm.c           |  32 +++---
- hw/i386/microvm.c                |  66 ------------
- hw/i386/pc.c                     |  63 ------------
- hw/i386/x86.c                    |  64 ++++++++++++
- hw/pci/pci.c                     |   1 +
- hw/virtio/vhost-user.c           | 217 +++++++++++++++++++++++++--------------
- hw/virtio/virtio-mmio.c          |  74 +++++++++----
- hw/virtio/virtio-pmem.c          |   2 +-
- hw/acpi/trace-events             |   2 +
- tests/data/acpi/pc/DSDT          | Bin 5065 -> 6002 bytes
- tests/data/acpi/pc/DSDT.acpihmat | Bin 6390 -> 7327 bytes
- tests/data/acpi/pc/DSDT.bridge   | Bin 6924 -> 8668 bytes
- tests/data/acpi/pc/DSDT.cphp     | Bin 5529 -> 6466 bytes
- tests/data/acpi/pc/DSDT.dimmpxm  | Bin 6719 -> 7656 bytes
- tests/data/acpi/pc/DSDT.hpbridge | Bin 5026 -> 5969 bytes
- tests/data/acpi/pc/DSDT.ipmikcs  | Bin 5137 -> 6074 bytes
- tests/data/acpi/pc/DSDT.memhp    | Bin 6424 -> 7361 bytes
- tests/data/acpi/pc/DSDT.nohpet   | Bin 4923 -> 5860 bytes
- tests/data/acpi/pc/DSDT.numamem  | Bin 5071 -> 6008 bytes
- tests/data/acpi/pc/DSDT.roothp   | Bin 5261 -> 6210 bytes
- 35 files changed, 583 insertions(+), 308 deletions(-)
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 6990b9879c..342c918ea7 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -112,15 +112,28 @@ static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned size)
+ 
+     if (offset >= VIRTIO_MMIO_CONFIG) {
+         offset -= VIRTIO_MMIO_CONFIG;
+-        switch (size) {
+-        case 1:
+-            return virtio_config_readb(vdev, offset);
+-        case 2:
+-            return virtio_config_readw(vdev, offset);
+-        case 4:
+-            return virtio_config_readl(vdev, offset);
+-        default:
+-            abort();
++        if (proxy->legacy) {
++            switch (size) {
++            case 1:
++                return virtio_config_readb(vdev, offset);
++            case 2:
++                return virtio_config_readw(vdev, offset);
++            case 4:
++                return virtio_config_readl(vdev, offset);
++            default:
++                abort();
++            }
++        } else {
++            switch (size) {
++            case 1:
++                return virtio_config_modern_readb(vdev, offset);
++            case 2:
++                return virtio_config_modern_readw(vdev, offset);
++            case 4:
++                return virtio_config_modern_readl(vdev, offset);
++            default:
++                abort();
++            }
+         }
+     }
+     if (size != 4) {
+@@ -245,20 +258,37 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
+ 
+     if (offset >= VIRTIO_MMIO_CONFIG) {
+         offset -= VIRTIO_MMIO_CONFIG;
+-        switch (size) {
+-        case 1:
+-            virtio_config_writeb(vdev, offset, value);
+-            break;
+-        case 2:
+-            virtio_config_writew(vdev, offset, value);
+-            break;
+-        case 4:
+-            virtio_config_writel(vdev, offset, value);
+-            break;
+-        default:
+-            abort();
++        if (proxy->legacy) {
++            switch (size) {
++            case 1:
++                virtio_config_writeb(vdev, offset, value);
++                break;
++            case 2:
++                virtio_config_writew(vdev, offset, value);
++                break;
++            case 4:
++                virtio_config_writel(vdev, offset, value);
++                break;
++            default:
++                abort();
++            }
++            return;
++        } else {
++            switch (size) {
++            case 1:
++                virtio_config_modern_writeb(vdev, offset, value);
++                break;
++            case 2:
++                virtio_config_modern_writew(vdev, offset, value);
++                break;
++            case 4:
++                virtio_config_modern_writel(vdev, offset, value);
++                break;
++            default:
++                abort();
++            }
++            return;
+         }
+-        return;
+     }
+     if (size != 4) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-- 
+MST
 
 
