@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02E7343638
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 02:29:43 +0100 (CET)
-Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346C5343667
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 02:49:43 +0100 (CET)
+Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lO9O2-0002sW-Eu
-	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 21:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45986)
+	id 1lO9hN-00011V-Iz
+	for lists+qemu-devel@lfdr.de; Sun, 21 Mar 2021 21:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lO9NG-0002R3-Qo
- for qemu-devel@nongnu.org; Sun, 21 Mar 2021 21:28:54 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:41487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lO9NF-0000Tl-6a
- for qemu-devel@nongnu.org; Sun, 21 Mar 2021 21:28:54 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id j2so4874084ybj.8
- for <qemu-devel@nongnu.org>; Sun, 21 Mar 2021 18:28:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=VMRcrfBGyDPnqRdN+keoKJWIeg4otCXrnSXK9Isljv0=;
- b=OVkl1n9jnM+ThibYjg29bLXsN1EQ0wLNCp7Z5k7GLukDqwHJ5RM6ulX5rk9l6UyppI
- 3WrJroM1VMFWqu82KS6se3BiFIojF6DFW7Zt6QiJooiKsAFawnbZU30esT0mxK1UqNHk
- NC9LhoiFFf7wFDed95+sOx702TYipcMzjdlLke6aWwwDMeo7B+1uBcByb5tWYDbIHYTt
- 5tLZycIZGZxNRsEKEa2wd54e5U0ZJg5QuLRa5hFS91q3Excw3Ics2eIcuUwNQWE1esYV
- rL8pLLQ6auIESDpGApJTTh6lfDc0uWn9rEsHv85NY0jvnzKCYKRLecT0CpLVz6gdozO3
- PaeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=VMRcrfBGyDPnqRdN+keoKJWIeg4otCXrnSXK9Isljv0=;
- b=R/Vj+ZbwzLX19NJaD9CoLeL5+ch9vlfZVoU933ZPSXW7h/rghIvxEvs+KL3M9RltY1
- EDyMTt2MRhllVEwlh4CoounB3EVDlfU1dARqkljLGe0kCM9Q8hfgoRzGZdp8jXrWlIhi
- XNbziGve97d6bLpUjRnbzKzU4HjhuebwaC0Ru8Ouwc0jBESyKTi9izrPVsAROTbx96xc
- rHZka/Dc5cRf1ngozvhMgB6F2HvxnBy6SjZH30KrSlLkDiJg34/hCeUzDB5IGlTpzL10
- DGwwBHTYFocoow+l4P0jVvHAdDFLa9Upf9H80+OC4vL/7SiILGv3OEC956I0iRQXIhDU
- /btg==
-X-Gm-Message-State: AOAM530fNCh4Dg8n87E3Iqh1VZB5UUe9oIbDSs468pbHmbB4LaHWBfco
- sweMeqYkAngtTkbvW1tfcLbXcMY+FPxR6VwZqQ8=
-X-Google-Smtp-Source: ABdhPJwTqhUj7tmeYvSkmpYqQnJHU/UfBMrpG7QUvHQ3iPSThjILHLKmZnQpYpEW2R7UQMXKnA/Nj3Ose5EcGIEyuKo=
-X-Received: by 2002:a25:da08:: with SMTP id n8mr20997143ybf.314.1616376531631; 
- Sun, 21 Mar 2021 18:28:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lO9fP-0000ai-8Z; Sun, 21 Mar 2021 21:47:40 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lO9fM-0007vq-8g; Sun, 21 Mar 2021 21:47:39 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F3cnQ5vvWz9sWP; Mon, 22 Mar 2021 12:47:22 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616377642;
+ bh=BaBG4syE9npsaSNmMTeNPaMcobfLRcLtBSZS11OOmAQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NvE2GrFlr1D9caCJcnKJPJjpegUGltHa656ATEvZ4HQWsUqJqYUejsDEpX/nOJljk
+ EXNXwDpQcX++6T/wXjU/R5tdlpLs1+0eby8CABM3uurTbjjHdueGq6LG4qzAwHGLjU
+ 2aOo05tzGGK45JgBq1zssalrpjqriPnqWYIWWTZc=
+Date: Mon, 22 Mar 2021 11:32:57 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2] target/ppc/kvm: Cache timebase frequency
+Message-ID: <YFfluXqp6QOy6oXC@yekko.fritz.box>
+References: <161600382766.1780699.6787739229984093959.stgit@bahia.lan>
 MIME-Version: 1.0
-References: <20210317062638.72626-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210317062638.72626-1-bmeng.cn@gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 22 Mar 2021 09:28:40 +0800
-Message-ID: <CAEUhbmUye1GQGhTU3vrrBdn_i29J9EfABY6NCnu8=9YDwGK92w@mail.gmail.com>
-Subject: Re: [PATCH v5 00/12] net: Pad short frames for network backends
-To: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="v/IJnBu76J9You7K"
+Content-Disposition: inline
+In-Reply-To: <161600382766.1780699.6787739229984093959.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,48 +57,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 17, 2021 at 2:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> The minimum Ethernet frame length is 60 bytes. For short frames with
-> smaller length like ARP packets (only 42 bytes), on a real world NIC
-> it can choose either padding its length to the minimum required 60
-> bytes, or sending it out directly to the wire. Such behavior can be
-> hardcoded or controled by a register bit. Similarly on the receive
-> path, NICs can choose either dropping such short frames directly or
-> handing them over to software to handle.
->
-> On the other hand, for the network backends like SLiRP/TAP, they
-> don't expose a way to control the short frame behavior. As of today
-> they just send/receive data from/to the other end connected to them,
-> which means any sized packet is acceptable. So they can send and
-> receive short frames without any problem. It is observed that ARP
-> packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-> these ARP packets to the other end which might be a NIC model that
-> does not allow short frames to pass through.
->
-> To provide better compatibility, for packets sent from QEMU network
-> backends like SLiRP/TAP, we change to pad short frames before sending
-> it out to the other end, if the other end does not forbid it via the
-> nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-> does not violate the spec. But with this change, the behavior of
-> dropping short frames from SLiRP/TAP interfaces in the NIC model
-> cannot be emulated because it always receives a packet that is spec
-> complaint. The capability of sending short frames from NIC models is
-> still supported and short frames can still pass through SLiRP/TAP.
->
-> This series should be able to fix the issue as reported with some
-> NIC models before, that ARP requests get dropped, preventing the
-> guest from becoming visible on the network. It was workarounded in
-> these NIC models on the receive path, that when a short frame is
-> received, it is padded up to 60 bytes.
->
-> Changes in v5:
-> - minor update on commit message
-> - update the eth_pad_short_frame() comment
->
 
-Ping?
+--v/IJnBu76J9You7K
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 17, 2021 at 06:57:07PM +0100, Greg Kurz wrote:
+> Each vCPU core exposes its timebase frequency in the DT. When running
+> under KVM, this means parsing /proc/cpuinfo in order to get the timebase
+> frequency of the host CPU.
+>=20
+> The parsing appears to slow down the boot quite a bit with higher number
+> of cores:
+>=20
+> # of cores     seconds spent in spapr_dt_cpus()
+>       8                  0.550122
+>      16                  1.342375
+>      32                  2.850316
+>      64                  5.922505
+>      96                  9.109224
+>     128                 12.245504
+>     256                 24.957236
+>     384                 37.389113
+>=20
+> The timebase frequency of the host CPU is identical for all
+> cores and it is an invariant for the VM lifetime. Cache it
+> instead of doing the same expensive parsing again and again.
+>=20
+> Rename kvmppc_get_tbfreq() to kvmppc_get_tbfreq_procfs() and
+> rename the 'retval' variable to make it clear it is used as
+> fallback only. Come up with a new version of kvmppc_get_tbfreq()
+> that calls kvmppc_get_tbfreq_procfs() only once and keep the
+> value in a static.
+>=20
+> Zero is certainly not a valid value for the timebase frequency.
+> Treat atoi() returning zero as another parsing error and return
+> the fallback value instead. This allows kvmppc_get_tbfreq() to
+> use zero as an indicator that kvmppc_get_tbfreq_procfs() hasn't
+> been called yet.
+>=20
+> With this patch applied:
+>=20
+>     384                 0.518382
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Applied to ppc-for-6.0, thanks.
+
+> ---
+> v2: - do the caching in a distinct function for clarity (Philippe)
+>     - rename 'retval' to 'tbfreq_fallback'
+>     - expand the changelog a bit
+> ---
+>  target/ppc/kvm.c |   25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 298c1f882c67..104a308abb57 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1815,24 +1815,37 @@ static int read_cpuinfo(const char *field, char *=
+value, int len)
+>      return ret;
+>  }
+> =20
+> -uint32_t kvmppc_get_tbfreq(void)
+> +static uint32_t kvmppc_get_tbfreq_procfs(void)
+>  {
+>      char line[512];
+>      char *ns;
+> -    uint32_t retval =3D NANOSECONDS_PER_SECOND;
+> +    uint32_t tbfreq_fallback =3D NANOSECONDS_PER_SECOND;
+> +    uint32_t tbfreq_procfs;
+> =20
+>      if (read_cpuinfo("timebase", line, sizeof(line))) {
+> -        return retval;
+> +        return tbfreq_fallback;
+>      }
+> =20
+>      ns =3D strchr(line, ':');
+>      if (!ns) {
+> -        return retval;
+> +        return tbfreq_fallback;
+>      }
+> =20
+> -    ns++;
+> +    tbfreq_procfs =3D atoi(++ns);
+> +
+> +    /* 0 is certainly not acceptable by the guest, return fallback value=
+ */
+> +    return tbfreq_procfs ? tbfreq_procfs : tbfreq_fallback;
+> +}
+> +
+> +uint32_t kvmppc_get_tbfreq(void)
+> +{
+> +    static uint32_t cached_tbfreq;
+> +
+> +    if (!cached_tbfreq) {
+> +        cached_tbfreq =3D kvmppc_get_tbfreq_procfs();
+> +    }
+> =20
+> -    return atoi(ns);
+> +    return cached_tbfreq;
+>  }
+> =20
+>  bool kvmppc_get_host_serial(char **value)
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--v/IJnBu76J9You7K
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBX5bgACgkQbDjKyiDZ
+s5LC0hAAu2ia9m+w9ZmHZWZ3Cdq7ykC5QLp0wYOIM8h9WQtJTKrEGFeu3EkQTsA3
+WIu3odxRn2n3Nmk9p/b2T5cX5A5R3ktIQqMx2ypoF9qC9hmfIpdhac3EORNNb4N2
+ne9N/kPJywvYtvO1uaowdhwaewqmzf7PK6SJ2G1Sx3DPezxPMulYxu+LxjSUTV5Z
+rJ3QFue3oeMGGCPbdut8aAuj6ZPbdbtdBm0uVefxx6CHfAnAIDWMeQDJBpFnEbH+
+62r/C/BbswT5fuMso76kRFVlPTdyXHvFNcdWq1GfKaePKJx6I4hVbAPCLRp49UER
+Nnl0gv97XKBIJn/lznENBwmW/RFKEsciS65q6BHIyhBdLhCcwXvvLRlh09HlDvbd
+TJKrACqWl8Cd6isG2fSGP2NqyZzE7d/DWzSh23tEIs9Ih1Ho0cP9eMZLX0xK+4dH
+gzSeFQwsnze6aF3FR6pRZWnfU5jGK7aKeeHvGyctVCR2zuJZ57MehJAJhH+vnyCo
+nmllCcgGnEXvODfXNtN6W6So294hh7thr+V9M510mfMgkL5cNjZHebHGfh7WLjDJ
+fsvlcBFwKhTmNbn69rqF65aW+sSdrZX7JZaN/kPlVRBHrARCCBBt2NARKRlpneOG
+TV3Vv+l6CZtf35ffQ9hJlz3+rl2Grt82Fytg8k4zPf3TFIF22yY=
+=HPCa
+-----END PGP SIGNATURE-----
+
+--v/IJnBu76J9You7K--
 
