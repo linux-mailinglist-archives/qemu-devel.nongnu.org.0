@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E9B344A6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:06:25 +0100 (CET)
-Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6842E344AB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:10:55 +0100 (CET)
+Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lON4S-0003ZO-Ie
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:06:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
+	id 1lON8o-0008Ce-DE
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOMyy-0005ju-CU
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:00:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOMyr-0007ic-IX
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:00:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616428835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/gNzf1Y2C35Lq5r+BuKpwFeQYXmsfxlgHRkAITtfA6A=;
- b=CZFRMFsoXXk46eNOyNsUphkVl6PnP7INg1V+nlMDJCcrHdWzT+uVXx2NlgxHzNZY4Sy9aN
- m3hySAyNSi1C8xz3n9yL/yuWAZi3B64cdn/5Cy/ojl8Uxhg4Vayj2i1chus202/otNSjE7
- +cdS4aYFWBM+6db3zoicKQteV7jJqL4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-maa9E7kFMn-d5_7EWD4kNQ-1; Mon, 22 Mar 2021 12:00:32 -0400
-X-MC-Unique: maa9E7kFMn-d5_7EWD4kNQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9901C102CB9B;
- Mon, 22 Mar 2021 16:00:30 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-79.ams2.redhat.com [10.36.112.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA659610AF;
- Mon, 22 Mar 2021 16:00:24 +0000 (UTC)
-Subject: Re: [PATCH 1/5] tests: Use the normal yank code instead of stubs in
- relevant tests
-To: Lukas Straub <lukasstraub2@web.de>
-References: <cover.1616368879.git.lukasstraub2@web.de>
- <950007e82e19e75831b29fac07ab990c213d2352.1616368879.git.lukasstraub2@web.de>
- <1fc6eff2-a8e5-4ae2-96a5-1b30325dff81@redhat.com>
- <20210322083545.2c36b5a0@gecko.fritz.box>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <52d508d6-284c-6b36-62ed-f25081e63cfd@redhat.com>
-Date: Mon, 22 Mar 2021 17:00:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lON0A-00079g-Rj
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:01:58 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lON08-00008k-Qt
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:01:58 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id hq27so22154512ejc.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dT7P1pLKa4dZxqYQ01EA9JcaJW4A1zlSi/94idF4wYc=;
+ b=gx0BW1XmKAtI22vKjXIb1TQKmN3DRx4GVWKozm+2AHH9DTMhTlPKvhrCLWd5VmSGtC
+ RDeEoDKVovjWWglYuNgt100TmDcr3MfK44vVG+9elWtT+FDqnXj0r7VHdtr5ighWuGy3
+ AyvdzQvf1uqcKYC5nJbpj0ZShm+7ipL+C+8klp5FPMEIE0QfZ47yglgY5hbX4tZ3vVHU
+ uS+H0XO1PBeQkcFG70Bp4Abdy/g1Az2VtRkzUz1h279+rN0Ga0VQLddoc/UFIrB4a29t
+ dhtiRS6bOi1U3ZFqvd5QkDVCR8igmL3ViBjdO8tD/zDEKsb+qQDLkZFMVEGDzpCDWBpe
+ wa8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dT7P1pLKa4dZxqYQ01EA9JcaJW4A1zlSi/94idF4wYc=;
+ b=VgkCHLtO1OhlBC7LGf4DBIwjcAaLQX1SXXdSgkpUENn/vowGaUzi/rZPwqXYJ88lQC
+ n1DurRP3DzV+3XS2JlMhNH7sA6T+YyfyXRmMkiCtWDKPQeicaWxCyp2SpffvhWI1QmYB
+ CovGyqdgApkG08ozinjaLxZE9fwKrMcSGBrnfmo9lwI9+G6xJDt8Bf/nHSYu+n5pQeWv
+ fZ92/LKnUZM3rYfehMnWtwsdHsyyMiMPX6X8q7iQhSfwaKEzoEBCvUh/venjcQx/Dw7g
+ 0dMrKTTArwe7WedPNa5CEEJIWCEWTDsH1naCS294wZwoc2ZChpeH7jIp1IZBeRTw4CUg
+ DHLQ==
+X-Gm-Message-State: AOAM531peGvBVTe/M7as0xzx4zEOCnGShl2mZjFaDwlUoPq+c2CzX/FS
+ kw9Bqiu5M46WNpd276vnV9X5EgrjO+qp3dgmUARjY0RQPyOw/g==
+X-Google-Smtp-Source: ABdhPJzviK6KmXp+KeUVnc0fNBLVg6Ix1bod6tkPS/3Kd9DH1IwHRWaXvRD9XZMoQIi+iOpCB2lZlMVn/UJrqZSs8MU=
+X-Received: by 2002:a17:906:1ecc:: with SMTP id m12mr513911ejj.4.1616428915230; 
+ Mon, 22 Mar 2021 09:01:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210322083545.2c36b5a0@gecko.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210322135957.4108728-1-f4bug@amsat.org>
+In-Reply-To: <20210322135957.4108728-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Mar 2021 16:01:27 +0000
+Message-ID: <CAFEAcA8D8URLTGXuB59xG55tJB1JRt2_t8D+KpsCur0zPuwKcQ@mail.gmail.com>
+Subject: Re: [PULL 0/2] MIPS patches for 2021-03-22
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,61 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Marc-Andre Lureau <marcandre.lureau@gmail.com>, Li Zhang <zhlcindy@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Libvirt <libvir-list@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/2021 08.35, Lukas Straub wrote:
-> On Mon, 22 Mar 2021 06:20:50 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> On 22/03/2021 00.31, Lukas Straub wrote:
->>> Use the normal yank code instead of stubs in relevant tests to
->>> increase coverage and to ensure that registering and unregistering
->>> of yank instances and functions is done correctly.
->>>
->>> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
->>> ---
->>>    tests/qtest/meson.build | 6 +++---
->>>    tests/unit/meson.build  | 4 ++--
->>>    2 files changed, 5 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
->>> index 66ee9fbf45..40e1f495f7 100644
->>> --- a/tests/qtest/meson.build
->>> +++ b/tests/qtest/meson.build
->>> @@ -234,9 +234,9 @@ tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
->>>    qtests = {
->>>      'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
->>>      'cdrom-test': files('boot-sector.c'),
->>> -  'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
->>> +  'dbus-vmstate-test': ['migration-helpers.c', dbus_vmstate1, '../../monitor/yank.c'],
->>>      'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
->>> -  'migration-test': files('migration-helpers.c'),
->>> +  'migration-test': ['migration-helpers.c', io, '../../monitor/yank.c'],
->>>      'pxe-test': files('boot-sector.c'),
->>>      'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
->>>      'tpm-crb-swtpm-test': [io, tpmemu_files],
->>
->> Is this really necessary for the qtests? I can understand the change for the
->> unit tests, but the qtests are separate programs where I could not imagine
->> that they use the yank functions in any way?
-> 
-> Yes, it is necessary. While the yank functions are not called in these tests,
-> it still checks that registering and unregistering of yank instances and
-> functions is done correctly. I.e. That no yank functions are registered before
-> the instance, that the yank instance is only unregistered after all functions
-> where unregistered, that the same instance is not registered twice and that
-> the yank instance actually exists before it is unregistered.
+On Mon, 22 Mar 2021 at 14:22, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> The following changes since commit bdee969c0e65d4d509932b1d70e3a3b2ffbff6=
+d5:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
+ into staging (2021-03-19 18:01:17 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/mips-fixes-20210322
+>
+> for you to fetch changes up to 83bbc537a151730741c04e40d23711067330dab9:
+>
+>   target/mips: Deprecate Trap-and-Emul KVM support (2021-03-22 11:28:04 +=
+0100)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Fix array overrun (Coverity CID 1450831)
+> - Deprecate KVM TE (Trap-and-Emul)
+> ----------------------------------------------------------------
+>
+> Jiaxun Yang (1):
+>   target/mips: Deprecate Trap-and-Emul KVM support
+>
+> Peter Maydell (1):
+>   target/mips/mxu_translate.c: Fix array overrun for D16MIN/D16MAX
 
-Now you even confused me more. Could you elaborate a little bit? If none of 
-the functions are called by the test, which part of yank.c is excercised 
-here at all? Could you give a more detailed example? The only thing I could 
-imagine is yank_init(), but that does not look like something we need to 
-check in a qtest ?
+Applied, thanks.
 
-  Thomas
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
+-- PMM
 
