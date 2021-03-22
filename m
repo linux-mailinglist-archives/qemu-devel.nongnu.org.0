@@ -2,58 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52042344FE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:29:07 +0100 (CET)
-Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791CB345036
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 20:47:27 +0100 (CET)
+Received: from localhost ([::1]:40406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOQEc-0007kN-Ci
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46942)
+	id 1lOQWM-0006GI-Ht
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 15:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOQBQ-00056F-1b
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:25:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41192)
+ id 1lOQP8-00011s-6k
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:39:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOQBN-0007Ed-Kg
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:25:47 -0400
+ id 1lOQP6-00058o-8P
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 15:39:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOQBL-0005HX-GV
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 19:25:43 +0000
+ id 1lOQP4-0006qV-35
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 19:39:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B0CB2E8164
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 19:25:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0710F2E8165
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 19:39:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Mar 2021 19:19:18 -0000
-From: Peter Maydell <1907952@bugs.launchpad.net>
+Date: Mon, 22 Mar 2021 19:22:40 -0000
+From: Peter Maydell <1407808@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak pmaydell
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Commenters: nyh pmaydell th-huth
+X-Launchpad-Bug-Reporter: Nadav Har'El (nyh)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160786029328.5567.5976635715445692881.malonedeb@gac.canonical.com>
-Message-Id: <161644075863.19587.5960444489077226628.malone@wampee.canonical.com>
-Subject: [Bug 1907952] Re: qemu-system-aarch64: with "-display gtk" arrow keys
- are received as just ^[ on ttyAMA0
+References: <20150105215424.22410.18753.malonedeb@gac.canonical.com>
+Message-Id: <161644096067.28371.10292134086588423661.malone@gac.canonical.com>
+Subject: [Bug 1407808] Re: virtual console gives strange response to ANSI DSR
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 247a9429ebf640982ab588646fcb77d894931eba
+X-Launchpad-Hash: 2eb249569c95ffb574d301d7e5c8be5adbfb60c4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,88 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907952 <1907952@bugs.launchpad.net>
+Reply-To: Bug 1407808 <1407808@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should be fixed already in head-of-git, by commit
-8eb13bbbac08aa077e ; this will be in QEMU 6.0.
+This should be fixed in head-of-git by commit 8eb13bbbac08a, which will
+be in QEMU 6.0. (The underlying bug is that when the GTK front-end tries
+to send sequences of more than one byte to a UART, it didn't account for
+UARTs which don't have a FIFO capable of holding the whole sequence at
+once.)
 
 
 ** Changed in: qemu
-       Status: New =3D> Fix Committed
+       Status: Triaged =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907952
+https://bugs.launchpad.net/bugs/1407808
 
 Title:
-  qemu-system-aarch64: with "-display gtk" arrow keys are received as
-  just ^[ on ttyAMA0
+  virtual console gives strange response to ANSI DSR
 
 Status in QEMU:
   Fix Committed
-Status in qemu package in Debian:
-  Confirmed
 
 Bug description:
-  I originally observed this on Debian packaged qemu 5.2 at
-  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D976808
+  With "-serial vc" (which is the default), qemu make strange responses
+  to the ANSI DSR escape sequence (\033[6n) which can confuse guests.
 
-  Today I checked out the latest git source at
-  Sun, 13 Dec 2020 19:21:09 +0900
-  and configured the source as follows:
+  Terminal emulators supporting the ANSI escape sequences usually
+  support the "Device Status Report" escape sequence, \033[6n, to which
+  as a response the terminal injects as input the response \033[n;mR,
+  containing the current cursor position. An application running in the
+  guest can use this escape sequence to, for example, figure out the
+  size of the terminal it is running under, which can be useful as the
+  guest has no other standard way to figure out a "size" for the serial
+  port.
 
-  ./configure --prefix=3D/usr --sysconfdir=3D/etc --libexecdir=3D/usr/lib/q=
-emu \
-   --localstatedir=3D/var --disable-blobs --disable-strip --localstatedir=
-=3D/var \
-   --libdir=3D/usr/lib/aarch64-linux-gnu \ =
+  Unfortunately, it seems that qemu when run with "-serial vc" (which
+  appears to be the default), when qemu gets the \033[6n escape sequence
+  on the serial port, it just responds with a single \033, and that's
+  it! This can confuse an application, could concievably assume that a
+  terminal either supports this escape sequence and injects the correct
+  response (\033[n;mR), or doesn't support it and injects absolutely
+  nothing as input - but not something in between.
 
-   --firmwarepath=3D/usr/share/qemu:/usr/share/seabios:/usr/lib/ipxe/qemu \ =
-
-   --target-list=3Daarch64-softmmu,arm-softmmu --disable-werror \ =
-
-   --disable-user  --enable-gtk --enable-vnc
-  then executed "make" on an ARM64 (not an x86_64) host,
-  running the latest Debian testing.
-
-  I did the following commands on an arm64 host with the Debian Installer A=
-lpha 3 at
-  https://cdimage.debian.org/cdimage/bullseye_di_alpha3/arm64/iso-cd/debian=
--bullseye-DI-alpha3-arm64-netinst.iso
-
-  #!/bin/sh
-
-  ARCH=3Darm64
-  IMAGE=3D`pwd`/qemu-disk-${ARCH}.qcow2
-  CDROM=3D`pwd`/debian-bullseye-DI-alpha3-${ARCH}-netinst.iso
-  rm -f $IMAGE
-  qemu-img create -f qcow2 -o compat=3D1.1 -o lazy_refcounts=3Don -o preall=
-ocation=3Doff $IMAGE 20G
-  cd /var/tmp
-  cp /usr/share/AAVMF/AAVMF_VARS.fd .
-  $HOME/qemu-git/qemu/build/qemu-system-aarch64 \
-      -display gtk -enable-kvm -machine virt -cpu host -m 3072 -smp 2\
-      -net nic,model=3Dvirtio -net user -object rng-random,filename=3D/dev/=
-urandom,id=3Drng0 \
-      -device virtio-rng-pci,rng=3Drng0,id=3Drng-device0 \
-      -drive if=3Dvirtio,file=3D${IMAGE},index=3D0,format=3Dqcow2,discard=
-=3Dunmap,detect-zeroes=3Dunmap,media=3Ddisk \
-      -drive if=3Dvirtio,file=3D${CDROM},index=3D1,format=3Draw,readonly=3D=
-on,media=3Dcdrom \
-      -drive if=3Dpflash,format=3Draw,unit=3D0,file=3D/usr/share/AAVMF/AAVM=
-F_CODE.fd,readonly=3Don \
-      -drive if=3Dpflash,format=3Draw,unit=3D1,file=3D`pwd`/AAVMF_VARS.fd
-
-  Then 4 arrow keys on the physical keyboard are received as just "^[".
-
-  This symptom was not observed on qemu-system-x86_64.
-  This symptom was not observed with virt-manager on my arm64 host, neither.
-  This seems unique to -display gtk of qemu-system-aarch64.
+  This caused a problem on one shell implementation on OSv that tried to
+  figure out the terminal's size, and had to work around this unexpected
+  behavior (see https://github.com/cloudius-
+  systems/osv/commit/b79223584be40459861d1c12e1cb67e3e49e2a12).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907952/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1407808/+subscriptions
 
