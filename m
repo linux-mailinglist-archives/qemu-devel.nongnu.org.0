@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C53343B12
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 08:59:19 +0100 (CET)
-Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24022343AB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 08:37:50 +0100 (CET)
+Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOFT4-0004v6-LR
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 03:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51282)
+	id 1lOF8G-0002JN-K9
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 03:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOFPl-0002RP-SC; Mon, 22 Mar 2021 03:55:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:53091)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lOF6g-0001Vs-SJ
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 03:36:10 -0400
+Received: from mout.web.de ([212.227.15.14]:39519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOFPh-0001rG-Hu; Mon, 22 Mar 2021 03:55:53 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3myQ5fL3z9sVt; Mon, 22 Mar 2021 18:55:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616399742;
- bh=WG10ZhXbOvnE76fzjTAgUpWn7wSQL5Ln2YBtwPQQxv4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lmTzgWs8gAsx4aoBqz/9GgaixNzyPCJyoc1kgS6MAOcfx0DOMBYIMYXY8S9ZWs6sL
- esGyKjESa17Ules5JgSE6Q5CFSBLMiV+nCQDIyY/a3tIjtewmFPJq6rWhIvZFLieVm
- t7hk8eEIqYNsccOURi91IzG5yPzvxgoUaGuzumlQ=
-Date: Mon, 22 Mar 2021 17:43:24 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laine Stump <laine@redhat.com>
-Subject: Re: [RFC] adding a generic QAPI event for failed device hotunplug
-Message-ID: <YFg8jCvFBcRUOrWS@yekko.fritz.box>
-References: <155911cc-8764-1a65-4bb3-2fc0628d52e5@gmail.com>
- <877dmkrcpl.fsf@dusky.pond.sub.org>
- <d9567bf3-8740-e8fe-b29b-a3b0ebdb5809@gmail.com>
- <87blbt60hc.fsf@dusky.pond.sub.org>
- <8b79c207-f653-9eec-77f1-ea46c7c75ad5@gmail.com>
- <YEbp4wKK/QY7uKYw@yekko.fritz.box>
- <87mtvczvzw.fsf@dusky.pond.sub.org>
- <98d44670-5a63-1feb-aad8-9dbc62cf2e7a@gmail.com>
- <YErBpf7w25xho1so@yekko.fritz.box>
- <70a596e0-102c-60ce-ccf7-6c961fa5eec3@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lOF6e-0007CT-G5
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 03:36:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1616398563;
+ bh=781AZ+8WT8f39Lp0XX92xNhMKCgdhKPRD7CBcLcs1KY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=H/P8zby0XK7tZsUYNa+IXVCpn2sI603YAddukUCJSelBiRQBgk4sD2GCyMggx804o
+ JxJNzxrLI9BQYiGd5KbFSNLaS4vj5pramC/aolxAOBoMOURJZARRa3KbB47FXPfj2r
+ fjE8jquPPb0+UUvNHPeGrMWc3xLnvoW9Wc/nAWzE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([94.134.180.232]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0M4qon-1lahOJ3KZh-00z0p2; Mon, 22
+ Mar 2021 08:36:02 +0100
+Date: Mon, 22 Mar 2021 08:35:45 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/5] tests: Use the normal yank code instead of stubs in
+ relevant tests
+Message-ID: <20210322083545.2c36b5a0@gecko.fritz.box>
+In-Reply-To: <1fc6eff2-a8e5-4ae2-96a5-1b30325dff81@redhat.com>
+References: <cover.1616368879.git.lukasstraub2@web.de>
+ <950007e82e19e75831b29fac07ab990c213d2352.1616368879.git.lukasstraub2@web.de>
+ <1fc6eff2-a8e5-4ae2-96a5-1b30325dff81@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zbcUYz2Ih+hMrsEq"
-Content-Disposition: inline
-In-Reply-To: <70a596e0-102c-60ce-ccf7-6c961fa5eec3@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/J.vku+EUrip.DZ+SuEq8mSS";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:LMk0+l3W8t0loPjjU5kjTPfEbM64RFFWb4yemfH7CDI+g05tpPJ
+ iPTxUMwrkJ2AzB8c9B9bmN7yO13FvqtNjgmPm6AubBTbEovvQyMW8N8gjMVXCCl/EvVG7LF
+ y6uFVT9MTbbWQcvROIhT9SWzMbicgkY2+tPWK5KEU6JoxSuC/b7oxpuiM52J7XidYlxw3Kf
+ kQFCLXmMAtCfMhmRfsthQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xDOoe3fyom0=:CrX62Gb9wOj3vDWpNyxRfV
+ KhVJ4xLgVqUTPYMCO8byZV56TcQWnQB5kNvN+lM+0ghZawtdqz6TEv/hB0ysgacO/LARtApRJ
+ Qfhtyiq9C3EK08WeFmtFB/Hr5bIv5yCezd2x0/VQOSWTsyhFqfaUqVqS8uftA7l+Pq42ZG7/L
+ W0ON0ad0LWIPNXOaRTovvJmCmaRnvWwIlZmqG8h5R0Ch1+QLkW2gYmc2gaPB1Lv7i70ZPpB4P
+ 7VMj0f1BGKqFsE18XckTnDnf69ZE3gxZW1ipBsi+hK8mLn/ff3JQTRPnRUjaT02trZIpMkwax
+ Y60OD+0LuD/KpopIKX8az6xZnoxMR5rpqP/dr81GONszDvTPR4WY0CavHvqNiplKapYPNwRz7
+ oceMjFcATCoAFx129t9QbTEq4roPd7qVVV2jNo8ufeQS+5BVN57Ycb4ElcMZp2S7guTHTCenC
+ 2L5cpleu8UzDpbITWRdVvGxtK7/4HUR5pTEbqn7flb74Ch9sVJ9zg5Bgg6NkrNlPD/v8uQarC
+ wdX8zQDe2g7Yu3Sz0Owdm6r/+WE95tSDdPjK+6Bn6KneSVeAsGK/u9rZeyG2PXtEBQjWpmSVq
+ 2NJ0DdskmCnMnFVBI3cvgTwdiAGdej6opHSVFhkfjriYgQJifqK1mwTqVGjX297VmOTPRCaSX
+ 4iPqp/Qol59Xd6Bb86o15+yIJXr923TGoawKV8b9wOcfWFeFdhadQG1AAlWucfdB6uwjhBsFO
+ hKA7Drc4xHV36y7HggzB1KMffvGjjAV0FRBUpSjGn0bE9okedKljQqwXt5uMDjOqLe23ke1SH
+ 2ujAow69ZbrSccwiS9RohvKoQ0j1I29D17XqEVYOhAVcqI68Ai8qDa2zbdDqSqEhPH/lGPrJl
+ 7V3HfOsrlfTqTnnDRyFQ==
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,214 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, michael.roth@amd.com,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Julia Suvorova <jusual@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Marc-Andre Lureau <marcandre.lureau@gmail.com>, Li Zhang <zhlcindy@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---zbcUYz2Ih+hMrsEq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/J.vku+EUrip.DZ+SuEq8mSS
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 12, 2021 at 08:38:47AM -0500, Laine Stump wrote:
-> On 3/11/21 8:19 PM, David Gibson wrote:
-> > On Thu, Mar 11, 2021 at 05:50:42PM -0300, Daniel Henrique Barboza wrote:
-> > >=20
-> > >=20
-> > > On 3/9/21 3:22 AM, Markus Armbruster wrote:
-> > > > Cc: Paolo and Julia in addition to Igor, because the thread is wand=
-ering
-> > > > towards DeviceState member pending_deleted_event.
-> > > >=20
-> > > > Cc: Laine for libvirt expertise.  Laine, if you're not the right pe=
-rson,
-> > > > please loop in the right person.
-> > > >=20
-> > > > David Gibson <david@gibson.dropbear.id.au> writes:
-> > > >=20
-> > > > > On Mon, Mar 08, 2021 at 03:01:53PM -0300, Daniel Henrique Barboza=
- wrote:
-> > > > > >=20
-> > > > > >=20
-> > > > > > On 3/8/21 2:04 PM, Markus Armbruster wrote:
-> > > > > > > Daniel Henrique Barboza <danielhb413@gmail.com> writes:
-> > > > > > >=20
-> > > > > > > > On 3/6/21 3:57 AM, Markus Armbruster wrote:
-> > > > [...]
-> > > > > > > > > We should document the event's reliability.  Are there un=
-plug operations
-> > > > > > > > > where we can't detect failure?  Are there unplug operatio=
-ns where we
-> > > > > > > > > could, but haven't implemented the event?
-> > > > > > > >=20
-> > > > > > > > The current version of the PowerPC spec that the pseries ma=
-chine implements
-> > > > > > > > (LOPAR) does not predict a way for the virtual machine to r=
-eport a hotunplug
-> > > > > > > > error back to the hypervisor. If something fails, the hyper=
-visor is left
-> > > > > > > > in the dark.
-> > > > > > > >=20
-> > > > > > > > What happened in the 6.0.0 dev cycle is that we faced a rel=
-iable way of
-> > > > > > >=20
-> > > > > > > Do you mean "unreliable way"?
-> > > > > >=20
-> > > > > > I guess a better word would be 'reproducible', as in we discove=
-red a reproducible
-> > > > > > way of getting the guest kernel to refuse the CPU hotunplug.
-> > > > >=20
-> > > > > Right.  It's worth noting here that in the PAPR model, there are =
-no
-> > > > > "forced" unplugs.  Unplugs always consist of a request to the gue=
-st,
-> > > > > which is then resposible for offlining the device and signalling =
-back
-> > > > > to the hypervisor that it's done with it.
-> > > > >=20
-> > > > > > > > making CPU hotunplug fail in the guest (trying to hotunplug=
- the last online
-> > > > > > > > CPU) and the pseries machine was unprepared for dealing wit=
-h it. We ended up
-> > > > > > > > implementing a hotunplug timeout and, if the timeout kicks =
-in, we're assuming
-> > > > > > > > that the CPU hotunplug failed in the guest. This is the fir=
-st scenario we have
-> > > > > > > > today where we want to send a QAPI event informing the CPU =
-hotunplug error,
-> > > > > > > > but this event does not exist in QEMU ATM.
-> > > > > > >=20
-> > > > > > > When the timeout kicks in, how can you know the operation fai=
-led?  You
-> > > > > > > better be sure when you send an error event.  In other words:=
- what
-> > > > > > > prevents the scenario where the operation is much slower than=
- you
-> > > > > > > expect, the timeout expires, the error event is sent, and the=
-n the
-> > > > > > > operation completes successfully?
-> > > > > >=20
-> > > > > > A CPU hotunplug in a pseries guest takes no more than a couple =
-of seconds, even
-> > > > > > if the guest is under heavy load. The timeout is set to 15 seco=
-nds.
-> > > > >=20
-> > > > > Right.  We're well aware that a timeout is an ugly hack, since it=
-'s
-> > > > > not really possible to distinguish it from a guest that's just be=
-ing
-> > > > > really slow.
-> > > >=20
-> > > > As long as unplug failure cannot be detected reliably, we need a ti=
-meout
-> > > > *somewhere*.  I vaguely recall libvirt has one.  Laine?
-> > >=20
-> > > Yeah, Libvirt has a timeout for hotunplug operations. I agree that QE=
-MU doing
-> > > the timeout makes more sense since it has more information about the
-> > > conditions/mechanics involved.
+On Mon, 22 Mar 2021 06:20:50 +0100
+Thomas Huth <thuth@redhat.com> wrote:
+
+> On 22/03/2021 00.31, Lukas Straub wrote:
+> > Use the normal yank code instead of stubs in relevant tests to
+> > increase coverage and to ensure that registering and unregistering
+> > of yank instances and functions is done correctly.
 > >=20
-> > Right.  In particular, I can't really see how libvirt can fully
-> > implement that timeout.  AFAIK qemu has no way of listing or
-> > cancelling "in flight" unplug requests, so it's entirely possible that
-> > the unplug could still complete after libvirt's has "timed out".
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >   tests/qtest/meson.build | 6 +++---
+> >   tests/unit/meson.build  | 4 ++--
+> >   2 files changed, 5 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> > index 66ee9fbf45..40e1f495f7 100644
+> > --- a/tests/qtest/meson.build
+> > +++ b/tests/qtest/meson.build
+> > @@ -234,9 +234,9 @@ tpmemu_files =3D ['tpm-emu.c', 'tpm-util.c', 'tpm-t=
+ests.c']
+> >   qtests =3D {
+> >     'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.=
+c'],
+> >     'cdrom-test': files('boot-sector.c'),
+> > -  'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
+> > +  'dbus-vmstate-test': ['migration-helpers.c', dbus_vmstate1, '../../m=
+onitor/yank.c'],
+> >     'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c=
+'],
+> > -  'migration-test': files('migration-helpers.c'),
+> > +  'migration-test': ['migration-helpers.c', io, '../../monitor/yank.c'=
+],
+> >     'pxe-test': files('boot-sector.c'),
+> >     'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: fa=
+lse).sources()],
+> >     'tpm-crb-swtpm-test': [io, tpmemu_files],
 >=20
-> (I'm purposefully not trying to understand the full context of all of thi=
+> Is this really necessary for the qtests? I can understand the change for =
+the=20
+> unit tests, but the qtests are separate programs where I could not imagin=
+e=20
+> that they use the yank functions in any way?
+
+Yes, it is necessary. While the yank functions are not called in these test=
 s,
-> as I'm mostly unconnected right now, and only popped in at the mention of=
- my
-> name and CC. So forgive me if I'm missing some of the details of the
-> conversation - I'm only here to give context about libvirt's timeout duri=
-ng
-> unplug)
->=20
-> I didn't remember there being any sort of timeout for unplugs in libvirt,=
- so
-> I went back into the code and found that there *is* a timeout (I'd just
-> forgotten that I'd ever seen it), but (for PCI devices, which is the only
-> hotplug/unplug code I have any real familiarity with) it is just a short =
-(10
-> seconds for PPC, 5 seconds for other platforms) to see if the unplug can
-> complete before the public API returns; if there is a "timeout" then we
-> still return success (after logging a warning message) but the device sta=
-ys
-> in the domain's device list, and nothing else is changed unless/until we
-> receive a DEVICE_DELETED event from qemu (completely asynchronous -
-> libvirt's API has long ago returned success) - only then do we remove the
-> device from libvirt's domain status. libvirt won't/can't ever go back and
-> retroactively fail the API that's already completed successfully though :=
--)
+it still checks that registering and unregistering of yank instances and
+functions is done correctly. I.e. That no yank functions are registered bef=
+ore
+the instance, that the yank instance is only unregistered after all functio=
+ns
+where unregistered, that the same instance is not registered twice and that
+the yank instance actually exists before it is unregistered.
 
-Huh.  That seems... kinda bogus.  It really seems to me you need to
-provide either a synchronous interface: wait indefinitely for
-completion - or an asynchronous one: always return quickly and user
-has to wait for the completion event.  Having this hybrid just seems
-confusing.
+>   Thomas
+>=20
+>=20
+> PS: Please add a proper description about the yank feature to either that=
+=20
+> yank.c file or to include/qemu/yank.h ... I had a hard time to find out w=
+hat=20
+> this code is all about until I finally looked up your cover letter of the=
+=20
+> original series on the mailing list.
+>=20
 
-> For VCPUs (which I guess is what you're exclusively talking about here) it
-> looks like libvirt waits for the same 5-10 seconds (during the unplug API
-> call) and if it hasn't received DEVICE_DELETED, then it returns an error:
->=20
->     if ((rc =3D qemuDomainWaitForDeviceRemoval(vm)) <=3D 0) {
->         if (rc =3D=3D 0)
->             virReportError(VIR_ERR_OPERATION_TIMEOUT, "%s",
->                            _("vcpu unplug request timed out. Unplug resul=
-t "
->                              "must be manually inspected in the domain"));
->=20
->         goto cleanup;
->     }
->=20
-> Here's what Peter says in the commit log when he replaced old-useless VCPU
-> unplug code with new-working code in 2016:
->=20
->     As the new code is using device_del all the implications of using it
->     are present. Contrary to the device deletion code, the vcpu deletion
->     code fails if the unplug request is not executed in time.
->=20
-> I have no clue why in the case of PCI devices libvirt is logging a warning
-> and returning success, while in the case of VCPUs it is logging an error =
-and
-> returning failure. I think there may have originally been a stated/unstat=
-ed
-> assumption that the libvirt unplug APIs were synchronous, and both
-> situations were just the result of later trying to cope with the reality
-> that the operation is actually asynchronous.
+Will do.
 
-That seems pretty plausible.
+Regards,
+Lukas Straub
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---zbcUYz2Ih+hMrsEq
-Content-Type: application/pgp-signature; name="signature.asc"
+
+--Sig_/J.vku+EUrip.DZ+SuEq8mSS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYPIwACgkQbDjKyiDZ
-s5IoyA//Y0/nL+ImUPbHKYHfLkSYyHUb9iPUsNPC5WX4eeEcs+KFeVEaCxu2F/1o
-gEzHSGlwL9F1B9ZIg2dwTdYm66GnFssgvSiM4eRsNyIum6qKsjAT2Yw5jiu5A2jI
-S59J6v3uLa3LMDcRYWWsOymDUQJIhNONxvVuV4N1FKHPJ/2CwlrqPPn4DwSC8e1F
-rQxA277sYc8D62T/wPZiqwmH4dadAH8VRtGvvcH0NZ7notXWPaXiQfqMEOkkkK4Z
-9igLM164AiI1erYesgOTKfRBaDip8XX5C0fGm9KoAg/HsMMVrjhZkkFVATl8Ah1q
-UpDrQ4M3zT19zWicSCwvod/P4Hnq+75WcXVrTUCb/qxrM9oDrEe6vVYyxhIehE9i
-vy5joW7zoxS0HQKtsleooBD7zECRbn6lRnZkLbjQkxb4sMijnOyU1heRQm1jTPFs
-ZD+YOsZz+Ed30rywavZDeCHZGFdoYTE3U668rdL1FYi4wEMyfDeagj/DfCdWD1w1
-2ldoj6i+35jO+tT9o7swWpFBv9sfX1WkQADwYzxU4LD828Or5XkRIYHNjT/+MuVG
-fU5dZA85xs1wpUdYkG00RTn+AfPbV7C+ehwtDt3dciMWkdV/5c55KQSftMyDcWe6
-7jYa7+QrfC/O/0HSBGxr/z0E+MtTPLeAFtOULur1vADlUbkPwxM=
-=ryPo
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBYSNEACgkQNasLKJxd
+slj3WA//V0DUFx8cQbKf7BShr3X1RJLInzIoR8cixtYsuKNz22R+9Pv3b5vTHvY8
+ZG/G9YZfjy3n0jqmYKggo986fP2u+Ub2P92NGP0ifdPtvZzVS/uFPMcd1prc1ne+
+Y1R/eT9YiRDbXi4FoxRR7XoiwASmDE3s1697nvOKQ8Fj6GuaTPyVhgzTmhzskIsW
+hF5b6rTncUwfthmv5x1hhFIH71rcF2oCgZpGw1mJg0ZEw+75MQhGRvsi+/0dxFua
+iR17wVQSwgszI4taTp39o4Hiss4HruwqOZ/R5yrPawAqOVr4MeWHUjkWiageA9TU
+xa3tDn2IByxfDow8mhwXnki71ZLgTi9o6wRBzu021jM9Ky/4X5jWFNOY72QO8jQD
+w6DO4CSTln+F/xhQPQw8KXbI/84Zeh/Zm0vONujDkOGLK4Nt3kSSLzSJDvM1b2zH
+v8Mx24GqklcaXjZ6Tn4OHPQyFnPFcZcFzZvkvZezpR3VkQaOU6QVbBKQ88TjOJ+S
+pa6nkyMa+wVe20BkAr035GCe3beX1iB8nUMs3G/afKQeUSraWpMpZY1IEyw0mCEN
+5WF+8R71OqXlsuWnxn96b7gZB3+qBefKOrs9iKOkg5hBW2zMg1fvrUE50px023E6
+S3nZ0UfU1v2Wjc63ZX+Hh0vfdVN169d8mEj4P8/twNoqxOwy70U=
+=Tvzy
 -----END PGP SIGNATURE-----
 
---zbcUYz2Ih+hMrsEq--
+--Sig_/J.vku+EUrip.DZ+SuEq8mSS--
 
