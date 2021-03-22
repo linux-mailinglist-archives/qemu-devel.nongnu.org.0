@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C757343EBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:02:47 +0100 (CET)
-Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5058E343EBC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:01:55 +0100 (CET)
+Received: from localhost ([::1]:39212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOIKc-0001kf-DY
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:02:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41338)
+	id 1lOIJm-00013Y-AC
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lOIDV-0005aY-HS
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:55:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lOIDQ-000567-3O
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:55:25 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lOIHG-0008LH-HB
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:59:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lOIHE-0007EV-QB
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:59:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616410518;
+ s=mimecast20190719; t=1616410755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HKjG3+Ezrzy/bx7gkwplP06FeLKjsTV/oIfg81S+dv0=;
- b=QHEL/mHwRoP18RPybND0bSVWToLYmrSEDv9bo4qOgHz+n+uXyWULCaxUjU1HQzUm2Hb8Ss
- 680SA0oEmVofvbXkajeY+OJAZodtWmqYQARkPissqkaWn4lCookmI6F5Jd8fQcGaGFHThW
- STPowrcgKLgTXIjVPgrvvEeV2dfsEIU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-d_jR96xuPuCUIubeGq3NiQ-1; Mon, 22 Mar 2021 06:55:14 -0400
-X-MC-Unique: d_jR96xuPuCUIubeGq3NiQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA9C0180FCA4;
- Mon, 22 Mar 2021 10:55:12 +0000 (UTC)
-Received: from localhost (ovpn-114-89.ams2.redhat.com [10.36.114.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECE1D19C87;
- Mon, 22 Mar 2021 10:54:57 +0000 (UTC)
-Date: Mon, 22 Mar 2021 10:54:56 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon
- crash reconnection
-Message-ID: <YFh3gIMbEEEYDdS/@stefanha-x1.localdomain>
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
- <1709993.NBFj2RoZ23@silver>
- <CAFQAk7jmvzL3tT=7ExcUKyo9SKNdhT29F5y3f4K8YigA08=BWQ@mail.gmail.com>
- <1711593.yAA9ihpmTb@silver>
+ bh=dZGlgZBoUUQMZFr6Y5Qk2lq1TTR2mi8k2lAr5JAhPi8=;
+ b=CqL/ygHzKwVFbeEJWm+wguQhsstA46RKlKWfE1LO9TClquCDEBmhnkbNlS5S/sTRMaieAw
+ xZin9qpri4oghBBkbl+1VmhLuaxECzuh4gEw8HCBJh44J6FmC95hLZ65sng2tdvQ3nU5+R
+ AyPBa5AoSzRMi2xAnOlhNF+TN6VRbdA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-HRS8M-s3Pz-Q_67EL-Q6bA-1; Mon, 22 Mar 2021 06:59:14 -0400
+X-MC-Unique: HRS8M-s3Pz-Q_67EL-Q6bA-1
+Received: by mail-ed1-f70.google.com with SMTP id cq11so27130007edb.14
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 03:59:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=dZGlgZBoUUQMZFr6Y5Qk2lq1TTR2mi8k2lAr5JAhPi8=;
+ b=cZmP75xGJ6Sy6Q7KMAMkRmS3/ARZXzwxAKlZzGIEjrzZpcoKDRey7fgYi1FbAArlX0
+ IAMbKdpleglScvrdKVjujiSloHrqxdr0pHCkTIKBNJ0Efyl4KBmpRPKpZ1tO4RWzFzsd
+ WcDqP+PXmNkvLzK0ppUL41OR6cQmTazZJB+qyKACj9+B2q3CV65rlXVyD5IEh8FvwxN/
+ 2lEBXy6jnsbUMyueZScE4b8LLStK1cgnlKvpDPgr2aMoc2DBWJ8GlpDeGI/MIo8EFeZ1
+ hN4HQ8oXVsbsmrhivQilDtkkjB4KsCiZn4V9ROT2FnBTsSySvMVHZczWv612e/iFviEv
+ 967Q==
+X-Gm-Message-State: AOAM533qhTCxqyPj1VW5VPWxVeyL/81GsbYc/dMU2oCpQjVWRFlH0j3Q
+ CW6Pey6lBie0WgA4Ll3e0pzJgmj5ouqwhBHnjFAmw3LfevqjtsnQVQW0LC+GJ1hagZPfS5xQowq
+ ax4ANsY91gofdxCA=
+X-Received: by 2002:a17:906:7c44:: with SMTP id
+ g4mr18410220ejp.269.1616410753186; 
+ Mon, 22 Mar 2021 03:59:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+Fd/M5DEc5NLr95Qtz7CKeWfxuXWBbzWxGSzWQPmfmcqxVrkWiRIOzpooJppKmfOBB8xtQw==
+X-Received: by 2002:a17:906:7c44:: with SMTP id
+ g4mr18410200ejp.269.1616410752984; 
+ Mon, 22 Mar 2021 03:59:12 -0700 (PDT)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id h13sm11229429edz.71.2021.03.22.03.59.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 03:59:12 -0700 (PDT)
+Date: Mon, 22 Mar 2021 11:59:10 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [Qemu-devel] [PULL 18/76] optionrom: add new PVH option rom
+Message-ID: <CAGxU2F5x_TNQZJ3f+baam3pHzzP+0k57FFNB5ms-qt3B25gSVQ@mail.gmail.com>
+References: <1549390526-24246-1-git-send-email-pbonzini@redhat.com>
+ <1549390526-24246-19-git-send-email-pbonzini@redhat.com>
+ <e3d925e6-a48e-07b9-6418-05c5a4d2cd36@redhat.com>
+ <f33bf6fa-1fa3-4e33-bd8e-843bec2d5638@redhat.com>
+ <20210319173524.rnrxslpmdjck6uxv@steredhat>
+ <CABgObfZHP1aSMpbdWh6TwCN_D5gy5TS5+Q7-La8d7E5czvn7Rg@mail.gmail.com>
+ <20210319182022.veha5gbcg3p4idgk@steredhat>
+ <CAGxU2F7hNoJeDpsCtU0ypKd=3+3mrxcc3QU6Yx9SK9e_7y6Khw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1711593.yAA9ihpmTb@silver>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAGxU2F7hNoJeDpsCtU0ypKd=3+3mrxcc3QU6Yx9SK9e_7y6Khw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="COV0ppyWz2Yz3WLE"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,130 +106,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---COV0ppyWz2Yz3WLE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Mar 19, 2021 at 7:25 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> On Fri, Mar 19, 2021 at 7:20 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >
+> > On Fri, Mar 19, 2021 at 06:52:39PM +0100, Paolo Bonzini wrote:
+> > >It's likely that the compiler will online it. But indeed it's better to add
+> > >-minline-all-stringops to the compiler command line.
+> > >
+> >
+> > Cool, I didn't know that one!
+> > I tried but I did something wrong because the linker is not happy, next
+> > week I'll check better:
+> > ld: pvh_main.o: in function `search_rsdp':
+> > /home/stefano/repos/qemu/pc-bios/optionrom/pvh_main.c:62: undefined reference to `memcmp'
+> > ld: /home/stefano/repos/qemu/pc-bios/optionrom/pvh_main.c:62: undefined reference to `memcmp'
+> >
+> >
+> > In the mean time, I simply tried to assign the RSDP_SIGNATURE macro to
+> > an uint64_t variable and I have this new warning, using gcc 10.2.1 "cc
+> > (Alpine 10.2.1_pre2) 10.2.1 20210313":
+> >
+> > In file included from /tmp/qemu-test/src/pc-bios/optionrom/pvh_main.c:25:
+> > /tmp/qemu-test/src/pc-bios/optionrom/pvh_main.c: In function 'search_rsdp':
+> > /tmp/qemu-test/src/pc-bios/optionrom/pvh_main.c:30:42: warning: conversion from 'long long unsigned int' to 'uint64_t' {aka 'long unsigned int'} changes value from '2329016660419433298' to '541348690' [-Woverflow]
+> >     30 | #define RSDP_SIGNATURE          UINT64_C(0x2052545020445352) /* "RSD PTR " */
+> >        |                                          ^~~~~~~~~~~~~~~~~~
+> > /tmp/qemu-test/src/pc-bios/optionrom/pvh_main.c:69:31: note: in expansion of macro 'RSDP_SIGNATURE'
+> >     69 |     uint64_t rsdp_signature = RSDP_SIGNATURE;
+> >        |
+> >
+> > Using gcc (GCC) 10.2.1 20201125 (Red Hat 10.2.1-9) I don't have it.
+> >
+> > It seems a bit strange, I don't know if it's related to the fact that we
+> > compile with -m16, I'll check better.
+>
+> Anyway I think that using memcmp() I can switch to a character array to
+> store the signature, but this gcc warnings confused me a bit...
+>
 
-On Thu, Mar 18, 2021 at 12:58:46PM +0100, Christian Schoenebeck wrote:
-> On Mittwoch, 17. M=E4rz 2021 13:57:47 CET Jiachen Zhang wrote:
-> > On Wed, Mar 17, 2021 at 7:50 PM Christian Schoenebeck <
-> >=20
-> > qemu_oss@crudebyte.com> wrote:
-> > > On Mittwoch, 17. M=E4rz 2021 11:05:32 CET Stefan Hajnoczi wrote:
-> > > > On Fri, Dec 18, 2020 at 05:39:34PM +0800, Jiachen Zhang wrote:
-> > > > > Thanks for the suggestions. Actually, we choose to save all state
-> > > > > information to QEMU because a virtiofsd has the same lifecycle as=
- its
-> > > > > QEMU master. However, saving things to a file do avoid communicat=
-ion
-> > >=20
-> > > with
-> > >=20
-> > > > > QEMU, and we no longer need to increase the complexity of vhost-u=
-ser
-> > > > > protocol. The suggestion to save fds to the systemd is also very
-> > > > > reasonable
-> > > > > if we don't consider the lifecycle issues, we will try it.
-> > > >=20
-> > > > Hi,
-> > > > We recently discussed crash recovery in the virtio-fs bi-weekly cal=
-l and
-> > > > I read some of this email thread because it's a topic I'm intereste=
-d in.
-> > >=20
-> > > I just had a quick fly over the patches so far. Shouldn't there be so=
-me
-> > > kind
-> > > of constraint for an automatic reconnection feature after a crash to
-> > > prevent
-> > > this being exploited by ROP brute force attacks?
-> > >=20
-> > > E.g. adding some (maybe continuously increasing) delay and/or limitin=
-g the
-> > > amount of reconnects within a certain time frame would come to my min=
-d.
-> > >=20
-> > > Best regards,
-> > > Christian Schoenebeck
-> >=20
-> > Thanks, Christian. I am still trying to figure out the details of the R=
-OP
-> > attacks.
-> >=20
-> > However, QEMU's vhost-user reconnection is based on chardev socket
-> > reconnection. The socket reconnection can be enabled by the "--chardev
-> > socket,...,reconnect=3DN" in QEMU command options, in which N means QEM=
-U will
-> > try to connect the disconnected socket every N seconds. We can increase=
- N
-> > to increase the reconnect delay. If we want to change the reconnect del=
-ay
-> > dynamically, I think we should change the chardev socket reconnection c=
-ode.
-> > It is a more generic mechanism than vhost-user-fs and vhost-user backen=
-d.
-> >=20
-> > By the way, I also considered the socket reconnection delay time in the
-> > performance aspect. As the reconnection delay increase, if an applicati=
-on
-> > in the guest is doing I/Os, it will suffer larger tail latency. And for
-> > now, the smallest delay is 1 second, which is rather large for
-> > high-performance virtual I/O devices today. I think maybe a more perfor=
-mant
-> > and safer reconnect delay adjustment mechanism should be considered in =
-the
-> > future. What are your thoughts?
->=20
-> So with N=3D1 an attacker could e.g. bypass a 16-bit PAC by brute-force i=
-n ~18=20
-> hours (e.g. on Arm if PAC + MTE was enabled). With 24-bit PAC (no MTE) it=
-=20
-> would be ~194 days. Independent of what architecture and defend mechanism=
- is=20
-> used, there is always the possibility though that some kind of side chann=
-el=20
-> attack exists that might require a much lower amount of attempts. So in a=
-n=20
-> untrusted environment I would personally limit the amount of automatic=20
-> reconnects and rather accept a down time for further investigation if a=
-=20
-> suspicious high amount of crashes happened.
->=20
-> And yes, if a dynamic delay scheme was deployed in future then starting w=
-ith a=20
-> value smaller than 1 second would make sense.
+I'll send a patch to add a simple implementation of memcmp and use it 
+since I wasn't able to embedded it with -minline-all-stringops.
 
-If we're talking about repeatedly crashing the process to find out its
-memory map, shouldn't each process have a different randomized memory
-layout?
+In the mean time, I played a bit with sizeof() to understand what's 
+going on and I think there is something strange with Alpine gcc 
+10.2.1_pre2.
 
-Stefan
+I added this 3 lines in pvh_main.c to print the sizes at compile time 
+(maybe there is a better way :-):
 
---COV0ppyWz2Yz3WLE
-Content-Type: application/pgp-signature; name="signature.asc"
++    char (*__size1)[sizeof(uint64_t)] = 1;
++    char (*__size2)[sizeof(UINT64_C(1))] = 1;
++    char (*__size3)[sizeof(UINT64_C(0x2052545020445352))] = 1;
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBYd4AACgkQnKSrs4Gr
-c8gTBAgAmn7gCTEiBI4nV4D5u27OL0k9GIqn6TejdUDNAj7fRaLPHP54KeBgcXue
-HZlc51CSz0z+8R+plbpdBcLvy+cSt9VV7fTnowIJ7IW5SqXPY1NNQWxmFAFse4rC
-sdwxiRBJayHa4v9Nanm6cefyDrEGSREdmMjXy8pipHEZ2Xp+4pYhdI4ZBWPedgwa
-/kEqweRyfm1txcC4PrTUe1bcyeVNxKKQDNYsj5ki/OwhY0mLwa6VOlmlnl7XqusD
-YOi0neLdPKitHzfyKqdjNXTkh7a/Ylgw1MLsIDDBeMeF/ZDpeP3qYm5p/Ryw76qd
-phCCqCTqb8khTTeK6T8ZiqvMA7TEVw==
-=p+De
------END PGP SIGNATURE-----
+If I build with gcc 10.2.1 20201125 (Red Hat 10.2.1-9) everything looks 
+normal, since they are all 8 bytes:
 
---COV0ppyWz2Yz3WLE--
+   warning: initialization of ‘char (*)[8]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   74 |     char (*__size1)[sizeof(uint64_t)] = 1;
+      |                                         ^
+   warning: initialization of ‘char (*)[8]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   75 |     char (*__size2)[sizeof(UINT64_C(1))] = 1;
+      |                                            ^
+   warning: initialization of ‘char (*)[8]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   76 |     char (*__size3)[sizeof(UINT64_C(0x2052545020445352))] = 1;
+
+
+If I build with gcc 10.2.1 20210313 (Alpine 10.2.1_pre2) uint64_t and 
+UINT64_C(1) have a size of 4 bytes, while UINT64_C(0x2052545020445352) 
+has a size of 8 bytes:
+
+   warning: initialization of ‘char (*)[4]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   74 |     char (*__size1)[sizeof(uint64_t)] = 1;
+      |                                         ^
+   warning: initialization of ‘char (*)[4]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   75 |     char (*__size2)[sizeof(UINT64_C(1))] = 1;
+      |                                            ^
+   warning: initialization of ‘char (*)[8]’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   76 |     char (*__size3)[sizeof(UINT64_C(0x2052545020445352))] = 1;
+
+This is a bit strange...
+
+Thanks,
+Stefano
 
 
