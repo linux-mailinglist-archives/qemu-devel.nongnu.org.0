@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4DE33445BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:30:19 +0100 (CET)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9654F3445D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:34:00 +0100 (CET)
+Received: from localhost ([::1]:39898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKdO-0002YP-P5
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
+	id 1lOKgx-0006E0-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbH-0000hs-B7
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45000)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbI-0000k7-Su
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:08 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbE-0001et-NN
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:07 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbF-0001f4-FN
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:08 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 75690AD4A;
- Mon, 22 Mar 2021 13:28:02 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0F03DAD74;
+ Mon, 22 Mar 2021 13:28:03 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,13 +28,14 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC] accel: add cpu_reset
-Date: Mon, 22 Mar 2021 14:27:37 +0100
-Message-Id: <20210322132800.7470-2-cfontana@suse.de>
+Subject: [PATCH v28 01/23] target/i386: Rename helper_fldt, helper_fstt
+Date: Mon, 22 Mar 2021 14:27:38 +0100
+Message-Id: <20210322132800.7470-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210322132800.7470-1-cfontana@suse.de>
 References: <20210322132800.7470-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -57,142 +58,105 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-XXX
+From: Richard Henderson <richard.henderson@linaro.org>
+
+Change the prefix from "helper" to "do".  The former should be
+reserved for those functions that are called from TCG; the latter
+is in use within the file already for those functions that are
+called from the helper functions, adding a "retaddr" argument.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Tested-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/accel-common.c        | 9 +++++++++
- hw/core/cpu.c               | 3 ++-
- include/hw/core/accel-cpu.h | 2 ++
- include/qemu/accel.h        | 6 ++++++
- target/i386/cpu.c           | 4 ----
- target/i386/kvm/kvm-cpu.c   | 6 ++++++
- 6 files changed, 25 insertions(+), 5 deletions(-)
+ target/i386/tcg/fpu_helper.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-
-This surprisingly works without moving cpu_reset() to a
-specific_ss module, even though
-
-accel-common.c is specific_ss,
-hw/core/cpu.c  is common_ss.
-
-How come the call to accel_reset_cpu works?
-
-Ciao,
-
-Claudio
-
-
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index cf07f78421..3331a9dcfd 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -121,6 +121,15 @@ bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
-     return true;
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 60ed93520a..3d9b192901 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -117,8 +117,7 @@ static inline void fpop(CPUX86State *env)
+     env->fpstt = (env->fpstt + 1) & 7;
  }
  
-+void accel_cpu_reset(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_reset) {
-+        cc->accel_cpu->cpu_reset(cpu);
-+    }
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 00330ba07d..590a0d934f 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -35,6 +35,7 @@
- #include "trace/trace-root.h"
- #include "qemu/plugin.h"
- #include "sysemu/hw_accel.h"
-+#include "qemu/accel.h"
- 
- CPUState *cpu_by_arch_id(int64_t id)
+-static inline floatx80 helper_fldt(CPUX86State *env, target_ulong ptr,
+-                                   uintptr_t retaddr)
++static floatx80 do_fldt(CPUX86State *env, target_ulong ptr, uintptr_t retaddr)
  {
-@@ -230,7 +231,7 @@ void cpu_dump_statistics(CPUState *cpu, int flags)
- void cpu_reset(CPUState *cpu)
+     CPU_LDoubleU temp;
+ 
+@@ -127,8 +126,8 @@ static inline floatx80 helper_fldt(CPUX86State *env, target_ulong ptr,
+     return temp.d;
+ }
+ 
+-static inline void helper_fstt(CPUX86State *env, floatx80 f, target_ulong ptr,
+-                               uintptr_t retaddr)
++static void do_fstt(CPUX86State *env, floatx80 f, target_ulong ptr,
++                    uintptr_t retaddr)
  {
-     device_cold_reset(DEVICE(cpu));
--
-+    accel_cpu_reset(cpu);
-     trace_guest_cpu_reset(cpu);
+     CPU_LDoubleU temp;
+ 
+@@ -405,14 +404,14 @@ void helper_fldt_ST0(CPUX86State *env, target_ulong ptr)
+     int new_fpstt;
+ 
+     new_fpstt = (env->fpstt - 1) & 7;
+-    env->fpregs[new_fpstt].d = helper_fldt(env, ptr, GETPC());
++    env->fpregs[new_fpstt].d = do_fldt(env, ptr, GETPC());
+     env->fpstt = new_fpstt;
+     env->fptags[new_fpstt] = 0; /* validate stack entry */
  }
  
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 5dbfd79955..700a5bd266 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -33,6 +33,8 @@ typedef struct AccelCPUClass {
-     void (*cpu_class_init)(CPUClass *cc);
-     void (*cpu_instance_init)(CPUState *cpu);
-     bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
-+    void (*cpu_reset)(CPUState *cpu);
-+
- } AccelCPUClass;
- 
- #endif /* ACCEL_CPU_H */
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index 4f4c283f6f..8d3a15b916 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -91,4 +91,10 @@ void accel_cpu_instance_init(CPUState *cpu);
-  */
- bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
- 
-+/**
-+ * accel_cpu_reset:
-+ * @cpu: The CPU that needs to call accel-specific reset.
-+ */
-+void accel_cpu_reset(CPUState *cpu);
-+
- #endif /* QEMU_ACCEL_H */
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 48a08df438..ad233b823d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5780,10 +5780,6 @@ static void x86_cpu_reset(DeviceState *dev)
-     apic_designate_bsp(cpu->apic_state, s->cpu_index == 0);
- 
-     s->halted = !cpu_is_bsp(cpu);
--
--    if (kvm_enabled()) {
--        kvm_arch_reset_vcpu(cpu);
--    }
- #endif
+ void helper_fstt_ST0(CPUX86State *env, target_ulong ptr)
+ {
+-    helper_fstt(env, ST0, ptr, GETPC());
++    do_fstt(env, ST0, ptr, GETPC());
  }
  
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index c660ad4293..ffdc9afddb 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -130,12 +130,18 @@ static void kvm_cpu_instance_init(CPUState *cs)
+ void helper_fpush(CPUX86State *env)
+@@ -2468,7 +2467,7 @@ void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
+     ptr += (14 << data32);
+     for (i = 0; i < 8; i++) {
+         tmp = ST(i);
+-        helper_fstt(env, tmp, ptr, GETPC());
++        do_fstt(env, tmp, ptr, GETPC());
+         ptr += 10;
+     }
+ 
+@@ -2495,7 +2494,7 @@ void helper_frstor(CPUX86State *env, target_ulong ptr, int data32)
+     ptr += (14 << data32);
+ 
+     for (i = 0; i < 8; i++) {
+-        tmp = helper_fldt(env, ptr, GETPC());
++        tmp = do_fldt(env, ptr, GETPC());
+         ST(i) = tmp;
+         ptr += 10;
+     }
+@@ -2539,7 +2538,7 @@ static void do_xsave_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
+     addr = ptr + XO(legacy.fpregs);
+     for (i = 0; i < 8; i++) {
+         floatx80 tmp = ST(i);
+-        helper_fstt(env, tmp, addr, ra);
++        do_fstt(env, tmp, addr, ra);
+         addr += 16;
      }
  }
+@@ -2703,7 +2702,7 @@ static void do_xrstor_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
  
-+static void kvm_cpu_reset(CPUState *cpu)
-+{
-+    kvm_arch_reset_vcpu(X86_CPU(cpu));
-+}
-+
- static void kvm_cpu_accel_class_init(ObjectClass *oc, void *data)
- {
-     AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
- 
-     acc->cpu_realizefn = kvm_cpu_realizefn;
-     acc->cpu_instance_init = kvm_cpu_instance_init;
-+    acc->cpu_reset = kvm_cpu_reset;
- }
- static const TypeInfo kvm_cpu_accel_type_info = {
-     .name = ACCEL_CPU_NAME("kvm"),
+     addr = ptr + XO(legacy.fpregs);
+     for (i = 0; i < 8; i++) {
+-        floatx80 tmp = helper_fldt(env, addr, ra);
++        floatx80 tmp = do_fldt(env, addr, ra);
+         ST(i) = tmp;
+         addr += 16;
+     }
 -- 
 2.26.2
 
