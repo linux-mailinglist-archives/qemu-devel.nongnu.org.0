@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A52343D3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 10:51:53 +0100 (CET)
-Received: from localhost ([::1]:60478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B2F343D39
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 10:51:40 +0100 (CET)
+Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOHE0-0006cB-Jv
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 05:51:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
+	id 1lOHDn-0006Oa-Dx
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 05:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOHBr-0004s1-FA; Mon, 22 Mar 2021 05:49:40 -0400
+ id 1lOHBt-0004tX-RI; Mon, 22 Mar 2021 05:49:41 -0400
 Received: from mail-eopbgr60113.outbound.protection.outlook.com
  ([40.107.6.113]:25015 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOHBm-0007bG-K8; Mon, 22 Mar 2021 05:49:39 -0400
+ id 1lOHBs-0007bG-7M; Mon, 22 Mar 2021 05:49:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lHQJUSzH5B1/vVVQVtBsbEzp9nfutrSlnwgyunPjo6tMLz8H2jfyS8lLfNz7DTcp3IevdOPVWp0k4bOFA/xJnv+XxO8sPedndBwu5ovIeeIJbhYm/fwfvLUrrFOWc6zOFhKcma7e4VXwYXen6elQ/j0k8Uk3TO/AHIjwBRaCpudBqcKSFz5mzzqWOtaCV6i3lHfDs5YqIcYaQxXaYE2vasHj8HqxqRf0+3rmcJIlGVs7E7qxr5dqsW43n1YHTg3nyBZRZIsMxhavANqFSlt9bEQz7RMp8BXUlWZz4ocUT4+Y2iTDBvjBkB876W3veDLs6GEOm57KuqXthLlaowRnkQ==
+ b=Y5Vpzz8cX4eL/ov1jPLJiaovXT2CpZQmPdqyooXIs9zxXzbCZSrHklZk1/wI5x2WnknVyHRSvOE8sVhsmytlLRpOA35JFioBLuUnSlkKXdJkmoiE0N+cx0gAgsjj5sZF0lbWVRdv3qBkqPn0ayism21VjALzgDHb0zbfkyCVo1ts6IYdH3Uw0y2YGl7noh11j22OSIhJmxOLBdxt6r/jqMxpMxq1oQtffHW6tuFhjaHPwIXZER508pgBTB7kMh3x9sDxp8tBPuzV4ngXitGhyhPTGuD94cpQdRHqGIPS1jhytAvCIQ6+STxlv9M6m1mUj8uT86fftcLIEqIhExxLTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MXZAthAOCVj9CHmxfKHSKpmnm21kvNSXAJ4IWE/G9Oc=;
- b=LaOqtkvuMmuNXK/ekJ2bv3JvPdsojL4c2oLOUyLROQix52tnnofxQMgo7lZe7o9JIcu19lvWfM5DysXYjT+zwHaZvQkXrY8rzOl79d+oqAfD2eD+Zp734QBZchOO4aptfNjLdaEdhpUotBm11c76/0JGr6Wn+Db+A/csiO5BInss4TrmU0ORV/RsWeEr3urzJslbdEktcCqvyLKNw9Stl2H00+eINJX8H7QSZ1J0oZauijTL+GkgFHe3gvCref3LUEYzUycEeYAPT00ZwTk797Zw20PC2Glwa2aKK3n2Xb18aB/HCwSQE7rJ0tuQx+BT4q7PJIHmzLwXz1kYXyYqnw==
+ bh=fJ5G8VuzFLJHiVbP7Y1tHvIVylQ0doVKEgjprj36qGE=;
+ b=AjQOVyeuHy03G7XqJRu7jewkRyjHZLiIvB8bEpk14oS8Iv3oIADAcaeb//6topOVSFsMnfJwU+2Nm2JXCvb3R062RGeEq11hVXVtVoZEIP9sXSIs8Gz6a72mFSKnyVGQJm3PMXU+O9cNr1XWgf85jbdK2NBWtLveMhWaNXJ0hbnTTGcddyMuKZa9ERhZDXolU/FYiJesWDJ0nZitjeibWXag5fw/K0svonzI76tJaP9uwQFsP7uoBaca4mwl4PtS/lgqk30SDvLUB+fg3PS/gAKK8V/+7wSRMp8XULLiMX+EMJvmrcn+vFjoMXMsQXW64ehgfAZN2RlkycgNVaBuwg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MXZAthAOCVj9CHmxfKHSKpmnm21kvNSXAJ4IWE/G9Oc=;
- b=vwN27zl1BrEnoo3/dmFxm84Z4ZKI3nT4VuEdVoL4if/aJo5yGaeJGhSFZhjnUUKmjrzriFubXaOLmiV37D6tGqxRn6ulgerfhL1MfOYG5/mf6KE/IuvyXZDEP02s6VblKQ6hGY+H7eb4hmpSnfFhDSoWtkLyOmUDvfNqv38fNnk=
+ bh=fJ5G8VuzFLJHiVbP7Y1tHvIVylQ0doVKEgjprj36qGE=;
+ b=BBoV4piq2DkcrluBAKaUJA76nKUJ7B88OFdZYgnt0gBuNqtlpc788jtfPx+69y9TbdFl95oCdk36e8d3EsJ0ZzYwnfS6tmU5tU9APsXzmoiLqosE1wGKdTl25VqCZ/t0InfY9iVF0r6u3e25l6KwsuzaFRWuJ2bLTZLtyy7LOp4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
  by VE1PR08MB5614.eurprd08.prod.outlook.com (2603:10a6:800:1a8::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 09:49:23 +0000
+ 2021 09:49:24 +0000
 Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
  ([fe80::f947:3484:b0d7:ab52]) by VI1PR08MB5503.eurprd08.prod.outlook.com
  ([fe80::f947:3484:b0d7:ab52%9]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
- 09:49:23 +0000
+ 09:49:24 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  dgilbert@redhat.com, quintela@redhat.com, fam@euphon.net,
  stefanha@redhat.com, jsnow@redhat.com, vsementsov@virtuozzo.com,
  eblake@redhat.com
-Subject: [PATCH 1/2] migration/block-dirty-bitmap: make incoming disabled
- bitmaps busy
-Date: Mon, 22 Mar 2021 12:49:05 +0300
-Message-Id: <20210322094906.5079-2-vsementsov@virtuozzo.com>
+Subject: [PATCH 2/2] migrate-bitmaps-postcopy-test: check that we can't remove
+ in-flight bitmaps
+Date: Mon, 22 Mar 2021 12:49:06 +0300
+Message-Id: <20210322094906.5079-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210322094906.5079-1-vsementsov@virtuozzo.com>
 References: <20210322094906.5079-1-vsementsov@virtuozzo.com>
@@ -68,52 +68,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.202) by
  ZR0P278CA0121.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:20::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 09:49:22 +0000
+ 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 09:49:23 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 86990d07-c0d6-4e81-0f0e-08d8ed17c5e6
+X-MS-Office365-Filtering-Correlation-Id: 6e5db146-8ca2-4ec8-674d-08d8ed17c6ab
 X-MS-TrafficTypeDiagnostic: VE1PR08MB5614:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR08MB5614EDBADDCEBFD6CEBE0EABC1659@VE1PR08MB5614.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-Microsoft-Antispam-PRVS: <VE1PR08MB5614B8AB591FDA1992AD8659C1659@VE1PR08MB5614.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:30;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gjhj0P5tiidACYmDfGFpCiz3DJWp02U+oKK0PSIl632PEhLNkbPkVo1eMpTcDeLMKIUaLs7Dpey6T+sEbihFYlFB8aDs23ocSVQ8fpMv/H4V5bjfcQqK0cIoumhD8g4GyNH4za45Vsy3AnPVb+IqLa6QckBbiNIu+LtzuHkiuRGNyFVDz5ScTxlvGjBTBSK3HRzxgDi3KFoGi4mH+6N/iCcIkKufbF3GH3LK1i3ndA849F2MqQ1qAC/7POxku9UjT5sj98g2hqjUwrKXzg9PT2+TRANXztBQtC4JwzC6cvVpzpGH/G2KLmffPZ8OQq8rreMjKGWl27wTQg7IBKBZLlVBA1Cr7fbI4jLnuXxuPX9LyJWxsEr5l9FLtPZPP6HOrmzpfuh+UoQoNi8YrF/izAUFanxPNU1dWpGfZ3vrDE4uRDQFLa5C3wQxdhPLpn4ADXKqhp2AnhyDwDwurLeAAIG3Kk4AP6EG5/EYpwYXsVykbjUdsRmqbrMr53vluJckeSRAAKO74LLPduC+HPLX2ZQcVmIit8MLVAfeGiRtqzUGxHta55usKev9ZOXbgwDzoTEUJc1QwZqev2Fve/feVIxxf32sIrM41wCIS1tMOAWLIVAXdWmVWpH7D/tz8wdWFwdF429mDgldyZp06PZkyM7cYtQQwhsOh1l8oO3avDzCg3MntuWBCcaIDtMsjWNjr09UsszBxRDHkgebBSeFaA==
+X-Microsoft-Antispam-Message-Info: mT4e8gWydA7mTq4MrZwbA9+66Ccki2MGqcfeSTsOnp5qknWP7LP6HjErvKt+JbUaKbGqg5GsVtttYvpoR4Omqji/5QNjXTmrKn9erqCDYLf5ABULU2EhhUWyJ8s7ut39Kz08jOx1iTTTu1QVXz3OVw+qosSKtjKAhcljhyfyxZK8M5jlp1JT021SwmRA/Uo0vmZojk70u7loCXqU23gK/r/5OwSBUP8tPijUomzvMWdimwcKykQEEkwEG2Z6uSPg5X5oLqN8QbWrw3S2A9hSHNH9SRqMZ4VDxz/NAZ/+bW0Fq8zIgFwheanwNLXIGUcXB3AgtHCJZPsdHHxEjjeM9MMubJCeYeK1waupEG6V2m0SRbZJWkkKCXItw7m6Gle6oGRINbSYccYxVCSn0xravD7QlUoWw9RIeZrZSANSSqntT4dZOIhLk+bfVCy4NjppMJu7eBRVg6HDoCLPsIu2f9WbUH4LnrImTzU37xyI1YhSVyz5kxy2zQMpgGd5trDiNn4V71Ei75z2zPGNppCaa4rp77++XYRRcoORnJCnZvwh6JemBuk/lukroFxt6So+JVImKajg2s11R5OwI4gB9VeadN3LQM7vrWP5oNoh7qHY1OzhzBNCBIpGG/NbZAeG41/g3QDX1oROmd0CRIsVrTxnc3mmRgarZ90qoBbOcZAGoiXvRXEngjmpP+kv2S+m
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(396003)(346002)(136003)(39840400004)(6916009)(5660300002)(36756003)(69590400012)(1076003)(83380400001)(2906002)(86362001)(478600001)(6506007)(316002)(6512007)(4326008)(38100700001)(66556008)(66476007)(2616005)(16526019)(956004)(6666004)(8676002)(8936002)(26005)(6486002)(186003)(7416002)(66946007)(52116002)(14143004);
+ SFS:(4636009)(366004)(376002)(396003)(346002)(136003)(39840400004)(6916009)(5660300002)(36756003)(69590400012)(1076003)(83380400001)(2906002)(86362001)(478600001)(6506007)(316002)(6512007)(4326008)(38100700001)(66556008)(66476007)(2616005)(16526019)(956004)(6666004)(8676002)(8936002)(26005)(6486002)(186003)(7416002)(66946007)(52116002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?s0z+jKFYcWmh2lz8w8v157sMFPx4T2mzFHdFtYFVpbOPFTbd7zL/yjBX46bj?=
- =?us-ascii?Q?K/pJQ2lk87K8b0Cb5HM5JNU4JuqbfaUJW6uCoDSf7Dzc45CXfO5cYVqJ+HYW?=
- =?us-ascii?Q?yk3rSdBVd6Yp1wrZ1MLVh/i3aDGYc6zt65ISjd9Xw82v/epU/xIUL1iP46+B?=
- =?us-ascii?Q?8oxseNYwEmyVd5hJX5rbunBP95/FsA51kvb+FZZHLAbZaOE+NUMz8DF66SZd?=
- =?us-ascii?Q?mDjw74azmPj1eKM47vXGz0BosO6o5VZ50fdIK6munGsNnb2RQw32Rg6Kz8cm?=
- =?us-ascii?Q?WFtff7Db4RtZjuruouD7plE0E/HiDKk+4O9fBffCft22TBrttHU+dad2jeAX?=
- =?us-ascii?Q?jYoWU54eI5IwVLMw89V5afPENYisMpmoPoC+9xYEXjMixkEfgd982YW3rGE7?=
- =?us-ascii?Q?IFOK/aURlca2k38PugeoRNNUcXHv88Eo3M0OcnoiPvt4sg+hFTQcxM7ZLWmX?=
- =?us-ascii?Q?YVUl+Y0OlajiSzryQ9IPIiJ8D+NsWhZOpTCpr16u8xRQ3nmurHsVmYxBG5jP?=
- =?us-ascii?Q?l7FxfPmko5vDm9Lrl6ilwZu6dKZK685HCpPdsEpQillprBfyzGAOwpDYheNu?=
- =?us-ascii?Q?3v+p8n32bKQN1gVSISz8bpZKOqNG6n6r/2Ga6+sbz6IT3w9slY95CUCjCNEQ?=
- =?us-ascii?Q?N0I5cc4q+zZ0MHaTUrNEFEHdoGy1HqkSYVpZ08piiHBS2JV1vrNnjJ/3IWsN?=
- =?us-ascii?Q?CNdOtuWe8+R4TCyz0+NEzsXnjQShsqj+bqKGOISWyctE83ntWfIVNTGxKRDR?=
- =?us-ascii?Q?QpU6iE6Vn78vDXOuX89b0NTjQRB7DVPU0Jwxp5SeFcWJ9ku1xumcRsogA/Ab?=
- =?us-ascii?Q?9tU+M2Cl9JBp7ZGDpYMGGj2mfVPEnkLFg6BKgZuA/rkNg1Vn8NMNmo3bHfaY?=
- =?us-ascii?Q?nrfjb5WVPxuYtdxSYny/s/jhyVeHzPC830oSrPfaSk54O0CvVFScwf7n+H7B?=
- =?us-ascii?Q?uRuT/uHRaoSON6ac+vHX1RL79RNZAh9+8p+HrlCMiwbwMahM9DPahnXfW8Nt?=
- =?us-ascii?Q?5P3H7Ge/VpvoybUG0/CLwtqsF8uQ5FcbkazDBarayRtb6mxUny69maO0Hss4?=
- =?us-ascii?Q?DAZYWAKSway8Zg0WnZC83uYHNZYJbVG6cdQi6hKqt6/SN47jin6HjDIlc0MT?=
- =?us-ascii?Q?bmZ7z0RzEb4szj7MTulKKnCUYu+8jOgcLrU5M35teOX3vSxOU494Px/O6Ecy?=
- =?us-ascii?Q?I5uEoRArJ6hqMF0kVUOz0VSemJYVMQyp48J+t6A//pZMGcHXHHQ/AZLluKlO?=
- =?us-ascii?Q?XR9S4UQZ53Px6ay/sLRMdKcVEVwurgxxcwYN1k9p0xX7xj12F/k3CFKq5lTv?=
- =?us-ascii?Q?8tLcVd+TKI4LayRce0wgdi0i?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?1Nf/LmxT/hWojGhamnDBdu5njJxA7QG5RC6fI3Mee5avyKsR+bFmbo6ALgfL?=
+ =?us-ascii?Q?n5u5w4xkYcnW9mrRDq+ijbUVd7XHTa7/CYlxbzQ2PAju6zEhwWLHBiM2aMdV?=
+ =?us-ascii?Q?K05ZWUIJJScagrZcpGnJUjG14SHslDEWINdD5y+pzhWpIM1GUOFc57yODYYf?=
+ =?us-ascii?Q?rCm3IHQ8wfv8LReKfD+kRobLZdUK3lzV7NbdHQS8V9q/r8nqNiczcgmQNktL?=
+ =?us-ascii?Q?uEU/NOvWDNYt2zTIOYDZDxudcWjTGr/uRrWnjk2o9Pufz2CVF7/th4e3axBQ?=
+ =?us-ascii?Q?0WUDRBDmVRXMi7L0taiVCGGnHGKT1YaHwl4hHU9IYSMEHYplH43i88XBakBr?=
+ =?us-ascii?Q?Uq+B6M+0UXrZQG1q+VSkUwhccT8PDZi4aoLzFkceAsZxhBYHvHovK9WZavaH?=
+ =?us-ascii?Q?onl94hUDzelerEJ1jVehaJbn9+lUuoU8RnIEnGUJW20Dms/WDRouhhKSFUnN?=
+ =?us-ascii?Q?jvXvvtpiK35OcoEc3ziIWODIY5cj7eH9IDHNXxOxyv1gteUXQODJxgOlxldQ?=
+ =?us-ascii?Q?Kzv9zly9N6tNOyQCwxbPd0PobtEmqHhYtuxT9naqPYCE5A9Vdsnuj7oW5N98?=
+ =?us-ascii?Q?4V4Joa0tbNrvI+PvF7REuWxr1Dsn5GcARj2ClhLj67WulmNah4FSEYw+qzAR?=
+ =?us-ascii?Q?4SLZ1zVAraD2edKCS+aM8UMn6fGhU1hJG0fW+IeOhpKlPIrGqbDC3rJMw6sB?=
+ =?us-ascii?Q?X3fMEcZ4b3u8mtUNMWmkOUQQjkhE1ewVjBXanhLoZ4lNdqh8uHiWLI/iOGwN?=
+ =?us-ascii?Q?U+Yvw0xD402gAr1Hk1JgPvH/X6u2YYsY22DbmcKKhaDUTinSS0wQCAdW238l?=
+ =?us-ascii?Q?GXyulXUiPoofhx2Cu3yKuFJpdSeBRWNm9gWd0dICO5Lfsy0HY9zA74BgC517?=
+ =?us-ascii?Q?fWra20b9T/pA8lhzv01B7ytLKf66AFgaTXNg0DtYfqLVf2S8xB5bH7iDMFsB?=
+ =?us-ascii?Q?rFgTH2SU+c3dfcMBVXhUqfIeif1FlMVz18MEJXc+3zzM9WfbD2udAjEMm6MN?=
+ =?us-ascii?Q?eu/BdHv8attQhMozODZjhcPlSXZNim+waFyIkInGzp2EBR25War8fOBCNIAJ?=
+ =?us-ascii?Q?fJ+c47YG0pJHhHJdJRe2z45fdSBTAg3jD97WPw1ELnueIfYxsiEVOKMbV+VI?=
+ =?us-ascii?Q?N0M26Rt1g+2UeSjCVec/8b5QPLC7jOvVPOB74+BE5Ycc+NAH/O1rryOl7HNy?=
+ =?us-ascii?Q?Y+Hi5YZHhI9/TuspQsj+duOPz21jLXBS983seDXf9/o6+XYNDHVU8o1/kzCi?=
+ =?us-ascii?Q?izSZY0Gl+JUQ7AQVB8zj2DXm0c2aFbpEj3LVlNWUWOnb/GfVlItqrU6V2baG?=
+ =?us-ascii?Q?GIWN22XqXBV66TJ+TwXgFMZv?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86990d07-c0d6-4e81-0f0e-08d8ed17c5e6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5db146-8ca2-4ec8-674d-08d8ed17c6ab
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 09:49:23.5165 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 09:49:24.7770 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5tPkyUCFZKm6ZPyXHGIlQXwbtVbVIrVV0G2XtycNDlMzCuhhDpj6PXu92qI9Kbd8iXPQCt75QQRVVomDHr6goz5rAmBstlAohYnW9y/ej9k=
+X-MS-Exchange-CrossTenant-UserPrincipalName: cE6ePSFU7GOeK5S1hcqQ0/R31Im+oFdQOE45edn9TgX9vgd8Zp2PA2MoiBmRB6jLmULne4AR4c6cXjAzNyWbODoOedadSxN4cp7NtRhgKgM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5614
 Received-SPF: pass client-ip=40.107.6.113;
  envelope-from=vsementsov@virtuozzo.com;
@@ -140,77 +140,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Incoming enabled bitmaps are busy, because we do
-bdrv_dirty_bitmap_create_successor() for them. But disabled bitmaps
-being migrated are not marked busy, and user can remove them during the
-incoming migration. Then we may crash in cancel_incoming_locked() when
-try to remove the bitmap that was already removed by user, like this:
-
- #0  qemu_mutex_lock_impl (mutex=0x5593d88c50d1, file=0x559680554b20
-   "../block/dirty-bitmap.c", line=64) at ../util/qemu-thread-posix.c:77
- #1  bdrv_dirty_bitmaps_lock (bs=0x5593d88c0ee9)
-   at ../block/dirty-bitmap.c:64
- #2  bdrv_release_dirty_bitmap (bitmap=0x5596810e9570)
-   at ../block/dirty-bitmap.c:362
- #3  cancel_incoming_locked (s=0x559680be8208 <dbm_state+40>)
-   at ../migration/block-dirty-bitmap.c:918
- #4  dirty_bitmap_load (f=0x559681d02b10, opaque=0x559680be81e0
-   <dbm_state>, version_id=1) at ../migration/block-dirty-bitmap.c:1194
- #5  vmstate_load (f=0x559681d02b10, se=0x559680fb5810)
-   at ../migration/savevm.c:908
- #6  qemu_loadvm_section_part_end (f=0x559681d02b10,
-   mis=0x559680fb4a30) at ../migration/savevm.c:2473
- #7  qemu_loadvm_state_main (f=0x559681d02b10, mis=0x559680fb4a30)
-   at ../migration/savevm.c:2626
- #8  postcopy_ram_listen_thread (opaque=0x0)
-   at ../migration/savevm.c:1871
- #9  qemu_thread_start (args=0x5596817ccd10)
-   at ../util/qemu-thread-posix.c:521
- #10 start_thread () at /lib64/libpthread.so.0
- #11 clone () at /lib64/libc.so.6
-
-Note bs pointer taken from bitmap: it's definitely bad aligned. That's
-because we are in use after free, bitmap is already freed.
-
-So, let's make disabled bitmaps (being migrated) busy during incoming
-migration.
+Check that we can't remove bitmaps being migrated on destination vm.
+The new check proves that previous commit helps.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 975093610a..35f5ef688d 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -839,6 +839,8 @@ static int dirty_bitmap_load_start(QEMUFile *f, DBMLoadState *s)
-             error_report_err(local_err);
-             return -EINVAL;
-         }
-+    } else {
-+        bdrv_dirty_bitmap_set_busy(s->bitmap, true);
-     }
+diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+index d046ebeb94..584062b412 100755
+--- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
++++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+@@ -224,6 +224,16 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.start_postcopy()
  
-     b = g_new(LoadBitmapState, 1);
-@@ -914,6 +916,8 @@ static void cancel_incoming_locked(DBMLoadState *s)
-         assert(!s->before_vm_start_handled || !b->migrated);
-         if (bdrv_dirty_bitmap_has_successor(b->bitmap)) {
-             bdrv_reclaim_dirty_bitmap(b->bitmap, &error_abort);
-+        } else {
-+            bdrv_dirty_bitmap_set_busy(b->bitmap, false);
-         }
-         bdrv_release_dirty_bitmap(b->bitmap);
-     }
-@@ -951,6 +955,8 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
- 
-     if (bdrv_dirty_bitmap_has_successor(s->bitmap)) {
-         bdrv_reclaim_dirty_bitmap(s->bitmap, &error_abort);
-+    } else {
-+        bdrv_dirty_bitmap_set_busy(s->bitmap, false);
-     }
- 
-     for (item = s->bitmaps; item; item = g_slist_next(item)) {
+         self.vm_b_events += self.vm_b.get_qmp_events()
++
++        # While being here, let's check that we can't remove in-flight bitmaps.
++        for vm in (self.vm_a, self.vm_b):
++            for i in range(0, nb_bitmaps):
++                result = vm.qmp('block-dirty-bitmap-remove', node='drive0',
++                                name=f'bitmap{i}')
++                self.assert_qmp(result, 'error/desc',
++                                f"Bitmap 'bitmap{i}' is currently in use by "
++                                "another operation and cannot be used")
++
+         self.vm_b.shutdown()
+         # recreate vm_b, so there is no incoming option, which prevents
+         # loading bitmaps from disk
 -- 
 2.29.2
 
