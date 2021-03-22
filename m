@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEF83452A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 23:56:05 +0100 (CET)
-Received: from localhost ([::1]:49510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D703452A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 23:58:45 +0100 (CET)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOTSu-000445-3o
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 18:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
+	id 1lOTVU-0005Zx-8y
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 18:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTR2-0003C6-JY
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 18:54:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTQz-0006eC-HB
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 18:54:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTTn-0004qE-Eu
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 18:56:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOTTl-00083A-KE
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 18:56:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616453643;
+ s=mimecast20190719; t=1616453816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Rsmbw1OP4nxU8Q9gICCcWEb7Oz6gZJJGaHwGRf//8lk=;
- b=iep5hZZ8wqgAM5sE0d24LfbzgZdLE1P+jzBmGMTZbpp2Kk0SurAu9JLtbySvED9Tf+8jjK
- iCSG9sah+14G9sc81BOSyRW4GhvGXz/YIfDMDjSyvDvV1gA1M8QY7k0scxvtgt5fTaKv5v
- Tz4SYkt53HRnGaUbfWCo3XqYB6ZVEqw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-0OIkRQgyNvGI8eZW_dW9fA-1; Mon, 22 Mar 2021 18:54:01 -0400
-X-MC-Unique: 0OIkRQgyNvGI8eZW_dW9fA-1
-Received: by mail-wr1-f71.google.com with SMTP id h21so135246wrc.19
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:54:01 -0700 (PDT)
+ bh=XkOcaYkF+0Bpu7sYlShnJR74tz9VpAKjiLSAwFyo8YY=;
+ b=UqYw1m/sekM9aiRUz531XrduZ3rYBtSU2aajKN6RCLeVnPoA6fkyzddn3LF1Vr2FrfgC0K
+ F+4KeP0kOxp/bjJq3UasXbmhQR1XsxrNZKMu7sflHLlD0QX4wEVq9GWqF4ykEmLKAPQrmD
+ CZfEnFPSySV7BeT9D3L8mamMvz2oLcs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-_5NfVV81NLy7wyQNhmjpfw-1; Mon, 22 Mar 2021 18:56:53 -0400
+X-MC-Unique: _5NfVV81NLy7wyQNhmjpfw-1
+Received: by mail-wr1-f70.google.com with SMTP id b6so135966wrq.22
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 15:56:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Rsmbw1OP4nxU8Q9gICCcWEb7Oz6gZJJGaHwGRf//8lk=;
- b=RFn1XMwBzpJKPMqiYBL9AMuNuOTy+L0caylMqi1w+5nQUCSThXYCYNZxjF5/R9UaBE
- yBF7sTWpkS6Eofx6nA7+/APf3bzpIAQOaqP//QEoU+diaSBOXfpIvRawwhx7khiobZEN
- Sw5VfGU0x2Y5renmNQQ/iZFJJ5GKMi7NrEW+sOUI2ogEZR+hfQjq8z5xQLFNoom6RloN
- srRsWpNztkFe/XG5JW0fCfv9JbwU4DCIx9aiWzr0Z7lPWHcG9QL3btdSAytMf0RJcs/X
- 2Kfaje0iEXBPNdWdobKyyF3p+8eLhDKY/VB50FlZbJ+O4RMlzBOS2XiIlLioEPyndN6U
- AlFg==
-X-Gm-Message-State: AOAM530CUFaZLma0CGFXkcc2qb8rlte841vsdEVoCDXNoLv0xYHrtDpv
- ACXR5g5qgdY9LR1vW0UgDsxMXA6/Kbgk5Qy+U7l9UFr1sbYFQlQiJomb2x6uI+qcF3PuR/m1dVd
- IA8xEJCGyegOjTu4=
-X-Received: by 2002:adf:f7cc:: with SMTP id a12mr837135wrq.54.1616453640736;
- Mon, 22 Mar 2021 15:54:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxp5bdOHtqBmkGdhsJ3GGpqwoNLBDA0dUFIZ05CnKb4DKDQG7tOdGsGXY7Q39qDw8zcxBpLqA==
-X-Received: by 2002:adf:f7cc:: with SMTP id a12mr837124wrq.54.1616453640575;
- Mon, 22 Mar 2021 15:54:00 -0700 (PDT)
+ bh=XkOcaYkF+0Bpu7sYlShnJR74tz9VpAKjiLSAwFyo8YY=;
+ b=B0TbQ29X/Kl4aM/lxJU51H5GghTKZDor+LMPejSqVSAK5TyRM/dgG3nwLw4owCMUaZ
+ Hujjxknk188NqG3OT6yrjkLV0eBFUO7adnUQ0/MXnPGRL9T7L+SyhrWtcb+PoWdEdgcV
+ BWaJVPlnmUBjcj4CpglVjHpU2YZsxH9wPYgbvjqcMNa6UH42lI/LlGCA9nH3L8lvdYw4
+ hHgnJyQnVMMNRxykuiJ7XtgxHG8xr9Yt5tZNoknzmi3t5HeMwkbsKWbdx750I0pLp0Ud
+ 2ALWK4dDltESJfUvk9i1g3lrWRwXre4V07YwTdwM0cCqeABTpJ1Ek9ES9jQwDUFPBNsI
+ 23+g==
+X-Gm-Message-State: AOAM531OVGvdIatuQ7RZ4SZ8OJYDzz0ndvTRm1/pjV72KtF/fMPGuFZV
+ fA6Lt38RwObmABUBHgSNKtcID2hhdQqSsRVZOMMUaYx9PGYReJFUORllGP9icXpyBgh9grKbEjw
+ TGwFg7Fmg+kTI8BY=
+X-Received: by 2002:adf:e482:: with SMTP id i2mr799824wrm.392.1616453812466;
+ Mon, 22 Mar 2021 15:56:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLd4ASeq4PGmHWR9vRTbaEyBobSIEgtgZ3pQJo9puoEo6WPhWtKRRaHrZOW96tInMdD4hr0Q==
+X-Received: by 2002:adf:e482:: with SMTP id i2mr799818wrm.392.1616453812316;
+ Mon, 22 Mar 2021 15:56:52 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id i3sm22418599wra.66.2021.03.22.15.53.59
+ by smtp.gmail.com with ESMTPSA id a14sm22721872wrg.84.2021.03.22.15.56.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 15:54:00 -0700 (PDT)
-Date: Mon, 22 Mar 2021 18:53:55 -0400
+ Mon, 22 Mar 2021 15:56:51 -0700 (PDT)
+Date: Mon, 22 Mar 2021 18:56:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 Subject: Re: [PULL 00/20] pc,virtio,pci: fixes, features
-Message-ID: <20210322184943-mutt-send-email-mst@kernel.org>
+Message-ID: <20210322185502-mutt-send-email-mst@kernel.org>
 References: <20210322154417.524229-1-mst@redhat.com>
  <CAFEAcA9xniNP73rbFLc_eUB2vi2N71vM2xKRMzqGWjXLEeLVag@mail.gmail.com>
+ <CAFEAcA81p5aDj9CzuihLchX3QQB27Z7Jd6cNF9uo-2rh7EXx=w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9xniNP73rbFLc_eUB2vi2N71vM2xKRMzqGWjXLEeLVag@mail.gmail.com>
+In-Reply-To: <CAFEAcA81p5aDj9CzuihLchX3QQB27Z7Jd6cNF9uo-2rh7EXx=w@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -91,70 +92,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 04:41:01PM +0000, Peter Maydell wrote:
-> On Mon, 22 Mar 2021 at 15:44, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Mon, Mar 22, 2021 at 06:46:06PM +0000, Peter Maydell wrote:
+> On Mon, 22 Mar 2021 at 16:41, Peter Maydell <peter.maydell@linaro.org> wrote:
 > >
-> > The following changes since commit f0f20022a0c744930935fdb7020a8c18347d391a:
+> > On Mon, 22 Mar 2021 at 15:44, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > The following changes since commit f0f20022a0c744930935fdb7020a8c18347d391a:
+> > >
+> > >   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-03-21' into staging (2021-03-22 10:05:45 +0000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> > >
+> > > for you to fetch changes up to 5971d4a968d51a80daaad53ddaec2b285115af62:
+> > >
+> > >   acpi: Move setters/getters of oem fields to X86MachineState (2021-03-22 11:39:02 -0400)
+> > >
+> > > ----------------------------------------------------------------
+> > > pc,virtio,pci: fixes, features
+> > >
+> > > Fixes all over the place.
+> > > ACPI index support.
+> > >
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >
 > >
-> >   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-03-21' into staging (2021-03-22 10:05:45 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 5971d4a968d51a80daaad53ddaec2b285115af62:
-> >
-> >   acpi: Move setters/getters of oem fields to X86MachineState (2021-03-22 11:39:02 -0400)
-> >
-> > ----------------------------------------------------------------
-> > pc,virtio,pci: fixes, features
-> >
-> > Fixes all over the place.
-> > ACPI index support.
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
+> > This triggers a new clang runtime sanitizer warning:
 > 
-> This triggers a new clang runtime sanitizer warning:
+> With a backtrace:
+> $ UBSAN_OPTIONS=print_stacktrace=1
+> QTEST_QEMU_BINARY=build/clang/qemu-system-mips64el
+> ./build/clang/tests/qtest/endianness-test -p
+> /mips64el/endianness/fuloong2e
+> /mips64el/endianness/fuloong2e: ../../hw/pci/pci.c:252:30: runtime
+> error: shift exponent -1 is negative
+>     #0 0x55a17bc17a1f in pci_irq_state
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/pci/pci.c:252:30
+>     #1 0x55a17bc17a1f in pci_irq_handler
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/pci/pci.c:1453
+>     #2 0x55a17b7ed0a5 in pm_update_sci
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/isa/vt82c686.c:147:5
+>     #3 0x55a17b7ecce3 in via_pm_reset
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/isa/vt82c686.c:173:5
+>     #4 0x55a17c546cc7 in resettable_phase_hold
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/resettable.c:182:13
+>     #5 0x55a17c53839a in bus_reset_child_foreach
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/bus.c:97:13
+>     #6 0x55a17c546bc2 in resettable_phase_hold
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/resettable.c:173:5
+>     #7 0x55a17c5435ca in device_reset_child_foreach
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/qdev.c:366:9
+>     #8 0x55a17c546bc2 in resettable_phase_hold
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/resettable.c:173:5
+>     #9 0x55a17c53839a in bus_reset_child_foreach
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/bus.c:97:13
+>     #10 0x55a17c546bc2 in resettable_phase_hold
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/resettable.c:173:5
+>     #11 0x55a17c545ee0 in resettable_assert_reset
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/resettable.c:60:5
+>     #12 0x55a17c545dbf in resettable_reset
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/resettable.c:45:5
+>     #13 0x55a17c545d68 in qemu_devices_reset
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/reset.c:69:9
+>     #14 0x55a17c47b3eb in qemu_system_reset
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../softmmu/runstate.c:444:9
+>     #15 0x55a17ba225ee in qdev_machine_creation_done
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../hw/core/machine.c:1279:5
+>     #16 0x55a17c4bdb03 in qemu_machine_creation_done
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../softmmu/vl.c:2567:5
+>     #17 0x55a17c4bdb03 in qmp_x_exit_preconfig
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../softmmu/vl.c:2590
+>     #18 0x55a17c4c2c0b in qemu_init
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../softmmu/vl.c:3611:9
+>     #19 0x55a17b756db5 in main
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../softmmu/main.c:49:5
+>     #20 0x7f3a9c9f6bf6 in __libc_start_main
+> /build/glibc-S9d2JN/glibc-2.27/csu/../csu/libc-start.c:310
+>     #21 0x55a17b731969 in _start
+> (/home/petmay01/linaro/qemu-for-merges/build/clang/qemu-system-mips64el+0x1140969)
 > 
-> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_IMG=./qemu-img
-> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
-> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/qom-test --tap -k
-> PASS 1 qtest-mips64el/qom-test /mips64el/qom/loongson3-virt
-> PASS 2 qtest-mips64el/qom-test /mips64el/qom/none
-> PASS 3 qtest-mips64el/qom-test /mips64el/qom/magnum
-> PASS 4 qtest-mips64el/qom-test /mips64el/qom/mipssim
-> PASS 5 qtest-mips64el/qom-test /mips64el/qom/malta
-> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
-> PASS 6 qtest-mips64el/qom-test /mips64el/qom/fuloong2e
-> PASS 7 qtest-mips64el/qom-test /mips64el/qom/boston
-> PASS 8 qtest-mips64el/qom-test /mips64el/qom/pica61
+> OK
 > 
-> and similarly for eg
+> Suggests the relevant commit is
+> "acpi:piix4, vt82c686: reinitialize acpi PM device on reset"
+
+Yep, Cc'd the authors and dropped for now. Thanks!
+
+> This happens because pm_update_sci() calls pci_irq_handler(),
+> which calls pci_intx(pci_dev), which returns -1, which is not
+> a valid interrupt number to call pci_irq_handler() with.
 > 
-> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_IMG=./qemu-img
-> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
-> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/endianness-test
-> --tap -k
-> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
-> PASS 1 qtest-mips64el/endianness-test /mips64el/endianness/fuloong2e
-> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
-> PASS 2 qtest-mips64el/endianness-test /mips64el/endianness/split/fuloong2e
-> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
-> PASS 3 qtest-mips64el/endianness-test /mips64el/endianness/combine/fuloong2e
+> Q: given that pci_irq_handler() says it must only be called with
+> an irqnum in [0..3], shouldn't pci_set_irq() be a bit more
+> cautious than to pull a byte directly out of PCI_INTERRUPT_PIN
+> and assume it's valid? (Is this guest-writable, or is it read-only?)
+
+It's read-only.
+
 > 
 > thanks
 > -- PMM
 
-Weird I don't see any related changes. Something subtle going on.
-I'd like to reproduce this.
-Which clang flags do you use?
 
 -- 
 MST
