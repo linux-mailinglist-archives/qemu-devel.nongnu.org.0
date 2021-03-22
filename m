@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5596C343FB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:28:32 +0100 (CET)
-Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A6E343FBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:29:32 +0100 (CET)
+Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOIjX-0001Vu-E1
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49506)
+	id 1lOIkV-0002Qk-7i
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOIfq-0006Zi-FY
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:42 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42838)
+ id 1lOIfv-0006kb-7f
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:47 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOIfo-0005Fi-FL
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:42 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x13so16264351wrs.9
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:24:39 -0700 (PDT)
+ id 1lOIfs-0005Ih-WC
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:46 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ w203-20020a1c49d40000b029010c706d0642so11013870wma.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cDSXceljWqcXDx04k32YsIurC/KdJcDt8gGgRtwSfiY=;
- b=Gornl2f/h+Pp18smoGCzIQJsGW+mnBR7NalkLcGdIa3V9pZZ9fIATwCtkFJrLL01ZW
- D8/C5Zp2Dnk7qfbinotedDKe5QQBoKUldtKlqYqqBJkZFo1NvrG19riHKz9/Kv/AM48W
- ydXZPBGh7DlSbe/C2D/tFnpriwEzvBLgy72Om+VJjnSp+hjLtZXRvi4DSVHAxWZ2w9hX
- m4tofyMiprES0Z+mQhN3+gk/z8o47xKGRGNNmSyPHkhfuFSp5tKMMloPpJyXXwLy/DXP
- ZZWh3AIbum4lJeUZv6RW95oUKnQPCqteinNu0ZHa0iTp1QfV3TADU8fTgFbrRyNx9VwL
- LuZQ==
+ bh=RYln04rPdXP16oTRf4bLDfPYDelgruJglulvhLpq8Eg=;
+ b=bbDcH2f46kqE7WSNJezMhVvj7Ur3xXCY+3u3SIzO1ihY7RZGSufFyBNUgmlDn9sLIS
+ +X5U6PZ/yezmFuF519g21NEGrNXbuEu2wMdZpFfMsp+f/tSXGjRkwB4dDOhh8NtrRcbG
+ caF+i5C2vPGDCIH3FzfWAys08xsLsw5VNdoQsEEqd0hKfrFcP76SrfcOlnIsX2f8RUxz
+ vGMUnPQwUcKTIC5770uuPRjbvalpFu4tjJ6B87WrSbyOw2xZmRBEW3m3IBQTgEI7jxCy
+ argmtXBxNp09JLDdxMbbk4jOsySlMG2ebOh4/+Cfi8IooYj6rc57YR5mH5sfHrAUedtD
+ DBKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cDSXceljWqcXDx04k32YsIurC/KdJcDt8gGgRtwSfiY=;
- b=ZYwZp2+0QWhJexguxp3bSJ7O2PImRxQMm3DDckN+eHWBcbZ5meoUTtLYgSabguOJ3v
- 6mIpY37lIOCcx7K0COWH4becGBqwXZea9/onJruv/2ApOoyKFVyLSFK589CGcen18mi/
- tWORGLFKCtfHu+IG9RASiELpb0xljGthwqXMwNpQG4Luz6/V8kH231KL9c5GPYGxAPvw
- ATKRaHQ50nfdA5ugYTibBTva0UIseJmKAKBTDpooj9YlaRMVI0dSNymswADlWgMN7z1p
- OnsqTERdtCpadG6kK/vILntNRNB4qhcqjzrfp39aZai1L6HZuP33MuHySmU11RWZ/8Kr
- j5bg==
-X-Gm-Message-State: AOAM530gEXV7YvZdQWSjYoBPGT8uyse1zxedBGERRp8UiFIBRVShDT9Z
- a+9zVs+RQS1lxF0lChqJ5yfMB8p7mfBJTw==
-X-Google-Smtp-Source: ABdhPJwngemH6Nwvr6xCTfsxQGu+ca66n2V7IBBBxnzu+QB00V79T5K1BNw4+dTI3l6hHsP6wTscEw==
-X-Received: by 2002:adf:ab52:: with SMTP id r18mr17611488wrc.65.1616412278516; 
- Mon, 22 Mar 2021 04:24:38 -0700 (PDT)
+ bh=RYln04rPdXP16oTRf4bLDfPYDelgruJglulvhLpq8Eg=;
+ b=TC1FbCtRbZGr+ZvWR/NFcepBOtQjDvrFf8yuyE9BAvRk6ULB58th26ySfCUTnDBGSg
+ 0uGuvY1NLf+zFsBPmOukschJUy+vphoSoJRyS7rBxs7m/+V6/3rTjpHwT/3GRV7Mm65y
+ QLgBF5ic1cE/aw549KQPuY6RF1GlCvwDvNghLJjQ6TVGRe34EiivAwDK6fW50XYZuutd
+ JN15o27z+MD1BB6MvjecQrGuxaQfx+S9MTkozn78Qdk5tdOFa/46hoBOKryWWS8liFBE
+ fTqdCoOUURqgkx+hnnc9ElCGWfZ+MD6zIIJ8AK1MvUK5vfKBZCC70Tsnm8t3RIoTQKR9
+ 4O8g==
+X-Gm-Message-State: AOAM5331b03+xAY5vdDy5bCbPix4zAkMtJcCmxLQ5umT8sgif0hHzoL1
+ uJOY4BgaVDtFzDSiiElj5KI2xs/fHcd8+g==
+X-Google-Smtp-Source: ABdhPJwx6cIl43GRxETVCbDAdoaE9cQGm7qhdfZsL7MkQ14rwFgAEOtD9ndsIgLBgISerYpEqoy6vA==
+X-Received: by 2002:a1c:3d8b:: with SMTP id k133mr15645394wma.6.1616412283397; 
+ Mon, 22 Mar 2021 04:24:43 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id q15sm19239794wrx.56.2021.03.22.04.24.37
+ by smtp.gmail.com with ESMTPSA id u3sm19515610wrt.82.2021.03.22.04.24.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 04:24:38 -0700 (PDT)
+ Mon, 22 Mar 2021 04:24:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] exec: Extract 'page-vary.h' header
-Date: Mon, 22 Mar 2021 12:24:25 +0100
-Message-Id: <20210322112427.4045204-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/3] exec: Build page-vary-common.c with -fno-lto
+Date: Mon, 22 Mar 2021 12:24:26 +0100
+Message-Id: <20210322112427.4045204-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210322112427.4045204-1-f4bug@amsat.org>
 References: <20210322112427.4045204-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,61 +95,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-In the next commit we will extract the generic code out of
-page-vary.c, only keeping the target specific code. Both
-files will use the same TargetPageBits structure, so make
-its declaration in a shared header.
+In bbc17caf81f, we used an alias attribute to allow target_page
+to be declared const, and yet be initialized late.
 
-As the common header can not use target specific types,
-use a uint64_t to hold the page mask value, and add a
-cast back to target_long in the TARGET_PAGE_MASK definitions.
+This fails when using LTO with several versions of gcc.
+The compiler looks through the alias and decides that the const
+variable is statically initialized to zero, then propagates that
+zero to many uses of the variable.
 
+This can be avoided by compiling one object file with -fno-lto.
+In this way, any initializer cannot be seen, and the constant
+propagation does not occur.
+
+Since are certain to have this separate compilation unit, we can
+drop the alias attribute as well.  We simply have differing
+declarations for target_page in different compilation units.
+Drop the use of init_target_page, and drop the configure detection
+for CONFIG_ATTRIBUTE_ALIAS.
+
+In order to change the compilation flags for a file with meson,
+we must use a static_library.  This runs into specific_ss, where
+we would need to create many static_library instances.
+
+Fix this by splitting exec-page.c: the page-vary-common.c part is
+compiled once as a static_library, while the page-vary.c part is
+left in specific_ss in order to handle the target-specific value
+of TARGET_PAGE_BITS_MIN.
+
+Reported-by: Gavin Shan <gshan@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Gavin Shan <gshan@redhat.com>
+Message-Id: <20210321211534.2101231-1-richard.henderson@linaro.org>
+[PMD: Fix typo in subject, split original patch in 3]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/exec/cpu-all.h   | 11 ++++-------
- include/exec/page-vary.h | 29 +++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 7 deletions(-)
- create mode 100644 include/exec/page-vary.h
+ configure                | 19 ----------
+ meson.build              | 15 ++++++++
+ include/exec/cpu-all.h   |  4 --
+ include/exec/page-vary.h |  5 +++
+ page-vary-common.c       | 54 +++++++++++++++++++++++++++
+ page-vary.c              | 79 +++-------------------------------------
+ 6 files changed, 80 insertions(+), 96 deletions(-)
+ create mode 100644 page-vary-common.c
 
+diff --git a/configure b/configure
+index 847bc4d0957..dbb873e09cb 100755
+--- a/configure
++++ b/configure
+@@ -4889,21 +4889,6 @@ if  test "$plugins" = "yes" &&
+       "for this purpose. You can't build with --static."
+ fi
+ 
+-########################################
+-# See if __attribute__((alias)) is supported.
+-# This false for Xcode 9, but has been remedied for Xcode 10.
+-# Unfortunately, travis uses Xcode 9 by default.
+-
+-attralias=no
+-cat > $TMPC << EOF
+-int x = 1;
+-extern const int y __attribute__((alias("x")));
+-int main(void) { return 0; }
+-EOF
+-if compile_prog "" "" ; then
+-    attralias=yes
+-fi
+-
+ ########################################
+ # check if getauxval is available.
+ 
+@@ -5935,10 +5920,6 @@ if test "$atomic64" = "yes" ; then
+   echo "CONFIG_ATOMIC64=y" >> $config_host_mak
+ fi
+ 
+-if test "$attralias" = "yes" ; then
+-  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
+-fi
+-
+ if test "$getauxval" = "yes" ; then
+   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index f0dd8aa0898..24e8897ba2c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1944,6 +1944,21 @@
+ ))
+ specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+ 
++# Work around a gcc bug/misfeature wherein constant propagation looks
++# through an alias:
++#   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
++# to guess that a const variable is always zero.  Without lto, this is
++# impossible, as the alias is restricted to page-vary-common.c.  Indeed,
++# without lto, not even the alias is required -- we simply use different
++# declarations in different compilation units.
++pagevary = files('page-vary-common.c')
++if get_option('b_lto')
++  pagevary = static_library('page-vary-common',
++                            sources: pagevary,
++                            c_args: ['-fno-lto'])
++  pagevary = declare_dependency(link_with: pagevary)
++endif
++common_ss.add(pagevary)
+ specific_ss.add(files('page-vary.c'))
+ 
+ subdir('backends')
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 76443eb11d5..b0a422c7b62 100644
+index b0a422c7b62..d76b0b9e02d 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -215,11 +215,7 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
- /* page related stuff */
+@@ -216,11 +216,7 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
  
  #ifdef TARGET_PAGE_BITS_VARY
--typedef struct {
--    bool decided;
--    int bits;
--    target_long mask;
--} TargetPageBits;
-+# include "exec/page-vary.h"
- #if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
+ # include "exec/page-vary.h"
+-#if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
  extern const TargetPageBits target_page;
- #else
-@@ -227,10 +223,11 @@ extern TargetPageBits target_page;
- #endif
+-#else
+-extern TargetPageBits target_page;
+-#endif
  #ifdef CONFIG_DEBUG_TCG
  #define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
--#define TARGET_PAGE_MASK   ({ assert(target_page.decided); target_page.mask; })
-+#define TARGET_PAGE_MASK   ({ assert(target_page.decided); \
-+                              (target_long)target_page.mask; })
- #else
- #define TARGET_PAGE_BITS   target_page.bits
--#define TARGET_PAGE_MASK   target_page.mask
-+#define TARGET_PAGE_MASK   ((target_long)target_page.mask)
- #endif
- #define TARGET_PAGE_SIZE   (-(int)TARGET_PAGE_MASK)
- #else
+ #define TARGET_PAGE_MASK   ({ assert(target_page.decided); \
 diff --git a/include/exec/page-vary.h b/include/exec/page-vary.h
-new file mode 100644
-index 00000000000..799d6310d6c
---- /dev/null
+index 799d6310d6c..c22a7a742e7 100644
+--- a/include/exec/page-vary.h
 +++ b/include/exec/page-vary.h
-@@ -0,0 +1,29 @@
+@@ -26,4 +26,9 @@ typedef struct {
+     uint64_t mask;
+ } TargetPageBits;
+ 
++#ifdef IN_PAGE_VARY
++extern bool set_preferred_target_page_bits_common(int bits);
++extern void finalize_target_page_bits_common(int min);
++#endif
++
+ #endif /* EXEC_PAGE_VARY_H */
+diff --git a/page-vary-common.c b/page-vary-common.c
+new file mode 100644
+index 00000000000..91755564985
+--- /dev/null
++++ b/page-vary-common.c
+@@ -0,0 +1,54 @@
 +/*
-+ * Definitions for cpus with variable page sizes.
++ * Variable page size handling -- target independent part.
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -166,16 +256,144 @@ index 00000000000..799d6310d6c
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef EXEC_PAGE_VARY_H
-+#define EXEC_PAGE_VARY_H
++#define IN_PAGE_VARY 1
 +
-+typedef struct {
-+    bool decided;
-+    int bits;
-+    uint64_t mask;
-+} TargetPageBits;
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "exec/page-vary.h"
 +
-+#endif /* EXEC_PAGE_VARY_H */
++/* WARNING: This file must *not* be complied with -flto. */
++
++TargetPageBits target_page;
++
++bool set_preferred_target_page_bits_common(int bits)
++{
++    /*
++     * The target page size is the lowest common denominator for all
++     * the CPUs in the system, so we can only make it smaller, never
++     * larger. And we can't make it smaller once we've committed to
++     * a particular size.
++     */
++    if (target_page.bits == 0 || target_page.bits > bits) {
++        if (target_page.decided) {
++            return false;
++        }
++        target_page.bits = bits;
++    }
++    return true;
++}
++
++void finalize_target_page_bits_common(int min)
++{
++    if (target_page.bits == 0) {
++        target_page.bits = min;
++    }
++    target_page.mask = -1ull << target_page.bits;
++    target_page.decided = true;
++}
+diff --git a/page-vary.c b/page-vary.c
+index 344f9fcf76a..057c7f18152 100644
+--- a/page-vary.c
++++ b/page-vary.c
+@@ -17,92 +17,25 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#define IN_PAGE_VARY 1
++
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+-
+-#define IN_EXEC_VARY 1
+-
+ #include "exec/exec-all.h"
+ 
+-#ifdef TARGET_PAGE_BITS_VARY
+-# ifdef CONFIG_ATTRIBUTE_ALIAS
+-/*
+- * We want to declare the "target_page" variable as const, which tells
+- * the compiler that it can cache any value that it reads across calls.
+- * This avoids multiple assertions and multiple reads within any one user.
+- *
+- * This works because we finish initializing the data before we ever read
+- * from the "target_page" symbol.
+- *
+- * This also requires that we have a non-constant symbol by which we can
+- * perform the actual initialization, and which forces the data to be
+- * allocated within writable memory.  Thus "init_target_page", and we use
+- * that symbol exclusively in the two functions that initialize this value.
+- *
+- * The "target_page" symbol is created as an alias of "init_target_page".
+- */
+-static TargetPageBits init_target_page;
+-
+-/*
+- * Note that this is *not* a redundant decl, this is the definition of
+- * the "target_page" symbol.  The syntax for this definition requires
+- * the use of the extern keyword.  This seems to be a GCC bug in
+- * either the syntax for the alias attribute or in -Wredundant-decls.
+- *
+- * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
+- */
+-#  pragma GCC diagnostic push
+-#  pragma GCC diagnostic ignored "-Wredundant-decls"
+-
+-extern const TargetPageBits target_page
+-    __attribute__((alias("init_target_page")));
+-
+-#  pragma GCC diagnostic pop
+-# else
+-/*
+- * When aliases are not supported then we force two different declarations,
+- * by way of suppressing the header declaration with IN_EXEC_VARY.
+- * We assume that on such an old compiler, LTO cannot be used, and so the
+- * compiler cannot not detect the mismatched declarations, and all is well.
+- */
+-TargetPageBits target_page;
+-#  define init_target_page target_page
+-# endif
+-#endif
+-
+ bool set_preferred_target_page_bits(int bits)
+ {
+-    /*
+-     * The target page size is the lowest common denominator for all
+-     * the CPUs in the system, so we can only make it smaller, never
+-     * larger. And we can't make it smaller once we've committed to
+-     * a particular size.
+-     */
+ #ifdef TARGET_PAGE_BITS_VARY
+     assert(bits >= TARGET_PAGE_BITS_MIN);
+-    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
+-        if (init_target_page.decided) {
+-            return false;
+-        }
+-        init_target_page.bits = bits;
+-    }
+-#endif
++    return set_preferred_target_page_bits_common(bits);
++#else
+     return true;
++#endif
+ }
+ 
+ void finalize_target_page_bits(void)
+ {
+ #ifdef TARGET_PAGE_BITS_VARY
+-    if (init_target_page.bits == 0) {
+-        init_target_page.bits = TARGET_PAGE_BITS_MIN;
+-    }
+-    init_target_page.mask = (target_long)-1 << init_target_page.bits;
+-    init_target_page.decided = true;
+-
+-    /*
+-     * For the benefit of an -flto build, prevent the compiler from
+-     * hoisting a read from target_page before we finish initializing.
+-     */
+-    barrier();
++    finalize_target_page_bits_common(TARGET_PAGE_BITS_MIN);
+ #endif
+ }
 -- 
 2.26.2
 
