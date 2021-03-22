@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF0A3437CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:13:33 +0100 (CET)
-Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B98B3437DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:21:57 +0100 (CET)
+Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOBwa-0007ER-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46914)
+	id 1lOC4i-0007H9-E3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:21:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lOBuW-000688-MS
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 00:11:26 -0400
-Received: from mga02.intel.com ([134.134.136.20]:13663)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOBvE-0006Wv-5D; Mon, 22 Mar 2021 00:12:09 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37973 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lOBuQ-0004La-Ci
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 00:11:24 -0400
-IronPort-SDR: srQhpsgVIA5Ig7JzR8iODYVgjB8UDCq99JTaAKwGTAvlGx4EmS3dZlr84MjEq7CdtThOg2JnTL
- /AVHL1zil/Bg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="177328925"
-X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; d="scan'208";a="177328925"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2021 21:11:09 -0700
-IronPort-SDR: E1jFeE662j+SputdVxBvmtGYkBNxgzO+J6MonVKiuprxT1YVIvw222iFGB+dJlNWChf/8FwvW3
- gex7fhw0svDA==
-X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; d="scan'208";a="414323026"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.2.5])
- ([10.238.2.5])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2021 21:11:07 -0700
-Subject: Re: [RFC PATCH] i386: Add ratelimit for bus locks acquired in guest
-To: Marcelo Tosatti <mtosatti@redhat.com>
-References: <20210317084709.15605-1-chenyi.qiang@intel.com>
- <20210318173200.GA35410@fuller.cnet>
- <bdae25cb-49c6-76be-db9b-fd2a5f890531@intel.com>
- <20210319123707.GA72513@fuller.cnet>
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-Message-ID: <4f35e9e1-4322-b4a1-f877-ebeaf5f5be44@intel.com>
-Date: Mon, 22 Mar 2021 12:11:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOBvB-0004nf-Ra; Mon, 22 Mar 2021 00:12:07 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F3gzz3zjKz9sXh; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616386303;
+ bh=T4qvdjGft+2avBeFt64UWG/a4S+/8YBdg6fWr8jRx9U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NI2IvXvgRMEPTR7snJ7sGIEg2Ba7g3zDQ+fIDeC5du7wGuCFEYa/+XzY7NCfTVFSH
+ C9VqvCCZxwEYMknq6MEEOdH7Tzm44EptrHCb1ABYmzvdD6hvz4feg0261hbFVh2Shn
+ 2oN3X5STs2Lw3bAD1iKrOZHzcOx8eRwVQv6n3X0M=
+Date: Mon, 22 Mar 2021 15:11:06 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 4/5] hw/pci-host/prep: Do not directly map bus-master
+ region onto main bus
+Message-ID: <YFgY2nnHJI8Iy0cd@yekko.fritz.box>
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-5-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210319123707.GA72513@fuller.cnet>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.20;
- envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9LJxFh5SeNSNxtIz"
+Content-Disposition: inline
+In-Reply-To: <20210312182851.1922972-5-f4bug@amsat.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,183 +59,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
+ Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--9LJxFh5SeNSNxtIz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 3/19/2021 8:37 PM, Marcelo Tosatti wrote:
-> On Fri, Mar 19, 2021 at 10:59:20AM +0800, Chenyi Qiang wrote:
->> Hi Marcelo,
->>
->> Thank you for your comment.
->>
->> On 3/19/2021 1:32 AM, Marcelo Tosatti wrote:
->>> On Wed, Mar 17, 2021 at 04:47:09PM +0800, Chenyi Qiang wrote:
->>>> Virtual Machines can exploit bus locks to degrade the performance of
->>>> system. To address this kind of performance DOS attack, bus lock VM exit
->>>> is introduced in KVM and it will report the bus locks detected in guest,
->>>> which can help userspace to enforce throttling policies.
->>>
->>>>
->>>> The availability of bus lock VM exit can be detected through the
->>>> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
->>>> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
->>>> bitmap is the only supported strategy at present. It indicates that KVM
->>>> will exit to userspace to handle the bus locks.
->>>>
->>>> This patch adds a ratelimit on the bus locks acquired in guest as a
->>>> mitigation policy.
->>>>
->>>> Introduce a new field "bld" to record the limited speed of bus locks in
->>>> target VM. The user can specify it through the "bus-lock-detection"
->>>> as a machine property. In current implementation, the default value of
->>>> the speed is 0 per second, which means no restriction on the bus locks.
->>>>
->>>> Ratelimit enforced in data transmission uses a time slice of 100ms to
->>>> get smooth output during regular operations in block jobs. As for
->>>> ratelimit on bus lock detection, simply set the ratelimit interval to 1s
->>>> and restrict the quota of bus lock occurrence to the value of "bld". A
->>>> potential alternative is to introduce the time slice as a property
->>>> which can help the user achieve more precise control.
->>>>
->>>> The detail of Bus lock VM exit can be found in spec:
->>>> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
->>>>
->>>> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
->>>> ---
->>>>    hw/i386/x86.c         |  6 ++++++
->>>>    include/hw/i386/x86.h |  7 +++++++
->>>>    target/i386/kvm/kvm.c | 44 +++++++++++++++++++++++++++++++++++++++++++
->>>>    3 files changed, 57 insertions(+)
->>>>
->>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->>>> index 7865660e2c..a70a259e97 100644
->>>> --- a/hw/i386/x86.c
->>>> +++ b/hw/i386/x86.c
->>>> @@ -1209,6 +1209,12 @@ static void x86_machine_initfn(Object *obj)
->>>>        x86ms->acpi = ON_OFF_AUTO_AUTO;
->>>>        x86ms->smp_dies = 1;
->>>>        x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
->>>> +    x86ms->bld = 0;
->>>> +
->>>> +    object_property_add_uint64_ptr(obj, "bus-lock-detection",
->>>> +                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
->>>> +    object_property_set_description(obj, "bus-lock-detection",
->>>> +            "Bus lock detection ratelimit");
->>>>    }
->>>>    static void x86_machine_class_init(ObjectClass *oc, void *data)
->>>> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
->>>> index 56080bd1fb..1f0ffbcfb9 100644
->>>> --- a/include/hw/i386/x86.h
->>>> +++ b/include/hw/i386/x86.h
->>>> @@ -72,6 +72,13 @@ struct X86MachineState {
->>>>         * will be translated to MSI messages in the address space.
->>>>         */
->>>>        AddressSpace *ioapic_as;
->>>> +
->>>> +    /*
->>>> +     * ratelimit enforced on detected bus locks, the default value
->>>> +     * is 0 per second
->>>> +     */
->>>> +    uint64_t bld;
->>>> +    RateLimit bld_limit;
->>>>    };
->>>>    #define X86_MACHINE_SMM              "smm"
->>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->>>> index c8d61daf68..724862137d 100644
->>>> --- a/target/i386/kvm/kvm.c
->>>> +++ b/target/i386/kvm/kvm.c
->>>> @@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
->>>>    static struct kvm_cpuid2 *cpuid_cache;
->>>>    static struct kvm_msr_list *kvm_feature_msrs;
->>>> +#define SLICE_TIME 1000000000ULL /* ns */
->>>> +
->>>>    int kvm_has_pit_state2(void)
->>>>    {
->>>>        return has_pit_state2;
->>>> @@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>>            }
->>>>        }
->>>> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
->>>> +        X86MachineState *x86ms = X86_MACHINE(ms);
->>>> +
->>>> +        if (x86ms->bld > 0) {
->>>> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
->>>> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
->>>> +                error_report("kvm: bus lock detection unsupported");
->>>> +                return -ENOTSUP;
->>>> +            }
->>>> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
->>>> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
->>>> +            if (ret < 0) {
->>>> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
->>>> +                             strerror(-ret));
->>>> +                return ret;
->>>> +            }
->>>> +
->>>> +            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
->>>> +        }
->>>> +    }
->>>> +
->>>>        return 0;
->>>>    }
->>>> @@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
->>>>        }
->>>>    }
->>>> +static void kvm_rate_limit_on_bus_lock(void)
->>>> +{
->>>> +    MachineState *ms = MACHINE(qdev_get_machine());
->>>> +    X86MachineState *x86ms = X86_MACHINE(ms);
->>>> +
->>>> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
->>>> +
->>>> +    if (delay_ns) {
->>>> +        g_usleep(delay_ns / SCALE_US);
->>>> +    }
->>>> +}
->>>
->>> Hi,
->>>
->>> Can't see a use-case where the throttling is very useful: this will
->>> slowdown the application to a halt (if its bus-lock instruction is
->>> being called frequently).
->>>
->>
->> The throttling is aimed to only slowdown the target application and avoid
->> slowdown the whole system (if bus-lock is frequent).
-> 
-> Right.
-> 
->> As you known, bus locks
->> takes more cycles and disrupt performance on other cores.
-> 
-> Right, testcase shows its pretty bad (cyclictest latency goes from 5us to >
-> 200us).
->>
->>> However its very nice to know that it (bus lock) has happened.
->>>
->>> So on KVM bus exit do you emulate the instruction or just execute it
->>> in the guest (without a VM-exit for the second time) ?
->>>
->> Bus lock VM exit is a trap-like VM exit and delivered following the
->> execution of the instruction acquiring the bus lock. Thus, it can just
->> detect the occurrence of bus locks and can't intercept it. In KVM, we don't
->> emulate the instruction. Bus lock already happens and guest will proceed to
->> execute.
-> 
-> I see.
-> 
-> Question: its possible to #AC trap the split-lock in a KVM guest, right?
-> 
-> https://lwn.net/Articles/810317/
-> 
+On Fri, Mar 12, 2021 at 07:28:50PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> The raven bus-master memory region is exposed as an AddressSpace.
+> AddressSpaces root MemoryRegion must not be mapped into other
+> MemoryRegion, therefore map the region using its alias.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-Right. Split lock can be detected by #AC trap, the trap is triggered 
-*before* the instruction acquires bus lock.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-> 
+> ---
+>  hw/pci-host/prep.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+> index 00a28c2d18c..6eaf9242bd8 100644
+> --- a/hw/pci-host/prep.c
+> +++ b/hw/pci-host/prep.c
+> @@ -295,8 +295,6 @@ static void raven_pcihost_initfn(Object *obj)
+>      memory_region_add_subregion(address_space_mem, 0x80000000,
+>                                  &s->pci_io_non_contiguous);
+>      memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci_m=
+emory);
+> -    pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj=
+), NULL,
+> -                             &s->pci_memory, &s->pci_io, 0, TYPE_PCI_BUS=
+);
+> =20
+>      /* Bus master address space */
+>      memory_region_init(&s->bm, obj, "bm-raven", 4 * GiB);
+> @@ -308,6 +306,10 @@ static void raven_pcihost_initfn(Object *obj)
+>      memory_region_add_subregion(&s->bm, 0         , &s->bm_pci_memory_al=
+ias);
+>      memory_region_add_subregion(&s->bm, 0x80000000, &s->bm_ram_alias);
+>      address_space_init(&s->bm_as, &s->bm, "raven-bm");
+> +
+> +    pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj=
+), NULL,
+> +                             &s->bm_pci_memory_alias, &s->pci_io, 0,
+> +                             TYPE_PCI_BUS);
+>      pci_setup_iommu(&s->pci_bus, raven_pcihost_set_iommu, s);
+> =20
+>      h->bus =3D &s->pci_bus;
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--9LJxFh5SeNSNxtIz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYGNoACgkQbDjKyiDZ
+s5JIJg//ZnfNhePOBQNMB8VZYrnBsf1CKCRm6j/ID5alfvBAnkafJycgg5+wZGyD
+f7GFrZMwB+r7jbp2dfEYnCPqH5G25rKPsQCYyEi2y3T3wOeGNfPyHV0Z139OuR0t
+CSv0L5FQbQtjOL1cTspLLgpYdqglAVes26MpUTK+IfzrZ46Eujzcc4iexmty3iP+
+Us1okNGobFvCKrFSfnyE7N/CDyB9/AyNmcHDtG9pPPdjrfzb03AfJbxraa0kPbsH
+7GHbFv91E2Djv095ZnNU7djj8vSCnzQ8uhdNUwevA0+xZRDmRyku/PCGy8n7DfIM
+KnTXgZHeYcIJNJ+wzlrK8EZy0My3CMoNxD0jVniKy/o4bqA3KrY7KpB3OISUtHN7
+OWlpvtRsJL1Fqh/TjfcbDsWOEEiYlFpVh9HsQceFUgsgXow5sRgpew693X3Ist7H
+p/rxntqCWjlO/PdYIDqcStLb74njXX6V1QuR1/qxCRzbLRyYK1sQ89ibCJf2n9DP
+7Bszcuv9sZ/1lzGY9gWZWaXc013ZTWqC8EO00IWsmJHAJJR69c+YKrpGmosx4bXd
+OtxRMpJmHmpuNRJyNpyDis7X+VCasf5ZHk1kJ+DAI124xl+apC0u3O3rS/TfeH1p
+l+fbON00mmZnOAkcXXYsQtmOaciyhKYY7PaX3cMTqLYCbl5ujYo=
+=t5Vq
+-----END PGP SIGNATURE-----
+
+--9LJxFh5SeNSNxtIz--
 
