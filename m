@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8924C344898
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:05:51 +0100 (CET)
-Received: from localhost ([::1]:40212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742E3344877
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:01:51 +0100 (CET)
+Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOM7p-0006zR-M1
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:05:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
+	id 1lOM3y-0001hb-Dx
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOLbV-00068R-VM; Mon, 22 Mar 2021 10:32:26 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:40627)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOLaT-0005I0-48; Mon, 22 Mar 2021 10:31:21 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOLbQ-0005MF-Dn; Mon, 22 Mar 2021 10:32:25 -0400
-Received: by mail-io1-xd35.google.com with SMTP id n21so14130403ioa.7;
- Mon, 22 Mar 2021 07:32:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOLaR-0004rG-GP; Mon, 22 Mar 2021 10:31:20 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id v11so17179307wro.7;
+ Mon, 22 Mar 2021 07:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UaFL8qr3cH/9JfMJWavGZD8fV59GN9NTydC4WJxqUsU=;
- b=ED0kg/P4I7yRx5vpIbMb9pL+VJO88I5uEf5RAO6O8XaA+vMaGPnDpio/s1gkO1QFay
- ScP33jaxCF6INWGJVPnwtZjRNC7OOvGHoPgL9Bw7LnZSjonMY8Yf0tnDhU22KFM/Mjap
- 6Vjm5GdLmO6zkQtYD9Pv5I+E6/gWSqSZ42Uu7xTpm5temBUha5dYEBigbxeKoDK/t8++
- arWmmRzYFP3Q1E12X/yj/JL+9W3hpQzEFGogkgwiRefAfgftV5feazlgtXoFHLsmi9/+
- nthxILqS8tv2x0DalEge6HF9Dblt1oA9rfRKpWwjk4HZWfaP0cpaFLciFem/OIzA7HMy
- cAFQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/OaQRvnohnanmTyNOZ6gFn0pd+hZ+6cn3xRtPcJUUM8=;
+ b=KB/6PchzRvb4UrmntdFySTtDq9iVs29+02P21j7GRkzRHe+gMveeGulz5++3rVq/0b
+ q/d/CVAaUNqIURpgoAZRwcPlqGO14xYhcC0mMoTicc+hD/BvIZnbFBMOpOw2YNpa9JLH
+ 6AqowG9VOcVf7phdr9lBPFYAf4L35eNA0Es+hPDps4/iokBdPew/q22Fu4ebbYLpAvMg
+ RMYBONCT+O2/DJg9xVO9RCm1GLoVBR6E6TqviU4BZxfhAwqHL8gEPSmYw0ecDKJmwPdL
+ YF4sVrO1m4nHl7wYNlQfG6GI+pfmtRSi/uWsrgYOJE8foCA471Mr4exMcN4+ENeLlwN4
+ /abw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UaFL8qr3cH/9JfMJWavGZD8fV59GN9NTydC4WJxqUsU=;
- b=MHuBzfGflezc+q7JzN0n0d8JrardhEOh6rnQFFvSWTs40ORnZltBDzysvL1MVROpH/
- 15bGLvHUERQ6w6ABKXebpg4HgZnC1hHVD30OJ2sww/6WLH3Gn4vSGCSS4gl2AFTOEDvM
- o14inmUqoUOMSodtkrWN2WUpVKVCneDSJ4zMtZvSTHPyD4/8lQD8gKHeBCvyEgIzmgwH
- GxNuXSuajmFxDzxlujsi6wGh72TJfm9Nx9rc7WyF/xAfAv6j3JdeC5+TdsS9K80+1QO6
- VqLnXFrB56BbhszNpmIM0Z3IWKDzFPmPskYEyltkiseCW5UdAElthvSTyG0jSxMI7/wB
- IqGQ==
-X-Gm-Message-State: AOAM5307qZHrlJjKOiuXm49UTDjjlCCfPx9EqSoGK6op17ptBGjVIjY9
- jJJAYwnzENszZebklWpwp58V/c7AeOqQQ2wyBoEy9E5Vyds=
-X-Google-Smtp-Source: ABdhPJwadSJv4F7K8lsPrnfhmP3gNXTK3Iob9FwfuWouEu991p69541PE6ZJ7h5nQkMkX5a9VmZyLbOqMKXufKX75jI=
-X-Received: by 2002:a5d:878e:: with SMTP id f14mr45767ion.176.1616423538921;
- Mon, 22 Mar 2021 07:32:18 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/OaQRvnohnanmTyNOZ6gFn0pd+hZ+6cn3xRtPcJUUM8=;
+ b=FQOTLDJSdt1T6qcFbsWoCsagyeypzyR1KzE/amoDmGqwngJUz1zPaKhzzsmDcV9zP+
+ u8CBupOFGjztGY96BfKY8ZxBjbgNxcKP7tVGqNWfqSnvYxhexeoOTDe8Tti2q3niyVDV
+ CX4CZwl6skSlR7ggk3oRtMuGfqNFX3rcNZGvKw4VSH3QoRZKQM96DFmmM7q/Hfnihtog
+ v3bKelE/yBpTlUJjxugdmvZwiO3ah0B91FQOr2HWDdOKLIKiuxj7HUnC6bdHh2Ue2sBf
+ nanh3nqtvc3hbbRSUk7bX18miWTvRFTKzEESsoqMxKiocA0G0hlUFvzA+eQYFHdUB8Op
+ fhZw==
+X-Gm-Message-State: AOAM530JRohOj9CLJ1J3M++wjf6GR0kh2ItmI0Shzdz7JtY2vwsDG2oM
+ VQfDfrySgnNaKhHVL2PechI=
+X-Google-Smtp-Source: ABdhPJykgAy5A5aw3WwgbYK3/JDDUZqYTLXmNc0asfdiCzzy8ploKMnfF4uk1Qmy+MeZZDHr7nAP2w==
+X-Received: by 2002:a1c:68c5:: with SMTP id d188mr114321wmc.119.1616423477457; 
+ Mon, 22 Mar 2021 07:31:17 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id c2sm16744870wmr.22.2021.03.22.07.31.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 07:31:16 -0700 (PDT)
+Subject: Re: [PATCH v3] hw/sd: sd: Actually perform the erase operation
+To: Bin Meng <bmeng.cn@gmail.com>, Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <1613811493-58815-1-git-send-email-bmeng.cn@gmail.com>
+ <CAEUhbmW-D9fCnu8jeKb-9VicdG81nCPysyX0M6uPxVTZgbZaqQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a3ddb875-30e0-14e5-492a-1a5cac7f38b1@amsat.org>
+Date: Mon, 22 Mar 2021 15:31:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210319141459.1196741-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20210319141459.1196741-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Mar 2021 10:30:23 -0400
-Message-ID: <CAKmqyKM__Xk35Ood4R59=ie0f3is8PLXK96eM-YBDNhAzNVfMA@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Add proper two-stage lookup exception
- detection
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <CAEUhbmW-D9fCnu8jeKb-9VicdG81nCPysyX0M6uPxVTZgbZaqQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,143 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 19, 2021 at 10:16 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
->
-> The current two-stage lookup detection in riscv_cpu_do_interrupt falls
-> short of its purpose, as all it checks is whether two-stage address
-> translation either via the hypervisor-load store instructions or the
-> MPRV feature would be allowed.
->
-> What we really need instead is whether two-stage address translation was
-> active when the exception was raised. However, in riscv_cpu_do_interrupt
-> we do not have the information to reliably detect this. Therefore, when
-> we raise a memory fault exception we have to record whether two-stage
-> address translation is active.
->
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+On 3/10/21 8:16 AM, Bin Meng wrote:
+> Hi Philippe,
+> 
+> On Sat, Feb 20, 2021 at 4:58 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> From: Bin Meng <bin.meng@windriver.com>
+>>
+>> At present the sd_erase() does not erase the requested range of card
+>> data to 0xFFs. Let's make the erase operation actually happen.
+>>
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>>
+>> ---
+>>
+>> Changes in v3:
+>> - fix the skip erase logic for SDSC cards
+>>
+> 
+> Any comments for v3?
 
-Thanks!
+None :)
 
-Applied to riscv-to-apply.next
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Alistair
-
-> ---
-> Unfortunately, I tested the previous version of the patch only against
-> the RISC-V softmmu target, not against the linux-user target.
-> I modified the patch, so that the two_stage_lookup is neither present
-> nor updated for the linux-user target.
->
->  target/riscv/cpu.c        |  1 +
->  target/riscv/cpu.h        |  4 ++++
->  target/riscv/cpu_helper.c | 21 ++++++++-------------
->  3 files changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ddea8fbeeb..e8c4455525 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -356,6 +356,7 @@ static void riscv_cpu_reset(DeviceState *dev)
->      env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
->      env->mcause = 0;
->      env->pc = env->resetvec;
-> +    env->two_stage_lookup = false;
->  #endif
->      cs->exception_index = EXCP_NONE;
->      env->load_res = -1;
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0edb2826a2..0a33d387ba 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -213,6 +213,10 @@ struct CPURISCVState {
->      target_ulong satp_hs;
->      uint64_t mstatus_hs;
->
-> +    /* Signals whether the current exception occurred with two-stage address
-> +       translation active. */
-> +    bool two_stage_lookup;
-> +
->      target_ulong scounteren;
->      target_ulong mcounteren;
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 2f43939fb6..af00728829 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -605,6 +605,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
->          g_assert_not_reached();
->      }
->      env->badaddr = address;
-> +    env->two_stage_lookup = two_stage;
->  }
->
->  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-> @@ -646,6 +647,8 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->      }
->
->      env->badaddr = addr;
-> +    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> +                            riscv_cpu_two_stage_lookup(mmu_idx);
->      riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
->  }
->
-> @@ -669,6 +672,8 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->          g_assert_not_reached();
->      }
->      env->badaddr = addr;
-> +    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> +                            riscv_cpu_two_stage_lookup(mmu_idx);
->      riscv_raise_exception(env, cs->exception_index, retaddr);
->  }
->  #endif /* !CONFIG_USER_ONLY */
-> @@ -910,16 +915,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->          /* handle the trap in S-mode */
->          if (riscv_has_ext(env, RVH)) {
->              target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
-> -            bool two_stage_lookup = false;
->
-> -            if (env->priv == PRV_M ||
-> -                (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-> -                (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
-> -                    get_field(env->hstatus, HSTATUS_HU))) {
-> -                    two_stage_lookup = true;
-> -            }
-> -
-> -            if ((riscv_cpu_virt_enabled(env) || two_stage_lookup) && write_tval) {
-> +            if (env->two_stage_lookup && write_tval) {
->                  /*
->                   * If we are writing a guest virtual address to stval, set
->                   * this to 1. If we are trapping to VS we will set this to 0
-> @@ -957,10 +954,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->                  riscv_cpu_set_force_hs_excep(env, 0);
->              } else {
->                  /* Trap into HS mode */
-> -                if (!two_stage_lookup) {
-> -                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
-> -                                             riscv_cpu_virt_enabled(env));
-> -                }
-> +                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
->                  htval = env->guest_phys_fault_addr;
->              }
->          }
-> @@ -1016,6 +1010,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->       * RISC-V ISA Specification.
->       */
->
-> +    env->two_stage_lookup = false;
->  #endif
->      cs->exception_index = EXCP_NONE; /* mark handled to qemu */
->  }
-> --
-> 2.31.0
->
->
+Patch applied to sdmmc-fixes.
 
