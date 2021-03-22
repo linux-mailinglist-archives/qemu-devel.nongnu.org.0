@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF30344145
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:32:41 +0100 (CET)
-Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61898344173
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:34:19 +0100 (CET)
+Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJjb-0005b6-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36938)
+	id 1lOJlC-000749-FR
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lOJcL-00088I-MB
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:25:10 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38787)
+ id 1lOJcN-00088n-Q1
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:25:16 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lOJcF-0005aZ-Jy
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:25:09 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z2so16487253wrl.5
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 05:25:02 -0700 (PDT)
+ id 1lOJcH-0005bY-AB
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:25:11 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ d8-20020a1c1d080000b029010f15546281so8980877wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 05:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hxON1Qr7rb7hFg/JIyQs/CCbfbSPzw+UVS/lLPV7U0w=;
- b=Dl0NOOKcxsXkZFrdBmrwToBObb3519KfbJFPuF6eqWNqTjFdpKv/XuVFXNtMwtjHkj
- lHTlWHcZ6YCnlsXhaktnAKHK+/l6LuOcBT5EmRrHvmBs/8EKvL6tqP4Cv4BUjtO/ZBoL
- uL17NWFifydFezExsDi2a7+ad9zkWurdIgB1GdOQA/EPXxyvz2P9UM950hgcfNIgZo/6
- rtRHin/cerlX/VMF7eqc+qSoo4NKOe4cCyQj/kpn59ZFM26Q43B0oosGGWOClGij25Iu
- yB4n3zvRUZ75+Y3xX33X59BWr/RwOE5ZvdVXkXQ2VherCgvLLCnilXp5eu4ZEFIpMgK7
- 5Huw==
+ bh=fLcpOzPll1cJxC9iX7UzZaPl9AO2DsZ8ElInXHDxMfQ=;
+ b=H7GT01aT++UN079YkvDUL6zrzORUuJ/doxaaQTSG3gXGO2aGrEnejp7wm8/q+Qm8OT
+ 7R+uzhEPByLzg1W/b/UnvOYq22N2sVQODLd/RPxTr7QNce89xX8AHRhKyRwCobWquolK
+ 5/ACP+ZuYR7iZJ88IkmzqKx7VGeZwCE5nwFLWVzFLuxCOQgKYWbflgxnMckKb+4F0P3O
+ AlzUgtubeV9Z9ZITHOsrNEONqiBKmlghryLgAegLa75HxJaGhlCfYXqWnnhKTyKdwumq
+ ItumckKubKzKcM1GJsnuJnGHUh/UWpb7tCJRbsNP8Ica2SkcwnCpu2BJhJFKHBiUC2Tb
+ /qbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hxON1Qr7rb7hFg/JIyQs/CCbfbSPzw+UVS/lLPV7U0w=;
- b=IMTu2OJ6xi82h7qRhKdFT5nYuVZpE6Z4QrkUrEpWgsPKyzBhgufl9KpiFxj1Op86sC
- Ql0CDTlwsHVIzMBxFyVnGgrEZQgSAixFIF3NcListYawpHT4QGf3UsV9EEe7JvAVm72U
- sLKpoA5jDNT+8IUGuQRx9KFev4RGYYBq3gV6ksn1FrrO2ljCtnOe85hlBnHOl04PYqRE
- RN9Zfem9N0IWPJXp3ratkHhurTRvu+6yqj2YZrQgWyW82YR8Yrm/YPVbHKl4bxLxMzX4
- 8fZBiseFHY9yVatAvQLtZhu1/n2OyRPfNVai14+7EXIag38tBi1KtG84wV2GwptiRawl
- +z5w==
-X-Gm-Message-State: AOAM530qzZRYfCtP+5a2Ke4OJwFSzlIPnIJu/36S1s3rRL+x5jq5A/wZ
- AovYMFAVHWibd8S2O/uzkT/hcA==
-X-Google-Smtp-Source: ABdhPJzHkvV3pfdCx8gtsbuBQ6+MXzbUiuthrdFQ/55YqBqjc+luZwvDkJVL/FMVkmzxPzRtdEeWIw==
-X-Received: by 2002:adf:c70b:: with SMTP id k11mr18261180wrg.165.1616415902037; 
- Mon, 22 Mar 2021 05:25:02 -0700 (PDT)
+ bh=fLcpOzPll1cJxC9iX7UzZaPl9AO2DsZ8ElInXHDxMfQ=;
+ b=UtsWqplPyJjMZMWBqHrTRkm+J9vK5iaUfUrYJyfDaQ6qak/oj0gfOoF7JBvoETywDz
+ UciZDliC5+egWqIxIkcb1GqTjqTlZodpvrlF+ztkHqdI7KZVH2qHHurS9gKNM44hjkhw
+ Bo0Unr/tK9uOYXXKBARdWgWf9WeOF9lmwa98MPr2NDS3XH5YQ7HS3Qk4rxMMtG1VNBdy
+ uqij8QxKCRoQ3ZaryRxrYINGdi+J5MtAlS8JGyB+arqTvdmaweDP1eHPM7pSKzIQYpdN
+ 7DXvc/pdkC6XzZTuQcE7+76nQj2vT6h6yJtaxk8gPbLRZx2t+8UsvorjCpeK6EgV49Sb
+ 6Qhw==
+X-Gm-Message-State: AOAM530JoSTduDOYP5WQfYN0sYIRmQP2x96dhpaCAkqobD8fGg+ipuLw
+ 3cpM0q7Xy/1mg2NjHlwx08H+uz7rf+QRtw==
+X-Google-Smtp-Source: ABdhPJxkdgglDKmf9rJLHgDXR+A5ndGrUeHqmVuTyR6SPGzXwH/Bfbpp0EWtIb0xZz6CINqxFnjnJg==
+X-Received: by 2002:a1c:e388:: with SMTP id
+ a130mr16166166wmh.187.1616415903558; 
+ Mon, 22 Mar 2021 05:25:03 -0700 (PDT)
 Received: from f1.Home (bzq-79-176-30-57.red.bezeqint.net. [79.176.30.57])
- by smtp.gmail.com with ESMTPSA id w132sm16785325wmg.39.2021.03.22.05.25.00
+ by smtp.gmail.com with ESMTPSA id w132sm16785325wmg.39.2021.03.22.05.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 05:25:01 -0700 (PDT)
+ Mon, 22 Mar 2021 05:25:02 -0700 (PDT)
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 To: mst@redhat.com,
 	jasowang@redhat.com,
 	berrange@redhat.com
-Subject: [RFC PATCH v2 2/3] virtio: introduce 'missing_features_migrated'
- device callback
-Date: Mon, 22 Mar 2021 14:24:51 +0200
-Message-Id: <20210322122452.369750-3-yuri.benditovich@daynix.com>
+Subject: [RFC PATCH v2 3/3] virtio-net: implement missing_features_migrated
+ callback
+Date: Mon, 22 Mar 2021 14:24:52 +0200
+Message-Id: <20210322122452.369750-4-yuri.benditovich@daynix.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210322122452.369750-1-yuri.benditovich@daynix.com>
 References: <20210322122452.369750-1-yuri.benditovich@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::42c;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-wr1-x42c.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::335;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,54 +91,107 @@ Cc: yan@daynix.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This optional callback addresses migration problem in case
-some of negotiated features not present on the destination
-system. The device has a chance to avoid migration failure.
+Graceful drop to userspace virtio in case selected features
+are missing on the destination system. Currently used for
+3 features that might be supported by the vhost kernel on
+the source machine and not supported on the destination machine:
+rss, hash reporting, packed ring.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 ---
- hw/virtio/virtio.c         | 8 ++++++++
- include/hw/virtio/virtio.h | 8 ++++++++
- 2 files changed, 16 insertions(+)
+ hw/net/virtio-net.c | 51 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 07f4e60b30..36dcac75e5 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3107,6 +3107,14 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-         vdev->device_endian = virtio_default_endian();
-     }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 96a3cc8357..97afca34e7 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -527,6 +527,15 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+     return info;
+ }
  
-+    if (vdc->missing_features_migrated) {
-+        uint64_t missing = (vdev->guest_features & ~(vdev->host_features));
-+        if (missing && vdc->missing_features_migrated(vdev, missing)) {
-+            vdev->host_features =
-+                vdc->get_features(vdev, vdev->host_features, NULL);
-+        }
++static void virtio_net_allow_vhost(VirtIONet *n, bool allow)
++{
++    int i;
++    for (i = 0; i < n->max_queues; i++) {
++        NetClientState *nc = qemu_get_subqueue(n->nic, i)->peer;
++        nc->vhost_net_disabled = !allow;
 +    }
++}
 +
-     if (virtio_64bit_features_needed(vdev)) {
-         /*
-          * Subsection load filled vdev->guest_features.  Run them
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index b7ece7a6a8..fbfbec6ef2 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -158,6 +158,14 @@ struct VirtioDeviceClass {
-      * processed, e.g. for bounds checking.
-      */
-     int (*post_load)(VirtIODevice *vdev);
-+    /* In case when some of negotiated features are missing on the destination
-+       system, the migration is expected to fail. To avoid such failure, the
-+       device may implement this callback and apply graceful configuration
-+       change to extend host features (for example, disable vhost).
-+       If the device returns true the virtio reinitializes the host features
-+       and further set_features call may succeed.
-+     */
-+    bool (*missing_features_migrated)(VirtIODevice *vdev, uint64_t val);
-     const VMStateDescription *vmsd;
-     bool (*primary_unplug_pending)(void *opaque);
- };
+ static void virtio_net_reset(VirtIODevice *vdev)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+@@ -564,6 +573,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
+             assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
+         }
+     }
++    virtio_net_allow_vhost(n, true);
+ }
+ 
+ static void peer_test_vnet_hdr(VirtIONet *n)
+@@ -701,6 +711,27 @@ static void virtio_net_set_queues(VirtIONet *n)
+     }
+ }
+ 
++static bool can_disable_vhost(VirtIONet *n)
++{
++    NetClientState *peer = qemu_get_queue(n->nic)->peer;
++    NetdevInfo *ndi;
++    if (!get_vhost_net(peer)) {
++        return false;
++    }
++    if (!peer) {
++        return true;
++    }
++    if (peer->info->type != NET_CLIENT_DRIVER_TAP) {
++        return false;
++    }
++    ndi = peer->stored_config;
++    if (ndi && ndi->u.tap.has_vhostforce && ndi->u.tap.vhostforce) {
++        printf("vhost forced, can't drop it\n");
++        return false;
++    }
++    return true;
++}
++
+ static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+ 
+ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+@@ -3433,6 +3464,25 @@ static bool dev_unplug_pending(void *opaque)
+     return vdc->primary_unplug_pending(dev);
+ }
+ 
++static bool virtio_net_missing_features_migrated(VirtIODevice *vdev,
++                                                 uint64_t missing)
++{
++    VirtIONet *n = VIRTIO_NET(vdev);
++    bool disable_vhost = false;
++    if (virtio_has_feature(missing, VIRTIO_NET_F_HASH_REPORT) ||
++        virtio_has_feature(missing, VIRTIO_NET_F_RSS) ||
++        virtio_has_feature(missing, VIRTIO_F_RING_PACKED)) {
++        disable_vhost = true;
++    }
++    disable_vhost = disable_vhost && can_disable_vhost(n);
++    if (disable_vhost) {
++        warn_report("falling back to userspace virtio due to missing"
++                    " features %lx", missing);
++        virtio_net_allow_vhost(n, false);
++    }
++    return disable_vhost;
++}
++
+ static const VMStateDescription vmstate_virtio_net = {
+     .name = "virtio-net",
+     .minimum_version_id = VIRTIO_NET_VM_VERSION,
+@@ -3527,6 +3577,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+     vdc->get_features = virtio_net_get_features;
+     vdc->set_features = virtio_net_set_features;
+     vdc->bad_features = virtio_net_bad_features;
++    vdc->missing_features_migrated = virtio_net_missing_features_migrated;
+     vdc->reset = virtio_net_reset;
+     vdc->set_status = virtio_net_set_status;
+     vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
 -- 
 2.26.2
 
