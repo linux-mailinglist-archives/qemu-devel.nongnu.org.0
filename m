@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323EC3441DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:37:26 +0100 (CET)
-Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64951344264
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:42:42 +0100 (CET)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJoD-0001Ul-97
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
+	id 1lOJtJ-0002cj-At
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOJn4-0000pY-NX
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:36:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28813)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lOJoF-0001ps-9P; Mon, 22 Mar 2021 08:37:27 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:54631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOJn1-0003W9-UH
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:36:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616416570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VluqNuGSGvihdidwCEVygH6yCePdsm56mjbMOL1+bHQ=;
- b=CsfxH0lzj2A8Fr8oKOPgoVpA4/hMvg1hOOyvRko8dPyyLCm28hZMFylOu43/gMdPXTFmlV
- i9KwJjmsn2iuMB8N+99+alCXoc/IFxiftQyW0bOXQfPeuX9ZSMUpF+xeLiIe5fqeV64rdc
- SaAB3Ladi1+0s8V4KIi2RqisGaboln0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-wdONpMVmOBifitsShj9R7g-1; Mon, 22 Mar 2021 08:36:08 -0400
-X-MC-Unique: wdONpMVmOBifitsShj9R7g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70355107ACCD;
- Mon, 22 Mar 2021 12:36:07 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3513F60BE5;
- Mon, 22 Mar 2021 12:36:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8EBD611327E1; Mon, 22 Mar 2021 13:36:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO passthrough
-References: <20210319035508.113741-1-chen.zhang@intel.com>
- <20210319035508.113741-4-chen.zhang@intel.com>
-Date: Mon, 22 Mar 2021 13:36:05 +0100
-In-Reply-To: <20210319035508.113741-4-chen.zhang@intel.com> (Zhang Chen's
- message of "Fri, 19 Mar 2021 11:55:04 +0800")
-Message-ID: <87ft0n4b7u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lOJoC-0004Ah-Ox; Mon, 22 Mar 2021 08:37:26 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 1084F167E;
+ Mon, 22 Mar 2021 08:37:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 22 Mar 2021 08:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=7hbJeC3p1Z8tyoFU0fVBURxlMxR
+ sjsB1k11zAknHowY=; b=EdjqllIculFy0iaO9Spo+zop6xVA6DLkCTiV8nGlyKj
+ S7a+7MtNDAcaCBTXAVL54qJF/37CUrGPm7NbWm55QfeA2V+Cw8be54Mb9rndkydN
+ U44oUbOivqju4fiE6pZlD8qkF3ih8zRk22CBKP4ltXUZQE05TKg02tylfFk5H1zu
+ zRQuQNXZwBJtX+WKc5NGM6s1FXfsrZ2m1xGvshGc0LnrWwhqDd+LccJuXprPaRdf
+ zUHG+cDNRBrLK4Hby6fLd9U++qrIJ6BPGvDjaESL8irBBOZhCI81YGoPIklWjBwz
+ 3TDQ7Vtz55bO1dJIADKx7i5hg9kTJFRjjm4xWiUygBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7hbJeC
+ 3p1Z8tyoFU0fVBURxlMxRsjsB1k11zAknHowY=; b=m9eI2BcWCJK+DnhNYd5TiW
+ ZC8fZiiHxu9xGZGx9s2jQYxfElydzrE1p6owYYTgXkdDyTUV21eMDHdbPxPkFTAu
+ tq8XXYpQiEeJlVlio4s4z1mRoLsn+GTvPFBxNhhqjJNeAN7YxUfR1YFG0ijjJy2E
+ DnjhC/YjSq0pWqcLaUiCdHFvzkQLqVTkILR4CmeP+xT+g0vz6y3c5Er05CdC11sj
+ WoX2gpq6PbuWy0vS6BEKKgQv6yvD5scpYSaNQS7BbVU4cFcuRAkEE5pn3pUXfvty
+ gSAsSgzX9qb8Y5ylVHpf//z19oJMbMu6Fp47HSOrT+lUvDytX6hK4zHWXQo/1CSg
+ ==
+X-ME-Sender: <xms:gY9YYOoBLvjrqvmPp20IwXtC6OHFDCAizaSY9fKd9UF2F6biCMq0Lw>
+ <xme:gY9YYKlV4dga5Q_eHlevtqzgd4KYKwjCilLahB7xnUCfG5QbeWdhF0ed57owAo2Co
+ tf6obJxgiOKLXBtWBU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggedggeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:gY9YYKzMeTpkIrRbMkTJ3RSPskGaUlJcEhbYjMt7t7_0A6_9-dyw8w>
+ <xmx:gY9YYKmY5sebicwQioELSy1rcAJQg-VCyDRIGZXMqPVnsSrySiE_aA>
+ <xmx:gY9YYLeIt28CeAWqG70XxIFibnf1qpqeq7wFAVoRhInHUiZ6Mh5d4w>
+ <xmx:gY9YYIx89nEytK838Ey0WJVWqSYvyfcfgm01I-7PTjK5AzP4hYXCWA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 303241080054;
+ Mon, 22 Mar 2021 08:37:20 -0400 (EDT)
+Date: Mon, 22 Mar 2021 13:37:18 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] nvme: expose 'bootindex' property
+Message-ID: <YFiPfnX8is7tCS16@apples.localdomain>
+References: <20210322082444.12916-1-j@getutm.app>
+ <a7030c4b-943d-c88d-655d-dfd6398d68d5@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uLtbYcX35Tro/sAu"
+Content-Disposition: inline
+In-Reply-To: <a7030c4b-943d-c88d-655d-dfd6398d68d5@redhat.com>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,103 +94,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:nvme" <qemu-block@nongnu.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Joelle van Dyne <j@getutm.app>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhang Chen <chen.zhang@intel.com> writes:
 
-> Since the real user scenario does not need COLO to monitor all traffic.
-> Add colo-passthrough-add and colo-passthrough-del to maintain
-> a COLO network passthrough list.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
->  net/net.c     | 10 ++++++++++
->  qapi/net.json | 40 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 50 insertions(+)
->
-> diff --git a/net/net.c b/net/net.c
-> index 725a4e1450..7c7cefe0e0 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1199,6 +1199,16 @@ void qmp_netdev_del(const char *id, Error **errp)
->      }
->  }
->  
-> +void qmp_colo_passthrough_add(L4_Connection *conn, Error **errp)
-> +{
-> +    /* Setup passthrough connection */
-> +}
-> +
-> +void qmp_colo_passthrough_del(L4_Connection *conn, Error **errp)
-> +{
-> +    /* Delete passthrough connection */
-> +}
-> +
->  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
->  {
->      char *str;
-> diff --git a/qapi/net.json b/qapi/net.json
-> index cd4a8ed95e..ec7d3b1128 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -851,3 +851,43 @@
->    'data': { 'protocol': 'IP_PROTOCOL', '*id': 'str', '*src_ip': 'str', '*dst_ip': 'str',
->      '*src_port': 'int', '*dst_port': 'int' } }
->  
-> +##
-> +# @colo-passthrough-add:
-> +#
-> +# Add passthrough entry according to customer's needs in COLO-compare.
-> +#
-> +# Returns: Nothing on success
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "colo-passthrough-add",
-> +#      "arguments": { "protocol": "tcp", "id": "object0", "src_ip": "192.168.1.1",
-> +#      "dst_ip": "192.168.1.2", "src_port": 1234, "dst_port": 4321 } }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'colo-passthrough-add', 'boxed': true,
-> +     'data': 'L4_Connection' }
-> +
-> +##
-> +# @colo-passthrough-del:
-> +#
-> +# Delete passthrough entry according to customer's needs in COLO-compare.
-> +#
-> +# Returns: Nothing on success
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "colo-passthrough-del",
-> +#      "arguments": { "protocol": "tcp", "id": "object0", "src_ip": "192.168.1.1",
-> +#      "dst_ip": "192.168.1.2", "src_port": 1234, "dst_port": 4321 } }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'colo-passthrough-del', 'boxed': true,
-> +     'data': 'L4_Connection' }
-> +
+--uLtbYcX35Tro/sAu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Now let's look at colo-passthrough-del.  I figure it is for deleting the
-kind of things colo-passthrough-add adds.
+On Mar 22 10:58, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 3/22/21 9:24 AM, Joelle van Dyne wrote:
+> > The check for `n->namespace.blkconf.blk` always fails because
+> > this is in the initialization function.
+>=20
+> This usually mean the code depends to some state only available
+> during the QOM 'realization' step, so this code should be in
+> nvme_realize(). Maybe in this case we don't need it there and
+> can add the property regardless a block drive is provided, I
+> haven't checked.
+>=20
 
-What exactly is deleted?  The thing created with the exact same
-arguments?
+If we defer to realization, it won't be available as a parameter on the
+command line, but as far as I can test, adding it unconditionally
+doesn't break anything when there is no drive attached to the controller
+device.
 
-This would be unusual.  Commonly, FOO-add and FOO-del both take a string
-ID argument.  The FOO created by FOO-add remembers its ID, and FOO-del
-deletes by ID.
+> >=20
+> > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > ---
+> >  hw/block/nvme.c | 8 +++-----
+> >  1 file changed, 3 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index 6842b01ab5..42605fc55d 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -6330,11 +6330,9 @@ static void nvme_instance_init(Object *obj)
+> >  {
+> >      NvmeCtrl *n =3D NVME(obj);
+> > =20
+> > -    if (n->namespace.blkconf.blk) {
+> > -        device_add_bootindex_property(obj, &n->namespace.blkconf.booti=
+ndex,
+> > -                                      "bootindex", "/namespace@1,0",
+> > -                                      DEVICE(obj));
+> > -    }
+> > +    device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
+> > +                                  "bootindex", "/namespace@1,0",
+> > +                                  DEVICE(obj));
+> > =20
+> >      object_property_add(obj, "smart_critical_warning", "uint8",
+> >                          nvme_get_smart_warning,
+> >=20
+>=20
+>=20
 
+--uLtbYcX35Tro/sAu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBYj3oACgkQTeGvMW1P
+DekQdAf/ceZcfOG4R5jcmzEaxnlm5A0AFY2QXB6NaOubXvCdhHFbNesbh6GfLJ2m
+qfBERss+4y1HT7MNfUPGvaE2GpTkT+kKkmOwMRS+FD5cZlt6v0HCbqWCZ5FPjCYq
+BddR6aKrN4wmVGzlz/eFLppsj+FWyaWVY7e2vvQsBXKL3YR0DR4YA/O9AUgXeGCu
+66kZ+BanpfzUAFvAofcKbJlEQPNu2tHfCHIJP1V7dXFFRd+biNz+/xru1G4Cduds
+4FGYjdICcmeUiHodqP3AEa7pAcjuCYHNpa32mVOmtXgDen0L0r1LhZzEPSUGStUk
+Dzby3BRXdSmWQTQIqAA89CdgYgHDEg==
+=PWVA
+-----END PGP SIGNATURE-----
+
+--uLtbYcX35Tro/sAu--
 
