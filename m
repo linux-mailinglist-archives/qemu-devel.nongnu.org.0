@@ -2,65 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB475344174
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:34:39 +0100 (CET)
-Received: from localhost ([::1]:54270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8543440F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 13:29:18 +0100 (CET)
+Received: from localhost ([::1]:42092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOJlW-0007c3-VV
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37276)
+	id 1lOJgL-0002VZ-LZ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 08:29:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOJd3-0008Rx-59
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:25:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOJcu-0005rm-V6
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 08:25:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOJcp-0008DM-Hy
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:25:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 86CAC2E815B
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 12:25:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
+ id 1lOJU1-0001r5-0f; Mon, 22 Mar 2021 08:16:33 -0400
+Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:52977
+ helo=mx.kernkonzept.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <georg.kotheimer@kernkonzept.com>)
+ id 1lOJTr-0000z5-M5; Mon, 22 Mar 2021 08:16:27 -0400
+Received: from [95.168.140.111] (helo=broc.lan)
+ by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) id 1lOJTj-0000Vv-N8; Mon, 22 Mar 2021 13:16:15 +0100
+From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2] target/riscv: Prevent lost illegal instruction exceptions
+Date: Mon, 22 Mar 2021 13:16:09 +0100
+Message-Id: <20210322121609.3097928-1-georg.kotheimer@kernkonzept.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Mar 2021 12:15:43 -0000
-From: Ravishankar <1920752@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: passthrough usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rreddy78
-X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
-X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
-Message-Id: <161641534336.27708.1507547188965412298.malonedeb@gac.canonical.com>
-Subject: [Bug 1920752] [NEW] USB SoundCard Passthrough not working on arm64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 594da9d243fe794199e91b36dee81403c5051bf1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=2a01:4f8:1c1c:b490::2;
+ envelope-from=georg.kotheimer@kernkonzept.com; helo=mx.kernkonzept.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,170 +49,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920752 <1920752@bugs.launchpad.net>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+When decode_insn16() fails, we fall back to decode_RV32_64C() for
+further compressed instruction decoding. However, prior to this change,
+we did not raise an illegal instruction exception, if decode_RV32_64C()
+fails to decode the instruction. This means that we skipped illegal
+compressed instructions instead of raising an illegal instruction
+exception.
 
-Hello,
+Instead of patching decode_RV32_64C(), we can just remove it,
+as it is dead code since f330433b363 anyway.
 
-I am virtualizing a armhf guest on a aarch64 host and was to use my
-Sound Blaster USB Soundcard as passthrough.
+Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+---
+ target/riscv/translate.c | 179 +--------------------------------------
+ 1 file changed, 1 insertion(+), 178 deletions(-)
 
-armhf Guest is: Debian Buster =
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0f28b5f41e..2f9f5ccc62 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -67,20 +67,6 @@ typedef struct DisasContext {
+     CPUState *cs;
+ } DisasContext;
+ 
+-#ifdef TARGET_RISCV64
+-/* convert riscv funct3 to qemu memop for load/store */
+-static const int tcg_memop_lookup[8] = {
+-    [0 ... 7] = -1,
+-    [0] = MO_SB,
+-    [1] = MO_TESW,
+-    [2] = MO_TESL,
+-    [3] = MO_TEQ,
+-    [4] = MO_UB,
+-    [5] = MO_TEUW,
+-    [6] = MO_TEUL,
+-};
+-#endif
+-
+ #ifdef TARGET_RISCV64
+ #define CASE_OP_32_64(X) case X: case glue(X, W)
+ #else
+@@ -374,48 +360,6 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+     ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-#ifdef TARGET_RISCV64
+-static void gen_load_c(DisasContext *ctx, uint32_t opc, int rd, int rs1,
+-        target_long imm)
+-{
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-    gen_get_gpr(t0, rs1);
+-    tcg_gen_addi_tl(t0, t0, imm);
+-    int memop = tcg_memop_lookup[(opc >> 12) & 0x7];
+-
+-    if (memop < 0) {
+-        gen_exception_illegal(ctx);
+-        return;
+-    }
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, memop);
+-    gen_set_gpr(rd, t1);
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-}
+-
+-static void gen_store_c(DisasContext *ctx, uint32_t opc, int rs1, int rs2,
+-        target_long imm)
+-{
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-    gen_get_gpr(t0, rs1);
+-    tcg_gen_addi_tl(t0, t0, imm);
+-    gen_get_gpr(dat, rs2);
+-    int memop = tcg_memop_lookup[(opc >> 12) & 0x7];
+-
+-    if (memop < 0) {
+-        gen_exception_illegal(ctx);
+-        return;
+-    }
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx, memop);
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-}
+-#endif
+-
+ #ifndef CONFIG_USER_ONLY
+ /* The states of mstatus_fs are:
+  * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
+@@ -447,83 +391,6 @@ static void mark_fs_dirty(DisasContext *ctx)
+ static inline void mark_fs_dirty(DisasContext *ctx) { }
+ #endif
+ 
+-#if !defined(TARGET_RISCV64)
+-static void gen_fp_load(DisasContext *ctx, uint32_t opc, int rd,
+-        int rs1, target_long imm)
+-{
+-    TCGv t0;
+-
+-    if (ctx->mstatus_fs == 0) {
+-        gen_exception_illegal(ctx);
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new();
+-    gen_get_gpr(t0, rs1);
+-    tcg_gen_addi_tl(t0, t0, imm);
+-
+-    switch (opc) {
+-    case OPC_RISC_FLW:
+-        if (!has_ext(ctx, RVF)) {
+-            goto do_illegal;
+-        }
+-        tcg_gen_qemu_ld_i64(cpu_fpr[rd], t0, ctx->mem_idx, MO_TEUL);
+-        /* RISC-V requires NaN-boxing of narrower width floating point values */
+-        tcg_gen_ori_i64(cpu_fpr[rd], cpu_fpr[rd], 0xffffffff00000000ULL);
+-        break;
+-    case OPC_RISC_FLD:
+-        if (!has_ext(ctx, RVD)) {
+-            goto do_illegal;
+-        }
+-        tcg_gen_qemu_ld_i64(cpu_fpr[rd], t0, ctx->mem_idx, MO_TEQ);
+-        break;
+-    do_illegal:
+-    default:
+-        gen_exception_illegal(ctx);
+-        break;
+-    }
+-    tcg_temp_free(t0);
+-
+-    mark_fs_dirty(ctx);
+-}
+-
+-static void gen_fp_store(DisasContext *ctx, uint32_t opc, int rs1,
+-        int rs2, target_long imm)
+-{
+-    TCGv t0;
+-
+-    if (ctx->mstatus_fs == 0) {
+-        gen_exception_illegal(ctx);
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new();
+-    gen_get_gpr(t0, rs1);
+-    tcg_gen_addi_tl(t0, t0, imm);
+-
+-    switch (opc) {
+-    case OPC_RISC_FSW:
+-        if (!has_ext(ctx, RVF)) {
+-            goto do_illegal;
+-        }
+-        tcg_gen_qemu_st_i64(cpu_fpr[rs2], t0, ctx->mem_idx, MO_TEUL);
+-        break;
+-    case OPC_RISC_FSD:
+-        if (!has_ext(ctx, RVD)) {
+-            goto do_illegal;
+-        }
+-        tcg_gen_qemu_st_i64(cpu_fpr[rs2], t0, ctx->mem_idx, MO_TEQ);
+-        break;
+-    do_illegal:
+-    default:
+-        gen_exception_illegal(ctx);
+-        break;
+-    }
+-
+-    tcg_temp_free(t0);
+-}
+-#endif
+-
+ static void gen_set_rm(DisasContext *ctx, int rm)
+ {
+     TCGv_i32 t0;
+@@ -537,49 +404,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+     tcg_temp_free_i32(t0);
+ }
+ 
+-static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
+-{
+-    uint8_t funct3 = extract16(opcode, 13, 3);
+-    uint8_t rd_rs2 = GET_C_RS2S(opcode);
+-    uint8_t rs1s = GET_C_RS1S(opcode);
+-
+-    switch (funct3) {
+-    case 3:
+-#if defined(TARGET_RISCV64)
+-        /* C.LD(RV64/128) -> ld rd', offset[7:3](rs1')*/
+-        gen_load_c(ctx, OPC_RISC_LD, rd_rs2, rs1s,
+-                 GET_C_LD_IMM(opcode));
+-#else
+-        /* C.FLW (RV32) -> flw rd', offset[6:2](rs1')*/
+-        gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
+-                    GET_C_LW_IMM(opcode));
+-#endif
+-        break;
+-    case 7:
+-#if defined(TARGET_RISCV64)
+-        /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
+-        gen_store_c(ctx, OPC_RISC_SD, rs1s, rd_rs2,
+-                  GET_C_LD_IMM(opcode));
+-#else
+-        /* C.FSW (RV32) -> fsw rs2', offset[6:2](rs1')*/
+-        gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
+-                     GET_C_LW_IMM(opcode));
+-#endif
+-        break;
+-    }
+-}
+-
+-static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
+-{
+-    uint8_t op = extract16(opcode, 0, 2);
+-
+-    switch (op) {
+-    case 0:
+-        decode_RV32_64C0(ctx, opcode);
+-        break;
+-    }
+-}
+-
+ static int ex_plus_1(DisasContext *ctx, int nf)
+ {
+     return nf + 1;
+@@ -779,8 +603,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+         } else {
+             ctx->pc_succ_insn = ctx->base.pc_next + 2;
+             if (!decode_insn16(ctx, opcode)) {
+-                /* fall back to old decoder */
+-                decode_RV32_64C(ctx, opcode);
++                gen_exception_illegal(ctx);
+             }
+         }
+     } else {
+-- 
+2.31.0
 
-aarch64 host is a jetson nano. KVM is enabled.
-
-Latest qemu is built from sources.
-The command I use for running is as follows:
-
-../qemu/build/qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host,aarch64=
-=3Doff -enable-kvm  \
--kernel vmlinuz-4.19.0-14-armmp-lpae  -initrd initrd.img-4.19.0-14-armmp-lp=
-ae -append 'root=3D/dev/vda2' \
--device nec-usb-xhci -device usb-kbd  -device usb-mouse -device usb-host,ho=
-stbus=3D1,hostport=3D2.3  -serial stdio  \
--device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=3D=
-on \
--drive if=3Dnone,file=3Dhda2.qcow2,format=3Dqcow2,id=3Dhd   -device virtio-=
-blk-device,drive=3Dhd   \
--netdev user,id=3Dmynet   -device virtio-net-device,netdev=3Dmynet \
--bios edk2-arm-code.fd -no-reboot
-
-
-Where are my lsusb -t shows:
-
-rreddy78@jetson-nano:~/Downloads$ lsusb -t
-/:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/4p, 5000M
-    |__ Port 1: Dev 3, If 0, Class=3DHub, Driver=3Dhub/4p, 5000M
-/:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/5p, 480M
-    |__ Port 2: Dev 6, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
-        |__ Port 1: Dev 7, If 0, Class=3DHuman Interface Device, Driver=3Du=
-sbhid, 1.5M
-        |__ Port 1: Dev 7, If 1, Class=3DHuman Interface Device, Driver=3Du=
-sbhid, 1.5M
-        |__ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=3Du=
-sbhid, 12M
-        |__ Port 3: Dev 8, If 1, Class=3DAudio, Driver=3Dsnd-usb-audio, 12M
-        |__ Port 3: Dev 8, If 2, Class=3DAudio, Driver=3Dsnd-usb-audio, 12M
-        |__ Port 3: Dev 8, If 0, Class=3DAudio, Driver=3Dsnd-usb-audio, 12M
-        |__ Port 4: Dev 9, If 0, Class=3DHuman Interface Device, Driver=3Du=
-sbhid, 1.5M
-
-Within the VM I can see the usb as follows
-
-rreddy78@debian:~$ lsusb -t
-/:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
-/:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
-    |__ Port 1: Dev 2, If 0, Class=3DHuman Interface Device, Driver=3Dusbhi=
-d, 480M
-    |__ Port 2: Dev 3, If 0, Class=3DHuman Interface Device, Driver=3Dusbhi=
-d, 480M
-
-
-Its looks like some passthrough as but it seems like only for
-
- _ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=3Dusbhid, 12M
-
-I am not sure if passthrough  even works because this post I saw
-
-https://community.arm.com/developer/ip-products/system/f/embedded-
-forum/48031/usb-pass-through-in-qemu-command-line-for-arm-
-machines/168764#168764
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: passthrough usb
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920752
-
-Title:
-  USB SoundCard Passthrough not working on arm64
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  I am virtualizing a armhf guest on a aarch64 host and was to use my
-  Sound Blaster USB Soundcard as passthrough.
-
-  armhf Guest is: Debian Buster =
-
-  aarch64 host is a jetson nano. KVM is enabled.
-
-  Latest qemu is built from sources.
-  The command I use for running is as follows:
-
-  ../qemu/build/qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host,aarch6=
-4=3Doff -enable-kvm  \
-  -kernel vmlinuz-4.19.0-14-armmp-lpae  -initrd initrd.img-4.19.0-14-armmp-=
-lpae -append 'root=3D/dev/vda2' \
-  -device nec-usb-xhci -device usb-kbd  -device usb-mouse -device usb-host,=
-hostbus=3D1,hostport=3D2.3  -serial stdio  \
-  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
-=3Don \
-  -drive if=3Dnone,file=3Dhda2.qcow2,format=3Dqcow2,id=3Dhd   -device virti=
-o-blk-device,drive=3Dhd   \
-  -netdev user,id=3Dmynet   -device virtio-net-device,netdev=3Dmynet \
-  -bios edk2-arm-code.fd -no-reboot
-
-  =
-
-  Where are my lsusb -t shows:
-
-  rreddy78@jetson-nano:~/Downloads$ lsusb -t
-  /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/4p, 5000M
-      |__ Port 1: Dev 3, If 0, Class=3DHub, Driver=3Dhub/4p, 5000M
-  /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/5p, 480M
-      |__ Port 2: Dev 6, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
-          |__ Port 1: Dev 7, If 0, Class=3DHuman Interface Device, Driver=
-=3Dusbhid, 1.5M
-          |__ Port 1: Dev 7, If 1, Class=3DHuman Interface Device, Driver=
-=3Dusbhid, 1.5M
-          |__ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=
-=3Dusbhid, 12M
-          |__ Port 3: Dev 8, If 1, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
-2M
-          |__ Port 3: Dev 8, If 2, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
-2M
-          |__ Port 3: Dev 8, If 0, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
-2M
-          |__ Port 4: Dev 9, If 0, Class=3DHuman Interface Device, Driver=
-=3Dusbhid, 1.5M
-
-  Within the VM I can see the usb as follows
-
-  rreddy78@debian:~$ lsusb -t
-  /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
-  /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
-      |__ Port 1: Dev 2, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
-hid, 480M
-      |__ Port 2: Dev 3, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
-hid, 480M
-
-  =
-
-  Its looks like some passthrough as but it seems like only for
-
-   _ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=3Dusbhid,
-  12M
-
-  I am not sure if passthrough  even works because this post I saw
-
-  https://community.arm.com/developer/ip-products/system/f/embedded-
-  forum/48031/usb-pass-through-in-qemu-command-line-for-arm-
-  machines/168764#168764
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920752/+subscriptions
 
