@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F2D344627
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:47:35 +0100 (CET)
-Received: from localhost ([::1]:46074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A647344635
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 14:51:39 +0100 (CET)
+Received: from localhost ([::1]:55794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOKu6-0004Eb-IF
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:47:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53612)
+	id 1lOKy2-0008NX-Jh
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 09:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbe-0001IC-2O
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45432)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbd-0001Gp-Ml
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:29 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbY-0001mm-K7
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOKbZ-0001nh-1F
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 09:28:29 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 43D51AD74;
+ by mx2.suse.de (Postfix) with ESMTP id C3FCEAD79;
  Mon, 22 Mar 2021 13:28:13 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -28,9 +28,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v28 20/23] i386: make cpu_load_efer sysemu-only
-Date: Mon, 22 Mar 2021 14:27:57 +0100
-Message-Id: <20210322132800.7470-22-cfontana@suse.de>
+Subject: [PATCH v28 21/23] accel: move call to accel_init_interfaces
+Date: Mon, 22 Mar 2021 14:27:58 +0100
+Message-Id: <20210322132800.7470-23-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210322132800.7470-1-cfontana@suse.de>
 References: <20210322132800.7470-1-cfontana@suse.de>
@@ -62,80 +62,70 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_load_efer is now used only for sysemu code.
+move the call for sysemu specifically in machine_run_board_init,
+mirror the calling sequence for user mode too.
 
-Therefore, move this function implementation to
-sysemu-only section of helper.c
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/cpu.h    | 20 +++++---------------
- target/i386/helper.c | 13 +++++++++++++
- 2 files changed, 18 insertions(+), 15 deletions(-)
+ bsd-user/main.c   | 2 +-
+ hw/core/machine.c | 1 +
+ linux-user/main.c | 2 +-
+ softmmu/vl.c      | 1 -
+ 4 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7ead176b99..fb603418cf 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1958,6 +1958,11 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
-     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 798aba512c..ae0fd75aa1 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -914,8 +914,8 @@ int main(int argc, char **argv)
+     {
+         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+ 
+-        ac->init_machine(NULL);
+         accel_init_interfaces(ac);
++        ac->init_machine(NULL);
+     }
+     cpu = cpu_create(cpu_type);
+     env = cpu->env_ptr;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 257a664ea2..678558b9ac 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1216,6 +1216,7 @@ void machine_run_board_init(MachineState *machine)
+                                    "on", false);
+     }
+ 
++    accel_init_interfaces(ACCEL_GET_CLASS(machine->accelerator));
+     machine_class->init(machine);
+     phase_advance(PHASE_MACHINE_INITIALIZED);
  }
+diff --git a/linux-user/main.c b/linux-user/main.c
+index f956afccab..3ad442b82e 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -730,8 +730,8 @@ int main(int argc, char **argv, char **envp)
+     {
+         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
  
-+/*
-+ * load efer and update the corresponding hflags. XXX: do consistency
-+ * checks with cpuid bits?
-+ */
-+void cpu_load_efer(CPUX86State *env, uint64_t val);
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
-@@ -2054,21 +2059,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
-     return eflags;
- }
+-        ac->init_machine(NULL);
+         accel_init_interfaces(ac);
++        ac->init_machine(NULL);
+     }
+     cpu = cpu_create(cpu_type);
+     env = cpu->env_ptr;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index aadb526138..584d100205 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3596,7 +3596,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         current_machine->cpu_type = parse_cpu_option(cpu_option);
+     }
+     /* NB: for machine none cpu_type could STILL be NULL here! */
+-    accel_init_interfaces(ACCEL_GET_CLASS(current_machine->accelerator));
  
--
--/* load efer and update the corresponding hflags. XXX: do consistency
--   checks with cpuid bits? */
--static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
--{
--    env->efer = val;
--    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
--    if (env->efer & MSR_EFER_LMA) {
--        env->hflags |= HF_LMA_MASK;
--    }
--    if (env->efer & MSR_EFER_SVME) {
--        env->hflags |= HF_SVME_MASK;
--    }
--}
--
- static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
- {
-     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 618ad1c409..7304721a94 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -574,6 +574,19 @@ void do_cpu_sipi(X86CPU *cpu)
- #endif
- 
- #ifndef CONFIG_USER_ONLY
-+
-+void cpu_load_efer(CPUX86State *env, uint64_t val)
-+{
-+    env->efer = val;
-+    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
-+    if (env->efer & MSR_EFER_LMA) {
-+        env->hflags |= HF_LMA_MASK;
-+    }
-+    if (env->efer & MSR_EFER_SVME) {
-+        env->hflags |= HF_SVME_MASK;
-+    }
-+}
-+
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
- {
-     X86CPU *cpu = X86_CPU(cs);
+     qemu_resolve_machine_memdev();
+     parse_numa_opts(current_machine);
 -- 
 2.26.2
 
