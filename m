@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE1C343DA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:21:58 +0100 (CET)
-Received: from localhost ([::1]:54194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3775343DAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 11:24:35 +0100 (CET)
+Received: from localhost ([::1]:60632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOHh7-0003A0-H4
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
+	id 1lOHje-0005yi-V3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 06:24:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lOHU4-0007z9-JJ
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54478)
+ id 1lOHU7-000823-1r
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lOHU0-0002nb-Cg
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:27 -0400
+ id 1lOHU0-0002ni-PX
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 06:08:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616407700;
+ s=mimecast20190719; t=1616407702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LkflHFAdlqyZLzzrV9qP3OpnleMvpgL81cPy7xUqmwA=;
- b=ZJXj+kyDoD0bMY35uH/G3tEtXLYUyBFyNnbNg5QC0mHW4Mbo+YYVcUxZFKtiHacykLjke7
- qB4HKmmGZWE3tzNtGglZjFDIsoF9JZaBH7iRLXsRgw2r5ciWTLdq+DhYbBn+anyevDrGP5
- YjhCtRWkpyXbkow8vlVYRx6q+zx4EF8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y6LypCmlc48uGr2Rv+a4xfYK5lEqailGG9L9qoIYFCo=;
+ b=chHgHjslTr6o+w6bVXSsWuSU3PF2vVzuYKmmA1PyjFA0X6qqcKIG353K8XiZZhM9dANytt
+ mpY7tYS7e1xthugQCBrz7ByFPLgCMX9RilKaWcJEePuMSyNLX6G/Si2LwLSH+eYy1AsZjn
+ /dqrfUMFFSpkEn5UeXcqLO15hqVZ8xM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-9Av-_QtfMcKOhVoD300b8w-1; Mon, 22 Mar 2021 06:08:17 -0400
-X-MC-Unique: 9Av-_QtfMcKOhVoD300b8w-1
+ us-mta-485-vPfVuPv3NVCLrIJDU5T7Ew-1; Mon, 22 Mar 2021 06:08:19 -0400
+X-MC-Unique: vPfVuPv3NVCLrIJDU5T7Ew-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58F651084C95;
- Mon, 22 Mar 2021 10:08:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 851368015BD;
+ Mon, 22 Mar 2021 10:08:18 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-83.pek2.redhat.com
  [10.72.12.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1DD45D9CD;
- Mon, 22 Mar 2021 10:08:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB2475D9CD;
+ Mon, 22 Mar 2021 10:08:16 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 00/13] Net patches
-Date: Mon, 22 Mar 2021 18:07:59 +0800
-Message-Id: <1616407692-693-1-git-send-email-jasowang@redhat.com>
+Subject: [PULL 01/13] net: eth: Add a helper to pad a short Ethernet frame
+Date: Mon, 22 Mar 2021 18:08:00 +0800
+Message-Id: <1616407692-693-2-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1616407692-693-1-git-send-email-jasowang@redhat.com>
+References: <1616407692-693-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -77,56 +80,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bdee969c0e65d4d509932b1d70e3a3b2ffbff6d5:
+From: Bin Meng <bmeng.cn@gmail.com>
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-03-19 18:01:17 +0000)
+Add a helper to pad a short Ethernet frame to the minimum required
+length, which can be used by backends' code.
 
-are available in the git repository at:
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ include/net/eth.h | 17 +++++++++++++++++
+ net/eth.c         | 17 +++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
-
-for you to fetch changes up to c7274b5ef43614dd133daec1e2018f71d8744088:
-
-  net/eth: Add an assert() and invert if() statement to simplify code (2021-03-22 17:34:31 +0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Bin Meng (4):
-      net: eth: Add a helper to pad a short Ethernet frame
-      net: Add a 'do_not_pad" to NetClientState
-      net: Pad short frames to minimum size before sending from SLiRP/TAP
-      hw/net: virtio-net: Initialize nc->do_not_pad to true
-
-Lukas Straub (2):
-      net/colo-compare.c: Fix memory leak for non-tcp packet
-      net/colo-compare.c: Optimize removal of secondary packet
-
-Philippe Mathieu-Daudé (7):
-      net/eth: Use correct in6_address offset in _eth_get_rss_ex_dst_addr()
-      net/eth: Simplify _eth_get_rss_ex_dst_addr()
-      net/eth: Better describe _eth_get_rss_ex_dst_addr's offset argument
-      net/eth: Check size earlier in _eth_get_rss_ex_dst_addr()
-      net/eth: Check iovec has enough data earlier
-      net/eth: Read ip6_ext_hdr_routing buffer before accessing it
-      net/eth: Add an assert() and invert if() statement to simplify code
-
- MAINTAINERS                    |  1 +
- hw/net/virtio-net.c            |  4 +++
- include/net/eth.h              | 17 ++++++++++++
- include/net/net.h              |  1 +
- net/colo-compare.c             |  3 ++-
- net/eth.c                      | 61 +++++++++++++++++++++++++++---------------
- net/slirp.c                    | 10 +++++++
- net/tap-win32.c                | 10 +++++++
- net/tap.c                      | 10 +++++++
- tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build        |  1 +
- 11 files changed, 148 insertions(+), 23 deletions(-)
- create mode 100644 tests/qtest/fuzz-e1000e-test.c
+diff --git a/include/net/eth.h b/include/net/eth.h
+index 0671be6..7767ae8 100644
+--- a/include/net/eth.h
++++ b/include/net/eth.h
+@@ -31,6 +31,7 @@
+ 
+ #define ETH_ALEN 6
+ #define ETH_HLEN 14
++#define ETH_ZLEN 60     /* Min. octets in frame without FCS */
+ 
+ struct eth_header {
+     uint8_t  h_dest[ETH_ALEN];   /* destination eth addr */
+@@ -422,4 +423,20 @@ bool
+ eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+                    size_t ip6hdr_off, eth_ip6_hdr_info *info);
+ 
++/**
++ * eth_pad_short_frame - pad a short frame to the minimum Ethernet frame length
++ *
++ * If the Ethernet frame size is shorter than 60 bytes, it will be padded to
++ * 60 bytes at the address @padded_pkt.
++ *
++ * @padded_pkt: buffer address to hold the padded frame
++ * @padded_buflen: pointer holding length of @padded_pkt. If the frame is
++ *                 padded, the length will be updated to the padded one.
++ * @pkt: address to hold the original Ethernet frame
++ * @pkt_size: size of the original Ethernet frame
++ * @return true if the frame is padded, otherwise false
++ */
++bool eth_pad_short_frame(uint8_t *padded_pkt, size_t *padded_buflen,
++                         const void *pkt, size_t pkt_size);
++
+ #endif
+diff --git a/net/eth.c b/net/eth.c
+index 1e0821c..f913e43 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -548,3 +548,20 @@ bool eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+     info->l4proto = ext_hdr.ip6r_nxt;
+     return true;
+ }
++
++bool eth_pad_short_frame(uint8_t *padded_pkt, size_t *padded_buflen,
++                         const void *pkt, size_t pkt_size)
++{
++    assert(padded_buflen && *padded_buflen >= ETH_ZLEN);
++
++    if (pkt_size >= ETH_ZLEN) {
++        return false;
++    }
++
++    /* pad to minimum Ethernet frame length */
++    memcpy(padded_pkt, pkt, pkt_size);
++    memset(&padded_pkt[pkt_size], 0, ETH_ZLEN - pkt_size);
++    *padded_buflen = ETH_ZLEN;
++
++    return true;
++}
+-- 
+2.7.4
 
 
