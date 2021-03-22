@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224723437D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:18:09 +0100 (CET)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1FF3437DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:23:12 +0100 (CET)
+Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOC11-00039i-TV
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47006)
+	id 1lOC5u-0008HC-S7
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBuz-0006Ma-Bj; Mon, 22 Mar 2021 00:11:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:48587)
+ id 1lOBv9-0006PQ-5J; Mon, 22 Mar 2021 00:12:03 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43289 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBuv-0004gb-NT; Mon, 22 Mar 2021 00:11:52 -0400
+ id 1lOBv1-0004jO-Ka; Mon, 22 Mar 2021 00:11:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3gzy70SCz9sWS; Mon, 22 Mar 2021 15:11:42 +1100 (AEDT)
+ id 4F3gzz0zhvz9sWw; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616386302;
- bh=IAR9ze8ne9+XxZ2WhiG8kcROOAxz6OTw2V4rgPTzBc4=;
+ d=gibson.dropbear.id.au; s=201602; t=1616386303;
+ bh=AwINAzF3Ol5nnYKXWOwalG9nLdev8/Vq7vRFanIZwQA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Li3AeAVeVcAAzK9PjwNmd5pz9vzfvQyGqa8HXPjI6BF5RGGEgF+0nn9jWueoE2QrS
- 1EwRUXxUCAhBPY+qaRmNN/tJ6j4277oQr3si5pc+1A3IaE+ujhwk7hFDQoweGLSWF+
- UbvjM+BFq7lA/B4hNI83Jltmz0Ucw+WkK4aZUZ4o=
-Date: Mon, 22 Mar 2021 14:35:52 +1100
+ b=PLCtw82HtdKI0TJU76jqp9WSxkLdMLs1ZEkpkcxD1ztEuJ0vsOtOAVUunSzbOj4Jt
+ X5oQUaYfRk+OhSLt0HyCYLiicVvjTGnZjPQmc1Sl2U6uwkGv6/kkHZ7196IpBdbHGk
+ TPUqIfVNumzDLuSWaBf5N546GgRh19lYPe2e6ZwE=
+Date: Mon, 22 Mar 2021 14:38:22 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 02/17] target/ppc: Move 601 hflags adjustment to
- hreg_compute_hflags
-Message-ID: <YFgQmFiu+FPHTmfZ@yekko.fritz.box>
+Subject: Re: [PATCH v4 03/17] target/ppc: Properly sync cpu state with new
+ msr in cpu_load_old
+Message-ID: <YFgRLjsamwBCAGbM@yekko.fritz.box>
 References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-3-richard.henderson@linaro.org>
+ <20210315184615.1985590-4-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d0fHKg3knkeNwy5i"
+ protocol="application/pgp-signature"; boundary="PmMq6QynCFUgM6dW"
 Content-Disposition: inline
-In-Reply-To: <20210315184615.1985590-3-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210315184615.1985590-4-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,127 +64,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---d0fHKg3knkeNwy5i
+--PmMq6QynCFUgM6dW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 12:46:00PM -0600, Richard Henderson wrote:
-> Keep all hflags computation in one place, as this will be
-> especially important later.
->=20
-> Introduce a new POWERPC_FLAG_HID0_LE bit to indicate when
-> LE should be taken from HID0.  This appears to be set if
-> and only if POWERPC_FLAG_RTC_CLK is set, but we're not
-> short of bits and having both names will avoid confusion.
->=20
-> Note that this was the only user of hflags_nmsr, so we can
-> perform a straight assignment rather than mask and set.
+On Mon, Mar 15, 2021 at 12:46:01PM -0600, Richard Henderson wrote:
+> Match cpu_post_load in using ppc_store_msr to set all of
+> the cpu state implied by the value of msr.  Do not restore
+> hflags or hflags_nmsr, as we recompute them in ppc_store_msr.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  target/ppc/cpu.h                |  2 ++
->  target/ppc/helper_regs.c        | 13 +++++++++++--
->  target/ppc/misc_helper.c        |  8 +++-----
->  target/ppc/translate_init.c.inc |  4 ++--
->  4 files changed, 18 insertions(+), 9 deletions(-)
+>  target/ppc/machine.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index e73416da68..061d2eed1b 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -581,6 +581,8 @@ enum {
->      POWERPC_FLAG_TM       =3D 0x00100000,
->      /* Has SCV (ISA 3.00)                                               =
-     */
->      POWERPC_FLAG_SCV      =3D 0x00200000,
-> +    /* Has HID0 for LE bit (601)                                        =
-     */
-> +    POWERPC_FLAG_HID0_LE  =3D 0x00400000,
->  };
-> =20
->  /***********************************************************************=
-******/
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 5e18232b84..95b9aca61f 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -96,8 +96,17 @@ void hreg_compute_hflags(CPUPPCState *env)
->      hflags_mask |=3D (1ULL << MSR_CM) | (1ULL << MSR_SF) | MSR_HVB;
->      hreg_compute_mem_idx(env);
->      env->hflags =3D env->msr & hflags_mask;
-> -    /* Merge with hflags coming from other registers */
-> -    env->hflags |=3D env->hflags_nmsr;
-> +
-> +    if (env->flags & POWERPC_FLAG_HID0_LE) {
-> +        /*
-> +         * Note that MSR_LE is not set in env->msr_mask for this cpu,
-> +         * and so will never be set in msr or hflags at this point.
-> +         */
-> +        uint32_t le =3D extract32(env->spr[SPR_HID0], 3, 1);
-> +        env->hflags |=3D le << MSR_LE;
-> +        /* Retain for backward compatibility with migration. */
-> +        env->hflags_nmsr =3D le << MSR_LE;
-> +    }
->  }
-> =20
->  void cpu_interrupt_exittb(CPUState *cs)
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index 5d6e0de396..63e3147eb4 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -194,16 +194,14 @@ void helper_store_hid0_601(CPUPPCState *env, target=
-_ulong val)
->      target_ulong hid0;
-> =20
->      hid0 =3D env->spr[SPR_HID0];
-> +    env->spr[SPR_HID0] =3D (uint32_t)val;
-> +
->      if ((val ^ hid0) & 0x00000008) {
->          /* Change current endianness */
-> -        env->hflags &=3D ~(1 << MSR_LE);
-> -        env->hflags_nmsr &=3D ~(1 << MSR_LE);
-> -        env->hflags_nmsr |=3D (1 << MSR_LE) & (((val >> 3) & 1) << MSR_L=
-E);
-> -        env->hflags |=3D env->hflags_nmsr;
-> +        hreg_compute_hflags(env);
->          qemu_log("%s: set endianness to %c =3D> " TARGET_FMT_lx "\n", __=
-func__,
->                   val & 0x8 ? 'l' : 'b', env->hflags);
->      }
-> -    env->spr[SPR_HID0] =3D (uint32_t)val;
->  }
-> =20
->  void helper_store_403_pbr(CPUPPCState *env, uint32_t num, target_ulong v=
-alue)
-> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
-c.inc
-> index c03a7c4f52..049d76cfd1 100644
-> --- a/target/ppc/translate_init.c.inc
-> +++ b/target/ppc/translate_init.c.inc
-> @@ -5441,7 +5441,7 @@ POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
->      pcc->excp_model =3D POWERPC_EXCP_601;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_601;
-> -    pcc->flags =3D POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK;
-> +    pcc->flags =3D POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG=
-_HID0_LE;
->  }
-> =20
->  #define POWERPC_MSRR_601v    (0x0000000000001040ULL)
-> @@ -5485,7 +5485,7 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
+> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> index 283db1d28a..87d7bffb86 100644
+> --- a/target/ppc/machine.c
+> +++ b/target/ppc/machine.c
+> @@ -21,6 +21,7 @@ static int cpu_load_old(QEMUFile *f, void *opaque, int =
+version_id)
+>      int32_t slb_nr;
 >  #endif
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_601;
-> -    pcc->flags =3D POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK;
-> +    pcc->flags =3D POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG=
-_HID0_LE;
->  }
+>      target_ulong xer;
+> +    target_ulong msr;
 > =20
->  static void init_proc_602(CPUPPCState *env)
+>      for (i =3D 0; i < 32; i++) {
+>          qemu_get_betls(f, &env->gpr[i]);
+> @@ -111,11 +112,19 @@ static int cpu_load_old(QEMUFile *f, void *opaque, =
+int version_id)
+>      qemu_get_betls(f, &env->ivpr_mask);
+>      qemu_get_betls(f, &env->hreset_vector);
+>      qemu_get_betls(f, &env->nip);
+> -    qemu_get_betls(f, &env->hflags);
+> -    qemu_get_betls(f, &env->hflags_nmsr);
+> +    qemu_get_sbetl(f); /* Discard unused hflags */
+> +    qemu_get_sbetl(f); /* Discard unused hflags_nmsr */
+>      qemu_get_sbe32(f); /* Discard unused mmu_idx */
+>      qemu_get_sbe32(f); /* Discard unused power_mode */
+> =20
+> +    /*
+> +     * Invalidate all supported msr bits except MSR_TGPR/MSR_HVB
+> +     * before restoring.  Note that this recomputes hflags and mem_idx.
+> +     */
+> +    msr =3D env->msr;
+> +    env->msr ^=3D env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
+> +    ppc_store_msr(env, msr);
+> +
+>      /* Recompute mmu indices */
+>      hreg_compute_mem_idx(env);
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -192,25 +125,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---d0fHKg3knkeNwy5i
+--PmMq6QynCFUgM6dW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYEJYACgkQbDjKyiDZ
-s5JGFhAAgbms9FCdyAMfm/H5FBfcRn4W/vNoZ9xQNXqr7F67l9M3cUApdoqQztzg
-oCyu+G2KeyeTNKfmqAsLZfDeski1Q4KWU6gigaeO/7eeVoJNfnHqiE0/actJTbct
-3D3pVR/A0o/FN2twYj6cZ6xI3MgpeUZOAA+1fEnZ9jLwDp4L8AMuK1wo0lMAiEaS
-mecESFupNr5xe6hzsjSI9XvWTRSU6LmrFn36xNnhsOnlt7A+xLmSREWGQi9lRHJU
-JIZe2B/2nCyxvhy75rsAqCZl0bjKDgAY+AXZK0bLC+Sbv7HqrTXatCSqicg+Ke3Z
-bXF99d7x3Atz8J7l+4s9rm4MR9K7VGB+NltMqtvWCVd2rIpejbo0DfY/eA5K1DnR
-KlmK8BwuDmGcZJ73UCb8A7mx6XmxiBpmvvrvna3p21bLvftdFSWSgQex8awEOKIf
-BL9c9t3PEsR7Z8uBASkTA/7j6NUuaW6heUpNHmYd7WIHaETdx/RJVLU4/MF8+lVi
-3k5naxCpq+BQ1ru6hDtWTMdPdUVtAhgSL0MmVvgWkRAe3zDeQdHH/uIBScmFWI9k
-9qX75zbyA7Odmz4iN495dH/fkLTx5XBwP9ew4H5mz+jimukSAvyx8lTFNhmx2+FB
-aa+Du1flCmRgPGXTJdg2WGzcBEQg5c4tyyYSAt0FeEcDlINRmBY=
-=O2u3
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYES4ACgkQbDjKyiDZ
+s5K2+w/7BL/P2sELR176fxApeGoXk+a3qt3v4NVpAWxPwwPT/RBl1YVPqcBXCeIU
+wLcTNLQHtl6OReLH9W7S7l4EQ7U/6oBXUjjZHBtIxoS9LbOmKAa3Jywm9q648E3d
+272LHCFYo7RYX84KHjZv+m4RwBPz+GfReVjh3mu3LjlERDnHKsghM8c++GlruFwN
+SMoQEkFwzNGH9cNJ+fQiOTxe2kHnpgkFRGZ8Xq8x3l62jMbmQAU+GkTBB/HITfOx
+2SRJOsSBwVHVe2LzYlyLNume7F2MIgi98x5lxk4hQFagwy/Ii5FGmQH9AfEU11Ng
+oIzk2YQE5DnT7Aw4dHeA2LTb13YG5qxQN98OErK9F4h14+vjrFuVEd6C+TfC6dAz
+KNcfNZXudeGbnICxH6/qR182j6gCymbtPhfJO0uzBTeZCZ17c7Dln43gtbXjes17
+4dC7AfSMi+hDWMAg1Heg7u4vbnI3UJNQ1S1EoGs77Ev2TK3HGM3NY2o+bi3H1KM0
+LKkiPCazdAT3VAslygzGu3VCTClxqQEJmLOEF9CTuPhyuyHEhmUPyG7PFPbGFqcz
+adGpmmL+Y4pjoiqiR69b4Mz0qD/1kSS+Dy61gHDOv99124PZu94EQRxH93s8Zbmv
+ikHi0yV8TSaLD8MPs3QAWvvWZjJf+Al9KVkXnR4DpGWwO2sHIUw=
+=IOAP
 -----END PGP SIGNATURE-----
 
---d0fHKg3knkeNwy5i--
+--PmMq6QynCFUgM6dW--
 
