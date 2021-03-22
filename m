@@ -2,83 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F291D34496D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:40:41 +0100 (CET)
-Received: from localhost ([::1]:44720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3700934497B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:43:45 +0100 (CET)
+Received: from localhost ([::1]:49006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMfZ-00080A-0O
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:40:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36784)
+	id 1lOMiW-0001Wc-7B
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOMeY-0007a1-Kq
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:39:38 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOMeX-00041t-9V
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:39:38 -0400
-Received: by mail-wr1-x432.google.com with SMTP id c8so4708651wrq.11
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3hglditzSVVxP1HLSvD1W4+iYyKnKELxZeF+ucOo6j4=;
- b=b7EQh3tqxvPejGHTjV9W+kS2gJc1HWVMDqqPnmR6oVkpjX+B55ui/5F5nMgahXS20J
- L4zwMq6x5dLH3ejWYwqe3d1QyDvR4JtHS7ervlictbXF50IPAZkEEuI1zTJEXpc8RfUh
- HsljcQqGTXMx98uB6/JeT9vJegrUHm/Crin+Tgp8p2ik9V5lV95bXF4SKMdHtNjWAyu9
- KN4JmVd/wB4ldX7cEEM1bE6pjpOxCWup4eU16q+xdBigSDOrTAk/7Ddxg7T6qYeZiTgO
- AW5Fv8iEAnmD99GfgwemfD1mv6t6NbknE8SQ/NZ7Kk91sHOOSxdSLAw3eLtgh+LNa7sQ
- qSbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3hglditzSVVxP1HLSvD1W4+iYyKnKELxZeF+ucOo6j4=;
- b=nAoqAMH4KQKfoJ263n0c4O3nfvHhZOWuHih1my9E8BfhuIuo8KTqgdsznlXLkvaALs
- WVG6nPdggRlNHrsSXzgQBfEj8o5wQzRTBGlTDz0ThXxnasjN18yR6C3sIQ12ig/SiTDN
- 41lwHs2S+hscOSwf4a+vgWAYQm8zj3cyjX3cqL3ECMXoO6RIPHmeRDcK4jsXlslhhiFe
- ZuneXFZh8gMAtgTnZ5CCAkFLeMZ9TiVMs/ML7wYvVii3/VPIA34f+7O39DIrM+0yvAdH
- kkzOrmnskV07RgvNEdhvEThZ9yyz/d+Y8j/ksYtDC4MjiMdZET0ue6go9BGktY9lQZfg
- RB6w==
-X-Gm-Message-State: AOAM533Tgv/nXcNdI+TMeZO9D+TJkIQx9z/xdojKDYi23requn7q1aKQ
- AfXI60wgKHqmHEMKAVdHUfs=
-X-Google-Smtp-Source: ABdhPJwEQPnmf5Y1Tah447OP7b8oHKoHmNbBX2m6MeyrgxKns3Jn5dIXM7SY1z9tSoqrL4xoohbRPw==
-X-Received: by 2002:a5d:4e85:: with SMTP id e5mr165644wru.218.1616427575681;
- Mon, 22 Mar 2021 08:39:35 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id f2sm20434486wrq.34.2021.03.22.08.39.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Mar 2021 08:39:35 -0700 (PDT)
-Subject: Re: [PATCH v3 for-6.0 2/2] tcg: Workaround macOS 11.2 mprotect bug
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210320165720.1813545-1-richard.henderson@linaro.org>
- <20210320165720.1813545-3-richard.henderson@linaro.org>
- <6155888a-e1af-0a47-a669-1bc12c4478fa@amsat.org>
- <7b4307e4-d7ea-f0fa-9d40-8324d37aca5c@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ae809747-5b83-40c5-379f-5079eada6dd3@amsat.org>
-Date: Mon, 22 Mar 2021 16:39:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1lOMfb-0008NB-M8
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:40:48 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:52970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1lOMfY-0004bl-Fg
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:40:43 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 7F35B42697;
+ Mon, 22 Mar 2021 16:40:37 +0100 (CET)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: [PATCH v2] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
+Date: Mon, 22 Mar 2021 16:40:24 +0100
+Message-Id: <20210322154024.15011-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <7b4307e4-d7ea-f0fa-9d40-8324d37aca5c@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,28 +52,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com, j@getutm.app
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 4:00 PM, Richard Henderson wrote:
-> On 3/22/21 4:03 AM, Philippe Mathieu-Daudé wrote:
->>> -        rc = qemu_mprotect_none(end, page_size);
->>
->> What about:
->>
->> #ifdef CONFIG_DARWIN
->>
->>             /* ... */
->>             (void)rc;
->> #else
->>
->>> -        g_assert(!rc);
->>
->> #endif
-> 
-> What does that buy us, really?  It seems like it just clutters the code
-> with ifdefs.
+The QMP dispatcher coroutine holds the qmp_queue_lock over a yield
+point, where it expects to be rescheduled from the main context. If a
+CHR_EVENT_CLOSED event is received just then, it can race and block the
+main thread on the mutex in monitor_qmp_cleanup_queue_and_resume.
 
-No problem.
+monitor_resume does not need to be called from main context, so we can
+call it immediately after popping a request from the queue, which allows
+us to drop the qmp_queue_lock mutex before yielding.
+
+Suggested-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+
+v2:
+* different approach: move everything that needs the qmp_queue_lock mutex before
+  the yield point, instead of moving the event handling to a different context
+
+ monitor/qmp.c | 40 ++++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
+
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 2b0308f933..092c527b6f 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -257,24 +257,6 @@ void coroutine_fn monitor_qmp_dispatcher_co(void *data)
+         trace_monitor_qmp_in_band_dequeue(req_obj,
+                                           req_obj->mon->qmp_requests->length);
+ 
+-        if (qatomic_xchg(&qmp_dispatcher_co_busy, true) == true) {
+-            /*
+-             * Someone rescheduled us (probably because a new requests
+-             * came in), but we didn't actually yield. Do that now,
+-             * only to be immediately reentered and removed from the
+-             * list of scheduled coroutines.
+-             */
+-            qemu_coroutine_yield();
+-        }
+-
+-        /*
+-         * Move the coroutine from iohandler_ctx to qemu_aio_context for
+-         * executing the command handler so that it can make progress if it
+-         * involves an AIO_WAIT_WHILE().
+-         */
+-        aio_co_schedule(qemu_get_aio_context(), qmp_dispatcher_co);
+-        qemu_coroutine_yield();
+-
+         /*
+          * @req_obj has a request, we hold req_obj->mon->qmp_queue_lock
+          */
+@@ -298,8 +280,30 @@ void coroutine_fn monitor_qmp_dispatcher_co(void *data)
+             monitor_resume(&mon->common);
+         }
+ 
++        /*
++         * Drop the queue mutex now, before yielding, otherwise we might
++         * deadlock if the main thread tries to lock it.
++         */
+         qemu_mutex_unlock(&mon->qmp_queue_lock);
+ 
++        if (qatomic_xchg(&qmp_dispatcher_co_busy, true) == true) {
++            /*
++             * Someone rescheduled us (probably because a new requests
++             * came in), but we didn't actually yield. Do that now,
++             * only to be immediately reentered and removed from the
++             * list of scheduled coroutines.
++             */
++            qemu_coroutine_yield();
++        }
++
++        /*
++         * Move the coroutine from iohandler_ctx to qemu_aio_context for
++         * executing the command handler so that it can make progress if it
++         * involves an AIO_WAIT_WHILE().
++         */
++        aio_co_schedule(qemu_get_aio_context(), qmp_dispatcher_co);
++        qemu_coroutine_yield();
++
+         /* Process request */
+         if (req_obj->req) {
+             if (trace_event_get_state(TRACE_MONITOR_QMP_CMD_IN_BAND)) {
+-- 
+2.20.1
+
+
 
