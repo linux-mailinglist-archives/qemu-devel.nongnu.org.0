@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C45344992
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:47:44 +0100 (CET)
-Received: from localhost ([::1]:59344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68CB3449C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:53:15 +0100 (CET)
+Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMmN-0005xu-8n
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:47:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38212)
+	id 1lOMri-0004ml-LA
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lOMiR-0002ed-8e
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:43:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39048)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjS-0004Me-RH
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lOMiM-0006A1-Bl
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:43:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjQ-0006o1-Pj
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:44:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616427813;
+ s=mimecast20190719; t=1616427880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SFm0GcxookWsphFG0ePmcmSdxn0t+IIg/1U+TFZKakw=;
- b=eEIHVlleH6NlurkKUnrasMQzTzJLnHGCU45Ow2wgQrik+dSmZHon7cPxq8Q05k2ilwCOZL
- L3QKlSJeUpyq/ZZ10GM2ZlxdUGjCY8QoGn/DY8qb2v8LZ7sG0sEAsKbZkW1jIqKYl0AMXE
- VBcEz7HN0kxM5o6EDkUZuX5GBxEMcy0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-odrpU44cNGmR6iI2Ue7-3A-1; Mon, 22 Mar 2021 11:43:31 -0400
-X-MC-Unique: odrpU44cNGmR6iI2Ue7-3A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E59A10866A5;
- Mon, 22 Mar 2021 15:43:30 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-125.ams2.redhat.com [10.36.115.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E64E10023AB;
- Mon, 22 Mar 2021 15:43:29 +0000 (UTC)
-Date: Mon, 22 Mar 2021 16:43:27 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Patrik =?utf-8?B?SmFub3XFoWVr?= <pj@patrikjanousek.cz>
-Subject: Re: [PATCH 1/2] block/raw: added support of persistent dirty bitmaps
-Message-ID: <YFi7HyjWXtYHOFe5@merkur.fritz.box>
-References: <20210320093235.461485-1-pj@patrikjanousek.cz>
- <20210320093235.461485-2-pj@patrikjanousek.cz>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=AIouO5BhupgHndoFVCtKtwQr/XbvtxuQGxaW73eOwqM=;
+ b=EOW1ulNCYctowYVwy+qnHu0lOrE89WjNxSvwQlyM+nkVglrxJIw+lRrQGMc+F18/CMjvGW
+ iKxOf5rZUTiwjahe8sQK/MCAoFbiGLhC2S1VAlaQIwxJFSW8t1DcOwyQ+6QACwwG83I76v
+ vf37njfeCNvtekRjzC7RJXw61O2UMOs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-LJoPenUJPqmYxPamATer7Q-1; Mon, 22 Mar 2021 11:44:38 -0400
+X-MC-Unique: LJoPenUJPqmYxPamATer7Q-1
+Received: by mail-wr1-f69.google.com with SMTP id h30so26369528wrh.10
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:44:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=AIouO5BhupgHndoFVCtKtwQr/XbvtxuQGxaW73eOwqM=;
+ b=avezPqgTf9pWbkk/HMp5gHhDf1ow+kJzZwsV6sCPdpqP2xgT+jfou1dh2fALUgDisI
+ ZT4u3vn4inoT1qOONy7mUl4Ay9/l0zPM/tkAkXzDQiB+C6hMMNQY1N8c+fpk0ZglRRTP
+ AffHTs8ZNA/D2VSgS06aAGx9CBiIgOXY/ZEEk5FcBg5u5EnrrA57YLvzIRt+PIIAB3ch
+ iKQdxH17jUmys/GE+PlaeM+EiAFoBFPDantz84VWyyTu+kgqwd++M5EnY6vrJO/WjkCd
+ 65PDoH+fsIg30wSG7M8LsZobAX75KT4Dvevm/3U91nHIb+HHUE0gJb0GuynsvsZAeRSV
+ n8wg==
+X-Gm-Message-State: AOAM5307u45NrtKMxUHBg9xz6VevhYcBS9fG4BlBXFEvdGk3hza8yodQ
+ Mzc7JsGeurUF0MSsQOJsmFlLPFXde3w03uYoeEPYcOsHaz08UG7gQTJqo+KBHEqRKX1NdDS1wwY
+ 2W0Mg3AdV++e+4gubpEG9pjTyMmm0b/6s6H0O72CS4Ig7dBzdqeEbtplGG8fo
+X-Received: by 2002:a5d:6304:: with SMTP id i4mr140090wru.155.1616427876856;
+ Mon, 22 Mar 2021 08:44:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyz93HfVPzLz5n7l43dbSIk66dEAqbY6Cn5L22OFWkHmnR+BPv7f00R52ul+qk/immWUl6R7A==
+X-Received: by 2002:a5d:6304:: with SMTP id i4mr140072wru.155.1616427876678;
+ Mon, 22 Mar 2021 08:44:36 -0700 (PDT)
+Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
+ by smtp.gmail.com with ESMTPSA id j20sm16154446wmp.30.2021.03.22.08.44.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 08:44:36 -0700 (PDT)
+Date: Mon, 22 Mar 2021 11:44:34 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] pc,virtio,pci: fixes, features
+Message-ID: <20210322154417.524229-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210320093235.461485-2-pj@patrikjanousek.cz>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,60 +89,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, lmatejka@kiv.zcu.cz
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20.03.2021 um 10:32 hat Patrik Janoušek geschrieben:
-> Current implementation of dirty bitmaps for raw format is very
-> limited, because those bitmaps cannot be persistent. Basically it
-> makes sense, because the raw format doesn't have space where could
-> be dirty bitmap stored when QEMU is offline. This patch solves it
-> by storing content of every dirty bitmap in separate file on the
-> host filesystem.
-> 
-> However, this only solves one part of the problem. We also have to
-> store information about the existence of the dirty bitmap. This is
-> solved by adding custom options, that stores all required metadata
-> about dirty bitmap (filename where is the bitmap stored on the
-> host filesystem, granularity, persistence, etc.).
-> 
-> Signed-off-by: Patrik Janoušek <pj@patrikjanousek.cz>
+The following changes since commit f0f20022a0c744930935fdb7020a8c18347d391a:
 
-I'm not sure if you're going to try to change your thesis to use qcow2
-with an external data file, but in case you're still using this patch
-for your thesis, let's imagine for a moment that we all agreed on adding
-the functionality to raw.
+  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-03-21' into staging (2021-03-22 10:05:45 +0000)
 
-After skimming over the patch, I see two major things that we would ask
-to change:
+are available in the Git repository at:
 
-1. You need to change BlockdevOptions to the QAPI schema in
-   qapi/block-core.json, because if you don't add new options there,
-   they won't be accessible with -blockdev and QMP blockdev-add.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-   Among others, this means you would describe RawDirtyBitmapOpts in the
-   schema and would get the structure and some helpers automatically
-   generated, simplifying your code.
+for you to fetch changes up to 5971d4a968d51a80daaad53ddaec2b285115af62:
 
-   Instead of processing QemuOpts manually, I would then probably try to
-   use the QAPI visitors to get RawDirtyBitmapOpts from the input, which
-   could potentially further simplify the code.
+  acpi: Move setters/getters of oem fields to X86MachineState (2021-03-22 11:39:02 -0400)
 
-2. Instead of having a 'filename': 'str' option and working on the
-   bitmap files with stdio.h functions (which block the guest instead of
-   allowing asynchronous operation in the background), we would probably
-   want something like 'file': 'BlockdevRef', so you get another
-   BlockDriverState for each bitmap file that you access with the normal
-   QEMU block layer I/O functions.
+----------------------------------------------------------------
+pc,virtio,pci: fixes, features
 
-   The advantage is not only that this isn't blocking, but it also
-   allows you to configure more details than just the filename (think
-   cache mode, AIO mode, locking, etc.). In fact, it would even allow
-   you to store the metadata not in a file, but in any place that can be
-   accessed with a protocol supported by QEMU (like NBD, iscsi, ssh,
-   whatever).
+Fixes all over the place.
+ACPI index support.
 
-Kevin
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+David Hildenbrand (4):
+      acpi: Set proper maximum size for "etc/table-loader" blob
+      microvm: Don't open-code "etc/table-loader"
+      acpi: Move maximum size logic into acpi_add_rom_blob()
+      acpi: Set proper maximum size for "etc/acpi/rsdp" blob
+
+Greg Kurz (6):
+      vhost-user: Drop misleading EAGAIN checks in slave_read()
+      vhost-user: Fix double-close on slave_read() error path
+      vhost-user: Factor out duplicated slave_fd teardown code
+      vhost-user: Convert slave channel to QIOChannelSocket
+      vhost-user: Introduce nested event loop in vhost_user_read()
+      vhost-user: Monitor slave channel in vhost_user_read()
+
+Igor Mammedov (6):
+      tests: acpi: temporary whitelist DSDT changes
+      pci: introduce acpi-index property for PCI device
+      pci: acpi: ensure that acpi-index is unique
+      acpi: add aml_to_decimalstring() and aml_call6() helpers
+      pci: acpi: add _DSM method to PCI devices
+      tests: acpi: update expected blobs
+
+Isaku Yamahata (1):
+      acpi:piix4, vt82c686: reinitialize acpi PM device on reset
+
+Laurent Vivier (1):
+      virtio: Fix virtio_mmio_read()/virtio_mmio_write()
+
+Marian Postevca (1):
+      acpi: Move setters/getters of oem fields to X86MachineState
+
+Wang Liang (1):
+      virtio-pmem: fix virtio_pmem_resp assign problem
+
+ include/hw/acpi/aml-build.h      |   6 +-
+ include/hw/acpi/pci.h            |   1 +
+ include/hw/acpi/pcihp.h          |   9 +-
+ include/hw/acpi/utils.h          |   3 +-
+ include/hw/i386/microvm.h        |   4 -
+ include/hw/i386/pc.h             |   4 -
+ include/hw/i386/x86.h            |   4 +
+ include/hw/pci/pci.h             |   1 +
+ hw/acpi/aml-build.c              |  28 +++++
+ hw/acpi/pci.c                    |   1 -
+ hw/acpi/pcihp.c                  | 104 ++++++++++++++++++-
+ hw/acpi/piix4.c                  |  10 +-
+ hw/acpi/utils.c                  |  17 ++-
+ hw/arm/virt-acpi-build.c         |  12 +--
+ hw/i386/acpi-build.c             | 173 +++++++++++++++++++++++++------
+ hw/i386/acpi-microvm.c           |  32 +++---
+ hw/i386/microvm.c                |  66 ------------
+ hw/i386/pc.c                     |  63 ------------
+ hw/i386/x86.c                    |  64 ++++++++++++
+ hw/isa/vt82c686.c                |   5 +
+ hw/pci/pci.c                     |   1 +
+ hw/virtio/vhost-user.c           | 217 +++++++++++++++++++++++++--------------
+ hw/virtio/virtio-mmio.c          |  74 +++++++++----
+ hw/virtio/virtio-pmem.c          |   2 +-
+ hw/acpi/trace-events             |   2 +
+ tests/data/acpi/pc/DSDT          | Bin 5065 -> 6002 bytes
+ tests/data/acpi/pc/DSDT.acpihmat | Bin 6390 -> 7327 bytes
+ tests/data/acpi/pc/DSDT.bridge   | Bin 6924 -> 8668 bytes
+ tests/data/acpi/pc/DSDT.cphp     | Bin 5529 -> 6466 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm  | Bin 6719 -> 7656 bytes
+ tests/data/acpi/pc/DSDT.hpbridge | Bin 5026 -> 5969 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs  | Bin 5137 -> 6074 bytes
+ tests/data/acpi/pc/DSDT.memhp    | Bin 6424 -> 7361 bytes
+ tests/data/acpi/pc/DSDT.nohpet   | Bin 4923 -> 5860 bytes
+ tests/data/acpi/pc/DSDT.numamem  | Bin 5071 -> 6008 bytes
+ tests/data/acpi/pc/DSDT.roothp   | Bin 5261 -> 6210 bytes
+ 36 files changed, 595 insertions(+), 308 deletions(-)
 
 
