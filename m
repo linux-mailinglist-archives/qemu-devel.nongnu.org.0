@@ -2,87 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B2834483A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:55:00 +0100 (CET)
-Received: from localhost ([::1]:60620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5B134480F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:51:45 +0100 (CET)
+Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLxG-00006S-I1
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36828)
+	id 1lOLuC-0002QH-Lp
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOLE3-0002xK-Ev
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:08:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23049)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lOLEl-0003rx-Nx
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:08:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50496
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOLE0-0008N1-63
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:08:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616422085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hNNQRehqsge71hiRT8hojv3o9bfYrIVGcQr/Je6XgKw=;
- b=VgeMCgxyCS/9Pod6CSdfQ04E0zAsYvLMIzb+E+3Nl0ilspqAAfIWbczgH1VpH9KUIwaP6t
- 9f1gYDJxCpJJu0uu/wafXF1nJ8XP7h+5SwWgCuYAxKR+DLbBziev1PZShrdlv7aDhwIbU5
- 5Epg0nWBlnFwSUb4fWvpjDnBPm2tEzg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-lxgsV5InPu2WSMGlEYTOkg-1; Mon, 22 Mar 2021 10:08:00 -0400
-X-MC-Unique: lxgsV5InPu2WSMGlEYTOkg-1
-Received: by mail-wr1-f70.google.com with SMTP id z6so26062466wrh.11
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 07:07:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hNNQRehqsge71hiRT8hojv3o9bfYrIVGcQr/Je6XgKw=;
- b=uDYT8sg62/jDgy2IAKXKCo+41REBVmCFX45KoQ9lnmp5aaqcU8o1zt1MAS0Od7KCmn
- eteIWivBjhsefawMvODJzeQu3YrNVkuD/OqJIHyvbgv0C+CHQ9aLYBHSCmryFMwYqXZE
- l4XjzVJUQSmtqg4G9IbXDlos9LSNJUrYKoWkKbF/H02BG9ryouE3B++ILLSbbCUVhn15
- hS5el1sAHhS1S4X0IIR1Qwx2kOhCr0HRG+r7LLXGQWqsOx8BHCbnaFB4UyBsWPYmaXQb
- 8JrfdWtwhmIvQux/blVcbNmgds5XOtO5JCgSGDp7erTWM7BoDdJ5R8DTnWy5Qh3SB9OY
- REZA==
-X-Gm-Message-State: AOAM530edckrebOvet6ibVZOtPXTwuAh8ZZg41IA/sH+EyK9iiYtXQo5
- Zt35uTN7gddw0NYlZdPIxfuggVceAB5d4LTAzlLsfLxz+eDvxNXg8uaxqylMFgbbWPCiZp2pnxa
- RZEzyG+k4vmXAIis=
-X-Received: by 2002:adf:ee0a:: with SMTP id y10mr9648796wrn.177.1616422078904; 
- Mon, 22 Mar 2021 07:07:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzw9H2jgWC7rO3Ynm5mk5B30A+/q4i/j3N2mgg6Wp0drhhoaB5NrP1aJ/Vig7rNq2ZyG/PdkQ==
-X-Received: by 2002:adf:ee0a:: with SMTP id y10mr9648777wrn.177.1616422078674; 
- Mon, 22 Mar 2021 07:07:58 -0700 (PDT)
-Received: from redhat.com (bzq-79-183-252-180.red.bezeqint.net.
- [79.183.252.180])
- by smtp.gmail.com with ESMTPSA id l9sm15684047wmq.2.2021.03.22.07.07.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 07:07:58 -0700 (PDT)
-Date: Mon, 22 Mar 2021 10:07:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH for 6.0 v4] hw/intc/i8259: Refactor pic_read_irq() to
- avoid uninitialized variable
-Message-ID: <20210322100741-mutt-send-email-mst@kernel.org>
-References: <20210319142308.3980259-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lOLEe-0000Hs-Q7
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:08:55 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12ME5HUT014969; Mon, 22 Mar 2021 10:08:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=xTlyB7ABFSM/IXV7NnKL8TQYMq5m5UB2HRRlXzVbgCA=;
+ b=HIKXIotrsvDM4uXd2UtUJi6Cx1dU2cxBth+pulgx3oky6SGW+5J/PXF99v2NMOL/fRMB
+ 5okZoihtRVjznWBUjEwULbTxmJgTWd36ja6BSxejAZ66yU4JeFhTgEPwN4hGHw8NGyAM
+ /4Eq9D4oAmGhsoFE2Wivt8+Z/mQm8SH0tcUga6fdDKbNZL/YoY/jiLCzmccl93i4S4I5
+ EDIQssLc9e/FKgGcyyR8tsQmgp5gB2k8uBMG/+MzgrMzeZaCQT4AcEFBI4vcj0svQxaB
+ 5mOKbE+6gD3xUuu6ojdlvWDN/278k4l3FMWiZxX9ac4yi5f9VZH3rmRP48zSFj19DpYk oQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37e023grut-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Mar 2021 10:08:37 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12ME5Ivu014991;
+ Mon, 22 Mar 2021 10:08:36 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37e023gru8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Mar 2021 10:08:36 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12ME7B24010632;
+ Mon, 22 Mar 2021 14:08:35 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01dal.us.ibm.com with ESMTP id 37equd2am7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Mar 2021 14:08:35 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12ME8YPl14811458
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Mar 2021 14:08:34 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5A1546A058;
+ Mon, 22 Mar 2021 14:08:34 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D05556A051;
+ Mon, 22 Mar 2021 14:08:33 +0000 (GMT)
+Received: from [9.211.124.231] (unknown [9.211.124.231])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 22 Mar 2021 14:08:33 +0000 (GMT)
+Subject: Re: [PULL v2 04/15] gitlab-ci.yml: Add jobs to test CFI flags
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20210310160002.11659-1-alex.bennee@linaro.org>
+ <20210310160002.11659-5-alex.bennee@linaro.org>
+ <a374fee5-7771-c9c2-489f-d496d3042196@amsat.org>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <de549089-8b8b-19b5-d360-ce3afa096747@linux.vnet.ibm.com>
+Date: Mon, 22 Mar 2021 10:08:30 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210319142308.3980259-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <a374fee5-7771-c9c2-489f-d496d3042196@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-22_07:2021-03-22,
+ 2021-03-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103220103
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,88 +116,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 19, 2021 at 03:23:08PM +0100, Philippe Mathieu-Daudé wrote:
-> Some compiler versions are smart enough to detect a potentially
-> uninitialized variable, but are not smart enough to detect that this
-> cannot happen due to the code flow:
+Hi Philippe,
+
+I'm looking at the public QEMU pipelines and it seems that that job
+usually takes between 50 and 55 minutes, but there are higher spikes at
+56, 57 and one where it failed at 1h.
+
+We could perhaps set the timeout a bit higher, like 1h 10m, to not
+terminate the outliers immediately?
+The job you linked was almost over, there were just about 20-ish tests
+to be linked, so it was probably next to completion.
+
+On 3/22/2021 9:39 AM, Philippe Mathieu-Daudé wrote:
+>> +build-cfi-x86_64:
+>> +  <<: *native_build_job_definition
+>> +  needs:
+>> +  - job: amd64-fedora-container
+>> +  variables:
+>> +    LD_JOBS: 1
+>> +    AR: llvm-ar
+>> +    IMAGE: fedora
+>> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
+>> +      --enable-safe-stack --enable-slirp=git
+>> +    TARGETS: x86_64-softmmu
+>> +    MAKE_CHECK_ARGS: check-build
+>> +  artifacts:
+>> +    expire_in: 2 days
+>> +    paths:
+>> +      - build
+> FYI this job is timeouting:
 > 
-> ../hw/intc/i8259.c: In function ‘pic_read_irq’:
-> ../hw/intc/i8259.c:203:13: error: ‘irq2’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
->    203 |         irq = irq2 + 8;
->        |         ~~~~^~~~~~~~~~
+> ERROR: Job failed: execution took longer than 1h0m0s seconds
 > 
-> Restrict irq2 variable use to the inner statement.
+> https://gitlab.com/qemu-project/qemu/-/jobs/1112829128
 > 
-> Fixes: 78ef2b6989f ("i8259: Reorder intack in pic_read_irq")
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Looks ok.
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-Paolo, you merging this?
-
-> ---
-> Since v3:
-> - Declare irq2 really local (Richard)
-> Since v2:
-> - Remove pic_intack() call (Zoltan)
-> ---
->  hw/intc/i8259.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-> index 344fd04db14..d67c4710f15 100644
-> --- a/hw/intc/i8259.c
-> +++ b/hw/intc/i8259.c
-> @@ -176,12 +176,13 @@ static void pic_intack(PICCommonState *s, int irq)
->  int pic_read_irq(DeviceState *d)
->  {
->      PICCommonState *s = PIC_COMMON(d);
-> -    int irq, irq2, intno;
-> +    int irq, intno;
->  
->      irq = pic_get_irq(s);
->      if (irq >= 0) {
->          if (irq == 2) {
-> -            irq2 = pic_get_irq(slave_pic);
-> +            int irq2 = pic_get_irq(slave_pic);
-> +
->              if (irq2 >= 0) {
->                  pic_intack(slave_pic, irq2);
->              } else {
-> @@ -189,20 +190,18 @@ int pic_read_irq(DeviceState *d)
->                  irq2 = 7;
->              }
->              intno = slave_pic->irq_base + irq2;
-> +            pic_intack(s, irq);
-> +            irq = irq2 + 8;
->          } else {
->              intno = s->irq_base + irq;
-> +            pic_intack(s, irq);
->          }
-> -        pic_intack(s, irq);
->      } else {
->          /* spurious IRQ on host controller */
->          irq = 7;
->          intno = s->irq_base + irq;
->      }
->  
-> -    if (irq == 2) {
-> -        irq = irq2 + 8;
-> -    }
-> -
->  #ifdef DEBUG_IRQ_LATENCY
->      printf("IRQ%d latency=%0.3fus\n",
->             irq,
-> -- 
-> 2.26.2
-
 
