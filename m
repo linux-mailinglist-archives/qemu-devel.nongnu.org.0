@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FEA344C07
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:45:30 +0100 (CET)
-Received: from localhost ([::1]:59792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF96344C08
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:45:33 +0100 (CET)
+Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONgH-0006Sh-HV
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:45:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57196)
+	id 1lONgK-0006YO-7N
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:45:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lONeV-0004qA-SI
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lONeV-0004q4-V6
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:43:41 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lONeT-0006fA-V9
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:43:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lONeQ-0006cT-JQ
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:43:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616431413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JRA34qHfdrG/05J8zTTarZr0sUhykbyxYnTtu6Zp5Ws=;
- b=VKcr+ePLttwuMdtP0dgTBaSBWYs6qryIMrzf+1RnUQ9FcgjlnWs/HNGHjo6vNEpu4sTQly
- K1N1Xn2up+C0ZgRFXVHkdNSrQM+aNuJcyueDI2ETwX8bKShWLHsXrINVGW/35NIllReyB2
- 3dm2Qt6GWDZsDLgJzXrcnR/O1NYVJm8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-e2cyFp91P2qetLnuF8SbLg-1; Mon, 22 Mar 2021 12:43:29 -0400
-X-MC-Unique: e2cyFp91P2qetLnuF8SbLg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C7C51009456;
- Mon, 22 Mar 2021 16:43:28 +0000 (UTC)
-Received: from localhost (ovpn-3-103.rdu2.redhat.com [10.22.3.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11CC719C78;
- Mon, 22 Mar 2021 16:43:27 +0000 (UTC)
-Date: Mon, 22 Mar 2021 12:43:27 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [PATCH 0/2] SEV firmware error list touchups
-Message-ID: <20210322164327.GX3139005@habkost.net>
-References: <20210218151633.215374-1-ckuehl@redhat.com>
- <cd383ad9-21c6-340d-8821-c151e1b9714e@redhat.com>
- <bde95e1b-86ef-18d4-6864-7bc034d41688@redhat.com>
- <3644aa5f-ee80-358c-f563-faa15c2c8a9f@redhat.com>
+Received: by mail-wm1-x334.google.com with SMTP id
+ z6-20020a1c4c060000b029010f13694ba2so9332178wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/6O2d6NDJlDLxwWOE3b9CwBibI6tsQmjyR/KPGoJLfw=;
+ b=SNwzcgkB1yrOh/UGgf5CnKBR53YxdGVtZGnoeenN0qgcJyaMiTJw0bBnct02cCmcDC
+ IxLAY8JcufPiPokGoFPDp6PudKZ/N96SMDaVPBRSIeDItQMdva4rvjA4xglquxaLRqhw
+ 4qanlROxpNJZZc1NTC8ha28rWCFdnHhrmzpTYe3iH0hjNVqGiAFG3x09lRNzxS+W/J9n
+ mrYIfTDpuxvooczZa1D0JHQR0+DLOw46vEObFkoO95Xw8P7dwqJqg4YHq/VDZovAzwch
+ O66ElOwQFtjN8hiqqsn8u1lS9cib9UqnuxO1BpCoEfg5pCvJmhvbEG3YfAs7V4/H01q3
+ /Vqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/6O2d6NDJlDLxwWOE3b9CwBibI6tsQmjyR/KPGoJLfw=;
+ b=E7FI+LuwT5wn/Ro8VY3Qot0+FluazgfxxWWQQ1IDnYPoQQByltWS8StTUaM3Bpys/A
+ EfeuTRnlX3iub9mZNrKZrc4a5ASVkYwtiwtk1xvaEPcgzRC72PEIbVaKmgHzV2zg5hA4
+ pvnsXLwdzCvzoWQCcMNsOTbzWqCEfZR3PP/UFsxE7H3T6CYRFfX0cb+Oc7BvqpKzDIvq
+ O/d9aj7TgyCqTx/pygxVG8GLZJZ2NMYTbXCRNUCZzmiQPN2zCkiUnGCuH7ZHhdelNR+A
+ 04RLHgSNB518Pyrysf8M9n1POayKdGM2fHU0JfWUHpwNKcgeRh6dQ3Es7Naa1GfPqqt6
+ S5Gg==
+X-Gm-Message-State: AOAM530Epczam7fyiNBRLnYtThfepx5oiV4HXC1Rpo5dbgL8Pf9rHy9H
+ YxU09wG1PZZeZjr7oNJbJQQ=
+X-Google-Smtp-Source: ABdhPJz7NJSBsyARg+3r8CBZSCazS6LlIPO6O0Asnj1TklSHb/z0XHkJuVdcA1RpsDgfuxnPcoGk1w==
+X-Received: by 2002:a05:600c:2106:: with SMTP id
+ u6mr645941wml.55.1616431416624; 
+ Mon, 22 Mar 2021 09:43:36 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id b12sm10159898wrf.39.2021.03.22.09.43.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Mar 2021 09:43:36 -0700 (PDT)
+Subject: Re: [RFC PATCH] gitlab: extend timeouts for CFI builds
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210322142110.4766-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ef1f8222-72a0-7bfa-2e93-a7cc0394afd8@amsat.org>
+Date: Mon, 22 Mar 2021 17:43:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <3644aa5f-ee80-358c-f563-faa15c2c8a9f@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210322142110.4766-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,39 +91,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ dbuono@linux.vnet.ibm.com, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 09:09:44AM -0500, Connor Kuehl wrote:
-> On 3/22/21 5:18 AM, Philippe Mathieu-Daudé wrote:
-> > Hi Connor,
-> > 
-> > On 3/15/21 3:08 PM, Connor Kuehl wrote:
-> > > On 2/18/21 9:16 AM, Connor Kuehl wrote:
-> > > > Connor Kuehl (2):
-> > > >     sev: use explicit indices for mapping firmware error codes to strings
-> > > >     sev: add missing firmware error conditions
-> > > > 
-> > > >    target/i386/sev.c | 48 ++++++++++++++++++++++++-----------------------
-> > > >    1 file changed, 25 insertions(+), 23 deletions(-)
-> > > > 
-> > > 
-> > > Eduardo, Paolo, Richard: ping
-> > 
-> > Looks too late for 6.0 now.
-> > 
-> > Can you repost/ping after QEMU 6.0 is release?
+On 3/22/21 3:21 PM, Alex Bennée wrote:
+> These builds are running very close to the default build limit and as
+> they are already pared down the only other option is to extend the
+> timeout a little to give some breathing room.
 > 
-> Sure.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  .gitlab-ci.yml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index f746d5fbea..9ffbaa7ffb 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -502,6 +502,7 @@ build-cfi-aarch64:
+>        --enable-safe-stack --enable-slirp=git
+>      TARGETS: aarch64-softmmu
+>      MAKE_CHECK_ARGS: check-build
+> +  timeout: 70m
 
-My apologies for not replying before and not reviewing or merging
-this in time for 6.0.  I'm seriously behind on all my upstream
-maintainer work.
+So this patch will potentially consume 30 more minutes per pipeline...
 
--- 
-Eduardo
+Having now no more free minutes, I'm a bit reluctant to the "give
+us some room" approach.
 
+Short term, this patch might help having the CI green again, so:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Long term I think the problem is we expect all runner to be the
+same hardware while they aren't, unlike Peter Maydell machines.
+
+Should the tests check the runner performance and scale the
+test timeout limits?
+
+Another problem is some "container runner" (runc) are restricted
+(either number of vCPU, amount of memory, capabilities).
+I have the impression runners on Kubernetes are more restricted
+than simple Docker runners, which perform better.
 
