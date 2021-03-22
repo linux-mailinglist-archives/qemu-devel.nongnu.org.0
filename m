@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27AC344CCE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 18:08:37 +0100 (CET)
-Received: from localhost ([::1]:42696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD85344CCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 18:08:31 +0100 (CET)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOO2f-0008PA-0l
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 13:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35322)
+	id 1lOO2X-0008Ch-Qf
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 13:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lONxj-0005DK-8z
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 13:03:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lONxh-0001xi-KH
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 13:03:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616432608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=plbDcuFsUHkYScQFCpJrpsSuWlYgbnvud6R1+w+l4jE=;
- b=QgCa3ForHltMOY2gaPifHDyHfpdorfKIVu1+VKZUJEIip6fANuJ7zEnaOuf2mQu0tuEN8Z
- q9TIptBb6ba9p5uqJqVTdujtT6eev7Hb6A/YQ6aGjLy0iSqYFU1OjrRAOoZuP8lxxtt6yb
- p44LhOe19XKXSAHb22R3dtXZ/K/um/g=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-IfLIQmWXPmKlhqx07h-7MQ-1; Mon, 22 Mar 2021 13:03:27 -0400
-X-MC-Unique: IfLIQmWXPmKlhqx07h-7MQ-1
-Received: by mail-vk1-f199.google.com with SMTP id p6so6965608vkf.10
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 10:03:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lONyX-0005pr-GE
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 13:04:21 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:45749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lONyV-0002IW-4J
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 13:04:21 -0400
+Received: by mail-ej1-x629.google.com with SMTP id kt15so13004756ejb.12
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 10:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9IavfMLeGn37Yh+3AXwuPPH/VJBYPqFOHmaDbpDBFJI=;
+ b=zQdPgmNe7RJjgoKi9rNW3O/8YE7FeLD1nBeQ2KbH/LN+Ao0pdDOXEYO6buVargBmAr
+ x7pv7JObeFMF19/c0Nykf9af8a4gh52EB9M7C6OeDZbGrWPJUhPNMwB10On7dFNI3pcP
+ WVQkNgKpU1zVm2y1qA7AqQ+0IeeUuEDyB3tQuQPNyEeO910WDHhgVFuvlsdErqfzIi2R
+ 9AWkYHwE5pPXydzW7FVJP0L1AOjnLRJkya9b6uJ97pWH/S94l+a4IjGDYDj0VUZ/XnVk
+ QFbx2fvdx2hgVDpb1R4bdwuI+mvVw5rdOpSVTNlwbdhyRtwuBMG+ppZwQPq0Y25cRg0S
+ O3oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=plbDcuFsUHkYScQFCpJrpsSuWlYgbnvud6R1+w+l4jE=;
- b=gPFi9b7BOj1qSaj0oXUtu1A16jvp9oGMEbdRWUbtq2wTLE8MZMx8lhdLJNAQagTWMs
- bhLcjVCUU0aYmHxbOg1kIsvx7zJSRtd1EtYUFAoafinXJGTuzqlbSwn16Q0Npb2T6CoR
- WLSjU0qSUMf0xQnHrgwFUN8ugYWomOzinu7joMf/b+JY8BEy69yjO5bdofHk2U3qYA73
- pUY0TugdGdVErWKZGcv4QoMXP/KbesdDx1ix/q/tYlBE1hd8O08SiiMX5a16iEA+VooH
- UQr+OR8PWJ6UiGr1WCbk6td6eytYv1zva7r9da3QRn5fZ+2TpqUFc1cf0+3d68oXcvIq
- V12w==
-X-Gm-Message-State: AOAM532Hf2aVgaafNDO98olTDHc0+Fzc2JWYuCftDFz6E6o30VKgzVdS
- sXPMrihYp38VLNrRwJF2lzZMWmSTvseXovM8uWlJ9hHAzN0A3AqONgJwKO30GvoKy3tD/CZkhm5
- 50UDvzTayh63B1JzQEucxSU8k5ze/47A=
-X-Received: by 2002:a67:3241:: with SMTP id y62mr583893vsy.45.1616432606599;
- Mon, 22 Mar 2021 10:03:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzo94HvEJUg9gNqEYUos7N8LZYKFqhgDYzwyDrGLauS0pfSNxEdoW+/5BxLa2cRGh7arDpiTJf1UlE7Z9P3r+Q=
-X-Received: by 2002:a67:3241:: with SMTP id y62mr583849vsy.45.1616432606303;
- Mon, 22 Mar 2021 10:03:26 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=9IavfMLeGn37Yh+3AXwuPPH/VJBYPqFOHmaDbpDBFJI=;
+ b=dJjNDfZ4SmQPelg8ryPobkL/2A3YV1qvuzWYsXs2XplV0aNun569FVc32yxD+MOlUl
+ 5G6S5l/kB1z3+Mmrd5aMok75+vVLL0ztnbwIoFLL64Cs3RmPoSf+eW4+cnGkFHLfwnQZ
+ PPUopjCP8C78eUov78HiEtcmMrz8zptToKlQ3FeorgEtzwGeHzcufioEFK5AnIo9xzWT
+ 5i14+shiPpgn5ZscWZNuKER3LAUvPrLWXdUNNYYYh/D2g/uDGWWYyK58u7gQuUYs1UAp
+ W29OEvnMmRByNjOQU/NHzI96Fj9TTq3dFuf0Ol9Jgz9ijaRAr5PjB5ziX3P24EVAna4g
+ 9m9g==
+X-Gm-Message-State: AOAM5317qP6rOnCu9ghPo5/XMkHgRhLXfQFzVIvFpq7WwTBelsfsZYNP
+ 30xA4+UG//Dq8Zshc7C9KsukmrzsfSC4mRbB4qFUDQ==
+X-Google-Smtp-Source: ABdhPJyAUaUte3IZBUPfPV78uG2o2iHRJTruqi79KzmeUq+BPwFLJpN90dPjy3pPCJwfS4Gn0/7skvsS/0wy1U9GM2Y=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr744324ejc.407.1616432657664; 
+ Mon, 22 Mar 2021 10:04:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210320133706.21475-1-alex.bennee@linaro.org>
- <20210320133706.21475-11-alex.bennee@linaro.org>
-In-Reply-To: <20210320133706.21475-11-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 22 Mar 2021 14:03:00 -0300
-Message-ID: <CAKJDGDZmjE4+vM9VZ+2DioyzRprfikTZvbZuk03faV9=vF1pmA@mail.gmail.com>
-Subject: Re: [PATCH v1 10/14] gitlab-ci.yml: Merge the trace-backend testing
- into other jobs
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210102150718.47618-1-r.bolshakov@yadro.com>
+ <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
+ <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
+ <X/jJ7dTlBW8Pg65q@SPB-NB-133.local>
+ <e585d6ab-2dc8-4d1d-fbf7-96ecfdaa79@eik.bme.hu>
+ <X/pG4MVxih424H+a@SPB-NB-133.local>
+In-Reply-To: <X/pG4MVxih424H+a@SPB-NB-133.local>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Mar 2021 17:03:49 +0000
+Message-ID: <CAFEAcA9eH3xgHCYqpibxOK3EWmwkzLCfksN=m5x9bkwjRPkYgw@mail.gmail.com>
+Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
+To: Roman Bolshakov <r.bolshakov@yadro.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 20, 2021 at 10:37 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
+On Sun, 10 Jan 2021 at 00:14, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> Now if we apply the workaround mentioned in the article [1] that
+> switches focus to Dock and then back to the app we can resolve the issue
+> in QEMU:
 >
-> From: Thomas Huth <thuth@redhat.com>
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index f32adc3074..0986891ca0 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -1114,6 +1114,15 @@ QemuCocoaView *cocoaView;
+>      allow_events = true;
+>      /* Tell cocoa_display_init to proceed */
+>      qemu_sem_post(&app_started_sem);
+> +
+> +    /* Workaround unresponsive menu bar in macOS prior to Big Sur */
+> +    NSArray *docks = [NSRunningApplication runningApplicationsWithBundleIdentifier: @"com.apple.dock"];
+> +    if ([docks.firstObject activateWithOptions: NSApplicationActivateAllWindows]) {
+> +        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 200 * NSEC_PER_MSEC),
+> +                       dispatch_get_main_queue(), ^{
+> +            [NSApp activateIgnoringOtherApps:YES];
+> +        });
+> +    }
+>  }
 >
-> Our gitlab-ci got quite slow in the past weeks, due to the immense amount
-> of jobs that we have, so we should try to reduce the number of jobs.
-> There is no real good reason for having separate jobs just to test the
-> trace backends, we can do this just fine in other jobs, too.
+>  - (void)applicationWillTerminate:(NSNotification *)aNotification
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20210319095726.45965-1-thuth@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  .gitlab-ci.yml | 30 +++---------------------------
->  1 file changed, 3 insertions(+), 27 deletions(-)
->
+> Peter, does it help you? And what version of macOS do you use?
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+I got round to having another look at this this afternoon.
+(I'm using Catalina.) The workaround above does work for me,
+though it seems like a pretty nasty one.
 
+I tried the various reshufflings of the code suggested in various bugs,
+stack-overflow questions, etc, about where we should call setActivationPolicy,
+create menus, call activateIgnoringOtherApps, etc, but they didn't help.
+
+thanks
+-- PMM
 
