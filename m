@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CD3343885
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:26:22 +0100 (CET)
-Received: from localhost ([::1]:46582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA1734383F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 06:22:53 +0100 (CET)
+Received: from localhost ([::1]:44132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOD53-00051X-Bf
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33222)
+	id 1lOD1f-0003uy-UJ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 01:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOD3T-0004R0-Jl; Mon, 22 Mar 2021 01:24:45 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:55525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOD3O-0001ab-A4; Mon, 22 Mar 2021 01:24:42 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3jc10QbMz9sVt; Mon, 22 Mar 2021 16:24:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616390673;
- bh=01/kUWaA2zNnOAbuaD/kcHU2fMH11hA9CdX4RlCAv9s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BtYGsl8QwODoz7OKRJpnTa3ARdV9uO4lpYmCEcjZ2CXRLu0ppoY07D1p6KdlXmkQk
- 6jwdug7MVGNLnzcpwq3nLY7ytfA7vOFB2X2Ya1huCtLj9lITf0UxgFl+GxQEKD9j+x
- Z46hJ9quq82QiXnPIpeLuQ0zI3Zg9aaDM2t02R1M=
-Date: Mon, 22 Mar 2021 16:17:17 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/net: fsl_etsec: Tx padding length should exclude CRC
-Message-ID: <YFgoXU8tRCKWd0pk@yekko.fritz.box>
-References: <20210316081505.72898-1-bmeng.cn@gmail.com>
- <YFgNZFAKjVhder2R@yekko.fritz.box>
- <CAEUhbmV4=yz1Df9YDxsM1Evjd4dJA2rM8xoiSUvxEtOoL2z2xg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOCzw-000378-3m
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 01:21:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOCzs-00084c-Mw
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 01:21:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616390458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XgbarxzYdxfZgBw9/xQxrTykPqeb4XSQt7qefagPsQY=;
+ b=BfN90ylRvWwhwCLRzYtXNUqY5ArRMwBFowizIMDo/XIcIYf771aKTAE/twhERYxO7j3EYx
+ 8dMKNX9/bGcHnmfuCPaRqTm8lt4bC8ZJ3oBRKDhUga29p/MFd7rN72/UWOP9b5wtHk0a83
+ 6wU+xt9KxG6131QnZeuF+E3/ovNpDa8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-D3YWe3s7PReX75BccWOIPw-1; Mon, 22 Mar 2021 01:20:54 -0400
+X-MC-Unique: D3YWe3s7PReX75BccWOIPw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FE0B107B768;
+ Mon, 22 Mar 2021 05:20:53 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-79.ams2.redhat.com [10.36.112.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBE567086D;
+ Mon, 22 Mar 2021 05:20:51 +0000 (UTC)
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
+References: <cover.1616368879.git.lukasstraub2@web.de>
+ <950007e82e19e75831b29fac07ab990c213d2352.1616368879.git.lukasstraub2@web.de>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/5] tests: Use the normal yank code instead of stubs in
+ relevant tests
+Message-ID: <1fc6eff2-a8e5-4ae2-96a5-1b30325dff81@redhat.com>
+Date: Mon, 22 Mar 2021 06:20:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H2QjMByJ8FD1gbVV"
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmV4=yz1Df9YDxsM1Evjd4dJA2rM8xoiSUvxEtOoL2z2xg@mail.gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <950007e82e19e75831b29fac07ab990c213d2352.1616368879.git.lukasstraub2@web.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,69 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Marc-Andre Lureau <marcandre.lureau@gmail.com>, Li Zhang <zhlcindy@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 22/03/2021 00.31, Lukas Straub wrote:
+> Use the normal yank code instead of stubs in relevant tests to
+> increase coverage and to ensure that registering and unregistering
+> of yank instances and functions is done correctly.
+> 
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+>   tests/qtest/meson.build | 6 +++---
+>   tests/unit/meson.build  | 4 ++--
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 66ee9fbf45..40e1f495f7 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -234,9 +234,9 @@ tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
+>   qtests = {
+>     'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+>     'cdrom-test': files('boot-sector.c'),
+> -  'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
+> +  'dbus-vmstate-test': ['migration-helpers.c', dbus_vmstate1, '../../monitor/yank.c'],
+>     'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
+> -  'migration-test': files('migration-helpers.c'),
+> +  'migration-test': ['migration-helpers.c', io, '../../monitor/yank.c'],
+>     'pxe-test': files('boot-sector.c'),
+>     'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
+>     'tpm-crb-swtpm-test': [io, tpmemu_files],
 
---H2QjMByJ8FD1gbVV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Is this really necessary for the qtests? I can understand the change for the 
+unit tests, but the qtests are separate programs where I could not imagine 
+that they use the yank functions in any way?
 
-On Mon, Mar 22, 2021 at 12:33:06PM +0800, Bin Meng wrote:
-> Hi David,
->=20
-> On Mon, Mar 22, 2021 at 12:11 PM David Gibson
-> <david@gibson.dropbear.id.au> wrote:
-> >
-> > On Tue, Mar 16, 2021 at 04:15:05PM +0800, Bin Meng wrote:
-> > > As the comment of tx_padding_and_crc() says: "Never add CRC in QEMU",
-> > > min_frame_len should excluce CRC, so it should be 60 instead of 64.
-> >
-> > Sorry, your reasoning still isn't clear to me.  If qemu is not adding
-> > the CRC, what is?
->=20
-> No one is padding CRC in QEMU. QEMU network backends pass payload
-> without CRC in between.
+  Thomas
 
-Ok, but the CRCs must be added if the packets are bridged onto a real
-device, yes?  Where does that happen?
->=20
-> > Will it always append a CRC after this padding is complete?
->=20
-> No.
 
-If that's true, then won't the packets still be shorter than expected
-if we only pad to 60 bytes?
+PS: Please add a proper description about the yank feature to either that 
+yank.c file or to include/qemu/yank.h ... I had a hard time to find out what 
+this code is all about until I finally looked up your cover letter of the 
+original series on the mailing list.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---H2QjMByJ8FD1gbVV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYKFsACgkQbDjKyiDZ
-s5LKVQ//Xy/EXxroivZvJzVJ36N0LcbLaHN3NjnjUpqxFM9cT5lt9OvBsMnkPsp+
-cEMzFIBZl34Mt7H/FEsXZZMcOd8or/Ag7eOV85TUMZ//TU4UxlP4dE0D9ahJ19U4
-CFaiTIgfODHmwNNbW+hQ+kE4NvzRzEBtov4TbuTS3bQavDR8HiUAQcuhNjoNk7G5
-RUIfKPsi+6C9CVl4LssSLAEwaiN0T7tevly7ChfsqgcGuAhxbtdlSXfKlCAkGl3t
-YsaqFM3x1ArF+WRHUbqEv8a1VWCR0PsHD29/Xm2vq/ohwE42EXkw8sTC87cKRK7y
-xenxlWeQjqw77ym8tdyUaWbI3ku2QOCpeLr2WDVp593wPxMCCI8WJfAw64DkKfC2
-5lZ7O/9UTEVKolLacPz/V+HhpizX+3xODAhY2QWie8O6qacGwAKvKgNdozl544sP
-LEUgQhYorgB0KfSHefN9LX5unIeQB9yPT8DKxpdNwf6cMG3lnxONSw6K/grmc9fR
-XcnTiHNKRCDdyFYyptojBvUaZ9pR75G1/SmhfDp365pMMjCC7K/kTkEbaSoHb8Dm
-n523A4svpU24wR2bsZTZv+tz7LzRHPSj/g81/HuN7YiEtOhDFa+hLVtfSn/regA/
-+qcRAxG3Or+qmR1t/i1CocauuxLxGcrbHOtF5jYQtiz4/3tVxQ0=
-=oGiS
------END PGP SIGNATURE-----
-
---H2QjMByJ8FD1gbVV--
 
