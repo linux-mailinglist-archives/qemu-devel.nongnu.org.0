@@ -2,76 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B43343F04
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:08:19 +0100 (CET)
-Received: from localhost ([::1]:51364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EC3343F76
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:18:28 +0100 (CET)
+Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOIPz-000685-0S
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
+	id 1lOIZj-0002IR-2a
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lOIOB-0005GY-TP
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:06:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39785)
+ (Exim 4.90_1) (envelope-from <w.bumiller@proxmox.com>)
+ id 1lOIWa-0001JV-Ab
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:15:09 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:62456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lOIO9-00035O-35
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:06:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616411183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r0YHZ+HF5nUQt+AxCqXqQOx0O97V1U/QinUJr/DTtBY=;
- b=Uk2BIGhxipT72EA4ZpuVTJx4KFXnh452xElkr8g+iOcIlJRmNecXaxMbBMYq3+1GMsMdSn
- QJFXTE0+UDlQKzj61NVCMTM80GtRqD/WN3PR6H/X2Brn/acAVbzadYcU/j3cFxa1PJQuk0
- eLSpJnM1dctR61N7YKysKFQfLNXSCE8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-mMSIBuXWPuWvul8GcRwb3w-1; Mon, 22 Mar 2021 07:06:21 -0400
-X-MC-Unique: mMSIBuXWPuWvul8GcRwb3w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8102D1007477;
- Mon, 22 Mar 2021 11:06:19 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-196.ams2.redhat.com
- [10.36.114.196])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D414A5F9C9;
- Mon, 22 Mar 2021 11:06:17 +0000 (UTC)
-Subject: Re: [PATCH 2/2] hw/block/nvme: fix resource leak in nvme_format_ns
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20210322061951.186748-1-its@irrelevant.dk>
- <20210322061951.186748-3-its@irrelevant.dk>
- <75eb366b-32d9-ba67-971b-e5993f5ae192@redhat.com>
- <YFh1+nY5Tih9j+df@apples.localdomain>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <d9d90aac-1bca-05ee-6621-c3890422757d@redhat.com>
-Date: Mon, 22 Mar 2021 12:06:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <w.bumiller@proxmox.com>)
+ id 1lOIWX-0008Q6-H0
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:15:07 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 3F5BD42E4F;
+ Mon, 22 Mar 2021 12:08:48 +0100 (CET)
+Date: Mon, 22 Mar 2021 12:08:47 +0100
+From: Wolfgang Bumiller <w.bumiller@proxmox.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [PATCH] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
+Message-ID: <20210322110847.cdo477ve2gydab64@wobu-vie.proxmox.com>
+References: <20210318133550.13120-1-s.reiter@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <YFh1+nY5Tih9j+df@apples.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210318133550.13120-1-s.reiter@proxmox.com>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=w.bumiller@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,59 +52,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.03.21 11:48, Klaus Jensen wrote:
-> On Mar 22 11:02, Max Reitz wrote:
->> On 22.03.21 07:19, Klaus Jensen wrote:
->>> From: Klaus Jensen <k.jensen@samsung.com>
->>>
->>> In nvme_format_ns(), if the namespace is of zero size (which might be
->>> useless, but not invalid), the `count` variable will leak. Fix this by
->>> returning early in that case.
->>
->> When looking at the Coverity report, something else caught my eye: As far as
->> I’m aware, blk_aio_pwrite_zeroes() may invoke the CB before returning (if
->> blk_do_pwritev_part() returns without yielding).  I don’t think that will
->> happen with real hardware (who knows, though), but it should be possible to
->> see with the null-co block driver.
->>
->> nvme_format_ns() doesn’t quite look like it takes that into account. For
->> example, because *count starts at 1 and is decremented after the while (len)
->> loop, all nvme_aio_format_cb() invocations (if they are invoked before their
->> blk_aio_pwrite_zeroes() returns) will see
->> *count == 2, and thus not free it, or call nvme_enqueue_req_completion().
->>
->> I don’t know whether the latter is problematic, but not freeing `count`
->> doesn’t seem right.  Perhaps this could be addressed by adding a condition
->> to the `(*count)--` to see whether `(*count)-- == 1` (or rather `--(*count)
->> == 0`), which would indicate that there are no AIO functions still in
->> flight?
+On Thu, Mar 18, 2021 at 02:35:50PM +0100, Stefan Reiter wrote:
+> If OOB is disabled, events received in monitor_qmp_event will be handled
+> in the main context. Thus, we must not acquire a qmp_queue_lock there,
+> as the dispatcher coroutine holds one over a yield point, where it
+> expects to be rescheduled from the main context. If a CHR_EVENT_CLOSED
+> event is received just then, it can race and block the main thread by
+> waiting on the queue lock.
 > 
-> Hi Max,
+> Run monitor_qmp_cleanup_queue_and_resume in a BH on the iohandler
+> thread, so the main thread can always make progress during the
+> reschedule.
 > 
-> Thanks for glossing over this.
+> The delaying of the cleanup is safe, since the dispatcher always moves
+> back to the iothread afterward, and thus the cleanup will happen before
+> it gets to its next iteration.
 > 
-> And, yeah, you are right, nice catch. The reference counting is exactly
-> to guard against pwrite_zeroes invoking the CB before returning, but if
-> it happens it is not correctly handling it anyway :(
-> 
-> This stuff is exactly why I proposed converting all this into the
-> "proper" BlockAIOCB approach (see [1]), but it need a little more work.
-> 
-> I'll v2 this with a fix for this! Thanks!
-> 
-> 
->    [1]: https://lore.kernel.org/qemu-devel/20210302111040.289244-1-its@irrelevant.dk/
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> ---
 
-OK, thanks! :)
+This is a tough one. It *may* be fine, but I wonder if we can approach
+this differently:
 
-That rewrite does look more in-line with how AIO is handled elsewhere, yes.
+From what I can gather we have the following call stacks & contexts:
 
-Max
+Guarded lock (lock & release):
+  * monitor_qmp_cleanup_queue_and_resume
+    by monitor_qmp_event
+    by file handler (from I/O loop)
+    ^ iohandler_context (assuming that's where the file handling happens...)
+    (after this patch as BH though)
+
+  * handle_qmp_command
+    a) by the json parser (which is also re-initialized by
+       monitor_qmp_event btw., haven't checked if that can also
+       "trigger" its methods immediately)
+    b) by monitor_qmp_read
+    by file handler (from I/O loop)
+    ^ iohandler_context
+
+Lock-"returning":
+  * monitor_qmp_requests_pop_any_with_lock
+    by coroutine_fn monitor_qmp_dispatcher_co
+    ^ iohandler_context
+
+Lock-releasing:
+  * coroutine_fn monitor_qmp_dispatcher_co
+    ^ qemu_aio_context
+
+The only *weird* thing that immediately pops out here is
+`monitor_qmp_requests_pop_any_with_lock()` keeping a lock while
+switching contexts.
+This is done in order to allow `AIO_WAIT_WHILE` to work while making
+progress on the events, but do we actually already need to be in this
+context for the OOB `monitor_resume()` call or can we defer the context
+switch to after having done that and released the lock?
+`monitor_resume()` itself seems to simply schedule a BH which should
+work regardless if I'm not mistaken. There's also a
+`readline_show_prompt()` call, but that *looks* harmless?
+`monitor_resume()` is also called without the lock later on, so even if
+it needs to be in this context at that point for whatever reason, does
+it need the lock?
 
 
