@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C3F3437E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:24:15 +0100 (CET)
-Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8513437E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 05:29:37 +0100 (CET)
+Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOC6w-00015v-9R
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47118)
+	id 1lOCC7-0005FC-UH
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 00:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBv9-0006PX-69; Mon, 22 Mar 2021 00:12:03 -0400
-Received: from ozlabs.org ([203.11.71.1]:35179)
+ id 1lOBvA-0006Tm-NM; Mon, 22 Mar 2021 00:12:04 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:55741 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOBv3-0004kY-54; Mon, 22 Mar 2021 00:11:58 -0400
+ id 1lOBv3-0004ku-M7; Mon, 22 Mar 2021 00:12:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F3gzz2x6Nz9sXL; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
+ id 4F3gzz3Fr9z9sXM; Mon, 22 Mar 2021 15:11:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616386303;
- bh=6KDyu9tewzANOS4AzC/7UZYo6uiFabqy/rs6Je0wdfI=;
+ bh=bOT190nzx8WfxK3q/b0xIai1Lh21nmYciEw5Gta/sPI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mMZC2BngoKADayd6ChRBtB0PPTkVXwRtSB4tQyybVVYjkZ0BGkBQ/44XesQLNLiIa
- bznXFAdW2dR9d4IpLBXI2LQafQ7FbXAe98m0YHAlWZWUz+sgpHRvrCEkr4yi8QdNsb
- 8qNpIUuUR6RIUJI9xkNaxQnSM5TAO7HoGnSZR3os=
-Date: Mon, 22 Mar 2021 14:55:21 +1100
+ b=OZ3sDF7kVYuSkPlgDUk70i2uVu+ARyb6bvLTBJ/ZS1HyO70PfzLtVrEDVSiCKPSUP
+ qDO/pMI1edKyZp9xBID2jM9NgPnJYiWp9y8EfZtzmWF8407Tt8P5i5oMHbnL6xnKBq
+ ZOR8giKIeFeAX8obumrHOCcYxpHpmX4YarQSdqFw=
+Date: Mon, 22 Mar 2021 15:00:33 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 09/17] target/ppc: Put dbcr0 single-step bits into
- hflags
-Message-ID: <YFgVKQMcSQG+dHwJ@yekko.fritz.box>
+Subject: Re: [PATCH v4 10/17] target/ppc: Create helper_scv
+Message-ID: <YFgWYQ8tPzWfwxDl@yekko.fritz.box>
 References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-10-richard.henderson@linaro.org>
+ <20210315184615.1985590-11-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Zl1pRtzvy4LD+wV2"
+ protocol="application/pgp-signature"; boundary="DlcEFU0pcae8bIkJ"
 Content-Disposition: inline
-In-Reply-To: <20210315184615.1985590-10-richard.henderson@linaro.org>
+In-Reply-To: <20210315184615.1985590-11-richard.henderson@linaro.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,95 +63,112 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Zl1pRtzvy4LD+wV2
+--DlcEFU0pcae8bIkJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 12:46:07PM -0600, Richard Henderson wrote:
-> Because these bits were not in hflags, the code generated
-> for single-stepping on BookE was essentially random.
-> Recompute hflags when storing to dbcr0.
+On Mon, Mar 15, 2021 at 12:46:08PM -0600, Richard Henderson wrote:
+> Perform the test against FSCR_SCV at runtime, in the helper.
+>=20
+> This means we can remove the incorrect set against SCV in
+> ppc_tr_init_disas_context and do not need to add an HFLAGS bit.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
 > ---
->  target/ppc/helper_regs.c | 20 +++++++++++++++-----
->  target/ppc/misc_helper.c |  3 +++
->  target/ppc/translate.c   | 11 -----------
->  3 files changed, 18 insertions(+), 16 deletions(-)
+>  target/ppc/helper.h      |  1 +
+>  target/ppc/excp_helper.c |  9 +++++++++
+>  target/ppc/translate.c   | 20 +++++++-------------
+>  3 files changed, 17 insertions(+), 13 deletions(-)
 >=20
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 0a746bffd7..c735540333 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -107,11 +107,21 @@ void hreg_compute_hflags(CPUPPCState *env)
->          hflags |=3D le << MSR_LE;
->      }
-> =20
-> -    if (ppc_flags & POWERPC_FLAG_BE) {
-> -        msr_mask |=3D 1 << MSR_BE;
-> -    }
-> -    if (ppc_flags & POWERPC_FLAG_SE) {
-> -        msr_mask |=3D 1 << MSR_SE;
-> +    if (ppc_flags & POWERPC_FLAG_DE) {
-> +        target_ulong dbcr0 =3D env->spr[SPR_BOOKE_DBCR0];
-> +        if (dbcr0 & DBCR0_ICMP) {
-> +            hflags |=3D 1 << HFLAGS_SE;
-> +        }
-> +        if (dbcr0 & DBCR0_BRT) {
-> +            hflags |=3D 1 << HFLAGS_BE;
-> +        }
-> +    } else {
-> +        if (ppc_flags & POWERPC_FLAG_BE) {
-> +            msr_mask |=3D 1 << MSR_BE;
-> +        }
-> +        if (ppc_flags & POWERPC_FLAG_SE) {
-> +            msr_mask |=3D 1 << MSR_SE;
-> +        }
->      }
-> =20
->      if (msr_is_64bit(env, msr)) {
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index b04b4d7c6e..a5ee1fd63c 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -215,6 +215,9 @@ void helper_store_403_pbr(CPUPPCState *env, uint32_t =
-num, target_ulong value)
-> =20
->  void helper_store_40x_dbcr0(CPUPPCState *env, target_ulong val)
->  {
-> +    /* Bits 26 & 27 affect single-stepping */
-> +    hreg_compute_hflags(env);
-> +    /* Bits 28 & 29 affect reset or shutdown. */
->      store_40x_dbcr0(env, val);
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 6a4dccf70c..513066d54d 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -13,6 +13,7 @@ DEF_HELPER_1(rfci, void, env)
+>  DEF_HELPER_1(rfdi, void, env)
+>  DEF_HELPER_1(rfmci, void, env)
+>  #if defined(TARGET_PPC64)
+> +DEF_HELPER_2(scv, noreturn, env, i32)
+>  DEF_HELPER_2(pminsn, void, env, i32)
+>  DEF_HELPER_1(rfid, void, env)
+>  DEF_HELPER_1(rfscv, void, env)
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 85de7e6c90..5c95e0c103 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -1130,6 +1130,15 @@ void helper_store_msr(CPUPPCState *env, target_ulo=
+ng val)
 >  }
 > =20
+>  #if defined(TARGET_PPC64)
+> +void helper_scv(CPUPPCState *env, uint32_t lev)
+> +{
+> +    if (env->spr[SPR_FSCR] & (1ull << FSCR_SCV)) {
+> +        raise_exception_err(env, POWERPC_EXCP_SYSCALL_VECTORED, lev);
+> +    } else {
+> +        raise_exception_err(env, POWERPC_EXCP_FU, FSCR_IC_SCV);
+> +    }
+> +}
+> +
+>  void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+>  {
+>      CPUState *cs;
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index a85b890bb0..7912495f28 100644
+> index 7912495f28..d48c554290 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -7923,17 +7923,6 @@ static void ppc_tr_init_disas_context(DisasContext=
+> @@ -173,7 +173,6 @@ struct DisasContext {
+>      bool vsx_enabled;
+>      bool spe_enabled;
+>      bool tm_enabled;
+> -    bool scv_enabled;
+>      bool gtse;
+>      ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+>      int singlestep_enabled;
+> @@ -4081,15 +4080,16 @@ static void gen_sc(DisasContext *ctx)
+>  #if !defined(CONFIG_USER_ONLY)
+>  static void gen_scv(DisasContext *ctx)
+>  {
+> -    uint32_t lev;
+> +    uint32_t lev =3D (ctx->opcode >> 5) & 0x7F;
+> =20
+> -    if (unlikely(!ctx->scv_enabled)) {
+> -        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_SCV);
+> -        return;
+> +    /* Set the PC back to the faulting instruction. */
+> +    if (ctx->exception =3D=3D POWERPC_EXCP_NONE) {
+> +        gen_update_nip(ctx, ctx->base.pc_next - 4);
+>      }
+
+I don't quite understand this.  Don't we need the NIP to be on the scv
+instruction itself for the case where we get a facility unavailable
+exception, but on the next instruction if we actually take the system
+call?  This appears to be unconditional.
+
+> +    gen_helper_scv(cpu_env, tcg_constant_i32(lev));
+> =20
+> -    lev =3D (ctx->opcode >> 5) & 0x7F;
+> -    gen_exception_err(ctx, POWERPC_SYSCALL_VECTORED, lev);
+> +    /* This need not be exact, just not POWERPC_EXCP_NONE */
+> +    ctx->exception =3D POWERPC_SYSCALL_VECTORED;
+>  }
+>  #endif
+>  #endif
+> @@ -7907,12 +7907,6 @@ static void ppc_tr_init_disas_context(DisasContext=
 Base *dcbase, CPUState *cs)
->      if ((hflags >> HFLAGS_BE) & 1) {
->          ctx->singlestep_enabled |=3D CPU_BRANCH_STEP;
->      }
-> -    if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
-> -        ctx->singlestep_enabled =3D 0;
-> -        target_ulong dbcr0 =3D env->spr[SPR_BOOKE_DBCR0];
-> -        if (dbcr0 & DBCR0_ICMP) {
-> -            ctx->singlestep_enabled |=3D CPU_SINGLE_STEP;
-> -        }
-> -        if (dbcr0 & DBCR0_BRT) {
-> -            ctx->singlestep_enabled |=3D CPU_BRANCH_STEP;
-> -        }
-> -
+>      ctx->spe_enabled =3D (hflags >> HFLAGS_SPE) & 1;
+>      ctx->altivec_enabled =3D (hflags >> HFLAGS_VR) & 1;
+>      ctx->vsx_enabled =3D (hflags >> HFLAGS_VSX) & 1;
+> -    if ((env->flags & POWERPC_FLAG_SCV)
+> -        && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {
+> -        ctx->scv_enabled =3D true;
+> -    } else {
+> -        ctx->scv_enabled =3D false;
 > -    }
->      if (unlikely(ctx->base.singlestep_enabled)) {
->          ctx->singlestep_enabled |=3D GDBSTUB_SINGLE_STEP;
->      }
+>      ctx->tm_enabled =3D (hflags >> HFLAGS_TM) & 1;
+>      ctx->gtse =3D !!(env->spr[SPR_LPCR] & LPCR_GTSE);
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -160,25 +176,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Zl1pRtzvy4LD+wV2
+--DlcEFU0pcae8bIkJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYFSkACgkQbDjKyiDZ
-s5JwwhAAoaiRLZlZ6G5LpnNAmDdo48ythGwmbiEdb+Fi/fCVugdD5cDcXEBq+cih
-uPEm65KBirgbmZ1hL9rMwNtRaGJphHbdKV1yWk9bHFspjmroYWY+FTFjccg31WuT
-ME4A/DvciwqogFByMwtv9Rv5ZcQnYm0vTUJkb2SVesGkgXNinBgDqu3JF5I+cEva
-27iDxPw5MFaul4o3pS/7UUfXBr9DoCtbBG9s08vEWUQIutlyQmbGDy8yR9+dsfqD
-fdma2s04K4DkXcGMG1q3RqYvw1OcuD8hR8Uz+/ZLMDCrSOd4W9kbpKBW0lYfKVWi
-O88/xV3tNaNAs+2GuiGa8D0kwuk2h+9H4OqZxR24ORQMa9C4wIB1FmX6tOuzKjvI
-xOgqVo9NTNar5Q4TOCakyh9fZQaEC3aB0DoivWnL6Wh+jMf5bwHbCWQA83Ov3TJQ
-CsQPwYBn06LxcTE/2NgCVnY+hFsr//7xQASPRCQDH1Htms3pO872GU6uprnCGLxl
-UvmbWDHRK2Is0CIGPFCULUrgVRWxJ6mCAElM2pBxMMHdgJFIE4Jv7Y1Nyl+0KVyJ
-KDd/JVYzda0KPak7ttcjqSxsx29jK6uMNy5U0hjjdzvbElahO9Gmvr63UX/XbVMy
-NxeSDC4kLITL/yKyw+XMO9nE5sDX1iWT5Y5Y32HfRJghxC7dP80=
-=5lGh
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBYFmEACgkQbDjKyiDZ
+s5Lxdg//RigoisgxdDdv0CjEkjivSlTIgjvDzMSqEnfM/8Z8uW/rD+8XZaW4mLYh
+s3TvR1DA/gVUVIAr3mO/Y9WXGj4gI4db6mjr4f+ASTaGNKzoJ++Qy5a0baP/FtcT
+SKPAHjk1qF0+nbxOt+MTa50r+xijYADID45q00XySKSsufShr17n/WfLgk9pVRYt
+sOq/elG0OUsQkCoJTuTZW7Scl/TSLLNQhorWYaOv74u2FwgZQ4ZWKcAqZ6Qt3yTM
+lK74NzjRfkBCoilplaCOA3UrknXcsmGysA/0jUtuLEhuaeJyk9dxny+Hrea2KNJQ
+CNqN4JpQTco6lWwFRUQ8K8DOM8Rl1hIqkHnJe10uA5jsXSBSlGXl7lpVg1EpriIT
+wzljqLWvrOkbsihTh6n4HYpLQ/71QzxPPaC+ixJzWRY+Wu//26KFG0vLptMr8hXA
+NS6mH44XVWqOYvgcc8SNeNggpN+TZagyOlZZWOkb5+OTUG9RsTIr+UnMdZgCSoU3
+gi2SzzJ+gL9nKMHKVEZreqc2OOQuOhtNdIFF5ozgS4uEsmNIv01YNxMDO1qnMSgO
+H7uYlD2lo580YPWQZLhCdsKKAFPchEnGb7kTII6U77lspFJALorfZDxrnwyWsc3S
+pmHqIU1K7eVcrXkmOUWo5DWWCQhqspD8BHczV9d0+xr/J8ahmI4=
+=MvZ6
 -----END PGP SIGNATURE-----
 
---Zl1pRtzvy4LD+wV2--
+--DlcEFU0pcae8bIkJ--
 
