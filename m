@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E12344B1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:23:38 +0100 (CET)
-Received: from localhost ([::1]:41038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AC1344AE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:18:11 +0100 (CET)
+Received: from localhost ([::1]:55152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lONL7-0003Su-2X
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46436)
+	id 1lONFq-00061a-11
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lON5D-0005fi-Mu
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:07:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lON52-00030E-ML
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:07:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616429217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q7AfpcqCqt89ImnrUd3ZmSmQoZ4wzasiSVvnDtsEn54=;
- b=d8k9Lyri3NxQNMFSX50MU2c5BbziSJvH5y4klIKoCWjBO3nH0fZzqTpN8FYEMM+T90RdNz
- zt6QsmEgNEPPbXLsjrHMZb0/OooVgquDd5lonXB9B8M1ZVGzECZTRMhJVQ0PjddHYesAa6
- TnLj11VNHRFx+JUVXdGcaLAf0Ptu5FU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-HqRZ5ibQO_-LQlesoD3YYQ-1; Mon, 22 Mar 2021 12:06:55 -0400
-X-MC-Unique: HqRZ5ibQO_-LQlesoD3YYQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C676A8042C1;
- Mon, 22 Mar 2021 16:06:54 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-79.ams2.redhat.com [10.36.112.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D7634213;
- Mon, 22 Mar 2021 16:06:45 +0000 (UTC)
-Subject: Re: [RFC PATCH] gitlab: default to not building the documentation
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210322144140.13505-1-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e4946ac6-8580-c8fc-ae1b-f1907f00bdce@redhat.com>
-Date: Mon, 22 Mar 2021 17:06:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lONCC-0004Bv-QH
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:14:25 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lONCB-0006tZ-1Z
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 12:14:24 -0400
+Received: by mail-ej1-x631.google.com with SMTP id jy13so22209814ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 09:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=kF3UXRO7GwkPngEOfvSj9xbzqWWtYyDSpVN6Jh7YrEA=;
+ b=fy6zxqISc7d6AmgKX1vDUGD6hRzyjGoTsOwX/YyU51lPwLSaLmQpxsDYQRqGtSlWDy
+ IqjjV827CWkO//Zuzexhfk6G61pOVhoezuzrwLML1oJG+UNaoW3nDRRTifMxIetg8mlf
+ bBKZRv8lHMp8/nnyDV3PPXZrKYDKPrgEsXx2WwDSZ2nKopVWSMMj8YnJFzwlNeNt7O0T
+ nxgevNMFt4pMedIscMPRH4Kb0+4t6jKI2S6vtndP81tE8e5H0lBY4ZazAnFn8AlHAgMv
+ hHnXfu3hWDA/9UWXHtvQHvZum+IqdseeTTcWl7cuPHBenGZKXdHmOkJN88VBU5+GSQsH
+ /ZFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=kF3UXRO7GwkPngEOfvSj9xbzqWWtYyDSpVN6Jh7YrEA=;
+ b=nTE+hKtOMFHwV0RnpMVK2yskApv9UTFgiQ1FWG6X2YNIlqNXv6MkZ+iGQlEg61+7pR
+ f8nRftctd/yanzVI3tvq9nVw2hY0EIil/4Sz5/9QpXt0sX2Rt23EDwWZ7NblYe7kkbsM
+ LNrwaIc5YhSUod045y3fUgLYq60EvLVMKbLz9pMYpkGjtX4vZbTOUUaLcqw+LtYW89yQ
+ bsd70XGLMTIW9lsqKlOM8hFrRflrWrSH4eRZR95QS/S25rFtP1l5NYdLcpQTuta2bH6O
+ OgckxZfdj/fArpB9ZOVhiD0OJc/dUtB4g9uIqbC0O2b378x144+zgcC8KMozDeIB/FhR
+ EFvA==
+X-Gm-Message-State: AOAM530xQ1M5VWSFxN37l/l71LXsMUhjLdD85C6RbBQGGtavD4O0/5ra
+ cJ2jPc/aHZIRknu6nohiGS9cfw==
+X-Google-Smtp-Source: ABdhPJy5/3bBzbKNK13rf/4TB3Qaz+99vsHTngDG6Sq85oxhhwl+jXe0/Aw/LnElaZWfvyleww83oQ==
+X-Received: by 2002:a17:906:2b46:: with SMTP id
+ b6mr501602ejg.521.1616429661487; 
+ Mon, 22 Mar 2021 09:14:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x17sm9856838ejd.68.2021.03.22.09.14.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 09:14:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E52F01FF7E;
+ Mon, 22 Mar 2021 16:14:19 +0000 (GMT)
+References: <20210322132800.7470-1-cfontana@suse.de>
+ <20210322132800.7470-4-cfontana@suse.de>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v28 02/23] target/i386: Split out do_fsave, do_frstor,
+ do_fxsave, do_fxrstor
+Date: Mon, 22 Mar 2021 16:14:15 +0000
+In-reply-to: <20210322132800.7470-4-cfontana@suse.de>
+Message-ID: <87tup3jhd0.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210322144140.13505-1-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,51 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/03/2021 15.41, Alex Bennée wrote:
-> In d0f26e68a0 ("gitlab: force enable docs build in Fedora, Ubuntu,
-> Debian") we made sure we can build the documents on more than one
-> system. However we don't want to build documents all the time as it's
-> a waste of cycles (and energy). So lets reduce the total amount of
-> documentation we build while still keeping some coverage.
-> 
-> Fixes: a8a3abe0b3 ("gitlab: move docs and tools build across from Travis")
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.yml | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 9ffbaa7ffb..7714c7cac8 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -23,9 +23,9 @@ include:
->       - cd build
->       - if test -n "$TARGETS";
->         then
-> -        ../configure --enable-werror $CONFIGURE_ARGS --target-list="$TARGETS" ;
-> +        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS --target-list="$TARGETS" ;
->         else
-> -        ../configure --enable-werror $CONFIGURE_ARGS ;
-> +        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS ;
->         fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
->       - if test -n "$LD_JOBS";
->         then
-> @@ -119,7 +119,7 @@ build-system-ubuntu:
->       job: amd64-ubuntu2004-container
->     variables:
->       IMAGE: ubuntu2004
-> -    CONFIGURE_ARGS: --enable-fdt=system --enable-slirp=system
-> +    CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
 
-I think it might be better to add it to the Fedora job - it will likely have 
-a newer version of Sphinx and gets updated more often.
+Claudio Fontana <cfontana@suse.de> writes:
 
-  Thomas
+> From: Richard Henderson <richard.henderson@linaro.org>
+>
+> The helper_* functions must use GETPC() to unwind from TCG.
+> The cpu_x86_* functions cannot, and directly calling the
+> helper_* functions is a bug.  Split out new functions that
+> perform the work and can be used by both.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Claudio Fontana <cfontana@suse.de>
+> Tested-by: Claudio Fontana <cfontana@suse.de>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
