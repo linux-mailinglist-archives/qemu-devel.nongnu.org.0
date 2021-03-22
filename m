@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83EE343FA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:27:04 +0100 (CET)
-Received: from localhost ([::1]:44434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C86343FA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 12:27:09 +0100 (CET)
+Received: from localhost ([::1]:44822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOIi7-0007dk-QZ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49378)
+	id 1lOIiC-0007nD-SP
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 07:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOIfg-0006IT-Lz
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:32 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51950)
+ id 1lOIfk-0006OP-S4
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:36 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOIff-00058r-1t
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:32 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id p19so9264965wmq.1
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:24:30 -0700 (PDT)
+ id 1lOIfj-0005BW-AI
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 07:24:36 -0400
+Received: by mail-wr1-x432.google.com with SMTP id k8so16259878wrc.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 04:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ucb/dYvEaXqIZLvuYBePGYwJnrlkCR8qEzyYYafHh4g=;
- b=UvBahEjLPZEia3OE/3CQxpJ6fyt9XCITZ4XOZEZwY+GwG7F29w3k5i1UG3z5L1n6Zq
- anpGy3hzGhcUI0eDuXNIfTL8idYxz+r8MXQ5AlCrTJYLM/6mSeFpye19mQUdbIcqAE8S
- jFATm/ij0x27o3kDCMBw4AqKub+BSGFqQgY42y0KA+XtGP02oFzhTi8uNtrgfYurmXv4
- tYrUdq6T+E1tFmBZgycGHF+Gqypxc6yZqJ0e59jj9SP6yzE/j8QDnQjEyuROgcBZGkLC
- hCF50dF9/UQ3aR0NwdkGX3TKZmX6zfdOnnydvFV2nZGk7jXQyh3z0nfOFEetxTYh+b72
- 5LQQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pphh/M4i+V5QXSFWtxyeo/WK7bpisFUp1Fv9ddkKt44=;
+ b=RS9raCY4cxrkhDo22yKNtsyZDUZFBY3FWekOpPhHzjTI7lBfW3jpXTVoyRrEi9EbJy
+ DAdKKoUdF1owkh+RzcSfyASAodfJ50AIqHcDByNaGmiCeNQ6wCcdb/en1SaP8gf8OnvI
+ ENbH+mo0/TwqWvPYk6LZ48lvn/Dmfj8pwSR59NE1OtNFQbtXs/oVBDJEa9K/YqlkIJPb
+ 2HB2c83lyu47lgjqJXjZV4+9DbMWzqerehjX20PByydQUH7snNHW5y1bNI1mYg38s4aj
+ 8Ja/kDEssfxo0mqlfG8cM7150psYOjuO7ApwS3CKoHODON7tOnCxjrgDkpwQKw9zGM4E
+ aTxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ucb/dYvEaXqIZLvuYBePGYwJnrlkCR8qEzyYYafHh4g=;
- b=sn+PJ2PbMZ5a/+JHJr8G9lrRcHWwYJGLj3h5dHhu/motUoNHRPPuFUW4BEctwRXIUA
- eXbZFd/pJd+V5LyfPTMlswuvHh9ETm2fttlzPhJAB/T7B+jdd0NlVvxUFWwt8HQYF2EC
- eSSrcufSM58TscpXvf3HA3+bd6b9dWQXMpL6v0Ta5VhIghy08aiwMBVf0kjxKxqbXGcO
- A6onrYVrS7fDSwfKccp8Y+ltncZyFRF4saRNOVtC9elyTXcODdHYF/ADNK2nYW/l1ps4
- etYGuKyutnNugOXAdPN2ucxevRGhCmEU30+CJtD7PKyIVed5xJrz1MMvNdXv5vYz650I
- sg7A==
-X-Gm-Message-State: AOAM533TB5MhJsXa38MZtQOCj0Yk70Hjxl2P0zl/FaXy5mVFCnM6GvvQ
- zGJx9gFI4us93q+QEgBvHvizRTygJqezVg==
-X-Google-Smtp-Source: ABdhPJzUbFVNveXj/u8Amfilq/HkVZBjd9yBvviPg7FWD23vRJSY8OxUzNfzk3/PzZPex/dGyAC4tQ==
-X-Received: by 2002:a7b:c242:: with SMTP id b2mr16301782wmj.119.1616412269279; 
- Mon, 22 Mar 2021 04:24:29 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=pphh/M4i+V5QXSFWtxyeo/WK7bpisFUp1Fv9ddkKt44=;
+ b=rJs5NeHFotQhtnv2dRliAX00haM12m4VnCUmckT4H00fZH+ICv/vUJoG/vGrVHkPA7
+ 1G8JmYKvYRjwtcPtNKYPzN0V//hANVXTI46SxnQ1/uZ+vXUjB6sGNKFxbxx224DXPb6F
+ i3uZMjKXIqOB9AKROjG8IvNC2M4BoKlQu+2aYYt1I2jGvMFvFZdlAHP4+UtWkPoj8uaY
+ 9k+7t/a5/njMHW3udvW6rIaqqSFYIfHanVJZLkIOK7Sgr2g4JIehIwxru3xE1AGXLNzc
+ 4CH4bB3JawHpw6+d0amzB4t0iTgv5Su5xuJft3F0VaPGKEL0c6DH6UPxnydCIbEzYP7Q
+ mHkw==
+X-Gm-Message-State: AOAM530MJNINwArW9JxRHeDJbSkp062lGgWbckaEdkFN8gYfuJIP5BBW
+ q2ptSj5L5WffqwBmAdMXfx1adIhxMBeRTQ==
+X-Google-Smtp-Source: ABdhPJxYCyNE7EBjis2u6HTnHhla93JP23TrQ7BVfgM2D07lN114fLSi50ykv12ng9rWFaI/AUeYfQ==
+X-Received: by 2002:adf:fe8d:: with SMTP id l13mr17271009wrr.81.1616412273872; 
+ Mon, 22 Mar 2021 04:24:33 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id o15sm13548396wra.93.2021.03.22.04.24.28
+ by smtp.gmail.com with ESMTPSA id l15sm19277270wru.38.2021.03.22.04.24.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 04:24:28 -0700 (PDT)
+ Mon, 22 Mar 2021 04:24:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] exec: Build page-vary-common.c with -fno-lto
-Date: Mon, 22 Mar 2021 12:24:23 +0100
-Message-Id: <20210322112427.4045204-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/3] exec: Rename exec-vary.c as page-vary.c
+Date: Mon, 22 Mar 2021 12:24:24 +0100
+Message-Id: <20210322112427.4045204-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210322112427.4045204-1-f4bug@amsat.org>
+References: <20210322112427.4045204-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,41 +92,55 @@ Cc: Gavin Shan <gshan@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-While reviewing Richard's original patch, I split it in 3=0D
-to make it more digestible to my review taste. I then simply=0D
-filled the patch descriptions. Feel free to keep Richard's v1=0D
-if this isn't worth it.=0D
-=0D
-What is still missing is adding the new files to a MAINTAINERS=0D
-section.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Supersedes: <20210321211534.2101231-1-richard.henderson@linaro.org>=0D
-=0D
-Richard Henderson (3):=0D
-  exec: Rename exec-vary.c as page-vary.c=0D
-  exec: Extract 'page-vary.h' header=0D
-  exec: Build page-vary-common.c with -fno-lto=0D
-=0D
- configure                |  19 -------=0D
- meson.build              |  18 ++++++-=0D
- include/exec/cpu-all.h   |  15 ++----=0D
- include/exec/page-vary.h |  34 ++++++++++++=0D
- exec-vary.c              | 108 ---------------------------------------=0D
- page-vary-common.c       |  54 ++++++++++++++++++++=0D
- page-vary.c              |  41 +++++++++++++++=0D
- 7 files changed, 150 insertions(+), 139 deletions(-)=0D
- create mode 100644 include/exec/page-vary.h=0D
- delete mode 100644 exec-vary.c=0D
- create mode 100644 page-vary-common.c=0D
- create mode 100644 page-vary.c=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+From: Richard Henderson <richard.henderson@linaro.org>
+
+exec-vary.c is about variable page size handling,
+rename it page-vary.c. Currently this file is target
+specific (built once for each target), comment this.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ meson.build                | 3 ++-
+ exec-vary.c => page-vary.c | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ rename exec-vary.c => page-vary.c (98%)
+
+diff --git a/meson.build b/meson.build
+index 5c85a15364d..f0dd8aa0898 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1933,7 +1933,6 @@
+ 
+ common_ss.add(capstone)
+ specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+-specific_ss.add(files('exec-vary.c'))
+ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'fpu/softfloat.c',
+   'tcg/optimize.c',
+@@ -1945,6 +1944,8 @@
+ ))
+ specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+ 
++specific_ss.add(files('page-vary.c'))
++
+ subdir('backends')
+ subdir('disas')
+ subdir('migration')
+diff --git a/exec-vary.c b/page-vary.c
+similarity index 98%
+rename from exec-vary.c
+rename to page-vary.c
+index a603b1b4336..344f9fcf76a 100644
+--- a/exec-vary.c
++++ b/page-vary.c
+@@ -1,5 +1,5 @@
+ /*
+- * Variable page size handling
++ * Variable page size handling -- target specific part.
+  *
+  *  Copyright (c) 2003 Fabrice Bellard
+  *
+-- 
+2.26.2
+
 
