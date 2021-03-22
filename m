@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1DC3449E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 16:54:22 +0100 (CET)
-Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F60A344ABE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 17:12:05 +0100 (CET)
+Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOMsn-0006A7-MN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 11:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38742)
+	id 1lON9w-0001Tv-DI
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 12:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjv-0005N5-HK
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:45:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53587)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjw-0005NO-9d
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:45:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjs-00076g-Lt
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOMjt-000775-TC
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 11:45:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616427907;
+ s=mimecast20190719; t=1616427909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EeUbWNKIk7cGoc8diCDeN3aye5mUMnS1oxxE/sJ37XE=;
- b=SCeQUK9+bqs62ck3CYOoCZc6bZur++nbkuTtPP9W0mqYIvYB1QFTegr5OQBZxbr+Ea2hVo
- WKNeK7w3Rv7vuXfGTpi8dftDdbMnTxjKkr+foblC4CgZ+iBAia0eEyqeWB0KyiP2QCCJH8
- VFsqonAJ1LrT5lI9Lt7Hu5dOXTiHqcM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-rDAh5XYQMdKvCM46AWHlIw-1; Mon, 22 Mar 2021 11:45:05 -0400
-X-MC-Unique: rDAh5XYQMdKvCM46AWHlIw-1
-Received: by mail-wr1-f71.google.com with SMTP id i5so26318788wrp.8
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:45:04 -0700 (PDT)
+ bh=7MCCUAv4xuBxw3NN3h6dkjufSelH9In4sztB/9L9w9g=;
+ b=AXJyVldDgms0qqpSwOiSdXz/Ybo6N3ABaXhrbRPBXgL/K3zELqABGmuL9mSeAFMcTVrCHf
+ mTfIrBw4AKqVOIC5Sc3AAf9iQ0h5f+jWbz9Z0DLdtVzR+Yy3TwJ8TRJEd8/lhQ3IRfzPq/
+ TRpxMjTrj3rUtnRuoDTkYNpKmPdaJn8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-6ooP0kVVNr29O6hUmit4ew-1; Mon, 22 Mar 2021 11:45:07 -0400
+X-MC-Unique: 6ooP0kVVNr29O6hUmit4ew-1
+Received: by mail-wr1-f72.google.com with SMTP id t14so8950708wrx.12
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 08:45:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=EeUbWNKIk7cGoc8diCDeN3aye5mUMnS1oxxE/sJ37XE=;
- b=HRbYzYDxCKHkXRy9CJDsii4jBitbp3aYH6RzypeN1hE2Xewy+W5/pHdkWNkARZ8YgR
- x4zIuvy0Vwel8pea92XjVgPG9Ho2z/5pi/4TzqkbBCF6fV5ZDmDclLkNh9ZGCs9ZjXzs
- 4JgEPRERyrzjgf5Zdd5DxMK8bUkqPPqQPCEjSiUFxePxAkJmR+yHw2hJCsnUK67xvd7V
- n35oAv0X0tj7ogz2UmpqnY4loyidhEjOG1BwgUCIXKo+YaTCoAlRr8I2T2QbbQo6yddR
- 9k9q+yGRrRt7GJIgUyEeIx/2qqjaJBN7sIO6/BwGpscDNnnZLYhjd/xCTuZQ8Gt+s3KO
- QsUA==
-X-Gm-Message-State: AOAM5328dP57nSmhZPG48kWaYSvucYmBrXcRAHJ9HNwkcsohDwfXp37k
- AqqUZb0amYR/shNjSlXGZ/cO6a8ttWCAkDf42Dm+834B8HxaTMaEJhf3Lw2Bkov/hePxJlN9Niz
- f7FzNpTWwZ5Qr9hmAgsalwRI8aF099d8Qt002OnkafBhsJF4l9TLfBcZj3TpQ
-X-Received: by 2002:a5d:558b:: with SMTP id i11mr188846wrv.176.1616427903699; 
- Mon, 22 Mar 2021 08:45:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLs5i9CN/bkQxVo7atLdB5S5fFiWwx6dXUnJyxMMWojgtH1O8q2dsflyXvul8noqw5Ut9dHg==
-X-Received: by 2002:a5d:558b:: with SMTP id i11mr188830wrv.176.1616427903536; 
- Mon, 22 Mar 2021 08:45:03 -0700 (PDT)
+ bh=7MCCUAv4xuBxw3NN3h6dkjufSelH9In4sztB/9L9w9g=;
+ b=aGiFpRzsQ1W9vWrGZE6/4Woy0bMIUyzLc7XCe/DVe1MdyDpmWFXZ0khgcfvd2EcsF1
+ JhkXZsoLp4FhX4qk/fOLLT2bulTxUuGH8uMm9gbH9qeqhvFdefwjNH5YiGAaaaGvY008
+ 6f+JWxgqrfnQLBy1hWsi68Ehaq7yUhJJuG7ef6Ses/h2fNB5+S3I4Op8cUZxY/gfSiuD
+ 4zFD30WM8IEQ2iDhKZDO0Yjj7BWryRAmJ1nn7ArQCJ4y8lV9MsqAEUupdg8Mw9gswbnL
+ n/WZAk+gttqH9iq2qm+UAus74yuvN4JCppCuNVbj6z+MgtkmX3G1JM3lRy4g+0PLJisg
+ /1Pw==
+X-Gm-Message-State: AOAM531MDMnmwsGhlHAv77wxEcIC3FNcV57/JLtk6HW5SonYDbnvrJ5c
+ HwHOn4TG+yW8v+OuSjsVS4aoxAwFCAuNpXFbd1QszpVLpWDerzbt9qLY58WXqxcH06mzJAsFTnP
+ iFUFq+F803g4gQZ6nUJ/IiZD4P+760rv7BEvHE/Syyoicv91pfvWOIcmUMJcC
+X-Received: by 2002:adf:f148:: with SMTP id y8mr141597wro.107.1616427905640;
+ Mon, 22 Mar 2021 08:45:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH6Cght1cmcE/SpiWAWG8AF1jE44Mzh2mLSAk4Pvu96ewhIPtu+hqEvxBFS2788J/1GBSdrQ==
+X-Received: by 2002:adf:f148:: with SMTP id y8mr141583wro.107.1616427905415;
+ Mon, 22 Mar 2021 08:45:05 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id y1sm16499898wmq.29.2021.03.22.08.45.02
+ by smtp.gmail.com with ESMTPSA id d13sm20885391wro.23.2021.03.22.08.45.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 08:45:03 -0700 (PDT)
-Date: Mon, 22 Mar 2021 11:45:01 -0400
+ Mon, 22 Mar 2021 08:45:05 -0700 (PDT)
+Date: Mon, 22 Mar 2021 11:45:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/20] pci: acpi: ensure that acpi-index is unique
-Message-ID: <20210322154417.524229-13-mst@redhat.com>
+Subject: [PULL 13/20] acpi: add aml_to_decimalstring() and aml_call6() helpers
+Message-ID: <20210322154417.524229-14-mst@redhat.com>
 References: <20210322154417.524229-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210322154417.524229-1-mst@redhat.com>
@@ -99,98 +99,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-it helps to avoid device naming conflicts when guest OS is
-configured to use acpi-index for naming.
-Spec ialso says so:
-
-PCI Firmware Specification Revision 3.2
-4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
-"
-Instance number must be unique under \_SB scope. This instance number does not have to
-be sequential in a given system configuration.
-"
+it will be used by follow up patches
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+Message-Id: <20210315180102.3008391-5-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ include/hw/acpi/aml-build.h |  3 +++
+ hw/acpi/aml-build.c         | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index ceab287bd3..f4cb3c979d 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
-     PCIBus *bus;
- } AcpiPciHpFind;
- 
-+static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
-+{
-+    return a - b;
-+}
-+
-+static GSequence *pci_acpi_index_list(void)
-+{
-+    static GSequence *used_acpi_index_list;
-+
-+    if (!used_acpi_index_list) {
-+        used_acpi_index_list = g_sequence_new(NULL);
-+    }
-+    return used_acpi_index_list;
-+}
-+
- static int acpi_pcihp_get_bsel(PCIBus *bus)
- {
-     Error *local_err = NULL;
-@@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                    ONBOARD_INDEX_MAX);
-         return;
-     }
-+
-+    /*
-+     * make sure that acpi-index is unique across all present PCI devices
-+     */
-+    if (pdev->acpi_index) {
-+        GSequence *used_indexes = pci_acpi_index_list();
-+
-+        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
-+                              g_cmp_uint32, NULL)) {
-+            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
-+                       " already exist", pdev->acpi_index);
-+            return;
-+        }
-+        g_sequence_insert_sorted(used_indexes,
-+                                 GINT_TO_POINTER(pdev->acpi_index),
-+                                 g_cmp_uint32, NULL);
-+    }
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index 380d3e3924..e652106e26 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -301,6 +301,7 @@ Aml *aml_arg(int pos);
+ Aml *aml_to_integer(Aml *arg);
+ Aml *aml_to_hexstring(Aml *src, Aml *dst);
+ Aml *aml_to_buffer(Aml *src, Aml *dst);
++Aml *aml_to_decimalstring(Aml *src, Aml *dst);
+ Aml *aml_store(Aml *val, Aml *target);
+ Aml *aml_and(Aml *arg1, Aml *arg2, Aml *dst);
+ Aml *aml_or(Aml *arg1, Aml *arg2, Aml *dst);
+@@ -323,6 +324,8 @@ Aml *aml_call3(const char *method, Aml *arg1, Aml *arg2, Aml *arg3);
+ Aml *aml_call4(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4);
+ Aml *aml_call5(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
+                Aml *arg5);
++Aml *aml_call6(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
++               Aml *arg5, Aml *arg6);
+ Aml *aml_gpio_int(AmlConsumerAndProducer con_and_pro,
+                   AmlLevelAndEdge edge_level,
+                   AmlActiveHighAndLow active_level, AmlShared shared,
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index a2cd7a5830..d33ce8954a 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -634,6 +634,19 @@ Aml *aml_to_buffer(Aml *src, Aml *dst)
+     return var;
  }
  
- void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-@@ -315,8 +347,22 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
- void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-                                  DeviceState *dev, Error **errp)
- {
-+    PCIDevice *pdev = PCI_DEVICE(dev);
-+
-     trace_acpi_pci_unplug(PCI_SLOT(PCI_DEVICE(dev)->devfn),
-                           acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))));
-+
-+    /*
-+     * clean up acpi-index so it could reused by another device
-+     */
-+    if (pdev->acpi_index) {
-+        GSequence *used_indexes = pci_acpi_index_list();
-+
-+        g_sequence_remove(g_sequence_lookup(used_indexes,
-+                          GINT_TO_POINTER(pdev->acpi_index),
-+                          g_cmp_uint32, NULL));
++/* ACPI 2.0a: 17.2.4.4 Type 2 Opcodes Encoding: DefToDecimalString */
++Aml *aml_to_decimalstring(Aml *src, Aml *dst)
++{
++    Aml *var = aml_opcode(0x97 /* ToDecimalStringOp */);
++    aml_append(var, src);
++    if (dst) {
++        aml_append(var, dst);
++    } else {
++        build_append_byte(var->buf, 0x00 /* NullNameOp */);
 +    }
++    return var;
++}
 +
-     qdev_unrealize(dev);
+ /* ACPI 1.0b: 16.2.5.4 Type 2 Opcodes Encoding: DefStore */
+ Aml *aml_store(Aml *val, Aml *target)
+ {
+@@ -835,6 +848,21 @@ Aml *aml_call5(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
+     return var;
  }
  
++/* helper to call method with 5 arguments */
++Aml *aml_call6(const char *method, Aml *arg1, Aml *arg2, Aml *arg3, Aml *arg4,
++               Aml *arg5, Aml *arg6)
++{
++    Aml *var = aml_alloc();
++    build_append_namestring(var->buf, "%s", method);
++    aml_append(var, arg1);
++    aml_append(var, arg2);
++    aml_append(var, arg3);
++    aml_append(var, arg4);
++    aml_append(var, arg5);
++    aml_append(var, arg6);
++    return var;
++}
++
+ /*
+  * ACPI 5.0: 6.4.3.8.1 GPIO Connection Descriptor
+  * Type 1, Large Item Name 0xC
 -- 
 MST
 
