@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BD4344701
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:22:15 +0100 (CET)
-Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AA43446F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Mar 2021 15:19:01 +0100 (CET)
+Received: from localhost ([::1]:38512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOLRe-0000NK-MB
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1lOLOW-0004mr-8T
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 10:19:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOL6D-0002VP-67
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:00:05 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43729)
+ id 1lOL6J-0002XT-2R; Mon, 22 Mar 2021 10:00:11 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOL69-0003Zm-6z
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 10:00:03 -0400
-Received: by mail-wr1-x434.google.com with SMTP id e9so16971706wrw.10
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 07:00:00 -0700 (PDT)
+ id 1lOL6F-0003dk-9D; Mon, 22 Mar 2021 10:00:10 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id k8so16963147wrc.3;
+ Mon, 22 Mar 2021 07:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2KNSWpDv0trVIIjRwbq4Dhd+9F9sz4wThNGQGIPtbqg=;
- b=CDOk0qetVETE4qvGB/qY6dInsJvk3vIWGPrC8AldpXHwqdTQtuMp49o3kTTuqYj5+x
- Nf/UoCT/DQdOIbU8+s7HP6HczU/9y++Eo5sEJwJvUZDXFM+pLF1it9/AjPniJswYXgyA
- mhLFfbgB7DwfHeOtyJKVnNSmuzfxKn9cIxUNUh2Wb73yerhneuWYpZ3LGGLyhUyBHnT8
- lMpU4jspEFyi9UawEbJmANBizRJr7f7bxn4+Wj9XiGsmWtxJTY5WDypp2G5Mj2sp+UnK
- 0Cg6pBp60oUavVFcAfd0pnj77QuWkIZSDN/COQQ3sjYKVyTRLTsEidkL5nAo5kHDgJ5f
- bBoQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QqnRDcqbG8JtPoVsmIsAnMFqlbytcIG4xMZDFP2Crww=;
+ b=e2TDJ62JDCm3/1KpDMe/uTguwtJpyEVQp+b5BzmsuHq3ln3VsvssFSgLEEfNgZaVGh
+ sI++336GPAgdIuUgOTYRuJ6LsJMyoPOCaxtgTb0MluwyPWeFc8vK19jsfbuPskqEcTiN
+ gQL5rL/zOpluMtG8+DF4MZuHha4kvf/g3AXE6Gdl62iEahcy3jSbmJfr1p48WcBXMx/U
+ kCHJ/jaFIdGHxeBtR+Vm9sDc30uykeZnMQvVakmHKL3UcE17SuGySv8BblaQjn5CMRJc
+ xaxBSaLZJLjf31mO9LINDEZ9JT9aNnnl4rXoR911VAf34rhNggqwr3mKcbOQTGefPYWK
+ IgXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=2KNSWpDv0trVIIjRwbq4Dhd+9F9sz4wThNGQGIPtbqg=;
- b=rW98B4YpJPa+uUGkv8i5iT6gocR9sKfA7QGx6Szbi+xQ8gEWDX1uXjlGsrS4tjPaPE
- jg6IxhF/zrJ/98gnrgFB2rnk2eJfq3JP2ymGEno4qyOUvEjByxdEIYga1gCztArZP8HQ
- VdKoHZHc6rsf49nCN7H+UjIj8YoMc8lIfhIVhc6dZyMK3YHqSY7FOYn1T6M2svec5A1a
- 4ZHI/sPv8AF/vERDMQeD38OMdBZFOmt2m03V0MuE/p+akxCNOGZnjws86gxMhGWykWYx
- OyLN0WeMxQy4P5ZMVpIPkcKVxndV4xyQZrEuFunhm6Dh0M1zVzEbjUdv7+uZ6GZNttOk
- RKYw==
-X-Gm-Message-State: AOAM532CfSQUoBdH8P2yqP5PNZGrCpzLUVt505Pv6I+9AMRZFMN6Sqky
- oyVbPPj68HTGljXqMjGy6/O0rI0ePBgbLw==
-X-Google-Smtp-Source: ABdhPJz1yRn6YJWQ+G6UYYpoNEvZE6Fr8C5TlYlDi9agikEv677jVN1t+3OCZXb0F5iiQ0lj4TzgXQ==
-X-Received: by 2002:adf:fb0e:: with SMTP id c14mr18924806wrr.140.1616421599114; 
- Mon, 22 Mar 2021 06:59:59 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=QqnRDcqbG8JtPoVsmIsAnMFqlbytcIG4xMZDFP2Crww=;
+ b=FJUV5Ek8p+U0oEBlHIZgT3NJu34xMuCnHj4JB8OLtgYDqwG4KvIrD6X8rkmRp13e51
+ 1ndxtGeXJE14CTdCwcvmTwd49mqCXIkto82QO+xT+TgMYkjXOQtPv3MvpkFo5eZfH0ps
+ NRiPsMQ3hqfxYy+r8ORcVlfrYZEPe7RqXsFg0pu6v2yhwopUMj56EfRUxFvcyyEQDz+O
+ u6caEgK3S+XmU6jYQ2YTXkR5G4EnT3kwxdly7HciLuC+QLdcVBW21EnOFqyPPszyE13t
+ 6gWjcSjvyvyEEdQRVtqZDwObtksMlgvxcnnLxuJwFdWSq43QxS7C6R4iVA9ejgVIonva
+ GmBA==
+X-Gm-Message-State: AOAM533EsDR0+BrgxgzMSuML0uqnEUjuLX0dwr/ty0f/uK1Tyed89WrZ
+ 7aRx8euKsgk9B/tEL0BpL3rJdSJKrBhHdg==
+X-Google-Smtp-Source: ABdhPJxSV9Pw3D+cZyEEq1dzNnvjDsbkngwylNnN575P8K35hrcy1R+I9VFFeicdDFlZ3dDSU5IK6g==
+X-Received: by 2002:adf:b1c9:: with SMTP id r9mr18844903wra.51.1616421604280; 
+ Mon, 22 Mar 2021 07:00:04 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id b17sm19546287wrt.17.2021.03.22.06.59.58
+ by smtp.gmail.com with ESMTPSA id e13sm23252197wrg.72.2021.03.22.07.00.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 06:59:58 -0700 (PDT)
+ Mon, 22 Mar 2021 07:00:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] MIPS patches for 2021-03-22
-Date: Mon, 22 Mar 2021 14:59:55 +0100
-Message-Id: <20210322135957.4108728-1-f4bug@amsat.org>
+Subject: [PULL 1/2] target/mips/mxu_translate.c: Fix array overrun for
+ D16MIN/D16MAX
+Date: Mon, 22 Mar 2021 14:59:56 +0100
+Message-Id: <20210322135957.4108728-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210322135957.4108728-1-f4bug@amsat.org>
+References: <20210322135957.4108728-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,45 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, libvir-list@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-stable@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bdee969c0e65d4d509932b1d70e3a3b2ffbff6d5=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
-nto staging (2021-03-19 18:01:17 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/mips-fixes-20210322=0D
-=0D
-for you to fetch changes up to 83bbc537a151730741c04e40d23711067330dab9:=0D
-=0D
-  target/mips: Deprecate Trap-and-Emul KVM support (2021-03-22 11:28:04 +01=
-00)=0D
-=0D
-----------------------------------------------------------------=0D
-MIPS patches queue=0D
-=0D
-- Fix array overrun (Coverity CID 1450831)=0D
-- Deprecate KVM TE (Trap-and-Emul)=0D
-----------------------------------------------------------------=0D
-=0D
-Jiaxun Yang (1):=0D
-  target/mips: Deprecate Trap-and-Emul KVM support=0D
-=0D
-Peter Maydell (1):=0D
-  target/mips/mxu_translate.c: Fix array overrun for D16MIN/D16MAX=0D
-=0D
- docs/system/deprecated.rst  | 9 +++++++++=0D
- target/mips/mxu_translate.c | 8 ++++----=0D
- 2 files changed, 13 insertions(+), 4 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+From: Peter Maydell <peter.maydell@linaro.org>
+
+Coverity reported (CID 1450831) an array overrun in
+gen_mxu_D16MAX_D16MIN():
+
+  1103     } else if (unlikely((XRb == 0) || (XRa == 0))) {
+  ....
+  1112         if (opc == OPC_MXU_D16MAX) {
+  1113             tcg_gen_smax_i32(mxu_gpr[XRa - 1], t0, t1);
+  1114         } else {
+  1115             tcg_gen_smin_i32(mxu_gpr[XRa - 1], t0, t1);
+  1116         }
+
+>>> Overrunning array "mxu_gpr" of 15 8-byte elements at element
+    index 4294967295 (byte offset 34359738367) using index "XRa - 1U"
+    (which evaluates to 4294967295).
+
+This happens because the code is confused about which of XRa, XRb and
+XRc is the output, and which are the inputs.  XRa is the output, but
+most of the conditions separating out different special cases are
+written as if XRc is the output, with the result that we can end up
+in the code path that assumes XRa is non-0 even when it is zero.
+
+Fix the erroneous code, bringing it in to line with the structure
+used in functions like gen_mxu_S32MAX_S32MIN() and
+gen_mxu_Q8MAX_Q8MIN().
+
+Fixes: CID 1450831
+Fixes: bb84cbf38505bd1d8
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210316131353.4533-1-peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/mxu_translate.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/target/mips/mxu_translate.c b/target/mips/mxu_translate.c
+index afc008eeeef..fb0a811af6c 100644
+--- a/target/mips/mxu_translate.c
++++ b/target/mips/mxu_translate.c
+@@ -1095,12 +1095,12 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
+ 
+     if (unlikely(pad != 0)) {
+         /* opcode padding incorrect -> do nothing */
+-    } else if (unlikely(XRc == 0)) {
++    } else if (unlikely(XRa == 0)) {
+         /* destination is zero register -> do nothing */
+-    } else if (unlikely((XRb == 0) && (XRa == 0))) {
++    } else if (unlikely((XRb == 0) && (XRc == 0))) {
+         /* both operands zero registers -> just set destination to zero */
+-        tcg_gen_movi_i32(mxu_gpr[XRc - 1], 0);
+-    } else if (unlikely((XRb == 0) || (XRa == 0))) {
++        tcg_gen_movi_i32(mxu_gpr[XRa - 1], 0);
++    } else if (unlikely((XRb == 0) || (XRc == 0))) {
+         /* exactly one operand is zero register - find which one is not...*/
+         uint32_t XRx = XRb ? XRb : XRc;
+         /* ...and do half-word-wise max/min with one operand 0 */
+-- 
+2.26.2
+
 
