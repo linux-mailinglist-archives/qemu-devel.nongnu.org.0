@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4172C346DC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:16:16 +0100 (CET)
-Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF1D346DD0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:18:45 +0100 (CET)
+Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOqFy-0001EJ-TB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38238)
+	id 1lOqIO-0005ca-V2
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOqDu-0007fV-NV; Tue, 23 Mar 2021 19:14:06 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37453)
+ id 1lOqDx-0007le-UQ; Tue, 23 Mar 2021 19:14:09 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOqDt-0004n7-AP; Tue, 23 Mar 2021 19:14:06 -0400
-Received: by mail-wr1-x430.google.com with SMTP id x16so22520311wrn.4;
- Tue, 23 Mar 2021 16:14:03 -0700 (PDT)
+ id 1lOqDw-0004og-FY; Tue, 23 Mar 2021 19:14:09 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v4so22524958wrp.13;
+ Tue, 23 Mar 2021 16:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wcLxVW6lxbwa44z+dCAp47kty5V2tT/anv9mWjQkfQI=;
- b=A2Mgn8uQDW9ZLyEHCVFOSiaMY+KZR6FNvnl7j7L4OoPaYMHsLsFu6P6rg6ijYk0zgi
- eHWLnK8FAI7/gvcZgh4Deq8WmhWpWF4zU8URg9pW1Edi+OdnXNgoWHtiNnp9AH2rWJxt
- wGdPCYPj6KW5emcKGBTXX+LGd4YRwnZ4SbtZ08yCypH4zRK4BSHyDTWJTcvrk8/SPIE6
- wx+cZlgbfSrt4fiVWyzbdqibGbtmkwgITE5QSqBHsbEylvrmd5MvcudBn4AdbYJ6Y7T3
- lypJFCi4veHcVlAPKgRDugWICh6/+c7I39c0QUEDEir6zmU4xigia7flqiRvGy3f9gAD
- dzjg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sXZ5+rlla4hihnGaVsI2lt7KqMDnWJjmcdH6IhiIyEo=;
+ b=ZLqCD0Gpxqtp0SDy3lky78VnlZRZ8YDrP4BiCiv3r20dEfP7Ng4LkwDNgvZwwBznjm
+ K7svhznNryC+x42fkDbKjSlAPvzrTg/A+kLAOZ5pzqbT09NSxWLAFJVKiaTeYaeX73es
+ Wgym1HrNSNPyVZYGSf4CMnLE/5H7k4PXQPYml2P3ENSS9xzvqQ1vZY+xrWN6fxOpXVaz
+ rmGx6dpntHeJ9CEFGF3rZo9s+sdUoMKGVX9VEWO4R1qVnzCLllyWmXYrsA0Bt5K9h5FY
+ 0GfRA7HSNTxpdwb9AefH3iEJwBa523eT1HMqvXZppwYCVWyKneBQTiIQ66eYzZm5abY8
+ X1Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=wcLxVW6lxbwa44z+dCAp47kty5V2tT/anv9mWjQkfQI=;
- b=kXU3C0bK4ysEJGvNFJj5HELTh2u6aM4Q1T9jpQ0xDljBHVD3jBIF8XNurSOfCvH6qD
- 4/ukx28wZFcPn93H7NS3CMM5/Ux9pw850z42/IRWif3UN0KWtI3VFDjRl4ol6IUIZT8i
- 3E4lrS4IL1TsVlFWhPlw82ondZzy0lSd9h1gCOkGH2nfNE9UHMydLePRwSJQYry21SUp
- lnjJspKXaGQ3RgjirkGiTRrP3/PmlONeCEyhF7H8NNpsykLny/gjm/Wx9jrQ5biYMSKk
- pGpbKA6t2KplL61/y7p7VK6GGKOmHkycWSH7eB+7JG4dBZj4ltjBYJV2rIt7mWkq8VlO
- H4jQ==
-X-Gm-Message-State: AOAM530pmHwnFZ9vRgsMeKD9Xk2Zjpu/4FpXgKzvIsf9vzNAnRDAe0Zf
- F+f3WocWVNYYA28hLeWKV5xHh5qua8d6LQ==
-X-Google-Smtp-Source: ABdhPJy2tPdJTO7rXN2ym6vwStQfduk90zkLmM25BueYT07ThFrW+gqXIDozNIJAsgq9nrCx9I6VnQ==
-X-Received: by 2002:adf:e5cf:: with SMTP id a15mr298723wrn.226.1616541241404; 
- Tue, 23 Mar 2021 16:14:01 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=sXZ5+rlla4hihnGaVsI2lt7KqMDnWJjmcdH6IhiIyEo=;
+ b=Zawdv3Z1mdsIlO1lExNDMf0dLRUEDKgyxCv5LAaBLHf3Qw9QKtQ7RgDUGlFEKfG7x5
+ HJdV58wv5UZpmS4At4hjIhX5HP8oeCsvIIzjoL5IWhriJxF9tvk84GFpFXtydImjpBQ4
+ nz6flbQcNyyR5BYlwnd6JDr6gWWIHyVNCONjQ2kbwdMAw5FvG9M0V41+56WzFO7OkO8A
+ 5Lr4wkgRWXNkl5m+kBbPnpWwW5cfD3+v+D/BaOroMYX9mHSBZ/asDW5jRZ3o9fjMfmZV
+ VbE2/SjkZ8L3rcXg2kSRmEL0+HGyEjoBI1q09sUMLUkH0cI1h6eE+F7mK757ysDyi7/f
+ ZuEQ==
+X-Gm-Message-State: AOAM531y+ICWRWFOffGvakSZUmSPG2BlvPOp3VtT+uY5fSK1C5K3jIpL
+ Fs5bg4IZv7pTk/9xuOVFrJKdC5QtPCs7/Q==
+X-Google-Smtp-Source: ABdhPJyf0b4MMlPIcfzx5/iQiQ+K4z2Gtyt1DVmPXwsjsi6wZPocYQF0E5gHpeG4NUJAlob8AIOPMw==
+X-Received: by 2002:adf:90f0:: with SMTP id i103mr296408wri.318.1616541246281; 
+ Tue, 23 Mar 2021 16:14:06 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id u8sm476803wrr.42.2021.03.23.16.14.00
+ by smtp.gmail.com with ESMTPSA id a14sm483763wrg.84.2021.03.23.16.14.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 16:14:00 -0700 (PDT)
+ Tue, 23 Mar 2021 16:14:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] hw/isa: Remove unuseful qemu_allocate_irqs() call
-Date: Wed, 24 Mar 2021 00:13:52 +0100
-Message-Id: <20210323231358.396520-1-f4bug@amsat.org>
+Subject: [PATCH 1/6] hw/isa/i82378: Name output IRQ as 'intr'
+Date: Wed, 24 Mar 2021 00:13:53 +0100
+Message-Id: <20210323231358.396520-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210323231358.396520-1-f4bug@amsat.org>
+References: <20210323231358.396520-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,27 +93,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I started to fix the LeakSanitizer error in piix4_realize(),=0D
-then looked for similar pattern and found 2 other places.=0D
-The older is i82378 (historically the first one) which then=0D
-spread.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  hw/isa/i82378: Name output IRQ as 'intr'=0D
-  hw/isa/i82378: Simplify removing unuseful qemu_allocate_irqs() call=0D
-  hw/isa/i82378: Rename output IRQ variable=0D
-  hw/isa/vt82c686: Name output IRQ as 'intr'=0D
-  hw/isa/vt82c686: Simplify removing unuseful qemu_allocate_irqs() call=0D
-  hw/isa/piix4: Fix leak removing unuseful qemu_allocate_irqs() call=0D
-=0D
- hw/isa/i82378.c     | 13 +++----------=0D
- hw/isa/piix4.c      | 10 +---------=0D
- hw/isa/vt82c686.c   | 12 ++----------=0D
- hw/mips/fuloong2e.c |  2 +-=0D
- hw/ppc/prep.c       |  4 ++--=0D
- 5 files changed, 9 insertions(+), 32 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Named IRQs are easier to understand in the monitor.
+Name the single output interrupt as 'intr'.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/isa/i82378.c | 2 +-
+ hw/ppc/prep.c   | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
+index 2a2ff05b937..fd296c8ed7a 100644
+--- a/hw/isa/i82378.c
++++ b/hw/isa/i82378.c
+@@ -113,7 +113,7 @@ static void i82378_init(Object *obj)
+     DeviceState *dev = DEVICE(obj);
+     I82378State *s = I82378(obj);
+ 
+-    qdev_init_gpio_out(dev, s->out, 1);
++    qdev_init_gpio_out_named(dev, s->out, "intr", 1);
+     qdev_init_gpio_in(dev, i82378_request_pic_irq, 16);
+ }
+ 
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index f1b1efdcef9..50d9b6f0d54 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -284,8 +284,8 @@ static void ibm_40p_init(MachineState *machine)
+ 
+     /* PCI -> ISA bridge */
+     i82378_dev = DEVICE(pci_create_simple(pci_bus, PCI_DEVFN(11, 0), "i82378"));
+-    qdev_connect_gpio_out(i82378_dev, 0,
+-                          cpu->env.irq_inputs[PPC6xx_INPUT_INT]);
++    qdev_connect_gpio_out_named(i82378_dev, "intr", 0,
++                                cpu->env.irq_inputs[PPC6xx_INPUT_INT]);
+     sysbus_connect_irq(pcihost, 0, qdev_get_gpio_in(i82378_dev, 15));
+     isa_bus = ISA_BUS(qdev_get_child_bus(i82378_dev, "isa.0"));
+ 
+-- 
+2.26.2
+
 
