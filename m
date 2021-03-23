@@ -2,140 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A243466B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:50:07 +0100 (CET)
-Received: from localhost ([::1]:38432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70953467EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:43:30 +0100 (CET)
+Received: from localhost ([::1]:56770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOlAM-0002PO-3l
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42070)
+	id 1lOm01-0006h2-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOl00-0006rh-FB; Tue, 23 Mar 2021 13:39:25 -0400
-Received: from mail-eopbgr70107.outbound.protection.outlook.com
- ([40.107.7.107]:13446 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lOl1l-0000oz-Pt
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:41:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOkzv-0002S2-1M; Tue, 23 Mar 2021 13:39:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EjrlR7ltELg0fHj6Jz+PfnrwVkQu8KHdi5bz1okcQDQ8Ljj0B+p0l73pMCwAs0p9tcn/JkdySONDlgPa6OSKEuvmNEKH4LffV+fnvhE7RZ+ilEiSo+6YNl1tST3/W2TUxq81p3tlFYSrfN9t3qiuk33FszGvy3T8ztbAm8t8okt1wjxJU1Z+9ZT0p04r46XyGhJK8s/5NHR2QxtmnJ+bmLh6rQ2e/3PDQc0fuJ5pOrCfx6Sx+l/22PJ3sgy/YuTipFUSLKh6+D2WpfC+xSX8sL+h9j0OvEM/veeVwBJpr10ZhhvFYSpRdlXnW7arwtwxQA//xxlRPCeEo3A8J74BwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6oO9zMEXx0G0HFEszmCkwKCvSgMRPRfUW5nP/5tG94g=;
- b=evrRjYjBxZs9XZAgZBzQ0RGffJTBnDU/CzdQaqkaqySWtHvLu3+pdGJpwFqt25GVhRY5pzqUjvmBbG57CmFukXqoBvv8zXqoooJk0Vo32VhZDSMidjodKxzbw5je72jWpn2MD53rQUUvascm+w4XtGLhGoa54aENxK+tsIKcUbK07R/7dUrvtXMIvhx5+aOFEVb0OlH2rSV4AZcJ/rN1qfxyC2mtrbiOe1/qvb576YCLhiwrw16d+WuwIl9Y7jqE9/5CrioSMBZ+sy0F5oNSZyw+q7L9SqXGlPR+qO6FwMYnO9pNaBbHHL5lgmpSHQ9h5nA+UUVBOvyRRFgp2Xa4qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6oO9zMEXx0G0HFEszmCkwKCvSgMRPRfUW5nP/5tG94g=;
- b=ZZLmAQj1P9hxFLNmJ4DCLFQVM6bYlxGwSA/SKIV6/9M36r80o6ainuPLlVbE4P/jKNM3p7P5G80ge/44wv5BpScC1yny3WHDBhFhVSrKoPeyCCAB7jC/2CQVpX9YRazXwAQ95WORqA0w4PG++HwUpoEsmBBn0kBdxbf3cfrT1nY=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6102.eurprd08.prod.outlook.com (2603:10a6:20b:23d::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
- 2021 17:39:04 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 17:39:04 +0000
-Subject: Re: [PATCH 3/4] qemu-iotests: let "check" spawn an arbitrary test
- command
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: eesposit@redhat.com, qemu-block@nongnu.org, kwolf@redhat.com,
- mreitz@redhat.com
-References: <20210323130614.146399-1-pbonzini@redhat.com>
- <20210323130614.146399-4-pbonzini@redhat.com>
- <ac3b47aa-344a-a6aa-a1d8-2c2dba2d540c@virtuozzo.com>
- <14ed8b41-f8bc-b350-c859-2ac51a54663a@redhat.com>
- <b89670c6-153d-8434-da06-b212b887bc88@virtuozzo.com>
- <0046f47b-6a46-6299-5816-44b7517a207a@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b9f072bd-c675-5360-c0f6-a88cd4a6046c@virtuozzo.com>
-Date: Tue, 23 Mar 2021 20:39:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <0046f47b-6a46-6299-5816-44b7517a207a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: ZR0P278CA0123.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:20::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lOl1f-0003WI-NM
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:41:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616521266;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ZMSgzPqNEI96GTai8bceSFHD7FEfjyxk2Rd9KBrr/IA=;
+ b=MIcLv4xQ+B6eDZRwgyZuEnqn/Slf02ivGtOVvDggiT9TJMhfD5gTiOugT3fGll7SZA/zix
+ 7U9lRHnrUAn4HnwByxDYM/mzPsmuySOwkjxqUS0n9zATXySa/dLKTNmMX1wMYtD/uLR5+n
+ wNpqdnqtAIywKacec1QcyYboT2nW9JY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-yLiu8cNyMGSMx9guszQEQg-1; Tue, 23 Mar 2021 13:40:49 -0400
+X-MC-Unique: yLiu8cNyMGSMx9guszQEQg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6212C190B2A1;
+ Tue, 23 Mar 2021 17:40:48 +0000 (UTC)
+Received: from redhat.com (ovpn-113-223.ams2.redhat.com [10.36.113.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACBD95C1C5;
+ Tue, 23 Mar 2021 17:40:39 +0000 (UTC)
+Date: Tue, 23 Mar 2021 17:40:36 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: Ways to deal with broken machine types
+Message-ID: <YFooFMWxwpiSB6ZJ@redhat.com>
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ <20210322114116-mutt-send-email-mst@kernel.org>
+ <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
+ <20210323104542-mutt-send-email-mst@kernel.org>
+ <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
+ <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
+ <20210323175447.0c57d2a4@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- ZR0P278CA0123.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:20::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 17:39:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0c702aba-6107-4d24-3ea9-08d8ee228d98
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6102:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6102D0F4CA0452AAC57CB720C1649@AS8PR08MB6102.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dJvW6vNpV31LW2hq0f6sdK69pTtc1AWn8nFFuI3D9MLfPJHiv6bjEsnSRdCEuOAbC9RAzFHDqUy7FlP1GxFR4+aYy/hihHUiQm3x8BL2es6UUKUAy9hnAJvJXZOvZIrUCF8uy7JvqcHG9GAoCYyJYwtQOyt6ChFc+V2L0rD0yOfl3DH5+uLQZMOvsF0EHdjyg6ridQhoHFzRWCgf/qKghTlKxRPsSGIzBiOlgBkADXgZ8dFbZLDQUzcDNIx+QcxLXpIDdMAVktU3Fp1cHw0wYuo1jwV+ybZSFFp9OFMCQ3GTCPzTwgtKRwmh4YhSTm1EeKbgAwi/fgQO5eWpeTl1fEQO3ER5ar+aI3cLSqcQT7l8qiJ0D8R+10Ziwp/qXAbKaADQBOR9cdr/QlCq9gxJkv0mBZAUKToj4/w5neRJqnWdf/5Wtgur98GgnvItEqT6M/SjQ0A35FvMRIU2zNvMFVzkLNXKZfTfxUwKFfkb7jZBO1bzTDbg2BPEqnVNzxgpMwGlJBQ3kk/Sy5FSFKeMuKsiaI85PECqZdSgVm/3CaMcG5sP0qaya2VcuUpwfTSJkhjDb7ESJ+yCfYfNeblx8nSb8UyKWeXF8t41Mqd37Nmxoyeylg5zaJ+NYsFf1z7qceHdTHwmIanus49kteGoFSwOH/r2G0zusspNCd3PciKCn+/EgwoKNpB0JvCzuIJqe8m9CcfEg32cTrcCkUKTYyAswMEUwsIgEyARpzTNgvM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(16576012)(2616005)(26005)(6486002)(186003)(956004)(16526019)(2906002)(31686004)(86362001)(31696002)(8676002)(66476007)(8936002)(4326008)(52116002)(53546011)(83380400001)(5660300002)(66556008)(498600001)(38100700001)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TXZPMWd6RkpoVFM0OEtRcGRQWWNKNEFWckdvT2QyaTZGTWNsem9ReTZ6cW1S?=
- =?utf-8?B?MnlEVHBGdXN0QWxqbm1weXhFV2o4VVlveWhSQ0lWTzFzbnQ3ZmZVdjF6bm91?=
- =?utf-8?B?bFIrL0VXNFhGVkFpZ29qaVE4d0ZlM3g0WUN2bDd1YzVlZkFONUFNNTA1clk1?=
- =?utf-8?B?TGFETlNZVC9HekV1eE02aWo2YnE3TGpoZnJlWGlCTFVabTRldk0vWjVrZjJH?=
- =?utf-8?B?VmxiNWwwQmdYSG15cVoyYk5BM0NRTUk1K00wbmlIcXJEd1NoRGJEeEJ1Vkd1?=
- =?utf-8?B?N2p3djBObmZOSjBwSXl5Z2xJR2p2RXlkcVBSY0hKbDBWbnFrNDJscVBzTU85?=
- =?utf-8?B?TDdOVDd1R1M4ZmhNNE11SjlOb0NMMkFyOUhhbDVDMlRsNnFYbXV6a1RmQWVF?=
- =?utf-8?B?UnNPcWV3S1FkMVRya3ZLeWZpU21xcThPcDVHcXFJelB6QUZGSTJmTDhxenVw?=
- =?utf-8?B?ZWpSRFdIdStpcEp3WUtrWUJTSkdkWG5vb0lnaDRxVWkvV1p6RzBRTEdTY2Mw?=
- =?utf-8?B?dEdtQ0FIOVFpOWx6aHdFY3pJbjB1akhyM3FwUVdzNXFMS1NhTjFzZVYxcFVC?=
- =?utf-8?B?Ky9tZEVSQTUrcER1eHRiOEl0WGdBR0xmNnhrQnZtdVZGN0lYbTE5WlliOUkx?=
- =?utf-8?B?SkhpOXhiSVZYZm10ejdCY3Z0d050cGlRMGlDYU93Wm1tc3ZBKzBocW1TUjBx?=
- =?utf-8?B?cWFGK3RnNzhvNDEzWDVWeFRYZkhTWG0xb05qaWIrR1pkajBQVUFiWGpTRjNo?=
- =?utf-8?B?K3ZONlZuajRqQjc0WURxZHJWYUdkTkhJc2IwN0oxNS8xdHpRUm5aWmozbVdD?=
- =?utf-8?B?UGkyYzFpQ0JHYmJUUmFleTRpblZIU1MzZGRmaGNSUzhMQ3cwaUgvNzc3NW5i?=
- =?utf-8?B?VlZlRmw5a3FVRjlpSmJ0cUYrMVg0YnlRU0wzK05SeDNxMFdJalFuWVhzSDFo?=
- =?utf-8?B?dDRIRTczYi9iNmdEY1Z1RjlleGRibTlTREVMSUdwbkNDN3orbVMzMDNxU2dk?=
- =?utf-8?B?eWYxcUJLcjFYbGs3R1REdEpuZDVqSWZDS2xhWCtaQVlhdDBJU3BzWUh3NnMr?=
- =?utf-8?B?aGhSc0pMcDRPYTRrQ01YakdoamdOVGsycWYvblRnVWlncWlUTzdONU9ZUmNQ?=
- =?utf-8?B?Z0pacHVIVnNTWjdBaFpLejNPVDJHZTBUeDcwTkxwOXNDYmlGeENXS0J1U1NR?=
- =?utf-8?B?RXo5WVFWMkhyL3hYbXdBd2VlZTNGS0hkTUl5NzRmMExzR2FSY0x0RDZFRnQ0?=
- =?utf-8?B?NUl4OW9JRzdrVXFkeHhKOGlpZ0NIK2JpSGQvRDZkWVdFNWVCeU9RbEUzY1pI?=
- =?utf-8?B?RmNvMnNPVFBwQ3VFN2VkTi9hTExod0dpMlN3Rk5vWWl0a3hmNnpaZ2hOK2xx?=
- =?utf-8?B?UGRDTjRLS1hlbHhuaFA0RGZwcUs2Vk8wajdNUjR3MVBEN3BFV3pFSENMbHRN?=
- =?utf-8?B?TUZ4cUZVQzRTYzVXY1pJV0tWSFJiTGU0VnFhUS8wRFVVZ1k1dlVxMWRFcENN?=
- =?utf-8?B?SUhIVEJ5QlpxbUs4Z3F3TDJmOWFUVnRKWHR6cEQxd3ErM2k0aXV6ZzFHVGlB?=
- =?utf-8?B?ekg1ek5ZTGVoellQQ0w0V2M2WVo4eVM4azEvL0hTdW0wZHlwTk5NYW1wUXVR?=
- =?utf-8?B?WGRqbHRwQy9zanAxdkRnYzQ1ME1QSVFGd0V1b25OOFpEQWFWYW0rbEV3Zll6?=
- =?utf-8?B?ejdzWGxEWld6L0N1WFpKN1B5T3NvVGQ5NFFxSWExYmd3aWNtbWRVaFNyeVFj?=
- =?utf-8?Q?JHQYblDkISZh2eGj52n2NikeaW9Vm5cv27DsDv4?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c702aba-6107-4d24-3ea9-08d8ee228d98
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 17:39:04.6561 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y2lF/tNo+QBp8YY90/qD95BhR6QprXWtAOwqoRWsf46QexAt6gFZzpNbSc9pvAlZaREdyDygE76nx2okdVME/Fds7yvL5SAfUK1bM4a48vo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6102
-Received-SPF: pass client-ip=40.107.7.107;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210323175447.0c57d2a4@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -148,30 +84,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu devel list <qemu-devel@nongnu.org>, Vitaly Cheptsov <cheptsov@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.03.2021 20:22, Paolo Bonzini wrote:
-> On 23/03/21 18:11, Vladimir Sementsov-Ogievskiy wrote:
->>> If you have positional arguments that must begin with - and don’t look like negative numbers, you can insert the pseudo-argument '--' which tells parse_args() that everything after that is a positional argument:
->>
->> So, as I understand argparse supports '--' feature out of the box. So, we can keep '*' as is, and it would parse all remaining positional arguments which are either tests or the command, and '--' will be automatically dropped. So, we only need to check existing of '--' in original sys.argv to chose our behavior.
+On Tue, Mar 23, 2021 at 05:54:47PM +0100, Igor Mammedov wrote:
+> Let me hijack this thread for beyond this case scope.
 > 
-> There is still a difference with REMAINDER:
+> I agree that for this particular bug we've done all we could, but
+> there is broader issue to discuss here.
 > 
-> ./check aa -- bb
-> => REMAINDER: error because ./-- is not a test
-> => look for '--':  invoke "aa -- bb"
+> We have machine versions to deal with hw compatibility issues and that covers most of the cases,
+> but occasionally we notice problem well after release(s),
+> so users may be stuck with broken VM and need to manually fix configuration (and/or VM).
+> Figuring out what's wrong and how to fix it is far from trivial. So lets discuss if we
+> can help to ease this pain, yes it will be late for first victims but it's still
+> better than never.
+
+To summarize the problem situation
+
+ - We rely on a machine type version to encode a precise guest ABI.
+ - Due a bug, we are in a situation where the same machine type
+   encodes two distinct guest ABIs due to a mistake introduced
+   betwen QEMU N-2 and N-1
+ - We want to fix the bug in QEMU N
+ - For incoming migration there is no way to distinguish between
+   the ABIs used in N-2 and N-1, to pick the right one
+
+So we're left with an unwinnable problem:
+
+  - Not fixing the bug =>
+
+       a) user migrating N-2 to N-1 have ABI change
+       b) user migrating N-2 to N have ABI change
+       c) user migrating N-1 to N are fine
+
+    No mitigation for (a) or (b)
+
+  - Fixing the bug =>
+
+       a) user migrating N-2 to N-1 have ABI change.
+       b) user migrating N-2 to N are fine
+       c) user migrating N-1 to N have ABI change
+
+    Bad situations (a) and (c) are mitigated by
+    backporting fix to N-1-stable too.
+
+Generally we have preferred to fix the bug, because we have
+usually identified them fairly quickly after release, and
+backporting the fix to stable has been sufficient mitigation
+against ill effects. Basically the people left broken are a
+relatively small set out of the total userbase.
+
+The real challenge arises when we are slow to identify the
+problem, such that we have a large number of people impacted.
+
+
+> I'll try to sum up idea Michael suggested (here comes my unorganized brain-dump),
 > 
-> So I think REMAINDER provides the best behavior overall.
+> 1. We can keep in VM's config QEMU version it was created on
+>    and as minimum warn user with a pointer to known issues if version in
+>    config mismatches version of actually used QEMU, with a knob to silence
+>    it for particular mismatch.
 > 
+> When an issue becomes know and resolved we know for sure how and what
+> changed and embed instructions on what options to use for fixing up VM's
+> config to preserve old HW config depending on QEMU version VM was installed on.
 
-Ok, with '*' you need to check that exactly sys.argv[-len(agrs.tests)-1] == '--', which gives the same behavior as REMAINDER.
+> some more ideas:
+>    2. let mgmt layer to keep fixup list and apply them to config if available
+>        (user would need to upgrade mgmt or update fixup list somehow)
+>    3. let mgmt layer to pass VM's QEMU version to currently used QEMU, so
+>       that QEMU could maintain and apply fixups based on QEMU version + machine type.
+>       The user will have to upgrade to newer QEMU to get/use new fixups.
 
-I'm OK with REMAINDER too, still with we probably also need some comment to not embarrass next person who go into documentation and not find it.
+The nice thing about machine type versioning is that we are treating the
+versions as opaque strings which represent a specific ABI, regardless of
+the QEMU version. This means that even if distros backport fixes for bugs
+or even new features, the machine type compatibility check remains a
+simple equality comparsion.
 
+As soon as you introduce the QEMU version though, we have created a
+large matrix for compatibility. This matrix is expanded if a distro
+chooses to backport fixes for any of the machine type bugs to their
+stable streams. This can get particularly expensive when there are
+multiple streams a distro is maintaining.
 
+*IF* the original N-1 qemu has a property that could be queried by
+the mgmt app to identify a machine type bug, then we could potentially
+apply a fixup automatically.
+
+eg query-machines command in QEMU version N could report against
+"pc-i440fx-5.0", that there was a regression fix that has to be
+applied if property "foo" had value "bar".
+
+Now, the mgmt app wants to migrate from QEMU N-2 or N-1 to QEMU N.
+It can query the value of "foo" on the source QEMU with qom-get.
+It now knows whether it has to override this property "foo" when
+spawning QEMU N on the target host.
+
+Of course this doesn't help us if neither N-1 or N-2 QEMU had a
+property that can be queried to identify the bug - ie if the
+property in question was newly introduced in QEMU N to fix the
+bug.
+
+> In my opinion both would lead to explosion of 'possibly needed' properties for each
+> change we introduce in hw/firmware(read ACPI) and very possibly a lot of conditional
+> branches in QEMU code. And I'm afraid it will become hard to maintain QEMU =>
+> more bugs in future.
+> Also it will lead to explosion of test matrix for downstreams who care about testing.
+> 
+> If we proactively gate changes on properties, we can just update fixup lists in mgmt,
+> without need to update QEMU (aka Insite rules) at a cost of complexity on QMEU side.
+> 
+> Alternatively we can be conservative in spawning new properties, that means creating
+> them only when issue is fixed and require users to update QEMU, so that fixups could
+> be applied to VM.
+> 
+> Feel free to shoot the messenger down or suggest ways how we can deal with the problem.
+
+The best solution is of course to not have introduced the ABI change in
+the first place. We have lots of testing, but upstream at least, I don't
+think we have anything that is explicitly recording the ABI associated
+with each machine type and validating that it hasn't changed. We rely on
+the developers to follow the coding practices wrt setting machine type
+defaults for back compat, and while we're good, we inevitably screw up
+every now & then.
+
+Downstreams do have some of this ABI testing - several problems like the
+one we have there, have been identified when RHEL downstream QE did
+migration tests and found a change in RHEL machine types, which then
+was traced back to upstream.
+
+I feel like we need some standard tool which can be run inside a VM
+that dumps all the possible ABI relevant information about the virtual
+machine in a nice data format.
+
+We would have to run this for each machine type, and save the
+results to git immediately after release. Then for every change to
+master, we would have to run the test again for every historic
+machine type version and compare to the recorded ABI record.
+
+Regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
