@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A762F345B92
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:01:41 +0100 (CET)
-Received: from localhost ([::1]:58796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD964345B95
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:02:21 +0100 (CET)
+Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOdr2-0007x9-Lo
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60546)
+	id 1lOdrd-0008OH-24
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:02:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lOdgm-0000UR-7h
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:51:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25697)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdkd-0006U9-T1
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:55:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lOdgg-000869-Il
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:51:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdkc-0001pZ-2e
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:55:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616493057;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1616493300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gM6GF3Js7BI/CrGdLpYaVEIDgCAzKrOdBkWRm5SWocc=;
- b=LN/dX17JDq+uKa+rUdOgrZhkibO79sWFl88ZjSAFxpSkapNmb480MeyuKf4KIeI6LldhRm
- NumWbfy8WwfYTvkKeDrwdS2XXssbnS2Vx5uh/vhb+QTAKaXoIFkAXTI6ouO5NzwUpUTZp9
- C6RupHuudQnoYMB4LcHTVJIHBNOwR9Y=
+ bh=QFlNXMRUer4FkSwrC3MoEhp8EfD7C5JcTaLO7WstKe8=;
+ b=f2M5a3kq4NoBZjVHzWR/xPzc5SDmzUdozyS+opjlpepskJ9wgzO2GTTELOEif1YMexV84Q
+ 31Re25dCPamyEt2R1tnB5RYfxyToBGc0rbZNgr3K86rG1zOrpffCwuc4PrkzxY5TVKdSra
+ BHqqPH+UqYQm1fTTuIDhhgfhMQPOqu4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-G3Bypu9CMt-NLSu-OQBYVg-1; Tue, 23 Mar 2021 05:50:55 -0400
-X-MC-Unique: G3Bypu9CMt-NLSu-OQBYVg-1
+ us-mta-544-fFi0OouHMcGqF_ggrx_TpQ-1; Tue, 23 Mar 2021 05:54:58 -0400
+X-MC-Unique: fFi0OouHMcGqF_ggrx_TpQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 320E01084D69;
- Tue, 23 Mar 2021 09:50:54 +0000 (UTC)
-Received: from redhat.com (ovpn-113-223.ams2.redhat.com [10.36.113.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04C187094D;
- Tue, 23 Mar 2021 09:50:49 +0000 (UTC)
-Date: Tue, 23 Mar 2021 09:50:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v2] docs: simplify each section title
-Message-ID: <YFm59jbzTGYbWYbG@redhat.com>
-References: <20210323074704.4078381-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99A7187A83B;
+ Tue, 23 Mar 2021 09:54:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F5377092D;
+ Tue, 23 Mar 2021 09:54:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E90AB11327E1; Tue, 23 Mar 2021 10:54:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
+References: <20210319035508.113741-1-chen.zhang@intel.com>
+ <20210319035508.113741-3-chen.zhang@intel.com>
+ <877dm3i1qk.fsf@dusky.pond.sub.org>
+ <5b75057ecc784296aa271f5f6692906a@intel.com>
+ <87k0pz4bg8.fsf@dusky.pond.sub.org>
+ <4ffb0d8b135b40caba777a830b70ae18@intel.com>
+Date: Tue, 23 Mar 2021 10:54:55 +0100
+In-Reply-To: <4ffb0d8b135b40caba777a830b70ae18@intel.com> (Chen Zhang's
+ message of "Tue, 23 Mar 2021 09:06:13 +0000")
+Message-ID: <871rc6urdc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210323074704.4078381-1-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,37 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 11:47:04AM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Now that we merged into one doc, it makes the nav looks nicer.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
-> v2:
->  - Developers -> Developer Information (suggested by Peter)
-> 
->  docs/devel/index.rst   | 4 ++--
->  docs/interop/index.rst | 4 ++--
->  docs/specs/index.rst   | 4 ++--
->  docs/system/index.rst  | 4 ++--
->  docs/tools/index.rst   | 4 ++--
->  docs/user/index.rst    | 4 ++--
->  6 files changed, 12 insertions(+), 12 deletions(-)
+"Zhang, Chen" <chen.zhang@intel.com> writes:
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>> -----Original Message-----
+>> From: Markus Armbruster <armbru@redhat.com>
+[...]
+>> Naming the argument type L4_Connection is misleading.
+>> 
+>> Even naming the match arguments L4_Connection would be misleading.
+>> "Connection" has a specific meaning in networking.  There are TCP
+>> connections.  There is no such thing as an UDP connection.
+>> 
+>> A TCP connection is uniquely identified by a pair of endpoints, i.e. by source
+>> address, source port, destination address, destination port.
+>> Same for other connection-oriented protocols.  The protocol is not part of
+>> the connection.  Thus, L4_Connection would be misleading even for the
+>> connection-oriented case.
+>> 
+>> You need a named type for colo-passthrough-add's argument because you
+>> share it with colo-passthrough-del.  I'm not sure that's what we want (I'm
+>> going to write more on that in a moment).  If it is what we want, then please
+>> pick a another, descriptive name.
+>
+> What do you think the "L4BypassRule" or "NetworkRule" ?
 
+NetworkRule is too generic.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+What about ColoPassthroughRule?
 
 
