@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D27334554D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:07:23 +0100 (CET)
-Received: from localhost ([::1]:51336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C347734556B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:16:43 +0100 (CET)
+Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWS2-0001UP-De
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
+	id 1lOWb4-000229-Sz
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:16:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKo-0002lF-Ue
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:54 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2067)
+ id 1lOWKz-00038u-9U
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:05 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKm-0006u2-OV
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:54 -0400
+ id 1lOWKx-0006vy-9i
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616464792; x=1648000792;
+ t=1616464803; x=1648000803;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VISzj7nrHdSTOSETE9b6Nd1OPBUeFuhUpmZ+CkIAt6Q=;
- b=IiBa7mmDaaxoM4uAIT067PsFM5J+P3na0j0HjKO4z0307z6El8ncdDUL
- nj2D9n9duStc7X+tZPkw5UYOSgqCOvTTiN8qNoGLC2297NhO7LiUylR79
- 5GgEnc/yxl8kCFgNCdZoSUjbdWSZi3KctEkQZUqMzAu5QW4fU5LXjs/TB
- d1DAdvLmcWk1XVtsfqazSBZ5SdZOPS7SgoJsTShr6x9r0ygIXQQpeyESO
- 8nUacbSxU1GmNWDaIaq7vnj2tQZ6tXMpTM3QTY7Uj5uHdvoHNH/A7X2B4
- l71mfmmZUI/MDqqmSElgskeZxf0MZnbha2Qd9jqHIicnjzR9VnMz52MjM g==;
-IronPort-SDR: kI8dWE/qEQ5j7xBmBB+aEOW+1FamnyndeKmQOL/p7n4R7IEE2a5WbzcNdPhPpF1piBsr0lkQo1
- JoCV0lxsYVOrdBpA9GG4JE7wpdwNKiXIAxwTlydHMk5z2ZCHyI8naTD0TA1l8HMYyQAxO+fG4L
- 32K8/Odww1UbsNjo2/Nsxu5p/w3eI+m2YGlW+8XU03aFM+8207HBsdf7S6RbUa5yRAtva4O98Q
- ZL6o1OB9MOjmbpaFbvV7DJsK8wIBDPHspKT3gFB0WJojvNbV4SKqiapEGEyiBVJaGA0HtPnmvW
- 3ug=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707644"
+ bh=Pt+zzFWzl+7OxRVTSTlImJ1fRb2/n5V0OkAn7vFbaQY=;
+ b=k8qIUAet08IYR1bfGvn4OfnAUQcVoAgZCBPPFBKGeP1W/DUQUJmkMdvS
+ un3qHwJnoSbfk3EvHqY7X9guhIHxejFI52HjSn1K+e02l/xUMQ9DjB4sm
+ 7GSSai3knF5vDscpZrWHYKkicM/xvzHeYHY/YTB+PRGVzjpSbNZxzI5/L
+ Ei4HY30MaPFBd3vMyCrOhnzZmoKo37hAYuTexIHT/3ebEzQCo9BzZdNOc
+ Jv2rRvQvLxYfg/sOZnLsUIxRAlSbmv31Ct2rLGqxH0kz+vvnhxJRTtvsb
+ V7JGKf8zxq1kV6VPdvYDq4leL43m93FYFiNugvY29x79Tqzuh8bT8nSaB A==;
+IronPort-SDR: ynlty6keeFddtMSNqpN5nwlr/3EchqkDOFTbkdl0NJBB0GSQm6C3pkH4BE4vdWnravSFQ+FHQi
+ 5M84+n7oLvid3bHnN3ntYHXzE2/Z7KvIBF0PPFDkELIkRZ53LC16toreDRcqaqbOWOEuxOIjQh
+ peQlScp81JSCZgg6eCwx8eUIdMunjxAFuLNKw8CDoE9RFTQY2JxIDvCha3UwbwsFzsPWkyBLcf
+ UJUKbS4GeNUrFh3YQXKWn/63iHbb/COZ6GxpqrHwNuyelFNxzFF/KKedz2hk/4CJweIfRKpG8W
+ ffY=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707645"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:39 +0800
-IronPort-SDR: wtPOUw/BS3HNiAgU0EK6gGBj0iVQ/qeTsqFRb/tJTFBfbBuvaJU4i++pIwA1sXE8CCSlQXR4rj
- bEB0eEjFgLTQ/dqX9akUtpd8PDrYbMZdiju8nf+2v8LfgqIGxEHoY76NC7tWC9GF/GKG2PXiu9
- 6ILQUjwe3Y3gE2GzXYUlboLDlq+tlAq1uGfgyD6OgcmjvRDLO4wPyotg8mGwnIMi8AvKA4lDxT
- uVIOIVcIECMH7vDXp37jtUDLNtAqr858SoL1I7uJkiHv5VBtxbVGBRip8j646zBfEZry8VuEyY
- PSuclnxw7BKwqR9Jvre3IHYo
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:40 +0800
+IronPort-SDR: fjJotshFsdQ02W8SDOV+Rf9uUwiKJrs0frSEY2K7BUa7vhsSncW/cgJY4jfxKceNss5pMP6vxL
+ zs+LBIqJr7ndSIm3GCbHBdpwZ5T7sFy0ftPgoQc5Eci/Ii7gzfs/9qACukTqS+AgvOxbi1Okwk
+ Yd20WnN9FceyMT3oQFhIFCheO4u1lNrXt8EZZQn46UayBii+xMtVYc1/bsZcVrrk0oyYc2IqFk
+ MoD2FoGiKodh2wuL2Hg92l8CHnSt/XR/2ZwPVxUGhZgIh92pdbHN9y08hVWhpT/rZirxr/qL1N
+ NdzxuJTmAoiVOz68OcbH6Qmz
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:47 -0700
-IronPort-SDR: TjZZ+/Es6ejcOcAFQtG/wfnSr+p/cVASPBxpqTg5qvVdJIuQqFqi85mWULYj9nC2JDeJ2sJ0YH
- 4fytwfCyj1JQystfgj7z7UynuWHaBqNMq34QoxxzvAzQz3+zLG0qqj7iAGc+pLiIjLWsn6W4S8
- IdF4nq59l3wuyiUjEV+/GxK7kpTCMzvl9zRvrn29wo3pe65VGjkL5ZxVJd5rHg1ejHPU79MAVu
- 6BEQGFB75tEPGPaT1YgcoK1YrzI+5PelUbwIyVj/3UVsPDwiCOgiLI3/nZlbRXMmOOO65YVNQ4
- 9Vo=
+ 22 Mar 2021 18:41:48 -0700
+IronPort-SDR: kybWN8yaz672PCB0mVQuVlrp9TqL/0F8sXMUr636Xi8puDCQxL1kmtMcRPlJU/Ubl8Wu/NEsFD
+ Chs223spk1JaXogQZfL3nmJvzXKsttgp4aFgVg5nXVCao/DnL2t2oKAynUliHffFOjvLKFrgXn
+ QxzHVey1oWWx+aUn/sMJHQM/TjdEz2vqBeFe+mOnF/BEUyySte33K6txbw0FcXfoj4PQfrUQ1E
+ RXRGgXqMHxOJ1GfhKMU1n7rpPSNWkSP8y7QDC0jm4bQ2Aiuz1Jgp2dFlOJ7GJDvYEStTwPxjXC
+ NP8=
 WDCIronportException: Internal
 Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.49.5])
- by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:39 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:40 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/16] target/riscv: Add proper two-stage lookup exception
- detection
-Date: Mon, 22 Mar 2021 21:57:52 -0400
-Message-Id: <20210323015756.3168650-13-alistair.francis@wdc.com>
+Subject: [PULL 13/16] hw/block: m25p80: Support fast read for SST flashes
+Date: Mon, 22 Mar 2021 21:57:53 -0400
+Message-Id: <20210323015756.3168650-14-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
 References: <20210323015756.3168650-1-alistair.francis@wdc.com>
@@ -92,129 +91,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org, Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-The current two-stage lookup detection in riscv_cpu_do_interrupt falls
-short of its purpose, as all it checks is whether two-stage address
-translation either via the hypervisor-load store instructions or the
-MPRV feature would be allowed.
+Per SST25VF016B datasheet [1], SST flash requires a dummy byte after
+the address bytes. Note only SPI mode is supported by SST flashes.
 
-What we really need instead is whether two-stage address translation was
-active when the exception was raised. However, in riscv_cpu_do_interrupt
-we do not have the information to reliably detect this. Therefore, when
-we raise a memory fault exception we have to record whether two-stage
-address translation is active.
+[1] http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf
 
-Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210319141459.1196741-1-georg.kotheimer@kernkonzept.com
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210306060152.7250-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        |  4 ++++
- target/riscv/cpu.c        |  1 +
- target/riscv/cpu_helper.c | 21 ++++++++-------------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ hw/block/m25p80.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0edb2826a2..0a33d387ba 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -213,6 +213,10 @@ struct CPURISCVState {
-     target_ulong satp_hs;
-     uint64_t mstatus_hs;
- 
-+    /* Signals whether the current exception occurred with two-stage address
-+       translation active. */
-+    bool two_stage_lookup;
-+
-     target_ulong scounteren;
-     target_ulong mcounteren;
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 2a990f6253..7d6ed80f6b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -356,6 +356,7 @@ static void riscv_cpu_reset(DeviceState *dev)
-     env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
-     env->mcause = 0;
-     env->pc = env->resetvec;
-+    env->two_stage_lookup = false;
- #endif
-     cs->exception_index = EXCP_NONE;
-     env->load_res = -1;
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 8d4a62988d..21c54ef561 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -654,6 +654,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-         g_assert_not_reached();
-     }
-     env->badaddr = address;
-+    env->two_stage_lookup = two_stage;
- }
- 
- hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-@@ -695,6 +696,8 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-     }
- 
-     env->badaddr = addr;
-+    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-+                            riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
- }
- 
-@@ -718,6 +721,8 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-         g_assert_not_reached();
-     }
-     env->badaddr = addr;
-+    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-+                            riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(env, cs->exception_index, retaddr);
- }
- #endif /* !CONFIG_USER_ONLY */
-@@ -967,16 +972,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         /* handle the trap in S-mode */
-         if (riscv_has_ext(env, RVH)) {
-             target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
--            bool two_stage_lookup = false;
- 
--            if (env->priv == PRV_M ||
--                (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
--                (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
--                    get_field(env->hstatus, HSTATUS_HU))) {
--                    two_stage_lookup = true;
--            }
--
--            if ((riscv_cpu_virt_enabled(env) || two_stage_lookup) && write_tval) {
-+            if (env->two_stage_lookup && write_tval) {
-                 /*
-                  * If we are writing a guest virtual address to stval, set
-                  * this to 1. If we are trapping to VS we will set this to 0
-@@ -1014,10 +1011,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-                 riscv_cpu_set_force_hs_excep(env, 0);
-             } else {
-                 /* Trap into HS mode */
--                if (!two_stage_lookup) {
--                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
--                                             riscv_cpu_virt_enabled(env));
--                }
-+                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
-                 htval = env->guest_phys_fault_addr;
-             }
-         }
-@@ -1073,6 +1067,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-      * RISC-V ISA Specification.
-      */
- 
-+    env->two_stage_lookup = false;
- #endif
-     cs->exception_index = EXCP_NONE; /* mark handled to qemu */
- }
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 5f9471d83c..183d3f44c2 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -895,6 +895,9 @@ static void decode_fast_read_cmd(Flash *s)
+     s->needed_bytes = get_addr_length(s);
+     switch (get_man(s)) {
+     /* Dummy cycles - modeled with bytes writes instead of bits */
++    case MAN_SST:
++        s->needed_bytes += 1;
++        break;
+     case MAN_WINBOND:
+         s->needed_bytes += 8;
+         break;
 -- 
 2.30.1
 
