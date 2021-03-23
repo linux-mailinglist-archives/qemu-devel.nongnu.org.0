@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE2134612E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:16:23 +0100 (CET)
-Received: from localhost ([::1]:37464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CF8346131
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:16:31 +0100 (CET)
+Received: from localhost ([::1]:38028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOhpW-0001ck-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42136)
+	id 1lOhpe-0001ut-Ru
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:16:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lOhmn-000086-Cz
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:13:33 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39429)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lOhml-0007kB-9s
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:13:33 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id bf3so23649496edb.6
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 07:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=LqZ6NYKM1ZHssG2U3VL5fh+YTSX3qwMVov8IgQI18Gg=;
- b=pah9zk7mmVM2yav/5cXyEXypMubksftIk/Z053s9xhFTP2h+zHbNgCvbWv30384A8T
- 8/QyFrUYnV63NWZPjvl/phGMc+x/QsJfRg+upzK0WXHQZcg/f0nPdBKmWzLmHm8PG/aI
- SBeuCe5P4QuLWbSWHy2yc5fgSGvWE7Gffe7JekluE7eqGiDSvJEyy0FJQFzqqExjYs/Z
- XfbYUs5Vy0xh1KsVE2hngAoXAu4/5fkytCj0L1keksqjlhSSYNfF3gg+Gq6r809UsO03
- gvhuM1UfWD+D81tocLHrCV6TiJ//g8p3N3TUJFzC+3uR/SpxtZqjsNSmqdmMv1stMx4v
- Scag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LqZ6NYKM1ZHssG2U3VL5fh+YTSX3qwMVov8IgQI18Gg=;
- b=nLB49rfBkcyRYpBAqnvKC7G6KTH3Ouyn+4RZ7/fB9jXnt/aojKZMkHQCWFCZnpuLpD
- cGfjGUKhMedPdEkNISwunOm/0KpSSrmWcxgyUpzujzy3w2cC9Cv5/brVrQ3heLs2RTww
- PYoo4hbo9+CLYbf/Wq7VLyVQdFUlTv3h9LXyaLh8oMTijWFEqxjtya6t4Y9BiwnBQpPp
- TXbRin9EXa0po06izydZ/qNwteOJpx8oY5cS6EcTZLViypTZvUhRI97EQVw1Dxyz8Llj
- 9LPd77aBaSlgkrtC5luSOOqkAdL4HRhF6YMGq2jYJq27wSnCu6v1cIY9V5LUAtJfYJer
- 0Zcw==
-X-Gm-Message-State: AOAM531puB2evr85rYLqFs+nhMvI1F+PSGJb/zsDYLKqeH7/99xd+b3l
- rWpbLlUmBDT/v8oJ3e8Awaotc47MSZw=
-X-Google-Smtp-Source: ABdhPJzkaeLDusakYn5sDUlYlCNim3HyQ4QOivcMxDHj7JHktQxH2+poWJ0/kSbpIFBttRer6SETUg==
-X-Received: by 2002:a05:6402:35cd:: with SMTP id
- z13mr4830358edc.21.1616508810023; 
- Tue, 23 Mar 2021 07:13:30 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id h10sm13412173edk.17.2021.03.23.07.13.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 07:13:29 -0700 (PDT)
-Date: Tue, 23 Mar 2021 14:13:28 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 7/8] virtiofsd/passthrough_ll.c: Changed local
- allocations to GLib functions
-Message-ID: <YFn3iJb+9YwocFNS@stefanha-x1.localdomain>
-References: <20210319132527.3118-1-ma.mandourr@gmail.com>
- <20210319132527.3118-8-ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOhmv-0000PZ-BB
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:13:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOhmt-0007qy-SQ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:13:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616508819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P91JLW7Uf5gtWOBvOD7jFYL3b+FNtd9oVKPw/86EyWc=;
+ b=Pg8EwWKcAnQHj7rIxbybpX2rSYuti8yPpPM9WfK0yzOu9OoRjANTK823/UCOjohZfgyps1
+ 7hPOFzIt9hkjOH8inHba6D3JvpqykiH+3KHF7HyY4p28F60FcvuC/3pxm2K4Ah6T2y7ngC
+ a9VgsMO1E9EklyzxnefkbMe4FCHqleM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-4q_X_EO9PsSqT1im_VkuGg-1; Tue, 23 Mar 2021 10:13:37 -0400
+X-MC-Unique: 4q_X_EO9PsSqT1im_VkuGg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85A45101371F;
+ Tue, 23 Mar 2021 14:13:36 +0000 (UTC)
+Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 159C750C0E;
+ Tue, 23 Mar 2021 14:13:33 +0000 (UTC)
+Subject: Re: [PATCH 09/28] qapi: Lift enum-specific code out of
+ check_name_str()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-10-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d3632377-20a1-8000-efc2-7a33989e0771@redhat.com>
+Date: Tue, 23 Mar 2021 09:13:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NZ2IL4XgIwRjUiz+"
-Content-Disposition: inline
-In-Reply-To: <20210319132527.3118-8-ma.mandourr@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=stefanha@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210323094025.3569441-10-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,42 +83,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---NZ2IL4XgIwRjUiz+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Mar 19, 2021 at 03:25:26PM +0200, Mahmoud Mandour wrote:
-> Changed the allocations of some local variables to GLib's allocation
-> functions, such as g_try_malloc0(), and annotated those variables
-> as g_autofree. Subsequently, I was able to remove the calls to free().
->=20
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+On 3/23/21 4:40 AM, Markus Armbruster wrote:
+> check_name_str() masks leading digits when passed enum_member=True.
+> Only check_enum() does.  Lift the masking into check_enum().
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 17 ++++++-----------
->  1 file changed, 6 insertions(+), 11 deletions(-)
+>  scripts/qapi/expr.py | 23 ++++++++++-------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
+> 
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---NZ2IL4XgIwRjUiz+
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBZ94gACgkQnKSrs4Gr
-c8iDAwf/eQnemVSXGzsv/9vRihLjp5LvN2ODXrY5QkcDPaKBxXatzETtentcj6kg
-3JSzzhYERu/J83iZnaD33S1l03ynhKTzPjIwRC+Rl+tU3ujJU7QPYT0ItRTUZ7Iy
-DQYIaOVHdgSom2z2HPit3ZmJGA2Mn0ncAFKV4CPD2PHooTcL/HP2sholjNKfNwuF
-cHb2+RBNIatSfMDDlqXDz3n9R8xOAp9y4SFJkyzOzehTvdxAomh00MdoDIvp6nhf
-bJxBBwSpltK2Frfu5AprA9rXv+xRtRuwILM5gnxGkFw5BMhUxzXDsNkaEDxFb+Yb
-zAHd1rYrWKvGbMEZ4IW53wMDILzrqg==
-=5UMY
------END PGP SIGNATURE-----
-
---NZ2IL4XgIwRjUiz+--
 
