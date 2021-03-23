@@ -2,53 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE42834633B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:47:20 +0100 (CET)
-Received: from localhost ([::1]:42084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27FA34633A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:46:52 +0100 (CET)
+Received: from localhost ([::1]:40888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOjFX-0005w0-SG
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
+	id 1lOjF5-0005Pu-Qn
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:46:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lOjDX-0004wR-4V
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:45:15 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:52380
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lOjDM-0007sp-SZ
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:45:14 -0400
-HMM_SOURCE_IP: 172.18.0.218:28606.507872797
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.57?logid-930dace71f6841cb8c46f55272279289
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id AD661280099;
- Tue, 23 Mar 2021 23:44:43 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by App0025 with ESMTP id 930dace71f6841cb8c46f55272279289 for
- qemu-devel@nongnu.org; Tue Mar 23 23:44:51 2021
-X-Transaction-ID: 930dace71f6841cb8c46f55272279289
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] tests/migration: fix parameter of auto-converge migration
-Date: Tue, 23 Mar 2021 23:43:58 +0800
-Message-Id: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjCn-0004bc-EQ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:44:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjCi-0007af-8n
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:44:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616514262;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ULNSqUR4JM1pPoBOdER9Y5aKG67NU7qxotPdl/HC+/U=;
+ b=Gd0+LNowoGNAwSTDeOsgJJszHIyqIC45QKtgRR05Ib2FmDmCx1LE1BfKa8niVhSl0TEnTj
+ Wtpa6+1PyYoQbtHvObJNt/+8y6sOW0csUX71D+5J7mVoUc62DJPykb3Qfmu9R2I0irIykf
+ Xi20y/Dh+kGRgH0KgRe1LYONdzsny3o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-pvyFE44yM3mQxgiurC8D-A-1; Tue, 23 Mar 2021 11:44:21 -0400
+X-MC-Unique: pvyFE44yM3mQxgiurC8D-A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 646781005530;
+ Tue, 23 Mar 2021 15:44:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EDD861F5E;
+ Tue, 23 Mar 2021 15:44:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 13EDB11327E1; Tue, 23 Mar 2021 16:44:15 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 06/28] tests/qapi-schema: Tweak to demonstrate buggy
+ member name check
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-7-armbru@redhat.com>
+ <f72dbb52-059e-f773-63ad-385b9c9d9e6c@redhat.com>
+Date: Tue, 23 Mar 2021 16:44:15 +0100
+In-Reply-To: <f72dbb52-059e-f773-63ad-385b9c9d9e6c@redhat.com> (John Snow's
+ message of "Tue, 23 Mar 2021 09:20:04 -0400")
+Message-ID: <87im5hq3hs.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,52 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?=
- <huangy81@chinatelecom.cn>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+John Snow <jsnow@redhat.com> writes:
 
-when execute the following test command:
-$ ./guestperf-batch.py --auto-converge \
-    --auto-converge-step {percent} ...
-test aborts and error message be throwed as the following:
-"Parameter 'x-cpu-throttle-increment' is unexpected"
+> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>> Member name 'u' and names starting with 'has-' or 'has_' are reserved
+>> for the generator.  check_type() enforces this, covered by tests
+>> reserved-member-u and reserved-member-has.
+>> These tests neglect to cover optional members, where the name starts
+>> with '*'.  Tweak reserved-member-u to fix that.
+>> This demonstrates the reserved member name check is broken for
+>> optional members.  The next commit will fix it.
+>> 
+>
+> The test without an optional member goes away. Do we lose coverage?
+> (Do we care?)
 
-The reason is that 'x-cpu-throttle-increment' has been
-deprecated and 'cpu-throttle-increment' was introduced
-Since v2.7. Use the new parameter instead.
+Up to a point :)  We do try to cover all failure modes, just not in all
+contexts.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- tests/migration/guestperf/engine.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The test is about this error:
 
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index e399447..6b49aed 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -102,7 +102,7 @@ def _migrate_progress(self, vm):
-             info.get("downtime", 0),
-             info.get("expected-downtime", 0),
-             info.get("setup-time", 0),
--            info.get("x-cpu-throttle-percentage", 0),
-+            info.get("cpu-throttle-percentage", 0),
-         )
+         if c_name(key, False) == 'u' or c_name(key, False).startswith('has_'):
+             raise QAPISemError(info, "%s uses reserved name" % key_source)
 
-     def _migrate(self, hardware, scenario, src, dst, connect_uri):
-@@ -135,7 +135,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                      "state": True }
-                                ])
-             resp = src.command("migrate-set-parameters",
--                               x_cpu_throttle_increment=scenario._auto_converge_step)
-+                               cpu_throttle_increment=scenario._auto_converge_step)
+Full matrix: (is "u", starts with "has_") x (optional, not optional).
 
-         if scenario._post_copy:
-             resp = src.command("migrate-set-capabilities",
---
-1.8.3.1
+Instead of covering all four cases, we cover two: non-optional "u"
+(reserved-member-u) and non-optional "has-" (reserved-member-has).
+
+The patch flips the former to optional.  The latter still covers
+non-optional.
+
+Good enough, I think.
+
+Do you feel I should point to reserved-member-has in the commit message?
 
 
