@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DDF346B94
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:02:03 +0100 (CET)
-Received: from localhost ([::1]:60886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE02A346BA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:05:00 +0100 (CET)
+Received: from localhost ([::1]:40706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOp6A-0005O5-GD
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:02:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
+	id 1lOp91-0002NM-PI
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1U-00071m-5p
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1O-0002ln-HT
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1T-00070X-21
  for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41216)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1O-0002lk-DM
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1616536625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ua5t9NARTvfXg6KfDvdnBWANQ9V3QhqddfP3KeodY0k=;
- b=Rtmw4V0KFMnZvKI69Z856oN/tL9r0bKvpIuHma7/0bsY75EDzU20dQlNIyQpGD7OqHwygL
- c603PCGvWG5bmIUXWisZUic1N3+2Lk/fu62TibAi0+A39fYzRwvOIxTSwwe3UW+wxI1hfb
- FyrKyvU+h8mMgj75TLobr/Zbzk7zhdg=
+ bh=oO4u9YZ++qV+luw5AGlqnIh72dl8pLHeZD/b8jz3L+M=;
+ b=RlfP8+LOl6CmuPDZ34C5sw+yqYHgkFvxjomc2NWhJXxnftuNsCsuVCrneBTlkcdPJJxg9b
+ KlQLD09FSR6Y5SrPFhO3kv6pD7limkHSsE4yM4aYncV9ngLmTQniJyhgPt0TpHakdbpfcS
+ /23ryO4fRAFK18/wTDwAjFhuDMFJZFE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-HZWEyZHTPxqpN6HYiLn8Iw-1; Tue, 23 Mar 2021 17:57:03 -0400
-X-MC-Unique: HZWEyZHTPxqpN6HYiLn8Iw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-165-0aRxjp5dPAOPChZUXrKLNQ-1; Tue, 23 Mar 2021 17:57:03 -0400
+X-MC-Unique: 0aRxjp5dPAOPChZUXrKLNQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F77F1007476;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21E6D83DD20;
  Tue, 23 Mar 2021 21:57:02 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C075F60245;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C0E655C1C5;
  Tue, 23 Mar 2021 21:57:01 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A707D11326A0; Tue, 23 Mar 2021 22:56:58 +0100 (CET)
+ id AA6A911326A1; Tue, 23 Mar 2021 22:56:58 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/29] qapi: Enforce event naming rules
-Date: Tue, 23 Mar 2021 22:56:42 +0100
-Message-Id: <20210323215658.3840228-14-armbru@redhat.com>
+Subject: [PULL 14/29] qapi: Enforce type naming rules
+Date: Tue, 23 Mar 2021 22:56:43 +0100
+Message-Id: <20210323215658.3840228-15-armbru@redhat.com>
 In-Reply-To: <20210323215658.3840228-1-armbru@redhat.com>
 References: <20210323215658.3840228-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,228 +83,243 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Event names should be ALL_CAPS with words separated by underscore.
-Enforce this.  The only offenders are in tests/.  Fix them.  Existing
-test event-case covers the new error.
+Type names should be CamelCase.  Enforce this.  The only offenders are
+in tests/.  Fix them.  Add test type-case to cover the new error.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210323094025.3569441-14-armbru@redhat.com>
+Message-Id: <20210323094025.3569441-15-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+[Regexp simplified, new test made more robust]
 ---
- tests/unit/test-qmp-event.c               |  6 +++---
- scripts/qapi/expr.py                      |  4 +++-
- tests/qapi-schema/doc-good.json           |  4 ++--
- tests/qapi-schema/doc-good.out            |  4 ++--
- tests/qapi-schema/doc-good.txt            |  2 +-
- tests/qapi-schema/doc-invalid-return.json |  4 ++--
- tests/qapi-schema/event-case.err          |  2 ++
- tests/qapi-schema/event-case.json         |  2 --
- tests/qapi-schema/event-case.out          | 14 --------------
- tests/qapi-schema/qapi-schema-test.json   |  6 +++---
- tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
- 11 files changed, 22 insertions(+), 34 deletions(-)
+ scripts/qapi/expr.py                              | 3 ++-
+ tests/qapi-schema/doc-bad-union-member.json       | 4 ++--
+ tests/qapi-schema/double-type.err                 | 2 +-
+ tests/qapi-schema/double-type.json                | 2 +-
+ tests/qapi-schema/features-deprecated-type.err    | 2 +-
+ tests/qapi-schema/features-deprecated-type.json   | 2 +-
+ tests/qapi-schema/meson.build                     | 1 +
+ tests/qapi-schema/redefined-builtin.err           | 4 ++--
+ tests/qapi-schema/redefined-builtin.json          | 4 ++--
+ tests/qapi-schema/redefined-type.err              | 6 +++---
+ tests/qapi-schema/redefined-type.json             | 4 ++--
+ tests/qapi-schema/struct-data-invalid.err         | 2 +-
+ tests/qapi-schema/struct-data-invalid.json        | 2 +-
+ tests/qapi-schema/struct-member-invalid-dict.err  | 2 +-
+ tests/qapi-schema/struct-member-invalid-dict.json | 2 +-
+ tests/qapi-schema/struct-member-invalid.err       | 2 +-
+ tests/qapi-schema/struct-member-invalid.json      | 2 +-
+ tests/qapi-schema/type-case.err                   | 2 ++
+ tests/qapi-schema/type-case.json                  | 2 ++
+ tests/qapi-schema/type-case.out                   | 0
+ tests/qapi-schema/unknown-expr-key.err            | 2 +-
+ tests/qapi-schema/unknown-expr-key.json           | 2 +-
+ 22 files changed, 30 insertions(+), 24 deletions(-)
+ create mode 100644 tests/qapi-schema/type-case.err
+ create mode 100644 tests/qapi-schema/type-case.json
+ create mode 100644 tests/qapi-schema/type-case.out
 
-diff --git a/tests/unit/test-qmp-event.c b/tests/unit/test-qmp-event.c
-index 047f44ff9a..d58c3b78f2 100644
---- a/tests/unit/test-qmp-event.c
-+++ b/tests/unit/test-qmp-event.c
-@@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
- 
- static void test_event_deprecated(TestEventData *data, const void *unused)
- {
--    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
-+    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
- 
-     memset(&compat_policy, 0, sizeof(compat_policy));
- 
-@@ -163,7 +163,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
- {
-     memset(&compat_policy, 0, sizeof(compat_policy));
- 
--    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0',"
-+    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
-                                            " 'data': { 'foo': 42 } }");
-     qapi_event_send_test_event_features0(42);
-     g_assert(data->emitted);
-@@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
- 
-     compat_policy.has_deprecated_output = true;
-     compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
--    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
-+    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
-     qapi_event_send_test_event_features0(42);
-     g_assert(data->emitted);
- 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index b5fb0be48b..c065505b27 100644
+index c065505b27..7bd15559de 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -45,7 +45,9 @@ def check_name_str(name, info, source):
+@@ -61,7 +61,8 @@ def check_name_lower(name, info, source,
  
- def check_name_upper(name, info, source):
+ def check_name_camel(name, info, source):
      stem = check_name_str(name, info, source)
--    # TODO reject '[a-z-]' in @stem
-+    if re.search(r'[a-z-]', stem):
-+        raise QAPISemError(
-+            info, "name of %s must not use lowercase or '-'" % source)
+-    # TODO reject '[_-]' in stem, require CamelCase
++    if not re.match(r'[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*$', stem):
++        raise QAPISemError(info, "name of %s must use CamelCase" % source)
  
  
- def check_name_lower(name, info, source,
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-index e9af0857db..423ea23e07 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -179,10 +179,10 @@
-   'features': [ 'cmd-feat1', 'cmd-feat2' ] }
+ def check_defn_name_str(name, info, meta):
+diff --git a/tests/qapi-schema/doc-bad-union-member.json b/tests/qapi-schema/doc-bad-union-member.json
+index d611435f6a..bd231a0109 100644
+--- a/tests/qapi-schema/doc-bad-union-member.json
++++ b/tests/qapi-schema/doc-bad-union-member.json
+@@ -11,9 +11,9 @@
+   'data': { 'nothing': 'Empty' } }
  
- ##
--# @EVT-BOXED:
-+# @EVT_BOXED:
- # Features:
- # @feat3: a feature
- ##
--{ 'event': 'EVT-BOXED',  'boxed': true,
-+{ 'event': 'EVT_BOXED',  'boxed': true,
-   'features': [ 'feat3' ],
-   'data': 'Object' }
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 715b0bbc1a..8f54ceff2e 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -63,7 +63,7 @@ command cmd-boxed Object -> None
-     gen=True success_response=True boxed=True oob=False preconfig=False
-     feature cmd-feat1
-     feature cmd-feat2
--event EVT-BOXED Object
-+event EVT_BOXED Object
-     boxed=True
-     feature feat3
- doc freeform
-@@ -211,7 +211,7 @@ another feature
- -> in
+ { 'struct': 'Base',
+-  'data': { 'type': 'T' } }
++  'data': { 'type': 'FrobType' } }
  
- <- out
--doc symbol=EVT-BOXED
-+doc symbol=EVT_BOXED
-     body=
+ { 'struct': 'Empty',
+   'data': { } }
  
-     feature=feat3
-diff --git a/tests/qapi-schema/doc-good.txt b/tests/qapi-schema/doc-good.txt
-index 6ca03d49d0..726727af74 100644
---- a/tests/qapi-schema/doc-good.txt
-+++ b/tests/qapi-schema/doc-good.txt
-@@ -272,7 +272,7 @@ Example
-    <- out
- 
- 
--"EVT-BOXED" (Event)
-+"EVT_BOXED" (Event)
- -------------------
- 
- 
-diff --git a/tests/qapi-schema/doc-invalid-return.json b/tests/qapi-schema/doc-invalid-return.json
-index 1ba45de414..95e7583930 100644
---- a/tests/qapi-schema/doc-invalid-return.json
-+++ b/tests/qapi-schema/doc-invalid-return.json
-@@ -1,7 +1,7 @@
- # Events can't have 'Returns' section
- 
- ##
--# @foo:
-+# @FOO:
- # Returns: blah
- ##
--{ 'event': 'foo' }
-+{ 'event': 'FOO' }
-diff --git a/tests/qapi-schema/event-case.err b/tests/qapi-schema/event-case.err
-index e69de29bb2..d3007cfa63 100644
---- a/tests/qapi-schema/event-case.err
-+++ b/tests/qapi-schema/event-case.err
-@@ -0,0 +1,2 @@
-+event-case.json: In event 'oops':
-+event-case.json:1: name of event must not use lowercase or '-'
-diff --git a/tests/qapi-schema/event-case.json b/tests/qapi-schema/event-case.json
-index 3a92d8b610..4d8a5d8a71 100644
---- a/tests/qapi-schema/event-case.json
-+++ b/tests/qapi-schema/event-case.json
-@@ -1,3 +1 @@
--# TODO: might be nice to enforce naming conventions; but until then this works
--# even though events should usually be ALL_CAPS
- { 'event': 'oops' }
-diff --git a/tests/qapi-schema/event-case.out b/tests/qapi-schema/event-case.out
-index 9ae44052ac..e69de29bb2 100644
---- a/tests/qapi-schema/event-case.out
-+++ b/tests/qapi-schema/event-case.out
-@@ -1,14 +0,0 @@
--module ./builtin
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module event-case.json
--event oops None
--    boxed=False
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-index 12ec588b52..a355321258 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -249,7 +249,7 @@
- 
- { 'command': 'TestCmdReturnDefThree', 'returns': 'UserDefThree' }
- 
--{ 'event': 'TestIfEvent', 'data':
-+{ 'event': 'TEST_IF_EVENT', 'data':
-   { 'foo': 'TestIfStruct',
-     'bar': { 'type': ['TestIfEnum'], 'if': 'defined(TEST_IF_EVT_BAR)' } },
-   'if': 'defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)' }
-@@ -324,8 +324,8 @@
-   'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
-                                               'defined(TEST_IF_COND_2)'] } ] }
- 
--{ 'event': 'TEST-EVENT-FEATURES0',
-+{ 'event': 'TEST_EVENT_FEATURES0',
-   'data': 'FeatureStruct1' }
- 
--{ 'event': 'TEST-EVENT-FEATURES1',
-+{ 'event': 'TEST_EVENT_FEATURES1',
+-{ 'enum': 'T', 'data': ['nothing'] }
++{ 'enum': 'FrobType', 'data': ['nothing'] }
+diff --git a/tests/qapi-schema/double-type.err b/tests/qapi-schema/double-type.err
+index 71fc4dbb52..576e716197 100644
+--- a/tests/qapi-schema/double-type.err
++++ b/tests/qapi-schema/double-type.err
+@@ -1,3 +1,3 @@
+-double-type.json: In struct 'bar':
++double-type.json: In struct 'Bar':
+ double-type.json:2: struct has unknown key 'command'
+ Valid keys are 'base', 'data', 'features', 'if', 'struct'.
+diff --git a/tests/qapi-schema/double-type.json b/tests/qapi-schema/double-type.json
+index 911fa7af50..2c0809f38d 100644
+--- a/tests/qapi-schema/double-type.json
++++ b/tests/qapi-schema/double-type.json
+@@ -1,2 +1,2 @@
+ # we reject an expression with ambiguous metatype
+-{ 'command': 'foo', 'struct': 'bar', 'data': { } }
++{ 'command': 'foo', 'struct': 'Bar', 'data': { } }
+diff --git a/tests/qapi-schema/features-deprecated-type.err b/tests/qapi-schema/features-deprecated-type.err
+index af4ffe20aa..ddaedf604e 100644
+--- a/tests/qapi-schema/features-deprecated-type.err
++++ b/tests/qapi-schema/features-deprecated-type.err
+@@ -1,2 +1,2 @@
+-features-deprecated-type.json: In struct 'S':
++features-deprecated-type.json: In struct 'Foo':
+ features-deprecated-type.json:2: feature 'deprecated' is not supported for types
+diff --git a/tests/qapi-schema/features-deprecated-type.json b/tests/qapi-schema/features-deprecated-type.json
+index 4b5bf5b86e..265849b1f7 100644
+--- a/tests/qapi-schema/features-deprecated-type.json
++++ b/tests/qapi-schema/features-deprecated-type.json
+@@ -1,3 +1,3 @@
+ # Feature 'deprecated' is not supported for types
+-{ 'struct': 'S', 'data': {},
++{ 'struct': 'Foo', 'data': {},
    'features': [ 'deprecated' ] }
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-index f5741df97f..882d0e7c56 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -349,12 +349,12 @@ command TestCmdReturnDefThree None -> UserDefThree
-     gen=True success_response=True boxed=False oob=False preconfig=False
- array TestIfEnumList TestIfEnum
-     if ['defined(TEST_IF_ENUM)']
--object q_obj_TestIfEvent-arg
-+object q_obj_TEST_IF_EVENT-arg
-     member foo: TestIfStruct optional=False
-     member bar: TestIfEnumList optional=False
-         if ['defined(TEST_IF_EVT_BAR)']
-     if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
--event TestIfEvent q_obj_TestIfEvent-arg
-+event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
-     boxed=False
-     if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
- object FeatureStruct0
-@@ -440,9 +440,9 @@ command test-command-cond-features3 None -> None
-     gen=True success_response=True boxed=False oob=False preconfig=False
-     feature feature1
-         if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
--event TEST-EVENT-FEATURES0 FeatureStruct1
-+event TEST_EVENT_FEATURES0 FeatureStruct1
-     boxed=False
--event TEST-EVENT-FEATURES1 None
-+event TEST_EVENT_FEATURES1 None
-     boxed=False
-     feature deprecated
- module include/sub-module.json
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index d5fa035507..ba11cb76ac 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -180,6 +180,7 @@ schemas = [
+   'trailing-comma-list.json',
+   'trailing-comma-object.json',
+   'type-bypass-bad-gen.json',
++  'type-case.json',
+   'unclosed-list.json',
+   'unclosed-object.json',
+   'unclosed-string.json',
+diff --git a/tests/qapi-schema/redefined-builtin.err b/tests/qapi-schema/redefined-builtin.err
+index 58c7e42ffc..92bc62dc76 100644
+--- a/tests/qapi-schema/redefined-builtin.err
++++ b/tests/qapi-schema/redefined-builtin.err
+@@ -1,2 +1,2 @@
+-redefined-builtin.json: In struct 'size':
+-redefined-builtin.json:2: built-in type 'size' is already defined
++redefined-builtin.json: In struct 'QType':
++redefined-builtin.json:2: enum type 'QType' is already defined
+diff --git a/tests/qapi-schema/redefined-builtin.json b/tests/qapi-schema/redefined-builtin.json
+index 45b8a550ad..cad555cc73 100644
+--- a/tests/qapi-schema/redefined-builtin.json
++++ b/tests/qapi-schema/redefined-builtin.json
+@@ -1,2 +1,2 @@
+-# we reject types that duplicate builtin names
+-{ 'struct': 'size', 'data': { 'myint': 'size' } }
++# we reject types that clash with predefined types
++{ 'struct': 'QType', 'data': { 'myint': 'size' } }
+diff --git a/tests/qapi-schema/redefined-type.err b/tests/qapi-schema/redefined-type.err
+index b7103fc15f..5e5406f811 100644
+--- a/tests/qapi-schema/redefined-type.err
++++ b/tests/qapi-schema/redefined-type.err
+@@ -1,4 +1,4 @@
+-redefined-type.json: In enum 'foo':
+-redefined-type.json:3: 'foo' is already defined
+-redefined-type.json: In struct 'foo':
++redefined-type.json: In enum 'Foo':
++redefined-type.json:3: 'Foo' is already defined
++redefined-type.json: In struct 'Foo':
+ redefined-type.json:2: previous definition
+diff --git a/tests/qapi-schema/redefined-type.json b/tests/qapi-schema/redefined-type.json
+index a09e768bae..291453e70d 100644
+--- a/tests/qapi-schema/redefined-type.json
++++ b/tests/qapi-schema/redefined-type.json
+@@ -1,3 +1,3 @@
+ # we reject types defined more than once
+-{ 'struct': 'foo', 'data': { 'one': 'str' } }
+-{ 'enum': 'foo', 'data': [ 'two' ] }
++{ 'struct': 'Foo', 'data': { 'one': 'str' } }
++{ 'enum': 'Foo', 'data': [ 'two' ] }
+diff --git a/tests/qapi-schema/struct-data-invalid.err b/tests/qapi-schema/struct-data-invalid.err
+index 5ed4bec573..23cbfc60ea 100644
+--- a/tests/qapi-schema/struct-data-invalid.err
++++ b/tests/qapi-schema/struct-data-invalid.err
+@@ -1,2 +1,2 @@
+-struct-data-invalid.json: In struct 'foo':
++struct-data-invalid.json: In struct 'Foo':
+ struct-data-invalid.json:1: 'data' should be an object or type name
+diff --git a/tests/qapi-schema/struct-data-invalid.json b/tests/qapi-schema/struct-data-invalid.json
+index 9adbc3bb6b..00ad11ef94 100644
+--- a/tests/qapi-schema/struct-data-invalid.json
++++ b/tests/qapi-schema/struct-data-invalid.json
+@@ -1,2 +1,2 @@
+-{ 'struct': 'foo',
++{ 'struct': 'Foo',
+   'data': false }
+diff --git a/tests/qapi-schema/struct-member-invalid-dict.err b/tests/qapi-schema/struct-member-invalid-dict.err
+index f9b3f33551..517793cc9b 100644
+--- a/tests/qapi-schema/struct-member-invalid-dict.err
++++ b/tests/qapi-schema/struct-member-invalid-dict.err
+@@ -1,2 +1,2 @@
+-struct-member-invalid-dict.json: In struct 'foo':
++struct-member-invalid-dict.json: In struct 'Foo':
+ struct-member-invalid-dict.json:3: 'data' member '*a' misses key 'type'
+diff --git a/tests/qapi-schema/struct-member-invalid-dict.json b/tests/qapi-schema/struct-member-invalid-dict.json
+index bc3d62ae63..df5d018f65 100644
+--- a/tests/qapi-schema/struct-member-invalid-dict.json
++++ b/tests/qapi-schema/struct-member-invalid-dict.json
+@@ -1,4 +1,4 @@
+ # struct 'data' member with dict value is (longhand) member
+ # definition, not inline complex type
+-{ 'struct': 'foo',
++{ 'struct': 'Foo',
+   'data': { '*a': { 'case': 'foo' } } }
+diff --git a/tests/qapi-schema/struct-member-invalid.err b/tests/qapi-schema/struct-member-invalid.err
+index 9a2c934538..7e01a41d7c 100644
+--- a/tests/qapi-schema/struct-member-invalid.err
++++ b/tests/qapi-schema/struct-member-invalid.err
+@@ -1,2 +1,2 @@
+-struct-member-invalid.json: In struct 'foo':
++struct-member-invalid.json: In struct 'Foo':
+ struct-member-invalid.json:1: 'data' member 'a' should be a type name
+diff --git a/tests/qapi-schema/struct-member-invalid.json b/tests/qapi-schema/struct-member-invalid.json
+index 8f172f7a87..a4cd860c67 100644
+--- a/tests/qapi-schema/struct-member-invalid.json
++++ b/tests/qapi-schema/struct-member-invalid.json
+@@ -1,2 +1,2 @@
+-{ 'struct': 'foo',
++{ 'struct': 'Foo',
+   'data': { 'a': false } }
+diff --git a/tests/qapi-schema/type-case.err b/tests/qapi-schema/type-case.err
+new file mode 100644
+index 0000000000..36d2de2d00
+--- /dev/null
++++ b/tests/qapi-schema/type-case.err
+@@ -0,0 +1,2 @@
++type-case.json: In struct 'not-a-camel':
++type-case.json:2: name of struct must use CamelCase
+diff --git a/tests/qapi-schema/type-case.json b/tests/qapi-schema/type-case.json
+new file mode 100644
+index 0000000000..a43c68e7eb
+--- /dev/null
++++ b/tests/qapi-schema/type-case.json
+@@ -0,0 +1,2 @@
++# Type names should use CamelCase
++{ 'struct': 'not-a-camel', 'data': {} }
+diff --git a/tests/qapi-schema/type-case.out b/tests/qapi-schema/type-case.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/unknown-expr-key.err b/tests/qapi-schema/unknown-expr-key.err
+index c5f395bf79..f2538e3ce7 100644
+--- a/tests/qapi-schema/unknown-expr-key.err
++++ b/tests/qapi-schema/unknown-expr-key.err
+@@ -1,3 +1,3 @@
+-unknown-expr-key.json: In struct 'bar':
++unknown-expr-key.json: In struct 'Bar':
+ unknown-expr-key.json:2: struct has unknown keys 'bogus', 'phony'
+ Valid keys are 'base', 'data', 'features', 'if', 'struct'.
+diff --git a/tests/qapi-schema/unknown-expr-key.json b/tests/qapi-schema/unknown-expr-key.json
+index 13292d75ed..8003a0c36e 100644
+--- a/tests/qapi-schema/unknown-expr-key.json
++++ b/tests/qapi-schema/unknown-expr-key.json
+@@ -1,2 +1,2 @@
+ # we reject an expression with unknown top-level keys
+-{ 'struct': 'bar', 'data': { 'string': 'str'}, 'bogus': { }, 'phony': { } }
++{ 'struct': 'Bar', 'data': { 'string': 'str'}, 'bogus': { }, 'phony': { } }
 -- 
 2.26.3
 
