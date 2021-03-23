@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D931345AB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 10:24:21 +0100 (CET)
-Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E074D345B1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 10:42:09 +0100 (CET)
+Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOdGu-0002zX-Gm
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 05:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54518)
+	id 1lOdY8-0002vO-7u
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 05:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lOdFB-0001LC-DK
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:22:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50158)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWe-0001HY-RL
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lOdEx-0007dl-W0
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:22:29 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWc-0001xb-F3
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616491339;
+ s=mimecast20190719; t=1616492433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NhpvuifEd2fAyfPe43PbMxrroDytNIY9+CNVKRxYGB8=;
- b=JXnyXFybGB7dH9h9A6e7bFUTzX8FIJUWMy7ocvkl6+8foASycO5U9fi19Qj+uof4oVfxO+
- +lKtvbMJ9vEtzVApA1tiDuP2FKu8BE3fSq+3d/JvQ5N98QgkFQvrbvXm9k8VMqbI8EE3Db
- fu3N/lI6xahjc1GU2ZzT1Bhjo966XZk=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qBj/ROlUzuY9gPl02K7ukaLPHs7sDD7mYS+zE5MMvJI=;
+ b=DGYlBr4enTwX/y3kXaEDXpMYB8DVFj+yMvJaZ+6IEFCpxEFvNo/B8y++5Y9IyNtEp45CGM
+ 3mDU82NVdkyts2wCk1X9cgl3Qwz/yd2UUN0EMT/Qqv4us8Mmvacs958h9ApJjBZlXLqDAC
+ xXr6JUChO6UYPZN04665/1LfI/rAy2U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-JQpCQGwQPICH0c_ZN191Fg-1; Tue, 23 Mar 2021 05:22:17 -0400
-X-MC-Unique: JQpCQGwQPICH0c_ZN191Fg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-271-N-RVsQyZNBCgb2vQwh7HPA-1; Tue, 23 Mar 2021 05:40:31 -0400
+X-MC-Unique: N-RVsQyZNBCgb2vQwh7HPA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FE05180FCAA
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:22:16 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-113-239.ams2.redhat.com
- [10.36.113.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 401369CA0;
- Tue, 23 Mar 2021 09:22:15 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] optionrom/pvh: use memcmp() to find the RSDP signature
-Date: Tue, 23 Mar 2021 10:22:11 +0100
-Message-Id: <20210323092211.44597-3-sgarzare@redhat.com>
-In-Reply-To: <20210323092211.44597-1-sgarzare@redhat.com>
-References: <20210323092211.44597-1-sgarzare@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9735B9CC02;
+ Tue, 23 Mar 2021 09:40:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F49D60BE5;
+ Tue, 23 Mar 2021 09:40:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A7FA411327E1; Tue, 23 Mar 2021 10:40:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/28] qapi: Enforce naming rules
+Date: Tue, 23 Mar 2021 10:39:57 +0100
+Message-Id: <20210323094025.3569441-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,98 +76,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: jsnow@redhat.com, michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New versions of gcc report a potential error and there may be alignment
-issues using uint64_t pointer to check the RSDP signature:
+This will save us pointless review - fix up cycles.  We should've done
+it long ago.
 
-    gcc 10.2.1 "cc (Alpine 10.2.1_pre2) 10.2.1 20210313" reports:
+The whole series could be considered bug fixes.  Not particularly
+urgent ones, though.  Options:
 
-    pc-bios/optionrom/pvh_main.c: In function 'search_rsdp':
-    pc-bios/optionrom/pvh_main.c:61:21: warning: comparison is always false
-    due to limited range of data type [-Wtype-limits]
-       61 |         if (*rsdp_p == RSDP_SIGNATURE) {
-          |                     ^~
+* Take them all.
 
-Let's use memcmp() to get more readable code and avoid these issues.
+* Take PATCH 01-07 now, queue the rest for 6.1.
 
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
+* Queue all for 6.1.
 
-Notes:
-    v2:
-    - made 'rsdp_signature' static const [Phil]
-    - uses memcmp() instead of __builtin_memcmp()
-    - added pvh.bin binary with the changes applied
+Let me know your preferences.
 
- pc-bios/optionrom/pvh_main.c |  12 +++++++-----
- pc-bios/pvh.bin              | Bin 1536 -> 1536 bytes
- 2 files changed, 7 insertions(+), 5 deletions(-)
+Markus Armbruster (28):
+  qapi/pragma: Tidy up after removal of deprecated commands
+  tests/qapi-schema: Drop redundant flat-union-inline test
+  tests/qapi-schema: Rework comments on longhand member definitions
+  tests/qapi-schema: Belatedly update comment on alternate clash
+  tests/qapi-schema: Drop TODO comment on simple unions
+  tests/qapi-schema: Tweak to demonstrate buggy member name check
+  qapi: Fix to reject optional members with reserved names
+  qapi: Support flat unions tag values with leading digit
+  qapi: Lift enum-specific code out of check_name_str()
+  qapi: Rework name checking in preparation of stricter checking
+  qapi: Move uppercase rejection to check_name_lower()
+  qapi: Consistently permit any case in downstream prefixes
+  qapi: Enforce event naming rules
+  qapi: Enforce type naming rules
+  tests/qapi-schema: Rename redefined-builtin to redefined-predefined
+  qapi: Factor out QAPISchemaParser._check_pragma_list_of_str()
+  tests/qapi-schema: Rename pragma-*-crap to pragma-value-not-*
+  tests/qapi-schema: Rename returns-whitelist to returns-bad-type
+  qapi: Rename pragma *-whitelist to *-exceptions
+  qapi/pragma: Streamline comments on member-name-exceptions
+  tests-qmp-cmds: Drop unused and incorrect qmp_TestIfCmd()
+  qapi: Prepare for rejecting underscore in command and member names
+  qapi: Enforce feature naming rules
+  qapi: Enforce command naming rules
+  tests/qapi-schema: Switch member name clash test to struct
+  qapi: Enforce struct member naming rules
+  qapi: Enforce enum member naming rules
+  qapi: Enforce union and alternate branch naming rules
 
-diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
-index 28e79d7fc4..f654703bad 100644
---- a/pc-bios/optionrom/pvh_main.c
-+++ b/pc-bios/optionrom/pvh_main.c
-@@ -27,7 +27,8 @@ asm (".code32"); /* this code will be executed in protected mode */
- #include "optrom_fw_cfg.h"
- #include "../../include/hw/xen/start_info.h"
- 
--#define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
-+#define RSDP_SIGNATURE          "RSD PTR "
-+#define RSDP_SIGNATURE_SIZE     8
- #define RSDP_AREA_ADDR          0x000E0000
- #define RSDP_AREA_SIZE          0x00020000
- #define EBDA_BASE_ADDR          0x0000040E
-@@ -53,12 +54,13 @@ static uint8_t cmdline_buffer[CMDLINE_BUFSIZE];
- /* Search RSDP signature. */
- static uintptr_t search_rsdp(uint32_t start_addr, uint32_t end_addr)
- {
--    uint64_t *rsdp_p;
-+    static const char rsdp_signature[RSDP_SIGNATURE_SIZE] = RSDP_SIGNATURE;
-+    char *rsdp_p;
- 
-     /* RSDP signature is always on a 16 byte boundary */
--    for (rsdp_p = (uint64_t *)start_addr; rsdp_p < (uint64_t *)end_addr;
--         rsdp_p += 2) {
--        if (*rsdp_p == RSDP_SIGNATURE) {
-+    for (rsdp_p = (char *)start_addr; rsdp_p < (char *)end_addr;
-+         rsdp_p += 16) {
-+        if (memcmp(rsdp_p, rsdp_signature, RSDP_SIGNATURE_SIZE) == 0) {
-             return (uintptr_t)rsdp_p;
-         }
-     }
-diff --git a/pc-bios/pvh.bin b/pc-bios/pvh.bin
-index 8033080ada2db4c4613fdc3bb5a69d79c7b0c0ca..778ca261447bed794ecb98bb29138a09568aca67 100644
-GIT binary patch
-delta 656
-zcmZqRY2cYKnJIyF;?!q6oi`3X5NJNZ#ebrcWpX>CZ@rI-$Z^&MiVO@DNArx2vn~O$
-z7#SEC7ACMVFf6_R<n71+u}%P4$63z+Nf6k<z`)1wny>kQfGq=q00V!^C7@uVMNqJd
-zLg}l<3YLJ7AcfM0iw}S`9f4}v*C5Ei&}pJ_+(m^2WJvQvCjM5&&dJ-D>^OD+)pUyP
-zQJnmTNsf)bbrDc{vJA6qJ;-6*J}MmlA2uJ6iH?hpJ=|LcbO*>_5ID{XGu-e%+Cn~{
-zv7LtwK4NM9;lSUf^8f$;Zl>M|3_wxK3q_(YRT&u=dP~$8CIFpnd4a!K6v&6V`7O-N
-zPYf@CUEL`PGWaFygMa`3r%ldhHmq*|@{hB&07($&c2N;o+yNHqfeP&asaU)LEVczI
-zcARw$ki`hp@bVSVq~0xRAkAP$>;#3uE)fvdMMdC6?q8s5eN+T?i2_ABKfH(q@mW;5
-zLsVE6g94`>6gmtH5MA65T_P_mK&nDiL|QME8bG83AW|GJWPwsICm}4IV0hr=R|Ge0
-z0z^F*L_N=ow|~G65ZNUJ6ajjV=f!Q12#~QD<S_?I{GJ4iip?Kc_!uX#Dl@(T0NEhW
-AtpET3
-
-delta 702
-zcmZqRY2cYKndyM&#Hr7C4n7v>yw!Y)i~m%o$mDiL-})F8k>jilq6`cbNArx2v$g<P
-zj0_A63l9Jpi#Gs?9VbAn6+q%R>lz>l0y`KO_!!bAbPF_o3JP{n==NY~{1^}tq`-NR
-zzeOFWz4?HEEdvK1L+Rb)tP7xej<YU-vJ4NTE#zZiU^w`I#kQUS$S8B~X6W4jVp$$5
-z7kin;#K6$I4P+0{9Lr<;ZJ|H`EOwPXFub%FWPGP6$mrfOhJ6XFK%R-paTgV!VL<(l
-znfP1HfezX$0F>Av0u<_emG*wOAdt5cq@s6n0h1EP46qq<L?_Q;l4B|jnY@ol)(jLR
-z-99QD{~tCVk%^9rk3HO5qQ)=*Y#+iaFKzz+|KGbs4P+TeesVmsVSNHn>v7f;APEB9
-zE-E66Gr&SQP@x?l6^kc;#il^Tj<favS)ibQX@P3y1h7kYfgIoKq9X7j_V54yK$i*Z
-z0_p7h@WL0wXHn@6QDIpO@=1NC=o}yg(ZvnXCGtW8q$)&3r1ersCPa!0BE|E97h<5u
-zE+L=@(78M>e*Xa~1~L|t;}tic=V5+<*dze4iQ~l*pt&#0{~>}55^@s^51_>4%RN9B
-MZNA7N&B#~{07`n#VE_OC
+ docs/devel/qapi-code-gen.txt                  | 28 +++---
+ qapi/pragma.json                              | 65 ++++++++++---
+ qga/qapi-schema.json                          |  6 +-
+ tests/unit/test-qmp-cmds.c                    | 17 +---
+ tests/unit/test-qmp-event.c                   |  6 +-
+ scripts/qapi/common.py                        |  8 +-
+ scripts/qapi/expr.py                          | 94 ++++++++++++-------
+ scripts/qapi/parser.py                        | 30 +++---
+ scripts/qapi/schema.py                        |  2 +-
+ scripts/qapi/source.py                        | 10 +-
+ tests/qapi-schema/alternate-clash.err         |  2 +-
+ tests/qapi-schema/alternate-clash.json        |  9 +-
+ tests/qapi-schema/args-member-case.err        |  2 +-
+ tests/qapi-schema/args-name-clash.err         |  2 -
+ tests/qapi-schema/args-name-clash.json        |  4 -
+ tests/qapi-schema/doc-bad-union-member.json   |  4 +-
+ tests/qapi-schema/doc-good.json               |  4 +-
+ tests/qapi-schema/doc-good.out                |  4 +-
+ tests/qapi-schema/doc-good.txt                |  2 +-
+ tests/qapi-schema/doc-invalid-return.json     |  4 +-
+ tests/qapi-schema/double-type.err             |  2 +-
+ tests/qapi-schema/double-type.json            |  2 +-
+ tests/qapi-schema/enum-clash-member.err       |  2 +-
+ tests/qapi-schema/enum-clash-member.json      |  1 +
+ tests/qapi-schema/enum-member-case.err        |  2 +-
+ tests/qapi-schema/enum-member-case.json       |  2 +-
+ tests/qapi-schema/event-case.err              |  2 +
+ tests/qapi-schema/event-case.json             |  2 -
+ tests/qapi-schema/event-case.out              | 14 ---
+ .../qapi-schema/event-member-invalid-dict.err |  2 +-
+ .../event-member-invalid-dict.json            |  2 +
+ .../qapi-schema/features-deprecated-type.err  |  2 +-
+ .../qapi-schema/features-deprecated-type.json |  2 +-
+ .../flat-union-inline-invalid-dict.json       |  4 +-
+ tests/qapi-schema/flat-union-inline.err       |  2 -
+ tests/qapi-schema/flat-union-inline.json      | 11 ---
+ tests/qapi-schema/flat-union-no-base.err      |  2 +-
+ tests/qapi-schema/flat-union-no-base.json     |  1 -
+ tests/qapi-schema/meson.build                 | 14 +--
+ .../nested-struct-data-invalid-dict.err       |  2 +-
+ .../nested-struct-data-invalid-dict.json      |  3 +-
+ tests/qapi-schema/nested-struct-data.json     |  2 +-
+ .../qapi-schema/pragma-doc-required-crap.err  |  1 -
+ .../pragma-name-case-whitelist-crap.err       |  1 -
+ .../pragma-name-case-whitelist-crap.json      |  3 -
+ .../pragma-returns-whitelist-crap.err         |  1 -
+ .../pragma-returns-whitelist-crap.json        |  3 -
+ tests/qapi-schema/pragma-value-not-bool.err   |  1 +
+ ...d-crap.json => pragma-value-not-bool.json} |  2 +-
+ ...me-clash.out => pragma-value-not-bool.out} |  0
+ .../pragma-value-not-list-of-str.err          |  1 +
+ .../pragma-value-not-list-of-str.json         |  3 +
+ ...e.out => pragma-value-not-list-of-str.out} |  0
+ tests/qapi-schema/pragma-value-not-list.err   |  1 +
+ tests/qapi-schema/pragma-value-not-list.json  |  2 +
+ ...red-crap.out => pragma-value-not-list.out} |  0
+ tests/qapi-schema/qapi-schema-test.json       | 35 ++++---
+ tests/qapi-schema/qapi-schema-test.out        | 42 ++++-----
+ tests/qapi-schema/redefined-builtin.err       |  2 -
+ tests/qapi-schema/redefined-builtin.json      |  2 -
+ tests/qapi-schema/redefined-predefined.err    |  2 +
+ tests/qapi-schema/redefined-predefined.json   |  2 +
+ ...list-crap.out => redefined-predefined.out} |  0
+ tests/qapi-schema/redefined-type.err          |  6 +-
+ tests/qapi-schema/redefined-type.json         |  4 +-
+ tests/qapi-schema/reserved-member-u.err       |  2 +-
+ tests/qapi-schema/reserved-member-u.json      |  2 +-
+ tests/qapi-schema/returns-bad-type.err        |  2 +
+ ...s-whitelist.json => returns-bad-type.json} |  2 +-
+ ...hitelist-crap.out => returns-bad-type.out} |  0
+ tests/qapi-schema/returns-whitelist.err       |  2 -
+ tests/qapi-schema/struct-data-invalid.err     |  2 +-
+ tests/qapi-schema/struct-data-invalid.json    |  2 +-
+ .../struct-member-invalid-dict.err            |  4 +-
+ .../struct-member-invalid-dict.json           |  5 +-
+ tests/qapi-schema/struct-member-invalid.err   |  2 +-
+ tests/qapi-schema/struct-member-invalid.json  |  2 +-
+ .../qapi-schema/struct-member-name-clash.err  |  2 +
+ .../qapi-schema/struct-member-name-clash.json |  5 +
+ ...iltin.out => struct-member-name-clash.out} |  0
+ tests/qapi-schema/type-case.err               |  2 +
+ tests/qapi-schema/type-case.json              |  2 +
+ .../{returns-whitelist.out => type-case.out}  |  0
+ tests/qapi-schema/union-branch-case.err       |  2 +-
+ tests/qapi-schema/union-clash-branches.err    |  2 +-
+ tests/qapi-schema/union-clash-branches.json   |  6 +-
+ tests/qapi-schema/unknown-expr-key.err        |  2 +-
+ tests/qapi-schema/unknown-expr-key.json       |  2 +-
+ 88 files changed, 306 insertions(+), 241 deletions(-)
+ delete mode 100644 tests/qapi-schema/args-name-clash.err
+ delete mode 100644 tests/qapi-schema/args-name-clash.json
+ delete mode 100644 tests/qapi-schema/flat-union-inline.err
+ delete mode 100644 tests/qapi-schema/flat-union-inline.json
+ delete mode 100644 tests/qapi-schema/pragma-doc-required-crap.err
+ delete mode 100644 tests/qapi-schema/pragma-name-case-whitelist-crap.err
+ delete mode 100644 tests/qapi-schema/pragma-name-case-whitelist-crap.json
+ delete mode 100644 tests/qapi-schema/pragma-returns-whitelist-crap.err
+ delete mode 100644 tests/qapi-schema/pragma-returns-whitelist-crap.json
+ create mode 100644 tests/qapi-schema/pragma-value-not-bool.err
+ rename tests/qapi-schema/{pragma-doc-required-crap.json => pragma-value-not-bool.json} (55%)
+ rename tests/qapi-schema/{args-name-clash.out => pragma-value-not-bool.out} (100%)
+ create mode 100644 tests/qapi-schema/pragma-value-not-list-of-str.err
+ create mode 100644 tests/qapi-schema/pragma-value-not-list-of-str.json
+ rename tests/qapi-schema/{flat-union-inline.out => pragma-value-not-list-of-str.out} (100%)
+ create mode 100644 tests/qapi-schema/pragma-value-not-list.err
+ create mode 100644 tests/qapi-schema/pragma-value-not-list.json
+ rename tests/qapi-schema/{pragma-doc-required-crap.out => pragma-value-not-list.out} (100%)
+ delete mode 100644 tests/qapi-schema/redefined-builtin.err
+ delete mode 100644 tests/qapi-schema/redefined-builtin.json
+ create mode 100644 tests/qapi-schema/redefined-predefined.err
+ create mode 100644 tests/qapi-schema/redefined-predefined.json
+ rename tests/qapi-schema/{pragma-name-case-whitelist-crap.out => redefined-predefined.out} (100%)
+ create mode 100644 tests/qapi-schema/returns-bad-type.err
+ rename tests/qapi-schema/{returns-whitelist.json => returns-bad-type.json} (91%)
+ rename tests/qapi-schema/{pragma-returns-whitelist-crap.out => returns-bad-type.out} (100%)
+ delete mode 100644 tests/qapi-schema/returns-whitelist.err
+ create mode 100644 tests/qapi-schema/struct-member-name-clash.err
+ create mode 100644 tests/qapi-schema/struct-member-name-clash.json
+ rename tests/qapi-schema/{redefined-builtin.out => struct-member-name-clash.out} (100%)
+ create mode 100644 tests/qapi-schema/type-case.err
+ create mode 100644 tests/qapi-schema/type-case.json
+ rename tests/qapi-schema/{returns-whitelist.out => type-case.out} (100%)
 
 -- 
-2.30.2
+2.26.3
 
 
