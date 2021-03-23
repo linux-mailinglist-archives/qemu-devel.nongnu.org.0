@@ -2,89 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825BB34692A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:37:01 +0100 (CET)
-Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E575934694B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:51:27 +0100 (CET)
+Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmpo-0002x3-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
+	id 1lOn3l-0006LV-Mc
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOmlX-0007BB-RM
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:32:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24133)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOmmb-0000aA-GK
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:33:43 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOmlU-0004mY-91
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:32:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616527950;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5SdpfTrhPzIfzyXFC6KEHznk2zxV6ZsV2A9HAKeN2YE=;
- b=fglZQxxS/JFE3fzxg7AeLy2A2s4rbQWBFSKP2+ANlEOtK++IhE9J7M28SZq9hjdSIQ5cqZ
- 0x5ytSarKAIIzTWBLJ4yc74LdSfFMcKsk5B7aGsaZbrOX9K4mArY2QojzpiaTJaKp1O0i/
- N5CDDBK/wPj1G/aDUd9/aAS4glRFiyM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-zZ31M17SNoynv6FuGy_t4w-1; Tue, 23 Mar 2021 15:32:28 -0400
-X-MC-Unique: zZ31M17SNoynv6FuGy_t4w-1
-Received: by mail-wm1-f72.google.com with SMTP id n2so1138517wmi.2
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:32:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=5SdpfTrhPzIfzyXFC6KEHznk2zxV6ZsV2A9HAKeN2YE=;
- b=k6e28Jg1fYtO6hKW/Xe0pjHiOiETLiWjtXtuOTDJXJ38Mi4XrNcQ1Ho/lgSu5+4Xyl
- SW9E/uX4+AfobOudLY4Ab+ANf6+fnnMz/dKqOSpvXr90a3+FfKS/Mh04awOdeedi2Kuy
- Cx7wSRT5lPNoHRAG/7t2qbdxQFj1CIHex4c5BsnN+ja/b4M5TJiRA1w1aqM/x0TFtCkp
- gTrZamatSF7bxRGdTWq1nMYI3LKNufRIxH2R4ROzN7xK81Z4iOAb6WtSVU7Hs7kci0w1
- B6c3khiqz+XM3eEkcKcaMfKB19kGB2cPjgZ5FovDQ2Y/IrKuj8PTFMZjuiLrQh+ANawp
- 7bvg==
-X-Gm-Message-State: AOAM533PfGEevurTsrIJEhOgnAB3ojtOJxv9/O3Be6R0xTnIlEcwc/5s
- uhDPWjnY7K1sgSXbTCAyiv0a5ZhllsWThxx3ZkyPYhX8zYAvct/1gCGcZn6Bqs1ByhfN3355VZH
- ThjChZ8CwLfgiy78=
-X-Received: by 2002:a5d:548c:: with SMTP id h12mr5681259wrv.46.1616527947717; 
- Tue, 23 Mar 2021 12:32:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwA4LSXz/kw63aeCOzGqSTQSDUktaf3Vci6+gRwXF6t1p/aMxnEPFovAdIHhfyXZDsePHq+PA==
-X-Received: by 2002:a5d:548c:: with SMTP id h12mr5681250wrv.46.1616527947572; 
- Tue, 23 Mar 2021 12:32:27 -0700 (PDT)
-Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id r2sm24294667wrt.8.2021.03.23.12.32.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 12:32:26 -0700 (PDT)
-Date: Tue, 23 Mar 2021 15:32:23 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH] i386/acpi: restore device paths for pre-5.1 vms
-Message-ID: <20210323152835-mutt-send-email-mst@kernel.org>
-References: <20210301195919.9333-1-cheptsov@ispras.ru>
- <20210322114116-mutt-send-email-mst@kernel.org>
- <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
- <20210323104542-mutt-send-email-mst@kernel.org>
- <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
- <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOmmX-0005Hl-74
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:33:39 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 0618DACBF;
+ Tue, 23 Mar 2021 19:33:36 +0000 (UTC)
+Subject: Re: [RFC v10 39/49] target/arm: add tcg cpu accel class
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210322140206.9513-1-cfontana@suse.de>
+ <20210322140206.9513-40-cfontana@suse.de> <87h7l1isb0.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <632c5af8-364f-8d61-d512-6c28fcf41fbe@suse.de>
+Date: Tue, 23 Mar 2021 20:33:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <87h7l1isb0.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,57 +55,353 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Cheptsov <cheptsov@ispras.ru>,
- qemu devel list <qemu-devel@nongnu.org>, qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 04:04:11PM +0100, Thomas Lamprecht wrote:
-> On 23.03.21 15:55, Vitaly Cheptsov wrote:
-> >> 23 марта 2021 г., в 17:48, Michael S. Tsirkin <mst@redhat.com> написал(а):
-> >>
-> >> The issue is with people who installed a VM using 5.1 qemu,
-> >> migrated to 5.2, booted there and set a config on a device
-> >> e.g. IP on a NIC.
-> >> They now have a 5.1 machine type but changing uid back
-> >> like we do will break these VMs.
-> >>
-> >> Unlikley to be common but let's at least create a way for these people
-> >> to used these VMs.
-> >>
-> > They can simply set the 5.2 VM version in such a case. I do not want to 
-> let this legacy hack to be enabled in any modern QEMU VM version, as it violates ACPI specification and makes the life more difficult for various other software like bootloaders and operating systems.
+On 3/23/21 8:26 PM, Alex Bennée wrote:
 > 
-> Yeah here I agree with Vitaly, if they already used 5.2 and made some configurations
-> for those "new" devices they can just keep using 5.2?
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> move init, realizefn and reset code into it.
+> 
+> w.r.t my testing this is fingered by bisect for causing:
+> 
+>   Running test qtest-aarch64/migration-test
+>   ERROR qtest-aarch64/migration-test - Bail out! ERROR:../../target/arm/tcg/tcg-cpu.c:233:tcg_arm_init_accel_cpu: assertion failed: (object_class_by_name(ACCEL_CPU_NAME("tcg")) == OBJECT_CLASS(accel_cpu))
+>   Broken pipe
+>   make: *** [Makefile.mtest:272: run-test-32] Error 1
+> 
+> The bisect log:
+> 
+>   git bisect start
+>   # bad: [474677f44c0d581381db57ff6030a6553f16db95] XXX target/arm: experiment refactoring cpu "max"
+>   git bisect bad 474677f44c0d581381db57ff6030a6553f16db95
+>   # good: [5ca634afcf83215a9a54ca6e66032325b5ffb5f6] Merge remote-tracking branch 'remotes/philmd/tags/sdmmc-20210322' into staging
+>   git bisect good 5ca634afcf83215a9a54ca6e66032325b5ffb5f6
+>   # good: [bf31455e28246f6b9b732dc56f89e61895f6f4f0] i386: split svm_helper into sysemu and stub-only user
+>   git bisect good bf31455e28246f6b9b732dc56f89e61895f6f4f0
+>   # good: [903f6e1bdc20939d023d6b577875370023bcac5f] target/arm: move arm_cpu_list to common_cpu
+>   git bisect good 903f6e1bdc20939d023d6b577875370023bcac5f
+>   # good: [1999c2ce6cc82200a39f6e41041f304eba5d4e7e] tests: device-introspect-test: cope with ARM TCG-only devices
+>   git bisect good 1999c2ce6cc82200a39f6e41041f304eba5d4e7e
+>   # bad: [fa37cc7fbabcf4de1cc963530c75b0ea7a73139a] target/arm: cpu-sve: new module
+>   git bisect bad fa37cc7fbabcf4de1cc963530c75b0ea7a73139a
+>   # good: [d0c4b7a7d2aa12537a06527692f10066b7acbed9] target/arm: create kvm cpu accel class
+>   git bisect good d0c4b7a7d2aa12537a06527692f10066b7acbed9
+>   # bad: [3288c8a8cfc8dd9999e7b5908eaebb561f0169eb] target/arm: add tcg cpu accel class
+>   git bisect bad 3288c8a8cfc8dd9999e7b5908eaebb561f0169eb
+>   # good: [683b948d40bc81f1eaed27bef8631ab3f8a937d6] target/arm: move kvm post init initialization to kvm cpu accel
+>   git bisect good 683b948d40bc81f1eaed27bef8631ab3f8a937d6
+>   # first bad commit: [3288c8a8cfc8dd9999e7b5908eaebb561f0169eb] target/arm: add tcg cpu accel class
 
-People just create a VM, the machine type gets set in stone then.
+Sorry you did all this work, yes, it is a known issue that should be working in RFC v11.
 
-> If some of the devices got configured on 5.1 and some on 5.2 there's nothing we can
-> do anyway, from a QEMU POV - there the user always need to choose one machine version
-> and fix up the device configured while on the other machine.
+I completely forgot about the "all" build in this instance (the build with both kvm and tcg).
 
-I think I did not explain it well. Here is an example.
+Ciao,
 
+Claudio
 
-1. start qemu version 5.1 with machine type 5.1
-
-2. reboot with qemu version 5.2 still machine type 5.1
-
-3. set static IP on NIC
-
-4. reboot with qemu version 6.0 still machine type 5.1
-
-   at this point NIC loses the static IP.
-
-
-
-What I suggest is that we use a property to at stage 4,
-user can set a flag and avoid losing the static IP.
-Yes in theory maybe at stage 2 or 4 user can switch to 5.2 machine type
-but we were always telling people not to do that, let's not start.
-
--- 
-MST
+> 
+>   3288c8a8cfc8dd9999e7b5908eaebb561f0169eb is the first bad commit
+>   commit 3288c8a8cfc8dd9999e7b5908eaebb561f0169eb
+>   Author: Claudio Fontana <cfontana@suse.de>
+>   Date:   Mon Mar 22 15:01:56 2021 +0100
+> 
+>       target/arm: add tcg cpu accel class
+> 
+>       move init, realizefn and reset code into it.
+> 
+>       Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>       Cc: Paolo Bonzini <pbonzini@redhat.com>
+>       Message-Id: <20210322140206.9513-40-cfontana@suse.de>
+> 
+>    target/arm/cpu.c                | 44 +++----------------------------
+>    target/arm/tcg/sysemu/tcg-cpu.c | 27 +++++++++++++++++++
+>    target/arm/tcg/tcg-cpu-models.c | 11 +++++---
+>    target/arm/tcg/tcg-cpu.c        | 57 +++++++++++++++++++++++++++++++++++++++--
+>    target/arm/tcg/tcg-cpu.h        |  4 ++-
+>    5 files changed, 96 insertions(+), 47 deletions(-)
+>   bisect run success
+> 
+> 
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  target/arm/tcg/tcg-cpu.h        |  4 ++-
+>>  target/arm/cpu.c                | 44 ++-----------------------
+>>  target/arm/tcg/sysemu/tcg-cpu.c | 27 ++++++++++++++++
+>>  target/arm/tcg/tcg-cpu-models.c | 11 +++++--
+>>  target/arm/tcg/tcg-cpu.c        | 57 +++++++++++++++++++++++++++++++--
+>>  5 files changed, 96 insertions(+), 47 deletions(-)
+>>
+>> diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
+>> index d93c6a6749..dd08587949 100644
+>> --- a/target/arm/tcg/tcg-cpu.h
+>> +++ b/target/arm/tcg/tcg-cpu.h
+>> @@ -22,15 +22,17 @@
+>>  
+>>  #include "cpu.h"
+>>  #include "hw/core/tcg-cpu-ops.h"
+>> +#include "hw/core/accel-cpu.h"
+>>  
+>>  void arm_cpu_synchronize_from_tb(CPUState *cs,
+>>                                   const TranslationBlock *tb);
+>>  
+>> -extern struct TCGCPUOps arm_tcg_ops;
+>> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
+>>  
+>>  #ifndef CONFIG_USER_ONLY
+>>  /* Do semihosting call and set the appropriate return value. */
+>>  void tcg_handle_semihosting(CPUState *cs);
+>> +bool tcg_cpu_realizefn(CPUState *cs, Error **errp);
+>>  
+>>  #endif /* !CONFIG_USER_ONLY */
+>>  
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 5e0f6bd01d..9248e096df 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -410,12 +410,6 @@ static void arm_cpu_reset(DeviceState *dev)
+>>                                &env->vfp.fp_status_f16);
+>>      set_float_detect_tininess(float_tininess_before_rounding,
+>>                                &env->vfp.standard_fp_status_f16);
+>> -
+>> -    if (tcg_enabled()) {
+>> -        hw_breakpoint_update_all(cpu);
+>> -        hw_watchpoint_update_all(cpu);
+>> -        arm_rebuild_hflags(env);
+>> -    }
+>>  }
+>>  
+>>  void arm_cpu_update_virq(ARMCPU *cpu)
+>> @@ -576,10 +570,6 @@ static void arm_cpu_initfn(Object *obj)
+>>      cpu->dtb_compatible = "qemu,unknown";
+>>      cpu->psci_version = 1; /* By default assume PSCI v0.1 */
+>>      cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
+>> -
+>> -    if (tcg_enabled()) {
+>> -        cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
+>> -    }
+>>  }
+>>  
+>>  static Property arm_cpu_gt_cntfrq_property =
+>> @@ -868,34 +858,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>      Error *local_err = NULL;
+>>      bool no_aa32 = false;
+>>  
+>> -    /*
+>> -     * If we needed to query the host kernel for the CPU features
+>> -     * then it's possible that might have failed in the initfn, but
+>> -     * this is the first point where we can report it.
+>> -     */
+>> -    if (cpu->host_cpu_probe_failed) {
+>> -        error_setg(errp, "The 'host' CPU type can only be used with KVM");
+>> -        return;
+>> -    }
+>> -
+>> -#ifndef CONFIG_USER_ONLY
+>> -    /* The NVIC and M-profile CPU are two halves of a single piece of
+>> -     * hardware; trying to use one without the other is a command line
+>> -     * error and will result in segfaults if not caught here.
+>> -     */
+>> -    if (arm_feature(env, ARM_FEATURE_M)) {
+>> -        if (!env->nvic) {
+>> -            error_setg(errp, "This board cannot be used with Cortex-M CPUs");
+>> -            return;
+>> -        }
+>> -    } else {
+>> -        if (env->nvic) {
+>> -            error_setg(errp, "This board can only be used with Cortex-M CPUs");
+>> -            return;
+>> -        }
+>> -    }
+>> -
+>> -#ifdef CONFIG_TCG
+>> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+>>      {
+>>          uint64_t scale;
+>>  
+>> @@ -921,8 +884,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>          cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+>>                                                    arm_gt_hvtimer_cb, cpu);
+>>      }
+>> -#endif /* CONFIG_TCG */
+>> -#endif /* !CONFIG_USER_ONLY */
+>> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+>>  
+>>      cpu_exec_realizefn(cs, &local_err);
+>>      if (local_err != NULL) {
+>> @@ -1458,7 +1420,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->disas_set_info = arm_disas_set_info;
+>>  
+>>  #ifdef CONFIG_TCG
+>> -    cc->tcg_ops = &arm_tcg_ops;
+>> +    cc->init_accel_cpu = tcg_arm_init_accel_cpu;
+>>  #endif /* CONFIG_TCG */
+>>  
+>>      arm32_cpu_class_init(oc, data);
+>> diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
+>> index 327b2a5073..115ac523dc 100644
+>> --- a/target/arm/tcg/sysemu/tcg-cpu.c
+>> +++ b/target/arm/tcg/sysemu/tcg-cpu.c
+>> @@ -19,10 +19,13 @@
+>>   */
+>>  
+>>  #include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/timer.h"
+>>  #include "cpu.h"
+>>  #include "semihosting/common-semi.h"
+>>  #include "qemu/log.h"
+>>  #include "tcg/tcg-cpu.h"
+>> +#include "internals.h"
+>>  
+>>  /*
+>>   * Do semihosting call and set the appropriate return value. All the
+>> @@ -50,3 +53,27 @@ void tcg_handle_semihosting(CPUState *cs)
+>>          env->regs[15] += env->thumb ? 2 : 4;
+>>      }
+>>  }
+>> +
+>> +bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
+>> +{
+>> +    ARMCPU *cpu = ARM_CPU(cs);
+>> +    CPUARMState *env = &cpu->env;
+>> +
+>> +    /*
+>> +     * The NVIC and M-profile CPU are two halves of a single piece of
+>> +     * hardware; trying to use one without the other is a command line
+>> +     * error and will result in segfaults if not caught here.
+>> +     */
+>> +    if (arm_feature(env, ARM_FEATURE_M)) {
+>> +        if (!env->nvic) {
+>> +            error_setg(errp, "This board cannot be used with Cortex-M CPUs");
+>> +            return false;
+>> +        }
+>> +    } else {
+>> +        if (env->nvic) {
+>> +            error_setg(errp, "This board can only be used with Cortex-M CPUs");
+>> +            return false;
+>> +        }
+>> +    }
+>> +    return true;
+>> +}
+>> diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-models.c
+>> index 16ab5d5364..2f44fd1b41 100644
+>> --- a/target/arm/tcg/tcg-cpu-models.c
+>> +++ b/target/arm/tcg/tcg-cpu-models.c
+>> @@ -844,15 +844,20 @@ static struct TCGCPUOps arm_v7m_tcg_ops = {
+>>  #endif /* !CONFIG_USER_ONLY */
+>>  };
+>>  
+>> +static void arm_v7m_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
+>> +{
+>> +    g_assert(object_class_by_name(ACCEL_CPU_NAME("tcg")) == OBJECT_CLASS(accel_cpu));
+>> +
+>> +    cc->tcg_ops = &arm_v7m_tcg_ops;
+>> +}
+>> +
+>>  static void arm_v7m_class_init(ObjectClass *oc, void *data)
+>>  {
+>>      ARMCPUClass *acc = ARM_CPU_CLASS(oc);
+>>      CPUClass *cc = CPU_CLASS(oc);
+>>  
+>>      acc->info = data;
+>> -#ifdef CONFIG_TCG
+>> -    cc->tcg_ops = &arm_v7m_tcg_ops;
+>> -#endif /* CONFIG_TCG */
+>> +    cc->init_accel_cpu = arm_v7m_init_accel_cpu;
+>>  
+>>      cc->gdb_core_xml_file = "arm-m-profile.xml";
+>>  }
+>> diff --git a/target/arm/tcg/tcg-cpu.c b/target/arm/tcg/tcg-cpu.c
+>> index 9fd996d908..d6c3a0ba41 100644
+>> --- a/target/arm/tcg/tcg-cpu.c
+>> +++ b/target/arm/tcg/tcg-cpu.c
+>> @@ -20,8 +20,8 @@
+>>  
+>>  #include "qemu/osdep.h"
+>>  #include "cpu.h"
+>> +#include "qapi/error.h"
+>>  #include "tcg-cpu.h"
+>> -#include "hw/core/tcg-cpu-ops.h"
+>>  #include "cpregs.h"
+>>  #include "internals.h"
+>>  #include "exec/exec-all.h"
+>> @@ -212,7 +212,7 @@ static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>>      return true;
+>>  }
+>>  
+>> -struct TCGCPUOps arm_tcg_ops = {
+>> +static struct TCGCPUOps arm_tcg_ops = {
+>>      .initialize = arm_translate_init,
+>>      .synchronize_from_tb = arm_cpu_synchronize_from_tb,
+>>      .cpu_exec_interrupt = arm_cpu_exec_interrupt,
+>> @@ -227,3 +227,56 @@ struct TCGCPUOps arm_tcg_ops = {
+>>      .debug_check_watchpoint = arm_debug_check_watchpoint,
+>>  #endif /* !CONFIG_USER_ONLY */
+>>  };
+>> +
+>> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
+>> +{
+>> +    g_assert(object_class_by_name(ACCEL_CPU_NAME("tcg")) == OBJECT_CLASS(accel_cpu));
+>> +
+>> +    cc->tcg_ops = &arm_tcg_ops;
+>> +}
+>> +
+>> +static void tcg_cpu_instance_init(CPUState *cs)
+>> +{
+>> +    ARMCPU *cpu = ARM_CPU(cs);
+>> +
+>> +    /*
+>> +     * this would be the place to move TCG-specific props
+>> +     * in future refactoring of cpu properties.
+>> +     */
+>> +
+>> +    cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
+>> +}
+>> +
+>> +static void tcg_cpu_reset(CPUState *cs)
+>> +{
+>> +    ARMCPU *cpu = ARM_CPU(cs);
+>> +    CPUARMState *env = &cpu->env;
+>> +
+>> +    hw_breakpoint_update_all(cpu);
+>> +    hw_watchpoint_update_all(cpu);
+>> +    arm_rebuild_hflags(env);
+>> +}
+>> +
+>> +static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
+>> +
+>> +#ifndef CONFIG_USER_ONLY
+>> +    acc->cpu_realizefn = tcg_cpu_realizefn;
+>> +#endif /* CONFIG_USER_ONLY */
+>> +
+>> +    acc->cpu_instance_init = tcg_cpu_instance_init;
+>> +    acc->cpu_reset = tcg_cpu_reset;
+>> +}
+>> +static const TypeInfo tcg_cpu_accel_type_info = {
+>> +    .name = ACCEL_CPU_NAME("tcg"),
+>> +
+>> +    .parent = TYPE_ACCEL_CPU,
+>> +    .class_init = tcg_cpu_accel_class_init,
+>> +    .abstract = true,
+>> +};
+>> +static void tcg_cpu_accel_register_types(void)
+>> +{
+>> +    type_register_static(&tcg_cpu_accel_type_info);
+>> +}
+>> +type_init(tcg_cpu_accel_register_types);
+> 
+> 
 
 
