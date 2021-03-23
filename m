@@ -2,51 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512EC346D42
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:36:16 +0100 (CET)
-Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E59346D61
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:40:48 +0100 (CET)
+Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOpdH-0004A0-AW
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
+	id 1lOphf-00017W-3L
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lOpb6-0001vU-4E
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:34:00 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:12294)
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1lOpgQ-0000RS-2p; Tue, 23 Mar 2021 18:39:30 -0400
+Received: from mail.mutex.one ([62.77.152.124]:40356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lOpb2-0002Si-IM
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:33:59 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1D2457462D6;
- Tue, 23 Mar 2021 23:33:54 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E38AE74581E; Tue, 23 Mar 2021 23:33:53 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E1F037456E3;
- Tue, 23 Mar 2021 23:33:53 +0100 (CET)
-Date: Tue, 23 Mar 2021 23:33:53 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 1/3] vt82c686.c: don't raise SCI when PCI_INTERRUPT_PIN
- isn't setup
-In-Reply-To: <3a91db07-a452-43a7-0156-a3720ad9e209@amsat.org>
-Message-ID: <35d4cca5-9bd4-e181-1676-24c359ab3a3c@eik.bme.hu>
-References: <cover.1616519655.git.isaku.yamahata@intel.com>
- <00c07067c1c8700bea48407cbec6d854e87de742.1616519655.git.isaku.yamahata@intel.com>
- <3a91db07-a452-43a7-0156-a3720ad9e209@amsat.org>
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1lOpgO-00058s-IQ; Tue, 23 Mar 2021 18:39:29 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id E558ABF42269;
+ Wed, 24 Mar 2021 00:39:24 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2phtxNXJBdfC; Wed, 24 Mar 2021 00:39:24 +0200 (EET)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [109.103.89.101])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id 72AB3BF4225B;
+ Wed, 24 Mar 2021 00:39:24 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1616539164; bh=IJx7G/epgcxZdJVsP5YE9q4AnG8gp1nQZKSg4j79GX4=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=Ocogb1iB64c3RmBfVGym0vJBcHKcB4LLzV5tnFNS4YU5hNTY3viX6/RLUYdZU+odt
+ sR/RMk+HnTK5fsgHy4RJgYJOl4Xfr6QgdCABni/MBYuxUoAUNrrvWvRLmfo62Dl129
+ YN5Vtnsgf43uMNhcfU+yloulKvzhHuhA/fVkDSdo=
+From: Marian Postevca <posteuca@mutex.one>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 1/1] acpi: Consolidate the handling of OEM ID and OEM
+ Table ID fields
+In-Reply-To: <20210322184231-mutt-send-email-mst@kernel.org>
+References: <20210322215554.24875-1-posteuca@mutex.one>
+ <20210322215554.24875-2-posteuca@mutex.one>
+ <20210322184231-mutt-send-email-mst@kernel.org>
+Date: Wed, 24 Mar 2021 00:39:22 +0200
+Message-ID: <87lfadsdet.fsf@mutex.one>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-70328805-1616538833=:35282"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=posteuca@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,115 +67,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, peter.maydell@linaro.org,
- Peter Maydell <Peter.maydel@linaro.org>, mst@redhat.com,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- imammedo@redhat.com, isaku.yamahata@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
---3866299591-70328805-1616538833=:35282
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 23 Mar 2021, Philippe Mathieu-Daudé wrote:
-> Hi Isaku,
+>> +#include "qemu/cutils.h"
+>> +
+>> +#define ACPI_BUILD_APPNAME6 "BOCHS "
+>> +#define ACPI_BUILD_APPNAME8 "BXPC    "
 >
-> On 3/23/21 6:24 PM, Isaku Yamahata wrote:
->> Without this patch, the following patch will triger clan runtime
->> sanitizer warnings as follows. This patch proactively works around it.
->> I let v582c686.c maintainer address a correct fix as I'm not sure
->> about fuloong2e device model.
->>
->>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
->>> QTEST_QEMU_IMG=./qemu-img
->>> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
->>> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/qom-test --tap -k
->>> PASS 1 qtest-mips64el/qom-test /mips64el/qom/loongson3-virt
->>> PASS 2 qtest-mips64el/qom-test /mips64el/qom/none
->>> PASS 3 qtest-mips64el/qom-test /mips64el/qom/magnum
->>> PASS 4 qtest-mips64el/qom-test /mips64el/qom/mipssim
->>> PASS 5 qtest-mips64el/qom-test /mips64el/qom/malta
->>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
->>> PASS 6 qtest-mips64el/qom-test /mips64el/qom/fuloong2e
->>> PASS 7 qtest-mips64el/qom-test /mips64el/qom/boston
->>> PASS 8 qtest-mips64el/qom-test /mips64el/qom/pica61
->>>
->>> and similarly for eg
->>>
->>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
->>> QTEST_QEMU_IMG=./qemu-img
->>> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
->>> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/endianness-test
->>> --tap -k
->>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
->>> PASS 1 qtest-mips64el/endianness-test /mips64el/endianness/fuloong2e
->>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
->>> PASS 2 qtest-mips64el/endianness-test /mips64el/endianness/split/fuloong2e
->>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
->>> PASS 3 qtest-mips64el/endianness-test /mips64el/endianness/combine/fuloong2e
->>
->> Cc: Huacai Chen <chenhuacai@kernel.org>
->> Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
->> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> Reported-by: Peter Maydell <Peter.maydel@linaro.org>
->> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
->> ---
->>  hw/isa/vt82c686.c | 13 ++++++++++++-
->>  1 file changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->> index 05d084f698..f0fb309f12 100644
->> --- a/hw/isa/vt82c686.c
->> +++ b/hw/isa/vt82c686.c
->> @@ -144,7 +144,18 @@ static void pm_update_sci(ViaPMState *s)
->>                     ACPI_BITMASK_POWER_BUTTON_ENABLE |
->>                     ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
->>                     ACPI_BITMASK_TIMER_ENABLE)) != 0);
->> -    pci_set_irq(&s->dev, sci_level);
->> +    if (pci_get_byte(s->dev.config + PCI_INTERRUPT_PIN)) {
->> +        /*
->> +         * FIXME:
->> +         * Fix device model that realizes this PM device and remove
->> +         * this work around.
->> +         * The device model should wire SCI and setup
->> +         * PCI_INTERRUPT_PIN properly.
->> +         * If PIN# = 0(interrupt pin isn't used), don't raise SCI as
->> +         * work around.
->> +         */
->> +        pci_set_irq(&s->dev, sci_level);
+> A single user for each of these now ... drop the defines?
 >
-> I'll defer this to Zoltan.
 
-I don't know anything about this, this was there well before I've touched 
-this device model:
+Unfortunately ACPI_BUILD_APPNAME8 is still used in build_header() in
+aml-build.c, and to me it didn't look nice for one to have a define and
+the other not, but if you prefer with only ACPI_BUILD_APPNAME8 as a
+define, I can do the change.
 
-https://git.qemu.org/?p=qemu.git;a=blame;f=hw/isa/vt82c686.c;hb=8063396bf3459a810d24e3efd6110b8480f0de5b
 
-> Personally I wouldn't care about SCI_EN on the vt82c686, as
-> it is not used by x86 machines (IOW, I'd not modify via_pm_reset
-> and KISS).
-
-I'm not sure but maybe then you could also just remove the PM parts from 
-the device model as it probably does not work correctly anyway at the 
-moment as it may not be correctly wired up to config registers. I'm not 
-sure if it's needed by any guests but it was there for some reason and 
-maybe better to fix it if possible than dropping it. As a workaround I'm 
-OK with the proposed patch, I don't think it would break anything but 
-haven't tested it.
-
-Regards,
-BALATON Zoltan
-
->> +    }
->>      /* schedule a timer interruption if needed */
->>      acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
->>                         !(pmsts & ACPI_BITMASK_TIMER_STATUS));
->>
+>> +#define ACPI_INIT_DEFAULT_BUILD_OEM(__bld_oem) do {                     \
+>> +        ACPI_INIT_BUILD_OEM(__bld_oem,                                  \
+>> +                            ACPI_BUILD_APPNAME6, ACPI_BUILD_APPNAME8);  \
+>> +} while (0)
 >
+> OK but ... why are these macros? Won't inline functions
+> work just as well with more type safety?
 >
---3866299591-70328805-1616538833=:35282--
+
+Didn't know what was the attitude in this project to inlined functions
+in headers and went with macros. I will change to inlined functions.
 
