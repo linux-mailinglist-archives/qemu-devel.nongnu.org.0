@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9066345DEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:18:09 +0100 (CET)
-Received: from localhost ([::1]:38112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23F5345DDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:14:23 +0100 (CET)
+Received: from localhost ([::1]:34030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOfz6-0001na-Su
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
+	id 1lOfvS-0007kZ-AL
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOfwu-0000hv-Nj
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:15:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48012)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOfwj-0007qE-SN
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:15:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOfwg-0002tH-EF
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:15:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 63D852E8166
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:15:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOftU-0006rW-5Z
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:12:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOftE-0005zT-Ow
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:12:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616501523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3c6NTzfPW1QaoN/qbsBqZVSPwNvR0oZtVbdl8g7tSI8=;
+ b=B2joEgdkhR3MMpHP8UbW1z0X+a9KoRJ4ptHT85XdIFrLdyoKC7PADsq6wgdG9QvhdGepYb
+ TQ7f17sZVTyzDns4iFVCCmmmyFM7pwlzLikeda5gg9uZq2deOlR5J9BhGAV9yo2V+rJuYF
+ vTh4rcTl7EvVpzUc34QtvSHtEl1gMAw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-ggSHrihqPYadgr4NhV6L_A-1; Tue, 23 Mar 2021 08:12:01 -0400
+X-MC-Unique: ggSHrihqPYadgr4NhV6L_A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6664719251A3;
+ Tue, 23 Mar 2021 12:12:00 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C133318377;
+ Tue, 23 Mar 2021 12:11:52 +0000 (UTC)
+Subject: Re: [PATCH v2] docs: simplify each section title
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210323074704.4078381-1-marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <fafb41c3-3821-c0ac-00e5-2fd475c14ffe@redhat.com>
+Date: Tue, 23 Mar 2021 08:11:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Mar 2021 12:10:06 -0000
-From: Peter Maydell <1920913@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nam121 pmaydell
-X-Launchpad-Bug-Reporter: Namrata Bhave (nam121)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161649998851.23806.5550710395623491265.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161650140676.24097.11506560504017802747.malone@chaenomeles.canonical.com>
-Subject: [Bug 1920913] Re: Openjdk11+ fails to install on s390x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: bcb3670f81d82a306dcdaab4f2924ba270f3b2d8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323074704.4078381-1-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,67 +80,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920913 <1920913@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You don't say how you're invoking QEMU (system emulation? usermode? what
-command line?) Please give the full commandline, repro steps, and any
-files/images we would need to reproduce the failure.
+On 3/23/21 3:47 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Now that we merged into one doc, it makes the nav looks nicer.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 
--- =
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920913
+> ---
+> v2:
+>   - Developers -> Developer Information (suggested by Peter)
+> 
+>   docs/devel/index.rst   | 4 ++--
+>   docs/interop/index.rst | 4 ++--
+>   docs/specs/index.rst   | 4 ++--
+>   docs/system/index.rst  | 4 ++--
+>   docs/tools/index.rst   | 4 ++--
+>   docs/user/index.rst    | 4 ++--
+>   6 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index 7c424ea6d7..60039faa68 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -1,8 +1,8 @@
+>   .. This is the top level page for the 'devel' manual.
+>   
+>   
+> -QEMU Developer's Guide
+> -======================
+> +Developer Information
+> +=====================
+>   
+>   This manual documents various parts of the internals of QEMU.
+>   You only need to read it if you are interested in reading or
+> diff --git a/docs/interop/index.rst b/docs/interop/index.rst
+> index 95d56495f6..219a5e5fc5 100644
+> --- a/docs/interop/index.rst
+> +++ b/docs/interop/index.rst
+> @@ -1,8 +1,8 @@
+>   .. This is the top level page for the 'interop' manual.
+>   
+>   
+> -QEMU System Emulation Management and Interoperability Guide
+> -===========================================================
+> +System Emulation Management and Interoperability
+> +================================================
+>   
+>   This manual contains documents and specifications that are useful
+>   for making QEMU interoperate with other software.
+> diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+> index 1b0eb979d5..7b08314d33 100644
+> --- a/docs/specs/index.rst
+> +++ b/docs/specs/index.rst
+> @@ -1,8 +1,8 @@
+>   .. This is the top level page for the 'specs' manual
+>   
+>   
+> -QEMU System Emulation Guest Hardware Specifications
+> -===================================================
+> +System Emulation Guest Hardware Specifications
+> +==============================================
+>   
+>   
+>   Contents:
+> diff --git a/docs/system/index.rst b/docs/system/index.rst
+> index 6ad9c93806..02d0707181 100644
+> --- a/docs/system/index.rst
+> +++ b/docs/system/index.rst
+> @@ -1,8 +1,8 @@
+>   .. This is the top level page for the 'system' manual.
+>   
+>   
+> -QEMU System Emulation User's Guide
+> -==================================
+> +System Emulation
+> +================
+>   
+>   This manual is the overall guide for users using QEMU
+>   for full system emulation (as opposed to user-mode emulation).
+> diff --git a/docs/tools/index.rst b/docs/tools/index.rst
+> index 3a5829c17a..d923834a73 100644
+> --- a/docs/tools/index.rst
+> +++ b/docs/tools/index.rst
+> @@ -1,8 +1,8 @@
+>   .. This is the top level page for the 'tools' manual
+>   
+>   
+> -QEMU Tools Guide
+> -================
+> +Tools
+> +=====
+>   
+>   
+>   Contents:
+> diff --git a/docs/user/index.rst b/docs/user/index.rst
+> index e030dadf65..a5b47459ec 100644
+> --- a/docs/user/index.rst
+> +++ b/docs/user/index.rst
+> @@ -1,8 +1,8 @@
+>   .. This is the top level page for the 'user' manual.
+>   
+>   
+> -QEMU User Mode Emulation User's Guide
+> -=====================================
+> +User Mode Emulation
+> +===================
+>   
+>   This manual is the overall guide for users using QEMU
+>   for user-mode emulation.  In this mode, QEMU can launch
+> 
 
-Title:
-  Openjdk11+ fails to install on s390x
-
-Status in QEMU:
-  New
-
-Bug description:
-  While installing openjdk11 or higher from repo, it crashes while configur=
-ing ca-certificates-java.
-  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
-tached to this issue.
-
-  ```
-  # A fatal error has been detected by the Java Runtime Environment:
-  #
-  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
-  #
-  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
-buntu-0ubuntu1.20.04)
-  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
-ed mode, tiered, compressed oops, g1 gc, linux-s390x)
-  # Problematic frame:
-  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
-) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
-  #
-  # Core dump will be written. Default location: Core dumps may be processe=
-d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
-425)
-  #
-  # An error report file with more information is saved as:
-  # //hs_err_pid8425.log
-  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
-t/core.10740)
-  #
-  # An error report file with more information is saved as:
-  # /root/hs_err_pid10740.log
-  ```
-
-  Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
-ost.
-  Please note, on native s390x, the installation is successful. Also this c=
-rash is not observed while installing openjdk-8-jdk.
-
-  Qemu version: 5.2.0
-
-  Please let me know if any more details are needed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920913/+subscriptions
 
