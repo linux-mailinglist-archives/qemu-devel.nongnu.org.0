@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419E8345C65
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:03:22 +0100 (CET)
-Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF38345C9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:17:40 +0100 (CET)
+Received: from localhost ([::1]:34310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOeoj-0003wa-AM
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
+	id 1lOf2Y-0005Zk-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:17:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOemZ-0002eU-Fz
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:01:10 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:44793)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOf0v-0004Ig-Ak
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:15:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOemT-0007kf-B4
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:01:07 -0400
-Received: by mail-ej1-x632.google.com with SMTP id e14so8132642ejz.11
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 04:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BCP2Bi93b73/pIUT1UuR0zwOwmhRnt9acaKY0mbXK7E=;
- b=n57cmEjIEYKTcyZw9kxt6meDIAbRM39VQX5pW1xDcMJAfZfo6ktu8qg+6s39AiTvNF
- GdpuxT3eTBV6RAaEym3a8abb8I4CPzNIf35sWGebgp1WGfk0q/0zaf2WL0yaBVKhdhSB
- Avk4Wlj2+uFgzZkh3fLWJbvHJL5lV399k849jQglBp2K47zmc7kZk+FKOGVeNZBpnT1Q
- e1l9ogdPAP92QzP7lxcK8Vho0WgmqpbWJitgMLA5S3OLdfRghxVbSKuAuqhwAEEkSACr
- prBDLKLKCHFImgURQXhbO95sgzvd4WQpOps6kaDzlXIiA+M+LNuRwMP/gHe7njuy9UMs
- hI2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BCP2Bi93b73/pIUT1UuR0zwOwmhRnt9acaKY0mbXK7E=;
- b=LVM3PlodtDtA83T7WWlA4UtHW/OisRVnElRSMdOnGksX/oG3XAYoOCCDLidBtB7xO4
- tSWbDRwJbSvvGwikL1vrbdDXZJ6pAe/dCF9wtk86F5uSHBac0p//jZ7hqdx4H9MjrJYf
- ToUD9Ak5rhtNvJqjZ7rn1zbQhYrN4bZ+aiFmi0cngyPD/DJdmKDQPjSo4yloIlIrKIu3
- 2azrW668H85Hw3tNtlIVDL/vKLgLp9motf8gkfgIWASawDv2oLihLTYCwgQtdH/MbNL/
- 6PsAq4ArqsMt2ElJN7VrL7AY1I9Cjg5DrPRvf/0RviGubBaCCESWaRiTb5kjFh0UNc2T
- Bgaw==
-X-Gm-Message-State: AOAM533dIFMd2w6ge1G7EY/3XNrPI1mEh6gL02hsw58VeYUMXf5dy70T
- WD0i5fpKFOLPli/x2c+KHTme1FqTVyDuLTAhF+yhoQ==
-X-Google-Smtp-Source: ABdhPJybPa0stG7/a+NHNlHiMGhErlHBx/HXBpnnNhIzXyu6LUPsqDKGem+yby4rdkEdxlNtSKTinv08NtnN2+dYwDI=
-X-Received: by 2002:a17:907:629e:: with SMTP id
- nd30mr4251695ejc.407.1616497258823; 
- Tue, 23 Mar 2021 04:00:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOf0g-0007pQ-Uk
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:15:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOf0c-0005pE-NL
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A93D02E8166
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:15:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210322105234.3932691-1-marcandre.lureau@redhat.com>
- <YFnCfhiaixbn7lMy@redhat.com>
-In-Reply-To: <YFnCfhiaixbn7lMy@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 11:00:29 +0000
-Message-ID: <CAFEAcA_f2fMmVS=Pt6Zd7Si5L2YfRMH+dJZ_pZd=E-neKpxUOg@mail.gmail.com>
-Subject: Re: [PATCH v4] sphinx: adopt kernel readthedoc theme
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Tue, 23 Mar 2021 11:03:40 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1920784@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=ubuntu-power-systems; status=New; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor paelzer sadoonalbader
+X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
+Message-Id: <161649742102.1059.4589614275751872648.malone@soybean.canonical.com>
+Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 6b7e209beab903f65ba6e084a1c5e6850270967a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,57 +77,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Mar 2021 at 10:27, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> On Mon, Mar 22, 2021 at 02:52:34PM +0400, marcandre.lureau@redhat.com wro=
-te:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > The default "alabaster" sphinx theme has a couple shortcomings:
-> > - the navbar moves along the page
-> > - the search bar is not always at the same place
-> > - it lacks some contrast and colours
-> >
-> > The "rtd" theme from readthedocs.org is a popular third party theme use=
-d
-> > notably by the kernel, with a custom style sheet. I like it better,
-> > perhaps others do too. It also simplify "Edit on Gitlab" links.
+Since this seems to be broken on all Distributions as soon as the triggering
+combination of kernel/glibc is present I think we'd want to open that up to
+upstream qemu for a wider discussion and to also hit the ppc64 architecture
+experts.
 
-> >  # Add any paths that contain custom static files (such as style sheets=
-) here,
-> >  # relative to this directory. They are copied after the builtin static=
- files,
-> >  # so a file named "default.css" will overwrite the builtin "default.cs=
-s".
-> > -# QEMU doesn't yet have any static files, so comment this out so we do=
-n't
-> > -# get a warning about a missing directory.
-> > -# If we do ever add this then it would probably be better to call the
-> > -# subdirectory sphinx_static, as the Linux kernel does.
-> > -# html_static_path =3D ['_static']
-> > +html_static_path =3D [os.path.join(qemu_docdir, "sphinx-static")]
-> > +
-> > +html_css_files =3D [
-> > +    'theme_overrides.css',
-> > +]
->
-> Does this still have a good result in the case where we fall back
-> to alabaster theme ?
+Furthermore I'm not entirely sure if this needs to be fixed in qemu, it
+might instead be the case that instead a fix is needed in glibc.
 
-How much do we want to retain support for multiple themes? When
-I was first putting in the Sphinx documentation I found that some
-things were kind of theme-specific, in that tweaking things to look
-and read sensibly in one theme made them look a bit weird in another.
-If we said "we support only the rtd theme and mandate it" would that
-cause much pain for downstreams and end-users ?
+Therefore I'm adding a qemu (upstream) bug task for now to have the bug
+reported there as well (might be worth for awareness anyway) - but
+chances are that after some debugging it will turn out to become a glibc
+issue instead.
 
-thanks
--- PMM
+If only I could break this test out of kvm ioctl into something simpler,
+then we could then properly file against glibc ....
+
+** Also affects: glibc (Ubuntu)
+   Importance: Undecided
+       Status: New
+
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920784
+
+Title:
+  qemu-system-ppc64le fails with kvm acceleration
+
+Status in QEMU:
+  New
+Status in The Ubuntu-power-systems project:
+  New
+Status in glibc package in Ubuntu:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  (Suspected glibc issue!)
+
+  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
+  error "illegal instruction"
+
+  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
+
+  Illegal instruction (core dumped)
+
+  In dmesg:
+
+  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
+  MSR=3D900000000280f033
+
+  =
+
+  Version-Release number of selected component (if applicable):
+  qemu 5.2.0 =
+
+  Linux kernel 5.11
+  glibc 2.33
+  all latest updates as of submitting the bug report
+
+  How reproducible:
+  Always
+
+  Steps to Reproduce:
+  1. Run qemu with kvm acceleration
+
+  Actual results:
+  Illegal instruction
+
+  Expected results:
+  Normal VM execution
+
+  Additional info:
+  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
+so observed on a Raptor Blackbird with the same processor.
+
+  This was also observed on Fedora 34 beta, which uses glibc 2.33
+  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
+ glibc 2.33
+  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
+ and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
+the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
+bc2.33
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 21.04
+  Package: qemu-system 1:5.2+dfsg-6ubuntu2
+  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
+  Uname: Linux 5.11.0-11-generic ppc64le
+  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
+mware/opal/msglog'
+  ApportVersion: 2.20.11-0ubuntu60
+  Architecture: ppc64el
+  CasperMD5CheckResult: pass
+  CurrentDesktop: Unity:Unity7:ubuntu
+  Date: Mon Mar 22 14:48:39 2021
+  InstallationDate: Installed on 2021-03-22 (0 days ago)
+  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
+0210321)
+  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
+  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
+  ProcSwaps:
+   Filename				Type		Size		Used		Priority
+   /swap.img                               file		8388544		0		-2
+  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
+gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
+ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
+  SourcePackage: qemu
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  VarLogDump_list: total 0
+  acpidump:
+   =
+
+  cpu_cores: Number of cores present =3D 8
+  cpu_coreson: Number of cores online =3D 8
+  cpu_smt: SMT=3D4
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
 
