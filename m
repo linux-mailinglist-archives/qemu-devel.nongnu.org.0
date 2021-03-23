@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB96346A7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 21:55:09 +0100 (CET)
-Received: from localhost ([::1]:59458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C2A346A6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 21:49:28 +0100 (CET)
+Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOo3Q-0001P0-8O
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 16:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59168)
+	id 1lOnxv-00030P-Ap
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 16:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOnzF-0005ME-JB
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:50:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58036)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOnw6-0001yz-9l
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:47:34 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOnzD-00072i-2c
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:50:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOnz9-0003mn-WD
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 20:50:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EFB4B2E816D
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 20:50:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOnw4-0005Rm-SG
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:47:34 -0400
+Received: by mail-wm1-x335.google.com with SMTP id d191so11786102wmd.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 13:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8tFCp2ymArc8d49QKGJ2sy39L3cSsZ6DGVdzfsZHBYQ=;
+ b=nK/3cLkYyvqvDiVt0+3+X62K+yhLaXv5sdoC2rUnPUaVvUHJxovW+qFQx6+q5HToHu
+ PLUGGn5P9NX9X9mDvggptFs68mZq7hGmWEu7b9g6XA/nYLAIIQBec32IuCtS7spgpXrd
+ VhKKKlYKoR5HI1P51iBlu0u61LU7KiWH5og5Y3AR4swDKBcOgJbEtnccGR3HuqslH78I
+ 4OcArUO5D6nju7oJ8FpaJMyPnKk0N7vjMmY5f0bNLbm+vp6wCLaQZ155XLEcl0X7S1Cf
+ vVIqBWtNxJEg4h7pniLJxDbuS81a+gQH008z42iCTrYhEdSM0y0wymCaW9se5IPdJktV
+ XfMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8tFCp2ymArc8d49QKGJ2sy39L3cSsZ6DGVdzfsZHBYQ=;
+ b=mFrfCoAXQ6f1mGsfJNXmTpi6YdBury4lbEcWDp/+qYmQWPKmDq4ZiyniGYFYaLUYki
+ NQ3fOOLexQCNDjYy4m4mBpiqtFOhmtxR7Km5biATuDthaFaQFIpSnhcsFAK2tRWjy9vu
+ iUbV7P3pulKrTDWWFt2tRIHNk/XJtM723joJUzZA/UDGivqm11aJOf7FKwR7Zk6yhM6I
+ xmfg1eRYBQcKUrzd0qzYla7FTa/WOOdWiOy2PSfFEnOl4yx3RUF0kpoh0TsEBY/vzCm5
+ ydP2PwmoWk2Q+iYqzgG75Zij1ZemzMq68LBlQ+2cZM45eXAzID8XRoell0MkyR6FhYad
+ W7TA==
+X-Gm-Message-State: AOAM530WWU0M/OdIQ4ay1p5V09eEHj0sjTy54ErQ+mIfPJvofONlIYNI
+ AQV7br7kKYn6b6lVfXTY6kI=
+X-Google-Smtp-Source: ABdhPJyQGMzihZZlIEcYVhkgr6GTAJzIUtDfWNA7rwg5d6mYZauDSlySnDogr7mLiAIGywi50qTmFg==
+X-Received: by 2002:a1c:9d51:: with SMTP id g78mr5148731wme.5.1616532451025;
+ Tue, 23 Mar 2021 13:47:31 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id m3sm26816wme.40.2021.03.23.13.47.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 13:47:30 -0700 (PDT)
+Subject: Re: [PATCH] hw/pci/pci.c: Assert that pci_irq_handler() inputs are
+ valid
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210323164601.27200-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d914c97b-f8b9-94ba-bfa2-5eab7544a14a@amsat.org>
+Date: Tue, 23 Mar 2021 21:47:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Mar 2021 20:43:00 -0000
-From: Frank Heimes <1920784@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=ubuntu-power-systems; status=Confirmed;
- importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
- status=Confirmed; importance=Undecided; assignee=frank.heimes@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fheimes janitor laurent-vivier paelzer
- sadoonalbader ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
-X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
-References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
-Message-Id: <161653218056.659.452486401888877713.malone@soybean.canonical.com>
-Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 4a1d8a9b81111e1547336568fb2e8488d92ad5bf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323164601.27200-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,128 +89,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thx Laurent, I took the hirsute master-next source and cherry-picked the pa=
-tch and it applied cleanly.
-Now I kicked off a kernel build of this patched kernel in the following PPA:
-https://launchpad.net/~fheimes/+archive/ubuntu/lp1920784
-(however, the builds will take some time to complete)
+On 3/23/21 5:46 PM, Peter Maydell wrote:
+> pci_irq_handler documents that it must be called with 0 <= irq_num <=
+> 3 and level either 0 or 1.  Add assertions that the caller has passed
+> us in valid arguments.
+> 
+> In particular, if a device model fails to set the PCI_INTERRUPT_PIN
+> field in its config space correctly to indicate that it has an
+> interrupt, and then tries to raise an interrupt (either by calling
+> pci_set_irq(), or by getting a qemu_irq from pci_allocate_irq() and
+> then calling qemu_set_irq() on that) we will now diagnose this device
+> model bug with an assertion rather than engaging in the undefined
+> behaviour of shifting by a negative number.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/pci/pci.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-If it can be proofed that this patched kernel fixes the problem, I can
-go ahead and work on a patch submission for hirsute/21.04. (kernel
-freeze is April 8th)
-
-** Changed in: ubuntu-power-systems
-       Status: New =3D> Confirmed
-
-** Changed in: linux (Ubuntu)
-     Assignee: (unassigned) =3D> Frank Heimes (fheimes)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920784
-
-Title:
-  qemu-system-ppc64le fails with kvm acceleration
-
-Status in QEMU:
-  New
-Status in The Ubuntu-power-systems project:
-  Confirmed
-Status in glibc package in Ubuntu:
-  New
-Status in linux package in Ubuntu:
-  Confirmed
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  (Suspected glibc issue!)
-
-  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
-  error "illegal instruction"
-
-  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
-
-  Illegal instruction (core dumped)
-
-  In dmesg:
-
-  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
-  MSR=3D900000000280f033
-
-  =
-
-  Version-Release number of selected component (if applicable):
-  qemu 5.2.0 =
-
-  Linux kernel 5.11
-  glibc 2.33
-  all latest updates as of submitting the bug report
-
-  How reproducible:
-  Always
-
-  Steps to Reproduce:
-  1. Run qemu with kvm acceleration
-
-  Actual results:
-  Illegal instruction
-
-  Expected results:
-  Normal VM execution
-
-  Additional info:
-  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
-so observed on a Raptor Blackbird with the same processor.
-
-  This was also observed on Fedora 34 beta, which uses glibc 2.33
-  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
- glibc 2.33
-  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
- and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
-the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
-bc2.33
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu-system 1:5.2+dfsg-6ubuntu2
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic ppc64le
-  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
-mware/opal/msglog'
-  ApportVersion: 2.20.11-0ubuntu60
-  Architecture: ppc64el
-  CasperMD5CheckResult: pass
-  CurrentDesktop: Unity:Unity7:ubuntu
-  Date: Mon Mar 22 14:48:39 2021
-  InstallationDate: Installed on 2021-03-22 (0 days ago)
-  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
-0210321)
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
-  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
-  ProcSwaps:
-   Filename				Type		Size		Used		Priority
-   /swap.img                               file		8388544		0		-2
-  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
-gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
-ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
-  SourcePackage: qemu
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  VarLogDump_list: total 0
-  acpidump:
-   =
-
-  cpu_cores: Number of cores present =3D 8
-  cpu_coreson: Number of cores online =3D 8
-  cpu_smt: SMT=3D4
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
