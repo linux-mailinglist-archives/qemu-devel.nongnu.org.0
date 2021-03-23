@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF44346654
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:29:42 +0100 (CET)
-Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1442D346635
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:23:27 +0100 (CET)
+Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkqb-00007m-K5
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
+	id 1lOkkY-000550-1M
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjqW-0002Mt-AX
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:25:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjqQ-0004mz-F4
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:25:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjso-0006RS-8F
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:27:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjsm-0006FA-Cw
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:27:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616516725;
+ s=mimecast20190719; t=1616516871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+i0faYlIWnOrzYkCkTBGur3XiKCv0Bwr4UefqQqF8m4=;
- b=UcCMokXyjxO92WyhoXo7j4OJcHv23S4X7vhFgLHFOnq3yysN7xgMeebxoCZc1CRQRh5PVd
- jRxHzPOyLs9+A9HyUZKs3a3tYRiNQjzzXr2kFaUji094voVKmeOWr2gsg3v94u+lFCQVmN
- 2PmlVi7l1FT+xdG2q9/d5HSBR8uVXds=
+ bh=UomIJiViRDLpB/38NQpEDEblyDfO+gKWTg0I/Dz+Ve4=;
+ b=LTim/ylwPLtiKHfvOv94auO/kzI0D91p+m11fzZvlcb4tqTxGf9Z4I7n0Hpq++ASwDzF4H
+ QrphH34DtgN5Lkpg6T098cNxnSmwadokaYppZxjz9jAP66xpKPMdD8vZzMC31iPpbUL4uG
+ ncndtMugrkrYFJ56hlCPb44cVdiPsgE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-QnvaQ4MJNk69me8MJmQsUg-1; Tue, 23 Mar 2021 12:25:21 -0400
-X-MC-Unique: QnvaQ4MJNk69me8MJmQsUg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-263-zaNciy94Nl2djzmB94G9Og-1; Tue, 23 Mar 2021 12:27:49 -0400
+X-MC-Unique: zaNciy94Nl2djzmB94G9Og-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC29E10866A4;
- Tue, 23 Mar 2021 16:25:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5660783DD2B;
+ Tue, 23 Mar 2021 16:27:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D66A19701;
- Tue, 23 Mar 2021 16:25:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 160D0197F9;
+ Tue, 23 Mar 2021 16:27:45 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1C44411327E1; Tue, 23 Mar 2021 17:25:16 +0100 (CET)
+ id 9DEDF11327E1; Tue, 23 Mar 2021 17:27:43 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
- stricter checking
+Subject: Re: [PATCH 14/28] qapi: Enforce type naming rules
 References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-11-armbru@redhat.com>
- <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com>
-Date: Tue, 23 Mar 2021 17:25:16 +0100
-In-Reply-To: <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com> (Eric Blake's
- message of "Tue, 23 Mar 2021 09:20:49 -0500")
-Message-ID: <87tup1on0z.fsf@dusky.pond.sub.org>
+ <20210323094025.3569441-15-armbru@redhat.com>
+ <d2b8e84e-74d8-553c-681e-b0c8a3ae3934@redhat.com>
+Date: Tue, 23 Mar 2021 17:27:43 +0100
+In-Reply-To: <d2b8e84e-74d8-553c-681e-b0c8a3ae3934@redhat.com> (Eric Blake's
+ message of "Tue, 23 Mar 2021 09:50:22 -0500")
+Message-ID: <87pmzpomww.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,68 +89,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Eric Blake <eblake@redhat.com> writes:
 
 > On 3/23/21 4:40 AM, Markus Armbruster wrote:
->> Naming rules differ for the various kinds of names.  To prepare
->> enforcing them, define functions to check them: check_name_upper(),
->> check_name_lower(), and check_name_camel().  For now, these merely
->> wrap around check_name_str(), but that will change shortly.  Replace
->> the other uses of check_name_str() by appropriate uses of the
->> wrappers.  No change in behavior just yet.
+>> Type names should be CamelCase.  Enforce this.  The only offenders are
+>> in tests/.  Fix them.  Add test type-case to cover the new error.
 >> 
 >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 >> ---
->>  scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
->>  1 file changed, 36 insertions(+), 15 deletions(-)
->> 
 >
 >> +++ b/scripts/qapi/expr.py
->> @@ -21,11 +21,12 @@
->>  from .error import QAPISemError
+>> @@ -61,7 +61,8 @@ def check_name_lower(name, info, source,
 >>  
+>>  def check_name_camel(name, info, source):
+>>      stem = check_name_str(name, info, source)
+>> -    # TODO reject '[_-]' in stem, require CamelCase
+>> +    if not re.match(r'[A-Z]+[A-Za-z0-9]*[a-z][A-Za-z0-9]*$', stem):
+>
+> Requires one or more leading capital, and at least one lowercase.  This
+> permits oddballs like PCIELinkSpeed in common.json that are eventually
+> camel case but with a rather long all-caps start.
+>
+> As written, the + isn't necessary, you'd match the same set of strings
+> with it omitted.  But leaving it doesn't hurt.
+
+I'll drop it.
+
+>> +++ b/tests/qapi-schema/doc-bad-union-member.json
+>> @@ -11,9 +11,9 @@
+>>    'data': { 'nothing': 'Empty' } }
 >>  
->> -# Names must be letters, numbers, -, and _.  They must start with letter,
->> -# except for downstream extensions which must start with __RFQDN_.
->> -# Dots are only valid in the downstream extension prefix.
->> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
->> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
+>>  { 'struct': 'Base',
+>> -  'data': { 'type': 'T' } }
+>> +  'data': { 'type': 'FrobType' } }
 >
-> I'm assuming python concatenates r'' with '' in the obvious manner...
+> No single-character type names is fallout from the tighter rules, but is
+> fine with me.
+
+I was unsure whether to complicate the regexp slightly so
+single-character type names keep working.  Then I decided against it.
+
+>> +++ b/tests/qapi-schema/type-case.json
+>> @@ -0,0 +1,2 @@
+>> +# Type names should use CamelCase
+>> +{ 'struct': 'not-a-camel' }
 >
->> +# Names consist of letters, digits, -, and _, starting with a letter.
->> +# An experimental name is prefixed with x-.  A name of a downstream
->> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
->> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
->> +                        r'(x-)?'
->> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
->
-> ...but like your explicit use of r'' r''.
->
-> Splitting out special handling of r'(x-)?' does not change behavior, but
-> is not otherwise mentioned in your commit message.  I suspect you did it
-> to make it easier to permit x-EVENT_NAME in later patches where upper is
-> handled differently from lower or camel,
+> You should probably include a 'data':{...} here, to ensure that we
+> aren't rejecting this for missing data (yes, the .err file does test our
+> actual error message, but no reason to not be otherwise compliant to
+> what we normally expect).
 
-Yes.
+Yes, that's prudent.
 
->                                          so I won't withhold R-b, but it
-> may be worth a tweak to the commit message.
-
-Probably.  I'm failing at coming up with a concise text that isn't
-confusing.
-
->>  def check_defn_name_str(name, info, meta):
->> -    check_name_str(name, info, meta, permit_upper=True)
->> +    if meta == 'event':
->> +        check_name_upper(name, info, meta)
->> +    elif meta == 'command':
->> +        check_name_lower(name, info, meta, permit_upper=True)
->
-> Why do commands need to permit upper?  I guess just downstream FQDN
-> extensions?
-
-This is just so that the patch doesn't change behavior.  PATCH 24 will
-flip it to False.
-
-> Otherwise the patch makes sense.
+> Such a tweak is minor enough that I'm fine with
 >
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 
