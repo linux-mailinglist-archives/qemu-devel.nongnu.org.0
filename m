@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB0934617F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:31:55 +0100 (CET)
-Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7142F346199
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:37:27 +0100 (CET)
+Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOi4X-0003Z1-1h
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
+	id 1lOi9u-0001yV-6M
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOi04-0006Zj-Jv
+ id 1lOi00-0006Za-Ee
  for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:16 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38517)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOhzq-0007Bk-4t
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:13 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id z2so20995565wrl.5
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 07:27:00 -0700 (PDT)
+ id 1lOhzq-0007Bs-Ma
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:12 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id z2so20995611wrl.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 07:27:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZAFdAmHYOhy8/8TjVO2eDKG5wM7c2ft17CTE4VtZph4=;
- b=TtfdmxgP5begRA2GpjA+kSNI6PIUEyQwuqweXvG+QdiDVAGx1pNyjCHUtllIUBpD8A
- zc3vVBcyzIReqIBYH/ahkSyOzG6gSKIgf94evfkxw9nlsN4md+d90Dzwjw7dIpPHYN4w
- /aqtBfgzEYHS35YCPSovAZGo8raWuSfo7K/UtUe72xhcH6Z1h4m/vQHwI5QMDMCtY2Ae
- LDg/h4A+QWrbmsuasgiSu4QX/8kfsIjBWV6h56p764LYm+LCkiS8z2MOtbtQH8B7SkHv
- DPiLYzIIjNIPB2UZ0ybkkWgIjtoYmWiL0KrXRV3HuJBYz1rE3aJTbeVr6GhZNw5xs4Q8
- PLSw==
+ bh=040Av6eKFFO8DY7RlEdIpWKnOUZEmCANS3COgK9hh4Y=;
+ b=gIL5o7Vf/LBG9a/6NzcNDX2YbQrKuySVagISYCn+KV5KNBLEluyouRTpEw3oLFAxF4
+ RFASvFYG9jbEgNtlWHCRn0lGI25LMlrvo1SyFWh7CZtJPxy3jgWNBkr5goF8FEcDmDBe
+ F8bJdkdbv2jH92Cccm0M49ahumcKKHQOtK51f6WXI871u6Ousa5RbsC978uW7hQrZPyR
+ HckHfvslR+q0OY2i04BUirNvaAri7XKPLQjCJfj5rs+MQ/6XqysU4PINGExk0bkcdouQ
+ yVbqRyHtR9DnT4Ga0zjuMJeKDbcZdoKXB++cFNNCbpp+gy/A7z45DN5VHWU/MkWGDx2H
+ J07Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZAFdAmHYOhy8/8TjVO2eDKG5wM7c2ft17CTE4VtZph4=;
- b=JcWYyQKPOLNM6N60lrPR/RSKuHsMKWYEU8WGfrhr9xKn4XmHPNn5DLETezA2shQWTh
- BLx11kpgsc+ggj9eIjxmFCv/QsKyIW17wsoRKOHuh6zoUSYYQYBxli7ixids2SZi9+wC
- CrnGGnWKPOWwy30xSPQ2rE3CKOQ1U+1E0LMKIDhqMF+0eL/j/RizNeTWgCEHnPTWmK5x
- 96C/+StfihUVWax0nXUmShfq1mLa/y1kRBFUTBuauHc3thJeAum0IARj2f7aughSJGN6
- qDCBMRiLk0URwX+1a/rO5yIeB3cPUqQX4mGg4w2BjwVCMBb5L1WS553vb2FotwP9YtHr
- TWog==
-X-Gm-Message-State: AOAM531eDwydMT3AK+7xXdERFDwanelnPAmZohPjyux5lh4OUcCtTbFG
- FVe7CGJ8kPELr9CVFZtVIipKm+A4kag864xA
-X-Google-Smtp-Source: ABdhPJztos/BQHjRqnUNlmM8KSDdgjn8KlQqegMNS1jizN+YrjGeEEorZlhu/2CgOXsjgLhgt9faug==
-X-Received: by 2002:a5d:5088:: with SMTP id a8mr4348271wrt.294.1616509619803; 
- Tue, 23 Mar 2021 07:26:59 -0700 (PDT)
+ bh=040Av6eKFFO8DY7RlEdIpWKnOUZEmCANS3COgK9hh4Y=;
+ b=F9na5XJFCwVjJW7/1aC8aVC4rFxGyFrWgGVdFxDCpBXc2VRE2P85p0HqwMEBBzQCLb
+ v2AWvhube8+b00JK73T9AQ48H23+8WkQmtsWQfANplxPG9W7jndjVmKnUke9pjKokKmG
+ ISb3lRbXbJWnBAmkqKZULpG6Mj6EWLVZL9NvWiawZPDQ33S9POtuRaj+SLPxnf6ootWi
+ toMNAiqLIR9Wg1dxsAgZ0ZcvKOL7RVoRoEKK/dCoblAaAvDqtGnru4ATOdqpx0W0uMzp
+ M+eAQUuAqmH3wSGl6XdYbhdfPMjcsNfSQL4UKaTq/zCiC/5ysHGIhOtyMH/oEvZUFD0+
+ y61Q==
+X-Gm-Message-State: AOAM531MyY4J19MlsVxMd0iDmAEEvEaRX8CN1iQ+TUXmuq3hl7Vj1qm2
+ L3Zbg/5OSf4VGXeVBSfEPE92hyqRdqPgduOb
+X-Google-Smtp-Source: ABdhPJyd3RjAlSawSKzwz/L6zdLjeH/ExLij+P87sI9mpLHtZpE8rL4k6pmASGeb8btajDLj9EBaBA==
+X-Received: by 2002:adf:f44b:: with SMTP id f11mr4350216wrp.345.1616509620404; 
+ Tue, 23 Mar 2021 07:27:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id a131sm2861292wmc.48.2021.03.23.07.26.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 07:26:59 -0700 (PDT)
+ Tue, 23 Mar 2021 07:27:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] target/arm: Make M-profile VTOR loads on reset handle
- memory aliasing
-Date: Tue, 23 Mar 2021 14:26:52 +0000
-Message-Id: <20210323142653.3538-7-peter.maydell@linaro.org>
+Subject: [PULL 7/7] target/arm: Set ARMMMUFaultInfo.level in user-only
+ arm_cpu_tlb_fill
+Date: Tue, 23 Mar 2021 14:26:53 +0000
+Message-Id: <20210323142653.3538-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210323142653.3538-1-peter.maydell@linaro.org>
 References: <20210323142653.3538-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,45 +87,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For Arm M-profile CPUs, on reset the CPU must load its initial PC and
-SP from a vector table in guest memory.  Because we can't guarantee
-reset ordering, we have to handle the possibility that the ROM blob
-loader's reset function has not yet run when the CPU resets, in which
-case the data in an ELF file specified by the user won't be in guest
-memory to be read yet.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-We work around the reset ordering problem by checking whether the ROM
-blob loader has any data for the address where the vector table is,
-using rom_ptr().  Unfortunately this does not handle the possibility
-of memory aliasing.  For many M-profile boards, memory can be
-accessed via multiple possible physical addresses; if the board has
-the vector table at address X but the user's ELF file loads data via
-a different address Y which is an alias to the same underlying guest
-RAM then rom_ptr() will not find it.
+Pretend the fault always happens at page table level 3.
 
-Use the new rom_ptr_for_as() function, which deals with memory
-aliasing when locating a relevant ROM blob.
+Failure to set this leaves level = 0, which is impossible for
+ARMFault_Permission, and produces an invalid syndrome, which
+reaches g_assert_not_reached in cpu_loop.
 
+Fixes: 8db94ab4e5db ("linux-user/aarch64: Pass syndrome to EXC_*_ABORT")
+Reported-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20210320000606.1788699-1-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210318174823.18066-6-peter.maydell@linaro.org
 ---
- target/arm/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/tlb_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index ae04884408c..0dd623e5909 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -331,7 +331,7 @@ static void arm_cpu_reset(DeviceState *dev)
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 9609333cbdf..3107f9823ef 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -163,6 +163,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     } else {
+         fi.type = ARMFault_Translation;
+     }
++    fi.level = 3;
  
-         /* Load the initial SP and PC from offset 0 and 4 in the vector table */
-         vecbase = env->v7m.vecbase[env->v7m.secure];
--        rom = rom_ptr(vecbase, 8);
-+        rom = rom_ptr_for_as(s->as, vecbase, 8);
-         if (rom) {
-             /* Address zero is covered by ROM which hasn't yet been
-              * copied into physical memory.
+     /* now we have a real cpu fault */
+     cpu_restore_state(cs, retaddr, true);
 -- 
 2.20.1
 
