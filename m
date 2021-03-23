@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDF4346684
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:38:02 +0100 (CET)
-Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37682346632
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:22:52 +0100 (CET)
+Received: from localhost ([::1]:38242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkyf-0002zQ-1f
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
+	id 1lOkjz-0003vo-90
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOk0X-0006rb-FE
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:35:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOk0P-0001yf-2Q
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:35:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616517344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s8ZzgcBIDvA8nFPW1oj4TnVwkGAbdvgIlha6CMX8Mf0=;
- b=RIRzH9D8qb8GzWxCzlYIyYNZUP4VsJ7AnQ6k3T69+BgZu6n/G+Ci7agku81WtE8rkjlebG
- Tz7NGjKPE9UFEyGm/npxQm9ZXCSqzgKqBnw94PiC2T5E9xKgk01qvyRpdfZ0BUQ05vRkry
- TlgrmyUN9GVckrUNdRbcP2KbC+edmVM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-Y6KcmnXKNcKlDb18uust5g-1; Tue, 23 Mar 2021 12:35:41 -0400
-X-MC-Unique: Y6KcmnXKNcKlDb18uust5g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42D98107ACCA;
- Tue, 23 Mar 2021 16:35:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6829B10023B5;
- Tue, 23 Mar 2021 16:35:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EFD2211327E1; Tue, 23 Mar 2021 17:35:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 19/28] qapi: Rename pragma *-whitelist to *-exceptions
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-20-armbru@redhat.com>
- <1fc0b9e1-94c2-b349-4429-3c63fd6628ad@redhat.com>
-Date: Tue, 23 Mar 2021 17:35:34 +0100
-In-Reply-To: <1fc0b9e1-94c2-b349-4429-3c63fd6628ad@redhat.com> (Eric Blake's
- message of "Tue, 23 Mar 2021 10:09:15 -0500")
-Message-ID: <87lfadomjt.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <vince.delvecchio@mediatek.com>)
+ id 1lOk94-00030L-0U
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:44:42 -0400
+Received: from mailgw02.mediatek.com ([216.200.240.185]:15249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vince.delvecchio@mediatek.com>)
+ id 1lOk8z-0006cQ-Pz
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:44:41 -0400
+X-UUID: 41a71216192b492d8ce9e38b422aa183-20210323
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=DtNmB+0LVQI04cZKrcfFjeDVat2zqJBF0lSi2e9ermY=; 
+ b=KDlfH1NQMxZ2F6MATMi9PT6ypSVE+ZZNYzvEVSCfIk9qY6CcvL0RmPAomW/U1Ya96zeUhKA/HaMfsctAHDJRsR+pfXZgLASKmN1Vw9b4AUwqlXCX3VviEOt5z0DL/KEZSgM5OsLxlccdRVJmja+VEAtlOEsvO9LPsbq0OUwIGgk=;
+X-UUID: 41a71216192b492d8ce9e38b422aa183-20210323
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
+ (envelope-from <vince.delvecchio@mediatek.com>)
+ (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 227539843; Tue, 23 Mar 2021 08:44:30 -0800
+Received: from MTKMBS62N2.mediatek.inc (172.29.193.42) by
+ MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 23 Mar 2021 09:38:36 -0700
+Received: from MTKMBS62N2.mediatek.inc ([fe80::cd2:704a:13bf:a9b9]) by
+ MTKMBS62N2.mediatek.inc ([fe80::cd2:704a:13bf:a9b9%16]) with mapi id
+ 15.00.1497.012; Tue, 23 Mar 2021 09:38:36 -0700
+From: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH-for-5.2] target/mips: Deprecate nanoMIPS ISA
+Thread-Topic: [PATCH-for-5.2] target/mips: Deprecate nanoMIPS ISA
+Thread-Index: AQHXH/7B05Rt21qbcU2NmE+28F6bNqqRvevQ
+Date: Tue, 23 Mar 2021 16:38:36 +0000
+Message-ID: <39ad793d73214d5a88909483f9d84c5c@MTKMBS62N2.mediatek.inc>
+References: <20201102202710.2224691-1-f4bug@amsat.org>
+In-Reply-To: <20201102202710.2224691-1-f4bug@amsat.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbXRrNTAxMjdcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0zNTIyMDEzNS04YmY2LTExZWItOGRkZi05NGU2ZjdmNmRlYjBcYW1lLXRlc3RcMzUyMjAxMzYtOGJmNi0xMWViLThkZGYtOTRlNmY3ZjZkZWIwYm9keS50eHQiIHN6PSIyMTI0IiB0PSIxMzI2MDk5MTExNDU3Mzg3MzciIGg9Imx6bDZJYmtIRkF4TjVyckhGaEV6UTNrQUtYYz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [172.29.193.239]
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_005_1881499617.1846172789"
+Received-SPF: pass client-ip=216.200.240.185;
+ envelope-from=vince.delvecchio@mediatek.com; helo=mailgw02.mediatek.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MIME_BASE64_TEXT=1.741, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,29 +79,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ James Hogan <jhogan@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Thomas
+ Huth <thuth@redhat.com>, Petar Jovanovic <petar.jovanovic@syrmia.com>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+--__=_Part_Boundary_005_1881499617.1846172789
+Content-Type: text/html
+Content-Transfer-Encoding: base64
 
-> On 3/23/21 4:40 AM, Markus Armbruster wrote:
->> Rename pragma returns-whitelist to command-returns-exceptions, and
->> name-case-whitelist to member-name-case-exceptions.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
-> Doesn't mention anything about the motivation for this including the
-> desire to move away from the term "whitelist".  But the change is good
-> regardless of motive.
+PHByZT4NCk9uJiMzMjsxMS8yLzIwJiMzMjsxMjoyNyYjMzI7UE0sJiMzMjtQaGlsaXBwZSYjMzI7
+TWF0aGlldS1EYXVkJiMyMzM7JiMzMjt3cm90ZToNCiZndDsmIzMyO1RoZSYjMzI7bmFub01JUFMm
+IzMyO0lTQSYjMzI7aGFzJiMzMjtiZWVuJiMzMjthbm5vdW5jZWQmIzMyO2luJiMzMjsyMDE4JiMz
+Mjtmb3ImIzMyO3ZhcmlvdXMmIzMyO3Byb2plY3RzOg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtHQ0M6
+JiMzMjsmIzMyOyYjMzI7aHR0cHM6Ly9nY2MuZ251Lm9yZy9sZWdhY3ktbWwvZ2NjLzIwMTgtMDUv
+bXNnMDAwMTIuaHRtbA0KJmd0OyYjMzI7TGludXg6JiMzMjtodHRwczovL2x3bi5uZXQvQXJ0aWNs
+ZXMvNzUzNjA1Lw0KJmd0OyYjMzI7UUVNVTomIzMyOyYjMzI7aHR0cHM6Ly93d3cubWFpbC1hcmNo
+aXZlLmNvbS9xZW11LWRldmVsQG5vbmdudS5vcmcvbXNnNTMwNzIxLmh0bWwNCiZndDsmIzMyOw0K
+Jmd0OyYjMzI7VW5mb3J0dW5hdGVseSYjMzI7dGhlJiMzMjtsaW5rcyYjMzI7cmVmZXJlbmNlZCYj
+MzI7ZG9lc24mIzM5O3QmIzMyO3dvcmsmIzMyO2FueW1vcmUmIzMyOyh3d3cubWlwcy5jb20pLg0K
+Jmd0OyYjMzI7DQomZ3Q7JiMzMjtGcm9tJiMzMjt0aGlzJiMzMjtXYXliYWNrJiMzMjttYWNoaW5l
+JiMzMjtsaW5rJiMzMjtbMV0mIzMyO3dlJiMzMjtjYW4mIzMyO2dldCYjMzI7dG8mIzMyO2EmIzMy
+O3dvcmtpbmcmIzMyO3BsYWNlJiMzMjt0bw0KJmd0OyYjMzI7ZG93bmxvYWQmIzMyO2EmIzMyO3Rv
+b2xjaGFpbiYjMzI7KGEmIzMyO21vcmUmIzMyO3JlY2VudCYjMzI7cmVsZWFzZSYjMzI7dGhhbiYj
+MzI7dGhlJiMzMjtvbmUmIzMyO3JlZmVyZW5jZWQNCiZndDsmIzMyO2luJiMzMjt0aGUmIzMyO2Fu
+bm91bmNlbWVudCYjMzI7bWFpbHMpOg0KJmd0OyYjMzI7aHR0cDovL2NvZGVzY2FwZS5taXBzLmNv
+bS9jb21wb25lbnRzL3Rvb2xjaGFpbi9uYW5vbWlwcy8yMDE4LjA0LTAyL2Rvd25sb2Fkcy5odG1s
+DQomZ3Q7JiMzMjsNCiZndDsmIzMyOy4uLg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtPdXImIzMyO2Rl
+cHJlY2F0aW9uJiMzMjtwb2xpY3kmIzMyO2RvJiMzMjtub3QmIzMyO2FsbG93JiMzMjtmZWF0dXJl
+JiMzMjtyZW1vdmFsJiMzMjtiZWZvcmUmIzMyOzImIzMyO3JlbGVhc2UsDQomZ3Q7JiMzMjt0aGVy
+ZWZvcmUmIzMyO2RlY2xhcmUmIzMyO3RoZSYjMzI7bmFub01JUFMmIzMyO0lTQSYjMzI7Y29kZSYj
+MzI7ZGVwcmVjYXRlZCYjMzI7YXMmIzMyO29mJiMzMjtRRU1VJiMzMjs1LjIuDQomZ3Q7JiMzMjtU
+aGlzJiMzMjtnaXZlcyYjMzI7dGltZSYjMzI7dG8mIzMyO2RldmVsb3BlcnMmIzMyO3RvJiMzMjt1
+cGRhdGUmIzMyO3RoZSYjMzI7UUVNVSYjMzI7Y29tbXVuaXR5LCYjMzI7b3INCiZndDsmIzMyO2lu
+dGVyZXN0ZWQmIzMyO3BhcnRpZXMmIzMyO3RvJiMzMjtzdGVwJiMzMjtpbiYjMzI7dG8mIzMyO21h
+aW50YWluJiMzMjt0aGlzJiMzMjtjb2RlLg0KDQpIaSYjMzI7UGhpbGlwcGUmIzMyOyZhbXA7JiMz
+MjtldmVyeW9uZSwNCg0KQXBvbG9naWVzJiMzMjtmb3ImIzMyO3RoZSYjMzI7bGF0ZSYjMzI7cmVz
+cG9uc2UuDQoNCk1lZGlhVGVrJiMzMjtpcyYjMzI7dXNpbmcmIzMyO3RoZSYjMzI7bmFub01JUFMm
+IzMyO2FyY2hpdGVjdHVyZSYjMzI7YW5kJiMzMjtpcyYjMzI7bm93JiMzMjtkb2luZyYjMzI7bmFu
+b01JUFMNCnRvb2xjaGFpbiYjMzI7ZGV2ZWxvcG1lbnQuJiMzMjsmIzMyO0kmIzMyO2JlbGlldmUm
+IzMyO1dhdmUvTUlQUyYjMzI7YXJlJiMzMjtub3QmIzMyO2FueSYjMzI7bG9uZ2VyLCYjMzI7c28m
+IzMyO3lvdQ0KY2FuJiMzMjtwcm9iYWJseSYjMzI7c2F5JiMzMjt3ZSYjMzI7YXJlJiMzMjt0YWtp
+bmcmIzMyO292ZXImIzMyO25hbm9NSVBTJiMzMjt0b29sY2hhaW4mIzMyO2RldmVsb3BtZW50Lg0K
+DQpXZSYjMzI7aGF2ZSYjMzI7anVzdCYjMzI7cHVibGlzaGVkJiMzMjthJiMzMjtuZXcmIzMyO3Jl
+bGVhc2UmIzMyO29mJiMzMjt0aGUmIzMyO3Rvb2xjaGFpbiYjMzI7YXQNCmh0dHBzOi8vZ2l0aHVi
+LmNvbS9NZWRpYVRlay1MYWJzL25hbm9taXBzLWdudS10b29sY2hhaW4vcmVsZWFzZXMvdGFnL25h
+bm9NSVBTLTIwMjEuMDItMDENCmFuZCYjMzI7d2UmIzMyO2hhdmUmIzMyO3N0YXJ0ZWQmIzMyO3dv
+cmsmIzMyO29uJiMzMjt1cGdyYWRpbmcmIzMyO3RoZSYjMzI7dG9vbGNoYWluJiMzMjt0byYjMzI7
+dGhlJiMzMjtsYXRlc3QNCnZlcnNpb25zJiMzMjtpbiYjMzI7cHJlcGFyYXRpb24mIzMyO2ZvciYj
+MzI7dXBzdHJlYW1pbmcuJiMzMjsmIzMyOyhXZSYjMzI7YXJlJiMzMjthbHNvJiMzMjtpbnZlc3Rp
+Z2F0aW5nDQphbiYjMzI7TExWTSYjMzI7cG9ydC4pDQoNCldlJiMzMjthcmUmIzMyO2Fsc28mIzMy
+O3dpbGxpbmcmIzMyO3RvJiMzMjthY3QmIzMyO2FzJiMzMjttYWludGFpbmVycyYjMzI7Zm9yJiMz
+Mjt0aGUmIzMyO1FFTVUmIzMyO25hbm9NSVBTJiMzMjtwb3J0LA0KYW5kJiMzMjt3ZSYjMzI7aGF2
+ZSYjMzI7YWdyZWVtZW50JiMzMjt3aXRoJiMzMjt0aGUmIzMyO2N1cnJlbnQmIzMyO2FuZCYjMzI7
+Zm9ybWVyJiMzMjtNSVBTJiMzMjtRRU1VJiMzMjttYWludGFpbmVycw0KKEFsZWtzYW5kYXImIzMy
+O1Jpa2FsbyYjMzI7JmFtcDsmIzMyO0FsZWtzYW5kYXImIzMyO01hcmtvdmljLCYjMzI7Ym90aCYj
+MzI7ZnJvbSYjMzI7U3lybWlhKSYjMzI7dG8mIzMyO2hlbHAmIzMyO3VzDQppbiYjMzI7dGhpcyYj
+MzI7cHJvY2VzcyYjMzI7aWYmIzMyO25lZWRlZC4NCg0KVG8mIzMyO3N1bSYjMzI7dXAsJiMzMjtu
+YW5vTUlQUyYjMzI7aXMmIzMyO2FsaXZlJiMzMjthbmQmIzMyO2luJiMzMjthY3RpdmUmIzMyO2Rl
+dmVsb3BtZW50LCYjMzI7c28mIzMyO2Jhc2VkJiMzMjtvbg0KeW91ciYjMzI7Y3JpdGVyaWEmIzMy
+O2l0JiMzMjtzaG91bGQmIzMyO3JlbWFpbiYjMzI7c3VwcG9ydGVkJiMzMjtpbiYjMzI7UUVNVS4m
+IzMyOyYjMzI7UGxlYXNlJiMzMjtsZXQmIzMyO3VzJiMzMjtrbm93DQpob3cmIzMyO2Vsc2UmIzMy
+O3dlJiMzMjtjYW4mIzMyO2hlbHAmIzMyO3dpdGgmIzMyO3RoaXMmIzMyO3Byb2Nlc3MuDQoNCi1W
+aW5jZSYjMzI7RGVsJiMzMjtWZWNjaGlvDQpDb21waWxlciYjMzI7VGVhbSYjMzI7TGVhZCYjMzI7
+JmFtcDsmIzMyO0RlcHV0eSYjMzI7RGlyZWN0b3IsJiMzMjtEU1AmIzMyO0NvcmUmIzMyO1RlY2hu
+b2xvZ3kNCk1lZGlhVGVrLCYjMzI7SW5jLg0KDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0t
+ey0tPjxwcmU+KioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioq
+KioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdl
+IChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3By
+aWV0YXJ5LCBwcml2aWxlZ2VkLCBvciANCm90aGVyd2lzZSBleGVtcHQgZnJvbSBkaXNjbG9zdXJl
+IHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgDQppbnRlbmRlZCB0byBiZSBjb252ZXllZCBv
+bmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IA0KdXNlLCBkaXNzZW1pbmF0
+aW9uLCBkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyANCm9mIHRo
+aXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIGF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lw
+aWVudChzKSANCmlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSBiZSB1bmxhd2Z1bC4gSWYg
+eW91IGFyZSBub3QgYW4gDQppbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJl
+bGlldmUgdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCANCnRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVh
+c2Ugbm90aWZ5IHRoZSBzZW5kZXIgaW1tZWRpYXRlbHkgDQooYnkgcmVwbHlpbmcgdG8gdGhpcyBl
+LW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIHRoaXMgDQplLW1haWwgKGluY2x1
+ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QgDQpkaXNj
+bG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFu
+ayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
 
-I'd prefer not to argue for or against words that may or may not have
-unwanted connotations.  In this particular case, however, I think
-"exceptions" is actually clearer than "whitelist".  Naming is hard.
+--__=_Part_Boundary_005_1881499617.1846172789
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+T24gMTEvMi8yMCAxMjoyNyBQTSwgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgd3JvdGU6DQo+IFRo
+ZSBuYW5vTUlQUyBJU0EgaGFzIGJlZW4gYW5ub3VuY2VkIGluIDIwMTggZm9yIHZhcmlvdXMgcHJv
+amVjdHM6DQo+IA0KPiBHQ0M6ICAgaHR0cHM6Ly9nY2MuZ251Lm9yZy9sZWdhY3ktbWwvZ2NjLzIw
+MTgtMDUvbXNnMDAwMTIuaHRtbA0KPiBMaW51eDogaHR0cHM6Ly9sd24ubmV0L0FydGljbGVzLzc1
+MzYwNS8NCj4gUUVNVTogIGh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2ZS5jb20vcWVtdS1kZXZlbEBu
+b25nbnUub3JnL21zZzUzMDcyMS5odG1sDQo+IA0KPiBVbmZvcnR1bmF0ZWx5IHRoZSBsaW5rcyBy
+ZWZlcmVuY2VkIGRvZXNuJ3Qgd29yayBhbnltb3JlICh3d3cubWlwcy5jb20pLg0KPiANCj4gRnJv
+bSB0aGlzIFdheWJhY2sgbWFjaGluZSBsaW5rIFsxXSB3ZSBjYW4gZ2V0IHRvIGEgd29ya2luZyBw
+bGFjZSB0bw0KPiBkb3dubG9hZCBhIHRvb2xjaGFpbiAoYSBtb3JlIHJlY2VudCByZWxlYXNlIHRo
+YW4gdGhlIG9uZSByZWZlcmVuY2VkDQo+IGluIHRoZSBhbm5vdW5jZW1lbnQgbWFpbHMpOg0KPiBo
+dHRwOi8vY29kZXNjYXBlLm1pcHMuY29tL2NvbXBvbmVudHMvdG9vbGNoYWluL25hbm9taXBzLzIw
+MTguMDQtMDIvZG93bmxvYWRzLmh0bWwNCj4gDQo+IC4uLg0KPiANCj4gT3VyIGRlcHJlY2F0aW9u
+IHBvbGljeSBkbyBub3QgYWxsb3cgZmVhdHVyZSByZW1vdmFsIGJlZm9yZSAyIHJlbGVhc2UsDQo+
+IHRoZXJlZm9yZSBkZWNsYXJlIHRoZSBuYW5vTUlQUyBJU0EgY29kZSBkZXByZWNhdGVkIGFzIG9m
+IFFFTVUgNS4yLg0KPiBUaGlzIGdpdmVzIHRpbWUgdG8gZGV2ZWxvcGVycyB0byB1cGRhdGUgdGhl
+IFFFTVUgY29tbXVuaXR5LCBvcg0KPiBpbnRlcmVzdGVkIHBhcnRpZXMgdG8gc3RlcCBpbiB0byBt
+YWludGFpbiB0aGlzIGNvZGUuDQoNCkhpIFBoaWxpcHBlICYgZXZlcnlvbmUsDQoNCkFwb2xvZ2ll
+cyBmb3IgdGhlIGxhdGUgcmVzcG9uc2UuDQoNCk1lZGlhVGVrIGlzIHVzaW5nIHRoZSBuYW5vTUlQ
+UyBhcmNoaXRlY3R1cmUgYW5kIGlzIG5vdyBkb2luZyBuYW5vTUlQUw0KdG9vbGNoYWluIGRldmVs
+b3BtZW50LiAgSSBiZWxpZXZlIFdhdmUvTUlQUyBhcmUgbm90IGFueSBsb25nZXIsIHNvIHlvdQ0K
+Y2FuIHByb2JhYmx5IHNheSB3ZSBhcmUgdGFraW5nIG92ZXIgbmFub01JUFMgdG9vbGNoYWluIGRl
+dmVsb3BtZW50Lg0KDQpXZSBoYXZlIGp1c3QgcHVibGlzaGVkIGEgbmV3IHJlbGVhc2Ugb2YgdGhl
+IHRvb2xjaGFpbiBhdA0KaHR0cHM6Ly9naXRodWIuY29tL01lZGlhVGVrLUxhYnMvbmFub21pcHMt
+Z251LXRvb2xjaGFpbi9yZWxlYXNlcy90YWcvbmFub01JUFMtMjAyMS4wMi0wMQ0KYW5kIHdlIGhh
+dmUgc3RhcnRlZCB3b3JrIG9uIHVwZ3JhZGluZyB0aGUgdG9vbGNoYWluIHRvIHRoZSBsYXRlc3QN
+CnZlcnNpb25zIGluIHByZXBhcmF0aW9uIGZvciB1cHN0cmVhbWluZy4gIChXZSBhcmUgYWxzbyBp
+bnZlc3RpZ2F0aW5nDQphbiBMTFZNIHBvcnQuKQ0KDQpXZSBhcmUgYWxzbyB3aWxsaW5nIHRvIGFj
+dCBhcyBtYWludGFpbmVycyBmb3IgdGhlIFFFTVUgbmFub01JUFMgcG9ydCwNCmFuZCB3ZSBoYXZl
+IGFncmVlbWVudCB3aXRoIHRoZSBjdXJyZW50IGFuZCBmb3JtZXIgTUlQUyBRRU1VIG1haW50YWlu
+ZXJzDQooQWxla3NhbmRhciBSaWthbG8gJiBBbGVrc2FuZGFyIE1hcmtvdmljLCBib3RoIGZyb20g
+U3lybWlhKSB0byBoZWxwIHVzDQppbiB0aGlzIHByb2Nlc3MgaWYgbmVlZGVkLg0KDQpUbyBzdW0g
+dXAsIG5hbm9NSVBTIGlzIGFsaXZlIGFuZCBpbiBhY3RpdmUgZGV2ZWxvcG1lbnQsIHNvIGJhc2Vk
+IG9uDQp5b3VyIGNyaXRlcmlhIGl0IHNob3VsZCByZW1haW4gc3VwcG9ydGVkIGluIFFFTVUuICBQ
+bGVhc2UgbGV0IHVzIGtub3cNCmhvdyBlbHNlIHdlIGNhbiBoZWxwIHdpdGggdGhpcyBwcm9jZXNz
+Lg0KDQotVmluY2UgRGVsIFZlY2NoaW8NCkNvbXBpbGVyIFRlYW0gTGVhZCAmIERlcHV0eSBEaXJl
+Y3RvciwgRFNQIENvcmUgVGVjaG5vbG9neQ0KTWVkaWFUZWssIEluYy4NCg0K
 
-Thanks!
+--__=_Part_Boundary_005_1881499617.1846172789--
 
 
