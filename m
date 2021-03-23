@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5541346A5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 21:42:22 +0100 (CET)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E790346A61
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 21:43:50 +0100 (CET)
+Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOnr3-0005Pz-NP
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 16:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55366)
+	id 1lOnsT-0007K1-5v
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 16:43:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOnpY-0004Yg-R8
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:40:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOnpW-0002NY-0h
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:40:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOnr1-00061g-Hb
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:42:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27268)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOnqz-00034s-RZ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:42:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616532043;
+ s=mimecast20190719; t=1616532137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=uUWqG+q96tGrMdE42HcZnprdAhHvoUL0YBwDwH3hpvk=;
- b=Tgkq6keH7T6nj8MAz5l4uJ5k1zx9LPSkXBrXsdRVbonzFM/sfSughjp1NXumLV8XoLjxKj
- jbb/g7xGWqPSmb+GYlLNGInIgSuWS6IcJ6cw3gmbIQbMlcOPXBIEYPF4ZsnVOSc0jltYob
- Q8B+RYgu7A3x1OJ7sERYsm1qVFWwrvs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-ppP1g1pQOdOpFt1uCH-AGg-1; Tue, 23 Mar 2021 16:40:41 -0400
-X-MC-Unique: ppP1g1pQOdOpFt1uCH-AGg-1
-Received: by mail-qv1-f72.google.com with SMTP id t18so22314qva.6
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 13:40:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uUWqG+q96tGrMdE42HcZnprdAhHvoUL0YBwDwH3hpvk=;
- b=Pg4LZXDvzNxZbnTDH1t0KMY0/4YA5gDn5AbiW53xY7vHSy2cdaW7+TftsAOW/SE1rK
- Yb4hkFOtHMNpbkK+RplBBAR9Vl9WnCTcC7wD7Y7P1q0NF7VOCMgrPGzrHhehTM/6UXym
- kl+l/jNvZsl2PQNYBQbxjhtfs8UBdBTCys3zf3fd0t3ZW6Uem97fupMcUiyrHw1MuTrM
- iJUUDlTRLSLgqpl1DJXnpSoyTqcfxWx8N5HrDxFePjpUEx3YaDFWmqoxD1eoDC8fhqB8
- yAvhYfH7Sf/etquT/H7BwwVMmq10lC2nVnISun7tSCskOZGEn3IWlgxv5eBCdClU4zJ4
- czRw==
-X-Gm-Message-State: AOAM530Pnrt8MKTUGNgeemN9G0oxCUaLztYrFxlUBWWrvAI5rsb8xrbu
- Fo5EiqUpjQFwDOz++P1SveRt0kp1dQqePRUnrnZEbLCFHDV7vj6T9i77rU47lR8LebclAYw+0PH
- R8GOCDbkoHSMIO7s=
-X-Received: by 2002:ac8:745a:: with SMTP id h26mr136299qtr.79.1616532041239;
- Tue, 23 Mar 2021 13:40:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJIiDRG2KCCG6SQTbxd+MQFwn7Xdlz6KMtqkhpSpZCimjmE7RIf4W55dzL5pk/4q19MQa5Rw==
-X-Received: by 2002:ac8:745a:: with SMTP id h26mr136272qtr.79.1616532040989;
- Tue, 23 Mar 2021 13:40:40 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
- [174.91.135.175])
- by smtp.gmail.com with ESMTPSA id g11sm41655qkk.5.2021.03.23.13.40.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 13:40:40 -0700 (PDT)
-Date: Tue, 23 Mar 2021 16:40:38 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v4 03/14] softmmu/physmem: Fix qemu_ram_remap() to handle
- shared anonymous memory
-Message-ID: <20210323204038.GK6486@xz-x1>
-References: <20210319101230.21531-1-david@redhat.com>
- <20210319101230.21531-4-david@redhat.com>
+ bh=cN6twZ5BiFPC1/y/IZiOBLWK2cjLUW8APQgeke8E61I=;
+ b=IMbWh7edKIqDvfZfNATcGmHZaauteiQejPkKXYMbzUsAVH5XgKr2ZL0h7Ew/hW4DdtdTWx
+ W13y3JgPTfHn+RHnYVzNT7KOd24PytDzCCL1+BO92KFj64Xqi4q4H7DuQUNoPHKQNFEy+b
+ MNAAz+RpsSwLpW8lNs9baqyJahK4Yzs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-txr9_-t9PnW_Rolf2ESY9w-1; Tue, 23 Mar 2021 16:42:15 -0400
+X-MC-Unique: txr9_-t9PnW_Rolf2ESY9w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 347941009446;
+ Tue, 23 Mar 2021 20:42:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D361610A8;
+ Tue, 23 Mar 2021 20:42:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0C6BD11327E1; Tue, 23 Mar 2021 21:42:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 06/28] tests/qapi-schema: Tweak to demonstrate buggy
+ member name check
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-7-armbru@redhat.com>
+ <f72dbb52-059e-f773-63ad-385b9c9d9e6c@redhat.com>
+ <87im5hq3hs.fsf@dusky.pond.sub.org>
+ <0b0ace70-cd33-0c3b-c099-2377ca48559f@redhat.com>
+Date: Tue, 23 Mar 2021 21:42:08 +0100
+In-Reply-To: <0b0ace70-cd33-0c3b-c099-2377ca48559f@redhat.com> (John Snow's
+ message of "Tue, 23 Mar 2021 13:09:40 -0400")
+Message-ID: <87a6qtmwkf.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210319101230.21531-4-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,29 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 19, 2021 at 11:12:19AM +0100, David Hildenbrand wrote:
-> RAM_SHARED now also properly indicates shared anonymous memory. Let's check
-> that flag for anonymous memory as well, to restore the proper mapping.
-> 
-> Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+John Snow <jsnow@redhat.com> writes:
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+> On 3/23/21 11:44 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>>>> Member name 'u' and names starting with 'has-' or 'has_' are reserved
+>>>> for the generator.  check_type() enforces this, covered by tests
+>>>> reserved-member-u and reserved-member-has.
+>>>> These tests neglect to cover optional members, where the name starts
+>>>> with '*'.  Tweak reserved-member-u to fix that.
+>>>> This demonstrates the reserved member name check is broken for
+>>>> optional members.  The next commit will fix it.
+>>>>
+>>>
+>>> The test without an optional member goes away. Do we lose coverage?
+>>> (Do we care?)
+>> Up to a point :)  We do try to cover all failure modes, just not in
+>> all
+>> contexts.
+>> The test is about this error:
+>>           if c_name(key, False) == 'u' or c_name(key,
+>> False).startswith('has_'):
+>>               raise QAPISemError(info, "%s uses reserved name" % key_source)
+>> Full matrix: (is "u", starts with "has_") x (optional, not
+>> optional).
+>> Instead of covering all four cases, we cover two: non-optional "u"
+>> (reserved-member-u) and non-optional "has-" (reserved-member-has).
+>> The patch flips the former to optional.  The latter still covers
+>> non-optional.
+>> Good enough, I think.
+>> 
+>
+> Relies a tiny bit on knowing these two reserved name checks are
+> implemented in the same place. Doubt it'll matter
+> practically. Coverage has increased overall.
+>
+>> Do you feel I should point to reserved-member-has in the commit message?
+>> 
+>
+> It'd be for my benefit, but you also already just explained it to me.
 
--- 
-Peter Xu
+Amending the second paragraph:
+
+    These tests neglect to cover optional members, where the name starts
+    with '*'.  Tweak reserved-member-u to fix that.  Test
+    reserved-member-has still covers non-optional members.
+
+
+> Reviewed-by: John Snow <jsnow@redhat.com>
+
+Thanks!
 
 
