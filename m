@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1442D346635
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:23:27 +0100 (CET)
-Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D45346622
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:18:52 +0100 (CET)
+Received: from localhost ([::1]:56546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkkY-000550-1M
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
+	id 1lOkg7-0006xH-OS
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjso-0006RS-8F
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59198)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOjuG-0008WE-UE
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:29:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjsm-0006FA-Cw
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:27:53 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOjuD-00072S-SA
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:29:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616516871;
+ s=mimecast20190719; t=1616516961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UomIJiViRDLpB/38NQpEDEblyDfO+gKWTg0I/Dz+Ve4=;
- b=LTim/ylwPLtiKHfvOv94auO/kzI0D91p+m11fzZvlcb4tqTxGf9Z4I7n0Hpq++ASwDzF4H
- QrphH34DtgN5Lkpg6T098cNxnSmwadokaYppZxjz9jAP66xpKPMdD8vZzMC31iPpbUL4uG
- ncndtMugrkrYFJ56hlCPb44cVdiPsgE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-zaNciy94Nl2djzmB94G9Og-1; Tue, 23 Mar 2021 12:27:49 -0400
-X-MC-Unique: zaNciy94Nl2djzmB94G9Og-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5660783DD2B;
- Tue, 23 Mar 2021 16:27:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 160D0197F9;
- Tue, 23 Mar 2021 16:27:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9DEDF11327E1; Tue, 23 Mar 2021 17:27:43 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 14/28] qapi: Enforce type naming rules
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-15-armbru@redhat.com>
- <d2b8e84e-74d8-553c-681e-b0c8a3ae3934@redhat.com>
-Date: Tue, 23 Mar 2021 17:27:43 +0100
-In-Reply-To: <d2b8e84e-74d8-553c-681e-b0c8a3ae3934@redhat.com> (Eric Blake's
- message of "Tue, 23 Mar 2021 09:50:22 -0500")
-Message-ID: <87pmzpomww.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=PGXz4Sy+aAwBCmnZYBNtaagl14GWxjRJGo2R+w7pVJo=;
+ b=I6ozZuiGDUMPhlrHeVlIrszMfG4K8BdFQg3GDwHgTHSqG87inyDL6p6KUDTf1s12TvOGPX
+ fFPR1KixMi2Bqv0tLASZ1gZLC6OsdVWjugeSXWD25DZSV/bLyw0DnjIRTK+SHnPDrwR7G/
+ 64aoKnl3IH5QgwaAe4X6FilnxlzIHTA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-e-sc2COpOQio373Yrltm3g-1; Tue, 23 Mar 2021 12:29:18 -0400
+X-MC-Unique: e-sc2COpOQio373Yrltm3g-1
+Received: by mail-wr1-f71.google.com with SMTP id n16so1357139wro.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:29:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PGXz4Sy+aAwBCmnZYBNtaagl14GWxjRJGo2R+w7pVJo=;
+ b=aPHRsRnFMTGp1N7JUx+0pGFETNGqrRXikNIWmBIii97PZ7tllkRi6b8B7apnueilEX
+ irXfJxt/VLTT2XcZN0w090OLinKevfGWXyt4tGwp62mq/8xjX1dui8u0EUJr/hwUx/Nv
+ jqJpWho9PDPL2bbrDQVX59irbKHioWJ0Qlwzv1rWlPx4aGbhH1w7TXIDaHt8aCiHMiH9
+ odVp48oJzLWZmk/xU/axgQM5/JyV1Y8WbvLmRoVEYnns/WLPY6VyLBFkB4/r3dCYUJZG
+ ff7ZMFXVzhbp50rfdX8CqC05740DCb5wny/1CGruEtKk6e9sKTq/TjCL+sx3ppzS2SfE
+ XXYA==
+X-Gm-Message-State: AOAM532WgGco5hch7Uqx6mULJO0FQgpqm8/HvXFHveY5l0JSth0ORHhn
+ 2xCp71cX4P9ugKRAW9NlLpApPXt70ld23xi861t2XUHXlEBCuQJCNqTg4zTgyfy/+dmAzbz3kuH
+ bpXNMrk+z0cwJi+4=
+X-Received: by 2002:a05:600c:2d42:: with SMTP id
+ a2mr4166581wmg.77.1616516956993; 
+ Tue, 23 Mar 2021 09:29:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+mVZO3C5cd3mCUniseD5swbJ4TvtetJQEFhv7nMJIQXBFTbuMysbZilqPptU6nk21TbgrXg==
+X-Received: by 2002:a05:600c:2d42:: with SMTP id
+ a2mr4166565wmg.77.1616516956744; 
+ Tue, 23 Mar 2021 09:29:16 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u2sm24617538wrp.12.2021.03.23.09.29.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 09:29:16 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210323155132.238193-1-f4bug@amsat.org>
+ <20210323155132.238193-5-f4bug@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 04/13] blobs: Only install PALcode blob if alpha
+ system target is built
+Message-ID: <03ca4200-2f64-37a8-f3d3-6df86074326a@redhat.com>
+Date: Tue, 23 Mar 2021 17:29:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210323155132.238193-5-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,67 +104,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 23/03/21 16:51, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   meson.build         | 2 ++
+>   pc-bios/meson.build | 7 ++++++-
+>   2 files changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 5c85a15364d..b5b8892fe7a 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -93,9 +93,11 @@
+>   
+>   edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
+>   install_edk2_blobs = false
+> +install_blobs_alpha = false
+>   if get_option('install_blobs')
+>     foreach target : target_dirs
+>       install_edk2_blobs = install_edk2_blobs or target in edk2_targets
+> +    install_blobs_alpha = install_blobs_alpha or target in ['alpha-softmmu']
+What if you had something like
 
-> On 3/23/21 4:40 AM, Markus Armbruster wrote:
->> Type names should be CamelCase.  Enforce this.  The only offenders are
->> in tests/.  Fix them.  Add test type-case to cover the new error.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->
->> +++ b/scripts/qapi/expr.py
->> @@ -61,7 +61,8 @@ def check_name_lower(name, info, source,
->>  
->>  def check_name_camel(name, info, source):
->>      stem = check_name_str(name, info, source)
->> -    # TODO reject '[_-]' in stem, require CamelCase
->> +    if not re.match(r'[A-Z]+[A-Za-z0-9]*[a-z][A-Za-z0-9]*$', stem):
->
-> Requires one or more leading capital, and at least one lowercase.  This
-> permits oddballs like PCIELinkSpeed in common.json that are eventually
-> camel case but with a rather long all-caps start.
->
-> As written, the + isn't necessary, you'd match the same set of strings
-> with it omitted.  But leaving it doesn't hurt.
+blob_targets = {
+   ...,
+   'palcode-clipper': ['alpha-softmmu'],
+   'npcm7xx_bootrom.bin': ['arm-softmmu', 'aarch64-softmmu'],
+   ...
+}
 
-I'll drop it.
+and then
 
->> +++ b/tests/qapi-schema/doc-bad-union-member.json
->> @@ -11,9 +11,9 @@
->>    'data': { 'nothing': 'Empty' } }
->>  
->>  { 'struct': 'Base',
->> -  'data': { 'type': 'T' } }
->> +  'data': { 'type': 'FrobType' } }
->
-> No single-character type names is fallout from the tighter rules, but is
-> fine with me.
+if get_option('install_blobs')
+   foreach file, targets: blob_targets
+     if file.endswith('.bz2') and not install_edk2_blobs
+       continue
+     endif
+     foreach target : targets
+       if (target in target_dirs)
+         if file.endswith('.bz2')
+           custom_target(...)
+         elif install_edk2_blobs
+           install_data(file, install_dir: qemu_datadir)
+         endif
+         break
+       endif
+     endforeach
+   endforeach
+endif
 
-I was unsure whether to complicate the regexp slightly so
-single-character type names keep working.  Then I decided against it.
+This simplifies the per-arch patches noticeably, since they only have to 
+add a single line.
 
->> +++ b/tests/qapi-schema/type-case.json
->> @@ -0,0 +1,2 @@
->> +# Type names should use CamelCase
->> +{ 'struct': 'not-a-camel' }
->
-> You should probably include a 'data':{...} here, to ensure that we
-> aren't rejecting this for missing data (yes, the .err file does test our
-> actual error message, but no reason to not be otherwise compliant to
-> what we normally expect).
+Paolo
 
-Yes, that's prudent.
-
-> Such a tweak is minor enough that I'm fine with
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Thanks!
+>     endforeach
+>   endif
+>   
+> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+> index 007cf9d2afb..29085912d7d 100644
+> --- a/pc-bios/meson.build
+> +++ b/pc-bios/meson.build
+> @@ -73,7 +73,6 @@
+>     's390-netboot.img',
+>     'slof.bin',
+>     'skiboot.lid',
+> -  'palcode-clipper',
+>     'u-boot.e500',
+>     'u-boot-sam460-20100605.bin',
+>     'qemu_vga.ndrv',
+> @@ -91,6 +90,12 @@
+>     ))
+>   endif
+>   
+> +if install_blobs_alpha
+> +  blobs_ss.add(files(
+> +    'palcode-clipper',
+> +  ))
+> +endif
+> +
+>   blobs_ss = blobs_ss.apply(config_host, strict: false)
+>   
+>   if get_option('install_blobs')
+> 
 
 
