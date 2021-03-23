@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C187334605E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:54:06 +0100 (CET)
-Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189E1346060
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:55:44 +0100 (CET)
+Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOhTu-0007nr-CC
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35160)
+	id 1lOhVX-0002KA-28
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOhOX-0007GE-1f; Tue, 23 Mar 2021 09:48:29 -0400
+ id 1lOhOb-0007MC-2k; Tue, 23 Mar 2021 09:48:33 -0400
 Received: from mail-eopbgr130102.outbound.protection.outlook.com
  ([40.107.13.102]:31392 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOhOU-0001rq-J9; Tue, 23 Mar 2021 09:48:28 -0400
+ id 1lOhOX-0001rq-Pj; Tue, 23 Mar 2021 09:48:32 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lzqBpbS6EJ9++P86x2hQvLOtuJ+/Tkfj62NN9B92C5JYv2irWh+BFM2pbWgNtkNIpd1zDuu5o+dXgxnoQoiHAcDGPJAsrDbPnlU4C7x7KW+CzCkpaYEMCZ5sUJqoVi2MhXHjxXDfygle4mNMY2ty9ruECxoSLlZkMOVETqJs+2OCFawEAqDxgG6qkoRtFmVFFtpPDNCGGkaF2piBfaC46kgw4E3X5x7meqJDAIIEoq6E3EgEHPrchV/lk/JsnOG2RzWamHPNlDt8D1nO/QBIDKYlkvGxw0GX2sSWaO8rDANPG5AoE8NNLanp4CfROeJrg5/NihJudGt4gONoW18MyQ==
+ b=Z2FnhZOywx6ELNzhPlS1rYYZAabkU1CQT2AM+SCjyKHSChWQ5q3lrm7IAbHHm31k0w9/7GEVw56kaqBMzuP2giD7k2H6f/g3flMRuHPyNLb5YUI9Y8FEsEOxWiGBI5B7OyeiJkvofyzLIXuqeQiRoSkvXvBALZN9Y7FWhoIHEY5XCx1S1xebC8Z6iZEihKp9fy5rjSkitRVC9b1LbUM8JgFEgAtBkib1Y7246pHmxEmSV7vQisMC86pRIo69p3PdiDW4V+tMVWRRb5rRbuULndY71bOglMIm3FKqZEg8TtCm/3+wJtMyQNIKf4z72Z68szjGS0PmW482x0Aiw/pCuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQ8qAb8Ee1KlC8mBjDEKJ+xaN3/BIEq9d6ubMefqYDc=;
- b=WpAEpN37bVJFY1ZVi+I4dUCieHYmb1P/uS4a7EkOlGcVaoLlWVspAWqMZk3U/KDbZnogw622RJBfIxIFx/YVZfhLnH9TTPM0pKbA/+op+7+fxOk3TbdVRUmNXzbiLKdlB+kr995ydy8446kM3WNLVAeOopIVRz5MPm6thxendGE4GKbPq5cLv00tNHor8Vv2OBmmqCmdCmtFh9kY9f9SoadCkJVL+B0g/1yfkZFDdIFSsntIetyy0Nxo4+nc/rEKiq0ifP56XGmSsC+rxPlSU3Vg01PqbqChOPQde1JJyT5V8IvAfxJDk+ZBTez3jvmLOiabXv3eOYhr82BVZT69mg==
+ bh=+Jk7bpcHmP57dmdGTMhum4TU5RdI78Qv+TLwSse18q8=;
+ b=bSc9Ij1ZIAYV1W8YvH0HUJul2jZAqlHWiIKADWNtxZ11t7Hu1vsHXda2S9sEs4yjvSX0PH89jcFOSbXSKYgYl0gt4XY0BqvJzKDpvUQSFANl4FkHUDv0vva/b+f7J5wFXrhyaS/4WrJ7k8b2xkQJabRfjMOV2O7zOAuSClb4qiZE4e55eQ76AhCfk7VkhXUOviTz1S5Rr/KtISXufHpiK0kJTY8V2q+M6h+8XdJLBrqKfGQf1MOYv3936bilPE6pYsqD01wuWl+WRdlmIwd2jNTYTZzs5dy0di74HVmPhiMuryr1gvTJoWPJbEUbB0fVBFg+VNP5OrPfeTcpZzQEHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQ8qAb8Ee1KlC8mBjDEKJ+xaN3/BIEq9d6ubMefqYDc=;
- b=VWbwptPETd3LG5cwCG+3h0P1jtIqgtRAvtWGXQi8dKHL9Z8MNqn/ZeZIz6yfNN5mXqUt2z9WMGAs9SgfyCFmEQBNf0tC5OJIvra/KqNp3OKuBiClqlHEkmFy0YHIkJsKpnObJcEra4exvxi/qcfdlbJtv01HAmhSn5Qjz4bVxvY=
+ bh=+Jk7bpcHmP57dmdGTMhum4TU5RdI78Qv+TLwSse18q8=;
+ b=Mz4GGvgt8S6JdfU4INLeOgHUAwQMeg0pHldfUwePAIrrNLSKLiPOOkbFeh4zfq5+jchC/UfxKHuEkOFQy+IPxUkrYCtEFhJXEiutjpNGfJcMqdZBOMYLmVXe+fVQFRYSxM7t6T9EynV/wKW/58Y50oBXk2gZX/Eq8cdtSm81z/o=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.27; Tue, 23 Mar
- 2021 13:48:01 +0000
+ 2021 13:48:02 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 13:48:01 +0000
+ 13:48:02 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, den@openvz.org, vsementsov@virtuozzo.com,
- mreitz@redhat.com, John Snow <jsnow@redhat.com>
-Subject: [PATCH v3 2/9] simplebench: bench_one(): support count=1
-Date: Tue, 23 Mar 2021 16:47:27 +0300
-Message-Id: <20210323134734.72930-3-vsementsov@virtuozzo.com>
+ mreitz@redhat.com
+Subject: [PATCH v3 3/9] simplebench/bench-backup: add --compressed option
+Date: Tue, 23 Mar 2021 16:47:28 +0300
+Message-Id: <20210323134734.72930-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210323134734.72930-1-vsementsov@virtuozzo.com>
 References: <20210323134734.72930-1-vsementsov@virtuozzo.com>
@@ -65,52 +65,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.202) by
  HE1PR05CA0184.eurprd05.prod.outlook.com (2603:10a6:3:f8::32) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 13:48:00 +0000
+ 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 13:48:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 633aa85c-a91e-4299-0232-08d8ee024650
+X-MS-Office365-Filtering-Correlation-Id: 1e4b02be-cc73-4f6d-e859-08d8ee0246f5
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4070:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB40706DB312FA4CA1CC82C41BC1649@AM6PR08MB4070.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4070085D0DB07C2C51ABD1FEC1649@AM6PR08MB4070.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: v5m5QoXkPRdCakie7ncWUjVcFyqvmuxNU5qnUN4LxvofmQvwPL8LMwSw5oZDzpJFLOtYdJFqgBSXlt1ZUTXZMQ3u2TvS8b717bwYkEtxZFWiw5cLrthmxoGqYo5TITYMLNWMO43RKn0goJcosCaSFOnd8NR6HhkJa3N0XFCJtj/ImbM5YSP32mh5fYnGPFrt0wNbW0xM9Ks8xtQNqEuyi0h6D/rOnKbLu4jwU8hIclZGJbGY66XV5DTKD2dbPBITYgarFF9VsNeAYKTiRvMfs6zLNB7a7m7AzO/StQVQFb2GOOGOVKMpL45Lat1D9K17J7lF1YKzgtEOgqBhHONKfuaRuL17vIEirTA1PWyDeDr7V8MIjyueUkYDuZaik6UOidCxGMKlcfS5aVKLYr2IA4HN0jD6ivwT9BQI8FCjkGXju4dA0maEYwAmYoW5qJi7xa0EqkzEV7GMYV9Txe61wtnvVaWh2fwc984F8Q9r8c+f6B1EqUlWRpWMu7Lub7t8CAr/gXrQIrVCeKecrcCFVc3WZwMFGkEU3TsjklY8UFuHHPj9gmPAAB2HdRovRSl/B9SpHXMUDbLEyyAzRj+kNVh2bJPRiRntBMRJramHErh1gwGoCBwm1WhxYOv5b8e2gwY86jqXQDNLfaDZuCPsxmD0tt2kVzaEIgM5vFQ27pPNtfF4jhtPeVjxm3k8HLUz
+X-Microsoft-Antispam-Message-Info: JheQdQoDkOrGtFVN8ISLrt8czTRFIYarMuXEvWjTiOitBUHNbD2TApjiXX97iqDsZKv671FgtSVFQIvqybkIOzl3FbWjHj3+Nvz+k+freVPR9Q4n8G5ovSoVkFCYCCadXOVqJG4iV7Daf++0Gzr/uRHkIVjqXbxxS3Nnq99vvBTh6Ks6i9sN9W2XtWdy3TsOn0OwPYBeIJq2W2QfMWZC8OqhYs4mwqfnocEHA4Zo3D/v2gyzv7LRk1VPURwQV3rn/WWFPfl/g4wgWr0548USFUPpuJn/IbQVFhK98Q7n49fe3Vrq6iq1QZdBbYvCc2HYFgwepZYUqiz3g6PKJzFokv1nyr/No7/GCT4520SMxH1wbrYpPsak28pyT7WEeT4pHgfO7mSFrh57iUVariFF24z6lOaAD2KyXpc3exdXufvUVi57FxeHnncKnfOwuwNQm/YMkll/KuzA3yYFEDqgK7a6afwJ1vX/ZF74EWgEZVnE/dLRh/Ii2rfnJjgQXDdCSqJxBER4G47EI6jeH6qZL4aMs6xpmlh6p/yjLhyqtyO61lIMFarHS8HKnUHMRrXZ/3PisS9hwwyWID3z14ZRXGnqG/2DEtwbQQBTOb2stZv9Ua/6E5qyDbcL1bgWlwqScNNLS+tSU9b4UqlX7r3PVD7WxYaqH/SB4Jok6cT8GsKMzugtAnaYj2Q/dtp3mraK
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(376002)(39830400003)(346002)(69590400012)(52116002)(8936002)(6916009)(8676002)(1076003)(66476007)(6506007)(956004)(83380400001)(66946007)(4326008)(6512007)(5660300002)(4744005)(2616005)(36756003)(38100700001)(478600001)(66556008)(316002)(26005)(16526019)(186003)(86362001)(6666004)(6486002)(2906002);
+ SFS:(4636009)(136003)(366004)(396003)(376002)(39830400003)(346002)(69590400012)(52116002)(8936002)(6916009)(8676002)(1076003)(66476007)(6506007)(956004)(83380400001)(66946007)(4326008)(6512007)(5660300002)(2616005)(36756003)(38100700001)(478600001)(66556008)(316002)(26005)(16526019)(186003)(86362001)(6666004)(6486002)(2906002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?lrwWtY5qYSHiyKTvHCDpVn5kzj152n9vj6i3Z8uUqx4gmh59d5vCDYqCRyiy?=
- =?us-ascii?Q?w9i23i15MJOhfcurJIQGIpxXGldbeafFgXf0nJohbGbt00LVaTZVTmk021R7?=
- =?us-ascii?Q?sCXTg8frAaiMmxwFTQkmSzFNqdZ3pjBWCggZRmmZRsJppwFZFZ54IK0AQO2w?=
- =?us-ascii?Q?+rp6GMnriLHTCNA72YE6DwdZdjM88m0NwRDQqNm5w2Eg510Z6LxtSBu6nwYm?=
- =?us-ascii?Q?ooUDck3YyGq+9mBSz2id3s8KtixkqGlDuPTQ9FSV/hOdYbFnwcC0AGMls6hA?=
- =?us-ascii?Q?fkcw8ds7K4biTvYi70+0U/QC2CMGPQ/0lxtERFwB9jpm4sirRYwf4HmUfSJ4?=
- =?us-ascii?Q?diAfeSmeh1jPfsBkinK6jKBPYhFFfRuG+HT9BOlNbiyNhbPryEfdIrnWwO2s?=
- =?us-ascii?Q?DYvtn2+3Ep7kR28FA7aeVPZaT3NrMyBmPdhUgVKkUZltEi1ffoLG44PNMY11?=
- =?us-ascii?Q?gNO2cOHptCKWFUrC6A2/Tpf38QiGB9Y0UUzuShocZqlUsCYPEKke5AOHSRNR?=
- =?us-ascii?Q?GGCyxf62rb096Cgn/aCF2n/IzV6GlI8KCnrkLDRh3T/lW06WtvquECIyjeEF?=
- =?us-ascii?Q?vxpqELjljE81TTsn9l/bJhnrg0mZcNDkH3Smq88ji9x/hQYqrDxG3MYftNSv?=
- =?us-ascii?Q?nc0/bjsGBszC9jg/18k7w2pn8H5YbxZ5Yhv8x0BQqKjVqimFv78D30axVmbe?=
- =?us-ascii?Q?3vecgQ7bw+Zmu6OOfHaigKwlSrw91PcXmYfjv2aLgS3j9YJ68rziFXMhT+bL?=
- =?us-ascii?Q?lky7kbCKA006gFNQttoRzs1GyQ49x2PPtN9Hz6wvZuuf9/2zxaSz7RWVV7Im?=
- =?us-ascii?Q?nBHLE0L6UlKlZJzSiLZQKyeErY5JU/rtHq5jmgZU3oAkDoeEr9PkGk5CiqFu?=
- =?us-ascii?Q?TA0sjTQaKVSziMkZHPc2UlJYDNPOaAN0bcemQpIEmkmNZ3ADc+w0gRzVIycU?=
- =?us-ascii?Q?eV9JT1ys9K7zUHGzJ0p9cn9DmL5eVObrqixg7Y8QBU5rr/R7IiRsPppbbydE?=
- =?us-ascii?Q?RWiaqZaMy9AgvbrEJ6oz2dGWE5l4uZkk6DW44Cf3WR2HIV7VwnvJTsPhw/Gs?=
- =?us-ascii?Q?BR+m4FtjdLgGKqlRfxGdmRRJhach09Gzwl/t13tAq+CfoZfw6If8Kwjn7MGo?=
- =?us-ascii?Q?qLQ17k8c5CfAMfTmMWkSQTPKs8+w2+nZlkOsZLx9ffm4vizktwdtxhNpy3rc?=
- =?us-ascii?Q?KyUd6F3MyUhCgxxrt7VCED+2iUM2BJiguA8VZ2y6BOcpv2Y5voeo0Eo4RMzB?=
- =?us-ascii?Q?v/A1crXl9CHSmhOBg8+GzJ4qQuQUMcZ1a+cBzC9EkUzO8Yf0Xohs5J2ma/zP?=
- =?us-ascii?Q?bsYcfr9GLQTHkEBHgVSHoc/L?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?z4EI8WFCtaSMxoue2YjeI2B8gMlrYS0xCZSxyJjSfDBWNBoyXm14xZWXKtV+?=
+ =?us-ascii?Q?AKDo+fqq2UlAkWS6b7RxJNZbwixSgX7ma+g00TVwiNsz93hZ+1FwLblrV8kX?=
+ =?us-ascii?Q?hIYX6tm0OCUxHdBn8eOFVgF9c9zAiFLDjHWa4d0Slrc9rpEbF1hzqz6MmcGP?=
+ =?us-ascii?Q?ScfSEgJM/sVrwrmzHzL+ohaxS81cyORkZIfDWmWMnDupRX1pp3/vrnLjbDvz?=
+ =?us-ascii?Q?LdMovRPZapmUo/7yMUb1FObMf5i29tJbpbR7AXJcXX6oII095DEU5Zz4LFlm?=
+ =?us-ascii?Q?X9Dke+2L4k65WJTW0IuxYFt7OCw1VQIeS0eV7jf+DmBS961J0vbZQBUTbExl?=
+ =?us-ascii?Q?ysNx0A+2ITsm+GmFWhtm3V++2+Pf0KKz2f46UkYQaFDOLb10ADae5oxALqWn?=
+ =?us-ascii?Q?X1GdMKwVvWgd4S/2XKpL5HluLsXQ0Fh42eQHZYOXULPTGxA4cpVKJtnGos1k?=
+ =?us-ascii?Q?BT/G6+JueaDogTPXxf857rLyiQvhsFQY9SEC606bR/D12pAMld4WQghl8A6r?=
+ =?us-ascii?Q?Sh5KiLNAuPcjBvc9eGW3m7REbLIC7ZyslWPJgHrau481JLKKGBUH851MFAUi?=
+ =?us-ascii?Q?5Y7454pEiAkuo4+kugzEAqvgLMfzWHjMUn+sCNGqaxQPaJM9SiLrBP2SDSwp?=
+ =?us-ascii?Q?z14F+n+MWafpyr5YyTYcAegn7McLCODIRDP0+MresDAl/KzaCmEamfCzurM+?=
+ =?us-ascii?Q?RsMc4l//iBjF0ufEssdl25K+xtFnXfwpdg7LuxswhyPaBRt6voKGT3Vlvgr7?=
+ =?us-ascii?Q?sbq888V2ToZDo02Kj8tZ38ij1elU63e8V5WGedvTzyjTV3DlZ4xzWQKcQbzI?=
+ =?us-ascii?Q?KaMD+QLuAPF0tM4VK7YdhvxOGihpZja8rMYI4M0RCFmeFjMvXkQ02qpzWir1?=
+ =?us-ascii?Q?/ggeSV4lq8rUZAlaNC3mEbVWfewAMNDaTRujRHY7znHC8k56CckutsLx01g5?=
+ =?us-ascii?Q?X0zlb8MV2YqOH5CBdOhktBeY5ILJqkv0ifzRP1EX4tJBs+9g3qNSZkUJf+X5?=
+ =?us-ascii?Q?BAVp0WOdrQYrT3XaXM+ys7kBLq/GAiBQ8zwMZKsdj7e+bTANKHQTfUweWv8N?=
+ =?us-ascii?Q?Jzyaiq6F+hWfp4EueBO4IZF5wT0eJLiKD/mB8Z5768mgLOg5x7B//CCj+IzY?=
+ =?us-ascii?Q?2u9K0g80R4wOX29Xm7tU5ICtR6lOz1+j/zwnyWpJG0kNyOLYn22yZfPiFr9x?=
+ =?us-ascii?Q?Frv/oAl9MOS/sCHG9ePcU57ttAgzA0vpldwa4ZBM217/YyAHhs8HptvHlWYU?=
+ =?us-ascii?Q?OtII2FAzyRaHALOntMg3of0jMB+ryO6q1WV6rF7yZ7M9TcoMvL2M7NtzPSr3?=
+ =?us-ascii?Q?8JYxWe5tTPjNUuNL+KPVMjf4?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 633aa85c-a91e-4299-0232-08d8ee024650
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e4b02be-cc73-4f6d-e859-08d8ee0246f5
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 13:48:01.1601 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 13:48:02.3141 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1I39fJfuzPLgsknEEvrwGIgbLnRZIiwcqfm5fKIQEZ4RvCLU2XJqUbdpI5kbLWyn0UrXmWHnF3X0hunYVdDCNsNe3PeYzIzYLUKVaY0eNuY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EQzPCDrIIhJGZo+To5RQ57A7foLxo+SSoCFrzMX6z6ix2Bhs26b0LwPUYfxr1k7c6jT5x6gjMCofVFi4m05qUvfE3SDhmyN2ziKSeebjzak=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4070
 Received-SPF: pass client-ip=40.107.13.102;
  envelope-from=vsementsov@virtuozzo.com;
@@ -137,31 +137,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-statistics.stdev raises if sequence length is less than two. Support
-that case by hand.
+Allow bench compressed backup.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- scripts/simplebench/simplebench.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/simplebench/bench-backup.py    | 55 ++++++++++++++++++--------
+ scripts/simplebench/bench_block_job.py | 23 +++++++++++
+ 2 files changed, 62 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/simplebench/simplebench.py b/scripts/simplebench/simplebench.py
-index 0a3035732c..27bc4d4715 100644
---- a/scripts/simplebench/simplebench.py
-+++ b/scripts/simplebench/simplebench.py
-@@ -83,7 +83,10 @@ def bench_one(test_func, test_env, test_case, count=5, initial_run=True,
-             dim = 'seconds'
-         result['dimension'] = dim
-         result['average'] = statistics.mean(r[dim] for r in succeeded)
--        result['stdev'] = statistics.stdev(r[dim] for r in succeeded)
-+        if len(succeeded) == 1:
-+            result['stdev'] = 0
-+        else:
-+            result['stdev'] = statistics.stdev(r[dim] for r in succeeded)
+diff --git a/scripts/simplebench/bench-backup.py b/scripts/simplebench/bench-backup.py
+index 33a1ecfefa..72eae85bb1 100755
+--- a/scripts/simplebench/bench-backup.py
++++ b/scripts/simplebench/bench-backup.py
+@@ -23,7 +23,7 @@
  
-     if len(succeeded) < count:
-         result['n-failed'] = count - len(succeeded)
+ import simplebench
+ from results_to_text import results_to_text
+-from bench_block_job import bench_block_copy, drv_file, drv_nbd
++from bench_block_job import bench_block_copy, drv_file, drv_nbd, drv_qcow2
+ 
+ 
+ def bench_func(env, case):
+@@ -37,29 +37,41 @@ def bench_func(env, case):
+ def bench(args):
+     test_cases = []
+ 
+-    sources = {}
+-    targets = {}
+-    for d in args.dir:
+-        label, path = d.split(':')  # paths with colon not supported
+-        sources[label] = drv_file(path + '/test-source')
+-        targets[label] = drv_file(path + '/test-target')
++    # paths with colon not supported, so we just split by ':'
++    dirs = dict(d.split(':') for d in args.dir)
+ 
++    nbd_drv = None
+     if args.nbd:
+         nbd = args.nbd.split(':')
+         host = nbd[0]
+         port = '10809' if len(nbd) == 1 else nbd[1]
+-        drv = drv_nbd(host, port)
+-        sources['nbd'] = drv
+-        targets['nbd'] = drv
++        nbd_drv = drv_nbd(host, port)
+ 
+     for t in args.test:
+         src, dst = t.split(':')
+ 
+-        test_cases.append({
+-            'id': t,
+-            'source': sources[src],
+-            'target': targets[dst]
+-        })
++        if src == 'nbd' and dst == 'nbd':
++            raise ValueError("Can't use 'nbd' label for both src and dst")
++
++        if (src == 'nbd' or dst == 'nbd') and not nbd_drv:
++            raise ValueError("'nbd' label used but --nbd is not given")
++
++        if src == 'nbd':
++            source = nbd_drv
++        else:
++            source = drv_file(dirs[src] + '/test-source')
++
++        if dst == 'nbd':
++            test_cases.append({'id': t, 'source': source, 'target': nbd_drv})
++            continue
++
++        fname = dirs[dst] + '/test-target'
++        if args.compressed:
++            fname += '.qcow2'
++        target = drv_file(fname)
++        if args.compressed:
++            target = drv_qcow2(target)
++        test_cases.append({'id': t, 'source': source, 'target': target})
+ 
+     binaries = []  # list of (<label>, <path>, [<options>])
+     for i, q in enumerate(args.env):
+@@ -106,6 +118,13 @@ def bench(args):
+             elif opt.startswith('max-workers='):
+                 x_perf['max-workers'] = int(opt.split('=')[1])
+ 
++        backup_options = {}
++        if x_perf:
++            backup_options['x-perf'] = x_perf
++
++        if args.compressed:
++            backup_options['compress'] = True
++
+         if is_mirror:
+             assert not x_perf
+             test_envs.append({
+@@ -117,7 +136,7 @@ def bench(args):
+             test_envs.append({
+                 'id': f'backup({label})\n' + '\n'.join(opts),
+                 'cmd': 'blockdev-backup',
+-                'cmd-options': {'x-perf': x_perf} if x_perf else {},
++                'cmd-options': backup_options,
+                 'qemu-binary': path
+             })
+ 
+@@ -163,5 +182,9 @@ def __call__(self, parser, namespace, values, option_string=None):
+     p.add_argument('--test', nargs='+', help='''\
+ Tests, in form source-dir-label:target-dir-label''',
+                    action=ExtendAction)
++    p.add_argument('--compressed', help='''\
++Use compressed backup. It automatically means
++automatically creating qcow2 target with
++lazy_refcounts for each test run''', action='store_true')
+ 
+     bench(p.parse_args())
+diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
+index 7332845c1c..08f86ed9c1 100755
+--- a/scripts/simplebench/bench_block_job.py
++++ b/scripts/simplebench/bench_block_job.py
+@@ -21,6 +21,7 @@
+ 
+ import sys
+ import os
++import subprocess
+ import socket
+ import json
+ 
+@@ -77,11 +78,29 @@ def bench_block_job(cmd, cmd_args, qemu_args):
+     return {'seconds': (end_ms - start_ms) / 1000000.0}
+ 
+ 
++def get_image_size(path):
++    out = subprocess.run(['qemu-img', 'info', '--out=json', path],
++                         stdout=subprocess.PIPE, check=True).stdout
++    return json.loads(out)['virtual-size']
++
++
+ # Bench backup or mirror
+ def bench_block_copy(qemu_binary, cmd, cmd_options, source, target):
+     """Helper to run bench_block_job() for mirror or backup"""
+     assert cmd in ('blockdev-backup', 'blockdev-mirror')
+ 
++    if target['driver'] == 'qcow2':
++        try:
++            os.remove(target['file']['filename'])
++        except OSError:
++            pass
++
++        subprocess.run(['qemu-img', 'create', '-f', 'qcow2',
++                        target['file']['filename'],
++                        str(get_image_size(source['filename']))],
++                       stdout=subprocess.DEVNULL,
++                       stderr=subprocess.DEVNULL, check=True)
++
+     source['node-name'] = 'source'
+     target['node-name'] = 'target'
+ 
+@@ -106,6 +125,10 @@ def drv_nbd(host, port):
+             'server': {'type': 'inet', 'host': host, 'port': port}}
+ 
+ 
++def drv_qcow2(file):
++    return {'driver': 'qcow2', 'file': file}
++
++
+ if __name__ == '__main__':
+     import sys
+ 
 -- 
 2.29.2
 
