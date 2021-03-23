@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE14345E9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:56:39 +0100 (CET)
-Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489BC345EA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:56:47 +0100 (CET)
+Received: from localhost ([::1]:50334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOgaM-0004Nx-D2
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47902)
+	id 1lOgaU-0004eg-B8
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:56:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lOgYm-0002uk-5e; Tue, 23 Mar 2021 08:55:00 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:63657)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOgYq-00031x-EJ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:55:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lOgYj-00043S-3o; Tue, 23 Mar 2021 08:54:59 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EE7F3746353;
- Tue, 23 Mar 2021 13:54:51 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B3577746344; Tue, 23 Mar 2021 13:54:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B16FC74632F;
- Tue, 23 Mar 2021 13:54:51 +0100 (CET)
-Date: Tue, 23 Mar 2021 13:54:51 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 1/8] vt82c686: Implement control of serial port io
- ranges via config regs
-In-Reply-To: <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
-Message-ID: <a112d264-7540-9e4b-bc10-fe8e4518d828@eik.bme.hu>
-References: <cover.1615345138.git.balaton@eik.bme.hu>
- <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOgYn-00048U-JR
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:55:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616504100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j7lX9vxYrnarPLPh7yoZb2Jnt9xNUsYjqCkCd8C1I1c=;
+ b=XNmKCVCtX3Rn9CkV70Y6sbabZaGgpgzQFG97I3eCjFmKBMZ/6Jd0SdDy2vJMu80Pyjrgvf
+ 2kVqaocyDKQPWlcUiFK6fPprE3fJSD/509C9R+WfRNcxnbgSvaCt9reHkrtVTwvwO9KURy
+ R6z9tzwtzg9FKNVaHUABcfvddzHxF94=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-Z364NCLtMFeH-iY-cdVw7g-1; Tue, 23 Mar 2021 08:54:59 -0400
+X-MC-Unique: Z364NCLtMFeH-iY-cdVw7g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E6A8107B7C3;
+ Tue, 23 Mar 2021 12:54:58 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C6BA5D6AD;
+ Tue, 23 Mar 2021 12:54:54 +0000 (UTC)
+Subject: Re: [PATCH 02/28] tests/qapi-schema: Drop redundant flat-union-inline
+ test
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-3-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <427756d5-0745-6a1f-4a75-305806a58251@redhat.com>
+Date: Tue, 23 Mar 2021 08:54:54 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210323094025.3569441-3-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,174 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, f4bug@amsat.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Mar 2021, BALATON Zoltan wrote:
-> In VIA super south bridge the io ranges of superio components
-> (parallel and serial ports and FDC) can be controlled by superio
-> config registers to set their base address and enable/disable them.
-> This is not easy to implement in QEMU because ISA emulation is only
-> designed to set io base address once on creating the device and io
-> ranges are registered at creation and cannot easily be disabled or
-> moved later.
->
-> In this patch we hack around that but only for serial ports because
-> those have a single io range at port base that's relatively easy to
-> handle and it's what guests actually use and set address different
-> than the default.
->
-> We do not attempt to handle controlling the parallel and FDC regions
-> because those have multiple io ranges so handling them would be messy
-> and guests either don't change their deafult or don't care. We could
-> even get away with disabling and not emulating them, but since they
-> are already there, this patch leaves them mapped at their default
-> address just in case this could be useful for a guest in the future.
->
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On 3/23/21 5:39 AM, Markus Armbruster wrote:
+> flat-union-inline.json covers longhand branch definition with an
+> invalid type value.  It's redundant: longhand branch definition is
+> covered by flat-union-inline-invalid-dict.json, and invalid type value
+> is covered by nested-struct-data.json.  Drop the test.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Could this patch be reviewed now please? I've dropped it from later 
-versions to avoid this holding back the series but now that it won't be in 
-6.0 I'd like to go back to this. This is implementing the behaviour of the 
-real hardware better than the unsettable default value we have as a 
-replacement. That approach also works for the guests I've tried (MorphOS 
-and Linux) but if we can do better than why not do it?
+If you feel it's redundant, I trust your judge?ment here.
 
-Regards,
-BALATON Zoltan
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 > ---
-> hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
-> 1 file changed, 82 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 05d084f698..a3353ec5db 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
-> typedef struct SuperIOConfig {
->     uint8_t regs[0x100];
->     MemoryRegion io;
-> +    ISASuperIODevice *superio;
-> +    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
-> } SuperIOConfig;
->
-> +static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
-> +                                    int offs)
-> +{
-> +    MemoryRegion *subregion, *mr = NULL;
-> +
-> +    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
-> +        if (subregion->addr == offs) {
-> +            mr = subregion;
-> +            break;
-> +        }
-> +    }
-> +    return mr;
-> +}
-> +
-> static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->                               unsigned size)
-> {
-> @@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->     case 0xfd ... 0xff:
->         /* ignore write to read only registers */
->         return;
-> -    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-> +    case 0xe2:
-> +    {
-> +        data &= 0x1f;
-> +        if (data & BIT(2)) { /* Serial port 1 enable */
-> +            ISADevice *dev = sc->superio->serial[0];
-> +            if (!memory_region_is_mapped(sc->serial_io[0])) {
-> +                memory_region_add_subregion(isa_address_space_io(dev),
-> +                                            dev->ioport_id, sc->serial_io[0]);
-> +            }
-> +        } else {
-> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
-> +            if (memory_region_is_mapped(sc->serial_io[0])) {
-> +                memory_region_del_subregion(io, sc->serial_io[0]);
-> +            }
-> +        }
-> +        if (data & BIT(3)) { /* Serial port 2 enable */
-> +            ISADevice *dev = sc->superio->serial[1];
-> +            if (!memory_region_is_mapped(sc->serial_io[1])) {
-> +                memory_region_add_subregion(isa_address_space_io(dev),
-> +                                            dev->ioport_id, sc->serial_io[1]);
-> +            }
-> +        } else {
-> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
-> +            if (memory_region_is_mapped(sc->serial_io[1])) {
-> +                memory_region_del_subregion(io, sc->serial_io[1]);
-> +            }
-> +        }
-> +        break;
-> +    }
-> +    case 0xe7: /* Serial port 1 io base address */
-> +    {
-> +        data &= 0xfe;
-> +        sc->superio->serial[0]->ioport_id = data << 2;
-> +        if (memory_region_is_mapped(sc->serial_io[0])) {
-> +            memory_region_set_address(sc->serial_io[0], data << 2);
-> +        }
-> +        break;
-> +    }
-> +    case 0xe8: /* Serial port 2 io base address */
-> +    {
-> +        data &= 0xfe;
-> +        sc->superio->serial[1]->ioport_id = data << 2;
-> +        if (memory_region_is_mapped(sc->serial_io[1])) {
-> +            memory_region_set_address(sc->serial_io[1], data << 2);
-> +        }
-> +        break;
-> +    }
->     default:
->         qemu_log_mask(LOG_UNIMP,
->                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
-> @@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->     DeviceState *dev = DEVICE(d);
->     ISABus *isa_bus;
->     qemu_irq *isa_irq;
-> +    ISASuperIOClass *ic;
->     int i;
->
->     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> @@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
->     i8254_pit_init(isa_bus, 0x40, 0, NULL);
->     i8257_dma_init(isa_bus, 0);
-> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-> +    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
-> +                                                      TYPE_VT82C686B_SUPERIO));
-> +    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
->     mc146818_rtc_init(isa_bus, 2000, NULL);
->
->     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> @@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->      */
->     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
->                                 &s->superio_cfg.io);
-> +
-> +    /* Grab io regions of serial devices so we can control them */
-> +    for (i = 0; i < ic->serial.count; i++) {
-> +        ISADevice *sd = s->superio_cfg.superio->serial[i];
-> +        MemoryRegion *io = isa_address_space_io(sd);
-> +        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
-> +        if (!mr) {
-> +            error_setg(errp, "Could not get io region for serial %d", i);
-> +            return;
-> +        }
-> +        s->superio_cfg.serial_io[i] = mr;
-> +        if (memory_region_is_mapped(mr)) {
-> +            memory_region_del_subregion(io, mr);
-> +        }
-> +    }
-> }
->
-> static void via_class_init(ObjectClass *klass, void *data)
->
+>   tests/qapi-schema/flat-union-inline.err  |  2 --
+>   tests/qapi-schema/flat-union-inline.json | 11 -----------
+>   tests/qapi-schema/flat-union-inline.out  |  0
+>   tests/qapi-schema/meson.build            |  1 -
+>   4 files changed, 14 deletions(-)
+>   delete mode 100644 tests/qapi-schema/flat-union-inline.err
+>   delete mode 100644 tests/qapi-schema/flat-union-inline.json
+>   delete mode 100644 tests/qapi-schema/flat-union-inline.out
+> 
+> diff --git a/tests/qapi-schema/flat-union-inline.err b/tests/qapi-schema/flat-union-inline.err
+> deleted file mode 100644
+> index 538283f5db..0000000000
+> --- a/tests/qapi-schema/flat-union-inline.err
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -flat-union-inline.json: In union 'TestUnion':
+> -flat-union-inline.json:7: 'data' member 'value1' should be a type name
+> diff --git a/tests/qapi-schema/flat-union-inline.json b/tests/qapi-schema/flat-union-inline.json
+> deleted file mode 100644
+> index a9b3ce3f0d..0000000000
+> --- a/tests/qapi-schema/flat-union-inline.json
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -# we require branches to be a struct name
+> -# TODO: should we allow anonymous inline branch types?
+> -{ 'enum': 'TestEnum',
+> -  'data': [ 'value1', 'value2' ] }
+> -{ 'struct': 'Base',
+> -  'data': { 'enum1': 'TestEnum', 'kind': 'str' } }
+> -{ 'union': 'TestUnion',
+> -  'base': 'Base',
+> -  'discriminator': 'enum1',
+> -  'data': { 'value1': { 'type': {} },
+> -            'value2': { 'integer': 'int' } } }
+> diff --git a/tests/qapi-schema/flat-union-inline.out b/tests/qapi-schema/flat-union-inline.out
+> deleted file mode 100644
+> index e69de29bb2..0000000000
+> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+> index 304ef939bd..d5fa035507 100644
+> --- a/tests/qapi-schema/meson.build
+> +++ b/tests/qapi-schema/meson.build
+> @@ -111,7 +111,6 @@ schemas = [
+>     'flat-union-clash-member.json',
+>     'flat-union-discriminator-bad-name.json',
+>     'flat-union-empty.json',
+> -  'flat-union-inline.json',
+>     'flat-union-inline-invalid-dict.json',
+>     'flat-union-int-branch.json',
+>     'flat-union-invalid-branch-key.json',
+> 
+
 
