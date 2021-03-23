@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E550346DD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:20:47 +0100 (CET)
-Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A73346DC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:16:24 +0100 (CET)
+Received: from localhost ([::1]:56960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOqKM-0008G6-II
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38386)
+	id 1lOqG7-0001Ow-CZ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOqEC-000898-HE; Tue, 23 Mar 2021 19:14:24 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOqEB-0004vr-1d; Tue, 23 Mar 2021 19:14:24 -0400
-Received: by mail-wr1-x435.google.com with SMTP id z2so22552625wrl.5;
- Tue, 23 Mar 2021 16:14:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3a+HGyI7KD3Ew+RNtm2N2A+m/+QQ+Xa+aHzvmMpU2j8=;
- b=SkxObxIQxeD5qsuG0LUtPT+ZQe0sGbsBkDCFCA9p4SIgVXXKVlQjT7vyk1qJLrrEMH
- 6yU7Ryk2IoWxI/YeHCWsoK7sJScHbF9V1tz6uoZwqskpkEUcDSRWZ98ZCZwcjxGrKIY3
- TIALF3N3HQdJOlhXDEPkUw2W7h1AU4UwMngW0w56ZTswL+kI8bs2Z71zjZQ6CqQ1iiCv
- YLWNHNhxKOtysGMIErFkPcOj4D1lMPOzBWJ3RxDA2HrsXhT/EgEzfMDQpgM0jXU2Uhfn
- 7B8AwHkPrZk25ptlkdpL5xEtpmf+WJbGodUGqNHvHHDLYJO1tMbICXd7hpr79LXmd+72
- eSIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3a+HGyI7KD3Ew+RNtm2N2A+m/+QQ+Xa+aHzvmMpU2j8=;
- b=Ehdrl36PVKavgf+FSnQMlataQvwNHJ2deb6Nhqcel+t8nUbWyzqfWjWOYcgO5j2VyH
- sZDJE/eAkYquJD3Z4AcoOTLl6HbEGM13ixS994zdjUG4+Yhl4rFOCrz46Nab/M1FQBLZ
- /uQz3GedircEZUjIVjG6Z9UXEdSTxukrgU7i4HTc8tp2zT6qnDmNVmU3vkw9VO8c7m4y
- R913Wg+r6IIWP6gcJp2Pb0ThpKr7OwXMmcqSxJnnnZnG7kHQzJ5nuWyU005dQ1QKvVNw
- NOTB7m3ghbkrE8Ju0jMbgVp5isDbYGGY7mO7vEcO+2eBX84dPyD+rAJffPvkwmgtlOLD
- kY8Q==
-X-Gm-Message-State: AOAM531HGtKvaV6WO680RfxH5dAO8W6BY4NnDn4KNGTFKo0lxUKXoel4
- SFiBVoqsaXkkckDCr3LousU/tDkAwOJA+A==
-X-Google-Smtp-Source: ABdhPJyYKc0C5evaS3iWXj+2CWlFoUvA2EpnS08gh7bRTgeEc6Y8e2hChepYD/RuFDuwkf73YSVZRg==
-X-Received: by 2002:adf:fb42:: with SMTP id c2mr289901wrs.83.1616541261203;
- Tue, 23 Mar 2021 16:14:21 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id z2sm475865wrv.47.2021.03.23.16.14.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 16:14:20 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] hw/isa/vt82c686: Name output IRQ as 'intr'
-Date: Wed, 24 Mar 2021 00:13:56 +0100
-Message-Id: <20210323231358.396520-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210323231358.396520-1-f4bug@amsat.org>
-References: <20210323231358.396520-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lOqDx-0007jo-Eg; Tue, 23 Mar 2021 19:14:09 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:21056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lOqDt-0004lY-JJ; Tue, 23 Mar 2021 19:14:08 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4E4147462BD;
+ Wed, 24 Mar 2021 00:13:57 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 16E1A74581E; Wed, 24 Mar 2021 00:13:57 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1301C7456E3;
+ Wed, 24 Mar 2021 00:13:57 +0100 (CET)
+Date: Wed, 24 Mar 2021 00:13:57 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v7 1/8] vt82c686: Implement control of serial port io
+ ranges via config regs
+In-Reply-To: <ef7a0bc6-3150-2f16-492f-5138fcee0b52@ilande.co.uk>
+Message-ID: <46fd3c7b-3211-47d7-ac1c-b82d322f52f6@eik.bme.hu>
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
+ <a112d264-7540-9e4b-bc10-fe8e4518d828@eik.bme.hu>
+ <ef7a0bc6-3150-2f16-492f-5138fcee0b52@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,52 +58,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Huacai Chen <chenhuacai@kernel.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Named IRQs are easier to understand in the monitor.
-Name the single output interrupt as 'intr'.
+On Tue, 23 Mar 2021, Mark Cave-Ayland wrote:
+> On 23/03/2021 12:54, BALATON Zoltan wrote:
+>> On Wed, 10 Mar 2021, BALATON Zoltan wrote:
+>>> In VIA super south bridge the io ranges of superio components
+>>> (parallel and serial ports and FDC) can be controlled by superio
+>>> config registers to set their base address and enable/disable them.
+>>> This is not easy to implement in QEMU because ISA emulation is only
+>>> designed to set io base address once on creating the device and io
+>>> ranges are registered at creation and cannot easily be disabled or
+>>> moved later.
+>>> 
+>>> In this patch we hack around that but only for serial ports because
+>>> those have a single io range at port base that's relatively easy to
+>>> handle and it's what guests actually use and set address different
+>>> than the default.
+>>> 
+>>> We do not attempt to handle controlling the parallel and FDC regions
+>>> because those have multiple io ranges so handling them would be messy
+>>> and guests either don't change their deafult or don't care. We could
+>>> even get away with disabling and not emulating them, but since they
+>>> are already there, this patch leaves them mapped at their default
+>>> address just in case this could be useful for a guest in the future.
+>>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> 
+>> Could this patch be reviewed now please? I've dropped it from later 
+>> versions to avoid this holding back the series but now that it won't be in 
+>> 6.0 I'd like to go back to this. This is implementing the behaviour of the 
+>> real hardware better than the unsettable default value we have as a 
+>> replacement. That approach also works for the guests I've tried (MorphOS 
+>> and Linux) but if we can do better than why not do it?
+>
+> Do bear in mind that several people have already looked at this patch and 
+> haven't felt comfortable enough to review it, and I've also said in a
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/isa/vt82c686.c   | 2 +-
- hw/mips/fuloong2e.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I haven't heard back from many people (mostly only Philippe and you and 
+maybe David looked at it but I did not expect him to review it as it's not 
+his area) so I had the impression nobody cared or had time to look at it. 
+That's why I've raised this again to get a clear answer about it. Now that 
+at least you dislike this patch it's good enough reason to drop it for now 
+and go with the default value instead until a guest is found to need this 
+functionality.
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 05d084f6982..87473ec121f 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -387,7 +387,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     qemu_irq *isa_irq;
-     int i;
- 
--    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-+    qdev_init_gpio_out_named(dev, &s->cpu_intr, "intr", 1);
-     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-     isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-                           &error_fatal);
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 4f61f2c873b..931385c760f 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -206,7 +206,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
- 
-     dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
-                                           TYPE_VT82C686B_ISA);
--    qdev_connect_gpio_out(DEVICE(dev), 0, intc);
-+    qdev_connect_gpio_out_named(DEVICE(dev), "intr", 0, intc);
- 
-     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-     pci_ide_create_devs(dev);
--- 
-2.26.2
+> previous email that this isn't the right approach. Given that the ISA bus 
+> partly uses the ioport address to reference the device, manually moving the 
+> memory regions around for devices on the bus without the ISA bus seeing those 
+> changes is going to cause issues.
 
+The ioport_id you refer to is only used to print device name so the only 
+issue is that the device may be currently mapped to a different address 
+than its name might suggest when you query it but that should not break 
+any functionality so maybe only cosmetic. The current ISA bus emulation in 
+QEMU does not care about ISA devices after they are created, they are just 
+initialised once and then the bus seems to forget about them. At least 
+there are no functions to enable/disable or control them afterwards, only 
+to register them at startup. So it's static and does not allow dynamically 
+changing devices like we have in these VTxxx chips. (By the way, this is 
+the same problem via-ide has that required hacks instead of actually 
+emulating what the chip does because we can't have both ISA IDE and PCI 
+IDE as the ISA one cannot be moved or disabled once created.) That's what 
+this patch tried to circumvent at least for serial ports but without 
+completly changing ISA emulation which might be a better approach but well 
+beyond the effort I'm willing to put into this.
+
+> IIRC the ability to dynamically change the standard ISA addresses was present 
+> in several motherboards from that era, and given that this functionality 
+> hasn't been implemented in QEMU this already tells us that no firmware is 
+> currently is using it.
+
+QEMU only supports SeaBIOS and on PC the ports are usually at their 
+default address at startup so it's probably not firmware but guests that 
+could change it. I don't know what other BIOSes might do as those don't 
+run on QEMU. But these VTxxx chips are not used on PC machine models. The 
+fuloong2e PMON and pegasos2 SmartFirtmware seem to poke the regs enabling 
+and setting port address of these at startup (otherwise the chip seems to 
+start without these enabled) so I've tried to emulate that. On pegasos2 it 
+even uses different than usual standard value (as it only has one serial 
+port) and guests boot with that so we can use that default. It's not 
+exactly how the real device works but satisfies guests that rely on 
+firmware to set up these and don't touch it later.
+
+> I don't understand why using the hard-coded addresses in the v10 is a problem 
+> here? The addresses you added in the comments representing the programmed 
+> values are the standard ISA device addresses, so if those are what the 
+> firmware is programming then there will be no change. You also reported that 
+> it works fine with both your MorphOS and Linux test images, indicating that 
+> neither of these guest OSs require the feature.
+
+For now the default address will do until a guest is found actually 
+needing this. I just wanted to salvage this patch before dismissing it 
+without a good reason.
+
+> If you find a guest OS that needs the functionality then certainly we can 
+> talk about trying to come up with a solution, but for me the extra complexity 
+> of this approach and the fact that you're overriding the management of the 
+> device by the ISA bus is why I haven't given it a R-B tag (I should add that 
+> my R-B for v10 using the hard-coded ISA addresses still stands).
+
+OK then forget it, at least this is a clear vote against this patch and if 
+others don't care that means it should be dropped. Thanks for explaining 
+it again.
+
+Regards,
+BALATON Zoltan
 
