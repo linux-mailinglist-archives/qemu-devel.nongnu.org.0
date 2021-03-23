@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A8C346DE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:36:26 +0100 (CET)
-Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4172C346DC5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:16:16 +0100 (CET)
+Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOqZU-00030v-Vm
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:36:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44016)
+	id 1lOqFy-0001EJ-TB
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:16:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOqXZ-0001Xm-EU; Tue, 23 Mar 2021 19:34:27 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36325 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOqXW-0006GZ-0Z; Tue, 23 Mar 2021 19:34:24 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F4nks5Q1fz9sVb; Wed, 24 Mar 2021 10:34:13 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616542453;
- bh=SfSc3hw3U0Ry9jXuE55RNexm4vktny9CHDg1qyjVAVc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NNLa1IAxBA8o9E+mxXUzpF0aKwLF6btStKBi6EKUOk6zPjkOILnqV8Vv4v/grvxGw
- Sv/QmzYavBKp03NNMBkupOoI0tb1OaSLtMxhkllkTGy8t8b79BvKLkMYLw323qilPu
- DMlYIzR4psab/hftNUvBbTB7YKb7C2hbWrV+Cl/E=
-Date: Wed, 24 Mar 2021 10:09:59 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 08/13] blobs: Only install blobs if powerpc system
- targets are built
-Message-ID: <YFp1R/aPG0nMlztU@yekko.fritz.box>
-References: <20210323155132.238193-1-f4bug@amsat.org>
- <20210323155132.238193-9-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOqDu-0007fV-NV; Tue, 23 Mar 2021 19:14:06 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOqDt-0004n7-AP; Tue, 23 Mar 2021 19:14:06 -0400
+Received: by mail-wr1-x430.google.com with SMTP id x16so22520311wrn.4;
+ Tue, 23 Mar 2021 16:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wcLxVW6lxbwa44z+dCAp47kty5V2tT/anv9mWjQkfQI=;
+ b=A2Mgn8uQDW9ZLyEHCVFOSiaMY+KZR6FNvnl7j7L4OoPaYMHsLsFu6P6rg6ijYk0zgi
+ eHWLnK8FAI7/gvcZgh4Deq8WmhWpWF4zU8URg9pW1Edi+OdnXNgoWHtiNnp9AH2rWJxt
+ wGdPCYPj6KW5emcKGBTXX+LGd4YRwnZ4SbtZ08yCypH4zRK4BSHyDTWJTcvrk8/SPIE6
+ wx+cZlgbfSrt4fiVWyzbdqibGbtmkwgITE5QSqBHsbEylvrmd5MvcudBn4AdbYJ6Y7T3
+ lypJFCi4veHcVlAPKgRDugWICh6/+c7I39c0QUEDEir6zmU4xigia7flqiRvGy3f9gAD
+ dzjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=wcLxVW6lxbwa44z+dCAp47kty5V2tT/anv9mWjQkfQI=;
+ b=kXU3C0bK4ysEJGvNFJj5HELTh2u6aM4Q1T9jpQ0xDljBHVD3jBIF8XNurSOfCvH6qD
+ 4/ukx28wZFcPn93H7NS3CMM5/Ux9pw850z42/IRWif3UN0KWtI3VFDjRl4ol6IUIZT8i
+ 3E4lrS4IL1TsVlFWhPlw82ondZzy0lSd9h1gCOkGH2nfNE9UHMydLePRwSJQYry21SUp
+ lnjJspKXaGQ3RgjirkGiTRrP3/PmlONeCEyhF7H8NNpsykLny/gjm/Wx9jrQ5biYMSKk
+ pGpbKA6t2KplL61/y7p7VK6GGKOmHkycWSH7eB+7JG4dBZj4ltjBYJV2rIt7mWkq8VlO
+ H4jQ==
+X-Gm-Message-State: AOAM530pmHwnFZ9vRgsMeKD9Xk2Zjpu/4FpXgKzvIsf9vzNAnRDAe0Zf
+ F+f3WocWVNYYA28hLeWKV5xHh5qua8d6LQ==
+X-Google-Smtp-Source: ABdhPJy2tPdJTO7rXN2ym6vwStQfduk90zkLmM25BueYT07ThFrW+gqXIDozNIJAsgq9nrCx9I6VnQ==
+X-Received: by 2002:adf:e5cf:: with SMTP id a15mr298723wrn.226.1616541241404; 
+ Tue, 23 Mar 2021 16:14:01 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id u8sm476803wrr.42.2021.03.23.16.14.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 16:14:00 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] hw/isa: Remove unuseful qemu_allocate_irqs() call
+Date: Wed, 24 Mar 2021 00:13:52 +0100
+Message-Id: <20210323231358.396520-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fj1lHCzLlXiZwZX1"
-Content-Disposition: inline
-In-Reply-To: <20210323155132.238193-9-f4bug@amsat.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,142 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---fj1lHCzLlXiZwZX1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Mar 23, 2021 at 04:51:27PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> ---
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: qemu-ppc@nongnu.org
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: Herv=E9 Poussineau <hpoussin@reactos.org>
-> Cc: C=E9dric Le Goater <clg@kaod.org>
-> Cc: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  meson.build         |  2 ++
->  pc-bios/meson.build | 21 +++++++++++++--------
->  2 files changed, 15 insertions(+), 8 deletions(-)
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
->=20
-> diff --git a/meson.build b/meson.build
-> index e3418815b04..6f5561c2212 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -97,6 +97,7 @@
->  install_blobs_arm =3D false
->  install_blobs_hppa =3D false
->  install_blobs_microblaze =3D false
-> +install_blobs_ppc =3D false
->  if get_option('install_blobs')
->    foreach target : target_dirs
->      install_edk2_blobs =3D install_edk2_blobs or target in edk2_targets
-> @@ -104,6 +105,7 @@
->      install_blobs_arm =3D install_blobs_hppa or target in ['arm-softmmu'=
-, 'aarch64-softmmu']
->      install_blobs_hppa =3D install_blobs_hppa or target in ['hppa-softmm=
-u']
->      install_blobs_microblaze =3D install_blobs_microblaze or target in [=
-'microblaze-softmmu', 'microblazeel-softmmu']
-> +    install_blobs_ppc =3D install_blobs_ppc or (target.startswith('ppc')=
- and target.endswith('softmmu'))
->    endforeach
->  endif
-> =20
-> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-> index a6185feff58..73d02a57628 100644
-> --- a/pc-bios/meson.build
-> +++ b/pc-bios/meson.build
-> @@ -43,7 +43,6 @@
->    'vgabios-ati.bin',
->    'openbios-sparc32',
->    'openbios-sparc64',
-> -  'openbios-ppc',
->    'QEMU,tcx.bin',
->    'QEMU,cgthree.bin',
->    'pxe-e1000.rom',
-> @@ -60,8 +59,6 @@
->    'efi-virtio.rom',
->    'efi-e1000e.rom',
->    'efi-vmxnet3.rom',
-> -  'bamboo.dtb',
-> -  'canyonlands.dtb',
->    'multiboot.bin',
->    'linuxboot.bin',
->    'linuxboot_dma.bin',
-> @@ -69,11 +66,6 @@
->    'pvh.bin',
->    's390-ccw.img',
->    's390-netboot.img',
-> -  'slof.bin',
-> -  'skiboot.lid',
-> -  'u-boot.e500',
-> -  'u-boot-sam460-20100605.bin',
-> -  'qemu_vga.ndrv',
->    'opensbi-riscv32-generic-fw_dynamic.bin',
->    'opensbi-riscv64-generic-fw_dynamic.bin',
->    'opensbi-riscv32-generic-fw_dynamic.elf',
-> @@ -111,6 +103,19 @@
->    ))
->  endif
-> =20
-> +if install_blobs_ppc
-> +  blobs_ss.add(files(
-> +    'bamboo.dtb',
-> +    'canyonlands.dtb',
-> +    'openbios-ppc',
-> +    'qemu_vga.ndrv',
-> +    'slof.bin',
-> +    'skiboot.lid',
-> +    'u-boot.e500',
-> +    'u-boot-sam460-20100605.bin',
-> +  ))
-> +endif
-> +
->  blobs_ss =3D blobs_ss.apply(config_host, strict: false)
-> =20
->  if get_option('install_blobs')
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---fj1lHCzLlXiZwZX1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBadUQACgkQbDjKyiDZ
-s5JR4g//eBar2iEQ4JWQ8xjHDIGeBUg6upAi/9ZE1hODrnMIoQntxaYWMMIie8GB
-gwDnYjRP+zHTx9S4F8Kq4ywwlTiXihJ6EQBaPOKYm2jJtWgjcJzKKs8U7MUpp9hq
-uF63KGYUCJaSKGPFxaFEta/Y/Ww9prhDVCySJRIrOKTkPnPfLiE2pW0RNSNPhnEj
-IiHhiHe4N/9bJTrZV6yMnP/n+5QjvtpnzJ5J9psvNzeTLvT8+1P6TUz+kUjLVngN
-JeLcm9ioN92emotga8LsgoMtZArkvqY1vWm54yC0fp+xaxAm8RTfqKdWjON2K2hL
-3nnho60UQyBrY/tKYLMmRFSCqRHY2beMonDS1t++PiK9KaWspUCA3oH2/0w5E3ct
-dC+m5m7yvZ/1yXkoVMaJkhko83U6qagrVY8WTuydUedF//KnU4CJIK8lKFQnNZrY
-x2LWOckRjPbGazoQp95qQ0oPYr0FPSq9vKLluiPjnVIeLmMtF1bZFka3L1z7NR/T
-D1WM4QffnY1V5efFGSOdodn196H3vZR1+Wai2UwPpJSKfeOgfKGeHG5sEL9uJRZB
-Gx6zAzC3ncrtwXek2Rdh2yCEo6qEjhrW5Mn8yITfj1A+gJrkVE/03889vcYQvJFk
-j0i9+qKSKNosDl6iPhrB/y5umhc9+s+dokBePHXQ+uQx6l8GpA8=
-=KUwq
------END PGP SIGNATURE-----
-
---fj1lHCzLlXiZwZX1--
+I started to fix the LeakSanitizer error in piix4_realize(),=0D
+then looked for similar pattern and found 2 other places.=0D
+The older is i82378 (historically the first one) which then=0D
+spread.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  hw/isa/i82378: Name output IRQ as 'intr'=0D
+  hw/isa/i82378: Simplify removing unuseful qemu_allocate_irqs() call=0D
+  hw/isa/i82378: Rename output IRQ variable=0D
+  hw/isa/vt82c686: Name output IRQ as 'intr'=0D
+  hw/isa/vt82c686: Simplify removing unuseful qemu_allocate_irqs() call=0D
+  hw/isa/piix4: Fix leak removing unuseful qemu_allocate_irqs() call=0D
+=0D
+ hw/isa/i82378.c     | 13 +++----------=0D
+ hw/isa/piix4.c      | 10 +---------=0D
+ hw/isa/vt82c686.c   | 12 ++----------=0D
+ hw/mips/fuloong2e.c |  2 +-=0D
+ hw/ppc/prep.c       |  4 ++--=0D
+ 5 files changed, 9 insertions(+), 32 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
