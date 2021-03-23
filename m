@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259F03455A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:43:50 +0100 (CET)
-Received: from localhost ([::1]:54472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4FA3455B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:50:42 +0100 (CET)
+Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOX1I-0002SI-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
+	id 1lOX7x-0003qp-Rx
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1lOX09-00022N-OM
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:42:37 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:35510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1lOX06-0002OP-Hn
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:42:37 -0400
-Received: by mail-io1-xd32.google.com with SMTP id x17so4876871iog.2
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 19:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QkjxFcWGVCfZmB4JEx//RGEKumaffa9UZKlOutV94no=;
- b=MgI2aG9UUWxw6/ZiTFQGZN1EJ2n7uqXqbyuwjNZNdwfwTcxfvra3n8r97Yxpfo25N+
- 7nRPwvJRPhDnMmzxYycpaYrjtGZAPL+5cvYNPhSerDFb1NPwKMYxSj35sexzEAGzMBeX
- ot0hfK8G6j1MvRSGDJgIglvdCwlF9ePZYUaxxUgGkQpjPAaai1BxCOXqRuINzUTiwky4
- VcUEO4Gd5F77iw4Lv2q/CuEdEoI2zYg9eGEIae6EB/ohcQrh791UAEwLqoHQgmxTfXU+
- HkASFrqiQ93Y+0Dv8df5G0tZXKVMiBQIk4LcGCjgZB8UGFqpiMsyWUuM6h7GEsGmNIlP
- 9hNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QkjxFcWGVCfZmB4JEx//RGEKumaffa9UZKlOutV94no=;
- b=J1PZ5gGuoFuhVKPEyYUmMIecKEosNnfsao+uU/84CAoEQtaB6MyyGOluCFGwo42pqV
- 2gx5M8I0dlsmkws4Z3nzuAQXjMLiV05X2g87E/oUHcddQKoj5RtgjKILg6nyQ0dayGtY
- voj5pUlzfEw3cPrNGaoCSgGHDrjaEsAofHtJq6yl6xtqAIvLFQP10lTwfJrwotPqeO38
- EvsY418ER3yeo8jDgtC1Pcq5IULbHOpEbOWLuJuJeb8WLy+OZE1WCIOKe2JIPUjKWUAY
- nkcrDs/QQYWrLR43lyNaFU6RXGUxk1/gT0Y4/v1QIdU18bWwSyacT97VtqjLtlBwpW3a
- Z8Gg==
-X-Gm-Message-State: AOAM533Q56+5AuoNikbpGvomO+QdDt7pYmINodsvhKzR95l8VK1pWL/l
- ULsfZLXXn8am2yKI3YweQO/XDLYt/Se3Hqvt8Ng=
-X-Google-Smtp-Source: ABdhPJzec2DN0MpNcRDN7OoYuRmggxQc9HB8uwO70D3knzwJ+/fQQdOhCtk4fnaaaBrogaN/pUdj63VCtAQZfWiKZnQ=
-X-Received: by 2002:a05:6638:1a6:: with SMTP id
- b6mr2340934jaq.116.1616467352220; 
- Mon, 22 Mar 2021 19:42:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lOX6Z-0003I6-Qe
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:49:15 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lOX6W-0006Oz-Pc
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:49:15 -0400
+Received: from DGGEML404-HUB.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4F4G3z698szYNBG;
+ Tue, 23 Mar 2021 10:47:11 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEML404-HUB.china.huawei.com (10.3.17.39) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 23 Mar 2021 10:49:00 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Tue, 23 Mar 2021 10:48:59 +0800
+Subject: Re: [RFC PATCH 0/3] vfio/migration: Support manual clear vfio dirty
+ log
+To: "Tian, Kevin" <kevin.tian@intel.com>, Alex Williamson
+ <alex.williamson@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Kirti Wankhede" <kwankhede@nvidia.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>, Tarun Gupta
+ <targupta@nvidia.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <20210310094106.2191-1-jiangkunkun@huawei.com>
+ <MWHPR11MB188608DDA524E353866268AE8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <ba20233b-c5c0-cf3f-e4fa-ecb1e054ff54@huawei.com>
+ <MWHPR11MB1886BC40825E4FADA1BFB93F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <fa31ed64-1c6e-f7db-7650-656a22223501@huawei.com>
+ <MWHPR11MB18868922447227A48272039F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <c61b2170-2971-d2c4-29eb-cf1a3885ee0e@huawei.com>
+Date: Tue, 23 Mar 2021 10:48:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210313165445.2113938-1-f4bug@amsat.org>
- <20210313165445.2113938-8-f4bug@amsat.org>
- <CAN6ztm_kaTkbBK7=ALMmMSmShzuOx=S2vUBy2N1D-P__T9um2A@mail.gmail.com>
-In-Reply-To: <CAN6ztm_kaTkbBK7=ALMmMSmShzuOx=S2vUBy2N1D-P__T9um2A@mail.gmail.com>
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Tue, 23 Mar 2021 08:12:06 +0530
-Message-ID: <CAN6ztm9STVjzKRpUY+kaTiz6W06mbwcG7KBVbwdiZ3HnR8mu6Q@mail.gmail.com>
-Subject: Re: [PATCH 07/11] hw/gpio/avr_gpio: Add tracing for reads and writes
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000051f55805be2b223f"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <MWHPR11MB18868922447227A48272039F8C699@MWHPR11MB1886.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,302 +78,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ "shameerali.kolothum.thodi@huawei.com"
+ <shameerali.kolothum.thodi@huawei.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000051f55805be2b223f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2021/3/18 20:36, Tian, Kevin wrote:
+>> From: Kunkun Jiang <jiangkunkun@huawei.com>
+>> Sent: Thursday, March 18, 2021 8:29 PM
+>>
+>> Hi Kevin,
+>>
+>> On 2021/3/18 17:04, Tian, Kevin wrote:
+>>>> From: Kunkun Jiang <jiangkunkun@huawei.com>
+>>>> Sent: Thursday, March 18, 2021 3:59 PM
+>>>>
+>>>> Hi Kevin,
+>>>>
+>>>> On 2021/3/18 14:28, Tian, Kevin wrote:
+>>>>>> From: Kunkun Jiang
+>>>>>> Sent: Wednesday, March 10, 2021 5:41 PM
+>>>>>>
+>>>>>> Hi all,
+>>>>>>
+>>>>>> In the past, we clear dirty log immediately after sync dirty log to
+>>>>>> userspace. This may cause redundant dirty handling if userspace
+>>>>>> handles dirty log iteratively:
+>>>>>>
+>>>>>> After vfio clears dirty log, new dirty log starts to generate. These
+>>>>>> new dirty log will be reported to userspace even if they are generated
+>>>>>> before userspace handles the same dirty page.
+>>>>>>
+>>>>>> Since a new dirty log tracking method for vfio based on iommu
+>> hwdbm[1]
+>>>>>> has been introduced in the kernel and added a new capability named
+>>>>>> VFIO_DIRTY_LOG_MANUAL_CLEAR, we can eliminate some redundant
+>>>> dirty
+>>>>>> handling by supporting it.
+>>>>> Is there any performance data showing the benefit of this new method?
+>>>>>
+>>>> Current dirty log tracking method for VFIO:
+>>>> [1] All pages marked dirty if not all iommu_groups have pinned_scope
+>>>> [2] pinned pages by various vendor drivers if all iommu_groups have
+>>>> pinned scope
+>>>>
+>>>> Both methods are coarse-grained and can not determine which pages are
+>>>> really dirty. Each round may mark the pages that are not really dirty as
+>>>> dirty
+>>>> and send them to the destination. ( It might be better if the range of the
+>>>> pinned_scope was smaller. ) This will result in a waste of resources.
+>>>>
+>>>> HWDBM is short for Hardware Dirty Bit Management.
+>>>> (e.g. smmuv3 HTTU, Hardware Translation Table Update)
+>>>>
+>>>> About SMMU HTTU:
+>>>> HTTU is a feature of ARM SMMUv3, it can update access flag or/and dirty
+>>>> state of the TTD (Translation Table Descriptor) by hardware.
+>>>>
+>>>> With HTTU, stage1 TTD is classified into 3 types:
+>>>>                                     DBM bit AP[2](readonly bit)
+>>>> 1. writable_clean          1                            1
+>>>> 2. writable_dirty           1                            0
+>>>> 3. readonly                   0                            1
+>>>>
+>>>> If HTTU_HD (manage dirty state) is enabled, smmu can change TTD from
+>>>> writable_clean to writable_dirty. Then software can scan TTD to sync dirty
+>>>> state into dirty bitmap. With this feature, we can track the dirty log of
+>>>> DMA continuously and precisely.
+>>>>
+>>>> The capability of VFIO_DIRTY_LOG_MANUAL_CLEAR is similar to that on
+>>>> the KVM side. We add this new log_clear() interface only to split the old
+>>>> log_sync() into two separated procedures:
+>>>>
+>>>> - use log_sync() to collect the collection only, and,
+>>>> - use log_clear() to clear the dirty bitmap.
+>>>>
+>>>> If you're interested in this new method, you can take a look at our set of
+>>>> patches.
+>>>> [1]
+>>>> https://lore.kernel.org/linux-iommu/20210310090614.26668-1-
+>>>> zhukeqian1@huawei.com/
+>>>>
+>>> I know what you are doing. Intel is also working on VT-d dirty bit support
+>>> based on above link. What I'm curious is the actual performance gain
+>>> with this optimization. KVM doing that is one good reference, but IOMMU
+>>> has different characteristics (e.g. longer invalidation latency) compared to
+>>> CPU MMU. It's always good to understand what a so-called optimization
+>>> can actually optimize in a context different from where it's originally
+>> proved.😊
+>>> Thanks
+>>> Kevin
+>> My understanding is that this is a new method, which is quite different
+>> from the
+>> previous two. So can you explain in more detail what performance data
+>> you want?😁
+>>
+>> Thanks,
+>> Kunkun Jiang
+> When you have HTTU enabled, compare the migration efficiency with and
+> without this manual clear interface.
+>
+> Thanks
+> Kevin
 
-Hii Phil,
+Hi Kevin,
 
-A gentle reminder to push these patches.
+Sorry for late reply.
+
+I tested it on our FPGA in two scenarios.
+[1] perform limited times of DMA on a fixed ram area
+[2] perform infinite DMA on a fixed ram area
+
+In scenario [1], we can clearly see that lesser data is being transmitted
+with this manual clear interface. For example, a total of 10 DMA are
+performed, the amount of transferred data is the sum of 6 times. This
+depends on whether the device performs a DMA on the dirty ram
+area between log_sync() and log_clear().
+
+In scenario [2], with or without this manual clear interface, it doesn't
+make a big difference. Every time we call log_sync(), the fixed ram
+area is dirty.
+
+So, in general scenarios, it can reduce the amount of transmitted data.
+
+In addition, regarding the difference between MMU and IOMMU (e.g.
+longer invalidation latency) you mentioned last time, I think it has no
+effect on this manual clear interface. Currently, the way we invalidate
+IOMMU TLB is iommu_flush_iotlb_all(). It takes lesser time than multiple,
+range-based invalidation.
 
 Thanks,
-Niteesh.
+Kunkun Jiang
 
-On Sat, Mar 13, 2021 at 10:51 PM Niteesh G. S. <niteesh.gs@gmail.com> wrote=
-:
-
-> Reviewed-by: Niteesh G S <niteesh.gs@gmail.com>
->
-> On Sat, Mar 13, 2021 at 10:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org>
-> wrote:
->
->> From: G S Niteesh Babu <niteesh.gs@gmail.com>
->>
->> Added tracing for gpio read, write, and update output irq.
->>
->> 1) trace_avr_gpio_update_ouput_irq
->> 2) trace_avr_gpio_read
->> 3) trace_avr_gpio_write
->>
->> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
->> Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
->> Message-Id: <20210311135539.10206-3-niteesh.gs@gmail.com>
->> [PMD: Added port_name(), display port name in trace events]
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->>  hw/gpio/avr_gpio.c   | 26 +++++++++++++++++++++-----
->>  hw/gpio/trace-events |  5 +++++
->>  2 files changed, 26 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
->> index e4c7122e62c..29252d6ccfe 100644
->> --- a/hw/gpio/avr_gpio.c
->> +++ b/hw/gpio/avr_gpio.c
->> @@ -2,6 +2,7 @@
->>   * AVR processors GPIO registers emulation.
->>   *
->>   * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
->> + * Copyright (C) 2021 Niteesh Babu G S <niteesh.gs@gmail.com>
->>   *
->>   * This program is free software; you can redistribute it and/or
->>   * modify it under the terms of the GNU General Public License as
->> @@ -26,6 +27,12 @@
->>  #include "hw/gpio/avr_gpio.h"
->>  #include "hw/qdev-properties.h"
->>  #include "migration/vmstate.h"
->> +#include "trace.h"
->> +
->> +static char port_name(AVRGPIOState *s)
->> +{
->> +    return 'A' + s->id;
->> +}
->>
->>  static void avr_gpio_reset(DeviceState *dev)
->>  {
->> @@ -47,32 +54,41 @@ static void avr_gpio_write_port(AVRGPIOState *s,
->> uint64_t value)
->>
->>          if (cur_ddr_pin_val && (cur_port_pin_val !=3D new_port_pin_val)=
-) {
->>              qemu_set_irq(s->out[pin], new_port_pin_val);
->> +            trace_avr_gpio_update_output_irq(port_name(s), pin,
->> new_port_pin_val);
->>          }
->>      }
->>      s->reg.port =3D value & s->reg.ddr;
->>  }
->>  static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int
->> size)
->>  {
->> +    uint8_t val =3D 0;
->>      AVRGPIOState *s =3D (AVRGPIOState *)opaque;
->>      switch (offset) {
->>      case GPIO_PIN:
->> -        return s->reg.pin;
->> +        val =3D s->reg.pin;
->> +        break;
->>      case GPIO_DDR:
->> -        return s->reg.ddr;
->> +        val =3D s->reg.ddr;
->> +        break;
->>      case GPIO_PORT:
->> -        return s->reg.port;
->> +        val =3D s->reg.port;
->> +        break;
->>      default:
->>          g_assert_not_reached();
->>          break;
->>      }
->> -    return 0;
->> +
->> +    trace_avr_gpio_read(port_name(s), offset, val);
->> +    return val;
->>  }
->>
->>  static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
->>                                  unsigned int size)
->>  {
->>      AVRGPIOState *s =3D (AVRGPIOState *)opaque;
->> -    value =3D value & 0xF;
->> +    value =3D value & 0xFF;
->> +
->> +    trace_avr_gpio_write(port_name(s), offset, value);
->>      switch (offset) {
->>      case GPIO_PIN:
->>          s->reg.pin =3D value;
->> diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
->> index 46ab9323bd0..640834597a8 100644
->> --- a/hw/gpio/trace-events
->> +++ b/hw/gpio/trace-events
->> @@ -18,3 +18,8 @@ sifive_gpio_read(uint64_t offset, uint64_t r) "offset
->> 0x%" PRIx64 " value 0x%" P
->>  sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 =
-"
->> value 0x%" PRIx64
->>  sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %"
->> PRIi64
->>  sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %"
->> PRIi64 " value %" PRIi64
->> +
->> +# avr_gpio.c
->> +avr_gpio_read(unsigned id, uint64_t offset, uint64_t r) "port %c offset
->> 0x%" PRIx64 " value 0x%" PRIx64
->> +avr_gpio_write(unsigned id, uint64_t offset, uint64_t value) "port %c
->> offset 0x%" PRIx64 " value 0x%" PRIx64
->> +avr_gpio_update_output_irq(unsigned id, int64_t line, int64_t value)
->> "port %c pin %" PRIi64 " value %" PRIi64
->> --
->> 2.26.2
->>
->>
-
---00000000000051f55805be2b223f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hii=
- Phil,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
-v><div class=3D"gmail_default" style=3D"font-size:small">A gentle reminder =
-to push these patches.</div><div class=3D"gmail_default" style=3D"font-size=
-:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Th=
-anks,</div><div class=3D"gmail_default" style=3D"font-size:small">Niteesh.<=
-/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Sat, Mar 13, 2021 at 10:51 PM Niteesh G. S. &lt;<a href=3D"mailto:n=
-iteesh.gs@gmail.com">niteesh.gs@gmail.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gma=
-il_default" style=3D"font-size:small">Reviewed-by: Niteesh G S &lt;<a href=
-=3D"mailto:niteesh.gs@gmail.com" target=3D"_blank">niteesh.gs@gmail.com</a>=
-&gt;<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Mar 13, 2021 at 10:25 PM Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.or=
-g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->From: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=
-=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
-<br>
-Added tracing for gpio read, write, and update output irq.<br>
-<br>
-1) trace_avr_gpio_update_ouput_irq<br>
-2) trace_avr_gpio_read<br>
-3) trace_avr_gpio_write<br>
-<br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
-Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" target=
-=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20210311135539.10206-3-niteesh.gs@gmail.c=
-om" target=3D"_blank">20210311135539.10206-3-niteesh.gs@gmail.com</a>&gt;<b=
-r>
-[PMD: Added port_name(), display port name in trace events]<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
----<br>
-=C2=A0hw/gpio/avr_gpio.c=C2=A0 =C2=A0| 26 +++++++++++++++++++++-----<br>
-=C2=A0hw/gpio/trace-events |=C2=A0 5 +++++<br>
-=C2=A02 files changed, 26 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c<br>
-index e4c7122e62c..29252d6ccfe 100644<br>
---- a/hw/gpio/avr_gpio.c<br>
-+++ b/hw/gpio/avr_gpio.c<br>
-@@ -2,6 +2,7 @@<br>
-=C2=A0 * AVR processors GPIO registers emulation.<br>
-=C2=A0 *<br>
-=C2=A0 * Copyright (C) 2020 Heecheol Yang &lt;<a href=3D"mailto:heecheol.ya=
-ng@outlook.com" target=3D"_blank">heecheol.yang@outlook.com</a>&gt;<br>
-+ * Copyright (C) 2021 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gm=
-ail.com" target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
-=C2=A0 *<br>
-=C2=A0 * This program is free software; you can redistribute it and/or<br>
-=C2=A0 * modify it under the terms of the GNU General Public License as<br>
-@@ -26,6 +27,12 @@<br>
-=C2=A0#include &quot;hw/gpio/avr_gpio.h&quot;<br>
-=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
-=C2=A0#include &quot;migration/vmstate.h&quot;<br>
-+#include &quot;trace.h&quot;<br>
-+<br>
-+static char port_name(AVRGPIOState *s)<br>
-+{<br>
-+=C2=A0 =C2=A0 return &#39;A&#39; + s-&gt;id;<br>
-+}<br>
-<br>
-=C2=A0static void avr_gpio_reset(DeviceState *dev)<br>
-=C2=A0{<br>
-@@ -47,32 +54,41 @@ static void avr_gpio_write_port(AVRGPIOState *s, uint64=
-_t value)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (cur_ddr_pin_val &amp;&amp; (cur_port_=
-pin_val !=3D new_port_pin_val)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_set_irq(s-&gt;out[pin]=
-, new_port_pin_val);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_avr_gpio_update_output_irq=
-(port_name(s), pin, new_port_pin_val);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;reg.port =3D value &amp; s-&gt;reg.ddr;<br>
-=C2=A0}<br>
-=C2=A0static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned i=
-nt size)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 uint8_t val =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0AVRGPIOState *s =3D (AVRGPIOState *)opaque;<br>
-=C2=A0 =C2=A0 =C2=A0switch (offset) {<br>
-=C2=A0 =C2=A0 =C2=A0case GPIO_PIN:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return s-&gt;reg.pin;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;reg.pin;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0case GPIO_DDR:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return s-&gt;reg.ddr;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;reg.ddr;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0case GPIO_PORT:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return s-&gt;reg.port;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;reg.port;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert_not_reached();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 return 0;<br>
-+<br>
-+=C2=A0 =C2=A0 trace_avr_gpio_read(port_name(s), offset, val);<br>
-+=C2=A0 =C2=A0 return val;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t valu=
-e,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int size)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0AVRGPIOState *s =3D (AVRGPIOState *)opaque;<br>
--=C2=A0 =C2=A0 value =3D value &amp; 0xF;<br>
-+=C2=A0 =C2=A0 value =3D value &amp; 0xFF;<br>
-+<br>
-+=C2=A0 =C2=A0 trace_avr_gpio_write(port_name(s), offset, value);<br>
-=C2=A0 =C2=A0 =C2=A0switch (offset) {<br>
-=C2=A0 =C2=A0 =C2=A0case GPIO_PIN:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;reg.pin =3D value;<br>
-diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events<br>
-index 46ab9323bd0..640834597a8 100644<br>
---- a/hw/gpio/trace-events<br>
-+++ b/hw/gpio/trace-events<br>
-@@ -18,3 +18,8 @@ sifive_gpio_read(uint64_t offset, uint64_t r) &quot;offse=
-t 0x%&quot; PRIx64 &quot; value 0x%&quot; P<br>
-=C2=A0sifive_gpio_write(uint64_t offset, uint64_t value) &quot;offset 0x%&q=
-uot; PRIx64 &quot; value 0x%&quot; PRIx64<br>
-=C2=A0sifive_gpio_set(int64_t line, int64_t value) &quot;line %&quot; PRIi6=
-4 &quot; value %&quot; PRIi64<br>
-=C2=A0sifive_gpio_update_output_irq(int64_t line, int64_t value) &quot;line=
- %&quot; PRIi64 &quot; value %&quot; PRIi64<br>
-+<br>
-+# avr_gpio.c<br>
-+avr_gpio_read(unsigned id, uint64_t offset, uint64_t r) &quot;port %c offs=
-et 0x%&quot; PRIx64 &quot; value 0x%&quot; PRIx64<br>
-+avr_gpio_write(unsigned id, uint64_t offset, uint64_t value) &quot;port %c=
- offset 0x%&quot; PRIx64 &quot; value 0x%&quot; PRIx64<br>
-+avr_gpio_update_output_irq(unsigned id, int64_t line, int64_t value) &quot=
-;port %c pin %&quot; PRIi64 &quot; value %&quot; PRIi64<br>
--- <br>
-2.26.2<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000051f55805be2b223f--
 
