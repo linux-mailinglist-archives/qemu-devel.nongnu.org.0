@@ -2,127 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D99F3460A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:58:54 +0100 (CET)
-Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C518C346042
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:53:34 +0100 (CET)
+Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOhYb-0006BP-G9
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35220)
+	id 1lOhTR-0006EA-PU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOhOc-0007Mk-UP; Tue, 23 Mar 2021 09:48:35 -0400
-Received: from mail-eopbgr80091.outbound.protection.outlook.com
- ([40.107.8.91]:12455 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1lOhOA-00079R-Gx; Tue, 23 Mar 2021 09:48:10 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30936
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOhOX-0001uO-9C; Tue, 23 Mar 2021 09:48:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TmnjxO275Gu78nLOj2rLgOwl9fb73bSprYiJIpQ7RrAgNP7cL0VrPTk7FJfxbpyqcE++3gpekvML5PUg9yvXxpE9ZSe03s74CExWqPzmOqziZURaIBrZB+LPzpDkoBnxt7zi59YRZx4D3LGxZ0pQuEFHPd10HmPMugEhLTTcOeATGZXLFXAQfw5Eb4HKQCAXUiWOaDO352LmQ0xvIYQI6vS41dk+0edzM3IcR5l75x0FfQ7wQi2s8GjiAS03ryrR1Pu+6mMAqfI6jd9ubnIQMGLXqabCrgO+28CGTl7rwoNMZqFykJj6nSaGcqtuBp8JA39tPHiXvPHMaPwLz/ASjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XpUmSfFN1yxZHU3U53uYlXMOuX7KGRCiX1RJ3BY+FBg=;
- b=H0p19fcIPK3Oe2A9xo0jHxFhL/kVrLuMAwLDPNXYomIweJ+Mx98obV35FvqX6LGbzDZyEALCFJj4ttaga6ihFhbcR5Yd1ffJYvMHIbxRUtmqBrmExAJsHIeQueERmnu0zUP9IfOgLfXBP9QyWGlxrOhh9rcG5eUyQvaKI+j7bK7wMaUf5zNNP01X8vT451Lpwd7qyFedmBMnxKvb5SSQvk/G4VvchdhJf2npG6dnBIdB42wcKif9dxOECE44Zib9Prdx0CpbGRLN6i3qk9BKgQAYYiIRLYgPKkT/AO4KxhDsqpjVv1wdmUuVDXB9hRYPTi9+OUPxPGd1bFLiWlCYWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XpUmSfFN1yxZHU3U53uYlXMOuX7KGRCiX1RJ3BY+FBg=;
- b=UGD+rPWKEWZZ/W6Npga0pFA92Eg+5jPfJti0+YECaIw++s2g9NEf5EMDfqjxfX6mSIxvpGOBfB9iMVZtbm2NmHHLQk59X0PxMDgzh7+9bktzf7Kb5RrSiF2OjJoR0LW0KdwNrcZg0dlN+uv6OTW3OyYdT63EZkR2DE2aW8HBKBs=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB2034.eurprd08.prod.outlook.com (2603:10a6:203:4b::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.25; Tue, 23 Mar
- 2021 13:48:09 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 13:48:09 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, den@openvz.org, vsementsov@virtuozzo.com,
- mreitz@redhat.com
-Subject: [PATCH v3 9/9] MAINTAINERS: update Benchmark util: add git tree
-Date: Tue, 23 Mar 2021 16:47:34 +0300
-Message-Id: <20210323134734.72930-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210323134734.72930-1-vsementsov@virtuozzo.com>
-References: <20210323134734.72930-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: HE1PR05CA0184.eurprd05.prod.outlook.com
- (2603:10a6:3:f8::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1lOhO3-0001qc-Fl; Tue, 23 Mar 2021 09:48:06 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12NDYCSS108959; Tue, 23 Mar 2021 09:47:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=aJD4wevKg02KmRoNo8/InqD0KSxVjlpO/CGCFh4lyy0=;
+ b=PxgNPdgY9yXj6uUrrwdgt8b31u1hNsiH1N8QNPSMxACi2RexkanFdHDtvPUD/0vTMUYV
+ ubElMoxlw4iLltCGuoY4B3p+ndkN9dbYMjNvhHUAJ2eOG9/XvXvYYLLU1ULB+sdHhrdT
+ 6cBMQSgiQevxETVHT0Ivg7Mv7DEuB6wbdFE5YRIHyycId2Fo7t9BLU3/JsKKam21uWJ+
+ MGGZbE1Eyz6oi5TbYNfLo7WOxN4ErXTL0Jcs7FvompL965eeOsRWXIHQ/bkSU5tV7rY3
+ SFV+v3hwok+0vbGkojc02K5ei6TRElkF02NOKCYPwyeeoLbI8qYh8jThjmrlLXaos0cZ 4g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37e024jnbh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Mar 2021 09:47:46 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12NDYEeI109175;
+ Tue, 23 Mar 2021 09:47:46 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37e024jn9y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Mar 2021 09:47:46 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12NDlhK6020301;
+ Tue, 23 Mar 2021 13:47:43 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma01fra.de.ibm.com with ESMTP id 37d99xhsa0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Mar 2021 13:47:43 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12NDlNth32309550
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Mar 2021 13:47:23 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2ADAD11C05C;
+ Tue, 23 Mar 2021 13:47:41 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32AA511C050;
+ Tue, 23 Mar 2021 13:47:39 +0000 (GMT)
+Received: from [172.17.0.2] (unknown [9.40.192.207])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 23 Mar 2021 13:47:39 +0000 (GMT)
+Subject: [PATCH v3 2/3] spapr: nvdimm: Implement H_SCM_FLUSH hcall
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To: sbhat@linux.vnet.ibm.com, david@gibson.dropbear.id.au, groug@kaod.org,
+ qemu-ppc@nongnu.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ mst@redhat.com, imammedo@redhat.com, xiaoguangrong.eric@gmail.com
+Date: Tue, 23 Mar 2021 09:47:38 -0400
+Message-ID: <161650725183.2959.12071056430236337803.stgit@6532096d84d3>
+In-Reply-To: <161650723087.2959.8703728357980727008.stgit@6532096d84d3>
+References: <161650723087.2959.8703728357980727008.stgit@6532096d84d3>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.202) by
- HE1PR05CA0184.eurprd05.prod.outlook.com (2603:10a6:3:f8::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 13:48:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69acf5aa-e226-4384-c689-08d8ee024b02
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2034:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB20346E5BCDBE4361E04895CCC1649@AM5PR0801MB2034.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3yCWI9RXShhq7SJnAMRDDjnDtw/ZMhiDv+XVmtUCqDeLKQFcYzeWjSNlpxtSg688wtPnKl8f3f2/+H3wdgltxagFeJG31LdVlB6D38LDmBsg/r0UpstMqB/1BPrWJCgwACf50uEk+nK7imdtzI1D7cFAbbbXifJlUGy2S5iN18kSwwovZ274Bpfi3F3pkezesI3wGqYNybcyVja1LZ06D6mQAPbqeR6LJsn6bvIGzlFjSiuRSYYrlNLGjF+xCfMgS4gmj0BsRwZdCo2Yz8BGtZK8+nssfTSxaFL80obrg0gMqIBjA0oPBMglolxC+NpVSS5bVaAjHr54P238wnQXFsh5YMIkifyajzqmd+jKndjTwGc/X0hzuxAj/ct5fk4Jq8LyAuDCCNEYEjqDVjFtzWRAwB16sZV2ZZZDIBf2tfpUK07j+NpbBKCe3NyGQTqH4CwmOdg6qzwJ552nZKcBorrYG2Ap8KDfiQURupDASbQ2zClv2eSkretjVt6Pj4BEN07+CVCX4d2/2z35YwwqWmVNz7pY6Bct+Z7w1TGtFwKuX7atj4kiDpoT/VDByVJEI/7Jor23HJvrlz8xXTGXlHfCqzHi3zK+0FcGNMiLhMGISP2OcA6u3pDKUwgJHX4igZTRAl+SFWyLSZbTP91MXAlSlIHmfISSa5ptoEOQ95Sfb0XgNNfhkOKU0/OtuP7rsnYGR4cVDzeaWnw307KBZrn1SuS0DAIv0KQjpPsEXp+kXxVSi3NROxao62XqGsWqMuQ9zFA8qLnoqcCN+VAR5A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(346002)(39830400003)(396003)(376002)(4326008)(186003)(1076003)(6506007)(52116002)(16526019)(966005)(66946007)(316002)(26005)(6512007)(6666004)(8936002)(2616005)(38100700001)(956004)(4744005)(2906002)(8676002)(86362001)(66556008)(66476007)(36756003)(6916009)(69590400012)(6486002)(478600001)(5660300002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?0xcWdblCsRMOc0MXW5mJTM5VZ5+l34xaSk0FI3qZOI1M+hIVRUVfoMB6wVH7?=
- =?us-ascii?Q?u4bxyL1L2ANyGSumNEQiY21QTqiDAAwsR3crgbAxH34Rl6nQfJL7crq+RoNZ?=
- =?us-ascii?Q?sovhJES0zIRtRQJ7YFkGckPt7pa1GWYlJyfZVkI6rqf8xs+zS9mx41beKiXL?=
- =?us-ascii?Q?o7PBoD84ElPKV0I6/q86QLv9J4whVIrnb6M8LQM/G+tF4OVkAJ2+dN6+p8g6?=
- =?us-ascii?Q?NWuW5QXJmfKgkpUa4oKmHsbEX/e9JDnaIZP+e7/h6Hc5fRDRcsw4U/B/2JHw?=
- =?us-ascii?Q?XBTQKNTGLqZHUTgXX+XQdLLuEZKg9lJ5PhxoGMbda3Mgz5nNx7kCPQG/SVpt?=
- =?us-ascii?Q?HWI1Ii9WQ5811+RHZUscgrOukpBuAPV4iwU2cu9D51eGTK5yOTorDFS0ElfB?=
- =?us-ascii?Q?HU1qo+AnZYDeSqoUXX7GgV63jOm9+kcQK1dbVhD1vbqL649Zt2wCUIqiKupK?=
- =?us-ascii?Q?FTjmfLgfzSB9x3d0m0rsuFN/HlWV4ZJJ6WWayXCJm4NAp+C1T94+N8s7xLIf?=
- =?us-ascii?Q?Ym82ME9D9KlxG14b6zcw5YjKTMKwb+ciHVFBFK1XAVMX2lXKzzryE5k9FYjD?=
- =?us-ascii?Q?KZlyx/6tjF2ZNYzliwJA6P/IHdhr4Q5Jof0P96PNvB21Gpfu7nhJ5FgbXhQq?=
- =?us-ascii?Q?+t7mqaBRzpdo8NC1xF0rcU5ylndxoDLKs5fixoKPNiwwPgv2eSGniIKYamSe?=
- =?us-ascii?Q?j1qRfHgGfMce6H+PLrxqedlNR2+dc/Ydu3rCWNXMnryId7HFPoRojklfdhYY?=
- =?us-ascii?Q?1ni9Oe49VHb5yvCbZ0JdBngtdjksx0Fb/AcKXdpbV4BG5ED8lLU2KfGEP5q1?=
- =?us-ascii?Q?Hmkj5HwdwwEo/BrNOw0Gj35PDpaacQ+OrT/iOW9wh4QBCP8cTdFRYTb6Bd/E?=
- =?us-ascii?Q?Ozdwlla3HolCqyE4q5QIrya4kvKU2fz16HQV7aKmsA/508J7XNda3P6HwNft?=
- =?us-ascii?Q?55epGIFmLUJKJu0ImJoExHfZ1GI7l9A82VmEpVnrgcu2OlcIgRbg2eZMqOAl?=
- =?us-ascii?Q?fZxFEHqhaNYIRlFw7y5QcljSClAVXpF/d/34J6CB+ypHzfLlm5S0bO4Ecrrv?=
- =?us-ascii?Q?fHd4UkYD+6B7y808ynRYGwyzDvxgpV7cvhnFD9Dt8w9e52xo9TJptW+Z6y87?=
- =?us-ascii?Q?F4tC7Zw8Meag5FwJ9UhRc+q+Pry2aoGXZcLUUAOE+haXc/geOVnd8ZcvK53k?=
- =?us-ascii?Q?MQ1F7dywksbTSj2UQkj5+QSAMRcaxwz9VukWbsZnC6O3Lu2rb0qr9gZkLfaS?=
- =?us-ascii?Q?2PlCqf2/lQyW2K5OCeIjf2au7+ExCODY2L7kHzCD4ePwYGtj9ywisvDU57S0?=
- =?us-ascii?Q?VRu6pWQ8hNPxzK7aHHIfxb3G?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69acf5aa-e226-4384-c689-08d8ee024b02
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 13:48:09.1043 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 43za1zypgBD6VHJtGDx62DphcnlItubz3eLqiBxmBfgvbXdye1oyLmIC3GitL90D74nWO86pJXcHpfeIbkPg8+BD3NclT86Xcy1SP6MMrjs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2034
-Received-SPF: pass client-ip=40.107.8.91;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-23_06:2021-03-22,
+ 2021-03-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103230100
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -135,27 +109,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
+ qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com,
+ bharata@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+The patch adds support for the SCM flush hcall for the nvdimm devices.
+To be available for exploitation by guest through the next patch.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9147e9a429..7d83d64d14 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2531,6 +2531,7 @@ Benchmark util
- M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
- S: Maintained
- F: scripts/simplebench/
-+T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
+The hcall expects the semantics such that the flush to return
+with H_BUSY when the operation is expected to take longer time along
+with a continue_token. The hcall to be called again providing the
+continue_token to get the status. So, all fresh requsts are put into
+a 'pending' list and flush worker is submitted to the thread pool.
+The thread pool completion callbacks move the requests to 'completed'
+list, which are cleaned up after reporting to guest in subsequent
+hcalls to get the status.
+
+The semantics makes it necessary to preserve the continue_tokens
+and their return status even across migrations. So, the pre_save
+handler for the device waits for the flush worker to complete and
+collects all the hcall states from 'completed' list. The necessary
+nvdimm flush specific vmstate structures are added to the spapr
+machine vmstate.
+
+Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+---
+ hw/ppc/spapr.c                |    6 +
+ hw/ppc/spapr_nvdimm.c         |  240 +++++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr.h        |   11 ++
+ include/hw/ppc/spapr_nvdimm.h |   12 ++
+ 4 files changed, 268 insertions(+), 1 deletion(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index d56418ca29..fdb0c73a2c 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1607,6 +1607,8 @@ static void spapr_machine_reset(MachineState *machine)
+         spapr->ov5_cas = spapr_ovec_clone(spapr->ov5);
+     }
  
- QAPI
- M: Markus Armbruster <armbru@redhat.com>
--- 
-2.29.2
++    spapr_nvdimm_finish_flushes();
++
+     /* DRC reset may cause a device to be unplugged. This will cause troubles
+      * if this device is used by another device (eg, a running vhost backend
+      * will crash QEMU if the DIMM holding the vring goes away). To avoid such
+@@ -2003,6 +2005,7 @@ static const VMStateDescription vmstate_spapr = {
+         &vmstate_spapr_cap_ccf_assist,
+         &vmstate_spapr_cap_fwnmi,
+         &vmstate_spapr_fwnmi,
++        &vmstate_spapr_nvdimm_flush_states,
+         NULL
+     }
+ };
+@@ -2997,6 +3000,9 @@ static void spapr_machine_init(MachineState *machine)
+     }
+ 
+     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
++    qemu_mutex_init(&spapr->spapr_nvdimm_flush_states_lock);
++    QLIST_INIT(&spapr->pending_flush_states);
++    QLIST_INIT(&spapr->completed_flush_states);
+ }
+ 
+ #define DEFAULT_KVM_TYPE "auto"
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 8cf3fb2ffb..883317c1ed 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -22,14 +22,17 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "hw/ppc/spapr_drc.h"
+ #include "hw/ppc/spapr_nvdimm.h"
+ #include "hw/mem/nvdimm.h"
++#include "qemu/guest-random.h"
+ #include "qemu/nvdimm-utils.h"
+ #include "hw/ppc/fdt.h"
+ #include "qemu/range.h"
+ #include "hw/ppc/spapr_numa.h"
++#include "block/thread-pool.h"
+ 
+ /*
+  * The nvdimm size should be aligned to SCM block size.
+@@ -371,6 +374,242 @@ static target_ulong h_scm_bind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     return H_SUCCESS;
+ }
+ 
++static const VMStateDescription vmstate_spapr_nvdimm_entry = {
++     .name = "spapr_nvdimm_states",
++     .version_id = 1,
++     .minimum_version_id = 1,
++     .fields = (VMStateField[]) {
++         VMSTATE_UINT64(continue_token, SpaprNVDIMMDeviceFlushState),
++         VMSTATE_INT64(hcall_ret, SpaprNVDIMMDeviceFlushState),
++         VMSTATE_END_OF_LIST()
++     },
++};
++
++static bool spapr_nvdimm_states_needed(void *opaque)
++{
++     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++
++     return (!QLIST_EMPTY(&spapr->pending_flush_states) ||
++             !QLIST_EMPTY(&spapr->completed_flush_states));
++}
++
++static int spapr_nvdimm_pre_save(void *opaque)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++
++    while (!QLIST_EMPTY(&spapr->pending_flush_states)) {
++        aio_poll(qemu_get_aio_context(), true);
++    }
++
++    return 0;
++}
++
++const VMStateDescription vmstate_spapr_nvdimm_flush_states = {
++    .name = "spapr_nvdimm_hcall_states",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = spapr_nvdimm_states_needed,
++    .pre_save = spapr_nvdimm_pre_save,
++    .fields = (VMStateField[]) {
++        VMSTATE_QLIST_V(completed_flush_states, SpaprMachineState, 1,
++                        vmstate_spapr_nvdimm_entry,
++                        SpaprNVDIMMDeviceFlushState, node),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++/*
++ * Acquire a unique token and reserve it for the new flush state.
++ */
++static SpaprNVDIMMDeviceFlushState *spapr_nvdimm_init_new_flush_state(void)
++{
++    Error *err = NULL;
++    uint64_t token;
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++    SpaprNVDIMMDeviceFlushState *tmp, *next, *state;
++
++    state = g_malloc0(sizeof(*state));
++
++    qemu_mutex_lock(&spapr->spapr_nvdimm_flush_states_lock);
++retry:
++    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
++        error_report_err(err);
++        g_free(state);
++        qemu_mutex_unlock(&spapr->spapr_nvdimm_flush_states_lock);
++        return NULL;
++    }
++
++    if (!token) /* Token should be non-zero */
++        goto retry;
++
++    /* If the token already in use, get a new one */
++    QLIST_FOREACH_SAFE(tmp, &(spapr->pending_flush_states), node, next) {
++        if (tmp->continue_token == token) {
++            goto retry;
++        }
++    }
++    QLIST_FOREACH_SAFE(tmp, &(spapr->completed_flush_states), node, next) {
++        if (tmp->continue_token == token) {
++            goto retry;
++        }
++    }
++
++    state->continue_token = token;
++    QLIST_INSERT_HEAD(&spapr->pending_flush_states, state, node);
++
++    qemu_mutex_unlock(&spapr->spapr_nvdimm_flush_states_lock);
++
++    return state;
++}
++
++/*
++ * spapr_nvdimm_finish_flushes
++ *      Waits for all pending flush requests to complete
++ *      their execution and free the states
++ */
++void spapr_nvdimm_finish_flushes(void)
++{
++    SpaprNVDIMMDeviceFlushState *state, *next;
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++
++    /*
++     * No contention here when called on reset path, the main loop thread
++     * which calls the pending BHs has gotten out running in the reset path,
++     * finally reaching here. Other code path being guest
++     * h_client_architecture_support, thats early boot up.
++     */
++
++    while (!QLIST_EMPTY(&spapr->pending_flush_states)) {
++        aio_poll(qemu_get_aio_context(), true);
++    }
++
++    QLIST_FOREACH_SAFE(state, &spapr->completed_flush_states, node, next) {
++        QLIST_REMOVE(state, node);
++        g_free(state);
++    }
++}
++
++/*
++ * spapr_nvdimm_get_hcall_status
++ *      Fetches the status of the hcall worker and returns H_BUSY
++ *      if the worker is still running.
++ */
++static int spapr_nvdimm_get_flush_status(uint64_t token)
++{
++    int ret = H_LONG_BUSY_ORDER_10_MSEC;
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++    SpaprNVDIMMDeviceFlushState *state, *node;
++
++    qemu_mutex_lock(&spapr->spapr_nvdimm_flush_states_lock);
++    QLIST_FOREACH_SAFE(state, &spapr->pending_flush_states, node, node) {
++        if (state->continue_token == token) {
++            goto exit;
++        }
++    }
++    ret = H_P2; /* If not found in complete list too, invalid token */
++    QLIST_FOREACH_SAFE(state, &spapr->completed_flush_states, node, node) {
++        if (state->continue_token == token) {
++            ret = state->hcall_ret;
++            QLIST_REMOVE(state, node);
++            g_free(state);
++            break;
++        }
++    }
++exit:
++    qemu_mutex_unlock(&spapr->spapr_nvdimm_flush_states_lock);
++
++    return ret;
++}
++
++static int flush_worker_cb(void *opaque)
++{
++    int ret = H_SUCCESS;
++    SpaprNVDIMMDeviceFlushState *state = opaque;
++
++    /* flush raw backing image */
++    if (qemu_fdatasync(state->backend_fd) < 0) {
++        error_report("papr_scm: Could not sync nvdimm to backend file: %s",
++                     strerror(errno));
++        ret = H_HARDWARE;
++    }
++
++    return ret;
++}
++
++static void spapr_nvdimm_flush_completion_cb(void *opaque, int hcall_ret)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++    SpaprNVDIMMDeviceFlushState *state = opaque;
++
++    qemu_mutex_lock(&spapr->spapr_nvdimm_flush_states_lock);
++
++    state->hcall_ret = hcall_ret;
++    QLIST_REMOVE(state, node);
++    QLIST_INSERT_HEAD(&spapr->completed_flush_states, state, node);
++
++    qemu_mutex_unlock(&spapr->spapr_nvdimm_flush_states_lock);
++}
++
++/*
++ * H_SCM_FLUSH
++ * Input: drc_index, continue-token
++ * Out: continue-token
++ * Return Value: H_SUCCESS, H_Parameter, H_P2, H_BUSY
++ *
++ * Given a DRC Index Flush the data to backend NVDIMM device.
++ * The hcall returns H_BUSY when the flush takes longer time and the hcall
++ * needs to be issued multiple times in order to be completely serviced.
++ * The continue-token from the output to be passed in the argument list of
++ * subsequent hcalls until the hcall is completely serviced at which
++ * point H_SUCCESS or other error is returned.
++ */
++static target_ulong h_scm_flush(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                                      target_ulong opcode, target_ulong *args)
++{
++    int ret;
++    uint32_t drc_index = args[0];
++    uint64_t continue_token = args[1];
++    SpaprDrc *drc = spapr_drc_by_index(drc_index);
++    PCDIMMDevice *dimm;
++    HostMemoryBackend *backend = NULL;
++    SpaprNVDIMMDeviceFlushState *state;
++    ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
++
++    if (!drc || !drc->dev ||
++        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
++        return H_PARAMETER;
++    }
++
++    if (continue_token != 0) {
++        ret = spapr_nvdimm_get_flush_status(continue_token);
++        if (H_IS_LONG_BUSY(ret)) {
++            args[0] = continue_token;
++        }
++
++        return ret;
++    }
++
++    dimm = PC_DIMM(drc->dev);
++    backend = MEMORY_BACKEND(dimm->hostmem);
++
++    state = spapr_nvdimm_init_new_flush_state();
++    if (!state) {
++        return H_P2;
++    }
++
++    state->backend_fd = memory_region_get_fd(&backend->mr);
++
++    thread_pool_submit_aio(pool, flush_worker_cb, state,
++                           spapr_nvdimm_flush_completion_cb, state);
++
++    ret = spapr_nvdimm_get_flush_status(state->continue_token);
++    if (H_IS_LONG_BUSY(ret)) {
++        args[0] = state->continue_token;
++    }
++
++    return ret;
++}
++
+ static target_ulong h_scm_unbind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                                      target_ulong opcode, target_ulong *args)
+ {
+@@ -487,6 +726,7 @@ static void spapr_scm_register_types(void)
+     spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
+     spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
+     spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
++    spapr_register_hypercall(H_SCM_FLUSH, h_scm_flush);
+ }
+ 
+ type_init(spapr_scm_register_types)
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 47cebaf3ac..7c27fb3e2d 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -12,10 +12,12 @@
+ #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
+ #include "hw/ppc/xics.h"        /* For ICSState */
+ #include "hw/ppc/spapr_tpm_proxy.h"
++#include "hw/ppc/spapr_nvdimm.h"
+ 
+ struct SpaprVioBus;
+ struct SpaprPhbState;
+ struct SpaprNvram;
++struct SpaprNVDIMMDeviceFlushState;
+ 
+ typedef struct SpaprEventLogEntry SpaprEventLogEntry;
+ typedef struct SpaprEventSource SpaprEventSource;
+@@ -245,6 +247,12 @@ struct SpaprMachineState {
+     uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+ 
+     Error *fwnmi_migration_blocker;
++
++    /* nvdimm flush states */
++    QemuMutex spapr_nvdimm_flush_states_lock;
++    QLIST_HEAD(, SpaprNVDIMMDeviceFlushState) pending_flush_states;
++    QLIST_HEAD(, SpaprNVDIMMDeviceFlushState) completed_flush_states;
++
+ };
+ 
+ #define H_SUCCESS         0
+@@ -538,8 +546,9 @@ struct SpaprMachineState {
+ #define H_SCM_BIND_MEM          0x3EC
+ #define H_SCM_UNBIND_MEM        0x3F0
+ #define H_SCM_UNBIND_ALL        0x3FC
++#define H_SCM_FLUSH             0x44C
+ 
+-#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
++#define MAX_HCALL_OPCODE        H_SCM_FLUSH
+ 
+ /* The hcalls above are standardized in PAPR and implemented by pHyp
+  * as well.
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index abcacda5d7..c88df2c590 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -11,6 +11,7 @@
+ #define HW_SPAPR_NVDIMM_H
+ 
+ #include "hw/mem/nvdimm.h"
++#include "migration/vmstate.h"
+ 
+ struct SpaprDrc;
+ struct SpaprMachineState;
+@@ -22,5 +23,16 @@ void spapr_dt_persistent_memory(struct SpaprMachineState *spapr, void *fdt);
+ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
+ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot);
++void spapr_nvdimm_finish_flushes(void);
++
++typedef struct SpaprNVDIMMDeviceFlushState {
++    uint64_t continue_token;
++    int64_t hcall_ret;
++    int backend_fd;
++
++    QLIST_ENTRY(SpaprNVDIMMDeviceFlushState) node;
++} SpaprNVDIMMDeviceFlushState;
++
++extern const VMStateDescription vmstate_spapr_nvdimm_flush_states;
+ 
+ #endif
+
 
 
