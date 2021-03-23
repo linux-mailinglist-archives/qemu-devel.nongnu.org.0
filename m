@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3264B346A85
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 21:58:31 +0100 (CET)
-Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA87346AB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:03:43 +0100 (CET)
+Received: from localhost ([::1]:50396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOo6g-0007Lg-2G
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 16:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
+	id 1lOoBi-0005kk-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOo4s-0005JA-FT
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:56:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58957)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOo9d-00049m-9U
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:01:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lOo4p-00019U-Mv
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 16:56:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOo9U-0003T9-GJ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:01:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616532995;
+ s=mimecast20190719; t=1616533280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tv0wmzhJBPrgalqwQ23EfiBRNZABMdEe4tElieFJS+w=;
- b=hYe5JaOPdm9///W6NQONSMBWURP3kPxbsz/BCs4FtF+wjHSbRMc/N8HLAdMYlacZ8uQ2MS
- iVAJQ5jxvQr6dATFEnvjYP45QMwqkH8z6BslBd1xlIilUou8RbZtk6GeH4JbKIbSl87c+n
- no69RjRX8ph/LFi2KnxGHHloIp88dUs=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-cTIQ440iPo6z2DLXuBoUJA-1; Tue, 23 Mar 2021 16:56:32 -0400
-X-MC-Unique: cTIQ440iPo6z2DLXuBoUJA-1
-Received: by mail-qt1-f200.google.com with SMTP id j2so1989294qtv.10
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 13:56:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Tv0wmzhJBPrgalqwQ23EfiBRNZABMdEe4tElieFJS+w=;
- b=TCO0QN5845HNpjdZ31NOFTNrBdK4ildRcN4Nfv8S6E4eMNd1MPbXVCZmxJr5tDNQrP
- MVcC2+tYkK4h59dl8sqt1HF3bAZRz7sARM7beYS2v8OhXBFhBbsHhTvq0YYZohkiyFtP
- DvcK0BDq1vNnpBM29iTbYjNQCFqQcwZ7Jbl7xNSHfWj0CMciWk4XEGWjN4tvv9p2LitY
- Fh2bOgfJ3gtK2L0C1EWgzEaY4iSlydvdi/kgNMkqCOP8BK2gnwb/Wid5YT2l6DtAue3r
- jw3gjNxDN0IJPKQ3svfsSs3v2PpPHWPR+NQOJBQMNHC49CcXl40yoMF67iii1mV4Xh8P
- lNaQ==
-X-Gm-Message-State: AOAM532B53RMt2Ltczw7bnl8C0ZD+mTh8Ukn5mgI94FYJi6n8JWImRSm
- FsAN7wIHNZmGdRii4DlF+pSUu0BkHVovCiWnYru0MTG3j7hKn36tduQ5w+GIiZHFvKvtWTBsPkz
- eGlUyAy6y1gFkVS8=
-X-Received: by 2002:a05:6214:d47:: with SMTP id 7mr6750163qvr.48.1616532991655; 
- Tue, 23 Mar 2021 13:56:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYVLAOtLji8l0GQpfIPAa9VS1Dfz6l4PeKdOihpstk/x08cckBWCnEXK1DVz+y2Hnv4epMyg==
-X-Received: by 2002:a05:6214:d47:: with SMTP id 7mr6750145qvr.48.1616532991469; 
- Tue, 23 Mar 2021 13:56:31 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
- [174.91.135.175])
- by smtp.gmail.com with ESMTPSA id o197sm73133qka.26.2021.03.23.13.56.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 13:56:30 -0700 (PDT)
-Date: Tue, 23 Mar 2021 16:56:29 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v4 11/14] util/mmap-alloc: Support RAM_NORESERVE via
- MAP_NORESERVE under Linux
-Message-ID: <20210323205629.GN6486@xz-x1>
-References: <20210319101230.21531-1-david@redhat.com>
- <20210319101230.21531-12-david@redhat.com>
+ bh=XakvUcFkyCrtYJ8ICtNJMqgcozgcjINLv4gz7nUCBJc=;
+ b=gDoQcvR2FgpP2j2OLFhB/G5bmgD3JTPbDYK+KFyhD2IWYmSDEoyqkg4pEncM7z2mWJIMGi
+ bmW8IpaiEiYGYIBd7j0h9gBgwprtfw43f7K3aHTqbTDGOQ14ByoVrvbH2PdCDKdiR1HM6C
+ 6yfZjle9vI2Rb1jh5i8gEsw0mf4vJv4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-F6QVd3ztNcurWd3pJq1m3w-1; Tue, 23 Mar 2021 17:01:16 -0400
+X-MC-Unique: F6QVd3ztNcurWd3pJq1m3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6862157081;
+ Tue, 23 Mar 2021 21:01:15 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C61A37DD;
+ Tue, 23 Mar 2021 21:01:10 +0000 (UTC)
+Subject: Re: [PATCH 0/3] tests/acceptance: Handle tests with "cpu" tag
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20210224212654.1146167-1-wainersm@redhat.com>
+ <20210309185237.GB2155904@amachine.somewhere>
+ <d2825a6a-fcc1-7037-a574-5c0cc8ffb879@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <c834302f-b379-0509-f3b9-afb873072dda@redhat.com>
+Date: Tue, 23 Mar 2021 17:01:09 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210319101230.21531-12-david@redhat.com>
+In-Reply-To: <d2825a6a-fcc1-7037-a574-5c0cc8ffb879@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,74 +83,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, philmd@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 19, 2021 at 11:12:27AM +0100, David Hildenbrand wrote:
-> Let's support RAM_NORESERVE via MAP_NORESERVE on Linux. The flag has no
-> effect on most shared mappings - except for hugetlbfs and anonymous memory.
+On 3/17/21 3:16 PM, Wainer dos Santos Moschetta wrote:
+> Added John and Eduardo,
 > 
-> Linux man page:
->   "MAP_NORESERVE: Do not reserve swap space for this mapping. When swap
->   space is reserved, one has the guarantee that it is possible to modify
->   the mapping. When swap space is not reserved one might get SIGSEGV
->   upon a write if no physical memory is available. See also the discussion
->   of the file /proc/sys/vm/overcommit_memory in proc(5). In kernels before
->   2.6, this flag had effect only for private writable mappings."
+> On 3/9/21 3:52 PM, Cleber Rosa wrote:
+>> On Wed, Feb 24, 2021 at 06:26:51PM -0300, Wainer dos Santos Moschetta 
+>> wrote:
+>>> Currently the acceptance tests tagged with "machine" have the "-M TYPE"
+>>> automatically added to the list of arguments of the QEMUMachine object.
+>>> In other words, that option is passed to the launched QEMU. On this
+>>> series it is implemented the same feature but instead for tests marked
+>>> with "cpu".
+>>>
+>> Good!
+>>
+>>> There is a caveat, however, in case the test needs additional 
+>>> arguments to
+>>> the CPU type they cannot be passed via tag, because the tags parser 
+>>> split
+>>> values by comma. For example, in 
+>>> tests/acceptance/x86_cpu_model_versions.py,
+>>> there are cases where:
+>>>
+>>>    * -cpu is set to 
+>>> "Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+>>>    * if it was tagged like 
+>>> "cpu:Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+>>>      then the parser would break it into 4 tags 
+>>> ("cpu:Cascadelake-Server",
+>>>      "x-force-features=on", "check=off", "enforce=off")
+>>>    * resulting on "-cpu Cascadelake-Server" and the remaining 
+>>> arguments are ignored.
+>>>
+>>> For the example above, one should tag it (or not at all) as 
+>>> "cpu:Cascadelake-Server"
+>>> AND self.vm.add_args('-cpu', 
+>>> "Cascadelake-Server,x-force-features=on,check=off,enforce=off"),
+>>> and that results on something like:
+>>>
+>>>    "qemu-system-x86_64 (...) -cpu Cascadelake-Server -cpu 
+>>> Cascadelake-Server,x-force-features=on,check=off,enforce=off".
+>>>
+>> There are clearly two problems here:
+>>
+>> 1) the tag is meant to be succinct, so that it can be used by users
+>>     selecting which tests to run.  At the same time, it's a waste
+>>     to throw away the other information or keep it duplicate or
+>>     incosistent.
+>>
+>> 2) QEMUMachine doesn't keep track of command line arguments
+>>     (add_args() makes it pretty clear what's doing).  But, on this type
+>>     of use case, a "set_args()" is desirable, in which case it would
+>>     overwrite the existing arguments for a given command line option.
 > 
-> Note that the "guarantee" part is wrong with memory overcommit in Linux.
+> I like the idea of a "set_args()" to QEMUMachine as you describe above 
+> but it needs further discussion because I can see at least one corner 
+> case; for example, one can set the machine type as either -machine or 
+> -M, then what key it should be searched-and-replaced (if any) on the 
+> list of args?
 > 
-> Also, in Linux hugetlbfs is treated differently - we configure reservation
-> of huge pages from the pool, not reservation of swap space (huge pages
-> cannot be swapped).
+> Unlike your suggestion, I thought on implement the method to deal with a 
+> single argument at time, as:
 > 
-> The rough behavior is [1]:
-> a) !Hugetlbfs:
+>      def set_arg(self, arg: Union[str, list], value: str) -> None:
+>          """
+>          Set the value of an argument from the list of extra arguments 
+> to be
+>          given to the QEMU binary. If the argument does not exist then 
+> it is
+>          added to the list.
 > 
->   1) Without MAP_NORESERVE *or* with memory overcommit under Linux
->      disabled ("/proc/sys/vm/overcommit_memory == 2"), the following
->      accounting/reservation happens:
->       For a file backed map
->        SHARED or READ-only - 0 cost (the file is the map not swap)
->        PRIVATE WRITABLE - size of mapping per instance
+>          If the ``arg`` parameter is a list then it will search and 
+> replace all
+>          occurencies (if any). Otherwise a new argument is added and it is
+>          used the first value of the ``arg`` list.
+>          """
+>          pass
 > 
->       For an anonymous or /dev/zero map
->        SHARED   - size of mapping
->        PRIVATE READ-only - 0 cost (but of little use)
->        PRIVATE WRITABLE - size of mapping per instance
+> Does it sound good to you?
 > 
->   2) With MAP_NORESERVE, no accounting/reservation happens.
+> Thanks!
 > 
-> b) Hugetlbfs:
+> Wainer
 > 
->   1) Without MAP_NORESERVE, huge pages are reserved.
-> 
->   2) With MAP_NORESERVE, no huge pages are reserved.
-> 
-> Note: With "/proc/sys/vm/overcommit_memory == 0", we were already able
-> to configure it for !hugetlbfs globally; this toggle now allows
-> configuring it more fine-grained, not for the whole system.
-> 
-> The target use case is virtio-mem, which dynamically exposes memory
-> inside a large, sparse memory area to the VM.
-> 
-> [1] https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+A little hokey, but I suppose that's true of our CLI interface in general.
 
--- 
-Peter Xu
+I'd prefer not get into the business of building a "config" inside the 
+python module if we can help it right now, but if "setting" individual 
+args is something you truly need to do, I won't stand in the way.
+
+Do what's least-gross.
+
+--js
+
+>>> QEMU is going to ignore the first -cpu argument. See the patch 0003 
+>>> for a reference.
+>>>
+>> But this would still be creating a QEMU command line with multiple
+>> '-cpu' arguments, right?  I understand this could be useful for
+>> testing the behavior of the parameter parsing (if that's intended) but
+>> it's bad practice to be generating incorrect command line in tests.
+>>
+>> Maybe just by tackling issue #2 this could be avoided.
+>>
+>> Cheers,
+>> - Cleber.
 
 
