@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBB7346878
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:05:48 +0100 (CET)
-Received: from localhost ([::1]:47522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0E434677D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:23:27 +0100 (CET)
+Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmLb-0008OY-82
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
+	id 1lOlgc-0002Fv-L5
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lOlcw-00083N-Ib; Tue, 23 Mar 2021 14:19:42 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:43647)
+ id 1lOlcw-00083O-Iq; Tue, 23 Mar 2021 14:19:44 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lOlct-0006gb-4v; Tue, 23 Mar 2021 14:19:37 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- u5-20020a7bcb050000b029010e9316b9d5so11387688wmj.2; 
+ id 1lOlct-0006gh-4U; Tue, 23 Mar 2021 14:19:37 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id 61so21761704wrm.12;
  Tue, 23 Mar 2021 11:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jgTZhKhS2DWM3MMib2DER4FbfRHawRaIKc8lzpzBQ4c=;
- b=b9qU7jBmMnLvLf55jr+ZvdlrQm0zb46L7WQWQr3fappU30plvP3cnH/G0Li7/Zd7vB
- XQ5lDYsSzTraHoADwB0V0GkhdexjBVPlFXNtwd/VcQSsH+SdXOx4RrgfFLPtko9OSdZ1
- O7kdBrVhAmcZ/DBsD8C8cjOPivZKBn36sS0P5Sk4RBtpUI5wesOXJOy3dnUXFIcxjS58
- 4aCOidkVjwsRrRcpY2XjQk50KI4X781qoBsQ3EyZYEobM3aGThrESym6bAUUPKG7NEiX
- Zk+EBToy6FZK86EV4zNEdhMX4EihdBHSoEB1mnojUUhuGG3s8jf6qeYGHJ7qix3PuvaL
- 0VJA==
+ bh=uTL85snKqZD+x0TbRPkYuMyCQH1BBmhkWDzvtSAkqEU=;
+ b=gdImYuo9Dr8Cd/OLpVuQwFM47DUhW/hNQHZGKOcsGFQfuiiT5VNva2ZwzXlbyq/qjX
+ sZ/jP0NnkPFaql3NJSQ4rZvCgYasczdXCQKrOk+gC5btLii2eVTavwMSbpveTv2Vjnv7
+ GKn+JhpL6rTXMDtj+gdC10WGhlzIWVor46GMHxQ9pL0KjRy9zFi87HmhWU6sCP09HqNc
+ dyTtKD+DS9JhCVwD1wEo0usPL7vYJyW3nQobJpc0bnsg14Q+QtznHA29EGkOU8/v8oxs
+ v1QhuE95GmM0Fce68eYfyyFbxDiXVJXc2Ya6oa9ack3fEsQjxXUOBv9IzO8yK0CjdqJ7
+ 3ztA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jgTZhKhS2DWM3MMib2DER4FbfRHawRaIKc8lzpzBQ4c=;
- b=JuFNtBC90GX1KUX54fdfHUcTtQTktPrDQ+npZshhgpyJ42oQln5kBq8lrQwLo5RWb9
- h4x6GjMB+AeNCtNbwTZW5KddB+Vuodm5b/W0KkMymMeGHUNQfs28HS7bLC8Sni873F1X
- AYCQm97HxRkK8NLDzwKuEdnzTN4t5ZR3Zt2ntHmKs1iUD90sHuVZJCAMPc/v+tSNA7HD
- 7pmPXHdPq2J2OevxQ+JFF4SVZAxknfPVqot1FGKBvb9J7ZNx8HBKlCs+efQFylUR9Uwl
- F/bVNG3KK5ZVB50LF+Mmb42/tYlEYc0IG3OjXS6EeCs+400/jsQzKN3TvkxJJUbL196N
- ib9Q==
-X-Gm-Message-State: AOAM530D7QiGztWLJfUPZHLp9VwHR5Hn6frgTxYy64hgVgl9CESkgVUS
- Z3vz2COHx5ya4Par9Xld3kUwFEyofjo=
-X-Google-Smtp-Source: ABdhPJy+dX4c7fqKsKIFSYx05vuRxsPOWWORat4BSz+4aZa7Cs1Reck6yZn11fHvwiDB0EpPxb4Zlw==
-X-Received: by 2002:a1c:7e45:: with SMTP id z66mr4542117wmc.126.1616523572034; 
+ bh=uTL85snKqZD+x0TbRPkYuMyCQH1BBmhkWDzvtSAkqEU=;
+ b=NxvkVw8ptGTV6YWr4trZB4m/Uc5q6xtuM1QotGRJBp7dITzH7n/zu52C/PErGhpe3j
+ jZH5r4tigI3hd+i/uFboVsGtHB1PeXDnEeIJ6I6c824ULoEaXo8aFh7DMr7VCAZ5l27L
+ C+g+mxsqHY6s366uSry6Zy5aKOw4Q2PtLqwtram54CE58D6SgmZoxJQISjW3hhV0Xw9E
+ JYlXb55N7b5FSqODEvQN6YLgqQF6QAsVBu1mK387q2/OZCrbv8HXKEIqohWiZij8j2EH
+ t9UlffQ7tGk/GHlb00CwHYRnFgkgg2BJLTBax+VA494GFBc9CXHPAExJ4T/NC6nJnylH
+ Joug==
+X-Gm-Message-State: AOAM530cmw3tqkwzaMWTfBx0PzeBX5hZfDOzI7/OV5sczRkYmA4q3Kpg
+ HV/07PcZ8ToFO71lBuSfyK/pwDIPO/o=
+X-Google-Smtp-Source: ABdhPJzqsXFRK1Nv685GgY3NU7h2byJMenuXNp00h+y58FOWIQYj7aCi6d5UjsFkPLu/IZewv2rOlg==
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr5367171wrw.292.1616523572810; 
  Tue, 23 Mar 2021 11:19:32 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- u8sm24204412wrr.42.2021.03.23.11.19.31
+ u8sm24204412wrr.42.2021.03.23.11.19.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 11:19:31 -0700 (PDT)
+ Tue, 23 Mar 2021 11:19:32 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] qemu-iotests: move command line and environment
- handling from TestRunner to TestEnv
-Date: Tue, 23 Mar 2021 19:19:25 +0100
-Message-Id: <20210323181928.311862-4-pbonzini@redhat.com>
+Subject: [PATCH v2 4/5] qemu-iotests: let "check" spawn an arbitrary test
+ command
+Date: Tue, 23 Mar 2021 19:19:26 +0100
+Message-Id: <20210323181928.311862-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323181928.311862-1-pbonzini@redhat.com>
 References: <20210323181928.311862-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,85 +88,87 @@ Cc: eesposit@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the next patch, "check" will learn how to execute a test script without
-going through TestRunner.  To enable this, keep only the text output
-and subprocess handling in the TestRunner; move into TestEnv the logic
-to prepare for running a subprocess.
+Right now there is no easy way for "check" to print a reproducer command.
+Because such a reproducer command line would be huge, we can instead teach
+check to start a command of our choice.  This can be for example a Python
+unit test with arguments to only run a specific subtest.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Move the trailing empty line to print_env(), since it always looks better
+and one caller was not adding it.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qemu-iotests/testenv.py    | 17 ++++++++++++++++-
- tests/qemu-iotests/testrunner.py | 14 +-------------
- 2 files changed, 17 insertions(+), 14 deletions(-)
+ tests/qemu-iotests/check         | 15 ++++++++++++++-
+ tests/qemu-iotests/testenv.py    |  3 ++-
+ tests/qemu-iotests/testrunner.py |  1 -
+ 3 files changed, 16 insertions(+), 3 deletions(-)
 
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index d1c87ceaf1..478d74e509 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -19,6 +19,7 @@
+ import os
+ import sys
+ import argparse
++import shutil
+ from findtests import TestFinder
+ from testenv import TestEnv
+ from testrunner import TestRunner
+@@ -101,7 +102,7 @@ def make_argparser() -> argparse.ArgumentParser:
+                        'rerun failed ./check command, starting from the '
+                        'middle of the process.')
+     g_sel.add_argument('tests', metavar='TEST_FILES', nargs='*',
+-                       help='tests to run')
++                       help='tests to run, or "--" followed by a command')
+ 
+     return p
+ 
+@@ -114,6 +115,18 @@ if __name__ == '__main__':
+                   imgopts=args.imgopts, misalign=args.misalign,
+                   debug=args.debug, valgrind=args.valgrind)
+ 
++    if len(sys.argv) > 1 and sys.argv[-len(args.tests)-1] == '--':
++        if not args.tests:
++            sys.exit("missing command after '--'")
++        cmd = args.tests
++        env.print_env()
++        exec_path = shutil.which(cmd[0])
++        if exec_path is None:
++            sys.exit('command not found: ' + cmd[0])
++        cmd[0] = exec_path
++        full_env = env.prepare_subprocess(cmd)
++        os.execve(cmd[0], cmd, full_env)
++
+     testfinder = TestFinder(test_dir=env.source_iotests)
+ 
+     groups = args.groups.split(',') if args.groups else None
 diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 1fbec854c1..341a4af4e9 100644
+index 341a4af4e9..6767eeeb25 100644
 --- a/tests/qemu-iotests/testenv.py
 +++ b/tests/qemu-iotests/testenv.py
-@@ -25,7 +25,7 @@
- import random
- import subprocess
- import glob
--from typing import Dict, Any, Optional, ContextManager
-+from typing import List, Dict, Any, Optional, ContextManager
+@@ -283,7 +283,8 @@ def print_env(self) -> None:
+ PLATFORM      -- {platform}
+ TEST_DIR      -- {TEST_DIR}
+ SOCK_DIR      -- {SOCK_DIR}
+-SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}"""
++SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
++"""
  
+         args = collections.defaultdict(str, self.get_env())
  
- def isxfile(path: str) -> bool:
-@@ -74,6 +74,21 @@ class TestEnv(ContextManager['TestEnv']):
-                      'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
-                      'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_']
- 
-+    def prepare_subprocess(self, args: List[str]) -> Dict[str, str]:
-+        if self.debug:
-+            args.append('-d')
-+
-+        with open(args[0], encoding="utf-8") as f:
-+            try:
-+                if f.readline().rstrip() == '#!/usr/bin/env python3':
-+                    args.insert(0, self.python)
-+            except UnicodeDecodeError:  # binary test? for future.
-+                pass
-+
-+        os_env = os.environ.copy()
-+        os_env.update(self.get_env())
-+        return os_env
-+
-     def get_env(self) -> Dict[str, str]:
-         env = {}
-         for v in self.env_variables:
 diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 1fc61fcaa3..519924dc81 100644
+index 519924dc81..2f56ac545d 100644
 --- a/tests/qemu-iotests/testrunner.py
 +++ b/tests/qemu-iotests/testrunner.py
-@@ -129,7 +129,6 @@ class TestRunner(ContextManager['TestRunner']):
-     def __init__(self, env: TestEnv, makecheck: bool = False,
-                  color: str = 'auto') -> None:
-         self.env = env
--        self.test_run_env = self.env.get_env()
-         self.makecheck = makecheck
-         self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
+@@ -316,7 +316,6 @@ def run_tests(self, tests: List[str]) -> bool:
  
-@@ -243,18 +242,7 @@ def do_run_test(self, test: str) -> TestResult:
-             silent_unlink(p)
+         if not self.makecheck:
+             self.env.print_env()
+-            print()
  
-         args = [str(f_test.resolve())]
--        if self.env.debug:
--            args.append('-d')
--
--        with f_test.open(encoding="utf-8") as f:
--            try:
--                if f.readline().rstrip() == '#!/usr/bin/env python3':
--                    args.insert(0, self.env.python)
--            except UnicodeDecodeError:  # binary test? for future.
--                pass
--
--        env = os.environ.copy()
--        env.update(self.test_run_env)
-+        env = self.env.prepare_subprocess(args)
+         test_field_width = max(len(os.path.basename(t)) for t in tests) + 2
  
-         t0 = time.time()
-         with f_bad.open('w', encoding="utf-8") as f:
 -- 
 2.30.1
 
