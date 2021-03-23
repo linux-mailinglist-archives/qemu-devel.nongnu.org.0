@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615CB346188
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:34:26 +0100 (CET)
-Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DE7346173
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:28:41 +0100 (CET)
+Received: from localhost ([::1]:39520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOi6x-0006fC-7Q
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
+	id 1lOi1Q-0008MQ-IG
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOhzs-0006XU-Tf
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:06 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:44791)
+ id 1lOhzv-0006Xq-0F
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:08 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:43945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOhzp-0007Ax-IX
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:04 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- j4-20020a05600c4104b029010c62bc1e20so10953610wmi.3
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 07:26:58 -0700 (PDT)
+ id 1lOhzq-0007BX-Kk
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:06 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ u5-20020a7bcb050000b029010e9316b9d5so10953585wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 07:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OseTDtXoEYYYH2dfnvEztM2TnARc4pO+j/Uy4TyW2QY=;
- b=x0N2s6Z3vtrDfbDfxO82R3zVtafxfjAV+OfjOpFykQICVJqtU9StDM1loUj3HRsElz
- Lat4xPRTeGvCaasDUu+Hspjb96+wqLRiWRBqjKxy4R0yaVJV7UOYRfKzDYSRWP1ZspJ8
- +pAgY0QQaiVLvhKei1XdrEWwzrlyk2kQ1lhMrbma11JGnsv71MpjRUIQJPPwjQQ5WuW/
- B0QWwJ6uf1cQEwobbKnDL+/N9hw9mZoNHeTPqILMkQ7nak8Tw0FTmHYGlEsmqdWhUp1B
- 5KfIbjMPieOULxSJM1L7BXWP0UWHsYMMaHDi8/OkEzRNc7KhQGoryDSb/kaFZSiVrs7W
- GIvQ==
+ bh=ANKfaI+3HtDgrtrUD4nkRjqYILHHidfMfgvGr268mts=;
+ b=S1ggtOdjNopiy5uyYZH62EAqm5xE7lEbX25tUL20kOIkfgGXY9YZsSfQ0LZXH7lWV8
+ yBHdTo2ANakgZWcjPvzy+urHfHdLZ1jS4d5I6Wvm67NoOs8xbRWYCZofY0aEas3zBtTN
+ 0xq6IJvIwLFG2NFCsFkXla2M80bwAWJ/1sxIF062ah17L9Ybwlz70aBKsy51r3VljaWs
+ k3KLskrFQQzlz3g48iW6WmpNzISrA0CWb5fpz3k9885QokoWo0te8giptATwR9WS9HOA
+ 4uM/BVbjI2IpVhGHV6sP52t28vllQzpoVT6dWWt/aCsQyQrPhjF7ktsO04I787xtGBua
+ PQDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OseTDtXoEYYYH2dfnvEztM2TnARc4pO+j/Uy4TyW2QY=;
- b=gc7DTbStkkUPXs5oglpzozsNOuLStAA7oD1a9MfcXEb8ePK3wqySzyEGZ0b8f70B0n
- X+p9NAyfyi/sWPKJe0MnnX68iE0thn5nfhf8iCPsJ2H3eQnPirwdy0q5lIywmlqYzWQ2
- hBC/XfSvSdKsqM6+qoaN9QkOet9oohPd13KbvpQuLdhft2h/YFwVmRstw+Qff+6v6oSj
- 6+CCR8DfRx9/6nhRZarmk5tm481yEweCFJ5DhRLkUmkhZ7sl0tIce/FHxzNbPXXKvn5w
- NA3iVm4+jJBvv0W2uL5AaTg+uGR5DK257FZJ6MKe1wZkYlzbtbWNvu7ZTwOLpr/GImo9
- dlcQ==
-X-Gm-Message-State: AOAM532X77p4UT4z2X8LCZveLafRqHkH0A/K0cJIucFXGvd7vAW4AiL1
- jaT7Yv+9YBtZdkiSopJy7rSSO8jeGGiXgM/3
-X-Google-Smtp-Source: ABdhPJxAfkDCyCec7033ttlroL0YjSE9OcPG8ypLR0WpkMCP1v35wZNHDZk6hj4dGVxE33rE5PmonQ==
-X-Received: by 2002:a7b:cc84:: with SMTP id p4mr3703721wma.10.1616509617893;
- Tue, 23 Mar 2021 07:26:57 -0700 (PDT)
+ bh=ANKfaI+3HtDgrtrUD4nkRjqYILHHidfMfgvGr268mts=;
+ b=lTA9Hm1sc1w7tASf1hoNddzhKL8mJItOlH4/Z1WQYdDUzv+SAXIS8O1Qfut4rrvf9M
+ KpwNz5vS8VC6KNFJJM3kqwoFLLS6N3tkI7yDAf+ZkCq/N1lAYELOo8A3dsU+anOx6q5C
+ EJ2ZwGamU8X6HYaZTnN87nNBs+muCG6pTJOxFum/HD7l2fq40VMpouKsXN9BFKWVeyRQ
+ XzcaNfZx3DLxwhNfoo1db/tnVASTPWob/0PdokXMN8W0cvWuDDseaG2gxlk+5LIz7dba
+ 5J8qR8ByP55CDo7mkeeWmgzFq1UCq2YLGCWhmBity8IYX+NCI+bsCWwS8ri6a42O3C7q
+ wS5A==
+X-Gm-Message-State: AOAM532muS4w3/BjBtKtefo7hrVNCdU2ZsG8LCeeX4ffJc50nFoQOv+K
+ A3J5aUwAf6j4U6R/qyI/WUak0NjRIcWftt2o
+X-Google-Smtp-Source: ABdhPJz/KDQzUoHecMNZGJ5MnS/d6jVC4T93s0JqiQmfcKo3BI53xpfwMMgltPdN3xGsTBxX9Brz1w==
+X-Received: by 2002:a05:600c:4f03:: with SMTP id
+ l3mr3648676wmq.149.1616509618484; 
+ Tue, 23 Mar 2021 07:26:58 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id a131sm2861292wmc.48.2021.03.23.07.26.57
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 07:26:57 -0700 (PDT)
+ Tue, 23 Mar 2021 07:26:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] memory: Document flatview_for_each_range()
-Date: Tue, 23 Mar 2021 14:26:49 +0000
-Message-Id: <20210323142653.3538-4-peter.maydell@linaro.org>
+Subject: [PULL 4/7] memory: Add offset_in_region to flatview_cb arguments
+Date: Tue, 23 Mar 2021 14:26:50 +0000
+Message-Id: <20210323142653.3538-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210323142653.3538-1-peter.maydell@linaro.org>
 References: <20210323142653.3538-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,56 +89,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a documentation comment describing flatview_for_each_range().
+The function flatview_for_each_range() calls a callback for each
+range in a FlatView.  Currently the callback gets the start and
+length of the range and the MemoryRegion involved, but not the offset
+within the MemoryRegion.  Add this to the callback's arguments; we're
+going to want it for a new use in the next commit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210318174823.18066-3-peter.maydell@linaro.org
+Message-id: 20210318174823.18066-4-peter.maydell@linaro.org
 ---
- include/exec/memory.h | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ include/exec/memory.h           | 2 ++
+ softmmu/memory.c                | 4 +++-
+ tests/qtest/fuzz/generic_fuzz.c | 5 ++++-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 500bfc0abd2..88c2451c066 100644
+index 88c2451c066..5728a681b27 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -776,11 +776,33 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
-     return qatomic_rcu_read(&as->current_map);
- }
- 
-+/**
-+ * typedef flatview_cb: callback for flatview_for_each_range()
-+ *
-+ * @start: start address of the range within the FlatView
-+ * @len: length of the range in bytes
-+ * @mr: MemoryRegion covering this range
-+ * @opaque: data pointer passed to flatview_for_each_range()
-+ *
-+ * Returns: true to stop the iteration, false to keep going.
-+ */
+@@ -782,6 +782,7 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+  * @start: start address of the range within the FlatView
+  * @len: length of the range in bytes
+  * @mr: MemoryRegion covering this range
++ * @offset_in_region: offset of the first byte of the range within @mr
+  * @opaque: data pointer passed to flatview_for_each_range()
+  *
+  * Returns: true to stop the iteration, false to keep going.
+@@ -789,6 +790,7 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
  typedef bool (*flatview_cb)(Int128 start,
                              Int128 len,
--                            const MemoryRegion*, void*);
-+                            const MemoryRegion *mr,
-+                            void *opaque);
- 
--void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque);
-+/**
-+ * flatview_for_each_range: Iterate through a FlatView
-+ * @fv: the FlatView to iterate through
-+ * @cb: function to call for each range
-+ * @opaque: opaque data pointer to pass to @cb
-+ *
-+ * A FlatView is made up of a list of non-overlapping ranges, each of
-+ * which is a slice of a MemoryRegion. This function iterates through
-+ * each range in @fv, calling @cb. The callback function can terminate
-+ * iteration early by returning 'true'.
-+ */
-+void flatview_for_each_range(FlatView *fv, flatview_cb cb, void *opaque);
+                             const MemoryRegion *mr,
++                            hwaddr offset_in_region,
+                             void *opaque);
  
  /**
-  * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index c4730ec47ae..d4493ef9e43 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -671,8 +671,10 @@ void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
+     assert(cb);
+ 
+     FOR_EACH_FLAT_RANGE(fr, fv) {
+-        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
++        if (cb(fr->addr.start, fr->addr.size, fr->mr,
++               fr->offset_in_region, opaque)) {
+             break;
++        }
+     }
+ }
+ 
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index b6af4cbb18b..ae219540b42 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -99,7 +99,10 @@ struct get_io_cb_info {
+ };
+ 
+ static bool get_io_address_cb(Int128 start, Int128 size,
+-                              const MemoryRegion *mr, void *opaque) {
++                              const MemoryRegion *mr,
++                              hwaddr offset_in_region,
++                              void *opaque)
++{
+     struct get_io_cb_info *info = opaque;
+     if (g_hash_table_lookup(fuzzable_memoryregions, mr)) {
+         if (info->index == 0) {
 -- 
 2.20.1
 
