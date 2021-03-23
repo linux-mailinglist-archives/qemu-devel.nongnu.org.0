@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DE53460B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:59:41 +0100 (CET)
-Received: from localhost ([::1]:59012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F7E3460DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:02:52 +0100 (CET)
+Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOhZM-00078n-IW
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35244)
+	id 1lOhcR-0003GE-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:02:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lOhOk-0007P0-5O
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:48:42 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:33506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lOhOi-00026R-8T
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:48:41 -0400
-Received: by mail-ej1-x629.google.com with SMTP id k10so27232064ejg.0
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 06:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Cu4gNeljJNZPJnYxrL7Ez1IgusXciF8OOv/fem1tz8g=;
- b=DlzusCYmS2bQAjr1r2u+5FxYGHExJDNxs8FVqUdm4nmlw87LtxVCpepiCjVd2F9ell
- RNLm9x9nfrGzerVjFVkr94gtQD8pJlf9gxJj62TDFgsHZE0ECkdoZIIogrQHLHnQi1jL
- exrXF7IL5+5kPWKPYuvNRlV9Fk+095GtVNKB7rONzIhUvfwXCRZjweAJvs+VlV3+WXZw
- 5FEvqnMJX1in0ZWzpcKkvM0hMPs7flmlk8i4Ib2R5L6qdA443YsEwCf888vQSDS6jNIc
- 1piOVhMJ6c95xHhL6D9lNBXi2d+FDI/Lgur1Bbc82ms/B/dDJPdylDWN0CJOE+JRZbFX
- 8JDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Cu4gNeljJNZPJnYxrL7Ez1IgusXciF8OOv/fem1tz8g=;
- b=tv7Eovjan48NDw8ac0SvcwucQ3vgQMc05+ULvq9eyZYTQugULLHccyb110I6ggLoiU
- tMXRtTstakeqBu8RfWqYmrceX0is8GtTseQU4wwWxwuPNvNY/zjAlGW9j6j6sbWhA9BQ
- Qtm3iZAGiWrihPj50/UmIRQnktSPKtMT7Qp+BjEOttnj+1rroHrYQ5OOwRoKDdhT8Ud7
- lhDtX8Ej1WrcRTsAMt1r7aUGUvhtYGhvc6UjnbVgi0Es7IuSM58PraESBu6zBiPvgFpN
- 9J6TQp3rSFhsNK6ZUS0Jfwc2OHfYjaBa25aDxbgpoEahGbqKceeRflMfT4atzxBr1+Bj
- zhEg==
-X-Gm-Message-State: AOAM531IErx+fUlfwKR/+oTTndeKiGP3E2pVy4ETZPRSP4mOfuiSf2Zi
- HEedrWIMmySvKDE1CVRCokk=
-X-Google-Smtp-Source: ABdhPJyOCZ7JOuxfuTSoFiHRsWykSXQye3atKGG7TD48FXWUbTl5NqZ5tKz+0CHMhNZjWzVbn8dJUQ==
-X-Received: by 2002:a17:906:f56:: with SMTP id
- h22mr5108845ejj.494.1616507318254; 
- Tue, 23 Mar 2021 06:48:38 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id l10sm13037232edr.87.2021.03.23.06.48.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 06:48:37 -0700 (PDT)
-Date: Tue, 23 Mar 2021 13:48:36 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 1/8] virtiofsd: Changed allocations of fuse_req to GLib
- functions
-Message-ID: <YFnxtBX0rMZXS/6a@stefanha-x1.localdomain>
-References: <20210319132527.3118-1-ma.mandourr@gmail.com>
- <20210319132527.3118-2-ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1lOhVu-0003yl-RD
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:56:06 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:17133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1lOhVt-0006De-1b
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:56:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1616507764;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AKQrCAQcWdsa+Byn4P8zJG4SbjkrIFmsSJjZbt4DS4Q=;
+ b=G5/D6nDuGGqxRGSZCYhV7EOZT7L6YaIULmHlHft3E6f7QXTkYlwdjzpq
+ bp6fAf7RSU9eEgrtQQ9VNnIkLDdWuautPamc1CZXSjMGbXwONVx0JKXpW
+ WjZq8xviyHze2HzdgXaM/oZjSYrJszdZ4n8hfZLV0ItyEt+cQZQyH7JZp 4=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: vEClJmEBD4Y4MMdqAOEMl/0pJp187SyXgfb9AsFnZDxXszuegBu2e5xYCPy32s50rrDAftsuLa
+ HfLsXYq1BohkG4F7a7n4pjcRLeVye39KlL4194ZPmnevkNHAWRiHC8wSquMC1os51EQ6ZglUNu
+ o5TWy//ANAhwtQavxyT0Byjcj7RFJnLc24kXW1lY9+sXV3rRt8RC1x08eYsy2/ns3RyPly2VX/
+ 7LUG6CaSI6ls3yarKehhMNsYYiSg95veGANWF7U/xDZM5p7rN9NUj28AE6mzNC9rCYG723qAzR
+ jws=
+X-SBRS: 5.1
+X-MesageID: 39903702
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+IronPort-HdrOrdr: A9a23:irZnRK6CO4ydj/30rAPXwU2EI+orLtY04lQ7vn1ZYSd+NuSFis
+ Gjm+ka3xfoiDAXHEotg8yEJbPoex7h3LZPy800Ma25VAfr/FGpIoZr8Jf4z1TbcRHW3tV2kZ
+ 1te60WMrbNJHBxh8ri/U2cG9Ev3NGI/MmT9J/j5l1GJDsLV4hL6QBlBgGHVmh/QwdbDZQ0fa
+ DsnfZvjTymZHgRc4CHFmAINtKz6uHjuZr6bXc9dnoawSaUizfA0tDHOjiemiwTSjZehYolmF
+ K16jDRwoWGn7WFxgTH12nVhq4m1OfJ7tdYHsSDhow0B1zX+2GVTb9sUbGDozw5ydvHgDpErP
+ D2rxgtJMh14X/KF1vFxyfF4RXq0zol9hbZuDylqEbjusDwSXYbDMdMlOtiA37kwncgp9113e
+ Z32XuYvfNsfHH9tRn6juKoazha0m6P5VYym+8aiHJSFaEEbqVKkIAZ9ERJVL8dASPT8ukcYa
+ dTJfCZwMwTXUKRbnjfsGUq6serRG4PEhCPRVVHktCJ0gJRgGtywyIjtY0it0ZF0Kh4Z4hP5u
+ zCPKgtvqpJVNUqYaV0A/pEZserFGrXQ1bpPHiJKVrqUIELUki966Lf0fEQ3qWHaZYIxJw9lN
+ DqS1VDr1M/fEroFImAx5tO/hfRQHisXDjkx81EjqIJ+IHUdf7OC2muWVoum8yvr7E0GcvAQc
+ u+P5pQHrviIALVaMN09jy7f6MXBWgVUcUTtNp+cUmJuNj3JorjsfGedP7SIbHqACs1Q2+XOA
+ pGYBHDYOF7qmy7UH7xhxbcH1n3fFbkwJ52GK/Gu+4JyIYMMYVIuhMPiUuw49yKLTEqiN10QG
+ JOZJfc1o+rr2i/+mjFq09zPABGM0pT6LL8F29RqRQSKEPye7Ybs9CZcWRftUH3YSNXfofzKk
+ pytl538aW4I9is3igkEcugKX/fpWAUvmi2Q5AVnbCj6c/pdogjNIsvXLV8GGzwZlpIsDcvjF
+ 0GSQcfAmfDCzvliMye/eYpLdCaU+M5vSCGDop/r2nFuUCVuMc1L0FrIgKGYIqwmgYhRz1dm1
+ tr1bQQ6YDw1gqHIXcjgeg+LV1HYHmWBrUDFwieeIBIgNnQCX5NZGORhSWtjhk5dm/xnn9i+l
+ DJPGmaf+rGDUFavW0d2qH28ElsfmHYZE5obGtm2LcNXljuqzJ20eWRYLC03HbUYlwewvsFOD
+ WtW0paHip+g9S23gWSgjCMCDEvwYgvJPXUCPAmf6vI0n2gbI2OmqduJY4dwL91cNTvuPQMS+
+ SRZkucKy75Efog30iNvWk+URME3UUMgLftwlno/WK41HkwDb7bJ0lnXagSJ5WZ43L/T/iF3Z
+ 1lhbsOzKGNG3S0bsTDxbDcbjZFJB+Wu2KwQu0yoZ1fvK45ttJIbu/meCqN0GsC0AQ1Lc/ymk
+ 9bXb9y56rZPJRzO8MVYCBU8zMS5aayBVputhazBOAwfVsg1SCGe9yI5qfFsropDAmKohDqNV
+ yW7i1a+LPEUkK4pM4nIrN1JX4Tbk42rGlm9qeFcYbbDQ2xbeFN/FagKBaGAchgYbnAHa9Vtw
+ pw5tGDgvSeeCX50h3BpDcTGNM+z0+3BcepRB+WEeFG89amKU2Bj6uj7sm0lir2Q1KAGjclrJ
+ wAc1cRYMRFgiQji4Ny0jHacN2Inms110ZT5jZukUOF4PnT3Fvm
+X-IronPort-AV: E=Sophos;i="5.81,271,1610427600"; d="scan'208";a="39903702"
+Date: Tue, 23 Mar 2021 13:56:00 +0000
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/1] xen queue 2021-03-23
+Message-ID: <YFnzcAVsK0x9GDmC@perard>
+References: <20210323120439.563855-1-anthony.perard@citrix.com>
+ <161650138433.9581.1964473934310510991@72b6d80f974b>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="puxW8m2fmw26eGpL"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20210319132527.3118-2-ma.mandourr@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=stefanha@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <161650138433.9581.1964473934310510991@72b6d80f974b>
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,42 +96,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
+On Tue, Mar 23, 2021 at 05:09:45AM -0700, no-reply@patchew.org wrote:
+> ERROR: Author email address is mangled by the mailing list
+> #2: 
+> Author: Anthony PERARD via <qemu-devel@nongnu.org>
 
---puxW8m2fmw26eGpL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The actual commit in the pull request is fine.
 
-On Fri, Mar 19, 2021 at 03:25:20PM +0200, Mahmoud Mandour wrote:
-> Replaced the allocation and deallocation of fuse_req structs
-> using calloc()/free() call pairs to a GLib's g_try_new0()
-> and g_free().
->=20
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+I didn't work around the email issue when sending pull request, but I've
+worked around it when sending patch series.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Cheers,
 
---puxW8m2fmw26eGpL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBZ8bQACgkQnKSrs4Gr
-c8gFJAf/XIfWx0Jr+fOPL6DKSUE7Gln/Ebj7yDhrxThlY2EbW5lCf2bHSk2WtXDR
-Al3xywodBVsCPB+JyTc844Isdudw4ZOwNv1+br9tu3TK4LzzfzTaZivCs6frLFOu
-bmvNzF8fTF4RgpVRXGhpAlJXkijyfnxKV1qZe00Nz3LxPhsIyX7AmoTIs8OTj5OZ
-L1Xjb+5gT020faU/lc68QxtDiMhjxPqCrnj7Pi9W1kkv5BwkdhpjO5uIA4mMnDf5
-9kaK97nEeqrIJmq7Hn0NsrSyhp7CoRslpoeQCQI92Yx1Fd/tJq9Iut4Y2xHevOHQ
-mSLeDvgVcK7QCUaWpen0Pqk6ReiWZA==
-=5B3k
------END PGP SIGNATURE-----
-
---puxW8m2fmw26eGpL--
+-- 
+Anthony PERARD
 
