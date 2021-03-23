@@ -2,143 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7257345947
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 09:09:09 +0100 (CET)
-Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B534591C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 08:55:43 +0100 (CET)
+Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOc68-0001E8-H6
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 04:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38416)
+	id 1lObt8-0003Io-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 03:55:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lOc4H-0008Jm-30
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 04:07:13 -0400
-Received: from mail-eopbgr10128.outbound.protection.outlook.com
- ([40.107.1.128]:38276 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1lObrU-0002Rq-Cg; Tue, 23 Mar 2021 03:54:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lOc4C-00055e-Os
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 04:07:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RVgnFZeSNHFJl8UAcoY+tC5STpK7LbnFKqqfp7O57CbSYiDg8i8QiAylH/JWQcOiiACXF7IRUvZREKGtONo+ec16+8PvGZAKfZKxok6IYBQfRK1jhrPcOPRwox3jtRGqUKsTzM+KRMnKrVFw9h73Bm3TFKmoYbwFd+Kbq0CjduI5j6WBOaqy1469HQXV0tB72TTOpGmIziFajSThtQH0AscI2nhINnx6Xse9Cyz0OsN8WxhkqF5jdjkTOLgqWsu3n5OEElu2UW5B55qDNKJJmgCY5R7uQ2ppWjMxJ6w9ArPlAnAcuBZts5FCRbD4JzaZlXQQIhRDFmjp6KID+AtfyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mJMZ9Te2GGpy8rEJnOz5YlbfEFEOxO5/K6hWiM9uelw=;
- b=OBAswiieMwxcyo1CuUYeFo1p0B5seh34Mi07kuq+0dF/I591N9SYHvI7S4eu0OMsOB4qt8FaJMp/b80sqc2wk11u4FqdDnWGe7WxMdt7Wy3Lk0DIiohK1ZhDQcX7DRoQ5g7nDZ0dVXhtBSr1MIhlL0cMtYAMvI9GXFRn+1RujmLYI6oVySjKXHEYnnVdOyQJhLsyNIlsgqoMT6NMYzK7LRp0u6clVVyb8DTMXvNwgSCa8ly4XIVnshFGTwAYyvB13HD2jrbVSYXVecASCBeGIco7u39O+nayDdKi6zbvEXkO00PQryWFy/hxFUp9j4KYbb2F698RAsz0Wtx53Rt+Og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mJMZ9Te2GGpy8rEJnOz5YlbfEFEOxO5/K6hWiM9uelw=;
- b=XKOO1N6SIdj83wKVmy8UvQuHfkpg5YKUwJEWWSv5NLJ9uBq1UEnvi/2muzeHiitd9NCPqh64GJsRLWBT+Ex/D01rhqnk5Nh00M6uhoewFGNGktHm43NZ/RIQMDtguL1Ij+fYmIXaMyJXM4noOMkGcZKRn7EoaFol1T8HIYYKSJk=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
- by AM0PR08MB2995.eurprd08.prod.outlook.com (2603:10a6:208:5f::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.25; Tue, 23 Mar
- 2021 07:51:59 +0000
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 07:51:59 +0000
-Subject: Re: [PATCH v1 1/3] migration: Fix missing qemu_fflush() on buffer
- file in bg_migration_thread
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
-References: <20210319145249.425189-1-andrey.gruzdev@virtuozzo.com>
- <20210319145249.425189-2-andrey.gruzdev@virtuozzo.com>
- <20210322201716.GG16645@xz-x1>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <2fb49f83-e31c-8c93-50b7-833026b06518@virtuozzo.com>
-Date: Tue, 23 Mar 2021 10:51:57 +0300
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1lObrO-0005bC-M9; Tue, 23 Mar 2021 03:54:00 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12N7Z27o124537; Tue, 23 Mar 2021 03:53:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=scB0dVeff3XvA4OhUb5UTJEp+fe5hq/ZV3SA57L8xgE=;
+ b=QFI9XrQpe4+Bw49WM/8gpNAC6E08fE3DoQrvPDlprd5gCKdC8wGkn64kUQeT6jok3QgJ
+ Ayg1qc9fEgudrb8yxeebv+qkzXNR0SBUUpmd2OCiHWbyB+c7hS8hyP+GA9E7+knOAl2g
+ Zd67YY4SYhqeXmg4trWjH2cGsOy7AyCACKv6+2Y4mTFgknmKOAfLyZ8VRhCUhlWQi5mX
+ EDAaH0dpNwmu0FLpxJinJrk5hYv3qJLLiSKn3Ur3xU48f8r6k/3IAXNiJAoxFcrGCVAm
+ D7Wxcc+QrEvSz5EVFI0Sf71RTHlmNccJjJNccH5jkg+sfv/0phdphumbYZ/MIEjr6F9P kQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37ef6n2rqx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Mar 2021 03:53:40 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12N7Z9lQ124946;
+ Tue, 23 Mar 2021 03:53:40 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37ef6n2rqa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Mar 2021 03:53:39 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12N7mBCL014250;
+ Tue, 23 Mar 2021 07:53:37 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 37d99xhm62-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Mar 2021 07:53:37 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12N7rZBI36766096
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Mar 2021 07:53:35 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D84511C050;
+ Tue, 23 Mar 2021 07:53:35 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9029911C04C;
+ Tue, 23 Mar 2021 07:53:32 +0000 (GMT)
+Received: from [9.199.35.201] (unknown [9.199.35.201])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 23 Mar 2021 07:53:32 +0000 (GMT)
+Subject: Re: [RFC Qemu PATCH v2 1/2] spapr: drc: Add support for async hcalls
+ at the drc level
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
+ <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
+ <20201221130853.15c8ddfd@bahia.lan> <20201228083800.GN6952@yekko.fritz.box>
+ <3b47312a-217f-8df5-0bfd-1a653598abad@linux.ibm.com>
+ <20210208062122.GA40668@yekko.fritz.box>
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Message-ID: <0c3591b8-e2bd-3a7a-112f-e410bca4434f@linux.ibm.com>
+Date: Tue, 23 Mar 2021 13:23:31 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
-In-Reply-To: <20210322201716.GG16645@xz-x1>
-Content-Type: multipart/alternative;
- boundary="------------093A0B3D12F52E8622441133"
-Content-Language: en-US
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM0PR03CA0011.eurprd03.prod.outlook.com
- (2603:10a6:208:14::24) To AM0PR08MB3364.eurprd08.prod.outlook.com
- (2603:10a6:208:e4::15)
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM0PR03CA0011.eurprd03.prod.outlook.com (2603:10a6:208:14::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 07:51:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4f88fe02-706d-432f-70f1-08d8edd089b5
-X-MS-TrafficTypeDiagnostic: AM0PR08MB2995:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB29953096184B3A0AA9DE69CE9F649@AM0PR08MB2995.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5u18QZPM7F+54W7AkadVx6fPl6Hz5qTDq1WseqsZIwTriQ7WqjfDhH3vHspZNixOvApi6cYaeIOTm8+296eFa6nKrikhCD5Q1Rjxm5Nzxc2g/z8nw1KVAq8w/2jwugTc9o/8ON54kG2bay4wqjiWAsrXjbSrovEizVDIF3GMWcJnTIUiXDq8Rbyfi/NGTQDc+lbQgLbDYQtGBB+EBLJMdizoaFajtU49kw+6zIMYzzVYG0fBQqjqUA2jiDr69LwhqKTorvCeWdIeOoXnqRAJY0IfmFrjjSEI31IMcsGABWPiT9s2ztksnO5ITQ/3qPFYAJwRa0DKtPIu0sJqbII4dSDTz+WWr1VTpp2fX+Bmi7DkfP9Fi8BGRsqI7iLTrRR8ttYu/Sqlj0K7/KGFP3+11ChUaVw8Kee7rQCxqKHlbHTyzMroqfA0cSZI7t+7mJ/8dPbcvR4Eqwy38/p+SUGjiuZjakHLa69vh/JVBJq6sQZL06pxHOo1flsDUoBcR4fodiMQidzOQqj+urI/33/fBy54nzIZjsKMhH/gIHk0GdO3kkhmxYe/ba0F7t0Qn8RoMaJTgsF9sDnfOF5jeNqdoKUXpxxCMt7ySMW3ngdMWZZsgwrg17MIFDOXEOtP4dZUCJF0th7VgpTtOj0u6tKbpvVq49R0J39IWI0QGhBjK5QjvR1AfBhGPpdatCjaGd53F6BuiSUbcWdLp7pg45ePOg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(39840400004)(376002)(366004)(136003)(31686004)(2616005)(956004)(33964004)(44832011)(83380400001)(8676002)(52116002)(66556008)(54906003)(16576012)(186003)(16526019)(26005)(316002)(6486002)(478600001)(66946007)(66476007)(5660300002)(6916009)(86362001)(53546011)(31696002)(4326008)(36756003)(2906002)(38100700001)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MnhrallONngyK2g5QlR3cHUxRjhrNlBPR1JZTVIySEswZS9TNC9EOHVsb1Vk?=
- =?utf-8?B?Ykg3YkY4TWV6NTBNV0RiRGQ1VVB6alh5VDhkenhrOEhNRndPRTdTclZRc0Zw?=
- =?utf-8?B?SCtidFk4OG5weldMR0JvTXRldXBoRlBUT3hjTXlEOFI2bjBnS1kxbXJPV3dX?=
- =?utf-8?B?Q2VuZUF0NnBKdys0dWR5SS8rcWptZ3ROQXlvTlpLdWxncTh6WjBMRG8xSlI4?=
- =?utf-8?B?VVBPWWlvZ2FlRmtMc05Qd3llUnZwdms4QjBDdzdLbUxiVkliTWdpb2hTTHZO?=
- =?utf-8?B?N29Da3VhUGxTYUNkU3lEM2diVXkzU1IyU0hIOFh0dTFENnkvVHV4cHFtSEdN?=
- =?utf-8?B?eVp5MTBaZENtazMvTXFvUmUvdTFGTnRGVCswWFIzRjFaU0tTa1BLWGRHZlI3?=
- =?utf-8?B?Z1AzR0tRcTJjaVlkMGsvN0toSXhLQjFURHE1R09vN1V0K3NqZ1AxRkM4akJo?=
- =?utf-8?B?M0hUS2djWjVEakFtOFU0SmdCNlJ3YW1SNk11c2F6NmJMcEZBdHQ3eXRIcTgz?=
- =?utf-8?B?YUdNeVRsV1VMWnk4K25iNkFYZEhEeVZMVTBLSmt2NExhZENyMWpsRlViODZh?=
- =?utf-8?B?djhjenBRdWsyeE5XRTFXb0dlWWlkSlc3RE4vdUpUeVoyZ2YreTNiR0EzZGpY?=
- =?utf-8?B?SEh3STRGZmtHZmRnY2VtM0VvTFNxWHdCNmxCN3V6YkhwZTIxRVhxMVJJV1pR?=
- =?utf-8?B?VHM1MGpvN3VMZ3NQdFlBaVhlUjJUMWx4MStIbUVzSkVRRnUxOG41SFlmOWx3?=
- =?utf-8?B?Nkwyd09FT3E4ZzVaOGlpa1JZZUlHV3IwWHQ0dmQvSjhIMzNmM2ExeFkwSmtr?=
- =?utf-8?B?cmtBL3F3S1FMTG5SS2FrTFQyNXoxSlFwb0VFQ0NXWmJjYXQ4VGdDYU1ReEsz?=
- =?utf-8?B?ZVBUVzVGZm1nakVKYlBzV0Q0Rk9HTXRRaHhZMnhBSmVoM2hmSXhzWjR1R0pQ?=
- =?utf-8?B?RDF3SWx0aThqSVhibU1jeldWKzZ2SU1oaDVnOFViT3JTeThiU0VITU45VkZ5?=
- =?utf-8?B?ZXhab2t1b1B1TFNpeFRRRUwrVDVRY2NydUpFbVZaSlU4YjVUQ0drSUV0SDJq?=
- =?utf-8?B?N3dtQ1lWSnd6eE9MaEZxOTFMWlZwMVZucWE2TTdpakhKWk4xTk8wZEhxVlM4?=
- =?utf-8?B?dVBjV2V6b1dUcE1yR0JhY3J3dVhmcmpmR05FNm9lTVRhZDQxQ0ZkQVY4Q1Ri?=
- =?utf-8?B?dnVralVjWlBIYW9RYWxZcy9rMHRvVm9RQ3BXK0RET3RSWGdqMDBSTFgvcEQ2?=
- =?utf-8?B?M2hEOHl3U2FZWmNnSDB5NkJ2cWh0LzVyalkzQjl0eFYxcTBXUlQrNnFTNllQ?=
- =?utf-8?B?WkI0N2dMTWdlbUhFRW1wNDRZTGp6b1FFZXYwQjNidnZKVDBZUmt4NHRINHlm?=
- =?utf-8?B?eko1dzVoZlI5WGdCVGJITGFZSG9sVGxyZkdyZlNQZUljWkpGb1gvYmZYbElP?=
- =?utf-8?B?WXVGcTdQKytyRjRpclQwcVd0WitUdFhoNE5xdWI0NldncFJUTENRb1Irdkhr?=
- =?utf-8?B?VlhYVnV1SWwxQ0tsd1J3bFFvR0VQQVk2cXFzU1dGeGE2RFpiUDhOdjJIMC9j?=
- =?utf-8?B?aEQ1SnlzTWNhMG5Menc5R2NrTVBMaTZ6MnN5TkhDaWRyeUtYbnBHeVFwRVVG?=
- =?utf-8?B?Z2F4ekdVQXpJL3JWdTk0cjIrTVRaTm9PemVjbEEzRGZGREQ0bVU2ZFZZanlC?=
- =?utf-8?B?RmlhRlZ5RUFaVTBLQ3Vyd0RGNTV4MVlWMkwrSy9GWXZqTktXMGtQWU90eEti?=
- =?utf-8?Q?O2wmSwZ/p2vIRP2/Xea9j6UcHREgANFhUFefW9r?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f88fe02-706d-432f-70f1-08d8edd089b5
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 07:51:59.4214 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4hwPdpyiwaIcznF2gat7pAHAh+q4eGnhPLiKmnYcs7bLL4bLsH69mMZMMMGzr2fpo6RZ1uVkwZcBbxhzDZDOTOI268IMQEag6BEmeDOHbQ0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB2995
-Received-SPF: pass client-ip=40.107.1.128;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20210208062122.GA40668@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-23_02:2021-03-22,
+ 2021-03-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103230053
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -152,120 +114,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
+ linux-nvdimm@lists.01.org, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
+ Greg Kurz <groug@kaod.org>, shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org,
+ bharata@linux.vnet.ibm.com, imammedo@redhat.com, linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------093A0B3D12F52E8622441133
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi David,
 
-On 22.03.2021 23:17, Peter Xu wrote:
-> On Fri, Mar 19, 2021 at 05:52:47PM +0300, Andrey Gruzdev wrote:
->> Added missing qemu_fflush() on buffer file holding precopy device state.
->> Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
->> Typical configurations often require >200KB for device state and VMDESC.
+Sorry about the delay.
+
+On 2/8/21 11:51 AM, David Gibson wrote:
+> On Tue, Jan 19, 2021 at 12:40:31PM +0530, Shivaprasad G Bhat wrote:
+>> Thanks for the comments!
 >>
->> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
->> ---
->>   migration/migration.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
 >>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index ca8b97baa5..32b48fe9f5 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
->>        * with vCPUs running and, finally, write stashed non-RAM part of
->>        * the vmstate from the buffer to the migration stream.
->>        */
->> -    s->bioc = qio_channel_buffer_new(128 * 1024);
->> +    s->bioc = qio_channel_buffer_new(512 * 1024);
->>       qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
->>       fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
->>       object_unref(OBJECT(s->bioc));
->> @@ -3866,6 +3866,8 @@ static void *bg_migration_thread(void *opaque)
->>       if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
->>           goto fail;
->>       }
->> +    qemu_fflush(fb);
-> What will happen if the vmstates are bigger than 512KB?  Would the extra data
-> be dropped?
+>> On 12/28/20 2:08 PM, David Gibson wrote:
+>>
+>>> On Mon, Dec 21, 2020 at 01:08:53PM +0100, Greg Kurz wrote:
+>> ...
+>>>> The overall idea looks good but I think you should consider using
+>>>> a thread pool to implement it. See below.
+>>> I am not convinced, however.  Specifically, attaching this to the DRC
+>>> doesn't make sense to me.  We're adding exactly one DRC related async
+>>> hcall, and I can't really see much call for another one.  We could
+>>> have other async hcalls - indeed we already have one for HPT resizing
+>>> - but attaching this to DRCs doesn't help for those.
+>> The semantics of the hcall made me think, if this is going to be
+>> re-usable for future if implemented at DRC level.
+> It would only be re-usable for operations that are actually connected
+> to DRCs.  It doesn't seem to me particularly likely that we'll ever
+> have more asynchronous hcalls that are also associated with DRCs.
+Okay
 
-No, the buffer shall be reallocated and the original content shall be kept.
-
-> In that case, I'm wondering whether we'll need a qemu_file_get_error() after
-> the flush to detect it, and whether we need to retry with a bigger buffer size?
+>> Other option
+>> is to move the async-hcall-state/list into the NVDIMMState structure
+>> in include/hw/mem/nvdimm.h and handle it with machine->nvdimms_state
+>> at a global level.
+> I'm ok with either of two options:
 >
-> Thanks,
+> A) Implement this ad-hoc for this specific case, making whatever
+> simplifications you can based on this specific case.
+
+I am simplifying it to nvdimm use-case alone and limiting the scope.
+
+
+> B) Implement a general mechanism for async hcalls that is *not* tied
+> to DRCs.  Then use that for the existing H_RESIZE_HPT_PREPARE call as
+> well as this new one.
 >
-I think for QIOBufferChannel we don't need that, as I can see from the buffer channel
-implementation.
+>> Hope you are okay with using the pool based approach that Greg
+> Honestly a thread pool seems like it might be overkill for this
+> application.
+
+I think its appropriate here as that is what is being done by virtio-pmem
+
+too for flush requests. The aio infrastructure simplifies lot of the
+
+thread handling usage. Please suggest if you think there are better ways.
 
 
---------------093A0B3D12F52E8622441133
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+I am sending the next version addressing all the comments from you and Greg.
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 22.03.2021 23:17, Peter Xu wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20210322201716.GG16645@xz-x1">
-      <pre class="moz-quote-pre" wrap="">On Fri, Mar 19, 2021 at 05:52:47PM +0300, Andrey Gruzdev wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Added missing qemu_fflush() on buffer file holding precopy device state.
-Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
-Typical configurations often require &gt;200KB for device state and VMDESC.
-
-Signed-off-by: Andrey Gruzdev <a class="moz-txt-link-rfc2396E" href="mailto:andrey.gruzdev@virtuozzo.com">&lt;andrey.gruzdev@virtuozzo.com&gt;</a>
----
- migration/migration.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index ca8b97baa5..32b48fe9f5 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
-      * with vCPUs running and, finally, write stashed non-RAM part of
-      * the vmstate from the buffer to the migration stream.
-      */
--    s-&gt;bioc = qio_channel_buffer_new(128 * 1024);
-+    s-&gt;bioc = qio_channel_buffer_new(512 * 1024);
-     qio_channel_set_name(QIO_CHANNEL(s-&gt;bioc), &quot;vmstate-buffer&quot;);
-     fb = qemu_fopen_channel_output(QIO_CHANNEL(s-&gt;bioc));
-     object_unref(OBJECT(s-&gt;bioc));
-@@ -3866,6 +3866,8 @@ static void *bg_migration_thread(void *opaque)
-     if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-         goto fail;
-     }
-+    qemu_fflush(fb);
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-What will happen if the vmstates are bigger than 512KB?  Would the extra data
-be dropped?
-</pre>
-    </blockquote>
-    <pre>No, the buffer shall be reallocated and the original content shall be kept.</pre>
-    <blockquote type="cite" cite="mid:20210322201716.GG16645@xz-x1">
-      <pre class="moz-quote-pre" wrap="">
-In that case, I'm wondering whether we'll need a qemu_file_get_error() after
-the flush to detect it, and whether we need to retry with a bigger buffer size?
 
 Thanks,
 
-</pre>
-    </blockquote>
-    <pre>I think for QIOBufferChannel we don't need that, as I can see from the buffer channel
-implementation.
+Shivaprasad
 
-</pre>
-  </body>
-</html>
-
---------------093A0B3D12F52E8622441133--
 
