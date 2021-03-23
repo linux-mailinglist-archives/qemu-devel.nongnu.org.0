@@ -2,114 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B35B3465FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:09:41 +0100 (CET)
-Received: from localhost ([::1]:33784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE1E3465FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:09:49 +0100 (CET)
+Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkXE-0001my-Kz
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
+	id 1lOkXM-00029f-2F
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=709189048=acatan@amazon.com>)
- id 1lOjcP-0007IT-6S
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:10:57 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:1893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=709189048=acatan@amazon.com>)
- id 1lOjcL-0005R1-Ms
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:10:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1616515854; x=1648051854;
- h=from:to:cc:date:message-id:references:in-reply-to:
- content-id:mime-version:content-transfer-encoding:subject;
- bh=GXkTj4pGq3nW0nYO9duitGCSspcTFWw3vJ2TTU/l3CI=;
- b=m93gDXzfiem9/nvndu3b6u3/WsiUUHsIzAiNqzzPjHJn6n/k64V7F707
- AUO+E/TdBX7os/WyXgpE09M0MSSFoPHoLsyErQSqNyaqZZPv7/b6P3T/N
- TdSfXJ+uRItei7KkKLmgdvKnyNLkAkB7DzUnfUMasIjehbrNQa9sdLHf5 4=;
-X-IronPort-AV: E=Sophos;i="5.81,272,1610409600"; d="scan'208";a="95621463"
-Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id driver
-Thread-Topic: [PATCH v8] drivers/misc: sysgenid: add system generation id
- driver
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.43.8.2])
- by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP;
- 23 Mar 2021 16:10:43 +0000
-Received: from EX13MTAUWA001.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
- by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS
- id D1A08A2217; Tue, 23 Mar 2021 16:10:30 +0000 (UTC)
-Received: from EX13D20UWA004.ant.amazon.com (10.43.160.62) by
- EX13MTAUWA001.ant.amazon.com (10.43.160.58) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 23 Mar 2021 16:10:30 +0000
-Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
- EX13D20UWA004.ant.amazon.com (10.43.160.62) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 23 Mar 2021 16:10:29 +0000
-Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
- EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.012;
- Tue, 23 Mar 2021 16:10:28 +0000
-From: "Catangiu, Adrian Costin" <acatan@amazon.com>
-To: Greg KH <gregkh@linuxfoundation.org>, "Graf (AWS), Alexander"
- <graf@amazon.de>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "linux-s390@vger.kernel.org"
- <linux-s390@vger.kernel.org>, "rdunlap@infradead.org"
- <rdunlap@infradead.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "ebiederm@xmission.com" <ebiederm@xmission.com>, "rppt@kernel.org"
- <rppt@kernel.org>, "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>, "Jason@zx2c4.com"
- <Jason@zx2c4.com>, "jannh@google.com" <jannh@google.com>, "w@1wt.eu"
- <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>, "luto@kernel.org"
- <luto@kernel.org>, "tytso@mit.edu" <tytso@mit.edu>, "ebiggers@kernel.org"
- <ebiggers@kernel.org>, "Woodhouse, David" <dwmw@amazon.co.uk>,
- "bonzini@gnu.org" <bonzini@gnu.org>, "Singh, Balbir" <sblbir@amazon.com>,
- "Weiss, Radu" <raduweis@amazon.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "mst@redhat.com" <mst@redhat.com>, "mhocko@kernel.org" <mhocko@kernel.org>,
- "rafael@kernel.org" <rafael@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>, "areber@redhat.com"
- <areber@redhat.com>, "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
- "avagin@gmail.com" <avagin@gmail.com>, "ptikhomirov@virtuozzo.com"
- <ptikhomirov@virtuozzo.com>, "gil@azul.com" <gil@azul.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "dgunigun@redhat.com"
- <dgunigun@redhat.com>, "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
- <ghammer@redhat.com>
-Thread-Index: AQHXFDSs8xrEX8MfBEC6uKT7aIuSv6qRn1uAgABX0gA=
-Date: Tue, 23 Mar 2021 16:10:27 +0000
-Message-ID: <E6E517FF-A37C-427C-B16F-066A965B8F42@amazon.com>
-References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
- <YEY2b1QU5RxozL0r@kroah.com>
- <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
- <YFnlZQZOasOwxUDn@kroah.com>
-In-Reply-To: <YFnlZQZOasOwxUDn@kroah.com>
-Accept-Language: en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.166.52]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <885DAA1B17363842AE11B1CE7A23F8B4@amazon.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOjgA-00054n-Vk; Tue, 23 Mar 2021 12:14:51 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOjg8-0007ae-VH; Tue, 23 Mar 2021 12:14:50 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id o16so21385022wrn.0;
+ Tue, 23 Mar 2021 09:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T9rgbORsGA9riDUDb8xvzjRsLP7URL+4hWLMqQizWD0=;
+ b=g31nUmLOIFxJqcy4JS+AIJxozlX8sj+RZS5s/mL7jsY6DCsH/rxUXerTq7c+9084gM
+ 4F/3qs6pwlUAPwFNixgZgVclHGib8mORoXqK4h7PRS3FTWz2W0ApOmpUm/t0TRlOYUU3
+ 57VlrHbV0P6mkVEvAMujqt2XjA2ZjfwVbSdWFkNdwMijes5/5cJrMbIxJbUq8WW8DgLG
+ gppm0ucY7nUv3WZxAshs1UDOTqst08TxIXi+pS+O1IKQMr9nqe7YW0j+PHOd0rIBB/Ul
+ mpl+O7CgGZFUanrU6JKun4YHw5MPMg/zuKJtheaCXEskSM46yQ42fFtcewCdO+l7g5Q1
+ 4x0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=T9rgbORsGA9riDUDb8xvzjRsLP7URL+4hWLMqQizWD0=;
+ b=W3wTHItTLoh9WvlWnxplfSirq+DJ3/jGA0z1SP52BU1G8DQ+jZTyaTzfPrpREsfpkG
+ 93xHxxDc4lo1txBcsrdZDg2segNpXyv3cR/lJrvQXTN9gQ/Eb2Y70JruwBKuGSrcUOqJ
+ U/sP6njv1r0jC/yjxJz7uvF39WqJOn1IdjTpieT8Rc+6JSUQutFUnvFumIm2hndX0XwV
+ JoxdwfjeWteXmX3mJ8UXiU6Bigf2v2Uo2N6dHsJmz5VqHkKFXf8auNGTnXSBPLUHdR+u
+ nX+6iRTIyR0sT8Ic5ipOX30oTfSIkM4HW+S+J1Khul2Eu7da/8HEp3p6Z1OoOmxOl3rN
+ U/nQ==
+X-Gm-Message-State: AOAM532DSSsnfwJumQ+ib1yCmdnPtgG4exLmdi5km//FwMxF1lSYinAu
+ iNgmB30wKwWE06jvyu6Is0c7Mi8VL1u3iQ==
+X-Google-Smtp-Source: ABdhPJwQNZe4oKY3Oe9KFAXTOPSje88/Gat5u3CAZE3rujNGbrUil9jJUXcDzIzkXYu1SwkFhk5fJg==
+X-Received: by 2002:adf:c752:: with SMTP id b18mr4739087wrh.233.1616516086499; 
+ Tue, 23 Mar 2021 09:14:46 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id c8sm2982249wmb.34.2021.03.23.09.14.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 09:14:45 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] hw/display/bcm2835_fb: Remove DeviceReset() call in
+ DeviceRealize()
+Date: Tue, 23 Mar 2021 17:14:40 +0100
+Message-Id: <20210323161443.245636-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Precedence: Bulk
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=72.21.198.25;
- envelope-from=prvs=709189048=acatan@amazon.com; helo=smtp-fw-4101.amazon.com
-X-Spam_score_int: -102
-X-Spam_score: -10.3
-X-Spam_bar: ----------
-X-Spam_report: (-10.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -118,79 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgR3JlZywNCg0KQWZ0ZXIgeW91ciBwcmV2aW91cyByZXBseSBvbiB0aGlzIHRocmVhZCB3ZSBz
-dGFydGVkIGNvbnNpZGVyaW5nIHRvIHByb3ZpZGUgdGhpcyBpbnRlcmZhY2UgYW5kIGZyYW1ld29y
-ay9mdW5jdGlvbmFsaXR5IHRocm91Z2ggYSB1c2Vyc3BhY2Ugc2VydmljZSBpbnN0ZWFkIG9mIGEg
-a2VybmVsIGludGVyZmFjZS4NClRoZSBsYXRlc3QgaXRlcmF0aW9uIG9uIHRoaXMgZXZvbHZpbmcg
-cGF0Y2gtc2V0IGRvZXNu4oCZdCBoYXZlIHN0cm9uZyByZWFzb25zIGZvciBsaXZpbmcgaW4gdGhl
-IGtlcm5lbCBhbnltb3JlIC0gdGhlIG9ubHkgb2JqZWN0aXZlbHkgc3Ryb25nIGFkdmFudGFnZSB3
-b3VsZCBiZSBlYXNpZXIgZHJpdmluZyBvZiBlY29zeXN0ZW0gaW50ZWdyYXRpb247IGJ1dCBJIGFt
-IG5vdCBzdXJlIHRoYXQncyBhIGdvb2QgZW5vdWdoIHJlYXNvbiB0byBjcmVhdGUgYSBuZXcga2Vy
-bmVsIGludGVyZmFjZS4NCg0KSSBhbSBub3cgbG9va2luZyBpbnRvIGFkZGluZyB0aGlzIHRocm91
-Z2ggU3lzdGVtZC4gRWl0aGVyIGFzIGEgcGx1Z2dhYmxlIHNlcnZpY2Ugb3IgbWF5YmUgZXZlbiBh
-IHN5c3RlbWQgYnVpbHRpbiBvZmZlcmluZy4NCg0KV2hhdCBhcmUgeW91ciB0aG91Z2h0cyBvbiBp
-dD8NCg0KVGhhbmtzLA0KQWRyaWFuLg0KDQrvu79PbiAyMy8wMy8yMDIxLCAxNDo1NywgIkdyZWcg
-S0giIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQoNCiAgICBDQVVUSU9OOiBU
-aGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBvdXRzaWRlIG9mIHRoZSBvcmdhbml6YXRpb24uIERv
-IG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgY2FuIGNvbmZp
-cm0gdGhlIHNlbmRlciBhbmQga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KDQoNCg0KICAgIE9u
-IE1vbiwgTWFyIDA4LCAyMDIxIGF0IDA1OjAzOjU4UE0gKzAxMDAsIEFsZXhhbmRlciBHcmFmIHdy
-b3RlOg0KICAgID4NCiAgICA+DQogICAgPiBPbiAwOC4wMy4yMSAxNTozNiwgR3JlZyBLSCB3cm90
-ZToNCiAgICA+ID4NCiAgICA+ID4gT24gTW9uLCBNYXIgMDgsIDIwMjEgYXQgMDQ6MTg6MDNQTSAr
-MDIwMCwgQWRyaWFuIENhdGFuZ2l1IHdyb3RlOg0KICAgID4gPiA+ICtzdGF0aWMgc3RydWN0IG1p
-c2NkZXZpY2Ugc3lzZ2VuaWRfbWlzYyA9IHsNCiAgICA+ID4gPiArICAgICAubWlub3IgPSBNSVND
-X0RZTkFNSUNfTUlOT1IsDQogICAgPiA+ID4gKyAgICAgLm5hbWUgPSAic3lzZ2VuaWQiLA0KICAg
-ID4gPiA+ICsgICAgIC5mb3BzID0gJmZvcHMsDQogICAgPiA+ID4gK307DQogICAgPiA+DQogICAg
-PiA+IE11Y2ggY2xlYW5lciwgYnV0Og0KICAgID4gPg0KICAgID4gPiA+ICtzdGF0aWMgaW50IF9f
-aW5pdCBzeXNnZW5pZF9pbml0KHZvaWQpDQogICAgPiA+ID4gK3sNCiAgICA+ID4gPiArICAgICBp
-bnQgcmV0Ow0KICAgID4gPiA+ICsNCiAgICA+ID4gPiArICAgICBzeXNnZW5pZF9kYXRhLm1hcF9i
-dWYgPSBnZXRfemVyb2VkX3BhZ2UoR0ZQX0tFUk5FTCk7DQogICAgPiA+ID4gKyAgICAgaWYgKCFz
-eXNnZW5pZF9kYXRhLm1hcF9idWYpDQogICAgPiA+ID4gKyAgICAgICAgICAgICByZXR1cm4gLUVO
-T01FTTsNCiAgICA+ID4gPiArDQogICAgPiA+ID4gKyAgICAgYXRvbWljX3NldCgmc3lzZ2VuaWRf
-ZGF0YS5nZW5lcmF0aW9uX2NvdW50ZXIsIDApOw0KICAgID4gPiA+ICsgICAgIGF0b21pY19zZXQo
-JnN5c2dlbmlkX2RhdGEub3V0ZGF0ZWRfd2F0Y2hlcnMsIDApOw0KICAgID4gPiA+ICsgICAgIGlu
-aXRfd2FpdHF1ZXVlX2hlYWQoJnN5c2dlbmlkX2RhdGEucmVhZF93YWl0cSk7DQogICAgPiA+ID4g
-KyAgICAgaW5pdF93YWl0cXVldWVfaGVhZCgmc3lzZ2VuaWRfZGF0YS5vdXRkYXRlZF93YWl0cSk7
-DQogICAgPiA+ID4gKyAgICAgc3Bpbl9sb2NrX2luaXQoJnN5c2dlbmlkX2RhdGEubG9jayk7DQog
-ICAgPiA+ID4gKw0KICAgID4gPiA+ICsgICAgIHJldCA9IG1pc2NfcmVnaXN0ZXIoJnN5c2dlbmlk
-X21pc2MpOw0KICAgID4gPiA+ICsgICAgIGlmIChyZXQgPCAwKSB7DQogICAgPiA+ID4gKyAgICAg
-ICAgICAgICBwcl9lcnIoIm1pc2NfcmVnaXN0ZXIoKSBmYWlsZWQgZm9yIHN5c2dlbmlkXG4iKTsN
-CiAgICA+ID4gPiArICAgICAgICAgICAgIGdvdG8gZXJyOw0KICAgID4gPiA+ICsgICAgIH0NCiAg
-ICA+ID4gPiArDQogICAgPiA+ID4gKyAgICAgcmV0dXJuIDA7DQogICAgPiA+ID4gKw0KICAgID4g
-PiA+ICtlcnI6DQogICAgPiA+ID4gKyAgICAgZnJlZV9wYWdlcyhzeXNnZW5pZF9kYXRhLm1hcF9i
-dWYsIDApOw0KICAgID4gPiA+ICsgICAgIHN5c2dlbmlkX2RhdGEubWFwX2J1ZiA9IDA7DQogICAg
-PiA+ID4gKw0KICAgID4gPiA+ICsgICAgIHJldHVybiByZXQ7DQogICAgPiA+ID4gK30NCiAgICA+
-ID4gPiArDQogICAgPiA+ID4gK3N0YXRpYyB2b2lkIF9fZXhpdCBzeXNnZW5pZF9leGl0KHZvaWQp
-DQogICAgPiA+ID4gK3sNCiAgICA+ID4gPiArICAgICBtaXNjX2RlcmVnaXN0ZXIoJnN5c2dlbmlk
-X21pc2MpOw0KICAgID4gPiA+ICsgICAgIGZyZWVfcGFnZXMoc3lzZ2VuaWRfZGF0YS5tYXBfYnVm
-LCAwKTsNCiAgICA+ID4gPiArICAgICBzeXNnZW5pZF9kYXRhLm1hcF9idWYgPSAwOw0KICAgID4g
-PiA+ICt9DQogICAgPiA+ID4gKw0KICAgID4gPiA+ICttb2R1bGVfaW5pdChzeXNnZW5pZF9pbml0
-KTsNCiAgICA+ID4gPiArbW9kdWxlX2V4aXQoc3lzZ2VuaWRfZXhpdCk7DQogICAgPiA+DQogICAg
-PiA+IFNvIHlvdSBkbyB0aGlzIGZvciBhbnkgYml0IG9mIGhhcmR3YXJlIHRoYXQgaGFwcGVucyB0
-byBiZSBvdXQgdGhlcmU/DQogICAgPiA+IFdpbGwgdGhhdCByZWFsbHkgd29yaz8gIFlvdSBkbyBu
-b3QgaGF2ZSBhbnkgaHdpZCB0byB0cmlnZ2VyIG9mZiBvZiB0bw0KICAgID4gPiBrbm93IHRoYXQg
-dGhpcyBpcyBhIHZhbGlkIGRldmljZSB5b3UgY2FuIGhhbmRsZT8NCiAgICA+DQogICAgPiBUaGUg
-aW50ZXJmYWNlIGlzIGFscmVhZHkgdXNlZnVsIGluIGEgcHVyZSBjb250YWluZXIgY29udGV4dCB3
-aGVyZSB0aGUNCiAgICA+IGdlbmVyYXRpb24gY2hhbmdlIHJlcXVlc3QgaXMgdHJpZ2dlcmVkIGJ5
-IHNvZnR3YXJlLg0KICAgID4NCiAgICA+IEFuZCB5ZXMsIHRoZXJlIGFyZSBoYXJkd2FyZSB0cmln
-Z2VycywgYnV0IE1pY2hhZWwgd2FzIHF1aXRlIHVuaGFwcHkgYWJvdXQNCiAgICA+IHBvdGVudGlh
-bCByYWNlcyBiZXR3ZWVuIFZNR2VuSUQgY2hhbmdlIGFuZCBTeXNHZW5JRCBjaGFuZ2UgYW5kIHRo
-dXMgd2FudGVkDQogICAgPiB0byBpZGVhbGx5IHNlcGFyYXRlIHRoZSBpbnRlcmZhY2VzLiBTbyB3
-ZSB3ZW50IGFoZWFkIGFuZCBpc29sYXRlZCB0aGUNCiAgICA+IFN5c0dlbklEIG9uZSwgYXMgaXQn
-cyBhbHJlYWR5IHVzZWZ1bCBhcyBpcy4NCiAgICA+DQogICAgPiBIYXJkd2FyZSBkcml2ZXJzIHRv
-IGluamVjdCBjaGFuZ2UgZXZlbnRzIGludG8gU3lzR2VuSUQgY2FuIHRoZW4gZm9sbG93DQogICAg
-PiBsYXRlciwgZm9yIGFsbCBkaWZmZXJlbnQgaGFyZHdhcmUgcGxhdGZvcm1zLiBCdXQgU3lzR2Vu
-SUQgYXMgaW4gdGhpcyBwYXRjaA0KICAgID4gaXMgYSBjb21wbGV0ZWx5IGhhcmR3YXJlIGFnbm9z
-dGljIGNvbmNlcHQuDQoNCiAgICBPaywgdGhpcyBpcyBnb2luZyB0byBwbGF5IGhhdm9jIHdpdGgg
-ZnV6emVycyBhbmQgb3RoZXIgImF1dG9tYXRlZA0KICAgIHRlc3RlcnMiLCBzaG91bGQgYmUgZnVu
-IHRvIHdhdGNoISAgOikNCg0KICAgIExldCdzIHF1ZXVlIHRoaXMgdXAgYW5kIHNlZSB3aGF0IGhh
-cHBlbnMuLi4NCg0KICAgIHRoYW5rcywNCg0KICAgIGdyZWcgay1oDQoNCgoKCkFtYXpvbiBEZXZl
-bG9wbWVudCBDZW50ZXIgKFJvbWFuaWEpIFMuUi5MLiByZWdpc3RlcmVkIG9mZmljZTogMjdBIFNm
-LiBMYXphciBTdHJlZXQsIFVCQzUsIGZsb29yIDIsIElhc2ksIElhc2kgQ291bnR5LCA3MDAwNDUs
-IFJvbWFuaWEuIFJlZ2lzdGVyZWQgaW4gUm9tYW5pYS4gUmVnaXN0cmF0aW9uIG51bWJlciBKMjIv
-MjYyMS8yMDA1Lgo=
-
+Since v1:=0D
+Resize console on reset to create the surface, see:=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg794307.html=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/display/bcm2835_fb: Resize console on reset=0D
+  hw/display/bcm2835_fb: Use bcm2835_fb_reconfigure in bcm2835_fb_reset=0D
+  hw/display/bcm2835_fb: Remove DeviceReset() call in DeviceRealize()=0D
+=0D
+ hw/display/bcm2835_fb.c | 7 +------=0D
+ 1 file changed, 1 insertion(+), 6 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
