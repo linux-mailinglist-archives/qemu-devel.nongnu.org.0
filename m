@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F466346578
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:39:17 +0100 (CET)
-Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971FC34658A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:42:37 +0100 (CET)
+Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOk3o-0001F6-IT
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
+	id 1lOk72-0005vu-JL
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lOjIH-00028B-DJ
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:50:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lOjIF-0002Pg-7o
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:50:09 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjIP-0002Qj-Dw
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:50:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjIN-0002U9-Hb
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:50:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616514606;
+ s=mimecast20190719; t=1616514614;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7a9x9sMPjTQMRh3A7PB7wDsHaKp6dbnl2aXjY9m6eTs=;
- b=fmjWvRig8gJxAAhUHKpbxAZt1SjJZsicS4v6UeeAPtq95uh4YuPsSO9G3BMMzwJ2lCD4bZ
- E4TTv+4XQLMEK9Ea1WHf/BBpYpWxethFkf01LRxsCVN1MQ6E1Rer1OALJaMjdO/kylHCYa
- ulzZ3xT++dROQr474//O3X64N/9nOws=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-B_FIg6wiMC-2vPCxJ8A0vw-1; Tue, 23 Mar 2021 11:50:01 -0400
-X-MC-Unique: B_FIg6wiMC-2vPCxJ8A0vw-1
-Received: by mail-vk1-f198.google.com with SMTP id i65so654571vkg.19
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 08:50:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7a9x9sMPjTQMRh3A7PB7wDsHaKp6dbnl2aXjY9m6eTs=;
- b=qqYRLo9b39llPqn3AXch8d/Ki84zlGUYkQmArx3CPatxSe0OGMvanGGuShOqYSkLl7
- xyzB1slCmFh/7JBeYEpbvhfN3BSbukJ4+cUjbd1Um6elJdpxacQDJ9BeX3isbwlsmPUm
- 84XmOUkHEA3sVt+v6VP2SkNRrlC223tZZp34Tflrc8YSO61goiYsNx9rJ9Ocyo38Cj/2
- plvXxssTCsDdGXMaoRV2JnLUxAce+Ku12fIRw6IfiTcnvm2OsSxf3r9Xqbm9C+1GaDh6
- urw/2iJ1L+DBPjW0hIkmnM0GznS889nRCmfrdPxiipThg2raQqoZ9w+IcyxurKpBiNMh
- oQiw==
-X-Gm-Message-State: AOAM532CLz6b+gWOJlb2huQOpH85hqrHU9QQO+FGh3Z8iVTi2BYhnBLe
- o++WPXzaWTBeQAyc8quAybCWGT/zddbskJST/ZmqO0ak3EvQEiBTi5KPPuhIrYQdrzcI1/T484j
- NkxhRZkHjYC0my2am2MuiYldhoV1Gofk=
-X-Received: by 2002:a67:fe93:: with SMTP id b19mr4016355vsr.1.1616514601141;
- Tue, 23 Mar 2021 08:50:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwl5u6In+VfxfepTYYlC34z133duIKeVfrPfU1upBhZ7shimBQbXc/kGHR3BOJtyNjGIlVy7ghew6RUWoFliUY=
-X-Received: by 2002:a67:fe93:: with SMTP id b19mr4016340vsr.1.1616514600958;
- Tue, 23 Mar 2021 08:50:00 -0700 (PDT)
+ bh=8ML7VtANVTwRHLlDUVB19le4J9ZCPFkjfw9RRPOItiE=;
+ b=CmCNf/cKMsZOtjSJ0fWe2IM/mEeOuNXR8kGJu31K2oRK7UrwDywM/IXll88Cr9RpeCdSXF
+ i3GA/QohmSRWp6SmBOVaX4zoQHC4B5Tey1OxffvSHMCpMvffwB0iE/1/XGoaJmRjsmj3NV
+ tDkCZA2mRr+fnnq0zClqT3K6R8qtfHo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-eltYDJ4zOjispJXk6LuHWg-1; Tue, 23 Mar 2021 11:50:11 -0400
+X-MC-Unique: eltYDJ4zOjispJXk6LuHWg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 525C210866A5;
+ Tue, 23 Mar 2021 15:50:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94A1B60BE5;
+ Tue, 23 Mar 2021 15:50:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 271A311327E1; Tue, 23 Mar 2021 16:50:06 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 07/28] qapi: Fix to reject optional members with
+ reserved names
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-8-armbru@redhat.com>
+ <42dad810-715d-1dba-2476-b730422101c0@redhat.com>
+Date: Tue, 23 Mar 2021 16:50:06 +0100
+In-Reply-To: <42dad810-715d-1dba-2476-b730422101c0@redhat.com> (John Snow's
+ message of "Tue, 23 Mar 2021 09:27:25 -0400")
+Message-ID: <87czvpq381.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
-In-Reply-To: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 23 Mar 2021 12:49:34 -0300
-Message-ID: <CAKJDGDZJJ-b7H4xf0+kCk59kD894XH+efhF1u73EYqJ_OXZAOg@mail.gmail.com>
-Subject: Re: 'make check-acceptance' odd error: "'bytes' object has no
- attribute 'encode'"
-To: Peter Maydell <peter.maydell@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,59 +82,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+John Snow <jsnow@redhat.com> writes:
 
-On Tue, Mar 23, 2021 at 12:28 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>> check_type() fails to reject optional members with reserved names,
+>> because it neglects to strip off the leading '*'.  Fix that.
+>> The stripping in check_name_str() is now useless.  Drop.
+>> Also drop the "no leading '*'" assertion, because valid_name.match()
+>> ensures it can't fail.
+>> 
 >
-> I just got this running 'make check-acceptance': does it
-> ring a bell with anybody?
+> (Yep, I noticed that, but assumed that it made someone feel safe, so I
+> left it!)
+
+I added it myself.  I guess it made me feel safer back then :)
+
+>> Fixes: 9fb081e0b98409556d023c7193eeb68947cd1211
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   scripts/qapi/expr.py                     |  9 ++++-----
+>>   tests/qapi-schema/reserved-member-u.err  |  2 ++
+>>   tests/qapi-schema/reserved-member-u.json |  1 -
+>>   tests/qapi-schema/reserved-member-u.out  | 14 --------------
+>>   4 files changed, 6 insertions(+), 20 deletions(-)
+>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>> index 2fcaaa2497..cf09fa9fd3 100644
+>> --- a/scripts/qapi/expr.py
+>> +++ b/scripts/qapi/expr.py
+>> @@ -34,12 +34,10 @@ def check_name_is_str(name, info, source):
+>>     
+>>   def check_name_str(name, info, source,
+>> -                   allow_optional=False, enum_member=False,
+>> +                   enum_member=False,
 >
-> [etc]
-> Fetching asset from
-> tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips64el_malta_5KEc_cpio
-> Fetching asset from
-> tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips64el_malta_5KEc_cpio
-> Fetching asset from
-> tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips_malta32el_nanomips_4k
-> Fetching asset from
-> tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips_malta32el_nanomips_16k_up
-> Fetching asset from
-> tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips_malta32el_nanomips_64k_dbg
-> Fetching asset from
-> tests/acceptance/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
-> Fetching asset from
-> tests/acceptance/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
-> Error running method "pre_tests" of plugin "fetchasset": 'bytes'
-> object has no attribute 'encode'
+> I guess we now assume here (in this function) that '*' is /never/ allowed.
 
-The side effect of this bug is that when you run check-acceptance for
-the first time, it won't download this specific image before the test
-starts, but during the test execution. After the first run, the asset
-is already on cache and will not be downloaded again, working as
-expected.
+Correct.
 
-This bug is fixed here
-https://github.com/avocado-framework/avocado/pull/4416 and already
-available on release 86.0 of Avocado.
-
-It will reach the QEMU side as soon as we bump the version here.
-
-> JOB ID     : 71b2d5569d9ccc8b68957d3ad2b2026bea437d66
-> JOB LOG    : /home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/tests/results/job-2021-03-23T15.09-71b2d55/job.log
->  (001/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg:
-> PASS (465.84 s)
->  (002/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_kvm:
-> PASS (27.46 s)
->  (003/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_q35_tcg:
-> PASS (99.43 s)
-> [etc]
+>>                      permit_upper=False):
+>>       membername = name
+>>   -    if allow_optional and name.startswith('*'):
+>> -        membername = name[1:]
+>>       # Enum members can start with a digit, because the generated C
+>>       # code always prefixes it with the enum name
+>>       if enum_member and membername[0].isdigit():
+>> @@ -52,7 +50,6 @@ def check_name_str(name, info, source,
+>>       if not permit_upper and name.lower() != name:
+>>           raise QAPISemError(
+>>               info, "%s uses uppercase in name" % source)
+>> -    assert not membername.startswith('*')
+>>     
+>>   def check_defn_name_str(name, info, meta):
+>> @@ -171,8 +168,10 @@ def check_type(value, info, source,
+>>       # value is a dictionary, check that each member is okay
+>>       for (key, arg) in value.items():
+>>           key_source = "%s member '%s'" % (source, key)
+>> +        if key.startswith('*'):
+>> +            key = key[1:]
 >
-> thanks
-> -- PMM
+> And we'll strip it out up here instead...
 >
+>>           check_name_str(key, info, key_source,
+>> -                       allow_optional=True, permit_upper=permit_upper)
+>> +                       permit_upper=permit_upper)
+>
+> Which makes that check the same, but
+>
+>>           if c_name(key, False) == 'u' or c_name(key, False).startswith('has_'):
+>>               raise QAPISemError(info, "%s uses reserved name" % key_source)
+>
+> This check now behaves differently, fixing the bug.
+
+Right again.
+
+> Reviewed-by: John Snow <jsnow@redhat.com>
+
+Thanks!
+
+> (assuming that this was tested and didn't break something /else/ I
+> haven't considered.)
+
+Fortunately, tests/qapi-schema is reasonably comprehensive.
 
 
