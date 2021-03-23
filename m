@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACABD346640
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:26:44 +0100 (CET)
-Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008EA346619
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:16:27 +0100 (CET)
+Received: from localhost ([::1]:49740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOknj-0001hS-JX
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
+	id 1lOkdm-0002zI-0b
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkN0-0007Bc-Mp
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:59:06 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46610)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkMs-0005yj-Fz
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:59:06 -0400
-Received: by mail-ej1-x629.google.com with SMTP id u21so10301701ejo.13
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mb2USBz3/rkoafXQjYLvAfykrf4t+4S3CX6XGxj0nMM=;
- b=shO2ITS6nNs2VpaXtci8r+Icv2O9OjgYf+wR0dj8vfuo7a8LltHyyruGc1s17xqrsT
- zauH6geBB+QonpD9ymkmUzakD9NLh2Zv+ckXgsKbX8B+aRi3jhKOlEU8502XRJkOysxs
- ER7G8r8P6z9iZvp1iZxY6xfqWXlgpVYEVvF8cmMrDFYQzNz9WCbmkB13+TU2wxHBQsJA
- WGB04wit6YGkuQCndMYFOCqSwb5OQDijOrIO3x2wMJKiCI2PRA/mcq4xLwhJ0SbgRkO8
- 6oaKu7UYKWSXIYSA7s72e1GmmJSVXEbqswbA7MHBcc1Jn1EhquejaXrzoFFDu2SUV2ua
- WleQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mb2USBz3/rkoafXQjYLvAfykrf4t+4S3CX6XGxj0nMM=;
- b=n7X3o+3N4llhjSqx1SO8B8/nddNMyjjnG0V6Atrfvt9RrEe9lsHBmqzYT5k32X5SlJ
- tY/YPkj7sQFcGJY3fBEwL7hnhqp0P0u4KYEE8pZkSa6Q5fsfUOhsCcBSed8xX+zLrvhs
- FCO9zog1NVT9vl0wo8MFdGizwG1imFaF707pAaBBN5U4S+O8qJSBbp4cO5Yuybuq6Wnq
- G6iuHfSX/e/8PinBGZPNclmp6QbqXx8wyhasLJhDWl5yThZm8bjUyQXkDdM45dCbEG/g
- qn19DIt64antuFY9enpI/IiAAr7WKQsPZGPG52565RPOC47fvPwSMJRh9FqspBCp40me
- 8A8A==
-X-Gm-Message-State: AOAM533rq8F1BeULsfJVCs+pP7FuApm2KusvqvejVFDWShVF51dyZUSP
- YdV5D0PMKO0Sx7Rpul6L2sOBwfu4fsrnkH2K
-X-Google-Smtp-Source: ABdhPJwCC7FZWhS5NiBDOKpvCBLHXm07xFz2+oxRUUOUDfGO5i4uXFjA2cYEv1gFhHS+HTJJS0+97w==
-X-Received: by 2002:a17:906:5902:: with SMTP id
- h2mr5835872ejq.416.1616518736672; 
- Tue, 23 Mar 2021 09:58:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u13sm11392727ejy.31.2021.03.23.09.58.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 09:58:50 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 126131FFAA;
- Tue, 23 Mar 2021 16:53:13 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 22/22] gitlab: default to not building the documentation
-Date: Tue, 23 Mar 2021 16:53:08 +0000
-Message-Id: <20210323165308.15244-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210323165308.15244-1-alex.bennee@linaro.org>
-References: <20210323165308.15244-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lOkJQ-0001XB-3R
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:55:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lOkJA-0003oD-HV
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:55:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616518507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SdWQde6Olka61wicEQRsuvGQhLQuJdcC0qYtNWbiToE=;
+ b=GmdeHJ2V1MswcCcdkwwCEVeALiEbho51Y0VE6pvEueLzIUYUsyvkQNc30FCD+LVvGYAOiV
+ xy9lZ+vrMc8Qyt7E+JE7lT4Q5+fq0BZJ1HiWjy/DvCpwFZW8ps9h8mRB9VOZww1Sz7b1fF
+ qQRiqUYKRYQqWEpIIt3DyS5OKS1VOfg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-V871cHbGPL67evKrhgss-g-1; Tue, 23 Mar 2021 12:55:03 -0400
+X-MC-Unique: V871cHbGPL67evKrhgss-g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6631B18C8C01;
+ Tue, 23 Mar 2021 16:55:02 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B9CD5FCB5;
+ Tue, 23 Mar 2021 16:54:49 +0000 (UTC)
+Date: Tue, 23 Mar 2021 17:54:47 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Ways to deal with broken machine types
+Message-ID: <20210323175447.0c57d2a4@redhat.com>
+In-Reply-To: <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ <20210322114116-mutt-send-email-mst@kernel.org>
+ <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
+ <20210323104542-mutt-send-email-mst@kernel.org>
+ <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
+ <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,121 +83,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Daniel P.
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu devel list <qemu-devel@nongnu.org>, Vitaly Cheptsov <cheptsov@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In d0f26e68a0 ("gitlab: force enable docs build in Fedora, Ubuntu,
-Debian") we made sure we can build the documents on more than one
-system. However we don't want to build documents all the time as it's
-a waste of cycles (and energy). So lets reduce the total amount of
-documentation we build while still keeping coverage of at least one
-build on each supported target.
+On Tue, 23 Mar 2021 16:04:11 +0100
+Thomas Lamprecht <t.lamprecht@proxmox.com> wrote:
 
-Fixes: a8a3abe0b3 ("gitlab: move docs and tools build across from Travis")
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> On 23.03.21 15:55, Vitaly Cheptsov wrote:
+> >> 23 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2021 =D0=B3., =D0=B2 17:48, Michael =
+S. Tsirkin <mst@redhat.com> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB(=D0=
+=B0):
+> >>
+> >> The issue is with people who installed a VM using 5.1 qemu,
+> >> migrated to 5.2, booted there and set a config on a device
+> >> e.g. IP on a NIC.
+> >> They now have a 5.1 machine type but changing uid back
+> >> like we do will break these VMs.
+> >>
+> >> Unlikley to be common but let's at least create a way for these people
+> >> to used these VMs.
+> >> =20
+> > They can simply set the 5.2 VM version in such a case. I do not want to=
+  =20
+> let this legacy hack to be enabled in any modern QEMU VM version, as it v=
+iolates ACPI specification and makes the life more difficult for various ot=
+her software like bootloaders and operating systems.
+>=20
+> Yeah here I agree with Vitaly, if they already used 5.2 and made some con=
+figurations
+> for those "new" devices they can just keep using 5.2?
+>=20
+> If some of the devices got configured on 5.1 and some on 5.2 there's noth=
+ing we can
+> do anyway, from a QEMU POV - there the user always need to choose one mac=
+hine version
+> and fix up the device configured while on the other machine.
 
----
-v2
-  - enable for OpenSUSE LEAP and Centos8 as well
-  - disable for all cross builds
-  - minor re-word of the commit text
-v3
-  - revert: enable for OpenSUSE LEAP and Centos8 as well
----
- .gitlab-ci.d/crossbuilds.yml | 15 ++++++++-------
- .gitlab-ci.yml               | 10 +++++-----
- 2 files changed, 13 insertions(+), 12 deletions(-)
+According to testing it appears that issue affects virtio drivers so it may=
+ lead to
+failure to boot guest (and there was at least 1 report about virtio-scsi be=
+ing affected).
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index d5098c986b..2d95784ed5 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -6,10 +6,10 @@
-     - mkdir build
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
--      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-user
--        --target-list-exclude="arm-softmmu cris-softmmu i386-softmmu
--          microblaze-softmmu mips-softmmu mipsel-softmmu mips64-softmmu
--          ppc-softmmu sh4-softmmu xtensa-softmmu"
-+      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-user --target-list-exclude="arm-softmmu cris-softmmu
-+          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-+          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- # Job to cross-build specific accelerators.
-@@ -25,8 +25,8 @@
-     - mkdir build
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
--      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-tools
--        --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
-+      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
-     - make -j$(expr $(nproc) + 1) all check-build
- 
- .cross_user_build_job:
-@@ -36,7 +36,8 @@
-     - mkdir build
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
--      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
-+      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-system
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- cross-armel-system:
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 9ffbaa7ffb..3480d79db3 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -23,9 +23,9 @@ include:
-     - cd build
-     - if test -n "$TARGETS";
-       then
--        ../configure --enable-werror $CONFIGURE_ARGS --target-list="$TARGETS" ;
-+        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS --target-list="$TARGETS" ;
-       else
--        ../configure --enable-werror $CONFIGURE_ARGS ;
-+        ../configure --enable-werror --disable-docs $CONFIGURE_ARGS ;
-       fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
-     - if test -n "$LD_JOBS";
-       then
-@@ -119,7 +119,7 @@ build-system-ubuntu:
-     job: amd64-ubuntu2004-container
-   variables:
-     IMAGE: ubuntu2004
--    CONFIGURE_ARGS: --enable-fdt=system --enable-slirp=system
-+    CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       moxie-softmmu microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
-@@ -607,7 +607,7 @@ tsan-build:
-     job: amd64-ubuntu2004-container
-   variables:
-     IMAGE: ubuntu2004
--    CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10 --disable-docs
-+    CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10
-           --enable-trace-backends=ust --enable-fdt=system --enable-slirp=system
-     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
-     MAKE_CHECK_ARGS: bench V=1
-@@ -619,7 +619,7 @@ build-deprecated:
-     job: amd64-debian-user-cross-container
-   variables:
-     IMAGE: debian-all-test-cross
--    CONFIGURE_ARGS: --disable-docs --disable-tools
-+    CONFIGURE_ARGS: --disable-tools
-     MAKE_CHECK_ARGS: build-tcg
-     TARGETS: ppc64abi32-linux-user lm32-softmmu unicore32-softmmu
-   artifacts:
--- 
-2.20.1
+Let me hijack this thread for beyond this case scope.
+
+I agree that for this particular bug we've done all we could, but
+there is broader issue to discuss here.
+
+We have machine versions to deal with hw compatibility issues and that cove=
+rs most of the cases,
+but occasionally we notice problem well after release(s),
+so users may be stuck with broken VM and need to manually fix configuration=
+ (and/or VM).
+Figuring out what's wrong and how to fix it is far from trivial. So lets di=
+scuss if we
+can help to ease this pain, yes it will be late for first victims but it's =
+still
+better than never.
+
+I'll try to sum up idea Michael suggested (here comes my unorganized brain-=
+dump),
+
+1. We can keep in VM's config QEMU version it was created on
+   and as minimum warn user with a pointer to known issues if version in
+   config mismatches version of actually used QEMU, with a knob to silence
+   it for particular mismatch.
+
+When an issue becomes know and resolved we know for sure how and what
+changed and embed instructions on what options to use for fixing up VM's
+config to preserve old HW config depending on QEMU version VM was installed=
+ on.
+
+some more ideas:
+   2. let mgmt layer to keep fixup list and apply them to config if availab=
+le
+       (user would need to upgrade mgmt or update fixup list somehow)
+   3. let mgmt layer to pass VM's QEMU version to currently used QEMU, so
+      that QEMU could maintain and apply fixups based on QEMU version + mac=
+hine type.
+      The user will have to upgrade to newer QEMU to get/use new fixups.
+
+In my opinion both would lead to explosion of 'possibly needed' properties =
+for each
+change we introduce in hw/firmware(read ACPI) and very possibly a lot of co=
+nditional
+branches in QEMU code. And I'm afraid it will become hard to maintain QEMU =
+=3D>
+more bugs in future.
+Also it will lead to explosion of test matrix for downstreams who care abou=
+t testing.
+
+If we proactively gate changes on properties, we can just update fixup list=
+s in mgmt,
+without need to update QEMU (aka Insite rules) at a cost of complexity on Q=
+MEU side.
+
+Alternatively we can be conservative in spawning new properties, that means=
+ creating
+them only when issue is fixed and require users to update QEMU, so that fix=
+ups could
+be applied to VM.
+
+Feel free to shoot the messenger down or suggest ways how we can deal with =
+the problem.
 
 
