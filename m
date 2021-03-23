@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BE0346ACC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:09:09 +0100 (CET)
-Received: from localhost ([::1]:59410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B15346AE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:17:26 +0100 (CET)
+Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOoGy-0003WH-5W
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36228)
+	id 1lOoOy-0000nl-Vz
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:17:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoG1-0002A0-1m
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:08:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58441)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoMW-0007Xv-PD
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:14:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoFx-0006Rc-Uy
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:08:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoMT-0000tg-L2
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:14:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616533684;
+ s=mimecast20190719; t=1616534088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LyBkYnhWB4qlraJxJ/gnFB7n+CfROoSxQCdx9FrCgcU=;
- b=gc5KWAsVO/6UpJxRmfbKWsnQ1cpc245aVsGAW+tRJOPf2fzU1MqakkAfSFwTeDrHBjrDGP
- s+UMY9OSxBHMtw3m5S3ushO5DCUCH85yPNhpljuR2xeXSUJk6Vck4UyPwP66aKJVb8esdi
- GnXV3NVg6Amug8W3XlEdgOEi1ooxuHY=
+ bh=XU3DgzcJNZaDIHr2ih2EOsccVyy+ZAfq4Kj31xfl2Ac=;
+ b=JSgTfHC8lq+FqsqFacd5p8Pfdv3Hi9vKPZXb6tRyHIbJ5qESNQgGGaEYNzOzXpTc/2G3dK
+ 62h1wx38wAn9RFwR9ilI7gF/vUTZLdixIf1NNsI4lkGigDI5rwYZUtRX6ck3J1Vd7F8fbb
+ Qc+0nWbuxLi5f3Y414t827Uu11OfvdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-J-PjbyCjMw-suNE3FYqc5w-1; Tue, 23 Mar 2021 17:08:01 -0400
-X-MC-Unique: J-PjbyCjMw-suNE3FYqc5w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-372-SWpuVySxMQ2ObUibzWb8SQ-1; Tue, 23 Mar 2021 17:14:46 -0400
+X-MC-Unique: SWpuVySxMQ2ObUibzWb8SQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1EDE801817;
- Tue, 23 Mar 2021 21:08:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2139107ACCD;
+ Tue, 23 Mar 2021 21:14:45 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E9BD50DD0;
- Tue, 23 Mar 2021 21:07:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 808865C1C5;
+ Tue, 23 Mar 2021 21:14:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A746511327E1; Tue, 23 Mar 2021 22:07:55 +0100 (CET)
+ id 140CC11327E1; Tue, 23 Mar 2021 22:14:41 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 08/28] qapi: Support flat unions tag values with leading
- digit
+Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
+ stricter checking
 References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-9-armbru@redhat.com>
- <b84d5e36-de4a-9178-43d1-7a9e489e7b6c@redhat.com>
- <8735wlq1x8.fsf@dusky.pond.sub.org>
-Date: Tue, 23 Mar 2021 22:07:55 +0100
-In-Reply-To: <8735wlq1x8.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Tue, 23 Mar 2021 17:18:11 +0100")
-Message-ID: <87y2edlgt0.fsf@dusky.pond.sub.org>
+ <20210323094025.3569441-11-armbru@redhat.com>
+ <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com>
+ <87tup1on0z.fsf@dusky.pond.sub.org>
+Date: Tue, 23 Mar 2021 22:14:41 +0100
+In-Reply-To: <87tup1on0z.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Tue, 23 Mar 2021 17:25:16 +0100")
+Message-ID: <87tup1lghq.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,75 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+Cc: jsnow@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
  marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Markus Armbruster <armbru@redhat.com> writes:
 
-> John Snow <jsnow@redhat.com> writes:
+> Eric Blake <eblake@redhat.com> writes:
 >
->> On 3/23/21 5:40 AM, Markus Armbruster wrote:
->>> Flat union tag values get checked twice: as enum member name, and as
->>> union branch name.  The former accepts leading digits, the latter
->>> doesn't.  The restriction feels arbitrary.  Skip the latter check.
->>>
->>> This can expose c_name() to input it can't handle: a name starting
->>> with a digit.  Improve it to return a valid C identifier for any
->>> input.
->>>
+>> On 3/23/21 4:40 AM, Markus Armbruster wrote:
+>>> Naming rules differ for the various kinds of names.  To prepare
+>>> enforcing them, define functions to check them: check_name_upper(),
+>>> check_name_lower(), and check_name_camel().  For now, these merely
+>>> wrap around check_name_str(), but that will change shortly.  Replace
+>>> the other uses of check_name_str() by appropriate uses of the
+>>> wrappers.  No change in behavior just yet.
+>>> 
 >>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>  scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
+>>>  1 file changed, 36 insertions(+), 15 deletions(-)
+>>> 
 >>
->> Anything in particular inspire this?
+>>> +++ b/scripts/qapi/expr.py
+>>> @@ -21,11 +21,12 @@
+>>>  from .error import QAPISemError
+>>>  
+>>>  
+>>> -# Names must be letters, numbers, -, and _.  They must start with letter,
+>>> -# except for downstream extensions which must start with __RFQDN_.
+>>> -# Dots are only valid in the downstream extension prefix.
+>>> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
+>>> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
+>>
+>> I'm assuming python concatenates r'' with '' in the obvious manner...
+>>
+>>> +# Names consist of letters, digits, -, and _, starting with a letter.
+>>> +# An experimental name is prefixed with x-.  A name of a downstream
+>>> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
+>>> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
+>>> +                        r'(x-)?'
+>>> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
+>>
+>> ...but like your explicit use of r'' r''.
+>>
+>> Splitting out special handling of r'(x-)?' does not change behavior, but
+>> is not otherwise mentioned in your commit message.  I suspect you did it
+>> to make it easier to permit x-EVENT_NAME in later patches where upper is
+>> handled differently from lower or camel,
 >
-> Just a desire for keeping things simple.  "Any enum type works as
-> discriminator" is simpler than "any enum works, but branches
-> corresponding to enum values starting with a digit cannot have members".
-> Let me elaborate.
+> Yes.
 >
-> This works:
+>>                                          so I won't withhold R-b, but it
+>> may be worth a tweak to the commit message.
 >
->     {'enum': 'Enu', 'data': ['0', 'eins', '2']}
->     {'struct': 'St', 'data': {'s': 'str'}}
->     {'union': 'Uni',
->      'base': {'type': 'Enu'},
->      'discriminator': 'type',
->      'data': {
->        'eins': 'St'}}
->
-> But if you change the last line to
->
->        '0': 'St'}}
->
-> you get told off:
->
->     scripts/qapi-gen.py: /dev/stdin: In union 'Uni':
->     /dev/stdin:3: 'data' member '0' has an invalid name
+> Probably.  I'm failing at coming up with a concise text that isn't
+> confusing.
 
-Improved commit message:
+Adding this paragraph:
 
-    qapi: Permit flat union members for any tag value
-
-    Flat union branch names match the tag enum's member names.  Omitted
-    branches default to "no members for this tag value".
-
-    Branch names starting with a digit get rejected like "'data' member
-    '0' has an invalid name".  However, omitting the branch works.
-
-    This is because flat union tag values get checked twice: as enum
-    member name, and as union branch name.  The former accepts leading
-    digits, the latter doesn't.
-
-    Branches whose names start with a digit therefore cannot have members.
-    Feels wrong.  Get rid of the restriction by skipping the latter check.
-
-    This can expose c_name() to input it can't handle: a name starting
-    with a digit.  Improve it to return a valid C identifier for any
-    input.
-
-    Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-[...]
+    check_name_str() now returns the name without downstream and x-
+    prefix, for use by the wrappers in later patches.  Requires tweaking
+    regexp @valid_name.  It accepts the same strings as before.
 
 
