@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CDD345FC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:37:15 +0100 (CET)
-Received: from localhost ([::1]:49578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB1A345FCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:38:04 +0100 (CET)
+Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOhDe-0000Rz-Eu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59856)
+	id 1lOhER-0001Is-SK
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:38:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lOhCi-0008RA-F0
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:36:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45491)
+ id 1lOhDD-0000UX-K8
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:36:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lOhCf-0003Fp-8m
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:36:15 -0400
+ id 1lOhDC-0003at-6z
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:36:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616506571;
+ s=mimecast20190719; t=1616506605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YjO4COss4cvQqDtWnEDYSyWI1eduWqh/BYKaekyV/Cw=;
- b=PZj7QT8GvWtgqKkZdEmM6C22k4yRgZ3itlJsyUzqyvOA6Lb1lNcwNKP6NDzVvHjCwI/StR
- 0OkiAdOhfK8EWs/GZljcnvFLbVOz6zCQ5D+N72fhnx2qxJj7Cme8dXVoHSlOb5xPhMXFzW
- KwIrL1bMJLRKlQkSnUr0fkTe/EiAsgI=
+ bh=MGk5KAtvmdj85GkWkgq3ulA8EZZa/6OZxgZGbkg3FI4=;
+ b=Zm0k5CPZCz9gjLSrndjy3Vfa65X7LdfXDLowRyKrwg0dOkY4YolfaugMZ2GoAZ7vG2QGO5
+ /Fpj3AM6uRT0FUZ46FzjcUBzFNLEwlFDZvb0t7MOmOLcZaHgz4oX1n2LTGWdlc506cgKmU
+ kqK2AV3QxvwfCCGXrlW+Q5c1+fDLZIY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-CxiVBQW6O8yhP8OOhYe_QQ-1; Tue, 23 Mar 2021 09:36:08 -0400
-X-MC-Unique: CxiVBQW6O8yhP8OOhYe_QQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-591-vn4AJrfvMkKQD1NzPcxEdQ-1; Tue, 23 Mar 2021 09:36:43 -0400
+X-MC-Unique: vn4AJrfvMkKQD1NzPcxEdQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10A7487504E;
- Tue, 23 Mar 2021 13:36:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7245C183E241;
+ Tue, 23 Mar 2021 13:36:41 +0000 (UTC)
 Received: from localhost (ovpn-114-89.ams2.redhat.com [10.36.114.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F8FB10841A9;
- Tue, 23 Mar 2021 13:36:05 +0000 (UTC)
-Date: Tue, 23 Mar 2021 13:36:04 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67AA25D6AD;
+ Tue, 23 Mar 2021 13:36:40 +0000 (UTC)
+Date: Tue, 23 Mar 2021 13:36:39 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Yuri Gribov <tetra2005@gmail.com>
 Subject: Re: [PATCH] [NFC] Mark locally used symbols as static.
-Message-ID: <YFnuxJG8yzjAWcyW@stefanha-x1.localdomain>
+Message-ID: <YFnu57GV4lnK33gt@stefanha-x1.localdomain>
 References: <CAJOtW+5DDMsr8QJQxaa1OHT79rpMJCrwkYbuaRTynR_ngUxgHA@mail.gmail.com>
 MIME-Version: 1.0
 In-Reply-To: <CAJOtW+5DDMsr8QJQxaa1OHT79rpMJCrwkYbuaRTynR_ngUxgHA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tZ2DNpC32Zgg5Evi"
+ protocol="application/pgp-signature"; boundary="awf51F4+BiTgyoyY"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,44 +89,32 @@ Cc: Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---tZ2DNpC32Zgg5Evi
+--awf51F4+BiTgyoyY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
 On Mon, Mar 22, 2021 at 10:55:42PM +0300, Yuri Gribov wrote:
-> diff --git a/scripts/tracetool/format/c.py b/scripts/tracetool/format/c.p=
-y
-> index c390c18..7e89ba3 100644
-> --- a/scripts/tracetool/format/c.py
-> +++ b/scripts/tracetool/format/c.py
-> @@ -49,7 +49,7 @@ def generate(events, backend, group):
->              sstate =3D "TRACE_%s_ENABLED" % e.name.upper(),
->              dstate =3D e.api(e.QEMU_DSTATE))
->=20
-> -    out('TraceEvent *%(group)s_trace_events[] =3D {',
-> +    out('static TraceEvent *%(group)s_trace_events[] =3D {',
->          group =3D group.lower())
->=20
->      for e in events:
+>  scripts/tracetool/format/c.py                 |  2 +-
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+My Reviewed-by is specifically for this tracetool file.
 
---tZ2DNpC32Zgg5Evi
+Stefan
+
+--awf51F4+BiTgyoyY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBZ7sQACgkQnKSrs4Gr
-c8hcDAf+NWPrQPS8Tv50j8XlcK5xWSVWC5qlq1t7TTPyuuDLHS0GbIVZYsWNXhhh
-U8bdwfMNyEZtEX7h18kTkjPgBOrHtYye42xTftAGxmj3Wxyy3q3GFhWRaBkDhn+u
-1ahxkW/FY/XQpxKVqHksddyblmPwGexaVLgJRMgmJR6sp/QYpDIVN5yhetQR7x1e
-WqUGTXhncmNO2IPDKzVFY8WxBN7+QX/xdUV4sCQDVfeLHUKruIk77HeAjpK1N+2K
-09V7fRo9miYeFAUsTrOFLC+BZh4mMqqpunG54H0CqjPkfJwbfj5pU3pqD/MR9sOa
-n68ZXFsiHMrYWH30nxhgrsrXQYlALQ==
-=WfFu
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBZ7ucACgkQnKSrs4Gr
+c8gHkQf9GkqbjJSuq8OCSoVw/Hyu9Vckxvuy2RKzcFv2gK7TULUwPYdElAcGLasq
+x4sXHVZJQAzBchP25oNBNY9qwE7rsTcpyNB0wx94hak2j3asrbgTQiwkdDoll7hv
+ulPFzhLJtgBgBDu8lcJ7APeONhjfBI2GlGJ9IovVebTeAWeg/Hh8vO++qX9RYhbj
+OpgsHel4mbaD5NH+NFfFKIsUBABnDc7PNN/jhOSXXfCplEn6gQVsrrs6EJbUobnZ
+Hk7up9Yg1zH8vUVyGJATDRl94/EXQU4RMthCuhgNwr+t01dPTih7e2xTlxLR9pdA
+o80wuYd8VuuwlACGYF8yhLpy7Daqjg==
+=/4TX
 -----END PGP SIGNATURE-----
 
---tZ2DNpC32Zgg5Evi--
+--awf51F4+BiTgyoyY--
 
 
