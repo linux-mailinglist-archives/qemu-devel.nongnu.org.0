@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CAD346CF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:28:31 +0100 (CET)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D57346D22
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:31:21 +0100 (CET)
+Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOpVm-0000jM-Uk
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52256)
+	id 1lOpYW-0004lh-Bs
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lOpJr-000782-FZ
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:16:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lOpJi-0002rb-Dt
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:16:11 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lOpJw-0007Am-TI
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:16:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lOpJj-0002rl-M1
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:16:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616537761;
+ s=mimecast20190719; t=1616537762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RXjSaEHMpAyVR1pzAaZhvgLIrPoXk6JJNXLfAy1cs3I=;
- b=Qg2IC7l4EzT4fhwjyAm77VVWvl8xknbEIbiJgvmscWGP+1BDqr0bUlFxvbIHGsBt5sVXdz
- BpMCy2B1mgrl326yFgNjaEviOL+FbimXNbDnXMWPLEzEOR+P3K/YnTHSJKIKUA8js3QvnG
- 3foBNg2hub7bKJjihs1sZJm3bYM2ytg=
+ bh=lULuSr6pc7nl0O74e33zp2cJROUTZXU8HvwdAX1dEFE=;
+ b=PrMyadzsx7SVhuLCTJj0KaGuiajw0XSW+9P1lrIdRES9Diw3ZwiqoL7SjkZY/cZ1HlFBhj
+ lvY2HkmzJxBwtcnMXjgrAJazPaBMhez04fUYEMb7kvKRmyOJ3eyJkh1o6PE5co9MMptRdU
+ y0WhgonoAcXnSJ4Q/c0WnbNStE1qTH0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-ifzhDsiVNYmtgJuo7YjEzg-1; Tue, 23 Mar 2021 18:15:57 -0400
-X-MC-Unique: ifzhDsiVNYmtgJuo7YjEzg-1
+ us-mta-511-81_xsqJ8MiG6g4d8Qokbqw-1; Tue, 23 Mar 2021 18:15:59 -0400
+X-MC-Unique: 81_xsqJ8MiG6g4d8Qokbqw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80DF588EF00;
- Tue, 23 Mar 2021 22:15:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 644B21853021;
+ Tue, 23 Mar 2021 22:15:58 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-119-39.rdu2.redhat.com
  [10.10.119.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA56A60877;
- Tue, 23 Mar 2021 22:15:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A14DE60877;
+ Tue, 23 Mar 2021 22:15:56 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/10] Python: add utility function for retrieving port
- redirection
-Date: Tue, 23 Mar 2021 18:15:32 -0400
-Message-Id: <20210323221539.3532660-4-crosa@redhat.com>
+Subject: [PATCH v2 04/10] Acceptance Tests: move useful ssh methods to base
+ class
+Date: Tue, 23 Mar 2021 18:15:33 -0400
+Message-Id: <20210323221539.3532660-5-crosa@redhat.com>
 In-Reply-To: <20210323221539.3532660-1-crosa@redhat.com>
 References: <20210323221539.3532660-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,208 +95,225 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Slightly different versions for the same utility code are currently
-present on different locations.  This unifies them all, giving
-preference to the version from virtiofs_submounts.py, because of the
-last tweaks added to it.
+Both the virtiofs submounts and the linux ssh mips malta tests
+contains useful methods related to ssh that deserve to be made
+available to other tests.  Let's move them to the base LinuxTest
+class.
 
-While at it, this adds a "qemu.utils" module to host the utility
-function and a test.
+The method that helps with setting up an ssh connection will now
+support both key and password based authentication, defaulting to key
+based.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- python/qemu/utils.py                     | 35 ++++++++++++++++++++++++
- tests/acceptance/info_usernet.py         | 29 ++++++++++++++++++++
- tests/acceptance/linux_ssh_mips_malta.py | 16 +++++------
- tests/acceptance/virtiofs_submounts.py   | 21 ++++----------
- tests/vm/basevm.py                       |  7 ++---
- 5 files changed, 78 insertions(+), 30 deletions(-)
- create mode 100644 python/qemu/utils.py
- create mode 100644 tests/acceptance/info_usernet.py
+ tests/acceptance/avocado_qemu/__init__.py | 48 ++++++++++++++++++++++-
+ tests/acceptance/linux_ssh_mips_malta.py  | 38 ++----------------
+ tests/acceptance/virtiofs_submounts.py    | 37 -----------------
+ 3 files changed, 50 insertions(+), 73 deletions(-)
 
-diff --git a/python/qemu/utils.py b/python/qemu/utils.py
-new file mode 100644
-index 0000000000..89a246ab30
---- /dev/null
-+++ b/python/qemu/utils.py
-@@ -0,0 +1,35 @@
-+"""
-+QEMU utility library
-+
-+This offers miscellaneous utility functions, which may not be easily
-+distinguishable or numerous to be in their own module.
-+"""
-+
-+# Copyright (C) 2021 Red Hat Inc.
-+#
-+# Authors:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2.  See
-+# the COPYING file in the top-level directory.
-+#
-+
-+import re
-+from typing import Optional
-+
-+
-+def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optional[int]:
-+    """
-+    Returns the port given to the hostfwd parameter via info usernet
-+
-+    :param info_usernet_output: output generated by hmp command "info usernet"
-+    :param info_usernet_output: str
-+    :return: the port number allocated by the hostfwd option
-+    :rtype: int
-+    """
-+    for line in info_usernet_output.split('\r\n'):
-+        regex = r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
-+        match = re.search(regex, line)
-+        if match is not None:
-+            return int(match[1])
-+    return None
-diff --git a/tests/acceptance/info_usernet.py b/tests/acceptance/info_usernet.py
-new file mode 100644
-index 0000000000..9c1fd903a0
---- /dev/null
-+++ b/tests/acceptance/info_usernet.py
-@@ -0,0 +1,29 @@
-+# Test for the hmp command "info usernet"
-+#
-+# Copyright (c) 2021 Red Hat, Inc.
-+#
-+# Author:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from avocado_qemu import Test
-+
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 83b1741ec8..67f75f66e5 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -20,6 +20,7 @@
+ from avocado.utils import cloudinit
+ from avocado.utils import datadrainer
+ from avocado.utils import network
++from avocado.utils import ssh
+ from avocado.utils import vmimage
+ from avocado.utils.path import find_command
+ 
+@@ -43,6 +44,8 @@
+ from qemu.accel import kvm_available
+ from qemu.accel import tcg_available
+ from qemu.machine import QEMUMachine
 +from qemu.utils import get_info_usernet_hostfwd_port
 +
+ 
+ def is_readable_executable_file(path):
+     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+@@ -253,7 +256,50 @@ def fetch_asset(self, name,
+                         cancel_on_missing=cancel_on_missing)
+ 
+ 
+-class LinuxTest(Test):
++class LinuxSSHMixIn:
++    """Contains utility methods for interacting with a guest via SSH."""
 +
-+class InfoUsernet(Test):
-+
-+    def test_hostfwd(self):
-+        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22')
-+        self.vm.launch()
++    def ssh_connect(self, username, credential, credential_is_key=True):
++        self.ssh_logger = logging.getLogger('ssh')
 +        res = self.vm.command('human-monitor-command',
 +                              command_line='info usernet')
 +        port = get_info_usernet_hostfwd_port(res)
-+        self.assertIsNotNone(port,
-+                             ('"info usernet" output content does not seem to '
-+                              'contain the redirected port'))
-+        self.assertGreater(port, 0,
-+                           ('Found a redirected port that is not greater than'
-+                            ' zero'))
++        self.assertIsNotNone(port)
++        self.assertGreater(port, 0)
++        self.log.debug('sshd listening on port: %d', port)
++        if credential_is_key:
++            self.ssh_session = ssh.Session('127.0.0.1', port=port,
++                                           user=username, key=credential)
++        else:
++            self.ssh_session = ssh.Session('127.0.0.1', port=port,
++                                           user=username, password=credential)
++        for i in range(10):
++            try:
++                self.ssh_session.connect()
++                return
++            except:
++                time.sleep(4)
++                pass
++        self.fail('ssh connection timeout')
++
++    def ssh_command(self, command):
++        self.ssh_logger.info(command)
++        result = self.ssh_session.cmd(command)
++        stdout_lines = [line.rstrip() for line
++                        in result.stdout_text.splitlines()]
++        for line in stdout_lines:
++            self.ssh_logger.info(line)
++        stderr_lines = [line.rstrip() for line
++                        in result.stderr_text.splitlines()]
++        for line in stderr_lines:
++            self.ssh_logger.warning(line)
++
++        self.assertEqual(result.exit_status, 0,
++                         f'Guest command failed: {command}')
++        return stdout_lines, stderr_lines
++
++
++class LinuxTest(Test, LinuxSSHMixIn):
+     """Facilitates having a cloud-image Linux based available.
+ 
+     For tests that indend to interact with guests, this is a better choice
 diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-index 6dbd02d49d..052008f02d 100644
+index 052008f02d..3f590a081f 100644
 --- a/tests/acceptance/linux_ssh_mips_malta.py
 +++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -18,6 +18,8 @@
+@@ -12,7 +12,7 @@
+ import time
+ 
+ from avocado import skipUnless
+-from avocado_qemu import Test
++from avocado_qemu import Test, LinuxSSHMixIn
+ from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
  from avocado.utils import archive
- from avocado.utils import ssh
+@@ -21,7 +21,7 @@
+ from qemu.utils import get_info_usernet_hostfwd_port
  
-+from qemu.utils import get_info_usernet_hostfwd_port
-+
  
- class LinuxSSH(Test):
+-class LinuxSSH(Test):
++class LinuxSSH(Test, LinuxSSHMixIn):
  
-@@ -70,18 +72,14 @@ def get_kernel_info(self, endianess, wordsize):
+     timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
+ 
+@@ -72,41 +72,9 @@ def get_kernel_info(self, endianess, wordsize):
      def setUp(self):
          super(LinuxSSH, self).setUp()
  
--    def get_portfwd(self):
-+    def ssh_connect(self, username, password):
-+        self.ssh_logger = logging.getLogger('ssh')
-         res = self.vm.command('human-monitor-command',
-                               command_line='info usernet')
--        line = res.split('\r\n')[2]
--        port = re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+10\..*',
--                        line)[1]
-+        port = get_info_usernet_hostfwd_port(res)
-+        if not port:
-+            self.cancel("Failed to retrieve SSH port")
-         self.log.debug("sshd listening on port:" + port)
--        return port
--
 -    def ssh_connect(self, username, password):
 -        self.ssh_logger = logging.getLogger('ssh')
--        port = self.get_portfwd()
-         self.ssh_session = ssh.Session(self.VM_IP, port=int(port),
-                                        user=username, password=password)
-         for i in range(10):
+-        res = self.vm.command('human-monitor-command',
+-                              command_line='info usernet')
+-        port = get_info_usernet_hostfwd_port(res)
+-        if not port:
+-            self.cancel("Failed to retrieve SSH port")
+-        self.log.debug("sshd listening on port:" + port)
+-        self.ssh_session = ssh.Session(self.VM_IP, port=int(port),
+-                                       user=username, password=password)
+-        for i in range(10):
+-            try:
+-                self.ssh_session.connect()
+-                return
+-            except:
+-                time.sleep(4)
+-                pass
+-        self.fail("ssh connection timeout")
+-
+     def ssh_disconnect_vm(self):
+         self.ssh_session.quit()
+ 
+-    def ssh_command(self, command, is_root=True):
+-        self.ssh_logger.info(command)
+-        result = self.ssh_session.cmd(command)
+-        stdout_lines = [line.rstrip() for line
+-                        in result.stdout_text.splitlines()]
+-        for line in stdout_lines:
+-            self.ssh_logger.info(line)
+-        stderr_lines = [line.rstrip() for line
+-                        in result.stderr_text.splitlines()]
+-        for line in stderr_lines:
+-            self.ssh_logger.warning(line)
+-        return stdout_lines, stderr_lines
+-
+     def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
+         image_url, image_hash = self.get_image_info(endianess)
+         image_path = self.fetch_asset(image_url, asset_hash=image_hash)
+@@ -127,7 +95,7 @@ def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
+         wait_for_console_pattern(self, console_pattern, 'Oops')
+         self.log.info('sshd ready')
+ 
+-        self.ssh_connect('root', 'root')
++        self.ssh_connect('root', 'root', False)
+ 
+     def shutdown_via_ssh(self):
+         self.ssh_command('poweroff')
 diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-index ca64b76301..57a7047342 100644
+index 57a7047342..bed8ce44df 100644
 --- a/tests/acceptance/virtiofs_submounts.py
 +++ b/tests/acceptance/virtiofs_submounts.py
-@@ -9,6 +9,8 @@
+@@ -9,8 +9,6 @@
  from avocado_qemu import wait_for_console_pattern
  from avocado.utils import ssh
  
-+from qemu.utils import get_info_usernet_hostfwd_port
-+
+-from qemu.utils import get_info_usernet_hostfwd_port
+-
  
  def run_cmd(args):
      subp = subprocess.Popen(args,
-@@ -73,27 +75,14 @@ class VirtiofsSubmountsTest(LinuxTest):
+@@ -75,41 +73,6 @@ class VirtiofsSubmountsTest(LinuxTest):
      :avocado: tags=accel:kvm
      """
  
--    def get_portfwd(self):
--        port = None
--
-+    def ssh_connect(self, username, keyfile):
-+        self.ssh_logger = logging.getLogger('ssh')
-         res = self.vm.command('human-monitor-command',
-                               command_line='info usernet')
--        for line in res.split('\r\n'):
--            match = \
--                re.search(r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.',
--                          line)
--            if match is not None:
--                port = int(match[1])
--                break
--
-+        port = get_info_usernet_hostfwd_port(res)
-         self.assertIsNotNone(port)
-         self.assertGreater(port, 0)
-         self.log.debug('sshd listening on port: %d', port)
--        return port
--
 -    def ssh_connect(self, username, keyfile):
 -        self.ssh_logger = logging.getLogger('ssh')
--        port = self.get_portfwd()
-         self.ssh_session = ssh.Session('127.0.0.1', port=port,
-                                        user=username, key=keyfile)
-         for i in range(10):
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 00f1d5ca8d..75ce07df36 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -21,6 +21,7 @@
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu.accel import kvm_available
- from qemu.machine import QEMUMachine
-+from qemu.utils import get_info_usernet_hostfwd_port
- import subprocess
- import hashlib
- import argparse
-@@ -306,11 +307,7 @@ def boot(self, img, extra_args=[]):
-         self.console_init()
-         usernet_info = guest.qmp("human-monitor-command",
-                                  command_line="info usernet")
--        self.ssh_port = None
--        for l in usernet_info["return"].splitlines():
--            fields = l.split()
--            if "TCP[HOST_FORWARD]" in fields and "22" in fields:
--                self.ssh_port = l.split()[3]
-+        self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
-         if not self.ssh_port:
-             raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
-                             usernet_info)
+-        res = self.vm.command('human-monitor-command',
+-                              command_line='info usernet')
+-        port = get_info_usernet_hostfwd_port(res)
+-        self.assertIsNotNone(port)
+-        self.assertGreater(port, 0)
+-        self.log.debug('sshd listening on port: %d', port)
+-        self.ssh_session = ssh.Session('127.0.0.1', port=port,
+-                                       user=username, key=keyfile)
+-        for i in range(10):
+-            try:
+-                self.ssh_session.connect()
+-                return
+-            except:
+-                time.sleep(4)
+-                pass
+-        self.fail('ssh connection timeout')
+-
+-    def ssh_command(self, command):
+-        self.ssh_logger.info(command)
+-        result = self.ssh_session.cmd(command)
+-        stdout_lines = [line.rstrip() for line
+-                        in result.stdout_text.splitlines()]
+-        for line in stdout_lines:
+-            self.ssh_logger.info(line)
+-        stderr_lines = [line.rstrip() for line
+-                        in result.stderr_text.splitlines()]
+-        for line in stderr_lines:
+-            self.ssh_logger.warning(line)
+-
+-        self.assertEqual(result.exit_status, 0,
+-                         f'Guest command failed: {command}')
+-        return stdout_lines, stderr_lines
+-
+     def run(self, args, ignore_error=False):
+         stdout, stderr, ret = run_cmd(args)
+ 
 -- 
 2.25.4
 
