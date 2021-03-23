@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC10345B64
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 10:53:14 +0100 (CET)
-Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C65345B52
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 10:49:30 +0100 (CET)
+Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOdir-0001tx-EJ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 05:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58578)
+	id 1lOdfF-0004yW-B5
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 05:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWo-0001Yw-8P
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37020)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWl-0001TA-SI
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWh-00021M-7r
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:45 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWg-00020b-VF
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616492438;
+ s=mimecast20190719; t=1616492437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S7TjqZADTskg6i+yEnyKc4SHMjCoFYWMGd3xfcCqqQ8=;
- b=gKJgh3W4G3VpdYpDLQSzshCBpfECL14zIxmPRG2Q/m7dYvSbpB8iXoS6+nsO1xyFb+4uXs
- gI+R9TJp45XUY1Z5PHSLQ1PwnnS/LqMUbrzFwDbTOhCTggIDM5l2ccqPELZETiOt9sy2DD
- +1wlY15UnrsDksZkn7ONln6G5N9+FFU=
+ bh=yxeiVpJ4BBOHX6CUOgpOOgzvcuDE6bPGHKjhWkwc49U=;
+ b=G9LM7yx9CcHb3cwfLI3Z5uq8uuCIFU2yOQZ8qD2LQ0z41woO+/Fdi7SHI30IM7VMS7fWjX
+ wCAYgrwwP/dls64mvKLpcGWpyP5DAbYP4Rw4VCqTVc4zbopl+RwD3ekh/MzvFP+fZ20bXa
+ D8/pEfx5wPaTD9qFkpqftoG/a4+M3Bc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-kh87kA7MO2OQaGFdXwRgMg-1; Tue, 23 Mar 2021 05:40:34 -0400
-X-MC-Unique: kh87kA7MO2OQaGFdXwRgMg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-447-pcqwmNGUPrq6BxtdnFYJDQ-1; Tue, 23 Mar 2021 05:40:36 -0400
+X-MC-Unique: pcqwmNGUPrq6BxtdnFYJDQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CDEE87A83F;
- Tue, 23 Mar 2021 09:40:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15865190A7A5;
+ Tue, 23 Mar 2021 09:40:35 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE4BC10016FB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E33852A2EE;
  Tue, 23 Mar 2021 09:40:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E029C11326A2; Tue, 23 Mar 2021 10:40:25 +0100 (CET)
+ id E675211326A3; Tue, 23 Mar 2021 10:40:25 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/28] tests/qapi-schema: Rename redefined-builtin to
- redefined-predefined
-Date: Tue, 23 Mar 2021 10:40:12 +0100
-Message-Id: <20210323094025.3569441-16-armbru@redhat.com>
+Subject: [PATCH 16/28] qapi: Factor out
+ QAPISchemaParser._check_pragma_list_of_str()
+Date: Tue, 23 Mar 2021 10:40:13 +0100
+Message-Id: <20210323094025.3569441-17-armbru@redhat.com>
 In-Reply-To: <20210323094025.3569441-1-armbru@redhat.com>
 References: <20210323094025.3569441-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,61 +84,50 @@ Cc: jsnow@redhat.com, michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous commit changed this test to clash with a predefined enum
-type, not a built-in type.  Adjust its name.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qapi-schema/meson.build                                   | 2 +-
- tests/qapi-schema/redefined-builtin.err                         | 2 --
- tests/qapi-schema/redefined-predefined.err                      | 2 ++
- .../{redefined-builtin.json => redefined-predefined.json}       | 0
- .../{redefined-builtin.out => redefined-predefined.out}         | 0
- 5 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 tests/qapi-schema/redefined-builtin.err
- create mode 100644 tests/qapi-schema/redefined-predefined.err
- rename tests/qapi-schema/{redefined-builtin.json => redefined-predefined.json} (100%)
- rename tests/qapi-schema/{redefined-builtin.out => redefined-predefined.out} (100%)
+ scripts/qapi/parser.py | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index ba11cb76ac..664f9ee22d 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -152,9 +152,9 @@ schemas = [
-   'pragma-returns-whitelist-crap.json',
-   'qapi-schema-test.json',
-   'quoted-structural-chars.json',
--  'redefined-builtin.json',
-   'redefined-command.json',
-   'redefined-event.json',
-+  'redefined-predefined.json',
-   'redefined-type.json',
-   'reserved-command-q.json',
-   'reserved-enum-q.json',
-diff --git a/tests/qapi-schema/redefined-builtin.err b/tests/qapi-schema/redefined-builtin.err
-deleted file mode 100644
-index 92bc62dc76..0000000000
---- a/tests/qapi-schema/redefined-builtin.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--redefined-builtin.json: In struct 'QType':
--redefined-builtin.json:2: enum type 'QType' is already defined
-diff --git a/tests/qapi-schema/redefined-predefined.err b/tests/qapi-schema/redefined-predefined.err
-new file mode 100644
-index 0000000000..2924dde60b
---- /dev/null
-+++ b/tests/qapi-schema/redefined-predefined.err
-@@ -0,0 +1,2 @@
-+redefined-predefined.json: In struct 'QType':
-+redefined-predefined.json:2: enum type 'QType' is already defined
-diff --git a/tests/qapi-schema/redefined-builtin.json b/tests/qapi-schema/redefined-predefined.json
-similarity index 100%
-rename from tests/qapi-schema/redefined-builtin.json
-rename to tests/qapi-schema/redefined-predefined.json
-diff --git a/tests/qapi-schema/redefined-builtin.out b/tests/qapi-schema/redefined-predefined.out
-similarity index 100%
-rename from tests/qapi-schema/redefined-builtin.out
-rename to tests/qapi-schema/redefined-predefined.out
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 116afe549a..8eed69333f 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -119,6 +119,13 @@ def _include(self, include, info, incl_fname, previously_included):
+ 
+         return QAPISchemaParser(incl_fname, previously_included, info)
+ 
++    def _check_pragma_list_of_str(self, name, value, info):
++        if (not isinstance(value, list)
++                or any([not isinstance(elt, str) for elt in value])):
++            raise QAPISemError(
++                info,
++                "pragma %s must be a list of strings" % name)
++
+     def _pragma(self, name, value, info):
+         if name == 'doc-required':
+             if not isinstance(value, bool):
+@@ -126,18 +133,10 @@ def _pragma(self, name, value, info):
+                                    "pragma 'doc-required' must be boolean")
+             info.pragma.doc_required = value
+         elif name == 'returns-whitelist':
+-            if (not isinstance(value, list)
+-                    or any([not isinstance(elt, str) for elt in value])):
+-                raise QAPISemError(
+-                    info,
+-                    "pragma returns-whitelist must be a list of strings")
++            self._check_pragma_list_of_str(name, value, info)
+             info.pragma.returns_whitelist = value
+         elif name == 'name-case-whitelist':
+-            if (not isinstance(value, list)
+-                    or any([not isinstance(elt, str) for elt in value])):
+-                raise QAPISemError(
+-                    info,
+-                    "pragma name-case-whitelist must be a list of strings")
++            self._check_pragma_list_of_str(name, value, info)
+             info.pragma.name_case_whitelist = value
+         else:
+             raise QAPISemError(info, "unknown pragma '%s'" % name)
 -- 
 2.26.3
 
