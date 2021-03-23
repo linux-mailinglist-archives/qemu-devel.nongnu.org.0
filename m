@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C568C345B31
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 10:44:19 +0100 (CET)
-Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2532345B51
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 10:49:29 +0100 (CET)
+Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOdaE-0006aR-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 05:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58372)
+	id 1lOdfE-0004x4-Oe
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 05:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWf-0001Hl-Pg
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48202)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWd-0001yI-23
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWi-0001Lg-Ln
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdWf-000206-V5
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:40:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616492434;
+ s=mimecast20190719; t=1616492437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OoaCBzRa8cJwimFrGWA/gT1TGyIvIiX0OtLWmKQMZp8=;
- b=TLnN+6+5u69bvYl6XCRDKTDQetEFdCFlhzgrpg0SGSD+E1nwubKU/frTm2xoioihUkEWiK
- ce1yOVjBFTAaAaKMvwgoW/RV8n3f4IQttkrWmMZd1yAXNWpImV6DToXjAoxVgAe+G4sUZt
- eD6lqqOE7ylQhb980hv1rwe6gt82tJE=
+ bh=s7hZDgvlz7zDzEcYrX6qM2Gkao33krIbyX89PVoWjuQ=;
+ b=S5NZlI5qZ8qsi2rmSkxQRBf1xpRThvQ31Q8LVTIzkCWJ2QTokrW0FO/gnSuf74OOZrZY9P
+ uxEPCtKlYmHFiWjrFnsOZenUTVG0kEziJx14KZYT5C2ii6XUS6bCG3wCd5cyVVjzNtjQ+J
+ NNh96YpqoEoF9hhHm2ekUEjsKACh9m8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-WZryfWgFNsWM3CbWV2bpng-1; Tue, 23 Mar 2021 05:40:32 -0400
-X-MC-Unique: WZryfWgFNsWM3CbWV2bpng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-505--XVscSo4OJuAIG87ykpwKg-1; Tue, 23 Mar 2021 05:40:35 -0400
+X-MC-Unique: -XVscSo4OJuAIG87ykpwKg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A68E1190A7A2;
- Tue, 23 Mar 2021 09:40:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 509B21007467;
+ Tue, 23 Mar 2021 09:40:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74DE15C1A3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 742BF59459;
  Tue, 23 Mar 2021 09:40:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B77031132713; Tue, 23 Mar 2021 10:40:25 +0100 (CET)
+ id BAE7D1132718; Tue, 23 Mar 2021 10:40:25 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/28] tests/qapi-schema: Drop TODO comment on simple unions
-Date: Tue, 23 Mar 2021 10:40:02 +0100
-Message-Id: <20210323094025.3569441-6-armbru@redhat.com>
+Subject: [PATCH 06/28] tests/qapi-schema: Tweak to demonstrate buggy member
+ name check
+Date: Tue, 23 Mar 2021 10:40:03 +0100
+Message-Id: <20210323094025.3569441-7-armbru@redhat.com>
 In-Reply-To: <20210323094025.3569441-1-armbru@redhat.com>
 References: <20210323094025.3569441-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,32 +84,60 @@ Cc: jsnow@redhat.com, michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simple unions don't need more features, they need to die.
+Member name 'u' and names starting with 'has-' or 'has_' are reserved
+for the generator.  check_type() enforces this, covered by tests
+reserved-member-u and reserved-member-has.
+
+These tests neglect to cover optional members, where the name starts
+with '*'.  Tweak reserved-member-u to fix that.
+
+This demonstrates the reserved member name check is broken for
+optional members.  The next commit will fix it.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qapi-schema/flat-union-no-base.err  | 2 +-
- tests/qapi-schema/flat-union-no-base.json | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ tests/qapi-schema/reserved-member-u.err  |  2 --
+ tests/qapi-schema/reserved-member-u.json |  3 ++-
+ tests/qapi-schema/reserved-member-u.out  | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qapi-schema/flat-union-no-base.err b/tests/qapi-schema/flat-union-no-base.err
-index 9bd595bcfb..5167565b00 100644
---- a/tests/qapi-schema/flat-union-no-base.err
-+++ b/tests/qapi-schema/flat-union-no-base.err
-@@ -1,2 +1,2 @@
- flat-union-no-base.json: In union 'TestUnion':
--flat-union-no-base.json:9: 'discriminator' requires 'base'
-+flat-union-no-base.json:8: 'discriminator' requires 'base'
-diff --git a/tests/qapi-schema/flat-union-no-base.json b/tests/qapi-schema/flat-union-no-base.json
-index ffc4c6f0e6..327877b563 100644
---- a/tests/qapi-schema/flat-union-no-base.json
-+++ b/tests/qapi-schema/flat-union-no-base.json
-@@ -1,5 +1,4 @@
- # flat unions require a base
--# TODO: simple unions should be able to use an enum discriminator
- { 'struct': 'TestTypeA',
-   'data': { 'string': 'str' } }
- { 'struct': 'TestTypeB',
+diff --git a/tests/qapi-schema/reserved-member-u.err b/tests/qapi-schema/reserved-member-u.err
+index 231d552494..e69de29bb2 100644
+--- a/tests/qapi-schema/reserved-member-u.err
++++ b/tests/qapi-schema/reserved-member-u.err
+@@ -1,2 +0,0 @@
+-reserved-member-u.json: In struct 'Oops':
+-reserved-member-u.json:7: 'data' member 'u' uses reserved name
+diff --git a/tests/qapi-schema/reserved-member-u.json b/tests/qapi-schema/reserved-member-u.json
+index 1eaf0f301c..15005abb09 100644
+--- a/tests/qapi-schema/reserved-member-u.json
++++ b/tests/qapi-schema/reserved-member-u.json
+@@ -4,4 +4,5 @@
+ # This is true even for non-unions, because it is possible to convert a
+ # struct to flat union while remaining backwards compatible in QMP.
+ # TODO - we could munge the member name to 'q_u' to avoid the collision
+-{ 'struct': 'Oops', 'data': { 'u': 'str' } }
++# BUG: not rejected
++{ 'struct': 'Oops', 'data': { '*u': 'str' } }
+diff --git a/tests/qapi-schema/reserved-member-u.out b/tests/qapi-schema/reserved-member-u.out
+index e69de29bb2..6a3705518b 100644
+--- a/tests/qapi-schema/reserved-member-u.out
++++ b/tests/qapi-schema/reserved-member-u.out
+@@ -0,0 +1,14 @@
++module ./builtin
++object q_empty
++enum QType
++    prefix QTYPE
++    member none
++    member qnull
++    member qnum
++    member qstring
++    member qdict
++    member qlist
++    member qbool
++module reserved-member-u.json
++object Oops
++    member u: str optional=True
 -- 
 2.26.3
 
