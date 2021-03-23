@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5963F346761
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:16:08 +0100 (CET)
-Received: from localhost ([::1]:59360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC0F346789
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:26:30 +0100 (CET)
+Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOlZX-0003Zk-3N
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33228)
+	id 1lOljZ-0006vW-AJ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOkRy-0005DV-4r
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:04:14 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:34379)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOkRs-0000Mj-Kn
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:04:12 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id l79so17737392oib.1
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 10:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NcjEKV84sLhSntwj/v1HgiOYRtuGbIkM/GywBnoX3so=;
- b=Q6aoemZCw1HWy2bpNf6MbA4WW200PVUnRA58M3E55HQSGHhmq2IjEubRdFzAkZDtla
- h43JQIiEAnI6hICDe/KmdeEUyxKoUQDvFMBOtQo7hM7bxm9XJgH3CfVAFIVRrNTNayxj
- 4fgvOZLQmmmAJMywPL5RVi4dFaBrvC2scMdo3CKv3vCOnEVNucwsuzyladqAPrY//yRw
- VT00ZXCR6VzyMC1nYXDtYX4jKBzU4MBq+EK7il0H7o8s366IVVQhL8uczD/dYkhwLsQ7
- xfQGHKpHwkpVAzaNkhumsPV8RW8M0qF3nVooT7L14Wwo/B+jTLjFUSpzUhR+SY+HKIgO
- sSiQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOkSW-0005rY-Mp
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:04:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lOkSU-0000fg-4D
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:04:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616519084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Npv1RqdAqtBRdzCPF2t0l7ekSfLciuVCwreXIKSP5OU=;
+ b=EksSr9Bn8fN53We1MK32+gNOYMXHj413s+fsCuSzxWak9qWc3I49SxeJY4uA4kyaxjTBuB
+ TQcr+FoX8flz3eLXfwE4sh/U3+0tIAYrmYAe/FPoXdC3KAHxMhRCJd1kjI17qnnVD8BpXi
+ 8LwCuZqrr7GGiDx7xbKqfB2q++4Ip54=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-jjNn5g_RMMGAQ4P1M70ohQ-1; Tue, 23 Mar 2021 13:04:42 -0400
+X-MC-Unique: jjNn5g_RMMGAQ4P1M70ohQ-1
+Received: by mail-wm1-f71.google.com with SMTP id w10so1347796wmk.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 10:04:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NcjEKV84sLhSntwj/v1HgiOYRtuGbIkM/GywBnoX3so=;
- b=J2XnRAW0pfjbvo04dAGmzAB2uj+wvSd+e5P0cFYwYtlg5Nxy8pHlU9nmt+AWD4cpis
- zzQliSo3y4U+ZgM2Yvw5+7ht7R4qbwKj7f5u3vpU4QyX9Rtrwd3xVjnQh1y/RIKzVDIg
- jTRXYOk5fOl6qRKapsFAV7Cg0o0g8lGb1T5KIcoM0YWXFMayr7oq5Nr1ZYVBUXqJ9/yd
- 42UjHnAvf3aB0c2wntXi8+/F5tule+pseYivq/TyS2+o71zjHmV4IuMPI5YjU1k3FCJq
- 9KnF2sEa7Htj1bnOJTXjnf0h/XULQ8nNHqhIpWkcLrGZUiQmWWKEuhN18Dr32Ck8Rmnc
- P9GA==
-X-Gm-Message-State: AOAM533Zqd4phTr+XOFHpi2doPpcIGbaZ68tf9IXII5p+uHSxbd/hTWu
- vFQP5nnzZ9cd3ChoQi06yLm0MQ==
-X-Google-Smtp-Source: ABdhPJyCONoCMx6m09f0lkxjqoCDBzZfYJyf2I0meadOZHgICu4xOHdGyVXmeBJJOuhbSXYqC6GTxQ==
-X-Received: by 2002:aca:f44d:: with SMTP id s74mr4108999oih.168.1616519047237; 
- Tue, 23 Mar 2021 10:04:07 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id t2sm3795809ool.18.2021.03.23.10.04.06
+ bh=Npv1RqdAqtBRdzCPF2t0l7ekSfLciuVCwreXIKSP5OU=;
+ b=Ixgsad2tVkJYs3ROf8t1JHfH0lxCNUtqtT57ffmaJl8Dd4cfuDzKMJN8ihwOBXdYYe
+ RK5pKR50PPdjEw/Ytfo6zAz3l3CYeIvwpUwSXOxIZBCBsZ01HWbTh272dHiE2ozO2Brc
+ h+o0LNKVdKvntv5On7gHyHeqfiBgziutusiRsIerbMBwngsIXAog/sRf/s36nWGCBS8+
+ iYRFH8aAHanU641okAFsGPF5dNUnEUL0zJvpgV8d3HOpUcK5Hu71HsK0tc1wJRZuLb5O
+ 8Gq9AX4PqUxeCD8VbLbbyFpjeapTrFC9WFxMIYcxgmnmmQAivAm8ZD6JtmmjcCYompMc
+ nX7g==
+X-Gm-Message-State: AOAM533a6f9shgz03iQnJI9LfK8XtI3zUCMiSaGNHuqUiMzLP7/oVD+8
+ pIBTYLFJVL7PuU0xU4hJgmCPJLFzkIKZk7rzsdM5WZkKvM3uNgcM+acDE8r/6UzkEs+Id2V7RHo
+ wtAFZqM/8HfppJkk=
+X-Received: by 2002:a05:600c:19d1:: with SMTP id
+ u17mr4244381wmq.141.1616519081217; 
+ Tue, 23 Mar 2021 10:04:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzX98q4xZMevF+QLCyUhnVfG76sloGiBlsmiCm5+PlzZn4/bJlZP7UA7Ii99mhMMHnOxV5R9A==
+X-Received: by 2002:a05:600c:19d1:: with SMTP id
+ u17mr4244346wmq.141.1616519080904; 
+ Tue, 23 Mar 2021 10:04:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h10sm24532214wrp.22.2021.03.23.10.04.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 10:04:06 -0700 (PDT)
-Subject: Re: [PATCH v4 07/17] target/ppc: Disconnect hflags from MSR
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210315184615.1985590-1-richard.henderson@linaro.org>
- <20210315184615.1985590-8-richard.henderson@linaro.org>
- <YFgUkS3iyr/k9/hE@yekko.fritz.box>
- <47d0bf1d-b423-4503-645a-0f293eb95b87@linaro.org>
- <YFkuRwTMdauBTSHT@yekko.fritz.box>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <77f791b0-ae68-a646-c38d-484fc0d96961@linaro.org>
-Date: Tue, 23 Mar 2021 11:04:03 -0600
+ Tue, 23 Mar 2021 10:04:40 -0700 (PDT)
+Subject: Re: [PATCH 1/4] qemu-iotests: allow passing unittest.main arguments
+ to the test scripts
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20210323130614.146399-1-pbonzini@redhat.com>
+ <20210323130614.146399-2-pbonzini@redhat.com>
+ <f2d648c7-1b80-bec6-f17c-78d36cf998b1@virtuozzo.com>
+ <97e7aa7e-dcf0-17d0-3a4b-2d293e9c89ed@redhat.com>
+ <a51c2d8d-cc9f-705f-2527-857a791e54de@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <04724b6a-3be2-54ff-c769-35fed34e9135@redhat.com>
+Date: Tue, 23 Mar 2021 18:04:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YFkuRwTMdauBTSHT@yekko.fritz.box>
+In-Reply-To: <a51c2d8d-cc9f-705f-2527-857a791e54de@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, PDS_OTHER_BAD_TLD=1.999, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,40 +107,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: eesposit@redhat.com, kwolf@redhat.com, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/22/21 5:54 PM, David Gibson wrote:
-> On Mon, Mar 22, 2021 at 10:55:46AM -0600, Richard Henderson wrote:
->> On 3/21/21 9:52 PM, David Gibson wrote:
->>>> +/*
->>>> + * Bits for env->hflags.
->>>> + *
->>>> + * Most of these bits overlap with corresponding bits in MSR,
->>>> + * but some come from other sources.  Be cautious when modifying.
->>>
->>> Yeah.. I'm not sure "be cautious" is enough of a warning.  The exact
->>> value of some but not all of these flags must equal that for the
->>> corresponding MSR bits, which is terrifyingly subtle.
->>
->> Fair.  How about, for the comment here, "This is validated in hreg_compute_hflags."
->>
->>>> +    /* Some bits come straight across from MSR. */
->>>> +    msr_mask = ((1 << MSR_LE) | (1 << MSR_PR) |
->>>> +                (1 << MSR_DR) | (1 << MSR_IR) |
->>>> +                (1 << MSR_FP) | (1 << MSR_SA) | (1 << MSR_AP));
->>
->> Here, and in every other spot within this function where we manipulate msr_mask,
->>
->>      QEMU_BUILD_BUG_ON(MSR_LE != HFLAGS_LE);
-> 
-> Seems reasonable.
-> 
+On 23/03/21 17:56, Vladimir Sementsov-Ogievskiy wrote:
+> hmm, just use a separate call of unittest.main, or honestly define a 
+> varaible as Union[] or just Any ?
 
-Hah.  Your paranoia was well-founded.  Typo in HFLAGS_PR.  :-)
+All the ugliness goes away if the implementation is done properly. :)
 
+> For me normal try-finally is a lot more clean than calling atexit() in a 
+> class method. It's just a strange interface. Prior to the patch user can 
+> call execute_unittest several times and expect that output will be 
+> printed during the call. After the patch outputs of all calls to 
+> execute_unittest() will be printed at program exit..
 
-r~
+Yeah, I agree.  I didn't like the finally, but I really didn't like it
+because of the *behavior* of buffering the whole output.  I have changed
+it to drop the buffering altogether, that's much better code and more usable:
+
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 90d0b62523..a74f4f9488 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -32,7 +32,7 @@
+  import sys
+  import time
+  from typing import (Any, Callable, Dict, Iterable,
+-                    List, Optional, Sequence, Tuple, TypeVar)
++                    List, Optional, Sequence, Tuple, Type, TypeVar)
+  import unittest
+  
+  from contextlib import contextmanager
+@@ -1271,37 +1271,49 @@ def func_wrapper(*args, **kwargs):
+              return func(*args, **kwargs)
+      return func_wrapper
+  
++# We need to filter out the time taken from the output so that
++# qemu-iotest can reliably diff the results against master output,
++# and hide skipped tests from the reference output.
++
++class ReproducibleTestResult(unittest.TextTestResult):
++    def addSkip(self, test, reason):
++        # Same as TextTestResult, but print dot instead of "s"
++        unittest.TestResult.addSkip(self, test, reason)
++        if self.showAll:
++            self.stream.writeln("skipped {0!r}".format(reason))
++        elif self.dots:
++            self.stream.write(".")
++            self.stream.flush()
++
++class ReproducibleStreamWrapper(object):
++    def __init__(self, stream):
++        self.stream = stream
++
++    def __getattr__(self, attr):
++        if attr in ('stream', '__getstate__'):
++            raise AttributeError(attr)
++        return getattr(self.stream,attr)
++
++    def write(self, arg=None):
++        arg = re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ran \1 tests', arg)
++        arg = re.sub(r' \(skipped=\d+\)', r'', arg)
++        self.stream.write(arg)
++
++class ReproducibleTestRunner(unittest.TextTestRunner):
++    def __init__(self, stream: Optional[io.TextIOBase] = None,
++                 resultclass: Type = ReproducibleTestResult, *args, **kwargs):
++        rstream = ReproducibleStreamWrapper(stream or sys.stdout)
++        super().__init__(stream=rstream,           # type: ignore
++                         descriptions=True,
++                         resultclass=resultclass,
++                         *args, **kwargs)
++
+  def execute_unittest(debug=False):
+      """Executes unittests within the calling module."""
+  
+      verbosity = 2 if debug else 1
+-
+-    if debug:
+-        output = sys.stdout
+-    else:
+-        # We need to filter out the time taken from the output so that
+-        # qemu-iotest can reliably diff the results against master output.
+-        output = io.StringIO()
+-
+-    runner = unittest.TextTestRunner(stream=output, descriptions=True,
+-                                     verbosity=verbosity)
+-    try:
+-        # unittest.main() will use sys.exit(); so expect a SystemExit
+-        # exception
+-        unittest.main(testRunner=runner)
+-    finally:
+-        # We need to filter out the time taken from the output so that
+-        # qemu-iotest can reliably diff the results against master output.
+-        if not debug:
+-            out = output.getvalue()
+-            out = re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ran \1 tests', out)
+-
+-            # Hide skipped tests from the reference output
+-            out = re.sub(r'OK \(skipped=\d+\)', 'OK', out)
+-            out_first_line, out_rest = out.split('\n', 1)
+-            out = out_first_line.replace('s', '.') + '\n' + out_rest
+-
+-            sys.stderr.write(out)
++    runner = unittest.ReproducibleTestRunner(verbosity=verbosity)
++    unittest.main(testRunner=ReproducibleTestRunner)
+  
+  def execute_setup_common(supported_fmts: Sequence[str] = (),
+                           supported_platforms: Sequence[str] = (),
+
 
