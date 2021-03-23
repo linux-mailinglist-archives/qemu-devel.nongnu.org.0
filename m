@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A12346589
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:42:33 +0100 (CET)
-Received: from localhost ([::1]:52118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05D93465A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:46:40 +0100 (CET)
+Received: from localhost ([::1]:34776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOk6y-0005pU-FO
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
+	id 1lOkAx-0003UP-LE
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOjKT-0005sa-Ti
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:52:25 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37628)
+ id 1lOjKd-0006Co-M8; Tue, 23 Mar 2021 11:52:37 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOjKD-0003ge-R5
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:52:25 -0400
-Received: by mail-wr1-x436.google.com with SMTP id x16so21275808wrn.4
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 08:52:08 -0700 (PDT)
+ id 1lOjKJ-0003j8-Rc; Tue, 23 Mar 2021 11:52:35 -0400
+Received: by mail-wr1-x434.google.com with SMTP id o16so21303555wrn.0;
+ Tue, 23 Mar 2021 08:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f3IX+oBABgBBJ8mTl0P2HqszyCFPQo6B03YV79rC/Ew=;
- b=icUzzGertqWYPLF4W66cq4Z6N2ToMOze1yjvujttzLn3w/GxATWwKv2eR5on3dddQi
- Nt/LKRW75MOpBoAAMoV0age91NwdNIDYumzDwYIuMuTInbxrWeZmILZCDuIgGaXc3/wy
- kMqCW2c62yJcSz5W6LOvhK9+9sNjbm+eme1D5r3bzWuD0rmVW3Yz+RtCY0hHe/gpjDRk
- 86BMyIa4AM1OE24N3H5lBU5VAj1+YRjptBUN/hnetRoEl4n1z7PsWrA6u92k5kALIITG
- HrJe5c2OMUvAyTYzJpvnovQeK9zMxsR3RtBboDFE/EZ5CS+vyMWKwXyirW+9QI08dSGj
- Xbeg==
+ bh=D9TdduAEXkE1G0/WUS2DqNMa3uvOw/RYi8/uMRmuc/s=;
+ b=ki8f0pTW3PRnzW8YOF6b0eG9nXiIWw5JuXR55yZgsjHRQS9NKKj55rGGjoG3MTdOUV
+ wKS+DEM67kq6jMvc0F/+n8w0xuaf8yGotQQfWyujQ78Ce0PqzE5XS7wQ+VUDO87qou3P
+ jnlmZLpa35O5KzKYSAJ0vKMYm30oXfJrVvcqYUFZ1f6r4LZWwPSltqpd9nL7UKoQMbSZ
+ Zn51L7WsyWliavmbIdZk/gY8rw2/hm1qpDz+PA0/Q28SJ5j+6jfmvgNZEnq0xH7K9Zxz
+ zxFMcKq7ceqHELqxU2CyXue/EajO2yJ2SPEDxT/ZFu/lZEXp4KgCLX4g1RPCWRbJ+B6H
+ 3y9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=f3IX+oBABgBBJ8mTl0P2HqszyCFPQo6B03YV79rC/Ew=;
- b=dlotjaFI+yY+mD/EKyfIhbK3JEPTYPEzFMUW2h0WidzQTx/cyJD3VV+OXgkHU22fEw
- 8WMDjXZOxBiOiAQh2fT3+yO9ZegNuU+bMxQ7TzdE8p1+avXe/8bgxGPocKhBfBQkx28y
- noL6M77CcwxE3Ny14bW0X8XYR7gjF+5s/OmJYhY5BHIWa3CCNj+MtOm0gvZBwfzD6Aao
- F3DNInY8JkDEga+JbMvGwLK/SbAdOCamyYMmUegQqiQiIDBg7Hs92WjmyZ91PQqjjGqK
- 0fdUf/0n4Tkat3XW0mZBPfsIAf1gPb/AopqKMLryG1YLM91/GpRnru3gryE4661iHtC+
- 6RJw==
-X-Gm-Message-State: AOAM530hpa2W0B/GiChQ6vxAs9wLnUF9d7mWBHwaY6xKpOD7wPa1yVcI
- uF0XvHzEvKCPWlEIFVz471+T0h4U318Aww==
-X-Google-Smtp-Source: ABdhPJwL87VZN28mpG4DMw3vJmkCO557fI13g/NgbBU8yfRPdFu25VdjJEo2bvXbKcGhXX6v2leNcQ==
-X-Received: by 2002:adf:cf0b:: with SMTP id o11mr4850901wrj.310.1616514727405; 
- Tue, 23 Mar 2021 08:52:07 -0700 (PDT)
+ bh=D9TdduAEXkE1G0/WUS2DqNMa3uvOw/RYi8/uMRmuc/s=;
+ b=LFlwqSJOAm5xMifC0oU7KrDJ+UJz6XA0j63LyNJOyCpvS1jCfQGw88wLQec3SgBIAj
+ ijFmv2fSDGAEwrL61+msFl5lVei4OE27b5oe8unw3GLzJZqlRSOhW17/eS0eoFqjBviY
+ yXwsMvgWDAdrKVpDPdLZEQcwYD+r3lW3Pl1s+NNA3VJvxkdnPp+XgKUbNc57zINB2lpl
+ MwD7AgguPSAR7CXod07DFdH9jpKC3dp5l5NHSXFOdJS6VzH4IHprH9jygQXnbmEQEEZS
+ fGStPDIhZuXJB/2d3UciMdd20JVWoVWAEZbgnBDDp1pQh3n4uNHQvah664Ng6JtcRFRm
+ bK/Q==
+X-Gm-Message-State: AOAM530BQD2P7XVy4uYWaF6mD//ZM8IQ5fZs7YRR+2cDKuYebTAiBuBc
+ RMVmIpw7ZeRRofg3dIPw4XmLFbCUlJjHMg==
+X-Google-Smtp-Source: ABdhPJxwACULQ4O1SLfu6aiv7APorb+bwuO1jJfIanMXxxcBSoM5N+gkHFiQyThXRZmZ+26FQehBIw==
+X-Received: by 2002:a05:6000:1a8a:: with SMTP id
+ f10mr4590294wry.232.1616514732292; 
+ Tue, 23 Mar 2021 08:52:12 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id p16sm28402059wrt.54.2021.03.23.08.52.06
+ by smtp.gmail.com with ESMTPSA id j26sm24097164wrh.57.2021.03.23.08.52.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 08:52:06 -0700 (PDT)
+ Tue, 23 Mar 2021 08:52:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 07/13] blobs: Only install DT blobs if microblaze system
- targets are built
-Date: Tue, 23 Mar 2021 16:51:26 +0100
-Message-Id: <20210323155132.238193-8-f4bug@amsat.org>
+Subject: [RFC PATCH 08/13] blobs: Only install blobs if powerpc system targets
+ are built
+Date: Tue, 23 Mar 2021 16:51:27 +0100
+Message-Id: <20210323155132.238193-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210323155132.238193-1-f4bug@amsat.org>
 References: <20210323155132.238193-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,60 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Hervé Poussineau <hpoussin@reactos.org>
+Cc: Cédric Le Goater <clg@kaod.org>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- meson.build         | 2 ++
- pc-bios/meson.build | 9 +++++++--
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ meson.build         |  2 ++
+ pc-bios/meson.build | 21 +++++++++++++--------
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index a7f3b60d08e..e3418815b04 100644
+index e3418815b04..6f5561c2212 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -96,12 +96,14 @@
- install_blobs_alpha = false
+@@ -97,6 +97,7 @@
  install_blobs_arm = false
  install_blobs_hppa = false
-+install_blobs_microblaze = false
+ install_blobs_microblaze = false
++install_blobs_ppc = false
  if get_option('install_blobs')
    foreach target : target_dirs
      install_edk2_blobs = install_edk2_blobs or target in edk2_targets
-     install_blobs_alpha = install_blobs_alpha or target in ['alpha-softmmu']
+@@ -104,6 +105,7 @@
      install_blobs_arm = install_blobs_hppa or target in ['arm-softmmu', 'aarch64-softmmu']
      install_blobs_hppa = install_blobs_hppa or target in ['hppa-softmmu']
-+    install_blobs_microblaze = install_blobs_microblaze or target in ['microblaze-softmmu', 'microblazeel-softmmu']
+     install_blobs_microblaze = install_blobs_microblaze or target in ['microblaze-softmmu', 'microblazeel-softmmu']
++    install_blobs_ppc = install_blobs_ppc or (target.startswith('ppc') and target.endswith('softmmu'))
    endforeach
  endif
  
 diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index c494c334e26..a6185feff58 100644
+index a6185feff58..73d02a57628 100644
 --- a/pc-bios/meson.build
 +++ b/pc-bios/meson.build
-@@ -62,8 +62,6 @@
+@@ -43,7 +43,6 @@
+   'vgabios-ati.bin',
+   'openbios-sparc32',
+   'openbios-sparc64',
+-  'openbios-ppc',
+   'QEMU,tcx.bin',
+   'QEMU,cgthree.bin',
+   'pxe-e1000.rom',
+@@ -60,8 +59,6 @@
+   'efi-virtio.rom',
+   'efi-e1000e.rom',
    'efi-vmxnet3.rom',
-   'bamboo.dtb',
-   'canyonlands.dtb',
--  'petalogix-s3adsp1800.dtb',
--  'petalogix-ml605.dtb',
+-  'bamboo.dtb',
+-  'canyonlands.dtb',
    'multiboot.bin',
    'linuxboot.bin',
    'linuxboot_dma.bin',
-@@ -106,6 +104,13 @@
+@@ -69,11 +66,6 @@
+   'pvh.bin',
+   's390-ccw.img',
+   's390-netboot.img',
+-  'slof.bin',
+-  'skiboot.lid',
+-  'u-boot.e500',
+-  'u-boot-sam460-20100605.bin',
+-  'qemu_vga.ndrv',
+   'opensbi-riscv32-generic-fw_dynamic.bin',
+   'opensbi-riscv64-generic-fw_dynamic.bin',
+   'opensbi-riscv32-generic-fw_dynamic.elf',
+@@ -111,6 +103,19 @@
    ))
  endif
  
-+if install_blobs_microblaze
++if install_blobs_ppc
 +  blobs_ss.add(files(
-+    'petalogix-s3adsp1800.dtb',
-+    'petalogix-ml605.dtb',
++    'bamboo.dtb',
++    'canyonlands.dtb',
++    'openbios-ppc',
++    'qemu_vga.ndrv',
++    'slof.bin',
++    'skiboot.lid',
++    'u-boot.e500',
++    'u-boot-sam460-20100605.bin',
 +  ))
 +endif
 +
