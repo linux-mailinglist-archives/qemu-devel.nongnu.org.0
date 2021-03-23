@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA2A3462D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:28:33 +0100 (CET)
-Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD653462D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:28:50 +0100 (CET)
+Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOixM-0004Ii-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60382)
+	id 1lOixd-0004fZ-4P
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOit1-00080g-DV
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:24:08 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOisz-00053Q-5S
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:24:03 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id l4so27739896ejc.10
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 08:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=LAVh0+jK9fBscsqhhnpVCGXSOIAZAbmseSFkMjhwLBE=;
- b=H7YKRnRYGc4ax4MVwyKvPQCC24XRV5SlC1Z6Tne+u1RMcCdb04I9TT9A4/tVtz3xp/
- UF7ZKQf+N3gUSjn88xClPn6uPmjeH99GkPWQ7JOT4JmdWgKK4giUwagFQQENodMkuumr
- qGsq8nmstMF0vjPHhbMUtHLxmOD/iCCXhn3Z4zKggVRZV/V/hpRnI77BbFCI3WCK234W
- FvcTTHnn4uTdKpU4Yre1973EdZhCsiDGV+1eC8BF9XdC+daGAju1t1hMqwzdt/9lcrFw
- eynwv0gq9alQRosGLq7RzFwlV6rPRFiSZopAzYpfDZ1pE4zciF7hXSxdYWMXqzZX3mGL
- AmIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=LAVh0+jK9fBscsqhhnpVCGXSOIAZAbmseSFkMjhwLBE=;
- b=dD9eQt44PspM9xYLGWmYiMtnzb+S21xNgzdgM2jw//AnvbXakOJxzMqm+NF3cgE9f4
- ra+nHh0h9uzEbr6lyzmpUj6W8nGMdbUQD0vyk2xYRyy5Tf03Pgzp6MRT6Cbo2vDByn2Y
- LP3+3MzO791B8YwEe5LGipFQ4AswP5W9/PfzqHud11kesojHIXzRjsv1flYhZoBR0q6h
- 5wGFzFrPY1syNMhSMKHQRUsG/48a52HbD6HOmRZ/d/n/adkK6ZFg0r6Bl+TCqBwUrCN9
- Zt42ZrnG5tXHzEfMWbPnUngzpJRG4jpBvBhE3xlzbHqbJ/fWG8h3hOxRY+G0p67ipS7r
- 9HlQ==
-X-Gm-Message-State: AOAM532M62OwKnm7MDFY9dbscfvKMAZg5mdSqeRN09cTCSlMB0myHIpS
- n/9cVbvStsSm6UrbffHGJwlGc5XZyQg8Yvo9qVfz9e1abQvtQ9aT
-X-Google-Smtp-Source: ABdhPJyRhe6Y6u4X9Vig4zn2Ggd26UZb2H8Blke5i+f4Y6RNUxTAOBksUf2tqdWMidH0/3d/WfgVaIYLHmtj+//wPPk=
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr2354995ejh.4.1616513039351; 
- Tue, 23 Mar 2021 08:23:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOitC-00083H-Ga
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:24:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOit1-00054g-Ab
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:24:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616513041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SYcrE9KNv+44NMepUtF65/wfyKgsDzvgvINQanc5U94=;
+ b=KpeSh6VJNrEBBLQ/iOQ8TVWnrG08dcjh27OCRYYEQOanpKZkuzVszuIQhNg2SQLjYAaJAh
+ JfeJNUZoEE4CNopPmiyCOzVvnohxw06qTENwzO04HLNhzZIjDgWQfWiGaPYv+vXAzuWRML
+ LRj+vqhhfzek3wp+x4mM4V3CpAG04Eo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-LOG2fSu5PHeQ7H8fgNaIyg-1; Tue, 23 Mar 2021 11:23:59 -0400
+X-MC-Unique: LOG2fSu5PHeQ7H8fgNaIyg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 359DC81625;
+ Tue, 23 Mar 2021 15:23:58 +0000 (UTC)
+Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7DF959445;
+ Tue, 23 Mar 2021 15:23:51 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-25-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH 24/28] qapi: Enforce command naming rules
+Message-ID: <a6336cfa-6efb-8612-6b6b-018daa64a11f@redhat.com>
+Date: Tue, 23 Mar 2021 10:23:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 15:23:30 +0000
-Message-ID: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
-Subject: 'make check-acceptance' odd error: "'bytes' object has no attribute
- 'encode'"
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210323094025.3569441-25-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,40 +82,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>
+Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I just got this running 'make check-acceptance': does it
-ring a bell with anybody?
+On 3/23/21 4:40 AM, Markus Armbruster wrote:
+> Command names should be lower-case.  Enforce this.  Fix the fixable
+> offenders (all in tests/), and add the remainder to pragma
+> command-name-exceptions.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-[etc]
-Fetching asset from
-tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips64el_malta_5KEc_cpio
-Fetching asset from
-tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips64el_malta_5KEc_cpio
-Fetching asset from
-tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips_malta32el_nanomips_4k
-Fetching asset from
-tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips_malta32el_nanomips_16k_up
-Fetching asset from
-tests/acceptance/replay_kernel.py:ReplayKernelSlow.test_mips_malta32el_nanomips_64k_dbg
-Fetching asset from
-tests/acceptance/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
-Fetching asset from
-tests/acceptance/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
-Error running method "pre_tests" of plugin "fetchasset": 'bytes'
-object has no attribute 'encode'
-JOB ID     : 71b2d5569d9ccc8b68957d3ad2b2026bea437d66
-JOB LOG    : /home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/tests/results/job-2021-03-23T15.09-71b2d55/job.log
- (001/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg:
-PASS (465.84 s)
- (002/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_kvm:
-PASS (27.46 s)
- (003/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_q35_tcg:
-PASS (99.43 s)
-[etc]
+> +++ b/qapi/pragma.json
+> @@ -4,6 +4,24 @@
+>  # add to them!
+>  { 'pragma': {
+>      # Commands allowed to return a non-dictionary:
+> +    'command-name-exceptions': [
+> +        'add_client',
+> +        'block_passwd',
+> +        'block_resize',
+> +        'block_set_io_throttle',
+> +        'client_migrate_info',
+> +        'device_add',
+> +        'device_del',
+> +        'expire_password',
+> +        'migrate_cancel',
+> +        'netdev_add',
+> +        'netdev_del',
+> +        'qmp_capabilities',
+> +        'set_link',
+> +        'set_password',
+> +        'system_powerdown',
+> +        'system_reset',
+> +        'system_wakeup' ],
 
-thanks
--- PMM
+Outside the scope of this patch, do we have any intentions on adding
+alias commands or deprecating old spellings in favor of new ones?
+
+None of these have a capital letter...
+
+qmp_capabilities is probably the hardest one to get rid of, since you
+can't send any other commands until that one is complete (that is, you
+can't introspect if a replacement exists; if we add a new spelling, all
+you can do is try both spellings until one works, but that is extra
+traffic).  The rest can be suitably probed via introspection.
+
+
+> +++ b/tests/unit/test-qmp-cmds.c
+> @@ -13,7 +13,7 @@
+>  
+>  static QmpCommandList qmp_commands;
+>  
+> -UserDefThree *qmp_TestCmdReturnDefThree(Error **errp)
+> +UserDefThree *qmp_test_cmd_return_def_three(Error **errp)
+
+...oh, we had a test command with capitals....
+
+> +++ b/scripts/qapi/expr.py
+> @@ -70,8 +70,9 @@ def check_defn_name_str(name, info, meta):
+>      if meta == 'event':
+>          check_name_upper(name, info, meta)
+>      elif meta == 'command':
+> -        check_name_lower(name, info, meta,
+> -                         permit_upper=True, permit_underscore=True)
+> +        check_name_lower(
+> +            name, info, meta,
+> +            permit_underscore=name in info.pragma.command_name_exceptions)
+
+...and earlier in the series, I had asked why you wanted
+permit_upper=True here.  So it is now obvious that it was just for the
+tests and that you deferred fixing the tests until now.  If you don't
+want to refactor the series, then it's at least worth a tweak to that
+commit message to call it out.  At any rate, I'm glad to see the
+permit_upper=True gone!
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
