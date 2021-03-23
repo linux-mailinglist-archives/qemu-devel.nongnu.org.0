@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336DC34631E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:41:13 +0100 (CET)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68621346332
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:43:58 +0100 (CET)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOj9c-0001as-7W
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
+	id 1lOjCH-0003ul-HD
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj5A-0004cQ-QT
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24656)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjB1-0003LV-Rl
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:42:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj52-000314-Ae
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:36 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjAv-0006XO-Iw
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:42:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616513787;
+ s=mimecast20190719; t=1616514152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r6HkGSRZskuaOzMeEwx/oWOBESHI9UJHgo+0D2TZWTc=;
- b=he0nDEm+Cbm2+fgBOcrajY8CbJSLTBUOh+MGJV2CA1OWw+42QW3PPsC5SE/5qShRoXEOoU
- J8/qySnHPpAgYrkXFkCLJ9vXAE/sA7L3WOA+aHvv/G+4CyiwdzmgF4MAl0oHIAnWWv/iNA
- pjluvkacN16N1eRdk5eFO7lxFClmAxg=
+ bh=6hq7jWd9AWjBJ6ZGVhaJIAZxtH8leNLXBRIcVZNQHk4=;
+ b=cUTnWfVYxOVb61d1CYxG7oQoRMyGch+75SWwuhswxIfVCInLyqvmIWTsfy4sXRuSMT8sMu
+ egMpyntr64zZ7GJlLUGwLI84UgPeCtn5oDmJM52SZmU6xnBDpK7IJjsx95Kp6bkeWu/qBS
+ zCwgXY1RI7jqv0OLEs3/8OZ8FBr1E54=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-YtW7QXo6O161pkt5jA-tMQ-1; Tue, 23 Mar 2021 11:36:25 -0400
-X-MC-Unique: YtW7QXo6O161pkt5jA-tMQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-497-0m6tbRuYNCqKRq0kIfxyCw-1; Tue, 23 Mar 2021 11:42:28 -0400
+X-MC-Unique: 0m6tbRuYNCqKRq0kIfxyCw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF1C21007476
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 15:36:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
- [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6227E19705;
- Tue, 23 Mar 2021 15:36:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 22FFD1800624; Tue, 23 Mar 2021 16:36:17 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] edid: prefer standard timings
-Date: Tue, 23 Mar 2021 16:36:16 +0100
-Message-Id: <20210323153616.873822-6-kraxel@redhat.com>
-In-Reply-To: <20210323153616.873822-1-kraxel@redhat.com>
-References: <20210323153616.873822-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C6A3874998;
+ Tue, 23 Mar 2021 15:42:27 +0000 (UTC)
+Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 172C860BE5;
+ Tue, 23 Mar 2021 15:42:23 +0000 (UTC)
+Subject: Re: [PATCH 25/28] tests/qapi-schema: Switch member name clash test to
+ struct
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-26-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ac8c231c-8c26-2551-5952-49c76f54c429@redhat.com>
+Date: Tue, 23 Mar 2021 10:42:23 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210323094025.3569441-26-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,74 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Windows guests using the "Basic Display Adapter" don't parse the
-"Established timings III" block.  They also don't parse any edid
-extension.
+On 3/23/21 4:40 AM, Markus Armbruster wrote:
+> Test args-name-clash covers command parameter name clash.  This
+> effectively covers struct member name clash as well.  The next commit
+> will make paramater name clash impossible.  Convert args-name-clash
 
-So prefer the "Standard Timings" block to store the display resolutions
-in edid_fill_modes().  Also reorder the mode list, so more exotic
-resolutions (specifically the ones which are not supported by vgabios)
-are moved down and the remaining ones have a better chance to get one of
-the eight slots in the "Standard Timings" block.
+parameter
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20210316143812.2363588-6-kraxel@redhat.com>
----
- hw/display/edid-generate.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+> from testing command to testing a struct, and rename it to
+> struct-member-name-clash.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index 1665b7cbb29a..a1bea9a3aa35 100644
---- a/hw/display/edid-generate.c
-+++ b/hw/display/edid-generate.c
-@@ -25,19 +25,20 @@ static const struct edid_mode {
-     { .xres = 1920,   .yres = 1080,   .dta =  31 },
- 
-     /* additional standard timings 3 (all @ 60Hz) */
--    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
-     { .xres = 1920,   .yres = 1200,   .xtra3 = 10,   .bit = 0 },
--    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
--    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
-     { .xres = 1600,   .yres = 1200,   .xtra3 =  9,   .bit = 2 },
-     { .xres = 1680,   .yres = 1050,   .xtra3 =  9,   .bit = 5 },
--    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
-     { .xres = 1440,   .yres =  900,   .xtra3 =  8,   .bit = 5 },
--    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
-     { .xres = 1280,   .yres = 1024,   .xtra3 =  7,   .bit = 1 },
-     { .xres = 1280,   .yres =  960,   .xtra3 =  7,   .bit = 3 },
-     { .xres = 1280,   .yres =  768,   .xtra3 =  7,   .bit = 6 },
- 
-+    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
-+    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
-+    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
-+    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
-+    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
-+
-     /* established timings (all @ 60Hz) */
-     { .xres = 1024,   .yres =  768,   .byte  = 36,   .bit = 3 },
-     { .xres =  800,   .yres =  600,   .byte  = 35,   .bit = 0 },
-@@ -109,13 +110,13 @@ static void edid_fill_modes(uint8_t *edid, uint8_t *xtra3, uint8_t *dta,
- 
-         if (mode->byte) {
-             edid[mode->byte] |= (1 << mode->bit);
--        } else if (mode->xtra3 && xtra3) {
--            xtra3[mode->xtra3] |= (1 << mode->bit);
-         } else if (std < 54) {
-             rc = edid_std_mode(edid + std, mode->xres, mode->yres);
-             if (rc == 0) {
-                 std += 2;
-             }
-+        } else if (mode->xtra3 && xtra3) {
-+            xtra3[mode->xtra3] |= (1 << mode->bit);
-         }
- 
-         if (dta && mode->dta) {
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.30.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
