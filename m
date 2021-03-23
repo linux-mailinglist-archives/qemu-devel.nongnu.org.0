@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9C834555C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:11:43 +0100 (CET)
-Received: from localhost ([::1]:34558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D27334554D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:07:23 +0100 (CET)
+Received: from localhost ([::1]:51336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWWE-0006V5-UD
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
+	id 1lOWS2-0001UP-De
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKo-0002jU-8E
+ id 1lOWKo-0002lF-Ue
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:54 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2065)
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKm-0006tH-42
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:53 -0400
+ id 1lOWKm-0006u2-OV
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1616464792; x=1648000792;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sfsQvFdyL9uIj2kFXA8Blt8I893397xyP9rjOUZgGqk=;
- b=D+4z+4EAaQ4lE4hZt98bzr1UDjBnVu4c/AiSVtrUgsiSo4AI1wzuVLoI
- BWyQuS1xJKA3tovRsCorjPlxzBdPF4zxSWU91nfHzLbi3I4Fp6pFO7ScB
- pXpMvbV7Y4nZDyErWVLm7zYE47tGUW21DVurcQcdOqF4Zn8HbY3vvg5At
- 5LSDf0CzmeOs43l6NdB+HFlSA86NRVC1HskY554xj17Iz84S28GKO5Bai
- bc5U4vxFgLFwtZ2tJACtU3eruA1nd2hBegAUPB502O3h5YkfrOZq306BS
- bOVaM4g6nOVzKUBI+hglK/u9wkMb1u/FiGlqMjDnxNcF0aopBzpQEf9dI g==;
-IronPort-SDR: j+FSVy1+xpFpPgGByABNHVMak327o2fBZMdSA00caQkLB/7SLU/wMbEqlzbmy7Jr7Do7/TUb+P
- SImmd/GS3S8YM6FTsuZ8YuhtnSbZZ+NhNZiV+5jOpnJEwhbTziAPmUFkkL++e/QW8ZDeKDp1U7
- gaL21I0Gzj2OsXFvzDVVVVgbOxj3VBwcd0zvfxaPR4Fjt1qjSJj440AyFOnd/oELvaUH7ckwjC
- I7Mtv6/KTFYW/VTNQ7Dwb3L5Pp0gWwQlw/O2ChqTNXY1yBxXstnps32ayH4RfucXDjJk2KoiUp
- KDY=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707641"
+ bh=VISzj7nrHdSTOSETE9b6Nd1OPBUeFuhUpmZ+CkIAt6Q=;
+ b=IiBa7mmDaaxoM4uAIT067PsFM5J+P3na0j0HjKO4z0307z6El8ncdDUL
+ nj2D9n9duStc7X+tZPkw5UYOSgqCOvTTiN8qNoGLC2297NhO7LiUylR79
+ 5GgEnc/yxl8kCFgNCdZoSUjbdWSZi3KctEkQZUqMzAu5QW4fU5LXjs/TB
+ d1DAdvLmcWk1XVtsfqazSBZ5SdZOPS7SgoJsTShr6x9r0ygIXQQpeyESO
+ 8nUacbSxU1GmNWDaIaq7vnj2tQZ6tXMpTM3QTY7Uj5uHdvoHNH/A7X2B4
+ l71mfmmZUI/MDqqmSElgskeZxf0MZnbha2Qd9jqHIicnjzR9VnMz52MjM g==;
+IronPort-SDR: kI8dWE/qEQ5j7xBmBB+aEOW+1FamnyndeKmQOL/p7n4R7IEE2a5WbzcNdPhPpF1piBsr0lkQo1
+ JoCV0lxsYVOrdBpA9GG4JE7wpdwNKiXIAxwTlydHMk5z2ZCHyI8naTD0TA1l8HMYyQAxO+fG4L
+ 32K8/Odww1UbsNjo2/Nsxu5p/w3eI+m2YGlW+8XU03aFM+8207HBsdf7S6RbUa5yRAtva4O98Q
+ ZL6o1OB9MOjmbpaFbvV7DJsK8wIBDPHspKT3gFB0WJojvNbV4SKqiapEGEyiBVJaGA0HtPnmvW
+ 3ug=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707644"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:38 +0800
-IronPort-SDR: 2BNtLHfn5cENSYzmTTmjallOYPN2cI6MNInbogh5QnbrJZrwqzkv2wauVEtPFOXKqQumHt+LIl
- MiYRDcdTzD08uQrPolsKHmidJpZkolxeITxoOevaNVfDWshbwGO+HDpefCMpd17wAS728RDJK1
- 8NH/guKrgdbQJj+YjbgmZvBIL8x5PLPssCB6xLOHB8FxdkVDqzq6Y/o0d/8klyiajD8Y3V7qlP
- SgMRkkbAAkK/aOWCg0tB/AqKOY9pw7yLWBlssac/LQIpq6QsUhntswk+BvxPOj2NIlJ20YOc7o
- oXQVM1wGLh95SY0J8fbR3fRn
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:39 +0800
+IronPort-SDR: wtPOUw/BS3HNiAgU0EK6gGBj0iVQ/qeTsqFRb/tJTFBfbBuvaJU4i++pIwA1sXE8CCSlQXR4rj
+ bEB0eEjFgLTQ/dqX9akUtpd8PDrYbMZdiju8nf+2v8LfgqIGxEHoY76NC7tWC9GF/GKG2PXiu9
+ 6ILQUjwe3Y3gE2GzXYUlboLDlq+tlAq1uGfgyD6OgcmjvRDLO4wPyotg8mGwnIMi8AvKA4lDxT
+ uVIOIVcIECMH7vDXp37jtUDLNtAqr858SoL1I7uJkiHv5VBtxbVGBRip8j646zBfEZry8VuEyY
+ PSuclnxw7BKwqR9Jvre3IHYo
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:46 -0700
-IronPort-SDR: NWsLZ9d7143VTwAFBXlEWGzt4hWs03OLI17HO0/8A9uWueju8cwbYFcrTNZWXy++d9UlMRVRV4
- 8qZ2JAl3ZH94kzheMk0PnwjFQ2ETwoZYoh7IuDloS+4//Zv/7vcfapP8cMeI/74qu6W1XUHall
- 2p8LDZpOt1oU2X6xBj1jC/++riy5HmPo4Brfe8uOfMdQpm51UAkskm4yilCqlmBzDqXhY1BvcI
- QvLnkyKSGLdsTu32HhWUpvp8BbX2mHRVws1dQ1Uw9gHZfgcj8HdCNvKWC1dGV57TpW1Dv1imiM
- diA=
+ 22 Mar 2021 18:41:47 -0700
+IronPort-SDR: TjZZ+/Es6ejcOcAFQtG/wfnSr+p/cVASPBxpqTg5qvVdJIuQqFqi85mWULYj9nC2JDeJ2sJ0YH
+ 4fytwfCyj1JQystfgj7z7UynuWHaBqNMq34QoxxzvAzQz3+zLG0qqj7iAGc+pLiIjLWsn6W4S8
+ IdF4nq59l3wuyiUjEV+/GxK7kpTCMzvl9zRvrn29wo3pe65VGjkL5ZxVJd5rHg1ejHPU79MAVu
+ 6BEQGFB75tEPGPaT1YgcoK1YrzI+5PelUbwIyVj/3UVsPDwiCOgiLI3/nZlbRXMmOOO65YVNQ4
+ 9Vo=
 WDCIronportException: Internal
 Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.49.5])
- by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:38 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:39 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/16] target/riscv: Fix read and write accesses to vsip and
- vsie
-Date: Mon, 22 Mar 2021 21:57:51 -0400
-Message-Id: <20210323015756.3168650-12-alistair.francis@wdc.com>
+Subject: [PULL 12/16] target/riscv: Add proper two-stage lookup exception
+ detection
+Date: Mon, 22 Mar 2021 21:57:52 -0400
+Message-Id: <20210323015756.3168650-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
 References: <20210323015756.3168650-1-alistair.francis@wdc.com>
@@ -99,133 +99,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
-The previous implementation was broken in many ways:
- - Used mideleg instead of hideleg to mask accesses
- - Used MIP_VSSIP instead of VS_MODE_INTERRUPTS to mask writes to vsie
- - Did not shift between S bits and VS bits (VSEIP <-> SEIP, ...)
+The current two-stage lookup detection in riscv_cpu_do_interrupt falls
+short of its purpose, as all it checks is whether two-stage address
+translation either via the hypervisor-load store instructions or the
+MPRV feature would be allowed.
+
+What we really need instead is whether two-stage address translation was
+active when the exception was raised. However, in riscv_cpu_do_interrupt
+we do not have the information to reliably detect this. Therefore, when
+we raise a memory fault exception we have to record whether two-stage
+address translation is active.
 
 Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210311094738.1376795-1-georg.kotheimer@kernkonzept.com
+Message-id: 20210319141459.1196741-1-georg.kotheimer@kernkonzept.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 68 +++++++++++++++++++++++-----------------------
- 1 file changed, 34 insertions(+), 34 deletions(-)
+ target/riscv/cpu.h        |  4 ++++
+ target/riscv/cpu.c        |  1 +
+ target/riscv/cpu_helper.c | 21 ++++++++-------------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index a9dba7f736..d2585395bf 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -749,30 +749,42 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
-     return write_mstatus(env, CSR_MSTATUS, newval);
- }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0edb2826a2..0a33d387ba 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -213,6 +213,10 @@ struct CPURISCVState {
+     target_ulong satp_hs;
+     uint64_t mstatus_hs;
  
-+static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    /* Shift the VS bits to their S bit location in vsie */
-+    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
-+    return 0;
-+}
++    /* Signals whether the current exception occurred with two-stage address
++       translation active. */
++    bool two_stage_lookup;
 +
- static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
- {
-     if (riscv_cpu_virt_enabled(env)) {
--        /* Tell the guest the VS bits, shifted to the S bit locations */
--        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
-+        read_vsie(env, CSR_VSIE, val);
-     } else {
-         *val = env->mie & env->mideleg;
+     target_ulong scounteren;
+     target_ulong mcounteren;
+ 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 2a990f6253..7d6ed80f6b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -356,6 +356,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+     env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
+     env->mcause = 0;
+     env->pc = env->resetvec;
++    env->two_stage_lookup = false;
+ #endif
+     cs->exception_index = EXCP_NONE;
+     env->load_res = -1;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 8d4a62988d..21c54ef561 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -654,6 +654,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+         g_assert_not_reached();
      }
-     return 0;
+     env->badaddr = address;
++    env->two_stage_lookup = two_stage;
  }
  
--static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-+static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
- {
--    target_ulong newval;
-+    /* Shift the S bits to their VS bit location in mie */
-+    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-+                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
-+    return write_mie(env, CSR_MIE, newval);
-+}
- 
-+static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-+{
-     if (riscv_cpu_virt_enabled(env)) {
--        /* Shift the guests S bits to VS */
--        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
--                 ((val << 1) & VS_MODE_INTERRUPTS);
-+        write_vsie(env, CSR_VSIE, val);
-     } else {
--        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
-+        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
-+                              (val & S_MODE_INTERRUPTS);
-+        write_mie(env, CSR_MIE, newval);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+@@ -695,6 +696,8 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
      }
  
--    return write_mie(env, CSR_MIE, newval);
-+    return 0;
+     env->badaddr = addr;
++    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
++                            riscv_cpu_two_stage_lookup(mmu_idx);
+     riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
  }
  
- static int read_stvec(CPURISCVState *env, int csrno, target_ulong *val)
-@@ -853,17 +865,25 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
+@@ -718,6 +721,8 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+         g_assert_not_reached();
+     }
+     env->badaddr = addr;
++    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
++                            riscv_cpu_two_stage_lookup(mmu_idx);
+     riscv_raise_exception(env, cs->exception_index, retaddr);
  }
+ #endif /* !CONFIG_USER_ONLY */
+@@ -967,16 +972,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         /* handle the trap in S-mode */
+         if (riscv_has_ext(env, RVH)) {
+             target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
+-            bool two_stage_lookup = false;
  
-+static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-+                    target_ulong new_value, target_ulong write_mask)
-+{
-+    /* Shift the S bits to their VS bit location in mip */
-+    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
-+                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
-+    *ret_value &= VS_MODE_INTERRUPTS;
-+    /* Shift the VS bits to their S bit location in vsip */
-+    *ret_value >>= 1;
-+    return ret;
-+}
-+
- static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-                    target_ulong new_value, target_ulong write_mask)
- {
-     int ret;
+-            if (env->priv == PRV_M ||
+-                (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+-                (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+-                    get_field(env->hstatus, HSTATUS_HU))) {
+-                    two_stage_lookup = true;
+-            }
+-
+-            if ((riscv_cpu_virt_enabled(env) || two_stage_lookup) && write_tval) {
++            if (env->two_stage_lookup && write_tval) {
+                 /*
+                  * If we are writing a guest virtual address to stval, set
+                  * this to 1. If we are trapping to VS we will set this to 0
+@@ -1014,10 +1011,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 riscv_cpu_set_force_hs_excep(env, 0);
+             } else {
+                 /* Trap into HS mode */
+-                if (!two_stage_lookup) {
+-                    env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+-                                             riscv_cpu_virt_enabled(env));
+-                }
++                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, false);
+                 htval = env->guest_phys_fault_addr;
+             }
+         }
+@@ -1073,6 +1067,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+      * RISC-V ISA Specification.
+      */
  
-     if (riscv_cpu_virt_enabled(env)) {
--        /* Shift the new values to line up with the VS bits */
--        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
--                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
--        ret &= vsip_writable_mask;
--        ret >>= 1;
-+        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
-     } else {
-         ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
-                       write_mask & env->mideleg & sip_writable_mask);
-@@ -1122,26 +1142,6 @@ static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
++    env->two_stage_lookup = false;
+ #endif
+     cs->exception_index = EXCP_NONE; /* mark handled to qemu */
  }
- 
--static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                    target_ulong new_value, target_ulong write_mask)
--{
--    int ret = rmw_mip(env, 0, ret_value, new_value,
--                      write_mask & env->mideleg & vsip_writable_mask);
--    return ret;
--}
--
--static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
--{
--    *val = env->mie & env->mideleg & VS_MODE_INTERRUPTS;
--    return 0;
--}
--
--static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
--{
--    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg & MIP_VSSIP);
--    return write_mie(env, CSR_MIE, newval);
--}
--
- static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
- {
-     *val = env->vstvec;
 -- 
 2.30.1
 
