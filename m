@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC2B34691F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:32:39 +0100 (CET)
-Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6623468A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:13:04 +0100 (CET)
+Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmla-0005M3-BW
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
+	id 1lOmSd-0002f9-IL
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOm10-0008SV-6p
+ id 1lOm10-0008Sg-Br
  for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:44:30 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:33413)
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:46934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOm0Y-0003jO-V1
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:44:29 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id w70so18088485oie.0
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:43:56 -0700 (PDT)
+ id 1lOm0Z-0003jY-3t
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:44:30 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id
+ 68-20020a9d0f4a0000b02901b663e6258dso20451231ott.13
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GP7KN1O/N4US4bdn1IcXHif9taZ0y5n50rRX2Q2HUDY=;
- b=Jc0b5pnPsD66YJ1iLem3ayxsEy4Pda2iAPPoZJUMpss1S5ugnuhaIAEeGWBB3aA4+F
- NG4ngBUNohuiM4cGcNTHgiMWY3ZD+1sNVYuEvAcQ067kyRd6Csu8Y0iUdwcWWrHRkuZu
- s2mao+zMMhYsn6u83wiPX31luUwD0tVB8K4XlDxAeN4GBJXeHAqfAO82U4DJ3e1oltK0
- sn7mvBxMg80bBwgT/zRNn/3k4TlgqUIU/PLNjabYMebIrQk4fV099Nwy4uAJOgPSeqHQ
- hr9jn5eUTKjZ8d4jd+jj3chE3EBivjF3HtSGIdMkUaRjrN7hy2ROx3/V9H1BeGVK7dTY
- RDlg==
+ bh=5llEtBaN+Bp+Z3OAO9T9usrgC5W2jq7W550GBWoLWU4=;
+ b=f+4SLIlK04khUdqtpKdgOylbEzbKQqnG6KH+N83YeB4CmPDr4U5TqDH5IfwhVYvnsW
+ KxhKmbLhpDbLYZu59zLY81L9CuP01dTWwneBrRhNp6LAVkLLIaCuUUub3Qo1m/ui+7Sx
+ 34dsh/qfy7cu04dFKmxmoj55naPkn23GaAC1rSP1dDzRYtzmVm/rrJKSBz9M+bV9EieZ
+ b/Ns8cmAErc63z8gMp3oUPU7lgSbW5DMkZG4Miz4/SyMIf+A0YK7Bw7t8D6SExRIpreI
+ pXVECIDqC+P7tw3Nae0vMGx8Vdx+s2VQ2u1J4Ct7vYln9yB9OVvqMqqMv/+rlubDant4
+ H8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GP7KN1O/N4US4bdn1IcXHif9taZ0y5n50rRX2Q2HUDY=;
- b=s9SNzi8Zc8JXaxvaBujz9lAHQ1XU1QHnMfxW3sxzgIl2BzgqYWeVl8R8g5Tkx203do
- k6BMwr+1Ns3xdRfi3LxMXive2COfrbm1JXk4NWj5jtmZmsfP73SaeZMI31pMgALf0Q5t
- f7gw7ud7zyKb9CREzzt1i9cvpSO4k1ekTPcHpVeS7f3ZuHKxhhdgQ3LpsJ0VMq3TBPxo
- kiV/1fDtrbnDDlAJOh4bvzRMSQWT4BiMjk8m1NDEjcW4ZUxr3nEBs4DIrQraXI/XZvqw
- eHf4Qexgxg+HMs35KAE1d6oQsFMH8cYALgHZ7+LK1ORNkkVCfRR69ERPDXAE3qV3zEn9
- jOWw==
-X-Gm-Message-State: AOAM532ZvN4oqVM3kKuGuachM6LwJ8hiEbPNRQ8taT1PrPESBFW9Gtkb
- 4FqTWO/+OY8Adc66zVuwLB24r/mmPv9fdlEj
-X-Google-Smtp-Source: ABdhPJw/RrcGw4S1CQqNJaChrBboZkuIGtg5n0mD+/NIIpvND3jjvLMkfaH+iEMxo+UXFk2KYw4seQ==
-X-Received: by 2002:a05:6808:8d3:: with SMTP id
- k19mr4129748oij.67.1616525035721; 
- Tue, 23 Mar 2021 11:43:55 -0700 (PDT)
+ bh=5llEtBaN+Bp+Z3OAO9T9usrgC5W2jq7W550GBWoLWU4=;
+ b=E6vWkimweIkHAptUQEkvwwsPhiCo+0wrNU6+rXbd5OKkZvYyW8uMGuPBrjS8hn+/y6
+ IRbD/oR26VsGrPLcr/eIGtXDkKfCqcRUNyCcFOf6DUWPraeudE7y1W5KM4CrrSIH+yll
+ JYoyNmwt13TxJ/ru99vVyT+oIdAu9Ojq4UuYjKhWdqJFv8yA2cSUbSBURk1afmhonDR+
+ n1PLUkLz30ifseu1WtFLrNpB7FJZn8tix5KCJMTcrJvYv3Kjg8pAA8FdfH2vILMvMpKt
+ fyv1qatlwGXdpG+l1xkuaxz/iy+DzMljrq8lr5FUdKvt9enuhQOe5I/q04PUgC1Kc9J7
+ BUgw==
+X-Gm-Message-State: AOAM530P/6eBqjBG0IqRRZBhcgxBgONLHK+y8df899lnMATfIvPuwP4r
+ y3PBJ8W9jgDFskBG/gqHlqLGKTqrLqXkT6CB
+X-Google-Smtp-Source: ABdhPJxK3gxCzqG7eqRPLa77J2dN145bgSDggi+t4bi0E/rhgiNUFwwHpsy3joBrLdWoAEhP52c1Uw==
+X-Received: by 2002:a9d:550b:: with SMTP id l11mr5327675oth.218.1616525037117; 
+ Tue, 23 Mar 2021 11:43:57 -0700 (PDT)
 Received: from localhost.localdomain (171.189-204-159.bestelclientes.com.mx.
  [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id x23sm3902825ood.28.2021.03.23.11.43.54
+ by smtp.gmail.com with ESMTPSA id x23sm3902825ood.28.2021.03.23.11.43.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 11:43:55 -0700 (PDT)
+ Tue, 23 Mar 2021 11:43:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/10] linux-user/ppc: Fix msr updates for signal handling
-Date: Tue, 23 Mar 2021 12:43:39 -0600
-Message-Id: <20210323184340.619757-10-richard.henderson@linaro.org>
+Subject: [PATCH v5 10/10] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
+Date: Tue, 23 Mar 2021 12:43:40 -0600
+Message-Id: <20210323184340.619757-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210323184340.619757-1-richard.henderson@linaro.org>
 References: <20210323184340.619757-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,119 +88,87 @@ Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In save_user_regs, there are two bugs where we OR in a bit number
-instead of the bit, clobbering the low bits of MSR.  However:
-
-The MSR_VR and MSR_SPE bits control the availability of the insns.
-If the bits were not already set in MSR, then any attempt to access
-those registers would result in SIGILL.
-
-For linux-user, we always initialize MSR to the capabilities
-of the cpu.  We *could* add checks vs MSR where we currently
-check insn_flags and insn_flags2, but we know they match.
-
-Also, there's a stray cut-and-paste comment in restore.
-
-Then, do not force little-endian binaries into big-endian mode.
-
-Finally, use ppc_store_msr for the update to affect hflags.
-Which is the reason none of these bugs were previously noticed.
+Verify that hflags was updated correctly whenever we change
+cpu state that is used by hflags.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/ppc/cpu_loop.c |  5 +++--
- linux-user/ppc/signal.c   | 23 +++++++++++------------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ target/ppc/cpu.h         |  5 +++++
+ target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
+ 2 files changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index df71e15a25..4a0f6c8dc2 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -492,11 +492,12 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- #if defined(TARGET_PPC64)
-     int flag = (env->insns_flags2 & PPC2_BOOKE206) ? MSR_CM : MSR_SF;
- #if defined(TARGET_ABI32)
--    env->msr &= ~((target_ulong)1 << flag);
-+    ppc_store_msr(env, env->msr & ~((target_ulong)1 << flag));
- #else
--    env->msr |= (target_ulong)1 << flag;
-+    ppc_store_msr(env, env->msr | (target_ulong)1 << flag);
- #endif
- #endif
-+
-     env->nip = regs->nip;
-     for(i = 0; i < 32; i++) {
-         env->gpr[i] = regs->gpr[i];
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index b78613f7c8..bad38f8ed9 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -261,9 +261,6 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
-             __put_user(avr->u64[PPC_VEC_HI], &vreg->u64[0]);
-             __put_user(avr->u64[PPC_VEC_LO], &vreg->u64[1]);
-         }
--        /* Set MSR_VR in the saved MSR value to indicate that
--           frame->mc_vregs contains valid data.  */
--        msr |= MSR_VR;
- #if defined(TARGET_PPC64)
-         vrsave = (uint32_t *)&frame->mc_vregs.altivec[33];
-         /* 64-bit needs to put a pointer to the vectors in the frame */
-@@ -300,9 +297,6 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
-         for (i = 0; i < ARRAY_SIZE(env->gprh); i++) {
-             __put_user(env->gprh[i], &frame->mc_vregs.spe[i]);
-         }
--        /* Set MSR_SPE in the saved MSR value to indicate that
--           frame->mc_vregs contains valid data.  */
--        msr |= MSR_SPE;
-         __put_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
-     }
- #endif
-@@ -354,8 +348,10 @@ static void restore_user_regs(CPUPPCState *env,
-     __get_user(msr, &frame->mc_gregs[TARGET_PT_MSR]);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 3d021f61f3..69fc9a2831 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2425,6 +2425,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulong xer);
+  */
+ #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B))
  
-     /* If doing signal return, restore the previous little-endian mode.  */
--    if (sig)
--        env->msr = (env->msr & ~(1ull << MSR_LE)) | (msr & (1ull << MSR_LE));
-+    if (sig) {
-+        ppc_store_msr(env, ((env->msr & ~(1ull << MSR_LE)) |
-+                            (msr & (1ull << MSR_LE))));
-+    }
- 
-     /* Restore Altivec registers if necessary.  */
-     if (env->insns_flags & PPC_ALTIVEC) {
-@@ -376,8 +372,6 @@ static void restore_user_regs(CPUPPCState *env,
-             __get_user(avr->u64[PPC_VEC_HI], &vreg->u64[0]);
-             __get_user(avr->u64[PPC_VEC_LO], &vreg->u64[1]);
-         }
--        /* Set MSR_VEC in the saved MSR value to indicate that
--           frame->mc_vregs contains valid data.  */
- #if defined(TARGET_PPC64)
-         vrsave = (uint32_t *)&v_regs[33];
- #else
-@@ -468,7 +462,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     env->nip = (target_ulong) ka->_sa_handler;
- 
-     /* Signal handlers are entered in big-endian mode.  */
--    env->msr &= ~(1ull << MSR_LE);
-+    ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
- 
-     unlock_user_struct(frame, frame_addr, 1);
-     return;
-@@ -563,8 +557,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     env->nip = (target_ulong) ka->_sa_handler;
- #endif
- 
-+#ifdef TARGET_WORDS_BIGENDIAN
-     /* Signal handlers are entered in big-endian mode.  */
--    env->msr &= ~(1ull << MSR_LE);
-+    ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
++#ifdef CONFIG_DEBUG_TCG
++void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *flags);
 +#else
-+    /* Signal handlers are entered in little-endian mode.  */
-+    ppc_store_msr(env, env->msr | (1ull << MSR_LE));
+ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+ {
+@@ -2432,6 +2436,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+     *cs_base = 0;
+     *flags = env->hflags;
+ }
 +#endif
  
-     unlock_user_struct(rt_sf, rt_sf_addr, 1);
-     return;
+ void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
+ void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t exception,
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 5411a67e9a..3723872aa6 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
+     env->tgpr[3] = tmp;
+ }
+ 
+-void hreg_compute_hflags(CPUPPCState *env)
++static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+ {
+     target_ulong msr = env->msr;
+     uint32_t ppc_flags = env->flags;
+@@ -155,9 +155,34 @@ void hreg_compute_hflags(CPUPPCState *env)
+     hflags |= dmmu_idx << HFLAGS_DMMU_IDX;
+ #endif
+ 
+-    env->hflags = hflags | (msr & msr_mask);
++    return hflags | (msr & msr_mask);
+ }
+ 
++void hreg_compute_hflags(CPUPPCState *env)
++{
++    env->hflags = hreg_compute_hflags_value(env);
++}
++
++#ifdef CONFIG_DEBUG_TCG
++void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *flags)
++{
++    uint32_t hflags_current = env->hflags;
++    uint32_t hflags_rebuilt;
++
++    *pc = env->nip;
++    *cs_base = 0;
++    *flags = hflags_current;
++
++    hflags_rebuilt = hreg_compute_hflags_value(env);
++    if (unlikely(hflags_current != hflags_rebuilt)) {
++        cpu_abort(env_cpu(env),
++                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)\n",
++                  hflags_current, hflags_rebuilt);
++    }
++}
++#endif
++
+ void cpu_interrupt_exittb(CPUState *cs)
+ {
+     if (!kvm_enabled()) {
 -- 
 2.25.1
 
