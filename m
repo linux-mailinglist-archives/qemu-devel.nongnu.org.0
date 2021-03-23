@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B833466D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:55:23 +0100 (CET)
-Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BC83466CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:53:12 +0100 (CET)
+Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOlFS-0001aS-5u
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54260)
+	id 1lOlDL-0006sS-22
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkHd-0007FW-EM
+ id 1lOkHg-0007HT-Cj
  for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:36 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44635)
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:44643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkHZ-0002wp-PB
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:33 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id e14so10028838ejz.11
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:29 -0700 (PDT)
+ id 1lOkHY-0002vQ-FV
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:34 -0400
+Received: by mail-ej1-x634.google.com with SMTP id e14so10028661ejz.11
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nV9FEUQi26PpeGtroH8dN7VBa8pABbTHxvm6zGW6zk8=;
- b=PxuCy63b+oDajrVFBnBx2kFZKwLtXCBhZkinNakBRYsKa409ri2bYPhvz1gdxhgSlU
- deW9jg60yGtHDNT1Tp3OIvZmVzaGsAb0d1MEE8J+uhBEIZms2+0P4bCousWV8oalqo/v
- pSxhPVLueB240BnOgz+79mhDY5X1c+8iCn4W3Sk59VTrYPCC7qv3M22zgRy+mV2hS+c7
- vtzC/W5CGJNSRT2fao2UPz3l0DFbDiu4FBotNaz6LyMTmdQrgBblcbncoFU72F5AFQDq
- H6FVBnd3rHFdRjILhja2eZZI80M7r56FKZ3ispyODRIFz24y9g9pphaK65DfJtUtN0/s
- L1jQ==
+ bh=1R5dBzICN7UKyVr4RtsD3A7GJeQOBuWX0KqOefj2HYI=;
+ b=Npt/0ihztyIgQ/YYKncErYm+GRxbseFYjc/t1xqHvGCKrJP5/j2fwZZA/nKMRTOEWR
+ W7NnbJ46XsRuwZ9dh/gsnGRGEG8Evkbx8eMVTy9DNzw32NC6ggfDnA5GgIJ6b3r7rgJ5
+ CViz5y9klJfzUtzKY2TqWtC+guPiGP4QG+CHdJ9qcmCsdgJEr6gkfvnUjAAu8tQXvaYL
+ 56eCv67NUShy2hagumng/fagelUn1C9irO36CoY4uLjWXTGIQQAc8nbEsggJfgPFMaTk
+ 1mKN8FoxhFERi0B9SxN0SVosIbbkCVQFxQeBPyig1Qle2vsPi42XvxoODOSv4+6XvSFo
+ EZBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nV9FEUQi26PpeGtroH8dN7VBa8pABbTHxvm6zGW6zk8=;
- b=VIhgX9ZHNV6I/ADFYSC2FHttpAdxp/nAGVgHmKAI3oP+xNVqeaFxgTVxWLaX5qq2i2
- s4fZ0fMyJA75kcDnr0BcK0wsYM0Wo1+qAhf+IUdZRiekZtuF4aNLWeYXtCkX6558D5zz
- JM277E1lAVxd18QzgsQWuMVaguhrMr/uEtNLZrdi+/GpoEN+M2oY6NLV1kLth/9b5RgV
- FHqamkb7mznbC6OJodAtXRm4hWyKhTG37I7DIPO8ypyxbNBvwbUXLEKBMR3btE9div+I
- b+ODNsGgAcOMEipUGagctil8+IKG3IYih6iplm2tNIqWkcnL+bIKHZNBw++N5P0Mnpbd
- ZsjA==
-X-Gm-Message-State: AOAM533KGQ2ioieuSYQMDKJ24H45bf+z9Na7QAQu4AhShbTMaJroicKK
- VRK1+fOdH1WSBf78+G8QZZEr8RZoYNNILY88
-X-Google-Smtp-Source: ABdhPJxiza9ZevcQXGljZXk3yP3Ktt+UdrvX0uMmoeQhznQOy3Q/3ykxz870UM5EsRFgvW/1j8DN3A==
-X-Received: by 2002:a17:906:dbd0:: with SMTP id
- yc16mr5787292ejb.71.1616518408601; 
- Tue, 23 Mar 2021 09:53:28 -0700 (PDT)
+ bh=1R5dBzICN7UKyVr4RtsD3A7GJeQOBuWX0KqOefj2HYI=;
+ b=oww4SYpGa8tvAPiHzESI/EvqrnYCOKNJWfHKgUY57pmeRtF0MCg9Mvs4lFS4W6exkY
+ W6eNSUVrFNR35qGEba1roP8KyB1Jda1Phz2hiFIDPY26a+e1fXWf4xvmqdB/W+oQ0jWe
+ 1Pcz+5+8OOVSgR9tf0o4o9MCklxeP33tEGlZUdIscuxKuYqq0t36EqP9+/fNl+z7MBtS
+ ihvVUET7N3PzIfkUec9Bcby1R7hJRMnOS6sQZ9mzqlCrucQQvwR7AHevwnWTp95BnxpW
+ 0FPyziGev/uVXZbYqOpfgS/ZmhYhKqOEFdslHqcOjavg6Yo2T6S5CvQw6gbu3PXouBzB
+ 1GkA==
+X-Gm-Message-State: AOAM533r7fK2Xuzm+R2C0f7zc5wvfjdpuhBU60AQ/IBtlGy2HOb/fkCj
+ L3IDObTYcj1f51eWA14Yh0onLw==
+X-Google-Smtp-Source: ABdhPJyYUW4WNt+FpedUBfMvQePYZlcAxt/GZUEc+/xgMASR9MFxsqFGFPKI1rERKjLERzJeoqeu6A==
+X-Received: by 2002:a17:907:7799:: with SMTP id
+ ky25mr5776427ejc.217.1616518406030; 
+ Tue, 23 Mar 2021 09:53:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f3sm11474290ejd.42.2021.03.23.09.53.13
+ by smtp.gmail.com with ESMTPSA id k9sm13320651edn.68.2021.03.23.09.53.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 23 Mar 2021 09:53:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 428981FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 710791FF7E;
  Tue, 23 Mar 2021 16:53:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/22] tests/tcg: add HeapInfo checking to semihosting test
-Date: Tue, 23 Mar 2021 16:52:55 +0000
-Message-Id: <20210323165308.15244-10-alex.bennee@linaro.org>
+Subject: [PATCH v2 10/22] gitlab-ci.yml: Merge the trace-backend testing into
+ other jobs
+Date: Tue, 23 Mar 2021 16:52:56 +0000
+Message-Id: <20210323165308.15244-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210323165308.15244-1-alex.bennee@linaro.org>
 References: <20210323165308.15244-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,100 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Query the SYS_HEAPINFO semicall and do some basic verification of the
-information via libc calls.
+From: Thomas Huth <thuth@redhat.com>
 
+Our gitlab-ci got quite slow in the past weeks, due to the immense amount
+of jobs that we have, so we should try to reduce the number of jobs.
+There is no real good reason for having separate jobs just to test the
+trace backends, we can do this just fine in other jobs, too.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210320133706.21475-10-alex.bennee@linaro.org>
-
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20210319095726.45965-1-thuth@redhat.com>
+Message-Id: <20210320133706.21475-11-alex.bennee@linaro.org>
 ---
-v2
-  - expand test as suggested by Richard
----
- .../multiarch/arm-compat-semi/semihosting.c   | 55 ++++++++++++++++++-
- 1 file changed, 54 insertions(+), 1 deletion(-)
+ .gitlab-ci.yml | 30 +++---------------------------
+ 1 file changed, 3 insertions(+), 27 deletions(-)
 
-diff --git a/tests/tcg/multiarch/arm-compat-semi/semihosting.c b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-index b3fd16cd12..8627eee3cf 100644
---- a/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-+++ b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-@@ -8,9 +8,13 @@
-  */
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index f65cb11c4d..f746d5fbea 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -87,7 +87,7 @@ build-system-alpine:
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
+-    CONFIGURE_ARGS: --enable-docs
++    CONFIGURE_ARGS: --enable-docs --enable-trace-backends=log,simple,syslog
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -605,7 +605,7 @@ tsan-build:
+   variables:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10 --disable-docs
+-                    --enable-fdt=system --enable-slirp=system
++          --enable-trace-backends=ust --enable-fdt=system --enable-slirp=system
+     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
+     MAKE_CHECK_ARGS: bench V=1
  
- #define SYS_WRITE0      0x04
-+#define SYS_HEAPINFO    0x16
- #define SYS_REPORTEXC   0x18
+@@ -702,6 +702,7 @@ build-coroutine-sigaltstack:
+   variables:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --with-coroutine=sigaltstack --disable-tcg
++                    --enable-trace-backends=ftrace
+     MAKE_CHECK_ARGS: check-unit
  
- #include <stdint.h>
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <string.h>
- #include "semicall.h"
+ # Most jobs test latest gcrypt or nettle builds
+@@ -739,31 +740,6 @@ crypto-only-gnutls:
+     MAKE_CHECK_ARGS: check
  
- int main(int argc, char *argv[argc])
-@@ -21,8 +25,57 @@ int main(int argc, char *argv[argc])
-     uintptr_t exit_block[2] = {0x20026, 0};
-     uintptr_t exit_code = (uintptr_t) &exit_block;
- #endif
-+    struct {
-+        void *heap_base;
-+        void *heap_limit;
-+        void *stack_base;
-+        void *stack_limit;
-+    } info;
-+    void *ptr_to_info = (void *) &info;
  
--    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
-+    __semi_call(SYS_WRITE0, (uintptr_t) "Checking HeapInfo\n");
-+
-+    memset(&info, 0, sizeof(info));
-+    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
-+
-+    if (info.heap_base == NULL || info.heap_limit == NULL) {
-+        printf("null heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+        exit(1);
-+    }
-+
-+    /* Error if heap base is above limit */
-+    if ((uintptr_t) info.heap_base >= (uintptr_t) info.heap_limit) {
-+        printf("heap base %p >= heap_limit %p\n",
-+               info.heap_base, info.heap_limit);
-+        exit(2);
-+    }
-+
-+    if (info.stack_base == NULL || info.stack_limit) {
-+        printf("null stack: %p -> %p\n", info.stack_base, info.stack_limit);
-+        exit(3);
-+    }
-+
-+    /* check our local variables are indeed inside the reported stack */
-+    if (ptr_to_info > info.stack_base) {
-+        printf("info appears to be above stack: %p > %p\n", ptr_to_info,
-+               info.stack_base);
-+        exit(4);
-+    } else if (ptr_to_info < info.stack_limit) {
-+        printf("info appears to be outside stack: %p < %p\n", ptr_to_info,
-+               info.stack_limit);
-+        exit(5);
-+    }
-+
-+    if (ptr_to_info > info.heap_base && ptr_to_info < info.heap_limit) {
-+        printf("info appears to be inside the heap: %p in %p:%p\n",
-+               ptr_to_info, info.heap_base, info.heap_limit);
-+        exit(6);
-+    }
-+
-+    printf("heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+    printf("stack: %p -> %p\n", info.stack_base, info.stack_limit);
-+
-+    __semi_call(SYS_WRITE0, (uintptr_t) "Passed HeapInfo checks");
-     __semi_call(SYS_REPORTEXC, exit_code);
-     /* if we get here we failed */
-     return -1;
+-# We don't need to exercise every backend with every front-end
+-build-trace-multi-user:
+-  <<: *native_build_job_definition
+-  needs:
+-    job: amd64-ubuntu2004-container
+-  variables:
+-    IMAGE: ubuntu2004
+-    CONFIGURE_ARGS: --enable-trace-backends=log,simple,syslog --disable-system
+-
+-build-trace-ftrace-system:
+-  <<: *native_build_job_definition
+-  needs:
+-    job: amd64-ubuntu2004-container
+-  variables:
+-    IMAGE: ubuntu2004
+-    CONFIGURE_ARGS: --enable-trace-backends=ftrace --target-list=x86_64-softmmu
+-
+-build-trace-ust-system:
+-  <<: *native_build_job_definition
+-  needs:
+-    job: amd64-ubuntu2004-container
+-  variables:
+-    IMAGE: ubuntu2004
+-    CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
+-
+ # Check our reduced build configurations
+ build-without-default-devices:
+   <<: *native_build_job_definition
 -- 
 2.20.1
 
