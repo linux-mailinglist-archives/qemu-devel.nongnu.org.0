@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6133D346BB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:07:30 +0100 (CET)
-Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A94B346B7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:59:08 +0100 (CET)
+Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOpBR-0006tB-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48340)
+	id 1lOp3L-00019D-G6
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1T-00071a-TX
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38837)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1R-0006xX-Bm
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1O-0002l5-9n
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:11 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1N-0002l0-Pn
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1616536625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bb4Twvx0DzYM3S9qYxLX3oCLZr8tMW9mk4G3qccb+8I=;
- b=PmQIdofHd3tekwF3VBQVS37nXNLrZrgnYLmQSwh45Fewj+eS6m0r35T47iE0L+lH1su4RD
- O1cCCdmwf57c7AhVlijNH8MdzeJn9L34pdDBWE24jSicvL3QLqceW4S/k+8NyIvUfZw4bB
- TrNnkHiNw3EV0J9L8aiwrLkoMhGuiEo=
+ bh=kaZdviGjFloqey3uGIxgfwKMHcRrrSauuVlPypEWPKU=;
+ b=RYfY4EroY70VVXEUkG1rM9CUbUE782ADjUb7Bk9m4yXbx3yzBq+EJyaTi9nfQaCbIluG5d
+ TvfznMTJhhJfcmamZtDIy8v5eoTylD3fw4Bnwr2OWeLE43q4OKB8haELQKzdzVIr6nlLaZ
+ xySb8ijQcF6+upHS8QZ4C5q7jO3CV6s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-f7898g7iMiye-a-CkP_pcw-1; Tue, 23 Mar 2021 17:57:00 -0400
-X-MC-Unique: f7898g7iMiye-a-CkP_pcw-1
+ us-mta-153-UM_-jzDwNMGfXlf-ndVkjw-1; Tue, 23 Mar 2021 17:57:02 -0400
+X-MC-Unique: UM_-jzDwNMGfXlf-ndVkjw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22F54A0CA2;
- Tue, 23 Mar 2021 21:57:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0A92108BD09;
+ Tue, 23 Mar 2021 21:57:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E768D50DD0;
- Tue, 23 Mar 2021 21:56:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FA6E50DD0;
+ Tue, 23 Mar 2021 21:57:01 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 892771132712; Tue, 23 Mar 2021 22:56:58 +0100 (CET)
+ id 8C8741132713; Tue, 23 Mar 2021 22:56:58 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/29] tests/qapi-schema: Belatedly update comment on alternate
- clash
-Date: Tue, 23 Mar 2021 22:56:33 +0100
-Message-Id: <20210323215658.3840228-5-armbru@redhat.com>
+Subject: [PULL 05/29] tests/qapi-schema: Drop TODO comment on simple unions
+Date: Tue, 23 Mar 2021 22:56:34 +0100
+Message-Id: <20210323215658.3840228-6-armbru@redhat.com>
 In-Reply-To: <20210323215658.3840228-1-armbru@redhat.com>
 References: <20210323215658.3840228-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,40 +83,34 @@ Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 0426d53c65 "qapi: Simplify visiting of alternate types"
-eliminated the implicit alternate enum, but neglected to update a
-comment about it in a test.  Do that now.
+Simple unions don't need more features, they need to die.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210323094025.3569441-5-armbru@redhat.com>
+Message-Id: <20210323094025.3569441-6-armbru@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- tests/qapi-schema/alternate-clash.err  | 2 +-
- tests/qapi-schema/alternate-clash.json | 5 +----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ tests/qapi-schema/flat-union-no-base.err  | 2 +-
+ tests/qapi-schema/flat-union-no-base.json | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/qapi-schema/alternate-clash.err b/tests/qapi-schema/alternate-clash.err
-index f58b977f7b..0fe02f2c99 100644
---- a/tests/qapi-schema/alternate-clash.err
-+++ b/tests/qapi-schema/alternate-clash.err
+diff --git a/tests/qapi-schema/flat-union-no-base.err b/tests/qapi-schema/flat-union-no-base.err
+index 9bd595bcfb..5167565b00 100644
+--- a/tests/qapi-schema/flat-union-no-base.err
++++ b/tests/qapi-schema/flat-union-no-base.err
 @@ -1,2 +1,2 @@
- alternate-clash.json: In alternate 'Alt1':
--alternate-clash.json:7: branch 'a_b' collides with branch 'a-b'
-+alternate-clash.json:4: branch 'a_b' collides with branch 'a-b'
-diff --git a/tests/qapi-schema/alternate-clash.json b/tests/qapi-schema/alternate-clash.json
-index 9a59b88ced..039c4be658 100644
---- a/tests/qapi-schema/alternate-clash.json
-+++ b/tests/qapi-schema/alternate-clash.json
-@@ -1,8 +1,5 @@
- # Alternate branch name collision
- # Reject an alternate that would result in a collision in generated C
--# names (this would try to generate two enum values 'ALT1_KIND_A_B').
--# TODO: In the future, if alternates are simplified to not generate
--# the implicit Alt1Kind enum, we would still have a collision with the
--# resulting C union trying to have two members named 'a_b'.
-+# names (this would try to generate two union members named 'a_b').
- { 'alternate': 'Alt1',
-   'data': { 'a-b': 'bool', 'a_b': 'int' } }
+ flat-union-no-base.json: In union 'TestUnion':
+-flat-union-no-base.json:9: 'discriminator' requires 'base'
++flat-union-no-base.json:8: 'discriminator' requires 'base'
+diff --git a/tests/qapi-schema/flat-union-no-base.json b/tests/qapi-schema/flat-union-no-base.json
+index ffc4c6f0e6..327877b563 100644
+--- a/tests/qapi-schema/flat-union-no-base.json
++++ b/tests/qapi-schema/flat-union-no-base.json
+@@ -1,5 +1,4 @@
+ # flat unions require a base
+-# TODO: simple unions should be able to use an enum discriminator
+ { 'struct': 'TestTypeA',
+   'data': { 'string': 'str' } }
+ { 'struct': 'TestTypeB',
 -- 
 2.26.3
 
