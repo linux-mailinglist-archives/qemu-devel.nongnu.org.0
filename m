@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B846345E93
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:55:05 +0100 (CET)
-Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E7B345EB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:58:21 +0100 (CET)
+Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOgYq-0002Ve-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47790)
+	id 1lOgc0-0006vI-OS
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:58:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOgXz-0001ql-GD
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:54:11 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:33501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOgXx-0003fa-VO
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:54:11 -0400
-Received: by mail-il1-x134.google.com with SMTP id u10so17991120ilb.0
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 05:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sjdBaFOkOqc2OfZ+yfk+x83IntGrkgFyQXCIjDCa3yQ=;
- b=Dvs7sURihRh/R6DF2iUp6zav4AGc5cRIVYtN8m8wHoKHGreSFGHcvqdBCD+wOAn6gD
- xHFcwDIvkyqsztF8J36kpOI+aR/hgJhr4204E+Yh71qVBtNHRe0ycF5XpscRjvwcl8c1
- 4qb1GcQwyU8z22XUcJ6uH+KZRJ6c6NdQdHg9L2I+Ylp6RE5nNnXAOKOAEh0f18YZ+I6I
- DAL84dxQ1TR8uaw5lPaxfzpRiqFZijifbDBFJAUl9jCRuYrB3l924BQEmoFxRBc/2Gag
- fj2ngSoFI2FUOVpR4efcoND4rZIh59YY9AMxP6S5xre32nNE2k/VOFgrZb53MvwnDsHh
- 0AxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sjdBaFOkOqc2OfZ+yfk+x83IntGrkgFyQXCIjDCa3yQ=;
- b=A4s8A1bsOYtkSD1JIX4nd8D9HezvhSQ43qDA1/LrIN5Itm1DY6F9p7BuMKdezB+xpJ
- 7p1tueaZlgix4kVEO6zoOOzR2uUc1gW6jxiBnij2CfatoY2nnFh8175Ohg7R0TA1NJiV
- trL7VMdx4TrR9hr6+Gm5/B3QVlvD/HMP0XkdrWKCGApxZaQ0pwYvf8YBjLtt7SWo1nwc
- 5DrtHefs3fiFVf3BKMcISNfxB2Wd7uTD7HayfiGdtWLKRUIG2bS/U7GNQkQlFZ8rL3yD
- JK2/4RDNC/w/puEr0mAYfTFrjL+94Dyf68CGagCVgsRz7J2doOloL4vbBLoV4zQh68kw
- JVMA==
-X-Gm-Message-State: AOAM532fxgc9hzUY3ssYCAQvpvjqgQ4xO5KXFf24uX25L3pjlfu3r5jo
- rAy30U/sVY+gFrcJ+pURqHBMzwgq3XRQBo2Dy3E=
-X-Google-Smtp-Source: ABdhPJxkpf2KVkKIr1lnm0t7+IbFl3Av+odPrlR1Ists1kEMHZZuKHKCKaojq/6d6/hjBHwKlsc/xpzdlQgBnJ27kHs=
-X-Received: by 2002:a92:c102:: with SMTP id p2mr4477663ile.227.1616504048844; 
- Tue, 23 Mar 2021 05:54:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lOgZt-0004Ye-Ja
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:56:13 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:33733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lOgZi-0004Yr-1T
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:56:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=8EvuWMeSvlhuN/NKhL1UEoBjWre8dNBAehaT2Zpce9o=; b=NqYiK4FfYS8c9KtJULdhW93z5r
+ y99PLzm/cCPl/l9Nj1iquA6FxM++4L2wMCCwRwd1aZ3M5Th9fqTTv72mthY/2LsIuVQaHt/Mvszp+
+ v8saY9s12zcMCdxzcoeQtVEkXDZM4/Nm1xd9Vub/ofMi4+vpnEz0h6oQT9jff+0FoArMyIONqW2iK
+ I8hTXhCWM+8fB6Sml/BSRtDx95Mz4VbMGMIxU619lt/3bZGEm9RT0bjEn2Pwl+JJqlzPYPsbY5JB9
+ KQW0up0aJtM6znG2O2o8aRd3vJR/QDlFGuz+js2icjIhpqNw4qd8T4J68BZX4BiiUe0k9B5FC0DcX
+ ujgjn4LQwBd8xpApAthBcDJ3+9gdY7GFRZdqmPHr4HyFuW0gDfABnWmBt/24pIk2hePkFPg3p6klr
+ RLVHRoCAqe4CTyuyeKMn8ai9DS+CUAm7BZ7vYoU43o0cuMBkiRTrf9W5h5bLtnTPK5q9eNLjIIx3U
+ 1G6cD2vkMBEt0qeARHsckBd0YX21qqkei8pJml0/e9bAON8VPOnJfTNz0iftSpeGV4fH4EWSu97sH
+ Vp1oskbTLPZILyYdm09deTV4Bi/UFz/EEvb0vN4OWchUXAQX4KjZqLZa49A+AQZv/I5OAigslc7s4
+ 4zJ/aKiqo3E1e7hmMUrkJ19TjBV9Kfg6EKevMyy6M=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Xie Yongji <xieyongji@bytedance.com>,
+ Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
+ reconnection
+Date: Tue, 23 Mar 2021 13:54:46 +0100
+Message-ID: <2732080.qQGZu95Wvu@silver>
+In-Reply-To: <YFh3gIMbEEEYDdS/@stefanha-x1.localdomain>
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+ <1711593.yAA9ihpmTb@silver> <YFh3gIMbEEEYDdS/@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <0733e356-5384-8e8f-120c-986f031df53c@gmx.de>
-In-Reply-To: <0733e356-5384-8e8f-120c-986f031df53c@gmx.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Mar 2021 08:52:12 -0400
-Message-ID: <CAKmqyKP1AvBseqiGjdZoLB5xhnQ3wG5ZhifeqDZ_ZOXH0npXzg@mail.gmail.com>
-Subject: Re: [PATCH] docs/system/generic-loader.rst: Fix style
-To: Axel Heider <axelheider@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,47 +72,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 3:40 PM Axel Heider <axelheider@gmx.de> wrote:
->
-> Fix style to have a proper description of the parameter 'force-raw'.
->
-> Signed-off-by: Axel Heider <axelheider@gmx.de>
+On Montag, 22. M=E4rz 2021 11:54:56 CET Stefan Hajnoczi wrote:
+> > > Thanks, Christian. I am still trying to figure out the details of the
+> > > ROP
+> > > attacks.
+> > >=20
+> > > However, QEMU's vhost-user reconnection is based on chardev socket
+> > > reconnection. The socket reconnection can be enabled by the "--chardev
+> > > socket,...,reconnect=3DN" in QEMU command options, in which N means Q=
+EMU
+> > > will
+> > > try to connect the disconnected socket every N seconds. We can increa=
+se
+> > > N
+> > > to increase the reconnect delay. If we want to change the reconnect
+> > > delay
+> > > dynamically, I think we should change the chardev socket reconnection
+> > > code.
+> > > It is a more generic mechanism than vhost-user-fs and vhost-user
+> > > backend.
+> > >=20
+> > > By the way, I also considered the socket reconnection delay time in t=
+he
+> > > performance aspect. As the reconnection delay increase, if an
+> > > application
+> > > in the guest is doing I/Os, it will suffer larger tail latency. And f=
+or
+> > > now, the smallest delay is 1 second, which is rather large for
+> > > high-performance virtual I/O devices today. I think maybe a more
+> > > performant
+> > > and safer reconnect delay adjustment mechanism should be considered in
+> > > the
+> > > future. What are your thoughts?
+> >=20
+> > So with N=3D1 an attacker could e.g. bypass a 16-bit PAC by brute-force=
+ in
+> > ~18 hours (e.g. on Arm if PAC + MTE was enabled). With 24-bit PAC (no
+> > MTE) it would be ~194 days. Independent of what architecture and defend
+> > mechanism is used, there is always the possibility though that some kind
+> > of side channel attack exists that might require a much lower amount of
+> > attempts. So in an untrusted environment I would personally limit the
+> > amount of automatic reconnects and rather accept a down time for further
+> > investigation if a suspicious high amount of crashes happened.
+> >=20
+> > And yes, if a dynamic delay scheme was deployed in future then starting
+> > with a value smaller than 1 second would make sense.
+>=20
+> If we're talking about repeatedly crashing the process to find out its
+> memory map, shouldn't each process have a different randomized memory
+> layout?
+>=20
+> Stefan
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Yes, ASLR is enabled on Linux and other OSes by default for more than 10=20
+years. But ASLR does not prevent ROP attacks which are commonly using relat=
+ive=20
+offsets, tweaking the stack, indirect jumps, as well as heap spraying. Plus=
+=20
+side channels exist to gain access to direct addresses.
 
-Alistair
+The situation might improve significantly when shadow stacks (e.g. Intel CE=
+T)=20
+become widely used in future. But in the meantime I would be cautious if=20
+something is crashing too often in a certain time frame.
 
-> ---
->  docs/system/generic-loader.rst | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/docs/system/generic-loader.rst b/docs/system/generic-loader.rst
-> index 6bf8a4eb48..13457cc705 100644
-> --- a/docs/system/generic-loader.rst
-> +++ b/docs/system/generic-loader.rst
-> @@ -92,9 +92,12 @@ shown below:
->    specified in the executable format header. This option should only
->    be used for the boot image. This will also cause the image to be
->    written to the specified CPU's address space. If not specified, the
-> -  default is CPU 0. <force-raw> - Setting force-raw=on forces the file
-> -  to be treated as a raw image. This can be used to load supported
-> -  executable formats as if they were raw.
-> +  default is CPU 0.
-> +
-> +``<force-raw>``
-> +  Setting 'force-raw=on' forces the file to be treated as a raw image.
-> +  This can be used to load supported executable formats as if they
-> +  were raw.
->
->  All values are parsed using the standard QemuOpts parsing. This allows the user
->  to specify any values in any format supported. By default the values
-> --
-> 2.25.1
->
->
+Best regards,
+Christian Schoenebeck
+
+
 
