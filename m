@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC24345C5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:56:55 +0100 (CET)
-Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419E8345C65
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:03:22 +0100 (CET)
+Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOeiU-0000tk-MC
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47098)
+	id 1lOeoj-0003wa-AM
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:03:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOegp-00005F-2x
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 06:55:11 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36425)
+ id 1lOemZ-0002eU-Fz
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:01:10 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:44793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOegm-00043z-Dh
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 06:55:10 -0400
-Received: by mail-ej1-x632.google.com with SMTP id a7so26313920ejs.3
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 03:55:07 -0700 (PDT)
+ id 1lOemT-0007kf-B4
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:01:07 -0400
+Received: by mail-ej1-x632.google.com with SMTP id e14so8132642ejz.11
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 04:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PlQ1M49uwiBqU7zJK9Oe0O7XmS+lsIGXoNikxB4ENiE=;
- b=aIzl71VE0wJsfa+7IuYWxc3qG5K+RR/zuQtqlNsj6r3oOIghAvES3UbEa+DbS8EM69
- RsGyJyJYvKaLVMJYq2zc5s2srIiSN5qa0K0F3zO85ffwIRu+lzirAg9ind8SjxDI1XcZ
- SUOlGAYyEbo783OT04DkDPpBPMSukd3otDdwxc7HVfiBfmabVss3GK/k8uHjFoYGy2ye
- YOrpceSmaQM0lCHxC5bQU/a/9HoR3ODpAYl2Jb6epGO/Mxt+yRBQcCoZAFFWHAJ5doG0
- Jo6igH7KDg5XgppNkL059srfWaEoTUNv0uQ2oiLC1NtS+RpOIM59W0toOmRnkX7s8ZW9
- E7kA==
+ :cc:content-transfer-encoding;
+ bh=BCP2Bi93b73/pIUT1UuR0zwOwmhRnt9acaKY0mbXK7E=;
+ b=n57cmEjIEYKTcyZw9kxt6meDIAbRM39VQX5pW1xDcMJAfZfo6ktu8qg+6s39AiTvNF
+ GdpuxT3eTBV6RAaEym3a8abb8I4CPzNIf35sWGebgp1WGfk0q/0zaf2WL0yaBVKhdhSB
+ Avk4Wlj2+uFgzZkh3fLWJbvHJL5lV399k849jQglBp2K47zmc7kZk+FKOGVeNZBpnT1Q
+ e1l9ogdPAP92QzP7lxcK8Vho0WgmqpbWJitgMLA5S3OLdfRghxVbSKuAuqhwAEEkSACr
+ prBDLKLKCHFImgURQXhbO95sgzvd4WQpOps6kaDzlXIiA+M+LNuRwMP/gHe7njuy9UMs
+ hI2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PlQ1M49uwiBqU7zJK9Oe0O7XmS+lsIGXoNikxB4ENiE=;
- b=Bp9Uq/UaFnDLq4EUnocs7dJ+9sqEwhUnVodYGLzOOn2fQNXYQG4BSVTulo+EIt7Kyx
- jBsWqNbfJN/7bncUI0NMT+2ZS6iS4MvOOba6FI/5ewXmJypC41OCHWecgfQzJnWS1yTv
- 4CWrX1Sh9oh6OtGfZOqSaQ9OrU0tWWlZlNKWZz94h7YKNXx04vtzfaEvkKOvl6OQOjo9
- A4a73t/liB0uOGvxwWRmxNVgTiSl8ICO/95WuBeEw67K/9Cpyzoh/AnFj1yYFhHdJYPc
- B/0YzGef/8y+rgl9nr+XX9iI9X61klQL4lCvGQjar5FHX8w5pl1ueLE28LRkeIa1Xc3H
- +NiA==
-X-Gm-Message-State: AOAM531y4O2XDg+0hQ0Gu9aJtxlriq28c1qwa9O1RpgQteJ+BzPz3WPM
- TUTuFk0/bqjtsUudcK8mSBKnVjJo58yB+zXK8K69rw==
-X-Google-Smtp-Source: ABdhPJzfkm3O4hzhHDjsKHmuryVdkqchVMihpbDpZ3GAYUxsNwrApyd9oIjL+7XB0oLw3KdRUJ21XiqAgEw8NLKd9p8=
-X-Received: by 2002:a17:906:c301:: with SMTP id
- s1mr4205769ejz.382.1616496906251; 
- Tue, 23 Mar 2021 03:55:06 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BCP2Bi93b73/pIUT1UuR0zwOwmhRnt9acaKY0mbXK7E=;
+ b=LVM3PlodtDtA83T7WWlA4UtHW/OisRVnElRSMdOnGksX/oG3XAYoOCCDLidBtB7xO4
+ tSWbDRwJbSvvGwikL1vrbdDXZJ6pAe/dCF9wtk86F5uSHBac0p//jZ7hqdx4H9MjrJYf
+ ToUD9Ak5rhtNvJqjZ7rn1zbQhYrN4bZ+aiFmi0cngyPD/DJdmKDQPjSo4yloIlIrKIu3
+ 2azrW668H85Hw3tNtlIVDL/vKLgLp9motf8gkfgIWASawDv2oLihLTYCwgQtdH/MbNL/
+ 6PsAq4ArqsMt2ElJN7VrL7AY1I9Cjg5DrPRvf/0RviGubBaCCESWaRiTb5kjFh0UNc2T
+ Bgaw==
+X-Gm-Message-State: AOAM533dIFMd2w6ge1G7EY/3XNrPI1mEh6gL02hsw58VeYUMXf5dy70T
+ WD0i5fpKFOLPli/x2c+KHTme1FqTVyDuLTAhF+yhoQ==
+X-Google-Smtp-Source: ABdhPJybPa0stG7/a+NHNlHiMGhErlHBx/HXBpnnNhIzXyu6LUPsqDKGem+yby4rdkEdxlNtSKTinv08NtnN2+dYwDI=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr4251695ejc.407.1616497258823; 
+ Tue, 23 Mar 2021 04:00:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210322201336.9539-1-peter.maydell@linaro.org>
- <20210322183320-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210322183320-mutt-send-email-mst@kernel.org>
+References: <20210322105234.3932691-1-marcandre.lureau@redhat.com>
+ <YFnCfhiaixbn7lMy@redhat.com>
+In-Reply-To: <YFnCfhiaixbn7lMy@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 10:54:37 +0000
-Message-ID: <CAFEAcA9zUxUQN5CnJMx+P2gKOPwLwend17XWotKMZPSrhrBYbw@mail.gmail.com>
-Subject: Re: [PATCH] hw/pci-host/gpex: Don't fault for unmapped parts of MMIO
- and PIO windows
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Tue, 23 Mar 2021 11:00:29 +0000
+Message-ID: <CAFEAcA_f2fMmVS=Pt6Zd7Si5L2YfRMH+dJZ_pZd=E-neKpxUOg@mail.gmail.com>
+Subject: Re: [PATCH v4] sphinx: adopt kernel readthedoc theme
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::632;
  envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
@@ -79,49 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Arnd Bergmann <arnd@arndb.de>, QEMU Developers <qemu-devel@nongnu.org>,
- Dmitry Vyukov <dvyukov@google.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Mar 2021 at 22:35, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, 23 Mar 2021 at 10:27, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
 >
-> On Mon, Mar 22, 2021 at 08:13:36PM +0000, Peter Maydell wrote:
-> > Currently the gpex PCI controller implements no special behaviour for
-> > guest accesses to areas of the PIO and MMIO where it has not mapped
-> > any PCI devices, which means that for Arm you end up with a CPU
-> > exception due to a data abort.
+> On Mon, Mar 22, 2021 at 02:52:34PM +0400, marcandre.lureau@redhat.com wro=
+te:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > Most host OSes expect "like an x86 PC" behaviour, where bad accesses
-> > like this return -1 for reads and ignore writes.  In the interests of
-> > not being surprising, make host CPU accesses to these windows behave
-> > as -1/discard where there's no mapped PCI device.
+> > The default "alabaster" sphinx theme has a couple shortcomings:
+> > - the navbar moves along the page
+> > - the search bar is not always at the same place
+> > - it lacks some contrast and colours
 > >
-> > Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> > Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > The "rtd" theme from readthedocs.org is a popular third party theme use=
+d
+> > notably by the kernel, with a custom style sheet. I like it better,
+> > perhaps others do too. It also simplify "Edit on Gitlab" links.
+
+> >  # Add any paths that contain custom static files (such as style sheets=
+) here,
+> >  # relative to this directory. They are copied after the builtin static=
+ files,
+> >  # so a file named "default.css" will overwrite the builtin "default.cs=
+s".
+> > -# QEMU doesn't yet have any static files, so comment this out so we do=
+n't
+> > -# get a warning about a missing directory.
+> > -# If we do ever add this then it would probably be better to call the
+> > -# subdirectory sphinx_static, as the Linux kernel does.
+> > -# html_static_path =3D ['_static']
+> > +html_static_path =3D [os.path.join(qemu_docdir, "sphinx-static")]
+> > +
+> > +html_css_files =3D [
+> > +    'theme_overrides.css',
+> > +]
 >
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->
-> BTW it looks like launchpad butchered the lore.kernel.org
-> link so one can't find out what was the guest issue this is
-> fixing. Want to include a bit more data in the commit log
-> instead?
+> Does this still have a good result in the case where we fall back
+> to alabaster theme ?
 
-The link in the LP report works for me, I can just click
-straight through.
-https://lore.kernel.org/lkml/CAK8P3a0HVu+x0T6+K3d0v1bvU-Pes0F0CSjqm5x=bxFgv5Y3mA@mail.gmail.com/
-
-It's a syzkaller report that the kernel falls over if userspace
-tries to access a non-existent 8250 UART, because it doesn't
-expect the external abort.
-
-> > Do we need to have the property machinery so that old
-> > virt-5.2 etc retain the previous behaviour ?
-
-Musing on this after sending the patch, I'm leaning towards
-adding the property stuff, just to be on the safe side.
+How much do we want to retain support for multiple themes? When
+I was first putting in the Sphinx documentation I found that some
+things were kind of theme-specific, in that tweaking things to look
+and read sensibly in one theme made them look a bit weird in another.
+If we said "we support only the rtd theme and mandate it" would that
+cause much pain for downstreams and end-users ?
 
 thanks
 -- PMM
