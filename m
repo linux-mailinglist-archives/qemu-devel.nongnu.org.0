@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DC2346D4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:39:26 +0100 (CET)
-Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AC8346D27
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:34:00 +0100 (CET)
+Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOpgL-0008TW-OA
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55976)
+	id 1lOpb4-0000mz-V9
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOpW7-0002NI-Cd
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:28:52 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:42777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOpW2-0008UQ-MC
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:28:51 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id hq27so29687966ejc.9
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 15:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=72dsLOFmNS9jPZElrSp5rz4XX7CBzdQuuw+rka/9u5E=;
- b=kqCDhgCFw0WGc+O4X3RSS5uXh9CrW2nkSGSpmgNN5ZaArsJD0ybYYShVzdXQP1J+u6
- xqb7OoUKIcHjgrJBo8GYwcWrigRSo4cuJ7HIVYeD6GsO5Q0QYPgqlO7H74/Jpi+G+g6P
- eJOA5G5XWQcD2TQgUWCo3vRJN1GmYvOZM10Oy+ZiU1zrZojYiFu7W4mYJ1L6dyMur7kR
- gwyi5Hh8YRkd/kakCW/8BuCAqpDmpcqI8rpyidyYsBqSKPv9ObA9Vf2BMPiKwdp3nsAK
- f7xujBt+5CN8hpDUn+dLTR3aiQ3XUtjbu3ULAjNMttJE7IRmQR7G3EGmdikVqiHQFqeD
- sokA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=72dsLOFmNS9jPZElrSp5rz4XX7CBzdQuuw+rka/9u5E=;
- b=FTB15f4bIJ1Cltow4M2zCUh/NkuHIAoT1cRP2js6F1X5xM+5UNKw9ShGvyFd7Fe4mx
- Wu/mH6lYVj/v9NAfRmMzXA+CqCqRJ1KJOqeNjMsdVJfIz9tD8Zzem6h1HrYtdkv+4zNq
- AfvtuweAOER+vz9T7nQktYVmTnASA10KG8j1knWYxtGTKxI3MRgYrKvx8iERPd/QOeB0
- eGt4gW1a5ZQfM3JojqoQkRgmJhrbdZbZ4U/UFxFL9AvTCrzOV9Grp3Z3ZCRf4hPiF3jy
- OK9JjejDQxNbJpB/H2nNyOvTEZAkOUlDZ5x88BvPVk/I0nnb2CPoL2seRkim+qHWwnZM
- hqKQ==
-X-Gm-Message-State: AOAM532lE1HWEBMiBAnh29oIZQJv6qDSDqVjqSiPO/kFGwgeXBETnxeG
- QnTYlqV2YYA6OE5MwjsmKdvzLMdNIP442IH4QqKhTrMaeLNi3A==
-X-Google-Smtp-Source: ABdhPJyG3eRpb/3GwVTKDB2vukxz/JlA1i2ct4NgkUMaZdVlwO9KOyowHulnw1i8HIDzJzQs0Z1+ejftpipMuiOI/Hc=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr425168ejg.482.1616538524579; 
- Tue, 23 Mar 2021 15:28:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOpZ7-00079J-1s
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:31:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57309)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOpZ4-0001ee-E8
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 18:31:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616538713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1IhPPoMSN+TSqF94rnt4gepOdVKRXl8FaxD7hVf+PcE=;
+ b=DN4+135o7/elPNi9Sdt6Lw7aKc+790kph3MJ9tNhlZx1Y/SjhGCuDFCOilAIqvbgXBIfeB
+ 6gBbNnWn9Xm1qJb/U60Cu9H1mFk92WKW5OmSu71bSb+axY75/3VWfp3lDPbmN3WK9u2xA8
+ IeEB38zKmbepOgG1Xo8AlAb62UVLA+E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-IxL2jVuYM--_qXdo-wWBdQ-1; Tue, 23 Mar 2021 18:31:51 -0400
+X-MC-Unique: IxL2jVuYM--_qXdo-wWBdQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2995A87139C;
+ Tue, 23 Mar 2021 22:31:51 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52D5B5D6D7;
+ Tue, 23 Mar 2021 22:31:47 +0000 (UTC)
+Subject: Re: [PATCH 13/28] qapi: Enforce event naming rules
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-14-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com>
+Date: Tue, 23 Mar 2021 18:31:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210323142653.3538-1-peter.maydell@linaro.org>
-In-Reply-To: <20210323142653.3538-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 22:28:15 +0000
-Message-ID: <CAFEAcA_n5aKD5-7k3RwZYJqp1=Sj1fWzAP_3r3qPOZiVJ85TNg@mail.gmail.com>
-Subject: Re: [PULL 0/7] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210323094025.3569441-14-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,40 +81,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Mar 2021 at 14:26, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Small pullreq with some bug fixes to go into rc1.
->
-> -- PMM
->
-> The following changes since commit 5ca634afcf83215a9a54ca6e66032325b5ffb5f6:
->
->   Merge remote-tracking branch 'remotes/philmd/tags/sdmmc-20210322' into staging (2021-03-22 18:50:25 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210323
->
-> for you to fetch changes up to dad90de78e9e9d47cefcbcd30115706b98e6ec87:
->
->   target/arm: Set ARMMMUFaultInfo.level in user-only arm_cpu_tlb_fill (2021-03-23 14:07:55 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/arm/virt: Disable pl011 clock migration if needed
->  * target/arm: Make M-profile VTOR loads on reset handle memory aliasing
->  * target/arm: Set ARMMMUFaultInfo.level in user-only arm_cpu_tlb_fill
->
-> ----------------------------------------------------------------
+On 3/23/21 5:40 AM, Markus Armbruster wrote:
+> Event names should be ALL_CAPS with words separated by underscore.
+> Enforce this.  The only offenders are in tests/.  Fix them.  Existing
+> test event-case covers the new error.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   tests/unit/test-qmp-event.c               |  6 +++---
+>   scripts/qapi/expr.py                      |  4 +++-
+>   tests/qapi-schema/doc-good.json           |  4 ++--
+>   tests/qapi-schema/doc-good.out            |  4 ++--
+>   tests/qapi-schema/doc-good.txt            |  2 +-
+>   tests/qapi-schema/doc-invalid-return.json |  4 ++--
+>   tests/qapi-schema/event-case.err          |  2 ++
+>   tests/qapi-schema/event-case.json         |  2 --
+>   tests/qapi-schema/event-case.out          | 14 --------------
+>   tests/qapi-schema/qapi-schema-test.json   |  6 +++---
+>   tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
+>   11 files changed, 22 insertions(+), 34 deletions(-)
+> 
+> diff --git a/tests/unit/test-qmp-event.c b/tests/unit/test-qmp-event.c
+> index 047f44ff9a..d58c3b78f2 100644
+> --- a/tests/unit/test-qmp-event.c
+> +++ b/tests/unit/test-qmp-event.c
+> @@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
+>   
+>   static void test_event_deprecated(TestEventData *data, const void *unused)
+>   {
+> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
+> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
+>   
+>       memset(&compat_policy, 0, sizeof(compat_policy));
+>   
+> @@ -163,7 +163,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
+>   {
+>       memset(&compat_policy, 0, sizeof(compat_policy));
+>   
+> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0',"
+> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
+>                                              " 'data': { 'foo': 42 } }");
+>       qapi_event_send_test_event_features0(42);
+>       g_assert(data->emitted);
+> @@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
+>   
+>       compat_policy.has_deprecated_output = true;
+>       compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
+> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
+> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
+>       qapi_event_send_test_event_features0(42);
+>       g_assert(data->emitted);
+>   
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index b5fb0be48b..c065505b27 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -45,7 +45,9 @@ def check_name_str(name, info, source):
+>   
+>   def check_name_upper(name, info, source):
+>       stem = check_name_str(name, info, source)
+> -    # TODO reject '[a-z-]' in @stem
+> +    if re.search(r'[a-z-]', stem):
+> +        raise QAPISemError(
+> +            info, "name of %s must not use lowercase or '-'" % source)
+>   
 
+Does a little bit more than check_name_upper. Is this only used for 
+event names? I guess so. Should it be inlined into check_defn_name_str 
+instead in this case, or nah?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
