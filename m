@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9C8346825
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:53:22 +0100 (CET)
-Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C0F34680C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:47:44 +0100 (CET)
+Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOm9Y-0006bo-Ss
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
+	id 1lOm43-0001NU-Gw
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:47:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOlBF-0005Cy-1Y
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:51:01 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOlBC-00006i-9Q
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:50:59 -0400
-Received: by mail-ej1-x629.google.com with SMTP id l4so28527511ejc.10
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 10:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d77LjMyO+Wuqre/EX0asjF8MClNksyTPV5anyjXMs9A=;
- b=n3Dg8C25jr2BSl9qYBloJN65K1rTlTwJMyE9KMX9pe6aHgR9Igzg6eAURr+fNlDuDp
- 1Hju7hyNqlpwfTv2CCmVDW/rmBGhnOlxU6q/dpXG+3EH5y3SReTPloykrJmG6nSIXSsk
- T2NysWT3klt12QqVT4aAvFP8H3RBlaAU4DLdoYgTawqyERC4dsZE20hgHmJtw8YVRBau
- 7JGOdEsgwjzgLsSKgAYznILbF6/0bLSTAFhvdxaJ+ZxbMYnVcJ3Sn5uckijdC0vKMsrl
- fUlbUpHv3rrJMcB8Ig86XNzW+cF3bFCC7TNf4DBAnXVJJpS0nhwgz7i0z0en80lPgkxZ
- 7NrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d77LjMyO+Wuqre/EX0asjF8MClNksyTPV5anyjXMs9A=;
- b=PSytmrh2eIHytP+/9n2+mU1myJBO7RXPtLhMI7m014YtRl1oCVRARK/F0x09vIDC1F
- k4PhoTWoL800zPJrh6STFlKXCNDxak8uw7OnWzzKSqESAw0GX1fC5jnaicShkJvgLqpy
- 7HYfsR1Lwsjde2AIp1SKR27WT+T+uPZ1wOHeZfGSIn5YkyCLoAeqOFKF3F+HhAsUrk80
- nNUpmIP542YoU3jK5we8gcTCRrr+7SaPgzMsPJFSq3qfBUQTWIwkEjptpoLGGZu9MQJC
- mPtZjimbFp+7sWQ0jkbuXTVx1cB8eRoNcZ5oz8ExigF9HYVZfVWYVIBKhe+AspFXIZ8u
- lb8w==
-X-Gm-Message-State: AOAM530AMnQrv/R0kT+akdLmmlFttEDCNl4FwBXhyIjZUkyHqqbsSMu/
- 4Nk23RSpiEDxkZCvadK37n5QRVmmKNRLrkoxj39dhA==
-X-Google-Smtp-Source: ABdhPJxV7whTvVjJ1gMLnwmL1VHBNlmRG3WyZxL+I95FOHrMQ5kjBjChwyQ2apoyobjthFtwyKPwpwNDeBp6HLZurGg=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr6157447ejg.482.1616521856336; 
- Tue, 23 Mar 2021 10:50:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lOlCx-0007mT-BH
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:52:47 -0400
+Received: from mout.web.de ([212.227.15.14]:44991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lOlCv-00018T-H0
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:52:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1616521960;
+ bh=PorecR14Io9+9W8VVWliPrIQAKkg01/zvQivCBGIfq0=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=X0bTEj21g1py/DxyvB5jLf1xliPLizfClM26bVCfg9jWAKnM+1Uxb54gDb0+S/T9v
+ RetlgMaUxXR5luxO2uxvh6nf8LTMkHQ5tuiddR5nXXPHMmfMQMIxGM5c/HKglNRz/6
+ oqatLEPfwvk7QGU1CAzZQ/5ulqScBRDk9gv8qF78=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.81]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lp712-1luohn3X4m-00eqQQ; Tue, 23
+ Mar 2021 18:52:39 +0100
+Date: Tue, 23 Mar 2021 18:52:19 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH 0/2] yank: Always link full yank code
+Message-ID: <cover.1616521341.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-References: <cover.1616519655.git.isaku.yamahata@intel.com>
- <dc9c8d2aa7bfcd82ba812f1ff5630a4cc0ffbbe7.1616519655.git.isaku.yamahata@intel.com>
-In-Reply-To: <dc9c8d2aa7bfcd82ba812f1ff5630a4cc0ffbbe7.1616519655.git.isaku.yamahata@intel.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 17:50:26 +0000
-Message-ID: <CAFEAcA83AgZ0QoyawPUgmeocGhnvRVYAU9KzWuDNDvWhTodidA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] pci: sprinkle assert in PCI pin number
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/m+yzMI/J+wsZCdULU._tm69";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:9foVk6KQCFAq/J8YkKXjC9o8TZkzOzOlBGvAa4+wwOoFZhoDII3
+ VulgJMX+gZ8gSyEpS20HuXU26xKF//BurjonK8RvTHCjE0xdyvvcjdsiRAhhpYKBSIe1YP1
+ MqL0x41YNtMzN1YMqTPkTLVpyjxNzin429BZxRf7A1naxQf9TxRo+zaI00wuZZvCHJt0VXr
+ nmGdY09nZLaBIvhLfEVlQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:86zmW7AFboQ=:dvUfe75m/EUJZyk+HAAwbi
+ 3U8wPFNyG/r0UuhHzbXqtYCDeEmi9GtjzE62brpY2FbLX+rkVAN2j2JvdDlUuXxEfi5eL+9V7
+ n8e5HdA0IY/gHJkbmF8bdtj1tGBbkrQcEGpLRxAjZLXv12aAlAD74RUB8gT7xZjwAw/V3eFTl
+ 42emyYdnHSY2C1vI78U32OYhdWoObzO0+n8JSCcSvTYKbxIlWFtvYBkHaVnph1gteogERcJql
+ m4b73kFip6QbJICFoDzxVrEqPVt+oXp5hDvEl8qmBvHkevS5ZKileeU/c3wFFl30Gh65bDhn6
+ wBwr3Mxsm+AzSRG31nf1HyzsW0ExkuKmswawrec1n07xZBc2EduG3LwliqCOQUBiKS3BhlD6l
+ hF9KNm/LeYDB+dw7jLtiwwaCGn6ZaE4xZ5cPEqg71H4aQRsR+L2Qzc4MF0yPXp8uV7S5G01md
+ bfcaafRXl9iuBWZhwQq9hyGdRq0fxTAg0XGv5K1bYVjZe2IJHeOgOI5dwD3lxGfs5njTH34Tt
+ kH6lqsm+a4oRdfvnuHMut4CpQoji/LIjRXP8qVazTOu5sWxc5RgqeaHaXB8Vi42t3c8ZBP5/f
+ VJmnvHadNUlawTPwtQrYOzw7SmjA+vrJKocNJxntE+1THYTJEFYC4ihj/gkYnnMzpvewWt8Tz
+ 44KKw7y+G0KQLgQ7zDlPfdV5nZ+9vyuQmNvpvKasXBZfsfgk/npGEvMyC4Zyz76iknMPVtEEk
+ bZ7dfhDCGGdUvpQ2ggrZ0cbyhNmUdFWSJ5KOF5mpFw9nXYRyr8qz8j84V6BvDipRAJUNBKgV4
+ bJIqux7GSQQCKilMy6lxdchu0BNRqdPN+hMI+XmiaIc9nDPFiJAWqQElEToqqbuD8ik3wgZyw
+ MTS5lwvb2sJZJYCbq7Uw==
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,62 +77,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <Peter.maydel@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- isaku.yamahata@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alex Bennee <alex.bennee@linaro.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Mar 2021 at 17:26, Isaku Yamahata <isaku.yamahata@intel.com> wrote:
->
-> If a device model
-> (a) doesn't set the value to a correct interrupt number and then
-> (b) triggers an interrupt for itself,
-> it's device model bug. Add assert on interrupt pin number to catch
-> this kind of bug more obviously.
->
-> Suggested-by: Peter Maydell <Peter.maydel@linaro.org>
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> ---
->  hw/pci/pci.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index ac9a24889c..cb6bab999b 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -1450,6 +1450,8 @@ static void pci_irq_handler(void *opaque, int irq_num, int level)
->      PCIDevice *pci_dev = opaque;
->      int change;
->
-> +    assert(0 <= irq_num && irq_num < PCI_NUM_PINS);
-> +    assert(level == 0 || level == 1);
+--Sig_/m+yzMI/J+wsZCdULU._tm69
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-If you have these...
+Hello Everyone,
+These patches remove yank's dependency on qiochannel and always link it in.
+Please Review.
 
->      change = level - pci_irq_state(pci_dev, irq_num);
->      if (!change)
->          return;
-> @@ -1463,7 +1465,13 @@ static void pci_irq_handler(void *opaque, int irq_num, int level)
->
->  static inline int pci_intx(PCIDevice *pci_dev)
->  {
-> -    return pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
-> +    int intx = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
-> +    /*
-> +     * This function is used to setup/trigger irq.
-> +     * So PIN = 0 (interrupt isn't used) doesn't make sense.
-> +     */
-> +    assert(0 <= intx && intx < PCI_NUM_PINS);
+Regards,
+Lukas Straub
 
-...you don't need this, because the assert in pci_irq_handler()
-covers all the uses of pci_intx().
+Lukas Straub (2):
+  yank: Remove dependency on qiochannel
+  yank: Always link full yank code
 
-See also
-https://patchew.org/QEMU/20210323164601.27200-1-peter.maydell@linaro.org/
+ MAINTAINERS                   |  2 +-
+ chardev/char-socket.c         | 21 ++++++++++++++-------
+ include/qemu/yank.h           | 10 ----------
+ migration/channel.c           |  6 ++++--
+ migration/meson.build         |  1 +
+ migration/multifd.c           |  3 ++-
+ migration/qemu-file-channel.c |  3 ++-
+ migration/yank_functions.c    | 20 ++++++++++++++++++++
+ migration/yank_functions.h    | 17 +++++++++++++++++
+ stubs/meson.build             |  1 -
+ stubs/yank.c                  | 29 -----------------------------
+ util/meson.build              |  2 +-
+ util/yank.c                   |  8 --------
+ 13 files changed, 62 insertions(+), 61 deletions(-)
+ create mode 100644 migration/yank_functions.c
+ create mode 100644 migration/yank_functions.h
+ delete mode 100644 stubs/yank.c
 
-thanks
--- PMM
+--
+2.30.2
+
+--Sig_/m+yzMI/J+wsZCdULU._tm69
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBaKtMACgkQNasLKJxd
+sli21hAAi86FkzbpYM/VM+pKXDJmxNfyxsRuf61RB/sxDLwrdCmhcgMzpyJfZgo0
+DXljo81sZcjxxBbbTnxegaLrZqU4s4ZMUc1w1Pl5I5Y2BC+RvRdOzwdV7KsO0ol9
+WPUw7+3tbo0aChlZW69c5259tgnuioRkvIfDFBUL8Ym/0WZl1ufv5wGcSr9pe3rT
+LOZIlX4xHHuAjJkDtBHNgMzWCSZVB4p1t88s5jmaZXcF+BtX300eMhZHfQ/LahAv
+76bUi1xm+xy2F2DUyrq2WX1ljdhXz5f2RIr7V4ouHcuEkGbjrgXsWOrveJPCh0kl
+JoJWyzenLHR0HawRQ6DerO4GTlzyRqNAbKmAwio0nUzia0HHT28+C6PefaNy7SSi
+V6K63k9uj9iUNcmwYTARfGRENP9ZWxZa2qAKDRVpDBG7oi/E3tekyw35XCs/J8dn
+g18bSeiHNrIedIxGXrmh/mOe2CfplLk954jrRdGqvP6nStKAO4JLFZbbgaZ9qHMQ
+DEfLOiFt5r0NUCeEREYPsBSmZ2C6Wo+GqlWqMxnT6Hy61+evWXGQpAySPhdybaQR
+IwKB/HXHFQc22XKwq4OJuN2W9mxZq3GIpCdfC1VIaYNygKCfUfsz7pM+M6ZJmmOR
+fknihnfYpC0qPxlXwxP3uSbcPVCvviFg7EAIxNeBy9MKiolTNkc=
+=F8fz
+-----END PGP SIGNATURE-----
+
+--Sig_/m+yzMI/J+wsZCdULU._tm69--
 
