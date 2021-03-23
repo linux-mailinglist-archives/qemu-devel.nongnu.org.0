@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99123462EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:33:41 +0100 (CET)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17609346312
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:38:51 +0100 (CET)
+Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOj2K-00013f-Ni
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33502)
+	id 1lOj7K-0006VU-3Z
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOizb-0007g5-Iv
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:30:56 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOizV-0008Ig-El
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:30:51 -0400
-Received: by mail-ej1-x635.google.com with SMTP id kt15so18306313ejb.12
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 08:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OPNP+eVNsgSW60FgAwlYi5DQtwoXdW9nwJ3Mh03DF7w=;
- b=yAIJTEzK7i61CSv9i2dyVmTk2VgBWZc5u6oq8+JmILGZ667lA8/3UmPAkOGLv/ZX8a
- wa66SVRO8UdeheTZJ7wjZ1+cz/csTLvQPdB5fJBHtb+9CLWtuKdNq7+DBsgM+7DS6YSk
- VOa/X6QOumWdEPH6VyaTCvwTExF+uy/dUjJNQqmuwIFPS8a7Vo5NbXQlsxDzyhKta11f
- s349lhG7s8wfIxH7xLp5wfa93Xou0yMXidcQO6LuiVL24v5cbucQu7+tFGhj/YJYXKRC
- divus0dAFKM7qVtDCMNn6kQ3BZv57PU2AVJSCffIbqttBf3m3z7X9qa8HUpXE2mxezqN
- 1aXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OPNP+eVNsgSW60FgAwlYi5DQtwoXdW9nwJ3Mh03DF7w=;
- b=iP0wBYYDRxYU5lpE9J8E+rjttdmpxkGMKMM+za1dxOfqh/mEkjfWnyt736RwaL27+p
- D4Sz2A8UX82ppfbha4e/zEvuZe0qh0sK+FDUZ9N+t/Ni/UU1A+kq4kgrk4oMKJCpg2kf
- QzI8eAHOxEQihaYkt0ER8XDHVL42PoMFXsa3lLySRjUyeIyq6y8SHuEmB3eWXIpJbiDe
- BPiAyST0JsoidaQe6Pa0z3J4W4fJyjeAIu8AIsUQ6sFYsmWVZeq9deBZ7CFymGZkZGCC
- v1oRzy/s8ox9LdlD53h3Jrr9G8Ev6FyIxB4unOr2vLHBJXZLgjK4xGbw71ZAu/vVGF2v
- XdmQ==
-X-Gm-Message-State: AOAM531gQng+NbfDksDREfKRyFTKgEiOu8fu5W8mPQzcVKlfhuvwv5Wy
- zF5ijjm75vDXzTiGUJGCrqkRUQvWG50wVTtc/HbL0A==
-X-Google-Smtp-Source: ABdhPJx6Wr8tvKiIClVzs0ZZBFsZPEkHrtXU/5hlxgdoB87kg/utp6XGEDglXdSovDhBmJZWqypTy7UwSX5WDIpk+aA=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr5555253ejg.482.1616513442701; 
- Tue, 23 Mar 2021 08:30:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj59-0004ba-4k
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47243)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj51-0002zd-Fm
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616513785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ElDE0e7H/7b0C2Ek6QT3JphJn80RjrMVQMDBjgEHH8A=;
+ b=CXYNfRsecdSuOsAV24gO4R8UvUcKf7euwqRklhL1yXd1hgZTE/K+fEhyOBCLcvsOnAuJHr
+ rNBiUWEXnAEsUumvTXgI6NYz0jbBEHY8i+JRveU1NaJKVEvbWG4uMBXBC+CYqs9k5BAXzV
+ kh3LvLCoC1mnivYjTn6kkm6JLWiUp8c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-YRuDCyAdPhqSL9tMDfPhXw-1; Tue, 23 Mar 2021 11:36:23 -0400
+X-MC-Unique: YRuDCyAdPhqSL9tMDfPhXw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB5975B37E
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 15:36:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
+ [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F85819705;
+ Tue, 23 Mar 2021 15:36:18 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DB2EB18000A7; Tue, 23 Mar 2021 16:36:16 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Ui 20210323 patches
+Date: Tue, 23 Mar 2021 16:36:11 +0100
+Message-Id: <20210323153616.873822-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20210322225907.541943-1-mst@redhat.com>
-In-Reply-To: <20210322225907.541943-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 15:30:13 +0000
-Message-ID: <CAFEAcA-_oas-aWD3PLCao5-X=PsPeHkdjKDaHAPoc5q9vdoSUA@mail.gmail.com>
-Subject: Re: [PULL v2 00/19] pc,virtio,pci: fixes, features
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,41 +76,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Mar 2021 at 22:59, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> Changes from v1:
->     dropped an acpi patch causing regressions reported by clang
->
-> The following changes since commit f0f20022a0c744930935fdb7020a8c18347d391a:
->
->   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-03-21' into staging (2021-03-22 10:05:45 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to d07b22863b8e0981bdc9384a787a703f1fd4ba42:
->
->   acpi: Move setters/getters of oem fields to X86MachineState (2021-03-22 18:58:19 -0400)
->
-> ----------------------------------------------------------------
-> pc,virtio,pci: fixes, features
->
-> Fixes all over the place.
-> ACPI index support.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
+The following changes since commit c95bd5ff1660883d15ad6e0005e4c8571604f51a=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd/tags/mips-fixes-20210322' in=
+to=3D=0D
+ staging (2021-03-22 14:26:13 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/ui-20210323-pull-request=0D
+=0D
+for you to fetch changes up to 40c503079ffcb5394be2b407e817de6104db9cfc:=0D
+=0D
+  edid: prefer standard timings (2021-03-23 12:37:13 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+fixes for 6.0=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (1):=0D
+  edid: prefer standard timings=0D
+=0D
+Peter Maydell (1):=0D
+  include/ui/console.h: Delete is_surface_bgr()=0D
+=0D
+Zihao Chang (3):=0D
+  crypto: add reload for QCryptoTLSCredsClass=0D
+  vnc: support reload x509 certificates for vnc=0D
+  qmp: add new qmp display-reload=0D
+=0D
+ include/crypto/tlscreds.h  |  8 +++--=0D
+ include/ui/console.h       | 11 +------=0D
+ crypto/tlscredsx509.c      | 48 ++++++++++++++++++++++++++++++=0D
+ hw/display/edid-generate.c | 15 +++++-----=0D
+ monitor/qmp-cmds.c         | 17 +++++++++++=0D
+ ui/vnc.c                   | 28 +++++++++++++++++=0D
+ qapi/ui.json               | 61 ++++++++++++++++++++++++++++++++++++++=0D
+ 7 files changed, 168 insertions(+), 20 deletions(-)=0D
+=0D
+--=3D20=0D
+2.30.2=0D
+=0D
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
