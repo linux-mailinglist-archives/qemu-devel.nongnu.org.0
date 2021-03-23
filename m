@@ -2,137 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919F03468F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:26:28 +0100 (CET)
-Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD9C3468DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:22:57 +0100 (CET)
+Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmfb-000411-Gx
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55178)
+	id 1lOmcC-0000DU-2H
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOmWi-0002jB-PU; Tue, 23 Mar 2021 15:17:22 -0400
-Received: from mail-db8eur05on2138.outbound.protection.outlook.com
- ([40.107.20.138]:25312 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOmZe-0005qm-VF
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:20:19 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lOmWZ-0005Wc-Gb; Tue, 23 Mar 2021 15:17:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QxR1tPcey9OaQIOrpLNWvJGT4y2JdLAcQH39D8gdqKU3TAtitc/ZPrGP2QNM1Ois6CzqRcgwLbJSZc1I0yhGWXOcECERFLdnLr8qtP1fjC2eEm/sjIOXRaorcYHaZY4Rd1zLmT4YkG9L5i3JmVi9G9XKttWaFKR9duzQcG3Q8eyEJJzuaIkvbJ8zQh+UcZLBZ9g/LvBHALE5vvUYMPLhXpEo3QnootLcfGxrjRCKJMzDbSb66bF2XVrfQOUZi3gWnfdUBnwnyd+lqCa4LL/gOIDh6pw53BftZHSlR6wcJtoO4y2wYd2Nz0rR4b84c1ddWRVUyDa+TLFMoWzR/XTEYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvAxViCgW3jWI6k/PRyVMvV9CspVlMfpFi9U3KFLJ8M=;
- b=BV/G+5PgQ+W5kx7SrGEbmOLXKc/qjDbLncVxM/icPyURmbzxohdoK5BfaQ1wU+j+myD9oyr0MX0khfIhrFluHKhFFsYt3aNEyXM+VRDcctOHfLVHwEkWaXV7nIS3tka16S5L0cYNWhrlFMVPO15OTE0ULpDcp1sfsEPqH9C+qGGhBGBKdFcgKfqEtDKhqxr7qqnbsQQGtb0ClENzKiry13SMNn8LaFGZPSZkftAI3N+z3pIlAYIVyQlObEAUXIdNX1Pdh+TBqBBz4pI9QSDA4mmBN89TOoNfLaSvTdYy5cFDcjjaVrgNWPxgX9AUZ8dPpDRiOAFQtJxPXeZuWFFciA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvAxViCgW3jWI6k/PRyVMvV9CspVlMfpFi9U3KFLJ8M=;
- b=diySfD1FT9h6Wsn/GlzQ/QLGw7/ZaNOB1NB19lQVEbDkj5RnYDiiQe8sKprw0n083n8QjCpo+HYcFClNpV2IGIPV6fkC9By6r+xGNHu+bWECTVtT/HD8ow63KTzl9LiWkIPrSP3wV2efVRMOKxXHenYusZ9WHoJ3twXv3mWKJwg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4788.eurprd08.prod.outlook.com (2603:10a6:20b:c4::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
- 2021 19:17:03 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 19:17:03 +0000
-Subject: Re: [PATCH v2 2/5] qemu-iotests: allow passing unittest.main
- arguments to the test scripts
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: eesposit@redhat.com, qemu-block@nongnu.org, kwolf@redhat.com,
- mreitz@redhat.com
-References: <20210323181928.311862-1-pbonzini@redhat.com>
- <20210323181928.311862-3-pbonzini@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <69c695a1-e0c0-dd5a-7473-0b70ca2becdf@virtuozzo.com>
-Date: Tue, 23 Mar 2021 22:17:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210323181928.311862-3-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: ZR0P278CA0053.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOmZY-0006vE-HC
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:20:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 89A10AF17;
+ Tue, 23 Mar 2021 19:20:08 +0000 (UTC)
+Subject: Re: [RFC v10 00/49] arm cleanup experiment for kvm-only build
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210322140206.9513-1-cfontana@suse.de>
+ <87k0pxiu7n.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f57c1550-e58d-a401-18b4-3143e99f4cce@suse.de>
+Date: Tue, 23 Mar 2021 20:20:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- ZR0P278CA0053.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.22 via Frontend Transport; Tue, 23 Mar 2021 19:17:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 67c03895-abea-4780-365e-08d8ee303dba
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4788:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4788352BA1C03928B7528776C1649@AM6PR08MB4788.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ojFkkA+HVXF1LO2l6rQHdcIU/XsgFPKbYpmuO0QRA81LPOIjuTNsTIQvESh8pxdxxhyuHMjVNkGPmwdREGmyrotd8VxWosFktbXiUPK+2Bwvy4uwQzBH4i5pPrcMAxrDiObDOPUVC0GK9/OyKL4jLueU15/sc1p8E6FWrjpbxJ6p7Y+YHf/RnizgywknzTcyusvfBcYMc+wbXn5qDhT7ff1zJk+Nb4cyupyo6FS3e90JofnjKeO6Y6+a1w91OOaFEDwhxdUvCz9Gw1T6Y7Be/xiNIYbM3kgboqav6/qI/917CukLJ8Iv5/Drg/bqIKc32lZHfJmMM4he2RKjbrpPeL3O2V5IpwCf7CntP3fJtHX7ZKV52lsItoHu9Ji4GgA9hhj15LJqb/TeLJuuNUbw3P/RfREpPoq4kMdzgvwhNNOj9KsOnGUaOA/AlmThDt/IuJDfTVscZQzORc4Vyj+Fcvl4Q1bS29ITBgKFjKVyzcBiujVVId0B3yfSTksE/ZrSxz2tQMUC2WP393i0k2POllfN8VQyTOOlIHkRzPYytysj4KQcaJ8bkOIH8P0ZItP6DlRNnVKtT3b9tRJoIbNIs5/w4cjY/tl1SMwTHjb7scuKM5p3Tx/xEWREA8ds/0A4AAfCM2PAND9jQb8K1qrK96Ow8N7Hyzb+Ot/jyXHH65EFVxWiiq1tWTOv+rwKcnnlfqoPFF5L6IEyZ3gxpq0EzI8hA8Rdaqr24JQu3JIPn/A=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(376002)(136003)(39830400003)(396003)(66556008)(66476007)(2906002)(31696002)(6486002)(31686004)(86362001)(4326008)(36756003)(478600001)(5660300002)(66946007)(83380400001)(956004)(16576012)(186003)(26005)(316002)(52116002)(2616005)(8936002)(38100700001)(16526019)(8676002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?T3JvbnlCbklPSGNyOCtNS0ZIc09VOEZHdlpRK0VXRWRycHNnNjhsWTk5R1Vp?=
- =?utf-8?B?NHJzcm5FcmFSa21sOFlqaG9UWjIwRXdYU0syWis2amZPenVvTmdrSmxlRzRp?=
- =?utf-8?B?TGxNdWZpQlhleHJXVllhRGhGeU1qM2xScTE1eXZsOTY4dll3VXd4RkxjWk1q?=
- =?utf-8?B?UFZPejhiUGhnUzhpUzQwY1NmUGZnT0xQOGhWWEhvYUVtSWUzVmNNRHNFWWNP?=
- =?utf-8?B?RERhUm5zSWNiakhBa3ppRmxkVXRVL1JJK2FWMjRIWVNtRm94VDVYRXM3Nk9Z?=
- =?utf-8?B?Tk96TEtvUEtNaEdHakRYRXFCclNPcm1jQVR1Y0RlZ3NvU09xSSsvcE5zcVJK?=
- =?utf-8?B?UXE3eHpjdzJjT2ZtM2M4RU9NbG5KWXFMcVlnbjVNOXpNRGhLUUIycjIvTUtw?=
- =?utf-8?B?ZkREYWRJNEVNbUtNYm53cVFpVDI5TWZzb3JYVmJ6WWVRejl6MzkzNzZlV3JK?=
- =?utf-8?B?cHEvOXZnbC9MSFVaSzB5aTNTUVpocG9mWlZOYVVycUx3K2JJTzk5NXVtSmRH?=
- =?utf-8?B?UngvZ1FDb2tuaHpNMlROSm43NHBFenJuM1ZrNWZNN01iUFJnVHlSNGNNTWpn?=
- =?utf-8?B?Q1pORWRmaFdwb0ZRZXJsSGVEbmhMakFIOHdYWHNVeFMwdjYwc3p0UTRoZ1lJ?=
- =?utf-8?B?N1BZZDhFZFRkcnZnM1J4YWM3NkNwRnBvU1VJUnhVTzFESUpRT3N2TnFzbTg1?=
- =?utf-8?B?c1NqdDl5cHp1dVhpVHJYUDdMemtmSUl4TkdEZkJmczJQcUVGMVMwTzRSUkFB?=
- =?utf-8?B?WUtmcklic1lyekVjQmVTbTE5ZmhlV3hLQ1RqOU92MDN1SzA2NkZhK1Q1SVdJ?=
- =?utf-8?B?bjVlOTM4dW1mbXY1c0JjZS9DdDFzSGxhRXkraDBMZkV4Z2JYakVLSm1LaGho?=
- =?utf-8?B?OVJYTG9pQkJtTGZlc2hqRDlwbCtnSDBBR3FOK3pQbDdNK20yZDU5ZklZUUk2?=
- =?utf-8?B?MTBZd2lBUnVOSG5POFhLZjdmNkdaOUdrd1JKU0dJK2Q3RjBUZzFLalBwUFJa?=
- =?utf-8?B?bzVpYlBVWVdXNzVOZGdkZG1QeklPWUpTM0tSeVk4N0VuSEg5blBvTC9iMUx5?=
- =?utf-8?B?NUlHdFlXNkphVXA3dlJUaHJuSUdlQ1pFL3lFeHk4Y25ORW44UVN0VHlEeFBx?=
- =?utf-8?B?SXhaaUxKYjBlWG50djdDSkU1dkRIZ2c4YWl2dk9PelJsWGFxWTIxTno5L05j?=
- =?utf-8?B?cVNEckl3ZWZPMEFwU0NxZjNWbGszTDdFRDkvVm96UEcrYmE4djYwRnFneUo3?=
- =?utf-8?B?WkZMeUZZUWQzOE9hdnc4RVBUaWRnVDVlUUdZcXpTcjhjYXNGb0Z0SFlDbkJ0?=
- =?utf-8?B?S0FaMnlZbUtsc08vdTI4ZGQrV0VGL25yWnFZKzNnV01YQitrQ3VTZ3VIcWRT?=
- =?utf-8?B?THpIYXlUVEdmN011ZkRQZ0pyU09MTGw2ck9tY2FNcmFXUTRNUDZ2Q0FXaWFr?=
- =?utf-8?B?cGRlNnJpai9NYklNTFR6UVIwNWxJTzUyTERPYnFhdnk1V1AydHI4VldVbHpD?=
- =?utf-8?B?VHJDcndsY21IUWdqZXp6S2s4ckZEb3B6bkxNeTdvWlpsenh0ZnhkeVhDUVZ6?=
- =?utf-8?B?SmFrS1dCcnZBOXRXMjRleWMxYjlXNmYyWWkvemFiejYwd1loaXBIekp5akZz?=
- =?utf-8?B?d0NtVGVZTis4Y0VZNWZLRmF5L3RlWmtsTVAySTlhL3JEdTZFSUU2WVdhSncy?=
- =?utf-8?B?cTc1aXlDN0JkZzVvOW5HZUZyRWhadlMyRjZla3J0VGV2dFlULzRWYjh3ZnVB?=
- =?utf-8?Q?nGrkmMXWMRqHEIwpymSRDp3GRmarSZUtXaxKmxR?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67c03895-abea-4780-365e-08d8ee303dba
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 19:17:03.5604 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nfb/HopFXG6Lh2+ihQ4RYQ5gHmz385YQNEQ8GiSzds9x1Lznem6LVbnPyfj0FmESQyfJnZZ4goqnL05xjhUpCepT7BfuRrnO3bXD0PhBeX0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4788
-Received-SPF: pass client-ip=40.107.20.138;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87k0pxiu7n.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,69 +55,551 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.03.2021 21:19, Paolo Bonzini wrote:
-> Python test scripts that use unittest consist of multiple tests.
-> unittest.main allows selecting which tests to run, but currently this
-> is not possible because the iotests wrapper ignores sys.argv.
+Hi Alex,
+
+thanks a lot for looking at this,
+
+On 3/23/21 7:35 PM, Alex Bennée wrote:
 > 
-> unittest.main command line options also allow the user to pick the
-> desired options for verbosity, failfast mode, etc.  While "-d" is
-> currently translated to "-v", it also enables extra debug output,
-> and other options are not available at all.
+> Claudio Fontana <cfontana@suse.de> writes:
 > 
-> These command line options only work if the unittest.main testRunner
-> argument is a type, rather than a TestRunner instance.  Therefore, pass
-> the class name and "verbosity" argument to unittest.main, and adjust for
-> the different default warnings between TextTestRunner and unittest.main.
+>> Here a new version of the series that enables kvm-only builds.
+>>
+>> The goal here is to enable the KVM-only build, but there is
+>> some additional cleanup too.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   tests/qemu-iotests/iotests.py | 14 +++++++++-----
->   1 file changed, 9 insertions(+), 5 deletions(-)
+> First the good news. With --disable-tcg on my AArch64 system I can
+> successfully run:
 > 
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 0521235030..c7915684ba 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -1308,12 +1308,16 @@ def __init__(self, stream: Optional[io.TextIOBase] = None,
->                            resultclass=resultclass,
->                            *args, **kwargs)
->   
-> -def execute_unittest(debug=False):
-> +def execute_unittest(argv: List[str], debug: bool= False):
->       """Executes unittests within the calling module."""
->   
-> -    verbosity = 2 if debug else 1
-> -    runner = unittest.ReproducibleTestRunner(verbosity=verbosity)
-> -    unittest.main(testRunner=runner)
-> +    # Some tests have warnings, especially ResourceWarnings for unclosed
-> +    # files and sockets.  Ignore them for now to ensure reproducibility of
-> +    # the test output.
-> +    unittest.main(argv=argv,
-> +                  testRunner=ReproducibleTestRunner,
-> +                  verbosity=2 if debug else 1,
-> +                  warnings=None if sys.warnoptions else 'ignore')
->   
->   def execute_setup_common(supported_fmts: Sequence[str] = (),
->                            supported_platforms: Sequence[str] = (),
-> @@ -1350,7 +1354,7 @@ def execute_test(*args, test_function=None, **kwargs):
->   
->       debug = execute_setup_common(*args, **kwargs)
->       if not test_function:
-> -        execute_unittest(debug)
-> +        execute_unittest(sys.argv, debug)
->       else:
->           test_function()
->   
+>   make vm-boot-ssh-ubuntu.aarch64 QEMU_LOCAL=1
+> 
+> and get a shell on a KVM powered VM. Bravo ;-)
+> 
+> Also I did a number of different builds:
+> 
+>    fdfind -0 -t x qemu-system-aarch64 | xargs -0 ls -lh
+>   -rwxrwxr-x 1 alex alex 129M Mar 23 18:09 all/qemu-system-aarch64
+>   -rwxrwxr-x 1 alex alex  64M Mar 23 18:16 disable.all/qemu-system-aarch64
+>   -rwxrwxr-x 1 alex alex  81M Mar 23 18:20 disable.defaults/qemu-system-aarch64
+>   -rwxrwxr-x 1 alex alex  94M Mar 23 18:12 disable.tcg/qemu-system-aarch64
+
+Interesting, I did not think to check these numbers (anymore, I was at Huawei times).
+It is still quite a large size.
+
+> 
+> Where the builds are:
+> 
+>   fdfind -0 -t f config.log | xargs -0 head -n 2
+>   ==> all/config.log <==
+>   # QEMU configure log Tue 23 Mar 2021 06:08:19 PM UTC
+>   # Configured with: '../../configure' '--skip-meson'
+> 
+>   ==> disable.all/config.log <==
+>   # QEMU configure log Tue 23 Mar 2021 06:15:26 PM UTC
+>   # Configured with: '../../configure' '--disable-docs' '--disable-tcg' '--without-default-features' '--without-default-devices'
+> 
+>   ==> disable.defaults/config.log <==
+>   # QEMU configure log Tue 23 Mar 2021 06:19:05 PM UTC
+>   # Configured with: '../../configure' '--disable-docs' '--disable-tcg' '--without-default-features'
+> 
+>   ==> disable.tcg/config.log <==
+>   # QEMU configure log Tue 23 Mar 2021 06:10:38 PM UTC
+>   # Configured with: '../../configure' '--disable-docs' '--disable-tcg'
+> 
+> And they all build OK and at least give a minimally viable binary. The
+> --without-default-devices build fails to boot a VM although that's
+> probably to be expected as we don't have any handling yet for a custom
+> device set (probably -M virt and the virtio devices in this case).
+> Unsurprisingly this gets the shortest distance in make check:
+> 
+>   Running test qtest-aarch64/qom-test
+>   qemu-system-aarch64: Unsupported NIC model: virtio-net-pci
+>   Broken pipe
+>   ERROR qtest-aarch64/qom-test - too few tests run (expected 1, got 0)
+>   make: *** [Makefile.mtest:24: run-test-1] Error 1
+> 
+> However I see other more esoteric failures in the other builds.
+> disable.tcg/disable.defaults:
+> 
+>   Running test qtest-aarch64/cdrom-test
+>   **
+>   ERROR:../../qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
+>   ERROR qtest-aarch64/cdrom-test - Bail out! ERROR:../../qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
+>   Broken pipe
+>   make: *** [Makefile.mtest:832: run-test-102] Error 1
+
+
+Interesting I did not remember this one in RFCv10, will try to see if I can reproduce on v11.
+
+> 
+> As well as a failure on the normal build:
+> 
+>   Running test qtest-aarch64/migration-test
+>   ERROR qtest-aarch64/migration-test - Bail out! ERROR:../../target/arm/tcg/tcg-cpu.c:233:tcg_arm_init_accel_cpu: assertion failed: (object_class_by_name(ACCEL_CPU_NAME("tcg")
+>   ) == OBJECT_CLASS(accel_cpu))
+>   Broken pipe
+>   make: *** [Makefile.mtest:272: run-test-32] Error 1
+> 
+> I'll see if I can do some bisecting to find the culprits.
+
+
+This is a known bug in RFCv10, and a known problem, it should be fixed now in RFCv11.
+
+All in all, the accel cpu pattern seems to apply decently to ARM,
+but the biggest questions open I think from my side are around the "max" cpu refactoring patch.
+
+Thanks a lot for trying this out!
+
+Ciao,
+
+Claudio
+
+> 
+>>
+>> In this iteration we rebase on the latest i386_cleanup series,
+>> we add reset_cpu to the accel cpu methods in tcg/ and kvm/,
+>> and add an experimental refactoring of the "max" cpu type.
+>>
+>> Comments welcome, thanks,
+>>
+>> Ciao, C
+>>
+>> v9 -> v10:
+>>
+>> * "target/arm: create kvm cpu accel class"
+>>  - add accel_cpu::cpu_reset to kvm-cpu
+>>
+>> * "target/arm: add tcg cpu accel class"
+>>  - add accel_cpu::cpu_reset to tcg-cpu
+>>
+>> * 'XXX target/arm: experiment refactoring cpu "max"'
+>>  - new tentative RFC for discussion
+>>
+>> v8 -> v9:
+>> * added: "make is_aa64 and arm_el_is_aa64 a macro for !TARGET_AARCH64"
+>> * added: "arch_dump: restrict ELFCLASS64 to AArch64"
+>> * added: "cpu-exceptions: new module"
+>> * added: "tcg: restrict ZCR cpregs to TARGET_AARCH64"
+>> * added: "cpu-pauth: new module for ARMv8.3 Pointer Authentication"
+>> * added: "refactor arm_cpu_finalize_features into cpu64"
+>>
+>> v7 -> v8:
+>> * added split of SVE CPU properties code from cpu into cpu-sve.
+>> * added split of cpu-sve into tcg/cpu-sve and kvm/cpu-sve.
+>>
+>> v6 -> v7:
+>> * added tcg accel-cpu, experiment with improving the setting of the
+>>   TCGOps, as discussed at:
+>>   https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg04315.html
+>>
+>> v5 -> v6:
+>> * rebased on latest master, adapted to arm changes
+>>
+>> * needed to restore the cortex-a15 cpu,
+>>   moving it away from the TCG-only cpu file. This is a partial
+>>   revert of commit "target/arm: Restrict TCG cpus to TCG accel"
+>>
+>> * added first patches that create the kvm cpu accel class
+>>
+>> v4 -> v5:
+>> * fixed other remaining tests for kvm-only build
+>> * rebased on latest target/arm changes (painful)
+>> * reverted Philippe's IDAU v8m change
+>>
+>> v3 -> v4:
+>>
+>> * added style cleanup patches
+>>
+>> * added header cleanup
+>>
+>> * added basic move of simple KVM-only code to kvm/
+>>
+>> * fixed some qtest failures due to existing:
+>>
+>>   if (kvm_enabled) {
+>>   
+>>   } else {
+>>
+>>   }
+>>
+>>   which needed explicit if qtest_enabled() in addition to tcg_enabled() check
+>>
+>> * include 32bit cpus for AArch64 too.
+>>
+>> v2 -> v3:
+>>
+>> * "target/arm: tcg: add sysemu and user subsirs"
+>>   - new standalone patch to create the empty tcg/sysemu and tcg/user subdirs.
+>>
+>> * "target/arm: only build psci for TCG"
+>>   - do not move psci inside tcg/ directory, because HVF might use it soon.
+>>     (Peter)
+>>
+>> * "target/arm: move physical address translation"
+>>   - change the module name from "get-phys-addr" to "cpu-mmu",
+>>     which includes aa64_va_parameter in this patch, and that
+>>     will also contain the get_mmu_idx* functions later in the series.
+>>     (Richard)
+>>
+>> * "target/arm: split cpregs from tcg/helper.c"
+>>   - moved raw_read and raw_write to cpregs.h (Richard)
+>>
+>> * "target/arm: only perform TCG cpu and machine inits if TCG enabled"
+>>   - add an explanatory comment before the kvm function for cpreg list init
+>>   - change the use of g_renew to g_new, since we do not do the double
+>>     initialization of cpreg list anymore.
+>>
+>> * "target/arm: add temporary stub for arm_rebuild_hflags"
+>>   - use a if (tcg_enabled()) instead of #ifdef (Richard)
+>>
+>> * "target/arm: split vfp state setting from tcg helpers"
+>>   - explain better what goes where in the commit (Richard)
+>>
+>> * "target/arm: move arm_mmu_idx*"
+>>   - move the functions to cpu-mmu instead of get-phys-addr (Richard)
+>>
+>> * "target/arm: move sve_zcr_len_for_el to common_cpu"
+>>
+>>  - add a comment about those functions being in theory
+>>    TARGET_AARCH64 specific, but making the change would spawn
+>>    a large number of additional #ifdefs. This state predates this
+>>    change (Richard).
+>>
+>> * "target/arm: move aarch64_sync_32_to_64 (and vv) to cpu code"
+>>
+>>  - explain better why these functions are needed for KVM too (Richard)
+>>
+>> * "target/arm: move sve_exception_el out of TCG helpers"
+>>
+>>  - bring over the sve_exception_el code, making it available for KVM too.
+>>    (Richard)
+>>
+>> * "target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()"
+>>
+>>  - mention in the commit that this enables finally a build with
+>>    configure --enable-kvm --disable-tcg
+>>
+>>
+>> v1 -> v2: reworked of the whole series
+>>
+>> In this v2, only the first two patches remain, the rest is
+>> reworked.
+>>
+>> Main reasons for the rework were:
+>>
+>> 1) moving out cpregs to its own module, leave the tcg-only part in tcg/
+>>
+>> 2) split of arm cpu32, cpu64 and cpu models. This is still not perfect,
+>>    but I think it's an improvement.
+>>
+>> 3) import less stuff, that is actually unused or can be stubbed on KVM
+>>    (thanks to the precious feedback on the previous RFCv1).
+>>
+>> ...
+>>
+>> Main issues:
+>>
+>> 1) basically needs the "configure only machines compatible with KVM" from Philippe,
+>>    so we can avoid some of the stubs.
+> 
+> Yeah this is basically --without-default-devices with a KVM only subset
+> of devices.
+> 
+>>
+>> 2) tests/ work fine building with tcg or with tcg + kvm,
+>>    but for making a kvm-only build pass the tests, more work is needed in tests/
+>>    figuring out which tests are TCG-only and which need to be tweaked.
+>>
+>> Thanks a lot for your comments!
+>>
+>>
+>> . / . / . / . / . / . /
+>>
+>>
+>> Hi all,
+>>
+>> this is an experiment, a cleanup based on and requiring the series
+>> "i386 cleanup PART 2":
+>>
+>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg05935.html
+>>
+>> The goal is to split the code between TCG-only and non-TCG code,
+>> fixing the KVM-only build (configure --disable-tcg),
+>>
+>> and laying the ground for further cleanups and the use of the
+>> new accel objects in the hierarchy to specialize the cpu
+>> according to the accelerator.
+>>
+>> This is known to be an early state, with probably a lot of work
+>> still needed.
+>>
+>> I thought it could be useful to share early, especially in light
+>> of the combination of this with Philippe's work on building
+>> only the machines and devices compatible with KVM for arm.
+>>
+>> Comments welcome, thanks,
+>>
+>> Claudio
+>>
+>>
+>> Claudio Fontana (49):
+>>   target/arm: move translate modules to tcg/
+>>   target/arm: move helpers to tcg/
+>>   arm: tcg: only build under CONFIG_TCG
+>>   target/arm: tcg: add sysemu and user subsirs
+>>   target/arm: only build psci for TCG
+>>   target/arm: split off cpu-sysemu.c
+>>   target/arm: move physical address translation to cpu-mmu
+>>   target/arm: cpu-mmu: fix comment style
+>>   target/arm: split cpregs from tcg/helper.c
+>>   target/arm: cpregs: fix style (mostly just comments)
+>>   target/arm: move cpu definitions to common cpu module
+>>   target/arm: only perform TCG cpu and machine inits if TCG enabled
+>>   target/arm: kvm: add stubs for some helpers
+>>   target/arm: move cpsr_read, cpsr_write to cpu_common
+>>   target/arm: add temporary stub for arm_rebuild_hflags
+>>   target/arm: split vfp state setting from tcg helpers
+>>   target/arm: move arm_mmu_idx* to cpu-mmu
+>>   target/arm: move sve_zcr_len_for_el to common_cpu
+>>   target/arm: move arm_sctlr away from tcg helpers
+>>   target/arm: move arm_cpu_list to common_cpu
+>>   target/arm: move aarch64_sync_32_to_64 (and vv) to cpu code
+>>   target/arm: split a15 cpu model and 32bit class functions to cpu32.c
+>>   target/arm: move sve_exception_el out of TCG helpers
+>>   target/arm: refactor exception and cpu code
+>>   target/arm: cpu: fix style
+>>   target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
+>>   target/arm: remove kvm include file for PSCI and arm-powerctl
+>>   target/arm: move kvm-const.h, kvm.c, kvm64.c, kvm_arm.h to kvm/
+>>   target/arm: cleanup cpu includes
+>>   target/arm: remove broad "else" statements when checking accels
+>>   tests/qtest: skip bios-tables-test test_acpi_oem_fields_virt for KVM
+>>   tests: restrict TCG-only arm-cpu-features tests to TCG builds
+>>   tests: do not run test-hmp on all machines for ARM KVM-only
+>>   tests: device-introspect-test: cope with ARM TCG-only devices
+>>   tests: do not run qom-test on all machines for ARM KVM-only
+>>   Revert "target/arm: Restrict v8M IDAU to TCG"
+>>   target/arm: create kvm cpu accel class
+>>   target/arm: move kvm post init initialization to kvm cpu accel
+>>   target/arm: add tcg cpu accel class
+>>   target/arm: move TCG gt timer creation code in tcg/
+>>   target/arm: cpu-sve: new module
+>>   target/arm: cpu-sve: split TCG and KVM functionality
+>>   target/arm: make is_aa64 and arm_el_is_aa64 a macro for
+>>     !TARGET_AARCH64
+>>   target/arm: arch_dump: restrict ELFCLASS64 to AArch64
+>>   target/arm: cpu-exceptions: new module
+>>   target/arm: tcg: restrict ZCR cpregs to TARGET_AARCH64
+>>   target/arm: cpu-pauth: new module for ARMv8.3 Pointer Authentication
+>>   target/arm: refactor arm_cpu_finalize_features into cpu64
+>>   XXX target/arm: experiment refactoring cpu "max"
+>>
+>>  meson.build                                   |    3 +-
+>>  target/arm/arm-powerctl.h                     |    2 -
+>>  target/arm/cpregs.h                           |  274 +
+>>  target/arm/cpu-exceptions-aa64.h              |   32 +
+>>  target/arm/cpu-mmu.h                          |  119 +
+>>  target/arm/cpu-qom.h                          |    3 -
+>>  target/arm/cpu-sve.h                          |   40 +
+>>  target/arm/cpu-vfp.h                          |   29 +
+>>  target/arm/cpu.h                              |  323 +-
+>>  target/arm/cpu32.h                            |   29 +
+>>  target/arm/helper-a64.h                       |    2 +
+>>  target/arm/helper.h                           |    1 -
+>>  target/arm/internals.h                        |   46 +-
+>>  target/arm/kvm/cpu-sve.h                      |   30 +
+>>  target/arm/{ => kvm}/kvm-consts.h             |    0
+>>  target/arm/{ => kvm}/kvm_arm.h                |    5 +-
+>>  target/arm/kvm/trace.h                        |    1 +
+>>  target/arm/tcg/cpu-pauth.h                    |   38 +
+>>  target/arm/tcg/cpu-sve.h                      |   31 +
+>>  target/arm/{ => tcg}/op_addsub.h              |    0
+>>  target/arm/tcg/tcg-cpu.h                      |   40 +
+>>  target/arm/tcg/trace.h                        |    1 +
+>>  target/arm/{ => tcg}/translate-a64.h          |    0
+>>  target/arm/{ => tcg}/translate.h              |    0
+>>  target/arm/{ => tcg}/vec_internal.h           |    0
+>>  target/arm/trace.h                            |    1 -
+>>  target/arm/{ => tcg}/a32-uncond.decode        |    0
+>>  target/arm/{ => tcg}/a32.decode               |    0
+>>  target/arm/{ => tcg}/m-nocp.decode            |    0
+>>  target/arm/{ => tcg}/neon-dp.decode           |    0
+>>  target/arm/{ => tcg}/neon-ls.decode           |    0
+>>  target/arm/{ => tcg}/neon-shared.decode       |    0
+>>  target/arm/{ => tcg}/sve.decode               |    0
+>>  target/arm/{ => tcg}/t16.decode               |    0
+>>  target/arm/{ => tcg}/t32.decode               |    0
+>>  target/arm/{ => tcg}/vfp-uncond.decode        |    0
+>>  target/arm/{ => tcg}/vfp.decode               |    0
+>>  hw/arm/boot.c                                 |    5 +-
+>>  hw/arm/pxa2xx.c                               |    1 +
+>>  hw/arm/pxa2xx_pic.c                           |    1 +
+>>  hw/arm/sbsa-ref.c                             |    2 +-
+>>  hw/arm/virt-acpi-build.c                      |    2 +-
+>>  hw/arm/virt.c                                 |    2 +-
+>>  hw/arm/xlnx-versal.c                          |    2 +-
+>>  hw/arm/xlnx-zynqmp.c                          |    2 +-
+>>  hw/cpu/a15mpcore.c                            |    2 +-
+>>  hw/intc/arm_gic_kvm.c                         |    2 +-
+>>  hw/intc/arm_gicv3_cpuif.c                     |    1 +
+>>  hw/intc/arm_gicv3_its_kvm.c                   |    2 +-
+>>  hw/intc/arm_gicv3_kvm.c                       |    3 +-
+>>  linux-user/syscall.c                          |    4 +
+>>  target/arm/arch_dump.c                        |   13 +-
+>>  target/arm/arm-powerctl.c                     |    8 +-
+>>  target/arm/cpregs.c                           |  377 +
+>>  target/arm/cpu-common.c                       |  329 +
+>>  target/arm/cpu-exceptions-aa64.c              |  553 ++
+>>  target/arm/cpu-exceptions.c                   |  481 ++
+>>  target/arm/cpu-mmu-sysemu.c                   | 2305 +++++++
+>>  target/arm/cpu-mmu.c                          |  219 +
+>>  target/arm/cpu-sve.c                          |  292 +
+>>  target/arm/cpu-sysemu.c                       |   80 +
+>>  target/arm/cpu-user.c                         |   41 +
+>>  target/arm/cpu-vfp.c                          |   92 +
+>>  target/arm/cpu.c                              |  785 +--
+>>  target/arm/cpu32.c                            |  260 +
+>>  target/arm/cpu64.c                            |  698 +-
+>>  target/arm/cpustate-list.c                    |  146 +
+>>  target/arm/gdbstub.c                          |    5 +-
+>>  target/arm/kvm-stub.c                         |   24 -
+>>  target/arm/kvm/cpu-sve.c                      |  118 +
+>>  target/arm/kvm/helper-stubs.c                 |   43 +
+>>  target/arm/kvm/kvm-cpu.c                      |  127 +
+>>  target/arm/{ => kvm}/kvm.c                    |   18 +-
+>>  target/arm/{ => kvm}/kvm64.c                  |    8 +-
+>>  target/arm/machine.c                          |   40 +-
+>>  target/arm/monitor.c                          |   10 +-
+>>  target/arm/psci.c                             |    1 -
+>>  target/arm/{helper.c => tcg/cpregs.c}         | 6102 +----------------
+>>  target/arm/tcg/cpu-pauth.c                    |   66 +
+>>  target/arm/tcg/cpu-sve.c                      |   80 +
+>>  target/arm/tcg/cpu-vfp.c                      |  146 +
+>>  target/arm/{ => tcg}/crypto_helper.c          |    0
+>>  target/arm/{ => tcg}/debug_helper.c           |    0
+>>  target/arm/{ => tcg}/helper-a64.c             |    2 +
+>>  target/arm/tcg/helper.c                       | 1532 +++++
+>>  target/arm/{ => tcg}/iwmmxt_helper.c          |    0
+>>  target/arm/{ => tcg}/m_helper.c               |    1 +
+>>  target/arm/{ => tcg}/mte_helper.c             |    0
+>>  target/arm/{ => tcg}/neon_helper.c            |    0
+>>  target/arm/{ => tcg}/op_helper.c              |    1 +
+>>  target/arm/{ => tcg}/pauth_helper.c           |    2 +-
+>>  target/arm/{ => tcg}/sve_helper.c             |    0
+>>  target/arm/tcg/sysemu/tcg-cpu.c               |  120 +
+>>  .../arm/{cpu_tcg.c => tcg/tcg-cpu-models.c}   |  164 +-
+>>  target/arm/tcg/tcg-cpu.c                      |  500 ++
+>>  target/arm/{ => tcg}/tlb_helper.c             |    1 +
+>>  target/arm/{ => tcg}/translate-a64.c          |    1 +
+>>  target/arm/{ => tcg}/translate-sve.c          |    0
+>>  target/arm/{ => tcg}/translate.c              |    1 +
+>>  target/arm/{ => tcg}/vec_helper.c             |    0
+>>  target/arm/{ => tcg}/vfp_helper.c             |  210 +-
+>>  tests/qtest/arm-cpu-features.c                |   15 +
+>>  tests/qtest/bios-tables-test.c                |    7 +
+>>  tests/qtest/device-introspect-test.c          |   18 +
+>>  tests/qtest/qom-test.c                        |   20 +
+>>  tests/qtest/test-hmp.c                        |   20 +
+>>  target/arm/{ => tcg}/translate-neon.c.inc     |    0
+>>  target/arm/{ => tcg}/translate-vfp.c.inc      |    0
+>>  MAINTAINERS                                   |    2 +-
+>>  target/arm/kvm/meson.build                    |   10 +
+>>  target/arm/kvm/trace-events                   |    4 +
+>>  target/arm/meson.build                        |   59 +-
+>>  target/arm/tcg/meson.build                    |   47 +
+>>  target/arm/tcg/sysemu/meson.build             |    4 +
+>>  target/arm/{ => tcg}/trace-events             |    3 -
+>>  target/arm/tcg/user/meson.build               |    3 +
+>>  116 files changed, 9304 insertions(+), 7991 deletions(-)
+>>  create mode 100644 target/arm/cpregs.h
+>>  create mode 100644 target/arm/cpu-exceptions-aa64.h
+>>  create mode 100644 target/arm/cpu-mmu.h
+>>  create mode 100644 target/arm/cpu-sve.h
+>>  create mode 100644 target/arm/cpu-vfp.h
+>>  create mode 100644 target/arm/cpu32.h
+>>  create mode 100644 target/arm/kvm/cpu-sve.h
+>>  rename target/arm/{ => kvm}/kvm-consts.h (100%)
+>>  rename target/arm/{ => kvm}/kvm_arm.h (98%)
+>>  create mode 100644 target/arm/kvm/trace.h
+>>  create mode 100644 target/arm/tcg/cpu-pauth.h
+>>  create mode 100644 target/arm/tcg/cpu-sve.h
+>>  rename target/arm/{ => tcg}/op_addsub.h (100%)
+>>  create mode 100644 target/arm/tcg/tcg-cpu.h
+>>  create mode 100644 target/arm/tcg/trace.h
+>>  rename target/arm/{ => tcg}/translate-a64.h (100%)
+>>  rename target/arm/{ => tcg}/translate.h (100%)
+>>  rename target/arm/{ => tcg}/vec_internal.h (100%)
+>>  delete mode 100644 target/arm/trace.h
+>>  rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+>>  rename target/arm/{ => tcg}/a32.decode (100%)
+>>  rename target/arm/{ => tcg}/m-nocp.decode (100%)
+>>  rename target/arm/{ => tcg}/neon-dp.decode (100%)
+>>  rename target/arm/{ => tcg}/neon-ls.decode (100%)
+>>  rename target/arm/{ => tcg}/neon-shared.decode (100%)
+>>  rename target/arm/{ => tcg}/sve.decode (100%)
+>>  rename target/arm/{ => tcg}/t16.decode (100%)
+>>  rename target/arm/{ => tcg}/t32.decode (100%)
+>>  rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+>>  rename target/arm/{ => tcg}/vfp.decode (100%)
+>>  create mode 100644 target/arm/cpregs.c
+>>  create mode 100644 target/arm/cpu-common.c
+>>  create mode 100644 target/arm/cpu-exceptions-aa64.c
+>>  create mode 100644 target/arm/cpu-exceptions.c
+>>  create mode 100644 target/arm/cpu-mmu-sysemu.c
+>>  create mode 100644 target/arm/cpu-mmu.c
+>>  create mode 100644 target/arm/cpu-sve.c
+>>  create mode 100644 target/arm/cpu-sysemu.c
+>>  create mode 100644 target/arm/cpu-user.c
+>>  create mode 100644 target/arm/cpu-vfp.c
+>>  create mode 100644 target/arm/cpu32.c
+>>  create mode 100644 target/arm/cpustate-list.c
+>>  delete mode 100644 target/arm/kvm-stub.c
+>>  create mode 100644 target/arm/kvm/cpu-sve.c
+>>  create mode 100644 target/arm/kvm/helper-stubs.c
+>>  create mode 100644 target/arm/kvm/kvm-cpu.c
+>>  rename target/arm/{ => kvm}/kvm.c (98%)
+>>  rename target/arm/{ => kvm}/kvm64.c (99%)
+>>  rename target/arm/{helper.c => tcg/cpregs.c} (59%)
+>>  create mode 100644 target/arm/tcg/cpu-pauth.c
+>>  create mode 100644 target/arm/tcg/cpu-sve.c
+>>  create mode 100644 target/arm/tcg/cpu-vfp.c
+>>  rename target/arm/{ => tcg}/crypto_helper.c (100%)
+>>  rename target/arm/{ => tcg}/debug_helper.c (100%)
+>>  rename target/arm/{ => tcg}/helper-a64.c (99%)
+>>  create mode 100644 target/arm/tcg/helper.c
+>>  rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
+>>  rename target/arm/{ => tcg}/m_helper.c (99%)
+>>  rename target/arm/{ => tcg}/mte_helper.c (100%)
+>>  rename target/arm/{ => tcg}/neon_helper.c (100%)
+>>  rename target/arm/{ => tcg}/op_helper.c (99%)
+>>  rename target/arm/{ => tcg}/pauth_helper.c (99%)
+>>  rename target/arm/{ => tcg}/sve_helper.c (100%)
+>>  create mode 100644 target/arm/tcg/sysemu/tcg-cpu.c
+>>  rename target/arm/{cpu_tcg.c => tcg/tcg-cpu-models.c} (86%)
+>>  create mode 100644 target/arm/tcg/tcg-cpu.c
+>>  rename target/arm/{ => tcg}/tlb_helper.c (99%)
+>>  rename target/arm/{ => tcg}/translate-a64.c (99%)
+>>  rename target/arm/{ => tcg}/translate-sve.c (100%)
+>>  rename target/arm/{ => tcg}/translate.c (99%)
+>>  rename target/arm/{ => tcg}/vec_helper.c (100%)
+>>  rename target/arm/{ => tcg}/vfp_helper.c (84%)
+>>  rename target/arm/{ => tcg}/translate-neon.c.inc (100%)
+>>  rename target/arm/{ => tcg}/translate-vfp.c.inc (100%)
+>>  create mode 100644 target/arm/kvm/meson.build
+>>  create mode 100644 target/arm/kvm/trace-events
+>>  create mode 100644 target/arm/tcg/meson.build
+>>  create mode 100644 target/arm/tcg/sysemu/meson.build
+>>  rename target/arm/{ => tcg}/trace-events (85%)
+>>  create mode 100644 target/arm/tcg/user/meson.build
+> 
 > 
 
-If you decide to resend for some of my comments (or due to another reviewer be more careful), I think it would be nicer to merge part of this commit which moves us from passing object to passing ReproducibleTestRunner to the previous commit, to not remove line that we've added in the previous commit. And here only add argv argument.
-
-
--- 
-Best regards,
-Vladimir
 
