@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4185034688D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:09:26 +0100 (CET)
-Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820A03468AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:13:56 +0100 (CET)
+Received: from localhost ([::1]:42274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmP7-0006QG-5g
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
+	id 1lOmTT-0004uj-Hg
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:13:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOlfD-0002gh-0m
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:22:01 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39882)
+ id 1lOlfS-0002u4-0e
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:22:14 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOlf9-00083a-8z
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:21:57 -0400
-Received: by mail-wr1-x432.google.com with SMTP id e18so21804379wrt.6
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:21:53 -0700 (PDT)
+ id 1lOlfP-0008AR-2I
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:22:12 -0400
+Received: by mail-wr1-x429.google.com with SMTP id x16so21786361wrn.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5r+iGIBAu2ykVlJeeuy+HeoSYTxh7jmUnCWfoqnqWB4=;
- b=ns8GgXo2IjBjiZ3wDmacuky+3XIKh8+uAskQ9khjdcHuPzPa4IAtnCll+rfngCbTyZ
- csHna0bNX32KsiAZmBXbMsvNOqHJ0ny1Is88rO17nl38HR+CCGNdzE0/pLhL13sEEQU2
- S2t6ogBeId6JSyNiVVngCV+6LknQ5Fw27gHb+slEzMtk7Dy0t0vaCGIcd5qwCHsgudlb
- ng3dxIj0gjJGfsnQQYiFebApNdmufSbTMaMKU8EL2eyYnVuTE7GnfMpNPXJwOm3dhdqI
- a5hYLHI5B4I4y+T3Xz1BBgGhsEcWIxZpeThfsMnNZMOwi4I2WJIvO9ZBIR7arAqm5liB
- 95Og==
+ bh=y/2u2hf1/r2GmUro4IMQhyppoET4z3PFvaikLmWoeqg=;
+ b=faA6ZN6fM21lDmrZF3u6/EPJ0Zw+nphUg9UYgPfkgZ1IeqTN+qWe6jRNSWnNO1hayN
+ lsE9fzVzi7u5OIQK4Iap8gIy0dTAzzlnFOViTa8pa/chOF84iJgLsSz2Tb2Jg2iKJem1
+ +AC3pYUgCjydlZoNrxQ6C7U2ruLHl7p1NLsHE0QXyCg9PLflmO1uPEAOrlEvTH08xfPY
+ EeTmdQkkfD4uddcWDnp/VvEEBZ9caZufDDJhXpXiMKOLi1q/PuxsMmfr3bzgcwsw5Rve
+ 8Fu4kzXbL5zdKHzkSAM/lyXr8mvoqPRlXv770X3hk9+WuUk2ipbdUBcaEBZuRtc/lEMt
+ tYwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5r+iGIBAu2ykVlJeeuy+HeoSYTxh7jmUnCWfoqnqWB4=;
- b=s5GiWnKwIVUcOtKctI2gcyJFU9Lg8VFT6iv7EKjLrsPPUYbhlFjRCcVGdjWuxdl7S0
- hji6sBLT0qMRCZr8jcYi4hG9zrc4vfGbJ5BprZQxCBhRqWpUwNWtToHnomtUcqSV99RZ
- WIYL1D5TZbclYbOVKpbHJFrWCUHnD3pFjTckLN3zJDvNXN0CQet9JZAmwXLM4txTxfdI
- /JUIzcBy5wRKYE00urb0IToJgXzTEet020RlQE0YTNmzfTzarb0uHmCSUmpw9+3nttru
- +gezyU1UVOWedXFHIJWWS7zfSjLNDNgoaLFMDV2+YespFp06LieU5aQLDCnug1xZ1xgC
- acBA==
-X-Gm-Message-State: AOAM5308BtvH2d9v2uH4iCQbL/zhPzGmDxUM2tWK6O+nVo4GdKCaVl5O
- wpN/sIBx8FU5FRBydYqq+go=
-X-Google-Smtp-Source: ABdhPJyM9SsPyY9tDB3fNNwH6ynfj45vZC+5cN24h35m+K4vew2bGrd3wjlnBc6NXgyPYWRphw9XCA==
-X-Received: by 2002:adf:82af:: with SMTP id 44mr5136810wrc.279.1616523713017; 
- Tue, 23 Mar 2021 11:21:53 -0700 (PDT)
+ bh=y/2u2hf1/r2GmUro4IMQhyppoET4z3PFvaikLmWoeqg=;
+ b=ggzqacXX/+VQwMSTvkeKS5Yv3FzzGffxe8XkEMQbNkmoOzk29ZLm1j22rqg7FC+JNC
+ eTWZmb4HbaAJmXc1I+tCYGBZn0sjQbCKI0Nor041SRTk2ByFfyRfuU+rXIxpxCZZtytB
+ oo5/0SHvuVjAg2tfzcm+tLdiGjRheyIINugPXBxsy6Bp88Z3WVdGqyEB7EwV/0i3kj7p
+ 8Ev0a+epedyYG2L5s/xVY+xMsOGpf6KTfoCTzT2UTmR6lKqFzilHemTm83WsScBDzNxM
+ 2wHDOBl8IsIpV1lLwgpH54D1Cms9pkQncR5u8EGmfO4mG9B35ymYjmHiospfNFaXAwDW
+ 7EAw==
+X-Gm-Message-State: AOAM531txmOUhPyvfnEWQ0ls7FSy9t4YrOzYzNLipgNQL1omPJHfHzmu
+ U6pr4C9zZudAmhxISW1Ty5I=
+X-Google-Smtp-Source: ABdhPJxhotkkj0lkrnOEoyudXVFzhkjwrXFsarQx0xrRX/Sa0y5SHMbNAsYfdH/Fy0p6Boypn3wS8Q==
+X-Received: by 2002:adf:8341:: with SMTP id 59mr5222981wrd.130.1616523728723; 
+ Tue, 23 Mar 2021 11:22:08 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id j136sm3532720wmj.35.2021.03.23.11.21.52
+ by smtp.gmail.com with ESMTPSA id o15sm18804050wra.93.2021.03.23.11.22.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 11:21:52 -0700 (PDT)
-Subject: Re: [PATCH v3 1/3] exec: Rename exec-vary.c as page-vary.c
+ Tue, 23 Mar 2021 11:22:08 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] exec: Extract 'page-vary.h' header
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210323161601.454996-1-richard.henderson@linaro.org>
- <20210323161601.454996-2-richard.henderson@linaro.org>
+ <20210323161601.454996-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <da56deb1-92d0-9f1c-5589-e81c7d83736f@amsat.org>
-Date: Tue, 23 Mar 2021 19:21:51 +0100
+Message-ID: <ddf09d50-9bf6-c828-7fa7-896f9ceb38df@amsat.org>
+Date: Tue, 23 Mar 2021 19:22:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210323161601.454996-2-richard.henderson@linaro.org>
+In-Reply-To: <20210323161601.454996-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,21 +93,24 @@ Cc: pbonzini@redhat.com, gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 5:15 PM, Richard Henderson wrote:
-> exec-vary.c is about variable page size handling,
-> rename it page-vary.c. Currently this file is target
-> specific (built once for each target), comment this.
+On 3/23/21 5:16 PM, Richard Henderson wrote:
+> In the next commit we will extract the generic code out of
+> page-vary.c, only keeping the target specific code. Both
+> files will use the same TargetPageBits structure, so make
+> its declaration in a shared header.
+> 
+> As the common header can not use target specific types,
+> use a uint64_t to hold the page mask value, and add a
+> cast back to target_long in the TARGET_PAGE_MASK definitions.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-Id: <20210322112427.4045204-2-f4bug@amsat.org>
-> [rth: Update MAINTAINERS]
+> Message-Id: <20210322112427.4045204-3-f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  meson.build                | 3 ++-
->  exec-vary.c => page-vary.c | 2 +-
->  MAINTAINERS                | 1 +
->  3 files changed, 4 insertions(+), 2 deletions(-)
->  rename exec-vary.c => page-vary.c (98%)
+>  include/exec/cpu-all.h   | 11 ++++-------
+>  include/exec/page-vary.h | 29 +++++++++++++++++++++++++++++
+>  2 files changed, 33 insertions(+), 7 deletions(-)
+>  create mode 100644 include/exec/page-vary.h
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
