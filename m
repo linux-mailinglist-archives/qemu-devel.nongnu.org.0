@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045B73461B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:45:16 +0100 (CET)
-Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56DD3461BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:46:34 +0100 (CET)
+Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOiHT-0000Xx-0c
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:45:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47204)
+	id 1lOiIj-0002Mi-Vb
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOi2z-0003Vy-CN
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:30:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43624)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOi3E-0003nb-2R
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:30:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOi2x-0000Yp-6l
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:30:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOi35-0000dT-7H
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:30:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616509814;
+ s=mimecast20190719; t=1616509822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HIs9PgkHl15VVT30tTzdK/szclQQw6pvg1tSrrTSUck=;
- b=iBEXLD5pOSrGJj1x8q1GWs0ef4tciBJC7l6j7/wSsGta/IbuGFzWESGlyvaT3Ap2/j61MQ
- LCghPwtSH/WjG728EYhGuFTlpEulafXExe6IHdov51icNy6ZNSFw2OxtDAk/24mrPMMKN1
- gVjzaA/8MXYk1xjLhOOIdM1eWMI5Z8k=
+ bh=SQzdQqjKw2f3/SaB+f+LHfj6ue7xSGoAq3eDunm30W0=;
+ b=UigAopSq9ygIxUqz1yfHkb5Fs8yl8/M7F8OENWT87/9xUy+6Rz4fiyxoh30NrlbiA4rQnR
+ t+XWiuOu9cpJ6K6ghvUz+fE00U6rixdMRZdMTyuBWETYuILaBmxZiGpK6bxArB6aTk/oya
+ pPlBL/9Lrb/uZOdBtbiigDOkbe8MzaY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-NNKJiViaMsufBTgHta-Z9A-1; Tue, 23 Mar 2021 10:30:12 -0400
-X-MC-Unique: NNKJiViaMsufBTgHta-Z9A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-169--9I2w_Q5NHuKjBEaBqTpxA-1; Tue, 23 Mar 2021 10:30:18 -0400
+X-MC-Unique: -9I2w_Q5NHuKjBEaBqTpxA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2CB0871377;
- Tue, 23 Mar 2021 14:30:11 +0000 (UTC)
-Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A7955C1C5;
- Tue, 23 Mar 2021 14:30:11 +0000 (UTC)
-Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
- stricter checking
-To: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FF2810082F3;
+ Tue, 23 Mar 2021 14:30:17 +0000 (UTC)
+Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1EAB60BE5;
+ Tue, 23 Mar 2021 14:30:16 +0000 (UTC)
+Subject: Re: [PATCH 12/28] qapi: Consistently permit any case in downstream
+ prefixes
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-11-armbru@redhat.com>
- <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <c0da3a0f-da39-80e1-8f02-3ffa0b9e9fb0@redhat.com>
-Date: Tue, 23 Mar 2021 10:30:10 -0400
+ <20210323094025.3569441-13-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <00fe7111-5020-69bc-be56-6c7330c4be57@redhat.com>
+Date: Tue, 23 Mar 2021 09:30:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210323094025.3569441-13-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,22 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, marcandre.lureau@redhat.com
+Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 10:20 AM, Eric Blake wrote:
->> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
->> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
-> I'm assuming python concatenates r'' with '' in the obvious manner...
+On 3/23/21 4:40 AM, Markus Armbruster wrote:
+> We require lowercase __RFQDN_ downstream prefixes only where we
+> require the prefixed name to be lowercase.  Don't; permit any case in
+> __RFQDN_ prefixes anywhere.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/qapi/expr.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
-FWIW, I don't think it does, actually. I believe you do need to spell 
-out each individual string constant with what type it is.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-(In this case, missing the second r has no effect as there are no 
-backslash sequences in the string.)
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index a815060ee2..b5fb0be48b 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -51,7 +51,7 @@ def check_name_upper(name, info, source):
+>  def check_name_lower(name, info, source,
+>                       permit_upper=False):
+>      stem = check_name_str(name, info, source)
+> -    if not permit_upper and name.lower() != name:
+> +    if not permit_upper and re.search(r'[A-Z]', stem):
+>          raise QAPISemError(
+>              info, "%s uses uppercase in name" % source)
+>      # TODO reject '_' in stem
+> 
 
---js
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
