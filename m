@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861F2346348
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:50:26 +0100 (CET)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9279134649A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:13:02 +0100 (CET)
+Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOjIX-0001AH-Iu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
+	id 1lOjeP-0000U9-Eh
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjEl-0005zi-96
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:46:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56189)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFw-0007Ht-M9
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:47:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjEf-0000QS-PZ
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:46:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616514384;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D1fNUNvEN+DbivTxPd70Z6HTElq+Vt/O95A5m675b+I=;
- b=Coex5gT4ao8tIVjAAA2U0a2oetgtLHV/KXOJJTwLJ7YDpm18/CsntJLJkW51yafuqgGcY3
- AyLIDoUv4rrLlVjniiIJWu9GmFCF7o1lwjj6rGzSXWa7i9CqANI9LNfeNm1OINJcMEoI6p
- EF7Hpj1rJjnrcXjwD+ACB485vd+poDs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-zZkM9Fa6O9-0J58UjGcr_Q-1; Tue, 23 Mar 2021 11:46:22 -0400
-X-MC-Unique: zZkM9Fa6O9-0J58UjGcr_Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D80E3835B47;
- Tue, 23 Mar 2021 15:46:21 +0000 (UTC)
-Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7385B6087C;
- Tue, 23 Mar 2021 15:46:18 +0000 (UTC)
-Subject: Re: [PATCH 26/28] qapi: Enforce struct member naming rules
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-27-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e5b2cdc4-a649-86c1-cde8-ce142be9f5ae@redhat.com>
-Date: Tue, 23 Mar 2021 10:46:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFb-0000ph-Km
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:47:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 1C9B9ADF1;
+ Tue, 23 Mar 2021 15:46:59 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC v11 34/55] target/arm: remove broad "else" statements when
+ checking accels
+Date: Tue, 23 Mar 2021 16:46:18 +0100
+Message-Id: <20210323154639.23477-27-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210323151749.21299-1-cfontana@suse.de>
+References: <20210323151749.21299-1-cfontana@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210323094025.3569441-27-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,80 +54,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
+Cc: Olaf Hering <olaf@aepfle.de>, Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Julien Grall <jgrall@amazon.com>,
+ qemu-devel@nongnu.org, Olaf Hering <OHering@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 4:40 AM, Markus Armbruster wrote:
-> Struct members, including command arguments, event data, and union
-> inline base members, should use '-', not '_'.  Enforce this.  Fix the
-> fixable offenders (all in tests/), and add the remainder to pragma
-> member-name-exceptions.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
+There might be more than just KVM and TCG in the future,
+so where appropriate, replace broad "else" statements
+with the appropriate if (accel_enabled()) check.
 
-> +++ b/qapi/pragma.json
-> @@ -31,10 +31,27 @@
->      # Externally visible types whose member names may use uppercase
->      'member-name-exceptions': [     # visible in:
->          'ACPISlotType',             # query-acpi-ospm-status
-> +        'AcpiTableOptions',         # -acpitable
-> +        'BlkdebugSetStateOptions',  # blockdev-add, -blockdev
-> +        'BlockDeviceInfo',          # query-block
-> +        'BlockDeviceStats',         # query-blockstats
-> +        'BlockDeviceTimedStats',    # query-blockstats
-> +        'BlockIOThrottle',          # block_set_io_throttle
-> +        'BlockInfo',                # query-block
->          'BlockdevVmdkAdapterType',  # blockdev-create (to match VMDK spec)
->          'BlockdevVmdkSubformat',    # blockdev-create (to match VMDK spec)
-> +        'ColoCompareProperties',    # object_add, -object
-> +        'FilterMirrorProperties',   # object_add, -object
-> +        'FilterRedirectorProperties', # object_add, -object
-> +        'FilterRewriterProperties', # object_add, -object
-> +        'InputLinuxProperties',     # object_add, -object
-> +        'NetdevTapOptions',         # netdev_add, query-netdev, -netdev
-> +        'PciBusInfo',               # query-pci
-> +        'PciDeviceInfo',            # query-pci
-> +        'PciMemoryRegion',          # query-pci
->          'QapiErrorClass',           # QMP error replies
->          'UuidInfo',                 # query-uuid
-> +        'VncClientInfo',            # query-vnc, query-vnc-servers, ...
->          'X86CPURegister32'          # qom-get of x86 CPU properties
->                                      # feature-words, filtered-features
->      ] } }
+Also invert some checks for !kvm_enabled() or !tcg_enabled()
+where it seems appropriate to do so.
 
-I was worried the list might be even longer.  And as before, we might
-have future patches that want to add aliases and/or deprecate the old
-spellings, as long as introspection can easily see new spellings.
+Note that to make qtest happy we need to perform gpio
+initialization in the qtest_enabled() case as well.
 
-At any rate, I'm in agreement with letting the computer flag new
-instances instead of relying on me to notice during review.
+Hopefully we do not break any Xen stuff.
 
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 2b08b761c2..fb17eebde3 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -19,6 +19,10 @@
->  # Whitelists to permit QAPI rule violations; think twice before you
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Julien Grall <jgrall@amazon.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Olaf Hering <olaf@aepfle.de>
+Cc: Olaf Hering <OHering@suse.com>
+---
+ target/arm/cpu.c     | 10 ++++++----
+ target/arm/cpu64.c   | 13 +++++++++----
+ target/arm/machine.c | 19 ++++++-------------
+ 3 files changed, 21 insertions(+), 21 deletions(-)
 
-Did you want to fix this instance of the word 'Whitelists' somewhere in
-the series?
-
->  # add to them!
->  { 'pragma': {
-> +    # Types whose member names may use '_'
-> +    'member-name-exceptions': [
-> +        'GuestAgentInfo'
-> +    ],
->      # Commands allowed to return a non-dictionary:
->      'command-returns-exceptions': [
->          'guest-file-open',
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 3491e615c3..31f1b3df09 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -37,6 +37,7 @@
+ #endif
+ 
+ #include "sysemu/tcg.h"
++#include "sysemu/qtest.h"
+ #include "kvm/kvm_arm.h"
+ #include "disas/capstone.h"
+ #include "fpu/softfloat.h"
+@@ -564,7 +565,8 @@ static void arm_cpu_initfn(Object *obj)
+          * the same interface as non-KVM CPUs.
+          */
+         qdev_init_gpio_in(DEVICE(cpu), arm_cpu_kvm_set_irq, 4);
+-    } else {
++    }
++    if (tcg_enabled() || qtest_enabled()) {
+         qdev_init_gpio_in(DEVICE(cpu), arm_cpu_set_irq, 4);
+     }
+ 
+@@ -741,14 +743,14 @@ void arm_cpu_post_init(Object *obj)
+         ? cpu_isar_feature(aa64_fp_simd, cpu)
+         : cpu_isar_feature(aa32_vfp, cpu)) {
+         cpu->has_vfp = true;
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
+             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property);
+         }
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
+         cpu->has_neon = true;
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
+             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property);
+         }
+     }
+@@ -849,7 +851,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+          * We have not registered the cpu properties when KVM
+          * is in use, so the user will not be able to set them.
+          */
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
+             arm_cpu_pauth_finalize(cpu, &local_err);
+             if (local_err != NULL) {
+                 error_propagate(errp, local_err);
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index b3475a93cc..e0cdcc6465 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -23,6 +23,7 @@
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+ #include "qemu/module.h"
++#include "sysemu/tcg.h"
+ #include "sysemu/kvm.h"
+ #include "kvm/kvm_arm.h"
+ #include "qapi/visitor.h"
+@@ -296,7 +297,8 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+              */
+             bitmap_andnot(tmp, kvm_supported, cpu->sve_vq_init, max_vq);
+             bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
+-        } else {
++        }
++        if (tcg_enabled()) {
+             /* Propagate enabled bits down through required powers-of-two. */
+             for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+                 if (!test_bit(vq - 1, cpu->sve_vq_init)) {
+@@ -333,7 +335,8 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+                                   "vector length must be enabled.\n");
+                 return;
+             }
+-        } else {
++        }
++        if (tcg_enabled()) {
+             /* Disabling a power-of-two disables all larger lengths. */
+             if (test_bit(0, cpu->sve_vq_init)) {
+                 error_setg(errp, "cannot disable sve128");
+@@ -415,7 +418,8 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+             }
+             return;
+         }
+-    } else {
++    }
++    if (tcg_enabled()) {
+         /* Ensure all required powers-of-two are enabled. */
+         for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+             if (!test_bit(vq - 1, cpu->sve_vq_map)) {
+@@ -609,7 +613,8 @@ static void aarch64_max_initfn(Object *obj)
+ 
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
+-    } else {
++    }
++    if (tcg_enabled()) {
+         uint64_t t;
+         uint32_t u;
+         aarch64_a57_initfn(obj);
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 595ab94237..cfc2bb4982 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -638,24 +638,21 @@ static int cpu_pre_save(void *opaque)
+ 
+     if (tcg_enabled()) {
+         pmu_op_start(&cpu->env);
++        if (!write_cpustate_to_list(cpu, false)) {
++            /* This should never fail. */
++            abort();
++        }
+     }
+-
+     if (kvm_enabled()) {
+         if (!write_kvmstate_to_list(cpu)) {
+             /* This should never fail */
+             abort();
+         }
+-
+         /*
+          * kvm_arm_cpu_pre_save() must be called after
+          * write_kvmstate_to_list()
+          */
+         kvm_arm_cpu_pre_save(cpu);
+-    } else {
+-        if (!write_cpustate_to_list(cpu, false)) {
+-            /* This should never fail. */
+-            abort();
+-        }
+     }
+ 
+     cpu->cpreg_vmstate_array_len = cpu->cpreg_array_len;
+@@ -754,20 +751,16 @@ static int cpu_post_load(void *opaque, int version_id)
+          */
+         write_list_to_cpustate(cpu);
+         kvm_arm_cpu_post_load(cpu);
+-    } else {
++    }
++    if (tcg_enabled()) {
+         if (!write_list_to_cpustate(cpu)) {
+             return -1;
+         }
+-    }
+-
+-    if (tcg_enabled()) {
+         hw_breakpoint_update_all(cpu);
+         hw_watchpoint_update_all(cpu);
+-
+         pmu_op_finish(&cpu->env);
+         arm_rebuild_hflags(&cpu->env);
+     }
+-
+     return 0;
+ }
+ 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.26.2
 
 
