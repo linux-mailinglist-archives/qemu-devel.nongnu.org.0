@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C64345DDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:13:04 +0100 (CET)
-Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9066345DEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:18:09 +0100 (CET)
+Received: from localhost ([::1]:38112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOfuA-0006cp-NW
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:13:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
+	id 1lOfz6-0001na-Su
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lOfs0-00068x-93
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:10:48 -0400
-Resent-Date: Tue, 23 Mar 2021 08:10:48 -0400
-Resent-Message-Id: <E1lOfs0-00068x-93@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21370)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lOfrp-0004lP-4R
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:10:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616501389; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=YXqLpFvMPbbDAFaf1dcWX4bm5yDooNL1J8t0UmftkjdxLS7Wlzo1PzWWQK0PFb3t/mX1DDhZ7EnsDbpO2FRNozcC3i6zv4Wzx3vj918UtHGtUnU4DUJxAOt/x8bjFGyIQWK3PZSFGWlOSbiXsnx/2YpOs7ncywkrpWDETQgzB3o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616501389;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6sm2KDuw+zGeZXN55d44cEmnqcc5ATtAm3nYJ22mvu0=; 
- b=LToxXSNqPqf8Eyr5mMooOOsqKOrhhjNuz3MPPxBak9+BR52bQy/RfJ0C/fHERQKX+4+3isiHrH8lsiP2Ok4HVkViHs+gEhTQEdTlUyGOKVv1aGurn1WcRFsTuMe6UWxLgqmwWXqKF6y07o6dSleSeMQTKV4lebouuTBsdIvxzow=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 16165013854585.303282620057075;
- Tue, 23 Mar 2021 05:09:45 -0700 (PDT)
-In-Reply-To: <20210323120439.563855-1-anthony.perard@citrix.com>
-Subject: Re: [PULL 0/1] xen queue 2021-03-23
-Message-ID: <161650138433.9581.1964473934310510991@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOfwu-0000hv-Nj
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:15:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48012)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOfwj-0007qE-SN
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:15:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOfwg-0002tH-EF
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 63D852E8166
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:15:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Mar 2021 12:10:06 -0000
+From: Peter Maydell <1920913@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Mar 2021 05:09:45 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nam121 pmaydell
+X-Launchpad-Bug-Reporter: Namrata Bhave (nam121)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161649998851.23806.5550710395623491265.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161650140676.24097.11506560504017802747.malone@chaenomeles.canonical.com>
+Subject: [Bug 1920913] Re: Openjdk11+ fails to install on s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: bcb3670f81d82a306dcdaab4f2924ba270f3b2d8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,38 +70,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: anthony.perard@citrix.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Bug 1920913 <1920913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyMzEyMDQzOS41NjM4
-NTUtMS1hbnRob255LnBlcmFyZEBjaXRyaXguY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
-IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
-Cm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMjMxMjA0
-MzkuNTYzODU1LTEtYW50aG9ueS5wZXJhcmRAY2l0cml4LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzFd
-IHhlbiBxdWV1ZSAyMDIxLTAzLTIzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
-YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
-IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
-dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
-PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
-IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAg
-ICAgICBwYXRjaGV3LzIwMjEwMzIzMTIwNDM5LjU2Mzg1NS0xLWFudGhvbnkucGVyYXJkQGNpdHJp
-eC5jb20gLT4gcGF0Y2hldy8yMDIxMDMyMzEyMDQzOS41NjM4NTUtMS1hbnRob255LnBlcmFyZEBj
-aXRyaXguY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTc1MmEzNyB4ZW4tYmxv
-Y2s6IEZpeCByZW1vdmFsIG9mIGJhY2tlbmQgaW5zdGFuY2UgdmlhIHhlbnN0b3JlCgo9PT0gT1VU
-UFVUIEJFR0lOID09PQpFUlJPUjogQXV0aG9yIGVtYWlsIGFkZHJlc3MgaXMgbWFuZ2xlZCBieSB0
-aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBBbnRob255IFBFUkFSRCB2aWEgPHFlbXUtZGV2
-ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTUgbGluZXMgY2hl
-Y2tlZAoKQ29tbWl0IDk3NTJhMzc5ZTk5MCAoeGVuLWJsb2NrOiBGaXggcmVtb3ZhbCBvZiBiYWNr
-ZW5kIGluc3RhbmNlIHZpYSB4ZW5zdG9yZSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMjMx
-MjA0MzkuNTYzODU1LTEtYW50aG9ueS5wZXJhcmRAY2l0cml4LmNvbS90ZXN0aW5nLmNoZWNrcGF0
-Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
-dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
-byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+You don't say how you're invoking QEMU (system emulation? usermode? what
+command line?) Please give the full commandline, repro steps, and any
+files/images we would need to reproduce the failure.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920913
+
+Title:
+  Openjdk11+ fails to install on s390x
+
+Status in QEMU:
+  New
+
+Bug description:
+  While installing openjdk11 or higher from repo, it crashes while configur=
+ing ca-certificates-java.
+  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
+tached to this issue.
+
+  ```
+  # A fatal error has been detected by the Java Runtime Environment:
+  #
+  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
+  #
+  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
+buntu-0ubuntu1.20.04)
+  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
+ed mode, tiered, compressed oops, g1 gc, linux-s390x)
+  # Problematic frame:
+  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
+) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
+  #
+  # Core dump will be written. Default location: Core dumps may be processe=
+d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
+425)
+  #
+  # An error report file with more information is saved as:
+  # //hs_err_pid8425.log
+  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
+t/core.10740)
+  #
+  # An error report file with more information is saved as:
+  # /root/hs_err_pid10740.log
+  ```
+
+  Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
+ost.
+  Please note, on native s390x, the installation is successful. Also this c=
+rash is not observed while installing openjdk-8-jdk.
+
+  Qemu version: 5.2.0
+
+  Please let me know if any more details are needed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920913/+subscriptions
 
