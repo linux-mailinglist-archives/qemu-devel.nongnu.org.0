@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642EF345536
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:02:34 +0100 (CET)
-Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761CB345535
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:02:33 +0100 (CET)
+Received: from localhost ([::1]:37944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWNN-0004CC-CP
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
+	id 1lOWNM-0004Au-GE
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKV-0002E3-Hy
+ id 1lOWKV-0002Dw-I2
  for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:35 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2065)
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKQ-0006tH-IK
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:35 -0400
+ id 1lOWKR-0006u2-A9
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616464770; x=1648000770;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=YHU0culXZFnX+5M1fqhNAwWOU4KPobyrbIUe6pRKTSo=;
- b=O3FzEV4RYkWpvadFoghBMWaoZZfziywxUDoCjahclZ/krU0aHVLnp44c
- 2bDx942CC+52yIfQPoNlnDzMhcA/Q3ECg8YoyPbWaHZcxjdz+PisC0Syv
- UXmFRAQWPKxmiNIt+5qKuUPgCCV6O0m+R50/UVnMRXHr9sF/xy6B7Lx1/
- /yNufVCYFVmSvcpKlqwmYxk0zE35t8mRyw1JursnxGI1sKhgp8WuEx0vS
- 6GOZCb5H7zqZhZwEiIlrvhzYpU1vJIpg2pE77gNlWMUMg/FIjid+gOGlk
- 59cgueqtiXmK8sOAXTqr2x44XSqcaoHQkQDXsB0VKX5hP/vA0LGxXMZZx Q==;
-IronPort-SDR: S28EBmy2rUx6yTfSJhN/bnxve0Spj8Dqeic+ijXgIGKpMuatCtA3n29lRO4GfXwn3Lu+PnamHf
- apreejHzN6JLvgfC13z08JCVwwBxqr91dr1gjclWA+Ar7l4w9I1aAxGBveOn3X21GldugNDy5w
- nXwzreOpECzMCfz5t2a2r75h8d2IZ5DQMtOA4pH406mIkLjz0OCpQJhWPP5HMgrCSjRl6kEtwQ
- tzTlzQ0vITHrStUg9XXLd4NfDKhZIc1S9HRmV4YjoriWfEUStOWda2s2N/fgzGsU08BcI6nXzq
- F3o=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707618"
+ t=1616464771; x=1648000771;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=5cxLdJ+6aVMG866gofXFqzW+8RWcHnphigjP9lE2nAA=;
+ b=r3N7+pXKmQfoHQy2oc8yvBN8EztY2GdT3f/3NiPcWZndK6P5jCwOa3vA
+ 3C1246iL4FHHOvqPu5JsWaa1ysK4AYOSsbXmJITwWqdMlsqj9bhOPvhE4
+ /jFSHzKWnrNDo1sI+wxFa+u9ERiiR69MNzSHEkAHNHHhU3GAA255uUVHn
+ aWQiLm1TIshgvlsWtapUlroIdZHntQ33umjYy2oyRx1Q4EZQOJwSLPAQL
+ CcdMm606atjBQWML6yOjxXdFfE0cA1/3Xz+9L8sJQX6byWNeI6eEA2Mv+
+ a/ZTZAFdDSnp3VIVWgdfTDbeKhAV7Wmfa/DuUc0LA4Fb9YC94A/Mxphzs g==;
+IronPort-SDR: DzEdH+CpCGgsr1wPpY0mNdylIspintX9Ou18uykS42cOoXj4OC41ZyRWPuoQjGdsFbtereZIFz
+ lr3WTnUuVMV7Vt/rNHDf2G7eSZiP5b2o39ehlXWXVl2XIc0IvzpfvUYe4ZD6BLONssYxSiAwpy
+ KMug/6A7xUi8Q7Jhb6bmdvJkKy32EDB0DpKZZITpA+PcaIt7+ctWek8846ui12wLqHvaJZBB0D
+ bkV40b4BkpByG/Lng/bYgGLdJvB7V+vCS3DdI+AWzPO1QM2W+vdDT3cg1jbXS0q7uzUn5xHjnD
+ XQs=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707623"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:27 +0800
-IronPort-SDR: DEBOADmfJcSchBY//vSW2ObGLhkowWs4sEChCLr8FyJxnIYh6WdyCBmwWhNge02mhXYAlmpvkz
- 4sbxya4cUpj6WN5hC1Ak+peiuCR0Iga1brNT2K0yPhjCimsw49F9NhbxK8pe50i3wLN5RpN0u1
- YmifHedfqURKQyEpPqPWkns/VsxKSv77kVsmKT2QcRy4YsOb9nlj25mC0HCEXzNKMbo/Uoqmq7
- JwQ3rEuE2CDi63TGBNPWEUkyJRf7Uqr02NmdHBWG4lY+BcKXUcyDLJD613eGHiTfRtycGGVWb8
- E+fH+daPT3B4BiDARUTXqQ3t
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:28 +0800
+IronPort-SDR: XGz16Adje9745tsGCnyGnJoJLWIJHjwbVxhbQj9HPOGXdpfJLV+5t655/290jkYpNnhW4dZDKY
+ fCX72XBA0+DZmtXM85/4smv4tb8DktJm0XW7/trTrcNb2wo0MdqTGHwWznT7FXC/2jRpuKpu9n
+ vl+A/45bG0QCzS5o2D2KJtGxyslEOzk5TM1B5Vd9WZgyJ752ehTvTyYE2JvVwsjQ+OfFBo2CxG
+ o4+mLGkB6wWc204foLiNQladr0X+CADpirjbDNRYVrcO6iop4mmI8c8ZICLDsEH1C8hmXvw37q
+ CBWhnrF0J4X2RF2woeq5oKEx
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:35 -0700
-IronPort-SDR: KCkXndwDJA81MG/xI6x3XfXoUH6KO2kRb8zBRi+q9MHAmUp34ldt3i9Te2IuTPxcb6ULFIPbtj
- +Pnqa4+dCNpPsMdtvDKhVteShpbGGqQjs5uYZYRRE1qk29Q8UNssr6ZMyPr+ELgbPSmzp3SVyn
- YGhhTEd72vj0LFf+trD2tEK5TyVSm1RmzayYjUQUbwnIMvx5gMStCcOMw3/Nz3hFO7GX3XqyFw
- OxWjil9kc6aWyTre7hUc20MR6T7zpeZhVxnlLoDBjTczlsvWpp9AIb7uVv0dcaXYNluPUfERHS
- Oqc=
+ 22 Mar 2021 18:41:36 -0700
+IronPort-SDR: ml+0iKLwCImZq8PI+Fdqn/gc8f50K8Xmcbnv81sqhaCveMa2ypcuVWJMmD+1l5bhmre9L1nGaz
+ li3R4QkXd8pDvdhFiCOuU3Q6a8PzvuCvdv1I1CndrOS+akJnhj5LNB3XPbiiQYFaAqSjtlqntq
+ 0GccIjq31uYZldk2PemkEF4CGR4noXqaKNa355z9V/MJUkvk1opAep3BOfUzKMyDLucful7Oy0
+ K3/xgPhFVHeuMEOQ5h0+D06fthpAgEU5pxHUe82xHQ0wDQBmSvsdXNj5yMRHfMw7kIc7C+G+CM
+ jxY=
 WDCIronportException: Internal
 Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.49.5])
  by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:27 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/16] riscv-to-apply queue
-Date: Mon, 22 Mar 2021 21:57:40 -0400
-Message-Id: <20210323015756.3168650-1-alistair.francis@wdc.com>
+Subject: [PULL 01/16] target/riscv: fix vs() to return proper error code
+Date: Mon, 22 Mar 2021 21:57:41 -0400
+Message-Id: <20210323015756.3168650-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
+References: <20210323015756.3168650-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
@@ -89,81 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org
+Cc: Frank Chang <frank.chang@sifive.com>, alistair23@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c95bd5ff1660883d15ad6e0005e4c8571604f51a:
+From: Frank Chang <frank.chang@sifive.com>
 
-  Merge remote-tracking branch 'remotes/philmd/tags/mips-fixes-20210322' into staging (2021-03-22 14:26:13 +0000)
+vs() should return -RISCV_EXCP_ILLEGAL_INST instead of -1 if rvv feature
+is not enabled.
 
-are available in the Git repository at:
+If -1 is returned, exception will be raised and cs->exception_index will
+be set to the negative return value. The exception will then be treated
+as an instruction access fault instead of illegal instruction fault.
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210322-2
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210223065935.20208-1-frank.chang@sifive.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/csr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 9a27f69bd668d9d71674407badc412ce1231c7d5:
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fd2e6363f3..d2ae73e4a0 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -54,7 +54,7 @@ static int vs(CPURISCVState *env, int csrno)
+     if (env->misa & RVV) {
+         return 0;
+     }
+-    return -1;
++    return -RISCV_EXCP_ILLEGAL_INST;
+ }
+ 
+ static int ctr(CPURISCVState *env, int csrno)
+-- 
+2.30.1
 
-  target/riscv: Prevent lost illegal instruction exceptions (2021-03-22 21:54:40 -0400)
-
-----------------------------------------------------------------
-RISC-V PR for 6.0
-
-This PR includes:
- - Fix for vector CSR access
- - Improvements to the Ibex UART device
- - PMP improvements and bug fixes
- - Hypervisor extension bug fixes
- - ramfb support for the virt machine
- - Fast read support for SST flash
- - Improvements to the microchip_pfsoc machine
-
-----------------------------------------------------------------
-Alexander Wagner (1):
-      hw/char: disable ibex uart receive if the buffer is full
-
-Asherah Connor (2):
-      hw/riscv: Add fw_cfg support to virt
-      hw/riscv: allow ramfb on virt
-
-Bin Meng (3):
-      hw/block: m25p80: Support fast read for SST flashes
-      hw/riscv: microchip_pfsoc: Map EMMC/SD mux register
-      docs/system: riscv: Add documentation for 'microchip-icicle-kit' machine
-
-Frank Chang (1):
-      target/riscv: fix vs() to return proper error code
-
-Georg Kotheimer (6):
-      target/riscv: Adjust privilege level for HLV(X)/HSV instructions
-      target/riscv: Make VSTIP and VSEIP read-only in hip
-      target/riscv: Use background registers also for MSTATUS_MPV
-      target/riscv: Fix read and write accesses to vsip and vsie
-      target/riscv: Add proper two-stage lookup exception detection
-      target/riscv: Prevent lost illegal instruction exceptions
-
-Jim Shu (3):
-      target/riscv: propagate PMP permission to TLB page
-      target/riscv: add log of PMP permission checking
-      target/riscv: flush TLB pages if PMP permission has been changed
-
- docs/system/riscv/microchip-icicle-kit.rst |  89 ++++++++++++++
- docs/system/target-riscv.rst               |   1 +
- include/hw/char/ibex_uart.h                |   4 +
- include/hw/riscv/microchip_pfsoc.h         |   1 +
- include/hw/riscv/virt.h                    |   2 +
- target/riscv/cpu.h                         |   4 +
- target/riscv/pmp.h                         |   4 +-
- hw/block/m25p80.c                          |   3 +
- hw/char/ibex_uart.c                        |  23 +++-
- hw/riscv/microchip_pfsoc.c                 |   6 +
- hw/riscv/virt.c                            |  33 ++++++
- target/riscv/cpu.c                         |   1 +
- target/riscv/cpu_helper.c                  | 144 +++++++++++++++--------
- target/riscv/csr.c                         |  77 +++++++------
- target/riscv/pmp.c                         |  84 ++++++++++----
- target/riscv/translate.c                   | 179 +----------------------------
- hw/riscv/Kconfig                           |   1 +
- 17 files changed, 367 insertions(+), 289 deletions(-)
- create mode 100644 docs/system/riscv/microchip-icicle-kit.rst
 
