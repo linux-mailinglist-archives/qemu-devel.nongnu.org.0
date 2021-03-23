@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7C2345CED
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:32:33 +0100 (CET)
-Received: from localhost ([::1]:52690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A453345D15
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:37:58 +0100 (CET)
+Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOfGw-0001Pt-Pa
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
+	id 1lOfMC-0006fl-HA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lOfE4-0007qN-QC
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:29:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lOfDy-0006tj-FV
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:29:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616498964;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B/zrdNBxSAl6tRXNe7iE3qi2T2ItNbc4GK0x6YASOb4=;
- b=cdRtc90OhuGMtb+OrSOb8h1Aumfxzr9COakV1ab3rbbHos0I4qNACnQ+CJYvt0GXYsMjte
- iNXx6UWPBBlnZ7OJcbJUG+/jvDM8A8sgzEZPHzb/2ewtGeUTaDxo4TyuUBE4ipsgNU81UK
- p/eW+RLo7YU9HOWgXyblGZphsNs8qPs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-p_GPJpZuOiSLVvp7b2eELg-1; Tue, 23 Mar 2021 07:29:19 -0400
-X-MC-Unique: p_GPJpZuOiSLVvp7b2eELg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49B051083E80;
- Tue, 23 Mar 2021 11:29:18 +0000 (UTC)
-Received: from redhat.com (ovpn-113-223.ams2.redhat.com [10.36.113.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2739219C87;
- Tue, 23 Mar 2021 11:29:13 +0000 (UTC)
-Date: Tue, 23 Mar 2021 11:29:11 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4] sphinx: adopt kernel readthedoc theme
-Message-ID: <YFnRBwWPAA9TRntZ@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOfKy-0005fV-2a
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:36:41 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOfKt-00028l-HV
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:36:39 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id ce10so26515546ejb.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 04:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sFHsLSqAoUCk0Lkk/3/WJkxqJ6Pe4HAEBRo8EESCje8=;
+ b=LvgsptxMt6Y9tPn5NxQI5UrC1bSFQwzKbFzy74aJewZc2m/j8M+JNhJADSjQm/+fgp
+ xieA3gHMJkcX70cAXw1BHi3jvm/z5dlHPekrxi8KV7yreRN38kaH5o4i9SKY1Y8RsMrR
+ 2K/qK+C3ynLpuTxWUQEMJEy/RjbWzkmY7tanucF9Bzsr4lKt/IBYdAEXAfd8DMEgEyBO
+ w5AGO4LtYdJwGAa7/IH5WXd4Gf/2YqFmMsVv+orpIaon4X258Hb4xZOEPLJ0uC9JP4BU
+ ViF9OWtoDyISBRgkOCw3LoAR1kaaenDVS/xkzge+5Mwa4LGeH2mH2xC7ellvYDwLtSis
+ 8c1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sFHsLSqAoUCk0Lkk/3/WJkxqJ6Pe4HAEBRo8EESCje8=;
+ b=CFHQ3AH2wA1wuQz3Y13VrXQsVf/T1IEvRX+L1RTCaJY1MPpu+wmhpKlfQxh9udh6Fv
+ k3NLGS/XNvRH33qcncA7BMkNgZNdg1eYZW+0APJ05ENCrnnI2dUZLgcHfCpAglsmex5T
+ ULfjKKtKVeOngOsigxTHZdl3QNfwM7bvaD7CXkPTwTUOEt892cJGHlY390B0G5vG5JYX
+ DkcTw8Rnn1IgC290+LovLLAqBWBSyjUdTKvNoVZxFucwA6z/DYfqaTX6F+xe2qErKQoV
+ gv+RdwAOdImQncVwLncb+Vj5I+cGcPV6dYcyxIUW2xoDIw8dtRTKPlyKDpyGkVtuf7iP
+ N66w==
+X-Gm-Message-State: AOAM5326m4xSD7sUu1rFTRvaiLw9HGoPTyM8F7pqy+++kpEOh/1Vbkg1
+ fObdIbyWQwcgRpWomDzzYgK4RfY9ckeGgFlZwiGsYg==
+X-Google-Smtp-Source: ABdhPJyvh9s1tb/Ww4J5bf+M3nEQQfGTpRM//fQfCKCuvuOPlb1mXuF+pYgAHBLjR5OfargX017L7FIdFXQnY1kg1Lk=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr4595457ejc.250.1616499393134; 
+ Tue, 23 Mar 2021 04:36:33 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210322105234.3932691-1-marcandre.lureau@redhat.com>
  <YFnCfhiaixbn7lMy@redhat.com>
  <CAFEAcA_f2fMmVS=Pt6Zd7Si5L2YfRMH+dJZ_pZd=E-neKpxUOg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_f2fMmVS=Pt6Zd7Si5L2YfRMH+dJZ_pZd=E-neKpxUOg@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ <YFnRBwWPAA9TRntZ@redhat.com>
+In-Reply-To: <YFnRBwWPAA9TRntZ@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 23 Mar 2021 11:36:04 +0000
+Message-ID: <CAFEAcA_BL1myi878cE5V48EeUpvzq5HUMgU5fKP74YRsutjdjQ@mail.gmail.com>
+Subject: Re: [PATCH v4] sphinx: adopt kernel readthedoc theme
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,68 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
  Bin Meng <bmeng.cn@gmail.com>, John Snow <jsnow@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 11:00:29AM +0000, Peter Maydell wrote:
-> On Tue, 23 Mar 2021 at 10:27, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Mon, Mar 22, 2021 at 02:52:34PM +0400, marcandre.lureau@redhat.com wrote:
-> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > The default "alabaster" sphinx theme has a couple shortcomings:
-> > > - the navbar moves along the page
-> > > - the search bar is not always at the same place
-> > > - it lacks some contrast and colours
-> > >
-> > > The "rtd" theme from readthedocs.org is a popular third party theme used
-> > > notably by the kernel, with a custom style sheet. I like it better,
-> > > perhaps others do too. It also simplify "Edit on Gitlab" links.
-> 
-> > >  # Add any paths that contain custom static files (such as style sheets) here,
-> > >  # relative to this directory. They are copied after the builtin static files,
-> > >  # so a file named "default.css" will overwrite the builtin "default.css".
-> > > -# QEMU doesn't yet have any static files, so comment this out so we don't
-> > > -# get a warning about a missing directory.
-> > > -# If we do ever add this then it would probably be better to call the
-> > > -# subdirectory sphinx_static, as the Linux kernel does.
-> > > -# html_static_path = ['_static']
-> > > +html_static_path = [os.path.join(qemu_docdir, "sphinx-static")]
-> > > +
-> > > +html_css_files = [
-> > > +    'theme_overrides.css',
-> > > +]
-> >
-> > Does this still have a good result in the case where we fall back
-> > to alabaster theme ?
-> 
-> How much do we want to retain support for multiple themes? When
-> I was first putting in the Sphinx documentation I found that some
-> things were kind of theme-specific, in that tweaking things to look
-> and read sensibly in one theme made them look a bit weird in another.
-> If we said "we support only the rtd theme and mandate it" would that
-> cause much pain for downstreams and end-users ?
+On Tue, 23 Mar 2021 at 11:29, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+> The theme is pre-packaged for Fedora, Debian, Ubuntu, which gives me
+> confidence for Linux distros in general.
+>
+> BSD / macOS / Windows, who knows ?
 
-The theme is pre-packaged for Fedora, Debian, Ubuntu, which gives me
-confidence for Linux distros in general.
+Mmm, good point. Marc-Andr=C3=A9's the one who's been doing the work
+here, so I'm happy to leave it up to him if he thinks retaining
+the fallback is the best approach.
 
-BSD / macOS / Windows, who knows ?
+> We could check for rtd theme in meson, and disable the docs build
+> if missing.
 
-We could check for rtd theme in meson, and disable the docs build
-if missing.  Might be better than pretending to have alabaster
-fallback which none of us will ever test, and then get bugs about
-it.
+If you make the docs/conf.py raise an error if the theme is missing,
+then the existing docs/meson.build "does sphinx work?" test will
+disable the docs build. (You would want to improve the error message
+to note that the problem might be missing theme, though.)
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
