@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECCA3465B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:53:19 +0100 (CET)
-Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D76B3465D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:02:01 +0100 (CET)
+Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkHO-0004pw-Ap
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:53:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39832)
+	id 1lOkPo-0001DC-18
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lOjL3-0006Ta-CM
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:53:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lOjL1-00044Y-JP
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:53:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616514778;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kqSbhYbabt5zE7Rqn1MwXE91RmgoMPXsixPcdC2bOqY=;
- b=YKL9cDLaI+0M/pePIFSwYcdnPa1A3BKFPYVg9tbWBNebItlfq92ZuqvIe7W9T4DWEC0qzb
- sS7FMIqxkIRj0HnLBj2aowZHBnkrZ+Kyvechpc50sb06X83ZhfqPt0ZESXp4pt8ezyLP65
- hC3MJJ63CgjbfsGqTV86CPp9syRBS/I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-iBeyBsF_NF2ITIG542cIFg-1; Tue, 23 Mar 2021 11:52:55 -0400
-X-MC-Unique: iBeyBsF_NF2ITIG542cIFg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64E53800D53;
- Tue, 23 Mar 2021 15:52:53 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5997A196E3;
- Tue, 23 Mar 2021 15:52:53 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
- (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4BC551809C82;
- Tue, 23 Mar 2021 15:52:53 +0000 (UTC)
-Date: Tue, 23 Mar 2021 11:52:53 -0400 (EDT)
-From: Cleber Rosa <crosa@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <1646734908.41328831.1616514773000.JavaMail.zimbra@redhat.com>
-In-Reply-To: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
-References: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOjOV-0001j9-HH
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:56:36 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOjOU-00066A-2I
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:56:35 -0400
+Received: by mail-wr1-x436.google.com with SMTP id e9so21301722wrw.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 08:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Q5ezwumITBdg52+I9sS+Z/bxVtNRGHZLANt/9npX2nQ=;
+ b=T4EiU68qfKsr0jgElrt6cwF9dWG7FhULNUPdPeeF+cS6I0Sy+/2KKZfp8ou+WmP3+g
+ DPcsX9xURZDIyhFNTBRYd5o54bi+iaQRhNxMdpOZnjGy3LF6poW0hl5dS/dd4nRG4uht
+ etKWL4nLKjcfsOJ44EY/xIHhfsXLYqTx8GQ0kUi42eRHBX51XSqfSnX/SDlepNInVwBu
+ CUWC94LXjcIpMQ5UQO9zm6aUiMoXV45X8z8y0l15vYUFOr6M1wG7Y9lr41v48lS51aQw
+ ginEUYVrdnEeMRCDqjPgxxCr/l4jqdI2o28lgrAU3Ri3PLlxvCYXj1QaMjxcoBoiVx0n
+ 8/Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q5ezwumITBdg52+I9sS+Z/bxVtNRGHZLANt/9npX2nQ=;
+ b=EygPdzAiy+lksyBf1/lXaufsD9P15dihfpYD5/ccGQfdjzFNJeFJ/2OS3s3ZsvvNvb
+ Mo+sQ8eg8sckmkI2Mn6CthOmweMOirZTPuXX085UCdIWGUXo3ATEb2Qhjja3AlHMpQOv
+ sW9h5jitahrpiyA1WVp3eHJCSLunPkDCWYCSlkX8yLDQXDABiXfIcpPGEBuOyB8puZV/
+ 10LpMDAlUd+iam36tE2eYVSNpfqdYHY/57TZDRGd/slAYm1BPFTujMazDBQTPtdYuZ+8
+ ftflBf3Jma2XP4FWbMraLPE+8lX/6c1uyNGKNCKdIiQVoKT2jcAOWto5apiOtUTeQV2i
+ 0pLw==
+X-Gm-Message-State: AOAM530xrVO7ZbtI4gTiLmuRh+1WfXU6kP4czGYiVns4fLKrmu5pik4i
+ 8ry76/Wueo6+Gf+699lY4J4=
+X-Google-Smtp-Source: ABdhPJwOeHdqhD3PyXOAqiDrgXYzRjb8HhLXoHNVzNtDskcCQvIO0W8JmPLNLtwM8U8iCMVWHnG9Xw==
+X-Received: by 2002:adf:edc3:: with SMTP id v3mr4542079wro.79.1616514992730;
+ Tue, 23 Mar 2021 08:56:32 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id h20sm2894272wmm.19.2021.03.23.08.56.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 08:56:32 -0700 (PDT)
 Subject: Re: 'make check-acceptance' odd error: "'bytes' object has no
  attribute 'encode'"
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <67ae4815-8542-e6f7-b3a7-192151f85c9e@amsat.org>
+Date: Tue, 23 Mar 2021 16:56:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Originating-IP: [10.10.119.39, 10.4.195.26]
-Thread-Topic: 'make check-acceptance' odd error: "'bytes' object has no
- attribute 'encode'"
-Thread-Index: ch9wrRDzOb2ceBcJEjhyznxbHR+Zyw==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA_j3iBiwxNCN7AdDUv6rTGTn_gAzQ9E-h2dG9bmk3ez_g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,19 +90,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: avocado-devel <avocado-devel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc'ing avocado-devel@
 
-
------ Original Message -----
-> From: "Peter Maydell" <peter.maydell@linaro.org>
-> To: "QEMU Developers" <qemu-devel@nongnu.org>
-> Cc: "Cleber Rosa" <crosa@redhat.com>
-> Sent: Tuesday, March 23, 2021 11:23:30 AM
-> Subject: 'make check-acceptance' odd error: "'bytes' object has no attribute 'encode'"
-> 
+On 3/23/21 4:23 PM, Peter Maydell wrote:
 > I just got this running 'make check-acceptance': does it
 > ring a bell with anybody?
 > 
@@ -120,8 +118,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > Error running method "pre_tests" of plugin "fetchasset": 'bytes'
 > object has no attribute 'encode'
 > JOB ID     : 71b2d5569d9ccc8b68957d3ad2b2026bea437d66
-> JOB LOG    :
-> /home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/tests/results/job-2021-03-23T15.09-71b2d55/job.log
+> JOB LOG    : /home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/tests/results/job-2021-03-23T15.09-71b2d55/job.log
 >  (001/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg:
 > PASS (465.84 s)
 >  (002/142) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_kvm:
@@ -133,15 +130,5 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > thanks
 > -- PMM
 > 
-> 
-
-Yes.  But it's harmless, and it has been fixed here:
-
-  https://github.com/avocado-framework/avocado/pull/4416
-
-It will go away on the next Avocado version bump (post 6.0).
-
-Regards,
-- Cleber.
 
 
