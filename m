@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DB934598D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 09:20:39 +0100 (CET)
-Received: from localhost ([::1]:36516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A521D3459F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 09:40:57 +0100 (CET)
+Received: from localhost ([::1]:45574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOcHF-00048u-VX
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 04:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40686)
+	id 1lOcau-0003gq-AQ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 04:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOcFe-0003LV-4K
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 04:18:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOcFb-0003gd-CP
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 04:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616487529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IxOap5T2zKNrkkj0ZLMIM2Qn1M+tthlDpFL5pg0F9pQ=;
- b=RtOh4kMqreTnZsq6m2T4aMhM+H3Glv9shntzbO148DnTcFoRsxX/2u6z0kEuaIiC8Ye1rS
- BLjwup+XSzxQ0munqEEEUyOJsxbGl43VvfYdHASSbhliNf6ZoEsMVeA9XTcnnRHfM9TlzA
- cN7AjVFF2ogg+HJ4MmW7kzszZDY7HuY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-q0UQmXmfPEySi5Wf9cXoDQ-1; Tue, 23 Mar 2021 04:18:48 -0400
-X-MC-Unique: q0UQmXmfPEySi5Wf9cXoDQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 093BE107B7C3;
- Tue, 23 Mar 2021 08:18:47 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
- [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04E81612A5;
- Tue, 23 Mar 2021 08:18:44 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6137918000B9; Tue, 23 Mar 2021 09:18:42 +0100 (CET)
-Date: Tue, 23 Mar 2021 09:18:42 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 00/15] virtio-gpu: split into two devices.
-Message-ID: <20210323081842.yifdhyu4smznleqd@sirius.home.kraxel.org>
-References: <20210319112147.4138943-1-kraxel@redhat.com>
- <CAJ+F1C+FPAwLxCtZG+Fhnizqy7KU2ttdr0w72WWoS+mprthgwA@mail.gmail.com>
- <20210322081454.vpkvybavjoaqfa6q@sirius.home.kraxel.org>
- <7bce08a87c9c4deeb511f555ed835c49@intel.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOcZV-0003FG-1T
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 04:39:29 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:42498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOcZS-0007wl-Vn
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 04:39:28 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ b2-20020a7bc2420000b029010be1081172so10328654wmj.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 01:39:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7EyCUWJhuqa/ESG31F9QDIVH3zVvwdpO6eX7fCncDCM=;
+ b=SbeFIxMr2CPTUgs0XIUCOiigEMyk1F97jwR/5MRj476x0WcJPR2LJTx9MJik7K15oD
+ 9vG8hlwaJwK+Es2wjcYBUv34Px6cdpYwapg2XmkaxUQ4y8I6bp+PqmG7qJJo7/UMxLx5
+ IksdQijDSlmxaW3ExrmAYuWftPrjLJ8boRU3LwMV7x+aSsEO5uD4Kbq/1GyEUZefjQ8M
+ QhIXGYRNKL/r8tu4qs0QxkMrlSr8sIhExy3hkaduwO9DtdJY65vuR0efFnZQ4L2eYnaR
+ FkPB33si077QrcVh4Q+A4Gd5+pnSVqnwpUG83Z68k2azJzTptGVP8rrZtvVahp8HDCU6
+ 83eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7EyCUWJhuqa/ESG31F9QDIVH3zVvwdpO6eX7fCncDCM=;
+ b=Y1ePrmj3l2BJOrWKaTsbvKiW41wfYqyALB88Bt+CwWuRZgd9KT7n3kIIgD0D0h15jj
+ RidhakJAsI6fZJsTDOvpgVC1yLU4/MaiWISXxyenl/Iql28VEb7kQ+PtLRJn8OjULd2Z
+ KSzm4TNrAsDq33g8iav+hlSbYv6o29lWVjoJkibrOCfrsRMzaPQpQ7LawgTnyHcXUmxd
+ pEHXCqjSdqiVIx3XCaHINX497SSesmixdR1jSCtOqJboUm2/muVsMyRnSssd2siZBq3d
+ wdHS544Mh3PS4ue7i9PmqhlJ0o+0jKU4nG5L1bG0VJR8sSmqRhrQy+G6J8cd5KNOjjd2
+ PP6g==
+X-Gm-Message-State: AOAM530C81QnVUM5UpJL+l6Avm9GWZhoyouK9mPunj2F1+KlB+uj9pLu
+ J+PzFvZNT0ECSOlEDvKkorg=
+X-Google-Smtp-Source: ABdhPJzIOMcrg+vZXYP2fP0RgQBDy5mdanwcCnNfKm29i3dmzNtkkyXR6zTw/3GmEn5VhtDzLCHgCQ==
+X-Received: by 2002:a05:600c:21ca:: with SMTP id
+ x10mr2286193wmj.48.1616488764991; 
+ Tue, 23 Mar 2021 01:39:24 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id i10sm22633388wrs.11.2021.03.23.01.39.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 01:39:24 -0700 (PDT)
+Subject: Re: [PATCH 07/11] hw/gpio/avr_gpio: Add tracing for reads and writes
+To: "Niteesh G. S." <niteesh.gs@gmail.com>
+References: <20210313165445.2113938-1-f4bug@amsat.org>
+ <20210313165445.2113938-8-f4bug@amsat.org>
+ <CAN6ztm_kaTkbBK7=ALMmMSmShzuOx=S2vUBy2N1D-P__T9um2A@mail.gmail.com>
+ <CAN6ztm9STVjzKRpUY+kaTiz6W06mbwcG7KBVbwdiZ3HnR8mu6Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b5974014-f451-1ed9-68b2-b8d1cde0c267@amsat.org>
+Date: Tue, 23 Mar 2021 09:39:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <7bce08a87c9c4deeb511f555ed835c49@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAN6ztm9STVjzKRpUY+kaTiz6W06mbwcG7KBVbwdiZ3HnR8mu6Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,41 +93,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhang, Tina" <tina.zhang@intel.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Heecheol Yang <heecheol.yang@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 06:41:47PM +0000, Kasireddy, Vivek wrote:
-> Hi Gerd,
+Hi Niteesh,
+
+On 3/23/21 3:42 AM, Niteesh G. S. wrote:
+> Hii Phil,
 > 
-> > On Fri, Mar 19, 2021 at 03:48:42PM +0400, Marc-André Lureau wrote:
-> > > Hi Gerd
-> > >
-> > > On Fri, Mar 19, 2021 at 3:22 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > > > Currently we have one virtio-gpu device.  Problem with this approach is
-> > > > that if you compile a full-featured qemu you'll get a virtio-gpu device
-> > > > which depends on opengl and virgl, so these dependencies must be
-> > > > installed and the libraries will be loaded into memory even if you don't
-> > > > use virgl.  Also the code is cluttered with #ifdefs and a bit messy.
-> > > >
-> > > > This patch series splits the virtio-gpu device into two:
-> > > >
-> > > >  (1) virtio-gpu-device becomes the non-virgl device, same as
-> > > >      virtio-gpu-device,virgl=off today.
-> > > >  (2) virtio-gpu-gl-device is the new virgl device, same as
-> > > >      virtio-gpu-device,virgl=on today.
-> > > >
-> > > > When compiling qemu without virglrenderer support virtio-gpu-device
-> > > > behavior doesn't change.
-> [Kasireddy, Vivek] Just a random thought: if a user enables both these devices 
-> either intentionally or accidentally, can they play nice with each other?
+> A gentle reminder to push these patches.
 
-Yes, should work fine.
+Unfortunately the series is blocked by a legal issue in a previous
+patch:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg791443.html
 
-take care,
-  Gerd
+We are pending an update from Heecheol Yang.
 
+Regards,
+
+Phil.
 
