@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744183457E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 07:42:50 +0100 (CET)
-Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0871345803
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 07:51:57 +0100 (CET)
+Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOakb-0002Pl-1G
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 02:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49662)
+	id 1lOatQ-00058S-B0
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 02:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lOaio-0001zM-EO
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 02:40:58 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:4103)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lOaik-0003z3-H3
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 02:40:58 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F4MCC2Tnhz92my;
- Tue, 23 Mar 2021 14:38:47 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 23 Mar 2021 14:40:43 +0800
-Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
-To: Peter Xu <peterx@redhat.com>
-References: <20210310203301.194842-1-peterx@redhat.com>
- <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
- <20210322194533.GE16645@xz-x1>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <ddf6bf41-ab29-8bbc-d3fb-94938e42e215@huawei.com>
-Date: Tue, 23 Mar 2021 14:40:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOasF-0004RA-1J
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 02:50:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOasC-0001DL-Dm
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 02:50:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOasA-00084y-6j
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 06:50:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2E6D02E8157
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 06:50:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210322194533.GE16645@xz-x1>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Mar 2021 06:42:07 -0000
+From: Tao Xu <1920871@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: taoxu92
+X-Launchpad-Bug-Reporter: Tao Xu (taoxu92)
+X-Launchpad-Bug-Modifier: Tao Xu (taoxu92)
+Message-Id: <161648172746.20702.497420976182520260.malonedeb@wampee.canonical.com>
+Subject: [Bug 1920871] [NEW] netperf UDP_STREAM high packet loss on QEMU tap
+ network
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: c0b9a15d3f245e4f7c5e71a9e6251752a8dfba18
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,104 +69,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1920871 <1920871@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Public bug reported:
 
-On 2021/3/23 3:45, Peter Xu wrote:
-> On Mon, Mar 22, 2021 at 10:02:38PM +0800, Keqian Zhu wrote:
->> Hi Peter,
-> 
-> Hi, Keqian,
-> 
-> [...]
-> 
->> You emphasize that dirty ring is a "Thread-local buffers", but dirty bitmap is global,
->> but I don't see it has optimization about "locking" compared to dirty bitmap.
->>
->> The thread-local means that vCPU can flush hardware buffer into dirty ring without
->> locking, but for bitmap, vCPU can also use atomic set to mark dirty without locking.
->> Maybe I miss something?
-> 
-> Yes, the atomic ops guaranteed locking as you said, but afaiu atomics are
-> expensive already, since at least on x86 I think it needs to lock the memory
-> bus.  IIUC that'll become even slower as cores grow, as long as the cores share
-> the memory bus.
-> 
-> KVM dirty ring is per-vcpu, it means its metadata can be modified locally
-> without atomicity at all (but still, we'll need READ_ONCE/WRITE_ONCE to
-> guarantee ordering of memory accesses).  It should scale better especially with
-> hosts who have lots of cores.
-That makes sense to me.
+Hi, I boot a guest with "-netdev
+tap,id=3Dhn0,vhost=3Doff,br=3Dbr0,helper=3D/usr/local/libexec/qemu-bridge-
+helper" network option, and using "netperf -H IP -t UDP_STREAM" to test
+guest UDP performance, I got the following output:
 
-> 
->>
->> The second question is that you observed longer migration time (55s->73s) when guest
->> has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
->> ring enabled, Qemu can get dirty info faster which means it handles dirty page more
->> quick, and guest can be throttled which means dirty page is generated slower. What's
->> the rationale for the longer migration time?
-> 
-> Because dirty ring is more sensitive to dirty rate, while dirty bitmap is more
-Emm... Sorry that I'm very clear about this... I think that higher dirty rate doesn't cause
-slower dirty_log_sync compared to that of legacy bitmap mode. Besides, higher dirty rate
-means we may have more full-exit, which can properly limit the dirty rate. So it seems that
-dirty ring "prefers" higher dirty rate.
+Socket  Message  Elapsed      Messages                =
 
-> sensitive to memory footprint.  In above 24G mem + 800MB/s dirty rate
-> condition, dirty bitmap seems to be more efficient, say, collecting dirty
-> bitmap of 24G mem (24G/4K/8=0.75MB) for each migration cycle is fast enough.
-> 
-> Not to mention that current implementation of dirty ring in QEMU is not
-> complete - we still have two more layers of dirty bitmap, so it's actually a
-> mixture of dirty bitmap and dirty ring.  This series is more like a POC on
-> dirty ring interface, so as to let QEMU be able to run on KVM dirty ring.
-> E.g., we won't have hang issue when getting dirty pages since it's totally
-> async, however we'll still have some legacy dirty bitmap issues e.g. memory
-> consumption of userspace dirty bitmaps are still linear to memory footprint.
-The plan looks good and coordinated, but I have a concern. Our dirty ring actually depends
-on the structure of hardware logging buffer (PML buffer). We can't say it can be properly
-adapted to all kinds of hardware design in the future.
+Size    Size     Time         Okay Errors   Throughput
+bytes   bytes    secs            #      #   10^6bits/sec
 
-> 
-> Moreover, IMHO another important feature that dirty ring provided is actually
-> the full-exit, where we can pause a vcpu when it dirties too fast, while other
-I think a proper pause time is hard to decide. Short time may have little effect
-of throttle, but long time may have heavy effect on guest. Do you have a good algorithm?
+212992   65507   10.00      144710      0    7583.56
+212992           10.00          32              1.68
 
+We can find most of UDP packets are lost. But I test another host machine o=
+r use "-netdev usr,xxxxx". I can got:
+Socket  Message  Elapsed      Messages                =
 
-> vcpus won't be affected.  That's something I really wanted to POC too but I
-> don't have enough time.  I think it's a worth project in the future to really
-> make the full-exit throttle vcpus, then ideally we'll remove all the dirty
-> bitmaps in QEMU as long as dirty ring is on.
-> 
-> So I'd say the number I got at that time is not really helping a lot - as you
-> can see for small VMs it won't make things faster.  Maybe a bit more efficient?
-> I can't tell.  From design-wise it looks actually still better.  However dirty
-> logging still has the reasoning to be the default interface we use for small
-> vms, imho.
-I see.
+Size    Size     Time         Okay Errors   Throughput
+bytes   bytes    secs            #      #   10^6bits/sec
 
-> 
->>
->> PS: As the dirty ring is still converted into dirty_bitmap of kvm_slot, so the
->> "get dirty info faster" maybe not true. :-(
-> 
-> We can get dirty info faster even now, I think, because previously we only do
-> KVM_GET_DIRTY_LOG once per migration iteration, which could be tens of seconds
-> for a VM mentioned above with 24G and 800MB/s dirty rate.  Dirty ring is fully
-> async, we'll get that after the reaper thread timeout.  However I must also
-> confess "get dirty info faster" doesn't help us a lot on anything yet, afaict,
-> comparing to a full-featured dirty logging where clear dirty log and so on.
-OK.
+212992   65507   10.00       18351      0     961.61
+212992           10.00       18350            961.56
 
-> 
-> Hope above helps.
-Sure, thanks. :)
+most of UDP packets are recived.
 
+And If we check the tap qemu used, we can see:
+ifconfig tap0
+tap0: flags=3D4419<UP,BROADCAST,RUNNING,PROMISC,MULTICAST>  mtu 1500
+        inet6 fe80::ecc6:21ff:fe6f:b174  prefixlen 64  scopeid 0x20<link>
+        ether ee:c6:21:6f:b1:74  txqueuelen 1000  (Ethernet)
+        RX packets 282  bytes 30097 (29.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 9086214  bytes 12731596673 (11.8 GiB)
+        TX errors 0  dropped 16349024 overruns 0  carrier 0  collisions 0
+lots of TX packets are dropped.
 
-Keqian
+list other packet size:
+
+=E2=9E=9C  boot netperf -H 192.168.199.200 -t UDP_STREAM -- -m 1
+MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168.1=
+99.200 () port 0 AF_INET
+Socket  Message  Elapsed      Messages                =
+
+Size    Size     Time         Okay Errors   Throughput
+bytes   bytes    secs            #      #   10^6bits/sec
+
+212992       1   10.00     2297941      0       1.84
+212992           10.00     1462024              1.17
+
+=E2=9E=9C  boot netperf -H 192.168.199.200 -t UDP_STREAM -- -m 128
+MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168.1=
+99.200 () port 0 AF_INET
+Socket  Message  Elapsed      Messages                =
+
+Size    Size     Time         Okay Errors   Throughput
+bytes   bytes    secs            #      #   10^6bits/sec
+
+212992     128   10.00     2311547      0     236.70
+212992           10.00     1359834            139.25
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920871
+
+Title:
+  netperf UDP_STREAM high packet loss on QEMU tap network
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi, I boot a guest with "-netdev
+  tap,id=3Dhn0,vhost=3Doff,br=3Dbr0,helper=3D/usr/local/libexec/qemu-bridge-
+  helper" network option, and using "netperf -H IP -t UDP_STREAM" to
+  test guest UDP performance, I got the following output:
+
+  Socket  Message  Elapsed      Messages                =
+
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992   65507   10.00      144710      0    7583.56
+  212992           10.00          32              1.68
+
+  We can find most of UDP packets are lost. But I test another host machine=
+ or use "-netdev usr,xxxxx". I can got:
+  Socket  Message  Elapsed      Messages                =
+
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992   65507   10.00       18351      0     961.61
+  212992           10.00       18350            961.56
+
+  most of UDP packets are recived.
+
+  And If we check the tap qemu used, we can see:
+  ifconfig tap0
+  tap0: flags=3D4419<UP,BROADCAST,RUNNING,PROMISC,MULTICAST>  mtu 1500
+          inet6 fe80::ecc6:21ff:fe6f:b174  prefixlen 64  scopeid 0x20<link>
+          ether ee:c6:21:6f:b1:74  txqueuelen 1000  (Ethernet)
+          RX packets 282  bytes 30097 (29.3 KiB)
+          RX errors 0  dropped 0  overruns 0  frame 0
+          TX packets 9086214  bytes 12731596673 (11.8 GiB)
+          TX errors 0  dropped 16349024 overruns 0  carrier 0  collisions 0
+  lots of TX packets are dropped.
+
+  list other packet size:
+
+  =E2=9E=9C  boot netperf -H 192.168.199.200 -t UDP_STREAM -- -m 1
+  MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168=
+.199.200 () port 0 AF_INET
+  Socket  Message  Elapsed      Messages                =
+
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992       1   10.00     2297941      0       1.84
+  212992           10.00     1462024              1.17
+
+  =E2=9E=9C  boot netperf -H 192.168.199.200 -t UDP_STREAM -- -m 128
+  MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168=
+.199.200 () port 0 AF_INET
+  Socket  Message  Elapsed      Messages                =
+
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992     128   10.00     2311547      0     236.70
+  212992           10.00     1359834            139.25
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920871/+subscriptions
 
