@@ -2,93 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6E9346625
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:19:50 +0100 (CET)
-Received: from localhost ([::1]:59760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF44346654
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:29:42 +0100 (CET)
+Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkh3-0000Ql-9s
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47794)
+	id 1lOkqb-00007m-K5
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOjnp-0007XF-75
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:22:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52496)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjqW-0002Mt-AX
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:25:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOjnm-0003NO-Hw
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:22:44 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOjqQ-0004mz-F4
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:25:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616516561;
+ s=mimecast20190719; t=1616516725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h4em2myByfUZq6aD+qNSwicdK69Ha4YNIvNP1dylNU0=;
- b=WR+irMIo9gQMrNvw5hVd/TVPl4L4c5PA9jjKJMXVP9p6dm5j4lATZSmqDXwmMB0q0fWqQ5
- pvU6Q3ghSXddAz0rx3EqgEP4nADzdtYofe2b7p6SoZhyLO8EL+Makbh7HOIh4Z9odhVv9e
- 2sLTJKrBtqmEcnH9aEccI8B9hggq44Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-xpwc2mn4O8GfcjtRBaYVXQ-1; Tue, 23 Mar 2021 12:22:39 -0400
-X-MC-Unique: xpwc2mn4O8GfcjtRBaYVXQ-1
-Received: by mail-wm1-f70.google.com with SMTP id y9so680876wma.4
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:22:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h4em2myByfUZq6aD+qNSwicdK69Ha4YNIvNP1dylNU0=;
- b=LEQPOfSpFEuyXq1aiT5fZ7kSU4cIBjXv0+op0B23BARw68//FZFY3gAVgXjxC9Zl2m
- 0LvTuhN/3VwsXSzK0K53s9oK1rl5A4CkH4QEhxEcsv/ZE37In5z6uHK2zN8aTN+Krogi
- /ANzqXq4p4FiGqhBCbG7gFheMIm4XdHGhG7FK5JrHZ13M3KwLRHh/0bmbCx07ynif+cj
- 9cWruu6jDLjWcgPglw7kkGsMcAXBWLMUx9ar6rw3snmCt62n/WSUx6MYD0SfxZ0SqiwN
- 72leaGBXgs6BhTa1f7Xo5V7M36kpI1vS48NU0IK0hDRbzx1N6yVqHrWA9R9vb1gnBBHa
- gcPA==
-X-Gm-Message-State: AOAM532kmrTzndvPYMHLNQ7xauhjUKr/Ct03DqM0ytAxWw93UR2hMIID
- gSDQH2CdEfkmndgdnv/kDrTj8jHuKv/BLiRyllLmI2pk4Q1X2i4mKQT1MOnSdionQ7rJx8LP77g
- i1KF7hcGcFzV/7xU=
-X-Received: by 2002:adf:ec46:: with SMTP id w6mr4751725wrn.213.1616516558326; 
- Tue, 23 Mar 2021 09:22:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPgcSsYk5YLTR2dM7RnQe7QAdS0ujAsMa/qj6lMVGgP6Jphxdg0YTSp9OMyi9C7M31hXO8Tg==
-X-Received: by 2002:adf:ec46:: with SMTP id w6mr4751708wrn.213.1616516558121; 
- Tue, 23 Mar 2021 09:22:38 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v189sm3173558wme.39.2021.03.23.09.22.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 09:22:37 -0700 (PDT)
-Subject: Re: [RFC PATCH 01/13] blobs: Use Meson source_set to store blob files
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210323155132.238193-1-f4bug@amsat.org>
- <20210323155132.238193-2-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2dd5d098-4b8e-8deb-6756-2a97588d3184@redhat.com>
-Date: Tue, 23 Mar 2021 17:22:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=+i0faYlIWnOrzYkCkTBGur3XiKCv0Bwr4UefqQqF8m4=;
+ b=UcCMokXyjxO92WyhoXo7j4OJcHv23S4X7vhFgLHFOnq3yysN7xgMeebxoCZc1CRQRh5PVd
+ jRxHzPOyLs9+A9HyUZKs3a3tYRiNQjzzXr2kFaUji094voVKmeOWr2gsg3v94u+lFCQVmN
+ 2PmlVi7l1FT+xdG2q9/d5HSBR8uVXds=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-QnvaQ4MJNk69me8MJmQsUg-1; Tue, 23 Mar 2021 12:25:21 -0400
+X-MC-Unique: QnvaQ4MJNk69me8MJmQsUg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC29E10866A4;
+ Tue, 23 Mar 2021 16:25:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D66A19701;
+ Tue, 23 Mar 2021 16:25:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1C44411327E1; Tue, 23 Mar 2021 17:25:16 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
+ stricter checking
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-11-armbru@redhat.com>
+ <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com>
+Date: Tue, 23 Mar 2021 17:25:16 +0100
+In-Reply-To: <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com> (Eric Blake's
+ message of "Tue, 23 Mar 2021 09:20:49 -0500")
+Message-ID: <87tup1on0z.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210323155132.238193-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,57 +82,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: michael.roth@amd.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/03/21 16:51, Philippe Mathieu-Daudé wrote:
-> As we want to conditionally install blob files,
-> declare them using a source set.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   pc-bios/meson.build | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-> index f2b32598af7..1c4074bcb0d 100644
-> --- a/pc-bios/meson.build
-> +++ b/pc-bios/meson.build
-> @@ -1,3 +1,5 @@
-> +blobs_ss = ss.source_set()
-> +
->   if install_edk2_blobs
->     fds = [
->       'edk2-aarch64-code.fd',
-> @@ -22,7 +24,7 @@
->     endforeach
->   endif
->   
-> -blobs = files(
-> +blobs_ss.add(files(
->     'bios.bin',
->     'bios-256k.bin',
->     'bios-microvm.bin',
-> @@ -81,10 +83,12 @@
->     'opensbi-riscv32-generic-fw_dynamic.elf',
->     'opensbi-riscv64-generic-fw_dynamic.elf',
->     'npcm7xx_bootrom.bin',
-> -)
-> +))
-> +
-> +blobs_ss = blobs_ss.apply(config_host, strict: false)
->   
->   if get_option('install_blobs')
-> -  install_data(blobs, install_dir: qemu_datadir)
-> +  install_data(blobs_ss.sources(), install_dir: qemu_datadir)
->   endif
->   
->   subdir('descriptors')
-> 
+Eric Blake <eblake@redhat.com> writes:
 
-If you have no conditions, you can also use an array.
+> On 3/23/21 4:40 AM, Markus Armbruster wrote:
+>> Naming rules differ for the various kinds of names.  To prepare
+>> enforcing them, define functions to check them: check_name_upper(),
+>> check_name_lower(), and check_name_camel().  For now, these merely
+>> wrap around check_name_str(), but that will change shortly.  Replace
+>> the other uses of check_name_str() by appropriate uses of the
+>> wrappers.  No change in behavior just yet.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
+>>  1 file changed, 36 insertions(+), 15 deletions(-)
+>> 
+>
+>> +++ b/scripts/qapi/expr.py
+>> @@ -21,11 +21,12 @@
+>>  from .error import QAPISemError
+>>  
+>>  
+>> -# Names must be letters, numbers, -, and _.  They must start with letter,
+>> -# except for downstream extensions which must start with __RFQDN_.
+>> -# Dots are only valid in the downstream extension prefix.
+>> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
+>> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
+>
+> I'm assuming python concatenates r'' with '' in the obvious manner...
+>
+>> +# Names consist of letters, digits, -, and _, starting with a letter.
+>> +# An experimental name is prefixed with x-.  A name of a downstream
+>> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
+>> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
+>> +                        r'(x-)?'
+>> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
+>
+> ...but like your explicit use of r'' r''.
+>
+> Splitting out special handling of r'(x-)?' does not change behavior, but
+> is not otherwise mentioned in your commit message.  I suspect you did it
+> to make it easier to permit x-EVENT_NAME in later patches where upper is
+> handled differently from lower or camel,
 
-Paolo
+Yes.
+
+>                                          so I won't withhold R-b, but it
+> may be worth a tweak to the commit message.
+
+Probably.  I'm failing at coming up with a concise text that isn't
+confusing.
+
+>>  def check_defn_name_str(name, info, meta):
+>> -    check_name_str(name, info, meta, permit_upper=True)
+>> +    if meta == 'event':
+>> +        check_name_upper(name, info, meta)
+>> +    elif meta == 'command':
+>> +        check_name_lower(name, info, meta, permit_upper=True)
+>
+> Why do commands need to permit upper?  I guess just downstream FQDN
+> extensions?
+
+This is just so that the patch doesn't change behavior.  PATCH 24 will
+flip it to False.
+
+> Otherwise the patch makes sense.
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Thanks!
 
 
