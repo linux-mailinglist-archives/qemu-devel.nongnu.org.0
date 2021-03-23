@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CC3345BED
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:32:39 +0100 (CET)
-Received: from localhost ([::1]:55704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFF8345C35
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:50:54 +0100 (CET)
+Received: from localhost ([::1]:35926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOeL0-0007Vw-5B
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
+	id 1lOecd-00059b-QW
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lOeJT-00070g-Sg
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 06:31:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lOeJN-0005nO-Ua
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 06:31:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616495456;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RzowdJT+aYUHFdlNa2zvTqkV0uTn4z8NkXN/FOY0SF0=;
- b=SeHI9X+iyZlIRAnGXpJcLVSrouEkaNtUVg3FRmpQxqH/mfRVc9Bb6NFPhe5uB3XVgQ5xES
- qLPPqiEOweZ1WttVFHVJdOKWmmGI/DuegGEyNM9Un5tla12EXzuj0RTlOui/IRKR0qUd4y
- bMCU1bPfcOlg+DR2Fl2UxUaALY2Od5Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-aMY-iKq2MxCEm9K6-lVQnQ-1; Tue, 23 Mar 2021 06:30:54 -0400
-X-MC-Unique: aMY-iKq2MxCEm9K6-lVQnQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E8BC80006E;
- Tue, 23 Mar 2021 10:30:53 +0000 (UTC)
-Received: from redhat.com (ovpn-113-223.ams2.redhat.com [10.36.113.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FF5910023B2;
- Tue, 23 Mar 2021 10:30:51 +0000 (UTC)
-Date: Tue, 23 Mar 2021 10:30:48 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] block: Remove monitor command block_passwd
-Message-ID: <YFnDWNLTBEZWEIdk@redhat.com>
-References: <20210323101951.3686029-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOeat-0003yt-OG
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 06:49:03 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOeaq-0000Vr-RE
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 06:49:03 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id b16so22903492eds.7
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 03:49:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+x/oV5g4bbivSW83nPpVufkEOLXiwjU3KHi3Les0UXY=;
+ b=XWg8aBIvDMgdnJdG8ee592SMhVeZ4EOWnSspo+pzwwgwxs6WOZv7UqaBEzcx4MOCwA
+ 66sdVc/W788PcW19/rWnd+lz390Ob39f9RAwk6R8XIgxGxlWcKuMkL5oUlNHWdpYBBMH
+ jh1t2o9RMNeKo2Qs1Xs6MXIhgBv5uUlgHlFXoorfsDfmdQ4r8duIt8tqYzlAeBhYOC7o
+ MgXFkiOUPD98Lf0bX/m6BGsdKmEzGH1NIZuD5MQtFXKYUThntpCQs13N2trponcsPDeH
+ BlpwXaUxu4hm0ZcghUbcYePZGElRQkKlnC+uRxhE7oGD4uIoNwnvLq4T/5NbfFwGRBoW
+ Ya7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+x/oV5g4bbivSW83nPpVufkEOLXiwjU3KHi3Les0UXY=;
+ b=BjDHbcy0qnojeg+Ga+3lzvT66a/Xap/ml5A/dHrjl8G/ghxnItMxOW4SATukrUNliD
+ d1KhWzkPNrHjUf8VgCwdbGVm+olXYGj7qpDOFJk674o6G8A64P1VywlEEZDLkQb8eC0D
+ VRin9fY3d1xYrGw+RDBix8GBsUOFDGI6X3xw8j/Tz5Qm/bYIHMmhTb4PSN2C4nLCEvZZ
+ YPX9lIGmtXDCrJUlrzxn8Zm+uO1OCLlzmn2kUL/aWZbnVzpSEzyjC4GaB9DD9e/vO/k/
+ ZgNx99CPCbZHK/dp3HxobtMSqqNzHhIJQAKAynR1xfR+qI6V+fj8XMXqN7VjVPbgEU3A
+ WzbA==
+X-Gm-Message-State: AOAM5337LiEc427NlKPZuHBNh+DP5eAwsocksNxxFK4gqLLNuxjQsp4h
+ BRat6wxyxwE2q5+ZWvsTbO9nBj0n127DjfE6n+VQaA==
+X-Google-Smtp-Source: ABdhPJxr90ijveOVGN8OzGrqDagK8W/PNm3TPkGvuzGTmtbT+igrCpy6kez2neLTYKy1kJV1BwXUuMRZJM0Zhkz6twI=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr3978977edt.36.1616496538563; 
+ Tue, 23 Mar 2021 03:48:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210323101951.3686029-1-armbru@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210322171610.4183696-1-f4bug@amsat.org>
+In-Reply-To: <20210322171610.4183696-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 23 Mar 2021 10:48:29 +0000
+Message-ID: <CAFEAcA9=SYQDBO7owH40rbGy78sx2Q=OGupE-rU0YwLc6mVFJQ@mail.gmail.com>
+Subject: Re: [PULL 0/7] SD/MMC patches for 2021-03-21
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,55 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kwolf@redhat.com.com, dgilbert@redhat.com
+Cc: =?UTF-8?Q?Simon_W=C3=B6rner?= <contact@simon-woerner.de>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ Muhammad Alifa Ramdhan <info@starlabs.sg>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Cornelius Aschermann <cornelius.aschermann@rub.de>,
+ Sergej Schumilo <sergej@schumilo.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 11:19:51AM +0100, Markus Armbruster wrote:
-> Command block_passwd always fails since
-> 
-> Commit c01c214b69 "block: remove all encryption handling APIs"
-> (v2.10.0) turned block_passwd into a stub that always fails, and
-> hardcoded encryption_key_missing to false in query-named-block-nodes
-> and query-block.
-> 
-> Commit ad1324e044 "block: remove 'encryption_key_missing' flag from
-> QAPI" just landed.  Complete the cleanup job: remove block_passwd.
-
-Oh, we never marked block_passwd as deprecated, so I missed this
-cleanup.
-
-None the less we're fine removing it, since anyone who has tried
-to use it since 2.10 will have found it useless, and have been
-unable to start their VMs with encrypted disks. 
-
-> 
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
-> This is based on my "[PATCH 00/28] qapi: Enforce naming rules".  To
-> apply directly, simply drop the qapi/pragma.json hunk.
-> 
-> Based-on: <20210323094025.3569441-1-armbru@redhat.com>
-> 
-> 
->  qapi/block-core.json           | 14 --------------
->  qapi/pragma.json               |  1 -
->  block/monitor/block-hmp-cmds.c | 10 ----------
->  blockdev.c                     |  8 --------
->  hmp-commands.hx                | 15 ---------------
->  5 files changed, 48 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+On Mon, 22 Mar 2021 at 17:23, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> The following changes since commit b184750926812cb78ac0caf4c4b2b13683b5bd=
+e3:
+>
+>   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' i=
+nto staging (2021-03-22 11:24:55 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/sdmmc-20210322
+>
+> for you to fetch changes up to cffb446e8fd19a14e1634c7a3a8b07be3f01d5c9:
+>
+>   hw/sd: sdhci: Reset the data pointer of s->fifo_buffer[] when a differe=
+nt block size is programmed (2021-03-22 16:56:22 +0100)
+>
+> ----------------------------------------------------------------
+> SD/MMC patches queue
+>
+> - Fix build error when DEBUG_SD is on
+> - Perform SD ERASE operation
+> - SDHCI ADMA heap buffer overflow
+>   (CVE-2020-17380, CVE-2020-25085, CVE-2021-3409)
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
