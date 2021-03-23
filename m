@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07026345562
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:13:26 +0100 (CET)
-Received: from localhost ([::1]:38162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A552534554E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:07:41 +0100 (CET)
+Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWXs-00085o-V1
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
+	id 1lOWSK-0001co-Mf
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKa-0002Mu-ON
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:40 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2072)
+ id 1lOWKb-0002Nx-J8
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:41 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKY-0006vy-Vb
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:40 -0400
+ id 1lOWKZ-0006tH-CM
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1616464779; x=1648000779;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XwkbafFkgXx0cHFkkMZ6VWtj3HM8KkoaaxCJWf09dIU=;
- b=fCB15BtUiTexkfS0dO5VFfgPnrsZANOG/SXvOAsbfDiUAQS58rSgILB6
- rVe+uU5V4h6o/y/6FMnqD+/bzSbop1rKm3xbYfA+/m3Ht/X5Gt8yMf9Ye
- +C5n0sEwbs1O22cRtPzMCix9m8R/xGZV4GwY5+uSwUA44+g5r96RtxyOh
- oaqQNohJqNYdpobjo8DhGTgZrBKWBUGovfAr3iN0vSMcSG7YzTW5fjYZE
- xSYl808+cKxVtcPDKbTgzZKVatL9AIcytZ5jULLyaXSwC1eyTktWKmBFJ
- qstv2yVvGmgeGPiY6lajYhd6eUNn12G5rswXlJxTGeqAWGPFIdUZdiWoY w==;
-IronPort-SDR: n1OmZo6PsxFtm7kyZX3OKwVEQgeSmV5mob05Npj+XSucGtrxlWOlMFgEXl2bPGUDBhhsL3EP7K
- ZXQC8B7jCS0zKGVUqvCwygxlSq1OFRgpE8DFsZp+j7Sn8Ui1B3N1fCs5ctsBcXcU7PqsvgMJPl
- 4dIKI4Oo3lU+Fe+w/AUnZE8PFkYGAmZ8jRFtD7F7sAiaSwDHhgVftB4e4t3MIb6PeYoukHHA3v
- yS50aYvDXOFG3RF93ZToixcbSYNlv2O+9ecuFXWSS3HwYWtHZzWxGuNgcY0zmBR5+XYGwmXJ1T
- PZ4=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707636"
+ bh=LPH3HiBhVT6SsrGndGfQmvetGHNAi3MZ7yoAIT6scTY=;
+ b=Gb4aN7sfmjtFsJ0S/LtnhmRGmoggFzZa2QCSTrewo3pyVuQuLdou+TGY
+ uerVvonpv8PPHScFPymseErFSHTtfSnY99Cyg/pm7o5wSZ7rozsApvtuz
+ c6DHHabJGG9bVQ/CCi+wZ4wWOJL6q3GQY/IxxBBi8IEAWKUgRBb69sUtO
+ UX58zmqckS43/FWnd1LWFdGc3nROUOgTThi8TcE1cEs6TAqUpCtBYre0S
+ tok17kbDMF3Wq337HsHzwXhu7vqGVwfqh1S6KiOvCXAne0DaSsKmCUnN8
+ rZosBfQXR8R3RhIH+ngTeGYDmQ01C6iyy+MSviWohuFZ5WejGNa8kIfCm A==;
+IronPort-SDR: Uh2bjpZtfzjnF16itc1jmxJ/yR/AKLR1+2gb2hRyM8GCghGSz/URIm9IyUAoImyi61kcYpttOQ
+ q2F2BOWgh3DdpB+Tc1lNqE+bJe2rMv2ZxMkX+74Th51uMyOsD7luAEcvjP7Jw6C0pNTQLZkbID
+ Qfz6VuHRKy7so37eweS/trkrQ3ANtUnl5rjZEoLfOs21kflnLfQhz+rAAYV2cP8djGwiJSRtYM
+ TF/f7/Dc3YQayWInxnmS+BrjkIy/oEXBwH74ocIW/q22+ZX35Hs+orX+0XOGo7dTwaqisy+ZkE
+ j+c=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707637"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:34 +0800
-IronPort-SDR: IN+Aoz9lfZQGgHUaNvAAc8/tjOljrgkFxcC9zqV24TQjUnPD7yLVQu0Bp5YaEipRbI9uD9sTUQ
- Xgbux7J7BzlaGaD6McEZ8bKkJ8CBNqjXqd292iTqZIEPgpKevWMt77hMdGlbx+1NVcIHSqd8jI
- 5T1iV3FExnOac8s/Hd3PPwwa5kpWXwt3owVtTs0KTWq39cWco/Q+nofk0ifdL8D4+31yom6Pjn
- yPbEMFD15HGNTd0kZjEGxP2aUeLhda8z8lJlBGn8V9x9QIZEUvK34nl5dL0shOMwAKjSv/hnKc
- n34Q+nmHTz6sGcMqM354EUzL
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:35 +0800
+IronPort-SDR: UboKDZuCGEgBB8xevumpR/dWFT0tRhZbdIShS2NPfYFCF493G0VBvi7NGnH+iNk5oq4j6ZfbIs
+ kYSzOw9isuUvupBvDCFZZL5dKU+2NgqcoTmnMPoCI0WTOnUNar2fOjJxauS4i4J2EEbC1KbtXZ
+ YHa5Tgzmd48n5mOdCn+JIKkAxuu7WwuDiSS82EI8rYGIzFibYCH62fQkAoq9+1YGROLNOLCkjG
+ sWOiWm/+l8Kd1CVX/YzjoxT5UG9AbulN2Wfl3eP6Oj7ti5xCEGgYuoXfGxaXklRyWzuWdYRttA
+ 5OmEEBHQT5j9tifgC3RW9Xhx
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:42 -0700
-IronPort-SDR: Q0eraa+CKHQ795u2CHim6+Vq2QBUQxI+uEzPERRkiy3PDB7JqRRUbir4UnQ4Vtw+dMpF5w1HTd
- yQ7GZph7yMVAxYdW5bdOl75923xObgC3v6ili8AlWmG8j3FPLde7KhVb3rlgW1MfC2iMnlVBv0
- hKTN6Dq8vzrETi1V0RE+WBdlW5Wp0qVZNB/4klakGyl3snoiZa5h8aQy8NnUXHRdAomFv5qRlA
- OzOu2BkoUqwgEPebqZPkFRoqFU1wNIujVn+rQRRHzBxE9UrYY+cn5yzTCvWz3+8U+Qy9HDpci2
- suo=
+ 22 Mar 2021 18:41:43 -0700
+IronPort-SDR: 5zlX5DwsYvuTp9EOhSLpcZqgEGfNByLy6HnAtA15rw8Kd/A+iY2qkISfnfd5Ok5+IkIHNTohEL
+ WfzFXfs3IkecxW3Sgf9RfUTGfAsgo17LPe24QbDocN86hsplJQURv/SChZ6hq/ZhaK78dWlXpc
+ IzcSIoTHHGqrM/+5zddzQ9ESW1M+eVxH0RQ8PVfkp8QWVJPG9FHei+zeE25NLCp4RLwBvrj/OM
+ 1Tj/TLuQ+DmDyxpxRr9UFFIatc19T6U2cCbn7dFO4rGtxnIAqRutiDdtuUNt9BDZ/Brg+4ii8R
+ E1U=
 WDCIronportException: Internal
 Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.49.5])
  by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:34 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/16] target/riscv: Make VSTIP and VSEIP read-only in hip
-Date: Mon, 22 Mar 2021 21:57:47 -0400
-Message-Id: <20210323015756.3168650-8-alistair.francis@wdc.com>
+Subject: [PULL 08/16] target/riscv: Use background registers also for
+ MSTATUS_MPV
+Date: Mon, 22 Mar 2021 21:57:48 -0400
+Message-Id: <20210323015756.3168650-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
 References: <20210323015756.3168650-1-alistair.francis@wdc.com>
@@ -98,40 +99,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
+The current condition for the use of background registers only
+considers the hypervisor load and store instructions,
+but not accesses from M mode via MSTATUS_MPRV+MPV.
+
 Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210311094902.1377593-1-georg.kotheimer@kernkonzept.com
+Message-id: 20210311103036.1401073-1-georg.kotheimer@kernkonzept.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ target/riscv/cpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d2ae73e4a0..a9dba7f736 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -420,7 +420,8 @@ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
-     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
- static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
--static const target_ulong hip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
-+static const target_ulong hip_writable_mask = MIP_VSSIP;
-+static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
- static const target_ulong vsip_writable_mask = MIP_VSSIP;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index b15a60d8a2..8d4a62988d 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -364,7 +364,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+      * was called. Background registers will be used if the guest has
+      * forced a two stage translation to be on (in HS or M mode).
+      */
+-    if (!riscv_cpu_virt_enabled(env) && riscv_cpu_two_stage_lookup(mmu_idx)) {
++    if (!riscv_cpu_virt_enabled(env) && two_stage) {
+         use_background = true;
+     }
  
- static const char valid_vm_1_10_32[16] = {
-@@ -962,9 +963,9 @@ static int rmw_hvip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-                    target_ulong new_value, target_ulong write_mask)
- {
-     int ret = rmw_mip(env, 0, ret_value, new_value,
--                      write_mask & hip_writable_mask);
-+                      write_mask & hvip_writable_mask);
- 
--    *ret_value &= hip_writable_mask;
-+    *ret_value &= hvip_writable_mask;
- 
-     return ret;
- }
 -- 
 2.30.1
 
