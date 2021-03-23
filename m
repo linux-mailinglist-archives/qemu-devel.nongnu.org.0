@@ -2,47 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD9C3468DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:22:57 +0100 (CET)
-Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E47346913
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:30:28 +0100 (CET)
+Received: from localhost ([::1]:47078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmcC-0000DU-2H
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56228)
+	id 1lOmjT-0002Sr-EO
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:30:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOmZe-0005qm-VF
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:20:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOmZY-0006vE-HC
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:20:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 89A10AF17;
- Tue, 23 Mar 2021 19:20:08 +0000 (UTC)
-Subject: Re: [RFC v10 00/49] arm cleanup experiment for kvm-only build
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lOmh4-0008T5-0q
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:27:59 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lOmgx-0002im-VH
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:27:55 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ f22-20020a7bc8d60000b029010c024a1407so13661144wml.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=IFGc1U/3515ZJutIyapP6qFhIp8aN23MA/SznlXxnyM=;
+ b=aWg4sC5cKJ2G8pTwwNwKdSkx7Ov1IDKv0RoZDl4znZhg7edV90u8NMFO4m5xAdkKPk
+ byLi31egR9Rk/qfMT88akWsYXRyJlW1aRMM6S5WsfVyscojZbOngk+gGUuDaa52XSFjU
+ GHzQTzK4L1Q2lW2zM5x4moERWgvVkV0MtuCH4447MgEupQ72UlIcyo4zuB3gzWD6E3lk
+ 7QFfy/mPBvMD/ZUWvhbdP9qViNvR1jyvGMwWkVCM0cXwcOffCal0kDoZc5j0JJ9E7X6n
+ 9iQrYHH5O+9Jq2fYyY65UiJu1E1ksZEtiNJ5iBNG7u1mmxgYtUqADwuL/o4XipL0WFqP
+ 5omQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=IFGc1U/3515ZJutIyapP6qFhIp8aN23MA/SznlXxnyM=;
+ b=It3HWbyghuU47Tb/h2S2hNigzvDZDa+IYCHhMWR0ivut+IM+mnPEojCrZvsOIHD3ka
+ UXgh22jAPnE9qbeuxdEjAegjPEPjZS5sKQA6m+6sSAZhkcly0dJjBaLDQdoHGgc+rWbR
+ TO4Vxcws+WPRCv4cUvaqY9qhApc4zdiOl6V9phjiFM+5PrGR75rP03mDtZufc31L6OKL
+ qJ1wG+a1zs28oJrZ1CsGMk4bs/n9DbH3Quvhkpbha+71FhrvH+I+Fq4ZS1jvBOOStAkz
+ QccUvohmYkB1OmX9Y9cwNr0EJoPmAXL3XH6NQuq8az9SMZo0jnlw1itEkYT8VUEFi+/l
+ N4Fg==
+X-Gm-Message-State: AOAM531pYysxRGkMyrSQF7Re2Fx4Sh/V6IeNFiBhqCoIW9R+RQgrHqI/
+ DDFefhF2xdu5WLdp4fuxKFvRcg==
+X-Google-Smtp-Source: ABdhPJxSi68fP1vubVT29BpYggZalLjdLIY2qFFkaklgKc9povsr8e06XZvTgtDzAlCsNB/VosAFHw==
+X-Received: by 2002:a1c:5455:: with SMTP id p21mr4759206wmi.138.1616527669456; 
+ Tue, 23 Mar 2021 12:27:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u2sm25098896wrp.12.2021.03.23.12.27.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 12:27:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B59541FF7E;
+ Tue, 23 Mar 2021 19:27:47 +0000 (GMT)
 References: <20210322140206.9513-1-cfontana@suse.de>
- <87k0pxiu7n.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <f57c1550-e58d-a401-18b4-3143e99f4cce@suse.de>
-Date: Tue, 23 Mar 2021 20:20:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <20210322140206.9513-40-cfontana@suse.de>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v10 39/49] target/arm: add tcg cpu accel class
+Date: Tue, 23 Mar 2021 19:26:16 +0000
+In-reply-to: <20210322140206.9513-40-cfontana@suse.de>
+Message-ID: <87h7l1isb0.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87k0pxiu7n.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,547 +92,369 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
 
-thanks a lot for looking at this,
+Claudio Fontana <cfontana@suse.de> writes:
 
-On 3/23/21 7:35 PM, Alex Bennée wrote:
-> 
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> Here a new version of the series that enables kvm-only builds.
->>
->> The goal here is to enable the KVM-only build, but there is
->> some additional cleanup too.
-> 
-> First the good news. With --disable-tcg on my AArch64 system I can
-> successfully run:
-> 
->   make vm-boot-ssh-ubuntu.aarch64 QEMU_LOCAL=1
-> 
-> and get a shell on a KVM powered VM. Bravo ;-)
-> 
-> Also I did a number of different builds:
-> 
->    fdfind -0 -t x qemu-system-aarch64 | xargs -0 ls -lh
->   -rwxrwxr-x 1 alex alex 129M Mar 23 18:09 all/qemu-system-aarch64
->   -rwxrwxr-x 1 alex alex  64M Mar 23 18:16 disable.all/qemu-system-aarch64
->   -rwxrwxr-x 1 alex alex  81M Mar 23 18:20 disable.defaults/qemu-system-aarch64
->   -rwxrwxr-x 1 alex alex  94M Mar 23 18:12 disable.tcg/qemu-system-aarch64
+> move init, realizefn and reset code into it.
 
-Interesting, I did not think to check these numbers (anymore, I was at Huawei times).
-It is still quite a large size.
+w.r.t my testing this is fingered by bisect for causing:
 
-> 
-> Where the builds are:
-> 
->   fdfind -0 -t f config.log | xargs -0 head -n 2
->   ==> all/config.log <==
->   # QEMU configure log Tue 23 Mar 2021 06:08:19 PM UTC
->   # Configured with: '../../configure' '--skip-meson'
-> 
->   ==> disable.all/config.log <==
->   # QEMU configure log Tue 23 Mar 2021 06:15:26 PM UTC
->   # Configured with: '../../configure' '--disable-docs' '--disable-tcg' '--without-default-features' '--without-default-devices'
-> 
->   ==> disable.defaults/config.log <==
->   # QEMU configure log Tue 23 Mar 2021 06:19:05 PM UTC
->   # Configured with: '../../configure' '--disable-docs' '--disable-tcg' '--without-default-features'
-> 
->   ==> disable.tcg/config.log <==
->   # QEMU configure log Tue 23 Mar 2021 06:10:38 PM UTC
->   # Configured with: '../../configure' '--disable-docs' '--disable-tcg'
-> 
-> And they all build OK and at least give a minimally viable binary. The
-> --without-default-devices build fails to boot a VM although that's
-> probably to be expected as we don't have any handling yet for a custom
-> device set (probably -M virt and the virtio devices in this case).
-> Unsurprisingly this gets the shortest distance in make check:
-> 
->   Running test qtest-aarch64/qom-test
->   qemu-system-aarch64: Unsupported NIC model: virtio-net-pci
->   Broken pipe
->   ERROR qtest-aarch64/qom-test - too few tests run (expected 1, got 0)
->   make: *** [Makefile.mtest:24: run-test-1] Error 1
-> 
-> However I see other more esoteric failures in the other builds.
-> disable.tcg/disable.defaults:
-> 
->   Running test qtest-aarch64/cdrom-test
->   **
->   ERROR:../../qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
->   ERROR qtest-aarch64/cdrom-test - Bail out! ERROR:../../qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
->   Broken pipe
->   make: *** [Makefile.mtest:832: run-test-102] Error 1
+  Running test qtest-aarch64/migration-test
+  ERROR qtest-aarch64/migration-test - Bail out! ERROR:../../target/arm/tcg=
+/tcg-cpu.c:233:tcg_arm_init_accel_cpu: assertion failed: (object_class_by_n=
+ame(ACCEL_CPU_NAME("tcg")) =3D=3D OBJECT_CLASS(accel_cpu))
+  Broken pipe
+  make: *** [Makefile.mtest:272: run-test-32] Error 1
+
+The bisect log:
+
+  git bisect start
+  # bad: [474677f44c0d581381db57ff6030a6553f16db95] XXX target/arm: experim=
+ent refactoring cpu "max"
+  git bisect bad 474677f44c0d581381db57ff6030a6553f16db95
+  # good: [5ca634afcf83215a9a54ca6e66032325b5ffb5f6] Merge remote-tracking =
+branch 'remotes/philmd/tags/sdmmc-20210322' into staging
+  git bisect good 5ca634afcf83215a9a54ca6e66032325b5ffb5f6
+  # good: [bf31455e28246f6b9b732dc56f89e61895f6f4f0] i386: split svm_helper=
+ into sysemu and stub-only user
+  git bisect good bf31455e28246f6b9b732dc56f89e61895f6f4f0
+  # good: [903f6e1bdc20939d023d6b577875370023bcac5f] target/arm: move arm_c=
+pu_list to common_cpu
+  git bisect good 903f6e1bdc20939d023d6b577875370023bcac5f
+  # good: [1999c2ce6cc82200a39f6e41041f304eba5d4e7e] tests: device-introspe=
+ct-test: cope with ARM TCG-only devices
+  git bisect good 1999c2ce6cc82200a39f6e41041f304eba5d4e7e
+  # bad: [fa37cc7fbabcf4de1cc963530c75b0ea7a73139a] target/arm: cpu-sve: ne=
+w module
+  git bisect bad fa37cc7fbabcf4de1cc963530c75b0ea7a73139a
+  # good: [d0c4b7a7d2aa12537a06527692f10066b7acbed9] target/arm: create kvm=
+ cpu accel class
+  git bisect good d0c4b7a7d2aa12537a06527692f10066b7acbed9
+  # bad: [3288c8a8cfc8dd9999e7b5908eaebb561f0169eb] target/arm: add tcg cpu=
+ accel class
+  git bisect bad 3288c8a8cfc8dd9999e7b5908eaebb561f0169eb
+  # good: [683b948d40bc81f1eaed27bef8631ab3f8a937d6] target/arm: move kvm p=
+ost init initialization to kvm cpu accel
+  git bisect good 683b948d40bc81f1eaed27bef8631ab3f8a937d6
+  # first bad commit: [3288c8a8cfc8dd9999e7b5908eaebb561f0169eb] target/arm=
+: add tcg cpu accel class
+
+  3288c8a8cfc8dd9999e7b5908eaebb561f0169eb is the first bad commit
+  commit 3288c8a8cfc8dd9999e7b5908eaebb561f0169eb
+  Author: Claudio Fontana <cfontana@suse.de>
+  Date:   Mon Mar 22 15:01:56 2021 +0100
+
+      target/arm: add tcg cpu accel class
+
+      move init, realizefn and reset code into it.
+
+      Signed-off-by: Claudio Fontana <cfontana@suse.de>
+      Cc: Paolo Bonzini <pbonzini@redhat.com>
+      Message-Id: <20210322140206.9513-40-cfontana@suse.de>
+
+   target/arm/cpu.c                | 44 +++----------------------------
+   target/arm/tcg/sysemu/tcg-cpu.c | 27 +++++++++++++++++++
+   target/arm/tcg/tcg-cpu-models.c | 11 +++++---
+   target/arm/tcg/tcg-cpu.c        | 57 +++++++++++++++++++++++++++++++++++=
+++++--
+   target/arm/tcg/tcg-cpu.h        |  4 ++-
+   5 files changed, 96 insertions(+), 47 deletions(-)
+  bisect run success
 
 
-Interesting I did not remember this one in RFCv10, will try to see if I can reproduce on v11.
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  target/arm/tcg/tcg-cpu.h        |  4 ++-
+>  target/arm/cpu.c                | 44 ++-----------------------
+>  target/arm/tcg/sysemu/tcg-cpu.c | 27 ++++++++++++++++
+>  target/arm/tcg/tcg-cpu-models.c | 11 +++++--
+>  target/arm/tcg/tcg-cpu.c        | 57 +++++++++++++++++++++++++++++++--
+>  5 files changed, 96 insertions(+), 47 deletions(-)
+>
+> diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
+> index d93c6a6749..dd08587949 100644
+> --- a/target/arm/tcg/tcg-cpu.h
+> +++ b/target/arm/tcg/tcg-cpu.h
+> @@ -22,15 +22,17 @@
+>=20=20
+>  #include "cpu.h"
+>  #include "hw/core/tcg-cpu-ops.h"
+> +#include "hw/core/accel-cpu.h"
+>=20=20
+>  void arm_cpu_synchronize_from_tb(CPUState *cs,
+>                                   const TranslationBlock *tb);
+>=20=20
+> -extern struct TCGCPUOps arm_tcg_ops;
+> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
+>=20=20
+>  #ifndef CONFIG_USER_ONLY
+>  /* Do semihosting call and set the appropriate return value. */
+>  void tcg_handle_semihosting(CPUState *cs);
+> +bool tcg_cpu_realizefn(CPUState *cs, Error **errp);
+>=20=20
+>  #endif /* !CONFIG_USER_ONLY */
+>=20=20
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 5e0f6bd01d..9248e096df 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -410,12 +410,6 @@ static void arm_cpu_reset(DeviceState *dev)
+>                                &env->vfp.fp_status_f16);
+>      set_float_detect_tininess(float_tininess_before_rounding,
+>                                &env->vfp.standard_fp_status_f16);
+> -
+> -    if (tcg_enabled()) {
+> -        hw_breakpoint_update_all(cpu);
+> -        hw_watchpoint_update_all(cpu);
+> -        arm_rebuild_hflags(env);
+> -    }
+>  }
+>=20=20
+>  void arm_cpu_update_virq(ARMCPU *cpu)
+> @@ -576,10 +570,6 @@ static void arm_cpu_initfn(Object *obj)
+>      cpu->dtb_compatible =3D "qemu,unknown";
+>      cpu->psci_version =3D 1; /* By default assume PSCI v0.1 */
+>      cpu->kvm_target =3D QEMU_KVM_ARM_TARGET_NONE;
+> -
+> -    if (tcg_enabled()) {
+> -        cpu->psci_version =3D 2; /* TCG implements PSCI 0.2 */
+> -    }
+>  }
+>=20=20
+>  static Property arm_cpu_gt_cntfrq_property =3D
+> @@ -868,34 +858,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Erro=
+r **errp)
+>      Error *local_err =3D NULL;
+>      bool no_aa32 =3D false;
+>=20=20
+> -    /*
+> -     * If we needed to query the host kernel for the CPU features
+> -     * then it's possible that might have failed in the initfn, but
+> -     * this is the first point where we can report it.
+> -     */
+> -    if (cpu->host_cpu_probe_failed) {
+> -        error_setg(errp, "The 'host' CPU type can only be used with KVM"=
+);
+> -        return;
+> -    }
+> -
+> -#ifndef CONFIG_USER_ONLY
+> -    /* The NVIC and M-profile CPU are two halves of a single piece of
+> -     * hardware; trying to use one without the other is a command line
+> -     * error and will result in segfaults if not caught here.
+> -     */
+> -    if (arm_feature(env, ARM_FEATURE_M)) {
+> -        if (!env->nvic) {
+> -            error_setg(errp, "This board cannot be used with Cortex-M CP=
+Us");
+> -            return;
+> -        }
+> -    } else {
+> -        if (env->nvic) {
+> -            error_setg(errp, "This board can only be used with Cortex-M =
+CPUs");
+> -            return;
+> -        }
+> -    }
+> -
+> -#ifdef CONFIG_TCG
+> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+>      {
+>          uint64_t scale;
+>=20=20
+> @@ -921,8 +884,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error=
+ **errp)
+>          cpu->gt_timer[GTIMER_HYPVIRT] =3D timer_new(QEMU_CLOCK_VIRTUAL, =
+scale,
+>                                                    arm_gt_hvtimer_cb, cpu=
+);
+>      }
+> -#endif /* CONFIG_TCG */
+> -#endif /* !CONFIG_USER_ONLY */
+> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+>=20=20
+>      cpu_exec_realizefn(cs, &local_err);
+>      if (local_err !=3D NULL) {
+> @@ -1458,7 +1420,7 @@ static void arm_cpu_class_init(ObjectClass *oc, voi=
+d *data)
+>      cc->disas_set_info =3D arm_disas_set_info;
+>=20=20
+>  #ifdef CONFIG_TCG
+> -    cc->tcg_ops =3D &arm_tcg_ops;
+> +    cc->init_accel_cpu =3D tcg_arm_init_accel_cpu;
+>  #endif /* CONFIG_TCG */
+>=20=20
+>      arm32_cpu_class_init(oc, data);
+> diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-=
+cpu.c
+> index 327b2a5073..115ac523dc 100644
+> --- a/target/arm/tcg/sysemu/tcg-cpu.c
+> +++ b/target/arm/tcg/sysemu/tcg-cpu.c
+> @@ -19,10 +19,13 @@
+>   */
+>=20=20
+>  #include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/timer.h"
+>  #include "cpu.h"
+>  #include "semihosting/common-semi.h"
+>  #include "qemu/log.h"
+>  #include "tcg/tcg-cpu.h"
+> +#include "internals.h"
+>=20=20
+>  /*
+>   * Do semihosting call and set the appropriate return value. All the
+> @@ -50,3 +53,27 @@ void tcg_handle_semihosting(CPUState *cs)
+>          env->regs[15] +=3D env->thumb ? 2 : 4;
+>      }
+>  }
+> +
+> +bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
+> +{
+> +    ARMCPU *cpu =3D ARM_CPU(cs);
+> +    CPUARMState *env =3D &cpu->env;
+> +
+> +    /*
+> +     * The NVIC and M-profile CPU are two halves of a single piece of
+> +     * hardware; trying to use one without the other is a command line
+> +     * error and will result in segfaults if not caught here.
+> +     */
+> +    if (arm_feature(env, ARM_FEATURE_M)) {
+> +        if (!env->nvic) {
+> +            error_setg(errp, "This board cannot be used with Cortex-M CP=
+Us");
+> +            return false;
+> +        }
+> +    } else {
+> +        if (env->nvic) {
+> +            error_setg(errp, "This board can only be used with Cortex-M =
+CPUs");
+> +            return false;
+> +        }
+> +    }
+> +    return true;
+> +}
+> diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-mod=
+els.c
+> index 16ab5d5364..2f44fd1b41 100644
+> --- a/target/arm/tcg/tcg-cpu-models.c
+> +++ b/target/arm/tcg/tcg-cpu-models.c
+> @@ -844,15 +844,20 @@ static struct TCGCPUOps arm_v7m_tcg_ops =3D {
+>  #endif /* !CONFIG_USER_ONLY */
+>  };
+>=20=20
+> +static void arm_v7m_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *c=
+c)
+> +{
+> +    g_assert(object_class_by_name(ACCEL_CPU_NAME("tcg")) =3D=3D OBJECT_C=
+LASS(accel_cpu));
+> +
+> +    cc->tcg_ops =3D &arm_v7m_tcg_ops;
+> +}
+> +
+>  static void arm_v7m_class_init(ObjectClass *oc, void *data)
+>  {
+>      ARMCPUClass *acc =3D ARM_CPU_CLASS(oc);
+>      CPUClass *cc =3D CPU_CLASS(oc);
+>=20=20
+>      acc->info =3D data;
+> -#ifdef CONFIG_TCG
+> -    cc->tcg_ops =3D &arm_v7m_tcg_ops;
+> -#endif /* CONFIG_TCG */
+> +    cc->init_accel_cpu =3D arm_v7m_init_accel_cpu;
+>=20=20
+>      cc->gdb_core_xml_file =3D "arm-m-profile.xml";
+>  }
+> diff --git a/target/arm/tcg/tcg-cpu.c b/target/arm/tcg/tcg-cpu.c
+> index 9fd996d908..d6c3a0ba41 100644
+> --- a/target/arm/tcg/tcg-cpu.c
+> +++ b/target/arm/tcg/tcg-cpu.c
+> @@ -20,8 +20,8 @@
+>=20=20
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+> +#include "qapi/error.h"
+>  #include "tcg-cpu.h"
+> -#include "hw/core/tcg-cpu-ops.h"
+>  #include "cpregs.h"
+>  #include "internals.h"
+>  #include "exec/exec-all.h"
+> @@ -212,7 +212,7 @@ static bool arm_cpu_exec_interrupt(CPUState *cs, int =
+interrupt_request)
+>      return true;
+>  }
+>=20=20
+> -struct TCGCPUOps arm_tcg_ops =3D {
+> +static struct TCGCPUOps arm_tcg_ops =3D {
+>      .initialize =3D arm_translate_init,
+>      .synchronize_from_tb =3D arm_cpu_synchronize_from_tb,
+>      .cpu_exec_interrupt =3D arm_cpu_exec_interrupt,
+> @@ -227,3 +227,56 @@ struct TCGCPUOps arm_tcg_ops =3D {
+>      .debug_check_watchpoint =3D arm_debug_check_watchpoint,
+>  #endif /* !CONFIG_USER_ONLY */
+>  };
+> +
+> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
+> +{
+> +    g_assert(object_class_by_name(ACCEL_CPU_NAME("tcg")) =3D=3D OBJECT_C=
+LASS(accel_cpu));
+> +
+> +    cc->tcg_ops =3D &arm_tcg_ops;
+> +}
+> +
+> +static void tcg_cpu_instance_init(CPUState *cs)
+> +{
+> +    ARMCPU *cpu =3D ARM_CPU(cs);
+> +
+> +    /*
+> +     * this would be the place to move TCG-specific props
+> +     * in future refactoring of cpu properties.
+> +     */
+> +
+> +    cpu->psci_version =3D 2; /* TCG implements PSCI 0.2 */
+> +}
+> +
+> +static void tcg_cpu_reset(CPUState *cs)
+> +{
+> +    ARMCPU *cpu =3D ARM_CPU(cs);
+> +    CPUARMState *env =3D &cpu->env;
+> +
+> +    hw_breakpoint_update_all(cpu);
+> +    hw_watchpoint_update_all(cpu);
+> +    arm_rebuild_hflags(env);
+> +}
+> +
+> +static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
+> +{
+> +    AccelCPUClass *acc =3D ACCEL_CPU_CLASS(oc);
+> +
+> +#ifndef CONFIG_USER_ONLY
+> +    acc->cpu_realizefn =3D tcg_cpu_realizefn;
+> +#endif /* CONFIG_USER_ONLY */
+> +
+> +    acc->cpu_instance_init =3D tcg_cpu_instance_init;
+> +    acc->cpu_reset =3D tcg_cpu_reset;
+> +}
+> +static const TypeInfo tcg_cpu_accel_type_info =3D {
+> +    .name =3D ACCEL_CPU_NAME("tcg"),
+> +
+> +    .parent =3D TYPE_ACCEL_CPU,
+> +    .class_init =3D tcg_cpu_accel_class_init,
+> +    .abstract =3D true,
+> +};
+> +static void tcg_cpu_accel_register_types(void)
+> +{
+> +    type_register_static(&tcg_cpu_accel_type_info);
+> +}
+> +type_init(tcg_cpu_accel_register_types);
 
-> 
-> As well as a failure on the normal build:
-> 
->   Running test qtest-aarch64/migration-test
->   ERROR qtest-aarch64/migration-test - Bail out! ERROR:../../target/arm/tcg/tcg-cpu.c:233:tcg_arm_init_accel_cpu: assertion failed: (object_class_by_name(ACCEL_CPU_NAME("tcg")
->   ) == OBJECT_CLASS(accel_cpu))
->   Broken pipe
->   make: *** [Makefile.mtest:272: run-test-32] Error 1
-> 
-> I'll see if I can do some bisecting to find the culprits.
 
-
-This is a known bug in RFCv10, and a known problem, it should be fixed now in RFCv11.
-
-All in all, the accel cpu pattern seems to apply decently to ARM,
-but the biggest questions open I think from my side are around the "max" cpu refactoring patch.
-
-Thanks a lot for trying this out!
-
-Ciao,
-
-Claudio
-
-> 
->>
->> In this iteration we rebase on the latest i386_cleanup series,
->> we add reset_cpu to the accel cpu methods in tcg/ and kvm/,
->> and add an experimental refactoring of the "max" cpu type.
->>
->> Comments welcome, thanks,
->>
->> Ciao, C
->>
->> v9 -> v10:
->>
->> * "target/arm: create kvm cpu accel class"
->>  - add accel_cpu::cpu_reset to kvm-cpu
->>
->> * "target/arm: add tcg cpu accel class"
->>  - add accel_cpu::cpu_reset to tcg-cpu
->>
->> * 'XXX target/arm: experiment refactoring cpu "max"'
->>  - new tentative RFC for discussion
->>
->> v8 -> v9:
->> * added: "make is_aa64 and arm_el_is_aa64 a macro for !TARGET_AARCH64"
->> * added: "arch_dump: restrict ELFCLASS64 to AArch64"
->> * added: "cpu-exceptions: new module"
->> * added: "tcg: restrict ZCR cpregs to TARGET_AARCH64"
->> * added: "cpu-pauth: new module for ARMv8.3 Pointer Authentication"
->> * added: "refactor arm_cpu_finalize_features into cpu64"
->>
->> v7 -> v8:
->> * added split of SVE CPU properties code from cpu into cpu-sve.
->> * added split of cpu-sve into tcg/cpu-sve and kvm/cpu-sve.
->>
->> v6 -> v7:
->> * added tcg accel-cpu, experiment with improving the setting of the
->>   TCGOps, as discussed at:
->>   https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg04315.html
->>
->> v5 -> v6:
->> * rebased on latest master, adapted to arm changes
->>
->> * needed to restore the cortex-a15 cpu,
->>   moving it away from the TCG-only cpu file. This is a partial
->>   revert of commit "target/arm: Restrict TCG cpus to TCG accel"
->>
->> * added first patches that create the kvm cpu accel class
->>
->> v4 -> v5:
->> * fixed other remaining tests for kvm-only build
->> * rebased on latest target/arm changes (painful)
->> * reverted Philippe's IDAU v8m change
->>
->> v3 -> v4:
->>
->> * added style cleanup patches
->>
->> * added header cleanup
->>
->> * added basic move of simple KVM-only code to kvm/
->>
->> * fixed some qtest failures due to existing:
->>
->>   if (kvm_enabled) {
->>   
->>   } else {
->>
->>   }
->>
->>   which needed explicit if qtest_enabled() in addition to tcg_enabled() check
->>
->> * include 32bit cpus for AArch64 too.
->>
->> v2 -> v3:
->>
->> * "target/arm: tcg: add sysemu and user subsirs"
->>   - new standalone patch to create the empty tcg/sysemu and tcg/user subdirs.
->>
->> * "target/arm: only build psci for TCG"
->>   - do not move psci inside tcg/ directory, because HVF might use it soon.
->>     (Peter)
->>
->> * "target/arm: move physical address translation"
->>   - change the module name from "get-phys-addr" to "cpu-mmu",
->>     which includes aa64_va_parameter in this patch, and that
->>     will also contain the get_mmu_idx* functions later in the series.
->>     (Richard)
->>
->> * "target/arm: split cpregs from tcg/helper.c"
->>   - moved raw_read and raw_write to cpregs.h (Richard)
->>
->> * "target/arm: only perform TCG cpu and machine inits if TCG enabled"
->>   - add an explanatory comment before the kvm function for cpreg list init
->>   - change the use of g_renew to g_new, since we do not do the double
->>     initialization of cpreg list anymore.
->>
->> * "target/arm: add temporary stub for arm_rebuild_hflags"
->>   - use a if (tcg_enabled()) instead of #ifdef (Richard)
->>
->> * "target/arm: split vfp state setting from tcg helpers"
->>   - explain better what goes where in the commit (Richard)
->>
->> * "target/arm: move arm_mmu_idx*"
->>   - move the functions to cpu-mmu instead of get-phys-addr (Richard)
->>
->> * "target/arm: move sve_zcr_len_for_el to common_cpu"
->>
->>  - add a comment about those functions being in theory
->>    TARGET_AARCH64 specific, but making the change would spawn
->>    a large number of additional #ifdefs. This state predates this
->>    change (Richard).
->>
->> * "target/arm: move aarch64_sync_32_to_64 (and vv) to cpu code"
->>
->>  - explain better why these functions are needed for KVM too (Richard)
->>
->> * "target/arm: move sve_exception_el out of TCG helpers"
->>
->>  - bring over the sve_exception_el code, making it available for KVM too.
->>    (Richard)
->>
->> * "target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()"
->>
->>  - mention in the commit that this enables finally a build with
->>    configure --enable-kvm --disable-tcg
->>
->>
->> v1 -> v2: reworked of the whole series
->>
->> In this v2, only the first two patches remain, the rest is
->> reworked.
->>
->> Main reasons for the rework were:
->>
->> 1) moving out cpregs to its own module, leave the tcg-only part in tcg/
->>
->> 2) split of arm cpu32, cpu64 and cpu models. This is still not perfect,
->>    but I think it's an improvement.
->>
->> 3) import less stuff, that is actually unused or can be stubbed on KVM
->>    (thanks to the precious feedback on the previous RFCv1).
->>
->> ...
->>
->> Main issues:
->>
->> 1) basically needs the "configure only machines compatible with KVM" from Philippe,
->>    so we can avoid some of the stubs.
-> 
-> Yeah this is basically --without-default-devices with a KVM only subset
-> of devices.
-> 
->>
->> 2) tests/ work fine building with tcg or with tcg + kvm,
->>    but for making a kvm-only build pass the tests, more work is needed in tests/
->>    figuring out which tests are TCG-only and which need to be tweaked.
->>
->> Thanks a lot for your comments!
->>
->>
->> . / . / . / . / . / . /
->>
->>
->> Hi all,
->>
->> this is an experiment, a cleanup based on and requiring the series
->> "i386 cleanup PART 2":
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg05935.html
->>
->> The goal is to split the code between TCG-only and non-TCG code,
->> fixing the KVM-only build (configure --disable-tcg),
->>
->> and laying the ground for further cleanups and the use of the
->> new accel objects in the hierarchy to specialize the cpu
->> according to the accelerator.
->>
->> This is known to be an early state, with probably a lot of work
->> still needed.
->>
->> I thought it could be useful to share early, especially in light
->> of the combination of this with Philippe's work on building
->> only the machines and devices compatible with KVM for arm.
->>
->> Comments welcome, thanks,
->>
->> Claudio
->>
->>
->> Claudio Fontana (49):
->>   target/arm: move translate modules to tcg/
->>   target/arm: move helpers to tcg/
->>   arm: tcg: only build under CONFIG_TCG
->>   target/arm: tcg: add sysemu and user subsirs
->>   target/arm: only build psci for TCG
->>   target/arm: split off cpu-sysemu.c
->>   target/arm: move physical address translation to cpu-mmu
->>   target/arm: cpu-mmu: fix comment style
->>   target/arm: split cpregs from tcg/helper.c
->>   target/arm: cpregs: fix style (mostly just comments)
->>   target/arm: move cpu definitions to common cpu module
->>   target/arm: only perform TCG cpu and machine inits if TCG enabled
->>   target/arm: kvm: add stubs for some helpers
->>   target/arm: move cpsr_read, cpsr_write to cpu_common
->>   target/arm: add temporary stub for arm_rebuild_hflags
->>   target/arm: split vfp state setting from tcg helpers
->>   target/arm: move arm_mmu_idx* to cpu-mmu
->>   target/arm: move sve_zcr_len_for_el to common_cpu
->>   target/arm: move arm_sctlr away from tcg helpers
->>   target/arm: move arm_cpu_list to common_cpu
->>   target/arm: move aarch64_sync_32_to_64 (and vv) to cpu code
->>   target/arm: split a15 cpu model and 32bit class functions to cpu32.c
->>   target/arm: move sve_exception_el out of TCG helpers
->>   target/arm: refactor exception and cpu code
->>   target/arm: cpu: fix style
->>   target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
->>   target/arm: remove kvm include file for PSCI and arm-powerctl
->>   target/arm: move kvm-const.h, kvm.c, kvm64.c, kvm_arm.h to kvm/
->>   target/arm: cleanup cpu includes
->>   target/arm: remove broad "else" statements when checking accels
->>   tests/qtest: skip bios-tables-test test_acpi_oem_fields_virt for KVM
->>   tests: restrict TCG-only arm-cpu-features tests to TCG builds
->>   tests: do not run test-hmp on all machines for ARM KVM-only
->>   tests: device-introspect-test: cope with ARM TCG-only devices
->>   tests: do not run qom-test on all machines for ARM KVM-only
->>   Revert "target/arm: Restrict v8M IDAU to TCG"
->>   target/arm: create kvm cpu accel class
->>   target/arm: move kvm post init initialization to kvm cpu accel
->>   target/arm: add tcg cpu accel class
->>   target/arm: move TCG gt timer creation code in tcg/
->>   target/arm: cpu-sve: new module
->>   target/arm: cpu-sve: split TCG and KVM functionality
->>   target/arm: make is_aa64 and arm_el_is_aa64 a macro for
->>     !TARGET_AARCH64
->>   target/arm: arch_dump: restrict ELFCLASS64 to AArch64
->>   target/arm: cpu-exceptions: new module
->>   target/arm: tcg: restrict ZCR cpregs to TARGET_AARCH64
->>   target/arm: cpu-pauth: new module for ARMv8.3 Pointer Authentication
->>   target/arm: refactor arm_cpu_finalize_features into cpu64
->>   XXX target/arm: experiment refactoring cpu "max"
->>
->>  meson.build                                   |    3 +-
->>  target/arm/arm-powerctl.h                     |    2 -
->>  target/arm/cpregs.h                           |  274 +
->>  target/arm/cpu-exceptions-aa64.h              |   32 +
->>  target/arm/cpu-mmu.h                          |  119 +
->>  target/arm/cpu-qom.h                          |    3 -
->>  target/arm/cpu-sve.h                          |   40 +
->>  target/arm/cpu-vfp.h                          |   29 +
->>  target/arm/cpu.h                              |  323 +-
->>  target/arm/cpu32.h                            |   29 +
->>  target/arm/helper-a64.h                       |    2 +
->>  target/arm/helper.h                           |    1 -
->>  target/arm/internals.h                        |   46 +-
->>  target/arm/kvm/cpu-sve.h                      |   30 +
->>  target/arm/{ => kvm}/kvm-consts.h             |    0
->>  target/arm/{ => kvm}/kvm_arm.h                |    5 +-
->>  target/arm/kvm/trace.h                        |    1 +
->>  target/arm/tcg/cpu-pauth.h                    |   38 +
->>  target/arm/tcg/cpu-sve.h                      |   31 +
->>  target/arm/{ => tcg}/op_addsub.h              |    0
->>  target/arm/tcg/tcg-cpu.h                      |   40 +
->>  target/arm/tcg/trace.h                        |    1 +
->>  target/arm/{ => tcg}/translate-a64.h          |    0
->>  target/arm/{ => tcg}/translate.h              |    0
->>  target/arm/{ => tcg}/vec_internal.h           |    0
->>  target/arm/trace.h                            |    1 -
->>  target/arm/{ => tcg}/a32-uncond.decode        |    0
->>  target/arm/{ => tcg}/a32.decode               |    0
->>  target/arm/{ => tcg}/m-nocp.decode            |    0
->>  target/arm/{ => tcg}/neon-dp.decode           |    0
->>  target/arm/{ => tcg}/neon-ls.decode           |    0
->>  target/arm/{ => tcg}/neon-shared.decode       |    0
->>  target/arm/{ => tcg}/sve.decode               |    0
->>  target/arm/{ => tcg}/t16.decode               |    0
->>  target/arm/{ => tcg}/t32.decode               |    0
->>  target/arm/{ => tcg}/vfp-uncond.decode        |    0
->>  target/arm/{ => tcg}/vfp.decode               |    0
->>  hw/arm/boot.c                                 |    5 +-
->>  hw/arm/pxa2xx.c                               |    1 +
->>  hw/arm/pxa2xx_pic.c                           |    1 +
->>  hw/arm/sbsa-ref.c                             |    2 +-
->>  hw/arm/virt-acpi-build.c                      |    2 +-
->>  hw/arm/virt.c                                 |    2 +-
->>  hw/arm/xlnx-versal.c                          |    2 +-
->>  hw/arm/xlnx-zynqmp.c                          |    2 +-
->>  hw/cpu/a15mpcore.c                            |    2 +-
->>  hw/intc/arm_gic_kvm.c                         |    2 +-
->>  hw/intc/arm_gicv3_cpuif.c                     |    1 +
->>  hw/intc/arm_gicv3_its_kvm.c                   |    2 +-
->>  hw/intc/arm_gicv3_kvm.c                       |    3 +-
->>  linux-user/syscall.c                          |    4 +
->>  target/arm/arch_dump.c                        |   13 +-
->>  target/arm/arm-powerctl.c                     |    8 +-
->>  target/arm/cpregs.c                           |  377 +
->>  target/arm/cpu-common.c                       |  329 +
->>  target/arm/cpu-exceptions-aa64.c              |  553 ++
->>  target/arm/cpu-exceptions.c                   |  481 ++
->>  target/arm/cpu-mmu-sysemu.c                   | 2305 +++++++
->>  target/arm/cpu-mmu.c                          |  219 +
->>  target/arm/cpu-sve.c                          |  292 +
->>  target/arm/cpu-sysemu.c                       |   80 +
->>  target/arm/cpu-user.c                         |   41 +
->>  target/arm/cpu-vfp.c                          |   92 +
->>  target/arm/cpu.c                              |  785 +--
->>  target/arm/cpu32.c                            |  260 +
->>  target/arm/cpu64.c                            |  698 +-
->>  target/arm/cpustate-list.c                    |  146 +
->>  target/arm/gdbstub.c                          |    5 +-
->>  target/arm/kvm-stub.c                         |   24 -
->>  target/arm/kvm/cpu-sve.c                      |  118 +
->>  target/arm/kvm/helper-stubs.c                 |   43 +
->>  target/arm/kvm/kvm-cpu.c                      |  127 +
->>  target/arm/{ => kvm}/kvm.c                    |   18 +-
->>  target/arm/{ => kvm}/kvm64.c                  |    8 +-
->>  target/arm/machine.c                          |   40 +-
->>  target/arm/monitor.c                          |   10 +-
->>  target/arm/psci.c                             |    1 -
->>  target/arm/{helper.c => tcg/cpregs.c}         | 6102 +----------------
->>  target/arm/tcg/cpu-pauth.c                    |   66 +
->>  target/arm/tcg/cpu-sve.c                      |   80 +
->>  target/arm/tcg/cpu-vfp.c                      |  146 +
->>  target/arm/{ => tcg}/crypto_helper.c          |    0
->>  target/arm/{ => tcg}/debug_helper.c           |    0
->>  target/arm/{ => tcg}/helper-a64.c             |    2 +
->>  target/arm/tcg/helper.c                       | 1532 +++++
->>  target/arm/{ => tcg}/iwmmxt_helper.c          |    0
->>  target/arm/{ => tcg}/m_helper.c               |    1 +
->>  target/arm/{ => tcg}/mte_helper.c             |    0
->>  target/arm/{ => tcg}/neon_helper.c            |    0
->>  target/arm/{ => tcg}/op_helper.c              |    1 +
->>  target/arm/{ => tcg}/pauth_helper.c           |    2 +-
->>  target/arm/{ => tcg}/sve_helper.c             |    0
->>  target/arm/tcg/sysemu/tcg-cpu.c               |  120 +
->>  .../arm/{cpu_tcg.c => tcg/tcg-cpu-models.c}   |  164 +-
->>  target/arm/tcg/tcg-cpu.c                      |  500 ++
->>  target/arm/{ => tcg}/tlb_helper.c             |    1 +
->>  target/arm/{ => tcg}/translate-a64.c          |    1 +
->>  target/arm/{ => tcg}/translate-sve.c          |    0
->>  target/arm/{ => tcg}/translate.c              |    1 +
->>  target/arm/{ => tcg}/vec_helper.c             |    0
->>  target/arm/{ => tcg}/vfp_helper.c             |  210 +-
->>  tests/qtest/arm-cpu-features.c                |   15 +
->>  tests/qtest/bios-tables-test.c                |    7 +
->>  tests/qtest/device-introspect-test.c          |   18 +
->>  tests/qtest/qom-test.c                        |   20 +
->>  tests/qtest/test-hmp.c                        |   20 +
->>  target/arm/{ => tcg}/translate-neon.c.inc     |    0
->>  target/arm/{ => tcg}/translate-vfp.c.inc      |    0
->>  MAINTAINERS                                   |    2 +-
->>  target/arm/kvm/meson.build                    |   10 +
->>  target/arm/kvm/trace-events                   |    4 +
->>  target/arm/meson.build                        |   59 +-
->>  target/arm/tcg/meson.build                    |   47 +
->>  target/arm/tcg/sysemu/meson.build             |    4 +
->>  target/arm/{ => tcg}/trace-events             |    3 -
->>  target/arm/tcg/user/meson.build               |    3 +
->>  116 files changed, 9304 insertions(+), 7991 deletions(-)
->>  create mode 100644 target/arm/cpregs.h
->>  create mode 100644 target/arm/cpu-exceptions-aa64.h
->>  create mode 100644 target/arm/cpu-mmu.h
->>  create mode 100644 target/arm/cpu-sve.h
->>  create mode 100644 target/arm/cpu-vfp.h
->>  create mode 100644 target/arm/cpu32.h
->>  create mode 100644 target/arm/kvm/cpu-sve.h
->>  rename target/arm/{ => kvm}/kvm-consts.h (100%)
->>  rename target/arm/{ => kvm}/kvm_arm.h (98%)
->>  create mode 100644 target/arm/kvm/trace.h
->>  create mode 100644 target/arm/tcg/cpu-pauth.h
->>  create mode 100644 target/arm/tcg/cpu-sve.h
->>  rename target/arm/{ => tcg}/op_addsub.h (100%)
->>  create mode 100644 target/arm/tcg/tcg-cpu.h
->>  create mode 100644 target/arm/tcg/trace.h
->>  rename target/arm/{ => tcg}/translate-a64.h (100%)
->>  rename target/arm/{ => tcg}/translate.h (100%)
->>  rename target/arm/{ => tcg}/vec_internal.h (100%)
->>  delete mode 100644 target/arm/trace.h
->>  rename target/arm/{ => tcg}/a32-uncond.decode (100%)
->>  rename target/arm/{ => tcg}/a32.decode (100%)
->>  rename target/arm/{ => tcg}/m-nocp.decode (100%)
->>  rename target/arm/{ => tcg}/neon-dp.decode (100%)
->>  rename target/arm/{ => tcg}/neon-ls.decode (100%)
->>  rename target/arm/{ => tcg}/neon-shared.decode (100%)
->>  rename target/arm/{ => tcg}/sve.decode (100%)
->>  rename target/arm/{ => tcg}/t16.decode (100%)
->>  rename target/arm/{ => tcg}/t32.decode (100%)
->>  rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
->>  rename target/arm/{ => tcg}/vfp.decode (100%)
->>  create mode 100644 target/arm/cpregs.c
->>  create mode 100644 target/arm/cpu-common.c
->>  create mode 100644 target/arm/cpu-exceptions-aa64.c
->>  create mode 100644 target/arm/cpu-exceptions.c
->>  create mode 100644 target/arm/cpu-mmu-sysemu.c
->>  create mode 100644 target/arm/cpu-mmu.c
->>  create mode 100644 target/arm/cpu-sve.c
->>  create mode 100644 target/arm/cpu-sysemu.c
->>  create mode 100644 target/arm/cpu-user.c
->>  create mode 100644 target/arm/cpu-vfp.c
->>  create mode 100644 target/arm/cpu32.c
->>  create mode 100644 target/arm/cpustate-list.c
->>  delete mode 100644 target/arm/kvm-stub.c
->>  create mode 100644 target/arm/kvm/cpu-sve.c
->>  create mode 100644 target/arm/kvm/helper-stubs.c
->>  create mode 100644 target/arm/kvm/kvm-cpu.c
->>  rename target/arm/{ => kvm}/kvm.c (98%)
->>  rename target/arm/{ => kvm}/kvm64.c (99%)
->>  rename target/arm/{helper.c => tcg/cpregs.c} (59%)
->>  create mode 100644 target/arm/tcg/cpu-pauth.c
->>  create mode 100644 target/arm/tcg/cpu-sve.c
->>  create mode 100644 target/arm/tcg/cpu-vfp.c
->>  rename target/arm/{ => tcg}/crypto_helper.c (100%)
->>  rename target/arm/{ => tcg}/debug_helper.c (100%)
->>  rename target/arm/{ => tcg}/helper-a64.c (99%)
->>  create mode 100644 target/arm/tcg/helper.c
->>  rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
->>  rename target/arm/{ => tcg}/m_helper.c (99%)
->>  rename target/arm/{ => tcg}/mte_helper.c (100%)
->>  rename target/arm/{ => tcg}/neon_helper.c (100%)
->>  rename target/arm/{ => tcg}/op_helper.c (99%)
->>  rename target/arm/{ => tcg}/pauth_helper.c (99%)
->>  rename target/arm/{ => tcg}/sve_helper.c (100%)
->>  create mode 100644 target/arm/tcg/sysemu/tcg-cpu.c
->>  rename target/arm/{cpu_tcg.c => tcg/tcg-cpu-models.c} (86%)
->>  create mode 100644 target/arm/tcg/tcg-cpu.c
->>  rename target/arm/{ => tcg}/tlb_helper.c (99%)
->>  rename target/arm/{ => tcg}/translate-a64.c (99%)
->>  rename target/arm/{ => tcg}/translate-sve.c (100%)
->>  rename target/arm/{ => tcg}/translate.c (99%)
->>  rename target/arm/{ => tcg}/vec_helper.c (100%)
->>  rename target/arm/{ => tcg}/vfp_helper.c (84%)
->>  rename target/arm/{ => tcg}/translate-neon.c.inc (100%)
->>  rename target/arm/{ => tcg}/translate-vfp.c.inc (100%)
->>  create mode 100644 target/arm/kvm/meson.build
->>  create mode 100644 target/arm/kvm/trace-events
->>  create mode 100644 target/arm/tcg/meson.build
->>  create mode 100644 target/arm/tcg/sysemu/meson.build
->>  rename target/arm/{ => tcg}/trace-events (85%)
->>  create mode 100644 target/arm/tcg/user/meson.build
-> 
-> 
-
+--=20
+Alex Benn=C3=A9e
 
