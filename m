@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CD63465B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:52:43 +0100 (CET)
-Received: from localhost ([::1]:49980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873F73465B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:54:24 +0100 (CET)
+Received: from localhost ([::1]:54958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkGn-0003uc-00
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
+	id 1lOkIR-0007W8-KT
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOjKf-0006DY-HG; Tue, 23 Mar 2021 11:52:39 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:43916)
+ id 1lOjKn-0006Hg-Aq
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:52:48 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOjKS-0003m6-28; Tue, 23 Mar 2021 11:52:36 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- u5-20020a7bcb050000b029010e9316b9d5so11120325wmj.2; 
- Tue, 23 Mar 2021 08:52:23 -0700 (PDT)
+ id 1lOjKW-0003ow-8A
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:52:44 -0400
+Received: by mail-wr1-x431.google.com with SMTP id e18so21297422wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 08:52:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+DqJW1hILC/ty2QB5cQctASJtlCb2+R3sgj4EuGmuys=;
- b=GJSEbMUHcK7MG1bOkO17yk6KMdusvFzkeFNWiEp6u+TCKUQoQrhc9vdCdLw6TJcKZu
- sqSHy76uPlx6PCStqBAPlfv+yay+T8WSseU/POu6j3/yi83CJpPyyBd5P6rSD5zPPE6x
- Izrv/0cJpGVP71l8hsVFA/o9KTSMeAbQqMu5/5vf8mzB8NO3sBwafzXk/72jqFpbll6T
- Y1KZ/pSYWcoZqM/sLnhxf+8PYVGA8XxV4h1wvJC+WQcwC2XOSQn77YsomE73V7BWUDiV
- /Cf9l9D4if/Tb6+qHJKWH8hEAUuWHqptn8lcnV8ZCzYL4eV4PNuK1VINYg4Cx+YgeX0Z
- H6ag==
+ bh=6eMelu+S4QeZ4ihzo4OphSQWP1cKwxyXRVaJ5b/XIAo=;
+ b=hiZJV6Od8IwXEcgge0UpLKF49eM3OS8pZ4n2ANhK8XhjtDzJUP4unR6cI69ISACEnK
+ Xn5NMh9GUXOPDIZk1DlVUAjXOsTcSU6mVgV1hflc73XcFArWtu5SZN628tJFvdGQXUy2
+ rr9IbFYPspQcTe8ZZYxnoL9g3S+p12dvy8g7yXBnffMkIvndoEB0JMmleRijWVJI+j95
+ cm6mWwBFkOwF0gohYdiY+N4xKhKxl+tzi4/gPeRtYNcDtkmmWH5nodZnTd9QyAWBZWem
+ 6EkcillmRaksbXQOVfBMe+Ji3kbFN94BVaqk7xEKSOmlyp2vTEVRp3tHbTMq3HSyryh5
+ 6nFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+DqJW1hILC/ty2QB5cQctASJtlCb2+R3sgj4EuGmuys=;
- b=aHDVY4YMHzIGtUjVAlRroHOFkzUUSVb6kCBPzCOPIUQsVJuqibHuMt8hAbf+yNMq5f
- yFoQIcyktJ8z5lSWcXnDmCehPS9HtExzZybtzrPilRWFdGezHPwwkNf46NfxD8oSoUam
- oE6e+xe1X0zHGz0xe0cJNlHTLdDFRYB0PClml4gDe2SsEuEW/xKehujqYHXkM9KBmsqi
- w72xpTklUoPYeRPd80HtqyqWb8uMU5PVWi1yLEmWF5ftisbkeYXRQ8KJIrlb2Dms9a0k
- 2dI6XEcKh3nBrbXmsU2sEKb7uGhxslA4BnA5WuhtAn845yGZAyiyDVsE//e+tso6FsnI
- Z7Hg==
-X-Gm-Message-State: AOAM532vii4mkeLgc6ogWezhXgsz8QAQurCSlhc/tBU1VsKZB/PzN2qk
- Hr7s0wuMvfCg5Er1bxq/ML1eBJ3N76nHaA==
-X-Google-Smtp-Source: ABdhPJxQV4LtGiyYIBigA5Cb8mTzHIyoyQnjdxfUMhiJPQLhBx2aMWa4nwF3yrCztkKPhc/cJ7AEuw==
-X-Received: by 2002:a1c:bb0b:: with SMTP id l11mr4126287wmf.150.1616514742008; 
- Tue, 23 Mar 2021 08:52:22 -0700 (PDT)
+ bh=6eMelu+S4QeZ4ihzo4OphSQWP1cKwxyXRVaJ5b/XIAo=;
+ b=QPZaV5DX/mzJ5vkZMJmZOO1h1bFkgpZk2NGJinv/SLwFi2k0Nha4yrAj/ou3gE9C0i
+ ZgUxg4WrkGnYOpxAQRwUS2ZCXjqkJe8Jat19igymjyCBlAfA57l6blfdpJjqHjTwY4WM
+ qavd87rfsDI1XGdkbyLh15qimjKfDBrM/zEHLlP+vXAvzSb9XXMUsIi4eZPitd6RsJvJ
+ dsChBt4Zq8QvFP15DhFoqCg+s0wXWl3l3pWf5G0se2myd0fDc+CT41G/s7CpUTXrAY3N
+ YY50UiBGbY8FAnuxOpE8KZIeDwYGF1q4ip+xH6nAhNy+3hfPqxIB4nyQk9wDUWsXALa0
+ L7qQ==
+X-Gm-Message-State: AOAM532gmiJC0QLctYyupw6D0g/3c83SzgCfyfiemBWoCYZhbee72Su+
+ 0y3Z6DJhkOlgP0rYI70+OJzjcGPhO4L2Xw==
+X-Google-Smtp-Source: ABdhPJw+9sOvyxasfpGjOlkDfiJD+A+kX2CRgBxKl/Bfk8j18bO+rh6vleDgqEWlMbqpE6ZyYnq60w==
+X-Received: by 2002:a05:6000:118c:: with SMTP id
+ g12mr4674304wrx.353.1616514746693; 
+ Tue, 23 Mar 2021 08:52:26 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id c131sm3108481wma.37.2021.03.23.08.52.21
+ by smtp.gmail.com with ESMTPSA id s12sm2846389wmj.28.2021.03.23.08.52.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 08:52:21 -0700 (PDT)
+ Tue, 23 Mar 2021 08:52:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 10/13] blobs: Only install s390x firmwares if s390x system
- target is built
-Date: Tue, 23 Mar 2021 16:51:29 +0100
-Message-Id: <20210323155132.238193-11-f4bug@amsat.org>
+Subject: [RFC PATCH 11/13] blobs: Only install SPARC firmwares if sparc system
+ targets are built
+Date: Tue, 23 Mar 2021 16:51:30 +0100
+Message-Id: <20210323155132.238193-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210323155132.238193-1-f4bug@amsat.org>
 References: <20210323155132.238193-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,63 +87,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 ---
  meson.build         | 2 ++
  pc-bios/meson.build | 9 +++++++--
  2 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 4b614b30ed9..fccda30ffc7 100644
+index fccda30ffc7..addea8c39d7 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -99,6 +99,7 @@
- install_blobs_microblaze = false
+@@ -100,6 +100,7 @@
  install_blobs_ppc = false
  install_blobs_riscv = false
-+install_blobs_s390x = false
+ install_blobs_s390x = false
++install_blobs_sparc = false
  if get_option('install_blobs')
    foreach target : target_dirs
      install_edk2_blobs = install_edk2_blobs or target in edk2_targets
-@@ -108,6 +109,7 @@
-     install_blobs_microblaze = install_blobs_microblaze or target in ['microblaze-softmmu', 'microblazeel-softmmu']
+@@ -110,6 +111,7 @@
      install_blobs_ppc = install_blobs_ppc or (target.startswith('ppc') and target.endswith('softmmu'))
      install_blobs_riscv = install_blobs_riscv or target in ['riscv32-softmmu', 'riscv64-softmmu']
-+    install_blobs_s390x = install_blobs_s390x or target in ['s390x-softmmu']
+     install_blobs_s390x = install_blobs_s390x or target in ['s390x-softmmu']
++    install_blobs_sparc = install_blobs_sparc or target in ['sparc-softmmu', 'sparc64-softmmu']
    endforeach
  endif
  
 diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index 504f03ec925..27c0f316dee 100644
+index 27c0f316dee..89efe4359e4 100644
 --- a/pc-bios/meson.build
 +++ b/pc-bios/meson.build
-@@ -64,8 +64,6 @@
-   'linuxboot_dma.bin',
-   'kvmvapic.bin',
-   'pvh.bin',
--  's390-ccw.img',
--  's390-netboot.img',
- ))
- 
- if host_machine.system() == 'windows'
-@@ -121,6 +119,13 @@
+@@ -41,8 +41,6 @@
+   'vgabios-ramfb.bin',
+   'vgabios-bochs-display.bin',
+   'vgabios-ati.bin',
+-  'openbios-sparc32',
+-  'openbios-sparc64',
+   'QEMU,tcx.bin',
+   'QEMU,cgthree.bin',
+   'pxe-e1000.rom',
+@@ -126,6 +124,13 @@
    ))
  endif
  
-+if install_blobs_s390x
++if install_blobs_sparc
 +  blobs_ss.add(files(
-+    's390-ccw.img',
-+    's390-netboot.img',
++    'openbios-sparc32',
++    'openbios-sparc64',
 +  ))
 +endif
 +
