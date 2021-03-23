@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C193466FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:56:59 +0100 (CET)
-Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0FA34666E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:32:48 +0100 (CET)
+Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOlH0-0005vm-Fu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:56:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
+	id 1lOktb-0004Hx-L1
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <babush@rev.ng>) id 1lOkGm-0005wU-Kk
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:52:40 -0400
-Received: from rev.ng ([5.9.113.41]:36785)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <babush@rev.ng>) id 1lOkGg-0002OO-Ef
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:52:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
- References:MIME-Version:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=28igN4kxldyrW0tfNIGjPiHFdsj3YNiYvV0kxXVUx0Y=; b=A8v2uUIB4y4vH7+0pWyCt1FNKF
- eTSkxmDBVA9HuNldKGP6k07FEVWeek5mvX2f4KTtkbMoYI7TtLIntiEWdRBfLmy6W+paQQSY0bzoH
- qD8a9IdjqraoR3SjTwTysuU6UxBeG6mxhgEcjx3JG49JfUMv8zZVTlKf39c9IAA6ETgQ=;
-Received: by mail-vk1-f169.google.com with SMTP id 11so4786760vkx.6
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:52:25 -0700 (PDT)
-X-Gm-Message-State: AOAM531h2uJfhKFlqas/zefzhQaAtZv7zrK+NJgLXzeAf2pN3s1gjvbe
- Wc+PymuXUNWKggOi1kLWgKvprlwRrdjzWWw44g==
-X-Google-Smtp-Source: ABdhPJws/7gSp1AORzxY7glkcrIPYJqcrsznv/Uh2zOzWRHte9++vTrOZHHh9F0rAMLV4PasMyZLVVKAxB0iCeXAGzc=
-X-Received: by 2002:a1f:1c92:: with SMTP id c140mr4368900vkc.20.1616518339706; 
- Tue, 23 Mar 2021 09:52:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOkOo-0001m2-9H
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:00:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOkOl-0007AA-CP
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:00:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOkOj-0003KX-11
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 17:00:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D85BC2E816D
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 17:00:52 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210225151856.3284701-1-ale.qemu@rev.ng>
- <20210225151856.3284701-9-ale.qemu@rev.ng>
- <d4290039-5604-62d3-c8b2-f960d5717059@linaro.org>
-In-Reply-To: <d4290039-5604-62d3-c8b2-f960d5717059@linaro.org>
-Date: Tue, 23 Mar 2021 17:52:08 +0100
-X-Gmail-Original-Message-ID: <CALU5z=N6joYZFatrHRcBKoWqj5_X8ZhhQ=bYtCJrABLqi5XtLw@mail.gmail.com>
-Message-ID: <CALU5z=N6joYZFatrHRcBKoWqj5_X8ZhhQ=bYtCJrABLqi5XtLw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] target/hexagon: import parser for idef-parser
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org, 
- Taylor Simpson <tsimpson@quicinc.com>, Brian Cain <bcain@quicinc.com>,
- nizzo@rev.ng, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Alessandro Di Federico <ale@rev.ng>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=babush@rev.ng;
- helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Mar 2021 16:52:13 -0000
+From: Laurent Vivier <1920784@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=ubuntu-power-systems; status=New; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor laurent-vivier paelzer sadoonalbader
+X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
+Message-Id: <161651833330.19496.11835790201258829678.malone@wampee.canonical.com>
+Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: f220465af82339e4b786f87e305ef371db7fb653
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,111 +76,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Paolo Montesel <babush@rev.ng>
-From:  Paolo Montesel via <qemu-devel@nongnu.org>
 
-Thanks for the feedback, it helped us improve the implementation quite a bit.
+You need a kernel with a the following fix for POWER9:
 
-> > +| rvalue QMARK rvalue COLON rvalue
-> > +{
-> > +    @1.last_column = @5.last_column;
-> > +    bool is_64bit = ($3.bit_width == 64) || ($5.bit_width == 64);
-> > +    int bit_width = (is_64bit) ? 64 : 32;
-> > +    if (is_64bit) {
-> > +        $1 = rvalue_extend(c, &@1, &$1);
-> > +        $3 = rvalue_extend(c, &@1, &$3);
-> > +        $5 = rvalue_extend(c, &@1, &$5);
-> > +    } else {
-> > +        $1 = rvalue_truncate(c, &@1, &$1);
-> > +    }
-> > +    $1 = rvalue_materialize(c, &@1, &$1);
-> > +    $3 = rvalue_materialize(c, &@1, &$3);
-> > +    $5 = rvalue_materialize(c, &@1, &$5);
-> > +    HexValue res = gen_local_tmp(c, &@1, bit_width);
-> > +    HexValue zero = gen_tmp_value(c, &@1, "0", bit_width);
-> > +    OUT(c, &@1, "tcg_gen_movcond_i", &bit_width);
-> > +    OUT(c, &@1, "(TCG_COND_NE, ", &res, ", ", &$1, ", ", &zero);
->
-> It would be better if you parsed conditions differently.
-> Retain the two arguments and the condition, so that you can fold that into the
-> movcond directly.
->
-> E.g. instead of
->
->     tcg_gen_setcond_i32(cond, t, x, y)
->     tcg_gen_movcond_i32(TCG_COND_NE, dest, t, zero, src1, src2);
->
-> you'd be able to do
->
->     tcg_gen_movcond_i32(cond, dest, x, y, src1, src2);
->
-> This would be trivial with a non-terminal "cond", used here and with IF.  You'd
-> include cond as an alternative of rvalue, which would perform the reduction to
-> boolean with setcond.
+commit 25edcc50d76c834479d11fcc7de46f3da4d95121
+Author: Fabiano Rosas <farosas@linux.ibm.com>
+Date:   Thu Feb 4 17:05:17 2021 -0300
 
-This would save us from emitting some tcg ops but would increase the
-complexity of the parser, which doesn't seem worth it imho.
+    KVM: PPC: Book3S HV: Save and restore FSCR in the P9 path
+    =
 
-> > +    case VALUE:
-> > +        EMIT(c, "((int64_t)%" PRIu64 "ULL)", (int64_t)imm->value);
->
-> Why are you using ull then casting to signed?  Just use ll.
+    The Facility Status and Control Register is a privileged SPR that
+    defines the availability of some features in problem state. Since it
+    can be written by the guest, we must restore it to the previous host
+    value after guest exit.
+    =
 
-We have a case in which we would print `-9223372036854775808LL` (64
-bit integer with sign bit set) and gcc would complain with `warning:
-integer constant is so large that it is unsigned`.
-That's the reason for using ULL and then casting.
-I'm open to other solutions.
+    This restoration is currently done by taking the value from
+    current->thread.fscr, which in the P9 path is not enough anymore
+    because the guest could context switch the QEMU thread, causing the
+    guest-current value to be saved into the thread struct.
+    =
 
-> > +    switch (op_types) {
-> > +    case IMM_IMM:
-> > +    {
-> > +        OUT(c, locp, "tcg_gen_movi_", bit_suffix,
-> > +            "(", &res, ", ", &op1, " == ", &op2, ");\n");
-> > +        break;
-> > +    }
->
-> Drop useless braces like this.
->
-> Do you really see any IMM_IMM operations?  There are some typos in this
-> section, so certainly all operators are not represented.  It might be worth
-> folding all of these inside the parser, and not deferring to the C compiler, so
-> that you can be certain of having a real value for any IMMEDIATE.  Which will
-> help when it comes to shift below.
+    The above situation manifested when running a QEMU linked against a
+    libc with System Call Vectored support, which causes scv
+    instructions to be run by QEMU early during the guest boot (during
+    SLOF), at which point the FSCR is 0 due to guest entry. After a few
+    scv calls (1 to a couple hundred), the context switching happens and
+    the QEMU thread runs with the guest value, resulting in a Facility
+    Unavailable interrupt.
+    =
 
-Maybe not for all bin ops, but we do see IMM_IMM.
-I think we can't always fold IMMEDIATES, because they include "normal"
-C variables (e.g.: `int32_t uiV` in function arguments) that depend on
-instruction bytes at runtime.
-That's true also for the IMM_IMM case.
+    This patch saves and restores the host value of FSCR in the inner
+    guest entry loop in a way independent of current->thread.fscr. The old
+    way of doing it is still kept in place because it works for the old
+    entry path.
+    =
 
-> I'm thinking that this code could really benefit from tcg_constant_{i32,i64}.
-> It produces a hashed temp that need not be freed, and it's what many of the
-> tcg_gen_fooi functions use in the backend.
+    Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+    Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
 
-We can technically convert all the IMMs to tcg_constant before using
-them, but since we can't constant fold in the parser that would
-probably decrease performance quite a bit.
+-- =
 
-> > +static void gen_div_op(Context *c, YYLTYPE *locp, HexValue *res,
-> > +                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
-> > +{
-> > +    switch (op_types) {
-> > +    case IMM_IMM:
-> > +        OUT(c, locp, "int64_t ", res, " = ", op1, " / ", op2, ";\n");
-> > +        break;
-> > +    case IMM_REG:
-> > +    case REG_IMM:
-> > +    case REG_REG:
-> > +        OUT(c, locp, res, " = gen_helper_divu("
-> > +            "cpu_env, ", op1, ", ", op2, ");\n");
->
-> Are we trusting that div-by-zero has already been tested for?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920784
 
-Turns out div is not even used by the instructions we currently
-support (: so we can just delete this
+Title:
+  qemu-system-ppc64le fails with kvm acceleration
 
-~Paolo
+Status in QEMU:
+  New
+Status in The Ubuntu-power-systems project:
+  New
+Status in glibc package in Ubuntu:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  (Suspected glibc issue!)
+
+  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
+  error "illegal instruction"
+
+  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
+
+  Illegal instruction (core dumped)
+
+  In dmesg:
+
+  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
+  MSR=3D900000000280f033
+
+  =
+
+  Version-Release number of selected component (if applicable):
+  qemu 5.2.0 =
+
+  Linux kernel 5.11
+  glibc 2.33
+  all latest updates as of submitting the bug report
+
+  How reproducible:
+  Always
+
+  Steps to Reproduce:
+  1. Run qemu with kvm acceleration
+
+  Actual results:
+  Illegal instruction
+
+  Expected results:
+  Normal VM execution
+
+  Additional info:
+  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
+so observed on a Raptor Blackbird with the same processor.
+
+  This was also observed on Fedora 34 beta, which uses glibc 2.33
+  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
+ glibc 2.33
+  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
+ and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
+the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
+bc2.33
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 21.04
+  Package: qemu-system 1:5.2+dfsg-6ubuntu2
+  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
+  Uname: Linux 5.11.0-11-generic ppc64le
+  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
+mware/opal/msglog'
+  ApportVersion: 2.20.11-0ubuntu60
+  Architecture: ppc64el
+  CasperMD5CheckResult: pass
+  CurrentDesktop: Unity:Unity7:ubuntu
+  Date: Mon Mar 22 14:48:39 2021
+  InstallationDate: Installed on 2021-03-22 (0 days ago)
+  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
+0210321)
+  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
+  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
+  ProcSwaps:
+   Filename				Type		Size		Used		Priority
+   /swap.img                               file		8388544		0		-2
+  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
+gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
+ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
+  SourcePackage: qemu
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  VarLogDump_list: total 0
+  acpidump:
+   =
+
+  cpu_cores: Number of cores present =3D 8
+  cpu_coreson: Number of cores online =3D 8
+  cpu_smt: SMT=3D4
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
 
