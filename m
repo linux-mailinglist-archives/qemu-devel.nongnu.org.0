@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF2034666F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:32:55 +0100 (CET)
-Received: from localhost ([::1]:36700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44BC346671
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:33:00 +0100 (CET)
+Received: from localhost ([::1]:37162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkti-0004gM-OI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53372)
+	id 1lOktn-0004yf-OY
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOkD0-00085f-7H
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:48:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOkCw-0000HK-K5
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:48:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616518121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GW9oyxo5OLo36KY8k6YFLarWjlwZsj0bFPNeEtbdj9c=;
- b=c9t2MCiu7RTIfFKwgxpuTRayr+BZb2MFCmILgo4p+z+bmwZ2j4tqIpdv6gyARIUiRtTniC
- ZUqy6dEkE6URcZBYXDSvlSKMebzmOC4/5fhjQ60sw44bh2N8x+Kt3Dg6eYAqwus+gHuVGL
- itf6D4xHw+w7gBXmowK/RsdPryx/wYU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-JnLy-E3iM0CxtixftSdcVA-1; Tue, 23 Mar 2021 12:48:39 -0400
-X-MC-Unique: JnLy-E3iM0CxtixftSdcVA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E1E58030B5;
- Tue, 23 Mar 2021 16:48:38 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB90722E57;
- Tue, 23 Mar 2021 16:48:37 +0000 (UTC)
-To: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Crashes with qemu-system-ppc64
-Message-ID: <1e4835a5-b785-5d0d-64d8-bb01afeea432@redhat.com>
-Date: Tue, 23 Mar 2021 17:48:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOkDT-0000ZH-5u
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:49:15 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOkDQ-0000YI-GM
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:49:14 -0400
+Received: by mail-ed1-x533.google.com with SMTP id h13so24237386eds.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pwJASSa1vy/ihDbjNy1GdaHHWSi4DSn6yXfNgVMqErc=;
+ b=wdMYfFLsIppqNIwgS/AsIGDs6B52UykbZjU5Yf0HSn5CJYI7iZHeLANq0IYMSIMeks
+ Zv09MDqeVhcRNv7wUwKPYVSiFlYjDLd9B4xNARAnZOWOawNhyItjO5od4/LH0cM092rt
+ uiL2fXHvAGJVhNEJ3Wvfn/w2+x78tYTMVx47o6LHS9ySAVQiZcxrPxoqvffzyUsnWCd7
+ 6wxZzLN3gdxyJ3KX7U0fNcJw82P4a0oW67RhgRhYss3hcYuys+HJVVe1tFc3wAmuzmqY
+ Vj95D7268XGQQoaUPV5J5YklqLBzy47HpKVzVBWhw9o+xh/GM4m0ODoN5fc033V4WMee
+ JTRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pwJASSa1vy/ihDbjNy1GdaHHWSi4DSn6yXfNgVMqErc=;
+ b=oz8YVUDJYszWTWeIpvZqypU92JvQ+fex2SIIxOe+06Xc814rQQPO+oGxPUyjEDGnbx
+ 6hNo8PYkHeKoJmfd7yh+Uhri80QeFx2O+K1183jJUTTcdVucoJ439MdBtjABspPaFo1U
+ JIvg2dWNRJAgQOSrH1Y3hrhRk7zZkEl3TMzhi+hJef1c92cIrLgeL8sNEtEOR3BOfwWj
+ gqUKu1w7JfwUFZZXCPkH3A3yHZullN4VYN43M+FaaG0L1sAx3guEDz947Xt39veokBOe
+ VV9+jPUVYaIDzsX9STOyJiu8/QsB2iRErqGSN/ZG6q1hDf2hgU+vEp29ve3kdGGgzAxB
+ aNLw==
+X-Gm-Message-State: AOAM532GNjBn3JjTISGTtgDTWzhuk7ouecPIvK7S1QsXRJN/0/gI/XSs
+ 0HD5SNBmLpgxjgkg5Di1pUiwadWWUZ341UWAV6c+yA==
+X-Google-Smtp-Source: ABdhPJx2fXRFm/ijLmtuTtoDxzUd5HOAhszY2uWk0I7FPY1HI68l+JLP9LgzRHEnwaGujXHY943b0ofGE3asGBU7rAM=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr5395451edu.100.1616518150845; 
+ Tue, 23 Mar 2021 09:49:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210323015756.3168650-1-alistair.francis@wdc.com>
+In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 23 Mar 2021 16:48:41 +0000
+Message-ID: <CAFEAcA_y51rpHho9aTaFkvzBV0DVWST-vCn5Rmeyfzq+0tJvrg@mail.gmail.com>
+Subject: Re: [PULL 00/16] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,23 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 23 Mar 2021 at 01:59, Alistair Francis <alistair.francis@wdc.com> wrote:
+>
+> The following changes since commit c95bd5ff1660883d15ad6e0005e4c8571604f51a:
+>
+>   Merge remote-tracking branch 'remotes/philmd/tags/mips-fixes-20210322' into staging (2021-03-22 14:26:13 +0000)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210322-2
+>
+> for you to fetch changes up to 9a27f69bd668d9d71674407badc412ce1231c7d5:
+>
+>   target/riscv: Prevent lost illegal instruction exceptions (2021-03-22 21:54:40 -0400)
+>
+> ----------------------------------------------------------------
+> RISC-V PR for 6.0
+>
+> This PR includes:
+>  - Fix for vector CSR access
+>  - Improvements to the Ibex UART device
+>  - PMP improvements and bug fixes
+>  - Hypervisor extension bug fixes
+>  - ramfb support for the virt machine
+>  - Fast read support for SST flash
+>  - Improvements to the microchip_pfsoc machine
 
-In case anyone is interested in fixing those, there are two regressions with 
-qemu-system-ppc64 in the current master branch:
 
-$ ./qemu-system-ppc64 -M ppce500 -device macio-oldworld
-qemu-system-ppc64: ../../devel/qemu/softmmu/memory.c:2443: 
-memory_region_add_subregion_common: Assertion `!subregion->container' failed.
+Applied, thanks.
 
-$ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
-/home/thuth/devel/qemu/include/hw/boards.h:24:MACHINE: Object 0x5635bd53af10 
-is not an instance of type machine
-Aborted (core dumped)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-  Thomas
-
+-- PMM
 
