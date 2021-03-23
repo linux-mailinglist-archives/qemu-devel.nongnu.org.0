@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B0A346B02
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:25:11 +0100 (CET)
-Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A4F346B0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:26:50 +0100 (CET)
+Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOoWU-0002Rn-8M
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40176)
+	id 1lOoY5-0004xU-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOoUL-0000Dh-BU
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:22:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48303)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoVB-0001ZD-F5
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:23:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lOoUI-0004SD-Jn
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:22:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoV9-0004kk-LS
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:23:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616534573;
+ s=mimecast20190719; t=1616534626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=15IFVTw8PxJFfSqTWaf6slL5QxnVDHfyko/9vfyBvWI=;
- b=WKbuJSNU1JZJ/16zslsHi84bm+LIX0poz15ZkvY8IkTOkfzfPH1lBBPZFCBWVRW+tpys5/
- htW8cKTUChMJWeDR6M/xmn9K0Zu9lWzd0FhOWdDzw0XoIa4FGcfAWU+gb9j016J2i6ZVNW
- jL8bCYycgFoZBAICwsQC0vCwcepiOAA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-BsEGXLpyMRmGdQ0foAsqNg-1; Tue, 23 Mar 2021 17:22:51 -0400
-X-MC-Unique: BsEGXLpyMRmGdQ0foAsqNg-1
-Received: by mail-wr1-f72.google.com with SMTP id n17so1720490wrq.5
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 14:22:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=15IFVTw8PxJFfSqTWaf6slL5QxnVDHfyko/9vfyBvWI=;
- b=H02ZM7UebzEbTF8lt0vH9NQ+eh/wOgunQtz9iNcZC2o6lZ6ejDFfHsj9XkwHQS72hz
- pnUCZSHtxoYfqmEccd2hnaHyq1UwuhP6v4j9hGB+joNM3MMNL64R4uBXQffVuFtKV7Ad
- tLsaSf9/08QD0Z8NQoZHltf0rRWq0/2NLZgKRrQW5D/vCTwgjE+CaRyJj6UNCwNFq6wp
- ovTtFR5ciqJQEI9z3c9Bnod4l7NCtRxdujJVpS4RvWhmJmM8M/Tik40OHd0IK/JOxiiz
- PZ8n+XtYFdqiq/NZ75flEAHITt7rCIUiGh1v5bluH+0Mn3cVrZUR0AzCgBYwW3fd+oZ+
- ph5Q==
-X-Gm-Message-State: AOAM533Cuf2gCZYdvXNG7soGxiKpoprrHtYiNLr9J4e3a0CljueHx5zV
- S7IgFLdXVkKO0Y3KE15Te/J2dxBIjzymtaUQBT8P5EVX3w1hSpLLUGOAHJTWucXRzaeXjncNc8i
- R22bsAObNMe+MLiY=
-X-Received: by 2002:adf:f743:: with SMTP id z3mr6039858wrp.304.1616534570688; 
- Tue, 23 Mar 2021 14:22:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfVYlF09mEIakVMMRpm2lat8Uhm9Mu1ZLNjgigKZ4fWSLljKOleVuhMqYhKb1qVbGTv5X3BA==
-X-Received: by 2002:adf:f743:: with SMTP id z3mr6039838wrp.304.1616534570431; 
- Tue, 23 Mar 2021 14:22:50 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id o7sm211720wrs.16.2021.03.23.14.22.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 14:22:49 -0700 (PDT)
-Subject: Re: [PATCH v2 2/5] qemu-iotests: allow passing unittest.main
- arguments to the test scripts
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20210323181928.311862-1-pbonzini@redhat.com>
- <20210323181928.311862-3-pbonzini@redhat.com>
- <69c695a1-e0c0-dd5a-7473-0b70ca2becdf@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fb872acc-bc21-c1b1-3dcc-d6c74da5cef2@redhat.com>
-Date: Tue, 23 Mar 2021 22:22:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=VEXQilRl74OKYvsL8vR7deQ/B6BFM2tnQub+aECLcOM=;
+ b=cRr4J6dUotiPV9r+d4NIqIYfmCJ+ZTm8qtUrZIQ+tuAYV97X6T//pqrXPUTigWtkDuse6J
+ Sa6+FMcvluHllLDhRvnD4b9bEJQf0UoRRngNSPmCecK+rOfQr7fBNtivIGRCcCajMagOHO
+ 9OiKvtJj888MMbsLF3SwYMBNrQPU96w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-R0rSZnXpN4GmBtBwbzolRQ-1; Tue, 23 Mar 2021 17:23:42 -0400
+X-MC-Unique: R0rSZnXpN4GmBtBwbzolRQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F72A81621;
+ Tue, 23 Mar 2021 21:23:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 411DD1975E;
+ Tue, 23 Mar 2021 21:23:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C9F1211327E1; Tue, 23 Mar 2021 22:23:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 26/28] qapi: Enforce struct member naming rules
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-27-armbru@redhat.com>
+ <e5b2cdc4-a649-86c1-cde8-ce142be9f5ae@redhat.com>
+Date: Tue, 23 Mar 2021 22:23:35 +0100
+In-Reply-To: <e5b2cdc4-a649-86c1-cde8-ce142be9f5ae@redhat.com> (Eric Blake's
+ message of "Tue, 23 Mar 2021 10:46:17 -0500")
+Message-ID: <87im5hlg2w.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <69c695a1-e0c0-dd5a-7473-0b70ca2becdf@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,42 +81,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eesposit@redhat.com, kwolf@redhat.com, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: michael.roth@amd.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/03/21 20:17, Vladimir Sementsov-Ogievskiy wrote:
->>
->> +    unittest.main(argv=argv,
->> +                  testRunner=ReproducibleTestRunner,
->> +                  verbosity=2 if debug else 1,
->> +                  warnings=None if sys.warnoptions else 'ignore')
->>   def execute_setup_common(supported_fmts: Sequence[str] = (),
->>                            supported_platforms: Sequence[str] = (),
->> @@ -1350,7 +1354,7 @@ def execute_test(*args, test_function=None, 
->> **kwargs):
->>       debug = execute_setup_common(*args, **kwargs)
->>       if not test_function:
->> -        execute_unittest(debug)
->> +        execute_unittest(sys.argv, debug)
->>       else:
->>           test_function()
->>
-> 
-> If you decide to resend for some of my comments (or due to another 
-> reviewer be more careful), I think it would be nicer to merge part of 
-> this commit which moves us from passing object to passing 
-> ReproducibleTestRunner to the previous commit, to not remove line that 
-> we've added in the previous commit. And here only add argv argument.
+Eric Blake <eblake@redhat.com> writes:
 
-Well, it's the price to pay to make the previous commit as independent 
-as possible.  In particular in the previous patch there's no reason to 
-add the complexity of warnings.
+> On 3/23/21 4:40 AM, Markus Armbruster wrote:
+>> Struct members, including command arguments, event data, and union
+>> inline base members, should use '-', not '_'.  Enforce this.  Fix the
+>> fixable offenders (all in tests/), and add the remainder to pragma
+>> member-name-exceptions.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>
+>> +++ b/qapi/pragma.json
+>> @@ -31,10 +31,27 @@
+>>      # Externally visible types whose member names may use uppercase
+>>      'member-name-exceptions': [     # visible in:
+>>          'ACPISlotType',             # query-acpi-ospm-status
+>> +        'AcpiTableOptions',         # -acpitable
+>> +        'BlkdebugSetStateOptions',  # blockdev-add, -blockdev
+>> +        'BlockDeviceInfo',          # query-block
+>> +        'BlockDeviceStats',         # query-blockstats
+>> +        'BlockDeviceTimedStats',    # query-blockstats
+>> +        'BlockIOThrottle',          # block_set_io_throttle
+>> +        'BlockInfo',                # query-block
+>>          'BlockdevVmdkAdapterType',  # blockdev-create (to match VMDK spec)
+>>          'BlockdevVmdkSubformat',    # blockdev-create (to match VMDK spec)
+>> +        'ColoCompareProperties',    # object_add, -object
+>> +        'FilterMirrorProperties',   # object_add, -object
+>> +        'FilterRedirectorProperties', # object_add, -object
+>> +        'FilterRewriterProperties', # object_add, -object
+>> +        'InputLinuxProperties',     # object_add, -object
+>> +        'NetdevTapOptions',         # netdev_add, query-netdev, -netdev
+>> +        'PciBusInfo',               # query-pci
+>> +        'PciDeviceInfo',            # query-pci
+>> +        'PciMemoryRegion',          # query-pci
+>>          'QapiErrorClass',           # QMP error replies
+>>          'UuidInfo',                 # query-uuid
+>> +        'VncClientInfo',            # query-vnc, query-vnc-servers, ...
+>>          'X86CPURegister32'          # qom-get of x86 CPU properties
+>>                                      # feature-words, filtered-features
+>>      ] } }
+>
+> I was worried the list might be even longer.  And as before, we might
+> have future patches that want to add aliases and/or deprecate the old
+> spellings, as long as introspection can easily see new spellings.
+>
+> At any rate, I'm in agreement with letting the computer flag new
+> instances instead of relying on me to notice during review.
 
-I could make it three commits, but at some point too much splitting adds 
-clutter, the patches are already pretty small.
+Saves us review - fix up cycles.  Everybody wins.
 
-Paolo
+>> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+>> index 2b08b761c2..fb17eebde3 100644
+>> --- a/qga/qapi-schema.json
+>> +++ b/qga/qapi-schema.json
+>> @@ -19,6 +19,10 @@
+>>  # Whitelists to permit QAPI rule violations; think twice before you
+>
+> Did you want to fix this instance of the word 'Whitelists' somewhere in
+> the series?
+
+There's more than just this one.  We can replace them on top if we care.
+
+>>  # add to them!
+>>  { 'pragma': {
+>> +    # Types whose member names may use '_'
+>> +    'member-name-exceptions': [
+>> +        'GuestAgentInfo'
+>> +    ],
+>>      # Commands allowed to return a non-dictionary:
+>>      'command-returns-exceptions': [
+>>          'guest-file-open',
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Thanks!
 
 
