@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CAE346BCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:11:34 +0100 (CET)
-Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4466A346BE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:14:53 +0100 (CET)
+Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOpFN-0007OC-Nw
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
+	id 1lOpIa-0003VQ-A0
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1k-0007Lo-Lm
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25803)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1m-0007NW-Vc
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1R-0002nN-3j
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:25 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1Q-0002mq-Nv
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616536627;
+ s=mimecast20190719; t=1616536626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cy5Mfs0692+JnHAjtZDILDF7mAh2stZSel3gqrE5Jhc=;
- b=hYCvvYrDo6A7Aj2WkhhAJvpC47Vxn74D2mkiiVpBf9KNrCS5TWXSqvlRB/bunz1ekiHb2D
- VUmmxbH2eSsT8yCHmTnweMhajk20t5uPSTmhPSjsTWb9Zt3Q2k+Tzx1qlPEktvq2IHGeow
- Qzg9LM1CH+rnb3TlN8GrFTY1YS29v0g=
+ bh=w8YGyunyvnoJEoToPAnSB/V3t0T1i2WWd0YF7I11ZEs=;
+ b=GrPgyp/M0lBMHDvWLvXHNEeS3h3BbSxEmLX04tITeE+Nk/ueYqCVp6UPXRlem9nshs50sV
+ AiUNDCTWtnllvdcYXaBz9OAoCIH8sndJZbUntjn8tS1Wyg32hETWFupieWkriyHzpsYR8G
+ bIqIgETwAqfZfolD0DHppoSfkII1zV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-a7i3WGAtPy-htLwHBGn3hw-1; Tue, 23 Mar 2021 17:57:04 -0400
-X-MC-Unique: a7i3WGAtPy-htLwHBGn3hw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-574-F9mQUNo7Na2CKKAltH7V_w-1; Tue, 23 Mar 2021 17:57:04 -0400
+X-MC-Unique: F9mQUNo7Na2CKKAltH7V_w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 867C8108BD0A;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2BF181425A;
  Tue, 23 Mar 2021 21:57:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 311E56087C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F7CA610A8;
  Tue, 23 Mar 2021 21:57:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0A6C311326B2; Tue, 23 Mar 2021 22:56:59 +0100 (CET)
+ id 1038B11326B3; Tue, 23 Mar 2021 22:56:59 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/29] qapi: Enforce enum member naming rules
-Date: Tue, 23 Mar 2021 22:56:56 +0100
-Message-Id: <20210323215658.3840228-28-armbru@redhat.com>
+Subject: [PULL 28/29] qapi: Enforce union and alternate branch naming rules
+Date: Tue, 23 Mar 2021 22:56:57 +0100
+Message-Id: <20210323215658.3840228-29-armbru@redhat.com>
 In-Reply-To: <20210323215658.3840228-1-armbru@redhat.com>
 References: <20210323215658.3840228-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,95 +83,123 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enum members should use '-', not '_'.  Enforce this.  Fix the fixable
-offenders (all in tests/), and add the remainder to pragma
-member-name-exceptions.
+Union branch names should use '-', not '_'.  Enforce this.  The only
+offenders are in tests/.  Fix them.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210323094025.3569441-28-armbru@redhat.com>
+Message-Id: <20210323094025.3569441-29-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+[Commit message typo fixed]
 ---
- qapi/pragma.json                         | 8 ++++++++
- scripts/qapi/expr.py                     | 5 +++--
- tests/qapi-schema/enum-clash-member.err  | 2 +-
- tests/qapi-schema/enum-clash-member.json | 1 +
- 4 files changed, 13 insertions(+), 3 deletions(-)
+ scripts/qapi/expr.py                        | 4 ++--
+ tests/qapi-schema/alternate-clash.err       | 2 +-
+ tests/qapi-schema/alternate-clash.json      | 6 ++++--
+ tests/qapi-schema/qapi-schema-test.json     | 2 +-
+ tests/qapi-schema/qapi-schema-test.out      | 4 ++--
+ tests/qapi-schema/union-clash-branches.err  | 2 +-
+ tests/qapi-schema/union-clash-branches.json | 6 ++++--
+ 7 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/qapi/pragma.json b/qapi/pragma.json
-index f422a1a2ac..b4e17167e1 100644
---- a/qapi/pragma.json
-+++ b/qapi/pragma.json
-@@ -32,12 +32,15 @@
-     'member-name-exceptions': [     # visible in:
-         'ACPISlotType',             # query-acpi-ospm-status
-         'AcpiTableOptions',         # -acpitable
-+        'BlkdebugEvent',            # blockdev-add, -blockdev
-         'BlkdebugSetStateOptions',  # blockdev-add, -blockdev
-         'BlockDeviceInfo',          # query-block
-         'BlockDeviceStats',         # query-blockstats
-         'BlockDeviceTimedStats',    # query-blockstats
-         'BlockIOThrottle',          # block_set_io_throttle
-         'BlockInfo',                # query-block
-+        'BlockdevAioOptions',       # blockdev-add, -blockdev
-+        'BlockdevDriver',           # blockdev-add, query-blockstats, ...
-         'BlockdevVmdkAdapterType',  # blockdev-create (to match VMDK spec)
-         'BlockdevVmdkSubformat',    # blockdev-create (to match VMDK spec)
-         'ColoCompareProperties',    # object_add, -object
-@@ -46,10 +49,15 @@
-         'FilterRewriterProperties', # object_add, -object
-         'InputLinuxProperties',     # object_add, -object
-         'NetdevTapOptions',         # netdev_add, query-netdev, -netdev
-+        'ObjectType',               # object-add, -object
-+        'PCIELinkSpeed',            # internal only
-         'PciBusInfo',               # query-pci
-         'PciDeviceInfo',            # query-pci
-         'PciMemoryRegion',          # query-pci
-+        'QKeyCode',                 # send-key, input-sent-event
-         'QapiErrorClass',           # QMP error replies
-+        'SshHostKeyCheckMode',      # blockdev-add, -blockdev
-+        'SysEmuTarget',             # query-cpu-fast, query-target
-         'UuidInfo',                 # query-uuid
-         'VncClientInfo',            # query-vnc, query-vnc-servers, ...
-         'X86CPURegister32'          # qom-get of x86 CPU properties
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index ba9f7ad350..d968609c48 100644
+index d968609c48..540b3982b1 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -229,7 +229,7 @@ def check_enum(expr, info):
-     if prefix is not None and not isinstance(prefix, str):
-         raise QAPISemError(info, "'prefix' must be a string")
- 
--    permit_upper = name in info.pragma.member_name_exceptions
-+    permissive = name in info.pragma.member_name_exceptions
- 
-     members[:] = [m if isinstance(m, dict) else {'name': m}
-                   for m in members]
-@@ -243,7 +243,8 @@ def check_enum(expr, info):
-         if member_name[0].isdigit():
-             member_name = 'd' + member_name # Hack: hide the digit
-         check_name_lower(member_name, info, source,
--                         permit_upper, permit_underscore=True)
-+                         permit_upper=permissive,
-+                         permit_underscore=permissive)
-         check_if(member, info, source)
- 
- 
-diff --git a/tests/qapi-schema/enum-clash-member.err b/tests/qapi-schema/enum-clash-member.err
-index 5986571427..e4eb102ae2 100644
---- a/tests/qapi-schema/enum-clash-member.err
-+++ b/tests/qapi-schema/enum-clash-member.err
+@@ -274,7 +274,7 @@ def check_union(expr, info):
+     for (key, value) in members.items():
+         source = "'data' member '%s'" % key
+         if discriminator is None:
+-            check_name_lower(key, info, source, permit_underscore=True)
++            check_name_lower(key, info, source)
+         # else: name is in discriminator enum, which gets checked
+         check_keys(value, info, source, ['type'], ['if'])
+         check_if(value, info, source)
+@@ -288,7 +288,7 @@ def check_alternate(expr, info):
+         raise QAPISemError(info, "'data' must not be empty")
+     for (key, value) in members.items():
+         source = "'data' member '%s'" % key
+-        check_name_lower(key, info, source, permit_underscore=True)
++        check_name_lower(key, info, source)
+         check_keys(value, info, source, ['type'], ['if'])
+         check_if(value, info, source)
+         check_type(value['type'], info, source)
+diff --git a/tests/qapi-schema/alternate-clash.err b/tests/qapi-schema/alternate-clash.err
+index 0fe02f2c99..caa2d42e3f 100644
+--- a/tests/qapi-schema/alternate-clash.err
++++ b/tests/qapi-schema/alternate-clash.err
 @@ -1,2 +1,2 @@
- enum-clash-member.json: In enum 'MyEnum':
--enum-clash-member.json:2: value 'one_two' collides with value 'one-two'
-+enum-clash-member.json:3: value 'one_two' collides with value 'one-two'
-diff --git a/tests/qapi-schema/enum-clash-member.json b/tests/qapi-schema/enum-clash-member.json
-index b6928b8bfd..82bcbf724b 100644
---- a/tests/qapi-schema/enum-clash-member.json
-+++ b/tests/qapi-schema/enum-clash-member.json
-@@ -1,2 +1,3 @@
- # we reject enums where members will clash when mapped to C enum
-+{ 'pragma': { 'member-name-exceptions': [ 'MyEnum' ] } }
- { 'enum': 'MyEnum', 'data': [ 'one-two', 'one_two' ] }
+ alternate-clash.json: In alternate 'Alt1':
+-alternate-clash.json:4: branch 'a_b' collides with branch 'a-b'
++alternate-clash.json:6: name of 'data' member 'a_b' must not use uppercase or '_'
+diff --git a/tests/qapi-schema/alternate-clash.json b/tests/qapi-schema/alternate-clash.json
+index 039c4be658..87f061a74a 100644
+--- a/tests/qapi-schema/alternate-clash.json
++++ b/tests/qapi-schema/alternate-clash.json
+@@ -1,5 +1,7 @@
+ # Alternate branch name collision
+-# Reject an alternate that would result in a collision in generated C
+-# names (this would try to generate two union members named 'a_b').
++# Naming rules make collision impossible (even with the pragma).  If
++# that wasn't the case, then we'd get a collision in generated C: two
++# union members a_b.
++{ 'pragma': { 'member-name-exceptions': [ 'Alt1' ] } }
+ { 'alternate': 'Alt1',
+   'data': { 'a-b': 'bool', 'a_b': 'int' } }
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index 387678acbb..84b9d41f15 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -231,7 +231,7 @@
+ 
+ { 'union': 'TestIfUnion', 'data':
+   { 'foo': 'TestStruct',
+-    'union_bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
++    'bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
+   'if': 'defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)' }
+ 
+ { 'command': 'test-if-union-cmd',
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index 51efe5d7cd..e0b8a5f0b6 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -309,14 +309,14 @@ object q_obj_TestStruct-wrapper
+     member data: TestStruct optional=False
+ enum TestIfUnionKind
+     member foo
+-    member union_bar
++    member bar
+         if ['defined(TEST_IF_UNION_BAR)']
+     if ['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)']
+ object TestIfUnion
+     member type: TestIfUnionKind optional=False
+     tag type
+     case foo: q_obj_TestStruct-wrapper
+-    case union_bar: q_obj_str-wrapper
++    case bar: q_obj_str-wrapper
+         if ['defined(TEST_IF_UNION_BAR)']
+     if ['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)']
+ object q_obj_test-if-union-cmd-arg
+diff --git a/tests/qapi-schema/union-clash-branches.err b/tests/qapi-schema/union-clash-branches.err
+index 73bbc2cabd..ef53645728 100644
+--- a/tests/qapi-schema/union-clash-branches.err
++++ b/tests/qapi-schema/union-clash-branches.err
+@@ -1,2 +1,2 @@
+ union-clash-branches.json: In union 'TestUnion':
+-union-clash-branches.json:4: branch 'a_b' collides with branch 'a-b'
++union-clash-branches.json:6: name of 'data' member 'a_b' must not use uppercase or '_'
+diff --git a/tests/qapi-schema/union-clash-branches.json b/tests/qapi-schema/union-clash-branches.json
+index 3bece8c948..7bdda0b0da 100644
+--- a/tests/qapi-schema/union-clash-branches.json
++++ b/tests/qapi-schema/union-clash-branches.json
+@@ -1,5 +1,7 @@
+ # Union branch name collision
+-# Reject a union that would result in a collision in generated C names (this
+-# would try to generate two members 'a_b').
++# Naming rules make collision impossible (even with the pragma).  If
++# that wasn't the case, then we'd get collisions in generated C: two
++# union members a_b, and two enum members TEST_UNION_A_B.
++{ 'pragma': { 'member-name-exceptions': [ 'TestUnion' ] } }
+ { 'union': 'TestUnion',
+   'data': { 'a-b': 'int', 'a_b': 'str' } }
 -- 
 2.26.3
 
