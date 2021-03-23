@@ -2,70 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E811C346BC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:09:46 +0100 (CET)
-Received: from localhost ([::1]:56574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA779346CEE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 23:28:05 +0100 (CET)
+Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOpDd-00032r-Lq
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48398)
+	id 1lOpVM-0008CT-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 18:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1Y-000754-48
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20419)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lOp3O-0002iq-5H; Tue, 23 Mar 2021 17:59:10 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46160
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOp1P-0002mz-WF
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:57:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616536626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YLrjTVwoMbXiA5kbm5QHR+bbexvD3KTjgQOc0ele8eY=;
- b=H2LK0pOGJFgixP8JleA3IhsJT5vNIlauS+DRuaDew9+chBm4IUsIkBXBGYrjQkgQ1xL4eG
- bS7brvnp2pbnKVvOSvZFy4OYHbyS+RYl5gbIDynsbnkZlv/JRqVOeCkS3LBwEIPBa2PamQ
- j6ywnuvmOmtRGr5MR6hj7z7QA6+1G+w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-hA1bQNHmMZyHAYI28kApTA-1; Tue, 23 Mar 2021 17:57:04 -0400
-X-MC-Unique: hA1bQNHmMZyHAYI28kApTA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A39F0100747D;
- Tue, 23 Mar 2021 21:57:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7028510027A5;
- Tue, 23 Mar 2021 21:57:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1633611326B4; Tue, 23 Mar 2021 22:56:59 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 29/29] block: Remove monitor command block_passwd
-Date: Tue, 23 Mar 2021 22:56:58 +0100
-Message-Id: <20210323215658.3840228-30-armbru@redhat.com>
-In-Reply-To: <20210323215658.3840228-1-armbru@redhat.com>
-References: <20210323215658.3840228-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lOp3L-0003wh-Ga; Tue, 23 Mar 2021 17:59:09 -0400
+Received: from host86-143-93-99.range86-143.btcentralplus.com ([86.143.93.99]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lOp37-0002xm-9P; Tue, 23 Mar 2021 21:58:59 +0000
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
+ <a112d264-7540-9e4b-bc10-fe8e4518d828@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <ef7a0bc6-3150-2f16-492f-5138fcee0b52@ilande.co.uk>
+Date: Tue, 23 Mar 2021 21:58:44 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a112d264-7540-9e4b-bc10-fe8e4518d828@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-SA-Exim-Connect-IP: 86.143.93.99
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v7 1/8] vt82c686: Implement control of serial port io
+ ranges via config regs
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,137 +64,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, f4bug@amsat.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Command block_passwd always fails since
+On 23/03/2021 12:54, BALATON Zoltan wrote:
 
-Commit c01c214b69 "block: remove all encryption handling APIs"
-(v2.10.0) turned block_passwd into a stub that always fails, and
-hardcoded encryption_key_missing to false in query-named-block-nodes
-and query-block.
+> On Wed, 10 Mar 2021, BALATON Zoltan wrote:
+>> In VIA super south bridge the io ranges of superio components
+>> (parallel and serial ports and FDC) can be controlled by superio
+>> config registers to set their base address and enable/disable them.
+>> This is not easy to implement in QEMU because ISA emulation is only
+>> designed to set io base address once on creating the device and io
+>> ranges are registered at creation and cannot easily be disabled or
+>> moved later.
+>>
+>> In this patch we hack around that but only for serial ports because
+>> those have a single io range at port base that's relatively easy to
+>> handle and it's what guests actually use and set address different
+>> than the default.
+>>
+>> We do not attempt to handle controlling the parallel and FDC regions
+>> because those have multiple io ranges so handling them would be messy
+>> and guests either don't change their deafult or don't care. We could
+>> even get away with disabling and not emulating them, but since they
+>> are already there, this patch leaves them mapped at their default
+>> address just in case this could be useful for a guest in the future.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> 
+> Could this patch be reviewed now please? I've dropped it from later versions to avoid 
+> this holding back the series but now that it won't be in 6.0 I'd like to go back to 
+> this. This is implementing the behaviour of the real hardware better than the 
+> unsettable default value we have as a replacement. That approach also works for the 
+> guests I've tried (MorphOS and Linux) but if we can do better than why not do it?
 
-Commit ad1324e044 "block: remove 'encryption_key_missing' flag from
-QAPI" just landed.  Complete the cleanup job: remove block_passwd.
+Do bear in mind that several people have already looked at this patch and haven't 
+felt comfortable enough to review it, and I've also said in a previous email that 
+this isn't the right approach. Given that the ISA bus partly uses the ioport address 
+to reference the device, manually moving the memory regions around for devices on the 
+bus without the ISA bus seeing those changes is going to cause issues.
 
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210323101951.3686029-1-armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- qapi/block-core.json           | 14 --------------
- qapi/pragma.json               |  1 -
- block/monitor/block-hmp-cmds.c | 10 ----------
- blockdev.c                     |  8 --------
- hmp-commands.hx                | 15 ---------------
- 5 files changed, 48 deletions(-)
+IIRC the ability to dynamically change the standard ISA addresses was present in 
+several motherboards from that era, and given that this functionality hasn't been 
+implemented in QEMU this already tells us that no firmware is currently is using it.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 1c3f1deb03..6d227924d0 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1207,20 +1207,6 @@
- ##
- { 'command': 'query-block-jobs', 'returns': ['BlockJobInfo'] }
- 
--##
--# @block_passwd:
--#
--# This command sets the password of a block device that has not been open
--# with a password and requires one.
--#
--# This command is now obsolete and will always return an error since 2.10
--#
--##
--{ 'command': 'block_passwd',
--  'data': { '*device': 'str',
--            '*node-name': 'str',
--            'password': 'str' } }
--
- ##
- # @block_resize:
- #
-diff --git a/qapi/pragma.json b/qapi/pragma.json
-index b4e17167e1..3bc0335d1f 100644
---- a/qapi/pragma.json
-+++ b/qapi/pragma.json
-@@ -6,7 +6,6 @@
-     # Commands allowed to return a non-dictionary:
-     'command-name-exceptions': [
-         'add_client',
--        'block_passwd',
-         'block_resize',
-         'block_set_io_throttle',
-         'client_migrate_info',
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index 75d7fa9510..ebf1033f31 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -515,16 +515,6 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, error);
- }
- 
--void hmp_block_passwd(Monitor *mon, const QDict *qdict)
--{
--    const char *device = qdict_get_str(qdict, "device");
--    const char *password = qdict_get_str(qdict, "password");
--    Error *err = NULL;
--
--    qmp_block_passwd(true, device, false, NULL, password, &err);
--    hmp_handle_error(mon, err);
--}
--
- void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
- {
-     Error *err = NULL;
-diff --git a/blockdev.c b/blockdev.c
-index cf70bb4e43..621cc3b7c4 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2407,14 +2407,6 @@ exit:
-     job_txn_unref(block_job_txn);
- }
- 
--void qmp_block_passwd(bool has_device, const char *device,
--                      bool has_node_name, const char *node_name,
--                      const char *password, Error **errp)
--{
--    error_setg(errp,
--               "Setting block passwords directly is no longer supported");
--}
--
- BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
-                                                               const char *name,
-                                                               Error **errp)
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 9b88c45174..435c591a1c 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1493,21 +1493,6 @@ SRST
-   used by another monitor command.
- ERST
- 
--    {
--        .name       = "block_passwd",
--        .args_type  = "device:B,password:s",
--        .params     = "block_passwd device password",
--        .help       = "set the password of encrypted block devices",
--        .cmd        = hmp_block_passwd,
--    },
--
--SRST
--``block_passwd`` *device* *password*
--  Set the encrypted device *device* password to *password*
--
--  This command is now obsolete and will always return an error since 2.10
--ERST
--
-     {
-         .name       = "block_set_io_throttle",
-         .args_type  = "device:B,bps:l,bps_rd:l,bps_wr:l,iops:l,iops_rd:l,iops_wr:l",
--- 
-2.26.3
+I don't understand why using the hard-coded addresses in the v10 is a problem here? 
+The addresses you added in the comments representing the programmed values are the 
+standard ISA device addresses, so if those are what the firmware is programming then 
+there will be no change. You also reported that it works fine with both your MorphOS 
+and Linux test images, indicating that neither of these guest OSs require the feature.
 
+If you find a guest OS that needs the functionality then certainly we can talk about 
+trying to come up with a solution, but for me the extra complexity of this approach 
+and the fact that you're overriding the management of the device by the ISA bus is 
+why I haven't given it a R-B tag (I should add that my R-B for v10 using the 
+hard-coded ISA addresses still stands).
+
+
+ATB,
+
+Mark.
 
