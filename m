@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE97346945
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:43:39 +0100 (CET)
-Received: from localhost ([::1]:45328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5714F34695B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:56:21 +0100 (CET)
+Received: from localhost ([::1]:38314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmwE-0003vh-SG
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
+	id 1lOn8W-0003AU-Co
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOmpt-0004l1-9D
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:37:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lOmpr-0006x0-Iz
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:37:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616528222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZmfPaTBR8wilJm1nYN/WkiiflxOqeM3YtnKS21sOGSY=;
- b=V1USUxsJl2oc/rd/9f05oxJlPxuEqKPgDIP61RKBnGUbrc1Ldhdkk2V4P6fqdEa9CVuc5u
- XP/XQyTTwGfrQ1m7yzjhbrDgI5mv/vm7hjR+f+AYoCUrg5+rtXGDc3PZCXx1FBrz/xB50j
- WElZk1oFEf3V/93GdTz9/DOYyeO2h3E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-yTdWVAAiNnyUXZFB9Ww5Mw-1; Tue, 23 Mar 2021 15:36:59 -0400
-X-MC-Unique: yTdWVAAiNnyUXZFB9Ww5Mw-1
-Received: by mail-wr1-f72.google.com with SMTP id z6so1569088wrh.11
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:36:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOmrQ-0006jE-Kg
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:38:40 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:43592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOmrO-0007cT-Ri
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:38:40 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ m21-20020a9d7ad50000b02901b83efc84a0so20620243otn.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s+uordGXtKD57HmjWwElVJIoHWlFtYmyKQYWmxTiN5s=;
+ b=JldLbGsycSXJiekghfXMw/bXAHUXdJSPj8TtlFgugjVy72a1MObh8lBOxIzNcAL6Nk
+ sdkUxx7kHbISu3xJZpIa9Fa/BjRcT8Iq4Dq+ohlDDde5kmheALSh4AuESVMlgKlbwa9D
+ Wg0G+8BvtNSkC5uAb26UJAcbFpvsQ01jX9zl3mruEJcI5BkGauH3oGiaXQEC+O5LlB/T
+ kvmULEZ1g86M4P9TV4Fo3Y3GzxCtYiV1H2VlSm5Ty3GV40gn1UItw+/o1yePfbsSO9vv
+ /ZTkTotdQ3GRmfDn15y0zsr/0K16TdfxQpC8tJZTK7tUzH7fSLuCN3V6XthaLuJ6VvqY
+ 9iXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZmfPaTBR8wilJm1nYN/WkiiflxOqeM3YtnKS21sOGSY=;
- b=eNUNfk4JaQ9NA8HHZ1Br1LcPod7ERrXqCCkWp5B1uO+hUjMGKeqh2JW4EZbge/jYHo
- BscRcCLbV4qfccjdRWxa1TE9YrbCNEtD/da44fI/UdQRo1P4p3do07hzThDWzkfwT+9g
- +9ygRPCot+p8G1AtkWS6H0YDt6V7b+/Fkp5ANQ7JHhMXRvCLq4hUZif5XHX5+lNtIGpA
- nz+NW62kga+vf/jJat2Fj1CFYog1+zJ8aXotFFjvhzKtE5Eq/MmRRnRHRFRsLI0vQbH5
- FDCQy0nfzCR6/quKXmocd+d7FE8YPmgnjiWOlWFdL8jEwXielIuRbF0k9nN9sfSuduHZ
- lXTA==
-X-Gm-Message-State: AOAM5313NVbw/x8s93rWjUuBpbE73HcPkHdbpLoqnG3CAGfBoIe0Qopa
- mYJkDKc56/9Xt1JROz4e8s/xXeSB62EBQ2cFoEW7onZps5JO87qn4SziUOa/Hz4DeYOwYpwDlCA
- p9Youae2PWdVeEzU=
-X-Received: by 2002:adf:f144:: with SMTP id y4mr5713118wro.408.1616528217826; 
- Tue, 23 Mar 2021 12:36:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwH5ACdHtRmQQ8MHFIVQwWuIigvXuP0QGIj7c9G4+7/9DAPGl5fD1lJ/PWRuPKBbilr9kuhhw==
-X-Received: by 2002:adf:f144:: with SMTP id y4mr5713096wro.408.1616528217618; 
- Tue, 23 Mar 2021 12:36:57 -0700 (PDT)
-Received: from redhat.com (bzq-79-183-252-180.red.bezeqint.net.
- [79.183.252.180])
- by smtp.gmail.com with ESMTPSA id y18sm25322027wrq.61.2021.03.23.12.36.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 12:36:57 -0700 (PDT)
-Date: Tue, 23 Mar 2021 15:36:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: Re: [PATCH v2 3/3] acpi:piix4, vt82c686: reinitialize acpi PM device
- on reset
-Message-ID: <20210323153624-mutt-send-email-mst@kernel.org>
-References: <cover.1616519655.git.isaku.yamahata@intel.com>
- <a4ac127f85c6787cf8fdf0a002b9dc0f3a7e080b.1616519655.git.isaku.yamahata@intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s+uordGXtKD57HmjWwElVJIoHWlFtYmyKQYWmxTiN5s=;
+ b=jbmk0vVqFJZ6dfa8BXyOD+1baEG4JPVExPVZLcLslhJZG+zWMCWWb8o2oMI5Pqpt58
+ pP/ODzvy5x0szY4ECLA6IrPSJrE33QAxreE5UjFPUQIkJ3coAalXbFu6raG12Bqwr62I
+ vej2TNFzZ2rpQO2bu8uPxX6uKBOaB79CUJia6R1/8E/IA4+x7V+XfwwjcfSgbLi85HqY
+ Kye6+62F+/sG9rDo2I3rkYn6jJqAyt3GQ89rco8uOTkYjE/WpjmnBUA9ThYJ/1NGsVjq
+ uVuMqX8Bg07a03mWQcUn3y5v5JVKFPTEl4AhmQnmjTVvuuFs8p30ojCGy9VOi2ZpM823
+ WsoA==
+X-Gm-Message-State: AOAM533752yW4XQIyFpPHy7NdstKtF/6ynXiCdqpQXZ4cjo/4erKMJIV
+ zaebQznUoQ2Pb52bmqpjHJNX5g==
+X-Google-Smtp-Source: ABdhPJxlPYX7u6UrABuvTp6Oc5wo837bzIKSXfguICWoaM02V6ZEbZQ8rP5zsOxMbKqLATCWzpBzsA==
+X-Received: by 2002:a05:6830:408a:: with SMTP id
+ x10mr5733274ott.248.1616528317421; 
+ Tue, 23 Mar 2021 12:38:37 -0700 (PDT)
+Received: from [192.168.103.34] (171.189-204-159.bestelclientes.com.mx.
+ [189.204.159.171])
+ by smtp.gmail.com with ESMTPSA id e82sm3951756oob.37.2021.03.23.12.38.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 12:38:36 -0700 (PDT)
+Subject: Re: [RFC v10 00/49] arm cleanup experiment for kvm-only build
+To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210322140206.9513-1-cfontana@suse.de>
+ <87k0pxiu7n.fsf@linaro.org> <f57c1550-e58d-a401-18b4-3143e99f4cce@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b0f32f34-c49c-ef4d-18e5-9b8ef80ce34a@linaro.org>
+Date: Tue, 23 Mar 2021 13:38:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <a4ac127f85c6787cf8fdf0a002b9dc0f3a7e080b.1616519655.git.isaku.yamahata@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <f57c1550-e58d-a401-18b4-3143e99f4cce@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,98 +91,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, f4bug@amsat.org,
- qemu-devel@nongnu.org, Reinoud Zandijk <reinoud@netbsd.org>,
- aurelien@aurel32.net, pbonzini@redhat.com, imammedo@redhat.com,
- isaku.yamahata@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 10:24:31AM -0700, Isaku Yamahata wrote:
-> Commit 6be8cf56bc8b made sure that SCI is enabled in PM1.CNT
-> on reset in acpi_only mode by modifying acpi_pm1_cnt_reset() and
-> that worked for q35 as expected.
+On 3/23/21 1:20 PM, Claudio Fontana wrote:
+>> Also I did a number of different builds:
+>>
+>>     fdfind -0 -t x qemu-system-aarch64 | xargs -0 ls -lh
+>>    -rwxrwxr-x 1 alex alex 129M Mar 23 18:09 all/qemu-system-aarch64
+>>    -rwxrwxr-x 1 alex alex  64M Mar 23 18:16 disable.all/qemu-system-aarch64
+>>    -rwxrwxr-x 1 alex alex  81M Mar 23 18:20 disable.defaults/qemu-system-aarch64
+>>    -rwxrwxr-x 1 alex alex  94M Mar 23 18:12 disable.tcg/qemu-system-aarch64
 > 
-> The function was introduced by commit
->   eaba51c573a (acpi, acpi_piix, vt82c686: factor out PM1_CNT logic)
-> that forgot to actually call it at piix4 reset time and as result
-> SCI_EN wasn't set as was expected by 6be8cf56bc8b in acpi_only mode.
-> 
-> So Windows crashes when it notices that SCI_EN is not set and FADT is
-> not providing information about how to enable it anymore.
-> Reproducer:
->    qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.0,smm=off -cdrom any_windows_10x64.iso
-> 
-> Fix it by calling acpi_pm1_cnt_reset() at piix4 reset time.
-> 
-> Occasionally this patch adds reset acpi PM related registers on
-> piix4/vt582c686 reset time and de-assert sci.
-> piix4_pm_realize() initializes acpi pm tmr, evt, cnt and gpe.
-> via_pm_realize() initializes acpi pm tmr, evt and cnt.
-> reset them on device reset. pm_reset() in ich9.c correctly calls
-> corresponding reset functions.
-> 
-> Fixes: 6be8cf56bc8b (acpi/core: always set SCI_EN when SMM isn't supported)
-> Reported-by: Reinoud Zandijk <reinoud@NetBSD.org>
-> Co-developed-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> ---
-> CC: imammedo@redhat.com
-> CC: isaku.yamahata@intel.com
-> CC: mst@redhat.com
-> CC: reinoud@NetBSD.org
-> CC: isaku.yamahata@gmail.com
-> CC: berrange@redhat.com
-> CC: pbonzini@redhat.com
-> CC: f4bug@amsat.org
-> CC: aurelien@aurel32.net
+> Interesting, I did not think to check these numbers (anymore, I was at Huawei times).
+> It is still quite a large size.
 
-Can you split acpi and vt82c686 changes to separate patches
-please? This way we can merge them independently.
+File size is only somewhat interesting, since I assume this includes debug 
+info.  Using the size tool is better, to see the real runtime code+data size.
 
-Thanks!
 
-> ---
->  hw/acpi/piix4.c   | 7 +++++++
->  hw/isa/vt82c686.c | 5 +++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 6056d51667..8f8b0e95e5 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -326,6 +326,13 @@ static void piix4_pm_reset(DeviceState *dev)
->          /* Mark SMM as already inited (until KVM supports SMM). */
->          pci_conf[0x5B] = 0x02;
->      }
-> +
-> +    acpi_pm1_evt_reset(&s->ar);
-> +    acpi_pm1_cnt_reset(&s->ar);
-> +    acpi_pm_tmr_reset(&s->ar);
-> +    acpi_gpe_reset(&s->ar);
-> +    acpi_update_sci(&s->ar, s->irq);
-> +
->      pm_io_space_update(s);
->      acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
->  }
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index f0fb309f12..98325bb32b 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -178,6 +178,11 @@ static void via_pm_reset(DeviceState *d)
->      /* SMBus IO base */
->      pci_set_long(s->dev.config + 0x90, 1);
->  
-> +    acpi_pm1_evt_reset(&s->ar);
-> +    acpi_pm1_cnt_reset(&s->ar);
-> +    acpi_pm_tmr_reset(&s->ar);
-> +    pm_update_sci(s);
-> +
->      pm_io_space_update(s);
->      smb_io_space_update(s);
->  }
-> -- 
-> 2.25.1
-
+r~
 
