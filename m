@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B15346AE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:17:26 +0100 (CET)
-Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403CF346AE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:17:57 +0100 (CET)
+Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOoOy-0000nl-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
+	id 1lOoPU-0001Ol-9A
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:17:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoMW-0007Xv-PD
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:14:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOoMT-0000tg-L2
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:14:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616534088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XU3DgzcJNZaDIHr2ih2EOsccVyy+ZAfq4Kj31xfl2Ac=;
- b=JSgTfHC8lq+FqsqFacd5p8Pfdv3Hi9vKPZXb6tRyHIbJ5qESNQgGGaEYNzOzXpTc/2G3dK
- 62h1wx38wAn9RFwR9ilI7gF/vUTZLdixIf1NNsI4lkGigDI5rwYZUtRX6ck3J1Vd7F8fbb
- Qc+0nWbuxLi5f3Y414t827Uu11OfvdQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-SWpuVySxMQ2ObUibzWb8SQ-1; Tue, 23 Mar 2021 17:14:46 -0400
-X-MC-Unique: SWpuVySxMQ2ObUibzWb8SQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2139107ACCD;
- Tue, 23 Mar 2021 21:14:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 808865C1C5;
- Tue, 23 Mar 2021 21:14:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 140CC11327E1; Tue, 23 Mar 2021 22:14:41 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
- stricter checking
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-11-armbru@redhat.com>
- <ed036808-1666-8efd-14d4-dfe0863dfa4a@redhat.com>
- <87tup1on0z.fsf@dusky.pond.sub.org>
-Date: Tue, 23 Mar 2021 22:14:41 +0100
-In-Reply-To: <87tup1on0z.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Tue, 23 Mar 2021 17:25:16 +0100")
-Message-ID: <87tup1lghq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOoMv-0007vb-TJ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:15:18 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lOoMt-00014X-OJ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:15:17 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id e14so11210501ejz.11
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 14:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hpxucCzKpKsBXKVfFphsDsepOWs4TocX/SEwbGtP8tE=;
+ b=bpCMYzhSqyZHC/pftddlkWWHAR7Dh+MU5xfmYJsWgZLwPKTfB10x9t54LxsDncg9HY
+ u4fog7wD9Deky0DJ78w2KeoEXuJMcERuiw55FeicyL03t5gPWGH02AgHoraWw3REtEE3
+ 2cKb5nIa/IE8O3JqtFpY1urYlnpmQsIWW1Qq79g73sRCnV/vtVdVSx8cBL80geq2inAe
+ n6/Vts3Uosr4S9z3LWXee141/1I2Y4uB375XmlKMiDmuCp89x7JoO/Pl2SWsYkCD3yQ8
+ E+cEUfviFqoH/a/vqYFNp9aehy2PkPk97bnsaCgzi6fOD8kzSA7yg56yyHCrhow4/BIs
+ MBDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hpxucCzKpKsBXKVfFphsDsepOWs4TocX/SEwbGtP8tE=;
+ b=GZ+mLJUDQ1onllLtQH3FQjiUikJ5vSRZUzRD3TBKhr+wAxrsh2E59l9NQBSrlwltBd
+ R17CIH8+DbBZw3GNUBobAlDh4HzzSFe7ZCVLJ07BURbC90k7XIQjvoEs9S1ZXuzVmVe+
+ kR9XcWK00EZ9gWeJwWuJILCKzvWI/F2kthcO130J01Dmy+f9cuepx0Yux65m8rWIea9w
+ rgo/5RZQpvxgm+8wA1v7fJW1rhaVCjIbb7NWs2xqBPG7njNuoG19RQggv9DazVjbtPt9
+ uMXoEC9r2MUlvsemwb1hedPz6OLA+xUA+SgzzKuwoQ/Z/DttGkb7AEGQXfaoigeQEO0z
+ E27A==
+X-Gm-Message-State: AOAM531rHOzfgDtZe7+7SghEYegviJsBotwVibaYgqOLE6QI7/jFkXco
+ 5dmGAGqroWikfH8SKmI2+Nx6Yz/TeXOOrA9wlyCfiA==
+X-Google-Smtp-Source: ABdhPJyWL4/Ldk6Vzh6DD82fwh3V5+DnrR7mj0Wu73N/PijMVWnXlUaakviQF7TJM91S4sxUWcthGdrJpgiZ46q+gpg=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id v19mr189705ejh.4.1616534113898; 
+ Tue, 23 Mar 2021 14:15:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210323120439.563855-1-anthony.perard@citrix.com>
+In-Reply-To: <20210323120439.563855-1-anthony.perard@citrix.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 23 Mar 2021 21:14:44 +0000
+Message-ID: <CAFEAcA9HBx++GnF+VAEV_9Cj-evA12+SDJEUz5vBL_oJ05oeMg@mail.gmail.com>
+Subject: Re: [PULL 0/1] xen queue 2021-03-23
+To: Anthony PERARD <anthony.perard@citrix.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,68 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
-
-> Eric Blake <eblake@redhat.com> writes:
+On Tue, 23 Mar 2021 at 12:04, Anthony PERARD <anthony.perard@citrix.com> wrote:
 >
->> On 3/23/21 4:40 AM, Markus Armbruster wrote:
->>> Naming rules differ for the various kinds of names.  To prepare
->>> enforcing them, define functions to check them: check_name_upper(),
->>> check_name_lower(), and check_name_camel().  For now, these merely
->>> wrap around check_name_str(), but that will change shortly.  Replace
->>> the other uses of check_name_str() by appropriate uses of the
->>> wrappers.  No change in behavior just yet.
->>> 
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>  scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
->>>  1 file changed, 36 insertions(+), 15 deletions(-)
->>> 
->>
->>> +++ b/scripts/qapi/expr.py
->>> @@ -21,11 +21,12 @@
->>>  from .error import QAPISemError
->>>  
->>>  
->>> -# Names must be letters, numbers, -, and _.  They must start with letter,
->>> -# except for downstream extensions which must start with __RFQDN_.
->>> -# Dots are only valid in the downstream extension prefix.
->>> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
->>> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
->>
->> I'm assuming python concatenates r'' with '' in the obvious manner...
->>
->>> +# Names consist of letters, digits, -, and _, starting with a letter.
->>> +# An experimental name is prefixed with x-.  A name of a downstream
->>> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
->>> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
->>> +                        r'(x-)?'
->>> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
->>
->> ...but like your explicit use of r'' r''.
->>
->> Splitting out special handling of r'(x-)?' does not change behavior, but
->> is not otherwise mentioned in your commit message.  I suspect you did it
->> to make it easier to permit x-EVENT_NAME in later patches where upper is
->> handled differently from lower or camel,
+> The following changes since commit 5ca634afcf83215a9a54ca6e66032325b5ffb5f6:
 >
-> Yes.
+>   Merge remote-tracking branch 'remotes/philmd/tags/sdmmc-20210322' into staging (2021-03-22 18:50:25 +0000)
 >
->>                                          so I won't withhold R-b, but it
->> may be worth a tweak to the commit message.
+> are available in the Git repository at:
 >
-> Probably.  I'm failing at coming up with a concise text that isn't
-> confusing.
+>   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20210323
+>
+> for you to fetch changes up to b807ca3fa0ca29ec015adcf4045e716337cd3635:
+>
+>   xen-block: Fix removal of backend instance via xenstore (2021-03-23 11:18:20 +0000)
+>
+> ----------------------------------------------------------------
+> Xen patch
+>
+> - Fix Xen backend block detach via xenstore.
+>
+> ----------------------------------------------------------------
+> Anthony PERARD (1):
+>       xen-block: Fix removal of backend instance via xenstore
 
-Adding this paragraph:
 
-    check_name_str() now returns the name without downstream and x-
-    prefix, for use by the wrappers in later patches.  Requires tweaking
-    regexp @valid_name.  It accepts the same strings as before.
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
