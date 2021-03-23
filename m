@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53982346692
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:43:25 +0100 (CET)
-Received: from localhost ([::1]:53900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E5F346682
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:37:49 +0100 (CET)
+Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOl3s-0001m3-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54128)
+	id 1lOkyT-0002Ra-0O
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkHP-0006yu-Df
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:19 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41891)
+ id 1lOkHN-0006s3-5D
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:17 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkHN-0002qB-J3
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:19 -0400
-Received: by mail-ed1-x535.google.com with SMTP id z1so24294267edb.8
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:17 -0700 (PDT)
+ id 1lOkHL-0002od-AF
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:16 -0400
+Received: by mail-ej1-x633.google.com with SMTP id jy13so28214927ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5VH/iDuZ8gOKK9M225cC8SQA1L/b8jfUqqAkjkoetSc=;
- b=i2xImALxk25LiGVgYSL78aj4ZXbZzI0Opw3+bwkjnUFr1VJB0fk0xJ9rsSLw4hLKCj
- XGV68ovPnZfotNq9RIRVc6TpbdkXRWD7AC8cRUXrurZM7M/ZMed8ARxHX3E8q5Q8myhf
- Ff3xLJf+ob16woLSiRN/nyfTIF1AZsUJoASyQe6uD+3Oae8xFf6sEHvUVrJzniFX5H8/
- uweWwVUf5/fz4Dm7F9GPKoXMpbJkW6k1WtquHWztv1ULXmH6stHvuW2isG6INLLuNg85
- 2JwxbCwJTz35vAhzCL3TampKoszYZBsaQljAb9goYATrW+wIcBUD9gL2ta4rrn24WSfy
- y6ug==
+ bh=adoaEeyH702QtvflbrtFYg4Hiq6sgiikmEwdr9S2R+w=;
+ b=E7wOd8lzFx0xMtDK+PuNP8FTlMU8GwMHVkOY+OX2Mqvbg72wogmApFrA/WNk30S5Fo
+ fNQmq7tODBAUkOV2sM5wqba+7zvbF9/Mx58QQ8kbPNoOYBPL9BR2WHB6e/UQ+f5ZfnX3
+ i7nrZ3De19ElS3ma3zOZLKy/Yh47tMa+AjJrdylxL3TAbAkGu2a9VpqoZIttJHBFq38y
+ 4E2qNhm98GD9/aik2ffNPSCVL3+4+HGwIXbgO79+uev1zKbLT3KFDWYBraha5Nr8lgQo
+ IrDaQUU4Hp3MguTr91Lo57q2zPv6KHxWJxYb0rbQIxszUr0b2uotknqkta7bkseOWBAa
+ io8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5VH/iDuZ8gOKK9M225cC8SQA1L/b8jfUqqAkjkoetSc=;
- b=CRFeHD5+ZSkqWOy1eHbSXgkTvCTAbi5GHhJbruCl1uv1JLJEJD1bu5YOKdT93Yo/dP
- LkyWi63BRIrMC0RzPxK1xpIoiOhSRMGt9Tr02EDAVyb4d2O0XpW6bs1KOg/0b9TALACU
- tFPC/ltJf+uI5hcdBAktfCxPJp8Sa5V3hqeYgw8j5rMspvcAjnvaXoQ5SZL7aictJ/kr
- a/fG3dctSRKpXbUU4JqhUXEHyu7R3nm8YpgbXZZPbo5SuWkarwbejOIqbcGvOqEc3OBv
- KlTZ76sK/uaSIhEBvDDSNFIyjFhcDmuD48qeAlUgXpL006fpFAdX1ck/DVsIoDRXPY/4
- LExA==
-X-Gm-Message-State: AOAM532kwf4u7EK+Anlbx5grGf2ao0xWRL8q86ohdyzV1qZ8OUqdMYt1
- OBgy+SnfNhJxSqTEsuKT9VtwRg==
-X-Google-Smtp-Source: ABdhPJzxYs8nSjR+4pdJoBU3du2mmy39wlXpU24+742Jr9KgjcC6Ll3MirX9SfXSJM1uYkH58SmmjQ==
-X-Received: by 2002:aa7:c88e:: with SMTP id p14mr5355908eds.119.1616518396199; 
- Tue, 23 Mar 2021 09:53:16 -0700 (PDT)
+ bh=adoaEeyH702QtvflbrtFYg4Hiq6sgiikmEwdr9S2R+w=;
+ b=AaYH6FIqj7KT7zJExd9TNXS4g6pFtAbkhKWX3cuKRdhooIoN8Ci68pk1Uv1vugHEIN
+ IErp6PuKLwlJiUYHRc1A98e1zUDz+IdqdocE2zslqUMSZ9q197yY4B1mqwyFvK5I1iF4
+ jSS9tyulhS/IZ4Hf6QrkY0zb/xBGM8pPNKIP0Tws626tsbEJdPHueE2UKIIDrsO75aJ3
+ N8e5ffujF3bsZuoF7KFggvAohgQCBun8wj/qI9GPQ37KyIwgQSMtFOx4i9MOUOFf+Fa9
+ 6aG65rHLanW6o9epTyIegjKchr17rODwak+7EX3F5pIdFfTec7eN4xdXdMHsU5Y+PkDG
+ YF6g==
+X-Gm-Message-State: AOAM53374UOrlRQ/OraJ8KCnhXCQCqWGm8mgxcrj4ovZP9mzuv5OT68h
+ fYpKzVnMfULStLAwKAnPLVzvTQ==
+X-Google-Smtp-Source: ABdhPJzvbo4S0L4XYx8ciG2SEHqYDRjrIeEhg1NrhQtNEte6jmKouQS1HPiIGfUVfYQ912Ew8WNBDw==
+X-Received: by 2002:a17:906:379b:: with SMTP id
+ n27mr6022199ejc.182.1616518393581; 
+ Tue, 23 Mar 2021 09:53:13 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h22sm11379745eji.80.2021.03.23.09.53.09
+ by smtp.gmail.com with ESMTPSA id m7sm12858471edp.81.2021.03.23.09.53.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 23 Mar 2021 09:53:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 181EF1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 432011FF90;
  Tue, 23 Mar 2021 16:53:09 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/22] docs/devel: expand style section of memory management
-Date: Tue, 23 Mar 2021 16:52:49 +0000
-Message-Id: <20210323165308.15244-4-alex.bennee@linaro.org>
+Subject: [PATCH  v2 04/22] tools/virtiofsd: include --socket-group in help
+Date: Tue, 23 Mar 2021 16:52:50 +0000
+Message-Id: <20210323165308.15244-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210323165308.15244-1-alex.bennee@linaro.org>
 References: <20210323165308.15244-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,93 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Connor Kuehl <ckuehl@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This aims to provide a bit more guidance for those who take on one of
-our "clean up memory allocation" bite-sized tasks.
+I confused myself wandering if this had been merged by looking at the
+help output. It seems fuse_opt doesn't automagically add to help
+output so lets do it now.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210320133706.21475-4-alex.bennee@linaro.org>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Updates: f6698f2b03 ("tools/virtiofsd: add support for --socket-group")
+Message-Id: <20210318100911.16261-1-alex.bennee@linaro.org>
+Message-Id: <20210320133706.21475-5-alex.bennee@linaro.org>
 ---
- docs/devel/style.rst | 46 ++++++++++++++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 12 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index 8b0bdb3570..260e3263fa 100644
---- a/docs/devel/style.rst
-+++ b/docs/devel/style.rst
-@@ -385,17 +385,37 @@ avoided.
- Low level memory management
- ===========================
- 
--Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
-+Use of the ``malloc/free/realloc/calloc/valloc/memalign/posix_memalign``
- APIs is not allowed in the QEMU codebase. Instead of these routines,
--use the GLib memory allocation routines g_malloc/g_malloc0/g_new/
--g_new0/g_realloc/g_free or QEMU's qemu_memalign/qemu_blockalign/qemu_vfree
--APIs.
--
--Please note that g_malloc will exit on allocation failure, so there
--is no need to test for failure (as you would have to with malloc).
--Calling g_malloc with a zero size is valid and will return NULL.
--
--Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the following
-+use the GLib memory allocation routines
-+``g_malloc/g_malloc0/g_new/g_new0/g_realloc/g_free``
-+or QEMU's ``qemu_memalign/qemu_blockalign/qemu_vfree`` APIs.
-+
-+Please note that ``g_malloc`` will exit on allocation failure, so
-+there is no need to test for failure (as you would have to with
-+``malloc``). Generally using ``g_malloc`` on start-up is fine as the
-+result of a failure to allocate memory is going to be a fatal exit
-+anyway. There may be some start-up cases where failing is unreasonable
-+(for example speculatively loading a large debug symbol table).
-+
-+Care should be taken to avoid introducing places where the guest could
-+trigger an exit by causing a large allocation. For small allocations,
-+of the order of 4k, a failure to allocate is likely indicative of an
-+overloaded host and allowing ``g_malloc`` to ``exit`` is a reasonable
-+approach. However for larger allocations where we could realistically
-+fall-back to a smaller one if need be we should use functions like
-+``g_try_new`` and check the result. For example this is valid approach
-+for a time/space trade-off like ``tlb_mmu_resize_locked`` in the
-+SoftMMU TLB code.
-+
-+If the lifetime of the allocation is within the function and there are
-+multiple exist paths you can also improve the readability of the code
-+by using ``g_autofree`` and related annotations. See :ref:`autofree-ref`
-+for more details.
-+
-+Calling ``g_malloc`` with a zero size is valid and will return NULL.
-+
-+Prefer ``g_new(T, n)`` instead of ``g_malloc(sizeof(T) * n)`` for the following
- reasons:
- 
- * It catches multiplication overflowing size_t;
-@@ -409,8 +429,8 @@ Declarations like
- 
- are acceptable, though.
- 
--Memory allocated by qemu_memalign or qemu_blockalign must be freed with
--qemu_vfree, since breaking this will cause problems on Win32.
-+Memory allocated by ``qemu_memalign`` or ``qemu_blockalign`` must be freed with
-+``qemu_vfree``, since breaking this will cause problems on Win32.
- 
- String manipulation
- ===================
-@@ -485,6 +505,8 @@ In addition, QEMU assumes that the compiler does not use the latitude
- given in C99 and C11 to treat aspects of signed '<<' as undefined, as
- documented in the GNU Compiler Collection manual starting at version 4.0.
- 
-+.. _autofree-ref:
-+
- Automatic memory deallocation
- =============================
- 
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 1aa26c6333..58e32fc963 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2450,6 +2450,7 @@ void fuse_lowlevel_help(void)
+     printf(
+         "    -o allow_root              allow access by root\n"
+         "    --socket-path=PATH         path for the vhost-user socket\n"
++        "    --socket-group=GRNAME      name of group for the vhost-user socket\n"
+         "    --fd=FDNUM                 fd number of vhost-user socket\n"
+         "    --thread-pool-size=NUM     thread pool size limit (default %d)\n",
+         THREAD_POOL_SIZE);
 -- 
 2.20.1
 
