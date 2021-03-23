@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE749345551
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:09:30 +0100 (CET)
-Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259F03455A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:43:50 +0100 (CET)
+Received: from localhost ([::1]:54472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWU5-00045X-Rb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50584)
+	id 1lOX1I-0002SI-Ni
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWLC-0003Ki-Hj
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:18 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWL9-0006vy-LO
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616464815; x=1648000815;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=TNfZPyDFekoOK3g9jUros8f9G/7SOUpQtng8jnIX0Bk=;
- b=an6wkyUdB1lo6qZRvl8PlaWiJLd8P9ZFsNSTQawhkXaCv4pk2MXuM0Pt
- EI7QCn1cd5zNocWiexSqAf/ZuH/soJEY4zGV5a8EyQkdfY/MeXkz3iZJk
- z3z9lwcwolQ94ictI3aSm1ylDwKVyYPBTJFUMbO8jKwX5SHFPfYEf/8Hf
- XqS1h2njCFSAcTkKXUBVBfc9xCEQWIcu3KXeZxi504J5BULRE2GfagQDa
- UNDI5HAOcuAQPqB/vT4L1bQ3pIwRJwcUBAGsPednHcCW8Pbl1AwQXzyXn
- h4loR307oJKcZML6nQq3+B0v0j/D61M6aBYjcIv40FbM+VvfcURg+/WIG Q==;
-IronPort-SDR: Eqf5vAHkl+Z2coKQN7EklffjPQSVsBjsY8lISt3RA/zg19WbzeK4hV3hf5YBxkp1i+adjwimkC
- VS9lBI9fQ5XuPbhKjE408AJSGpO7O4rtH51JFsRZREGqKtKUiG1HuY53APuW7ZImiJujYYNDL8
- TwVGiTcldU7Eeb9unSIaPFqlx5tcbCyd5T006/LBOvGeqWXEcSwGUym1+eluKkeTnyj/0Ijyes
- ewMrXWJedf6EcIZCC9TNWaRGoON1hu3cgybRB6k1Ta/tSNYuWMkjftVwwShcWIXeJ3FlqI7Or9
- GqY=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707651"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:43 +0800
-IronPort-SDR: bXp2WMB7n/YrCrJgvRfvmPCqMvckd6wJT5bLmUbEEy0tRLc374JTOQMA8qw7PLk2gJEwVeCQ/D
- lQDjNApzCeYSOksgBOTv6b5KXpbu2xJhLTmfeEV6E2/7aRn/0MiY2+jdAK7FK0eXSGnOUj+c1W
- nzClXSlJBQxmPOCnCpkQAwwebw/7T9C7zuBLNw9xJx0OaoBvSM6Eab+149mmKEbyUVBJoBwwhm
- N32aVc15ZPAhqDRL6ns3Pc/uD6YjfO200oTKIrNH6sFjVWlb1PZHueqkf4w8OiOGpULkNUmjFn
- mdVKF8vLd6BQg1tLqdsVsYt9
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:51 -0700
-IronPort-SDR: 8SpmuZWcSRmM46oi//b0EiwaCT2jWwaAtmFAnv/heqqecC1FquROhef6zeSQgYg53GM4O3nvfO
- kclDace5veUYE71R1BfsAIkUA7VUa65djKBAsPJ34wMn2Kxg4Pxo4JI9o75U0QAkDEFK8c3eTz
- 9GsyD0mfJNQMt9CnqmoxKdYEDeDFFvm58bt0+ksOROfW0hr5NwxT4t+Jhd3q1sJ44skUD9VqAi
- GIRCeWsiSmvzXfNlhNDPPneS9ZftHc0Un2uQvBqjnpqRe5A77xeRXIBsTl2eCxWkzTRU3fPF3c
- 7EI=
-WDCIronportException: Internal
-Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
- ([10.86.49.5])
- by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:43 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org
-Subject: [PULL 16/16] target/riscv: Prevent lost illegal instruction exceptions
-Date: Mon, 22 Mar 2021 21:57:56 -0400
-Message-Id: <20210323015756.3168650-17-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
-References: <20210323015756.3168650-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1lOX09-00022N-OM
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:42:37 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:35510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1lOX06-0002OP-Hn
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:42:37 -0400
+Received: by mail-io1-xd32.google.com with SMTP id x17so4876871iog.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 19:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QkjxFcWGVCfZmB4JEx//RGEKumaffa9UZKlOutV94no=;
+ b=MgI2aG9UUWxw6/ZiTFQGZN1EJ2n7uqXqbyuwjNZNdwfwTcxfvra3n8r97Yxpfo25N+
+ 7nRPwvJRPhDnMmzxYycpaYrjtGZAPL+5cvYNPhSerDFb1NPwKMYxSj35sexzEAGzMBeX
+ ot0hfK8G6j1MvRSGDJgIglvdCwlF9ePZYUaxxUgGkQpjPAaai1BxCOXqRuINzUTiwky4
+ VcUEO4Gd5F77iw4Lv2q/CuEdEoI2zYg9eGEIae6EB/ohcQrh791UAEwLqoHQgmxTfXU+
+ HkASFrqiQ93Y+0Dv8df5G0tZXKVMiBQIk4LcGCjgZB8UGFqpiMsyWUuM6h7GEsGmNIlP
+ 9hNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QkjxFcWGVCfZmB4JEx//RGEKumaffa9UZKlOutV94no=;
+ b=J1PZ5gGuoFuhVKPEyYUmMIecKEosNnfsao+uU/84CAoEQtaB6MyyGOluCFGwo42pqV
+ 2gx5M8I0dlsmkws4Z3nzuAQXjMLiV05X2g87E/oUHcddQKoj5RtgjKILg6nyQ0dayGtY
+ voj5pUlzfEw3cPrNGaoCSgGHDrjaEsAofHtJq6yl6xtqAIvLFQP10lTwfJrwotPqeO38
+ EvsY418ER3yeo8jDgtC1Pcq5IULbHOpEbOWLuJuJeb8WLy+OZE1WCIOKe2JIPUjKWUAY
+ nkcrDs/QQYWrLR43lyNaFU6RXGUxk1/gT0Y4/v1QIdU18bWwSyacT97VtqjLtlBwpW3a
+ Z8Gg==
+X-Gm-Message-State: AOAM533Q56+5AuoNikbpGvomO+QdDt7pYmINodsvhKzR95l8VK1pWL/l
+ ULsfZLXXn8am2yKI3YweQO/XDLYt/Se3Hqvt8Ng=
+X-Google-Smtp-Source: ABdhPJzec2DN0MpNcRDN7OoYuRmggxQc9HB8uwO70D3knzwJ+/fQQdOhCtk4fnaaaBrogaN/pUdj63VCtAQZfWiKZnQ=
+X-Received: by 2002:a05:6638:1a6:: with SMTP id
+ b6mr2340934jaq.116.1616467352220; 
+ Mon, 22 Mar 2021 19:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=709ee912d=alistair.francis@wdc.com;
- helo=esa4.hgst.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210313165445.2113938-1-f4bug@amsat.org>
+ <20210313165445.2113938-8-f4bug@amsat.org>
+ <CAN6ztm_kaTkbBK7=ALMmMSmShzuOx=S2vUBy2N1D-P__T9um2A@mail.gmail.com>
+In-Reply-To: <CAN6ztm_kaTkbBK7=ALMmMSmShzuOx=S2vUBy2N1D-P__T9um2A@mail.gmail.com>
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Tue, 23 Mar 2021 08:12:06 +0530
+Message-ID: <CAN6ztm9STVjzKRpUY+kaTiz6W06mbwcG7KBVbwdiZ3HnR8mu6Q@mail.gmail.com>
+Subject: Re: [PATCH 07/11] hw/gpio/avr_gpio: Add tracing for reads and writes
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="00000000000051f55805be2b223f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,252 +79,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+--00000000000051f55805be2b223f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When decode_insn16() fails, we fall back to decode_RV32_64C() for
-further compressed instruction decoding. However, prior to this change,
-we did not raise an illegal instruction exception, if decode_RV32_64C()
-fails to decode the instruction. This means that we skipped illegal
-compressed instructions instead of raising an illegal instruction
-exception.
+Hii Phil,
 
-Instead of patching decode_RV32_64C(), we can just remove it,
-as it is dead code since f330433b363 anyway.
+A gentle reminder to push these patches.
 
-Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210322121609.3097928-1-georg.kotheimer@kernkonzept.com
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/translate.c | 179 +--------------------------------------
- 1 file changed, 1 insertion(+), 178 deletions(-)
+Thanks,
+Niteesh.
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0f28b5f41e..2f9f5ccc62 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -67,20 +67,6 @@ typedef struct DisasContext {
-     CPUState *cs;
- } DisasContext;
- 
--#ifdef TARGET_RISCV64
--/* convert riscv funct3 to qemu memop for load/store */
--static const int tcg_memop_lookup[8] = {
--    [0 ... 7] = -1,
--    [0] = MO_SB,
--    [1] = MO_TESW,
--    [2] = MO_TESL,
--    [3] = MO_TEQ,
--    [4] = MO_UB,
--    [5] = MO_TEUW,
--    [6] = MO_TEUL,
--};
--#endif
--
- #ifdef TARGET_RISCV64
- #define CASE_OP_32_64(X) case X: case glue(X, W)
- #else
-@@ -374,48 +360,6 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
- 
--#ifdef TARGET_RISCV64
--static void gen_load_c(DisasContext *ctx, uint32_t opc, int rd, int rs1,
--        target_long imm)
--{
--    TCGv t0 = tcg_temp_new();
--    TCGv t1 = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--    int memop = tcg_memop_lookup[(opc >> 12) & 0x7];
--
--    if (memop < 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, memop);
--    gen_set_gpr(rd, t1);
--    tcg_temp_free(t0);
--    tcg_temp_free(t1);
--}
--
--static void gen_store_c(DisasContext *ctx, uint32_t opc, int rs1, int rs2,
--        target_long imm)
--{
--    TCGv t0 = tcg_temp_new();
--    TCGv dat = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--    gen_get_gpr(dat, rs2);
--    int memop = tcg_memop_lookup[(opc >> 12) & 0x7];
--
--    if (memop < 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx, memop);
--    tcg_temp_free(t0);
--    tcg_temp_free(dat);
--}
--#endif
--
- #ifndef CONFIG_USER_ONLY
- /* The states of mstatus_fs are:
-  * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
-@@ -447,83 +391,6 @@ static void mark_fs_dirty(DisasContext *ctx)
- static inline void mark_fs_dirty(DisasContext *ctx) { }
- #endif
- 
--#if !defined(TARGET_RISCV64)
--static void gen_fp_load(DisasContext *ctx, uint32_t opc, int rd,
--        int rs1, target_long imm)
--{
--    TCGv t0;
--
--    if (ctx->mstatus_fs == 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    t0 = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--
--    switch (opc) {
--    case OPC_RISC_FLW:
--        if (!has_ext(ctx, RVF)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_ld_i64(cpu_fpr[rd], t0, ctx->mem_idx, MO_TEUL);
--        /* RISC-V requires NaN-boxing of narrower width floating point values */
--        tcg_gen_ori_i64(cpu_fpr[rd], cpu_fpr[rd], 0xffffffff00000000ULL);
--        break;
--    case OPC_RISC_FLD:
--        if (!has_ext(ctx, RVD)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_ld_i64(cpu_fpr[rd], t0, ctx->mem_idx, MO_TEQ);
--        break;
--    do_illegal:
--    default:
--        gen_exception_illegal(ctx);
--        break;
--    }
--    tcg_temp_free(t0);
--
--    mark_fs_dirty(ctx);
--}
--
--static void gen_fp_store(DisasContext *ctx, uint32_t opc, int rs1,
--        int rs2, target_long imm)
--{
--    TCGv t0;
--
--    if (ctx->mstatus_fs == 0) {
--        gen_exception_illegal(ctx);
--        return;
--    }
--
--    t0 = tcg_temp_new();
--    gen_get_gpr(t0, rs1);
--    tcg_gen_addi_tl(t0, t0, imm);
--
--    switch (opc) {
--    case OPC_RISC_FSW:
--        if (!has_ext(ctx, RVF)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_st_i64(cpu_fpr[rs2], t0, ctx->mem_idx, MO_TEUL);
--        break;
--    case OPC_RISC_FSD:
--        if (!has_ext(ctx, RVD)) {
--            goto do_illegal;
--        }
--        tcg_gen_qemu_st_i64(cpu_fpr[rs2], t0, ctx->mem_idx, MO_TEQ);
--        break;
--    do_illegal:
--    default:
--        gen_exception_illegal(ctx);
--        break;
--    }
--
--    tcg_temp_free(t0);
--}
--#endif
--
- static void gen_set_rm(DisasContext *ctx, int rm)
- {
-     TCGv_i32 t0;
-@@ -537,49 +404,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-     tcg_temp_free_i32(t0);
- }
- 
--static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
--{
--    uint8_t funct3 = extract16(opcode, 13, 3);
--    uint8_t rd_rs2 = GET_C_RS2S(opcode);
--    uint8_t rs1s = GET_C_RS1S(opcode);
--
--    switch (funct3) {
--    case 3:
--#if defined(TARGET_RISCV64)
--        /* C.LD(RV64/128) -> ld rd', offset[7:3](rs1')*/
--        gen_load_c(ctx, OPC_RISC_LD, rd_rs2, rs1s,
--                 GET_C_LD_IMM(opcode));
--#else
--        /* C.FLW (RV32) -> flw rd', offset[6:2](rs1')*/
--        gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
--                    GET_C_LW_IMM(opcode));
--#endif
--        break;
--    case 7:
--#if defined(TARGET_RISCV64)
--        /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
--        gen_store_c(ctx, OPC_RISC_SD, rs1s, rd_rs2,
--                  GET_C_LD_IMM(opcode));
--#else
--        /* C.FSW (RV32) -> fsw rs2', offset[6:2](rs1')*/
--        gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
--                     GET_C_LW_IMM(opcode));
--#endif
--        break;
--    }
--}
--
--static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
--{
--    uint8_t op = extract16(opcode, 0, 2);
--
--    switch (op) {
--    case 0:
--        decode_RV32_64C0(ctx, opcode);
--        break;
--    }
--}
--
- static int ex_plus_1(DisasContext *ctx, int nf)
- {
-     return nf + 1;
-@@ -779,8 +603,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-         } else {
-             ctx->pc_succ_insn = ctx->base.pc_next + 2;
-             if (!decode_insn16(ctx, opcode)) {
--                /* fall back to old decoder */
--                decode_RV32_64C(ctx, opcode);
-+                gen_exception_illegal(ctx);
-             }
-         }
-     } else {
--- 
-2.30.1
+On Sat, Mar 13, 2021 at 10:51 PM Niteesh G. S. <niteesh.gs@gmail.com> wrote=
+:
 
+> Reviewed-by: Niteesh G S <niteesh.gs@gmail.com>
+>
+> On Sat, Mar 13, 2021 at 10:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
+.org>
+> wrote:
+>
+>> From: G S Niteesh Babu <niteesh.gs@gmail.com>
+>>
+>> Added tracing for gpio read, write, and update output irq.
+>>
+>> 1) trace_avr_gpio_update_ouput_irq
+>> 2) trace_avr_gpio_read
+>> 3) trace_avr_gpio_write
+>>
+>> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+>> Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+>> Message-Id: <20210311135539.10206-3-niteesh.gs@gmail.com>
+>> [PMD: Added port_name(), display port name in trace events]
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>>  hw/gpio/avr_gpio.c   | 26 +++++++++++++++++++++-----
+>>  hw/gpio/trace-events |  5 +++++
+>>  2 files changed, 26 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
+>> index e4c7122e62c..29252d6ccfe 100644
+>> --- a/hw/gpio/avr_gpio.c
+>> +++ b/hw/gpio/avr_gpio.c
+>> @@ -2,6 +2,7 @@
+>>   * AVR processors GPIO registers emulation.
+>>   *
+>>   * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
+>> + * Copyright (C) 2021 Niteesh Babu G S <niteesh.gs@gmail.com>
+>>   *
+>>   * This program is free software; you can redistribute it and/or
+>>   * modify it under the terms of the GNU General Public License as
+>> @@ -26,6 +27,12 @@
+>>  #include "hw/gpio/avr_gpio.h"
+>>  #include "hw/qdev-properties.h"
+>>  #include "migration/vmstate.h"
+>> +#include "trace.h"
+>> +
+>> +static char port_name(AVRGPIOState *s)
+>> +{
+>> +    return 'A' + s->id;
+>> +}
+>>
+>>  static void avr_gpio_reset(DeviceState *dev)
+>>  {
+>> @@ -47,32 +54,41 @@ static void avr_gpio_write_port(AVRGPIOState *s,
+>> uint64_t value)
+>>
+>>          if (cur_ddr_pin_val && (cur_port_pin_val !=3D new_port_pin_val)=
+) {
+>>              qemu_set_irq(s->out[pin], new_port_pin_val);
+>> +            trace_avr_gpio_update_output_irq(port_name(s), pin,
+>> new_port_pin_val);
+>>          }
+>>      }
+>>      s->reg.port =3D value & s->reg.ddr;
+>>  }
+>>  static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int
+>> size)
+>>  {
+>> +    uint8_t val =3D 0;
+>>      AVRGPIOState *s =3D (AVRGPIOState *)opaque;
+>>      switch (offset) {
+>>      case GPIO_PIN:
+>> -        return s->reg.pin;
+>> +        val =3D s->reg.pin;
+>> +        break;
+>>      case GPIO_DDR:
+>> -        return s->reg.ddr;
+>> +        val =3D s->reg.ddr;
+>> +        break;
+>>      case GPIO_PORT:
+>> -        return s->reg.port;
+>> +        val =3D s->reg.port;
+>> +        break;
+>>      default:
+>>          g_assert_not_reached();
+>>          break;
+>>      }
+>> -    return 0;
+>> +
+>> +    trace_avr_gpio_read(port_name(s), offset, val);
+>> +    return val;
+>>  }
+>>
+>>  static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
+>>                                  unsigned int size)
+>>  {
+>>      AVRGPIOState *s =3D (AVRGPIOState *)opaque;
+>> -    value =3D value & 0xF;
+>> +    value =3D value & 0xFF;
+>> +
+>> +    trace_avr_gpio_write(port_name(s), offset, value);
+>>      switch (offset) {
+>>      case GPIO_PIN:
+>>          s->reg.pin =3D value;
+>> diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
+>> index 46ab9323bd0..640834597a8 100644
+>> --- a/hw/gpio/trace-events
+>> +++ b/hw/gpio/trace-events
+>> @@ -18,3 +18,8 @@ sifive_gpio_read(uint64_t offset, uint64_t r) "offset
+>> 0x%" PRIx64 " value 0x%" P
+>>  sifive_gpio_write(uint64_t offset, uint64_t value) "offset 0x%" PRIx64 =
+"
+>> value 0x%" PRIx64
+>>  sifive_gpio_set(int64_t line, int64_t value) "line %" PRIi64 " value %"
+>> PRIi64
+>>  sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %"
+>> PRIi64 " value %" PRIi64
+>> +
+>> +# avr_gpio.c
+>> +avr_gpio_read(unsigned id, uint64_t offset, uint64_t r) "port %c offset
+>> 0x%" PRIx64 " value 0x%" PRIx64
+>> +avr_gpio_write(unsigned id, uint64_t offset, uint64_t value) "port %c
+>> offset 0x%" PRIx64 " value 0x%" PRIx64
+>> +avr_gpio_update_output_irq(unsigned id, int64_t line, int64_t value)
+>> "port %c pin %" PRIi64 " value %" PRIi64
+>> --
+>> 2.26.2
+>>
+>>
+
+--00000000000051f55805be2b223f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hii=
+ Phil,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
+v><div class=3D"gmail_default" style=3D"font-size:small">A gentle reminder =
+to push these patches.</div><div class=3D"gmail_default" style=3D"font-size=
+:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Th=
+anks,</div><div class=3D"gmail_default" style=3D"font-size:small">Niteesh.<=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Sat, Mar 13, 2021 at 10:51 PM Niteesh G. S. &lt;<a href=3D"mailto:n=
+iteesh.gs@gmail.com">niteesh.gs@gmail.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gma=
+il_default" style=3D"font-size:small">Reviewed-by: Niteesh G S &lt;<a href=
+=3D"mailto:niteesh.gs@gmail.com" target=3D"_blank">niteesh.gs@gmail.com</a>=
+&gt;<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sat, Mar 13, 2021 at 10:25 PM Philippe Mathieu-Daud=C3=
+=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.or=
+g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>From: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=
+=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
+<br>
+Added tracing for gpio read, write, and update output irq.<br>
+<br>
+1) trace_avr_gpio_update_ouput_irq<br>
+2) trace_avr_gpio_read<br>
+3) trace_avr_gpio_write<br>
+<br>
+Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
+ target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
+Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" target=
+=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20210311135539.10206-3-niteesh.gs@gmail.c=
+om" target=3D"_blank">20210311135539.10206-3-niteesh.gs@gmail.com</a>&gt;<b=
+r>
+[PMD: Added port_name(), display port name in trace events]<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+---<br>
+=C2=A0hw/gpio/avr_gpio.c=C2=A0 =C2=A0| 26 +++++++++++++++++++++-----<br>
+=C2=A0hw/gpio/trace-events |=C2=A0 5 +++++<br>
+=C2=A02 files changed, 26 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c<br>
+index e4c7122e62c..29252d6ccfe 100644<br>
+--- a/hw/gpio/avr_gpio.c<br>
++++ b/hw/gpio/avr_gpio.c<br>
+@@ -2,6 +2,7 @@<br>
+=C2=A0 * AVR processors GPIO registers emulation.<br>
+=C2=A0 *<br>
+=C2=A0 * Copyright (C) 2020 Heecheol Yang &lt;<a href=3D"mailto:heecheol.ya=
+ng@outlook.com" target=3D"_blank">heecheol.yang@outlook.com</a>&gt;<br>
++ * Copyright (C) 2021 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gm=
+ail.com" target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
+=C2=A0 *<br>
+=C2=A0 * This program is free software; you can redistribute it and/or<br>
+=C2=A0 * modify it under the terms of the GNU General Public License as<br>
+@@ -26,6 +27,12 @@<br>
+=C2=A0#include &quot;hw/gpio/avr_gpio.h&quot;<br>
+=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
++#include &quot;trace.h&quot;<br>
++<br>
++static char port_name(AVRGPIOState *s)<br>
++{<br>
++=C2=A0 =C2=A0 return &#39;A&#39; + s-&gt;id;<br>
++}<br>
+<br>
+=C2=A0static void avr_gpio_reset(DeviceState *dev)<br>
+=C2=A0{<br>
+@@ -47,32 +54,41 @@ static void avr_gpio_write_port(AVRGPIOState *s, uint64=
+_t value)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (cur_ddr_pin_val &amp;&amp; (cur_port_=
+pin_val !=3D new_port_pin_val)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_set_irq(s-&gt;out[pin]=
+, new_port_pin_val);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_avr_gpio_update_output_irq=
+(port_name(s), pin, new_port_pin_val);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;reg.port =3D value &amp; s-&gt;reg.ddr;<br>
+=C2=A0}<br>
+=C2=A0static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned i=
+nt size)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 uint8_t val =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0AVRGPIOState *s =3D (AVRGPIOState *)opaque;<br>
+=C2=A0 =C2=A0 =C2=A0switch (offset) {<br>
+=C2=A0 =C2=A0 =C2=A0case GPIO_PIN:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return s-&gt;reg.pin;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;reg.pin;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0case GPIO_DDR:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return s-&gt;reg.ddr;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;reg.ddr;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0case GPIO_PORT:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return s-&gt;reg.port;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;reg.port;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert_not_reached();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 return 0;<br>
++<br>
++=C2=A0 =C2=A0 trace_avr_gpio_read(port_name(s), offset, val);<br>
++=C2=A0 =C2=A0 return val;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t valu=
+e,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int size)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0AVRGPIOState *s =3D (AVRGPIOState *)opaque;<br>
+-=C2=A0 =C2=A0 value =3D value &amp; 0xF;<br>
++=C2=A0 =C2=A0 value =3D value &amp; 0xFF;<br>
++<br>
++=C2=A0 =C2=A0 trace_avr_gpio_write(port_name(s), offset, value);<br>
+=C2=A0 =C2=A0 =C2=A0switch (offset) {<br>
+=C2=A0 =C2=A0 =C2=A0case GPIO_PIN:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;reg.pin =3D value;<br>
+diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events<br>
+index 46ab9323bd0..640834597a8 100644<br>
+--- a/hw/gpio/trace-events<br>
++++ b/hw/gpio/trace-events<br>
+@@ -18,3 +18,8 @@ sifive_gpio_read(uint64_t offset, uint64_t r) &quot;offse=
+t 0x%&quot; PRIx64 &quot; value 0x%&quot; P<br>
+=C2=A0sifive_gpio_write(uint64_t offset, uint64_t value) &quot;offset 0x%&q=
+uot; PRIx64 &quot; value 0x%&quot; PRIx64<br>
+=C2=A0sifive_gpio_set(int64_t line, int64_t value) &quot;line %&quot; PRIi6=
+4 &quot; value %&quot; PRIi64<br>
+=C2=A0sifive_gpio_update_output_irq(int64_t line, int64_t value) &quot;line=
+ %&quot; PRIi64 &quot; value %&quot; PRIi64<br>
++<br>
++# avr_gpio.c<br>
++avr_gpio_read(unsigned id, uint64_t offset, uint64_t r) &quot;port %c offs=
+et 0x%&quot; PRIx64 &quot; value 0x%&quot; PRIx64<br>
++avr_gpio_write(unsigned id, uint64_t offset, uint64_t value) &quot;port %c=
+ offset 0x%&quot; PRIx64 &quot; value 0x%&quot; PRIx64<br>
++avr_gpio_update_output_irq(unsigned id, int64_t line, int64_t value) &quot=
+;port %c pin %&quot; PRIi64 &quot; value %&quot; PRIi64<br>
+-- <br>
+2.26.2<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--00000000000051f55805be2b223f--
 
