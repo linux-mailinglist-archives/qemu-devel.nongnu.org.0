@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44BC346671
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:33:00 +0100 (CET)
-Received: from localhost ([::1]:37162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C193466FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:56:59 +0100 (CET)
+Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOktn-0004yf-OY
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
+	id 1lOlH0-0005vm-Fu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:56:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOkDT-0000ZH-5u
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:49:15 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOkDQ-0000YI-GM
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:49:14 -0400
-Received: by mail-ed1-x533.google.com with SMTP id h13so24237386eds.5
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pwJASSa1vy/ihDbjNy1GdaHHWSi4DSn6yXfNgVMqErc=;
- b=wdMYfFLsIppqNIwgS/AsIGDs6B52UykbZjU5Yf0HSn5CJYI7iZHeLANq0IYMSIMeks
- Zv09MDqeVhcRNv7wUwKPYVSiFlYjDLd9B4xNARAnZOWOawNhyItjO5od4/LH0cM092rt
- uiL2fXHvAGJVhNEJ3Wvfn/w2+x78tYTMVx47o6LHS9ySAVQiZcxrPxoqvffzyUsnWCd7
- 6wxZzLN3gdxyJ3KX7U0fNcJw82P4a0oW67RhgRhYss3hcYuys+HJVVe1tFc3wAmuzmqY
- Vj95D7268XGQQoaUPV5J5YklqLBzy47HpKVzVBWhw9o+xh/GM4m0ODoN5fc033V4WMee
- JTRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pwJASSa1vy/ihDbjNy1GdaHHWSi4DSn6yXfNgVMqErc=;
- b=oz8YVUDJYszWTWeIpvZqypU92JvQ+fex2SIIxOe+06Xc814rQQPO+oGxPUyjEDGnbx
- 6hNo8PYkHeKoJmfd7yh+Uhri80QeFx2O+K1183jJUTTcdVucoJ439MdBtjABspPaFo1U
- JIvg2dWNRJAgQOSrH1Y3hrhRk7zZkEl3TMzhi+hJef1c92cIrLgeL8sNEtEOR3BOfwWj
- gqUKu1w7JfwUFZZXCPkH3A3yHZullN4VYN43M+FaaG0L1sAx3guEDz947Xt39veokBOe
- VV9+jPUVYaIDzsX9STOyJiu8/QsB2iRErqGSN/ZG6q1hDf2hgU+vEp29ve3kdGGgzAxB
- aNLw==
-X-Gm-Message-State: AOAM532GNjBn3JjTISGTtgDTWzhuk7ouecPIvK7S1QsXRJN/0/gI/XSs
- 0HD5SNBmLpgxjgkg5Di1pUiwadWWUZ341UWAV6c+yA==
-X-Google-Smtp-Source: ABdhPJx2fXRFm/ijLmtuTtoDxzUd5HOAhszY2uWk0I7FPY1HI68l+JLP9LgzRHEnwaGujXHY943b0ofGE3asGBU7rAM=
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr5395451edu.100.1616518150845; 
- Tue, 23 Mar 2021 09:49:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <babush@rev.ng>) id 1lOkGm-0005wU-Kk
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:52:40 -0400
+Received: from rev.ng ([5.9.113.41]:36785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <babush@rev.ng>) id 1lOkGg-0002OO-Ef
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:52:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
+ References:MIME-Version:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=28igN4kxldyrW0tfNIGjPiHFdsj3YNiYvV0kxXVUx0Y=; b=A8v2uUIB4y4vH7+0pWyCt1FNKF
+ eTSkxmDBVA9HuNldKGP6k07FEVWeek5mvX2f4KTtkbMoYI7TtLIntiEWdRBfLmy6W+paQQSY0bzoH
+ qD8a9IdjqraoR3SjTwTysuU6UxBeG6mxhgEcjx3JG49JfUMv8zZVTlKf39c9IAA6ETgQ=;
+Received: by mail-vk1-f169.google.com with SMTP id 11so4786760vkx.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:52:25 -0700 (PDT)
+X-Gm-Message-State: AOAM531h2uJfhKFlqas/zefzhQaAtZv7zrK+NJgLXzeAf2pN3s1gjvbe
+ Wc+PymuXUNWKggOi1kLWgKvprlwRrdjzWWw44g==
+X-Google-Smtp-Source: ABdhPJws/7gSp1AORzxY7glkcrIPYJqcrsznv/Uh2zOzWRHte9++vTrOZHHh9F0rAMLV4PasMyZLVVKAxB0iCeXAGzc=
+X-Received: by 2002:a1f:1c92:: with SMTP id c140mr4368900vkc.20.1616518339706; 
+ Tue, 23 Mar 2021 09:52:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210323015756.3168650-1-alistair.francis@wdc.com>
-In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 16:48:41 +0000
-Message-ID: <CAFEAcA_y51rpHho9aTaFkvzBV0DVWST-vCn5Rmeyfzq+0tJvrg@mail.gmail.com>
-Subject: Re: [PULL 00/16] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
+References: <20210225151856.3284701-1-ale.qemu@rev.ng>
+ <20210225151856.3284701-9-ale.qemu@rev.ng>
+ <d4290039-5604-62d3-c8b2-f960d5717059@linaro.org>
+In-Reply-To: <d4290039-5604-62d3-c8b2-f960d5717059@linaro.org>
+Date: Tue, 23 Mar 2021 17:52:08 +0100
+X-Gmail-Original-Message-ID: <CALU5z=N6joYZFatrHRcBKoWqj5_X8ZhhQ=bYtCJrABLqi5XtLw@mail.gmail.com>
+Message-ID: <CALU5z=N6joYZFatrHRcBKoWqj5_X8ZhhQ=bYtCJrABLqi5XtLw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] target/hexagon: import parser for idef-parser
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org, 
+ Taylor Simpson <tsimpson@quicinc.com>, Brian Cain <bcain@quicinc.com>,
+ nizzo@rev.ng, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ Alessandro Di Federico <ale@rev.ng>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=babush@rev.ng;
+ helo=rev.ng
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,42 +69,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Paolo Montesel <babush@rev.ng>
+From:  Paolo Montesel via <qemu-devel@nongnu.org>
 
-On Tue, 23 Mar 2021 at 01:59, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit c95bd5ff1660883d15ad6e0005e4c8571604f51a:
->
->   Merge remote-tracking branch 'remotes/philmd/tags/mips-fixes-20210322' into staging (2021-03-22 14:26:13 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210322-2
->
-> for you to fetch changes up to 9a27f69bd668d9d71674407badc412ce1231c7d5:
->
->   target/riscv: Prevent lost illegal instruction exceptions (2021-03-22 21:54:40 -0400)
->
-> ----------------------------------------------------------------
-> RISC-V PR for 6.0
->
-> This PR includes:
->  - Fix for vector CSR access
->  - Improvements to the Ibex UART device
->  - PMP improvements and bug fixes
->  - Hypervisor extension bug fixes
->  - ramfb support for the virt machine
->  - Fast read support for SST flash
->  - Improvements to the microchip_pfsoc machine
+Thanks for the feedback, it helped us improve the implementation quite a bit.
 
+> > +| rvalue QMARK rvalue COLON rvalue
+> > +{
+> > +    @1.last_column = @5.last_column;
+> > +    bool is_64bit = ($3.bit_width == 64) || ($5.bit_width == 64);
+> > +    int bit_width = (is_64bit) ? 64 : 32;
+> > +    if (is_64bit) {
+> > +        $1 = rvalue_extend(c, &@1, &$1);
+> > +        $3 = rvalue_extend(c, &@1, &$3);
+> > +        $5 = rvalue_extend(c, &@1, &$5);
+> > +    } else {
+> > +        $1 = rvalue_truncate(c, &@1, &$1);
+> > +    }
+> > +    $1 = rvalue_materialize(c, &@1, &$1);
+> > +    $3 = rvalue_materialize(c, &@1, &$3);
+> > +    $5 = rvalue_materialize(c, &@1, &$5);
+> > +    HexValue res = gen_local_tmp(c, &@1, bit_width);
+> > +    HexValue zero = gen_tmp_value(c, &@1, "0", bit_width);
+> > +    OUT(c, &@1, "tcg_gen_movcond_i", &bit_width);
+> > +    OUT(c, &@1, "(TCG_COND_NE, ", &res, ", ", &$1, ", ", &zero);
+>
+> It would be better if you parsed conditions differently.
+> Retain the two arguments and the condition, so that you can fold that into the
+> movcond directly.
+>
+> E.g. instead of
+>
+>     tcg_gen_setcond_i32(cond, t, x, y)
+>     tcg_gen_movcond_i32(TCG_COND_NE, dest, t, zero, src1, src2);
+>
+> you'd be able to do
+>
+>     tcg_gen_movcond_i32(cond, dest, x, y, src1, src2);
+>
+> This would be trivial with a non-terminal "cond", used here and with IF.  You'd
+> include cond as an alternative of rvalue, which would perform the reduction to
+> boolean with setcond.
 
-Applied, thanks.
+This would save us from emitting some tcg ops but would increase the
+complexity of the parser, which doesn't seem worth it imho.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+> > +    case VALUE:
+> > +        EMIT(c, "((int64_t)%" PRIu64 "ULL)", (int64_t)imm->value);
+>
+> Why are you using ull then casting to signed?  Just use ll.
 
--- PMM
+We have a case in which we would print `-9223372036854775808LL` (64
+bit integer with sign bit set) and gcc would complain with `warning:
+integer constant is so large that it is unsigned`.
+That's the reason for using ULL and then casting.
+I'm open to other solutions.
+
+> > +    switch (op_types) {
+> > +    case IMM_IMM:
+> > +    {
+> > +        OUT(c, locp, "tcg_gen_movi_", bit_suffix,
+> > +            "(", &res, ", ", &op1, " == ", &op2, ");\n");
+> > +        break;
+> > +    }
+>
+> Drop useless braces like this.
+>
+> Do you really see any IMM_IMM operations?  There are some typos in this
+> section, so certainly all operators are not represented.  It might be worth
+> folding all of these inside the parser, and not deferring to the C compiler, so
+> that you can be certain of having a real value for any IMMEDIATE.  Which will
+> help when it comes to shift below.
+
+Maybe not for all bin ops, but we do see IMM_IMM.
+I think we can't always fold IMMEDIATES, because they include "normal"
+C variables (e.g.: `int32_t uiV` in function arguments) that depend on
+instruction bytes at runtime.
+That's true also for the IMM_IMM case.
+
+> I'm thinking that this code could really benefit from tcg_constant_{i32,i64}.
+> It produces a hashed temp that need not be freed, and it's what many of the
+> tcg_gen_fooi functions use in the backend.
+
+We can technically convert all the IMMs to tcg_constant before using
+them, but since we can't constant fold in the parser that would
+probably decrease performance quite a bit.
+
+> > +static void gen_div_op(Context *c, YYLTYPE *locp, HexValue *res,
+> > +                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
+> > +{
+> > +    switch (op_types) {
+> > +    case IMM_IMM:
+> > +        OUT(c, locp, "int64_t ", res, " = ", op1, " / ", op2, ";\n");
+> > +        break;
+> > +    case IMM_REG:
+> > +    case REG_IMM:
+> > +    case REG_REG:
+> > +        OUT(c, locp, res, " = gen_helper_divu("
+> > +            "cpu_env, ", op1, ", ", op2, ");\n");
+>
+> Are we trusting that div-by-zero has already been tested for?
+
+Turns out div is not even used by the instructions we currently
+support (: so we can just delete this
+
+~Paolo
 
