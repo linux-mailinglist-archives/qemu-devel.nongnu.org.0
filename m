@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C347734556B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:16:43 +0100 (CET)
-Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1E734556E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:17:54 +0100 (CET)
+Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWb4-000229-Sz
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:16:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
+	id 1lOWcD-0002vM-3l
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKz-00038u-9U
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:05 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2072)
+ id 1lOWL0-0003Bt-LD
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:06 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKx-0006vy-9i
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:05 -0400
+ id 1lOWKy-0006tH-Mg
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 22:00:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616464803; x=1648000803;
+ t=1616464804; x=1648000804;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Pt+zzFWzl+7OxRVTSTlImJ1fRb2/n5V0OkAn7vFbaQY=;
- b=k8qIUAet08IYR1bfGvn4OfnAUQcVoAgZCBPPFBKGeP1W/DUQUJmkMdvS
- un3qHwJnoSbfk3EvHqY7X9guhIHxejFI52HjSn1K+e02l/xUMQ9DjB4sm
- 7GSSai3knF5vDscpZrWHYKkicM/xvzHeYHY/YTB+PRGVzjpSbNZxzI5/L
- Ei4HY30MaPFBd3vMyCrOhnzZmoKo37hAYuTexIHT/3ebEzQCo9BzZdNOc
- Jv2rRvQvLxYfg/sOZnLsUIxRAlSbmv31Ct2rLGqxH0kz+vvnhxJRTtvsb
- V7JGKf8zxq1kV6VPdvYDq4leL43m93FYFiNugvY29x79Tqzuh8bT8nSaB A==;
-IronPort-SDR: ynlty6keeFddtMSNqpN5nwlr/3EchqkDOFTbkdl0NJBB0GSQm6C3pkH4BE4vdWnravSFQ+FHQi
- 5M84+n7oLvid3bHnN3ntYHXzE2/Z7KvIBF0PPFDkELIkRZ53LC16toreDRcqaqbOWOEuxOIjQh
- peQlScp81JSCZgg6eCwx8eUIdMunjxAFuLNKw8CDoE9RFTQY2JxIDvCha3UwbwsFzsPWkyBLcf
- UJUKbS4GeNUrFh3YQXKWn/63iHbb/COZ6GxpqrHwNuyelFNxzFF/KKedz2hk/4CJweIfRKpG8W
- ffY=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707645"
+ bh=mXSaw2aL0sxPF+xu4Mg8aZKNjLty8M+Q4NARUvJlxh8=;
+ b=Xby+/rR7AYQzdS85OoQbIOgJ8uRJO3JBFjw2uLuEQRB3KrQHm9w47UjJ
+ +yIpjE7YNqQVbfo40sXppSYbm7PJn+M8OA5xAaRyWg7iJwrUOLvQArZ7G
+ i5LAY6tgQ9yqMBwsogAlXwALxRmD3GVBlW9rN1JdXE0TKUgfWdVMxFjok
+ V2UGS2TskIQL5Pxein0kofn9iATB25k1m+WwdKmsh+t5tuiKhEBKOGzYe
+ qKrrEAN0SH8cb+tkLOP2ERUzNazCrHELyQhbqWAgPd33IkLUQT9/z+lOf
+ ePPgvqIXO+OtA1fQ4HD0tNSgv1qdYlrOb9m3ZXcnNpzlnS3X1m2KSM8dT A==;
+IronPort-SDR: A/5eb2w/Vh6ocFZ8cHY2cAa3UTYrGogSKFx2Kk79e5BVB2rxjsRqxoWgdWItdl7Ay6Sicbxcy2
+ ucj//pRNIdTRPO1mUr1g9Z+TYQN1KuGc1pXTibYP0qOt9bmR6QVb/PhQX8Ftem1zczxj1UUqLm
+ bPA1wLpttRMwlPq4bx5upuk7HLEqHFnsu9Do/cuoYNLyn5PBY4gj16uvGGFrSayhLFw7zPHNCL
+ 0PfYN4ySIKosqnfKTSJHPbn+lZbAYr9Ns/BrESj+TMAkhUZbKuFGcp+X8uTy2xkOPErzCscZHf
+ G0k=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707648"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:40 +0800
-IronPort-SDR: fjJotshFsdQ02W8SDOV+Rf9uUwiKJrs0frSEY2K7BUa7vhsSncW/cgJY4jfxKceNss5pMP6vxL
- zs+LBIqJr7ndSIm3GCbHBdpwZ5T7sFy0ftPgoQc5Eci/Ii7gzfs/9qACukTqS+AgvOxbi1Okwk
- Yd20WnN9FceyMT3oQFhIFCheO4u1lNrXt8EZZQn46UayBii+xMtVYc1/bsZcVrrk0oyYc2IqFk
- MoD2FoGiKodh2wuL2Hg92l8CHnSt/XR/2ZwPVxUGhZgIh92pdbHN9y08hVWhpT/rZirxr/qL1N
- NdzxuJTmAoiVOz68OcbH6Qmz
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:41 +0800
+IronPort-SDR: Z44toVkR9c0qHw9/Nbl+6KhCiWjOWefkg6wc80z2ZG7zWBGHuOAfytYXXaoBMw3Epgcr65IIWb
+ MVaRStOAatQo/2IKF4SBeX8xjNbUfcxOiZv6etnljl6DevNKYaU254odRIW4v+o9KIlU15G4Jl
+ L11tmqD3YEGtCCMTS/TtmP3flB2Q3/Z9aEPlumFEoUURbb+A5okj4z08mLPMdvj2OW5Dqch60v
+ qQkkYy7TRXhhwHLCUVwoUr5z1FYSAAlsp+rRXnQSVGpJA9MPhzvZQola02Gpo8ZgFdVm2L/+4b
+ rUtI0kqICY7HBrAY30/3CBoL
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:48 -0700
-IronPort-SDR: kybWN8yaz672PCB0mVQuVlrp9TqL/0F8sXMUr636Xi8puDCQxL1kmtMcRPlJU/Ubl8Wu/NEsFD
- Chs223spk1JaXogQZfL3nmJvzXKsttgp4aFgVg5nXVCao/DnL2t2oKAynUliHffFOjvLKFrgXn
- QxzHVey1oWWx+aUn/sMJHQM/TjdEz2vqBeFe+mOnF/BEUyySte33K6txbw0FcXfoj4PQfrUQ1E
- RXRGgXqMHxOJ1GfhKMU1n7rpPSNWkSP8y7QDC0jm4bQ2Aiuz1Jgp2dFlOJ7GJDvYEStTwPxjXC
- NP8=
+ 22 Mar 2021 18:41:49 -0700
+IronPort-SDR: uU8EqSWiT5pSXY4wKIgdIaTHXhsFORyN5XL2vapNpwvE5Fruqd/pGiifPLuksUmeUrA5Snxn8h
+ bvsbiBEWGBnipC7yIv8dA07u++Gadr3OdNVDCUdG1Y12zBl9YjBWC4JG1hT/aTKHeZLT+bpP/9
+ S0bHTVDAn8p2JRfMucKffID+VrFUNb7279+IcV2WubTC49+6jULeq0zwb9hwxu8R+z0wP0VzBT
+ qoJv345Jucc5hcGkn+B34KVBBBgzrRjDUm/wiUFdh2DR9rpgCK2p+wxKvLbOknt5xX+ggx4Q+0
+ EXY=
 WDCIronportException: Internal
 Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.49.5])
- by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:40 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:41 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/16] hw/block: m25p80: Support fast read for SST flashes
-Date: Mon, 22 Mar 2021 21:57:53 -0400
-Message-Id: <20210323015756.3168650-14-alistair.francis@wdc.com>
+Subject: [PULL 14/16] hw/riscv: microchip_pfsoc: Map EMMC/SD mux register
+Date: Mon, 22 Mar 2021 21:57:54 -0400
+Message-Id: <20210323015756.3168650-15-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
 References: <20210323015756.3168650-1-alistair.francis@wdc.com>
@@ -98,33 +98,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Per SST25VF016B datasheet [1], SST flash requires a dummy byte after
-the address bytes. Note only SPI mode is supported by SST flashes.
+Since HSS commit c20a89f8dcac, the Icicle Kit reference design has
+been updated to use a register mapped at 0x4f000000 instead of a
+GPIO to control whether eMMC or SD card is to be used. With this
+support the same HSS image can be used for both eMMC and SD card
+boot flow, while previously two different board configurations were
+used. This is undocumented but one can take a look at the HSS code
+HSS_MMCInit() in services/mmc/mmc_api.c.
 
-[1] http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf
+With this commit, HSS image built from 2020.12 release boots again.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210306060152.7250-1-bmeng.cn@gmail.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210322075248.136255-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/block/m25p80.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/hw/riscv/microchip_pfsoc.h | 1 +
+ hw/riscv/microchip_pfsoc.c         | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 5f9471d83c..183d3f44c2 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -895,6 +895,9 @@ static void decode_fast_read_cmd(Flash *s)
-     s->needed_bytes = get_addr_length(s);
-     switch (get_man(s)) {
-     /* Dummy cycles - modeled with bytes writes instead of bits */
-+    case MAN_SST:
-+        s->needed_bytes += 1;
-+        break;
-     case MAN_WINBOND:
-         s->needed_bytes += 8;
-         break;
+diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+index d0c666aae0..d30916f45d 100644
+--- a/include/hw/riscv/microchip_pfsoc.h
++++ b/include/hw/riscv/microchip_pfsoc.h
+@@ -109,6 +109,7 @@ enum {
+     MICROCHIP_PFSOC_ENVM_DATA,
+     MICROCHIP_PFSOC_QSPI_XIP,
+     MICROCHIP_PFSOC_IOSCB,
++    MICROCHIP_PFSOC_EMMC_SD_MUX,
+     MICROCHIP_PFSOC_DRAM_LO,
+     MICROCHIP_PFSOC_DRAM_LO_ALIAS,
+     MICROCHIP_PFSOC_DRAM_HI,
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 266f1c3342..c4146b7a6b 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -122,6 +122,7 @@ static const MemMapEntry microchip_pfsoc_memmap[] = {
+     [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
+     [MICROCHIP_PFSOC_QSPI_XIP] =        { 0x21000000,  0x1000000 },
+     [MICROCHIP_PFSOC_IOSCB] =           { 0x30000000, 0x10000000 },
++    [MICROCHIP_PFSOC_EMMC_SD_MUX] =     { 0x4f000000,        0x4 },
+     [MICROCHIP_PFSOC_DRAM_LO] =         { 0x80000000, 0x40000000 },
+     [MICROCHIP_PFSOC_DRAM_LO_ALIAS] =   { 0xc0000000, 0x40000000 },
+     [MICROCHIP_PFSOC_DRAM_HI] =       { 0x1000000000,        0x0 },
+@@ -411,6 +412,11 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
+                     memmap[MICROCHIP_PFSOC_IOSCB].base);
+ 
++    /* eMMC/SD mux */
++    create_unimplemented_device("microchip.pfsoc.emmc_sd_mux",
++        memmap[MICROCHIP_PFSOC_EMMC_SD_MUX].base,
++        memmap[MICROCHIP_PFSOC_EMMC_SD_MUX].size);
++
+     /* QSPI Flash */
+     memory_region_init_rom(qspi_xip_mem, OBJECT(dev),
+                            "microchip.pfsoc.qspi_xip",
 -- 
 2.30.1
 
