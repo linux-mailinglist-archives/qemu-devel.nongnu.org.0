@@ -2,88 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1239345D21
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:40:35 +0100 (CET)
-Received: from localhost ([::1]:37228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D099345D7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:57:33 +0100 (CET)
+Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOfOk-0008Lq-P9
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:40:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58954)
+	id 1lOffA-0007Ti-9A
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lOfMD-0007Jd-MW
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:37:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lOfMB-0002vH-MS
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:37:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616499474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bpI6m9rQzDSOkBnGAjKI5qS9LeyY+YcP1WOxFJ8fzcU=;
- b=W3REBXJKZHaRoit/wAb04kop5017X4UpUVZBXORvxFXoEpRtGZ4DYyIBVZn07CtLURTk8e
- rc6ru+fiZf2hzTusmD136o0s8nC/MjU6eATr0/UxpUz9sVJmP+CUuux8oqduNZWcHDRbvx
- btl9fVcgPaiF90PQ83RZLg/dTnY+an4=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-DoeQV8vbOWykkSE2ZgUkKA-1; Tue, 23 Mar 2021 07:37:48 -0400
-X-MC-Unique: DoeQV8vbOWykkSE2ZgUkKA-1
-Received: by mail-il1-f197.google.com with SMTP id d15so1428190ila.10
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 04:37:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bpI6m9rQzDSOkBnGAjKI5qS9LeyY+YcP1WOxFJ8fzcU=;
- b=g8yrvLsFQNtyiNCnoAAqfZ5ejh8XmuZVcoIeI+HdAxnMEEVEPD2SEPhS/XmUN0MnNM
- KB/D4ksArRmGjyzxuZJWHJ7GxfxqvLoZrJHFnP5Zp9Nx2ey0UL/O1fP6VaBvaY3KGjvZ
- qPb2w5Qga7Fg1iCRy/5ObrV++vau40080WXYseHv1Chz9s5O6Nq46PZtODvVNMcK/tOj
- syQe6yWuw7By2N32npEPbZZrIL+ldc1SxqwxN2Hnuotiqtr0v7FeZG4yabqYzfgeXK4S
- NMkUx+QywFhFdlAleHtiXdwxLPL79yxnCKmsCraymnsDZTsLt/FKOPqo95jKHNoB5yd7
- 41Gw==
-X-Gm-Message-State: AOAM531h/FNe2LFpihM7sxFhq6T4eOQH/7USo5fJqFepECxFiWLXYSqT
- wKRYeWZL+xq+X4voG4BntOY7afJl36Awq/VBVIa41dmZ+rZ4gm4JZy2p5swK0oB/FeAMng5b6V5
- O1mrNRvPLCu2HAhRDETBoUJKpm4001rg=
-X-Received: by 2002:a02:8545:: with SMTP id g63mr3960335jai.79.1616499468100; 
- Tue, 23 Mar 2021 04:37:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJlfMjzaTzzAIuFPVMYpxqHpf4CN0MsLdKWbCRHK98ggWYsiAwSepL7gmWt6g6gyKh1NrUR93RW2zq+0vSelo=
-X-Received: by 2002:a02:8545:: with SMTP id g63mr3960321jai.79.1616499467904; 
- Tue, 23 Mar 2021 04:37:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOfdO-0006Ro-3W
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:55:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOfdK-0004qK-H6
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:55:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOfdI-0001Uc-Kj
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:55:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 770CF2E8157
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:55:36 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210322105234.3932691-1-marcandre.lureau@redhat.com>
- <YFnCfhiaixbn7lMy@redhat.com>
- <CAFEAcA_f2fMmVS=Pt6Zd7Si5L2YfRMH+dJZ_pZd=E-neKpxUOg@mail.gmail.com>
- <YFnRBwWPAA9TRntZ@redhat.com>
- <CAFEAcA_BL1myi878cE5V48EeUpvzq5HUMgU5fKP74YRsutjdjQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_BL1myi878cE5V48EeUpvzq5HUMgU5fKP74YRsutjdjQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 23 Mar 2021 15:37:36 +0400
-Message-ID: <CAMxuvazOeOhyAXvYXb1DpGff+8BAHrZG5bLLG1KYC1xL2eX08Q@mail.gmail.com>
-Subject: Re: [PATCH v4] sphinx: adopt kernel readthedoc theme
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000907a7705be329c41"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Mar 2021 11:46:28 -0000
+From: Namrata Bhave <1920913@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nam121
+X-Launchpad-Bug-Reporter: Namrata Bhave (nam121)
+X-Launchpad-Bug-Modifier: Namrata Bhave (nam121)
+Message-Id: <161649998851.23806.5550710395623491265.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1920913] [NEW] Openjdk11+ fails to install on s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: c1d94514487ac859bc9e80e43af840214dfdfd5e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,78 +69,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1920913 <1920913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000907a7705be329c41
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-Hi
+While installing openjdk11 or higher from repo, it crashes while configurin=
+g ca-certificates-java.
+Although `java -version` passes, `jar -version` crashes. Detailed logs atta=
+ched to this issue.
 
-On Tue, Mar 23, 2021 at 3:36 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+```
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
+#
+# JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-Ubu=
+ntu-0ubuntu1.20.04)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mixed=
+ mode, tiered, compressed oops, g1 gc, linux-s390x)
+# Problematic frame:
+# J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes) =
+@ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
+#
+# Core dump will be written. Default location: Core dumps may be processed =
+with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.842=
+5)
+#
+# An error report file with more information is saved as:
+# //hs_err_pid8425.log
+sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /root/=
+core.10740)
+#
+# An error report file with more information is saved as:
+# /root/hs_err_pid10740.log
+```
 
-> On Tue, 23 Mar 2021 at 11:29, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-> wrote:
-> > The theme is pre-packaged for Fedora, Debian, Ubuntu, which gives me
-> > confidence for Linux distros in general.
-> >
-> > BSD / macOS / Windows, who knows ?
->
-> Mmm, good point. Marc-Andr=C3=A9's the one who's been doing the work
-> here, so I'm happy to leave it up to him if he thinks retaining
-> the fallback is the best approach.
->
-> > We could check for rtd theme in meson, and disable the docs build
-> > if missing.
->
-> If you make the docs/conf.py raise an error if the theme is missing,
-> then the existing docs/meson.build "does sphinx work?" test will
-> disable the docs build. (You would want to improve the error message
-> to note that the problem might be missing theme, though.)
->
->
-Ok great, I'll do that. thanks
+Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 hos=
+t.
+Please note, on native s390x, the installation is successful. Also this cra=
+sh is not observed while installing openjdk-8-jdk.
 
---000000000000907a7705be329c41
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Qemu version: 5.2.0
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 23, 2021 at 3:36 PM Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
-naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Tue, 23 Mar 2021 at 11:29, Daniel P. Berrang=C3=A9 &lt;<a href=
-=3D"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&g=
-t; wrote:<br>
-&gt; The theme is pre-packaged for Fedora, Debian, Ubuntu, which gives me<b=
-r>
-&gt; confidence for Linux distros in general.<br>
-&gt;<br>
-&gt; BSD / macOS / Windows, who knows ?<br>
-<br>
-Mmm, good point. Marc-Andr=C3=A9&#39;s the one who&#39;s been doing the wor=
-k<br>
-here, so I&#39;m happy to leave it up to him if he thinks retaining<br>
-the fallback is the best approach.<br>
-<br>
-&gt; We could check for rtd theme in meson, and disable the docs build<br>
-&gt; if missing.<br>
-<br>
-If you make the docs/conf.py raise an error if the theme is missing,<br>
-then the existing docs/meson.build &quot;does sphinx work?&quot; test will<=
-br>
-disable the docs build. (You would want to improve the error message<br>
-to note that the problem might be missing theme, though.)<br>
-<br></blockquote><div><br></div><div>Ok great, I&#39;ll do that. thanks <br=
-></div></div></div>
+Please let me know if any more details are needed.
 
---000000000000907a7705be329c41--
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+
+** Tags: s390x
+
+** Attachment added: "openjdk_crash_logs.log"
+   https://bugs.launchpad.net/bugs/1920913/+attachment/5480023/+files/openj=
+dk_crash_logs.log
+
+** Description changed:
+
+  While installing openjdk11 or higher from repo, it crashes while configur=
+ing ca-certificates-java.
+  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
+tached to this issue.
+  =
+
+  ```
+  # A fatal error has been detected by the Java Runtime Environment:
+  #
+  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
+  #
+  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
+buntu-0ubuntu1.20.04)
+  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
+ed mode, tiered, compressed oops, g1 gc, linux-s390x)
+  # Problematic frame:
+  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
+) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
+  #
+  # Core dump will be written. Default location: Core dumps may be processe=
+d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
+425)
+  #
+  # An error report file with more information is saved as:
+  # //hs_err_pid8425.log
+  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
+t/core.10740)
+  #
+  # An error report file with more information is saved as:
+  # /root/hs_err_pid10740.log
+  ```
+  =
+
+- Observed this on s390x/ubuntu as well as alpine when run on amd64. =
+
+- Please note, on native s390x, the installation is successful. Also this c=
+rash is not observed while installing openjdk-8-jdk. =
+
++ Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
+ost.
++ Please note, on native s390x, the installation is successful. Also this c=
+rash is not observed while installing openjdk-8-jdk.
+  =
+
+  Qemu version: 5.2.0
+  =
+
+  Please let me know if any more details are needed.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920913
+
+Title:
+  Openjdk11+ fails to install on s390x
+
+Status in QEMU:
+  New
+
+Bug description:
+  While installing openjdk11 or higher from repo, it crashes while configur=
+ing ca-certificates-java.
+  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
+tached to this issue.
+
+  ```
+  # A fatal error has been detected by the Java Runtime Environment:
+  #
+  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
+  #
+  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
+buntu-0ubuntu1.20.04)
+  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
+ed mode, tiered, compressed oops, g1 gc, linux-s390x)
+  # Problematic frame:
+  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
+) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
+  #
+  # Core dump will be written. Default location: Core dumps may be processe=
+d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
+425)
+  #
+  # An error report file with more information is saved as:
+  # //hs_err_pid8425.log
+  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
+t/core.10740)
+  #
+  # An error report file with more information is saved as:
+  # /root/hs_err_pid10740.log
+  ```
+
+  Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
+ost.
+  Please note, on native s390x, the installation is successful. Also this c=
+rash is not observed while installing openjdk-8-jdk.
+
+  Qemu version: 5.2.0
+
+  Please let me know if any more details are needed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920913/+subscriptions
 
