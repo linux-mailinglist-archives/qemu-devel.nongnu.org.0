@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67ADF3454FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 02:26:29 +0100 (CET)
-Received: from localhost ([::1]:52734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C944134552F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 02:58:58 +0100 (CET)
+Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOVoR-0001r5-TX
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 21:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1lOWJt-00014z-C3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 21:58:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lOVnf-0001Ec-VJ
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:25:39 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4305)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lOWI2-0008UC-7v
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:57:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lOVnc-00086a-Ho
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:25:39 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F4DBs5b2yznVR8;
- Tue, 23 Mar 2021 09:23:01 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 23 Mar 2021 09:25:28 +0800
-Subject: Re: [PATCH v5 10/10] KVM: Dirty ring support
-To: Peter Xu <peterx@redhat.com>
-References: <20210310203301.194842-1-peterx@redhat.com>
- <20210310203301.194842-11-peterx@redhat.com>
- <deeb1fcb-bfad-ec47-49d0-fec7bf4d4391@huawei.com>
- <20210322185213.GD16645@xz-x1>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <df3fd987-31ac-6e5b-e004-856b5da68ca0@huawei.com>
-Date: Tue, 23 Mar 2021 09:25:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lOWHy-0005qg-Mi
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:57:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616464615;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iRD/ysF4N+Hl6SJ6pjv1PHECDJUC7Q563A84tZMo7MM=;
+ b=KI31awOCu1hHkZRch8l50aHuuUX9UK2cWgGsKfk+0xzNkUUsoQZ5ScDBH9+COYX5Q/Bk0Q
+ RlqHTmM3iviwG5HDjuhwzyd+awMCXCyqGn9TGvc0+HGD+e7QQ3vZmS8dxLFlbyzU3EtNn4
+ JBxraCesqeWXRRm0cpMVVfgs3R82k/k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-iuNAUAPQNWuvwqxifrfEMw-1; Mon, 22 Mar 2021 21:56:53 -0400
+X-MC-Unique: iuNAUAPQNWuvwqxifrfEMw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A45461007467
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 01:56:52 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-12-88.pek2.redhat.com [10.72.12.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD1FD62A6F;
+ Tue, 23 Mar 2021 01:56:47 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] vhost-vdpa: add support for configure interrupt
+Date: Tue, 23 Mar 2021 09:56:37 +0800
+Message-Id: <20210323015641.10820-1-lulu@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210322185213.GD16645@xz-x1>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,141 +73,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These code are all tested in vp-vdpa (support configure interrupt)
+vdpa_sim (not support configure interrupt)
+
+test in virtio-pci bus and virtio-mmio bus
+
+Change in v2:
+Add support fot virtio-mmio bus
+active the notifier wihle the backend support configure intterrput
+misc fixes form v1
+
+Change in v3
+fix the coding style problems
+
+Change in v4
+misc fixes form v3
+merge the set_config_notifier to set_guest_notifier
+when vdpa start, check the feature by VIRTIO_NET_F_STATUS 
 
 
-On 2021/3/23 2:52, Peter Xu wrote:
-> On Mon, Mar 22, 2021 at 09:37:19PM +0800, Keqian Zhu wrote:
->>> +/* Should be with all slots_lock held for the address spaces. */
->>> +static void kvm_dirty_ring_mark_page(KVMState *s, uint32_t as_id,
->>> +                                     uint32_t slot_id, uint64_t offset)
->>> +{
->>> +    KVMMemoryListener *kml;
->>> +    KVMSlot *mem;
->>> +
->>> +    if (as_id >= s->nr_as) {
->>> +        return;
->>> +    }
->>> +
->>> +    kml = s->as[as_id].ml;
->>> +    mem = &kml->slots[slot_id];
->>> +
->>> +    if (!mem->memory_size || offset >= (mem->memory_size / TARGET_PAGE_SIZE)) {
->> It seems that TARGET_PAGE_SIZE should be qemu_real_host_page_size.
-> 
-> Fixed.
-> 
-> [...]
-> 
->>> +/*
->>> + * Flush all the existing dirty pages to the KVM slot buffers.  When
->>> + * this call returns, we guarantee that all the touched dirty pages
->>> + * before calling this function have been put into the per-kvmslot
->>> + * dirty bitmap.
->>> + *
->>> + * This function must be called with BQL held.
->>> + */
->>> +static void kvm_dirty_ring_flush(struct KVMDirtyRingReaper *r)
->> The argument is not used.
-> 
-> Indeed, removed.
-> 
->>
->>> +{
->>> +    trace_kvm_dirty_ring_flush(0);
->>> +    /*
->>> +     * The function needs to be serialized.  Since this function
->>> +     * should always be with BQL held, serialization is guaranteed.
->>> +     * However, let's be sure of it.
->>> +     */
->>> +    assert(qemu_mutex_iothread_locked());
->>> +    /*
->>> +     * First make sure to flush the hardware buffers by kicking all
->>> +     * vcpus out in a synchronous way.
->>> +     */
->>> +    kvm_cpu_synchronize_kick_all();
->> Can we make this function to be architecture specific?
->> It seems that kick out vCPU is an architecture specific way to flush hardware buffers
->> to dirty ring (for x86 PML).
-> 
-> I can do that, but I'd say it's kind of an overkill if after all the kernel
-> support is not there yet, so I still tend to make it as simple as possible.
-OK.
+Cindy Lu (4):
+  virtio:add support in configure interrupt
+  vhost-vdpa: add callback function for configure interrupt
+  virtio-mmio: add support for configure interrupt
+  virtio-pci: add support for configure interrupt
 
-> 
-> [...]
-> 
->>> +static void *kvm_dirty_ring_reaper_thread(void *data)
->>> +{
->>> +    KVMState *s = data;
->>> +    struct KVMDirtyRingReaper *r = &s->reaper;
->>> +
->>> +    rcu_register_thread();
->>> +
->>> +    trace_kvm_dirty_ring_reaper("init");
->>> +
->>> +    while (true) {
->>> +        r->reaper_state = KVM_DIRTY_RING_REAPER_WAIT;
->>> +        trace_kvm_dirty_ring_reaper("wait");
->>> +        /*
->>> +         * TODO: provide a smarter timeout rather than a constant?
->>> +         */
->>> +        sleep(1);
->>> +
->>> +        trace_kvm_dirty_ring_reaper("wakeup");
->>> +        r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
->>> +
->>> +        qemu_mutex_lock_iothread();
->>> +        kvm_dirty_ring_reap(s);
->>> +        qemu_mutex_unlock_iothread();
->>> +
->>> +        r->reaper_iteration++;
->>> +    }
->> I don't know when does this iteration exit?
->> And I see that we start this reaper_thread in kvm_init(), maybe it's better to start it
->> when start dirty log and stop it when stop dirty log.
-> 
-> Yes we can make it conditional, but note that we can't hook at functions like
-> memory_global_dirty_log_start() because that is only for migration purpose.
-> 
-> Currently QEMU exports the dirty tracking more than that, e.g., to the VGA
-> code.  We'll need to try to detect whether there's any existing MR got its
-> mr->dirty_log_mask set (besides global_dirty_log being set).  When all of them
-> got cleared we'll need to detect too so as to turn the thread off.
-> 
-> It's just easier to me to run this thread with such a timeout, then when not
-> necessary it'll see empty ring and return fast (index comparison for each
-> ring).  Not to mention the VGA dirty tracking should be on for most of the VM
-> lifecycle, so even if we have that knob this thread will probably be running
-> for 99% of the time as long as any MR has its DIRTY_MEMORY_VGA bit set.
-Make sense. Thanks for your explanation!
+ hw/display/vhost-user-gpu.c       |  14 ++-
+ hw/net/vhost_net.c                |  16 ++-
+ hw/net/virtio-net.c               |  24 ++++-
+ hw/s390x/virtio-ccw.c             |   6 +-
+ hw/virtio/trace-events            |   2 +
+ hw/virtio/vhost-user-fs.c         |  12 ++-
+ hw/virtio/vhost-vdpa.c            |  40 ++++++-
+ hw/virtio/vhost-vsock-common.c    |  12 ++-
+ hw/virtio/vhost.c                 |  44 +++++++-
+ hw/virtio/virtio-crypto.c         |  13 ++-
+ hw/virtio/virtio-mmio.c           |  30 +++++-
+ hw/virtio/virtio-pci.c            | 171 ++++++++++++++++++++++++------
+ hw/virtio/virtio.c                |  28 +++++
+ include/hw/virtio/vhost-backend.h |   4 +
+ include/hw/virtio/vhost.h         |   4 +
+ include/hw/virtio/virtio.h        |  23 +++-
+ include/net/vhost_net.h           |   3 +
+ 17 files changed, 378 insertions(+), 68 deletions(-)
 
-Thanks,
-Keqian
-> 
-> [...]
-> 
->>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->>> index c68bc3ba8af..2f0991d93f7 100644
->>> --- a/include/hw/core/cpu.h
->>> +++ b/include/hw/core/cpu.h
->>> @@ -323,6 +323,11 @@ struct qemu_work_item;
->>>   * @ignore_memory_transaction_failures: Cached copy of the MachineState
->>>   *    flag of the same name: allows the board to suppress calling of the
->>>   *    CPU do_transaction_failed hook function.
->>> + * @kvm_dirty_ring_full:
->>> + *   Whether the kvm dirty ring of this vcpu is soft-full.
->>> + * @kvm_dirty_ring_avail:
->>> + *   Semaphore to be posted when the kvm dirty ring of the vcpu is
->>> + *   available again.
->> The doc does not match code.
-> 
-> Right; fixed.
-> 
-> Thanks for taking a look, keqian.
-> 
+-- 
+2.21.3
+
+
 
