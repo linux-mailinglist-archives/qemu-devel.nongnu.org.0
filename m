@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97B33464F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:23:21 +0100 (CET)
-Received: from localhost ([::1]:60764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E9C34654D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:36:01 +0100 (CET)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOjoJ-0006Qd-De
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:23:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37666)
+	id 1lOk0e-0005Z2-8R
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjGG-0007Th-KW
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjGG-0007UO-SU
  for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:48:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54862)
+Received: from mx2.suse.de ([195.135.220.15]:54864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFl-0000v8-1c
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFl-0000v9-2F
  for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:48:04 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 574D3AF57;
+ by mx2.suse.de (Postfix) with ESMTP id C8BC4AF59;
  Tue, 23 Mar 2021 15:47:03 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v11 43/55] target/arm: add tcg cpu accel class
-Date: Tue, 23 Mar 2021 16:46:27 +0100
-Message-Id: <20210323154639.23477-36-cfontana@suse.de>
+Subject: [RFC v11 44/55] target/arm: move TCG gt timer creation code in tcg/
+Date: Tue, 23 Mar 2021 16:46:28 +0100
+Message-Id: <20210323154639.23477-37-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210323151749.21299-1-cfontana@suse.de>
 References: <20210323151749.21299-1-cfontana@suse.de>
@@ -59,275 +59,131 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move init, realizefn and reset code into it.
+we need to be careful not to use
+
+if (tcg_enabled())
+
+here, because of the VMSTATE definitions in machine.c,
+which are only protected by CONFIG_TCG, and thus
+it would break the --enable-tcg --enable-kvm build.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/arm/tcg/tcg-cpu.h        |  4 ++-
- target/arm/cpu.c                | 44 ++------------------------
- target/arm/tcg/sysemu/tcg-cpu.c | 27 ++++++++++++++++
- target/arm/tcg/tcg-cpu-models.c | 10 +++---
- target/arm/tcg/tcg-cpu.c        | 55 +++++++++++++++++++++++++++++++--
- 5 files changed, 92 insertions(+), 48 deletions(-)
+ target/arm/tcg/tcg-cpu.h        |  1 +
+ target/arm/cpu.c                | 28 +++-------------------
+ target/arm/tcg/sysemu/tcg-cpu.c | 41 +++++++++++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+), 25 deletions(-)
 
 diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
-index d93c6a6749..dd08587949 100644
+index dd08587949..3e4ce2c355 100644
 --- a/target/arm/tcg/tcg-cpu.h
 +++ b/target/arm/tcg/tcg-cpu.h
-@@ -22,15 +22,17 @@
- 
- #include "cpu.h"
- #include "hw/core/tcg-cpu-ops.h"
-+#include "hw/core/accel-cpu.h"
- 
- void arm_cpu_synchronize_from_tb(CPUState *cs,
-                                  const TranslationBlock *tb);
- 
--extern struct TCGCPUOps arm_tcg_ops;
-+void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
- 
- #ifndef CONFIG_USER_ONLY
+@@ -33,6 +33,7 @@ void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
  /* Do semihosting call and set the appropriate return value. */
  void tcg_handle_semihosting(CPUState *cs);
-+bool tcg_cpu_realizefn(CPUState *cs, Error **errp);
+ bool tcg_cpu_realizefn(CPUState *cs, Error **errp);
++bool tcg_cpu_realize_gt_timers(CPUState *cs, Error **errp);
  
  #endif /* !CONFIG_USER_ONLY */
  
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5e0f6bd01d..9248e096df 100644
+index 9248e096df..d523d9b68d 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -410,12 +410,6 @@ static void arm_cpu_reset(DeviceState *dev)
-                               &env->vfp.fp_status_f16);
-     set_float_detect_tininess(float_tininess_before_rounding,
-                               &env->vfp.standard_fp_status_f16);
--
--    if (tcg_enabled()) {
--        hw_breakpoint_update_all(cpu);
--        hw_watchpoint_update_all(cpu);
--        arm_rebuild_hflags(env);
--    }
- }
- 
- void arm_cpu_update_virq(ARMCPU *cpu)
-@@ -576,10 +570,6 @@ static void arm_cpu_initfn(Object *obj)
-     cpu->dtb_compatible = "qemu,unknown";
-     cpu->psci_version = 1; /* By default assume PSCI v0.1 */
-     cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
--
--    if (tcg_enabled()) {
--        cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
--    }
- }
- 
- static Property arm_cpu_gt_cntfrq_property =
-@@ -868,34 +858,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     Error *local_err = NULL;
+@@ -859,32 +859,10 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
      bool no_aa32 = false;
  
--    /*
--     * If we needed to query the host kernel for the CPU features
--     * then it's possible that might have failed in the initfn, but
--     * this is the first point where we can report it.
--     */
--    if (cpu->host_cpu_probe_failed) {
--        error_setg(errp, "The 'host' CPU type can only be used with KVM");
--        return;
--    }
+ #if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+-    {
+-        uint64_t scale;
 -
--#ifndef CONFIG_USER_ONLY
--    /* The NVIC and M-profile CPU are two halves of a single piece of
--     * hardware; trying to use one without the other is a command line
--     * error and will result in segfaults if not caught here.
--     */
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        if (!env->nvic) {
--            error_setg(errp, "This board cannot be used with Cortex-M CPUs");
--            return;
+-        if (arm_feature(env, ARM_FEATURE_GENERIC_TIMER)) {
+-            if (!cpu->gt_cntfrq_hz) {
+-                error_setg(errp, "Invalid CNTFRQ: %"PRId64"Hz",
+-                           cpu->gt_cntfrq_hz);
+-                return;
+-            }
+-            scale = gt_cntfrq_period_ns(cpu);
+-        } else {
+-            scale = GTIMER_SCALE;
 -        }
--    } else {
--        if (env->nvic) {
--            error_setg(errp, "This board can only be used with Cortex-M CPUs");
--            return;
--        }
--    }
 -
--#ifdef CONFIG_TCG
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-     {
-         uint64_t scale;
- 
-@@ -921,8 +884,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-                                                   arm_gt_hvtimer_cb, cpu);
+-        cpu->gt_timer[GTIMER_PHYS] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+-                                               arm_gt_ptimer_cb, cpu);
+-        cpu->gt_timer[GTIMER_VIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+-                                               arm_gt_vtimer_cb, cpu);
+-        cpu->gt_timer[GTIMER_HYP] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+-                                              arm_gt_htimer_cb, cpu);
+-        cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+-                                              arm_gt_stimer_cb, cpu);
+-        cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+-                                                  arm_gt_hvtimer_cb, cpu);
++    if (!tcg_cpu_realize_gt_timers(cs, errp)) {
++        return;
      }
--#endif /* CONFIG_TCG */
--#endif /* !CONFIG_USER_ONLY */
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+-#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
++#endif
  
      cpu_exec_realizefn(cs, &local_err);
      if (local_err != NULL) {
-@@ -1458,7 +1420,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = arm_disas_set_info;
- 
- #ifdef CONFIG_TCG
--    cc->tcg_ops = &arm_tcg_ops;
-+    cc->init_accel_cpu = tcg_arm_init_accel_cpu;
- #endif /* CONFIG_TCG */
- 
-     arm32_cpu_class_init(oc, data);
 diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index 327b2a5073..115ac523dc 100644
+index 115ac523dc..777eb948df 100644
 --- a/target/arm/tcg/sysemu/tcg-cpu.c
 +++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -19,10 +19,13 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/timer.h"
- #include "cpu.h"
- #include "semihosting/common-semi.h"
- #include "qemu/log.h"
- #include "tcg/tcg-cpu.h"
-+#include "internals.h"
- 
- /*
-  * Do semihosting call and set the appropriate return value. All the
-@@ -50,3 +53,27 @@ void tcg_handle_semihosting(CPUState *cs)
-         env->regs[15] += env->thumb ? 2 : 4;
+@@ -54,6 +54,46 @@ void tcg_handle_semihosting(CPUState *cs)
      }
  }
-+
-+bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
+ 
++/*
++ * we cannot use tcg_enabled() to condition the call to this function,
++ * due to the fields VMSTATE definitions in machine.c : it would break
++ * the --enable-tcg --enable-kvm build. We need to run this code whenever
++ * CONFIG_TCG is true, regardless of the chosen accelerator.
++ *
++ * So we cannot call this from tcg_cpu_realizefn, as this needs to
++ * be called whenever TCG is built-in, regardless of whether it is
++ * enabled or not.
++ */
++bool tcg_cpu_realize_gt_timers(CPUState *cs, Error **errp)
 +{
 +    ARMCPU *cpu = ARM_CPU(cs);
 +    CPUARMState *env = &cpu->env;
++    uint64_t scale;
 +
-+    /*
-+     * The NVIC and M-profile CPU are two halves of a single piece of
-+     * hardware; trying to use one without the other is a command line
-+     * error and will result in segfaults if not caught here.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        if (!env->nvic) {
-+            error_setg(errp, "This board cannot be used with Cortex-M CPUs");
++    if (arm_feature(env, ARM_FEATURE_GENERIC_TIMER)) {
++        if (!cpu->gt_cntfrq_hz) {
++            error_setg(errp, "Invalid CNTFRQ: %"PRId64"Hz",
++                       cpu->gt_cntfrq_hz);
 +            return false;
 +        }
++        scale = gt_cntfrq_period_ns(cpu);
 +    } else {
-+        if (env->nvic) {
-+            error_setg(errp, "This board can only be used with Cortex-M CPUs");
-+            return false;
-+        }
++        scale = GTIMER_SCALE;
 +    }
++
++    cpu->gt_timer[GTIMER_PHYS] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
++                                           arm_gt_ptimer_cb, cpu);
++    cpu->gt_timer[GTIMER_VIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
++                                           arm_gt_vtimer_cb, cpu);
++    cpu->gt_timer[GTIMER_HYP] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
++                                          arm_gt_htimer_cb, cpu);
++    cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
++                                          arm_gt_stimer_cb, cpu);
++    cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
++                                              arm_gt_hvtimer_cb, cpu);
 +    return true;
 +}
-diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-models.c
-index 16ab5d5364..5f3a2adc97 100644
---- a/target/arm/tcg/tcg-cpu-models.c
-+++ b/target/arm/tcg/tcg-cpu-models.c
-@@ -844,16 +844,18 @@ static struct TCGCPUOps arm_v7m_tcg_ops = {
- #endif /* !CONFIG_USER_ONLY */
- };
- 
-+static void arm_v7m_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
-+{
-+    cc->tcg_ops = &arm_v7m_tcg_ops;
-+}
 +
- static void arm_v7m_class_init(ObjectClass *oc, void *data)
+ bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
  {
-     ARMCPUClass *acc = ARM_CPU_CLASS(oc);
-     CPUClass *cc = CPU_CLASS(oc);
- 
-     acc->info = data;
--#ifdef CONFIG_TCG
--    cc->tcg_ops = &arm_v7m_tcg_ops;
--#endif /* CONFIG_TCG */
--
-+    cc->init_accel_cpu = arm_v7m_init_accel_cpu;
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
- 
-diff --git a/target/arm/tcg/tcg-cpu.c b/target/arm/tcg/tcg-cpu.c
-index 9fd996d908..db677bc71c 100644
---- a/target/arm/tcg/tcg-cpu.c
-+++ b/target/arm/tcg/tcg-cpu.c
-@@ -20,8 +20,8 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "tcg-cpu.h"
--#include "hw/core/tcg-cpu-ops.h"
- #include "cpregs.h"
- #include "internals.h"
- #include "exec/exec-all.h"
-@@ -212,7 +212,7 @@ static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     ARMCPU *cpu = ARM_CPU(cs);
+@@ -75,5 +115,6 @@ bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
+             return false;
+         }
+     }
++
      return true;
  }
- 
--struct TCGCPUOps arm_tcg_ops = {
-+static struct TCGCPUOps arm_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = arm_cpu_exec_interrupt,
-@@ -227,3 +227,54 @@ struct TCGCPUOps arm_tcg_ops = {
-     .debug_check_watchpoint = arm_debug_check_watchpoint,
- #endif /* !CONFIG_USER_ONLY */
- };
-+
-+static void tcg_cpu_instance_init(CPUState *cs)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    /*
-+     * this would be the place to move TCG-specific props
-+     * in future refactoring of cpu properties.
-+     */
-+
-+    cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
-+}
-+
-+static void tcg_cpu_reset(CPUState *cs)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+
-+    hw_breakpoint_update_all(cpu);
-+    hw_watchpoint_update_all(cpu);
-+    arm_rebuild_hflags(env);
-+}
-+
-+void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc)
-+{
-+    cc->tcg_ops = &arm_tcg_ops;
-+}
-+
-+static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
-+{
-+    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
-+
-+#ifndef CONFIG_USER_ONLY
-+    acc->cpu_realizefn = tcg_cpu_realizefn;
-+#endif /* CONFIG_USER_ONLY */
-+
-+    acc->cpu_instance_init = tcg_cpu_instance_init;
-+    acc->cpu_reset = tcg_cpu_reset;
-+}
-+static const TypeInfo tcg_cpu_accel_type_info = {
-+    .name = ACCEL_CPU_NAME("tcg"),
-+
-+    .parent = TYPE_ACCEL_CPU,
-+    .class_init = tcg_cpu_accel_class_init,
-+    .abstract = true,
-+};
-+static void tcg_cpu_accel_register_types(void)
-+{
-+    type_register_static(&tcg_cpu_accel_type_info);
-+}
-+type_init(tcg_cpu_accel_register_types);
 -- 
 2.26.2
 
