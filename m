@@ -2,70 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C7A345D9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:06:29 +0100 (CET)
-Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C64345DDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:13:04 +0100 (CET)
+Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOfno-00034i-RG
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36818)
+	id 1lOfuA-0006cp-NW
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lOfmP-0001xQ-UR
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:05:01 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:64783)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lOfs0-00068x-93
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:10:48 -0400
+Resent-Date: Tue, 23 Mar 2021 08:10:48 -0400
+Resent-Message-Id: <E1lOfs0-00068x-93@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lOfmO-0001sG-6c
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:05:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1616501100;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=KuQPw6F+xqG73m8XTxaXL/LTNGMUBj+pjwi+99q8ME0=;
- b=RGfJyYWRJpJ0hpQ7UAAIdr+LG1kH0/Nh7dWxDr5VSMQcpjgKy1f6WKvd
- +BMR43wCDzDK0dRkLy9N5QJhYE3SBY0R4PTa63kZRrG7ygTMksPfBmSyS
- hDnKl2oIsMnX9XRizMoWnczdKFMu9R743R0xc5NzKoFEydJrsa5OVBgye 0=;
-Authentication-Results: esa3.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: np3kepIf5+qKdnWysahK4mMXDIIXh9kY+5RNTQ8aI8PVu+deAKGr0p8mBhwJBW2DSh79fN0Qaw
- QjA/oJuWDGR2gkQMo3zrLiKZB61gGUTOCrVXODPuCQikx2cVcjcfoQRAzXZvrCrn+P/CiGOAFa
- XI4KvSGpspavi7epXsyOTT0hjINX1O+fRQ+K3+/Vjchzv1p6R/9EogkBKkuPfoGOKo5v5HwlkD
- LBIKrO+TqraPdhe2VyhjuEXlkFPbeT5DDUeJf0BZlH20r8P4vXAsSqWBq9yQjivq2Li62aUH3f
- PGc=
-X-SBRS: 5.1
-X-MesageID: 39891529
-X-Ironport-Server: esa3.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-IronPort-HdrOrdr: A9a23:W/KqdKsKavuNzDGN6AFKn/sM7skD89V00zAX/kB9WHVpW+az/v
- rBoN0w0xjohDENHEw6kdebN6WaBV/a/5h54Y4eVI3SOjXOkm2uMY1k8M/e0yTtcheOjtJ1+K
- 98f8FFaOHYIkN9ia/BjDWQM9Fl+9Wf9bDtuOG29QYJcShPS4VNqzh0ERyaFEoefnggObMcGI
- CH7sRK4xqMEE5nDfiTPXUOU+jdq9CjrvuPCnRqOzcd5AaDlj+u4rLheiLouis2aD9T3awktV
- HMjg2R3NTbj9iA1hTe22XPhq42pPLdzLJ4a/Cku4wwIjXohh3AXvUCZ4G/
-X-IronPort-AV: E=Sophos;i="5.81,271,1610427600"; d="scan'208";a="39891529"
-To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Anthony PERARD
- <anthony.perard@citrix.com>
-Subject: [PULL 1/1] xen-block: Fix removal of backend instance via xenstore
-Date: Tue, 23 Mar 2021 12:04:39 +0000
-Message-ID: <20210323120439.563855-2-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.31.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lOfrp-0004lP-4R
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:10:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1616501389; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YXqLpFvMPbbDAFaf1dcWX4bm5yDooNL1J8t0UmftkjdxLS7Wlzo1PzWWQK0PFb3t/mX1DDhZ7EnsDbpO2FRNozcC3i6zv4Wzx3vj918UtHGtUnU4DUJxAOt/x8bjFGyIQWK3PZSFGWlOSbiXsnx/2YpOs7ncywkrpWDETQgzB3o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1616501389;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=6sm2KDuw+zGeZXN55d44cEmnqcc5ATtAm3nYJ22mvu0=; 
+ b=LToxXSNqPqf8Eyr5mMooOOsqKOrhhjNuz3MPPxBak9+BR52bQy/RfJ0C/fHERQKX+4+3isiHrH8lsiP2Ok4HVkViHs+gEhTQEdTlUyGOKVv1aGurn1WcRFsTuMe6UWxLgqmwWXqKF6y07o6dSleSeMQTKV4lebouuTBsdIvxzow=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 16165013854585.303282620057075;
+ Tue, 23 Mar 2021 05:09:45 -0700 (PDT)
 In-Reply-To: <20210323120439.563855-1-anthony.perard@citrix.com>
-References: <20210323120439.563855-1-anthony.perard@citrix.com>
+Subject: Re: [PULL 0/1] xen queue 2021-03-23
+Message-ID: <161650138433.9581.1964473934310510991@72b6d80f974b>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.155;
- envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Tue, 23 Mar 2021 05:09:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,54 +66,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: anthony.perard@citrix.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-Whenever a Xen block device is detach via xenstore, the image
-associated with it remained open by the backend QEMU and an error is
-logged:
-    qemu-system-i386: failed to destroy drive: Node xvdz-qcow2 is in use
-
-This happened since object_unparent() doesn't immediately frees the
-object and thus keep a reference to the node we are trying to free.
-The reference is hold by the "drive" property and the call
-xen_block_drive_destroy() fails.
-
-In order to fix that, we call drain_call_rcu() to run the callback
-setup by bus_remove_child() via object_unparent().
-
-Fixes: 2d24a6466154 ("device-core: use RCU for list of children of a bus")
-
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Message-Id: <20210308143232.83388-1-anthony.perard@citrix.com>
----
- hw/block/xen-block.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index ac82d5406337..83754a434481 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -972,6 +972,15 @@ static void xen_block_device_destroy(XenBackendInstance *backend,
- 
-     object_unparent(OBJECT(xendev));
- 
-+    /*
-+     * Drain all pending RCU callbacks as object_unparent() frees `xendev'
-+     * in a RCU callback.
-+     * And due to the property "drive" still existing in `xendev', we
-+     * can't destroy the XenBlockDrive associated with `xendev' with
-+     * xen_block_drive_destroy() below.
-+     */
-+    drain_call_rcu();
-+
-     if (iothread) {
-         xen_block_iothread_destroy(iothread, errp);
-         if (*errp) {
--- 
-Anthony PERARD
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyMzEyMDQzOS41NjM4
+NTUtMS1hbnRob255LnBlcmFyZEBjaXRyaXguY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
+IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
+Cm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMjMxMjA0
+MzkuNTYzODU1LTEtYW50aG9ueS5wZXJhcmRAY2l0cml4LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzFd
+IHhlbiBxdWV1ZSAyMDIxLTAzLTIzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAg
+ICAgICBwYXRjaGV3LzIwMjEwMzIzMTIwNDM5LjU2Mzg1NS0xLWFudGhvbnkucGVyYXJkQGNpdHJp
+eC5jb20gLT4gcGF0Y2hldy8yMDIxMDMyMzEyMDQzOS41NjM4NTUtMS1hbnRob255LnBlcmFyZEBj
+aXRyaXguY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTc1MmEzNyB4ZW4tYmxv
+Y2s6IEZpeCByZW1vdmFsIG9mIGJhY2tlbmQgaW5zdGFuY2UgdmlhIHhlbnN0b3JlCgo9PT0gT1VU
+UFVUIEJFR0lOID09PQpFUlJPUjogQXV0aG9yIGVtYWlsIGFkZHJlc3MgaXMgbWFuZ2xlZCBieSB0
+aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBBbnRob255IFBFUkFSRCB2aWEgPHFlbXUtZGV2
+ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTUgbGluZXMgY2hl
+Y2tlZAoKQ29tbWl0IDk3NTJhMzc5ZTk5MCAoeGVuLWJsb2NrOiBGaXggcmVtb3ZhbCBvZiBiYWNr
+ZW5kIGluc3RhbmNlIHZpYSB4ZW5zdG9yZSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
+aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
+aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
+IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMjMx
+MjA0MzkuNTYzODU1LTEtYW50aG9ueS5wZXJhcmRAY2l0cml4LmNvbS90ZXN0aW5nLmNoZWNrcGF0
+Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
