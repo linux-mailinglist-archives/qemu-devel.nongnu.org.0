@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AB434667F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:37:32 +0100 (CET)
-Received: from localhost ([::1]:45116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B06346691
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:43:10 +0100 (CET)
+Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkyB-0002Ao-BI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54048)
+	id 1lOl3c-0001Qx-Va
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkHK-0006jR-Gs
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:14 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:39864)
+ id 1lOkHM-0006oq-4x
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:16 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lOkHI-0002md-Ts
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:14 -0400
-Received: by mail-ej1-x629.google.com with SMTP id ce10so28236160ejb.6
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:11 -0700 (PDT)
+ id 1lOkHK-0002oU-GB
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:15 -0400
+Received: by mail-ej1-x634.google.com with SMTP id hq27so28247535ejc.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SFKqwWA28mZoYIjZ0ZOK5EiDbcG9dnnim+9hGp91sS0=;
- b=WTW9MqNOXGNmMOd3t8aIoO0okHhcZF+wXpsBs3m1cJXi1+M2Fgt/2gOH6INSexNzeG
- YDFdsUVaUJctComUueN6iNpRfpLhLI7LnvyIjZ2soZtpL7CiVz3SAOKiyZf01P7QxDEA
- Yu0dDfKxOCxbtfSrSjE25dnrsP0rDuhy1MXKHV6daykeD9YZNorPCwZjPFamXBrA7hSR
- fP1tomMjoUF0FHk6HaMao41AemIlBV387/pM6wDNjR8JZJGk6HSrI3H8vXSRw8VCSU7f
- LExmwq3QgsoWFfyM8tUPaRgYoI7qGK7BMNpDVFjADke4pytkVa0fNgtcZbW3lUcVIvVP
- gl7w==
+ bh=38YJNB9Ogff3zSddosbf0AluinWmSMypRv1mu6k0zgc=;
+ b=RkRWSUyP3q3F5SpgkEp+FIa7rvEBp2LiWwLw71O4pZvphuKdjB4msRrMn+nxy+zVdi
+ XTpjqM0p1pqjSn90IlDT5u9G32LjRRPenmMpDAu+rqyBS0QcpZAUcm0muFODpInYSor9
+ SKsjCjlh5op3YgAMg0NjKoWTPnQzMy6nhNNBteFR7Z+aRXE1dUk+rXOPATLs1SrzV4a3
+ MXA06+TIIdxs8z3U3++o9jZ9GKCGHf9wYiTTUUlLPcgqwFk9eOP1zf3tfBgBOrwL5kqM
+ u/eIm6rfcKI1ElHknigK0PRZ6dGzq5+ogYm87dCQuolRODKxu9LtQ7Pl4h9cwttIWIkA
+ /wog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SFKqwWA28mZoYIjZ0ZOK5EiDbcG9dnnim+9hGp91sS0=;
- b=C0PaOIfaFx6RAJ27YJdHaftXeuUzM7s/XM9pz+yHlWbokJhmld6f+7kGh0H4fYwduC
- W5NZOCW2qzzSj/MPGyp2pbaB9ftb+LpbOReym5ysjgagpnaVegeTNQ1O3NU/M614Pp52
- DuIlBViuQUds5gHGr5eQBhPX9uybqfwrZRNypmbu7dqYz2VT5UBM+eYF1FzZsL7JmX6P
- CeCd2XpJ36lzJLgR+O7EUKq+djReRHRYoUPxnMKCInHX0dyR8BVIv5oGOatNhS2r5QMo
- LjfxcotJtCEwaWG95E2m28DLzzOHTjnev2xvYLCnTT7C9Jf7r7qv57ZWCHFf2Hf+A9GG
- sTsg==
-X-Gm-Message-State: AOAM530d9OaC7Prhsx6ynk9Qon//tJS7PPQRroMy6SNVhL2fC8dTBzIX
- +XuLHN3JAr8eGiCqSHa3AYzmbQ==
-X-Google-Smtp-Source: ABdhPJxyPz/F4eFGeld+UmzLuwsV8Ywg3J8hC2gXSFZaicM9wF2O+K3MRJqJfNJYpM9/vqzTxuqJzQ==
-X-Received: by 2002:a17:906:3750:: with SMTP id
- e16mr5799198ejc.75.1616518390954; 
- Tue, 23 Mar 2021 09:53:10 -0700 (PDT)
+ bh=38YJNB9Ogff3zSddosbf0AluinWmSMypRv1mu6k0zgc=;
+ b=OrnW1/B1EdiwMcN9rjJTVFU3q8uY2dxPxcP87O/H/NyHqti5KLGqdRSg8XA5raE+t7
+ 8iaD/1OXvO5nxK6Pyf4Rts1SgvQ6wXU1hIsYIh2Xd3MDBNILm7b79ImB+q07YrLCpWKp
+ /+tyG1tJAyvmENNFfjyn0ts0cGLaK5ta6VBcJY4aD7yOpLA1r16KbJCZL6uxSRXCwvJ8
+ ymE1rIes7fGMJXOUFbJZlZ3BXurzdthW9hKwVwzhJUG1o4XhsnCKKGQbejeFqOOfIzel
+ NVOF3KywRZjAK/tR4YFE/VJp8eOUBAPi8d/Fud3+T30zLkO8Wu8i+H3D/j5uXENENzUe
+ Nefw==
+X-Gm-Message-State: AOAM530YvxoRUCa8h6W2urPjzoWZebHawNVOvfAV3XBsKXK8IznHWWq0
+ 3Pe4Xt/Db4z77pKIs+L9O+JS2w==
+X-Google-Smtp-Source: ABdhPJx/4PHuSOLP1+1u3dlXWwrgzqqTIqSl8uKQiHUiflkHg+RCX+11AytKMvlUHBTVzJgei+eKhw==
+X-Received: by 2002:a17:907:3d01:: with SMTP id
+ gm1mr5925546ejc.214.1616518392968; 
+ Tue, 23 Mar 2021 09:53:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c10sm12870554edt.64.2021.03.23.09.53.09
+ by smtp.gmail.com with ESMTPSA id v15sm13109264edw.28.2021.03.23.09.53.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 09:53:09 -0700 (PDT)
+ Tue, 23 Mar 2021 09:53:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B72A61FF87;
+ by zen.linaroharston (Postfix) with ESMTP id DE3CE1FF8C;
  Tue, 23 Mar 2021 16:53:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/22] scripts/kernel-doc: strip QEMU_ from function
- definitions
-Date: Tue, 23 Mar 2021 16:52:47 +0000
-Message-Id: <20210323165308.15244-2-alex.bennee@linaro.org>
+Subject: [PATCH v2 02/22] docs/devel: include the plugin API information from
+ the headers
+Date: Tue, 23 Mar 2021 16:52:48 +0000
+Message-Id: <20210323165308.15244-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210323165308.15244-1-alex.bennee@linaro.org>
 References: <20210323165308.15244-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some packaged versions of Sphinx (fedora33/alpine so far) have issues
-with the annotated C code that kernel-doc spits out. Without knowing
-about things like QEMU_PLUGIN_EXPORT it chokes trying to understand
-the code. Evidently this is a problem for the kernel as well as the
-long stream of regex substitutions we add to in this patch can attest.
-
-Fortunately we have a fairly common format for all our compiler
-shenanigans as applied to functions so lets just filter them all out.
+We have kerneldoc tags for the headers so we might as well extract
+them into our developer documentation whilst we are at it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210320133706.21475-2-alex.bennee@linaro.org>
+Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+Message-Id: <20210312172821.31647-4-alex.bennee@linaro.org>
+Message-Id: <20210320133706.21475-3-alex.bennee@linaro.org>
 ---
- scripts/kernel-doc | 3 +++
- 1 file changed, 3 insertions(+)
+ docs/devel/tcg-plugins.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 4b19851b2d..240923d509 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1745,6 +1745,9 @@ sub dump_function($$) {
-             )+
-           \)\)\s+//x;
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 39ce86ed96..18c6581d85 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -63,6 +63,11 @@ valid during the lifetime of the callback so it is important that any
+ information that is needed is extracted during the callback and saved
+ by the plugin.
  
-+    # Strip QEMU specific compiler annotations
-+    $prototype =~ s/QEMU_[A-Z_]+ +//;
++API
++===
 +
-     # Yes, this truly is vile.  We are looking for:
-     # 1. Return type (may be nothing if we're looking at a macro)
-     # 2. Function name
++.. kernel-doc:: include/qemu/qemu-plugin.h
++
+ Usage
+ =====
+ 
 -- 
 2.20.1
 
