@@ -2,63 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E7B345EB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:58:21 +0100 (CET)
-Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE14345E9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:56:39 +0100 (CET)
+Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOgc0-0006vI-OS
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48264)
+	id 1lOgaM-0004Nx-D2
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lOgZt-0004Ye-Ja
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:56:13 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:33733)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lOgYm-0002uk-5e; Tue, 23 Mar 2021 08:55:00 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:63657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lOgZi-0004Yr-1T
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:56:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=8EvuWMeSvlhuN/NKhL1UEoBjWre8dNBAehaT2Zpce9o=; b=NqYiK4FfYS8c9KtJULdhW93z5r
- y99PLzm/cCPl/l9Nj1iquA6FxM++4L2wMCCwRwd1aZ3M5Th9fqTTv72mthY/2LsIuVQaHt/Mvszp+
- v8saY9s12zcMCdxzcoeQtVEkXDZM4/Nm1xd9Vub/ofMi4+vpnEz0h6oQT9jff+0FoArMyIONqW2iK
- I8hTXhCWM+8fB6Sml/BSRtDx95Mz4VbMGMIxU619lt/3bZGEm9RT0bjEn2Pwl+JJqlzPYPsbY5JB9
- KQW0up0aJtM6znG2O2o8aRd3vJR/QDlFGuz+js2icjIhpqNw4qd8T4J68BZX4BiiUe0k9B5FC0DcX
- ujgjn4LQwBd8xpApAthBcDJ3+9gdY7GFRZdqmPHr4HyFuW0gDfABnWmBt/24pIk2hePkFPg3p6klr
- RLVHRoCAqe4CTyuyeKMn8ai9DS+CUAm7BZ7vYoU43o0cuMBkiRTrf9W5h5bLtnTPK5q9eNLjIIx3U
- 1G6cD2vkMBEt0qeARHsckBd0YX21qqkei8pJml0/e9bAON8VPOnJfTNz0iftSpeGV4fH4EWSu97sH
- Vp1oskbTLPZILyYdm09deTV4Bi/UFz/EEvb0vN4OWchUXAQX4KjZqLZa49A+AQZv/I5OAigslc7s4
- 4zJ/aKiqo3E1e7hmMUrkJ19TjBV9Kfg6EKevMyy6M=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, slp@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Xie Yongji <xieyongji@bytedance.com>,
- Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [External] Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash
- reconnection
-Date: Tue, 23 Mar 2021 13:54:46 +0100
-Message-ID: <2732080.qQGZu95Wvu@silver>
-In-Reply-To: <YFh3gIMbEEEYDdS/@stefanha-x1.localdomain>
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
- <1711593.yAA9ihpmTb@silver> <YFh3gIMbEEEYDdS/@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lOgYj-00043S-3o; Tue, 23 Mar 2021 08:54:59 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EE7F3746353;
+ Tue, 23 Mar 2021 13:54:51 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B3577746344; Tue, 23 Mar 2021 13:54:51 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B16FC74632F;
+ Tue, 23 Mar 2021 13:54:51 +0100 (CET)
+Date: Tue, 23 Mar 2021 13:54:51 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 1/8] vt82c686: Implement control of serial port io
+ ranges via config regs
+In-Reply-To: <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
+Message-ID: <a112d264-7540-9e4b-bc10-fe8e4518d828@eik.bme.hu>
+References: <cover.1615345138.git.balaton@eik.bme.hu>
+ <8cf90aad5a9fce1a20cbf49e4ef71c51ba04faed.1615345138.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,75 +56,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, f4bug@amsat.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 22. M=E4rz 2021 11:54:56 CET Stefan Hajnoczi wrote:
-> > > Thanks, Christian. I am still trying to figure out the details of the
-> > > ROP
-> > > attacks.
-> > >=20
-> > > However, QEMU's vhost-user reconnection is based on chardev socket
-> > > reconnection. The socket reconnection can be enabled by the "--chardev
-> > > socket,...,reconnect=3DN" in QEMU command options, in which N means Q=
-EMU
-> > > will
-> > > try to connect the disconnected socket every N seconds. We can increa=
-se
-> > > N
-> > > to increase the reconnect delay. If we want to change the reconnect
-> > > delay
-> > > dynamically, I think we should change the chardev socket reconnection
-> > > code.
-> > > It is a more generic mechanism than vhost-user-fs and vhost-user
-> > > backend.
-> > >=20
-> > > By the way, I also considered the socket reconnection delay time in t=
-he
-> > > performance aspect. As the reconnection delay increase, if an
-> > > application
-> > > in the guest is doing I/Os, it will suffer larger tail latency. And f=
-or
-> > > now, the smallest delay is 1 second, which is rather large for
-> > > high-performance virtual I/O devices today. I think maybe a more
-> > > performant
-> > > and safer reconnect delay adjustment mechanism should be considered in
-> > > the
-> > > future. What are your thoughts?
-> >=20
-> > So with N=3D1 an attacker could e.g. bypass a 16-bit PAC by brute-force=
- in
-> > ~18 hours (e.g. on Arm if PAC + MTE was enabled). With 24-bit PAC (no
-> > MTE) it would be ~194 days. Independent of what architecture and defend
-> > mechanism is used, there is always the possibility though that some kind
-> > of side channel attack exists that might require a much lower amount of
-> > attempts. So in an untrusted environment I would personally limit the
-> > amount of automatic reconnects and rather accept a down time for further
-> > investigation if a suspicious high amount of crashes happened.
-> >=20
-> > And yes, if a dynamic delay scheme was deployed in future then starting
-> > with a value smaller than 1 second would make sense.
->=20
-> If we're talking about repeatedly crashing the process to find out its
-> memory map, shouldn't each process have a different randomized memory
-> layout?
->=20
-> Stefan
+On Wed, 10 Mar 2021, BALATON Zoltan wrote:
+> In VIA super south bridge the io ranges of superio components
+> (parallel and serial ports and FDC) can be controlled by superio
+> config registers to set their base address and enable/disable them.
+> This is not easy to implement in QEMU because ISA emulation is only
+> designed to set io base address once on creating the device and io
+> ranges are registered at creation and cannot easily be disabled or
+> moved later.
+>
+> In this patch we hack around that but only for serial ports because
+> those have a single io range at port base that's relatively easy to
+> handle and it's what guests actually use and set address different
+> than the default.
+>
+> We do not attempt to handle controlling the parallel and FDC regions
+> because those have multiple io ranges so handling them would be messy
+> and guests either don't change their deafult or don't care. We could
+> even get away with disabling and not emulating them, but since they
+> are already there, this patch leaves them mapped at their default
+> address just in case this could be useful for a guest in the future.
+>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-Yes, ASLR is enabled on Linux and other OSes by default for more than 10=20
-years. But ASLR does not prevent ROP attacks which are commonly using relat=
-ive=20
-offsets, tweaking the stack, indirect jumps, as well as heap spraying. Plus=
-=20
-side channels exist to gain access to direct addresses.
+Could this patch be reviewed now please? I've dropped it from later 
+versions to avoid this holding back the series but now that it won't be in 
+6.0 I'd like to go back to this. This is implementing the behaviour of the 
+real hardware better than the unsettable default value we have as a 
+replacement. That approach also works for the guests I've tried (MorphOS 
+and Linux) but if we can do better than why not do it?
 
-The situation might improve significantly when shadow stacks (e.g. Intel CE=
-T)=20
-become widely used in future. But in the meantime I would be cautious if=20
-something is crashing too often in a certain time frame.
+Regards,
+BALATON Zoltan
 
-Best regards,
-Christian Schoenebeck
-
-
+> ---
+> hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
+> 1 file changed, 82 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 05d084f698..a3353ec5db 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
+> typedef struct SuperIOConfig {
+>     uint8_t regs[0x100];
+>     MemoryRegion io;
+> +    ISASuperIODevice *superio;
+> +    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+> } SuperIOConfig;
+>
+> +static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
+> +                                    int offs)
+> +{
+> +    MemoryRegion *subregion, *mr = NULL;
+> +
+> +    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
+> +        if (subregion->addr == offs) {
+> +            mr = subregion;
+> +            break;
+> +        }
+> +    }
+> +    return mr;
+> +}
+> +
+> static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>                               unsigned size)
+> {
+> @@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+>     case 0xfd ... 0xff:
+>         /* ignore write to read only registers */
+>         return;
+> -    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
+> +    case 0xe2:
+> +    {
+> +        data &= 0x1f;
+> +        if (data & BIT(2)) { /* Serial port 1 enable */
+> +            ISADevice *dev = sc->superio->serial[0];
+> +            if (!memory_region_is_mapped(sc->serial_io[0])) {
+> +                memory_region_add_subregion(isa_address_space_io(dev),
+> +                                            dev->ioport_id, sc->serial_io[0]);
+> +            }
+> +        } else {
+> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
+> +            if (memory_region_is_mapped(sc->serial_io[0])) {
+> +                memory_region_del_subregion(io, sc->serial_io[0]);
+> +            }
+> +        }
+> +        if (data & BIT(3)) { /* Serial port 2 enable */
+> +            ISADevice *dev = sc->superio->serial[1];
+> +            if (!memory_region_is_mapped(sc->serial_io[1])) {
+> +                memory_region_add_subregion(isa_address_space_io(dev),
+> +                                            dev->ioport_id, sc->serial_io[1]);
+> +            }
+> +        } else {
+> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
+> +            if (memory_region_is_mapped(sc->serial_io[1])) {
+> +                memory_region_del_subregion(io, sc->serial_io[1]);
+> +            }
+> +        }
+> +        break;
+> +    }
+> +    case 0xe7: /* Serial port 1 io base address */
+> +    {
+> +        data &= 0xfe;
+> +        sc->superio->serial[0]->ioport_id = data << 2;
+> +        if (memory_region_is_mapped(sc->serial_io[0])) {
+> +            memory_region_set_address(sc->serial_io[0], data << 2);
+> +        }
+> +        break;
+> +    }
+> +    case 0xe8: /* Serial port 2 io base address */
+> +    {
+> +        data &= 0xfe;
+> +        sc->superio->serial[1]->ioport_id = data << 2;
+> +        if (memory_region_is_mapped(sc->serial_io[1])) {
+> +            memory_region_set_address(sc->serial_io[1], data << 2);
+> +        }
+> +        break;
+> +    }
+>     default:
+>         qemu_log_mask(LOG_UNIMP,
+>                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
+> @@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>     DeviceState *dev = DEVICE(d);
+>     ISABus *isa_bus;
+>     qemu_irq *isa_irq;
+> +    ISASuperIOClass *ic;
+>     int i;
+>
+>     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+> @@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+>     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>     i8257_dma_init(isa_bus, 0);
+> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+> +    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
+> +                                                      TYPE_VT82C686B_SUPERIO));
+> +    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
+>     mc146818_rtc_init(isa_bus, 2000, NULL);
+>
+>     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+> @@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>      */
+>     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+>                                 &s->superio_cfg.io);
+> +
+> +    /* Grab io regions of serial devices so we can control them */
+> +    for (i = 0; i < ic->serial.count; i++) {
+> +        ISADevice *sd = s->superio_cfg.superio->serial[i];
+> +        MemoryRegion *io = isa_address_space_io(sd);
+> +        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
+> +        if (!mr) {
+> +            error_setg(errp, "Could not get io region for serial %d", i);
+> +            return;
+> +        }
+> +        s->superio_cfg.serial_io[i] = mr;
+> +        if (memory_region_is_mapped(mr)) {
+> +            memory_region_del_subregion(io, mr);
+> +        }
+> +    }
+> }
+>
+> static void via_class_init(ObjectClass *klass, void *data)
+>
 
