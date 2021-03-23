@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7142F346199
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:37:27 +0100 (CET)
-Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AECD34619C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:38:06 +0100 (CET)
+Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOi9u-0001yV-6M
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46130)
+	id 1lOiAX-0002cK-IM
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:38:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOi00-0006Za-Ee
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:16 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOhzq-0007Bs-Ma
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:12 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id z2so20995611wrl.5
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 07:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=040Av6eKFFO8DY7RlEdIpWKnOUZEmCANS3COgK9hh4Y=;
- b=gIL5o7Vf/LBG9a/6NzcNDX2YbQrKuySVagISYCn+KV5KNBLEluyouRTpEw3oLFAxF4
- RFASvFYG9jbEgNtlWHCRn0lGI25LMlrvo1SyFWh7CZtJPxy3jgWNBkr5goF8FEcDmDBe
- F8bJdkdbv2jH92Cccm0M49ahumcKKHQOtK51f6WXI871u6Ousa5RbsC978uW7hQrZPyR
- HckHfvslR+q0OY2i04BUirNvaAri7XKPLQjCJfj5rs+MQ/6XqysU4PINGExk0bkcdouQ
- yVbqRyHtR9DnT4Ga0zjuMJeKDbcZdoKXB++cFNNCbpp+gy/A7z45DN5VHWU/MkWGDx2H
- J07Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=040Av6eKFFO8DY7RlEdIpWKnOUZEmCANS3COgK9hh4Y=;
- b=F9na5XJFCwVjJW7/1aC8aVC4rFxGyFrWgGVdFxDCpBXc2VRE2P85p0HqwMEBBzQCLb
- v2AWvhube8+b00JK73T9AQ48H23+8WkQmtsWQfANplxPG9W7jndjVmKnUke9pjKokKmG
- ISb3lRbXbJWnBAmkqKZULpG6Mj6EWLVZL9NvWiawZPDQ33S9POtuRaj+SLPxnf6ootWi
- toMNAiqLIR9Wg1dxsAgZ0ZcvKOL7RVoRoEKK/dCoblAaAvDqtGnru4ATOdqpx0W0uMzp
- M+eAQUuAqmH3wSGl6XdYbhdfPMjcsNfSQL4UKaTq/zCiC/5ysHGIhOtyMH/oEvZUFD0+
- y61Q==
-X-Gm-Message-State: AOAM531MyY4J19MlsVxMd0iDmAEEvEaRX8CN1iQ+TUXmuq3hl7Vj1qm2
- L3Zbg/5OSf4VGXeVBSfEPE92hyqRdqPgduOb
-X-Google-Smtp-Source: ABdhPJyd3RjAlSawSKzwz/L6zdLjeH/ExLij+P87sI9mpLHtZpE8rL4k6pmASGeb8btajDLj9EBaBA==
-X-Received: by 2002:adf:f44b:: with SMTP id f11mr4350216wrp.345.1616509620404; 
- Tue, 23 Mar 2021 07:27:00 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a131sm2861292wmc.48.2021.03.23.07.26.59
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 07:27:00 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] target/arm: Set ARMMMUFaultInfo.level in user-only
- arm_cpu_tlb_fill
-Date: Tue, 23 Mar 2021 14:26:53 +0000
-Message-Id: <20210323142653.3538-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210323142653.3538-1-peter.maydell@linaro.org>
-References: <20210323142653.3538-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOi09-0006dJ-6P
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24218)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOi04-0007GF-Qp
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 10:27:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616509632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FXolxeAZFxlB1ijh+8kfNFCv0512TxdnopeZEcwL1r0=;
+ b=cr5DEFq+XpCvoTq3EpE5Sl3ysrdUTYzz+APX9lZbp+2nux4UcSaKlJPhlM3gxVSIoMFGD3
+ W8DACuISHKBQy1Fohd0SbsIbb6O6I3jH6p7ZpEPUyE//Bm516Scrs5lIIAPWK64Idd4roV
+ bmCmr1/Lq3QhpzX3B+aCY49/iTk6Qrg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-igxjkoKYOeSd2FgXnYWm3A-1; Tue, 23 Mar 2021 10:27:10 -0400
+X-MC-Unique: igxjkoKYOeSd2FgXnYWm3A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DF9D10168C6;
+ Tue, 23 Mar 2021 14:27:09 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3D2E5D6D7;
+ Tue, 23 Mar 2021 14:27:06 +0000 (UTC)
+Subject: Re: [PATCH 03/28] tests/qapi-schema: Rework comments on longhand
+ member definitions
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-4-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <cdffa1db-402e-e3bc-7266-1fe4b5f068a9@redhat.com>
+Date: Tue, 23 Mar 2021 10:27:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210323094025.3569441-4-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,40 +82,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 3/23/21 5:40 AM, Markus Armbruster wrote:
+> A few old comments talk about "desired future use of defaults" and
+> "anonymous inline branch types".  Kind of misleading since commit
+> 87adbbffd4 "qapi: add a dictionary form for TYPE" added longhand
+> member definitions.  Talk about that instead.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Pretend the fault always happens at page table level 3.
+I still feel a little warbley on the comment (I will probably forget 
+what it means next week), but I don't have a better suggestion for it 
+now that I know what it's trying to tell me.
 
-Failure to set this leaves level = 0, which is impossible for
-ARMFault_Permission, and produces an invalid syndrome, which
-reaches g_assert_not_reached in cpu_loop.
+so, er,
 
-Fixes: 8db94ab4e5db ("linux-user/aarch64: Pass syndrome to EXC_*_ABORT")
-Reported-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210320000606.1788699-1-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/tlb_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index 9609333cbdf..3107f9823ef 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -163,6 +163,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else {
-         fi.type = ARMFault_Translation;
-     }
-+    fi.level = 3;
- 
-     /* now we have a real cpu fault */
-     cpu_restore_state(cs, retaddr, true);
--- 
-2.20.1
+> ---
+>   tests/qapi-schema/event-member-invalid-dict.err        | 2 +-
+>   tests/qapi-schema/event-member-invalid-dict.json       | 2 ++
+>   tests/qapi-schema/flat-union-inline-invalid-dict.json  | 4 ++--
+>   tests/qapi-schema/nested-struct-data-invalid-dict.err  | 2 +-
+>   tests/qapi-schema/nested-struct-data-invalid-dict.json | 3 ++-
+>   tests/qapi-schema/nested-struct-data.json              | 2 +-
+>   tests/qapi-schema/struct-member-invalid-dict.err       | 2 +-
+>   tests/qapi-schema/struct-member-invalid-dict.json      | 3 ++-
+>   8 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tests/qapi-schema/event-member-invalid-dict.err b/tests/qapi-schema/event-member-invalid-dict.err
+> index c7a6a24305..82f8989344 100644
+> --- a/tests/qapi-schema/event-member-invalid-dict.err
+> +++ b/tests/qapi-schema/event-member-invalid-dict.err
+> @@ -1,2 +1,2 @@
+>   event-member-invalid-dict.json: In event 'EVENT_A':
+> -event-member-invalid-dict.json:1: 'data' member 'a' misses key 'type'
+> +event-member-invalid-dict.json:3: 'data' member 'a' misses key 'type'
+> diff --git a/tests/qapi-schema/event-member-invalid-dict.json b/tests/qapi-schema/event-member-invalid-dict.json
+> index ee6f3ecb6f..e58560abca 100644
+> --- a/tests/qapi-schema/event-member-invalid-dict.json
+> +++ b/tests/qapi-schema/event-member-invalid-dict.json
+> @@ -1,2 +1,4 @@
+> +# event 'data' member with dict value is (longhand) argument
+> +# definition, not inline complex type
+>   { 'event': 'EVENT_A',
+>     'data': { 'a' : { 'string' : 'str', 'integer': 'int' }, 'b' : 'str' } }
+> diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.json b/tests/qapi-schema/flat-union-inline-invalid-dict.json
+> index 62c7cda617..1779712795 100644
+> --- a/tests/qapi-schema/flat-union-inline-invalid-dict.json
+> +++ b/tests/qapi-schema/flat-union-inline-invalid-dict.json
+> @@ -1,5 +1,5 @@
+> -# we require branches to be a struct name
+> -# TODO: should we allow anonymous inline branch types?
+> +# union 'data' member with dict value is (longhand) branch
+> +# definition, not inline complex type
+>   { 'enum': 'TestEnum',
+>     'data': [ 'value1', 'value2' ] }
+>   { 'struct': 'Base',
+> diff --git a/tests/qapi-schema/nested-struct-data-invalid-dict.err b/tests/qapi-schema/nested-struct-data-invalid-dict.err
+> index c044b2b17a..375e155fe6 100644
+> --- a/tests/qapi-schema/nested-struct-data-invalid-dict.err
+> +++ b/tests/qapi-schema/nested-struct-data-invalid-dict.err
+> @@ -1,2 +1,2 @@
+>   nested-struct-data-invalid-dict.json: In command 'foo':
+> -nested-struct-data-invalid-dict.json:2: 'data' member 'a' misses key 'type'
+> +nested-struct-data-invalid-dict.json:3: 'data' member 'a' misses key 'type'
+> diff --git a/tests/qapi-schema/nested-struct-data-invalid-dict.json b/tests/qapi-schema/nested-struct-data-invalid-dict.json
+> index efbe773ded..aa37b85e19 100644
+> --- a/tests/qapi-schema/nested-struct-data-invalid-dict.json
+> +++ b/tests/qapi-schema/nested-struct-data-invalid-dict.json
+> @@ -1,3 +1,4 @@
+> -# inline subtypes collide with our desired future use of defaults
+> +# command 'data' member with dict value is (longhand) argument
+> +# definition, not inline complex type
+>   { 'command': 'foo',
+>     'data': { 'a' : { 'string' : 'str', 'integer': 'int' }, 'b' : 'str' } }
+> diff --git a/tests/qapi-schema/nested-struct-data.json b/tests/qapi-schema/nested-struct-data.json
+> index 5b8a40cca3..2980d45d05 100644
+> --- a/tests/qapi-schema/nested-struct-data.json
+> +++ b/tests/qapi-schema/nested-struct-data.json
+> @@ -1,3 +1,3 @@
+> -# inline subtypes collide with our desired future use of defaults
+> +# {} is not a valid type reference
+>   { 'command': 'foo',
+>     'data': { 'a' : { 'type': {} }, 'b' : 'str' } }
+> diff --git a/tests/qapi-schema/struct-member-invalid-dict.err b/tests/qapi-schema/struct-member-invalid-dict.err
+> index 0621aecfbd..f9b3f33551 100644
+> --- a/tests/qapi-schema/struct-member-invalid-dict.err
+> +++ b/tests/qapi-schema/struct-member-invalid-dict.err
+> @@ -1,2 +1,2 @@
+>   struct-member-invalid-dict.json: In struct 'foo':
+> -struct-member-invalid-dict.json:2: 'data' member '*a' misses key 'type'
+> +struct-member-invalid-dict.json:3: 'data' member '*a' misses key 'type'
+> diff --git a/tests/qapi-schema/struct-member-invalid-dict.json b/tests/qapi-schema/struct-member-invalid-dict.json
+> index 9fe0d455a9..bc3d62ae63 100644
+> --- a/tests/qapi-schema/struct-member-invalid-dict.json
+> +++ b/tests/qapi-schema/struct-member-invalid-dict.json
+> @@ -1,3 +1,4 @@
+> -# Long form of member must have a value member 'type'
+> +# struct 'data' member with dict value is (longhand) member
+> +# definition, not inline complex type
+>   { 'struct': 'foo',
+>     'data': { '*a': { 'case': 'foo' } } }
+> 
 
 
