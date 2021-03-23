@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6623468A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:13:04 +0100 (CET)
-Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DEE3468CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:17:54 +0100 (CET)
+Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOmSd-0002f9-IL
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36734)
+	id 1lOmXJ-0001bY-5z
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOm10-0008Sg-Br
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:44:30 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:46934)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOm0V-0008BD-9E
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:44:02 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOm0Z-0003jY-3t
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:44:30 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id
- 68-20020a9d0f4a0000b02901b663e6258dso20451231ott.13
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5llEtBaN+Bp+Z3OAO9T9usrgC5W2jq7W550GBWoLWU4=;
- b=f+4SLIlK04khUdqtpKdgOylbEzbKQqnG6KH+N83YeB4CmPDr4U5TqDH5IfwhVYvnsW
- KxhKmbLhpDbLYZu59zLY81L9CuP01dTWwneBrRhNp6LAVkLLIaCuUUub3Qo1m/ui+7Sx
- 34dsh/qfy7cu04dFKmxmoj55naPkn23GaAC1rSP1dDzRYtzmVm/rrJKSBz9M+bV9EieZ
- b/Ns8cmAErc63z8gMp3oUPU7lgSbW5DMkZG4Miz4/SyMIf+A0YK7Bw7t8D6SExRIpreI
- pXVECIDqC+P7tw3Nae0vMGx8Vdx+s2VQ2u1J4Ct7vYln9yB9OVvqMqqMv/+rlubDant4
- H8gA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lOm0G-0003eS-FI
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 14:43:53 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ j4-20020a05600c4104b029010c62bc1e20so11426715wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9BB8AP2BlL2Z+DaWhfIeMts3WTuTpAs1lDvZCm3jtG4=;
+ b=tKfUbRIdo7/I7tkx7c6voQGo7tdb+q3o7UXUOApO6txFJ8OGh4oxq/84WUYx5hC0ok
+ VTKo3suvJVw3aGacG2K9Yo9NZ4ABJOQomGiZhoxb4Bzbgvus8iMD8h9g1n4Mjfo7D9dy
+ VvH+H3BO8CoSiZ27phQY0a0oI5ywy2Rmu7eSdDJDo2Z7hMq8bVFMoniT5yoUs2qUwSdI
+ LqT7SDMX/lWd+TLMmCCPCxCIOGwbVlOFqgd5kFVyXYNMfzHT7FBMMOTKIWjaUXPt32ku
+ /b/szEdXMNajTNaODp7Em3gzR7PQUcOj7YD8TGPowgWdxAdPFw8+tEr+B24C3cGA1sdJ
+ FDSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5llEtBaN+Bp+Z3OAO9T9usrgC5W2jq7W550GBWoLWU4=;
- b=E6vWkimweIkHAptUQEkvwwsPhiCo+0wrNU6+rXbd5OKkZvYyW8uMGuPBrjS8hn+/y6
- IRbD/oR26VsGrPLcr/eIGtXDkKfCqcRUNyCcFOf6DUWPraeudE7y1W5KM4CrrSIH+yll
- JYoyNmwt13TxJ/ru99vVyT+oIdAu9Ojq4UuYjKhWdqJFv8yA2cSUbSBURk1afmhonDR+
- n1PLUkLz30ifseu1WtFLrNpB7FJZn8tix5KCJMTcrJvYv3Kjg8pAA8FdfH2vILMvMpKt
- fyv1qatlwGXdpG+l1xkuaxz/iy+DzMljrq8lr5FUdKvt9enuhQOe5I/q04PUgC1Kc9J7
- BUgw==
-X-Gm-Message-State: AOAM530P/6eBqjBG0IqRRZBhcgxBgONLHK+y8df899lnMATfIvPuwP4r
- y3PBJ8W9jgDFskBG/gqHlqLGKTqrLqXkT6CB
-X-Google-Smtp-Source: ABdhPJxK3gxCzqG7eqRPLa77J2dN145bgSDggi+t4bi0E/rhgiNUFwwHpsy3joBrLdWoAEhP52c1Uw==
-X-Received: by 2002:a9d:550b:: with SMTP id l11mr5327675oth.218.1616525037117; 
- Tue, 23 Mar 2021 11:43:57 -0700 (PDT)
-Received: from localhost.localdomain (171.189-204-159.bestelclientes.com.mx.
- [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id x23sm3902825ood.28.2021.03.23.11.43.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 11:43:56 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/10] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
-Date: Tue, 23 Mar 2021 12:43:40 -0600
-Message-Id: <20210323184340.619757-11-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210323184340.619757-1-richard.henderson@linaro.org>
-References: <20210323184340.619757-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9BB8AP2BlL2Z+DaWhfIeMts3WTuTpAs1lDvZCm3jtG4=;
+ b=mCGDmNn4whtrm1pgZNSfU+wjcUb0PwrbDDxX/lbFQ7VrqOoezI5AZDfQY+gUcwViiJ
+ m9+t/zuLE7SWiSx4fhW3YmK7wUy4dleFEKhh9gCbAnguEMxYT+Hcy8uwrKqMsdK2fhcq
+ 2Bl54v4yIC1gviDNszSqOm4aQxOX1LTEKDRSK+7oeEA0eB/yLE9RYeyzg+yHglrhbaJu
+ xF0Y12FAVtR8e1SVTzElw2bsoY/gbOZTJFKiOpyPjZszHewcaEZnNCsu2ryxt9ltqGIZ
+ S8oY8yLhVBTDyYF96dR/HMojHmBkS9FwekG1ARxnJi/iyytSQtVVrOVaPIosLelBpsa0
+ i2Gw==
+X-Gm-Message-State: AOAM533Rp/i5FGtVHEvPC/ItbZUoBGObuJoNwv7qY056oD0xesYoNpH9
+ oklA8pvYbXk2f9y3dNnJ/8k=
+X-Google-Smtp-Source: ABdhPJytzzPcGEI3BBci7SmwN2xSXdAdJJelaEhWDFNkJAFbQ56Ex85wT8EWdmRERlQ3lQuuX/8Pjg==
+X-Received: by 2002:a1c:a306:: with SMTP id m6mr4465873wme.13.1616525021931;
+ Tue, 23 Mar 2021 11:43:41 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id h13sm3277961wmq.29.2021.03.23.11.43.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Mar 2021 11:43:41 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] vt82c686.c: don't raise SCI when PCI_INTERRUPT_PIN
+ isn't setup
+To: Isaku Yamahata <isaku.yamahata@intel.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, BALATON Zoltan <balaton@eik.bme.hu>
+References: <cover.1616519655.git.isaku.yamahata@intel.com>
+ <00c07067c1c8700bea48407cbec6d854e87de742.1616519655.git.isaku.yamahata@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3a91db07-a452-43a7-0156-a3720ad9e209@amsat.org>
+Date: Tue, 23 Mar 2021 19:43:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <00c07067c1c8700bea48407cbec6d854e87de742.1616519655.git.isaku.yamahata@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,92 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, imammedo@redhat.com, isaku.yamahata@gmail.com,
+ Peter Maydell <Peter.maydel@linaro.org>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that hflags was updated correctly whenever we change
-cpu state that is used by hflags.
+Hi Isaku,
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/cpu.h         |  5 +++++
- target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
- 2 files changed, 32 insertions(+), 2 deletions(-)
+On 3/23/21 6:24 PM, Isaku Yamahata wrote:
+> Without this patch, the following patch will triger clan runtime
+> sanitizer warnings as follows. This patch proactively works around it.
+> I let v582c686.c maintainer address a correct fix as I'm not sure
+> about fuloong2e device model.
+> 
+>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>> QTEST_QEMU_IMG=./qemu-img
+>> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
+>> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/qom-test --tap -k
+>> PASS 1 qtest-mips64el/qom-test /mips64el/qom/loongson3-virt
+>> PASS 2 qtest-mips64el/qom-test /mips64el/qom/none
+>> PASS 3 qtest-mips64el/qom-test /mips64el/qom/magnum
+>> PASS 4 qtest-mips64el/qom-test /mips64el/qom/mipssim
+>> PASS 5 qtest-mips64el/qom-test /mips64el/qom/malta
+>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+>> PASS 6 qtest-mips64el/qom-test /mips64el/qom/fuloong2e
+>> PASS 7 qtest-mips64el/qom-test /mips64el/qom/boston
+>> PASS 8 qtest-mips64el/qom-test /mips64el/qom/pica61
+>>
+>> and similarly for eg
+>>
+>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>> QTEST_QEMU_IMG=./qemu-img
+>> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
+>> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/endianness-test
+>> --tap -k
+>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+>> PASS 1 qtest-mips64el/endianness-test /mips64el/endianness/fuloong2e
+>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+>> PASS 2 qtest-mips64el/endianness-test /mips64el/endianness/split/fuloong2e
+>> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+>> PASS 3 qtest-mips64el/endianness-test /mips64el/endianness/combine/fuloong2e
+> 
+> Cc: Huacai Chen <chenhuacai@kernel.org>
+> Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
+> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Reported-by: Peter Maydell <Peter.maydel@linaro.org>
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> ---
+>  hw/isa/vt82c686.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 05d084f698..f0fb309f12 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -144,7 +144,18 @@ static void pm_update_sci(ViaPMState *s)
+>                     ACPI_BITMASK_POWER_BUTTON_ENABLE |
+>                     ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
+>                     ACPI_BITMASK_TIMER_ENABLE)) != 0);
+> -    pci_set_irq(&s->dev, sci_level);
+> +    if (pci_get_byte(s->dev.config + PCI_INTERRUPT_PIN)) {
+> +        /*
+> +         * FIXME:
+> +         * Fix device model that realizes this PM device and remove
+> +         * this work around.
+> +         * The device model should wire SCI and setup
+> +         * PCI_INTERRUPT_PIN properly.
+> +         * If PIN# = 0(interrupt pin isn't used), don't raise SCI as
+> +         * work around.
+> +         */
+> +        pci_set_irq(&s->dev, sci_level);
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 3d021f61f3..69fc9a2831 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2425,6 +2425,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulong xer);
-  */
- #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B))
- 
-+#ifdef CONFIG_DEBUG_TCG
-+void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-+                          target_ulong *cs_base, uint32_t *flags);
-+#else
- static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-@@ -2432,6 +2436,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-     *cs_base = 0;
-     *flags = env->hflags;
- }
-+#endif
- 
- void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
- void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t exception,
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 5411a67e9a..3723872aa6 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
-     env->tgpr[3] = tmp;
- }
- 
--void hreg_compute_hflags(CPUPPCState *env)
-+static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
- {
-     target_ulong msr = env->msr;
-     uint32_t ppc_flags = env->flags;
-@@ -155,9 +155,34 @@ void hreg_compute_hflags(CPUPPCState *env)
-     hflags |= dmmu_idx << HFLAGS_DMMU_IDX;
- #endif
- 
--    env->hflags = hflags | (msr & msr_mask);
-+    return hflags | (msr & msr_mask);
- }
- 
-+void hreg_compute_hflags(CPUPPCState *env)
-+{
-+    env->hflags = hreg_compute_hflags_value(env);
-+}
-+
-+#ifdef CONFIG_DEBUG_TCG
-+void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-+                          target_ulong *cs_base, uint32_t *flags)
-+{
-+    uint32_t hflags_current = env->hflags;
-+    uint32_t hflags_rebuilt;
-+
-+    *pc = env->nip;
-+    *cs_base = 0;
-+    *flags = hflags_current;
-+
-+    hflags_rebuilt = hreg_compute_hflags_value(env);
-+    if (unlikely(hflags_current != hflags_rebuilt)) {
-+        cpu_abort(env_cpu(env),
-+                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)\n",
-+                  hflags_current, hflags_rebuilt);
-+    }
-+}
-+#endif
-+
- void cpu_interrupt_exittb(CPUState *cs)
- {
-     if (!kvm_enabled()) {
--- 
-2.25.1
+I'll defer this to Zoltan.
 
+Personally I wouldn't care about SCI_EN on the vt82c686, as
+it is not used by x86 machines (IOW, I'd not modify via_pm_reset
+and KISS).
+
+> +    }
+>      /* schedule a timer interruption if needed */
+>      acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
+>                         !(pmsts & ACPI_BITMASK_TIMER_STATUS));
+> 
 
