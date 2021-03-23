@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DB2345CA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:20:48 +0100 (CET)
-Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021D2345C7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:10:02 +0100 (CET)
+Received: from localhost ([::1]:52664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOf5b-0007rw-UN
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52690)
+	id 1lOevB-0000xz-2k
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOf0v-0004Ii-CW
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:15:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOf0r-0007sw-Ae
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:15:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOf0m-00063A-0H
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:15:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F23962E8167
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:15:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lOeuK-0000Ja-Ey
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:09:08 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:35668)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lOeuH-0003yP-7v
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:09:08 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 45F8940755F9;
+ Tue, 23 Mar 2021 11:08:54 +0000 (UTC)
+Subject: [PATCH] qcow2: use external virtual timers
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Date: Tue, 23 Mar 2021 14:08:54 +0300
+Message-ID: <161649773401.599835.8362213390558184647.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Mar 2021 11:06:33 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1920784@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=ubuntu-power-systems; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor paelzer sadoonalbader
-X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
-Message-Id: <161649759362.19587.9259173669707352308.malone@wampee.canonical.com>
-Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 9a8be70d98821c3ba6e85f982a5830fbbfc20446
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,159 +50,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
+Cc: kwolf@redhat.com, pbonzini@redhat.com, pavel.dovgalyuk@ispras.ru,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[10] outlined to use PPC_FEATURE2_SCV but [4] does just that.
-In addition [6] added power9 machine settings as only on this ISA it
-is available - like:
-+       .machine "push"
-+       .machine "power9"
-        scv     0
-+       .machine "pop"
+Regular virtual timers are used to emulate timings
+related to vCPU and peripheral states. QCOW2 uses timers
+to clean the cache. These timers should have external
+flag. In the opposite case they affect the execution
+and it can't be recorded and replayed.
+This patch adds external flag to the timer for qcow2
+cache clean.
 
-Maybe there is some generated "scv 0" left that needs the same [6]
-treatment?
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+---
+ block/qcow2.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-OTOH In a normal test program I can run "scv 0" just fine.
-But not other scv levels (expected).
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0db1227ac9..2fb43c6f7e 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -840,9 +840,10 @@ static void cache_clean_timer_init(BlockDriverState *bs, AioContext *context)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     if (s->cache_clean_interval > 0) {
+-        s->cache_clean_timer = aio_timer_new(context, QEMU_CLOCK_VIRTUAL,
+-                                             SCALE_MS, cache_clean_timer_cb,
+-                                             bs);
++        s->cache_clean_timer =
++            aio_timer_new_with_attrs(context, QEMU_CLOCK_VIRTUAL,
++                                     SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
++                                     cache_clean_timer_cb, bs);
+         timer_mod(s->cache_clean_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+                   (int64_t) s->cache_clean_interval * 1000);
+     }
 
-# cat test.c
-#include <stdio.h>
-
-int main() {
-   printf("Hello scv 0\n");
-   __asm__(
-   "scv 0\n\t"
-   );
-   printf("survived\n");
-   __asm__(
-   "scv 1\n\t"
-   );
-   printf("survived level 1\n");
-   return 0;
-}
-# gcc -Wall -o test test.c
-./test
-Hello scv 0
-survived
-Illegal instruction (core dumped)
-
-IIRC .machine is only a psedo-op for the assembler.
-So it is correct that I can't see it in the live disassembly of gdb.
-
-The failing "svc 0" from glibcs __GI___ioctl is
-   0x00007ffff66c49a0 <+320>:	01 00 00 44	scv     0
-And in my test program it is
-   0x0000000100000848 <+44>:	01 00 00 44	scv     0
-
-Hmm, this is the same opcode but fails in just one of the cases.
-This might need someone being more an ppc64/glibc expert than me :-/
-
-@Frank - could you modify this bug to become mirrored to IBM for their
-arch-expertise please?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920784
-
-Title:
-  qemu-system-ppc64le fails with kvm acceleration
-
-Status in QEMU:
-  New
-Status in The Ubuntu-power-systems project:
-  New
-Status in glibc package in Ubuntu:
-  New
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  (Suspected glibc issue!)
-
-  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
-  error "illegal instruction"
-
-  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
-
-  Illegal instruction (core dumped)
-
-  In dmesg:
-
-  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
-  MSR=3D900000000280f033
-
-  =
-
-  Version-Release number of selected component (if applicable):
-  qemu 5.2.0 =
-
-  Linux kernel 5.11
-  glibc 2.33
-  all latest updates as of submitting the bug report
-
-  How reproducible:
-  Always
-
-  Steps to Reproduce:
-  1. Run qemu with kvm acceleration
-
-  Actual results:
-  Illegal instruction
-
-  Expected results:
-  Normal VM execution
-
-  Additional info:
-  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
-so observed on a Raptor Blackbird with the same processor.
-
-  This was also observed on Fedora 34 beta, which uses glibc 2.33
-  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
- glibc 2.33
-  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
- and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
-the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
-bc2.33
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu-system 1:5.2+dfsg-6ubuntu2
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic ppc64le
-  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
-mware/opal/msglog'
-  ApportVersion: 2.20.11-0ubuntu60
-  Architecture: ppc64el
-  CasperMD5CheckResult: pass
-  CurrentDesktop: Unity:Unity7:ubuntu
-  Date: Mon Mar 22 14:48:39 2021
-  InstallationDate: Installed on 2021-03-22 (0 days ago)
-  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
-0210321)
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
-  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
-  ProcSwaps:
-   Filename				Type		Size		Used		Priority
-   /swap.img                               file		8388544		0		-2
-  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
-gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
-ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
-  SourcePackage: qemu
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  VarLogDump_list: total 0
-  acpidump:
-   =
-
-  cpu_cores: Number of cores present =3D 8
-  cpu_coreson: Number of cores online =3D 8
-  cpu_smt: SMT=3D4
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
 
