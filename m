@@ -2,80 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9A7346783
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:24:54 +0100 (CET)
-Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2C2346797
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 19:27:45 +0100 (CET)
+Received: from localhost ([::1]:52292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOli1-0003vj-77
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37644)
+	id 1lOlkm-00015c-63
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 14:27:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lOkis-0004Jk-3V; Tue, 23 Mar 2021 13:21:42 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:42847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lOkio-0000qB-S2; Tue, 23 Mar 2021 13:21:41 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id 30so10836974qva.9;
- Tue, 23 Mar 2021 10:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BoOI+leqrbQ+b1Jw75b9PqbPatpVKg9+H0d1DsNm1PM=;
- b=lrv6P4zfLIrsgG1kSYaLOasmPwywNlxwe0wl5WxOXeYUmcltpQab4Ftlq49uAxBKtr
- 48Wc/4mVTWNzUsKFXhUU1SuJnEVVgWEbzRKSV98M08qcywtf0raGO6M+9fJ6tXVQpN48
- 4bjDcH/H50e/XZJ5lfO9FOBtfDWRLWJPn5p0H2rWUJbM5H0M+L50QezCOmkEDxbhLjEP
- 1aM7Dhg7veZNv70wbYHkkkJSSez+Oa6aMGx3eE4ShKJXaJ7ZK5wV8pm3gxr19DGQyuUV
- jheWK+anMprWLEvIwT5Nnrm/syQApMNUIAgJoK+JME+BjY062M9waxl4QSmGpxUVCxxx
- csyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BoOI+leqrbQ+b1Jw75b9PqbPatpVKg9+H0d1DsNm1PM=;
- b=Pm18jdTN9XS/vfg8pfxPOmtt050bEyxq5TZHDQEzOn430bplHzGuEsro6B6tOG9+6q
- WMAcW0PJnoa7P0Z2nklRhMagTLiXTTl5Tkjx9ZdstiqNogurWhlcArYQnxedniclBrf9
- xpMelsPjyr/+QsnWLS+uT1MBQS00QtzLlRt7u9uykK1+BOxFXINmB+j8FgNGW017KwzL
- viC7lWteqyVs63fV9L+Bh4eYmCt2wowlolnWvXUtUV2jC5xntfu9QYUuDaDDN0bNkt9D
- 7XGkUXMluzDZ4WOH0KtMlr6/FtVz6Ro8Dif/pxFo84d8kxH9RKpVFXn0jTDTauw5WZ1W
- cDyQ==
-X-Gm-Message-State: AOAM530hEKq4n432HkwJ+N3OqbQiRToqP7OfYCvs41HEHFu7/exo3voJ
- r0k5EJBhCcrYCWuQCViqyN4=
-X-Google-Smtp-Source: ABdhPJzEmNVBsIGK732POXXh4s/2ZztRq4jOL2vdGqSDb6GAQmTgGgdAzoM5Jpf/t3+pfvvAlkKk7g==
-X-Received: by 2002:a0c:c3cd:: with SMTP id p13mr5995858qvi.4.1616520097587;
- Tue, 23 Mar 2021 10:21:37 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c6:3fd7:65e0:e5c6:f4fc:733c?
- ([2804:431:c7c6:3fd7:65e0:e5c6:f4fc:733c])
- by smtp.gmail.com with ESMTPSA id h7sm13379664qkk.41.2021.03.23.10.21.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 10:21:37 -0700 (PDT)
-Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
- nodes
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210319183453.4466-1-danielhb413@gmail.com>
- <20210319183453.4466-2-danielhb413@gmail.com>
- <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
-Date: Tue, 23 Mar 2021 14:21:33 -0300
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lOkj5-0004ol-8r
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:21:55 -0400
+Received: from mail-eopbgr20132.outbound.protection.outlook.com
+ ([40.107.2.132]:53569 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lOkj1-0000u3-Io
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:21:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BGEBDc7rmdVhDbmmAyVcz6e6BD2bNaCZZc76F8mvQBagKWr7vMUluxZMTckDK4vV374o78cTQZbH7dBMGGft6tQB6F77+eonpvzbG9VC+qbFe0134TSwjjVvMCMfb7JDbG33E8wv5Ysaw3ZlXoS1acj3IAS70YqPxoYutRf7hoco1pnWvoYvuELqKhKEe9Hk03n5uMGLsFc4wX4S23Hb11fDfGuM4z6FpyQanG/q63sHTRJ0yMz7HAJ5AbWcB+TMnTLBOVyGR77WZYOISt7YWI76Xe3Scv/fy72UcHmM7Pn8dHgRr6ni0RlJP4AAXQvw6QmUL7pk8aXAxaSOToZRdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3b0EN1I8N79WlC6DTjqkvbsp5uqndCSFw3bOT7l/HvU=;
+ b=MwNQGgXFZ0EUj8Rx87DmS5GMUO06NNWwbVfTGatJpfBLu74nc+ZJC36mcdZVvhpMpKK8PlzcFgdJmvfRn/zXWnNIeeHjpNC4NPZd0kh8E+SSJGIgZHIlSczIYmlxnykHA+2JgFX/o3mFW6+DZ32wxeJEx3ExlxXGlYQwBopZ/11v8/NJB4NWJkyVEcwsusSELBXu9LFsjwGPCLlAOyCv8A56VqkjjdAzhCvc2S7wEiny4IpWOigTSB0dvVmUeWVP283stgcjPkR5dc6dyPn+hmIkb2SNei1M88ZOIkZxv3BRHX1a6PbNlSldObw4vwsn1VmxcVipGKd15OU2xSWz8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3b0EN1I8N79WlC6DTjqkvbsp5uqndCSFw3bOT7l/HvU=;
+ b=O4MsLmf8iPbU6oW1cup7ihS8/RUdAXSPJL4mcpTAtRzJJXM/ttLzVF+Tfl15i9yWMi2SEaXZ42cmC405KgzG76Fl4nC7rrPi6Jfl4Ik70/pwAwwC4m+0l28nyD4SgeyuhztAP2HGo9TpdrJ8k1RjebRWpSmlRpdB35ql/uO6xUo=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
+ by AM9PR08MB6050.eurprd08.prod.outlook.com (2603:10a6:20b:285::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
+ 2021 17:21:44 +0000
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
+ 17:21:44 +0000
+Subject: Re: [PATCH v1 1/3] migration: Fix missing qemu_fflush() on buffer
+ file in bg_migration_thread
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
+References: <20210319145249.425189-1-andrey.gruzdev@virtuozzo.com>
+ <20210319145249.425189-2-andrey.gruzdev@virtuozzo.com>
+ <20210322201716.GG16645@xz-x1>
+ <2fb49f83-e31c-8c93-50b7-833026b06518@virtuozzo.com>
+ <20210323145457.GC6486@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <9311f31b-298f-d235-45bd-0ed9d66f9468@virtuozzo.com>
+Date: Tue, 23 Mar 2021 20:21:43 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+ Thunderbird/78.3.2
+In-Reply-To: <20210323145457.GC6486@xz-x1>
+Content-Type: multipart/alternative;
+ boundary="------------1FBE36BF16998587DF66DB32"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM8P191CA0024.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21a::29) To AM0PR08MB3364.eurprd08.prod.outlook.com
+ (2603:10a6:208:e4::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM8P191CA0024.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::29) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 17:21:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 47794458-a697-4d37-6316-08d8ee2021d8
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6050:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM9PR08MB6050B6F42E84E6301F3FFAC29F649@AM9PR08MB6050.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ig8GrWg01BMe5obpqse0jx0wJHkmy09JeJPOLPVgkYOQk9abnipICqnK1/ptf0KkTV9UZsRCXxtXvDM29YXS/fcLrq4zneyWlNBApDwqjFM7LgjXnNnGVJMPcpT4RqundvFqyyp6yeQQ56Trj/cPUopdiMiqy732Z0dQpq4uYYYzaHrBzrKtRZKwZApVR4zaQS5u0NqDYZNVl/QC11XeH6POHGZlFnRgM3ap0CmNMQ36BtufrU1HsOXU3x3SaoxMFPsWGrVTQXJ9Zi+Reo1bhlBKiosoZDgWmAvB4PqMV3HX77xF7cFuMKBag2qSy6maPGMrB+mVHy/6y5egee+sT1zJkDx/olQ5IkFwEJUH0y6TyjYlwHykX1hZGIP6vEEZcFei27RbJ1WCk/W5AyZwqWIph0TxPGAVALIx58LgllsnfgW7aUN5pDpqggELz7zqUiCsudNtCkL5OBowuMCwW6Y6D3HauWt/OCQATGtPj9+bmOj8y4yoynGyEIFiK8yKjbWrk9B4UIlanGGJrjSHkDThz5w/LEYz8wqHULHuJfOdUtrdUTZK9jvhilO3i/zn9zdIwzE7FNWRehAu3YVQOsqwStkl3qeXmOVREx+S+j2DsjTQX3YjqIVFApgC6VkNwUUFqxjkAilrcjPrx06B5sko6pRKesU5hfPu4J98tF8gkI+kOdFN1PVwqh35WPgOkNUjeALXoSG/XqPV8rNh7Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(54906003)(83380400001)(956004)(31686004)(33964004)(44832011)(8676002)(2616005)(66556008)(186003)(52116002)(66946007)(498600001)(66476007)(6486002)(26005)(16576012)(16526019)(6916009)(53546011)(86362001)(4326008)(31696002)(36756003)(2906002)(38100700001)(5660300002)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SUFYWmZRRmZRQnJpQWo4WHljMWRPNHArQWx2MkM4azdERlg4ZkgvdyswTytQ?=
+ =?utf-8?B?TmNQMWVKNVJqWGpvRmRxTllZbjZoOGxHamRBMDVLc0gybllDdzJSWWErMmdP?=
+ =?utf-8?B?czZiRStZVFpGTVFVTnE0RzJqU1MrbXpxcG5MdUhsV2NsS050WmYxQ0dDUllM?=
+ =?utf-8?B?M0UrM3dSdSt2Q21nenI0anNGMVc3SnZpUkZxc3lsZ211SDRPUll4UFRjZXVQ?=
+ =?utf-8?B?U0VUcHNxM29SMG1za3RFWkVQMTZ5amNsdDdUcWNvdnUyYk5ONi9jVlJDRjdv?=
+ =?utf-8?B?eklSdlVocjZPcTlZa2duNk82akdwQXdWWnNuZ2x1SVFrc05hdENvSS96VWIw?=
+ =?utf-8?B?Wm41TDN4YlhVWEZoNFBaZVpnZm5nYzlyRGd2ZlZHTElRRWg1WklBQ0hxZDRm?=
+ =?utf-8?B?WHprRHczaEZoM1F5eG5NazZQVEJtQ3N0TitvNEFmSWtDZEhXZVROUlJoWHlk?=
+ =?utf-8?B?TEIvVm9UTk1YT2xwTU1uQmpUS285NWFFY0Q3MzNNdElrYkdrQVlqZWhiWHpX?=
+ =?utf-8?B?cThsWHZTMm1VU1ExUzNLazl3Z2Z5UTRjd1dTeVd0eFNlN3BtUG10MWFKaW1v?=
+ =?utf-8?B?SVVIOU5GMlBsUWJNUjN1T3dlSHRGZ2p3ZWFtYWt6SjhWekN6WjRNbXpoVzM3?=
+ =?utf-8?B?MU5TeTVESGZmQkxmWW85Y0JCMlRnSTRHck5meWcva0NYcFNHU2VaRDdXais2?=
+ =?utf-8?B?cWhIWEVBYW02NFhJZlNBdmZ1RDNtSXREOFlSRXo4bEdSMlFDRjVCeGVWRlVD?=
+ =?utf-8?B?SkFDdFlrWFVZblp3TTlvWnJuYjRUSXV1bzI5SWNGYllmSE43MUVRckNJc1Yr?=
+ =?utf-8?B?UGNlRXRuQUpFaU1yelJEc05sdlUrdWlPcVd5YzkvNFBINmZvYkcvQ1NJQlEz?=
+ =?utf-8?B?VFBYM3kzOHh3UjVaU3MyaERJVXFBY3hycURrbXlQV3dUL2pSV29JQzB4MFVW?=
+ =?utf-8?B?UUtXVTgrY2duVHpHVG1Fa2s0NDBuQjZxMVhtT0NrY0F6VjJMN1BlSGJ6RGFq?=
+ =?utf-8?B?bFhLUk9tWEZtdG5Od2N6U0ZHZ055Mndsc01aMkg0cjR4NzRyempCZkdUbkwz?=
+ =?utf-8?B?QXh3eURVcTJaSVNGYW9JMzBoUWVGdjIzU2p1c1pEM1pNMUlNQWY3UGt6dUtR?=
+ =?utf-8?B?enpJeU9WRjdKMVhHOG1Bbmg4ckY2OEZETUwvbjZKSzhIOS9DT2lzN295TEpR?=
+ =?utf-8?B?Z09FTjMrWldEdmk3WEdSblRGQUQzQlU1b3JnS1lGMzB6Y016RlVPc2p6L0ZW?=
+ =?utf-8?B?NFF2ZlhWL1JuUGMvdlA2c0pWcXJZQXlDbjhLUjI1NmVyK205azJxMVBuaGNp?=
+ =?utf-8?B?OHFJUFJQVFVHNnZxVGlhb2w2RnBqSVk0OUVabDh4WmtVT3VHQnRlc0ZjbDhL?=
+ =?utf-8?B?MjZuMUVzZ0ZQcHNtaVNJaFYwSCtTaWFvMW5oN25OVTREQXZVMjkxZGZxblVM?=
+ =?utf-8?B?T1YyUG14Y0hpa0dtMDhDUC9HYVhqL2RoZWxRUklYTlAzNHpBZGoyUm4zVXcy?=
+ =?utf-8?B?YStpa3dSblpUMDlUSDVmMG9LL0tJd3owdGRMeldua0ZmYkRlMlNGY1NzNEJP?=
+ =?utf-8?B?VFJlNkNEVDlyQkpkSlIvbUxSdUVkaHFBNHl0cXpTVTZoOXUxTUx4YU8wUjJp?=
+ =?utf-8?B?Q3E0YlYxUTVqSmMwNzBuSVVSK0N6cVczN3g0MHF1YW55SkZUcDR0dWtIRzZj?=
+ =?utf-8?B?aE9VbVBpK3FnS3pwK3gwRG5KVTQvUTFYbmc0NTIrU1U3WnpHc000bkI5T05h?=
+ =?utf-8?Q?hinSMBxrNA5UyhfxAgnNv8OPe/eSYO/c5YaFN5/?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47794458-a697-4d37-6316-08d8ee2021d8
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 17:21:44.8237 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gLtjamE/JezMVdSmDiP3PB6Q9rR2/zWuAP93BQLu6cBlPiZMh3JKBWeoUhBsk3PX2Pzs4ZMLIDIGjhq2Z43+ttn9xXTZ9GG+HRdD2tjX0pw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6050
+Received-SPF: pass client-ip=40.107.2.132;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,264 +154,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Srikar Dronamraju <srikar@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--------------1FBE36BF16998587DF66DB32
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 23.03.2021 17:54, Peter Xu wrote:
+> On Tue, Mar 23, 2021 at 10:51:57AM +0300, Andrey Gruzdev wrote:
+>> On 22.03.2021 23:17, Peter Xu wrote:
+>>> On Fri, Mar 19, 2021 at 05:52:47PM +0300, Andrey Gruzdev wrote:
+>>>> Added missing qemu_fflush() on buffer file holding precopy device state.
+>>>> Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
+>>>> Typical configurations often require >200KB for device state and VMDESC.
+>>>>
+>>>> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>>>> ---
+>>>>    migration/migration.c | 4 +++-
+>>>>    1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/migration/migration.c b/migration/migration.c
+>>>> index ca8b97baa5..32b48fe9f5 100644
+>>>> --- a/migration/migration.c
+>>>> +++ b/migration/migration.c
+>>>> @@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
+>>>>         * with vCPUs running and, finally, write stashed non-RAM part of
+>>>>         * the vmstate from the buffer to the migration stream.
+>>>>         */
+>>>> -    s->bioc = qio_channel_buffer_new(128 * 1024);
+>>>> +    s->bioc = qio_channel_buffer_new(512 * 1024);
+>>>>        qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
+>>>>        fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
+>>>>        object_unref(OBJECT(s->bioc));
+>>>> @@ -3866,6 +3866,8 @@ static void *bg_migration_thread(void *opaque)
+>>>>        if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+>>>>            goto fail;
+>>>>        }
+>>>> +    qemu_fflush(fb);
+>>> What will happen if the vmstates are bigger than 512KB?  Would the extra data
+>>> be dropped?
+>> No, the buffer shall be reallocated and the original content shall be kept.
+> Oh right..
+>
+> Would you comment above qemu_fflush() about it (maybe also move it right before
+> the call to qemu_put_buffer)?  Otherwise it indeed looks more like an
+> optimization rather than a bugfix.
+
+Agree, better to have a comment here.
+
+> For the long term I think we'd better have a helper:
+>
+>          qemu_put_qio_channel_buffer(QEMUFile *file, QIOChannelBuffer *bioc)
+>
+> So as to hide this flush operation, which is tricky. We'll have two users so
+> far:
+>
+>          bg_migration_completion
+>          colo_do_checkpoint_transaction
+>
+> IMHO it'll be nicer if you'd do it in this patch altogether!
+>
+> Thanks,
+>
+Sorry, can't get the idea, what's wrong with the fix.
 
 
-On 3/22/21 10:03 PM, David Gibson wrote:
-> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
->> Kernel commit 4bce545903fa ("powerpc/topology: Update
->> topology_core_cpumask") cause a regression in the pseries machine when
->> defining certain SMP topologies [1]. The reasoning behind the change is
->> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
->> cpu_core_mask"). In short, cpu_core_mask logic was causing troubles with
->> large VMs with lots of CPUs and was changed by cpu_cpu_mask because, as
->> far as the kernel understanding of SMP topologies goes, both masks are
->> equivalent.
->>
->> Further discussions in the kernel mailing list [2] shown that the
->> powerpc kernel always considered that the number of sockets were equal
->> to the number of NUMA nodes. The claim is that it doesn't make sense,
->> for Power hardware at least, 2+ sockets being in the same NUMA node. The
->> immediate conclusion is that all SMP topologies the pseries machine were
->> supplying to the kernel, with more than one socket in the same NUMA node
->> as in [1], happened to be correctly represented in the kernel by
->> accident during all these years.
->>
->> There's a case to be made for virtual topologies being detached from
->> hardware constraints, allowing maximum flexibility to users. At the same
->> time, this freedom can't result in unrealistic hardware representations
->> being emulated. If the real hardware and the pseries kernel don't
->> support multiple chips/sockets in the same NUMA node, neither should we.
->>
->> Starting in 6.0.0, all sockets must match an unique NUMA node in the
->> pseries machine. qtest changes were made to adapt to this new
->> condition.
-> 
-> Oof.  I really don't like this idea.  It means a bunch of fiddly work
-> for users to match these up, for no real gain.  I'm also concerned
-> that this will require follow on changes in libvirt to not make this a
-> really cryptic and irritating point of failure.
+--------------1FBE36BF16998587DF66DB32
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Haven't though about required Libvirt changes, although I can say that there
-will be some amount to be mande and it will probably annoy existing users
-(everyone that has a multiple socket per NUMA node topology).
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 23.03.2021 17:54, Peter Xu wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20210323145457.GC6486@xz-x1">
+      <pre class="moz-quote-pre" wrap="">On Tue, Mar 23, 2021 at 10:51:57AM +0300, Andrey Gruzdev wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">On 22.03.2021 23:17, Peter Xu wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Fri, Mar 19, 2021 at 05:52:47PM +0300, Andrey Gruzdev wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Added missing qemu_fflush() on buffer file holding precopy device state.
+Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
+Typical configurations often require &gt;200KB for device state and VMDESC.
 
-There is not much we can do from the QEMU layer aside from what I've proposed
-here. The other alternative is to keep interacting with the kernel folks to
-see if there is a way to keep our use case untouched. This also means that
-'ibm,chip-id' will probably remain in use since it's the only place where
-we inform cores per socket information to the kernel.
+Signed-off-by: Andrey Gruzdev <a class="moz-txt-link-rfc2396E" href="mailto:andrey.gruzdev@virtuozzo.com">&lt;andrey.gruzdev@virtuozzo.com&gt;</a>
+---
+  migration/migration.c | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index ca8b97baa5..32b48fe9f5 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
+       * with vCPUs running and, finally, write stashed non-RAM part of
+       * the vmstate from the buffer to the migration stream.
+       */
+-    s-&gt;bioc = qio_channel_buffer_new(128 * 1024);
++    s-&gt;bioc = qio_channel_buffer_new(512 * 1024);
+      qio_channel_set_name(QIO_CHANNEL(s-&gt;bioc), &quot;vmstate-buffer&quot;);
+      fb = qemu_fopen_channel_output(QIO_CHANNEL(s-&gt;bioc));
+      object_unref(OBJECT(s-&gt;bioc));
+@@ -3866,6 +3866,8 @@ static void *bg_migration_thread(void *opaque)
+      if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+          goto fail;
+      }
++    qemu_fflush(fb);
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">What will happen if the vmstates are bigger than 512KB?  Would the extra data
+be dropped?
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+No, the buffer shall be reallocated and the original content shall be kept.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Oh right..
 
+Would you comment above qemu_fflush() about it (maybe also move it right before
+the call to qemu_put_buffer)?  Otherwise it indeed looks more like an
+optimization rather than a bugfix.
+</pre>
+    </blockquote>
+    <pre>Agree, better to have a comment here.
+</pre>
+    <blockquote type="cite" cite="mid:20210323145457.GC6486@xz-x1">
+      <pre class="moz-quote-pre" wrap="">
+For the long term I think we'd better have a helper:
+
+        qemu_put_qio_channel_buffer(QEMUFile *file, QIOChannelBuffer *bioc)
+
+So as to hide this flush operation, which is tricky. We'll have two users so
+far:
+
+        bg_migration_completion
+        colo_do_checkpoint_transaction
+
+IMHO it'll be nicer if you'd do it in this patch altogether!
 
 Thanks,
 
+</pre>
+    </blockquote>
+    <pre>Sorry, can't get the idea, what's wrong with the fix.
 
-DHB
+</pre>
+  </body>
+</html>
 
-
-
-
-> 
->>
->> [1] https://bugzilla.redhat.com/1934421
->> [2] https://lore.kernel.org/linuxppc-dev/daa5d05f-dbd0-05ad-7395-5d5a3d364fc6@gmail.com/
->>
->> CC: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
->> CC: Cédric Le Goater <clg@kaod.org>
->> CC: Igor Mammedov <imammedo@redhat.com>
->> CC: Laurent Vivier <lvivier@redhat.com>
->> CC: Thomas Huth <thuth@redhat.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr.c                 |  3 ++
->>   hw/ppc/spapr_numa.c            |  7 +++++
->>   include/hw/ppc/spapr.h         |  1 +
->>   tests/qtest/cpu-plug-test.c    |  4 +--
->>   tests/qtest/device-plug-test.c |  9 +++++-
->>   tests/qtest/numa-test.c        | 52 ++++++++++++++++++++++++++++------
->>   6 files changed, 64 insertions(+), 12 deletions(-)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index d56418ca29..745f71c243 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -4611,8 +4611,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
->>    */
->>   static void spapr_machine_5_2_class_options(MachineClass *mc)
->>   {
->> +    SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
->> +
->>       spapr_machine_6_0_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->> +    smc->pre_6_0_smp_topology = true;
->>   }
->>   
->>   DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
->> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
->> index 779f18b994..0ade43dd79 100644
->> --- a/hw/ppc/spapr_numa.c
->> +++ b/hw/ppc/spapr_numa.c
->> @@ -163,6 +163,13 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
->>       int i, j, max_nodes_with_gpus;
->>       bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
->>   
->> +    if (!smc->pre_6_0_smp_topology &&
->> +        nb_numa_nodes != machine->smp.sockets) {
->> +        error_report("Number of CPU sockets must be equal to the number "
->> +                     "of NUMA nodes");
->> +        exit(EXIT_FAILURE);
->> +    }
->> +
->>       /*
->>        * For all associativity arrays: first position is the size,
->>        * position MAX_DISTANCE_REF_POINTS is always the numa_id,
->> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->> index 47cebaf3ac..98dc5d198a 100644
->> --- a/include/hw/ppc/spapr.h
->> +++ b/include/hw/ppc/spapr.h
->> @@ -142,6 +142,7 @@ struct SpaprMachineClass {
->>       hwaddr rma_limit;          /* clamp the RMA to this size */
->>       bool pre_5_1_assoc_refpoints;
->>       bool pre_5_2_numa_associativity;
->> +    bool pre_6_0_smp_topology;
->>   
->>       bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
->>                             uint64_t *buid, hwaddr *pio,
->> diff --git a/tests/qtest/cpu-plug-test.c b/tests/qtest/cpu-plug-test.c
->> index a1c689414b..946b9129ea 100644
->> --- a/tests/qtest/cpu-plug-test.c
->> +++ b/tests/qtest/cpu-plug-test.c
->> @@ -118,8 +118,8 @@ static void add_pseries_test_case(const char *mname)
->>       data->machine = g_strdup(mname);
->>       data->cpu_model = "power8_v2.0";
->>       data->device_model = g_strdup("power8_v2.0-spapr-cpu-core");
->> -    data->sockets = 2;
->> -    data->cores = 3;
->> +    data->sockets = 1;
->> +    data->cores = 6;
->>       data->threads = 1;
->>       data->maxcpus = data->sockets * data->cores * data->threads;
->>   
->> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
->> index 559d47727a..dd7d8268d2 100644
->> --- a/tests/qtest/device-plug-test.c
->> +++ b/tests/qtest/device-plug-test.c
->> @@ -91,7 +91,14 @@ static void test_spapr_cpu_unplug_request(void)
->>   {
->>       QTestState *qtest;
->>   
->> -    qtest = qtest_initf("-cpu power9_v2.0 -smp 1,maxcpus=2 "
->> +    /*
->> +     * Default smp settings will prioritize sockets over cores and
->> +     * threads, so '-smp 2,maxcpus=2' will add 2 sockets. However,
->> +     * the pseries machine requires a NUMA node for each socket
->> +     * (since 6.0.0). Specify sockets=1 to make life easier.
->> +     */
->> +    qtest = qtest_initf("-cpu power9_v2.0 "
->> +                        "-smp 1,maxcpus=2,threads=1,cores=2,sockets=1 "
->>                           "-device power9_v2.0-spapr-cpu-core,core-id=1,id=dev0");
->>   
->>       /* similar to test_pci_unplug_request */
->> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
->> index dc0ec571ca..bb13f7131b 100644
->> --- a/tests/qtest/numa-test.c
->> +++ b/tests/qtest/numa-test.c
->> @@ -24,9 +24,17 @@ static void test_mon_explicit(const void *data)
->>       QTestState *qts;
->>       g_autofree char *s = NULL;
->>       g_autofree char *cli = NULL;
->> +    const char *arch = qtest_get_arch();
->> +
->> +    if (g_str_equal(arch, "ppc64")) {
->> +        cli = make_cli(data, "-smp 8,threads=1,cores=4,sockets=2 "
->> +                             "-numa node,nodeid=0,memdev=ram,cpus=0-3 "
->> +                             "-numa node,nodeid=1,cpus=4-7");
->> +    } else {
->> +        cli = make_cli(data, "-smp 8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
->> +                             "-numa node,nodeid=1,cpus=4-7");
->> +    }
->>   
->> -    cli = make_cli(data, "-smp 8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
->> -                         "-numa node,nodeid=1,cpus=4-7");
->>       qts = qtest_init(cli);
->>   
->>       s = qtest_hmp(qts, "info numa");
->> @@ -57,10 +65,18 @@ static void test_mon_partial(const void *data)
->>       QTestState *qts;
->>       g_autofree char *s = NULL;
->>       g_autofree char *cli = NULL;
->> +    const char *arch = qtest_get_arch();
->> +
->> +    if (g_str_equal(arch, "ppc64")) {
->> +        cli = make_cli(data, "-smp 8,threads=1,cores=4,sockets=2 "
->> +                             "-numa node,nodeid=0,memdev=ram,cpus=0-1 "
->> +                             "-numa node,nodeid=1,cpus=4-5 ");
->> +    } else {
->> +        cli = make_cli(data, "-smp 8 "
->> +                             "-numa node,nodeid=0,memdev=ram,cpus=0-1 "
->> +                             "-numa node,nodeid=1,cpus=4-5 ");
->> +    }
->>   
->> -    cli = make_cli(data, "-smp 8 "
->> -                   "-numa node,nodeid=0,memdev=ram,cpus=0-1 "
->> -                   "-numa node,nodeid=1,cpus=4-5 ");
->>       qts = qtest_init(cli);
->>   
->>       s = qtest_hmp(qts, "info numa");
->> @@ -85,9 +101,17 @@ static void test_query_cpus(const void *data)
->>       QObject *e;
->>       QTestState *qts;
->>       g_autofree char *cli = NULL;
->> +    const char *arch = qtest_get_arch();
->> +
->> +    if (g_str_equal(arch, "ppc64")) {
->> +        cli = make_cli(data, "-smp 8,threads=1,cores=4,sockets=2 "
->> +                             "-numa node,memdev=ram,cpus=0-3 "
->> +                             "-numa node,cpus=4-7");
->> +    } else {
->> +        cli = make_cli(data, "-smp 8 -numa node,memdev=ram,cpus=0-3 "
->> +                             "-numa node,cpus=4-7");
->> +    }
->>   
->> -    cli = make_cli(data, "-smp 8 -numa node,memdev=ram,cpus=0-3 "
->> -                         "-numa node,cpus=4-7");
->>       qts = qtest_init(cli);
->>       cpus = get_cpus(qts, &resp);
->>       g_assert(cpus);
->> @@ -177,7 +201,7 @@ static void spapr_numa_cpu(const void *data)
->>       QTestState *qts;
->>       g_autofree char *cli = NULL;
->>   
->> -    cli = make_cli(data, "-smp 4,cores=4 "
->> +    cli = make_cli(data, "-smp 4,threads=1,cores=2,sockets=2 "
->>           "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
->>           "-numa cpu,node-id=0,core-id=0 "
->>           "-numa cpu,node-id=0,core-id=1 "
->> @@ -554,7 +578,17 @@ int main(int argc, char **argv)
->>   
->>       g_test_init(&argc, &argv, NULL);
->>   
->> -    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split);
->> +    /*
->> +     * Starting on 6.0.0, for the pseries machine, '-smp 8' will only work
->> +     * if we have 8 NUMA nodes. If we specify 'smp 8,sockets=2' to match
->> +     * 2 NUMA nodes, the CPUs will be split as 0123/4567 instead of
->> +     * 0246/1357 that test_def_cpu_split expects. In short, this test is
->> +     * no longer valid for ppc64 in 6.0.0.
->> +     */
->> +    if (!g_str_equal(arch, "ppc64")) {
->> +        qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split);
->> +    }
->> +
->>       qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_explicit);
->>       qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_partial);
->>       qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_cpus);
-> 
+--------------1FBE36BF16998587DF66DB32--
 
