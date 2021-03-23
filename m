@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4205A346313
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:38:54 +0100 (CET)
-Received: from localhost ([::1]:57210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336DC34631E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:41:13 +0100 (CET)
+Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOj7N-0006Wl-9w
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34806)
+	id 1lOj9c-0001as-7W
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:41:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj59-0004c7-Qb
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj51-0002zu-R6
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:35 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj5A-0004cQ-QT
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lOj52-000314-Ae
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:36:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616513785;
+ s=mimecast20190719; t=1616513787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mobfb8EqlXp0lvXlsCwgLqGIobMgc21Nb0OooPDDHcw=;
- b=M4Ws/m1oXN/QNHjY8OTu/MgU7AWGOJAB4j/xk4dOdZpO3nnPbB+LCPefGmjjLq2rAoOQzw
- UsW7UeTzRfNWkLl4hYlceTDeD92wADh+OKeLrLMkCPB/rntEoRbTdHiiRP7P00qOv0J0S3
- RA69gKkFF1tOJSjIRV4iF+axM5EZ7Z4=
+ bh=r6HkGSRZskuaOzMeEwx/oWOBESHI9UJHgo+0D2TZWTc=;
+ b=he0nDEm+Cbm2+fgBOcrajY8CbJSLTBUOh+MGJV2CA1OWw+42QW3PPsC5SE/5qShRoXEOoU
+ J8/qySnHPpAgYrkXFkCLJ9vXAE/sA7L3WOA+aHvv/G+4CyiwdzmgF4MAl0oHIAnWWv/iNA
+ pjluvkacN16N1eRdk5eFO7lxFClmAxg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-HrbiaGY7O4-4zVGkAvUvaQ-1; Tue, 23 Mar 2021 11:36:23 -0400
-X-MC-Unique: HrbiaGY7O4-4zVGkAvUvaQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-499-YtW7QXo6O161pkt5jA-tMQ-1; Tue, 23 Mar 2021 11:36:25 -0400
+X-MC-Unique: YtW7QXo6O161pkt5jA-tMQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3A4C100748A;
- Tue, 23 Mar 2021 15:36:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF1C21007476
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 15:36:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
  [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CAB76087C;
- Tue, 23 Mar 2021 15:36:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6227E19705;
+ Tue, 23 Mar 2021 15:36:24 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 17F191800621; Tue, 23 Mar 2021 16:36:17 +0100 (CET)
+ id 22FFD1800624; Tue, 23 Mar 2021 16:36:17 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] include/ui/console.h: Delete is_surface_bgr()
-Date: Tue, 23 Mar 2021 16:36:15 +0100
-Message-Id: <20210323153616.873822-5-kraxel@redhat.com>
+Subject: [PULL 5/5] edid: prefer standard timings
+Date: Tue, 23 Mar 2021 16:36:16 +0100
+Message-Id: <20210323153616.873822-6-kraxel@redhat.com>
 In-Reply-To: <20210323153616.873822-1-kraxel@redhat.com>
 References: <20210323153616.873822-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,47 +79,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Windows guests using the "Basic Display Adapter" don't parse the
+"Established timings III" block.  They also don't parse any edid
+extension.
 
-The function is_surface_bgr() is no longer used anywhere,
-so we can delete it.
+So prefer the "Standard Timings" block to store the display resolutions
+in edid_fill_modes().  Also reorder the mode list, so more exotic
+resolutions (specifically the ones which are not supported by vgabios)
+are moved down and the remaining ones have a better chance to get one of
+the eight slots in the "Standard Timings" block.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210314163927.1184-1-peter.maydell@linaro.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20210316143812.2363588-6-kraxel@redhat.com>
 ---
- include/ui/console.h | 10 ----------
- 1 file changed, 10 deletions(-)
+ hw/display/edid-generate.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 2714038a0fae..ca3c7af6a6c8 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -267,16 +267,6 @@ PixelFormat qemu_default_pixelformat(int bpp);
- DisplaySurface *qemu_create_displaysurface(int width, int height);
- void qemu_free_displaysurface(DisplaySurface *surface);
+diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
+index 1665b7cbb29a..a1bea9a3aa35 100644
+--- a/hw/display/edid-generate.c
++++ b/hw/display/edid-generate.c
+@@ -25,19 +25,20 @@ static const struct edid_mode {
+     { .xres = 1920,   .yres = 1080,   .dta =  31 },
  
--static inline int is_surface_bgr(DisplaySurface *surface)
--{
--    if (PIXMAN_FORMAT_BPP(surface->format) == 32 &&
--        PIXMAN_FORMAT_TYPE(surface->format) == PIXMAN_TYPE_ABGR) {
--        return 1;
--    } else {
--        return 0;
--    }
--}
--
- static inline int is_buffer_shared(DisplaySurface *surface)
- {
-     return !(surface->flags & QEMU_ALLOCATED_FLAG);
+     /* additional standard timings 3 (all @ 60Hz) */
+-    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
+     { .xres = 1920,   .yres = 1200,   .xtra3 = 10,   .bit = 0 },
+-    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
+-    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
+     { .xres = 1600,   .yres = 1200,   .xtra3 =  9,   .bit = 2 },
+     { .xres = 1680,   .yres = 1050,   .xtra3 =  9,   .bit = 5 },
+-    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
+     { .xres = 1440,   .yres =  900,   .xtra3 =  8,   .bit = 5 },
+-    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
+     { .xres = 1280,   .yres = 1024,   .xtra3 =  7,   .bit = 1 },
+     { .xres = 1280,   .yres =  960,   .xtra3 =  7,   .bit = 3 },
+     { .xres = 1280,   .yres =  768,   .xtra3 =  7,   .bit = 6 },
+ 
++    { .xres = 1920,   .yres = 1440,   .xtra3 = 11,   .bit = 5 },
++    { .xres = 1856,   .yres = 1392,   .xtra3 = 10,   .bit = 3 },
++    { .xres = 1792,   .yres = 1344,   .xtra3 = 10,   .bit = 5 },
++    { .xres = 1440,   .yres = 1050,   .xtra3 =  8,   .bit = 1 },
++    { .xres = 1360,   .yres =  768,   .xtra3 =  8,   .bit = 7 },
++
+     /* established timings (all @ 60Hz) */
+     { .xres = 1024,   .yres =  768,   .byte  = 36,   .bit = 3 },
+     { .xres =  800,   .yres =  600,   .byte  = 35,   .bit = 0 },
+@@ -109,13 +110,13 @@ static void edid_fill_modes(uint8_t *edid, uint8_t *xtra3, uint8_t *dta,
+ 
+         if (mode->byte) {
+             edid[mode->byte] |= (1 << mode->bit);
+-        } else if (mode->xtra3 && xtra3) {
+-            xtra3[mode->xtra3] |= (1 << mode->bit);
+         } else if (std < 54) {
+             rc = edid_std_mode(edid + std, mode->xres, mode->yres);
+             if (rc == 0) {
+                 std += 2;
+             }
++        } else if (mode->xtra3 && xtra3) {
++            xtra3[mode->xtra3] |= (1 << mode->bit);
+         }
+ 
+         if (dta && mode->dta) {
 -- 
 2.30.2
 
