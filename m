@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA1E345542
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:06:40 +0100 (CET)
-Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642EF345536
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:02:34 +0100 (CET)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWRL-0000oG-V4
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49574)
+	id 1lOWNN-0004CC-CP
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lOWIE-0000Dx-6R
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:57:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42010)
+ (Exim 4.90_1)
+ (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
+ id 1lOWKV-0002E3-Hy
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:35 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lOWIA-0005ws-83
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:57:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616464629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NfkWbKwTlAWQ5kRkEce68rrFH1A8EQb3nx/1ikf4IEM=;
- b=Ja/0NkF6jZ4ERvIyKtXauhxQb1/UnGwT4LS7Fro9K8pTczWIfAMJzg5SVMA8O1LOR/cN1v
- HdBB6+YMi8jzFllBaD68f8gEpE3Q18vy2lrduE+xbE/Ea8rOriG7IYVTqnXVg52muq41iF
- piPr9UuDtvJd2SHaDLVjgRJvDZLfDLM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-0DH10RLKN4y986v1VXcJmw-1; Mon, 22 Mar 2021 21:57:07 -0400
-X-MC-Unique: 0DH10RLKN4y986v1VXcJmw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E28A8180FCA0
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 01:57:06 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-12-88.pek2.redhat.com [10.72.12.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EC03682AC;
- Tue, 23 Mar 2021 01:57:04 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v4 4/4] virtio-pci: add support for configure interrupt
-Date: Tue, 23 Mar 2021 09:56:41 +0800
-Message-Id: <20210323015641.10820-5-lulu@redhat.com>
-In-Reply-To: <20210323015641.10820-1-lulu@redhat.com>
-References: <20210323015641.10820-1-lulu@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
+ id 1lOWKQ-0006tH-IK
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1616464770; x=1648000770;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YHU0culXZFnX+5M1fqhNAwWOU4KPobyrbIUe6pRKTSo=;
+ b=O3FzEV4RYkWpvadFoghBMWaoZZfziywxUDoCjahclZ/krU0aHVLnp44c
+ 2bDx942CC+52yIfQPoNlnDzMhcA/Q3ECg8YoyPbWaHZcxjdz+PisC0Syv
+ UXmFRAQWPKxmiNIt+5qKuUPgCCV6O0m+R50/UVnMRXHr9sF/xy6B7Lx1/
+ /yNufVCYFVmSvcpKlqwmYxk0zE35t8mRyw1JursnxGI1sKhgp8WuEx0vS
+ 6GOZCb5H7zqZhZwEiIlrvhzYpU1vJIpg2pE77gNlWMUMg/FIjid+gOGlk
+ 59cgueqtiXmK8sOAXTqr2x44XSqcaoHQkQDXsB0VKX5hP/vA0LGxXMZZx Q==;
+IronPort-SDR: S28EBmy2rUx6yTfSJhN/bnxve0Spj8Dqeic+ijXgIGKpMuatCtA3n29lRO4GfXwn3Lu+PnamHf
+ apreejHzN6JLvgfC13z08JCVwwBxqr91dr1gjclWA+Ar7l4w9I1aAxGBveOn3X21GldugNDy5w
+ nXwzreOpECzMCfz5t2a2r75h8d2IZ5DQMtOA4pH406mIkLjz0OCpQJhWPP5HMgrCSjRl6kEtwQ
+ tzTlzQ0vITHrStUg9XXLd4NfDKhZIc1S9HRmV4YjoriWfEUStOWda2s2N/fgzGsU08BcI6nXzq
+ F3o=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707618"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:27 +0800
+IronPort-SDR: DEBOADmfJcSchBY//vSW2ObGLhkowWs4sEChCLr8FyJxnIYh6WdyCBmwWhNge02mhXYAlmpvkz
+ 4sbxya4cUpj6WN5hC1Ak+peiuCR0Iga1brNT2K0yPhjCimsw49F9NhbxK8pe50i3wLN5RpN0u1
+ YmifHedfqURKQyEpPqPWkns/VsxKSv77kVsmKT2QcRy4YsOb9nlj25mC0HCEXzNKMbo/Uoqmq7
+ JwQ3rEuE2CDi63TGBNPWEUkyJRf7Uqr02NmdHBWG4lY+BcKXUcyDLJD613eGHiTfRtycGGVWb8
+ E+fH+daPT3B4BiDARUTXqQ3t
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2021 18:41:35 -0700
+IronPort-SDR: KCkXndwDJA81MG/xI6x3XfXoUH6KO2kRb8zBRi+q9MHAmUp34ldt3i9Te2IuTPxcb6ULFIPbtj
+ +Pnqa4+dCNpPsMdtvDKhVteShpbGGqQjs5uYZYRRE1qk29Q8UNssr6ZMyPr+ELgbPSmzp3SVyn
+ YGhhTEd72vj0LFf+trD2tEK5TyVSm1RmzayYjUQUbwnIMvx5gMStCcOMw3/Nz3hFO7GX3XqyFw
+ OxWjil9kc6aWyTre7hUc20MR6T7zpeZhVxnlLoDBjTczlsvWpp9AIb7uVv0dcaXYNluPUfERHS
+ Oqc=
+WDCIronportException: Internal
+Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
+ ([10.86.49.5])
+ by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:27 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/16] riscv-to-apply queue
+Date: Mon, 22 Mar 2021 21:57:40 -0400
+Message-Id: <20210323015756.3168650-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=709ee912d=alistair.francis@wdc.com;
+ helo=esa4.hgst.iphmx.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,402 +89,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for configure interrupt, use kvm_irqfd_assign and set the
-gsi to kernel. When the configure notifier was eventfd_signal by host
-kernel, this will finally inject an msix interrupt to guest
+The following changes since commit c95bd5ff1660883d15ad6e0005e4c8571604f51a:
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-pci.c | 171 +++++++++++++++++++++++++++++++++--------
- 1 file changed, 137 insertions(+), 34 deletions(-)
+  Merge remote-tracking branch 'remotes/philmd/tags/mips-fixes-20210322' into staging (2021-03-22 14:26:13 +0000)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 36524a5728..b0c190caba 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -664,7 +664,6 @@ static uint32_t virtio_read_config(PCIDevice *pci_dev,
- }
- 
- static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
--                                        unsigned int queue_no,
-                                         unsigned int vector)
- {
-     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
-@@ -691,23 +690,17 @@ static void kvm_virtio_pci_vq_vector_release(VirtIOPCIProxy *proxy,
- }
- 
- static int kvm_virtio_pci_irqfd_use(VirtIOPCIProxy *proxy,
--                                 unsigned int queue_no,
-+                                 EventNotifier *n,
-                                  unsigned int vector)
- {
-     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
--    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
--    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
--    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
-     return kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, n, NULL, irqfd->virq);
- }
- 
- static void kvm_virtio_pci_irqfd_release(VirtIOPCIProxy *proxy,
--                                      unsigned int queue_no,
-+                                      EventNotifier *n ,
-                                       unsigned int vector)
- {
--    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
--    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
--    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
-     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
-     int ret;
- 
-@@ -722,7 +715,8 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-     unsigned int vector;
-     int ret, queue_no;
--
-+    VirtQueue *vq;
-+    EventNotifier *n;
-     for (queue_no = 0; queue_no < nvqs; queue_no++) {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             break;
-@@ -731,7 +725,7 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-         if (vector >= msix_nr_vectors_allocated(dev)) {
-             continue;
-         }
--        ret = kvm_virtio_pci_vq_vector_use(proxy, queue_no, vector);
-+        ret = kvm_virtio_pci_vq_vector_use(proxy,  vector);
-         if (ret < 0) {
-             goto undo;
-         }
-@@ -739,7 +733,9 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-          * Otherwise, delay until unmasked in the frontend.
-          */
-         if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--            ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
-+            vq = virtio_get_queue(vdev, queue_no);
-+            n = virtio_queue_get_guest_notifier(vq);
-+            ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
-             if (ret < 0) {
-                 kvm_virtio_pci_vq_vector_release(proxy, vector);
-                 goto undo;
-@@ -755,13 +751,69 @@ undo:
-             continue;
-         }
-         if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
-+            vq = virtio_get_queue(vdev, queue_no);
-+            n = virtio_queue_get_guest_notifier(vq);
-+            kvm_virtio_pci_irqfd_release(proxy, n, vector);
-         }
-         kvm_virtio_pci_vq_vector_release(proxy, vector);
-     }
-     return ret;
- }
- 
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    unsigned int vector;
-+    int ret;
-+    EventNotifier *n = virtio_get_config_notifier(vdev);
-+
-+    vector = vdev->config_vector ;
-+    ret = kvm_virtio_pci_vq_vector_use(proxy, vector);
-+    if (ret < 0) {
-+        goto undo;
-+    }
-+    ret = kvm_virtio_pci_irqfd_use(proxy,  n, vector);
-+    if (ret < 0) {
-+        goto undo;
-+    }
-+    return 0;
-+undo:
-+    kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+    return ret;
-+}
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    PCIDevice *dev = &proxy->pci_dev;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    unsigned int vector;
-+    EventNotifier *n = virtio_get_config_notifier(vdev);
-+    vector = vdev->config_vector ;
-+    if (vector >= msix_nr_vectors_allocated(dev)) {
-+        return;
-+    }
-+    kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+    kvm_virtio_pci_vq_vector_release(proxy, vector);
-+}
-+
-+static int virtio_pci_set_config_notifier(DeviceState *d,  bool assign)
-+{
-+    VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    EventNotifier *notifier = virtio_get_config_notifier(vdev);
-+    int r = 0;
-+    if (assign) {
-+        r = event_notifier_init(notifier, 0);
-+        virtio_set_config_notifier_fd_handler(vdev, true, true);
-+        kvm_virtio_pci_vector_config_use(proxy);
-+    } else {
-+        virtio_set_config_notifier_fd_handler(vdev, false, true);
-+        kvm_virtio_pci_vector_config_release(proxy);
-+        event_notifier_cleanup(notifier);
-+    }
-+    return r;
-+}
-+
- static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
- {
-     PCIDevice *dev = &proxy->pci_dev;
-@@ -769,7 +821,8 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-     unsigned int vector;
-     int queue_no;
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--
-+    VirtQueue *vq;
-+    EventNotifier *n;
-     for (queue_no = 0; queue_no < nvqs; queue_no++) {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             break;
-@@ -782,7 +835,9 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-          * Otherwise, it was cleaned when masked in the frontend.
-          */
-         if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
-+            vq = virtio_get_queue(vdev, queue_no);
-+            n = virtio_queue_get_guest_notifier(vq);
-+            kvm_virtio_pci_irqfd_release(proxy, n, vector);
-         }
-         kvm_virtio_pci_vq_vector_release(proxy, vector);
-     }
-@@ -791,15 +846,14 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
- static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
-                                        unsigned int queue_no,
-                                        unsigned int vector,
--                                       MSIMessage msg)
-+                                       MSIMessage msg,
-+                                       int type,
-+                                        EventNotifier *n)
- {
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
--    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
-     VirtIOIRQFD *irqfd;
-     int ret = 0;
--
-     if (proxy->vector_irqfd) {
-         irqfd = &proxy->vector_irqfd[vector];
-         if (irqfd->msg.data != msg.data || irqfd->msg.address != msg.address) {
-@@ -816,32 +870,33 @@ static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
-      * Otherwise, set it up now.
-      */
-     if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--        k->guest_notifier_mask(vdev, queue_no, false);
-+        k->guest_notifier_mask(vdev, queue_no, false, type);
-         /* Test after unmasking to avoid losing events. */
-         if (k->guest_notifier_pending &&
--            k->guest_notifier_pending(vdev, queue_no)) {
-+            k->guest_notifier_pending(vdev, queue_no, type)) {
-             event_notifier_set(n);
-         }
-     } else {
--        ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
-+        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
-     }
-     return ret;
- }
- 
- static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
-                                              unsigned int queue_no,
--                                             unsigned int vector)
-+                                             unsigned int vector,
-+                                             int type,
-+                                             EventNotifier *n)
- {
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--
-     /* If guest supports masking, keep irqfd but mask it.
-      * Otherwise, clean it up now.
-      */ 
-     if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--        k->guest_notifier_mask(vdev, queue_no, true);
-+        k->guest_notifier_mask(vdev, queue_no, true, type);
-     } else {
--        kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
-+        kvm_virtio_pci_irqfd_release(proxy, n, vector);
-     }
- }
- 
-@@ -851,15 +906,26 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-     VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
-+    EventNotifier *n;
-     int ret, index, unmasked = 0;
- 
-+   if (vdev->use_config_notifier == VIRTIO_CONFIG_WORK) {
-+        n = virtio_get_config_notifier(vdev);
-+        ret = virtio_pci_vq_vector_unmask(proxy, 0, vector, msg,
-+                    VIRTIO_CONFIG_VECTOR, n);
-+        if (ret < 0) {
-+            goto config_undo;
-+       }
-+    }
-     while (vq) {
-         index = virtio_get_queue_index(vq);
-         if (!virtio_queue_get_num(vdev, index)) {
-             break;
-         }
-         if (index < proxy->nvqs_with_notifiers) {
--            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg);
-+            n = virtio_queue_get_guest_notifier(vq);
-+            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg,
-+                        VIRTIO_VQ_VECTOR, n);
-             if (ret < 0) {
-                 goto undo;
-             }
-@@ -875,11 +941,17 @@ undo:
-     while (vq && unmasked >= 0) {
-         index = virtio_get_queue_index(vq);
-         if (index < proxy->nvqs_with_notifiers) {
--            virtio_pci_vq_vector_mask(proxy, index, vector);
-+            n = virtio_queue_get_guest_notifier(vq);
-+            virtio_pci_vq_vector_mask(proxy, index, vector,
-+                 VIRTIO_VQ_VECTOR, n);
-             --unmasked;
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+ config_undo:
-+            n = virtio_get_config_notifier(vdev);
-+            virtio_pci_vq_vector_mask(proxy, 0, vector,
-+                VIRTIO_CONFIG_VECTOR, n);
-     return ret;
- }
- 
-@@ -888,18 +960,26 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-     VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
-+    EventNotifier *n;
-     int index;
- 
-+   if (vdev->use_config_notifier == VIRTIO_CONFIG_WORK) {
-+        n = virtio_get_config_notifier(vdev);
-+        virtio_pci_vq_vector_mask(proxy, 0, vector, VIRTIO_CONFIG_VECTOR, n);
-+   }
-     while (vq) {
-         index = virtio_get_queue_index(vq);
-+         n = virtio_queue_get_guest_notifier(vq);
-         if (!virtio_queue_get_num(vdev, index)) {
-             break;
-         }
-         if (index < proxy->nvqs_with_notifiers) {
--            virtio_pci_vq_vector_mask(proxy, index, vector);
-+            virtio_pci_vq_vector_mask(proxy, index, vector,
-+                VIRTIO_VQ_VECTOR, n);
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+
- }
- 
- static void virtio_pci_vector_poll(PCIDevice *dev,
-@@ -918,6 +998,7 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             break;
-         }
-+
-         vector = virtio_queue_vector(vdev, queue_no);
-         if (vector < vector_start || vector >= vector_end ||
-             !msix_is_masked(dev, vector)) {
-@@ -926,7 +1007,22 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-         vq = virtio_get_queue(vdev, queue_no);
-         notifier = virtio_queue_get_guest_notifier(vq);
-         if (k->guest_notifier_pending) {
--            if (k->guest_notifier_pending(vdev, queue_no)) {
-+            if (k->guest_notifier_pending(vdev, queue_no, VIRTIO_VQ_VECTOR)) {
-+                msix_set_pending(dev, vector);
-+            }
-+        } else if (event_notifier_test_and_clear(notifier)) {
-+            msix_set_pending(dev, vector);
-+        }
-+    }
-+   if (vdev->use_config_notifier == VIRTIO_CONFIG_WORK) {
-+        vector = vdev->config_vector;
-+        notifier = virtio_get_config_notifier(vdev);
-+        if (vector < vector_start || vector >= vector_end ||
-+            !msix_is_masked(dev, vector)) {
-+            return;
-+        }
-+        if (k->guest_notifier_pending) {
-+            if (k->guest_notifier_pending(vdev, 0,  VIRTIO_CONFIG_VECTOR)) {
-                 msix_set_pending(dev, vector);
-             }
-         } else if (event_notifier_test_and_clear(notifier)) {
-@@ -958,7 +1054,7 @@ static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-     if (!msix_enabled(&proxy->pci_dev) &&
-         vdev->use_guest_notifier_mask &&
-         vdc->guest_notifier_mask) {
--        vdc->guest_notifier_mask(vdev, n, !assign);
-+        vdc->guest_notifier_mask(vdev, n, !assign, VIRTIO_VQ_VECTOR);
-     }
- 
-     return 0;
-@@ -1008,7 +1104,6 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             goto assign_error;
-         }
-     }
--
-     /* Must set vector notifier after guest notifier has been assigned */
-     if ((with_irqfd || k->guest_notifier_mask) && assign) {
-         if (with_irqfd) {
-@@ -1020,6 +1115,12 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-                 goto assign_error;
-             }
-         }
-+        if (vdev->use_config_notifier == VIRTIO_CONFIG_SUPPORT) {
-+            r = virtio_pci_set_config_notifier(d, assign);
-+            if (r < 0) {
-+                goto config_error;
-+         }
-+     }
-         r = msix_set_vector_notifiers(&proxy->pci_dev,
-                                       virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-@@ -1028,7 +1129,6 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             goto notifiers_error;
-         }
-     }
--
-     return 0;
- 
- notifiers_error:
-@@ -1036,13 +1136,16 @@ notifiers_error:
-         assert(assign);
-         kvm_virtio_pci_vector_release(proxy, nvqs);
-     }
--
-+ config_error:
-+    /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-+        kvm_virtio_pci_vector_config_release(proxy);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
-     while (--n >= 0) {
-         virtio_pci_set_guest_notifier(d, n, !assign, with_irqfd);
-     }
-+
-     return r;
- }
- 
--- 
-2.21.3
+are available in the Git repository at:
 
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210322-2
+
+for you to fetch changes up to 9a27f69bd668d9d71674407badc412ce1231c7d5:
+
+  target/riscv: Prevent lost illegal instruction exceptions (2021-03-22 21:54:40 -0400)
+
+----------------------------------------------------------------
+RISC-V PR for 6.0
+
+This PR includes:
+ - Fix for vector CSR access
+ - Improvements to the Ibex UART device
+ - PMP improvements and bug fixes
+ - Hypervisor extension bug fixes
+ - ramfb support for the virt machine
+ - Fast read support for SST flash
+ - Improvements to the microchip_pfsoc machine
+
+----------------------------------------------------------------
+Alexander Wagner (1):
+      hw/char: disable ibex uart receive if the buffer is full
+
+Asherah Connor (2):
+      hw/riscv: Add fw_cfg support to virt
+      hw/riscv: allow ramfb on virt
+
+Bin Meng (3):
+      hw/block: m25p80: Support fast read for SST flashes
+      hw/riscv: microchip_pfsoc: Map EMMC/SD mux register
+      docs/system: riscv: Add documentation for 'microchip-icicle-kit' machine
+
+Frank Chang (1):
+      target/riscv: fix vs() to return proper error code
+
+Georg Kotheimer (6):
+      target/riscv: Adjust privilege level for HLV(X)/HSV instructions
+      target/riscv: Make VSTIP and VSEIP read-only in hip
+      target/riscv: Use background registers also for MSTATUS_MPV
+      target/riscv: Fix read and write accesses to vsip and vsie
+      target/riscv: Add proper two-stage lookup exception detection
+      target/riscv: Prevent lost illegal instruction exceptions
+
+Jim Shu (3):
+      target/riscv: propagate PMP permission to TLB page
+      target/riscv: add log of PMP permission checking
+      target/riscv: flush TLB pages if PMP permission has been changed
+
+ docs/system/riscv/microchip-icicle-kit.rst |  89 ++++++++++++++
+ docs/system/target-riscv.rst               |   1 +
+ include/hw/char/ibex_uart.h                |   4 +
+ include/hw/riscv/microchip_pfsoc.h         |   1 +
+ include/hw/riscv/virt.h                    |   2 +
+ target/riscv/cpu.h                         |   4 +
+ target/riscv/pmp.h                         |   4 +-
+ hw/block/m25p80.c                          |   3 +
+ hw/char/ibex_uart.c                        |  23 +++-
+ hw/riscv/microchip_pfsoc.c                 |   6 +
+ hw/riscv/virt.c                            |  33 ++++++
+ target/riscv/cpu.c                         |   1 +
+ target/riscv/cpu_helper.c                  | 144 +++++++++++++++--------
+ target/riscv/csr.c                         |  77 +++++++------
+ target/riscv/pmp.c                         |  84 ++++++++++----
+ target/riscv/translate.c                   | 179 +----------------------------
+ hw/riscv/Kconfig                           |   1 +
+ 17 files changed, 367 insertions(+), 289 deletions(-)
+ create mode 100644 docs/system/riscv/microchip-icicle-kit.rst
 
