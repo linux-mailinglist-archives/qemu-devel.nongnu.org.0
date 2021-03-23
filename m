@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A45345E2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:31:43 +0100 (CET)
-Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56FE345E40
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 13:36:14 +0100 (CET)
+Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOgCE-0004DD-9O
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42020)
+	id 1lOgGb-0007lZ-Kw
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 08:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOg8d-0001Qd-4D
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:27:59 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42734)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lOgFL-00076S-FA
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:34:55 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lOg8b-0005iV-7d
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:27:58 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id hq27so26775388ejc.9
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 05:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lOgFJ-0001B8-CO
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 08:34:55 -0400
+Received: by mail-ej1-x630.google.com with SMTP id l4so26793517ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 05:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YUWeZv6EYVYn4X6YJwPyxI9zJ3tzVHLfSu3vTw/tqD0=;
- b=KnnL6JcP/Z+DcnDdjYcWoEr6yzKuxjWp8H8u49ry2AbAG0nsH+GT2EfpvFGMvKhO4K
- xSPoccmvf5Kwv7CwUFqxye5jlZjglTgUHrFzDbBhUojuV4MC4rKfl2Z3uV8NzPeJXZPY
- RwpaanucqSEyjJLSl2kBLo7heBw5hrRuKCbAfZUdgb617Re5uD2H1z24tfip5NAufWkA
- VeaqVqvgUgL9Pzyak/nWC9xItotpAouf+TrcW2IUTusReuJB6qt7BK3ilief83hCJCf9
- j31C3zyG5w7oJNYxxHdSshTn+gczhy1UQt35Y7dZ9uB1HysQJXYf74i4C86Ep6bjPR0h
- jl7w==
+ :cc; bh=C6RYRXWG+O8RHLOXxQdwDkr/SVrdCiS2CuP1AwAUs7g=;
+ b=OrKQmVlI+00Yz0eSzjdFCckUEAaTpNZ1dHzJO/sUsLOrtvSI+nSIC0xcl7YO/SMdxU
+ BuAZAmso0I0icj/qI3mKEsFBTyDXw64+ozey9vNwfhhD9lHaOngYMyERHr9PaJedmJr1
+ W9BIovy/F9TMtnwgQmaxU7Nbixgyl9/1/DHC+7XEcZ7aI3CbZ7Y/yvnMw40Xmyi2Xtts
+ 1zuYwZTgVbGyJ630RjveY3bfNY+kiF4dIEf5E4oX1hKFKPb7sU+NheHMsSmnCUNimjCG
+ 5F7bnV1M7i4vrXR1uLbZyzEpdu4wLy7AbMtoH+IpRo/2cMyv4nNy52gEUUdxPqe7xuY5
+ H4/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YUWeZv6EYVYn4X6YJwPyxI9zJ3tzVHLfSu3vTw/tqD0=;
- b=Ca/h3g9hwIJYlPuF0X7obbvbolmv4H6jH89y2jO26UgebNGcHDBtZF1WFC4eAgQWTD
- 7NMco8Hrdt5G1CIbr/HQWk4kYscUouuPGQefab/g09CTKBUIyqF45CjscWO+W5/k8Azv
- gVzQhIFDChBOuXHoIcn7d6pXiRMTwa/G4ArABpL0Yq/sWyS0YJ8offLkjWtAIoc0UEw2
- xzrJrTvP3ObIBLReJNgYG9oQKCwKrWdiKfpgBH4trPPNFqfHwiS8YHP5hbfqj7KhsdXU
- pFUEgZBx9RJYM2QUWbul5Lciikl8LM/byfDD6EgV9ZeuvGAU7qUm3Oe/4NnlYo5TMJxa
- Q7bg==
-X-Gm-Message-State: AOAM5303YxwdPOEyx+L35ucCMtPEA3OrQ0BorFRDrCG3eNiSw5R4IeJC
- gKcXfez6UWvl74X04uRzu+OJ6IJ6SdU7P7YPNUczzA==
-X-Google-Smtp-Source: ABdhPJwE8jBD8PqbojPn8I5mqCibB6Y8Pq+lDXo1xZue7vefeAuOmQQdx/gnnJAVAVmaC1w1tbA+xAoUwGmV9JxXNv0=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr4756350ejg.482.1616502473222; 
- Tue, 23 Mar 2021 05:27:53 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=C6RYRXWG+O8RHLOXxQdwDkr/SVrdCiS2CuP1AwAUs7g=;
+ b=Wx68yfbsJA4UZ+ssYUfFKo3djP2kB61zAskjR63kDVHmob9ig/SwKZXQil0dDCzx08
+ owBFBLPp4J5oPFrndnwb13YjrgBpxrUXkGNEO9UHU2zTZKdQnzG4GaillIR6uTPSL5yR
+ QKXDwOwg9C3osZKiR5DCZWlc8Hn8VrragvrvTPR/X0t5srPCGYW1o4egrIpeQtU5Nzdm
+ U6J/T2fsVq0fWn25ydZfG0ggHVDuxG2wOhOMacUb90O0y082l5GQEMJE8Agg7poUXA/c
+ BmYRbajFOlu8ye2OmLr7/3NCuA2pOxv+oLuAtbSxxTnkSAWGSTKw15jSWkTkLJ4j7/S3
+ Q4OA==
+X-Gm-Message-State: AOAM531zBZYU1NxenwcPRXm0cePqsyk0v3KwwSxRlUseeUFAU41xi+Xk
+ NZTJpqlgQ2ACAYj0whIC9Cazz8VCb8BgIzqU+Es=
+X-Google-Smtp-Source: ABdhPJxHE9hNCRIzyL2X2iHQxrc6kp9GW6/80fO7XmIwPdddzyseTI/lb4E7vbokuec5qHwrD82JiTmvR5oy2/saHps=
+X-Received: by 2002:a17:906:4e99:: with SMTP id
+ v25mr4717223eju.532.1616502891031; 
+ Tue, 23 Mar 2021 05:34:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210313170131.2116837-1-f4bug@amsat.org>
-In-Reply-To: <20210313170131.2116837-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 12:27:24 +0000
-Message-ID: <CAFEAcA-8agmT_SpO7MYmWX19XhKrAz9TCgiCzo4S-uL-V4Pf=Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/display/bcm2835_fb: Remove DeviceReset() call in
- DeviceRealize()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+References: <20210323115328.4146052-1-marcandre.lureau@redhat.com>
+ <4144cbea-4aa9-359c-f01e-34c16f2c1efe@proxmox.com>
+In-Reply-To: <4144cbea-4aa9-359c-f01e-34c16f2c1efe@proxmox.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 23 Mar 2021 16:34:39 +0400
+Message-ID: <CAJ+F1CJ02sjxne9v3b3m_Dd+yfXW1M5f5opB8Fe-hgKrWOda_g@mail.gmail.com>
+Subject: Re: [PATCH v5] sphinx: adopt kernel readthedoc theme
+To: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Content-Type: multipart/alternative; boundary="0000000000009930c805be336811"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,133 +78,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 13 Mar 2021 at 17:01, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+--0000000000009930c805be336811
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Tue, Mar 23, 2021 at 4:27 PM Thomas Lamprecht <t.lamprecht@proxmox.com>
+wrote:
+
+> On 23.03.21 12:53, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
 >
-> When QDev objects have their DeviceReset handler set, they
-> shouldn't worry about calling it at realization stage (it
-> is handled by hw/core/qdev.c::device_set_realized).
+> Just saw this patch by accident and as we also use the alabaster theme
+> for the Proxmox Backup project I wanted to share some insights from our
+> usage, as I checked that theme out closely a few months ago and did some
+> adaptions for, partially overlapping, short-comings we found.
 >
-> Remove the pointless/confusing bcm2835_fb_reset() call.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/display/bcm2835_fb.c | 2 --
->  1 file changed, 2 deletions(-)
+> > The default "alabaster" sphinx theme has a couple shortcomings:
+> > - the navbar moves along the page
 >
-> diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
-> index 2be77bdd3a0..445e8636770 100644
-> --- a/hw/display/bcm2835_fb.c
-> +++ b/hw/display/bcm2835_fb.c
-> @@ -424,8 +424,6 @@ static void bcm2835_fb_realize(DeviceState *dev, Erro=
-r **errp)
->      s->dma_mr =3D MEMORY_REGION(obj);
->      address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_FB "-memory")=
-;
+> That can be fixed with the following conf.py 'html_theme_options' setting=
+:
 >
-> -    bcm2835_fb_reset(dev);
-> -
->      s->con =3D graphic_console_init(dev, 0, &vgafb_ops, s);
->      qemu_console_resize(s->con, s->config.xres, s->config.yres);
->  }
+> 'fixed_sidebar': True,
+>
+>
+> https://git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddocs/conf.py=
+;h=3Dcfa4158d6b284172929785991f710d6237e9992c;hb=3D2ab2ca9c241f8315f51f9c74=
+a50d7223c875a04b#l161
+>
+> > - the search bar is not always at the same place
+>
+> Can be also addressed by setting 'html_sidebars' to a fixed order, e.g.:
+>
+> html_sidebars =3D {
+>     '**': [
+>         'searchbox.html',
+>         'navigation.html',
+>         'relations.html',
+>     ]
+> }
+>
+> Can also be customized for different pages, e.g., we do so for landing
+> pages:
+>
+>
+> https://git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddocs/conf.py=
+;h=3Dcfa4158d6b284172929785991f710d6237e9992c;hb=3D2ab2ca9c241f8315f51f9c74=
+a50d7223c875a04b#l188
+>
+> I added also a short JS snipped to scroll the heading of the current
+> chapter in
+> the sidebar TOC into view (adapted from rust book).
+>
+> https://git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddocs/custom.=
+js;h=3D7964b2cb0ea9433596845618f1679f1672ce38b8;hb=3D2ab2ca9c241f8315f51f9c=
+74a50d7223c875a04b
+>
+> If you want, you could check out the result at our hosted docs site:
+> https://pbs.proxmox.com/docs/managing-remotes.html
 
-With this patch applied, I get a clang-sanitizer-build failure
-in "make check":
 
-$ QTEST_QEMU_BINARY=3D./build/arm-clang/qemu-system-arm
-build/arm-clang/tests/qtest/test-hmp
-/arm/hmp/raspi0: ../../hw/display/bcm2835_fb.c:131:13: runtime error:
-store to null pointer of type 'uint32_t' (aka 'unsigned int')
-UndefinedBehaviorSanitizer:DEADLYSIGNAL
-=3D=3D23006=3D=3DERROR: UndefinedBehaviorSanitizer: SEGV on unknown address
-0x000000000000 (pc 0x5599adaf839b bp 0x000000000000 sp 0x7ffd81ee77a0
-T23006)
-=3D=3D23006=3D=3DThe signal is caused by a WRITE memory access.
-=3D=3D23006=3D=3DHint: address points to the zero page.
-    #0 0x5599adaf839a in draw_line_src16
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../hw/displa=
-y/bcm2835_fb.c:131:30
-    #1 0x5599add82e8f in framebuffer_update_display
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../hw/displa=
-y/framebuffer.c:107:13
-    #2 0x5599adaf7844 in fb_update_display
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../hw/displa=
-y/bcm2835_fb.c:203:5
-    #3 0x5599ad9e7800 in graphic_hw_update
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../ui/consol=
-e.c:279:9
-    #4 0x5599aea450d3 in aio_bh_poll
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/asyn=
-c.c:164:13
-    #5 0x5599ae9e5d73 in aio_poll
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/aio-=
-posix.c:659:17
-    #6 0x5599ad873d2c in handle_hmp_command
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../monitor/h=
-mp.c:1117:9
-    #7 0x5599ae368594 in qmp_human_monitor_command
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../monitor/m=
-isc.c:135:5
-    #8 0x5599ae996101 in qmp_marshal_human_monitor_command
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/qapi/qapi-comma=
-nds-misc.c:266:14
-    #9 0x5599ae9de39c in do_qmp_dispatch_bh
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../qapi/qmp-=
-dispatch.c:131:5
-    #10 0x5599aea450d3 in aio_bh_poll
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/asyn=
-c.c:164:13
-    #11 0x5599ae9e332b in aio_dispatch
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/aio-=
-posix.c:381:5
-    #12 0x5599aea4799a in aio_ctx_dispatch
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/asyn=
-c.c:306:5
-    #13 0x7f74a0a35416 in g_main_context_dispatch
-(/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c416)
-    #14 0x5599ae9dc8f4 in glib_pollfds_poll
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/main=
--loop.c:231:9
-    #15 0x5599ae9dc8f4 in os_host_main_loop_wait
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/main=
--loop.c:254
-    #16 0x5599ae9dc8f4 in main_loop_wait
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../util/main=
--loop.c:530
-    #17 0x5599ae42adf6 in qemu_main_loop
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../softmmu/r=
-unstate.c:725:9
-    #18 0x5599ad5bbf0a in main
-/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/../../softmmu/m=
-ain.c:50:5
-    #19 0x7f749bcf3bf6 in __libc_start_main
-/build/glibc-S9d2JN/glibc-2.27/csu/../csu/libc-start.c:310
-    #20 0x5599ad59c519 in _start
-(/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/qemu-system-ar=
-m+0x1335519)
+Great, thanks for the tips.
 
-UndefinedBehaviorSanitizer can not provide additional info.
-=3D=3D23006=3D=3DABORTING
-Broken pipe
-Aborted (core dumped)
+However, the result doesn't seem as good on mobile yet.
 
-The patch is correct in that the device shouldn't be resetting itself
-in realize, but this is presumably masking a bug elsewhere in the device
-that we need to fix first before we can make this change.
 
-It looks as if what happens is that the GraphicHwOps methods can
-get called before the device is reset. I don't know if that is
-something we can arrange to have not happen -- certainly it's
-a bit confusing to have to deal with the device not having been
-reset yet -- or if implementations just have to deal with it.
+>
+> > - it lacks some contrast and colours
+>
+> That is true, and IMO the rtd theme really uses a better colour palette,
+> especially for things like "Topic" blocks.
+> In fact we pondered switching over to rtd, so please don't see my mail
+> as me advertising that all issues can be fixed into alabaster, just wante=
+d
+> to share what we did to overcome the first two short-comings mentioned
+> here.
+>
 
-thanks
--- PMM
+Would you prefer QEMU to keep alabaster as a working and supported fallback
+for consistency? or you could maintain a downstream patch for your version
+perhaps?
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000009930c805be336811
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 23, 2021 at 4:27 PM Tho=
+mas Lamprecht &lt;<a href=3D"mailto:t.lamprecht@proxmox.com">t.lamprecht@pr=
+oxmox.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On 23.03.21 12:53, <a href=3D"mailto:marcandre.lureau@redhat.com=
+" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+<br>
+Just saw this patch by accident and as we also use the alabaster theme<br>
+for the Proxmox Backup project I wanted to share some insights from our<br>
+usage, as I checked that theme out closely a few months ago and did some<br=
+>
+adaptions for, partially overlapping, short-comings we found.<br>
+<br>
+<br>
+&gt; The default &quot;alabaster&quot; sphinx theme has a couple shortcomin=
+gs:<br>
+&gt; - the navbar moves along the page<br>
+<br>
+That can be fixed with the following conf.py &#39;html_theme_options&#39; s=
+etting:<br>
+<br>
+&#39;fixed_sidebar&#39;: True,<br>
+<br>
+<a href=3D"https://git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddoc=
+s/conf.py;h=3Dcfa4158d6b284172929785991f710d6237e9992c;hb=3D2ab2ca9c241f831=
+5f51f9c74a50d7223c875a04b#l161" rel=3D"noreferrer" target=3D"_blank">https:=
+//git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddocs/conf.py;h=3Dcfa=
+4158d6b284172929785991f710d6237e9992c;hb=3D2ab2ca9c241f8315f51f9c74a50d7223=
+c875a04b#l161</a><br>
+<br>
+&gt; - the search bar is not always at the same place<br>
+<br>
+Can be also addressed by setting &#39;html_sidebars&#39; to a fixed order, =
+e.g.:<br>
+<br>
+html_sidebars =3D {<br>
+=C2=A0 =C2=A0 &#39;**&#39;: [<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;searchbox.html&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;navigation.html&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;relations.html&#39;,<br>
+=C2=A0 =C2=A0 ]<br>
+}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
+<br>
+Can also be customized for different pages, e.g., we do so for landing page=
+s:<br>
+<br>
+<a href=3D"https://git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddoc=
+s/conf.py;h=3Dcfa4158d6b284172929785991f710d6237e9992c;hb=3D2ab2ca9c241f831=
+5f51f9c74a50d7223c875a04b#l188" rel=3D"noreferrer" target=3D"_blank">https:=
+//git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddocs/conf.py;h=3Dcfa=
+4158d6b284172929785991f710d6237e9992c;hb=3D2ab2ca9c241f8315f51f9c74a50d7223=
+c875a04b#l188</a><br>
+<br>
+I added also a short JS snipped to scroll the heading of the current chapte=
+r in<br>
+the sidebar TOC into view (adapted from rust book).<br>
+<a href=3D"https://git.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddoc=
+s/custom.js;h=3D7964b2cb0ea9433596845618f1679f1672ce38b8;hb=3D2ab2ca9c241f8=
+315f51f9c74a50d7223c875a04b" rel=3D"noreferrer" target=3D"_blank">https://g=
+it.proxmox.com/?p=3Dproxmox-backup.git;a=3Dblob;f=3Ddocs/custom.js;h=3D7964=
+b2cb0ea9433596845618f1679f1672ce38b8;hb=3D2ab2ca9c241f8315f51f9c74a50d7223c=
+875a04b</a><br>
+<br>
+If you want, you could check out the result at our hosted docs site:<br>
+<a href=3D"https://pbs.proxmox.com/docs/managing-remotes.html" rel=3D"noref=
+errer" target=3D"_blank">https://pbs.proxmox.com/docs/managing-remotes.html=
+</a></blockquote><div><br></div><div>Great, thanks for the tips.</div><div>=
+<br></div><div>However, the result doesn&#39;t seem as good on mobile yet.<=
+/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+&gt; - it lacks some contrast and colours<br>
+<br>
+That is true, and IMO the rtd theme really uses a better colour palette,<br=
+>
+especially for things like &quot;Topic&quot; blocks.<br>
+In fact we pondered switching over to rtd, so please don&#39;t see my mail<=
+br>
+as me advertising that all issues can be fixed into alabaster, just wanted<=
+br>
+to share what we did to overcome the first two short-comings mentioned here=
+.<br></blockquote><div><br></div><div>Would you  prefer QEMU to keep alabas=
+ter as a working and supported fallback for consistency? or you could maint=
+ain a downstream patch for your version perhaps?<br></div></div><br clear=
+=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=
+=A9 Lureau<br></div></div>
+
+--0000000000009930c805be336811--
 
