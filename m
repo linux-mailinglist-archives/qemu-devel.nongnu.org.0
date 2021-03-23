@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3E63456A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 05:19:42 +0100 (CET)
-Received: from localhost ([::1]:39284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9ED3456F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 05:47:35 +0100 (CET)
+Received: from localhost ([::1]:51276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOYW5-0007s9-6r
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 00:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
+	id 1lOYx3-0000Pz-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 00:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lOYU1-0004rj-48
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 00:17:34 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:43779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lOYTw-0000Tr-HU
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 00:17:32 -0400
-Received: by mail-qt1-x830.google.com with SMTP id s2so14073158qtx.10
- for <qemu-devel@nongnu.org>; Mon, 22 Mar 2021 21:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2KMyv6UwfIDM575qYdeEBx8z7YTGEAhGsVLNf+ybBwI=;
- b=Y67tu2fckeXE0P83VpUQskny5o2AubnM9voykixEqu4QiMDkkHTr1s9VcArvzeQE0t
- PNsDXKssjK2vlrN0zra+hNH+6OXxnpAQjYgXmWzKBauqaei0/q1g+5kmVa1abi89xsgI
- 7EJN6VNAmzjYCt3UInZ0xTqSeGPaEFKjtK9qLaY4/rP8vO03svC/4FG5rH5fVc6n9hcz
- LdCeSyC7jYTGYJ7/AaKmkkdCWCLpzamiLl3m8IUy229IZLNG/H942ROJLV7p15rNHcQc
- gKph9HHr4s44a/4ZCcBDyOS0jkoj5dOr8MY21xM8QnSET8XT+eezBCnwVSK/blJW1W+d
- LWcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2KMyv6UwfIDM575qYdeEBx8z7YTGEAhGsVLNf+ybBwI=;
- b=HD8PgyNMlSJS3X5vTbLtAeNMSDphTdXV1VPYQop6vH5dPWYn0rctOLpAb7RMgQQDFs
- vwnEiNAOyTMkMOGN2BYDlAB2djqPCCPbAxVWKzPlNGftJ7VvJ1s+46WJ2Uq06ANswDK+
- gCqZxgXJWsc9xrwsHGU7fbkRMtzbGkuzObU07kGrbGhMj4oeVNqnRSghaV3xbw2SBQnz
- 0jzr0WBU8PhuBryPsX+Zevl78ci8LyVr1apbxGaHfXJOOF03Xtf83wXgsAnljCf4RPh/
- PvnWzz7SgWadD9vByVu9gyq8Vorj4GcHJaLjTwHZDMD8hkjULoPytH9BhzkjN3HEOt6u
- 0Zwg==
-X-Gm-Message-State: AOAM530TcJtzYhFXmPT38o6OUoaWtHDbbU2hEz9Iwm1o0pN8CQm0U2Tc
- X8L+KvypIwBG7ir480bSrRS5dQ==
-X-Google-Smtp-Source: ABdhPJxBPEei8+uuHQztaB2MvPAwdFmxsqZfJPmQo0auxFldpe7d7YesmRl6w5qI8dee/uCqWguO2g==
-X-Received: by 2002:ac8:4543:: with SMTP id z3mr2958782qtn.286.1616473047430; 
- Mon, 22 Mar 2021 21:17:27 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-23-174-92-28-28.dsl.bell.ca. [174.92.28.28])
- by smtp.gmail.com with ESMTPSA id c73sm13041373qkg.6.2021.03.22.21.17.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Mar 2021 21:17:27 -0700 (PDT)
-Message-ID: <cad8a51902cbabbe0f0a4750d42b5f6765e45402.camel@linaro.org>
-Subject: Re: [PATCH 1/2] hw/intc: GICv3 ITS implementation
-From: shashi.mallela@linaro.org
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Mar 2021 00:17:26 -0400
-In-Reply-To: <CAFEAcA8q9sS-ob7XDKh62OX-R=5icXbhSTqD64KB-K+=yg2gOQ@mail.gmail.com>
-References: <20210315164931.23477-1-shashi.mallela@linaro.org>
- <CAFEAcA8q9sS-ob7XDKh62OX-R=5icXbhSTqD64KB-K+=yg2gOQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x830.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOYwA-0008Lp-P3
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 00:46:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOYw6-00025a-2q
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 00:46:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616474791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2BOYxao++kVPEAkmsO4AUX+fjffPDt0TN7d83znN2U8=;
+ b=A8l5cjAuMvzWkiC6VgdbL4jy0AEW0W5RYh7unMGcqhXS3Ld8zzgUGSvcNQLSMK5lmU3kDp
+ OqficeapvsAr1m0HqxE7BNly/s+c2TceC1uE71h396zKhf7Z4C5NjyFaGwbu5++8xyccin
+ ZQswlsR63Cp4xgkuJvZlPnh9bM4GkbY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-qVVSkLqWOpWcC46YYLCNvQ-1; Tue, 23 Mar 2021 00:46:29 -0400
+X-MC-Unique: qVVSkLqWOpWcC46YYLCNvQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2315881276;
+ Tue, 23 Mar 2021 04:46:27 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-54.ams2.redhat.com [10.36.112.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 016181B400;
+ Tue, 23 Mar 2021 04:46:25 +0000 (UTC)
+To: Lukas Straub <lukasstraub2@web.de>
+References: <cover.1616368879.git.lukasstraub2@web.de>
+ <950007e82e19e75831b29fac07ab990c213d2352.1616368879.git.lukasstraub2@web.de>
+ <1fc6eff2-a8e5-4ae2-96a5-1b30325dff81@redhat.com>
+ <20210322083545.2c36b5a0@gecko.fritz.box>
+ <52d508d6-284c-6b36-62ed-f25081e63cfd@redhat.com>
+ <20210322184800.5ead0f3c@gecko.fritz.box>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/5] tests: Use the normal yank code instead of stubs in
+ relevant tests
+Message-ID: <5c37e536-14bb-37fc-8dfb-2d776f763c63@redhat.com>
+Date: Tue, 23 Mar 2021 05:46:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210322184800.5ead0f3c@gecko.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,68 +86,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Marc-Andre Lureau <marcandre.lureau@gmail.com>, Li Zhang <zhlcindy@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-As per your suggestion, i have split the series into smaller pieces and
-shared newer patch-sets for review including cover letter.
-Also,have added virt board support and tested the same for
-functionality using kvm-unit-tests.
-
-Please ignore this patch and consider the latest series patchset for
-review.
-
-Thanks
-Shashi
-
-On Tue, 2021-03-16 at 16:15 +0000, Peter Maydell wrote:
-> On Mon, 15 Mar 2021 at 16:49, Shashi Mallela <
-> shashi.mallela@linaro.org> wrote:
-> > Implementation of Interrupt Translation Service which allows
-> > eventid
-> > from devices to be translated to physical LPI IntIds.Extended the
-> > redistributor functionality to process LPI Interrupts as well.
-> > 
-> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > ---
-> >  hw/intc/arm_gicv3.c                    |    6 +
-> >  hw/intc/arm_gicv3_common.c             |   20 +-
-> >  hw/intc/arm_gicv3_cpuif.c              |   15 +-
-> >  hw/intc/arm_gicv3_dist.c               |   22 +-
-> >  hw/intc/arm_gicv3_its.c                | 1386
-> > ++++++++++++++++++++++++
-> >  hw/intc/arm_gicv3_its_common.c         |   17 +-
-> >  hw/intc/arm_gicv3_its_kvm.c            |    2 +-
-> >  hw/intc/arm_gicv3_redist.c             |  163 ++-
-> >  hw/intc/gicv3_internal.h               |  169 ++-
-> >  hw/intc/meson.build                    |    1 +
-> >  include/hw/intc/arm_gicv3_common.h     |   13 +
-> >  include/hw/intc/arm_gicv3_its_common.h |   12 +-
-> >  12 files changed, 1807 insertions(+), 19 deletions(-)
-> >  create mode 100644 hw/intc/arm_gicv3_its.c
+On 22/03/2021 18.48, Lukas Straub wrote:
+> On Mon, 22 Mar 2021 17:00:23 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
 > 
-> Hi; thanks for posting this. Unfortuantely 1800 lines is much
-> too large a patch to be reviewable. Could you split the series
-> up into smaller pieces, please? One possible structure would be
-> to have a patch with the framework of the device but no actual
-> implementation of register behaviour or command handling,
-> followed by patches which add the behaviour piece by piece,
-> and then finally the patch adding it to the board.
+>> On 22/03/2021 08.35, Lukas Straub wrote:
+>>> On Mon, 22 Mar 2021 06:20:50 +0100
+>>> Thomas Huth <thuth@redhat.com> wrote:
+>>>    
+>>>> On 22/03/2021 00.31, Lukas Straub wrote:
+>>>>> Use the normal yank code instead of stubs in relevant tests to
+>>>>> increase coverage and to ensure that registering and unregistering
+>>>>> of yank instances and functions is done correctly.
+>>>>>
+>>>>> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+>>>>> ---
+>>>>>     tests/qtest/meson.build | 6 +++---
+>>>>>     tests/unit/meson.build  | 4 ++--
+>>>>>     2 files changed, 5 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>>>>> index 66ee9fbf45..40e1f495f7 100644
+>>>>> --- a/tests/qtest/meson.build
+>>>>> +++ b/tests/qtest/meson.build
+>>>>> @@ -234,9 +234,9 @@ tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
+>>>>>     qtests = {
+>>>>>       'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+>>>>>       'cdrom-test': files('boot-sector.c'),
+>>>>> -  'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
+>>>>> +  'dbus-vmstate-test': ['migration-helpers.c', dbus_vmstate1, '../../monitor/yank.c'],
+>>>>>       'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
+>>>>> -  'migration-test': files('migration-helpers.c'),
+>>>>> +  'migration-test': ['migration-helpers.c', io, '../../monitor/yank.c'],
+>>>>>       'pxe-test': files('boot-sector.c'),
+>>>>>       'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
+>>>>>       'tpm-crb-swtpm-test': [io, tpmemu_files],
+>>>>
+>>>> Is this really necessary for the qtests? I can understand the change for the
+>>>> unit tests, but the qtests are separate programs where I could not imagine
+>>>> that they use the yank functions in any way?
+>>>
+>>> Yes, it is necessary. While the yank functions are not called in these tests,
+>>> it still checks that registering and unregistering of yank instances and
+>>> functions is done correctly. I.e. That no yank functions are registered before
+>>> the instance, that the yank instance is only unregistered after all functions
+>>> where unregistered, that the same instance is not registered twice and that
+>>> the yank instance actually exists before it is unregistered.
+>>
+>> Now you even confused me more. Could you elaborate a little bit? If none of
+>> the functions are called by the test, which part of yank.c is excercised
+>> here at all? Could you give a more detailed example? The only thing I could
+>> imagine is yank_init(), but that does not look like something we need to
+>> check in a qtest ?
 > 
-> I think it would also be useful to have the virt board
-> support, as a demonstration that the emulated ITS and
-> the KVM ITS have the same interface to the board code
-> and are basically drop-in-replacements.
-> 
-> Finally, for multi-patch series, please always send a cover letter
-> (the "0/5" email, which the other patch emails are followups to;
-> git format-patch should do this for you).
-> 
-> thanks
-> -- PMM
+> Oh, sorry. I meant yank's concept of a yank function here. It works this way:
+> The different subsystems first register a yank instance. So in this case
+> when starting migration in the test, the migration code first registers a
+> yank instance. Then, it registers _yank functions_ with this instance, for
+> for example to shutdown a socket.
+
+But these are the qtest, separate stand-alone programs. The migration code 
+of QEMU (i.e. the code in the main "migration" folder) is not linked into 
+these binaries. Doing something like:
+
+  grep -r yank tests/qtest/migration-test
+
+should give you zero results. Thus it IMHO does not make sense to add the 
+yank.c to these tests here.
+
+Having said that, it seems like the qos-test is linking against the chardev 
+code and thus might use indirectly the yank code there. So you maybe might 
+want to add it to the qos-test instead?
+
+  Thomas
 
 
