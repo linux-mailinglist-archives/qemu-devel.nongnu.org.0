@@ -2,45 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339AE34646E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:07:36 +0100 (CET)
-Received: from localhost ([::1]:49944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861F2346348
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:50:26 +0100 (CET)
+Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOjZ9-0001lN-2g
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37452)
+	id 1lOjIX-0001AH-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFs-0007Go-MM
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:47:42 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54794)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjEl-0005zi-96
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:46:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFb-0000pi-Kz
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:47:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 752ADAF45;
- Tue, 23 Mar 2021 15:46:58 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v11 33/55] target/arm: cleanup cpu includes
-Date: Tue, 23 Mar 2021 16:46:17 +0100
-Message-Id: <20210323154639.23477-26-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210323151749.21299-1-cfontana@suse.de>
-References: <20210323151749.21299-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjEf-0000QS-PZ
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:46:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616514384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D1fNUNvEN+DbivTxPd70Z6HTElq+Vt/O95A5m675b+I=;
+ b=Coex5gT4ao8tIVjAAA2U0a2oetgtLHV/KXOJJTwLJ7YDpm18/CsntJLJkW51yafuqgGcY3
+ AyLIDoUv4rrLlVjniiIJWu9GmFCF7o1lwjj6rGzSXWa7i9CqANI9LNfeNm1OINJcMEoI6p
+ EF7Hpj1rJjnrcXjwD+ACB485vd+poDs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-zZkM9Fa6O9-0J58UjGcr_Q-1; Tue, 23 Mar 2021 11:46:22 -0400
+X-MC-Unique: zZkM9Fa6O9-0J58UjGcr_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D80E3835B47;
+ Tue, 23 Mar 2021 15:46:21 +0000 (UTC)
+Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7385B6087C;
+ Tue, 23 Mar 2021 15:46:18 +0000 (UTC)
+Subject: Re: [PATCH 26/28] qapi: Enforce struct member naming rules
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-27-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <e5b2cdc4-a649-86c1-cde8-ce142be9f5ae@redhat.com>
+Date: Tue, 23 Mar 2021 10:46:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323094025.3569441-27-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,147 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu.c,
-cpu32.c,
-cpu64.c,
-tcg/sysemu/tcg-cpu.c,
+On 3/23/21 4:40 AM, Markus Armbruster wrote:
+> Struct members, including command arguments, event data, and union
+> inline base members, should use '-', not '_'.  Enforce this.  Fix the
+> fixable offenders (all in tests/), and add the remainder to pragma
+> member-name-exceptions.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-all need a good cleanup when it comes to included header files.
+> +++ b/qapi/pragma.json
+> @@ -31,10 +31,27 @@
+>      # Externally visible types whose member names may use uppercase
+>      'member-name-exceptions': [     # visible in:
+>          'ACPISlotType',             # query-acpi-ospm-status
+> +        'AcpiTableOptions',         # -acpitable
+> +        'BlkdebugSetStateOptions',  # blockdev-add, -blockdev
+> +        'BlockDeviceInfo',          # query-block
+> +        'BlockDeviceStats',         # query-blockstats
+> +        'BlockDeviceTimedStats',    # query-blockstats
+> +        'BlockIOThrottle',          # block_set_io_throttle
+> +        'BlockInfo',                # query-block
+>          'BlockdevVmdkAdapterType',  # blockdev-create (to match VMDK spec)
+>          'BlockdevVmdkSubformat',    # blockdev-create (to match VMDK spec)
+> +        'ColoCompareProperties',    # object_add, -object
+> +        'FilterMirrorProperties',   # object_add, -object
+> +        'FilterRedirectorProperties', # object_add, -object
+> +        'FilterRewriterProperties', # object_add, -object
+> +        'InputLinuxProperties',     # object_add, -object
+> +        'NetdevTapOptions',         # netdev_add, query-netdev, -netdev
+> +        'PciBusInfo',               # query-pci
+> +        'PciDeviceInfo',            # query-pci
+> +        'PciMemoryRegion',          # query-pci
+>          'QapiErrorClass',           # QMP error replies
+>          'UuidInfo',                 # query-uuid
+> +        'VncClientInfo',            # query-vnc, query-vnc-servers, ...
+>          'X86CPURegister32'          # qom-get of x86 CPU properties
+>                                      # feature-words, filtered-features
+>      ] } }
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/arm/cpu.c                |  8 ++------
- target/arm/cpu32.c              | 14 --------------
- target/arm/cpu64.c              |  6 ------
- target/arm/tcg/sysemu/tcg-cpu.c | 22 +---------------------
- 4 files changed, 3 insertions(+), 47 deletions(-)
+I was worried the list might be even longer.  And as before, we might
+have future patches that want to add aliases and/or deprecate the old
+spellings, as long as introspection can easily see new spellings.
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 97cb6ec8a8..3491e615c3 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -19,28 +19,24 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/qemu-print.h"
- #include "qemu-common.h"
- #include "target/arm/idau.h"
--#include "qemu/module.h"
- #include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #include "cpregs.h"
-+
- #ifdef CONFIG_TCG
- #include "tcg/tcg-cpu.h"
- #endif /* CONFIG_TCG */
- #include "cpu32.h"
--#include "internals.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/loader.h"
- #include "hw/boards.h"
- #endif
--#include "sysemu/sysemu.h"
-+
- #include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
- #include "kvm/kvm_arm.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
-diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
-index 655f0a4263..52b5411af6 100644
---- a/target/arm/cpu32.c
-+++ b/target/arm/cpu32.c
-@@ -20,26 +20,12 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/qemu-print.h"
--#include "qemu-common.h"
--#include "target/arm/idau.h"
- #include "qemu/module.h"
--#include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #include "cpregs.h"
--#include "internals.h"
--#include "exec/exec-all.h"
--#include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
- #include "hw/boards.h"
- #endif
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
--#include "kvm/kvm_arm.h"
--#include "disas/capstone.h"
--#include "fpu/softfloat.h"
- #include "cpu-mmu.h"
- #include "cpu32.h"
- 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d7e9a812cd..b3475a93cc 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -22,13 +22,7 @@
- #include "qapi/error.h"
- #include "qemu/qemu-print.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
--#include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "qemu/module.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#endif
- #include "sysemu/kvm.h"
- #include "kvm/kvm_arm.h"
- #include "qapi/visitor.h"
-diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index 6ab49ba614..327b2a5073 100644
---- a/target/arm/tcg/sysemu/tcg-cpu.c
-+++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -19,29 +19,9 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/qemu-print.h"
--#include "qemu-common.h"
--#include "target/arm/idau.h"
--#include "qemu/module.h"
--#include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
--#include "hw/core/tcg-cpu-ops.h"
- #include "semihosting/common-semi.h"
--#include "cpregs.h"
--#include "internals.h"
--#include "exec/exec-all.h"
--#include "hw/qdev-properties.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#include "hw/boards.h"
--#endif
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
--#include "disas/capstone.h"
--#include "fpu/softfloat.h"
--#include "cpu-mmu.h"
-+#include "qemu/log.h"
- #include "tcg/tcg-cpu.h"
- 
- /*
+At any rate, I'm in agreement with letting the computer flag new
+instances instead of relying on me to notice during review.
+
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index 2b08b761c2..fb17eebde3 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -19,6 +19,10 @@
+>  # Whitelists to permit QAPI rule violations; think twice before you
+
+Did you want to fix this instance of the word 'Whitelists' somewhere in
+the series?
+
+>  # add to them!
+>  { 'pragma': {
+> +    # Types whose member names may use '_'
+> +    'member-name-exceptions': [
+> +        'GuestAgentInfo'
+> +    ],
+>      # Commands allowed to return a non-dictionary:
+>      'command-returns-exceptions': [
+>          'guest-file-open',
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
