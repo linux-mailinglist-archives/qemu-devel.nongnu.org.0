@@ -2,45 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD53465A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:48:15 +0100 (CET)
-Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476413463E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:58:06 +0100 (CET)
+Received: from localhost ([::1]:34810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkCU-000669-AG
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37794)
+	id 1lOjPx-0001ec-8q
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjGW-0007ZH-Re
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:48:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54994)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjFc-0007AC-SP
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:47:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lOjFw-00012P-Hl
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:48:20 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D7FB7AF9E;
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOjFU-0000rT-GX
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:47:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616514435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iBKibRXNwugsPuVGF6mnjemOEJSj/TZ+YKegdMB3yfo=;
+ b=Ew5c+X0mZ/FU4a12oc1gwk1+Fvpjf6xnyD+HBHrbEOHfuezuUROGa6ohp04nSqHwuvpcHG
+ Gm1tqxP3eoZnXVWiR08LllsqpH/1fO7+gtAPcpEKPi5D5clhP8E8j2EojWAmhnbA7UNJLp
+ H19w5kfhDLkqQEVfa3RO70HEE/zKc84=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-m5uREhYcNAWQBilsGt_LRQ-1; Tue, 23 Mar 2021 11:47:13 -0400
+X-MC-Unique: m5uREhYcNAWQBilsGt_LRQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8393781628;
+ Tue, 23 Mar 2021 15:47:12 +0000 (UTC)
+Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EE83197F9;
  Tue, 23 Mar 2021 15:47:08 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v11 55/55] target/arm: remove v7m stub function for !CONFIG_TCG
-Date: Tue, 23 Mar 2021 16:46:39 +0100
-Message-Id: <20210323154639.23477-48-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210323151749.21299-1-cfontana@suse.de>
-References: <20210323151749.21299-1-cfontana@suse.de>
+Subject: Re: [PATCH 27/28] qapi: Enforce enum member naming rules
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-28-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <f298865e-8966-45bf-8ad7-385936d78a6d@redhat.com>
+Date: Tue, 23 Mar 2021 10:47:08 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323094025.3569441-28-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,48 +81,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, jsnow@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it is needed just once, so just move the CONFIG_TCG check in place.
+On 3/23/21 4:40 AM, Markus Armbruster wrote:
+> Enum members should use '-', not '_'.  Enforce this.  Fix the fixable
+> offenders (all in tests/), and add the remainder to pragma
+> member-name-exceptions.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/arm/cpu-mmu.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/target/arm/cpu-mmu.c b/target/arm/cpu-mmu.c
-index c6ac90a61e..9969bc9d30 100644
---- a/target/arm/cpu-mmu.c
-+++ b/target/arm/cpu-mmu.c
-@@ -155,21 +155,16 @@ int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
-     }
- }
- 
--#ifndef CONFIG_TCG
--ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
--{
--    g_assert_not_reached();
--}
--#endif
--
- ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
- {
-     ARMMMUIdx idx;
-     uint64_t hcr;
- 
-+#ifdef CONFIG_TCG
-     if (arm_feature(env, ARM_FEATURE_M)) {
-         return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
-     }
-+#endif /* CONFIG_TCG */
- 
-     /* See ARM pseudo-function ELIsInHost.  */
-     switch (el) {
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
