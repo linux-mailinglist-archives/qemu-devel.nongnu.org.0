@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753A4346B1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:33:37 +0100 (CET)
-Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2390346B59
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 22:48:27 +0100 (CET)
+Received: from localhost ([::1]:40334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOoee-0004aL-Gj
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42088)
+	id 1lOot0-00059x-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 17:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOocs-00038i-1k
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:31:46 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:45915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lOocq-00080H-DK
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:31:45 -0400
-Received: by mail-io1-xd31.google.com with SMTP id k8so19301596iop.12
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 14:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uHbBiQuEf55ozZQNKCwCO/tSlv1Y2yABBlfFYxPPBHc=;
- b=he1PwhWMkeCRcub8+A9ZlbTvsWFtxtzUoa1Wzam8aQtbygtVUtgcLEvb3g6ssikKuY
- XbkaK7Bw/t8Oaprm30DgwoHHCI1qWC70d9CLG4n2OL8MqQJX7dp6/gSYDD2cQi1GIP0o
- Ua/9kh+jeb5ktpZNFT7ZLqzOdkfK2BhVxkF5Z9wCOzB7gHysu79tkUYyOroBzQKv4fQm
- 5gganSAyw6dOO/4mafCtH92iH02f5eAkoRbW634O10NGwcznoj5FM+YZBOD9mczCOHK9
- SdmxQJa3ggIoUUFCbg57xfNeuFWvw7JdIT7VN9ckY3mhyZ1/csZNoYrIGRlvqMYir9zt
- pUSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uHbBiQuEf55ozZQNKCwCO/tSlv1Y2yABBlfFYxPPBHc=;
- b=ns5qiRjCuRF5u8E+VppN5CCh0Uu3iKyPrylNv6gXO59b8mfnm+XgRcAx3qRFl00tQr
- qjHRrfp/rs8vR3IdrQTHbneh6nwcoZnRgerSEkWI2P02KkBXCjaTx1GA94quE209xDPW
- CoCROciTzMHoZ8VKLcpxLIeToE8EQEVlIf9Q3q3cz0s2yn1pyOH16x5H0kNnixyhN+/i
- nizHgPc+T4MrxF/kocQBlgCxCATPiuwnQsXINuAq5Qz3SXp//OU+Vih3YZ+8SRwFY3+z
- R8ScvIb3fvnGH49XokW06VRMeDNhI1Ym13rWVl3NI7l5XFcHGe5Btl8Z/szXFHo+OABH
- Er3g==
-X-Gm-Message-State: AOAM530YKuYSrnj339dIHon1bA+xh+gOpfU2PxPSdp5X4Mwiwsixf6z1
- Z5IOLIZLmbKrL2i+mivSCqMBI8peNchm7GGCp/Li9bpjdNs=
-X-Google-Smtp-Source: ABdhPJwWnTvLxMk36kIIE+9p7CvhNWOuC5QKIrTQhIgn1Ac9hLbl79CAsh8o5hCDGeInL0+lPT/Y3oM0P4puq8eoeGk=
-X-Received: by 2002:a05:6638:3791:: with SMTP id
- w17mr35332jal.91.1616535103536; 
- Tue, 23 Mar 2021 14:31:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOop8-0002gO-Kc
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:44:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52262)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lOop4-0005Gt-Dx
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 17:44:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616535860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G7xiLmHAwYiSX4aPR5rG4BcMGU1A/nXGSJjbmVcCM48=;
+ b=MCbjK21QVZn6iHgURz0IcjGj/Zdt7a0oo43WOXZsN6Q6YGmJVlopn2fv1esoKfo2rlFhO7
+ +y/ZqfFTxlfS9Ij/ic8L4RDceilkIfJf/4kkE+iDuzpmfZuWY6l5HMZ2uiaGNUnjfYaeG2
+ QYh0WGS4lXQLm1z2kVz03vPOOC5DgNI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-nhl6jYV2NOyHfmcss7NScw-1; Tue, 23 Mar 2021 17:44:18 -0400
+X-MC-Unique: nhl6jYV2NOyHfmcss7NScw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB17F101371B;
+ Tue, 23 Mar 2021 21:44:16 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0CD71A879;
+ Tue, 23 Mar 2021 21:44:12 +0000 (UTC)
+Subject: Re: [PATCH 09/28] qapi: Lift enum-specific code out of
+ check_name_str()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-10-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <4508fd43-6b82-e87b-4f8c-23c727f9557b@redhat.com>
+Date: Tue, 23 Mar 2021 17:44:12 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210323165308.15244-1-alex.bennee@linaro.org>
- <20210323165308.15244-9-alex.bennee@linaro.org>
-In-Reply-To: <20210323165308.15244-9-alex.bennee@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Mar 2021 17:29:46 -0400
-Message-ID: <CAKmqyKObq1tCA6WsYD_xggtmV4e-BmQqHOABsa200RhrXirijg@mail.gmail.com>
-Subject: Re: [PATCH v2 08/22] linux-user/riscv: initialise the TaskState
- heap/stack info
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210323094025.3569441-10-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,53 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: michael.roth@amd.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 1:07 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
-> Arguably the target_cpu_copy_regs function for each architecture is
-> misnamed as a number of the architectures also take the opportunity to
-> fill out the TaskState structure. This could arguably be factored out
-> into common code but that would require a wider audit of the
-> architectures. For now just replicate for riscv so we can correctly
-> report semihosting information for SYS_HEAPINFO.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20210312102029.17017-5-alex.bennee@linaro.org>
-> Message-Id: <20210320133706.21475-9-alex.bennee@linaro.org>
+On 3/23/21 5:40 AM, Markus Armbruster wrote:
+> check_name_str() masks leading digits when passed enum_member=True.
+> Only check_enum() does.  Lift the masking into check_enum().
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Sure.
 
-Alistair
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 > ---
->  linux-user/riscv/cpu_loop.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-> index 6767f941e8..74a9628dc9 100644
-> --- a/linux-user/riscv/cpu_loop.c
-> +++ b/linux-user/riscv/cpu_loop.c
-> @@ -135,4 +135,9 @@ void target_cpu_copy_regs(CPUArchState *env, struct t=
-arget_pt_regs *regs)
->          error_report("Incompatible ELF: RVE cpu requires RVE ABI binary"=
-);
->          exit(EXIT_FAILURE);
->      }
-> +
-> +    ts->stack_base =3D info->start_stack;
-> +    ts->heap_base =3D info->brk;
-> +    /* This will be filled in on the first SYS_HEAPINFO call.  */
-> +    ts->heap_limit =3D 0;
->  }
-> --
-> 2.20.1
->
->
+>   scripts/qapi/expr.py | 23 ++++++++++-------------
+>   1 file changed, 10 insertions(+), 13 deletions(-)
+> 
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 507550c340..e00467636c 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -34,18 +34,11 @@ def check_name_is_str(name, info, source):
+>   
+>   
+>   def check_name_str(name, info, source,
+> -                   enum_member=False,
+>                      permit_upper=False):
+> -    membername = name
+> -
+> -    # Enum members can start with a digit, because the generated C
+> -    # code always prefixes it with the enum name
+> -    if enum_member and membername[0].isdigit():
+> -        membername = 'D' + membername
+>       # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
+>       # and 'q_obj_*' implicit type names.
+> -    if not valid_name.match(membername) or \
+> -       c_name(membername, False).startswith('q_'):
+> +    if not valid_name.match(name) or \
+> +       c_name(name, False).startswith('q_'):
+>           raise QAPISemError(info, "%s has an invalid name" % source)
+>       if not permit_upper and name.lower() != name:
+>           raise QAPISemError(
+> @@ -213,11 +206,15 @@ def check_enum(expr, info):
+>                     for m in members]
+>       for member in members:
+>           source = "'data' member"
+> +        member_name = member['name']
+>           check_keys(member, info, source, ['name'], ['if'])
+> -        check_name_is_str(member['name'], info, source)
+> -        source = "%s '%s'" % (source, member['name'])
+> -        check_name_str(member['name'], info, source,
+> -                       enum_member=True, permit_upper=permit_upper)
+> +        check_name_is_str(member_name, info, source)
+> +        source = "%s '%s'" % (source, member_name)
+> +        # Enum members may start with a digit
+> +        if member_name[0].isdigit():
+> +            member_name = 'd' + member_name # Hack: hide the digit
+> +        check_name_str(member_name, info, source,
+> +                       permit_upper=permit_upper)
+>           check_if(member, info, source)
+>   
+>   
+> 
+
 
