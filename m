@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0FA34666E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:32:48 +0100 (CET)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 865B7346710
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:59:16 +0100 (CET)
+Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOktb-0004Hx-L1
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
+	id 1lOlJD-0002bS-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOkOo-0001m2-9H
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:00:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43060)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lOkHK-0006j1-DY
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:14 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOkOl-0007AA-CP
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 13:00:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOkOj-0003KX-11
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 17:00:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D85BC2E816D
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 17:00:52 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Mar 2021 16:52:13 -0000
-From: Laurent Vivier <1920784@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lOkHI-0002mZ-FO
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:53:14 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id e14so10027410ejz.11
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lG17dUe6KrUGdssdcJeSgbfxJTWtyIhnza+NNbtxAGM=;
+ b=cNCxLih6DEEJdghVgeMGlp2jDK5pYTV+vmdQmzwk7S7TZ0WV21kCkfq7JhLucMzX+e
+ uEDDSi5F2DzcIq+oSJS97OITmBrXvIHgsHbjYs25JjAd0osP3RZd8MATlEo6AAv4EdGN
+ NbKfCcnjycrlGnrCkU2zLaY5hb/ctiDBi3wmo6M3IIQ3OLlsDUn46JPdEaACfBFT9Ej/
+ wr9xhPAcO/zPywaLO7gsiHix6CYoLT4DrYymaTObPFSZiKCJ2QJln5PRHL6MJEyldSDP
+ kOhmGEgcV+L+wkkeCZiFu/jQ+BpNuoKmg5m1fsx63bFBe6PjxXvMRyqiu2nA/2/DS+Su
+ sWJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lG17dUe6KrUGdssdcJeSgbfxJTWtyIhnza+NNbtxAGM=;
+ b=Vx6jcNdgkbyXMvzj5RNfOgjXfLOsVmWLeDy+6dHkGn2xyB5q0aRn+8AumFp0JTfvIM
+ /GZkyy+g21KocplfKTzgjoBTA1/MzbTL+yrmNsrbAPI10UUmdUrdFwsmCbD8eCUwCwV7
+ PNRX3Z27HFfGEM/8qxuIBWckGCpZOyL9CPXUw3AGyex7EfmxN3VneEvmkMqevL9A9sNG
+ gZoVBV2IKGXMUt8fRUIdTti5JBEI6t3BboaIYEWs6wl1je7BbM1s18/HI6Od7NU3bV8G
+ WJ8CfHo0nFKyzCBcKPh4sTz98nSA7n1lDtgIqnn8KdnkBU/daNh/dqmHwzc8FMlJFFMV
+ rBQg==
+X-Gm-Message-State: AOAM532v64RwtpzlhE+bbv3vGyYypY4VJBWhNH6rYSWA+NwNRaPcTjYz
+ yOfjoBrGR3K6hAzYxU2467gQyg==
+X-Google-Smtp-Source: ABdhPJyHRJMNE9l5Cyhqyglbt08yYCvQAKQCdiOcPPp0JRzEBqUOrcJdKDssLI9eZaddsqX+9utbyA==
+X-Received: by 2002:a17:906:fcd2:: with SMTP id
+ qx18mr5622763ejb.327.1616518390250; 
+ Tue, 23 Mar 2021 09:53:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id cf4sm13137124edb.19.2021.03.23.09.53.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 09:53:09 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8A9ED1FF7E;
+ Tue, 23 Mar 2021 16:53:08 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=ubuntu-power-systems; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor laurent-vivier paelzer sadoonalbader
-X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
-Message-Id: <161651833330.19496.11835790201258829678.malone@wampee.canonical.com>
-Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: f220465af82339e4b786f87e305ef371db7fb653
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH for 6.0 v2 00/22] fixes for rc1 pre-PR (kernel-doc, semihosting,
+ testing)
+Date: Tue, 23 Mar 2021 16:52:46 +0000
+Message-Id: <20210323165308.15244-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,149 +86,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You need a kernel with a the following fix for POWER9:
+Hi,
 
-commit 25edcc50d76c834479d11fcc7de46f3da4d95121
-Author: Fabiano Rosas <farosas@linux.ibm.com>
-Date:   Thu Feb 4 17:05:17 2021 -0300
+I've added a testing patch to extend the CFI times, Laurent's series
+to fix the iotest regressions currently keeping the CI from going
+green and an optimisation to the --enable-docs build to try and start
+bringing the total CI time down a bit. rc0 is being tagged today so
+I'll probably roll a PR from this later in the week in time for rc1.
 
-    KVM: PPC: Book3S HV: Save and restore FSCR in the P9 path
-    =
+The following are still need review:
 
-    The Facility Status and Control Register is a privileged SPR that
-    defines the availability of some features in problem state. Since it
-    can be written by the guest, we must restore it to the previous host
-    value after guest exit.
-    =
+ - tests/tcg: add HeapInfo checking to semihosting test
 
-    This restoration is currently done by taking the value from
-    current->thread.fscr, which in the P9 path is not enough anymore
-    because the guest could context switch the QEMU thread, causing the
-    guest-current value to be saved into the thread struct.
-    =
+Alex Bennée (11):
+  scripts/kernel-doc: strip QEMU_ from function definitions
+  docs/devel: include the plugin API information from the headers
+  docs/devel: expand style section of memory management
+  tools/virtiofsd: include --socket-group in help
+  semihosting: move semihosting tests to multiarch
+  semihosting/arm-compat-semi: unify GET/SET_ARG helpers
+  semihosting/arm-compat-semi: don't use SET_ARG to report SYS_HEAPINFO
+  linux-user/riscv: initialise the TaskState heap/stack info
+  tests/tcg: add HeapInfo checking to semihosting test
+  gitlab: extend timeouts for CFI builds
+  gitlab: default to not building the documentation
 
-    The above situation manifested when running a QEMU linked against a
-    libc with System Call Vectored support, which causes scv
-    instructions to be run by QEMU early during the guest boot (during
-    SLOF), at which point the FSCR is 0 due to guest entry. After a few
-    scv calls (1 to a couple hundred), the context switching happens and
-    the QEMU thread runs with the guest value, resulting in a Facility
-    Unavailable interrupt.
-    =
+Eric Blake (2):
+  utils: Tighter tests for qemu_strtosz
+  utils: Work around mingw strto*l bug with 0x
 
-    This patch saves and restores the host value of FSCR in the inner
-    guest entry loop in a way independent of current->thread.fscr. The old
-    way of doing it is still kept in place because it works for the old
-    entry path.
-    =
+Laurent Vivier (6):
+  qdev: define list of archs with virtio-pci or virtio-ccw
+  m68k: add the virtio devices aliases
+  blockdev: with -drive if=virtio, use generic virtio-blk
+  iotests: Revert "iotests: use -ccw on s390x for 040, 139, and 182"
+  iotests: test m68k with the virt machine
+  iotests: iothreads need ioeventfd
 
-    Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-    Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
+Thomas Huth (3):
+  gitlab-ci.yml: Merge the trace-backend testing into other jobs
+  configure: Don't use the __atomic_*_16 functions for testing 128-bit
+    support
+  cirrus.yml: Update the FreeBSD task to version 12.2
 
--- =
+ docs/devel/style.rst                          |  46 +++--
+ docs/devel/tcg-plugins.rst                    |   5 +
+ configure                                     |   6 +-
+ include/sysemu/arch_init.h                    |   9 +
+ tests/tcg/aarch64/semicall.h                  |  18 ++
+ tests/tcg/arm/semicall.h                      |  15 +-
+ tests/tcg/riscv64/semicall.h                  |  22 +++
+ blockdev.c                                    |   6 +-
+ linux-user/riscv/cpu_loop.c                   |   5 +
+ semihosting/arm-compat-semi.c                 |  62 +++----
+ softmmu/qdev-monitor.c                        |  65 ++++---
+ tests/tcg/arm/semihosting.c                   |  26 ---
+ .../arm-compat-semi}/semiconsole.c            |   2 +
+ .../multiarch/arm-compat-semi/semihosting.c   |  82 +++++++++
+ tests/unit/test-cutils.c                      | 171 +++++++++++++++++-
+ tools/virtiofsd/fuse_lowlevel.c               |   1 +
+ util/cutils.c                                 |  33 +++-
+ .cirrus.yml                                   |   7 +-
+ .gitlab-ci.d/crossbuilds.yml                  |  15 +-
+ .gitlab-ci.yml                                |  43 ++---
+ MAINTAINERS                                   |   1 +
+ scripts/kernel-doc                            |   3 +
+ tests/qemu-iotests/040                        |   2 +-
+ tests/qemu-iotests/051                        |  12 +-
+ tests/qemu-iotests/051.out                    |   2 +-
+ tests/qemu-iotests/051.pc.out                 |   2 +-
+ tests/qemu-iotests/068                        |   4 +-
+ tests/qemu-iotests/093                        |   3 +-
+ tests/qemu-iotests/127                        |   3 +-
+ tests/qemu-iotests/139                        |   9 +-
+ tests/qemu-iotests/182                        |  13 +-
+ tests/qemu-iotests/238                        |   4 +-
+ tests/qemu-iotests/240                        |  10 +-
+ tests/qemu-iotests/256                        |   6 +-
+ tests/qemu-iotests/257                        |   4 +-
+ tests/qemu-iotests/307                        |   4 +-
+ tests/qemu-iotests/common.rc                  |  13 ++
+ tests/qemu-iotests/iotests.py                 |  10 +-
+ tests/qemu-iotests/testenv.py                 |   1 +
+ tests/tcg/Makefile.target                     |   3 +
+ tests/tcg/aarch64/Makefile.target             |  18 --
+ tests/tcg/arm/Makefile.target                 |  22 +--
+ tests/tcg/multiarch/Makefile.target           |  31 ++++
+ 43 files changed, 548 insertions(+), 271 deletions(-)
+ create mode 100644 tests/tcg/aarch64/semicall.h
+ create mode 100644 tests/tcg/riscv64/semicall.h
+ delete mode 100644 tests/tcg/arm/semihosting.c
+ rename tests/tcg/{arm => multiarch/arm-compat-semi}/semiconsole.c (93%)
+ create mode 100644 tests/tcg/multiarch/arm-compat-semi/semihosting.c
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920784
+-- 
+2.20.1
 
-Title:
-  qemu-system-ppc64le fails with kvm acceleration
-
-Status in QEMU:
-  New
-Status in The Ubuntu-power-systems project:
-  New
-Status in glibc package in Ubuntu:
-  New
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  (Suspected glibc issue!)
-
-  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
-  error "illegal instruction"
-
-  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
-
-  Illegal instruction (core dumped)
-
-  In dmesg:
-
-  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
-  MSR=3D900000000280f033
-
-  =
-
-  Version-Release number of selected component (if applicable):
-  qemu 5.2.0 =
-
-  Linux kernel 5.11
-  glibc 2.33
-  all latest updates as of submitting the bug report
-
-  How reproducible:
-  Always
-
-  Steps to Reproduce:
-  1. Run qemu with kvm acceleration
-
-  Actual results:
-  Illegal instruction
-
-  Expected results:
-  Normal VM execution
-
-  Additional info:
-  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
-so observed on a Raptor Blackbird with the same processor.
-
-  This was also observed on Fedora 34 beta, which uses glibc 2.33
-  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
- glibc 2.33
-  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
- and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
-the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
-bc2.33
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu-system 1:5.2+dfsg-6ubuntu2
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic ppc64le
-  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
-mware/opal/msglog'
-  ApportVersion: 2.20.11-0ubuntu60
-  Architecture: ppc64el
-  CasperMD5CheckResult: pass
-  CurrentDesktop: Unity:Unity7:ubuntu
-  Date: Mon Mar 22 14:48:39 2021
-  InstallationDate: Installed on 2021-03-22 (0 days ago)
-  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
-0210321)
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
-  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
-  ProcSwaps:
-   Filename				Type		Size		Used		Priority
-   /swap.img                               file		8388544		0		-2
-  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
-gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
-ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
-  SourcePackage: qemu
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  VarLogDump_list: total 0
-  acpidump:
-   =
-
-  cpu_cores: Number of cores present =3D 8
-  cpu_coreson: Number of cores online =3D 8
-  cpu_smt: SMT=3D4
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
 
