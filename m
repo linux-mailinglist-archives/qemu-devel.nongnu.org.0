@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D099345D7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:57:33 +0100 (CET)
-Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32F8345D6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 12:55:13 +0100 (CET)
+Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOffA-0007Ti-9A
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34474)
+	id 1lOfcu-0005UO-1K
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 07:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOfdO-0006Ro-3W
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45300)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOfdK-0004qK-H6
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:55:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOfdI-0001Uc-Kj
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 770CF2E8157
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 11:55:36 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Mar 2021 11:46:28 -0000
-From: Namrata Bhave <1920913@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lOfbb-0004gf-DG
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:53:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lOfbW-0003io-TY
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 07:53:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616500424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NaSavgeDlSJOu1FmaRDF0s/p5Pqj90TrV4xervb5PWo=;
+ b=IBwtMTmojbkmRQD4TYi7uwm2JmNA10LyViJRiM8SPNRi5UU24are9OqSCWZ3d+72SUNfLh
+ 3oMCl2s9g4dGcTIPIsmDB1gAwdBpUEPyUf2i3NCHWVD2UWvGq7RtGBwCu3CfSDlQ0C4Ogb
+ 2S990gT/pTjCSZ+DMQk42rz+4Lcz+mw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-546-nJOIwqvUM0OfYeZu2TkIQQ-1; Tue, 23 Mar 2021 07:53:40 -0400
+X-MC-Unique: nJOIwqvUM0OfYeZu2TkIQQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 976C081426D;
+ Tue, 23 Mar 2021 11:53:39 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C10D1001281;
+ Tue, 23 Mar 2021 11:53:32 +0000 (UTC)
+From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nam121
-X-Launchpad-Bug-Reporter: Namrata Bhave (nam121)
-X-Launchpad-Bug-Modifier: Namrata Bhave (nam121)
-Message-Id: <161649998851.23806.5550710395623491265.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1920913] [NEW] Openjdk11+ fails to install on s390x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: c1d94514487ac859bc9e80e43af840214dfdfd5e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v5] sphinx: adopt kernel readthedoc theme
+Date: Tue, 23 Mar 2021 15:53:28 +0400
+Message-Id: <20210323115328.4146052-1-marcandre.lureau@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,167 +76,453 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920913 <1920913@bugs.launchpad.net>
+Cc: jsnow@redhat.com, berrange@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-While installing openjdk11 or higher from repo, it crashes while configurin=
-g ca-certificates-java.
-Although `java -version` passes, `jar -version` crashes. Detailed logs atta=
-ched to this issue.
+The default "alabaster" sphinx theme has a couple shortcomings:
+- the navbar moves along the page
+- the search bar is not always at the same place
+- it lacks some contrast and colours
 
-```
-# A fatal error has been detected by the Java Runtime Environment:
-#
-#  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
-#
-# JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-Ubu=
-ntu-0ubuntu1.20.04)
-# Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mixed=
- mode, tiered, compressed oops, g1 gc, linux-s390x)
-# Problematic frame:
-# J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes) =
-@ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
-#
-# Core dump will be written. Default location: Core dumps may be processed =
-with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.842=
-5)
-#
-# An error report file with more information is saved as:
-# //hs_err_pid8425.log
-sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /root/=
-core.10740)
-#
-# An error report file with more information is saved as:
-# /root/hs_err_pid10740.log
-```
+The "rtd" theme from readthedocs.org is a popular third party theme used
+notably by the kernel, with a custom style sheet. I like it better,
+perhaps others do too. It also simplifies the "Edit on Gitlab" links.
 
-Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 hos=
-t.
-Please note, on native s390x, the installation is successful. Also this cra=
-sh is not observed while installing openjdk-8-jdk.
+Tweak a bit the custom theme to match qemu.org style, use the
+QEMU logo, and favicon etc.
 
-Qemu version: 5.2.0
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
+---
+v5:
+ - raise an error if rtd theme is missing (also at configure time)
+ - commit message tweaks
 
-Please let me know if any more details are needed.
+ docs/_templates/editpage.html              |   5 -
+ docs/conf.py                               |  51 ++++---
+ docs/devel/_templates/editpage.html        |   5 -
+ docs/interop/_templates/editpage.html      |   5 -
+ docs/meson.build                           |   5 +-
+ docs/specs/_templates/editpage.html        |   5 -
+ docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++++++
+ docs/system/_templates/editpage.html       |   5 -
+ docs/tools/_templates/editpage.html        |   5 -
+ docs/user/_templates/editpage.html         |   5 -
+ tests/docker/dockerfiles/debian10.docker   |   1 +
+ tests/docker/dockerfiles/fedora.docker     |   1 +
+ tests/docker/dockerfiles/ubuntu.docker     |   1 +
+ tests/docker/dockerfiles/ubuntu1804.docker |   1 +
+ tests/docker/dockerfiles/ubuntu2004.docker |   1 +
+ 15 files changed, 198 insertions(+), 59 deletions(-)
+ delete mode 100644 docs/_templates/editpage.html
+ delete mode 100644 docs/devel/_templates/editpage.html
+ delete mode 100644 docs/interop/_templates/editpage.html
+ delete mode 100644 docs/specs/_templates/editpage.html
+ create mode 100644 docs/sphinx-static/theme_overrides.css
+ delete mode 100644 docs/system/_templates/editpage.html
+ delete mode 100644 docs/tools/_templates/editpage.html
+ delete mode 100644 docs/user/_templates/editpage.html
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.html
+deleted file mode 100644
+index 4319b0f5ac..0000000000
+--- a/docs/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/docs/conf.py b/docs/conf.py
+index 2ee6111872..3802b70d62 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -150,38 +150,47 @@
+ # The theme to use for HTML and HTML Help pages.  See the documentation for
+ # a list of builtin themes.
+ #
+-html_theme = 'alabaster'
++try:
++    import sphinx_rtd_theme
++except ImportError:
++    raise ConfigError(
++        'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
++    )
++
++html_theme = 'sphinx_rtd_theme'
+ 
+ # Theme options are theme-specific and customize the look and feel of a theme
+ # further.  For a list of options available for each theme, see the
+ # documentation.
+-# We initialize this to empty here, so the per-manual conf.py can just
+-# add individual key/value entries.
+-html_theme_options = {
+-}
++if html_theme == 'sphinx_rtd_theme':
++    html_theme_options = {
++        "style_nav_header_background": "#802400",
++    }
++
++html_logo = os.path.join(qemu_docdir, "../ui/icons/qemu_128x128.png")
++
++html_favicon = os.path.join(qemu_docdir, "../ui/icons/qemu_32x32.png")
+ 
+ # Add any paths that contain custom static files (such as style sheets) here,
+ # relative to this directory. They are copied after the builtin static files,
+ # so a file named "default.css" will overwrite the builtin "default.css".
+-# QEMU doesn't yet have any static files, so comment this out so we don't
+-# get a warning about a missing directory.
+-# If we do ever add this then it would probably be better to call the
+-# subdirectory sphinx_static, as the Linux kernel does.
+-# html_static_path = ['_static']
++html_static_path = [os.path.join(qemu_docdir, "sphinx-static")]
++
++html_css_files = [
++    'theme_overrides.css',
++]
++
++html_context = {
++    "display_gitlab": True,
++    "gitlab_user": "qemu-project",
++    "gitlab_repo": "qemu",
++    "gitlab_version": "master",
++    "conf_py_path": "/docs/", # Path in the checkout to the docs root
++}
+ 
+ # Custom sidebar templates, must be a dictionary that maps document names
+ # to template names.
+-#
+-# This is required for the alabaster theme
+-# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
+-html_sidebars = {
+-    '**': [
+-        'about.html',
+-        'editpage.html',
+-        'navigation.html',
+-        'searchbox.html',
+-    ]
+-}
++#html_sidebars = {}
+ 
+ # Don't copy the rST source files to the HTML output directory,
+ # and don't put links to the sources into the output HTML.
+diff --git a/docs/devel/_templates/editpage.html b/docs/devel/_templates/editpage.html
+deleted file mode 100644
+index a86d22bca8..0000000000
+--- a/docs/devel/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/docs/interop/_templates/editpage.html b/docs/interop/_templates/editpage.html
+deleted file mode 100644
+index 215e562681..0000000000
+--- a/docs/interop/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/interop/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/docs/meson.build b/docs/meson.build
+index f84306ba7e..855e3916e9 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -27,10 +27,9 @@ if sphinx_build.found()
+   build_docs = (sphinx_build_test_out.returncode() == 0)
+ 
+   if not build_docs
+-    warning('@0@ is either too old or uses too old a Python version'
+-            .format(sphinx_build.full_path()))
++    warning('@0@: @1@'.format(sphinx_build.full_path(), sphinx_build_test_out.stderr()))
+     if get_option('docs').enabled()
+-      error('Install a Python 3 version of python-sphinx')
++      error('Install a Python 3 version of python-sphinx and the readthedoc theme')
+     endif
+   endif
+ endif
+diff --git a/docs/specs/_templates/editpage.html b/docs/specs/_templates/editpage.html
+deleted file mode 100644
+index aaa468aa98..0000000000
+--- a/docs/specs/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/specs/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/docs/sphinx-static/theme_overrides.css b/docs/sphinx-static/theme_overrides.css
+new file mode 100644
+index 0000000000..c70ef95128
+--- /dev/null
++++ b/docs/sphinx-static/theme_overrides.css
+@@ -0,0 +1,161 @@
++/* -*- coding: utf-8; mode: css -*-
++ *
++ * Sphinx HTML theme customization: read the doc
++ * Based on Linux Documentation/sphinx-static/theme_overrides.css
++ */
++
++/* Improve contrast and increase size for easier reading. */
++
++body {
++    font-family: serif;
++    color: black;
++    font-size: 100%;
++}
++
++h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
++    font-family: sans-serif;
++}
++
++.rst-content dl:not(.docutils) dt {
++    border-top: none;
++    border-left: solid 3px #ccc;
++    background-color: #f0f0f0;
++    color: black;
++}
++
++.wy-nav-top {
++    background: #802400;
++}
++
++.wy-side-nav-search input[type="text"] {
++    border-color: #f60;
++}
++
++.wy-menu-vertical p.caption {
++    color: white;
++}
++
++.wy-menu-vertical li.current a {
++    color: #505050;
++}
++
++.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
++    color: #303030;
++}
++
++.fa-gitlab {
++      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
++      border-radius: 5px;
++}
++
++div[class^="highlight"] pre {
++    font-family: monospace;
++    color: black;
++    font-size: 100%;
++}
++
++.wy-menu-vertical {
++    font-family: sans-serif;
++}
++
++.c {
++    font-style: normal;
++}
++
++p {
++    font-size: 100%;
++}
++
++/* Interim: Code-blocks with line nos - lines and line numbers don't line up.
++ * see: https://github.com/rtfd/sphinx_rtd_theme/issues/419
++ */
++
++div[class^="highlight"] pre {
++    line-height: normal;
++}
++.rst-content .highlight > pre {
++    line-height: normal;
++}
++
++/* Keep fields from being strangely far apart due to inheirited table CSS. */
++.rst-content table.field-list th.field-name {
++    padding-top: 1px;
++    padding-bottom: 1px;
++}
++.rst-content table.field-list td.field-body {
++    padding-top: 1px;
++    padding-bottom: 1px;
++}
++
++@media screen {
++
++    /* content column
++     *
++     * RTD theme's default is 800px as max width for the content, but we have
++     * tables with tons of columns, which need the full width of the view-port.
++     */
++
++    .wy-nav-content{max-width: none; }
++
++    /* table:
++     *
++     *   - Sequences of whitespace should collapse into a single whitespace.
++     *   - make the overflow auto (scrollbar if needed)
++     *   - align caption "left" ("center" is unsuitable on vast tables)
++     */
++
++    .wy-table-responsive table td { white-space: normal; }
++    .wy-table-responsive { overflow: auto; }
++    .rst-content table.docutils caption { text-align: left; font-size: 100%; }
++
++    /* captions:
++     *
++     *   - captions should have 100% (not 85%) font size
++     *   - hide the permalink symbol as long as link is not hovered
++     */
++
++    .toc-title {
++        font-size: 150%;
++        font-weight: bold;
++    }
++
++    caption, .wy-table caption, .rst-content table.field-list caption {
++        font-size: 100%;
++    }
++    caption a.headerlink { opacity: 0; }
++    caption a.headerlink:hover { opacity: 1; }
++
++    /* Menu selection and keystrokes */
++
++    span.menuselection {
++        color: blue;
++        font-family: "Courier New", Courier, monospace
++    }
++
++    code.kbd, code.kbd span {
++        color: white;
++        background-color: darkblue;
++        font-weight: bold;
++        font-family: "Courier New", Courier, monospace
++    }
++
++    /* fix bottom margin of lists items */
++
++    .rst-content .section ul li:last-child, .rst-content .section ul li p:last-child {
++          margin-bottom: 12px;
++    }
++
++    /* inline literal: drop the borderbox, padding and red color */
++
++    code, .rst-content tt, .rst-content code {
++        color: inherit;
++        border: none;
++        padding: unset;
++        background: inherit;
++        font-size: 85%;
++    }
++
++    .rst-content tt.literal,.rst-content tt.literal,.rst-content code.literal {
++        color: inherit;
++    }
++}
+diff --git a/docs/system/_templates/editpage.html b/docs/system/_templates/editpage.html
+deleted file mode 100644
+index 6586b2e257..0000000000
+--- a/docs/system/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/system/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/docs/tools/_templates/editpage.html b/docs/tools/_templates/editpage.html
+deleted file mode 100644
+index 2a9c8fc92b..0000000000
+--- a/docs/tools/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/tools/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/docs/user/_templates/editpage.html b/docs/user/_templates/editpage.html
+deleted file mode 100644
+index 1f5ee01e60..0000000000
+--- a/docs/user/_templates/editpage.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<div id="editpage">
+-  <ul>
+-    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/user/{{pagename}}.rst">Page source</a></li>
+-  </ul>
+-</div>
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index d034acbd25..63cf835ec5 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -32,6 +32,7 @@ RUN apt update && \
+         psmisc \
+         python3 \
+         python3-sphinx \
++        python3-sphinx-rtd-theme \
+         $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+ 
+ ENV FEATURES docs
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 915fdc1845..d8fa16372d 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -92,6 +92,7 @@ ENV PACKAGES \
+     python3-pillow \
+     python3-pip \
+     python3-sphinx \
++    python3-sphinx_rtd_theme \
+     python3-virtualenv \
+     rdma-core-devel \
+     SDL2-devel \
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index b5ef7a8198..98a527361c 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -63,6 +63,7 @@ ENV PACKAGES \
+     ninja-build \
+     python3-yaml \
+     python3-sphinx \
++    python3-sphinx-rtd-theme \
+     sparse \
+     xfslibs-dev
+ RUN apt-get update && \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 9b0a19ba5e..c0d3642507 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -48,6 +48,7 @@ ENV PACKAGES \
+     make \
+     python3-yaml \
+     python3-sphinx \
++    python3-sphinx-rtd-theme \
+     ninja-build \
+     sparse \
+     xfslibs-dev
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 9750016e51..f1e0ebad49 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -58,6 +58,7 @@ ENV PACKAGES flex bison \
+     python3-pil \
+     python3-pip \
+     python3-sphinx \
++    python3-sphinx-rtd-theme \
+     python3-venv \
+     python3-yaml \
+     rpm2cpio \
+-- 
+2.29.0
 
-
-** Tags: s390x
-
-** Attachment added: "openjdk_crash_logs.log"
-   https://bugs.launchpad.net/bugs/1920913/+attachment/5480023/+files/openj=
-dk_crash_logs.log
-
-** Description changed:
-
-  While installing openjdk11 or higher from repo, it crashes while configur=
-ing ca-certificates-java.
-  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
-tached to this issue.
-  =
-
-  ```
-  # A fatal error has been detected by the Java Runtime Environment:
-  #
-  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
-  #
-  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
-buntu-0ubuntu1.20.04)
-  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
-ed mode, tiered, compressed oops, g1 gc, linux-s390x)
-  # Problematic frame:
-  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
-) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
-  #
-  # Core dump will be written. Default location: Core dumps may be processe=
-d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
-425)
-  #
-  # An error report file with more information is saved as:
-  # //hs_err_pid8425.log
-  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
-t/core.10740)
-  #
-  # An error report file with more information is saved as:
-  # /root/hs_err_pid10740.log
-  ```
-  =
-
-- Observed this on s390x/ubuntu as well as alpine when run on amd64. =
-
-- Please note, on native s390x, the installation is successful. Also this c=
-rash is not observed while installing openjdk-8-jdk. =
-
-+ Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
-ost.
-+ Please note, on native s390x, the installation is successful. Also this c=
-rash is not observed while installing openjdk-8-jdk.
-  =
-
-  Qemu version: 5.2.0
-  =
-
-  Please let me know if any more details are needed.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920913
-
-Title:
-  Openjdk11+ fails to install on s390x
-
-Status in QEMU:
-  New
-
-Bug description:
-  While installing openjdk11 or higher from repo, it crashes while configur=
-ing ca-certificates-java.
-  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
-tached to this issue.
-
-  ```
-  # A fatal error has been detected by the Java Runtime Environment:
-  #
-  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
-  #
-  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
-buntu-0ubuntu1.20.04)
-  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
-ed mode, tiered, compressed oops, g1 gc, linux-s390x)
-  # Problematic frame:
-  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
-) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
-  #
-  # Core dump will be written. Default location: Core dumps may be processe=
-d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
-425)
-  #
-  # An error report file with more information is saved as:
-  # //hs_err_pid8425.log
-  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
-t/core.10740)
-  #
-  # An error report file with more information is saved as:
-  # /root/hs_err_pid10740.log
-  ```
-
-  Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
-ost.
-  Please note, on native s390x, the installation is successful. Also this c=
-rash is not observed while installing openjdk-8-jdk.
-
-  Qemu version: 5.2.0
-
-  Please let me know if any more details are needed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920913/+subscriptions
 
