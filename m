@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD964345B95
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:02:21 +0100 (CET)
-Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22620345BA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 11:07:36 +0100 (CET)
+Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOdrd-0008OH-24
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
+	id 1lOdwl-0004Ai-17
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 06:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdkd-0006U9-T1
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:55:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdkc-0001pZ-2e
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:55:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdo1-0004Tf-V2
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:58:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOdnx-0003zG-KC
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 05:58:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616493300;
+ s=mimecast20190719; t=1616493508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QFlNXMRUer4FkSwrC3MoEhp8EfD7C5JcTaLO7WstKe8=;
- b=f2M5a3kq4NoBZjVHzWR/xPzc5SDmzUdozyS+opjlpepskJ9wgzO2GTTELOEif1YMexV84Q
- 31Re25dCPamyEt2R1tnB5RYfxyToBGc0rbZNgr3K86rG1zOrpffCwuc4PrkzxY5TVKdSra
- BHqqPH+UqYQm1fTTuIDhhgfhMQPOqu4=
+ bh=DsM+qnZ/2epz6bkzR0TDB1+W9g8xy/VINjgu0Lae1Gw=;
+ b=e54zNSqc2GUUqCLM9nJvB3tjZLAOQu/jwN1QZ+JmW8t0Qm+XQP0w1565n45EXU5dLQgwTe
+ laLxktXvlFOwowhbxKyvHVf8OV4tiCDuKlQFPZ1cUt5b24Ou0QHOwGi4jtaxFI6kQZSPwj
+ e7G8CiyKPeom4FeYO0t90DVvDNbSdC0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-fFi0OouHMcGqF_ggrx_TpQ-1; Tue, 23 Mar 2021 05:54:58 -0400
-X-MC-Unique: fFi0OouHMcGqF_ggrx_TpQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-353-pwKm1o39Mf6nJ39_sNVu_A-1; Tue, 23 Mar 2021 05:58:24 -0400
+X-MC-Unique: pwKm1o39Mf6nJ39_sNVu_A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99A7187A83B;
- Tue, 23 Mar 2021 09:54:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E060910866A0;
+ Tue, 23 Mar 2021 09:58:22 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F5377092D;
- Tue, 23 Mar 2021 09:54:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7A0460BE5;
+ Tue, 23 Mar 2021 09:58:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E90AB11327E1; Tue, 23 Mar 2021 10:54:55 +0100 (CET)
+ id 3B8EA11327E1; Tue, 23 Mar 2021 10:58:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: "Zhang, Chen" <chen.zhang@intel.com>
-Subject: Re: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
+Subject: Re: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO passthrough
 References: <20210319035508.113741-1-chen.zhang@intel.com>
- <20210319035508.113741-3-chen.zhang@intel.com>
- <877dm3i1qk.fsf@dusky.pond.sub.org>
- <5b75057ecc784296aa271f5f6692906a@intel.com>
- <87k0pz4bg8.fsf@dusky.pond.sub.org>
- <4ffb0d8b135b40caba777a830b70ae18@intel.com>
-Date: Tue, 23 Mar 2021 10:54:55 +0100
-In-Reply-To: <4ffb0d8b135b40caba777a830b70ae18@intel.com> (Chen Zhang's
- message of "Tue, 23 Mar 2021 09:06:13 +0000")
-Message-ID: <871rc6urdc.fsf@dusky.pond.sub.org>
+ <20210319035508.113741-4-chen.zhang@intel.com>
+ <87ft0n4b7u.fsf@dusky.pond.sub.org>
+ <63966964f3ea447bac59561cc1174f9f@intel.com>
+Date: Tue, 23 Mar 2021 10:58:21 +0100
+In-Reply-To: <63966964f3ea447bac59561cc1174f9f@intel.com> (Chen Zhang's
+ message of "Tue, 23 Mar 2021 09:19:36 +0000")
+Message-ID: <87tup2tcn6.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,27 +94,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 >> -----Original Message-----
 >> From: Markus Armbruster <armbru@redhat.com>
 [...]
->> Naming the argument type L4_Connection is misleading.
+>> Now let's look at colo-passthrough-del.  I figure it is for deleting the kind of
+>> things colo-passthrough-add adds.
 >> 
->> Even naming the match arguments L4_Connection would be misleading.
->> "Connection" has a specific meaning in networking.  There are TCP
->> connections.  There is no such thing as an UDP connection.
->> 
->> A TCP connection is uniquely identified by a pair of endpoints, i.e. by source
->> address, source port, destination address, destination port.
->> Same for other connection-oriented protocols.  The protocol is not part of
->> the connection.  Thus, L4_Connection would be misleading even for the
->> connection-oriented case.
->> 
->> You need a named type for colo-passthrough-add's argument because you
->> share it with colo-passthrough-del.  I'm not sure that's what we want (I'm
->> going to write more on that in a moment).  If it is what we want, then please
->> pick a another, descriptive name.
 >
-> What do you think the "L4BypassRule" or "NetworkRule" ?
+> Yes.
+>
+>> What exactly is deleted?  The thing created with the exact same arguments?
+>> 
+>
+> Delete the rule from the module's private bypass list.
+> When user input a rule, the colo-passthrough-del will find the specific module by the object ID,
+> Then delete the rule.
+>
+>> This would be unusual.  Commonly, FOO-add and FOO-del both take a string
+>> ID argument.  The FOO created by FOO-add remembers its ID, and FOO-del
+>> deletes by ID.
+>
+> The ID not for rules itself, it just logged the modules(ID tagged) affected by the rule.
 
-NetworkRule is too generic.
+I'm not sure I understand.
 
-What about ColoPassthroughRule?
+If you're pointing out that existing colo-passthrough-del parameter @id
+is not suitable for use as unique rule ID: you can always add another
+parameter that is suitable.
 
 
