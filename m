@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5714F34695B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:56:21 +0100 (CET)
-Received: from localhost ([::1]:38314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE3F346943
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 20:43:02 +0100 (CET)
+Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOn8W-0003AU-Co
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
+	id 1lOmvd-0003RN-BK
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 15:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOmrQ-0006jE-Kg
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:38:40 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:43592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOmrO-0007cT-Ri
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:38:40 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- m21-20020a9d7ad50000b02901b83efc84a0so20620243otn.10
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 12:38:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s+uordGXtKD57HmjWwElVJIoHWlFtYmyKQYWmxTiN5s=;
- b=JldLbGsycSXJiekghfXMw/bXAHUXdJSPj8TtlFgugjVy72a1MObh8lBOxIzNcAL6Nk
- sdkUxx7kHbISu3xJZpIa9Fa/BjRcT8Iq4Dq+ohlDDde5kmheALSh4AuESVMlgKlbwa9D
- Wg0G+8BvtNSkC5uAb26UJAcbFpvsQ01jX9zl3mruEJcI5BkGauH3oGiaXQEC+O5LlB/T
- kvmULEZ1g86M4P9TV4Fo3Y3GzxCtYiV1H2VlSm5Ty3GV40gn1UItw+/o1yePfbsSO9vv
- /ZTkTotdQ3GRmfDn15y0zsr/0K16TdfxQpC8tJZTK7tUzH7fSLuCN3V6XthaLuJ6VvqY
- 9iXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s+uordGXtKD57HmjWwElVJIoHWlFtYmyKQYWmxTiN5s=;
- b=jbmk0vVqFJZ6dfa8BXyOD+1baEG4JPVExPVZLcLslhJZG+zWMCWWb8o2oMI5Pqpt58
- pP/ODzvy5x0szY4ECLA6IrPSJrE33QAxreE5UjFPUQIkJ3coAalXbFu6raG12Bqwr62I
- vej2TNFzZ2rpQO2bu8uPxX6uKBOaB79CUJia6R1/8E/IA4+x7V+XfwwjcfSgbLi85HqY
- Kye6+62F+/sG9rDo2I3rkYn6jJqAyt3GQ89rco8uOTkYjE/WpjmnBUA9ThYJ/1NGsVjq
- uVuMqX8Bg07a03mWQcUn3y5v5JVKFPTEl4AhmQnmjTVvuuFs8p30ojCGy9VOi2ZpM823
- WsoA==
-X-Gm-Message-State: AOAM533752yW4XQIyFpPHy7NdstKtF/6ynXiCdqpQXZ4cjo/4erKMJIV
- zaebQznUoQ2Pb52bmqpjHJNX5g==
-X-Google-Smtp-Source: ABdhPJxlPYX7u6UrABuvTp6Oc5wo837bzIKSXfguICWoaM02V6ZEbZQ8rP5zsOxMbKqLATCWzpBzsA==
-X-Received: by 2002:a05:6830:408a:: with SMTP id
- x10mr5733274ott.248.1616528317421; 
- Tue, 23 Mar 2021 12:38:37 -0700 (PDT)
-Received: from [192.168.103.34] (171.189-204-159.bestelclientes.com.mx.
- [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id e82sm3951756oob.37.2021.03.23.12.38.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 12:38:36 -0700 (PDT)
-Subject: Re: [RFC v10 00/49] arm cleanup experiment for kvm-only build
-To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20210322140206.9513-1-cfontana@suse.de>
- <87k0pxiu7n.fsf@linaro.org> <f57c1550-e58d-a401-18b4-3143e99f4cce@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b0f32f34-c49c-ef4d-18e5-9b8ef80ce34a@linaro.org>
-Date: Tue, 23 Mar 2021 13:38:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lOmtD-0000sa-VY
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:40:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lOmt9-0008W5-FH
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 15:40:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616528424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wK0cRoX1+nDgngKPZU212YLYC8cfxyWLJkg7DHWghMM=;
+ b=jDYZOCVoiHZOqeyJGlOEEcu0J7KcL8z2YVdbDzL+e0QwjoQHoRWzKehKgA9UHo88E8Xdcx
+ qA2i9lSuvZ4RRirpgFASMxiw1mET05B8CVlKXRxjY8gwl7NdHtyejfoVNpB8VMC/JIlRU7
+ PWelqjXi8WV5joKJ9m4TamIwWfCSWLM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-CL6ZuZatPU-XLRtyCWFqnw-1; Tue, 23 Mar 2021 15:40:22 -0400
+X-MC-Unique: CL6ZuZatPU-XLRtyCWFqnw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69BBA800D53;
+ Tue, 23 Mar 2021 19:40:21 +0000 (UTC)
+Received: from work-vm (ovpn-115-35.ams2.redhat.com [10.36.115.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4031E694CD;
+ Tue, 23 Mar 2021 19:40:20 +0000 (UTC)
+Date: Tue, 23 Mar 2021 19:40:17 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: huangy81@chinatelecom.cn, thuth@redhat.com, berrange@redhat.com
+Subject: Re: [PATCH] tests/migration: fix parameter of auto-converge migration
+Message-ID: <YFpEId2vw9ceC1Ly@work-vm>
+References: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <f57c1550-e58d-a401-18b4-3143e99f4cce@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,28 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 1:20 PM, Claudio Fontana wrote:
->> Also I did a number of different builds:
->>
->>     fdfind -0 -t x qemu-system-aarch64 | xargs -0 ls -lh
->>    -rwxrwxr-x 1 alex alex 129M Mar 23 18:09 all/qemu-system-aarch64
->>    -rwxrwxr-x 1 alex alex  64M Mar 23 18:16 disable.all/qemu-system-aarch64
->>    -rwxrwxr-x 1 alex alex  81M Mar 23 18:20 disable.defaults/qemu-system-aarch64
->>    -rwxrwxr-x 1 alex alex  94M Mar 23 18:12 disable.tcg/qemu-system-aarch64
+* huangy81@chinatelecom.cn (huangy81@chinatelecom.cn) wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Interesting, I did not think to check these numbers (anymore, I was at Huawei times).
-> It is still quite a large size.
+> when execute the following test command:
+> $ ./guestperf-batch.py --auto-converge \
+>     --auto-converge-step {percent} ...
+> test aborts and error message be throwed as the following:
+> "Parameter 'x-cpu-throttle-increment' is unexpected"
+> 
+> The reason is that 'x-cpu-throttle-increment' has been
+> deprecated and 'cpu-throttle-increment' was introduced
+> Since v2.7. Use the new parameter instead.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-File size is only somewhat interesting, since I assume this includes debug 
-info.  Using the size tool is better, to see the real runtime code+data size.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
+Please cc thuth@redhat.com and berrange@redhat.com on fixes to this
+file.
 
-r~
+> ---
+>  tests/migration/guestperf/engine.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+> index e399447..6b49aed 100644
+> --- a/tests/migration/guestperf/engine.py
+> +++ b/tests/migration/guestperf/engine.py
+> @@ -102,7 +102,7 @@ def _migrate_progress(self, vm):
+>              info.get("downtime", 0),
+>              info.get("expected-downtime", 0),
+>              info.get("setup-time", 0),
+> -            info.get("x-cpu-throttle-percentage", 0),
+> +            info.get("cpu-throttle-percentage", 0),
+>          )
+> 
+>      def _migrate(self, hardware, scenario, src, dst, connect_uri):
+> @@ -135,7 +135,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+>                                       "state": True }
+>                                 ])
+>              resp = src.command("migrate-set-parameters",
+> -                               x_cpu_throttle_increment=scenario._auto_converge_step)
+> +                               cpu_throttle_increment=scenario._auto_converge_step)
+> 
+>          if scenario._post_copy:
+>              resp = src.command("migrate-set-capabilities",
+> --
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
