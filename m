@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C978C3460A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:58:55 +0100 (CET)
-Received: from localhost ([::1]:57304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69060346109
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 15:09:11 +0100 (CET)
+Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOhYc-0006GS-Oa
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37074)
+	id 1lOhiY-0002dz-97
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 10:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOhWW-0004DO-Fw
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:56:44 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36690)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lOhWz-00053I-0C
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:57:13 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:38687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lOhWU-0006cd-D1
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:56:44 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id k8so20860881wrc.3
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 06:56:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lOhWx-0006sL-EI
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 09:57:12 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id h13so23554980eds.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 06:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p3wcqQCQg37yBHPW67f5Y5HGmvZBnyBJh1NzC0FDdWM=;
- b=nVws1zt4QCqFbFBjAqJvZaG9GO+JUiTUXKAoTNM7+grxjtxBeweM7Oi1G+vqfLcFvP
- WT++2PwobsKA9fAE8U1AB4s+iOaQPp2FT6W88Kzn5sK9rHySsy+7a3hu1Hr+/l5bzkhr
- 4FmEyqwJk8nyWEXJj3v0dXDcA//6KfdmZtNWS7aH7n5aZ0TMTxlQYJzbUF9zh1zY08X5
- CpfYqhC0hqBG6af7sHLW3geiGS0pkQ514W6bmtORxO1nQQCVAlesyxvnODQoTWKSZNg3
- Z9dpIumATWTe/lnZrM6jcV9PogzGVWECBMkJrPRc7UL1ZaJfMAWCEJbFfQMpWy7dcE4X
- zUUA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8vlUTc5eal3f+9qZr2Xy/UI1YCkidsEeQI0CqOMP2d0=;
+ b=EaMzaBdgN65Q98MjGPFilFB8iRN/RW3iIkOxnV5cWrzSZFM+T+3+PRUnRe+pRtE6u+
+ wPetHxdgk/pvM+hOupogWbd+ETVSoZdvx55XUy8DU0K922iqhRg4rjAfIzEcv5xvxvPn
+ Oa6jcrB0gL/OgIRsd01jN156ptA3L6c1iapk4iu7pHgSDx0b+BI4GNMzaxcHaJibD1cH
+ UhtZXbgog2boJ4wMg4izBj/BMPrFRzVS0iCtRN1YGmbFuSja5aDqGX9ZDES3Ig1slJiz
+ jj7/6RdNbS94ytU7w7otDy7zWiRkecQCReSZjBIMRSBwfkiFeLTbF5kRXpPCAJeS9v0t
+ aThg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p3wcqQCQg37yBHPW67f5Y5HGmvZBnyBJh1NzC0FDdWM=;
- b=ghHYgSErac2fwTv6p3+UDWn0WRScvUoMetl2PsLidKq68QSezrebJfvHJtA5lkUFCd
- vnh+UH6HH/+O3m4Ezzby8iYik7Qvz4L6XpAs+uAIuCpW+bIaWv+Bu/b4SXyfy5oRnvam
- Qhb6K/aJF/x8GE+vrK/Nyf1BRV4cEik6pDE5o1ioucpwfC7iNp3zPZMrK+l5kI1tLgyW
- BG0oQSp+bwxQjYMl8EZR+zfC4QE+BIbBLwO6ALbebiSY0mvvtrneJ1TMOt8crfYZf9Ls
- bqUU6wVMsDoxWlhPRLIW8picmqJOm6837zvWE1VJY2JNZ/VzX4jO999dD5ViZiWoaZm5
- zGUg==
-X-Gm-Message-State: AOAM532ig76oJCZ1raRHEmzGBopizkKFkt5dy3VIvSFlR/CkVDx4JcNz
- L/tRfKiockyHatdyhkpB41Y=
-X-Google-Smtp-Source: ABdhPJyIHdexSVASH3HCw8s/LIoz+R0OlSLjWuQXAEa+nQN1EWTwdCMcfNtYeaJw+N5L3oZcM720Cg==
-X-Received: by 2002:a5d:5088:: with SMTP id a8mr4193027wrt.294.1616507800291; 
- Tue, 23 Mar 2021 06:56:40 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id w131sm2886576wmb.8.2021.03.23.06.56.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Mar 2021 06:56:39 -0700 (PDT)
-Subject: Re: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
-To: Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
- <1602059975-10115-3-git-send-email-chenhc@lemote.com>
- <0dfbe14a-9ddb-0069-9d86-62861c059d12@amsat.org>
- <CAAhV-H63zhXyUizwOxUtXdQQOR=r82493tgH8NfLmgXF0g8row@mail.gmail.com>
- <9fc6161e-cf27-b636-97c0-9aca77d0f9cd@amsat.org>
- <CAAhV-H5wPZQ+TGdZL=mPV4YQcjHarJFoEH-nobr10PdesR-ySg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <62b12fe2-01db-76c0-b2fd-f730b4157285@amsat.org>
-Date: Tue, 23 Mar 2021 14:56:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8vlUTc5eal3f+9qZr2Xy/UI1YCkidsEeQI0CqOMP2d0=;
+ b=Z2PyMhG6PwevAsdSfsGtUfZsOZB0U9KuugTCB+49QjuUQJZQ1+FNyPhMso3mUuljsx
+ JMIp/m4+YcHu58f/uSZyH/7p0zlOu4ofeNoDwgrIY37giGnJVVOlqLPMRmOqn6EnLd+v
+ iNmaxF+Lb9L0CXOB8s1rWVJNppEwfSmPuZxu9JzMb76l0McKULgK6flZkSqG5lyZO2JU
+ DXt2FkILh5JdtA6k+iox0syqUcL5jYCpeZbJOtJQJ/C7+hAt8n+I9r3lL6AoDRig0q6C
+ WnzNpWk+qHjivF1z8O4rHup6t+lePnEtdrgmXTVxTAoG6l35gSg2/WOzWCImxH0LMq56
+ TFdw==
+X-Gm-Message-State: AOAM533sIi0NsQUa14Hx3KqUarSxnoXVXBlHJmkvofxCVDbjLK7dp405
+ hQRFNZ4Q5ghaIffl0L6Qnjs=
+X-Google-Smtp-Source: ABdhPJzL991WLk96nI5SQdZ9GAW9CBcqvhPV5LFFIRWskVKWtEOepD/z+8c+G055VakP5KOKv8d0Vg==
+X-Received: by 2002:aa7:c353:: with SMTP id j19mr4671352edr.263.1616507827298; 
+ Tue, 23 Mar 2021 06:57:07 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id u1sm12630289edv.90.2021.03.23.06.57.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 06:57:06 -0700 (PDT)
+Date: Tue, 23 Mar 2021 13:57:05 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 2/8] virtiofds: Changed allocations of iovec to GLib's
+ functions
+Message-ID: <YFnzsf2LgpUicPvH@stefanha-x1.localdomain>
+References: <20210319132527.3118-1-ma.mandourr@gmail.com>
+ <20210319132527.3118-3-ma.mandourr@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H5wPZQ+TGdZL=mPV4YQcjHarJFoEH-nobr10PdesR-ySg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ka7t5sA5XkRDPfkM"
+Content-Disposition: inline
+In-Reply-To: <20210319132527.3118-3-ma.mandourr@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=stefanha@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,137 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Huacai,
 
-We are going to tag QEMU v6.0-rc0 today.
+--Ka7t5sA5XkRDPfkM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I only have access to a 64-bit MIPS in little-endian to
-test KVM.
+On Fri, Mar 19, 2021 at 03:25:21PM +0200, Mahmoud Mandour wrote:
+> @@ -629,9 +628,6 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const stru=
+ct iovec *in_iov,
+> =20
+>      res =3D send_reply_iov(req, 0, iov, count);
+>  out:
+> -    free(in_fiov);
+> -    free(out_fiov);
+> -
+>      return res;
+> =20
+>  enomem:
 
-Can you test the other configurations please?
-- 32-bit BE
-- 32-bit LE
-- 64-bit BE
+This hunk doesn't seem related to anything in this patch. Was it
+included accidentally?
 
-Thanks!
+--Ka7t5sA5XkRDPfkM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Phil.
+-----BEGIN PGP SIGNATURE-----
 
-On 11/22/20 4:31 AM, Huacai Chen wrote:
-> +CC Jiaxun
-> 
-> Hi, Jiaxun,
-> 
-> What do you think about?
-> 
-> Huacai
-> 
-> On Fri, Nov 20, 2020 at 6:55 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 11/20/20 5:28 AM, Huacai Chen wrote:
->>> On Wed, Nov 18, 2020 at 1:17 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>> On 10/7/20 10:39 AM, Huacai Chen wrote:
->>>>> After converting from configure to meson, KVM support is lost for MIPS,
->>>>> so re-enable it in meson.build.
->>>>>
->>>>> Fixes: fdb75aeff7c212e1afaaa3a43 ("configure: remove target configuration")
->>>>> Fixes: 8a19980e3fc42239aae054bc9 ("configure: move accelerator logic to meson")
->>>>> Cc: aolo Bonzini <pbonzini@redhat.com>
->>>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
->>>>> ---
->>>>>  meson.build | 2 ++
->>>>>  1 file changed, 2 insertions(+)
->>>>>
->>>>> diff --git a/meson.build b/meson.build
->>>>> index 17c89c8..b407ff4 100644
->>>>> --- a/meson.build
->>>>> +++ b/meson.build
->>>>> @@ -59,6 +59,8 @@ elif cpu == 's390x'
->>>>>    kvm_targets = ['s390x-softmmu']
->>>>>  elif cpu in ['ppc', 'ppc64']
->>>>>    kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
->>>>> +elif cpu in ['mips', 'mips64']
->>>>> +  kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
->>>>
->>>> Are you sure both 32-bit hosts and targets are supported?
->>>>
->>>> I don't have hardware to test. If you are not working with
->>>> 32-bit hardware I'd remove them.
->>> When I add MIPS64 KVM support (Loongson-3 is MIPS64), MIPS32 KVM is
->>> already there. On the kernel side, MIPS32 KVM is supported, but I
->>> don't know whether it can work well.
->>
->> Well, from the history, you inherited from it:
->>
->> commit 1fa639e5618029e944ac68d27e32a99dcb85a349
->> Author: James Hogan <jhogan@kernel.org>
->> Date:   Sat Dec 21 15:53:06 2019 +0000
->>
->>     MAINTAINERS: Orphan MIPS KVM CPUs
->>
->>     I haven't been active for 18 months, and don't have the hardware
->>     set up to test KVM for MIPS, so mark it as orphaned and remove
->>     myself as maintainer. Hopefully somebody from MIPS can pick this up.
->>
->>
->> commit 134f7f7da12aad99daafbeb2a7ba9dbc6bd40abc
->> Author: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
->> Date:   Mon Feb 24 12:50:58 2020 +0100
->>
->>     MAINTAINERS: Reactivate MIPS KVM CPUs
->>
->>     Reactivate MIPS KVM maintainership with a modest goal of keeping
->>     the support alive, checking common KVM code changes against MIPS
->>     functionality, etc. (hence the status "Odd Fixes"), with hope that
->>     this component will be fully maintained at some further, but not
->>     distant point in future.
->>
->>
->> commit 15d983dee95edff1dc4c0bed71ce02fff877e766
->> Author: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
->> Date:   Wed Jul 1 20:25:58 2020 +0200
->>
->>     MAINTAINERS: Adjust MIPS maintainership (Huacai Chen & Jiaxun Yang)
->>
->>     Huacai Chen and Jiaxun Yang step in as new energy [1].
->>
->>
->> commit ca263c0fb9f33cc746e6e3d968b7db80072ecf86
->> Author: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
->> Date:   Wed Oct 7 22:37:21 2020 +0200
->>
->>     MAINTAINERS: Remove myself
->>
->>     I have been working on project other than QEMU for some time,
->>     and would like to devote myself to that project. It is impossible
->>     for me to find enough time to perform maintainer's duties with
->>     needed meticulousness and patience.
->>
->>
->> QEMU deprecation process is quite slow, if we release mips-softmmu
->> and mipsel-softmmu binaries with KVM support in 5.2, and you can not
->> test them, you will still have to maintain them during 2021...
->>
->> If you don't have neither the hardware nor the time, I suggest you
->> to only release it on 64-bit hosts. Personally I'd even only
->> announce KVM supported on the little-endian binary only, because
->> AFAIK you don't test big-endian KVM neither.
->>
->> Your call as a maintainer, but remember last RC tag is next
->> Tuesday (Nov 24) in *4* days, then we release 5.2:
->> https://wiki.qemu.org/Planning/5.2#Release_Schedule
->>
->> Regards,
->>
->> Phil.
-> 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBZ87EACgkQnKSrs4Gr
+c8hv3Af/YPMzWIAbOQxECnn5XpvU+1PN98VexaIjangjiFgeoDmKfO88b/XTe7po
+M2OHTCcoS3dcuMWYzbggD9qb8pPdSVfOOY6momzSxu8l0L4mVqHAm1nImsELpbw6
+LWTTGL24XQ8Nlv3Job/LAt6fenSSRJ+XXF1Cp8qnz61FRMKTWHrIzpUDIHHI/Wl6
+OW6O5djXXRwiwYAfVj+vxZQLcrnXa8eHIpSbKL+IFMBkPuJtuwEw+se1nbFffzLW
+pMFOR3X6XaJWZJXLFvkR99XrZikh1qkXkQ/QEEPtIHVByTrHEz/homAqiB3QP+Wb
+3cOFXt7dj8zESkie8Ml1i4xin4ua1Q==
+=k4V2
+-----END PGP SIGNATURE-----
+
+--Ka7t5sA5XkRDPfkM--
 
