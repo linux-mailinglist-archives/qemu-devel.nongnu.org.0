@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C0434661A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 18:16:53 +0100 (CET)
-Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05473465AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 17:52:30 +0100 (CET)
+Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOkeC-00041o-RP
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 13:16:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45662)
+	id 1lOkGb-0003h8-9b
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 12:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOjgx-000629-92
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:15:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOjgt-00089N-Vw
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:15:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616516134;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/prqJYgAU3eYlRwjekcwJV82nBRclweA+7ubZG4W9pA=;
- b=cEbL0DvSl/n9P/YBXSDAlsgi8HU5QEtpuuwKxuhar7jk4ku8hzJYDXk8pw6INeem2hrI+4
- dgz+G/amqw4qYm6TSLLU5q1TChcRmCrS36r+sDydBdCph5AZ3tyeg71CQWXztHHM6LupH1
- +NarZo9hSxTywxSiF0t9nM99LUfHI50=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-tn6P-qONPDGR_MDDj8fDEQ-1; Tue, 23 Mar 2021 12:15:31 -0400
-X-MC-Unique: tn6P-qONPDGR_MDDj8fDEQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5424C84BA42;
- Tue, 23 Mar 2021 16:15:30 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D9C9196E3;
- Tue, 23 Mar 2021 16:15:28 +0000 (UTC)
-Subject: Re: [RFC PATCH 13/13] meson: Only build ROM/BIOS when system
- emulation is built
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210323155132.238193-1-f4bug@amsat.org>
- <20210323155132.238193-14-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <33977da7-ae62-32b8-bbf2-6dab4ae0ffe9@redhat.com>
-Date: Tue, 23 Mar 2021 17:15:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOjhS-00071C-QX
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:16:10 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lOjhP-0008Pb-ET
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 12:16:10 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ g8-20020a9d6c480000b02901b65ca2432cso19991419otq.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 09:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9UDa4pseGfomgQXvVx1gs9sBU+e0MU0Fz3Ex+wuItUU=;
+ b=WyYt/MHPWp7atDkM3Skkxv7dXS4LKb+vV6wrKWVLeGjWsiOzJHD4uBP0FHMTOkA2RQ
+ zLFqCUKuLyCDTYlO3vAXsvWPgqd8ZfvVTq6uBu9No3SDQiynyxYcizq0pVTNtuOSUgd5
+ Wo8UB4+eyXPp5XcAwPbpeXaRvbO+e92wkBM/G0cwro/eOucMgcbdWUTAUNr86tHXq/pV
+ hUoHtyfmL/hHLR7y0pqXhLIh+5aiT0SEeb4kTiVg6DJvAtoace9+4sOXEj+TXX7mq3r/
+ 3GmJvHW2m/8TP29brwMQCZOTghB0xZ4MXGuu2XP4tKq+jZ5S3i2Y7QYUd4cs/OtYAO50
+ vy5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9UDa4pseGfomgQXvVx1gs9sBU+e0MU0Fz3Ex+wuItUU=;
+ b=i0s5kZvMICa4vdEpY301PtAhE/Vl2v2fyz7QCc55wxlpJT6weIyQJTpg9IuaUQVVF7
+ GOTS3TBIT9XGnaEuG7Ku+GJ4Bv4WVnAvI/4ePpT9OlRmFegiLvUhPlSWGM9d++Xc6eak
+ 5YVRU7ttcwcQ5w8GUiCeW1WnbpfWhtFhey2vwGe4ay879Re/4MN1K6ClJr4ivqqBw5Bu
+ U2+RVXi1J7W7ztr1cTFrH0QpBwAmGMmiKijBjsM+tOA7UeRY81uFAEnK/nIaBh6vXrFS
+ 7XXqJoqwbScnYpqb3N0pwzn1X1MLxlkAaS4mIjMZAouBL6qP4FJ9zlMSGg+/OcCwOpEH
+ hSFw==
+X-Gm-Message-State: AOAM533+B7oAWda7y+rlrqwgNpLz/FRzkobkf4eQViD7ZsXzNmsvJyIM
+ IOdFDw5moRaznURym9cTBepeQvhV9zZ8NX9p
+X-Google-Smtp-Source: ABdhPJyNqBu9+eHvwRiY3E0M4hauK2Lysgj36qLBZP/pW28TDAOua+RVRhXenj8HUUe6bzJrjz3m4w==
+X-Received: by 2002:a9d:38c:: with SMTP id f12mr4899062otf.10.1616516163946;
+ Tue, 23 Mar 2021 09:16:03 -0700 (PDT)
+Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id 8sm4317822otx.1.2021.03.23.09.16.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 09:16:03 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] exec: Build page-vary-common.c with -fno-lto
+Date: Tue, 23 Mar 2021 10:15:58 -0600
+Message-Id: <20210323161601.454996-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210323155132.238193-14-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,36 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: pbonzini@redhat.com, gshan@redhat.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/03/2021 16.51, Philippe Mathieu-Daudé wrote:
-> As it is pointless to build ROMs/BIOS for user-only emulation,
-> restrict this directory to system-mode emulation.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   meson.build | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index e484670c5b7..457a07047b1 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2378,7 +2378,9 @@
->   
->   subdir('scripts')
->   subdir('tools')
-> -subdir('pc-bios')
-> +if have_system
-> +  subdir('pc-bios')
-> +endif
->   subdir('docs')
->   subdir('tests')
->   if gtk.found()
-> 
+I think there's additional cleanup to be done here, where we can
+move these two files from top-level to either accel/tcg/ or softmmu/.
+But that will have to wait for the next devel cycle.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Changes from Phil's v2: Update MAINTAINERS.
+
+
+r~
+
+
+Richard Henderson (3):
+  exec: Rename exec-vary.c as page-vary.c
+  exec: Extract 'page-vary.h' header
+  exec: Build page-vary-common.c with -fno-lto
+
+ configure                |  19 -------
+ meson.build              |  18 ++++++-
+ include/exec/cpu-all.h   |  15 ++----
+ include/exec/page-vary.h |  34 ++++++++++++
+ exec-vary.c              | 108 ---------------------------------------
+ page-vary-common.c       |  54 ++++++++++++++++++++
+ page-vary.c              |  41 +++++++++++++++
+ MAINTAINERS              |   2 +
+ 8 files changed, 152 insertions(+), 139 deletions(-)
+ create mode 100644 include/exec/page-vary.h
+ delete mode 100644 exec-vary.c
+ create mode 100644 page-vary-common.c
+ create mode 100644 page-vary.c
+
+-- 
+2.25.1
 
 
