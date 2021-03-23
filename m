@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EEC346DAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:02:39 +0100 (CET)
-Received: from localhost ([::1]:43132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69408346DBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 00:11:46 +0100 (CET)
+Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOq2p-0003k3-1e
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35634)
+	id 1lOqBc-0004bq-KY
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 19:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lOq1U-0002xj-SP
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 19:01:16 -0400
-Received: from 9.mo52.mail-out.ovh.net ([87.98.180.222]:51366)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1lOq9k-00039S-KU
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 19:09:48 -0400
+Received: from mout.gmx.net ([212.227.17.21]:48187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lOq1O-0007Mk-P1
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 19:01:16 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 1CFF924AAE9;
- Wed, 24 Mar 2021 00:00:57 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 24 Mar
- 2021 00:00:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0050bda1666-b517-474e-99bd-585d116782ff,
- A3683C8426EAFB0D53556ADBC9F5B6912A1CF25D) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 24 Mar 2021 00:00:56 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: Crashes with qemu-system-ppc64
-Message-ID: <20210324000056.349b6782@bahia.lan>
-In-Reply-To: <1e4835a5-b785-5d0d-64d8-bb01afeea432@redhat.com>
-References: <1e4835a5-b785-5d0d-64d8-bb01afeea432@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1lOq9i-0002pr-Jm
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 19:09:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1616540972;
+ bh=5AISB54FGW2nVXCs7TdnTmWRlYQB5CHsZ+vEMhK/HSQ=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=fIfpMdaADHo246zNdduzD8njcfJIFIU5vBNcgAuvrEH8xLA8twUq3Li+tL41oJdaj
+ BxbLahigFenn4028LeXsaQXK3ItjR4mBm3zJsy5ukPDCPUCCKAy4WbMJ0z7vHRkcdW
+ ptoGY8ZkdcfqTXGY3QKAN0lXsXqxWFNhl9aFmoOg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.140.38]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MtwYu-1lfPf60IZA-00uIr5; Wed, 24
+ Mar 2021 00:09:32 +0100
+Subject: Re: [RFC PATCH 06/13] blobs: Only install PA-RISC SeaBIOS if hppa
+ system target is built
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210323155132.238193-1-f4bug@amsat.org>
+ <20210323155132.238193-7-f4bug@amsat.org>
+From: Helge Deller <deller@gmx.de>
+Message-ID: <9f08db93-99ee-3a27-0290-395c3f729474@gmx.de>
+Date: Wed, 24 Mar 2021 00:09:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: c2d91622-43dd-4d1b-9a20-81fc4719105a
-X-Ovh-Tracer-Id: 8298163790669584864
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudegjedgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=groug@kaod.org;
- helo=9.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323155132.238193-7-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+veHqi/nYmoVXXW+kpbQ8kbUOPPp0tdYt7wXNjtW6emNjb/AxuQ
+ sYuXfL2c/d716jgyIlnzyEIa4y3i5sm4olX4xk5tjuF8cr6bSb0d/QQ4c3wlgojDCWxW3YN
+ Nb1TGaYQ7J+q5A0ecz03hl1PS1Dk7fuC09c+m1O7YM8hKPFUf1BDx5Q3DU9q35ib/iunsp0
+ 09s39LaKBhU8S9s+M+jcg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qdwRihCsWwI=:Lq/4B26G1Erqg5pCg9aSyT
+ ZkbIUyu7KVT1XkH7w1ObjNAl+Cna3wsLcpUwt/ad3tTn0mn+Pw9hqgt2CZWdjXf8gFh7oi9E9
+ oBE7uWYaSQOFtROXocq4tsl5Y4BuyBpTjgw4cg2iXkcMlANGP4o2LOPvHteU8ElWmTP3f5wI/
+ 0ygLdcCwb5BUfYOUsrVLOjmWjFAjhbS0YS06oEMkvJfhFxYGCaL09oYahGHaRXUbFrRjNEmTW
+ vDHidZ+HJ4cJv6clRLNiBehEfNPtuuwcq8Na/BL7gBlDuGP+2xXKQMR7w8L4Behcnyqc4i4jK
+ n9wuOlX8KkWNXyNEnHRaxxVC1JN5DK5eOqAHOh4yyPlGkY+DkMcFuttn4c0mswaTlrSyE36OQ
+ hltOA2PsWSaefEmhnnihzqSGMsu42vAkX0fxsvTXm/0jUwGzn4JIfJG29DifsFG7YdecgRUN9
+ 01JxFbiF0hhl9H34T7euPDnIVEzEyl8wXlBUMtz0akRSTJmTYeckjIbIhTXxbXdgGoAaM0Ev9
+ KCHwgdbwb8MZgBtwHiiAcQ7umatPNlwjyhLeUshmarzc79IJJWjMZoxzNalO7SoMDXxbph2QS
+ 46fB9Mk86LPoeEcpKAZ7II5xjY6sM2ZltOZt508Z9F322/39cWP2sloqLQOZQMAphT/pUPhbC
+ 5cW4DBBzLnP/KFPzDqfsLVy55nleNu9ABDw0JZufOxKO/LihrUKCEbY10m903HgrfmOne7nYE
+ 5qRS6YqrysZJV76v9nQqaVnqUEzHtJUg2TjSkLLHdOYZvy7zofPpfX9TCdF3xEETkOP5hAeYi
+ Y6l76Ycv9LJkVqLrS+oZhT7rS8R/Xjen4mpqYrTuCU8ledgb6JHfxiNu7mxlq6KWlpqlOIpEg
+ QDYHp1f9oYM1YpGoC1bg==
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,110 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing David
+On 3/23/21 4:51 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Helge Deller <deller@gmx.de>
 
-On Tue, 23 Mar 2021 17:48:36 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+Acked-by: Helge Deller <deller@gmx.de>
 
-> 
-> In case anyone is interested in fixing those, there are two regressions with 
-> qemu-system-ppc64 in the current master branch:
-> 
-> $ ./qemu-system-ppc64 -M ppce500 -device macio-oldworld
-> qemu-system-ppc64: ../../devel/qemu/softmmu/memory.c:2443: 
-> memory_region_add_subregion_common: Assertion `!subregion->container' failed.
-> 
-> $ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
-> /home/thuth/devel/qemu/include/hw/boards.h:24:MACHINE: Object 0x5635bd53af10 
-> is not an instance of type machine
-> Aborted (core dumped)
-> 
 
-I've bisected this one to:
-
-3df261b6676b5850e93d6fab3f7a98f8ee8f19c5 is the first bad commit
-commit 3df261b6676b5850e93d6fab3f7a98f8ee8f19c5
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Fri Mar 13 17:24:47 2020 +0000
-
-    softmmu/vl.c: Handle '-cpu help' and '-device help' before 'no default machine'
-    
-    Currently if you try to ask for the list of CPUs for a target
-    architecture which does not specify a default machine type
-    you just get an error:
-    
-      $ qemu-system-arm -cpu help
-      qemu-system-arm: No machine specified, and there is no default
-      Use -machine help to list supported machines
-    
-    Since the list of CPUs doesn't depend on the machine, this is
-    unnecessarily unhelpful. "-device help" has a similar problem.
-    
-    Move the checks for "did the user ask for -cpu help or -device help"
-    up so they precede the select_machine() call which checks that the
-    user specified a valid machine type.
-    
-    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
- softmmu/vl.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
-bisect run success
-
-This change is fine but it unveils a bad assumption.
-
-0  0x00007ffff64a3708 in raise () at /lib64/power9/libc.so.6
-#1  0x00007ffff6483bcc in abort () at /lib64/power9/libc.so.6
-#2  0x00000001008db940 in object_dynamic_cast_assert
-    (obj=0x10126f670, typename=0x100c20380 "machine", file=0x100b34878 "/home/greg/Work/qemu/qemu-ppc/include/hw/boards.h", line=<optimized out>, func=0x100bcd320 <__func__.30338> "MACHINE") at ../../qom/object.c:883
-#3  0x0000000100456e00 in MACHINE (obj=<optimized out>) at /home/greg/Work/qemu/qemu-ppc/include/hw/boards.h:24
-#4  0x0000000100456e00 in cpu_core_instance_init (obj=0x10118e2c0) at ../../hw/cpu/core.c:69
-#5  0x00000001008d9f44 in object_init_with_type (obj=obj@entry=0x10118e2c0, ti=0x1011fd470) at ../../qom/object.c:375
-#6  0x00000001008d9f24 in object_init_with_type (obj=obj@entry=0x10118e2c0, ti=0x101211ad0) at ../../qom/object.c:371
-#7  0x00000001008d9f24 in object_init_with_type (obj=obj@entry=0x10118e2c0, ti=ti@entry=0x101212760) at ../../qom/object.c:371
-#8  0x00000001008dc474 in object_initialize_with_type (obj=obj@entry=0x10118e2c0, size=size@entry=160, type=type@entry=0x101212760) at ../../qom/object.c:517
-#9  0x00000001008dc678 in object_new_with_type (type=0x101212760) at ../../qom/object.c:732
-#10 0x00000001009fbad8 in qmp_device_list_properties (typename=<optimized out>, errp=<optimized out>) at ../../qom/qom-qmp-cmds.c:146
-#11 0x00000001005a4bf0 in qdev_device_help (opts=0x10126c200) at ../../softmmu/qdev-monitor.c:285
-#12 0x0000000100760afc in device_help_func (opaque=<optimized out>, opts=<optimized out>, errp=<optimized out>) at ../../softmmu/vl.c:1204
-#13 0x0000000100ad1050 in qemu_opts_foreach (list=<optimized out>, func=0x100760ae0 <device_help_func>, opaque=0x0, errp=0x0) at ../../util/qemu-option.c:1167
-#14 0x00000001007653cc in qemu_process_help_options () at ../../softmmu/vl.c:2451
-#15 0x00000001007653cc in qemu_init (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at ../../softmmu/vl.c:3521
-#16 0x00000001002f4f88 in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at ../../softmmu/main.c:49
-
-Basically, "-device power8_v2.0-spapr-cpu-core,help" ends up
-instantiating an object of the "power8_v2.0-spapr-cpu-core" type,
-which derives from "cpu-core". The "cpu-core" type has an instance
-init function that assumes that qdev_get_machine() returns an object
-of type "machine"...
-
-static void cpu_core_instance_init(Object *obj)
-{
-    MachineState *ms = MACHINE(qdev_get_machine());
-                         ^^
-                     ...here.
-
-qdev_get_machine() cannot return a valid machine type since
-select_machine() hasn't been called yet... an instance init
-function is probably not the best place to use qdev_get_machine()
-if any.
-
-    CPUCore *core = CPU_CORE(obj);
-
-    core->nr_threads = ms->smp.threads;
-}
-
-It seems that this should rather sit in a device realize function,
-when the machine type is known.
-
->   Thomas
-> 
-> 
+> ---
+>   meson.build         | 2 ++
+>   pc-bios/meson.build | 7 ++++++-
+>   2 files changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 10c21ef52af..a7f3b60d08e 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -95,11 +95,13 @@
+>   install_edk2_blobs =3D false
+>   install_blobs_alpha =3D false
+>   install_blobs_arm =3D false
+> +install_blobs_hppa =3D false
+>   if get_option('install_blobs')
+>     foreach target : target_dirs
+>       install_edk2_blobs =3D install_edk2_blobs or target in edk2_target=
+s
+>       install_blobs_alpha =3D install_blobs_alpha or target in ['alpha-s=
+oftmmu']
+>       install_blobs_arm =3D install_blobs_hppa or target in ['arm-softmm=
+u', 'aarch64-softmmu']
+> +    install_blobs_hppa =3D install_blobs_hppa or target in ['hppa-softm=
+mu']
+>     endforeach
+>   endif
+>
+> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+> index 635485931b9..c494c334e26 100644
+> --- a/pc-bios/meson.build
+> +++ b/pc-bios/meson.build
+> @@ -76,7 +76,6 @@
+>     'u-boot.e500',
+>     'u-boot-sam460-20100605.bin',
+>     'qemu_vga.ndrv',
+> -  'hppa-firmware.img',
+>     'opensbi-riscv32-generic-fw_dynamic.bin',
+>     'opensbi-riscv64-generic-fw_dynamic.bin',
+>     'opensbi-riscv32-generic-fw_dynamic.elf',
+> @@ -101,6 +100,12 @@
+>     ))
+>   endif
+>
+> +if install_blobs_hppa
+> +  blobs_ss.add(files(
+> +    'hppa-firmware.img',
+> +  ))
+> +endif
+> +
+>   blobs_ss =3D blobs_ss.apply(config_host, strict: false)
+>
+>   if get_option('install_blobs')
+>
 
 
