@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92964345F03
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:10:31 +0100 (CET)
-Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154B0345EF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 14:08:49 +0100 (CET)
+Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOgnm-000138-JB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:10:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51878)
+	id 1lOgm8-0007qy-4K
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 09:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lOgjm-0005TW-IW; Tue, 23 Mar 2021 09:06:22 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41949)
+ id 1lOgjr-0005dV-GY; Tue, 23 Mar 2021 09:06:27 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lOgjk-0002LE-Sh; Tue, 23 Mar 2021 09:06:22 -0400
-Received: by mail-wr1-x435.google.com with SMTP id b9so20702749wrt.8;
- Tue, 23 Mar 2021 06:06:20 -0700 (PDT)
+ id 1lOgjm-0002Mb-4k; Tue, 23 Mar 2021 09:06:27 -0400
+Received: by mail-wm1-x333.google.com with SMTP id p19so11019643wmq.1;
+ Tue, 23 Mar 2021 06:06:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0M8wW87BuDH+rmu9cePgKen5O5CaaJxYZ5OM4Z4+XQc=;
- b=EcBFcbtOSqvotXUwc8ZCZVIWS2nNdlxHeKDbQxruMsrHZvxlchZXXxKRARK8ZtXsMC
- ZTPUwJ55ZnRaSRJiSRKBVARDwE4c6njR2YZSlWZtIHiQjuRq4K29OzzkwyTmMYc6E4QG
- ZAHSXfL8O5h9kDfXplmduNhiIGefA/hwmhaxA4Bt18OR2Z8vOfvxE3xcU9g0F76fw0h+
- hcKOwdKqWLwXbCWHiD8oXnLQYQs5rcARRcuDGuU37TxStayOnT4iTLHZFd3H3FUj5ZJd
- 6XggpD6anDH8E62L86ytcfy+ee5Vyphq0WBcZ6F1bso0HLNRkq+PUx4Kh3bl6th00NQV
- t0NA==
+ bh=FIiDl70VzJ29OzobWO6rnz2BouytBDFb+3CY1MtwOxA=;
+ b=Xhwy6rUg3XoFKRIT+ew8RVk5NKrr+ptwWgdxPT3IAAMJbgNB+D+pZLIPRf/peFXHYT
+ VJyyIIQiT2x9EAKD5fnREwhjIjFUUkALvcLAUSmOzYive/4DaqA98/uQZ+ofDFdcjjQV
+ hjvyAElrpvilCFqNmuGjaOwtdzgDEUbhlWzTH9464tCrDE9OfVkwPzZKVY9THZyGH47A
+ 56O7Bo1gtkwBDiselMTQvWSlB58RmzMZ+bwTl1eTX9ydQoyY/5WRNxpzdPbHqQTnqEq6
+ 6GZym9jfR3xXQ3d4ZaVkbp9BQ2L42Wra9Kx49J7CHwlulQuawVbornXK68uXLIHIhWXL
+ mNaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0M8wW87BuDH+rmu9cePgKen5O5CaaJxYZ5OM4Z4+XQc=;
- b=KdZWO+OS2g3UN8xjLnDqs0ch5R8yx/P2rerqaSRDpNb72tXynzQ+u4xZ1uKbump1OU
- qSfAeIrZGbxM+FeNdT+09IlvA/eOro7hwhLpk44sVQfim8f2VoAIzAIVkslxSE7/b/nM
- hXN20eLHK6zmf0CP66+uT+x4/rUda73rPCVljn9MxSRXOwzLJZgvXNTD/jlcrt8U+APp
- +mGK2er2iR6ghVw/zqCywoIly+swjYvTeIWAmnO8a8Cjwe72cqewIXyVGlK0tlvbcs4G
- 1Vz+X2BTuEMXC9JPCdk/O1Rkbi9Y9QUzfUfiC+4KHLDZAa9sv5e5tXuJygnz4QxsGQnC
- ySJA==
-X-Gm-Message-State: AOAM532tFasPvU55/oxeqQ7U3v+UE0TbIga4ZII2C2s6Pq1ApVOH/ivD
- TlY/Gwnnl4ZeA59AtadYXa8TXCQMtuM=
-X-Google-Smtp-Source: ABdhPJxKY6wx3tDNPnlFbxzT9zb2/sxe8Ug7kX0dy5Pr7yLX+HS2Ke/D4Z3z6cLqxnFsCqdt2HFp0A==
-X-Received: by 2002:a5d:42d2:: with SMTP id t18mr3935711wrr.258.1616504779187; 
- Tue, 23 Mar 2021 06:06:19 -0700 (PDT)
+ bh=FIiDl70VzJ29OzobWO6rnz2BouytBDFb+3CY1MtwOxA=;
+ b=eOnq+ujrUy1HdF3w9N/3GTMDiMs5qQzJgya7b1GnsZq4c3paGjbUNmJJ6mXEEq8pHj
+ xQ9w+5pTx0GSSWcjLv2wouRyjv2Avip4zQTqrczYNY92zLYgtJMo0TrGHj4zlvGPT1H/
+ GO4E+RjcLxT7MzJ+IKcQvX69evQLnAqSZqmZE7fS9p/y4t8pMv+g5M2Rvbdyg4CYmlW3
+ Ol9PF6Mmi1DJGeS2wwVeoL8HAmUGBO5ZxZwjuXy6CvEMBW7u7Zs2/xFQU6shwvzR2ibI
+ RrrR40BgPDAuwGRQR7NJ7oz6XmKP0cpXVo40641Dehdc1onMUxTvFuPdidZl3UByz9je
+ p+qA==
+X-Gm-Message-State: AOAM530F38h/ffvBhu+9DVENv8sXLl3Mqd6kT8UG/M5KOo0sK8HqLRqb
+ vDEhedg1Ce02iSOvUZv+MGOnbSMwIbQ=
+X-Google-Smtp-Source: ABdhPJzcT4wKyt70ZwC9rUV+bB3Xg05QF+jCr7U1ogajAs2Y3Vnf6cM7H4shWelObZa0Ao24ZwT9hA==
+X-Received: by 2002:a05:600c:614:: with SMTP id
+ o20mr3225924wmm.66.1616504780087; 
+ Tue, 23 Mar 2021 06:06:20 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i8sm2507590wmi.6.2021.03.23.06.06.18
+ by smtp.gmail.com with ESMTPSA id i8sm2507590wmi.6.2021.03.23.06.06.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 06:06:18 -0700 (PDT)
+ Tue, 23 Mar 2021 06:06:19 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] qemu-iotests: let "check" spawn an arbitrary test command
-Date: Tue, 23 Mar 2021 14:06:13 +0100
-Message-Id: <20210323130614.146399-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] qemu-iotests: fix case of SOCK_DIR already in the
+ environment
+Date: Tue, 23 Mar 2021 14:06:14 +0100
+Message-Id: <20210323130614.146399-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323130614.146399-1-pbonzini@redhat.com>
 References: <20210323130614.146399-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,59 +88,27 @@ Cc: eesposit@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now there is no easy way for "check" to print a reproducer command.
-Because such a reproducer command line would be huge, we can instead teach
-check to start a command of our choice.  This can be for example a Python
-unit test with arguments to only run a specific subtest.
+Due to a typo, in this case the SOCK_DIR was not being created.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qemu-iotests/check | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/testenv.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index d1c87ceaf1..aab25dac6a 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -19,6 +19,7 @@
- import os
- import sys
- import argparse
-+import shutil
- from findtests import TestFinder
- from testenv import TestEnv
- from testrunner import TestRunner
-@@ -100,8 +101,8 @@ def make_argparser() -> argparse.ArgumentParser:
-                        'one to TEST (not inclusive). This may be used to '
-                        'rerun failed ./check command, starting from the '
-                        'middle of the process.')
--    g_sel.add_argument('tests', metavar='TEST_FILES', nargs='*',
--                       help='tests to run')
-+    g_sel.add_argument('tests', nargs=argparse.REMAINDER,
-+                       help='tests to run, or "--" followed by a command')
- 
-     return p
- 
-@@ -114,6 +115,17 @@ if __name__ == '__main__':
-                   imgopts=args.imgopts, misalign=args.misalign,
-                   debug=args.debug, valgrind=args.valgrind)
- 
-+    if args.tests[0] == '--':
-+        del args.tests[0]
-+        cmd = args.tests
-+        env.print_env()
-+        exec_path = shutil.which(cmd[0])
-+        if exec_path is None:
-+            sys.exit('command not found: ' + cmd[0])
-+        cmd[0] = exec_path
-+        full_env = env.prepare_subprocess(cmd)
-+        os.execve(cmd[0], cmd, full_env)
-+
-     testfinder = TestFinder(test_dir=env.source_iotests)
- 
-     groups = args.groups.split(',') if args.groups else None
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 6767eeeb25..169268f61a 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -120,7 +120,7 @@ def init_directories(self) -> None:
+         try:
+             self.sock_dir = os.environ['SOCK_DIR']
+             self.tmp_sock_dir = False
+-            Path(self.test_dir).mkdir(parents=True, exist_ok=True)
++            Path(self.sock_dir).mkdir(parents=True, exist_ok=True)
+         except KeyError:
+             self.sock_dir = tempfile.mkdtemp()
+             self.tmp_sock_dir = True
 -- 
 2.30.1
-
 
 
