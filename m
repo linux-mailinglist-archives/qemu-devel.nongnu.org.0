@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0DA34629E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:17:07 +0100 (CET)
-Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0461F3462A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 16:17:57 +0100 (CET)
+Received: from localhost ([::1]:48400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOimI-0001WS-MH
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58144)
+	id 1lOin6-0002Xl-3n
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 11:17:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOikT-0000IR-KO
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:15:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOikS-0008Ik-3f
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:15:13 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOilS-0001LR-Nz
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:16:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lOilO-0000Xw-94
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 11:16:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616512511;
+ s=mimecast20190719; t=1616512568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pKSlhwdBfzZdRG4OGCmgTTbwIaoH+jwNW8evUXVJlaU=;
- b=ZbBz3GGl7iLSAGjHp0N5lE9l4Vx/LxsrwZMiCH8QAbJvYWOEnuP6Hf5mPUSNr+QVkYJhS0
- DG5NHtiS6LfSI20HhusqAdZhe09HZJ36PFAbq2rtkhMnM8KRY4KlwmO5y9YGhqmusbjTTC
- wrybySFuderuccRYIdf9AJkLaRuDebw=
+ bh=ZSQgs0XwlPUJVpgLYlhgo0Zkwa1C0Alc7rMVS283pmA=;
+ b=XwpUEUrZLRyeiDjVajPTe7PH6Cw6X7eLaWmB+1Xg6D/Ii8lsFK47EThQlK0++f9MsO9iTZ
+ 4+jIi9eBrmbFpUdk8koeYBuZjfIkelRFHjVU9Vq28ELyy+0x6iFTOx/fJbk3sU6HZFtdqq
+ N6r1kqT5VuA5+Xhs4OUHGWIDhWJeg5M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-PuOpttQePFejlNQqvnrSNQ-1; Tue, 23 Mar 2021 11:15:09 -0400
-X-MC-Unique: PuOpttQePFejlNQqvnrSNQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-582-jke1sXPAOseUnnNRJ1b4Kw-1; Tue, 23 Mar 2021 11:16:06 -0400
+X-MC-Unique: jke1sXPAOseUnnNRJ1b4Kw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FD471034B20;
- Tue, 23 Mar 2021 15:15:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF6DF107ACCA;
+ Tue, 23 Mar 2021 15:16:05 +0000 (UTC)
 Received: from [10.3.112.201] (ovpn-112-201.phx2.redhat.com [10.3.112.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDF565DEAD;
- Tue, 23 Mar 2021 15:15:03 +0000 (UTC)
-Subject: Re: [PATCH 22/28] qapi: Prepare for rejecting underscore in command
- and member names
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EA6B60C5D;
+ Tue, 23 Mar 2021 15:16:02 +0000 (UTC)
+Subject: Re: [PATCH 23/28] qapi: Enforce feature naming rules
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-23-armbru@redhat.com>
+ <20210323094025.3569441-24-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <197fa844-c184-b0bf-6316-c66da7a2e204@redhat.com>
-Date: Tue, 23 Mar 2021 10:15:03 -0500
+Message-ID: <d6d4f1dd-9daf-b22c-4a4d-e39cb5a3aef2@redhat.com>
+Date: Tue, 23 Mar 2021 10:16:01 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210323094025.3569441-23-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210323094025.3569441-24-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,23 +87,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/21 4:40 AM, Markus Armbruster wrote:
-> Command names and member names within a type should be all lower case
-> with words separated by a hyphen.  We also accept underscore.  Rework
-> check_name_lower() to optionally reject underscores, but don't use
-> that option, yet.
-> 
-> Update expected test output for the changed error message.
+> Feature names should use '-', not '_'.  Enforce this.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  scripts/qapi/expr.py                    | 24 ++++++++++++++----------
->  tests/qapi-schema/args-member-case.err  |  2 +-
->  tests/qapi-schema/enum-member-case.err  |  2 +-
->  tests/qapi-schema/union-branch-case.err |  2 +-
->  4 files changed, 17 insertions(+), 13 deletions(-)
-> 
+>  scripts/qapi/expr.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Thankfully no offenders ;)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index ce37b426c9..01a994412d 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -213,7 +213,7 @@ def check_features(features, info):
+>          check_keys(f, info, source, ['name'], ['if'])
+>          check_name_is_str(f['name'], info, source)
+>          source = "%s '%s'" % (source, f['name'])
+> -        check_name_lower(f['name'], info, source, permit_underscore=True)
+> +        check_name_lower(f['name'], info, source)
+>          check_if(f, info, source)
+>  
+>  
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
