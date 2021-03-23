@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B824534553F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:05:03 +0100 (CET)
-Received: from localhost ([::1]:45470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07026345562
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Mar 2021 03:13:26 +0100 (CET)
+Received: from localhost ([::1]:38162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOWPm-0007Om-PS
-	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:05:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50250)
+	id 1lOWXs-00085o-V1
+	for lists+qemu-devel@lfdr.de; Mon, 22 Mar 2021 22:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKZ-0002Kr-LB
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:39 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2067)
+ id 1lOWKa-0002Mu-ON
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:40 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:2072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=709ee912d=alistair.francis@wdc.com>)
- id 1lOWKX-0006u2-MO
- for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:39 -0400
+ id 1lOWKY-0006vy-Vb
+ for qemu-devel@nongnu.org; Mon, 22 Mar 2021 21:59:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616464777; x=1648000777;
+ t=1616464779; x=1648000779;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LECnBNUuCJ7SLj62iaExeXoe+kDx2JkPWICQ8uG/7jo=;
- b=ngkd0TyfbqDyD7tb4Hj8MoiZRCgIJRGvWTL5Vzp6vrWi7j98Pd8SjUH/
- xtgeRMfZJgkCGTAjMK1AzfTVcE8SRusix9etqVZKSNcvDj4oRtMwzQDH5
- MGh4WQoAGUfR6jsePGzsxo4nWiMvU3T0Q5Ee+zy8f2gLrOvm0VJkzH0Pk
- 3kYMQoTUK/0Q2wMJyTaiISbkBVIPDoav4U+PdDCcDip1jSNWE9eOEEIKf
- Idgd9b+vEUHM/qZpqaSbhfSlgKRg2W3PNbAEsOMG7r3xXggBJSgGuTO/p
- EYA2EA3T50Js+NPxP+2vxyjQNzCCRp+wQ3rw3eMuE4jfbKLXQCKHekj7H g==;
-IronPort-SDR: FHHeK5cbmXq8lLuilQvYfLficjX5kt110m9ePlWOO+vhOcrtJMV9eGxfmjQBlgktDNiJgDdvlG
- sgbe1kd7KFMfjNuhzLFLRYvAsQlpEX/mQnmVSzrw8MExh41f6qfFGL3G13LHDsoivZ9Ox6pCt4
- eH6KqWBoqE3+2ZYauDbPjmcyVdTRhAVNsc/5Vl/ZvZMLdut6u+S6m9zbj1fMjgh3hl4WNtnXTh
- d9MKxpEdDoe1QqnkhdBvFl23xc0OOWNgMzthUreJN9mPXrsHflrt18inlqXUlkfcTa6ULEZeFQ
- mSM=
-X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707635"
+ bh=XwkbafFkgXx0cHFkkMZ6VWtj3HM8KkoaaxCJWf09dIU=;
+ b=fCB15BtUiTexkfS0dO5VFfgPnrsZANOG/SXvOAsbfDiUAQS58rSgILB6
+ rVe+uU5V4h6o/y/6FMnqD+/bzSbop1rKm3xbYfA+/m3Ht/X5Gt8yMf9Ye
+ +C5n0sEwbs1O22cRtPzMCix9m8R/xGZV4GwY5+uSwUA44+g5r96RtxyOh
+ oaqQNohJqNYdpobjo8DhGTgZrBKWBUGovfAr3iN0vSMcSG7YzTW5fjYZE
+ xSYl808+cKxVtcPDKbTgzZKVatL9AIcytZ5jULLyaXSwC1eyTktWKmBFJ
+ qstv2yVvGmgeGPiY6lajYhd6eUNn12G5rswXlJxTGeqAWGPFIdUZdiWoY w==;
+IronPort-SDR: n1OmZo6PsxFtm7kyZX3OKwVEQgeSmV5mob05Npj+XSucGtrxlWOlMFgEXl2bPGUDBhhsL3EP7K
+ ZXQC8B7jCS0zKGVUqvCwygxlSq1OFRgpE8DFsZp+j7Sn8Ui1B3N1fCs5ctsBcXcU7PqsvgMJPl
+ 4dIKI4Oo3lU+Fe+w/AUnZE8PFkYGAmZ8jRFtD7F7sAiaSwDHhgVftB4e4t3MIb6PeYoukHHA3v
+ yS50aYvDXOFG3RF93ZToixcbSYNlv2O+9ecuFXWSS3HwYWtHZzWxGuNgcY0zmBR5+XYGwmXJ1T
+ PZ4=
+X-IronPort-AV: E=Sophos;i="5.81,270,1610380800"; d="scan'208";a="162707636"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:33 +0800
-IronPort-SDR: 00o1Ug7u2bwrirQ+SP+FiLhXvMU7nAblDXX3FkWJM+7yvpd5mBM8Lj68n0wf3/3PlVjdLV1h2F
- 0a6+0J2bo9eToJB5JgpEZ3c6DCwKAqT8Qzr0uueZQwBC7y1Sbf0UrvqgYpk/EjbG/P5QASZYYQ
- jNnrDeO5WbeDnwm1dLWCkH3TgUnaxvXDnJety5Tt7rCNT6EMr778ry5BohaQyooXNyb62J4Vsq
- VWfcdjsxXqX19rWGi+uimrsqXtkLucFM0sDumrGHsMSfJD6JxMF99yF94CfX4xFhuqQBEOigxl
- R6w9TmRgODebCKK6RvC9TyDD
+ by ob1.hgst.iphmx.com with ESMTP; 23 Mar 2021 09:59:34 +0800
+IronPort-SDR: IN+Aoz9lfZQGgHUaNvAAc8/tjOljrgkFxcC9zqV24TQjUnPD7yLVQu0Bp5YaEipRbI9uD9sTUQ
+ Xgbux7J7BzlaGaD6McEZ8bKkJ8CBNqjXqd292iTqZIEPgpKevWMt77hMdGlbx+1NVcIHSqd8jI
+ 5T1iV3FExnOac8s/Hd3PPwwa5kpWXwt3owVtTs0KTWq39cWco/Q+nofk0ifdL8D4+31yom6Pjn
+ yPbEMFD15HGNTd0kZjEGxP2aUeLhda8z8lJlBGn8V9x9QIZEUvK34nl5dL0shOMwAKjSv/hnKc
+ n34Q+nmHTz6sGcMqM354EUzL
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2021 18:41:41 -0700
-IronPort-SDR: qqb3OOHKC0sbwtsoPvie3KbAm9/YnS3XpxpDRyaKUGU52DOVrwhllFY2NEXD0cMhmhTvf43/Ss
- pOfDryKnKw8c9yh07jXNlhz82WRPrdESVu0YdAH5iGeo3GVcV2DSRJ5Nqz2+c2E+dbbK7RmVSx
- AQjIdTETcA/TpYXUSzoUCtTureaFQuNRu2wzQpoyfqD/8MPlb/p8vUsduonSOusanUNydkRJOW
- beQsOuFjTd+ZJvU525GJsL4YtzQcNlzpHRMUoBO5BhsleQyPUXJH56g+wOMAhZQ82LN5qm9s/b
- BGw=
+ 22 Mar 2021 18:41:42 -0700
+IronPort-SDR: Q0eraa+CKHQ795u2CHim6+Vq2QBUQxI+uEzPERRkiy3PDB7JqRRUbir4UnQ4Vtw+dMpF5w1HTd
+ yQ7GZph7yMVAxYdW5bdOl75923xObgC3v6ili8AlWmG8j3FPLde7KhVb3rlgW1MfC2iMnlVBv0
+ hKTN6Dq8vzrETi1V0RE+WBdlW5Wp0qVZNB/4klakGyl3snoiZa5h8aQy8NnUXHRdAomFv5qRlA
+ OzOu2BkoUqwgEPebqZPkFRoqFU1wNIujVn+rQRRHzBxE9UrYY+cn5yzTCvWz3+8U+Qy9HDpci2
+ suo=
 WDCIronportException: Internal
 Received: from cn6ntbqq2.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.49.5])
- by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:33 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 22 Mar 2021 18:59:34 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/16] target/riscv: Adjust privilege level for HLV(X)/HSV
- instructions
-Date: Mon, 22 Mar 2021 21:57:46 -0400
-Message-Id: <20210323015756.3168650-7-alistair.francis@wdc.com>
+Subject: [PULL 07/16] target/riscv: Make VSTIP and VSEIP read-only in hip
+Date: Mon, 22 Mar 2021 21:57:47 -0400
+Message-Id: <20210323015756.3168650-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210323015756.3168650-1-alistair.francis@wdc.com>
 References: <20210323015756.3168650-1-alistair.francis@wdc.com>
@@ -99,64 +98,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
-According to the specification the "field SPVP of hstatus controls the
-privilege level of the access" for the hypervisor virtual-machine load
-and store instructions HLV, HLVX and HSV.
-
 Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210311103005.1400718-1-georg.kotheimer@kernkonzept.com
+Message-id: 20210311094902.1377593-1-georg.kotheimer@kernkonzept.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ target/riscv/csr.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 0515f9aec8..b15a60d8a2 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -368,7 +368,11 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         use_background = true;
-     }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index d2ae73e4a0..a9dba7f736 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -420,7 +420,8 @@ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
+     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
+ static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
+-static const target_ulong hip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
++static const target_ulong hip_writable_mask = MIP_VSSIP;
++static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
+ static const target_ulong vsip_writable_mask = MIP_VSSIP;
  
--    if (mode == PRV_M && access_type != MMU_INST_FETCH) {
-+    /* MPRV does not affect the virtual-machine load/store
-+       instructions, HLV, HLVX, and HSV. */
-+    if (riscv_cpu_two_stage_lookup(mmu_idx)) {
-+        mode = get_field(env->hstatus, HSTATUS_SPVP);
-+    } else if (mode == PRV_M && access_type != MMU_INST_FETCH) {
-         if (get_field(env->mstatus, MSTATUS_MPRV)) {
-             mode = get_field(env->mstatus, MSTATUS_MPP);
-         }
-@@ -741,19 +745,18 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
-                   __func__, address, access_type, mmu_idx);
+ static const char valid_vm_1_10_32[16] = {
+@@ -962,9 +963,9 @@ static int rmw_hvip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
+ {
+     int ret = rmw_mip(env, 0, ret_value, new_value,
+-                      write_mask & hip_writable_mask);
++                      write_mask & hvip_writable_mask);
  
--    if (mode == PRV_M && access_type != MMU_INST_FETCH) {
--        if (get_field(env->mstatus, MSTATUS_MPRV)) {
--            mode = get_field(env->mstatus, MSTATUS_MPP);
-+    /* MPRV does not affect the virtual-machine load/store
-+       instructions, HLV, HLVX, and HSV. */
-+    if (riscv_cpu_two_stage_lookup(mmu_idx)) {
-+        mode = get_field(env->hstatus, HSTATUS_SPVP);
-+    } else if (mode == PRV_M && access_type != MMU_INST_FETCH &&
-+               get_field(env->mstatus, MSTATUS_MPRV)) {
-+        mode = get_field(env->mstatus, MSTATUS_MPP);
-+        if (riscv_has_ext(env, RVH) && get_field(env->mstatus, MSTATUS_MPV)) {
-+            two_stage_lookup = true;
-         }
-     }
+-    *ret_value &= hip_writable_mask;
++    *ret_value &= hvip_writable_mask;
  
--    if (riscv_has_ext(env, RVH) && env->priv == PRV_M &&
--        access_type != MMU_INST_FETCH &&
--        get_field(env->mstatus, MSTATUS_MPRV) &&
--        get_field(env->mstatus, MSTATUS_MPV)) {
--        two_stage_lookup = true;
--    }
--
-     if (riscv_cpu_virt_enabled(env) ||
-         ((riscv_cpu_two_stage_lookup(mmu_idx) || two_stage_lookup) &&
-          access_type != MMU_INST_FETCH)) {
+     return ret;
+ }
 -- 
 2.30.1
 
