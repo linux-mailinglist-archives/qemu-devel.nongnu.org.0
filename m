@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 383473482D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:25:05 +0100 (CET)
-Received: from localhost ([::1]:37504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C543482CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:23:00 +0100 (CET)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPA3r-0007pD-S5
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:25:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38710)
+	id 1lPA1r-0006ac-GC
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lP9or-0007vO-Ng; Wed, 24 Mar 2021 16:09:33 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43129)
+ id 1lP9or-0007vN-Lm; Wed, 24 Mar 2021 16:09:33 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lP9od-0008NM-PR; Wed, 24 Mar 2021 16:09:33 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 89DCC13FC;
- Wed, 24 Mar 2021 16:09:17 -0400 (EDT)
+ id 1lP9og-0008PX-77; Wed, 24 Mar 2021 16:09:32 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 81E6A1401;
+ Wed, 24 Mar 2021 16:09:19 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 24 Mar 2021 16:09:18 -0400
+ by compute3.internal (MEProxy); Wed, 24 Mar 2021 16:09:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=v8RAiOJMlzHyh
- NB2DIrXIr9luT0XBrNgKMjXxo0kGOM=; b=amKa8NaTJ2eO17QdzqKD6TldSCWpm
- 4gL1Ts0+SODU507KXC34F1Ae7Mkn+bTzlHxImvLxa/7zQN4mXFW8EcKMlQqRlZks
- 2txCnTPqOMUn0WBEhUxxLhPPo9YchZleehGXjEL7zeq9t8SkehN/JkJm+3RttOTZ
- Op+R449M89s3htvEkL2U0SfAOZY+YfphZMMcy/laK7oJaG7ChzogOvVVJhaGoa0G
- NU/mW9nXZr4HMgKeChPVBpCuSr/sQey5sZChsNFfxCNkRk54r22RCfurwIXIGxMG
- Zpl54EmfFt97K5fWibpjcz+wTpjK30vH7ptY7dlhItDscCyzznz7edXCA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=fVTX6CUmqYCuX
+ CPyvquTvZr3MbP4Kb0leRFhY6fwrYE=; b=MXpH41s31VePoPnhX2ZpKmS/HFB0+
+ 5XnjRTRqoJCBC1o+A7axKlABjfenN0UVWvQ0ygWXdkaXmlGA/P4atmfoURrYgWBu
+ StMxT3s82rVDMzD+82HKfRjrTg6ek54shibYVJnCw6Af8S36V0CAgBKi77GS84yD
+ 0SOEqqSSQUjm8jhoR9Z+RZMnum3q4+1PikW59eVJxFmRuNm9LgDKWwbHQqCLLEXD
+ ecRtJtcUnC3QrvyKboeSqV7YMx1VfFI6ICC+4F5HDLADH9VX4tX/yqa/ZDl8vu5k
+ 2z8pPu6ChJ2xRHE9pQPTI2Wnb7r2EMbeTTakEzEHF5fG0keyoVCOyRi0g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=v8RAiOJMlzHyhNB2DIrXIr9luT0XBrNgKMjXxo0kGOM=; b=ujsNHZ8Z
- yQMAvlo12oeqjidbXNNnuF66rlODxZhI1IYO8iXOn7x+HVMK48EyT5vEDRG4YwfF
- zt5Ib5UOmJDF6tyc/pAt0NMm9HtLrSkW8JjZlWCQhsiqY3NKJ47cPwwEo+wGvTbC
- f7cYgoXau3Ifr5VMg6zhN6BhXtr7cvosfDqN36gu6sFIIokDwEqtk9KTALcCOn+g
- cZXitpybICN3tBOVDw6QfPyLGOaImUPVxmxGfkgLWqlf3jM0ace++6aAhKv/R5Ij
- DHDgodHRe/tEd0baUphqhs18j1q/+hR+spbFZTPOmwcN5ETWRrf5c4ra1d4EV8Le
- C36cYndkhvZGOw==
-X-ME-Sender: <xms:bZxbYGhSnyOHUfAGeUQSEsumLc2jxWJhS0MrL0wEkbK0uehuOW5uzA>
- <xme:bZxbYP_fu3qZxEFvbK23kmAdxIasIfO8jjuPEhUsNVo4b9BC_Bl_zgVfUoc1FTgb3
- V0pHz9gL4e_IaDRcSg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgudefudcutefuodetggdotefrod
+ fm2; bh=fVTX6CUmqYCuXCPyvquTvZr3MbP4Kb0leRFhY6fwrYE=; b=p8V0ufBd
+ bVKObbZomwC9JHMBx812oQIWEHtYCKBIznrg5P6B+J3P59JUFQ0J61Ogk451ooWe
+ vjzxcQCTb/wh7ihfkH6YKW9qNnGDscr/vOC0R84wnUxfYxnAtNK7rxOFyibIxqAA
+ PBSlj8KcF0LeOd8c1uPXgR07lEd7+XOnBykjDj6mGbcuxD5ykJVIhYKIn8L9mm8Q
+ ypNWKLTtWgYD/Q5JLm5PrPjfglFh2D0don4SC2VRRCWQzSQOuTRfaEcp/35pOunx
+ 76+SzB+POPjW6BXQ8a1fC9jC4cVIxAZMc+q9FvsQIEjSKjM3ZdNcK4fjRftfk3OQ
+ pq0mV0jCeFgg0w==
+X-ME-Sender: <xms:bpxbYEND9PDxWOv-bhM7qw9tSyQo6xCg2JU5TbozTQ01ts_bZMlQHg>
+ <xme:bpxbYHTC3emVvexLO18qYji6IyMYZsqaahMbO5XR5Do7Jwnpl-Mq6o4E_2G6vVLih
+ j2s40PNNnFlT8oBolc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgudefvdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgudefudcutefuodetgg
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
  gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:bZxbYJrBigTHpx-5_oxUgCPY_M8WuTx827-nbDw_jlS0LpeWCXpKTA>
- <xmx:bZxbYPULbpbXJWUFpDbGWzwNe_-ujEwtsxcg2UJo_IDCAr3UziWFaQ>
- <xmx:bZxbYACQOLCLDekZKxZXPWYO0qBZiWV0lS7Y8-q0hAzLecJpNXJCxg>
- <xmx:bZxbYFoKzc7LJsDBun6DDWQPQCrv_Rxy_SrSoygGBmc4VfSAWxeouQ>
+X-ME-Proxy: <xmx:bpxbYOAMD7qNLCTTn79K3LMkXpyjvSyTJo6uZcrAMNsmWGvZQmPCag>
+ <xmx:bpxbYOhaDbXl_QZfd5krywyKcnpBombQ45wBCrI8Zx36azber3FPGw>
+ <xmx:bpxbYPMahUhQCs1CXSFsedr5IYUCAsuKl7UIBxPbov3o7hgprlWy2Q>
+ <xmx:b5xbYPK-EoOlEuKamf6FuAo19oJGHN3o0HyfaO8ms65RkjmTZBklXA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id DC671108005C;
- Wed, 24 Mar 2021 16:09:15 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 449781080057;
+ Wed, 24 Mar 2021 16:09:17 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 4/7] hw/block/nvme: fix controller namespaces array
- indexing
-Date: Wed, 24 Mar 2021 21:09:04 +0100
-Message-Id: <20210324200907.408996-5-its@irrelevant.dk>
+Subject: [PATCH for-6.0 5/7] hw/block/nvme: fix warning about legacy namespace
+ configuration
+Date: Wed, 24 Mar 2021 21:09:05 +0100
+Message-Id: <20210324200907.408996-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210324200907.408996-1-its@irrelevant.dk>
 References: <20210324200907.408996-1-its@irrelevant.dk>
@@ -80,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,70 +102,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The controller namespaces array being 0-indexed requires 'nsid - 1'
-everywhere. Something that is easy to miss. Align the controller
-namespaces array with the subsystem namespaces array such that both are
-1-indexed.
+Remove the unused BlockConf from the controller structure and fix the
+constraint checking to actually check the right BlockConf and issue the
+warning.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.h | 8 ++++----
+ hw/block/nvme.h | 1 -
  hw/block/nvme.c | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 9edc86d79e98..c610ab30dc5c 100644
+index c610ab30dc5c..1570f65989a7 100644
 --- a/hw/block/nvme.h
 +++ b/hw/block/nvme.h
-@@ -217,7 +217,7 @@ typedef struct NvmeCtrl {
-      * Attached namespaces to this controller.  If subsys is not given, all
-      * namespaces in this list will always be attached.
-      */
--    NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES];
-+    NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES + 1];
-     NvmeSQueue      **sq;
-     NvmeCQueue      **cq;
-     NvmeSQueue      admin_sq;
-@@ -232,7 +232,7 @@ static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
-         return NULL;
-     }
+@@ -166,7 +166,6 @@ typedef struct NvmeCtrl {
+     NvmeBar      bar;
+     NvmeParams   params;
+     NvmeBus      bus;
+-    BlockConf    conf;
  
--    return n->namespaces[nsid - 1];
-+    return n->namespaces[nsid];
- }
- 
- static inline bool nvme_ns_is_attached(NvmeCtrl *n, NvmeNamespace *ns)
-@@ -253,7 +253,7 @@ static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
-     uint32_t nsid = nvme_nsid(ns);
-     assert(nsid && nsid <= NVME_MAX_NAMESPACES);
- 
--    n->namespaces[nsid - 1] = ns;
-+    n->namespaces[nsid] = ns;
- }
- 
- static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
-@@ -261,7 +261,7 @@ static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
-     uint32_t nsid = nvme_nsid(ns);
-     assert(nsid && nsid <= NVME_MAX_NAMESPACES);
- 
--    n->namespaces[nsid - 1] = NULL;
-+    n->namespaces[nsid] = NULL;
- }
- 
- static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
+     uint16_t    cntlid;
+     bool        qs_created;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6842b01ab58b..7a7e793c6c26 100644
+index 7a7e793c6c26..403c8381a498 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -5909,7 +5909,7 @@ int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-             return -1;
-         }
-     } else {
--        if (n->namespaces[nsid - 1]) {
-+        if (n->namespaces[nsid]) {
-             error_setg(errp, "namespace id '%d' is already in use", nsid);
-             return -1;
-         }
+@@ -5807,7 +5807,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+         params->max_ioqpairs = params->num_queues - 1;
+     }
+ 
+-    if (n->conf.blk) {
++    if (n->namespace.blkconf.blk) {
+         warn_report("drive property is deprecated; "
+                     "please use an nvme-ns device instead");
+     }
 -- 
 2.31.0
 
