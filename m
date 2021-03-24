@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B31E348315
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:48:26 +0100 (CET)
-Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC9434831F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:51:27 +0100 (CET)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPAQT-0002s2-C6
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47204)
+	id 1lPATO-0004dZ-H8
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lPAOI-00021Y-Gi
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:46:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38119)
+ id 1lPAPc-00033B-RQ
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:47:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lPAOG-00034C-Uc
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:46:10 -0400
+ id 1lPAPW-0003Yt-6B
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:47:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616618768;
+ s=mimecast20190719; t=1616618845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6jpbU7vle/qFPIDo8YJ/pAybA1Ur6pwgoLSRSbvmRnM=;
- b=VXUuRYOVOFtz6JFU4ft/l9LTiwzulYdWH9OwqZD/H3QJn2L/rmxLuR1jdDS6MMZyYScv/T
- aJBn1LJqTSP+aQZl5IstJsfWm2OSzINlYu4OxkOfTynkAEgNU9sPMixE6/SycOo5q/gDDE
- jVh6Oxn23Fgbwn4GAQg5TXoPd92xXzY=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-ZkDzg3KRORKABCZCEP2erg-1; Wed, 24 Mar 2021 16:46:06 -0400
-X-MC-Unique: ZkDzg3KRORKABCZCEP2erg-1
-Received: by mail-yb1-f198.google.com with SMTP id g9so3719812ybc.19
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 13:46:05 -0700 (PDT)
+ bh=29GtX7cEmhQHVsvuZJtMUyv06WXunyr9Tt7TS5LHUYE=;
+ b=d/HpqPI3Qy+tzghqyqnVsEMaLM/FM2KkBwModLQ6TWut70xBtwrCR4u9ny1R9ZJdnKp0Wk
+ bPlw73wt8nTywKMCZvUwt4iOq+51Dm+IiYwvYKTi3GHYgtCqKgpoFE9iHbJZScMHoZE6n4
+ 6U77EmosUc9brz/gUGwJ3jAUYtkBmQs=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-byC3RXbeNP27_9C5240v7w-1; Wed, 24 Mar 2021 16:47:21 -0400
+X-MC-Unique: byC3RXbeNP27_9C5240v7w-1
+Received: by mail-yb1-f197.google.com with SMTP id v124so3716279ybc.15
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 13:47:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6jpbU7vle/qFPIDo8YJ/pAybA1Ur6pwgoLSRSbvmRnM=;
- b=gON/OKPpZmFKNjF4pfDseeP0lx00XXINLAtFv6c3IcyIqprUoyg6LFODkC8RPy2c8U
- HY9Jo33VjCvCQyMAmOPbsFrdcNMeIfo2qaZQyJUHfR+Y+WmehSvcOjJ5gkmcwOgXOEiS
- dROVnu7KE+0HLX2x9UV3rigo4gdGqhDMz++xQ2Uimb2o/t5FPb6m6SE4Dzf1WdCAJ26i
- xf8KQwiyXRFrp6RqO0l3ijcEv0FGygmGsQYaPXPIHRWJ0ZH5pI7e8PeXCYmoRLEu/O3G
- RKrOddae2NUluf8ZczKCUZNs/SXPS8mdKIO24s9hrH7jD1VWHrOApot/rFKrVp1sMgqh
- PBag==
-X-Gm-Message-State: AOAM531jjiwP4aDjtZ1fg/k8SqElIDIPpABnYEcS8rGCoEFF0/FJpT9+
- tBtZQhBU30IFF3NDpFNlpvZnH3Nt9VSrDzy7D3lw6kmn4TupDHH+UT2iTEWg5dLZ9JSJ0r/dUPf
- hccDmqNOjPyOUghiiFuFa7kH+qbFoA+0=
-X-Received: by 2002:a25:7d07:: with SMTP id y7mr7331287ybc.425.1616618765236; 
- Wed, 24 Mar 2021 13:46:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwktsQ0aUZmQOpgyGJDTRenVkrlAiGjxvDuVu/zmd0VZ9Pw0Q79WhlJz1bS9ag6ZpUsZMPSbPJ1P8QSPE8vKLA=
-X-Received: by 2002:a25:7d07:: with SMTP id y7mr7331273ybc.425.1616618765088; 
- Wed, 24 Mar 2021 13:46:05 -0700 (PDT)
+ bh=29GtX7cEmhQHVsvuZJtMUyv06WXunyr9Tt7TS5LHUYE=;
+ b=U/dv0U4QfUyr0+57Os1ne0+G7bFZDn0534O2Z5ce5tpXuv5XMigqcPWETYTGH+d+nP
+ rAoDTqWemg3SQeMwXAtWKwoR4cKhzGc+2B0QQcFDv0DSujVc4kzo83APaACaTHbfEHoR
+ E7Ru/v83OAaAWZ8LBek5U91XIuVU3jOQse7dTJqaPQHWNpPnieKXww0OARsgKZobvB34
+ clB1JBSVRfUbp/XOXsqUtZVyxyhQmCfNwFFrI7Knr2imITS7z0/bOv8n3xFgu4eTxL7E
+ aED9hwWqcPoQ3y8SXzuTa6NV/O2fjLOPUALXO1yPYkKeLtDhjLQ/8dg4JGYK9/xwjfKt
+ NDfA==
+X-Gm-Message-State: AOAM532C8QY4VJYlCPvgclJDe2ahzJSCUA/PCRXJiXnplu/QJsFbpZpR
+ qGlbAlxeku+8603yLE6gZomLOVzVbSYcJhXSSmSQuIEZRL049cMIcU+NoWKdBKcou6ZIHDMuXDq
+ o1eJvAMu/w2CgAk4/ZGRxXGbRPgR+K3I=
+X-Received: by 2002:a25:2d14:: with SMTP id t20mr7211727ybt.501.1616618841205; 
+ Wed, 24 Mar 2021 13:47:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIHweia0cwcc6pHTQxp50BxjlWfprYMsP2k/eP7GpTwGW4KprzFRJ2LSMLodlx/1zG9aVdp8BS47vrBcYHEQc=
+X-Received: by 2002:a25:2d14:: with SMTP id t20mr7211713ybt.501.1616618841033; 
+ Wed, 24 Mar 2021 13:47:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-8-crosa@redhat.com>
-In-Reply-To: <20210323221539.3532660-8-crosa@redhat.com>
+ <20210323221539.3532660-9-crosa@redhat.com>
+In-Reply-To: <20210323221539.3532660-9-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 24 Mar 2021 17:45:39 -0300
-Message-ID: <CAKJDGDYkS6uZ-BOo_fTF9Vs0144-2DbYY6pPef-tUqr2wNbXhg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] Acceptance Tests: set up SSH connection by
- default after boot for LinuxTest
+Date: Wed, 24 Mar 2021 17:46:55 -0300
+Message-ID: <CAKJDGDY83KonMKehXC=peH9_iHaPnxrL+FoVrM9f=bfXfxbh3w@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] tests/acceptance/virtiofs_submounts.py: remove
+ launch_vm()
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -107,15 +107,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Mar 23, 2021 at 7:16 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> The LinuxTest specifically targets users that need to interact with Linux
-> guests.  So, it makes sense to give a connection by default, and avoid
-> requiring it as boiler-plate code.
+> The LinuxTest class' launch_and_wait() method now behaves the same way
+> as this test's custom launch_vm(), so let's just use the upper layer
+> (common) method.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 5 ++++-
->  tests/acceptance/virtiofs_submounts.py    | 1 -
->  2 files changed, 4 insertions(+), 2 deletions(-)
+>  tests/acceptance/virtiofs_submounts.py | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
