@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2563534805F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:22:59 +0100 (CET)
-Received: from localhost ([::1]:34754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC32348013
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:11:24 +0100 (CET)
+Received: from localhost ([::1]:52078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP89h-0000v5-Pb
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39612)
+	id 1lP7yV-0003uO-8G
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:11:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lP7tB-0002Vm-8K
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:05:54 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43981)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lP7tq-0002tK-Q5
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:06:38 -0400
+Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33]:40886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lP7t3-0005QZ-1N
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:05:52 -0400
-Received: by mail-ej1-x631.google.com with SMTP id l4so34391410ejc.10
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:05:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lP7tn-0005vL-QO
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:06:34 -0400
+Received: by mail-oo1-xc33.google.com with SMTP id
+ j20-20020a4ad6d40000b02901b66fe8acd6so6042993oot.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:06:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fihq8X7fJCeaNCkxSDgAf3PKHl9J1g+Hg1DHJzmwBcc=;
- b=LB9iol1ooYjUpdvIgJH/QSzwIo3PKFeyuR+WnlI+Is0MHGGBH0ESJWwusPcJRsZAH3
- CD2XRk8lYxtlBxdFya86+8XxY5A6QDcgftqd2/FhRhT0CqRhHFBhxmRf/q3WpiFr8+wC
- 4UPhWGfKZygvjPt7C1W4wq40oA3qcv+ABbqdgOffgO9U7tLYYqepPZZSZiTLj296E8yd
- Nwgu0d+MMmcX0RHiQRixls08iogEZ2pOpqYaLDDkQkuEx6xrawYuKpEfXBvVns7zCO1I
- D037msr+jbfQBljOfkqWXKn1DN+r1srn4ZgINl6Q8bKzoBG0GqtGF0/bZ9CVIGQu7OwV
- KlbQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lb7k6LzexhoCgkdHGhRsZoBIoDDEJFBlRt+JVg5p+K0=;
+ b=b6mpcas2dDs+vgkJeIquEiNlDZ+vMPHJELOdmIjPKGX9FL5drxAj7fKhp9YydMaYL9
+ 343AvXDucwwrAgRvjjY6Q/y60eoZxACVcrUl65mr/gdS292IzbNgthKCOZAHYKp9wKsg
+ tLBHYOw1MBJkXShZxzMv8Aiq+SWmpkE895EY/T3Mhi34LQtpu7zN4caHiKb9Tr1NThI3
+ tn5qxBSLm8srRPeM0743z10yqamqNYq+MsZ8TVP9Lmt2tc2ZNqBxGSgY/1N+rUFFBH9I
+ aU9pyINICtAB42xVHe11TVum3C4Sj1GANzt0zHUyYG3tpHXWndRmdR/JKZSQmbu4Z/oW
+ Uzzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fihq8X7fJCeaNCkxSDgAf3PKHl9J1g+Hg1DHJzmwBcc=;
- b=n40bNmWw51hhuiyd1XpE1+riYkixZMw8OsOtY1qt7GbDWtHs0mtykVcCFDx05ujhRQ
- Z0zdsP94eUVypSLNQDS/vM2fWtxQzInR9hIiD7JMTo+lhaoQmwV45TNUBe0PIVvJJpUy
- KHiq1G2q447hilWNHsfpCFqgqFvhN4N1eu6It+yElvKsDDIwliD0QinGlsZSlS9AKCVH
- k2t7EfPu0bOWFhHGVRG2be6yMLHfQChTGQ2/k9BgY3eL9tvkKqZDvveonNMGGAeGN6a5
- DL5gPuRQoVMzs3rvSrxrulIahekvoOdlALhEICNIjZUR/Muw/1LW05nhq/1LT9uFJELV
- LotA==
-X-Gm-Message-State: AOAM533WJzeLEi1REuk/faT6zQ4ACdZ0S5G5nmL6s6U6sLr+lvnXzF1u
- xzIR4kvMFxrd/Fh99hXtI9EwWpKp9mUf5q25f+2AUIKwmDnym518
-X-Google-Smtp-Source: ABdhPJwF9Xl64s83p2QirAOu3hfAYO8agwBjq5A6b5Myf/aT5gfjgf2Wehu4IkepP1N5XLcp8zDPjbm0HqvE/Ri/1LM=
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr5078186ejh.4.1616609142602; 
- Wed, 24 Mar 2021 11:05:42 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lb7k6LzexhoCgkdHGhRsZoBIoDDEJFBlRt+JVg5p+K0=;
+ b=FwAP3Vj5MCLfWEmHwNEVTJUNzS8TdvFsBf5k/mxVB34WDXwMdbnIVzYV7sGHhB4bN/
+ 6UE3punLWTdfDR5xbGwk0bMj0EtDfdwi503Z/IPxhOUiu4VmYYeitQuU0tyXrXtKDJEm
+ 5HHWmiTDJDavXrNo+BbHLjzP2p8Ki6dFeqIsE4LVMUCa162a0SxdM8dpPuIp6Z8pkmwZ
+ Jl1PcR0UZ5gQPvpZSWioJ6Nqa2og+vkElCJXC5pb2aVABQ6OvFORXeHZ4sQO8XQfulaM
+ vaDQgOu5UCzVqNuwF3JYrCpGSjNwPKeTKF6A3LwHO7Z8nKW1VqxUpNyMm4u2AoSGNg/Q
+ cfnQ==
+X-Gm-Message-State: AOAM531L2LuShw1s8RAfno5EPxmBg42znOc0Dgm52xyvojAqCp5Wop59
+ mO+jt73AZgybbzT4lNbVMtDo4w==
+X-Google-Smtp-Source: ABdhPJwbH7Ksd9PvzrMiL+rN11c1jY/bxRir7DLoNW9KH8r0MHoj/2bc/dVymU/F/aEAe5jKTc/unA==
+X-Received: by 2002:a4a:b787:: with SMTP id a7mr3836909oop.18.1616609188781;
+ Wed, 24 Mar 2021 11:06:28 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id 8sm689980otx.1.2021.03.24.11.06.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 11:06:28 -0700 (PDT)
+Subject: Re: [RFC v11 04/55] target/arm: tcg: add sysemu and user subdirs
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210323151749.21299-1-cfontana@suse.de>
+ <20210323151749.21299-5-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6986c748-4cf1-6f61-5d21-3e5d2d2513d7@linaro.org>
+Date: Wed, 24 Mar 2021 12:06:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210324145202.430759-1-stefanha@redhat.com>
-In-Reply-To: <20210324145202.430759-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Mar 2021 18:05:12 +0000
-Message-ID: <CAFEAcA_NeCGj0oaQ8GZhxJFLzqDoL+xi1vzL8rGKata8QbNv=Q@mail.gmail.com>
-Subject: Re: [PULL 0/2] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323151749.21299-5-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc33.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,106 +92,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Mar 2021 at 14:52, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 67c1115edd98f388ca89dd38322ea3fadf034523:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20210323-pull-request' into staging (2021-03-23 23:47:30 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to 3460fd7f3959d1fa7bcc255796844aa261c805a4:
->
->   migrate-bitmaps-postcopy-test: check that we can't remove in-flight bitmaps (2021-03-24 13:41:19 +0000)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> This dirty bitmap fix solves a crash that can be triggered in the destination
-> QEMU process during live migration.
->
-> ----------------------------------------------------------------
->
-> Vladimir Sementsov-Ogievskiy (2):
->   migration/block-dirty-bitmap: make incoming disabled bitmaps busy
->   migrate-bitmaps-postcopy-test: check that we can't remove in-flight
->     bitmaps
+On 3/23/21 9:16 AM, Claudio Fontana wrote:
+> +++ b/target/arm/tcg/sysemu/meson.build
+> @@ -0,0 +1,3 @@
+> +
+> +arm_softmmu_ss.add(when: ['CONFIG_TCG','CONFIG_SOFTMMU'], if_true: files(
+> +))
 
-This failed the 'qsd-jobs' iotest on s390x:
+Blank lines at the start of each new file?
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-  TEST   iotest-qcow2: 309
-  TEST   iotest-qcow2: 313
-  TEST   iotest-qcow2: qsd-jobs [fail]
-QEMU          --
-"/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-system-s390x"
--nodefaults -display none -accel qtest
-QEMU_IMG      -- "/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-io" --cache
-writeback --aio threads -f qcow2
-QEMU_NBD      -- "/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2
-IMGPROTO      -- file
-PLATFORM      -- Linux/s390x qemu01 4.15.0-132-generic
-TEST_DIR      -- /home/ubuntu/qemu/build/all/tests/qemu-iotests/scratch
-SOCK_DIR      -- /tmp/tmp807j_qyh
-SOCKET_SCM_HELPER --
-/home/ubuntu/qemu/build/all/tests/qemu-iotests/socket_scm_helper
---- /home/ubuntu/qemu/tests/qemu-iotests/tests/qsd-jobs.out
-+++ qsd-jobs.out.bad
-@@ -9,11 +9,11 @@
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id":
-"job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id":
-"job0"}}
- {"return": {}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "paused", "id":
-"job0"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id":
-"job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id":
-"job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0,
-"offset": 0, "speed": 0, "type": "commit"}}
--{"return": {}}
--{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id":
-"job0"}}
--{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id":
-"job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id":
-"job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id":
-"job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-"event": "BLOCK_JOB_COMPLETED", "data": {"device": "job0", "len": 0,
-"offset": 0, "speed": 0, "type": "commit"}}
-Not run: 172 186 192 220 287
-Failures: qsd-jobs
-Failed 1 of 118 iotests
-
-thanks
--- PMM
+r~
 
