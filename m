@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCEB3479D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:45:58 +0100 (CET)
-Received: from localhost ([::1]:54048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0CF3479DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:47:37 +0100 (CET)
+Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP3pd-0001m8-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:45:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
+	id 1lP3rE-0002qo-CC
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP3o7-0001Lr-Vf
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:44:23 -0400
-Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34]:38576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP3o6-0004g8-8t
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:44:23 -0400
-Received: by mail-oo1-xc34.google.com with SMTP id
- n12-20020a4ad12c0000b02901b63e7bc1b4so5823737oor.5
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oJKtGhoxrn9ZlgPv9SAlh2Z6RjYrz0QiZAr6FcjbdIA=;
- b=NVoUsBuJDugofpSzx0jodJsJYiSsSCzx4Sb68VSXWR7pj2DgVOg96y5DzhnuBjDXp0
- W+qz2EDg8B5k9CRWOiv1mXIqs/DRzWyupwrcYQ02SmWhU0qRHlwvLu1Uc1r4xOERI67Z
- ggm0ApMjjMqfsqHDJNDrpN8mZJ7Cmr9PSd/6SMcwnewTQGTI+hoYskmgjwyJNg6fyfC8
- hozhbVDyeHBXnwG6n6N5cttvq5vVn/sEh25yoLXxb/LNmIdgVGncJOdIDUIVM6W5zdKF
- GktUqfJM5qlUTn0IyumhzocTHCcEIsVzkTzrthRCsbJ1YSyH1h5Fq72afqv09TejG6NT
- 6qcQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lP3oz-0001tE-3i
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:45:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lP3os-0005A1-An
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:45:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616593508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sNX3cUEJEvvitchZ4JiICyTbhnRmdCtN6N6kmuEXzAQ=;
+ b=DYnyXmCgDb09O5G4cEqSRqOFwrSio/MuKIyBDW4C0zaZHPopiGmU4+c07zIgLLlx6EDSDk
+ gl75RncPbrBsjACn3NcCRtNURCMQk8EzHJXH7EC2YsslKbkWmLnJYVY/ZJ3paCx1TCGkf1
+ GQ3AwTeLg68nDFFCbCFjLNM1aBWlAmU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-HE81UMOYOLqJrxrnCaT_Rg-1; Wed, 24 Mar 2021 09:45:04 -0400
+X-MC-Unique: HE81UMOYOLqJrxrnCaT_Rg-1
+Received: by mail-wm1-f71.google.com with SMTP id i14so530509wmq.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:45:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oJKtGhoxrn9ZlgPv9SAlh2Z6RjYrz0QiZAr6FcjbdIA=;
- b=INVqCAJRGlEuMW1rAxP1HI6NP1egjF0+A4LX7gh4YMGvCu9chMAPqbXaQFbBCNg4w2
- MKGEFfV93elXUNdsv4nVenE9hW75/bFwumoZ6CN+Wg+wFCpdibX3wIFduhGN0ZVS8KNc
- /hugymvFb9/VXxNmdlAzHFELcj8tTW3yTFMrIv91ZcZAfainUIZ5dQmIaIXofrb6hwRQ
- 8kGQw5bvnHmRX09DX99YTeA34y0/UtyepH3AS/57nioiRN/ZnqCYofCoIUr+IptzOVHh
- n4TYxVFZK0StBv6X4QLcGxA0XR7ts2YO6PsuBU7eUxtadhuFtyg9pLzVnd0N5Zvra1Zv
- YreQ==
-X-Gm-Message-State: AOAM5316xAR6TDfubrh2jPpT/LgqPXdAw+sLJKaZnYpGkeVHQaNfmniI
- UrEd+rwux5EbTKbAOiZ6iifzaF5NZUf6pjP8
-X-Google-Smtp-Source: ABdhPJy3+QCY7OB7WyRUtZmrfKwqpzWm1rNkGuGIgoNUwmEWq+x9RsVTF5/XoITbRYNfHUCzwhQxSA==
-X-Received: by 2002:a4a:d48b:: with SMTP id o11mr2966084oos.2.1616593460806;
- Wed, 24 Mar 2021 06:44:20 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id k11sm551383otp.28.2021.03.24.06.44.19
+ bh=sNX3cUEJEvvitchZ4JiICyTbhnRmdCtN6N6kmuEXzAQ=;
+ b=IqhO+9PmNu5RNHaTRaZMX1QqE8qtf7sIEMLmsgtAiSTcGo4ffUDguKM4Rk+zGyt4Li
+ W/ypOR3vvChf57hjZ0ILRvHYXDDukURqxlhOzSWg88S64aEzwffinHKEsQFhwGdxCYeG
+ kzAlxU6ZrQ6YjPpa56L+uOJcNSfun8jJ/VQfkCGeDtpD2nTpXsR+mhEqSoJKWhTPPj+U
+ g6EUIBDRiwyYXC9FDci58LXjazzmGDOZ7Qoa7UhuhVPKBYWRrjI6aW5jyr4CZ6uaYS3w
+ LwF4kA9kiGovTG6jPjjfY0esU4UaMJoNAT/QIZcylQO3NX/puMKbI4I5sd7I3HZeXGiK
+ 692w==
+X-Gm-Message-State: AOAM533TSm+eQJ/VwSJCZg2k7PeOXDfb5W76UAoWLbHMw3fEG2mxwZhF
+ FcFPo0pHS+F/K5GI5AiGQcd9wVAC2dX5TB4mn9DaSKp9mhTB9Gs39S7H5p1ctsz2M/eHmW2+U7X
+ ASxftH8T6JQmW1sg=
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr3013425wmi.88.1616593503473; 
+ Wed, 24 Mar 2021 06:45:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdKwGMdMJ6Z7fj8XISovW3Ng8H3ajrRgtYCYoVBSYBWWDKemE3QuKziSl7K0rTjfnDziKVWw==
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr3013401wmi.88.1616593503159; 
+ Wed, 24 Mar 2021 06:45:03 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e17sm3488513wra.65.2021.03.24.06.45.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 06:44:20 -0700 (PDT)
-Subject: Re: [PATCH v3] i386/cpu_dump: support AVX512 ZMM regs dump
-To: Robert Hoo <robert.hu@linux.intel.com>, pbonzini@redhat.com,
- ehabkost@redhat.com
-References: <1616572804-7898-1-git-send-email-robert.hu@linux.intel.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fc15756c-755d-fc96-80f4-ac9d6f6b461b@linaro.org>
-Date: Wed, 24 Mar 2021 07:44:17 -0600
+ Wed, 24 Mar 2021 06:45:01 -0700 (PDT)
+Subject: Re: [PATCH v2] meson: Propagate gnutls dependency to migration
+To: Jessica Clarke <jrtc27@jrtc27.com>, qemu-devel@nongnu.org
+References: <20210320164730.33285-1-jrtc27@jrtc27.com>
+ <20210320171221.37437-1-jrtc27@jrtc27.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a803e5f6-61d6-3656-ca62-d2399aefc09b@redhat.com>
+Date: Wed, 24 Mar 2021 14:45:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <1616572804-7898-1-git-send-email-robert.hu@linux.intel.com>
+In-Reply-To: <20210320171221.37437-1-jrtc27@jrtc27.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc34.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,75 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 2:00 AM, Robert Hoo wrote:
-> +        if ((env->xcr0 & XFEATURE_AVX512) == XFEATURE_AVX512) {
-> +            /* XSAVE enabled AVX512 */
-> +            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
-> +            for (i = 0; i < nb; i++) {
-> +                qemu_fprintf(f, "ZMM%02d=0x%016lx %016lx %016lx %016lx %016lx "
-> +                                "%016lx %016lx %016lx\n",
-> +                             i,
-> +                             env->xmm_regs[i].ZMM_Q(7),
-> +                             env->xmm_regs[i].ZMM_Q(6),
-> +                             env->xmm_regs[i].ZMM_Q(5),
-> +                             env->xmm_regs[i].ZMM_Q(4),
-> +                             env->xmm_regs[i].ZMM_Q(3),
-> +                             env->xmm_regs[i].ZMM_Q(2),
-> +                             env->xmm_regs[i].ZMM_Q(1),
-> +                             env->xmm_regs[i].ZMM_Q(0));
-> +            }
+On 20/03/21 18:12, Jessica Clarke wrote:
+> Commit 3eacf70bb5a83e4775ad8003cbca63a40f70c8c2 neglected to fix this
+> for softmmu configs, which pull in migration's use of gnutls.
+> 
+> This fixes the following compilation failure on Arm-based Macs:
+> 
+>    In file included from migration/multifd.c:23:
+>    In file included from migration/tls.h:25:
+>    In file included from include/io/channel-tls.h:26:
+>    In file included from include/crypto/tlssession.h:24:
+>    include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
+>    #include <gnutls/gnutls.h>
+>             ^~~~~~~~~~~~~~~~~
+>    1 error generated.
+> 
+> (as well as for channel.c and tls.c)
+> 
+> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+> ---
+> Changes in v2:
+>   * Added error to commit message
+> 
+>   migration/meson.build | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/meson.build b/migration/meson.build
+> index 9645f44005..6fa2f8745d 100644
+> --- a/migration/meson.build
+> +++ b/migration/meson.build
+> @@ -24,7 +24,7 @@ softmmu_ss.add(files(
+>     'savevm.c',
+>     'socket.c',
+>     'tls.c',
+> -))
+> +), gnutls)
+>   
+>   softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
+>   softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
+> 
 
-Dump opmask regs?
+Queued, thanks.
 
-> +        } else if (env->xcr0 & XFEATURE_AVX) {
+Paolo
 
-This is normally a 2-bit test.
-
-> +            /* XSAVE enabled AVX */
-> +            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-> +            for (i = 0; i < nb; i++) {
-> +                qemu_fprintf(f, "YMM%02d=0x%016lx %016lx %016lx %016lx\n",
-> +                             i,
-> +                             env->xmm_regs[i].ZMM_Q(3),
-> +                             env->xmm_regs[i].ZMM_Q(2),
-> +                             env->xmm_regs[i].ZMM_Q(1),
-> +                             env->xmm_regs[i].ZMM_Q(0));
-> +            }
-> +        } else { /* SSE and below cases */
-> +            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-> +            for (i = 0; i < nb; i++) {
-> +                qemu_fprintf(f, "XMM%02d=0x%016lx %016lx",
-> +                             i,
-> +                             env->xmm_regs[i].ZMM_Q(1),
-> +                             env->xmm_regs[i].ZMM_Q(0));
-> +                if ((i & 1) == 1)
-> +                    qemu_fprintf(f, "\n");
-> +                else
-> +                    qemu_fprintf(f, " ");
-
-I'd be tempted to merge that second printf into the first, with "%s" and (i & 1 
-? "\n" : " ").  Otherwise you'll need to add braces to that IF to satisfy 
-checkpatch.
-
-> +#define XFEATURE_X87        (1UL << 0)
-> +#define XFEATURE_SSE        (1UL << 1)
-> +#define XFEATURE_AVX        (1UL << 2)
-> +#define XFEATURE_AVX512_OPMASK          (1UL << 5)
-> +#define XFEATURE_AVX512_ZMM_Hi256       (1UL << 6)
-> +#define XFEATURE_AVX512_Hi16_ZMM        (1UL << 7)
-> +#define XFEATURE_AVX512     (XFEATURE_AVX512_OPMASK | \
-> +                             XFEATURE_AVX512_ZMM_Hi256 | \
-> +                             XFEATURE_AVX512_Hi16_ZMM)
-
-Except for the last, these already exist under the name XSTATE_*_MASK.
-
-I think you can just as well declare local variables to hold the 3 bits for the 
-avx512 test and the 2 bits for the avx test.
-
-
-r~
 
