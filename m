@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B846347781
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 12:37:30 +0100 (CET)
-Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E2D34778F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 12:41:24 +0100 (CET)
+Received: from localhost ([::1]:34382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP1pI-0008Li-Qj
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 07:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
+	id 1lP1t5-0000t7-97
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 07:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lP1oU-0007vx-EO
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:36:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33778)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lP1qS-0000QY-SK
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:38:42 -0400
+Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:53608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lP1oJ-0005mr-Qq
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:36:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616585784;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7cA28A6YJOQT/dExBgT6p5uwd7T/PUKtqrtOe4UYb8=;
- b=Z16GYfM65iS4WlWVEvereWCxmhxbjC/aofIQRB0HDRLjMUiDdlM5gTfmqSx3qUgV5LZhWO
- 4sUa4Ep2Lr4m/4Qe8iTScQexOkkW5/It8/Af08Ma5Eaf9Z6mxsXq1TqPlXhz3bFDuyvOv+
- ixeGZq3o1HZbgfAtZyJy0ltOpWwLFdw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-Nrrp3NspNRuee98Alu-o5A-1; Wed, 24 Mar 2021 07:36:18 -0400
-X-MC-Unique: Nrrp3NspNRuee98Alu-o5A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD40481622;
- Wed, 24 Mar 2021 11:36:17 +0000 (UTC)
-Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A725D9D0;
- Wed, 24 Mar 2021 11:36:15 +0000 (UTC)
-Date: Wed, 24 Mar 2021 11:36:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH 0/2] yank: Always link full yank code
-Message-ID: <YFskLauf5ZZ4RJwi@redhat.com>
-References: <cover.1616521341.git.lukasstraub2@web.de>
- <YFo82zpHQf+zQ8+Q@redhat.com>
- <20210324122242.6843f29e@gecko.fritz.box>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lP1qL-0006vO-29
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:38:40 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id DF0B025605C;
+ Wed, 24 Mar 2021 12:38:29 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 24 Mar
+ 2021 12:38:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001580fb4b7-fae9-46cc-a349-786eef2ce6d6,
+ 90EFDD1C85C6F754CEE6F6149A82CEA72524D6DA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: qdev: Regarding lazy ISA bridge creation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <f56a86b6-784e-15dc-fd8b-68c91102378c@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <35bb8a1c-6651-b517-79cf-4bf1653fc1e1@kaod.org>
+Date: Wed, 24 Mar 2021 12:38:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210324122242.6843f29e@gecko.fritz.box>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <f56a86b6-784e-15dc-fd8b-68c91102378c@amsat.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c9ec8efa-60a5-4684-940e-304bdf27eeef
+X-Ovh-Tracer-Id: 2645020359891979232
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgfedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptefhgfelgeeufedvudetudevveevkefhteetjeejudfgveetffevteffteeltefgnecuffhomhgrihhnpehrvggrughthhgvughotghsrdhiohdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,48 +69,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 24, 2021 at 12:22:42PM +0100, Lukas Straub wrote:
-> On Tue, 23 Mar 2021 19:09:15 +0000
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
+On 3/24/21 12:13 PM, Philippe Mathieu-Daudé wrote:
+> Hi Cédric,
 > 
-> > On Tue, Mar 23, 2021 at 06:52:19PM +0100, Lukas Straub wrote:
-> > > Hello Everyone,
-> > > These patches remove yank's dependency on qiochannel and always link it in.
-> > > Please Review.  
-> > 
-> > It would be useful if the cover letter or commit messages explained
-> > to potential reviewers why this is being changed... The first patch
-> > feels like a regression to me, without seeing an explanation why
-> > it is desirable.
+> I'm trying to understand the comment you added in commit
+> 3495b6b6101 ("ppc/pnv: add a ISA bus"):
 > 
-> Yes, sorry. There are two reasons for this patchset:
-> -To exercise the full yank code (with checks for registering and unregistering
->  of yank functions and instances) in existing tests and in the new yank test
->  (https://lore.kernel.org/qemu-devel/cover.1616521487.git.lukasstraub2@web.de/)
-> -To replace "[PATCH] yank: Avoid linking into executables that don't want it"
->  (https://lore.kernel.org/qemu-devel/20210316135907.3646901-1-armbru@redhat.com/)
->  Now we always link in yank, but without pulling in other dependencies.
+>  /* let isa_bus_new() create its own bridge on SysBus otherwise
+>   * devices specified on the command line won't find the bus and
+>   * will fail to create.
+>   */
+>  isa_bus = isa_bus_new(NULL, &lpc->isa_mem, &lpc->isa_io, &local_err);
+> 
+> Do you have an example so I can reproduce?
 
-Conceptually, the real world usage of yank is in combination with parts
-of QEMU doing I/O, and so they will always have the "io" subsystem
-available. Thus it feels wrong to be refactoring this to avoid an
-"io" dependancy.  I think this probably suggests that the yank code
-shouldn't be in libqemuutil.la, but instead part of the "io" subsystem
-to make the association/dependency explicit
+I think this is related the IPMI BT device when using an external BMC :  
 
+  https://qemu.readthedocs.io/en/latest/system/ppc/powernv.html
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+You could use an Aspeed machine for the remote end. But you need the 
+aspeed-6.0 branch for that because I did not send upstream the iBT model :
 
+  https://github.com/legoater/qemu/commit/4d2d9fe1211a25738ba5429d07a58c981845af92
+
+C.
 
