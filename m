@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CC8346EF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:43:10 +0100 (CET)
-Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4BB346EF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:39:59 +0100 (CET)
+Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOsY9-00046y-5M
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36862)
+	id 1lOsV4-0000hJ-TY
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOsPy-0004U1-0T; Tue, 23 Mar 2021 21:34:42 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:38681)
+ id 1lOsPw-0004Q1-Hi; Tue, 23 Mar 2021 21:34:40 -0400
+Received: from ozlabs.org ([203.11.71.1]:33261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOsPu-0001m9-Lu; Tue, 23 Mar 2021 21:34:41 -0400
+ id 1lOsPu-0001m7-C9; Tue, 23 Mar 2021 21:34:40 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F4rPc4FBgz9sWw; Wed, 24 Mar 2021 12:34:28 +1100 (AEDT)
+ id 4F4rPc6hfcz9sXG; Wed, 24 Mar 2021 12:34:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616549668;
- bh=8kmji6ejcM9UfuN5cRrCRF2/Q8foMZ69SyMFPgjSa8c=;
+ bh=nefogDx3IlmEHchmOdDZpUHs/iWCXMaNkRazHjwj5mc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gd4vddvosX4UZZKMqd6hF+os1n8D9eEQpMN6LwHCdIhldsZclU8z7kNCEXHe1OlSZ
- 6uLWcayjK3WGPn2YmB2MpR1+dATnGUQMw9K9Teg3VebGaAEYRsO3jmXGivfPfJVCHq
- WVKBnmGrQ0rsV1i66FgxIOmtrLlns0qeIios+vLk=
-Date: Wed, 24 Mar 2021 11:09:06 +1100
+ b=kYTt38hNO0vX1Wh0i0igX9h6MemIBBcwvlbAlUZf/bpd8qFIRb3xqUX2KGF8hLsdO
+ wEjaKBM9UeQX6QjcRwXVv2uxDpf9gMojgyA/Tkm6Q/u8A/rOzDj43aJ/aSNEgNhNan
+ ExlsF7qAnSmEjnVOst+nHhAz8aJJDipNvGjyhENU=
+Date: Wed, 24 Mar 2021 11:10:55 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 08/10] target/ppc: Remove env->immu_idx and
- env->dmmu_idx
-Message-ID: <YFqDIp4jjGGfKlk0@yekko.fritz.box>
+Subject: Re: [PATCH v5 09/10] linux-user/ppc: Fix msr updates for signal
+ handling
+Message-ID: <YFqDj93aQoiNQM8e@yekko.fritz.box>
 References: <20210323184340.619757-1-richard.henderson@linaro.org>
- <20210323184340.619757-9-richard.henderson@linaro.org>
+ <20210323184340.619757-10-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cSqZyGi59cV3YnaC"
+ protocol="application/pgp-signature"; boundary="z5UUcRyDpgv10YAW"
 Content-Disposition: inline
-In-Reply-To: <20210323184340.619757-9-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210323184340.619757-10-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,270 +64,134 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---cSqZyGi59cV3YnaC
+--z5UUcRyDpgv10YAW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 23, 2021 at 12:43:38PM -0600, Richard Henderson wrote:
-> We weren't recording MSR_GS in hflags, which means that BookE
-> memory accesses were essentially random vs Guest State.
+On Tue, Mar 23, 2021 at 12:43:39PM -0600, Richard Henderson wrote:
+> In save_user_regs, there are two bugs where we OR in a bit number
+> instead of the bit, clobbering the low bits of MSR.  However:
 >=20
-> Instead of adding this bit directly, record the completed mmu
-> indexes instead.  This makes it obvious that we are recording
-> exactly the information that we need.
+> The MSR_VR and MSR_SPE bits control the availability of the insns.
+> If the bits were not already set in MSR, then any attempt to access
+> those registers would result in SIGILL.
 >=20
-> This also means that we can stop directly recording MSR_IR.
+> For linux-user, we always initialize MSR to the capabilities
+> of the cpu.  We *could* add checks vs MSR where we currently
+> check insn_flags and insn_flags2, but we know they match.
 >=20
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Also, there's a stray cut-and-paste comment in restore.
+>=20
+> Then, do not force little-endian binaries into big-endian mode.
+>=20
+> Finally, use ppc_store_msr for the update to affect hflags.
+> Which is the reason none of these bugs were previously noticed.
+>=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-6.0.
 
 > ---
->  target/ppc/cpu.h         | 12 ++++--
->  target/ppc/helper_regs.h |  1 -
->  target/ppc/helper_regs.c | 89 +++++++++++++++++++---------------------
->  target/ppc/machine.c     |  2 +-
->  target/ppc/mem_helper.c  |  2 +-
->  target/ppc/translate.c   |  6 +--
->  6 files changed, 56 insertions(+), 56 deletions(-)
+>  linux-user/ppc/cpu_loop.c |  5 +++--
+>  linux-user/ppc/signal.c   | 23 +++++++++++------------
+>  2 files changed, 14 insertions(+), 14 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 2f72f83ee3..3d021f61f3 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -598,7 +598,6 @@ enum {
->      HFLAGS_64 =3D 2,   /* computed from MSR_CE and MSR_SF */
->      HFLAGS_GTSE =3D 3, /* computed from SPR_LPCR[GTSE] */
->      HFLAGS_DR =3D 4,   /* MSR_DR */
-> -    HFLAGS_IR =3D 5,   /* MSR_IR */
->      HFLAGS_SPE =3D 6,  /* from MSR_SPE if cpu has SPE; avoid overlap w/ =
-MSR_VR */
->      HFLAGS_TM =3D 8,   /* computed from MSR_TM */
->      HFLAGS_BE =3D 9,   /* MSR_BE -- from elsewhere on embedded ppc */
-> @@ -607,6 +606,9 @@ enum {
->      HFLAGS_PR =3D 14,  /* MSR_PR */
->      HFLAGS_VSX =3D 23, /* MSR_VSX if cpu has VSX */
->      HFLAGS_VR =3D 25,  /* MSR_VR if cpu has VRE */
+> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+> index df71e15a25..4a0f6c8dc2 100644
+> --- a/linux-user/ppc/cpu_loop.c
+> +++ b/linux-user/ppc/cpu_loop.c
+> @@ -492,11 +492,12 @@ void target_cpu_copy_regs(CPUArchState *env, struct=
+ target_pt_regs *regs)
+>  #if defined(TARGET_PPC64)
+>      int flag =3D (env->insns_flags2 & PPC2_BOOKE206) ? MSR_CM : MSR_SF;
+>  #if defined(TARGET_ABI32)
+> -    env->msr &=3D ~((target_ulong)1 << flag);
+> +    ppc_store_msr(env, env->msr & ~((target_ulong)1 << flag));
+>  #else
+> -    env->msr |=3D (target_ulong)1 << flag;
+> +    ppc_store_msr(env, env->msr | (target_ulong)1 << flag);
+>  #endif
+>  #endif
 > +
-> +    HFLAGS_IMMU_IDX =3D 26, /* 26..28 -- the composite immu_idx */
-> +    HFLAGS_DMMU_IDX =3D 29, /* 29..31 -- the composite dmmu_idx */
->  };
-> =20
->  /***********************************************************************=
-******/
-> @@ -1131,8 +1133,6 @@ struct CPUPPCState {
->      /* These resources are used only in TCG */
->      uint32_t hflags;
->      target_ulong hflags_compat_nmsr; /* for migration compatibility */
-> -    int immu_idx;     /* precomputed MMU index to speed up insn accesses=
- */
-> -    int dmmu_idx;     /* precomputed MMU index to speed up data accesses=
- */
-> =20
->      /* Power management */
->      int (*check_pow)(CPUPPCState *env);
-> @@ -1368,7 +1368,11 @@ int ppc_dcr_write(ppc_dcr_t *dcr_env, int dcrn, ui=
-nt32_t val);
->  #define MMU_USER_IDX 0
->  static inline int cpu_mmu_index(CPUPPCState *env, bool ifetch)
->  {
-> -    return ifetch ? env->immu_idx : env->dmmu_idx;
-> +#ifdef CONFIG_USER_ONLY
-> +    return MMU_USER_IDX;
-> +#else
-> +    return (env->hflags >> (ifetch ? HFLAGS_IMMU_IDX : HFLAGS_DMMU_IDX))=
- & 7;
-> +#endif
->  }
-> =20
->  /* Compatibility modes */
-> diff --git a/target/ppc/helper_regs.h b/target/ppc/helper_regs.h
-> index 4148a442b3..42f26870b9 100644
-> --- a/target/ppc/helper_regs.h
-> +++ b/target/ppc/helper_regs.h
-> @@ -21,7 +21,6 @@
->  #define HELPER_REGS_H
-> =20
->  void hreg_swap_gpr_tgpr(CPUPPCState *env);
-> -void hreg_compute_mem_idx(CPUPPCState *env);
->  void hreg_compute_hflags(CPUPPCState *env);
->  void cpu_interrupt_exittb(CPUState *cs);
->  int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv);
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index dd3cd770a3..5411a67e9a 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -43,49 +43,6 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
->      env->tgpr[3] =3D tmp;
->  }
-> =20
-> -void hreg_compute_mem_idx(CPUPPCState *env)
-> -{
-> -    /*
-> -     * This is our encoding for server processors. The architecture
-> -     * specifies that there is no such thing as userspace with
-> -     * translation off, however it appears that MacOS does it and some
-> -     * 32-bit CPUs support it. Weird...
-> -     *
-> -     *   0 =3D Guest User space virtual mode
-> -     *   1 =3D Guest Kernel space virtual mode
-> -     *   2 =3D Guest User space real mode
-> -     *   3 =3D Guest Kernel space real mode
-> -     *   4 =3D HV User space virtual mode
-> -     *   5 =3D HV Kernel space virtual mode
-> -     *   6 =3D HV User space real mode
-> -     *   7 =3D HV Kernel space real mode
-> -     *
-> -     * For BookE, we need 8 MMU modes as follow:
-> -     *
-> -     *  0 =3D AS 0 HV User space
-> -     *  1 =3D AS 0 HV Kernel space
-> -     *  2 =3D AS 1 HV User space
-> -     *  3 =3D AS 1 HV Kernel space
-> -     *  4 =3D AS 0 Guest User space
-> -     *  5 =3D AS 0 Guest Kernel space
-> -     *  6 =3D AS 1 Guest User space
-> -     *  7 =3D AS 1 Guest Kernel space
-> -     */
-> -    if (env->mmu_model & POWERPC_MMU_BOOKE) {
-> -        env->immu_idx =3D env->dmmu_idx =3D msr_pr ? 0 : 1;
-> -        env->immu_idx +=3D msr_is ? 2 : 0;
-> -        env->dmmu_idx +=3D msr_ds ? 2 : 0;
-> -        env->immu_idx +=3D msr_gs ? 4 : 0;
-> -        env->dmmu_idx +=3D msr_gs ? 4 : 0;
-> -    } else {
-> -        env->immu_idx =3D env->dmmu_idx =3D msr_pr ? 0 : 1;
-> -        env->immu_idx +=3D msr_ir ? 0 : 2;
-> -        env->dmmu_idx +=3D msr_dr ? 0 : 2;
-> -        env->immu_idx +=3D msr_hv ? 4 : 0;
-> -        env->dmmu_idx +=3D msr_hv ? 4 : 0;
-> -    }
-> -}
-> -
->  void hreg_compute_hflags(CPUPPCState *env)
->  {
->      target_ulong msr =3D env->msr;
-> @@ -97,10 +54,9 @@ void hreg_compute_hflags(CPUPPCState *env)
->      QEMU_BUILD_BUG_ON(MSR_LE !=3D HFLAGS_LE);
->      QEMU_BUILD_BUG_ON(MSR_PR !=3D HFLAGS_PR);
->      QEMU_BUILD_BUG_ON(MSR_DR !=3D HFLAGS_DR);
-> -    QEMU_BUILD_BUG_ON(MSR_IR !=3D HFLAGS_IR);
->      QEMU_BUILD_BUG_ON(MSR_FP !=3D HFLAGS_FP);
->      msr_mask =3D ((1 << MSR_LE) | (1 << MSR_PR) |
-> -                (1 << MSR_DR) | (1 << MSR_IR) | (1 << MSR_FP));
-> +                (1 << MSR_DR) | (1 << MSR_FP));
-> =20
->      if (ppc_flags & POWERPC_FLAG_HID0_LE) {
->          /*
-> @@ -155,10 +111,51 @@ void hreg_compute_hflags(CPUPPCState *env)
->      if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
->          hflags |=3D 1 << HFLAGS_HV;
+>      env->nip =3D regs->nip;
+>      for(i =3D 0; i < 32; i++) {
+>          env->gpr[i] =3D regs->gpr[i];
+> diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+> index b78613f7c8..bad38f8ed9 100644
+> --- a/linux-user/ppc/signal.c
+> +++ b/linux-user/ppc/signal.c
+> @@ -261,9 +261,6 @@ static void save_user_regs(CPUPPCState *env, struct t=
+arget_mcontext *frame)
+>              __put_user(avr->u64[PPC_VEC_HI], &vreg->u64[0]);
+>              __put_user(avr->u64[PPC_VEC_LO], &vreg->u64[1]);
+>          }
+> -        /* Set MSR_VR in the saved MSR value to indicate that
+> -           frame->mc_vregs contains valid data.  */
+> -        msr |=3D MSR_VR;
+>  #if defined(TARGET_PPC64)
+>          vrsave =3D (uint32_t *)&frame->mc_vregs.altivec[33];
+>          /* 64-bit needs to put a pointer to the vectors in the frame */
+> @@ -300,9 +297,6 @@ static void save_user_regs(CPUPPCState *env, struct t=
+arget_mcontext *frame)
+>          for (i =3D 0; i < ARRAY_SIZE(env->gprh); i++) {
+>              __put_user(env->gprh[i], &frame->mc_vregs.spe[i]);
+>          }
+> -        /* Set MSR_SPE in the saved MSR value to indicate that
+> -           frame->mc_vregs contains valid data.  */
+> -        msr |=3D MSR_SPE;
+>          __put_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
 >      }
-> +
-> +    /*
-> +     * This is our encoding for server processors. The architecture
-> +     * specifies that there is no such thing as userspace with
-> +     * translation off, however it appears that MacOS does it and some
-> +     * 32-bit CPUs support it. Weird...
-> +     *
-> +     *   0 =3D Guest User space virtual mode
-> +     *   1 =3D Guest Kernel space virtual mode
-> +     *   2 =3D Guest User space real mode
-> +     *   3 =3D Guest Kernel space real mode
-> +     *   4 =3D HV User space virtual mode
-> +     *   5 =3D HV Kernel space virtual mode
-> +     *   6 =3D HV User space real mode
-> +     *   7 =3D HV Kernel space real mode
-> +     *
-> +     * For BookE, we need 8 MMU modes as follow:
-> +     *
-> +     *  0 =3D AS 0 HV User space
-> +     *  1 =3D AS 0 HV Kernel space
-> +     *  2 =3D AS 1 HV User space
-> +     *  3 =3D AS 1 HV Kernel space
-> +     *  4 =3D AS 0 Guest User space
-> +     *  5 =3D AS 0 Guest Kernel space
-> +     *  6 =3D AS 1 Guest User space
-> +     *  7 =3D AS 1 Guest Kernel space
-> +     */
-> +    unsigned immu_idx, dmmu_idx;
-> +    dmmu_idx =3D msr & (1 << MSR_PR) ? 0 : 1;
-> +    if (env->mmu_model & POWERPC_MMU_BOOKE) {
-> +        dmmu_idx |=3D msr & (1 << MSR_GS) ? 4 : 0;
-> +        immu_idx =3D dmmu_idx;
-> +        immu_idx |=3D msr & (1 << MSR_IS) ? 2 : 0;
-> +        dmmu_idx |=3D msr & (1 << MSR_DS) ? 2 : 0;
-> +    } else {
-> +        dmmu_idx |=3D msr & (1ull << MSR_HV) ? 4 : 0;
-> +        immu_idx =3D dmmu_idx;
-> +        immu_idx |=3D msr & (1 << MSR_IR) ? 0 : 2;
-> +        dmmu_idx |=3D msr & (1 << MSR_DR) ? 0 : 2;
+>  #endif
+> @@ -354,8 +348,10 @@ static void restore_user_regs(CPUPPCState *env,
+>      __get_user(msr, &frame->mc_gregs[TARGET_PT_MSR]);
+> =20
+>      /* If doing signal return, restore the previous little-endian mode. =
+ */
+> -    if (sig)
+> -        env->msr =3D (env->msr & ~(1ull << MSR_LE)) | (msr & (1ull << MS=
+R_LE));
+> +    if (sig) {
+> +        ppc_store_msr(env, ((env->msr & ~(1ull << MSR_LE)) |
+> +                            (msr & (1ull << MSR_LE))));
 > +    }
-> +    hflags |=3D immu_idx << HFLAGS_IMMU_IDX;
-> +    hflags |=3D dmmu_idx << HFLAGS_DMMU_IDX;
+> =20
+>      /* Restore Altivec registers if necessary.  */
+>      if (env->insns_flags & PPC_ALTIVEC) {
+> @@ -376,8 +372,6 @@ static void restore_user_regs(CPUPPCState *env,
+>              __get_user(avr->u64[PPC_VEC_HI], &vreg->u64[0]);
+>              __get_user(avr->u64[PPC_VEC_LO], &vreg->u64[1]);
+>          }
+> -        /* Set MSR_VEC in the saved MSR value to indicate that
+> -           frame->mc_vregs contains valid data.  */
+>  #if defined(TARGET_PPC64)
+>          vrsave =3D (uint32_t *)&v_regs[33];
+>  #else
+> @@ -468,7 +462,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+>      env->nip =3D (target_ulong) ka->_sa_handler;
+> =20
+>      /* Signal handlers are entered in big-endian mode.  */
+> -    env->msr &=3D ~(1ull << MSR_LE);
+> +    ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
+> =20
+>      unlock_user_struct(frame, frame_addr, 1);
+>      return;
+> @@ -563,8 +557,13 @@ void setup_rt_frame(int sig, struct target_sigaction=
+ *ka,
+>      env->nip =3D (target_ulong) ka->_sa_handler;
 >  #endif
 > =20
->      env->hflags =3D hflags | (msr & msr_mask);
-> -    hreg_compute_mem_idx(env);
->  }
+> +#ifdef TARGET_WORDS_BIGENDIAN
+>      /* Signal handlers are entered in big-endian mode.  */
+> -    env->msr &=3D ~(1ull << MSR_LE);
+> +    ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
+> +#else
+> +    /* Signal handlers are entered in little-endian mode.  */
+> +    ppc_store_msr(env, env->msr | (1ull << MSR_LE));
+> +#endif
 > =20
->  void cpu_interrupt_exittb(CPUState *cs)
-> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-> index 09c5765a87..e5bffbe365 100644
-> --- a/target/ppc/machine.c
-> +++ b/target/ppc/machine.c
-> @@ -16,7 +16,7 @@ static void post_load_update_msr(CPUPPCState *env)
-> =20
->      /*
->       * Invalidate all supported msr bits except MSR_TGPR/MSR_HVB
-> -     * before restoring.  Note that this recomputes hflags and mem_idx.
-> +     * before restoring.  Note that this recomputes hflags.
->       */
->      env->msr ^=3D env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
->      ppc_store_msr(env, msr);
-> diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-> index f4f7e730de..444b2a30ef 100644
-> --- a/target/ppc/mem_helper.c
-> +++ b/target/ppc/mem_helper.c
-> @@ -278,7 +278,7 @@ static void dcbz_common(CPUPPCState *env, target_ulon=
-g addr,
->      target_ulong mask, dcbz_size =3D env->dcache_line_size;
->      uint32_t i;
->      void *haddr;
-> -    int mmu_idx =3D epid ? PPC_TLB_EPID_STORE : env->dmmu_idx;
-> +    int mmu_idx =3D epid ? PPC_TLB_EPID_STORE : cpu_mmu_index(env, false=
-);
-> =20
->  #if defined(TARGET_PPC64)
->      /* Check for dcbz vs dcbzl on 970 */
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 5e629291d3..a53463b9b8 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -7658,8 +7658,8 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int =
-flags)
->                   cs->cpu_index);
->      qemu_fprintf(f, "MSR " TARGET_FMT_lx " HID0 " TARGET_FMT_lx "  HF "
->                   "%08x iidx %d didx %d\n",
-> -                 env->msr, env->spr[SPR_HID0],
-> -                 env->hflags, env->immu_idx, env->dmmu_idx);
-> +                 env->msr, env->spr[SPR_HID0], env->hflags,
-> +                 cpu_mmu_index(env, true), cpu_mmu_index(env, false));
->  #if !defined(NO_TIMER_DUMP)
->      qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->  #if !defined(CONFIG_USER_ONLY)
-> @@ -7885,7 +7885,7 @@ static void ppc_tr_init_disas_context(DisasContextB=
-ase *dcbase, CPUState *cs)
->      ctx->exception =3D POWERPC_EXCP_NONE;
->      ctx->spr_cb =3D env->spr_cb;
->      ctx->pr =3D (hflags >> HFLAGS_PR) & 1;
-> -    ctx->mem_idx =3D env->dmmu_idx;
-> +    ctx->mem_idx =3D (hflags >> HFLAGS_DMMU_IDX) & 7;
->      ctx->dr =3D (hflags >> HFLAGS_DR) & 1;
->      ctx->hv =3D (hflags >> HFLAGS_HV) & 1;
->      ctx->insns_flags =3D env->insns_flags;
+>      unlock_user_struct(rt_sf, rt_sf_addr, 1);
+>      return;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -335,25 +199,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---cSqZyGi59cV3YnaC
+--z5UUcRyDpgv10YAW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBagyIACgkQbDjKyiDZ
-s5ImVA/+J+T3eKjKGGzgmKZc7w2agBC2e5moaDsOYtX5ZAWg19R1bCcMi+wsFQX4
-jCBb2DVXzoAZffoFOrPTg5kA8LjqhyB3Muus4sX2ZM+GSz9nisfEry8ToSmW2XzL
-eUAycNp3sJTTrktckWknk7m0qpwybiiwprmebbLsXyUg9AI4gTy2z3nj3+K8/cih
-n5jOfD3rSAbBreiNqxpHsSnYVeuuK7cArMy9Rn5gyCJr5ZvDRfty38/RfWpZkYB4
-/niT18inQpEtMSf4YQtpZux6NmQlrESGWB6T0TrQlJBcgMyHoTTis9bKj/ZKoqLn
-qHhcxD6ljM3SsGd6sGO7FUQbL4VWAkFFxO8TyHrFAjwrEOaNBcACe7EQtLwWMrJl
-Jhh9pJn6Qye8ed5x7J8KqTR+n+xi0nf9+UgxbHvNFk2eNUe8n29UNrU2H6mKwJbz
-96mb3cjP4dvzOi3v58gM9iJ+ZC95U3fZHTgFrOpPhqw2SuqeNaMfVfnX8FtYc6Aq
-NJo0MTSGJiwgUkb7/LV2vnuzHCdjdw0GBNfyWh0uAXs6r2UXuhTrXOY8p4z/WkbE
-px/BUhDRdIWG2OrMqZM3Pb/0w356Qk4+/PD3ACG/P6rSFus0imyrhA3QHAG92WGa
-sDuLdSwftHsz83t8IxmQqswjtZinL5I/xy4C4NSH+rEFYO8dqyA=
-=FyRN
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBag44ACgkQbDjKyiDZ
+s5K8zg/+IGb09ujGlcSnzzubJXnqd7yccxBgqIv/CDqYEm55Zrmv9xIzGA5sJLZV
+8E/HwxJQHPagKQoudLF7WsYfq41Kbu0jSrw6zDqhn8exhA/c3DrpP7F2Nl7d0Q1D
+KUfsnw94TEzQlB94n7AZ/n4NAXrg3AQ09cxp86wgNxQH8RwTzkH9CnTppqP8td6t
+VmNfWVdSEl/3J4xmaA7kVQg5mrz1BnhrJC6vYqzd3/OFN8KRfDt72DvkqLOjrrhd
+Hne0JBZT4Bl5dcsWYu4uRSBpevVifgOiNVSGI+cKwtfqjYh1MR1jn6WacslUNC13
+1oOnHw8/Kmc1YpAGMY5zkfV2dse6hmiMXD0dMnJKkjoGadHoSz0NN1XoOyCA3QC8
+CvtjKk3Mt+fzrzCC3PE+6VTdyQH7VTmXjUBHNY8j/lCbdhiu2WKNJN+/MZ6cWwuO
+0Ao7drFI220p48aSXw4/5dS6tGgOM1KJHx9n7JmRCP9+i7RC45OaRQRSbgDgxxp6
+n+RSlcB/D0JroI3+1H287WzqBsRTWJypSK6PZXqc+iwLD3qr09VbcNluCmcFoYvV
+XRAkjNg94uhFtoCNIBg63oEzRx2iD4zTIyKk/ZpZLu3tac0T8FeHVUwrT1p0+Gl1
++Efx5PxSL4YeyNU7opoDrcf8dPA7AW4wurRaOl5Ld7/IynF7dWk=
+=Llww
 -----END PGP SIGNATURE-----
 
---cSqZyGi59cV3YnaC--
+--z5UUcRyDpgv10YAW--
 
