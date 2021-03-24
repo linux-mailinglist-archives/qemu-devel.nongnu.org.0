@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AB4347992
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:28:35 +0100 (CET)
-Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607A33479B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:34:07 +0100 (CET)
+Received: from localhost ([::1]:43234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP3Yo-0002nr-V6
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34998)
+	id 1lP3e9-0005Kl-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:34:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lP3X1-0001RM-0X
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:26:43 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:36629)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lP3cs-0004wA-RG
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:32:46 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:34407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lP3Wy-0002dC-5w
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:26:42 -0400
-Received: by mail-ed1-x536.google.com with SMTP id o19so27604366edc.3
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:26:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lP3cq-0006CZ-6C
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:32:46 -0400
+Received: by mail-io1-xd34.google.com with SMTP id x16so21478097iob.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bl9ucfL6l/t3pMqigSkzt/vnlheC4DANmuefUauDnKo=;
- b=pS3JciqBss197ngwr8nqpY3FxJcBfI1PL5HJ7eCQKz2Ha7wkPkWo+PvcJpzCfXAAHQ
- r30mwSvpIqtZaLXB6f79hoLD3E0FyO/bq0iCPtw6/FgmYFmqxsH8f15EXlG58+QhBdR1
- u+FSK5BWpUTTF5I4thVA70q5ygIgYtp/za/6OJjI6U8TziTK91JsrcX27N6bgbPsaGMF
- V/7tQmFNUEgoxQosVDHmAv/80AF+AOD8t+2f7k/gaWlkTDtC4/VC+6LdIXsy2cTftsGQ
- zSwWhfYKZo12qZNIZq2RpSwINFdHnBO+THcOaYKYasdj6BQu+JvzuSYocRv+R/ZiJNK5
- bqyw==
+ :cc; bh=DZ5gW8rYPwvNvwecs5/t9kv2axinTfLAaH6qJr+Al5c=;
+ b=qj8HzkSEVetS42nCChNUsj30NqyR9v/O9nIkaAByg5CgHq4n3SZpv7htfQ+IjKyCQo
+ we/1W0hvyrzQM4BsQ2GEWLo2b+KSqZzymvy8xWtB7m/LjMXxo/wjQbPiWkTDJ3Fb0VR/
+ +sfDm+GotZwebuAt8jxBfug17j3abrycEGDoxxCQi0PDZ58AMJc5SFVnw08Ftw4RlIpt
+ SJP6CfGDPaGovj8GKT71rHbF/+gh/zFpZ3XYe22Wup9CQg1TQIGPtSz8uZ2Ogn25/YnI
+ w7h5dFOo6F4dw03fzp5+J6Rwr0z3DAalz5sgkM/AQBK4L17nNayvEZ2mfoLvITNRfOri
+ WSEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Bl9ucfL6l/t3pMqigSkzt/vnlheC4DANmuefUauDnKo=;
- b=cf43egIrGVNbdozkdw43UDPw0hQqIAUQEbOHkbCTx9zCNhzSAUL018xMrugnJ6bUY/
- KSFjzNLrhYwsWYKRyZcVTcxO+/JtbA4KPyqRRAKfn7ukQ0svRSr5aG+uiEIHNCvKA0nv
- BuTXR5jltFnOQJaDqBn3wq3jnNVU3/IIn+JUI4Pd/Wj+WGzoEOgzBzQk/G+tSRdkgj/G
- A7CYP3izOtBsf2hE9zDYx6OXthlH5wKlDslKvobBsVHsq4i+ATtj/vXAg1vqUEkDSbfZ
- Q6qsvKIsdTWY9xlsUTWur749cYtSRYQYUnAqBh7CskRPo5DHp76c5X8tnSDpb8RQkf9w
- PUzA==
-X-Gm-Message-State: AOAM530LrRubYFVNRnFBTEDhircVvFW2JuEP+KK1twlcC2Bhks+WPXWf
- pD7Cu8UBnGlVKOw12tA9xkEyTp+wfBybxDCbeYkrUF5GJsE=
-X-Google-Smtp-Source: ABdhPJz9FU7SwISXtnetmItKu2KFkKFvDzKHGIOx6jQyIlyXhxkZ5ETD83AcpUeoDx1JY906EnKKoAGcq0kiKS9B9cA=
-X-Received: by 2002:a05:6402:105a:: with SMTP id
- e26mr3474322edu.164.1616592396827; 
- Wed, 24 Mar 2021 06:26:36 -0700 (PDT)
+ bh=DZ5gW8rYPwvNvwecs5/t9kv2axinTfLAaH6qJr+Al5c=;
+ b=i3QYP94Ad6DMrpnknTwNBNDrT0WroaEXjyX6wnvOiqFQn18vjTljX4AAdeKbQAEyhM
+ 5oru2Mr5mHwzhVXGsq8JfF5bDagLKOuDboHbK6mOAc2+PNW//WBUyYJZcDah9hWACVBh
+ ZX4U19TgHhh7VWfooPIdzZs3NJ84f3rn0lQs8rQwN044LGi/WQhAAZGHX7jQtOQbMly4
+ F4cPAem9iBnGRVypcTeB1zce2JGPrVM4jzF6dGcBF1O/L2BTWQtn8irFTCVGHsEP4eYe
+ lL7yJ2rWi+lLQBryci0s1ygEc74ZVm2g8diXBjbVnHRD4OPr7QcjLV5bhVfTjTwm+R8r
+ XfiQ==
+X-Gm-Message-State: AOAM531csg2sYspgFsr1cFP6A9fzm+27Ug9cWUI5YoA89BOufqWFC9eb
+ 2G0rQC40p1IVaykRKvz+GJYBh+o0JaARLc+RpRc=
+X-Google-Smtp-Source: ABdhPJyud93Q0Jm1ybQ6Ko96ZfLwQDhShjbgjy0s3rC3xgC74HNpybH3Gzh2j8Ydwt4p+i7iJ0cFErd0Au3rJzi8D5c=
+X-Received: by 2002:a05:6638:3791:: with SMTP id
+ w17mr2818497jal.91.1616592763095; 
+ Wed, 24 Mar 2021 06:32:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210318091647.3233178-1-kraxel@redhat.com>
- <20210318091647.3233178-8-kraxel@redhat.com>
- <CAJ+F1CJqhUX1vnbXOAo8adpkb=rNcJSzMpeGVQnTGT5UuuALJg@mail.gmail.com>
- <20210324101650.irnpfnklksfnejic@sirius.home.kraxel.org>
- <CAJ+F1C+HKdo_MK4rgw4pOpVzRnUu3Pu8O9YrjwFu8ZxGQCP+3A@mail.gmail.com>
- <20210324125743.zuivmbhje465bfne@sirius.home.kraxel.org>
-In-Reply-To: <20210324125743.zuivmbhje465bfne@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 24 Mar 2021 17:26:24 +0400
-Message-ID: <CAJ+F1CK9x_-ni0Qx6qZpWruBQwptbR-O26oUSvj0JgyBgk3vMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] ui/gtk: add clipboard support
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000008f3f2705be483f7e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x536.google.com
+References: <20210319132527.3118-1-ma.mandourr@gmail.com>
+ <20210319132527.3118-3-ma.mandourr@gmail.com>
+ <YFnzsf2LgpUicPvH@stefanha-x1.localdomain>
+ <YFs3RUPW81evLKTT@stefanha-x1.localdomain>
+In-Reply-To: <YFs3RUPW81evLKTT@stefanha-x1.localdomain>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Wed, 24 Mar 2021 15:32:32 +0200
+Message-ID: <CAD-LL6hs-360h_PhvhFrxyEyXXmjfyLmwE_dvankjqYf3rPNXQ@mail.gmail.com>
+Subject: Re: [PATCH 2/8] virtiofds: Changed allocations of iovec to GLib's
+ functions
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000640c7405be4855bb"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,70 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008f3f2705be483f7e
+--000000000000640c7405be4855bb
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Wed, Mar 24, 2021 at 2:57 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
 
-On Wed, Mar 24, 2021 at 4:57 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-
->   Hi,
+> Please use Reply-All on mailing list emails so that the mailing like and
+> all other CC email addresses are included in the discussion.
 >
-> > I fail to see how that works, imagine the other end is the same code
-> (qemu
-> > in the guest), it will take clipboard ownership and it is in a endless
-> > loop, isn't it?
->
-> Notifications on guest-triggered clipboard updates will not be sent back
-> to the guest, exactly to avoid that kind of loop.  See self_update
-> checks in vdagent_clipboard_notify().  gtk and vnc notify callbacks have
-> simliar checks for simliar reasons ;)
->
->
-That means the other side may have wrong clipboard expectations. It may ask
-for what was previously an image and that will fails. This is not a big
-issue per se if error returns are handled correctly all the way. It may
-also have an impact on some UI aspects (since some actions shold become
-unactive when clipboard has some content or another etc)
 
---=20
-Marc-Andr=C3=A9 Lureau
+ That's my bad, hopefully this won't happen again in the future.
 
---0000000000008f3f2705be483f7e
+Mahmoud
+
+--000000000000640c7405be4855bb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Mar 24, 2021 at 4:57 PM Gerd Hoffmann=
- &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 Hi,<br>
-<br>
-&gt; I fail to see how that works, imagine the other end is the same code (=
-qemu<br>
-&gt; in the guest), it will take clipboard ownership and it is in a endless=
-<br>
-&gt; loop, isn&#39;t it?<br>
-<br>
-Notifications on guest-triggered clipboard updates will not be sent back<br=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 24, 2021 at =
+2:57 PM Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com" target=3D=
+"_blank">stefanha@gmail.com</a>&gt; wrote:</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+Please use Reply-All on mailing list emails so that the mailing like and<br=
 >
-to the guest, exactly to avoid that kind of loop.=C2=A0 See self_update<br>
-checks in vdagent_clipboard_notify().=C2=A0 gtk and vnc notify callbacks ha=
-ve<br>
-simliar checks for simliar reasons ;)<br clear=3D"all"><br></blockquote><di=
-v><br></div><div>That means the other side may have wrong clipboard expecta=
-tions. It may ask for what was previously an image and that will fails. Thi=
-s is not a big issue per se if error returns are handled correctly all the =
-way. It may also have an impact on some UI aspects (since some actions shol=
-d become unactive when clipboard has some content or another etc)<br></div>=
-</div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9=
- Lureau<br></div></div>
+all other CC email addresses are included in the discussion.<br></blockquot=
+e><div dir=3D"rtl"><br></div><div>=C2=A0That&#39;s my bad, hopefully this w=
+on&#39;t happen again in the future.=C2=A0</div><div><br></div><div>Mahmoud=
+</div></div></div>
+</div>
 
---0000000000008f3f2705be483f7e--
+--000000000000640c7405be4855bb--
 
