@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA45347AD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:36:06 +0100 (CET)
-Received: from localhost ([::1]:57744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962DD347AF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:42:51 +0100 (CET)
+Received: from localhost ([::1]:49498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP4c9-0003QP-BH
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
+	id 1lP4ig-0003CU-K7
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4Wq-0006Rd-3J
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:30:36 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42879)
+ id 1lP4Ww-0006dG-0O
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:30:42 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4Wn-0007Mr-CI
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:30:35 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x13so24655521wrs.9
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:30:32 -0700 (PDT)
+ id 1lP4Wo-0007Mx-0n
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:30:41 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id d191so13010135wmd.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6sNcGE+fxfYDvF8wTWBRRUANizKHbS8OY1p/YPeXwYg=;
- b=q1D5XAJXxz/IjI2QtEcZ6MaZFNkIOgUblNX80XEri///tovh+QEARHnbDk7QZlnp/O
- 01JEtIdsVLeLaRMF8mPHOhm9JlUTp/4iePTRreiTVc2R4oLGLVpX9AYmgexeKB4OZCG0
- +lk7MNz7h7CO1z/aUErKjmgtzB430MEU23pTqCIKl7bpZCFROoTzDTotKSMVuWk4yRwl
- XFSU1vkmxNZ3l/m36i2GQc6V8Z+tAhnPMI+auZcB1/kSf6ErhfiN9zJSsWPJwWLF7od6
- BZXfDZthZbKBX7/dbnClsDPfWWQut5NWoIQg0Iya8MzytXExTI95OL7xBo7TBVwuoGym
- ry9g==
+ bh=ma50U0tSPKQlNSM/2UIXylhE0jwIndZoBnvcG4UWEO8=;
+ b=N8xKYFeyoAcogtXdsFkVQaPlupP2THGf6rpxHeV1qksM8QCEiC/YLuZPpiX8cXEmRu
+ 8mrqyffuXXTekUyIMKPOuqUgQLeLUSmQm+rsJVr6WoIk6r/zQclBDwuddhCWeh/C0EI+
+ kwwCUz4gjurDsqdQstUKIyhwbg9uBVoOcsTmHcAOGwvIiEdadS9Ax7M9oiavSSDrniGN
+ QFGxmDKE6Aa6igv+YeK/o3Bjs3QzzifIQiBpmD4Tzvv0LdhrQKWi11CfWYO822O1hKG6
+ YwYDl5k76NhE0QLnFYdsnfSjy1qfIRyS+19YvvvVh1jbtINWgPjW+UKneI81Ft39Hp4a
+ 8MSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6sNcGE+fxfYDvF8wTWBRRUANizKHbS8OY1p/YPeXwYg=;
- b=mGI86L+khHIH7GbT1PTwudEB4iEkh2BWVdEjZbS3MI/9OZymiiHWSkxhadmpgb/rde
- CrFMEv+CHk+ERPE4l0diYXlIKxLluug0zINZPGN+5zIzOdQzIx2quPo3L/8JX/Rdi2Lt
- z/oN/GNeBlDiPdcFtTtnA65an+4JhwJv36Js2L8ENfN0wPqp8ByOegQqyzh05hSZJbrx
- 90qmXCR+63y9YKe7+CXJAhG2A1z1ZaXm2rNcuh9CRy16gJF64yryDBNvkMgJkTGYZBdm
- ygz+BoXqFKCfYJH94FEPVbpZD44g+qdzZm98ajfeeO/zOKuYKKGE/N651UQdcl7+Yz1n
- okjQ==
-X-Gm-Message-State: AOAM530XRlHnReiHEW/qFxvI8bLeagUepnWt79iEf0PCW04xzK2B8899
- fnJ4LoedhsnnTUNj6IaHUiMagkXJtJ2VLep5
-X-Google-Smtp-Source: ABdhPJyhHCKpu26GCsjevqQCDNNB00XBR1PhsWlGycDMT6kQyfuI8miLAEdwOqLTJjH4V8ro9oojsw==
-X-Received: by 2002:adf:e392:: with SMTP id e18mr3941538wrm.189.1616596231935; 
- Wed, 24 Mar 2021 07:30:31 -0700 (PDT)
+ bh=ma50U0tSPKQlNSM/2UIXylhE0jwIndZoBnvcG4UWEO8=;
+ b=W9qK2t+zH37j+C1dE0wEBhWUo7zdlnyIfajjNFeHK3z9y77cH/Y/eIB+M9tBApUTB9
+ y7+nhYBcHABBjx0ilth+cnbNQMhINvp4V17anZPEP8U5PyqtIbe6tSDcJJRQBsiitO16
+ Ao3emP98uK8rQ9h25r9Ctd6w/e/+iHC2Dnekx5fYSGILSLBDW9mTtzzRuiyM7NiO02zf
+ XF56rwCw3vDyACSvkF1BeCvAF/EclEOi53l27Wi82UAli14Wnr60abVyoYIXS4k+BRly
+ ADNpWNPgu+j51r++pVY5fuuVmH4IeLWDvDjgmRdMgpZD/AU7nPWu3LH9OW+i9ZeIBf1F
+ gWPw==
+X-Gm-Message-State: AOAM532d2MNVc+cJY+lCHUMoiEpixS06IXQZSXQRWfWDcbIkNzjph6lj
+ 0C+8If2M6sszxz9SCHXuVvjkWA==
+X-Google-Smtp-Source: ABdhPJxvFmYfcUjveb0lFCpuh44af9LsCMfDDHoaCyBM2Izox+zswyBfpt+AhD/NBbF4II7VoWfBYw==
+X-Received: by 2002:a1c:6543:: with SMTP id z64mr3248739wmb.50.1616596232560; 
+ Wed, 24 Mar 2021 07:30:32 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v14sm3234965wrd.48.2021.03.24.07.30.24
+ by smtp.gmail.com with ESMTPSA id u4sm3488701wrm.24.2021.03.24.07.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 24 Mar 2021 07:30:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6598B1FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 7A04D1FF96;
  Wed, 24 Mar 2021 14:30:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/22] semihosting/arm-compat-semi: don't use SET_ARG to report
- SYS_HEAPINFO
-Date: Wed, 24 Mar 2021 14:30:06 +0000
-Message-Id: <20210324143021.8560-8-alex.bennee@linaro.org>
+Subject: [PULL 08/22] linux-user/riscv: initialise the TaskState heap/stack
+ info
+Date: Wed, 24 Mar 2021 14:30:07 +0000
+Message-Id: <20210324143021.8560-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210324143021.8560-1-alex.bennee@linaro.org>
 References: <20210324143021.8560-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,43 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1915925 <1915925@bugs.launchpad.net>, Keith Packard <keithp@keithp.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per the spec:
+Arguably the target_cpu_copy_regs function for each architecture is
+misnamed as a number of the architectures also take the opportunity to
+fill out the TaskState structure. This could arguably be factored out
+into common code but that would require a wider audit of the
+architectures. For now just replicate for riscv so we can correctly
+report semihosting information for SYS_HEAPINFO.
 
-  the PARAMETER REGISTER contains the address of a pointer to a
-  four-field data block.
-
-So we need to follow arg0 and place the results of SYS_HEAPINFO there.
-
-Fixes: 3c37cfe0b1 ("semihosting: Change internal common-semi interfaces to use CPUState *")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Cc: Bug 1915925 <1915925@bugs.launchpad.net>
-Cc: Keith Packard <keithp@keithp.com>
-Bug: https://bugs.launchpad.net/bugs/1915925
-Message-Id: <20210323165308.15244-8-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20210323165308.15244-9-alex.bennee@linaro.org>
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 0f0e129a7c..fe079ca93a 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -1214,7 +1214,11 @@ target_ulong do_common_semihosting(CPUState *cs)
-             for (i = 0; i < ARRAY_SIZE(retvals); i++) {
-                 bool fail;
- 
--                fail = SET_ARG(i, retvals[i]);
-+                if (is_64bit_semihosting(env)) {
-+                    fail = put_user_u64(retvals[i], arg0 + i * 8);
-+                } else {
-+                    fail = put_user_u32(retvals[i], arg0 + i * 4);
-+                }
- 
-                 if (fail) {
-                     /* Couldn't write back to argument block */
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index 6767f941e8..74a9628dc9 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -135,4 +135,9 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+         error_report("Incompatible ELF: RVE cpu requires RVE ABI binary");
+         exit(EXIT_FAILURE);
+     }
++
++    ts->stack_base = info->start_stack;
++    ts->heap_base = info->brk;
++    /* This will be filled in on the first SYS_HEAPINFO call.  */
++    ts->heap_limit = 0;
+ }
 -- 
 2.20.1
 
