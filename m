@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88665347B9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 16:04:53 +0100 (CET)
-Received: from localhost ([::1]:33666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E079347B8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 16:04:05 +0100 (CET)
+Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP540-00071Q-GI
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 11:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
+	id 1lP53E-0005fm-6X
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 11:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lP4xO-0006mH-Gw
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:58:02 -0400
-Resent-Date: Wed, 24 Mar 2021 10:58:02 -0400
-Resent-Message-Id: <E1lP4xO-0006mH-Gw@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lP4xL-0005jE-MJ
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:58:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616597871; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=flZ/0cmfIEz496jnwrweU3jBl+zV36W4ZaPR9BoXc/WHNY3mfPa85LcLuCNaHxFDLj0GirR/Qa870PwQhAC9Tc02sBhe9F1DXg/KMUJwQi829kAzSy3fnv/pcYqrY7BE0oiP0DRPEB3N2Atp+NSnDqjg1AdV1bjF588Gmpy5MtY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616597871;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=YqujD5haBjA6mWSIT5SkcppaURfFZ79DsHFXiFmy5S8=; 
- b=D8r+9JXOVm6BCmVqkunczmASrDVHFWQe/gf08/1Le9LMAvXXvT0h0HhiUvC/FwO6oEfjQYhNhv4q/p+ampXhFMH+M50AuRvgHmJvfscyZ7D08R+6YImdXRPm3X8jrCC2BX2hsBaxnIMl5J72DGGUXEJ4h09lYDqwFclH62QZZUs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616597868912735.4438052893597;
- Wed, 24 Mar 2021 07:57:48 -0700 (PDT)
-In-Reply-To: <20210324143021.8560-1-alex.bennee@linaro.org>
-Subject: Re: [PULL for 6.0 00/22] various fixes (kernel-doc, semihosting,
- testing)
-Message-ID: <161659786791.25724.15462741238004778607@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lP51C-0003Qo-W5; Wed, 24 Mar 2021 11:01:59 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:37604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lP51B-0008BL-5G; Wed, 24 Mar 2021 11:01:58 -0400
+Received: by mail-qk1-x729.google.com with SMTP id g15so18310308qkl.4;
+ Wed, 24 Mar 2021 08:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w2l/tX9K5T4/wKJhsUatQajQ52ONUR4EFX8qLEZUPKU=;
+ b=R8OvE79XkeajDvGz/gC5gOh649bSznJIhvuZcwAq6cCIhGvlCF9KGHbhiCv0X0bMX0
+ o96VCVCkWNwzEYYjfW+8wtu6GWWCWe5gHpZZNpleGvZz3O5Tjtkn1WsmHuVsBqDBpThO
+ RUoT3a0jUe8JeuXbPJ6mNSHFY7ibbZHLcnJxiA1E6kDXU8fIlmKSEd7FfFDGtF/XSHLT
+ jXZW6ZeusJ1fp4g9a/NRt/iz6Dp9ZIKVkfiJROVZkzS6yGCDNrN4e317Yptg/giwuiyH
+ FzVas+H9Mgr42jxyqbmO91NjELUhNTuN/aCmhPUUvqIu23KWGR8fJBjKmyXyHrQQl0Ku
+ lcrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w2l/tX9K5T4/wKJhsUatQajQ52ONUR4EFX8qLEZUPKU=;
+ b=IdqQnhUi7CrTP/dAX1jKOlKQcKR/VPTHNC/MurwrXiaeSCBkaIGjpJouotq9vDBE5T
+ Mgbj+Nh53IOaW3FdYyEkt2yYV+xWdyOwQCVpZ9OPShc6QfVeFjGsNBdvssyWvUYf6HuR
+ RxFnqAQxq9pB/y3qkCLv2WHCa3lvi+0yWXvG9hDmlHcfypyyQ/Abozk3HgsSXjM5yr16
+ m84nkiGBd9yVY+xfK/7VgiByM8IrZlJ7GgOO1esYfEngdtGPwRup8HKgZlgu6amCHDXz
+ IvLZt80l9TmBzy+/2jrP2VoiHiCaEgcTS2wZJT8NNw7PrDaiU4vhrISRxqHLYO6K26m8
+ OolA==
+X-Gm-Message-State: AOAM530/+DjtCcv3mK0ihZobITUA0fG7MkYem5eN3dHJnqHIjj1eajGZ
+ 9DO1rHCzkk/Ndfx6Hk90RazGAt45IJzqMj23/IY=
+X-Google-Smtp-Source: ABdhPJzmE7zX4k0eT83lX3e+VUYWhBzi/65Bg/NIui/q/R/fAoMJoBHfANHIS2bCgK1QiVfLL2ESQPMh9uR4cy3NIRQ=
+X-Received: by 2002:a05:620a:1483:: with SMTP id
+ w3mr3411006qkj.339.1616598114307; 
+ Wed, 24 Mar 2021 08:01:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Wed, 24 Mar 2021 07:57:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20210323091409.1226-1-dylan@andestech.com>
+In-Reply-To: <20210323091409.1226-1-dylan@andestech.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 24 Mar 2021 10:59:55 -0400
+Message-ID: <CAKmqyKMTkDcO9_in28QSg7Spk=K9PdsSghUVJF4i1744fNdkYw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Align the data type of reset vector address
+To: Dylan Jhong <dylan@andestech.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=alistair23@gmail.com; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,95 +76,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Alan Quey-Liang Kao\(\(\(\(\(\(\(\(\(\(\)" <alankao@andestech.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, x5710999x@gmail.com,
+ "Ruinland Chuan-Tzu Tsa\(\(\(\(\(\(\(\(\(\(\)" <ruinland@andestech.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyNDE0MzAyMS44NTYw
-LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzI0MTQzMDIxLjg1
-NjAtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnClN1YmplY3Q6IFtQVUxMIGZvciA2LjAgMDAvMjJd
-IHZhcmlvdXMgZml4ZXMgKGtlcm5lbC1kb2MsIHNlbWlob3N0aW5nLCB0ZXN0aW5nKQoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
-MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
-cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMyNDE0MzAyMS44
-NTYwLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMzI0MTQzMDIxLjg1
-NjAtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
-dCcKYzBkNGEyYyBnaXRsYWI6IGRlZmF1bHQgdG8gbm90IGJ1aWxkaW5nIHRoZSBkb2N1bWVudGF0
-aW9uCjY0YzZlMzYgaW90ZXN0czogaW90aHJlYWRzIG5lZWQgaW9ldmVudGZkCjEyY2VlNjcgaW90
-ZXN0czogdGVzdCBtNjhrIHdpdGggdGhlIHZpcnQgbWFjaGluZQo2MzAzZGM2IGlvdGVzdHM6IFJl
-dmVydCAiaW90ZXN0czogdXNlIC1jY3cgb24gczM5MHggZm9yIDA0MCwgMTM5LCBhbmQgMTgyIgo4
-NjVjMTY1IGJsb2NrZGV2OiB3aXRoIC1kcml2ZSBpZj12aXJ0aW8sIHVzZSBnZW5lcmljIHZpcnRp
-by1ibGsKZDFhMzY2OCBtNjhrOiBhZGQgdGhlIHZpcnRpbyBkZXZpY2VzIGFsaWFzZXMKNzQyYzYz
-NSBxZGV2OiBkZWZpbmUgbGlzdCBvZiBhcmNocyB3aXRoIHZpcnRpby1wY2kgb3IgdmlydGlvLWNj
-dwpjMmIzM2JjIGdpdGxhYjogZXh0ZW5kIHRpbWVvdXRzIGZvciBDRkkgYnVpbGRzCmM3NjA0MTcg
-dXRpbHM6IFdvcmsgYXJvdW5kIG1pbmd3IHN0cnRvKmwgYnVnIHdpdGggMHgKMTg2MGYzNiB1dGls
-czogVGlnaHRlciB0ZXN0cyBmb3IgcWVtdV9zdHJ0b3N6CmQzNTk4ZTcgY2lycnVzLnltbDogVXBk
-YXRlIHRoZSBGcmVlQlNEIHRhc2sgdG8gdmVyc2lvbiAxMi4yCjEwOGEyMjIgY29uZmlndXJlOiBE
-b24ndCB1c2UgdGhlIF9fYXRvbWljXypfMTYgZnVuY3Rpb25zIGZvciB0ZXN0aW5nIDEyOC1iaXQg
-c3VwcG9ydAo1ZmJmYzgxIGdpdGxhYi1jaS55bWw6IE1lcmdlIHRoZSB0cmFjZS1iYWNrZW5kIHRl
-c3RpbmcgaW50byBvdGhlciBqb2JzCjQxZDhjNDkgdGVzdHMvdGNnOiBhZGQgSGVhcEluZm8gY2hl
-Y2tpbmcgdG8gc2VtaWhvc3RpbmcgdGVzdApiOGY0NjYyIGxpbnV4LXVzZXIvcmlzY3Y6IGluaXRp
-YWxpc2UgdGhlIFRhc2tTdGF0ZSBoZWFwL3N0YWNrIGluZm8KMzE2ZWM3NCBzZW1paG9zdGluZy9h
-cm0tY29tcGF0LXNlbWk6IGRvbid0IHVzZSBTRVRfQVJHIHRvIHJlcG9ydCBTWVNfSEVBUElORk8K
-ZDY5ZmI0YiBzZW1paG9zdGluZy9hcm0tY29tcGF0LXNlbWk6IHVuaWZ5IEdFVC9TRVRfQVJHIGhl
-bHBlcnMKNTQyODEwNSBzZW1paG9zdGluZzogbW92ZSBzZW1paG9zdGluZyB0ZXN0cyB0byBtdWx0
-aWFyY2gKZDEyODZiYyB0b29scy92aXJ0aW9mc2Q6IGluY2x1ZGUgLS1zb2NrZXQtZ3JvdXAgaW4g
-aGVscAo1NGQyNzYxIGRvY3MvZGV2ZWw6IGV4cGFuZCBzdHlsZSBzZWN0aW9uIG9mIG1lbW9yeSBt
-YW5hZ2VtZW50CmM1YzNmYmYgZG9jcy9kZXZlbDogaW5jbHVkZSB0aGUgcGx1Z2luIEFQSSBpbmZv
-cm1hdGlvbiBmcm9tIHRoZSBoZWFkZXJzCmYwYmIwZDUgc2NyaXB0cy9rZXJuZWwtZG9jOiBzdHJp
-cCBRRU1VXyBmcm9tIGZ1bmN0aW9uIGRlZmluaXRpb25zCgo9PT0gT1VUUFVUIEJFR0lOID09PQox
-LzIyIENoZWNraW5nIGNvbW1pdCBmMGJiMGQ1NGZjZmEgKHNjcmlwdHMva2VybmVsLWRvYzogc3Ry
-aXAgUUVNVV8gZnJvbSBmdW5jdGlvbiBkZWZpbml0aW9ucykKMi8yMiBDaGVja2luZyBjb21taXQg
-YzVjM2ZiZmRlYzg4IChkb2NzL2RldmVsOiBpbmNsdWRlIHRoZSBwbHVnaW4gQVBJIGluZm9ybWF0
-aW9uIGZyb20gdGhlIGhlYWRlcnMpCjMvMjIgQ2hlY2tpbmcgY29tbWl0IDU0ZDI3NjFmNGFhNCAo
-ZG9jcy9kZXZlbDogZXhwYW5kIHN0eWxlIHNlY3Rpb24gb2YgbWVtb3J5IG1hbmFnZW1lbnQpCjQv
-MjIgQ2hlY2tpbmcgY29tbWl0IGQxMjg2YmM3MDE3MSAodG9vbHMvdmlydGlvZnNkOiBpbmNsdWRl
-IC0tc29ja2V0LWdyb3VwIGluIGhlbHApCjUvMjIgQ2hlY2tpbmcgY29tbWl0IDU0MjgxMDUwZjVj
-NSAoc2VtaWhvc3Rpbmc6IG1vdmUgc2VtaWhvc3RpbmcgdGVzdHMgdG8gbXVsdGlhcmNoKQo2LzIy
-IENoZWNraW5nIGNvbW1pdCBkNjlmYjRiNzVlMzQgKHNlbWlob3N0aW5nL2FybS1jb21wYXQtc2Vt
-aTogdW5pZnkgR0VUL1NFVF9BUkcgaGVscGVycykKNy8yMiBDaGVja2luZyBjb21taXQgMzE2ZWM3
-NGE5OTdkIChzZW1paG9zdGluZy9hcm0tY29tcGF0LXNlbWk6IGRvbid0IHVzZSBTRVRfQVJHIHRv
-IHJlcG9ydCBTWVNfSEVBUElORk8pCjgvMjIgQ2hlY2tpbmcgY29tbWl0IGI4ZjQ2NjIxYmU2NSAo
-bGludXgtdXNlci9yaXNjdjogaW5pdGlhbGlzZSB0aGUgVGFza1N0YXRlIGhlYXAvc3RhY2sgaW5m
-bykKOS8yMiBDaGVja2luZyBjb21taXQgNDFkOGM0OWYyNTYwICh0ZXN0cy90Y2c6IGFkZCBIZWFw
-SW5mbyBjaGVja2luZyB0byBzZW1paG9zdGluZyB0ZXN0KQoxMC8yMiBDaGVja2luZyBjb21taXQg
-NWZiZmM4MTA0MjgyIChnaXRsYWItY2kueW1sOiBNZXJnZSB0aGUgdHJhY2UtYmFja2VuZCB0ZXN0
-aW5nIGludG8gb3RoZXIgam9icykKMTEvMjIgQ2hlY2tpbmcgY29tbWl0IDEwOGEyMjJlYmFhYiAo
-Y29uZmlndXJlOiBEb24ndCB1c2UgdGhlIF9fYXRvbWljXypfMTYgZnVuY3Rpb25zIGZvciB0ZXN0
-aW5nIDEyOC1iaXQgc3VwcG9ydCkKMTIvMjIgQ2hlY2tpbmcgY29tbWl0IGQzNTk4ZTc4YjRjMCAo
-Y2lycnVzLnltbDogVXBkYXRlIHRoZSBGcmVlQlNEIHRhc2sgdG8gdmVyc2lvbiAxMi4yKQoxMy8y
-MiBDaGVja2luZyBjb21taXQgMTg2MGYzNjcwMmViICh1dGlsczogVGlnaHRlciB0ZXN0cyBmb3Ig
-cWVtdV9zdHJ0b3N6KQoxNC8yMiBDaGVja2luZyBjb21taXQgYzc2MDQxNzQzNGM2ICh1dGlsczog
-V29yayBhcm91bmQgbWluZ3cgc3RydG8qbCBidWcgd2l0aCAweCkKRVJST1I6IGNvbnNpZGVyIHVz
-aW5nIHFlbXVfc3RydG9sIGluIHByZWZlcmVuY2UgdG8gc3RydG9sCiMxNDY6IEZJTEU6IHV0aWwv
-Y3V0aWxzLmM6NDA5OgorICAgICAgICBpZiAoc3RydG9sKG5wdHIsICZ0bXAsIDEwKSA9PSAwICYm
-IGVycm5vID09IDAgJiYKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTY5IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxNS8yMiBDaGVj
-a2luZyBjb21taXQgYzJiMzNiY2RiMjU0IChnaXRsYWI6IGV4dGVuZCB0aW1lb3V0cyBmb3IgQ0ZJ
-IGJ1aWxkcykKMTYvMjIgQ2hlY2tpbmcgY29tbWl0IDc0MmM2MzVjYjE0NyAocWRldjogZGVmaW5l
-IGxpc3Qgb2YgYXJjaHMgd2l0aCB2aXJ0aW8tcGNpIG9yIHZpcnRpby1jY3cpCjE3LzIyIENoZWNr
-aW5nIGNvbW1pdCBkMWEzNjY4NDViYTQgKG02OGs6IGFkZCB0aGUgdmlydGlvIGRldmljZXMgYWxp
-YXNlcykKMTgvMjIgQ2hlY2tpbmcgY29tbWl0IDg2NWMxNjVkMTg1MyAoYmxvY2tkZXY6IHdpdGgg
-LWRyaXZlIGlmPXZpcnRpbywgdXNlIGdlbmVyaWMgdmlydGlvLWJsaykKMTkvMjIgQ2hlY2tpbmcg
-Y29tbWl0IDYzMDNkYzZlMWNiYSAoaW90ZXN0czogUmV2ZXJ0ICJpb3Rlc3RzOiB1c2UgLWNjdyBv
-biBzMzkweCBmb3IgMDQwLCAxMzksIGFuZCAxODIiKQoyMC8yMiBDaGVja2luZyBjb21taXQgMTJj
-ZWU2NzcwM2IyIChpb3Rlc3RzOiB0ZXN0IG02OGsgd2l0aCB0aGUgdmlydCBtYWNoaW5lKQoyMS8y
-MiBDaGVja2luZyBjb21taXQgNjRjNmUzNjNiODkzIChpb3Rlc3RzOiBpb3RocmVhZHMgbmVlZCBp
-b2V2ZW50ZmQpCjIyLzIyIENoZWNraW5nIGNvbW1pdCBjMGQ0YTJjODhiNDIgKGdpdGxhYjogZGVm
-YXVsdCB0byBub3QgYnVpbGRpbmcgdGhlIGRvY3VtZW50YXRpb24pCj09PSBPVVRQVVQgRU5EID09
-PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzI0MTQzMDIxLjg1NjAtMS1h
-bGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgot
-LS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRj
-aGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVk
-aGF0LmNvbQ==
+On Tue, Mar 23, 2021 at 5:15 AM Dylan Jhong <dylan@andestech.com> wrote:
+>
+> Although the AE350 has not been upstream (preparing for v2),
+> the reset vector of the AE350 is known to be at the 2G position,
+> so this patch is corrected in advance.
+>
+> Signed-off-by: Dylan Jhong <dylan@andestech.com>
+> Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+> ---
+>  target/riscv/cpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 2a990f6253..0236abf169 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -137,7 +137,7 @@ static void set_feature(CPURISCVState *env, int feature)
+>      env->features |= (1ULL << feature);
+>  }
+>
+> -static void set_resetvec(CPURISCVState *env, int resetvec)
+> +static void set_resetvec(CPURISCVState *env, uint64_t resetvec)
+
+resetvec in env is a target_ulong so this should be as well (instead
+of a uint64_t).
+
+Alistair
+
+>  {
+>  #ifndef CONFIG_USER_ONLY
+>      env->resetvec = resetvec;
+> --
+> 2.17.1
+>
+>
 
