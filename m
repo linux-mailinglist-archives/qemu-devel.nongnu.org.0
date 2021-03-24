@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6863473D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:44:47 +0100 (CET)
-Received: from localhost ([::1]:39688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11203473E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:45:47 +0100 (CET)
+Received: from localhost ([::1]:42480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOz8A-0008NR-R1
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37134)
+	id 1lOz98-00019G-To
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:45:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOz5I-0007TF-4J
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:41:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38037)
+ (Exim 4.90_1) (envelope-from <tao3.xu@intel.com>)
+ id 1lOz75-000062-TU; Wed, 24 Mar 2021 04:43:40 -0400
+Received: from mga03.intel.com ([134.134.136.65]:25459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOz5F-0004BA-3a
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:41:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616575300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=I4Kw9XgbAEsp9nyEvKNpkDj2cDQHP71Hr1biyppb8Dk=;
- b=VIb2/Mmq8gR/aTOtWGi8IG3n02GhgLIkRLzbjdLsvuS+ILSAaXqPVrmRF0OplI86eT/rDf
- Ny66ImSj+zB3T2PW128XoOXPsf5G1toubvO7+Nu9VxkCdGliw0ufwP3wRk1sGiySqOZ09w
- wYQk+6HV3fqOFdO3bedTKlq7ePVHul0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-FkM4ReM1MeyNIborTPS5Ng-1; Wed, 24 Mar 2021 04:41:38 -0400
-X-MC-Unique: FkM4ReM1MeyNIborTPS5Ng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756751084D69;
- Wed, 24 Mar 2021 08:41:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FC2977E21;
- Wed, 24 Mar 2021 08:41:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CE25011327E1; Wed, 24 Mar 2021 09:41:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qom: Fix default values in help
-Date: Wed, 24 Mar 2021 09:41:30 +0100
-Message-Id: <20210324084130.3986072-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <tao3.xu@intel.com>)
+ id 1lOz71-0004xY-MI; Wed, 24 Mar 2021 04:43:39 -0400
+IronPort-SDR: P108RB4d3FSMDFyPlMthn11JZTDP1Zi7CKPV+4LZm5aRA6LRzbN+Fox4/htzA5Je3YGg4rzaZy
+ 3/uWgahmsvAA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="190689745"
+X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="190689745"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2021 01:43:25 -0700
+IronPort-SDR: AMfOKz+9ZryhTR8YNqltVyDHm+wHjHcLjJpJN9LIRpT12Ux2y2QyrmsT4O7UhI3ireB2zlVDmu
+ hbw0PRzXKtlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="391220958"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.28])
+ by orsmga002.jf.intel.com with ESMTP; 24 Mar 2021 01:43:24 -0700
+From: Tao Xu <tao3.xu@intel.com>
+To: kwolf@redhat.com,
+	mreitz@redhat.com
+Subject: [PATCH] iotests: Fix typo in iotest 051
+Date: Wed, 24 Mar 2021 16:43:21 +0800
+Message-Id: <20210324084321.90952-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=tao3.xu@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,50 +58,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com, thuth@redhat.com,
- marcandre.lureau@redhat.com, michael.roth@amd.com
+Cc: Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Output of default values in device help is broken:
+There is an typo in iotest 051, correct it.
 
-    $ ./qemu-system-x86_64 -S -display none -monitor stdio
-    QEMU 5.2.50 monitor - type 'help' for more information
-    (qemu) device_add pvpanic,help
-    pvpanic options:
-      events=<uint8>         -  (default: (null))
-      ioport=<uint16>        -  (default: (null))
-      pvpanic[0]=<child<qemu:memory-region>>
-
-The "(null)" is glibc printing a null pointer.  Other systems crash
-instead.  Having a help request crash a running VM can really spoil
-your day.
-
-Root cause is a botched replacement of qstring_free() by
-g_string_free(): to get the string back, we need to pass true to the
-former, but false to the latter.  Fix the argument.
-
-Fixes: eab3a4678b07267c39e7290a6e9e7690b1d2a521
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
- qom/object_interfaces.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/051        | 2 +-
+ tests/qemu-iotests/051.pc.out | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index c3324b0f86..bd8a947a63 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -159,7 +159,7 @@ char *object_property_help(const char *name, const char *type,
-     }
-     if (defval) {
-         g_autofree char *def_json = g_string_free(qobject_to_json(defval),
--                                                  true);
-+                                                  false);
-         g_string_append_printf(str, " (default: %s)", def_json);
-     }
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index f92161d8ef..1595babe82 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -209,7 +209,7 @@ case "$QEMU_DEFAULT_MACHINE" in
+         # virtio-blk enables the iothread only when the driver initialises the
+         # device, so a second virtio-blk device can't be added even with the
+         # same iothread. virtio-scsi allows this.
+-        run_qemu $iothread -device virtio-blk-pci,drive=disk,iohtread=iothread0,share-rw=on
++        run_qemu $iothread -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on
+         run_qemu $iothread -device virtio-scsi,id=virtio-scsi1,iothread=thread0 -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on
+         ;;
+      *)
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
+index a28e3fc124..a43086bb41 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -183,9 +183,9 @@ Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) QEMU_PROG: -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on: Cannot change iothread of active block backend
  
+-Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-blk-pci,drive=disk,iohtread=iothread0,share-rw=on
++Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: -device virtio-blk-pci,drive=disk,iohtread=iothread0,share-rw=on: Cannot change iothread of active block backend
++(qemu) QEMU_PROG: -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on: Cannot change iothread of active block backend
+ 
+ Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-scsi,id=virtio-scsi1,iothread=thread0 -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on
+ QEMU X.Y.Z monitor - type 'help' for more information
 -- 
-2.26.3
+2.25.1
 
 
