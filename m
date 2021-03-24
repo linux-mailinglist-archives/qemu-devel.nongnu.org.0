@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7B6348129
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 20:03:56 +0100 (CET)
-Received: from localhost ([::1]:32978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9318934810C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:57:44 +0100 (CET)
+Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP8nK-0002x3-QB
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 15:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48584)
+	id 1lP8hL-0005gG-5S
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:57:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP8Xn-0005YG-8s
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:47:51 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:44934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP8Xl-0002Ho-Pk
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:47:50 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id
- y19-20020a0568301d93b02901b9f88a238eso24002586oti.11
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Q/hPCxfkApMa8HRvEfq82+jq0lFEs6ZIFGKLN3TGGmc=;
- b=WjbI0aUkqj0kqN5xHRzInA9Agb0aYdIrO43lkLO0zWyQu+iSGvHm8GxdNS7GBE8yyN
- v7i6/H9p6MVwiWLBxldOxTlMBXbqWCXuRXrGn7K/rv2Xj0qG9VQC94MqRIimIrsM1VlT
- Jbnm/Zt+jtXeEZyvXiTSYimrn46hFc2NNdP8PVwo5dA+3Mbp/RvrLjAC6gER8OcSWIHV
- RxGBiYRWkJEQr2n/pD5yZ8T+79aRz+LHV+5O7Qy6vKB1mD6sMTu8ZglhXfoumZ8rk1yX
- T4bnZEi78TuivuMoyRec312yFeVrXETFPflGykhGzmFTxXFJS9RP/32wt0m2iMhRrcbs
- y6Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q/hPCxfkApMa8HRvEfq82+jq0lFEs6ZIFGKLN3TGGmc=;
- b=TtDOSSnP1IovVZtn0m8zmjOuJt0hf3byoJGFLsazmpK9vRTxa/38NsxAbFmiaQamoz
- nL6EobTUGVirh3Vyn54X24k9Ivid1vHb2Rao2u8QZOZ3WrlwQMtTqRyeGzN4cCvSj6F+
- yD2mTahdJuzwgxh4zOL/esaX33yc0AndNyOjiVaFMzfAV4z2CdD7fsb8JerTSupjMXNA
- CcMHYF7I/FTNH1B8YmuwVfCEF6uOPdRE3+POE6HgS4YyeOZPzF92p59fpdG1F3pbKj7R
- X7W4ofNFUNoM27ZysF0geueKVY8UZ6ENaARQddD/YcBCQlHBe8BUfvn4Gi4M87QJzmXo
- H2Tw==
-X-Gm-Message-State: AOAM531T3HeDGw3SUB41oHLQN/qxzrMAEgS1FdgClbGZq5pEB4ojrMFX
- K7nsgdvkdTwSXG/WEsflV9K7pg==
-X-Google-Smtp-Source: ABdhPJw+zq2fjIIprgXz2Vhv5ioluJBzBkSDv8VWIJQntkCQVfkflloLsnzhxSWHcfnCV5iNUF8YDQ==
-X-Received: by 2002:a9d:921:: with SMTP id 30mr4267864otp.49.1616611668614;
- Wed, 24 Mar 2021 11:47:48 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id i15sm693954oou.10.2021.03.24.11.47.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 11:47:48 -0700 (PDT)
-Subject: Re: [RFC v11 18/55] target/arm: move cpsr_read, cpsr_write to
- cpu_common
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-11-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5dc68761-5e2a-8e63-2e32-559caa2a88c9@linaro.org>
-Date: Wed, 24 Mar 2021 12:47:45 -0600
+ (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
+ id 1lP8Y8-0005ov-UX; Wed, 24 Mar 2021 14:48:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61072
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
+ id 1lP8Y3-0002SW-5n; Wed, 24 Mar 2021 14:48:11 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12OIYVLN118727; Wed, 24 Mar 2021 14:48:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=FlJ5XtXwVmbS91tB5peDXAZu7cO1L50nRQ0YSmxwMg8=;
+ b=RjjUOdukeC4Vhi6BGhX1mIc/wrQm68yTfVHb6gryD2buSsC9oDsLkI8LPhS3ow2ATIpZ
+ AjDKhLUlb8rOEESNtfEo+RlGpTDT84+X0kZ4NKHSOEShiwc7I7wRn0+xDw5c+sFiD7af
+ Ssog9aGY74J5AiMUiYxO8IFCgkpaqduk7BKOSMkdexWd6BT25B0qhPEo2M2a95dRPOFW
+ 74pjOGBC7rtoxzaVds1cqKLuEbdpnZJ2AxfC2R4SfR8e/QH+R1JZtAURmhHo0SyTiHpa
+ GRBaAg/NLJL9Wf4o3kU3RxBu6QoFdCv0t+Fl6k0nTo7And+ic72qUFWqu9j4f50q4LLo UA== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37g8t0kt4a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Mar 2021 14:48:05 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12OIm3VD004146;
+ Wed, 24 Mar 2021 18:48:03 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06fra.de.ibm.com with ESMTP id 37d9a62ebt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Mar 2021 18:48:03 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12OIlgEQ10027494
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Mar 2021 18:47:42 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE3BE52057;
+ Wed, 24 Mar 2021 18:48:00 +0000 (GMT)
+Received: from li-23497a81-5215-11cb-9bae-a81330ecc14b.ibm.com (unknown
+ [9.171.8.85])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id B104052051;
+ Wed, 24 Mar 2021 18:48:00 +0000 (GMT)
+Subject: Re: [PATCH v2] linux-user/s390x: Use the guest pointer for the
+ sigreturn stub
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <be03acc3-8e9f-4715-6936-68013c49b920@vivier.eu>
+ <20210324155530.52239-1-krebbel@linux.ibm.com>
+ <91794f50-593d-87cc-bf46-56593c204308@vivier.eu>
+From: Andreas Krebbel <krebbel@linux.ibm.com>
+Message-ID: <e3ffd859-2dae-77b3-093f-06237337f4f4@linux.ibm.com>
+Date: Wed, 24 Mar 2021 19:48:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-11-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <91794f50-593d-87cc-bf46-56593c204308@vivier.eu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-24_13:2021-03-24,
+ 2021-03-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 adultscore=0 mlxscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2103240133
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=krebbel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,29 +104,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-s390x@nongnu.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> we need as a result to move switch_mode too,
-> so we put an implementation into cpu_user and cpu_sysemu.
+On 3/24/21 6:53 PM, Laurent Vivier wrote:
+> Le 24/03/2021 à 16:55, Andreas Krebbel a écrit :
+>> When setting up the pointer for the sigreturn stub in the return
+>> address register (r14) we have to use the guest frame pointer instead
+>> of the host frame pointer.
+>>
+>> Note: This only caused problems if Qemu has been built with
+>> --disable-pie (as it is in distros nowadays). Otherwise guest_base
+>> defaults to 0 hiding the actual problem.
+>>
+>> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
+>> ---
+>>  linux-user/s390x/signal.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+>> index ecfa2a14a9..e9bf865074 100644
+>> --- a/linux-user/s390x/signal.c
+>> +++ b/linux-user/s390x/signal.c
+>> @@ -213,7 +213,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>>      if (ka->sa_flags & TARGET_SA_RESTORER) {
+>>          env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
+>>      } else {
+>> -        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
+>> +        env->regs[14] = (target_ulong) (frame_addr + offsetof(rt_sigframe, retcode))
+>> +                        | PSW_ADDR_AMODE;
+>>          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+>>                     (uint16_t *)(frame->retcode));
+>>      }
+>>
 > 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> ---
->   target/arm/cpu.h        |   2 +
->   target/arm/cpu-common.c | 192 +++++++++++++++++++++++++++++++++++
->   target/arm/cpu-sysemu.c |  30 ++++++
->   target/arm/cpu-user.c   |  24 +++++
->   target/arm/tcg/helper.c | 220 ----------------------------------------
->   target/arm/meson.build  |   3 +
->   6 files changed, 251 insertions(+), 220 deletions(-)
->   create mode 100644 target/arm/cpu-user.c
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> 
+> but if you want to send a v3:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Sure, will do.
 
+> - to be consistent with lines below, use "offsetof(typeof(*frame), ..."
+> - in the line above, you can remove the (unsigned long) of the sa_restorer as it is an abi_ulong,
 
-r~
+The (target_ulong) cast could probably go away as well since frame_addr is also abi_ulong.
+
+> - don't send the "v2" as a reply to the v1 as it can be hidden in the mail thread and missed by the
+> maintainer :)
+
+Ok.
+
+Andreas
+
+> 
+> Thanks,
+> Laurent
+> 
+
 
