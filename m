@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B05A3478BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 13:43:32 +0100 (CET)
-Received: from localhost ([::1]:41558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73198347926
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:00:20 +0100 (CET)
+Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP2rD-0001iu-67
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 08:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
+	id 1lP37T-0005xG-E8
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:00:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP2ox-0000BU-0X
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 08:41:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42460)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lP351-0004ow-Nm
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 08:57:47 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:41820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP2or-0001K4-Dr
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 08:41:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lP2om-0001rA-Ta
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 12:41:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DE37F2E8157
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 12:41:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lP34z-0002k5-UP
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 08:57:47 -0400
+Received: by mail-ej1-x631.google.com with SMTP id u5so32696803ejn.8
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 05:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DfbwWibM90fGYygpQ0KlYt+QIrA+6O+JjidFkoEBjNM=;
+ b=AvhMVIwLiX7kVYqt8aeno1B4ViFWr6QXDhB7r4z7OMZPu6wyO5OMf5p86xXnNHFP+8
+ kborBgZ028AeDFAruVyRx+hCaYnqB9hotsr47i6VomghjedzFgNrGhvG0Hwbj3FWn3zd
+ QyT+VBnuxN2x9rEcAYq4uJxjUEzkS2cCh3+f4n7YQfHXnWXooBDJD5im3GIaYGPYKe9P
+ sMRqBrqpcv31E2jbXblarYXqSj8up+PWjC6ZCdr1Tz/kqE/q1uFQ16c7D8QMmlIcNd8p
+ Ln5oVscCw67PxGmmh/i8rx0EO/SRuqN9vHQDKxeyFVesZDaKZPmEOTdMqZHQdlVk/3bn
+ 0zbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DfbwWibM90fGYygpQ0KlYt+QIrA+6O+JjidFkoEBjNM=;
+ b=GnL42yoW4AMgIV7BycOmA1Tb7AK0eMLah6YHXIeqYcEbQvV8iBYHgM9oPoJX7J+xHU
+ 2o1kJqVecWIw+IdIyNZJ08kobBXWtXLZaiwcxwWo23IMxqooX0vjxFv/HCbUkDQPSHSp
+ C2Fymo+7EoNW0wsK5SnogT9k3kqX0lkhAB4VLMgjFCPo4ybkYLpB7//lRGoBIKfDpwTM
+ MPY1DkTARNZbxnKYNwxNMHLHSTFjdrBHIlco04v2KThYp4vaR/uhGsPbv72F2DAW8yc1
+ 55OYceATMito++UyQdk73dY3LY4UI2pa0cpzDNAtwrtW2EhxlTqvT0BCR0WCT3OblsVJ
+ dBbg==
+X-Gm-Message-State: AOAM532rG+iJYTEE8LCjX0fN2xszCs7drh3UdlZvmwD87pnUA3VoBlGH
+ 3xhGlZz4eozi2igTCm0AR0s=
+X-Google-Smtp-Source: ABdhPJwWvBiUApdKlWGpZFDMQOcWB65Z38yyv9F8kFbWzGdWhZqOQezoUg24GOZNbisv9VYn5+AiEg==
+X-Received: by 2002:a17:907:2d24:: with SMTP id
+ gs36mr3578171ejc.344.1616590663608; 
+ Wed, 24 Mar 2021 05:57:43 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id u13sm899863ejy.31.2021.03.24.05.57.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 05:57:42 -0700 (PDT)
+Date: Wed, 24 Mar 2021 12:57:41 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 2/8] virtiofds: Changed allocations of iovec to GLib's
+ functions
+Message-ID: <YFs3RUPW81evLKTT@stefanha-x1.localdomain>
+References: <20210319132527.3118-1-ma.mandourr@gmail.com>
+ <20210319132527.3118-3-ma.mandourr@gmail.com>
+ <YFnzsf2LgpUicPvH@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Mar 2021 12:26:06 -0000
-From: Richard Henderson <1920934@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: melver pmaydell rth
-X-Launchpad-Bug-Reporter: Marco Elver (melver)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161651058412.28703.12241728434736646690.malonedeb@gac.canonical.com>
-Message-Id: <161658876647.1010.4439376722199383920.malone@soybean.canonical.com>
-Subject: [Bug 1920934] Re: Heap-use-after-free in io_writex / cputlb.c results
- in Linux kernel crashes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 61ec825ffb63ff4ef90924b6d3cc9afdfca3ee48
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oI470wQVGmx8bzXR"
+Content-Disposition: inline
+In-Reply-To: <YFnzsf2LgpUicPvH@stefanha-x1.localdomain>
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=stefanha@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,550 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920934 <1920934@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This suggests that the rcu_read in iotlb_to_section is not
-playing well with one of the g_renew calls in softmmu/physmem.c.
 
-Not sure which, since the sanitizer dump above doesn't trace
-back beyond glib itself.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920934
-
-Title:
-  Heap-use-after-free in io_writex / cputlb.c results in Linux kernel
-  crashes
-
-Status in QEMU:
-  New
-
-Bug description:
-  qemu version: git 5ca634afcf83215a9a54ca6e66032325b5ffb5f6; 5.2.0
-
-  We've encountered that booting the Linux kernel in TCG mode, results
-  in a racy heap-use-after-free. The bug can be detected by ASan [A],
-  but in the majority of runs results in a crashing kernel [B].
-
-  To reproduce, the following command line was used:
-
-  $> while ./qemu-system-x86_64 -no-reboot -smp 10 -m 2G -kernel
-  arch/x86/boot/bzImage -nographic -append "oops=3Dpanic panic_on_warn=3D1
-  panic=3D1 kfence.sample_interval=3D1 nokaslr"; do sleep 0.5s; done
-
-  The crashes in the kernel [B] appear to receive an interrupt in a code
-  location where the instructions are periodically patched (via the
-  jump_label infrastructure).
-
-  [A]:
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D                           =
-                                                                           =
-                                                                           =
-             =
-
-  =3D=3D3552508=3D=3DERROR: AddressSanitizer: heap-use-after-free on addres=
-s 0x6190007fef50 at pc 0x55885b0b4d1b bp 0x7f83baffb800 sp 0x7f83baffb7f8  =
-                                                                           =
-                                        =
-
-  READ of size 8 at 0x6190007fef50 thread T4                               =
-                                                                           =
-                                                                           =
-                                =
-
-  [    4.616506][    T1] pci 0000:00:02.0: reg 0x18: [mem 0xfebf0000-0xfebf=
-0fff]                                                                      =
-                                                                           =
-                                =
-
-  [    4.670567][    T1] pci 0000:00:02.0: reg 0x30: [mem 0xfebe0000-0xfebe=
-ffff pref]                                                                 =
-                                                                           =
-                                =
-
-  [    4.691345][    T1] pci 0000:00:03.0: [8086:100e] type 00 class 0x0200=
-00                                                                         =
-                                                                           =
-                                =
-
-  [    4.701540][    T1] pci 0000:00:03.0: reg 0x10: [mem 0xfebc0000-0xfebd=
-ffff]                                                                      =
-                                                                           =
-                                =
-
-  [    4.711076][    T1] pci 0000:00:03.0: reg 0x14: [io  0xc000-0xc03f]   =
-                                                                           =
-                                                                           =
-                                =
-
-  [    4.746869][    T1] pci 0000:00:03.0: reg 0x30: [mem 0xfeb80000-0xfebb=
-ffff pref]                                                                 =
-                                                                           =
-                                =
-
-  [    4.813612][    T1] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 *10 11)   =
-                                                                           =
-                                                                           =
-                                =
-
-      #0 0x55885b0b4d1a in io_writex ../accel/tcg/cputlb.c:1408            =
-                                                                           =
-                                                                           =
-                                =
-
-      #1 0x55885b0d3b9f in store_helper ../accel/tcg/cputlb.c:2444         =
-                                                                           =
-                                                                           =
-                                =
-
-      #2 0x55885b0d3b9f in helper_le_stl_mmu ../accel/tcg/cputlb.c:2510    =
-                                                                           =
-                                                                           =
-                                =
-
-  [    4.820927][    T1] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 *10 11)   =
-                                                                           =
-                                                                           =
-                                =
-
-      #3 0x7f843cedf8dc  (<unknown module>)                                =
-                                                                           =
-                                                                           =
-                                =
-
-                                                                           =
-                                                                           =
-                                                                           =
-                                =
-
-  0x6190007fef50 is located 208 bytes inside of 1024-byte region [0x6190007=
-fee80,0x6190007ff280)                                                      =
-                                                                           =
-                                =
-
-  freed by thread T11 here:                                                =
-                                                                           =
-                                                                           =
-                                =
-
-      #0 0x7f8483f431f8 in __interceptor_realloc ../../../../src/libsanitiz=
-er/asan/asan_malloc_linux.cpp:164                                          =
-                                                                           =
-                                =
-
-      #1 0x7f8483586de7 in g_realloc (/lib/x86_64-linux-gnu/libglib-2.0.so.=
-0+0x57de7)                                                                 =
-                                                                           =
-                                =
-
-                                                                           =
-                                                                           =
-                                                                           =
-                                =
-
-  previously allocated by thread T11 here:                                 =
-                                                                           =
-                                                                           =
-                                =
-
-      #0 0x7f8483f431f8 in __interceptor_realloc ../../../../src/libsanitiz=
-er/asan/asan_malloc_linux.cpp:164                                          =
-                                                                           =
-                                =
-
-      #1 0x7f8483586de7 in g_realloc (/lib/x86_64-linux-gnu/libglib-2.0.so.=
-0+0x57de7)                                                                 =
-                                                                           =
-                                =
-
-                                                                           =
-                                                                           =
-                                                                           =
-                                =
-
-  Thread T4 created by T0 here:                                            =
-                                                                           =
-                                                                           =
-                                =
-
-  [    4.827679][    T1] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 10 *11)   =
-                                                                           =
-                                                                           =
-                                =
-
-  [    4.835143][    T1] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 10 *11)   =
-                                                                           =
-                                                                           =
-                                =
-
-  [    4.838441][    T1] ACPI: PCI Interrupt Link [LNKS] (IRQs *9)         =
-                                                                           =
-                                                                           =
-                                =
-
-      #0 0x7f8483eee2a2 in __interceptor_pthread_create ../../../../src/lib=
-sanitizer/asan/asan_interceptors.cpp:214                                   =
-                                                                           =
-                                =
-
-      #1 0x55885b7cf0de in qemu_thread_create ../util/qemu-thread-posix.c:5=
-58                                                                         =
-                                                                           =
-                                =
-
-                                                                           =
-                                                                           =
-                                                                           =
-                                =
-
-  Thread T11 created by T0 here:                                           =
-                                                                           =
-                                                                           =
-                                =
-
-      #0 0x7f8483eee2a2 in __interceptor_pthread_create ../../../../src/lib=
-sanitizer/asan/asan_interceptors.cpp:214                                   =
-                                                                           =
-                                =
-
-      #1 0x55885b7cf0de in qemu_thread_create ../util/qemu-thread-posix.c:5=
-58                                                                         =
-                                                                           =
-                                =
-
-                                                                           =
-                        =
-
-  SUMMARY: AddressSanitizer: heap-use-after-free ../accel/tcg/cputlb.c:1408=
- in io_writex                                                              =
-                                                                           =
-                                =
-
-  Shadow bytes around the buggy address:                                   =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7d90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7da0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7db0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7dc0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7dd0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd        =
-                                                                           =
-                                                                           =
-                                =
-
-  =3D>0x0c32800f7de0: fd fd fd fd fd fd fd fd fd fd[fd]fd fd fd fd fd      =
-                                                                           =
-                                                                           =
-                                  =
-
-    0x0c32800f7df0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7e00: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7e10: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7e20: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd        =
-                                                                           =
-                                                                           =
-                                =
-
-    0x0c32800f7e30: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd        =
-                                                                           =
-                                                                           =
-                                =
-
-  Shadow byte legend (one shadow byte represents 8 application bytes):     =
-                                                                           =
-                                                                           =
-                                =
-
-    Addressable:           00                                              =
-                                                                           =
-                                                                           =
-                                =
-
-    Partially addressable: 01 02 03 04 05 06 07                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Heap left redzone:       fa                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Freed heap region:       fd                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Stack left redzone:      f1                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Stack mid redzone:       f2                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Stack right redzone:     f3                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Stack after return:      f5                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Stack use after scope:   f8                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Global redzone:          f9                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Global init order:       f6                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Poisoned by user:        f7                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Container overflow:      fc                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Array cookie:            ac                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Intra object redzone:    bb                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    ASan internal:           fe                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Left alloca redzone:     ca                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Right alloca redzone:    cb                                            =
-                                                                           =
-                                                                           =
-                                =
-
-    Shadow gap:              cc                                            =
-                                                                           =
-                                                                           =
-                                =
-
-  =3D=3D3552508=3D=3DABORTING =
-
-
-  =
-
-  [B]:
-  [    6.029269][    C4] int3: 0000 [#1] PREEMPT SMP                       =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] CPU: 4 PID: 34 Comm: cpuhp/4 Not tainted 5.12.0-rc=
-4 #2                                                                       =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] Hardware name: QEMU Standard PC (i440FX + PIIX, 19=
-96), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014          =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] RIP: 0010:kmem_cache_alloc_trace+0xdd/0x2f0       =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] Code: de e8 a7 2e 02 00 85 c0 74 0d 48 89 ef e8 bb=
- 60 00 00 e9 e3 00 00 00 4d 85 f6 0f 84 da 00 00 00 4c 89 6c 24 08 48 8b 2c=
- 24 cc <98> 01 00 00 45 31 ed 4c 89 6c 24 10 4d 85 ed 0f 85 99 00 00 00 49 =
-                                =
-
-  [    6.029269][    C4] RSP: 0018:ffffc90000483cc0 EFLAGS: 00000286       =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] RAX: 0000000000000000 RBX: 0000000000000dc0 RCX: f=
-fff888003b717c0                                                            =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] RDX: 0000000000000000 RSI: 0000000000000dc0 RDI: f=
-fff888003842a00                                                            =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] RBP: 0000000000000110 R08: 0000000000000000 R09: 0=
-000000000000000                                                            =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] R10: ffffffff81248e22 R11: 00000000fa83b201 R12: 0=
-000000000000dc0                                                            =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] R13: 0000000000000000 R14: ffff888003842a00 R15: f=
-fffffff8150e1c9                                                            =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] FS:  0000000000000000(0000) GS:ffff88803ea00000(00=
-00) knlGS:0000000000000000                                                 =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] CR2: 0000000000000000 CR3: 0000000002011000 CR4: 0=
-0000000000006e0                                                            =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] Call Trace:                                       =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  device_add+0x59/0x7b0                            =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  device_create+0xea/0x130                         =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? cpu_report_death+0x40/0x40                     =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? cpu_report_death+0x40/0x40                     =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? msr_devnode+0x20/0x20                          =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  msr_device_create+0x28/0x40                      =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  cpuhp_invoke_callback+0x140/0x2f0                =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? finish_task_switch+0x8c/0x230                  =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? cpu_report_death+0x40/0x40                     =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  cpuhp_thread_fun+0x118/0x1a0                     =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? cpu_report_death+0x40/0x40                     =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  smpboot_thread_fn+0x1b9/0x270                    =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  kthread+0x14b/0x160                              =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ? kthread_unuse_mm+0xf0/0xf0                     =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4]  ret_from_fork+0x1f/0x30                          =
-                                                                           =
-                                                                           =
-                                =
-
-  [    6.029269][    C4] ---[ end trace 1336f71544bb94e4 ]---
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920934/+subscriptions
+--oI470wQVGmx8bzXR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Mar 23, 2021 at 01:57:05PM +0000, Stefan Hajnoczi wrote:
+> On Fri, Mar 19, 2021 at 03:25:21PM +0200, Mahmoud Mandour wrote:
+> > @@ -629,9 +628,6 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const st=
+ruct iovec *in_iov,
+> > =20
+> >      res =3D send_reply_iov(req, 0, iov, count);
+> >  out:
+> > -    free(in_fiov);
+> > -    free(out_fiov);
+> > -
+> >      return res;
+> > =20
+> >  enomem:
+>=20
+> This hunk doesn't seem related to anything in this patch. Was it
+> included accidentally?
+
+Thanks for explaining that in_fiov/out_fiov are allocated by
+fuse_ioctl_iovec_copy() earlier in this function. I missed that.
+
+Please use Reply-All on mailing list emails so that the mailing like and
+all other CC email addresses are included in the discussion.
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--oI470wQVGmx8bzXR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBbN0UACgkQnKSrs4Gr
+c8iPMwgAhio1yFIMROQqu+WrkONan8Z9dRon+qi1SUI1ul+wxHue2L2/RVNhg8nN
+jAOeGvengmnWRGr1vZcY914rBXzCgcDl3hWho71uUpeiLBQQJqzPkv3qr2iqvPcX
+7GpO1KP50Gpqy40Rmp9AL7kl0pUDyikp3cW/QdpshB58g/ks1h7w5QdkZSktDmy9
+jzUeFdDmzdsHz2Le7U2qX9IXGvvh4rExVlr9RfwfZbHQG2mUcmcWD6yIsAATOZPc
+JD6e7dCkOk+0qUz9bWPZQPWOklid7du0DaQjrP5TSwI2gVc2pq1sXN8GpfUgZOBB
+iOVWZwZ4ZgtMhYHQDKuuD3Zooq3SYw==
+=mGUx
+-----END PGP SIGNATURE-----
+
+--oI470wQVGmx8bzXR--
 
