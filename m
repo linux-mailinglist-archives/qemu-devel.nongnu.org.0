@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658C5347DE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 17:42:03 +0100 (CET)
-Received: from localhost ([::1]:39252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB1E347DED
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 17:43:05 +0100 (CET)
+Received: from localhost ([::1]:41432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP6a2-0003Bz-Fe
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 12:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40122)
+	id 1lP6b2-0004Be-98
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 12:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lP6Wx-0002Aq-Ir
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:38:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34619)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lP6YQ-0002nD-J7
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:40:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lP6Wv-0007D0-Tw
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:38:51 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lP6YM-00084d-Jc
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:40:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616603929;
+ s=mimecast20190719; t=1616604016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZF8HRT5IrNOvQL6Pz8F1OKHc43im4d3pUJ9N+IN8ny4=;
- b=UiJFq3NNFtZk8hE/aMYV1npFi+OuCv5fKk0Si34cOwhsd7HcwzYCIGiZGAEMjwSS1FnPdM
- LtsudrLKMcLMW5u83rnYMyFzwL0BlZBBhCo4ihHf45wL0uaDKqG1d8PcNtkx5bbLn5S9Xa
- WodVokodO44l3zyizh36PuzhG97j2rA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-10DHUqbVOXqIBwpW3QFVdg-1; Wed, 24 Mar 2021 12:38:47 -0400
-X-MC-Unique: 10DHUqbVOXqIBwpW3QFVdg-1
-Received: by mail-wr1-f70.google.com with SMTP id v13so1307138wrs.21
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 09:38:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ZF8HRT5IrNOvQL6Pz8F1OKHc43im4d3pUJ9N+IN8ny4=;
- b=guzTfMjUrKaBTvwI94v1ucyaBBAQ0VGWYpJm37fB/jul8vNDk9RhZj2v1xxl861UA/
- qixF7sziUD9lDD9qWNUP3kilOWco6rA1TGgq7ntJFfwWxuvuWjEUrbHgHAFHgi5iUpV5
- 3x7j0UKJRd6XhJYdrrCcSZBLHfX/CZ2tT6SsEBek/cobYxFtfeENz8Aqr5dJwDCoj77I
- ye8EnsB3Qzzz3dMsMi5tyefTaE3CTtk5vxjUIgh6fascHFtCmB17s2luLawUe84gU0ca
- hULW2ink2c80FRw2hgZWoUz+UQLBnObhnUfsRgwq9gNHNr88N1a26QHjatXOMPr3DR5W
- HVLw==
-X-Gm-Message-State: AOAM531uHvLUMVjz3EQZwhUlYcsudu6UP/Q3+K1BTDklZhOpjHKDopMd
- OKyY+Opb5EPKzj53oq3N80VemaX6FI+BShsXtnOTG2gGPpF937ceh0cN7bznX0fEjP1hqMQRElK
- Cfi9W+IPuSfhXZlk=
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr4478183wrn.174.1616603926342; 
- Wed, 24 Mar 2021 09:38:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNX1S2tQyoRha/DwjTPN7h2LrSBGyzP5oxKR2eeHPyyIYZd4C89Eg+f14Opdl72aBTlPS3FQ==
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr4478163wrn.174.1616603926203; 
- Wed, 24 Mar 2021 09:38:46 -0700 (PDT)
-Received: from redhat.com (bzq-79-183-252-180.red.bezeqint.net.
- [79.183.252.180])
- by smtp.gmail.com with ESMTPSA id c8sm4151618wrd.55.2021.03.24.09.38.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 09:38:45 -0700 (PDT)
-Date: Wed, 24 Mar 2021 12:38:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id driver
-Message-ID: <20210324123756-mutt-send-email-mst@kernel.org>
-References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
- <YEY2b1QU5RxozL0r@kroah.com>
- <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
- <YFnlZQZOasOwxUDn@kroah.com>
- <E6E517FF-A37C-427C-B16F-066A965B8F42@amazon.com>
- <YFoYwq/RadewiE8I@kroah.com>
+ bh=8KnOghWrI9s4AxloHvrppxQUlIUs2ymoP+YEUcXhxDk=;
+ b=MSOg8fG+bNj3qK0YIDBJjYi6uVgIPbRrdPfb2gQXoGS32PbdugldwXYNFH3lsFu85F6167
+ IfKDztXeIXEzzS4Rc93tOZnfBAZA2ZdrYJssSOxHCC7rYfXAGkzadOfE45Gz3gSEkKic10
+ 6Oy12i0gQvXSC50tQctoPqOAk4Becmk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-Zgdtp-zTOyyNzz9X4ZdwVw-1; Wed, 24 Mar 2021 12:40:15 -0400
+X-MC-Unique: Zgdtp-zTOyyNzz9X4ZdwVw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD228CC628;
+ Wed, 24 Mar 2021 16:40:13 +0000 (UTC)
+Received: from work-vm (ovpn-115-64.ams2.redhat.com [10.36.115.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE3A76086F;
+ Wed, 24 Mar 2021 16:40:11 +0000 (UTC)
+Date: Wed, 24 Mar 2021 16:40:09 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: leirao <lei.rao@intel.com>
+Subject: Re: [PATCH v3 07/10] Reset the auto-converge counter at every
+ checkpoint.
+Message-ID: <YFtraQXvrrEXwZvQ@work-vm>
+References: <1616123268-89517-1-git-send-email-lei.rao@intel.com>
+ <1616123268-89517-8-git-send-email-lei.rao@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YFoYwq/RadewiE8I@kroah.com>
+In-Reply-To: <1616123268-89517-8-git-send-email-lei.rao@intel.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -99,58 +80,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason@zx2c4.com" <Jason@zx2c4.com>,
- "areber@redhat.com" <areber@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "ghammer@redhat.com" <ghammer@redhat.com>,
- "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
- "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mhocko@kernel.org" <mhocko@kernel.org>,
- "dgunigun@redhat.com" <dgunigun@redhat.com>,
- "avagin@gmail.com" <avagin@gmail.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
- "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "rafael@kernel.org" <rafael@kernel.org>,
- "ebiggers@kernel.org" <ebiggers@kernel.org>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>, "Singh,
- Balbir" <sblbir@amazon.com>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Graf \(AWS\), Alexander" <graf@amazon.de>, "arnd@arndb.de" <arnd@arndb.de>,
- "jannh@google.com" <jannh@google.com>, "Weiss, Radu" <raduweis@amazon.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "Catangiu,
- Adrian Costin" <acatan@amazon.com>, "rppt@kernel.org" <rppt@kernel.org>,
- "luto@kernel.org" <luto@kernel.org>, "gil@azul.com" <gil@azul.com>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "MacCarthaigh,
- Colm" <colmmacc@amazon.com>, "tytso@mit.edu" <tytso@mit.edu>,
- "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ebiederm@xmission.com" <ebiederm@xmission.com>, "w@1wt.eu" <w@1wt.eu>,
- "Woodhouse, David" <dwmw@amazon.co.uk>
+Cc: lukasstraub2@web.de, lizhijian@cn.fujitsu.com, quintela@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org, chen.zhang@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 23, 2021 at 05:35:14PM +0100, Greg KH wrote:
-> On Tue, Mar 23, 2021 at 04:10:27PM +0000, Catangiu, Adrian Costin wrote:
-> > Hi Greg,
-> > 
-> > After your previous reply on this thread we started considering to provide this interface and framework/functionality through a userspace service instead of a kernel interface.
-> > The latest iteration on this evolving patch-set doesn’t have strong reasons for living in the kernel anymore - the only objectively strong advantage would be easier driving of ecosystem integration; but I am not sure that's a good enough reason to create a new kernel interface.
-> > 
-> > I am now looking into adding this through Systemd. Either as a pluggable service or maybe even a systemd builtin offering.
-> > 
-> > What are your thoughts on it?
+* leirao (lei.rao@intel.com) wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
 > 
-> I'll gladly drop this patch if it's not needed in the kernel, thanks for
-> letting me know.
+> if we don't reset the auto-converge counter,
+> it will continue to run with COLO running,
+> and eventually the system will hang due to the
+> CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
 > 
-> greg k-h
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> ---
+>  migration/colo.c |  4 ++++
+>  migration/ram.c  | 10 ++++++++++
+>  migration/ram.h  |  1 +
+>  3 files changed, 15 insertions(+)
+> 
+> diff --git a/migration/colo.c b/migration/colo.c
+> index 1aaf316..723ffb8 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -459,6 +459,10 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+>      if (ret < 0) {
+>          goto out;
+>      }
+> +
+> +    if (migrate_auto_converge()) {
+> +        mig_throttle_counter_reset();
+> +    }
+>      /*
+>       * Only save VM's live state, which not including device state.
+>       * TODO: We may need a timeout mechanism to prevent COLO process
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 72143da..e795a8d 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -652,6 +652,16 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
+>      }
+>  }
+>  
+> +void mig_throttle_counter_reset(void)
+> +{
+> +    RAMState *rs = ram_state;
+> +
+> +    rs->time_last_bitmap_sync = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> +    rs->num_dirty_pages_period = 0;
+> +    rs->bytes_xfer_prev = ram_counters.transferred;
+> +    cpu_throttle_stop();
 
-Systemd sounds good to me too.
+I think this is right, so:
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+however, do you really need the cpu_throttle_stop?  Shouldn't the
+previous iteration have called that in migration_iteration_finish() ?
+
+Dave
+
+> +}
+> +
+>  /**
+>   * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
+>   *
+> diff --git a/migration/ram.h b/migration/ram.h
+> index 6378bb3..3f78175 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -50,6 +50,7 @@ bool ramblock_is_ignored(RAMBlock *block);
+>  int xbzrle_cache_resize(uint64_t new_size, Error **errp);
+>  uint64_t ram_bytes_remaining(void);
+>  uint64_t ram_bytes_total(void);
+> +void mig_throttle_counter_reset(void);
+>  
+>  uint64_t ram_pagesize_summary(void);
+>  int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
+> -- 
+> 1.8.3.1
+> 
 -- 
-MST
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
