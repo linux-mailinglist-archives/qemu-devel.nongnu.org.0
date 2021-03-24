@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968B334761A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 11:28:16 +0100 (CET)
-Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CA934761E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 11:29:32 +0100 (CET)
+Received: from localhost ([::1]:34990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP0kJ-0006iv-5P
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 06:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
+	id 1lP0lX-0007y1-8f
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 06:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lP0ia-0006Eh-O3
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 06:26:28 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:34558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lP0iW-0006bU-0e
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 06:26:28 -0400
-Received: by mail-ej1-x635.google.com with SMTP id b7so31964871ejv.1
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 03:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UKKn27vZ14/A55czGc82jsfliWNOiR+sbXhUIfwQcjI=;
- b=MhTQPY8sz4NCRWsEJRyN7dPtljc5RKr27REWuNp4+OqFm3+oQ3CIYi5B+S+zu0riQo
- Hsm7xCMMmGX0VfkFOxat67DodGGpHc+uDfi6UHUlBRRwsKJh6OqTJe5jZWdBiJ2qe7OU
- TdcOBE48enPEW815zCjz+v0SEyF6+kjjIYynY4gJzDjdr9cc29DVja8JMG+JEWgs1vbo
- XAzA+CacBSKjORFPBHZtl6gseebZOTPjcOWNUqYVi+edh9uhxYyqi3xR+TlRaO78C9UC
- 2x8UN3oyi/YYGlt2AbpDokNAGRYxaUEElnhxLGJHUWznGfyqjdzCYdNXqTddtejaRzkK
- GW9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UKKn27vZ14/A55czGc82jsfliWNOiR+sbXhUIfwQcjI=;
- b=IMGiRBJ/x8d/zvNFsiEt0RCbx2PMZNDUt2SqaB1OcR93NptW/lxbhjFg1VQbi2r+CY
- uAda1fmvaEtv6mmqTAR6lKj1riWZeWthQCzmQOYGCWmobt5ljj+0XrArnngVFI5G/flc
- LjX+zFypwKXK3PdCLZQRyGgcxkz/Wx9r3Wv1Eh5ahshVrZ3vRHVkfA8/G3VaLcxvSi+1
- dYt3D05d0izkIi/weCanbUrxr5aqoDu4AVSVW/oFau2GdB5aBQ53lJ6AzNu86m5M+TFA
- CMIFeX+YUkQbkvxY6dT8skBatQzw2ldSbtErb39bDO04ah9Xue2z9efFCxdSTTAyDvt3
- haPw==
-X-Gm-Message-State: AOAM533htZ/6+Fhu/rhu3iHB2nv1Rjmv4seX+DsoeGrdPL/yzF+q6OUX
- S+r2v0BlqgHXWah4jh5SG53OBhvqEVGbOiaIsQI=
-X-Google-Smtp-Source: ABdhPJzQZZHiOg/HzoDQZbNFnEeISC5stcOhH7t5W6p4VMgB88FwZRIF/EmyMv4G2xWdObVuYOg/TKyV/TijYqaI7hk=
-X-Received: by 2002:a17:906:4e99:: with SMTP id
- v25mr2855728eju.532.1616581581855; 
- Wed, 24 Mar 2021 03:26:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lP0kI-00074T-Ev; Wed, 24 Mar 2021 06:28:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:48123)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lP0kF-0007cH-5x; Wed, 24 Mar 2021 06:28:14 -0400
+Received: from [192.168.100.1] ([82.142.25.162]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MJV9M-1l5I2E1Kzw-00JuvS; Wed, 24 Mar 2021 11:28:02 +0100
+Subject: Re: [PATCH 1/1] linux-user/s390x: Apply h2g to address of sigreturn
+ stub
+To: Andreas Krebbel <krebbel@linux.ibm.com>
+References: <20210324085129.29684-1-krebbel@linux.ibm.com>
+ <5070a253-cd95-59b0-dbdb-2eb549e9f61c@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <b48b73ee-b27b-1e3d-3387-ce818e7b0c15@vivier.eu>
+Date: Wed, 24 Mar 2021 11:28:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210318091647.3233178-1-kraxel@redhat.com>
- <20210318091647.3233178-8-kraxel@redhat.com>
- <CAJ+F1CJqhUX1vnbXOAo8adpkb=rNcJSzMpeGVQnTGT5UuuALJg@mail.gmail.com>
- <20210324101650.irnpfnklksfnejic@sirius.home.kraxel.org>
-In-Reply-To: <20210324101650.irnpfnklksfnejic@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 24 Mar 2021 14:26:10 +0400
-Message-ID: <CAJ+F1C+HKdo_MK4rgw4pOpVzRnUu3Pu8O9YrjwFu8ZxGQCP+3A@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] ui/gtk: add clipboard support
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000efe08d05be45baed"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5070a253-cd95-59b0-dbdb-2eb549e9f61c@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:vdf2LxqzDu4NmELyKRKdZF0i4VmFVw7KOu6HhBYaohRRhjdEzA+
+ kxq8LgCeEVBcWTZRsDfKcsUZ6CGyvMuSVAoHCZpg1ZEE8MnJJVthd8DyUtj8Ed3+PJ4DdhO
+ k9GCF9BDzeeqqv3OkzOGH8+Auq4nBB/MY3QYH14SmkKR+69tnEVwWRZRf8+Qgce4PTUXpV1
+ cM5pkKHmjfBaNgDgsvnxg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cJW3rKYgI4g=:mqHAk92x5cRFqdlXKMz6bn
+ PB9h7pU3Y0EjqFGJ4gRS+GaI4v+HAgd5mo7y1/kLGr2e7FBwQ40PNAYElwjUiMUTtrYgq5AWe
+ s59H2AVcsM7NwHdPJ7ed0YFX4fl78Q2uD1/Fm59oTSoD/p1HBbQ0KvhyT+0nWjYCEbQt4sXVC
+ lEwhRCueSSVzNZFNcGMkKWoVGq+yRymC9JiATTJsYDCMbbot69vEVGLMYfUudUztC/OesRFYF
+ 0AgPBTkne3+tFwKfkhsLb4kPyNaR+PWIwziX6OSUyuvAkK/geXasFc941y6aB1bGKbLLi24sz
+ lRVMnJ+rD3v9LTzHI3J2JQeUTl3lpgUeppOKED8cquSNVDNxkxGD1amNVmVktVjUQAZMSR8q7
+ U8CiL5h9HAstBhUs6CYYtba7TVn6Do5OTj3i6xaLFNOSZsnN8H5yFtoYeq+JumPvUB0aIJMXz
+ lmnu6w2EEZBRMeaLjpFIm+Q8s0fxJJi2bZRBJ3KK6BtKWDrsBqhZ
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,123 +67,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000efe08d05be45baed
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Le 24/03/2021 à 10:17, David Hildenbrand a écrit :
+> On 24.03.21 09:51, Andreas Krebbel wrote:
+>> The sigreturn SVC is put onto the stack by the emulation code.  Hence
+>> the address of it should not be subject to guest_base transformation
+>> when fetching it.
+>>
+>> The fix applies h2g to the address when writing it into the return
+>> address register to nullify the transformation applied to it later.
+>>
+>> Note: This only caused problems if Qemu has been built with
+>> --disable-pie (as it is in distros nowadays). Otherwise guest_base
+>> defaults to 0 hiding the actual problem.
+>>
+>> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
+>> ---
+>>   linux-user/s390x/signal.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+>> index ecfa2a14a9..1412376958 100644
+>> --- a/linux-user/s390x/signal.c
+>> +++ b/linux-user/s390x/signal.c
+>> @@ -152,7 +152,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+>>           env->regs[14] = (unsigned long)
+>>                   ka->sa_restorer | PSW_ADDR_AMODE;
+>>       } else {
+>> -        env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
+>> +        env->regs[14] = h2g(frame_addr + offsetof(sigframe, retcode))
+>>                           | PSW_ADDR_AMODE;
 
-Hi
+Well, it really doesn't sound good as frame_addr is a guest address (and sa_restorer is too)
 
-On Wed, Mar 24, 2021 at 2:16 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+Where is the code that does the g2h() you want to nullify?
 
->   Hi,
->
-> > > +    if (gd->cbowner[s]) {
-> > > +        /* ignore notifications about our own grabs */
-> > > +        return;
-> > > +    }
-> > > +
-> > > +
-> > > +    switch (event->owner_change.reason) {
-> > > +    case GDK_SETTING_ACTION_NEW:
-> > > +        info =3D qemu_clipboard_info_new(&gd->cbpeer, s);
-> > > +        if (gtk_clipboard_wait_is_text_available(clipboard)) {
-> > > +            info->types[QEMU_CLIPBOARD_TYPE_TEXT].available =3D true=
-;
-> > > +        }
-> > >
-> >
-> > Same comment as v1:
-> > So after gtk_clipboard_set_text() the client side is actually taking
-> > the ownership away from the guest clipboard I presume. That might have
-> some
-> > weird interaction issues. Hopefully the other side isn't playing the sa=
-me
-> > game...
->
-> The cbowner check above should avoid that ...
->
-
-I fail to see how that works, imagine the other end is the same code (qemu
-in the guest), it will take clipboard ownership and it is in a endless
-loop, isn't it?
-
->
-> > > +    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =3D
-> > > +        gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE));
-> >
-> > Why not use GDK_SELECTION_* ?
->
-> So I don't have to worry about converting GDK_SELECTION_* to
-> QEMU_CLIPBOARD_SELECTION_* ?
->
->
-GDK_SELECTION* is gdk_atom_intern(*, FALSE)) afaik
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000efe08d05be45baed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 24, 2021 at 2:16 PM Ger=
-d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0=
- Hi,<br>
-<br>
-&gt; &gt; +=C2=A0 =C2=A0 if (gd-&gt;cbowner[s]) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* ignore notifications about our ow=
-n grabs */<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; &gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt; +<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 switch (event-&gt;owner_change.reason) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 case GDK_SETTING_ACTION_NEW:<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D qemu_clipboard_info_new(&am=
-p;gd-&gt;cbpeer, s);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (gtk_clipboard_wait_is_text_avail=
-able(clipboard)) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[QEMU_CL=
-IPBOARD_TYPE_TEXT].available =3D true;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Same comment as v1:<br>
-&gt; So after gtk_clipboard_set_text() the client side is actually taking<b=
-r>
-&gt; the ownership away from the guest clipboard I presume. That might have=
- some<br>
-&gt; weird interaction issues. Hopefully the other side isn&#39;t playing t=
-he same<br>
-&gt; game...<br>
-<br>
-The cbowner check above should avoid that ...<br></blockquote><div><br></di=
-v><div>I fail to see how that works, imagine the other end is the same code=
- (qemu in the guest), it will take clipboard ownership and it is in a endle=
-ss loop, isn&#39;t it?<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-<br>
-&gt; &gt; +=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =
-=3D<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&q=
-uot;CLIPBOARD&quot;, FALSE));<br>
-&gt; <br>
-&gt; Why not use GDK_SELECTION_* ?<br>
-<br>
-So I don&#39;t have to worry about converting GDK_SELECTION_* to<br>
-QEMU_CLIPBOARD_SELECTION_* ?<br>
-<br></blockquote><div><br></div>GDK_SELECTION* is gdk_atom_intern(*, FALSE)=
-) afaik<br></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc=
--Andr=C3=A9 Lureau<br></div></div>
-
---000000000000efe08d05be45baed--
+Thanks,
+Laurent
 
