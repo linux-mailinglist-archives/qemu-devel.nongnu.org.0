@@ -2,66 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3436D347E4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 17:56:47 +0100 (CET)
-Received: from localhost ([::1]:52508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3ADF347E71
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 18:03:10 +0100 (CET)
+Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP6oH-0001Fu-PY
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 12:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
+	id 1lP6uT-00033s-DP
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 13:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP6nM-0000mG-3x
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:55:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP6nE-0000Sj-0j
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:55:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lP6nA-000052-IT
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 16:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8A8412E8163
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 16:55:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lP6sL-0002Zc-7m
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 13:00:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lP6sI-00042Q-I8
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 13:00:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616605253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iHOTpkaN+6wE14nrGyIffNKVIHuHV5YhZsq4b5jWKKI=;
+ b=HZxbg15yQOKIVEPNtr6jRefhamRbQSf7wkTRA5vVVsG3o+eORKpXmpV3S1/Y2U4TY24e67
+ FoMsqJAS8EuLtJaRjGd/LAB7u1vEWG1QIJhHUDsvCTf7QuHD4Xo+knBFlEShH41hUv9Xh+
+ xwueiX8YQJPVCz4EIlqyflUS7rY74L4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-AFAPsWftPL24_kJ25la-bg-1; Wed, 24 Mar 2021 13:00:50 -0400
+X-MC-Unique: AFAPsWftPL24_kJ25la-bg-1
+Received: by mail-wr1-f69.google.com with SMTP id n17so1354316wrq.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 10:00:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iHOTpkaN+6wE14nrGyIffNKVIHuHV5YhZsq4b5jWKKI=;
+ b=ErHWEOUH0e/gkVbrLtE9jAy6P04WJt9F6ipc6YQhkUaXa0jozOKALGhEW7987B2E4F
+ wXzwXoQlfQXovTZRr6gMXr+POI66TenzaP58jO6WKCeq6o3VeZTYIlM3WaQh4blTXVvY
+ 7babi2q2TgklWmz5BwcQ5K7WdM/scrd8eTTgjAXnqkfrW9XZsPrct550qfsQ2gtntVE+
+ kbSi3akuMYjDSsgcVNS/HNd241q/FrZLnwBx2yevbedIJ5SgKN9ERUvTaBOTKL/TddEg
+ 4YEoyi5yQ3tTDxgC+Q9FPkF28ynMGCPMlzAYXK8LHTWQwoK/xKKib+FUXWiX/fnyy94H
+ fFSw==
+X-Gm-Message-State: AOAM530+ZDiQ+6sjQvszxfgg7+X88jIkVhBwTe8swMeE6GJXYoqSjo0Y
+ +wiAGnNRqaQipOwJ7y2332Y0CG1cPLPH6eoRNUOeuz48j3x6L+oo9Bmj5Xw5N9QcF7ScK8bdafE
+ x6hooj2vUk8U/q7U=
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr3830719wmi.88.1616605248919; 
+ Wed, 24 Mar 2021 10:00:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1NYPKJnFzGxZE739aqB1yU42K8p+lQ0KaYglajYiCqHKv7GWt+4/aZcU09jzevaTozfi2rg==
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr3830361wmi.88.1616605245132; 
+ Wed, 24 Mar 2021 10:00:45 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id l21sm3151193wmg.41.2021.03.24.10.00.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 10:00:44 -0700 (PDT)
+Subject: Re: [PATCH] target/i386: Verify memory operand for lcall and ljmp
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210324164650.128608-1-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d30a07ee-cbdd-d643-043f-49461af9b1da@redhat.com>
+Date: Wed, 24 Mar 2021 18:00:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Mar 2021 16:50:01 -0000
-From: Richard Henderson <1921138@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: qubasa rth
-X-Launchpad-Bug-Reporter: Luis (qubasa)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161659961768.20702.9928871804946559153.malonedeb@wampee.canonical.com>
-Message-Id: <161660460175.28421.6101003248928254720.malone@gac.canonical.com>
-Subject: [Bug 1921138] Re: tcg.c:3329: tcg fatal error
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 83e45a7a7da20ae1d2e334e3a440f0737fca939e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, PDS_OTHER_BAD_TLD=1.999,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210324164650.128608-1-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,48 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921138 <1921138@bugs.launchpad.net>
+Cc: ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://patchew.org/QEMU/20210324164650.128608-1-richard.henderson@linaro.o=
-rg/
+On 24/03/21 17:46, Richard Henderson wrote:
+> These two opcodes only allow a memory operand.
+> 
+> Lacking the check for a register operand, we used the A0 temp
+> without initialization, which led to a tcg abort.
+> 
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1921138
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/i386/tcg/translate.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index af1faf9342..880bc45561 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -5061,6 +5061,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>               gen_jr(s, s->T0);
+>               break;
+>           case 3: /* lcall Ev */
+> +            if (mod == 3) {
+> +                goto illegal_op;
+> +            }
+>               gen_op_ld_v(s, ot, s->T1, s->A0);
+>               gen_add_A0_im(s, 1 << ot);
+>               gen_op_ld_v(s, MO_16, s->T0, s->A0);
+> @@ -5088,6 +5091,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>               gen_jr(s, s->T0);
+>               break;
+>           case 5: /* ljmp Ev */
+> +            if (mod == 3) {
+> +                goto illegal_op;
+> +            }
+>               gen_op_ld_v(s, ot, s->T1, s->A0);
+>               gen_add_A0_im(s, 1 << ot);
+>               gen_op_ld_v(s, MO_16, s->T0, s->A0);
+> 
 
-** Changed in: qemu
-       Status: Confirmed =3D> In Progress
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921138
-
-Title:
-  tcg.c:3329: tcg fatal error
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  I am currently building my own kernel with bootloader and qemu crashed
-  after I have set an IDT in protected mode and then create a invalid
-  opcode exception with the opcode 0xff.
-
-  My code is here: https://github.com/Luis-
-  Hebendanz/svm_kernel/blob/qemu_crash/svm_kernel/external/bootloader/src/m=
-ain.rs#L80
-
-  Build instructions are here: https://github.com/Luis-
-  Hebendanz/svm_kernel/tree/qemu_crash
-
-  A precompiled binary is here: https://cloud.gchq.icu/s/LcjoDWRW2CbxJ5i
-
-  I executed the following command: qemu-system-x86_64 -smp cores=3D4
-  -cdrom target/x86_64-os/debug/bootimage-svm_kernel.iso -serial stdio
-  -display none -m 4G
-
-  I am running QEMU emulator version 5.1.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921138/+subscriptions
 
