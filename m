@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B66348352
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 22:00:57 +0100 (CET)
-Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02583348349
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:58:27 +0100 (CET)
+Received: from localhost ([::1]:51946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPAca-0006kQ-7C
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 17:00:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
+	id 1lPAa9-0004fs-Nc
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPAU4-0006Zl-MV; Wed, 24 Mar 2021 16:52:08 -0400
+ id 1lPAU8-0006iA-FF; Wed, 24 Mar 2021 16:52:12 -0400
 Received: from mail-eopbgr140109.outbound.protection.outlook.com
  ([40.107.14.109]:48878 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPAU1-0005Mt-Uf; Wed, 24 Mar 2021 16:52:08 -0400
+ id 1lPAU5-0005Mt-CC; Wed, 24 Mar 2021 16:52:12 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bit78dJVnVetoXrfg3nPQvPqxiyo7jk52tGYLZ4IT++Tv3k0+Gehs8kW3T7WkXSwGp75rXC9Blff09RCxGLwOe52/+5y3ikrVP8JuBqqFbMEx99kEAMYVQTcV+Gi+uZu71/R9dK03jYgsgcSgi//nKuX/VOKX9lL3nH+qYip3OeYWkuZauysPm15Yvg+m8qncvBu1KQAPK7wcgmBJQRaW9u27gNiIcO0TYfq+C0fAs8wH9VRxRMm+x5yRerUj4ve5tcI1Rt5iK7EkNwvv1R/RyuKr1Ew+/EAINJjK8HAMglegcirMt4zOydtuXENzk2ac8BIJKVkkAVv6mzPxUmgwA==
+ b=lst9FIr0ya8TNzd3rFxFnzvuW1kYdATWvxvRrJ6nT9eY8yfYJzromUq7Bk3HsHEtFHRmNXWCfwpUDC5qi0fIN9lD+AqB5rhkByb/TUGAwwID/gxmNpk3s9gO8UQVhDX2P5X61VmBmzBWoCLRil2YJ+Cgj5WxBtPA1mfU07NmkkiqPxoCaWHzJfEcNoIu8q5VlCS1NxpW+uFtO/x1gRJgNRdwKR+GzvCF0uuNKJFqSdGGbF8UlI+nmxiFTE/nAikdNOQ9LAN4fklejqT8aN0DSxKghr76Ens7dJU8O4Xs4WFVPZRrnfkoVab6In/P6wDTRw1i1xT8ARvtqHf9fpyTHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rbEdRNIJXRhrWJlivHwWZnJS0yOnfYFGDcVcJmqq3XQ=;
- b=Wtpx8Ad/qwEBwBgO13OQQZ+6Y92LQ3a4zlqfGkX69bieSyDUCjIuEq8InCy8V2PMEimh8t71HBqzIEpRnw5sJvN+aXSveJ3QlFts1tccbR+Ag31/TGosZiOYEL4yx19mYcXnZCU+aVOWKpf+Vlqiu7Ze0VTihG1dZeGdhN52W8XHzf/HQ/CnYChfe/M3fiKIqAcob5vP691HV0nBvF4xsY6xSs4JHhXAlAw7Kd2XvTJ8znAPicVRWfevjNvJxzYvPwcRGagFXdO4bvzF/HI9bmX7Rci3mVr2Sg+bDv1/Yu//u29DWZ5j5+AHRI7vn577hpbciNhcAKjQesQ20OOXaQ==
+ bh=2igTTbRtCSDChe6pEOhuLZR1KtVLw3XXracJeMmdLSw=;
+ b=PzweuTl0u6IqeZ16XURvs/9HmlV1XTl+kdw41T9nGSsanrUZKHLQuGSJRrT7H1hJttygqSUOxU1qZSEv4FU2DKRphbSSi3r7fRy7taDu9uQ6X83OcwbY9KzqG1C2nS/Zfr86p/kTHutIj4fJQ5f4phEobHcAnizSxg44DERblF1PNNxuTmgvZ78MZxaHYf+tzQTxjoYTa4yXEp8whOM96tyIJ7Z+rGTNjklCo6OurRdERab6afiQ0fznFyv/Ys3BFAQQXNlWMnoVkc/apeA24zQndBxvj9GgCYq793f95TthUCpqL/imG5Yx7y+tDHKnEBMtixZgZLYx3KEPAJ9c4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rbEdRNIJXRhrWJlivHwWZnJS0yOnfYFGDcVcJmqq3XQ=;
- b=a1GPKFTn/IuqksVtB74oTCVHwj222h1iyhZYE4TKTYIaBwAcZ87jewhU/tLaWvg/T4lToz0vC8q4KBAfzGjAwA7PVRYYATDFPKH45xY+za0ZGk34akhFG3Qrkdyvt0SWPr4dETbkboaxXkj0qKiIg99yb0aStyo4U8tlegj7Ths=
+ bh=2igTTbRtCSDChe6pEOhuLZR1KtVLw3XXracJeMmdLSw=;
+ b=c8D10MT4jR2XHCorDy+jhyS1YqYGuP+hxr0MyqORtJ+dZyKxrt8IFAj2131mt8IIRQUoRzjB3XKREmPyUnfIQ+vh9Qs+4vEd6uo4EjTuww4EoE/WRBeLtBSQABeNiWBN9ZTW9nkH7YHYq4L9tHwq91r/lQs27NwMv3zlA2ASblo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6904.eurprd08.prod.outlook.com (2603:10a6:20b:394::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Wed, 24 Mar
- 2021 20:51:58 +0000
+ 2021 20:51:59 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
- 20:51:58 +0000
+ 20:51:59 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, integration@gluster.org, namei.unix@gmail.com,
@@ -52,9 +52,9 @@ Cc: qemu-devel@nongnu.org, integration@gluster.org, namei.unix@gmail.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v4 08/11] block/io: allow 64bit write-zeroes requests
-Date: Wed, 24 Mar 2021 23:51:29 +0300
-Message-Id: <20210324205132.464899-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 09/11] block: make BlockLimits::max_pdiscard 64bit
+Date: Wed, 24 Mar 2021 23:51:30 +0300
+Message-Id: <20210324205132.464899-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210324205132.464899-1-vsementsov@virtuozzo.com>
 References: <20210324205132.464899-1-vsementsov@virtuozzo.com>
@@ -69,52 +69,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.202) by
  AM0PR07CA0022.eurprd07.prod.outlook.com (2603:10a6:208:ac::35) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.9 via Frontend Transport; Wed, 24 Mar 2021 20:51:57 +0000
+ 15.20.3977.9 via Frontend Transport; Wed, 24 Mar 2021 20:51:58 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 963270f4-253d-4ec1-4533-08d8ef06aa6a
+X-MS-Office365-Filtering-Correlation-Id: cbc01d8f-1af7-4cb6-160e-08d8ef06ab41
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6904:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6904ADDB1FBEF627F50FA3DCC1639@AS8PR08MB6904.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:154;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6904544452CF86625F304700C1639@AS8PR08MB6904.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9fbXRO1EARGOcPA5sVXg/29CMRXRFymI19jNQe7/qLfC9HBusDmb4mdMiBbzH2ljIYNrzGoB4UhLefItsyevm5RFc8978N1KMy4kAc5uI6krDVuMUN8WxO4lIOgfKJQn5gmKpCaUCVzIXhsRKZH9rSX8XLObyNJOqgqxXHpz3ZLJ/cqNuRZLhlWRBT7rYg2ozz0+f1yds4XhxP+4jGTrDLYmC2GGZD/BiaOf4S274GVSdsipW8gy3ZrybW5UJuDtd32TikhCdPMWs/IzxDPse8VkZG8fSOHx9NtWdVkf/9bECBS9vqOZtSsv8yJ1Q4KSi86ozJ6o3tL5Uk+UQ6laXEfN14hDyF0MlLFY9lC+Wav7ki4YkbVavncx+tOzvuH5h6i5Y1QOF13FIMdM7OA87JEAhKPQXVCpdHenhy4733rlClQ41RHRfJCBofplBqmGfGFKvJJSzEpeK5jbddaQg7wUnxqTpEjwYJ/aT2vfJqKfx0b9IFiYmC9wz+lx/0tdXDWn5jOzq6jscw3jJjrOuLVg7IaHcIENpmlQro7kbFbUKGcvw8IHZ/0mHSbuVVIB3UmN02/1XnSjJpLHR9gEi0dNbdwyhTyicW6JEJl2ipa87Dpk6vulYlvd7gJ7twgkR9s1fUvlgU2sNsLZHBOE/vdzemqLK5nP+htqGY61NBuiKu37jcn3a3SayJ7faxB2
+X-Microsoft-Antispam-Message-Info: GS4bZGhvg6rarFRd9b91JnqJ5qXDHNLApGfUfl6lAzzJYcqH37A+AcgDE2Mt7lLGFUIFVrouwgU1wJfa64JlzKGj6gWgUMfwzo/bCKrAkiFikMu/82hnJ30by6A856JVAzGW/tDzLVci/PAKditAUbt1Ly7mVgjYC/c+xDIl1WwMBy/SneTEdK7dFSkzcNA5Sk6EJxHsT+0kh1RKMZE5xzqfUXwLrc63t0x59fPPyEJ+72QfK/X1zJWfK07t9d94+uKkfI+/gQKgCKMH4K/tpM+5W5T2oazuMxdTwiIiTy3jIW05X81Ueh3kDjGtUr3ddAaIDdj3D58k5I5IPiiVpsZKeR5Dt91c6FNzclxHhfPHDTy5UmHQhlHXGsl1MTk1/rgKjJYA0uiuXjIBwMLInVFw4B75fpBnUnf8kbKrqFYKBWDnsxZ8O8pCWOT/j2m8V0ZDj2I6G5Yp2b1yoOcRH6c4SZysVzQnb4v0D2XELiiUc1Al1Qn4DPrnmfLOXBsQzxOficik2pFq1uGHxoc6N00Ui2XIR25Rn3ks11P8fWJT6zC0dDBuFpv9bQIf1G3gBjFKQAK3S2aRX353rToO/mQ+TA20b4k/5oMT0Lkrs9bIlZkp0NrHWEKKzpeJ+AKcBKIwMsMcKn1VouW0i3Ld6kWN7689R76NbZoBHWm/824YHHfdkUsuHxAr1LnDzDKW
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(376002)(346002)(396003)(136003)(39840400004)(38100700001)(16526019)(478600001)(6916009)(8936002)(8676002)(186003)(26005)(52116002)(316002)(36756003)(2616005)(6506007)(4326008)(5660300002)(956004)(69590400012)(6486002)(1076003)(6666004)(2906002)(66946007)(6512007)(86362001)(83380400001)(7416002)(66556008)(66476007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?fiKmfF2VXUrSBZYhDuHT8tmDvMjhqgeC72DyxmzcEcHClSj+DXn+v8vjvDlS?=
- =?us-ascii?Q?SWPFc2zkSiIb2ynsZPZu6RwbRmMenpzc8Wg+rInaaLdM4WhEyanTy3wJkFsi?=
- =?us-ascii?Q?80Vfafn2NYhB1e4BNli4iiUPfEILFJTxqx66hhGr/voZg7OFVNlcwijhwZ8L?=
- =?us-ascii?Q?2/SJYjIHBPgWdD6OKpXf3eAW/PANgbzu+lUYA+m9ttHUMaoMfFNhytKJSPCV?=
- =?us-ascii?Q?Ofg2VpmQi1q/J7s6Rpv/s/cxgrqwdDlUZa32x3B6loN8Kq0jluF/9B9dLB4V?=
- =?us-ascii?Q?SA5im1sur4cBNb5X/viUmWajk2y1DsUxJxn/e8R0k7trCQHfaUEUHrSFS1/8?=
- =?us-ascii?Q?1rcXxq/wy9D2WOq5KggPt5DLdbMchzRLLZKj+qkAGnOwP8znBBbkAmXk6vYo?=
- =?us-ascii?Q?3C5BSvKTWjGRxR1I0RBWkkvUIa+wo0hvLFLljQC5G0qIq/dYpU+FNvuFJSvp?=
- =?us-ascii?Q?q8U7h3cDqF5LABPTNEuQsbfiThz1AinPrRT65Lgdg5HV+AF7jfrIEs48l4Rm?=
- =?us-ascii?Q?+FlLc4Ps3fo6hUSlM61gzevmhoNoqkZ3wi8M6j/FbntThPrsm7HL4oCIp9/3?=
- =?us-ascii?Q?wZgtvxJkkeeBpdLyZamwBt1DSZoAV8oPL1u5uHW4W+xIT7OolWjt0jSWe1AS?=
- =?us-ascii?Q?Joe2TlfpPGegbJKUvg5EGk6N6Ki/+JiZbrsDODH26XQRA5MTcmR4Atd5D+cc?=
- =?us-ascii?Q?YjScHeRhX6gFK/jjbGVk7E2eu9GfwDC4AN+jieFVvsbjhsWZ270YsGJpjtQY?=
- =?us-ascii?Q?O6a9lGyT3y5Ck44O+Oa4mkEB5WNyHt4sPgH6dtzSWlCCmZsXokQF/texA2oX?=
- =?us-ascii?Q?gdZZuO6JDoS6EHTvOPUv0wLEulj/KZDcyfic3tkfqeJ1VI24HmtRXogOVH3w?=
- =?us-ascii?Q?DX0VaNB6kajSFJNArJWLV8e9wHU9gwy/zqFai3IFGQXrnx9saPtVvUPNjawt?=
- =?us-ascii?Q?0lPb8DheAepMh0l5vDTgY1foPgvPj7Cf7F16XBhZNsr0OqD1qotFmeDMTzsS?=
- =?us-ascii?Q?TmXQtu6RjlGPHuyVijsR5/sc2eljtOOuu/xZJeHbGdm6doOIeucm2X6ZfihT?=
- =?us-ascii?Q?sm6Z4ymP7Kf7zbf6N87s218mPdHAynCR6X7Mr0+/hOpgQHblVHRBy5zLExm0?=
- =?us-ascii?Q?A+9YRmNT77U04AqnfC/N9HBVAJdbwSMLpzvIi6GRMMAZmdE0iwvRSIuiVb0M?=
- =?us-ascii?Q?DTRp6cHyDua2atxLdePQtE1s/MezZbT7s3bdYqBBR/KCpsMoKgQLSsE35WQf?=
- =?us-ascii?Q?S0ssKLJI+1vCkNTgrr7peLlcrVr2BMudorE+b/Wl+2meNUzOEdN099B5tGIX?=
- =?us-ascii?Q?Lhl4dy0WwLlFBG6OrGCiMHgX?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?a+Qoo6juenaR09Gh41IfuFRf/GmmQcrnJayqV4cpDU09FY6hHmotzvMnI5Hn?=
+ =?us-ascii?Q?Od9tBTd971MvZl8zN8CpHaffP/P7TnuBMdk8r5WFmBnOFYstrssp/lj70X9+?=
+ =?us-ascii?Q?7etg+fjfgFZsCtt1/d3I+n8WiOqhS2dwytoP8DWR31QG37oVHRXK2z3xD5ST?=
+ =?us-ascii?Q?n87tJMnwT0msUee8JLcRsGUAXbBifumrIFQEf5Jyb9gNGnCdSXQeJ8BFwCIx?=
+ =?us-ascii?Q?B8t9/Dfv4U9Zpd6sA9mTYMjDDn31t6fDIKwqAyuLWEo45uK31EYnStc3HXwS?=
+ =?us-ascii?Q?90LaJWCyuhqf+/CYM49F60ou890hjIGDm8iNawAulrITDR03Y3JbZdiAwoGM?=
+ =?us-ascii?Q?1KrNz9JkMIFCnIGpfPQ0eBin4ROi48VsZ2N91tLK8XINRMY4104xn7Ef3Kn6?=
+ =?us-ascii?Q?hcThMKy7VQE7EPADLb9E/ilpaolOpcty0vmmtl0AZWQN0G3Rv9Zyxr2Rctzr?=
+ =?us-ascii?Q?XkQ7/akVaSFzPi6U9tTcUBRFAl7bzK3jmMvywrJ6lOf3gZSw5R1P2Og9pyQk?=
+ =?us-ascii?Q?VHEKXJwfI3ooSFvSufgiCWhr6EjZ3TZTaEo8ViJGIhrmQxceyhAUsDb4nU1D?=
+ =?us-ascii?Q?q38+SG0QkIyedZ7730P9P4n3XIZs6E83+Bir9yONE6vfXM6OPqyCXcW4QNJW?=
+ =?us-ascii?Q?BIaJipJS7zswAVk+UJLbclgvpWzTx54auC/u5YPSTOCqFbr7MWjRaxVFFTSC?=
+ =?us-ascii?Q?F33EuRvrqVos5GghTjufe2JHuiV1N3fnr+lLtzHmIoRXrvPCXlk/3m2m6BQd?=
+ =?us-ascii?Q?vH+x2kbcq9PPKXi6xkbM/Bf+r1Xw1Lxfye/PUC79UTNpgRrWAa3wyyoYuBjX?=
+ =?us-ascii?Q?xL4/v57MzoT8UlMIKVd1GRhw6kLeD7VZh/8eU/jLtwiwh2r1/ixzDjLJQyzh?=
+ =?us-ascii?Q?hLGoJMkIeDTJVi2zesrcduwZ3oSNIJHLPpF/NYSidxSMgO0e95/aytts6js9?=
+ =?us-ascii?Q?mZ6dGQmpz64RZOZLPl+TFPSkpHJHQrulh2oLFk3mfLaPNVbDTzZ9rrYbSBJc?=
+ =?us-ascii?Q?vjzFrrDODg/zeDtqc0gyertcMPumpXWRcZPTyJpbUpEty0CR5f3XkSdztfU2?=
+ =?us-ascii?Q?94mqY3iqdT4m01gMK076ey+LcZrjRff4fn17j1ZzFqwYY4YU7HVfSjfxivm/?=
+ =?us-ascii?Q?Rfe/UHjxas2JtPLtYyQPTLDQ/uQ1ftJDA/Zr0L8jA9yw1+5wyHwJG4D+X8Rl?=
+ =?us-ascii?Q?oZDyY9LUXuC9RANKTTIx6qH7ges46FkI8jLzOnVP4PS47oHmaK47CXsB5BXd?=
+ =?us-ascii?Q?KfGGg19h0seh/P5EizOZy1UVlASW4XchYGZrRkhvY3yXPU7jIfsr03Dau7Ns?=
+ =?us-ascii?Q?hydzJM1bcF5FuhFXzw5RTR/6?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 963270f4-253d-4ec1-4533-08d8ef06aa6a
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbc01d8f-1af7-4cb6-160e-08d8ef06ab41
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 20:51:58.2123 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 20:51:59.6091 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kXpFNFMY/ofNf4QWvmpHN6KVX4snVkxoHaEJsJ1FUUYOFRAmwgHvsSTgl+HkFxOkwQ8JE25tL5WjEtUiM0Jd9uOSHj6Q4fpoZyxnouw2SOY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HRRsNGKDHBSFZBzCKV8X3U17cLxOZTCPKcb0qOfU3ACDu1Qe5knexCUoJThRHgntExa6plFoVTlyjD06jvg1xuK+kOVOYh5NSpYtcwjCT/w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6904
 Received-SPF: pass client-ip=40.107.14.109;
  envelope-from=vsementsov@virtuozzo.com;
@@ -141,47 +141,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now, when all drivers are updated by previous commit, we can drop two
-last limiters on write-zeroes path: INT_MAX in
-bdrv_co_do_pwrite_zeroes() and bdrv_check_request32() in
-bdrv_co_pwritev_part().
+We are going to support 64 bit discard requests. Now update the
+limit variable. It's absolutely safe. The variable is set in some
+drivers, and used in bdrv_co_pdiscard().
 
-Now everything is prepared for implementing incredibly cool and fast
-big-write-zeroes in NBD and qcow2. And any other driver which wants it
-of course.
+Update also max_pdiscard variable in bdrv_co_pdiscard(), so that
+bdrv_co_pdiscard() is now prepared to 64bit requests. The remaining
+logic including num, offset and bytes variables is already
+supporting 64bit requests.
+
+So the only thing that prevents 64 bit requests is limiting
+max_pdiscard variable to INT_MAX in bdrv_co_pdiscard().
+We'll drop this limitation after updating all block drivers.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ include/block/block_int.h | 9 ++++-----
+ block/io.c                | 3 ++-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index d9e1f04b21..0245620bf6 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -664,11 +664,10 @@ typedef struct BlockLimits {
+      * otherwise. */
+     uint32_t request_alignment;
+ 
+-    /* Maximum number of bytes that can be discarded at once (since it
+-     * is signed, it must be < 2G, if set). Must be multiple of
+-     * pdiscard_alignment, but need not be power of 2. May be 0 if no
+-     * inherent 32-bit limit */
+-    int32_t max_pdiscard;
++    /* Maximum number of bytes that can be discarded at once. Must be multiple
++     * of pdiscard_alignment, but need not be power of 2. May be 0 if no
++     * inherent 64-bit limit */
++    int64_t max_pdiscard;
+ 
+     /* Optimal alignment for discard requests in bytes. A power of 2
+      * is best but not mandatory.  Must be a multiple of
 diff --git a/block/io.c b/block/io.c
-index 79e600af27..a3c2b7740c 100644
+index a3c2b7740c..129cfba68e 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -1836,7 +1836,8 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-     int head = 0;
-     int tail = 0;
+@@ -2964,7 +2964,8 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+                                   int64_t bytes)
+ {
+     BdrvTrackedRequest req;
+-    int max_pdiscard, ret;
++    int ret;
++    int64_t max_pdiscard;
+     int head, tail, align;
+     BlockDriverState *bs = child->bs;
  
--    int64_t max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes, INT_MAX);
-+    int64_t max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes,
-+                                            INT64_MAX);
-     int alignment = MAX(bs->bl.pwrite_zeroes_alignment,
-                         bs->bl.request_alignment);
-     int max_transfer = MIN_NON_ZERO(bs->bl.max_transfer, MAX_BOUNCE_BUFFER);
-@@ -2212,7 +2213,11 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
-         return -ENOMEDIUM;
-     }
- 
--    ret = bdrv_check_request32(offset, bytes, qiov, qiov_offset);
-+    if (flags & BDRV_REQ_ZERO_WRITE) {
-+        ret = bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, NULL);
-+    } else {
-+        ret = bdrv_check_request32(offset, bytes, qiov, qiov_offset);
-+    }
-     if (ret < 0) {
-         return ret;
-     }
 -- 
 2.29.2
 
