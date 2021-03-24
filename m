@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DD63484B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 23:39:07 +0100 (CET)
-Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB093484BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 23:41:40 +0100 (CET)
+Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPC9a-0000i6-8X
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 18:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43410)
+	id 1lPCBy-0002yI-Ps
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 18:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPC8L-0000GD-6T
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:37:49 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:36767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPC8J-00028O-Qt
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:37:48 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- g8-20020a9d6c480000b02901b65ca2432cso131671otq.3
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:37:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Vmfd3Wr+m82ECQNtvMN2k4HstkSNXOYk/CF2cn1+dyo=;
- b=hfM9ORPcaNur/dqVZAflt1VC+vbC9Ts3IW2UHLrZ7Vu3aSqi9jN8zc3VZfPvrbLxdj
- TaovsUkUMEzpo80x84HKVX0BZZB+jgCSCyJ2ocCSTRV6SRY0HNY95d2CiMFpQBUj9qyp
- ldq174xhxs/FQKuHQDUExH6ecOXecIRXJo3pXL4924xt5mnILrY6NJVnKRkvITXeFksK
- eSE9+kGv7Em/avQjtayLC1Fs1IokDRN7XRmkJDDa3E69xqq5sSnG5YjiBsIXvUj7mMql
- Sj4vvU1ZK+uZ5u2IwuFrZbrnO/x1aA1abmQ3yYmtBlcjulbTPG00DWe2CrdI4v4YjcMo
- TxjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Vmfd3Wr+m82ECQNtvMN2k4HstkSNXOYk/CF2cn1+dyo=;
- b=A2OhswI4r0nuEMv6NYN45xWGz+G2Pv6Tj7VsztnTNuUlEJmZY38StzTIaM7x9gwQYR
- CciUszD2o6DjYybnRzGUJaQkfJw8tmk1DUTMig58jieIDwjra81Llfy5BKih3eb0cAJ2
- v9Sn5uqwot33QZM8qGm0PpXDSNa76a75YFlT8Wb7ULAi6Miz+AGsSy9jKvreGvyicOhP
- 6FPSLJ5hNoFDh0lwQltPQ4ecAdsFI92G857/OPFonTsjIIUuHuLFolCs4MbyYCfm/n8v
- RxKOFxddbJU96LCobZniQv4Ww4gCyTuqcbnQCfbXNug2Y7YAyLD2QzRc3m21PJ30ssYE
- fxWQ==
-X-Gm-Message-State: AOAM531kmXopamQx5l6YC5yMe72LhvpVghEmfGF7YQ/XHk1gVT7YVmEV
- kB3US5pEwwrcDfVDELDPQLgjhg==
-X-Google-Smtp-Source: ABdhPJwJ+u+xO4jPxAqgmDNekMYU4AygeNawFGs37as9cN0mVUWHy0RpdvtfdMz95qusXZRenQ+oHA==
-X-Received: by 2002:a9d:6a14:: with SMTP id g20mr4871690otn.205.1616625466598; 
- Wed, 24 Mar 2021 15:37:46 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id z25sm912112otj.68.2021.03.24.15.37.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 15:37:46 -0700 (PDT)
-Subject: Re: [RFC v11 34/55] target/arm: remove broad "else" statements when
- checking accels
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-27-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ca8be073-c49e-c836-d031-95a3961dfe0a@linaro.org>
-Date: Wed, 24 Mar 2021 16:37:43 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
+ id 1lPC9t-0001Zl-4m; Wed, 24 Mar 2021 18:39:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10278
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
+ id 1lPC9n-0002gq-Cj; Wed, 24 Mar 2021 18:39:23 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12OMYNeZ014420; Wed, 24 Mar 2021 18:39:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=vtKqDNfB+rVRnRoeNHUUIQembx0tbE3nWK2bRIKHNGk=;
+ b=JLuuTyFkn2l1saFEEEMgjlGUc8gIej1yCFiL5gAnc5T85pM3KCYC2zJUUtvnLRphmVaH
+ Xj2zK4punFkyOui0QnNIWl9cnWic9BbMB3klEuSfM6boBg4Kjzq8UrmEfPsGMUeKeK1e
+ mQHlgoQiJfWSCs2D24qTLSUbZTu85z/+reQEKnOcGVg/UAViRSUEMdBg9Lji/kLX05JD
+ kSS9FViTbrEzp8gvAlBcmGL5LO3w5rM60FhflkDW74eC7ZkO6sKiR0Yp6NQBhr5s7zxh
+ nzoIIyq7USOGEXlkzAW7/hjP/MZ7gCngR6gGKCKIklSD34xozLloLRJw2kPejkqW/cUd 2g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37g8m0h87h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Mar 2021 18:39:07 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12OMYe0E014840;
+ Wed, 24 Mar 2021 18:39:07 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37g8m0h877-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Mar 2021 18:39:07 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12OMbbln030609;
+ Wed, 24 Mar 2021 22:39:06 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 37d9aksche-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Mar 2021 22:39:06 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12OMd5AR26018270
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Mar 2021 22:39:05 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9AD3DC6059;
+ Wed, 24 Mar 2021 22:39:05 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1921FC605F;
+ Wed, 24 Mar 2021 22:39:03 +0000 (GMT)
+Received: from T480-KlausKiwi.localdomain (unknown [9.85.133.239])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 24 Mar 2021 22:39:02 +0000 (GMT)
+From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/3] aspeed: HACE hash Scatter-Gather support 
+Date: Wed, 24 Mar 2021 19:38:43 -0300
+Message-Id: <20210324223846.17407-1-klaus@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-27-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-24_13:2021-03-24,
+ 2021-03-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ clxscore=1011 impostorscore=0 mlxlogscore=711 priorityscore=1501
+ suspectscore=0 spamscore=0 bulkscore=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103240161
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=klaus@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,23 +103,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Olaf Hering <olaf@aepfle.de>, Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Julien Grall <jgrall@amazon.com>,
- qemu-devel@nongnu.org, Olaf Hering <OHering@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> @@ -296,7 +297,8 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
->                */
->               bitmap_andnot(tmp, kvm_supported, cpu->sve_vq_init, max_vq);
->               bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
-> -        } else {
-> +        }
-> +        if (tcg_enabled()) {
+This series adds support for scatter-gather sha256 and sha512 operations
+on Aspeed's HACE (Hash And Crypto Engine) to the Aspeed model. These
+operations are supported on AST2600 series of machines.
 
-Better as else if, I think.
+ -Klaus
 
-r~
+
 
