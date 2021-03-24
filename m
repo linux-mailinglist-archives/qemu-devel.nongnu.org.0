@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD22347AFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:44:16 +0100 (CET)
-Received: from localhost ([::1]:53908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6514E347B36
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:55:27 +0100 (CET)
+Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP4k3-00053f-4D
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
+	id 1lP4us-0002Cg-5U
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4Wx-0006ez-5A
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:30:44 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34485)
+ id 1lP4f9-0000Qw-B9
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:11 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4Wv-0007Qs-0F
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:30:42 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- n11-20020a05600c4f8bb029010e5cf86347so2804572wmq.1
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:30:40 -0700 (PDT)
+ id 1lP4f6-0003S0-2t
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:11 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id x7so2238954wrw.10
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AfuU0XAxoVYMVMyAnGddSWe2J1DQfdiLrSJW8lizDJE=;
- b=yuUe7QYHdFmKYc4VZGe+F4kPCyMeJTraSrBT6+1s5u9AsWRpyCs6OColnnxmLQaKMZ
- 4JMpWdMCOt8eEmrabNbBzHkfCzFUPMBQYpYKoNNVI5VsWNjcGtLN+W5RBjTwCykEqBy2
- A6J8IQtv7MG5NtpZxWEQ/JP5Vz/uZ3v7D5yYRdXT3YDGWgtQFylnAzBQxtPZT7Mw11Ab
- K3sf68TGZumNKCGQ6KXnTBOiiLXM90u/q1LnHIKCxryflFr+kGBlVzp8LR1IZnAvO73U
- PrefQsd+xGbi0XUaPn61gxdlwhInpeif8ghElJzSaTWRfYxMbsYJQieb5VV7BRmIJn4+
- 2UMQ==
+ bh=J/FXnYHxF99XSKiPCq/PPY58O6zMCmVG8ygc3pMoNMc=;
+ b=ONsd0TYm5Q/iPi/E6G86ZwK4lJ0zTyF/Oui0hG/tl7350t03aUrAGV8LEp1qAiKgK2
+ gmZ+HHehEdRKZN6egBZ/slCbnAF/sGlRSTis0JrsnD9p2g1pSF3QXEqKO51aEmSGL2u+
+ //qCoAxdOQRQMxFDzl9KlUw+7XV6AmiuTbTD/h/lM0oYXMfFvip5/NwuaYCIukbOm3ts
+ Nmmirl2jpCtcDVCWqU1+ZrDJkvoQ6rVY/YJWkySLuSaU1lnaPFp4caLd2TRMJeL6JLXY
+ 1+VA7S0awbIvHi8ippbwIhThcTSxXym3eqkH6EyDTs6qAeHR4t5uV5MXs/LbANtX2kSg
+ LhhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AfuU0XAxoVYMVMyAnGddSWe2J1DQfdiLrSJW8lizDJE=;
- b=AmZp0J39a3kVJ9BaDQoephqAXSmsM91O6U8CKL+RP2H4aqTFu65TD8ngx9WfBcwikk
- 3LBfeYI+07kcmnefSIq1h0OMb2uPKjSeunWRJsIod6PqX8GBbOUs5aLlmxGgF5glnbZC
- EwbnbSxcWRBuAIumSN6rUuwN7pXm4UgCaDG5t0kNOmKQjzSMFnhsl7Ad+64C4JeobaQ/
- 0FBFciKe1dYk8iLwCCOojFMl7jo1jCpDKdqE0hZHkAN9B3FsqWT7aJFyDoWIUC23uwNI
- y5PrpU3nTRBNyblfOjHWbC94atWwT2OOCP7BLRb0eycZtAQ1omFJKYmwSml0IO7ODA/s
- n0Ig==
-X-Gm-Message-State: AOAM532MwPQbKTp6cFqL4iHUp871IACcudo70lfIQVlpga0/E7CleMnJ
- Yet2/hEdPUmTkl5RV4PvTvnIug==
-X-Google-Smtp-Source: ABdhPJwcOflJW+rLGzj4xdDuW7EiPJxwLqZ+xV6VVkj1N8TvkMh3rd4BuJjuiIGJ5i7qteu2E115Wg==
-X-Received: by 2002:a05:600c:198d:: with SMTP id
- t13mr3303353wmq.73.1616596239541; 
- Wed, 24 Mar 2021 07:30:39 -0700 (PDT)
+ bh=J/FXnYHxF99XSKiPCq/PPY58O6zMCmVG8ygc3pMoNMc=;
+ b=UYPsYGXyld927FgO1o3JhR+W25bQWZE3KWaZV1YuI1Hl2a3BB8nSd12JggKXOS+v7I
+ 5W1QNc71ZBzrXK8WA8GIg+7okyX7LnV/ssS14fiz0WCD+/ynx/Vs6uBKggSPJNrox2k3
+ 5g9vAgyXlKqYH8S1HixoiUuICWLA+VnzyW28TjEEMkll4/EJoPJf+VwttoHB9V48oQ38
+ TrlHH2v+6CmYQn9rdUcefBJz02HDYWYLlusXwDycYA2aYi6HdfRzX0BWRWJzfKJUI0nW
+ iPGdQ/kZFxpPRjfoTIgiU/nQ8EHtnIgmZtgHEh2lDrQuwR1lfqOsOQS+UK9XovZxw/O8
+ gpLw==
+X-Gm-Message-State: AOAM530TtG6hxJB3oyUIw1cSqvNG3R0DmULGveU1jXW+o+/0wc9AAgri
+ 8Y4d+FM6/WH1Ae2aKiI0qhc05Q==
+X-Google-Smtp-Source: ABdhPJziTbSSnyXpka6lP+gcR6WDtpJAZFqymZQAf0X0KiJR+UHHfiCrLl5sJ5WbvHp+7Vqd9rn1bg==
+X-Received: by 2002:a5d:550b:: with SMTP id b11mr3899577wrv.313.1616596746593; 
+ Wed, 24 Mar 2021 07:39:06 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w132sm2584902wmg.39.2021.03.24.07.30.29
+ by smtp.gmail.com with ESMTPSA id r11sm3470853wrm.26.2021.03.24.07.38.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 07:30:34 -0700 (PDT)
+ Wed, 24 Mar 2021 07:39:03 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 10A061FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 2680F1FF9E;
  Wed, 24 Mar 2021 14:30:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/22] utils: Work around mingw strto*l bug with 0x
-Date: Wed, 24 Mar 2021 14:30:13 +0000
-Message-Id: <20210324143021.8560-15-alex.bennee@linaro.org>
+Subject: [PULL 15/22] gitlab: extend timeouts for CFI builds
+Date: Wed, 24 Mar 2021 14:30:14 +0000
+Message-Id: <20210324143021.8560-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210324143021.8560-1-alex.bennee@linaro.org>
 References: <20210324143021.8560-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,218 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+These builds are running very close to the default build limit and as
+they are already pared down the only other option is to extend the
+timeout a little to give some breathing room.
 
-Mingw recognizes that "0x" has value 0 without setting errno, but
-fails to advance endptr to the trailing garbage 'x'.  This in turn
-showed up in our recent testsuite additions for qemu_strtosz (commit
-1657ba44b4 utils: Enhance testsuite for do_strtosz()); adjust our
-remaining tests to show that we now work around this windows bug.
-
-This patch intentionally fails check-syntax for use of strtol.
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210317143325.2165821-3-eblake@redhat.com>
-Message-Id: <20210323165308.15244-15-alex.bennee@linaro.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210323165308.15244-16-alex.bennee@linaro.org>
 
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index 5908de4fd0..98671f1ac3 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -378,6 +378,15 @@ static void test_qemu_strtoi_hex(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpint(res, ==, 0x123);
-     g_assert(endptr == str + strlen(str));
-+
-+    str = "0x";
-+    res = 999;
-+    endptr = &f;
-+    err = qemu_strtoi(str, &endptr, 16, &res);
-+
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0);
-+    g_assert(endptr == str + 1);
- }
- 
- static void test_qemu_strtoi_max(void)
-@@ -669,6 +678,15 @@ static void test_qemu_strtoui_hex(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmphex(res, ==, 0x123);
-     g_assert(endptr == str + strlen(str));
-+
-+    str = "0x";
-+    res = 999;
-+    endptr = &f;
-+    err = qemu_strtoui(str, &endptr, 16, &res);
-+
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmphex(res, ==, 0);
-+    g_assert(endptr == str + 1);
- }
- 
- static void test_qemu_strtoui_max(void)
-@@ -955,6 +973,15 @@ static void test_qemu_strtol_hex(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpint(res, ==, 0x123);
-     g_assert(endptr == str + strlen(str));
-+
-+    str = "0x";
-+    res = 999;
-+    endptr = &f;
-+    err = qemu_strtol(str, &endptr, 16, &res);
-+
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0);
-+    g_assert(endptr == str + 1);
- }
- 
- static void test_qemu_strtol_max(void)
-@@ -1244,6 +1271,15 @@ static void test_qemu_strtoul_hex(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmphex(res, ==, 0x123);
-     g_assert(endptr == str + strlen(str));
-+
-+    str = "0x";
-+    res = 999;
-+    endptr = &f;
-+    err = qemu_strtoul(str, &endptr, 16, &res);
-+
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmphex(res, ==, 0);
-+    g_assert(endptr == str + 1);
- }
- 
- static void test_qemu_strtoul_max(void)
-@@ -1528,6 +1564,15 @@ static void test_qemu_strtoi64_hex(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpint(res, ==, 0x123);
-     g_assert(endptr == str + strlen(str));
-+
-+    str = "0x";
-+    endptr = &f;
-+    res = 999;
-+    err = qemu_strtoi64(str, &endptr, 16, &res);
-+
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 0);
-+    g_assert(endptr == str + 1);
- }
- 
- static void test_qemu_strtoi64_max(void)
-@@ -1815,6 +1860,15 @@ static void test_qemu_strtou64_hex(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmphex(res, ==, 0x123);
-     g_assert(endptr == str + strlen(str));
-+
-+    str = "0x";
-+    endptr = &f;
-+    res = 999;
-+    err = qemu_strtou64(str, &endptr, 16, &res);
-+
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmphex(res, ==, 0);
-+    g_assert(endptr == str + 1);
- }
- 
- static void test_qemu_strtou64_max(void)
-diff --git a/util/cutils.c b/util/cutils.c
-index b425ed6570..ee908486da 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -396,9 +396,22 @@ int qemu_strtosz_metric(const char *nptr, const char **end, uint64_t *result)
-  * Helper function for error checking after strtol() and the like
-  */
- static int check_strtox_error(const char *nptr, char *ep,
--                              const char **endptr, int libc_errno)
-+                              const char **endptr, bool check_zero,
-+                              int libc_errno)
- {
-     assert(ep >= nptr);
-+
-+    /* Windows has a bug in that it fails to parse 0 from "0x" in base 16 */
-+    if (check_zero && ep == nptr && libc_errno == 0) {
-+        char *tmp;
-+
-+        errno = 0;
-+        if (strtol(nptr, &tmp, 10) == 0 && errno == 0 &&
-+            (*tmp == 'x' || *tmp == 'X')) {
-+            ep = tmp;
-+        }
-+    }
-+
-     if (endptr) {
-         *endptr = ep;
-     }
-@@ -465,7 +478,7 @@ int qemu_strtoi(const char *nptr, const char **endptr, int base,
-     } else {
-         *result = lresult;
-     }
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, lresult == 0, errno);
- }
- 
- /**
-@@ -524,7 +537,7 @@ int qemu_strtoui(const char *nptr, const char **endptr, int base,
-             *result = lresult;
-         }
-     }
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, lresult == 0, errno);
- }
- 
- /**
-@@ -566,7 +579,7 @@ int qemu_strtol(const char *nptr, const char **endptr, int base,
- 
-     errno = 0;
-     *result = strtol(nptr, &ep, base);
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, *result == 0, errno);
- }
- 
- /**
-@@ -613,7 +626,7 @@ int qemu_strtoul(const char *nptr, const char **endptr, int base,
-     if (errno == ERANGE) {
-         *result = -1;
-     }
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, *result == 0, errno);
- }
- 
- /**
-@@ -639,7 +652,7 @@ int qemu_strtoi64(const char *nptr, const char **endptr, int base,
-     QEMU_BUILD_BUG_ON(sizeof(int64_t) != sizeof(long long));
-     errno = 0;
-     *result = strtoll(nptr, &ep, base);
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, *result == 0, errno);
- }
- 
- /**
-@@ -668,7 +681,7 @@ int qemu_strtou64(const char *nptr, const char **endptr, int base,
-     if (errno == ERANGE) {
-         *result = -1;
-     }
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, *result == 0, errno);
- }
- 
- /**
-@@ -708,7 +721,7 @@ int qemu_strtod(const char *nptr, const char **endptr, double *result)
- 
-     errno = 0;
-     *result = strtod(nptr, &ep);
--    return check_strtox_error(nptr, ep, endptr, errno);
-+    return check_strtox_error(nptr, ep, endptr, false, errno);
- }
- 
- /**
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index f746d5fbea..9ffbaa7ffb 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -502,6 +502,7 @@ build-cfi-aarch64:
+       --enable-safe-stack --enable-slirp=git
+     TARGETS: aarch64-softmmu
+     MAKE_CHECK_ARGS: check-build
++  timeout: 70m
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -538,6 +539,7 @@ build-cfi-ppc64-s390x:
+       --enable-safe-stack --enable-slirp=git
+     TARGETS: ppc64-softmmu s390x-softmmu
+     MAKE_CHECK_ARGS: check-build
++  timeout: 70m
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -574,6 +576,7 @@ build-cfi-x86_64:
+       --enable-safe-stack --enable-slirp=git
+     TARGETS: x86_64-softmmu
+     MAKE_CHECK_ARGS: check-build
++  timeout: 70m
+   artifacts:
+     expire_in: 2 days
+     paths:
 -- 
 2.20.1
 
