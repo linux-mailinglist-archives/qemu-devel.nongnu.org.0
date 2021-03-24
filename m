@@ -2,53 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D1D347324
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:02:03 +0100 (CET)
-Received: from localhost ([::1]:50952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756D23478DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 13:51:43 +0100 (CET)
+Received: from localhost ([::1]:51910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOySn-0004ld-JM
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55608)
+	id 1lP2z7-0006M2-4z
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 08:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lOyR4-0004AR-TM
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:00:14 -0400
-Received: from mga03.intel.com ([134.134.136.65]:22085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lOyR2-0004uh-8N
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:00:14 -0400
-IronPort-SDR: 2jUn/cakKDtczyOh5uXMkPkpIZTQGTgEcl76mcAVT5c2qNjQDtCQJqpWo2w/T44GlOawvu8esB
- mRlcJkVi1FFA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="190683406"
-X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="190683406"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 01:00:08 -0700
-IronPort-SDR: M41QRceWNyi5rn5YmftPxs/oJDJ75E5E7zKjsBt8vrQs2FCsgbhFjcef121xWTLz00CuVihhxI
- MFQc33jscW0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,274,1610438400"; d="scan'208";a="415372529"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 24 Mar 2021 01:00:07 -0700
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: pbonzini@redhat.com,
-	richard.henderson@linaro.org,
-	ehabkost@redhat.com
-Subject: [PATCH v3] i386/cpu_dump: support AVX512 ZMM regs dump
-Date: Wed, 24 Mar 2021 16:00:04 +0800
-Message-Id: <1616572804-7898-1-git-send-email-robert.hu@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=robert.hu@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <yaoaili@kingsoft.com>)
+ id 1lOyUP-00066d-Os
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:03:41 -0400
+Received: from mail.kingsoft.com ([114.255.44.145]:11612)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yaoaili@kingsoft.com>) id 1lOyUK-0006qe-KM
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:03:41 -0400
+X-AuditID: 0a580155-20dff7000005482e-e4-605aea6072db
+Received: from mail.kingsoft.com (localhost [10.88.1.32])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-2-NODE-85) with SMTP id D5.77.18478.06AEA506;
+ Wed, 24 Mar 2021 15:29:36 +0800 (HKT)
+Received: from alex-virtual-machine (172.16.253.254) by KSBJMAIL2.kingsoft.cn
+ (10.88.1.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 24 Mar
+ 2021 16:03:26 +0800
+Date: Wed, 24 Mar 2021 16:03:26 +0800
+From: Aili Yao <yaoaili@kingsoft.com>
+To: <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2] x86/mce: fix wrong no-return-ip logic in
+ do_machine_check()
+Message-ID: <20210324160326.555b4464@alex-virtual-machine>
+In-Reply-To: <20210324105950.714fd8a6@alex-virtual-machine>
+References: <20210222180819.3998fe33@alex-virtual-machine>
+ <20210222102206.GC29063@zn.tnic>
+ <20210222192146.76ffec84@alex-virtual-machine>
+ <20210222201723.0fcec589@alex-virtual-machine>
+ <20210222122241.GA10880@zn.tnic>
+ <20210222203549.0e54c26f@alex-virtual-machine>
+ <20210222124550.GB10880@zn.tnic>
+ <20210223102755.13cbdffd@alex-virtual-machine>
+ <20210223094300.GA26060@zn.tnic>
+ <20210223175640.5708c7ed@alex-virtual-machine>
+ <20210223100538.GB26060@zn.tnic>
+ <20210223192711.0b517745@alex-virtual-machine>
+ <9232988079334ab8801cccec6557f9c3@intel.com>
+ <20210224103921.3dcf0b65@alex-virtual-machine>
+ <20210324105950.714fd8a6@alex-virtual-machine>
+Organization: kingsoft
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.16.253.254]
+X-ClientProxiedBy: KSBJMAIL1.kingsoft.cn (10.88.1.31) To KSBJMAIL2.kingsoft.cn
+ (10.88.1.32)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGLMWRmVeSWpSXmKPExsXCFcGooJvwKirBYOUKcYvPG/6xWUzbKG5x
+ edccNotLBxYwWRzv3cFisXnTVGaLNxfusVj82PCY1YHD43trH4vH4j0vmTw2repk83h37hy7
+ x5Nrm5k83u+7yubxeZOcx4mWL6wBHFFcNimpOZllqUX6dglcGR/uvWcrWCNX0T1lEUsD42Lx
+ LkZODgkBE4l3t9tZuhi5OIQEpjNJtB//xgrhvGKUOPlhPyNIFYuAqsSyCSuYQGw2IHvXvVms
+ ILaIgLRE/5x2dpAGZoEOZonVR6YxdzFycAgLhEosmVYIUsMrYCXR/ngrC4jNKWAtsXfVN2aI
+ BQtYJebv6gQbxC8gJtF75T8TxEn2Em1bFjFCNAtKnJz5BKyZWUBH4sSqY8wQtrzE9rdzwGwh
+ AUWJw0t+sUP0Kkkc6Z7BBmHHSiyb94p1AqPwLCSjZiEZNQvJqAWMzKsYWYpz0402MUKiJnQH
+ 44ymj3qHGJk4GA8xSnAwK4nwtoRHJAjxpiRWVqUW5ccXleakFh9ilOZgURLnDdACSgmkJ5ak
+ ZqemFqQWwWSZODilGpgEtyYHngpmdRdMZ7nxZsvl77emuqRO3je57pCJgLfI4Z6nufMKrFMc
+ 5kwN/+AWeS/hb++21xZBtru0ry7eOfle2o99HxdtzDo6Lb1yhhA3yzPOx5dud4mInbqw+e/i
+ A3sXFRhlhJWsWB6x5KLXohM1Rx8UvH129MbZRKvZnWfuSly9psPavCz3QwZz+sZbnwS1stqT
+ Snc0LG33+TfnU7Xo8abU509ufrj57oxLwlIr1QVF3Hf1p8+qlch8W1fc+fr0fr+mqoJFD+do
+ VU12yLA+9afy697Q2H274nyT7Lt+6fafn8p3+k2cz4e7OfVCv8SsshV5P7yziPgftcHIrvsp
+ /4MfCyNFLMymGMned2g3VWIpzkg01GIuKk4EAFQtMKgJAwAA
+Received-SPF: pass client-ip=114.255.44.145; envelope-from=yaoaili@kingsoft.com;
+ helo=mail.kingsoft.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 24 Mar 2021 08:50:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,118 +93,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Robert Hoo <robert.hu@linux.intel.com>
+Cc: "yangfeng1@kingsoft.com" <yangfeng1@kingsoft.com>, sunhao2@kingsoft.com,
+ yaoaili@kingsoft.com, "Luck, Tony" <tony.luck@intel.com>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mingo@redhat.com" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "hpa@zytor.com" <hpa@zytor.com>, "tglx@linutronix.de" <tglx@linutronix.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit fa4518741e (target-i386: Rename struct XMMReg to ZMMReg),
-CPUX86State.xmm_regs[] has already been extended to 512bit to support
-AVX512.
-Also, other qemu level supports for AVX512 registers are there for
-years.
-But in x86_cpu_dump_state(), still only dump XMM registers no matter
-YMM/ZMM is enabled.
-This patch is to complement this, let it dump XMM/YMM/ZMM accordingly.
+On Wed, 24 Mar 2021 10:59:50 +0800
+Aili Yao <yaoaili@kingsoft.com> wrote:
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
----
-Changelog:
-v3: fix some coding style issue.
-v2: dump XMM/YMM/ZMM according to XSAVE state-components enablement.
+> On Wed, 24 Feb 2021 10:39:21 +0800
+> Aili Yao <yaoaili@kingsoft.com> wrote:
+> 
+> > On Tue, 23 Feb 2021 16:12:43 +0000
+> > "Luck, Tony" <tony.luck@intel.com> wrote:
+> >   
+> > > > What I think is qemu has not an easy to get the MCE signature from host or currently no methods for this
+> > > > So qemu treat all AR will be No RIPV, Do more is better than do less.      
+> > > 
+> > > RIPV would be important in the guest in the case where the guest can fix the problem that caused
+> > > the machine check and return to the failed instruction to continue.
+> > > 
+> > > I think the only case where this happens is a fault in a read-only page mapped from a file (typically
+> > > code page, but could be a data page). In this case memory-failure() unmaps the page with the posion
+> > > but Linux can recover by reading data from the file into a new page.
+> > > 
+> > > Other cases we send SIGBUS (so go to the signal handler instead of to the faulting instruction).
+> > > 
+> > > So it would be good if the state of RIPV could be added to the signal state sent to qemu. If that
+> > > isn't possible, then this full recovery case turns into another SIGBUS case.    
+> > 
+> > This KVM and VM case of failing recovery for SRAR is just one scenario I think,
+> > If Intel guarantee that when memory SRAR is triggered, RIPV will always be set, then it's the job of qemu to
+> > set the RIPV instead.
+> > Or if When SRAR is triggered with RIPV cleared, the same issue will be true for host.
+> > 
+> > And I think it's better for VM to know the real RIPV value, It need more work in qemu and kernel if possible.
+> > 
+> > Thanks
+> > Aili Yao  
+> 
+> ADD this topic to qemu list, this is really one bad issue.
+> 
+> Issue report:
+> when VM receive one SRAR memory failure from host, it all has RIPV cleared, and then vm process it and trigger one panic!
+> 
+> Can any qemu maintainer fix this?
+> 
+> Suggestion:
+> qemu get the true value of RIPV from host, the inject it to VM accordingly.
 
- target/i386/cpu-dump.c | 55 ++++++++++++++++++++++++++++++++++++--------------
- target/i386/cpu.h      | 11 ++++++++++
- 2 files changed, 51 insertions(+), 15 deletions(-)
+Sorry for my previous description, I may not describe the issue clearly,
+I found this issue when I do memory SRAR test for kvm virtual machine, the step is:
 
-diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-index aac21f1..00fb56f 100644
---- a/target/i386/cpu-dump.c
-+++ b/target/i386/cpu-dump.c
-@@ -499,21 +499,46 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-             else
-                 qemu_fprintf(f, " ");
-         }
--        if (env->hflags & HF_CS64_MASK)
--            nb = 16;
--        else
--            nb = 8;
--        for(i=0;i<nb;i++) {
--            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
--                         i,
--                         env->xmm_regs[i].ZMM_L(3),
--                         env->xmm_regs[i].ZMM_L(2),
--                         env->xmm_regs[i].ZMM_L(1),
--                         env->xmm_regs[i].ZMM_L(0));
--            if ((i & 1) == 1)
--                qemu_fprintf(f, "\n");
--            else
--                qemu_fprintf(f, " ");
-+
-+        if ((env->xcr0 & XFEATURE_AVX512) == XFEATURE_AVX512) {
-+            /* XSAVE enabled AVX512 */
-+            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "ZMM%02d=0x%016lx %016lx %016lx %016lx %016lx "
-+                                "%016lx %016lx %016lx\n",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(7),
-+                             env->xmm_regs[i].ZMM_Q(6),
-+                             env->xmm_regs[i].ZMM_Q(5),
-+                             env->xmm_regs[i].ZMM_Q(4),
-+                             env->xmm_regs[i].ZMM_Q(3),
-+                             env->xmm_regs[i].ZMM_Q(2),
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+            }
-+        } else if (env->xcr0 & XFEATURE_AVX) {
-+            /* XSAVE enabled AVX */
-+            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "YMM%02d=0x%016lx %016lx %016lx %016lx\n",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(3),
-+                             env->xmm_regs[i].ZMM_Q(2),
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+            }
-+        } else { /* SSE and below cases */
-+            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "XMM%02d=0x%016lx %016lx",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+                if ((i & 1) == 1)
-+                    qemu_fprintf(f, "\n");
-+                else
-+                    qemu_fprintf(f, " ");
-+            }
-         }
-     }
-     if (flags & CPU_DUMP_CODE) {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 570f916..82f5d56 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -249,6 +249,17 @@ typedef enum X86Seg {
- #define CR4_PKE_MASK   (1U << 22)
- #define CR4_PKS_MASK   (1U << 24)
- 
-+#define XFEATURE_X87        (1UL << 0)
-+#define XFEATURE_SSE        (1UL << 1)
-+#define XFEATURE_AVX        (1UL << 2)
-+#define XFEATURE_AVX512_OPMASK          (1UL << 5)
-+#define XFEATURE_AVX512_ZMM_Hi256       (1UL << 6)
-+#define XFEATURE_AVX512_Hi16_ZMM        (1UL << 7)
-+#define XFEATURE_AVX512     (XFEATURE_AVX512_OPMASK | \
-+                             XFEATURE_AVX512_ZMM_Hi256 | \
-+                             XFEATURE_AVX512_Hi16_ZMM)
-+
-+
- #define DR6_BD          (1 << 13)
- #define DR6_BS          (1 << 14)
- #define DR6_BT          (1 << 15)
+1. Inject one uncorrectable error to one specific memory address A.
+2. Then one user process in the VM access the address A and trigger a MCE exception to host.
+3. In do_machine_check() kernel will check the related register and do recovery job from memory_failure();
+4. Normally a BUS_MCEERR_AR SIGBUS is sent to the specifc core triggering this error.
+5. Qemu will take control, and will inject this event to VM, all infomation qume can get currently is the Error code
+   BUS_MCEERR_AR and virtual address, in the qemu inject function:
+    if (code == BUS_MCEERR_AR) {
+        status |= MCI_STATUS_AR | 0x134;
+        mcg_status |= MCG_STATUS_EIPV;
+    } else {
+        status |= 0xc0;
+        mcg_status |= MCG_STATUS_RIPV;
+    }
+    For BUS_MCEERR_AR case, MCG_STATUS_RIPV will always be cleared.
+
+6. Then in VM kernel, do_machine_check will got this:
+	if (!(m.mcgstatus & MCG_STATUS_RIPV))
+		kill_current_task = 1;
+   then go to force_sig(SIGBUS) without calling memory_failure();
+   so for now, the page is not marked hwpoison.
+
+7  The VM kernel want to exit to user mode and then process the SIGBUS signal.
+   As SIGBUS is a fatal signal, the coredump related work will be called.
+
+8. Then coredump will get the user space mapped memory dumped, include the error page.
+
+9. Then UE is triggered again, and qemu will take control again, then inject this UE event to VM and
+   this time the error is triggered in kernel code, then VM panic.
+
+I don't know how can this issue be fixed cleanly, maybe qemu developers may help on this. 
+If qemu can fix this, that will be great!
+
 -- 
-1.8.3.1
-
+Thanks!
+Aili Yao
 
