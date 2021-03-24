@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C76346F10
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:51:25 +0100 (CET)
-Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD0B346F1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:56:30 +0100 (CET)
+Received: from localhost ([::1]:43494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOsg8-0002cl-Mb
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
+	id 1lOsl3-0006zn-Fn
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOsYp-0005z8-N3
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 21:43:51 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:33409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lOsYf-0005kQ-PH
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 21:43:51 -0400
-Received: by mail-oi1-x235.google.com with SMTP id w70so19186863oie.0
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 18:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fWgqA9QIHHI+TQJjaLupeuAekMYMAEES1TIcXaDxulI=;
- b=U0jyxp0HdCFGy53Ex1+VMHt0OZTkP7ps2lXbKLUr+CukYmDa/wiThSPJ6L88xMlSSd
- 68EDLYzopg2l/uuYFrUv/ef0wqf1hpqNISddCWg/Tpuh5/rrtULb/D4ckJWcJf753IoX
- eP68ZzOdOD3UWGfCgyM8Q0JEijZT6J+xHaOFjBJWJVuqLCOm2VaZhmiiRDgxilDvYUOn
- 25imMZR0XwliJkUyrMlI7HocPfCNRj9SkAnl1EgAQ1bRq3Dbnh9j3BvdZGTUTT3WR30B
- TOhgwmAzMe3JXEdKV02q6TrdOzat34xoeutFetCF74zFrfiW+LrgI/gZJAI5/U7D1hql
- qMww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fWgqA9QIHHI+TQJjaLupeuAekMYMAEES1TIcXaDxulI=;
- b=U8t9phlADRWPf/hLVy3VhD1pcjOoSUHW4K8sjlpUuJ0SquvHYOtx0ysdaaCt5hcAGV
- yGTEIb5iw9Zsd0WH7jBSOdjUD7cxs4JwRA0kIoNs2H+V5Yaf3ki/l3hStgJAtC//mUnl
- qPDvXFzacHYtwX+R09Da0DwrMDH6ufk/V+Cs2T/X1viYk3JsDX/Z80pJwyYUqSs3mUgT
- 4JcNZtfRr8j25C39OUYcSvllXQthmjBRoaKtTXndO1Sh/0Z2B71bB/yartgcj78toLfc
- +9QCQzsUO8Ycwtys3rQ9+a3GDfpkKqNhaRrCkcMnPbC087HE3G5YA6HYjNl1dKd8ye9V
- PF0A==
-X-Gm-Message-State: AOAM5310jUUfQBUJmytQD61f7nPkbX2fdWXu1sRBWwuHcTuK2gcni5c7
- SNHMoOEFbUzelBoqD/Iw1lQaAPTAKDZjh0Im
-X-Google-Smtp-Source: ABdhPJwlJm3/FhgYzM4lq6BPwT4BJVnTO+cQdbIhJ8Al+b2smikfuuw+Q+oUvVQq8iNRb9eP/Qk3hA==
-X-Received: by 2002:aca:b446:: with SMTP id d67mr736255oif.6.1616550218985;
- Tue, 23 Mar 2021 18:43:38 -0700 (PDT)
-Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id c9sm203601ooq.31.2021.03.23.18.43.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 18:43:38 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] exec: Build page-vary-common.c with -fno-lto
-Date: Tue, 23 Mar 2021 19:43:32 -0600
-Message-Id: <20210324014332.6331-6-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210324014332.6331-1-richard.henderson@linaro.org>
-References: <20210324014332.6331-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOsdw-00029l-GC; Tue, 23 Mar 2021 21:49:08 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42443)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOsds-0007uA-SW; Tue, 23 Mar 2021 21:49:08 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F4rkN6TNQz9sWf; Wed, 24 Mar 2021 12:49:00 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616550540;
+ bh=9syayiWaMWc0JAdglac/M4YGysUjM/lqiPUPQw7Bx5g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jlWZvetkWzKaTZ70M1AgM1OYb6S7npvn4l2pPHg3vZPShDO2TE8+2TyCbLgKFUETH
+ x5H0ytYOSXj4os8hhSfejFhSD1XDjpjdtVmfJRcJqDVVc7n5F2TYeIkzxGOMFGRPjK
+ vbY3pinW8YiM5uYHkp30mmZ9yRvVuDNTDH/T6zP4=
+Date: Wed, 24 Mar 2021 12:45:27 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v10 7/7] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
+Message-ID: <YFqZt6NaXuOmgBza@yekko.fritz.box>
+References: <cover.1615943871.git.balaton@eik.bme.hu>
+ <b1639705f196d229647a8fc36e5d1a92f6c58b76.1615943871.git.balaton@eik.bme.hu>
+ <YFk8iCC3IhGw1TqL@yekko.fritz.box>
+ <e1f21b2-398d-1422-2b49-6f3ebe5a9cef@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7mHYZ4T1B+s0sga8"
+Content-Disposition: inline
+In-Reply-To: <e1f21b2-398d-1422-2b49-6f3ebe5a9cef@eik.bme.hu>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,330 +60,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Gavin Shan <gshan@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In bbc17caf81f, we used an alias attribute to allow target_page
-to be declared const, and yet be initialized late.
 
-This fails when using LTO with several versions of gcc.
-The compiler looks through the alias and decides that the const
-variable is statically initialized to zero, then propagates that
-zero to many uses of the variable.
+--7mHYZ4T1B+s0sga8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This can be avoided by compiling one object file with -fno-lto.
-In this way, any initializer cannot be seen, and the constant
-propagation does not occur.
+On Tue, Mar 23, 2021 at 02:01:27PM +0100, BALATON Zoltan wrote:
+> On Tue, 23 Mar 2021, David Gibson wrote:
+> > On Wed, Mar 17, 2021 at 02:17:51AM +0100, BALATON Zoltan wrote:
+> > > Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
+> > > a PowerPC board based on the Marvell MV64361 system controller and the
+> > > VIA VT8231 integrated south bridge/superio chips. It can run Linux,
+> > > AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
+> > > image is needed to boot and only MorphOS has a video driver to produce
+> > > graphics output. Linux could work too but distros that supported this
+> > > machine don't include usual video drivers so those only run with
+> > > serial console for now.
+> > >=20
+> > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> > > ---
+> > >  MAINTAINERS                             |  10 ++
+> > >  default-configs/devices/ppc-softmmu.mak |   2 +
+> > >  hw/ppc/Kconfig                          |   9 ++
+> > >  hw/ppc/meson.build                      |   2 +
+> > >  hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++=
+++
+> > >  5 files changed, 167 insertions(+)
+> > >  create mode 100644 hw/ppc/pegasos2.c
+> > >=20
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index b6ab3d25a7..1c3c55ef09 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -1353,6 +1353,16 @@ F: pc-bios/canyonlands.dt[sb]
+> > >  F: pc-bios/u-boot-sam460ex-20100605.bin
+> > >  F: roms/u-boot-sam460ex
+> > >=20
+> > > +pegasos2
+> > > +M: BALATON Zoltan <balaton@eik.bme.hu>
+> > > +R: David Gibson <david@gibson.dropbear.id.au>
+> > > +L: qemu-ppc@nongnu.org
+> > > +S: Maintained
+> > > +F: hw/ppc/pegasos2.c
+> > > +F: hw/pci-host/mv64361.c
+> > > +F: hw/pci-host/mv643xx.h
+> > > +F: include/hw/pci-host/mv64361.h
+> >=20
+> > Oh, sorry about the comment in the previous patch.
+> >=20
+> > >  RISC-V Machines
+> > >  ---------------
+> > >  OpenTitan
+> > > diff --git a/default-configs/devices/ppc-softmmu.mak b/default-config=
+s/devices/ppc-softmmu.mak
+> > > index 61b78b844d..4535993d8d 100644
+> > > --- a/default-configs/devices/ppc-softmmu.mak
+> > > +++ b/default-configs/devices/ppc-softmmu.mak
+> > > @@ -14,5 +14,7 @@ CONFIG_SAM460EX=3Dy
+> > >  CONFIG_MAC_OLDWORLD=3Dy
+> > >  CONFIG_MAC_NEWWORLD=3Dy
+> > >=20
+> > > +CONFIG_PEGASOS2=3Dy
+> >=20
+> > I don't think we can have this default to enabled while it requires a
+> > non-free ROM to start.
+>=20
+> Not having it enabled though does not help those who might want to use it=
+ as
+> they are not people who can compile their own QEMU but rely on binaries so
+> adding it without also enabling it is like it wasn't there at all in
+> practice.
 
-Since we are certain to have this separate compilation unit, we
-can drop the alias attribute as well.  We simply have differing
-declarations for target_page in different compilation units.
-Drop the use of init_target_page, and drop the configure detection
-for CONFIG_ATTRIBUTE_ALIAS.
+Not convinced, sorry.  If it's not usable out of the box, having to
+build from source is kind of expected.  Or you could convince someone
+(or do it yourself) to provide prebuild binaries for this purpose that
+have the right things enabled.
 
-In order to change the compilation flags for a file with meson,
-we must use a static_library.  This runs into specific_ss, where
-we would need to create many static_library instances.
+> I can attempt to make some guests boot without a ROM but since
+> guests expect an OpenFirmware client interface, I'll need something to
+> provide that. I'm waiting for VOF to be merged for this.
+>=20
+> Regards,
+> BALATON Zoltan
 
-Fix this by splitting page-vary.c: the page-vary-common.c part is
-compiled once as a static_library, while the page-vary.c part is
-left in specific_ss in order to handle the target-specific value
-of TARGET_PAGE_BITS_MIN.
 
-Reported-by: Gavin Shan <gshan@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210321211534.2101231-1-richard.henderson@linaro.org>
-[PMD: Fix typo in subject, split original patch in 3]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Gavin Shan <gshan@redhat.com>
-Message-Id: <20210322112427.4045204-4-f4bug@amsat.org>
-[rth: Update MAINTAINERS]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- configure                | 19 ----------
- meson.build              | 18 +++++++++
- include/exec/cpu-all.h   |  4 --
- include/exec/page-vary.h |  5 +++
- page-vary-common.c       | 54 +++++++++++++++++++++++++++
- page-vary.c              | 79 +++-------------------------------------
- MAINTAINERS              |  1 +
- 7 files changed, 84 insertions(+), 96 deletions(-)
- create mode 100644 page-vary-common.c
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-diff --git a/configure b/configure
-index 61872096a8..edf9dc8985 100755
---- a/configure
-+++ b/configure
-@@ -4889,21 +4889,6 @@ if  test "$plugins" = "yes" &&
-       "for this purpose. You can't build with --static."
- fi
- 
--########################################
--# See if __attribute__((alias)) is supported.
--# This false for Xcode 9, but has been remedied for Xcode 10.
--# Unfortunately, travis uses Xcode 9 by default.
--
--attralias=no
--cat > $TMPC << EOF
--int x = 1;
--extern const int y __attribute__((alias("x")));
--int main(void) { return 0; }
--EOF
--if compile_prog "" "" ; then
--    attralias=yes
--fi
--
- ########################################
- # check if getauxval is available.
- 
-@@ -5935,10 +5920,6 @@ if test "$atomic64" = "yes" ; then
-   echo "CONFIG_ATOMIC64=y" >> $config_host_mak
- fi
- 
--if test "$attralias" = "yes" ; then
--  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
--fi
--
- if test "$getauxval" = "yes" ; then
-   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index f0dd8aa089..c6f4b0cf5e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1944,6 +1944,24 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
- ))
- specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
- 
-+# Work around a gcc bug/misfeature wherein constant propagation looks
-+# through an alias:
-+#   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
-+# to guess that a const variable is always zero.  Without lto, this is
-+# impossible, as the alias is restricted to page-vary-common.c.  Indeed,
-+# without lto, not even the alias is required -- we simply use different
-+# declarations in different compilation units.
-+pagevary = files('page-vary-common.c')
-+if get_option('b_lto')
-+  pagevary_flags = ['-fno-lto']
-+  if get_option('cfi')
-+    pagevary_flags += '-fno-sanitize=cfi-icall'
-+  endif
-+  pagevary = static_library('page-vary-common', sources: pagevary,
-+                            c_args: pagevary_flags)
-+  pagevary = declare_dependency(link_with: pagevary)
-+endif
-+common_ss.add(pagevary)
- specific_ss.add(files('page-vary.c'))
- 
- subdir('backends')
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index b0a422c7b6..d76b0b9e02 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -216,11 +216,7 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
- 
- #ifdef TARGET_PAGE_BITS_VARY
- # include "exec/page-vary.h"
--#if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
- extern const TargetPageBits target_page;
--#else
--extern TargetPageBits target_page;
--#endif
- #ifdef CONFIG_DEBUG_TCG
- #define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
- #define TARGET_PAGE_MASK   ({ assert(target_page.decided); \
-diff --git a/include/exec/page-vary.h b/include/exec/page-vary.h
-index 799d6310d6..c22a7a742e 100644
---- a/include/exec/page-vary.h
-+++ b/include/exec/page-vary.h
-@@ -26,4 +26,9 @@ typedef struct {
-     uint64_t mask;
- } TargetPageBits;
- 
-+#ifdef IN_PAGE_VARY
-+extern bool set_preferred_target_page_bits_common(int bits);
-+extern void finalize_target_page_bits_common(int min);
-+#endif
-+
- #endif /* EXEC_PAGE_VARY_H */
-diff --git a/page-vary-common.c b/page-vary-common.c
-new file mode 100644
-index 0000000000..9175556498
---- /dev/null
-+++ b/page-vary-common.c
-@@ -0,0 +1,54 @@
-+/*
-+ * Variable page size handling -- target independent part.
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define IN_PAGE_VARY 1
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "exec/page-vary.h"
-+
-+/* WARNING: This file must *not* be complied with -flto. */
-+
-+TargetPageBits target_page;
-+
-+bool set_preferred_target_page_bits_common(int bits)
-+{
-+    /*
-+     * The target page size is the lowest common denominator for all
-+     * the CPUs in the system, so we can only make it smaller, never
-+     * larger. And we can't make it smaller once we've committed to
-+     * a particular size.
-+     */
-+    if (target_page.bits == 0 || target_page.bits > bits) {
-+        if (target_page.decided) {
-+            return false;
-+        }
-+        target_page.bits = bits;
-+    }
-+    return true;
-+}
-+
-+void finalize_target_page_bits_common(int min)
-+{
-+    if (target_page.bits == 0) {
-+        target_page.bits = min;
-+    }
-+    target_page.mask = -1ull << target_page.bits;
-+    target_page.decided = true;
-+}
-diff --git a/page-vary.c b/page-vary.c
-index 344f9fcf76..057c7f1815 100644
---- a/page-vary.c
-+++ b/page-vary.c
-@@ -17,92 +17,25 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#define IN_PAGE_VARY 1
-+
- #include "qemu/osdep.h"
- #include "qemu-common.h"
--
--#define IN_EXEC_VARY 1
--
- #include "exec/exec-all.h"
- 
--#ifdef TARGET_PAGE_BITS_VARY
--# ifdef CONFIG_ATTRIBUTE_ALIAS
--/*
-- * We want to declare the "target_page" variable as const, which tells
-- * the compiler that it can cache any value that it reads across calls.
-- * This avoids multiple assertions and multiple reads within any one user.
-- *
-- * This works because we finish initializing the data before we ever read
-- * from the "target_page" symbol.
-- *
-- * This also requires that we have a non-constant symbol by which we can
-- * perform the actual initialization, and which forces the data to be
-- * allocated within writable memory.  Thus "init_target_page", and we use
-- * that symbol exclusively in the two functions that initialize this value.
-- *
-- * The "target_page" symbol is created as an alias of "init_target_page".
-- */
--static TargetPageBits init_target_page;
--
--/*
-- * Note that this is *not* a redundant decl, this is the definition of
-- * the "target_page" symbol.  The syntax for this definition requires
-- * the use of the extern keyword.  This seems to be a GCC bug in
-- * either the syntax for the alias attribute or in -Wredundant-decls.
-- *
-- * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
-- */
--#  pragma GCC diagnostic push
--#  pragma GCC diagnostic ignored "-Wredundant-decls"
--
--extern const TargetPageBits target_page
--    __attribute__((alias("init_target_page")));
--
--#  pragma GCC diagnostic pop
--# else
--/*
-- * When aliases are not supported then we force two different declarations,
-- * by way of suppressing the header declaration with IN_EXEC_VARY.
-- * We assume that on such an old compiler, LTO cannot be used, and so the
-- * compiler cannot not detect the mismatched declarations, and all is well.
-- */
--TargetPageBits target_page;
--#  define init_target_page target_page
--# endif
--#endif
--
- bool set_preferred_target_page_bits(int bits)
- {
--    /*
--     * The target page size is the lowest common denominator for all
--     * the CPUs in the system, so we can only make it smaller, never
--     * larger. And we can't make it smaller once we've committed to
--     * a particular size.
--     */
- #ifdef TARGET_PAGE_BITS_VARY
-     assert(bits >= TARGET_PAGE_BITS_MIN);
--    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
--        if (init_target_page.decided) {
--            return false;
--        }
--        init_target_page.bits = bits;
--    }
--#endif
-+    return set_preferred_target_page_bits_common(bits);
-+#else
-     return true;
-+#endif
- }
- 
- void finalize_target_page_bits(void)
- {
- #ifdef TARGET_PAGE_BITS_VARY
--    if (init_target_page.bits == 0) {
--        init_target_page.bits = TARGET_PAGE_BITS_MIN;
--    }
--    init_target_page.mask = (target_long)-1 << init_target_page.bits;
--    init_target_page.decided = true;
--
--    /*
--     * For the benefit of an -flto build, prevent the compiler from
--     * hoisting a read from target_page before we finish initializing.
--     */
--    barrier();
-+    finalize_target_page_bits_common(TARGET_PAGE_BITS_MIN);
- #endif
- }
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ed68de3cec..10ed6d7624 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -118,6 +118,7 @@ S: Maintained
- F: softmmu/cpus.c
- F: cpus-common.c
- F: page-vary.c
-+F: page-vary-common.c
- F: accel/tcg/
- F: accel/stubs/tcg-stub.c
- F: util/cacheinfo.c
--- 
-2.25.1
+--7mHYZ4T1B+s0sga8
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBambcACgkQbDjKyiDZ
+s5LqxA//e5JCD0dixzV8Euhlx7KgmtFRqFS8mwJ8bgNLgzBLPXZ0iI2b5RbwM7Wg
+SVrD5D0VMjUQ4ldMnmGlUvUA+Hu6UMjsrank4dA0GBiBao9wCmicRifumZwdeyGg
+4xogiBFu/qyEmxmkbA5VjdDZZU+sp5Jefss80bwCpyY6UmHIIqY7p1h/nH8M3PYB
+XrKm9svFA/sOLp3b5UOgcC4CaiYB/UzOnD+UgJdi7AT1XKdHD70wKb76O+QfUSUt
+n7fd/zVniWk5niVhpTwHy0hgI8WOco2u29puUFYIM3xuMGwGkhm78+2y3rP5VsEE
+GiOmGv0jOiAmPzYixkcgWDCzCK6hAwZSQNf9mPy3ykxbUvar7Tlo3zmbAwVXVk8O
+lllYvQKah1SvaYiQwL4FcEtOpRjE5bg+HxEs5mAjn4bNs46Hucgl/V+vvM5up1nB
+p8N5TAwsNhF+Ky2oYJ6heWGzxcaSxgp28tAvUo6VGSKlbeb12WcUjc5kVFUUgGoK
+s0l5IHWQUrKOEuJO3D+OVE0NTNYLkR29SQSfp975ogSksrsii9RDE56MgljklGty
+WpRfqZ63I/be05N67n8auy5ye86RjEnrLP92I3qKw9JhZwktG7wsqVBrXWza/N65
+T3DZ+1T+DnKGTNIWhA3NzIwWpaTAIkUJRH1ivRCF5yarDmg3Rzk=
+=TEwA
+-----END PGP SIGNATURE-----
+
+--7mHYZ4T1B+s0sga8--
 
