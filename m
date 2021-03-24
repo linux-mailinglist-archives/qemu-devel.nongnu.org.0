@@ -2,106 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3862A3478E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 13:54:15 +0100 (CET)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B846347781
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 12:37:30 +0100 (CET)
+Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP31a-0000n1-5e
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 08:54:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
+	id 1lP1pI-0008Li-Qj
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 07:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
- id 1lP1ec-0007Ft-Fv; Wed, 24 Mar 2021 07:26:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35064)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lP1oU-0007vx-EO
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:36:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
- id 1lP1eW-0008Af-Aa; Wed, 24 Mar 2021 07:26:24 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12OB2v6E123397; Wed, 24 Mar 2021 07:26:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=VwNiDdj8S9y/a6cRJfGxGG7JwH9AIVzRmjVY2K9IM4k=;
- b=aQLfgTa2bsQBbp1+YEcNhXimUV5llI7f54Kr5epyjScEBUDmIuS637Lx6dMslG5O+w8l
- S2enjCJDdPL5UExsvyk6QeJHmVHdvj04txQ3szmAfqTRWK4x0lpwTsxgEjATf6p2ZEGN
- 3LonMq7zJBeqmxL102dhG+3LZy7ltoAqroMVsouklUkFb8J0qKGHHtYOhHaKJuIu+Ltl
- FwVvYtPzrNA8NwKa7GWjUB4bo+GRXDMUHq4niMviNxIx+VCoGCP11zGZd6ouV4UEPCw2
- X9Z8t7k3cDZygJljX1znqFqh1qyCAPDItYg2n7xczFYdxiafT4XMNUAz0SxKK5GInWEc lQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37g0bmyq1y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Mar 2021 07:26:17 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12OBJwNa044409;
- Wed, 24 Mar 2021 07:26:17 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37g0bmyq17-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Mar 2021 07:26:17 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12OBN4bC003224;
- Wed, 24 Mar 2021 11:26:14 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 37d9d8t7w7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Mar 2021 11:26:14 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 12OBPsFu28246428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 24 Mar 2021 11:25:54 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 60C174203F;
- Wed, 24 Mar 2021 11:26:12 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 25AA242041;
- Wed, 24 Mar 2021 11:26:12 +0000 (GMT)
-Received: from li-23497a81-5215-11cb-9bae-a81330ecc14b.ibm.com (unknown
- [9.171.94.33]) by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 24 Mar 2021 11:26:12 +0000 (GMT)
-Subject: Re: [PATCH 1/1] linux-user/s390x: Apply h2g to address of sigreturn
- stub
-To: Laurent Vivier <laurent@vivier.eu>
-References: <20210324085129.29684-1-krebbel@linux.ibm.com>
- <5070a253-cd95-59b0-dbdb-2eb549e9f61c@redhat.com>
- <b48b73ee-b27b-1e3d-3387-ce818e7b0c15@vivier.eu>
-From: Andreas Krebbel <krebbel@linux.ibm.com>
-Message-ID: <3d64f14f-58a4-7cc3-a069-f7ed1172d038@linux.ibm.com>
-Date: Wed, 24 Mar 2021 12:26:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lP1oJ-0005mr-Qq
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:36:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616585784;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t7cA28A6YJOQT/dExBgT6p5uwd7T/PUKtqrtOe4UYb8=;
+ b=Z16GYfM65iS4WlWVEvereWCxmhxbjC/aofIQRB0HDRLjMUiDdlM5gTfmqSx3qUgV5LZhWO
+ 4sUa4Ep2Lr4m/4Qe8iTScQexOkkW5/It8/Af08Ma5Eaf9Z6mxsXq1TqPlXhz3bFDuyvOv+
+ ixeGZq3o1HZbgfAtZyJy0ltOpWwLFdw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-Nrrp3NspNRuee98Alu-o5A-1; Wed, 24 Mar 2021 07:36:18 -0400
+X-MC-Unique: Nrrp3NspNRuee98Alu-o5A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD40481622;
+ Wed, 24 Mar 2021 11:36:17 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A725D9D0;
+ Wed, 24 Mar 2021 11:36:15 +0000 (UTC)
+Date: Wed, 24 Mar 2021 11:36:13 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH 0/2] yank: Always link full yank code
+Message-ID: <YFskLauf5ZZ4RJwi@redhat.com>
+References: <cover.1616521341.git.lukasstraub2@web.de>
+ <YFo82zpHQf+zQ8+Q@redhat.com>
+ <20210324122242.6843f29e@gecko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <b48b73ee-b27b-1e3d-3387-ce818e7b0c15@vivier.eu>
+In-Reply-To: <20210324122242.6843f29e@gecko.fritz.box>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-24_08:2021-03-24,
- 2021-03-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0 clxscore=1011
- mlxlogscore=999 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103240085
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=krebbel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 24 Mar 2021 08:50:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,69 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 11:28 AM, Laurent Vivier wrote:
-> Le 24/03/2021 à 10:17, David Hildenbrand a écrit :
->> On 24.03.21 09:51, Andreas Krebbel wrote:
->>> The sigreturn SVC is put onto the stack by the emulation code.  Hence
->>> the address of it should not be subject to guest_base transformation
->>> when fetching it.
->>>
->>> The fix applies h2g to the address when writing it into the return
->>> address register to nullify the transformation applied to it later.
->>>
->>> Note: This only caused problems if Qemu has been built with
->>> --disable-pie (as it is in distros nowadays). Otherwise guest_base
->>> defaults to 0 hiding the actual problem.
->>>
->>> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
->>> ---
->>>   linux-user/s390x/signal.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
->>> index ecfa2a14a9..1412376958 100644
->>> --- a/linux-user/s390x/signal.c
->>> +++ b/linux-user/s390x/signal.c
->>> @@ -152,7 +152,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
->>>           env->regs[14] = (unsigned long)
->>>                   ka->sa_restorer | PSW_ADDR_AMODE;
->>>       } else {
->>> -        env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
->>> +        env->regs[14] = h2g(frame_addr + offsetof(sigframe, retcode))
->>>                           | PSW_ADDR_AMODE;
+On Wed, Mar 24, 2021 at 12:22:42PM +0100, Lukas Straub wrote:
+> On Tue, 23 Mar 2021 19:09:15 +0000
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
 > 
-> Well, it really doesn't sound good as frame_addr is a guest address (and sa_restorer is too)
-
-I would expect the sa_restorer address to actually point into the guest code section.
-
+> > On Tue, Mar 23, 2021 at 06:52:19PM +0100, Lukas Straub wrote:
+> > > Hello Everyone,
+> > > These patches remove yank's dependency on qiochannel and always link it in.
+> > > Please Review.  
+> > 
+> > It would be useful if the cover letter or commit messages explained
+> > to potential reviewers why this is being changed... The first patch
+> > feels like a regression to me, without seeing an explanation why
+> > it is desirable.
 > 
-> Where is the code that does the g2h() you want to nullify?
+> Yes, sorry. There are two reasons for this patchset:
+> -To exercise the full yank code (with checks for registering and unregistering
+>  of yank functions and instances) in existing tests and in the new yank test
+>  (https://lore.kernel.org/qemu-devel/cover.1616521487.git.lukasstraub2@web.de/)
+> -To replace "[PATCH] yank: Avoid linking into executables that don't want it"
+>  (https://lore.kernel.org/qemu-devel/20210316135907.3646901-1-armbru@redhat.com/)
+>  Now we always link in yank, but without pulling in other dependencies.
 
-That's on the code path which usually fetches instructions from memory. In cpu_lduw_code called via:
+Conceptually, the real world usage of yank is in combination with parts
+of QEMU doing I/O, and so they will always have the "io" subsystem
+available. Thus it feels wrong to be refactoring this to avoid an
+"io" dependancy.  I think this probably suggests that the yank code
+shouldn't be in libqemuutil.la, but instead part of the "io" subsystem
+to make the association/dependency explicit
 
-s390x_tr_translate_insn->translate_one->extract_insn->ld_code2->cpu_lduw_code
 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Btw. Power also uses h2g while setting up the trampoline address:
-
-...
-    save_user_regs(env, mctx);
-    encode_trampoline(TARGET_NR_rt_sigreturn, trampptr);
-
-    /* The kernel checks for the presence of a VDSO here.  We don't
-       emulate a vdso, so use a sigreturn system call.  */
-    env->lr = (target_ulong) h2g(trampptr);
-...
-
-> 
-> Thanks,
-> Laurent
-> 
-
-Andreas
 
