@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8C1347968
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:19:50 +0100 (CET)
-Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFA7347966
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:19:41 +0100 (CET)
+Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP3QL-0000Kq-IO
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
+	id 1lP3QA-0000Ba-LB
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lP3Nn-0006XT-Hj; Wed, 24 Mar 2021 09:17:11 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3938)
+ id 1lP3Nm-0006WQ-Io; Wed, 24 Mar 2021 09:17:10 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lP3Nj-0005WZ-RS; Wed, 24 Mar 2021 09:17:11 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F57xG2B6yzPlqJ;
- Wed, 24 Mar 2021 21:14:26 +0800 (CST)
+ id 1lP3Nj-0005X9-Ny; Wed, 24 Mar 2021 09:17:10 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F57xt6C7Mz19Hqn;
+ Wed, 24 Mar 2021 21:14:58 +0800 (CST)
 Received: from huawei.com (10.174.185.226) by DGGEMS404-HUB.china.huawei.com
  (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Wed, 24 Mar 2021
- 21:16:47 +0800
+ 21:16:48 +0800
 From: Wang Xingang <wangxingang5@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>
-Subject: [PATCH RFC v2 2/6] hw/pci: Add iommu option for pci root bus
-Date: Wed, 24 Mar 2021 13:16:31 +0000
-Message-ID: <1616591795-2056-3-git-send-email-wangxingang5@huawei.com>
+Subject: [PATCH RFC v2 3/6] hw/pci: Add pci_root_bus_max_bus
+Date: Wed, 24 Mar 2021 13:16:32 +0000
+Message-ID: <1616591795-2056-4-git-send-email-wangxingang5@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
 In-Reply-To: <1616591795-2056-1-git-send-email-wangxingang5@huawei.com>
 References: <1616591795-2056-1-git-send-email-wangxingang5@huawei.com>
@@ -35,8 +35,8 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.226]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=wangxingang5@huawei.com; helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=wangxingang5@huawei.com; helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -63,186 +63,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-This add iommu option for pci root bus, including primary bus
-and pxb root bus. The option is valid only if there is a virtual
-iommu device.
+This helps to find max bus number of a root bus.
 
 Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- hw/arm/virt.c                       | 25 +++++++++++++++++++++++++
- hw/i386/pc.c                        | 19 +++++++++++++++++++
- hw/pci-bridge/pci_expander_bridge.c |  3 +++
- hw/pci-host/q35.c                   |  1 +
- include/hw/arm/virt.h               |  1 +
- include/hw/i386/pc.h                |  1 +
- 6 files changed, 50 insertions(+)
+ hw/pci/pci.c         | 34 ++++++++++++++++++++++++++++++++++
+ include/hw/pci/pci.h |  1 +
+ 2 files changed, 35 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index aa2bbd14e0..446b3b867f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1366,6 +1366,7 @@ static void create_pcie(VirtMachineState *vms)
-     }
- 
-     pci = PCI_HOST_BRIDGE(dev);
-+    pci->iommu = vms->primary_bus_iommu;
-     vms->bus = pci->bus;
-     if (vms->bus) {
-         for (i = 0; i < nb_nics; i++) {
-@@ -2319,6 +2320,20 @@ static void virt_set_iommu(Object *obj, const char *value, Error **errp)
-     }
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index b82f39af10..ca26ab7750 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -537,6 +537,40 @@ int pci_bus_num(PCIBus *s)
+     return PCI_BUS_GET_CLASS(s)->bus_num(s);
  }
  
-+static bool virt_get_primary_bus_iommu(Object *obj, Error **errp)
++int pci_root_bus_max_bus(PCIBus *bus)
 +{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
++    PCIHostState *host;
++    PCIDevice *dev;
++    int max_bus = 0;
++    int type, devfn;
++    uint8_t subordinate;
 +
-+    return vms->primary_bus_iommu;
++    if (!pci_bus_is_root(bus)) {
++        return 0;
++    }
++
++    host = PCI_HOST_BRIDGE(BUS(bus)->parent);
++    max_bus = pci_bus_num(host->bus);
++
++    for (devfn = 0; devfn < ARRAY_SIZE(host->bus->devices); devfn++) {
++        dev = host->bus->devices[devfn];
++
++        if (!dev) {
++            continue;
++        }
++
++        type = dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
++        if (type == PCI_HEADER_TYPE_BRIDGE) {
++            subordinate = dev->config[PCI_SUBORDINATE_BUS];
++            if (subordinate > max_bus) {
++                max_bus = subordinate;
++            }
++        }
++    }
++
++    return max_bus;
 +}
 +
-+static void virt_set_primary_bus_iommu(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->primary_bus_iommu = value;
-+}
-+
- static CpuInstanceProperties
- virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+ int pci_bus_numa_node(PCIBus *bus)
  {
-@@ -2652,6 +2667,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set the IOMMU type. "
-                                           "Valid values are none and smmuv3");
- 
-+    object_class_property_add_bool(oc, "primary_bus_iommu",
-+                                  virt_get_primary_bus_iommu,
-+                                  virt_set_primary_bus_iommu);
-+    object_class_property_set_description(oc, "primary_bus_iommu",
-+                                          "Set on/off to enable/disable "
-+                                          "iommu for primary bus");
-+
-     object_class_property_add_bool(oc, "ras", virt_get_ras,
-                                    virt_set_ras);
-     object_class_property_set_description(oc, "ras",
-@@ -2719,6 +2741,9 @@ static void virt_instance_init(Object *obj)
-     /* Default disallows iommu instantiation */
-     vms->iommu = VIRT_IOMMU_NONE;
- 
-+    /* The primary bus is attached to iommu by default */
-+    vms->primary_bus_iommu = true;
-+
-     /* Default disallows RAS instantiation */
-     vms->ras = false;
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 410db9ef96..3426cd9c3f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1531,6 +1531,21 @@ static void pc_machine_set_hpet(Object *obj, bool value, Error **errp)
-     pcms->hpet_enabled = value;
+     return PCI_BUS_GET_CLASS(bus)->numa_node(bus);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 300332bc2c..96adf0220a 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -449,6 +449,7 @@ static inline PCIBus *pci_get_bus(const PCIDevice *dev)
+     return PCI_BUS(qdev_get_parent_bus(DEVICE(dev)));
  }
- 
-+static bool pc_machine_get_primary_bus_iommu(Object *obj, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+
-+    return pcms->primary_bus_iommu;
-+}
-+
-+static void pc_machine_set_primary_bus_iommu(Object *obj, bool value,
-+                                             Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+
-+    pcms->primary_bus_iommu = value;
-+}
-+
- static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
-                                             const char *name, void *opaque,
-                                             Error **errp)
-@@ -1675,6 +1690,7 @@ static void pc_machine_initfn(Object *obj)
- #ifdef CONFIG_HPET
-     pcms->hpet_enabled = true;
- #endif
-+    pcms->primary_bus_iommu = true;
- 
-     pc_system_flash_create(pcms);
-     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
-@@ -1799,6 +1815,9 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_add_bool(oc, "hpet",
-         pc_machine_get_hpet, pc_machine_set_hpet);
- 
-+    object_class_property_add_bool(oc, "primary_bus_iommu",
-+        pc_machine_get_primary_bus_iommu, pc_machine_set_primary_bus_iommu);
-+
-     object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
-         pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
-         NULL, NULL);
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index aedded1064..f1a0eadc03 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -57,6 +57,7 @@ struct PXBDev {
- 
-     uint8_t bus_nr;
-     uint16_t numa_node;
-+    bool iommu;
- };
- 
- static PXBDev *convert_to_pxb(PCIDevice *dev)
-@@ -255,6 +256,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-     bus->map_irq = pxb_map_irq_fn;
- 
-     PCI_HOST_BRIDGE(ds)->bus = bus;
-+    PCI_HOST_BRIDGE(ds)->iommu = pxb->iommu;
- 
-     pxb_register_bus(dev, bus, &local_err);
-     if (local_err) {
-@@ -301,6 +303,7 @@ static Property pxb_dev_properties[] = {
-     /* Note: 0 is not a legal PXB bus number. */
-     DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-     DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-+    DEFINE_PROP_BOOL("iommu", PXBDev, iommu, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 2eb729dff5..3b23fd0975 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -64,6 +64,7 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
-                                 s->mch.address_space_io,
-                                 0, TYPE_PCIE_BUS);
-     PC_MACHINE(qdev_get_machine())->bus = pci->bus;
-+    pci->iommu = PC_MACHINE(qdev_get_machine())->primary_bus_iommu;
-     qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
- }
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 921416f918..1fbb19710f 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -147,6 +147,7 @@ struct VirtMachineState {
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
-+    bool primary_bus_iommu;
-     VirtMSIControllerType msi_controller;
-     uint16_t virtio_iommu_bdf;
-     struct arm_boot_info bootinfo;
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index d4c3d73c11..61137b3bd8 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -45,6 +45,7 @@ typedef struct PCMachineState {
-     bool sata_enabled;
-     bool pit_enabled;
-     bool hpet_enabled;
-+    bool primary_bus_iommu;
-     uint64_t max_fw_size;
-     char *oem_id;
-     char *oem_table_id;
+ int pci_bus_num(PCIBus *s);
++int pci_root_bus_max_bus(PCIBus *bus);
+ static inline int pci_dev_bus_num(const PCIDevice *dev)
+ {
+     return pci_bus_num(pci_get_bus(dev));
 -- 
 2.19.1
 
