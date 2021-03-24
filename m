@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386E43471E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:54:19 +0100 (CET)
-Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF223471E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:53:11 +0100 (CET)
+Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOxPG-0006Ak-95
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:54:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
+	id 1lOxOA-0005NE-EK
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOxLu-0004Iu-22
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:50:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60508)
+ id 1lOxM0-0004K7-W8
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:50:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOxLr-0005or-BS
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:50:49 -0400
+ id 1lOxLu-0005qe-SW
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:50:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOxLo-00036J-LH
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:50:44 +0000
+ id 1lOxLt-0003Ff-0h
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:50:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9B9772E8157
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:50:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 018952E816A
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:50:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Mar 2021 06:41:31 -0000
+Date: Wed, 24 Mar 2021 06:44:50 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1920784@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -53,14 +53,14 @@ X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
-Message-Id: <161656809120.851.12308410347120014741.malone@soybean.canonical.com>
+Message-Id: <161656829134.20059.463960810670452733.malone@wampee.canonical.com>
 Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 1a266930b66fd7cbc50406fa2cefb6044ade0034
+X-Launchpad-Hash: 87ac9ed39312de0f39580a73f5212c5ac17ff721
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -85,25 +85,9 @@ Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Sadoon - yes, that is the same fix that Laurent pointed to a few hours
-before.
-
-@Frank - the kernel I had before was 5.11.0-11-generic (failing). I've
-tested "5.11.0-13-generic #14~lp1920784" from your PPA and can confirm
-that this fixes the issue.
-
-Thanks Laurent for identifying the fix and thanks Frank for the kernel.
-I'll mark bug tasks accordingly and @Frank you'll let me know if there is a=
-nything else you need to drive this to completion.
-
-** Changed in: qemu
-       Status: New =3D> Invalid
-
-** Changed in: glibc (Ubuntu)
-       Status: New =3D> Invalid
-
-** Changed in: qemu (Ubuntu)
-       Status: Confirmed =3D> Invalid
+And gladly this was only added in >=3D5.9 and we have Groovy (5.8) and
+Hirsute (5.11) so only the Hirsute kernel is needed to adapt, but
+further backports are not needed.
 
 -- =
 
