@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD7D3477EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 13:11:35 +0100 (CET)
-Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563BB34787E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 13:28:20 +0100 (CET)
+Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP2MH-0001zI-Sz
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 08:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37548)
+	id 1lP2cU-00058t-Ql
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 08:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lP2KO-0001Np-MW
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 08:09:37 -0400
-Received: from mout.web.de ([212.227.15.14]:44355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lP2KM-0000TK-Fo
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 08:09:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616587768;
- bh=XvszuPyTABFQGVt9JQbwuasP798OdCborsLx3mC6YiM=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=eSL9Axy97+opgo+3JDdLcNh0pZOZFM/9n80qGzO8sDwCHChVdJFPp0bnjdrCQed6F
- 98rTm1TPXTCc8e04uxrvAm02s5Tg/K99aBBlFUX8GEsaraRGFJzOBO8OiBGzB1uCP0
- mn6wSuDMfX3IWG18tEZVoUL9+tnTcSTOjqyIKaB4=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([87.123.206.218]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lpw63-1luGTP27Il-00fffp; Wed, 24
- Mar 2021 13:09:28 +0100
-Date: Wed, 24 Mar 2021 13:09:11 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH 0/2] yank: Always link full yank code
-Message-ID: <20210324130912.0490afb8@gecko.fritz.box>
-In-Reply-To: <YFskLauf5ZZ4RJwi@redhat.com>
-References: <cover.1616521341.git.lukasstraub2@web.de>
- <YFo82zpHQf+zQ8+Q@redhat.com>
- <20210324122242.6843f29e@gecko.fritz.box>
- <YFskLauf5ZZ4RJwi@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lP2ad-0004cl-JA; Wed, 24 Mar 2021 08:26:23 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42412)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lP2aa-0001Z3-7E; Wed, 24 Mar 2021 08:26:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=lIL+OKw/7C13NOI2FJOhiqbMZqhwZeakdoSHSOeq3pE=; 
+ b=kL5/HavM0TmFIZYfGlpbcg4hMnOtrBRuYZ0mj30YH+xpd9a593DD0dWJQ/3d04h5ukRa194clBIIpu8lcZ4uGYfKEaAgZnm/yDRAAPuKd52h8BUTRyabgOXayUYUvjwPlMwrO1o1ENu2Lt5UJBgI6xNBs7DgPoB35o/2mWqwB40rIPeH8BWvxKw1mUrg/zyaWZmSZACwWuiAXvY71ECZHiJn2+WheCYdBatvkWRUW5wm1WT563wpZvUxdh5SJHkXTfULDGPKr1nUwcjd5RkYNF3VUv/q5R9wdtaVDCbNEZTNdfuS5VgDoDcKnU5Q1U5inyFg7Qe+4434MnWQ3JjDaA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1lP2aA-000172-CI; Wed, 24 Mar 2021 13:25:54 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1lP2aA-0003gQ-2f; Wed, 24 Mar 2021 13:25:54 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 2/6] block: Allow changing bs->file on reopen
+In-Reply-To: <1a4ca40e-5924-4bef-d8b7-6a6b3eac32f5@virtuozzo.com>
+References: <cover.1616000692.git.berto@igalia.com>
+ <31ccb1061199ee11bf9879f6c60608a19b83263d.1616000692.git.berto@igalia.com>
+ <1a4ca40e-5924-4bef-d8b7-6a6b3eac32f5@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 24 Mar 2021 13:25:54 +0100
+Message-ID: <w515z1gviul.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jLVyqHBNEVRNXMPuh6b854H";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:uEJLe2J5GT6ymDr4qgftf7sQ+AMELIIQQxt1V7BwmHyreOkXSys
- uPgkacePeSjm6ga84WCrmzblyjZriOZiIVag9kejha2RASol88RhaH765hFqxa5lpb+OQBJ
- haHXHWoG5e5C0nxe9rFAHHLE3DZzssVVoHbAJJeo8prCEFZaMMBWLscuEoKYxARapr3F/lv
- Fccni8r1jcG491/sQJwzw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dNe+GD72CPA=:sqjwuLLdE3Fr76HY/T5W8u
- LgzcffSFtxlBlVqyvRhjCJmIg7NCMrZC65FJboq9pMcFD+56mU1doQ19iUy1mQ1Ese40L6784
- 730zKNd/6k7utL7/woKT27xMBI3Nxxk/2g238Kiq0oTp7DeLxZoMVPtEz6dLE61UfgrUmjxcu
- F9lKNxYY/9NegkxPWuTImYjcCNea7mk+CiBtQt0SeRbLwvL2jnGuiAH7e/YDbpcZxelR9drt2
- +64ErXcr77vkW7sEmVvIuRjC6k91FKHwPBXi1v87vsk8Y+E9i56KY0mwpvOt4wzElJzZGb7Bq
- 0a20+K04f/Gv0gpsMfgoZHQIVASANkNboHvMU2SM3xLQDwZb/NZRpTjFjcANZrVboZJG7x8Er
- grlkBFYrNqQJhEjk5U9dz2uVcW2ei83DXk3+s+qjrIr4uWxP8apxRYrCB1A4tySOoEBpDPt50
- FqDdnM/KG9xMMO64H/dTGQu99F490sDIa3ueCDBiVF2utKOX7/XS0RAPb6cEQbf0L0NyhI6E3
- MeOO4x45h2L86hAwwhH6pRnnjxFKOBfipNNHBKX2zf95wVewR1O7Izmazr1X+e9iBl5yaLi9j
- mHCFmxn6vcTkUW1zLb9qFhWWtC7t9gM5uZYX3/M7ZHwfgxl+zzdp4v3g9vi7bvEmqGHkV+MXq
- 3Kd2Zjivlxsh6ubkATpL3GOrcfu6/SGy02jMCk0sNgzVjcWfDwZs/QBXU/gxu9Cso4GldAr0Q
- 4hkLFFUmlA6PWpm4SHEkSkzDP1+7ll+vA6v531imUmWigmN+WZlfWhQFZ0BYcJJQD1PTOv6wY
- jYoOUu0Xrnzsiv5tq5e6ARiziYuOTuxsYT2a1zn69G2AZLoAFs9nc9GtVNuGFO3l0Gs0t+hWX
- ritgJW98quf2gjT2ggmw==
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,91 +62,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/jLVyqHBNEVRNXMPuh6b854H
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Thu 18 Mar 2021 03:25:07 PM CET, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+>>   static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
+>>                                  BlockReopenQueue *queue,
+>> -                               Transaction *set_backings_tran, Error **errp);
+>> +                               Transaction *tran, Error **errp);
+>
+> I'd not call it just "tran" to not interfere with transaction
+> actions. Of course, reopen should be finally refactored to work
+> cleanly on Transaction API, but that is not done yet. And here we pass
+> a transaction pointer only to keep children modification.. So, let's
+> make it change_child_tran, or something like this.
 
-On Wed, 24 Mar 2021 11:36:13 +0000
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+The name change looks good to me.
 
-> On Wed, Mar 24, 2021 at 12:22:42PM +0100, Lukas Straub wrote:
-> > On Tue, 23 Mar 2021 19:09:15 +0000
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >  =20
-> > > On Tue, Mar 23, 2021 at 06:52:19PM +0100, Lukas Straub wrote: =20
-> > > > Hello Everyone,
-> > > > These patches remove yank's dependency on qiochannel and always lin=
-k it in.
-> > > > Please Review.   =20
-> > >=20
-> > > It would be useful if the cover letter or commit messages explained
-> > > to potential reviewers why this is being changed... The first patch
-> > > feels like a regression to me, without seeing an explanation why
-> > > it is desirable. =20
-> >=20
-> > Yes, sorry. There are two reasons for this patchset:
-> > -To exercise the full yank code (with checks for registering and unregi=
-stering
-> >  of yank functions and instances) in existing tests and in the new yank=
- test
-> >  (https://lore.kernel.org/qemu-devel/cover.1616521487.git.lukasstraub2@=
-web.de/)
-> > -To replace "[PATCH] yank: Avoid linking into executables that don't wa=
-nt it"
-> >  (https://lore.kernel.org/qemu-devel/20210316135907.3646901-1-armbru@re=
-dhat.com/)
-> >  Now we always link in yank, but without pulling in other dependencies.=
- =20
->=20
-> Conceptually, the real world usage of yank is in combination with parts
-> of QEMU doing I/O, and so they will always have the "io" subsystem
-> available. Thus it feels wrong to be refactoring this to avoid an
-> "io" dependancy.  I think this probably suggests that the yank code
-> shouldn't be in libqemuutil.la, but instead part of the "io" subsystem
-> to make the association/dependency explicit
+>> +        } else if (bdrv_recurse_has_child(new_child_bs, bs)) {
+>> +            error_setg(errp, "Making '%s' a %s of '%s' would create a cycle",
+>> +                       str, parse_file ? "file" : "backing file",
+>
+> maybe s/"file"/"file child"/
 
-Yes, makes sense. On the other hand I think that the yank functions should =
-be
-separate from the yank core anyway.
+Ok.
 
-Regards,
-Lukas Straub
+>>       default:
+>> -        /* 'backing' does not allow any other data type */
+>> +        /* The options QDict has been flattened, so 'backing' and 'file'
+>> +         * do not allow any other data type here. */
+>
+> checkpatch should complain that you didn't fix style of the comment...
 
->=20
-> Regards,
-> Daniel
+I actually don't like to use the proposed style for 2-line comments in
+many cases. I think it makes sense for big comment blocks but adds noise
+for shorter comments.
 
+>> +    } else {
+>> +        /*
+>> +         * Ensure that @bs can really handle backing files, because we are
+>> +         * about to give it one (or swap the existing one)
+>> +         */
+>> +        if (bs->drv->is_filter) {
+>> +            /* Filters always have a file or a backing child */
+>
+> Probably we can assert bs->backing, as otherwise backing option should
+> be unsupported [preexisting, not about this patch]
 
+Yes, I see that this was added in commit 1d42f48c3a, maybe Max has good
+reasons to keep it this way?
 
---=20
+>>           if (bdrv_is_backing_chain_frozen(overlay_bs,
+>> -                                         child_bs(overlay_bs->backing), errp))
+>> +                                         bdrv_filter_or_cow_bs(overlay_bs),
+>> +                                         errp))
+>>           {
+>>               return -EPERM;
+>>           }
 
+I just realized that this part is probably not ok if you want to change
+bs->file on a node that is not a filter, because this would check
+bs->backing->frozen and not bs->file->frozen.
 
---Sig_/jLVyqHBNEVRNXMPuh6b854H
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>> +        if (parse_file) {
+>> +            /* Store the old file bs, we'll need to refresh its permissions */
+>> +            reopen_state->old_file_bs = bs->file->bs;
+>> +
+>> +            /* And finally replace the child */
+>> +            bdrv_replace_child(bs->file, new_child_bs, tran);
+>
+> I think that actually, we need also to update inherits_from and do
+> refresh_limits like in bdrv_set_backing_noperm().
 
------BEGIN PGP SIGNATURE-----
+Yes, I think you're right.
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBbK+gACgkQNasLKJxd
-sljp9Q/9HQkaA3aN4ZgxVMFE11Cb33QjAJbZ2jxfk7Z2Z7RSc8A0vyEq5HNexUtj
-wgk47Gl7Rk0M5vyMCXNhKgkGC7yDwRhvqk9L+5py2rTMCL9AHUXr3v2NQRbZwlBZ
-HB8QTqArBaRBwMBBI/ZW8syFcQgjwKqSDL1WiRvfPgP77Eia/xtQhfAiPwfSDcuy
-AIR95E5dCA6dWjv09JYpIROqTG3pzyJdRPwESDMKgtHEVLrxHHaUk3XzvO1doNVs
-j7fLaLKshniTKqC78FJtlRvcinHJzxteg3WAF+85Z3nyTr1gpi3lk+T4CYtQv936
-0PCjIaO4D4ML3k4ROG2Fp5Pdx0QN4kwINbzwrHfUm/xPjlf2Q8I0AppJ6DLbfX7q
-J7V7TOxgGoxvYVZtN9obZuoZaPo15IP/36EF8l6r05J5PNloYXBtA/VYPG1pjlrA
-Qh8OTxst+y0lcxJsZuoKS7wLiURGtnkIZTo/kWFDAMSMF8mHJe9iMev1gE3tUz5G
-GycCoj9lngyFV964kYCNW8FM3D8Ee/GLY9cyRqlkYlJBKLj7vjtUiBmwVqrpcAaN
-aTOvFNA7k+1a+mqj1iHgGEeAH/naRxNA6gjE2oIuD9bXZ1L8sHtfUB47uJXpBuhO
-GPAzBdqHwbrxhWjHKkC13Qh+JoTZKNGsb774EH2WrY0BP0W4Lg0=
-=hQAL
------END PGP SIGNATURE-----
+> Probably, bdrv_replace_child should do it. Probably not (there are
+> still a lot of things to refactor in block.c :)..
+>
+> Hm. Also, using blockdev-reopen probably means that we are in a
+>blockdev word, so we should not care about inherits_from here.
 
---Sig_/jLVyqHBNEVRNXMPuh6b854H--
+But with blockdev-reopen we do update inherits_from for backing files,
+don't we?
+
+> Also, you don't create reopen_state->replace_file_bs, like for
+> backing.. On bdrv_reopen_comnmit replace_backing_bs is used to remove
+> corresponding options.. Shouldn't we do the same with file options?
+
+I think you're right.
+
+>> -        self.reopen(opts, {'file': 'not-found'}, "Cannot change the option 'file'")
+>> -        self.reopen(opts, {'file': ''}, "Cannot change the option 'file'")
+>> +        self.reopen(opts, {'file': 'not-found'}, "Cannot find device='' nor node-name='not-found'")
+>
+> Interesting that error-message say about device='', not 'not-found'...
+
+That's because 'file' refers to a node name.
+
+Thanks for reviewing,
+
+Berto
 
