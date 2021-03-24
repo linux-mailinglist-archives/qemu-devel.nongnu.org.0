@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5109B348497
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 23:26:32 +0100 (CET)
-Received: from localhost ([::1]:48140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EC2348529
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 00:19:27 +0100 (CET)
+Received: from localhost ([::1]:54496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPBxP-0001Yg-0K
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 18:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41064)
+	id 1lPCmc-0004mT-JO
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 19:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPBvo-00012Q-92
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:24:52 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:39646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPBvm-0004qV-PD
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:24:51 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id i81so95616oif.6
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KzgjC41GlGUgEcW4EtZgEnaDTou5lwE8of8dnjiCXfk=;
- b=hquR4eNgekfeTRjV6ka4AgK5o/3DRevvSDAGQD+uflmIZwcbTEYK5HNFHIsrsJTz+O
- iQzxHeiXZRfl7Pntu/rDEluO1Ly/zfJ/FBxRzZpCuOO3IGT+Jjr00u9YsiZ0HskZtQAQ
- jNoU/nX6uonjes5qqULcxB4Vi2i/n/sgcpynqqC4JfQZLS3MfJl1K/ig7pa59+jejIpD
- rm5cN4ZKFUwZgMplcQsCz77zaLwMEjaA7K1jdpS0EeWuf86gXaDNAutlr9UO+fxj3sA2
- +zmuwf0vfs0QNbDt5xJRF5TkyFH8fhNtxniYmNk0o8K+9kIz/iAVkOsJoA1lL4FbUk0W
- QRcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KzgjC41GlGUgEcW4EtZgEnaDTou5lwE8of8dnjiCXfk=;
- b=IGnhnhcKcNP4iD9BiOCjoNZzpyVqNvNePaZwnanYNFcyIUU4lAC6NuHZNzYJc8t33q
- c2HREhd3BC38zbUf8AEHeqKhF+zj6awrFtq+MiwQof3yG9MD45yiGsG0+1ZHbhnPLpqu
- XX5ZgfPSR7Ppi3uP0EikGtwF1A0wvm+W8ZTz3Zg86isqwYxwUPThpmsnsbd0M9ekN5uO
- Nod/6LunY/8K69QQz+xoZQtSQmiNd5z2oAFmeY02QFSWNDPgW/0f9HPW1GxI50RbU+Wm
- AGDSHjBvrZWOD3shLJPGZ8Nw4nffWmB2bONzjZZB/5kCs3w4kY9sRr89bdLRpm0Tuqi0
- ILFA==
-X-Gm-Message-State: AOAM531yQXVTPgRce3VNCXuKvOpArnFmTci+P5ykMT67vuDnrlAfpMEB
- JYsIXKUC/kyqmFh3N3jXDUSr0w==
-X-Google-Smtp-Source: ABdhPJwj6NV5Tlu7787uXcPKkqyxmiNPWNvSP5sfUBe7CfywI9uilK8nHznGkMDkATVHQ0Ork5DbcQ==
-X-Received: by 2002:aca:d907:: with SMTP id q7mr3943146oig.17.1616624689608;
- Wed, 24 Mar 2021 15:24:49 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id e18sm890074otf.2.2021.03.24.15.24.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 15:24:49 -0700 (PDT)
-Subject: Re: [RFC v11 27/55] target/arm: move sve_exception_el out of TCG
- helpers
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-20-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9617488a-76f4-920f-591d-2c0527109833@linaro.org>
-Date: Wed, 24 Mar 2021 16:24:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCgL-0000XT-PT
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:12:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCgJ-0001e8-LA
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:12:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616627574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Fy8cV+wvVetMrpUGY9G9yO801jZuxKox6uq2Kbq6kg=;
+ b=BabxIcac433PQrHqdXDrMyjtT7xLnEHFXv4z2HbApAQlUsj20Tb1FhzX2bqNqaMam+TACN
+ jSNI8e9YzkRrOBg0njmh7rqski+iSggwOuzo6Fk2R5z8aySY8GDmnv7EkKgzpPQUjejLs/
+ eqOHFAgwgPlLOZ+XtL+1U2AVsibBAqQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-03tVtLhZMMaQTUvKJ6Evug-1; Wed, 24 Mar 2021 19:12:52 -0400
+X-MC-Unique: 03tVtLhZMMaQTUvKJ6Evug-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02EE6911E4;
+ Wed, 24 Mar 2021 23:12:51 +0000 (UTC)
+Received: from localhost (ovpn-119-39.rdu2.redhat.com [10.10.119.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5FC85C730;
+ Wed, 24 Mar 2021 23:12:43 +0000 (UTC)
+Date: Wed, 24 Mar 2021 18:27:18 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 05/10] Acceptance Tests: add port redirection for ssh
+ by default
+Message-ID: <20210324222718.GC3592254@amachine.somewhere>
+References: <20210323221539.3532660-1-crosa@redhat.com>
+ <20210323221539.3532660-6-crosa@redhat.com>
+ <3d9fc9c8-d6ac-2829-9ddb-6484142463d0@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-20-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <3d9fc9c8-d6ac-2829-9ddb-6484142463d0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GZVR6ND4mMseVXL/"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,24 +79,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Eric Auger <eauger@redhat.com>,
+ John Snow <jsnow@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> we need this for KVM too.
-> 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> ---
->   target/arm/cpu-sysemu.c | 60 ++++++++++++++++++++++++++++++++++++++++
->   target/arm/cpu-user.c   |  5 ++++
->   target/arm/tcg/helper.c | 61 -----------------------------------------
->   3 files changed, 65 insertions(+), 61 deletions(-)
+--GZVR6ND4mMseVXL/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Mar 24, 2021 at 10:10:50AM +0100, Auger Eric wrote:
+> Hi Cleber,
+>=20
+> On 3/23/21 11:15 PM, Cleber Rosa wrote:
+> > For users of the LinuxTest class, let's set up the VM with the port
+> > redirection for SSH, instead of requiring each test to set the same
+> also sets the network device to virtio-net. This may be worth mentioning
+> here in the commit msg.
 
+Absolutely, I've added that note.
 
-r~
+> > arguments.
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+>=20
+> Thanks
+>=20
+> Eric
+>
+
+Thank you!
+- Cleber
+
+--GZVR6ND4mMseVXL/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBbvMYACgkQZX6NM6Xy
+CfMH+w//Ttca0FkL+GUTs0BS3iWBMUkpb+ZruJHCTnJulZ2+3EBpG/cp2KrKW12a
+cMLpO8/Nj9JBv5jvZ0JJnNDPN0qENdAyZ7yo93jRqu+eFgpVAoAZICDfJjkjDtfT
+stjpWtjeDYQKrjFj1PFMbTNefB1/oHaXZrQlQdwggjMPiBh3nDXAlWv+QIOG6jHF
+ynk2wc0mLm/H9KgpfAnucGXCeji8UK6aNzXZMz7AdxgLMoKHmVfX8pIZlOW3TWGv
+e535c6Xl1uugBwicQGogwLvB8htYR1ap3RGfXrVvXWr/wpS5RVj5ssyxh7EI0jVJ
+xlwiMSYZy6a0Ao8W21hTVlHCeWFgMpkVOuzxTyLiNZQ5XJjtMGM+i7fqpNmKT6DL
+cZ6dmkZJfnJh3Jp5oQiIkorihnmBMsll3hFZrsOqzGsGXUK04m15/DaVobf6MoMV
+7UAtlUxfR7osl/KHsxB3L4XSwigipFUSIL9N2V1In14W6TaeeKv892YXle5FxZW2
+5LZjR9yDEqnycg+aEw9NIY5WYMNlkrVsJ3/UUlx9tBIo5eAqsR9x3hFFvRBPjwMh
+g022dm+5CKVbmSfbiypiXdkXfvTk3Xsm1XzbDa/jfantPYIaUPIIkfNiTnuqjk1G
+TwmDfrQQCIZ0sAqHsNmjO75wfn9JgCvznCVgRoYDJb8QgZ7USGg=
+=PbwA
+-----END PGP SIGNATURE-----
+
+--GZVR6ND4mMseVXL/--
+
 
