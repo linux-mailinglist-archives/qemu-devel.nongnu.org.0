@@ -2,50 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885E3346EFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:46:48 +0100 (CET)
-Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD44F346E6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:01:18 +0100 (CET)
+Received: from localhost ([::1]:39026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOsbf-0006yX-Dm
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:46:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36850)
+	id 1lOrtd-0006GR-Fo
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOsPw-0004QB-Kv; Tue, 23 Mar 2021 21:34:40 -0400
-Received: from ozlabs.org ([203.11.71.1]:41251)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lOrrm-0005Qe-3e
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 20:59:22 -0400
+Received: from mga02.intel.com ([134.134.136.20]:8265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOsPu-0001mD-Gs; Tue, 23 Mar 2021 21:34:40 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F4rPd0mH5z9sXS; Wed, 24 Mar 2021 12:34:29 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616549669;
- bh=fp39D3tGptJ3iDoH9NbZJFhYcltZejBi7zBZyT1gnOg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Q6yWCsabfMwZ0EurUC5z9rpMJz3B8l5fP7Emk8zWZRl+/3KegLF0Ck1c4rEZqa/G2
- SXJXqLODNa6bBqRQwWmx+JYeOucgcGawbOTGzmljdYv/LQHvaoanzG7HUOX5lervgX
- +N0aeI7P5sOy5Fsn/sigcLnBpJMMON9ZZAqAkmmE=
-Date: Wed, 24 Mar 2021 11:12:20 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 10/10] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
-Message-ID: <YFqD5JOVEXVFv9Tr@yekko.fritz.box>
-References: <20210323184340.619757-1-richard.henderson@linaro.org>
- <20210323184340.619757-11-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lOrrj-00024N-7h
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 20:59:21 -0400
+IronPort-SDR: dfeWT6FVo94SA5yfbYZ9xUtwWIdV2ECpkdbLYaxWtKkJ/00LmtAcjQcU8KpJkhjvAh2ftllu2h
+ Cn9aP+yZNz8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="177716738"
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; d="scan'208";a="177716738"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2021 17:59:12 -0700
+IronPort-SDR: XrT1ofADyJftNnM5pdrfzncDzJOjJFtGVuxKWnZCvwUEWPthxdV9Q+60VDpbehIQqbflFaLRDt
+ dqh+LBXuuKfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; d="scan'208";a="435774700"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga004.fm.intel.com with ESMTP; 23 Mar 2021 17:59:12 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 23 Mar 2021 17:59:11 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 24 Mar 2021 08:59:09 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
+ Wed, 24 Mar 2021 08:59:09 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: RE: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
+Thread-Topic: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
+Thread-Index: AQHXHHRy9AmyzOXAOUuzqhkS7ODhyaqLdaKdgAQ8XnCAAEOtSYABJQqQgABBkvuAAPu6sA==
+Date: Wed, 24 Mar 2021 00:59:09 +0000
+Message-ID: <e107af35a1cd4143b1da89b3fc27c68a@intel.com>
+References: <20210319035508.113741-1-chen.zhang@intel.com>
+ <20210319035508.113741-3-chen.zhang@intel.com>
+ <877dm3i1qk.fsf@dusky.pond.sub.org>
+ <5b75057ecc784296aa271f5f6692906a@intel.com>
+ <87k0pz4bg8.fsf@dusky.pond.sub.org>
+ <4ffb0d8b135b40caba777a830b70ae18@intel.com>
+ <871rc6urdc.fsf@dusky.pond.sub.org>
+In-Reply-To: <871rc6urdc.fsf@dusky.pond.sub.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+7JJfLQPX6wRrRzJ"
-Content-Disposition: inline
-In-Reply-To: <20210323184340.619757-11-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=chen.zhang@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,133 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---+7JJfLQPX6wRrRzJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 23, 2021 at 12:43:40PM -0600, Richard Henderson wrote:
-> Verify that hflags was updated correctly whenever we change
-> cpu state that is used by hflags.
+> -----Original Message-----
+> From: Markus Armbruster <armbru@redhat.com>
+> Sent: Tuesday, March 23, 2021 5:55 PM
+> To: Zhang, Chen <chen.zhang@intel.com>
+> Cc: Lukas Straub <lukasstraub2@web.de>; Li Zhijian
+> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; qemu-
+> dev <qemu-devel@nongnu.org>; Dr. David Alan Gilbert
+> <dgilbert@redhat.com>; Zhang Chen <zhangckid@gmail.com>
+> Subject: Re: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
 >=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Applied to ppc-for-6.0, thanks.
-
-> ---
->  target/ppc/cpu.h         |  5 +++++
->  target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
->  2 files changed, 32 insertions(+), 2 deletions(-)
+> "Zhang, Chen" <chen.zhang@intel.com> writes:
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 3d021f61f3..69fc9a2831 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -2425,6 +2425,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulong =
-xer);
->   */
->  #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B))
-> =20
-> +#ifdef CONFIG_DEBUG_TCG
-> +void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-> +                          target_ulong *cs_base, uint32_t *flags);
-> +#else
->  static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *=
-pc,
->                                          target_ulong *cs_base, uint32_t =
-*flags)
->  {
-> @@ -2432,6 +2436,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState=
- *env, target_ulong *pc,
->      *cs_base =3D 0;
->      *flags =3D env->hflags;
->  }
-> +#endif
-> =20
->  void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
->  void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t excepti=
-on,
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 5411a67e9a..3723872aa6 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
->      env->tgpr[3] =3D tmp;
->  }
-> =20
-> -void hreg_compute_hflags(CPUPPCState *env)
-> +static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
->  {
->      target_ulong msr =3D env->msr;
->      uint32_t ppc_flags =3D env->flags;
-> @@ -155,9 +155,34 @@ void hreg_compute_hflags(CPUPPCState *env)
->      hflags |=3D dmmu_idx << HFLAGS_DMMU_IDX;
->  #endif
-> =20
-> -    env->hflags =3D hflags | (msr & msr_mask);
-> +    return hflags | (msr & msr_mask);
->  }
-> =20
-> +void hreg_compute_hflags(CPUPPCState *env)
-> +{
-> +    env->hflags =3D hreg_compute_hflags_value(env);
-> +}
-> +
-> +#ifdef CONFIG_DEBUG_TCG
-> +void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
-> +                          target_ulong *cs_base, uint32_t *flags)
-> +{
-> +    uint32_t hflags_current =3D env->hflags;
-> +    uint32_t hflags_rebuilt;
-> +
-> +    *pc =3D env->nip;
-> +    *cs_base =3D 0;
-> +    *flags =3D hflags_current;
-> +
-> +    hflags_rebuilt =3D hreg_compute_hflags_value(env);
-> +    if (unlikely(hflags_current !=3D hflags_rebuilt)) {
-> +        cpu_abort(env_cpu(env),
-> +                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)\n=
-",
-> +                  hflags_current, hflags_rebuilt);
-> +    }
-> +}
-> +#endif
-> +
->  void cpu_interrupt_exittb(CPUState *cs)
->  {
->      if (!kvm_enabled()) {
+> >> -----Original Message-----
+> >> From: Markus Armbruster <armbru@redhat.com>
+> [...]
+> >> Naming the argument type L4_Connection is misleading.
+> >>
+> >> Even naming the match arguments L4_Connection would be misleading.
+> >> "Connection" has a specific meaning in networking.  There are TCP
+> >> connections.  There is no such thing as an UDP connection.
+> >>
+> >> A TCP connection is uniquely identified by a pair of endpoints, i.e.
+> >> by source address, source port, destination address, destination port.
+> >> Same for other connection-oriented protocols.  The protocol is not
+> >> part of the connection.  Thus, L4_Connection would be misleading even
+> >> for the connection-oriented case.
+> >>
+> >> You need a named type for colo-passthrough-add's argument because
+> you
+> >> share it with colo-passthrough-del.  I'm not sure that's what we want
+> >> (I'm going to write more on that in a moment).  If it is what we
+> >> want, then please pick a another, descriptive name.
+> >
+> > What do you think the "L4BypassRule" or "NetworkRule" ?
+>=20
+> NetworkRule is too generic.
+>=20
+> What about ColoPassthroughRule?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+It can be used by net filter modules(filter mirror,filter-dump....) in the =
+future, that's not just for COLO.
+PassthroughRule is better?
 
---+7JJfLQPX6wRrRzJ
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks
+Chen
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBag+MACgkQbDjKyiDZ
-s5IzERAA5Mi2qaXzzaLyAx+Ryr8vXv/rariNJsNK1cuDkPoGyGGqvjUnH2pGhM5I
-E2G8QwgI4mI994uy5Mc+H+0um1jv+3fAwk/O+5JTzwnPAuGR1WWddxV2/lob0MhU
-u9kw0bTgtILoqT91aC8gbkWlF0c5+ksH0MUTViBaSnCoqxfgYV/uJosZdMr/fRID
-d0LjmbhVuI2pzDXZFLJiAbcmLa1/v71HLerdGI56BMc9JRR3V4W/xUOe08XWttEE
-Uc1zFiJQJ1+d8PffN71UREPUTKSWCPSYWkHdMy5DgJ9Cnb02BVOgjmRlFL2GcmO6
-l8FH2C2d7KgwzW3CBqejSmeaaF/Si3/bw/4MkorUtfY2ddjPW617P27CtAUEo2dr
-8iI5nL89iawo4FMjGtFwUe1f+UPTCzzHfOSTG5VJWGnhTLkC87bBg7CGmQe4a/Qx
-y5BneR73angj9r9T0IUUqa8KABMLzePgO/7JAw4iO4OWN+Ro0RGZT10qeo4HI/45
-XFgD3K6/AwwJu88NDifCY2/ouLAj8hAbPYDGhESWnnREl9CT8GtUXbZIAtmL1Kx9
-WnwSBVVDYQzPpTX08rApB8fiC9WIwoKV0/vdSPLlEZJy4Pnz1xtwSc6MzhLXMjGp
-c3YsAYEeyYJ/ZjpWD+1aok0c8+CK1NuJisamAjzo2E3ECct5P5c=
-=tFpg
------END PGP SIGNATURE-----
-
---+7JJfLQPX6wRrRzJ--
 
