@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4669E348523
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 00:16:19 +0100 (CET)
-Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D2A3484A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 23:31:04 +0100 (CET)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPCja-0002lb-C0
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 19:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
+	id 1lPC1m-0003fV-En
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 18:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCgD-0000Up-Mr
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:12:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCgC-0001bG-1W
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:12:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616627567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q3MlC07NEHG840Bpp+xkIdg8NOr1Ux/kclAmBRMEvLE=;
- b=gS/x0yt6Up2cSqtMnoW66JZXcWW3LqLFz0Mf0RvA1J9K3eUCakhDZ4gjA7qIodfT4luLE2
- LMVQu3FhMB6ym0xC+yMdudwCt5myxlNn7lJVDUtUh5gfVyL2Lca9jk+moF9knKiGZKAVHC
- WpZdxt09VFGZwVhikyPaeXCIre5zUJ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-GXsT7DssOXmtbqzoPi-4PA-1; Wed, 24 Mar 2021 19:12:43 -0400
-X-MC-Unique: GXsT7DssOXmtbqzoPi-4PA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2258618C89E4;
- Wed, 24 Mar 2021 23:12:42 +0000 (UTC)
-Received: from localhost (ovpn-119-39.rdu2.redhat.com [10.10.119.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4677E5C257;
- Wed, 24 Mar 2021 23:12:36 +0000 (UTC)
-Date: Wed, 24 Mar 2021 18:28:14 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2 05/10] Acceptance Tests: add port redirection for ssh
- by default
-Message-ID: <20210324222814.GD3592254@amachine.somewhere>
-References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-6-crosa@redhat.com>
- <CAJ+F1C+ODGnkhEmtM7=aKCW4WLjhkw4jU73sTZVWKa6hOkCXCw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPC05-0002zd-Fl
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:29:17 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:44689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPC03-0006pl-Qs
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:29:17 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id a8so77904oic.11
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FPzqpdgj04KCimIrErQaZEc3E3soj6nME3Sa+guq/bE=;
+ b=nh4mez0gKSTOhWM7kE4SCNFGfXNWRYRj5a1YSWKpWyQCcY3pYV/F1DOukGmL4Vo0YP
+ 5ZoI3bVD7J0zPsLRXeGuSTWWHAiB2bpgyps1Q7mjjwUeTgQQoxYDruRmWNVD8MoBmLSf
+ C04SggjOKO4eLIulzCaRKLMzQbDS2niyPwMhlbiWImDeb/X6xbLNsxsmVQBlaGhVAhZ/
+ 9WKOs8rRJCU3beuCNFFdKcVJKsyWreKdUHikiKNDNhzFDDQKlej71+4QQimpsWcXhbRz
+ B2SMyJq+teLJ3eg85SbhS/BC2qSUxhQP7qhKz9K7E2RB6eBMR9cyOEWsgUEP33Tdwiyj
+ AweA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FPzqpdgj04KCimIrErQaZEc3E3soj6nME3Sa+guq/bE=;
+ b=toRu6cYmdZbq36DvGA++S4WrUKQRmnylem2sAnzZ1nZc3MrLrmJfL8hOuCAzyadFBL
+ MtnzcnniHr06wHkZBsFzv/iwS/XhEFKjYcY7IS7BXc3Uc6sIOHrvtYDf3mFgPIV0kKN4
+ KTOjV2udLIheJd2CeNF68Z1dkeHVWo3zBAbYiK+dGDcUDDmlMoaND5xc3H97X9wFfXWf
+ AVJPrRltHFbpLiGdfGKeM10eZA741OPIo/YunnO+R0e2UDK04kfEV3rGJywVZ6Y1oAyt
+ w6y/2FVCNWYm5KJdRRgTg1Mbt07lwzdmtgIh4XsWmpwZ8Ec1k/0S3bXc6mWtWrCgN4E2
+ gSHw==
+X-Gm-Message-State: AOAM531vXR9nHiz3c1xQsWNEOLPOLeX/uOpBG1NMaNQnPKDcB0lJmJ3r
+ /s5rK2ILUU8NA5v00bmf1+tG8Q==
+X-Google-Smtp-Source: ABdhPJxfYoL319ur0R04anE7/w7zFdYb/e669LxvJ5MxVXVbEr4Y954Ux10uZDAcQwvsrDkTRabV6A==
+X-Received: by 2002:a05:6808:2d2:: with SMTP id
+ a18mr4005566oid.152.1616624954051; 
+ Wed, 24 Mar 2021 15:29:14 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id w16sm891241otq.15.2021.03.24.15.29.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 15:29:13 -0700 (PDT)
+Subject: Re: [RFC v11 28/55] target/arm: refactor exception and cpu code
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210323151749.21299-1-cfontana@suse.de>
+ <20210323154639.23477-21-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <47ea27b1-a11f-b10d-a084-0f7698691a6b@linaro.org>
+Date: Wed, 24 Mar 2021 16:29:06 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1C+ODGnkhEmtM7=aKCW4WLjhkw4jU73sTZVWKa6hOkCXCw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="F8dlzb82+Fcn6AgP"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210323154639.23477-21-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,123 +92,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---F8dlzb82+Fcn6AgP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/23/21 9:46 AM, Claudio Fontana wrote:
+> move exception code out of tcg/
+> as we need part of it for KVM too.
+> 
+> put the exception code into separate cpu modules as appropriate,
+> including:
+> 
+> cpu-sysemu.c
+> tcg/tcg-cpu.c
+> tcg/sysemu/tcg-cpu.c
+> 
+> to avoid naming confusion with the existing cpu_tcg.c,
+> containg cpu models definitions for 32bit TCG-only cpus,
+> rename this file as tcg/tcg-cpu-models.c
 
-On Wed, Mar 24, 2021 at 12:30:18PM +0400, Marc-Andr=E9 Lureau wrote:
-> Hi
->=20
-> On Wed, Mar 24, 2021 at 2:23 AM Cleber Rosa <crosa@redhat.com> wrote:
->=20
-> > For users of the LinuxTest class, let's set up the VM with the port
-> > redirection for SSH, instead of requiring each test to set the same
-> > arguments.
-> >
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >  tests/acceptance/avocado_qemu/__init__.py | 4 +++-
-> >  tests/acceptance/virtiofs_submounts.py    | 4 ----
-> >  2 files changed, 3 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/tests/acceptance/avocado_qemu/__init__.py
-> > b/tests/acceptance/avocado_qemu/__init__.py
-> > index 67f75f66e5..e75b002c70 100644
-> > --- a/tests/acceptance/avocado_qemu/__init__.py
-> > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> > @@ -309,10 +309,12 @@ class LinuxTest(Test, LinuxSSHMixIn):
-> >      timeout =3D 900
-> >      chksum =3D None
-> >
-> > -    def setUp(self, ssh_pubkey=3DNone):
-> > +    def setUp(self, ssh_pubkey=3DNone, network_device_type=3D'virtio-n=
-et'):
-> >          super(LinuxTest, self).setUp()
-> >          self.vm.add_args('-smp', '2')
-> >          self.vm.add_args('-m', '1024')
-> > +        self.vm.add_args('-netdev', 'user,id=3Dvnet,hostfwd=3D:127.0.0=
-.1:0
-> > -:22',
-> > +                         '-device', '%s,netdev=3Dvnet' %
-> > network_device_type)
-> >          self.set_up_boot()
-> >          if ssh_pubkey is None:
-> >              ssh_pubkey, self.ssh_key =3D self.set_up_existing_ssh_keys=
-()
-> > diff --git a/tests/acceptance/virtiofs_submounts.py
-> > b/tests/acceptance/virtiofs_submounts.py
-> > index bed8ce44df..e10a935ac4 100644
-> > --- a/tests/acceptance/virtiofs_submounts.py
-> > +++ b/tests/acceptance/virtiofs_submounts.py
-> > @@ -207,10 +207,6 @@ def setUp(self):
-> >              self.vm.add_args('-kernel', vmlinuz,
-> >                               '-append', 'console=3DttyS0 root=3D/dev/s=
-da1')
-> >
-> > -        # Allow us to connect to SSH
-> > -        self.vm.add_args('-netdev', 'user,id=3Dvnet,hostfwd=3D:127.0.0=
-.1:0
-> > -:22',
-> > -                         '-device', 'virtio-net,netdev=3Dvnet')
-> > -
-> >          self.require_accelerator("kvm")
-> >          self.vm.add_args('-accel', 'kvm')
-> >
-> > --
-> > 2.25.4
-> >
-> >
-> Looks fine, I suppose it could eventually be in LinuxSSHMixIn too for oth=
-er
-> users.
->
+Obviously all of this should not be done in one step.
 
-That's a good point, should be possible.  I'll look into that.
+Isn't tcg/tcg-* redundant?
 
-> Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
->=20
->=20
-> --=20
-> Marc-Andr=E9 Lureau
 
-Thanks,
-- Cleber.
-
---F8dlzb82+Fcn6AgP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBbvP4ACgkQZX6NM6Xy
-CfNUOg//evRJ+tHnDQn37l7joeXCR4BXziFa5rN0w8JIVmyyAZH0wf3kA+zTDfY6
-WPXmyTKjOKftWM90KYlY4rhq3Spqa3/wwt5lkWxDod24off/ueaWJjXFsChAEw53
-0fRQ3Ut9r1/MwrEA2stEodLDnliRcWK7g9+mxzFohZxguP/CBEJFE+kX8vxCqnBa
-n5ZSL5Xvo2K7DutnxuxWBRUPanTW9gnzYliJwTdXQwZxF5vCdrNhek6cDJ+ozNyq
-fjAn0UnbIoNhpJV987pVtYu4HdRKl19SVXxEckyKSmrH4FhCnPAqO2PBAxDawCfc
-6OH6l770jmOYYSAk4PPqawhFxBcvBkyesqM3+bT1OgHh6vQE4JrKvOKGGS2HZHED
-FkjoKFA2v3XYT/KSMW9MurKlhvGSkakp+w/BKQ0dF/HeCcwUAzolRE7+scz+my6v
-ViEYkehVs+cU8V0P/IIaj+Ht851hY+h+8K1rP0MQpb8QaHFJdhstl14Rr8k6xcXA
-ucFFfiWpX6w287V2WksVB/tkNIDl+FzpzMw/CM1yGDL7y4iA6ttfUjCiLp17dHnQ
-JUU3t3P6dHW7cJ/iCxo7h9UPqC6y9xmu979I2Kmh9t+do3K8B8Ecm0GHChjqOP1/
-RS2pDmihepFf9w5eFtKEdtcPZSY2K9oY3d5vA1FWFt3+hZxid08=
-=CsFM
------END PGP SIGNATURE-----
-
---F8dlzb82+Fcn6AgP--
-
+r~
 
