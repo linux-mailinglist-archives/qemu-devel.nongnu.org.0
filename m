@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FCC34805E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:22:55 +0100 (CET)
-Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B6A348073
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:26:47 +0100 (CET)
+Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP89e-0000us-On
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42362)
+	id 1lP8DO-0003mo-9W
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP868-0007n4-Ox
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:19:16 -0400
-Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:35510)
+ id 1lP876-00006s-Hs
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:20:20 -0400
+Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:37437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP866-0003L9-K2
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:19:16 -0400
+ id 1lP875-0003uZ-1i
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:20:16 -0400
 Received: by mail-oo1-xc2d.google.com with SMTP id
- i20-20020a4a8d940000b02901bc71746525so6050488ook.2
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:19:13 -0700 (PDT)
+ c12-20020a4ae24c0000b02901bad05f40e4so6050101oot.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hIUsmeAM5xqHZTM4cvWaE1hnDg0SmrT+GZrhS/aJd00=;
- b=BTlKJlHu98yHCdHMvATfa75pxP4Rpvg5koBphPYcWqFRJV8zCrVDNHIB2NLVoGQY2+
- KAjNuc1Kz2m6X6W4ftqd6qEXzxOkDXIGJ64iojDsygdppKvDZg8K35ZnbXA2qPFTrpfQ
- hOmvX9v8Onl/fICkrNg6iWz+6PQwG9rddlIoJbsOmgndZoipWK3/C0eZJ32EyN9Ztqdy
- 2Mds9wQOvj/yvQdzNHpZmFuJtJ6wEOnB6IZ4R+ZqEgpA0KypPBuaWD8cnKpNPD3MxyQn
- p7F805f6Gw4X59hYlO04to7G1BssTT7qpyYwkZ+tAyJ0xc0+1hMZBXu0jnnR4CJhhm/j
- sl2g==
+ bh=MGjTn6xadG1YMDg3/UGeHjx96B3Lahu3is/MHbGnXLo=;
+ b=CJD7KLRyYsd9Cq0zIMFCctCimW8eaa0iy4nTC6Qv7N+whtugWjIea3RxOPdJDB5Reb
+ asI6Abp/ztY+ttUd01iV/W3sJECOtcwQwMsriPhK7Ty8T+g6pg0/hShUOxKIYHai8naD
+ g915vK4V+Fsj54KMEJmm2WjtRCKWVDTHVGbiHLCStw0enYLuG+41/UIJysflqbGyzgRs
+ oNNNTpJiODrYa/Xq6T4Rvhq2kFgE+Y7/9CXUpM5JTaeOHEOaMx0QJGjg9tlxuVCn2s5F
+ K0K46PMPX4+lHtej5j+WCrekGKwsx/Ne1nGZiV/Yj7Zg1386VLHOqZ9l3c62gSuTTLIE
+ Iyzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hIUsmeAM5xqHZTM4cvWaE1hnDg0SmrT+GZrhS/aJd00=;
- b=E8qmUsu3vjqjyRNFi6H/vYrx+DiXfnAbRg7fjmTiivYzT/P4uuYOCUTFLhHnjwM2q3
- o0tsCzlgjO5On+09QWx3/LyYVA6er2ZgbmLFttqgiOBzwD0opjZFhtc1kTfBUC90klAn
- y1mD8vwUz+SK0apBzSwLhqgFtTCC60jMLqTDcZ87dshsx3dW63nZ6Q5MXEPzl5263Oau
- 3MyPf7s96UgZjWE6opvRLVZBhHcsRk/6xFMg0SanQu0A5n5XE32yfxOIfDHYgzlc6/4O
- wyPP8YbxzfJSbDTogVGEVwYt7470FrvrmRMOj0pSsCyImm5owopLl/ArNQGhH8AJ75YJ
- 7yow==
-X-Gm-Message-State: AOAM530DhPjhcDbpbNdvh9leq2dzR/ubTRvL5MGhubD7R89lXXOJwaOA
- +5WkCP7Jor52TKWOGBhsf1ZIcg==
-X-Google-Smtp-Source: ABdhPJwIyUj9psCGgLCmgj8/uQXgiCdmJTMpDcc1LwiCMiLddmm7q5WQKHc3PyOFEQnve3PNEaJlhQ==
-X-Received: by 2002:a4a:424c:: with SMTP id i12mr3888933ooj.85.1616609952902; 
- Wed, 24 Mar 2021 11:19:12 -0700 (PDT)
+ bh=MGjTn6xadG1YMDg3/UGeHjx96B3Lahu3is/MHbGnXLo=;
+ b=LdJPAo37+Qfs7pCijETQ6JDR8PKPb5aXTv96MCYszVccUBGqsAUyFsTyiQ583OVDpf
+ DU+gjpncEgB9yXVTJB3dmSVDvGsRKZsem4qxLvsikLVhf2/9PR79cRqjuH81WitYP8eU
+ Su2EJLCXYDvYHiYm4yvzMcoqvHMPXt630SM/d+8OGCyVqwAvtXHUdyTAwMBYL78gWqo/
+ IbUXHvzb3h4twDOAwqO/NNOdROXJExyDBhs0GCsAojmH6+BkDkLlZ3BBR8DjM4VQPNDk
+ EPbqyBoosrAU4X6xHc0+gaWtCORO3VVquRfXbDZ9tBkdwodvljy7rzecEkEr63uRIfQ1
+ dYXw==
+X-Gm-Message-State: AOAM530PFcFqzTNeJw6pTq1+GUhXYqMcOikEEUQfUaqBeNWTKvkbn1CS
+ g+4cmXJPfPf6V4uopahs7Acjaw==
+X-Google-Smtp-Source: ABdhPJw6WVRK0EVSjOFp7+ThsLA9eCLCsMD2b94rwl63Ysnke7sChnsyqGKP9llqx3JoMMsSwBbQiQ==
+X-Received: by 2002:a4a:2511:: with SMTP id g17mr3925852ooa.22.1616610013911; 
+ Wed, 24 Mar 2021 11:20:13 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id y10sm538762oih.37.2021.03.24.11.19.11
+ by smtp.gmail.com with ESMTPSA id h12sm728419ote.75.2021.03.24.11.20.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 11:19:12 -0700 (PDT)
-Subject: Re: [RFC v11 06/55] target/arm: tcg: move sysemu-only parts of
- debug_helper
+ Wed, 24 Mar 2021 11:20:13 -0700 (PDT)
+Subject: Re: [RFC v11 07/55] target/arm: tcg: split tlb_helper user-only and
+ sysemu-only parts
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323151749.21299-7-cfontana@suse.de>
+ <20210323151749.21299-8-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7abc6ad0-0e1d-1c8e-d9c3-4a83313340cd@linaro.org>
-Date: Wed, 24 Mar 2021 12:19:09 -0600
+Message-ID: <93b198c9-8aab-5d89-a9a3-91634ce5e074@linaro.org>
+Date: Wed, 24 Mar 2021 12:20:10 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323151749.21299-7-cfontana@suse.de>
+In-Reply-To: <20210323151749.21299-8-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -100,16 +100,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/21 9:17 AM, Claudio Fontana wrote:
-> --- a/target/arm/tcg/sysemu/meson.build
-> +++ b/target/arm/tcg/sysemu/meson.build
-> @@ -1,4 +1,5 @@
->   
->   arm_softmmu_ss.add(when: ['CONFIG_TCG','CONFIG_SOFTMMU'], if_true: files(
->     'mte_helper.c',
-> +  'debug_helper.c',
->   ))
-
-Sort the files as you add them.  Otherwise,
+> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+> ---
+>   target/arm/tcg/tlb_helper.h        | 17 ++++++
+>   target/arm/tcg/sysemu/tlb_helper.c | 83 ++++++++++++++++++++++++++
+>   target/arm/tcg/tlb_helper.c        | 96 ++----------------------------
+>   target/arm/tcg/user/tlb_helper.c   | 31 ++++++++++
+>   target/arm/tcg/sysemu/meson.build  |  1 +
+>   target/arm/tcg/user/meson.build    |  1 +
+>   6 files changed, 137 insertions(+), 92 deletions(-)
+>   create mode 100644 target/arm/tcg/tlb_helper.h
+>   create mode 100644 target/arm/tcg/sysemu/tlb_helper.c
+>   create mode 100644 target/arm/tcg/user/tlb_helper.c
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
