@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3344D347FB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 18:45:56 +0100 (CET)
-Received: from localhost ([::1]:53886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3918E347FDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 18:55:52 +0100 (CET)
+Received: from localhost ([::1]:33454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP7Zq-0008LY-Rd
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 13:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32984)
+	id 1lP7jS-0003rs-Hk
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 13:55:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lP7Vn-0006n9-Au
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 13:41:43 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lP7Vk-0001Iq-DS
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 13:41:42 -0400
-Received: by mail-ej1-x636.google.com with SMTP id hq27so34269552ejc.9
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 10:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5wh1MFZcaImv+OQcwJ4hMBP99VNppE3MNRnXvWvMvVg=;
- b=uYe2rNOQ4VgIgUPStxiLIcvCCSSA4oLvGgP+TcZNO5cCl8XjjvuyoW7cxwirHLR0qL
- C6gjaUCF5bkBqgLJegJSSujGbIEhSJbaeJByp3BLv/3FP6isGHbGQlfvYvMIb91nK80l
- BWGFUxHTQkx/rgI+30EOYqK6+wQx+wMwP+NEVJY8Evljd5k8eXT+0OOGeXnrD4aSTv8q
- 9DooyIUUVYq3uixC13sTmCveu4Jc3PIO9N9CgAQFjLFnXwRuaGPIKIH1PPgBozYDOlJ1
- WH4qOH/7pDZ8UY+LrhXoc/AARb4s9hkj+09GM/Mtpaz0jE+AFjS3s1dpUr6oaRyY01tG
- Q3FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5wh1MFZcaImv+OQcwJ4hMBP99VNppE3MNRnXvWvMvVg=;
- b=lmBLSrhpQd3ZOPwnO6rbt8rucrRs9Mmrdt2qoo7WoEhZ6Of77xHNnxI7aX9QfDY763
- xkvbnlqp3AuLqKKwArr3+lAl5ckNUeBIxUcqOcjMOU2fhIfm8y4Vp6ZyJdef7KFqdJh5
- RjWsPuPQ2EvdlbiMZKnv+bk71w+ZWijtOQAbpQOQw99De/zf4DzFT6YwjXJaQCmPQImo
- YqtlGDwj8TbIAaRe8Dbofnt1fJomnCkWV/fpLWxDRifqSFTfrvAqE5EahcqzerqY3jn/
- O8Q8R6SSDYf+PGSg0/VSdehSImffy9JLvPiHms/jqHa4lYk8McQzmQz1N8CVTf/3H67i
- pa1w==
-X-Gm-Message-State: AOAM532CCzc5TNEmgavneqdpWqrsj9O7vuzP+s48cKMW8jk0eB2smjK4
- DvKiMKx5QAFx+KLj6ILuB5P6Ua1ygYZRkYxqtixH2g==
-X-Google-Smtp-Source: ABdhPJwy0Sn3r7escMge2x6BxhZpEROwUv4QSBpoJJwN9bKT9r7Zt/xHCW0H9cSbEYjfRySyq8HgjGwGS3Kp94dJ4nk=
-X-Received: by 2002:a17:906:16ca:: with SMTP id
- t10mr5027734ejd.85.1616607697949; 
- Wed, 24 Mar 2021 10:41:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lP7hT-0003PU-Mz; Wed, 24 Mar 2021 13:53:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:42941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lP7hR-0007n8-8h; Wed, 24 Mar 2021 13:53:47 -0400
+Received: from [192.168.100.1] ([82.142.25.162]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MeD1l-1lyjQr3OPn-00bH4b; Wed, 24 Mar 2021 18:53:38 +0100
+To: Andreas Krebbel <krebbel@linux.ibm.com>, qemu-devel@nongnu.org
+References: <be03acc3-8e9f-4715-6936-68013c49b920@vivier.eu>
+ <20210324155530.52239-1-krebbel@linux.ibm.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2] linux-user/s390x: Use the guest pointer for the
+ sigreturn stub
+Message-ID: <91794f50-593d-87cc-bf46-56593c204308@vivier.eu>
+Date: Wed, 24 Mar 2021 18:53:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210324143021.8560-1-alex.bennee@linaro.org>
-In-Reply-To: <20210324143021.8560-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Mar 2021 17:41:07 +0000
-Message-ID: <CAFEAcA_2Q0-M7-NyoFNWFrt+HjSaWXwtre_HaTaA1A06UYGmOQ@mail.gmail.com>
-Subject: Re: [PULL for 6.0 00/22] various fixes (kernel-doc, semihosting,
- testing)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210324155530.52239-1-krebbel@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:sfF6v3D6SBQ8LUqCp2xs7wra2AcaEqFFqjZNaOOfHmND+3qJV+x
+ lxoZg0z9aMA8Rix+2yBpbAcmY8Fs7lZR10c4S9kRpVooj554dZVjucvejCKC8l+29iIB6ri
+ GQ1RNcqOFnUOxKuFpiGutylVjvzozOnd1LEK2+0pEttGjjugV7PnGVDtBDqh/bEM4yoixk0
+ DS8bJeXTkuIn2vgq5bMdw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oeJJfgAlDHw=:jyckEPgVWXhRRoMO7nbJkV
+ oiCszB5ACaBBSFVN+YSTCTwNIe9XgfRFTKCXjYJlHArHyBFot66+pqr7SUzYIIkLha4pXPiBg
+ rBfG2MZEkjDAv8xdsVqEj0J8jy6BMXhqDocqU26PXv8+LLWaWdZKow4TTikxHHJlxvnkbuom0
+ eKnQgiRhr1RG+iOz1ZLIvfm2GyOLZilTXYN/SUXmxIWr7/XGPIRCbo+EZNIIOj3DvkxBV1K2m
+ a+G9VZHr8PmvSdy7SS1TefrI9nWlkvbRNRV7NQx2Oufr9/HANDwb8PJavVHxhLLPbW0oqnQfo
+ PjoTjf34o6hK3QXR1Gslxw/NgEUvETRKn9HoV5NhWs0TARtlj7FfqwL7AAT9Gbi5c0rCCWrKC
+ dvqI8zgb4g9kQ8F1glYMU+kid/yTKxXqJiwyyEbBEJWlQhwQQp+brJgKAeeKNUBV3rHftMG7J
+ rT86D+cs0w==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_ZBI=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,44 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Mar 2021 at 14:30, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit 01874b15d36e3f9a3506c47941a92ccf8d8bed=
-98:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20210323' into =
-staging (2021-03-24 11:22:08 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-6.0-rc0-fixed-240321-1
->
-> for you to fetch changes up to a9eb2df27f117bbac9f370bf8cb79532005f19c2:
->
->   gitlab: default to not building the documentation (2021-03-24 14:25:48 =
-+0000)
->
-> ----------------------------------------------------------------
-> Various fixes for 6.0:
->
->   - include kernel-doc API reference for plugins
->   - fix semihosting SYS_HEAPINFO
->   - various tweaks to improve CI runtime
->   - more stroz fixes
->   - fix iotest CI regressions
->
-> ----------------------------------------------------------------
+Le 24/03/2021 à 16:55, Andreas Krebbel a écrit :
+> When setting up the pointer for the sigreturn stub in the return
+> address register (r14) we have to use the guest frame pointer instead
+> of the host frame pointer.
+> 
+> Note: This only caused problems if Qemu has been built with
+> --disable-pie (as it is in distros nowadays). Otherwise guest_base
+> defaults to 0 hiding the actual problem.
+> 
+> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
+> ---
+>  linux-user/s390x/signal.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+> index ecfa2a14a9..e9bf865074 100644
+> --- a/linux-user/s390x/signal.c
+> +++ b/linux-user/s390x/signal.c
+> @@ -213,7 +213,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>      if (ka->sa_flags & TARGET_SA_RESTORER) {
+>          env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
+>      } else {
+> -        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
+> +        env->regs[14] = (target_ulong) (frame_addr + offsetof(rt_sigframe, retcode))
+> +                        | PSW_ADDR_AMODE;
+>          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+>                     (uint16_t *)(frame->retcode));
+>      }
+> 
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-Applied, thanks.
+but if you want to send a v3:
+- to be consistent with lines below, use "offsetof(typeof(*frame), ..."
+- in the line above, you can remove the (unsigned long) of the sa_restorer as it is an abi_ulong,
+- don't send the "v2" as a reply to the v1 as it can be hidden in the mail thread and missed by the
+maintainer :)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
+Thanks,
+Laurent
 
