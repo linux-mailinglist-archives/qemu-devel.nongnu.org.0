@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CF0346EED
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:36:51 +0100 (CET)
-Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED9C346EF7
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:42:28 +0100 (CET)
+Received: from localhost ([::1]:43026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOsS1-0005zp-GQ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:36:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36730)
+	id 1lOsXT-0003KH-0N
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOsPq-0004Fy-HZ; Tue, 23 Mar 2021 21:34:34 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58423 helo=ozlabs.org)
+ id 1lOsPs-0004Hb-4j; Tue, 23 Mar 2021 21:34:36 -0400
+Received: from ozlabs.org ([203.11.71.1]:39709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOsPo-0001hV-04; Tue, 23 Mar 2021 21:34:34 -0400
+ id 1lOsPn-0001hT-TB; Tue, 23 Mar 2021 21:34:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F4rPb3kN2z9sWj; Wed, 24 Mar 2021 12:34:27 +1100 (AEDT)
+ id 4F4rPb5Mbzz9sWk; Wed, 24 Mar 2021 12:34:27 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616549667;
- bh=4qQh60Vd4e1QiJKScMjkgWTcYzRGbXpDDXuR88AEE74=;
+ bh=9qkqQMcgah+UhkhCwhdi7Imq6jIomFlwaSuhyldnr80=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZH/1NZI8hrJt30FBm2Re+Drho9lnfwqGEdLRgc2tu1ijWjzYnMZTNI7V1RHDHkRgC
- TxbVYckXuU0JXWfK4FwaX5i+8tLo9jV/4ZIA+ZnBRocnzkYvJOv22u8yn0+TAuL6Vz
- vsifD1WJOv2R6x8SmUtHV09LQPrwdKxxevaiV2EM=
-Date: Wed, 24 Mar 2021 11:03:31 +1100
+ b=JT8mv6W/7e0G49oMqrMj4Od+GCpXMGEnmqhXSmcAVqJJknhl/mNcyT/bclPmbAUpg
+ NAmNW5EHpqrcEyV9J6uxN821/BqccuAh3GOHl/EvQ/nkHSf1luBgHZtzXR86/29bQI
+ 2e00ZwApI/N9p3VlNnIx+kCrunG0JKljzRyYmgC8=
+Date: Wed, 24 Mar 2021 11:04:11 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 03/10] target/ppc: Reduce env->hflags to uint32_t
-Message-ID: <YFqB0w71y0kUCsoE@yekko.fritz.box>
+Subject: Re: [PATCH v5 04/10] target/ppc: Put dbcr0 single-step bits into
+ hflags
+Message-ID: <YFqB+11z5BNk+m+g@yekko.fritz.box>
 References: <20210323184340.619757-1-richard.henderson@linaro.org>
- <20210323184340.619757-4-richard.henderson@linaro.org>
+ <20210323184340.619757-5-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/W2rnZITEamsK9df"
+ protocol="application/pgp-signature"; boundary="x4IgZrYlyjfmh+sF"
 Content-Disposition: inline
-In-Reply-To: <20210323184340.619757-4-richard.henderson@linaro.org>
+In-Reply-To: <20210323184340.619757-5-richard.henderson@linaro.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,80 +59,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/W2rnZITEamsK9df
-Content-Type: text/plain; charset=iso-8859-1
+--x4IgZrYlyjfmh+sF
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 23, 2021 at 12:43:33PM -0600, Richard Henderson wrote:
-> It will be stored in tb->flags, which is also uint32_t,
-> so let's use the correct size.
+On Tue, Mar 23, 2021 at 12:43:34PM -0600, Richard Henderson wrote:
+> Because these bits were not in hflags, the code generated
+> for single-stepping on BookE was essentially random.
+> Recompute hflags when storing to dbcr0.
 >=20
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
 > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-6.0.
 
-
 > ---
->  target/ppc/cpu.h         | 4 ++--
->  target/ppc/misc_helper.c | 2 +-
->  target/ppc/translate.c   | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  target/ppc/helper_regs.c | 24 +++++++++++++++++-------
+>  target/ppc/misc_helper.c |  3 +++
+>  target/ppc/translate.c   | 11 -----------
+>  3 files changed, 20 insertions(+), 18 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index fe6c3f815d..d5f362506a 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1129,8 +1129,8 @@ struct CPUPPCState {
->      bool resume_as_sreset;
->  #endif
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index df9673b90f..e345966b6b 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -114,13 +114,23 @@ void hreg_compute_hflags(CPUPPCState *env)
+>          hflags |=3D le << MSR_LE;
+>      }
 > =20
-> -    /* These resources are used only in QEMU core */
-> -    target_ulong hflags;
-> +    /* These resources are used only in TCG */
-> +    uint32_t hflags;
->      target_ulong hflags_compat_nmsr; /* for migration compatibility */
->      int immu_idx;     /* precomputed MMU index to speed up insn accesses=
- */
->      int dmmu_idx;     /* precomputed MMU index to speed up data accesses=
- */
+> -    if (ppc_flags & POWERPC_FLAG_BE) {
+> -        QEMU_BUILD_BUG_ON(MSR_BE !=3D HFLAGS_BE);
+> -        msr_mask |=3D 1 << MSR_BE;
+> -    }
+> -    if (ppc_flags & POWERPC_FLAG_SE) {
+> -        QEMU_BUILD_BUG_ON(MSR_SE !=3D HFLAGS_SE);
+> -        msr_mask |=3D 1 << MSR_SE;
+> +    if (ppc_flags & POWERPC_FLAG_DE) {
+> +        target_ulong dbcr0 =3D env->spr[SPR_BOOKE_DBCR0];
+> +        if (dbcr0 & DBCR0_ICMP) {
+> +            hflags |=3D 1 << HFLAGS_SE;
+> +        }
+> +        if (dbcr0 & DBCR0_BRT) {
+> +            hflags |=3D 1 << HFLAGS_BE;
+> +        }
+> +    } else {
+> +        if (ppc_flags & POWERPC_FLAG_BE) {
+> +            QEMU_BUILD_BUG_ON(MSR_BE !=3D HFLAGS_BE);
+> +            msr_mask |=3D 1 << MSR_BE;
+> +        }
+> +        if (ppc_flags & POWERPC_FLAG_SE) {
+> +            QEMU_BUILD_BUG_ON(MSR_SE !=3D HFLAGS_SE);
+> +            msr_mask |=3D 1 << MSR_SE;
+> +        }
+>      }
+> =20
+>      if (msr_is_64bit(env, msr)) {
 > diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index 63e3147eb4..b04b4d7c6e 100644
+> index b04b4d7c6e..002958be26 100644
 > --- a/target/ppc/misc_helper.c
 > +++ b/target/ppc/misc_helper.c
-> @@ -199,7 +199,7 @@ void helper_store_hid0_601(CPUPPCState *env, target_u=
-long val)
->      if ((val ^ hid0) & 0x00000008) {
->          /* Change current endianness */
->          hreg_compute_hflags(env);
-> -        qemu_log("%s: set endianness to %c =3D> " TARGET_FMT_lx "\n", __=
-func__,
-> +        qemu_log("%s: set endianness to %c =3D> %08x\n", __func__,
->                   val & 0x8 ? 'l' : 'b', env->hflags);
->      }
+> @@ -215,6 +215,9 @@ void helper_store_403_pbr(CPUPPCState *env, uint32_t =
+num, target_ulong value)
+> =20
+>  void helper_store_40x_dbcr0(CPUPPCState *env, target_ulong val)
+>  {
+> +    /* Bits 26 & 27 affect single-stepping. */
+> +    hreg_compute_hflags(env);
+> +    /* Bits 28 & 29 affect reset or shutdown. */
+>      store_40x_dbcr0(env, val);
 >  }
+> =20
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index a9325a12e5..a85b890bb0 100644
+> index a85b890bb0..7912495f28 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -7657,7 +7657,7 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int =
-flags)
->                   env->nip, env->lr, env->ctr, cpu_read_xer(env),
->                   cs->cpu_index);
->      qemu_fprintf(f, "MSR " TARGET_FMT_lx " HID0 " TARGET_FMT_lx "  HF "
-> -                 TARGET_FMT_lx " iidx %d didx %d\n",
-> +                 "%08x iidx %d didx %d\n",
->                   env->msr, env->spr[SPR_HID0],
->                   env->hflags, env->immu_idx, env->dmmu_idx);
->  #if !defined(NO_TIMER_DUMP)
+> @@ -7923,17 +7923,6 @@ static void ppc_tr_init_disas_context(DisasContext=
+Base *dcbase, CPUState *cs)
+>      if ((hflags >> HFLAGS_BE) & 1) {
+>          ctx->singlestep_enabled |=3D CPU_BRANCH_STEP;
+>      }
+> -    if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
+> -        ctx->singlestep_enabled =3D 0;
+> -        target_ulong dbcr0 =3D env->spr[SPR_BOOKE_DBCR0];
+> -        if (dbcr0 & DBCR0_ICMP) {
+> -            ctx->singlestep_enabled |=3D CPU_SINGLE_STEP;
+> -        }
+> -        if (dbcr0 & DBCR0_BRT) {
+> -            ctx->singlestep_enabled |=3D CPU_BRANCH_STEP;
+> -        }
+> -
+> -    }
+>      if (unlikely(ctx->base.singlestep_enabled)) {
+>          ctx->singlestep_enabled |=3D GDBSTUB_SINGLE_STEP;
+>      }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -139,25 +165,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---/W2rnZITEamsK9df
+--x4IgZrYlyjfmh+sF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBagdIACgkQbDjKyiDZ
-s5KiCQ//XRlhZ4z1etoJo7SM2bFdsJ2JU+Bd5X5VThHHqWr//qt+eqIXUuL14A8p
-wzKIpIw0ZngrqDwSjzUYV6RvZmgeiRHNkWh8dOFCAk+wYnq4Kqd26+GMExb68gSb
-wO89rK1XZMAiC5mYrd4IQSNZMvpla8N5GdRyvpbxgJzSEKpxZ358aTttms8Ie+5r
-J+LUbx/CCCO8BjQVhC8x+tmL5KOaOiwKvMXOtAX5IvvQNyU16LWOsBUCnzVA3xtm
-K6L/D/hNU6G2zhvKD2/2Wcf77vM0j9faXaG9LOr7Lwm4KCRRkGsnahQVCYXwJgNF
-RVo07UxNBqDkdNyyIYX3NUP1pYix66J6HUNDRBXLsIzB4ghRx9JgwsTLeaK3faOr
-K0Itui6hqwUzh5RXqzpN7CIr+AbgH5sz7q+1Eyx1cxiMY4E1raFmAJ/HsxAeUH9c
-2lxyXfOQzURbuo/l/sRfYs5Mvrz4KsQo3einKtiP29gdvh6W0OCy4jKxHchPyIPr
-Iwgtsyxf4XIRNZFQ4sReAgt67pEedAXNo0qQgegA3r2qplaOc0ns90EweuTxOVSn
-eB4nMvzgdSkxEmYDqJu5tHRMN2hSQZV2ohf3vcNVIpPmlJpmNulxpdue4KneT+MX
-B6Oy5JUtlMIN2aIETG5c5htx2SwJ3kMNOkJ+6/p8J9OCtZTtouU=
-=3Z7i
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBagfsACgkQbDjKyiDZ
+s5LreQ//R00lqvoyjzG5aukYJphsaBo16WMimYT/20IzqMNhEKuAA+ssfDnxpLko
+AuR+fAjkuDBgxI5ayAPDBKWwPCk/F1dZ4FLhf4xSD52VRFMxbyQm1wKakxObrQ20
+pznTEMktbg+mhjLcg5txRK3c4sXsSYgLRRHp52rAj6K+I30m7iUnHyUQ1102f2LS
+LE7HXdSeXBHoQp2zPBgtGlQAMA301veQiRTfjisYXfs9zN38K35JWL9sAe8EnrAT
+Bj5l+HQSBI9hHPZ+2rOnVvg3MnanfG4KUmStxNUKiQ1L2N0e4J0Lnyl/xWkXTDsS
+Z1x0rkpRI9lULKOrilLjQeIs2Ja5JxCPxQ5Ks3zf/0ptC5gGMc26d8vQHPxKy5mC
+7m5jYFUHD3ZoetLiD0MCWnaeSo2zj7d9FL8qan8otPdDN+lUUu3vVFwMdll9ewBv
+FGJVzGElpAoBbnaLbtdgZ9ghMhps+pTjvm/XiNrCyckZEf+6xQYnOPAO1lczUo3Y
+IQY5i6IKM80zUnjznswyuUQmxw9rbmiJhXwTglDFqfa4h2XYlLIn6T0fvTIbdNkJ
+t2TaRXH5dDWHUk4Jasc1KRWMUShY7wmTlG0nxzq0T604OrRkc6A1Vua68qqjA1hy
+VPCJnVGua5tcnR69JCLaHq/VCmbM+ug6m/tHyojo1HMBRCROlhM=
+=2/Fl
 -----END PGP SIGNATURE-----
 
---/W2rnZITEamsK9df--
+--x4IgZrYlyjfmh+sF--
 
