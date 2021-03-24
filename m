@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D043479C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:42:28 +0100 (CET)
-Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0F93479CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 14:43:31 +0100 (CET)
+Received: from localhost ([::1]:49824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP3m9-0007S0-IB
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
+	id 1lP3nG-0008U1-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 09:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lP3ks-0006vI-Aq
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:41:02 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:37613)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lP3lP-0007U3-Lz; Wed, 24 Mar 2021 09:41:35 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lP3kp-0002U0-U9
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 09:41:01 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id x21so27673365eds.4
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lP3lN-0002sc-U5; Wed, 24 Mar 2021 09:41:35 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id j2so14156868ybj.8;
+ Wed, 24 Mar 2021 06:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bkmbpRUJE0vLZqNA4D2Izne3aK+Kk2poYciMwvYF9Es=;
- b=p97wub24lQulZ7jo6YylNlfTgpyqJW5V9UAbEfbyUwYU43UL98nNAOAwj4nV1dlzyo
- W6uLdnWa3nKy6Y8FMLGUcTQXHstnYaxBqNGLrX6xFOSlN1KN8Dk+zKOvzto+69gzH8D1
- WWMARCj+4NS+l2f+PyY0uPcExCSpTqxuFoJmqsUKHPArWZD6DpTww23y5JBImsDr6mgw
- LRVuKs74CoNe+hicGiKhqnJfhEnskPRFRGTLqyEbJ34VhW0UNXl9vJDVhvj3mVwCRj8t
- rB9AqtLui4hPK8p7Prvtlts8I5leTS1ovK9GYjh10NCxXGmhhzz2qk/EbBC+LlZ5d/hQ
- Bzjw==
+ :cc; bh=5YusfBGFn66IFPIBiEdhUfrqXYGa4bwguTgCYjVoZuA=;
+ b=DCo0r+n1qTJL6bbmDecx388JHVjeLvXkFilGl9+zZiM9WCblaPhRURvLzAqEq7/I5n
+ jdHaSuFDkb/DzuB9NTbBXFHJX2vjE6HE7mKievPfMct6NN3oxxl0+0VoA3B9TNALJfNZ
+ 4IqWkPLg/03Bzx526IsKrk2GQP3mKjAptVPnDIhWavN9+JGQfzgzhPTeny0xtHcZJt1L
+ JnlzjWTz9tDEZu26gWW92NqfcjimrMjEDsVfItEE0LGiBZlEjOrFUl46g9QNKgdqGRlL
+ My3ELwYxW4teRrwnA6YLnX5zh1V5+YGjP98uX3xc+BOjjK/6cfsov9xDWtk6XEJfaCOq
+ nzmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bkmbpRUJE0vLZqNA4D2Izne3aK+Kk2poYciMwvYF9Es=;
- b=DmJ5TlBe2uLImZZoPvObTHYKLiHei+elOf5tLVQBAFcoGK040wU5GMdqRx9RGcCZjR
- yIsBrmtWaQWW31bPDO3KSg3eERH9RH2OqTXg1//KUZAW5TUu8je/67VSupl6V8ag0LXs
- UE/p64ZcaY+N/5J6jVYdASGgqsu1XwATTBnNG+cfcOfT//Dyy1z2Ktle8ie1YvK46ejL
- Y52uu2zzpAS5Qe/zcfYYUUXLPQdblVX2ZrDrq6OxHEyTs5kUt3M9rT+3qlkhbgFpGD/G
- cZ1EtUMhboHAi3omvDMlE+bX1Rs80BzYQ3d7NH4d8l0zphq06BZywibWNrJgGtJzzw2e
- AiUw==
-X-Gm-Message-State: AOAM532y7/5TSgx8Y//xV3add9cynBz4fssk7L03f92pQDrcn3GasvXn
- wC24E8td4ky4gGn9f6XESI7nhz3DZDdKoaRNfyD+rQ==
-X-Google-Smtp-Source: ABdhPJx/iye6Sv0owAaKpdhdVdf1p2qn6sbsvjooKW0dsdSJLRxrLZJ/i6eQb73g4uTABX8kFyM59Se4NIi9IZRB0fA=
-X-Received: by 2002:a05:6402:4244:: with SMTP id
- g4mr3528461edb.204.1616593258196; 
- Wed, 24 Mar 2021 06:40:58 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=5YusfBGFn66IFPIBiEdhUfrqXYGa4bwguTgCYjVoZuA=;
+ b=j4kxfhaKXg5MlEM2xGoZIh9Rd1pcXaq2uMVjWr6kpJA7aTi4vv6TiAIWnfbabPZp/v
+ g9Bna5ZXsR/3HgOfD5ttJlgW6y81JjkXggFYB6hVe+DqoTzFNcP4ouMyvmUzpXygyBtC
+ tlyhFu3HywSpAZm1DsxcqfUx4/xZInMVkGZRdl2VCghW/5oNxtWfNjeh3jrVhzJjnh22
+ PzZKtGL0icCi7O5hwHoG9wcKEyjOs2jwhlHI0YoSyp+PmDP7DN0Qpf5Yfc/RKOX4OB5t
+ AiLkQ54EHRmusIRJMh7RY2z6bDHFLNyKtKNE83G0BuRW6lvzon0j3XoJWeCDxDY9YZha
+ N8FQ==
+X-Gm-Message-State: AOAM5325W+izKe+cN/vQnymmz9tMFO1VWT3Tl2HrcI9YR05pJdwa9yOj
+ DaSv3yiIOnhSQUr3aN5Ey151MIxdL/C68vsF6Mo=
+X-Google-Smtp-Source: ABdhPJzwEoWE1uDrLQI9J5MbDPq2Z1uTqJbtm3RJAf/WQW5un0ymPGxWyCJaE1mlVtCadNfm7d/UWBwBBYAtyfS5XO4=
+X-Received: by 2002:a25:73d1:: with SMTP id o200mr5061400ybc.239.1616593291807; 
+ Wed, 24 Mar 2021 06:41:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210323165308.15244-1-alex.bennee@linaro.org>
-In-Reply-To: <20210323165308.15244-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Mar 2021 13:40:28 +0000
-Message-ID: <CAFEAcA_c0xYHhwyJtgcwhzVfv9EaRTYdjRCWJsk-ZOuE5okTbg@mail.gmail.com>
-Subject: Re: [PATCH for 6.0 v2 00/22] fixes for rc1 pre-PR (kernel-doc,
- semihosting, testing)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20201022053225.2596110-1-anup.patel@wdc.com>
+In-Reply-To: <20201022053225.2596110-1-anup.patel@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 24 Mar 2021 21:41:21 +0800
+Message-ID: <CAEUhbmVWesOJTxejnr-DYMUMXgLsRLz9nVqbAEb0emu_nUEhqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/riscv: sifive_u: Allow passing custom DTB
+To: Anup Patel <anup.patel@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,25 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Mar 2021 at 17:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> I've added a testing patch to extend the CFI times, Laurent's series
-> to fix the iotest regressions currently keeping the CI from going
-> green and an optimisation to the --enable-docs build to try and start
-> bringing the total CI time down a bit. rc0 is being tagged today so
-> I'll probably roll a PR from this later in the week in time for rc1.
+Hi Anup,
 
-That's tricky given you sent this patchseries at 6pm on the day
-when rc1 was nominally going to be tagged :-)
+On Thu, Oct 22, 2020 at 1:34 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> Extend sifive_u machine to allow passing custom DTB using "-dtb"
+> command-line parameter. This will help users pass modified DTB
+> or Linux SiFive DTB to sifive_u machine.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> ---
+>  hw/riscv/sifive_u.c | 28 ++++++++++++++++++++--------
+>  1 file changed, 20 insertions(+), 8 deletions(-)
+>
 
-I was kinda hoping to get the iotest regression fixed in rc1,
-but I want to tag it today. Oh well, it's only the CI, not an
-actual bug, so no big deal I guess.
+I am using the following command to boot a Linux v5.11 kernel, but it hangs at:
 
-thanks
--- PMM
+$ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G -display none -serial
+stdio -kernel arch/riscv/boot/Image -dtb
+arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb -append
+"earlycon=sbi console=ttySIF0"
+
+[    0.000000] smp: Bringing up secondary CPUs ...
+
+Removing -dtb makes the kernel continue booting.
+
+I am not sure what's missing ofusing "-dtb"?
+
+Regards,
+Bin
 
