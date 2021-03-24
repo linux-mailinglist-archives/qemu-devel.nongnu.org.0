@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02BE03473CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:41:15 +0100 (CET)
-Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4F33473D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:43:27 +0100 (CET)
+Received: from localhost ([::1]:38262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOz4k-0006cZ-1s
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35678)
+	id 1lOz6s-0007nR-Ac
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lOyym-0003P4-Py
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:35:04 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38635)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOz4X-0006vg-CS
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:41:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lOyyk-0000b8-EE
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:35:04 -0400
-Received: by mail-ej1-x632.google.com with SMTP id r12so31464825ejr.5
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 01:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nV+/3vN86Qa4nDdhgJJ5f5B6akJxHtpKUrSP/TVK5QU=;
- b=EkYTGO0vPnYk1SPa+jSxFsbWIDc78VC/Liv3GTgBgZvx+yQnHb7hX2xeKP9zCmR+r3
- 2wdRVq7EZPuq3oP9vR8eVpyI1F3loZGSlvyFKrTAdefbJenfDV76Nwd/B1QV0Wn9qH9x
- NuWtbTajI99r1ROVsWkVPn1DdN5tjCk5BEs55/Z99ixpsRR1u20BZ30TgjXLAU/DXVrH
- 9xRmDAzI2NXxgHxY1u7mv0SN1BzOPgTcUcqpNN0UNNpoOA1iBADVomykwwd1aLelzhCK
- 2/5kL5uMsBiH/JWykVgLx9KrttvRmbIQeRZOkdGdeyI2MO/A5noGmXmDpOGbm5jm7kZ4
- EQ9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nV+/3vN86Qa4nDdhgJJ5f5B6akJxHtpKUrSP/TVK5QU=;
- b=bIjfW4egI8d6nIeYYVQhhShLmd3xmVEf5DceobpPoArOtMnYt8ScqnlCcdim/d/yDh
- N238PH7vV943UF7IzUWabHyeyrtzsvuscegbUxJ6vjxXzvAKMBejgXcIrMDvvFZNPXbH
- DhWylRrYMV8DJMbJyTBUWgyToghDKUI2qiuVGUUFSSQyje8JNZW0wNBme58+smbNElni
- V4JRUe2kd6y0rztF+xvNIHBHkSsqvFjC83CRCsewxrVrDX0YopsTKrHDhIv6CEGmLKIj
- HJTxFiL7kQsRiKDDTNzOUJtHSb658SYYwY3MDoTvStJ8KoqqiUX4HIEnh5DAiC6e4IYD
- 9FSg==
-X-Gm-Message-State: AOAM531lB7f7oarCkgtG17NP/nFidlDIl8EsNkJFSUw43Zmt/7L+Jjho
- ODNdD8A8/+9KUrWUh6EgZbnx8p4kYkq09qcuhxQ=
-X-Google-Smtp-Source: ABdhPJxIAaTl8rX/9BqqNQBpCNNvQ9Aw/T5w/WrgAdqAzec4C7a8SZ5+QEup6oXvf01+VTfnFsBfa2qnrG5HFUsOYQM=
-X-Received: by 2002:a17:906:cf90:: with SMTP id
- um16mr2431477ejb.389.1616574899432; 
- Wed, 24 Mar 2021 01:34:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOz4R-0003hS-6U
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:41:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOz4P-0005nA-0G
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 08:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EE0482E8157
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 08:40:52 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-9-crosa@redhat.com>
-In-Reply-To: <20210323221539.3532660-9-crosa@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 24 Mar 2021 12:34:47 +0400
-Message-ID: <CAJ+F1CJmh=X-5xEFmqvKikCd5opxNYBxTp2X97nEutgztLywfA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] tests/acceptance/virtiofs_submounts.py: remove
- launch_vm()
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a2325c05be442ccd"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Mar 2021 08:35:37 -0000
+From: Yao Aili <1921082@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: yaoaili
+X-Launchpad-Bug-Reporter: Yao Aili (yaoaili)
+X-Launchpad-Bug-Modifier: Yao Aili (yaoaili)
+Message-Id: <161657493730.24559.14872462058003243751.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1921082] [NEW] VM crash when process broadcast MCE
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 43b71295bfaae02f7e889f96bfba8dfb203fc9c5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,202 +68,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Reply-To: Bug 1921082 <1921082@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a2325c05be442ccd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-On Wed, Mar 24, 2021 at 2:32 AM Cleber Rosa <crosa@redhat.com> wrote:
+When i do memory SRAR test for VM, I meet the following issue:
 
-> The LinuxTest class' launch_and_wait() method now behaves the same way
-> as this test's custom launch_vm(), so let's just use the upper layer
-> (common) method.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+My VM has 16 vCPU, I will inject one UE error to memory which is accessed b=
+y VM, Then host MCE is raised and SIGBUS is send to VM, and qemu take contr=
+ol.
+Qemu will check the broadcast attribute by following  cpu_x86_support_mca_b=
+roadcast();  =
 
 
+Then Qemu may inject MCE to all vCPU, as vCPU is just one process for
+HOST, we can't guarantee all the vCPUs will enter MCE hander in 1S sync
+time, and the VM may panic.
 
-> ---
->  tests/acceptance/virtiofs_submounts.py | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/tests/acceptance/virtiofs_submounts.py
-> b/tests/acceptance/virtiofs_submounts.py
-> index e019d3b896..d77ee35674 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -134,9 +134,6 @@ def set_up_virtiofs(self):
->                           '-numa',
->                           'node,memdev=3Dmem')
->
-> -    def launch_vm(self):
-> -        self.launch_and_wait()
-> -
->      def set_up_nested_mounts(self):
->          scratch_dir =3D os.path.join(self.shared_dir, 'scratch')
->          try:
-> @@ -225,7 +222,7 @@ def test_pre_virtiofsd_set_up(self):
->          self.set_up_nested_mounts()
->
->          self.set_up_virtiofs()
-> -        self.launch_vm()
-> +        self.launch_and_wait()
->          self.mount_in_guest()
->          self.check_in_guest()
->
-> @@ -235,14 +232,14 @@ def test_pre_launch_set_up(self):
->
->          self.set_up_nested_mounts()
->
-> -        self.launch_vm()
-> +        self.launch_and_wait()
->          self.mount_in_guest()
->          self.check_in_guest()
->
->      def test_post_launch_set_up(self):
->          self.set_up_shared_dir()
->          self.set_up_virtiofs()
-> -        self.launch_vm()
-> +        self.launch_and_wait()
->
->          self.set_up_nested_mounts()
->
-> @@ -252,7 +249,7 @@ def test_post_launch_set_up(self):
->      def test_post_mount_set_up(self):
->          self.set_up_shared_dir()
->          self.set_up_virtiofs()
-> -        self.launch_vm()
-> +        self.launch_and_wait()
->          self.mount_in_guest()
->
->          self.set_up_nested_mounts()
-> @@ -265,7 +262,7 @@ def test_two_runs(self):
->          self.set_up_nested_mounts()
->
->          self.set_up_virtiofs()
-> -        self.launch_vm()
-> +        self.launch_and_wait()
->          self.mount_in_guest()
->          self.check_in_guest()
->
-> --
-> 2.25.4
->
->
->
+This issue will be easily fixed by expand monarch_timeout configuration,
+but the exact monarch_timeout can't be easily got, as it will depand on
+the num of vCPUs and current system schedule status.
 
---=20
-Marc-Andr=C3=A9 Lureau
+I am wondering why VM need broadcast attribute for MCE, When qeme
+process MCE event form host, it will always be signaled for one vCPU? If
+so, why does qemu need boradcast the MCE event to all vCPUs?
 
---000000000000a2325c05be442ccd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Can weu just deliver LMCE to one specifc vCPU and make this behavior
+default?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 24, 2021 at 2:32 AM Clebe=
-r Rosa &lt;<a href=3D"mailto:crosa@redhat.com">crosa@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The LinuxTes=
-t class&#39; launch_and_wait() method now behaves the same way<br>
-as this test&#39;s custom launch_vm(), so let&#39;s just use the upper laye=
-r<br>
-(common) method.<br>
-<br>
-Signed-off-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.com" target=
-=3D"_blank">crosa@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Re=
-viewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; <br></div><=
-div><div><br></div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
----<br>
-=C2=A0tests/acceptance/virtiofs_submounts.py | 13 +++++--------<br>
-=C2=A01 file changed, 5 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virt=
-iofs_submounts.py<br>
-index e019d3b896..d77ee35674 100644<br>
---- a/tests/acceptance/virtiofs_submounts.py<br>
-+++ b/tests/acceptance/virtiofs_submounts.py<br>
-@@ -134,9 +134,6 @@ def set_up_virtiofs(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;-numa&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;node,memdev=3Dmem&#39;)<br>
-<br>
--=C2=A0 =C2=A0 def launch_vm(self):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0def set_up_nested_mounts(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scratch_dir =3D os.path.join(self.shared_=
-dir, &#39;scratch&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-@@ -225,7 +222,7 @@ def test_pre_virtiofsd_set_up(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_in_guest()<br>
-<br>
-@@ -235,14 +232,14 @@ def test_pre_launch_set_up(self):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_in_guest()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def test_post_launch_set_up(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_shared_dir()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
-<br>
-@@ -252,7 +249,7 @@ def test_post_launch_set_up(self):<br>
-=C2=A0 =C2=A0 =C2=A0def test_post_mount_set_up(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_shared_dir()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
-@@ -265,7 +262,7 @@ def test_two_runs(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_in_guest()<br>
-<br>
--- <br>
-2.25.4<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+If anything wrong, Please point out.
 
---000000000000a2325c05be442ccd--
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921082
+
+Title:
+  VM crash when process broadcast MCE
+
+Status in QEMU:
+  New
+
+Bug description:
+  When i do memory SRAR test for VM, I meet the following issue:
+
+  My VM has 16 vCPU, I will inject one UE error to memory which is accessed=
+ by VM, Then host MCE is raised and SIGBUS is send to VM, and qemu take con=
+trol.
+  Qemu will check the broadcast attribute by following  cpu_x86_support_mca=
+_broadcast();  =
+
+
+  Then Qemu may inject MCE to all vCPU, as vCPU is just one process for
+  HOST, we can't guarantee all the vCPUs will enter MCE hander in 1S
+  sync time, and the VM may panic.
+
+  This issue will be easily fixed by expand monarch_timeout
+  configuration, but the exact monarch_timeout can't be easily got, as
+  it will depand on the num of vCPUs and current system schedule status.
+
+  I am wondering why VM need broadcast attribute for MCE, When qeme
+  process MCE event form host, it will always be signaled for one vCPU?
+  If so, why does qemu need boradcast the MCE event to all vCPUs?
+
+  Can weu just deliver LMCE to one specifc vCPU and make this behavior
+  default?
+
+  If anything wrong, Please point out.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1921082/+subscriptions
 
