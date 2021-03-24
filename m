@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46DF347186
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:19:13 +0100 (CET)
-Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22D9347191
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:24:43 +0100 (CET)
+Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOwrI-0006pI-Mm
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
+	id 1lOwwc-0008Nl-FR
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:24:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOwpB-0006AZ-ML
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:17:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48736)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwv6-0007vv-8K
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:23:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOwp6-0002AW-Sy
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:17:00 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwv3-0005h4-P5
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:23:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616566614;
+ s=mimecast20190719; t=1616566984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=685/wzeWZlYfnfnvDiyBoIrtgTcKYyA9KUAjUhKX7+g=;
- b=apWd5/vc/wmY+ZQWu3IpZYnWgiyFqBjy94RVvBhOMSX9Vdf24hC6Pi31/mn2eKaZ8zA39M
- 7Xwc5IzfvKT0/cQe4z5g6BW/hjI+JlbpIso8Z4tJ2DpLln9T3h4qGK/4ULE6ut53TTvG7S
- TBR6iarpAsoQMenYlWwqNkalO/YhilY=
+ bh=YJByilW8l9ZM9/zDcMEhjX7ChK5eM8hn3/TsZj4VbMY=;
+ b=EeG26lp4SpYdTVBGA7scEGB/Ny8Py7woRlWA5z17WNS0lZRRwN8hQxlUXDZdFZM6PPeIw1
+ 7kWzoW7X8dMpwxSN1zpk804gBEfFwQtZ1jBeeFTStBNz8UvS7GZFT9grS38VrPfE9kthc9
+ Tc7wJK7+MfZy2kr3iucY+/mMRd12ORw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-h5JacImHO6u_fgDTZq2Rbg-1; Wed, 24 Mar 2021 02:16:52 -0400
-X-MC-Unique: h5JacImHO6u_fgDTZq2Rbg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-325-D-0Tqj-mNCOsx0ctf0n8Fg-1; Wed, 24 Mar 2021 02:23:01 -0400
+X-MC-Unique: D-0Tqj-mNCOsx0ctf0n8Fg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8A6087A826;
- Wed, 24 Mar 2021 06:16:50 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-47.ams2.redhat.com [10.36.112.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31E0960C05;
- Wed, 24 Mar 2021 06:16:48 +0000 (UTC)
-Subject: Re: [PATCH v2] MAINTAINERS: Fix tests/migration maintainers
-To: huangy81@chinatelecom.cn, qemu-devel <qemu-devel@nongnu.org>
-References: <91d5978357fb8709ef61d2030984f7142847037d.1616141556.git.huangy81@chinatelecom.cn>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <0b3c39c2-c34e-d4d2-a43d-f932d4128baa@redhat.com>
-Date: Wed, 24 Mar 2021 07:16:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A77FE593A7;
+ Wed, 24 Mar 2021 06:23:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E06B2C168;
+ Wed, 24 Mar 2021 06:22:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3403E11327E1; Wed, 24 Mar 2021 07:22:56 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 13/28] qapi: Enforce event naming rules
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-14-armbru@redhat.com>
+ <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com>
+Date: Wed, 24 Mar 2021 07:22:56 +0100
+In-Reply-To: <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com> (John Snow's
+ message of "Tue, 23 Mar 2021 18:31:47 -0400")
+Message-ID: <87r1k5f4u7.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <91d5978357fb8709ef61d2030984f7142847037d.1616141556.git.huangy81@chinatelecom.cn>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,42 +81,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/03/2021 09.07, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> when executing the following scripts, it throw error message:
-> $ ./scripts/get_maintainer.pl -f tests/migration/guestperf.py
-> get_maintainer.pl: No maintainers found, printing recent contributors.
-> get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
-> 
-> add the tests/migration to the "Migration" section of MAINTAINERS
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 25fc49d1dc..d3f3edb47d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2724,6 +2724,7 @@ F: tests/vmstate-static-checker-data/
->   F: tests/qtest/migration-test.c
->   F: docs/devel/migration.rst
->   F: qapi/migration.json
-> +F: tests/migration/
->   
->   D-Bus
->   M: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
+John Snow <jsnow@redhat.com> writes:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>> Event names should be ALL_CAPS with words separated by underscore.
+>> Enforce this.  The only offenders are in tests/.  Fix them.  Existing
+>> test event-case covers the new error.
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   tests/unit/test-qmp-event.c               |  6 +++---
+>>   scripts/qapi/expr.py                      |  4 +++-
+>>   tests/qapi-schema/doc-good.json           |  4 ++--
+>>   tests/qapi-schema/doc-good.out            |  4 ++--
+>>   tests/qapi-schema/doc-good.txt            |  2 +-
+>>   tests/qapi-schema/doc-invalid-return.json |  4 ++--
+>>   tests/qapi-schema/event-case.err          |  2 ++
+>>   tests/qapi-schema/event-case.json         |  2 --
+>>   tests/qapi-schema/event-case.out          | 14 --------------
+>>   tests/qapi-schema/qapi-schema-test.json   |  6 +++---
+>>   tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
+>>   11 files changed, 22 insertions(+), 34 deletions(-)
+>> diff --git a/tests/unit/test-qmp-event.c
+>> b/tests/unit/test-qmp-event.c
+>> index 047f44ff9a..d58c3b78f2 100644
+>> --- a/tests/unit/test-qmp-event.c
+>> +++ b/tests/unit/test-qmp-event.c
+>> @@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
+>>     static void test_event_deprecated(TestEventData *data, const
+>> void *unused)
+>>   {
+>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
+>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
+>>         memset(&compat_policy, 0, sizeof(compat_policy));
+>>   @@ -163,7 +163,7 @@ static void
+>> test_event_deprecated_data(TestEventData *data, const void *unused)
+>>   {
+>>       memset(&compat_policy, 0, sizeof(compat_policy));
+>>   -    data->expect = qdict_from_jsonf_nofail("{ 'event':
+>> 'TEST-EVENT-FEATURES0',"
+>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
+>>                                              " 'data': { 'foo': 42 } }");
+>>       qapi_event_send_test_event_features0(42);
+>>       g_assert(data->emitted);
+>> @@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
+>>         compat_policy.has_deprecated_output = true;
+>>       compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
+>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
+>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
+>>       qapi_event_send_test_event_features0(42);
+>>       g_assert(data->emitted);
+>>   diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>> index b5fb0be48b..c065505b27 100644
+>> --- a/scripts/qapi/expr.py
+>> +++ b/scripts/qapi/expr.py
+>> @@ -45,7 +45,9 @@ def check_name_str(name, info, source):
+>>     def check_name_upper(name, info, source):
+>>       stem = check_name_str(name, info, source)
+>> -    # TODO reject '[a-z-]' in @stem
+>> +    if re.search(r'[a-z-]', stem):
+>> +        raise QAPISemError(
+>> +            info, "name of %s must not use lowercase or '-'" % source)
+>>   
+>
+> Does a little bit more than check_name_upper. Is this only used for
+> event names? I guess so. Should it be inlined into check_defn_name_str 
+> instead in this case, or nah?
+
+I'd prefer not to inline.  I'm open to better function names.
+
+We have three name styles.  qapi-code-gen.txt:
+
+    [Type] definitions should always use CamelCase for
+    user-defined type names, while built-in types are lowercase.
+
+    [...]
+
+    Command names, and member names within a type, should be all lower
+    case with words separated by a hyphen.  [...]
+
+    Event names should be ALL_CAPS with words separated by underscore.
+
+I define three functions for them: check_name_camel(),
+check_name_lower(), and check_name_upper().
+
+The functions factor out the naming rule aspect, and they let us keep
+the naming rule aspect together.  That's why I'd prefer not to inline.
+
+We could name them after their purpose instead:
+check_name_user_defined_type(), check_name_command_or_member(),
+check_name_event().  The first two are rather long.  Shorter:
+check_name_type(), check_name_other(), check_name_event().
+
+Thoughts?
 
 
