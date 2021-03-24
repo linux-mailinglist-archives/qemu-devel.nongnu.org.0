@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19B63480FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:54:28 +0100 (CET)
-Received: from localhost ([::1]:41860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101B53480F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:51:39 +0100 (CET)
+Received: from localhost ([::1]:33600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP8eB-00030S-KW
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47962)
+	id 1lP8bR-0007uv-Vo
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP8Uj-0002oQ-Qr
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:44:41 -0400
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35]:36695)
+ id 1lP8Wm-0004gM-IQ
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:46:51 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:36589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP8Ui-0000bv-CG
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:44:41 -0400
-Received: by mail-oo1-xc35.google.com with SMTP id
- w1-20020a4adec10000b02901bc77feac3eso6071507oou.3
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:44:39 -0700 (PDT)
+ id 1lP8Wk-0001il-8R
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:46:47 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id c16so12973486oib.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hx2p14Er2yZ3WFAp4m23jDPGqN8PVhgBzt2Gm3Dkx5Q=;
- b=W46YyKOl3R8pf+hM7H5k4pNM4GzBXvoQt/Qx2pJClyRPsYgnd61VG/Z2k0I2Sk3aef
- YC89Xt6s7t8s/K7XMOIeCfuzbAjGBTpF8sp+Yzy++REPQinyvMd3LEoF8ZZyMagWS5vh
- Rc8o2K4iCL441rTIdlmOzMLuiYOfA64Ma6WkFZB8cnraKcbbcRTwHCfMsdo+tNA7zvNR
- lBgidcyTe37Pt6pA2G+tqs3HKHCFDpcbn86kA3dlNKbAlA7dueqMhKn6HIviJZc39zNJ
- WzR2nTh+e3h7Hceik4ZOPktdArebcFA3LWPDULRaEPV2fXso2Tg6R+rZZfbHPVMAyVQi
- k1lw==
+ bh=PG+THLRh9lBOFFhsnImK9KGxJUF8gfrWUmvYXVXNspA=;
+ b=A8iTzuoUNm24ZwH7Lff8AQIpCpedh/lit3iRSdRh7fEave8VuMRKTxnsqVYpf31tF6
+ he+izricmD5JAW3HZMMOZZSSUTNV/+D8UHAk5s1K1XMlipk6x2QlGpBVP0RDUr9WAJiE
+ 5ojNpCA+nmooOmNiiX6DAKehEHONSZRh+p5Pyi3v4L5/24MjA5EJUEkqWCAAmLGd2Vxy
+ I9+krDOz+8giaup/hCArzxdMMwjbkSZCFydu4Uadedt6f6VOdtU88aaeh0sw0dKFNKER
+ sjf42+SirX5zf7kcgYPr+HMbTVNYkNZSOuucxu3TRiY2bOoV7BYRYZzHYYR1JAc28xI7
+ M7aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Hx2p14Er2yZ3WFAp4m23jDPGqN8PVhgBzt2Gm3Dkx5Q=;
- b=m0OKk4LBZZz588pgYRpljwlMUmnd3ROTWn9ku81yNPMoz7G/nr8DOGhAez9VngBZ/u
- FytRG+mUaGDdkWglvqz8FXJICdquHZayBUynjJr3NcWLsX/0orIhW1Vi93o3e+zNdUB3
- uuwdLkgTgm6fwH8810vk/HTmtjfhKJ1A9OMFr40M2p+L7DuuosaESyAwRDxGDrvpigCU
- qswpodeCqdbO0ZNBOHfk1h97oz2YtA3qcaZxOOR5XFVg0grMVraw2e4Jc+VThQAxG0F0
- nLIRtVZDoAt0tMmSomDKlAwVHgo2gBdJHhpW5pTOkDFrEf/0RGreXx7OLVG3nnaFRvTs
- KVPw==
-X-Gm-Message-State: AOAM531TW0UVjQi99TWmCEjLkd8j4KbvDO9UxuPfUqqFK0ldsodofIlj
- 1W47YQheMghk/bhz8iF+twcf9w==
-X-Google-Smtp-Source: ABdhPJzabKa307TSKJOL4liL1Ptrzch22fdoa9NUoKlzVmcWq5IDffYUuNOm2eHTifnynfFIlr/4Ug==
-X-Received: by 2002:a4a:a223:: with SMTP id m35mr3869718ool.39.1616611479314; 
- Wed, 24 Mar 2021 11:44:39 -0700 (PDT)
+ bh=PG+THLRh9lBOFFhsnImK9KGxJUF8gfrWUmvYXVXNspA=;
+ b=Ic5MSqqllUICx2K4oKi47dvDPKf9uDPAFabOvToybzo6SL6Ma/le3BCzN8KeGK+Hgh
+ kqlcYqqzkw7IDbBrDEXwHl36qop2hsqhsEKGLAQHY6C1jMuc58fhWtztAr5dTzfF0CMG
+ cEJsmZWzAKk5s6AvmPDxVQcUPUfb+ivhjUnt2J/cmkoJMtuoNPccOG4GVlTO6ijj1YbO
+ U8WbSdKmKagf2MguOsGiUKW+TAG3msQDD02O5okJiuxkfo69k1q0vUeTzANX4W2wP6SV
+ jw5QSPRWCtK3Z/pam5VY8lq6Xts+mmTaBxga+UWEuRpiWmbfpyGA6gXptT4EZz1tWwfM
+ SEJQ==
+X-Gm-Message-State: AOAM531CVykBG21WdmNWYvXarOUwRAxkN1nQLISHAfl1HiBmWqtvJK3Q
+ LStoVxFUaBRFt9RRufa7gYgeWQ==
+X-Google-Smtp-Source: ABdhPJxq1eOhGKhnpPQ+5cBzfIijjV+p8OJDzNfqK2V+IqgTXtHY9QiNXmkUmLKE0z4PmmaJtAIFmw==
+X-Received: by 2002:aca:4bc5:: with SMTP id y188mr3317933oia.136.1616611603910; 
+ Wed, 24 Mar 2021 11:46:43 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id f129sm576698oia.9.2021.03.24.11.44.37
+ by smtp.gmail.com with ESMTPSA id g2sm712044otn.32.2021.03.24.11.46.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 11:44:38 -0700 (PDT)
-Subject: Re: [RFC v11 16/55] target/arm: only perform TCG cpu and machine
- inits if TCG enabled
+ Wed, 24 Mar 2021 11:46:43 -0700 (PDT)
+Subject: Re: [RFC v11 17/55] target/arm: kvm: add stubs for some helpers
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-9-cfontana@suse.de>
+ <20210323154639.23477-10-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b339a569-096d-0451-061a-ee56390458f0@linaro.org>
-Date: Wed, 24 Mar 2021 12:44:36 -0600
+Message-ID: <2ff24a3a-39d5-30a1-62a5-e11f04de082c@linaro.org>
+Date: Wed, 24 Mar 2021 12:46:40 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-9-cfontana@suse.de>
+In-Reply-To: <20210323154639.23477-10-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -100,19 +98,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> of note, cpreg lists were previously initialized by TCG first,
-> and then thrown away and replaced with the data coming from KVM.
-> 
-> Now we just initialize once, either for TCG or for KVM.
+> at least the armv7m one should go away with proper
+> configuration changes (only enabling possible boards for KVM).
 > 
 > Signed-off-by: Claudio Fontana<cfontana@suse.de>
 > ---
->   target/arm/cpu.c     | 32 ++++++++++++++++++--------------
->   target/arm/kvm.c     | 18 +++++++++---------
->   target/arm/machine.c | 20 +++++++++++++-------
->   3 files changed, 40 insertions(+), 30 deletions(-)
+>   target/arm/kvm/helper-stubs.c | 27 +++++++++++++++++++++++++++
+>   target/arm/kvm/meson.build    |  3 +++
+>   target/arm/meson.build        |  1 +
+>   3 files changed, 31 insertions(+)
+>   create mode 100644 target/arm/kvm/helper-stubs.c
+>   create mode 100644 target/arm/kvm/meson.build
+> 
+> diff --git a/target/arm/kvm/helper-stubs.c b/target/arm/kvm/helper-stubs.c
+> new file mode 100644
+> index 0000000000..8e952c91fa
+> --- /dev/null
+> +++ b/target/arm/kvm/helper-stubs.c
+> @@ -0,0 +1,27 @@
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hmm.  Is this really kvm-specific, or should it just be tcg/tcg-stubs.c, added 
+with: 'CONFIG_TCG', if_false: ?
 
 
 r~
