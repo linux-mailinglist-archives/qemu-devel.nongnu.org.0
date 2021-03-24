@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BAB347D86
+	by mail.lfdr.de (Postfix) with ESMTPS id F12DC347D87
 	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 17:18:58 +0100 (CET)
-Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP6Dh-00087q-FE
+	id 1lP6Dh-00085p-Sk
 	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 12:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32966)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP6Aa-00079m-6R
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:15:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58088)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lP6AP-00075o-VQ; Wed, 24 Mar 2021 12:15:34 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:39664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP6AW-0002Nh-C9
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:15:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lP6AU-0004c1-9M
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 16:15:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 45C292E8157
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 16:15:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lP6AK-0002Hw-88; Wed, 24 Mar 2021 12:15:33 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id bf3so28317310edb.6;
+ Wed, 24 Mar 2021 09:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=jwClcfOuO8IcCssQAkwvdYYydVkVQBpXghYANWsk9Lc=;
+ b=ntsdJYjl6WHddzyu879dqlndDAyCVJ0uk7czQegLmJprevoi100TYjBpQn7D7CcgsB
+ bVHBWMjbFYUtP/bsyJvhasL5h1QdNjTXtiw4PYAWkkjkScyryfCbo+PAUbw4n02Vqhvv
+ FrbXn43KdQq9iNwbyna/vOPxs1Xcc19ARkN8OBDRwpLFqA1WqPtoRyl4fuHxg0Kt8XSH
+ xWTJeiydBWl/FONgEFOhCOJ+7l3R7G0eRCACEicaIi1QEREW3DxOHhj2VlX5L1f5+fBr
+ 8K3A15rk0yG8moHsoZorqs2wRzTEUdGs+/awKQUZPe0Zj50kL1/zTeftaXMFa/LfgWbY
+ zhMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jwClcfOuO8IcCssQAkwvdYYydVkVQBpXghYANWsk9Lc=;
+ b=hJZLDM0pN9xCjPhwJycn80I/sm0f/pkQrDD3+wgYgnCmYS/gR9fwa8T3hGsEnreTy8
+ MJ/1VZ/CqYt3ZPZR2hkWQ3Xhd7JpJDycp+lZ9v4G1QrqqKfTlt9dOXjy2GCqklxjinNP
+ Wf5D0MlFv9G3qzEQ+apl/NQJARercrTdu89PVveI9s00FJZjLVOzfaEbtWKAM04RZ/aq
+ BKCTYqR/GHs12S1ncpmxo0hK7Trldr02h+JLP0lAs7qy/8v9/NL1xYWryHdSTITgqadl
+ 57sbOXtJxAX091SkqmzNgzbbKncunKv752B31FN5qKkdW8BA0McBoKpXeCKMPGqqSG+U
+ ohUw==
+X-Gm-Message-State: AOAM533w1WGMhR/NcIVAmTILiy8W/SI7LDQG+AlAnQ7QmuR1vy3U2oox
+ mqJWdT8HEWFQyH/W2OZMZ94=
+X-Google-Smtp-Source: ABdhPJzYztfOTt/KYH3wXjx74fh9Q3fXlIzEQObtIJPK2dcnV/VcW5LtemVMDQgun+kX492DTG/7UA==
+X-Received: by 2002:a05:6402:1713:: with SMTP id
+ y19mr4278168edu.52.1616602525563; 
+ Wed, 24 Mar 2021 09:15:25 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id x1sm1151120eji.8.2021.03.24.09.15.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 09:15:24 -0700 (PDT)
+Date: Wed, 24 Mar 2021 16:15:23 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 4/6] coroutine-lock: reimplement CoRwlock to fix
+ downgrade bug
+Message-ID: <YFtlm2+gainm8rox@stefanha-x1.localdomain>
+References: <20210317180013.235231-1-pbonzini@redhat.com>
+ <20210317180013.235231-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Mar 2021 16:08:26 -0000
-From: Peter Maydell <1921092@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm debug
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: m-schoenstedt pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Martin_Sch=C3=B6nstedt_=28m-schoenstedt?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161658153575.32717.2347487454546278840.malonedeb@soybean.canonical.com>
-Message-Id: <161660210625.19496.49787149668938267.malone@wampee.canonical.com>
-Subject: [Bug 1921092] Re: how do i delete this bug?
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 32726c396ef0532b24924f5704939185660e375b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yYk8K0EixWDoxQTB"
+Content-Disposition: inline
+In-Reply-To: <20210317180013.235231-5-pbonzini@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=stefanha@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,69 +84,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921092 <1921092@bugs.launchpad.net>
+Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In general, you don't need to delete bugs that turn out to be user
-error, or edit the description/title; just mark them as 'invalid',
-perhaps with a comment about what turned out to be the cause. That
-leaves the trail of what was going on for future readers who might be
-going down the same path as you.
 
-There are actually a couple of things we should do here in upstream
-QEMU:
+--yYk8K0EixWDoxQTB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* we should document the process for using the debugstub with multi-cluster=
- board models like the mps2-an521
-* we should check whether we are doing the right/most appropriate thing whe=
-n the user connects to the debug stub and is only attaching to one 'inferio=
-r' -- it sounds from your report like the un-attached inferior is left perm=
-anently in the 'stopped' state. Maybe that's what the gdb protocol requires=
-, but it seems a bit unhelpful.
+On Wed, Mar 17, 2021 at 07:00:11PM +0100, Paolo Bonzini wrote:
+> +static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
+> +{
+> +    CoRwTicket *tkt =3D QSIMPLEQ_FIRST(&lock->tickets);
+> +    Coroutine *co =3D NULL;
+> +
+> +    /*
+> +     * Setting lock->owners here prevents rdlock and wrlock from
+> +     * sneaking in between unlock and wake.
+> +     */
+> +
+> +    if (tkt) {
+> +        if (tkt->read) {
+> +            if (lock->owners >=3D 0) {
+> +                lock->owners++;
+> +                co =3D tkt->co;
+> +            }
+> +        } else {
+> +            if (lock->owners =3D=3D 0) {
+> +                lock->owners =3D -1;
+> +                co =3D tkt->co;
+> +            }
+> +        }
+> +    }
+> +
+> +    if (co) {
+> +        QSIMPLEQ_REMOVE_HEAD(&lock->tickets, next);
+> +        qemu_co_mutex_unlock(&lock->mutex);
+> +        aio_co_wake(co);
 
-I'm going to update the bug status/text accordingly.
+I find it hard to reason about QSIMPLEQ_EMPTY(&lock->tickets) callers
+that execute before co is entered. They see an empty queue even though a
+coroutine is about to run. Updating owners above ensures that the code
+correctly tracks the state of the rwlock, but I'm not 100% confident
+about this aspect of the code.
 
+>  void qemu_co_rwlock_upgrade(CoRwlock *lock)
+>  {
+> -    Coroutine *self =3D qemu_coroutine_self();
+> -
+>      qemu_co_mutex_lock(&lock->mutex);
+> -    assert(lock->reader > 0);
+> -    lock->reader--;
+> -    lock->pending_writer++;
+> -    while (lock->reader) {
+> -        qemu_co_queue_wait(&lock->queue, &lock->mutex);
+> -    }
+> -    lock->pending_writer--;
+> +    assert(lock->owners > 0);
+> +    /* For fairness, wait if a writer is in line.  */
+> +    if (lock->owners =3D=3D 1 && QSIMPLEQ_EMPTY(&lock->tickets)) {
+> +        lock->owners =3D -1;
+> +        qemu_co_mutex_unlock(&lock->mutex);
+> +    } else {
+> +        CoRwTicket my_ticket =3D { false, qemu_coroutine_self() };
+> =20
+> -    /* The rest of the write-side critical section is run with
+> -     * the mutex taken, similar to qemu_co_rwlock_wrlock.  Do
+> -     * not account for the lock twice in self->locks_held.
+> -     */
+> -    self->locks_held--;
+> +        lock->owners--;
+> +        QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
+> +        qemu_co_rwlock_maybe_wake_one(lock);
+> +        qemu_coroutine_yield();
+> +        assert(lock->owners =3D=3D -1);
 
-** Summary changed:
+lock->owners is read outside lock->mutex here. Not sure if this can
+cause problems.
 
-- how do i delete this bug?
-+ gdbstub debug of multi-cluster machines is undocumented and confusing
+> +    }
+>  }
 
-** Changed in: qemu
-       Status: Invalid =3D> Confirmed
+locks_held is kept unchanged across qemu_coroutine_yield() even though
+the read lock has been released. rdlock() and wrlock() only increment
+locks_held after acquiring the rwlock.
 
-** Description changed:
+In practice I don't think it matters, but it seems inconsistent. If
+locks_held is supposed to track tickets (not just coroutines currently
+holding a lock), then rdlock() and wrlock() should increment before
+yielding.
 
-- no bugs here
-+ Working with Zephyr RTOS, running a multi core sample on mps2_an521 works=
- fine. Both cpus start.
-+ Trying to debug with options -s -S the second core fails to boot.
-+ =
+--yYk8K0EixWDoxQTB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-+ Posted with explanation also at: https://github.com/zephyrproject-
-+ rtos/zephyr/issues/33635
+-----BEGIN PGP SIGNATURE-----
 
--- =
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBbZZsACgkQnKSrs4Gr
+c8gtEAgAplR5+ESCNNH46d+DzPLx+sXKQqLydIHZ4vgT0JOsrwu3qnNiZDlt0tM6
+kuF/NzFFN/MpXCWi8B/IWtF9psMz3JeFupgw/J9ug1viw4fLEdZ9FPKY1kZbpPlW
+Ux29RW9a9Sy8TKnk0qWwaF4XGnVKhoijeeGAUCBwc11jroszo/+v0Ec38V03Ojbe
+JR0CfqmxTMvRXCpM8EqFa8kpQIpCOrcerz0NomP8I7PuwH78i999sQYVbTsWO0pd
+j6HxtA6bkV5Zz05Zz4ABySL2Bi6DLzpvu8U3IP1t2k1es4DVwET4h5BWafDPovG2
+xKjySdirTt6NRtdzxo+3CeVQx9zpQw==
+=NeV1
+-----END PGP SIGNATURE-----
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921092
-
-Title:
-  gdbstub debug of multi-cluster machines is undocumented and confusing
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Working with Zephyr RTOS, running a multi core sample on mps2_an521 works=
- fine. Both cpus start.
-  Trying to debug with options -s -S the second core fails to boot.
-
-  Posted with explanation also at: https://github.com/zephyrproject-
-  rtos/zephyr/issues/33635
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921092/+subscriptions
+--yYk8K0EixWDoxQTB--
 
