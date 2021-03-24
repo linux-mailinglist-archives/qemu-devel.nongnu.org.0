@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A00A3472E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:42:49 +0100 (CET)
-Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869073472BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:35:26 +0100 (CET)
+Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOyAC-0005zt-6q
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51852)
+	id 1lOy33-0006zt-I0
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOy8n-0005Ud-5w
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:41:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42736)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lOy19-0005pK-5Y
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:27 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:36417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lOy8k-00022j-7k
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:41:20 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lOy8i-0001AS-3m
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:41:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1AEAE2E8055
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:41:16 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Mar 2021 07:31:22 -0000
-From: P J P <1909247@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lOy17-0005jE-5U
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:26 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id ay2so7457146plb.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 00:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1oXm6qUw6QpqC4i+KxPbUebxbIUSL7Ivcb0MJyKya+I=;
+ b=Dq5YHyuvtfPVVxZSMBj9KfQnlRR1F//WnsUl0ZeYVwto3RaGYXKDiVgcN+4EClCe4r
+ WNhu7DAS5PcAUNGCCV60vGib6KKpaZjvrt2gSTjId0VsLsyZlI3U+cOpWlj0+OE1yyA9
+ xIuI881Xn8jU9FY7OWXV1/ZxeTUK7LDABcGkKlGEIvA6cZBJUk6fXu47JsQceyXjKOIl
+ eZt7OtTpAnbGqbGXAWy8f+ZjZHJJfDhIFwLUp+he7MeaOy4pUQ7hwzOlG8ZvtxnXmxiY
+ 0SXD4rBJZFjHCf6nfMMyzpCNu1iJos1MeVr74ryQZ3P7aNTHB9xCcQaEYIHt+hiGtjUH
+ UfZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1oXm6qUw6QpqC4i+KxPbUebxbIUSL7Ivcb0MJyKya+I=;
+ b=Cm8U8AUH8Mn0/FyiyIDZsilB0heQ7I5n8rbmYMJLLDyLb+nKrpXHr1IY322YHA34DB
+ ouq4OSpigFE2TiU4NhQHe1LiSTx+uT2vXquCa31bNsj3GenFHqvrJxQqCoQKcDS/85H2
+ D832KY2M/B8LWUrrIhlWS7GTCzm0NqRyso7ACtqOPcnfVoHdrt3ejlRHCNSvM/Tmr3M7
+ yIiUaAmumutI7I8/Zk6mcUrLISxqJRj4MYJl4q9zCSY3cImDnbmHGTN+EHlBAWM4x0vd
+ 2JCjxh1yh6X/sdrMh4ikA5+wUbgUQhKaIABswHTk4Cj0jazfWPu7lwx17CX9jEX24hvf
+ TLZw==
+X-Gm-Message-State: AOAM533gEQdW8TTecDQEwC7JI5tfwFSge2fgSlWlGEkIyd7cWonNDXut
+ U5L7S63v6AqurCbVm5Yl0CU2kKfcXb4o9Q==
+X-Google-Smtp-Source: ABdhPJwV2veriH5lE2/FppPRfc75XJLNcgNpOMRgo4DkBt/f0AdqnCPSiQ1uy5goWAO2JsWqicI47w==
+X-Received: by 2002:a17:90a:f28d:: with SMTP id
+ fs13mr2072460pjb.220.1616571203090; 
+ Wed, 24 Mar 2021 00:33:23 -0700 (PDT)
+Received: from localhost ([122.172.6.13])
+ by smtp.gmail.com with ESMTPSA id d13sm1412207pgb.6.2021.03.24.00.33.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 24 Mar 2021 00:33:22 -0700 (PDT)
+From: Viresh Kumar <viresh.kumar@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve fuzzer qemu security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland mauro-cascella pjps
-X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
-X-Launchpad-Bug-Modifier: P J P (pjps)
-References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
-Message-Id: <161657108250.32717.5311086901810004029.malone@soybean.canonical.com>
-Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
- in hw/scsi/esp.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: ff668b90288a9c331e6728be40dee873397e3654
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/5] virtio: Implement generic vhost-user-i2c backend
+Date: Wed, 24 Mar 2021 13:03:09 +0530
+Message-Id: <cover.1616570702.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,201 +82,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Bill Mills <bill.mills@linaro.org>,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 17 March, 2021, 10:26:36 pm IST, Cheolwoo Myung <cwmyung@snu.=
-ac.kr> wrote: =
+Hello,
 
-> Hello  PJP, Mauro
->
-> Of course. you can post the details with our reproducers. =
+This is an initial implementation of a generic vhost-user backend for
+the I2C bus. This is based of the virtio specifications (already merged)
+for the I2C bus.
 
-> I'm glad it helped you.
->
-> Thank you.
-> - Cheolwoo Myung
->
+The kernel virtio I2C driver is still under review, here is the latest
+version (v10):
 
+  https://lore.kernel.org/lkml/226a8d5663b7bb6f5d06ede7701eedb18d1bafa1.1616493817.git.jie.deng@intel.com/
 
-2021=EB=85=84 3=EC=9B=94 17=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 10:30, =
-P J P <pjp@fedoraproject.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
->On Monday, 15 March, 2021, 07:54:30 pm IST, Mauro Matteo Cascella <mcascel=
-l@redhat.com> wrote: =
+The backend is implemented as a vhost-user device because we want to
+experiment in making portable backends that can be used with multiple
+hypervisors.  We also want to support backends isolated in their own
+separate service VMs with limited memory cross-sections with the
+principle guest. This is part of a wider initiative by Linaro called
+"project Stratos" for which you can find information here:
 
->>JFYI, CVE-2020-35506 was assigned to a very similar (if not the same)
->>issue, see https://bugs.launchpad.net/qemu/+bug/1909247.
->
-> * From the QEMU command lines below they do look similar.
->  =
+  https://collaborate.linaro.org/display/STR/Stratos+Home
 
-> * CVE bug above does not link to an upstream fix/patch. Maybe it's not fi=
-xed yet?
->
->
->On Mon, Mar 15, 2021 at 6:58 AM P J P <pjp@fedoraproject.org> wrote:
-> >On Monday, 15 March, 2021, 11:11:14 am IST, Cheolwoo Myung <cwmyung@snu.=
-ac.kr> wrote:
-> >Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in am53c=
-974 emulator of QEMU enabled ASan.
-> >
-> ># To reproduce this issue, please run the QEMU process with the followin=
-g command line.
-> >$ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=
-=3Ddisk,format=3Draw \
-> >  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive >id=
-=3DSysDisk,if=3Dnone,file=3D./disk.img
-> >
-> >
-> > Using hypervisor fuzzer, hyfuzz, I found a stack buffer overflow issue =
-in am53c974 emulator of QEMU enabled ASan.
-> >
-> ># To reproduce this issue, please run the QEMU process with the followin=
-g command line.
-> >$ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=
-=3Ddisk,format=3Draw \
-> >  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive >id=
-=3DSysDisk,if=3Dnone,file=3D./disk.img
-> >
+I mentioned this to explain the decision to write the daemon as a fairly
+pure glib application that just depends on libvhost-user.
 
-* I was able to reproduce these issues against the latest upstream git sour=
-ce
-  and following patch helps to fix above two issues.
-=3D=3D=3D
-$ git diff hw/scsi/
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index c3d3dab05e..4a6f208069 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -98,6 +98,7 @@ static void esp_pci_handle_abort(PCIESPState *pci, uint32=
-_t val)
-     trace_esp_pci_dma_abort(val);
-     if (s->current_req) {
-         scsi_req_cancel(s->current_req);
-+        s->async_len =3D 0;
-     }
- }
- =
+We are not sure where the vhost-user backend should get queued, qemu or
+a separate repository. Similar questions were raised by an earlier
+thread by Alex Bennée for his RPMB work:
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 507ab363bc..99bee7bc66 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -564,7 +564,7 @@ static void esp_do_dma(ESPState *s)
-     int to_device =3D ((s->rregs[ESP_RSTAT] & 7) =3D=3D STAT_DO);
-     uint8_t buf[ESP_CMDFIFO_SZ];
- =
-
--    len =3D esp_get_tc(s);
-+    len =3D MIN(esp_get_tc(s), sizeof(buf));
-     if (s->do_cmd) {
-         /*
-=3D=3D=3D
+  https://lore.kernel.org/qemu-devel/20200925125147.26943-1-alex.bennee@linaro.org/
 
 
-> >Using hypervisor fuzzer, hyfuzz, I found a heap buffer overflow issue in=
- am53c974 emulator of QEMU enabled ASan.
-> >
-> ># To reproduce this issue, please run the QEMU process with the followin=
-g command line.
-> >$ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=
-=3Ddisk,format=3Draw \
-> >  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive >id=
-=3DSysDisk,if=3Dnone,file=3D./disk.img
+Testing:
+-------
 
-* This heap OOB access issue seems to occur because
+I didn't have access to a real hardware where I can play with a I2C
+client device (like RTC, eeprom, etc) to verify the working of the
+backend daemon, so I decided to test it on my x86 box itself with
+hierarchy of two ARM64 guests.
 
-   static void do_busid_cmd(...)
-     ...
-     buf =3D (uint8_t *)fifo8_pop_buf(&s->cmdfifo, cmdlen, &n); <=3D=3D
+The first ARM64 guest was passed "-device ds1338,address=0x20" option,
+so it could emulate a ds1338 RTC device, which connects to an I2C bus.
+Once the guest came up, ds1338 device instance was created within the
+guest kernel by doing:
 
-'buf' points towards an end of the 32 byte buffer allocated via
+  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
 
-   static void esp_init(Object *obj)
-     ...
-     fifo8_create(&s->cmdfifo, ESP_CMDFIFO_SZ(=3D32));  <=3D=3D
+[
+  Note that this may end up binding the ds1338 device to its driver,
+  which won't let our i2c daemon talk to the device. For that we need to
+  manually unbind the device from the driver:
 
-and the OOB access could occur at numerous places, one of which is
+  echo 0-0020 > /sys/bus/i2c/devices/0-0020/driver/unbind
+]
 
-scsi_req_new
- -> scsi_req_parse_cdb
-  -> memcpy(cmd->buf, buf, cmd->len);  <=3D=3D buf=3D27, cmd->len=3D6 <=3D =
-27+6 exceeds limit 32.
+After this is done, you will get /dev/rtc1. This is the device we wanted
+to emulate, which will be accessed by the vhost-user-i2c backend daemon
+via the /dev/i2c-0 file present in the guest VM.
+
+At this point we need to start the backend daemon and give it a
+socket-path to talk to from qemu (you can pass -v to it to get more
+detailed messages):
+
+  vhost-user-i2c --socket-path=vi2c.sock --device-list 0:20
+
+[ Here, 0:20 is the bus/device mapping, 0 for /dev/i2c-0 and 20 is
+client address of ds1338 that we used while creating the device. ]
+
+Now we need to start the second level ARM64 guest (from within the first
+guest) to get the i2c-virtio.c Linux driver up. The second level guest
+is passed the following options to connect to the same socket:
+
+  -chardev socket,path=vi2c.sock,id=vi2c \
+  -device vhost-user-i2c-pci,chardev=vi2c,id=i2c
+
+Once the second level guest boots up, we will see the i2c-virtio bus at
+/sys/bus/i2c/devices/i2c-X/. From there we can now make it emulate the
+ds1338 device again by doing:
+
+  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
+
+[ This time we want ds1338's driver to be bound to the device, so it
+should be enabled in the kernel as well. ]
+
+And we will get /dev/rtc1 device again here in the second level guest.
+Now we can play with the rtc device with help of hwclock utility and we
+can see the following sequence of transfers happening if we try to
+update rtc's time from system time.
+
+hwclock -w -f /dev/rtc1 (in guest2) ->
+  Reaches i2c-virtio.c (Linux bus driver in guest2) ->
+    transfer over virtio ->
+      Reaches the qemu's vhost-i2c device emulation (running over guest1) ->
+        Reaches the backend daemon vhost-user-i2c started earlier (in guest1) ->
+          ioctl(/dev/i2c-0, I2C_RDWR, ..); (in guest1) ->
+	    reaches qemu's hw/rtc/ds1338.c (running over host)
 
 
-* This one is quite tricky to fix. Because 'buf[]' is accessed at various
-  places with hard coded index values. It's not easy to check access
-  against 's->cmdfifo' object.
+I hope I was able to give a clear picture of my test setup here :)
 
+Thanks.
 
-@Cheolwoo: is it okay with you if we post above details and your reproducer=
-s on the upstream bug
+Viresh Kumar (5):
+  hw/virtio: add boilerplate for vhost-user-i2c device
+  hw/virtio: add vhost-user-i2c-pci boilerplate
+  tools/vhost-user-i2c: Add backend driver
+  docs: add a man page for vhost-user-i2c
+  MAINTAINERS: Add entry for virtio-i2c
 
-  -> https://bugs.launchpad.net/qemu/+bug/1909247
+ MAINTAINERS                                 |   9 +
+ docs/tools/index.rst                        |   1 +
+ docs/tools/vhost-user-i2c.rst               |  75 +++
+ hw/virtio/Kconfig                           |   5 +
+ hw/virtio/meson.build                       |   2 +
+ hw/virtio/vhost-user-i2c-pci.c              |  79 +++
+ hw/virtio/vhost-user-i2c.c                  | 286 +++++++++
+ include/hw/virtio/vhost-user-i2c.h          |  37 ++
+ include/standard-headers/linux/virtio_ids.h |   1 +
+ tools/meson.build                           |   8 +
+ tools/vhost-user-i2c/50-qemu-i2c.json.in    |   5 +
+ tools/vhost-user-i2c/main.c                 | 652 ++++++++++++++++++++
+ tools/vhost-user-i2c/meson.build            |  10 +
+ 13 files changed, 1170 insertions(+)
+ create mode 100644 docs/tools/vhost-user-i2c.rst
+ create mode 100644 hw/virtio/vhost-user-i2c-pci.c
+ create mode 100644 hw/virtio/vhost-user-i2c.c
+ create mode 100644 include/hw/virtio/vhost-user-i2c.h
+ create mode 100644 tools/vhost-user-i2c/50-qemu-i2c.json.in
+ create mode 100644 tools/vhost-user-i2c/main.c
+ create mode 100644 tools/vhost-user-i2c/meson.build
 
-It'll help to discuss/prepare a proper fix patch.
+-- 
+2.25.0.rc1.19.g042ed3e048af
 
-
-Thank you.
----
-  -P J P
-http://feedmug.com
-
-** Attachment added: "hw-esp-oob-issues.zip"
-   https://bugs.launchpad.net/qemu/+bug/1909247/+attachment/5480385/+files/=
-hw-esp-oob-issues.zip
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909247
-
-Title:
-  QEMU: use after free vulnerability in esp_do_dma() in hw/scsi/esp.c
-
-Status in QEMU:
-  New
-
-Bug description:
-  A use-after-free vulnerability was found in the am53c974 SCSI host bus
-  adapter emulation of QEMU. It could occur in the esp_do_dma() function
-  in hw/scsi/esp.c while handling the 'Information Transfer' command
-  (CMD_TI). A privileged guest user may abuse this flaw to crash the
-  QEMU process on the host, resulting in a denial of service or
-  potential code execution with the privileges of the QEMU process.
-
-  This issue was reported by Cheolwoo Myung (Seoul National University).
-
-  Original report:
-  Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in
-  am53c974 emulator of QEMU enabled ASan.
-
-  It occurs while transferring information, as it does not check the
-  buffer to be transferred.
-
-  A malicious guest user/process could use this flaw to crash the QEMU
-  process resulting in DoS scenario.
-
-  To reproduce this issue, please run the QEMU with the following command
-  line.
-
-  # To enable ASan option, please set configuration with the following
-  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
-tizers
-  $ make
-
-  # To reproduce this issue, please run the QEMU process with the following=
- command line
-  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw \
-  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
-  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-  Please find attached the disk images to reproduce this issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909247/+subscriptions
 
