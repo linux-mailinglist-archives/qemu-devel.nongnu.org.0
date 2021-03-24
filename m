@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE1D34746B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 10:21:22 +0100 (CET)
-Received: from localhost ([::1]:50976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863DF347482
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 10:26:17 +0100 (CET)
+Received: from localhost ([::1]:59612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOzhZ-00013L-Tc
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 05:21:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47036)
+	id 1lOzmJ-0004tx-En
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 05:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lOzf2-0007h2-4K
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 05:18:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27937)
+ id 1lOzjM-0002p0-U0
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 05:23:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lOzf0-0000mY-Fj
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 05:18:43 -0400
+ id 1lOzjI-0003ME-6g
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 05:23:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616577521;
+ s=mimecast20190719; t=1616577786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TBdDgxioCLvOn1KGb8iDIHXDZ/PCqSSwx7eZWrLjZaI=;
- b=f7W+O0bsjc9dXETlbCkgdUTC6pptF36+UoHGhnRg4R0h0DvFaEGsmmikpqNU1+HPF1waWN
- qKh2HwDgEYeSCjySr8HSoDzHl0EkZOcg/KCbk5y9KurxW9JwVFZ/OXaPJkVhnUHxFpnYJy
- IGW+kC/+fukKhCA/t2Ttcj1k8nTpU7Q=
+ bh=ZM0ViQmihI4vpoU8uCV3BgujSJo7C4kjlMtrgsBZrHQ=;
+ b=I/LgqWn5eRwD4T7EZCdYtW/pkepBIGiYEiHACc/cPXoVlwWcVxCXlyjpZgxKE3+PJN1PBb
+ 0vyueniMgfEz/1N1VB4G9Nu5EVSRMoRrc41/AG7eTypyUt5klHnL0q3y8rqRvRLg6zI7xq
+ i7T1kQt6TCma848ugVqgx15BGhIPtVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-Gtgs77YxO7S7LMszMXl9mA-1; Wed, 24 Mar 2021 05:18:39 -0400
-X-MC-Unique: Gtgs77YxO7S7LMszMXl9mA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-5-g39Fgc91MwCpWHHHe04FIA-1; Wed, 24 Mar 2021 05:23:03 -0400
+X-MC-Unique: g39Fgc91MwCpWHHHe04FIA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 972E11007474;
- Wed, 24 Mar 2021 09:18:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CA135B362;
+ Wed, 24 Mar 2021 09:23:02 +0000 (UTC)
 Received: from [10.36.112.13] (ovpn-112-13.ams2.redhat.com [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BA1B62A6F;
- Wed, 24 Mar 2021 09:18:23 +0000 (UTC)
-Subject: Re: [PATCH v2 06/10] Acceptance Tests: make username/password
- configurable
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A24859CA0;
+ Wed, 24 Mar 2021 09:22:48 +0000 (UTC)
+Subject: Re: [PATCH v2 07/10] Acceptance Tests: set up SSH connection by
+ default after boot for LinuxTest
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-7-crosa@redhat.com>
+ <20210323221539.3532660-8-crosa@redhat.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <a039253e-7656-8f6e-6113-7c659cae6949@redhat.com>
-Date: Wed, 24 Mar 2021 10:18:21 +0100
+Message-ID: <887f1c44-898f-3a50-047e-7752a58c9887@redhat.com>
+Date: Wed, 24 Mar 2021 10:22:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210323221539.3532660-7-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210323221539.3532660-8-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -70,8 +70,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,45 +99,57 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
+Hi Cleber,
 
 On 3/23/21 11:15 PM, Cleber Rosa wrote:
-> This makes the username/password used for authentication configurable,
-> because some guest operating systems may have restrictions on accounts
-> to be used for logins, and it just makes it better documented.
+> The LinuxTest specifically targets users that need to interact with Linux
+> guests.  So, it makes sense to give a connection by default, and avoid
+> requiring it as boiler-plate code.
 > 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Eric
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 5 ++++-
+>  tests/acceptance/virtiofs_submounts.py    | 1 -
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 > 
 > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index e75b002c70..535f63a48d 100644
+> index 535f63a48d..4960142bcc 100644
 > --- a/tests/acceptance/avocado_qemu/__init__.py
 > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -308,6 +308,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
+> @@ -390,7 +390,7 @@ def set_up_cloudinit(self, ssh_pubkey=None):
+>          cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
+>          self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
 >  
->      timeout = 900
->      chksum = None
-> +    username = 'root'
-> +    password = 'password'
+> -    def launch_and_wait(self):
+> +    def launch_and_wait(self, set_up_ssh_connection=True):
+>          self.vm.set_console()
+>          self.vm.launch()
+>          console_drainer = datadrainer.LineLogger(self.vm.console_socket.fileno(),
+> @@ -398,3 +398,6 @@ def launch_and_wait(self):
+>          console_drainer.start()
+>          self.log.info('VM launched, waiting for boot confirmation from guest')
+>          cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
+> +        if set_up_ssh_connection:
+> +            self.log.info('Setting up the SSH connection')
+> +            self.ssh_connect(self.username, self.ssh_key)
+> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
+> index e10a935ac4..e019d3b896 100644
+> --- a/tests/acceptance/virtiofs_submounts.py
+> +++ b/tests/acceptance/virtiofs_submounts.py
+> @@ -136,7 +136,6 @@ def set_up_virtiofs(self):
 >  
->      def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
->          super(LinuxTest, self).setUp()
-> @@ -370,8 +372,8 @@ def prepare_cloudinit(self, ssh_pubkey=None):
->                  with open(ssh_pubkey) as pubkey:
->                      pubkey_content = pubkey.read()
->              cloudinit.iso(cloudinit_iso, self.name,
-> -                          username='root',
-> -                          password='password',
-> +                          username=self.username,
-> +                          password=self.password,
->                            # QEMU's hard coded usermode router address
->                            phone_home_host='10.0.2.2',
->                            phone_home_port=self.phone_home_port,
+>      def launch_vm(self):
+>          self.launch_and_wait()
+> -        self.ssh_connect('root', self.ssh_key)
+>  
+>      def set_up_nested_mounts(self):
+>          scratch_dir = os.path.join(self.shared_dir, 'scratch')
 > 
+what about launch_and_wait calls in boot_linux.py. Don't you want to
+force ssh connection off there?
+
+Thanks
+
+Eric
 
 
