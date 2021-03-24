@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B6A348073
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:26:47 +0100 (CET)
-Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D1B348072
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 19:26:46 +0100 (CET)
+Received: from localhost ([::1]:41366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP8DO-0003mo-9W
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42554)
+	id 1lP8DN-0003oN-3l
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 14:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP876-00006s-Hs
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:20:20 -0400
-Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:37437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lP875-0003uZ-1i
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:20:16 -0400
-Received: by mail-oo1-xc2d.google.com with SMTP id
- c12-20020a4ae24c0000b02901bad05f40e4so6050101oot.4
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 11:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MGjTn6xadG1YMDg3/UGeHjx96B3Lahu3is/MHbGnXLo=;
- b=CJD7KLRyYsd9Cq0zIMFCctCimW8eaa0iy4nTC6Qv7N+whtugWjIea3RxOPdJDB5Reb
- asI6Abp/ztY+ttUd01iV/W3sJECOtcwQwMsriPhK7Ty8T+g6pg0/hShUOxKIYHai8naD
- g915vK4V+Fsj54KMEJmm2WjtRCKWVDTHVGbiHLCStw0enYLuG+41/UIJysflqbGyzgRs
- oNNNTpJiODrYa/Xq6T4Rvhq2kFgE+Y7/9CXUpM5JTaeOHEOaMx0QJGjg9tlxuVCn2s5F
- K0K46PMPX4+lHtej5j+WCrekGKwsx/Ne1nGZiV/Yj7Zg1386VLHOqZ9l3c62gSuTTLIE
- Iyzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MGjTn6xadG1YMDg3/UGeHjx96B3Lahu3is/MHbGnXLo=;
- b=LdJPAo37+Qfs7pCijETQ6JDR8PKPb5aXTv96MCYszVccUBGqsAUyFsTyiQ583OVDpf
- DU+gjpncEgB9yXVTJB3dmSVDvGsRKZsem4qxLvsikLVhf2/9PR79cRqjuH81WitYP8eU
- Su2EJLCXYDvYHiYm4yvzMcoqvHMPXt630SM/d+8OGCyVqwAvtXHUdyTAwMBYL78gWqo/
- IbUXHvzb3h4twDOAwqO/NNOdROXJExyDBhs0GCsAojmH6+BkDkLlZ3BBR8DjM4VQPNDk
- EPbqyBoosrAU4X6xHc0+gaWtCORO3VVquRfXbDZ9tBkdwodvljy7rzecEkEr63uRIfQ1
- dYXw==
-X-Gm-Message-State: AOAM530PFcFqzTNeJw6pTq1+GUhXYqMcOikEEUQfUaqBeNWTKvkbn1CS
- g+4cmXJPfPf6V4uopahs7Acjaw==
-X-Google-Smtp-Source: ABdhPJw6WVRK0EVSjOFp7+ThsLA9eCLCsMD2b94rwl63Ysnke7sChnsyqGKP9llqx3JoMMsSwBbQiQ==
-X-Received: by 2002:a4a:2511:: with SMTP id g17mr3925852ooa.22.1616610013911; 
- Wed, 24 Mar 2021 11:20:13 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id h12sm728419ote.75.2021.03.24.11.20.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 11:20:13 -0700 (PDT)
-Subject: Re: [RFC v11 07/55] target/arm: tcg: split tlb_helper user-only and
- sysemu-only parts
-To: Claudio Fontana <cfontana@suse.de>,
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lP88a-0000n9-36
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:21:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lP88U-0004j9-5o
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 14:21:47 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A084AAB8A;
+ Wed, 24 Mar 2021 18:21:36 +0000 (UTC)
+Subject: Re: [RFC v11 04/55] target/arm: tcg: add sysemu and user subdirs
+To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323151749.21299-8-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <93b198c9-8aab-5d89-a9a3-91634ce5e074@linaro.org>
-Date: Wed, 24 Mar 2021 12:20:10 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ <20210323151749.21299-5-cfontana@suse.de>
+ <c10ad9ed-3ba8-e860-bba0-3799f81baa52@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f1103e9d-503c-8499-471a-6796a8313be3@suse.de>
+Date: Wed, 24 Mar 2021 19:21:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210323151749.21299-8-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <c10ad9ed-3ba8-e860-bba0-3799f81baa52@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2d.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,22 +65,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 9:17 AM, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> ---
->   target/arm/tcg/tlb_helper.h        | 17 ++++++
->   target/arm/tcg/sysemu/tlb_helper.c | 83 ++++++++++++++++++++++++++
->   target/arm/tcg/tlb_helper.c        | 96 ++----------------------------
->   target/arm/tcg/user/tlb_helper.c   | 31 ++++++++++
->   target/arm/tcg/sysemu/meson.build  |  1 +
->   target/arm/tcg/user/meson.build    |  1 +
->   6 files changed, 137 insertions(+), 92 deletions(-)
->   create mode 100644 target/arm/tcg/tlb_helper.h
->   create mode 100644 target/arm/tcg/sysemu/tlb_helper.c
->   create mode 100644 target/arm/tcg/user/tlb_helper.c
+On 3/24/21 7:18 PM, Richard Henderson wrote:
+> On 3/23/21 9:16 AM, Claudio Fontana wrote:
+>> +arm_softmmu_ss.add(when: ['CONFIG_TCG','CONFIG_SOFTMMU'], if_true: files(
+>> +))
+>> diff --git a/target/arm/tcg/user/meson.build b/target/arm/tcg/user/meson.build
+>> new file mode 100644
+>> index 0000000000..d70a51ea9a
+>> --- /dev/null
+>> +++ b/target/arm/tcg/user/meson.build
+>> @@ -0,0 +1,3 @@
+>> +
+>> +arm_user_ss.add(when: ['CONFIG_TCG','CONFIG_USER_ONLY'], if_true: files(
+> 
+> Actually, surely the CONFIG_USER_ONLY and CONFIG_SOFTMMU tests are redundant 
+> with the variables, as they are eventually added to target_softmmu_arch and 
+> target_user_arch.
+> 
+> 
+> r~
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yes, good point, needs fixing.
 
-
-r~
 
