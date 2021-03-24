@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87F33471E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:51:40 +0100 (CET)
-Received: from localhost ([::1]:59256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9923471E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:54:10 +0100 (CET)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOxMh-00047Y-Lu
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41994)
+	id 1lOxP7-0005wT-4B
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lOxL3-0003JW-5J
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:49:57 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lOxL1-0005EX-EE
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:49:56 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j18so23256012wra.2
- for <qemu-devel@nongnu.org>; Tue, 23 Mar 2021 23:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DzccFn9iM+66nmFROYEwpA55RtBy7+FO6X0SyyckR1E=;
- b=PnUe8t5ngjH9CL3QXyqfBCWP831bTMpb1/JVzq3AeG1OO/oK47G2rCWFUu7XbgNBro
- KCHBRTC7mjmJrYvG8apOhoYSYkTE8NTaTG3w4YzhPbwIn8rKkSDnsc44HJaMBj08Lj0I
- MQ1X2tG+QzvtS0w64fTKwM0vdhY7jGSqVQ8285W56hmtdmN3zNgReV0VpGHpSfwQjIqS
- Xj4dA7uWScBxaq0/TSojIwF+IF2b5SYRAy3gOjSdhJPf3rVLMc41YaNy81PD4r8eWEn9
- ffYyHG6Z+mDJhPmLJao7Xnq4KPOU3FkDXbyZ0fiP9JCFkgTPWnBqT18Bih0lNcVifsun
- Kkiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DzccFn9iM+66nmFROYEwpA55RtBy7+FO6X0SyyckR1E=;
- b=orXqrPiHO1bcuxPEPef1CLY9zf22RIJ/0LWq8nmTWwHnGbv/IN3YMFxv9JhMhQ8PsE
- 9iYh/7zYEb4fqltYuMNrHBHmpjv5nTZm+Ypj6NFRG2GFntJTkvirz74x4OLWByoI0AOV
- uxuTBlhOYojribiSMnmCiaXrg06SFO3On1qa+BJt5XjsJ9np33z3LhOBmacpbUm3EY9R
- yR/9zdXtSOl2ZW7W1Pnp/71bY6dfmXZOO3hz/Zq/s1iLeMYfBTkxB8ViN8g/qtMsWqNw
- 1DhqTZp6sTuMWdnqcxPv0iIxDn4ezChMdFAVP50NFNyh5ldVczRL/3xIHxrHE8qERJLS
- eVIA==
-X-Gm-Message-State: AOAM532ankEuVzh1ELTqgTed63uDa1SmCGOYX3ez47zo/AgwZIw4XAHk
- QvLokYLy50mf7BX/4rB55H9desVFDw8=
-X-Google-Smtp-Source: ABdhPJwIwo2bAfqeDx+F2inw3klWkq3N4ltWNzg6LEjWS93fg6fzGUPEEtI2d8allYdIRI5nUi/6Vg==
-X-Received: by 2002:a5d:4688:: with SMTP id u8mr1705312wrq.39.1616568592131;
- Tue, 23 Mar 2021 23:49:52 -0700 (PDT)
-Received: from localhost.localdomain ([197.61.14.200])
- by smtp.googlemail.com with ESMTPSA id b17sm1739046wrt.17.2021.03.23.23.49.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Mar 2021 23:49:51 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtiofsd: Changed allocations of fuse_session to GLib's
- functions
-Date: Wed, 24 Mar 2021 08:49:43 +0200
-Message-Id: <20210324064943.35827-1-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOxMk-0004f0-FM
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:51:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOxMi-0006J6-7s
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:51:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616568699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7bM8S6LrQT6dn63SuCPilTd5S91IWhqVMtZnWcv06qU=;
+ b=Fs31w+jPkuk5ehWNGL93OU4rI3XBomnRypbKVHMfaATnBGiSh5A+OW1mYAADq16RDP4f2U
+ isKwxUIVQF4U6/kmHEGkSyUei9ei+v2SIZxPwSjy0viayjSEP6ZMeQMSM3tL4jqOG3sIaW
+ xsr5jHUsWighkag13BVE/o6oSmWIOWY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-544--alfLzC5OD-_coqgPz_etw-1; Wed, 24 Mar 2021 02:51:35 -0400
+X-MC-Unique: -alfLzC5OD-_coqgPz_etw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393D61005D47;
+ Wed, 24 Mar 2021 06:51:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F22992C8CD;
+ Wed, 24 Mar 2021 06:51:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 83E5211327E1; Wed, 24 Mar 2021 07:51:32 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
+References: <20210319035508.113741-1-chen.zhang@intel.com>
+ <20210319035508.113741-3-chen.zhang@intel.com>
+ <877dm3i1qk.fsf@dusky.pond.sub.org>
+ <5b75057ecc784296aa271f5f6692906a@intel.com>
+ <87k0pz4bg8.fsf@dusky.pond.sub.org>
+ <4ffb0d8b135b40caba777a830b70ae18@intel.com>
+ <871rc6urdc.fsf@dusky.pond.sub.org> <YFpML7sdeUiciL3B@work-vm>
+ <87mtutf3pv.fsf@dusky.pond.sub.org>
+Date: Wed, 24 Mar 2021 07:51:32 +0100
+In-Reply-To: <87mtutf3pv.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Wed, 24 Mar 2021 07:47:08 +0100")
+Message-ID: <878s6ddoy3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, "Zhang,
+ Chen" <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replaced the allocation and deallocation of fuse_session structs
-from calloc() and free() calls to g_try_new0() and g_free().
+Markus Armbruster <armbru@redhat.com> writes:
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- tools/virtiofsd/fuse_lowlevel.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+[...]
+>>                                     I think there should also beb
+>> a separate type that represents an IP address+port, so that what you end
+>> up with is:
+>>
+>>   IPFlowSpec
+>>      ID
+>>      Protocol
+>>      Source
+>>      Dest
+>
+> I understand the motivation.  Three drawbacks, though.
+>
+> One, it gets us another level of nesting on the wire, i.e. something
+> like
+>
+>     {"source": {"address": SRC-ADDR, "port": SRC-PORT},
+>      "destination": {"address": DST-ADDR, "port": DST-PORT}}
+>
+> instead of
+>
+>     {"source-address": SRC-ADDR, "source-port": SRC-PORT,
+>      "destination-address": DST-ADDR, "destination-port": DST-PORT}
+>
+> QMP clients shouldn't care.
+>
+> Two, we have many (address, port) pairs in the schema that don't use
+> nesting.  Adding nesting sometimes makes QMP less consistent.
+>
+> Three, human-friendly interface wrappers tend to dislike nesting.  This
+> particular case seems okay; we end up with dotted keys like
+> source.address instead of source-address.  In a case where we need just
+> one (address, port), we'd get some-silly-name.address instead of just
+> address, though.
+>
+> I've occasionally felt a mild need for letting me say "this struct
+> member should be unboxed on the wire", i.e. have its curlies peeled off.
+> Never enough to justify the additional generator complexity, though.
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 1aa26c6333..54e401f074 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -2476,7 +2476,7 @@ void fuse_session_destroy(struct fuse_session *se)
-     free(se->vu_socket_path);
-     se->vu_socket_path = NULL;
- 
--    free(se);
-+    g_free(se);
- }
- 
- 
-@@ -2499,7 +2499,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
-         return NULL;
-     }
- 
--    se = (struct fuse_session *)calloc(1, sizeof(struct fuse_session));
-+    se = g_try_new0(struct fuse_session, 1);
-     if (se == NULL) {
-         fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate fuse object\n");
-         goto out1;
-@@ -2559,7 +2559,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
- out4:
-     fuse_opt_free_args(args);
- out2:
--    free(se);
-+    g_free(se);
- out1:
-     return NULL;
- }
--- 
-2.25.1
+Just remembered we actually have
+
+    ##
+    # @InetSocketAddressBase:
+    #
+    # @host: host part of the address
+    # @port: port part of the address
+    ##
+    { 'struct': 'InetSocketAddressBase',
+      'data': {
+        'host': 'str',
+        'port': 'str' } }
+
+It's from commit eb87203b64 "rbd: Reject -blockdev server.*.{numeric,
+to, ipv4, ipv6}".
 
 
