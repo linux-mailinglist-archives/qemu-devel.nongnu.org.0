@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1E7348538
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 00:21:11 +0100 (CET)
-Received: from localhost ([::1]:56630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A5734851D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 00:14:48 +0100 (CET)
+Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPCoI-0005er-5e
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 19:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50158)
+	id 1lPCi6-0000wz-U6
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 19:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCgc-0000fY-Jg
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:13:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCga-0001k9-UZ
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:13:14 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCgA-0000Ua-VN
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:12:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPCg5-0001XV-FR
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 19:12:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616627592;
+ s=mimecast20190719; t=1616627559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kBGD49iJqtTclhgI0p++X1T32eD+TEzMGN/D7dO/Jrs=;
- b=WhX0tj6qtyvVQ5PgS73bS7nF0Op7KcDcQ73hGRULjSrd6w4sJxyvsOs5uEWowOghkXsJ0S
- 2iQ8UuLa21dgBJUlQz8VtX8RqVh+EkyPYdQ3XXXysGL/+teU0ZdXD/A07E4FqGAO2FVtuQ
- ET0/21/74+ule2zYshpJCpxeSzOdHZo=
+ bh=knitkD8hlMVH/jgi4TNRHqHJNhE8z6yWOwPpfnw/u4E=;
+ b=e8llJ0wVtq/vi4ame1UQCDXjMgDRLydfJ61EP2DfnDdmBYf7H0Vsq4ilzsHcUjFdTHFy2S
+ HX1rWdhPk9x/2pj4BOnVVEaiEwzFLPFNjskwvo/eoZE6gAPLZIMOQAczF99mbdQY+cINAs
+ DV1CnsoxpJSc+TzcOzAyXgtLVc31fpM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-BTL7K1xAOJG1vw0_LBhBcg-1; Wed, 24 Mar 2021 19:13:07 -0400
-X-MC-Unique: BTL7K1xAOJG1vw0_LBhBcg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-106-ObpmfKuINx6IYjEG0whHCA-1; Wed, 24 Mar 2021 19:12:37 -0400
+X-MC-Unique: ObpmfKuINx6IYjEG0whHCA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 795C418C89CC;
- Wed, 24 Mar 2021 23:13:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC5D21084D68;
+ Wed, 24 Mar 2021 23:12:35 +0000 (UTC)
 Received: from localhost (ovpn-119-39.rdu2.redhat.com [10.10.119.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3937E866F3;
- Wed, 24 Mar 2021 23:12:51 +0000 (UTC)
-Date: Wed, 24 Mar 2021 18:40:59 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F7CA10023B0;
+ Wed, 24 Mar 2021 23:12:22 +0000 (UTC)
+Date: Wed, 24 Mar 2021 18:45:29 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 05/10] Acceptance Tests: add port redirection for ssh
- by default
-Message-ID: <20210324224059.GE3592254@amachine.somewhere>
+Subject: Re: [PATCH v2 07/10] Acceptance Tests: set up SSH connection by
+ default after boot for LinuxTest
+Message-ID: <20210324224529.GF3592254@amachine.somewhere>
 References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-6-crosa@redhat.com>
- <8b620ceb-f056-799e-93c4-02df3559e019@redhat.com>
+ <20210323221539.3532660-8-crosa@redhat.com>
+ <887f1c44-898f-3a50-047e-7752a58c9887@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8b620ceb-f056-799e-93c4-02df3559e019@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <887f1c44-898f-3a50-047e-7752a58c9887@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UnaWdueM1EBWVRzC"
+ protocol="application/pgp-signature"; boundary="4f28nU6agdXSinmL"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,93 +95,104 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UnaWdueM1EBWVRzC
+--4f28nU6agdXSinmL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 24, 2021 at 11:36:53AM +0100, Auger Eric wrote:
+On Wed, Mar 24, 2021 at 10:22:47AM +0100, Auger Eric wrote:
 > Hi Cleber,
+>=20
 > On 3/23/21 11:15 PM, Cleber Rosa wrote:
-> > For users of the LinuxTest class, let's set up the VM with the port
-> > redirection for SSH, instead of requiring each test to set the same
-> > arguments.
+> > The LinuxTest specifically targets users that need to interact with Lin=
+ux
+> > guests.  So, it makes sense to give a connection by default, and avoid
+> > requiring it as boiler-plate code.
 > >=20
 > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > > ---
-> >  tests/acceptance/avocado_qemu/__init__.py | 4 +++-
-> >  tests/acceptance/virtiofs_submounts.py    | 4 ----
-> >  2 files changed, 3 insertions(+), 5 deletions(-)
+> >  tests/acceptance/avocado_qemu/__init__.py | 5 ++++-
+> >  tests/acceptance/virtiofs_submounts.py    | 1 -
+> >  2 files changed, 4 insertions(+), 2 deletions(-)
 > >=20
 > > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
 ce/avocado_qemu/__init__.py
-> > index 67f75f66e5..e75b002c70 100644
+> > index 535f63a48d..4960142bcc 100644
 > > --- a/tests/acceptance/avocado_qemu/__init__.py
 > > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> > @@ -309,10 +309,12 @@ class LinuxTest(Test, LinuxSSHMixIn):
-> >      timeout =3D 900
-> >      chksum =3D None
+> > @@ -390,7 +390,7 @@ def set_up_cloudinit(self, ssh_pubkey=3DNone):
+> >          cloudinit_iso =3D self.prepare_cloudinit(ssh_pubkey)
+> >          self.vm.add_args('-drive', 'file=3D%s,format=3Draw' % cloudini=
+t_iso)
 > > =20
-> > -    def setUp(self, ssh_pubkey=3DNone):
-> > +    def setUp(self, ssh_pubkey=3DNone, network_device_type=3D'virtio-n=
-et'):
-> I would be interested in testing with HW bridging too, when a bridge is
-> available. Do you think we could have the netdev configurable too?
-> This would be helpful to test vhost for instance.
+> > -    def launch_and_wait(self):
+> > +    def launch_and_wait(self, set_up_ssh_connection=3DTrue):
+> >          self.vm.set_console()
+> >          self.vm.launch()
+> >          console_drainer =3D datadrainer.LineLogger(self.vm.console_soc=
+ket.fileno(),
+> > @@ -398,3 +398,6 @@ def launch_and_wait(self):
+> >          console_drainer.start()
+> >          self.log.info('VM launched, waiting for boot confirmation from=
+ guest')
+> >          cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port=
+), self.name)
+> > +        if set_up_ssh_connection:
+> > +            self.log.info('Setting up the SSH connection')
+> > +            self.ssh_connect(self.username, self.ssh_key)
+> > diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/=
+virtiofs_submounts.py
+> > index e10a935ac4..e019d3b896 100644
+> > --- a/tests/acceptance/virtiofs_submounts.py
+> > +++ b/tests/acceptance/virtiofs_submounts.py
+> > @@ -136,7 +136,6 @@ def set_up_virtiofs(self):
+> > =20
+> >      def launch_vm(self):
+> >          self.launch_and_wait()
+> > -        self.ssh_connect('root', self.ssh_key)
+> > =20
+> >      def set_up_nested_mounts(self):
+> >          scratch_dir =3D os.path.join(self.shared_dir, 'scratch')
+> >=20
+> what about launch_and_wait calls in boot_linux.py. Don't you want to
+> force ssh connection off there?
 >
 
-Right, I knew from the start that the user mode network would only
-go so far.  TBH, I think it went too further than I expected.  But,
-requiring, or supporting, other network modes can add quite a bit
-of complexity, depending on how much you want the framework to do.
+Good point.  I guess one could argue that it doesn't hurt those tests,
+and even that it "tests more".  But, I'd argue that less is more here
+indeed.
 
-Anyway, this is a valid point/request.  For the lack of a better place,
-and given that this may be a larger effort, I'm tracking it here:
-
-  https://gitlab.com/cleber.gnu/qemu/-/issues/3
-
-> With respect the network device type, I am currently working on SMMU
-> test and I need to call the parent setUp-) with the following args now:
->=20
-> super(IOMMU, self).setUp(pubkey,
-> 'virtio-net-pci,iommu_platform=3Don,disable-modern=3Doff,disable-legacy=
-=3Don')
->=20
-> It works but I am not sure you had such kind of scenario in mind?
->
-
-I see where you're coming from, and I share the slight feeling of abusing
-the feature... but I think it's OK at this point.  I mean, I believe it's
-better to focus on say, the HW bridging support as this at least works.
+I'll change those launch_and_wait() to include set_up_ssh_connection=3DFals=
+e
+for those tests.
 
 > Thanks
 >=20
 > Eric
->
 
-Cheers,
+Thanks a lot!
 - Cleber.
 
---UnaWdueM1EBWVRzC
+--4f28nU6agdXSinmL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBbv/kACgkQZX6NM6Xy
-CfOnYA/8CUEgv2vImhUhmuyzbzB1mDTwG9alevLWGgQGDGx5obyFk5FEa6bBSaMd
-gt4pyf8fIPFwQuu3ZonzpXNzG2ilVY8/QD33TKU7AFFYk8iC8SpyRF4A+QleEYco
-6eHlSbM2quPCpK4VSUsN7jW53BgrMaR4dDkbk0ikcZoIch4Uut4ORP9VcN/9vswd
-pzoj8nRwjOiebdxeyrdNrtQQN0BoMDdB9FqTxz2CMjV35GUFyZtKJOm3aAkesnQB
-AT33VhN0EfTRnn/oDbZ71is4SjOlhvolY0XIX6GRk5kLpN0lfp9hnzRuChgVD0Vp
-rKbhmZRRKviJmQFO4mKUtCjlQSLi5FvkfLB6zN91KIzftyZT1+qUsGKoN1bm8Zsb
-njLza3j+yMWo+WDYOf77QB/9Lr1gKE4zABn2Jeon6FeGou3Lit1BreUOa0rtAIZf
-3jOK1+CgTXsxMAnB3YpJHrEw9MNZW2SfnY4L7WdLr1IZ+h99XA+tpShDBAldUl90
-64S/VsQODVWLlCFYzLTiU7j7GeZs/vUNY3oZhOEjsLDG+xU9o07n5OryH7ATbdkJ
-jayOeMqbe9xVmN7ztNIZWMwRnL5n+EY8nBEXKq18OyAo3twmf6394NxjlKvpl38s
-WYE8gFpwUITGS+arwKXHuAJr7/3lIrqTi4jVY7cwVyZdlTK9Usw=
-=i/Sj
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBbwQkACgkQZX6NM6Xy
+CfNgIg/8CRuQMCNs55ri8ctnG/UbxdjYmtcStwgxum0EdCFO+f047HapLxGE5JvC
+dCDvCz0e6myDOFRdqgq2tGctPXX7cwwTfxIY6OCKT9hCAUt9T2soNAZguthJR73L
+ZTYk9WHE8ry9Qhd3mQyF6T1x3ECmaSPhs4L52Crw53tj8V/FD7GWwHBp4J1zYFFX
+cmdXGlOAPci6AV8/wM0+5DVONXfQBsb9H8v5XxjTm2sizUveWClsbb32uhQCF/5A
+/DkRjeEyUqOcVEUxe7RQYn7Wlvn3yqnY1/UnOu04JvtIWxVTVT1rnUxgYqSwUhwX
+DBYdCU3ieTNizLlK0y2oisalK7jAKdZVDbVji7WbCLq65ifA5WP6pn4ke6nU83bP
+n3Ni1aIqIeNV+xGWDvcKIEs9ZlFqCdkrK9LPUIhpE5dHxMpJSlzEcQ6UrkwwbRmR
+Rmg/wSwLXNSfwiW73iOHesho+HIv0LZuta8V6Rw5IAGFkxteeWy6yLzVp5iLlRS2
+4mAs/cAo0AnQ0k6OsruI8qiqf21ZuR/LqHzWX4ZJwQkzQf5RHlmPct1x77dd/lKk
+/zYXeuyrJ0iJwb7Eb+I7I7AzwoG6APd29mavGsxtq2atIXwxzk7J9++RLdUJ+B7h
+R8JKaSS9zaLwtJaF9qTyc3ebyMpLyIhy75Er1KE3yEiixBoZjBU=
+=SVuL
 -----END PGP SIGNATURE-----
 
---UnaWdueM1EBWVRzC--
+--4f28nU6agdXSinmL--
 
 
