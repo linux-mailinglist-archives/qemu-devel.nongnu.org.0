@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0A53474DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 10:41:57 +0100 (CET)
-Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E923474FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 10:49:02 +0100 (CET)
+Received: from localhost ([::1]:59810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP01U-0004Q2-T5
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 05:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53082)
+	id 1lP08K-0000cX-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 05:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lOzya-0002k1-6C; Wed, 24 Mar 2021 05:38:56 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:48232)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lOzyQ-0003sL-Pf; Wed, 24 Mar 2021 05:38:55 -0400
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 3C8BF2E196B;
- Wed, 24 Mar 2021 12:38:40 +0300 (MSK)
-Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
- (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- g4iEHHlCTB-cd0aPO9d; Wed, 24 Mar 2021 12:38:40 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1616578720; bh=3sBXtFwTTZ1uV0A4J2KJpkW25RbwPt6E41JdQIYEVXg=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=lFmOMtcmcE+vrwTjm0Z2SbUs2g/XvJa0vWJwlY310kID2imlH5mkYNuwtrIoXSGnj
- Fwtw26yizLQ2NlnhO98ywc0DZdvQMx/PlxcB9UPFtq5cAZ+EBd01EEaXe0uZxeJcsP
- EpynyJZr+2W0+c1BOH15lfW0is4u8xnqN2PLlnG4=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8814::1:7])
- by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 80H52jY9gi-cdomqXsT; Wed, 24 Mar 2021 12:38:39 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] vhost-user-blk: perform immediate cleanup if
- disconnect on initialization
-Date: Wed, 24 Mar 2021 12:38:29 +0300
-Message-Id: <20210324093829.116453-3-den-plotnikov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210324093829.116453-1-den-plotnikov@yandex-team.ru>
-References: <20210324093829.116453-1-den-plotnikov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lP06Q-0007pS-Mm; Wed, 24 Mar 2021 05:47:02 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lP06N-0000HS-6g; Wed, 24 Mar 2021 05:47:02 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ z6-20020a1c4c060000b029010f13694ba2so790936wmf.5; 
+ Wed, 24 Mar 2021 02:46:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=R3JoigzkpfH29Dmg4jcZntYWA8c6KVX15QFXMMfEWXQ=;
+ b=gO+e8rjrvwkxk+4iI4nLluhyW3hOx2hcVpUqfrSan/tEj9QiNOa/RA4gohszZO1Ow8
+ D8YEhF4vBBmL3af7fh0TLjXNlx2dmAlvWGPQ1xOrOb0ntpPztUzIEAg2BzIn4vF85PxS
+ H92461Uf9Lo5nxhwXrPTF0h/qamiDfQMqOe2+rWMSwliHvhXKHWzyIIxVpZSoQvGUFiF
+ WVyu9+LnSTNqgD4u9nJpE+ET18LTkNY+k+gswjyy6V34aRDAwGXd7xED5FBfckACgCFM
+ h49oTlKHq0OEFu+VyVZEx67Z5X2Pg69y70zpEJhrjeF56IwQMi6tjEbw5oZueOwFt13U
+ 1a1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=R3JoigzkpfH29Dmg4jcZntYWA8c6KVX15QFXMMfEWXQ=;
+ b=IOKQi58mY+U66hgZAROUSYnejO1jBg6rD8b7aD93/iZTkk+5gEE9vqcSoMEuPKD9cW
+ pKxpVWr+7GLFJJYG+TP8yReVbysV1HITbpYpVvu9J2/+7mJyCana7LbuVGHpD1PO4d9M
+ 5J/JKKRP8lbseSecz6YDczuUk7yR/KMOzk460Pxg24btKO1uYCmLuqXtzpvcCihRXc/M
+ 6nGsmfmq7JmYbtRSA2ZTwuN8/MIAzoUl3LinXmKRwlIyKEb0Bc8B+TRqDTK7uw1y3TsB
+ 6IksJ/1w33lIDP1EqKBlXgGXKzbZl9JDHaj1aN07wjhuzBTq1oAfh9jKNUmVWFobJj8d
+ 6Itw==
+X-Gm-Message-State: AOAM530JqbVxPdO3LgrlsdG413GcX0+hSlsmmYLscab3PdiDpKhXfVGR
+ vI5wMJvi9fvMB8/g4i2hroK1untmULnLKQ==
+X-Google-Smtp-Source: ABdhPJymBzIn7XzA8tboKkUSxzYlG++r37EIaM3kFc+6E74ljO2tKe0AZMgdzMCD5iQ7wMa4hMbyNg==
+X-Received: by 2002:a1c:1f94:: with SMTP id f142mr2052154wmf.180.1616579216708; 
+ Wed, 24 Mar 2021 02:46:56 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id a13sm2449134wrp.31.2021.03.24.02.46.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 02:46:56 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] hw: Model ASPEED's Hash and Crypto Engine
+To: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>
+References: <20210324070955.125941-1-joel@jms.id.au>
+ <20210324070955.125941-2-joel@jms.id.au>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2a89ba2d-b703-e783-eb50-2251b65e3b78@amsat.org>
+Date: Wed, 24 Mar 2021 10:46:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210324070955.125941-2-joel@jms.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,117 +89,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- raphael.norwitz@nutanix.com, yc-core@yandex-team.ru, mreitz@redhat.com
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 4bcad76f4c39 ("vhost-user-blk: delay vhost_user_blk_disconnect")
-introduced postponing vhost_dev cleanup aiming to eliminate qemu aborts
-because of connection problems with vhost-blk daemon.
+On 3/24/21 8:09 AM, Joel Stanley wrote:
+> The HACE (Hash and Crypto Engine) is a device that offloads MD5, SHA1,
+> SHA2, RSA and other cryptographic algorithms.
+> 
+> This initial model implements a subset of the device's functionality;
+> currently only direct access (non-scatter gather) hashing.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+> v3:
+>  - rebase on upstream to fix meson.build conflict
+> v2:
+>  - reorder register defines
+>  - mask src/dest/len registers according to hardware
+> v4:
+>  - Fix typos in comments
+>  - Remove sdram base address; new memory region fixes mean this is not
+>    required
+>  - Use PRIx64
+>  - Add Object Classes for soc familiy specific features
+>  - Convert big switch statement to a lookup in a struct
+> ---
+>  include/hw/misc/aspeed_hace.h |  43 ++++
+>  hw/misc/aspeed_hace.c         | 358 ++++++++++++++++++++++++++++++++++
+>  hw/misc/meson.build           |   1 +
+>  3 files changed, 402 insertions(+)
+>  create mode 100644 include/hw/misc/aspeed_hace.h
+>  create mode 100644 hw/misc/aspeed_hace.c
 
-However, it introdues a new problem. Now, any communication errors
-during execution of vhost_dev_init() called by vhost_user_blk_device_realize()
-lead to qemu abort on assert in vhost_dev_get_config().
+> +static int hash_algo_lookup(uint32_t mask)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(hash_algo_map); i++) {
+> +        if (mask == hash_algo_map[i].mask)
 
-This happens because vhost_user_blk_disconnect() is postponed but
-it should have dropped s->connected flag by the time
-vhost_user_blk_device_realize() performs a new connection opening.
-On the connection opening, vhost_dev initialization in
-vhost_user_blk_connect() relies on s->connection flag and
-if it's not dropped, it skips vhost_dev initialization and returns
-with success. Then, vhost_user_blk_device_realize()'s execution flow
-goes to vhost_dev_get_config() where it's aborted on the assert.
+{
 
-The connection/disconnection processing should happen
-differently on initialization and operation of vhost-user-blk.
-On initialization (in vhost_user_blk_device_realize()) we fully
-control the initialization process. At that point, nobody can use the
-device since it isn't initialized and we don't need to postpone any
-cleanups, so we can do cleanup right away when there is communication
-problems with the vhost-blk daemon.
-On operation the disconnect may happen when the device is in use, so
-the device users may want to use vhost_dev's data to do rollback before
-vhost_dev is re-initialized (e.g. in vhost_dev_set_log()), so we
-postpone the cleanup.
+> +            return hash_algo_map[i].algo;
 
-The patch splits those two cases, and performs the cleanup immediately on
-initialization, and postpones cleanup when the device is initialized and
-in use.
+}
 
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
----
- hw/block/vhost-user-blk.c | 48 +++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+> +    }
+> +
+> +    return -1;
+> +}
+> +
+> +static int do_hash_operation(AspeedHACEState *s, int algo)
+> +{
+> +    hwaddr src, len, dest;
+> +    uint8_t *digest_buf = NULL;
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 1af95ec6aae7..4e215f71f152 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -402,38 +402,38 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-         break;
-     case CHR_EVENT_CLOSED:
-         /*
--         * A close event may happen during a read/write, but vhost
--         * code assumes the vhost_dev remains setup, so delay the
--         * stop & clear. There are two possible paths to hit this
--         * disconnect event:
--         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
--         * vhost_user_blk_device_realize() is a caller.
--         * 2. In tha main loop phase after VM start.
--         *
--         * For p2 the disconnect event will be delayed. We can't
--         * do the same for p1, because we are not running the loop
--         * at this moment. So just skip this step and perform
--         * disconnect in the caller function.
--         *
--         * TODO: maybe it is a good idea to make the same fix
--         * for other vhost-user devices.
-+         * Closing the connection should happen differently on device
-+         * initialization and operation stages.
-+         * On initalization, we want to re-start vhost_dev initialization
-+         * from the very beginning right away when the connection is closed,
-+         * so we clean up vhost_dev on each connection closing.
-+         * On operation, we want to postpone vhost_dev cleanup to let the
-+         * other code perform its own cleanup sequence using vhost_dev data
-+         * (e.g. vhost_dev_set_log).
-          */
-         if (realized) {
-+            /*
-+             * A close event may happen during a read/write, but vhost
-+             * code assumes the vhost_dev remains setup, so delay the
-+             * stop & clear.
-+             */
-             AioContext *ctx = qemu_get_current_aio_context();
- 
-             qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
-                     NULL, NULL, false);
-             aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
--        }
- 
--        /*
--         * Move vhost device to the stopped state. The vhost-user device
--         * will be clean up and disconnected in BH. This can be useful in
--         * the vhost migration code. If disconnect was caught there is an
--         * option for the general vhost code to get the dev state without
--         * knowing its type (in this case vhost-user).
--         */
--        s->dev.started = false;
-+            /*
-+             * Move vhost device to the stopped state. The vhost-user device
-+             * will be clean up and disconnected in BH. This can be useful in
-+             * the vhost migration code. If disconnect was caught there is an
-+             * option for the general vhost code to get the dev state without
-+             * knowing its type (in this case vhost-user).
-+             */
-+            s->dev.started = false;
-+        } else {
-+            vhost_user_blk_disconnect(dev);
-+        }
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
--- 
-2.25.1
+Eventually g_autofree,
 
+> +    size_t digest_len = 0;
+> +    char *src_buf;
+> +    int rc;
+> +
+> +    src = s->regs[R_HASH_SRC];
+> +    len = s->regs[R_HASH_SRC_LEN];
+> +    dest = s->regs[R_HASH_DEST];
+> +
+> +    src_buf = address_space_map(&s->dram_as, src, &len, false,
+> +                                MEMTXATTRS_UNSPECIFIED);
+> +    if (!src_buf) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map dram\n", __func__);
+> +        return -EACCES;
+> +    }
+> +
+> +    rc = qcrypto_hash_bytes(algo, src_buf, len, &digest_buf, &digest_len,
+> +                            &error_fatal);
+> +    if (rc < 0) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
+> +        return rc;
+> +    }
+> +
+> +    rc = address_space_write(&s->dram_as, dest, MEMTXATTRS_UNSPECIFIED,
+> +                             digest_buf, digest_len);
+> +    if (rc) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: address space write failed\n", __func__);
+> +    }
+> +    g_free(digest_buf);
+
+removing g_free().
+
+> +
+> +    address_space_unmap(&s->dram_as, src_buf, len, false, len);
+> +
+> +    /*
+> +     * Set status bits to indicate completion. Testing shows hardware sets
+> +     * these irrespective of HASH_IRQ_EN.
+> +     */
+> +    s->regs[R_STATUS] |= HASH_IRQ;
+> +
+> +    return 0;
+> +}
+
+Generic model LGTM.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
