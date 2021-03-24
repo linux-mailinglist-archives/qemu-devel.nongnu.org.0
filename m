@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EB234714C
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 06:58:40 +0100 (CET)
-Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3BF347163
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:06:07 +0100 (CET)
+Received: from localhost ([::1]:52282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOwXP-0001yI-UR
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 01:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
+	id 1lOwec-0003LP-Ra
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwWJ-00014w-2i
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 01:57:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwWH-0007hn-F7
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 01:57:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616565448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TtBUWaEPatogW32/HO91QLjke3HGuhLdrWukd5eUSVw=;
- b=PARgdU5YW6o83FNRfvKg91qPp/wYDqZLBOHtAsa9w7BKMFEgd2qJyUDvZ/Qqn4oYDeRgCF
- cLcD48kU1sJPCsVOIAJW1/zQrAwaquBnaf0dLq46L0JtC+fgt7kycEPDNY399jw51z0sjX
- rM6Ue5WVyCvNJXPoYGE7wYE9salUcso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-l9Br_vvXMkSKGPC0wCjBaw-1; Wed, 24 Mar 2021 01:57:26 -0400
-X-MC-Unique: l9Br_vvXMkSKGPC0wCjBaw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 092F61005D4F;
- Wed, 24 Mar 2021 05:57:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB8F460C05;
- Wed, 24 Mar 2021 05:57:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6082311327E1; Wed, 24 Mar 2021 06:57:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
- stricter checking
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-11-armbru@redhat.com>
- <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com>
-Date: Wed, 24 Mar 2021 06:57:20 +0100
-In-Reply-To: <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com> (John Snow's
- message of "Tue, 23 Mar 2021 18:15:42 -0400")
-Message-ID: <87v99hf60v.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lOwcm-0002qU-0i
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:04:12 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:45528
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lOwcg-00033x-1a
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:04:11 -0400
+HMM_SOURCE_IP: 172.18.0.48:8535.2023472176
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-110.184.65.177?logid-fa82a22ccced4c7eaadb1c9b3bbb06f9
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 8201D280081;
+ Wed, 24 Mar 2021 14:03:56 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by App0024 with ESMTP id fa82a22ccced4c7eaadb1c9b3bbb06f9 for
+ quintela@redhat.com; Wed Mar 24 14:03:58 2021
+X-Transaction-ID: fa82a22ccced4c7eaadb1c9b3bbb06f9
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Subject: Re: [PATCH] tests/migration: fix parameter of auto-converge migration
+To: Thomas Huth <thuth@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, berrange@redhat.com
+References: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
+ <YFpEId2vw9ceC1Ly@work-vm> <58fd7151-f026-ca82-9818-8156083398db@redhat.com>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+Message-ID: <4745b145-9678-a09c-be7b-bb1d9b4e6263@chinatelecom.cn>
+Date: Wed, 24 Mar 2021 14:03:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <58fd7151-f026-ca82-9818-8156083398db@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,69 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
 
-> On 3/23/21 5:40 AM, Markus Armbruster wrote:
->> Naming rules differ for the various kinds of names.  To prepare
->> enforcing them, define functions to check them: check_name_upper(),
->> check_name_lower(), and check_name_camel().  For now, these merely
->> wrap around check_name_str(), but that will change shortly.  Replace
->> the other uses of check_name_str() by appropriate uses of the
->> wrappers.  No change in behavior just yet.
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>   scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
->>   1 file changed, 36 insertions(+), 15 deletions(-)
->> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index e00467636c..30285fe334 100644
->> --- a/scripts/qapi/expr.py
->> +++ b/scripts/qapi/expr.py
->> @@ -21,11 +21,12 @@
->>   from .error import QAPISemError
->>     
->> -# Names must be letters, numbers, -, and _.  They must start with letter,
->> -# except for downstream extensions which must start with __RFQDN_.
->> -# Dots are only valid in the downstream extension prefix.
->> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
->> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
->> +# Names consist of letters, digits, -, and _, starting with a letter.
->> +# An experimental name is prefixed with x-.  A name of a downstream
->> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
->> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
->> +                        r'(x-)?'
->> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
->>     
->>   def check_name_is_str(name, info, source):
->> @@ -37,16 +38,38 @@ def check_name_str(name, info, source,
->>                      permit_upper=False):
->>       # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
->>       # and 'q_obj_*' implicit type names.
->> -    if not valid_name.match(name) or \
->> -       c_name(name, False).startswith('q_'):
->> +    match = valid_name.match(name)
->> +    if not match or c_name(name, False).startswith('q_'):
->>           raise QAPISemError(info, "%s has an invalid name" % source)
->>       if not permit_upper and name.lower() != name:
->>           raise QAPISemError(
->>               info, "%s uses uppercase in name" % source)
->> +    return match.group(3)
->> +
->> +
->> +def check_name_upper(name, info, source):
->> +    stem = check_name_str(name, info, source, permit_upper=True)
->> +    # TODO reject '[a-z-]' in @stem
->> +
->
-> Creates (presumably) temporary errors in flake8 for the dead
-> assignment here and below.
 
-All gone by the end of the series.
+在 2021/3/24 13:42, Thomas Huth 写道:
+> On 23/03/2021 20.40, Dr. David Alan Gilbert wrote:
+>> * huangy81@chinatelecom.cn (huangy81@chinatelecom.cn) wrote:
+>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>
+>>> when execute the following test command:
+>>> $ ./guestperf-batch.py --auto-converge \
+>>>      --auto-converge-step {percent} ...
+>>> test aborts and error message be throwed as the following:
+>>> "Parameter 'x-cpu-throttle-increment' is unexpected"
+>>>
+>>> The reason is that 'x-cpu-throttle-increment' has been
+>>> deprecated and 'cpu-throttle-increment' was introduced
+>>> Since v2.7. Use the new parameter instead.
+>>>
+>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>
+>> Please cc thuth@redhat.com and berrange@redhat.com on fixes to this
+>> file.
+> 
+> This not really my turf, since it's not directly related to the qtests.
+> 
+> But I wonder why tests/migration/ is not listed in the "Migration" 
+> sections in the MAINTAINERS file ... care to send a patch?
 
-"make check" and checkpatch were content.  Anything else you'd like me
-to run?
+the following patch aim to do this, it's already reviewed and has not 
+been merged yet.
 
+https://patchew.org/QEMU/91d5978357fb8709ef61d2030984f7142847037d.1616141556.git.huangy81@chinatelecom.cn/
+
+> 
+>   Thomas
+> 
+
+-- 
+Best regard
+
+Hyman Huang(黄勇)
 
