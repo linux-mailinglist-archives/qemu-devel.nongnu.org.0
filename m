@@ -2,94 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624B2346E9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:23:51 +0100 (CET)
-Received: from localhost ([::1]:48980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3FA346F14
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 02:53:28 +0100 (CET)
+Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOsFS-0001rf-E2
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34654)
+	id 1lOsi7-0004mY-KH
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 21:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1lOsEb-0001Qk-W1
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 21:22:58 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:60831)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOsdu-00026G-NU; Tue, 23 Mar 2021 21:49:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:32919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1lOsEY-0004b7-NM
- for qemu-devel@nongnu.org; Tue, 23 Mar 2021 21:22:57 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id DE9895809A5;
- Tue, 23 Mar 2021 21:22:52 -0400 (EDT)
-Received: from imap1 ([10.202.2.51])
- by compute6.internal (MEProxy); Tue, 23 Mar 2021 21:22:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm1; bh=c+ae5
- ABAYnNsKU013IHA/pxBS9krhy3J/UsGITJ5lDI=; b=zJ/nOvAXvTkEAFmHLygGT
- LyE2zhB0swVOAJdkXBIv4Es9wjHrpLIbILgV2u44cyCCxnEM67St+YB97+wcWAYI
- A+HwAjY8y1NmwU2gi30w/7D27Y8eRpBe4KcDT/m5zNseVJpoyq9rY+pqASE+mVUp
- kTFVdB3Nb6V5z5m618/kG32AWTEVNc7WXnnRuHrbH8JkCMOTBXzBrOJaF2hbAevi
- weO+g6xCrpQMB8KkKwbLhmMoUxN/IXSwlfO5N8abknOmlPpMrQjdfiJchNjta3uD
- jxUkDvVAzHjkMF4FqIOaJnzOqIJ7AcFfebTj5obycehOnYaTz+6jbiYPa2XNT7gQ
- A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=c+ae5ABAYnNsKU013IHA/pxBS9krhy3J/UsGITJ5l
- DI=; b=Z0D7U2nhXnuYLt3ff/c+g0KBh2P7sRtatgDCjrmUN6/5darvM3Dm7mbiB
- arw0c+gNEm9zcvTar3/m7lYvoyeAHrQf31FswKh7tOok3qHKb9YaSLzCLsMzTkh8
- XrVjEBZ6NXCNsKgih8rl4KA/AONfAw77g+BUmT5Nnsj1Pjh99RU1sAY/D+bp868v
- YKniH3pAsLaSY4/1SX4nGaOCFFt2nQLPuMXhOnBK9S9XaHlZfozYzu6FsO6SQfWL
- S68yGLhHJx60cws+wOYGN1s6w6no00xm/B2admah1mNa/IDuqeKpVhOke33A4+D6
- aWFbMbo9VRctKc/tGs1G0wVw0//tA==
-X-ME-Sender: <xms:a5RaYLLIcGHm37Xl-BSFqMIsbS7rJjfcXXaki0FHhKXS_Xa0mTsruQ>
- <xme:a5RaYPJ7Y3lsBdfrcRQjzox16M4JM7yZPpe0reGim33CzRSQLRzIePzKRiZr1Z0aV
- 9kFBPIT2Vt1LrCvUSU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegjedgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
- feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:a5RaYDuKLycdQ1-tCLtBfH_fGDHaBXL-fn6xMWJHYhXVK4EbyTaJtw>
- <xmx:a5RaYEZJtkJSKvUFR9DZ-ZUSSgXvp-nh6AWK1Za2dkg01qQKVQ6LRQ>
- <xmx:a5RaYCbbParC6qxNLYz69MIQDIZ3kYMsLfzPTdnsbPrBldgeeCspyg>
- <xmx:bJRaYIN3kUyoAy98GNtxL7O_VjZqHO9PB8vEffvaTBiVrYCUPYTX2A>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A2251130005E; Tue, 23 Mar 2021 21:22:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
-Mime-Version: 1.0
-Message-Id: <16018289-0b28-4412-854b-0d30519588ca@www.fastmail.com>
-In-Reply-To: <62b12fe2-01db-76c0-b2fd-f730b4157285@amsat.org>
-References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
- <1602059975-10115-3-git-send-email-chenhc@lemote.com>
- <0dfbe14a-9ddb-0069-9d86-62861c059d12@amsat.org>
- <CAAhV-H63zhXyUizwOxUtXdQQOR=r82493tgH8NfLmgXF0g8row@mail.gmail.com>
- <9fc6161e-cf27-b636-97c0-9aca77d0f9cd@amsat.org>
- <CAAhV-H5wPZQ+TGdZL=mPV4YQcjHarJFoEH-nobr10PdesR-ySg@mail.gmail.com>
- <62b12fe2-01db-76c0-b2fd-f730b4157285@amsat.org>
-Date: Wed, 24 Mar 2021 09:22:30 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Huacai Chen" <chenhuacai@gmail.com>
-Subject: Re: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.229;
- envelope-from=jiaxun.yang@flygoat.com; helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOsds-0007u3-O0; Tue, 23 Mar 2021 21:49:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F4rkN43JPz9sWb; Wed, 24 Mar 2021 12:49:00 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616550540;
+ bh=j7pMw2L4xs3GmxnzLJV3Ob+u6TdNbCpxPnDgRG7q7Nk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vd0+/30HnCyb2exxt6okM9pMsjP2LOKC9eMBmm1IvlB/sR2bUc4D9JsOGgpfeoHPr
+ haqvSLCdGqwOFrhW+Mi5v9fN0VbtguLXRkvXcVxpU+yhlRwtm6T2kA1NNxX3Rmb1nJ
+ +SFHg2lavsiFWvzVtrvD/vqmXoBK/XGlnGGrSRnk=
+Date: Wed, 24 Mar 2021 12:40:34 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 0/4] DEVICE_NOT_DELETED/DEVICE_UNPLUG_ERROR QAPI events
+Message-ID: <YFqYkuBSD3xPgLVi@yekko.fritz.box>
+References: <20210312200740.815014-1-danielhb413@gmail.com>
+ <YFlAheldkqCkZytI@yekko.fritz.box>
+ <b8d96ab9-61e5-b941-6405-5beff5fe0df5@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WMlhhOkMHGfHPrPP"
+Content-Disposition: inline
+In-Reply-To: <b8d96ab9-61e5-b941-6405-5beff5fe0df5@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,48 +59,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
- YunQiang Su <syq@debian.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- BALATON Zoltan via <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--WMlhhOkMHGfHPrPP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 23, 2021, at 9:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Huacai,
+On Tue, Mar 23, 2021 at 02:10:22PM -0300, Daniel Henrique Barboza wrote:
 >=20
-> We are going to tag QEMU v6.0-rc0 today.
 >=20
-> I only have access to a 64-bit MIPS in little-endian to
-> test KVM.
+> On 3/22/21 10:12 PM, David Gibson wrote:
+> > On Fri, Mar 12, 2021 at 05:07:36PM -0300, Daniel Henrique Barboza wrote:
+> > > Hi,
+> > >=20
+> > > This series adds 2 new QAPI events, DEVICE_NOT_DELETED and
+> > > DEVICE_UNPLUG_ERROR. They were (and are still being) discussed in [1].
+> > >=20
+> > > Patches 1 and 3 are independent of the ppc patches and can be applied
+> > > separately. Patches 2 and 4 are based on David's ppc-for-6.0 branch a=
+nd
+> > > are dependent on the QAPI patches.
+> >=20
+> > Implementation looks fine, but I think there's a bit more to discuss
+> > before we can apply.
+> >=20
+> > I think it would make sense to re-order this and put UNPLUG_ERROR
+> > first.  Its semantics are clearer, and I think there's a stronger case
+> > for it.
 >=20
-> Can you test the other configurations please?
-> - 32-bit BE
-> - 32-bit LE
-> - 64-bit BE
+> Alright
+>=20
+> >=20
+> > I'm a bit less sold on DEVICE_NOT_DELETED, after consideration.  Does
+> > it really tell the user/management anything useful beyond what
+> > receiving neither a DEVICE_DELETED nor a DEVICE_UNPLUG_ERROR does?
+>=20
+>=20
+> It informs that the hotunplug operation exceed the timeout that QEMU
+> internals considers adequate, but QEMU can't assert that it was caused
+> by an error or an unexpected delay. The end result is that the device
+> is not going to be deleted from QMP, so DEVICE_NOT_DELETED.
 
-+syq
-As Loongson doesn't have Big-Endian processor and Loongson 3A won't run =
-32bit kernel.
+Is it, though?  I mean, it is with this implementation for papr:
+because we clear the unplug_requested flag, even if the guest later
+tries to complete the unplug, it will fail.
 
-Probably wecan test on boston or malta board?=20
+But if I understand what Markus was saying correctly, that might not
+be possible for all hotplug systems.  I believe Markus was suggesting
+that DEVICE_NOT_DELETED could just mean that we haven't deleted the
+device yet, but it could still happen later.
 
-Thanks.=20
+And in that case, I'm not yet sold on the value of a message that
+essentially just means "Ayup, still dunno what's happening, sorry".
 
+> Perhaps we should just be straightforward and create a DEVICE_UNPLUG_TIME=
+OUT
+> event.
 
->=20
-> Thanks!
->=20
-> Phil.
->=20
->=20
-[...]
+Hm... what if we added a "reason" field to UNPLUG_ERROR.  That could
+be "guest rejected hotplug", or something more specific, in the rare
+case that the guest has a way of signalling something more specific,
+or "timeout" - but the later *only* to be sent in cases where on the
+timeout we're able to block any later completion of the unplug (as we
+can on papr).
+
+Thoughs, Markus?
 
 --=20
-- Jiaxun
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--WMlhhOkMHGfHPrPP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBamJAACgkQbDjKyiDZ
+s5J2bA/9HVSBmGESOs+eTBYKjXVR/sJSKvpO+Zb/T+jjONlGTHPIFtvbxk1F+3z7
+5HjqpVSBb0VTj52RObooETMcKISJ8WZ3povhGLrETrs9+0yDoJJDKPyhc1IWA/ss
+Hiqip64ghjWnuyjmYqWzRS8ZoL5ydPzgjRk8S2bYZn1AcVXDLMZkWuB3SDnp2bOo
+D6Qr1MEthS3orqAZg2lmSvmXL0ZJHuu3Gcu2Ahc1UraZc4DjWe1pOrHDYUovmQCX
+cNIvJm4tqaWox4lJ4FL8FvO4nS9UnRNURha1TGGg3ycwXF9JuVIIpF+xjjxPPi3E
+ybJVLUKRnknv2qbPQoaDqzdj4R+mJghF1TarG3B/ihN0TOgbxqKrTBd4UvKDCm8Y
+cuYwBewAbUhlIdATgGAnLtTeJSwJisZ1h0tJDVWABCBfJINkskYfetzifdKU7dV9
+//N6SYCwwbggnEtPinkSZvQZOWpUISouAL7gpBma8jdAa4h58p++OxTJtET+EJky
+PdMeal9kEFg/kAFIEYCtV2nZuFg+EvTH507tgr21WPJFJyP3Zsd0gcL6VnfNgMyE
+InRc2Nz29nofl+Xv4cbVB2y+i0hn7N3XFftF/MGJyx8G3cp0J3VPOGdKM+/02abJ
+FULIfu3FewsB7jyAa3EnDgWBhi8Hd9XRo7nqI/s6qp9VwUTmxno=
+=zXak
+-----END PGP SIGNATURE-----
+
+--WMlhhOkMHGfHPrPP--
 
