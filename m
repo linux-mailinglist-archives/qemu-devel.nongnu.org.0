@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74467347B3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:58:23 +0100 (CET)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3500B347B48
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 16:00:40 +0100 (CET)
+Received: from localhost ([::1]:47458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP4xi-0006GI-GN
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
+	id 1lP4zv-0000vp-7j
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 11:00:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lP4qj-0005om-Fq
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:51:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32311)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lP4ru-0007o0-0e
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:52:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lP4qd-0001Ua-KP
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:51:08 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lP4rs-0002Gr-6c
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:52:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616597461;
+ s=mimecast20190719; t=1616597537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kwT75KGdRMZHxnQwshFRe3rLbCBXaIr8CoB2lNLCl6M=;
- b=Ej6InHKEz6f3fKptfgLRTjmbfusfOY7LFz1MLcVrie9ffLk0ZZ7FUWvbQ5VORhajukPKPb
- 9rKKvgJ7FKPWHGJFdSolzLSBZHdn+0Q62imZaL4CghLIUFyiBCP99sJA4jL7bpT34uqr7S
- 9lYNQZDkAtmxY3WRhnNmCDOwsYgJ2Fk=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1keC6l3LRTO9U9HfEnKk2jB5w2AlwmFMyPSw6+frLEA=;
+ b=IemTmlCqWHtKCeJ6/aHpNK43dLvPa0ZSkN1lAHYxBq3Zl5pjTT5nIK6nPI3RBExChxDgX6
+ nKIQ9qVa7E2QPS/nQeGDg/f16mJwdy/941aBnGojWnfHnEBucS8jVNyw6Eyo3HWN3QW5B7
+ bOCj2XGDWISsjwTzo+8oQXeKr1ygqeA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-ri6l8pSPPzSJ13dM_j4qvw-1; Wed, 24 Mar 2021 10:50:59 -0400
-X-MC-Unique: ri6l8pSPPzSJ13dM_j4qvw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-545-Mo9d_wrBNEeJnmvk759HLA-1; Wed, 24 Mar 2021 10:52:15 -0400
+X-MC-Unique: Mo9d_wrBNEeJnmvk759HLA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6129C10AA49D;
- Wed, 24 Mar 2021 14:50:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-161.ams2.redhat.com
- [10.36.113.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46788614FF;
- Wed, 24 Mar 2021 14:50:50 +0000 (UTC)
-Subject: Re: [PATCH V4] file-posix: allow -EBUSY error during ioctl(fd,
- BLKZEROOUT, range) on block
-To: ChangLimin <changlm@chinatelecom.cn>, qemu-block <qemu-block@nongnu.org>
-References: <2021032217253258728710@chinatelecom.cn>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <0b01a688-f86b-0888-2c03-f4d55273b93f@redhat.com>
-Date: Wed, 24 Mar 2021 15:50:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92BF583DD22;
+ Wed, 24 Mar 2021 14:52:13 +0000 (UTC)
+Received: from localhost (ovpn-115-111.ams2.redhat.com [10.36.115.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2642319C71;
+ Wed, 24 Mar 2021 14:52:02 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/2] Block patches
+Date: Wed, 24 Mar 2021 14:52:00 +0000
+Message-Id: <20210324145202.430759-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2021032217253258728710@chinatelecom.cn>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,79 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf <kwolf@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.03.21 10:25, ChangLimin wrote:
-> For Linux 5.10/5.11, qemu write zeros to a multipath device using
-> ioctl(fd, BLKZEROOUT, range) with cache none or directsync return -EBUSY
-> permanently.
-
-So as far as I can track back the discussion, Kevin asked on v1 why we’d 
-set has_write_zeroes to false, i.e. whether the EBUSY might not go away 
-at some point, and if it did, whether we shouldn’t retry BLKZEROOUT then.
-You haven’t explicitly replied to that question (as far as I can see), 
-so it kind of still stands.
-
-Implicitly, there are two conflicting answers in this patch: On one 
-hand, the commit message says “permanently”, and this is what you told 
-Nir as a realistic case where this can occur.  So that to me implies 
-that we actually should not retry BLKZEROOUT, because the EBUSY will 
-remain, and that condition won’t change while the block device is in use 
-by qemu.
-
-On the other hand, in the code, you have decided not to reset 
-has_write_zeroes to false, so the implementation will retry.
-
-So I don’t quite understand.  Should we keep trying BLKZEROOUT or is 
-there no chance of it working after it has at one point failed with 
-EBUSY?  (Are there other cases besides what’s described in this commit 
-message where EBUSY might be returned and it is only temporary?)
-
-> Fallback to pwritev instead of exit for -EBUSY error.
-> 
-> The issue was introduced in Linux 5.10:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=384d87ef2c954fc58e6c5fd8253e4a1984f5fe02
-> 
-> Fixed in Linux 5.12:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=56887cffe946bb0a90c74429fa94d6110a73119d
-> 
-> Signed-off-by: ChangLimin <changlm@chinatelecom.cn>
-> ---
->   block/file-posix.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 20e14f8e96..d4054ac9cb 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1624,8 +1624,12 @@ static ssize_t 
-> handle_aiocb_write_zeroes_block(RawPosixAIOData *aiocb)
->           } while (errno == EINTR);
-> 
->           ret = translate_err(-errno);
-> -        if (ret == -ENOTSUP) {
-> -            s->has_write_zeroes = false;
-> +        switch (ret) {
-> +        case -ENOTSUP:
-> +            s->has_write_zeroes = false; /* fall through */
-> +        case -EBUSY: /* Linux 5.10/5.11 may return -EBUSY for multipath 
-> devices */
-> +            return -ENOTSUP;
-> +            break;
-
-(Not sure why this break is here.)
-
-Max
-
->           }
->       }
->   #endif
-> --
-> 2.27.0
-> 
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA2N2MxMTE1ZWRkOThmMzg4Y2E4OWRk
+MzgzMjJlYTNmYWRmMDM0NTIzOg0KDQogIE1lcmdlIHJlbW90ZS10cmFja2luZyBicmFuY2ggJ3Jl
+bW90ZXMva3JheGVsL3RhZ3MvdWktMjAyMTAzMjMtcHVsbC1yZXF1ZXN0JyBpbnRvIHN0YWdpbmcg
+KDIwMjEtMDMtMjMgMjM6NDc6MzAgKzAwMDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCBy
+ZXBvc2l0b3J5IGF0Og0KDQogIGh0dHBzOi8vZ2l0bGFiLmNvbS9zdGVmYW5oYS9xZW11LmdpdCB0
+YWdzL2Jsb2NrLXB1bGwtcmVxdWVzdA0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8g
+MzQ2MGZkN2YzOTU5ZDFmYTdiY2MyNTU3OTY4NDRhYTI2MWM4MDVhNDoNCg0KICBtaWdyYXRlLWJp
+dG1hcHMtcG9zdGNvcHktdGVzdDogY2hlY2sgdGhhdCB3ZSBjYW4ndCByZW1vdmUgaW4tZmxpZ2h0
+IGJpdG1hcHMgKDIwMjEtMDMtMjQgMTM6NDE6MTkgKzAwMDApDQoNCi0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClB1bGwgcmVx
+dWVzdA0KDQpUaGlzIGRpcnR5IGJpdG1hcCBmaXggc29sdmVzIGEgY3Jhc2ggdGhhdCBjYW4gYmUg
+dHJpZ2dlcmVkIGluIHRoZSBkZXN0aW5hdGlvbg0KUUVNVSBwcm9jZXNzIGR1cmluZyBsaXZlIG1p
+Z3JhdGlvbi4NCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQpWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5ICgyKToN
+CiAgbWlncmF0aW9uL2Jsb2NrLWRpcnR5LWJpdG1hcDogbWFrZSBpbmNvbWluZyBkaXNhYmxlZCBi
+aXRtYXBzIGJ1c3kNCiAgbWlncmF0ZS1iaXRtYXBzLXBvc3Rjb3B5LXRlc3Q6IGNoZWNrIHRoYXQg
+d2UgY2FuJ3QgcmVtb3ZlIGluLWZsaWdodA0KICAgIGJpdG1hcHMNCg0KIG1pZ3JhdGlvbi9ibG9j
+ay1kaXJ0eS1iaXRtYXAuYyAgICAgICAgICAgICAgICAgICAgICAgICB8ICA2ICsrKysrKw0KIHRl
+c3RzL3FlbXUtaW90ZXN0cy90ZXN0cy9taWdyYXRlLWJpdG1hcHMtcG9zdGNvcHktdGVzdCB8IDEw
+ICsrKysrKysrKysNCiAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKykNCg0KLS0gDQoy
+LjMwLjINCg0K
 
 
