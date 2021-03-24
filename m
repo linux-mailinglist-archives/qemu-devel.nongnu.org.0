@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3359346FF4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 04:11:13 +0100 (CET)
-Received: from localhost ([::1]:39740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D91F346FBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 03:58:20 +0100 (CET)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOtvM-0004Ox-Bx
-	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 23:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
+	id 1lOtis-00004z-WA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Mar 2021 22:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOtu1-0003PC-7T; Tue, 23 Mar 2021 23:09:49 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57553 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lOthL-0007b7-B1
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 22:56:43 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lOtty-0007fA-MW; Tue, 23 Mar 2021 23:09:49 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F4tWT0HLBz9sWS; Wed, 24 Mar 2021 14:09:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616555381;
- bh=ppg2ckmbSltg90PqicV6u9zr1FQKHX/tZ91+JlMqMuQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OC2UvQYwRlRaWUm19RH9AIqrhKW6z8baGEbLkqutzHnTT2ZH9RkRyUAf+dp9IgEuL
- blRNnFo4rz8JISGFr/BLZPJ2UgGjPCrdEVY2HO1kWj0xhEvEx4WJb5BWowAcYn/LZr
- /PBynTSCcxn0x0uwnkKsq58Iq3P0ipr7wfvHd+0M=
-Date: Wed, 24 Mar 2021 13:30:55 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Subject: Re: [PATCH v3 1/3] spapr: nvdimm: Forward declare and move the
- definitions
-Message-ID: <YFqkX65IlbEvv6Ta@yekko.fritz.box>
-References: <161650723087.2959.8703728357980727008.stgit@6532096d84d3>
- <161650723903.2959.2652600316416885453.stgit@6532096d84d3>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lOthI-0008MC-Dl
+ for qemu-devel@nongnu.org; Tue, 23 Mar 2021 22:56:43 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F4t9v6y0QzwQKc;
+ Wed, 24 Mar 2021 10:54:27 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 24 Mar 2021 10:56:22 +0800
+Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
+To: Peter Xu <peterx@redhat.com>
+References: <20210310203301.194842-1-peterx@redhat.com>
+ <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
+ <20210322194533.GE16645@xz-x1>
+ <ddf6bf41-ab29-8bbc-d3fb-94938e42e215@huawei.com>
+ <20210323143429.GB6486@xz-x1>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <5da1dd71-58e9-6579-c7c1-6cb60baf7ac1@huawei.com>
+Date: Wed, 24 Mar 2021 10:56:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HWO7IIP6GuVjpqy8"
-Content-Disposition: inline
-In-Reply-To: <161650723903.2959.2652600316416885453.stgit@6532096d84d3>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210323143429.GB6486@xz-x1>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,127 +63,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
- bharata@linux.vnet.ibm.com, linux-nvdimm@lists.01.org, groug@kaod.org,
- kvm-ppc@vger.kernel.org, qemu-devel@nongnu.org, shivaprasadbhat@gmail.com,
- qemu-ppc@nongnu.org, imammedo@redhat.com, sbhat@linux.vnet.ibm.com,
- xiaoguangrong.eric@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Peter,
 
---HWO7IIP6GuVjpqy8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2021/3/23 22:34, Peter Xu wrote:
+> Keqian,
+> 
+> On Tue, Mar 23, 2021 at 02:40:43PM +0800, Keqian Zhu wrote:
+>>>> The second question is that you observed longer migration time (55s->73s) when guest
+>>>> has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
+>>>> ring enabled, Qemu can get dirty info faster which means it handles dirty page more
+>>>> quick, and guest can be throttled which means dirty page is generated slower. What's
+>>>> the rationale for the longer migration time?
+>>>
+>>> Because dirty ring is more sensitive to dirty rate, while dirty bitmap is more
+>> Emm... Sorry that I'm very clear about this... I think that higher dirty rate doesn't cause
+>> slower dirty_log_sync compared to that of legacy bitmap mode. Besides, higher dirty rate
+>> means we may have more full-exit, which can properly limit the dirty rate. So it seems that
+>> dirty ring "prefers" higher dirty rate.
+> 
+> When I measured the 800MB/s it's in the guest, after throttling.
+> 
+> Imagine another example: a VM has 1G memory keep dirtying with 10GB/s.  Dirty
+> logging will need to collect even less for each iteration because memory size
+> shrinked, collect even less frequent due to the high dirty rate, however dirty
+> ring will use 100% cpu power to collect dirty pages because the ring keeps full.
+Looks good.
 
-On Tue, Mar 23, 2021 at 09:47:23AM -0400, Shivaprasad G Bhat wrote:
-> The subsequent patches add definitions which tend to
-> get the compilation to cyclic dependency. So, prepare
-> with forward declarations, move the defitions and clean up.
->=20
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
->  hw/ppc/spapr_nvdimm.c         |   12 ++++++++++++
->  include/hw/ppc/spapr_nvdimm.h |   21 ++++++---------------
->  2 files changed, 18 insertions(+), 15 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index b46c36917c..8cf3fb2ffb 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -31,6 +31,18 @@
->  #include "qemu/range.h"
->  #include "hw/ppc/spapr_numa.h"
-> =20
-> +/*
-> + * The nvdimm size should be aligned to SCM block size.
-> + * The SCM block size should be aligned to SPAPR_MEMORY_BLOCK_SIZE
-> + * inorder to have SCM regions not to overlap with dimm memory regions.
-> + * The SCM devices can have variable block sizes. For now, fixing the
-> + * block size to the minimum value.
-> + */
-> +#define SPAPR_MINIMUM_SCM_BLOCK_SIZE SPAPR_MEMORY_BLOCK_SIZE
-> +
-> +/* Have an explicit check for alignment */
-> +QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE=
-);
-> +
->  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nv=
-dimm,
->                             uint64_t size, Error **errp)
->  {
-> diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-> index 73be250e2a..abcacda5d7 100644
-> --- a/include/hw/ppc/spapr_nvdimm.h
-> +++ b/include/hw/ppc/spapr_nvdimm.h
-> @@ -11,23 +11,14 @@
->  #define HW_SPAPR_NVDIMM_H
-> =20
->  #include "hw/mem/nvdimm.h"
-> -#include "hw/ppc/spapr.h"
-> =20
-> -/*
-> - * The nvdimm size should be aligned to SCM block size.
-> - * The SCM block size should be aligned to SPAPR_MEMORY_BLOCK_SIZE
-> - * inorder to have SCM regions not to overlap with dimm memory regions.
-> - * The SCM devices can have variable block sizes. For now, fixing the
-> - * block size to the minimum value.
-> - */
-> -#define SPAPR_MINIMUM_SCM_BLOCK_SIZE SPAPR_MEMORY_BLOCK_SIZE
-> -
-> -/* Have an explicit check for alignment */
-> -QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE=
-);
-> +struct SpaprDrc;
-> +struct SpaprMachineState;
-> =20
-> -int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-> -                           void *fdt, int *fdt_start_offset, Error **err=
-p);
-> -void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
-> +int spapr_pmem_dt_populate(struct SpaprDrc *drc,
+We have many places to collect dirty pages: the background reaper, vCPU exit handler,
+and the migration thread. I think migration time is closely related to the migration thread.
 
-Using explicit struct tags is against qemu coding style.   You should
-put a typedef on the forward decl so you don't need to do it here (see
-examples in spapr_pci.c amongst other places).
+The migration thread calls kvm_dirty_ring_flush().
+1. kvm_cpu_synchronize_kick_all() will wait vcpu handles full-exit.
+2. kvm_dirty_ring_reap() collects and resets dirty pages.
+The above two operation will spend more time with higher dirty rate.
 
-> +                           struct SpaprMachineState *spapr, void *fdt,
-> +                           int *fdt_start_offset, Error **errp);
-> +void spapr_dt_persistent_memory(struct SpaprMachineState *spapr, void *f=
-dt);
->  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nv=
-dimm,
->                             uint64_t size, Error **errp);
->  void spapr_add_nvdimm(DeviceState *dev, uint64_t slot);
->=20
->=20
+But I suddenly realize that the key problem maybe not at this. Though we have separate
+"reset" operation for dirty ring, actually it is performed right after we collect dirty
+ring to kvmslot. So in dirty ring mode, it likes legacy bitmap mode without manual_dirty_clear.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+If we can "reset" dirty ring just before we really handle the dirty pages, we can have
+shorter migration time. But the design of dirty ring doesn't allow this, because we must
+perform reset to make free space...
 
---HWO7IIP6GuVjpqy8
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+>>
+>>> sensitive to memory footprint.  In above 24G mem + 800MB/s dirty rate
+>>> condition, dirty bitmap seems to be more efficient, say, collecting dirty
+>>> bitmap of 24G mem (24G/4K/8=0.75MB) for each migration cycle is fast enough.
+>>>
+>>> Not to mention that current implementation of dirty ring in QEMU is not
+>>> complete - we still have two more layers of dirty bitmap, so it's actually a
+>>> mixture of dirty bitmap and dirty ring.  This series is more like a POC on
+>>> dirty ring interface, so as to let QEMU be able to run on KVM dirty ring.
+>>> E.g., we won't have hang issue when getting dirty pages since it's totally
+>>> async, however we'll still have some legacy dirty bitmap issues e.g. memory
+>>> consumption of userspace dirty bitmaps are still linear to memory footprint.
+>> The plan looks good and coordinated, but I have a concern. Our dirty ring actually depends
+>> on the structure of hardware logging buffer (PML buffer). We can't say it can be properly
+>> adapted to all kinds of hardware design in the future.
+> 
+> Sorry I don't get it - dirty ring can work with pure page wr-protect too?
+Sure, it can. I just want to discuss many possible kinds of hardware logging buffer.
+However, I'd like to stop at this, at least dirty ring works well with PML. :)
 
------BEGIN PGP SIGNATURE-----
+> 
+>>
+>>>
+>>> Moreover, IMHO another important feature that dirty ring provided is actually
+>>> the full-exit, where we can pause a vcpu when it dirties too fast, while other
+>> I think a proper pause time is hard to decide. Short time may have little effect
+>> of throttle, but long time may have heavy effect on guest. Do you have a good algorithm?
+> 
+> That's the next thing we can discuss.  IMHO I think the dirty ring is nice
+> already because we can measure dirty rate per-vcpu, also we can throttle in
+> vcpu granule.  That's something required for a good algorithm, say we shouldn't
+> block vcpu when there's small dirty rate, and in many cases that's the case for
+> e.g. UI threads.  Any algorithm should be based on these facts.
+OK.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBapF0ACgkQbDjKyiDZ
-s5IwcQ/+P4QE5ojDn80wASGJfTSW9l9uXbiCfTxa0qeq7rPAYB5U70laqSN1mhmz
-UxOymyhs5BWED2BuOWrDi+yJm1OBh4za1yKwR7pqqvBth2uyeOYsZo8V7K2jn3Kb
-nvnz4M5GtOCUaE4ASYAlGYWf5GCG6sBBSuEWfySkTQvSXYZPUdvX7icOU6k09ZXO
-tV5p9SxSxm9JdYniHZW5U0EJJdc9DEEMRxdhHdHRhbW34JQcOjjlOmHaEVjTXl0P
-rXMiSaCj7pfV4RZbzwiGAGoBtdGfMF7mmKFN3rZLWLpsXp3TTPwIAir1DINjxWn6
-wbL9bTUAv2YRSZ1eDVLEvpG0SHx79L49GxhghURsgJfe5NtxkdIWuRMAIUjgw31O
-2+Q0eXMcSkv4ZlqERk+aWBC11nIgquP43iXuVM7577x1rsRSdZw4T4rFrT0RMTTw
-/nUeNA79nZImZZjkjM1xv4GiVkajT+ySF17Oy38izLyiV4zBgGzRhTtgDIHOQb8d
-ZiUY5zgHdMdtucGPRpgQGKPaVEdjyR6y8gOAi26iyj1bZXUl1b36E7B7KRP6udWu
-W3vt4H1ZMfqTj5gL1sqgx6TILaKyYzvm9AqKEHjSeWM3b3yAYZxH9QA3Tew0QEb/
-UhBm/IpHchKX+i3S5yTYrCKPx3hmDR05hnjrevMucHwsGHtZ3vY=
-=fwKz
------END PGP SIGNATURE-----
-
---HWO7IIP6GuVjpqy8--
+Thanks,
+Keqian
 
