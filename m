@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69B53471B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:39:18 +0100 (CET)
-Received: from localhost ([::1]:51672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386E43471E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:54:19 +0100 (CET)
+Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOxAj-0008LB-Ty
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40074)
+	id 1lOxPG-0006Ak-95
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lOx8b-0007Y1-9W
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:37:05 -0400
-Resent-Date: Wed, 24 Mar 2021 02:37:05 -0400
-Resent-Message-Id: <E1lOx8b-0007Y1-9W@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lOx8V-0005tV-N5
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:37:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616567809; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bs0SHxYBZJSAfoyPX2s+Umwrlz9gmz/8iz/iykqfa0YFQqO4OTtClZGLWCw9J44iPKwJmc5feogZn+w16N4SfTcbMjPdGXiFqdRmeofnuQfxML4uib8OJ9ikGR/wwh47PY5fc/DF1fCq2d8xgPbm+a2PYR7dg4XantvD4OHxMPs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616567809;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=LywRJ1iXofaYRW+LJoaBDI6ZW5nab0tlSjV0civvQfw=; 
- b=iTGec//TIEyF8SPDO+NvUZI3Mcs4/pm5k41SDNnhDcTr2b95RlakIVgAVQGKtUYpXzth0eZHZIIj/NAhNsARUhwEdABXUP1yEBYG0g+jYlgzmXxEOk3rGCyF+0E4hOJwdQ9/QpTfDJFvjwVKXfuYwc8sE6Y2m4nNJ8fmmgubpjo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616567805295482.6371619596995;
- Tue, 23 Mar 2021 23:36:45 -0700 (PDT)
-In-Reply-To: <1616567465-153141-1-git-send-email-robert.hu@linux.intel.com>
-Subject: Re: [PATCH v2] i386/cpu_dump: support AVX512 ZMM regs dump
-Message-ID: <161656780408.22034.8429207677468091029@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOxLu-0004Iu-22
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:50:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lOxLr-0005or-BS
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:50:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lOxLo-00036J-LH
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:50:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9B9772E8157
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 06:50:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: robert.hu@linux.intel.com
-Date: Tue, 23 Mar 2021 23:36:45 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Mar 2021 06:41:31 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1920784@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-power-systems; status=Confirmed;
+ importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
+ status=Confirmed; importance=Undecided; assignee=frank.heimes@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fheimes janitor laurent-vivier paelzer
+ sadoonalbader ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
+Message-Id: <161656809120.851.12308410347120014741.malone@soybean.canonical.com>
+Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 1a266930b66fd7cbc50406fa2cefb6044ade0034
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,54 +81,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, robert.hu@linux.intel.com,
- richard.henderson@linaro.org, ehabkost@redhat.com, qemu-devel@nongnu.org
+Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjE2NTY3NDY1LTE1MzE0MS0x
-LWdpdC1zZW5kLWVtYWlsLXJvYmVydC5odUBsaW51eC5pbnRlbC5jb20vCgoKCkhpLAoKVGhpcyBz
-ZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1
-dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAx
-NjE2NTY3NDY1LTE1MzE0MS0xLWdpdC1zZW5kLWVtYWlsLXJvYmVydC5odUBsaW51eC5pbnRlbC5j
-b20KU3ViamVjdDogW1BBVENIIHYyXSBpMzg2L2NwdV9kdW1wOiBzdXBwb3J0IEFWWDUxMiBaTU0g
-cmVncyBkdW1wCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
-LzE2MTY1Njc0NjUtMTUzMTQxLTEtZ2l0LXNlbmQtZW1haWwtcm9iZXJ0Lmh1QGxpbnV4LmludGVs
-LmNvbSAtPiBwYXRjaGV3LzE2MTY1Njc0NjUtMTUzMTQxLTEtZ2l0LXNlbmQtZW1haWwtcm9iZXJ0
-Lmh1QGxpbnV4LmludGVsLmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzIz
-MTU1MTMyLjIzODE5My0xLWY0YnVnQGFtc2F0Lm9yZyAtPiBwYXRjaGV3LzIwMjEwMzIzMTU1MTMy
-LjIzODE5My0xLWY0YnVnQGFtc2F0Lm9yZwogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIw
-MjEwMzIzMTY1MzA4LjE1MjQ0LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIw
-MjEwMzIzMTY1MzA4LjE1MjQ0LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZwogLSBbdGFnIHVwZGF0
-ZV0gICAgICBwYXRjaGV3LzkxZDU5NzgzNTdmYjg3MDllZjYxZDIwMzA5ODRmNzE0Mjg0NzAzN2Qu
-MTYxNjE0MTU1Ni5naXQuaHVhbmd5ODFAY2hpbmF0ZWxlY29tLmNuIC0+IHBhdGNoZXcvOTFkNTk3
-ODM1N2ZiODcwOWVmNjFkMjAzMDk4NGY3MTQyODQ3MDM3ZC4xNjE2MTQxNTU2LmdpdC5odWFuZ3k4
-MUBjaGluYXRlbGVjb20uY24KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwozNDAyNGUy
-IGkzODYvY3B1X2R1bXA6IHN1cHBvcnQgQVZYNTEyIFpNTSByZWdzIGR1bXAKCj09PSBPVVRQVVQg
-QkVHSU4gPT09CkVSUk9SOiBlbHNlIHNob3VsZCBmb2xsb3cgY2xvc2UgYnJhY2UgJ30nCiM2NDog
-RklMRTogdGFyZ2V0L2kzODYvY3B1LWR1bXAuYzo1MjA6CisgICAgICAgIH0KKyAgICAgICAgZWxz
-ZSBpZiAoZW52LT54Y3IwICYgWEZFQVRVUkVfQVZYKSB7CgpFUlJPUjogZWxzZSBzaG91bGQgZm9s
-bG93IGNsb3NlIGJyYWNlICd9JwojNzY6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1kdW1wLmM6NTMy
-OgorICAgICAgICB9CisgICAgICAgIGVsc2UgeyAvKiBTU0UgYW5kIGJlbG93IGNhc2VzICovCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICd8JyAoY3R4OlZ4RSkKIzEwNjogRklM
-RTogdGFyZ2V0L2kzODYvY3B1Lmg6MjU5OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICBY
-RkVBVFVSRV9BVlg1MTJfWk1NX0hpMjU2fCBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3Ms
-IDgwIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCAzNDAyNGUyYjE4ZDIgKGkzODYvY3B1X2R1bXA6IHN1
-cHBvcnQgQVZYNTEyIFpNTSByZWdzIGR1bXApIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
-dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
-dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09
-PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE2MTY1Njc0
-NjUtMTUzMTQxLTEtZ2l0LXNlbmQtZW1haWwtcm9iZXJ0Lmh1QGxpbnV4LmludGVsLmNvbS90ZXN0
-aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+@Sadoon - yes, that is the same fix that Laurent pointed to a few hours
+before.
+
+@Frank - the kernel I had before was 5.11.0-11-generic (failing). I've
+tested "5.11.0-13-generic #14~lp1920784" from your PPA and can confirm
+that this fixes the issue.
+
+Thanks Laurent for identifying the fix and thanks Frank for the kernel.
+I'll mark bug tasks accordingly and @Frank you'll let me know if there is a=
+nything else you need to drive this to completion.
+
+** Changed in: qemu
+       Status: New =3D> Invalid
+
+** Changed in: glibc (Ubuntu)
+       Status: New =3D> Invalid
+
+** Changed in: qemu (Ubuntu)
+       Status: Confirmed =3D> Invalid
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920784
+
+Title:
+  qemu-system-ppc64le fails with kvm acceleration
+
+Status in QEMU:
+  Invalid
+Status in The Ubuntu-power-systems project:
+  Confirmed
+Status in glibc package in Ubuntu:
+  Invalid
+Status in linux package in Ubuntu:
+  Confirmed
+Status in qemu package in Ubuntu:
+  Invalid
+
+Bug description:
+  (Suspected glibc issue!)
+
+  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
+  error "illegal instruction"
+
+  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
+
+  Illegal instruction (core dumped)
+
+  In dmesg:
+
+  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
+  MSR=3D900000000280f033
+
+  =
+
+  Version-Release number of selected component (if applicable):
+  qemu 5.2.0 =
+
+  Linux kernel 5.11
+  glibc 2.33
+  all latest updates as of submitting the bug report
+
+  How reproducible:
+  Always
+
+  Steps to Reproduce:
+  1. Run qemu with kvm acceleration
+
+  Actual results:
+  Illegal instruction
+
+  Expected results:
+  Normal VM execution
+
+  Additional info:
+  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
+so observed on a Raptor Blackbird with the same processor.
+
+  This was also observed on Fedora 34 beta, which uses glibc 2.33
+  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
+ glibc 2.33
+  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
+ and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
+the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
+bc2.33
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 21.04
+  Package: qemu-system 1:5.2+dfsg-6ubuntu2
+  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
+  Uname: Linux 5.11.0-11-generic ppc64le
+  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
+mware/opal/msglog'
+  ApportVersion: 2.20.11-0ubuntu60
+  Architecture: ppc64el
+  CasperMD5CheckResult: pass
+  CurrentDesktop: Unity:Unity7:ubuntu
+  Date: Mon Mar 22 14:48:39 2021
+  InstallationDate: Installed on 2021-03-22 (0 days ago)
+  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
+0210321)
+  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
+  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
+  ProcSwaps:
+   Filename				Type		Size		Used		Priority
+   /swap.img                               file		8388544		0		-2
+  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
+gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
+ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
+  SourcePackage: qemu
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  VarLogDump_list: total 0
+  acpidump:
+   =
+
+  cpu_cores: Number of cores present =3D 8
+  cpu_coreson: Number of cores online =3D 8
+  cpu_smt: SMT=3D4
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
 
