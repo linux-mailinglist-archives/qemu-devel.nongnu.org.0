@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C515A347DEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 17:43:08 +0100 (CET)
-Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75697347E25
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 17:47:54 +0100 (CET)
+Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP6b5-0004IB-PM
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 12:43:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1lP6fh-0005to-Ev
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 12:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lP6Ya-0002qA-Cz
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:40:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40175)
+ id 1lP6bD-000596-RM
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:43:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lP6YY-0008HK-ER
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:40:32 -0400
+ id 1lP6bB-0001K6-CQ
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 12:43:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616604028;
+ s=mimecast20190719; t=1616604190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xj0AxuyLo6ShzN+jZj0Mzs+Dnj7XOpZD5DfmliXvEMg=;
- b=ZWW/vcmEu0r3OUAh7ARxVkzMwP+vzjbi8d2TjOMBd/5Pr1ORxFuOUra90aaPizrstkmfxR
- Jz4ueIkkjpBPb8OF7Mgh474NmFH1Ne/DUsrNThdxb791DqcKV7bmTNIwIw1V1hZh0U1wM8
- EG07kx6K1x+X3/c+5BRkRSfYoXAELio=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-gMfo0VS3OzmKSYkAFicgNQ-1; Wed, 24 Mar 2021 12:40:26 -0400
-X-MC-Unique: gMfo0VS3OzmKSYkAFicgNQ-1
-Received: by mail-wr1-f72.google.com with SMTP id z6so1315433wrh.11
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 09:40:26 -0700 (PDT)
+ bh=LiogCbPOKdQAGZpwJpWn0ANqZTJuIE4aJd2G0ZBIEQ0=;
+ b=fBpCDy0m5Kgvl6K689QTpflDngPl+OGupzP7YIf28uNBWxldUO92AVMXcVPJqXa9bEtqa0
+ ecxh6S7h6t/WOUYmhCaJvcbuMun3qa4YR18UT3hkxpSBh9pxJi8Z4xjSNCIr+Pza1rO4yu
+ 4WoFs52o1c3xeAM4uiBdm8Fudf7XxOQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-odKYF5w_O5S_S5osnlb-8g-1; Wed, 24 Mar 2021 12:43:07 -0400
+X-MC-Unique: odKYF5w_O5S_S5osnlb-8g-1
+Received: by mail-wr1-f70.google.com with SMTP id r12so1319195wro.15
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 09:43:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xj0AxuyLo6ShzN+jZj0Mzs+Dnj7XOpZD5DfmliXvEMg=;
- b=uOuo/O5sPQF05nDNoVFk+KclsfRHuLhkhdDT4klSdfNs0orZAuvuLf1ojfwLQKYpbn
- AkaCxvjyUOR6fTD2EbdjYbGF7hhRjsEdR3u43H7iqfQPT2mPSy3WV3TuIdFFgTcrT2FJ
- xS7jgGXq0NtY79/r3aKkvj4Em9Q58zMxA3o/Pbmy0/BXFAJJbB7K2hgb0q5YmsSane2w
- Gil1qTgCX2P4CKQkk/dBN1gw18UAexLyANVNFeqYWKVMrJUsmHyqd/bar2unnHJ+/T2G
- 1OC4mgkwsUU5iI53U3RW0pgmRqD2T8eoNIGsiqMYp31dIPY2fZD18njuDZZigQIYbSNO
- D5yw==
-X-Gm-Message-State: AOAM532H0gcwR/az3Gxh9kvQKGlJ/NA9mzbCKaGhYGiF6fL11kWJBlWn
- 3PUyHj1lDBRTMmQosuEUhBMlUmRV1EAi7kCVGXTqygSmlItbp4v/F7bk8mxgBt5CSvrZF2zsabp
- pdTj+01Yxz2hZMf4=
-X-Received: by 2002:adf:e843:: with SMTP id d3mr4506248wrn.56.1616604025308;
- Wed, 24 Mar 2021 09:40:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0mDLXVa5ERRZR49tVQhOq07h4zYJJE5QdLQzOih8QccZAxF0u13MP0YI8XGDU4AcSipfEdw==
-X-Received: by 2002:adf:e843:: with SMTP id d3mr4506228wrn.56.1616604025063;
- Wed, 24 Mar 2021 09:40:25 -0700 (PDT)
+ bh=LiogCbPOKdQAGZpwJpWn0ANqZTJuIE4aJd2G0ZBIEQ0=;
+ b=hJSnQ3w8QD63R6/cC6q2fGOHK7bJA3lsfT+4Z6KlUH5hRj9QCPGbWd49Lz4/buwpEO
+ Cpb3G5l4EHLyo6rouAVw+CUUZAzC9W1dXORYwgN5PUUXrLNGX2wntUCUUoqnpncDiIRq
+ lpjOpoyfEjXLkoy2lcPDUL8w7HgQEvCOh2lbIyTzNVW94UnxEUzNEzt+R0fMGmNRlKU7
+ fATnNEfXOgcPnuWKXSliFapRmjtfJl6MM5AsFXxBbX7rCu3h17bHKpQfxscByOvwyYVW
+ KmHWtJYP/sOxYCmj138LJWKnkhtjohBeQphWz7GVUrmSrOVeyK7Ndm2c3cNVSWpVPabO
+ IyRQ==
+X-Gm-Message-State: AOAM530D7WtANZAZtL5pRgcnbxe5ZJLvUEiSnxinG4RJvFCogyJOOgKU
+ bYoQTVSwG8U4bRozlaRYrmBJBJDmSjW10FKf3xK9iwSfNgyB2RUmOBMa+cLqJJBip5fhAZ9tGkU
+ q8auVM5je4gvAyQM=
+X-Received: by 2002:a1c:bc06:: with SMTP id m6mr3778839wmf.18.1616604186554;
+ Wed, 24 Mar 2021 09:43:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQHpip4vjhRtYbGDn+LNiYJHVHLuvzKUp5JzHEf2sb5vUQ4fxLqMf60Jv3fDfbojonrHgYBA==
+X-Received: by 2002:a1c:bc06:: with SMTP id m6mr3778826wmf.18.1616604186359;
+ Wed, 24 Mar 2021 09:43:06 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id j14sm3628584wrw.69.2021.03.24.09.40.24
+ by smtp.gmail.com with ESMTPSA id r10sm3124161wmh.45.2021.03.24.09.43.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 09:40:24 -0700 (PDT)
+ Wed, 24 Mar 2021 09:43:05 -0700 (PDT)
+Subject: Re: [PATCH v5 0/6] coroutine rwlock downgrade fix, minor VDI changes
 To: Stefan Hajnoczi <stefanha@gmail.com>
 References: <20210317180013.235231-1-pbonzini@redhat.com>
- <20210317180013.235231-5-pbonzini@redhat.com>
- <YFtlm2+gainm8rox@stefanha-x1.localdomain>
+ <YFtnhusysS2c8f6D@stefanha-x1.localdomain>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 4/6] coroutine-lock: reimplement CoRwlock to fix downgrade
- bug
-Message-ID: <94d7cc02-6da9-1160-9c02-45146671638e@redhat.com>
-Date: Wed, 24 Mar 2021 17:40:23 +0100
+Message-ID: <601807d3-1554-051c-e44f-b50ca6578f5f@redhat.com>
+Date: Wed, 24 Mar 2021 17:43:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YFtlm2+gainm8rox@stefanha-x1.localdomain>
+In-Reply-To: <YFtnhusysS2c8f6D@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -107,85 +105,44 @@ Cc: david.edmondson@oracle.com, kwolf@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/03/21 17:15, Stefan Hajnoczi wrote:
-> On Wed, Mar 17, 2021 at 07:00:11PM +0100, Paolo Bonzini wrote:
->> +static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
->> +{
->> +    CoRwTicket *tkt = QSIMPLEQ_FIRST(&lock->tickets);
->> +    Coroutine *co = NULL;
->> +
->> +    /*
->> +     * Setting lock->owners here prevents rdlock and wrlock from
->> +     * sneaking in between unlock and wake.
->> +     */
->> +
->> +    if (tkt) {
->> +        if (tkt->read) {
->> +            if (lock->owners >= 0) {
->> +                lock->owners++;
->> +                co = tkt->co;
->> +            }
->> +        } else {
->> +            if (lock->owners == 0) {
->> +                lock->owners = -1;
->> +                co = tkt->co;
->> +            }
->> +        }
->> +    }
->> +
->> +    if (co) {
->> +        QSIMPLEQ_REMOVE_HEAD(&lock->tickets, next);
->> +        qemu_co_mutex_unlock(&lock->mutex);
->> +        aio_co_wake(co);
+On 24/03/21 17:23, Stefan Hajnoczi wrote:
+> On Wed, Mar 17, 2021 at 07:00:07PM +0100, Paolo Bonzini wrote:
+>> This is a resubmit of David Edmondson's series at
+>> https://patchew.org/QEMU/20210309144015.557477-1-david.edmondson@oracle.com/.
+>> After closer analysis on IRC, the CoRwlock's attempt to ensure
+>> fairness turned out to be flawed.  Therefore, this series
+>> reimplements CoRwlock without using a CoQueue.  Tracking whether
+>> each queued coroutine is a reader/writer makes it possible to
+>> never wake a writer when only readers should be allowed and
+>> vice versa.
+>>
+>> v2->v3: new CoRwlock implementation
+>>
+>> v3->v4: fix upgrade and add a test for that, too
+>>
+>> v4->v5: typo
+>>
+>> David Edmondson (4):
+>>    block/vdi: When writing new bmap entry fails, don't leak the buffer
+>>    block/vdi: Don't assume that blocks are larger than VdiHeader
+>>    coroutine/mutex: Store the coroutine in the CoWaitRecord only once
+>>    test-coroutine: Add rwlock downgrade test
+>>
+>> Paolo Bonzini (2):
+>>    coroutine-lock: reimplement CoRwlock to fix downgrade bug
+>>    test-coroutine: add rwlock upgrade test
+>>
+>>   block/vdi.c                 |  11 ++-
+>>   include/qemu/coroutine.h    |  17 ++--
+>>   tests/unit/test-coroutine.c | 161 ++++++++++++++++++++++++++++++++++++
+>>   util/qemu-coroutine-lock.c  | 149 +++++++++++++++++++++------------
+>>   4 files changed, 274 insertions(+), 64 deletions(-)
 > 
-> I find it hard to reason about QSIMPLEQ_EMPTY(&lock->tickets) callers
-> that execute before co is entered. They see an empty queue even though a
-> coroutine is about to run. Updating owners above ensures that the code
-> correctly tracks the state of the rwlock, but I'm not 100% confident
-> about this aspect of the code.
+> I had questions about the rwlock implementation. The other patches look
+> ready to go.
 
-Good point.  The invariant when lock->mutex is released should be 
-clarified; a better way to phrase the comment above "if (tkt)" is:
-
-The invariant when lock->mutex is released is that every ticket is 
-tracked in either lock->owners or lock->tickets.  By updating 
-lock->owners here, rdlock/wrlock/upgrade will block even if they execute 
-between qemu_co_mutex_unlock and aio_co_wake.
-
->> -    self->locks_held--;
->> +        lock->owners--;
->> +        QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
->> +        qemu_co_rwlock_maybe_wake_one(lock);
->> +        qemu_coroutine_yield();
->> +        assert(lock->owners == -1);
-> 
-> lock->owners is read outside lock->mutex here. Not sure if this can
-> cause problems.
-
-True.  It is okay though because lock->owners cannot change until this 
-coroutine unlocks.  A worse occurrence of the issue is in rdlock:
-
-         assert(lock->owners >= 1);
-
-         /* Possibly wake another reader, which will wake the next in 
-line.  */
-         qemu_co_mutex_lock(&lock->mutex);
-
-where the assert should be moved after taking the lock, or possibly 
-changed to use qatomic_read.  (I prefer the former).
-
-> locks_held is kept unchanged across qemu_coroutine_yield() even though
-> the read lock has been released. rdlock() and wrlock() only increment
-> locks_held after acquiring the rwlock.
-> 
-> In practice I don't think it matters, but it seems inconsistent. If
-> locks_held is supposed to track tickets (not just coroutines currently
-> holding a lock), then rdlock() and wrlock() should increment before
-> yielding.
-
-locks_held (unlike owners) is not part of the lock, it's part of the 
-Coroutine and only used for debugging (asserting that terminating 
-coroutines are not holding any lock).
+Cool, none of them seem to be blockers but you raised good points.  I'll 
+send v6 tomorrow.
 
 Paolo
 
