@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECAA3472CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:39:08 +0100 (CET)
-Received: from localhost ([::1]:34120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF763472C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:36:06 +0100 (CET)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOy6d-0004ld-7c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
+	id 1lOy3h-0007z7-Ia
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lOy1R-0006EG-Ha
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:45 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35732)
+ id 1lOy1T-0006J6-Tf
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:48 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:37446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lOy1P-0005vp-LV
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:45 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id e14so7456693plj.2
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 00:33:43 -0700 (PDT)
+ id 1lOy1S-0005ww-Dt
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:47 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id h20so7463542plr.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 00:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3e5/TJsEm417t8ZisLCen2L7jNFH78ByxNrkmf3geT4=;
- b=tGVL8kCnx8Ik7KlFLnQsz71O2Q9CYB7I+vq9w9SL+cvGyWB3L0fW+m/Yx7LEUESWzr
- qXxu0NPXzpSoGyHLtgsZIpH0lOszLrxgUln3bFTutnhQ8ygr3qGCQSHhfHPKa212YJRc
- O1Qbtnb0A4495slzyfGNxDDzIxhmMNCCQzu8uqUUW3wE+LCT3JSnBV4XoDcx2LUfJ4uE
- V1TEAhjE3NQmuYYN4+CiAP63u0nEyN3JZbgawYT9ojrMSRKwXlmxiahjNPjX81BfTglX
- puHW01iR+VeE3op2cnPtVkn7HxelHOExHMVLMhCniIkeHrHjiOTo0yPme9rlQL0uDk9D
- oHVg==
+ bh=LK0GmNGUPbPNBXEhJlF2QfVGhEIlr16Wq8o08kNLbaw=;
+ b=mvWiGvGNwRzTq49Yn1sv2ztMWAq4quUNViMB/4rL9g6A7L73e/KQegnLq2q82nVEs4
+ LyS0RA6WKfnUgVwdsaeOfZbNudWO96A2ypF5ZMG+seCQxYFAT6z2l1HRO2UQN/iRTCdt
+ jt/izgSmc/A+4XttSHDUj8yFoeuQ/Pk5XI2U2cuAS7ZdTosgvEdHrElw/uZOnw6Ab6O2
+ CxBmz/4DmQt6Ni69ytOLP1k3SdJsgKf+osyafeTg0fJ+8fYv8g/la/Qz6VA7d68ApyVP
+ EVGVjYsr5j3rkmNAgT9usTFpgswdJGIV16HMizHggKqJNtD6RyZfw0Zrn3JTfVQrZvxp
+ cgAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3e5/TJsEm417t8ZisLCen2L7jNFH78ByxNrkmf3geT4=;
- b=YjQIWqvYk/aXXbA8GPIs98a/qlVF83ypZy+XdUHAyg5o94XbpcEh36hM7HnqVWzmdZ
- dkkr+5sMy/EAH3MF0TJ7UDFCi0LWoDKlKLKU1B2O5xMazWd5ZD/kXxt6Igs9g/SFRVhQ
- daodC83OARM9H1ws3100t3VB6cDDdzfy/GIX5J1ex4umb6BkHCbSJyKbDzf96s+6hEfa
- ZrTMPRkqCBD1z/fO+74mnQUkw1NYJj2Zbn4FWppk9iTSQKe7J1N9VwHxb52k4Wtc5N8B
- 1WTHExrx1wQu3uToZksGImEoOsr/+itVf4paoTQosjCCcZONV2EK5QoQPGoWnEuuFWii
- vu0Q==
-X-Gm-Message-State: AOAM532JIqJJL/wXXDsEO+4CRqoPA2teTGW1otZImbrXleHb7t2gO1XM
- lwxhvoJAtb3vP/qMsnamqlol+HryR5plmw==
-X-Google-Smtp-Source: ABdhPJw2ouRivK6PdxVH+Fasz0mBybCz1SxG0zytBqCwDZLhZRiTl4O3tAt9aYVjtXzpCRWsciY1Gw==
-X-Received: by 2002:a17:90a:f2d5:: with SMTP id
- gt21mr2219338pjb.197.1616571222446; 
- Wed, 24 Mar 2021 00:33:42 -0700 (PDT)
+ bh=LK0GmNGUPbPNBXEhJlF2QfVGhEIlr16Wq8o08kNLbaw=;
+ b=ljlhNjDOH6j5GQUfN3H5m53b0PIgiseBxXw8HyNbv0xwzdROsyOtXfNJ6ihKDLj+xu
+ /02X9jMZ1q+y7H7cB/zbmg+X2oYCa67gXwiG9mkqiRbWXmLDKUWyqUI+TOCb5+Xn44pK
+ JdJCeBUdkX3yQ7m46IUUAVyrWYDxrpz8HFa8x+g7IRcXllV3Rz2AavdBhjqaNAUt3Y91
+ G34hN0KxdLPXb6EUhBt2CHArU4FegkLsJBFCv0AQk0bEAZ9aHf9tWcuCrOWm0iVzP6OT
+ /moQ9uKOFpfciNRFw499ntDI9qOvBpBxjLMcqif86KSxlHhvgBoK1TG7iNyQftFAXXaV
+ T27Q==
+X-Gm-Message-State: AOAM531tmZG1Vy8qkapkhVMeEgqPriypvgW78MRitkaEJqnbUQ32dicj
+ MuteDyq5naQOWNhJHDbaMJI+Blmj4uBYkQ==
+X-Google-Smtp-Source: ABdhPJw12sFx1s5fFTnN69zCx7U6CzU9p9cHwEhjXRUgXFdpgw/GPQXE40IuJX4k1RoknKalfcG37A==
+X-Received: by 2002:a17:90a:b293:: with SMTP id
+ c19mr2103523pjr.193.1616571225004; 
+ Wed, 24 Mar 2021 00:33:45 -0700 (PDT)
 Received: from localhost ([122.172.6.13])
- by smtp.gmail.com with ESMTPSA id j20sm5232054pji.3.2021.03.24.00.33.37
+ by smtp.gmail.com with ESMTPSA id v2sm1368046pjg.34.2021.03.24.00.33.44
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Mar 2021 00:33:38 -0700 (PDT)
+ Wed, 24 Mar 2021 00:33:44 -0700 (PDT)
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] docs: add a man page for vhost-user-i2c
-Date: Wed, 24 Mar 2021 13:03:13 +0530
-Message-Id: <915600fab4a1ed54d4cdb54346406dff5e3032d6.1616570702.git.viresh.kumar@linaro.org>
+Subject: [PATCH 5/5] MAINTAINERS: Add entry for virtio-i2c
+Date: Wed, 24 Mar 2021 13:03:14 +0530
+Message-Id: <43b9fe06a6c23943fc6feab5c2340e38ef2359e9.1616570702.git.viresh.kumar@linaro.org>
 X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
 In-Reply-To: <cover.1616570702.git.viresh.kumar@linaro.org>
 References: <cover.1616570702.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,105 +91,33 @@ Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Basic usage and example invocation.
+This patch adds entry for virtio-i2c related files in MAINTAINERS.
 
 Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 ---
- docs/tools/index.rst          |  1 +
- docs/tools/vhost-user-i2c.rst | 75 +++++++++++++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 docs/tools/vhost-user-i2c.rst
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/docs/tools/index.rst b/docs/tools/index.rst
-index 3a5829c17a54..af2519406ddf 100644
---- a/docs/tools/index.rst
-+++ b/docs/tools/index.rst
-@@ -17,3 +17,4 @@ QEMU Tools Guide
-    qemu-trace-stap
-    virtfs-proxy-helper
-    virtiofsd
-+   vhost-user-i2c
-diff --git a/docs/tools/vhost-user-i2c.rst b/docs/tools/vhost-user-i2c.rst
-new file mode 100644
-index 000000000000..8471b39d8b1d
---- /dev/null
-+++ b/docs/tools/vhost-user-i2c.rst
-@@ -0,0 +1,75 @@
-+QEMU vhost-user-i2c - I2C emulation backend
-+===========================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9147e9a429a0..3a80352fc85b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1967,6 +1967,15 @@ F: hw/virtio/virtio-mem-pci.h
+ F: hw/virtio/virtio-mem-pci.c
+ F: include/hw/virtio/virtio-mem.h
+ 
++virtio-i2c
++M: Viresh Kumar <viresh.kumar@linaro.org>
++S: Supported
++F: docs/tools/vhost-user-i2c.rst
++F: hw/virtio/vhost-user-i2c.c
++F: hw/virtio/vhost-user-i2c-pci.c
++F: include/hw/virtio/vhost-user-i2c.h
++F: tools/vhost-user-i2c/*
 +
-+Synopsis
-+--------
-+
-+**vhost-user-i2c** [*OPTIONS*]
-+
-+Description
-+-----------
-+
-+This program is a vhost-user backend that emulates a VirtIO I2C bus.
-+This program takes the layout of the i2c bus and its devices on the host
-+OS and then talks to them via the /dev/i2c-X interface when a request
-+comes from the guest OS for an I2C device.
-+
-+This program is designed to work with QEMU's ``-device
-+vhost-user-i2c-pci`` but should work with any virtual machine monitor
-+(VMM) that supports vhost-user. See the Examples section below.
-+
-+Options
-+-------
-+
-+.. program:: vhost-user-i2c
-+
-+.. option:: -h, --help
-+
-+  Print help.
-+
-+.. option:: -v, --verbose
-+
-+   Increase verbosity of output
-+
-+.. option:: -s, --socket-path=PATH
-+
-+  Listen on vhost-user UNIX domain socket at PATH. Incompatible with --fd.
-+
-+.. option:: -f, --fd=FDNUM
-+
-+  Accept connections from vhost-user UNIX domain socket file descriptor FDNUM.
-+  The file descriptor must already be listening for connections.
-+  Incompatible with --socket-path.
-+
-+.. option:: -l, --device-list=I2C-DEVICES
-+
-+  I2c device list at the host OS in the format:
-+      <bus>:<client_addr>[:<client_addr>],[<bus>:<client_addr>[:<client_addr>]]
-+
-+      Example: --device-list "2:1c:20,3:10:2c"
-+
-+  Here,
-+      bus (decimal): adatper bus number. e.g. 2 for /dev/i2c-2, 3 for /dev/i2c-3.
-+      client_addr (hex): address for client device. e.g. 0x1C, 0x20, 0x10, 0x2C.
-+
-+Examples
-+--------
-+
-+The daemon should be started first:
-+
-+::
-+
-+  host# vhost-user-i2c --socket-path=vi2c.sock --device-list 0:20
-+
-+The QEMU invocation needs to create a chardev socket the device can
-+use to communicate as well as share the guests memory over a memfd.
-+
-+::
-+
-+  host# qemu-system \
-+      -chardev socket,path=vi2c.sock,id=vi2c \
-+      -device vhost-user-i2c-pci,chardev=vi2c,id=i2c \
-+      -m 4096 \
-+      -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on \
-+      -numa node,memdev=mem \
-+      ...
+ nvme
+ M: Keith Busch <kbusch@kernel.org>
+ M: Klaus Jensen <its@irrelevant.dk>
 -- 
 2.25.0.rc1.19.g042ed3e048af
 
