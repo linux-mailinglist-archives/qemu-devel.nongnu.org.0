@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BF334829D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:10:52 +0100 (CET)
-Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F3E3482A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:14:33 +0100 (CET)
+Received: from localhost ([::1]:52446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP9q6-0007hf-Qf
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1lP9tg-0001wt-Ga
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lP9kE-0006Li-W8; Wed, 24 Mar 2021 16:04:47 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:52241)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lP9n0-0007Sa-SE
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:07:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lP9kC-0005To-B6; Wed, 24 Mar 2021 16:04:46 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 8FDAA712;
- Wed, 24 Mar 2021 16:04:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Wed, 24 Mar 2021 16:04:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=fhojXWJvf789Xfs7/z8VexUMBUY
- gXWVc2CI5arV4P2o=; b=lk4JyQ69Z3b/WZrWiBMH0ttjCd62m9JW5oPrYO2gocJ
- tA8Ij34pAelVIV0JCueHmr+3jmXW/1TMrfOGULwWlj0ecpkHZuNFP0FEit79y7CA
- jr5jXfeSwdf0rrUOzcOSUiufU5Ygdy4IBIkBzV6zxz0Jj50VyL8EwZIvnEBkvr3l
- xQLA5bLH2WyJz9FimgszVQ++pCLtKRYXbm/L9ICp+O4G+ln7ABy8HvjG6UjG+CUx
- 0YYo7yQ58xbvY+QpQ0JJZiu9aVvgrxFTvPfginx1STvOkiQ5gwITjieGc+6cn9RJ
- sAwfSNX9z1mOrrXcl72NyJBSaZhFJH2W8qtHNBSB0JQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fhojXW
- Jvf789Xfs7/z8VexUMBUYgXWVc2CI5arV4P2o=; b=I8Dft9kyH6SvkVzlVVlp7k
- 7fmzedrewiSVG+O2WKkDbdG+Cat+X9S6mpKlrBP5z75yXryzxf2+xBoEF2Mos/X6
- Jv8oCrDj0zX2hZyAsbA+/N3AK1sEMin7fMn/9JrlUbAd3wHkyoV/4VLJeutnjz7X
- yzb3BzNndAcd4hU6EL805ZQ8PMZQRkM0JT5sCtdD3mnJXNybFatNEqzWpVjiPasf
- qulSQzFuOFsOjfQruhdqOA8Syqw75z24csF4/MF3nzS386VUES2ibCHWUG0gMIwZ
- 9fh0v7IUBHpXdkgBvhJSgxbDKs9g0HCW9spwFzXlS1WQrEAc2A5OQqzJSPUjNtAQ
- ==
-X-ME-Sender: <xms:VZtbYM2csEkj4kxQg82H1JhoC47x9Um-8xVaMkpFdpSeJHB97bh14w>
- <xme:VZtbYHByhMjdh4Y4W-S5fEHqgAbGY7AHH_E7V3GqxRB07nHMt8sueAeHOAdVn79QM
- FZMJ5KtwhVwUIGkj24>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgudeftdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:VZtbYBxPmp8gP_0zUP7_GfiNKH4GjIrIYVBpmMVzPzGp36_M9jOmgg>
- <xmx:VZtbYNnDQY_MeGeg8ud4oX3GFNuQcS04tYrb9AKIlUpTr4dQHJqmGQ>
- <xmx:VZtbYOFiAN60ndNh5yPkfR27hg3Pkxi1GvRIn2S_H6exzv2RCi15jw>
- <xmx:V5tbYGoYKgbIn_mqkjszQgbJi7EpZ_Czd8-jm6KxDOAQ7RXy_sGFyg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B3EA3240428;
- Wed, 24 Mar 2021 16:04:36 -0400 (EDT)
-Date: Wed, 24 Mar 2021 21:04:34 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/2] hw/block/nvme: coverity fixes
-Message-ID: <YFubUrOXZPKzXO9a@apples.localdomain>
-References: <20210322120944.225643-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lP9mu-0007Hw-Hl
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:07:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616616450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YWrrmffmLRT10Z0Rp7s1EfITDHcjdSSnG23b7++Uq3k=;
+ b=OSr+e00scx2UypM/6fXG+cmVGVrus7tYe+hdRGSduGYOGv35ebEd+YBbzJ9Qb8jhsvs4rA
+ kS0RDgETFgDaEtIpWPyFBwq8Wq/VA1mGgJ8Luul2ovU8AmuU6bbJf2XEgzyNVjz2J8hAGi
+ +I2IpsaQc+w9yLvnQT6nDY0TPI3TNmM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-btmd0szkOwqnv4CFf4O6tQ-1; Wed, 24 Mar 2021 16:07:28 -0400
+X-MC-Unique: btmd0szkOwqnv4CFf4O6tQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BCC98189C8;
+ Wed, 24 Mar 2021 20:07:27 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2B895C5B5;
+ Wed, 24 Mar 2021 20:07:23 +0000 (UTC)
+Subject: Re: [PATCH 13/28] qapi: Enforce event naming rules
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-14-armbru@redhat.com>
+ <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com>
+ <87r1k5f4u7.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <799ad08b-3b45-f511-7717-f366eb2c0404@redhat.com>
+Date: Wed, 24 Mar 2021 16:07:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GZlnYlxCHFMf7GPI"
-Content-Disposition: inline
-In-Reply-To: <20210322120944.225643-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
+In-Reply-To: <87r1k5f4u7.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,52 +83,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/24/21 2:22 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>>> Event names should be ALL_CAPS with words separated by underscore.
+>>> Enforce this.  The only offenders are in tests/.  Fix them.  Existing
+>>> test event-case covers the new error.
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>    tests/unit/test-qmp-event.c               |  6 +++---
+>>>    scripts/qapi/expr.py                      |  4 +++-
+>>>    tests/qapi-schema/doc-good.json           |  4 ++--
+>>>    tests/qapi-schema/doc-good.out            |  4 ++--
+>>>    tests/qapi-schema/doc-good.txt            |  2 +-
+>>>    tests/qapi-schema/doc-invalid-return.json |  4 ++--
+>>>    tests/qapi-schema/event-case.err          |  2 ++
+>>>    tests/qapi-schema/event-case.json         |  2 --
+>>>    tests/qapi-schema/event-case.out          | 14 --------------
+>>>    tests/qapi-schema/qapi-schema-test.json   |  6 +++---
+>>>    tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
+>>>    11 files changed, 22 insertions(+), 34 deletions(-)
+>>> diff --git a/tests/unit/test-qmp-event.c
+>>> b/tests/unit/test-qmp-event.c
+>>> index 047f44ff9a..d58c3b78f2 100644
+>>> --- a/tests/unit/test-qmp-event.c
+>>> +++ b/tests/unit/test-qmp-event.c
+>>> @@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
+>>>      static void test_event_deprecated(TestEventData *data, const
+>>> void *unused)
+>>>    {
+>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
+>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
+>>>          memset(&compat_policy, 0, sizeof(compat_policy));
+>>>    @@ -163,7 +163,7 @@ static void
+>>> test_event_deprecated_data(TestEventData *data, const void *unused)
+>>>    {
+>>>        memset(&compat_policy, 0, sizeof(compat_policy));
+>>>    -    data->expect = qdict_from_jsonf_nofail("{ 'event':
+>>> 'TEST-EVENT-FEATURES0',"
+>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
+>>>                                               " 'data': { 'foo': 42 } }");
+>>>        qapi_event_send_test_event_features0(42);
+>>>        g_assert(data->emitted);
+>>> @@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
+>>>          compat_policy.has_deprecated_output = true;
+>>>        compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
+>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
+>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
+>>>        qapi_event_send_test_event_features0(42);
+>>>        g_assert(data->emitted);
+>>>    diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>>> index b5fb0be48b..c065505b27 100644
+>>> --- a/scripts/qapi/expr.py
+>>> +++ b/scripts/qapi/expr.py
+>>> @@ -45,7 +45,9 @@ def check_name_str(name, info, source):
+>>>      def check_name_upper(name, info, source):
+>>>        stem = check_name_str(name, info, source)
+>>> -    # TODO reject '[a-z-]' in @stem
+>>> +    if re.search(r'[a-z-]', stem):
+>>> +        raise QAPISemError(
+>>> +            info, "name of %s must not use lowercase or '-'" % source)
+>>>    
+>>
+>> Does a little bit more than check_name_upper. Is this only used for
+>> event names? I guess so. Should it be inlined into check_defn_name_str
+>> instead in this case, or nah?
+> 
+> I'd prefer not to inline.  I'm open to better function names.
+> 
+> We have three name styles.  qapi-code-gen.txt:
+> 
+>      [Type] definitions should always use CamelCase for
+>      user-defined type names, while built-in types are lowercase.
+> 
+>      [...]
+> 
+>      Command names, and member names within a type, should be all lower
+>      case with words separated by a hyphen.  [...]
+> 
+>      Event names should be ALL_CAPS with words separated by underscore.
+> 
+> I define three functions for them: check_name_camel(),
+> check_name_lower(), and check_name_upper().
+> 
+> The functions factor out the naming rule aspect, and they let us keep
+> the naming rule aspect together.  That's why I'd prefer not to inline.
+> 
+> We could name them after their purpose instead:
+> check_name_user_defined_type(), check_name_command_or_member(),
+> check_name_event().  The first two are rather long.  Shorter:
+> check_name_type(), check_name_other(), check_name_event().
+> 
+> Thoughts?
+> 
 
---GZlnYlxCHFMf7GPI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The long names are nice and descriptive.
 
-On Mar 22 13:09, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Fix two issues reported by coverity (CID 1451080 and 1451082).
->=20
-> v2:
->   - replace [2/2] with a fix for the bad reference counting noticed by
->     Max
->=20
-> Klaus Jensen (2):
->   hw/block/nvme: fix resource leak in nvme_dif_rw
->   hw/block/nvme: fix ref counting in nvme_format_ns
->=20
->  hw/block/nvme-dif.c |  2 +-
->  hw/block/nvme.c     | 10 ++++++++--
->  2 files changed, 9 insertions(+), 3 deletions(-)
->=20
-
-Gentle ping on this so Peter can get the coverity issues off the list ;)
-
---GZlnYlxCHFMf7GPI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBbm04ACgkQTeGvMW1P
-DenUhQf+MZuY3W8qecihsSRzioumXYJ3jGW9vaHQV0zmHHoHZweJp8HnhQI7jY5a
-6e4QIdGY6xVjsM/LEDVm/GZ0GEzXLPJO0GM2akG3yeAqKmgLVdOU0Lx67AdBB9/e
-o559ai4CGDhag11Dw4/ehwQTtoRL/U6oJox84YJGaAiqKskRrl70jiI2HGvTmb1Q
-rrV2tEObuD1KLsZ8YrD4XpLmUsvvIeRley7PRELt5GDNjA09ff0yTM9H0MUB9y8d
-mXNM62blnH/NgpNpOVQKc2B0xJBybOXLZSudhQev7ygYWOLUUs++Onb4h1KkCyf2
-3Nv0Z4jER1CG+M3oNGtFezm9KuhBsw==
-=rvvD
------END PGP SIGNATURE-----
-
---GZlnYlxCHFMf7GPI--
 
