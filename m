@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F06347CD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 16:43:43 +0100 (CET)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91525347CD0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 16:39:06 +0100 (CET)
+Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP5fa-00030Q-83
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 11:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47014)
+	id 1lP5b7-0007VY-M5
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 11:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP5d2-0001ua-4L
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 11:41:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lP5cz-00070H-N4
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 11:41:03 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lP5cw-00006g-UY
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:40:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E45C02E816A
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:40:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lP5Wh-00042B-Dy; Wed, 24 Mar 2021 11:34:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:57617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lP5WY-0002lP-LM; Wed, 24 Mar 2021 11:34:31 -0400
+Received: from [192.168.100.1] ([82.142.25.162]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MEUaQ-1lQkCl2Oj4-00G2qH; Wed, 24 Mar 2021 16:34:13 +0100
+Subject: Re: [PATCH 1/1] linux-user/s390x: Apply h2g to address of sigreturn
+ stub
+To: Andreas Krebbel <krebbel@linux.ibm.com>
+References: <20210324085129.29684-1-krebbel@linux.ibm.com>
+ <5070a253-cd95-59b0-dbdb-2eb549e9f61c@redhat.com>
+ <b48b73ee-b27b-1e3d-3387-ce818e7b0c15@vivier.eu>
+ <3d64f14f-58a4-7cc3-a069-f7ed1172d038@linux.ibm.com>
+ <dfdad0d0-4b1c-d2e8-04c5-e6a2dbebe5b2@vivier.eu>
+ <4fadf180-24d5-01f2-8345-14d52f098db4@linux.ibm.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <be03acc3-8e9f-4715-6936-68013c49b920@vivier.eu>
+Date: Wed, 24 Mar 2021 16:34:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Mar 2021 15:32:46 -0000
-From: Tim Gardner <1920784@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-power-systems; status=In Progress;
- importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=glibc; component=main;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
- status=In Progress; importance=Undecided; assignee=frank.heimes@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=hirsute; sourcepackage=glibc;
- component=main; status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=hirsute; sourcepackage=linux;
- component=main; status=In Progress; importance=Undecided;
- assignee=frank.heimes@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=hirsute; sourcepackage=qemu;
- component=main; status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug glibc hirsute ppc64el qemu uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fheimes janitor laurent-vivier paelzer
- sadoonalbader ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: sadoon albader (sadoonalbader)
-X-Launchpad-Bug-Modifier: Tim Gardner (timg-tpi)
-References: <161642496871.32717.8520198452991245606.malonedeb@soybean.canonical.com>
-Message-Id: <161659996691.27375.70887616550935240.launchpad@gac.canonical.com>
-Subject: [Bug 1920784] Re: qemu-system-ppc64le fails with kvm acceleration
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: 7319a6917002800e5ca7b9ad5f5734839a0093cf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <4fadf180-24d5-01f2-8345-14d52f098db4@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:hCzdDIdfl6zBaIzw6eEoIrd0rY7WWnQzbW6akASFQs1SFZN7xfE
+ a5pYbBHbwvfNTz0zejUSKAatz4NSrf/lBsBSxZ7KTXSd1pkoAxOd2iLd6bXo49hNFroOAgr
+ h5PBGUGFzzfrkCArvlo13TefEgaycjPuAjlJGgr1uwFEDWTA++ec66IhYn3KQMLQGThdE5L
+ CROlKfeqGwaC+9IFhciRg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DcxJM2DnbN4=:pskkBhywrt9aIuxC5y+Sfo
+ IkGWNlMNeF5BIk8fYwwxvwjLiW0jA0mrIqPMFjabbV+ie52vMWKwbeWdnSiTRgLubMCITzMdt
+ zGaeQTbBdgv2Zm0csNa67D/d40/K73IopF5xNYNCZKu1MkPhuMxaDpMlI1zOyDawido2isyw2
+ StmVEozmfdlQBPFNG+w9YTEnHstG7muz6ysDw+q4JD8ilTxNuv3v5nZvcofbjfKbFo9J3HCKh
+ pSIwYBSRkS1q63ZEL3eikAlK4p1ZuD0B+zmKIFfS1d9KZ8xg2TbTsAYGqbccq2MmM/vlS+OrQ
+ ouiMNLGCmz6NObhU3feoT5y6igVV8beS8IW9qyMwuoDFW/mrhg8cLqFuo2Txof79U5B4aT1Km
+ MaZ2pYvtVPCVQGoO4fm+78Rx/X397D9Ko6GdaoaUmbWt0DQKqqWRXlyjKaEq5La04IH1d6Z6q
+ m4tN+E59zA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,131 +71,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920784 <1920784@bugs.launchpad.net>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: glibc (Ubuntu Hirsute)
-   Importance: Undecided
-       Status: Invalid
+Le 24/03/2021 à 15:14, Andreas Krebbel a écrit :
+> On 3/24/21 2:06 PM, Laurent Vivier wrote:
+>> Le 24/03/2021 à 12:26, Andreas Krebbel a écrit :
+>>> On 3/24/21 11:28 AM, Laurent Vivier wrote:
+>>>> Le 24/03/2021 à 10:17, David Hildenbrand a écrit :
+>>>>> On 24.03.21 09:51, Andreas Krebbel wrote:
+>>>>>> The sigreturn SVC is put onto the stack by the emulation code.  Hence
+>>>>>> the address of it should not be subject to guest_base transformation
+>>>>>> when fetching it.
+>>>>>>
+>>>>>> The fix applies h2g to the address when writing it into the return
+>>>>>> address register to nullify the transformation applied to it later.
+>>>>>>
+>>>>>> Note: This only caused problems if Qemu has been built with
+>>>>>> --disable-pie (as it is in distros nowadays). Otherwise guest_base
+>>>>>> defaults to 0 hiding the actual problem.
+>>>>>>
+>>>>>> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
+>>>>>> ---
+>>>>>>   linux-user/s390x/signal.c | 4 ++--
+>>>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+>>>>>> index ecfa2a14a9..1412376958 100644
+>>>>>> --- a/linux-user/s390x/signal.c
+>>>>>> +++ b/linux-user/s390x/signal.c
+>>>>>> @@ -152,7 +152,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+>>>>>>           env->regs[14] = (unsigned long)
+>>>>>>                   ka->sa_restorer | PSW_ADDR_AMODE;
+>>>>>>       } else {
+>>>>>> -        env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
+>>>>>> +        env->regs[14] = h2g(frame_addr + offsetof(sigframe, retcode))
+>>>>>>                           | PSW_ADDR_AMODE;
+>>>>
+>>>> Well, it really doesn't sound good as frame_addr is a guest address (and sa_restorer is too)
+>>>
+>>> I would expect the sa_restorer address to actually point into the guest code section.
+>>
+>> yes, it does. like frame_addr. The host address is frame, see:
+>>
+>>     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
+>>         goto give_sigsegv;
+>>     }
+>>
+>> So frame = g2h(frame_addr)
+>>
+>> This line put the address of the next instruction to execute (guest address space):
+>>
+>> env->regs[14] = (frame_addr + offsetof(sigframe, retcode))
+>>                         | PSW_ADDR_AMODE;
+>>
+>> This line put at this address the NR_sigreturn syscall (but __put_user() uses host address):
+>>
+>>         __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn,
+>>                    (uint16_t *)(frame->retcode));
+>>
+>> In theory:
+>>
+>>     frame_addr + offsetof(sigframe, retcode) == h2g(frame->retcode)
+>>
+>> So the next instruction executed after this function is the sigreturn() syscall.
+>>
+>> I think the problem is elsewhere.
+>>
+>> But I don't see what is the problem you are trying to solve.
+>>
+>>>
+>>>>
+>>>> Where is the code that does the g2h() you want to nullify?
+>>>
+>>> That's on the code path which usually fetches instructions from memory. In cpu_lduw_code called via:
+>>>
+>>> s390x_tr_translate_insn->translate_one->extract_insn->ld_code2->cpu_lduw_code
+>>
+>> cpu_lduw_code() takes a guest a address and needs to translate it to host address. We need the g2h()
+>> here because we have a guest address.
+>>
+>>>
+>>>
+>>> Btw. Power also uses h2g while setting up the trampoline address:
+>>>
+>>> ...
+>>>     save_user_regs(env, mctx);
+>>>     encode_trampoline(TARGET_NR_rt_sigreturn, trampptr);
+>>>
+>>>     /* The kernel checks for the presence of a VDSO here.  We don't
+>>>        emulate a vdso, so use a sigreturn system call.  */
+>>>     env->lr = (target_ulong) h2g(trampptr);
+>>> ...
+>>
+>> But here, it's correct because trampptr is an host address:
+>>
+>>     trampptr = &rt_sf->trampoline[0];
+>>
+>> Thanks,
+>> Laurent
+>>
+> 
+> Unfortunately I've confused the two locations which do the trampoline setup in the discussion
+> setup_frame vs setup_rt_frame.
+> 
+> The part I actually needed to fix was in setup_rt_frame and there the fix is correct I think since
+> here we do use 'frame' which is the host address.
+> 
+> While doing that change I also stumbled upon the other location in setup_frame. There it is using
+> frame_addr for doing the same thing. There as you say adding h2g is wrong.
+> 
+> Here just the change which I think is needed:
+> 
+> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+> index ecfa2a14a9..7fba1c7999 100644
+> --- a/linux-user/s390x/signal.c
+> +++ b/linux-user/s390x/signal.c
+> @@ -213,7 +213,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>      if (ka->sa_flags & TARGET_SA_RESTORER) {
+>          env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
+>      } else {
+> -        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
+> +        env->regs[14] = (unsigned long) h2g(frame->retcode) | PSW_ADDR_AMODE;
+>          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+>                     (uint16_t *)(frame->retcode));
+>      }
+> 
 
-** Also affects: qemu (Ubuntu Hirsute)
-   Importance: Undecided
-       Status: Invalid
+This is correct, but as we have frame_addr, it's better to have the same code as in setup_frame()
+(frame_addr + offsetof(sigframe, retcode))
 
-** Also affects: linux (Ubuntu Hirsute)
-   Importance: Undecided
-     Assignee: Frank Heimes (fheimes)
-       Status: In Progress
+Thanks,
+Laurent
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920784
-
-Title:
-  qemu-system-ppc64le fails with kvm acceleration
-
-Status in QEMU:
-  Invalid
-Status in The Ubuntu-power-systems project:
-  In Progress
-Status in glibc package in Ubuntu:
-  Invalid
-Status in linux package in Ubuntu:
-  In Progress
-Status in qemu package in Ubuntu:
-  Invalid
-Status in glibc source package in Hirsute:
-  Invalid
-Status in linux source package in Hirsute:
-  In Progress
-Status in qemu source package in Hirsute:
-  Invalid
-
-Bug description:
-  (Suspected glibc issue!)
-
-  qemu-system-ppc64(le) fails when invoked with kvm acceleration with
-  error "illegal instruction"
-
-  > qemu-system-ppc64(le) -M pseries,accel=3Dkvm
-
-  Illegal instruction (core dumped)
-
-  In dmesg:
-
-  Facility 'SCV' unavailable (12), exception at 0x7624f8134c0c,
-  MSR=3D900000000280f033
-
-  =
-
-  Version-Release number of selected component (if applicable):
-  qemu 5.2.0 =
-
-  Linux kernel 5.11
-  glibc 2.33
-  all latest updates as of submitting the bug report
-
-  How reproducible:
-  Always
-
-  Steps to Reproduce:
-  1. Run qemu with kvm acceleration
-
-  Actual results:
-  Illegal instruction
-
-  Expected results:
-  Normal VM execution
-
-  Additional info:
-  The machine is a Raptor Talos II Lite with a Sforza V1 8-core, but was al=
-so observed on a Raptor Blackbird with the same processor.
-
-  This was also observed on Fedora 34 beta, which uses glibc 2.33
-  Also tested on ArchPOWER (unofficial port of Arch Linux for ppc64le) with=
- glibc 2.33
-  Fedora 33 and Ubuntu 20.10, both using glibc 2.32 do not have this issue,=
- and downgrading the Linux kernel from 5.11 to 5.4 LTS on ArchPOWER solved =
-the problem. Kernel 5.9 and 5.10 have the same issue when combined with gli=
-bc2.33
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu-system 1:5.2+dfsg-6ubuntu2
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic ppc64le
-  .sys.firmware.opal.msglog: Error: [Errno 13] Permission denied: '/sys/fir=
-mware/opal/msglog'
-  ApportVersion: 2.20.11-0ubuntu60
-  Architecture: ppc64el
-  CasperMD5CheckResult: pass
-  CurrentDesktop: Unity:Unity7:ubuntu
-  Date: Mon Mar 22 14:48:39 2021
-  InstallationDate: Installed on 2021-03-22 (0 days ago)
-  InstallationMedia: Ubuntu-Server 21.04 "Hirsute Hippo" - Alpha ppc64el (2=
-0210321)
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  ProcKernelCmdLine: root=3DUUID=3Df3d03315-0944-4a02-9c87-09c00eba9fa1 ro
-  ProcLoadAvg: 1.20 0.73 0.46 1/1054 6071
-  ProcSwaps:
-   Filename				Type		Size		Used		Priority
-   /swap.img                               file		8388544		0		-2
-  ProcVersion: Linux version 5.11.0-11-generic (buildd@bos02-ppc64el-002) (=
-gcc (Ubuntu 10.2.1-20ubuntu1) 10.2.1 20210220, GNU ld (GNU Binutils for Ubu=
-ntu) 2.36.1) #12-Ubuntu SMP Mon Mar 1 19:26:20 UTC 2021
-  SourcePackage: qemu
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  VarLogDump_list: total 0
-  acpidump:
-   =
-
-  cpu_cores: Number of cores present =3D 8
-  cpu_coreson: Number of cores online =3D 8
-  cpu_smt: SMT=3D4
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920784/+subscriptions
 
