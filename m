@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C60D34837A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 22:17:46 +0100 (CET)
-Received: from localhost ([::1]:52666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A84F3483C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 22:32:24 +0100 (CET)
+Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPAsr-0000uD-Jn
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 17:17:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54580)
+	id 1lPB6z-0005wP-PC
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 17:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lPAqG-0000DR-OM; Wed, 24 Mar 2021 17:15:04 -0400
-Resent-Date: Wed, 24 Mar 2021 17:15:04 -0400
-Resent-Message-Id: <E1lPAqG-0000DR-OM@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lPAqD-0006yU-Me; Wed, 24 Mar 2021 17:15:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616620441; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WRWQZl9zhJuFsjFXIL3SrbfWAEZdR34hmW+Gdhi9M3X4SBo3+3ksbJCqwoxj5Xl/A/RG3Iv4mFKx/V7Am7WKLavzj0srEH3BCl3dZW8MwoChQkrLwsSsmY1Be8oXUKothu937+claQ0xdbGNZ+41Sv22lqOlLC8HvQeHoeiIJnw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616620441;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=oDfbCNWzKbDdk7AoiamYThp5XqaoMkYHvZnzgJuOt54=; 
- b=PH03khDFM4IKWE8dZGV0HU7WeZiswW3giNmPKiPYvnYVhPN1Xgf+ewKUEZXhpK0FxNP5sPe+LptEWBa0DXgMPGbV2/KjaY2cENewLvwG2LJy1CZq6HPmm9VJIwsmfMVlTFGPKgd/5IL1EMwpqWsuvcq0LKfPsjw+HrwHirrBCj8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616620438219749.957034858834;
- Wed, 24 Mar 2021 14:13:58 -0700 (PDT)
-In-Reply-To: <20210324205132.464899-1-vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 00/11] 64bit block-layer: part II
-Message-ID: <161662043558.28197.16335181787861259759@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPB5j-0005Rw-UK
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 17:31:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPB5h-0005Al-0Y
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 17:31:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPB5e-00069w-Qp
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 21:30:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B17552E8165
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 21:30:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Wed, 24 Mar 2021 14:13:58 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Mar 2021 21:23:15 -0000
+From: Eddy Hahn <1918084@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eddyh th-huth
+X-Launchpad-Bug-Reporter: Eddy Hahn (eddyh)
+X-Launchpad-Bug-Modifier: Eddy Hahn (eddyh)
+References: <161517335801.3660.13243926426355834161.malonedeb@soybean.canonical.com>
+Message-Id: <161662099565.24097.13360867032226252458.malone@chaenomeles.canonical.com>
+Subject: [Bug 1918084] Re: Build fails on macOS 11.2.2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 580e3c8dd6536bda0fc2b41d29a29329ed202d81
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,97 +70,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, integration@gluster.org, berto@igalia.com,
- stefanha@redhat.com, qemu-block@nongnu.org, pavel.dovgaluk@ispras.ru,
- pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
- pbonzini@redhat.com, vsementsov@virtuozzo.com, ronniesahlberg@gmail.com,
- sw@weilnetz.de, namei.unix@gmail.com, dillaman@redhat.com, ari@tuxera.com
+Reply-To: Bug 1918084 <1918084@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyNDIwNTEzMi40NjQ4
-OTktMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMyNDIwNTEz
-Mi40NjQ4OTktMS12c2VtZW50c292QHZpcnR1b3p6by5jb20KU3ViamVjdDogW1BBVENIIHY0IDAw
-LzExXSA2NGJpdCBibG9jay1sYXllcjogcGFydCBJSQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09
-PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdp
-dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dy
-YW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NS
-SVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3
-MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3Rh
-ZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDMyMzIyMTUzOS4zNTMyNjYwLTEtY3Jvc2FAcmVk
-aGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMzIzMjIxNTM5LjM1MzI2NjAtMS1jcm9zYUByZWRoYXQu
-Y29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMjQyMDUxMzIuNDY0ODk5LTEt
-dnNlbWVudHNvdkB2aXJ0dW96em8uY29tIC0+IHBhdGNoZXcvMjAyMTAzMjQyMDUxMzIuNDY0ODk5
-LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
-dCcKYmVkNjA4YSBibG9jay9pbzogYWxsb3cgNjRiaXQgZGlzY2FyZCByZXF1ZXN0cwo5YjNiNWM3
-IGJsb2NrOiB1c2UgaW50NjRfdCBpbnN0ZWFkIG9mIGludCBpbiBkcml2ZXIgZGlzY2FyZCBoYW5k
-bGVycwo5ZDU3NzZmIGJsb2NrOiBtYWtlIEJsb2NrTGltaXRzOjptYXhfcGRpc2NhcmQgNjRiaXQK
-MWRjNGJhYiBibG9jay9pbzogYWxsb3cgNjRiaXQgd3JpdGUtemVyb2VzIHJlcXVlc3RzCjA1Y2E1
-NDAgYmxvY2s6IHVzZSBpbnQ2NF90IGluc3RlYWQgb2YgaW50IGluIGRyaXZlciB3cml0ZV96ZXJv
-ZXMgaGFuZGxlcnMKNTg2NGIwZCBibG9jazogbWFrZSBCbG9ja0xpbWl0czo6bWF4X3B3cml0ZV96
-ZXJvZXMgNjRiaXQKOTY5OGMxMyBibG9jazogdXNlIGludDY0X3QgaW5zdGVhZCBvZiB1aW50NjRf
-dCBpbiBjb3B5X3JhbmdlIGRyaXZlciBoYW5kbGVycwo0ZTYwNTY2IGJsb2NrOiB1c2UgaW50NjRf
-dCBpbnN0ZWFkIG9mIHVpbnQ2NF90IGluIGRyaXZlciB3cml0ZSBoYW5kbGVycwo4YWEzYWYxIGJs
-b2NrOiB1c2UgaW50NjRfdCBpbnN0ZWFkIG9mIHVpbnQ2NF90IGluIGRyaXZlciByZWFkIGhhbmRs
-ZXJzCmZjNjk1ZjkgcWNvdzI6IGNoZWNrIHJlcXVlc3Qgb24gdm1zdGF0ZSBzYXZlL2xvYWQgcGF0
-aAphMTNhOWVmIGJsb2NrL2lvOiBicmluZyByZXF1ZXN0IGNoZWNrIHRvIGJkcnZfY29fe3JlYWQs
-IHdyaXRlfXZfdm1zdGF0ZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMSBDaGVja2luZyBjb21t
-aXQgYTEzYTllZmQxMjhjIChibG9jay9pbzogYnJpbmcgcmVxdWVzdCBjaGVjayB0byBiZHJ2X2Nv
-X3tyZWFkLCB3cml0ZX12X3Ztc3RhdGUpCkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBt
-YW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IFZsYWRpbWlyIFNlbWVudHNv
-di1PZ2lldnNraXkgdmlhIDxxZW11LWRldmVsQG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJvcnMs
-IDAgd2FybmluZ3MsIDQyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMTEgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KCjIvMTEgQ2hlY2tpbmcgY29tbWl0IGZjNjk1ZjkxZGY2MiAocWNvdzI6IGNo
-ZWNrIHJlcXVlc3Qgb24gdm1zdGF0ZSBzYXZlL2xvYWQgcGF0aCkKMy8xMSBDaGVja2luZyBjb21t
-aXQgOGFhM2FmMTU3NjNmIChibG9jazogdXNlIGludDY0X3QgaW5zdGVhZCBvZiB1aW50NjRfdCBp
-biBkcml2ZXIgcmVhZCBoYW5kbGVycykKNC8xMSBDaGVja2luZyBjb21taXQgNGU2MDU2NmY4YTJj
-IChibG9jazogdXNlIGludDY0X3QgaW5zdGVhZCBvZiB1aW50NjRfdCBpbiBkcml2ZXIgd3JpdGUg
-aGFuZGxlcnMpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNzk6IEZJTEU6IGJs
-b2NrL252bWUuYzoxMjMzOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IFFFTVVJT1ZlY3RvciAqcWlvdiwgQmRydlJlcXVlc3RGbGFncyBmbGFncykKCnRvdGFsOiAwIGVy
-cm9ycywgMSB3YXJuaW5ncywgNDQwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvMTEgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KNS8xMSBDaGVja2luZyBjb21taXQgOTY5OGMxM2ZlMDJkIChibG9j
-azogdXNlIGludDY0X3QgaW5zdGVhZCBvZiB1aW50NjRfdCBpbiBjb3B5X3JhbmdlIGRyaXZlciBo
-YW5kbGVycykKNi8xMSBDaGVja2luZyBjb21taXQgNTg2NGIwZGZiZjJkIChibG9jazogbWFrZSBC
-bG9ja0xpbWl0czo6bWF4X3B3cml0ZV96ZXJvZXMgNjRiaXQpCldBUk5JTkc6IEJsb2NrIGNvbW1l
-bnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM1NjogRklMRTogaW5jbHVk
-ZS9ibG9jay9ibG9ja19pbnQuaDo2Nzk6CisgICAgLyogTWF4aW11bSBudW1iZXIgb2YgYnl0ZXMg
-dGhhdCBjYW4gemVyb2l6ZWQgYXQgb25jZS4gTXVzdCBiZSBtdWx0aXBsZSBvZgoKV0FSTklORzog
-QmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiM1Nzog
-RklMRTogaW5jbHVkZS9ibG9jay9ibG9ja19pbnQuaDo2ODA6CisgICAgICogcHdyaXRlX3plcm9l
-c19hbGlnbm1lbnQuIE1heSBiZSAwIGlmIG5vIGluaGVyZW50IDY0LWJpdCBsaW1pdCAqLwoKdG90
-YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCAyMSBsaW5lcyBjaGVja2VkCgpQYXRjaCA2LzExIGhh
-cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
-YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
-RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMTEgQ2hlY2tpbmcgY29tbWl0IDA1Y2E1NDAxMzQ1
-MiAoYmxvY2s6IHVzZSBpbnQ2NF90IGluc3RlYWQgb2YgaW50IGluIGRyaXZlciB3cml0ZV96ZXJv
-ZXMgaGFuZGxlcnMpCjgvMTEgQ2hlY2tpbmcgY29tbWl0IDFkYzRiYWI3YWI0ZSAoYmxvY2svaW86
-IGFsbG93IDY0Yml0IHdyaXRlLXplcm9lcyByZXF1ZXN0cykKOS8xMSBDaGVja2luZyBjb21taXQg
-OWQ1Nzc2ZmNiYjAzIChibG9jazogbWFrZSBCbG9ja0xpbWl0czo6bWF4X3BkaXNjYXJkIDY0Yml0
-KQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUg
-bGluZQojNTU6IEZJTEU6IGluY2x1ZGUvYmxvY2svYmxvY2tfaW50Lmg6NjY3OgorICAgIC8qIE1h
-eGltdW0gbnVtYmVyIG9mIGJ5dGVzIHRoYXQgY2FuIGJlIGRpc2NhcmRlZCBhdCBvbmNlLiBNdXN0
-IGJlIG11bHRpcGxlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBv
-biBhIHNlcGFyYXRlIGxpbmUKIzU3OiBGSUxFOiBpbmNsdWRlL2Jsb2NrL2Jsb2NrX2ludC5oOjY2
-OToKKyAgICAgKiBpbmhlcmVudCA2NC1iaXQgbGltaXQgKi8KCnRvdGFsOiAwIGVycm9ycywgMiB3
-YXJuaW5ncywgMjQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOS8xMSBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoxMC8xMSBDaGVja2luZyBjb21taXQgOWIzYjVjN2YxNDY1IChibG9jazogdXNlIGlu
-dDY0X3QgaW5zdGVhZCBvZiBpbnQgaW4gZHJpdmVyIGRpc2NhcmQgaGFuZGxlcnMpCjExLzExIENo
-ZWNraW5nIGNvbW1pdCBiZWQ2MDhhNTgxODEgKGJsb2NrL2lvOiBhbGxvdyA2NGJpdCBkaXNjYXJk
-IHJlcXVlc3RzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBj
-b2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
-bG9ncy8yMDIxMDMyNDIwNTEzMi40NjQ4OTktMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vdGVz
-dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
-dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
-dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+I pulled the latest it got a bit further :-)
+
+In file included from ../disas/arm-a64.cc:21:
+In file included from /opt/build/build/stage/qemu/include/qemu/osdep.h:126:
+In file included from /opt/build/build/stage/qemu/include/glib-compat.h:32:
+In file included from /opt/serverplus/dependencies/glib/include/glib-2.0/gl=
+ib.h:107:
+In file included from /opt/serverplus/dependencies/glib/include/glib-2.0/gl=
+ib/deprecated/gthread.h:128:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:328:6: warning: macro expansi=
+on producing 'defined' has undefined behavior [-Wexpansion-to-defined]
+#if !_PTHREAD_SWIFT_IMPORTER_NULLABILITY_COMPAT
+     ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:197:2: note: expanded from ma=
+cro '_PTHREAD_SWIFT_IMPORTER_NULLABILITY_COMPAT'
+        defined(SWIFT_CLASS_EXTRA) && (!defined(SWIFT_SDK_OVERLAY_PTHREAD_E=
+POCH) || (SWIFT_SDK_OVERLAY_PTHREAD_EPOCH < 1))
+        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:328:6: warning: macro expansi=
+on producing 'defined' has undefined behavior [-Wexpansion-to-defined]
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:197:34: note: expanded from m=
+acro '_PTHREAD_SWIFT_IMPORTER_NULLABILITY_COMPAT'
+        defined(SWIFT_CLASS_EXTRA) && (!defined(SWIFT_SDK_OVERLAY_PTHREAD_E=
+POCH) || (SWIFT_SDK_OVERLAY_PTHREAD_EPOCH < 1))
+                                        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:537:6: warning: macro expansi=
+on producing 'defined' has undefined behavior [-Wexpansion-to-defined]
+#if !_PTHREAD_SWIFT_IMPORTER_NULLABILITY_COMPAT
+     ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:197:2: note: expanded from ma=
+cro '_PTHREAD_SWIFT_IMPORTER_NULLABILITY_COMPAT'
+        defined(SWIFT_CLASS_EXTRA) && (!defined(SWIFT_SDK_OVERLAY_PTHREAD_E=
+POCH) || (SWIFT_SDK_OVERLAY_PTHREAD_EPOCH < 1))
+        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:537:6: warning: macro expansi=
+on producing 'defined' has undefined behavior [-Wexpansion-to-defined]
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/pthread.h:197:34: note: expanded from m=
+acro '_PTHREAD_SWIFT_IMPORTER_NULLABILITY_COMPAT'
+        defined(SWIFT_CLASS_EXTRA) && (!defined(SWIFT_SDK_OVERLAY_PTHREAD_E=
+POCH) || (SWIFT_SDK_OVERLAY_PTHREAD_EPOCH < 1))
+                                        ^
+In file included from ../disas/arm-a64.cc:25:
+In file included from /opt/build/build/stage/qemu/disas/libvixl/vixl/a64/di=
+sasm-a64.h:31:
+In file included from /opt/build/build/stage/qemu/disas/libvixl/vixl/utils.=
+h:31:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:317:9: error: no member named 'signbit'=
+ in the global namespace; did you mean 'sigwait'?
+using ::signbit;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/signal.h:101:5: note: 'sigwait' declare=
+d here
+int     sigwait(const sigset_t * __restrict, int * __restrict) __DARWIN_ALI=
+AS_C(sigwait);
+        ^
+In file included from ../disas/arm-a64.cc:25:
+In file included from /opt/build/build/stage/qemu/disas/libvixl/vixl/a64/di=
+sasm-a64.h:31:
+In file included from /opt/build/build/stage/qemu/disas/libvixl/vixl/utils.=
+h:31:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:318:9: error: no member named 'fpclassi=
+fy' in the global namespace
+using ::fpclassify;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:319:9: error: no member named 'isfinite=
+' in the global namespace; did you mean 'finite'?
+using ::isfinite;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Develo=
+per/SDKs/MacOSX11.1.sdk/usr/include/math.h:752:12: note: 'finite' declared =
+here
+extern int finite(double)
+           ^
+In file included from ../disas/arm-a64.cc:25:
+In file included from /opt/build/build/stage/qemu/disas/libvixl/vixl/a64/di=
+sasm-a64.h:31:
+In file included from /opt/build/build/stage/qemu/disas/libvixl/vixl/utils.=
+h:31:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:320:9: error: no member named 'isinf' i=
+n the global namespace
+using ::isinf;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:321:9: error: no member named 'isnan' i=
+n the global namespace
+using ::isnan;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:322:9: error: no member named 'isnormal=
+' in the global namespace
+using ::isnormal;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:323:9: error: no member named 'isgreate=
+r' in the global namespace
+using ::isgreater;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:324:9: error: no member named 'isgreate=
+requal' in the global namespace
+using ::isgreaterequal;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:325:9: error: no member named 'isless' =
+in the global namespace
+using ::isless;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:326:9: error: no member named 'islesseq=
+ual' in the global namespace
+using ::islessequal;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:327:9: error: no member named 'islessgr=
+eater' in the global namespace
+using ::islessgreater;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:328:9: error: no member named 'isunorde=
+red' in the global namespace
+using ::isunordered;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:329:9: error: no member named 'isunorde=
+red' in the global namespace
+using ::isunordered;
+      ~~^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:640:26: error: no template named 'numer=
+ic_limits'
+    bool _FloatBigger =3D (numeric_limits<_FloatT>::digits > numeric_limits=
+<_IntT>::digits),
+                         ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:640:60: error: no template named 'numer=
+ic_limits'
+    bool _FloatBigger =3D (numeric_limits<_FloatT>::digits > numeric_limits=
+<_IntT>::digits),
+                                                           ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:641:18: error: no template named 'numer=
+ic_limits'
+    int _Bits =3D (numeric_limits<_IntT>::digits - numeric_limits<_FloatT>:=
+:digits)>
+                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:641:50: error: no template named 'numer=
+ic_limits'
+    int _Bits =3D (numeric_limits<_IntT>::digits - numeric_limits<_FloatT>:=
+:digits)>
+                                                 ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:646:17: error: no template named 'numer=
+ic_limits'
+  static_assert(numeric_limits<_FloatT>::radix =3D=3D 2, "FloatT has incorr=
+ect radix");
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolch=
+ain/usr/bin/../include/c++/v1/cmath:649:25: error: no template named 'numer=
+ic_limits'
+  return _FloatBigger ? numeric_limits<_IntT>::max() :  (numeric_limits<_In=
+tT>::max() >> _Bits << _Bits);
+                        ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=3D]
+230 warnings and 20 errors generated.
+ninja: build stopped: subcommand failed.
+make[1]: *** [run-ninja] Error 1
+make: *** [all] Error 2
+
+
+Let me down if I can provide something more useful!
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918084
+
+Title:
+  Build fails on macOS 11.2.2
+
+Status in QEMU:
+  Triaged
+
+Bug description:
+  Hi,
+
+  I got the latest version from git. I have pre-compiled the dependency
+  libraries. All good. configure creates the necessary files. When I
+  build I got the following error:
+
+  [1368/6454] Compiling C object libcapstone.a.p/capstone_arch_AArch64_AArc=
+h64InstPrinter.c.o
+  ninja: build stopped: subcommand failed.
+  make[1]: *** [run-ninja] Error 1
+  make: *** [all] Error 2
+
+  I've ran make as make -j 8
+
+  original config:
+
+  PKG_CONFIG_PATH=3D"$SERVERPLUS_DIR/dependencies/glib/lib/pkgconfig:$SERVE=
+RPLUS_DIR/dependencies/pixman/lib/pkgconfig:$SERVERPLUS_DIR/dependencies
+  /cyrus-sasl/lib/pkgconfig" ./configure --prefix=3D"$SERVERPLUS_DIR"
+  --enable-hvf --enable-cocoa --enable-vnc-sasl --enable-auth-pam
+  --ninja=3D/opt/build/build/stage/tools/ninja/ninja
+  --python=3D"$SERVERPLUS_DIR/dependencies/python/bin/python3" --enable-
+  bsd-user
+
+  if I build with --target-list=3Dx86_64-softmmu then it will build but I
+  will get only the x86_64 QEMU built. With 5.0 I could build all
+  emulators.
+
+  $SERVERPLUS_DIR is my target dir.
+
+  Thanks,
+
+  Eddy
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918084/+subscriptions
 
