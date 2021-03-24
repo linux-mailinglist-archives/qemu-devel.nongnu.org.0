@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE31E347B21
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:50:49 +0100 (CET)
-Received: from localhost ([::1]:44074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00880347B1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:47:42 +0100 (CET)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP4qO-0004Hz-NF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
+	id 1lP4nN-000172-1W
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4ey-0008RV-Vf
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:00 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42966)
+ id 1lP4f4-0000DI-Gu
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:06 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4ex-0003MZ-7p
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:00 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x13so24684538wrs.9
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:38:58 -0700 (PDT)
+ id 1lP4f0-0003Om-6i
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:06 -0400
+Received: by mail-wr1-x429.google.com with SMTP id j7so24718109wrd.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MGgvFyxsPVyUauSOkbs2e+OMiesteGJSjt/ekiCpmdg=;
- b=aCWZ8ZLL1iUerulpZzY/6LCPja/CmOgTTCg3Z5KaKX+vovtghj07T+D/BHiBwQUKB1
- GH+F0THMa38wpF9KlnpJLB23S8pMGE9mZoOth706UwdhZvI+oy/ew7FWlJmWiCN1rsz6
- O/O9sMluitdJs3mAhAvvehx3vt2wltzaHvTQfYi9qIwHH9D9l6vMZifKI8TxFMAcZIEw
- Xt8rrSmTPXPdTNsebk4NhdG87ZIBVfq2PrYg9PDGULPcFxfXDc/h6hpO5UHoB49WlY+A
- f16KLUhwTnP1ERv3cgyPfh68Az3xtamaWO1n5Ei1CJb4WtgfqFgjQbeCJeNgvq3Q8QTK
- fdTA==
+ bh=XksdYAKamza61JCIXgkeNsgm0T3+uDsF6mEoMCxikEk=;
+ b=sQ317gBIdAIhZ8O1mS8Uy1gYxqiBxjOv7JONf+QtUsdNayBYFYVxbur5ntBmkX8alh
+ Wmkm6VINrmF7ya5XmB63An51h+O7OMJwoN5rUEtzMgxTYbRmyDTe0AC7IPe0OKG0W2aP
+ 57PEZ2MufbpSpSFiINf0X2StaelNgQ0L4i5WVlF0R8H94+Bcu2kNh9i2WEW6mVHfUFF+
+ LQwu+PnCT5cip9852AQOK4GXbPPYR0Qp2dQUSaNIuP2nam6uVkWs43ANnCtZus3ulzIP
+ K6ZDySbsLjjXbv9WS0LJrxw2NBswDuz+3JpahSJbzdCJisLs8oy5bEuua5PaaFoVL+DL
+ /HfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MGgvFyxsPVyUauSOkbs2e+OMiesteGJSjt/ekiCpmdg=;
- b=Q6tHcqhangm69BU41X+PjwB1k+1pi3TzY7lVm1K0c9knEj+N3waRhJh8iaIPJ0Olg7
- 75cr4Cf04NNj3wSkYtuKd43Q8Ieqt7RjuOatuNChAPqxYK4S8SQs/17ERMoM91f0gzMQ
- ainqB8muX/1Vj7XNX7oQ3qEPpuYmfhIIVSh6m0wRCQJ5WU+VJcmxtyLk/Vdv62L5sHCY
- SHEaTZhOyF6GTKdXDaPcfdfPA1YFOLOeLF3KmkoDwir/DgmTHJmIPe2NIs8EpKJqSFIW
- UcAp4GERxNUk3EV6Toyuk5+4qti6PHVwwQvpSdnN+fHDw6licVwqO1/hT1QR+AMPKU1m
- dEaQ==
-X-Gm-Message-State: AOAM531gJdnnzy3WJyg+widXyWtV7v+Wul6x7mrwIxYpddOdGvhlTiSk
- ZmxYwIPIyXqMUwBEXLrZXclcuA==
-X-Google-Smtp-Source: ABdhPJzHUK22H5jOD5mqA6k58dLQ+uAxfur0psqb/VmpG/5aFqGeBA2fDpLolHgVPX7JzLIPCZ0ODg==
-X-Received: by 2002:a5d:4286:: with SMTP id k6mr3810165wrq.278.1616596737470; 
- Wed, 24 Mar 2021 07:38:57 -0700 (PDT)
+ bh=XksdYAKamza61JCIXgkeNsgm0T3+uDsF6mEoMCxikEk=;
+ b=H26yRvaay+spP6iYAydRvcoPDnG3Hsi+Y/oDbsKokt0A3BkESlwerHCJwRWQjlBFp5
+ XxE6tKTU9tggUN1RfWKuK+PsLGZ+/8uc/aHigpVq4WK674q+8i26WmEqoxygCnScdPsZ
+ Hda6x3ILWsQsEh8nO/dyA1T/u2mPpPeH0o77fYOSa/+zVyp9/NKEUQc7MZbS0iSE9+Lt
+ U53bje8T4ClxVA+JjvEnJfvDeLmfj/8FF6m8iCAtMejls+T+/dAU9fkzGD/OerX7Ndd9
+ aXNXoYfOLzsvVqdhGDsCnabr+IikV5XjY/T9ySDlo3ynYAH6cooLyn+a2GinXvTQjg4y
+ mPaQ==
+X-Gm-Message-State: AOAM531IT3Aow27zlR1wt/j5X7DM4xQLoQGv40yJPrsPldJLb5auGI+S
+ 3qOYEOVk/haY5t6Cz4YbrKOuAw==
+X-Google-Smtp-Source: ABdhPJyoVPlW02/gQwzajws7+bcT0cuNTpKBXFZfVU0bxMXBfPMgOwTMT6/TJBO0I3gDMTOw96nqPQ==
+X-Received: by 2002:adf:ed87:: with SMTP id c7mr3927680wro.9.1616596740504;
+ Wed, 24 Mar 2021 07:39:00 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm3080311wmh.31.2021.03.24.07.38.56
+ by smtp.gmail.com with ESMTPSA id m9sm3507775wro.52.2021.03.24.07.38.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 24 Mar 2021 07:38:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D9621FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 9AC551FFA6;
  Wed, 24 Mar 2021 14:30:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/22] blockdev: with -drive if=virtio, use generic virtio-blk
-Date: Wed, 24 Mar 2021 14:30:17 +0000
-Message-Id: <20210324143021.8560-19-alex.bennee@linaro.org>
+Subject: [PULL 19/22] iotests: Revert "iotests: use -ccw on s390x for 040, 139,
+ and 182"
+Date: Wed, 24 Mar 2021 14:30:18 +0000
+Message-Id: <20210324143021.8560-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210324143021.8560-1-alex.bennee@linaro.org>
 References: <20210324143021.8560-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,49 +87,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "open list:Block layer core" <qemu-block@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <laurent@vivier.eu>
 
-Rather than checking if the machine is an s390x to use virtio-blk-ccw
-instead of virtio-blk-pci, use the alias virtio-blk that is set to
-the expected target.
+Commit f1d5516ab583 introduces a test in some iotests to check if
+the machine is a s390-ccw-virtio and to select virtio-*-ccw rather
+than virtio-*-pci.
 
-This also enables the use of virtio-blk-device for targets without
-PCI or CCW.
+We don't need that because QEMU already provides aliases to use the correct
+virtio interface according to the machine type.
+
+This patch removes all virtio-*-pci and virtio-*-ccw to use virtio-*
+instead and remove get_virtio_scsi_device().
+This also enables virtio-mmio devices (virtio-*-device)
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210319202335.2397060-4-laurent@vivier.eu>
-Message-Id: <20210323165308.15244-19-alex.bennee@linaro.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20210319202335.2397060-5-laurent@vivier.eu>
+Message-Id: <20210323165308.15244-20-alex.bennee@linaro.org>
 
-diff --git a/blockdev.c b/blockdev.c
-index 621cc3b7c4..a57590aae4 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -962,11 +962,7 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
-         QemuOpts *devopts;
-         devopts = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
-                                    &error_abort);
--        if (arch_type == QEMU_ARCH_S390X) {
--            qemu_opt_set(devopts, "driver", "virtio-blk-ccw", &error_abort);
--        } else {
--            qemu_opt_set(devopts, "driver", "virtio-blk-pci", &error_abort);
--        }
-+        qemu_opt_set(devopts, "driver", "virtio-blk", &error_abort);
-         qemu_opt_set(devopts, "drive", qdict_get_str(bs_opts, "id"),
-                      &error_abort);
-     }
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index 336ff7c4f2..ba7cb34ce8 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -89,7 +89,7 @@ class TestSingleDrive(ImageCommitTestCase):
+         qemu_io('-f', 'raw', '-c', 'write -P 0xab 0 524288', backing_img)
+         qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0xef 524288 524288', mid_img)
+         self.vm = iotests.VM().add_drive(test_img, "node-name=top,backing.node-name=mid,backing.backing.node-name=base", interface="none")
+-        self.vm.add_device(iotests.get_virtio_scsi_device())
++        self.vm.add_device('virtio-scsi')
+         self.vm.add_device("scsi-hd,id=scsi0,drive=drive0")
+         self.vm.launch()
+         self.has_quit = False
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index f92161d8ef..333cc81818 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -119,17 +119,7 @@ echo
+ echo === Device without drive ===
+ echo
+ 
+-case "$QEMU_DEFAULT_MACHINE" in
+-  s390-ccw-virtio)
+-      virtio_scsi=virtio-scsi-ccw
+-      ;;
+-  *)
+-      virtio_scsi=virtio-scsi-pci
+-      ;;
+-esac
+-
+-run_qemu -device $virtio_scsi -device scsi-hd |
+-    sed -e "s/$virtio_scsi/VIRTIO_SCSI/"
++run_qemu -device virtio-scsi -device scsi-hd
+ 
+ echo
+ echo === Overriding backing file ===
+diff --git a/tests/qemu-iotests/051.out b/tests/qemu-iotests/051.out
+index de4771bcb3..437053c839 100644
+--- a/tests/qemu-iotests/051.out
++++ b/tests/qemu-iotests/051.out
+@@ -72,7 +72,7 @@ QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=foo#12: Invalid node name
+ 
+ === Device without drive ===
+ 
+-Testing: -device VIRTIO_SCSI -device scsi-hd
++Testing: -device virtio-scsi -device scsi-hd
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) QEMU_PROG: -device scsi-hd: drive property not set
+ 
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
+index a28e3fc124..e95bd42b8d 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -72,7 +72,7 @@ QEMU_PROG: -drive file=TEST_DIR/t.qcow2,node-name=foo#12: Invalid node-name: 'fo
+ 
+ === Device without drive ===
+ 
+-Testing: -device VIRTIO_SCSI -device scsi-hd
++Testing: -device virtio-scsi -device scsi-hd
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) QEMU_PROG: -device scsi-hd: drive property not set
+ 
+diff --git a/tests/qemu-iotests/068 b/tests/qemu-iotests/068
+index 03e03508a6..54e49c8ffa 100755
+--- a/tests/qemu-iotests/068
++++ b/tests/qemu-iotests/068
+@@ -49,11 +49,9 @@ IMG_SIZE=128K
+ case "$QEMU_DEFAULT_MACHINE" in
+   s390-ccw-virtio)
+       platform_parm="-no-shutdown"
+-      hba=virtio-scsi-ccw
+       ;;
+   *)
+       platform_parm=""
+-      hba=virtio-scsi-pci
+       ;;
+ esac
+ 
+@@ -61,7 +59,7 @@ _qemu()
+ {
+     $QEMU $platform_parm -nographic -monitor stdio -serial none \
+           -drive if=none,id=drive0,file="$TEST_IMG",format="$IMGFMT" \
+-          -device $hba,id=hba0 \
++          -device virtio-scsi,id=hba0 \
+           -device scsi-hd,drive=drive0 \
+           "$@" |\
+     _filter_qemu | _filter_hmp
+diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+index 7745cb04b6..93274dc8cb 100755
+--- a/tests/qemu-iotests/093
++++ b/tests/qemu-iotests/093
+@@ -371,8 +371,7 @@ class ThrottleTestGroupNames(iotests.QMPTestCase):
+ class ThrottleTestRemovableMedia(iotests.QMPTestCase):
+     def setUp(self):
+         self.vm = iotests.VM()
+-        self.vm.add_device("{},id=virtio-scsi".format(
+-            iotests.get_virtio_scsi_device()))
++        self.vm.add_device("{},id=virtio-scsi".format('virtio-scsi'))
+         self.vm.launch()
+ 
+     def tearDown(self):
+diff --git a/tests/qemu-iotests/139 b/tests/qemu-iotests/139
+index e79b3c21fd..178b1ee230 100755
+--- a/tests/qemu-iotests/139
++++ b/tests/qemu-iotests/139
+@@ -26,18 +26,13 @@ import time
+ 
+ base_img = os.path.join(iotests.test_dir, 'base.img')
+ new_img = os.path.join(iotests.test_dir, 'new.img')
+-if iotests.qemu_default_machine == 's390-ccw-virtio':
+-    default_virtio_blk = 'virtio-blk-ccw'
+-else:
+-    default_virtio_blk = 'virtio-blk-pci'
+ 
+ class TestBlockdevDel(iotests.QMPTestCase):
+ 
+     def setUp(self):
+         iotests.qemu_img('create', '-f', iotests.imgfmt, base_img, '1M')
+         self.vm = iotests.VM()
+-        self.vm.add_device("{},id=virtio-scsi".format(
+-            iotests.get_virtio_scsi_device()))
++        self.vm.add_device("{},id=virtio-scsi".format('virtio-scsi'))
+         self.vm.launch()
+ 
+     def tearDown(self):
+@@ -93,7 +88,7 @@ class TestBlockdevDel(iotests.QMPTestCase):
+         self.checkBlockDriverState(node, expect_error)
+ 
+     # Add a device model
+-    def addDeviceModel(self, device, backend, driver = default_virtio_blk):
++    def addDeviceModel(self, device, backend, driver = 'virtio-blk'):
+         result = self.vm.qmp('device_add', id = device,
+                              driver = driver, drive = backend)
+         self.assert_qmp(result, 'return', {})
+diff --git a/tests/qemu-iotests/182 b/tests/qemu-iotests/182
+index 55a0384c08..fcd1d796eb 100755
+--- a/tests/qemu-iotests/182
++++ b/tests/qemu-iotests/182
+@@ -46,26 +46,17 @@ _supported_proto file
+ 
+ size=32M
+ 
+-case "$QEMU_DEFAULT_MACHINE" in
+-  s390-ccw-virtio)
+-      virtioblk=virtio-blk-ccw
+-      ;;
+-  *)
+-      virtioblk=virtio-blk-pci
+-      ;;
+-esac
+-
+ _make_test_img $size
+ 
+ echo "Starting QEMU"
+ _launch_qemu -drive file=$TEST_IMG,if=none,id=drive0,file.locking=on \
+-    -device $virtioblk,drive=drive0
++    -device virtio-blk,drive=drive0
+ 
+ echo
+ echo "Starting a second QEMU using the same image should fail"
+ echo 'quit' | $QEMU -nographic -monitor stdio \
+     -drive file=$TEST_IMG,if=none,id=drive0,file.locking=on \
+-    -device $virtioblk,drive=drive0 2>&1 | _filter_testdir 2>&1 |
++    -device virtio-blk,drive=drive0 2>&1 | _filter_testdir 2>&1 |
+     _filter_qemu |
+     sed -e '/falling back to POSIX file/d' \
+         -e '/locks can be lost unexpectedly/d'
+diff --git a/tests/qemu-iotests/238 b/tests/qemu-iotests/238
+index 8a10af57f1..38bd3744e6 100755
+--- a/tests/qemu-iotests/238
++++ b/tests/qemu-iotests/238
+@@ -26,14 +26,12 @@ from iotests import log
+ 
+ iotests.script_initialize()
+ 
+-virtio_scsi_device = iotests.get_virtio_scsi_device()
+-
+ vm = iotests.VM()
+ vm.launch()
+ 
+ log(vm.qmp('blockdev-add', node_name='hd0', driver='null-co', read_zeroes=True))
+ log(vm.qmp('object-add', qom_type='iothread', id='iothread0'))
+-log(vm.qmp('device_add', id='scsi0', driver=virtio_scsi_device, iothread='iothread0'))
++log(vm.qmp('device_add', id='scsi0', driver='virtio-scsi', iothread='iothread0'))
+ log(vm.qmp('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0'))
+ log(vm.qmp('block_set_io_throttle', id='scsi-hd0', bps=0, bps_rd=0, bps_wr=0,
+            iops=1000, iops_rd=0, iops_wr=0, conv_keys=False))
+diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
+index ab077f4ceb..9b281e1dc0 100755
+--- a/tests/qemu-iotests/240
++++ b/tests/qemu-iotests/240
+@@ -42,7 +42,7 @@ class TestCase(iotests.QMPTestCase):
+         iotests.log('==Unplug a SCSI disk and then plug it again==')
+         self.vm.qmp_log('blockdev-add', driver='null-co', read_zeroes=True, node_name='hd0')
+         self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+-        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
++        self.vm.qmp_log('device_add', id='scsi0', driver='virtio-scsi', iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
+         self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+         self.vm.qmp_log('device_del', id='scsi-hd0')
+         self.vm.event_wait('DEVICE_DELETED')
+@@ -55,7 +55,7 @@ class TestCase(iotests.QMPTestCase):
+         iotests.log('==Attach two SCSI disks using the same block device and the same iothread==')
+         self.vm.qmp_log('blockdev-add', driver='null-co', read_zeroes=True, node_name='hd0', read_only=True)
+         self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+-        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
++        self.vm.qmp_log('device_add', id='scsi0', driver='virtio-scsi', iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
+ 
+         self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+         self.vm.qmp_log('device_add', id='scsi-hd1', driver='scsi-hd', drive='hd0')
+@@ -73,8 +73,8 @@ class TestCase(iotests.QMPTestCase):
+         self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+         self.vm.qmp_log('object-add', qom_type='iothread', id="iothread1")
+ 
+-        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
+-        self.vm.qmp_log('device_add', id='scsi1', driver=iotests.get_virtio_scsi_device(), iothread='iothread1', filters=[iotests.filter_qmp_virtio_scsi])
++        self.vm.qmp_log('device_add', id='scsi0', driver='virtio-scsi', iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
++        self.vm.qmp_log('device_add', id='scsi1', driver='virtio-scsi', iothread='iothread1', filters=[iotests.filter_qmp_virtio_scsi])
+ 
+         self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0', bus="scsi0.0")
+         self.vm.qmp_log('device_add', id='scsi-hd1', driver='scsi-hd', drive='hd0', bus="scsi1.0")
+@@ -99,7 +99,7 @@ class TestCase(iotests.QMPTestCase):
+         self.vm.qmp_log('nbd-server-add', device='hd0')
+ 
+         self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+-        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
++        self.vm.qmp_log('device_add', id='scsi0', driver='virtio-scsi', iothread='iothread0', filters=[iotests.filter_qmp_virtio_scsi])
+         self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+ 
+ if __name__ == '__main__':
+diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+index 7cd2520829..c72c82a171 100755
+--- a/tests/qemu-iotests/257
++++ b/tests/qemu-iotests/257
+@@ -292,7 +292,7 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+         log('--- Preparing image & VM ---\n')
+         drive0 = Drive(img_path, vm=vm)
+         drive0.img_create(iotests.imgfmt, SIZE)
+-        vm.add_device("{},id=scsi0".format(iotests.get_virtio_scsi_device()))
++        vm.add_device("{},id=scsi0".format('virtio-scsi'))
+         vm.launch()
+ 
+         file_config = {
+@@ -449,7 +449,7 @@ def test_backup_api():
+         log('--- Preparing image & VM ---\n')
+         drive0 = Drive(img_path, vm=vm)
+         drive0.img_create(iotests.imgfmt, SIZE)
+-        vm.add_device("{},id=scsi0".format(iotests.get_virtio_scsi_device()))
++        vm.add_device("{},id=scsi0".format('virtio-scsi'))
+         vm.launch()
+ 
+         file_config = {
+diff --git a/tests/qemu-iotests/307 b/tests/qemu-iotests/307
+index 9008974346..c7685347bc 100755
+--- a/tests/qemu-iotests/307
++++ b/tests/qemu-iotests/307
+@@ -40,13 +40,11 @@ with iotests.FilePath('image') as img, \
+ 
+     iotests.log('=== Launch VM ===')
+ 
+-    virtio_scsi_device = iotests.get_virtio_scsi_device()
+-
+     vm.add_object('iothread,id=iothread0')
+     vm.add_blockdev(f'file,filename={img},node-name=file')
+     vm.add_blockdev(f'{iotests.imgfmt},file=file,node-name=fmt')
+     vm.add_blockdev('raw,file=file,node-name=ro,read-only=on')
+-    vm.add_device(f'id=scsi0,driver={virtio_scsi_device},iothread=iothread0')
++    vm.add_device(f'id=scsi0,driver=virtio-scsi,iothread=iothread0')
+     vm.launch()
+ 
+     vm.qmp_log('nbd-server-start',
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 90d0b62523..1e9e6a066e 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -234,11 +234,6 @@ def qemu_io_silent_check(*args):
+                                stderr=subprocess.STDOUT)
+     return exitcode == 0
+ 
+-def get_virtio_scsi_device():
+-    if qemu_default_machine == 's390-ccw-virtio':
+-        return 'virtio-scsi-ccw'
+-    return 'virtio-scsi-pci'
+-
+ class QemuIoInteractive:
+     def __init__(self, *args):
+         self.args = qemu_io_args_no_fmt + list(args)
 -- 
 2.20.1
 
