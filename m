@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869073472BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:35:26 +0100 (CET)
-Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25553472C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:37:37 +0100 (CET)
+Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOy33-0006zt-I0
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50388)
+	id 1lOy5A-0002Ag-Tj
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lOy19-0005pK-5Y
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:27 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:36417)
+ id 1lOy1B-0005pY-GC
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:29 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lOy17-0005jE-5U
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:26 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id ay2so7457146plb.3
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 00:33:24 -0700 (PDT)
+ id 1lOy19-0005km-76
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 03:33:29 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ ot17-20020a17090b3b51b0290109c9ac3c34so678437pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 00:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1oXm6qUw6QpqC4i+KxPbUebxbIUSL7Ivcb0MJyKya+I=;
- b=Dq5YHyuvtfPVVxZSMBj9KfQnlRR1F//WnsUl0ZeYVwto3RaGYXKDiVgcN+4EClCe4r
- WNhu7DAS5PcAUNGCCV60vGib6KKpaZjvrt2gSTjId0VsLsyZlI3U+cOpWlj0+OE1yyA9
- xIuI881Xn8jU9FY7OWXV1/ZxeTUK7LDABcGkKlGEIvA6cZBJUk6fXu47JsQceyXjKOIl
- eZt7OtTpAnbGqbGXAWy8f+ZjZHJJfDhIFwLUp+he7MeaOy4pUQ7hwzOlG8ZvtxnXmxiY
- 0SXD4rBJZFjHCf6nfMMyzpCNu1iJos1MeVr74ryQZ3P7aNTHB9xCcQaEYIHt+hiGtjUH
- UfZg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MfxZENkQg4YSG+pEA3uFpgxp+x8LxQFP/roBiw/dz8U=;
+ b=H5fC8bX9B7Uy0vhdszPiWfPHOQEQky11CwHhEYd51ZbhkjqQeIcU4sq9yxxnZxl8PM
+ h1HIE+hmhq66cyGG5J8Hqatj/4TepQUTPGa6uDSSEyBVpAa4dnoWc7K900/Fp/rqo9Ds
+ np3QDe7+uSSqg8rpcbrkRDquAZo8ZKU23ySiU+4IdygTQLiXoHsq37iHlf1zTw5TeYnk
+ iCDUR7R30qn0Qv8LSXRa/BEEPSI5vllf/gzmLub/zSlCsTFzklIgZCJtrdL5Y4u9SHHb
+ Fopo7wO+uqB4AM0gL8BXwLipFKxrkK9C5z+KrTJB5w9ViJpbjBSxgg4794HqZAgwwYkr
+ 0vDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1oXm6qUw6QpqC4i+KxPbUebxbIUSL7Ivcb0MJyKya+I=;
- b=Cm8U8AUH8Mn0/FyiyIDZsilB0heQ7I5n8rbmYMJLLDyLb+nKrpXHr1IY322YHA34DB
- ouq4OSpigFE2TiU4NhQHe1LiSTx+uT2vXquCa31bNsj3GenFHqvrJxQqCoQKcDS/85H2
- D832KY2M/B8LWUrrIhlWS7GTCzm0NqRyso7ACtqOPcnfVoHdrt3ejlRHCNSvM/Tmr3M7
- yIiUaAmumutI7I8/Zk6mcUrLISxqJRj4MYJl4q9zCSY3cImDnbmHGTN+EHlBAWM4x0vd
- 2JCjxh1yh6X/sdrMh4ikA5+wUbgUQhKaIABswHTk4Cj0jazfWPu7lwx17CX9jEX24hvf
- TLZw==
-X-Gm-Message-State: AOAM533gEQdW8TTecDQEwC7JI5tfwFSge2fgSlWlGEkIyd7cWonNDXut
- U5L7S63v6AqurCbVm5Yl0CU2kKfcXb4o9Q==
-X-Google-Smtp-Source: ABdhPJwV2veriH5lE2/FppPRfc75XJLNcgNpOMRgo4DkBt/f0AdqnCPSiQ1uy5goWAO2JsWqicI47w==
-X-Received: by 2002:a17:90a:f28d:: with SMTP id
- fs13mr2072460pjb.220.1616571203090; 
- Wed, 24 Mar 2021 00:33:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MfxZENkQg4YSG+pEA3uFpgxp+x8LxQFP/roBiw/dz8U=;
+ b=igIivHNW+l4k9KIcDqs+4bEh71LVTlLyLv83Eis3mzuBsR9EFHOFpatCV8Ql/l/3Fr
+ zh1bO/fvFOIDChEiGxyxa/bZ+pKGaTtaBkiE4zHu0shONdAseHMUMFRDLv3+OpMQfP9k
+ iAAGaRmeOgPUxLlZZNvduEVxERR+MVW+i3u1i62k5zHGrA9jN/JxKkBvBbtoOxy4dAuN
+ QQNJ4NaZBeNHGpGPzA15ohfS9PiMOkx9tzBlsq6/M9n8l0dgFDtQf4k4UDWLL7XMMLq/
+ AjXYw5Vwfg7fav4bUwUSQpo9F/vxl2ofRi7eC+9KKRfwxu/5KE8RVuTOlkKjCvO4oPzo
+ LLxg==
+X-Gm-Message-State: AOAM531XQ3AWcyDilTNF99r0iTilgv2oMJw7CnASCwULNPMeobs9Ji6a
+ bOkStyACH5MsDS9rCkfoAJNxJdzZcT7lZA==
+X-Google-Smtp-Source: ABdhPJzd+G3zkzuiIakYXJkqRhfH1Bf89hCZXQgWgYdEYP3WXLB3WZqa9yx5o6y556D/Jk0tvOVlrA==
+X-Received: by 2002:a17:90b:410d:: with SMTP id
+ io13mr1991483pjb.112.1616571205723; 
+ Wed, 24 Mar 2021 00:33:25 -0700 (PDT)
 Received: from localhost ([122.172.6.13])
- by smtp.gmail.com with ESMTPSA id d13sm1412207pgb.6.2021.03.24.00.33.22
+ by smtp.gmail.com with ESMTPSA id t18sm1509041pgg.33.2021.03.24.00.33.24
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Mar 2021 00:33:22 -0700 (PDT)
+ Wed, 24 Mar 2021 00:33:25 -0700 (PDT)
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] virtio: Implement generic vhost-user-i2c backend
-Date: Wed, 24 Mar 2021 13:03:09 +0530
-Message-Id: <cover.1616570702.git.viresh.kumar@linaro.org>
+Subject: [PATCH 1/5] hw/virtio: add boilerplate for vhost-user-i2c device
+Date: Wed, 24 Mar 2021 13:03:10 +0530
+Message-Id: <680d46df15a19a7ccb05f79370cb03226c23d943.1616570702.git.viresh.kumar@linaro.org>
 X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
+In-Reply-To: <cover.1616570702.git.viresh.kumar@linaro.org>
+References: <cover.1616570702.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,135 +92,391 @@ Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+This creates the QEMU side of the vhost-user-i2c device which connects
+to the remote daemon. It is based of vhost-user-fs code.
 
-This is an initial implementation of a generic vhost-user backend for
-the I2C bus. This is based of the virtio specifications (already merged)
-for the I2C bus.
-
-The kernel virtio I2C driver is still under review, here is the latest
-version (v10):
-
-  https://lore.kernel.org/lkml/226a8d5663b7bb6f5d06ede7701eedb18d1bafa1.1616493817.git.jie.deng@intel.com/
-
-The backend is implemented as a vhost-user device because we want to
-experiment in making portable backends that can be used with multiple
-hypervisors.  We also want to support backends isolated in their own
-separate service VMs with limited memory cross-sections with the
-principle guest. This is part of a wider initiative by Linaro called
-"project Stratos" for which you can find information here:
-
-  https://collaborate.linaro.org/display/STR/Stratos+Home
-
-I mentioned this to explain the decision to write the daemon as a fairly
-pure glib application that just depends on libvhost-user.
-
-We are not sure where the vhost-user backend should get queued, qemu or
-a separate repository. Similar questions were raised by an earlier
-thread by Alex Bennée for his RPMB work:
-
-  https://lore.kernel.org/qemu-devel/20200925125147.26943-1-alex.bennee@linaro.org/
-
-
-Testing:
--------
-
-I didn't have access to a real hardware where I can play with a I2C
-client device (like RTC, eeprom, etc) to verify the working of the
-backend daemon, so I decided to test it on my x86 box itself with
-hierarchy of two ARM64 guests.
-
-The first ARM64 guest was passed "-device ds1338,address=0x20" option,
-so it could emulate a ds1338 RTC device, which connects to an I2C bus.
-Once the guest came up, ds1338 device instance was created within the
-guest kernel by doing:
-
-  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
-
-[
-  Note that this may end up binding the ds1338 device to its driver,
-  which won't let our i2c daemon talk to the device. For that we need to
-  manually unbind the device from the driver:
-
-  echo 0-0020 > /sys/bus/i2c/devices/0-0020/driver/unbind
-]
-
-After this is done, you will get /dev/rtc1. This is the device we wanted
-to emulate, which will be accessed by the vhost-user-i2c backend daemon
-via the /dev/i2c-0 file present in the guest VM.
-
-At this point we need to start the backend daemon and give it a
-socket-path to talk to from qemu (you can pass -v to it to get more
-detailed messages):
-
-  vhost-user-i2c --socket-path=vi2c.sock --device-list 0:20
-
-[ Here, 0:20 is the bus/device mapping, 0 for /dev/i2c-0 and 20 is
-client address of ds1338 that we used while creating the device. ]
-
-Now we need to start the second level ARM64 guest (from within the first
-guest) to get the i2c-virtio.c Linux driver up. The second level guest
-is passed the following options to connect to the same socket:
-
-  -chardev socket,path=vi2c.sock,id=vi2c \
-  -device vhost-user-i2c-pci,chardev=vi2c,id=i2c
-
-Once the second level guest boots up, we will see the i2c-virtio bus at
-/sys/bus/i2c/devices/i2c-X/. From there we can now make it emulate the
-ds1338 device again by doing:
-
-  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
-
-[ This time we want ds1338's driver to be bound to the device, so it
-should be enabled in the kernel as well. ]
-
-And we will get /dev/rtc1 device again here in the second level guest.
-Now we can play with the rtc device with help of hwclock utility and we
-can see the following sequence of transfers happening if we try to
-update rtc's time from system time.
-
-hwclock -w -f /dev/rtc1 (in guest2) ->
-  Reaches i2c-virtio.c (Linux bus driver in guest2) ->
-    transfer over virtio ->
-      Reaches the qemu's vhost-i2c device emulation (running over guest1) ->
-        Reaches the backend daemon vhost-user-i2c started earlier (in guest1) ->
-          ioctl(/dev/i2c-0, I2C_RDWR, ..); (in guest1) ->
-	    reaches qemu's hw/rtc/ds1338.c (running over host)
-
-
-I hope I was able to give a clear picture of my test setup here :)
-
-Thanks.
-
-Viresh Kumar (5):
-  hw/virtio: add boilerplate for vhost-user-i2c device
-  hw/virtio: add vhost-user-i2c-pci boilerplate
-  tools/vhost-user-i2c: Add backend driver
-  docs: add a man page for vhost-user-i2c
-  MAINTAINERS: Add entry for virtio-i2c
-
- MAINTAINERS                                 |   9 +
- docs/tools/index.rst                        |   1 +
- docs/tools/vhost-user-i2c.rst               |  75 +++
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
  hw/virtio/Kconfig                           |   5 +
- hw/virtio/meson.build                       |   2 +
- hw/virtio/vhost-user-i2c-pci.c              |  79 +++
- hw/virtio/vhost-user-i2c.c                  | 286 +++++++++
- include/hw/virtio/vhost-user-i2c.h          |  37 ++
+ hw/virtio/meson.build                       |   1 +
+ hw/virtio/vhost-user-i2c.c                  | 286 ++++++++++++++++++++
+ include/hw/virtio/vhost-user-i2c.h          |  37 +++
  include/standard-headers/linux/virtio_ids.h |   1 +
- tools/meson.build                           |   8 +
- tools/vhost-user-i2c/50-qemu-i2c.json.in    |   5 +
- tools/vhost-user-i2c/main.c                 | 652 ++++++++++++++++++++
- tools/vhost-user-i2c/meson.build            |  10 +
- 13 files changed, 1170 insertions(+)
- create mode 100644 docs/tools/vhost-user-i2c.rst
- create mode 100644 hw/virtio/vhost-user-i2c-pci.c
+ 5 files changed, 330 insertions(+)
  create mode 100644 hw/virtio/vhost-user-i2c.c
  create mode 100644 include/hw/virtio/vhost-user-i2c.h
- create mode 100644 tools/vhost-user-i2c/50-qemu-i2c.json.in
- create mode 100644 tools/vhost-user-i2c/main.c
- create mode 100644 tools/vhost-user-i2c/meson.build
 
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index 0eda25c4e1bf..35ab45e2095c 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -58,3 +58,8 @@ config VIRTIO_MEM
+     depends on LINUX
+     depends on VIRTIO_MEM_SUPPORTED
+     select MEM_DEVICE
++
++config VHOST_USER_I2C
++    bool
++    default y
++    depends on VIRTIO && VHOST_USER
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index fbff9bc9d4de..1a0d736a0db5 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -25,6 +25,7 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.
+ virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
+ 
+ virtio_pci_ss = ss.source_set()
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+new file mode 100644
+index 000000000000..7b0dc24412a4
+--- /dev/null
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -0,0 +1,286 @@
++/*
++ * Vhost-user i2c virtio device
++ *
++ * Copyright (c) 2021 Viresh Kumar <viresh.kumar@linaro.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/qdev-properties.h"
++#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/vhost-user-i2c.h"
++#include "qemu/error-report.h"
++#include "standard-headers/linux/virtio_ids.h"
++
++static void vu_i2c_start(VirtIODevice *vdev)
++{
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
++    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
++    int ret;
++    int i;
++
++    if (!k->set_guest_notifiers) {
++        error_report("binding does not support guest notifiers");
++        return;
++    }
++
++    ret = vhost_dev_enable_notifiers(&i2c->vhost_dev, vdev);
++    if (ret < 0) {
++        error_report("Error enabling host notifiers: %d", -ret);
++        return;
++    }
++
++    ret = k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, true);
++    if (ret < 0) {
++        error_report("Error binding guest notifier: %d", -ret);
++        goto err_host_notifiers;
++    }
++
++    i2c->vhost_dev.acked_features = vdev->guest_features;
++    ret = vhost_dev_start(&i2c->vhost_dev, vdev);
++    if (ret < 0) {
++        error_report("Error starting vhost-user-i2c: %d", -ret);
++        goto err_guest_notifiers;
++    }
++
++    /*
++     * guest_notifier_mask/pending not used yet, so just unmask
++     * everything here. virtio-pci will do the right thing by
++     * enabling/disabling irqfd.
++     */
++    for (i = 0; i < i2c->vhost_dev.nvqs; i++) {
++        vhost_virtqueue_mask(&i2c->vhost_dev, vdev, i, false);
++    }
++
++    return;
++
++err_guest_notifiers:
++    k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, false);
++err_host_notifiers:
++    vhost_dev_disable_notifiers(&i2c->vhost_dev, vdev);
++}
++
++static void vu_i2c_stop(VirtIODevice *vdev)
++{
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
++    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
++    int ret;
++
++    if (!k->set_guest_notifiers) {
++        return;
++    }
++
++    vhost_dev_stop(&i2c->vhost_dev, vdev);
++
++    ret = k->set_guest_notifiers(qbus->parent, i2c->vhost_dev.nvqs, false);
++    if (ret < 0) {
++        error_report("vhost guest notifier cleanup failed: %d", ret);
++        return;
++    }
++
++    vhost_dev_disable_notifiers(&i2c->vhost_dev, vdev);
++}
++
++static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
++{
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
++
++    if (!vdev->vm_running) {
++        should_start = false;
++    }
++
++    if (i2c->vhost_dev.started == should_start) {
++        return;
++    }
++
++    if (should_start) {
++        vu_i2c_start(vdev);
++    } else {
++        vu_i2c_stop(vdev);
++    }
++}
++
++static uint64_t vu_i2c_get_features(VirtIODevice *vdev,
++                                    uint64_t requested_features, Error **errp)
++{
++    /* No feature bits used yet */
++    return requested_features;
++}
++
++static void vu_i2c_handle_output(VirtIODevice *vdev, VirtQueue *vq)
++{
++    /*
++     * Not normally called; it's the daemon that handles the queue;
++     * however virtio's cleanup path can call this.
++     */
++}
++
++static void vu_i2c_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
++{
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++
++    vhost_virtqueue_mask(&i2c->vhost_dev, vdev, idx, mask);
++}
++
++static bool vu_i2c_guest_notifier_pending(VirtIODevice *vdev, int idx)
++{
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++
++    return vhost_virtqueue_pending(&i2c->vhost_dev, idx);
++}
++
++static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserI2C *i2c)
++{
++    vhost_user_cleanup(&i2c->vhost_user);
++    virtio_delete_queue(i2c->req_vq);
++    g_free(i2c->vhost_dev.vqs);
++    virtio_cleanup(vdev);
++    g_free(i2c->vhost_dev.vqs);
++    i2c->vhost_dev.vqs = NULL;
++}
++
++static int vu_i2c_connect(DeviceState *dev)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++
++    if (i2c->connected) {
++        return 0;
++    }
++    i2c->connected = true;
++
++    /* restore vhost state */
++    if (virtio_device_started(vdev, vdev->status)) {
++        vu_i2c_start(vdev);
++    }
++
++    return 0;
++}
++
++static void vu_i2c_disconnect(DeviceState *dev)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++
++    if (!i2c->connected) {
++        return;
++    }
++    i2c->connected = false;
++
++    if (i2c->vhost_dev.started) {
++        vu_i2c_stop(vdev);
++    }
++}
++
++static void vu_i2c_event(void *opaque, QEMUChrEvent event)
++{
++    DeviceState *dev = opaque;
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++
++    switch (event) {
++    case CHR_EVENT_OPENED:
++        if (vu_i2c_connect(dev) < 0) {
++            qemu_chr_fe_disconnect(&i2c->conf.chardev);
++            return;
++        }
++        break;
++    case CHR_EVENT_CLOSED:
++        vu_i2c_disconnect(dev);
++        break;
++    case CHR_EVENT_BREAK:
++    case CHR_EVENT_MUX_IN:
++    case CHR_EVENT_MUX_OUT:
++        /* Ignore */
++        break;
++    }
++}
++
++static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostUserI2C *i2c = VHOST_USER_I2C(dev);
++    int ret;
++
++    if (!i2c->conf.chardev.chr) {
++        error_setg(errp, "missing chardev");
++        return;
++    }
++
++    if (!vhost_user_init(&i2c->vhost_user, &i2c->conf.chardev, errp)) {
++        return;
++    }
++
++    virtio_init(vdev, "vhost-user-i2c", VIRTIO_ID_I2C, 0);
++
++    i2c->req_vq = virtio_add_queue(vdev, 3, vu_i2c_handle_output);
++    i2c->vhost_dev.nvqs = 1;
++    i2c->vhost_dev.vqs = g_new0(struct vhost_virtqueue, i2c->vhost_dev.nvqs);
++    ret = vhost_dev_init(&i2c->vhost_dev, &i2c->vhost_user,
++                         VHOST_BACKEND_TYPE_USER, 0);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "vhost_dev_init() failed");
++        do_vhost_user_cleanup(vdev, i2c);
++    }
++
++    qemu_chr_fe_set_handlers(&i2c->conf.chardev, NULL, NULL, vu_i2c_event, NULL,
++                             dev, NULL, true);
++}
++
++static void vu_i2c_device_unrealize(DeviceState *dev)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostUserI2C *i2c = VHOST_USER_I2C(dev);
++
++    /* This will stop vhost backend if appropriate. */
++    vu_i2c_set_status(vdev, 0);
++
++    vhost_dev_cleanup(&i2c->vhost_dev);
++
++    do_vhost_user_cleanup(vdev, i2c);
++}
++
++static const VMStateDescription vu_i2c_vmstate = {
++    .name = "vhost-user-i2c",
++    .unmigratable = 1,
++};
++
++static Property vu_i2c_properties[] = {
++    DEFINE_PROP_CHR("chardev", VHostUserI2C, conf.chardev),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void vu_i2c_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, vu_i2c_properties);
++    dc->vmsd = &vu_i2c_vmstate;
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
++    vdc->realize = vu_i2c_device_realize;
++    vdc->unrealize = vu_i2c_device_unrealize;
++    vdc->get_features = vu_i2c_get_features;
++    vdc->set_status = vu_i2c_set_status;
++    vdc->guest_notifier_mask = vu_i2c_guest_notifier_mask;
++    vdc->guest_notifier_pending = vu_i2c_guest_notifier_pending;
++}
++
++static const TypeInfo vu_i2c_info = {
++    .name = TYPE_VHOST_USER_I2C,
++    .parent = TYPE_VIRTIO_DEVICE,
++    .instance_size = sizeof(VHostUserI2C),
++    .class_init = vu_i2c_class_init,
++};
++
++static void vu_i2c_register_types(void)
++{
++    type_register_static(&vu_i2c_info);
++}
++
++type_init(vu_i2c_register_types)
+diff --git a/include/hw/virtio/vhost-user-i2c.h b/include/hw/virtio/vhost-user-i2c.h
+new file mode 100644
+index 000000000000..a5fffcb6096c
+--- /dev/null
++++ b/include/hw/virtio/vhost-user-i2c.h
+@@ -0,0 +1,37 @@
++/*
++ * Vhost-user i2c virtio device
++ *
++ * Copyright (c) 2021 Viresh Kumar <viresh.kumar@linaro.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef _QEMU_VHOST_USER_I2C_H
++#define _QEMU_VHOST_USER_I2C_H
++
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/vhost.h"
++#include "hw/virtio/vhost-user.h"
++#include "chardev/char-fe.h"
++
++#define TYPE_VHOST_USER_I2C "vhost-user-i2c-device"
++OBJECT_DECLARE_SIMPLE_TYPE(VHostUserI2C, VHOST_USER_I2C)
++
++typedef struct {
++    CharBackend chardev;
++} VHostUserI2CConf;
++
++struct VHostUserI2C {
++    /*< private >*/
++    VirtIODevice parent;
++    VHostUserI2CConf conf;
++    struct vhost_virtqueue *vhost_vq;
++    struct vhost_dev vhost_dev;
++    VhostUserState vhost_user;
++    VirtQueue *req_vq;
++    bool connected;
++
++    /*< public >*/
++};
++
++#endif /* _QEMU_VHOST_USER_I2C_H */
+diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
+index bc1c0621f5ed..aba00c54b9cd 100644
+--- a/include/standard-headers/linux/virtio_ids.h
++++ b/include/standard-headers/linux/virtio_ids.h
+@@ -54,5 +54,6 @@
+ #define VIRTIO_ID_FS			26 /* virtio filesystem */
+ #define VIRTIO_ID_PMEM			27 /* virtio pmem */
+ #define VIRTIO_ID_MAC80211_HWSIM	29 /* virtio mac80211-hwsim */
++#define VIRTIO_ID_I2C			34 /* virtio i2c */
+ 
+ #endif /* _LINUX_VIRTIO_IDS_H */
 -- 
 2.25.0.rc1.19.g042ed3e048af
 
