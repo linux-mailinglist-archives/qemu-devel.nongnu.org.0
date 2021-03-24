@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697EB3484A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 23:34:13 +0100 (CET)
-Received: from localhost ([::1]:60422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009233484AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 23:36:56 +0100 (CET)
+Received: from localhost ([::1]:35138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPC4q-0006mT-G9
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 18:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42274)
+	id 1lPC7T-0008BM-0F
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 18:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPC1Q-00046h-Ha
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:30:41 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:44924)
+ id 1lPC5t-0007dh-Dw
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:35:18 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:45776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPC1O-0007TB-5h
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:30:40 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- y19-20020a0568301d93b02901b9f88a238eso76719oti.11
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:30:37 -0700 (PDT)
+ id 1lPC5p-0000u8-8J
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 18:35:14 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id d12so88961oiw.12
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 15:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jkCodbVKQwrpAzv9XXNv9yihGXshGFKiz+Dcv3jbbI0=;
- b=AjbadpV0j1Ck97eqeS9HcB4sMPI8Nf9XttxFgF1jpkKxpdrTSF/2i2YkDsSo6t0uR7
- GkkqT4Y8vRYwghwQ1/LwmJU3FHn43k6wrEHQDiLmaoxunRXIJEhbjZunAisFSR3MNgF1
- KkVpMNa200G9SK4TWih8lNkWI+1V2km69GRQ1TD7uHjO72UNP24DpdHnWwSiD7Uwv88C
- LE43hXR2EdcsyzKl+xcxI5jR72h3MYEn8uLQYg1Paf04GgaRr+bGBqmcxNy31yJqm3Bt
- ik7Ur5cehVO3UMbuXNXTgxPS8iqBNNQsaece/bN2UtCVCRMwIqfLWXtfupm403DMIx1d
- pqfw==
+ bh=vChvtAvQkZL4JQrqHms0D4h+lGLsOo9x6SHwh6cq2YU=;
+ b=LbYr8Evn278Nx0krxyPaoJBDlDL3RvOAAMz4XmvjJf/Ol4HKLmbPjklYS7r9V788Qu
+ 8SH4xfbOUzodqn4McffvqORHKidkHlW+x03zLG3IA1BD37XTYswbhVUm1PcuxxjY1dU+
+ ThITQTtFbtWpsiV04pl9Nf0Hri7tkrbMQLbYksZmQfNxQag14KXfLPYX9ZF6ndt07aa2
+ 0wmHEVucUltj671TaKjWQDqRcxMNwI7/apAUNaeCzGniqddMLRgoAKRzdJOtMzGSIHRb
+ L03k3LSnw4atW32b2Z53xNXqD8FqFLEtP1nm2P5BI2Ywqig+brwsuoddkUKLXBZRZQKv
+ cLUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jkCodbVKQwrpAzv9XXNv9yihGXshGFKiz+Dcv3jbbI0=;
- b=XMQ5iEI2O2qO/QQY31ncVSN99uz+hUUvhKBg7SsrH9PQHkhEaKkbRRg1qXfKVlfrub
- f8HmkiM5ZQ7HzrvSWxL+C2cp3r/EcToiuoXCV9a2Ya5dOpJcPhuQaH7nWMz2nZEwpZlK
- dg3c+hpTTL2FqPynKsDgOZjVVQY6uBeX1nKOKv0RDbIx+49kLUbXjjjmVdAq0xVkRZKP
- mGUW2W/K87Ie8JXtFzdYENHu1vBhbMhF8D+ZIrhyolJSRdwzhb09i+15C3NbkDSxJ8z1
- 6UPFDMHlVd0q6Zh1+fcCVlrPsJBg/sZiGysjm64ddTdp+UUD5TiyYusv9m8IdSGH/kW7
- iw7Q==
-X-Gm-Message-State: AOAM533E0iEWCEE8zDuELvYe+fKFr+mIPvClpr/HX0fYxdQC9Htj+rdQ
- MxF4oBIWQHO6SM70H/esiijcLw==
-X-Google-Smtp-Source: ABdhPJw+wtRK/gPpUyG6TwFe+eAyahiwh+dLaoU1364NFNTRL/wGcYs9/aNcyKe44IuWDzahgdPQ4Q==
-X-Received: by 2002:a05:6830:11a:: with SMTP id
- i26mr4974688otp.91.1616625037102; 
- Wed, 24 Mar 2021 15:30:37 -0700 (PDT)
+ bh=vChvtAvQkZL4JQrqHms0D4h+lGLsOo9x6SHwh6cq2YU=;
+ b=lgmU+M/J9y6qmWddg9Gq6vZ5mRIo1KJMrMR3bddn73blPEeWzpXLOEMVbzVCqJwnyQ
+ 7MEWBwDEt9yvX7pwZ4AdKJN1wLqjgsy+V6BarRf8XQhEjFhGO0dSFxYKDbxyMBFvqOv4
+ qEnfPbiZdV55HtpMduAeI9TpK3wsDdh1XqLvvYj7pQ95/94mIKxvRxelWOhUu9I6zWeh
+ ww9rGw/Grb2WnlwDuIyb4X1oXdTieu2YJEft5zRy82mV7D6m+insiEprX4wj43xCNGg4
+ 0guPchYZWnHvk2dw+A4mLGxTFasQ/xINYzJ4myoiuyi8B77WbixG7uPT6nSjRkEXw99a
+ HwIg==
+X-Gm-Message-State: AOAM533A8Q1SU4bCMurh07dzRk53lI9UjSVTYG9S8Kez0CpGfnVumYRn
+ A1x85m6HrNoza20yZfh6Hzk8LA==
+X-Google-Smtp-Source: ABdhPJwbE4u7sbWbXUsajwDZW+lxwRlxcOS1pAHcWU7taw+teLMNShYcL5g51bIcgM3Hwqy+QIyX/w==
+X-Received: by 2002:aca:da04:: with SMTP id r4mr3719409oig.123.1616625311773; 
+ Wed, 24 Mar 2021 15:35:11 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id o9sm841447otl.39.2021.03.24.15.30.35
+ by smtp.gmail.com with ESMTPSA id c26sm846604otm.51.2021.03.24.15.35.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 15:30:36 -0700 (PDT)
-Subject: Re: [RFC v11 31/55] target/arm: remove kvm include file for PSCI and
- arm-powerctl
+ Wed, 24 Mar 2021 15:35:11 -0700 (PDT)
+Subject: Re: [RFC v11 32/55] target/arm: move kvm-const.h, kvm.c, kvm64.c,
+ kvm_arm.h to kvm/
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-24-cfontana@suse.de>
+ <20210323154639.23477-25-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2bb8ee58-56a5-5139-4010-2dde870dc40a@linaro.org>
-Date: Wed, 24 Mar 2021 16:30:34 -0600
+Message-ID: <e2d195ab-a308-2061-ad67-144452877b21@linaro.org>
+Date: Wed, 24 Mar 2021 16:35:08 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-24-cfontana@suse.de>
+In-Reply-To: <20210323154639.23477-25-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -101,16 +99,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> The QEMU PSCI implementation is not used for KVM,
-> we do not need the kvm constants header.
-> 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> ---
->   target/arm/arm-powerctl.h | 2 --
->   target/arm/psci.c         | 1 -
->   2 files changed, 3 deletions(-)
+>   target/arm/kvm-stub.c             | 24 ------------------------
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Can you really get rid of this?
+If so, I think this should be a separate step.
+
+
+> --- a/target/arm/kvm/meson.build
+> +++ b/target/arm/kvm/meson.build
+> @@ -1,3 +1,8 @@
+>   arm_ss.add(when: 'CONFIG_TCG', if_false: files(
+>     'helper-stubs.c',
+>   ))
+> +
+> +arm_ss.add(when: 'CONFIG_KVM', if_true: files(
+> +  'kvm.c',
+> +  'kvm64.c',
+> +))
+> \ No newline at end of file
+
+Watch the whitespace warnings.
 
 
 r~
