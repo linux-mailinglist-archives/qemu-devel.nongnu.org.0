@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A653134714B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 06:57:56 +0100 (CET)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EB234714C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 06:58:40 +0100 (CET)
+Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOwWh-0000vt-Lj
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 01:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60662)
+	id 1lOwXP-0001yI-UR
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 01:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwUB-0008Il-J7
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 01:55:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22415)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwWJ-00014w-2i
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 01:57:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwU9-0006SO-6H
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 01:55:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lOwWH-0007hn-F7
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 01:57:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616565316;
+ s=mimecast20190719; t=1616565448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2pV+1/GbxQ44p/xW1H6Dv3SkFHEC9bmwrYhBP2f/vOg=;
- b=Wxdc3OXZXK4hRqRvRAcfll0QIyAYTm6Sh9N8bDVtHkOXxD0quAoHeD7acaIwvamsXLCm2s
- jtk1Ap29fryFvudX1110v0caxIdqf5UDGPt2K/6mKqzVhkS0ntszDORkD0x57CSs394Z9F
- zSVaqb/TYYAFb3jUwF3tuYF5xBBzVmA=
+ bh=TtBUWaEPatogW32/HO91QLjke3HGuhLdrWukd5eUSVw=;
+ b=PARgdU5YW6o83FNRfvKg91qPp/wYDqZLBOHtAsa9w7BKMFEgd2qJyUDvZ/Qqn4oYDeRgCF
+ cLcD48kU1sJPCsVOIAJW1/zQrAwaquBnaf0dLq46L0JtC+fgt7kycEPDNY399jw51z0sjX
+ rM6Ue5WVyCvNJXPoYGE7wYE9salUcso=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-d_uxQ41qN8KEthZy1P_S3w-1; Wed, 24 Mar 2021 01:55:10 -0400
-X-MC-Unique: d_uxQ41qN8KEthZy1P_S3w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-433-l9Br_vvXMkSKGPC0wCjBaw-1; Wed, 24 Mar 2021 01:57:26 -0400
+X-MC-Unique: l9Br_vvXMkSKGPC0wCjBaw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEDB51005D4F;
- Wed, 24 Mar 2021 05:55:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 092F61005D4F;
+ Wed, 24 Mar 2021 05:57:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EBCB6A8ED;
- Wed, 24 Mar 2021 05:55:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB8F460C05;
+ Wed, 24 Mar 2021 05:57:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AC08D11327E1; Wed, 24 Mar 2021 06:55:04 +0100 (CET)
+ id 6082311327E1; Wed, 24 Mar 2021 06:57:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 09/28] qapi: Lift enum-specific code out of
- check_name_str()
+Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
+ stricter checking
 References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-10-armbru@redhat.com>
- <53a39239-97e4-c8f1-f481-4eba98dbdf38@redhat.com>
-Date: Wed, 24 Mar 2021 06:55:04 +0100
-In-Reply-To: <53a39239-97e4-c8f1-f481-4eba98dbdf38@redhat.com> (John Snow's
- message of "Tue, 23 Mar 2021 18:11:26 -0400")
-Message-ID: <87zgytf64n.fsf@dusky.pond.sub.org>
+ <20210323094025.3569441-11-armbru@redhat.com>
+ <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com>
+Date: Wed, 24 Mar 2021 06:57:20 +0100
+In-Reply-To: <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com> (John Snow's
+ message of "Tue, 23 Mar 2021 18:15:42 -0400")
+Message-ID: <87v99hf60v.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,62 +89,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 John Snow <jsnow@redhat.com> writes:
 
 > On 3/23/21 5:40 AM, Markus Armbruster wrote:
->> check_name_str() masks leading digits when passed enum_member=True.
->> Only check_enum() does.  Lift the masking into check_enum().
+>> Naming rules differ for the various kinds of names.  To prepare
+>> enforcing them, define functions to check them: check_name_upper(),
+>> check_name_lower(), and check_name_camel().  For now, these merely
+>> wrap around check_name_str(), but that will change shortly.  Replace
+>> the other uses of check_name_str() by appropriate uses of the
+>> wrappers.  No change in behavior just yet.
 >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 >> ---
->>   scripts/qapi/expr.py | 23 ++++++++++-------------
->>   1 file changed, 10 insertions(+), 13 deletions(-)
+>>   scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
+>>   1 file changed, 36 insertions(+), 15 deletions(-)
 >> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index 507550c340..e00467636c 100644
+>> index e00467636c..30285fe334 100644
 >> --- a/scripts/qapi/expr.py
 >> +++ b/scripts/qapi/expr.py
->> @@ -34,18 +34,11 @@ def check_name_is_str(name, info, source):
+>> @@ -21,11 +21,12 @@
+>>   from .error import QAPISemError
 >>     
->>   def check_name_str(name, info, source,
->> -                   enum_member=False,
+>> -# Names must be letters, numbers, -, and _.  They must start with letter,
+>> -# except for downstream extensions which must start with __RFQDN_.
+>> -# Dots are only valid in the downstream extension prefix.
+>> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
+>> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
+>> +# Names consist of letters, digits, -, and _, starting with a letter.
+>> +# An experimental name is prefixed with x-.  A name of a downstream
+>> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
+>> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
+>> +                        r'(x-)?'
+>> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
+>>     
+>>   def check_name_is_str(name, info, source):
+>> @@ -37,16 +38,38 @@ def check_name_str(name, info, source,
 >>                      permit_upper=False):
->> -    membername = name
->> -
->> -    # Enum members can start with a digit, because the generated C
->> -    # code always prefixes it with the enum name
->> -    if enum_member and membername[0].isdigit():
->> -        membername = 'D' + membername
 >>       # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
 >>       # and 'q_obj_*' implicit type names.
->> -    if not valid_name.match(membername) or \
->> -       c_name(membername, False).startswith('q_'):
->> +    if not valid_name.match(name) or \
->> +       c_name(name, False).startswith('q_'):
+>> -    if not valid_name.match(name) or \
+>> -       c_name(name, False).startswith('q_'):
+>> +    match = valid_name.match(name)
+>> +    if not match or c_name(name, False).startswith('q_'):
 >>           raise QAPISemError(info, "%s has an invalid name" % source)
 >>       if not permit_upper and name.lower() != name:
 >>           raise QAPISemError(
->> @@ -213,11 +206,15 @@ def check_enum(expr, info):
->>                     for m in members]
->>       for member in members:
->>           source = "'data' member"
->> +        member_name = member['name']
->>           check_keys(member, info, source, ['name'], ['if'])
->> -        check_name_is_str(member['name'], info, source)
->> -        source = "%s '%s'" % (source, member['name'])
->> -        check_name_str(member['name'], info, source,
->> -                       enum_member=True, permit_upper=permit_upper)
->> +        check_name_is_str(member_name, info, source)
->> +        source = "%s '%s'" % (source, member_name)
->> +        # Enum members may start with a digit
->> +        if member_name[0].isdigit():
->> +            member_name = 'd' + member_name # Hack: hide the digit
+>>               info, "%s uses uppercase in name" % source)
+>> +    return match.group(3)
+>> +
+>> +
+>> +def check_name_upper(name, info, source):
+>> +    stem = check_name_str(name, info, source, permit_upper=True)
+>> +    # TODO reject '[a-z-]' in @stem
+>> +
 >
-> Actually, can you put in one more space here? ^
+> Creates (presumably) temporary errors in flake8 for the dead
+> assignment here and below.
 
-Too late, pull request is out, I should've waited for your review.
-We'll need to tidy up on top.  I'm prone to this style mistake, because
-Emacs M-; makes it.
+All gone by the end of the series.
 
->> +        check_name_str(member_name, info, source,
->> +                       permit_upper=permit_upper)
->>           check_if(member, info, source)
->>     
->> 
+"make check" and checkpatch were content.  Anything else you'd like me
+to run?
 
 
