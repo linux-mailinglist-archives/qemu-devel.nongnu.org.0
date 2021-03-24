@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539EF347B29
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:52:54 +0100 (CET)
-Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4E7347B22
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:51:24 +0100 (CET)
+Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP4sP-0007gf-Bs
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53670)
+	id 1lP4qn-0004b8-07
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4f4-0000CQ-4t
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:06 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40906)
+ id 1lP4f7-0000K4-1l
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:09 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4f0-0003Ou-Or
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:05 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so1321639wmy.5
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:39:02 -0700 (PDT)
+ id 1lP4f2-0003Qb-Pp
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:39:08 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v11so24684309wro.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y6jHpz4FecCSC+FwcChPhRloSKRaxaISexMbz45msss=;
- b=Ja4y9P2CmAEu8kWqsU/GZzgogLXI46BXAzYVbD5Y8X1u+S449cRlQGx8DH2TUxY2aB
- MryLzOZ+sWM1wjt4zBg6783INd4+TKrYL6weEkaHKQCpMMfdi1pDvOSfxbXwjXVTYB+E
- RcNu6kiIPNfxO7qLeBLVoLkZkkBsx8tEn9sJBItkhKZhXiv7Q9iPeYUAgX7goAhuaJBO
- nwBunoT9IMe2xhHUrzFINugVXBZb5EA2O2uhVjzh9ClSdoUC+QPoKDglikV+1pCEzFOR
- dXbKuJodK+sqXQzOW1R6O1ptZiH7HAlITHmINX2nBLXt/igFh71RSY9P0mgb+CXtOAME
- Nf+w==
+ bh=LYtY8WstaP7kuj1GgptrAmRoMMv/ADLOwkzOGpAVJtI=;
+ b=FF3JMkf21WzUKirBnvrpbZOXU2adk8wVK070JInTbEddMbeeDtGnmf29eoNmWaeWbC
+ 8Y6Cyu7Nwsh3wXLFuBPUJcvA56iuYkIRN+3cjs+mEK/AutCLz3icE1m5YP1Je/odqFcV
+ qiQotswVEb5xy+PjOHniOiIsWyVdibLANFvrZuhZgkojpqqegtOLaHdPU39GfEn99WQH
+ DOWlvb2cw9pNwrofXG6E7f9YaKB3g5xS8aPsT3grHtRPXG9fOH9wzct1YJTj8GMluMHq
+ OcntVhIYU0xaysHgPUZBC0C183sNczaXpilTzbG32lJ2TrNyfVq4G8rq2G4ug8pVi/M9
+ 27FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y6jHpz4FecCSC+FwcChPhRloSKRaxaISexMbz45msss=;
- b=OCEf7i2SGuVx3HdGlSKslXH9aHvNcBSYpq6+Rpl93u9+tV+sICIn/Xk3u0XDHdiN8J
- Sg3T0r2IbBX6uAJwC2O+a+9gl1651vNtJbOf1yqoJObpdNPca8CJAcLPoYqLg/5oMIUH
- HIeRFgTb+FYu7ZRqbqzPzAzecnqtoDExoUuy7p6Qwz412r8OuZwt9lztc8qsqIcA+Mam
- LJG+CEjuZNzt6tfzrCie8MEoJdmzO2lapS1SdDc2D3lb35Ufhsp23ZTzsfNtDajX208A
- z9JO//DamqUOLfvnJnWya/f033d25Dhrfluq7ORtIyYfiBt87zAJSPk7qzYaopjhIbYD
- xroA==
-X-Gm-Message-State: AOAM530Pdncy6qbV7huSBwafWHQGtNc9cGFuA/NMGt6ctjjJSiv3lsrI
- aUzxbc2TxW3nRdFNXkD/VAHxnA==
-X-Google-Smtp-Source: ABdhPJx9ti58q3tTvx9S+I86H74lEIvDfBQavOujRF6Y3kq18rCxYT2fnnHcabK6w7ClDwjiH3uf/Q==
-X-Received: by 2002:a05:600c:3515:: with SMTP id
- h21mr3317745wmq.9.1616596741240; 
- Wed, 24 Mar 2021 07:39:01 -0700 (PDT)
+ bh=LYtY8WstaP7kuj1GgptrAmRoMMv/ADLOwkzOGpAVJtI=;
+ b=dVgdwIkPU7wC3Lh2Dv64jn7y/l3gG52VkJI7SErCaUmiOugjvcL5NM1BK9AyYoGMDM
+ cTHmqaanNwByUZEy4/+aMBtZHaZCIMt7D1/IZQoR6Wn+C4961uymIkUHwq/zxRXSxTWn
+ vFt2uqcF6aHr8NMcUm+YvCgnUweHx00fRntGWeSHjpnUDOGpGlbyV5K/O1qBlFNTrxDr
+ XRGSQAaG/1CWokE6iDCSbP1N/KgsYotTCbEvf2+Q5MYejLzGNSiGpa0M70NvxmPHm/fm
+ bi+ZulcDSd0X3orBy61mdMZNNdDPNhY/zLDBeWUOV2jdx6YeJ5NVfjWM4SGmclcJb7sq
+ u86A==
+X-Gm-Message-State: AOAM530aJ3/MlkS58HDAsF+6+1vgpzo6XvBMRnhsVhLlz003LKmyeK/z
+ MMegBSsh1Vv5IbLCje+4u+La0g==
+X-Google-Smtp-Source: ABdhPJyEDpcnJtnfiVhQzafaGytaviq53sqYChqewXrUZOBQeknNOWptGfOWeytxMO2ngERsjtVY+Q==
+X-Received: by 2002:a5d:4710:: with SMTP id y16mr3919750wrq.344.1616596743365; 
+ Wed, 24 Mar 2021 07:39:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k13sm3714848wri.27.2021.03.24.07.38.56
+ by smtp.gmail.com with ESMTPSA id j20sm2664934wmp.30.2021.03.24.07.38.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 24 Mar 2021 07:38:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 401B61FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 57DDC1FF9F;
  Wed, 24 Mar 2021 14:30:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/22] qdev: define list of archs with virtio-pci or virtio-ccw
-Date: Wed, 24 Mar 2021 14:30:15 +0000
-Message-Id: <20210324143021.8560-17-alex.bennee@linaro.org>
+Subject: [PULL 17/22] m68k: add the virtio devices aliases
+Date: Wed, 24 Mar 2021 14:30:16 +0000
+Message-Id: <20210324143021.8560-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210324143021.8560-1-alex.bennee@linaro.org>
 References: <20210324143021.8560-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,104 +88,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <laurent@vivier.eu>
 
-This is used to define virtio-*-pci and virtio-*-ccw aliases
-rather than substracting the CCW architecture from all the others.
+Similarly to 5f629d943cb0 ("s390x: fix s390 virtio aliases"),
+define the virtio aliases.
+
+This allows to start machines with virtio devices without
+knowledge of the implementation type.
+
+For instance, we can use "-device virtio-scsi" on
+m68k, s390x or PC, and the device will be respectively
+"virtio-scsi-device", "virtio-scsi-ccw" or "virtio-scsi-pci".
+
+This already exists for s390x and -ccw interfaces, add them
+for m68k and MMIO (-device) interfaces.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20210319202335.2397060-2-laurent@vivier.eu>
-Message-Id: <20210323165308.15244-17-alex.bennee@linaro.org>
+Message-Id: <20210319202335.2397060-3-laurent@vivier.eu>
+Message-Id: <20210323165308.15244-18-alex.bennee@linaro.org>
 
 diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 54f069d491..0c90706516 100644
+index 0c90706516..16da279696 100644
 --- a/include/sysemu/arch_init.h
 +++ b/include/sysemu/arch_init.h
-@@ -35,4 +35,12 @@ extern const uint32_t arch_type;
- int kvm_available(void);
- int xen_available(void);
+@@ -42,5 +42,6 @@ int xen_available(void);
+                               QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
+                               QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
+ #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
++#define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
  
-+/* default virtio transport per architecture */
-+#define QEMU_ARCH_VIRTIO_PCI (QEMU_ARCH_ALPHA | QEMU_ARCH_ARM | \
-+                              QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
-+                              QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
-+                              QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
-+                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
-+#define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
-+
  #endif
 diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 8dc656becc..0b40c97c6e 100644
+index 0b40c97c6e..a9955b97a0 100644
 --- a/softmmu/qdev-monitor.c
 +++ b/softmmu/qdev-monitor.c
-@@ -60,34 +60,31 @@ static const QDevAlias qdev_alias_table[] = {
+@@ -60,29 +60,41 @@ static const QDevAlias qdev_alias_table[] = {
      { "ES1370", "es1370" }, /* -soundhw name */
      { "ich9-ahci", "ahci" },
      { "lsi53c895a", "lsi" },
--    { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_S390X },
--    { "virtio-9p-pci", "virtio-9p", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-balloon-ccw", "virtio-balloon", QEMU_ARCH_S390X },
--    { "virtio-balloon-pci", "virtio-balloon",
--            QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-blk-ccw", "virtio-blk", QEMU_ARCH_S390X },
--    { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_S390X },
--    { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_S390X },
--    { "virtio-input-host-pci", "virtio-input-host",
--            QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-iommu-pci", "virtio-iommu", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-keyboard-ccw", "virtio-keyboard", QEMU_ARCH_S390X },
--    { "virtio-keyboard-pci", "virtio-keyboard",
--            QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-mouse-ccw", "virtio-mouse", QEMU_ARCH_S390X },
--    { "virtio-mouse-pci", "virtio-mouse", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-net-ccw", "virtio-net", QEMU_ARCH_S390X },
--    { "virtio-net-pci", "virtio-net", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-rng-ccw", "virtio-rng", QEMU_ARCH_S390X },
--    { "virtio-rng-pci", "virtio-rng", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-scsi-ccw", "virtio-scsi", QEMU_ARCH_S390X },
--    { "virtio-scsi-pci", "virtio-scsi", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-serial-ccw", "virtio-serial", QEMU_ARCH_S390X },
--    { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
--    { "virtio-tablet-ccw", "virtio-tablet", QEMU_ARCH_S390X },
--    { "virtio-tablet-pci", "virtio-tablet", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
-+    { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-9p-pci", "virtio-9p", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-balloon-ccw", "virtio-balloon", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-balloon-pci", "virtio-balloon", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-blk-ccw", "virtio-blk", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-input-host-pci", "virtio-input-host", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-iommu-pci", "virtio-iommu", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-keyboard-ccw", "virtio-keyboard", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-keyboard-pci", "virtio-keyboard", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-mouse-ccw", "virtio-mouse", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-mouse-pci", "virtio-mouse", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-net-ccw", "virtio-net", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-net-pci", "virtio-net", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-rng-ccw", "virtio-rng", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-rng-pci", "virtio-rng", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-scsi-ccw", "virtio-scsi", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-scsi-pci", "virtio-scsi", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-serial-ccw", "virtio-serial", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_VIRTIO_PCI},
-+    { "virtio-tablet-ccw", "virtio-tablet", QEMU_ARCH_VIRTIO_CCW },
-+    { "virtio-tablet-pci", "virtio-tablet", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-9p-device", "virtio-9p", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-9p-pci", "virtio-9p", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-balloon-device", "virtio-balloon", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-balloon-ccw", "virtio-balloon", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-balloon-pci", "virtio-balloon", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-blk-device", "virtio-blk", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-blk-ccw", "virtio-blk", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-blk-pci", "virtio-blk", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-gpu-device", "virtio-gpu", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-input-host-device", "virtio-input-host", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-input-host-pci", "virtio-input-host", QEMU_ARCH_VIRTIO_PCI },
+     { "virtio-iommu-pci", "virtio-iommu", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-keyboard-device", "virtio-keyboard", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-keyboard-ccw", "virtio-keyboard", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-keyboard-pci", "virtio-keyboard", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-mouse-device", "virtio-mouse", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-mouse-ccw", "virtio-mouse", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-mouse-pci", "virtio-mouse", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-net-device", "virtio-net", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-net-ccw", "virtio-net", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-net-pci", "virtio-net", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-rng-device", "virtio-rng", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-rng-ccw", "virtio-rng", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-rng-pci", "virtio-rng", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-scsi-device", "virtio-scsi", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-scsi-ccw", "virtio-scsi", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-scsi-pci", "virtio-scsi", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-serial-device", "virtio-serial", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-serial-ccw", "virtio-serial", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-serial-pci", "virtio-serial", QEMU_ARCH_VIRTIO_PCI},
++    { "virtio-tablet-device", "virtio-tablet", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-tablet-ccw", "virtio-tablet", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-tablet-pci", "virtio-tablet", QEMU_ARCH_VIRTIO_PCI },
      { }
- };
- 
 -- 
 2.20.1
 
