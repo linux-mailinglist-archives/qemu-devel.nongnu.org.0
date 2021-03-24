@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B22348339
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:55:37 +0100 (CET)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DBD34835B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 22:03:22 +0100 (CET)
+Received: from localhost ([::1]:34594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPAXP-0000iv-Kw
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:55:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
+	id 1lPAev-0000v7-RX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 17:03:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPAU8-0006hI-4e; Wed, 24 Mar 2021 16:52:12 -0400
-Received: from mail-vi1eur05on2092.outbound.protection.outlook.com
- ([40.107.21.92]:36928 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1lPAU7-0006fa-A7; Wed, 24 Mar 2021 16:52:11 -0400
+Received: from mail-vi1eur05on2116.outbound.protection.outlook.com
+ ([40.107.21.116]:40416 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPAU4-0005MQ-2j; Wed, 24 Mar 2021 16:52:11 -0400
+ id 1lPAU4-0005Ie-Hc; Wed, 24 Mar 2021 16:52:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=crEmVcLk/xnn423uylqTGRvFwUMva2rHz1nUQiQ3MV+1FQKa7t09v8DznvyKdwT2uRpk8XH8/6fudmXh20BuUEXSj6RSuZFDrgOmAqRy0okTiqo8B79I/+TkTZXBaT5jtIxi24mgaVAIN4i1KKi9a+Pq/HwSjsiKItVUi2ZPBk6keTY7VVn10TDHZTUK450a/BpwAtS7wAvhai3ySvHDf0jslrxf6k3+kxuK0521AqNtsrsFytQ3WP5wXVbYdeX2H659EXJOYhSwfXLTnMti1eZAOuQrR0JC1NQtxPODpKMZ33QYJDkhK28lY7OEvWZvUJW/DDuA+4mfCHUBbY621A==
+ b=aB2Rwi0potVWuk/Un9yPlefaiTKI55T2puym0oQ9zPFjRpHkSe0sDP/98PGWvnvntCeP5ZvxI7Zeb1KT+UUeIMZa9H+m6XizCsX3tmjoLpbjsm7MT3wnJqy4ItErcwsrrsf0G/AtojHvvwuSwlXT/HANEW2sZUYDXQc3bT3Yid+hbtQhbg3VYwCHTbM2WhzZFgALWEZ8oV48zEWErCMxaCiLRVTRLdBslGsYKjzmEW7iM0bZXVLYMoJ3Rugb24zbOnl6mjTHRP37oFD/3pFdXg5zREqKbba30b6B7ub+fpc05HjdYVKee9L0lQcPO9su0WBwMCQ/ICz2ajI9jvVvcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tdBzwN23DErr3rhqFhBhFjdkM5PB4KJyxk4JvcqNfRs=;
- b=XE8GuF+uZEMQRyeGFXbscT9tCfqQJ3h1lE/kfML+iW6KpaXEKsQSnlSzXGZULnwu72/3a9DMradQV7zygBo6axoK3uDXYNGuj4UY9NIXPAmsyynCIs+kQRGaiO17NjqNrrrjhTYvm9iBQW3oul9Q6yLZVigAYiDs4FLljDrNptHGHvUmKNFNXh//fKTc5EShuRnoNWs+Go9d/JQJVuNB6IGtbZka9I2/RfH/04zKWbH/v7XGCafXbJkHsbycET61ronUK26ePiaCfGhcTi86pDcYc8HMwcd4xA8jSMmvJ5BO3HHQ5TE+F/Ceg+/RzMycdDQpXbGplU//VjC9r9uVtw==
+ bh=ajHSNZBLXJdejHFx3sNu2R9jm4Sw5Pru+WDibOJOH8A=;
+ b=blYJNrt8z7qB7MdxTLIVrN5kqViD76eKngvs2M8iKUtCg5L1QUPzYH3AFg8j4y23x3Xlo3QATIwktdlViSEXZKvWTaDRpoKKOtbk0UyYNL1x6TVrmC6JjAWrTtq5EdjR97f7MJRANTpOZCUWr1fCN6eGRQCOb7KH8rjCjiXeXK/x57YAXj0BGyHfbB47QN/8haUNftiym0LL3sCp4Qmrj7Vqkm1AtiNebuEzgQHyLYMHOtiZ+AVl9LvhMdqT5CQvielXtcYu28pNPM7tcWmvUiBpXwV180FH3REITkM12U4YkVjcuFInRxQFmnUyBaF6VfIvnALaHn8nhpwkBNb5Xw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tdBzwN23DErr3rhqFhBhFjdkM5PB4KJyxk4JvcqNfRs=;
- b=m47pKamIti9go/dt4+W1x15V4cSl6gZ2CZMrWlTK8ISUtR3s5wi/VuEsZb6BQbNvDWxAzymINTnUej3P9IRRQRD0D+LOdAwRq7f2tQfnaxYVdpzom61toQYjUm87eL+pGBZDgs/aUsH2jz5WIPRnKGN5q4GMLvEQtNWvFGRdYSc=
+ bh=ajHSNZBLXJdejHFx3sNu2R9jm4Sw5Pru+WDibOJOH8A=;
+ b=vN3FAf5pA/kLqg+qvzH2DhTgieKCkS7DIVldsvvsQubCjBsa7XsdawurndUFw2EMm+PrwT1ZISp3VdWX3AL2BxUtVo/yUrMNKv0qm9P1RiNhlWnLNRBZgIShkrPEv0f4ETw+yyTTEEhJVN+D3jaUcz3T0iO2X9Srb2tjoYdSHMY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5447.eurprd08.prod.outlook.com (2603:10a6:20b:10b::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Wed, 24 Mar
- 2021 20:51:54 +0000
+ 2021 20:51:55 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%7]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
- 20:51:54 +0000
+ 20:51:55 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, integration@gluster.org, namei.unix@gmail.com,
@@ -52,10 +52,9 @@ Cc: qemu-devel@nongnu.org, integration@gluster.org, namei.unix@gmail.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v4 05/11] block: use int64_t instead of uint64_t in copy_range
- driver handlers
-Date: Wed, 24 Mar 2021 23:51:26 +0300
-Message-Id: <20210324205132.464899-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 06/11] block: make BlockLimits::max_pwrite_zeroes 64bit
+Date: Wed, 24 Mar 2021 23:51:27 +0300
+Message-Id: <20210324205132.464899-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210324205132.464899-1-vsementsov@virtuozzo.com>
 References: <20210324205132.464899-1-vsementsov@virtuozzo.com>
@@ -70,54 +69,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.202) by
  AM0PR07CA0022.eurprd07.prod.outlook.com (2603:10a6:208:ac::35) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.9 via Frontend Transport; Wed, 24 Mar 2021 20:51:52 +0000
+ 15.20.3977.9 via Frontend Transport; Wed, 24 Mar 2021 20:51:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ae3fce06-2eba-44ad-ec86-08d8ef06a7e9
+X-MS-Office365-Filtering-Correlation-Id: 3f0ead44-08f1-4d30-5597-08d8ef06a8bc
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5447:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54475A9965B84EEE354592B5C1639@AM7PR08MB5447.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54475BF5787D3AA64E67BD04C1639@AM7PR08MB5447.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n9eAvb/ctrjuAA2Yj+t9JX0Vvit+NMzlOEyWxrXv+Uh6iKGvgvu1FKq5uRDLZ0CLzLFP2GNQexeL1SYCZzysKEDnhgdQiHFM+xdLsJDSteJit4FnrI6JUJYGS4KEB3MKYRFHjD3EI97oRTrkDn9gI8Z6mOkUWhVj4QEJ/dmcpUQrDEFUzHVWNPdZfDCAhZLaZNpUIbLgGir268BzxMhM8H7gGkkqKYt3VPgMUS5YercpQ591+NmvtV1xSMOLAGvQNcL+Bcm5SA3RtvgfzTIFoJXp+c1ws+WhKb2ucsZmnF5WI/8vbv0Q7/I3gvXvgpmNRO1GwXbb+mVwwb2tgd+owLMcEcveiM0iWv0kvsPTtB4gZAcN9+IeFrHN8fT1WRKr3loXPsieMs2S7lILWXtnmGmuAS+ALGEgsg7VjK48Ed+cMd5cKHdKQWICzQFr1mU91PD6RlAjOuhLq+Lh8QWfjED4NsoWtQUHEPgvlSfi2memrgEvF/Sw7xXNFwiVGxAXr+Ww2QpaAyzFZnvWaQno9fygIZJomYtEGLR1X8IOUscdpbdXbhfzTWJbbynP1GxdTF7QoZ1Pv0Q5kPSaBdar6yMVNXYDzP7HG6YS7DdfRiq6GQzkH69XSeT2YVJUKi16l5Ef8YUNvN1jO2rQFUbRrilBKMAOKSAqMMwvNfFJddkaxWbiXlJ3JohlydCEM/nd
+X-Microsoft-Antispam-Message-Info: xEl9zlsi6V6ar4bWU8+fFWezvQZOWXq7bIZ8iWWTTccmH4j2Xw/g63iNqiBg0VbXg4+jF63R7UcID898HE1ScUjrCeRckGFh7/Q467V/i1AlrVzjMtiO11ImKLQOAD0y2TbWnh02iZSKZJmVFeIM5uvB5ZAC8DLSWOwbqc4QjmGnSOFpj4SsEdIz848BmBk16taMe/uzahQFQdjo51p7+EH8xC5WtIGLuoFPDdNVwEqSzVj3t1HjTzsrs6ulaWPMHBeHPnksY1beh0Nt1TmTprdVZnF6PnCW+1pt6DZ/6RoKttr7mzzJqEEK/HWcvi4v/hgqfCt4A+lkmgiw1k+oJs/4blFSlSd+AL5Kv/r1Vq9JAFhCRTHXgSfhxDhOj5nRb5jJdawvH3QGlHKqyo5BkH5e7knW5l5L1LsXjPqgC1gwEAEiyeDlIE+4e90ZYfXKJ4KOBIdRq+TLqOf8wuiwTQTUyOoOm3K1S1qVCf5QOqKB2heZ7xA2xyDFxqrnBy/zFomG7g1nyqnlVL80OdFKmSUndIN83h4SchG6p8K6xTZy9Us4yXVkNltJuwP4B9eyCa24woq21JlnrqW3Y9LZclRGo1+sfAvAGiRyp6e5E9Kjn9qQi2oKL8X3smYQv7VFqf16lw2QCybn/WUMeSCS8kBa/BLpfs7oC3L+g6vCig+RJFU8SRj43Wnpae4Td7N2
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39840400004)(346002)(136003)(376002)(396003)(366004)(2616005)(6916009)(478600001)(8936002)(66946007)(38100700001)(956004)(66556008)(6512007)(66476007)(6506007)(6486002)(52116002)(186003)(5660300002)(26005)(69590400012)(83380400001)(7416002)(6666004)(86362001)(2906002)(16526019)(316002)(1076003)(36756003)(4326008)(8676002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?tub1AaATRqBxn0HE4cfqsqCEbR8LWIFa4jnWlfmBBUC+1giwp812K7clCz4n?=
- =?us-ascii?Q?kN3PKYk+AXhOG0tCDyun7ryFs5Gv+XE4S1lLV+cOcusl/+NqqJSluMC6MR8J?=
- =?us-ascii?Q?Seb3xk4N5a8LKncSKN8ZlLMWvlisuuczhShsU1rwQQN0k0C2sJI/nXdH+YwQ?=
- =?us-ascii?Q?qJkOtyqFyqvHqSTqRm1gP0t4SvUwyLvmueK+7SIufPlkZCEaSEDr7OKkosnr?=
- =?us-ascii?Q?ep7uuuHGgbguXU1bOoI7puOI2S5qmROqgimviCh5GDEoLne6EOdBdM2gnCty?=
- =?us-ascii?Q?I776htY/60gFPSNTmJgjZSdWNTj2zdAkpvntKrHueEigG4WqDliln0634NA9?=
- =?us-ascii?Q?Uq9Ul10mZ3u6IiE2K/pDJ6Al5m1zqIwzgh1JSL+mh4oZrLlKzkZjLHMtyefG?=
- =?us-ascii?Q?3OZHcZXN2z8H2mVCCki4O4xda9ubykPlIKaWdUi+EjA32hjoUMUFr1tkWzQI?=
- =?us-ascii?Q?uLC/WHftEXKZByGHAKW86+EY9Eguw2Uqkthw+2E1t4uknqGcLA1XjvyW7JEv?=
- =?us-ascii?Q?M2K7EyhIRXxcrenMzAAEoQHQ8ocuAI71jLqJgi0NVQkHDS0iZSHH+oBuefAx?=
- =?us-ascii?Q?+Mwr3imJni+UIbZVL+Q9zqrVuQVKrWxADA2RVXflMMHYQXQj+UWT+GmF6FQs?=
- =?us-ascii?Q?dJczggYN/jb/8YJbX8oYPoYm1hXB/LwjBzqofiXXlGM7hiDQR0XUOuedEVlj?=
- =?us-ascii?Q?IV7JvgvzsciA5TSLsR0kD2pLYHU0hPW3ooR34OUn7e10W8MIjiEwvbT40AvW?=
- =?us-ascii?Q?m/Ywtp3AIVEDl2UKqPGcxJTse5We/sRrwl3R/6LU5+LYk0zDzkYgl+iGNOaN?=
- =?us-ascii?Q?a8qxvZMJ+nc7nL0T8AbtRU1+LIDiPpFcx8lyNbtB95mpqSNIZRuUnvAIhh+y?=
- =?us-ascii?Q?BV9BehFU26dho0vHfMalX7TTuzIlsXUbffeIPPnDRjNIkTorfVuLQ7g1QFDw?=
- =?us-ascii?Q?sBeWaaxWueMr8VuW27pyDh+axON/ULLn/Ekes2c8w+V0I22w6MOE+U7KmZWJ?=
- =?us-ascii?Q?08n4ToaqETrDkDBU0A68o3s0H8y2VJASYe6WA05FKwKPpIPWnO+YjA8q42pk?=
- =?us-ascii?Q?qLQ0+UteYLFTH6wOMuXfqZCa2Amf9U7bq8UsNLEy4dTNFdJVFVU1dA+GggAf?=
- =?us-ascii?Q?z8zI1OesS0Pz2VIBwTkHMu/Qk3bUyfWYCh3Y9h8SrrQVaGGirLGOkKI4Br8w?=
- =?us-ascii?Q?TBdOQJ5oonotjv0olSyIJnkOE3OpzsNXxI1psz6MkQG3cwCfcCFJy/Ll6jc0?=
- =?us-ascii?Q?8XpWzLWoCMGy8IRivLzsU/xxvuXV3jmL4o/kx9rA19Za99bInWhi4vohTjEs?=
- =?us-ascii?Q?e/ht7l4GR68Y11lQvrHzdB2b?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?kVXU10pSsOsMYTmHi3ZcP7R5zv2SYl9kDva27xYPAu8L1j5GsP8jb+72bTYT?=
+ =?us-ascii?Q?L4uheXa9PW2s2wWfj9ch6O1gJwA5q8bBnOORKsmrgqsAvFplQOP0loDUszan?=
+ =?us-ascii?Q?th2aY19QXAzW2sFYv9ZaP0u/1EayJ5LHkfEA4+wScrrwSOjuulinsABadRSQ?=
+ =?us-ascii?Q?vWbaGxX4fc2F1PUuXrkg5+QUGA1IlTu6izFhEswixWZNX+WnR5lCLrAtP5Kf?=
+ =?us-ascii?Q?DEHRIBB4Zbqb28pDX6GrjuNsbuRSJserKpiNlr82XXtho9ptZb+HGLd+/14S?=
+ =?us-ascii?Q?8sutVx5bmnmLUBIgbr5R3oWStA3vMlbYvbA+on+Nm+mBrdyHgzDzaLVuqJCd?=
+ =?us-ascii?Q?2em0CCoKptlITurB+2cHWtWaqboWM9n0dnh0j+9vMrT7PpJF7F6OkV0ETRO2?=
+ =?us-ascii?Q?O6KjGFSiHszt65z1IPjT7nIdzPMyJi+W7LDv3L7W4Lw6zTZMYi8+I6ovtfzW?=
+ =?us-ascii?Q?Y7l/bDSIdnGNnif0/dckIxviKuJjzyQrDGocHfq0pq1omogegWeRM/EGe4GD?=
+ =?us-ascii?Q?K6ugwMRTr0X4aLVJX9S3Z0n4slIeCnwqvGRNIeiP68GABM83lq3g4t1Wo9ap?=
+ =?us-ascii?Q?lZgF4Oblq9su3noTHCSa/oi+tgwMOgeuAvVf3EfnCeOsXxUhVTOezl6pOwSA?=
+ =?us-ascii?Q?gOFh8AO3PU366zxevSE8F9WUlP7hRLC8n+u+nTdwCjCJz/atOoixpJQlGL9e?=
+ =?us-ascii?Q?7MOGjnr2f7U6wTnaULy+p29fiJTQeQv2S1i62R6ihAxwbS2tlyNkGpyrejzG?=
+ =?us-ascii?Q?Debf90Lkyk8kd1NM/XnbK6GYNgtQrc3Bs4FmGDr48dCzYfMD9WOa7IBGH3f6?=
+ =?us-ascii?Q?tIrRO5e2zhDRgU3oTYukBWdApji9f3QpC5wDdrZNbhKz/ZhVCRrL4lgBYn4H?=
+ =?us-ascii?Q?Hq1ci8mDYaX5FJVXCaocJTpkyvYqXv1A8zwvnGAj0qxlj/i5eSSPQN8+5PYY?=
+ =?us-ascii?Q?5hHHB/D09w9CC9v1dksN2b9LNNMjn1A3TxsXnk8Hh69Q7zvDVjQIFjmGc/HN?=
+ =?us-ascii?Q?bxkdps0iq64wgiParTjjH/k9QHOLK8coRe5Fr/Cii1xT3VELLEB387xW7F9J?=
+ =?us-ascii?Q?yV41Odqlyi2hdlYxjDg90kdZJdIgij2MF21PDaiRK83aeOEYROV0dILd0DHS?=
+ =?us-ascii?Q?OiB9EhDxI+kwuNsOGdKU76da7zNtwURyHBptXEvezXfp/wYJC9/45FrEgnSg?=
+ =?us-ascii?Q?NBgwczpHiQjXaVQRe+tGTD1Afec7AJsrR4YAdJaSx5WeUD6TCl8RijOX3I5n?=
+ =?us-ascii?Q?zBwVuPMKGkumyYw27dkWlOZCtCMa6jD2vXeVg2AJebo6TIBp74obZ4MSLYxB?=
+ =?us-ascii?Q?moFoN0ByT+FV7oWa0n1SHKyn?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae3fce06-2eba-44ad-ec86-08d8ef06a7e9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f0ead44-08f1-4d30-5597-08d8ef06a8bc
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 20:51:54.0217 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 20:51:55.4016 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N29Q+5N6J4tT95Nt6TiU0HBHrHAN3kX6IZMxUKPo2DFQSumL/dUVSjvKKya6HnMdJXizNrJiL8UNDoVgDd4bWcE68E3z/QAY0M1VOi2menc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q18XFVmhcbpYNCdumYQUNNVu6aymNgCL2owPaX5oFMLYGLZijdDeAifN2adplcDOsnoGi2KI7b0MYejfS4AlmGgU6h/OmeZVZZyO8nrBGoU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5447
-Received-SPF: pass client-ip=40.107.21.92;
+Received-SPF: pass client-ip=40.107.21.116;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -143,216 +142,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are generally moving to int64_t for both offset and bytes parameters
-on all io paths.
+We are going to support 64 bit write-zeroes requests. Now update the
+limit variable. It's absolutely safe. The variable is set in some
+drivers, and used in bdrv_co_do_pwrite_zeroes().
 
-Main motivation is realization of 64-bit write_zeroes operation for
-fast zeroing large disk chunks, up to the whole disk.
+Update also max_write_zeroes variable in bdrv_co_do_pwrite_zeroes(), so
+that bdrv_co_do_pwrite_zeroes() is now prepared to 64bit requests. The
+remaining logic including num, offset and bytes variables is already
+supporting 64bit requests.
 
-We chose signed type, to be consistent with off_t (which is signed) and
-with possibility for signed return type (where negative value means
-error).
+So the only thing that prevents 64 bit requests is limiting
+max_write_zeroes variable to INT_MAX in bdrv_co_do_pwrite_zeroes().
+We'll drop this limitation after updating all block drivers.
 
-So, convert driver copy_range handlers parameters which are already
-64bit to signed type.
-
-Now let's consider all callers. Simple
-
-  git grep '\->bdrv_co_copy_range'
-
-shows the only caller:
-
-  bdrv_co_copy_range_internal(), which doesn bdrv_check_request32(),
-  so everything is OK.
-
-Still, the functions may be called directly, not only by drv->...
-Let's check:
-
-git grep '\.bdrv_co_copy_range_\(from\|to\)\s*=' | \
-awk '{print $4}' | sed 's/,//' | sed 's/&//' | sort | uniq | \
-while read func; do git grep "$func(" | \
-grep -v "$func(BlockDriverState"; done
-
-shows no more callers. So, we are done.
+Ah, we also have bdrv_check_request32() in bdrv_co_pwritev_part(). It
+will be modified to do bdrv_check_request() for write-zeroes path.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h | 12 ++++++------
- block/file-posix.c        | 10 +++++-----
- block/iscsi.c             | 12 ++++++------
- block/qcow2.c             | 12 ++++++------
- block/raw-format.c        | 16 ++++++++--------
- 5 files changed, 31 insertions(+), 31 deletions(-)
+ include/block/block_int.h | 7 +++----
+ block/io.c                | 2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 928369e0bc..88b19db756 100644
+index 88b19db756..71e5025534 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -313,10 +313,10 @@ struct BlockDriver {
-      */
-     int coroutine_fn (*bdrv_co_copy_range_from)(BlockDriverState *bs,
-                                                 BdrvChild *src,
--                                                uint64_t offset,
-+                                                int64_t offset,
-                                                 BdrvChild *dst,
--                                                uint64_t dst_offset,
--                                                uint64_t bytes,
-+                                                int64_t dst_offset,
-+                                                int64_t bytes,
-                                                 BdrvRequestFlags read_flags,
-                                                 BdrvRequestFlags write_flags);
+@@ -676,10 +676,9 @@ typedef struct BlockLimits {
+      * that is set. May be 0 if bl.request_alignment is good enough */
+     uint32_t pdiscard_alignment;
  
-@@ -330,10 +330,10 @@ struct BlockDriver {
-      */
-     int coroutine_fn (*bdrv_co_copy_range_to)(BlockDriverState *bs,
-                                               BdrvChild *src,
--                                              uint64_t src_offset,
-+                                              int64_t src_offset,
-                                               BdrvChild *dst,
--                                              uint64_t dst_offset,
--                                              uint64_t bytes,
-+                                              int64_t dst_offset,
-+                                              int64_t bytes,
-                                               BdrvRequestFlags read_flags,
-                                               BdrvRequestFlags write_flags);
+-    /* Maximum number of bytes that can zeroized at once (since it is
+-     * signed, it must be < 2G, if set). Must be multiple of
+-     * pwrite_zeroes_alignment. May be 0 if no inherent 32-bit limit */
+-    int32_t max_pwrite_zeroes;
++    /* Maximum number of bytes that can zeroized at once. Must be multiple of
++     * pwrite_zeroes_alignment. May be 0 if no inherent 64-bit limit */
++    int64_t max_pwrite_zeroes;
  
-diff --git a/block/file-posix.c b/block/file-posix.c
-index add56cab00..6faf7eb96e 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3167,8 +3167,8 @@ static void raw_abort_perm_update(BlockDriverState *bs)
- }
+     /* Optimal alignment for write zeroes requests in bytes. A power
+      * of 2 is best but not mandatory.  Must be a multiple of
+diff --git a/block/io.c b/block/io.c
+index 55095dd08e..79e600af27 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1836,7 +1836,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+     int head = 0;
+     int tail = 0;
  
- static int coroutine_fn raw_co_copy_range_from(
--        BlockDriverState *bs, BdrvChild *src, uint64_t src_offset,
--        BdrvChild *dst, uint64_t dst_offset, uint64_t bytes,
-+        BlockDriverState *bs, BdrvChild *src, int64_t src_offset,
-+        BdrvChild *dst, int64_t dst_offset, int64_t bytes,
-         BdrvRequestFlags read_flags, BdrvRequestFlags write_flags)
- {
-     return bdrv_co_copy_range_to(src, src_offset, dst, dst_offset, bytes,
-@@ -3177,10 +3177,10 @@ static int coroutine_fn raw_co_copy_range_from(
- 
- static int coroutine_fn raw_co_copy_range_to(BlockDriverState *bs,
-                                              BdrvChild *src,
--                                             uint64_t src_offset,
-+                                             int64_t src_offset,
-                                              BdrvChild *dst,
--                                             uint64_t dst_offset,
--                                             uint64_t bytes,
-+                                             int64_t dst_offset,
-+                                             int64_t bytes,
-                                              BdrvRequestFlags read_flags,
-                                              BdrvRequestFlags write_flags)
- {
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 4d2a416ce7..6bcde6ec6b 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2172,10 +2172,10 @@ static void coroutine_fn iscsi_co_invalidate_cache(BlockDriverState *bs,
- 
- static int coroutine_fn iscsi_co_copy_range_from(BlockDriverState *bs,
-                                                  BdrvChild *src,
--                                                 uint64_t src_offset,
-+                                                 int64_t src_offset,
-                                                  BdrvChild *dst,
--                                                 uint64_t dst_offset,
--                                                 uint64_t bytes,
-+                                                 int64_t dst_offset,
-+                                                 int64_t bytes,
-                                                  BdrvRequestFlags read_flags,
-                                                  BdrvRequestFlags write_flags)
- {
-@@ -2313,10 +2313,10 @@ static void iscsi_xcopy_data(struct iscsi_data *data,
- 
- static int coroutine_fn iscsi_co_copy_range_to(BlockDriverState *bs,
-                                                BdrvChild *src,
--                                               uint64_t src_offset,
-+                                               int64_t src_offset,
-                                                BdrvChild *dst,
--                                               uint64_t dst_offset,
--                                               uint64_t bytes,
-+                                               int64_t dst_offset,
-+                                               int64_t bytes,
-                                                BdrvRequestFlags read_flags,
-                                                BdrvRequestFlags write_flags)
- {
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 1e55ab52b3..c786601d52 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3975,9 +3975,9 @@ static coroutine_fn int qcow2_co_pdiscard(BlockDriverState *bs,
- 
- static int coroutine_fn
- qcow2_co_copy_range_from(BlockDriverState *bs,
--                         BdrvChild *src, uint64_t src_offset,
--                         BdrvChild *dst, uint64_t dst_offset,
--                         uint64_t bytes, BdrvRequestFlags read_flags,
-+                         BdrvChild *src, int64_t src_offset,
-+                         BdrvChild *dst, int64_t dst_offset,
-+                         int64_t bytes, BdrvRequestFlags read_flags,
-                          BdrvRequestFlags write_flags)
- {
-     BDRVQcow2State *s = bs->opaque;
-@@ -4058,9 +4058,9 @@ out:
- 
- static int coroutine_fn
- qcow2_co_copy_range_to(BlockDriverState *bs,
--                       BdrvChild *src, uint64_t src_offset,
--                       BdrvChild *dst, uint64_t dst_offset,
--                       uint64_t bytes, BdrvRequestFlags read_flags,
-+                       BdrvChild *src, int64_t src_offset,
-+                       BdrvChild *dst, int64_t dst_offset,
-+                       int64_t bytes, BdrvRequestFlags read_flags,
-                        BdrvRequestFlags write_flags)
- {
-     BDRVQcow2State *s = bs->opaque;
-diff --git a/block/raw-format.c b/block/raw-format.c
-index b0fe75f54a..051b00a4d4 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -532,16 +532,16 @@ static int raw_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
- 
- static int coroutine_fn raw_co_copy_range_from(BlockDriverState *bs,
-                                                BdrvChild *src,
--                                               uint64_t src_offset,
-+                                               int64_t src_offset,
-                                                BdrvChild *dst,
--                                               uint64_t dst_offset,
--                                               uint64_t bytes,
-+                                               int64_t dst_offset,
-+                                               int64_t bytes,
-                                                BdrvRequestFlags read_flags,
-                                                BdrvRequestFlags write_flags)
- {
-     int ret;
- 
--    ret = raw_adjust_offset(bs, (int64_t *)&src_offset, bytes, false);
-+    ret = raw_adjust_offset(bs, &src_offset, bytes, false);
-     if (ret) {
-         return ret;
-     }
-@@ -551,16 +551,16 @@ static int coroutine_fn raw_co_copy_range_from(BlockDriverState *bs,
- 
- static int coroutine_fn raw_co_copy_range_to(BlockDriverState *bs,
-                                              BdrvChild *src,
--                                             uint64_t src_offset,
-+                                             int64_t src_offset,
-                                              BdrvChild *dst,
--                                             uint64_t dst_offset,
--                                             uint64_t bytes,
-+                                             int64_t dst_offset,
-+                                             int64_t bytes,
-                                              BdrvRequestFlags read_flags,
-                                              BdrvRequestFlags write_flags)
- {
-     int ret;
- 
--    ret = raw_adjust_offset(bs, (int64_t *)&dst_offset, bytes, true);
-+    ret = raw_adjust_offset(bs, &dst_offset, bytes, true);
-     if (ret) {
-         return ret;
-     }
+-    int max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes, INT_MAX);
++    int64_t max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes, INT_MAX);
+     int alignment = MAX(bs->bl.pwrite_zeroes_alignment,
+                         bs->bl.request_alignment);
+     int max_transfer = MIN_NON_ZERO(bs->bl.max_transfer, MAX_BOUNCE_BUFFER);
 -- 
 2.29.2
 
