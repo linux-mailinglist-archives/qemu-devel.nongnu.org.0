@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA29E34813D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 20:08:22 +0100 (CET)
-Received: from localhost ([::1]:38252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C761348147
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 20:12:02 +0100 (CET)
+Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP8rd-0005Hx-E1
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 15:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52244)
+	id 1lP8vA-0007fW-Qv
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 15:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lP8oJ-0004Fv-3c
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 15:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lP8oB-0003f7-Vm
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 15:04:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616612686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uRyKlG8N4WByqKWGIIubaEEWVPQCXiYLu+231bSQdo0=;
- b=gxbPp0jQBhYsaDw8NIffcdz0N2G9YFCFYJhcLJEkb3be0b9Ds3m9RsI0tDLuzP9ePBZQwT
- Th0Mqd0cqWvtLxA1QnOL2uz7W381YWzVCy2b5TYfrr+UALoq/jsQgspsvm+kuyBCGnzHPm
- q7Gg0gFUqHbXgms4xeD92tfesldB9/8=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-P3TjADkWNyGWqdDKz-awyA-1; Wed, 24 Mar 2021 15:04:44 -0400
-X-MC-Unique: P3TjADkWNyGWqdDKz-awyA-1
-Received: by mail-qv1-f71.google.com with SMTP id j3so2051262qvo.1
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 12:04:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lP8tL-0006pr-AU; Wed, 24 Mar 2021 15:10:07 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lP8tJ-00077B-7A; Wed, 24 Mar 2021 15:10:07 -0400
+Received: by mail-qt1-x830.google.com with SMTP id h7so18391812qtx.3;
+ Wed, 24 Mar 2021 12:10:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hrM0TP8OKZWhXLi5Su1Mojg4h8PVtPTPFTGwM1kY+Wg=;
+ b=iFjtx0ngOoE17IqmKsFF67UGPDwTvXkx8db9+WlteFt6WwulPXnLsBXApZwQRL6u0Y
+ r8/2BnkHJYL9Ad2p+1InD488WzbPQO9hN6yoENhuYwtsVDr5xS5jmu8a+2weBFTz6mj7
+ ubgnt6fYIdGGXKp7Bi5zOSF+k4wifK8poEKVCQGt0j3jT3L9qvZfIQNuIRJ8XKE2m/r/
+ mH0dYPPLehztDHvqr8puxZI5QYI4F2X+WaMnZUi2dQe2sQkWJWthMG9KEiYFD4msT5V3
+ MkO2BvpbRci2WAIuEVp6ficVLWG96QN3AGoX58LSP74/HGdfsmXOCZsx47mfF5xlfqhs
+ lSKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uRyKlG8N4WByqKWGIIubaEEWVPQCXiYLu+231bSQdo0=;
- b=ByrS8lpoNP4ZABgwaQPg+YUsUa/lgrmX+XjVQd7UHonG7KtTJAbUItcD9ona/BK0jF
- 9QKvZaMDQP4MkEeIBC7bb+94ErfoM0PJL5WKNcymPAIa/Bu8n9bekhnk4f1rEKUD99PW
- kPMnViMXAiy1B8aHSrai9lbdr4hkHzrosUaw+zEOONnAcwe1E4iGNKPS2ozlmDo9qPnh
- UGXsB351FEH0BGAUXV6DnYzgAgypV21oMhIz0K8M+EjJY8KL8wwfxDEuHd0k83UeeID+
- Ya35cdaajdotA3/XXWLkgneMGBDloXBA6LIrKTgDEqRpm24IffUloznvuUh2S3kZY7mG
- ZFow==
-X-Gm-Message-State: AOAM531p7AZFZs4k4jrnMd1G3cvBP2MLz6AMbMpf78P7SgHnSMUgYjiD
- i7Y/SzsE7OXppC3//uvSLCniRTBXrsnh5oziNvAPVeEQVqVdgUQO+qa3lqTkcQzvLKKa45uN2oO
- Wp8Z/1ZfoobdVlw70a2sJQy+oAsDdWCA=
-X-Received: by 2002:a0c:f946:: with SMTP id i6mr4805154qvo.40.1616612683891;
- Wed, 24 Mar 2021 12:04:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxufL5XlNK+OPN3Q3PqaCAx4ojXWNbmKVN+MkzSdjhBAsNN7Kvz/hM3BE4NyBCxiqF8P6RoDpivBOqtCw+9HNU=
-X-Received: by 2002:a0c:f946:: with SMTP id i6mr4805134qvo.40.1616612683536;
- Wed, 24 Mar 2021 12:04:43 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hrM0TP8OKZWhXLi5Su1Mojg4h8PVtPTPFTGwM1kY+Wg=;
+ b=Qy5nsNzBmSG5mXCbudurbX6yC1MPIGHxlQQOfsRzo6yQ1Xs2CEFXyQmwVWyWC7oG4y
+ MVB6WYL8e5lT4SGJHXGfisblgzsOx3jLtP4YwqcAiamJ1h6gIOnTywvZv0nQ+NqGvxEf
+ qvj8KqsPEytqjYXzCLYN5PaEatrlfw6eRYNt/QQkVLTW+8vSkGCAhHj8vqL0U5l6nzLJ
+ vCYmN8PG18pfLLotJPSEcXHWPvQCgrf/zJb3Gv9/2bOxy3aF+NUCR2OEavue5JPO8shg
+ 9sgZMWOFeGw/gArEe8nMj/v+J1Rna3YV1HVbwJLqkQYoaOxinzIjbRWGA4poeviBshBr
+ xMyA==
+X-Gm-Message-State: AOAM530O/9vwndMIdf26rdMZlWf3XxQWj0o7k12BltKif6zozXrd29Wz
+ NM3PPhuuEcqcrvECDylauAI=
+X-Google-Smtp-Source: ABdhPJyZOTkXGxWQc1T6zYN8NIYBF/7Z+CzNBQdjyoL6L8NbPzr13UOyQ3NJMVT7/WCO/Sdpo+nehA==
+X-Received: by 2002:ac8:5d52:: with SMTP id g18mr4535004qtx.380.1616613003116; 
+ Wed, 24 Mar 2021 12:10:03 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c6:3fd7:65e0:e5c6:f4fc:733c?
+ ([2804:431:c7c6:3fd7:65e0:e5c6:f4fc:733c])
+ by smtp.gmail.com with ESMTPSA id y9sm2388626qkm.19.2021.03.24.12.10.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Mar 2021 12:10:02 -0700 (PDT)
+Subject: Re: [PATCH 0/4] DEVICE_NOT_DELETED/DEVICE_UNPLUG_ERROR QAPI events
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210312200740.815014-1-danielhb413@gmail.com>
+ <YFlAheldkqCkZytI@yekko.fritz.box>
+ <b8d96ab9-61e5-b941-6405-5beff5fe0df5@gmail.com>
+ <YFqYkuBSD3xPgLVi@yekko.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <ba20de28-d65b-6da4-5bff-92b637cf7a56@gmail.com>
+Date: Wed, 24 Mar 2021 16:09:59 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-14-eperezma@redhat.com>
- <20201208081621.GR203660@stefanha-x1.localdomain>
- <CAJaqyWf13ta5MtzmTUz2N5XnQ+ebqFPYAivdggL64LEQAf=y+A@mail.gmail.com>
- <20201210115547.GH416119@stefanha-x1.localdomain>
- <CAJaqyWe3EKiHHxgtabeZ8d7TS3LKP_BsCvHjt3YUDGLxy-Egjg@mail.gmail.com>
- <CAJaqyWdNeaboGaSsXPA8r=mUsbctFLzACFKLX55yRQpTvjqxJw@mail.gmail.com>
- <YFh2tpwBdedgrwLE@stefanha-x1.localdomain>
- <CAJaqyWccygCK4a8riMy9ZTf1cDepQQTyAK4vvh08cAUCX7nTYQ@mail.gmail.com>
- <YFjWcswhZWkyKOOR@stefanha-x1.localdomain>
-In-Reply-To: <YFjWcswhZWkyKOOR@stefanha-x1.localdomain>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 24 Mar 2021 20:04:07 +0100
-Message-ID: <CAJaqyWfnAYQnuUyp1UUJ0g0KAizycqRQ5kTfFWevzyVktQTzMg@mail.gmail.com>
-Subject: Re: [RFC PATCH 13/27] vhost: Send buffers to device
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YFqYkuBSD3xPgLVi@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,240 +89,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-level <qemu-devel@nongnu.org>
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 6:40 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
->
-> On Mon, Mar 22, 2021 at 04:55:13PM +0100, Eugenio Perez Martin wrote:
-> > On Mon, Mar 22, 2021 at 11:51 AM Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
-> > >
-> > > On Thu, Mar 11, 2021 at 07:53:53PM +0100, Eugenio Perez Martin wrote:
-> > > > On Fri, Jan 22, 2021 at 7:18 PM Eugenio Perez Martin
-> > > > <eperezma@redhat.com> wrote:
-> > > > >
-> > > > > On Thu, Dec 10, 2020 at 12:55 PM Stefan Hajnoczi <stefanha@redhat=
-.com> wrote:
-> > > > > >
-> > > > > > On Wed, Dec 09, 2020 at 07:41:23PM +0100, Eugenio Perez Martin =
-wrote:
-> > > > > > > On Tue, Dec 8, 2020 at 9:16 AM Stefan Hajnoczi <stefanha@gmai=
-l.com> wrote:
-> > > > > > > > On Fri, Nov 20, 2020 at 07:50:51PM +0100, Eugenio P=C3=A9re=
-z wrote:
-> > > > > > > > > +        while (true) {
-> > > > > > > > > +            int r;
-> > > > > > > > > +            if (virtio_queue_full(vq)) {
-> > > > > > > > > +                break;
-> > > > > > > > > +            }
-> > > > > > > >
-> > > > > > > > Why is this check necessary? The guest cannot provide more =
-descriptors
-> > > > > > > > than there is ring space. If that happens somehow then it's=
- a driver
-> > > > > > > > error that is already reported in virtqueue_pop() below.
-> > > > > > > >
-> > > > > > >
-> > > > > > > It's just checked because virtqueue_pop prints an error on th=
-at case,
-> > > > > > > and there is no way to tell the difference between a regular =
-error and
-> > > > > > > another caused by other causes. Maybe the right thing to do i=
-s just to
-> > > > > > > not to print that error? Caller should do the error printing =
-in that
-> > > > > > > case. Should we return an error code?
-> > > > > >
-> > > > > > The reason an error is printed today is because it's a guest er=
-ror that
-> > > > > > never happens with correct guest drivers. Something is broken a=
-nd the
-> > > > > > user should know about it.
-> > > > > >
-> > > > > > Why is "virtio_queue_full" (I already forgot what that actually=
- means,
-> > > > > > it's not clear whether this is referring to avail elements or u=
-sed
-> > > > > > elements) a condition that should be silently ignored in shadow=
- vqs?
-> > > > > >
-> > > > >
-> > > > > TL;DR: It can be changed to a check of the number of available
-> > > > > descriptors in shadow vq, instead of returning as a regular opera=
-tion.
-> > > > > However, I think that making it a special return of virtqueue_pop
-> > > > > could help in devices that run to completion, avoiding having to
-> > > > > duplicate the count logic in them.
-> > > > >
-> > > > > The function virtio_queue_empty checks if the vq has all descript=
-ors
-> > > > > available, so the device has no more work to do until the driver =
-makes
-> > > > > another descriptor available. I can see how it can be a bad name
-> > > > > choice, but virtio_queue_full means the opposite: device has pop(=
-)
-> > > > > every descriptor available, and it has not returned any, so the d=
-river
-> > > > > cannot progress until the device marks some descriptors as used.
-> > > > >
-> > > > > As I understand, if vq->in_use >vq->num would mean we have a bug =
-in
-> > > > > the device vq code, not in the driver. virtio_queue_full could ev=
-en be
-> > > > > changed to "assert(vq->inuse <=3D vq->vring.num); return vq->inus=
-e =3D=3D
-> > > > > vq->vring.num", as long as vq->in_use is operated right.
-> > > > >
-> > > > > If we hit vq->in_use =3D=3D vq->num in virtqueue_pop it means the=
- device
-> > > > > tried to pop() one more buffer after having all of them available=
- and
-> > > > > pop'ed. This would be invalid if the device is counting right the
-> > > > > number of in_use descriptors, but then we are duplicating that lo=
-gic
-> > > > > in the device and the vq.
-> > >
-> > > Devices call virtqueue_pop() until it returns NULL. They don't need t=
-o
-> > > count virtqueue buffers explicitly. It returns NULL when vq->num
-> > > virtqueue buffers have already been popped (either because
-> > > virtio_queue_empty() is true or because an invalid driver state is
-> > > detected by checking vq->num in virtqueue_pop()).
-> >
-> > If I understood you right, the virtio_queue_full addresses the reverse
-> > problem: it controls when the virtqueue is out of buffers to make
-> > available for the device because the latter has not consumed any, not
-> > when the driver does not offer more buffers to the device because it
-> > has no more data to offer.
-> >
-> > I find it easier to explain with the virtio-net rx queue (and I think
-> > it's the easier way to trigger this issue). You are describing it's
-> > regular behavior: The guest fills it (let's say 100%), and the device
-> > picks buffers one by one:
-> >
-> > virtio_net_receive_rcu:
-> > while (offset < size) {
-> >     elem =3D virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
->
-> The lines before this loop return early when the virtqueue does not have
-> sufficient buffer space:
->
->   if (!virtio_net_has_buffers(q, size + n->guest_hdr_len - n->host_hdr_le=
-n)) {
->       return 0;
->   }
->
-> When entering this loop we know that we can pop the buffers needed to
-> fill one rx packet.
->
-> >     if (!elem) {
-> >         virtio_error("unexpected empty queue");
-> >     }
-> >     /* [1] */
-> >     /* fill elem with rx packet */
-> >     virtqueue_fill(virtqueue, elem);
-> >     ...
-> >     virtqueue_flush(q->rx_vq, i);
-> > }
-> >
-> > Every device as far as I know does this buffer by buffer, there is
-> > just processing code in [1], and it never tries to pop more than one
-> > buffers/chain of buffers at the same time. In the case of a queue
-> > empty (no more available buffers), we hit an error, because there are
-> > no more buffers to write.
->
-> It's an error because we already checked that the virtqueue has buffer
-> space. This should never happen.
->
-> > In other devices (or tx queue), empty
-> > buffers means there is no more work to do, not an error.
-> >
-> > In the case of shadow virtqueue, we cannot limit the number of exposed
-> > rx buffers to 1 buffer/chain of buffers in [1], since it will affect
-> > batching. We have the opposite problem: All devices (but rx queue)
-> > want to queue "as empty as possible", or "to mark all available
-> > buffers empty". Net rx queue is ok as long as it has a buffer/buffer
-> > chain big enough to write to, but it will fetch them on demand, so
-> > "queue full" (as in all buffers are available) is not a problem for
-> > the device.
-> >
-> > However, the part of the shadow virtqueue that forwards the available
-> > buffer seeks the opposite: It wants as many buffers as possible to be
-> > available. That means that there is no [1] code that fills/read &
-> > flush/detach the buffer immediately: Shadow virtqueue wants to make
-> > available as many buffers as possible, but the device may not use them
-> > until it has more data available. To the extreme (virtio-net rx queue
-> > full), shadow virtqueue may make available all buffers, so in a
-> > while(true) loop, it will try to make them available until it hits
-> > that all the buffers are already available (vq->in_use =3D=3D vq->num).
-> >
-> > The solution is to check the number of buffers already available
-> > before calling virtio_queue_pop(). We could duplicate in_use in shadow
-> > virtqueue, of course, but everything we need is already done in
-> > VirtQueue code, so I think to reuse it is a better solution. Another
-> > solution could be to treat vq->in_use =3D=3D vq->num as an special retu=
-rn
-> > code with no printed error in virtqueue_pop, but to expose if the
-> > queue is full (as vq->in_use =3D=3D vq->num) sounds less invasive to me=
-.
-> >
-> > >
-> > > > > In shadow vq this situation happens with the correct guest networ=
-k
-> > > > > driver, since the rx queue is filled for the device to write. Net=
-work
-> > > > > device in qemu fetch descriptors on demand, but shadow vq fetch a=
-ll
-> > > > > available in batching. If the driver just happens to fill the que=
-ue of
-> > > > > available descriptors, the log will raise, so we need to check in
-> > > > > handle_sw_lm_vq before calling pop(). Of course the shadow vq can
-> > > > > duplicate guest_vq->in_use instead of checking virtio_queue_full,=
- but
-> > > > > then it needs to check two things for every virtqueue_pop() [1].
-> > >
-> > > I don't understand this scenario. It sounds like you are saying the
-> > > guest and shadow rx vq are not in sync so there is a case where
-> > > vq->in_use > vq->num is triggered?
-> >
-> > Sorry if I explain it bad, what I meant is that there is a case where
-> > SVQ (as device code) will call virtqueue_pop() when vq->in_use =3D=3D
-> > vq->num. virtio_queue_full maintains the check as >=3D, I think it
-> > should be safe to even to code virtio_queue_full to:
-> >
-> > assert(vq->in_use > vq->num);
-> > return vq->inuse =3D=3D vq->num;
-> >
-> > Please let me know if this is not clear enough.
->
-> I don't get it. When virtqueue_split_pop() has popped all requests
-> virtio_queue_empty_rcu() should return true and we shouldn't reach if
-> (vq->inuse >=3D vq->vring.num). The guest driver cannot submit more
-> available buffers at this point.
->
 
-Hi Stefan.
 
-After the meeting, and reviewing the code carefully, I think you are
-right. I'm not sure what I did to reproduce the issue, but I'm not
-able to do it anymore, even in the conditions I thought where it was
-trivially reproducible. Now I think it was caused in the previous
-series because of accessing directly to guest's vring.
+On 3/23/21 10:40 PM, David Gibson wrote:
+> On Tue, Mar 23, 2021 at 02:10:22PM -0300, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 3/22/21 10:12 PM, David Gibson wrote:
+>>> On Fri, Mar 12, 2021 at 05:07:36PM -0300, Daniel Henrique Barboza wrote:
+>>>> Hi,
+>>>>
+>>>> This series adds 2 new QAPI events, DEVICE_NOT_DELETED and
+>>>> DEVICE_UNPLUG_ERROR. They were (and are still being) discussed in [1].
+>>>>
+>>>> Patches 1 and 3 are independent of the ppc patches and can be applied
+>>>> separately. Patches 2 and 4 are based on David's ppc-for-6.0 branch and
+>>>> are dependent on the QAPI patches.
+>>>
+>>> Implementation looks fine, but I think there's a bit more to discuss
+>>> before we can apply.
+>>>
+>>> I think it would make sense to re-order this and put UNPLUG_ERROR
+>>> first.  Its semantics are clearer, and I think there's a stronger case
+>>> for it.
+>>
+>> Alright
+>>
+>>>
+>>> I'm a bit less sold on DEVICE_NOT_DELETED, after consideration.  Does
+>>> it really tell the user/management anything useful beyond what
+>>> receiving neither a DEVICE_DELETED nor a DEVICE_UNPLUG_ERROR does?
+>>
+>>
+>> It informs that the hotunplug operation exceed the timeout that QEMU
+>> internals considers adequate, but QEMU can't assert that it was caused
+>> by an error or an unexpected delay. The end result is that the device
+>> is not going to be deleted from QMP, so DEVICE_NOT_DELETED.
+> 
+> Is it, though?  I mean, it is with this implementation for papr:
+> because we clear the unplug_requested flag, even if the guest later
+> tries to complete the unplug, it will fail.
+> 
+> But if I understand what Markus was saying correctly, that might not
+> be possible for all hotplug systems.  I believe Markus was suggesting
+> that DEVICE_NOT_DELETED could just mean that we haven't deleted the
+> device yet, but it could still happen later.
+> 
+> And in that case, I'm not yet sold on the value of a message that
+> essentially just means "Ayup, still dunno what's happening, sorry".
+> 
+>> Perhaps we should just be straightforward and create a DEVICE_UNPLUG_TIMEOUT
+>> event.
+> 
+> Hm... what if we added a "reason" field to UNPLUG_ERROR.  That could
+> be "guest rejected hotplug", or something more specific, in the rare
+> case that the guest has a way of signalling something more specific,
+> or "timeout" - but the later *only* to be sent in cases where on the
+> timeout we're able to block any later completion of the unplug (as we
+> can on papr).
 
-So I will delete this commit from the series. I still need to test SVQ
-with the new additions, so if the bug persists it will reproduce for
-sure.
+I believe that's already covered by the existing API:
 
-Thank you very much!
 
-> I only checked split rings, not packed rings.
->
-> Can you point to the SVQ code which has this problem? It may be easier
-> to re-read the code than try to describe it in an email.
->
-> Stefan
++# @DEVICE_UNPLUG_ERROR:
++#
++# Emitted when a device hot unplug error occurs.
++#
++# @device: device name
++#
++# @msg: Informative message
 
+The 'informative message' would be the reason the event occurred. In patch
+4/4, for the memory hotunplug refused by the guest, it is being set as:
+
+      qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
+                                   "for device %s", dev->id);
+      qapi_event_send_device_unplug_error(dev->id, qapi_error);
+
+
+
+We could use the same DEVICE_UNPLUG_ERROR event in the CPU hotunplug timeout
+case (currently on patch 2/4) by just changing 'msg', e.g.:
+
+
+      qapi_error = g_strdup_printf("CPU hotunplug timeout for device %s", dev->id);
+      qapi_event_send_device_unplug_error(dev->id, qapi_error);
+
+
+Thanks,
+
+DHB
+
+
+> 
+> Thoughs, Markus?
+> 
 
