@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3918E347FDD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 18:55:52 +0100 (CET)
-Received: from localhost ([::1]:33454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC69F347FE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 18:57:52 +0100 (CET)
+Received: from localhost ([::1]:37356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP7jS-0003rs-Hk
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 13:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36628)
+	id 1lP7lP-0005fZ-MM
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 13:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lP7hT-0003PU-Mz; Wed, 24 Mar 2021 13:53:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:42941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lP7hR-0007n8-8h; Wed, 24 Mar 2021 13:53:47 -0400
-Received: from [192.168.100.1] ([82.142.25.162]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MeD1l-1lyjQr3OPn-00bH4b; Wed, 24 Mar 2021 18:53:38 +0100
-To: Andreas Krebbel <krebbel@linux.ibm.com>, qemu-devel@nongnu.org
-References: <be03acc3-8e9f-4715-6936-68013c49b920@vivier.eu>
- <20210324155530.52239-1-krebbel@linux.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v2] linux-user/s390x: Use the guest pointer for the
- sigreturn stub
-Message-ID: <91794f50-593d-87cc-bf46-56593c204308@vivier.eu>
-Date: Wed, 24 Mar 2021 18:53:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lP7iP-00040t-9U; Wed, 24 Mar 2021 13:54:45 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lP7iN-0008HI-M7; Wed, 24 Mar 2021 13:54:44 -0400
+Received: by mail-wr1-x432.google.com with SMTP id x16so25343251wrn.4;
+ Wed, 24 Mar 2021 10:54:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WBZU4j9TsOyw89yO3fJ5Vv4oMr0ykthv8FZq9+quu80=;
+ b=fXTg5gBVeD/Vp4OFz4fT5AfaIvdEa+64bsBORnotOZcNRQxaCsVcOSIJzQ23EyalAP
+ JBBa5CLrnfUhgq0HkNWR1cizutAlDjO/lsoMlV4Ck8PoM0SyJzi6sQqFXxSIieefyFuX
+ l+P6t9guZENwyCh5ZvLKK+9htZh5cqhHi0/ojewFQTfrBNjf702gbyA6+va7gjjrb0ie
+ Cnfzft/rARDn83Duzbq8HUzUmKKD8vRNpShpQo2BnJgrq8SbR+EFFBD6hPV5PiVhQd2y
+ yu7M752ER4Bq0yGlzdJNaAEgfz1scgB9k0IfHdJFvgLbGMYCw7TDEUpgEZPpRTi84gKJ
+ W+ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=WBZU4j9TsOyw89yO3fJ5Vv4oMr0ykthv8FZq9+quu80=;
+ b=D788uPpKjiqtRJAUorqD/Xa6Xdi4cedOQW1CqxftTrUGr6NwjlLUmS+A7AxsTGCK9d
+ +uiQ1PTIQVJDLftrtualqkXfdVPCvmEexIsFuuSj/lUnxMfhCJQfyLmhn0FC1bY6tsQn
+ EUA30JYDptfRqKfA8c0WYOvnammReQEurTEaQ4QuHNNWPLvNQkjkcZJNmwoefWGMo5d0
+ +FE5J6dae+efcfXdc0JAVSvhlQhKdTUPg+uR7F/vuJekctht9EsT5ZRvboctf9vY74mp
+ 5WQwt7wNInLIHE8fEBjGWELkSjp/IDp7xrZBjlXFoOlIdiIl+U9Wqcy0+bsoWkI2/2i6
+ bL0g==
+X-Gm-Message-State: AOAM5327BUKYrLKJVHplZlWwNSTvtRcqlnJc7ALCWI84aK1cbKJju6yw
+ 2G08jW6xmmt7CWrnm3A0Rqnp80MhOCyy9g==
+X-Google-Smtp-Source: ABdhPJxMQto39mHK4AO/JV3JIJvWWTwrnjPMroBRer+Yi9bT4fsA7ogRM7TrgCxeKEpp9KihyyqlEg==
+X-Received: by 2002:adf:ec8c:: with SMTP id z12mr4683303wrn.405.1616608481277; 
+ Wed, 24 Mar 2021 10:54:41 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id q9sm4027371wrp.79.2021.03.24.10.54.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 10:54:40 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] hw/southbridge: QOM'ify vt82c686 as VT82C686B_SOUTHBRIDGE
+Date: Wed, 24 Mar 2021 18:54:32 +0100
+Message-Id: <20210324175438.680310-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210324155530.52239-1-krebbel@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sfF6v3D6SBQ8LUqCp2xs7wra2AcaEqFFqjZNaOOfHmND+3qJV+x
- lxoZg0z9aMA8Rix+2yBpbAcmY8Fs7lZR10c4S9kRpVooj554dZVjucvejCKC8l+29iIB6ri
- GQ1RNcqOFnUOxKuFpiGutylVjvzozOnd1LEK2+0pEttGjjugV7PnGVDtBDqh/bEM4yoixk0
- DS8bJeXTkuIn2vgq5bMdw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oeJJfgAlDHw=:jyckEPgVWXhRRoMO7nbJkV
- oiCszB5ACaBBSFVN+YSTCTwNIe9XgfRFTKCXjYJlHArHyBFot66+pqr7SUzYIIkLha4pXPiBg
- rBfG2MZEkjDAv8xdsVqEj0J8jy6BMXhqDocqU26PXv8+LLWaWdZKow4TTikxHHJlxvnkbuom0
- eKnQgiRhr1RG+iOz1ZLIvfm2GyOLZilTXYN/SUXmxIWr7/XGPIRCbo+EZNIIOj3DvkxBV1K2m
- a+G9VZHr8PmvSdy7SS1TefrI9nWlkvbRNRV7NQx2Oufr9/HANDwb8PJavVHxhLLPbW0oqnQfo
- PjoTjf34o6hK3QXR1Gslxw/NgEUvETRKn9HoV5NhWs0TARtlj7FfqwL7AAT9Gbi5c0rCCWrKC
- dvqI8zgb4g9kQ8F1glYMU+kid/yTKxXqJiwyyEbBEJWlQhwQQp+brJgKAeeKNUBV3rHftMG7J
- rT86D+cs0w==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_ZBI=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,48 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, richard.henderson@linaro.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/03/2021 à 16:55, Andreas Krebbel a écrit :
-> When setting up the pointer for the sigreturn stub in the return
-> address register (r14) we have to use the guest frame pointer instead
-> of the host frame pointer.
-> 
-> Note: This only caused problems if Qemu has been built with
-> --disable-pie (as it is in distros nowadays). Otherwise guest_base
-> defaults to 0 hiding the actual problem.
-> 
-> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
-> ---
->  linux-user/s390x/signal.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-> index ecfa2a14a9..e9bf865074 100644
-> --- a/linux-user/s390x/signal.c
-> +++ b/linux-user/s390x/signal.c
-> @@ -213,7 +213,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
->      if (ka->sa_flags & TARGET_SA_RESTORER) {
->          env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
->      } else {
-> -        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
-> +        env->regs[14] = (target_ulong) (frame_addr + offsetof(rt_sigframe, retcode))
-> +                        | PSW_ADDR_AMODE;
->          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
->                     (uint16_t *)(frame->retcode));
->      }
-> 
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-but if you want to send a v3:
-- to be consistent with lines below, use "offsetof(typeof(*frame), ..."
-- in the line above, you can remove the (unsigned long) of the sa_restorer as it is an abi_ulong,
-- don't send the "v2" as a reply to the v1 as it can be hidden in the mail thread and missed by the
-maintainer :)
-
-Thanks,
-Laurent
+The motivation behind this series is to remove the=0D
+isa_get_irq(NULL) call to simplify the ISA generic model.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  hw/isa/vt82c686: Name output IRQ as 'intr'=0D
+  hw/isa/vt82c686: Simplify removing unuseful qemu_allocate_irqs() call=0D
+  hw/isa/vt82c686: Let ISA function expose ISA IRQs=0D
+  hw/ide/via: Replace magic 2 value by ARRAY_SIZE / MAX_IDE_DEVS=0D
+  hw/ide/via: Connect IDE function output IRQs to the ISA function input=0D
+  hw/southbridge/vt82c686: Introduce VT82C686B_SOUTHBRIDGE=0D
+=0D
+ hw/ide/via.c               |  31 ++++++++---=0D
+ hw/isa/vt82c686.c          |  23 ++++----=0D
+ hw/mips/fuloong2e.c        |  35 +++---------=0D
+ hw/southbridge/vt82c686.c  | 107 +++++++++++++++++++++++++++++++++++++=0D
+ MAINTAINERS                |   1 +=0D
+ hw/Kconfig                 |   1 +=0D
+ hw/isa/Kconfig             |   8 ---=0D
+ hw/meson.build             |   1 +=0D
+ hw/southbridge/Kconfig     |   7 +++=0D
+ hw/southbridge/meson.build |   1 +=0D
+ 10 files changed, 162 insertions(+), 53 deletions(-)=0D
+ create mode 100644 hw/southbridge/vt82c686.c=0D
+ create mode 100644 hw/southbridge/Kconfig=0D
+ create mode 100644 hw/southbridge/meson.build=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
