@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32853477A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 12:46:50 +0100 (CET)
-Received: from localhost ([::1]:37284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876AE3477B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 12:50:20 +0100 (CET)
+Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP1yL-0002Ko-OL
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 07:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56222)
+	id 1lP21j-0003i6-JT
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 07:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP1wd-0001d9-8s
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:45:03 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34454)
+ id 1lP20Z-00036F-Pt
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:49:07 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP1wb-0001Yh-7M
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:45:02 -0400
-Received: by mail-wr1-x431.google.com with SMTP id j7so24129992wrd.1
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 04:44:58 -0700 (PDT)
+ id 1lP20X-0004Fb-6H
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 07:49:07 -0400
+Received: by mail-wm1-x334.google.com with SMTP id d191so12717139wmd.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 04:49:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=xxV02hDGRUX2WdJjtHPiyhN/qL69M6lHLjCn2CZmhH4=;
- b=yIea+ItNRUSGkOHEfTnBrnzRVkRvZ8o/IQrzALauq4p4kdxdo/qkGedHbQw8uJ6T1X
- lRI3W/MwrP+xiOzmWWYENpld83Z4Bju8Lbd40EYAuupImvkh2jd/plzwS2iujV3kSN/y
- Bv+qnvNWiDTpG6m7V1WFLLRCkXIlQA1Fv3OnPOfh58mU1a1p1qSU0k5HY0ucHu8lEdg3
- fqyXFB4+lETCSc7010x6KmtqyhHhUnaplG8WgGjdjr5Yfp/PSZWoljXDoy9igs7F+Wq0
- ptJjOfbDTysEMzib1KO9RdoJM7O1Du1uHUNOgTjxlY/PGfMITA0b4FOK+1dSO8eCM071
- b8rw==
+ bh=a9C6+SkXCgAQxL1+f64P7tkBMU79LNh7HmR6YQczt8A=;
+ b=D6xsQraMNnLtAJjQWsZRntp8ynEaJw0GdBSVqbU/I0fSFOXYdvY2ZEJTD/0QJTceNE
+ 2hArhothtjgTn9bR/bgmUbmzceRVY0JlEF/srOrDelmCcvXn17EPGjGgEIZjWbnkqUkz
+ t2R8jJCHsc2I+gcOg3tkzIFgsYuqfewzPDdvp/tZ9vo3ww1PFq7varH/HQ1fKGAObwPn
+ lQ6EJ7BVD8yYT4lRWeCXRwI9x58wBiLc79ZvXA8Vkj+f7Ob2QQ4Qu/UM3IAgzO5SFU4N
+ ZuWGln1vCoXIgJodr3jmCAL5yfA85T4WSo5A2/wzMq2idxu2KBAJN+A1QGhHnhTk+E7j
+ dgbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xxV02hDGRUX2WdJjtHPiyhN/qL69M6lHLjCn2CZmhH4=;
- b=MDPUY/LbUVMGIG8GRpN9vLXctP+E2Xh7qu+N/6yI0LN6ZOSCHSOsMAmQ5hMk9zw/Vu
- V3l4S62ZW7zgqbfbttac/PAQwhvrMJX5uA86DIhTQRzEZOTI0bj8NvRDSDIZCtojD8M/
- 3+ag16tx97jy0IFjeeVhvQQn0ypyH36JmQOTmgJYKyvrGUPJjjYMW2GexR7SVBEZ75Z6
- C9qhV+sqEWT5kN+QPRYgy3KUlT9HMuAveD+fmhHEGIHMuO3pN23uRn0dL0FDS+tYU0JC
- d5lGjQEu1Q/IRdvkbMYbLUmSnZW8clrTLX5sr0ARyCOwzu5tXitC2vIvbsVdm3x664SV
- pdXw==
-X-Gm-Message-State: AOAM532TMoojcFU0Odkwix2macnS+YAYG9rF7eJ4+XioD5rbmjDchM+8
- cug0r4kLMnjE9gCmYSfaYdfqoA==
-X-Google-Smtp-Source: ABdhPJwce8bQADYYQO7zhRnL5vFFoMJVT3F9H1qp8E5lmDIod073vbEf082QcbylOlgOn9DjiEUtNg==
-X-Received: by 2002:a5d:518c:: with SMTP id k12mr3033115wrv.15.1616586297450; 
- Wed, 24 Mar 2021 04:44:57 -0700 (PDT)
+ bh=a9C6+SkXCgAQxL1+f64P7tkBMU79LNh7HmR6YQczt8A=;
+ b=rHM2bBveWj6SVkGk/pbwAv2NSatW0NbK8RnMI7zoWcANhSbVP3zUSxU3IJhz3VAigx
+ 8H6at2ALKtPYEEwpxgeFe7oNhu784q/2fCN9ywdtklMcH2m8tMhClHxgdE/qzwQrrlMo
+ 8Jdv8+zCUkLxh8JzGf6lajcqQN2mtvmg0Bc6Bd51qlUyOhUC0vlPYYkzJYShuwig2VxV
+ kWdnvszQUquAvjdN7dVlRUO132RLllpfUgJ3V0g87/Z9OxFjuXe76Ko3NT1Cq5rYPo5H
+ OjqFYdBZvU/+P+n366yn2hVdYZw1ZHa/MkeKwJrrmn5ch7xFPdDfiTSZmdrItFpA4IF9
+ oxaA==
+X-Gm-Message-State: AOAM532CpUHz7xFtdeXPtuwGEkYqfiwZI83zbvO2hDDCn/ipxEgSC8tY
+ TYuvltipQbcugK+uQ6ujlPV8lw==
+X-Google-Smtp-Source: ABdhPJxyGzA0n9T1hQLCGv3RxIC5vhQqIvZwVcGHl7HGP51rcmq1AWp8o4olV2W9i7c8y2dr8fgR1w==
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr2511848wmi.88.1616586543270; 
+ Wed, 24 Mar 2021 04:49:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j14sm2646557wrw.69.2021.03.24.04.44.56
+ by smtp.gmail.com with ESMTPSA id 91sm3001492wrl.20.2021.03.24.04.49.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 04:44:56 -0700 (PDT)
+ Wed, 24 Mar 2021 04:49:02 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A98681FF7E;
- Wed, 24 Mar 2021 11:44:55 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id A272E1FF7E;
+ Wed, 24 Mar 2021 11:49:01 +0000 (GMT)
 References: <20210323151749.21299-1-cfontana@suse.de>
  <20210323154639.23477-23-cfontana@suse.de> <87eeg5iivn.fsf@linaro.org>
- <1ba15970-749a-27c5-ef72-6468b5501f46@suse.de>
+ <1ba15970-749a-27c5-ef72-6468b5501f46@suse.de> <87blb8ixmw.fsf@linaro.org>
 User-agent: mu4e 1.5.11; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Claudio Fontana <cfontana@suse.de>
 Subject: Re: [RFC v11 30/55] target/arm: wrap call to aarch64_sve_change_el
  in tcg_enabled()
-Date: Wed, 24 Mar 2021 11:41:32 +0000
-In-reply-to: <1ba15970-749a-27c5-ef72-6468b5501f46@suse.de>
-Message-ID: <87blb8ixmw.fsf@linaro.org>
+Date: Wed, 24 Mar 2021 11:48:24 +0000
+In-reply-to: <87blb8ixmw.fsf@linaro.org>
+Message-ID: <878s6cixg2.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,106 +98,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Claudio Fontana <cfontana@suse.de> writes:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> On 3/23/21 11:50 PM, Alex Benn=C3=A9e wrote:
->>=20
->> Claudio Fontana <cfontana@suse.de> writes:
->>=20
->>> After this patch it is possible to build only kvm:
->>>
->>> ./configure --disable-tcg --enable-kvm
+> Claudio Fontana <cfontana@suse.de> writes:
 >
+>> On 3/23/21 11:50 PM, Alex Benn=C3=A9e wrote:
+<snip>
+> Moving up the build chain to the revert I now get:
 >
-> It's possible to build, but tests will fail until all the test-related
-> patches are applied.
+>   ./qemu-system-aarch64 -M virt,gic=3Dhost -cpu host -accel kvm -m 2048
+> -net none -nographic -kernel
+> ~/lsrc/linux.git/builds/arm64.virt/arch/arm64/boot/Image -append
+> "panic=3D-1"
+>   --no-reboot
+>   qemu-system-aarch64: Property 'virt-6.0-machine.gic' not found
 
-So I think there has to be a change in ordering in the series so we
-don't have differing failure modes as we enable. I'm not sure if that
-means all tests need to be fixed before the first "--disable-tcg builds"
-patch but I would expect at least a basic:
+PEBKAC:
 
-  qemu-system-aarch64 -M virt,gic=3Dhost -cpu host -accel kvm -m 2048 -net =
-none -nographic -kernel ~/lsrc/linux.git/builds/arm64.virt/arch/arm64/boot/=
-Image -append "panic=3D-1"
---no-reboot
-
-works - so at least we can track if any of the additional changes cause
-regressions.
-
->>=20
->> FWIW at this point we get a different failure than later on:
->>=20
->>   21:10:25 [alex@aarch64-new:~/l/q/b/disable.tcg] (94e2abe0=E2=80=A6)|=
-=E2=80=A6 + make check-qtest
->>     GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berke=
-ley-softfloat-3 meson dtc capstone slirp
->>   [1/19] Generating qemu-version.h with a meson_exe.py custom command
->>   Running test qtest-aarch64/qom-test
->>   qemu-system-aarch64: missing interface 'idau-interface' for object 'ma=
-chine'
->
-> This one is broken by a recent commit in QEMU mainline, by removing the i=
-dau interface from KVM cpus.
->
-> This is fixed by: Revert "target/arm: Restrict v8M IDAU to TCG" in the
-> series.
-
-The proper fix is probably to move the mps2tz machine type that brings
-this in to TCG only.
-
-Moving up the build chain to the revert I now get:
-
-  ./qemu-system-aarch64 -M virt,gic=3Dhost -cpu host -accel kvm -m 2048 -ne=
-t none -nographic -kernel ~/lsrc/linux.git/builds/arm64.virt/arch/arm64/boo=
-t/Image -append "panic=3D-1"
-  --no-reboot
-  qemu-system-aarch64: Property 'virt-6.0-machine.gic' not found
-
->
->>   socket_accept failed: Resource temporarily unavailable
->>   **
->>   ERROR:../../tests/qtest/libqtest.c:319:qtest_init_without_qmp_handshak=
-e: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
->>   ERROR qtest-aarch64/qom-test - Bail out! ERROR:../../tests/qtest/libqt=
-est.c:319:qtest_init_without_qmp_handshake: assertion failed: (s->fd >=3D 0=
- && s->qmp_fd >=3D 0)
->>   make: *** [Makefile.mtest:24: run-test-1] Error 1
->>=20
->>=20
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> ---
->>>  target/arm/cpu-sysemu.c | 12 +++++++-----
->>>  1 file changed, 7 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
->>> index eb928832a9..05d6e79ad9 100644
->>> --- a/target/arm/cpu-sysemu.c
->>> +++ b/target/arm/cpu-sysemu.c
->>> @@ -820,11 +820,13 @@ static void arm_cpu_do_interrupt_aarch64(CPUState=
- *cs)
->>>      unsigned int cur_el =3D arm_current_el(env);
->>>      int rt;
->>>=20=20
->>> -    /*
->>> -     * Note that new_el can never be 0.  If cur_el is 0, then
->>> -     * el0_a64 is is_a64(), else el0_a64 is ignored.
->>> -     */
->>> -    aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
->>> +    if (tcg_enabled()) {
->>> +        /*
->>> +         * Note that new_el can never be 0.  If cur_el is 0, then
->>> +         * el0_a64 is is_a64(), else el0_a64 is ignored.
->>> +         */
->>> +        aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
->>> +    }
->>>=20=20
->>>      if (cur_el < new_el) {
->>>          /* Entry vector offset depends on whether the implemented EL
->>=20
->>=20
-
+The proper command line is "-M virt,gic-version=3Dhost"
 
 --=20
 Alex Benn=C3=A9e
