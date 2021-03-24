@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD6A347AA0
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:24:52 +0100 (CET)
-Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2BA347AA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 15:28:39 +0100 (CET)
+Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lP4RH-0000Hh-4s
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:24:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
+	id 1lP4Uw-0002pC-SB
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 10:28:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4QF-0008I0-Mv
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:23:47 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45946)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lP4QC-0003Hn-Q9
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:23:47 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id 14so1420360wrz.12
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 07:23:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=giFI8/egT47Bm9rcBpOsa2gLncqqH5rfSdtb0fcIwVw=;
- b=H2+JpCFT1qw5lQlNGaZwdpmdtYFDeIeQQc6dieAevpWbssE00BcJ2BVGsYd9cXmbAQ
- 2IkBbKyt5Zh69ehD4N3ri8i+0a3ND6JXJl3FgGsXQ6wXqEZoUQ3iYwprzjUlkEcWDVOZ
- YDIWPJ7w1iEQt9oKsS6NO5MkDHVMeCEr0DiKZOtLwMB4Z/hGS1eKkGnqv4VyTwURUA4v
- iARjUZ7b9UyzCLoLH663oat4C2Em9IENzOuJpisDBl5OxhwfYSrX+TKjhiflkpHU8O3c
- MYrXyVZ+Q5JeU3P/XfiKZdXYeeLMnGWKP2syTWETNy8tP+cJWsTu2+hdYpuDgbRYEu8y
- 0n4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=giFI8/egT47Bm9rcBpOsa2gLncqqH5rfSdtb0fcIwVw=;
- b=Ctqynyb/UROnyBlkyLC5DaqeDAEkKfELJWe5aY5uxBuH+zR2O+ExuxKVugHamTQf9f
- 303Nh8ki8PlbIPPKQDQxjRPXRNVbgKLycFa/vLUrkRdfkpCcb+C7b11luAd2pxopT2xi
- /+4z2QBG7+0tWmt02+auYX/34LryirCS6tsnftPUfHZkGYNDh7U+FyOXizCkXVXAu1or
- MVTu8Rdbbu02eGlNqlicyLEz6oZoKabQsDMOnajzXFSktQSOjsP3PQNaiUN0AIQJZstQ
- Bbhlbz6pFiU34jvYG3gf49U0CoR+xwMZ92E/jWXpwHNkiOk3mZD/A1yliFxHjGFIVTwW
- FLdQ==
-X-Gm-Message-State: AOAM5313qbiW4h2d9hMgugRhSSDWjXMq4MMQGM0iSLjoZgEf3q91IBo8
- Oi6wEgRLLs0IkKKGLvBPhaylcw==
-X-Google-Smtp-Source: ABdhPJwiZdM9oVnDa6QZAgT5zkJdAdmpnkEf3BcGmf7OqXZ4C/zlAn6kqeFaUOFxErGROwQoyGTCQg==
-X-Received: by 2002:a5d:4312:: with SMTP id h18mr3789485wrq.193.1616595821111; 
- Wed, 24 Mar 2021 07:23:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n23sm3625874wra.71.2021.03.24.07.23.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 07:23:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6715A1FF7E;
- Wed, 24 Mar 2021 14:23:39 +0000 (GMT)
-References: <20210323165308.15244-1-alex.bennee@linaro.org>
- <CAFEAcA_c0xYHhwyJtgcwhzVfv9EaRTYdjRCWJsk-ZOuE5okTbg@mail.gmail.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for 6.0 v2 00/22] fixes for rc1 pre-PR (kernel-doc,
- semihosting, testing)
-Date: Wed, 24 Mar 2021 14:22:22 +0000
-In-reply-to: <CAFEAcA_c0xYHhwyJtgcwhzVfv9EaRTYdjRCWJsk-ZOuE5okTbg@mail.gmail.com>
-Message-ID: <875z1giqac.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lP4T0-0001S3-VX
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:26:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lP4Sx-0004zP-KH
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 10:26:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616595994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=72dNZuYih/pUKhxGOdSxh6XoIsaCV6Jr8cHlwVJKC/Y=;
+ b=fXBfKT+2nI+AYKx/Gv27Q+9/U85M0VL9g5NynHeRckMgFrM7YsHT3/nic4Ie4i7SMCFWgC
+ ckRaU4E8YOH+fe1UKJsOHb88yThUMpr44j327AUxA1qRwptmAe8SfNlo8wxOaH/f7XTxrW
+ VA76/bYVtOjApo7qXSnvWDFhLej574M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-9bq4i6tDMdutgPQxPRGkFg-1; Wed, 24 Mar 2021 10:26:31 -0400
+X-MC-Unique: 9bq4i6tDMdutgPQxPRGkFg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59F18100E45D;
+ Wed, 24 Mar 2021 14:25:56 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-161.ams2.redhat.com
+ [10.36.113.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14F655D9CA;
+ Wed, 24 Mar 2021 14:25:54 +0000 (UTC)
+Subject: Re: [PATCH 1/6] block/vdi: When writing new bmap entry fails, don't
+ leak the buffer
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210317180013.235231-1-pbonzini@redhat.com>
+ <20210317180013.235231-2-pbonzini@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <955ac063-62da-bb6d-2c00-ccb0a77b1c1c@redhat.com>
+Date: Wed, 24 Mar 2021 15:25:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210317180013.235231-2-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,40 +83,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: david.edmondson@oracle.com, kwolf@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 17.03.21 19:00, Paolo Bonzini wrote:
+> From: David Edmondson <david.edmondson@oracle.com>
+> 
+> If a new bitmap entry is allocated, requiring the entire block to be
+> written, avoiding leaking the buffer allocated for the block should
+> the write fail.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+> Message-Id: <20210309144015.557477-2-david.edmondson@oracle.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   block/vdi.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-> On Tue, 23 Mar 2021 at 17:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->> I've added a testing patch to extend the CFI times, Laurent's series
->> to fix the iotest regressions currently keeping the CI from going
->> green and an optimisation to the --enable-docs build to try and start
->> bringing the total CI time down a bit. rc0 is being tagged today so
->> I'll probably roll a PR from this later in the week in time for rc1.
->
-> That's tricky given you sent this patchseries at 6pm on the day
-> when rc1 was nominally going to be tagged :-)
-
-The wiki says:
-
-  2021-03-30 	Tag rc1=20
-
-so I thought I had a few days. I wasn't aiming for rc0 just to give time
-for final review comments to come in.
-
->
-> I was kinda hoping to get the iotest regression fixed in rc1,
-> but I want to tag it today. Oh well, it's only the CI, not an
-> actual bug, so no big deal I guess.
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
