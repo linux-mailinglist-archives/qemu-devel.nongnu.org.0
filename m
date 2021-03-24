@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49153482E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:30:47 +0100 (CET)
-Received: from localhost ([::1]:52816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED6F3482ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:33:13 +0100 (CET)
+Received: from localhost ([::1]:58304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPA9O-00067J-UQ
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42680)
+	id 1lPABk-0008U1-JL
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPA7q-00059G-Fv
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:29:10 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:40828)
+ id 1lPAAA-0007ON-Nz
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:31:35 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:38433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPA7o-00038w-RX
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:29:10 -0400
-Received: by mail-oi1-x229.google.com with SMTP id i3so22157646oik.7
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 13:29:08 -0700 (PDT)
+ id 1lPAA8-0004ej-SB
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 16:31:33 -0400
+Received: by mail-oi1-x232.google.com with SMTP id f9so22188308oiw.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 13:31:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3aimERciU0CjCxuJ5m8RkjMQzP9pzwEbyZXoEGPRKf0=;
- b=ZJEEvTS/47FM2rP/4EqJBjC4LFXyPYbv8kasc1K3ZvdQtCnQ+pxwlag3xAwJNHEfD8
- 4BPypTfgs54Xq6+EVDvaYJAjwG7Uh0lw6IhvqvB9/Ib2V95p3Tlul//C4rThJTkkYnWH
- qXNkk91wodzRzxWaPU+1aIz5Q6iR9+XmXF8SAa4D/0csjylXiiHoEDr65CseZPJAhclV
- DpNoTzz8vrrA4waN8OAzEU7O+lKpIyfSX/ScKaMMBWGwEdUUYrgG7P5/pUel23lRXRkB
- f0tYnIMd8rqZChoAOnhrr1klrT+17FyY4vk1qAY49HB5gYoIz620d1KUs5wmOtzszIbi
- tCgQ==
+ bh=c55LK+OlWOV+NveRSCm0Wfc7LminCw4CFh9pJMVsnPw=;
+ b=g6v1OTJKcC19dOoFK7M7vw3Nfct4iXgpPePG8K6gUWveZ5KwBWoPxaUF2nXHt/DHna
+ w2RJUzL11Zku6Aj8g5rVG6YJU6wOIKF6XopiwBGv1OQ6AyFKyg6PTXgMeyJCQCy2NaOw
+ pebxexfjpz2cUfnoTbQW/m1xNeoMe7NpHEzg1B4qsWIDEGhPOl25S9+feU7t9p7VI2rj
+ xaoXbZ+ui9bIZYv4ws9rGbHC5Q7lhOg9N6SFOJ3qR8ehS9ZNE5WgUlFRQTDcrBFPNocy
+ kzYZzvBnHk9/LgP3N+hhBKldGPXVEBrpgPtRKj+xarEwjJE2jVEWE5t3Jo4p/9ki3U3R
+ 4B9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3aimERciU0CjCxuJ5m8RkjMQzP9pzwEbyZXoEGPRKf0=;
- b=CxlfcLCKE1NvXrfHxBblV7VQEC3fMyjn3EdXtaA3/whGsCg2x5HVce2WbLHcBn3cND
- CLoxKpCS6qGZOqKN6uR6Oqap5y4BWX8h6eC7KSiv1hTeMgxSXEw7pp+JDb7OUUuBMS5Q
- tOwcsx5pMkZNkAxCyI+SEeFGTsU/K0rymTeW/FjwibekpeK2uRcc6oIS6dC7lCBtlYqJ
- 8pzDrkv8yEBA/q3plbVc0+czivKCSp1AXe50WXgSuIfxXPcwEt//KHYtsx3f5ByW2FID
- v2xuaxv+QkNjMuPWP0fIQmmSAyVat5pcejg3izL//tfJKYOj2Lwlw+NMR7k9wgNOiXHv
- Wc9Q==
-X-Gm-Message-State: AOAM532wwA7cCOF63nseu76DbuKHoYpl+2G9GFurD9q6aExDDzO3GVAn
- 2W802GX47Pj9svF2ePq2VQVCJg==
-X-Google-Smtp-Source: ABdhPJwo1ifIUB4aeTMgOKp5I6a/VEcwSckVFmr92Bv35Uc0IZxcgovrC01a6qGb0m/zJ/sJAmB7/Q==
-X-Received: by 2002:aca:fc0d:: with SMTP id a13mr3652158oii.133.1616617747493; 
- Wed, 24 Mar 2021 13:29:07 -0700 (PDT)
+ bh=c55LK+OlWOV+NveRSCm0Wfc7LminCw4CFh9pJMVsnPw=;
+ b=rQdN47cXV0qkIRotvDkMIrHgy/BfJqHpmppTOsyUDIF7FDE3ypYrfCCIdyFWLIPoy5
+ 4kFMyPi2MJ7qQCDgd9SEXTq+BmeWz3aOF+VvleeD0+MbgGQDBhGf/CAwH/CqeQTdn+mP
+ /8/yXB/UjcDMJDyt1So+bHaHJHNi1l6atYl08E4Q45nr6L33SP2jVyJDDWEodoqiL3F8
+ WrmC1eV/ztBtMB3kmyS8dEFn+6C/2GQugdZgtAH1XaIbRHbNDSNjYfMnx6wqi4RxpCrd
+ p8zmyLqsXFsaJ5NPt6fs7XlX+SOCbxZqblbrwimlQLS4sik8X+uDN/f1H8j0OZkyFJ3b
+ BfJQ==
+X-Gm-Message-State: AOAM532q/AsrO6Ur6X9BOx0PsD+CbYfiEMHJaLTF0OXKqPPU2DOCBgub
+ D8tltEuIOJkP1zc6HRIwKmZrY+kHWm0rO65+
+X-Google-Smtp-Source: ABdhPJwDAh4bkLSLw/jSyS3tGpx4f3HNtwZM4Se3Mg3DRAdN5al4WAvjI2dDfGCkhUCVzlpA1vJ6AA==
+X-Received: by 2002:aca:ad51:: with SMTP id w78mr3601556oie.83.1616617891205; 
+ Wed, 24 Mar 2021 13:31:31 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id 7sm625149ois.20.2021.03.24.13.29.06
+ by smtp.gmail.com with ESMTPSA id e4sm609583oie.23.2021.03.24.13.31.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Mar 2021 13:29:07 -0700 (PDT)
-Subject: Re: [RFC v11 20/55] target/arm: split vfp state setting from tcg
- helpers
+ Wed, 24 Mar 2021 13:31:30 -0700 (PDT)
+Subject: Re: [RFC v11 21/55] target/arm: move arm_mmu_idx* to cpu-mmu
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-13-cfontana@suse.de>
+ <20210323154639.23477-14-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1f5f5c0d-f461-0862-6ad7-25f4430c5b2f@linaro.org>
-Date: Wed, 24 Mar 2021 14:29:04 -0600
+Message-ID: <d37dacc1-f4c9-de1c-a517-e85413635444@linaro.org>
+Date: Wed, 24 Mar 2021 14:31:28 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-13-cfontana@suse.de>
+In-Reply-To: <20210323154639.23477-14-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -99,27 +98,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> cpu-vfp.c: vfp_get_fpsr and vfp_set_fpsr are needed also for KVM,
->             so create a new cpu-vfp.c
-> 
-> tcg/cpu-vfp.c: vfp_get_fpscr_from_host and vv are TCG-only, so we
->                 move the implementation to tcg/cpu-vfp.c
-> 
-> kvm/helper-stubs.c: vfp_get_fpscr_from_host and vv stubs for KVM.
-> 
 > Signed-off-by: Claudio Fontana<cfontana@suse.de>
 > ---
->   target/arm/cpu-vfp.h          |  29 +++++
->   target/arm/cpu-vfp.c          |  92 +++++++++++++++
->   target/arm/kvm/helper-stubs.c |  10 ++
->   target/arm/tcg/cpu-vfp.c      | 146 +++++++++++++++++++++++
->   target/arm/tcg/vfp_helper.c   | 210 +---------------------------------
->   target/arm/meson.build        |   1 +
->   target/arm/tcg/meson.build    |   1 +
->   7 files changed, 281 insertions(+), 208 deletions(-)
->   create mode 100644 target/arm/cpu-vfp.h
->   create mode 100644 target/arm/cpu-vfp.c
->   create mode 100644 target/arm/tcg/cpu-vfp.c
+>   target/arm/cpu-mmu.c    | 95 +++++++++++++++++++++++++++++++++++++++++
+>   target/arm/tcg/helper.c | 95 -----------------------------------------
+>   2 files changed, 95 insertions(+), 95 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
