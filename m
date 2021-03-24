@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5473473C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:38:41 +0100 (CET)
-Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BE03473CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 09:41:15 +0100 (CET)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOz2G-0004uH-5h
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:38:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35140)
+	id 1lOz4k-0006cZ-1s
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 04:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lOyxl-0002tj-Ek
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:34:01 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44678)
+ id 1lOyym-0003P4-Py
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:35:04 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lOyxi-00008a-Fp
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:34:01 -0400
-Received: by mail-ed1-x529.google.com with SMTP id j3so26589249edp.11
- for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 01:33:57 -0700 (PDT)
+ id 1lOyyk-0000b8-EE
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 04:35:04 -0400
+Received: by mail-ej1-x632.google.com with SMTP id r12so31464825ejr.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 01:35:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2xiIDmFfuYt8rIajQ5Upzs+2F1lBI2dSreXIXyWcO1o=;
- b=IMa1v3LVXlYMSt6+tSdXDCDJ7ykGCwEVkIwjKOps77SLyy5luuMybIQFvd879lbON+
- ng+Dx8c1bde0imDjvmFTeG4T5HxVJTHWYhBrMYiKf0hAk9OQXt9pgedyyyu2Nu0ykrZW
- 9ODSNk+lcFAEf6vT2Y9X42o3UNmutIWoJdSQk5RgbtPukrzR2f9+CDOKpI3Dez0ko2vu
- NxTLLZ8v7RgBZ6wyGaWU3d0Fvoj2wFZlJvv7jnvMfPsjKjrIUmnV9MM/31TIRwuB15oa
- TL0sUAcI80k3GwDD4tlOWitVKdyvweOk1qaJJFyhfYh/zVKpwq/4RQWe6UyJ6uR2dmN/
- 3VSw==
+ :cc; bh=nV+/3vN86Qa4nDdhgJJ5f5B6akJxHtpKUrSP/TVK5QU=;
+ b=EkYTGO0vPnYk1SPa+jSxFsbWIDc78VC/Liv3GTgBgZvx+yQnHb7hX2xeKP9zCmR+r3
+ 2wdRVq7EZPuq3oP9vR8eVpyI1F3loZGSlvyFKrTAdefbJenfDV76Nwd/B1QV0Wn9qH9x
+ NuWtbTajI99r1ROVsWkVPn1DdN5tjCk5BEs55/Z99ixpsRR1u20BZ30TgjXLAU/DXVrH
+ 9xRmDAzI2NXxgHxY1u7mv0SN1BzOPgTcUcqpNN0UNNpoOA1iBADVomykwwd1aLelzhCK
+ 2/5kL5uMsBiH/JWykVgLx9KrttvRmbIQeRZOkdGdeyI2MO/A5noGmXmDpOGbm5jm7kZ4
+ EQ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2xiIDmFfuYt8rIajQ5Upzs+2F1lBI2dSreXIXyWcO1o=;
- b=E8/EiaR5D41ZS4UqKFUGIE7KHdZElBmM20D/ydTvfaRrhsCQg3fk6NbYweDXQyf8PI
- ZOVL8D1UEj7I75s7FQagdfl0/7URy9ITg2QaEhPmtf8BvB+b/Ic98N8XFI3lIjtSp+JB
- yGv0CU4F2H1xSS6k/qZAF0iue+oSYz6i+ojl6eaTpE7bBqIbSDPGKx1Q9FZETWu6cxf/
- TsHw3Uiw4Cx+m0QHr4ELVm8+OKG2PuLiRbxiZdvISGHT2MHcQ443jFonkBPTF8Rf+LLo
- v7vtT4x/gCIi87HH4cOkklWCQEtWddbEgb+2dfMXfrHLEXXFtu445bAzgq5zPlqP3O2i
- OkfQ==
-X-Gm-Message-State: AOAM530v1OklGkONTKF8S+4KaIF08EC2j/8N97PldiZzIZ6u0A946iMH
- vBrPgtHZxKrmmca2zq8rAbCnpW+g44W355NNl+I=
-X-Google-Smtp-Source: ABdhPJzNkx7mVhUUUYfGeopRejmeS5Zfbyd0Njm/4K+RIXF1mRfcdgfsbbTchGLXC2cGPCQtxvT2T9iPS16YZIYBKO4=
-X-Received: by 2002:a05:6402:31b7:: with SMTP id
- dj23mr2186126edb.245.1616574836920; 
- Wed, 24 Mar 2021 01:33:56 -0700 (PDT)
+ bh=nV+/3vN86Qa4nDdhgJJ5f5B6akJxHtpKUrSP/TVK5QU=;
+ b=bIjfW4egI8d6nIeYYVQhhShLmd3xmVEf5DceobpPoArOtMnYt8ScqnlCcdim/d/yDh
+ N238PH7vV943UF7IzUWabHyeyrtzsvuscegbUxJ6vjxXzvAKMBejgXcIrMDvvFZNPXbH
+ DhWylRrYMV8DJMbJyTBUWgyToghDKUI2qiuVGUUFSSQyje8JNZW0wNBme58+smbNElni
+ V4JRUe2kd6y0rztF+xvNIHBHkSsqvFjC83CRCsewxrVrDX0YopsTKrHDhIv6CEGmLKIj
+ HJTxFiL7kQsRiKDDTNzOUJtHSb658SYYwY3MDoTvStJ8KoqqiUX4HIEnh5DAiC6e4IYD
+ 9FSg==
+X-Gm-Message-State: AOAM531lB7f7oarCkgtG17NP/nFidlDIl8EsNkJFSUw43Zmt/7L+Jjho
+ ODNdD8A8/+9KUrWUh6EgZbnx8p4kYkq09qcuhxQ=
+X-Google-Smtp-Source: ABdhPJxIAaTl8rX/9BqqNQBpCNNvQ9Aw/T5w/WrgAdqAzec4C7a8SZ5+QEup6oXvf01+VTfnFsBfa2qnrG5HFUsOYQM=
+X-Received: by 2002:a17:906:cf90:: with SMTP id
+ um16mr2431477ejb.389.1616574899432; 
+ Wed, 24 Mar 2021 01:34:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-8-crosa@redhat.com>
-In-Reply-To: <20210323221539.3532660-8-crosa@redhat.com>
+ <20210323221539.3532660-9-crosa@redhat.com>
+In-Reply-To: <20210323221539.3532660-9-crosa@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 24 Mar 2021 12:33:45 +0400
-Message-ID: <CAJ+F1CKxER=MkbUjh+jYKrCAkp5+6BQfNFOgwWiAegxEWXXa9A@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] Acceptance Tests: set up SSH connection by
- default after boot for LinuxTest
+Date: Wed, 24 Mar 2021 12:34:47 +0400
+Message-ID: <CAJ+F1CJmh=X-5xEFmqvKikCd5opxNYBxTp2X97nEutgztLywfA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] tests/acceptance/virtiofs_submounts.py: remove
+ launch_vm()
 To: Cleber Rosa <crosa@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e853c605be4428f7"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x529.google.com
+Content-Type: multipart/alternative; boundary="000000000000a2325c05be442ccd"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,15 +93,15 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e853c605be4428f7
+--000000000000a2325c05be442ccd
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 24, 2021 at 2:34 AM Cleber Rosa <crosa@redhat.com> wrote:
+On Wed, Mar 24, 2021 at 2:32 AM Cleber Rosa <crosa@redhat.com> wrote:
 
-> The LinuxTest specifically targets users that need to interact with Linux
-> guests.  So, it makes sense to give a connection by default, and avoid
-> requiring it as boiler-plate code.
+> The LinuxTest class' launch_and_wait() method now behaves the same way
+> as this test's custom launch_vm(), so let's just use the upper layer
+> (common) method.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 >
@@ -109,49 +109,70 @@ On Wed, Mar 24, 2021 at 2:34 AM Cleber Rosa <crosa@redhat.com> wrote:
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 5 ++++-
->  tests/acceptance/virtiofs_submounts.py    | 1 -
->  2 files changed, 4 insertions(+), 2 deletions(-)
+>  tests/acceptance/virtiofs_submounts.py | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 >
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py
-> b/tests/acceptance/avocado_qemu/__init__.py
-> index 535f63a48d..4960142bcc 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -390,7 +390,7 @@ def set_up_cloudinit(self, ssh_pubkey=3DNone):
->          cloudinit_iso =3D self.prepare_cloudinit(ssh_pubkey)
->          self.vm.add_args('-drive', 'file=3D%s,format=3Draw' % cloudinit_=
-iso)
->
-> -    def launch_and_wait(self):
-> +    def launch_and_wait(self, set_up_ssh_connection=3DTrue):
->          self.vm.set_console()
->          self.vm.launch()
->          console_drainer =3D
-> datadrainer.LineLogger(self.vm.console_socket.fileno(),
-> @@ -398,3 +398,6 @@ def launch_and_wait(self):
->          console_drainer.start()
->          self.log.info('VM launched, waiting for boot confirmation from
-> guest')
->          cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
-> self.name)
-> +        if set_up_ssh_connection:
-> +            self.log.info('Setting up the SSH connection')
-> +            self.ssh_connect(self.username, self.ssh_key)
 > diff --git a/tests/acceptance/virtiofs_submounts.py
 > b/tests/acceptance/virtiofs_submounts.py
-> index e10a935ac4..e019d3b896 100644
+> index e019d3b896..d77ee35674 100644
 > --- a/tests/acceptance/virtiofs_submounts.py
 > +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -136,7 +136,6 @@ def set_up_virtiofs(self):
+> @@ -134,9 +134,6 @@ def set_up_virtiofs(self):
+>                           '-numa',
+>                           'node,memdev=3Dmem')
 >
->      def launch_vm(self):
->          self.launch_and_wait()
-> -        self.ssh_connect('root', self.ssh_key)
->
+> -    def launch_vm(self):
+> -        self.launch_and_wait()
+> -
 >      def set_up_nested_mounts(self):
 >          scratch_dir =3D os.path.join(self.shared_dir, 'scratch')
+>          try:
+> @@ -225,7 +222,7 @@ def test_pre_virtiofsd_set_up(self):
+>          self.set_up_nested_mounts()
+>
+>          self.set_up_virtiofs()
+> -        self.launch_vm()
+> +        self.launch_and_wait()
+>          self.mount_in_guest()
+>          self.check_in_guest()
+>
+> @@ -235,14 +232,14 @@ def test_pre_launch_set_up(self):
+>
+>          self.set_up_nested_mounts()
+>
+> -        self.launch_vm()
+> +        self.launch_and_wait()
+>          self.mount_in_guest()
+>          self.check_in_guest()
+>
+>      def test_post_launch_set_up(self):
+>          self.set_up_shared_dir()
+>          self.set_up_virtiofs()
+> -        self.launch_vm()
+> +        self.launch_and_wait()
+>
+>          self.set_up_nested_mounts()
+>
+> @@ -252,7 +249,7 @@ def test_post_launch_set_up(self):
+>      def test_post_mount_set_up(self):
+>          self.set_up_shared_dir()
+>          self.set_up_virtiofs()
+> -        self.launch_vm()
+> +        self.launch_and_wait()
+>          self.mount_in_guest()
+>
+>          self.set_up_nested_mounts()
+> @@ -265,7 +262,7 @@ def test_two_runs(self):
+>          self.set_up_nested_mounts()
+>
+>          self.set_up_virtiofs()
+> -        self.launch_vm()
+> +        self.launch_and_wait()
+>          self.mount_in_guest()
+>          self.check_in_guest()
+>
 > --
 > 2.25.4
 >
@@ -161,77 +182,93 @@ iso)
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000e853c605be4428f7
+--000000000000a2325c05be442ccd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 24, 2021 at 2:34 AM Clebe=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 24, 2021 at 2:32 AM Clebe=
 r Rosa &lt;<a href=3D"mailto:crosa@redhat.com">crosa@redhat.com</a>&gt; wro=
 te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The LinuxTes=
-t specifically targets users that need to interact with Linux<br>
-guests.=C2=A0 So, it makes sense to give a connection by default, and avoid=
-<br>
-requiring it as boiler-plate code.<br>
+t class&#39; launch_and_wait() method now behaves the same way<br>
+as this test&#39;s custom launch_vm(), so let&#39;s just use the upper laye=
+r<br>
+(common) method.<br>
 <br>
 Signed-off-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.com" target=
-=3D"_blank">crosa@redhat.com</a>&gt;<br></blockquote><div><br></div><div><d=
-iv>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lure=
-au@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;  </div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=3D"_blank">crosa@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Re=
+viewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; <br></div><=
+div><div><br></div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
 ---<br>
-=C2=A0tests/acceptance/avocado_qemu/__init__.py | 5 ++++-<br>
-=C2=A0tests/acceptance/virtiofs_submounts.py=C2=A0 =C2=A0 | 1 -<br>
-=C2=A02 files changed, 4 insertions(+), 2 deletions(-)<br>
+=C2=A0tests/acceptance/virtiofs_submounts.py | 13 +++++--------<br>
+=C2=A01 file changed, 5 insertions(+), 8 deletions(-)<br>
 <br>
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
-vocado_qemu/__init__.py<br>
-index 535f63a48d..4960142bcc 100644<br>
---- a/tests/acceptance/avocado_qemu/__init__.py<br>
-+++ b/tests/acceptance/avocado_qemu/__init__.py<br>
-@@ -390,7 +390,7 @@ def set_up_cloudinit(self, ssh_pubkey=3DNone):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cloudinit_iso =3D self.prepare_cloudinit(=
-ssh_pubkey)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.add_args(&#39;-drive&#39;, &#39;f=
-ile=3D%s,format=3Draw&#39; % cloudinit_iso)<br>
-<br>
--=C2=A0 =C2=A0 def launch_and_wait(self):<br>
-+=C2=A0 =C2=A0 def launch_and_wait(self, set_up_ssh_connection=3DTrue):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.set_console()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.launch()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0console_drainer =3D datadrainer.LineLogge=
-r(self.vm.console_socket.fileno(),<br>
-@@ -398,3 +398,6 @@ def launch_and_wait(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0console_drainer.start()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://self.log.info" rel=3D"n=
-oreferrer" target=3D"_blank">self.log.info</a>(&#39;VM launched, waiting fo=
-r boot confirmation from guest&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cloudinit.wait_for_phone_home((&#39;0.0.0=
-.0&#39;, self.phone_home_port), <a href=3D"http://self.name" rel=3D"norefer=
-rer" target=3D"_blank">self.name</a>)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if set_up_ssh_connection:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://self.log.info"=
- rel=3D"noreferrer" target=3D"_blank">self.log.info</a>(&#39;Setting up the=
- SSH connection&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ssh_connect(self.username, =
-self.ssh_key)<br>
 diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virt=
 iofs_submounts.py<br>
-index e10a935ac4..e019d3b896 100644<br>
+index e019d3b896..d77ee35674 100644<br>
 --- a/tests/acceptance/virtiofs_submounts.py<br>
 +++ b/tests/acceptance/virtiofs_submounts.py<br>
-@@ -136,7 +136,6 @@ def set_up_virtiofs(self):<br>
+@@ -134,9 +134,6 @@ def set_up_virtiofs(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &#39;-numa&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &#39;node,memdev=3Dmem&#39;)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0def launch_vm(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.launch_and_wait()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ssh_connect(&#39;root&#39;, self.ssh_key)=
-<br>
-<br>
+-=C2=A0 =C2=A0 def launch_vm(self):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
+-<br>
 =C2=A0 =C2=A0 =C2=A0def set_up_nested_mounts(self):<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scratch_dir =3D os.path.join(self.shared_=
 dir, &#39;scratch&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+@@ -225,7 +222,7 @@ def test_pre_virtiofsd_set_up(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_in_guest()<br>
+<br>
+@@ -235,14 +232,14 @@ def test_pre_launch_set_up(self):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_in_guest()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def test_post_launch_set_up(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_shared_dir()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
+<br>
+@@ -252,7 +249,7 @@ def test_post_launch_set_up(self):<br>
+=C2=A0 =C2=A0 =C2=A0def test_post_mount_set_up(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_shared_dir()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
+@@ -265,7 +262,7 @@ def test_two_runs(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_nested_mounts()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.set_up_virtiofs()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_vm()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.launch_and_wait()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.mount_in_guest()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.check_in_guest()<br>
+<br>
 -- <br>
 2.25.4<br>
 <br>
@@ -239,5 +276,5 @@ dir, &#39;scratch&#39;)<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000e853c605be4428f7--
+--000000000000a2325c05be442ccd--
 
