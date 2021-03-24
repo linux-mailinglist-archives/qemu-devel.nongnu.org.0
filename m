@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C543482CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:23:00 +0100 (CET)
-Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190FE3482E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 21:29:29 +0100 (CET)
+Received: from localhost ([::1]:46764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPA1r-0006ac-GC
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38708)
+	id 1lPA87-0003bW-Pq
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 16:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lP9or-0007vN-Lm; Wed, 24 Mar 2021 16:09:33 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37611)
+ id 1lP9om-0007tq-Kh; Wed, 24 Mar 2021 16:09:28 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lP9og-0008PX-77; Wed, 24 Mar 2021 16:09:32 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 81E6A1401;
- Wed, 24 Mar 2021 16:09:19 -0400 (EDT)
+ id 1lP9og-0008PY-8T; Wed, 24 Mar 2021 16:09:28 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 2C437BEF;
+ Wed, 24 Mar 2021 16:09:20 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 24 Mar 2021 16:09:20 -0400
+ by compute4.internal (MEProxy); Wed, 24 Mar 2021 16:09:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=fVTX6CUmqYCuX
- CPyvquTvZr3MbP4Kb0leRFhY6fwrYE=; b=MXpH41s31VePoPnhX2ZpKmS/HFB0+
- 5XnjRTRqoJCBC1o+A7axKlABjfenN0UVWvQ0ygWXdkaXmlGA/P4atmfoURrYgWBu
- StMxT3s82rVDMzD+82HKfRjrTg6ek54shibYVJnCw6Af8S36V0CAgBKi77GS84yD
- 0SOEqqSSQUjm8jhoR9Z+RZMnum3q4+1PikW59eVJxFmRuNm9LgDKWwbHQqCLLEXD
- ecRtJtcUnC3QrvyKboeSqV7YMx1VfFI6ICC+4F5HDLADH9VX4tX/yqa/ZDl8vu5k
- 2z8pPu6ChJ2xRHE9pQPTI2Wnb7r2EMbeTTakEzEHF5fG0keyoVCOyRi0g==
+ :mime-version:content-transfer-encoding; s=fm2; bh=y6r7vAdmAcJ5A
+ IuBEwc9pd0kG8fYkoWfxo1US67nP4M=; b=2thCjqz6bHIWOEysnuBd2ZclSLEWO
+ SG2BDGwTzzg8R0vngbvJhpT75cEbBVWVOQem0MT28P1eze7hyiKPvugeu2nfvsW6
+ JLpLUoTdz6CGVcETktwg/od/3mG0Ro3wjS1sfpaK4JVronVhiegYNw+quV0BynqR
+ IOFsJivQ8zjzG3fb0cl3h/RbupToPlYoY3QO0mVCZw/xNglYg4JL/DFEwEK/ZXRv
+ WlI+xx91F6+0gueRy/8Q/1TCEC2LbfNFk/Z9yJQLToyr21PiCk+t/7ITE8iq9i73
+ gF14V2drYQUqflgAUTLUq6U6vvTrhdffjbpOyi9vHl8V0NY70XHLMLcIg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=fVTX6CUmqYCuXCPyvquTvZr3MbP4Kb0leRFhY6fwrYE=; b=p8V0ufBd
- bVKObbZomwC9JHMBx812oQIWEHtYCKBIznrg5P6B+J3P59JUFQ0J61Ogk451ooWe
- vjzxcQCTb/wh7ihfkH6YKW9qNnGDscr/vOC0R84wnUxfYxnAtNK7rxOFyibIxqAA
- PBSlj8KcF0LeOd8c1uPXgR07lEd7+XOnBykjDj6mGbcuxD5ykJVIhYKIn8L9mm8Q
- ypNWKLTtWgYD/Q5JLm5PrPjfglFh2D0don4SC2VRRCWQzSQOuTRfaEcp/35pOunx
- 76+SzB+POPjW6BXQ8a1fC9jC4cVIxAZMc+q9FvsQIEjSKjM3ZdNcK4fjRftfk3OQ
- pq0mV0jCeFgg0w==
-X-ME-Sender: <xms:bpxbYEND9PDxWOv-bhM7qw9tSyQo6xCg2JU5TbozTQ01ts_bZMlQHg>
- <xme:bpxbYHTC3emVvexLO18qYji6IyMYZsqaahMbO5XR5Do7Jwnpl-Mq6o4E_2G6vVLih
- j2s40PNNnFlT8oBolc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgudefvdcutefuodetggdotefrod
+ fm2; bh=y6r7vAdmAcJ5AIuBEwc9pd0kG8fYkoWfxo1US67nP4M=; b=uIunNqdw
+ vvxF1Jh8cZ0Cuz3OOcWytvk45ZlL9P4Aaq30JjVPq0Lf8myZYk4WWjCEmjiGK/UM
+ dNJirqCLMdh1nYQlhaBCX/xaP3ZNpWiM64xAm2Skrz6zCfwna20HnhMLBVhMoqLf
+ /HROxjkxODgtfrsK+PIUC+jhmXb/PncuFpxeGRzC7W99efpTlGamEm2F5dFx/lEU
+ L1/LBbZvevYZFRqREh5lBlr9U5+01LXwxZruH1I3AoPV0WaQupsSKyldQHFyzOfQ
+ IPdYWnNnq0sxDLikOx6Hq0zEKX+sQEXFh5bTuCSlzlH8cEh4cxZXa/dC42x76Uuw
+ J0O9hePAPowTdw==
+X-ME-Sender: <xms:b5xbYC2EIFcMjOwViWZbVBIrSr6ItV_kQ_aJvtspqoc_Gmg1_jca8g>
+ <xme:b5xbYI6JyXYvCr9INSFK-TNVMPCbjdBuVda_PhAxB1-o70QCdI7o4J7ISqdB0lrSm
+ tPGlrYcsP9DeKezs14>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegkedgudefudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:bpxbYOAMD7qNLCTTn79K3LMkXpyjvSyTJo6uZcrAMNsmWGvZQmPCag>
- <xmx:bpxbYOhaDbXl_QZfd5krywyKcnpBombQ45wBCrI8Zx36azber3FPGw>
- <xmx:bpxbYPMahUhQCs1CXSFsedr5IYUCAsuKl7UIBxPbov3o7hgprlWy2Q>
- <xmx:b5xbYPK-EoOlEuKamf6FuAo19oJGHN3o0HyfaO8ms65RkjmTZBklXA>
+X-ME-Proxy: <xmx:b5xbYD-FmurHtGAaJLBVKAaQQHHv5peM59DhK5n5yA77wOb9VXutsQ>
+ <xmx:b5xbYHWxb6NmmjR21SguWswh3SyVnL4zzy0FHTwVu-goYOm8fGzUpw>
+ <xmx:b5xbYOqnQozzk0c5CJsPdDzMXVxMio1tIgfnYodAFqrxuyV_IRJdGw>
+ <xmx:b5xbYI3RbGmgZrlQIj5jhPxsa-qsWRKxZflW7Jw7tpOJsPLK1plP1Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 449781080057;
- Wed, 24 Mar 2021 16:09:17 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9AFCE108005C;
+ Wed, 24 Mar 2021 16:09:18 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 5/7] hw/block/nvme: fix warning about legacy namespace
- configuration
-Date: Wed, 24 Mar 2021 21:09:05 +0100
-Message-Id: <20210324200907.408996-6-its@irrelevant.dk>
+Subject: [PATCH for-6.0 6/7] hw/block/nvme: update dmsrl limit on namespace
+ detachment
+Date: Wed, 24 Mar 2021 21:09:06 +0100
+Message-Id: <20210324200907.408996-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210324200907.408996-1-its@irrelevant.dk>
 References: <20210324200907.408996-1-its@irrelevant.dk>
@@ -80,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,41 +102,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Remove the unused BlockConf from the controller structure and fix the
-constraint checking to actually check the right BlockConf and issue the
-warning.
+The Non-MDTS DMSRL limit must be recomputed when namespaces are
+detached.
 
+Fixes: 645ce1a70cb6 ("hw/block/nvme: support namespace attachment command")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.h | 1 -
- hw/block/nvme.c | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ hw/block/nvme.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index c610ab30dc5c..1570f65989a7 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -166,7 +166,6 @@ typedef struct NvmeCtrl {
-     NvmeBar      bar;
-     NvmeParams   params;
-     NvmeBus      bus;
--    BlockConf    conf;
- 
-     uint16_t    cntlid;
-     bool        qs_created;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7a7e793c6c26..403c8381a498 100644
+index 403c8381a498..e84e43b2692d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -5807,7 +5807,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-         params->max_ioqpairs = params->num_queues - 1;
-     }
+@@ -4876,6 +4876,21 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_NO_COMPLETE;
+ }
  
--    if (n->conf.blk) {
-+    if (n->namespace.blkconf.blk) {
-         warn_report("drive property is deprecated; "
-                     "please use an nvme-ns device instead");
-     }
++static void __nvme_update_dmrsl(NvmeCtrl *n)
++{
++    int nsid;
++
++    for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
++        NvmeNamespace *ns = nvme_ns(n, nsid);
++        if (!ns) {
++            continue;
++        }
++
++        n->dmrsl = MIN_NON_ZERO(n->dmrsl,
++                                BDRV_REQUEST_MAX_BYTES / nvme_l2b(ns, 1));
++    }
++}
++
+ static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
+ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+ {
+@@ -4925,6 +4940,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+             }
+ 
+             nvme_ns_detach(ctrl, ns);
++
++            __nvme_update_dmrsl(ctrl);
+         }
+ 
+         /*
 -- 
 2.31.0
 
