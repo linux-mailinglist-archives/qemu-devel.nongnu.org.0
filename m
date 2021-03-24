@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06C234716E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 07:13:32 +0100 (CET)
-Received: from localhost ([::1]:54614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70246347309
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Mar 2021 08:54:51 +0100 (CET)
+Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lOwln-0004je-RH
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 02:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35150)
+	id 1lOyLq-0002zV-Gx
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 03:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOwkK-0004Ia-A2
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:12:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45937)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOyKv-0002UW-9v; Wed, 24 Mar 2021 03:53:53 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33201 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lOwkF-0007i0-83
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 02:11:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616566313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z/0mJg+r8EoS5BpNuoex/cbJ15ErGHdLqsyyw1srKB0=;
- b=gnTCmhBPDxRkHFOf2Vj/nCDV7nhJ3I8gdEXStoe4lQN0DPPi++H/bzOJayu4sfVpMXR5uk
- GRyNv7toOwLjF6ijl9HGbVq8MzkGcjd3PPIsRQcj+AYaFQ3JAVxCYfF8o99Gz6TcwwSDid
- 6flvcEqZIg/lUXrFNFZh59JgkwQ5dqA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-IHr9EO20P36q_JuauDHU_A-1; Wed, 24 Mar 2021 02:11:49 -0400
-X-MC-Unique: IHr9EO20P36q_JuauDHU_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 728D3180FCA1;
- Wed, 24 Mar 2021 06:11:48 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-47.ams2.redhat.com [10.36.112.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F67360C05;
- Wed, 24 Mar 2021 06:11:47 +0000 (UTC)
-Subject: Re: [PATCH v2 09/22] tests/tcg: add HeapInfo checking to semihosting
- test
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210323165308.15244-1-alex.bennee@linaro.org>
- <20210323165308.15244-10-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <319ecfbc-6f69-04cc-a57f-e5f9574f84f9@redhat.com>
-Date: Wed, 24 Mar 2021 07:11:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lOyKt-0000ob-7u; Wed, 24 Mar 2021 03:53:53 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F50q60RmMz9sTD; Wed, 24 Mar 2021 18:53:37 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616572418;
+ bh=SJUQadghU58/pAY6ewOUNdzuept7qdqbWArTYBJ7/Wc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=grLZtKH+e/x0+oqdcFUsOCAQdqmtOlq+yBmGJ7hdgD2uaV3C3bAIs+LmXQPOSazUA
+ F8GY8hT+ZEi3K+3eG13r4p3UcAFLYwX8alhmKDKRvLlfDZl8G8TJBGNVurpnci7oIT
+ OjQ4AVPYPczuJC9naJxIDyLj66p3OhCls2h5y+mE=
+Date: Wed, 24 Mar 2021 17:15:31 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu] spapr: Fix typo in the patb_entry comment
+Message-ID: <YFrZAzj3pfUU8SmW@yekko.fritz.box>
+References: <20210225032335.64245-1-aik@ozlabs.ru>
+ <YFgu2NpQ7Wr75GOX@yekko.fritz.box>
+ <7cb026d4-2df9-9d16-60d9-b6565a71b628@ozlabs.ru>
 MIME-Version: 1.0
-In-Reply-To: <20210323165308.15244-10-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vkZDol1Y1r//t24p"
+Content-Disposition: inline
+In-Reply-To: <7cb026d4-2df9-9d16-60d9-b6565a71b628@ozlabs.ru>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,103 +59,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/03/2021 17.52, Alex Bennée wrote:
-> Query the SYS_HEAPINFO semicall and do some basic verification of the
-> information via libc calls.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210320133706.21475-10-alex.bennee@linaro.org>
-> 
-> ---
-> v2
->    - expand test as suggested by Richard
-> ---
->   .../multiarch/arm-compat-semi/semihosting.c   | 55 ++++++++++++++++++-
->   1 file changed, 54 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/tcg/multiarch/arm-compat-semi/semihosting.c b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-> index b3fd16cd12..8627eee3cf 100644
-> --- a/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-> +++ b/tests/tcg/multiarch/arm-compat-semi/semihosting.c
-> @@ -8,9 +8,13 @@
->    */
->   
->   #define SYS_WRITE0      0x04
-> +#define SYS_HEAPINFO    0x16
->   #define SYS_REPORTEXC   0x18
->   
->   #include <stdint.h>
-> +#include <stdlib.h>
-> +#include <stdio.h>
-> +#include <string.h>
->   #include "semicall.h"
->   
->   int main(int argc, char *argv[argc])
-> @@ -21,8 +25,57 @@ int main(int argc, char *argv[argc])
->       uintptr_t exit_block[2] = {0x20026, 0};
->       uintptr_t exit_code = (uintptr_t) &exit_block;
->   #endif
-> +    struct {
-> +        void *heap_base;
-> +        void *heap_limit;
-> +        void *stack_base;
-> +        void *stack_limit;
-> +    } info;
-> +    void *ptr_to_info = (void *) &info;
->   
-> -    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
-> +    __semi_call(SYS_WRITE0, (uintptr_t) "Checking HeapInfo\n");
-> +
-> +    memset(&info, 0, sizeof(info));
-> +    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
-> +
-> +    if (info.heap_base == NULL || info.heap_limit == NULL) {
-> +        printf("null heap: %p -> %p\n", info.heap_base, info.heap_limit);
-> +        exit(1);
-> +    }
-> +
-> +    /* Error if heap base is above limit */
-> +    if ((uintptr_t) info.heap_base >= (uintptr_t) info.heap_limit) {
-> +        printf("heap base %p >= heap_limit %p\n",
-> +               info.heap_base, info.heap_limit);
-> +        exit(2);
-> +    }
-> +
-> +    if (info.stack_base == NULL || info.stack_limit) {
-> +        printf("null stack: %p -> %p\n", info.stack_base, info.stack_limit);
-> +        exit(3);
-> +    }
-> +
-> +    /* check our local variables are indeed inside the reported stack */
-> +    if (ptr_to_info > info.stack_base) {
-> +        printf("info appears to be above stack: %p > %p\n", ptr_to_info,
-> +               info.stack_base);
-> +        exit(4);
-> +    } else if (ptr_to_info < info.stack_limit) {
-> +        printf("info appears to be outside stack: %p < %p\n", ptr_to_info,
-> +               info.stack_limit);
-> +        exit(5);
-> +    }
-> +
-> +    if (ptr_to_info > info.heap_base && ptr_to_info < info.heap_limit) {
-> +        printf("info appears to be inside the heap: %p in %p:%p\n",
-> +               ptr_to_info, info.heap_base, info.heap_limit);
-> +        exit(6);
-> +    }
-> +
-> +    printf("heap: %p -> %p\n", info.heap_base, info.heap_limit);
-> +    printf("stack: %p -> %p\n", info.stack_base, info.stack_limit);
-> +
-> +    __semi_call(SYS_WRITE0, (uintptr_t) "Passed HeapInfo checks");
->       __semi_call(SYS_REPORTEXC, exit_code);
->       /* if we get here we failed */
->       return -1;
-> 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+--vkZDol1Y1r//t24p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 24, 2021 at 03:30:57PM +1100, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 22/03/2021 16:44, David Gibson wrote:
+> > On Thu, Feb 25, 2021 at 02:23:35PM +1100, Alexey Kardashevskiy wrote:
+> > > There is no H_REGISTER_PROCESS_TABLE, it is H_REGISTER_PROC_TBL handl=
+er
+> > > for which is still called h_register_process_table() though.
+> > >=20
+> > > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> >=20
+> > Applied to ppc-for-6.0.
+> >=20
+> > In future, best to CC me directly, since I only occasionally peruse
+> > the lists.
+>=20
+>=20
+>=20
+> even the qemu-ppc@nongnu.org list? okay :)
+
+Yes.  I do try to read qemu-ppc@nongnu.org weekly, but it's still easy
+for me to miss things.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--vkZDol1Y1r//t24p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBa2QIACgkQbDjKyiDZ
+s5JKHA/8DfDiL3hCRWePPRZZCYbYXbAO7Q1nMXec+JYYJn/uxoIWMoRkReSjtv91
+DZ2pIYSDgMbElYlK2I6+kGJTpo23muF27FhEt+Tw+zE4NlT6QZb7MadxIQ9ahp9b
+RfGBnzYBsnej5px72U2C9ennEWgbUDs3J4GPC36bFiQxz4s0c6VSz9KYRXsQHeGd
+G+bgeqgN8IGTm7Cy7PLN8Rm+KvEUj/crbbrOgv/6dYzXw5+JT0URsEq4tpQ+fVrL
+4YrKa7VhA2YJO8xo4mIW2mQXKD1wUSdJiHv/HClKecBSNg8nrqRdes0keTALGCbF
+9JlFnYXAoc69nPIKKRRW/aVQs0MDi9WQqoR0IRVhlB4VTrtwa7jSWT3OwcN8qbXp
+unlheoFTQMq+G16GpMprNZgoD/kGnmn/VxwRBPa9IID466YtaYBelSACTwcgixuX
+mm+jFa2i0sp6vTqtD0IlxwwR71Xzhu+XF3EQPFXSRjAq9ULeAmVR6bzDLLROwOj4
+69XkykdjZH3sa3Iu795jURA7vZfX4c6CrSyGIo7ZXSgIZvytaNZzZ6eNJKgnB6Tb
+Mh06/aZzZzkiYKiuhNjf+y55RfFs+dV3w+7eXj1dCeH7cd54pp/UG1KDh04QdNL/
+cdq/Or1SQAC1ZTEP/dTb8h/WptI4EM9uMN2PSb/MpC9E9Di11b0=
+=pseQ
+-----END PGP SIGNATURE-----
+
+--vkZDol1Y1r//t24p--
 
