@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BD83494B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:55:49 +0100 (CET)
-Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAFD3494B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:56:05 +0100 (CET)
+Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPROl-0002Ht-Q3
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:55:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59000)
+	id 1lPRP2-0002jy-A4
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lPRN4-0001Pf-4v
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:54:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lPRN1-0007fB-W9
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:54:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616684038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iquOW80TbbetYKVYTIUZAABbeD14OTvhz8yE35+x9RI=;
- b=BepiSyxcWEh2bPM9ZYk/NO9qwc7D2t7dgPikJDed1nGff6uP6zTqkVWYB+LnpBQewF3z+1
- EOXk+/pCLXKxv/UC1oySJhBSJfcTKW7KXtfsq30Y4da3OK4kG0CjtnH3BkoF6CSTPndCvZ
- xi29wLedsaOhunQf6ng0kNZC8dDbdug=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-rkuYM5S-NnSuXNKl50u_6w-1; Thu, 25 Mar 2021 10:53:56 -0400
-X-MC-Unique: rkuYM5S-NnSuXNKl50u_6w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C53B81744F;
- Thu, 25 Mar 2021 14:53:55 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-73.gru2.redhat.com
- [10.97.116.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD05A6E401;
- Thu, 25 Mar 2021 14:53:38 +0000 (UTC)
-Subject: Re: [PATCH v2 07/10] Acceptance Tests: set up SSH connection by
- default after boot for LinuxTest
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-8-crosa@redhat.com>
- <629927fd-ce1e-a501-0e35-15360a81cc07@redhat.com>
-Message-ID: <633f3eb4-dbf1-3a4f-7bb0-ee202ac0f201@redhat.com>
-Date: Thu, 25 Mar 2021 11:53:35 -0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPRNF-0001ZP-8Q
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:54:13 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:45640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPRNC-0007m9-PF
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:54:12 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id
+ 91-20020a9d08640000b0290237d9c40382so2141800oty.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 07:54:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=es6Ie4NmPWR+dPowDco5M0xF/1M5nHp2qsrje/pCIMM=;
+ b=v//5mpoEVxnmc4hAOILLbngmgxAB0uH7NFmL7iFtslgW6J6BnUnrw66epc7qxXQ7NT
+ ylX53rCddOCkWGxksjLGsO1DAhoXJq16iR08pOih6TEFOf1ojQr9hk3g5+K3lc1eJBfu
+ a+UhYj78muJtSpiMiwMU3Hk6PvIfsctPub8gFg4B9+tzHp3HjyhryXWgkx+3fYPWxaep
+ qA5AUx+AHF4YLfnvD957Iy8sTot39SFvAqgfDrCG+pC7qUwUAjERFf2GNDrPsxdFJvgm
+ GXAmdYY1YYglUR2tYuljn3G4vkZ0hHw1DizH1uriWTXWr9n6Oj3LpVe9G+cjMRDjsk8P
+ ypvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=es6Ie4NmPWR+dPowDco5M0xF/1M5nHp2qsrje/pCIMM=;
+ b=aHrIS2fMYOZyzGb97PWo304HKZTnPcBQe2bEOst2QcoOJi91DwY/XKGNMiwMiZCT49
+ 9Sie4+sGJB0UebuTq3VILu1gvHFutMf1N4Hrk9kgihPxL8Az9JN5qiJKM91neYsj+s3k
+ 4+esMCfRvoP2bMcbHuAA2cG1e6oMAKnDZ0Gd1miIXTpSI4x6kZwBKdN2eksvxOvCALX7
+ /aBB+boitERYz5nUuiOgimZq3YfmN0WjLR8my52wFKQDAV82npOxAqJxQTSKbGjxZMub
+ kNxytJ4EbapDFwvhWU2WbtfO0GXWPomZ4tD0dX+0YwrsZ9UGDj7vLO9VJbOUhTyL8she
+ q7rA==
+X-Gm-Message-State: AOAM530Wz3A2HAyCRuVLbQ4YdI0qbBMqhBafvUKh7pnfwRpMFsa7EVUv
+ eingi0um3eJe6E7nDWoXBo9kWQ==
+X-Google-Smtp-Source: ABdhPJxcvUt21HwLgx6hUu0SC9JuFx4MMMaUSedU0BM5Nn9Ljugynd4kYte4A0L75mX3BddM+sL+KQ==
+X-Received: by 2002:a05:6830:1b68:: with SMTP id
+ d8mr7685133ote.235.1616684049442; 
+ Thu, 25 Mar 2021 07:54:09 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id a7sm1287151ooo.30.2021.03.25.07.54.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 07:54:09 -0700 (PDT)
+Subject: Re: [PATCH 07/15] Hexagon (target/hexagon) use softfloat default NaN
+ and tininess
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
+ <1616640610-17319-8-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7371fb85-28fb-0e3e-8801-f6f529ca937d@linaro.org>
+Date: Thu, 25 Mar 2021 08:54:05 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <629927fd-ce1e-a501-0e35-15360a81cc07@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1616640610-17319-8-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,80 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/24/21 8:50 PM, Taylor Simpson wrote:
+> @@ -180,6 +183,8 @@ static FloatParts parts_silence_nan(FloatParts a, float_status *status)
+>   #if defined(TARGET_HPPA)
+>       a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
+>       a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
+> +#elif defined(TARGET_HEXAGON)
+> +    return parts_default_nan(status);
 
-On 3/25/21 11:31 AM, Wainer dos Santos Moschetta wrote:
-> Hi,
->
-> On 3/23/21 7:15 PM, Cleber Rosa wrote:
->> The LinuxTest specifically targets users that need to interact with 
->> Linux
->> guests.  So, it makes sense to give a connection by default, and avoid
->> requiring it as boiler-plate code.
->>
->> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   tests/acceptance/avocado_qemu/__init__.py | 5 ++++-
->>   tests/acceptance/virtiofs_submounts.py    | 1 -
->>   2 files changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/acceptance/avocado_qemu/__init__.py 
->> b/tests/acceptance/avocado_qemu/__init__.py
->> index 535f63a48d..4960142bcc 100644
->> --- a/tests/acceptance/avocado_qemu/__init__.py
->> +++ b/tests/acceptance/avocado_qemu/__init__.py
->> @@ -390,7 +390,7 @@ def set_up_cloudinit(self, ssh_pubkey=None):
->>           cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
->>           self.vm.add_args('-drive', 'file=%s,format=raw' % 
->> cloudinit_iso)
->>   -    def launch_and_wait(self):
->> +    def launch_and_wait(self, set_up_ssh_connection=True):
->>           self.vm.set_console()
->>           self.vm.launch()
->>           console_drainer = 
->> datadrainer.LineLogger(self.vm.console_socket.fileno(),
->> @@ -398,3 +398,6 @@ def launch_and_wait(self):
->>           console_drainer.start()
->>           self.log.info('VM launched, waiting for boot confirmation 
->> from guest')
->>           cloudinit.wait_for_phone_home(('0.0.0.0', 
->> self.phone_home_port), self.name)
->> +        if set_up_ssh_connection:
->> +            self.log.info('Setting up the SSH connection')
->> +            self.ssh_connect(self.username, self.ssh_key)
->
-> Where is self.username set?
-Never mind, I missed patch 06.
->
->
-> - Wainer
->
->> diff --git a/tests/acceptance/virtiofs_submounts.py 
->> b/tests/acceptance/virtiofs_submounts.py
->> index e10a935ac4..e019d3b896 100644
->> --- a/tests/acceptance/virtiofs_submounts.py
->> +++ b/tests/acceptance/virtiofs_submounts.py
->> @@ -136,7 +136,6 @@ def set_up_virtiofs(self):
->>         def launch_vm(self):
->>           self.launch_and_wait()
->> -        self.ssh_connect('root', self.ssh_key)
->>         def set_up_nested_mounts(self):
->>           scratch_dir = os.path.join(self.shared_dir, 'scratch')
->
->
+This part is incorrect.  You should be changing no_signaling_nans above, because:
 
+4.3.11.2 Floating-Point Representation
+
+... The ISA does not include IEEE754 signaling NaNs ...
+
+
+r~
 
