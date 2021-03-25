@@ -2,57 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AED348665
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 02:23:31 +0100 (CET)
-Received: from localhost ([::1]:38950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1553486B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 02:53:43 +0100 (CET)
+Received: from localhost ([::1]:47104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPEig-0005Fy-8E
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 21:23:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46458)
+	id 1lPFBu-0002AB-NL
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 21:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lPEhP-0004jl-Nu
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 21:22:11 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:4104)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lPFAp-00014Y-Oj; Wed, 24 Mar 2021 21:52:35 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50523 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1lPEhH-0002aD-PN
- for qemu-devel@nongnu.org; Wed, 24 Mar 2021 21:22:11 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F5S2M6zpXz9sd5;
- Thu, 25 Mar 2021 09:19:55 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 25 Mar 2021 09:21:53 +0800
-Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
-To: Peter Xu <peterx@redhat.com>
-References: <20210310203301.194842-1-peterx@redhat.com>
- <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
- <20210322194533.GE16645@xz-x1>
- <ddf6bf41-ab29-8bbc-d3fb-94938e42e215@huawei.com>
- <20210323143429.GB6486@xz-x1>
- <5da1dd71-58e9-6579-c7c1-6cb60baf7ac1@huawei.com>
- <20210324150943.GB219069@xz-x1>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <25da9dde-bd02-b557-66ed-06e4422c5634@huawei.com>
-Date: Thu, 25 Mar 2021 09:21:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lPFAm-0007a7-S0; Wed, 24 Mar 2021 21:52:35 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F5Slt3Qf2z9sWX; Thu, 25 Mar 2021 12:52:26 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616637146;
+ bh=wqbuhJ6jHsElSix/fTSR2rOAX+XtGAGO1nJN4Fj/xUo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LewSEbf6ixLGHIZkeeMCf35r3U6EyG4kVTksZ+i1aivjbhho/Vhlxe/g7vXKfuf43
+ yQH15J7IQtPnQ9Pl2J4gC8xjg8vYb2yyiMUwTrH2EMDWRCwoRv9Q+BLhBFN2CghdHU
+ zndU320sHvePfHhKeKF2+uIkNg+KGoJIZ9XcN/bg=
+Date: Thu, 25 Mar 2021 12:32:47 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 0/4] DEVICE_NOT_DELETED/DEVICE_UNPLUG_ERROR QAPI events
+Message-ID: <YFvoP20SkpTrp6pQ@yekko.fritz.box>
+References: <20210312200740.815014-1-danielhb413@gmail.com>
+ <YFlAheldkqCkZytI@yekko.fritz.box>
+ <b8d96ab9-61e5-b941-6405-5beff5fe0df5@gmail.com>
+ <YFqYkuBSD3xPgLVi@yekko.fritz.box>
+ <ba20de28-d65b-6da4-5bff-92b637cf7a56@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210324150943.GB219069@xz-x1>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qOOv7PlkpAyY/Pc7"
+Content-Disposition: inline
+In-Reply-To: <ba20de28-d65b-6da4-5bff-92b637cf7a56@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,132 +61,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter,
 
-On 2021/3/24 23:09, Peter Xu wrote:
-> On Wed, Mar 24, 2021 at 10:56:22AM +0800, Keqian Zhu wrote:
->> Hi Peter,
->>
->> On 2021/3/23 22:34, Peter Xu wrote:
->>> Keqian,
->>>
->>> On Tue, Mar 23, 2021 at 02:40:43PM +0800, Keqian Zhu wrote:
->>>>>> The second question is that you observed longer migration time (55s->73s) when guest
->>>>>> has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
->>>>>> ring enabled, Qemu can get dirty info faster which means it handles dirty page more
->>>>>> quick, and guest can be throttled which means dirty page is generated slower. What's
->>>>>> the rationale for the longer migration time?
->>>>>
->>>>> Because dirty ring is more sensitive to dirty rate, while dirty bitmap is more
->>>> Emm... Sorry that I'm very clear about this... I think that higher dirty rate doesn't cause
->>>> slower dirty_log_sync compared to that of legacy bitmap mode. Besides, higher dirty rate
->>>> means we may have more full-exit, which can properly limit the dirty rate. So it seems that
->>>> dirty ring "prefers" higher dirty rate.
->>>
->>> When I measured the 800MB/s it's in the guest, after throttling.
->>>
->>> Imagine another example: a VM has 1G memory keep dirtying with 10GB/s.  Dirty
->>> logging will need to collect even less for each iteration because memory size
->>> shrinked, collect even less frequent due to the high dirty rate, however dirty
->>> ring will use 100% cpu power to collect dirty pages because the ring keeps full.
->> Looks good.
->>
->> We have many places to collect dirty pages: the background reaper, vCPU exit handler,
->> and the migration thread. I think migration time is closely related to the migration thread.
->>
->> The migration thread calls kvm_dirty_ring_flush().
->> 1. kvm_cpu_synchronize_kick_all() will wait vcpu handles full-exit.
->> 2. kvm_dirty_ring_reap() collects and resets dirty pages.
->> The above two operation will spend more time with higher dirty rate.
->>
->> But I suddenly realize that the key problem maybe not at this. Though we have separate
->> "reset" operation for dirty ring, actually it is performed right after we collect dirty
->> ring to kvmslot. So in dirty ring mode, it likes legacy bitmap mode without manual_dirty_clear.
->>
->> If we can "reset" dirty ring just before we really handle the dirty pages, we can have
->> shorter migration time. But the design of dirty ring doesn't allow this, because we must
->> perform reset to make free space...
-> 
-> This is a very good point.
-> 
-> Dirty ring should have been better in quite some ways already, but from that
-> pov as you said it goes a bit backwards on reprotection of pages (not to
-> mention currently we can't even reset the ring per-vcpu; that seems to be not
-> fully matching the full locality that the rings have provided as well; but
-> Paolo and I discussed with that issue, it's about TLB flush expensiveness, so
-> we still need to think more of it..).
-> 
-> Ideally the ring could have been both per-vcpu but also bi-directional (then
-> we'll have 2*N rings, N=vcpu number), so as to split the state transition into
-> "dirty ring" and "reprotect ring", then that reprotect ring will be the clear
-> dirty log.  That'll look more like virtio as used ring.  However we'll still
-> need to think about the TLB flush issue too as Paolo used to mention, as
-> that'll exist too with any per-vcpu flush model (each reprotect of page will
-> need a tlb flush of all vcpus).
-> 
-> Or.. maybe we can make the flush ring a standalone one, so we need N dirty ring
-> and one global flush ring.
-Yep, have separate "reprotect" ring(s) is a good idea.
+--qOOv7PlkpAyY/Pc7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Anyway.. Before that, I'd still think the next step should be how to integrate
-> qemu to fully leverage current ring model, so as to be able to throttle in
-> per-vcpu fashion.
-> 
-> The major issue (IMHO) with huge VM migration is:
-> 
->   1. Convergence
->   2. Responsiveness
-> 
-> Here we'll have a chance to solve (1) by highly throttle the working vcpu
-> threads, meanwhile still keep (2) by not throttle user interactive threads.
-> I'm not sure whether this will really work as expected, but just show what I'm
-> thinking about it.  These may not matter a lot yet with further improving ring
-> reset mechanism, which definitely sounds even better, but seems orthogonal.
-> 
-> That's also why I think we should still merge this series first as a fundation
-> for the rest.
-I see.
+On Wed, Mar 24, 2021 at 04:09:59PM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 3/23/21 10:40 PM, David Gibson wrote:
+> > On Tue, Mar 23, 2021 at 02:10:22PM -0300, Daniel Henrique Barboza wrote:
+> > >=20
+> > >=20
+> > > On 3/22/21 10:12 PM, David Gibson wrote:
+> > > > On Fri, Mar 12, 2021 at 05:07:36PM -0300, Daniel Henrique Barboza w=
+rote:
+> > > > > Hi,
+> > > > >=20
+> > > > > This series adds 2 new QAPI events, DEVICE_NOT_DELETED and
+> > > > > DEVICE_UNPLUG_ERROR. They were (and are still being) discussed in=
+ [1].
+> > > > >=20
+> > > > > Patches 1 and 3 are independent of the ppc patches and can be app=
+lied
+> > > > > separately. Patches 2 and 4 are based on David's ppc-for-6.0 bran=
+ch and
+> > > > > are dependent on the QAPI patches.
+> > > >=20
+> > > > Implementation looks fine, but I think there's a bit more to discuss
+> > > > before we can apply.
+> > > >=20
+> > > > I think it would make sense to re-order this and put UNPLUG_ERROR
+> > > > first.  Its semantics are clearer, and I think there's a stronger c=
+ase
+> > > > for it.
+> > >=20
+> > > Alright
+> > >=20
+> > > >=20
+> > > > I'm a bit less sold on DEVICE_NOT_DELETED, after consideration.  Do=
+es
+> > > > it really tell the user/management anything useful beyond what
+> > > > receiving neither a DEVICE_DELETED nor a DEVICE_UNPLUG_ERROR does?
+> > >=20
+> > >=20
+> > > It informs that the hotunplug operation exceed the timeout that QEMU
+> > > internals considers adequate, but QEMU can't assert that it was caused
+> > > by an error or an unexpected delay. The end result is that the device
+> > > is not going to be deleted from QMP, so DEVICE_NOT_DELETED.
+> >=20
+> > Is it, though?  I mean, it is with this implementation for papr:
+> > because we clear the unplug_requested flag, even if the guest later
+> > tries to complete the unplug, it will fail.
+> >=20
+> > But if I understand what Markus was saying correctly, that might not
+> > be possible for all hotplug systems.  I believe Markus was suggesting
+> > that DEVICE_NOT_DELETED could just mean that we haven't deleted the
+> > device yet, but it could still happen later.
+> >=20
+> > And in that case, I'm not yet sold on the value of a message that
+> > essentially just means "Ayup, still dunno what's happening, sorry".
+> >=20
+> > > Perhaps we should just be straightforward and create a DEVICE_UNPLUG_=
+TIMEOUT
+> > > event.
+> >=20
+> > Hm... what if we added a "reason" field to UNPLUG_ERROR.  That could
+> > be "guest rejected hotplug", or something more specific, in the rare
+> > case that the guest has a way of signalling something more specific,
+> > or "timeout" - but the later *only* to be sent in cases where on the
+> > timeout we're able to block any later completion of the unplug (as we
+> > can on papr).
+>=20
+> I believe that's already covered by the existing API:
+>=20
+>=20
+> +# @DEVICE_UNPLUG_ERROR:
+> +#
+> +# Emitted when a device hot unplug error occurs.
+> +#
+> +# @device: device name
+> +#
+> +# @msg: Informative message
 
-> 
->>
->>>
->>>>
->>>>> sensitive to memory footprint.  In above 24G mem + 800MB/s dirty rate
->>>>> condition, dirty bitmap seems to be more efficient, say, collecting dirty
->>>>> bitmap of 24G mem (24G/4K/8=0.75MB) for each migration cycle is fast enough.
->>>>>
->>>>> Not to mention that current implementation of dirty ring in QEMU is not
->>>>> complete - we still have two more layers of dirty bitmap, so it's actually a
->>>>> mixture of dirty bitmap and dirty ring.  This series is more like a POC on
->>>>> dirty ring interface, so as to let QEMU be able to run on KVM dirty ring.
->>>>> E.g., we won't have hang issue when getting dirty pages since it's totally
->>>>> async, however we'll still have some legacy dirty bitmap issues e.g. memory
->>>>> consumption of userspace dirty bitmaps are still linear to memory footprint.
->>>> The plan looks good and coordinated, but I have a concern. Our dirty ring actually depends
->>>> on the structure of hardware logging buffer (PML buffer). We can't say it can be properly
->>>> adapted to all kinds of hardware design in the future.
->>>
->>> Sorry I don't get it - dirty ring can work with pure page wr-protect too?
->> Sure, it can. I just want to discuss many possible kinds of hardware logging buffer.
->> However, I'd like to stop at this, at least dirty ring works well with PML. :)
-> 
-> I see your point.  That'll be a good topic at least when we'd like to port
-> dirty ring to other archs for sure.  However as you see I hoped we can start to
-> use dirty ring first, find issues, fix it, even redesign some of it, make it
-> really beneficial at least on one arch, then it'll make more sense to port it,
-> or attract people porting it. :)
-> 
-> QEMU does not yet have a good solution for huge vm migration yet.  Maybe dirty
-> ring is a good start for it, maybe not (e.g., with uffd minor mode postcopy has
-> the other chance).  We'll see...
-OK.
+Oh, sorry, I missed that
 
-Thanks,
-Keqian
+> The 'informative message' would be the reason the event occurred. In patch
+> 4/4, for the memory hotunplug refused by the guest, it is being set as:
+>=20
+>      qapi_error =3D g_strdup_printf("Memory hotunplug rejected by the gue=
+st "
+>                                   "for device %s", dev->id);
+>      qapi_event_send_device_unplug_error(dev->id, qapi_error);
+>=20
+>=20
+>=20
+> We could use the same DEVICE_UNPLUG_ERROR event in the CPU hotunplug time=
+out
+> case (currently on patch 2/4) by just changing 'msg', e.g.:
+>=20
+>=20
+>      qapi_error =3D g_strdup_printf("CPU hotunplug timeout for device %s"=
+, dev->id);
+>      qapi_event_send_device_unplug_error(dev->id, qapi_error);
+
+I think that makes sense for the cases on papr.  Less sure about the
+cases Markus has mentioned.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--qOOv7PlkpAyY/Pc7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBb6DwACgkQbDjKyiDZ
+s5IimRAAmgdQk2S0HGsspow4QrrjjM1dC38Mv7nYwppbP6P26OYaWlePHUu3l4uJ
+q1t9dnpqqUC0FHYIg8/CsAj6ivjjyqwFJFovq7kPR/hIUIgvdfZ7IrbSOE2Zfkpq
+sQI73T/HJ8YRo0zMXSMgHqN760YMeNXB0LyltEXBRyIQw342ceJabS2wG/nsEhR3
+DvDtTbVS8x2dJRSiBWYe3pd6r2yCKrTT10u7yN8agq5sQdAMkNUNhtgSI43TW42f
+37QUtQdIrktMLVX2cr7Ejo6ziYwyxlYwXnzO8ssk0vlSHpCvL6nDyuYTdXZfqhOW
+t859aaF+D5yQOzHMFXC4sHsxj6VG+gYPqtoT+Hinu9BtUj+jXnIrpE8HGc8Lu8cy
+EAYKiTsPAGyTRYMP6RjRov8BEuxy9c7WjIbx9Z/WEvp+mXzks4PKEWYjt2wZY5P4
+NfqIrGSnmnsiwqXooS5hDCtRKlVz2eRp5QcKKjvH4tbRJBtijAaZUNSqLoCbX4+/
+WNjEMRIkQies+VJmJ7HBJjwwG1eklBF1pvSjBeL0gayHRtzStTeZQgLQWVn3m8tX
+hETrxGvIhstE8uAvEGUtDr4T2CsnDu51ueptv4gGC7CYX+P1nJhuNwHTok85+Qb5
+vQAZQnEYizWIKnkDHuvzaNG2ZwPHv6W7I0c8jM07TdPDHPgJ41M=
+=IaKU
+-----END PGP SIGNATURE-----
+
+--qOOv7PlkpAyY/Pc7--
 
