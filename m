@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79C4349442
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:38:15 +0100 (CET)
-Received: from localhost ([::1]:43188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126D834944F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:40:12 +0100 (CET)
+Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPR7m-0002p3-Oc
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
+	id 1lPR9f-00047E-4V
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPR6D-0001mI-LC
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:36:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lPR66-0005vP-5Y
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:36:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616682989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=81LYLyIqpgREZvFXHcRYXKk14NiGerQwJuI3Hocn3h8=;
- b=C9ncMKma5Q7FvqGK+aGJzuXclcyQ2xnBurzyK3dg69+e+w6iOZ6ELed2/WAQkginKWayDS
- q4672EO1xUTKv6g076PIPEarxUZtfjdIzEXMTTqxMx3p71wDeIqXXZmOEZWAlc6RppfrlJ
- O3mRgHQDGwD9vwoh/vRBfdkAQX62Clo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-tMcXAvpANV2zHZOSi5OTnw-1; Thu, 25 Mar 2021 10:36:24 -0400
-X-MC-Unique: tMcXAvpANV2zHZOSi5OTnw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 664EF87A83C;
- Thu, 25 Mar 2021 14:36:23 +0000 (UTC)
-Received: from localhost (ovpn-119-39.rdu2.redhat.com [10.10.119.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12CF710013D7;
- Thu, 25 Mar 2021 14:36:15 +0000 (UTC)
-Date: Thu, 25 Mar 2021 10:36:04 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 1/1] avocado_qemu: Add SMMUv3 tests
-Message-ID: <20210325143604.GA3629845@amachine.somewhere>
-References: <20210325095712.250262-1-eric.auger@redhat.com>
- <20210325095712.250262-2-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPR8Y-0003hu-Ui
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:39:02 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:42793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPR8X-0007SP-80
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:39:02 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 31-20020a9d00220000b02901b64b9b50b1so2114817ota.9
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 07:39:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mRqOjZG6cKvjnDG2pWQ+Ilmc3BqSM+Y65+h5TGVCKCQ=;
+ b=YlOc80UO7oVCMeGNFpUtZjTRqChqHQSjNCtZqFt+xgA0AsanCz4JYsOq62sqk7D7m8
+ hGDobTnDp34EOLxEOc2aNkqb6Y6lbsPCAYPK5ewq5pq+HsTPCgqifvmwrxm3j+05vima
+ 7Gf1pfxjDmHNaFGiO4HDz9NQ10G8lJ//SoAFw3d/LlK1OrVt2G5Yakzq5jqs0aQTwhCJ
+ y018mEOZlP/FOq9FgsfqNOE7rEl3HikhyNev4IuqMHWRkbaBcgO73TKROhGJwn1T1Ffn
+ sxgcdKNUXylJfz2+5ojlKJ9oWfmQ3vCS41eIMTzeLjeTRwbEUOCnUcsX+qom4YwoA25u
+ U5ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mRqOjZG6cKvjnDG2pWQ+Ilmc3BqSM+Y65+h5TGVCKCQ=;
+ b=sbtTQTA7gZsKaAewPw1fXyq8bqbCD0bJZRWPHdAK4ZxYdRZfZlh1ux7CxaCnpr6VMl
+ k+BIfST0oLgNnqek8o5a3/RrTJt93Hyp6GVOLhnP9z0A7QTB7QHQu1Ol8VH42d1qhX9k
+ sHGu8YVvfyf/0jOSmqLeAzdtwr7TnXmlcOIJLY59VDWYJpcbS2Pghsc852CaUJICDLfQ
+ h6u7uJYawBCv7MZOlTh+/rEKtFwz9p6HP/enhhnuAabGuzhd059Q2m/xF1b/hdJzmoT0
+ Nevhb5WejFnOAvP0gZkfOd17empU/hIlxhxUh8fXHhbnK557QPcqUjgbQr8mjayyzsxJ
+ 8AQw==
+X-Gm-Message-State: AOAM533q2t3opvRBN0NCpQpa3k+t54KQdJ7lJmkK9Jgq+EOtPeYAC2EY
+ ubAW4+4GsgiKjE9rTGI7/H9tDw==
+X-Google-Smtp-Source: ABdhPJxTbgu6f02skE+meFURQj8OCquFRi5CilOr/io+7OJx8xTzVCbOsx36Zoq2kmggqBbBweOhRA==
+X-Received: by 2002:a9d:921:: with SMTP id 30mr7856874otp.49.1616683139961;
+ Thu, 25 Mar 2021 07:38:59 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id r10sm1418836ots.33.2021.03.25.07.38.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 07:38:59 -0700 (PDT)
+Subject: Re: [PATCH 03/15] Hexagon (target/hexagon) properly generate TB end
+ for DISAS_NORETURN
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
+ <1616640610-17319-4-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0d89920a-35e2-6134-70a1-0dcf890ef254@linaro.org>
+Date: Thu, 25 Mar 2021 08:38:57 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210325095712.250262-2-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1616640610-17319-4-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,232 +90,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
- eric.auger.pro@gmail.com
+Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Mar 25, 2021 at 10:57:12AM +0100, Eric Auger wrote:
-> Add new tests checking the good behavior of the SMMUv3 protecting
-> 2 virtio pci devices (block and net). We check the guest boots and
-> we are able to install a package. Different guest configs are tested:
-> standard, passthrough an strict=3D0. Given the version of the guest
-> kernel in use (5.3.7 at this moment), range invalidation is not yet
-> tested. This will be handled separately.
->=20
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+On 3/24/21 8:49 PM, Taylor Simpson wrote:
+> When exiting a TB, generate all the code before returning from
+> hexagon_tr_translate_packet so that nothing needs to be done in
+> hexagon_tr_tb_stop.
+> 
+> Address feedback from Richard Henderson <richard.henderson@linaro.org>
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->  tests/acceptance/smmu.py | 104 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 104 insertions(+)
->  create mode 100644 tests/acceptance/smmu.py
->=20
-> diff --git a/tests/acceptance/smmu.py b/tests/acceptance/smmu.py
-> new file mode 100644
-> index 0000000000..65ecac8f1a
-> --- /dev/null
-> +++ b/tests/acceptance/smmu.py
-> @@ -0,0 +1,104 @@
-> +# SMMUv3 Functional tests
-> +#
-> +# Copyright (c) 2021 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Eric Auger <eric.auger@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +import os
-> +
-> +from avocado_qemu import LinuxTest, BUILD_DIR
-> +from avocado.utils import ssh
+>   target/hexagon/translate.c | 62 +++++++++++++++++++++++++---------------------
+>   target/hexagon/translate.h |  3 ---
+>   2 files changed, 34 insertions(+), 31 deletions(-)
+> 
+> diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
+> index 5d92ab0..19b9bc7 100644
+> --- a/target/hexagon/translate.c
+> +++ b/target/hexagon/translate.c
+> @@ -54,16 +54,41 @@ static const char * const hexagon_prednames[] = {
+>     "p0", "p1", "p2", "p3"
+>   };
+>   
+> -void gen_exception(int excp)
+> +static void gen_exception(int excp)
 
-This import is not needed, given that the you're not using them directly,
-but only using the LinuxTest methods that wrap them.
+I would call this something like gen_exception_raw or gen_exception_nopc, or 
+something because,
 
-> +
-> +class SMMU(LinuxTest):
-> +
-> +    KERNEL_COMMON_PARAMS =3D ("root=3DUUID=3Db6950a44-9f3c-4076-a9c2-355=
-e8475b0a7 ro "
-> +                            "earlyprintk=3Dpl011,0x9000000 ignore_loglev=
-el "
-> +                            "no_timer_check printk.time=3D1 rd_NO_PLYMOU=
-TH "
-> +                            "console=3DttyAMA0 ")
-> +    IOMMU_ADDON =3D ',iommu_platform=3Don,disable-modern=3Doff,disable-l=
-egacy=3Don'
-> +    IMAGE =3D ("https://archives.fedoraproject.org/pub/archive/fedora/"
-> +             "linux/releases/31/Everything/aarch64/os/images/pxeboot/")
-> +    kernel_path =3D None
-> +    initrd_path =3D None
-> +    kernel_params =3D None
-> +
-> +    def set_up_boot(self):
-> +        path =3D self.download_boot()
-> +        self.vm.add_args('-device', 'virtio-blk-pci,bus=3Dpcie.0,scsi=3D=
-off,' +
-> +                         'drive=3Ddrv0,id=3Dvirtio-disk0,bootindex=3D1,'
-> +                         'werror=3Dstop,rerror=3Dstop' + self.IOMMU_ADDO=
-N)
-> +        self.vm.add_args('-drive',
-> +                         'file=3D%s,if=3Dnone,cache=3Dwritethrough,id=3D=
-drv0' % path)
-> +
-> +    def setUp(self):
-> +        super(SMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDO=
-N)
-> +
-> +    def add_common_args(self):
-> +        self.vm.add_args("-machine", "virt")
-> +        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
-> +                                      'edk2-aarch64-code.fd'))
-> +        self.vm.add_args('-device', 'virtio-rng-pci,rng=3Drng0')
-> +        self.vm.add_args('-object',
-> +                         'rng-random,id=3Drng0,filename=3D/dev/urandom')
-> +
-> +    def common_vm_setup(self, custom_kernel=3DNone):
-> +        self.require_accelerator("kvm")
-> +        self.add_common_args()
+> +static void gen_exception_end_tb(DisasContext *ctx, int excp)
 
-I know you're following the previous test pattern/template, but maybe
-combine add_command_args() and common_vm_setup()?  They seem to be
-doing the same thing.
+... *all* exceptions end the tb.
 
-> +        self.vm.add_args("-accel", "kvm")
-> +        self.vm.add_args("-cpu", "host")
-> +        self.vm.add_args("-machine", "iommu=3Dsmmuv3")
-> +
-> +        if custom_kernel is None:
-> +            return
-> +
-> +        kernel_url =3D self.IMAGE + 'vmlinuz'
-> +        initrd_url =3D self.IMAGE + 'initrd.img'
-> +        self.kernel_path =3D self.fetch_asset(kernel_url)
-> +        self.initrd_path =3D self.fetch_asset(initrd_url)
-> +
-> +    def run_and_check(self):
-> +        if self.kernel_path:
-> +            self.vm.add_args('-kernel', self.kernel_path,
-> +                             '-append', self.kernel_params,
-> +                             '-initrd', self.initrd_path)
-> +        self.launch_and_wait()
-> +        self.ssh_command('cat /proc/cmdline')
-> +        self.ssh_command('dnf -y install numactl-devel')
+> +{
+> +    gen_exec_counters(ctx);
+> +    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
+> +    gen_exception(excp);
 
-Would you expect the package installation to cover significant more
-than, say, a package removal?  Not relying on the distro's package
-repos (and external networking) would be an improvement to the test's
-stability, but I wonder how much functional coverage would be lost.
+The helper_raise_exception call longjmped away, so
 
-FIY, I've tried it with 'dnf -y remove yum' instead, and test times
-are also considerably lower.
+> +    tcg_gen_exit_tb(NULL, 0);
 
-> +
-> +    def test_smmu(self):
-> +        """
-> +        :avocado: tags=3Daccel:kvm
-> +        :avocado: tags=3Dcpu:host
-> +        :avocado: tags=3Dsmmu
-> +        """
+... this exit_tb is dead code.
 
-These tags are common across all tests, so you can move them to the class'
-docstring.  Also, you need to add ":avocado: tags=3Darch:aarch64" or else
-these will be attempted to be executed with other targets.
+> @@ -537,8 +551,7 @@ static bool hexagon_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+>   
+>       tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
+> -    ctx->base.is_jmp = DISAS_NORETURN;
+> -    gen_exception_debug();
+> +    gen_exception_end_tb(ctx, EXCP_DEBUG);
 
-> +
-> +        self.common_vm_setup()
-> +        self.run_and_check()
-> +
-> +    def test_smmu_passthrough(self):
-> +        """
-> +        :avocado: tags=3Daccel:kvm
-> +        :avocado: tags=3Dcpu:host
-> +        :avocado: tags=3Dsmmu
-> +        """
-> +        self.common_vm_setup(True)
-> +
-> +        self.kernel_params =3D self.KERNEL_COMMON_PARAMS + 'iommu.passth=
-rough=3Don'
-> +
-> +        self.run_and_check()
-> +
-> +    def test_smmu_nostrict(self):
-> +        """
-> +        :avocado: tags=3Daccel:kvm
-> +        :avocado: tags=3Dcpu:host
-> +        :avocado: tags=3Dsmmu
-> +        """
-> +        self.common_vm_setup(True)
-> +
-> +        self.kernel_params =3D self.KERNEL_COMMON_PARAMS + 'iommu.strict=
-=3D0'
-> +
-> +        self.run_and_check()
-> --=20
-> 2.26.2
->=20
+The set of the pc is also redundant?
 
-Other than those comments, the tests work as expected:
 
-$ ./tests/venv/bin/avocado run tests/acceptance/smmu.py
-JOB ID     : 8b1f1bb775d41e5c593e727ec1907710f076b161
-JOB LOG    : /home/cleber/avocado/job-results/job-2021-03-25T10.31-8b1f1bb/=
-job.log
- (1/3) tests/acceptance/smmu.py:SMMU.test_smmu: PASS (42.99 s)
- (2/3) tests/acceptance/smmu.py:SMMU.test_smmu_passthrough: PASS (47.06 s)
- (3/3) tests/acceptance/smmu.py:SMMU.test_smmu_nostrict: PASS (47.54 s)
-RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CA=
-NCEL 0
-JOB TIME   : 138.56 s
-
-And even with a bit of stress (running them in parallel) proved to be
-quite stable:
-
-./tests/venv/bin/avocado run --test-runner=3Dnrunner tests/acceptance/smmu.=
-py
-
-JOB ID     : bb2c3a006bb491a7086612dfa1ef980b55db4105
-JOB LOG    : /home/cleber/avocado/job-results/job-2021-03-25T10.30-bb2c3a0/=
-job.log
- (2/3) tests/acceptance/smmu.py:SMMU.test_smmu_passthrough: STARTED
- (1/3) tests/acceptance/smmu.py:SMMU.test_smmu: STARTED
- (3/3) tests/acceptance/smmu.py:SMMU.test_smmu_nostrict: STARTED
- (1/3) tests/acceptance/smmu.py:SMMU.test_smmu: PASS (50.22 s)
- (2/3) tests/acceptance/smmu.py:SMMU.test_smmu_passthrough: PASS (57.98 s)
- (3/3) tests/acceptance/smmu.py:SMMU.test_smmu_nostrict: PASS (58.28 s)
-RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CA=
-NCEL 0
-JOB TIME   : 60.35 s
-
-Regards,
-- Cleber.
-
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBcn9IACgkQZX6NM6Xy
-CfOrVRAAx3grgBNv5k1+nDkeLxk7hUBT0ooQJd7UmyD26e3C/1LwI6JyYy3VRkxi
-/jvihg3T0gRV9bVIvRDKuyx7B6Wws38WEl0t413sHIIWY5VOCs4cy9luTx0NPg6z
-OEgIjfWofPpSrwmfvde26N/jBHdqYesFZJoqUTw2ZwE/liQBlrGeb9Zxi6ghgv/d
-oaG+cKjzbuVLIWPMyafajxA6ckPgknHP9JEZPpiMkS1JFgK9sLvO3Hv8E1qmWg1Z
-QzfAwgV3EzCk3JkS6ybMUkpPfdzUTi9hZtp2Sg9qsWvx403favONmecYbNvMyCxK
-HG+OAiDeoL+7IJjsIRh8xlaiQEv0+REDO/ExQpwXJ6s9rGJwvGcQNWKPuQEsOGwp
-YS6wDGDXE/bjNpyJoYHog6tX+lDlWjejUU05Wnky8hhYPhGPrn0SpPyO/C3GY3JP
-c/bI+UbCXO8simnSaNJ0/PoGwID9gOsnkR8W8P/brruCD2wnj6lTvOq84Uiy1pEV
-ye8l5t8IHheHgAyskueHMbwO/8XJFwgfQvhwRY6rc7cihrItnBNVco8D1ovSseZ0
-nUX/ETKGW+bOZ0DeH1ZLUVHFQlQyPy15bE2Wx4tTIN3H/OYM37VLqZLlMTgYvk26
-l+BgMdXpK/e55oslIRRNfxp07z2im12uzubGBfj11Zfnbuvqt34=
-=oMKj
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
-
+r~
 
