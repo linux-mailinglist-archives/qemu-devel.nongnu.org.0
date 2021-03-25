@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFEA34884A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 06:19:17 +0100 (CET)
-Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E7234884F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 06:23:45 +0100 (CET)
+Received: from localhost ([::1]:45706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPIOp-00021S-VA
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 01:19:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
+	id 1lPITA-0003N4-D7
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 01:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPINY-0001ca-GY
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:17:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22211)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPINR-0007eQ-24
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:17:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616649467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aLlcm6ZYfZugI/qFBsXdOLFIDHjXoh0kb7F8TGgYtwE=;
- b=dqxLNRz70Vy3A21acCqGh0QeEH+23OumuADngOLX38T8oaGvXPjLUufQuXFm51qzPJLJYd
- CBkuRF5p1evCS9CdBbjPBuEMdsSZ2IpdsWENXEdLF7FBinIY4SkqxZ5F5nqkyW4ks4LJbn
- 5JSmA990fdPmFnT5OdlYGSxFqq6tex0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-gsY449XFNCGV_rPTMSOEuQ-1; Thu, 25 Mar 2021 01:17:41 -0400
-X-MC-Unique: gsY449XFNCGV_rPTMSOEuQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0228091248;
- Thu, 25 Mar 2021 05:17:40 +0000 (UTC)
-Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EF3A5D9DE;
- Thu, 25 Mar 2021 05:17:39 +0000 (UTC)
-Subject: Re: [PATCH v3 15/16] qapi/expr.py: move related checks inside
- check_xxx functions
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-16-jsnow@redhat.com>
- <87r1l488vx.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <9cbaa0fe-d926-84d1-c0e2-f0bffc9cba3b@redhat.com>
-Date: Thu, 25 Mar 2021 01:17:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lPIS9-0002x6-7S
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:22:41 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lPIS7-0001vk-E4
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:22:40 -0400
+Received: by mail-pg1-x533.google.com with SMTP id l76so649232pga.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 22:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=ZiFC0tehJEXcbI5i87SBsEC80uwHfZynh1HxtOTYEW4=;
+ b=fp8dytARxca71Ru7ihRW+M3LApZs2/17Y6DLCgWGwefkIcqgpWLxj4Ug5tCacSYZIf
+ oRdiEnH8fO1RiBs3ckE/nsEQnXSEDE0Z4GkwxdHzCV82j13GZz3b1PV33Mp8nvNOnedB
+ oCKfA7WbpEw8B+MXOqYir3wkiuoPQNXjSIQZnoKuxH80J/lsmBI/7PPXRAWnFe/sJljU
+ zEQY2/vGnZxzGI2JC5D7r+gyOtWKY/Ij82JmomMnAYM/+J1c/oGNoaOmHCvGINxRmzEH
+ EzTvUSOyvmPT3Dzl8qiJgQDc05v5Nygi98YlzeWr9E9Z4JPRQxndsyNWKtYrwXRcWMNg
+ Patw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=ZiFC0tehJEXcbI5i87SBsEC80uwHfZynh1HxtOTYEW4=;
+ b=Yxe7mVZiYgLirBXCuA3xQYeCxFmKTSZpQIiSxJgf4r8Iu1xCfyjb/JzdWUunYPkDwe
+ iWe5bKm86eOcHvSwBcIj49y1ho0q9FIbNBaCkgoptpR45fC7qACFnXbSgW3yy2ZlHXTR
+ by/UeqTh2EZfAJ4DonxLZ7Ku3y8FPG/w6lu4QGQkUiy1arD17g3t3Wg1TRGy2V0BEbuI
+ UQffi3iUjzdJkg91jFBkRzqJq28RInDDsX0C1oxIaDvmkMlzLGSoKxoxQU+KZ06UKkbi
+ JTHNL1gcwnc9i4bAbKd0p3aCuRIosgX/wJBqebC7TMRYziOzFHlCIPp+WpGQOCO2g9Tz
+ J8iw==
+X-Gm-Message-State: AOAM5314+lnm0mF5lbOy56IdfqfsCtUWVOr08yIDcNQg/CgNcJmZkLaF
+ xmEgU+1QuuP6XyqFhZ/s+54tSg==
+X-Google-Smtp-Source: ABdhPJzih7VfQ0Xax/cZM9TRC0iDgbT4Y1E/V7ynJure+cTLkJGTb1i0E2pgJCaD7i3kkDqz+4evtw==
+X-Received: by 2002:aa7:8187:0:b029:213:d43b:4782 with SMTP id
+ g7-20020aa781870000b0290213d43b4782mr6337004pfi.26.1616649755574; 
+ Wed, 24 Mar 2021 22:22:35 -0700 (PDT)
+Received: from localhost ([122.172.6.13])
+ by smtp.gmail.com with ESMTPSA id w188sm4183198pfb.4.2021.03.24.22.22.29
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 24 Mar 2021 22:22:30 -0700 (PDT)
+Date: Thu, 25 Mar 2021 10:52:27 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Jie Deng <jie.deng@intel.com>
+Subject: Re: [PATCH 3/5] tools/vhost-user-i2c: Add backend driver
+Message-ID: <20210325052227.fm3i25xphhu26amu@vireshk-i7>
+References: <cover.1616570702.git.viresh.kumar@linaro.org>
+ <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
+ <290a8771-7273-a898-a826-c97df6eefb1b@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <87r1l488vx.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <290a8771-7273-a898-a826-c97df6eefb1b@intel.com>
+User-Agent: NeoMutt/20180716-391-311a52
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,46 +88,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>,
+ Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/21 10:28 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 25-03-21, 13:09, Jie Deng wrote:
 > 
->> There's not a big obvious difference between the types of checks that
->> happen in the main function versus the kind that happen in the
->> functions. Now they're in one place for each of the main types.
->>
->> As part of the move, spell out the required and optional keywords so
->> they're obvious at a glance. Use tuples instead of lists for immutable
->> data, too.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> On 2021/3/24 15:33, Viresh Kumar wrote:
+> > +
+> > +/* Definitions from virtio-i2c specifications */
+> > +#define VHOST_USER_I2C_MAX_QUEUES       1
+> > +
+> > +/* Status */
+> > +#define VIRTIO_I2C_MSG_OK               0
+> > +#define VIRTIO_I2C_MSG_ERR              1
+> > +
+> > +/* The bit 0 of the @virtio_i2c_out_hdr.@flags, used to group the requests */
+> > +#define VIRTIO_I2C_FLAGS_FAIL_NEXT      0x00000001
+> > +
+> > +/**
+> > + * struct virtio_i2c_out_hdr - the virtio I2C message OUT header
+> > + * @addr: the controlled device's address
+> > + * @padding: used to pad to full dword
+> > + * @flags: used for feature extensibility
+> > + */
+> > +struct virtio_i2c_out_hdr {
+> > +    uint16_t addr;
+> > +    uint16_t padding;
+> > +    uint32_t flags;
+> > +} __attribute__((packed));
 > 
-> No objection to changing read-only lists to tuples (applies to previous
-> patch, too).
 > 
-> No objection to turning positional into keyword arguments where that
-> improves clarity.
-> 
-> I have doubts on the code motion.  Yes, the checks for each type are now
-> together.  On the other hand, the check_keys() are now separate.  I can
-> no longer see all the keys at a glance.
-> 
+> __le16,  __le32 ?
 
-I guess it depends on where you wanted to see them; I thought it was 
-strange that in check_foobar I couldn't see what foobar's valid keys 
-were without scrolling back to the bottom of the file.
+Maybe, but I didn't do them because of this:
 
-Needing to see all the keys for the disparate forms together was not a 
-case I ran into, but you can always drop this patch for now if you'd 
-like. I had some more adventurous patches that keeps pushing in this 
-direction, but I don't know if it's really important. My appetite in 
-this area has waned since November.
+docs/devel/style.rst:
 
---js
+"Don't use Linux kernel internal types like u32, __u32 or __le32."
+ 
+> > +
+> > +/**
+> > + * struct virtio_i2c_in_hdr - the virtio I2C message IN header
+> > + * @status: the processing result from the backend
+> > + */
+> > +struct virtio_i2c_in_hdr {
+> > +    uint8_t status;
+> > +} __attribute__((packed));
+> > +
+> 
+> I understand these definitions can be removed once the frontend driver is
+> merged by the Linux ?
 
+Yes, we would be required to somehow include the uapi header that
+kernel is adding and then this won't be required.
+ 
+> > +/* vhost-user-i2c definitions */
+> > +
+> > +#ifndef container_of
+> > +#define container_of(ptr, type, member) ({                      \
+> > +        const typeof(((type *) 0)->member) *__mptr = (ptr);     \
+> > +        (type *) ((char *) __mptr - offsetof(type, member));})
+> > +#endif
+> 
+> 
+> This seems to be a general interface.  I see there is a definition in
+> qemu/compiler.h.
+> 
+> Can we reuse it ?
+
+Damn. My bad (maybe not). I picked this part from the RPMB patchset
+that Alex sent and didn't bother looking for it.
+
+Though on the other hand, we are looking to make this file independent
+of qemu so it can be used by other hypervisors without any (or much)
+modifications, and maybe so it was done so.
+
+Alex ?
+
+-- 
+viresh
 
