@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB0C3497F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:26:32 +0100 (CET)
-Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941D1349803
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:28:35 +0100 (CET)
+Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPTkd-0002cV-7u
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49354)
+	id 1lPTmc-000437-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lPTdj-0007rv-Uu
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:19:23 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:42703)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPTiE-00020c-RE
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:24:02 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:37557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lPTdh-000528-0q
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:19:23 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- 31-20020a9d00220000b02901b64b9b50b1so2654835ota.9
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 10:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to
- :content-transfer-encoding;
- bh=Dj8qEgQfsztTF+D+IHM7gaLujBEJBQc0E7tXR/dlzTU=;
- b=LG1Nwh1kSGHD7+EB8bpRBKB1g0JJR/ryMpocCOxX3lXFzNOFFw6bFfbp8sdAT6f9C4
- mW8EOVT8yZDciPAeNjm2U7bm3504sphdyEuvMnKaSHAzgQTB7S4UJ8K5dK/9WzD8wkGa
- 6zL3c0h6xA4vD5Jxme5oatkNpSaZvuV8dYeMDgdXflJvGNVgNNls0SUEVLXM/EKaz4qf
- lgMG32ttqQ+SZ7n4zIcx7LELgNMnsd6cUzOjmq1eBmzyOv1xZBHsvwq6q1nWf3i68zU8
- 8ix78OLTH2njYuneE+7VQFxVdU2sx6Fzf3aIfuNynp8+4iEng/FgiOrX4JEmU4eMhnML
- 20Jg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPTiB-0007go-Gi
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:24:02 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id k25so2901123oic.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 10:23:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ru5PzNr2MjMlIEGAQZefHTXR7pnRnJs108TQosZ5raM=;
+ b=Dz/m+1vh0HyS90DNJ1fHg+dPL/87QdJEQ5+n3nFXV+f2UT7oJYi0Ex0wPjybxBjA2g
+ fGX1uNG94/WwDokLAZiGFKphXYrisqMezJWRJxxBNejCApEyuGDbKGFcv5k88+ixYMB+
+ 4trqmGZv1/O3KaDsnsw98Q0OxkatBLq39uYpRm+30sI1LangfiyeP/Nww2Pr9bwAq/KL
+ K/jOd3TqRIwOK3TOko0CI7qA0Tq/Lb6OCr+8UaOjXZKvHXfpSt9Hp7dYRXbzmf0CBatP
+ nOHWItxDXeuV4xsKpZTeGgeWVzvPU1ojQ9h2GH5Kik594yhWAGr/v7hegiBRGtgMAQdW
+ 1uWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Dj8qEgQfsztTF+D+IHM7gaLujBEJBQc0E7tXR/dlzTU=;
- b=E1FydrR3J2wpJfkUMxwJS+t2UBx999dIROoexusextXrird2lZs+DWt4hvhKXs/2Zl
- 4oUIXwgv9W9nZvifFrnwcW2IBhQOqogkmzI1MZzdTy4vkLP+ggpaQBQVy8FRCrjKB0Wj
- VgBAgPy9FI/quKRNsqtWO5hJlzxF+we9H3y34NIi2vBjNXxk6q3nwElzKaLqsATj8ryK
- +cmn76uKKxG7X7YSDiLLRWr00+5zvLDhfDWj/7DGD+BAsG3VOscRea2PD5sssNZuFCMw
- k19oINsMHqLbooIQoW2iKSwecoe19TbA9YLxK8qX8Qka5uzONayLQO5A+pizkkjz3fbU
- lrHw==
-X-Gm-Message-State: AOAM532hrsfeoyNW62+KqYE3hLg4C5ln5EtnY8cev3jm3lBLc0c78ywh
- zLmIpjv9PsSY/+iXsP8Vrz6VfCVw9wILgQf1PXJ77D1h
-X-Google-Smtp-Source: ABdhPJzDTrVwG/6qoLeCNJMzOPJKXAJDsnAEjA7K6eZA3qz1fcPo0SEUWkBTs7ny6+K0QdxuZZA9fU0QIPe/ZCghdLQ=
-X-Received: by 2002:a05:6830:15d2:: with SMTP id
- j18mr8668402otr.75.1616692758825; 
- Thu, 25 Mar 2021 10:19:18 -0700 (PDT)
+ bh=ru5PzNr2MjMlIEGAQZefHTXR7pnRnJs108TQosZ5raM=;
+ b=DZt/TcmI/r46xp9itKxwevqtq/WklauYB0ti8NiC6rTXHtKSXVPdg5n8u96oTrlDUs
+ SiKZh83L+oJ6Y+IsuLHUj4PwhePJI4DVENYk9F0GXfhm2HtMYgMYyhx0idZjCKX2iF78
+ nh8MI4e1GpnXzPm1TyBcpzsgRh55MiFSOP+ncGsW8BfpFi1TB7uWjL2E29lvqpcPopTr
+ qX9m0dkWGU2ET+QP8pZPkz9wxFx5mqKStgL2XB6d3G7qndgOyuL/jDi90s9sVQgderpu
+ 4BxwacEukMEL0VzySNWQP+2BxECPZrhfuu20JlYZNH0v1ADCDD/SNedrLkdzPJVHDL6a
+ Bp+Q==
+X-Gm-Message-State: AOAM530yLU/A7zhsIMaGSKx1FsQM8Gln5v8GLsPiEaGGh2SWrnWSzCk2
+ aviQmfkPKEwucWcvhANDsyrURA==
+X-Google-Smtp-Source: ABdhPJwmXogs9mRGv2jlRZb23OXpZXjYiIbZO3DneWnknIYa/gnzuwIvWlJo2lVohz0CZ68O3Wgsxg==
+X-Received: by 2002:a54:4703:: with SMTP id k3mr6969458oik.26.1616693038198;
+ Thu, 25 Mar 2021 10:23:58 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id o64sm1182013oif.50.2021.03.25.10.23.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 10:23:57 -0700 (PDT)
+Subject: Re: [PATCH for-6.0 0/4] Don't treat all sysbus devices as hotpluggable
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210325153310.9131-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dbe71306-a4d9-c2a2-095b-e9d538810518@linaro.org>
+Date: Thu, 25 Mar 2021 11:23:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Thu, 25 Mar 2021 18:19:07 +0100
-Message-ID: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
-Subject: Bug with Windows tap network when running qemu-system-ppc with Mac OS
- 9 guest
-To: qemu-devel qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=hsp.cat7@gmail.com; helo=mail-ot1-x336.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210325153310.9131-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,88 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 3/25/21 9:33 AM, Peter Maydell wrote:
+> On the two machines which have the "platform bus" (ppc e500 and arm
+> virt) we currently treat all TYPE_SYS_BUS_DEVICE devices as being
+> hotpluggable in the device callbacks, and try to plug those devices
+> into the platform bus.  This is far too broad, because only a handful
+> of devices are actually valid to plug into the platform bus.
+> Moreover, if a device which is pluggable for some other reason (like
+> a PCI device) happens to use a sysbus device internally as part of
+> its implementation, the hotplug callback will incorrectly grab that
+> sysbus device, probably resulting in an assertion failure.
+> 
+> Mostly PCI devices don't use sysbus devices internally, so the only
+> case we've encountered so far is the not-valid-anyway
+>   qemu-system-ppc64 -M ppce500 -device macio-oldworld
+> but we might create more in future.
+> 
+> This series restricts hotpluggability of sysbus devices on these
+> platforms to those devices which are on the dynamic sysbus whitelist
 
-When running qemu-system-ppc with Mac OS guest, the guest crashes when
-using a tap network connection. Openvpn 2.4.9-I601-win10 is installed
-with TAP-Windows 9.24.2. A tap connection called TapQemu is bridged
-with the default ethernet connection. It gets activated when I start
-qemu.
+s/whitelist/allowlist/g ?
 
-To reproduce, compile qemu-system-ppc from current source and run:
+>    include/hw/boards.h: Document machine_class_allow_dynamic_sysbus_dev()
+>    machine: Provide a function to check the dynamic sysbus whitelist
+>    hw/arm/virt: Only try to add valid dynamic sysbus devices to platform
+>      bus
+>    hw/ppc/e500plat: Only try to add valid dynamic sysbus devices to
+>      platform bus
 
-qemu-system-ppc.exe ^
--L pc-bios ^
--M mac99 ^
--m 128 ^
--sdl -serial stdio ^
--boot c ^
--drive file=3DC:\Mac-disks\9.2.img,format=3Draw,media=3Ddisk ^
--device sungem,netdev=3Dnetwork01 -netdev tap,ifname=3DTapQemu,id=3Dnetwork=
-01
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I bisected to the commit below. Thanks for looking into this.
-
-Best,
-Howard
-
-969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7 is the first bad commit
-commit 969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7
-Author: Bin Meng <bmeng.cn@gmail.com>
-Date:   Wed Mar 17 14:26:29 2021 +0800
-
-    net: Pad short frames to minimum size before sending from SLiRP/TAP
-
-    The minimum Ethernet frame length is 60 bytes. For short frames with
-    smaller length like ARP packets (only 42 bytes), on a real world NIC
-    it can choose either padding its length to the minimum required 60
-    bytes, or sending it out directly to the wire. Such behavior can be
-    hardcoded or controled by a register bit. Similarly on the receive
-    path, NICs can choose either dropping such short frames directly or
-    handing them over to software to handle.
-
-    On the other hand, for the network backends like SLiRP/TAP, they
-    don't expose a way to control the short frame behavior. As of today
-    they just send/receive data from/to the other end connected to them,
-    which means any sized packet is acceptable. So they can send and
-    receive short frames without any problem. It is observed that ARP
-    packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-    these ARP packets to the other end which might be a NIC model that
-    does not allow short frames to pass through.
-
-    To provide better compatibility, for packets sent from QEMU network
-    backends like SLiRP/TAP, we change to pad short frames before sending
-    it out to the other end, if the other end does not forbid it via the
-    nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-    does not violate the spec. But with this change, the behavior of
-    dropping short frames from SLiRP/TAP interfaces in the NIC model
-    cannot be emulated because it always receives a packet that is spec
-    complaint. The capability of sending short frames from NIC models is
-    still supported and short frames can still pass through SLiRP/TAP.
-
-    This commit should be able to fix the issue as reported with some
-    NIC models before, that ARP requests get dropped, preventing the
-    guest from becoming visible on the network. It was workarounded in
-    these NIC models on the receive path, that when a short frame is
-    received, it is padded up to 60 bytes.
-
-    The following 2 commits seem to be the one to workaround this issue
-    in e1000 and vmxenet3 before, and should probably be reverted.
-
-      commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 byt=
-es)")
-      commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size
-(60 bytes)")
-
-    Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-    Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-    Signed-off-by: Jason Wang <jasowang@redhat.com>
-
- net/slirp.c     | 10 ++++++++++
- net/tap-win32.c | 10 ++++++++++
- net/tap.c       | 10 ++++++++++
- 3 files changed, 30 insertions(+)
+r~
 
