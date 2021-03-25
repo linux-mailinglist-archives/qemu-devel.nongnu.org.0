@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AF734947F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:48:05 +0100 (CET)
-Received: from localhost ([::1]:53520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F15CC349480
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:48:55 +0100 (CET)
+Received: from localhost ([::1]:55706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPRHI-0007dw-Ux
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
+	id 1lPRI7-00008c-1Q
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPREZ-0006es-H2
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:45:15 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:43619)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPREY-0002nF-1x
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:45:15 -0400
-Received: by mail-oi1-x236.google.com with SMTP id n8so2334622oie.10
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 07:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=N6oDIwfimGuyCxiRZcYNpN5AaP52oY3lMKxvjt5fJbE=;
- b=YoPWB1ReHV04IDWt1uSixMvx56InggMYsnb8CuXnZStAPHvOxGA0CDY59p6B/vfN7r
- SowmFzL3HsvjgihtA1IM9TmUmQgSJ7+xCemJGVYNj7KYIJvw5vyngAlyVZX340Gxl0Su
- dDsxwc4V89wwIKK9jIUNrRgnOm9tT/iWrIhyZm3PXLUmkncniHuFplLKBCFqew2LYlY1
- wZDxV1uCcj3yqNTpm6GkSyvj9fp6gqKD0IS4na+27cuvkBTrHKp4IilfZMWA5Y5Kyw1T
- ijUhh+MbwxLHzTyu3jrEY3Xll+iCxiyd5Fw8olrCRnNP7uP8PpCU7k7ccODXHFfsRh8Q
- UOUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=N6oDIwfimGuyCxiRZcYNpN5AaP52oY3lMKxvjt5fJbE=;
- b=Lhn0bUU0kOf79j575tpljia8yX0HGIG0TZJHYIrYKsVptrp1tBck1l3mYbZmvkrVAj
- 586ljF6NXio/scuPOZxtD5vh9Rhx2lY8IJfbaHxK3g9Q+KnSIOesyCrxpDxRwZ3DNY81
- wmWyNkHN/lFn55Ikf8Jr1B6CgWCJC3PDZlqqzMz+OvAAgLELIgpP7rJi+sTeNhMwoAvs
- Lx0HD/1fVTLaiRj+lZIya1wRPr7NfQrSUS1BVeBoZwYSHvBqWxIL5638EKvSm5GCbU8y
- U7MoTb7D8LyqhNzu3TMi3l/rdP/LpnVrp6gbXgfyLP6XB2AudSD2OeRr8mtKqIcULOaC
- N5zg==
-X-Gm-Message-State: AOAM530OxvnCQ0NZKZJyRPX+grNjZ/y2it8v0FK+qjUt6XhT8XAVKYjc
- VIOU0KrDYaL61NX93Jpjz+5M6g==
-X-Google-Smtp-Source: ABdhPJxPOgDi+TpzqJJ7hcc4pzwAgSYqDKGYrDQpEjusrycLY+KtJgtdxI1hDbChn9mrvohKH4HKoQ==
-X-Received: by 2002:aca:c7c3:: with SMTP id x186mr6396090oif.96.1616683512950; 
- Thu, 25 Mar 2021 07:45:12 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id m129sm1126097oif.34.2021.03.25.07.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 07:45:12 -0700 (PDT)
-Subject: Re: [PATCH 06/15] Hexagon (target/hexagon) utility function changes
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
- <1616640610-17319-7-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <11558e41-a0fa-5098-624d-a72136dba80e@linaro.org>
-Date: Thu, 25 Mar 2021 08:45:10 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPRFK-00073I-AR
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:46:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25181)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPRF4-00035r-Jf
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:45:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616683541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z2yG9QTTbRFPH+TXnOoeoYyfRddWoA0fdCeId4ctAk4=;
+ b=DchdVDH/pQLdsA33tL/HsSY+6beaTUHKDXVy3T7k3VnSQdKEbBrAJW19DA+/6k1bAmiHZa
+ u9Iz5SFTv3Xp9M0L+v4elpb9+XNl7GYOFW/qy+Eo7F2Gii5p7gPTEV+HOzZr71rGyK75r+
+ 4+sC76YY9kgGtmm+/jEP/7lbGXReuas=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-RNQBssVTNSq6co9zBE1aJw-1; Thu, 25 Mar 2021 10:45:39 -0400
+X-MC-Unique: RNQBssVTNSq6co9zBE1aJw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CC9964A96;
+ Thu, 25 Mar 2021 14:45:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 594011F7;
+ Thu, 25 Mar 2021 14:45:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E2F4111327E1; Thu, 25 Mar 2021 15:45:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 11/19] qapi/expr.py: Modify check_keys to accept any
+ Collection
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-12-jsnow@redhat.com>
+Date: Thu, 25 Mar 2021 15:45:36 +0100
+In-Reply-To: <20210325060356.4040114-12-jsnow@redhat.com> (John Snow's message
+ of "Thu, 25 Mar 2021 02:03:48 -0400")
+Message-ID: <87im5fs35b.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1616640610-17319-7-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,31 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 8:50 PM, Taylor Simpson wrote:
-> Remove unused carry_from_add64 function
-> Change type of softfloat_roundingmodes
-> 
-> Address feedback from Richard Henderson<richard.henderson@linaro.org>
-> 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+John Snow <jsnow@redhat.com> writes:
+
+> This is a minor adjustment that allows the 'required' and 'optional'
+> keys fields to take a default value of an empty, immutable sequence (the
+> empty tuple).
+>
+> This reveals a quirk of this function, which is that "a + b" is
+> list-specific behavior. We can accept a wider variety of types if we
+> avoid that behavior. Using Collection allows us to accept things like
+> lists, tuples, sets, and so on.
+>
+> (Iterable would also have worked, but Iterable also includes things like
+> generator expressions which are consumed upon iteration, which would
+> require a rewrite to make sure that each input was only traversed once.)
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+
+The commit message confused me briefly, until I realized v3 of this
+patch came later in the series, where it modified check_keys() type
+hints and added default values.
+
+What about this:
+
+  This is a minor adjustment that lets parameters @required and
+  @optional take tuple arguments, in particular ().  Later patches will
+  make use of that.
+
 > ---
->   target/hexagon/arch.c   | 15 +--------------
->   target/hexagon/arch.h   |  1 -
->   target/hexagon/macros.h |  2 --
->   3 files changed, 1 insertion(+), 17 deletions(-)
+>  scripts/qapi/expr.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 505e67bd21..7e22723b50 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -100,7 +100,7 @@ def pprint(elems):
+>              "%s misses key%s %s"
+>              % (source, 's' if len(missing) > 1 else '',
+>                 pprint(missing)))
+> -    allowed = set(required + optional)
+> +    allowed = set(required) | set(optional)
+>      unknown = set(value) - allowed
+>      if unknown:
+>          raise QAPISemError(
 
-These are two separate changes.
-
-Split them, and you can have
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-for each.
-
-
-r~
 
