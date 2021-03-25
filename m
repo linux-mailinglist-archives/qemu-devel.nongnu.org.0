@@ -2,54 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8ED349283
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:58:57 +0100 (CET)
-Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECFB3492B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:05:35 +0100 (CET)
+Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPPZg-0006Dp-4n
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53372)
+	id 1lPPg6-0007wi-4r
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lPPYk-0005fG-P6; Thu, 25 Mar 2021 08:57:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48882
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lPPYi-0006YN-T0; Thu, 25 Mar 2021 08:57:58 -0400
-Received: from host86-143-93-99.range86-143.btcentralplus.com ([86.143.93.99]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lPPYj-0001pP-CM; Thu, 25 Mar 2021 12:58:02 +0000
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1e4835a5-b785-5d0d-64d8-bb01afeea432@redhat.com>
- <72851037-b283-c4c1-fbeb-da86f0527627@ilande.co.uk>
- <CAFEAcA-8M7PKiM9tOXuVKMwMRF6Q02FbyQbU-P60wQqgcedrKg@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <4be7c437-ddaa-849a-6c0b-5cce2d5b6fdb@ilande.co.uk>
-Date: Thu, 25 Mar 2021 12:57:48 +0000
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPPdl-0007BL-RZ
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:03:09 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:45670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPPdh-0000hC-1s
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:03:06 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id
+ 91-20020a9d08640000b0290237d9c40382so1792335oty.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 06:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rvDKRNIn3F7yLqXvtsubm4DODZxNDgY/GJ4zAN5yRLo=;
+ b=u9EVaewP1jfc/3JnGBjrab9nWR9bSoUJbCebeB0LJO+9ZBGpHxRmVSSEh+A7cKrSbW
+ yYm2ekgTSr851oVjkF+dbpSqbcYwc/RDDNed5kL+74YGrdvoxRfzgCETfNGwa6ZZCu0p
+ 4vf/K/peKquOXsp66QV2gT4fqRJzgU+3Ee0Co7nbwb04Y0eNq/bzz2bxS0JkteuvhRzw
+ Nu2OQXLFez+mhU+OSQHEowskbP6gt/D4dBXJ6zcLEG69ICzrQlBxdGj/WkcuZnE6Txs8
+ sRJlTdcR2kuDtqKpProXzR3mDjBiD2QktA96kDIIBZ//WDkRgNZqyzx3uSqFBP3K6Lup
+ fVqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rvDKRNIn3F7yLqXvtsubm4DODZxNDgY/GJ4zAN5yRLo=;
+ b=fZ9M4U/NwgxxIqWvNwj+LnquN75VJUAd6kJyjRY2KfGBmb0Kne8iwE1OeZNeL4dQ5d
+ Dqi3bfQV5VzcRBMN0MMGSTWyhj6P3TOdUQ7cV/no7FvT2UsfvDwN87dCSDOvRFWxyXey
+ uRCcBu8E8YP0WKc2es4HtThDqObgZ9Kp7kCrpHr+F/Jfg7A0xWKkeVdOOYuMUMRLVsdG
+ 0IM2x2cU3Vxsg5WPp0Hq9imtNm2bAfd+vxTFatJVPhIbrrWJ2xbfEuMDnPL4HhEjzy5K
+ ZDCP2towzH8gjWA9vx9BC9qDgbrCKGXXnooGr6cU921WxE1Y7oDmYUM+hASfJx15nji5
+ FVeA==
+X-Gm-Message-State: AOAM531XWlxFzLe32NBgJNSDttMfasmzQ+ClaOt9949vu5lJNKdcUJvh
+ s0mcTG2aqBNuxsRag7k9wMhTJg==
+X-Google-Smtp-Source: ABdhPJwXyqu6/NUm4YvgDyOZZrOFr4XskjznQAf6fJo0Kx/+mDergRjJMMSKrfQoT0pN+2GBCIqq6Q==
+X-Received: by 2002:a9d:7e8d:: with SMTP id m13mr7340803otp.54.1616677382232; 
+ Thu, 25 Mar 2021 06:03:02 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id k11sm1365830otp.28.2021.03.25.06.03.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 06:03:01 -0700 (PDT)
+Subject: Re: [PATCH 02/15] Hexagon (target/hexagon) remove unnecessary inline
+ directives
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
+ <1616640610-17319-3-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <10c84189-40b2-2905-8cc3-8a511f55749e@linaro.org>
+Date: Thu, 25 Mar 2021 07:02:59 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-8M7PKiM9tOXuVKMwMRF6Q02FbyQbU-P60wQqgcedrKg@mail.gmail.com>
+In-Reply-To: <1616640610-17319-3-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.143.93.99
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: Crashes with qemu-system-ppc64
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,101 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/03/2021 22:57, Peter Maydell wrote:
-
-> On Tue, 23 Mar 2021 at 21:21, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->> I'm not sure what the right solution is here. In my mind there hasn't really been any
->> difference between TYPE_DEVICE and TYPE_SYS_BUS_DEVICE other than the APIs that
->> expose the memory regions and IRQs are different, but clearly platform bus
->> expects/defines a different behaviour here.
->>
->> Probably the quickest solution for now would be to change the DBDMA device so that it
->> is derived from TYPE_DEVICE rather than TYPE_SYS_BUS_DEVICE and make the relevant
->> changes if everyone agrees?
+On 3/24/21 8:49 PM, Taylor Simpson wrote:
+> Address feedback from Richard Henderson <richard.henderson@linaro.org>
 > 
-> You want to be at least cautious about doing that. TYPE_DEVICE objects
-> don't get reset usually, because they are not part of the qbus hierarchy
-> (all TYPE_SYS_BUS_DEVICE devices live on the sysbus and get reset when
-> the sysbus is reset). So you would need the (currently nonexistent)
-> reset function of the containing macio device to manually reset any
-> TYPE_DEVICE children it has. (This is one of the areas where reset is
-> a mess, incidentally: logically speaking if you have a PCI device then
-> you want its children to all get reset when the PCI device itself is
-> reset; as it stands that doesn't happen, because its sysbus children
-> are on the sysbus, and a pci-bus-reset won't touch them.)
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   linux-user/hexagon/cpu_loop.c |  2 +-
+>   target/hexagon/cpu.c          |  9 ++++-----
+>   target/hexagon/cpu.h          |  6 ++----
+>   target/hexagon/decode.c       |  6 +++---
+>   target/hexagon/fma_emu.c      | 39 ++++++++++++++++++++-------------------
+>   target/hexagon/op_helper.c    | 39 +++++++++++++++++++--------------------
+>   target/hexagon/translate.c    |  2 +-
+>   7 files changed, 50 insertions(+), 53 deletions(-)
 > 
-> I forget how the platform bus stuff is supposed to work, but something
-> should be arranging that it only happens for a pretty restrictive subset
-> of devices -- in general it should certainly not be firing for random
-> sysbus devices that are part of something else.
-> 
-> It's a pretty old commit (from 2018, one of Igor's), but I wonder if
-> this was broken by commit a3fc8396352e945f9. The original design of
-> the platform bus was that the "grab unassigned IRQs and MMIO regions"
-> hook got run as a machine-init-done hook. That meant that by definition
-> the board code had finished setting up all its sysbus devices, and
-> anything still unconnected must be (assuming not a bug) something the
-> user requested via -device to be put on the platform bus. But in
-> commit a3fc8396352e945f9 we changed this to use the hotplug-handler
-> callbacks, which happen when the device is realized. So it stopped
-> being true that we would only find loose MMIOs and IRQs on the user's
-> sysbus devices and now we're also incorrectly grabbing parts of
-> devices that are supposed to be being wired up by QEMU code before
-> that code has a chance to do that wiring.
-> 
-> There must still be something causing this not to happen literally for
-> every sysbus device, or we'd have noticed a lot earlier. I'm not sure
-> what's specifically different here, but I think it is that:
->   (1) we only create the platform bus itself as pretty much the
->       last thing we do in machine init. This (accidentally?)
->       means it doesn't get to see most of the sysbus devices in
->       the board itself
->   (2) macio-oldworld is a pluggable PCI device which happens to
->       use a sysbus device as part of its implementation, which
->       is probably not very common
-> 
-> I think the long term fix is that we either need to undo
-> a3fc8396352e945f9 so that we only run after all other device
-> creation code has run and the unassigned IRQs and MMIOs really
-> are just the loose ends, or alternatively we need to make the
-> hooks much more restrictive about identifying what devices are
-> supposed to go into the platform bus.
+> diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
+> index 9a68ca0..a752a0a 100644
+> --- a/linux-user/hexagon/cpu_loop.c
+> +++ b/linux-user/hexagon/cpu_loop.c
+> @@ -25,7 +25,7 @@
+>   
+>   void cpu_loop(CPUHexagonState *env)
+>   {
+> -    CPUState *cs = CPU(hexagon_env_get_cpu(env));
+> +    CPUState *cs = CPUSTATE_FROM_ENV(env);
 
-Thanks for the analysis: I can certainly see how the above commit would have changed 
-the behaviour. Looking at hw/ppc/e590plat.c in e500plat_machine_class_init() I see 
-that line 101 reads "machine_class_allow_dynamic_sysbus_dev(mc, TYPE_ETSEC_COMMON);" 
-which looks like it is intended to add a class restriction to this functionality.
+This is not removing inlines from functions in c files, so this patch should be 
+split.
 
-In machine_initfn() a callback for machine_init_notify() is added to perform the 
-check but the macio-oldworld device is realized first, because qmp_x_exit_preconfig() 
-calls qemu_create_cli_devices() to realize the devices just before 
-qemu_machine_creation_done() where the notifier is invoked.
+> -static inline HexagonCPU *hexagon_env_get_cpu(CPUHexagonState *env)
+> -{
+> -    return container_of(env, HexagonCPU, env);
+> -}
+> +#define HEXAGONCPU_FROM_ENV(env)    container_of((env), HexagonCPU, env)
+> +#define CPUSTATE_FROM_ENV(env)      CPU(HEXAGONCPU_FROM_ENV(env))
 
-> Second note: does it actually make sense for a user to create
-> a macio-oldworld device and plug it into anything? It's a PCI
-> device, but is it really a generally usable device rather than
-> a specific built-into-the-board part of the g3beige machine ?
-> If it isn't actually useful for a user to create it on the command
-> line with -device, we could sidestep the whole thing for 6.0 by
-> marking it dc->user_creatable = false ...
-
-I'd prefer not to do that if possible since the macio device is a good example to 
-have as something that passes device-introspect-test whilst containing several 
-different child devices.
-
-Given that the DBDMA device hasn't changed for some time and the above commit dates 
-back to 2018 then I'd be inclined to leave it for now unless it is causing gitlab CI 
-to fail.
+Since a578cdfbdd8f, these should be replaced by env_archcpu and env_cpu 
+respectively.
 
 
-ATB,
-
-Mark.
+r~
 
