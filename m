@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CED3488E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:20:13 +0100 (CET)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460D4348929
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:35:58 +0100 (CET)
+Received: from localhost ([::1]:56046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPJLm-0004Jo-BS
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
+	id 1lPJb3-0008Lz-CV
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <changlm@chinatelecom.cn>)
- id 1lPJ9E-0004Fs-IU; Thu, 25 Mar 2021 02:07:14 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:38576
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <changlm@chinatelecom.cn>)
- id 1lPJ9A-0001RC-CH; Thu, 25 Mar 2021 02:07:12 -0400
-HMM_SOURCE_IP: 172.18.0.92:36454.1505729424
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-106.120.101.58?logid-ba0f01792523409a949893830667ad42
- (unknown [172.18.0.92])
- by chinatelecom.cn (HERMES) with SMTP id 20DA72800A9;
- Thu, 25 Mar 2021 14:06:54 +0800 (CST)
-X-189-SAVE-TO-SEND: 71112636@chinatelecom.cn
-Received: from  ([172.18.0.92])
- by App0021 with ESMTP id ba0f01792523409a949893830667ad42 for
- nsoffer@redhat.com; Thu Mar 25 14:06:58 2021
-X-Transaction-ID: ba0f01792523409a949893830667ad42
-X-filter-score: filter<0>
-X-Real-From: changlm@chinatelecom.cn
-X-Receive-IP: 172.18.0.92
-X-MEDUSA-Status: 0
-Date: Thu, 25 Mar 2021 14:06:48 +0800
-From: ChangLimin <changlm@chinatelecom.cn>
-To: "Nir Soffer" <nsoffer@redhat.com>, 
-	mreitz <mreitz@redhat.com>
-Subject: Re: [PATCH V4] file-posix: allow -EBUSY error during ioctl(fd,
- BLKZEROOUT, range) on block
-References: <2021032217253258728710@chinatelecom.cn>, 
- <0b01a688-f86b-0888-2c03-f4d55273b93f@redhat.com>, 
- <CAMRbyysT_s+AkskuAGvT7wXOQ+LaX3OkSYTo4UxtYKqE0cjBMg@mail.gmail.com>
-X-Priority: 3
-X-GUID: 7C6F51CC-A29B-414F-8317-22C6F67706F0
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.17.58[cn]
-Mime-Version: 1.0
-Message-ID: <2021032514064808224635@chinatelecom.cn>
-Content-Type: multipart/alternative;
- boundary="----=_001_NextPart501182822776_=----"
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=changlm@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_KAM_HTML_FONT_INVALID=0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lPJAc-0005LY-3D
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:08:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lPJAY-0002GI-Ib
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:08:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616652511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qW1k3YAkI/bhC6GZ1MUbrmwMUeYl7fO8FbdbOMtnwAA=;
+ b=E/MZZ2SYpGVpgcuKd2MWO03BE5Ko/MvMTmdhYHrXBMvnGJ7vaGsSzcTH8MbTZncWreg1hr
+ LoVnAodQrzTnyKJ8oHLxonLNZdRoktcQ1/l8hb+MkmklnqGId7w5myeqIm/LMIjfEZErEu
+ aVi0FK+2UM2rlmX/WauB3xcMzSJPN8c=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-14r1xdGfMdaNzta5w7qFaA-1; Thu, 25 Mar 2021 02:08:29 -0400
+X-MC-Unique: 14r1xdGfMdaNzta5w7qFaA-1
+Received: by mail-pf1-f199.google.com with SMTP id 7so3096173pfn.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 23:08:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qW1k3YAkI/bhC6GZ1MUbrmwMUeYl7fO8FbdbOMtnwAA=;
+ b=nFM3Z800ah/X0PjgfwgTnMe/ORAGxUtJp4snPJn+qO579tQ0PS6JPiVeDiL720F/Bh
+ x2gYvVMjWsXLfD1mI7B4b/obTjMs6uuiXFm6HtIwMGhj3coB9WWgloU9RyOBb5/cRVEs
+ uQQZLyZpFM6wy0dgi6yW0DwH3jVs8aPjUScObA+d4Of8u/aK4N0FxlXzi4dM169NxsK5
+ 3k9ixOn7LysE665P5I3wLiQTJS5JrOggRW2Pb3owQ9h5sJa7IUfLp3TyLaya6PDSTk3d
+ YBAmg2Ihkm2RAqFn6JmbIkktZpqUj1BljXt+2w5CVOQ/uUEcQf4DH8R6kNfNwpnXQ7kA
+ y16w==
+X-Gm-Message-State: AOAM533ovjLzzqMVUNU30tZqLd6JIgShgepE0aXfpnzYoDRoi0EyIXX9
+ prUmxXXW6QKYjGo4x5r2c8ujjPoclzck9OgtIj2Clqwf699k6zf4/IP59qsWIaTOHuyF85d6IOG
+ hz4uU8FBYPk7+dmRTl3Ro+ZegiR6G2tM=
+X-Received: by 2002:a17:90a:a10c:: with SMTP id
+ s12mr7184404pjp.166.1616652507974; 
+ Wed, 24 Mar 2021 23:08:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuUaLaA8KYGQZnH84d5Z4ZeXk8oAaV5uygMSP5LjdZ1SDIlkJkC1fVdlBGDh9WmziVyOAE9JKVjIY9GrxLr88=
+X-Received: by 2002:a17:90a:a10c:: with SMTP id
+ s12mr7184372pjp.166.1616652507519; 
+ Wed, 24 Mar 2021 23:08:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210323015641.10820-1-lulu@redhat.com>
+ <20210323015641.10820-5-lulu@redhat.com>
+ <1b6d8291-0ac9-06fe-6f8a-efcaad542bc3@redhat.com>
+In-Reply-To: <1b6d8291-0ac9-06fe-6f8a-efcaad542bc3@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 25 Mar 2021 14:07:50 +0800
+Message-ID: <CACLfguUbsUsHsWok4K6+H-95fn-qX2iUtvY5_Vft3DkbDdocJA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] virtio-pci: add support for configure interrupt
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,274 +91,450 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
-
-------=_001_NextPart501182822776_=----
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-Pk9uIFdlZCwgTWFyIDI0LCAyMDIxIGF0IDQ6NTIgUE0gTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0
-LmNvbT4gd3JvdGU6DQo+T24gMjIuMDMuMjEgMTA6MjUsIENoYW5nTGltaW4gd3JvdGU6DQo+PiBG
-b3IgTGludXggNS4xMC81LjExLCBxZW11IHdyaXRlIHplcm9zIHRvIGEgbXVsdGlwYXRoIGRldmlj
-ZSB1c2luZw0KPj4gaW9jdGwoZmQsIEJMS1pFUk9PVVQsIHJhbmdlKSB3aXRoIGNhY2hlIG5vbmUg
-b3IgZGlyZWN0c3luYyByZXR1cm4gLUVCVVNZDQo+PiBwZXJtYW5lbnRseS4NCj4NCj5TbyBhcyBm
-YXIgYXMgSSBjYW4gdHJhY2sgYmFjayB0aGUgZGlzY3Vzc2lvbiwgS2V2aW4gYXNrZWQgb24gdjEg
-d2h5IHdl4oCZZCANCj5zZXQgaGFzX3dyaXRlX3plcm9lcyB0byBmYWxzZSwgaS5lLiB3aGV0aGVy
-IHRoZSBFQlVTWSBtaWdodCBub3QgZ28gYXdheSANCj5hdCBzb21lIHBvaW50LCBhbmQgaWYgaXQg
-ZGlkLCB3aGV0aGVyIHdlIHNob3VsZG7igJl0IHJldHJ5IEJMS1pFUk9PVVQgdGhlbi4NCj5Zb3Ug
-aGF2ZW7igJl0IGV4cGxpY2l0bHkgcmVwbGllZCB0byB0aGF0IHF1ZXN0aW9uIChhcyBmYXIgYXMg
-SSBjYW4gc2VlKSwgDQo+c28gaXQga2luZCBvZiBzdGlsbCBzdGFuZHMuDQo+DQo+SW1wbGljaXRs
-eSwgdGhlcmUgYXJlIHR3byBjb25mbGljdGluZyBhbnN3ZXJzIGluIHRoaXMgcGF0Y2g6IE9uIG9u
-ZSANCj5oYW5kLCB0aGUgY29tbWl0IG1lc3NhZ2Ugc2F5cyDigJxwZXJtYW5lbnRseeKAnSwgYW5k
-IHRoaXMgaXMgd2hhdCB5b3UgdG9sZCANCj5OaXIgYXMgYSByZWFsaXN0aWMgY2FzZSB3aGVyZSB0
-aGlzIGNhbiBvY2N1ci4gDQoNCkZvciBMaW51eCA1LjEwLzUuMTEsIHRoZSBFQlVTWSBpcyBwZXJt
-YW5lbnRseSwgdGhlIHJlcHJvZHVjZSBzdGVwIGlzIGJlbG93LiANCkZvciBvdGhlciBMaW51eCB2
-ZXJzaW9uLCB0aGUgRUJVU1kgbWF5IGJlIHRlbXBvcmFyeS4gDQpCZWNhdXNlICBMaW51eCA1LjEw
-LzUuMTEgaXMgbm90IHVzZWQgd2lkZWx5LCBzbyBkbyBub3Qgc2V0IGhhc193cml0ZV96ZXJvZXMg
-dG8gZmFsc2UuDQoNCj5JJ20gYWZyYWlkIENoYW5nTGltaW4gZGlkIG5vdCBhbnN3ZXIgbXkgcXVl
-c3Rpb24uIEknbSBsb29raW5nIGZvciByZWFsDQo+d29ybGQgdXNlZCBjYXNlIHdoZW4gcWVtdSBj
-YW5ub3Qgd3JpdGUgemVyb3MgdG8gbXVsdGlwYXRoIGRldmljZSwgd2hlbg0KPm5vYm9keSBlbHNl
-IGlzIHVzaW5nIHRoZSBkZXZpY2UuDQo+DQo+SSB0cmllZCB0byByZXByb2R1Y2UgdGhpcyBvbiBG
-ZWRvcmEgKGtlcm5lbCA1LjEwKSB3aXRoIHFlbXUtaW1nIGNvbnZlcnQsDQo+b25jZSB3aXRoIGEg
-bXVsdGlwYXRoIGRldmljZSwgYW5kIG9uY2Ugd2l0aCBsb2dpY2FsIHZvbHVtZSBvbiBhIHZnIGNy
-ZWF0ZWQNCj5vbiB0aGUgbXVsdGlwYXRoIGRldmljZSwgYW5kIEkgY291bGQgbm90IHJlcHJvZHVj
-ZSB0aGlzIGlzc3VlLg0KDQpUaGUgZm9sbG93aW5nIGlzIHN0ZXBzIHRvIHJlcHJvZHVjdCB0aGUg
-aXNzdWUgb24gRmVkb3JhIDM0Lg0KDQojIHVuYW1lIC1hDQpMaW51eCBmZWRvcmEtMzQgNS4xMS4z
-LTMwMC5mYzM0Lng4Nl82NCAjMSBTTVAgVGh1IE1hciA0IDE5OjAzOjE4IFVUQyAyMDIxIHg4Nl82
-NCB4ODZfNjQgeDg2XzY0IEdOVS9MaW51eA0KDQojIHFlbXUtaW1nIC1WDQpxZW11LWltZyB2ZXJz
-aW9uIDUuMi4wIChxZW11LTUuMi4wLTUuZmMzNC4xKQ0KDQoxLiAgTG9naW4gaW4gYW4gSVNDU0kg
-TFVOIGNyZWF0ZWQgdXNpbmcgdGFyZ2V0Y2xpIG9uIHVidW50dSAyMC4wNA0KIyBpc2NzaWFkbSAt
-bSBkaXNjb3ZlcnkgLXQgc3QgLXAgMTkyLjE2OS4xLjEwOQ0KMTkyLjE2OS4xLjEwOTozMjYwLDEg
-aXFuLjIwMDMtMDEub3JnLmxpbnV4LWlzY3NpOmxpby1sdjEwMA0KDQojIGlzY3NpYWRtIC1tIG5v
-ZGUgLWwgLVQgaXFuLjIwMDMtMDEub3JnLmxpbnV4LWlzY3NpOmxpby1sdjEwMA0KIyBpc2NzaWFk
-bSAtbSBzZXNzaW9uDQp0Y3A6IFsxXSAxOTIuMTY5LjEuMTA5OjMyNjAsMSBpcW4uMjAwMy0wMS5v
-cmcubGludXgtaXNjc2k6bGlvLWx2MTAwIChub24tZmxhc2gpDQoNCjIuIHN0YXJ0IG11bHRpcGF0
-aGQgc2VydmljZQ0KIyBtcGF0aGNvbmYgLS1lbmFibGUNCiMgc3lzdGVtY3RsIHN0YXJ0IG11bHRp
-cGF0aGQNCg0KMy4gIGFkZCBtdWx0aXBhdGggcGF0aA0KIyBtdWx0aXBhdGggLWEgYC9saWIvdWRl
-di9zY3NpX2lkIC1nIC9kZXYvc2RiYCAgICMgc2RiIG1lYW5zIHRoZSBJU0NTSSBMVU4NCnd3aWQg
-JzM2MDAxNDA1Yjc2ODU2ZTQ4MTZiNDhiOTljNmE3N2RlMycgYWRkZWQNCg0KIyBtdWx0aXBhdGhk
-IGFkZCBwYXRoIC9kZXYvc2RiDQpvaw0KDQojIG11bHRpcGF0aCAtbGwgICAgICMgL2Rldi9kbS0x
-IGlzIHRoZSBtdWx0aXBhdGggZGV2aWNlIGJhc2VkIG9uIC9kZXYvc2RiDQptcGF0aGEgKDM2MDAx
-NDA1YmViZmMzYTA1MjI1NDFjZGEzMDIyMGRiOSkgZG0tMSBMSU8tT1JHLGx2MTAyDQpzaXplPTEu
-MEcgZmVhdHVyZXM9JzAnIGh3aGFuZGxlcj0nMSBhbHVhJyB3cD1ydw0KYC0rLSBwb2xpY3k9J3Nl
-cnZpY2UtdGltZSAwJyBwcmlvPTUwIHN0YXR1cz1hY3RpdmUNCiAgYC0gNTowOjA6MCAgc2RkICA4
-OjQ4ICAgYWN0aXZlIHJlYWR5IHJ1bm5pbmcNCg0KNC4gcWVtdS1pbWcgcmV0dXJuIEVCVVNZIGJv
-dGggdG8gZG0tMSBhbmQgc2RiDQojIHdnZXQgaHR0cDovL2Rvd25sb2FkLmNpcnJvcy1jbG91ZC5u
-ZXQvMC40LjAvY2lycm9zLTAuNC4wLXg4Nl82NC1kaXNrLmltZw0KIyBxZW11LWltZyBjb252ZXJ0
-IC1PIHJhdyAtdCBub25lIGNpcnJvcy0wLjQuMC14ODZfNjQtZGlzay5pbWcgL2Rldi9kbS0xDQpx
-ZW11LWltZzogZXJyb3Igd2hpbGUgd3JpdGluZyBhdCBieXRlIDA6IERldmljZSBvciByZXNvdXJj
-ZSBidXN5DQoNCiMgcWVtdS1pbWcgY29udmVydCAtTyByYXcgLXQgbm9uZSBjaXJyb3MtMC40LjAt
-eDg2XzY0LWRpc2suaW1nIC9kZXYvc2RiDQpxZW11LWltZzogZXJyb3Igd2hpbGUgd3JpdGluZyBh
-dCBieXRlIDA6IERldmljZSBvciByZXNvdXJjZSBidXN5DQoNCjUuIGJsa2Rpc2NhcmQgYWxzbyBy
-ZXR1cm4gRUJVU1kgIGJvdGggdG8gZG0tMSBhbmQgc2RiDQojIGJsa2Rpc2NhcmQgLW8gMCAtbCA0
-MDk2IC9kZXYvZG0tMQ0KYmxrZGlzY2FyZDogY2Fubm90IG9wZW4gL2Rldi9kbS0xOiBEZXZpY2Ug
-b3IgcmVzb3VyY2UgYnVzeQ0KDQojIGJsa2Rpc2NhcmQgLW8gMCAtbCA0MDk2IC9kZXYvc2RiDQpi
-bGtkaXNjYXJkOiBjYW5ub3Qgb3BlbiAvZGV2L3NkYjogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9y
-eQ0KDQo2LiBkZCB3cml0ZSB6ZXJvIGlzIGdvb2QsIGJlY2F1c2UgaXQgZG9lcyBub3QgdXNlIGJs
-a2Rpc2NhcmQNCiMgZGQgaWY9L2Rldi96ZXJvIG9mPS9kZXYvZG0tMSBicz0xTSBjb3VudD0xMDAg
-b2ZsYWc9ZGlyZWN0IA0KMTAwKzAgcmVjb3JkcyBpbg0KMTAwKzAgcmVjb3JkcyBvdXQNCjEwNDg1
-NzYwMCBieXRlcyAoMTA1IE1CLCAxMDAgTWlCKSBjb3BpZWQsIDIuMzM2MjMgcywgNDQuOSBNQi9z
-DQoNCjcuIFRoZSBMVU4gc2hvdWxkIHN1cHBvcnQgYmxrZGlzY2FyZCBmZWF0dXJlLCBvdGhlcndp
-c2UgaXQgd2lsbCBub3Qgd3JpdGUgemVybyANCndpdGggIGlvY3RsKGZkLCBCTEtaRVJPT1VULCBy
-YW5nZSkgDQoNCj5JZiBJIHVuZGVyc3RhbmQgdGhlIGtlcm5lbCBjaGFuZ2UgY29ycmVjdGx5LCB0
-aGlzIGNhbiBoYXBwZW4gd2hlbiB0aGVyZSBpcw0KPmEgbW91bnRlZCBmaWxlIHN5c3RlbSBvbiB0
-b3Agb2YgdGhlIG11bHRpcGF0aCBkZXZpY2UuIEkgZG9uJ3QgdGhpbmsgd2UgaGF2ZSANCj5hIHVz
-ZSBjYXNlIHdoZW4gcWVtdSBhY2Nlc3NlcyBhIG11bHRpcGF0aCBkZXZpY2Ugd2hlbiB0aGUgZGV2
-aWNlIGlzIHVzZWQNCj5ieSBhIGZpbGUgc3lzdGVtLCBidXQgbWF5YmUgSSBtaXNzZWQgc29tZXRo
-aW5nLg0KPiANCj5TbyB0aGF0IHRvIG1lIGltcGxpZXMgDQo+dGhhdCB3ZSBhY3R1YWxseSBzaG91
-bGQgbm90IHJldHJ5IEJMS1pFUk9PVVQsIGJlY2F1c2UgdGhlIEVCVVNZIHdpbGwgDQo+cmVtYWlu
-LCBhbmQgdGhhdCBjb25kaXRpb24gd29u4oCZdCBjaGFuZ2Ugd2hpbGUgdGhlIGJsb2NrIGRldmlj
-ZSBpcyBpbiB1c2UgDQo+YnkgcWVtdS4NCj4NCj5PbiB0aGUgb3RoZXIgaGFuZCwgaW4gdGhlIGNv
-ZGUsIHlvdSBoYXZlIGRlY2lkZWQgbm90IHRvIHJlc2V0IA0KPmhhc193cml0ZV96ZXJvZXMgdG8g
-ZmFsc2UsIHNvIHRoZSBpbXBsZW1lbnRhdGlvbiB3aWxsIHJldHJ5Lg0KPg0KPkVCVVNZIGlzIHVz
-dWFsbHkgYSB0ZW1wb3JhcnkgZXJyb3IsIHNvIHJldHJ5aW5nIG1ha2VzIHNlbnNlLiBUaGUgcXVl
-c3Rpb24NCj5pcyBpZiB3ZSByZWFsbHkgY2FuIHdyaXRlIHplcm9lcyBtYW51YWxseSBpbiB0aGlz
-IGNhc2U/DQo+IA0KPlNvIEkgZG9u4oCZdCBxdWl0ZSB1bmRlcnN0YW5kLiAgU2hvdWxkIHdlIGtl
-ZXAgdHJ5aW5nIEJMS1pFUk9PVVQgb3IgaXMgDQo+dGhlcmUgbm8gY2hhbmNlIG9mIGl0IHdvcmtp
-bmcgYWZ0ZXIgaXQgaGFzIGF0IG9uZSBwb2ludCBmYWlsZWQgd2l0aCANCj5FQlVTWT8gIChBcmUg
-dGhlcmUgb3RoZXIgY2FzZXMgYmVzaWRlcyB3aGF04oCZcyBkZXNjcmliZWQgaW4gdGhpcyBjb21t
-aXQgDQo+bWVzc2FnZSB3aGVyZSBFQlVTWSBtaWdodCBiZSByZXR1cm5lZCBhbmQgaXQgaXMgb25s
-eSB0ZW1wb3Jhcnk/KQ0KPg0KPj4gRmFsbGJhY2sgdG8gcHdyaXRldiBpbnN0ZWFkIG9mIGV4aXQg
-Zm9yIC1FQlVTWSBlcnJvci4NCj4+IA0KPj4gVGhlIGlzc3VlIHdhcyBpbnRyb2R1Y2VkIGluIExp
-bnV4IDUuMTA6DQo+PiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVs
-L2dpdC9zdGFibGUvbGludXguZ2l0L2NvbW1pdC8/aWQ9Mzg0ZDg3ZWYyYzk1NGZjNThlNmM1ZmQ4
-MjUzZTRhMTk4NGY1ZmUwMg0KPj4gDQo+PiBGaXhlZCBpbiBMaW51eCA1LjEyOg0KPj4gaHR0cHM6
-Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXgu
-Z2l0L2NvbW1pdC8/aWQ9NTY4ODdjZmZlOTQ2YmIwYTkwYzc0NDI5ZmE5NGQ2MTEwYTczMTE5ZA0K
-Pj4gDQo+PiBTaWduZWQtb2ZmLWJ5OiBDaGFuZ0xpbWluIDxjaGFuZ2xtQGNoaW5hdGVsZWNvbS5j
-bj4NCj4+IC0tLQ0KPj4gICBibG9jay9maWxlLXBvc2l4LmMgfCA4ICsrKysrKy0tDQo+PiAgIDEg
-ZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+PiANCj4+IGRp
-ZmYgLS1naXQgYS9ibG9jay9maWxlLXBvc2l4LmMgYi9ibG9jay9maWxlLXBvc2l4LmMNCj4+IGlu
-ZGV4IDIwZTE0ZjhlOTYuLmQ0MDU0YWM5Y2IgMTAwNjQ0DQo+PiAtLS0gYS9ibG9jay9maWxlLXBv
-c2l4LmMNCj4+ICsrKyBiL2Jsb2NrL2ZpbGUtcG9zaXguYw0KPj4gQEAgLTE2MjQsOCArMTYyNCwx
-MiBAQCBzdGF0aWMgc3NpemVfdCANCj4+IGhhbmRsZV9haW9jYl93cml0ZV96ZXJvZXNfYmxvY2so
-UmF3UG9zaXhBSU9EYXRhICphaW9jYikNCj4+ICAgICAgICAgICB9IHdoaWxlIChlcnJubyA9PSBF
-SU5UUik7DQo+PiANCj4+ICAgICAgICAgICByZXQgPSB0cmFuc2xhdGVfZXJyKC1lcnJubyk7DQo+
-PiAtICAgICAgICBpZiAocmV0ID09IC1FTk9UU1VQKSB7DQo+PiAtICAgICAgICAgICAgcy0+aGFz
-X3dyaXRlX3plcm9lcyA9IGZhbHNlOw0KPj4gKyAgICAgICAgc3dpdGNoIChyZXQpIHsNCj4+ICsg
-ICAgICAgIGNhc2UgLUVOT1RTVVA6DQo+PiArICAgICAgICAgICAgcy0+aGFzX3dyaXRlX3plcm9l
-cyA9IGZhbHNlOyAvKiBmYWxsIHRocm91Z2ggKi8NCj4+ICsgICAgICAgIGNhc2UgLUVCVVNZOiAv
-KiBMaW51eCA1LjEwLzUuMTEgbWF5IHJldHVybiAtRUJVU1kgZm9yIG11bHRpcGF0aCANCj4+IGRl
-dmljZXMgKi8NCj4+ICsgICAgICAgICAgICByZXR1cm4gLUVOT1RTVVA7DQo+PiArICAgICAgICAg
-ICAgYnJlYWs7DQo+DQo+KE5vdCBzdXJlIHdoeSB0aGlzIGJyZWFrIGlzIGhlcmUuKQ0KPg0KPk1h
-eA0KPg0KPj4gICAgICAgICAgIH0NCj4+ICAgICAgIH0NCj4+ICAgI2VuZGlmDQo+PiAtLQ0KPj4g
-Mi4yNy4wDQo+PiANCg0K
-
-------=_001_NextPart501182822776_=----
-Content-Type: text/html;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charse=
-t=3DUTF-8"><style>body { line-height: 1.5; }body { font-size: 14px; font-f=
-amily: 'Microsoft YaHei UI'; color: rgb(0, 0, 0); line-height: 1.5; }</sty=
-le></head><body><div>&gt;On Wed, Mar 24, 2021 at 4:52 PM Max Reitz &lt;mre=
-itz@redhat.com&gt; wrote:</div><div>&gt;On 22.03.21 10:25, ChangLimin wrot=
-e:</div><div>&gt;&gt; For Linux 5.10/5.11, qemu write zeros to a multipath=
- device using</div><div>&gt;&gt; ioctl(fd, BLKZEROOUT, range) with cache n=
-one or directsync return -EBUSY</div><div>&gt;&gt; permanently.</div><div>=
-&gt;</div><div>&gt;So as far as I can track back the discussion, Kevin ask=
-ed on v1 why we=E2=80=99d&nbsp;</div><div>&gt;set has_write_zeroes to fals=
-e, i.e. whether the EBUSY might not go away&nbsp;</div><div>&gt;at some po=
-int, and if it did, whether we shouldn=E2=80=99t retry BLKZEROOUT then.</d=
-iv><div>&gt;You haven=E2=80=99t explicitly replied to that question (as fa=
-r as I can see),&nbsp;</div><div>&gt;so it kind of still stands.</div><div=
->&gt;</div><div>&gt;Implicitly, there are two conflicting answers in this =
-patch: On one&nbsp;</div><div>&gt;hand, the commit message says =E2=80=9Cp=
-ermanently=E2=80=9D, and this is what you told&nbsp;</div><div>&gt;Nir as =
-a realistic case where this can occur.&nbsp;</div><div><br></div><div>For =
-Linux 5.10/5.11, the EBUSY is permanently, the reproduce step is below.&nb=
-sp;</div><div>For other Linux version,&nbsp;<span style=3D"line-height: 1.=
-5; background-color: transparent;">the EBUSY may be&nbsp;temporary.&nbsp;<=
-/span></div><div><span style=3D"line-height: 1.5; background-color: transp=
-arent;">Because&nbsp;</span><span style=3D"line-height: 1.5; background-co=
-lor: transparent;">&nbsp;</span><span style=3D"line-height: 1.5; backgroun=
-d-color: transparent;">Linux 5.10/5.11 is not used widely,&nbsp;</span><sp=
-an style=3D"line-height: 1.5; background-color: transparent;">so do not se=
-t&nbsp;</span><span style=3D"line-height: 1.5; background-color: transpare=
-nt;">has_write_zeroes to false.</span></div><div><br></div><div>&gt;I'm af=
-raid ChangLimin did not answer my question. I'm looking for real</div><div=
->&gt;world used case when qemu cannot write zeros to multipath device, whe=
-n</div><div>&gt;nobody else is using the device.</div><div>&gt;</div><div>=
-&gt;I tried to reproduce this on Fedora (kernel 5.10) with qemu-img conver=
-t,</div><div>&gt;once with a multipath device, and once with logical volum=
-e on a vg created</div><div>&gt;on the multipath device, and I could not r=
-eproduce this issue.</div><div><br></div><div><div>The following is steps =
-to reproduct the issue on Fedora 34.</div><div><div><br></div><div># uname=
- -a</div><div>Linux fedora-34 5.11.3-300.fc34.x86_64 #1 SMP Thu Mar 4 19:0=
-3:18 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux</div></div><div><div><br></di=
-v><div># qemu-img -V</div><div>qemu-img version 5.2.0 (qemu-5.2.0-5.fc34.1=
-)</div></div><div><br></div><div>1. &nbsp;Login in an ISCSI LUN created us=
-ing targetcli on ubuntu 20.04</div><div># iscsiadm -m discovery -t st -p 1=
-92.169.1.109</div><div>192.169.1.109:3260,1 iqn.2003-01.org.linux-iscsi:li=
-o-lv100</div><div><br></div><div># iscsiadm -m node -l -T&nbsp;<span style=
-=3D"line-height: 1.5; background-color: transparent;">iqn.2003-01.org.linu=
-x-iscsi:lio-lv100</span></div><div><span style=3D"background-color: transp=
-arent;"><div># iscsiadm -m session</div><div>tcp: [1] 192.169.1.109:3260,1=
- iqn.2003-01.org.linux-iscsi:lio-lv100 (non-flash)</div><div><br></div></s=
-pan></div><div><span style=3D"line-height: 1.5; background-color: transpar=
-ent;">2. start multipathd service</span></div><div><span style=3D"backgrou=
-nd-color: transparent;"># mpathconf&nbsp;</span><span style=3D"background-=
-color: transparent;">--enable</span></div><div># systemctl start multipath=
-d</div><div><br></div><div>3. &nbsp;add multipath path</div><div><div># mu=
-ltipath -a `/lib/udev/scsi_id -g /dev/sdb` &nbsp; # sdb means the ISCSI LU=
-N</div><div>wwid '36001405b76856e4816b48b99c6a77de3' added</div></div><div=
-><br></div><div><div># multipathd add path /dev/sdb</div><div>ok</div></di=
-v><div><br></div><div><div># multipath -ll &nbsp; &nbsp; # /dev/dm-1 is th=
-e multipath device based on /dev/sdb</div><div>mpatha (36001405bebfc3a0522=
-541cda30220db9) dm-1 LIO-ORG,lv102</div><div>size=3D1.0G features=3D'0' hw=
-handler=3D'1 alua' wp=3Drw</div><div>`-+- policy=3D'service-time 0' prio=
-=3D50 status=3Dactive</div><div>&nbsp; `- 5:0:0:0 &nbsp;sdd &nbsp;8:48 &nb=
-sp; active ready running</div></div><div><br></div><div>4. qemu-img return=
- EBUSY both to dm-1 and sdb</div><div># wget&nbsp;http://download.cirros-c=
-loud.net/0.4.0/cirros-0.4.0-x86_64-disk.img</div><div># qemu-img convert -=
-O raw -t none&nbsp;<span style=3D"line-height: 1.5; background-color: tran=
-sparent;">cirros-0.4.0-x86_64-disk.img /dev/dm-1</span></div><div><span st=
-yle=3D"background-color: transparent;">qemu-img: error while writing at by=
-te 0: Device or resource busy</span></div><div><span style=3D"background-c=
-olor: transparent;"><br></span></div><div><span style=3D"background-color:=
- transparent;"><div># qemu-img convert -O raw -t none cirros-0.4.0-x86_64-=
-disk.img /dev/sdb</div><div>qemu-img: error while writing at byte 0: Devic=
-e or resource busy</div><div><br></div></span></div><div><span style=3D"ba=
-ckground-color: transparent;">5. blkdiscard also return EBUSY&nbsp;</span>=
-<span style=3D"line-height: 1.5; background-color: transparent;">&nbsp;</s=
-pan><span style=3D"line-height: 1.5; background-color: transparent;">both =
-to dm-1 and sdb</span></div><div><span style=3D"background-color: transpar=
-ent;"># blkdiscard -o 0 -l 4096 /dev/dm-1</span></div><div>blkdiscard: can=
-not open /dev/dm-1: Device or resource busy</div></div><div><div><br></div=
-><div># blkdiscard -o 0 -l 4096 /dev/sdb</div><div>blkdiscard: cannot open=
- /dev/s<span style=3D"line-height: 1.5; background-color: transparent;">db=
-: No such file or directory</span></div></div><div><span style=3D"line-hei=
-ght: 1.5; background-color: transparent;"><br></span></div><div><span styl=
-e=3D"line-height: 1.5; background-color: transparent;">6. dd write zero is=
- good, because it does not use blkdiscard</span></div><div><span style=3D"=
-background-color: transparent;"># dd if=3D/dev/zero of=3D/dev/dm-1 bs=3D1M=
- count=3D100 oflag=3Ddirect&nbsp;</span></div><div>100+0 records in</div><=
-div>100+0 records out</div><div>104857600 bytes (105 MB, 100 MiB) copied, =
-2.33623 s, 44.9 MB/s</div><div><br></div><div>7. The LUN&nbsp;should suppo=
-rt blkdiscard feature, otherwise it will not write zero&nbsp;</div><div>wi=
-th&nbsp;<span style=3D"line-height: 1.5; background-color: transparent;">&=
-nbsp;ioctl(fd, BLKZEROOUT, range)</span><span style=3D"line-height: 1.5; b=
-ackground-color: transparent;">&nbsp;</span></div><div><br></div><div>&gt;=
-If I understand the kernel change correctly, this can happen when there is=
-</div><div>&gt;a mounted file system on top of the multipath device. I don=
-'t think we have&nbsp;</div><div>&gt;a use case when qemu accesses a multi=
-path device when the device is used</div><div>&gt;by a file system, but ma=
-ybe I missed something.</div><div>&gt;&nbsp;</div><div>&gt;So that to me i=
-mplies&nbsp;</div><div>&gt;that we actually should not retry BLKZEROOUT, b=
-ecause the EBUSY will&nbsp;</div><div>&gt;remain, and that condition won=
-=E2=80=99t change while the block device is in use&nbsp;</div><div>&gt;by =
-qemu.</div><div>&gt;</div><div><span style=3D"line-height: 1.5; background=
--color: transparent;">&gt;On the other hand, in the code, you have decided=
- not to reset&nbsp;</span></div><div>&gt;has_write_zeroes to false, so the=
- implementation will retry.</div><div>&gt;</div><div>&gt;EBUSY is usually =
-a temporary error, so retrying makes sense. The question</div><div>&gt;is =
-if we really can write zeroes manually in this case?</div><div>&gt;&nbsp;<=
-/div><div>&gt;So I don=E2=80=99t quite understand. &nbsp;Should we keep tr=
-ying BLKZEROOUT or is&nbsp;</div><div>&gt;there no chance of it working af=
-ter it has at one point failed with&nbsp;</div><div>&gt;EBUSY? &nbsp;(Are =
-there other cases besides what=E2=80=99s described in this commit&nbsp;</d=
-iv><div>&gt;message where EBUSY might be returned and it is only temporary=
-?)</div><div>&gt;</div><div>&gt;&gt; Fallback to pwritev instead of exit f=
-or -EBUSY error.</div><div>&gt;&gt;&nbsp;</div><div>&gt;&gt; The issue was=
- introduced in Linux 5.10:</div><div>&gt;&gt; https://git.kernel.org/pub/s=
-cm/linux/kernel/git/stable/linux.git/commit/?id=3D384d87ef2c954fc58e6c5fd8=
-253e4a1984f5fe02</div><div>&gt;&gt;&nbsp;</div><div>&gt;&gt; Fixed in Linu=
-x 5.12:</div><div>&gt;&gt; https://git.kernel.org/pub/scm/linux/kernel/git=
-/torvalds/linux.git/commit/?id=3D56887cffe946bb0a90c74429fa94d6110a73119d<=
-/div><div>&gt;&gt;&nbsp;</div><div>&gt;&gt; Signed-off-by: ChangLimin &lt;=
-changlm@chinatelecom.cn&gt;</div><div>&gt;&gt; ---</div><div>&gt;&gt; &nbs=
-p; block/file-posix.c | 8 ++++++--</div><div>&gt;&gt; &nbsp; 1 file change=
-d, 6 insertions(+), 2 deletions(-)</div><div>&gt;&gt;&nbsp;</div><div>&gt;=
-&gt; diff --git a/block/file-posix.c b/block/file-posix.c</div><div>&gt;&g=
-t; index 20e14f8e96..d4054ac9cb 100644</div><div>&gt;&gt; --- a/block/file=
--posix.c</div><div>&gt;&gt; +++ b/block/file-posix.c</div><div>&gt;&gt; @@=
- -1624,8 +1624,12 @@ static ssize_t&nbsp;</div><div>&gt;&gt; handle_aiocb_=
-write_zeroes_block(RawPosixAIOData *aiocb)</div><div>&gt;&gt; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; } while (errno =3D=3D EINTR);</div><div>&gt;&gt;&nb=
-sp;</div><div>&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret =3D translat=
-e_err(-errno);</div><div>&gt;&gt; - &nbsp; &nbsp; &nbsp; &nbsp;if (ret =3D=
-=3D -ENOTSUP) {</div><div>&gt;&gt; - &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp;s-&gt;has_write_zeroes =3D false;</div><div>&gt;&gt; + &nbsp; &nbsp; &=
-nbsp; &nbsp;switch (ret) {</div><div>&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp=
-;case -ENOTSUP:</div><div>&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp;s-&gt;has_write_zeroes =3D false; /* fall through */</div><div>&gt;&gt=
-; + &nbsp; &nbsp; &nbsp; &nbsp;case -EBUSY: /* Linux 5.10/5.11 may return =
--EBUSY for multipath&nbsp;</div><div>&gt;&gt; devices */</div><div>&gt;&gt=
-; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return -ENOTSUP;</div><div>&g=
-t;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;break;</div><div>&gt;</d=
-iv><div>&gt;(Not sure why this break is here.)</div><div>&gt;</div><div>&g=
-t;Max</div><div>&gt;</div><div>&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- }</div><div>&gt;&gt; &nbsp; &nbsp; &nbsp; }</div><div>&gt;&gt; &nbsp; #en=
-dif</div><div>&gt;&gt; --</div><div>&gt;&gt; 2.27.0</div><div>&gt;&gt;&nbs=
-p;</div><div><br></div></body></html>
-------=_001_NextPart501182822776_=------
+On Wed, Mar 24, 2021 at 2:34 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/3/23 =E4=B8=8A=E5=8D=889:56, Cindy Lu =E5=86=99=E9=81=93:
+> > Add support for configure interrupt, use kvm_irqfd_assign and set the
+> > gsi to kernel. When the configure notifier was eventfd_signal by host
+> > kernel, this will finally inject an msix interrupt to guest
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >   hw/virtio/virtio-pci.c | 171 +++++++++++++++++++++++++++++++++-------=
+-
+> >   1 file changed, 137 insertions(+), 34 deletions(-)
+> >
+> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> > index 36524a5728..b0c190caba 100644
+> > --- a/hw/virtio/virtio-pci.c
+> > +++ b/hw/virtio/virtio-pci.c
+> > @@ -664,7 +664,6 @@ static uint32_t virtio_read_config(PCIDevice *pci_d=
+ev,
+> >   }
+> >
+> >   static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
+> > -                                        unsigned int queue_no,
+> >                                           unsigned int vector)
+>
+>
+> Let's use a separated patch for decoupling queue_no from those irqfd
+> helpers.
+>
+> Thanks
+>
+sure will split this
+>
+> >   {
+> >       VirtIOIRQFD *irqfd =3D &proxy->vector_irqfd[vector];
+> > @@ -691,23 +690,17 @@ static void kvm_virtio_pci_vq_vector_release(Virt=
+IOPCIProxy *proxy,
+> >   }
+> >
+> >   static int kvm_virtio_pci_irqfd_use(VirtIOPCIProxy *proxy,
+> > -                                 unsigned int queue_no,
+> > +                                 EventNotifier *n,
+> >                                    unsigned int vector)
+> >   {
+> >       VirtIOIRQFD *irqfd =3D &proxy->vector_irqfd[vector];
+> > -    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > -    VirtQueue *vq =3D virtio_get_queue(vdev, queue_no);
+> > -    EventNotifier *n =3D virtio_queue_get_guest_notifier(vq);
+> >       return kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, n, NULL, irq=
+fd->virq);
+> >   }
+> >
+> >   static void kvm_virtio_pci_irqfd_release(VirtIOPCIProxy *proxy,
+> > -                                      unsigned int queue_no,
+> > +                                      EventNotifier *n ,
+> >                                         unsigned int vector)
+> >   {
+> > -    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > -    VirtQueue *vq =3D virtio_get_queue(vdev, queue_no);
+> > -    EventNotifier *n =3D virtio_queue_get_guest_notifier(vq);
+> >       VirtIOIRQFD *irqfd =3D &proxy->vector_irqfd[vector];
+> >       int ret;
+> >
+> > @@ -722,7 +715,8 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy=
+ *proxy, int nvqs)
+> >       VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> >       unsigned int vector;
+> >       int ret, queue_no;
+> > -
+> > +    VirtQueue *vq;
+> > +    EventNotifier *n;
+> >       for (queue_no =3D 0; queue_no < nvqs; queue_no++) {
+> >           if (!virtio_queue_get_num(vdev, queue_no)) {
+> >               break;
+> > @@ -731,7 +725,7 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy=
+ *proxy, int nvqs)
+> >           if (vector >=3D msix_nr_vectors_allocated(dev)) {
+> >               continue;
+> >           }
+> > -        ret =3D kvm_virtio_pci_vq_vector_use(proxy, queue_no, vector);
+> > +        ret =3D kvm_virtio_pci_vq_vector_use(proxy,  vector);
+> >           if (ret < 0) {
+> >               goto undo;
+> >           }
+> > @@ -739,7 +733,9 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy=
+ *proxy, int nvqs)
+> >            * Otherwise, delay until unmasked in the frontend.
+> >            */
+> >           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) =
+{
+> > -            ret =3D kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
+> > +            vq =3D virtio_get_queue(vdev, queue_no);
+> > +            n =3D virtio_queue_get_guest_notifier(vq);
+> > +            ret =3D kvm_virtio_pci_irqfd_use(proxy, n, vector);
+> >               if (ret < 0) {
+> >                   kvm_virtio_pci_vq_vector_release(proxy, vector);
+> >                   goto undo;
+> > @@ -755,13 +751,69 @@ undo:
+> >               continue;
+> >           }
+> >           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) =
+{
+> > -            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
+> > +            vq =3D virtio_get_queue(vdev, queue_no);
+> > +            n =3D virtio_queue_get_guest_notifier(vq);
+> > +            kvm_virtio_pci_irqfd_release(proxy, n, vector);
+> >           }
+> >           kvm_virtio_pci_vq_vector_release(proxy, vector);
+> >       }
+> >       return ret;
+> >   }
+> >
+> > +static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
+> > +{
+> > +
+> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > +    unsigned int vector;
+> > +    int ret;
+> > +    EventNotifier *n =3D virtio_get_config_notifier(vdev);
+> > +
+> > +    vector =3D vdev->config_vector ;
+> > +    ret =3D kvm_virtio_pci_vq_vector_use(proxy, vector);
+> > +    if (ret < 0) {
+> > +        goto undo;
+> > +    }
+> > +    ret =3D kvm_virtio_pci_irqfd_use(proxy,  n, vector);
+> > +    if (ret < 0) {
+> > +        goto undo;
+> > +    }
+> > +    return 0;
+> > +undo:
+> > +    kvm_virtio_pci_irqfd_release(proxy, n, vector);
+> > +    return ret;
+> > +}
+> > +static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy=
+)
+> > +{
+> > +    PCIDevice *dev =3D &proxy->pci_dev;
+> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > +    unsigned int vector;
+> > +    EventNotifier *n =3D virtio_get_config_notifier(vdev);
+> > +    vector =3D vdev->config_vector ;
+> > +    if (vector >=3D msix_nr_vectors_allocated(dev)) {
+> > +        return;
+> > +    }
+> > +    kvm_virtio_pci_irqfd_release(proxy, n, vector);
+> > +    kvm_virtio_pci_vq_vector_release(proxy, vector);
+> > +}
+> > +
+> > +static int virtio_pci_set_config_notifier(DeviceState *d,  bool assign=
+)
+> > +{
+> > +    VirtIOPCIProxy *proxy =3D to_virtio_pci_proxy(d);
+> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > +    EventNotifier *notifier =3D virtio_get_config_notifier(vdev);
+> > +    int r =3D 0;
+> > +    if (assign) {
+> > +        r =3D event_notifier_init(notifier, 0);
+> > +        virtio_set_config_notifier_fd_handler(vdev, true, true);
+> > +        kvm_virtio_pci_vector_config_use(proxy);
+> > +    } else {
+> > +        virtio_set_config_notifier_fd_handler(vdev, false, true);
+> > +        kvm_virtio_pci_vector_config_release(proxy);
+> > +        event_notifier_cleanup(notifier);
+> > +    }
+> > +    return r;
+> > +}
+> > +
+> >   static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int =
+nvqs)
+> >   {
+> >       PCIDevice *dev =3D &proxy->pci_dev;
+> > @@ -769,7 +821,8 @@ static void kvm_virtio_pci_vector_release(VirtIOPCI=
+Proxy *proxy, int nvqs)
+> >       unsigned int vector;
+> >       int queue_no;
+> >       VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> > -
+> > +    VirtQueue *vq;
+> > +    EventNotifier *n;
+> >       for (queue_no =3D 0; queue_no < nvqs; queue_no++) {
+> >           if (!virtio_queue_get_num(vdev, queue_no)) {
+> >               break;
+> > @@ -782,7 +835,9 @@ static void kvm_virtio_pci_vector_release(VirtIOPCI=
+Proxy *proxy, int nvqs)
+> >            * Otherwise, it was cleaned when masked in the frontend.
+> >            */
+> >           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) =
+{
+> > -            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
+> > +            vq =3D virtio_get_queue(vdev, queue_no);
+> > +            n =3D virtio_queue_get_guest_notifier(vq);
+> > +            kvm_virtio_pci_irqfd_release(proxy, n, vector);
+> >           }
+> >           kvm_virtio_pci_vq_vector_release(proxy, vector);
+> >       }
+> > @@ -791,15 +846,14 @@ static void kvm_virtio_pci_vector_release(VirtIOP=
+CIProxy *proxy, int nvqs)
+> >   static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
+> >                                          unsigned int queue_no,
+> >                                          unsigned int vector,
+> > -                                       MSIMessage msg)
+> > +                                       MSIMessage msg,
+> > +                                       int type,
+> > +                                        EventNotifier *n)
+> >   {
+> >       VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> >       VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> > -    VirtQueue *vq =3D virtio_get_queue(vdev, queue_no);
+> > -    EventNotifier *n =3D virtio_queue_get_guest_notifier(vq);
+> >       VirtIOIRQFD *irqfd;
+> >       int ret =3D 0;
+> > -
+> >       if (proxy->vector_irqfd) {
+> >           irqfd =3D &proxy->vector_irqfd[vector];
+> >           if (irqfd->msg.data !=3D msg.data || irqfd->msg.address !=3D =
+msg.address) {
+> > @@ -816,32 +870,33 @@ static int virtio_pci_vq_vector_unmask(VirtIOPCIP=
+roxy *proxy,
+> >        * Otherwise, set it up now.
+> >        */
+> >       if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> > -        k->guest_notifier_mask(vdev, queue_no, false);
+> > +        k->guest_notifier_mask(vdev, queue_no, false, type);
+> >           /* Test after unmasking to avoid losing events. */
+> >           if (k->guest_notifier_pending &&
+> > -            k->guest_notifier_pending(vdev, queue_no)) {
+> > +            k->guest_notifier_pending(vdev, queue_no, type)) {
+> >               event_notifier_set(n);
+> >           }
+> >       } else {
+> > -        ret =3D kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
+> > +        ret =3D kvm_virtio_pci_irqfd_use(proxy, n, vector);
+> >       }
+> >       return ret;
+> >   }
+> >
+> >   static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
+> >                                                unsigned int queue_no,
+> > -                                             unsigned int vector)
+> > +                                             unsigned int vector,
+> > +                                             int type,
+> > +                                             EventNotifier *n)
+> >   {
+> >       VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> >       VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> > -
+> >       /* If guest supports masking, keep irqfd but mask it.
+> >        * Otherwise, clean it up now.
+> >        */
+> >       if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> > -        k->guest_notifier_mask(vdev, queue_no, true);
+> > +        k->guest_notifier_mask(vdev, queue_no, true, type);
+> >       } else {
+> > -        kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
+> > +        kvm_virtio_pci_irqfd_release(proxy, n, vector);
+> >       }
+> >   }
+> >
+> > @@ -851,15 +906,26 @@ static int virtio_pci_vector_unmask(PCIDevice *de=
+v, unsigned vector,
+> >       VirtIOPCIProxy *proxy =3D container_of(dev, VirtIOPCIProxy, pci_d=
+ev);
+> >       VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> >       VirtQueue *vq =3D virtio_vector_first_queue(vdev, vector);
+> > +    EventNotifier *n;
+> >       int ret, index, unmasked =3D 0;
+> >
+> > +   if (vdev->use_config_notifier =3D=3D VIRTIO_CONFIG_WORK) {
+> > +        n =3D virtio_get_config_notifier(vdev);
+> > +        ret =3D virtio_pci_vq_vector_unmask(proxy, 0, vector, msg,
+> > +                    VIRTIO_CONFIG_VECTOR, n);
+> > +        if (ret < 0) {
+> > +            goto config_undo;
+> > +       }
+> > +    }
+> >       while (vq) {
+> >           index =3D virtio_get_queue_index(vq);
+> >           if (!virtio_queue_get_num(vdev, index)) {
+> >               break;
+> >           }
+> >           if (index < proxy->nvqs_with_notifiers) {
+> > -            ret =3D virtio_pci_vq_vector_unmask(proxy, index, vector, =
+msg);
+> > +            n =3D virtio_queue_get_guest_notifier(vq);
+> > +            ret =3D virtio_pci_vq_vector_unmask(proxy, index, vector, =
+msg,
+> > +                        VIRTIO_VQ_VECTOR, n);
+> >               if (ret < 0) {
+> >                   goto undo;
+> >               }
+> > @@ -875,11 +941,17 @@ undo:
+> >       while (vq && unmasked >=3D 0) {
+> >           index =3D virtio_get_queue_index(vq);
+> >           if (index < proxy->nvqs_with_notifiers) {
+> > -            virtio_pci_vq_vector_mask(proxy, index, vector);
+> > +            n =3D virtio_queue_get_guest_notifier(vq);
+> > +            virtio_pci_vq_vector_mask(proxy, index, vector,
+> > +                 VIRTIO_VQ_VECTOR, n);
+> >               --unmasked;
+> >           }
+> >           vq =3D virtio_vector_next_queue(vq);
+> >       }
+> > + config_undo:
+> > +            n =3D virtio_get_config_notifier(vdev);
+> > +            virtio_pci_vq_vector_mask(proxy, 0, vector,
+> > +                VIRTIO_CONFIG_VECTOR, n);
+> >       return ret;
+> >   }
+> >
+> > @@ -888,18 +960,26 @@ static void virtio_pci_vector_mask(PCIDevice *dev=
+, unsigned vector)
+> >       VirtIOPCIProxy *proxy =3D container_of(dev, VirtIOPCIProxy, pci_d=
+ev);
+> >       VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> >       VirtQueue *vq =3D virtio_vector_first_queue(vdev, vector);
+> > +    EventNotifier *n;
+> >       int index;
+> >
+> > +   if (vdev->use_config_notifier =3D=3D VIRTIO_CONFIG_WORK) {
+> > +        n =3D virtio_get_config_notifier(vdev);
+> > +        virtio_pci_vq_vector_mask(proxy, 0, vector, VIRTIO_CONFIG_VECT=
+OR, n);
+> > +   }
+> >       while (vq) {
+> >           index =3D virtio_get_queue_index(vq);
+> > +         n =3D virtio_queue_get_guest_notifier(vq);
+> >           if (!virtio_queue_get_num(vdev, index)) {
+> >               break;
+> >           }
+> >           if (index < proxy->nvqs_with_notifiers) {
+> > -            virtio_pci_vq_vector_mask(proxy, index, vector);
+> > +            virtio_pci_vq_vector_mask(proxy, index, vector,
+> > +                VIRTIO_VQ_VECTOR, n);
+> >           }
+> >           vq =3D virtio_vector_next_queue(vq);
+> >       }
+> > +
+> >   }
+> >
+> >   static void virtio_pci_vector_poll(PCIDevice *dev,
+> > @@ -918,6 +998,7 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
+> >           if (!virtio_queue_get_num(vdev, queue_no)) {
+> >               break;
+> >           }
+> > +
+> >           vector =3D virtio_queue_vector(vdev, queue_no);
+> >           if (vector < vector_start || vector >=3D vector_end ||
+> >               !msix_is_masked(dev, vector)) {
+> > @@ -926,7 +1007,22 @@ static void virtio_pci_vector_poll(PCIDevice *dev=
+,
+> >           vq =3D virtio_get_queue(vdev, queue_no);
+> >           notifier =3D virtio_queue_get_guest_notifier(vq);
+> >           if (k->guest_notifier_pending) {
+> > -            if (k->guest_notifier_pending(vdev, queue_no)) {
+> > +            if (k->guest_notifier_pending(vdev, queue_no, VIRTIO_VQ_VE=
+CTOR)) {
+> > +                msix_set_pending(dev, vector);
+> > +            }
+> > +        } else if (event_notifier_test_and_clear(notifier)) {
+> > +            msix_set_pending(dev, vector);
+> > +        }
+> > +    }
+> > +   if (vdev->use_config_notifier =3D=3D VIRTIO_CONFIG_WORK) {
+> > +        vector =3D vdev->config_vector;
+> > +        notifier =3D virtio_get_config_notifier(vdev);
+> > +        if (vector < vector_start || vector >=3D vector_end ||
+> > +            !msix_is_masked(dev, vector)) {
+> > +            return;
+> > +        }
+> > +        if (k->guest_notifier_pending) {
+> > +            if (k->guest_notifier_pending(vdev, 0,  VIRTIO_CONFIG_VECT=
+OR)) {
+> >                   msix_set_pending(dev, vector);
+> >               }
+> >           } else if (event_notifier_test_and_clear(notifier)) {
+> > @@ -958,7 +1054,7 @@ static int virtio_pci_set_guest_notifier(DeviceSta=
+te *d, int n, bool assign,
+> >       if (!msix_enabled(&proxy->pci_dev) &&
+> >           vdev->use_guest_notifier_mask &&
+> >           vdc->guest_notifier_mask) {
+> > -        vdc->guest_notifier_mask(vdev, n, !assign);
+> > +        vdc->guest_notifier_mask(vdev, n, !assign, VIRTIO_VQ_VECTOR);
+> >       }
+> >
+> >       return 0;
+> > @@ -1008,7 +1104,6 @@ static int virtio_pci_set_guest_notifiers(DeviceS=
+tate *d, int nvqs, bool assign)
+> >               goto assign_error;
+> >           }
+> >       }
+> > -
+> >       /* Must set vector notifier after guest notifier has been assigne=
+d */
+> >       if ((with_irqfd || k->guest_notifier_mask) && assign) {
+> >           if (with_irqfd) {
+> > @@ -1020,6 +1115,12 @@ static int virtio_pci_set_guest_notifiers(Device=
+State *d, int nvqs, bool assign)
+> >                   goto assign_error;
+> >               }
+> >           }
+> > +        if (vdev->use_config_notifier =3D=3D VIRTIO_CONFIG_SUPPORT) {
+> > +            r =3D virtio_pci_set_config_notifier(d, assign);
+> > +            if (r < 0) {
+> > +                goto config_error;
+> > +         }
+> > +     }
+> >           r =3D msix_set_vector_notifiers(&proxy->pci_dev,
+> >                                         virtio_pci_vector_unmask,
+> >                                         virtio_pci_vector_mask,
+> > @@ -1028,7 +1129,6 @@ static int virtio_pci_set_guest_notifiers(DeviceS=
+tate *d, int nvqs, bool assign)
+> >               goto notifiers_error;
+> >           }
+> >       }
+> > -
+> >       return 0;
+> >
+> >   notifiers_error:
+> > @@ -1036,13 +1136,16 @@ notifiers_error:
+> >           assert(assign);
+> >           kvm_virtio_pci_vector_release(proxy, nvqs);
+> >       }
+> > -
+> > + config_error:
+> > +    /* We get here on assignment failure. Recover by undoing for VQs 0=
+ .. n. */
+> > +        kvm_virtio_pci_vector_config_release(proxy);
+> >   assign_error:
+> >       /* We get here on assignment failure. Recover by undoing for VQs =
+0 .. n. */
+> >       assert(assign);
+> >       while (--n >=3D 0) {
+> >           virtio_pci_set_guest_notifier(d, n, !assign, with_irqfd);
+> >       }
+> > +
+> >       return r;
+> >   }
+> >
+>
 
 
