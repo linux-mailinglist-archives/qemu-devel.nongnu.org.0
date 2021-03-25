@@ -2,71 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D323493F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:26:19 +0100 (CET)
-Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B56F3493F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:27:23 +0100 (CET)
+Received: from localhost ([::1]:44938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPQwE-00078B-Dj
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47310)
+	id 1lPQxG-00084T-F5
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPQuK-0006e6-Dx
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:24:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29011)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lPQv0-000729-OC; Thu, 25 Mar 2021 10:25:03 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPQuF-0006qT-HM
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:24:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616682254;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FJY+ujJCKIHKUxu0ZpzaM9HfxUlX4k11j8rDHd2pc2c=;
- b=aowaisA+JmuxM52o/GmXdENCLLoWKnN+KmZ8gMbo52vxDmkOA+suS3y+akTt+nZCrLwYun
- ldsILM8NJ4M/fQN/8EavQT9Bj0Emn0a7mKpRv9NKUwEXAtjngIqo06gtzYDAcO0mRlq8Hl
- hG/HZTho74aB8s6XLKYG8wjNnl3uSWk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-St2qzm69PyOjFw8cMNp51A-1; Thu, 25 Mar 2021 10:24:09 -0400
-X-MC-Unique: St2qzm69PyOjFw8cMNp51A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1FA9100B789;
- Thu, 25 Mar 2021 14:24:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 863A05D9CA;
- Thu, 25 Mar 2021 14:24:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0375E11327E1; Thu, 25 Mar 2021 15:24:07 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 08/19] qapi: add tests for invalid 'data' field type
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-9-jsnow@redhat.com>
-Date: Thu, 25 Mar 2021 15:24:06 +0100
-In-Reply-To: <20210325060356.4040114-9-jsnow@redhat.com> (John Snow's message
- of "Thu, 25 Mar 2021 02:03:45 -0400")
-Message-ID: <87v99fs455.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lPQus-00079A-Tz; Thu, 25 Mar 2021 10:25:02 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12PEHqXN099360; Thu, 25 Mar 2021 10:24:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=L/4dqx5myI/Z0usKf2WFTrzAb+kal9Qx6XIRV5Eg4PA=;
+ b=YjeHNIBpxGDZIwToxxGpX1FQFn/ZSbCs2z4rAlUq9mfvpBnL7EQ1aQyQawSBAqpohlcy
+ FHTBohU6vXjSLPSZN6RQ+DEHOB+uXFFYh8afPUpPYLDdp2IRyU0FMKfUeOUbgL+TOzmx
+ 2wlZRfXxmN0US9zNEc22W7aqk8JKLajNqWlKQVgvMKvNy9xkiIVor3/ANp1Dm/uVhaPe
+ Nylk0tNigBsUfdj+T5jMShwZIzaeznl0thfdrZUyGjyvdRBljG8JnapsDD1nYxrqqrO/
+ E38OsoRyjbKj3IAp+YYA6xEndAGHeQ8MHwkw1I4CafMVR4XsyrDN17ZqhhvU4iGovt6g cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37ghn1sqx7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Mar 2021 10:24:49 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12PEIAVQ101487;
+ Thu, 25 Mar 2021 10:24:49 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37ghn1sqvu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Mar 2021 10:24:49 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12PEItSK029263;
+ Thu, 25 Mar 2021 14:24:47 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 37df68d156-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Mar 2021 14:24:46 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12PEOitG54133200
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 25 Mar 2021 14:24:44 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24A86A405B;
+ Thu, 25 Mar 2021 14:24:44 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EA1BA4054;
+ Thu, 25 Mar 2021 14:24:43 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.84.230])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 25 Mar 2021 14:24:43 +0000 (GMT)
+Date: Thu, 25 Mar 2021 15:24:41 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH] MAINTAINERS: add/replace backups for some s390 areas
+Message-ID: <20210325152441.307e2408.pasic@linux.ibm.com>
+In-Reply-To: <1616680509-8339-1-git-send-email-mjrosato@linux.ibm.com>
+References: <1616680509-8339-1-git-send-email-mjrosato@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-25_03:2021-03-24,
+ 2021-03-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 clxscore=1015 bulkscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103250106
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,117 +107,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org
+Cc: jjherne@linux.ibm.com, akrowiak@linux.ibm.com, farman@linux.ibm.com,
+ pmorel@linux.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ thuth@redhat.com, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
+ alex.williamson@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On Thu, 25 Mar 2021 09:55:09 -0400
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
-> It needs to be an object (dict), not anything else.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> Note: this actually doesn't ... work, but on-list, we discussed wanting
-> tests first, then the fix. That can't happen here, because QAPI crashes
-> at runtime. So uh, just squash this into the following patch, I guess?
+> S390 PCI currently has no backup, add one.  Add an additional backup
+> for vfio-ccw and refresh the backup for vfio-ap.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-Yes.
-
-> I tried.
-
-Thanks!
-
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qapi-schema/alternate-invalid-data-type.err  |  0
->  tests/qapi-schema/alternate-invalid-data-type.json |  4 ++++
->  tests/qapi-schema/alternate-invalid-data-type.out  |  0
->  tests/qapi-schema/meson.build                      |  2 ++
->  tests/qapi-schema/union-invalid-data-type.err      |  0
->  tests/qapi-schema/union-invalid-data-type.json     | 13 +++++++++++++
->  tests/qapi-schema/union-invalid-data-type.out      |  0
->  7 files changed, 19 insertions(+)
->  create mode 100644 tests/qapi-schema/alternate-invalid-data-type.err
->  create mode 100644 tests/qapi-schema/alternate-invalid-data-type.json
->  create mode 100644 tests/qapi-schema/alternate-invalid-data-type.out
->  create mode 100644 tests/qapi-schema/union-invalid-data-type.err
->  create mode 100644 tests/qapi-schema/union-invalid-data-type.json
->  create mode 100644 tests/qapi-schema/union-invalid-data-type.out
->
-> diff --git a/tests/qapi-schema/alternate-invalid-data-type.err b/tests/qapi-schema/alternate-invalid-data-type.err
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qapi-schema/alternate-invalid-data-type.json b/tests/qapi-schema/alternate-invalid-data-type.json
-> new file mode 100644
-> index 0000000000..7d5d905581
-> --- /dev/null
-> +++ b/tests/qapi-schema/alternate-invalid-data-type.json
-> @@ -0,0 +1,4 @@
-> +# Alternate type requires an object for 'data'
-> +{ 'alternate': 'Alt',
-> +  'data': ['rubbish', 'nonsense']
-> +}
-
-Let's name it alternate-data-invalid.json, for consistency with
-struct-data-invalid.json
-
-> diff --git a/tests/qapi-schema/alternate-invalid-data-type.out b/tests/qapi-schema/alternate-invalid-data-type.out
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-> index 8ba6917132..cc5b136cfb 100644
-> --- a/tests/qapi-schema/meson.build
-> +++ b/tests/qapi-schema/meson.build
-> @@ -15,6 +15,7 @@ schemas = [
->    'alternate-conflict-bool-string.json',
->    'alternate-conflict-num-string.json',
->    'alternate-empty.json',
-> +  'alternate-invalid-data-type.json',
->    'alternate-invalid-dict.json',
->    'alternate-nested.json',
->    'alternate-unknown.json',
-> @@ -192,6 +193,7 @@ schemas = [
->    'union-clash-branches.json',
->    'union-empty.json',
->    'union-invalid-base.json',
-> +  'union-invalid-data-type.json',
->    'union-optional-branch.json',
->    'union-unknown.json',
->    'unknown-escape.json',
-> diff --git a/tests/qapi-schema/union-invalid-data-type.err b/tests/qapi-schema/union-invalid-data-type.err
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qapi-schema/union-invalid-data-type.json b/tests/qapi-schema/union-invalid-data-type.json
-> new file mode 100644
-> index 0000000000..5a32d267bf
-> --- /dev/null
-> +++ b/tests/qapi-schema/union-invalid-data-type.json
-> @@ -0,0 +1,13 @@
-> +# the union data type must be an object.
-> +
-> +{ 'struct': 'TestTypeA',
-> +  'data': { 'string': 'str' } }
-> +
-> +{ 'struct': 'TestTypeB',
-> +  'data': { 'integer': 'int' } }
-
-These two seem superfluous.
-
-> +
-> +{ 'union': 'TestUnion',
-> +  'base': 'int',
-> +  'discriminator': 'int',
-> +  'data': ['TestTypeA', 'TestTypeB']
-> +}
-
-Name it union-invalid-data.json.
-
-> diff --git a/tests/qapi-schema/union-invalid-data-type.out b/tests/qapi-schema/union-invalid-data-type.out
-> new file mode 100644
-> index 0000000000..e69de29bb2
-
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
 
