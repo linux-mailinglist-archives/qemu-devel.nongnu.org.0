@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC253496A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 17:20:50 +0100 (CET)
-Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F67349679
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 17:12:56 +0100 (CET)
+Received: from localhost ([::1]:34390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPSj3-0005Ha-E3
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 12:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50032)
+	id 1lPSbP-0007vY-4h
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 12:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lPSSt-0002Sw-SP
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:04:09 -0400
-Resent-Date: Thu, 25 Mar 2021 12:04:07 -0400
-Resent-Message-Id: <E1lPSSt-0002Sw-SP@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21359)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lPSSx-0002T7-Rk
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:04:12 -0400
+Received: from mout.web.de ([212.227.15.4]:50501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lPSSp-00053R-EH
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:04:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616688230; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=EezpTuSq8dfPcz60AsSEcYtMRdW2N1Qn6OhN7k5q/Ivnd251ZiAr/sZFj686Em8Buh+IfhqA3Q3hBoeqnBgDiFbshTcOeA6Ig4dLeZGHGa6ufjkNBNWFf64FfpWYYTrjKVZ00nKXe1zHXrNggFBq5UwiOdx+BKHqA9lAczcHBx8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616688230;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=o14k+DeebvGCCavQrz7olHrZksQu4MJyoRCLtYYvjy4=; 
- b=hpx6trk1yRKr5c/Gu/e069YeKzVefS9jEKu573rowBv6NBdBjjt29xcdd3ADaEvcvyOzhzSmQYwm7Cc9+JySU4lLFcK0JbLVav19L5nAXu9VG3lbnnq38nGulbX1mmln6JXqValeQBekBZ7BJhY5G6fncg1rfyoXTl773OUk2nI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616688226518953.7300216424114;
- Thu, 25 Mar 2021 09:03:46 -0700 (PDT)
-In-Reply-To: <20210325153852.572927-1-vgoyal@redhat.com>
-Subject: Re: [PATCH v5 0/5] virtiofsd: Add support to enable/disable posix acls
-Message-ID: <161668822522.4923.8894988516068860139@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lPSSr-000541-D6
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1616688237;
+ bh=2GXtvUXgqbuNrqTGew5OnEi1YQ2B1TP9xvxcp30O8wo=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=ovG0XORuUZtVEj73vWiXmAmWZKf7pxB9/yBb6sTRZtC0S5TVFJnGOk1+ArCBHhT1i
+ dua/B9361QnXA9/+HrlRkZRiM/YPppIBDksi8jSTn8+dQgS+0t6hvm2gXCJnpWkLQw
+ VUI2N6eT0MgY1BQcr72WH4yh+r5Tz+30DslaU8IE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.76]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0M8iaa-1lUvZ32Izk-00CDwn; Thu, 25
+ Mar 2021 17:03:57 +0100
+Date: Thu, 25 Mar 2021 17:03:47 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v3 0/4] yank: Add chardev tests and fixes
+Message-ID: <20210325170347.32931c21@gecko.fritz.box>
+In-Reply-To: <cover.1616521487.git.lukasstraub2@web.de>
+References: <cover.1616521487.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vgoyal@redhat.com
-Date: Thu, 25 Mar 2021 09:03:46 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/AUSK7ymw/eGdGY5P32.eXi3";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:ZPDzS8XmOpSAANjZspYYNggPfCnp8TFsKpC4mx9P+kpFIB5axew
+ 6piEGJt7UpVCQ+KYJIfiQ5vmkLw05B5BzaW2EBZHSUB6pqVlInKoKwlaGyA2wWTOYe0t3w1
+ Mnbpa/dJC45llFcJHVYYy4L+hInEzD53dt21j0PHVSq5Vz5lkgHwduuTQg7cRQ7vKzzGZOI
+ sWZYXZpNMKjW8hRRw5KaQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UBlnSzNpXsc=:a+3PJlY0Ei2Spmnqac9MMV
+ Qc/7uIArLe2EimbC3rxx/qA/YDbixFrjyUe+QzACZeY1Xeo0RW6Z91I/fVoIngGqEmzWdI/fE
+ TCU4oZT4EGFcQflRV5YUA7g7muHJ19Dq4XMQUzFI1ZikZmR/pXP9wC1jeiN00P193/ki+P2dW
+ lDFl1TROULzeECNw/jPBGkOITuc+lNrp0CtAiIdekkzg2mNdnGjlOmoaqn+Vj8OCVIh8J28Ku
+ HnnRKu+iMlVbkESHLnsQT63pVdmMSA2GTj4nDtvtSscM/qp5NqavRYdgfS4Rf88/X4WnxRjOo
+ viLUs4YaoIM5dtJ9Qjz7wMDhXoPkY215Qcgo4UHLimbSdkR3Ly8vt+K3MNHMnRvSJIVAfP1Kz
+ TpB2eBCDBOUKDcLId6Apb1BpnbWJWRTfPF8/DQSziyoSweCbIgmyiOTSjxZKwJmzalLc0CUeQ
+ w/40OB4Tw5uJtP22IlEZ7kLyVV646TdtPD/jTZr0Z11caViJTCF0Nx7lUkft2/4bnDfj13mIG
+ lIZkRAlGgxJJEUDrgs6cw4ZWFL9Kx5R8huZa6PXLQTrxUDDw4Kb8wCe6SmAA4smUyj6Wf0QI4
+ IgSUVEG3EcM1lttKSRJX7I42LfRtgTTUUBbjSGoWwIu6LdchoRTiGfjdnQMIzBRuRCrayh/n5
+ O69lxNwiurWyEtFSidPNRSU053FgPcZXtw2+43NYKollAqwXVjwF+NVGFt0qZNOPKMD14OEKM
+ d6eu1FG1s7HBW5c7Rj+TtGQcGuN46ElwUkbi20+Jhql8sVhaKbNZKoMhDv0+fqlhjy6rUdmG0
+ ktOb6CkbLB8m5sD4JeB8d9IOAvrAdvPV6auHXqJoL2Hltd+GeU0CHI27q4l3GZF0EtP7dM3r8
+ 5R+ZvcYHXZEGcpX67yGoD0G1E87LQbl1m/RaFRmRYqbjz2dO71NY6s3BNeHF7c8aAg2I73+zt
+ QdXItDm5YBduw9Bw8nJR8QgP7jVQIz1KitfKOlJKAWh5j8ZymYgvhHSQM0yXzeyK1wwm7EUJv
+ H2z64xW+iWQ9YeS6YA6ApDgyO6EAceycd4V3ijLpRJDHbe+C3trjsJCw76Pj2PsmAf8LgL0D2
+ MlFD5Zj2k/e7R22jypoZtbD0fr/dBvgqoeHyuWegjPftt6uaf5Wxjm/L+E2aY3j+lqjhdyQHM
+ /fe1b9gSDnyxRdAOs5Z1P2k0D4AuS7LTjGrtFsGfpp1Z3D+rpzvoe6HhnL/KnC0RBsnPg=
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,57 +84,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, dgilbert@redhat.com,
- virtio-fs@redhat.com, lhenriques@suse.de, vgoyal@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Marc-Andre Lureau <marcandre.lureau@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Li Zhang <zhlcindy@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyNTE1Mzg1Mi41NzI5
-MjctMS12Z295YWxAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzI1MTUzODUyLjU3Mjky
-Ny0xLXZnb3lhbEByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCB2NSAwLzVdIHZpcnRpb2ZzZDog
-QWRkIHN1cHBvcnQgdG8gZW5hYmxlL2Rpc2FibGUgcG9zaXggYWNscwoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwg
-ZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRo
-bSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09
-IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3
-ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3Fl
-bXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDMyNTE1Mzg1Mi41NzI5MjctMS12
-Z295YWxAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMzI1MTUzODUyLjU3MjkyNy0xLXZnb3lh
-bEByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZWE2MDZkOSB2aXJ0
-aW9mc2Q6IFN3aXRjaCBjcmVkcywgZHJvcCBGU0VUSUQgZm9yIHN5c3RlbS5wb3NpeF9hY2xfYWNj
-ZXNzIHhhdHRyCmJjOWE4NzcgdmlydGlvZnNkOiBBZGQgc3VwcG9ydCBmb3Igc2V0eGF0dHJfdjIK
-ZDI4NDEzZSB2aXJ0aW9mc2Q6IEFkZCBhbiBvcHRpb24gdG8gZW5hYmxlL2Rpc2FibGUgcG9zaXgg
-YWNscwoxZWViMTFmIHZpcnRpb2ZzZDogQWRkIGNhcGFiaWxpdHkgdG8gY2hhbmdlL3Jlc3RvcmUg
-dW1hc2sKMGIwMmEyNSB2aXJ0aW9mc2Q6IEFkZCB1bWFzayB0byBzZWNjb20gYWxsb3cgbGlzdAoK
-PT09IE9VVFBVVCBCRUdJTiA9PT0KMS81IENoZWNraW5nIGNvbW1pdCAwYjAyYTI1MDcwNDggKHZp
-cnRpb2ZzZDogQWRkIHVtYXNrIHRvIHNlY2NvbSBhbGxvdyBsaXN0KQoyLzUgQ2hlY2tpbmcgY29t
-bWl0IDFlZWIxMWYwMGZkYiAodmlydGlvZnNkOiBBZGQgY2FwYWJpbGl0eSB0byBjaGFuZ2UvcmVz
-dG9yZSB1bWFzaykKMy81IENoZWNraW5nIGNvbW1pdCBkMjg0MTNlNjZlNTggKHZpcnRpb2ZzZDog
-QWRkIGFuIG9wdGlvbiB0byBlbmFibGUvZGlzYWJsZSBwb3NpeCBhY2xzKQpXQVJOSU5HOiBsaW5l
-IG92ZXIgODAgY2hhcmFjdGVycwojMjM5OiBGSUxFOiB0b29scy92aXJ0aW9mc2QvcGFzc3Rocm91
-Z2hfbGwuYzozOTU3OgorICAgICAgICBmdXNlX2xvZyhGVVNFX0xPR19FUlIsICJDYW4ndCBlbmFi
-bGUgcG9zaXggQUNMcy4geGF0dHJzIGFyZSBkaXNhYmxlZC5cbiIpOwoKdG90YWw6IDAgZXJyb3Jz
-LCAxIHdhcm5pbmdzLCAxODUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy81IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjQvNSBDaGVja2luZyBjb21taXQgYmM5YTg3NzZjOTQ3ICh2aXJ0aW9mc2Q6
-IEFkZCBzdXBwb3J0IGZvciBzZXR4YXR0cl92MikKNS81IENoZWNraW5nIGNvbW1pdCBlYTYwNmQ5
-ZGU4ZjAgKHZpcnRpb2ZzZDogU3dpdGNoIGNyZWRzLCBkcm9wIEZTRVRJRCBmb3Igc3lzdGVtLnBv
-c2l4X2FjbF9hY2Nlc3MgeGF0dHIpCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3Ig
-YWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzEzNzogRklMRTogdG9vbHMvdmlydGlvZnNkL3Bh
-c3N0aHJvdWdoX2xsLmM6MzEzNToKKyAgICAgICAgICAgIGlmIChnYWluX2VmZmVjdGl2ZV9jYXAo
-IkZTRVRJRCIpKQpbLi4uXQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA4NiBsaW5lcyBj
-aGVja2VkCgpQYXRjaCA1LzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQg
-RU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cg
-aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMzI1MTUzODUyLjU3
-MjkyNy0xLXZnb3lhbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdl
-LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
-YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
-cmVkaGF0LmNvbQ==
+--Sig_/AUSK7ymw/eGdGY5P32.eXi3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 23 Mar 2021 18:57:32 +0100
+Lukas Straub <lukasstraub2@web.de> wrote:
+
+> Hello Everyone,
+> These patches increase test coverage for yank, add tests and fix bugs and
+> crashes in yank in combination with chardev-change.
+> Please Review.
+>=20
+> Regards,
+> Lukas Straub
+>=20
+> Changes:
+> -v3:
+>  -Base on <cover.1616521341.git.lukasstraub2@web.de>
+>   ([PATCH 0/2] yank: Always link full yank code)
+>  -Drop patch 1 (tests: Use the normal yank code instead of stubs in relev=
+ant tests)
+>=20
+> -v2:
+>  -test: add license
+>  -test: factorize testcases to a single function
+>  -test: test chardev_change with initialization of new chardev failing
+>  -fix chardev_change with initialization of new chardev failing
+>  -add reviewed-by and tested-by tags
+>=20
+> Based-on: <cover.1616521341.git.lukasstraub2@web.de>
+> ([PATCH 0/2] yank: Always link full yank code)
+>=20
+> Lukas Straub (4):
+>   tests: Add tests for yank with the chardev-change case
+>   chardev/char.c: Move object_property_try_add_child out of chardev_new
+>   chardev/char.c: Always pass id to chardev_new
+>   chardev: Fix yank with the chardev-change case
+>=20
+>  MAINTAINERS            |   1 +
+>  chardev/char-socket.c  |  20 +++-
+>  chardev/char.c         |  77 +++++++++++-----
+>  include/chardev/char.h |   3 +
+>  tests/unit/meson.build |   3 +-
+>  tests/unit/test-yank.c | 201 +++++++++++++++++++++++++++++++++++++++++
+>  6 files changed, 276 insertions(+), 29 deletions(-)
+>  create mode 100644 tests/unit/test-yank.c
+>=20
+> --
+> 2.30.2
+
+Ping. It would be cool if I could submit a PR for this for rc1.
+
+Regards,
+Lukas Straub
+
+--=20
+
+
+--Sig_/AUSK7ymw/eGdGY5P32.eXi3
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBctGMACgkQNasLKJxd
+slhvWw//Zw86/xv+KI6fn5Poxs6UF/gTnL07n8B2xvUB952mYFqNKHRLSseTCYbz
+CnLWOT6+JaHwM699uzLtnsm9uv19ay8IlJ3Ac1xkOjC8sGaQmvfrVLpxatkkAyiw
+vSlxbUtuXOgsg1SELjRaXVIPD+vDyKcam7s8dc6bAjyRcjcqhOdsAZeABkG2gNRx
+a59kDkEqUOdxsEjttJ7cfcTLN++x8EZIDrDmhTZvrTRzR543VwK15PHTsw1+guMY
+su2DnZClTvXS8U2UFGaoxq2SoR9yDmO/MJAHHojjjv+HbJ06M3pd0Rx+OhgO+00k
+UWhIcj5CcTCo17qewna1WD6nfpPrztO0k7h24TiTqJD6KCnw/9A9vzuh5b8zjENu
+4NoB6DcluGYBRD0LRqHxDJlA84dF2EDqZzZlhWpyD4+1TniX1kEu+smUm3KfQD1X
+4jmhMOnEsOIvwGk2J10odfN70HlqVeeCK8OTrVlLWdJSrydVIjszyqfFxzlFUHoo
+iWNbSTmX2TY23Cs3zwbqYkJlhiv2Pm14o1o1lEN3OvKcJObBKjbiSLsYz0qbJy8/
+FJjMnX4STwBMPGbtao4H7Lfjp1/4wpw5JToVq57zaSlzNg1U7eKXhtx6up3NHr2R
+kalp3E6rk5FeWrYsBMzo57kvjRLpM3tOm50bNXYn7279nMnm/TQ=
+=nBel
+-----END PGP SIGNATURE-----
+
+--Sig_/AUSK7ymw/eGdGY5P32.eXi3--
 
