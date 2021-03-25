@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB430349550
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:24:12 +0100 (CET)
-Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F75349542
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:21:20 +0100 (CET)
+Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPRqF-0006rK-Uj
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36582)
+	id 1lPRnT-0002r5-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lPRf5-0002pI-Ik; Thu, 25 Mar 2021 11:12:39 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:36734)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPRgu-0005dx-TG
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:14:32 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lPRf2-000233-Ch; Thu, 25 Mar 2021 11:12:39 -0400
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 8EE3E2E16BC;
- Thu, 25 Mar 2021 18:12:31 +0300 (MSK)
-Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
- (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Pmx4LxF5Hu-CVcGk4DP; Thu, 25 Mar 2021 18:12:31 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1616685151; bh=J40X7fGjL6wxtX5+1zKmuMvVb84EJ3YemoNOHPHEgsg=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=xq3sbP56uQV2uD1/MZX72fEfuw+6g+pouSjWfwM00lRz/NlnLlTzEhIc5KtZvCkKi
- d6XjxaFFGCtgTw9eolpwyKk+aXDXelazp6EA8OmnxEeqlLsUxqHG+ecCv2iJUD89dy
- tPfAWfpb9WMuo0N/UlEIivOb9CU51R/UmLW0KqYc=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8801::1:8])
- by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ejfhBn90eX-CUpGZwl9; Thu, 25 Mar 2021 18:12:30 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] vhost-user-blk: add immediate cleanup on shutdown
-Date: Thu, 25 Mar 2021 18:12:17 +0300
-Message-Id: <20210325151217.262793-4-den-plotnikov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
-References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPRgt-0003Bs-6C
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:14:32 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6F3E2AA55;
+ Thu, 25 Mar 2021 15:14:29 +0000 (UTC)
+Subject: Re: [RFC v11 32/55] target/arm: move kvm-const.h, kvm.c, kvm64.c,
+ kvm_arm.h to kvm/
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210323151749.21299-1-cfontana@suse.de>
+ <20210323154639.23477-25-cfontana@suse.de>
+ <e2d195ab-a308-2061-ad67-144452877b21@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f08b9e6b-aedc-8960-b1d8-871e8c012a0a@suse.de>
+Date: Thu, 25 Mar 2021 16:14:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e2d195ab-a308-2061-ad67-144452877b21@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,42 +60,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- raphael.norwitz@nutanix.com, yc-core@yandex-team.ru, mreitz@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qemu crashes on shutdown if the chardev used by vhost-user-blk has been
-finalized before the vhost-user-blk.
+On 3/24/21 11:35 PM, Richard Henderson wrote:
+> On 3/23/21 9:46 AM, Claudio Fontana wrote:
+>>   target/arm/kvm-stub.c             | 24 ------------------------
+> 
+> Can you really get rid of this?
 
-This happens with char-socket chardev operating in the listening mode (server).
-The char-socket chardev emits "close" event at the end of finalizing when
-its internal data is destroyed. This calls vhost-user-blk event handler
-which in turn tries to manipulate with destroyed chardev by setting an empty
-event handler for vhost-user-blk cleanup postponing.
+calls in machine.c are protected by if (kvm_enabled()), so as long as the proto is in sight we can remove those.
+Futher refactoring of kvm/tcg for machines could improve this further (we still have it mixed on x86 too).
 
-This patch separates the shutdown case from the cleanup postponing removing
-the need to set an event handler.
+> If so, I think this should be a separate step.
 
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
----
- hw/block/vhost-user-blk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ok, can split up,
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 4e215f71f152..0b5b9d44cdb0 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -411,7 +411,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-          * other code perform its own cleanup sequence using vhost_dev data
-          * (e.g. vhost_dev_set_log).
-          */
--        if (realized) {
-+        if (realized && !runstate_check(RUN_STATE_SHUTDOWN)) {
-             /*
-              * A close event may happen during a read/write, but vhost
-              * code assumes the vhost_dev remains setup, so delay the
--- 
-2.25.1
+Claudio
+
+> 
+> 
+>> --- a/target/arm/kvm/meson.build
+>> +++ b/target/arm/kvm/meson.build
+>> @@ -1,3 +1,8 @@
+>>   arm_ss.add(when: 'CONFIG_TCG', if_false: files(
+>>     'helper-stubs.c',
+>>   ))
+>> +
+>> +arm_ss.add(when: 'CONFIG_KVM', if_true: files(
+>> +  'kvm.c',
+>> +  'kvm64.c',
+>> +))
+>> \ No newline at end of file
+> 
+> Watch the whitespace warnings.
+> 
+> 
+> r~
+> 
 
 
