@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA09A34930B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:27:51 +0100 (CET)
-Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A482934930E
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:29:36 +0100 (CET)
+Received: from localhost ([::1]:43086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPQ1e-0004nH-9u
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
+	id 1lPQ3L-0006Es-P3
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPPze-0003jx-1b
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:25:46 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPPzX-0006UO-Lx
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:25:45 -0400
-Received: by mail-ej1-x634.google.com with SMTP id kt15so2848901ejb.12
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 06:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sBQ8EGeOD93WXWs7ALP2mjlKTDVnzKWQKUxQSBPtWxo=;
- b=WkGYo4opk8U2kf1zzd7sKDs6w6vbG5s2KH1ZcbV20A7/sNR0K/COUbk2cHqpa7I+CJ
- lYqll+L1riqpsd7gXlSEYk5suNBsKAiY/HYK+suQia+c4lMX9NvL/pFW0V9NEfIHTL62
- iV9g5WJw4DUpGk4rTC7UsmsFcJCAG/TtUcH3U7bOx8usTwGRc/2mTh6gF7k/cB/rPejL
- gaTpmLLk5gM05CEksJguLYqZBinxKh5bnWUMXCSWpFYr7ssQ/vQ/4Ug80hkQDaAXr4cB
- nokxWhMqDW1nl17RxTLhNEWH1/nPG1a6NGGIl38VCBrxxQ/oJcnY9n8cCSB9QXcUR3m1
- mpvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sBQ8EGeOD93WXWs7ALP2mjlKTDVnzKWQKUxQSBPtWxo=;
- b=mwdMFwLnDbk9ry/nO/S5bk4kwFY99+i9pZybDvyX9bMBu+G/toudYy3UMhu6WhZ8Fe
- /OX+ZP4tsDeJKT7OHKhkeGvuvCnJvD7LRJw0kQzcjv2FMc7Ofu3wnHJYvMUJaNnCZZUT
- OvN8yPzMBHuz9DmlxdX3Dhtf5Z+bqc975KH7gyvqV5D3m0SF6sstgN9g347fdBePfk8b
- 8JRhp+ohePbR43yX7qEcvcgI8ed+6p2b3FldvPAZ+rlJ59A+OPvpEdmAYxNj5ltsgWhu
- 3QFD8BZCDYxjmp+2+1me+HKCZjZzYlKTITC+4O/iscxGdNTKfBtei6zHW75godmBK63o
- wm5g==
-X-Gm-Message-State: AOAM532SJYxeW3WBD1DbqRheQBwa1wcc1xUHzP5EM8Iy6M7/P80LRTxT
- ZykH72+y8lwOLNwqnespF619D0XDzWuseG+LvKmL7A==
-X-Google-Smtp-Source: ABdhPJxKrFbkjmwaQkJrA48ee8zRJcLF87h19NWl/lbX3CMLZo2nZXhQrevwAtePcmYkMgoN7jh5N8gG5kSv5uxmjHM=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr9659152ejc.250.1616678737166; 
- Thu, 25 Mar 2021 06:25:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPQ2P-0005nz-EA
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:28:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPQ2N-0008E2-Hw
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:28:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616678914;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=puL1ImAfKoO5/rwWF9w2PQEcRVOc6fQQ0+t9Q5e+gHM=;
+ b=eVdc2GHjybrKny3FNBUyWQcSm+zgMHBgeQsdVMjZC/Se4n9pZX6R+nc/hagBHjYQYAJ0Ck
+ I1D226AwepSLJJf1l/Rxm/oHo4Mto6LC6tBfWtuIGs338s8z3MZ4pd0U4TDFwv40dyKptJ
+ i5YZVHoBEZxIdbHR3g/Oeh7FH6WmVsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-lI_PYFgmNnuVQdaNJHsY0g-1; Thu, 25 Mar 2021 09:28:32 -0400
+X-MC-Unique: lI_PYFgmNnuVQdaNJHsY0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1548110059C1;
+ Thu, 25 Mar 2021 13:28:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D94E95C5E1;
+ Thu, 25 Mar 2021 13:28:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6B03911327E1; Thu, 25 Mar 2021 14:28:29 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 15/16] qapi/expr.py: move related checks inside
+ check_xxx functions
+References: <20210223003408.964543-1-jsnow@redhat.com>
+ <20210223003408.964543-16-jsnow@redhat.com>
+ <87r1l488vx.fsf@dusky.pond.sub.org>
+ <9cbaa0fe-d926-84d1-c0e2-f0bffc9cba3b@redhat.com>
+Date: Thu, 25 Mar 2021 14:28:29 +0100
+In-Reply-To: <9cbaa0fe-d926-84d1-c0e2-f0bffc9cba3b@redhat.com> (John Snow's
+ message of "Thu, 25 Mar 2021 01:17:38 -0400")
+Message-ID: <87a6qrtlaa.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <1e4835a5-b785-5d0d-64d8-bb01afeea432@redhat.com>
- <72851037-b283-c4c1-fbeb-da86f0527627@ilande.co.uk>
- <CAFEAcA-8M7PKiM9tOXuVKMwMRF6Q02FbyQbU-P60wQqgcedrKg@mail.gmail.com>
- <4be7c437-ddaa-849a-6c0b-5cce2d5b6fdb@ilande.co.uk>
-In-Reply-To: <4be7c437-ddaa-849a-6c0b-5cce2d5b6fdb@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Mar 2021 13:25:05 +0000
-Message-ID: <CAFEAcA9ie7o49tm_eSMh9SEnkh_j6fj3Qq41B3t5rSEr_MfuPg@mail.gmail.com>
-Subject: Re: Crashes with qemu-system-ppc64
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,33 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Mar 2021 at 12:57, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
-> Thanks for the analysis: I can certainly see how the above commit would have changed
-> the behaviour. Looking at hw/ppc/e590plat.c in e500plat_machine_class_init() I see
-> that line 101 reads "machine_class_allow_dynamic_sysbus_dev(mc, TYPE_ETSEC_COMMON);"
-> which looks like it is intended to add a class restriction to this functionality.
+John Snow <jsnow@redhat.com> writes:
 
-Aha. I thought there was a restriction somewhere but hadn't found that
-function. I think the device plug callback functions should check that
-list rather than saying "any TYPE_SYS_BUS_DEVICE is fine".
+> On 2/25/21 10:28 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> There's not a big obvious difference between the types of checks that
+>>> happen in the main function versus the kind that happen in the
+>>> functions. Now they're in one place for each of the main types.
+>>>
+>>> As part of the move, spell out the required and optional keywords so
+>>> they're obvious at a glance. Use tuples instead of lists for immutable
+>>> data, too.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>> 
+>> No objection to changing read-only lists to tuples (applies to previous
+>> patch, too).
+>> 
+>> No objection to turning positional into keyword arguments where that
+>> improves clarity.
+>> 
+>> I have doubts on the code motion.  Yes, the checks for each type are now
+>> together.  On the other hand, the check_keys() are now separate.  I can
+>> no longer see all the keys at a glance.
+>> 
+>
+> I guess it depends on where you wanted to see them; I thought it was 
+> strange that in check_foobar I couldn't see what foobar's valid keys 
+> were without scrolling back to the bottom of the file.
+>
+> Needing to see all the keys for the disparate forms together was not a 
+> case I ran into, but you can always drop this patch for now if you'd 
+> like.
 
-> In machine_initfn() a callback for machine_init_notify() is added to perform the
-> check but the macio-oldworld device is realized first
+Let's shelve it for now.
 
-Also, this check is only for "did the user dynamically create a sysbus
-device that isn't an allowed one", which is a necessary check, but
-not quite the same thing as "is this device we're looking at one we want to
-assume belongs to the platform bus".
+>       I had some more adventurous patches that keeps pushing in this 
+> direction, but I don't know if it's really important.
 
-I'll put together a patch...
+When I work on a something, I tend to accumulate semi-related cleanups.
+Including them is rarely a problem for reviewers when the result is two
+dozen patches or so.  When this isn't the case, I can:
 
-thanks
--- PMM
+* Pick them into a separate cleanup series to go before the real work.
+  Risks delaying the real work.
+
+* Funnel them onto a cleanup branch to flushed later.  Risks lonely
+  death in a rotting branch.
+
+* Force myself to abstain from improving things that could really use
+  improvement.  I call this "sitting on my hands".
+
+This patch is in part three of at least six.  Almost 90 patches up to
+part three, with many more to come.  I'm *desperate* to limit scope to
+not get overwhelmed.  Please consider the remedies above.  This is a cry
+for help, not a demand.
+
+>                                                       My appetite in 
+> this area has waned since November.
+
+I understand.
+
 
