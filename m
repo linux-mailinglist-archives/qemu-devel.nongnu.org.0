@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8ADA3486AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 02:53:36 +0100 (CET)
-Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73463486C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 03:04:21 +0100 (CET)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPFBn-00020B-FR
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 21:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52860)
+	id 1lPFMC-0006SK-RT
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 22:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lPFAp-00014S-GG; Wed, 24 Mar 2021 21:52:35 -0400
-Received: from ozlabs.org ([203.11.71.1]:37757)
+ id 1lPFIn-0003id-N2; Wed, 24 Mar 2021 22:00:49 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43673 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lPFAm-0007a6-Aa; Wed, 24 Mar 2021 21:52:35 -0400
+ id 1lPFIk-0003CF-P4; Wed, 24 Mar 2021 22:00:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F5Slt3rD2z9sWV; Thu, 25 Mar 2021 12:52:26 +1100 (AEDT)
+ id 4F5SxP71hHz9sWT; Thu, 25 Mar 2021 13:00:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616637146;
- bh=578Al5e9M3P8A7FL9KWIj1AbQUSGPNviJmWDqgdKWhE=;
+ d=gibson.dropbear.id.au; s=201602; t=1616637641;
+ bh=BGmCnook0OzRfNMchjz0uo5EDNW2/63NA+XkVIicklo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sv4qKgf3tSVj4hyWiqB27jdFjwm+eu5rdCoZQ3lNNA2nUDlodru3ujxW1ncwJXAln
- O2CQrs2wZMzFPw8p36uqV8zTbcuRHjgsLNmWcXMlvz2NllvuZgdhLg3+xdV+XeZwbJ
- kUDByPSU24uc+W4xEsLHaS7ayK3fSmFffTwT8XPg=
-Date: Thu, 25 Mar 2021 12:51:20 +1100
+ b=kMBd9rgSYC+452y1OmF3NiPm1hNJc8SRPl0J3XCxRr47VyOy45Oi0vHu5qd0VbAVa
+ BPdo2DdzCU1cLniPn5q6bhtLwqKf5xF6jk9Z/sD1uidygKTOksaEJHR+QWAZ3B7t4Q
+ 8mgHbwGJQ1HJgw+lMYiVwEF49nJPM4ZNGXuqj/D4=
+Date: Thu, 25 Mar 2021 12:54:13 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Subject: Re: [PATCH v3 2/3] spapr: nvdimm: Implement H_SCM_FLUSH hcall
-Message-ID: <YFvsmKiXtb+h9HBO@yekko.fritz.box>
-References: <161650723087.2959.8703728357980727008.stgit@6532096d84d3>
- <161650725183.2959.12071056430236337803.stgit@6532096d84d3>
- <YFqs8M1dHAFhdCL6@yekko.fritz.box>
- <19b5aa0b-df85-256d-d4c4-eacd0ea8312e@linux.ibm.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v10 0/7] Pegasos2 emulation
+Message-ID: <YFvtRUqB3E5euojL@yekko.fritz.box>
+References: <cover.1615943871.git.balaton@eik.bme.hu>
+ <YFk5acXxW6Mdmr+2@yekko.fritz.box>
+ <344d1375-eb5e-31fb-5cbf-407497684fe0@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u8V1b6udCU1d3X2g"
+ protocol="application/pgp-signature"; boundary="Dk+mxJiVJ2ZxeEMm"
 Content-Disposition: inline
-In-Reply-To: <19b5aa0b-df85-256d-d4c4-eacd0ea8312e@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <344d1375-eb5e-31fb-5cbf-407497684fe0@eik.bme.hu>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -60,62 +59,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, Shivaprasad G Bhat <sbhat@linux.ibm.com>,
- mst@redhat.com, bharata@linux.vnet.ibm.com, linux-nvdimm@lists.01.org,
- groug@kaod.org, kvm-ppc@vger.kernel.org, qemu-devel@nongnu.org,
- shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, imammedo@redhat.com,
- sbhat@linux.vnet.ibm.com, xiaoguangrong.eric@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---u8V1b6udCU1d3X2g
+--Dk+mxJiVJ2ZxeEMm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 24, 2021 at 09:34:06AM +0530, Aneesh Kumar K.V wrote:
-> On 3/24/21 8:37 AM, David Gibson wrote:
-> > On Tue, Mar 23, 2021 at 09:47:38AM -0400, Shivaprasad G Bhat wrote:
-> > > The patch adds support for the SCM flush hcall for the nvdimm devices.
-> > > To be available for exploitation by guest through the next patch.
+On Tue, Mar 23, 2021 at 01:57:25PM +0100, BALATON Zoltan wrote:
+> On Tue, 23 Mar 2021, David Gibson wrote:
+> > On Wed, Mar 17, 2021 at 02:17:51AM +0100, BALATON Zoltan wrote:
+> > > Hello,
 > > >=20
-> > > The hcall expects the semantics such that the flush to return
-> > > with H_BUSY when the operation is expected to take longer time along
-> > > with a continue_token. The hcall to be called again providing the
-> > > continue_token to get the status. So, all fresh requsts are put into
-> > > a 'pending' list and flush worker is submitted to the thread pool.
-> > > The thread pool completion callbacks move the requests to 'completed'
-> > > list, which are cleaned up after reporting to guest in subsequent
-> > > hcalls to get the status.
+> > > This is adding a new PPC board called pegasos2. More info on it can be
+> > > found at:
 > > >=20
-> > > The semantics makes it necessary to preserve the continue_tokens
-> > > and their return status even across migrations. So, the pre_save
-> > > handler for the device waits for the flush worker to complete and
-> > > collects all the hcall states from 'completed' list. The necessary
-> > > nvdimm flush specific vmstate structures are added to the spapr
-> > > machine vmstate.
+> > > https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
 > > >=20
-> > > Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> > > Currently it needs a firmware ROM image that I cannot include due to
+> > > original copyright holder (bPlan) did not release it under a free
+> > > licence but I have plans to write a replacement in the future. With
+> > > the original board firmware it can boot MorphOS now as:
+> > >=20
+> > > qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfil=
+e=3D"" -serial stdio
+> > >=20
+> > > then enter "boot cd boot.img" at the firmware "ok" prompt as described
+> > > in the MorphOS.readme. To boot Linux use same command line with e.g.
+> > > -cdrom debian-8.11.0-powerpc-netinst.iso then enter
+> > > "boot cd install/pegasos"
+> > >=20
+> > > The last patch adds the actual board code after previous patches
+> > > adding VT8231 and MV64361 system controller chip emulation.
 > >=20
-> > An overal question: surely the same issue must arise on x86 with
-> > file-backed NVDIMMs.  How do they handle this case?
+> > I've applied 1..5 to a new ppc-for-6.1 branch.  Sorry it didn't make
+> > it for 6.0, I just didn't have time to look this over until too late.
 >=20
-> On x86 we have different ways nvdimm can be discovered. ACPI NFIT, e820 m=
-ap
-> and virtio_pmem. Among these virio_pmem always operated with synchronous =
-dax
-> disabled and both ACPI and e820 doesn't have the ability to differentiate
-> support for synchronous dax.
+> Thanks but maybe you should wait if the dropped original first patch can =
+be
+> reviewed now and brought back. It would be easier for me to resubmit whole
+> series rebased than port the dropped patch on top of a partly applied
+> series. Also first patches without the last two is not much useful as the
+> vt8231 model these add would not be used by anything else.
 
-Ok.  And for the virtio-pmem case, how are the extra flushes actually
-done on x86?
-
-> With that I would expect users to use virtio_pmem when using using file
-> backed NVDIMMS
-
-So... should we prevent advertising an NVDIMM through ACPI or e820 if
-it doesn't have sync-dax enabled?
+Ok, I've dropped your patches from ppc-for-6.1 again, and I'll wait
+for the next posting.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -123,25 +116,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---u8V1b6udCU1d3X2g
+--Dk+mxJiVJ2ZxeEMm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBb7JQACgkQbDjKyiDZ
-s5LqoQ//foDYAQMsvdLPPSSbsp6PPud08mSNYDtj7rJc+hBLEtCTMviBZnOgnX50
-CHqYTgEziP+UZDdlonHVrfWiZY0OGa8u9MZhKFUbaEoabFt1XX33PrVWNu8w9HsP
-CiSpeDmqXvI/eSLqYYK4Z1SvW1OxiSzF0ylx6r7KJTSJvFNvNoyttOfw+ul0PB1e
-nHajD2zgdlS/un7+V1nZfaRJoCbas4UpL813Ise2kv+FIBs3qpwlPeoaPuLCbeah
-jE4MdCzTsiLxbpQuwpWA1UvQnXa/WEKU0tSxkA76t22wL5lyYjFqPGXCdvLgaqJ2
-53tnXPYQthmZ1svoXfS6AK57AtYWtCFehgwv6BF5JusCTk3DBrpBZpXyT12ErLGi
-LZo1noXW3QoppEj3a8V8KApRBkY8erNe6bPov3ERt2RNeD+q+HN6GOeeXsdVGKrN
-YkeL5mAmjjbyvCL5EIYaqb+in45r29nJUncrfhUzizU7aHgFYc9J75YfAR3pXwQ+
-mINgdAqN92+YcePz3iZuj6iFITXO7x13+S7SvD2Tf/vRPkhNzHCiDuV0qIt/Aoh7
-b18oDs9FphX4lzVotPQkbUu5fcna//RqAebW2qSZsfEOQuD5nfLh6KHGYgBRP8UK
-0/Q82yaiXhZ/FQpD54i6VdZqOO7N9vGy+yWzxJIGrCRlruqDVOI=
-=zayB
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBb7UUACgkQbDjKyiDZ
+s5JwehAAvau9ytESkF3Z3bH36/WSaFkEhnX2uTA2d9/Q3zE4c7zgr5EE2OyM4rBK
+WCpleE7U/EZzaq8UgM9Yga8Y7Sr2+PFlrtWsmB2W9URQTEaPtJ5yEss0A3YkWDm6
+4XF4gaWSNI2ue9xl8KKgRGF97CUqbsEtGHe46rkXlBkL+9BUIC1c5/a3kakrfH+2
+v5qzL/2h0pH4V2Nk/Q5ggUxQnsucs9qyHaj3D3YhaFH6Sga8FAjEiIn61L63Zgxb
+lfKw/miSyqNtD7dy9EwPVLRrLJhmUCNWsqIDdCh1yYuLLBLXeghuCU/j1b/b1GXE
+btL5A4PbqFpv4Gqmnx3NsEQSttdYOy6gvkXWUxPw7gweBOKFbXWYSGvjvZChevKn
+qeZZLsyu38A6DzluiBOI7uT6NWnLvSxVrzrzIUgmcUO0KMGAjPQEGOJRv7QndYft
+h7yHHsthYgChC+zFLxPLDUyZmpAwYhjuU7AgCZGUva+SEbfBQA9MOhy9N4tuqtg6
+eKfW6xdle+d2xqZ+K99jDewmbHIHtRU70fhPG++4FrDiYG7eprA3iHv7NDXSV52m
+S8qT0egHiOOJ2RwIGud3wVRwwbjwj3Wdy6Bndh7mqj/OziOyJM04rQ8i6SVGavBy
+PJU+zNP1m4B7RazM+p4NeHg9PG+r6WoCAjg9eAbVI/K/eFT0/aE=
+=fVEN
 -----END PGP SIGNATURE-----
 
---u8V1b6udCU1d3X2g--
+--Dk+mxJiVJ2ZxeEMm--
 
