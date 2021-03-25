@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A485348BF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 09:57:28 +0100 (CET)
-Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B99348C21
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 10:02:22 +0100 (CET)
+Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPLnz-0000fd-4E
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 04:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55596)
+	id 1lPLsj-0001xI-MI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 05:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lPLmr-00007T-R5
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 04:56:17 -0400
-Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:58435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lPLmp-0000rT-R6
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 04:56:17 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 01476255FB2;
- Thu, 25 Mar 2021 09:56:10 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 25 Mar
- 2021 09:56:10 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003c9e9b784-8d6c-4cf2-9d84-6eef624bff03,
- 632375478080DBB88D2B1DB455BDA690282D892D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
- nodes
-To: David Gibson <david@gibson.dropbear.id.au>, Daniel Henrique Barboza
- <danielhb413@gmail.com>
-References: <20210319183453.4466-1-danielhb413@gmail.com>
- <20210319183453.4466-2-danielhb413@gmail.com>
- <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
- <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
- <YFvxAW3l4t+YznEm@yekko.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
-Date: Thu, 25 Mar 2021 09:56:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1lPLrN-0001RG-Cs
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 05:00:57 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:39436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1lPLrK-0003le-T9
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 05:00:57 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id
+ h6-20020a0568300346b02901b71a850ab4so1254987ote.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 02:00:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OsaYZbaqaPFIGFQeJHNjY2XxDQg1y1F8nJHAopTujEk=;
+ b=xlMCZYIle1b6JGUld+AdRaHoyrgivSluEuWQny+a3PiQeI8Qy3Fs/rUWkdF69EUYVw
+ kZPjGfADw1vK7VL1RhdnThK26ryAPe9OXcT7pYhnD64qfNr7ArR4vXy9Li6EOq1DGbqe
+ CH/9kks/9cCUw6kgDYdbTjyJvgqjljeEXQes7japlb+R4DXefO+vxcfH2i94wcVukaJR
+ 1kNDLFX3egFHXcf5dYiqeSISENPdUD0+Pb+5YKbmJxUU7wz1t6si64icP0Ej/4XlH2+q
+ w28mcYM7UXJtihS/bzIV0cZriZvfAWXXw//xJuXyObeOtnl/2MxSX1mkhrHy3A2g9bPF
+ 5n5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OsaYZbaqaPFIGFQeJHNjY2XxDQg1y1F8nJHAopTujEk=;
+ b=UxrbrQqIR4BqKPKY9D6XlpYwv5alBSGlMH8z0VfLK5BSvhGqVwuF3vYj9/fu4RSI33
+ /unde8ox93r2UxxhdeGplB935Rm5VUTdk17rIJE0Pwr1vGlLb+eav6e8Vbt5J10G8u14
+ CgZcblN02FlilY4cOdi8Gw6kQawdG7OTw+b+IYPXHw+5CUw7nXhM0KYw1tG7JcmDfj28
+ 42olsTIWwgd94x7Eo8PodaDe6lYm+iVfLKd1kD2iS2p/5VxMwUj27at7i9NHr0+RoFV+
+ tn63TQROzoHxYdSX7KwmASQRVEykOdbSsGu5prwwl7N2vWPyJCt202JF62shYOHcEYYS
+ Rx1g==
+X-Gm-Message-State: AOAM530xiOiFcuh0HJcGVnP0I2VRRHoc0i5gNb8YbJfnhKPblTCJfylP
+ /MH8pBFS5Ka42uRdOetdzemh3xBV2Hr/08IpKYSj6Q==
+X-Google-Smtp-Source: ABdhPJxuGt+dA+ge/QX2VMozrWku/FajlooLXHheyExy97iuhkL3WHuGLwjD433yxhslmvRfyPck3JuRE0WBVKgWtnw=
+X-Received: by 2002:a9d:740a:: with SMTP id n10mr6646878otk.27.1616662852838; 
+ Thu, 25 Mar 2021 02:00:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFvxAW3l4t+YznEm@yekko.fritz.box>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 27d48035-b069-4b00-bb84-f27a9863c748
-X-Ovh-Tracer-Id: 5776429474919975858
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudegledguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeileefudetgeejgfefvedvgeektdeludekleehhfdugfduheffheefteegteduvdenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo52.mail-out.ovh.net
+References: <20210322122452.369750-1-yuri.benditovich@daynix.com>
+ <aa33a355-5980-5ff5-7264-02d6fc7f5f9d@redhat.com>
+In-Reply-To: <aa33a355-5980-5ff5-7264-02d6fc7f5f9d@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Thu, 25 Mar 2021 11:00:41 +0200
+Message-ID: <CAOEp5Od+jPYdmFdD3z3hVjs5t6QXgmEoOTPHO5cLVyifjmjgRQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/3] virtio-net: graceful drop of vhost for TAP
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x32f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,96 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 3:10 AM, David Gibson wrote:
-> On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wrote:
->>
->>
->> On 3/22/21 10:03 PM, David Gibson wrote:
->>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
->>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
->>>> topology_core_cpumask") cause a regression in the pseries machine when
->>>> defining certain SMP topologies [1]. The reasoning behind the change is
->>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
->>>> cpu_core_mask"). In short, cpu_core_mask logic was causing troubles with
->>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask because, as
->>>> far as the kernel understanding of SMP topologies goes, both masks are
->>>> equivalent.
->>>>
->>>> Further discussions in the kernel mailing list [2] shown that the
->>>> powerpc kernel always considered that the number of sockets were equal
->>>> to the number of NUMA nodes. The claim is that it doesn't make sense,
->>>> for Power hardware at least, 2+ sockets being in the same NUMA node. The
->>>> immediate conclusion is that all SMP topologies the pseries machine were
->>>> supplying to the kernel, with more than one socket in the same NUMA node
->>>> as in [1], happened to be correctly represented in the kernel by
->>>> accident during all these years.
->>>>
->>>> There's a case to be made for virtual topologies being detached from
->>>> hardware constraints, allowing maximum flexibility to users. At the same
->>>> time, this freedom can't result in unrealistic hardware representations
->>>> being emulated. If the real hardware and the pseries kernel don't
->>>> support multiple chips/sockets in the same NUMA node, neither should we.
->>>>
->>>> Starting in 6.0.0, all sockets must match an unique NUMA node in the
->>>> pseries machine. qtest changes were made to adapt to this new
->>>> condition.
->>>
->>> Oof.  I really don't like this idea.  It means a bunch of fiddly work
->>> for users to match these up, for no real gain.  I'm also concerned
->>> that this will require follow on changes in libvirt to not make this a
->>> really cryptic and irritating point of failure.
->>
->> Haven't though about required Libvirt changes, although I can say that there
->> will be some amount to be mande and it will probably annoy existing users
->> (everyone that has a multiple socket per NUMA node topology).
->>
->> There is not much we can do from the QEMU layer aside from what I've proposed
->> here. The other alternative is to keep interacting with the kernel folks to
->> see if there is a way to keep our use case untouched.
-> 
-> Right.  Well.. not necessarily untouched, but I'm hoping for more
-> replies from Cédric to my objections and mpe's.  Even with sockets
-> being a kinda meaningless concept in PAPR, I don't think tying it to
-> NUMA nodes makes sense.
+Hi Jason,
 
-I did a couple of replies in different email threads but maybe not 
-to all. I felt it was going nowhere :/ Couple of thoughts,
+This was discussed earlier on the previous series of patches.
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg01829.html
+There were strong objections from both Daniel and Michael and I feel
+that the series was rejected.
+There was Michael's claim:
+"We did what this patch is trying to change for years now, in
+particular KVM also seems to happily disable CPU features not supported
+by kernel so I wonder why we can't keep doing it, with tweaks for some
+corner cases."
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03187.html
+And it was Michael's question:
+"Can we limit the change to when a VM is migrated in?"
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03163.html
+So I'm trying to suggest another approach:
+- In case of conflicting features (for example RSS and vhost) we in
+qemu we do not have enough information to prefer one or another.
+- If we drop to userspace in the first set_features we say: "vhost is
+less important than other requested features"
+- This series keeps backward compatibility, i.e. if you start with
+vhost and some features are not available - they are silently cleared.
+- But in case the features are available on source machine - they are used
+- In case of migration this series says: "We prefer successful
+migration even if for that we need to drop to userspace"
+- On the migration back to the 1st system we again work with all the
+features and with vhost as all the features are available.
 
-Shouldn't we get rid of the socket concept, die also, under pseries 
-since they don't exist under PAPR ? We only have numa nodes, cores, 
-threads AFAICT.
-
-Should we diverged from PAPR and add extra DT properties "qemu,..." ?
-There are a couple of places where Linux checks for the underlying 
-hypervisor already.
-
->> This also means that
->> 'ibm,chip-id' will probably remain in use since it's the only place where
->> we inform cores per socket information to the kernel.
-> 
-> Well.. unless we can find some other sensible way to convey that
-> information.  I haven't given up hope for that yet.
-
-Well, we could start by fixing the value in QEMU. It is broken today.
+Thanks,
+Yuri
 
 
-This is all coming from some work we did last year to evaluate our HW 
-(mostly for XIVE) on 2s, 4s, 16s systems on baremetal, KVM and PowerVM. 
-We saw some real problems because Linux did not have a clear view of the 
-topology. See the figures here : 
 
-http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20210303174857.1760393-9-clg@kaod.org/
-
-The node id is a key parameter for system resource management, memory 
-allocation, interrupt affinity, etc. Linux scales much better if used
-correctly. 
-
-C.
+On Thu, Mar 25, 2021 at 8:59 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/3/22 =E4=B8=8B=E5=8D=888:24, Yuri Benditovich =E5=86=99=E9=
+=81=93:
+> > Allow fallback to userspace only upon migration, only for specific feat=
+ures
+> > and only if 'vhostforce' is not requested.
+> >
+> > Changes from v1:
+> > Patch 1 dropeed (will be submitted in another series)
+> > Added device callback in case the migration should fail due to missing =
+features
+>
+>
+> Hi Yuri:
+>
+> Have a quick glance at the series. A questions is why we need to do the
+> fallback only during load?
+>
+> I think we should do it in the device initializating. E.g when the vhost
+> features can not satisfy, we should disable vhost since there.
+>
+> Thanks
+>
+>
+> >
+> > Yuri Benditovich (3):
+> >    net: add ability to hide (disable) vhost_net
+> >    virtio: introduce 'missing_features_migrated' device callback
+> >    virtio-net: implement missing_features_migrated callback
+> >
+> >   hw/net/vhost_net.c         |  4 ++-
+> >   hw/net/virtio-net.c        | 51 +++++++++++++++++++++++++++++++++++++=
++
+> >   hw/virtio/virtio.c         |  8 ++++++
+> >   include/hw/virtio/virtio.h |  8 ++++++
+> >   include/net/net.h          |  1 +
+> >   5 files changed, 71 insertions(+), 1 deletion(-)
+> >
+>
 
