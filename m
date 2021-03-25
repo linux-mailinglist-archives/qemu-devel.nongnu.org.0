@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB903486C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 03:02:52 +0100 (CET)
-Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA69348767
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 04:16:29 +0100 (CET)
+Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPFKl-00055p-0c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 22:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
+	id 1lPGU0-0004SY-45
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 23:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lPFIm-0003iO-NH; Wed, 24 Mar 2021 22:00:48 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:39711)
+ id 1lPG7F-0007dd-L4; Wed, 24 Mar 2021 22:52:59 -0400
+Received: from ozlabs.org ([203.11.71.1]:41265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lPFIk-0003CG-MW; Wed, 24 Mar 2021 22:00:48 -0400
+ id 1lPG78-00043J-EN; Wed, 24 Mar 2021 22:52:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F5SxQ1jVmz9sWV; Thu, 25 Mar 2021 13:00:42 +1100 (AEDT)
+ id 4F5V5T3RlJz9sWT; Thu, 25 Mar 2021 13:52:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616637642;
- bh=8cShp0claiw1/0hq+jyBEid2vCfwOTh+uW6LiOXhd54=;
+ d=gibson.dropbear.id.au; s=201602; t=1616640765;
+ bh=vUttOER+NqhkdnmjvtEtFkdThEiO6jpIhr2odLw+IXs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a85lBk8Zimv6iBYJ+7RvwD8fPygRRd5NH94CINgyowm09rvRx89mcQlhzVHUdoIbw
- DWkGptXn9UO7mH1R7v5jYh9fIX8Gz2jPAS0TN85xuViutYwN+hfI1oP9KRMjUnMM4A
- 2pLLYOSd8nzRtMud3ty1uU8dt7OmoETa3nfAZ7W0=
-Date: Thu, 25 Mar 2021 13:00:36 +1100
+ b=LaF77Mg1BeKCJhlePZ1H0mXoWXrvX9qtMZTUFjENexh6xeWzmML0Z9AaWy0TpMLpN
+ yi4k7d8UdQK5AbeOIVCfGdFxRhbaT8MlXWCk2KCRb5CDAQLM/bYIzAbcQBJ9UaCC4o
+ Ek8faCEnnMAL8CgU9vQNdy1E7LYemXdiHRqDUCJA=
+Date: Thu, 25 Mar 2021 13:10:09 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v10 7/7] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
-Message-ID: <YFvuxA56skAikWv4@yekko.fritz.box>
-References: <cover.1615943871.git.balaton@eik.bme.hu>
- <b1639705f196d229647a8fc36e5d1a92f6c58b76.1615943871.git.balaton@eik.bme.hu>
- <YFk8iCC3IhGw1TqL@yekko.fritz.box>
- <e1f21b2-398d-1422-2b49-6f3ebe5a9cef@eik.bme.hu>
- <YFqZt6NaXuOmgBza@yekko.fritz.box>
- <66385c2e-72f5-c993-dc86-6cfaa9c0dffd@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
+ nodes
+Message-ID: <YFvxAW3l4t+YznEm@yekko.fritz.box>
+References: <20210319183453.4466-1-danielhb413@gmail.com>
+ <20210319183453.4466-2-danielhb413@gmail.com>
+ <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+ <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0lpYuRNjf5gE58uu"
+ protocol="application/pgp-signature"; boundary="O4YHC3Las4vAS4m7"
 Content-Disposition: inline
-In-Reply-To: <66385c2e-72f5-c993-dc86-6cfaa9c0dffd@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -62,144 +61,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Srikar Dronamraju <srikar@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0lpYuRNjf5gE58uu
+--O4YHC3Las4vAS4m7
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 24, 2021 at 12:21:02PM +0100, BALATON Zoltan wrote:
-> On Wed, 24 Mar 2021, David Gibson wrote:
-> > On Tue, Mar 23, 2021 at 02:01:27PM +0100, BALATON Zoltan wrote:
-> > > On Tue, 23 Mar 2021, David Gibson wrote:
-> > > > On Wed, Mar 17, 2021 at 02:17:51AM +0100, BALATON Zoltan wrote:
-> > > > > Add new machine called pegasos2 emulating the Genesi/bPlan Pegaso=
-s II,
-> > > > > a PowerPC board based on the Marvell MV64361 system controller an=
-d the
-> > > > > VIA VT8231 integrated south bridge/superio chips. It can run Linu=
-x,
-> > > > > AmigaOS and a wide range of MorphOS versions. Currently a firmwar=
-e ROM
-> > > > > image is needed to boot and only MorphOS has a video driver to pr=
-oduce
-> > > > > graphics output. Linux could work too but distros that supported =
-this
-> > > > > machine don't include usual video drivers so those only run with
-> > > > > serial console for now.
-> > > > >=20
-> > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > > > > ---
-> > > > >  MAINTAINERS                             |  10 ++
-> > > > >  default-configs/devices/ppc-softmmu.mak |   2 +
-> > > > >  hw/ppc/Kconfig                          |   9 ++
-> > > > >  hw/ppc/meson.build                      |   2 +
-> > > > >  hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++=
-++++++
-> > > > >  5 files changed, 167 insertions(+)
-> > > > >  create mode 100644 hw/ppc/pegasos2.c
-> > > > >=20
-> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > > index b6ab3d25a7..1c3c55ef09 100644
-> > > > > --- a/MAINTAINERS
-> > > > > +++ b/MAINTAINERS
-> > > > > @@ -1353,6 +1353,16 @@ F: pc-bios/canyonlands.dt[sb]
-> > > > >  F: pc-bios/u-boot-sam460ex-20100605.bin
-> > > > >  F: roms/u-boot-sam460ex
-> > > > >=20
-> > > > > +pegasos2
-> > > > > +M: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > > +R: David Gibson <david@gibson.dropbear.id.au>
-> > > > > +L: qemu-ppc@nongnu.org
-> > > > > +S: Maintained
-> > > > > +F: hw/ppc/pegasos2.c
-> > > > > +F: hw/pci-host/mv64361.c
-> > > > > +F: hw/pci-host/mv643xx.h
-> > > > > +F: include/hw/pci-host/mv64361.h
-> > > >=20
-> > > > Oh, sorry about the comment in the previous patch.
-> > > >=20
-> > > > >  RISC-V Machines
-> > > > >  ---------------
-> > > > >  OpenTitan
-> > > > > diff --git a/default-configs/devices/ppc-softmmu.mak b/default-co=
-nfigs/devices/ppc-softmmu.mak
-> > > > > index 61b78b844d..4535993d8d 100644
-> > > > > --- a/default-configs/devices/ppc-softmmu.mak
-> > > > > +++ b/default-configs/devices/ppc-softmmu.mak
-> > > > > @@ -14,5 +14,7 @@ CONFIG_SAM460EX=3Dy
-> > > > >  CONFIG_MAC_OLDWORLD=3Dy
-> > > > >  CONFIG_MAC_NEWWORLD=3Dy
-> > > > >=20
-> > > > > +CONFIG_PEGASOS2=3Dy
-> > > >=20
-> > > > I don't think we can have this default to enabled while it requires=
- a
-> > > > non-free ROM to start.
+On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 3/22/21 10:03 PM, David Gibson wrote:
+> > On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
+> > > Kernel commit 4bce545903fa ("powerpc/topology: Update
+> > > topology_core_cpumask") cause a regression in the pseries machine when
+> > > defining certain SMP topologies [1]. The reasoning behind the change =
+is
+> > > explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
+> > > cpu_core_mask"). In short, cpu_core_mask logic was causing troubles w=
+ith
+> > > large VMs with lots of CPUs and was changed by cpu_cpu_mask because, =
+as
+> > > far as the kernel understanding of SMP topologies goes, both masks are
+> > > equivalent.
 > > >=20
-> > > Not having it enabled though does not help those who might want to us=
-e it as
-> > > they are not people who can compile their own QEMU but rely on binari=
-es so
-> > > adding it without also enabling it is like it wasn't there at all in
-> > > practice.
-> >=20
-> > Not convinced, sorry.  If it's not usable out of the box, having to
-> > build from source is kind of expected.  Or you could convince someone
->=20
-> I accept your point however there's a difference of only needing a ROM im=
-age
-> to be able to use it from your distro's binary and having to rebuild it f=
-rom
-> source. So to me needing a ROM does not make it expected having to rebuild
-> it. Needing to configure it some way would make that expected.
-
-Well, you could always lobby the distro to include it.  Honestly I
-think the distros would probably choose not to include something for
-such a niche case, even if it was enabled by default upstream.   At
-least.. if they were paying attention, which they're likely not.  But
-sneaking something in via a side route is not something I'm going to
-encourage.
-
-> > (or do it yourself) to provide prebuild binaries for this purpose that
-> > have the right things enabled.
->=20
-> There are people who provide binaries with patches for such purposes but
-> that limits the availability of it compared to having it in all distro
-> binaries without further effort. As I said I also plan to solve this
-> eventually but I'd probably need VOF for that. Will that be merged at las=
-t?
-
-I hope so, yes.  I've finally had some time to review recent rounds.
-It'll be 6.1 material as well, obviously.  Note that there are some
-issues you'll have to sort out to use this for Pegasos which doesn't
-have an actual hypervisor mode.
-
-> Other alternatives would be modifying SLOF, OpenBIOS or OpenFirmware or
-> rewrite SmartFirmware to free it from its non-distributable parts but I
-> think VOF would be a simpler way also avoiding adding another full OF
-> implementation to QEMU that already has more than there should be.
->=20
-> Regards,
-> BALATON Zoltan
->=20
-> > > I can attempt to make some guests boot without a ROM but since
-> > > guests expect an OpenFirmware client interface, I'll need something to
-> > > provide that. I'm waiting for VOF to be merged for this.
+> > > Further discussions in the kernel mailing list [2] shown that the
+> > > powerpc kernel always considered that the number of sockets were equal
+> > > to the number of NUMA nodes. The claim is that it doesn't make sense,
+> > > for Power hardware at least, 2+ sockets being in the same NUMA node. =
+The
+> > > immediate conclusion is that all SMP topologies the pseries machine w=
+ere
+> > > supplying to the kernel, with more than one socket in the same NUMA n=
+ode
+> > > as in [1], happened to be correctly represented in the kernel by
+> > > accident during all these years.
 > > >=20
-> > > Regards,
-> > > BALATON Zoltan
+> > > There's a case to be made for virtual topologies being detached from
+> > > hardware constraints, allowing maximum flexibility to users. At the s=
+ame
+> > > time, this freedom can't result in unrealistic hardware representatio=
+ns
+> > > being emulated. If the real hardware and the pseries kernel don't
+> > > support multiple chips/sockets in the same NUMA node, neither should =
+we.
+> > >=20
+> > > Starting in 6.0.0, all sockets must match an unique NUMA node in the
+> > > pseries machine. qtest changes were made to adapt to this new
+> > > condition.
 > >=20
-> >=20
-> >=20
+> > Oof.  I really don't like this idea.  It means a bunch of fiddly work
+> > for users to match these up, for no real gain.  I'm also concerned
+> > that this will require follow on changes in libvirt to not make this a
+> > really cryptic and irritating point of failure.
+>=20
+> Haven't though about required Libvirt changes, although I can say that th=
+ere
+> will be some amount to be mande and it will probably annoy existing users
+> (everyone that has a multiple socket per NUMA node topology).
+>=20
+> There is not much we can do from the QEMU layer aside from what I've prop=
+osed
+> here. The other alternative is to keep interacting with the kernel folks =
+to
+> see if there is a way to keep our use case untouched.
 
+Right.  Well.. not necessarily untouched, but I'm hoping for more
+replies from C=E9dric to my objections and mpe's.  Even with sockets
+being a kinda meaningless concept in PAPR, I don't think tying it to
+NUMA nodes makes sense.
+
+> This also means that
+> 'ibm,chip-id' will probably remain in use since it's the only place where
+> we inform cores per socket information to the kernel.
+
+Well.. unless we can find some other sensible way to convey that
+information.  I haven't given up hope for that yet.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -207,25 +150,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---0lpYuRNjf5gE58uu
+--O4YHC3Las4vAS4m7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBb7sQACgkQbDjKyiDZ
-s5JN5RAAnBjLNOjqn3UFXm75JqbdixdN9YzDJ6maOzncYkhXqMDcvEd6mLxTfkqX
-YOCBT/Zk+6luVNjyBbqjPK+U2yX2ilUAoI3ZFscLsbieKafvO1T8+tQdWTWXfG6w
-8DqJTuD7he+y9QZv/a56nenQMRvu0GEjgP98DlWXI8JYUbfazyIll/00ix7EbcC7
-MtHkoNzC6R37KGLGrJ0V9JzJS7t3jPcyWLv/JUhkdvqvc2b3zxk+xcpeixl6W5aM
-FwXjd4FWCpa4HXyh/HHMw6FRcu4XvDTi8yBVqWaDwoYj+JP73bQC03y5NOGVW4FF
-AuXpNY5l/51ritlwVesuSgC7JOLPCOgN+iQVBST33DjgsTQ0opeVu5ddaHEFWn5t
-vmgcEJBtpdU91H45DRIe0ctk8nAk0GzjGkSWzX1SK++O9S8j4RQMG9GZi7EjHVYi
-p8FIUUFc9aua4luojf/CZs10zS4D4/nR0vF6pnwHL/uCteh7/nSKJww/loPSDv7I
-rm6Kmaa6U/svDe9mDmuHhy0nGzMXjCmF4gkVuxcNnSSudlOW6tkezYicm5xvTL+1
-MdfCgyplU9yF1tdQw0YMNfI7ebi6FgZozIpWMaHUs/t6PeKXHyVBX/ZoxWilS2XL
-8piCLCu5yWYSz2g4e+KXDh8lmiPfvEHyNDG0J3XLIHFV/3tgCuM=
-=kSvK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBb8QEACgkQbDjKyiDZ
+s5JjFg//QHghGVaSfKgmWQtX/UELAgOov87+dw//veEGqx6LZTuP2ibBnC/1Ai6o
+oKYOLbHi8gaH4y5H+UP3A0QOvI1GRivRitb43b0PEHhtUp+MRNhKj2ZqvreTOK2Y
+nUS22ctitYl1VITIX7Ck3G9zal7C8K73KXhq+uJaPgYqgDRzNvAVHEsTOoJIpTJk
+R1IOPnCe/212B11oNS4P8kMhNxi/sqGSCGIEj0sHHkhe5yZgvR63fp3H/+smTNCq
+cf9eRTkAFTL4neCsehhRfkrXjY4V8ORtXt1UQBoYr6gqYb4A7aa3586BHNEvZCiK
+zKsmo0RwLtlM/dGPjPRLCit8Elr0xPOtNDuWyvP38EJDsuN/bxBw4N8NPZrHoHii
+b+SxtUp3bFpWMARmGd13L5JJ8jQ3xQ0+tmUSv0kQIq6NdQXV0BElG+p3UT81cHXL
+cQEVIUy1MVZ9jRSsdPqbYVCrpQM5jT6GDvUXwkULHR8aptYBh7uM5gPYxY1tSXs7
+1oBgMvcO1r0VQLaN4hpHCicvMpYBfcHO87VRWhCxyuF2H6syOsvecaYJdJgqX1XT
+/sVfQSAsAUBZYo+5/xUEPPOSIgq+8DC4lXUA6pFms55BisPQm9fLDaB4CUOe+Sd1
+4EMusUpGdTQp3hzdv6DL/TvfpFrfXWZ++ouB+8SErBpbI/y7vd0=
+=g2Zb
 -----END PGP SIGNATURE-----
 
---0lpYuRNjf5gE58uu--
+--O4YHC3Las4vAS4m7--
 
