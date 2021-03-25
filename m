@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B01D349231
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:39:55 +0100 (CET)
-Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D65349240
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:42:01 +0100 (CET)
+Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPPHG-0004lf-Df
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1lPPJI-0005tl-8U
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPPGV-0004Ml-7Z
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:39:07 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:39582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPPGT-0004Om-Mi
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:39:06 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- h6-20020a0568300346b02901b71a850ab4so1758113ote.6
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:39:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5wMLCkb0GlKN9ufHaKWXPsNqTNpQrGcdDnFc8DoQYyc=;
- b=FgR4RdnY30rBpJeueMepWz7CQ5OEmrEXf56Hk+oaHrhnWhXlka7bVbh69nuPZclcma
- KOjpi4k9wlEy3VgwQl6pXNa+QMLvL2gR+ROQdVog6x2r5Hz1GRnprBh/kgUiQ2gvFHiE
- v1liTpgdfITrqnRb56Ydl6h8laxdU+pBLYBkzBTYyL19RkkW9pmXDbXbztfS3zJdqO3L
- eqeRE1LmVpDbk33km3mXAjI8C4tn1HdT5xoPidoQr3V6v/7dBNGrz/zdjs9PN7O9Y8ti
- v5UQo5wG/HeEJqenNqe4DPVRGHDqid5IS2PZPDAPIjHFxd83tUluGgJGOVERXu0kNVfr
- 4aKw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lPPIH-0005Rs-7R
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:40:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lPPI9-0005Jr-RY
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:40:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616676045;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=6O8QHaNJXyAEOIsoZS1qfmI0SzVf3/y9urZ4EyTH4Gs=;
+ b=czML727N1mHEsyMYzQMHGQfiHRBZGm/p01g55bRmOXT+BGAomHgrtgPyUWSSgy0DOY5l2X
+ kBYN/xQVFw0/IHZWAYaF+johWwEcb8TE04Qu057A/+YCLzR2Rcage28qs/RTVj/YA+tWIj
+ VBkLeqEACKSWuz7YXftWeQVZx+Dzs4o=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-klag0fdhNhG06J3bG2k3AA-1; Thu, 25 Mar 2021 08:40:44 -0400
+X-MC-Unique: klag0fdhNhG06J3bG2k3AA-1
+Received: by mail-wr1-f72.google.com with SMTP id h5so2569775wrr.17
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:40:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5wMLCkb0GlKN9ufHaKWXPsNqTNpQrGcdDnFc8DoQYyc=;
- b=AirtU+Dxm3UFiLvjCO0Mg4K5hJqUHfzfnoeDgLIKQJ2CE3MFhwL6k6qXiJr+xefebc
- SufQ7eME0DZykjrPO8mcqhri3QrwxwkMvwMgc97+yqERggepXVfDm89Lk+14wzV07D87
- 3vymN8pM6S9xN0vQb9d1gdw3DwO4sekGJs7ZJVHOWdA3bH7vB4KaaCB6qYNy/Mgmvfen
- i1sVa0um9cgf5dC+ObOswYPDqqadZlWeM4PF3V7HAOoRKaRwz38hyqIe+auoy6E3jhBk
- yQ34FQc28CYMeaRbxSsgFwHaWgQBTFEtvTETWF/DP6ssZjY59LvAzbFEccggKGj73AdX
- daog==
-X-Gm-Message-State: AOAM530c2QJ4RCBSgwmJyTHhwcrOmZL0CzFkgs3xQ9aucxIkcXkk6cpS
- Dt8ZSF4xsI3Jh6COZlcRMDAcI1P8qSCBQjLg
-X-Google-Smtp-Source: ABdhPJwzoGohHN0mwNh+qUtiCgTxXgRfxYbQj65mh8cecN7WMTqQ6bpjmMUR1b+9gtmlFbxLl+dc2A==
-X-Received: by 2002:a05:6830:57:: with SMTP id
- d23mr7242336otp.44.1616675944400; 
- Thu, 25 Mar 2021 05:39:04 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id a16sm477851otk.62.2021.03.25.05.39.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 05:39:03 -0700 (PDT)
-Subject: Re: [PATCH v3] i386/cpu_dump: support AVX512 ZMM regs dump
-To: Robert Hoo <robert.hu@linux.intel.com>, pbonzini@redhat.com,
- ehabkost@redhat.com
-References: <1616572804-7898-1-git-send-email-robert.hu@linux.intel.com>
- <fc15756c-755d-fc96-80f4-ac9d6f6b461b@linaro.org>
- <09e24732185ed4df204063a6446c39ae4805d4f6.camel@linux.intel.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <30be732d-50ce-d11c-88c6-f23e2e2d1c48@linaro.org>
-Date: Thu, 25 Mar 2021 06:39:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=6O8QHaNJXyAEOIsoZS1qfmI0SzVf3/y9urZ4EyTH4Gs=;
+ b=HVWJw+N9PYHkAHHFPMP9uyHLigkigLON9kEgQ7ii6Fe5jl9W8CrQF58wag0xi56Yba
+ Oj9UasnS0Hg5q0qiC0UMumS5eFGBDwzN3MmpKfuRe7yS/o/sW0yHXYRXNNVSuSv03nwY
+ sfhcIj7Eiv5ul+F5g7+5NlH/SEqR9VwfX2XElTb0tKOFTsamg06dtKdU0fvv93CXaZA1
+ yZOgBHnxQDxdKZpwg6sj0m6UDDZfVgwVyHMS1aJkQvQeZPBw0Rt+7WEpR53ActWZOVQy
+ p4d87TNQTyUMp450kDEVMyIX9rljp9+sKYgeIff/PWYm4H59voqZmUlfCklVUfqQ/fnr
+ r5qQ==
+X-Gm-Message-State: AOAM530oG5cV6TV9Rl75qG3DGGsrHEY7pvkJDKYUQT4QcQLRvAm1bVCR
+ GWjF9rwtfAOK5+LUuViy2C4xwo3FYnfPF0FA1zwJ4Ft53K0KNtcqMVMPeUF2w3o9YO1FMipfQ5g
+ Paw8q9MVxNh/tWSU=
+X-Received: by 2002:a5d:53c8:: with SMTP id a8mr8575322wrw.323.1616676042861; 
+ Thu, 25 Mar 2021 05:40:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFi4RS1f3fmHT0giNW6AKw56rJ5a+s9HFAWrLBVAOjmpcKEyL4yu1NRjO91WKZY/A5VuDnlQ==
+X-Received: by 2002:a5d:53c8:: with SMTP id a8mr8575299wrw.323.1616676042593; 
+ Thu, 25 Mar 2021 05:40:42 -0700 (PDT)
+Received: from localhost (trasno.trasno.org. [83.165.45.250])
+ by smtp.gmail.com with ESMTPSA id a6sm6641419wmm.0.2021.03.25.05.40.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Mar 2021 05:40:42 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>
+Subject: Re: [RFC PATCH v2 5/5] Enable the MTE support for KVM guest
+In-Reply-To: <5ed81ba84e44100798009cee95c3dc2d993602f0.1615972140.git.haibo.xu@linaro.org>
+ (Haibo Xu's message of "Wed, 17 Mar 2021 09:28:24 +0000")
+References: <cover.1615972140.git.haibo.xu@linaro.org>
+ <5ed81ba84e44100798009cee95c3dc2d993602f0.1615972140.git.haibo.xu@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Date: Thu, 25 Mar 2021 13:40:41 +0100
+Message-ID: <87mturo186.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <09e24732185ed4df204063a6446c39ae4805d4f6.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,23 +94,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 9:15 PM, Robert Hoo wrote:
->>> +        } else if (env->xcr0 & XFEATURE_AVX) {
->>
->> This is normally a 2-bit test.
-> 
-> I beg your pardon. What 2 bits?
+Haibo Xu <haibo.xu@linaro.org> wrote:
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  hw/arm/virt.c | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 76658b93a3..36cfdb29e9 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -79,6 +79,7 @@
+>  #include "hw/virtio/virtio-iommu.h"
+>  #include "hw/char/pl011.h"
+>  #include "qemu/guest-random.h"
+> +#include "migration/misc.h"
+>  
+>  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+>      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+> @@ -828,6 +829,21 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
+>      }
+>  }
+>  
+> +static int virt_precopy_notify(NotifierWithReturn *n, void *data)
+> +{
+> +    PrecopyNotifyData *pnd = data;
+> +
+> +    switch (pnd->reason) {
+> +    case PRECOPY_NOTIFY_SETUP:
+> +        precopy_enable_metadata_migration();
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static void create_gpio_keys(char *fdt, DeviceState *pl061_dev,
+>                               uint32_t phandle)
+>  {
+> @@ -1912,9 +1928,9 @@ static void machvirt_init(MachineState *machine)
+>      }
+>  
+>      if (vms->mte && kvm_enabled()) {
+> -        error_report("mach-virt: KVM does not support providing "
+> -                     "MTE to the guest CPU");
+> -        exit(1);
+> +        /* connect migration precopy request */
+> +        vms->precopy_notifier.notify = virt_precopy_notify;
+> +        precopy_add_notifier(&vms->precopy_notifier);
+>      }
+>  
+>      create_fdt(vms);
 
-I forget the names, but isn't the usual test xcr0 & 6 == 6?
+Why are you using a notifier here?
+It is not enough for you just esetup at this point a variable somewhere
+   "foo->mte_enabled = true"
 
-> BTW, checkpatch didn't warn me on this. It escaped.:)
+And create a function that just does:
 
-Heh.
+bool is_mte_enabled(vode)
+{
+        return foo->mte_enabled;
+}
 
+And just check that everywhere?
 
-r~
+Later, Juan.
+
 
