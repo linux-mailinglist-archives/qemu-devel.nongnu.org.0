@@ -2,104 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254C83485C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 01:17:20 +0100 (CET)
-Received: from localhost ([::1]:50424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AED348665
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 02:23:31 +0100 (CET)
+Received: from localhost ([::1]:38950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPDgc-0002jO-VN
-	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 20:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32906)
+	id 1lPEig-0005Fy-8E
+	for lists+qemu-devel@lfdr.de; Wed, 24 Mar 2021 21:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
- id 1lPDfA-00029l-PY; Wed, 24 Mar 2021 20:15:48 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4860)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lPEhP-0004jl-Nu
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 21:22:11 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:4104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
- id 1lPDf8-0005jK-H5; Wed, 24 Mar 2021 20:15:48 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12P05QZk110496; Wed, 24 Mar 2021 20:15:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=kME5r2TC3HHUzbr9t1mmFwr6w+kCQqjyutDJn16fu6Y=;
- b=Aq8NnD2c53Xz4KfDq8xuaZHbNKHa6BygOD/yWKs5ctRSdSLr5bOBtJggUunlEOMG21TJ
- C8zLRiFD1RsEfGeuc5pIJQfZ5iIJMYtXX7M3/sUe86WqXaztpeWyAKhGmoWyjjiSl+qH
- S4E9/vk3QDtlH+RFg82i12C21VUgXR6Ci42nkyopZAKohKCnlb5B8JF+f3poYQLBJzRZ
- JnXoT9pGTv2CaM9v+WNRxVqrbCSJiGkeOFOJc/Y9BZf79JmWM/+oLGYrc+6+NQW5EGMb
- xV4FcDURRDmZ9SpdOtesCdtru+HMzSrjoSGJ1V2YlHKSUGvrGP+/rjKxPpp1/+BQAo5D DA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37gaa9yxn2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Mar 2021 20:15:39 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12P05YBW111197;
- Wed, 24 Mar 2021 20:15:39 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37gaa9yxmq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Mar 2021 20:15:38 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12P07hBG013152;
- Thu, 25 Mar 2021 00:15:38 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma05wdc.us.ibm.com with ESMTP id 37dyccumg6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Mar 2021 00:15:38 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12P0FboM27787774
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Mar 2021 00:15:37 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EFE89C605D;
- Thu, 25 Mar 2021 00:15:36 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADB11C6057;
- Thu, 25 Mar 2021 00:15:34 +0000 (GMT)
-Received: from [9.85.133.239] (unknown [9.85.133.239])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 25 Mar 2021 00:15:34 +0000 (GMT)
-Subject: Re: [PATCH 1/3] aspeed: Coding Style cleanups on do_hash_operation
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210324223846.17407-1-klaus@linux.vnet.ibm.com>
- <20210324223846.17407-2-klaus@linux.vnet.ibm.com>
- <d3274402-58e2-c7ca-f808-7e2d51f29d89@kaod.org>
-From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-Message-ID: <2c679546-0f60-b8cb-cf85-29f2e897d877@linux.vnet.ibm.com>
-Date: Wed, 24 Mar 2021 21:15:31 -0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1lPEhH-0002aD-PN
+ for qemu-devel@nongnu.org; Wed, 24 Mar 2021 21:22:11 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F5S2M6zpXz9sd5;
+ Thu, 25 Mar 2021 09:19:55 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 25 Mar 2021 09:21:53 +0800
+Subject: Re: [PATCH v5 00/10] KVM: Dirty ring support (QEMU part)
+To: Peter Xu <peterx@redhat.com>
+References: <20210310203301.194842-1-peterx@redhat.com>
+ <2e057323-8102-7bfc-051b-cd3950c93875@huawei.com>
+ <20210322194533.GE16645@xz-x1>
+ <ddf6bf41-ab29-8bbc-d3fb-94938e42e215@huawei.com>
+ <20210323143429.GB6486@xz-x1>
+ <5da1dd71-58e9-6579-c7c1-6cb60baf7ac1@huawei.com>
+ <20210324150943.GB219069@xz-x1>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <25da9dde-bd02-b557-66ed-06e4422c5634@huawei.com>
+Date: Thu, 25 Mar 2021 09:21:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <d3274402-58e2-c7ca-f808-7e2d51f29d89@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-24_14:2021-03-24,
- 2021-03-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 adultscore=0 clxscore=1015 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103240175
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=klaus@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210324150943.GB219069@xz-x1>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
+ helo=szxga07-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,27 +65,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cedric,
+Peter,
 
-On 3/24/2021 7:57 PM, Cédric Le Goater wrote:
-> On 3/24/21 11:38 PM, Klaus Heinrich Kiwi wrote:
->> Basically using camelCase for some variables...
-> I don't think CamelCase applies to variables, only types.
+On 2021/3/24 23:09, Peter Xu wrote:
+> On Wed, Mar 24, 2021 at 10:56:22AM +0800, Keqian Zhu wrote:
+>> Hi Peter,
+>>
+>> On 2021/3/23 22:34, Peter Xu wrote:
+>>> Keqian,
+>>>
+>>> On Tue, Mar 23, 2021 at 02:40:43PM +0800, Keqian Zhu wrote:
+>>>>>> The second question is that you observed longer migration time (55s->73s) when guest
+>>>>>> has 24G ram and dirty rate is 800M/s. I am not clear about the reason. As with dirty
+>>>>>> ring enabled, Qemu can get dirty info faster which means it handles dirty page more
+>>>>>> quick, and guest can be throttled which means dirty page is generated slower. What's
+>>>>>> the rationale for the longer migration time?
+>>>>>
+>>>>> Because dirty ring is more sensitive to dirty rate, while dirty bitmap is more
+>>>> Emm... Sorry that I'm very clear about this... I think that higher dirty rate doesn't cause
+>>>> slower dirty_log_sync compared to that of legacy bitmap mode. Besides, higher dirty rate
+>>>> means we may have more full-exit, which can properly limit the dirty rate. So it seems that
+>>>> dirty ring "prefers" higher dirty rate.
+>>>
+>>> When I measured the 800MB/s it's in the guest, after throttling.
+>>>
+>>> Imagine another example: a VM has 1G memory keep dirtying with 10GB/s.  Dirty
+>>> logging will need to collect even less for each iteration because memory size
+>>> shrinked, collect even less frequent due to the high dirty rate, however dirty
+>>> ring will use 100% cpu power to collect dirty pages because the ring keeps full.
+>> Looks good.
+>>
+>> We have many places to collect dirty pages: the background reaper, vCPU exit handler,
+>> and the migration thread. I think migration time is closely related to the migration thread.
+>>
+>> The migration thread calls kvm_dirty_ring_flush().
+>> 1. kvm_cpu_synchronize_kick_all() will wait vcpu handles full-exit.
+>> 2. kvm_dirty_ring_reap() collects and resets dirty pages.
+>> The above two operation will spend more time with higher dirty rate.
+>>
+>> But I suddenly realize that the key problem maybe not at this. Though we have separate
+>> "reset" operation for dirty ring, actually it is performed right after we collect dirty
+>> ring to kvmslot. So in dirty ring mode, it likes legacy bitmap mode without manual_dirty_clear.
+>>
+>> If we can "reset" dirty ring just before we really handle the dirty pages, we can have
+>> shorter migration time. But the design of dirty ring doesn't allow this, because we must
+>> perform reset to make free space...
+> 
+> This is a very good point.
+> 
+> Dirty ring should have been better in quite some ways already, but from that
+> pov as you said it goes a bit backwards on reprotection of pages (not to
+> mention currently we can't even reset the ring per-vcpu; that seems to be not
+> fully matching the full locality that the rings have provided as well; but
+> Paolo and I discussed with that issue, it's about TLB flush expensiveness, so
+> we still need to think more of it..).
+> 
+> Ideally the ring could have been both per-vcpu but also bi-directional (then
+> we'll have 2*N rings, N=vcpu number), so as to split the state transition into
+> "dirty ring" and "reprotect ring", then that reprotect ring will be the clear
+> dirty log.  That'll look more like virtio as used ring.  However we'll still
+> need to think about the TLB flush issue too as Paolo used to mention, as
+> that'll exist too with any per-vcpu flush model (each reprotect of page will
+> need a tlb flush of all vcpus).
+> 
+> Or.. maybe we can make the flush ring a standalone one, so we need N dirty ring
+> and one global flush ring.
+Yep, have separate "reprotect" ring(s) is a good idea.
 
-Thanks, I think I mis-interpreted your comment on this.
+> 
+> Anyway.. Before that, I'd still think the next step should be how to integrate
+> qemu to fully leverage current ring model, so as to be able to throttle in
+> per-vcpu fashion.
+> 
+> The major issue (IMHO) with huge VM migration is:
+> 
+>   1. Convergence
+>   2. Responsiveness
+> 
+> Here we'll have a chance to solve (1) by highly throttle the working vcpu
+> threads, meanwhile still keep (2) by not throttle user interactive threads.
+> I'm not sure whether this will really work as expected, but just show what I'm
+> thinking about it.  These may not matter a lot yet with further improving ring
+> reset mechanism, which definitely sounds even better, but seems orthogonal.
+> 
+> That's also why I think we should still merge this series first as a fundation
+> for the rest.
+I see.
 
-Will re-factor the patches with that in mind, but let's see
-if there are other comments first.
+> 
+>>
+>>>
+>>>>
+>>>>> sensitive to memory footprint.  In above 24G mem + 800MB/s dirty rate
+>>>>> condition, dirty bitmap seems to be more efficient, say, collecting dirty
+>>>>> bitmap of 24G mem (24G/4K/8=0.75MB) for each migration cycle is fast enough.
+>>>>>
+>>>>> Not to mention that current implementation of dirty ring in QEMU is not
+>>>>> complete - we still have two more layers of dirty bitmap, so it's actually a
+>>>>> mixture of dirty bitmap and dirty ring.  This series is more like a POC on
+>>>>> dirty ring interface, so as to let QEMU be able to run on KVM dirty ring.
+>>>>> E.g., we won't have hang issue when getting dirty pages since it's totally
+>>>>> async, however we'll still have some legacy dirty bitmap issues e.g. memory
+>>>>> consumption of userspace dirty bitmaps are still linear to memory footprint.
+>>>> The plan looks good and coordinated, but I have a concern. Our dirty ring actually depends
+>>>> on the structure of hardware logging buffer (PML buffer). We can't say it can be properly
+>>>> adapted to all kinds of hardware design in the future.
+>>>
+>>> Sorry I don't get it - dirty ring can work with pure page wr-protect too?
+>> Sure, it can. I just want to discuss many possible kinds of hardware logging buffer.
+>> However, I'd like to stop at this, at least dirty ring works well with PML. :)
+> 
+> I see your point.  That'll be a good topic at least when we'd like to port
+> dirty ring to other archs for sure.  However as you see I hoped we can start to
+> use dirty ring first, find issues, fix it, even redesign some of it, make it
+> really beneficial at least on one arch, then it'll make more sense to port it,
+> or attract people porting it. :)
+> 
+> QEMU does not yet have a good solution for huge vm migration yet.  Maybe dirty
+> ring is a good start for it, maybe not (e.g., with uffd minor mode postcopy has
+> the other chance).  We'll see...
+OK.
 
-  -Klaus
-
--- 
-Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Thanks,
+Keqian
 
