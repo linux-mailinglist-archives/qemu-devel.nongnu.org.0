@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0553491A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:11:46 +0100 (CET)
-Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B167B3491A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:13:28 +0100 (CET)
+Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPOq1-0003nB-6z
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
+	id 1lPOrf-0005JU-Qv
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPOns-0002oO-2v; Thu, 25 Mar 2021 08:09:32 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42989)
+ id 1lPOnx-0002tJ-NI; Thu, 25 Mar 2021 08:09:37 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPOnq-0004VI-K0; Thu, 25 Mar 2021 08:09:31 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id x13so2025505wrs.9;
- Thu, 25 Mar 2021 05:09:29 -0700 (PDT)
+ id 1lPOnv-0004Y0-Ll; Thu, 25 Mar 2021 08:09:36 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so2950337wmy.5; 
+ Thu, 25 Mar 2021 05:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+WxJT/LZbxF9lKkeuQCTE0WCh2OqIbI/yLxA+fPtTMk=;
- b=UNRxPEQYGO8KJPvrtNVTturRBVENBL7f6V77+PNUSKaGOyDqSMxOEjpp5E16I2Peus
- nsaCnG9ST5C3nbUpSoHAAEaM7v+5AFARHb0KaVccCFD7gVj/DjMdGzMErBKaixYMuU1b
- p8xeq7yhAK4VgCBSHPjGDGxneu9Tky8wsPNzmek2JD5jsRTg4d4txwfraoIxA1mAk5H6
- S7hOYycZAMS/uYF9iFCbggkxpNz4WpUxuFG5yuwM4SFwhubNR2LG32Utg7OlIVFC1lUr
- lxQsmSNvuJuUkLsOuZHyak6GtBY2yfYnWzIHRCa4M+10sr2V6eg9n1LZuT/vnw6Fbq1e
- 9Ykw==
+ bh=zthFndrHM90uXxVlKArqDHUMBufeNV9n6j9hp9i1NSI=;
+ b=Cgch3h0vxvrnROici56adJ/Pq1JHh5d00EwPRiE9Iis0KkLZ7dd/gcAyyTq9So8DLO
+ C8HKwCwVHFLywpNT/QYAl7QSc74i93zehlycyfdrlwWFfPoZWeo8lYPtYpI9PixGeZpD
+ IOp45kKJSpaOKmHJyrnkCTiItgOvoNq7cvz5N+EJujMvOuv1c6qFL1BEW2C+uTGVBSbQ
+ fqKxdby1ywC74UCGwYIt4cwddTE+TSPFosJJwF8nNem9OOezgcBAZyAEAtwASvyTBw9F
+ A0IBk1bsGaB8fElVD4EI17/cAGfOb8SohiIwtNmhquRfVC7eom+ZElWu1osq/sHAkUCK
+ POKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+WxJT/LZbxF9lKkeuQCTE0WCh2OqIbI/yLxA+fPtTMk=;
- b=K36oOnXOcssC2P/DEdyb6IrQI+fD9qIJTjFY7H3z5HE3Ml/3Cg/a/ZS478031QQSpW
- +zMc8YjZoF252dJem2MIp3p//QgsQt4SQaUvbNML5qw9ulw9gFbqynwrskdolKqe1xzH
- EkkJ5K/FAKBEG4mHE7YAvRy7+TJPDVzFhCoWjE4dTBERM2lL1AJP5nQ9Ae+mV/vOfGWo
- RijxQzm9ujKCe3UKG5UOXqcVMMTo+lndgzR9t9000LKuyzQebOjTaVzI4ENBgbu5EIe4
- bNkge265cVrOicoZ9bqsVHvCR215RZO4pwp+GPCy0OjfGv6CdtZgnlP4Wo9pMAlWlQAA
- Xdow==
-X-Gm-Message-State: AOAM530Xbsz8YGbqTohmshNfAwL3yb9+9STCTSH7Wle6IDWioN3i8nbJ
- kItNBcdcxsUlDJArlaA08Dlj3oweSaY1eg==
-X-Google-Smtp-Source: ABdhPJzeo1F0fm6nuMTV55uPL6KcQeQzqyCqCPL/o88ymzRJjZhnS08kZWM9XAVfPc0YdaSt/grscQ==
-X-Received: by 2002:adf:dc4e:: with SMTP id m14mr8933717wrj.248.1616674167906; 
- Thu, 25 Mar 2021 05:09:27 -0700 (PDT)
+ bh=zthFndrHM90uXxVlKArqDHUMBufeNV9n6j9hp9i1NSI=;
+ b=GPwd2VMXlRci6C4CPqV9EvkM4IAkxzUWeJhfeBGV/0wDSadCxUYQHNvCqmklL8omoK
+ CKM6vL+YKRfUGvKsYFVgQSgypObQR5saIFdkrjfkL23F4PgEqjjiDUwJjZVUX/za/br3
+ w+J69/WhLYQ3zxzvdTIq20YXwFESLyeAdU3GxEXVJaZf4QWEu5cm5G3ZmKVy5YYHzzJE
+ Jr7K2m+mdBeFRG97ou8uYQ8nFTnC+wsag8VIgxIwFM3FgKotYKb9E1MBAlLQV0D6j2/o
+ yZwlYpawuGPeFKLvsctdhpJLXwdAJiTlY4fn2K7mHic6bCx2rEPBGZsRKk1qW3v0cmah
+ Qang==
+X-Gm-Message-State: AOAM533krdMWZz69vjwhh2Af83j6zCzh+0fQwAShf2T2C4OUVEkqSzWz
+ hjrHjYC0ppPp77OXhV63jFF73fYCLushrw==
+X-Google-Smtp-Source: ABdhPJx4BNu1OiNs7JVdcsEY0jyquN7HOC8QSbFKSCYaH/B+Ol7S0IcSLEWIOc+JSt1PtzP9YKcVeA==
+X-Received: by 2002:a1c:600a:: with SMTP id u10mr7693491wmb.139.1616674172571; 
+ Thu, 25 Mar 2021 05:09:32 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id n9sm6660439wrx.46.2021.03.25.05.09.27
+ by smtp.gmail.com with ESMTPSA id w22sm6129608wmi.22.2021.03.25.05.09.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 05:09:27 -0700 (PDT)
+ Thu, 25 Mar 2021 05:09:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1 1/2] hw/block/pflash_cfi02: Set romd mode in
- pflash_cfi02_realize()
-Date: Thu, 25 Mar 2021 13:09:20 +0100
-Message-Id: <20210325120921.858993-2-f4bug@amsat.org>
+Subject: [PATCH-for-6.1 2/2] hw/block/pflash_cfi02: Do not create aliases when
+ not necessary
+Date: Thu, 25 Mar 2021 13:09:21 +0100
+Message-Id: <20210325120921.858993-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210325120921.858993-1-f4bug@amsat.org>
 References: <20210325120921.858993-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,36 +92,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ROMD mode isn't related to mapping setup.
-Ideally we'd set this mode when the state machine resets,
-but for now simply move it to pflash_cfi02_realize() to
-not introduce logical change.
+When no mapping is requested, it is pointless to create
+alias regions.
+Only create them when multiple mappings are requested to
+simplify the memory layout. The flatview is not changed.
+
+For example using 'qemu-system-sh4 -M r2d -S -monitor stdio',
+
+* before:
+
+  (qemu) info mtree
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-0000000000ffffff (prio 0, i/o): pflash
+        0000000000000000-0000000000ffffff (prio 0, romd): alias pflash-alias @r2d.flash 0000000000000000-0000000000ffffff
+      0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
+      000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
+  (qemu) info mtree -f
+  FlatView #0
+   AS "memory", root: system
+   AS "cpu-memory-0", root: system
+   Root memory region: system
+    0000000000000000-0000000000ffffff (prio 0, romd): r2d.flash
+    0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
+    000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
+
+* after:
+
+  (qemu) info mtree
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-0000000000ffffff (prio 0, romd): r2d.flash
+      0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
+      000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
+  (qemu) info mtree -f
+  FlatView #0
+   AS "memory", root: system
+   AS "cpu-memory-0", root: system
+   Root memory region: system
+    0000000000000000-0000000000ffffff (prio 0, romd): r2d.flash
+    0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
+    000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/pflash_cfi02.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/pflash_cfi02.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 25c053693ce..35e30bb812c 100644
+index 35e30bb812c..02c514fb6e0 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -173,7 +173,6 @@ static void pflash_setup_mappings(PFlashCFI02 *pfl)
-                                  "pflash-alias", &pfl->orig_mem, 0, size);
-         memory_region_add_subregion(&pfl->mem, i * size, &pfl->mem_mappings[i]);
-     }
--    pfl->rom_mode = true;
- }
- 
- static void pflash_reset_state_machine(PFlashCFI02 *pfl)
-@@ -917,6 +916,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
-     /* Allocate memory for a bitmap for sectors being erased. */
+@@ -917,8 +917,12 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
      pfl->sector_erase_map = bitmap_new(pfl->total_sectors);
  
-+    pfl->rom_mode = true;
-     pflash_setup_mappings(pfl);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
+     pfl->rom_mode = true;
+-    pflash_setup_mappings(pfl);
+-    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
++    if (pfl->mappings > 1) {
++        pflash_setup_mappings(pfl);
++        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
++    } else {
++        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->orig_mem);
++    }
  
+     timer_init_ns(&pfl->timer, QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+     pfl->status = 0;
 -- 
 2.26.2
 
