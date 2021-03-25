@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15CC349480
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:48:55 +0100 (CET)
-Received: from localhost ([::1]:55706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733713494D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:02:06 +0100 (CET)
+Received: from localhost ([::1]:45188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPRI7-00008c-1Q
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56700)
+	id 1lPRUr-0007rx-GX
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:02:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPRFK-00073I-AR
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:46:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPRF4-00035r-Jf
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:45:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616683541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z2yG9QTTbRFPH+TXnOoeoYyfRddWoA0fdCeId4ctAk4=;
- b=DchdVDH/pQLdsA33tL/HsSY+6beaTUHKDXVy3T7k3VnSQdKEbBrAJW19DA+/6k1bAmiHZa
- u9Iz5SFTv3Xp9M0L+v4elpb9+XNl7GYOFW/qy+Eo7F2Gii5p7gPTEV+HOzZr71rGyK75r+
- 4+sC76YY9kgGtmm+/jEP/7lbGXReuas=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-RNQBssVTNSq6co9zBE1aJw-1; Thu, 25 Mar 2021 10:45:39 -0400
-X-MC-Unique: RNQBssVTNSq6co9zBE1aJw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CC9964A96;
- Thu, 25 Mar 2021 14:45:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 594011F7;
- Thu, 25 Mar 2021 14:45:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E2F4111327E1; Thu, 25 Mar 2021 15:45:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 11/19] qapi/expr.py: Modify check_keys to accept any
- Collection
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-12-jsnow@redhat.com>
-Date: Thu, 25 Mar 2021 15:45:36 +0100
-In-Reply-To: <20210325060356.4040114-12-jsnow@redhat.com> (John Snow's message
- of "Thu, 25 Mar 2021 02:03:48 -0400")
-Message-ID: <87im5fs35b.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPRP7-0003rB-JW
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:56:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPRP5-0000YU-BS
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:56:09 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPRP3-0001NL-Ec
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 14:56:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 64A072E8163
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 14:56:05 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 25 Mar 2021 14:48:12 -0000
+From: Simon Tatham <1918302@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm semihosting
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee pmaydell statham-arm
+X-Launchpad-Bug-Reporter: Simon Tatham (statham-arm)
+X-Launchpad-Bug-Modifier: Simon Tatham (statham-arm)
+References: <161530383644.26074.10419563158373925479.malonedeb@gac.canonical.com>
+Message-Id: <161668369242.23701.13941988455563078430.malone@chaenomeles.canonical.com>
+Subject: [Bug 1918302] Re: qemu-system-arm segfaults while servicing
+ SYS_HEAPINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 06ecf2332f27a86bdbb71809911d7d172591ee74
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,54 +72,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1918302 <1918302@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Firstly, I agree with Peter's comment =E2=80=93 this test image is exactly =
+an
+example of what he describes, in that it carefully doesn't make any use
+of the value of SP it started up with (doesn't push or pop anything,
+doesn't make sp-relative offsets). Very near the start, it invokes
+SYS_HEAPINFO to decide what to set SP to.
 
-> This is a minor adjustment that allows the 'required' and 'optional'
-> keys fields to take a default value of an empty, immutable sequence (the
-> empty tuple).
->
-> This reveals a quirk of this function, which is that "a + b" is
-> list-specific behavior. We can accept a wider variety of types if we
-> avoid that behavior. Using Collection allows us to accept things like
-> lists, tuples, sets, and so on.
->
-> (Iterable would also have worked, but Iterable also includes things like
-> generator expressions which are consumed upon iteration, which would
-> require a rewrite to make sure that each input was only traversed once.)
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+I retried the image with qemu master, running qemu-system-arm itself
+inside gdb to help figure out what was going on. What seems to happen,
+in detail, is:
 
-The commit message confused me briefly, until I realized v3 of this
-patch came later in the series, where it modified check_keys() type
-hints and added default values.
+1. common_semi_find_region_base falls through to the fallback "return 0;" a=
+t the end of the function, because the iteration found no subregion at all =
+with subregion->ram set to true. In fact the five regions it iterated throu=
+gh were:
+addr =3D 0x4000a000, size =3D 0x1000, ram =3D 0x0, readonly =3D 0x0
+addr =3D 0x40009000, size =3D 0x1000, ram =3D 0x0, readonly =3D 0x0
+addr =3D 0x40008000, size =3D 0x1000, ram =3D 0x0, readonly =3D 0x0
+addr =3D 0xf0000000, size =3D 0x10000000, ram =3D 0x0, readonly =3D 0x0
+addr =3D 0x40000000, size =3D 0x20000000, ram =3D 0x0, readonly =3D 0x0
 
-What about this:
+2. So common_semi_rambase returns zero to the TARGET_SYS_HEAPINFO
+handler in do_common_semihosting().
 
-  This is a minor adjustment that lets parameters @required and
-  @optional take tuple arguments, in particular ().  Later patches will
-  make use of that.
+3. current_machine->ram_size is set to 0x8000000, and with rambase=3D0, the=
+ SYS_HEAPINFO handler ends up computing the following values in retvals[]:
+retvals[0] (heap base)   =3D 0x4000000
+retvals[1] (heap limit)  =3D 0x8000000
+retvals[2] (stack base)  =3D 0x8000000
+retvals[3] (stack limit) =3D 0x0
 
-> ---
->  scripts/qapi/expr.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index 505e67bd21..7e22723b50 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -100,7 +100,7 @@ def pprint(elems):
->              "%s misses key%s %s"
->              % (source, 's' if len(missing) > 1 else '',
->                 pprint(missing)))
-> -    allowed = set(required + optional)
-> +    allowed = set(required) | set(optional)
->      unknown = set(value) - allowed
->      if unknown:
->          raise QAPISemError(
+4. The setup code faithfully initializes sp to 0x8000000, and then crashes =
+on the first PUSH instruction that the program executes:
+0x00001950:  b5b0       push     {r4, r5, r7, lr}
 
+5. That's how we end up in the tight loop at 0xce4 as mentioned above:
+in this test image, that's the address of the dummy handler for (among
+other things) memory faults.
+
+The emulated machine definitely has some RAM at 0x20000000, because
+that's where the SYS_HEAPINFO output block was, and the semihosting code
+was happy to write to there. So I think SYS_HEAPINFO surely _ought_ to
+have returned some heap and stack values in that region. And the reason
+it didn't was that for some reason it didn't find any RAM regions at all
+in the iteration through get_system_memory()->subregions.
+
+So I think there are still two problems. Using the input value of SP to
+decide which RAM region to return is surely the wrong policy, because SP
+is literally uninitialised at this point. But also, finding any RAM
+regions *at all* seems to be failing in this case.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918302
+
+Title:
+  qemu-system-arm segfaults while servicing SYS_HEAPINFO
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried
+  to use it to run the attached bare-metal Arm hello-world image, using
+  the command line
+
+  qemu-system-arm -M microbit -semihosting -nographic -device
+  loader,file=3Dhello.hex
+
+  The result was that qemu-system-arm itself died of a segfault.
+  Compiling it for debugging, the location of the segfault was in
+  target/arm/arm-semi.c, in the case handler for the semihosting call
+  TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
+
+              const struct arm_boot_info *info =3D env->boot_info;
+              target_ulong rambase =3D info->loader_start;
+
+  and the problem seems to be that 'info', aka env->boot_info, is NULL
+  in this context.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918302/+subscriptions
 
