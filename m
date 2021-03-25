@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3B63489F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 08:18:23 +0100 (CET)
-Received: from localhost ([::1]:46642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0023489FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 08:19:08 +0100 (CET)
+Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPKG6-0002MV-1B
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 03:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51890)
+	id 1lPKGp-0003EU-Mo
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 03:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lPKEJ-0001d0-SD
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 03:16:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50889)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lPKFk-0002ZB-Jz
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 03:18:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lPKED-00078f-Ip
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 03:16:30 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lPKFi-00087E-Fw
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 03:18:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616656582;
+ s=mimecast20190719; t=1616656677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bz9ZKoo8RKI9tIXeBHqTyyMmavPw1s1qfdIPVEeDtM0=;
- b=DDe+ydliFyp6OnWY0cpsr9qGhlfaU3ZRRol0ZgwjOKjRY3qTCcSIp0EjAddaLvqYf7QVia
- KWDam2HN9l1yHTKgTa+vEq5BotBCtGb0jcUj0DCixI3mdrUmmH2tYdVIfM3+MKRSs+SRj3
- uUp72AGRjwTQ3YodiwWNf/nt9Xv7pWM=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-pRZCeahNM1C4UvpVyaDHfw-1; Thu, 25 Mar 2021 03:16:20 -0400
-X-MC-Unique: pRZCeahNM1C4UvpVyaDHfw-1
-Received: by mail-pj1-f70.google.com with SMTP id i9so3629709pjz.4
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 00:16:20 -0700 (PDT)
+ bh=9v/TXJFPhU4Kwsb1sk7TVm9ssShYQCgvsFks8WNZeo0=;
+ b=bcrOfnGbVMXj7wpVh2YaUYOLIz+ryRK89ttHCfe8KgmYQNoBWn7mqOzsHXo/pxPGYn68gr
+ +xdYmiWEGDzidDjPKv2T9v1I4fW6GEsHMr7eMJQ+3HqREote+iAgW0BBrmMCq1G5EzJLu2
+ zcQygSHnclq2fd3IX5HriGwO5Asd90w=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-R-WEBwsNPSm4rG5nm4tdxQ-1; Thu, 25 Mar 2021 03:17:55 -0400
+X-MC-Unique: R-WEBwsNPSm4rG5nm4tdxQ-1
+Received: by mail-pf1-f197.google.com with SMTP id w129so2700720pfc.21
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 00:17:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Bz9ZKoo8RKI9tIXeBHqTyyMmavPw1s1qfdIPVEeDtM0=;
- b=XCU33/SK9dq5OSgk/RA9HTLjynuKNZ6IElmnaLfqW26t2tfi5CsTJzhanbVOqkNJi5
- MCwhR1pWm1PUqkf1RZtWcBfpXZgI0NtdIzudg/M5SmYQIvkvs42ldQJKCpQ8N+Hy58lQ
- 8nYKWCAapnXhFTIqccPrrZapDLT9jCb+RT6F0SN1LdywLHFGx+a6AIBucBQEIKwmq9Mc
- JAuoFR6qFvJssJn2r2qVRmA6In369nN3G5TQdCAkY+jdabx/47C4r/Yxydyq/EH/0vWl
- VAisHX4I5z6+/Mzc0TcTTgtBkppRrJJ9TJRK6UeBdXKsrVN8SHC6ZQocvYh4FBUUNkHq
- Hhsw==
-X-Gm-Message-State: AOAM531nZx9VCr08FPOzwsIeFgxxW2SY/4aOLYxEZhclWiIfjDnmZpCI
- kFRMAHKjjSrcYNVF/ZFgbPy4uICsN9fyYd4gHnjDjZamFv/Bzkjl74OIbGwVTBdeENHCIqGwJxo
- EFviJbZ1c3H/mJN4VzQXuZYO0r1IFAJ0=
-X-Received: by 2002:a63:d153:: with SMTP id c19mr6279984pgj.311.1616656579410; 
- Thu, 25 Mar 2021 00:16:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGwV+7GJwzEZz6tht9sq2E21Hz0JSlQDhlcLSwmlPREDoIrwycTsU6P2L3NY15MNqwrktMgH+IqXSwUteRlMU=
-X-Received: by 2002:a63:d153:: with SMTP id c19mr6279951pgj.311.1616656578829; 
- Thu, 25 Mar 2021 00:16:18 -0700 (PDT)
+ bh=9v/TXJFPhU4Kwsb1sk7TVm9ssShYQCgvsFks8WNZeo0=;
+ b=Nvd6zrDOGIWq+0XHCND+RM1PC/s+RzzPCtUDlx3baRfdpGsBZrKFV3S9P+ZfcoCsfq
+ Vef+pxA8MmgTZd3vK/Ei4CzhEoQSOaDZ/FCHnfKMAxnJF+nLI9oHFQPnqRCVZNBSQh+p
+ 1TVGOzAeMm4CeQF0f7ds787VLxtyVSPnj79K+xdLbYAVZ24Y48MRF1ZbPYJpnGDfzJ5M
+ JPlVWSwxOxvouaeL+nMM2XJpHBYDlrYkukC+wmeK2TxC3edNAtUn413LprGXQ8pHoz43
+ z4hBF02BDTGgHBYULhdosLjq+HQgOWORu+25UeAQIuv0+hipxzBtjTszPQ3tKogvLrJb
+ ph6g==
+X-Gm-Message-State: AOAM5309Avdtxu4uX4BB28BzMS3mjyRFFS+Yq0g6HMiq9yDgUHxnurUd
+ yxfrbkVxYG8qkyrit/zRmowHAnLzcPG/GexMBWUQsVXW+DMiP3dGgCw4w3CREzgmnMUC2tLjFM7
+ CyrQNA6mEu9DbLXIpHCzddMgL2l67xRg=
+X-Received: by 2002:a17:902:7b8b:b029:e6:f006:d71a with SMTP id
+ w11-20020a1709027b8bb02900e6f006d71amr8130146pll.19.1616656674833; 
+ Thu, 25 Mar 2021 00:17:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrR3ir3+ndjFelqmkvpnIRlmDAssV5ZkTjbvq3OGOuWAbgtZlLaKOxnyeKXTWBtlb2os/tXHUR8KUFGCPAJCk=
+X-Received: by 2002:a17:902:7b8b:b029:e6:f006:d71a with SMTP id
+ w11-20020a1709027b8bb02900e6f006d71amr8130123pll.19.1616656674563; Thu, 25
+ Mar 2021 00:17:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210323015641.10820-1-lulu@redhat.com>
- <20210323015641.10820-2-lulu@redhat.com>
- <fe923c35-1172-6b55-e6a5-eddb5ffacdce@redhat.com>
-In-Reply-To: <fe923c35-1172-6b55-e6a5-eddb5ffacdce@redhat.com>
+ <20210323015641.10820-3-lulu@redhat.com>
+ <7acc16cc-aef8-34d1-250b-97ebf2cbdd8a@redhat.com>
+In-Reply-To: <7acc16cc-aef8-34d1-250b-97ebf2cbdd8a@redhat.com>
 From: Cindy Lu <lulu@redhat.com>
-Date: Thu, 25 Mar 2021 15:15:42 +0800
-Message-ID: <CACLfguWy8ccnTnJJuwE0VUyZyXL5Rrg=LSEwUuHToHOEXOY-mg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] virtio:add support in configure interrupt
+Date: Thu, 25 Mar 2021 15:17:18 +0800
+Message-ID: <CACLfguUZt1vND2aB63e8dJJA5WRj-2-X4JemAFirmBep6dnPdQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] vhost-vdpa: add callback function for configure
+ interrupt
 To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
@@ -68,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,625 +92,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 24, 2021 at 2:30 PM Jason Wang <jasowang@redhat.com> wrote:
+On Wed, Mar 24, 2021 at 2:35 PM Jason Wang <jasowang@redhat.com> wrote:
 >
 >
 > =E5=9C=A8 2021/3/23 =E4=B8=8A=E5=8D=889:56, Cindy Lu =E5=86=99=E9=81=93:
-> > Add configure notifier support in virtio and related driver
-> > When peer is vhost vdpa, setup the configure interrupt function
-> > vhost_net_start and release the resource when vhost_net_stop
->
->
-> So this patch doesn't complie, please fix.
->
->
+> > Add call back function for configure interrupt.
+> > Set the notifier's fd to the kernel driver when vdpa start.
+> > also set -1 while vdpa stop. then the kernel will release
+> > the related resource
 > >
 > > Signed-off-by: Cindy Lu <lulu@redhat.com>
 > > ---
-> >   hw/display/vhost-user-gpu.c    | 14 +++++++----
-> >   hw/net/vhost_net.c             | 16 +++++++++++--
-> >   hw/net/virtio-net.c            | 24 +++++++++++++++----
-> >   hw/s390x/virtio-ccw.c          |  6 ++---
-> >   hw/virtio/vhost-user-fs.c      | 12 ++++++----
-> >   hw/virtio/vhost-vsock-common.c | 12 ++++++----
-> >   hw/virtio/vhost.c              | 44 ++++++++++++++++++++++++++++++++-=
+> >   hw/virtio/trace-events            |  2 ++
+> >   hw/virtio/vhost-vdpa.c            | 40 +++++++++++++++++++++++++++++-=
 -
-> >   hw/virtio/virtio-crypto.c      | 13 ++++++----
-> >   hw/virtio/virtio.c             | 28 ++++++++++++++++++++++
-> >   include/hw/virtio/vhost.h      |  4 ++++
-> >   include/hw/virtio/virtio.h     | 23 ++++++++++++++++--
-> >   include/net/vhost_net.h        |  3 +++
-> >   12 files changed, 169 insertions(+), 30 deletions(-)
+> >   include/hw/virtio/vhost-backend.h |  4 ++++
+> >   3 files changed, 44 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-> > index 51f1747c4a..959ad115b6 100644
-> > --- a/hw/display/vhost-user-gpu.c
-> > +++ b/hw/display/vhost-user-gpu.c
-> > @@ -487,18 +487,24 @@ vhost_user_gpu_set_status(VirtIODevice *vdev, uin=
-t8_t val)
-> >   }
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 2060a144a2..6710835b46 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int ind=
+ex, int fd) "dev: %p index:
+> >   vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p featur=
+es: 0x%"PRIx64
+> >   vhost_vdpa_set_owner(void *dev) "dev: %p"
+> >   vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, =
+uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_use=
+r_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+> > +vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
+> > +
 > >
-> >   static bool
-> > -vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
-> > +vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx,
-> > +                                            int type)
-> >   {
-> >       VhostUserGPU *g =3D VHOST_USER_GPU(vdev);
+> >   # virtio.c
+> >   virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsig=
+ned out_num) "elem %p size %zd in_num %u out_num %u"
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 01d2101d09..bde32eefe7 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -467,20 +467,47 @@ static int vhost_vdpa_get_config(struct vhost_dev=
+ *dev, uint8_t *config,
+> >       }
+> >       return ret;
+> >    }
 > > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return false;
-> > +    }
-> >       return vhost_virtqueue_pending(&g->vhost->dev, idx);
-> >   }
-> >
-> >   static void
-> > -vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool m=
-ask)
-> > +vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool m=
-ask,
-> > +                                        int type)
-> >   {
-> >       VhostUserGPU *g =3D VHOST_USER_GPU(vdev);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
+> > +static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
+> > +                                struct VirtIODevice *vdev, bool start)
+> > +{
+> > +    int fd =3D 0;
+> > +    int r =3D 0;
+> > +    if (!(dev->features & (0x1ULL << VIRTIO_NET_F_STATUS))) {
 > > +        return;
 > > +    }
-> >       vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
-> >   }
-> >
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index 24d555e764..2ef8cc608e 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -339,7 +339,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientSta=
-te *ncs,
-> >               dev->use_guest_notifier_mask =3D false;
-> >           }
-> >        }
-> > -
-> > +    if (ncs->peer && ncs->peer->info->type =3D=3D NET_CLIENT_DRIVER_VH=
-OST_VDPA) {
-> > +        dev->use_config_notifier =3D VIRTIO_CONFIG_SUPPORT;
+> > +    if (start) {
+> > +        fd =3D event_notifier_get_fd(&vdev->config_notifier);
+> > +        r =3D dev->vhost_ops->vhost_set_config_call(dev, &fd);
+> > +     /*set the fd call back to vdpa driver*/
+> > +        if (!r) {
+> > +            vdev->use_config_notifier =3D VIRTIO_CONFIG_WORK;
+> > +            event_notifier_set(&vdev->config_notifier);
+>
+>
+> Is this a workaround for the vdpa device without config interrupt? I
+> wonder how much we could gain from this.
+>
+this is a bit identify if the config notifier working now, this bit to chec=
+k in
+virtio bus  for different behavior , I will change this bit 's name to
+make it more clearly
+
+>
+> > +            info_report("vhost_vdpa_config_notify start!");
+>
+>
+> This is a debug code I guess.
+>
+sure I will remove this
+>
+> > +      }
+> > +    } else {
+> > +        fd =3D -1;
+> > +        vdev->use_config_notifier =3D VIRTIO_CONFIG_STOP;
+>
+>
+> Looks like a duplicated state with vhost_dev->started?
+>
+>
+> > +        r =3D dev->vhost_ops->vhost_set_config_call(dev, &fd);
 > > +    }
-> >       r =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, true=
-);
-> >       if (r < 0) {
-> >           error_report("Error binding guest notifier: %d", -r);
-> > @@ -391,7 +393,6 @@ void vhost_net_stop(VirtIODevice *dev, NetClientSta=
-te *ncs,
-> >       for (i =3D 0; i < total_queues; i++) {
-> >           vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
-> >       }
-> > -
-> >       r =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, fals=
-e);
-> >       if (r < 0) {
-> >           fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", =
-r);
-> > @@ -426,6 +427,17 @@ void vhost_net_virtqueue_mask(VHostNetState *net, =
-VirtIODevice *dev,
-> >       vhost_virtqueue_mask(&net->dev, dev, idx, mask);
-> >   }
-> >
-> > +bool vhost_net_config_pending(VHostNetState *net, int idx)
-> > +{
-> > +    return vhost_config_pending(&net->dev, idx);
+> > +    return;
 > > +}
-> > +
-> > +void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev,
-> > +                              bool mask)
-> > +{
-> > +    vhost_config_mask(&net->dev, dev,  mask);
-> > +}
-> > +
-> >   VHostNetState *get_vhost_net(NetClientState *nc)
+> >   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
 > >   {
-> >       VHostNetState *vhost_net =3D 0;
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 9179013ac4..b84427fe99 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -3055,22 +3055,36 @@ static NetClientInfo net_virtio_info =3D {
-> >       .announce =3D virtio_net_announce,
-> >   };
-> >
-> > -static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int =
-idx)
+> >       struct vhost_vdpa *v =3D dev->opaque;
+> >       trace_vhost_vdpa_dev_start(dev, started);
+> > +    VirtIODevice *vdev =3D dev->vdev;
 > > +
-> > +static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int =
-idx,
-> > +                                int type)
-> >   {
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> >       NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> >       assert(n->vhost_started);
-> > -    return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
-> > +
-> > +    if (type =3D=3D VIRTIO_VQ_VECTOR) {
-> > +        return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), id=
-x);
-> > +    }
-> > +    if (type =3D=3D VIRTIO_CONFIG_VECTOR) {
-> > +        return vhost_net_config_pending(get_vhost_net(nc->peer), idx);
-> > +    }
-> > +    return false;
-> >   }
-> >
-> >   static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int id=
-x,
-> > -                                           bool mask)
-> > +                                           bool mask, int type)
-> >   {
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> >       NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> >       assert(n->vhost_started);
-> > -    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
-> > -                             vdev, idx, mask);
-> > +
-> > +    if (type =3D=3D VIRTIO_VQ_VECTOR) {
-> > +        vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, m=
-ask);
-> > +     }
-> > +    if (type =3D=3D VIRTIO_CONFIG_VECTOR) {
-> > +        vhost_net_config_mask(get_vhost_net(nc->peer), vdev, mask);
-> > +    }
-> >   }
-> >
-> >   static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_fe=
-atures)
-> > diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> > index 4582e94ae7..234f749548 100644
-> > --- a/hw/s390x/virtio-ccw.c
-> > +++ b/hw/s390x/virtio-ccw.c
-> > @@ -1003,16 +1003,16 @@ static int virtio_ccw_set_guest_notifier(Virtio=
-CcwDevice *dev, int n,
-> >            * need to manually trigger any guest masking callbacks here.
-> >            */
-> >           if (k->guest_notifier_mask && vdev->use_guest_notifier_mask) =
-{
-> > -            k->guest_notifier_mask(vdev, n, false);
-> > +            k->guest_notifier_mask(vdev, n, false, VIRTIO_VQ_VECTOR);
-> >           }
-> >           /* get lost events and re-inject */
-> >           if (k->guest_notifier_pending &&
-> > -            k->guest_notifier_pending(vdev, n)) {
-> > +            k->guest_notifier_pending(vdev, n, VIRTIO_VQ_VECTOR)) {
-> >               event_notifier_set(notifier);
-> >           }
+> >       if (started) {
+> >           uint8_t status =3D 0;
+> >           memory_listener_register(&v->listener, &address_space_memory)=
+;
+> >           vhost_vdpa_set_vring_ready(dev);
+> >           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> >           vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
+> > -
+> > +        /*set the configure interrupt call back*/
+> > +        vhost_vdpa_config_notify_start(dev, vdev, true);
+> >           return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
 > >       } else {
-> >           if (k->guest_notifier_mask && vdev->use_guest_notifier_mask) =
-{
-> > -            k->guest_notifier_mask(vdev, n, true);
-> > +            k->guest_notifier_mask(vdev, n, true, VIRTIO_VQ_VECTOR);
-> >           }
-> >           if (with_irqfd) {
-> >               virtio_ccw_remove_irqfd(dev, n);
-> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > index 1bc5d03a00..22358767f1 100644
-> > --- a/hw/virtio/vhost-user-fs.c
-> > +++ b/hw/virtio/vhost-user-fs.c
-> > @@ -143,17 +143,21 @@ static void vuf_handle_output(VirtIODevice *vdev,=
- VirtQueue *vq)
+> > +        vhost_vdpa_config_notify_start(dev, vdev, false);
+> >           vhost_vdpa_reset_device(dev);
+> >           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> >                                      VIRTIO_CONFIG_S_DRIVER);
+> > @@ -546,6 +573,14 @@ static int vhost_vdpa_set_vring_call(struct vhost_=
+dev *dev,
+> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
 > >   }
 > >
-> >   static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
-> > -                                            bool mask)
-> > +                                            bool mask, int type)
-> >   {
-> >       VHostUserFS *fs =3D VHOST_USER_FS(vdev);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return;
-> > +    }
-> >       vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
-> >   }
-> >
-> > -static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
-> > +static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx, in=
-t type)
-> >   {
-> >       VHostUserFS *fs =3D VHOST_USER_FS(vdev);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return false;
-> > +     }
-> >       return vhost_virtqueue_pending(&fs->vhost_dev, idx);
-> >   }
-> >
-> > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-com=
-mon.c
-> > index 5b2ebf3496..92c133c54c 100644
-> > --- a/hw/virtio/vhost-vsock-common.c
-> > +++ b/hw/virtio/vhost-vsock-common.c
-> > @@ -97,18 +97,22 @@ static void vhost_vsock_common_handle_output(VirtIO=
-Device *vdev, VirtQueue *vq)
-> >   }
-> >
-> >   static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev=
-, int idx,
-> > -                                            bool mask)
-> > +                                            bool mask, int type)
-> >   {
-> >       VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return;
-> > +    }
-> >       vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
-> >   }
-> >
-> >   static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *v=
-dev,
-> > -                                               int idx)
-> > +                                               int idx, int type)
-> >   {
-> >       VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return false;
-> > +    }
-> >       return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
-> >   }
-> >
-> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > index 614ccc2bcb..02e4d37dc0 100644
-> > --- a/hw/virtio/vhost.c
-> > +++ b/hw/virtio/vhost.c
-> > @@ -1255,8 +1255,8 @@ static int vhost_virtqueue_init(struct vhost_dev =
-*dev,
-> >       if (r < 0) {
-> >           return r;
-> >       }
-> > -
-> >       file.fd =3D event_notifier_get_fd(&vq->masked_notifier);
-> > +
-> >       r =3D dev->vhost_ops->vhost_set_vring_call(dev, &file);
-> >       if (r) {
-> >           VHOST_OPS_DEBUG("vhost_set_vring_call failed");
-> > @@ -1313,6 +1313,10 @@ int vhost_dev_init(struct vhost_dev *hdev, void =
-*opaque,
-> >               goto fail;
-> >           }
-> >       }
-> > +    r =3D event_notifier_init(&hdev->masked_config_notifier, 0);
-> > +    if (r < 0) {
-> > +        return r;
-> > +    }
-> >
-> >       if (busyloop_timeout) {
-> >           for (i =3D 0; i < hdev->nvqs; ++i) {
-> > @@ -1405,6 +1409,8 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
-> >       for (i =3D 0; i < hdev->nvqs; ++i) {
-> >           vhost_virtqueue_cleanup(hdev->vqs + i);
-> >       }
-> > +    event_notifier_cleanup(&hdev->masked_config_notifier);
-> > +
-> >       if (hdev->mem) {
-> >           /* those are only safe after successful init */
-> >           memory_listener_unregister(&hdev->memory_listener);
-> > @@ -1498,6 +1504,10 @@ bool vhost_virtqueue_pending(struct vhost_dev *h=
-dev, int n)
-> >       return event_notifier_test_and_clear(&vq->masked_notifier);
-> >   }
-> >
-> > +bool vhost_config_pending(struct vhost_dev *hdev, int n)
+> > +static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
+> > +                                       int *fd)
 > > +{
-> > +    return event_notifier_test_and_clear(&hdev->masked_config_notifier=
-);
-> > +}
-> >   /* Mask/unmask events from this vq. */
-> >   void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev,=
- int n,
-> >                            bool mask)
-> > @@ -1523,6 +1533,31 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev=
-, VirtIODevice *vdev, int n,
-> >       }
-> >   }
-> >
-> > +/* Mask/unmask events from this config. */
-> > +void vhost_config_mask(struct vhost_dev *hdev, VirtIODevice *vdev,
-> > +                         bool mask)
-> > +{
-> > +    int fd;
-> > +    int r;
-> > +   EventNotifier *masked_config_notifier =3D &hdev->masked_config_noti=
-fier;
-> > +   EventNotifier *config_notifier =3D &vdev->config_notifier;
-> > +   if (vdev->use_config_notifier !=3D VIRTIO_CONFIG_WORK) {
-> > +        return;
-> > +    }
-> > +    /* should only be called after backend is connected */
-> > +    assert(hdev->vhost_ops);
-> > +    if (mask) {
-> > +        assert(vdev->use_guest_notifier_mask);
-> > +        fd =3D event_notifier_get_fd(masked_config_notifier);
-> > +    } else {
-> > +        fd =3D event_notifier_get_fd(config_notifier);
-> > +    }
-> > +   r =3D hdev->vhost_ops->vhost_set_config_call(hdev, &fd);
-> > +    if (r < 0) {
-> > +        error_report("vhost_set_config_call failed");
-> > +    }
+> > +    trace_vhost_vdpa_set_config_call(dev, fd);
+> > +
+> > +    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
 > > +}
 > > +
-> >   uint64_t vhost_get_features(struct vhost_dev *hdev, const int *featur=
-e_bits,
-> >                               uint64_t features)
+> >   static int vhost_vdpa_get_features(struct vhost_dev *dev,
+> >                                        uint64_t *features)
 > >   {
-> > @@ -1732,7 +1767,12 @@ int vhost_dev_start(struct vhost_dev *hdev, Virt=
-IODevice *vdev)
-> >               goto fail_vq;
-> >           }
-> >       }
-> > -
-> > +    if (vdev->use_config_notifier =3D=3D VIRTIO_CONFIG_WORK) {
-> > +        event_notifier_test_and_clear(&hdev->masked_config_notifier);
-> > +        if (!vdev->use_guest_notifier_mask) {
-> > +            vhost_config_mask(hdev, vdev,  false);
-> > +        }
-> > +    }
-> >       if (hdev->log_enabled) {
-> >           uint64_t log_base;
-> >
-> > diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> > index 54f9bbb789..ab7958465c 100644
-> > --- a/hw/virtio/virtio-crypto.c
-> > +++ b/hw/virtio/virtio-crypto.c
-> > @@ -941,23 +941,28 @@ static void virtio_crypto_set_status(VirtIODevice=
- *vdev, uint8_t status)
-> >   }
-> >
-> >   static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int=
- idx,
-> > -                                           bool mask)
-> > +                                           bool mask, int type)
-> >   {
-> >       VirtIOCrypto *vcrypto =3D VIRTIO_CRYPTO(vdev);
-> >       int queue =3D virtio_crypto_vq2q(idx);
-> >
-> >       assert(vcrypto->vhost_started);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return;
-> > +    }
-> >       cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
-> >   }
-> >
-> > -static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, i=
-nt idx)
-> > +static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, i=
-nt idx,
-> > +                                           int type)
-> >   {
-> >       VirtIOCrypto *vcrypto =3D VIRTIO_CRYPTO(vdev);
-> >       int queue =3D virtio_crypto_vq2q(idx);
-> >
-> >       assert(vcrypto->vhost_started);
-> > -
-> > +    if (type !=3D VIRTIO_VQ_VECTOR) {
-> > +        return false;
-> > +    }
-> >       return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
-> >   }
-> >
-> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > index ceb58fda6c..7d1a68c87a 100644
-> > --- a/hw/virtio/virtio.c
-> > +++ b/hw/virtio/virtio.c
-> > @@ -3278,6 +3278,8 @@ void virtio_init(VirtIODevice *vdev, const char *=
-name,
-> >               virtio_vmstate_change, vdev);
-> >       vdev->device_endian =3D virtio_default_endian();
-> >       vdev->use_guest_notifier_mask =3D true;
-> > +    vdev->use_config_notifier =3D VIRTIO_CONFIG_STATUS_UNKNOWN;
-> > +
-> >   }
-> >
-> >   /*
-> > @@ -3502,6 +3504,16 @@ static void virtio_queue_guest_notifier_read(Eve=
-ntNotifier *n)
-> >       }
-> >   }
-> >
-> > +static void virtio_config_read(EventNotifier *n)
-> > +{
-> > +    VirtIODevice *vdev =3D container_of(n, VirtIODevice, config_notifi=
-er);
-> > +    if (vdev->use_config_notifier !=3D VIRTIO_CONFIG_WORK) {
-> > +        return;
-> > +    }
-> > +    if (event_notifier_test_and_clear(n)) {
-> > +        virtio_notify_config(vdev);
-> > +    }
-> > +}
-> >   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool a=
-ssign,
-> >                                                   bool with_irqfd)
-> >   {
-> > @@ -3518,6 +3530,17 @@ void virtio_queue_set_guest_notifier_fd_handler(=
-VirtQueue *vq, bool assign,
-> >       }
-> >   }
-> >
-> > +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool as=
-sign,
-> > +                                                bool with_irqfd)
-> > +{
-> > +    if (assign && !with_irqfd) {
-> > +        event_notifier_set_handler(&vdev->config_notifier,
-> > +                                   virtio_config_read);
-> > +    } else {
-> > +       event_notifier_set_handler(&vdev->config_notifier, NULL);
-> > +    }
-> > +}
-> > +
-> >   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
-> >   {
-> >       return &vq->guest_notifier;
-> > @@ -3591,6 +3614,11 @@ EventNotifier *virtio_queue_get_host_notifier(Vi=
-rtQueue *vq)
-> >       return &vq->host_notifier;
-> >   }
-> >
-> > +EventNotifier *virtio_get_config_notifier(VirtIODevice *vdev)
-> > +{
-> > +    return &vdev->config_notifier;
-> > +
-> > +}
-> >   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabl=
-ed)
-> >   {
-> >       vq->host_notifier_enabled =3D enabled;
-> > diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> > index 4a8bc75415..75bbc1a4fa 100644
-> > --- a/include/hw/virtio/vhost.h
-> > +++ b/include/hw/virtio/vhost.h
-> > @@ -91,6 +91,8 @@ struct vhost_dev {
-> >       QLIST_HEAD(, vhost_iommu) iommu_list;
-> >       IOMMUNotifier n;
-> >       const VhostDevConfigOps *config_ops;
-> > +   EventNotifier masked_config_notifier;
-> > +
+> > @@ -611,4 +646,5 @@ const VhostOps vdpa_ops =3D {
+> >           .vhost_get_device_id =3D vhost_vdpa_get_device_id,
+> >           .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
+> >           .vhost_force_iommu =3D vhost_vdpa_force_iommu,
+> > +        .vhost_set_config_call =3D vhost_vdpa_set_config_call,
 > >   };
-> >
-> >   struct vhost_net {
-> > @@ -108,6 +110,8 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIOD=
-evice *vdev);
-> >   void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-> >   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *=
-vdev);
-> >   void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice=
- *vdev);
-> > +bool vhost_config_pending(struct vhost_dev *hdev, int n);
-> > +void vhost_config_mask(struct vhost_dev *hdev, VirtIODevice *vdev,  bo=
-ol mask);
-> >
-> >   /* Test and clear masked event pending status.
-> >    * Should be called after unmask to avoid losing events.
-> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > index b7ece7a6a8..24e5bfae61 100644
-> > --- a/include/hw/virtio/virtio.h
-> > +++ b/include/hw/virtio/virtio.h
-> > @@ -67,6 +67,19 @@ typedef struct VirtQueueElement
-> >
-> >   #define VIRTIO_NO_VECTOR 0xffff
-> >
-> > +enum virtio_vector_type {
-> > +    VIRTIO_VQ_VECTOR,
-> > +    VIRTIO_CONFIG_VECTOR,
-> > +    VIRTIO_VECTOR_UNKNOWN,
-> > +};
+> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhos=
+t-backend.h
+> > index 8a6f8e2a7a..1a2fee8994 100644
+> > --- a/include/hw/virtio/vhost-backend.h
+> > +++ b/include/hw/virtio/vhost-backend.h
 >
 >
-> Actually, it's the type of notifier instead of the vector? And
-> VIRTIO_VECTOR_UNKNOWN is not used in this patch.
->
-> So let's split the patch into three.
->
-> 1) First patch to introduce the type of notifier
-> 2) introduce the code to do config interrupt via guest notifier.
-> 3) vhost support for config interrupt
->
->
-sure , Will split this patch
-> > +
-> > +enum virtio_config_status {
-> > +    VIRTIO_CONFIG_SUPPORT,
-> > +    VIRTIO_CONFIG_WORK,
-> > +    VIRTIO_CONFIG_STOP,
-> > +    VIRTIO_CONFIG_STATUS_UNKNOWN,
->
->
-> Any reason for this extra state? I think we can know whether the config
-> interrupt is being used through a
+> A separated patch please.
 >
 > Thanks
 >
-The problem is I need to split the backend devices into 3 types,
-1=EF=BC=89 normal device
-2=EF=BC=89vdpa support config interrupt. and the configur interrupt is acti=
-ve now
-3=EF=BC=89vdpa not support config interrupt.
-So I  add this bit and this bit will init in vpda /vhost modules and
-qemu can check this bit to know the  which behariver we will do in
-virtio bus  and other modules, Maybe I need to change this bit's name
-to make it more clearly
-
-Thanks
-Cindy
+sure will split this
 >
-> > +};
+> > @@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_=
+dev *dev, uint32_t *dev_id);
+> >
+> >   typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+> >
+> > +typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
+> > +                                       int *fd);
 > > +
-> >   #define TYPE_VIRTIO_DEVICE "virtio-device"
-> >   OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
+> >   typedef struct VhostOps {
+> >       VhostBackendType backend_type;
+> >       vhost_backend_init vhost_backend_init;
+> > @@ -170,6 +173,7 @@ typedef struct VhostOps {
+> >       vhost_vq_get_addr_op  vhost_vq_get_addr;
+> >       vhost_get_device_id_op vhost_get_device_id;
+> >       vhost_force_iommu_op vhost_force_iommu;
+> > +    vhost_set_config_call_op vhost_set_config_call;
+> >   } VhostOps;
 > >
-> > @@ -108,6 +121,8 @@ struct VirtIODevice
-> >       bool use_guest_notifier_mask;
-> >       AddressSpace *dma_as;
-> >       QLIST_HEAD(, VirtQueue) *vector_queues;
-> > +    EventNotifier config_notifier;
-> > +    enum virtio_config_status use_config_notifier;
-> >   };
-> >
-> >   struct VirtioDeviceClass {
-> > @@ -138,13 +153,13 @@ struct VirtioDeviceClass {
-> >        * If backend does not support masking,
-> >        * must check in frontend instead.
-> >        */
-> > -    bool (*guest_notifier_pending)(VirtIODevice *vdev, int n);
-> > +    bool (*guest_notifier_pending)(VirtIODevice *vdev, int n, int type=
-);
-> >       /* Mask/unmask events from this vq. Any events reported
-> >        * while masked will become pending.
-> >        * If backend does not support masking,
-> >        * must mask in frontend instead.
-> >        */
-> > -    void (*guest_notifier_mask)(VirtIODevice *vdev, int n, bool mask);
-> > +    void (*guest_notifier_mask)(VirtIODevice *vdev, int n, bool mask, =
-int type);
-> >       int (*start_ioeventfd)(VirtIODevice *vdev);
-> >       void (*stop_ioeventfd)(VirtIODevice *vdev);
-> >       /* Saving and loading of a device; trying to deprecate save/load
-> > @@ -310,11 +325,15 @@ uint16_t virtio_get_queue_index(VirtQueue *vq);
-> >   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
-> >   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool a=
-ssign,
-> >                                                   bool with_irqfd);
-> > +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool as=
-sign,
-> > +                                                bool with_irqfd);
-> > +
-> >   int virtio_device_start_ioeventfd(VirtIODevice *vdev);
-> >   int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
-> >   void virtio_device_release_ioeventfd(VirtIODevice *vdev);
-> >   bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
-> >   EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
-> > +EventNotifier *virtio_get_config_notifier(VirtIODevice *vdev);
-> >   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabl=
-ed);
-> >   void virtio_queue_host_notifier_read(EventNotifier *n);
-> >   void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioCon=
-text *ctx,
-> > diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-> > index 172b0051d8..0d38c97c94 100644
-> > --- a/include/net/vhost_net.h
-> > +++ b/include/net/vhost_net.h
-> > @@ -36,6 +36,9 @@ int vhost_net_set_config(struct vhost_net *net, const=
- uint8_t *data,
-> >   bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
-> >   void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
-> >                                 int idx, bool mask);
-> > +bool vhost_net_config_pending(VHostNetState *net, int n);
-> > +void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev,
-> > +                              bool mask);
-> >   int vhost_net_notify_migration_done(VHostNetState *net, char* mac_add=
-r);
-> >   VHostNetState *get_vhost_net(NetClientState *nc);
-> >
+> >   extern const VhostOps user_ops;
+>
 >
 
 
