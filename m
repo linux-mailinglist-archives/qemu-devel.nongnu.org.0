@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A427E349AF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 21:23:10 +0100 (CET)
-Received: from localhost ([::1]:46708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D504349AF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 21:22:16 +0100 (CET)
+Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPWVZ-0000eC-LS
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 16:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
+	id 1lPWUg-0007hl-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 16:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lPWTk-0007FG-0k; Thu, 25 Mar 2021 16:21:16 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lPWTg-0006cY-5Y; Thu, 25 Mar 2021 16:21:15 -0400
-Received: by mail-il1-x133.google.com with SMTP id u2so3239343ilk.1;
- Thu, 25 Mar 2021 13:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OnncyjV4V+jOrLDw/zKcMlCnelP5FWDhQtRnigqlw/E=;
- b=hqfTVr2/NIpMPiggrjg3xSJTGirkNX5f0vWxLTqonlm4eJWU9TAq8o7IALZ+p+rDBU
- z3npuJATMeJSIqL1JeUI81EqUbEMxn3JOajei5gUdbGhjLRF9gh9RzRHjn6+J2JFMb4f
- UPKcmC0GOWbhxkWMvgmWmKsVmP9opeUB19UplPbAyHcLNLN8OxgVzyB/DwlRJmDo5t19
- DZpcZiqlvNp1+s6ATGhwyeqL4QsVlhlzUJmoHkEQ/WQK53OUgM0g/ign9HLphXUI3NCB
- OgRP1LWCsJdnxLilZ/5X6zJsx1svOKlKTcByzPtVfmTH9T4FDDnFywuT5invTwP4MqGq
- XfKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OnncyjV4V+jOrLDw/zKcMlCnelP5FWDhQtRnigqlw/E=;
- b=tm8C+vtE/yZNVplKtqBWM/gPwOZjNgAIWbzc+BldUbiW5gOd2ceU7LkmquNe04KYm0
- MECyiO/Dv0KcRHoc608BiJkE5FoAOnplTmvrMIXKknGNhVXQZj2JX9+7fNfP6UYvQF+0
- FTg8VfkU2UoPXl+FpwyWvMqhc4wtM+Utgwzfs0jBsIpt4Gw+O84TIn2Be9xwnD5ABVfu
- EG4eWVEjehkeKI3d3C1Zr04lGlPkVtUS6iuI5sKUy8ka8r+FM/97lMw1w+ea6jAS6MfC
- Q0AIbiN/lruiKcvNm67EYdSwY4oOPqsObrgrUmCtxFSFlbFVwi5QYrpmPWRvmhGyHx8L
- JOFw==
-X-Gm-Message-State: AOAM531ZddhyW5LoEHVPq0F+KJw7rujme0dkakf3ekWKxa+77Gr40/eg
- ykcUO90poreKp8shU3dFi7yIDt4qnnvpvGAm8PE=
-X-Google-Smtp-Source: ABdhPJzN7Qz6PPHsi9gGv53wPx9PQaEN5eFq5TFvdB1DeMMpCBN1TV1BXsZr13rmba+dsrxaemZD+1onCj2lxVIQwLI=
-X-Received: by 2002:a92:da89:: with SMTP id u9mr4428798iln.131.1616703669998; 
- Thu, 25 Mar 2021 13:21:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPWTD-0006GB-J2
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 16:20:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49282)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPWT1-0006DO-NM
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 16:20:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616703629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7nzyRmezoRWM/si0kN0NNSTIYlm3lmLIb/rFyd+5SMc=;
+ b=LAt3k2TCxOfc8owhBc0f+ppWSNvtNKo57Kv8mKYo+ufIKGNhHvuFi4rAIp+LZ9gjMvM7HC
+ X4dwUmaGwcv7SvK6KTQHFWDIyUAA2chuNbCVNcJvzxS71oVROLxf0cOuRZU6btaT+sxwpN
+ cg1ecLtyNT7DG7Cxngv8WMcOG72Y5MA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-XzaaZLLgN9C5wJVINJxoJw-1; Thu, 25 Mar 2021 16:20:27 -0400
+X-MC-Unique: XzaaZLLgN9C5wJVINJxoJw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DA47801817;
+ Thu, 25 Mar 2021 20:20:26 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 785AD5D741;
+ Thu, 25 Mar 2021 20:20:25 +0000 (UTC)
+Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for comments
+ and docstrings
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-3-jsnow@redhat.com>
+ <877dlvs1gp.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com>
+Date: Thu, 25 Mar 2021 16:20:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210325094150.28918-1-dylan@andestech.com>
-In-Reply-To: <20210325094150.28918-1-dylan@andestech.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 25 Mar 2021 16:19:09 -0400
-Message-ID: <CAKmqyKMGROe+k8=f=_Vw8eLwo-PF-ENQeoD+WSte_G8dRHmatg@mail.gmail.com>
-Subject: Re: [PATCH V3] target/riscv: Align the data type of reset vector
- address
-To: Dylan Jhong <dylan@andestech.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <877dlvs1gp.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,81 +83,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "Alan Quey-Liang Kao\(\(\(\(\(\(\(\(\(\(\)" <alankao@andestech.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, x5710999x@gmail.com,
- "Ruinland Chuan-Tzu Tsa\(\(\(\(\(\(\(\(\(\(\)" <ruinland@andestech.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 25, 2021 at 5:43 AM Dylan Jhong <dylan@andestech.com> wrote:
->
-> Signed-off-by: Dylan Jhong <dylan@andestech.com>
-> Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-> ---
->  target/riscv/cpu.c | 6 +++++-
->  target/riscv/cpu.h | 2 +-
->  2 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 7d6ed80f6b..8a5f18bcb0 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -137,7 +137,7 @@ static void set_feature(CPURISCVState *env, int feature)
->      env->features |= (1ULL << feature);
->  }
->
-> -static void set_resetvec(CPURISCVState *env, int resetvec)
-> +static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
->  {
->  #ifndef CONFIG_USER_ONLY
->      env->resetvec = resetvec;
-> @@ -554,7 +554,11 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> +#if defined(TARGET_RISCV32)
-> +    DEFINE_PROP_UINT32("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-> +#elif defined(TARGET_RISCV64)
->      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-> +#endif
+On 3/25/21 11:21 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> PEP8's BDFL writes: "For flowing long blocks of text with fewer
+>> structural restrictions (docstrings or comments), the line length should
+>> be limited to 72 characters."
+>>
+>> I do not like this patch. I have included it explicitly to recommend we
+>> do not pay any further heed to the 72 column limit.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+> 
+> I'd like to get the remainder of this series moving again before digging
+> into this patch.
+> 
 
-Thanks for the patch!
+I am dropping it, then -- I have no interest in bringing a patch I 
+dislike along for another respin.
 
-I don't want to introduce any more define(TARGET_* macros as we are
-trying to make RISC-V QEMU xlen independent.
+--js
 
-The hexagon port has an example of how you can use target_ulong here:
-
-    DEFINE_PROP_UNSIGNED("lldb-stack-adjust", HexagonCPU, lldb_stack_adjust,
-                         0, qdev_prop_uint32, target_ulong);
-
-can you do something like that instead?
-
-Alistair
-
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0a33d387ba..d9d7891666 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -303,7 +303,7 @@ struct RISCVCPU {
->          uint16_t elen;
->          bool mmu;
->          bool pmp;
-> -        uint64_t resetvec;
-> +        target_ulong resetvec;
->      } cfg;
->  };
->
-> --
-> 2.17.1
->
->
 
