@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102C23496F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 17:41:14 +0100 (CET)
-Received: from localhost ([::1]:50454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445253496D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 17:31:52 +0100 (CET)
+Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPT2m-0002pn-T7
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 12:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
+	id 1lPStj-0004YR-9M
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 12:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPSp6-0002am-N2
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:27:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40362)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lPSqZ-0003SL-Mv
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:28:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPSp3-0000nn-8A
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:27:03 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lPSqW-0001Wb-4c
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:28:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616689619;
+ s=mimecast20190719; t=1616689708;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fkGjtH4GU7IgmhC79H7qitBuXA1014KzU9qoeCbdIV8=;
- b=BLkdKPBqGEwostr2TZSvcUQ0GZDJPs0yotyHBnYfzxw3GKJTwaW5PUrxu26/+jHwAgQ5aE
- E1dvGz4sTRPJFFKqd00IZY8e0MXXq0ZiP2teFkaM7/EYmuoIx3m1lgRat+kFa/I/IsZF0C
- QrwXE208Wm4M98DXY7rc2PU1i1Hi9UU=
+ bh=aSwIsqqnJtffZas+xQAoZEsSu8OiOjB9PSCi/sulmro=;
+ b=djJzkxlTPv0N/unV+1Rj24cXKskuYr0Dee30GisA33WYjwEyJKf2DMwwN6kuqS6ttZUvyZ
+ KTTAS4FaFiZKZCltr/f28ZUNb4o9T4rBtz+0J/ecHKutJ9I+OgR+aF6FhYHWo94g39y/sb
+ Fx5Mbo0G80rxJvHYU4/jF6wm6dMRp8M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-IWJ0pvmnN4iMdk5ohdNmhA-1; Thu, 25 Mar 2021 12:26:58 -0400
-X-MC-Unique: IWJ0pvmnN4iMdk5ohdNmhA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-328-GTMqKYasNrefvC-a50f-zg-1; Thu, 25 Mar 2021 12:28:25 -0400
+X-MC-Unique: GTMqKYasNrefvC-a50f-zg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C777E108BD0C;
- Thu, 25 Mar 2021 16:26:56 +0000 (UTC)
-Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A449E19716;
- Thu, 25 Mar 2021 16:26:55 +0000 (UTC)
-Subject: Re: [PATCH 5/6] hw/ide/via: Connect IDE function output IRQs to the
- ISA function input
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210324175438.680310-1-f4bug@amsat.org>
- <20210324175438.680310-6-f4bug@amsat.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <55f9bb30-6ab4-5b10-a13e-0dc29b5fc0cd@redhat.com>
-Date: Thu, 25 Mar 2021 12:26:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 661EB9CDB1;
+ Thu, 25 Mar 2021 16:28:24 +0000 (UTC)
+Received: from localhost (ovpn-114-246.ams2.redhat.com [10.36.114.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 696F45C6BD;
+ Thu, 25 Mar 2021 16:28:05 +0000 (UTC)
+Date: Thu, 25 Mar 2021 16:28:04 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PULL 0/2] Block patches
+Message-ID: <YFy6FNLz+uUemP9s@stefanha-x1.localdomain>
+References: <20210324145202.430759-1-stefanha@redhat.com>
+ <CAFEAcA_NeCGj0oaQ8GZhxJFLzqDoL+xi1vzL8rGKata8QbNv=Q@mail.gmail.com>
+ <71259336-f5d5-90bb-83ef-3fe962bfae18@virtuozzo.com>
+ <CAFEAcA9AGoggABhV8wduAaSce3v-+zED2_QFW7QgNgGOjDJV1g@mail.gmail.com>
+ <YFxeRen934TdLvs0@stefanha-x1.localdomain>
+ <43869a87-cf42-30b2-16ea-4effb913e01e@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210324175438.680310-6-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <43869a87-cf42-30b2-16ea-4effb913e01e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OUH2qHWx2HSSRpkw"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,120 +83,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 1:54 PM, Philippe Mathieu-Daudé wrote:
-> To avoid abusing isa_get_irq(NULL) using a hidden ISA bridge
-> under the hood, let the IDE function expose 2 output IRQs,
-> and connect them to the ISA function inputs when creating
-> the south bridge chipset model in vt82c686b_southbridge_init.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--OUH2qHWx2HSSRpkw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-No real opinion, how was it tested? Can probably ack in good faith after 
-review comments from Richard Henderson and BALATON Zoltan.
+On Thu, Mar 25, 2021 at 01:17:50PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> 25.03.2021 12:56, Stefan Hajnoczi wrote:
+> > On Wed, Mar 24, 2021 at 08:42:27PM +0000, Peter Maydell wrote:
+> > > On Wed, 24 Mar 2021 at 20:18, Vladimir Sementsov-Ogievskiy
+> > > <vsementsov@virtuozzo.com> wrote:
+> > > >=20
+> > > > 24.03.2021 21:05, Peter Maydell wrote:
+> > > > > On Wed, 24 Mar 2021 at 14:52, Stefan Hajnoczi <stefanha@redhat.co=
+m> wrote:
+> > > > > >=20
+> > > > > > Vladimir Sementsov-Ogievskiy (2):
+> > > > > >     migration/block-dirty-bitmap: make incoming disabled bitmap=
+s busy
+> > > > > >     migrate-bitmaps-postcopy-test: check that we can't remove i=
+n-flight
+> > > > > >       bitmaps
+> > > > >=20
+> > > > > This failed the 'qsd-jobs' iotest on s390x:
+> > >=20
+> > > > I can't believe it related. My commit modifies bitmap status during=
+ bitmaps migration on target vm. There is no kind of migration in qsd-jobs =
+test.
+> > >=20
+> > > It's possible it's an intermittent, but it's not one I've seen
+> > > before. We still have lots of time this release cycle to figure
+> > > out the issue and get this fix in.
+> >=20
+> > Vladimir: I'll get hold of an s390 machine and try to reproduce the
+> > failure. I should have some news by Monday.
+>=20
+> Thanks! My path modifies migration/block-dirty-bitmap.c. qsd-jobs runs bl=
+ock-commit and block-stream jobs and don't start any kind of migration or s=
+napshot or savevm, so it seems impossible that qsd-jobs runs the code touch=
+ed by my patch..
 
---js
+Confirmed. The failure is not related to this pull request.
 
-> ---
->   hw/ide/via.c        | 19 +++++++++++++++++--
->   hw/mips/fuloong2e.c |  9 ++++++++-
->   2 files changed, 25 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index 6c667a92130..7887bf181e6 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -33,6 +33,17 @@
->   #include "hw/ide/pci.h"
->   #include "trace.h"
->   
-> +#define TYPE_VIA_IDE "via-ide"
-> +OBJECT_DECLARE_SIMPLE_TYPE(VIAIDEState, VIA_IDE)
-> +
-> +struct VIAIDEState {
-> +    /* <private> */
-> +    PCIIDEState parent_obj;
-> +    /* <public> */
-> +
-> +    qemu_irq irq[2];
-> +};
-> +
->   static uint64_t bmdma_read(void *opaque, hwaddr addr,
->                              unsigned size)
->   {
-> @@ -105,6 +116,7 @@ static void bmdma_setup_bar(PCIIDEState *d)
->   static void via_ide_set_irq(void *opaque, int n, int level)
->   {
->       PCIDevice *d = PCI_DEVICE(opaque);
-> +    VIAIDEState *s = VIA_IDE(d);
->   
->       if (level) {
->           d->config[0x70 + n * 8] |= 0x80;
-> @@ -112,7 +124,7 @@ static void via_ide_set_irq(void *opaque, int n, int level)
->           d->config[0x70 + n * 8] &= ~0x80;
->       }
->   
-> -    qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
-> +    qemu_set_irq(s->irq[n], level);
->   }
->   
->   static void via_ide_reset(DeviceState *dev)
-> @@ -159,6 +171,7 @@ static void via_ide_reset(DeviceState *dev)
->   
->   static void via_ide_realize(PCIDevice *dev, Error **errp)
->   {
-> +    VIAIDEState *s = VIA_IDE(dev);
->       PCIIDEState *d = PCI_IDE(dev);
->       DeviceState *ds = DEVICE(dev);
->       uint8_t *pci_conf = dev->config;
-> @@ -188,6 +201,7 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
->       bmdma_setup_bar(d);
->       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
->   
-> +    qdev_init_gpio_out_named(ds, s->irq, "ide-irq", ARRAY_SIZE(s->irq));
->       qdev_init_gpio_in(ds, via_ide_set_irq, ARRAY_SIZE(d->bus));
->       for (i = 0; i < ARRAY_SIZE(d->bus); i++) {
->           ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, MAX_IDE_DEVS);
-> @@ -227,8 +241,9 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
->   }
->   
->   static const TypeInfo via_ide_info = {
-> -    .name          = "via-ide",
-> +    .name          = TYPE_VIA_IDE,
->       .parent        = TYPE_PCI_IDE,
-> +    .instance_size = sizeof(VIAIDEState),
->       .class_init    = via_ide_class_init,
->   };
->   
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 931385c760f..f1c5db13b78 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -203,12 +203,19 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
->                                          I2CBus **i2c_bus)
->   {
->       PCIDevice *dev;
-> +    DeviceState *isa;
->   
->       dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
->                                             TYPE_VT82C686B_ISA);
-> -    qdev_connect_gpio_out_named(DEVICE(dev), "intr", 0, intc);
-> +    isa = DEVICE(dev);
-> +    qdev_connect_gpio_out_named(isa, "intr", 0, intc);
->   
->       dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-> +    for (unsigned i = 0; i < 2; i++) {
-> +        qdev_connect_gpio_out_named(DEVICE(dev), "ide-irq", i,
-> +                                    qdev_get_gpio_in_named(isa,
-> +                                                           "isa-irq", 14 + i));
-> +    }
->       pci_ide_create_devs(dev);
->   
->       pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
-> 
+I reproduced the same s390x host failure on commit
+9e2e9fe3df9f539f8b6941ceb96d25355fdae47e (HEAD -> master, tag:
+v6.0.0-rc0, origin/master, origin/HEAD):
+
+qsd-jobs                        fail       [11:04:58] [11:04:58]   0.1s    =
+             output mismatch (see qsd-jobs.out.bad)
+--- /root/qemu/tests/qemu-iotests/tests/qsd-jobs.out
++++ qsd-jobs.out.bad
+@@ -9,11 +9,11 @@
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"return": {}}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "paused", "id": "job0"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0, "offset": 0, "spe=
+ed": 0, "type": "commit"}}
+-{"return": {}}
+-{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "job0"}}
+-{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "BLOCK_JOB_COMPLETED", "data": {"device": "job0", "len": 0, "offset": 0, =
+"speed": 0, "type": "commit"}}
+
+Peter: Please merge this pull request since the failure is pre-existing.
+
+Thanks,
+Stefan
+
+--OUH2qHWx2HSSRpkw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBcuhQACgkQnKSrs4Gr
+c8gX6wf/Q9L+8nbbNVYC7xOT/Wm3vX96eJoWRQ0ocTu7AhVKyvpZYwOYtXV8mOjM
+MYLwuuv8Owvqxik4la70VKYoTpVWhjBH1G3oa1dkhqEm7yytRYSFTtNTOO3pV0rZ
+CyPanAL/fsHVKfH3saWJvPrV4YzNKgxT5tui9AkLXI+DNMSVuCIrgN1cEhEHYb8E
+78TpEYjyVOotz1drOGr1zWKempiTkr49p6vsAuuRoEF24FtB9QwU4GoDoNPLAd/1
+Rx14pSY7jMZUHsqFIkqIQ12Gv6hiqDrd9sVNi4OSgoDugr6aVw/nK7QbXN2iUMiw
+u1RdKx42nge+hyj5C63fta1BDqOgMQ==
+=X2EV
+-----END PGP SIGNATURE-----
+
+--OUH2qHWx2HSSRpkw--
 
 
