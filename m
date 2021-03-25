@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B0A3494F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:09:27 +0100 (CET)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9BF3494F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:09:18 +0100 (CET)
+Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPRby-0006bM-JS
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
+	id 1lPRbn-0006SR-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaV-0004gg-2t
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:07:55 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:48246)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaX-0004mB-Vy
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:07:57 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:42467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaT-0007dw-6f
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:07:54 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaW-0007ht-Go
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:07:57 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-mtMwooD0PWSw7_M90LqH7w-1; Thu, 25 Mar 2021 11:07:50 -0400
-X-MC-Unique: mtMwooD0PWSw7_M90LqH7w-1
+ us-mta-302-ISCFLV-BMp-_l3JNhkOYjg-1; Thu, 25 Mar 2021 11:07:52 -0400
+X-MC-Unique: ISCFLV-BMp-_l3JNhkOYjg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A874A1005D57;
- Thu, 25 Mar 2021 15:07:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF0D380BCA6;
+ Thu, 25 Mar 2021 15:07:50 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-113-20.ams2.redhat.com [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADFAA5C649;
- Thu, 25 Mar 2021 15:07:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F076E5C241;
+ Thu, 25 Mar 2021 15:07:48 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC 1/8] memory: Allow eventfd add/del without starting a transaction
-Date: Thu, 25 Mar 2021 16:07:28 +0100
-Message-Id: <20210325150735.1098387-2-groug@kaod.org>
+Subject: [RFC 2/8] virtio: Introduce virtio_bus_set_host_notifiers()
+Date: Thu, 25 Mar 2021 16:07:29 +0100
+Message-Id: <20210325150735.1098387-3-groug@kaod.org>
 In-Reply-To: <20210325150735.1098387-1-groug@kaod.org>
 References: <20210325150735.1098387-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -72,188 +72,92 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each addition or deletion of an eventfd happens in its own MR
-transaction. This doesn't scale well with multiqueue devices
-that do 1:1 queue:vCPU mapping (e.g. virtio-scsi-pci or
-virtio-blk-pci) : these devices typically create at least one
-eventfd per queue and memory_region_transaction_commit(),
-which is called during commit, also loops on eventfds, resulting
-in a quadratic time complexity. This calls for batching : a
-device should be able to add or delete its eventfds in a single
-transaction.
+Multiqueue devices such as virtio-scsi or virtio-blk, all open-code the
+same pattern to setup/tear down host notifiers of the request virtqueues.
+Consolidate the pattern in a new virtio_bus_set_host_notifiers() API.
+Since virtio-scsi and virtio-blk both fallback to userspace if host
+notifiers can't be set, e.g. file descriptor exhaustion, go for a
+warning rather than an error. Also make it oneshot to avoid flooding
+the logs since the message would be very likely the same for all
+virtqueues.
 
-Prepare ground for this by introducing extended versions of
-memory_region_add_eventfd() and memory_region_del_eventfd()
-that take an extra bool argument to control if a transaction
-should be started or not.
-
-No behavior change at this point.
+Devices will be converted to use virtio_bus_set_host_notifiers() in
+separate patches.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- include/exec/memory.h | 48 ++++++++++++++++++++++++++++++++-----------
- softmmu/memory.c      | 42 ++++++++++++++++++++++---------------
- 2 files changed, 62 insertions(+), 28 deletions(-)
+ include/hw/virtio/virtio-bus.h |  3 +++
+ hw/virtio/virtio-bus.c         | 36 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 5728a681b27d..98ed552e001c 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1848,13 +1848,25 @@ void memory_region_clear_flush_coalesced(MemoryRegi=
-on *mr);
-  * @match_data: whether to match against @data, instead of just @addr
-  * @data: the data to match against the guest write
-  * @e: event notifier to be triggered when @addr, @size, and @data all mat=
-ch.
-+ * @transaction: whether to start a transaction for the change
-  **/
--void memory_region_add_eventfd(MemoryRegion *mr,
--                               hwaddr addr,
--                               unsigned size,
--                               bool match_data,
--                               uint64_t data,
--                               EventNotifier *e);
-+void memory_region_add_eventfd_full(MemoryRegion *mr,
-+                                    hwaddr addr,
-+                                    unsigned size,
-+                                    bool match_data,
-+                                    uint64_t data,
-+                                    EventNotifier *e,
-+                                    bool transaction);
-+
-+static inline void memory_region_add_eventfd(MemoryRegion *mr,
-+                                             hwaddr addr,
-+                                             unsigned size,
-+                                             bool match_data,
-+                                             uint64_t data,
-+                                             EventNotifier *e)
-+{
-+    memory_region_add_eventfd_full(mr, addr, size, match_data, data, e, tr=
-ue);
-+}
+diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.=
+h
+index ef8abe49c5a1..6d1e4ee3e886 100644
+--- a/include/hw/virtio/virtio-bus.h
++++ b/include/hw/virtio/virtio-bus.h
+@@ -154,5 +154,8 @@ void virtio_bus_release_ioeventfd(VirtioBusState *bus);
+ int virtio_bus_set_host_notifier(VirtioBusState *bus, int n, bool assign);
+ /* Tell the bus that the ioeventfd handler is no longer required. */
+ void virtio_bus_cleanup_host_notifier(VirtioBusState *bus, int n);
++/* Call virtio_bus_set_host_notifier() for several consecutive vqs */
++int virtio_bus_set_host_notifiers(VirtioBusState *bus, int nvqs, int n_off=
+set,
++                                  bool assign);
 =20
- /**
-  * memory_region_del_eventfd: Cancel an eventfd.
-@@ -1868,13 +1880,25 @@ void memory_region_add_eventfd(MemoryRegion *mr,
-  * @match_data: whether to match against @data, instead of just @addr
-  * @data: the data to match against the guest write
-  * @e: event notifier to be triggered when @addr, @size, and @data all mat=
-ch.
-+ * @transaction: whether to start a transaction for the change
-  */
--void memory_region_del_eventfd(MemoryRegion *mr,
--                               hwaddr addr,
--                               unsigned size,
--                               bool match_data,
--                               uint64_t data,
--                               EventNotifier *e);
-+void memory_region_del_eventfd_full(MemoryRegion *mr,
-+                                    hwaddr addr,
-+                                    unsigned size,
-+                                    bool match_data,
-+                                    uint64_t data,
-+                                    EventNotifier *e,
-+                                    bool transaction);
-+
-+static inline void memory_region_del_eventfd(MemoryRegion *mr,
-+                                             hwaddr addr,
-+                                             unsigned size,
-+                                             bool match_data,
-+                                             uint64_t data,
-+                                             EventNotifier *e)
-+{
-+    memory_region_del_eventfd_full(mr, addr, size, match_data, data, e, tr=
-ue);
-+}
-=20
- /**
-  * memory_region_add_subregion: Add a subregion to a container.
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index d4493ef9e430..1b1942d521cc 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2341,12 +2341,13 @@ void memory_region_clear_flush_coalesced(MemoryRegi=
-on *mr)
-=20
- static bool userspace_eventfd_warning;
-=20
--void memory_region_add_eventfd(MemoryRegion *mr,
--                               hwaddr addr,
--                               unsigned size,
--                               bool match_data,
--                               uint64_t data,
--                               EventNotifier *e)
-+void memory_region_add_eventfd_full(MemoryRegion *mr,
-+                                    hwaddr addr,
-+                                    unsigned size,
-+                                    bool match_data,
-+                                    uint64_t data,
-+                                    EventNotifier *e,
-+                                    bool transaction)
- {
-     MemoryRegionIoeventfd mrfd =3D {
-         .addr.start =3D int128_make64(addr),
-@@ -2367,7 +2368,9 @@ void memory_region_add_eventfd(MemoryRegion *mr,
-     if (size) {
-         adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
-     }
--    memory_region_transaction_begin();
-+    if (transaction) {
-+        memory_region_transaction_begin();
-+    }
-     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
-         if (memory_region_ioeventfd_before(&mrfd, &mr->ioeventfds[i])) {
-             break;
-@@ -2380,15 +2383,18 @@ void memory_region_add_eventfd(MemoryRegion *mr,
-             sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb-1 - i));
-     mr->ioeventfds[i] =3D mrfd;
-     ioeventfd_update_pending |=3D mr->enabled;
--    memory_region_transaction_commit();
-+    if (transaction) {
-+        memory_region_transaction_commit();
-+    }
+ #endif /* VIRTIO_BUS_H */
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index d6332d45c3b2..c9e7cdb5c161 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -308,6 +308,42 @@ void virtio_bus_cleanup_host_notifier(VirtioBusState *=
+bus, int n)
+     event_notifier_cleanup(notifier);
  }
 =20
--void memory_region_del_eventfd(MemoryRegion *mr,
--                               hwaddr addr,
--                               unsigned size,
--                               bool match_data,
--                               uint64_t data,
--                               EventNotifier *e)
-+void memory_region_del_eventfd_full(MemoryRegion *mr,
-+                                    hwaddr addr,
-+                                    unsigned size,
-+                                    bool match_data,
-+                                    uint64_t data,
-+                                    EventNotifier *e,
-+                                    bool transaction)
++static void virtio_bus_unset_and_cleanup_host_notifiers(VirtioBusState *bu=
+s,
++                                                        int nvqs, int n_of=
+fset)
++{
++    int i;
++
++    for (i =3D 0; i < nvqs; i++) {
++        virtio_bus_set_host_notifier(bus, i + n_offset, false);
++        virtio_bus_cleanup_host_notifier(bus, i + n_offset);
++    }
++}
++
++int virtio_bus_set_host_notifiers(VirtioBusState *bus, int nvqs, int n_off=
+set,
++                                  bool assign)
++{
++    VirtIODevice *vdev =3D virtio_bus_get_device(bus);
++    int i;
++    int rc;
++
++    if (assign) {
++        for (i =3D 0; i < nvqs; i++) {
++            rc =3D virtio_bus_set_host_notifier(bus, i + n_offset, true);
++            if (rc !=3D 0) {
++                warn_report_once("%s: Failed to set host notifier (%s).\n"=
+,
++                                 vdev->name, strerror(-rc));
++
++                virtio_bus_unset_and_cleanup_host_notifiers(bus, i, n_offs=
+et);
++                return rc;
++            }
++        }
++    } else {
++        virtio_bus_unset_and_cleanup_host_notifiers(bus, nvqs, n_offset);
++    }
++
++    return 0;
++}
++
+ static char *virtio_bus_get_dev_path(DeviceState *dev)
  {
-     MemoryRegionIoeventfd mrfd =3D {
-         .addr.start =3D int128_make64(addr),
-@@ -2402,7 +2408,9 @@ void memory_region_del_eventfd(MemoryRegion *mr,
-     if (size) {
-         adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
-     }
--    memory_region_transaction_begin();
-+    if (transaction) {
-+        memory_region_transaction_begin();
-+    }
-     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
-         if (memory_region_ioeventfd_equal(&mrfd, &mr->ioeventfds[i])) {
-             break;
-@@ -2415,7 +2423,9 @@ void memory_region_del_eventfd(MemoryRegion *mr,
-     mr->ioeventfds =3D g_realloc(mr->ioeventfds,
-                                   sizeof(*mr->ioeventfds)*mr->ioeventfd_nb=
- + 1);
-     ioeventfd_update_pending |=3D mr->enabled;
--    memory_region_transaction_commit();
-+    if (transaction) {
-+        memory_region_transaction_commit();
-+    }
- }
-=20
- static void memory_region_update_container_subregions(MemoryRegion *subreg=
-ion)
+     BusState *bus =3D qdev_get_parent_bus(dev);
 --=20
 2.26.3
 
