@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECFB3492B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:05:35 +0100 (CET)
-Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAA334930C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:27:53 +0100 (CET)
+Received: from localhost ([::1]:39726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPPg6-0007wi-4r
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:05:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54696)
+	id 1lPQ1g-0004qy-5q
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPPdl-0007BL-RZ
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:03:09 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:45670)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPPzm-0003nv-Nz
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:25:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPPdh-0000hC-1s
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:03:06 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id
- 91-20020a9d08640000b0290237d9c40382so1792335oty.12
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 06:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rvDKRNIn3F7yLqXvtsubm4DODZxNDgY/GJ4zAN5yRLo=;
- b=u9EVaewP1jfc/3JnGBjrab9nWR9bSoUJbCebeB0LJO+9ZBGpHxRmVSSEh+A7cKrSbW
- yYm2ekgTSr851oVjkF+dbpSqbcYwc/RDDNed5kL+74YGrdvoxRfzgCETfNGwa6ZZCu0p
- 4vf/K/peKquOXsp66QV2gT4fqRJzgU+3Ee0Co7nbwb04Y0eNq/bzz2bxS0JkteuvhRzw
- Nu2OQXLFez+mhU+OSQHEowskbP6gt/D4dBXJ6zcLEG69ICzrQlBxdGj/WkcuZnE6Txs8
- sRJlTdcR2kuDtqKpProXzR3mDjBiD2QktA96kDIIBZ//WDkRgNZqyzx3uSqFBP3K6Lup
- fVqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rvDKRNIn3F7yLqXvtsubm4DODZxNDgY/GJ4zAN5yRLo=;
- b=fZ9M4U/NwgxxIqWvNwj+LnquN75VJUAd6kJyjRY2KfGBmb0Kne8iwE1OeZNeL4dQ5d
- Dqi3bfQV5VzcRBMN0MMGSTWyhj6P3TOdUQ7cV/no7FvT2UsfvDwN87dCSDOvRFWxyXey
- uRCcBu8E8YP0WKc2es4HtThDqObgZ9Kp7kCrpHr+F/Jfg7A0xWKkeVdOOYuMUMRLVsdG
- 0IM2x2cU3Vxsg5WPp0Hq9imtNm2bAfd+vxTFatJVPhIbrrWJ2xbfEuMDnPL4HhEjzy5K
- ZDCP2towzH8gjWA9vx9BC9qDgbrCKGXXnooGr6cU921WxE1Y7oDmYUM+hASfJx15nji5
- FVeA==
-X-Gm-Message-State: AOAM531XWlxFzLe32NBgJNSDttMfasmzQ+ClaOt9949vu5lJNKdcUJvh
- s0mcTG2aqBNuxsRag7k9wMhTJg==
-X-Google-Smtp-Source: ABdhPJwXyqu6/NUm4YvgDyOZZrOFr4XskjznQAf6fJo0Kx/+mDergRjJMMSKrfQoT0pN+2GBCIqq6Q==
-X-Received: by 2002:a9d:7e8d:: with SMTP id m13mr7340803otp.54.1616677382232; 
- Thu, 25 Mar 2021 06:03:02 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id k11sm1365830otp.28.2021.03.25.06.03.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 06:03:01 -0700 (PDT)
-Subject: Re: [PATCH 02/15] Hexagon (target/hexagon) remove unnecessary inline
- directives
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
- <1616640610-17319-3-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <10c84189-40b2-2905-8cc3-8a511f55749e@linaro.org>
-Date: Thu, 25 Mar 2021 07:02:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPPzj-0006YI-Iw
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:25:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPPzf-0003AZ-7l
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 13:25:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 38A5B2E8167
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 13:25:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1616640610-17319-3-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 25 Mar 2021 13:16:42 -0000
+From: Peter Maydell <1918302@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm semihosting
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee pmaydell statham-arm
+X-Launchpad-Bug-Reporter: Simon Tatham (statham-arm)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161530383644.26074.10419563158373925479.malonedeb@gac.canonical.com>
+Message-Id: <161667820272.27464.17099995164408274476.malone@gac.canonical.com>
+Subject: [Bug 1918302] Re: qemu-system-arm segfaults while servicing
+ SYS_HEAPINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
+X-Launchpad-Hash: 7a69fa96ee65306e0783222df59ae17a8c8ca422
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,48 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
+Reply-To: Bug 1918302 <1918302@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 8:49 PM, Taylor Simpson wrote:
-> Address feedback from Richard Henderson <richard.henderson@linaro.org>
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   linux-user/hexagon/cpu_loop.c |  2 +-
->   target/hexagon/cpu.c          |  9 ++++-----
->   target/hexagon/cpu.h          |  6 ++----
->   target/hexagon/decode.c       |  6 +++---
->   target/hexagon/fma_emu.c      | 39 ++++++++++++++++++++-------------------
->   target/hexagon/op_helper.c    | 39 +++++++++++++++++++--------------------
->   target/hexagon/translate.c    |  2 +-
->   7 files changed, 50 insertions(+), 53 deletions(-)
-> 
-> diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
-> index 9a68ca0..a752a0a 100644
-> --- a/linux-user/hexagon/cpu_loop.c
-> +++ b/linux-user/hexagon/cpu_loop.c
-> @@ -25,7 +25,7 @@
->   
->   void cpu_loop(CPUHexagonState *env)
->   {
-> -    CPUState *cs = CPU(hexagon_env_get_cpu(env));
-> +    CPUState *cs = CPUSTATE_FROM_ENV(env);
+I think there's still work to do here -- we don't properly tell
+semihosting where the memory is on M-profile or in all A-profile cases.
+I don't think that "look at the stack pointer" is a very good heuristic.
 
-This is not removing inlines from functions in c files, so this patch should be 
-split.
+-- =
 
-> -static inline HexagonCPU *hexagon_env_get_cpu(CPUHexagonState *env)
-> -{
-> -    return container_of(env, HexagonCPU, env);
-> -}
-> +#define HEXAGONCPU_FROM_ENV(env)    container_of((env), HexagonCPU, env)
-> +#define CPUSTATE_FROM_ENV(env)      CPU(HEXAGONCPU_FROM_ENV(env))
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918302
 
-Since a578cdfbdd8f, these should be replaced by env_archcpu and env_cpu 
-respectively.
+Title:
+  qemu-system-arm segfaults while servicing SYS_HEAPINFO
 
+Status in QEMU:
+  Fix Committed
 
-r~
+Bug description:
+  I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried
+  to use it to run the attached bare-metal Arm hello-world image, using
+  the command line
+
+  qemu-system-arm -M microbit -semihosting -nographic -device
+  loader,file=3Dhello.hex
+
+  The result was that qemu-system-arm itself died of a segfault.
+  Compiling it for debugging, the location of the segfault was in
+  target/arm/arm-semi.c, in the case handler for the semihosting call
+  TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
+
+              const struct arm_boot_info *info =3D env->boot_info;
+              target_ulong rambase =3D info->loader_start;
+
+  and the problem seems to be that 'info', aka env->boot_info, is NULL
+  in this context.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918302/+subscriptions
 
