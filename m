@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B857F3499AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:48:27 +0100 (CET)
-Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BAF3499B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:52:07 +0100 (CET)
+Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPV1u-0001VI-KC
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
+	id 1lPV5S-0003no-E7
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPUxv-0008AZ-Un
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:44:21 -0400
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35]:41755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPUxr-0008Uf-8Y
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:44:18 -0400
-Received: by mail-oo1-xc35.google.com with SMTP id
- q127-20020a4a33850000b02901b646aa81b1so719748ooq.8
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 11:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eJAJOUjDZsPKzWNlQ/i/hzFFoLjctiZ3Sr8Z8FdJ70k=;
- b=oywWD3BRTVv88RkFEpc7IHK+6fsHr1D732AZ0nXZqwvbxIm5/rH8GqGioDLDFOVIP4
- dQztaoK2opIQhPxOu1M/FdM+v5scjhLfZ9c3Sk8UMstrdXvgNof/zLkgMduHX1dxiHsH
- H82auXD9nh/dVMTG+O+rsBiVHxVRCTZw/YR+IkGP0jExs0EV1s7Adi5POtPf7qM/lBEI
- EIWH8qKA38bWo65hRAB2dINJb9jXqpc5mA/pVLC/vsaw1gjfCELf9eU3u/Avb2/TIHKC
- aWg8WRwehXYCi+FW+mgwuYPTEd59bsGvqEqMBaUSbpD6ECt0TCqsHvImmlazm5/AIZdz
- Wrvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eJAJOUjDZsPKzWNlQ/i/hzFFoLjctiZ3Sr8Z8FdJ70k=;
- b=QRvOHTHkZ0Xwjla+tW7RvgtlQuAwYLFTOb2L0l60aooCO5C8kZVJpBktYMQynYhoqo
- DB0YA21yXjfPol11xwdUu30CAfo6/ej7Qh23avX6NTbg0TvpNZy//AbJMRLRn+hIp7cT
- 3jrmTQyUzvIR0K4awoEHwG84mYmYFQIik25Yj9h/HubJ0HHrsfe0HSWQT11xjIMQgWDD
- STHMKS+jztT+H/Ya9UkVq3niLt3RayzFQb2JMwxmK0eXUEnGZelp7w4DiHl4+bE1LCh+
- noiBuSgIJDKiz6JWoP23Y9DD1AK5UjJ2QeBb9wSWf/N5cz2/Th76puZd/ksTdfjJ5CHy
- AjgQ==
-X-Gm-Message-State: AOAM532V9/MCcosfNbgZs0Uol0sCjPOmAXE5u/moYkMkZCan6bwy+ciO
- 7jIauNWBazc4rA9yVJzy93IPMQ==
-X-Google-Smtp-Source: ABdhPJzwvo8VtR7qsJz5dIybvHfCFZw6gkpFJJa6ws2PamJ5T3ZWJA8hwH2RkGC+5aOjv+8V8rOUjg==
-X-Received: by 2002:a4a:b787:: with SMTP id a7mr8289358oop.18.1616697853248;
- Thu, 25 Mar 2021 11:44:13 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id v23sm1597400ots.63.2021.03.25.11.44.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 11:44:12 -0700 (PDT)
-Subject: Re: [RFC v11 46/55] target/arm: cpu-sve: split TCG and KVM
- functionality
-To: Claudio Fontana <cfontana@suse.de>,
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPV1v-0002HV-LP
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:48:27 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPV1t-0002Ph-6a
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:48:27 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id ECB30ACBF;
+ Thu, 25 Mar 2021 18:48:21 +0000 (UTC)
+Subject: Re: [RFC v11 45/55] target/arm: cpu-sve: new module
+To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-39-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <89d76a02-42b9-f5e3-7520-3fd9d2769dfb@linaro.org>
-Date: Thu, 25 Mar 2021 12:44:10 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ <20210323154639.23477-38-cfontana@suse.de>
+ <724c86f8-2275-833b-d4e1-4729c0ca2e80@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <143fde2e-6c88-8fef-10ff-523c574e0db4@suse.de>
+Date: Thu, 25 Mar 2021 19:48:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-39-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <724c86f8-2275-833b-d4e1-4729c0ca2e80@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc35.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,13 +65,100 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 9:46 AM, Claudio Fontana wrote:
->   /* called by arm_cpu_finalize_features in realizefn */
-> -void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
-> +bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
+On 3/25/21 7:40 PM, Richard Henderson wrote:
+> On 3/23/21 9:46 AM, Claudio Fontana wrote:
+>> extract the SVE-related cpu object properties and functions,
+>> and move them to a separate module.
+>>
+>> Disentangle SVE from pauth that is a separate, TCG-only feature.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+>>   target/arm/cpu-sve.h     |  40 +++++
+>>   target/arm/cpu.h         |  22 +--
+>>   target/arm/cpu-sve.c     | 360 +++++++++++++++++++++++++++++++++++++++
+>>   target/arm/cpu.c         |   5 +-
+>>   target/arm/cpu64.c       | 333 +-----------------------------------
+>>   target/arm/kvm/kvm-cpu.c |   2 +-
+>>   target/arm/meson.build   |   1 +
+>>   7 files changed, 417 insertions(+), 346 deletions(-)
+>>   create mode 100644 target/arm/cpu-sve.h
+>>   create mode 100644 target/arm/cpu-sve.c
+>>
+>> diff --git a/target/arm/cpu-sve.h b/target/arm/cpu-sve.h
+>> new file mode 100644
+>> index 0000000000..b1be575265
+>> --- /dev/null
+>> +++ b/target/arm/cpu-sve.h
+>> @@ -0,0 +1,40 @@
+>> +/*
+>> + * QEMU AArch64 CPU SVE Extensions for TARGET_AARCH64
+>> + *
+>> + * Copyright (c) 2013 Linaro Ltd
+>> + *
+>> + * This program is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU General Public License
+>> + * as published by the Free Software Foundation; either version 2
+>> + * of the License, or (at your option) any later version.
+>> + *
+>> + * This program is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> + * GNU General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License
+>> + * along with this program; if not, see
+>> + * <http://www.gnu.org/licenses/gpl-2.0.html>
+>> + */
+>> +
+>> +#ifndef CPU_SVE_H
+>> +#define CPU_SVE_H
+>> +
+>> +/* note: SVE is an AARCH64-only option, only include this for TARGET_AARCH64 */
+>> +
+>> +/* called by arm_cpu_finalize_features in realizefn */
+>> +void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
+>> +
+>> +/* add the CPU SVE properties */
+>> +void cpu_sve_add_props(Object *obj);
+>> +
+>> +/* add the CPU SVE properties specific to the "MAX" CPU */
+>> +void cpu_sve_add_props_max(Object *obj);
+>> +
+>> +/* In AArch32 mode, predicate registers do not exist at all.  */
+>> +typedef struct ARMPredicateReg {
+>> +    uint64_t p[DIV_ROUND_UP(2 * ARM_MAX_VQ, 8)] QEMU_ALIGNED(16);
+>> +} ARMPredicateReg;
+> 
+> I don't agree with moving this out of cpu.h, next to the rest of the vector 
+> definitions.
+> 
+> I agree that we should be using more files, but if we're going to have an 
+> cpu-sve.c, why did some of the sve functions go into cpu-common.c?
 
-No interface changes simultaneous with code movement.
+maybe cpu-sve-props.c would be a better name, it really contains only cpu sve properties code.
+
+> 
+> I don't agree with moving functions and renaming them simultaneously.  I'm not 
+> even sure why you're renaming them, or why you've suddenly chosen "cpu_sve_*" 
+> as the prefix to use.
+> 
+> 
+> r~
+> 
+
+I think the idea was trying to create a cpu_sve module handling everything related to sve,
+and consistently using the name of the module as the prefix.
+
+It might be too early to attempt that anyway; as you noted, there is other SVE-related functionality all over the place,
+so better to revisit this.
+
+I'd suggest renaming this to cpu_sve_props, and moving everything not props related out of it.
+
+Thanks,
+
+Claudio
 
 
-r~
+
 
