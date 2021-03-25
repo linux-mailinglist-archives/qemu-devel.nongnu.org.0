@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CC7348A1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 08:26:01 +0100 (CET)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6D2348A1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 08:26:02 +0100 (CET)
+Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPKNU-0006TF-1s
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 03:26:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
+	id 1lPKNV-0006Tm-Fb
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 03:26:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lPKKu-0004NU-Eq; Thu, 25 Mar 2021 03:23:20 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4488)
+ id 1lPKKx-0004Ov-2E; Thu, 25 Mar 2021 03:23:23 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lPKKs-0002zM-5b; Thu, 25 Mar 2021 03:23:20 -0400
+ id 1lPKKt-0002zP-My; Thu, 25 Mar 2021 03:23:22 -0400
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F5c3F16x1zrZjK;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F5c3F1s9BzrZjc;
  Thu, 25 Mar 2021 15:21:13 +0800 (CST)
 Received: from huawei.com (10.174.185.226) by DGGEMS405-HUB.china.huawei.com
  (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Thu, 25 Mar 2021
@@ -28,10 +28,13 @@ To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
  <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
  <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-Subject: [PATCH RFC RESEND v2 0/6] Introduce IOMMU Option For PCI Root Bus
-Date: Thu, 25 Mar 2021 07:22:39 +0000
-Message-ID: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
+Subject: [PATCH RFC RESEND v2 1/6] hw/pci/pci_host: Add iommu property for pci
+ host
+Date: Thu, 25 Mar 2021 07:22:40 +0000
+Message-ID: <1616656965-23328-2-git-send-email-wangxingang5@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
+In-Reply-To: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
+References: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.226]
@@ -61,55 +64,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-These patches add support for configure iommu on/off for pci root bus,
-including primary bus and pxb root bus. At present, All root bus
-will go through iommu when iommu is configured, which is not flexible.
+The pci host iommu property is useful to check whether
+the iommu is enabled on the pci root bus.
 
-So this add option to enable/disable iommu for primary bus and pxb
-root bus.  When iommu is enabled for the root bus, devices attached to it
-will go through iommu. When iommu is disabled for the root bus, devices
-will not go through iommu accordingly.
+Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+---
+ hw/pci/pci.c              | 18 +++++++++++++++++-
+ hw/pci/pci_host.c         |  2 ++
+ include/hw/pci/pci.h      |  1 +
+ include/hw/pci/pci_host.h |  1 +
+ 4 files changed, 21 insertions(+), 1 deletion(-)
 
-The option example for iommu configuration is like the following:
-
-primary root bus option:
-arm: -machine virt iommu=smmuv3,primary_bus_iommu=false(or true)
-x86: -machine q35,primary_bus_iommu=false(or true)
-
-pxb root bus:
- -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3.0x1,iommu=false 
-
-History:
-
-v1 -> v2:
-- rebase on top of v6.0.0-rc0
-- Fix some issues
-- Took into account Eric's comments, and remove the PCI_BUS_IOMMU flag,
-  replace it with a property in PCIHostState.
-- Add support for x86 iommu option
-
-Xingang Wang (6):
-  hw/pci/pci_host: Add iommu property for pci host
-  hw/pci: Add iommu option for pci root bus
-  hw/pci: Add pci_root_bus_max_bus
-  hw/arm/virt-acpi-build: Add explicit idmap info in IORT table
-  hw/i386/acpi-build: Add explicit scope in DMAR table
-  hw/i386/acpi-build: Add iommu filter in IVRS table
-
- hw/arm/virt-acpi-build.c            | 103 ++++++++++++++++++++++------
- hw/arm/virt.c                       |  25 +++++++
- hw/i386/acpi-build.c                |  70 ++++++++++++++++++-
- hw/i386/pc.c                        |  19 +++++
- hw/pci-bridge/pci_expander_bridge.c |   3 +
- hw/pci-host/q35.c                   |   1 +
- hw/pci/pci.c                        |  52 +++++++++++++-
- hw/pci/pci_host.c                   |   2 +
- include/hw/arm/virt.h               |   1 +
- include/hw/i386/pc.h                |   1 +
- include/hw/pci/pci.h                |   2 +
- include/hw/pci/pci_host.h           |   1 +
- 12 files changed, 254 insertions(+), 26 deletions(-)
-
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index ac9a24889c..e17aa9075f 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -417,6 +417,22 @@ const char *pci_root_bus_path(PCIDevice *dev)
+     return rootbus->qbus.name;
+ }
+ 
++bool pci_root_bus_has_iommu(PCIBus *bus)
++{
++    PCIBus *rootbus = bus;
++    PCIHostState *host_bridge;
++
++    if (!pci_bus_is_root(bus)) {
++        rootbus = pci_device_root_bus(bus->parent_dev);
++    }
++
++    host_bridge = PCI_HOST_BRIDGE(rootbus->qbus.parent);
++
++    assert(host_bridge->bus == rootbus);
++
++    return host_bridge->iommu;
++}
++
+ static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
+                               MemoryRegion *address_space_mem,
+                               MemoryRegion *address_space_io,
+@@ -2716,7 +2732,7 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+ 
+         iommu_bus = parent_bus;
+     }
+-    if (iommu_bus && iommu_bus->iommu_fn) {
++    if (pci_root_bus_has_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
+         return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
+     }
+     return &address_space_memory;
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index 8ca5fadcbd..92ce213b18 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -222,6 +222,8 @@ const VMStateDescription vmstate_pcihost = {
+ static Property pci_host_properties_common[] = {
+     DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
+                      mig_enabled, true),
++    DEFINE_PROP_BOOL("pci-host-iommu-enabled", PCIHostState,
++                     iommu, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 6be4e0c460..718b5a454a 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -480,6 +480,7 @@ void pci_for_each_bus(PCIBus *bus,
+ 
+ PCIBus *pci_device_root_bus(const PCIDevice *d);
+ const char *pci_root_bus_path(PCIDevice *dev);
++bool pci_root_bus_has_iommu(PCIBus *bus);
+ PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn);
+ int pci_qdev_find_device(const char *id, PCIDevice **pdev);
+ void pci_bus_get_w64_range(PCIBus *bus, Range *range);
+diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+index 52e038c019..64128e3a19 100644
+--- a/include/hw/pci/pci_host.h
++++ b/include/hw/pci/pci_host.h
+@@ -43,6 +43,7 @@ struct PCIHostState {
+     uint32_t config_reg;
+     bool mig_enabled;
+     PCIBus *bus;
++    bool iommu;
+ 
+     QLIST_ENTRY(PCIHostState) next;
+ };
 -- 
 2.19.1
 
