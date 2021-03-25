@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27620349BCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 22:46:23 +0100 (CET)
-Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA49349C04
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 22:58:49 +0100 (CET)
+Received: from localhost ([::1]:41828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPXo5-0001e7-PN
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 17:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
+	id 1lPY08-0004Bh-D9
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 17:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPXmG-0001Ao-17
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 17:44:28 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56500)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPXyM-0003fP-Mw
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 17:56:58 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPXmE-0003Kk-96
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 17:44:27 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPXyL-0000gL-6Q
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 17:56:58 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 21D86AF98;
- Thu, 25 Mar 2021 21:44:24 +0000 (UTC)
-Subject: Re: [RFC v11 22/55] target/arm: move sve_zcr_len_for_el to common_cpu
+ by mx2.suse.de (Postfix) with ESMTP id 6D7B6AE04;
+ Thu, 25 Mar 2021 21:56:55 +0000 (UTC)
+Subject: Re: [RFC v11 47/55] target/arm: make is_aa64 and arm_el_is_aa64 a
+ macro for !TARGET_AARCH64
 To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-15-cfontana@suse.de>
- <6eb61895-7d00-e8c6-fca4-2a70e7e2b066@linaro.org>
+ <20210323154639.23477-40-cfontana@suse.de>
+ <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <22e4d85e-90ac-47f0-1048-953b6362fd4f@suse.de>
-Date: Thu, 25 Mar 2021 22:44:22 +0100
+Message-ID: <ac1f0768-660f-85c2-899b-41093c850f00@suse.de>
+Date: Thu, 25 Mar 2021 22:56:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <6eb61895-7d00-e8c6-fca4-2a70e7e2b066@linaro.org>
+In-Reply-To: <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -65,57 +66,40 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 11:03 PM, Richard Henderson wrote:
+On 3/25/21 8:03 PM, Richard Henderson wrote:
 > On 3/23/21 9:46 AM, Claudio Fontana wrote:
->> it is required by arch-dump.c and cpu.c, so apparently
->> we need this for KVM too
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> +#define is_a64(env) (false)
+> ...
+>> +#define arm_el_is_aa64(env, el) (false)
+> 
+> Why a define and not have the ifdef inside the static inline?
+> 
+> This define is causing you to make other random changes to avoid unused 
+> variables, and I'm not keen.
+> 
+> If you're running into problems with --enable-debug not eliminating code 
+> blocks, leading to link errors, then I think that 
+> __attribute__((always_inline)) and a comment will be the best option.
+
+right, I need to make this guaranteed to cause code elision, so that I can avoid including unneeded function definitions for aarch64 in arm builds.
+
 > 
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> 
->> +/*
->> + * these are AARCH64-only, but due to the chain of dependencies,
->> + * between HELPER prototypes, hflags, cpreg definitions and functions in
->> + * tcg/ etc, it becomes incredibly messy to add what should be here:
->> + *
->> + * #ifdef TARGET_AARCH64
+>> +
+>> +#endif /* TARGET_AARCH64 */
+>> +
+>> +/**
+>> + * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
+>> + * E.g. when in secure state, fields in HCR_EL2 are suppressed,
+>> + * "for all purposes other than a direct read or write access of HCR_EL2."
+>> + * Not included here is HCR_RW.
 >> + */
->> +
->> +static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
->> +{
->> +    uint32_t end_len;
->> +
->> +    end_len = start_len &= 0xf;
->> +    if (!test_bit(start_len, cpu->sve_vq_map)) {
->> +        end_len = find_last_bit(cpu->sve_vq_map, start_len);
->> +        assert(end_len < start_len);
->> +    }
->> +    return end_len;
->> +}
+>> +uint64_t arm_hcr_el2_eff(CPUARMState *env);
 > 
-> I guess you could
-> 
-> #ifdef TARGET_AARCH64
->      ...
-> #else
->      g_assert_not_reached();
-> #endif
-> 
-> Dunno if it's worth it or not, since they're small.
+> Is this diff being weird or did you really move this declaration, and if so, why?
 > 
 > 
 > r~
 > 
-
-I'll check this again. IIRC I _did_ handle the HELPER() / hflags / cpreg problem in the end,
-so it should be possible to make this actually right (ie #ifdef TARGET_AARCH64)
-
-
-
-
-
 
 
