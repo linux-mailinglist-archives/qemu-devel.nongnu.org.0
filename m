@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7E348940
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:40:45 +0100 (CET)
-Received: from localhost ([::1]:34760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FD334891B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:30:37 +0100 (CET)
+Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPJfb-0002ss-05
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
+	id 1lPJVk-0004CN-BS
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPJKD-00048d-C6
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:18:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47955)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPJOL-0007yQ-7S
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:22:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPJK8-00074C-8S
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:18:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPJOJ-0000xR-Cl
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:22:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616653106;
+ s=mimecast20190719; t=1616653366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9zOfGTHmTAQpOjLfpx7QrWhkciSVGG0M5wzS1ffINBU=;
- b=JwfnsRF5LdcALgd4TsgsmB71VR55V7eA/L9BjicGE4FmVbUDyEI0wT2+AppYphnR3IOSjN
- 8vhEew484we7nzQKhyE7MNVb0G/JOULBVU3b+2Z1UsXhXTNqqniC+8ur9Euo/s67XR+uBi
- X5H/O+QWmJIXRUniLjD3PZuI7zv4YTY=
+ bh=GkRc+mqNcncYWl7KBmyoVCb8fDArd932n0qrYXBFeAk=;
+ b=YlaJkNFBxKFAs1G8+ueyyf4PkAWZ93vZuMPRok0Onzc7eZqC6177B8rTLLa36tuERQgQQt
+ oT1Tg/6LCKZX8xvSmJ+pMEfg+qYEnYXj4peNvpQbRJD/zd6fc17q7U4ObX+FbrNIutNJuG
+ P8raLkz/rLaGIJ3mMN43bmYlkpNOysA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-ptx9aMnmOIqSdG_1HH0cNA-1; Thu, 25 Mar 2021 02:18:24 -0400
-X-MC-Unique: ptx9aMnmOIqSdG_1HH0cNA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-219-E1i3KXZDM8Gh-pBPMAw41A-1; Thu, 25 Mar 2021 02:22:44 -0400
+X-MC-Unique: E1i3KXZDM8Gh-pBPMAw41A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E249E612A9;
- Thu, 25 Mar 2021 06:18:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D4E107ACCD;
+ Thu, 25 Mar 2021 06:22:43 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE7437094D;
- Thu, 25 Mar 2021 06:18:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD14819C71;
+ Thu, 25 Mar 2021 06:22:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 83CC011327E1; Thu, 25 Mar 2021 07:18:17 +0100 (CET)
+ id 434D811327E1; Thu, 25 Mar 2021 07:22:38 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
- stricter checking
+Subject: Re: [PATCH 13/28] qapi: Enforce event naming rules
 References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-11-armbru@redhat.com>
- <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com>
- <87v99hf60v.fsf@dusky.pond.sub.org>
- <128c8d73-e16c-cc74-4ab8-b7ef7818e0fc@redhat.com>
-Date: Thu, 25 Mar 2021 07:18:17 +0100
-In-Reply-To: <128c8d73-e16c-cc74-4ab8-b7ef7818e0fc@redhat.com> (John Snow's
- message of "Wed, 24 Mar 2021 16:11:20 -0400")
-Message-ID: <87im5fah92.fsf@dusky.pond.sub.org>
+ <20210323094025.3569441-14-armbru@redhat.com>
+ <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com>
+ <87r1k5f4u7.fsf@dusky.pond.sub.org>
+ <799ad08b-3b45-f511-7717-f366eb2c0404@redhat.com>
+Date: Thu, 25 Mar 2021 07:22:38 +0100
+In-Reply-To: <799ad08b-3b45-f511-7717-f366eb2c0404@redhat.com> (John Snow's
+ message of "Wed, 24 Mar 2021 16:07:22 -0400")
+Message-ID: <87blb7ah1t.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,114 +89,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> On 3/24/21 1:57 AM, Markus Armbruster wrote:
+> On 3/24/21 2:22 AM, Markus Armbruster wrote:
 >> John Snow <jsnow@redhat.com> writes:
 >> 
 >>> On 3/23/21 5:40 AM, Markus Armbruster wrote:
->>>> Naming rules differ for the various kinds of names.  To prepare
->>>> enforcing them, define functions to check them: check_name_upper(),
->>>> check_name_lower(), and check_name_camel().  For now, these merely
->>>> wrap around check_name_str(), but that will change shortly.  Replace
->>>> the other uses of check_name_str() by appropriate uses of the
->>>> wrappers.  No change in behavior just yet.
+>>>> Event names should be ALL_CAPS with words separated by underscore.
+>>>> Enforce this.  The only offenders are in tests/.  Fix them.  Existing
+>>>> test event-case covers the new error.
 >>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 >>>> ---
->>>>    scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
->>>>    1 file changed, 36 insertions(+), 15 deletions(-)
->>>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->>>> index e00467636c..30285fe334 100644
+>>>>    tests/unit/test-qmp-event.c               |  6 +++---
+>>>>    scripts/qapi/expr.py                      |  4 +++-
+>>>>    tests/qapi-schema/doc-good.json           |  4 ++--
+>>>>    tests/qapi-schema/doc-good.out            |  4 ++--
+>>>>    tests/qapi-schema/doc-good.txt            |  2 +-
+>>>>    tests/qapi-schema/doc-invalid-return.json |  4 ++--
+>>>>    tests/qapi-schema/event-case.err          |  2 ++
+>>>>    tests/qapi-schema/event-case.json         |  2 --
+>>>>    tests/qapi-schema/event-case.out          | 14 --------------
+>>>>    tests/qapi-schema/qapi-schema-test.json   |  6 +++---
+>>>>    tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
+>>>>    11 files changed, 22 insertions(+), 34 deletions(-)
+>>>> diff --git a/tests/unit/test-qmp-event.c
+>>>> b/tests/unit/test-qmp-event.c
+>>>> index 047f44ff9a..d58c3b78f2 100644
+>>>> --- a/tests/unit/test-qmp-event.c
+>>>> +++ b/tests/unit/test-qmp-event.c
+>>>> @@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
+>>>>      static void test_event_deprecated(TestEventData *data, const
+>>>> void *unused)
+>>>>    {
+>>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
+>>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
+>>>>          memset(&compat_policy, 0, sizeof(compat_policy));
+>>>>    @@ -163,7 +163,7 @@ static void
+>>>> test_event_deprecated_data(TestEventData *data, const void *unused)
+>>>>    {
+>>>>        memset(&compat_policy, 0, sizeof(compat_policy));
+>>>>    -    data->expect = qdict_from_jsonf_nofail("{ 'event':
+>>>> 'TEST-EVENT-FEATURES0',"
+>>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
+>>>>                                               " 'data': { 'foo': 42 } }");
+>>>>        qapi_event_send_test_event_features0(42);
+>>>>        g_assert(data->emitted);
+>>>> @@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
+>>>>          compat_policy.has_deprecated_output = true;
+>>>>        compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
+>>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
+>>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
+>>>>        qapi_event_send_test_event_features0(42);
+>>>>        g_assert(data->emitted);
+>>>>    diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>>>> index b5fb0be48b..c065505b27 100644
 >>>> --- a/scripts/qapi/expr.py
 >>>> +++ b/scripts/qapi/expr.py
->>>> @@ -21,11 +21,12 @@
->>>>    from .error import QAPISemError
->>>>      -# Names must be letters, numbers, -, and _.  They must start
->>>> with letter,
->>>> -# except for downstream extensions which must start with __RFQDN_.
->>>> -# Dots are only valid in the downstream extension prefix.
->>>> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
->>>> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
->>>> +# Names consist of letters, digits, -, and _, starting with a letter.
->>>> +# An experimental name is prefixed with x-.  A name of a downstream
->>>> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
->>>> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
->>>> +                        r'(x-)?'
->>>> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
->>>>         def check_name_is_str(name, info, source):
->>>> @@ -37,16 +38,38 @@ def check_name_str(name, info, source,
->>>>                       permit_upper=False):
->>>>        # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
->>>>        # and 'q_obj_*' implicit type names.
->>>> -    if not valid_name.match(name) or \
->>>> -       c_name(name, False).startswith('q_'):
->>>> +    match = valid_name.match(name)
->>>> +    if not match or c_name(name, False).startswith('q_'):
->>>>            raise QAPISemError(info, "%s has an invalid name" % source)
->>>>        if not permit_upper and name.lower() != name:
->>>>            raise QAPISemError(
->>>>                info, "%s uses uppercase in name" % source)
->>>> +    return match.group(3)
->>>> +
->>>> +
->>>> +def check_name_upper(name, info, source):
->>>> +    stem = check_name_str(name, info, source, permit_upper=True)
->>>> +    # TODO reject '[a-z-]' in @stem
->>>> +
+>>>> @@ -45,7 +45,9 @@ def check_name_str(name, info, source):
+>>>>      def check_name_upper(name, info, source):
+>>>>        stem = check_name_str(name, info, source)
+>>>> -    # TODO reject '[a-z-]' in @stem
+>>>> +    if re.search(r'[a-z-]', stem):
+>>>> +        raise QAPISemError(
+>>>> +            info, "name of %s must not use lowercase or '-'" % source)
+>>>>    
 >>>
->>> Creates (presumably) temporary errors in flake8 for the dead
->>> assignment here and below.
+>>> Does a little bit more than check_name_upper. Is this only used for
+>>> event names? I guess so. Should it be inlined into check_defn_name_str
+>>> instead in this case, or nah?
 >> 
->> All gone by the end of the series.
+>> I'd prefer not to inline.  I'm open to better function names.
 >> 
->> "make check" and checkpatch were content.  Anything else you'd like me
->> to run?
+>> We have three name styles.  qapi-code-gen.txt:
+>> 
+>>      [Type] definitions should always use CamelCase for
+>>      user-defined type names, while built-in types are lowercase.
+>> 
+>>      [...]
+>> 
+>>      Command names, and member names within a type, should be all lower
+>>      case with words separated by a hyphen.  [...]
+>> 
+>>      Event names should be ALL_CAPS with words separated by underscore.
+>> 
+>> I define three functions for them: check_name_camel(),
+>> check_name_lower(), and check_name_upper().
+>> 
+>> The functions factor out the naming rule aspect, and they let us keep
+>> the naming rule aspect together.  That's why I'd prefer not to inline.
+>> 
+>> We could name them after their purpose instead:
+>> check_name_user_defined_type(), check_name_command_or_member(),
+>> check_name_event().  The first two are rather long.  Shorter:
+>> check_name_type(), check_name_other(), check_name_event().
+>> 
+>> Thoughts?
+>> 
 >
-> Eventually it'll be part of CI, with targets to run locally.
->
-> I never expected the process to take this long, so I did not invest my
-> time in developing an interim solution.
->
-> I use a hastily written script to do my own testing, which I run for
-> every commit that touches QAPI:
->
-> #!/usr/bin/env bash
-> set -e
->
-> if [[ -f qapi/.flake8 ]]; then
->     echo "flake8 --config=qapi/.flake8 qapi/"
->     flake8 --config=qapi/.flake8 qapi/
-> fi
-> if [[ -f qapi/pylintrc ]]; then
->     echo "pylint --rcfile=qapi/pylintrc qapi/"
->     pylint --rcfile=qapi/pylintrc qapi/
-> fi
-> if [[ -f qapi/mypy.ini ]]; then
->     echo "mypy --config-file=qapi/mypy.ini qapi/"
->     mypy --config-file=qapi/mypy.ini qapi/
-> fi
->
-> if [[ -f qapi/.isort.cfg ]]; then
->     pushd qapi
->     echo "isort -c ."
->     isort -c .
->     popd
-> fi
->
-> pushd ../bin/git
-> make -j9
-> make check-qapi-schema
-> popd
+> The long names are nice and descriptive.
 
-Thanks for sharing this!
-
-Apropos qapi-gen testing scripts.  I have scripts to show me how the
-generated code changes along the way in a branch.  They evolved over a
-long time, and try to cope with changes in the tree that are hardly
-relevant anymore.  By now, they could quite possibly make Frankenstein
-recoil in horror.
-
-As a secondary purpose, the scripts show me how output of pycodestyle-3
-and pylint change.  This would be uninteresting if the code in master
-was clean against a useful configuration of these tools.  Your work has
-been making it less interesting.
+Then I should give them a try to see whether the result feels neat or
+ugly.
 
 
