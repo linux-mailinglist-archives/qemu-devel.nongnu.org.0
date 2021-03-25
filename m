@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE48C3498CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:56:32 +0100 (CET)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8223498B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:53:59 +0100 (CET)
+Received: from localhost ([::1]:41402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPUDf-0000CA-QC
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58264)
+	id 1lPUBC-00078l-53
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPU82-0005jt-A2
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:50:43 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPU7v-0004ps-Ma
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:50:41 -0400
-Received: by mail-wr1-x435.google.com with SMTP id o16so3225014wrn.0
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 10:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WlvLB8nfkzFPQhAaXU+2e02Q11xHv7FAk8MfuDRn5iE=;
- b=jP2qmjJcRQMIsbhDSC6elqg4255hSgf4sirD7K2U/lUxUtzv7GDk7LClIVP3fmN+d2
- IeclS23ypN9k4mwnSndOjDcw+P9AfBCis7brnt+Qm6FeIvelpmpBTwPIPYm0IFD84sil
- diDSyiX9Wp4S1HM8sC40boKWpCY22vjP1mREkGqIu6v+gBQVmtS5EnuqCV+LcME6eAcn
- wQ5AdTkCf/8isFA4UyHmMx/nemyu9XcaLP9Mr//FUZWOUbO3HyAmLvrWgokq7rbedaMb
- 9xfMFeZimFAf+eSQNHV9hbCNUpHX7XsWVkAfFVI86pPahjJIwpMD8nNBi/S0jmsnPhd+
- nINQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WlvLB8nfkzFPQhAaXU+2e02Q11xHv7FAk8MfuDRn5iE=;
- b=YKLaqrFUxEr8nE/7HRfIRsv5iZ7H1AJcXsjIrtvhwOVjRcIRbjhZjdXUuDYLOnwF+o
- yzHmWC47g54fOdrGROm6WWzXAhmJVfePSDoBCIjZ/S4wknyHQh5wNPzOxFokImDz2+TE
- E0gIU5GZEbpNVi9CcBs16klDsz080eiMjirNY8xA03e2Pu8DtkGlZkm/u6Bvn4wLCynV
- vxzE9KEJVBTmwzh8c+5ctWePi9p+kgxZE+fBXbWBe3V2zuPRfnbiTgVNTmews6Kj4OG7
- 0/1rGuTgND7kpdL2HC+NyePsqn5p9Yj8QN5Qz5l/Xk3iSSnlcbClxhJuEmrZknlmATRA
- CUxA==
-X-Gm-Message-State: AOAM532CWHWsEWA09F2TNSvAkjekaYURr0dyydQ/ZmjRdcv5/JgcDkQH
- udoCTUrXvDHqdTBy80nr+/TRmck4Rj/Li3B/
-X-Google-Smtp-Source: ABdhPJwAETPkr8b6YFU62BwugSeKF7SayvWViy3gSkd41mkzu0GrH/LYQoBAgoJZEgcn4iH+OflpcQ==
-X-Received: by 2002:a5d:404f:: with SMTP id w15mr10723997wrp.106.1616694626716; 
- Thu, 25 Mar 2021 10:50:26 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s9sm8180794wmh.31.2021.03.25.10.50.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 10:50:26 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 2/2] docs/system/gdb.rst: Document how to debug
- multicore machines
-Date: Thu, 25 Mar 2021 17:50:23 +0000
-Message-Id: <20210325175023.13838-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210325175023.13838-1-peter.maydell@linaro.org>
-References: <20210325175023.13838-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPU80-0005hl-2Z
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:50:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPU7v-0004tC-ME
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:50:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616694635;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=weJAjU7ki/Q7dk0wTFvV6G5Hgu/psBxs9zsHJ4Qzg2s=;
+ b=azrOcDTwnxngwNSz9IRvHF+HmnC79/ify+wnXLFvo12cbBNLblY7CL78NlXvyCMudfCeLG
+ fJcR2hOYNfxa/C9jpJ+V95fz5Lb1wremd0eEu0wBeCpHk+R6xf9g5VE853ugATi8Aueryx
+ THzgeLkDHPZDZMGFJxY4fJdNWWq2Zws=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-M2AaMRyHNiy_AehfT7PjZA-1; Thu, 25 Mar 2021 13:50:33 -0400
+X-MC-Unique: M2AaMRyHNiy_AehfT7PjZA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 106F36B9CF;
+ Thu, 25 Mar 2021 17:50:32 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57E7C5D9D0;
+ Thu, 25 Mar 2021 17:50:25 +0000 (UTC)
+Subject: Re: [PATCH 13/28] qapi: Enforce event naming rules
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-14-armbru@redhat.com>
+ <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com>
+ <87r1k5f4u7.fsf@dusky.pond.sub.org>
+ <799ad08b-3b45-f511-7717-f366eb2c0404@redhat.com>
+ <87blb7ah1t.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <8e89a84f-8fc8-13e1-5840-fbba018f84e9@redhat.com>
+Date: Thu, 25 Mar 2021 13:50:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <87blb7ah1t.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,90 +85,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document how multicore machines appear to GDB when debugged
-via the debug stub. This is particularly non-intuitive for
-the "multiple heterogenous clusters" case, but unfortunately
-as far as I know there is no way with the remote protocol
-for the stub to tell gdb "I have 2 inferiors, please connect
-to both", so the user must set it all up manually.
+On 3/25/21 2:22 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 3/24/21 2:22 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>>>>> Event names should be ALL_CAPS with words separated by underscore.
+>>>>> Enforce this.  The only offenders are in tests/.  Fix them.  Existing
+>>>>> test event-case covers the new error.
+>>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>>> ---
+>>>>>     tests/unit/test-qmp-event.c               |  6 +++---
+>>>>>     scripts/qapi/expr.py                      |  4 +++-
+>>>>>     tests/qapi-schema/doc-good.json           |  4 ++--
+>>>>>     tests/qapi-schema/doc-good.out            |  4 ++--
+>>>>>     tests/qapi-schema/doc-good.txt            |  2 +-
+>>>>>     tests/qapi-schema/doc-invalid-return.json |  4 ++--
+>>>>>     tests/qapi-schema/event-case.err          |  2 ++
+>>>>>     tests/qapi-schema/event-case.json         |  2 --
+>>>>>     tests/qapi-schema/event-case.out          | 14 --------------
+>>>>>     tests/qapi-schema/qapi-schema-test.json   |  6 +++---
+>>>>>     tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
+>>>>>     11 files changed, 22 insertions(+), 34 deletions(-)
+>>>>> diff --git a/tests/unit/test-qmp-event.c
+>>>>> b/tests/unit/test-qmp-event.c
+>>>>> index 047f44ff9a..d58c3b78f2 100644
+>>>>> --- a/tests/unit/test-qmp-event.c
+>>>>> +++ b/tests/unit/test-qmp-event.c
+>>>>> @@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
+>>>>>       static void test_event_deprecated(TestEventData *data, const
+>>>>> void *unused)
+>>>>>     {
+>>>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
+>>>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
+>>>>>           memset(&compat_policy, 0, sizeof(compat_policy));
+>>>>>     @@ -163,7 +163,7 @@ static void
+>>>>> test_event_deprecated_data(TestEventData *data, const void *unused)
+>>>>>     {
+>>>>>         memset(&compat_policy, 0, sizeof(compat_policy));
+>>>>>     -    data->expect = qdict_from_jsonf_nofail("{ 'event':
+>>>>> 'TEST-EVENT-FEATURES0',"
+>>>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
+>>>>>                                                " 'data': { 'foo': 42 } }");
+>>>>>         qapi_event_send_test_event_features0(42);
+>>>>>         g_assert(data->emitted);
+>>>>> @@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
+>>>>>           compat_policy.has_deprecated_output = true;
+>>>>>         compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
+>>>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
+>>>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
+>>>>>         qapi_event_send_test_event_features0(42);
+>>>>>         g_assert(data->emitted);
+>>>>>     diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>>>>> index b5fb0be48b..c065505b27 100644
+>>>>> --- a/scripts/qapi/expr.py
+>>>>> +++ b/scripts/qapi/expr.py
+>>>>> @@ -45,7 +45,9 @@ def check_name_str(name, info, source):
+>>>>>       def check_name_upper(name, info, source):
+>>>>>         stem = check_name_str(name, info, source)
+>>>>> -    # TODO reject '[a-z-]' in @stem
+>>>>> +    if re.search(r'[a-z-]', stem):
+>>>>> +        raise QAPISemError(
+>>>>> +            info, "name of %s must not use lowercase or '-'" % source)
+>>>>>     
+>>>>
+>>>> Does a little bit more than check_name_upper. Is this only used for
+>>>> event names? I guess so. Should it be inlined into check_defn_name_str
+>>>> instead in this case, or nah?
+>>>
+>>> I'd prefer not to inline.  I'm open to better function names.
+>>>
+>>> We have three name styles.  qapi-code-gen.txt:
+>>>
+>>>       [Type] definitions should always use CamelCase for
+>>>       user-defined type names, while built-in types are lowercase.
+>>>
+>>>       [...]
+>>>
+>>>       Command names, and member names within a type, should be all lower
+>>>       case with words separated by a hyphen.  [...]
+>>>
+>>>       Event names should be ALL_CAPS with words separated by underscore.
+>>>
+>>> I define three functions for them: check_name_camel(),
+>>> check_name_lower(), and check_name_upper().
+>>>
+>>> The functions factor out the naming rule aspect, and they let us keep
+>>> the naming rule aspect together.  That's why I'd prefer not to inline.
+>>>
+>>> We could name them after their purpose instead:
+>>> check_name_user_defined_type(), check_name_command_or_member(),
+>>> check_name_event().  The first two are rather long.  Shorter:
+>>> check_name_type(), check_name_other(), check_name_event().
+>>>
+>>> Thoughts?
+>>>
+>>
+>> The long names are nice and descriptive.
+> 
+> Then I should give them a try to see whether the result feels neat or
+> ugly.
+> 
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/gdb.rst | 55 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+I tried my hand at documenting them in my respin; I am not entirely 
+confident I got the names and purposes and semantics exactly right. I 
+didn't try to rename them, but it would be easy to do. You'll have to 
+let me know your preferences.
 
-diff --git a/docs/system/gdb.rst b/docs/system/gdb.rst
-index 0bb1bedf1be..144d083df31 100644
---- a/docs/system/gdb.rst
-+++ b/docs/system/gdb.rst
-@@ -45,6 +45,61 @@ Here are some useful tips in order to use gdb on system code:
- 3. Use ``set architecture i8086`` to dump 16 bit code. Then use
-    ``x/10i $cs*16+$eip`` to dump the code at the PC position.
- 
-+Debugging multicore machines
-+============================
-+
-+GDB's abstraction for debugging targets with multiple possible
-+parallel flows of execution is a two layer one: it supports multiple
-+"inferiors", each of which can have multiple "threads". When the QEMU
-+machine has more than one CPU, QEMU exposes each CPU cluster as a
-+separate "inferior", where each CPU within the cluster is a separate
-+"thread". Most QEMU machine types have identical CPUs, so there is a
-+single cluster which has all the CPUs in it.  A few machine types are
-+heterogenous and have multiple clusters: for example the ``sifive_u``
-+machine has a cluster with one E51 core and a second cluster with four
-+U54 cores. Here the E51 is the only thread in the first inferior, and
-+the U54 cores are all threads in the second inferior.
-+
-+When you connect gdb to the gdbstub, it will automatically
-+connect to the first inferior; you can display the CPUs in this
-+cluster using the gdb ``info thread`` command, and switch between
-+them using gdb's usual thread-management commands.
-+
-+For multi-cluster machines, unfortunately gdb does not by default
-+handle multiple inferiors, and so you have to explicitly connect
-+to them. First, you must connect with the ``extended-remote``
-+protocol, not ``remote``::
-+
-+    (gdb) target extended-remote localhost:1234
-+
-+Once connected, gdb will have a single inferior, for the
-+first cluster. You need to create inferiors for the other
-+clusters and attach to them, like this::
-+
-+  (gdb) add-inferior
-+  Added inferior 2
-+  (gdb) inferior 2
-+  [Switching to inferior 2 [<null>] (<noexec>)]
-+  (gdb) attach 2
-+  Attaching to process 2
-+  warning: No executable has been specified and target does not support
-+  determining executable automatically.  Try using the "file" command.
-+  0x00000000 in ?? ()
-+
-+Once you've done this, ``info threads`` will show CPUs in
-+all the clusters you have attached to::
-+
-+  (gdb) info threads
-+    Id   Target Id         Frame
-+    1.1  Thread 1.1 (cortex-m33-arm-cpu cpu [running]) 0x00000000 in ?? ()
-+  * 2.1  Thread 2.2 (cortex-m33-arm-cpu cpu [halted ]) 0x00000000 in ?? ()
-+
-+You probably also want to set gdb to ``schedule-multiple`` mode,
-+so that when you tell gdb to ``continue`` it resumes all CPUs,
-+not just those in the cluster you are currently working on::
-+
-+  (gdb) set schedule-multiple on
-+
- Advanced debugging options
- ==========================
- 
--- 
-2.20.1
+--js
 
 
