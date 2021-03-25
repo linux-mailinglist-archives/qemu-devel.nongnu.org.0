@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06ECC348909
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:22:25 +0100 (CET)
-Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC873488D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:15:48 +0100 (CET)
+Received: from localhost ([::1]:46688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPJNw-0006HZ-14
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1lPJHX-0000kP-LJ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:15:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6Q-0002Ka-Na
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:04:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6P-0008Si-0U
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:04:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6R-0002Le-NR
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:04:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6P-0008TI-BJ
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:04:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1616652256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GMeU10YaYmX+kMXtzWNhDtCj8O+0nRuKJD7OBVq6Ovw=;
- b=BBQXz/1Ddfr6JgYtodGGpbcvHlh64nstUT2UVIfNgCK9TzV/rGgyEuikK3QuR22cbC47hR
- VbmKwkbWpghb+cw8JZi8nZLEmrVUqS5wR8lomEpjhiowauBsHYG+54Zh2qGPQoWrsD4uda
- P5m2BX0/hsvZV8Y2cIp7/MObxROIBpY=
+ bh=58vMjUiEmXKmPmO0gjjkRE8fcgGQ+DRkcI0Sp3kmdeE=;
+ b=BtNhvLBZ+CaCpSqIfk12qqiL6Rex4SHI5rz2+8ENLqwedsAKF42b9SsDeWonXJnGLx0p+W
+ sHbUnau38txE8LoH+noTq2WPz3o8JSXdJWPj1XjrZDTb/mEIGbQEkHqpLUBQPb0qRuLQ58
+ FvhxeIKsqzIi3l/FRz1nlL7fPPXIuK4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-8Lo1hafdM6Kd0IdXMLcTmQ-1; Thu, 25 Mar 2021 02:04:14 -0400
-X-MC-Unique: 8Lo1hafdM6Kd0IdXMLcTmQ-1
+ us-mta-300-sQPEB-XCM1yqVA1FG06NUA-1; Thu, 25 Mar 2021 02:04:14 -0400
+X-MC-Unique: sQPEB-XCM1yqVA1FG06NUA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B6041083E80;
- Thu, 25 Mar 2021 06:04:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 031FD80D6A8;
+ Thu, 25 Mar 2021 06:04:14 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F5BC866C7;
- Thu, 25 Mar 2021 06:04:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CBD7866C7;
+ Thu, 25 Mar 2021 06:04:13 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v4 10/19] qapi/expr.py: Add casts in a few select cases
-Date: Thu, 25 Mar 2021 02:03:47 -0400
-Message-Id: <20210325060356.4040114-11-jsnow@redhat.com>
+Subject: [PATCH v4 11/19] qapi/expr.py: Modify check_keys to accept any
+ Collection
+Date: Thu, 25 Mar 2021 02:03:48 -0400
+Message-Id: <20210325060356.4040114-12-jsnow@redhat.com>
 In-Reply-To: <20210325060356.4040114-1-jsnow@redhat.com>
 References: <20210325060356.4040114-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,64 +83,37 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Casts are instructions to the type checker only, they aren't "safe" and
-should probably be avoided in general. In this case, when we perform
-type checking on a nested structure, the type of each field does not
-"stick".
+This is a minor adjustment that allows the 'required' and 'optional'
+keys fields to take a default value of an empty, immutable sequence (the
+empty tuple).
 
-(See PEP 647 for an example of "type narrowing" that does "stick".
- It is available in Python 3.10, so we can't use it yet.)
+This reveals a quirk of this function, which is that "a + b" is
+list-specific behavior. We can accept a wider variety of types if we
+avoid that behavior. Using Collection allows us to accept things like
+lists, tuples, sets, and so on.
 
-We don't need to assert that something is a str if we've already checked
-or asserted that it is -- use a cast instead for these cases.
+(Iterable would also have worked, but Iterable also includes things like
+generator expressions which are consumed upon iteration, which would
+require a rewrite to make sure that each input was only traversed once.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ scripts/qapi/expr.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index ca5ab7bfda..505e67bd21 100644
+index 505e67bd21..7e22723b50 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -15,7 +15,7 @@
- # See the COPYING file in the top-level directory.
- 
- import re
--from typing import Dict, Optional
-+from typing import Dict, Optional, cast
- 
- from .common import c_name
- from .error import QAPISemError
-@@ -259,7 +259,7 @@ def check_enum(expr, info):
- 
- 
- def check_struct(expr, info):
--    name = expr['struct']
-+    name = cast(str, expr['struct'])  # Asserted in check_exprs
-     members = expr['data']
- 
-     check_type(members, info, "'data'", allow_dict=name)
-@@ -267,7 +267,7 @@ def check_struct(expr, info):
- 
- 
- def check_union(expr, info):
--    name = expr['union']
-+    name = cast(str, expr['union'])  # Asserted in check_exprs
-     base = expr.get('base')
-     discriminator = expr.get('discriminator')
-     members = expr['data']
-@@ -366,8 +366,8 @@ def check_exprs(exprs):
-         else:
-             raise QAPISemError(info, "expression is missing metatype")
- 
--        name = expr[meta]
--        check_name_is_str(name, info, "'%s'" % meta)
-+        check_name_is_str(expr[meta], info, "'%s'" % meta)
-+        name = cast(str, expr[meta])
-         info.set_defn(meta, name)
-         check_defn_name_str(name, info, meta)
- 
+@@ -100,7 +100,7 @@ def pprint(elems):
+             "%s misses key%s %s"
+             % (source, 's' if len(missing) > 1 else '',
+                pprint(missing)))
+-    allowed = set(required + optional)
++    allowed = set(required) | set(optional)
+     unknown = set(value) - allowed
+     if unknown:
+         raise QAPISemError(
 -- 
 2.30.2
 
