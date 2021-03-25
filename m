@@ -2,71 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A40349842
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:38:06 +0100 (CET)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3692349863
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:40:20 +0100 (CET)
+Received: from localhost ([::1]:50402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPTvp-0005q9-3h
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:38:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54030)
+	id 1lPTxz-00071p-Uj
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPTtL-0005G3-MJ
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:35:33 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:39653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPTtG-0005IR-TC
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:35:31 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id ce10so4279927ejb.6
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 10:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4mRWQi4gzlFMr7tCQsh6G/25NJbc+6sHTA4ThLctF0U=;
- b=oBUg57rZ+Jt39iSDPIy9BSBIi/Z86iohDat8wpJVqrgvLYY2CZ4ydbQE1uLafdJcs1
- kQlbkrULfEM86L2pxFBVH8v9Tfy99PA8GadGIIVgImUraza8ldZ4tDx2OZ7fBQigEHWT
- hZ8OB65q/VqJHDOTyOWdNA2zqHYOsrws5Rqd7n7GMxLxAzlRZ6KdJsq4NHHuI+6zalXB
- GiA3IyiF1NKNOhV1BWEI4IrFEwGJNZ8PNC+NFjJClldCoakijXuUDXHOdBH10IE9k5O4
- 8gVkJlEkdDoxAD5Cw3a2/miegTEn/qaICoS4+QwJz0/AqsbAn+bzm7Bw6hhT8HJHP5xi
- 6MGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4mRWQi4gzlFMr7tCQsh6G/25NJbc+6sHTA4ThLctF0U=;
- b=mCGzHrCmmRqgKVDbSevBmz7pP31VmLoLKw3bFAblOZWhVvDzYfH4lscLA7oyRBqP2d
- r9chphaH7ygqnafvfy4QL01qalnz9v8MtkDNn40NySOGEK4CyzaKZ9jCFM22tdjIR7a7
- KDG52GeOtnDFNlU7E77dpouNvymzy0MPj+aMZECL19SO2wfdRCYj3OiKx/oJ+JM2UTUO
- FIAu7KUpAW/vRDMOqa7UCu73VWtowwkdy8IkkHAtZWZXJM6kDDDOXlBXE9IS5PJNSGhs
- bWQdwxbwwDXsoTqwZ/lEPdc9jsuEEE0nj4CE3KeS38WKQgNzvZ39cuJj04B31tfY0ZAN
- Xlsw==
-X-Gm-Message-State: AOAM533bPWFkICjX66VOyEPeXO1DJ/KKWT+WfTLrP2d24a2PVfwsLxQG
- bIttWeUu+EI4V1J2G58aCDPeN+g4yGpY5OJiR5SDuA==
-X-Google-Smtp-Source: ABdhPJzH/mAq3msDiOu+PD1vfy6B2d+RTXQrvfljXql08v8/uhhQtYa2VPZhT9jY6zzq/ghrsbG2vZjcnh3eb15foLY=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr10995743ejc.250.1616693721005; 
- Thu, 25 Mar 2021 10:35:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lPTv9-00063h-G2
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:37:26 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:21801)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lPTux-0006QH-Je
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:37:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1616693831; x=1648229831;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=35t45gWPusPD88lfo/1SlHe2c6LiwAAxfd8nTQDzWYs=;
+ b=RcGhAiGzvalsHKorEHlMTSNZrRwHCJB9x9tiFgIhrQUgZmE1eqqRZo7F
+ 0SuBcM3mh2sojlmGFQgNJ2JzpS1vnoghBdsIoM5BUtczT8/VFVWWqB3Xf
+ 6hzNCmbBCidb7wAapJW324nXa7tPZC57HQA5O/ljndx2mf7kg3gvoCIyc 0=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Mar 2021 10:37:07 -0700
+X-QCInternal: smtphost
+Received: from nasanexm03a.na.qualcomm.com ([10.85.0.103])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 25 Mar 2021 10:37:07 -0700
+Received: from nasanexm03e.na.qualcomm.com (10.85.0.48) by
+ nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 25 Mar 2021 10:37:06 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Thu, 25 Mar 2021 10:37:06 -0700
+Received: from SN6PR02MB4895.namprd02.prod.outlook.com (2603:10b6:805:8f::16)
+ by SA0PR02MB7180.namprd02.prod.outlook.com (2603:10b6:806:e8::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 25 Mar
+ 2021 17:37:05 +0000
+Received: from SN6PR02MB4895.namprd02.prod.outlook.com
+ ([fe80::98a1:5133:38e3:cc8a]) by SN6PR02MB4895.namprd02.prod.outlook.com
+ ([fe80::98a1:5133:38e3:cc8a%7]) with mapi id 15.20.3955.028; Thu, 25 Mar 2021
+ 17:37:05 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 11/15] Hexagon (target/hexagon) circular addressing
+Thread-Topic: [PATCH 11/15] Hexagon (target/hexagon) circular addressing
+Thread-Index: AQHXISGff2MHOQZCgEe+JLJp9qZ/86qU5vYAgAAEgIA=
+Date: Thu, 25 Mar 2021 17:37:05 +0000
+Message-ID: <SN6PR02MB48957AFA71DA4C571E5943B9DE629@SN6PR02MB4895.namprd02.prod.outlook.com>
+References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
+ <1616640610-17319-12-git-send-email-tsimpson@quicinc.com>
+ <c06f50bb-cf79-f719-4cb2-4b57a0df59d6@linaro.org>
+In-Reply-To: <c06f50bb-cf79-f719-4cb2-4b57a0df59d6@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [70.115.140.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b1fcbaec-71b0-45c6-4720-08d8efb49b85
+x-ms-traffictypediagnostic: SA0PR02MB7180:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SA0PR02MB718047FB4C88AEAA0BCAD262DE629@SA0PR02MB7180.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:635;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ggr6Nlbci+GRVgTFSA1UDTGZpKoMosk9CxEy9qYs33R4A+xWLWsJV0a7+PvbgLzOPlVi8eTT98iZLs21YcswWqpC0nFCd8hkvm5W7MRRmoZS6ofGL7tfmajq/xzqIQm2XWU85GEuWb4WY6nvB7mW1+AnHuznBjRT1jMKOyG5fukxbj9WVStJQEKC+h+XZUsz0/TGAezhqCACV5Gt2TAjjcNDzw34TbUmTvK3zC2oGRfSFkL3W3pkYUT8X8PHoZPCXpIwqrIJp7siab8BrYUhAo3wrHuV75J76gutu16WkaxQe0WvvU5o6qHQ9ZWraup4Zr0FLQOmndGIJwNxaYB5CfunMCLw4/jBPIN1mmauCm02e2YXKq6tMsvkiqvbQB+p25Arj1HMk7XMA71Gr0gt3A5MNRQwMIeqedAIChnxtKvl6O7OSRgmD4xra7/mtNZs6TbPO/g6v5QLJDwegQ4bP2SpbejK7eC8T70EpBoJabU4PCpBe9e7ILiNSbVYwGQcRiqO0ZzOHwlutzCSJe3+EoZ1UHlwuu8H7XxJxn1B3OwNz1tSifZeERQHo8RiT2dT277x6aEvlyRLOFSKqWMnG0wg5Ugh8mjdXP+84GmF7dwzI9GwVtTEQsQY246nIivHbMg72MF0wGpwnK7s1Y6ZT/C4N6B9jhi1fapYtzsT6nA=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR02MB4895.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(66446008)(66556008)(5660300002)(8936002)(76116006)(71200400001)(8676002)(64756008)(66476007)(53546011)(6506007)(66946007)(83380400001)(55016002)(33656002)(7696005)(9686003)(4326008)(52536014)(107886003)(478600001)(86362001)(38100700001)(110136005)(2906002)(54906003)(186003)(316002)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?V3UydlhRTGdaVjNKajI1ZjN6eVZFOFBsUTVWVzIrZWlFaDFXU1ppbHZNVDNp?=
+ =?utf-8?B?VzYyeWdEWVJ5MlpZOGs3UWZUR3lGakRSa2llTnpkWk5EYjlKQ3hjMHBNVVdo?=
+ =?utf-8?B?NEpjeURHVnAwRkJibUZ3QXBzcFZxMGZJVjFxam9DUmlHMEE0aE95aml2UEoz?=
+ =?utf-8?B?V3VDM3k4MDZ5Njk2cm1GUFZHcFVwZ0JQM0ZFaW9IQzJqQ0RLMjBiSUZwemxM?=
+ =?utf-8?B?dDZJUE5BdUhBNXlpZi9kM0VqNXVzbEdHeTRUcEQxdXFTVGg5cVBydnN2YlRH?=
+ =?utf-8?B?TWpvb09tSmdOeVZBQnU3TTh0aFRDVjIwSG5CdVAxVldZU2NWQ0tqeXIwL3U1?=
+ =?utf-8?B?MW9hQzRoYkxHMDdSeHF1M2tmR2Q5WVdrRSsyalFQNUFSWVNtSXhkTDZwekc2?=
+ =?utf-8?B?QVNnNE9SMUlaWXJ5OWdtUDgxSE1KL3R4M0VNc1d6OVpTZHd1STlLRTY0clFD?=
+ =?utf-8?B?UktaNzFTQUFOSmdrVXU3QVpFbXB4OVc5aGpkSlYyTzJRMnJrd3BlVWxZUkhL?=
+ =?utf-8?B?RUFZbGNDT1dUN3hYZGw1Wk9sTnNZKzVWU2NzblFMbDI3dC9UVUdIWTNibURU?=
+ =?utf-8?B?bm1zai9pbS9uSFI2VmFtekhseG1kY1pWVSsrMWplbUpNY3dQbHJ4YjF0MFVE?=
+ =?utf-8?B?MVM1YTBvTWRXTGYrcnNTTmdubFJPVmxjeHFtMzY4a3FHRU4xVFdFNWVkMlJR?=
+ =?utf-8?B?VSt5LyszWnB0OS9oRGlBb2IvS2UwUG5nMklkUG5iekgwZ00wMkVoaHBncCtj?=
+ =?utf-8?B?cVJIN3VER2lyTmhsbk1MZ29qQmhTZ2FJL0pxdUxzcmpvR3ZodkorejlWYk5G?=
+ =?utf-8?B?UjRoZmpKOFZpWUVWMWpNd0dyd2NjTkZhOGJwYWl4WGo4bmp4dlBPdDFYbmU5?=
+ =?utf-8?B?ZnQzeVFwTkpSSFVDdnh2NUZlWFdZSW93T1RvdUxtY3FxbXdBbWRrWTdKWVRy?=
+ =?utf-8?B?VmwzcDFyN2MwdzRnMC9uQ0hDMVgyMFdSSGFtREprVFkyb3UzNXg5MEpVTUpQ?=
+ =?utf-8?B?ZHRJbmJVVk81QWZDazdHdUJyZGRDckIvWjYvRUZIRlA0SGZyWC9oLzl1TlRl?=
+ =?utf-8?B?YXlYVThoKzNZL1N1OE1EaE56cEoxbnBBK2ZTSHFuTVFnNlZBVDRXZ0UvSXFr?=
+ =?utf-8?B?UGZMVUhPWWoxREdEWnBnK1VZSDdQcE5zVXhqdTJUMXpsV2RlZGdrc3M2bzJ0?=
+ =?utf-8?B?QVduS0hER2dBeHRUcm84MTVucE5YYWtYQlUzVHEvTkd3dng1K1cvUG02TDVE?=
+ =?utf-8?B?Y1pMbE9iVWdCTG1hR25TdzFqT3lxUk1vM2NDaURXSGYzL01lZHc1UTRaOExU?=
+ =?utf-8?B?RE5iaS9UQlNtU010dkhGTGtTdXpwdkYwSE9ScXVkWk5jTng4aGl6S2JjNUh3?=
+ =?utf-8?B?Q1VXbHpTQkhCMytOdkJlSitPSG9LL2krRU1TeVJ2djR3Z2FqNm9KOGI4UXRq?=
+ =?utf-8?B?MU5YS21VU0s2QkowanJwTU1vQjFEZUJhbjc2OFU4dkJ2YXdrUFhLVmZpeEFl?=
+ =?utf-8?B?NlNoK0RsdWRnMjBDUkRZWFoyS3BndHpoUzNGU1lpQ2FuT1hYNXVpNUY0RTNv?=
+ =?utf-8?B?cGxNK3lDaWpFRXFjQlFSaDRPOXpSbHFhMkNaamtBa01VR2hscUc3L0ZTMytp?=
+ =?utf-8?B?QUlNWUoxMEFnU2w2VjNUUzBwdHZWK09UeWp0My8vNjlmZmVhbEtBWHNVbTgx?=
+ =?utf-8?B?c0dDVG1HNCsvWHNJTFdhbmJTR2F4WU5tVUpZbU1NTmRLc1poSC90WUNValFU?=
+ =?utf-8?Q?q7zxmAMSEnrpDpGFaCLetPnhzRJVydKtuyrdOso?=
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TkYEgRBLvlrhj0arGOKnqmyq32KN9QYfHrbd507FtppWB9YZelm5GPS52No+0zjb1LKPaZmtzyVjJQ8bYhwf3RzVYTPO3WA9RX4wWJQPisJvUyo5Y+D2kZdtMqTKiK3wphLxW7w2G1LzDHWV64F0tgwbw0roOCC5KvTlpjl68UKIlCXZv1H/nxMZhpw7j93GcSIEgqEY63+olVYyTY48pjajzlcXKS8i5R8kgphWJBe9YktkzwqFfRZnKsTaZN9MAT1qnjaIMT0DsFAqIQ6p5THw8ntewZkAHl3fQUDK3ZUsAAOaBpIUFHG/p+Oe0nT2Bi1Rgp45bR2+dLWL+TGcyw==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mtes6LF78g01zrvSLO07NKb6a84Tu/Y9EB1cYsJ9Wio=;
+ b=eJPvoMa9KmBRN6hQfqE/6EIy8HQqWOx0Zu4XVVMPuzTNfUBh9z6l0O32fuoayyJRb3w6zu+N/8Wgv1IyCToHx4WXSLceenS3uou8a0lxZnmD0i3AlbeFrecqKqJsC7Uzr5JJ4NraSfGhQcQnkcxmBAahy6MD+VE5I2zxjeQ1VbuBRYt/rhuvgNfICzoPE29BkGZT3xZiBE+FHSm9U8ZVVeTXR6EjYOcyo7r43a8TXCXe89SGbSTSku9LM8bmTDKXcFFknppIUN9yMJy2RxrAYKKmk5UdQVAY7ocX46pKSfOppeY5Z3jl+LZpuBIFsJnHCUhuBrBkaX3fX0Cnkf4svA==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: SN6PR02MB4895.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: b1fcbaec-71b0-45c6-4720-08d8efb49b85
+x-ms-exchange-crosstenant-originalarrivaltime: 25 Mar 2021 17:37:05.4236 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: d6jZI/TVD5TwcdqKlZoP16GXI8IWJ5+glWCq8mbiIJtFuFS8gy2F9nzH0gFBnqQoRmpoEYoD125OdL8EZDYyBw==
+x-ms-exchange-transport-crosstenantheadersstamped: SA0PR02MB7180
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
-In-Reply-To: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Mar 2021 17:34:49 +0000
-Message-ID: <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
-Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
- Mac OS 9 guest
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,95 +155,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: "ale@rev.ng" <ale@rev.ng>, Brian
+ Cain <bcain@quicinc.com>, "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(adding the relevant people to the cc list)
-
-On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.com> wrote:
->
-> Hi,
->
-> When running qemu-system-ppc with Mac OS guest, the guest crashes when
-> using a tap network connection. Openvpn 2.4.9-I601-win10 is installed
-> with TAP-Windows 9.24.2. A tap connection called TapQemu is bridged
-> with the default ethernet connection. It gets activated when I start
-> qemu.
->
-> To reproduce, compile qemu-system-ppc from current source and run:
->
-> qemu-system-ppc.exe ^
-> -L pc-bios ^
-> -M mac99 ^
-> -m 128 ^
-> -sdl -serial stdio ^
-> -boot c ^
-> -drive file=3DC:\Mac-disks\9.2.img,format=3Draw,media=3Ddisk ^
-> -device sungem,netdev=3Dnetwork01 -netdev tap,ifname=3DTapQemu,id=3Dnetwo=
-rk01
->
-> I bisected to the commit below. Thanks for looking into this.
->
-> Best,
-> Howard
->
-> 969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7 is the first bad commit
-> commit 969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7
-> Author: Bin Meng <bmeng.cn@gmail.com>
-> Date:   Wed Mar 17 14:26:29 2021 +0800
->
->     net: Pad short frames to minimum size before sending from SLiRP/TAP
->
->     The minimum Ethernet frame length is 60 bytes. For short frames with
->     smaller length like ARP packets (only 42 bytes), on a real world NIC
->     it can choose either padding its length to the minimum required 60
->     bytes, or sending it out directly to the wire. Such behavior can be
->     hardcoded or controled by a register bit. Similarly on the receive
->     path, NICs can choose either dropping such short frames directly or
->     handing them over to software to handle.
->
->     On the other hand, for the network backends like SLiRP/TAP, they
->     don't expose a way to control the short frame behavior. As of today
->     they just send/receive data from/to the other end connected to them,
->     which means any sized packet is acceptable. So they can send and
->     receive short frames without any problem. It is observed that ARP
->     packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
->     these ARP packets to the other end which might be a NIC model that
->     does not allow short frames to pass through.
->
->     To provide better compatibility, for packets sent from QEMU network
->     backends like SLiRP/TAP, we change to pad short frames before sending
->     it out to the other end, if the other end does not forbid it via the
->     nc->do_not_pad flag. This ensures a backend as an Ethernet sender
->     does not violate the spec. But with this change, the behavior of
->     dropping short frames from SLiRP/TAP interfaces in the NIC model
->     cannot be emulated because it always receives a packet that is spec
->     complaint. The capability of sending short frames from NIC models is
->     still supported and short frames can still pass through SLiRP/TAP.
->
->     This commit should be able to fix the issue as reported with some
->     NIC models before, that ARP requests get dropped, preventing the
->     guest from becoming visible on the network. It was workarounded in
->     these NIC models on the receive path, that when a short frame is
->     received, it is padded up to 60 bytes.
->
->     The following 2 commits seem to be the one to workaround this issue
->     in e1000 and vmxenet3 before, and should probably be reverted.
->
->       commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 b=
-ytes)")
->       commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size
-> (60 bytes)")
->
->     Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->     Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->     Signed-off-by: Jason Wang <jasowang@redhat.com>
->
->  net/slirp.c     | 10 ++++++++++
->  net/tap-win32.c | 10 ++++++++++
->  net/tap.c       | 10 ++++++++++
->  3 files changed, 30 insertions(+)
->
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBIZW5kZXJz
+b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFRodXJzZGF5LCBNYXJj
+aCAyNSwgMjAyMSAxMTozNCBBTQ0KPiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNp
+bmMuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBwaGlsbWRAcmVkaGF0LmNvbTsg
+YWxlQHJldi5uZzsgQnJpYW4gQ2FpbiA8YmNhaW5AcXVpY2luYy5jb20+DQo+IFN1YmplY3Q6IFJl
+OiBbUEFUQ0ggMTEvMTVdIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBjaXJjdWxhciBhZGRyZXNz
+aW5nDQo+DQo+IE9uIDMvMjQvMjEgODo1MCBQTSwgVGF5bG9yIFNpbXBzb24gd3JvdGU6DQo+ID4g
+Ky8qDQo+ID4gKyAqIE1hbnkgaW5zdHJ1Y3Rpb25zIHdpbGwgd29yayB3aXRoIGp1c3QgbWFjcm8g
+cmVkZWZpbml0aW9ucw0KPiA+ICsgKiB3aXRoIHRoZSBjYXZlYXQgdGhhdCB0aGV5IG5lZWQgYSB0
+bXAgdmFyaWFibGUgdG8gY2FycnkgYQ0KPiA+ICsgKiB2YWx1ZSBiZXR3ZWVuIHRoZW0uDQo+ID4g
+KyAqLw0KPiA+ICsjZGVmaW5lIGZHRU5fVENHX3RtcChTSE9SVENPREUpIFwNCj4gPiArICAgIGRv
+IHsgXA0KPiA+ICsgICAgICAgIFRDR3YgdG1wID0gdGNnX3RlbXBfbmV3KCk7IFwNCj4gPiArICAg
+ICAgICBTSE9SVENPREU7IFwNCj4gPiArICAgICAgICB0Y2dfdGVtcF9mcmVlKHRtcCk7IFwNCj4g
+PiArICAgIH0gd2hpbGUgKDApDQo+DQo+IFdvdywgdGhpcyBpcyBhd2Z1bGx5IG1hZ2ljYWwuICBJ
+IGRvbid0IGV2ZW4gc2VlICJ0bXAiIHJlZmVyZW5jZWQgaW4gdGhlDQo+IFNIT1JUQ09ERS4gIFdo
+YXQncyBnb2luZyBvbiBoZXJlPw0KDQpIZXJlJ3MgYW4gZXhhbXBsZTpMMl9sb2FkcnViX3BjaQ0K
+U2VtYW50aWNzOntmRUFfUkVHKFJ4Vik7IGZQTV9DSVJJKFJ4VixzaVYsTXVWKTsgZkxPQUQoMSwx
+LHUsRUEsUmRWKTt9DQoNClRoZSBuZWVkIGZvciB0bXAgaXMgaW5zaWRlIHRoZSBmUE1fQ0lSSSBt
+YWNybw0KI2RlZmluZSBmUE1fQ0lSSShSRUcsIElNTSwgTVZBTCkgXA0KICAgIGRvIHsgXA0KICAg
+ICAgICBUQ0d2IHRjZ3Zfc2lWID0gdGNnX2NvbnN0X3RsKHNpVik7IFwNCiAgICAgICAgZ2VuX2hl
+bHBlcl9mY2lyY2FkZChSRUcsIFJFRywgdGNndl9zaVYsIE11ViwgZlJFQURfQ1NSRUcoTXVOKSk7
+IFwNCiAgICAgICAgdGNnX3RlbXBfZnJlZSh0Y2d2X3NpVik7IFwNCiAgICB9IHdoaWxlICgwKQ0K
+DQpOb3RpY2UgdGhlIHVzZSBvZiBmUkVBRF9DU1JFRw0KI2RlZmluZSBmUkVBRF9DU1JFRyhOKSAo
+UkVBRF9SRUcodG1wLCBIRVhfUkVHX0NTMCArIE4pKQ0KDQpTbywgd2UncmUgdXNpbmcgdG1wIHRv
+IGNhcnJ5IHRoZSB2YWx1ZSByZWFkIGZyb20gdGhlIENTIHJlZyB0byB0aGUgZ2VuX2hlbHBlcl9m
+Y2lyY2FkZCBjYWxsLg0KDQoNCkknbGwgZ28gYWhlYWQgYW5kIG1vdmUgdGhlIGNyZWF0ZS9mcmVl
+IHRtcCBpbnNpZGUgdGhlIGZQTV9DSVJJIG1hY3JvLg0KDQpUaGFua3MsDQpUYXlsb3INCg0K
 
