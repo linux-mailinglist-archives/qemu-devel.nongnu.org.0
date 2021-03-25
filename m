@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671263491D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:25:54 +0100 (CET)
-Received: from localhost ([::1]:41766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657753491EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:27:51 +0100 (CET)
+Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPP3h-0004J5-ET
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
+	id 1lPP5a-0005RM-GK
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lPP1m-0003TX-FA
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:23:54 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38469)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPP4I-0004wH-B8
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:26:30 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:34375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lPP1k-0004D8-Lm
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:23:54 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z2so2078793wrl.5
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:23:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPP4G-0005dz-UN
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:26:30 -0400
+Received: by mail-oi1-x235.google.com with SMTP id x207so1937877oif.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=91xgZOgUPpV97E/PKBwKW9UDwCC6cu7uPkRTCKtFjr8=;
- b=nSHifbRx4xEcljNzNUTTSJFEgPJrJgfacOQRq8/WaVh4RHqqBPxvap0nsRCHXDhiw3
- 7uPU6ZAg6/+1w2nHIiJ78bLr7/+tZ7sbtenr6GqfeujZw/eHkVd92zl5btnvIXnInxWW
- PJXF4A/POusVSTYnods0my53dec6hWsXYVXOknlOnPDBsQmhXcSya5Br63v+yjso9v1f
- gEiswJpnHbkb8mEhYQdT9pZBUtappSgNqi/81hVBHo1bb3szmWDK0iFD/XUIxmav7PxK
- hHuPCx3/6eKv5y6uM/U78IyPNw5eejwNOGXfHGyB85Rzi/gtUrF4uGIxzbI91H9WD36m
- q/wA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=btukKRAegBqKw3oDKX+a+vdezSO2nTm4M+3DH8u3tNA=;
+ b=fJPdqa4+joXYBkiqnnG2tCow18rPpCg2IOWfQ6j20CbSbxJHEQordeHCG217qdsnnY
+ iO+nqNks1MxLF3HP2g8N6nK2cIjqo9cyKl0rsnTkyl0HGbqFmY0TRpdbTIHsvK1z/0vm
+ nrfnn0VQmYBl9Hsy2BQ3uZte2YPaxS9QFIkfP0EO+vfTg00O4zpyCJZT904PJ/gGlrM8
+ V7YXmqkOyGw/X+iRsfE7eYVgd31rTIykHa+PnJe2FGQ+45zMQ5l0bP0Lqvm/aQFVgky6
+ CS8Pl+kmVc7hN4LGgbLqvB1+eayRVwAqN6HObhrDKKknXLK/fPSna/lQQyHjssqdk7UM
+ vRTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=91xgZOgUPpV97E/PKBwKW9UDwCC6cu7uPkRTCKtFjr8=;
- b=gVn/0Fcd2Yp1DcGoQE1pGdl3yenPJJ0dq0G+blCC5AWFWh4jKqhs9EKt/4ujTbfP7N
- PT1gmNx61QLSF78pjuA01BbCakY4aNCrPdpQJnXQc69zc+crVo3B/J9mKdNrCsiNesxw
- Qo/zsgj3cmmpXQLj+z7ByOQu/NizhdQOack+QW4Jcxo9onwlFiRTOEWR3Us9lmuVZhK5
- Tqy9Y4tNDxeBs1FFyLIRq37OsfC7g9+DMep7+DTisFYWM00spINXtEfilBItv2jGzH8R
- KoxmbNX8tMPlqL89AimLPeGi4+/L/OfOiMVZssgjLdTvVx6tYmE+ssTzYa9oj590xrLd
- cLiw==
-X-Gm-Message-State: AOAM532GdtSAog29ptb4s1AG3dPWltvq194Yqrkl/2qRuafna3T8+xUj
- V45pmFXAoSMYQePmnNjE0llCjQ==
-X-Google-Smtp-Source: ABdhPJxuKMiyYYqIgvAwzZ6YSXhFx2GvNBG6Y7EVymgxiL4onJBhIFmXApRhkkaoNgvgNahEpbNloQ==
-X-Received: by 2002:a5d:65d1:: with SMTP id e17mr7208109wrw.333.1616675030440; 
- Thu, 25 Mar 2021 05:23:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s8sm7356385wrn.97.2021.03.25.05.23.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 05:23:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 884731FF7E;
- Thu, 25 Mar 2021 12:23:48 +0000 (GMT)
-References: <cover.1616570702.git.viresh.kumar@linaro.org>
- <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
- <290a8771-7273-a898-a826-c97df6eefb1b@intel.com>
- <20210325052227.fm3i25xphhu26amu@vireshk-i7>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH 3/5] tools/vhost-user-i2c: Add backend driver
-Date: Thu, 25 Mar 2021 12:22:47 +0000
-In-reply-to: <20210325052227.fm3i25xphhu26amu@vireshk-i7>
-Message-ID: <87tuozh163.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=btukKRAegBqKw3oDKX+a+vdezSO2nTm4M+3DH8u3tNA=;
+ b=Ot10kN/zkY1I51fYDMRSSx5d4hWQ3BkDTzm+SIaJBFCOZI4iEohP784zEmhEuVVPzU
+ vjxydSYbXyJXaEzlqCS05rX8iItYyJmUnZ04aU04qd5pW8F5HT0qN2KGb1CKzmqyjURA
+ VNtf9AKGbz2vtpFzP3PhqPlG1EoUhEINlqEddv+qf0aEj4FxugNPwo3PFe598+skbeij
+ /4lB7qRIqQJE8SzNtz5YecligYHib12u64ybkZZgBtS4XyRC9ypMFnNWTJ+biipHUNQ8
+ ARbbMth2T7gBh5nrITkY5M8BKwmHjT0Pii+cr2Ur+XbrSEIcM58i9zrexVXbMxjWq0nM
+ gCRg==
+X-Gm-Message-State: AOAM5311ZsLpBQRqpYZ4ip3cMh8fXaItbCTKmHkdkmTniRQOXfi/4sIr
+ Y3g3WVjZk5Qywm9yA6DBPNFV4Q==
+X-Google-Smtp-Source: ABdhPJytIvoqjpkEWp+JqhdxOZdPqqWRlRT3GLaup6iCHaMMBQv4o6oCy5l0Mb/wPau6kItX1EYahA==
+X-Received: by 2002:aca:f041:: with SMTP id o62mr6132737oih.114.1616675187550; 
+ Thu, 25 Mar 2021 05:26:27 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id u2sm1075028oic.28.2021.03.25.05.26.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 05:26:27 -0700 (PDT)
+Subject: Re: [PATCH 3/6] hw/isa/vt82c686: Let ISA function expose ISA IRQs
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210324175438.680310-1-f4bug@amsat.org>
+ <20210324175438.680310-4-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8d779119-ac30-9bfd-838b-a2c90703cf22@linaro.org>
+Date: Thu, 25 Mar 2021 06:26:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210324175438.680310-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,98 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
- Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
- Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 3/24/21 11:54 AM, Philippe Mathieu-Daudé wrote:
+> The 2 cascaded 8259 PIC are managed by the PCI function #0
+> (ISA bridge). Expose the 16 IRQs on this function, so other
+> functions from the same chipset can access them.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   hw/isa/vt82c686.c | 13 ++++++++++++-
+>   1 file changed, 12 insertions(+), 1 deletion(-)
 
-Viresh Kumar <viresh.kumar@linaro.org> writes:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> On 25-03-21, 13:09, Jie Deng wrote:
->>=20
->> On 2021/3/24 15:33, Viresh Kumar wrote:
->> > +
->> > +/* Definitions from virtio-i2c specifications */
->> > +#define VHOST_USER_I2C_MAX_QUEUES       1
->> > +
->> > +/* Status */
->> > +#define VIRTIO_I2C_MSG_OK               0
->> > +#define VIRTIO_I2C_MSG_ERR              1
->> > +
->> > +/* The bit 0 of the @virtio_i2c_out_hdr.@flags, used to group the req=
-uests */
->> > +#define VIRTIO_I2C_FLAGS_FAIL_NEXT      0x00000001
->> > +
->> > +/**
->> > + * struct virtio_i2c_out_hdr - the virtio I2C message OUT header
->> > + * @addr: the controlled device's address
->> > + * @padding: used to pad to full dword
->> > + * @flags: used for feature extensibility
->> > + */
->> > +struct virtio_i2c_out_hdr {
->> > +    uint16_t addr;
->> > +    uint16_t padding;
->> > +    uint32_t flags;
->> > +} __attribute__((packed));
->>=20
->>=20
->> __le16,=C2=A0 __le32 ?
->
-> Maybe, but I didn't do them because of this:
->
-> docs/devel/style.rst:
->
-> "Don't use Linux kernel internal types like u32, __u32 or __le32."
->=20=20
->> > +
->> > +/**
->> > + * struct virtio_i2c_in_hdr - the virtio I2C message IN header
->> > + * @status: the processing result from the backend
->> > + */
->> > +struct virtio_i2c_in_hdr {
->> > +    uint8_t status;
->> > +} __attribute__((packed));
->> > +
->>=20
->> I understand these definitions can be removed once the frontend driver is
->> merged by the Linux ?
->
-> Yes, we would be required to somehow include the uapi header that
-> kernel is adding and then this won't be required.
+r~
 
-What I often do is include a temporary patch in my series that includes
-the updated uapi headers from my Linux branch and mark it as not for
-merge until the uapi headers make it into a released tree.
-
->=20=20
->> > +/* vhost-user-i2c definitions */
->> > +
->> > +#ifndef container_of
->> > +#define container_of(ptr, type, member) ({                      \
->> > +        const typeof(((type *) 0)->member) *__mptr =3D (ptr);     \
->> > +        (type *) ((char *) __mptr - offsetof(type, member));})
->> > +#endif
->>=20
->>=20
->> This seems to be a general interface.=C2=A0 I see there is a definition =
-in
->> qemu/compiler.h.
->>=20
->> Can we reuse it ?
->
-> Damn. My bad (maybe not). I picked this part from the RPMB patchset
-> that Alex sent and didn't bother looking for it.
->
-> Though on the other hand, we are looking to make this file independent
-> of qemu so it can be used by other hypervisors without any (or much)
-> modifications, and maybe so it was done so.
->
-> Alex ?
-
-
---=20
-Alex Benn=C3=A9e
 
