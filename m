@@ -2,102 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC0F34939A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:04:50 +0100 (CET)
-Received: from localhost ([::1]:60132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5B93493D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:13:52 +0100 (CET)
+Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPQbR-000738-Lr
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:04:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41448)
+	id 1lPQkB-0001V8-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lPQXz-0005nY-2w; Thu, 25 Mar 2021 10:01:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34915
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPQbe-0008TN-PG
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:05:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lPQXw-0002Dc-Rh; Thu, 25 Mar 2021 10:01:14 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12PDaNJg017939; Thu, 25 Mar 2021 10:01:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Dw/xOH7OuRjGGZsoyLXxZC8Ic7q9/RXTMOwov19bf6c=;
- b=RrEl5PY8DZ+N5Rd2NFUs1DfyoMPkQjEmBU/18u5Lep+zX0ObBysz8QYQ0JzdNss+Q3n+
- FumuKtWZlsKRMp9i7gGmM4Zg9udnE5XMTwIJZcmK8QvuxFT8gqqmGIqvqLf9pweaX7u5
- uFlkuvhZHBYh5FlHz875pyudirfkEWPRbRZCmmdKrZZfGhWJChgtu4EE+UUy5KybA/X8
- LmIio2Q4XenJ9qB1pOmIhr6YfuBiqJ2y9Z5uJ0irMmRXb0GYv5BMxXj95mvI73qQhg2D
- ZjN1qBuOAB36A5w7VuBXhLZBsofIF8VjF6vy2lCBpl49ztZONGjF4Nn9OwkdN6SpIcXK vg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37gq0b912u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Mar 2021 10:01:08 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12PDadc8019308;
- Thu, 25 Mar 2021 10:01:07 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37gq0b9128-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Mar 2021 10:01:07 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12PDvPt1025750;
- Thu, 25 Mar 2021 14:01:07 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 37d9dae3yj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Mar 2021 14:01:07 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12PE15QU23200096
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Mar 2021 14:01:05 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8A1C6112062;
- Thu, 25 Mar 2021 14:01:05 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C805E112069;
- Thu, 25 Mar 2021 14:01:04 +0000 (GMT)
-Received: from [9.160.1.180] (unknown [9.160.1.180])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 25 Mar 2021 14:01:04 +0000 (GMT)
-Subject: Re: [PATCH] MAINTAINERS: add/replace backups for some s390 areas
-To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com
-References: <1616680509-8339-1-git-send-email-mjrosato@linux.ibm.com>
-From: Eric Farman <farman@linux.ibm.com>
-Message-ID: <8413193e-a392-ada3-6e1d-c8504451bb20@linux.ibm.com>
-Date: Thu, 25 Mar 2021 10:01:04 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-In-Reply-To: <1616680509-8339-1-git-send-email-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPQbV-00044M-Ul
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:05:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616681090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XOu5T+hSVRgsK9OlAdaNt72C5k4qAiEncVOgi8SC9WY=;
+ b=SPHZJPfAIWgI7SXzG8M3El/k+GgdF0bwLznhw2qF4E+a9h0eShKqATi+hCGsC/ZulDiRR6
+ mAmbR9nL/f1VyhF7FZH4NmTjxVCy++OCSB1FeulonVg7ExLoWQ606GUpRR30r5dS6DSIrQ
+ mXtKGqxhZgyx50ALWfYhhch40EKy8Tg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-0-ki68lbNdGYdSfGPbbCyg-1; Thu, 25 Mar 2021 10:04:48 -0400
+X-MC-Unique: 0-ki68lbNdGYdSfGPbbCyg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9D5580006E;
+ Thu, 25 Mar 2021 14:04:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BF4E5D741;
+ Thu, 25 Mar 2021 14:04:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1AE1E11327E1; Thu, 25 Mar 2021 15:04:46 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 05/19] qapi/expr.py: constrain incoming expression types
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-6-jsnow@redhat.com>
+Date: Thu, 25 Mar 2021 15:04:46 +0100
+In-Reply-To: <20210325060356.4040114-6-jsnow@redhat.com> (John Snow's message
+ of "Thu, 25 Mar 2021 02:03:42 -0400")
+Message-ID: <871rc3tjlt.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-25_03:2021-03-24,
- 2021-03-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 phishscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103250101
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,57 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jjherne@linux.ibm.com, akrowiak@linux.ibm.com, thuth@redhat.com,
- pmorel@linux.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+John Snow <jsnow@redhat.com> writes:
 
-
-On 3/25/21 9:55 AM, Matthew Rosato wrote:
-> S390 PCI currently has no backup, add one.  Add an additional backup
-> for vfio-ccw and refresh the backup for vfio-ap.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-
-Acked-by: Eric Farman <farman@linux.ibm.com>
-
+> mypy does not know the types of values stored in Dicts that masquerade
+> as objects. Help the type checker out by constraining the type.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   MAINTAINERS | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 554be84..5620fc8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1516,6 +1516,7 @@ L: qemu-s390x@nongnu.org
->   
->   S390 PCI
->   M: Matthew Rosato <mjrosato@linux.ibm.com>
-> +M: Eric Farman <farman@linux.ibm.com>
->   S: Supported
->   F: hw/s390x/s390-pci*
->   F: include/hw/s390x/s390-pci*
-> @@ -1830,6 +1831,7 @@ F: docs/igd-assign.txt
->   vfio-ccw
->   M: Cornelia Huck <cohuck@redhat.com>
->   M: Eric Farman <farman@linux.ibm.com>
-> +M: Matthew Rosato <mjrosato@linux.ibm.com>
->   S: Supported
->   F: hw/vfio/ccw.c
->   F: hw/s390x/s390-ccw.c
-> @@ -1839,10 +1841,9 @@ T: git https://gitlab.com/cohuck/qemu.git s390-next
->   L: qemu-s390x@nongnu.org
->   
->   vfio-ap
-> -M: Christian Borntraeger <borntraeger@de.ibm.com>
->   M: Tony Krowiak <akrowiak@linux.ibm.com>
->   M: Halil Pasic <pasic@linux.ibm.com>
-> -M: Pierre Morel <pmorel@linux.ibm.com>
-> +M: Jason Herne <jjherne@linux.ibm.com>
->   S: Supported
->   F: hw/s390x/ap-device.c
->   F: hw/s390x/ap-bridge.c
-> 
+>  scripts/qapi/expr.py | 26 +++++++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index b4bbcd54c0..b75c85c160 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -15,9 +15,18 @@
+>  # See the COPYING file in the top-level directory.
+>  
+>  import re
+> +from typing import Dict, Optional
+>  
+>  from .common import c_name
+>  from .error import QAPISemError
+> +from .parser import QAPIDoc
+> +from .source import QAPISourceInfo
+> +
+> +
+> +# Deserialized JSON objects as returned by the parser;
+> +# The values of this mapping are not necessary to exhaustively type
+
+Not necessary and also not practical with current mypy.  Correct?
+
+> +# here, because the purpose of this module is to interrogate that type.
+> +_JSONObject = Dict[str, object]
+>  
+>  
+>  # Names consist of letters, digits, -, and _, starting with a letter.
+> @@ -315,9 +324,20 @@ def check_event(expr, info):
+>  
+>  def check_exprs(exprs):
+>      for expr_elem in exprs:
+> -        expr = expr_elem['expr']
+> -        info = expr_elem['info']
+> -        doc = expr_elem.get('doc')
+> +        # Expression
+> +        assert isinstance(expr_elem['expr'], dict)
+
+I dislike relaxing OrderedDict to dict here.  I'm going to accept it
+anyway, because the difference between the two is going away in 3.7, and
+because so far order actually matters only in certain sub-expressions,
+not top-level expressions.
+
+> +        for key in expr_elem['expr'].keys():
+> +            assert isinstance(key, str)
+> +        expr: _JSONObject = expr_elem['expr']
+> +
+> +        # QAPISourceInfo
+> +        assert isinstance(expr_elem['info'], QAPISourceInfo)
+> +        info: QAPISourceInfo = expr_elem['info']
+> +
+> +        # Optional[QAPIDoc]
+> +        tmp = expr_elem.get('doc')
+> +        assert tmp is None or isinstance(tmp, QAPIDoc)
+> +        doc: Optional[QAPIDoc] = tmp
+>  
+>          if 'include' in expr:
+>              continue
+
+I see you didn't bite on the idea to do less checking here.  Okay.
+
 
