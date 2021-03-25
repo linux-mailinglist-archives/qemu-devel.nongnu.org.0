@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461D03499AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:47:46 +0100 (CET)
-Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B857F3499AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:48:27 +0100 (CET)
+Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPV1F-0000r1-9W
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51284)
+	id 1lPV1u-0001VI-KC
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPUx3-0007UJ-4m
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:43:25 -0400
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:46706)
+ id 1lPUxv-0008AZ-Un
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:44:21 -0400
+Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35]:41755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPUx0-0007vt-JZ
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:43:24 -0400
-Received: by mail-ot1-x32b.google.com with SMTP id
- 68-20020a9d0f4a0000b02901b663e6258dso2884582ott.13
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 11:43:22 -0700 (PDT)
+ id 1lPUxr-0008Uf-8Y
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:44:18 -0400
+Received: by mail-oo1-xc35.google.com with SMTP id
+ q127-20020a4a33850000b02901b646aa81b1so719748ooq.8
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 11:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VZEGcvfuiMoCLzAP9F+FB8awUM8uBWNSyg+ua/dxfjw=;
- b=fbi+lwF5LxWTEnQObzgazYRptXq4C2V581mnVsDu5yvNykp27/Fdqwi3CinaYSggNR
- Rw9qkjOblNvHYYfwp63HtfoRIcid0H6BfHQd4ieGohtDb/TOMs9B1pXhJqJhrbgzHEM5
- 75eRS2Lp2z4e8gdaHhRvHlMEby/jTkZUc6Nb2o41INCOkv3FTl5YwMwPeya5IpfAwVTk
- ZFOei0vBvKi6Amn20ndE+dhmx8VZCRhIXc/Wz/CNtSv0hbiGiV4WMbyNopCVYUIk7QnU
- AZoF9BzmKUHRjQzLxMi4OzSupWRIKGpaFC0QcRRVU1jHyKoGkSc3boHsdL7hlNN4fHWl
- Lceg==
+ bh=eJAJOUjDZsPKzWNlQ/i/hzFFoLjctiZ3Sr8Z8FdJ70k=;
+ b=oywWD3BRTVv88RkFEpc7IHK+6fsHr1D732AZ0nXZqwvbxIm5/rH8GqGioDLDFOVIP4
+ dQztaoK2opIQhPxOu1M/FdM+v5scjhLfZ9c3Sk8UMstrdXvgNof/zLkgMduHX1dxiHsH
+ H82auXD9nh/dVMTG+O+rsBiVHxVRCTZw/YR+IkGP0jExs0EV1s7Adi5POtPf7qM/lBEI
+ EIWH8qKA38bWo65hRAB2dINJb9jXqpc5mA/pVLC/vsaw1gjfCELf9eU3u/Avb2/TIHKC
+ aWg8WRwehXYCi+FW+mgwuYPTEd59bsGvqEqMBaUSbpD6ECt0TCqsHvImmlazm5/AIZdz
+ Wrvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VZEGcvfuiMoCLzAP9F+FB8awUM8uBWNSyg+ua/dxfjw=;
- b=VJdYO4Rk64QIF0ptRxFfSmcVnPc9Ht2bZvoiVclaMtXhUQ7hNKP6vRr47yxZpUsJ7F
- efzl1ZSu9XGJTxLGkFByfQlpiybtE1qtxwszd6Y6KKU2nxMa4PeU2aHbaGtrMmvhit9W
- 4iQ7apPMvDdx44JBlFhILG6tF2mRL+SpQK0ESu27jd6YQHxTw8Qavlgi41hQMcVAHKjr
- mklagOlgiG7FLL3Oa50i9hcLBgMu6vISNcAUUIAwpxvKeVbXHZ+7xUnlCYYd1dS8HGrb
- BTyV68umf2ux+Ogd8biC0k3ZI9TeRPy3qDAndhpVg9R1od9iG/jXYmlSAAM/IF256cl6
- V/yA==
-X-Gm-Message-State: AOAM533lkSwoNExLtq69eBMlsN4FpmWlNDkh7/cnb2O6vo80WoqF68nn
- SdOGvrWqwewBJwBeUZL6VYHnCw==
-X-Google-Smtp-Source: ABdhPJzOfWw4V4htBA8aJArvyMCgtE7jeXXgl5Nxy3WvWToHD8KSI8ZHZ7fAMOOKT4fr4iLGNR9+pg==
-X-Received: by 2002:a05:6830:91:: with SMTP id
- a17mr8981176oto.309.1616697801283; 
- Thu, 25 Mar 2021 11:43:21 -0700 (PDT)
+ bh=eJAJOUjDZsPKzWNlQ/i/hzFFoLjctiZ3Sr8Z8FdJ70k=;
+ b=QRvOHTHkZ0Xwjla+tW7RvgtlQuAwYLFTOb2L0l60aooCO5C8kZVJpBktYMQynYhoqo
+ DB0YA21yXjfPol11xwdUu30CAfo6/ej7Qh23avX6NTbg0TvpNZy//AbJMRLRn+hIp7cT
+ 3jrmTQyUzvIR0K4awoEHwG84mYmYFQIik25Yj9h/HubJ0HHrsfe0HSWQT11xjIMQgWDD
+ STHMKS+jztT+H/Ya9UkVq3niLt3RayzFQb2JMwxmK0eXUEnGZelp7w4DiHl4+bE1LCh+
+ noiBuSgIJDKiz6JWoP23Y9DD1AK5UjJ2QeBb9wSWf/N5cz2/Th76puZd/ksTdfjJ5CHy
+ AjgQ==
+X-Gm-Message-State: AOAM532V9/MCcosfNbgZs0Uol0sCjPOmAXE5u/moYkMkZCan6bwy+ciO
+ 7jIauNWBazc4rA9yVJzy93IPMQ==
+X-Google-Smtp-Source: ABdhPJzwvo8VtR7qsJz5dIybvHfCFZw6gkpFJJa6ws2PamJ5T3ZWJA8hwH2RkGC+5aOjv+8V8rOUjg==
+X-Received: by 2002:a4a:b787:: with SMTP id a7mr8289358oop.18.1616697853248;
+ Thu, 25 Mar 2021 11:44:13 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id d13sm1531212otk.74.2021.03.25.11.43.20
+ by smtp.gmail.com with ESMTPSA id v23sm1597400ots.63.2021.03.25.11.44.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 11:43:20 -0700 (PDT)
-Subject: Re: [RFC v11 28/55] target/arm: refactor exception and cpu code
+ Thu, 25 Mar 2021 11:44:12 -0700 (PDT)
+Subject: Re: [RFC v11 46/55] target/arm: cpu-sve: split TCG and KVM
+ functionality
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-21-cfontana@suse.de>
- <47ea27b1-a11f-b10d-a084-0f7698691a6b@linaro.org>
- <519488da-3ce9-3fe9-d4a2-4bc76e2519b6@suse.de>
+ <20210323154639.23477-39-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5d76557a-c3b8-ac56-74cf-dc795286e696@linaro.org>
-Date: Thu, 25 Mar 2021 12:43:18 -0600
+Message-ID: <89d76a02-42b9-f5e3-7520-3fd9d2769dfb@linaro.org>
+Date: Thu, 25 Mar 2021 12:44:10 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <519488da-3ce9-3fe9-d4a2-4bc76e2519b6@suse.de>
+In-Reply-To: <20210323154639.23477-39-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc35.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -101,28 +99,12 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 5:59 AM, Claudio Fontana wrote:
->> Isn't tcg/tcg-* redundant?
-> 
-> I considered that, and at some point I had "cpu.c" for x86 too. After working on it for a while, I noticed how
-> it got really confusing in practice to have files called just "cpu.c" when working on them, just too many files are called "cpu.c". It was confusing.
-> 
-> I also like the extra emphasis on the accel for this:
-> 
-> kvm/kvm.c
-> kvm/kvm-cpu.c
-> kvm/kvm-stub.c
-> 
-> tcg/tcg-cpu.c
-> tcg/tcg-stub.c
+On 3/23/21 9:46 AM, Claudio Fontana wrote:
+>   /* called by arm_cpu_finalize_features in realizefn */
+> -void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
+> +bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
 
-But then you go and invent
-
-cpu-sve.c
-kvm/cpu-sve.c
-tcg/cpu-sve.c
-
-etc.  So, please make up your mind.
+No interface changes simultaneous with code movement.
 
 
 r~
