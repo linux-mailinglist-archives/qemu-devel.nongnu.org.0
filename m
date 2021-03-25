@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D7C349891
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:48:29 +0100 (CET)
-Received: from localhost ([::1]:33904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD843498A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:52:36 +0100 (CET)
+Received: from localhost ([::1]:38520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPU5s-0003sB-1o
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56324)
+	id 1lPU9r-0005qb-66
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lPU1v-0001kM-S5
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:44:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52016)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPU6D-0004lj-V6
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:48:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lPU1o-0001r9-MJ
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:44:23 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPU69-0003yd-Dt
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:48:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616694253;
+ s=mimecast20190719; t=1616694522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qhhbx0acJnW5XwskScRBp4Wi3URxxNgDs3ZgukCv1a8=;
- b=aIdzm5MGXP8ibNMrCLvVrbTgKB33ll/KecncytO4XMLhJTH77PjycFl0NClQwJTb7Knki9
- y+6DwMH18Ixm9J6rQaoFcT/D/pfZaQhPGzqZrcUS3JXkNMjP6OGZJxmQK2ci6ORTf5eVFg
- tdTfwmCYvhNtMnxgu3KeNKaP7wOBIKE=
+ bh=/Aw3ED6+VQFXgiFtkj3E2Go0lIR4C6L8scVXcT+jxKY=;
+ b=VFx9C6xoAuoRF+VOgeIXa5dM2s5c4HutWHitWhLo3HqrUxM7LGc6+DAbNU/pQVnmtwFfSp
+ UDBqwN6UV0M1R8CrdQbAtbFAw7vl4P7FnTvM02ao5K2FLt3kLvzsD4mUW5qvyo5bT5uj6O
+ rYT1xYessG9L9j09JKSIwd/zlhPlzao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-O8qWyVIHMb-76OLsDROQ1A-1; Thu, 25 Mar 2021 13:44:10 -0400
-X-MC-Unique: O8qWyVIHMb-76OLsDROQ1A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-495-L5vV0l0ZPoKoabss1Da_gQ-1; Thu, 25 Mar 2021 13:48:40 -0400
+X-MC-Unique: L5vV0l0ZPoKoabss1Da_gQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78B3F801817;
- Thu, 25 Mar 2021 17:44:09 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-73.gru2.redhat.com
- [10.97.116.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 748F419C59;
- Thu, 25 Mar 2021 17:43:49 +0000 (UTC)
-Subject: Re: [PATCH v2 04/10] Acceptance Tests: move useful ssh methods to
- base class
-To: Auger Eric <eric.auger@redhat.com>, Cleber Rosa <crosa@redhat.com>
-References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-5-crosa@redhat.com>
- <41f58f57-8cc5-f375-943e-0b2d298b8fbd@redhat.com>
- <20210324222332.GB3592254@amachine.somewhere>
- <0a9f951d-e5d6-8e69-4dfc-079365180a22@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <ba36169d-aa37-0369-2deb-e71199633b28@redhat.com>
-Date: Thu, 25 Mar 2021 14:43:46 -0300
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0531A81A281;
+ Thu, 25 Mar 2021 17:48:39 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CC065D9D0;
+ Thu, 25 Mar 2021 17:48:34 +0000 (UTC)
+Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
+ stricter checking
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-11-armbru@redhat.com>
+ <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com>
+ <87v99hf60v.fsf@dusky.pond.sub.org>
+ <128c8d73-e16c-cc74-4ab8-b7ef7818e0fc@redhat.com>
+ <87im5fah92.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <6b74a262-10c1-a857-00dd-736d29eec23f@redhat.com>
+Date: Thu, 25 Mar 2021 13:48:34 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <0a9f951d-e5d6-8e69-4dfc-079365180a22@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <87im5fah92.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -74,8 +72,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,290 +86,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 3/25/21 9:50 AM, Auger Eric wrote:
-> Hi Cleber,
->
-> On 3/24/21 11:23 PM, Cleber Rosa wrote:
->> On Wed, Mar 24, 2021 at 10:07:31AM +0100, Auger Eric wrote:
->>> Hi Cleber,
+On 3/25/21 2:18 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 3/24/21 1:57 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
 >>>
->>> On 3/23/21 11:15 PM, Cleber Rosa wrote:
->>>> Both the virtiofs submounts and the linux ssh mips malta tests
->>>> contains useful methods related to ssh that deserve to be made
->>>> available to other tests.  Let's move them to the base LinuxTest
->>> nit: strictly speaking they are moved to another class which is
->>> inherited by LinuxTest, right?
->>>> class.
+>>>> On 3/23/21 5:40 AM, Markus Armbruster wrote:
+>>>>> Naming rules differ for the various kinds of names.  To prepare
+>>>>> enforcing them, define functions to check them: check_name_upper(),
+>>>>> check_name_lower(), and check_name_camel().  For now, these merely
+>>>>> wrap around check_name_str(), but that will change shortly.  Replace
+>>>>> the other uses of check_name_str() by appropriate uses of the
+>>>>> wrappers.  No change in behavior just yet.
+>>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>>> ---
+>>>>>     scripts/qapi/expr.py | 51 +++++++++++++++++++++++++++++++-------------
+>>>>>     1 file changed, 36 insertions(+), 15 deletions(-)
+>>>>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>>>>> index e00467636c..30285fe334 100644
+>>>>> --- a/scripts/qapi/expr.py
+>>>>> +++ b/scripts/qapi/expr.py
+>>>>> @@ -21,11 +21,12 @@
+>>>>>     from .error import QAPISemError
+>>>>>       -# Names must be letters, numbers, -, and _.  They must start
+>>>>> with letter,
+>>>>> -# except for downstream extensions which must start with __RFQDN_.
+>>>>> -# Dots are only valid in the downstream extension prefix.
+>>>>> -valid_name = re.compile(r'^(__[a-zA-Z0-9.-]+_)?'
+>>>>> -                        '[a-zA-Z][a-zA-Z0-9_-]*$')
+>>>>> +# Names consist of letters, digits, -, and _, starting with a letter.
+>>>>> +# An experimental name is prefixed with x-.  A name of a downstream
+>>>>> +# extension is prefixed with __RFQDN_.  The latter prefix goes first.
+>>>>> +valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
+>>>>> +                        r'(x-)?'
+>>>>> +                        r'([a-z][a-z0-9_-]*)$', re.IGNORECASE)
+>>>>>          def check_name_is_str(name, info, source):
+>>>>> @@ -37,16 +38,38 @@ def check_name_str(name, info, source,
+>>>>>                        permit_upper=False):
+>>>>>         # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
+>>>>>         # and 'q_obj_*' implicit type names.
+>>>>> -    if not valid_name.match(name) or \
+>>>>> -       c_name(name, False).startswith('q_'):
+>>>>> +    match = valid_name.match(name)
+>>>>> +    if not match or c_name(name, False).startswith('q_'):
+>>>>>             raise QAPISemError(info, "%s has an invalid name" % source)
+>>>>>         if not permit_upper and name.lower() != name:
+>>>>>             raise QAPISemError(
+>>>>>                 info, "%s uses uppercase in name" % source)
+>>>>> +    return match.group(3)
+>>>>> +
+>>>>> +
+>>>>> +def check_name_upper(name, info, source):
+>>>>> +    stem = check_name_str(name, info, source, permit_upper=True)
+>>>>> +    # TODO reject '[a-z-]' in @stem
+>>>>> +
 >>>>
->>>> The method that helps with setting up an ssh connection will now
->>>> support both key and password based authentication, defaulting to key
->>>> based.
->>>>
->>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>>> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
->>>> ---
->>>>   tests/acceptance/avocado_qemu/__init__.py | 48 ++++++++++++++++++++++-
->>>>   tests/acceptance/linux_ssh_mips_malta.py  | 38 ++----------------
->>>>   tests/acceptance/virtiofs_submounts.py    | 37 -----------------
->>>>   3 files changed, 50 insertions(+), 73 deletions(-)
->>>>
->>>> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
->>>> index 83b1741ec8..67f75f66e5 100644
->>>> --- a/tests/acceptance/avocado_qemu/__init__.py
->>>> +++ b/tests/acceptance/avocado_qemu/__init__.py
->>>> @@ -20,6 +20,7 @@
->>>>   from avocado.utils import cloudinit
->>>>   from avocado.utils import datadrainer
->>>>   from avocado.utils import network
->>>> +from avocado.utils import ssh
->>>>   from avocado.utils import vmimage
->>>>   from avocado.utils.path import find_command
->>>>   
->>>> @@ -43,6 +44,8 @@
->>>>   from qemu.accel import kvm_available
->>>>   from qemu.accel import tcg_available
->>>>   from qemu.machine import QEMUMachine
->>>> +from qemu.utils import get_info_usernet_hostfwd_port
->>>> +
->>>>   
->>>>   def is_readable_executable_file(path):
->>>>       return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
->>>> @@ -253,7 +256,50 @@ def fetch_asset(self, name,
->>>>                           cancel_on_missing=cancel_on_missing)
->>>>   
->>>>   
->>>> -class LinuxTest(Test):
->>>> +class LinuxSSHMixIn:
->>>> +    """Contains utility methods for interacting with a guest via SSH."""
->>>> +
->>>> +    def ssh_connect(self, username, credential, credential_is_key=True):
->>>> +        self.ssh_logger = logging.getLogger('ssh')
->>>> +        res = self.vm.command('human-monitor-command',
->>>> +                              command_line='info usernet')
->>>> +        port = get_info_usernet_hostfwd_port(res)
->>>> +        self.assertIsNotNone(port)
->>>> +        self.assertGreater(port, 0)
->>>> +        self.log.debug('sshd listening on port: %d', port)
->>>> +        if credential_is_key:
->>>> +            self.ssh_session = ssh.Session('127.0.0.1', port=port,
->>>> +                                           user=username, key=credential)
->>>> +        else:
->>>> +            self.ssh_session = ssh.Session('127.0.0.1', port=port,
->>>> +                                           user=username, password=credential)
->>>> +        for i in range(10):
->>>> +            try:
->>>> +                self.ssh_session.connect()
->>>> +                return
->>>> +            except:
->>>> +                time.sleep(4)
->>>> +                pass
->>>> +        self.fail('ssh connection timeout')
->>>> +
->>>> +    def ssh_command(self, command):
->>>> +        self.ssh_logger.info(command)
->>>> +        result = self.ssh_session.cmd(command)
->>>> +        stdout_lines = [line.rstrip() for line
->>>> +                        in result.stdout_text.splitlines()]
->>>> +        for line in stdout_lines:
->>>> +            self.ssh_logger.info(line)
->>>> +        stderr_lines = [line.rstrip() for line
->>>> +                        in result.stderr_text.splitlines()]
->>>> +        for line in stderr_lines:
->>>> +            self.ssh_logger.warning(line)
->>>> +
->>>> +        self.assertEqual(result.exit_status, 0,
->>>> +                         f'Guest command failed: {command}')
->>>> +        return stdout_lines, stderr_lines
->>>> +
->>>> +
->>>> +class LinuxTest(Test, LinuxSSHMixIn):
->>>>       """Facilitates having a cloud-image Linux based available.
->>>>   
->>>>       For tests that indend to interact with guests, this is a better choice
->>>> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
->>>> index 052008f02d..3f590a081f 100644
->>>> --- a/tests/acceptance/linux_ssh_mips_malta.py
->>>> +++ b/tests/acceptance/linux_ssh_mips_malta.py
->>>> @@ -12,7 +12,7 @@
->>>>   import time
->>>>   
->>>>   from avocado import skipUnless
->>>> -from avocado_qemu import Test
->>>> +from avocado_qemu import Test, LinuxSSHMixIn
->>>>   from avocado_qemu import wait_for_console_pattern
->>>>   from avocado.utils import process
->>>>   from avocado.utils import archive
->>>> @@ -21,7 +21,7 @@
->>>>   from qemu.utils import get_info_usernet_hostfwd_port
->>> Can't you remove this now?
->>>>   
->>>>   
->> Yes, good catch!
+>>>> Creates (presumably) temporary errors in flake8 for the dead
+>>>> assignment here and below.
+>>>
+>>> All gone by the end of the series.
+>>>
+>>> "make check" and checkpatch were content.  Anything else you'd like me
+>>> to run?
 >>
->>>> -class LinuxSSH(Test):
->>>> +class LinuxSSH(Test, LinuxSSHMixIn):
->>> out of curiosity why can't it be migrated to a LinuxTest?
->> LinuxTest (currently) assumes that it'll boot via an image obtained
->> with avocado.utils.vmimage, and configured with
->> avocado.utils.cloudinit.  Those are not the case for this test.  I
->> believe there are still some opportunities for advancing them towards
->> each other, but LinuxTest needs to become more versatile.
-> OK makes sense.
->
-> By the way would it be possible to launch other types of cloud-init
-> images? I see that LinuxTest download_boot() only uses a fedora 31
-> image. I would be interested in being able to run other types of images.
-> Could we make it configurable? I can work on this if it makes sense.
-
-
-It is a good idea!
-
-Thanks!
-
-- Wainer
-
->
-> Thanks
->
-> Eric
->>>>   
->>>>       timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
->>>>   
->>>> @@ -72,41 +72,9 @@ def get_kernel_info(self, endianess, wordsize):
->>>>       def setUp(self):
->>>>           super(LinuxSSH, self).setUp()
->>>>   
->>>> -    def ssh_connect(self, username, password):
->>>> -        self.ssh_logger = logging.getLogger('ssh')
->>>> -        res = self.vm.command('human-monitor-command',
->>>> -                              command_line='info usernet')
->>>> -        port = get_info_usernet_hostfwd_port(res)
->>>> -        if not port:
->>>> -            self.cancel("Failed to retrieve SSH port")
->>>> -        self.log.debug("sshd listening on port:" + port)
->>>> -        self.ssh_session = ssh.Session(self.VM_IP, port=int(port),
->>>> -                                       user=username, password=password)
->>>> -        for i in range(10):
->>>> -            try:
->>>> -                self.ssh_session.connect()
->>>> -                return
->>>> -            except:
->>>> -                time.sleep(4)
->>>> -                pass
->>>> -        self.fail("ssh connection timeout")
->>>> -
->>>>       def ssh_disconnect_vm(self):
->>>>           self.ssh_session.quit()
->>>>   
->>>> -    def ssh_command(self, command, is_root=True):
->>>> -        self.ssh_logger.info(command)
->>>> -        result = self.ssh_session.cmd(command)
->>>> -        stdout_lines = [line.rstrip() for line
->>>> -                        in result.stdout_text.splitlines()]
->>>> -        for line in stdout_lines:
->>>> -            self.ssh_logger.info(line)
->>>> -        stderr_lines = [line.rstrip() for line
->>>> -                        in result.stderr_text.splitlines()]
->>>> -        for line in stderr_lines:
->>>> -            self.ssh_logger.warning(line)
->>>> -        return stdout_lines, stderr_lines
->>>> -
->>>>       def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
->>>>           image_url, image_hash = self.get_image_info(endianess)
->>>>           image_path = self.fetch_asset(image_url, asset_hash=image_hash)
->>>> @@ -127,7 +95,7 @@ def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
->>>>           wait_for_console_pattern(self, console_pattern, 'Oops')
->>>>           self.log.info('sshd ready')
->>>>   
->>>> -        self.ssh_connect('root', 'root')
->>>> +        self.ssh_connect('root', 'root', False)
->>>>   
->>>>       def shutdown_via_ssh(self):
->>>>           self.ssh_command('poweroff')
->>>> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
->>>> index 57a7047342..bed8ce44df 100644
->>>> --- a/tests/acceptance/virtiofs_submounts.py
->>>> +++ b/tests/acceptance/virtiofs_submounts.py
->>>> @@ -9,8 +9,6 @@
->>>>   from avocado_qemu import wait_for_console_pattern
->>>>   from avocado.utils import ssh
->>>>   
->>>> -from qemu.utils import get_info_usernet_hostfwd_port
->>>> -
->>>>   
->>>>   def run_cmd(args):
->>>>       subp = subprocess.Popen(args,
->>>> @@ -75,41 +73,6 @@ class VirtiofsSubmountsTest(LinuxTest):
->>>>       :avocado: tags=accel:kvm
->>>>       """
->>>>   
->>>> -    def ssh_connect(self, username, keyfile):
->>>> -        self.ssh_logger = logging.getLogger('ssh')
->>>> -        res = self.vm.command('human-monitor-command',
->>>> -                              command_line='info usernet')
->>>> -        port = get_info_usernet_hostfwd_port(res)
->>>> -        self.assertIsNotNone(port)
->>>> -        self.assertGreater(port, 0)
->>>> -        self.log.debug('sshd listening on port: %d', port)
->>>> -        self.ssh_session = ssh.Session('127.0.0.1', port=port,
->>>> -                                       user=username, key=keyfile)
->>>> -        for i in range(10):
->>>> -            try:
->>>> -                self.ssh_session.connect()
->>>> -                return
->>>> -            except:
->>>> -                time.sleep(4)
->>>> -                pass
->>>> -        self.fail('ssh connection timeout')
->>>> -
->>>> -    def ssh_command(self, command):
->>>> -        self.ssh_logger.info(command)
->>>> -        result = self.ssh_session.cmd(command)
->>>> -        stdout_lines = [line.rstrip() for line
->>>> -                        in result.stdout_text.splitlines()]
->>>> -        for line in stdout_lines:
->>>> -            self.ssh_logger.info(line)
->>>> -        stderr_lines = [line.rstrip() for line
->>>> -                        in result.stderr_text.splitlines()]
->>>> -        for line in stderr_lines:
->>>> -            self.ssh_logger.warning(line)
->>>> -
->>>> -        self.assertEqual(result.exit_status, 0,
->>>> -                         f'Guest command failed: {command}')
->>>> -        return stdout_lines, stderr_lines
->>>> -
->>>>       def run(self, args, ignore_error=False):
->>>>           stdout, stderr, ret = run_cmd(args)
->>>>   
->>>>
->>> Besides,
->>>
->>> Reviewed-by: Eric Auger <eric.auger@redhat.com>
->>>
->>> Thanks
->>>
->>> Eric
->> Thanks for the review!
+>> Eventually it'll be part of CI, with targets to run locally.
 >>
->> - Cleber.
+>> I never expected the process to take this long, so I did not invest my
+>> time in developing an interim solution.
 >>
+>> I use a hastily written script to do my own testing, which I run for
+>> every commit that touches QAPI:
+>>
+>> #!/usr/bin/env bash
+>> set -e
+>>
+>> if [[ -f qapi/.flake8 ]]; then
+>>      echo "flake8 --config=qapi/.flake8 qapi/"
+>>      flake8 --config=qapi/.flake8 qapi/
+>> fi
+>> if [[ -f qapi/pylintrc ]]; then
+>>      echo "pylint --rcfile=qapi/pylintrc qapi/"
+>>      pylint --rcfile=qapi/pylintrc qapi/
+>> fi
+>> if [[ -f qapi/mypy.ini ]]; then
+>>      echo "mypy --config-file=qapi/mypy.ini qapi/"
+>>      mypy --config-file=qapi/mypy.ini qapi/
+>> fi
+>>
+>> if [[ -f qapi/.isort.cfg ]]; then
+>>      pushd qapi
+>>      echo "isort -c ."
+>>      isort -c .
+>>      popd
+>> fi
+>>
+>> pushd ../bin/git
+>> make -j9
+>> make check-qapi-schema
+>> popd
+> 
+> Thanks for sharing this!
+> 
+
+My intent, eventually, was to get scripts/qapi under python/qemu/qapi; 
+under which there is a testing framework thing I have been debating on 
+and off with Cleber for a while that does (basically) the same thing as 
+what my hasty script does, but more integrated with Python ecosystem.
+
+It'll do a few things:
+
+(1) Gets these checks on CI
+(2) Allows developers to manually run the checks locally
+(3) Allows developers to manually run the checks locally using a 
+pre-determined set of pinned linter versions to guarantee synchronicity 
+with CI
+
+cd python/qemu && "make check" would do more or less the same as the 
+hacky script above, "make venv-check" would create a virtual environment 
+with precisely the right packages and then run the same.
+
+I have been stalled there for a while, and I missed freeze deadline from 
+illness. Anguish. For now, the dumb script in my scripts directory does 
+the lifting I need it to, using packages I have selected in my local 
+environment that just-so-happen to pass.
+
+> Apropos qapi-gen testing scripts.  I have scripts to show me how the
+> generated code changes along the way in a branch.  They evolved over a
+> long time, and try to cope with changes in the tree that are hardly
+> relevant anymore.  By now, they could quite possibly make Frankenstein
+> recoil in horror.
+> 
+
+Are they in the tree? Largely if the generated code changes it's 
+invisible to me, but I rely heavily on the unit tests. I guess maybe if 
+they are not in a state to upstream it might not be worth the hassle to 
+clean them, but I don't know.
+
+> As a secondary purpose, the scripts show me how output of pycodestyle-3
+> and pylint change.  This would be uninteresting if the code in master
+> was clean against a useful configuration of these tools.  Your work has
+> been making it less interesting.
+> 
+
+--js
 
 
