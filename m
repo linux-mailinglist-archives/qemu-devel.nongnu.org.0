@@ -2,139 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35856348B39
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 09:13:48 +0100 (CET)
-Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5ED349C10
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 23:05:56 +0100 (CET)
+Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPL7i-0008R3-MX
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 04:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41638)
+	id 1lPY70-0006LA-Qp
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 18:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPL4w-0007Tc-BZ; Thu, 25 Mar 2021 04:10:54 -0400
-Received: from mail-eopbgr140105.outbound.protection.outlook.com
- ([40.107.14.105]:16133 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lPY5e-0005lO-5Q; Thu, 25 Mar 2021 18:04:30 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36053 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPL4S-00070B-3G; Thu, 25 Mar 2021 04:10:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cnXCZpHyT0qgKFLDDfGbtXZWyIQIdvY2l51/w5LurhggNuHvn7T6DZwaR0MuRDnYbghbRS2qXKmMbSfJyPSwDKtMYvINmzPI87ZxIrZrrWXMn2QegL32Jyx2XGjjYSZYyiQrJqN6Bm+MlcJTJffysHLMuYWC2deSyffmjYODi4cJ/BFcC+HHAKK3mu3lWkC3jfyAWxm1tFt5G/6QfZarbvT2foqlBl8eoNwY72PGuL5yeYkoFh0GB1tqJEye3akpC+Q/l1DxtRN6SgsbuBRlAdgHgLNZofiBN84k97WhLLP0tQd6o//EO3Sm+e1UKNFZd1g11AYvEjFT3/vjRL/33w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CRBrW+rAC9KT4v3lDWNxjIinxJ6aAr0NQY7TyGuHf8o=;
- b=igLGOMlvqeW0KVIJJy++yW1Mk4FAl6aeBx5QZZtExI+y96tndCUEV8sja0tLj7kEfVAzYFdRNIjR0ArCYsPtYVLnF12+SN4oZN3zAK/WDIO8MjiQ24Mhpy+g8GSwfxi4cVt9t0hnXnAIwVTZz4ri0UtuOAyDqHPszRUr2QMfY1foK+8ItaRVWBVz/knwqfIj9sBd43ov6094yeeOCCOGhSLHaFqM5rscz5cORdf7jkA5krx35prwswh5BmlDylGsGassX/yxUX2K1kTE9Gv32qB/7h/cwjlozp0OkKDfC5ec5glpckN//s3nzgMm411p7/GuFNbsZW3ggKlrk7WP1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CRBrW+rAC9KT4v3lDWNxjIinxJ6aAr0NQY7TyGuHf8o=;
- b=H5kuzOqcmDY3Icwckbk3RANcjOD/AqmNvvRUKkZKfyyK68pM4OXAb1bQhD6yi5QXXng/pTt2bz+RGkBVOgbse5/DbuaPrSMMSsgHHhMLy0hW3JI0V8UhtT35AiG9YAMLrBXC05UaI07P0xyXq2SFnrZrJ6Ts6L9N/74lzb5NcX8=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR08MB4334.eurprd08.prod.outlook.com (2603:10a6:803:f1::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Thu, 25 Mar
- 2021 08:10:11 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::f947:3484:b0d7:ab52]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::f947:3484:b0d7:ab52%9]) with mapi id 15.20.3977.025; Thu, 25 Mar 2021
- 08:10:11 +0000
-Subject: Re: [PATCH v4 00/11] 64bit block-layer: part II
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, integration@gluster.org, namei.unix@gmail.com,
- dillaman@redhat.com, berto@igalia.com, eblake@redhat.com, pl@kamp.de,
- ronniesahlberg@gmail.com, fam@euphon.net, sw@weilnetz.de,
- stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
- ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com
-References: <161662043558.28197.16335181787861259759@72b6d80f974b>
- <0198241c-8a18-7e67-facb-47387b131fa8@virtuozzo.com>
-Message-ID: <188ddddc-f6cd-ffe9-74d3-5a5f91d11168@virtuozzo.com>
-Date: Thu, 25 Mar 2021 11:10:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <0198241c-8a18-7e67-facb-47387b131fa8@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.202]
-X-ClientProxiedBy: FR2P281CA0008.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::18) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lPY5b-0003og-4a; Thu, 25 Mar 2021 18:04:29 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F5zf56f8Lz9sWS; Fri, 26 Mar 2021 09:04:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616709853;
+ bh=1cCytWkhwLGAmVhrKPYDKHPkI4j/8BbhVooRhHTycOE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G+1H2F7kT0Eco2D8ZCbSLHOPxDAfKwq9xbFhqPEHv+k0kXcBEAPg5RMnervoZxbU0
+ Ug6XtmrqtCUw25zMr2yY98SSeQJ3V8IkkxL1Fd7zPwGwgsKdeHSgcO0Ax+Elu9Mk88
+ Ty1z2c/GYFhzojAoEQFIpaXdollKNic0XYDnUnDA=
+Date: Thu, 25 Mar 2021 19:47:50 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 10/10] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
+Message-ID: <YFxONrbZarGMH34O@yekko.fritz.box>
+References: <20210323184340.619757-1-richard.henderson@linaro.org>
+ <20210323184340.619757-11-richard.henderson@linaro.org>
+ <YFqD5JOVEXVFv9Tr@yekko.fritz.box>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.202) by
- FR2P281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.15 via Frontend Transport; Thu, 25 Mar 2021 08:10:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 29345f53-5375-4e70-c4f1-08d8ef656984
-X-MS-TrafficTypeDiagnostic: VI1PR08MB4334:
-X-Microsoft-Antispam-PRVS: <VI1PR08MB4334B1BE545B3DC9AE692175C1629@VI1PR08MB4334.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HjtXFkMXoqLZbngVCDdEdUCIHpszdmYwXyliATabFq+cfxS4lXxIIVP3gI7507KVYhs2uTsA1j6DeNBWpOc/h4KFlujdn5aQW3gxbuJ6FUIF1hbghNFSvtSgzB1/OTc9gSggnf7fTdUkol4RjxAaC78FscMn3yf3t3cuA0kuInJGmGLJ06T2oEF9oGcS0z0kq1MX3qD4s4Cle+/72w7SvAX/WApz2Z+TxP/CxGseGnEijNFyUcQ9YyOAhF1q0IQ8OaY0zoc9JRY4DlYt+sZvhXCKtDNqN4g6kQMV+4ZFlE+cXqIJsBYkEfFu0k3wbGfrOHw1rF3StvrNMJ1jj+L4Kbd3YoSayD+W/AxeSPL9Xdr0pdPmUgXdTe61srBOWjBdsoEqS9MKCZHz++Q6V6l5bqRvqRl01DXi81ny0/0JxFxW8tLqRz/mbdDVw/cYat94Z2gFEXLHHK1KlsfwiqyxHTCz980seqGnYJEV679m76mfujSdxy5efhlh4NBgJBW2Em6p+zBrLmF5GJ9CRBy2odGiOksDjPBgI3V2Q2S1Lp66sQWU2/s8UrEJGZVGV98TPexygyZlusMWRKi3TEB1OHo8+8y7PiIkPg81TLJcTNrLR0/LxWcJGR49eEHnYIqAITC3NJbX4sl+4+i5oJXai+opsAFEjB3a6YhNxUe0Baw6bLwnhO02ha01g7/nEHoJvcqxhBJh+zU9ND3tkuJIltncXsBNpAQTCIn5+kUFBRPm71itPDYqen1+CJn0SMa/gVDbQa3PdcFfPZNbI//wwsxBe9TEGrmSnlwkCGyhqUY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(366004)(376002)(346002)(136003)(396003)(16526019)(8676002)(86362001)(316002)(26005)(5660300002)(16576012)(8936002)(66556008)(956004)(66476007)(2616005)(186003)(66946007)(4326008)(478600001)(6486002)(6916009)(31696002)(38100700001)(2906002)(52116002)(31686004)(966005)(36756003)(7416002)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?elBSRFBXTlVKQ2Nmci9SaktEcGJ5dmRzTW9yWkFjZWF5aVhBNFhZRWpTOG9C?=
- =?utf-8?B?VkMrMjVVTStJNEE1MDBPaW5VajNEUVdMY1hMV0k5aXU4Ti9rcklPZjk3eXo2?=
- =?utf-8?B?UW5QeHNsbDhjVDdHd2JLNC94RXU0NEsxbWgwWDh6dXNGZHA5UHgxcUdZQ0g4?=
- =?utf-8?B?L0ZJT0RuKzRTU2hURE13VGNOTWMxSE5nYXRnWUVQTHc0VWhBQWVvcTgwMkln?=
- =?utf-8?B?ZjRHNjZsVUJGVVVyeE84RzFoQmpPRVlaTUs0d1RyU1p1T2ZQZUlla0JUcXFi?=
- =?utf-8?B?dGYxR1Q5Y055NkYvZ1hBZUFBYUdYaU1ackcrUkNEU3ZZa3RWT2FXRmxFUW9R?=
- =?utf-8?B?d29jQzhXYk8wRVE0SEpaMHMxWlo5ZXVzaENTdFpUcGNGMStHdHlZTWc0REp4?=
- =?utf-8?B?Zk1vcGU1NHhWUEtlVzJyZVozelNkMFhRZ292akRaMVdsZy9nLy9GWHdYdnpk?=
- =?utf-8?B?Z3RHYmJsT2pLWkhabHJoNTd5blNxclA4SVIraWtkTnhOa0hQa092OFBKeW5H?=
- =?utf-8?B?UktHT2YweWRTQjhUNytjaG0rb1pMSlBCdUZRbVVidE9lM1NNRGg1blN6Yjkz?=
- =?utf-8?B?YzJUWUc1SnJ6bjhxZ0VzN2xkQk1na0g4aGpUZ0xnQmJwYXJyM2NMSHdoUy9C?=
- =?utf-8?B?MnliUnlJcVVyZE02VWREWFVkQmdqY1pIK0xYRFRZUStXMGpUaWkzVTl0NGI4?=
- =?utf-8?B?cEU1RnpOeVJhMEdHdTQvOG5ya2p4anZHZFdaL3Zzd2Z5UWw5ZDFDVjg5enly?=
- =?utf-8?B?TGQ2bTNqYWZUd2ZabVFKS1FnelJLMC93RTVYdndnYUoxUkZLTm9leEt4b2hF?=
- =?utf-8?B?N1dVVHhRQ1dUTmFWemV3TWpBWXQ4cHUzS0ZLa1prb3pwcTQxM29PcXpaZE92?=
- =?utf-8?B?c0FtdjkyZ1lmc2dLKzh4YjIzQXBZME1rQ3ZNc3VtYkpRTWVhcXNUeDBVOHgx?=
- =?utf-8?B?dVBkWGp0V056dmhES1k1NUNyOGE4M05jUjJaM3B1RHJ6MEJoMHhZSHM2Njk4?=
- =?utf-8?B?MFFmNkVnVWxVeGRTTHNhUnlNeGNvQ29nejd1Y1AwaDA0dHZpSnc4UmJBZVBy?=
- =?utf-8?B?K0t4UEVSUWFiRWRaK0plRDdva09LYmphNkpPU1J6bElXV1pPWUhNVUFGcWpT?=
- =?utf-8?B?dm5tTkJWRnpsZXNwU25HdHU0QUUrckVENmNnUkZ6UVFBY1g4YmhkbDNqaVEr?=
- =?utf-8?B?Q0IvQjJhbmhVVGEraEJuUHpGaFE1ZmtIUHpVTVNTalIwaUVFSGdrZzdOOXdW?=
- =?utf-8?B?SHlDc3BVNlJ2dGIrNkFRalhnM2dpdEFSSEhLWlJpVUMxbjk3UXFnMUZobS9H?=
- =?utf-8?B?bERycmt1YkhnYmFTUFRiOG9qM1VUNTl4TWVPdVFQaGRiaTlPUWpUeEdZTENW?=
- =?utf-8?B?Ky9DSU5SODV3TkdGZFVIMFdpSHNDU0RhbXFqSitRQWNWRFk3c003dmsvbkxv?=
- =?utf-8?B?ZFlyaGtEcE9aZERKb1RCMnVaZG1MNzU4Rnk1Y25XMk5sUWVKcG9Dc0xHNDZF?=
- =?utf-8?B?S1VXZ0xVaFVCbGZQamVDMVRFa3RDeVJGdFQxK0lpNGFTT291UGlZL3dSV0VW?=
- =?utf-8?B?aTJNbTQ4bFhwYW1CQzFFdXhFQ0h3VGJpNzZpTWtkVlJCU1ZSSFRIQklyYTlE?=
- =?utf-8?B?TDJyOHhMT1pHM2lzT3d3Uit2MVVRWGVReDdlZkhJQmYrdStwa01sZFpZLzhT?=
- =?utf-8?B?THFvS3N5cVZPSTNZT1AranE1dkNPaHN0T3JWa1c2a2VPYjhvR05aRmhQUEc0?=
- =?utf-8?Q?hkPlSM8eQEDKCFk29Ra6UR3TFIbuaAP1bCX50bI?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29345f53-5375-4e70-c4f1-08d8ef656984
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2021 08:10:11.6279 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6LLfCxt6v+QXfb6xetmYr/kaezhfnk8ZLx8jpuSSmEHe1ZsEumAHnP+u5s6qCmDGlGU3a5VCiy5DGoUT763vDsd0rpRmPXSUIDBC21NFX7o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4334
-Received-SPF: pass client-ip=40.107.14.105;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dhnemofG9ZwYs3a2"
+Content-Disposition: inline
+In-Reply-To: <YFqD5JOVEXVFv9Tr@yekko.fritz.box>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,71 +60,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-25.03.2021 10:42, Vladimir Sementsov-Ogievskiy wrote:
-> 25.03.2021 00:13, no-reply@patchew.org wrote:
->> Patchew URL: https://patchew.org/QEMU/20210324205132.464899-1-vsementsov@virtuozzo.com/
->>
->>
->>
->> Hi,
->>
->> This series seems to have some coding style problems. See output below for
->> more information:
->>
->> Type: series
->> Message-id: 20210324205132.464899-1-vsementsov@virtuozzo.com
->> Subject: [PATCH v4 00/11] 64bit block-layer: part II
->>
->> === TEST SCRIPT BEGIN ===
->> #!/bin/bash
->> git rev-parse base > /dev/null || exit 0
->> git config --local diff.renamelimit 0
->> git config --local diff.renames True
->> git config --local diff.algorithm histogram
->> ./scripts/checkpatch.pl --mailback base..
->> === TEST SCRIPT END ===
->>
->> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
->>  From https://github.com/patchew-project/qemu
->>   - [tag update]      patchew/20210323221539.3532660-1-crosa@redhat.com -> patchew/20210323221539.3532660-1-crosa@redhat.com
->>   * [new tag]         patchew/20210324205132.464899-1-vsementsov@virtuozzo.com -> patchew/20210324205132.464899-1-vsementsov@virtuozzo.com
->> Switched to a new branch 'test'
->> bed608a block/io: allow 64bit discard requests
->> 9b3b5c7 block: use int64_t instead of int in driver discard handlers
->> 9d5776f block: make BlockLimits::max_pdiscard 64bit
->> 1dc4bab block/io: allow 64bit write-zeroes requests
->> 05ca540 block: use int64_t instead of int in driver write_zeroes handlers
->> 5864b0d block: make BlockLimits::max_pwrite_zeroes 64bit
->> 9698c13 block: use int64_t instead of uint64_t in copy_range driver handlers
->> 4e60566 block: use int64_t instead of uint64_t in driver write handlers
->> 8aa3af1 block: use int64_t instead of uint64_t in driver read handlers
->> fc695f9 qcow2: check request on vmstate save/load path
->> a13a9ef block/io: bring request check to bdrv_co_{read, write}v_vmstate
->>
->> === OUTPUT BEGIN ===
->> 1/11 Checking commit a13a9efd128c (block/io: bring request check to bdrv_co_{read, write}v_vmstate)
->> ERROR: Author email address is mangled by the mailing list
->> #2:
->> Author: Vladimir Sementsov-Ogievskiy via <qemu-devel@nongnu.org>
-> 
-> That's a strange false-positive.
-> 
-> Look at 1/11: it's not mangled in any way. Looking at the source I see clean "From:" header:
-> 
->    From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> And there is no any "Author" in the message source at all. "qemu-devel" is noted only in Cc: list.
-> 
 
-Hmm, but if look at mail on patchew, https://patchew.org/QEMU/20210324205132.464899-1-vsementsov@virtuozzo.com/20210324205132.464899-2-vsementsov@virtuozzo.com/
-yes it is mangled..
+--dhnemofG9ZwYs3a2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I hope everyone who is in CC (as me) gets this email not-mangled.
+On Wed, Mar 24, 2021 at 11:12:20AM +1100, David Gibson wrote:
+> On Tue, Mar 23, 2021 at 12:43:40PM -0600, Richard Henderson wrote:
+> > Verify that hflags was updated correctly whenever we change
+> > cpu state that is used by hflags.
+> >=20
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> Applied to ppc-for-6.0, thanks.
 
--- 
-Best regards,
-Vladimir
+Alas, this appears to cause a failure in the 'build-user' test on
+gitlab CI :(.  I haven't managed to reproduce it locally, so I'm not
+sure what's going on.
+
+>=20
+> > ---
+> >  target/ppc/cpu.h         |  5 +++++
+> >  target/ppc/helper_regs.c | 29 +++++++++++++++++++++++++++--
+> >  2 files changed, 32 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> > index 3d021f61f3..69fc9a2831 100644
+> > --- a/target/ppc/cpu.h
+> > +++ b/target/ppc/cpu.h
+> > @@ -2425,6 +2425,10 @@ void cpu_write_xer(CPUPPCState *env, target_ulon=
+g xer);
+> >   */
+> >  #define is_book3s_arch2x(ctx) (!!((ctx)->insns_flags & PPC_SEGMENT_64B=
+))
+> > =20
+> > +#ifdef CONFIG_DEBUG_TCG
+> > +void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+> > +                          target_ulong *cs_base, uint32_t *flags);
+> > +#else
+> >  static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong=
+ *pc,
+> >                                          target_ulong *cs_base, uint32_=
+t *flags)
+> >  {
+> > @@ -2432,6 +2436,7 @@ static inline void cpu_get_tb_cpu_state(CPUPPCSta=
+te *env, target_ulong *pc,
+> >      *cs_base =3D 0;
+> >      *flags =3D env->hflags;
+> >  }
+> > +#endif
+> > =20
+> >  void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exceptio=
+n);
+> >  void QEMU_NORETURN raise_exception_ra(CPUPPCState *env, uint32_t excep=
+tion,
+> > diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> > index 5411a67e9a..3723872aa6 100644
+> > --- a/target/ppc/helper_regs.c
+> > +++ b/target/ppc/helper_regs.c
+> > @@ -43,7 +43,7 @@ void hreg_swap_gpr_tgpr(CPUPPCState *env)
+> >      env->tgpr[3] =3D tmp;
+> >  }
+> > =20
+> > -void hreg_compute_hflags(CPUPPCState *env)
+> > +static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+> >  {
+> >      target_ulong msr =3D env->msr;
+> >      uint32_t ppc_flags =3D env->flags;
+> > @@ -155,9 +155,34 @@ void hreg_compute_hflags(CPUPPCState *env)
+> >      hflags |=3D dmmu_idx << HFLAGS_DMMU_IDX;
+> >  #endif
+> > =20
+> > -    env->hflags =3D hflags | (msr & msr_mask);
+> > +    return hflags | (msr & msr_mask);
+> >  }
+> > =20
+> > +void hreg_compute_hflags(CPUPPCState *env)
+> > +{
+> > +    env->hflags =3D hreg_compute_hflags_value(env);
+> > +}
+> > +
+> > +#ifdef CONFIG_DEBUG_TCG
+> > +void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+> > +                          target_ulong *cs_base, uint32_t *flags)
+> > +{
+> > +    uint32_t hflags_current =3D env->hflags;
+> > +    uint32_t hflags_rebuilt;
+> > +
+> > +    *pc =3D env->nip;
+> > +    *cs_base =3D 0;
+> > +    *flags =3D hflags_current;
+> > +
+> > +    hflags_rebuilt =3D hreg_compute_hflags_value(env);
+> > +    if (unlikely(hflags_current !=3D hflags_rebuilt)) {
+> > +        cpu_abort(env_cpu(env),
+> > +                  "TCG hflags mismatch (current:0x%08x rebuilt:0x%08x)=
+\n",
+> > +                  hflags_current, hflags_rebuilt);
+> > +    }
+> > +}
+> > +#endif
+> > +
+> >  void cpu_interrupt_exittb(CPUState *cs)
+> >  {
+> >      if (!kvm_enabled()) {
+>=20
+
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--dhnemofG9ZwYs3a2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBcTjQACgkQbDjKyiDZ
+s5JfVQ/9H2QTmoXGBdhKpD+STqKlw4lUFzjTux0PCdQQAVsvuvaljgw/+bKnTdOB
+KNpKsuiRM20LfKjk0prEkNgS6fbu0zJPapQAYFJmeCg7fdAiWdLWhUqKY17oN60X
+s6XE4ZBs0scPTyF2nRXufv39TkBtD+FQJETV6fkvrCtCk+CYUXGUx/KUURRzDfRT
+0owtl46cN3T/HjoM3YtKUb4RhLvRO+w/LCFIj1rcrwLH9WAtQ3nFufQqR1LI7Ay+
+BZxpPpJCjGKwjOhYEnAV5Ta8TC4WH7JHid1eCO9hlxd5H2Th556XM9/kzRhR0Sks
+LQkA6i9th7Sy3ikxDILDm8akLUxaItLXtxtIVZa97s9GEVqOR84vTRttgS4aklIn
+1jbms6UObIeK3pG+ZlhRovhRK/o0oMsju/IxibxtT0wo91LUyzA1VwM9zdBUIa7L
+p9XgjEuDM/3/E/zndDJ8qMMD08Vv11K9k2m/YkaYvilKqoCjXgcGYEtOUdarDEA3
+NECWlULjyIxUKua0noDKN7BJmhyoilYddaCc7FRq/JP89+0Wf6z5L0N9OCXqYhTk
+Lszy3TLRPsYSxBoYRwK01SUtvvZYEZTs5uOU2Rn69NLn19FC6AConHTM0dQb/d4Y
+evniH0x5NIclgNe3HhCdDQzb72EVw0jlEOTduIeWjRJQQjpcs0U=
+=cHgp
+-----END PGP SIGNATURE-----
+
+--dhnemofG9ZwYs3a2--
 
