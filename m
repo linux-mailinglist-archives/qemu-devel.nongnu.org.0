@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B99348C21
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 10:02:22 +0100 (CET)
-Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8251348D00
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 10:33:38 +0100 (CET)
+Received: from localhost ([::1]:41368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPLsj-0001xI-MI
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 05:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
+	id 1lPMMz-000299-Vr
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 05:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lPLrN-0001RG-Cs
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 05:00:57 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:39436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lPLrK-0003le-T9
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 05:00:57 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id
- h6-20020a0568300346b02901b71a850ab4so1254987ote.6
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 02:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OsaYZbaqaPFIGFQeJHNjY2XxDQg1y1F8nJHAopTujEk=;
- b=xlMCZYIle1b6JGUld+AdRaHoyrgivSluEuWQny+a3PiQeI8Qy3Fs/rUWkdF69EUYVw
- kZPjGfADw1vK7VL1RhdnThK26ryAPe9OXcT7pYhnD64qfNr7ArR4vXy9Li6EOq1DGbqe
- CH/9kks/9cCUw6kgDYdbTjyJvgqjljeEXQes7japlb+R4DXefO+vxcfH2i94wcVukaJR
- 1kNDLFX3egFHXcf5dYiqeSISENPdUD0+Pb+5YKbmJxUU7wz1t6si64icP0Ej/4XlH2+q
- w28mcYM7UXJtihS/bzIV0cZriZvfAWXXw//xJuXyObeOtnl/2MxSX1mkhrHy3A2g9bPF
- 5n5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OsaYZbaqaPFIGFQeJHNjY2XxDQg1y1F8nJHAopTujEk=;
- b=UxrbrQqIR4BqKPKY9D6XlpYwv5alBSGlMH8z0VfLK5BSvhGqVwuF3vYj9/fu4RSI33
- /unde8ox93r2UxxhdeGplB935Rm5VUTdk17rIJE0Pwr1vGlLb+eav6e8Vbt5J10G8u14
- CgZcblN02FlilY4cOdi8Gw6kQawdG7OTw+b+IYPXHw+5CUw7nXhM0KYw1tG7JcmDfj28
- 42olsTIWwgd94x7Eo8PodaDe6lYm+iVfLKd1kD2iS2p/5VxMwUj27at7i9NHr0+RoFV+
- tn63TQROzoHxYdSX7KwmASQRVEykOdbSsGu5prwwl7N2vWPyJCt202JF62shYOHcEYYS
- Rx1g==
-X-Gm-Message-State: AOAM530xiOiFcuh0HJcGVnP0I2VRRHoc0i5gNb8YbJfnhKPblTCJfylP
- /MH8pBFS5Ka42uRdOetdzemh3xBV2Hr/08IpKYSj6Q==
-X-Google-Smtp-Source: ABdhPJxuGt+dA+ge/QX2VMozrWku/FajlooLXHheyExy97iuhkL3WHuGLwjD433yxhslmvRfyPck3JuRE0WBVKgWtnw=
-X-Received: by 2002:a9d:740a:: with SMTP id n10mr6646878otk.27.1616662852838; 
- Thu, 25 Mar 2021 02:00:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
+ id 1lPMJG-0000lw-8l; Thu, 25 Mar 2021 05:29:47 -0400
+Received: from exmail.andestech.com ([60.248.187.195]:14489
+ helo=ATCSQR.andestech.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
+ id 1lPMJB-0003Zb-5e; Thu, 25 Mar 2021 05:29:45 -0400
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 12P9Sp7P049117;
+ Thu, 25 Mar 2021 17:28:51 +0800 (GMT-8)
+ (envelope-from dylan@andestech.com)
+Received: from andestech.com (10.0.15.65) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Thu, 25 Mar 2021
+ 17:28:53 +0800
+Date: Thu, 25 Mar 2021 17:28:54 +0800
+From: Dylan Jhong <dylan@andestech.com>
+To: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>
+Subject: Re: [PATCH V2] target/riscv: Align the data type of reset vector
+ address
+Message-ID: <20210325092854.GA4635@andestech.com>
+References: <20210325055213.13464-1-dylan@andestech.com>
 MIME-Version: 1.0
-References: <20210322122452.369750-1-yuri.benditovich@daynix.com>
- <aa33a355-5980-5ff5-7264-02d6fc7f5f9d@redhat.com>
-In-Reply-To: <aa33a355-5980-5ff5-7264-02d6fc7f5f9d@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Thu, 25 Mar 2021 11:00:41 +0200
-Message-ID: <CAOEp5Od+jPYdmFdD3z3hVjs5t6QXgmEoOTPHO5cLVyifjmjgRQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/3] virtio-net: graceful drop of vhost for TAP
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::32f;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x32f.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210325055213.13464-1-dylan@andestech.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.0.15.65]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 12P9Sp7P049117
+Received-SPF: pass client-ip=60.248.187.195; envelope-from=dylan@andestech.com;
+ helo=ATCSQR.andestech.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,84 +64,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Ruinland Chuan-Tzu =?utf-8?B?VHNhKOiUoeWCs+izhyk=?=
+ <ruinland@andestech.com>, "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>,
+ "x5710999x@gmail.com" <x5710999x@gmail.com>,
+ Alan Quey-Liang =?utf-8?B?S2FvKOmrmOmtgeiJryk=?= <alankao@andestech.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
+Hi All,
 
-This was discussed earlier on the previous series of patches.
-https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg01829.html
-There were strong objections from both Daniel and Michael and I feel
-that the series was rejected.
-There was Michael's claim:
-"We did what this patch is trying to change for years now, in
-particular KVM also seems to happily disable CPU features not supported
-by kernel so I wonder why we can't keep doing it, with tweaks for some
-corner cases."
-https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03187.html
-And it was Michael's question:
-"Can we limit the change to when a VM is migrated in?"
-https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03163.html
-So I'm trying to suggest another approach:
-- In case of conflicting features (for example RSS and vhost) we in
-qemu we do not have enough information to prefer one or another.
-- If we drop to userspace in the first set_features we say: "vhost is
-less important than other requested features"
-- This series keeps backward compatibility, i.e. if you start with
-vhost and some features are not available - they are silently cleared.
-- But in case the features are available on source machine - they are used
-- In case of migration this series says: "We prefer successful
-migration even if for that we need to drop to userspace"
-- On the migration back to the 1st system we again work with all the
-features and with vhost as all the features are available.
+Please ignore this patch.
+There is a compile error while building 32bit qemu.
 
-Thanks,
-Yuri
+The error occurs in ./target/riscv/cpu.c:557  
+    "DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC)"
 
+It should be written differently according to 32bit or 64bit machine.
 
+I'll send patch v3 to fix this issue.
+Sorry for my mistake.
 
-On Thu, Mar 25, 2021 at 8:59 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/3/22 =E4=B8=8B=E5=8D=888:24, Yuri Benditovich =E5=86=99=E9=
-=81=93:
-> > Allow fallback to userspace only upon migration, only for specific feat=
-ures
-> > and only if 'vhostforce' is not requested.
-> >
-> > Changes from v1:
-> > Patch 1 dropeed (will be submitted in another series)
-> > Added device callback in case the migration should fail due to missing =
-features
->
->
-> Hi Yuri:
->
-> Have a quick glance at the series. A questions is why we need to do the
-> fallback only during load?
->
-> I think we should do it in the device initializating. E.g when the vhost
-> features can not satisfy, we should disable vhost since there.
->
-> Thanks
->
->
-> >
-> > Yuri Benditovich (3):
-> >    net: add ability to hide (disable) vhost_net
-> >    virtio: introduce 'missing_features_migrated' device callback
-> >    virtio-net: implement missing_features_migrated callback
-> >
-> >   hw/net/vhost_net.c         |  4 ++-
-> >   hw/net/virtio-net.c        | 51 +++++++++++++++++++++++++++++++++++++=
-+
-> >   hw/virtio/virtio.c         |  8 ++++++
-> >   include/hw/virtio/virtio.h |  8 ++++++
-> >   include/net/net.h          |  1 +
-> >   5 files changed, 71 insertions(+), 1 deletion(-)
-> >
->
+Regards,
+Dylan
+
+On Thu, Mar 25, 2021 at 01:52:13PM +0800, Dylan Dai-Rong Jhong(鍾岱融) wrote:
+> Signed-off-by: Dylan Jhong <dylan@andestech.com>
+> Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+> ---
+>  target/riscv/cpu.c | 2 +-
+>  target/riscv/cpu.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 7d6ed80f6b..4ac901245a 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -137,7 +137,7 @@ static void set_feature(CPURISCVState *env, int feature)
+>      env->features |= (1ULL << feature);
+>  }
+>  
+> -static void set_resetvec(CPURISCVState *env, int resetvec)
+> +static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+>      env->resetvec = resetvec;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0a33d387ba..d9d7891666 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -303,7 +303,7 @@ struct RISCVCPU {
+>          uint16_t elen;
+>          bool mmu;
+>          bool pmp;
+> -        uint64_t resetvec;
+> +        target_ulong resetvec;
+>      } cfg;
+>  };
+>  
+> -- 
+> 2.17.1
+> 
 
