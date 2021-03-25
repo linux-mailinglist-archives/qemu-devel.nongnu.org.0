@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C3A3491C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:20:56 +0100 (CET)
-Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9103491C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:21:05 +0100 (CET)
+Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPOyt-0000RA-1H
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
+	id 1lPOz2-0000mO-NH
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lPOwt-0007yU-I0
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:18:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36823)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lPOwp-0001VF-ST
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:18:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616674726;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=jperPNLmhByLCS/rEka9DO+sGWRrZa+aR6WQ/k/a/3o=;
- b=aa211rrRHOtBpkLLLkdB5a3U5CjNHVfWptlbX5z5o+e2G3ZMB4r5oeFZantLJHZWxeUf6F
- 5wtFszMd06UDjV5eop97iHhD7ybeKrcVq4+5Z2u4ST0nBYgXzzSeAygaKDwyU0ddka1fGO
- QYt7uP8MGlQ9zgkWcaYyrCJEtCNG6V8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-nFNWD9SpNdq7j0so8yvbcw-1; Thu, 25 Mar 2021 08:18:44 -0400
-X-MC-Unique: nFNWD9SpNdq7j0so8yvbcw-1
-Received: by mail-wr1-f69.google.com with SMTP id b6so2539238wrq.22
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:18:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPOx4-0008FV-Uk
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:19:02 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:45808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPOx3-0001dw-GM
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:19:02 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 91-20020a9d08640000b0290237d9c40382so1672994oty.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:19:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=goYeK9pLYHXcQ2+SqgisuJ8KsIZqVbBC1mLUWzE10WM=;
+ b=UMwtsMDVD/FXd9wDFh0r+pZMK6eKTT09s7vei+8pXSPY0lgAVBNLMLTDi63viIXMKY
+ eIHNIRZcI09rVhvlTEcJZWbcT1zloF8avVe7d3Mhvj92OKGJOaH5ALs3Vo7bad1f6TFI
+ YRn97EHC2wxUrEjcl599sdQW1CUhNycgcjil3nDjBFkB0DCw6tvL3okdQJWKL/2s3Irk
+ RPTLoNmHgOB9lrTdTmkjOc+43oIeteQ220KrxFdG19pX1VSfJO9EhBRAG8/LHtslt0g8
+ XHyXPi/x7twBakX6EViFPPudBTh3jSWRpvWdLjhSBfT+fmRIWbIlu8mbku8C969nyTah
+ 9gsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=jperPNLmhByLCS/rEka9DO+sGWRrZa+aR6WQ/k/a/3o=;
- b=myd3jkL2y4OMjQF+hsvae2gmh7KY4Nw2huMxb2USYtdRfTASq0CWb5sKsrRuCQK7Nn
- y6IuyjI/qW86KQxL39vG7PPatOHW0zfagUf8QQ7BgusEm85KkdUzhhC1nqXE64ilweaW
- ssmfZoNiAjf0ofDHa0Nrzyl+BsHBA2icDOfzuLNfZhcZ4nFUX+OEsi8GxWFcLUXbBwj1
- /bACIobmZna8vpOqgmrd6daXpXprNyrJ1CxOKpQRBEL4+QUePmhMn2xtI2kqQ+Bj8dUu
- /ydgCyufUVMQ9tltnsjNEMzW7TkAFDJ4GArYFe02Xk9zsEzHP371KS/KRRVdk1d9CkrC
- S9zw==
-X-Gm-Message-State: AOAM533W2u3tZ3FXb956bKiUmgZwcG3zvxzAMnYCLSgL7XenoG3QTma1
- gkwnN0ajite5ZcEW3BHtvqFV7Y/M0KQ+Hb93+J+KYXhKt4K5MGmKiEY3MdL1SNqdceYCnuqvi18
- los+q7KnK1PkSF5M=
-X-Received: by 2002:a5d:4686:: with SMTP id u6mr8596611wrq.60.1616674722011;
- Thu, 25 Mar 2021 05:18:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPFKHdPPXvrDwIjjzUHItfLCrhlbFZ3sKNQLH6gWb/9Ifi8lq9Sz+BOyAZIwhHkj8yCSOS0Q==
-X-Received: by 2002:a5d:4686:: with SMTP id u6mr8596576wrq.60.1616674721758;
- Thu, 25 Mar 2021 05:18:41 -0700 (PDT)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id c16sm8078071wrs.81.2021.03.25.05.18.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 05:18:41 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Haibo Xu <haibo.xu@linaro.org>
-Subject: Re: [RFC PATCH v2 3/5] Add APIs to get/set MTE tags
-In-Reply-To: <5f269099f5f06c23f11d41b45d64f77eca23a8ff.1615972140.git.haibo.xu@linaro.org>
- (Haibo Xu's message of "Wed, 17 Mar 2021 09:28:22 +0000")
-References: <cover.1615972140.git.haibo.xu@linaro.org>
- <5f269099f5f06c23f11d41b45d64f77eca23a8ff.1615972140.git.haibo.xu@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Thu, 25 Mar 2021 13:18:40 +0100
-Message-ID: <87tuozo28v.fsf@secure.mitica>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=goYeK9pLYHXcQ2+SqgisuJ8KsIZqVbBC1mLUWzE10WM=;
+ b=q+VGIOJgvlA7uS5oJimbkMHoQoz0PIffbesBWCPoCqYlmKjBYC9pp4bBtNUyoz7015
+ pk/VhlXL1Th4RTi9ML6FowE6IxmPtcE99B/gnB4Lht4aJCGvy3crO577iT9NJ0xF6qyK
+ c2P6d5SsSPQEJ0k8Yb0SNJ1ZebQuMhtUCVDYwTfl2CtFVuzj71PeN+lN6Tt/McO7MQ7G
+ hBIa4f7JvYK4x4O7xaZKLM8F4UWWWQQPelhhgmBtyvdcJKw/1hfPTTe5Mscq8myN4rs0
+ s5tivhBhYJVO02lxl93wElaOga8VOS8AxYUBXDS9fCAPOhrcnbI+CCjJaDWqM+xplLKH
+ eF3A==
+X-Gm-Message-State: AOAM531MMyDhQGOkLMKOE9Aki6FGfN96lFaGdcRk37hdc9OakD5tpRAK
+ M29Z/hbBpGBrGanzFDSp3wd+4A==
+X-Google-Smtp-Source: ABdhPJzlqULHOoFPsr7tSa1EWVsUJdKNkm+FjBX4HL8ud1ugqhnnrOnQsfIFpehm6kW49dpJD4S6TA==
+X-Received: by 2002:a9d:3a4a:: with SMTP id j68mr7257519otc.4.1616674740149;
+ Thu, 25 Mar 2021 05:19:00 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id d206sm1073265oib.56.2021.03.25.05.18.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 05:18:59 -0700 (PDT)
+Subject: Re: [PATCH 2/6] hw/isa/vt82c686: Simplify removing unuseful
+ qemu_allocate_irqs() call
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210324175438.680310-1-f4bug@amsat.org>
+ <20210324175438.680310-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d896541b-c90b-4a1c-33e8-499799137b2b@linaro.org>
+Date: Thu, 25 Mar 2021 06:18:57 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210324175438.680310-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,85 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- philmd@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Haibo Xu <haibo.xu@linaro.org> wrote:
-> MTE spec provide instructions to retrieve the memory tags:
-> (1) LDG, at 16 bytes granularity, and available in both user
->     and kernel space;
-> (2) LDGM, at 256 bytes granularity in maximum, and only
->     available in kernel space
->
-> To improve the performance, KVM has exposed the LDGM capability
-> to user space by providing a new APIs. This patch is just a
-> wrapper for the KVM APIs.
->
-> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+On 3/24/21 11:54 AM, Philippe Mathieu-Daudé wrote:
+> Instead of creating an input IRQ with qemu_allocate_irqs()
+> to pass it as output IRQ of the PIC, with its handler simply
+> dispatching into the "intr" output IRQ, simplify by directly
+> connecting the PIC to the "intr" named output.
+> 
+> Fixes: 3dc31cb8490 ("vt82c686: Move creation of ISA devices to the ISA bridge")
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->  target/arm/kvm64.c   | 24 ++++++++++++++++++++++++
->  target/arm/kvm_arm.h |  2 ++
->  2 files changed, 26 insertions(+)
->
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 73a191f8e1..3157025316 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -1606,3 +1606,27 @@ bool kvm_arm_verify_ext_dabt_pending(CPUState *cs)
->      }
->      return false;
->  }
-> +
-> +int kvm_arm_mte_get_tags(uint64_t ipa, uint64_t len, uint8_t *buf)
-> +{
-> +    struct kvm_arm_copy_mte_tags args = {
-> +        .guest_ipa = ipa,
-> +        .length = len,
-> +        .addr = buf,
-> +        .flags = KVM_ARM_TAGS_FROM_GUEST,
-> +    };
-> +
-> +    return kvm_vm_ioctl(kvm_state, KVM_ARM_MTE_COPY_TAGS, &args);
+>   hw/isa/vt82c686.c | 10 +---------
+>   1 file changed, 1 insertion(+), 9 deletions(-)
 
-Just a question, how fast/slow are this calls?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-My understanding is that we are making a kvm call for each page that we
-want to migrate, right?
-
-Each time that we want to send it.
-
-Later, Juan.
-
-
-> +}
-> +
-> +int kvm_arm_mte_set_tags(uint64_t ipa, uint64_t len, uint8_t *buf)
-> +{
-> +    struct kvm_arm_copy_mte_tags args = {
-> +        .guest_ipa = ipa,
-> +        .length = len,
-> +        .addr = buf,
-> +        .flags = KVM_ARM_TAGS_TO_GUEST,
-> +    };
-> +
-> +    return kvm_vm_ioctl(kvm_state, KVM_ARM_MTE_COPY_TAGS, &args);
-> +}
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index 34f8daa377..bbb833d6c6 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -360,6 +360,8 @@ int kvm_arm_vgic_probe(void);
->  
->  void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
->  void kvm_arm_pmu_init(CPUState *cs);
-> +int kvm_arm_mte_get_tags(uint64_t ipa, uint64_t len, uint8_t *buf);
-> +int kvm_arm_mte_set_tags(uint64_t ipa, uint64_t len, uint8_t *buf);
->  
->  /**
->   * kvm_arm_pvtime_init:
+r~
 
 
