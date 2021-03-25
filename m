@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F051C3499F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 20:05:51 +0100 (CET)
-Received: from localhost ([::1]:33838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307573499F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 20:07:29 +0100 (CET)
+Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPVIk-00022g-SL
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 15:05:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35772)
+	id 1lPVKK-000386-6A
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 15:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPVGs-00018P-R2
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 15:03:56 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:46865)
+ id 1lPVIX-0002Fi-Lk
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 15:05:37 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:42513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPVGr-0003CK-3s
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 15:03:54 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- 68-20020a9d0f4a0000b02901b663e6258dso2946940ott.13
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 12:03:52 -0700 (PDT)
+ id 1lPVIW-0004GV-1n
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 15:05:37 -0400
+Received: by mail-ot1-x330.google.com with SMTP id
+ 31-20020a9d00220000b02901b64b9b50b1so2978873ota.9
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 12:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q1elWYz8lS96H22skDoDiaJEy9s2DrTcMR6hwSl2DaA=;
- b=aKwZZtLGamwAlKg70ucBhx1MyWoKBd/hLGmtzFj2P/tkn6KTpaMkh1HZu3KI5fu8Vm
- hLTIclRXHb5miaVmLrLhAcSLRCMedu956s/l2kS1ktwh26HWX9vdPDAhPcSyEm4qmf7a
- uL1v0AuJFGxQ8KIP/KxHDZzEvLnc65EQ0j/C0+7mzURPih84okuT0iij3e9As64fmXxY
- ICCpxgFsj7d5oQlWshyZok8kxwLa9SnM30TBr8aCpdEbi4q+nrD87HCboM0gxO4g4qjj
- LcBWy3fsmP7op8pauU+4KgzPLD/NrjY2m/GcMtewmtaOVWNl6zUJTHC7wa9zgURO97FY
- R8dw==
+ bh=Va6NDRBCJiI0iOSnPGv8WV8CDHaYwrn9mS1ia5JRbYs=;
+ b=yzfpYQ91Vd4IZR40vF7N3AKfJ2T1l2lFdHVtKZZyTLJ02C6cX/UxRYkBDr/B+7bJrX
+ 3GB7BcxjKAQdLc3NGlK6Wohiw/SUV8/i49bJOKFCatnR/EZ3xxUFf119gj5mImudjplG
+ 45JfVrvHZ5GNQh8UURe1NegkB/Q0WTKuwHU+gjw1M2pQ/KUmVNsJCyZxsnoEyMzjX61O
+ IIyvrZRpXRrnZ7fklQfYIHUeleL0IrVQQlcWKhebEKq0xikMJjLYKs9+oG2usbV+wsbe
+ jgBSpMFTryUyQf/n9+6ZtXWskupQblHPnFXv0RY+5y+GHR+6ktgZogrSYH4c6RqN3jY7
+ QFPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=q1elWYz8lS96H22skDoDiaJEy9s2DrTcMR6hwSl2DaA=;
- b=BTMWwgrWD4PslJf94RCdyxdB41LsZxrr4JGBtvuelgTu1rd7JlG8NYBtm4fBhLZVVh
- MYoLcCE2XE1MkSvO0Ff5WoGrtAwSC6TttJqyaF4McCMxyLRe/vx1pwA1nsgR3WETQBN+
- ptEvNvwBt61Gi+od7VDK18BkyqB2keNJqBtBPYmPZYVjgoTFmCGm4JDb+R6zwJMSudlN
- 9uFOQ/77GGVVxYzs43APcjvc0mIHIxWUrABAPQxcYOywYu/auIIs+Wqn4NgrrEQYvMRg
- 73sfL+SFeUgTbzK/YVDaSlqyoKaYQY8DN5DoJ6P2GT/n/Xzqf3IAcxNnbIWmOPu7TS1p
- C4eQ==
-X-Gm-Message-State: AOAM533MjVQ80rH+0AaPr146y1fv6TitXN9z/YPIkd/1eOmVdYPZTp9q
- zWTnzWRYD72NFFPkVDRUDbG6mw==
-X-Google-Smtp-Source: ABdhPJzeDfo8+ABwBNEio1HfuH7/ofDGXArEK2jmK5V4hM+rDkRv/6Ld0VaZvUMoUHS2ZVazSkeO1g==
-X-Received: by 2002:a9d:6e11:: with SMTP id e17mr8778283otr.222.1616699031712; 
- Thu, 25 Mar 2021 12:03:51 -0700 (PDT)
+ bh=Va6NDRBCJiI0iOSnPGv8WV8CDHaYwrn9mS1ia5JRbYs=;
+ b=Oe95L9s1RppcPS2zygXskajJU3PiA3w2/c3DC6KhQmg03mkeqitBNiEPMKotxGX6Rw
+ ZOGzcTl5C1QzdsjVgIHSa8aIm0tXndSZ/jDqFkUFyN1YH5jFtRse02ftpVd3qT+EBcZR
+ Yox405fcgO1pe62oqoGydrmvpVwDlBnYS91rTjpZh2Lf9Vetob6tNHbJqc6Z7Oa86Hnc
+ hqNYGybUl+FX1quOzyBwYsd/k/q+KuWwxqTefiWQDynfc/2h4bDszXcsc428iNrHgk52
+ BXNHUsPHezEgMfmV9ZpRqeso3SO4QdYbXxI3rLY8+gZAeelG5FqugAJKvx+JeBvzbCYQ
+ hg1Q==
+X-Gm-Message-State: AOAM530lef29HKvpUcyJj4wdIs4Ivoh1gxblA/sAOlRmlAF9wnlIjiXt
+ Ptw6lT8VIWAErw4XM/ROi6Kl0g==
+X-Google-Smtp-Source: ABdhPJyy4Y+a09efIQXHh/G2+LwCJr8LDdDPCt8WSPird5pp138Z6AqWxARFfkI2e4HIPnU6ifGjhg==
+X-Received: by 2002:a05:6830:17d7:: with SMTP id
+ p23mr8842606ota.164.1616699134706; 
+ Thu, 25 Mar 2021 12:05:34 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id e12sm1469497otq.30.2021.03.25.12.03.50
+ by smtp.gmail.com with ESMTPSA id m126sm1272856oig.31.2021.03.25.12.05.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 12:03:51 -0700 (PDT)
-Subject: Re: [RFC v11 47/55] target/arm: make is_aa64 and arm_el_is_aa64 a
- macro for !TARGET_AARCH64
+ Thu, 25 Mar 2021 12:05:34 -0700 (PDT)
+Subject: Re: [RFC v11 48/55] target/arm: arch_dump: restrict ELFCLASS64 to
+ AArch64
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-40-cfontana@suse.de>
+ <20210323154639.23477-41-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
-Date: Thu, 25 Mar 2021 13:03:48 -0600
+Message-ID: <e7a357e3-c74e-5491-6140-cce1d44deced@linaro.org>
+Date: Thu, 25 Mar 2021 13:05:31 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210323154639.23477-40-cfontana@suse.de>
+In-Reply-To: <20210323154639.23477-41-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -100,32 +101,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/23/21 9:46 AM, Claudio Fontana wrote:
-> +#define is_a64(env) (false)
-...
-> +#define arm_el_is_aa64(env, el) (false)
-
-Why a define and not have the ifdef inside the static inline?
-
-This define is causing you to make other random changes to avoid unused 
-variables, and I'm not keen.
-
-If you're running into problems with --enable-debug not eliminating code 
-blocks, leading to link errors, then I think that 
-__attribute__((always_inline)) and a comment will be the best option.
-
-
+> this will allow us to restrict more code to TARGET_AARCH64
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>   target/arm/helper-a64.h |  2 ++
+>   target/arm/helper.h     |  1 -
+>   target/arm/arch_dump.c  | 12 +++++++-----
+>   target/arm/cpu.c        |  1 -
+>   target/arm/cpu64.c      |  4 ++++
+>   target/arm/tcg/helper.c | 13 +++++++++++--
+>   6 files changed, 24 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+> index c139fa81f9..342f55d577 100644
+> --- a/target/arm/helper-a64.h
+> +++ b/target/arm/helper-a64.h
+> @@ -119,3 +119,5 @@ DEF_HELPER_FLAGS_2(st2g_stub, TCG_CALL_NO_WG, void, env, i64)
+>   DEF_HELPER_FLAGS_2(ldgm, TCG_CALL_NO_WG, i64, env, i64)
+>   DEF_HELPER_FLAGS_3(stgm, TCG_CALL_NO_WG, void, env, i64, i64)
+>   DEF_HELPER_FLAGS_3(stzgm_tags, TCG_CALL_NO_WG, void, env, i64, i64)
 > +
-> +#endif /* TARGET_AARCH64 */
-> +
-> +/**
-> + * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
-> + * E.g. when in secure state, fields in HCR_EL2 are suppressed,
-> + * "for all purposes other than a direct read or write access of HCR_EL2."
-> + * Not included here is HCR_RW.
-> + */
-> +uint64_t arm_hcr_el2_eff(CPUARMState *env);
+> +DEF_HELPER_FLAGS_2(rebuild_hflags_a64, TCG_CALL_NO_RWG, void, env, int)
 
-Is this diff being weird or did you really move this declaration, and if so, why?
+I'm certain this has nothing to do with arch_dump.
+Split your patches.
 
 
 r~
