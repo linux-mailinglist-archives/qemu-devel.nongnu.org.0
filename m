@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3854F349958
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:18:21 +0100 (CET)
-Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C95349966
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:21:09 +0100 (CET)
+Received: from localhost ([::1]:40880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPUYm-0001LK-7i
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
+	id 1lPUbT-00036a-Rg
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:21:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPURW-0007B5-MH
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:10:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPURK-0006Zn-9A
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:10:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616695836;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RBObrm8560lEh+7M7LTcGhV5wHR1uiCoQ7Z8EQYqsXc=;
- b=gaCe9fmTo3ZKuBN0mPRN1i9wTjutgCdBDLeGF2VcJU0UZjIYZyuYmroctQqsNCGXZUUBfg
- /Zh24QosdLbCl21r+H9CqB+q+wbdNDuKFCO+WIfp2+4MB/U8ED75qM0TueqhDdYJgTk5Xt
- Kts6CTpNGzekr6UiZHd1AJMPTdD2gP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-4jobcBZzMUyotUPyJubBXA-1; Thu, 25 Mar 2021 14:10:34 -0400
-X-MC-Unique: 4jobcBZzMUyotUPyJubBXA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB15D8018A1;
- Thu, 25 Mar 2021 18:10:32 +0000 (UTC)
-Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6B615D6D5;
- Thu, 25 Mar 2021 18:10:19 +0000 (UTC)
-Subject: Re: [PATCH v2 03/10] Python: add utility function for retrieving port
- redirection
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-4-crosa@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <285df9a6-479f-dd27-f079-3acc6bdd0ea5@redhat.com>
-Date: Thu, 25 Mar 2021 14:10:19 -0400
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lPUVg-0001Cx-34; Thu, 25 Mar 2021 14:15:09 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38885)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lPUVb-0008Og-4H; Thu, 25 Mar 2021 14:15:04 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ m20-20020a7bcb940000b029010cab7e5a9fso3624490wmi.3; 
+ Thu, 25 Mar 2021 11:15:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aQY57PXl5KgQCcyO+MfsfF9QAvKDZdNHuXYoHurhUcc=;
+ b=WwGC8rSNib25wjhN1CU5aNjj/SWOFHXaH0N/ZPlEtrYoNSiOzNH2qt+ZvnILJsh8QZ
+ GCFsfyTwy7RwGkno6k+s0/UXVzofM7EzFsAhc1b/AFHArQ7kbK+0plXULPoF+81PrNDd
+ TUre/NgYL2cOxTJ+8NXFmLp8GgsHNVYPAcocqkS3CfGnBsT+a+W8DODZ7becLokBFidF
+ 8jQV+KXYYF9nX5jeyu06HMoz951kSgmtW3TnOKt4eDdbgSqcQY19KbfFTBrelo6VgQqr
+ VAfuUC5Cp4ojceE6BK+orB7tdp0CnXLtyvMAHShHrSB3JFQMuxhl+F+KVLREl6Eny98y
+ zJQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aQY57PXl5KgQCcyO+MfsfF9QAvKDZdNHuXYoHurhUcc=;
+ b=DpDMb4BrmigkF6xjEzdYblvWEGgC3HN/UPpb7eBuQVq1quw1OmnOB4Gu5HjnbC2g6L
+ kDdX3GTtjMQeQTdFA1sCyjebFpPqxFb9W7QjFyv97oW5pe0Ch3XpxITzdDi4aTP3dikM
+ nvbNjCufIiT2sRyWoF4T7NTg2FIzGEvFGmFd5HiKj3L1SEEbeoTUMQPtXNqo8Bx4w5uV
+ +DBkg8uqhURhk6ci0+eqfwiTfsq517ii8OFywR+/dagXP3cJ5VV5DSiYBuFzjebjtxqP
+ WRmbwoXD1tiASpp5ugfbg1+lK9y0XMyCRItEmqhr8jzgk+AR39EHPBKb773T1n+gg5xd
+ RO4w==
+X-Gm-Message-State: AOAM5336RGlD2Ez0GOAlLymasNXmFWQ9WGrGfjrZHCVhkJC2efNObjn/
+ EwBzT2ma1Hv7V1aaR9+uoqc=
+X-Google-Smtp-Source: ABdhPJyEOh4PZBQvBp4nkdavhvziF3p6CytNGJueHJr6yGjVnd/6IFi8EWk3JMfWHPdbesdZM+JXGg==
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr9233774wmi.88.1616696098486; 
+ Thu, 25 Mar 2021 11:14:58 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id r14sm8750081wrw.91.2021.03.25.11.14.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 11:14:57 -0700 (PDT)
+Subject: Re: [PATCH v2 for-6.0?] hw/pci-host/gpex: Don't fault for unmapped
+ parts of MMIO and PIO windows
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210325163315.27724-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1df78911-9858-b747-b22b-7e5254cd3cac@amsat.org>
+Date: Thu, 25 Mar 2021 19:14:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210323221539.3532660-4-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210325163315.27724-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,239 +89,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Cc: qemu-riscv@nongnu.org, Dmitry Vyukov <dvyukov@google.com>,
+ Arnd Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/21 6:15 PM, Cleber Rosa wrote:
-> Slightly different versions for the same utility code are currently
-> present on different locations.  This unifies them all, giving
-> preference to the version from virtiofs_submounts.py, because of the
-> last tweaks added to it.
+Hi Peter,
+
+On 3/25/21 5:33 PM, Peter Maydell wrote:
+> Currently the gpex PCI controller implements no special behaviour for
+> guest accesses to areas of the PIO and MMIO where it has not mapped
+> any PCI devices, which means that for Arm you end up with a CPU
+> exception due to a data abort.
 > 
-> While at it, this adds a "qemu.utils" module to host the utility
-> function and a test.
+> Most host OSes expect "like an x86 PC" behaviour, where bad accesses
+> like this return -1 for reads and ignore writes.  In the interests of
+> not being surprising, make host CPU accesses to these windows behave
+> as -1/discard where there's no mapped PCI device.
 > 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> The old behaviour generally didn't cause any problems, because
+> almost always the guest OS will map the PCI devices and then only
+> access where it has mapped them. One corner case where you will see
+> this kind of access is if Linux attempts to probe legacy ISA
+> devices via a PIO window access. So far the only case where we've
+> seen this has been via the syzkaller fuzzer.
+> 
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   python/qemu/utils.py                     | 35 ++++++++++++++++++++++++
->   tests/acceptance/info_usernet.py         | 29 ++++++++++++++++++++
->   tests/acceptance/linux_ssh_mips_malta.py | 16 +++++------
->   tests/acceptance/virtiofs_submounts.py   | 21 ++++----------
->   tests/vm/basevm.py                       |  7 ++---
->   5 files changed, 78 insertions(+), 30 deletions(-)
->   create mode 100644 python/qemu/utils.py
->   create mode 100644 tests/acceptance/info_usernet.py
+> v1->v2 changes: put in the hw_compat machinery.
 > 
-> diff --git a/python/qemu/utils.py b/python/qemu/utils.py
-> new file mode 100644
-> index 0000000000..89a246ab30
-> --- /dev/null
-> +++ b/python/qemu/utils.py
-> @@ -0,0 +1,35 @@
-> +"""
-> +QEMU utility library
-> +
-> +This offers miscellaneous utility functions, which may not be easily
-> +distinguishable or numerous to be in their own module.
-> +"""
-> +
-> +# Copyright (C) 2021 Red Hat Inc.
-> +#
-> +# Authors:
-> +#  Cleber Rosa <crosa@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> +# the COPYING file in the top-level directory.
-> +#
-> +
-> +import re
-> +from typing import Optional
-> +
-> +
-> +def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optional[int]:
-> +    """
-> +    Returns the port given to the hostfwd parameter via info usernet
-> +
-> +    :param info_usernet_output: output generated by hmp command "info usernet"
-> +    :param info_usernet_output: str
-> +    :return: the port number allocated by the hostfwd option
-> +    :rtype: int
-
-I think, unless you know something I don't, that I would prefer to keep 
-type information in the "live" annotations where they can be checked 
-against rot.
-
-> +    """
-> +    for line in info_usernet_output.split('\r\n'):
-> +        regex = r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
-> +        match = re.search(regex, line)
-> +        if match is not None:
-> +            return int(match[1])
-> +    return None
-
-I wonder if more guest-specific code doesn't belong elsewhere, but I 
-don't have a strong counter-suggestion, so I would probably ACK this for 
-now.
-
-(Are you okay with the idea that we won't include the utils module in 
-the PyPI upload? I think I would like to avoid shipping something like 
-this outside of our castle walls, but agree that having it in the common 
-code area somewhere for our own use is good.)
-
-> diff --git a/tests/acceptance/info_usernet.py b/tests/acceptance/info_usernet.py
-> new file mode 100644
-> index 0000000000..9c1fd903a0
-> --- /dev/null
-> +++ b/tests/acceptance/info_usernet.py
-> @@ -0,0 +1,29 @@
-> +# Test for the hmp command "info usernet"
-> +#
-> +# Copyright (c) 2021 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Cleber Rosa <crosa@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +from avocado_qemu import Test
-> +
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
-> +
-> +class InfoUsernet(Test):
-> +
-> +    def test_hostfwd(self):
-> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22')
-> +        self.vm.launch()
-> +        res = self.vm.command('human-monitor-command',
-> +                              command_line='info usernet')
-> +        port = get_info_usernet_hostfwd_port(res)
-> +        self.assertIsNotNone(port,
-> +                             ('"info usernet" output content does not seem to '
-> +                              'contain the redirected port'))
-> +        self.assertGreater(port, 0,
-> +                           ('Found a redirected port that is not greater than'
-> +                            ' zero'))
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index 6dbd02d49d..052008f02d 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -18,6 +18,8 @@
->   from avocado.utils import archive
->   from avocado.utils import ssh
->   
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
->   
->   class LinuxSSH(Test):
->   
-> @@ -70,18 +72,14 @@ def get_kernel_info(self, endianess, wordsize):
->       def setUp(self):
->           super(LinuxSSH, self).setUp()
->   
-> -    def get_portfwd(self):
-> +    def ssh_connect(self, username, password):
-> +        self.ssh_logger = logging.getLogger('ssh')
->           res = self.vm.command('human-monitor-command',
->                                 command_line='info usernet')
-> -        line = res.split('\r\n')[2]
-> -        port = re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+10\..*',
-> -                        line)[1]
-> +        port = get_info_usernet_hostfwd_port(res)
-> +        if not port:
-> +            self.cancel("Failed to retrieve SSH port")
->           self.log.debug("sshd listening on port:" + port)
-> -        return port
-> -
-> -    def ssh_connect(self, username, password):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        port = self.get_portfwd()
->           self.ssh_session = ssh.Session(self.VM_IP, port=int(port),
->                                          user=username, password=password)
->           for i in range(10):
-> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-> index ca64b76301..57a7047342 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -9,6 +9,8 @@
->   from avocado_qemu import wait_for_console_pattern
->   from avocado.utils import ssh
->   
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
->   
->   def run_cmd(args):
->       subp = subprocess.Popen(args,
-> @@ -73,27 +75,14 @@ class VirtiofsSubmountsTest(LinuxTest):
->       :avocado: tags=accel:kvm
->       """
->   
-> -    def get_portfwd(self):
-> -        port = None
-> -
-> +    def ssh_connect(self, username, keyfile):
-> +        self.ssh_logger = logging.getLogger('ssh')
->           res = self.vm.command('human-monitor-command',
->                                 command_line='info usernet')
-> -        for line in res.split('\r\n'):
-> -            match = \
-> -                re.search(r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.',
-> -                          line)
-> -            if match is not None:
-> -                port = int(match[1])
-> -                break
-> -
-> +        port = get_info_usernet_hostfwd_port(res)
->           self.assertIsNotNone(port)
->           self.assertGreater(port, 0)
->           self.log.debug('sshd listening on port: %d', port)
-> -        return port
-> -
-> -    def ssh_connect(self, username, keyfile):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        port = self.get_portfwd()
->           self.ssh_session = ssh.Session('127.0.0.1', port=port,
->                                          user=username, key=keyfile)
->           for i in range(10):
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 00f1d5ca8d..75ce07df36 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -21,6 +21,7 @@
->   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
->   from qemu.accel import kvm_available
->   from qemu.machine import QEMUMachine
-> +from qemu.utils import get_info_usernet_hostfwd_port
->   import subprocess
->   import hashlib
->   import argparse
-> @@ -306,11 +307,7 @@ def boot(self, img, extra_args=[]):
->           self.console_init()
->           usernet_info = guest.qmp("human-monitor-command",
->                                    command_line="info usernet")
-> -        self.ssh_port = None
-> -        for l in usernet_info["return"].splitlines():
-> -            fields = l.split()
-> -            if "TCP[HOST_FORWARD]" in fields and "22" in fields:
-> -                self.ssh_port = l.split()[3]
-> +        self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
->           if not self.ssh_port:
->               raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
->                               usernet_info)
+> Still not sure if I want to put this in 6.0 or not.
 > 
+>  include/hw/pci-host/gpex.h |  4 +++
+>  hw/core/machine.c          |  1 +
+>  hw/pci-host/gpex.c         | 56 ++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 58 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
+> index d48a020a952..fcf8b638200 100644
+> --- a/include/hw/pci-host/gpex.h
+> +++ b/include/hw/pci-host/gpex.h
+> @@ -49,8 +49,12 @@ struct GPEXHost {
+>  
+>      MemoryRegion io_ioport;
+>      MemoryRegion io_mmio;
+> +    MemoryRegion io_ioport_window;
+> +    MemoryRegion io_mmio_window;
+>      qemu_irq irq[GPEX_NUM_IRQS];
+>      int irq_num[GPEX_NUM_IRQS];
+> +
+> +    bool allow_unmapped_accesses;
+>  };
+>  
+>  struct GPEXConfig {
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 257a664ea2e..9750fad7435 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -41,6 +41,7 @@ GlobalProperty hw_compat_5_2[] = {
+>      { "PIIX4_PM", "smm-compat", "on"},
+>      { "virtio-blk-device", "report-discard-granularity", "off" },
+>      { "virtio-net-pci", "vectors", "3"},
+> +    { "gpex-pcihost", "allow-unmapped-accesses", "false" },
+>  };
+>  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+>  
+> diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
+> index 2bdbe7b4561..a6752fac5e8 100644
+> --- a/hw/pci-host/gpex.c
+> +++ b/hw/pci-host/gpex.c
+> @@ -83,12 +83,51 @@ static void gpex_host_realize(DeviceState *dev, Error **errp)
+>      int i;
+>  
+>      pcie_host_mmcfg_init(pex, PCIE_MMCFG_SIZE_MAX);
+> +    sysbus_init_mmio(sbd, &pex->mmio);
+> +
+> +    /*
+> +     * Note that the MemoryRegions io_mmio and io_ioport that we pass
+> +     * to pci_register_root_bus() are not the same as the
+> +     * MemoryRegions io_mmio_window and io_ioport_window that we
+> +     * expose as SysBus MRs. The difference is in the behaviour of
+> +     * accesses to addresses where no PCI device has been mapped.
+> +     *
+> +     * io_mmio and io_ioport are the underlying PCI view of the PCI
+> +     * address space, and when a PCI device does a bus master access
+> +     * to a bad address this is reported back to it as a transaction
+> +     * failure.
+> +     *
+> +     * io_mmio_window and io_ioport_window implement "unmapped
+> +     * addresses read as -1 and ignore writes"; this is traditional
+> +     * x86 PC behaviour, which is not mandated by the PCI spec proper
+> +     * but expected by much PCI-using guest software, including Linux.
 
+I suspect PCI-ISA bridges to provide an EISA bus.
+
+The 'IEEE P996' ISA spec doesn't seem public. Per the Intel
+ISA spec:
+https://archive.org/details/bitsavers_intelbusSpep89_3342148/page/n31/mode/2up
+the data lines are tri-stated, but I couldn't find the default logic
+when no add-on card owns the bus at the requested address (to confirm
+the "read as -1").
+
+> +     * In the interests of not being unnecessarily surprising, we
+> +     * implement it in the gpex PCI host controller, by providing the
+> +     * _window MRs, which are containers with io ops that implement
+> +     * the 'background' behaviour and which hold the real PCI MRs as
+> +     * subregions.
+> +     */
+>      memory_region_init(&s->io_mmio, OBJECT(s), "gpex_mmio", UINT64_MAX);
+>      memory_region_init(&s->io_ioport, OBJECT(s), "gpex_ioport", 64 * 1024);
+>  
+> -    sysbus_init_mmio(sbd, &pex->mmio);
+> -    sysbus_init_mmio(sbd, &s->io_mmio);
+> -    sysbus_init_mmio(sbd, &s->io_ioport);
+> +    if (s->allow_unmapped_accesses) {
+> +        memory_region_init_io(&s->io_mmio_window, OBJECT(s),
+> +                              &unassigned_io_ops, OBJECT(s),
+> +                              "gpex_mmio_window", UINT64_MAX);
+
+EISA -> 4 * GiB
+
+unassigned_io_ops allows 64-bit accesses. Here we want up to 32.
+
+Maybe we don't care.
+
+> +        memory_region_init_io(&s->io_ioport_window, OBJECT(s),
+> +                              &unassigned_io_ops, OBJECT(s),
+> +                              "gpex_ioport_window", 64 * 1024);
+
+Ditto, unassigned_io_ops accepts 64-bit accesses.
+
+> +
+> +        memory_region_add_subregion(&s->io_mmio_window, 0, &s->io_mmio);
+> +        memory_region_add_subregion(&s->io_ioport_window, 0, &s->io_ioport);
+> +        sysbus_init_mmio(sbd, &s->io_mmio_window);
+> +        sysbus_init_mmio(sbd, &s->io_ioport_window);
+> +    } else {
+> +        sysbus_init_mmio(sbd, &s->io_mmio);
+> +        sysbus_init_mmio(sbd, &s->io_ioport);
+> +    }
+> +
+>      for (i = 0; i < GPEX_NUM_IRQS; i++) {
+>          sysbus_init_irq(sbd, &s->irq[i]);
+>          s->irq_num[i] = -1;
+> @@ -108,6 +147,16 @@ static const char *gpex_host_root_bus_path(PCIHostState *host_bridge,
+>      return "0000:00";
+>  }
+>  
+> +static Property gpex_host_properties[] = {
+> +    /*
+> +     * Permit CPU accesses to unmapped areas of the PIO and MMIO windows
+> +     * (discarding writes and returning -1 for reads) rather than aborting.
+> +     */
+> +    DEFINE_PROP_BOOL("allow-unmapped-accesses", GPEXHost,
+> +                     allow_unmapped_accesses, true),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+>  static void gpex_host_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -117,6 +166,7 @@ static void gpex_host_class_init(ObjectClass *klass, void *data)
+>      dc->realize = gpex_host_realize;
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>      dc->fw_name = "pci";
+> +    device_class_set_props(dc, gpex_host_properties);
+
+IMO this change belongs to the parent bridges,
+TYPE_PCI_HOST_BRIDGE and TYPE_PCIE_HOST_BRIDGE.
+
+Again, 6.0 is at the door, so this can be discussed /
+updated later.
+
+Regards,
+
+Phil.
 
