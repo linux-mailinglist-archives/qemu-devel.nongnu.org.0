@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8AF349221
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:36:46 +0100 (CET)
-Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C39348E81
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 12:07:21 +0100 (CET)
+Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPPED-0003mP-8L
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56376)
+	id 1lPNpf-0005wI-PP
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 07:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luca.bellu95@gmail.com>)
- id 1lPNm2-0004Lu-Gv
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:03:34 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:35676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luca.bellu95@gmail.com>)
- id 1lPNm0-0007dQ-Tx
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:03:34 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id x2so1714721oiv.2
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 04:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=M3uVLDrEcFAr3iyflpb5CN9iGv+zpYykkIYNTrCRgas=;
- b=QLNWQec+0mZnrMB+aPCqcsO3fPISd0CTbDgKGARiIEZiMb2z+DxeZMjRa1EWvoBWHS
- 81wAvJ9d7uGGsrXZSSSj1CWt11HnqfviAO3GMyspglBmZM4PlY+Xe2WBU2yR6Moa5ERW
- kDc8JrYafW0zXWfDcUVYkNQYm3PqFAaUf68gWB6tLDmQtyc/JaX5gLyGVGvyyT490c/O
- UeX3tvUpdXj/hcGoIWcLNjJXK4LDMDSrwC1unFC/7N6TFB1wYyzvtYmJPaQrtS9HaeDb
- pVTANv19U1RhCb87qZsp13M56hBxiso/SfArM76eFIZQSZ1VVcLfauH7PPiEczwHcoU0
- ltDg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lPNo7-0005Ow-Oi
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:05:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lPNo3-0000Qg-C7
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:05:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616670336;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oLUKDwz810ihi0JrMTPAqN8liYqC3TwKUnFw3br/BRc=;
+ b=U8v2pf/TaClnWnTfVVKw2pybSr/L8tGaYFGpcRJn57vFXZcwttYSTwgYeUibs7yqXjrsjM
+ v3cZu1q7RlA7E419NVaYdgnMe8t3cJwJRDQR6AGH8a7YzR+gEvZH+zej9z3UR3YfRn+mjg
+ Zh5bLPftb7+2eoBAQXmE9rznD0izqN0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-CMDms5U5OKu43QvB5qavpA-1; Thu, 25 Mar 2021 07:05:35 -0400
+X-MC-Unique: CMDms5U5OKu43QvB5qavpA-1
+Received: by mail-wr1-f69.google.com with SMTP id m23so2476901wrh.7
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 04:05:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=M3uVLDrEcFAr3iyflpb5CN9iGv+zpYykkIYNTrCRgas=;
- b=Ys3qc8DhcWutbSbLKWyTKzmA+K2d81nNHIAqp594ksvuVu9/nwB8AETeu/Iqrh1yMr
- 0sqplAEZEcGwf19yEYyEEJDjF9mhH23ALhMWL61823N7QoLEEoykqDk0GrtFkRQOeM/2
- u02/kZt3Da86s3QwBGX9sF4oqZcUAsjFLv3vPk+2RESQKbXA/6TyVc9jqZ8KmWgZ6ll1
- 3KwLQjULpZ7G4Q+h1vVPDiN+0ARvsPM6+GvaPYul9hZx3FzTDrWtIpV7FodKnY4et8DA
- 0jEAGInVqlTMkck0vXmbcPM29ILA1/GUgj8f7FxC2FDhYUi7JQByX8ioxAivsVkE7pm5
- qfhg==
-X-Gm-Message-State: AOAM533Maj+7bjC1R40XredvA+CGxcAZj4YaIiuH1ne/uBFlE/VIckpm
- KB3Ns6qHJZQ5XXMguNAbp55TsM6szXm7WHt3vMcQUHGY
-X-Google-Smtp-Source: ABdhPJzPe7ucUt1BHV1380kpS3Q/S612vugi/9PvChsDnPE5Dy6cytixqvFiXNGAjbPrM5jy2tRacMZXuZxN2eEj+/U=
-X-Received: by 2002:aca:4188:: with SMTP id o130mr5608857oia.101.1616670211300; 
- Thu, 25 Mar 2021 04:03:31 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oLUKDwz810ihi0JrMTPAqN8liYqC3TwKUnFw3br/BRc=;
+ b=I+IN6IFmqxaP+LgJ3icxDAJoAgNt0MXJ3/GeXCw3aRSXY3pXtA6a5LWtJBY4mvyGjm
+ kIHRfgtidiWLHH++WlNSctnsWV5pvNYa7vBLEwk8fBiPULx+wSX2trwH5FBQ4rAIOAd1
+ nypEoNGPNOqkBjUtsT4UHTwcJL+dz0Y3vfR3k+FzaGnQ9HZWCkLOMjLX6eENu3bYzCHL
+ MkEOibI07AA+nuHQXP85UtKAHC4HcJ0arqATgXQumZcb6wZJo3PnvBwY0jI6e4/e/ZAw
+ 8J8/kOxFOh8SePCWOms2nM01RZEC/vLS4t+EKwJzl5xhrhH0LM+0noHt+5KNwb7WuO2q
+ f5Fw==
+X-Gm-Message-State: AOAM533SmTDgd27samOhN8SQHDukac8vC0JNQ6428hJKBSRGgej0cR/n
+ mYvHZiqYCnAYFEAnNgtb8X28FnqqQPput+6xxZfj4tekQY4kVd121lTr4PVoXoA59HvummElejz
+ o6YWOE+K0xttbu+E=
+X-Received: by 2002:adf:f0cb:: with SMTP id x11mr8114283wro.206.1616670334101; 
+ Thu, 25 Mar 2021 04:05:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSFWjCpORVcn3WmmbAj34eXlMWZrQI1tKZQl+TrO6qBTtnSqGIKv8z1UX0b4hrBcOzD6xwvw==
+X-Received: by 2002:adf:f0cb:: with SMTP id x11mr8114254wro.206.1616670333850; 
+ Thu, 25 Mar 2021 04:05:33 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id 7sm5922069wmk.8.2021.03.25.04.05.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Mar 2021 04:05:33 -0700 (PDT)
+Subject: Re: gitlab-ci: Only build /staging branch?
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <2da69b21-ce5e-cae2-68ef-d6e042563a3a@amsat.org>
+ <8ec8b3b7-12b4-b676-630c-972e7038ec7f@amsat.org>
+ <74859ed9-6f93-0b8a-a669-6aef1e164e41@amsat.org>
+ <1a70056b-78b4-c4f4-afc2-044aa499e1c7@redhat.com>
+ <557c7ccc-ce30-a452-8904-590667298389@amsat.org>
+ <CAFEAcA_GGr-BT713cWLbJCvMBdw_gn6+aMdPnb=5iN-eSP9nkw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a70af3b7-4500-edd3-9a85-242783b24b2a@redhat.com>
+Date: Thu, 25 Mar 2021 12:05:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-From: Luca Belluardo <luca.bellu95@gmail.com>
-Date: Thu, 25 Mar 2021 12:03:19 +0100
-Message-ID: <CAJRteMidw8Sfej0UkVg_0xvj29mDkUxv46LBg45tv2DHCOtjwA@mail.gmail.com>
-Subject: Memory address of ivshmem device
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000a9e04005be5a5dc8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=luca.bellu95@gmail.com; helo=mail-oi1-x22f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA_GGr-BT713cWLbJCvMBdw_gn6+aMdPnb=5iN-eSP9nkw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 25 Mar 2021 08:32:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,41 +105,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a9e04005be5a5dc8
-Content-Type: text/plain; charset="UTF-8"
+On 25/03/21 11:34, Peter Maydell wrote:
+> It needs to be faster. Mostly I do check the gitlab CI pipeline
+> status, but in the run-up to getting rc0 out I stopped waiting
+> for the gitlab CI job to finish, because I was continually finding
+> that I kicked off a run, my local build-tests would complete within
+> an hour or so, and the gitlab CI jobs were still pending, barely
+> started, etc. Turnaround on testing a merge must be 90 minutes or
+> less, especially during release periods, because there are always
+> a huge number of merges that arrive for me to test in the last
+> couple of days before freeze.
 
-Hi,
-I'm using KVM from command line to run a VM and I have to create a ivshmem
-between host and guest. The options that I pass are:
--device ivshmem-plain, memdev=id -object
-memory-backend-file,size=1M,share,mem-path=/dev/shm/ivshmem,id=id
-Now, from host side I can read and write the shmem. From guest not because
-the OS in VM doesn't have a device PCI manager. I want to know if the
-device has a fixed address on KVM VM so to force read and write to that
-address in the application on VM.
+Perhaps we could script it so that if the pipeline passes the merge to 
+master is done automatically.
 
-Best regards
+Paolo
 
-Luca Belluardo
-
---000000000000a9e04005be5a5dc8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"auto">Hi,</div><div dir=3D"auto">I&#39;m usin=
-g KVM from command line to run a VM and I have to create a ivshmem between =
-host and guest. The options that I pass are:</div><div dir=3D"auto">-device=
- ivshmem-plain, memdev=3Did -object memory-backend-file,size=3D1M,share,mem=
--path=3D/dev/shm/ivshmem,id=3Did</div><div dir=3D"auto">Now, from host side=
- I can read and write the shmem. From guest not because the OS in VM doesn&=
-#39;t have a device PCI manager. I want to know if the device has a fixed a=
-ddress on KVM VM so to force read and write to that address in the applicat=
-ion on VM.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Best regards<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Luca Belluardo</div></di=
-v>
-
---000000000000a9e04005be5a5dc8--
 
