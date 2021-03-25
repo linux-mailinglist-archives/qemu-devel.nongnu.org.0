@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC97349611
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:51:22 +0100 (CET)
-Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C213495DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:44:00 +0100 (CET)
+Received: from localhost ([::1]:33964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPSGX-0000qg-6O
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
+	id 1lPS9P-0000Vp-D0
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lPS3V-00014g-4c
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:37:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41867)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lPS4t-0003Yq-Te
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:39:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lPS3M-0007Ru-5E
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:37:52 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lPS4r-0008Fr-Gz
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:39:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616686659;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=UIJxEAlQj/HbemPN4KZdxgk+VH926zNpI+GeMP35nDc=;
- b=LTuGJTYY6Kiv+yWvnd4O9hlBUyfHOImfyAVrYZ/Z/nhjBMsb5uxe7yWgO76RITTeP4+Lcu
- WzKs6tg72GMyfLMtaAzS55x7RHt4q2A2fmNkPwlw4NOEKdyjo609/Wjo6E57iA2Qdv5/GB
- FYM+Tx7GcCPUNomi3hBknt10CdvsnXs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-bt4FcRvZPuGaoRxX44FrNw-1; Thu, 25 Mar 2021 11:37:38 -0400
-X-MC-Unique: bt4FcRvZPuGaoRxX44FrNw-1
-Received: by mail-wr1-f71.google.com with SMTP id n17so2827085wrq.5
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 08:37:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=UIJxEAlQj/HbemPN4KZdxgk+VH926zNpI+GeMP35nDc=;
- b=BJNCAK8PJGzvPm0F7KfuqaKnTt9eYw+YHHN3FI9xeu1N6xo1sdra/M/PJxG/aAVP7y
- h1fu+1p6At2pi3iguINBI8/tDtfFT1uKMO0gxDAHqpmNMLfOp8Od3Tndd58AQbyTphZs
- UYuMnwYoNarCS2lbY6vfWdvUKb1OF2j6ZirS1SxhjLQA/KsonipF6GTjrakwZlR5uD5t
- JekRJoVEcW/bTreNf72MVomFrkw8h5oGbQ6WytZ+TmV/5kHvBuQVCemmsi0pEt1ovWpS
- P4nu7rY2JIEtemiNIMiD//MS6re4EF+DtNrennNwtRVhlE78ArhERwILumnmcnrLc3UN
- 3eig==
-X-Gm-Message-State: AOAM533MR8e94O4lwkHfHk/EtdBS8Cul9CIm7NvFxXzoyTUPiRwabfv8
- N2rxhaguSZ66DS2OADbBmmOk/adiedgWUznaqPMZaxWjGrTUvm7+RfVO0rREVN6MaMSc/4pU3Ch
- xUu/q85Lu2SxFexw=
-X-Received: by 2002:adf:f852:: with SMTP id d18mr9970691wrq.210.1616686657012; 
- Thu, 25 Mar 2021 08:37:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNFv28g1sTevOMyfx6IUJn6YfpSsCQjIkMWc5RiMhvmACS4vkylLtH96csvFwM+VQpf9SsHw==
-X-Received: by 2002:adf:f852:: with SMTP id d18mr9970665wrq.210.1616686656712; 
- Thu, 25 Mar 2021 08:37:36 -0700 (PDT)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id u20sm8445764wru.6.2021.03.25.08.37.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 08:37:36 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Haibo Xu <haibo.xu@linaro.org>
-Subject: Re: [RFC PATCH v2 4/5] Add migration support for KVM guest with MTE
-In-Reply-To: <881871e8394fa18a656dfb105d42e6099335c721.1615972140.git.haibo.xu@linaro.org>
- (Haibo Xu's message of "Wed, 17 Mar 2021 09:28:23 +0000")
-References: <cover.1615972140.git.haibo.xu@linaro.org>
- <881871e8394fa18a656dfb105d42e6099335c721.1615972140.git.haibo.xu@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Thu, 25 Mar 2021 16:37:35 +0100
-Message-ID: <87y2ebmegw.fsf@secure.mitica>
+ s=mimecast20190719; t=1616686756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=thBGSTr8I9vNq1uELKtgW8+7KumHiXIZ/UWz2tjrm58=;
+ b=M01eXVzFvX5O9OFQjZZQRwuIcGYZz/UXDr+5W2B213Xn8l8FVS16udUviVcJIpRd+hIza2
+ OJpWLsRkpyQGMmFmnRNZBMNt1CBrtd6e5IntvDTFuxh76Jb/5yGCixdKAMhzcQycimtvuE
+ jP82LtdZxEzKWcZUKjBMlw3723frc1k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-_PiXWr3cNXOF1t8BAZUi9g-1; Thu, 25 Mar 2021 11:39:14 -0400
+X-MC-Unique: _PiXWr3cNXOF1t8BAZUi9g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B65E1922960;
+ Thu, 25 Mar 2021 15:39:13 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-118-78.rdu2.redhat.com [10.10.118.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48AE51007606;
+ Thu, 25 Mar 2021 15:39:09 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id D1806220BCF; Thu, 25 Mar 2021 11:39:08 -0400 (EDT)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH v5 0/5] virtiofsd: Add support to enable/disable posix acls
+Date: Thu, 25 Mar 2021 11:38:47 -0400
+Message-Id: <20210325153852.572927-1-vgoyal@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -94,140 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- philmd@redhat.com
+Cc: lhenriques@suse.de, dgilbert@redhat.com, vgoyal@redhat.com,
+ miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Haibo Xu <haibo.xu@linaro.org> wrote:
-> To make it easier to keep the page tags sync with
-> the page data, tags for one page are appended to
-> the data during ram save iteration.
->
-> This patch only add the pre-copy migration support.
-> Post-copy and compress as well as zero page saving
-> are not supported yet.
->
-> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+Hi,
 
+This is V5 of the patches.
 
->  #define RAM_SAVE_FLAG_XBZRLE   0x40
->  /* 0x80 is reserved in migration.h start with 0x100 next */
->  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-> +#define RAM_SAVE_FLAG_MTE              0x200
+Changes since V4:
 
-Flags are really a scarce resource.  You are using one here, when you
-know that you will always have the feature enable (or not), so you can
-do better during negotiation IMHO.
+- Added support to clear SGID while setting posix access acl. fuse
+  client sends this information in a flag in SETXATTR message. This
+  also requires opting in for using SETXATTR V2.
 
+These patches have dependency on fuse kernel patches. So kernel patches
+need to be get merged first.
 
+https://lore.kernel.org/linux-fsdevel/20210325151823.572089-1-vgoyal@redhat.com/
 
-> +void precopy_enable_metadata_migration(void)
-> +{
-> +    if (!ram_state) {
-> +        return;
-> +    }
-> +
-> +    ram_state->metadata_enabled = true;
-> +}
+Posting patches anyway, so that patches can get reviewed and tested.
 
-My understanding is that in your following patch, if mte is enabled, you
-will always sent mte tags, for all pages needed, right?
+Thanks
+Vivek
+ 
+Vivek Goyal (5):
+  virtiofsd: Add umask to seccom allow list
+  virtiofsd: Add capability to change/restore umask
+  virtiofsd: Add an option to enable/disable posix acls
+  virtiofsd: Add support for setxattr_v2
+  virtiofsd: Switch creds, drop FSETID for system.posix_acl_access xattr
 
-> +static int save_normal_page_mte_tags(QEMUFile *f, uint8_t *addr)
-> +{
-> +    uint8_t *tag_buf = NULL;
-> +    uint64_t ipa;
-> +    int size = TARGET_PAGE_SIZE / MTE_GRANULE_SIZE;
-> +
-> +    if (kvm_physical_memory_addr_from_host(kvm_state, addr, &ipa)) {
-> +        /* Buffer for the page tags(one byte per tag) */
-> +        tag_buf = g_try_malloc0(size);
+ docs/tools/virtiofsd.rst              |   3 +
+ include/standard-headers/linux/fuse.h |  19 ++-
+ tools/virtiofsd/fuse_common.h         |   6 +
+ tools/virtiofsd/fuse_lowlevel.c       |  42 ++++++-
+ tools/virtiofsd/fuse_lowlevel.h       |   3 +-
+ tools/virtiofsd/helper.c              |   1 +
+ tools/virtiofsd/passthrough_ll.c      | 166 ++++++++++++++++++++++++--
+ tools/virtiofsd/passthrough_seccomp.c |   1 +
+ 8 files changed, 230 insertions(+), 11 deletions(-)
 
-size of the buffer is known at start of migration.  Just get a buffer
-and reuse it?
-
-Do zero pages have mte tags?  From migration point of view, a zero page
-is a page that is just full of zeros, i.e. nothing else special.
-Because you are not sending any for them.
-
-
-
-> @@ -1148,6 +1219,10 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
->  static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
->                              uint8_t *buf, bool async)
->  {
-> +    if (rs->metadata_enabled) {
-> +        offset |= RAM_SAVE_FLAG_MTE;
-
-You don't really need the flag, for you normal pages are just
-TARGET_PAGE_SIZE + (TARGET_PAGE_SIZE/MTE_)
-
-
-> +    }
-> +
->      ram_counters.transferred += save_page_header(rs, rs->f, block,
->                                                   offset | RAM_SAVE_FLAG_PAGE);
->      if (async) {
-> @@ -1159,6 +1234,11 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
->      }
->      ram_counters.transferred += TARGET_PAGE_SIZE;
->      ram_counters.normal++;
-> +
-> +    if (rs->metadata_enabled) {
-
-See?  You are not checking the flag, you are checking the bool setup at
-the beggining of migration.
-
-> +        ram_counters.transferred += save_normal_page_mte_tags(rs->f, buf);
-> +    }
-> +
->      return 1;
->  }
->  
-> @@ -2189,6 +2269,7 @@ static void ram_state_reset(RAMState *rs)
->      rs->last_version = ram_list.version;
->      rs->ram_bulk_stage = true;
->      rs->fpo_enabled = false;
-> +    rs->metadata_enabled = false;
->  }
->  
->  #define MAX_WAIT 50 /* ms, half buffered_file limit */
-> @@ -3779,7 +3860,7 @@ static int ram_load_precopy(QEMUFile *f)
->              trace_ram_load_loop(block->idstr, (uint64_t)addr, flags, host);
->          }
->  
-> -        switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
-> +        switch (flags & ~(RAM_SAVE_FLAG_CONTINUE | RAM_SAVE_FLAG_MTE)) {
-
-Creating the flag is hurting you here also.
-
->          case RAM_SAVE_FLAG_MEM_SIZE:
->              /* Synchronize RAM block list */
->              total_ram_bytes = addr;
-> @@ -3849,6 +3930,9 @@ static int ram_load_precopy(QEMUFile *f)
->  
->          case RAM_SAVE_FLAG_PAGE:
->              qemu_get_buffer(f, host, TARGET_PAGE_SIZE);
-> +            if (flags & RAM_SAVE_FLAG_MTE) {
-> +                load_normal_page_mte_tags(f, host);
-> +            }
-
-I don't claim to understand the MTE, but my understanding is that if we
-are using MTE, all pages have to have MTE flags, right?
-
-So, somtehing like
-
-is_mte_enabled()
-
-that I told in the other thread looks like a good idea.
-
-Later, Juan.
-
->              break;
->  
->          case RAM_SAVE_FLAG_COMPRESS_PAGE:
+-- 
+2.25.4
 
 
