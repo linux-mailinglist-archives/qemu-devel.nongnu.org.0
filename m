@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E0B34917C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:04:39 +0100 (CET)
-Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505DB349157
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:01:16 +0100 (CET)
+Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPOj7-0000S4-C0
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
+	id 1lPOfq-0005aA-RO
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:01:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPOfw-0006Cx-4K
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:01:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPOft-0008IJ-SR
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:01:19 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lPOfs-0001HL-6O
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 12:01:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2DA672E8026
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 12:01:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPOeD-00052N-KU
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:59:33 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPOeC-00079E-0s
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:59:33 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 12F46AD80;
+ Thu, 25 Mar 2021 11:59:30 +0000 (UTC)
+Subject: Re: [RFC v11 28/55] target/arm: refactor exception and cpu code
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210323151749.21299-1-cfontana@suse.de>
+ <20210323154639.23477-21-cfontana@suse.de>
+ <47ea27b1-a11f-b10d-a084-0f7698691a6b@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <519488da-3ce9-3fe9-d4a2-4bc76e2519b6@suse.de>
+Date: Thu, 25 Mar 2021 12:59:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Mar 2021 11:49:31 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1918302@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: arm semihosting
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee pmaydell statham-arm
-X-Launchpad-Bug-Reporter: Simon Tatham (statham-arm)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <161530383644.26074.10419563158373925479.malonedeb@gac.canonical.com>
-Message-Id: <161667297199.27515.912298758311518716.malone@gac.canonical.com>
-Subject: [Bug 1918302] Re: qemu-system-arm segfaults while servicing
- SYS_HEAPINFO
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: afb2d680e2b0d80c4f22552fcfec8a5014eca7ce
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <47ea27b1-a11f-b10d-a084-0f7698691a6b@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,47 +59,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918302 <1918302@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think this is fixed now - it would be useful if the OP could confirm
-with the current state of master.
+On 3/24/21 11:29 PM, Richard Henderson wrote:
+> On 3/23/21 9:46 AM, Claudio Fontana wrote:
+>> move exception code out of tcg/
+>> as we need part of it for KVM too.
+>>
+>> put the exception code into separate cpu modules as appropriate,
+>> including:
+>>
+>> cpu-sysemu.c
+>> tcg/tcg-cpu.c
+>> tcg/sysemu/tcg-cpu.c
+>>
+>> to avoid naming confusion with the existing cpu_tcg.c,
+>> containg cpu models definitions for 32bit TCG-only cpus,
+>> rename this file as tcg/tcg-cpu-models.c
+> 
+> Obviously all of this should not be done in one step.
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
 
--- =
+Ok will work on it.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918302
 
-Title:
-  qemu-system-arm segfaults while servicing SYS_HEAPINFO
+> 
+> Isn't tcg/tcg-* redundant?
 
-Status in QEMU:
-  Fix Committed
 
-Bug description:
-  I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried
-  to use it to run the attached bare-metal Arm hello-world image, using
-  the command line
+I considered that, and at some point I had "cpu.c" for x86 too. After working on it for a while, I noticed how
+it got really confusing in practice to have files called just "cpu.c" when working on them, just too many files are called "cpu.c". It was confusing.
 
-  qemu-system-arm -M microbit -semihosting -nographic -device
-  loader,file=3Dhello.hex
+I also like the extra emphasis on the accel for this:
 
-  The result was that qemu-system-arm itself died of a segfault.
-  Compiling it for debugging, the location of the segfault was in
-  target/arm/arm-semi.c, in the case handler for the semihosting call
-  TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
+kvm/kvm.c
+kvm/kvm-cpu.c
+kvm/kvm-stub.c
 
-              const struct arm_boot_info *info =3D env->boot_info;
-              target_ulong rambase =3D info->loader_start;
+tcg/tcg-cpu.c
+tcg/tcg-stub.c
 
-  and the problem seems to be that 'info', aka env->boot_info, is NULL
-  in this context.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918302/+subscriptions
+Thanks,
+
+Claudio
 
