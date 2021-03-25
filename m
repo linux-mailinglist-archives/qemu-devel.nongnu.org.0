@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9063497AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:16:09 +0100 (CET)
-Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFEB3497A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 18:09:20 +0100 (CET)
+Received: from localhost ([::1]:40834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPTaZ-0004Kz-TO
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42512)
+	id 1lPTTz-0006rn-63
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 13:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lPTOU-0003fg-Iq
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:03:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23734)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lPTQV-0004uC-GA
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:05:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lPTOQ-0004o5-6S
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:03:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lPTQH-000631-60
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 13:05:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616691810;
+ s=mimecast20190719; t=1616691926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yd24CN/cEsMQNc/Y0vFp8HoTg/GNygss3BU1636GTgw=;
- b=EKUCtRojCBDq3H8uOhEK7ER8eFBp7nkQxutvkHtkTbSdnMXt2AhedMU1x1rizD7Tz38snN
- 5aWRpKEHWowN/HteQ8nxEE+eOwm5PjMivUAk6IU4DIb4mK77UGdekmAoqIgc+YNhXBObZw
- 30UEvxNfHRzQkI/fpqakiuffUX0ESOk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-EcFmEPWhPSir86TJiDBxLQ-1; Thu, 25 Mar 2021 13:03:20 -0400
-X-MC-Unique: EcFmEPWhPSir86TJiDBxLQ-1
-Received: by mail-wm1-f70.google.com with SMTP id a63so52030wmd.8
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 10:03:20 -0700 (PDT)
+ bh=Pr6ScMD5Uho2EjmKBNMJrzGhpeOQZbFzCFM12JXgnVg=;
+ b=bupCn+KM8OMiBGqyS6LwZvXl1z8S0ZWO4WB/DnFM1SM9BeaiqvE3RjeMYB5o4kGnWtaRlc
+ Fys7MqJ20aOOmaeUVx4VHAjcaKA8dFnRr7JA+KdRUMxVf15uAXj8aHjnc9GLmhbjlQWqqA
+ 03LIFkSb/4ajfZEXwcBLzz3NIntNvCg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-v84jkj9mME-KX_XUicTqhQ-1; Thu, 25 Mar 2021 13:05:21 -0400
+X-MC-Unique: v84jkj9mME-KX_XUicTqhQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r65-20020a1c2b440000b029010f4ee06223so1226904wmr.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 10:05:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=yd24CN/cEsMQNc/Y0vFp8HoTg/GNygss3BU1636GTgw=;
- b=HZ62C51v9gqh14T0LxmumFwAmASWQJryxNDsO7SaUP/dpDrxUrpKPv+vCoX3pL6JZC
- Nkr2yW/wnlSOU6wLk4iptMz2w7Fb8rVxAvxuibdnw1ldGStRkpN69PH0mHDEHRFW4bak
- GSym4qsWzyUUmq1XYxWBO12k7kXqrIwJTXndQVuNuleCPNLhelJkieaEKQqA+y10d+j4
- L8fP8OsIUVHlCIh02GLBe7LgsWKvdmVWQ2E1Q4JkEcs6vxRiGR6YAWAZW89zmwFDHqLe
- fhBkww0UZBCFgd5KTlJwyYJi6FIZu3YfnTL8bvVUTqbsIb8iyKmeegldGHG7W/reSWnH
- udzQ==
-X-Gm-Message-State: AOAM530oBcC/IuKCxB9WtMOSkdMQD/cM2eBv3TRAe0YimvvIJQDGjpTQ
- 8mc1bZTDjdo2efHPNM9MemjpLr9h0oNuJYFNAFNaZ2aBYe/5NzPZa4JKhdLFipVlzuIWOB4fKwp
- LecPtYcBmthzjQRk=
-X-Received: by 2002:a1c:1dd4:: with SMTP id d203mr8966833wmd.83.1616691798024; 
- Thu, 25 Mar 2021 10:03:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFOqBswtzJ2YMVO7GFPX4Jh4UhxmKZj1M314z91teI6tYTlW4eiKNMiRvociLv2elKggkPSQ==
-X-Received: by 2002:a1c:1dd4:: with SMTP id d203mr8966784wmd.83.1616691797600; 
- Thu, 25 Mar 2021 10:03:17 -0700 (PDT)
+ bh=Pr6ScMD5Uho2EjmKBNMJrzGhpeOQZbFzCFM12JXgnVg=;
+ b=FsLJDfZXvzRC+x3FN2wOoeFCHWk2yRZUPW8ThSaIT8GMpip6TYXqZ0ZSepolQDg/iO
+ Z6AjXKzLYFC9hWfRweZH18qkerUsR7hxdOBGwaJe0HP9wGOPmZwLX6Dj7e5iRXy50vC6
+ qupRCCJjrIJiY+KaIONf3W/vDfr/WVUd5XZ81v2QVLNLMrzFbKaQdZ7hT5w1KIP2GsTm
+ csCf2wAjKm9OdAHYTSPLPFVVGoXVMHVqsIMtx5pyTXHC6G06E1s8pMVyuQJMpsG+8d1u
+ Vb1gaP/cF2g+zdD2UaCKSDpluQq7a7EtZQCXXNv1aE/IHnJoVxzrDZzM4bwY0IYB3WEf
+ MeBg==
+X-Gm-Message-State: AOAM531J6B3y+G7aGkYK1aHRpLXvrrmmzNZj2aS4tMbHTZolNvvzLkWC
+ agKpA5e7Ak8vlNS0NnqJHcRLyy7JBWW7ptIR55FOn4YshgG7qI3dUkiCrFWVuAqOKilLZtyxIgy
+ La9RFB6nVp0Vt9iQ=
+X-Received: by 2002:a1c:7ec4:: with SMTP id z187mr9040299wmc.3.1616691920046; 
+ Thu, 25 Mar 2021 10:05:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweyLkBTdzYJ2Mi22tQJo7Seho1ulELh1mVvHwjeEvBupAlraXIcyi+2fSav/rs+a8VM0VQlg==
+X-Received: by 2002:a1c:7ec4:: with SMTP id z187mr9040275wmc.3.1616691919783; 
+ Thu, 25 Mar 2021 10:05:19 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id m11sm8702227wri.44.2021.03.25.10.03.16
+ by smtp.gmail.com with ESMTPSA id l15sm7321476wme.43.2021.03.25.10.05.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 10:03:17 -0700 (PDT)
-Date: Thu, 25 Mar 2021 13:03:14 -0400
+ Thu, 25 Mar 2021 10:05:19 -0700 (PDT)
+Date: Thu, 25 Mar 2021 13:05:16 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 for-6.0?] hw/pci-host/gpex: Don't fault for unmapped
- parts of MMIO and PIO windows
-Message-ID: <20210325130304-mutt-send-email-mst@kernel.org>
-References: <20210325163315.27724-1-peter.maydell@linaro.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC 0/8] virtio: Improve boot time of virtio-scsi-pci and
+ virtio-blk-pci
+Message-ID: <20210325130429-mutt-send-email-mst@kernel.org>
+References: <20210325150735.1098387-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210325163315.27724-1-peter.maydell@linaro.org>
+In-Reply-To: <20210325150735.1098387-1-groug@kaod.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,159 +92,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Dmitry Vyukov <dvyukov@google.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 25, 2021 at 04:33:15PM +0000, Peter Maydell wrote:
-> Currently the gpex PCI controller implements no special behaviour for
-> guest accesses to areas of the PIO and MMIO where it has not mapped
-> any PCI devices, which means that for Arm you end up with a CPU
-> exception due to a data abort.
+On Thu, Mar 25, 2021 at 04:07:27PM +0100, Greg Kurz wrote:
+> Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,
+> a serious slow down may be observed on setups with a big enough number
+> of vCPUs.
 > 
-> Most host OSes expect "like an x86 PC" behaviour, where bad accesses
-> like this return -1 for reads and ignore writes.  In the interests of
-> not being surprising, make host CPU accesses to these windows behave
-> as -1/discard where there's no mapped PCI device.
+> Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threads):
 > 
-> The old behaviour generally didn't cause any problems, because
-> almost always the guest OS will map the PCI devices and then only
-> access where it has mapped them. One corner case where you will see
-> this kind of access is if Linux attempts to probe legacy ISA
-> devices via a PIO window access. So far the only case where we've
-> seen this has been via the syzkaller fuzzer.
+> 1		0m20.922s	0m21.346s
+> 2		0m21.230s	0m20.350s
+> 4		0m21.761s	0m20.997s
+> 8		0m22.770s	0m20.051s
+> 16		0m22.038s	0m19.994s
+> 32		0m22.928s	0m20.803s
+> 64		0m26.583s	0m22.953s
+> 128		0m41.273s	0m32.333s
+> 256		2m4.727s 	1m16.924s
+> 384		6m5.563s 	3m26.186s
 > 
-> Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Both perf and gprof indicate that QEMU is hogging CPUs when setting up
+> the ioeventfds:
+> 
+>  67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable
+>   9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single
+>   8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable
+> =>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioeventfd_before
+> =>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_ioeventfds
+>   0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single
+> 
+> address_space_update_ioeventfds() is called when committing an MR
+> transaction, i.e. for each ioeventfd with the current code base,
+> and it internally loops on all ioventfds:
+> 
+> static void address_space_update_ioeventfds(AddressSpace *as)
+> {
+> [...]
+>     FOR_EACH_FLAT_RANGE(fr, view) {
+>         for (i = 0; i < fr->mr->ioeventfd_nb; ++i) {
+> 
+> This means that the setup of ioeventfds for these devices has
+> quadratic time complexity.
+> 
+> This series introduce generic APIs to allow batch creation and deletion
+> of ioeventfds, and converts virtio-blk and virtio-scsi to use them. This
+> greatly improves the numbers:
+> 
+> 1		0m21.271s	0m22.076s
+> 2		0m20.912s	0m19.716s
+> 4		0m20.508s	0m19.310s
+> 8		0m21.374s	0m20.273s
+> 16		0m21.559s	0m21.374s
+> 32		0m22.532s	0m21.271s
+> 64		0m26.550s	0m22.007s
+> 128		0m29.115s	0m27.446s
+> 256		0m44.752s	0m41.004s
+> 384		1m2.884s	0m58.023s
+> 
+> The series deliberately spans over multiple subsystems for easier
+> review and experimenting. It also does some preliminary fixes on
+> the way. It is thus posted as an RFC for now, but if the general
+> idea is acceptable, I guess a non-RFC could be posted and maybe
+> extend the feature to some other devices that might suffer from
+> similar scaling issues, e.g. vhost-scsi-pci, vhost-user-scsi-pci
+> and vhost-user-blk-pci, even if I haven't checked.
+> 
+> This should fix https://bugzilla.redhat.com/show_bug.cgi?id=1927108
+> which reported the issue for virtio-scsi-pci.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-> ---
-> v1->v2 changes: put in the hw_compat machinery.
+Series looks ok from a quick look ...
+
+this is a regression isn't it?
+So I guess we'll need that in 6.0 or revert the # of vqs
+change for now ...
+
+> Greg Kurz (8):
+>   memory: Allow eventfd add/del without starting a transaction
+>   virtio: Introduce virtio_bus_set_host_notifiers()
+>   virtio: Add API to batch set host notifiers
+>   virtio-pci: Batch add/del ioeventfds in a single MR transaction
+>   virtio-blk: Fix rollback path in virtio_blk_data_plane_start()
+>   virtio-blk: Use virtio_bus_set_host_notifiers()
+>   virtio-scsi: Set host notifiers and callbacks separately
+>   virtio-scsi: Use virtio_bus_set_host_notifiers()
 > 
-> Still not sure if I want to put this in 6.0 or not.
+>  hw/virtio/virtio-pci.h          |  1 +
+>  include/exec/memory.h           | 48 ++++++++++++++++------
+>  include/hw/virtio/virtio-bus.h  |  7 ++++
+>  hw/block/dataplane/virtio-blk.c | 26 +++++-------
+>  hw/scsi/virtio-scsi-dataplane.c | 68 ++++++++++++++++++--------------
+>  hw/virtio/virtio-bus.c          | 70 +++++++++++++++++++++++++++++++++
+>  hw/virtio/virtio-pci.c          | 53 +++++++++++++++++--------
+>  softmmu/memory.c                | 42 ++++++++++++--------
+>  8 files changed, 225 insertions(+), 90 deletions(-)
 > 
->  include/hw/pci-host/gpex.h |  4 +++
->  hw/core/machine.c          |  1 +
->  hw/pci-host/gpex.c         | 56 ++++++++++++++++++++++++++++++++++++--
->  3 files changed, 58 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
-> index d48a020a952..fcf8b638200 100644
-> --- a/include/hw/pci-host/gpex.h
-> +++ b/include/hw/pci-host/gpex.h
-> @@ -49,8 +49,12 @@ struct GPEXHost {
->  
->      MemoryRegion io_ioport;
->      MemoryRegion io_mmio;
-> +    MemoryRegion io_ioport_window;
-> +    MemoryRegion io_mmio_window;
->      qemu_irq irq[GPEX_NUM_IRQS];
->      int irq_num[GPEX_NUM_IRQS];
-> +
-> +    bool allow_unmapped_accesses;
->  };
->  
->  struct GPEXConfig {
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 257a664ea2e..9750fad7435 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -41,6 +41,7 @@ GlobalProperty hw_compat_5_2[] = {
->      { "PIIX4_PM", "smm-compat", "on"},
->      { "virtio-blk-device", "report-discard-granularity", "off" },
->      { "virtio-net-pci", "vectors", "3"},
-> +    { "gpex-pcihost", "allow-unmapped-accesses", "false" },
->  };
->  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
->  
-> diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
-> index 2bdbe7b4561..a6752fac5e8 100644
-> --- a/hw/pci-host/gpex.c
-> +++ b/hw/pci-host/gpex.c
-> @@ -83,12 +83,51 @@ static void gpex_host_realize(DeviceState *dev, Error **errp)
->      int i;
->  
->      pcie_host_mmcfg_init(pex, PCIE_MMCFG_SIZE_MAX);
-> +    sysbus_init_mmio(sbd, &pex->mmio);
-> +
-> +    /*
-> +     * Note that the MemoryRegions io_mmio and io_ioport that we pass
-> +     * to pci_register_root_bus() are not the same as the
-> +     * MemoryRegions io_mmio_window and io_ioport_window that we
-> +     * expose as SysBus MRs. The difference is in the behaviour of
-> +     * accesses to addresses where no PCI device has been mapped.
-> +     *
-> +     * io_mmio and io_ioport are the underlying PCI view of the PCI
-> +     * address space, and when a PCI device does a bus master access
-> +     * to a bad address this is reported back to it as a transaction
-> +     * failure.
-> +     *
-> +     * io_mmio_window and io_ioport_window implement "unmapped
-> +     * addresses read as -1 and ignore writes"; this is traditional
-> +     * x86 PC behaviour, which is not mandated by the PCI spec proper
-> +     * but expected by much PCI-using guest software, including Linux.
-> +     *
-> +     * In the interests of not being unnecessarily surprising, we
-> +     * implement it in the gpex PCI host controller, by providing the
-> +     * _window MRs, which are containers with io ops that implement
-> +     * the 'background' behaviour and which hold the real PCI MRs as
-> +     * subregions.
-> +     */
->      memory_region_init(&s->io_mmio, OBJECT(s), "gpex_mmio", UINT64_MAX);
->      memory_region_init(&s->io_ioport, OBJECT(s), "gpex_ioport", 64 * 1024);
->  
-> -    sysbus_init_mmio(sbd, &pex->mmio);
-> -    sysbus_init_mmio(sbd, &s->io_mmio);
-> -    sysbus_init_mmio(sbd, &s->io_ioport);
-> +    if (s->allow_unmapped_accesses) {
-> +        memory_region_init_io(&s->io_mmio_window, OBJECT(s),
-> +                              &unassigned_io_ops, OBJECT(s),
-> +                              "gpex_mmio_window", UINT64_MAX);
-> +        memory_region_init_io(&s->io_ioport_window, OBJECT(s),
-> +                              &unassigned_io_ops, OBJECT(s),
-> +                              "gpex_ioport_window", 64 * 1024);
-> +
-> +        memory_region_add_subregion(&s->io_mmio_window, 0, &s->io_mmio);
-> +        memory_region_add_subregion(&s->io_ioport_window, 0, &s->io_ioport);
-> +        sysbus_init_mmio(sbd, &s->io_mmio_window);
-> +        sysbus_init_mmio(sbd, &s->io_ioport_window);
-> +    } else {
-> +        sysbus_init_mmio(sbd, &s->io_mmio);
-> +        sysbus_init_mmio(sbd, &s->io_ioport);
-> +    }
-> +
->      for (i = 0; i < GPEX_NUM_IRQS; i++) {
->          sysbus_init_irq(sbd, &s->irq[i]);
->          s->irq_num[i] = -1;
-> @@ -108,6 +147,16 @@ static const char *gpex_host_root_bus_path(PCIHostState *host_bridge,
->      return "0000:00";
->  }
->  
-> +static Property gpex_host_properties[] = {
-> +    /*
-> +     * Permit CPU accesses to unmapped areas of the PIO and MMIO windows
-> +     * (discarding writes and returning -1 for reads) rather than aborting.
-> +     */
-> +    DEFINE_PROP_BOOL("allow-unmapped-accesses", GPEXHost,
-> +                     allow_unmapped_accesses, true),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->  static void gpex_host_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -117,6 +166,7 @@ static void gpex_host_class_init(ObjectClass *klass, void *data)
->      dc->realize = gpex_host_realize;
->      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->      dc->fw_name = "pci";
-> +    device_class_set_props(dc, gpex_host_properties);
->  }
->  
->  static void gpex_host_initfn(Object *obj)
 > -- 
-> 2.20.1
+> 2.26.3
+> 
 
 
