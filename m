@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBF834883D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 06:11:14 +0100 (CET)
-Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFEA34884A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 06:19:17 +0100 (CET)
+Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPIH2-0006yi-VD
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 01:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60404)
+	id 1lPIOp-00021S-VA
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 01:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jie.deng@intel.com>)
- id 1lPIFf-00067e-AP
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:09:47 -0400
-Received: from mga06.intel.com ([134.134.136.31]:50058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jie.deng@intel.com>)
- id 1lPIFc-0002Sx-T8
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:09:46 -0400
-IronPort-SDR: 9gbW/26zcDJmjZWb8/GnMYC8KFm/ZBjcWA5Jfwb4nVOBtnbWL4FOuDgPr4cHBx6l4SD1SBKNT9
- L9RtPgcW6syg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="252207589"
-X-IronPort-AV: E=Sophos;i="5.81,276,1610438400"; d="scan'208";a="252207589"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 22:09:36 -0700
-IronPort-SDR: RJjDuwFLj7h/56yl0w52w+qnJ6tBtzKfblcYN9BV6cOsCvubVUSQmZAG4vjgdk0PjbGI/+Q87t
- LYZFlxksIxcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,276,1610438400"; d="scan'208";a="374917420"
-Received: from unknown (HELO [10.239.154.55]) ([10.239.154.55])
- by orsmga003.jf.intel.com with ESMTP; 24 Mar 2021 22:09:34 -0700
-Subject: Re: [PATCH 3/5] tools/vhost-user-i2c: Add backend driver
-To: Viresh Kumar <viresh.kumar@linaro.org>, qemu-devel@nongnu.org
-References: <cover.1616570702.git.viresh.kumar@linaro.org>
- <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
-From: Jie Deng <jie.deng@intel.com>
-Message-ID: <290a8771-7273-a898-a826-c97df6eefb1b@intel.com>
-Date: Thu, 25 Mar 2021 13:09:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPINY-0001ca-GY
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:17:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPINR-0007eQ-24
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 01:17:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616649467;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aLlcm6ZYfZugI/qFBsXdOLFIDHjXoh0kb7F8TGgYtwE=;
+ b=dqxLNRz70Vy3A21acCqGh0QeEH+23OumuADngOLX38T8oaGvXPjLUufQuXFm51qzPJLJYd
+ CBkuRF5p1evCS9CdBbjPBuEMdsSZ2IpdsWENXEdLF7FBinIY4SkqxZ5F5nqkyW4ks4LJbn
+ 5JSmA990fdPmFnT5OdlYGSxFqq6tex0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-gsY449XFNCGV_rPTMSOEuQ-1; Thu, 25 Mar 2021 01:17:41 -0400
+X-MC-Unique: gsY449XFNCGV_rPTMSOEuQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0228091248;
+ Thu, 25 Mar 2021 05:17:40 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EF3A5D9DE;
+ Thu, 25 Mar 2021 05:17:39 +0000 (UTC)
+Subject: Re: [PATCH v3 15/16] qapi/expr.py: move related checks inside
+ check_xxx functions
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210223003408.964543-1-jsnow@redhat.com>
+ <20210223003408.964543-16-jsnow@redhat.com>
+ <87r1l488vx.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <9cbaa0fe-d926-84d1-c0e2-f0bffc9cba3b@redhat.com>
+Date: Thu, 25 Mar 2021 01:17:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
+In-Reply-To: <87r1l488vx.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=jie.deng@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,71 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
- Bill Mills <bill.mills@linaro.org>, Arnd Bergmann <arnd.bergmann@linaro.com>,
- Mike Holmes <mike.holmes@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/25/21 10:28 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> There's not a big obvious difference between the types of checks that
+>> happen in the main function versus the kind that happen in the
+>> functions. Now they're in one place for each of the main types.
+>>
+>> As part of the move, spell out the required and optional keywords so
+>> they're obvious at a glance. Use tuples instead of lists for immutable
+>> data, too.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> 
+> No objection to changing read-only lists to tuples (applies to previous
+> patch, too).
+> 
+> No objection to turning positional into keyword arguments where that
+> improves clarity.
+> 
+> I have doubts on the code motion.  Yes, the checks for each type are now
+> together.  On the other hand, the check_keys() are now separate.  I can
+> no longer see all the keys at a glance.
+> 
 
-On 2021/3/24 15:33, Viresh Kumar wrote:
-> +
-> +/* Definitions from virtio-i2c specifications */
-> +#define VHOST_USER_I2C_MAX_QUEUES       1
-> +
-> +/* Status */
-> +#define VIRTIO_I2C_MSG_OK               0
-> +#define VIRTIO_I2C_MSG_ERR              1
-> +
-> +/* The bit 0 of the @virtio_i2c_out_hdr.@flags, used to group the requests */
-> +#define VIRTIO_I2C_FLAGS_FAIL_NEXT      0x00000001
-> +
-> +/**
-> + * struct virtio_i2c_out_hdr - the virtio I2C message OUT header
-> + * @addr: the controlled device's address
-> + * @padding: used to pad to full dword
-> + * @flags: used for feature extensibility
-> + */
-> +struct virtio_i2c_out_hdr {
-> +    uint16_t addr;
-> +    uint16_t padding;
-> +    uint32_t flags;
-> +} __attribute__((packed));
+I guess it depends on where you wanted to see them; I thought it was 
+strange that in check_foobar I couldn't see what foobar's valid keys 
+were without scrolling back to the bottom of the file.
 
+Needing to see all the keys for the disparate forms together was not a 
+case I ran into, but you can always drop this patch for now if you'd 
+like. I had some more adventurous patches that keeps pushing in this 
+direction, but I don't know if it's really important. My appetite in 
+this area has waned since November.
 
-__le16,  __le32 ?
-
-
-> +
-> +/**
-> + * struct virtio_i2c_in_hdr - the virtio I2C message IN header
-> + * @status: the processing result from the backend
-> + */
-> +struct virtio_i2c_in_hdr {
-> +    uint8_t status;
-> +} __attribute__((packed));
-> +
-
-
-I understand these definitions can be removed once the frontend driver 
-is merged by the Linux ?
-
-
-> +/* vhost-user-i2c definitions */
-> +
-> +#ifndef container_of
-> +#define container_of(ptr, type, member) ({                      \
-> +        const typeof(((type *) 0)->member) *__mptr = (ptr);     \
-> +        (type *) ((char *) __mptr - offsetof(type, member));})
-> +#endif
-
-
-This seems to be a general interface.  I see there is a definition in 
-qemu/compiler.h.
-
-Can we reuse it ?
-
+--js
 
 
