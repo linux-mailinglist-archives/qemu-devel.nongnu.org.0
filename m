@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CB4348FDF
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F374348FE0
 	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 12:32:17 +0100 (CET)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPODn-000554-BA
+	id 1lPODn-00054m-N2
 	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 07:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34034)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lPOBP-0003VP-1n
+ id 1lPOBP-0003VW-E3
  for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:29:47 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38434)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:42566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lPOBN-0006gA-7u
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:29:46 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z2so1911285wrl.5
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 04:29:44 -0700 (PDT)
+ id 1lPOBN-0006hI-HQ
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:29:47 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ b2-20020a7bc2420000b029010be1081172so974640wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 04:29:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LZBPq6Bnm1jLOGOoBjLvgoRlwGIANuyQGvrFCczpsn0=;
- b=Ldl4cnAQ356hdAw3LcDx8JcZ24r6IEqj/zpruZsLFxfBnen0T2y+y/+m6m1we1Um+T
- 69n4ObDgzyTWyQwIKBZuuqNRJSTdD0yaYyVvsSkburvDAZHhHdebnP8PHkHkmjNgepek
- HBoVBdLb9frCk3Ti9bujqPP98w2HY8DtcAX7+a3eUYM0X4BkqPKpdV93SrxO8nlnTSmx
- y4oEGdRsnZXdS+IjUh4DXnab5Nei+3Df5rMBioIxJj6KvgeJltNGhbyfjEPV+OLnEM0W
- jdmbFSnV6s/3w0HgJebc2cleZa0Er3BoAe5R7rBiqGNkj0G1ZXRGjEiTuybxtOnG/vD3
- 5Ijw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=icH2+ws4BA3MF/VhEqXoYhWBQcPa1zTAGZW92CWb7og=;
+ b=CavDZxvQHAH1WrgLmp5i96hztzD1hLZhh/QzHO6jZG9kZXrRyV0r3WJe9LQ6PWGEyg
+ 3gBBQyTyVkuoGJLuuYPAz9EKjxVepLUJD6whM3Ft7nzONsVQNi1rpwqDy19T3uiCPqOz
+ NN5+8diIRcnaygwAX5K/3dQvc/iTSAGbOjlT/yHFSoSD/Bb2y6pGnZw/k3RlXEMQIfVT
+ /YNBJMsCIvKD7QnDtS01LfUIZ0GTcAricZniU1ui5fyLQUlH6l2g0JjbEpf7Atq1OQtO
+ QYaSnxUKWDDKFl2pmYaLxyVOE1dgTSSJuBAqQBTE+gUsj8fsX2VMS0uwFacSb9Tvy5rp
+ j11Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=LZBPq6Bnm1jLOGOoBjLvgoRlwGIANuyQGvrFCczpsn0=;
- b=CCi8hQEur8EnRI5Tx/KXK3UwZb+Kj0A69ePPq4oYqzmWzLZpR2r1OI+Ef+p4A1rwSj
- tx1N5cJWoALp6NYdxhuQqLO3Zmp0l7YPn8LaGEs/yx3byg8+evDB92eHlJiLDphLCsHX
- 59aHz5qv8ToZ3sRTX87vgbrIMnKB0W4KhCBirIySibFcaWstQx5+0IqUcOg2+kdOuZ62
- H4vLidaoczvq2bULCz4xxjDLBVJf3FEGu2xk969ortn8L3gJyn+CjFuV6OzkHlbKXMCh
- LMD4pyvYvD4Rz975U9CojjU78OP2yLtZUB0zmEu1R9DL35UMMCYUnEJbHd0EpBYYVtYv
- ghWg==
-X-Gm-Message-State: AOAM530+oUVuN1kSHpcpNZDeNdNxg2UQi6IYyOLaXz1CiCEUXYZNq17W
- doX5FI3mkT1fOVuv/zzvzr+w66M2Ddg=
-X-Google-Smtp-Source: ABdhPJzlqhKYUsOIKQL8kPZS2ZXupuy6pQGEgxrYuPvJHMO8UluZ2nKRd/TPQmbGrmvg9Dt7pgEWcQ==
-X-Received: by 2002:a5d:6b50:: with SMTP id x16mr8224392wrw.379.1616671783003; 
- Thu, 25 Mar 2021 04:29:43 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=icH2+ws4BA3MF/VhEqXoYhWBQcPa1zTAGZW92CWb7og=;
+ b=pJn9dCH33ibA5MrpOcw6DQbcWAgqkljnmn3yuA5eqi7NdTM9ajW9y2zjzkattiDS7/
+ 9jlFH8ZZZptgGxsu/cvI4Qbn5wizSwhRx4hnLEj2ZajoONw0z5XNkXGAy23neFvI9TKx
+ ydblwByJpYqSZn0iSgx3poYFtUmDqez/8EY+QrFpNw8FT93B3RGrFnSqEHFagfzOCYKl
+ 84Imkii/5a1p5kSspNdbKrgbTsmg1hbXJukEV2XxEFc+9xfRwGOHuFTmsL6dquReWMlX
+ UldgTMjCMx/9sBS7v/fVrFKk6YVtpXGZOXorLy8R+fzOZNNOfyj6EeHCoERF8FC4wxKm
+ QlBg==
+X-Gm-Message-State: AOAM531BE8okTu8H+Z1b6+I/yRSOotwUvzCPwXtvD0PC/QAmrZLV7LKr
+ 0fT14PTIxbTI4ContiXf60t9gKROvWs=
+X-Google-Smtp-Source: ABdhPJyGX9Z6x/cvL0dfgZbbT/0yFIg/oYTE3MQL0vwgWyHD6wRxDZs0MAI2GRzJrwGaWWg9qPqpuA==
+X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr7329840wma.141.1616671784114; 
+ Thu, 25 Mar 2021 04:29:44 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id g11sm7220118wrw.89.2021.03.25.04.29.42
+ by smtp.gmail.com with ESMTPSA id g11sm7220118wrw.89.2021.03.25.04.29.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 04:29:42 -0700 (PDT)
+ Thu, 25 Mar 2021 04:29:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/6] coroutine rwlock downgrade fix, minor VDI changes 
-Date: Thu, 25 Mar 2021 12:29:35 +0100
-Message-Id: <20210325112941.365238-1-pbonzini@redhat.com>
+Subject: [PATCH v6 1/6] block/vdi: When writing new bmap entry fails,
+ don't leak the buffer
+Date: Thu, 25 Mar 2021 12:29:36 +0100
+Message-Id: <20210325112941.365238-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210325112941.365238-1-pbonzini@redhat.com>
+References: <20210325112941.365238-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,45 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com, stefanha@redhat.com
+Cc: david.edmondson@oracle.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ stefanha@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a resubmit of David Edmondson's series at
-https://patchew.org/QEMU/20210309144015.557477-1-david.edmondson@oracle.com/.
-After closer analysis on IRC, the CoRwlock's attempt to ensure
-fairness turned out to be flawed.  Therefore, this series
-reimplements CoRwlock without using a CoQueue.  Tracking whether
-each queued coroutine is a reader/writer makes it possible to
-never wake a writer when only readers should be allowed and
-vice versa.
+From: David Edmondson <david.edmondson@oracle.com>
 
-v2->v3: new CoRwlock implementation
+If a new bitmap entry is allocated, requiring the entire block to be
+written, avoiding leaking the buffer allocated for the block should
+the write fail.
 
-v3->v4: fix upgrade and add a test for that, too
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <20210309144015.557477-2-david.edmondson@oracle.com>
+Acked-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/vdi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-v4->v5: typo
-
-v5->v6: improve documentation, do not read lock->owners where
-        neither wrlock nor lock->mutex exclude concurrent writes
-
-David Edmondson (4):
-  block/vdi: When writing new bmap entry fails, don't leak the buffer
-  block/vdi: Don't assume that blocks are larger than VdiHeader
-  coroutine-lock: Store the coroutine in the CoWaitRecord only once
-  test-coroutine: Add rwlock downgrade test
-
-Paolo Bonzini (2):
-  coroutine-lock: Reimplement CoRwlock to fix downgrade bug
-  test-coroutine: Add rwlock upgrade test
-
- block/vdi.c                 |  11 ++-
- include/qemu/coroutine.h    |  17 ++--
- tests/unit/test-coroutine.c | 161 ++++++++++++++++++++++++++++++++++++
- util/qemu-coroutine-lock.c  | 149 +++++++++++++++++++++------------
- 4 files changed, 274 insertions(+), 64 deletions(-)
-
+diff --git a/block/vdi.c b/block/vdi.c
+index 5627e7d764..2a6dc26124 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -690,6 +690,7 @@ nonallocating_write:
+ 
+     logout("finished data write\n");
+     if (ret < 0) {
++        g_free(block);
+         return ret;
+     }
+ 
 -- 
 2.29.2
+
 
 
