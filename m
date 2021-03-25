@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2667A349508
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:12:40 +0100 (CET)
-Received: from localhost ([::1]:41656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A8E34950C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:12:46 +0100 (CET)
+Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPRf5-0001ig-8G
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35024)
+	id 1lPRfB-0001vX-2A
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaZ-0004p6-J5
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:07:59 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:58453)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRab-0004tB-9O
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:08:01 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:49931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaY-0007ij-2S
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:07:59 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lPRaY-0007k2-Sa
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:08:01 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-ShAsmauJOzyVu0eZblyGsg-1; Thu, 25 Mar 2021 11:07:55 -0400
-X-MC-Unique: ShAsmauJOzyVu0eZblyGsg-1
+ us-mta-188-KZbR3eolNtCh706kudKXGw-1; Thu, 25 Mar 2021 11:07:56 -0400
+X-MC-Unique: KZbR3eolNtCh706kudKXGw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E13380BCA6;
- Thu, 25 Mar 2021 15:07:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 873D51005D58;
+ Thu, 25 Mar 2021 15:07:55 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-113-20.ams2.redhat.com [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42ECB5C649;
- Thu, 25 Mar 2021 15:07:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 889645C5E1;
+ Thu, 25 Mar 2021 15:07:53 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC 3/8] virtio: Add API to batch set host notifiers
-Date: Thu, 25 Mar 2021 16:07:30 +0100
-Message-Id: <20210325150735.1098387-4-groug@kaod.org>
+Subject: [RFC 4/8] virtio-pci: Batch add/del ioeventfds in a single MR
+ transaction
+Date: Thu, 25 Mar 2021 16:07:31 +0100
+Message-Id: <20210325150735.1098387-5-groug@kaod.org>
 In-Reply-To: <20210325150735.1098387-1-groug@kaod.org>
 References: <20210325150735.1098387-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,127 +73,161 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce VirtioBusClass methods to begin and commit a transaction
-of setting/unsetting host notifiers. These handlers will be implemented
-by virtio-pci to batch addition and deletion of ioeventfds for multiqueue
-devices like virtio-scsi-pci or virtio-blk-pci.
+Implement the ioeventfd_assign_begin() and ioeventfd_assign_commit()
+handlers of VirtioBusClass. Basically track that a transaction was
+already requested by the device and use this information to prevent
+the memory code to generate a transaction for each individual eventfd.
 
-Convert virtio_bus_set_host_notifiers() to use these handlers. Note that
-virtio_bus_cleanup_host_notifier() closes eventfds, which could still be
-passed to the KVM_IOEVENTFD ioctl() when the transaction ends and fail
-with EBADF. The cleanup of the host notifiers is thus pushed to a
-separate loop in virtio_bus_unset_and_cleanup_host_notifiers(), after
-transaction commit.
+Devices that want to benefit of this batching feature must be converted
+to use the virtio_bus_set_host_notifiers() API.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/virtio/virtio-bus.h |  4 ++++
- hw/virtio/virtio-bus.c         | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+ hw/virtio/virtio-pci.h |  1 +
+ hw/virtio/virtio-pci.c | 53 +++++++++++++++++++++++++++++-------------
+ softmmu/memory.c       |  4 ++--
+ 3 files changed, 40 insertions(+), 18 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.=
-h
-index 6d1e4ee3e886..99704b2c090a 100644
---- a/include/hw/virtio/virtio-bus.h
-+++ b/include/hw/virtio/virtio-bus.h
-@@ -82,6 +82,10 @@ struct VirtioBusClass {
-      */
-     int (*ioeventfd_assign)(DeviceState *d, EventNotifier *notifier,
-                             int n, bool assign);
-+
-+    void (*ioeventfd_assign_begin)(DeviceState *d);
-+    void (*ioeventfd_assign_commit)(DeviceState *d);
-+
-     /*
-      * Whether queue number n is enabled.
-      */
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index c9e7cdb5c161..156484c4ca14 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -295,6 +295,28 @@ int virtio_bus_set_host_notifier(VirtioBusState *bus, =
-int n, bool assign)
-     return r;
- }
-=20
-+static void virtio_bus_set_host_notifier_begin(VirtioBusState *bus)
-+{
-+    VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(bus);
-+    DeviceState *proxy =3D DEVICE(BUS(bus)->parent);
-+
-+    if (k->ioeventfd_assign_begin) {
-+        assert(k->ioeventfd_assign_commit);
-+        k->ioeventfd_assign_begin(proxy);
-+    }
-+}
-+
-+static void virtio_bus_set_host_notifier_commit(VirtioBusState *bus)
-+{
-+    VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(bus);
-+    DeviceState *proxy =3D DEVICE(BUS(bus)->parent);
-+
-+    if (k->ioeventfd_assign_commit) {
-+        assert(k->ioeventfd_assign_begin);
-+        k->ioeventfd_assign_commit(proxy);
-+    }
-+}
-+
- void virtio_bus_cleanup_host_notifier(VirtioBusState *bus, int n)
- {
-     VirtIODevice *vdev =3D virtio_bus_get_device(bus);
-@@ -308,6 +330,7 @@ void virtio_bus_cleanup_host_notifier(VirtioBusState *b=
-us, int n)
-     event_notifier_cleanup(notifier);
- }
-=20
-+/* virtio_bus_set_host_notifier_begin() must have been called */
- static void virtio_bus_unset_and_cleanup_host_notifiers(VirtioBusState *bu=
-s,
-                                                         int nvqs, int n_of=
-fset)
- {
-@@ -315,6 +338,10 @@ static void virtio_bus_unset_and_cleanup_host_notifier=
-s(VirtioBusState *bus,
-=20
-     for (i =3D 0; i < nvqs; i++) {
-         virtio_bus_set_host_notifier(bus, i + n_offset, false);
-+    }
-+    /* Let address_space_update_ioeventfds() run before closing ioeventfds=
- */
-+    virtio_bus_set_host_notifier_commit(bus);
-+    for (i =3D 0; i < nvqs; i++) {
-         virtio_bus_cleanup_host_notifier(bus, i + n_offset);
-     }
- }
-@@ -327,17 +354,24 @@ int virtio_bus_set_host_notifiers(VirtioBusState *bus=
-, int nvqs, int n_offset,
-     int rc;
+diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+index d7d5d403a948..a1b3f1bc45c9 100644
+--- a/hw/virtio/virtio-pci.h
++++ b/hw/virtio/virtio-pci.h
+@@ -141,6 +141,7 @@ struct VirtIOPCIProxy {
+     bool disable_modern;
+     bool ignore_backend_features;
+     OnOffAuto disable_legacy;
++    bool ioeventfd_assign_started;
+     uint32_t class_code;
+     uint32_t nvectors;
+     uint32_t dfselect;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 883045a22354..0a8738c69541 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -243,47 +243,66 @@ static int virtio_pci_ioeventfd_assign(DeviceState *d=
+, EventNotifier *notifier,
+     hwaddr modern_addr =3D virtio_pci_queue_mem_mult(proxy) *
+                          virtio_get_queue_index(vq);
+     hwaddr legacy_addr =3D VIRTIO_PCI_QUEUE_NOTIFY;
++    bool transaction =3D !proxy->ioeventfd_assign_started;
 =20
      if (assign) {
-+        virtio_bus_set_host_notifier_begin(bus);
-+
-         for (i =3D 0; i < nvqs; i++) {
-             rc =3D virtio_bus_set_host_notifier(bus, i + n_offset, true);
-             if (rc !=3D 0) {
-                 warn_report_once("%s: Failed to set host notifier (%s).\n"=
-,
-                                  vdev->name, strerror(-rc));
-=20
-+                /* This also calls virtio_bus_set_host_notifier_commit() *=
-/
-                 virtio_bus_unset_and_cleanup_host_notifiers(bus, i, n_offs=
-et);
-                 return rc;
+         if (modern) {
+             if (fast_mmio) {
+-                memory_region_add_eventfd(modern_mr, modern_addr, 0,
+-                                          false, n, notifier);
++                memory_region_add_eventfd_full(modern_mr, modern_addr, 0,
++                                               false, n, notifier, transac=
+tion);
+             } else {
+-                memory_region_add_eventfd(modern_mr, modern_addr, 2,
+-                                          false, n, notifier);
++                memory_region_add_eventfd_full(modern_mr, modern_addr, 2,
++                                               false, n, notifier, transac=
+tion);
+             }
+             if (modern_pio) {
+-                memory_region_add_eventfd(modern_notify_mr, 0, 2,
+-                                              true, n, notifier);
++                memory_region_add_eventfd_full(modern_notify_mr, 0, 2,
++                                               true, n, notifier, transact=
+ion);
              }
          }
-+
-+        virtio_bus_set_host_notifier_commit(bus);
+         if (legacy) {
+-            memory_region_add_eventfd(legacy_mr, legacy_addr, 2,
+-                                      true, n, notifier);
++            memory_region_add_eventfd_full(legacy_mr, legacy_addr, 2,
++                                           true, n, notifier, transaction)=
+;
+         }
      } else {
-+        virtio_bus_set_host_notifier_begin(bus);
-+        /* This also calls virtio_bus_set_host_notifier_commit() */
-         virtio_bus_unset_and_cleanup_host_notifiers(bus, nvqs, n_offset);
+         if (modern) {
+             if (fast_mmio) {
+-                memory_region_del_eventfd(modern_mr, modern_addr, 0,
+-                                          false, n, notifier);
++                memory_region_del_eventfd_full(modern_mr, modern_addr, 0,
++                                               false, n, notifier, transac=
+tion);
+             } else {
+-                memory_region_del_eventfd(modern_mr, modern_addr, 2,
+-                                          false, n, notifier);
++                memory_region_del_eventfd_full(modern_mr, modern_addr, 2,
++                                               false, n, notifier, transac=
+tion);
+             }
+             if (modern_pio) {
+-                memory_region_del_eventfd(modern_notify_mr, 0, 2,
+-                                          true, n, notifier);
++                memory_region_del_eventfd_full(modern_notify_mr, 0, 2,
++                                               true, n, notifier, transact=
+ion);
+             }
+         }
+         if (legacy) {
+-            memory_region_del_eventfd(legacy_mr, legacy_addr, 2,
+-                                      true, n, notifier);
++            memory_region_del_eventfd_full(legacy_mr, legacy_addr, 2,
++                                           true, n, notifier, transaction)=
+;
+         }
      }
+     return 0;
+ }
 =20
++static void virtio_pci_ioeventfd_assign_begin(DeviceState *d)
++{
++    VirtIOPCIProxy *proxy =3D to_virtio_pci_proxy(d);
++
++    assert(!proxy->ioeventfd_assign_started);
++    proxy->ioeventfd_assign_started =3D true;
++    memory_region_transaction_begin();
++}
++
++static void virtio_pci_ioeventfd_assign_commit(DeviceState *d)
++{
++    VirtIOPCIProxy *proxy =3D to_virtio_pci_proxy(d);
++
++    assert(proxy->ioeventfd_assign_started);
++    memory_region_transaction_commit();
++    proxy->ioeventfd_assign_started =3D false;
++}
++
+ static void virtio_pci_start_ioeventfd(VirtIOPCIProxy *proxy)
+ {
+     virtio_bus_start_ioeventfd(&proxy->bus);
+@@ -2161,6 +2180,8 @@ static void virtio_pci_bus_class_init(ObjectClass *kl=
+ass, void *data)
+     k->query_nvectors =3D virtio_pci_query_nvectors;
+     k->ioeventfd_enabled =3D virtio_pci_ioeventfd_enabled;
+     k->ioeventfd_assign =3D virtio_pci_ioeventfd_assign;
++    k->ioeventfd_assign_begin =3D virtio_pci_ioeventfd_assign_begin;
++    k->ioeventfd_assign_commit =3D virtio_pci_ioeventfd_assign_commit;
+     k->get_dma_as =3D virtio_pci_get_dma_as;
+     k->queue_enabled =3D virtio_pci_queue_enabled;
+ }
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 1b1942d521cc..0279e5671bcb 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2368,7 +2368,7 @@ void memory_region_add_eventfd_full(MemoryRegion *mr,
+     if (size) {
+         adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
+     }
+-    if (transaction) {
++    if (!transaction) {
+         memory_region_transaction_begin();
+     }
+     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
+@@ -2383,7 +2383,7 @@ void memory_region_add_eventfd_full(MemoryRegion *mr,
+             sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb-1 - i));
+     mr->ioeventfds[i] =3D mrfd;
+     ioeventfd_update_pending |=3D mr->enabled;
+-    if (transaction) {
++    if (!transaction) {
+         memory_region_transaction_commit();
+     }
+ }
 --=20
 2.26.3
 
