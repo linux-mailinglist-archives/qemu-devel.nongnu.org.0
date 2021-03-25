@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA49349C04
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 22:58:49 +0100 (CET)
-Received: from localhost ([::1]:41828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A027349CA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 00:02:14 +0100 (CET)
+Received: from localhost ([::1]:39818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPY08-0004Bh-D9
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 17:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
+	id 1lPYzU-0003cz-GQ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 19:02:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPXyM-0003fP-Mw
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 17:56:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60224)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lPYy0-0002qr-34; Thu, 25 Mar 2021 19:00:40 -0400
+Received: from ozlabs.org ([203.11.71.1]:53753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPXyL-0000gL-6Q
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 17:56:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6D7B6AE04;
- Thu, 25 Mar 2021 21:56:55 +0000 (UTC)
-Subject: Re: [RFC v11 47/55] target/arm: make is_aa64 and arm_el_is_aa64 a
- macro for !TARGET_AARCH64
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-40-cfontana@suse.de>
- <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ac1f0768-660f-85c2-899b-41093c850f00@suse.de>
-Date: Thu, 25 Mar 2021 22:56:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lPYxt-00051l-BS; Thu, 25 Mar 2021 19:00:36 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F60tz1ml8z9sW1; Fri, 26 Mar 2021 10:00:27 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616713227;
+ bh=Lt4r8EbS7PeGT6I4qtuwivA+tancYxK0UPqLv2jEuX0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fGCB92AOG6SxliVzRmbPTNdJX7wZwUp0tk1dBqYAjTa2YgxzJq5LWvmovsT7Npp+L
+ 8ny6F4+qRCuAQEm5uhKxrVV07VbTDVtVWiisPZANAHEPaZC33XQkZmvJMmes+jICu8
+ RQmVvRbP5Auq5lH9hyvXtjofddvCo9WA9hr6Tb+U=
+Date: Fri, 26 Mar 2021 09:48:09 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-6.0 4/4] hw/ppc/e500plat: Only try to add valid
+ dynamic sysbus devices to platform bus
+Message-ID: <YF0TKRmG5FgxdZU5@yekko.fritz.box>
+References: <20210325153310.9131-1-peter.maydell@linaro.org>
+ <20210325153310.9131-5-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nYKUghgsFZuhc+Vx"
+Content-Disposition: inline
+In-Reply-To: <20210325153310.9131-5-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,46 +59,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 8:03 PM, Richard Henderson wrote:
-> On 3/23/21 9:46 AM, Claudio Fontana wrote:
->> +#define is_a64(env) (false)
-> ...
->> +#define arm_el_is_aa64(env, el) (false)
-> 
-> Why a define and not have the ifdef inside the static inline?
-> 
-> This define is causing you to make other random changes to avoid unused 
-> variables, and I'm not keen.
-> 
-> If you're running into problems with --enable-debug not eliminating code 
-> blocks, leading to link errors, then I think that 
-> __attribute__((always_inline)) and a comment will be the best option.
 
-right, I need to make this guaranteed to cause code elision, so that I can avoid including unneeded function definitions for aarch64 in arm builds.
+--nYKUghgsFZuhc+Vx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> 
->> +
->> +#endif /* TARGET_AARCH64 */
->> +
->> +/**
->> + * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
->> + * E.g. when in secure state, fields in HCR_EL2 are suppressed,
->> + * "for all purposes other than a direct read or write access of HCR_EL2."
->> + * Not included here is HCR_RW.
->> + */
->> +uint64_t arm_hcr_el2_eff(CPUARMState *env);
-> 
-> Is this diff being weird or did you really move this declaration, and if so, why?
-> 
-> 
-> r~
-> 
+On Thu, Mar 25, 2021 at 03:33:10PM +0000, Peter Maydell wrote:
+> The e500plat machine device plug callback currently calls
+> platform_bus_link_device() for any sysbus device.  This is overly
+> broad, because platform_bus_link_device() will unconditionally grab
+> the IRQs and MMIOs of the device it is passed, whether it was
+> intended for the platform bus or not.  Restrict hotpluggability of
+> sysbus devices to only those devices on the dynamic sysbus whitelist.
+>=20
+> We were mostly getting away with this because the board creates the
+> platform bus as the last device it creates, and so the hotplug
+> callback did not do anything for all the sysbus devices created by
+> the board itself.  However if the user plugged in a device which
+> itself uses a sysbus device internally we would have mishandled this
+> and probably asserted. An example of this is:
+>  qemu-system-ppc64 -M ppce500 -device macio-oldworld
+>=20
+> This isn't a sensible command because the macio-oldworld device
+> is really specific to the 'g3beige' machine, but we now fail
+> with a reasonable error message rather than asserting:
+> qemu-system-ppc64: Device heathrow is not supported by this machine yet.
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/ppc/e500plat.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
+> index bddd5e7c48f..fc911bbb7bd 100644
+> --- a/hw/ppc/e500plat.c
+> +++ b/hw/ppc/e500plat.c
+> @@ -48,7 +48,9 @@ static void e500plat_machine_device_plug_cb(HotplugHand=
+ler *hotplug_dev,
+>      PPCE500MachineState *pms =3D PPCE500_MACHINE(hotplug_dev);
+> =20
+>      if (pms->pbus_dev) {
+> -        if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE)) {
+> +        MachineClass *mc =3D MACHINE_GET_CLASS(pms);
+> +
+> +        if (device_is_dynamic_sysbus(mc, dev)) {
+>              platform_bus_link_device(pms->pbus_dev, SYS_BUS_DEVICE(dev));
+>          }
+>      }
+> @@ -58,7 +60,9 @@ static
+>  HotplugHandler *e500plat_machine_get_hotpug_handler(MachineState *machin=
+e,
+>                                                      DeviceState *dev)
+>  {
+> -    if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE)) {
+> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+> +
+> +    if (device_is_dynamic_sysbus(mc, dev)) {
+>          return HOTPLUG_HANDLER(machine);
+>      }
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--nYKUghgsFZuhc+Vx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBdEycACgkQbDjKyiDZ
+s5LAlg//Un57R9rRoIwo2i5MNA/bh0y6mBPZxT3c9Jv9cngshj4vsj+Tc8CBFiTe
+hp1nMJi1rwk0ELiV1evncfWG2FpO/Y+TFFjtm98TLWKnZhAapU3NqkwMEcSRtOns
+BOaG0N99kU9sowPJsAm/sTsDXBdteK8eOllqAwX2xrsCZGL2arWCJqRoxKWSGaQ4
+55cGBCM9/Gy5SFtcn/mGfEpjHEoGgHKzVoFnjBrDZK8/lLNzxbX6LgtyPvGf7NiA
+CEcLK2C3iuMONf5fCTZ+T6dl+hCMGkftScAxDNxbeGvET4JBFL1RbxzjzelAZ2Bj
+muHbMAq/ZdNBp4OHmstO//atL2NsMXYFmqeBRzpkpsnAmZIHHGyTjZMN2TdL7f6H
+L0sAcuQYQy/e485bVMnB9wJJ904A59uUm19fEOd9VytN+NQfG8hMZYMsVDxRNVCF
+NtlVtTJWWq4+5DMq7jOQQveUGowFrCCJZGO4E3eheuBviNPEEWphvv5iRg75QBnj
+AeJI2XaJbHKD1YnPNPAqwHOHHihdU0SF1bDT3Bs8uq0+/GjPDRXm7OCIpVJkj76G
+pGzd9Fmzi0PgVcsJgt57VNePSBu7w+c5QmDoB5OJBriToBRnS0OY3DZbct4FDcZY
+68y1b2JcD5YVS3P+bvAGhakFw/zOcDbciPNLkNy7CmT7QekR4YE=
+=7F7o
+-----END PGP SIGNATURE-----
+
+--nYKUghgsFZuhc+Vx--
 
