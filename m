@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BAF3499B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:52:07 +0100 (CET)
-Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66D03499B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 19:52:57 +0100 (CET)
+Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPV5S-0003no-E7
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
+	id 1lPV6H-0004tn-0H
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 14:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPV1v-0002HV-LP
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:48:27 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44644)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPV4O-0003pC-1N
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:51:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPV1t-0002Ph-6a
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:48:27 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPV4L-0003rw-Ns
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 14:50:59 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id ECB30ACBF;
- Thu, 25 Mar 2021 18:48:21 +0000 (UTC)
-Subject: Re: [RFC v11 45/55] target/arm: cpu-sve: new module
+ by mx2.suse.de (Postfix) with ESMTP id 46132ACFC;
+ Thu, 25 Mar 2021 18:50:56 +0000 (UTC)
+Subject: Re: [RFC v11 28/55] target/arm: refactor exception and cpu code
 To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-38-cfontana@suse.de>
- <724c86f8-2275-833b-d4e1-4729c0ca2e80@linaro.org>
+ <20210323154639.23477-21-cfontana@suse.de>
+ <47ea27b1-a11f-b10d-a084-0f7698691a6b@linaro.org>
+ <519488da-3ce9-3fe9-d4a2-4bc76e2519b6@suse.de>
+ <5d76557a-c3b8-ac56-74cf-dc795286e696@linaro.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <143fde2e-6c88-8fef-10ff-523c574e0db4@suse.de>
-Date: Thu, 25 Mar 2021 19:48:20 +0100
+Message-ID: <1dca7189-5a9f-fb08-31e3-72b2e50cbd82@suse.de>
+Date: Thu, 25 Mar 2021 19:50:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <724c86f8-2275-833b-d4e1-4729c0ca2e80@linaro.org>
+In-Reply-To: <5d76557a-c3b8-ac56-74cf-dc795286e696@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -65,99 +67,40 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 7:40 PM, Richard Henderson wrote:
-> On 3/23/21 9:46 AM, Claudio Fontana wrote:
->> extract the SVE-related cpu object properties and functions,
->> and move them to a separate module.
+On 3/25/21 7:43 PM, Richard Henderson wrote:
+> On 3/25/21 5:59 AM, Claudio Fontana wrote:
+>>> Isn't tcg/tcg-* redundant?
 >>
->> Disentangle SVE from pauth that is a separate, TCG-only feature.
+>> I considered that, and at some point I had "cpu.c" for x86 too. After working on it for a while, I noticed how
+>> it got really confusing in practice to have files called just "cpu.c" when working on them, just too many files are called "cpu.c". It was confusing.
 >>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>   target/arm/cpu-sve.h     |  40 +++++
->>   target/arm/cpu.h         |  22 +--
->>   target/arm/cpu-sve.c     | 360 +++++++++++++++++++++++++++++++++++++++
->>   target/arm/cpu.c         |   5 +-
->>   target/arm/cpu64.c       | 333 +-----------------------------------
->>   target/arm/kvm/kvm-cpu.c |   2 +-
->>   target/arm/meson.build   |   1 +
->>   7 files changed, 417 insertions(+), 346 deletions(-)
->>   create mode 100644 target/arm/cpu-sve.h
->>   create mode 100644 target/arm/cpu-sve.c
+>> I also like the extra emphasis on the accel for this:
 >>
->> diff --git a/target/arm/cpu-sve.h b/target/arm/cpu-sve.h
->> new file mode 100644
->> index 0000000000..b1be575265
->> --- /dev/null
->> +++ b/target/arm/cpu-sve.h
->> @@ -0,0 +1,40 @@
->> +/*
->> + * QEMU AArch64 CPU SVE Extensions for TARGET_AARCH64
->> + *
->> + * Copyright (c) 2013 Linaro Ltd
->> + *
->> + * This program is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU General Public License
->> + * as published by the Free Software Foundation; either version 2
->> + * of the License, or (at your option) any later version.
->> + *
->> + * This program is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->> + * GNU General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU General Public License
->> + * along with this program; if not, see
->> + * <http://www.gnu.org/licenses/gpl-2.0.html>
->> + */
->> +
->> +#ifndef CPU_SVE_H
->> +#define CPU_SVE_H
->> +
->> +/* note: SVE is an AARCH64-only option, only include this for TARGET_AARCH64 */
->> +
->> +/* called by arm_cpu_finalize_features in realizefn */
->> +void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
->> +
->> +/* add the CPU SVE properties */
->> +void cpu_sve_add_props(Object *obj);
->> +
->> +/* add the CPU SVE properties specific to the "MAX" CPU */
->> +void cpu_sve_add_props_max(Object *obj);
->> +
->> +/* In AArch32 mode, predicate registers do not exist at all.  */
->> +typedef struct ARMPredicateReg {
->> +    uint64_t p[DIV_ROUND_UP(2 * ARM_MAX_VQ, 8)] QEMU_ALIGNED(16);
->> +} ARMPredicateReg;
+>> kvm/kvm.c
+>> kvm/kvm-cpu.c
+>> kvm/kvm-stub.c
+>>
+>> tcg/tcg-cpu.c
+>> tcg/tcg-stub.c
 > 
-> I don't agree with moving this out of cpu.h, next to the rest of the vector 
-> definitions.
+> But then you go and invent
 > 
-> I agree that we should be using more files, but if we're going to have an 
-> cpu-sve.c, why did some of the sve functions go into cpu-common.c?
-
-maybe cpu-sve-props.c would be a better name, it really contains only cpu sve properties code.
-
+> cpu-sve.c
+> kvm/cpu-sve.c
+> tcg/cpu-sve.c
 > 
-> I don't agree with moving functions and renaming them simultaneously.  I'm not 
-> even sure why you're renaming them, or why you've suddenly chosen "cpu_sve_*" 
-> as the prefix to use.
-> 
-> 
-> r~
+> etc.  So, please make up your mind.
 > 
 
-I think the idea was trying to create a cpu_sve module handling everything related to sve,
-and consistently using the name of the module as the prefix.
 
-It might be too early to attempt that anyway; as you noted, there is other SVE-related functionality all over the place,
-so better to revisit this.
 
-I'd suggest renaming this to cpu_sve_props, and moving everything not props related out of it.
+Inconsistencies are all over already, and the two are very unrelated things.
 
-Thanks,
+tcg-cpu comes from accel-cpu, where accel- is replaced by tcg- in this case.
 
-Claudio
+cpu-sve is a specialization of "cpu" where we currently put all the properties and the like.
+
+cpu-sve-props is probably a better name.
 
 
 
