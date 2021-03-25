@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B167B3491A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:13:28 +0100 (CET)
-Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FE63491B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 13:16:20 +0100 (CET)
+Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPOrf-0005JU-Qv
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:13:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42044)
+	id 1lPOuR-0006ri-D5
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 08:16:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPOnx-0002tJ-NI; Thu, 25 Mar 2021 08:09:37 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40515)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPOnv-0004Y0-Ll; Thu, 25 Mar 2021 08:09:36 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so2950337wmy.5; 
- Thu, 25 Mar 2021 05:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zthFndrHM90uXxVlKArqDHUMBufeNV9n6j9hp9i1NSI=;
- b=Cgch3h0vxvrnROici56adJ/Pq1JHh5d00EwPRiE9Iis0KkLZ7dd/gcAyyTq9So8DLO
- C8HKwCwVHFLywpNT/QYAl7QSc74i93zehlycyfdrlwWFfPoZWeo8lYPtYpI9PixGeZpD
- IOp45kKJSpaOKmHJyrnkCTiItgOvoNq7cvz5N+EJujMvOuv1c6qFL1BEW2C+uTGVBSbQ
- fqKxdby1ywC74UCGwYIt4cwddTE+TSPFosJJwF8nNem9OOezgcBAZyAEAtwASvyTBw9F
- A0IBk1bsGaB8fElVD4EI17/cAGfOb8SohiIwtNmhquRfVC7eom+ZElWu1osq/sHAkUCK
- POKg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lPOoD-000340-3X
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:09:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lPOo5-0004dY-GP
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 08:09:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616674182;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cqLx203VfcjNtQ0JZrhInNAexqBvbVgf55j3MRzyZOs=;
+ b=f+agRYzcAqvIMaPsoAQYfig8+odL2+s+45MoLp2hr4BKNQpkoV9+cDU6LvsYdSQ0nnZ2X8
+ 3x//L0dEE1Sgomp9Y2pcftpJd/xaiGncJvIV8z1vT5YOTNyV21n41K6r7FjRPEZz2WuW2X
+ iXHmXeUAcO/ymSvcNsf7hf2jrwgHC2E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-PcPq27-0OEiuNIjc__OM3w-1; Thu, 25 Mar 2021 08:09:41 -0400
+X-MC-Unique: PcPq27-0OEiuNIjc__OM3w-1
+Received: by mail-wm1-f72.google.com with SMTP id z26so1607862wml.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 05:09:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zthFndrHM90uXxVlKArqDHUMBufeNV9n6j9hp9i1NSI=;
- b=GPwd2VMXlRci6C4CPqV9EvkM4IAkxzUWeJhfeBGV/0wDSadCxUYQHNvCqmklL8omoK
- CKM6vL+YKRfUGvKsYFVgQSgypObQR5saIFdkrjfkL23F4PgEqjjiDUwJjZVUX/za/br3
- w+J69/WhLYQ3zxzvdTIq20YXwFESLyeAdU3GxEXVJaZf4QWEu5cm5G3ZmKVy5YYHzzJE
- Jr7K2m+mdBeFRG97ou8uYQ8nFTnC+wsag8VIgxIwFM3FgKotYKb9E1MBAlLQV0D6j2/o
- yZwlYpawuGPeFKLvsctdhpJLXwdAJiTlY4fn2K7mHic6bCx2rEPBGZsRKk1qW3v0cmah
- Qang==
-X-Gm-Message-State: AOAM533krdMWZz69vjwhh2Af83j6zCzh+0fQwAShf2T2C4OUVEkqSzWz
- hjrHjYC0ppPp77OXhV63jFF73fYCLushrw==
-X-Google-Smtp-Source: ABdhPJx4BNu1OiNs7JVdcsEY0jyquN7HOC8QSbFKSCYaH/B+Ol7S0IcSLEWIOc+JSt1PtzP9YKcVeA==
-X-Received: by 2002:a1c:600a:: with SMTP id u10mr7693491wmb.139.1616674172571; 
- Thu, 25 Mar 2021 05:09:32 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id w22sm6129608wmi.22.2021.03.25.05.09.31
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xCHvQxphl6pLZQSPRcPR2DHk32vnNe2DuEa05ayqfR8=;
+ b=f3aFb/+CS73Q7/tVj6D75Wgc9xuSZEkR/uESEPDvK4clNyUm2R1IRklHlHmxsXGt3I
+ XEw2b0W9riwSp4CNoXeNUOV9uqykQ1oSz8rVjg8EC/QHRAoxc2WzL0IV8C2MKGo1gQRw
+ i9TZLy8rtJnJvBAyQKPrJMeSaSY15eAvCx2Sagdwj0Zry5TmpE2nnFaaHAjm2oF2R8GK
+ vVv62RZ0bLjQfzED94qER9xtkjhbiFO22FSe+/iecVRvQoUThJUGEgyjH6+UEZ9bbXoA
+ HyhwAZjcbb7PCZvwRT576XQvn3brJXWtT2eT4F9UcTrT8TcNle4dpHowaYnlzSZf6nc3
+ 9eQg==
+X-Gm-Message-State: AOAM532TywIDIzct0J6ouiWD0xUSLbzy/k2dkgRNcn+qBa55GRSz0ipa
+ 7tG5VjHS0iNMuWHTTsBBRKgqEfjIbnyTcaun76cCyVoj6DhT3SaElB7IVCzHgK4yvb7XPHybOdJ
+ sKFRP42vQsn3X9Fo=
+X-Received: by 2002:a05:600c:614:: with SMTP id
+ o20mr7432931wmm.66.1616674179730; 
+ Thu, 25 Mar 2021 05:09:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHTsWQW149SWibS9GSxY4oeJO0hT83fDouuY4vu3zA6XOtldGz1b9xh8/UrSA5ZQLoieVLSQ==
+X-Received: by 2002:a05:600c:614:: with SMTP id
+ o20mr7432695wmm.66.1616674176916; 
+ Thu, 25 Mar 2021 05:09:36 -0700 (PDT)
+Received: from localhost (trasno.trasno.org. [83.165.45.250])
+ by smtp.gmail.com with ESMTPSA id q207sm6213072wme.36.2021.03.25.05.09.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 05:09:32 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1 2/2] hw/block/pflash_cfi02: Do not create aliases when
- not necessary
-Date: Thu, 25 Mar 2021 13:09:21 +0100
-Message-Id: <20210325120921.858993-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210325120921.858993-1-f4bug@amsat.org>
-References: <20210325120921.858993-1-f4bug@amsat.org>
+ Thu, 25 Mar 2021 05:09:36 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH] migration: Move populate_vfio_info() into a separate file
+In-Reply-To: <YFCUgJZXe0HxHbDn@work-vm> (David Alan Gilbert's message of "Tue, 
+ 16 Mar 2021 11:20:32 +0000")
+References: <20210315190756.317710-1-thuth@redhat.com>
+ <f26d3ce6-b51a-7c44-2ec1-21a6bd2d4a46@redhat.com>
+ <2e455379-15de-835c-014f-8ae2c26639a6@redhat.com>
+ <YFCUgJZXe0HxHbDn@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Date: Thu, 25 Mar 2021 13:09:35 +0100
+Message-ID: <87y2ebo2o0.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,80 +102,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Kirti Wankhede <kwankhede@nvidia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When no mapping is requested, it is pointless to create
-alias regions.
-Only create them when multiple mappings are requested to
-simplify the memory layout. The flatview is not changed.
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Thomas Huth (thuth@redhat.com) wrote:
+>> On 15/03/2021 22.05, Philippe Mathieu-Daud=C3=A9 wrote:
+>> > Hi Thomas,
+>> >=20
+>> > +Alex
+>> >=20
+>> > On 3/15/21 8:07 PM, Thomas Huth wrote:
+>> > > The CONFIG_VFIO switch only works in target specific code. Since
+>> > > migration/migration.c is common code, the #ifdef does not have
+>> > > the intended behavior here. Move the related code to a separate
+>> > > file now which gets compiled via specific_ss instead.
+>> > >=20
+>> > > Fixes: 3710586caa ("qapi: Add VFIO devices migration stats in
+>> > > Migration stats")
+>> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> > > ---
+>> > >   migration/meson.build |  3 ++-
+>> > >   migration/migration.c | 15 ---------------
+>> > >   migration/migration.h |  2 ++
+>> > >   migration/special.c   | 25 +++++++++++++++++++++++++
+>> > >   4 files changed, 29 insertions(+), 16 deletions(-)
+>> > >   create mode 100644 migration/special.c
+>> > >=20
+>> > > diff --git a/migration/meson.build b/migration/meson.build
+>> > > index 9645f44005..e1f72f6ba0 100644
+>> > > --- a/migration/meson.build
+>> > > +++ b/migration/meson.build
+>> > > @@ -30,4 +30,5 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma],
+>> > > if_true: files('rdma.c'))
+>> > >   softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true:
+>> > > files('block.c'))
+>> > >   softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+>> > > -specific_ss.add(when: 'CONFIG_SOFTMMU', if_true:
+>> > > files('dirtyrate.c', 'ram.c'))
+>> > > +specific_ss.add(when: 'CONFIG_SOFTMMU',
+>> > > +                if_true: files('dirtyrate.c', 'ram.c', 'special.c')=
+)
+>> >=20
+>> > Why not simply name this migration/vfio.c? That way we do not start
+>> > mixed bag of everything target specific.
+>>=20
+>> I don't mind ... well, if we have other small functions there in the fut=
+ure
+>> that depend on CONFIG switches, a mixed bag file might not be such a bad
+>> idea instead of having lots and lots of small other files ... OTOH, if t=
+here
+>> is more vfio migration code in the works that might fit here, a name lik=
+e
+>> vfio.c would be better, of course. What do the maintainers think?
+>
+> Could this be done with stubs instead of an ifdef; i.e. a stub of
+> 'vfio_mig_active' and 'vfio_mig_bytes_transferred'?
 
-For example using 'qemu-system-sh4 -M r2d -S -monitor stdio',
+My understanding is that they can't (at least easily).
+Because they are really target specific :-(
 
-* before:
+> As for naming 'special' is too generic.
+> 'vfio' is too specific (especially since most vfio code ends up under
+> hw/vfio)
+>
+> how about migration/target.c  as something which is explicit about why
+> it's done that way.
 
-  (qemu) info mtree
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000000ffffff (prio 0, i/o): pflash
-        0000000000000000-0000000000ffffff (prio 0, romd): alias pflash-alias @r2d.flash 0000000000000000-0000000000ffffff
-      0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
-      000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
-  (qemu) info mtree -f
-  FlatView #0
-   AS "memory", root: system
-   AS "cpu-memory-0", root: system
-   Root memory region: system
-    0000000000000000-0000000000ffffff (prio 0, romd): r2d.flash
-    0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
-    000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
+I agree with the target name.
 
-* after:
+But I can't think of a really much easier way that what is in this
+patch.
 
-  (qemu) info mtree
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000000ffffff (prio 0, romd): r2d.flash
-      0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
-      000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
-  (qemu) info mtree -f
-  FlatView #0
-   AS "memory", root: system
-   AS "cpu-memory-0", root: system
-   Root memory region: system
-    0000000000000000-0000000000ffffff (prio 0, romd): r2d.flash
-    0000000004000000-000000000400003f (prio 0, i/o): r2d-fpga
-    000000000c000000-000000000fffffff (prio 0, ram): r2d.sdram
+To make stubs you need to ifdef half of hw/vfio/vfio-common.h, or just
+put the #ifdef in migration/target.c
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/block/pflash_cfi02.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Even althought I hate #ifdefs, I am not sure that the stubs options is
+much clearly here.
 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 35e30bb812c..02c514fb6e0 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -917,8 +917,12 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
-     pfl->sector_erase_map = bitmap_new(pfl->total_sectors);
- 
-     pfl->rom_mode = true;
--    pflash_setup_mappings(pfl);
--    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
-+    if (pfl->mappings > 1) {
-+        pflash_setup_mappings(pfl);
-+        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
-+    } else {
-+        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->orig_mem);
-+    }
- 
-     timer_init_ns(&pfl->timer, QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
-     pfl->status = 0;
--- 
-2.26.2
+Later, Juan.
 
 
