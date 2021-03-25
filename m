@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9EF3495BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:36:58 +0100 (CET)
-Received: from localhost ([::1]:38484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2553495BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 16:36:42 +0100 (CET)
+Received: from localhost ([::1]:36958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPS2b-0007gv-4I
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42632)
+	id 1lPS2L-00075s-FF
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 11:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPRzD-0005Ek-6D
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:33:32 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:41747)
+ id 1lPRzJ-0005Ew-Fh
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:33:34 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPRz6-00056g-Dc
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:33:26 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- t5-20020a1c77050000b029010e62cea9deso1441703wmi.0
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 08:33:17 -0700 (PDT)
+ id 1lPRz6-000579-Ed
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 11:33:33 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id c8so2700087wrq.11
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 08:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HC5HU11GOp9X3zRRsVLrOYWQjmWw07GcRvQz1EkLmlE=;
- b=L6Kocalab/lTaEXyfOhkUIbDq7ZckJv+rXc3IphCRcbgCs0wCxoGbiYE/QKk881O06
- K8YLNfpEOeeIwDwwp0fdQAST4elG8XuZmWui+Bl7CK5AWaS1xN1XCDrWyiPOuWuk2ZzD
- 6P28QWVAj4SsB9S7dS3As2J5FWzeBI+K8WIDA5HHXStHNtOUmEP6X7BXiGvUAaabHlbV
- lPHSlMGPL1YMPvyzmBqUgX6Kc6HcABTz6/Pbv4XX24fOZmUKWdOCB1D0Rmg6/qSbQzPn
- 9JefqZR+5O2vRrDJkZ5doYKQSX+AWL2m7Gp2CCos2yJXDfoYlZ6356CFrR6qKxoRFtcQ
- fDRg==
+ bh=uZpAMMR+4O26S3vnkFRf0Ab3gTpOaqGRZy2FhEyixw8=;
+ b=uaKeA64G6J1H5qClFpaUGlakuYR3pQWRl6b+/0ARN74Rr0FXpMspgBv8GzgY3uGO4a
+ zACe0ZtSP2BLxvA4UwGnTYEAqhoiovBPrJzETGnkvNjsnXSz653oZyG3+QQWwVfSktPB
+ OI7ljPQp/GJeWkgHvs1J0+WM5bSfymlrNqQKA9EoRrvSXqEdM43WHSnvhJfZ0fDTD1+w
+ 9PuiGavpUtJTqUjg/iYvsWjZ4qQqfPbd87l8VZPwB+uB0m2et5678ywfdmXa3LVpM/C0
+ bFZHh1Eh/YSJQCLrUE67i+dIr5+drYU2TVcB6FI6yqqO5byRClLx2yO2aFjwNKJlCOmT
+ 9qzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HC5HU11GOp9X3zRRsVLrOYWQjmWw07GcRvQz1EkLmlE=;
- b=m/WjCpnZ9ifdJO5MyYeKFuczyuFLRE2F25xS696iOjlduNISS2ug00UVtZkp09DbYo
- hOuq+4Nn0vylc2JrZi6Jwh4L4uI7OrE09/zzgAIDBfta9OeLRHEcGURWNTQk6DEiRFt0
- PY5KWkXZkYbfjSL1Xf0vlfWjbaq/13zQ12+8ahM9qM/veCbA3X7VklxRACK+kmqb7knk
- esCq5eAr905Um5BXw72RVORXqB3iEbGbbu9009IpFQLqWXh38SQu0A/iEnkRkw91XB2L
- haYagVx5NOMPn7qTDyY0pal2JEwA++NUlBzjOoabP6ykEnaX8qKlrx+uT2dlVKxviGub
- RNlA==
-X-Gm-Message-State: AOAM532gvnHPr+gkJIyXsxPQHp4IXg4fc8NFyxzDppHzBiezw5b4bHr8
- Hy+9Aqsgox+bVl1DA8TQdUIDMXVZqO+GsskK
-X-Google-Smtp-Source: ABdhPJwm3YMPzieH5u03v9xRDMyLzPsjqpdOWwOgwM7V6q80agrst0ABYHpLhNFZOsUQPG3YBWOkzQ==
-X-Received: by 2002:a05:600c:b57:: with SMTP id
- k23mr8386586wmr.145.1616686396022; 
- Thu, 25 Mar 2021 08:33:16 -0700 (PDT)
+ bh=uZpAMMR+4O26S3vnkFRf0Ab3gTpOaqGRZy2FhEyixw8=;
+ b=oF4s72gJCuuaAvYXROZF12okmiit2aWWimE6Iz1bx4/3pms6hbnvltpt3rU/pgHFfd
+ H/IDV6kG8tdS62TTFWZPetKaZfVS5SIJXFTFHL5GiSGCSappAqTLB8XS4hTrPKhKu3BN
+ aXaOh2L6bitMmALjZ7M1jTilS7RzkuKQIDidb+GclCPboX9ebW6bRV+HVFS1CJIuO4Yu
+ XUoluFeba1XJMW+Xs65FBBHZryXGOOu1sWxF4EaDnw/TvEsrzeEnq1+WtFr44FneKmzB
+ IdiQB12l0KdemsZHRfQWe9QNpHn81wqAmhVqKiYPGou+KT8ZJYFCwpfZcDfW7CE6bth5
+ eR1A==
+X-Gm-Message-State: AOAM531jMqrFEXTxnkWoyq7Ou5prTtkG4TyTlhTQwmxTyQg5tNqTaqI4
+ 2QjjbWq0vSwnwnyP/ThukAZNOw==
+X-Google-Smtp-Source: ABdhPJzjFj4O46eeqw1u9RoY748bSf/c2CR0XFV3f8TU0xbQfrMlZL8MBn3BM70HKVhZT/J8nAEO9g==
+X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr6604888wrt.390.1616686397149; 
+ Thu, 25 Mar 2021 08:33:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g11sm8004580wrw.89.2021.03.25.08.33.15
+ by smtp.gmail.com with ESMTPSA id g11sm8004580wrw.89.2021.03.25.08.33.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 08:33:15 -0700 (PDT)
+ Thu, 25 Mar 2021 08:33:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 3/4] hw/arm/virt: Only try to add valid dynamic sysbus
- devices to platform bus
-Date: Thu, 25 Mar 2021 15:33:09 +0000
-Message-Id: <20210325153310.9131-4-peter.maydell@linaro.org>
+Subject: [PATCH for-6.0 4/4] hw/ppc/e500plat: Only try to add valid dynamic
+ sysbus devices to platform bus
+Date: Thu, 25 Mar 2021 15:33:10 +0000
+Message-Id: <20210325153310.9131-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210325153310.9131-1-peter.maydell@linaro.org>
 References: <20210325153310.9131-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,7 +91,7 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virt machine device plug callback currently calls
+The e500plat machine device plug callback currently calls
 platform_bus_link_device() for any sysbus device.  This is overly
 broad, because platform_bus_link_device() will unconditionally grab
 the IRQs and MMIOs of the device it is passed, whether it was
@@ -105,39 +103,45 @@ platform bus as the last device it creates, and so the hotplug
 callback did not do anything for all the sysbus devices created by
 the board itself.  However if the user plugged in a device which
 itself uses a sysbus device internally we would have mishandled this
-and probably asserted.
+and probably asserted. An example of this is:
+ qemu-system-ppc64 -M ppce500 -device macio-oldworld
+
+This isn't a sensible command because the macio-oldworld device
+is really specific to the 'g3beige' machine, but we now fail
+with a reasonable error message rather than asserting:
+qemu-system-ppc64: Device heathrow is not supported by this machine yet.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 8 ++++++--
+ hw/ppc/e500plat.c | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index aa2bbd14e09..8625152a735 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2443,7 +2443,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-     VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
+diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
+index bddd5e7c48f..fc911bbb7bd 100644
+--- a/hw/ppc/e500plat.c
++++ b/hw/ppc/e500plat.c
+@@ -48,7 +48,9 @@ static void e500plat_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+     PPCE500MachineState *pms = PPCE500_MACHINE(hotplug_dev);
  
-     if (vms->platform_bus_dev) {
+     if (pms->pbus_dev) {
 -        if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE)) {
-+        MachineClass *mc = MACHINE_GET_CLASS(vms);
++        MachineClass *mc = MACHINE_GET_CLASS(pms);
 +
 +        if (device_is_dynamic_sysbus(mc, dev)) {
-             platform_bus_link_device(PLATFORM_BUS_DEVICE(vms->platform_bus_dev),
-                                      SYS_BUS_DEVICE(dev));
+             platform_bus_link_device(pms->pbus_dev, SYS_BUS_DEVICE(dev));
          }
-@@ -2527,7 +2529,9 @@ static void virt_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
- static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-                                                         DeviceState *dev)
+     }
+@@ -58,7 +60,9 @@ static
+ HotplugHandler *e500plat_machine_get_hotpug_handler(MachineState *machine,
+                                                     DeviceState *dev)
  {
--    if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE) ||
+-    if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE)) {
 +    MachineClass *mc = MACHINE_GET_CLASS(machine);
 +
-+    if (device_is_dynamic_sysbus(mc, dev) ||
-        (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
++    if (device_is_dynamic_sysbus(mc, dev)) {
          return HOTPLUG_HANDLER(machine);
      }
+ 
 -- 
 2.20.1
 
