@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880083488CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:13:23 +0100 (CET)
-Received: from localhost ([::1]:42572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68033488BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:08:19 +0100 (CET)
+Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPJFC-0007SQ-HL
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39846)
+	id 1lPJAI-0003to-M8
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:08:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6K-0002AE-OA
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6K-0002AT-UI
  for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:04:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42540)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6J-0008OH-2N
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPJ6J-0008OV-9V
  for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:04:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616652248;
+ s=mimecast20190719; t=1616652249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0Qsi8bMa5ywrgo0c+jTBnCQ12OxKuv8GEdBcTce5R/8=;
- b=UyZSjt5OZrYkHdVpespK5vHQcHV4TNEMAAFs9635lh4hxHSWfIMtUjtbas1lx2/EW5N6Fi
- A03BFj4AIeLlkRbFgCHxBJtOtrm2Y2bkG+yqDwpuCwf4OJ8w14tY8/WB1mE2M/GYy9gN+J
- JGgkGXMxKnHehTjWJcqsNOd6qROCIX0=
+ bh=7f/AvFdr21PpuGtG6YguoqEBpnXCTo9cGd7OW2vyeec=;
+ b=ZXSEavHg5cfbjhNubmf61foxK2KSwIMFPGSkx2MZ1+ZQT3ssQA74t87xk9by3Fa9nC6Rva
+ i/1SUNOP7Y0Ve8cwOCDXKlVMUOUn0ZkHYpwWLYY7XZEExXuVTj7QsWzojfeZbivLpADLsX
+ VCvW7iHdpJw5/vQZRAWiczld0t00xvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-AeWSrgSoP16f861iQBkLtg-1; Thu, 25 Mar 2021 02:04:06 -0400
-X-MC-Unique: AeWSrgSoP16f861iQBkLtg-1
+ us-mta-570--AIr5BErPmCTVGA5viBpPg-1; Thu, 25 Mar 2021 02:04:07 -0400
+X-MC-Unique: -AIr5BErPmCTVGA5viBpPg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CA0884E20A;
- Thu, 25 Mar 2021 06:04:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AD2F108BD06;
+ Thu, 25 Mar 2021 06:04:06 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D83B2866C7;
- Thu, 25 Mar 2021 06:04:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A212F866C7;
+ Thu, 25 Mar 2021 06:04:05 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v4 06/19] qapi/expr.py: Add assertion for union type
- 'check_dict'
-Date: Thu, 25 Mar 2021 02:03:43 -0400
-Message-Id: <20210325060356.4040114-7-jsnow@redhat.com>
+Subject: [PATCH v4 07/19] qapi/expr.py: move string check upwards in check_type
+Date: Thu, 25 Mar 2021 02:03:44 -0400
+Message-Id: <20210325060356.4040114-8-jsnow@redhat.com>
 In-Reply-To: <20210325060356.4040114-1-jsnow@redhat.com>
 References: <20210325060356.4040114-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,32 +82,43 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mypy isn't fond of allowing you to check for bool membership in a
-collection of str elements. Guard this lookup for precisely when we were
-given a name.
+For readability purposes only, shimmy the early return upwards to the
+top of the function, so cases proceed in order from least to most
+complex.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/expr.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/expr.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index b75c85c160..2a2cf7064f 100644
+index 2a2cf7064f..73e7d8cb0d 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -192,7 +192,9 @@ def check_type(value, info, source,
-         raise QAPISemError(info,
-                            "%s should be an object or type name" % source)
+@@ -169,6 +169,10 @@ def check_type(value, info, source,
+     if value is None:
+         return
  
--    permissive = allow_dict in info.pragma.member_name_exceptions
-+    permissive = False
-+    if isinstance(allow_dict, str):
-+        permissive = allow_dict in info.pragma.member_name_exceptions
++    # Type name
++    if isinstance(value, str):
++        return
++
+     # Array type
+     if isinstance(value, list):
+         if not allow_array:
+@@ -179,10 +183,6 @@ def check_type(value, info, source,
+                                source)
+         return
  
-     # value is a dictionary, check that each member is okay
-     for (key, arg) in value.items():
+-    # Type name
+-    if isinstance(value, str):
+-        return
+-
+     # Anonymous type
+ 
+     if not allow_dict:
 -- 
 2.30.2
 
