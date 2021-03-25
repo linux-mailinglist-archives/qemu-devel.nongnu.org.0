@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3AA348E82
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 12:08:19 +0100 (CET)
-Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F87C348EBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 12:14:00 +0100 (CET)
+Received: from localhost ([::1]:34650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPNqc-0006wp-Qv
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 07:08:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57494)
+	id 1lPNw7-0000Iw-35
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 07:13:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPNpW-0006E3-16
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:07:10 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPNpQ-0001GW-B7
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 07:07:09 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id y6so1948563eds.1
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 04:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M/dbB5DMBBD2s75j1AzC5+hOeiOcLkhHspoGZPWPqeI=;
- b=i6uXrbazTpnRRzY12eCoO+nifSPN7MSDmUdfyPjah91GR7kWQ9U94m4HZHpb983aQi
- X9LflgJZ8FxAhLO6TnkZCHyMXq0tRUi0o2bAr/WGQ+k5n0RAXb7jVHawulF4VQJEhncG
- tCvj6K7WpNmEvaGfeL8d4zpLbvmIp9w92rftlhKmDOIUWIUibAnPfgfvUInhgHq7FRa2
- 0f1FCkLtpmB0EDvsk5U6CIcE8Fa1G1rJJtepKwXJ6j55sKNC1UAhY1iCeWg1QxDVo1+k
- 04s6rSadQw1c1Sef56wUhiegj8/x5vW587dFauP11jlxaQSnx2rfkpyY5OxxQhQO/w4b
- Z1JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M/dbB5DMBBD2s75j1AzC5+hOeiOcLkhHspoGZPWPqeI=;
- b=bMfPHFybln7f69voF2D8kCzJVri694yDF1XKXXGn3xNsrJQ5U4xj5ENUcTm5nt3R0Y
- Iz1T8cHBXt4Mayjxjp5F6f2NqV2mX5/pZlmdMr/dAsWiRDBVgIgPllbc9JV54ySJ04ES
- Wf13nnyJ+zAE2NZahHRdeRoakzjvkRcSml/fDBQcIJ7PvRmv38c8jik1H4CcV5Wp/OB4
- OfWGE30/preMoP68kYRmLnhN6RbxLezcTI/Lep3l/zzvOv2JCEFSeLMdTVARFcRhaW7H
- qhzT7Ld2y+fvsD0i/HAnnc/ilLPpcDYziAV+Havs1JVPf10ItfNKwmfj/kA5oOn8B0/u
- s+jg==
-X-Gm-Message-State: AOAM531eoxy60tvW4L9CtRcj2KpThmHXKldLqHA5MJ7rHpITlpKlT8S5
- gbjAiTmnhBIQZHv9DD3+IqdbsWeChjaBsDnfPPRdiw==
-X-Google-Smtp-Source: ABdhPJy7taMQtFZwq9EQnH+2gzxvq1tvW/Hv/lWGuc0KkrjrnBLgTREpapJZq6+JiG9FDtMMchbxPawsU7qi7YcNS88=
-X-Received: by 2002:a05:6402:1713:: with SMTP id
- y19mr8408363edu.52.1616670419438; 
- Thu, 25 Mar 2021 04:06:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
+ id 1lPNv0-0008FN-W5; Thu, 25 Mar 2021 07:12:51 -0400
+Received: from mo6-p00-ob.smtp.rzone.de ([2a01:238:400:100::b]:23395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
+ id 1lPNuz-0004jl-32; Thu, 25 Mar 2021 07:12:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1616670753; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=JcWZ8Vl/Y739zpvIuEeh6F6rtvsYzFNPDhA1PZTV380+4Jc4Z8o+zQ1/NFhQGlZcxy
+ WnH9WjJO9BERmhLzcuv28ybkXa2C4JCwRz4uQ6M618PPwpYqF0hh472337stu5sjNhwa
+ YECnOl9IZ1n+jpCLFR0pD6Qv7dz9F85ghtgPLtaDHJPML2SuAMbIh5R5+c1p8wwGZcWD
+ ozd7L4uHgSBLByW5hsWnqsAq2tgz5AnYeH9Y915OusZShBD9+l7jSEAF97JHYiY8/Mqy
+ EBcKInxYF+199hzCGMehT8wR60Tv5NrMLD584l2rk0Sv0OTtOXni6fbSIZy20KkYsngA
+ cCLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1616670753;
+ s=strato-dkim-0002; d=strato.com;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=BHLafyRjRvEA3puYQ80EOvJ1Vi/2uXDQaBXaQ3IFZJA=;
+ b=pgA2u+tTUV4ad5xzkGDZ8z3CYeu8WwjTEJox4eYNtk0ZDYuoHBLq89hJ1oH4hc3tsa
+ rsiyRnL4kPP8K/6WO2fAn57vzs6qDJj0I/TUKwCL96rRtw42Tn4gVK6p29S4prB1zo9i
+ JIafA/+Rq2X9rGpkp6hI8f6mtE4prisvYBLmHUfFuy6x0B8w6KUGpYiWgHVDSe5QpHOr
+ eLsipMPz/VBmNi2b36u1qMHt6qDgXnJYKhlTUt9F6TQ4gw86GvaBSwTUW7GiLq8RkJAu
+ t8cF3xPdUL4wwB9s2Hj/LWkpJOzr6+sH0ucLiM/KW9fMlGCYTEeK3X8j0JxbzuFQMA6c
+ E4pw==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1616670753;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=BHLafyRjRvEA3puYQ80EOvJ1Vi/2uXDQaBXaQ3IFZJA=;
+ b=AV8Y9/W7xPLUqF42tea0B+oHK77nz9jfGDsHHm6uE1BmEDdwks8bZvphyzv/SRzxxa
+ 3N4GOaiVPhjkudPRhNLwX8FQlfs+nH2m4eb/bU908+i5XLojLmEwO7xIAvAXg46FgnYz
+ I/y2s5Bx4k8dCjyk1HGn2A/UMlIpSZ2d4b/NEgdCniIMpIBHeAOou7oTcHI2i1/pVCRJ
+ tlCLK6ufg1JbcFDtoXC1Vbt4XoFMhniIrcSH6MQdZmbnHTJoBemN4OiJKMU7p1lgmBXN
+ Knp7ZkOtXVD3cAdx1tTzC4iqVSm+vahN3bgAmF7yK6oYcrnXanrCTBfRLH9t2jE8oJLC
+ meew==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDXdoX8l8pYAcz5OTW+n4/A=="
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 47.22.0 SBL|AUTH)
+ with ESMTPSA id 204541x2PBCW50T
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Thu, 25 Mar 2021 12:12:32 +0100 (CET)
+Date: Thu, 25 Mar 2021 12:12:19 +0100
+From: Olaf Hering <olaf@aepfle.de>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2] piix: fix regression during unplug in Xen HVM domUs
+Message-ID: <20210325121219.7b5daf76.olaf@aepfle.de>
+In-Reply-To: <4441d32f-bd52-9408-cabc-146b59f0e4dc@redhat.com>
+References: <20210317070046.17860-1-olaf@aepfle.de>
+ <4441d32f-bd52-9408-cabc-146b59f0e4dc@redhat.com>
+X-Mailer: Claws Mail 2021.03.05 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-References: <2da69b21-ce5e-cae2-68ef-d6e042563a3a@amsat.org>
- <8ec8b3b7-12b4-b676-630c-972e7038ec7f@amsat.org>
- <74859ed9-6f93-0b8a-a669-6aef1e164e41@amsat.org>
- <1a70056b-78b4-c4f4-afc2-044aa499e1c7@redhat.com>
- <557c7ccc-ce30-a452-8904-590667298389@amsat.org>
- <CAFEAcA_GGr-BT713cWLbJCvMBdw_gn6+aMdPnb=5iN-eSP9nkw@mail.gmail.com>
- <a70af3b7-4500-edd3-9a85-242783b24b2a@redhat.com>
-In-Reply-To: <a70af3b7-4500-edd3-9a85-242783b24b2a@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Mar 2021 11:06:28 +0000
-Message-ID: <CAFEAcA_A9_j_Fb94KL8KZcNxjaVQ_KCb5u=11Pgyu6=OTdE4JQ@mail.gmail.com>
-Subject: Re: gitlab-ci: Only build /staging branch?
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/sOLp+_RWfRI_U2rhB9e8ruU"; protocol="application/pgp-signature"
+Received-SPF: none client-ip=2a01:238:400:100::b; envelope-from=olaf@aepfle.de;
+ helo=mo6-p00-ob.smtp.rzone.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +91,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: xen-devel@lists.xenproject.org, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Mar 2021 at 11:05, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 25/03/21 11:34, Peter Maydell wrote:
-> > It needs to be faster. Mostly I do check the gitlab CI pipeline
-> > status, but in the run-up to getting rc0 out I stopped waiting
-> > for the gitlab CI job to finish, because I was continually finding
-> > that I kicked off a run, my local build-tests would complete within
-> > an hour or so, and the gitlab CI jobs were still pending, barely
-> > started, etc. Turnaround on testing a merge must be 90 minutes or
-> > less, especially during release periods, because there are always
-> > a huge number of merges that arrive for me to test in the last
-> > couple of days before freeze.
->
-> Perhaps we could script it so that if the pipeline passes the merge to
-> master is done automatically.
+--Sig_/sOLp+_RWfRI_U2rhB9e8ruU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-That would be nice eventually, but we can't do it until the gitlab
-CI is the *only* gating criterion.
+Am Mon, 22 Mar 2021 18:09:17 -0400
+schrieb John Snow <jsnow@redhat.com>:
 
-thanks
--- PMM
+> My understanding is that XEN has some extra disks that it unplugs when=20
+> it later figures out it doesn't need them. How exactly this works is=20
+> something I've not looked into too closely.
+
+It has no extra disks, why would it?
+
+I assume each virtualization variant has some sort of unplug if it has to s=
+upport guests that lack PV/virtio/enlightened/whatever drivers.
+
+In case of HVM, the configured block or network devices can be either acces=
+sed via emulated PCI or via the PV drivers. Since the BIOS, the bootloader =
+and potentially the operating system kernel typically lack PV drivers, they=
+ will find the devices only via the PCI bus. In case they happen to have PV=
+ drivers in addition to PCI drivers, both drivers will find and offer the s=
+ame resource via different paths. In case of a block device, ata_piix.ko wi=
+ll show it via "/dev/sda" and xen-blkfront.ko will show it via "/dev/xvda".=
+ This is obviously bad, at least in the read-write case.
+
+The pvops kernel triggers the unplug of the emulated PCI hardware early, pr=
+ior any other PCI initialization. As a result the PCI drivers will not find=
+ their hardware anymore. In case of ata_piix, only the non-CDROM storage wi=
+ll be removed in qmeu, because there is no PV-CDROM driver.
+
+The PV support in old xenlinux based kernels is only available as modules. =
+As a result the unplug will happen after PCI was initialized, but it must h=
+appen before any PCI device drivers are loaded.
+
+
+> So if these IDE devices have been "unplugged" already, we avoid=20
+> resetting them here. What about this reset causes the bug you describe=20
+> in the commit message?
+>=20
+> Does this reset now happen earlier/later as compared to what it did=20
+> prior to ee358e91 ?
+
+Prior this commit, piix_ide_reset was only called when the entire emulated =
+machine was reset. Like: never.
+With this commit, piix_ide_reset will be called from pci_piix3_xen_ide_unpl=
+ug. For some reason it confuses the emulated USB hardware. Why it does conf=
+used it, no idea.
+
+I wonder what the purpose of the qdev_reset_all() call really is. It is 10 =
+years old. It might be stale.
+
+
+Olaf
+
+--Sig_/sOLp+_RWfRI_U2rhB9e8ruU
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmBccBUACgkQ86SN7mm1
+DoBpfRAApO8ObWyfk/aH+aRPfNasALKYjlGgNR8CNaz0Tkxqx2fFggdGZZQwfsp2
+dsbOmCw6W9hBQSZZ2naOknqO9BLfjiJr+DHgnxCqfmxd+udmtl9j2qd+nFFRJRik
+GFz5ecM3zi4c/ZOU/+pk1kmYTiHeART4JcjrAuPd9mCF8btk5JP7FJ5LuikVAosU
+FDzM4gp1h6hA+6avJv7gwhb+Is0UFuDrAgugjHiHbpwX3jSjAh+YyrpCOUEvQe99
+s0v8Sp831x/x3ulc+z/jhb3ZcvAZY42iFBsy0YwRmi3UMTQlWA16WJjfHj0x6VUd
+WhZcmtpeVFLlPgTE/Ioc9lx2CA4WFkT10jub+l8A03uPNw0ADC7KzgEz1JspwwK9
+8a9JVaJNmtzE3eqXRnyguCYCtFI76vT31NeQxZLDfvUCpaLoKKO2l65+x6GS6X9i
+CsvH5M/DacZjstogrdx7KOczNrh/uW3zxbX3PSFj66KT6uO+mmTPyYYeNrzkavLp
+8rzIZ0WV/AsapimTOUvQ2MDCmraqPyUsJ6GVdhA+UpTJatRsjdfVT7MjpL2kzWZ6
+qAH3K85PXE1Tdyx977sQvMOYtvW0HB5/Av8TfY3uk2FHHfbMK/JtL5hoXIc97OVo
+F+6HwgHEQEkueZUtNlAJh7ED6h7GvZWpewd0eQ255vxEXejjVd8=
+=14YY
+-----END PGP SIGNATURE-----
+
+--Sig_/sOLp+_RWfRI_U2rhB9e8ruU--
 
