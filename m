@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126D834944F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:40:12 +0100 (CET)
-Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF45349461
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 15:43:36 +0100 (CET)
+Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPR9f-00047E-4V
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54458)
+	id 1lPRCx-0005KN-8A
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 10:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPR8Y-0003hu-Ui
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:39:02 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:42793)
+ id 1lPRCB-0004qq-DP
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:42:47 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:37578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPR8X-0007SP-80
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:39:02 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- 31-20020a9d00220000b02901b64b9b50b1so2114817ota.9
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 07:39:00 -0700 (PDT)
+ id 1lPRCA-0001Lk-1R
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 10:42:47 -0400
+Received: by mail-ot1-x332.google.com with SMTP id
+ t23-20020a0568301e37b02901b65ab30024so2143121otr.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 07:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mRqOjZG6cKvjnDG2pWQ+Ilmc3BqSM+Y65+h5TGVCKCQ=;
- b=YlOc80UO7oVCMeGNFpUtZjTRqChqHQSjNCtZqFt+xgA0AsanCz4JYsOq62sqk7D7m8
- hGDobTnDp34EOLxEOc2aNkqb6Y6lbsPCAYPK5ewq5pq+HsTPCgqifvmwrxm3j+05vima
- 7Gf1pfxjDmHNaFGiO4HDz9NQ10G8lJ//SoAFw3d/LlK1OrVt2G5Yakzq5jqs0aQTwhCJ
- y018mEOZlP/FOq9FgsfqNOE7rEl3HikhyNev4IuqMHWRkbaBcgO73TKROhGJwn1T1Ffn
- sxgcdKNUXylJfz2+5ojlKJ9oWfmQ3vCS41eIMTzeLjeTRwbEUOCnUcsX+qom4YwoA25u
- U5ug==
+ bh=VIJRDx/J9AXAk8I9/VGAO9rc7rkB2I0YPtlQqQCNuvs=;
+ b=rHR4KgjTwlmiH0M4b6guPEnUT+Zs2q6Nz5gU0HxZ31LYKIr8OZ81FHL5m7TE+zQXsw
+ 8rnVyLLDvcgkEbLKgBvacuYUbiYTll2w8o75dYpam0hOydDuux3EtJ/NEfwTnbF9ZK9l
+ CjJfBbJOzoj2Zqkp7tW855dYKftyVzv2lLXAlYM2oKAPclmbs05aPc7lMCrXUUEw2cNc
+ PZub5LKFup8NrEUYpGujEdxGSSqsONn6rLpv/fqa9oQx7aKDQ3PAvfb7z0c+C2kmg80o
+ vlnT45WYbcjCEpwD3NzbxdJMOf/pvuDvH9CUdIXpKxDOEulHxnyjk58xLN6H2zBT5Abl
+ zF3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mRqOjZG6cKvjnDG2pWQ+Ilmc3BqSM+Y65+h5TGVCKCQ=;
- b=sbtTQTA7gZsKaAewPw1fXyq8bqbCD0bJZRWPHdAK4ZxYdRZfZlh1ux7CxaCnpr6VMl
- k+BIfST0oLgNnqek8o5a3/RrTJt93Hyp6GVOLhnP9z0A7QTB7QHQu1Ol8VH42d1qhX9k
- sHGu8YVvfyf/0jOSmqLeAzdtwr7TnXmlcOIJLY59VDWYJpcbS2Pghsc852CaUJICDLfQ
- h6u7uJYawBCv7MZOlTh+/rEKtFwz9p6HP/enhhnuAabGuzhd059Q2m/xF1b/hdJzmoT0
- Nevhb5WejFnOAvP0gZkfOd17empU/hIlxhxUh8fXHhbnK557QPcqUjgbQr8mjayyzsxJ
- 8AQw==
-X-Gm-Message-State: AOAM533q2t3opvRBN0NCpQpa3k+t54KQdJ7lJmkK9Jgq+EOtPeYAC2EY
- ubAW4+4GsgiKjE9rTGI7/H9tDw==
-X-Google-Smtp-Source: ABdhPJxTbgu6f02skE+meFURQj8OCquFRi5CilOr/io+7OJx8xTzVCbOsx36Zoq2kmggqBbBweOhRA==
-X-Received: by 2002:a9d:921:: with SMTP id 30mr7856874otp.49.1616683139961;
- Thu, 25 Mar 2021 07:38:59 -0700 (PDT)
+ bh=VIJRDx/J9AXAk8I9/VGAO9rc7rkB2I0YPtlQqQCNuvs=;
+ b=nn/y6cQwO0g2Pt3LtWC0uMfhliiGf6TdiclkV0ErfEUKmHDi+5C7whU6J7zolS6i8S
+ +PVe9mXO2Vjk2xF0Jv6T+CX4k2EwVlGNgLqGsQTEvZW2ksR9TahiJeOnUlGrcrxr51VH
+ IL8hxU756fHCBgCh4fdPT0d2g5pdJEerlwf4IXE6aslNfwNXepnyD9SngIj5hyxhAFri
+ L68PLLO7k5WWkAXomNw/6ju15YXMdYzRGAPRvfNVbig2glq3/XMKV6RLhvERBfZu0TZb
+ VFZoUXxqQHM34PcQ55CDplsgUnoV9jcU9qyunHVTN3CxCYv9i3Zhc+iaF+l4tDhtCWM6
+ cGSw==
+X-Gm-Message-State: AOAM530zLOF8fD2dHemz09vXVOfjBTIkthHmPofVS/sQ88Ckg63CLflv
+ 6z/jmcoao75RA3nLAJq1NkW9yQ==
+X-Google-Smtp-Source: ABdhPJwFdxWW2nMmG0eFFSSPZL+UlfP9cr2HqLlccVBYFGt7wJLeiXaCB50haU6LtWkuM0urAIe5aA==
+X-Received: by 2002:a9d:8b4:: with SMTP id 49mr6897238otf.216.1616683364237;
+ Thu, 25 Mar 2021 07:42:44 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id r10sm1418836ots.33.2021.03.25.07.38.58
+ by smtp.gmail.com with ESMTPSA id d206sm1138494oib.56.2021.03.25.07.42.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 07:38:59 -0700 (PDT)
-Subject: Re: [PATCH 03/15] Hexagon (target/hexagon) properly generate TB end
- for DISAS_NORETURN
+ Thu, 25 Mar 2021 07:42:43 -0700 (PDT)
+Subject: Re: [PATCH 04/15] Hexagon (target/hexagon) decide if pred has been
+ written at TCG gen time
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
- <1616640610-17319-4-git-send-email-tsimpson@quicinc.com>
+ <1616640610-17319-5-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0d89920a-35e2-6134-70a1-0dcf890ef254@linaro.org>
-Date: Thu, 25 Mar 2021 08:38:57 -0600
+Message-ID: <3070fe5c-fcca-c674-f47e-f5424ce5e72f@linaro.org>
+Date: Thu, 25 Mar 2021 08:42:41 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <1616640610-17319-4-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1616640610-17319-5-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -95,57 +95,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/24/21 8:49 PM, Taylor Simpson wrote:
-> When exiting a TB, generate all the code before returning from
-> hexagon_tr_translate_packet so that nothing needs to be done in
-> hexagon_tr_tb_stop.
+> Multiple writes to the same preg are and'ed together.  Rather than
+> generating a runtime check, we can determine at TCG generation time
+> if the predicate has previously been written in the packet.
 > 
-> Address feedback from Richard Henderson <richard.henderson@linaro.org>
+> Test added to tests/tcg/hexagon/misc.c
 > 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> Address feedback from Richard Henderson<richard.henderson@linaro.org>
+> 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
 > ---
->   target/hexagon/translate.c | 62 +++++++++++++++++++++++++---------------------
->   target/hexagon/translate.h |  3 ---
->   2 files changed, 34 insertions(+), 31 deletions(-)
-> 
-> diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-> index 5d92ab0..19b9bc7 100644
-> --- a/target/hexagon/translate.c
-> +++ b/target/hexagon/translate.c
-> @@ -54,16 +54,41 @@ static const char * const hexagon_prednames[] = {
->     "p0", "p1", "p2", "p3"
->   };
->   
-> -void gen_exception(int excp)
-> +static void gen_exception(int excp)
+>   target/hexagon/gen_tcg_funcs.py |  2 +-
+>   target/hexagon/genptr.c         | 22 +++++++++++++++-------
+>   target/hexagon/translate.c      |  9 +++++++--
+>   target/hexagon/translate.h      |  2 ++
+>   tests/tcg/hexagon/misc.c        | 19 +++++++++++++++++++
+>   5 files changed, 44 insertions(+), 10 deletions(-)
 
-I would call this something like gen_exception_raw or gen_exception_nopc, or 
-something because,
-
-> +static void gen_exception_end_tb(DisasContext *ctx, int excp)
-
-... *all* exceptions end the tb.
-
-> +{
-> +    gen_exec_counters(ctx);
-> +    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
-> +    gen_exception(excp);
-
-The helper_raise_exception call longjmped away, so
-
-> +    tcg_gen_exit_tb(NULL, 0);
-
-... this exit_tb is dead code.
-
-> @@ -537,8 +551,7 @@ static bool hexagon_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
->       DisasContext *ctx = container_of(dcbase, DisasContext, base);
->   
->       tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
-> -    ctx->base.is_jmp = DISAS_NORETURN;
-> -    gen_exception_debug();
-> +    gen_exception_end_tb(ctx, EXCP_DEBUG);
-
-The set of the pc is also redundant?
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
