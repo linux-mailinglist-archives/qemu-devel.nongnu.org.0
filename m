@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357EC3496C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 17:30:00 +0100 (CET)
-Received: from localhost ([::1]:34140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5766C3496E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 17:34:13 +0100 (CET)
+Received: from localhost ([::1]:38580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPSrv-0003wR-7R
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 12:29:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
+	id 1lPSw0-00068r-7z
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 12:34:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPSXs-0005z6-Qe
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:09:16 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:33612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPSXq-0007Yq-VO
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:09:16 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- s11-20020a056830124bb029021bb3524ebeso2489878otp.0
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 09:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q0ZIs14vf2tUcMX+bvSST1jcqtdNP26nQTnsovRfNnU=;
- b=A9Wb6IkFBP8AP1DIhXftlbp0OSR9davRUp2V+tKJm6W8yVeDfaMQSooLcMyBP9XGWG
- WVkxM42wQsSS4Uv9TP2j0WGOnEcbR7dHZX1avS5mYpmi4iPXqGUP2mXa4ZzuDLc738KW
- BYifu5zZTEHCZMt4dG3T2ZnVFyvuTRjfG3/ZMSqJXnLX5CZAoSDS+yho0BAKhQ7Ss+Kh
- 3+rnsJd1+TVfuKagUi7rlHydE+5xuZn93uh3baKuS5DaMsKVSdifY461v+Zcl1sDm04/
- ff1UVHwDQsig8DUcaCaRRz6gDB1VAEGUYo9xv09L2cc0ZiV6Tlb0C7hi0rC2u1ow0cQb
- g2/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q0ZIs14vf2tUcMX+bvSST1jcqtdNP26nQTnsovRfNnU=;
- b=LhXegnHUPVmR5p1xR7Ohdppso3BJ7mHujrEjNi0IKIcrJ+6+OrUkHG+Z/dqmiB419d
- sI7geRby6tyywYmpKmZc1BfJsJnhChrplTDYpDiu+MWKiSMnWsOws6R5s/3Fg3KQHJ2S
- 2P/l4NCJB/8d5mgYXSWugvRd0+o8TD4RFITC1yaAD6EH5yU7AbwUBjW26O3L+FBEkNUt
- RtqZmAieDs/PStQOO+n1w3Oapvw/eOztZrc8srFDcPxb/7Wpq9u7Vj3pMFdgxsXF9gLq
- Xn8BtXZL0pbT1EdMnDDjzYCJtcRoWhxg58a5wjSjjOaCDLUEYyTgMgOyiknj+RsMezgr
- PbgQ==
-X-Gm-Message-State: AOAM531yj5d3hZ1XPq22N9OF2jyuUxWcLeAdu3z76DlLbAsR86sP8KOF
- PguxPjcmSoTSHrSiDJhzwqDqcQ==
-X-Google-Smtp-Source: ABdhPJxnRXTGXCem1WT1IY5KEbX3ulEFqDU7Ve/vnlOgJbp9b3QJIwkS3K/TC6j/UJIN9yjZwiFcRw==
-X-Received: by 2002:a05:6830:1542:: with SMTP id
- l2mr7620215otp.95.1616688553627; 
- Thu, 25 Mar 2021 09:09:13 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id p22sm1472045otf.25.2021.03.25.09.09.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Mar 2021 09:09:13 -0700 (PDT)
-Subject: Re: [PATCH 09/15] Hexagon (target/hexagon) use softfloat for
- float-to-int conversions
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1616640610-17319-1-git-send-email-tsimpson@quicinc.com>
- <1616640610-17319-10-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4dca7e06-0782-90dc-c058-b4249193a616@linaro.org>
-Date: Thu, 25 Mar 2021 10:09:10 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <arnd@arndb.de>) id 1lPSeq-0002vO-3U
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:16:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:44933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arnd@arndb.de>) id 1lPSeo-000311-5X
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 12:16:27 -0400
+Received: from mail-oo1-f47.google.com ([209.85.161.47]) by
+ mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MdwRi-1lxxvU2U4c-00b5sS for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021
+ 17:16:22 +0100
+Received: by mail-oo1-f47.google.com with SMTP id
+ i25-20020a4aa1190000b02901bbd9429832so622857ool.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 09:16:22 -0700 (PDT)
+X-Gm-Message-State: AOAM530vBB9HtzUVOq+s1MgP2jvG8pZn98LPjnoY95rSbrlJz6xwhuP0
+ lnU9f7uXcWteWucftP/wWMyZjd5jprZUbS5/jOE=
+X-Google-Smtp-Source: ABdhPJz40zGDMo1wSX1zkqiDXapywpuj0bSrhnuz9h5ForG5wBDvfMGL2V6OtIi6jC0IJ5+bhRk7p1lHOro/If22Z3w=
+X-Received: by 2002:a4a:e9a2:: with SMTP id t2mr7741520ood.15.1616688981139;
+ Thu, 25 Mar 2021 09:16:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1616640610-17319-10-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <cover.1616570702.git.viresh.kumar@linaro.org>
+ <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
+In-Reply-To: <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 25 Mar 2021 17:16:04 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a198aR8d0qUPg124O_P7bzO+Yagwe9ydprSGj789ydn2w@mail.gmail.com>
+Message-ID: <CAK8P3a198aR8d0qUPg124O_P7bzO+Yagwe9ydprSGj789ydn2w@mail.gmail.com>
+Subject: Re: [PATCH 3/5] tools/vhost-user-i2c: Add backend driver
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:XfdBmqEmEul5ASIRhlVFy2oUWY2qzRVZA3v4JcKHPrS98enokEu
+ eFyuZbuwaKqX/S/xAGDMtdUs4XtCPsuyucLq19vc4xl/wJlR0u3O3oQ1sXBvZWa94vuUPdF
+ hKLBRChW3sM1b4aNtS4kqY5XMRhQLebxsXzQdhLeL1GmQ75UbmGnxNnQFndV8M7X3aWmu1u
+ 920Kobur/1HE05UzxbPig==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WR/gCL8SUE0=:W4EMzyd0y6nSAs/2zshBnH
+ PMUrvcIsVVAzccgiJmhwwpSCjAutNlYaqSkdXkV2/fPJQrHl552w+i4wiGH6Hw6mzVDo2C8Xw
+ lgjAv++BZ5D/ROk91pCCmBdwq6/KVFKeVhcToQd1Ri26Df+3kZHJnqVKc+sSJ6msUqOqo8Dfa
+ BeeGoNU0bhVq4y1QLtY27oL0zkFghzrqdj68Fz0q4504AELqLRNgHjL1u2FmtUeZG2U+43824
+ 7WeWBCeB/RDsyodMOpVbliUS+IGuTtdRcM78Xh0Ld328gNSnYOKw0DH9nDIVzk+kgencJmbRw
+ YJPOQPLXT0T0f+SWQEZLkyefPMM5bhnS63V5wAJLu+zLuFabowIyYBMeLcNpH7uBYuq/IIa9h
+ w1+EBrWlqbVIQW28sMUlB3nrolR7WYhjC2QHOg3dz4jdXBst19Rss83eOI8reOHe4q9L5ctR3
+ Z+uUdB+p9W6Y0zlA+E4pQLxUZkDpFAc=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=arnd@arndb.de;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,37 +71,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
+ Bill Mills <bill.mills@linaro.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Stratos Mailing List <stratos-dev@op-lists.linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 8:50 PM, Taylor Simpson wrote:
-> @@ -451,16 +456,28 @@ int32_t HELPER(conv_sf2w)(CPUHexagonState *env, float32 RsV)
->   {
->       int32_t RdV;
->       arch_fpop_start(env);
-> -    RdV = conv_sf_to_4s(RsV, &env->fp_status);
-> +    /* Hexagon returns -1 for NaN */
-> +    if (float32_is_any_nan(RsV)) {
-> +        float_raise(float_flag_invalid, &env->fp_status);
-> +        RdV = -1;
-> +    } else {
-> +        RdV = float32_to_int32(RsV, &env->fp_status);
+On Wed, Mar 24, 2021 at 8:33 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+
+> +static uint8_t vi2c_xfer(VuDev *dev, struct i2c_msg *msg)
+> +{
+> +    VuI2c *i2c = container_of(dev, VuI2c, dev.parent);
+> +    struct i2c_rdwr_ioctl_data data;
+> +    VI2cAdapter *adapter;
+> +
+> +    adapter = vi2c_find_adapter(i2c, msg->addr);
+> +    if (!adapter) {
+> +        g_printerr("Failed to find adapter for address: %x\n", msg->addr);
+> +        return VIRTIO_I2C_MSG_ERR;
+> +    }
+> +
+> +    data.nmsgs = 1;
+> +    data.msgs = msg;
+> +
+> +    if (ioctl(adapter->fd, I2C_RDWR, &data) < 0) {
+> +        g_printerr("Failed to transfer data to address %x : %d\n", msg->addr, errno);
+> +        return VIRTIO_I2C_MSG_ERR;
 > +    }
 
-So this is interesting.
+As you found during testing, this doesn't work for host kernels
+that only implement the SMBUS protocol. Since most i2c clients
+only need simple register read/write operations, I think you should
+at least handle the common ones (and one two byte read/write)
+here to make it more useful.
 
-The 8.3.x Document Bundle, which has the V67 programmer's manual, say the 
-output value is IMPLEMENTATION DEFINED (without saying anything more about 
-defining values for any particular implementation), while the older 2010 manual 
-specifies 0x7fffffff as the result (which is what float32_to_int32 provides).
+> +static void vi2c_handle_ctrl(VuDev *dev, int qidx)
+> +{
+> +    VuVirtq *vq = vu_get_queue(dev, qidx);
+> +    struct i2c_msg msg;
+> +    struct virtio_i2c_out_hdr *out_hdr;
+> +    struct virtio_i2c_in_hdr *in_hdr;
+> +    bool fail_next = false;
+> +    size_t len, in_hdr_len;
+> +
+> +    for (;;) {
+> +        VuVirtqElement *elem;
+> +
+> +        elem = vu_queue_pop(dev, vq, sizeof(VuVirtqElement));
+> +        if (!elem) {
+> +            break;
+> +        }
+> +
+> +        g_debug("%s: got queue (in %d, out %d)", __func__, elem->in_num,
+> +                elem->out_num);
+> +
+> +        /* Validate size of out header */
+> +        if (elem->out_sg[0].iov_len != sizeof(*out_hdr)) {
+> +            g_warning("%s: Invalid out hdr %zu : %zu\n", __func__,
+> +                      elem->out_sg[0].iov_len, sizeof(*out_hdr));
+> +            continue;
+> +        }
+> +
+> +        out_hdr = elem->out_sg[0].iov_base;
+> +
+> +        /* Bit 0 is reserved in virtio spec */
+> +        msg.addr = out_hdr->addr >> 1;
+> +
+> +        /* Read Operation */
+> +        if (elem->out_num == 1 && elem->in_num == 2) {
+> +            len = elem->in_sg[0].iov_len;
+> +            if (!len) {
+> +                g_warning("%s: Read buffer length can't be zero\n", __func__);
+> +                continue;
+> +            }
 
-I must say I find the newer manual very lacking on details, including the 
-non-specification of the Behavior pseudocode functions.
 
-I guess the only thing we can do is document this as matching some particular 
-hardware implementation?
+It looks like you are not handling endianness conversion here. As far as I
+can tell, the protocol requires little-endian data, but the code might
+run on a big-endian CPU.
 
+Jie Deng also pointed out the type differences, but actually handling
+them correctly is more important that describing them the right way.
 
-r~
+        Arnd
 
