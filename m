@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FD334891B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:30:37 +0100 (CET)
-Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A945F34893F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 07:38:59 +0100 (CET)
+Received: from localhost ([::1]:60550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPJVk-0004CN-BS
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42022)
+	id 1lPJdy-0001tZ-PB
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 02:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPJOL-0007yQ-7S
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:22:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPJOJ-0000xR-Cl
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:22:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616653366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GkRc+mqNcncYWl7KBmyoVCb8fDArd932n0qrYXBFeAk=;
- b=YlaJkNFBxKFAs1G8+ueyyf4PkAWZ93vZuMPRok0Onzc7eZqC6177B8rTLLa36tuERQgQQt
- oT1Tg/6LCKZX8xvSmJ+pMEfg+qYEnYXj4peNvpQbRJD/zd6fc17q7U4ObX+FbrNIutNJuG
- P8raLkz/rLaGIJ3mMN43bmYlkpNOysA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-E1i3KXZDM8Gh-pBPMAw41A-1; Thu, 25 Mar 2021 02:22:44 -0400
-X-MC-Unique: E1i3KXZDM8Gh-pBPMAw41A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D4E107ACCD;
- Thu, 25 Mar 2021 06:22:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD14819C71;
- Thu, 25 Mar 2021 06:22:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 434D811327E1; Thu, 25 Mar 2021 07:22:38 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 13/28] qapi: Enforce event naming rules
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-14-armbru@redhat.com>
- <bd1b8230-30fd-a4a4-d38c-8650e645c586@redhat.com>
- <87r1k5f4u7.fsf@dusky.pond.sub.org>
- <799ad08b-3b45-f511-7717-f366eb2c0404@redhat.com>
-Date: Thu, 25 Mar 2021 07:22:38 +0100
-In-Reply-To: <799ad08b-3b45-f511-7717-f366eb2c0404@redhat.com> (John Snow's
- message of "Wed, 24 Mar 2021 16:07:22 -0400")
-Message-ID: <87blb7ah1t.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lPJc5-00010Q-He
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:37:01 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lPJc1-0000Mi-WD
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 02:37:01 -0400
+Received: by mail-pg1-x535.google.com with SMTP id h25so818596pgm.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Mar 2021 23:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=vc+wvFFTvodrX20OPKNrBQQHGB5pcLD4efIBgcy5DJ8=;
+ b=d3anZLPItxFsvkWNZXMb4zwZJZErGxbcBEbHUDImVernnwHl/HpacEgalfyiBHsKvd
+ VdMa7BovSCLW5iSVFS+0KD0bCViDKMvkdt/J0Xmt4vW2NlLzguRrxIgHOVcUBpNQLn+u
+ ir8VyNnnSk3585vN6G2QSVLIicAlamN0OmutEBKkyfzL+LJ1DRjfD82j3pi4lY/WM8JO
+ ReloAo6wtuEGkySMtjlvElVeKnUAZHge2UMqkkBQQ5anQwHP6PbCHKiRYCcCalN4aqin
+ dPDQOcEX3neTzIhjVbpZ4QGXUTXQf3xps2SUEjEPrPdFx/IS4P2Ug2SJ2Pt5ewuI5xDG
+ Wsbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=vc+wvFFTvodrX20OPKNrBQQHGB5pcLD4efIBgcy5DJ8=;
+ b=X2hlVFqdRnBNUJT/hcbqzkNmfYuADCnQqd6XoiC6vyeLM5ST9sXCEWQjxlOvseMT8i
+ K12v1QI1y3C0qwaCkvmAz9rMXRLEgLziee+j0riNj68CGf72xdjTkE+6igfGXgSbHIAv
+ D74IRboW10JypDltlfcSPKBF3/GOlk101pzYB+JJPuocnVtUisl3fFYT7Mp4xVtYUqOs
+ uALvSvOM9Utxdwh27ZMJAJMgxf8kBv/7i8tnuZ7f+BORvJ7WLkR1oObl4UQ8mWCbiEcY
+ H/HJWMX2FRx4EX3TahOu9eFarmNi7h7Z1YN+oRtziRVd9bwtYLR1aMz/yHMg0BGVYCj/
+ SNkQ==
+X-Gm-Message-State: AOAM532gCRaIP54GOxHgC3Shbt7Oq9nKjENOn8fIp5ge4maBJZRDoD+m
+ tfxX6PswyNVsEXIdccNQKtPOkg==
+X-Google-Smtp-Source: ABdhPJyb333MF6FsdaBNIqpHXm1FzaJBdReq0cSfGvlp7i9CZi3xK+fHIiiOuKVUg47LD6IyuqwQRQ==
+X-Received: by 2002:a62:6045:0:b029:20c:b6a6:6077 with SMTP id
+ u66-20020a6260450000b029020cb6a66077mr6634257pfb.51.1616654216517; 
+ Wed, 24 Mar 2021 23:36:56 -0700 (PDT)
+Received: from localhost ([122.172.6.13])
+ by smtp.gmail.com with ESMTPSA id v135sm4479469pgb.82.2021.03.24.23.36.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 24 Mar 2021 23:36:52 -0700 (PDT)
+Date: Thu, 25 Mar 2021 12:06:49 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Jie Deng <jie.deng@intel.com>
+Subject: Re: [PATCH 3/5] tools/vhost-user-i2c: Add backend driver
+Message-ID: <20210325063649.tvsxcxbbxuajl3og@vireshk-i7>
+References: <cover.1616570702.git.viresh.kumar@linaro.org>
+ <c269da55e0b3ff984bf538e3001efc4732c6dea7.1616570702.git.viresh.kumar@linaro.org>
+ <f2f80985-b452-23e0-1892-2c8eaba4e691@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f2f80985-b452-23e0-1892-2c8eaba4e691@intel.com>
+User-Agent: NeoMutt/20180716-391-311a52
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,110 +86,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
+Cc: Vincent Guittot <vincent.guittot@linaro.org>,
+ Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 25-03-21, 14:17, Jie Deng wrote:
+> i2c->adapter_num is set here, but used in vi2c_remove_adapters.
+> when you goto out from while {...}, i2c->adapter_num is always 0,
+> May be a bug ?
 
-> On 3/24/21 2:22 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> On 3/23/21 5:40 AM, Markus Armbruster wrote:
->>>> Event names should be ALL_CAPS with words separated by underscore.
->>>> Enforce this.  The only offenders are in tests/.  Fix them.  Existing
->>>> test event-case covers the new error.
->>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>> ---
->>>>    tests/unit/test-qmp-event.c               |  6 +++---
->>>>    scripts/qapi/expr.py                      |  4 +++-
->>>>    tests/qapi-schema/doc-good.json           |  4 ++--
->>>>    tests/qapi-schema/doc-good.out            |  4 ++--
->>>>    tests/qapi-schema/doc-good.txt            |  2 +-
->>>>    tests/qapi-schema/doc-invalid-return.json |  4 ++--
->>>>    tests/qapi-schema/event-case.err          |  2 ++
->>>>    tests/qapi-schema/event-case.json         |  2 --
->>>>    tests/qapi-schema/event-case.out          | 14 --------------
->>>>    tests/qapi-schema/qapi-schema-test.json   |  6 +++---
->>>>    tests/qapi-schema/qapi-schema-test.out    |  8 ++++----
->>>>    11 files changed, 22 insertions(+), 34 deletions(-)
->>>> diff --git a/tests/unit/test-qmp-event.c
->>>> b/tests/unit/test-qmp-event.c
->>>> index 047f44ff9a..d58c3b78f2 100644
->>>> --- a/tests/unit/test-qmp-event.c
->>>> +++ b/tests/unit/test-qmp-event.c
->>>> @@ -143,7 +143,7 @@ static void test_event_d(TestEventData *data,
->>>>      static void test_event_deprecated(TestEventData *data, const
->>>> void *unused)
->>>>    {
->>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES1' }");
->>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES1' }");
->>>>          memset(&compat_policy, 0, sizeof(compat_policy));
->>>>    @@ -163,7 +163,7 @@ static void
->>>> test_event_deprecated_data(TestEventData *data, const void *unused)
->>>>    {
->>>>        memset(&compat_policy, 0, sizeof(compat_policy));
->>>>    -    data->expect = qdict_from_jsonf_nofail("{ 'event':
->>>> 'TEST-EVENT-FEATURES0',"
->>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0',"
->>>>                                               " 'data': { 'foo': 42 } }");
->>>>        qapi_event_send_test_event_features0(42);
->>>>        g_assert(data->emitted);
->>>> @@ -172,7 +172,7 @@ static void test_event_deprecated_data(TestEventData *data, const void *unused)
->>>>          compat_policy.has_deprecated_output = true;
->>>>        compat_policy.deprecated_output = COMPAT_POLICY_OUTPUT_HIDE;
->>>> -    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATURES0' }");
->>>> +    data->expect = qdict_from_jsonf_nofail("{ 'event': 'TEST_EVENT_FEATURES0' }");
->>>>        qapi_event_send_test_event_features0(42);
->>>>        g_assert(data->emitted);
->>>>    diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->>>> index b5fb0be48b..c065505b27 100644
->>>> --- a/scripts/qapi/expr.py
->>>> +++ b/scripts/qapi/expr.py
->>>> @@ -45,7 +45,9 @@ def check_name_str(name, info, source):
->>>>      def check_name_upper(name, info, source):
->>>>        stem = check_name_str(name, info, source)
->>>> -    # TODO reject '[a-z-]' in @stem
->>>> +    if re.search(r'[a-z-]', stem):
->>>> +        raise QAPISemError(
->>>> +            info, "name of %s must not use lowercase or '-'" % source)
->>>>    
->>>
->>> Does a little bit more than check_name_upper. Is this only used for
->>> event names? I guess so. Should it be inlined into check_defn_name_str
->>> instead in this case, or nah?
->> 
->> I'd prefer not to inline.  I'm open to better function names.
->> 
->> We have three name styles.  qapi-code-gen.txt:
->> 
->>      [Type] definitions should always use CamelCase for
->>      user-defined type names, while built-in types are lowercase.
->> 
->>      [...]
->> 
->>      Command names, and member names within a type, should be all lower
->>      case with words separated by a hyphen.  [...]
->> 
->>      Event names should be ALL_CAPS with words separated by underscore.
->> 
->> I define three functions for them: check_name_camel(),
->> check_name_lower(), and check_name_upper().
->> 
->> The functions factor out the naming rule aspect, and they let us keep
->> the naming rule aspect together.  That's why I'd prefer not to inline.
->> 
->> We could name them after their purpose instead:
->> check_name_user_defined_type(), check_name_command_or_member(),
->> check_name_event().  The first two are rather long.  Shorter:
->> check_name_type(), check_name_other(), check_name_event().
->> 
->> Thoughts?
->> 
->
-> The long names are nice and descriptive.
+It certainly is, this should fix it:
 
-Then I should give them a try to see whether the result feels neat or
-ugly.
+diff --git a/tools/vhost-user-i2c/main.c b/tools/vhost-user-i2c/main.c
+index 071493cbd5c5..65d27ef04d42 100644
+--- a/tools/vhost-user-i2c/main.c
++++ b/tools/vhost-user-i2c/main.c
+@@ -202,7 +202,7 @@ static void vi2c_remove_adapters(VuI2c *i2c)
+     VI2cAdapter *adapter;
+     int32_t i;
+ 
+-    for (i = 0; i < i2c->adapter_num; i++) {
++    for (i = 0; i < MAX_I2C_ADAPTER; i++) {
+         adapter = i2c->adapter[i];
+         if (!adapter) {
+             break;
 
+-- 
+viresh
 
