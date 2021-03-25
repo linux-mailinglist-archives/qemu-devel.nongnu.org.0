@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D30A349316
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:32:18 +0100 (CET)
-Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA09A34930B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 14:27:51 +0100 (CET)
+Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPQ5x-0007EL-Gi
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:32:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
+	id 1lPQ1e-0004nH-9u
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 09:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPQ4c-0006ln-0l
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:30:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59584)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPPze-0003jx-1b
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:25:46 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPQ4a-0001D1-77
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:30:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lPQ4Y-0003tN-RZ
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 13:30:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CDFB52E800F
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 13:30:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPPzX-0006UO-Lx
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 09:25:45 -0400
+Received: by mail-ej1-x634.google.com with SMTP id kt15so2848901ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 06:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sBQ8EGeOD93WXWs7ALP2mjlKTDVnzKWQKUxQSBPtWxo=;
+ b=WkGYo4opk8U2kf1zzd7sKDs6w6vbG5s2KH1ZcbV20A7/sNR0K/COUbk2cHqpa7I+CJ
+ lYqll+L1riqpsd7gXlSEYk5suNBsKAiY/HYK+suQia+c4lMX9NvL/pFW0V9NEfIHTL62
+ iV9g5WJw4DUpGk4rTC7UsmsFcJCAG/TtUcH3U7bOx8usTwGRc/2mTh6gF7k/cB/rPejL
+ gaTpmLLk5gM05CEksJguLYqZBinxKh5bnWUMXCSWpFYr7ssQ/vQ/4Ug80hkQDaAXr4cB
+ nokxWhMqDW1nl17RxTLhNEWH1/nPG1a6NGGIl38VCBrxxQ/oJcnY9n8cCSB9QXcUR3m1
+ mpvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sBQ8EGeOD93WXWs7ALP2mjlKTDVnzKWQKUxQSBPtWxo=;
+ b=mwdMFwLnDbk9ry/nO/S5bk4kwFY99+i9pZybDvyX9bMBu+G/toudYy3UMhu6WhZ8Fe
+ /OX+ZP4tsDeJKT7OHKhkeGvuvCnJvD7LRJw0kQzcjv2FMc7Ofu3wnHJYvMUJaNnCZZUT
+ OvN8yPzMBHuz9DmlxdX3Dhtf5Z+bqc975KH7gyvqV5D3m0SF6sstgN9g347fdBePfk8b
+ 8JRhp+ohePbR43yX7qEcvcgI8ed+6p2b3FldvPAZ+rlJ59A+OPvpEdmAYxNj5ltsgWhu
+ 3QFD8BZCDYxjmp+2+1me+HKCZjZzYlKTITC+4O/iscxGdNTKfBtei6zHW75godmBK63o
+ wm5g==
+X-Gm-Message-State: AOAM532SJYxeW3WBD1DbqRheQBwa1wcc1xUHzP5EM8Iy6M7/P80LRTxT
+ ZykH72+y8lwOLNwqnespF619D0XDzWuseG+LvKmL7A==
+X-Google-Smtp-Source: ABdhPJxKrFbkjmwaQkJrA48ee8zRJcLF87h19NWl/lbX3CMLZo2nZXhQrevwAtePcmYkMgoN7jh5N8gG5kSv5uxmjHM=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr9659152ejc.250.1616678737166; 
+ Thu, 25 Mar 2021 06:25:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Mar 2021 13:22:54 -0000
-From: Mark Cave-Ayland <1909247@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve fuzzer qemu security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland mauro-cascella philmd pjps
-X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
-X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
-References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
-Message-Id: <161667857481.32669.15954116519339833776.malone@soybean.canonical.com>
-Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
- in hw/scsi/esp.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4446feb642ca86be4f6eceb855b408397dad6a50"; Instance="production"
-X-Launchpad-Hash: f5acbf9244c741286c00e121802d7545be817584
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <1e4835a5-b785-5d0d-64d8-bb01afeea432@redhat.com>
+ <72851037-b283-c4c1-fbeb-da86f0527627@ilande.co.uk>
+ <CAFEAcA-8M7PKiM9tOXuVKMwMRF6Q02FbyQbU-P60wQqgcedrKg@mail.gmail.com>
+ <4be7c437-ddaa-849a-6c0b-5cce2d5b6fdb@ilande.co.uk>
+In-Reply-To: <4be7c437-ddaa-849a-6c0b-5cce2d5b6fdb@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 25 Mar 2021 13:25:05 +0000
+Message-ID: <CAFEAcA9ie7o49tm_eSMh9SEnkh_j6fj3Qq41B3t5rSEr_MfuPg@mail.gmail.com>
+Subject: Re: Crashes with qemu-system-ppc64
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,86 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
+Cc: Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If Alex is interested in having a fuzz-proof device as a starting point
-for fuzzing QEMU's SCSI layer then I don't mind doing the basic work as
-I've spent a few months deep in the internals of the ESP controller, and
-it makes sense to look at this whilst it is all still fresh. I'd say
-there's at least one more set of ESP changes already waiting for after
-the 6.0 release.
+On Thu, 25 Mar 2021 at 12:57, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+> Thanks for the analysis: I can certainly see how the above commit would have changed
+> the behaviour. Looking at hw/ppc/e590plat.c in e500plat_machine_class_init() I see
+> that line 101 reads "machine_class_allow_dynamic_sysbus_dev(mc, TYPE_ETSEC_COMMON);"
+> which looks like it is intended to add a class restriction to this functionality.
 
-PJP:
-Your change to esp-pci.c looks like a genuine issue, although there is an i=
-nconsistency within ESP as to what determines whether a request is in progr=
-ess or not. My v2 patchset above uses the request member being non-NULL to =
-indicate a valid request, but this should be made consistent throughout the=
- driver.
+Aha. I thought there was a restriction somewhere but hadn't found that
+function. I think the device plug callback functions should check that
+list rather than saying "any TYPE_SYS_BUS_DEVICE is fine".
 
-Can you provide a qtest reproducer so that it can be incorporated into
-the test included in the v2 patchset and also allow me to check that
-this issue has been fixed?
+> In machine_initfn() a callback for machine_init_notify() is added to perform the
+> check but the macio-oldworld device is realized first
 
-Alex:
-If you can try PJP's patch to esp-pci.c and if you still see some issues th=
-en please update this bug with a test case or two, and I will look at them =
-when I get a moment.
+Also, this check is only for "did the user dynamically create a sysbus
+device that isn't an allowed one", which is a necessary check, but
+not quite the same thing as "is this device we're looking at one we want to
+assume belongs to the platform bus".
 
-Mauro:
-Thanks for the test case - again I shall look at this when I have some avai=
-lable time.
+I'll put together a patch...
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909247
-
-Title:
-  QEMU: use after free vulnerability in esp_do_dma() in hw/scsi/esp.c
-
-Status in QEMU:
-  New
-
-Bug description:
-  A use-after-free vulnerability was found in the am53c974 SCSI host bus
-  adapter emulation of QEMU. It could occur in the esp_do_dma() function
-  in hw/scsi/esp.c while handling the 'Information Transfer' command
-  (CMD_TI). A privileged guest user may abuse this flaw to crash the
-  QEMU process on the host, resulting in a denial of service or
-  potential code execution with the privileges of the QEMU process.
-
-  This issue was reported by Cheolwoo Myung (Seoul National University).
-
-  Original report:
-  Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in
-  am53c974 emulator of QEMU enabled ASan.
-
-  It occurs while transferring information, as it does not check the
-  buffer to be transferred.
-
-  A malicious guest user/process could use this flaw to crash the QEMU
-  process resulting in DoS scenario.
-
-  To reproduce this issue, please run the QEMU with the following command
-  line.
-
-  # To enable ASan option, please set configuration with the following
-  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
-tizers
-  $ make
-
-  # To reproduce this issue, please run the QEMU process with the following=
- command line
-  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw \
-  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
-  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-  Please find attached the disk images to reproduce this issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909247/+subscriptions
+thanks
+-- PMM
 
