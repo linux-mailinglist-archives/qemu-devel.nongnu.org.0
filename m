@@ -2,69 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6ED349B08
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 21:33:45 +0100 (CET)
-Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63442349B33
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Mar 2021 21:47:55 +0100 (CET)
+Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPWfo-0004gX-B7
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 16:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59868)
+	id 1lPWtV-0008L7-SP
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 16:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lPWdG-0003oV-Ok
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 16:31:06 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lPWdD-000344-VO
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 16:31:06 -0400
-Received: by mail-ed1-x534.google.com with SMTP id bx7so3857933edb.12
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 13:31:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MFY+Hq6FshLxgaDPnG6cxFXCjFy2KN+LBJXAWBWKOtk=;
- b=BXxkNAEcSpvfa/s/wZnCRp6EuNRdEc9tOI1JhFrM4fovq8Q5O4MncA27jPoTPdCbrT
- /qh77PvGcCq4A19GlPF9I2u4IbJbmsGxyQd/++y3KX1rorq+o9m1shWe7x82btyn+jCE
- rf88bWP/zv6Ba5+gBu4PcFi6FJl43oiKwrzkT7mqU3WNH/DuLxKXt/IXNqEHNHZhRF1v
- ft+lZ9lgZiCqhI8l6VXpFF1IRuMFBHYNcubrJwZxd0JBoB7/W+g3Udn/ZPMVPjXYHGGx
- ZWkCfzI4PapO/9nekwzjA1R8DQkzuj1CbHnkdFTw12ViQWDIySWn1iBrjEMdzDxel+so
- EE0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MFY+Hq6FshLxgaDPnG6cxFXCjFy2KN+LBJXAWBWKOtk=;
- b=bIyNosfnm1iFIuqPsko/FurXwm3GGGmnwkiq8IC5gmTTlOKEF8ZlYgrKApf9rSHZCM
- rurn3dBS71KVPQA/avndTdGNLlBk39WXBVhNFfXPHWGTIwnVjhLdchIZTrXgnMehTWZC
- 0Gb80ekTCMz2JScxOftkW5xC/lYopi64KvCywQqlyk1Zuh4alHpTKTrNlU78YJ3qHO8Y
- TB3iQ6jmaMMoRpWd6zjhdn2R3cYyYPcc3e1S8OZjlmz6Ma4dm8EC05wAcxlsqPWyEGP7
- 8G9X1nJF/P6EuskULqxfqM2a7DgZxSgDLeWa6v4eIvn7j/Nd6lR7mYWIRcLVrFDqbo3g
- Yyjg==
-X-Gm-Message-State: AOAM532QjNTanFjHfm6AkAuVlBUarw28HoL8ol2c16iEczJaKduhup2n
- NfEkpnzdGqynkUtU+09JyrZ1qFL5VeyCyYUKqbc=
-X-Google-Smtp-Source: ABdhPJzj8bVmaNapkC8afDBfP4IGpB/ziaV4141onZblKIhnc8A1+pI3oXJvYJR+DCD9VAsp7wxoa4uC77r8Q49faCA=
-X-Received: by 2002:a05:6402:31b7:: with SMTP id
- dj23mr11368386edb.245.1616704261549; 
- Thu, 25 Mar 2021 13:31:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1lPWrs-0007ua-De
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 16:46:12 -0400
+Received: from mail-eopbgr700068.outbound.protection.outlook.com
+ ([40.107.70.68]:22585 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1lPWrp-00013D-Rv
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 16:46:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nAishLk+aTguF7dw+GwKR8ZzbRiCxXANZkUjGAEhfT5MQk2wlhTIR/+lg5e3y9QUi3YfWN3CRdrgwHGpzDSYTrcFUwTG2y75ZYkzQkLOff1GLhIfdQmLAEI/2ED4gmKR4MMBRlgCP1lfnLYpwFeiKeXbGmLEA3lBhnwH0ret7rIa0rz833dLQGkQlcnPpcBH9hphj07h8FOVCn7PFy5IJJO4DEkcyVdfGQSITCL6GbOJrfxhiGQsNWas6888zjAD5T72MEpTH2wqoBAQaiFSt71eQY1YERRYpI1QR2hJAHkKjk3UCAECUAN/KvqGKgSW5WC+CddDIKjyDVN4UrrcyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/tbaXrCVlDd+aXaMLAc235s0sgks7i745MhdW7I1hmY=;
+ b=iYZAWmnBTcJGTVgv5wg2BRxpxndZBwd0ow8lGa1zrKGcho+zajm0X+/Fi7rla2ugCkGa568o+dKse1SCICgnFG5OMJp8o2vaFO4OdkNv1Vt2wogrJ0fcjc0aECK9AuSJEVGqHpAyKxSntmukq7mQWksgG/ENpfLVurZLNYHRahbczZldRBivBnpeAfYkWc6gvKfeBMPfWHWLzXyfzKeBZUSKVy1nuSVwQab+XCsxZ9Ke2k1YlEJHwig1jhRvHzOS95EBcVcClkZxoC9l8Lnr1O69LDd43mIdZraqpHCjQa4du56xi5Ce+QtVoHgheE571S6dX2avuEq7XyXjjgylqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/tbaXrCVlDd+aXaMLAc235s0sgks7i745MhdW7I1hmY=;
+ b=dNpILauaYBaZtTDZNSHWGpRvLRNp9QLIL37TtCqnPo4IHeIYvRgrgKm/8aDm4G0cUGfP7kXumLbx3Gz722O+ZapHGb7wvUqaVi0dZQNLfL0t69vS7EqjTL99/cTDi2JPPxNhmvI+wvUP/BsnVjun8ZQQBxS8i/xPmYFbvrjP5y4=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM6PR12MB3770.namprd12.prod.outlook.com (2603:10b6:5:1c4::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18; Thu, 25 Mar 2021 20:31:03 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::c9b6:a9ce:b253:db70]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::c9b6:a9ce:b253:db70%6]) with mapi id 15.20.3955.027; Thu, 25 Mar 2021
+ 20:31:03 +0000
+Subject: Re: Fail to create sev-guest object on 6.0.0-rc0
+To: Brijesh Singh <brijesh.singh@amd.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <c0d75038-a48b-6c0e-4dfa-09e9ec4c17d4@amd.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <935d4fa4-09fd-b063-77c3-dc388b662e81@amd.com>
+Date: Thu, 25 Mar 2021 15:31:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <c0d75038-a48b-6c0e-4dfa-09e9ec4c17d4@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [67.79.209.213]
+X-ClientProxiedBy: SN4PR0501CA0080.namprd05.prod.outlook.com
+ (2603:10b6:803:22::18) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-References: <cover.1616521341.git.lukasstraub2@web.de>
- <997aa12a28c555d8a3b7a363b3bda5c3cf1821ba.1616521341.git.lukasstraub2@web.de>
-In-Reply-To: <997aa12a28c555d8a3b7a363b3bda5c3cf1821ba.1616521341.git.lukasstraub2@web.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 26 Mar 2021 00:30:49 +0400
-Message-ID: <CAJ+F1C+CkyJMMwzvou8YYCAv6jAEKGXqaG+oXfrBJmEyFkiRdQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] yank: Always link full yank code
-To: Lukas Straub <lukasstraub2@web.de>
-Content-Type: multipart/alternative; boundary="0000000000003771f105be624bff"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-linux.texastahm.com (67.79.209.213) by
+ SN4PR0501CA0080.namprd05.prod.outlook.com (2603:10b6:803:22::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.16 via Frontend
+ Transport; Thu, 25 Mar 2021 20:31:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a0dd438f-b115-46aa-974b-08d8efcce908
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3770:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB37705F996726AAF7161691F5EC629@DM6PR12MB3770.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S1woq9p9IkuZZBCk45RnPBKP8NgBnObg5DCDqL8YQ+IqZTzelU4d6+NN2p+YU3ToHcjKcwj+P0D81aOyeBLMo+aGCWVXQjrWH1MzgacY7Z91p4gH+0sYWP7Bgl2ptzvp5W3MJwYRhlzz0o9CfyLw5K3CL06hZH1OXC+xNrQhnRh6kxSQAjuv9QxrDgCmsfGnh86e4EJkPmeZyuUNIadfeM9hgSE6TH2gXBOBKi/caBQiyA8KKxdwQRIfeFav2HySqzXpXJ1IEa61VR+RQpK+RqJVB1PzT+RSMVjduNJMhJo7CccjpQ96h5OayROVt6BlUyQnqhuoZHTJAzWRqETd0ouwcNa+3+Xk5b2agKKGHGzGf8hiPqBujCyjt3jx84K94hGKMpHj5FTwRWHVk2fnQeCu9uixpFA/Qg3B9fGF8Bto9m2Se2p33TLpGnUcpty7Q0zflfuJld2kAC0VreAc+Z1OH76zBgNVisbxePPFrnNBtjGnFpezPwdRcj8L8c9ij3tfoTGRdR1CAxyGFNG5aRuNIQOtPIultg3swkRav+LdPOIEZL01Kav4KEE3ALv/Mieg6dtH7LBZgctGIgXe3LXh/xBP7Brg/JGFRViMNqI/jDbN8FKlD8tLR6/BMb0AAu3Cdrgti8h2ZM82gt8g3PvaNWOfRDoEixB4JQuAzRGNmrJOOx09buDC9x7VZCCIxIc8LE+pMye4QFLrCVIc3QjGBJUIPqnTnsi0n8RfHM8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(2906002)(8936002)(4326008)(38100700001)(86362001)(6486002)(956004)(66476007)(2616005)(31696002)(66556008)(53546011)(66946007)(16526019)(8676002)(5660300002)(478600001)(6512007)(36756003)(186003)(316002)(110136005)(31686004)(4744005)(6506007)(26005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?elhCS1RYcWhYR2FQN0MrSnNrc2MvcXRrVUFlQUNtdm9yL1djeW9rQnlaMHJR?=
+ =?utf-8?B?ZTdoakhlUXVlbkVHalJhWmxWaUFMc0Z2aDkzRHFpMmwyWm4yRXVYdTlXcFN4?=
+ =?utf-8?B?MmU1T1ltV1FpYnNZOVp1c2c0eFpWQ2RXeWhxMEVwL0d1ZUgwVFliNWpTU3By?=
+ =?utf-8?B?ODZmSHJMbFAwN05BRzMwaTB6RnVkbVJYMUxFS3BHMHpONmlPYlN4NXVxMERt?=
+ =?utf-8?B?MmNQQ0M1WXAyczZ1NkM0U1Q4V0VaNGlUbFNEeERiWHkvbFhHd3gzZWpSSklt?=
+ =?utf-8?B?cEYxYnJBUlBTbFpuZytoTTlaMlR1dTN4N3hGV3RRczZCVDRDa3JBN3lyOEFW?=
+ =?utf-8?B?WlZ1WjBrTFRWVDNJNWZGemtoU1llMkY1b1dvWEQ2eUlGQnpNeG52TFJxMVhs?=
+ =?utf-8?B?Zk1lSEhoTXFGVWNFT0pDdm41UGFCWFJZTHRGekFBdzF0TSttUVpwbWRDa3A3?=
+ =?utf-8?B?clFHT0lwRTJhVGJLL2dxdm9SQzBwNENXYVE5Y3NBZ0E2TnF6M2lRY3cyc0tk?=
+ =?utf-8?B?L2k5a3BsMXVpMnErUzVVRm04TnkvejVyMzhaa2d4dFBYbTFRQVp6YWoxMUx1?=
+ =?utf-8?B?aFBtcW15VHptZGxaZGErbjRQQ1duMzhnekt3RW1xajc5TkZHTDR1ME16WlZa?=
+ =?utf-8?B?R2NoYkJLNmx5VHUvZ3ErdmR4TUFUNFJiRmRnaUoySnFuaFhGbzZ6bEx3eDJ2?=
+ =?utf-8?B?VkZ6QjB5Mnd4Y3cySXhzN0duRjZkdW5CYnNsb1FuMmtKWDJiSnlsWnBWVDJV?=
+ =?utf-8?B?Y1JYblJzWE9HaXpWZEh0SWZoVHJZb1pWaUFxQVJZVnZmekxOeUdHM2xORW94?=
+ =?utf-8?B?QVZjaVFEVHVKWnZCd0FzRGU4Zk9KOGFZeFFlSDZoc2ZZYVpCVzlpNFZURFpC?=
+ =?utf-8?B?dXJMTHdXUDM5NHJLdlNIM2ZUZ2xJVWwzUXpFMUJRWGVJbGliU0JucEEwRmUv?=
+ =?utf-8?B?eE1vK0dneldDTU03a1M2OEcxa2s1UnFaaFl2bCtKcHFwZWlZLzhWb2RnZk1j?=
+ =?utf-8?B?SWN5K09kVWFOM1F1ZmtZbXpuZE5HeVpyZys4cHFKcVFhMitxdjlraTNGdEN5?=
+ =?utf-8?B?VkFGSGZzbi9IR2dqbHl1d2c2N1BHbVF4NnAwbVEvQTV5VUhCOFNpUzFOY2hu?=
+ =?utf-8?B?SDNXaVNFTEdMazVFU0Q5RTlVQ2NqRkExT3NacnlrZXVUNkw3aS9BVlFPQTZU?=
+ =?utf-8?B?MHorMFJpOG1EN05iYWpjTzZrZy9JV2JhZ0Z6OTI4V01vbmpzWU0xU2t2TDJX?=
+ =?utf-8?B?ekJUUE03a0NGaUNjcDQ5bzI2U3VvYnR3NEszZXg4YTBvMlFpMzMyTExCK0J1?=
+ =?utf-8?B?ZExvWUVMcllJVUNmMFM5S0tjcFpuTFkxOXBOQnUzaDR4bUVSY3U5aUk5MTBM?=
+ =?utf-8?B?dWNyb3k2c3hGb0l3NzRaTEZNN2d2S3h2M2NScmM5cmdCUTFGRWUvQ25YTG82?=
+ =?utf-8?B?Q2Q4V3pCaGNrUXFpR2hMT08rOUdRb0JqUFpsOXpMY1UzV3FkRDhXVERZZFBm?=
+ =?utf-8?B?WVFKeG9XNE4yVHNGYVhLVHpYV09hRnlqbjk1aFVWcVFOWStLY2Z0M2dkVEpR?=
+ =?utf-8?B?ZjRrUUx2OEF6cTdha1NFalVoSUpzVTVaNm9NQUxmNHhGMklmbGtReVFENXlG?=
+ =?utf-8?B?WEtSR3VBaW5IRjZ3alVKeWJEdW9HRkRwZldyZFRLZ0RKY09FaWdadDVVdDhy?=
+ =?utf-8?B?RW51cWFBaktlc3IrUDZFY1RPcml0aUwwTTh1V3o0bHpvL0dhQ1c2U1hUeHE0?=
+ =?utf-8?Q?mfN21emX9J4/+fV6sgJvRDQS1jSy5B5pC63PNoV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0dd438f-b115-46aa-974b-08d8efcce908
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2021 20:31:03.7745 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GJEmUTrEHuEwbtP02db6jhDxkEAlPgqcwEUDJNHMSwV2ptsnEeViEftY+IzgeoF800KDZABtLDFRQ5dio6L7qA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3770
+Received-SPF: softfail client-ip=40.107.70.68;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM04-SN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,227 +146,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003771f105be624bff
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/25/21 1:51 PM, Brijesh Singh wrote:
+> Hi All,
+> 
+> It seems creating the sev-guest object is broken rc0 tag. The following
+> command is no longer able to create the sev-guest object
+> 
+> $QEMU \
+> 
+>  -machine ...,confidential-guest-support=sev0 \
+> 
+>  -object sev-guest,id=sev0,policy=0x1 \
+> 
+> It fails with "-object sev-guest,id=sev0: Invalid parameter
+> 'sev-guest'". I will try to bisect the broken commit but if someone has
+> already looked into it then let me know.
 
-On Tue, Mar 23, 2021 at 9:57 PM Lukas Straub <lukasstraub2@web.de> wrote:
+I bisected it to:
 
-> Yank now only depends on util and can be always linked in. Also remove
-> the stubs as they are not needed anymore.
->
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
->
+bc2f4fcb1d ("qom: move user_creatable_add_opts logic to vl.c and QAPIfy it")
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  MAINTAINERS       |  1 -
->  stubs/meson.build |  1 -
->  stubs/yank.c      | 23 -----------------------
->  util/meson.build  |  2 +-
->  4 files changed, 1 insertion(+), 26 deletions(-)
->  delete mode 100644 stubs/yank.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 455775c4a3..77259c031d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2820,7 +2820,6 @@ Yank feature
->  M: Lukas Straub <lukasstraub2@web.de>
->  S: Odd fixes
->  F: util/yank.c
-> -F: stubs/yank.c
->  F: migration/yank_functions*
->  F: include/qemu/yank.h
->  F: qapi/yank.json
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index 8a3e804cf0..be6f6d609e 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -46,7 +46,6 @@ stub_ss.add(files('vm-stop.c'))
->  stub_ss.add(files('win32-kbd-hook.c'))
->  stub_ss.add(files('cpu-synchronize-state.c'))
->  if have_block
-> -  stub_ss.add(files('yank.c'))
->    stub_ss.add(files('replay-tools.c'))
->  endif
->  if have_system
-> diff --git a/stubs/yank.c b/stubs/yank.c
-> deleted file mode 100644
-> index 11b24fc057..0000000000
-> --- a/stubs/yank.c
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -#include "qemu/osdep.h"
-> -#include "qemu/yank.h"
-> -
-> -bool yank_register_instance(const YankInstance *instance, Error **errp)
-> -{
-> -    return true;
-> -}
-> -
-> -void yank_unregister_instance(const YankInstance *instance)
-> -{
-> -}
-> -
-> -void yank_register_function(const YankInstance *instance,
-> -                            YankFn *func,
-> -                            void *opaque)
-> -{
-> -}
-> -
-> -void yank_unregister_function(const YankInstance *instance,
-> -                              YankFn *func,
-> -                              void *opaque)
-> -{
-> -}
-> diff --git a/util/meson.build b/util/meson.build
-> index 984fba965f..510765cde4 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -43,6 +43,7 @@ util_ss.add(files('stats64.c'))
->  util_ss.add(files('systemd.c'))
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
->  util_ss.add(files('guest-random.c'))
-> +util_ss.add(files('yank.c'))
->
->  if have_user
->    util_ss.add(files('selfmap.c'))
-> @@ -51,7 +52,6 @@ endif
->  if have_system
->    util_ss.add(files('crc-ccitt.c'))
->    util_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus.c'), gio])
-> -  util_ss.add(files('yank.c'))
->    util_ss.add(when: 'CONFIG_LINUX', if_true: files('userfaultfd.c'))
->  endif
->
-> --
-> 2.30.2
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000003771f105be624bff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 23, 2021 at 9:57 PM Lukas=
- Straub &lt;<a href=3D"mailto:lukasstraub2@web.de">lukasstraub2@web.de</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Yank =
-now only depends on util and can be always linked in. Also remove<br>
-the stubs as they are not needed anymore.<br>
-<br>
-Signed-off-by: Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de" targ=
-et=3D"_blank">lukasstraub2@web.de</a>&gt;<br></blockquote><div><br></div><d=
-iv>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lure=
-au@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<br>
-=C2=A0stubs/meson.build |=C2=A0 1 -<br>
-=C2=A0stubs/yank.c=C2=A0 =C2=A0 =C2=A0 | 23 -----------------------<br>
-=C2=A0util/meson.build=C2=A0 |=C2=A0 2 +-<br>
-=C2=A04 files changed, 1 insertion(+), 26 deletions(-)<br>
-=C2=A0delete mode 100644 stubs/yank.c<br>
-<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 455775c4a3..77259c031d 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -2820,7 +2820,6 @@ Yank feature<br>
-=C2=A0M: Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de" target=3D"=
-_blank">lukasstraub2@web.de</a>&gt;<br>
-=C2=A0S: Odd fixes<br>
-=C2=A0F: util/yank.c<br>
--F: stubs/yank.c<br>
-=C2=A0F: migration/yank_functions*<br>
-=C2=A0F: include/qemu/yank.h<br>
-=C2=A0F: qapi/yank.json<br>
-diff --git a/stubs/meson.build b/stubs/meson.build<br>
-index 8a3e804cf0..be6f6d609e 100644<br>
---- a/stubs/meson.build<br>
-+++ b/stubs/meson.build<br>
-@@ -46,7 +46,6 @@ stub_ss.add(files(&#39;vm-stop.c&#39;))<br>
-=C2=A0stub_ss.add(files(&#39;win32-kbd-hook.c&#39;))<br>
-=C2=A0stub_ss.add(files(&#39;cpu-synchronize-state.c&#39;))<br>
-=C2=A0if have_block<br>
--=C2=A0 stub_ss.add(files(&#39;yank.c&#39;))<br>
-=C2=A0 =C2=A0stub_ss.add(files(&#39;replay-tools.c&#39;))<br>
-=C2=A0endif<br>
-=C2=A0if have_system<br>
-diff --git a/stubs/yank.c b/stubs/yank.c<br>
-deleted file mode 100644<br>
-index 11b24fc057..0000000000<br>
---- a/stubs/yank.c<br>
-+++ /dev/null<br>
-@@ -1,23 +0,0 @@<br>
--#include &quot;qemu/osdep.h&quot;<br>
--#include &quot;qemu/yank.h&quot;<br>
--<br>
--bool yank_register_instance(const YankInstance *instance, Error **errp)<br=
->
--{<br>
--=C2=A0 =C2=A0 return true;<br>
--}<br>
--<br>
--void yank_unregister_instance(const YankInstance *instance)<br>
--{<br>
--}<br>
--<br>
--void yank_register_function(const YankInstance *instance,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 YankFn *func,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 void *opaque)<br>
--{<br>
--}<br>
--<br>
--void yank_unregister_function(const YankInstance *instance,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 YankFn *func,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *opaque)<br>
--{<br>
--}<br>
-diff --git a/util/meson.build b/util/meson.build<br>
-index 984fba965f..510765cde4 100644<br>
---- a/util/meson.build<br>
-+++ b/util/meson.build<br>
-@@ -43,6 +43,7 @@ util_ss.add(files(&#39;stats64.c&#39;))<br>
-=C2=A0util_ss.add(files(&#39;systemd.c&#39;))<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;drm.c&#=
-39;))<br>
-=C2=A0util_ss.add(files(&#39;guest-random.c&#39;))<br>
-+util_ss.add(files(&#39;yank.c&#39;))<br>
-<br>
-=C2=A0if have_user<br>
-=C2=A0 =C2=A0util_ss.add(files(&#39;selfmap.c&#39;))<br>
-@@ -51,7 +52,6 @@ endif<br>
-=C2=A0if have_system<br>
-=C2=A0 =C2=A0util_ss.add(files(&#39;crc-ccitt.c&#39;))<br>
-=C2=A0 =C2=A0util_ss.add(when: &#39;CONFIG_GIO&#39;, if_true: [files(&#39;d=
-bus.c&#39;), gio])<br>
--=C2=A0 util_ss.add(files(&#39;yank.c&#39;))<br>
-=C2=A0 =C2=A0util_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(&#39;=
-userfaultfd.c&#39;))<br>
-=C2=A0endif<br>
-<br>
---<br>
-2.30.2<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000003771f105be624bff--
+> 
+> 
+> Thanks
+> 
+> Brijesh
+> 
 
