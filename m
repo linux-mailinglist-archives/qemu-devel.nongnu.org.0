@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AD834B0BD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:46:11 +0100 (CET)
-Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F7734B0C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:49:14 +0100 (CET)
+Received: from localhost ([::1]:43406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPtLO-0001VW-HZ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:46:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
+	id 1lPtOM-0003e6-0X
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPsdt-0000UZ-RY; Fri, 26 Mar 2021 16:01:14 -0400
-Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
- ([40.107.21.133]:54454 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1lPsdy-0000YK-22; Fri, 26 Mar 2021 16:01:18 -0400
+Received: from mail-db8eur05on2134.outbound.protection.outlook.com
+ ([40.107.20.134]:9409 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lPsdo-0006Yw-1m; Fri, 26 Mar 2021 16:01:12 -0400
+ id 1lPsdt-0006bj-7y; Fri, 26 Mar 2021 16:01:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UMPCrKuYJjUz3QMvCvUAQsmRQXQhO5Y0m/LRkZsKCzGpkRJG5NUH9OoyGbdWFvRo9xsxZckYzNQWmcXR7zHmkO7V4XOIPuPSj0+BokIzbeuod35M67aVJnb3NmXpL3RcywvtbO7/OyuySOAKuSz51az4/JEaRiJxgjpaWS3j3rWpkkuUmzmC8WZ173vQBFiWmhre6B/5UmaXH+WtNIWkQmi6G13kmTTPGtru7fyH96YOREEz4rcgefEZP0VFmGD7eAPoaYAV7IXFT+kyPDx6F6bur8I1mz6uxClmQyDooUrpYwCB7cz4giHFPIn1xUyz6Jr1yOK6AEpJv9zF34yBZg==
+ b=eg7k7EHeCPGCMDFVSuok7WeXZEzbioA+x1QSi6Pp9iW4meEi2VCIWuTee50hs3gx0pKuGOr/w7ImVikcQty8OKZGL5Qv0yF6ZREZVDc6XlBCcmPVs0wXp3GV75k16GgIPZ/3W/Jw71WDJwwgURB1QwFIkdfoOduguNz1FFM2X7VhOc4/14gK/iX6qnh6cygTau3rUbcBHf9Ln3Fhff+XbZFoZskOhLIoyZJjv4Caxp9200VwbqbdeugxuECBTmvvLts26PwgjxJ7/ceCq6XPVPaEt9dyG5aQeM62i57Pe+6T6fJo01p8pM7jlTayDx+ees3Mx+jWE8MARzowOfNNUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TTWOLDCnR9hBKvyx0OtQ3cYgHYHriL/sANDfY+oO8Yc=;
- b=BygivPxo8W/JvjJGh79eFlv395wGbRVOwmjlH2FGl7XLX6sqB5o8kleafJPGp7MF6siiPaqmw5QyZNwWODhRz1mH39znM0o+GPdhICWmMEWFTJsk3TvbpcHOV3ErrqWEDutVhA3+DF2NalX2qeOhsyk2OXjVsOM6mTeSr9hhJ93hRPMx52cmzyWvMoHskjNPFeiZGPNJ5EM18izWdZ1J98V19vqt/ssG11YHT2epqunOuNFYFyFPve+mQT3W1tMPMT1sXZD0npHkEyLAXhZ9ex1Zo8s0mI3OmrY967EaRTbLB4WNDhYCqapMZMLCpyWJacGuUzc8aSCGevSW0ZvnAg==
+ bh=iXZs9GFBvUAXNvJ2vlQnOgXar2kFLPug2NV9BHHGUJM=;
+ b=bKLrH9vKIyRcqe8ykaeFVbyxcQXPiH+8+8q5pirjj9aUO87gGFFaIxzlGpVvnlLVaORUPwOZaI2Kmi5f6gK7ktdHX/XRsfV6joP7pk4RQxFzWj1Ni+OrENSUjb1CimWeT9kTvQ60lk0z+dCJpV/BHgq1RAPsykp9hFsr+jWZInbFCuIchN8SrnbYHeDWGN92DN9gMSdKsMXdJVU1dFN8omrrKFdqGjay0sL000SqQCQqRBGWW5yItd2HzGHWTAOlc7/Ab9LZID6939fPtT9lzzq7JNZ+NRZuCH156rjgICH6zV4AXvUxnFxOWF14Byy9jVcEkl/LxhpbtQ+RGPfVTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TTWOLDCnR9hBKvyx0OtQ3cYgHYHriL/sANDfY+oO8Yc=;
- b=sT0+cZp9iHQy4ApcrKmzBdFnBDtIzbeWJclG708Ni9IaxKKBJGCiHnohi3e08vUv9gE7MJKvVnmlq+v0emyE+SBfgGCf7Tq/jN0l8L0T+x552zddyiPAwtgLOyC0zz2e7GG8IIuR1iiZrbv6o63dqJcIwEgjFVgQnA93DGYQHIg=
+ bh=iXZs9GFBvUAXNvJ2vlQnOgXar2kFLPug2NV9BHHGUJM=;
+ b=nQaiVc8aijUDZvB3Mu4gXKx6JMB04TEif1zZ3WL2h7Ce8Inm1eVFWGGEzlaHCgKpCWaACiDDPsdqijyIlGA/Oa1xe+6hVg30vjO1vQEi05CDhL4jaqMU1F+mh9mKWz9oZK9s8Hnxep+PbEKJliy7PeFQL2uU6rNh6xOflCnEeWA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB5877.eurprd08.prod.outlook.com (2603:10a6:20b:291::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Fri, 26 Mar
- 2021 20:01:01 +0000
+ 2021 20:01:03 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%6]) with mapi id 15.20.3977.029; Fri, 26 Mar 2021
- 20:01:01 +0000
+ 20:01:03 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH v5 0/6] qcow2: fix parallel rewrite and discard (lockless)
-Date: Fri, 26 Mar 2021 23:00:39 +0300
-Message-Id: <20210326200045.363290-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 1/6] iotests: add qcow2-discard-during-rewrite
+Date: Fri, 26 Mar 2021 23:00:40 +0300
+Message-Id: <20210326200045.363290-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210326200045.363290-1-vsementsov@virtuozzo.com>
+References: <20210326200045.363290-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.202]
@@ -63,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.202) by
  HE1PR05CA0166.eurprd05.prod.outlook.com (2603:10a6:3:f8::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.24 via Frontend Transport; Fri, 26 Mar 2021 20:01:00 +0000
+ 15.20.3977.24 via Frontend Transport; Fri, 26 Mar 2021 20:01:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 839aaf83-e38c-4192-2eeb-08d8f091e176
+X-MS-Office365-Filtering-Correlation-Id: de419a73-d137-478f-f884-08d8f091e236
 X-MS-TrafficTypeDiagnostic: AS8PR08MB5877:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB587722B58CFD1D7FF12E437EC1619@AS8PR08MB5877.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB5877AAFC5068447389A71067C1619@AS8PR08MB5877.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bFVFKbBQad9B8dmJATpT5g3IzH9vP31oU5SBbBIOEuDC5tEN4Uu83UohdBWiT/1V4u+YZ2DF8I3eLcYNUVNKiVl2TN0CZTVUURZkHQrwl7DBLkjPmkjTVHb1e5+v6zn3K6MJ0UYnbAFNRfMyqwF5qM1fP6PRhCKNjMCt5uF75DZINNh2FyI3gRYLcv5zw8ng7hVvfCvVw1/3gZekgWLE/uXw+mJjsQfc62XNp2Jr/Yv4ma895aX5dSvgpqQ9EBKyC8iBlFodyFfAscnjudGZZm3naovDK9y8lPYpqGyS0rSjnwXfeyEJ1LqiODYVMgI3z0fKmAiKWaLU3wkJm+OpReqCGO7XDDQI4nRgtGa7jO7MPJEHnep2bzdHnHcQQYMl2ylUny6/sZy+JmCyjyYKVB8cm++halAR8keZSvnsMh7YnMz/spuz7jyBvPxtR/Gk0P1MemANcyMoqTlV+jTdUQs2MiDeYt7cXv2+fVUzUOvlhpOlR2GbnhxuE8fiztT+Q+AiMwQJPTKWR5UxC3QHh97wuJbDeSREeHHzI5FxFbomb+LPWEWBI/phWgpqKueR34wq9qWMlInPcJFJZXapu1V+nSBCTwn+H2Ozn2w3Z9S7dhyFy8zyFGqA2au7FrnswqUFu05R26A3fhoa9CtfHesd+TEnplCJyyHZ2iu5L8YE8uxarxLtiury3LLyD579
+X-Microsoft-Antispam-Message-Info: 7APkokag4HAT9/C1eR57/IuJRHzqMmgbbGY3ucHmkh34RAWQlVjy/kHfA2tyWMe04i2ZQiX5IOWL6asjGl0x61H2z5c0mSKxEw/Cv2zitH5r1DQeDgwHwOGX4fP79jos4qM1137g5cRketKI/bipdPETwt+lyj4hgJRW9OGSTQV14HH+0vUQOKDFtocp/iK7R2lyyOD5IARZBl4G3JollKU7HMfiXpZMmDO/m6JosDCToIId0DupzqeLTD0t878PkOcvwRdrln9XrIqgVFmfCXlx/noJF2QBJH6YxIhz8oCGmM9fGASdFDGY3eCDkv6/IaMdQr6lz+fAH5MABBQdA6FHPWOuJ3/n51Gd0YaMhy6AjNj19T/Ij7YJxh5mUbTVcBGsL2ptkQh038Y00I0Q7fJNm/9aISg6fXyarLGoYxapitWwetrkIMlctY7FXF0b2DYRbWfi51qg2t+pog7Z7kMFM0LzIYmjhKBghPN+hIumMNffdKYiuufm/0gVIrzN1cANhKargw3Mret1oqI6MaeVMT+oSfmNlomn8uPQMH5zDA1cJGkMDlSTUipZ/KPeZOvi+XwdacG8qPO+6/snU2kGoYqXNvsiDjLTUvuaIkmsQ3QsPaPtvDtbopIEV66YnxjT4aRUFJeNr1AYl3qIcnvpt7UMHIuxjEtk4uR0gDGmhfv6+xrkZiQZh1OURJNB16y+hQk6Rb1cf6cL/0DePyZ1JjU4ctCVb+oRVLVMWWWvDzxQDmksvicDYbcfycH86ydqis6ho6z4GoRos2W4u3djp8odP+C1SlEAzDVmsBblRlLk1/E9u8S/gZO8efIt
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39830400003)(366004)(376002)(136003)(396003)(1076003)(316002)(6486002)(52116002)(36756003)(6916009)(86362001)(8936002)(956004)(107886003)(5660300002)(2616005)(4326008)(26005)(16526019)(186003)(83380400001)(38100700001)(6506007)(6666004)(69590400012)(478600001)(66946007)(2906002)(66556008)(66476007)(8676002)(6512007);
+ SFS:(4636009)(346002)(39830400003)(366004)(376002)(136003)(396003)(1076003)(316002)(6486002)(52116002)(36756003)(6916009)(86362001)(8936002)(956004)(107886003)(5660300002)(2616005)(4326008)(26005)(16526019)(186003)(83380400001)(38100700001)(6506007)(6666004)(69590400012)(478600001)(66946007)(2906002)(66556008)(66476007)(8676002)(6512007)(2004002)(21314003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?MXmh0poRAgBux1YvaZ7Yovj42Bj2/nSurNsu76TDoqH2wqVagWJZqgVjocqL?=
- =?us-ascii?Q?3Da6lqm7uWTWCdWU2d+f6Q+u+X3laqpz4q1ulP/SBJVSbYh6cy+I1cWW1l6Q?=
- =?us-ascii?Q?1LLYv/0ynM9BPjoqQwx1XnACjZSyrxhfOaa5XDDrO21RFI4h1G7CtCR26jkT?=
- =?us-ascii?Q?TGWuhoqznwToKp8IVetiNuZ8Otu5fW6uwBl9yz92YDvu6N481Dx0On0AydxO?=
- =?us-ascii?Q?GcigVAL58Vw6WNW175oxt0fnHBuZNSPPvmNEfNAIQpFbIef615fBuGxdJp00?=
- =?us-ascii?Q?1N62zxt+TbpRMEqRWRzfTja8Hbe0XSaLExBjB7eAiVdQQlLJW+1bBPATw7Gi?=
- =?us-ascii?Q?51ZwJWgvZW9pG0CmIDOgC5tqokDU9Gl7zOLwCc2Y26sF2GRpdaHS/cO7hFgV?=
- =?us-ascii?Q?nQ1wo9Bllf5VJ048/WBTxpzdA89VMbHzDunUZU5p31pPqbzGEry18Dr4iHJL?=
- =?us-ascii?Q?4bzS4hZjEL2MkdilPjx5pxrZOpwoPxpDIC1zE5r5EMk0hrFvOKz/e6AVTTmo?=
- =?us-ascii?Q?k+N6Vc85iLOofASgocGQ8cbTkMc36frrncfAiYTcbDNSO/AOgthydHDGQ87b?=
- =?us-ascii?Q?vKssUNy2uOI5MAPnywyAlMBwU/WyW40j98Ev2sD8CqQLn1HQMAq41K7mwy/Y?=
- =?us-ascii?Q?n40K5a4px+gh7BfKNjLMhBzFfwwUiGed+T/RTaO2LwIcVXJHU/xprHTjbz94?=
- =?us-ascii?Q?2rVGf4PjUdXfTcFhiVxBtF7hmt0iT6Ou5OavbaHgmiplkRqf3QmUBlBKgJyq?=
- =?us-ascii?Q?OI90TOetr5jCoQg0Jougptbn5XkYfTohwKo4lnWRKKsDDolcxrKs1/kuScFo?=
- =?us-ascii?Q?eOYcC3fMIJhZCTyphR4jTBYqWwLdgdmazuVau6jvlvzdaGSE06BQJlbCLTSZ?=
- =?us-ascii?Q?9su7odVrsfEOCWrUox9ef/jznavE1EPiBQPxhJ1IGVk4DFrH20Yuc3Xir1BM?=
- =?us-ascii?Q?NwZmfV/HvPSEQrXI1QT03ZeVacUqYt43VBqXqig3fzJNz48HSq9xMq60IuLw?=
- =?us-ascii?Q?xmMJd/n1cvjARvsmfYH74SvCxJzOiWZd+qw8qarh/ZecgH/BL7LiPOTl+FLM?=
- =?us-ascii?Q?IS9xs/n3cUCNrG+va0YmeiF9CcZJoF8E3+8I32583AU+pnxABnO59Yc76nzG?=
- =?us-ascii?Q?Hj4t/w//VSjv+xGDkIR8s5ySY83+O4yO+zi/0X7mSAq51Ezkwj3VNEFJpT1h?=
- =?us-ascii?Q?v7rMLdHU5M/Q6FtOFHvJZkJyC/09eMriBckwjIw+e0zzcEBISasTFUBEW11h?=
- =?us-ascii?Q?CNNDRHsuXkZkcifg7cdJ2+U0og7oWhWn+h8+NN1xVLBf9KlrP7X+64RT7A8C?=
- =?us-ascii?Q?QefVG95yDjjJ5AIL6TU8NlMU?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7FVie/4Y9T/LOPLMczQY5vgrgZr3DplNKZvGpne0jaRCJZtl3Qv3nxhveeJN?=
+ =?us-ascii?Q?VV0w/hG89ASJtXMcfALsc9lrB4N6U8vklQIu5qN9l4bAG11XXtfTYWNKFBlZ?=
+ =?us-ascii?Q?0NvC4/6EtqJ8zaLW6DqV+XlxBoYJKafVcrNrmGOirDS7LSqVHMTVuXB8tH0L?=
+ =?us-ascii?Q?3ZNqe7LMUfX+lBfodDC2XRdrOxQYLXJxFn27whs7hlvb+CeSVweosN4VbPFQ?=
+ =?us-ascii?Q?BMVI0W/1fHp2LVUDKQFBZq/E1zYIGrXcfDdvPgW8H+fiLKf4Ow6cmueuia7V?=
+ =?us-ascii?Q?EESUkgMAx6LagM+OwFWCBpNv4K46FTpposO1ymimQJU+LnrJcBdIdZzThCgt?=
+ =?us-ascii?Q?Juijnd3XtwYB3vdD3kfJbblj2A2cm3AT5Vn2FtqxFx3fEARuCCv9Pq6xFjdX?=
+ =?us-ascii?Q?I96uabkBrKIlK9jCXpiOQ9rGkpNfcApICOGDTEOQvpS7nV9M5Av33JaKqBvI?=
+ =?us-ascii?Q?FA8NX0Q1MGku5GfvrSC8DDJhqy1hJnaj8QjeZQd3Rso+X/mQSfWUJ2ohfAFL?=
+ =?us-ascii?Q?QOtLtLCpL7tRPYOOb1n/1579f/M6NRxjJ0TOVqVOe1VeAhzUIjUF2sPqpd5T?=
+ =?us-ascii?Q?bi6HGR1AXJ+mgexKm97ynAveM/6+iquVYCgEqjoKqS9kTfJvRImGoQzIBNxQ?=
+ =?us-ascii?Q?/Kb5G7ZEqCchapoADNPEXZ2GOP4pwjsSwlHzjGBQ1g9y2W0V4Z4pK+kThckB?=
+ =?us-ascii?Q?nEWrCSi6mq0DwOhUd2qRNv5uLjIHPZRwHyBlqh9nsTmgQEXK0GQyXLdG03OX?=
+ =?us-ascii?Q?mDyMbDilNBIMLvtazgY7DujsKnJdMfCNgsyfO3WTkGBHOOlMf/Y17X/QC+5g?=
+ =?us-ascii?Q?O61tca1GEytqcbAmZ2BE7pDoSe0q1vKUSpenG8ZdEN0+5D987QWvB0dSknMc?=
+ =?us-ascii?Q?2XLHV8wIF2a+maKG0po9gBdY2fATM3qj6eAc8PevuP6ff4mF6gCO6HqQMiW9?=
+ =?us-ascii?Q?+42WqSbWXvJ5Pd0NhSixp1XorZJcI0k1rAQwvFOFXHB0YnBqz2IilzMTzuXD?=
+ =?us-ascii?Q?PH7oh1SPfFEmVX6wFS1ARo+7GlCfIbtrZ8MKSeGldwVioGkJdhwfgCa4FOMm?=
+ =?us-ascii?Q?SddHiOZq+xGMjd+gNIe4yb2a5s1xDN7BYs8DPXRg2Rc/lHxlyxrCkHtgfr4S?=
+ =?us-ascii?Q?ivuPAltRcZf8/656rVsl16N65+zsGlTpNcLFqCP19uaJVTCRuXC7F1wV6Cv1?=
+ =?us-ascii?Q?7hT3j04GOJtRM94wBKGBWFrCUtCo01PAfmFE0sx0337m1T09LZva5zXQ0KSx?=
+ =?us-ascii?Q?QlauDpozHuHtQmd1JqrO3A+/RjN3K7gHeb0eu9xddEPV1hjB71+e5wW/1SX9?=
+ =?us-ascii?Q?hWodmow2ZyyoNXUEYYK23g+g?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 839aaf83-e38c-4192-2eeb-08d8f091e176
+X-MS-Exchange-CrossTenant-Network-Message-Id: de419a73-d137-478f-f884-08d8f091e236
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 20:01:01.8120 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 20:01:03.0576 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pE+90VdPNn0ofiylWguo+ErxPPi0nXq76x0J+HBSLeFIThSFN6pv+aEZN/kR3TFEYnyczuFxrpk4lODs9aR60z1lcOiPIQqMgz2s7Ttwfks=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9EwVa6oS3FK3hZjtyjYfDMR/q5lbRyBv5UOLaFteEzCDD+ry2dcGgRKBdROIPcUk/ZogCSWhop87/8H2s+TgjBjt/UUd6xarKiifCT46ApI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5877
-Received-SPF: pass client-ip=40.107.21.133;
+Received-SPF: pass client-ip=40.107.20.134;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -136,49 +138,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Simple test:
+ - start writing to allocated cluster A
+ - discard this cluster
+ - write to another unallocated cluster B (it's allocated in same place
+   where A was allocated)
+ - continue writing to A
 
-It's an alternative lock-less solution to
-  [PATCH v4 0/3] qcow2: fix parallel rewrite and discard (rw-lock)
+For now last action pollutes cluster B which is a bug fixed by the
+following commit.
 
-It's an updated version of what was don in
-  [PATCH v3 0/6] qcow2: compressed write cache
+For now, add test to "disabled" group, so that it doesn't run
+automatically.
 
-I've split the logic into several patches, add a lot more comments and
-documentation, I hope it's all now a lot more clean. 
-
-Main change from v3 is careful handling "freeing" the cluster. The
-concept of "free cluster" is established. And good thing: now updating
-inflight-counters it lock-less: we don't need the lock for discard
-operation, instead we consider this discard as the last one inflight
-write!
-
-The solution is still more complicated then co-rw-lock based one. But it
-is cool and I hope someone like it.
-
-RFC: should we protect reads as well of intersecting with discarding
-host clusters? I think yes. Reads are not as critical, as they can't
-corrupt the metadata or data (due to use-after-free like writes), but
-with reads it's possible that guest reads some metadata cluster. It's a
-kind of security violation I think.
-
-Vladimir Sementsov-Ogievskiy (6):
-  iotests: add qcow2-discard-during-rewrite
-  qcow2: fix cache discarding in update_refcount()
-  qcow2: introduce is_cluster_free() helper
-  qcow2: introduce inflight-write-counters
-  qcow2: consider in-flight-writes when freeing clusters
-  qcow2: do not discard host clusters during in-flight writes
-
- block/qcow2.h                                 |  16 ++
- block/qcow2-refcount.c                        | 184 +++++++++++++++++-
- block/qcow2.c                                 |  26 ++-
- .../tests/qcow2-discard-during-rewrite        |  72 +++++++
- .../tests/qcow2-discard-during-rewrite.out    |  21 ++
- 5 files changed, 308 insertions(+), 11 deletions(-)
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ .../tests/qcow2-discard-during-rewrite        | 72 +++++++++++++++++++
+ .../tests/qcow2-discard-during-rewrite.out    | 21 ++++++
+ 2 files changed, 93 insertions(+)
  create mode 100755 tests/qemu-iotests/tests/qcow2-discard-during-rewrite
  create mode 100644 tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
 
+diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+new file mode 100755
+index 0000000000..7f0d8a107a
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+@@ -0,0 +1,72 @@
++#!/usr/bin/env bash
++# group: quick disabled
++#
++# Test discarding (and reusing) host cluster during writing data to it.
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=vsementsov@virtuozzo.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./../common.rc
++. ./../common.filter
++
++_supported_fmt qcow2
++_supported_proto file fuse
++_supported_os Linux
++
++size=1M
++_make_test_img $size
++
++(
++cat <<EOF
++write -P 1 0 64K
++
++break pwritev A
++aio_write -P 2 0 64K
++wait_break A
++
++discard 0 64K
++write -P 3 128K 64K
++read -P 3 128K 64K
++
++break pwritev_done B
++resume A
++wait_break B
++resume B
++
++read -P 0 0 64K
++read -P 3 128K 64K
++EOF
++) | $QEMU_IO blkdebug::$TEST_IMG | _filter_qemu_io
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+new file mode 100644
+index 0000000000..8e75b2fbff
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+@@ -0,0 +1,21 @@
++QA output created by qcow2-discard-during-rewrite
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++blkdebug: Suspended request 'A'
++discard 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++blkdebug: Resuming request 'A'
++blkdebug: Suspended request 'B'
++blkdebug: Resuming request 'B'
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
 -- 
 2.29.2
 
