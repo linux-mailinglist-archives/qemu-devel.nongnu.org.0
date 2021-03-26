@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BD1349E0E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 01:38:51 +0100 (CET)
-Received: from localhost ([::1]:53886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E88349E30
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 01:42:20 +0100 (CET)
+Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPaV0-00060C-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 20:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57936)
+	id 1lPaYN-0000Zk-8V
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 20:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPaKy-0002vS-SW; Thu, 25 Mar 2021 20:28:28 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPaKx-0004M5-3L; Thu, 25 Mar 2021 20:28:28 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id k8so4036913wrc.3;
- Thu, 25 Mar 2021 17:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ac0Y0HtO9B44DC7CRON+B/TUEAbi/V+Fv+F690K+iOg=;
- b=iqmAYl2jN3HWu/A7aUc/pSLgR/GC7FfqN3oJ/B6BTStageD5LUGX4gbKUI/dG/Ks82
- xfRU2YWlsh0jPYeGN3IQ9r6NwDQE3Gt8PBmIstFCsZd5ZXoGNblym8XUcizMEZ5OWbOp
- 5ML7PCeKdNPjvyp5jiW+laBZsAPlI85pvMJxbNYzqOBqGbtp34vV/UXG/akuaZ6ih3EV
- X19KPH0ZGvdsOYSpOMJbMfqBt7Loki8qrltW4AlT0At5ksPR28G61rHpX89HJ08duCf2
- 0TD/mvUMAqr1ayGfIgVFxEehSqLiUSmLCV1U4oH8iXNsqss9I+6YVMVkEEWtM0Sy6MGl
- kV7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ac0Y0HtO9B44DC7CRON+B/TUEAbi/V+Fv+F690K+iOg=;
- b=ajerWKspy8nm5Lp7X3U9AGvFnQycitz0KJG8OhFprjTvr9rp/WSxnK2RqsAb30XNVX
- IVBWZgqcJP2gHFo+Ay0jJOxEi521YIUpZnxCU0EX8WgemWSbRa5GWzsriyCC4r5I+eOG
- 0Eu9UhfCiu7tOFyjhEqGvchlS0gbIKol/vQ/tIJ+IN5D8dJl1adD7y9a3fQ+zznLxBDl
- 0fJsrznQ5rURUz9adfDKyXTvp+4dc+/prL4TaQmfA8qNVj6Kf87Aap0Eo9mZgw0ibJaC
- B0G3Y8u6GypxfhKfgCByge2Lmk8L+vhbhI3ClAqQpliWvtgio6YSKfdp+CTEUXqjVxu8
- BQMQ==
-X-Gm-Message-State: AOAM53192cxlaOmmftyztWurwuXnroYvOS8MBztwtlVt67qPUBJzOZoh
- 0LWs1edoOpToE5PGH/kJWvxNE4iF4ImrxQ==
-X-Google-Smtp-Source: ABdhPJwzfb/pc3AyVKBgvghDNvg21uDVkExx/Rm2ArpGHOtX8A77e1dWA5XXS0UPZCDGAa1ZGTkHNg==
-X-Received: by 2002:a05:6000:10c3:: with SMTP id
- b3mr11417612wrx.96.1616718502178; 
- Thu, 25 Mar 2021 17:28:22 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id a17sm7951026wmj.9.2021.03.25.17.28.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 17:28:21 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-6.1 10/10] hw/m68k/q800: Map MacIO using
- memory_region_add_subregion_aliased()
-Date: Fri, 26 Mar 2021 01:27:28 +0100
-Message-Id: <20210326002728.1069834-11-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210326002728.1069834-1-f4bug@amsat.org>
-References: <20210326002728.1069834-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPaWl-00083O-2Q
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 20:40:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lPaWg-0001b1-PQ
+ for qemu-devel@nongnu.org; Thu, 25 Mar 2021 20:40:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616719232;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b7mqHcJCH3x7awnXGQlLfmxhTOyKBRLelfIAqd6Na0Y=;
+ b=ctGraLuTKG8bs+9Tw7IjQnkoGER0eYZwdZZagVrNQoJnwzyOgWSGCdgqXnqPOMe3MQECeY
+ /YQkblSVEwvuQFjOaPKDHTHe5vHfNHeJYc8jvd9uSc5nW0iabJpsXLT2JkA553RDM2JMev
+ CoCkROWC+G0OV1LJBdVfDdCJL1nx6qs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-J_RgnWXxNGmQVOSKBU2PbA-1; Thu, 25 Mar 2021 20:40:29 -0400
+X-MC-Unique: J_RgnWXxNGmQVOSKBU2PbA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 082B7107ACCD;
+ Fri, 26 Mar 2021 00:40:28 +0000 (UTC)
+Received: from [10.10.117.181] (ovpn-117-181.rdu2.redhat.com [10.10.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1FBF1972B;
+ Fri, 26 Mar 2021 00:40:26 +0000 (UTC)
+Subject: Re: [PATCH v4 00/19] qapi: static typing conversion, pt3
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <29167224-8eb8-4ecb-523e-dd535037ff7e@redhat.com>
+Date: Thu, 25 Mar 2021 20:40:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210325060356.4040114-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,154 +80,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Michael Roth <michael.roth@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the memory and flatview tree is huge, not very practical:
+On 3/25/21 2:03 AM, John Snow wrote:
+> Hi, this series adds static types to the QAPI module.
+> This is part three, and it focuses on expr.py.
+> 
+> Environment:
+> - Python >= 3.6, <= 3.8 *
+> - mypy >= 0.770
+> - pylint >= 2.6.0
+> - flake8
+> - isort
+> 
+> Every commit should pass with (from ./scripts/):
+>   - flake8 qapi/
+>   - pylint --rcfile=qapi/pylintrc qapi/
+>   - mypy --config-file=qapi/mypy.ini qapi/
+>   - pushd qapi && isort -c . && popd
+> 
+> V4:
+> 
+> Patch 2 is exploratory.
+> Patch 8 is broken and should be merged into Patch 9.
+> Patches 17-19 are optional and I'd sooner you drop them than have to respin.
+> 
+> 001/19:[down] 'qapi/expr: Comment cleanup'
+> 002/19:[down] 'flake8: Enforce shorter line length for comments and docstrings'
+> 003/19:[----] [--] 'qapi/expr.py: Remove 'info' argument from nested check_if_str'
+> 004/19:[----] [--] 'qapi/expr.py: Check for dict instead of OrderedDict'
+> 005/19:[0011] [FC] 'qapi/expr.py: constrain incoming expression types'
+> 006/19:[0006] [FC] 'qapi/expr.py: Add assertion for union type 'check_dict''
+> 007/19:[----] [--] 'qapi/expr.py: move string check upwards in check_type'
+> 008/19:[down] 'qapi: add tests for invalid 'data' field type'
+> 009/19:[0004] [FC] 'qapi/expr.py: Check type of 'data' member'
+> 010/19:[0008] [FC] 'qapi/expr.py: Add casts in a few select cases'
+> 011/19:[0005] [FC] 'qapi/expr.py: Modify check_keys to accept any Collection'
+> 012/19:[0057] [FC] 'qapi/expr.py: add type hint annotations'
+> 013/19:[0032] [FC] 'qapi/expr.py: Consolidate check_if_str calls in check_if'
+> 014/19:[0016] [FC] 'qapi/expr.py: Remove single-letter variable'
+> 015/19:[----] [--] 'qapi/expr.py: enable pylint checks'
+> 016/19:[0168] [FC] 'qapi/expr.py: Add docstrings'
+> 017/19:[----] [-C] 'qapi/expr.py: Use tuples instead of lists for static data'
+> 018/19:[----] [-C] 'qapi/expr.py: move related checks inside check_xxx functions'
+> 019/19:[0003] [FC] 'qapi/expr.py: Use an expression checker dispatch table'
+> 
+> - Add test patch to demonstrate 72col docstring enforcement. (Not a fan.)
+> - Changed MutableMapping type to regular ol' dict.
+> - Added tests for alternate and union to see what happens when we pass a list
+>    for 'data' instead. (It crashes.)
+> - Rewrote a bunch of the docstrings.
+> - Updated type hints for rc0
+> - Rebased on latest master, incorporating latest qapi changes.
+> - Addressed most feedback, some exceptions;
+>    - Kept isinstance check for dict; it is strictly more convenient to me and it
+>      does not cause breakages. It won't cause breakages.
+> 
+> RFCs/notes:
+> 
+> - I'd be flabbergasted if anyone reads these.
+> 
+> John Snow (19):
+>    qapi/expr: Comment cleanup
+>    flake8: Enforce shorter line length for comments and docstrings
+>    qapi/expr.py: Remove 'info' argument from nested check_if_str
+>    qapi/expr.py: Check for dict instead of OrderedDict
+>    qapi/expr.py: constrain incoming expression types
+>    qapi/expr.py: Add assertion for union type 'check_dict'
+>    qapi/expr.py: move string check upwards in check_type
+>    qapi: add tests for invalid 'data' field type
+>    qapi/expr.py: Check type of 'data' member
+>    qapi/expr.py: Add casts in a few select cases
+>    qapi/expr.py: Modify check_keys to accept any Collection
+>    qapi/expr.py: add type hint annotations
+>    qapi/expr.py: Consolidate check_if_str calls in check_if
+>    qapi/expr.py: Remove single-letter variable
+>    qapi/expr.py: enable pylint checks
+>    qapi/expr.py: Add docstrings
+>    qapi/expr.py: Use tuples instead of lists for static data
+>    qapi/expr.py: move related checks inside check_xxx functions
+>    qapi/expr.py: Use an expression checker dispatch table
+> 
+>   scripts/qapi/.flake8                          |   1 +
+>   scripts/qapi/common.py                        |   8 +-
+>   scripts/qapi/events.py                        |   9 +-
+>   scripts/qapi/expr.py                          | 499 +++++++++++++-----
+>   scripts/qapi/gen.py                           |   8 +-
+>   scripts/qapi/introspect.py                    |   8 +-
+>   scripts/qapi/main.py                          |   4 +-
+>   scripts/qapi/mypy.ini                         |   5 -
+>   scripts/qapi/parser.py                        |  15 +-
+>   scripts/qapi/pylintrc                         |   1 -
+>   scripts/qapi/schema.py                        |  23 +-
+>   scripts/qapi/types.py                         |   7 +-
+>   .../alternate-invalid-data-type.err           |   2 +
+>   .../alternate-invalid-data-type.json          |   4 +
+>   .../alternate-invalid-data-type.out           |   0
+>   tests/qapi-schema/meson.build                 |   2 +
+>   tests/qapi-schema/union-invalid-data-type.err |   2 +
+>   .../qapi-schema/union-invalid-data-type.json  |  13 +
+>   tests/qapi-schema/union-invalid-data-type.out |   0
+>   19 files changed, 449 insertions(+), 162 deletions(-)
+>   create mode 100644 tests/qapi-schema/alternate-invalid-data-type.err
+>   create mode 100644 tests/qapi-schema/alternate-invalid-data-type.json
+>   create mode 100644 tests/qapi-schema/alternate-invalid-data-type.out
+>   create mode 100644 tests/qapi-schema/union-invalid-data-type.err
+>   create mode 100644 tests/qapi-schema/union-invalid-data-type.json
+>   create mode 100644 tests/qapi-schema/union-invalid-data-type.out
+> 
 
-  $ (echo info mtree -f;echo q) \
-    | qemu-system-m68k -M q800 -S -monitor stdio \
-    | wc -l
-  2073
+To https://gitlab.com/jsnow/qemu.git
+  + ba5dba933a...e5f101c2f1 python-qapi-cleanup-pt3 -> 
+python-qapi-cleanup-pt3 (forced update)
 
-Use the memory_region_add_subregion_aliased() helper to manage the
-MacIO aliases under the hood.
-
-- before:
-
-  (qemu) info mtree
-  address-space: memory
-      0000000000000000-0000000007ffffff (prio 0, ram): m68k_mac.ram
-      0000000040800000-00000000408fffff (prio 0, rom): m68k_mac.rom
-      0000000050000000-000000005003ffff (prio 0, i/o): alias mac_m68k.io[0] @mac-io 0000000000000000-000000000003ffff
-      0000000050040000-000000005007ffff (prio 0, i/o): alias mac_m68k.io[1] @mac-io 0000000000000000-000000000003ffff
-      0000000050080000-00000000500bffff (prio 0, i/o): alias mac_m68k.io[2] @mac-io 0000000000000000-000000000003ffff
-      ...
-      0000000053f40000-0000000053f7ffff (prio 0, i/o): alias mac_m68k.io[253] @mac-io 0000000000000000-000000000003ffff
-      0000000053f80000-0000000053fbffff (prio 0, i/o): alias mac_m68k.io[254] @mac-io 0000000000000000-000000000003ffff
-      0000000053fc0000-0000000053ffffff (prio 0, i/o): alias mac_m68k.io[255] @mac-io 0000000000000000-000000000003ffff
-      0000000060000000-00000000efffffff (prio 0, i/o): nubus-super-slots
-      00000000f0000000-00000000feffffff (prio 0, i/o): nubus-slots
-        00000000f9000000-00000000f9ffffff (prio 0, i/o): nubus-slot-9
-          00000000f9001000-00000000f9400fff (prio 0, ram): macfb-vram
-          00000000f9800000-00000000f9800fff (prio 0, i/o): macfb-ctrl
-          00000000f9ffffe8-00000000f9ffffeb (prio 0, i/o): nubus-slot-9-rom
-          00000000f9ffffec-00000000f9ffffff (prio 0, i/o): nubus-slot-9-format-block
-
-- after:
-
-  (qemu) info mtree
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000007ffffff (prio 0, ram): m68k_mac.ram
-      0000000040800000-00000000408fffff (prio 0, rom): m68k_mac.rom
-      0000000050000000-0000000053ffffff (prio 0, i/o): masked mac-io [span of 256 KiB]
-      0000000060000000-00000000efffffff (prio 0, i/o): nubus-super-slots
-      00000000f0000000-00000000feffffff (prio 0, i/o): nubus-slots
-        00000000f9000000-00000000f9ffffff (prio 0, i/o): nubus-slot-9
-          00000000f9001000-00000000f9400fff (prio 0, ram): macfb-vram
-          00000000f9800000-00000000f9800fff (prio 0, i/o): macfb-ctrl
-          00000000f9ffffe8-00000000f9ffffeb (prio 0, i/o): nubus-slot-9-rom
-          00000000f9ffffec-00000000f9ffffff (prio 0, i/o): nubus-slot-9-format-block
-
-  (qemu) info mtree -f
-  FlatView #0
-   AS "memory", root: system
-   AS "cpu-memory-0", root: system
-   AS "dp8393x", root: system
-   Root memory region: system
-    0000000000000000-0000000007ffffff (prio 0, ram): m68k_mac.ram
-    0000000040800000-00000000408fffff (prio 0, rom): m68k_mac.rom
-    0000000050000000-0000000053ffffff (prio 0, i/o): masked mac-io [span of 256 KiB]
-    0000000060000000-00000000efffffff (prio 0, i/o): nubus-super-slots
-    00000000f0000000-00000000f9000fff (prio 0, i/o): nubus-slots
-    00000000f9001000-00000000f9400fff (prio 0, ram): macfb-vram
-    00000000f9401000-00000000f97fffff (prio 0, i/o): nubus-slots @0000000009401000
-    00000000f9800000-00000000f9800fff (prio 0, i/o): macfb-ctrl
-    00000000f9801000-00000000f9ffffe7 (prio 0, i/o): nubus-slots @0000000009801000
-    00000000f9ffffe8-00000000f9ffffeb (prio 0, rom): nubus-slot-9-rom
-    00000000f9ffffec-00000000f9ffffff (prio 0, i/o): nubus-slot-9-format-block
-    00000000fa000000-00000000feffffff (prio 0, i/o): nubus-slots @000000000a000000
-
-  FlatView #1
-   AS "mac-io", root: mac-io
-   Root memory region: mac-io
-    0000000000000000-0000000000001fff (prio 0, i/o): via1
-    0000000000002000-0000000000003fff (prio 0, i/o): via2
-    0000000000008000-0000000000008fff (prio 0, rom): dp8393x-prom
-    000000000000a000-000000000000a0ff (prio 0, i/o): dp8393x-regs
-    000000000000c020-000000000000c027 (prio 0, i/o): escc
-    0000000000010000-00000000000100ff (prio 0, i/o): esp-regs
-    0000000000010100-0000000000010103 (prio 0, i/o): esp-pdma
-    000000000001e000-000000000001ffff (prio 0, i/o): swim
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/m68k/q800.c  | 15 +++------------
- hw/m68k/Kconfig |  1 +
- 2 files changed, 4 insertions(+), 12 deletions(-)
-
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 8f14e677077..4ca7e1af08e 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -40,6 +40,7 @@
- #include "standard-headers/asm-m68k/bootinfo.h"
- #include "standard-headers/asm-m68k/bootinfo-mac.h"
- #include "bootinfo.h"
-+#include "hw/misc/aliased_region.h"
- #include "hw/misc/mac_via.h"
- #include "hw/input/adb.h"
- #include "hw/nubus/mac-nubus-bridge.h"
-@@ -214,9 +215,6 @@ static void q800_init(MachineState *machine)
-     int32_t initrd_size;
-     MemoryRegion *rom;
-     MemoryRegion *macio;
--    MemoryRegion *io;
--    const int io_slice_nb = (IO_SIZE / IO_SLICE);
--    int i;
-     ram_addr_t ram_size = machine->ram_size;
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-@@ -258,15 +256,8 @@ static void q800_init(MachineState *machine)
-      * Memory from IO_BASE to IO_BASE + IO_SLICE is repeated
-      * from IO_BASE + IO_SLICE to IO_BASE + IO_SIZE
-      */
--    io = g_new(MemoryRegion, io_slice_nb);
--    for (i = 0; i < io_slice_nb; i++) {
--        char *name = g_strdup_printf("mac_m68k.io[%d]", i);
--
--        memory_region_init_alias(&io[i], NULL, name, macio, 0, IO_SLICE);
--        memory_region_add_subregion(get_system_memory(),
--                                    IO_BASE + i * IO_SLICE, &io[i]);
--        g_free(name);
--    }
-+    memory_region_add_subregion_aliased(get_system_memory(),
-+                                        IO_BASE, IO_SIZE, macio, IO_SLICE);
- 
-     /* IRQ Glue */
-     glue = qdev_new(TYPE_GLUE);
-diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index f839f8a0306..d2e588913b7 100644
---- a/hw/m68k/Kconfig
-+++ b/hw/m68k/Kconfig
-@@ -23,6 +23,7 @@ config Q800
-     select ESP
-     select DP8393X
-     select OR_IRQ
-+    select ALIASED_REGION
- 
- config M68K_VIRT
-     bool
--- 
-2.26.2
+Should include all of the feedback from the list today, I didn't send it 
+back out to list to see what happens with the giant docstring patch.
 
 
