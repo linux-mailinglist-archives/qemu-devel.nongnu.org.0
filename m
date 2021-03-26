@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8209934ADB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 18:40:50 +0100 (CET)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB9234ADD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 18:47:46 +0100 (CET)
+Received: from localhost ([::1]:47066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPqS0-0001ot-44
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 13:40:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44492)
+	id 1lPqYi-0005P8-Ui
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 13:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lPqMo-0005Zb-Cn
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:35:26 -0400
-Received: from mout.web.de ([217.72.192.78]:58995)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lPqX5-0004rr-SE
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:46:03 -0400
+Resent-Date: Fri, 26 Mar 2021 13:46:03 -0400
+Resent-Message-Id: <E1lPqX5-0004rr-SE@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lPqMk-0004iG-M2
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:35:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616780119;
- bh=C9tqVXqfH8ZEASqLqGHWpwZiyi8bI+mo0IvrY4GWx0I=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=H1uIzkaoQYqyCh0iCecIAUVPhVBrrT9oLP5NYJcORiYKZFbY7FJGqf0TgrVFG0Pm9
- M+ivWpjmfHQieXQA24y04sDZrx7O7P4F51NPntEagiQnDKXyLzzLDLnvChmMzngeRT
- BAn9ogJJEOZnispdCzIi7KV7m+1nVPa/F+OyfGrw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([89.247.255.242]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LjJH1-1lvb560wF5-00dUNo; Fri, 26
- Mar 2021 18:35:19 +0100
-Date: Fri, 26 Mar 2021 18:35:18 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/6] tests: Add tests for yank with the chardev-change case
-Message-ID: <7c2f1ddcaa1c97462cb0b834d5aa7368283aa67d.1616779714.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lPqX3-0002RL-C2
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:46:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1616780752; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=EkXFmnFTub82dSwqlHNi1Cb8d1qPSF13EjuxpmkrBdKf4aehFIbAQ9viyn8YzdhdkSeUBhlu/ZM1Zu2dtbLVU0YcC6WdlfcOebdc6UrbWDwLkp48SxrJZSVXJJwvgQLZ2CQ4POuQ2wGVq4aONOLyUBjEgGaptEOl9W6meAUmfM4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1616780752;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=3pRhWxrYuLKCSMLR1sPjwOC+ZlAv3qtzRL4SUAk5Wss=; 
+ b=UO1SOuoW4OKFgMrpSVACZbxHQUOhO7U1FgUFXwCaf8gSqqfzEZWXWnGo9xjg2vUGeGw3XBJ++0KgIF8+B4oECzHg4gswjxswXqmVYzSGgrJXE96SiGRtwz6dyerYPz1tH+YVqqB8eJ4ds+tCAV6rCXzFMZEh/gVX3dLA9Y15yzQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1616780749204117.43780226509966;
+ Fri, 26 Mar 2021 10:45:49 -0700 (PDT)
 In-Reply-To: <cover.1616779714.git.lukasstraub2@web.de>
-References: <cover.1616779714.git.lukasstraub2@web.de>
+Subject: Re: [PULL for 6.0 0/6] Yank fixes
+Message-ID: <161678074774.16936.3504821722774220509@72b6d80f974b>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/tNso3hsMh2nZ6GsKj=wPYEL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:DjG9i+IotW69twHHYSe7fJRVgn2b6CHHUXF4pGaV3F2EkK6UzCb
- LFWF/+HX3VV7WCB9QlkhAYtvjdpcEeMUoGFHzoMPFJi7I3DK2EZm8Sy8jTIdjIlZK1Jlt3t
- rPHIyBcQMdS/1/tnH2TBCyf4cTE6PfaMKsXSQ2zrRt0Bs3XhzarcuyXpSi5EsDDypXxkdYl
- BSsDuq6gzD68ZjbC4rbhw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MFxqftFLcMU=:TStRyt6wj6HdpAw14aWxGt
- BXSuKgGK4HNZoBLSDVoARjYwjvqC5GjkBnQYPWaNeW291eO4zdgN9arZ8expaouFUHCCeIvgJ
- 2esme/kIxRNariWlmQFVa76QpG/YuNUAvrQOWVQ9xZVeuxqttmNiW/sk4BqntiMrE4kqhj1FT
- xotS69QPAWWAnIyZkX0zII5bdmiQvp2SNg/3S+HGRTaX+/Yogu4luncVwweUHQ/s6cGWRs4+I
- BCoq/KyQBsjYSldGJ64FpF8bidNrKiUlCAu3vfRoBpjLmaaoaiv38xZvIqj+/to/UOHILFbRs
- IraT+Vb6uPRT4eFeuuyF17IrZTsE9bNvIDLzxvOc2RafFkjQD6pbXDC/fIijk8I8GlsdxalxZ
- xdtIWnJguCQcFYlxEhIDYeqSz2Hnglqqc3kZznzhQxsA/SfEWUNryrmHN6a0hcEdulVSKAD2V
- qHIR40uQ4GtVyvjCh0EUwLn4vKuDDDAiYHBRu66AWFP+4MDrncaTIfN3fDLvIJbcN8NYQHuGl
- Mokn8r0Dm2uNdgAnojs3nalxmSOu2YPwKoEwhhcGkoyZO8jPvXe6NjN0PcSxNvIut1NY57Fe0
- QB2eq4s/nz0mFntl6WGe9XVogyOeMDq1TWDDZAkuy7PpYWDfVnWucNuifev9UxNNUZrOdobfZ
- kqHUc9fjeAx/60GFreOShTvwCQWei5k9tE2PC8ynXjtEZTta5LiMJlxnixhW9wps5yceRtnMT
- 4kl24PsLtal3OYEVzIW63aX428JgpwwlsSF6bBzVoaEpgfG1IPszNQbGTyymUoxqu5WpCCwHS
- wVd7DnNo8MMmiGTJIZK9QTKMl+MtjfBXeWuFnUcvPHs8YuOKSHe9wmxRWUw+0G4j9GSUyq4FK
- IpjWroiPiNKZ2hN+XR6rvqR4LSPX+ljMvIvlHVyfMe4pwbm8lBYx8MVe01U/g84hJsluxl92i
- 63M+W0lZoPnEA8jsNBV/2HScGHerL4slj1A6lQsoNApvELjOmGqDM9A00LJz+/dc8yKp6Tw65
- TBsiBWaq8FLB1X/raMecSvPf51C0TjQlXAc9BI4jltCg2rbikhoPa3+4cKcidGTimdv/NaLwC
- PuXuyFMRx3AfgNthf+O7Q4aQ8Tua9txozXG+yuWY0v45g2gQWTJnMm64p3AmrTsku2zYk3lMZ
- ZWE5dj2misARW8b/UgFAnLIv0xEEx973jUqlrzFeVWk49lmn8m1F1d8tnquNEhx7WFg5TzCQQ
- 3glQW7KO0HIhySuJ+
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: lukasstraub2@web.de
+Date: Fri, 26 Mar 2021 10:45:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,296 +67,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/tNso3hsMh2nZ6GsKj=wPYEL
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Add tests for yank with the chardev-change case.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
----
- MAINTAINERS            |   1 +
- tests/unit/meson.build |   3 +-
- tests/unit/test-yank.c | 200 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 203 insertions(+), 1 deletion(-)
- create mode 100644 tests/unit/test-yank.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 77259c031d..accb683a55 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2821,6 +2821,7 @@ M: Lukas Straub <lukasstraub2@web.de>
- S: Odd fixes
- F: util/yank.c
- F: migration/yank_functions*
-+F: tests/unit/test-yank.c
- F: include/qemu/yank.h
- F: qapi/yank.json
-
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 4bfe4627ba..b3bc2109da 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -123,7 +123,8 @@ if have_system
-     'test-util-sockets': ['socket-helpers.c'],
-     'test-base64': [],
-     'test-bufferiszero': [],
--    'test-vmstate': [migration, io]
-+    'test-vmstate': [migration, io],
-+    'test-yank': ['socket-helpers.c', qom, io, chardev]
-   }
-   if 'CONFIG_INOTIFY1' in config_host
-     tests +=3D {'test-util-filemonitor': []}
-diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c
-new file mode 100644
-index 0000000000..1596a3b98e
---- /dev/null
-+++ b/tests/unit/test-yank.c
-@@ -0,0 +1,200 @@
-+/*
-+ * Tests for QEMU yank feature
-+ *
-+ * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <glib/gstdio.h>
-+
-+#include "qemu/config-file.h"
-+#include "qemu/module.h"
-+#include "qemu/option.h"
-+#include "chardev/char-fe.h"
-+#include "sysemu/sysemu.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-char.h"
-+#include "qapi/qapi-types-char.h"
-+#include "qapi/qapi-commands-yank.h"
-+#include "qapi/qapi-types-yank.h"
-+#include "io/channel-socket.h"
-+#include "socket-helpers.h"
-+
-+typedef struct {
-+    SocketAddress *addr;
-+    bool old_yank;
-+    bool new_yank;
-+    bool fail;
-+} CharChangeTestConfig;
-+
-+static int chardev_change(void *opaque)
-+{
-+    return 0;
-+}
-+
-+static bool is_yank_instance_registered(void)
-+{
-+    YankInstanceList *list;
-+    bool ret;
-+
-+    list =3D qmp_query_yank(&error_abort);
-+
-+    ret =3D !!list;
-+
-+    qapi_free_YankInstanceList(list);
-+
-+    return ret;
-+}
-+
-+static void char_change_test(gconstpointer opaque)
-+{
-+    CharChangeTestConfig *conf =3D (gpointer) opaque;
-+    SocketAddress *addr;
-+    Chardev *chr;
-+    CharBackend be;
-+    ChardevReturn *ret;
-+    QIOChannelSocket *ioc;
-+
-+    /*
-+     * Setup a listener socket and determine its address
-+     * so we know the TCP port for the client later
-+     */
-+    ioc =3D qio_channel_socket_new();
-+    g_assert_nonnull(ioc);
-+    qio_channel_socket_listen_sync(ioc, conf->addr, 1, &error_abort);
-+    addr =3D qio_channel_socket_get_local_address(ioc, &error_abort);
-+    g_assert_nonnull(addr);
-+
-+    ChardevBackend backend[2] =3D {
-+        /* doesn't support yank */
-+        { .type =3D CHARDEV_BACKEND_KIND_NULL },
-+        /* supports yank */
-+        {
-+            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-+            .u.socket.data =3D &(ChardevSocket) {
-+                .addr =3D &(SocketAddressLegacy) {
-+                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .u.inet.data =3D &addr->u.inet
-+                },
-+                .has_server =3D true,
-+                .server =3D false
-+            }
-+        } };
-+
-+    ChardevBackend fail_backend[2] =3D {
-+        /* doesn't support yank */
-+        {
-+            .type =3D CHARDEV_BACKEND_KIND_UDP,
-+            .u.udp.data =3D &(ChardevUdp) {
-+                .remote =3D &(SocketAddressLegacy) {
-+                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_UNIX,
-+                    .u.q_unix.data =3D &(UnixSocketAddress) {
-+                        .path =3D (char *)""
-+                    }
-+                }
-+            }
-+        },
-+        /* supports yank */
-+        {
-+            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-+            .u.socket.data =3D &(ChardevSocket) {
-+                .addr =3D &(SocketAddressLegacy) {
-+                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .u.inet.data =3D &(InetSocketAddress) {
-+                        .host =3D (char *)"127.0.0.1",
-+                        .port =3D (char *)"0"
-+                    }
-+                },
-+                .has_server =3D true,
-+                .server =3D false
-+            }
-+        } };
-+
-+    g_assert(!is_yank_instance_registered());
-+
-+    ret =3D qmp_chardev_add("chardev", &backend[conf->old_yank], &error_ab=
-ort);
-+    qapi_free_ChardevReturn(ret);
-+    chr =3D qemu_chr_find("chardev");
-+    g_assert_nonnull(chr);
-+
-+    g_assert(is_yank_instance_registered() =3D=3D conf->old_yank);
-+
-+    qemu_chr_wait_connected(chr, &error_abort);
-+    qemu_chr_fe_init(&be, chr, &error_abort);
-+    /* allow chardev-change */
-+    qemu_chr_fe_set_handlers(&be, NULL, NULL,
-+                             NULL, chardev_change, NULL, NULL, true);
-+
-+    if (conf->fail) {
-+        g_setenv("QTEST_SILENT_ERRORS", "1", 1);
-+        ret =3D qmp_chardev_change("chardev", &fail_backend[conf->new_yank=
-],
-+                                 NULL);
-+        g_assert_null(ret);
-+        g_assert(be.chr =3D=3D chr);
-+        g_assert(is_yank_instance_registered() =3D=3D conf->old_yank);
-+        g_unsetenv("QTEST_SILENT_ERRORS");
-+    } else {
-+        ret =3D qmp_chardev_change("chardev", &backend[conf->new_yank],
-+                                 &error_abort);
-+        g_assert_nonnull(ret);
-+        g_assert(be.chr !=3D chr);
-+        g_assert(is_yank_instance_registered() =3D=3D conf->new_yank);
-+    }
-+
-+    object_unparent(OBJECT(be.chr));
-+    object_unref(OBJECT(ioc));
-+    qapi_free_ChardevReturn(ret);
-+    qapi_free_SocketAddress(addr);
-+}
-+
-+static SocketAddress tcpaddr =3D {
-+    .type =3D SOCKET_ADDRESS_TYPE_INET,
-+    .u.inet.host =3D (char *)"127.0.0.1",
-+    .u.inet.port =3D (char *)"0",
-+};
-+
-+int main(int argc, char **argv)
-+{
-+    bool has_ipv4, has_ipv6;
-+
-+    qemu_init_main_loop(&error_abort);
-+    socket_init();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
-+        g_printerr("socket_check_protocol_support() failed\n");
-+        goto end;
-+    }
-+
-+    if (!has_ipv4) {
-+        goto end;
-+    }
-+
-+    module_call_init(MODULE_INIT_QOM);
-+    qemu_add_opts(&qemu_chardev_opts);
-+
-+#define CHAR_CHANGE_TEST(name, _old_yank, _new_yank)                      =
-     \
-+        g_test_add_data_func("/yank/char_change/success/" # name,         =
-     \
-+                             &(CharChangeTestConfig) { .addr =3D &tcpaddr,=
-       \
-+                                                       .old_yank =3D (_old=
-_yank),\
-+                                                       .new_yank =3D (_new=
-_yank),\
-+                                                       .fail =3D false }, =
-       \
-+                             char_change_test);                           =
-     \
-+        g_test_add_data_func("/yank/char_change/fail/" # name,            =
-     \
-+                             &(CharChangeTestConfig) { .addr =3D &tcpaddr,=
-       \
-+                                                       .old_yank =3D (_old=
-_yank),\
-+                                                       .new_yank =3D (_new=
-_yank),\
-+                                                       .fail =3D true },  =
-       \
-+                             char_change_test);
-+
-+    CHAR_CHANGE_TEST(to_yank, false, true);
-+    CHAR_CHANGE_TEST(yank_to_yank, true, true);
-+    CHAR_CHANGE_TEST(from_yank, true, false);
-+
-+end:
-+    return g_test_run();
-+}
---
-2.30.2
-
---Sig_/tNso3hsMh2nZ6GsKj=wPYEL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBeG1YACgkQNasLKJxd
-slgdjQ//SdaJ8ytk3ZbGeik2eIcSyJU+j/SMHDkO4KNNq/dZs0QFRaAluaAIdnt3
-Pu5rE0XsayLExNZq5s1qrZ2P2RfrVFc+IRleDv99lHnc0NoZ21paCLwHbxHeWS+5
-5PgQAJsi9u/GtaUf+hA+0U9wxza6bj9Bl7lO0bwWsb4up25VuGRMEgIssXMqFKOE
-B1YjA+S8+5nengthIBNdKGmvmYt1qVDLPYJkUpwIODteZ/Ssi4X2Wv2fNd4O/L3s
-+dBYeFG5W6Kw/28WEMmDh0oWsBRUeFGUjrILNpiGxfu9r/QxuayZNxFpifwqTN5u
-8s8Izx9YPW8GT6OijzrdRSzmoH0ncLlhvcqfn7VSL62k0h4UXpQjQkA2cf0V7Kd9
-+wHgZuU/VZjVQWDEAoJ0MTKc+TU/qMik7l1bImtOeA84vNS2xhLIpeD/nFEDVJRB
-YDXJy0pTLh596pklapblF5/HvXbShmvedkwxg9CDsb4bTll0omJqDAVLLCZM0Cla
-ooIr85xEtfnC+rxJxPYdq2+WGJO+vWU55ylaBRYPJTX+7AoLsfF5vHgx+plw+kQr
-7Bv3vtehNxcuhoSr7sSpZZuvlhYTbLWIfHrWtI/3ANEGDdhJEI5Zbzwa3A4YudcQ
-5ZpEYGl7TENLBcpYVW7e65ipBcsPczBDZgRDeXP3OXjpg4c3Hj8=
-=BWTa
------END PGP SIGNATURE-----
-
---Sig_/tNso3hsMh2nZ6GsKj=wPYEL--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNjE2Nzc5NzE0Lmdp
+dC5sdWthc3N0cmF1YjJAd2ViLmRlLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogY292ZXIuMTYxNjc3OTcxNC5naXQu
+bHVrYXNzdHJhdWIyQHdlYi5kZQpTdWJqZWN0OiBbUFVMTCBmb3IgNi4wIDAvNl0gWWFuayBmaXhl
+cwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJh
+c2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxp
+bWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1t
+YWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5
+YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20v
+cGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy9jb3Zlci4x
+NjE2NzQ0NTA5LmdpdC5sdWthc3N0cmF1YjJAd2ViLmRlIC0+IHBhdGNoZXcvY292ZXIuMTYxNjc0
+NDUwOS5naXQubHVrYXNzdHJhdWIyQHdlYi5kZQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+L2NvdmVyLjE2MTY3Nzk3MTQuZ2l0Lmx1a2Fzc3RyYXViMkB3ZWIuZGUgLT4gcGF0Y2hldy9jb3Zl
+ci4xNjE2Nzc5NzE0LmdpdC5sdWthc3N0cmF1YjJAd2ViLmRlClN3aXRjaGVkIHRvIGEgbmV3IGJy
+YW5jaCAndGVzdCcKNGQ5ZDRkZCB0ZXN0czogQWRkIHRlc3RzIGZvciB5YW5rIHdpdGggdGhlIGNo
+YXJkZXYtY2hhbmdlIGNhc2UKYjczMDlhMyBjaGFyZGV2OiBGaXggeWFuayB3aXRoIHRoZSBjaGFy
+ZGV2LWNoYW5nZSBjYXNlCjRkNjI2ZGUgY2hhcmRldi9jaGFyLmM6IEFsd2F5cyBwYXNzIGlkIHRv
+IGNoYXJkZXZfbmV3Cjk4NjcwNGUgY2hhcmRldi9jaGFyLmM6IE1vdmUgb2JqZWN0X3Byb3BlcnR5
+X3RyeV9hZGRfY2hpbGQgb3V0IG9mIGNoYXJkZXZfbmV3CjNhODNmOWEgeWFuazogQWx3YXlzIGxp
+bmsgZnVsbCB5YW5rIGNvZGUKNDE0MmM2ZCB5YW5rOiBSZW1vdmUgZGVwZW5kZW5jeSBvbiBxaW9j
+aGFubmVsCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzYgQ2hlY2tpbmcgY29tbWl0IDQxNDJjNmRl
+OGJmMiAoeWFuazogUmVtb3ZlIGRlcGVuZGVuY3kgb24gcWlvY2hhbm5lbCkKMi82IENoZWNraW5n
+IGNvbW1pdCAzYTgzZjlhOGYzMGYgKHlhbms6IEFsd2F5cyBsaW5rIGZ1bGwgeWFuayBjb2RlKQoz
+LzYgQ2hlY2tpbmcgY29tbWl0IDk4NjcwNGVhY2ZkZiAoY2hhcmRldi9jaGFyLmM6IE1vdmUgb2Jq
+ZWN0X3Byb3BlcnR5X3RyeV9hZGRfY2hpbGQgb3V0IG9mIGNoYXJkZXZfbmV3KQo0LzYgQ2hlY2tp
+bmcgY29tbWl0IDRkNjI2ZGUxYzg2ZSAoY2hhcmRldi9jaGFyLmM6IEFsd2F5cyBwYXNzIGlkIHRv
+IGNoYXJkZXZfbmV3KQo1LzYgQ2hlY2tpbmcgY29tbWl0IGI3MzA5YTM1MTVhMiAoY2hhcmRldjog
+Rml4IHlhbmsgd2l0aCB0aGUgY2hhcmRldi1jaGFuZ2UgY2FzZSkKNi82IENoZWNraW5nIGNvbW1p
+dCA0ZDlkNGRkYTA1ZTQgKHRlc3RzOiBBZGQgdGVzdHMgZm9yIHlhbmsgd2l0aCB0aGUgY2hhcmRl
+di1jaGFuZ2UgY2FzZSkKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hv
+dWxkIGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMyMzA6IEZJTEU6IHRlc3RzL3Vu
+aXQvdGVzdC15YW5rLmM6MTgwOgorI2RlZmluZSBDSEFSX0NIQU5HRV9URVNUKG5hbWUsIF9vbGRf
+eWFuaywgX25ld195YW5rKSAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgZ190
+ZXN0X2FkZF9kYXRhX2Z1bmMoIi95YW5rL2NoYXJfY2hhbmdlL3N1Y2Nlc3MvIiAjIG5hbWUsICAg
+ICAgICAgICAgICBcCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICYoQ2hhckNoYW5nZVRl
+c3RDb25maWcpIHsgLmFkZHIgPSAmdGNwYWRkciwgICAgICAgXAorICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC5vbGRfeWFuayA9IChfb2xkX3lh
+bmspLFwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAubmV3X3lhbmsgPSAoX25ld195YW5rKSxcCisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLmZhaWwgPSBmYWxzZSB9LCAgICAgICAgXAor
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjaGFyX2NoYW5nZV90ZXN0KTsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgZ190ZXN0X2FkZF9kYXRhX2Z1bmMoIi95
+YW5rL2NoYXJfY2hhbmdlL2ZhaWwvIiAjIG5hbWUsICAgICAgICAgICAgICAgICBcCisgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICYoQ2hhckNoYW5nZVRlc3RDb25maWcpIHsgLmFkZHIgPSAm
+dGNwYWRkciwgICAgICAgXAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIC5vbGRfeWFuayA9IChfb2xkX3lhbmspLFwKKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAubmV3X3lhbmsgPSAoX25l
+d195YW5rKSxcCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgLmZhaWwgPSB0cnVlIH0sICAgICAgICAgXAorICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBjaGFyX2NoYW5nZV90ZXN0KTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywg
+MjE2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoK
+PT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRo
+ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvY292ZXIu
+MTYxNjc3OTcxNC5naXQubHVrYXNzdHJhdWIyQHdlYi5kZS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
