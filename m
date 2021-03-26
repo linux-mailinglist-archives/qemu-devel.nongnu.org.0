@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8B7349DD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 01:31:21 +0100 (CET)
-Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53201349DDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 01:31:38 +0100 (CET)
+Received: from localhost ([::1]:59686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPaNk-0004Et-C4
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 20:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57626)
+	id 1lPaO1-0004iB-Ba
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 20:31:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPaK9-0002Od-Kz; Thu, 25 Mar 2021 20:27:39 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42557)
+ id 1lPaKP-0002Pp-KK; Thu, 25 Mar 2021 20:27:53 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPaK6-00040W-UY; Thu, 25 Mar 2021 20:27:36 -0400
-Received: by mail-wr1-x431.google.com with SMTP id x13so4003209wrs.9;
- Thu, 25 Mar 2021 17:27:33 -0700 (PDT)
+ id 1lPaKE-00042Z-TJ; Thu, 25 Mar 2021 20:27:45 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ m20-20020a7bcb940000b029010cab7e5a9fso4025506wmi.3; 
+ Thu, 25 Mar 2021 17:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Knkj/RyLO7CUAQgShHIIeHkGAEGdZR261rELTSjtX1g=;
- b=M0C5w70LzoqLP3EN49v2Z/5T6KW0ekLgqMX4HIPf9YCZge21B15FEbSeXVRifhguEY
- IxzkbVSt7NMHabFcWDkHKsqVY9aVuXe9Y/tdt1dhocqMGQn0jnITXhzXhMY/TQroulF1
- Y7jxDskMZiclWofhJ3UuZYwJUYRrWLlEx8x9N0nxw1QuPVUGryBXkENNLJIuzxSh30ya
- 0ZZmv6WLkqvH3dL4JB+aAkgehei83ydGVbWTbPN1gZ/71h9FCGMAiti5TuPZOBFz83To
- tJlmdRqQrzEm2+u4ZZU0uP/w+7h1TuD/+UVWO7RglvnpGQHLLErHxlYFF/ztIfiioS1F
- xpLQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=saTn6NarVlEELQgHGdwR/wrWO06QjsMUeOIlGAoNQ9M=;
+ b=hqQ6yMllaA4CLNt9rLG19D+p6ABbiimsAVYZ6gof5/26P4m3A+TrjSLrjhb8E5CpaD
+ k1bjspKsRk4KD+NAw6s2oR1SS849pXkypeM6PRHYeNai8tvs4RdA6nbYVHx3FnhoaWka
+ TnEktTPPI2LDuHuK2WPh+fta7zi84IFZ42Sf7JDhDKXLZxYiDc8BdIEVuqNKBQVcCYwJ
+ 2/IIB6cji/VJHYEabwdj6KE6oZVEEhJ473jpjNzIs5k1/UOxrXyZUXEjd0SYCv1bBGnG
+ OPmAN+++431XhIx16jo99xp2O/rVdQiDHxgsXObnKA9Y4iMar5rXbBoOqRKG9MCPgAPm
+ w3vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Knkj/RyLO7CUAQgShHIIeHkGAEGdZR261rELTSjtX1g=;
- b=CgS1THj+AYARk+BuecsG1UbUz2yIhvxoXkHUbv1hYP1+WjD/AlE/9vqSgXDlW2yxTW
- l8uARP0itPR3Gg4lFhHUWTOizc8wjEpW4QGVRjwk1Fh2/Emt9E8e4y9mWJYFslywquTS
- /dXtmgrq1eLDjlV5PUPJZR6Q7g4NkGQslG052tZ9jaQS3MNUXqnm0qmrpwchVEc7yprx
- IG/hxR2DWv9bknjsMC2XWXi8aOXB/2sOqRMr5ARuxzzeufsKGnvLjIEDN2IdDUIpUTKx
- JByt2WFok/a04NIxzKPB+EnpzPHTOffSjJP3G2T83La+0d2TmQ8ohe0ydCOagxGyZUyr
- WJBg==
-X-Gm-Message-State: AOAM530X06Hx2MaA4wc+iy9g2o4PCRfAKmz4HtZDrP9sC3CcT2Fpx1qN
- XZ+NPpqCbD1yNwq/J1kKHMuumPu+zYLbmQ==
-X-Google-Smtp-Source: ABdhPJx9IAhbLnuylUj/DsIo4l86P5FX9EFJZXgP562nE6bW4dPRzZdv/frHYu4a22j0MNpO0TpWag==
-X-Received: by 2002:adf:fbc8:: with SMTP id d8mr11724322wrs.94.1616718451585; 
- Thu, 25 Mar 2021 17:27:31 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=saTn6NarVlEELQgHGdwR/wrWO06QjsMUeOIlGAoNQ9M=;
+ b=Wz9U+kldQS96O0w28xF0TynTxCk3yny81KWxM8VaYS9UND+oZWdzJSgF6KWOaWRw2e
+ EIMkwl+vw0LCaFnO6Wly1A/ZSJHt3kxsWG0mLsNyWe4Qguh3Ekix7hmazXRUB5x2Dnle
+ DOsRDVB/GwfYVNQ5/BrpGedz3+dFvDTiPiiTpXddfYxgaa9yInOQrPBnfT6ueVurIpOI
+ AdHtlmwW4EEOOMdBBURFFj0QnHlKkaEc7j3ngFbrGXA+QnIPUnyw7LwoQ2s4q6W5umST
+ 7dXHHg0/pJsu7fXMS+oauhPkun8KF5AitmSntRi1B7gtXRpD3Va/3A2KHW4OkiuSc+hH
+ xyrQ==
+X-Gm-Message-State: AOAM532p/F8eJjBeXpfq0BG3VrBA476pl6U4AJu12BTWdaX4n3pCG9Fl
+ 3KFAMThM91hokEVHsqYULJ0287Fpm6LNEg==
+X-Google-Smtp-Source: ABdhPJxdvBd4hUR6euoVap15xJPgJm/JSU6i+IUtGx9IiifYu3ssymwlxnQzlB8aMbmzOqublIVEng==
+X-Received: by 2002:a1c:bc82:: with SMTP id
+ m124mr10383440wmf.118.1616718456724; 
+ Thu, 25 Mar 2021 17:27:36 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id x6sm8376233wmj.32.2021.03.25.17.27.30
+ by smtp.gmail.com with ESMTPSA id q207sm8402159wme.36.2021.03.25.17.27.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 17:27:30 -0700 (PDT)
+ Thu, 25 Mar 2021 17:27:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-6.1 00/10] hw/misc: Add
- memory_region_add_subregion_aliased() helper
-Date: Fri, 26 Mar 2021 01:27:18 +0100
-Message-Id: <20210326002728.1069834-1-f4bug@amsat.org>
+Subject: [RFC PATCH-for-6.1 01/10] hw/misc: Add device to help managing
+ aliased memory regions
+Date: Fri, 26 Mar 2021 01:27:19 +0100
+Message-Id: <20210326002728.1069834-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210326002728.1069834-1-f4bug@amsat.org>
+References: <20210326002728.1069834-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,85 +97,332 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series introduce the memory_region_add_subregion_aliased()=0D
-helper which basically create a device which maps a subregion=0D
-multiple times.=0D
-=0D
-Examples are easier, so having a subregion aliased every @span_size=0D
-then mapped onto a container at an offset, you get something like:=0D
-=0D
-          ^-----------^=0D
-          |           |=0D
-          |           |=0D
-          | +-------+ |                 +---------+          <--+=0D
-          |           |                 +---------+             |=0D
-          |           |                 |         |             |=0D
-          |           |   +-----------> | alias#3 |             |=0D
-          |           |   |             |         |             |=0D
-          |           |   |             +---------+             |=0D
-          |           |   |             +---------+             |=0D
-          |           |   |             |         |             |=0D
-          |           |   |   +-------> | alias#2 |             |=0D
-          |           |   |   |         |         |             |region=0D
-          | container |   |   |         +---------+             | size=0D
-          |           |   |   |         +---------+             |=0D
-          |           |   |   |         |         |             |=0D
-          |           |   |   |  +----> | alias#1 |             |=0D
-          |           |   |   |  |      |         |             |=0D
-          |           |   |   |  |      +---------+  <--+       |=0D
-          |           | +-+---+--+--+   +---------+     |       |=0D
-          |           | |           |   |         |     |span   |=0D
-          |           | | subregion +-> | alias#0 |     |size   |=0D
-   offset |           | |           |   |         |     |       |=0D
-   +----> | +-------+ | +-----------+   +---------+  <--+    <--+=0D
-   |      |           |=0D
-   |      |           |=0D
-   |      |           |=0D
-   |      |           |=0D
-   |      |           |=0D
-   |      ^-----------^=0D
-=0D
-I know it need more documentation and tests, but I prefer to send=0D
-as draft RFC for early review before spending more time on it.=0D
-=0D
-Based-on: <20210325120921.858993-1-f4bug@amsat.org>=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg795218.html=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (10):=0D
-  hw/misc: Add device to help managing aliased memory regions=0D
-  hw/arm/musicpal: Open-code pflash_cfi02_register() call=0D
-  hw/arm/musicpal: Map flash using memory_region_add_subregion_aliased()=0D
-  hw/arm/digic: Open-code pflash_cfi02_register() call=0D
-  hw/arm/digic: Map flash using memory_region_add_subregion_aliased()=0D
-  hw/block/pflash_cfi02: Remove pflash_setup_mappings()=0D
-  hw/block/pflash_cfi02: Simplify pflash_cfi02_register() prototype=0D
-  hw/misc/aliased_region: Simplify aliased I/O regions=0D
-  hw/m68k/q800: Add MacIO container=0D
-  hw/m68k/q800: Map MacIO using memory_region_add_subregion_aliased()=0D
-=0D
- include/hw/block/flash.h         |   1 -=0D
- include/hw/misc/aliased_region.h |  91 +++++++++++++++=0D
- hw/arm/digic_boards.c            |  28 ++++-=0D
- hw/arm/musicpal.c                |  29 ++++-=0D
- hw/arm/xilinx_zynq.c             |   2 +-=0D
- hw/block/pflash_cfi02.c          |  36 +-----=0D
- hw/lm32/lm32_boards.c            |   4 +-=0D
- hw/m68k/q800.c                   |  61 +++++-----=0D
- hw/misc/aliased_region.c         | 185 +++++++++++++++++++++++++++++++=0D
- hw/ppc/ppc405_boards.c           |   6 +-=0D
- hw/sh4/r2d.c                     |   2 +-=0D
- MAINTAINERS                      |   6 +=0D
- hw/arm/Kconfig                   |   2 +=0D
- hw/m68k/Kconfig                  |   1 +=0D
- hw/misc/Kconfig                  |   3 +=0D
- hw/misc/meson.build              |   1 +=0D
- 16 files changed, 375 insertions(+), 83 deletions(-)=0D
- create mode 100644 include/hw/misc/aliased_region.h=0D
- create mode 100644 hw/misc/aliased_region.c=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+// TODO explain here how buses work? when some address lines are
+// not bound we get memory aliasing, high addresses are masked.
+// etc...
+
+Add a helper to manage this use case easily.
+
+For example a having @span_size = @region_size / 4 we get such mapping:
+
+          ^-----------^
+          |           |
+          |           |
+          | +-------+ |                 +---------+          <--+
+          |           |                 +---------+             |
+          |           |                 |         |             |
+          |           |   +-----------> | alias#3 |             |
+          |           |   |             |         |             |
+          |           |   |             +---------+             |
+          |           |   |             +---------+             |
+          |           |   |             |         |             |
+          |           |   |   +-------> | alias#2 |             |
+          |           |   |   |         |         |             |region
+          | container |   |   |         +---------+             | size
+          |           |   |   |         +---------+             |
+          |           |   |   |         |         |             |
+          |           |   |   |  +----> | alias#1 |             |
+          |           |   |   |  |      |         |             |
+          |           |   |   |  |      +---------+  <--+       |
+          |           | +-+---+--+--+   +---------+     |       |
+          |           | |           |   |         |     |span   |
+          |           | | subregion +-> | alias#0 |     |size   |
+   offset |           | |           |   |         |     |       |
+   +----> | +-------+ | +-----------+   +---------+  <--+    <--+
+   |      |           |
+   |      |           |
+   |      |           |
+   |      |           |
+   |      |           |
+   |      ^-----------^
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/misc/aliased_region.h |  87 ++++++++++++++++++++
+ hw/misc/aliased_region.c         | 133 +++++++++++++++++++++++++++++++
+ MAINTAINERS                      |   6 ++
+ hw/misc/Kconfig                  |   3 +
+ hw/misc/meson.build              |   1 +
+ 5 files changed, 230 insertions(+)
+ create mode 100644 include/hw/misc/aliased_region.h
+ create mode 100644 hw/misc/aliased_region.c
+
+diff --git a/include/hw/misc/aliased_region.h b/include/hw/misc/aliased_region.h
+new file mode 100644
+index 00000000000..0ce0d5d1cef
+--- /dev/null
++++ b/include/hw/misc/aliased_region.h
+@@ -0,0 +1,87 @@
++/*
++ * Aliased memory regions
++ *
++ * Copyright (c) 2018  Philippe Mathieu-Daudé <f4bug@amsat.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef HW_MISC_ALIASED_REGION_H
++#define HW_MISC_ALIASED_REGION_H
++
++#include "exec/memory.h"
++#include "hw/sysbus.h"
++
++#define TYPE_ALIASED_REGION "aliased-memory-region"
++OBJECT_DECLARE_SIMPLE_TYPE(AliasedRegionState, ALIASED_REGION)
++
++struct AliasedRegionState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    MemoryRegion container;
++    uint64_t region_size;
++    uint64_t span_size;
++    MemoryRegion *mr;
++
++    struct {
++        size_t count;
++        MemoryRegion *alias;
++    } mem;
++};
++
++/**
++ * memory_region_add_subregion_aliased:
++ * @container: the #MemoryRegion to contain the aliased subregions.
++ * @offset: the offset relative to @container where the aliased subregion
++ *          are added.
++ * @region_size: size of the region containing the aliased subregions.
++ * @subregion: the subregion to be aliased.
++ * @span_size: size between each aliased subregion
++ *
++ * This utility function creates and maps an instance of aliased-memory-region,
++ * which is a dummy device of a single region which simply contains multiple
++ * aliases of the provided @subregion, spanned over the @region_size every
++ * @span_size. The device is mapped at @offset within @container.
++ *
++ * For example a having @span_size = @region_size / 4 we get such mapping:
++ *
++ *               +-----------+
++ *               |           |
++ *               |           |
++ *               | +-------+ |                 +---------+          <--+
++ *               |           |                 +---------+             |
++ *               |           |                 |         |             |
++ *               |           |   +-----------> | alias#3 |             |
++ *               |           |   |             |         |             |
++ *               |           |   |             +---------+             |
++ *               |           |   |             +---------+             |
++ *               |           |   |             |         |             |
++ *               |           |   |   +-------> | alias#2 |             |
++ *               |           |   |   |         |         |             |region
++ *               | container |   |   |         +---------+             | size
++ *               |           |   |   |         +---------+             |
++ *               |           |   |   |         |         |             |
++ *               |           |   |   |  +----> | alias#1 |             |
++ *               |           |   |   |  |      |         |             |
++ *               |           |   |   |  |      +---------+  <--+       |
++ *               |           | +-+---+--+--+   +---------+     |       |
++ *               |           | |           |   |         |     |span   |
++ *               |           | | subregion +-> | alias#0 |     |size   |
++ *        offset |           | |           |   |         |     |       |
++ *        +----> | +-------+ | +-----------+   +---------+  <--+    <--+
++ *        |      |           |
++ *        |      |           |
++ *        |      |           |
++ *        |      |           |
++ *        |      |           |
++ *        +      +-----------+
++ */
++void memory_region_add_subregion_aliased(MemoryRegion *container,
++                                         hwaddr offset,
++                                         uint64_t region_size,
++                                         MemoryRegion *subregion,
++                                         uint64_t span_size);
++
++#endif
+diff --git a/hw/misc/aliased_region.c b/hw/misc/aliased_region.c
+new file mode 100644
+index 00000000000..8fcc63f2648
+--- /dev/null
++++ b/hw/misc/aliased_region.c
+@@ -0,0 +1,133 @@
++/*
++ * Aliased memory regions
++ *
++ * Copyright (c) 2018  Philippe Mathieu-Daudé <f4bug@amsat.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/cutils.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/sysbus.h"
++#include "hw/misc/aliased_region.h"
++#include "hw/qdev-properties.h"
++
++static void aliased_mem_realize(AliasedRegionState *s, const char *mr_name)
++{
++    uint64_t subregion_size;
++    int subregion_bits;
++
++    memory_region_init(&s->container, OBJECT(s), mr_name, s->region_size);
++
++    subregion_bits = 64 - clz64(s->span_size - 1);
++    s->mem.count = s->region_size >> subregion_bits;
++    assert(s->mem.count > 1);
++    subregion_size = 1ULL << subregion_bits;
++
++    s->mem.alias = g_new(MemoryRegion, s->mem.count);
++    for (size_t i = 0; i < s->mem.count; i++) {
++        g_autofree char *name = g_strdup_printf("%s [#%zu/%zu]",
++                                                memory_region_name(s->mr),
++                                                i, s->mem.count);
++        memory_region_init_alias(&s->mem.alias[i], OBJECT(s), name,
++                                 s->mr, 0, s->span_size);
++        memory_region_add_subregion(&s->container, i * subregion_size,
++                                    &s->mem.alias[i]);
++    }
++}
++
++static void aliased_mr_realize(DeviceState *dev, Error **errp)
++{
++    AliasedRegionState *s = ALIASED_REGION(dev);
++    g_autofree char *name = NULL, *span = NULL;
++
++    if (s->region_size == 0) {
++        error_setg(errp, "property 'region-size' not specified or zero");
++        return;
++    }
++
++    if (s->mr == NULL) {
++        error_setg(errp, "property 'iomem' not specified");
++        return;
++    }
++
++    if (!s->span_size) {
++        s->span_size = pow2ceil(memory_region_size(s->mr));
++    } else if (!is_power_of_2(s->span_size)) {
++        error_setg(errp, "property 'span-size' must be a power of 2");
++        return;
++    }
++
++    span = size_to_str(s->span_size);
++    name = g_strdup_printf("masked %s [span of %s]",
++                           memory_region_name(s->mr), span);
++    aliased_mem_realize(s, name);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->container);
++}
++
++static void aliased_mr_unrealize(DeviceState *dev)
++{
++    AliasedRegionState *s = ALIASED_REGION(dev);
++
++    g_free(s->mem.alias);
++}
++
++static Property aliased_mr_properties[] = {
++    DEFINE_PROP_UINT64("region-size", AliasedRegionState, region_size, 0),
++    DEFINE_PROP_UINT64("span-size", AliasedRegionState, span_size, 0),
++    DEFINE_PROP_LINK("iomem", AliasedRegionState, mr,
++                     TYPE_MEMORY_REGION, MemoryRegion *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void aliased_mr_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = aliased_mr_realize;
++    dc->unrealize = aliased_mr_unrealize;
++    /* Reason: needs to be wired up to work */
++    dc->user_creatable = false;
++    device_class_set_props(dc, aliased_mr_properties);
++}
++
++static const TypeInfo aliased_mr_info = {
++    .name = TYPE_ALIASED_REGION,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AliasedRegionState),
++    .class_init = aliased_mr_class_init,
++};
++
++static void aliased_mr_register_types(void)
++{
++    type_register_static(&aliased_mr_info);
++}
++
++type_init(aliased_mr_register_types)
++
++void memory_region_add_subregion_aliased(MemoryRegion *container,
++                                         hwaddr offset,
++                                         uint64_t region_size,
++                                         MemoryRegion *subregion,
++                                         uint64_t span_size)
++{
++    DeviceState *dev;
++
++    if (!region_size) {
++        region_size = pow2ceil(memory_region_size(container));
++    } else {
++        assert(region_size <= memory_region_size(container));
++    }
++
++    dev = qdev_new(TYPE_ALIASED_REGION);
++    qdev_prop_set_uint64(dev, "region-size", region_size);
++    qdev_prop_set_uint64(dev, "span-size", span_size);
++    object_property_set_link(OBJECT(dev), "iomem", OBJECT(subregion),
++                             &error_abort);
++    sysbus_realize(SYS_BUS_DEVICE(dev), &error_abort);
++
++    memory_region_add_subregion(container, offset,
++                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 554be84b321..f82ffd50a91 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2097,6 +2097,12 @@ S: Maintained
+ F: include/hw/misc/empty_slot.h
+ F: hw/misc/empty_slot.c
+ 
++Aliased memory region
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
++S: Maintained
++F: include/hw/misc/aliased_region.h
++F: hw/misc/aliased_region.c
++
+ Standard VGA
+ M: Gerd Hoffmann <kraxel@redhat.com>
+ S: Maintained
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index c71ed258204..ca51b99989e 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -151,6 +151,9 @@ config AUX
+ config UNIMP
+     bool
+ 
++config ALIASED_REGION
++    bool
++
+ config LED
+     bool
+ 
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 21034dc60a8..e65541b835f 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -12,6 +12,7 @@
+ softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
+ softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
+ softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
++softmmu_ss.add(when: 'CONFIG_ALIASED_REGION', if_true: files('aliased_region.c'))
+ softmmu_ss.add(when: 'CONFIG_LED', if_true: files('led.c'))
+ softmmu_ss.add(when: 'CONFIG_PVPANIC_COMMON', if_true: files('pvpanic.c'))
+ 
+-- 
+2.26.2
+
 
