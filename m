@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA53134A791
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:52:54 +0100 (CET)
-Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35C634A795
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:54:49 +0100 (CET)
+Received: from localhost ([::1]:50400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPlxN-0006ad-Si
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58834)
+	id 1lPlzE-0001e3-PQ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluV-0005B1-2g
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:49:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42838)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluW-0005CQ-3A
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:49:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluS-0003ir-V3
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:49:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluU-0003js-Cl
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:49:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616762992;
+ s=mimecast20190719; t=1616762993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pHjn04yQnmWHzA/Ou+esA8tktXoinWG3j+Hp1sjNCL0=;
- b=P3qF/vW7qyOdw6EpjSG1VMC/lSyvlBXlJayIPIwYm77ATsfPy/y4r82AC9qFK8xr8JpzYy
- yACecNrlj9R3efGn/DvVFsCRSQwdJ4ibBqKbpNfB3xNrVgMTAIXNjPooZJ7u+Pdhrw8iJw
- EOePVYZF4ktgucRGMCoPQO0myySrgoU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dQ+ENtLzktKZBnlnyipjl8d2V9gsFQP9rm1k+LUM2R0=;
+ b=iT2ZBRfl0fp13AP3ShLc+5QtU2rRxJJqaByuLpghhXJEAFNkk8b/mNIVShDCFgJyEuaFza
+ 6+1K8uHlY/fOrJqQc+5uYq7GcXJOkJvP4vr3XnyjNY8qLlx28B5cd+8WJL3drbLHwz6XXe
+ u5cZLVUkWRC4poFwv8khzVbX4RC88NI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-TbMm0r_CNP-uMWgLcw9K2A-1; Fri, 26 Mar 2021 08:49:48 -0400
-X-MC-Unique: TbMm0r_CNP-uMWgLcw9K2A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-419-Gxk8on3zMSK-UnMsotFhbQ-1; Fri, 26 Mar 2021 08:49:49 -0400
+X-MC-Unique: Gxk8on3zMSK-UnMsotFhbQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5523C101963C;
- Fri, 26 Mar 2021 12:49:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5152683DD53;
+ Fri, 26 Mar 2021 12:49:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-102.ams2.redhat.com
  [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 92B786E6F5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FCA267CC4;
  Fri, 26 Mar 2021 12:49:34 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9F77C1800385; Fri, 26 Mar 2021 13:49:32 +0100 (CET)
+ id ACFE01800386; Fri, 26 Mar 2021 13:49:32 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] Fixes 20210326 patches
-Date: Fri, 26 Mar 2021 13:49:23 +0100
-Message-Id: <20210326124932.481942-1-kraxel@redhat.com>
+Subject: [PULL 1/9] usb: Remove "-usbdevice ccid"
+Date: Fri, 26 Mar 2021 13:49:24 +0100
+Message-Id: <20210326124932.481942-2-kraxel@redhat.com>
+In-Reply-To: <20210326124932.481942-1-kraxel@redhat.com>
+References: <20210326124932.481942-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -86,64 +89,66 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9e2e9fe3df9f539f8b6941ceb96d25355fdae47e=
-:=0D
-=0D
-  Update version for v6.0.0-rc0 release (2021-03-24 19:50:49 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/fixes-20210326-pull-request=0D
-=0D
-for you to fetch changes up to db0b034185824ac33e1a85ba62ab2030eb17b00d:=0D
-=0D
-  hw/usb/hcd-ehci: Fix crash when showing help of EHCI devices (2021-03-26 =
-11:10:49 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-fixes for usb, virtio-gpu and vhost-gpu=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gerd Hoffmann (3):=0D
-  s390x: move S390_ADAPTER_SUPPRESSIBLE=0D
-  s390x: add have_virtio_ccw=0D
-  s390x: modularize virtio-gpu-ccw=0D
-=0D
-Marc-Andr=C3=A9 Lureau (3):=0D
-  vhost-user-gpu: glFlush before notifying clients=0D
-  vhost-user-gpu: fix vugbm_device_init fallback=0D
-  vhost-user-gpu: fix cursor move/update=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (1):=0D
-  hw/usb/hcd-ehci-sysbus: Free USBPacket on instance finalize()=0D
-=0D
-Thomas Huth (2):=0D
-  usb: Remove "-usbdevice ccid"=0D
-  hw/usb/hcd-ehci: Fix crash when showing help of EHCI devices=0D
-=0D
- contrib/vhost-user-gpu/vugbm.h          |  2 +-=0D
- hw/s390x/virtio-ccw.h                   |  5 +++=0D
- include/hw/s390x/css.h                  |  7 ----=0D
- include/hw/s390x/s390_flic.h            |  3 ++=0D
- target/s390x/cpu.h                      |  9 +++--=0D
- contrib/vhost-user-gpu/vhost-user-gpu.c | 24 +++++++-------=0D
- contrib/vhost-user-gpu/virgl.c          |  3 ++=0D
- contrib/vhost-user-gpu/vugbm.c          | 44 +++++++++++--------------=0D
- hw/s390x/virtio-ccw-gpu.c               |  4 ++-=0D
- hw/s390x/virtio-ccw.c                   |  2 ++=0D
- hw/usb/dev-smartcard-reader.c           |  1 -=0D
- hw/usb/hcd-ehci-sysbus.c                |  9 +++++=0D
- hw/usb/hcd-ehci.c                       | 10 +++---=0D
- util/module.c                           |  1 +=0D
- contrib/vhost-user-gpu/meson.build      |  2 +-=0D
- docs/system/removed-features.rst        |  6 ++++=0D
- hw/s390x/meson.build                    |  8 ++++-=0D
- qemu-options.hx                         |  3 --=0D
- 18 files changed, 85 insertions(+), 58 deletions(-)=0D
-=0D
---=20=0D
-2.30.2=0D
-=0D
+From: Thomas Huth <thuth@redhat.com>
+
+"-usbdevice ccid" was not documented and -usbdevice itself was marked
+as deprecated before QEMU v6.0. And searching for "-usbdevice ccid"
+in the internet does not show any useful results, so likely nobody
+was using the ccid device via the -usbdevice option. Remove it now.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210311092829.1479051-1-thuth@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/dev-smartcard-reader.c    | 1 -
+ docs/system/removed-features.rst | 6 ++++++
+ qemu-options.hx                  | 3 ---
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
+index 80109fa55168..bc3d94092a23 100644
+--- a/hw/usb/dev-smartcard-reader.c
++++ b/hw/usb/dev-smartcard-reader.c
+@@ -1492,7 +1492,6 @@ static void ccid_register_types(void)
+     type_register_static(&ccid_bus_info);
+     type_register_static(&ccid_card_type_info);
+     type_register_static(&ccid_info);
+-    usb_legacy_register(TYPE_USB_CCID_DEV, "ccid", NULL);
+ }
+ 
+ type_init(ccid_register_types)
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index f28387f183cc..29e90601a51a 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -120,6 +120,12 @@ Drives with interface types other than ``if=none`` are for onboard
+ devices.  Drives the board doesn't pick up can no longer be used with
+ -device.  Use ``if=none`` instead.
+ 
++``-usbdevice ccid`` (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''
++
++This option was undocumented and not used in the field.
++Use `-device usb-ccid`` instead.
++
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d60a03d3a973..fd21002bd61d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1743,9 +1743,6 @@ SRST
+         corresponding ``braille`` chardev automatically beside the
+         ``usb-braille`` USB device).
+ 
+-    ``ccid``
+-        Smartcard reader device
+-
+     ``keyboard``
+         Standard USB keyboard. Will override the PS/2 keyboard (if present).
+ 
+-- 
+2.30.2
 
 
