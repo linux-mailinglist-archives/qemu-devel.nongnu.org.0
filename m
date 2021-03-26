@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9A234AAF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 16:06:57 +0100 (CET)
-Received: from localhost ([::1]:53524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9A234A99A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:23:55 +0100 (CET)
+Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPo36-0006E4-9X
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 11:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37736)
+	id 1lPnNS-0000rP-1X
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPo29-0005mD-R5
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:05:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56917)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lPnM2-0000D9-RJ
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:22:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPo26-0008HE-OW
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:05:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lPnM0-0008Cx-Iq
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:22:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616771153;
+ s=mimecast20190719; t=1616768543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- resent-to:resent-from:resent-message-id;
- bh=JNOiBAlH0Gwyp0MsGt8H57RvIj2quw1z7i4TpnO0d0I=;
- b=QlFigD5+4vizo/a3CNQlKVx+l/sgxKn1gRaM005Ad3QvRZBIwlRchT+Rrp/CTJL/9vdrb7
- u6SmtKNpXmdtpeNDlVz8DBF6ePfg7jcmtp6WgLa1d97fuIVfwpJtDIz/Wehul53fIxW1qb
- xyBPUI04nfiY9oslIBC4EvMbbnW7JI4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=acA7rIvwEAv3zPb8k8zR2menEm7oZkJIX2nJeF9bkeY=;
+ b=F9Ye5f+LH9BzFzKn0LyJVa0780aCzILqWsBIpVia867scp4h9DM0vLHUGBMwi6CRdtFT4A
+ f2x7wzlaeaxCDd2wOSo7WFTH6ETp5bD2fctOR7wcEOO4sf9tAbfMyxcgqoGZJ+QcmoqU0l
+ 3Vx/VBsDevYWsVDdATPGxDDoz5DOFv4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-gmH-MtbvNpOuZm7Pcb55Vw-1; Fri, 26 Mar 2021 11:05:51 -0400
-X-MC-Unique: gmH-MtbvNpOuZm7Pcb55Vw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-243-aGqMSuqGPJiUAAjhLo53TA-1; Fri, 26 Mar 2021 10:22:19 -0400
+X-MC-Unique: aGqMSuqGPJiUAAjhLo53TA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C426B100855E
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 15:05:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 94A4E13441
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 15:05:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 23FB011327E1; Fri, 26 Mar 2021 16:05:49 +0100 (CET)
-Resent-To: qemu-devel@nongnu.org
-Resent-From: Markus Armbruster <armbru@redhat.com>
-Resent-Date: Fri, 26 Mar 2021 16:05:49 +0100
-Resent-Message-ID: <87wntudkfm.fsf@dusky.pond.sub.org>
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: docs/qemu-qmp-ref.7 markup messed up
-Date: Fri, 26 Mar 2021 15:19:38 +0100
-Message-ID: <87v99engjp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A44D480006E;
+ Fri, 26 Mar 2021 14:22:17 +0000 (UTC)
+Received: from [10.3.114.231] (ovpn-114-231.phx2.redhat.com [10.3.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43A2F5D745;
+ Fri, 26 Mar 2021 14:22:17 +0000 (UTC)
+Subject: Re: [PATCH] iotests/116: Fix reference output
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210326141419.156831-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d5984a8c-ac38-d6ab-8ac2-66af304bfa78@redhat.com>
+Date: Fri, 26 Mar 2021 09:22:16 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Lines: 67
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210326141419.156831-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,76 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When I look at docs/qemu-qmp-ref.7 with less -R, I see
+On 3/26/21 9:14 AM, Max Reitz wrote:
+> 15ce94a68ca ("block/qed: bdrv_qed_do_open: deal with errp") has improved
+> the qed driver's error reporting, though sadly did not add a test for
+> it.
+> The good news are: There already is such a test, namely 116.
+> The bad news are: Its reference output was not adjusted, and so now it
+> fails.
+> 
+> Let's fix the reference output, which has the nice side effect of
+> demonstrating 15ce94a68ca's improvements.
+> 
+> Fixes: 15ce94a68ca6730466c565c3d29971aab3087bf1
+>        ("block/qed: bdrv_qed_do_open: deal with errp")
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/116.out | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-   ReplicationMode (Enum)
-       An enumeration of replication modes.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-   Values
-       primary
-              Primary mode, the vm's state will be sent to secondary QEMU.
+Since the original went in through my tree, I can queue this one through
+as well.
 
-       secondary
-              Secondary mode, receive the vm's state from primary QEMU.
-
-   Since
-       2.9
-
-   If
--->    defined(CONFIG_REPLICATION).SS BlockdevOptionsReplication (Object)
-
-       Driver specific block device options for replication
-
-   Members
-       mode: ReplicationMode
-              the replication mode
-
-The line I marked with --> is bad.  It should instead look like
-
-   If
-       defined(CONFIG_REPLICATION)
-
-   BlockdevOptionsReplication (Object)
-
-       Driver specific block device options for replication
-
-Unformatted code:
-
-    .SS \fBReplicationMode\fP (Enum)
-    .sp
-    An enumeration of replication modes.
-    .SS Values
-    .INDENT 0.0
-    .TP
-    .B \fBprimary\fP
-    Primary mode, the vm\(aqs state will be sent to secondary QEMU.
-    .TP
-    .B \fBsecondary\fP
-    Secondary mode, receive the vm\(aqs state from primary QEMU.
-    .UNINDENT
-    .SS Since
-    .sp
-    2.9
-    .SS If
---> \fBdefined(CONFIG_REPLICATION)\fP.SS \fBBlockdevOptionsReplication\fP (Object)
-    .sp
-    Driver specific block device options for replication
-    .SS Members
-    .INDENT 0.0
-    .TP
-    .B \fBmode\fP: \fBReplicationMode\fP
-    the replication mode
-    .TP
-
-I believe line I marked with --> should be broken before .SS.
-
-I'm using sphinx-build-3 2.2.2.
-
-I checked with the merge commit that switched QAPI doc generation to
-Sphinx (commit e344ffe73b), same result.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
