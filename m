@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1A2349FCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 03:28:49 +0100 (CET)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4195934A06C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 05:12:10 +0100 (CET)
+Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPcDQ-0000Bx-G7
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 22:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54378)
+	id 1lPdpQ-0007z5-V3
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 00:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lPcBs-0007kw-Rj
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 22:27:13 -0400
-Received: from mga17.intel.com ([192.55.52.151]:64926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lPcBq-0000yA-3Q
- for qemu-devel@nongnu.org; Thu, 25 Mar 2021 22:27:12 -0400
-IronPort-SDR: ahRkpu3I6qnq+DW6iVaC0JWg9OvFTYKKnW2N+z/T1PeWH8CPIVdJO4C5DQxSU7A39bCfr6pv8m
- at04BmlBBRwg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9934"; a="171044071"
-X-IronPort-AV: E=Sophos;i="5.81,279,1610438400"; d="scan'208";a="171044071"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2021 19:27:05 -0700
-IronPort-SDR: qj1F8Ez26oZTbSuXRWnQOi7Q/jpQtsCEgdaFBj+h6DrvHY0KpUc+QfV3Y156O/HEj/p6e17ZX4
- 4C/GHMgv4TfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,279,1610438400"; d="scan'208";a="514890968"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2021 19:27:05 -0700
-Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 25 Mar 2021 19:27:04 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 26 Mar 2021 10:27:03 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
- Fri, 26 Mar 2021 10:27:03 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Markus Armbruster <armbru@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: RE: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
-Thread-Topic: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
-Thread-Index: AQHXHHRy9AmyzOXAOUuzqhkS7ODhyaqLdaKdgAQ8XnCAAEOtSYABJQqQgABBkvuAACb/gIABNt4YgAHDRvA=
-Date: Fri, 26 Mar 2021 02:27:03 +0000
-Message-ID: <7434f936ae5540af930ca5c97aa812ee@intel.com>
-References: <20210319035508.113741-1-chen.zhang@intel.com>
- <20210319035508.113741-3-chen.zhang@intel.com>
- <877dm3i1qk.fsf@dusky.pond.sub.org>
- <5b75057ecc784296aa271f5f6692906a@intel.com>
- <87k0pz4bg8.fsf@dusky.pond.sub.org>
- <4ffb0d8b135b40caba777a830b70ae18@intel.com>
- <871rc6urdc.fsf@dusky.pond.sub.org> <YFpML7sdeUiciL3B@work-vm>
- <87mtutf3pv.fsf@dusky.pond.sub.org>
-In-Reply-To: <87mtutf3pv.fsf@dusky.pond.sub.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPdoH-0007Wy-Rw
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 00:10:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPdoF-0003Tl-5X
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 00:10:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPdoC-0004XT-R7
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 04:10:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C81482E8157
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 04:10:52 +0000 (UTC)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Mar 2021 04:01:39 -0000
+From: Alex Williamson <1921444@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson xudong-hao
+X-Launchpad-Bug-Reporter: xudong (xudong-hao)
+X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
+References: <161672454991.709.14499115006742419165.malonedeb@soybean.canonical.com>
+Message-Id: <161673129959.25597.3377339329716208969.malone@wampee.canonical.com>
+Subject: [Bug 1921444] Re: Q35 doesn't support to hot add the 2nd PCIe device
+ to KVM guest
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
+X-Launchpad-Hash: 2b7dd581d0be4f16d69e84c2c3e0c4159df09d4b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,122 +70,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>, Zhang
- Chen <zhangckid@gmail.com>
+Reply-To: Bug 1921444 <1921444@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+You need a root port per device you want to hotplug, you cannot
+independently hotplug multiple devices to a PCIe link.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921444
+
+Title:
+  Q35 doesn't support to hot add the 2nd PCIe device to KVM guest
+
+Status in QEMU:
+  New
+
+Bug description:
+  KVM: https://git.kernel.org/pub/scm/virt/kvm/kvm.git  branch: next, commi=
+t: 4a98623d
+  Qemu: https://git.qemu.org/git/qemu.git  branch: master, commit: 9e2e9fe3
+
+  Created a KVM guest with Q35 chipset, and try to hot add 2 PCIe device
+  to guest with qemu internal command device_add, the 1st device can be
+  added successfully, but the 2nd device failed to hot add.
+
+  If guest chipset is legacy i440fx, the 2 device can be added
+  successfully.
+
+  1. Enable VT-d in BIOS
+  2. load KVM modules in Linux OS: modprobe kvm; modprobe kvm_intel
+  3. Bind 2 device to vfio-pci
+      echo 0000:b1:00.0 > /sys/bus/pci/drivers/i40e/unbind
+      echo "8086 1572" > /sys/bus/pci/drivers/vfio-pci/new_id =
+
+      echo 0000:b1:00.1 > /sys/bus/pci/drivers/i40e/unbind
+      echo "8086 1572" > /sys/bus/pci/drivers/vfio-pci/new_id =
 
 
-> -----Original Message-----
-> From: Markus Armbruster <armbru@redhat.com>
-> Sent: Wednesday, March 24, 2021 2:47 PM
-> To: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Lukas Straub <lukasstraub2@web.de>; Li Zhijian
-> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; qemu-
-> dev <qemu-devel@nongnu.org>; Zhang, Chen <chen.zhang@intel.com>;
-> Zhang Chen <zhangckid@gmail.com>
-> Subject: Re: [PATCH V4 2/7] qapi/net.json: Add L4_Connection definition
->=20
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
->=20
-> > * Markus Armbruster (armbru@redhat.com) wrote:
-> >> "Zhang, Chen" <chen.zhang@intel.com> writes:
-> >>
-> >> >> -----Original Message-----
-> >> >> From: Markus Armbruster <armbru@redhat.com>
-> >> [...]
-> >> >> Naming the argument type L4_Connection is misleading.
-> >> >>
-> >> >> Even naming the match arguments L4_Connection would be
-> misleading.
-> >> >> "Connection" has a specific meaning in networking.  There are TCP
-> >> >> connections.  There is no such thing as an UDP connection.
-> >> >>
-> >> >> A TCP connection is uniquely identified by a pair of endpoints,
-> >> >> i.e. by source address, source port, destination address, destinati=
-on
-> port.
-> >> >> Same for other connection-oriented protocols.  The protocol is not
-> >> >> part of the connection.  Thus, L4_Connection would be misleading
-> >> >> even for the connection-oriented case.
-> >> >>
-> >> >> You need a named type for colo-passthrough-add's argument because
-> >> >> you share it with colo-passthrough-del.  I'm not sure that's what
-> >> >> we want (I'm going to write more on that in a moment).  If it is
-> >> >> what we want, then please pick a another, descriptive name.
-> >> >
-> >> > What do you think the "L4BypassRule" or "NetworkRule" ?
-> >>
-> >> NetworkRule is too generic.
-> >>
-> >> What about ColoPassthroughRule?
-> >
-> > Which is a bit specific; there's not actually anything Colo specific
-> > in there; can I suggest 'L4FlowSpec';
->=20
-> "A bit too specific" is mostly harmless, since we can rename types at any=
- time
-> (they are not visible in external interfaces).
->=20
-> This is *not* an objection to less specific names.  All I want is names t=
-hat
-> don't give me wrong ideas on the thing's purpose.  L4FlowSpec and
-> IPFlowSpec (below) feel fine in that regard.
->=20
-> >                                     I think there should also beb a
-> > separate type that represents an IP address+port, so that what you end
-> > up with is:
-> >
-> >   IPFlowSpec
-> >      ID
-> >      Protocol
-> >      Source
-> >      Dest
->=20
-> I understand the motivation.  Three drawbacks, though.
->=20
-> One, it gets us another level of nesting on the wire, i.e. something like
->=20
->     {"source": {"address": SRC-ADDR, "port": SRC-PORT},
->      "destination": {"address": DST-ADDR, "port": DST-PORT}}
->=20
-> instead of
->=20
->     {"source-address": SRC-ADDR, "source-port": SRC-PORT,
->      "destination-address": DST-ADDR, "destination-port": DST-PORT}
->=20
-> QMP clients shouldn't care.
->=20
-> Two, we have many (address, port) pairs in the schema that don't use
-> nesting.  Adding nesting sometimes makes QMP less consistent.
->=20
-> Three, human-friendly interface wrappers tend to dislike nesting.  This
-> particular case seems okay; we end up with dotted keys like source.addres=
-s
-> instead of source-address.  In a case where we need just one (address, po=
-rt),
-> we'd get some-silly-name.address instead of just address, though.
->=20
-> I've occasionally felt a mild need for letting me say "this struct member
-> should be unboxed on the wire", i.e. have its curlies peeled off.
-> Never enough to justify the additional generator complexity, though.
+  4. create guest with Q35 chipset:
+  qemu-system-x86_64 --accel kvm -m 4096 -smp 4 -drive file=3D/home/rhel8.2=
+.qcow2,if=3Dnone,id=3Dvirtio-disk0 -device virtio-blk-pci,drive=3Dvirtio-di=
+sk0 -cpu host -machine q35 -device pcie-root-port,id=3Droot1 -daemonize
 
-The initial patch of this series used unboxed struct, Eric's comments is ch=
-ange it to boxed.
-I think it's OK, for the unused field we can keep 0 for it. The n-tuple(src=
- IP, dst IP, src port, dst port, protocol)
-will be used in many place on Qemu network related code(like migrate, NBD..=
-..). =20
-For the name, I think Dave's comments is well, for the @InetSocketAddressBa=
-se we can remove it and change it to use IPFlowSpec.
-Markus, what do you think about it?
-
-Thanks
-Chen
+  5. hot add the 1st device to guest successfully
+  in guest qemu monitor "device_add vfio-pci,host=3Db1:00.0,id=3Dnic0,bus=
+=3Droot1"
+  6. hot add the 2nd device to guest
+  in guest qemu monitor "device_add vfio-pci,host=3Db1:00.1,id=3Dnic1,bus=
+=3Droot1"
+  The 2nd device doesn't be added in guest, and the 1st device is removed f=
+rom guest. =
 
 
+  Guest partial log:
+  [  110.452272] pcieport 0000:00:04.0: pciehp: Slot(0): Attention button p=
+ressed
+  [  110.453314] pcieport 0000:00:04.0: pciehp: Slot(0) Powering on due to =
+button press
+  [  110.454156] pcieport 0000:00:04.0: pciehp: Slot(0): Card present
+  [  110.454792] pcieport 0000:00:04.0: pciehp: Slot(0): Link Up
+  [  110.580927] pci 0000:01:00.0: [8086:1572] type 00 class 0x020000
+  [  110.582560] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x007fffff 64b=
+it pref]
+  [  110.583453] pci 0000:01:00.0: reg 0x1c: [mem 0x00000000-0x00007fff 64b=
+it pref]
+  [  110.584278] pci 0000:01:00.0: reg 0x30: [mem 0x00000000-0x0007ffff pre=
+f]
+  [  110.585051] pci 0000:01:00.0: Max Payload Size set to 128 (was 512, ma=
+x 2048)
+  [  110.586621] pci 0000:01:00.0: PME# supported from D0 D3hot D3cold
+  [  110.588140] pci 0000:01:00.0: BAR 0: no space for [mem size 0x00800000=
+ 64bit pref]
+  [  110.588954] pci 0000:01:00.0: BAR 0: failed to assign [mem size 0x0080=
+0000 64bit pref]
+  [  110.589797] pci 0000:01:00.0: BAR 6: assigned [mem 0xfe800000-0xfe87ff=
+ff pref]
+  [  110.590703] pci 0000:01:00.0: BAR 3: assigned [mem 0xfe000000-0xfe007f=
+ff 64bit pref]
+  [  110.592085] pcieport 0000:00:04.0: PCI bridge to [bus 01]
+  [  110.592755] pcieport 0000:00:04.0:   bridge window [io  0x1000-0x1fff]
+  [  110.594403] pcieport 0000:00:04.0:   bridge window [mem 0xfe800000-0xf=
+e9fffff]
+  [  110.595847] pcieport 0000:00:04.0:   bridge window [mem 0xfe000000-0xf=
+e1fffff 64bit pref]
+  [  110.597867] PCI: No. 2 try to assign unassigned res
+  [  110.597870] release child resource [mem 0xfe000000-0xfe007fff 64bit pr=
+ef]
+  [  110.597871] pcieport 0000:00:04.0: resource 15 [mem 0xfe000000-0xfe1ff=
+fff 64bit pref] released
+  [  110.598881] pcieport 0000:00:04.0: PCI bridge to [bus 01]
+  [  110.600789] pcieport 0000:00:04.0: BAR 15: assigned [mem 0x180000000-0=
+x180bfffff 64bit pref]
+  [  110.601731] pci 0000:01:00.0: BAR 0: assigned [mem 0x180000000-0x1807f=
+ffff 64bit pref]
+  [  110.602849] pci 0000:01:00.0: BAR 3: assigned [mem 0x180800000-0x18080=
+7fff 64bit pref]
+  [  110.604069] pcieport 0000:00:04.0: PCI bridge to [bus 01]
+  [  110.604941] pcieport 0000:00:04.0:   bridge window [io  0x1000-0x1fff]
+  [  110.606237] pcieport 0000:00:04.0:   bridge window [mem 0xfe800000-0xf=
+e9fffff]
+  [  110.607401] pcieport 0000:00:04.0:   bridge window [mem 0x180000000-0x=
+180bfffff 64bit pref]
+  [  110.653661] i40e: Intel(R) Ethernet Connection XL710 Network Driver
+  [  110.654443] i40e: Copyright (c) 2013 - 2019 Intel Corporation.
+  [  110.655314] i40e 0000:01:00.0: enabling device (0140 -> 0142)
+  [  110.672396] i40e 0000:01:00.0: fw 6.0.48442 api 1.7 nvm 6.01 0x800035b=
+1 1.1747.0 [8086:1572] [8086:0008]
+  [  110.750054] i40e 0000:01:00.0: MAC address: 3c:fd:fe:c0:59:98
+  [  110.751792] i40e 0000:01:00.0: FW LLDP is enabled
+  [  110.764644] i40e 0000:01:00.0 eth1: NIC Link is Up, 10 Gbps Full Duple=
+x, Flow Control: None
+  [  110.779390] i40e 0000:01:00.0: PCI-Express: Speed 8.0GT/s Width x8
+  [  110.789841] i40e 0000:01:00.0: Features: PF-id[0] VFs: 64 VSIs: 66 QP:=
+ 4 RSS FD_ATR FD_SB NTUPLE DCB VxLAN Geneve PTP VEPA
+  [  111.817553] IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
+  [  205.130288] pcieport 0000:00:04.0: pciehp: Slot(0): Attention button p=
+ressed
+  [  205.131743] pcieport 0000:00:04.0: pciehp: Slot(0): Powering off due t=
+o button press
+  [  205.133233] pcieport 0000:00:04.0: pciehp: Slot(0): Card not present
+  [  205.135728] i40e 0000:01:00.0: i40e_ptp_stop: removed PHC on eth1
 
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1921444/+subscriptions
 
