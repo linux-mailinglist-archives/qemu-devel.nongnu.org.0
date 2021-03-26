@@ -2,59 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D7D34B19F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 22:56:33 +0100 (CET)
-Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213D634B24C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 23:50:46 +0100 (CET)
+Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPuRU-0004mE-Nn
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 17:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55528)
+	id 1lPvHw-0005iI-Hh
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 18:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lPuQ1-000476-3h
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 17:55:01 -0400
-Resent-Date: Fri, 26 Mar 2021 17:55:01 -0400
-Resent-Message-Id: <E1lPuQ1-000476-3h@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lPuPy-00088U-RX
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 17:55:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616795686; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QpEAaNtTXZp1Dwb1e1CaP+FNGqFJyUc4umGkgFxKq1rKA5O/KFCo7KEYr+lToLjgxO4Ep+L88E344CryI22zCztOv+1bKpzNzWHIPasvXUmsdXDt3cTA1lVe3KGEC1o7FG17hH4DU4Z0uRrEFOpkHqVWpN1R1IOjwQpmt/sHiNs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616795686;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Fjo95N2XcZh4RQe7W/xo3y3vgYWBtdx/dBGbZnQJrsg=; 
- b=CBcN9IXyzpteqUG4+WU4Snbuzch10uqwOTCEEZzsQr0ZzEW15mENfPpyJonym5R1V4l4FS0LmHWSDzuMLmWgKqtglmygWCs5CdhUy57Oj75ys9/2KIlL5tQLKXBfQ6n8uZU5exeoiwzaB+pTzxagk6gjUl6gnhXaZUXhGnWwlpo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616795684797210.2257483634769;
- Fri, 26 Mar 2021 14:54:44 -0700 (PDT)
-In-Reply-To: <cover.1616794852.git.lukasstraub2@web.de>
-Subject: Re: [PATCH v5 0/4] yank: Add chardev tests and fixes
-Message-ID: <161679568352.21878.16847327682221094070@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lPvGZ-00051r-EL; Fri, 26 Mar 2021 18:49:19 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:42670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lPvGX-0000H0-5E; Fri, 26 Mar 2021 18:49:18 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ b2-20020a7bc2420000b029010be1081172so3760466wmj.1; 
+ Fri, 26 Mar 2021 15:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+CEM2M0T/cnC2NdZhE7Qr8460XdFbb/ZXa3v8xb4LsU=;
+ b=r4GohVb3GdQikLJ72Ivc9HsENf+knuvCQiu1HgNAB4t19eO8QW3uSUmyJy4qpVMGRM
+ YBnxwTM+eE8s10guEBnt8DUFIMXpNcoejIOrh0nj7qsVLK7U0aLYA0fUblWxdAv0fmxC
+ uPpbEy6Tg6EZ4abQzvCBlZQ1lOcjuo//XahEMdh3dlqCoXp0y0sVR6n6JSTvKrr7CoUb
+ eUNW45aiyv7S8wfbMeHa6oUshKJEpX0JIzoyQotk1Ynjr3jWpEfUpoO/6d3RGQA4LHiz
+ aDTKfe2lQ3hvAG/Ahps9YEt3Vh6LErveVONRwPjFlOc9vhr8Hl+wULt832at9T/5i7/7
+ Bkig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+CEM2M0T/cnC2NdZhE7Qr8460XdFbb/ZXa3v8xb4LsU=;
+ b=qvJE3e9nIFdR5Dc1HsEVnTWTat56Nm/k7ZxeZBV9u3OBm+Rks3JkRRW4mnkwiCsEqS
+ iCg1OuIRJtefFPZHL+Mkdwo7EqYENJduteHi6DwAOoYcqvulZAAeiT2CSj7kaG8KVtmu
+ fW1OaqHyXTjVyWhMVc68TAcaYrEqE/Ty/osdvBYjvUjskJD11VFhMBERc74P5OeSa+8h
+ O1F7oDHM4kbYrPdpZ+4/MvmTvXG/nyI0bhwyQsGaZYk3F3ccSGq4l//QZeaE2Is0jRfn
+ AM5/xl/1NWTuPXRc1uiz3AKgtQBOQj3Od62BQLGW4nV5JsS/k9/Ke1ECrnqkqbXXP5pS
+ eg1A==
+X-Gm-Message-State: AOAM530U9ok/IZzUcu2i34MsJ4qYL/8nSjBUPNur0G8f996ZmocQLR3i
+ wzZEcPaav4cFVcx/qKMMacc=
+X-Google-Smtp-Source: ABdhPJxUadYlRJ9nqypz7uZKoxaM9IekW43Fig5m6qjAsFyDbkJhTsgUq9UG/xUgBFdA4fiE0M5fOA==
+X-Received: by 2002:a1c:7210:: with SMTP id n16mr14545785wmc.13.1616798953280; 
+ Fri, 26 Mar 2021 15:49:13 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id y10sm14688171wrl.19.2021.03.26.15.49.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Mar 2021 15:49:12 -0700 (PDT)
+Subject: Re: [RFC PATCH-for-6.1 03/10] hw/arm/musicpal: Map flash using
+ memory_region_add_subregion_aliased()
+To: qemu-devel@nongnu.org
+References: <20210326002728.1069834-1-f4bug@amsat.org>
+ <20210326002728.1069834-4-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4feab40f-0133-8617-52c3-0af0adf419c6@amsat.org>
+Date: Fri, 26 Mar 2021 23:49:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lukasstraub2@web.de
-Date: Fri, 26 Mar 2021 14:54:44 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210326002728.1069834-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,65 +89,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
- zhlcindy@gmail.com, pbonzini@redhat.com, marcandre.lureau@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNjE2Nzk0ODUyLmdp
-dC5sdWthc3N0cmF1YjJAd2ViLmRlLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogY292ZXIuMTYxNjc5NDg1Mi5naXQu
-bHVrYXNzdHJhdWIyQHdlYi5kZQpTdWJqZWN0OiBbUEFUQ0ggdjUgMC80XSB5YW5rOiBBZGQgY2hh
-cmRldiB0ZXN0cyBhbmQgZml4ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
-c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
-VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
-cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
-CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
-aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAg
-ICAgIHBhdGNoZXcvY292ZXIuMTYxNjc5NDg1Mi5naXQubHVrYXNzdHJhdWIyQHdlYi5kZSAtPiBw
-YXRjaGV3L2NvdmVyLjE2MTY3OTQ4NTIuZ2l0Lmx1a2Fzc3RyYXViMkB3ZWIuZGUKU3dpdGNoZWQg
-dG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo2ZTQ3OTc4IHRlc3RzOiBBZGQgdGVzdHMgZm9yIHlhbmsg
-d2l0aCB0aGUgY2hhcmRldi1jaGFuZ2UgY2FzZQowMTI0MDViIGNoYXJkZXY6IEZpeCB5YW5rIHdp
-dGggdGhlIGNoYXJkZXYtY2hhbmdlIGNhc2UKODhmYjVlOCBjaGFyZGV2L2NoYXIuYzogQWx3YXlz
-IHBhc3MgaWQgdG8gY2hhcmRldl9uZXcKZWVhN2NjMyBjaGFyZGV2L2NoYXIuYzogTW92ZSBvYmpl
-Y3RfcHJvcGVydHlfdHJ5X2FkZF9jaGlsZCBvdXQgb2YgY2hhcmRldl9uZXcKCj09PSBPVVRQVVQg
-QkVHSU4gPT09CjEvNCBDaGVja2luZyBjb21taXQgZWVhN2NjMzkyMDJkIChjaGFyZGV2L2NoYXIu
-YzogTW92ZSBvYmplY3RfcHJvcGVydHlfdHJ5X2FkZF9jaGlsZCBvdXQgb2YgY2hhcmRldl9uZXcp
-CjIvNCBDaGVja2luZyBjb21taXQgODhmYjVlOGQ0NzM1IChjaGFyZGV2L2NoYXIuYzogQWx3YXlz
-IHBhc3MgaWQgdG8gY2hhcmRldl9uZXcpCjMvNCBDaGVja2luZyBjb21taXQgMDEyNDA1YjM3Nzcw
-IChjaGFyZGV2OiBGaXggeWFuayB3aXRoIHRoZSBjaGFyZGV2LWNoYW5nZSBjYXNlKQo0LzQgQ2hl
-Y2tpbmcgY29tbWl0IDZlNDc5NzgxYjYwNSAodGVzdHM6IEFkZCB0ZXN0cyBmb3IgeWFuayB3aXRo
-IHRoZSBjaGFyZGV2LWNoYW5nZSBjYXNlKQpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3Rh
-dGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzIzMTogRklM
-RTogdGVzdHMvdW5pdC90ZXN0LXlhbmsuYzoxODA6CisjZGVmaW5lIENIQVJfQ0hBTkdFX1RFU1Qo
-bmFtZSwgX29sZF95YW5rLCBfbmV3X3lhbmspICAgICAgICAgICAgICAgICAgICAgICAgICAgXAor
-ICAgICAgICBnX3Rlc3RfYWRkX2RhdGFfZnVuYygiL3lhbmsvY2hhcl9jaGFuZ2Uvc3VjY2Vzcy8i
-ICMgbmFtZSwgICAgICAgICAgICAgIFwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJihD
-aGFyQ2hhbmdlVGVzdENvbmZpZykgeyAuYWRkciA9ICZ0Y3BhZGRyLCAgICAgICBcCisgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLm9sZF95YW5r
-ID0gKF9vbGRfeWFuayksXAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIC5uZXdfeWFuayA9IChfbmV3X3lhbmspLFwKKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAuZmFpbCA9IGZhbHNlIH0s
-ICAgICAgICBcCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNoYXJfY2hhbmdlX3Rlc3Qp
-OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICBnX3Rlc3RfYWRkX2Rh
-dGFfZnVuYygiL3lhbmsvY2hhcl9jaGFuZ2UvZmFpbC8iICMgbmFtZSwgICAgICAgICAgICAgICAg
-IFwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJihDaGFyQ2hhbmdlVGVzdENvbmZpZykg
-eyAuYWRkciA9ICZ0Y3BhZGRyLCAgICAgICBcCisgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgLm9sZF95YW5rID0gKF9vbGRfeWFuayksXAorICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC5uZXdf
-eWFuayA9IChfbmV3X3lhbmspLFwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAuZmFpbCA9IHRydWUgfSwgICAgICAgICBcCisgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIGNoYXJfY2hhbmdlX3Rlc3QpOwoKdG90YWw6IDEgZXJyb3JzLCAw
-IHdhcm5pbmdzLCAyMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC80IGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBj
-b2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
-bG9ncy9jb3Zlci4xNjE2Nzk0ODUyLmdpdC5sdWthc3N0cmF1YjJAd2ViLmRlL3Rlc3RpbmcuY2hl
-Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
-YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
-YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 3/26/21 1:27 AM, Philippe Mathieu-Daudé wrote:
+> Instead of using a device specific feature for mapping the
+> flash memory multiple times over a wider region, use the
+> generic memory_region_add_subregion_aliased() helper.
+> 
+> There is no change in the memory layout.
+
+- before:
+
+  (qemu) info mtree
+  00000000fe000000-00000000ffffffff (prio 0, i/o): pflash
+    00000000fe000000-00000000fe7fffff (prio 0, romd): alias pflash-alias
+@musicpal.flash 0000000000000000-00000000007fffff
+    00000000fe800000-00000000feffffff (prio 0, romd): alias pflash-alias
+@musicpal.flash 0000000000000000-00000000007fffff
+    00000000ff000000-00000000ff7fffff (prio 0, romd): alias pflash-alias
+@musicpal.flash 0000000000000000-00000000007fffff
+    00000000ff800000-00000000ffffffff (prio 0, romd): alias pflash-alias
+@musicpal.flash 0000000000000000-00000000007fffff
+
+- after:
+
+  00000000fe000000-00000000ffffffff (prio 0, i/o): masked musicpal.flash
+[span of 8 MiB]
+    00000000fe000000-00000000fe7fffff (prio 0, romd): alias
+musicpal.flash [#0/4] @musicpal.flash 0000000000000000-00000000007fffff
+    00000000fe800000-00000000feffffff (prio 0, romd): alias
+musicpal.flash [#1/4] @musicpal.flash 0000000000000000-00000000007fffff
+    00000000ff000000-00000000ff7fffff (prio 0, romd): alias
+musicpal.flash [#2/4] @musicpal.flash 0000000000000000-00000000007fffff
+    00000000ff800000-00000000ffffffff (prio 0, romd): alias
+musicpal.flash [#3/4] @musicpal.flash 0000000000000000-00000000007fffff
+
+Flatview is the same:
+
+  (qemu) info mtree -f
+  FlatView #0
+   AS "memory", root: system
+   AS "cpu-memory-0", root: system
+   AS "emac-dma", root: system
+   Root memory region: system
+    00000000fe000000-00000000fe7fffff (prio 0, romd): musicpal.flash
+    00000000fe800000-00000000feffffff (prio 0, romd): musicpal.flash
+    00000000ff000000-00000000ff7fffff (prio 0, romd): musicpal.flash
+    00000000ff800000-00000000ffffffff (prio 0, romd): musicpal.flash
+
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/arm/musicpal.c | 11 +++++++----
+>  hw/arm/Kconfig    |  1 +
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+> index 8b58b66f263..7d1f2f3fb3f 100644
+> --- a/hw/arm/musicpal.c
+> +++ b/hw/arm/musicpal.c
+> @@ -30,6 +30,7 @@
+>  #include "hw/irq.h"
+>  #include "hw/or-irq.h"
+>  #include "hw/audio/wm8750.h"
+> +#include "hw/misc/aliased_region.h"
+>  #include "sysemu/block-backend.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/dma.h"
+> @@ -1656,7 +1657,7 @@ static void musicpal_init(MachineState *machine)
+>          qdev_prop_set_uint32(dev, "num-blocks", flash_size / sector_size);
+>          qdev_prop_set_uint32(dev, "sector-length", sector_size);
+>          qdev_prop_set_uint8(dev, "width", 2); /* 16-bit */
+> -        qdev_prop_set_uint8(dev, "mappings", MP_FLASH_SIZE_MAX / flash_size);
+> +        qdev_prop_set_uint8(dev, "mappings", 0);
+>          qdev_prop_set_uint8(dev, "big-endian", 0);
+>          qdev_prop_set_uint16(dev, "id0", 0x00bf);
+>          qdev_prop_set_uint16(dev, "id1", 0x236d);
+> @@ -1667,14 +1668,16 @@ static void musicpal_init(MachineState *machine)
+>          qdev_prop_set_string(dev, "name", "musicpal.flash");
+>          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+> -        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,
+> -                        0x100000000ULL - MP_FLASH_SIZE_MAX);
+> -
+>          /*
+>           * The original U-Boot accesses the flash at 0xFE000000 instead of
+>           * 0xFF800000 (if there is 8 MB flash). So remap flash access if the
+>           * image is smaller than 32 MB.
+>           */
+> +        memory_region_add_subregion_aliased(get_system_memory(),
+> +                                0x100000000ULL - MP_FLASH_SIZE_MAX,
+> +                                MP_FLASH_SIZE_MAX,
+> +                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0),
+> +                                flash_size);
+>      }
+>      sysbus_create_simple(TYPE_MV88W8618_FLASHCFG, MP_FLASHCFG_BASE, NULL);
+>  
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 8c37cf00da7..aa8553b3cd3 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -101,6 +101,7 @@ config MUSICPAL
+>      select MARVELL_88W8618
+>      select PTIMER
+>      select PFLASH_CFI02
+> +    select ALIASED_REGION
+>      select SERIAL
+>      select WM8750
+>  
+> 
 
