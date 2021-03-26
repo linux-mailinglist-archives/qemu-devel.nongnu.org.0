@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A98349E0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 01:37:05 +0100 (CET)
-Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2668A349E07
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 01:35:33 +0100 (CET)
+Received: from localhost ([::1]:42030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPaTI-0003bS-6M
-	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 20:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57900)
+	id 1lPaRo-0000vF-77
+	for lists+qemu-devel@lfdr.de; Thu, 25 Mar 2021 20:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPaKw-0002or-GI; Thu, 25 Mar 2021 20:28:26 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51866)
+ id 1lPaKw-0002ov-HN; Thu, 25 Mar 2021 20:28:26 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPaKp-0004Hq-R8; Thu, 25 Mar 2021 20:28:23 -0400
-Received: by mail-wm1-x336.google.com with SMTP id p19so2119802wmq.1;
- Thu, 25 Mar 2021 17:28:13 -0700 (PDT)
+ id 1lPaKq-0004JY-55; Thu, 25 Mar 2021 20:28:24 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ a132-20020a1c668a0000b029010f141fe7c2so4058973wmc.0; 
+ Thu, 25 Mar 2021 17:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OKDA4eVJdfRxYq1EfuTuqohDkKwpb3am+iFd4G3Hvr4=;
- b=O8+KG+/omyfE3MH1os+UijgTr/H3PK50FfNKFkjBALk6lmN9OPaXSGbEHO8OzF7pKu
- unDA/pp34Ts9CED9QY34UuHA3GIVmBEdHxsLxbht2imL0nbsecRFsU9Ec3AjMun7ouPR
- LMAsCnSI0inmmqD3evV3B7wS4NHrwnZmoEDN2v+0xMnVNYFgbw+cSHY04OwBn5M+4RoH
- SFxa+/WDTyZg2KEnBBie2EYvW7FmxAr+BsO5cRy5TVF4r+iYlNB+8r/m8Qt7EuENKijG
- GmjymdiQR4f813q7I4djwx68DYv5/CeMKNsKHmvwewG5AC/h4JOdZYB57e7FmxDl5ekF
- j7Ig==
+ bh=ZjHOHQ6FW9OLxHcp9ojcwWz0Qq5Kwhc+7VGNOsAq47o=;
+ b=aLBGIQyBNFRm+22cuNQuAwX4oIXI2Tfptl+DmTXOCqiT81LTlC8vCs5ZYzBSKqG7RI
+ it57i0q/sCXWcAAP62Z2T/yrXCwRSimZ7BOTMVRdQSniflCGppEX0y9INwjMOybgqFS7
+ hAWbv8vUSAXHQaCaaSx8Tecd5pxOf+nb/JZCfcquFk7jMzCrn5aU+AElkqsaWnLhHzQC
+ WPn8e3vTICuj8MHt4Mya7h0tPxSLXZMR5/fO7APO8xCoR4DNSzGSPTEdMEaEnJ0hZuMz
+ WrM6D9LUlXQx37gBZRMmrkF2T6F89nt30gbLEW7KlDtH0cMmDNR7zs+/QCR7Z+Z4DFAw
+ kp/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OKDA4eVJdfRxYq1EfuTuqohDkKwpb3am+iFd4G3Hvr4=;
- b=F8ILx7UiEzpL39v7thRmK2CNojRjBc7wzwyBoeBzqahwcGkvrQYM6+C3R7BdBzGigL
- OKiEvzRLOxy9Vl99e560FV3gRMSgt0H35dR7ME2lcT0YWsiZfJJkRqIxeyHV/oweGmht
- US4ijGQnTDuFveU0leX4Sq9XHPgXwFIxeGTvfWTNSPFMs5SNEro5WKo+DjB4jRsf9o9N
- 0AjE5+cg7Hzj4azJkjup3/HgeZta/AVbK1GyCtvSSU5qcRX9DZuvEgG9vrLEw3RIRJxi
- nqXYrFwD5as16OfyHEBRNNwQv4gvxLUp4CNInt3wfUHsVGimHzwnLrKgbUZ3uB7O3wcl
- AE2w==
-X-Gm-Message-State: AOAM533FJWu0phlqgf9ySOWk7aYgG0Jhgy8LRo/vp2Y1GyNwiiknkRci
- 2G4pfVoVSIGrFO3vhqcjv9buzpnyRNo0AQ==
-X-Google-Smtp-Source: ABdhPJy1NXEfN2hkOHw1HkOWIl3+xRN70JpVZP9oEPisumT3Rs9PjqBFDq3uB88l1C8YmzpOK702fg==
-X-Received: by 2002:a1c:9a09:: with SMTP id c9mr10056005wme.172.1616718492267; 
- Thu, 25 Mar 2021 17:28:12 -0700 (PDT)
+ bh=ZjHOHQ6FW9OLxHcp9ojcwWz0Qq5Kwhc+7VGNOsAq47o=;
+ b=ktdN25eOHN/964sTPmjxNIRxycadNt2gBUKVnBkk6Ys5gr8YBvj/40Oj1Eh0d2QS15
+ L5dww3+kO+UltRZOFiPFvBlL5EQXvy79tsthVtzoiYT1W7LdRNKFdSCIqb0//jyZyfdk
+ qi69wdLu3rpFgKF1YJhalkA4KN1wx6wH8AmJNIISHk1NQPxx0lIlh2hl43B5ah+F1oeA
+ Z6QM+LHJKFqbLiukLVk8le0v0lwxHEAifFnFj63rr5m3nNFyzHhmnxUNUCa4zdieE0j0
+ dY2RYyA/VG/NqE3k7k7dIz6l9WOUdf+xj54FwPDXNBipEji1HPQXLwEWQdbjRO/1L5jc
+ AoEQ==
+X-Gm-Message-State: AOAM532yrskYEdPwrJDpq3vAw2hS8msy6nNvyK/NgTyTSk0jEhr1sbvU
+ C5VN5KS2JwOPmgXAm7Z8Y5pKRJIgRnD/7A==
+X-Google-Smtp-Source: ABdhPJwoV5Hp8hbWmfYVBJtivaREd9dCiXrpe8vp/XnkXZA96gDS0sB6VTjt24fdnH2m3y6MBTjWjg==
+X-Received: by 2002:a7b:c047:: with SMTP id u7mr10379733wmc.98.1616718497222; 
+ Thu, 25 Mar 2021 17:28:17 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id s20sm8211386wmj.36.2021.03.25.17.28.11
+ by smtp.gmail.com with ESMTPSA id f22sm8015889wmc.33.2021.03.25.17.28.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 17:28:11 -0700 (PDT)
+ Thu, 25 Mar 2021 17:28:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-6.1 08/10] hw/misc/aliased_region: Simplify aliased
- I/O regions
-Date: Fri, 26 Mar 2021 01:27:26 +0100
-Message-Id: <20210326002728.1069834-9-f4bug@amsat.org>
+Subject: [PATCH-for-6.1 09/10] hw/m68k/q800: Add MacIO container
+Date: Fri, 26 Mar 2021 01:27:27 +0100
+Message-Id: <20210326002728.1069834-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326002728.1069834-1-f4bug@amsat.org>
 References: <20210326002728.1069834-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,123 +95,212 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently a small I/O region aliased on a wide container creates
-many aliases. For example, a 8 bytes regions in a 4KiB container
-creates 512 aliases! As I/O goes via the slow path, we can optimize
-by using an I/O region which dispatch via an address space view
-of the aliased region.
+Instead of having devices mapped onto some main memory range,
+then having many aliases pointing to this memory range, add
+a container, map the devices onto it, and map aliases of the
+container onto the main memory.
+
+We gain a better visibility of the devices on the mac-io bus.
+
+- before:
+
+  (qemu) info mtree
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-0000000007ffffff (prio 0, ram): m68k_mac.ram
+      0000000040800000-00000000408fffff (prio 0, rom): m68k_mac.rom
+      0000000050000000-0000000050003fff (prio 0, i/o): mac-via
+        0000000050000000-0000000050001fff (prio 0, i/o): via1
+        0000000050002000-0000000050003fff (prio 0, i/o): via2
+      0000000050008000-0000000050008fff (prio 0, rom): dp8393x-prom
+      000000005000a000-000000005000a0ff (prio 0, i/o): dp8393x-regs
+      000000005000c020-000000005000c027 (prio 0, i/o): escc
+      0000000050010000-00000000500100ff (prio 0, i/o): esp-regs
+      0000000050010100-0000000050010103 (prio 0, i/o): esp-pdma
+      000000005001e000-000000005001ffff (prio 0, i/o): swim
+      0000000050040000-000000005007ffff (prio 0, i/o): alias mac_m68k.io[1] @system 0000000050000000-000000005003ffff
+      0000000050080000-00000000500bffff (prio 0, i/o): alias mac_m68k.io[2] @system 0000000050000000-000000005003ffff
+      00000000500c0000-00000000500fffff (prio 0, i/o): alias mac_m68k.io[3] @system 0000000050000000-000000005003ffff
+      ...
+      0000000053f40000-0000000053f7ffff (prio 0, i/o): alias mac_m68k.io[253] @system 0000000050000000-000000005003ffff
+      0000000053f80000-0000000053fbffff (prio 0, i/o): alias mac_m68k.io[254] @system 0000000050000000-000000005003ffff
+      0000000053fc0000-0000000053ffffff (prio 0, i/o): alias mac_m68k.io[255] @system 0000000050000000-000000005003ffff
+      0000000060000000-00000000efffffff (prio 0, i/o): nubus-super-slots
+      00000000f0000000-00000000feffffff (prio 0, i/o): nubus-slots
+        00000000f9000000-00000000f9ffffff (prio 0, i/o): nubus-slot-9
+          00000000f9001000-00000000f9400fff (prio 0, ram): macfb-vram
+          00000000f9800000-00000000f9800fff (prio 0, i/o): macfb-ctrl
+          00000000f9ffffe8-00000000f9ffffeb (prio 0, i/o): nubus-slot-9-rom
+          00000000f9ffffec-00000000f9ffffff (prio 0, i/o): nubus-slot-9-format-block
+
+- after:
+
+  address-space: memory
+      0000000000000000-0000000007ffffff (prio 0, ram): m68k_mac.ram
+      0000000040800000-00000000408fffff (prio 0, rom): m68k_mac.rom
+      0000000050000000-000000005003ffff (prio 0, i/o): alias mac_m68k.io[0] @mac-io 0000000000000000-000000000003ffff
+      0000000050040000-000000005007ffff (prio 0, i/o): alias mac_m68k.io[1] @mac-io 0000000000000000-000000000003ffff
+      0000000050080000-00000000500bffff (prio 0, i/o): alias mac_m68k.io[2] @mac-io 0000000000000000-000000000003ffff
+      ...
+      0000000053f40000-0000000053f7ffff (prio 0, i/o): alias mac_m68k.io[253] @mac-io 0000000000000000-000000000003ffff
+      0000000053f80000-0000000053fbffff (prio 0, i/o): alias mac_m68k.io[254] @mac-io 0000000000000000-000000000003ffff
+      0000000053fc0000-0000000053ffffff (prio 0, i/o): alias mac_m68k.io[255] @mac-io 0000000000000000-000000000003ffff
+      0000000060000000-00000000efffffff (prio 0, i/o): nubus-super-slots
+      00000000f0000000-00000000feffffff (prio 0, i/o): nubus-slots
+        00000000f9000000-00000000f9ffffff (prio 0, i/o): nubus-slot-9
+          00000000f9001000-00000000f9400fff (prio 0, ram): macfb-vram
+          00000000f9800000-00000000f9800fff (prio 0, i/o): macfb-ctrl
+          00000000f9ffffe8-00000000f9ffffeb (prio 0, i/o): nubus-slot-9-rom
+          00000000f9ffffec-00000000f9ffffff (prio 0, i/o): nubus-slot-9-format-block
+
+  memory-region: mac-io
+    0000000000000000-000000000003ffff (prio 0, i/o): mac-io
+      0000000000000000-0000000000003fff (prio 0, i/o): mac-via
+        0000000000000000-0000000000001fff (prio 0, i/o): via1
+        0000000000002000-0000000000003fff (prio 0, i/o): via2
+      0000000000008000-0000000000008fff (prio 0, rom): dp8393x-prom
+      000000000000a000-000000000000a0ff (prio 0, i/o): dp8393x-regs
+      000000000000c020-000000000000c027 (prio 0, i/o): escc
+      0000000000010000-00000000000100ff (prio 0, i/o): esp-regs
+      0000000000010100-0000000000010103 (prio 0, i/o): esp-pdma
+      000000000001e000-000000000001ffff (prio 0, i/o): swim
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/aliased_region.h |  6 +++-
- hw/misc/aliased_region.c         | 56 ++++++++++++++++++++++++++++++--
- 2 files changed, 59 insertions(+), 3 deletions(-)
+ hw/m68k/q800.c | 54 ++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
 
-diff --git a/include/hw/misc/aliased_region.h b/include/hw/misc/aliased_region.h
-index 0ce0d5d1cef..30b54cf06b7 100644
---- a/include/hw/misc/aliased_region.h
-+++ b/include/hw/misc/aliased_region.h
-@@ -1,7 +1,7 @@
- /*
-  * Aliased memory regions
-  *
-- * Copyright (c) 2018  Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ * Copyright (c) 2018, 2020  Philippe Mathieu-Daudé <f4bug@amsat.org>
-  *
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
-@@ -25,6 +25,10 @@ struct AliasedRegionState {
-     uint64_t span_size;
-     MemoryRegion *mr;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 4d2e866eec7..8f14e677077 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -61,14 +61,14 @@
+ #define IO_SLICE              0x00040000
+ #define IO_SIZE               0x04000000
  
-+    struct {
-+        AddressSpace as;
-+    } io;
-+
-     struct {
-         size_t count;
-         MemoryRegion *alias;
-diff --git a/hw/misc/aliased_region.c b/hw/misc/aliased_region.c
-index 8fcc63f2648..46b4412430a 100644
---- a/hw/misc/aliased_region.c
-+++ b/hw/misc/aliased_region.c
-@@ -1,7 +1,7 @@
- /*
-  * Aliased memory regions
-  *
-- * Copyright (c) 2018  Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ * Copyright (c) 2018, 2020  Philippe Mathieu-Daudé <f4bug@amsat.org>
-  *
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
-@@ -14,6 +14,50 @@
- #include "hw/misc/aliased_region.h"
- #include "hw/qdev-properties.h"
+-#define VIA_BASE              (IO_BASE + 0x00000)
+-#define SONIC_PROM_BASE       (IO_BASE + 0x08000)
+-#define SONIC_BASE            (IO_BASE + 0x0a000)
+-#define SCC_BASE              (IO_BASE + 0x0c020)
+-#define ESP_BASE              (IO_BASE + 0x10000)
+-#define ESP_PDMA              (IO_BASE + 0x10100)
+-#define ASC_BASE              (IO_BASE + 0x14000)
+-#define SWIM_BASE             (IO_BASE + 0x1E000)
++#define VIA_OFFSET            (0x00000)
++#define SONIC_PROM_OFFSET     (0x08000)
++#define SONIC_IO_OFFSET       (0x0a000)
++#define SCC_OFFSET            (0x0c020)
++#define ESP_OFFSET            (0x10000)
++#define ESP_PDMA_OFFSET       (0x10100)
++#define ASC_OFFSET            (0x14000)
++#define SWIM_OFFSET           (0x1e000)
  
-+static MemTxResult aliased_io_read(void *opaque, hwaddr offset,
-+                                   uint64_t *data, unsigned size,
-+                                   MemTxAttrs attrs)
-+{
-+    AliasedRegionState *s = ALIASED_REGION(opaque);
-+
-+    return address_space_read(&s->io.as, offset, attrs, data, size);
-+}
-+
-+static MemTxResult aliased_io_write(void *opaque, hwaddr offset,
-+                                    uint64_t data, unsigned size,
-+                                    MemTxAttrs attrs)
-+{
-+    AliasedRegionState *s = ALIASED_REGION(opaque);
-+
-+    return address_space_write(&s->io.as, offset, attrs, &data, size);
-+}
-+
-+static bool aliased_io_accepts(void *opaque, hwaddr offset, unsigned size,
-+                               bool is_write, MemTxAttrs attrs)
-+{
-+    AliasedRegionState *s = ALIASED_REGION(opaque);
-+
-+    return address_space_access_valid(&s->io.as, offset, size, is_write, attrs);
-+}
-+
-+static const MemoryRegionOps aliased_io_ops = {
-+    .read_with_attrs = aliased_io_read,
-+    .write_with_attrs = aliased_io_write,
-+    .impl.min_access_size = 1,
-+    .impl.max_access_size = 8,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 8,
-+    .valid.accepts = aliased_io_accepts,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+};
-+
-+static void aliased_io_realize(AliasedRegionState *s, const char *mr_name)
-+{
-+    memory_region_init_io(&s->container, OBJECT(s), &aliased_io_ops, s,
-+                          mr_name, s->region_size);
-+    address_space_init(&s->io.as, s->mr, memory_region_name(s->mr));
-+}
-+
- static void aliased_mem_realize(AliasedRegionState *s, const char *mr_name)
- {
-     uint64_t subregion_size;
-@@ -63,7 +107,15 @@ static void aliased_mr_realize(DeviceState *dev, Error **errp)
-     span = size_to_str(s->span_size);
-     name = g_strdup_printf("masked %s [span of %s]",
-                            memory_region_name(s->mr), span);
--    aliased_mem_realize(s, name);
-+
-+    if (memory_region_is_ram(s->mr)
-+            || memory_region_is_ram_device(s->mr)
-+            || memory_region_is_romd(s->mr)) {
-+        aliased_mem_realize(s, name);
-+    } else {
-+        /* I/O or container */
-+        aliased_io_realize(s, name);
-+    }
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->container);
- }
+ #define NUBUS_SUPER_SLOT_BASE 0x60000000
+ #define NUBUS_SLOT_BASE       0xf0000000
+@@ -213,8 +213,9 @@ static void q800_init(MachineState *machine)
+     ram_addr_t initrd_base;
+     int32_t initrd_size;
+     MemoryRegion *rom;
++    MemoryRegion *macio;
+     MemoryRegion *io;
+-    const int io_slice_nb = (IO_SIZE / IO_SLICE) - 1;
++    const int io_slice_nb = (IO_SIZE / IO_SLICE);
+     int i;
+     ram_addr_t ram_size = machine->ram_size;
+     const char *kernel_filename = machine->kernel_filename;
+@@ -249,18 +250,21 @@ static void q800_init(MachineState *machine)
+     /* RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
  
++    /* MacIO bus */
++    macio = g_new(MemoryRegion, 1);
++    memory_region_init(macio, NULL, "mac-io", 256 * KiB); /* FIXME or 128K? */
++
+     /*
+      * Memory from IO_BASE to IO_BASE + IO_SLICE is repeated
+      * from IO_BASE + IO_SLICE to IO_BASE + IO_SIZE
+      */
+     io = g_new(MemoryRegion, io_slice_nb);
+     for (i = 0; i < io_slice_nb; i++) {
+-        char *name = g_strdup_printf("mac_m68k.io[%d]", i + 1);
++        char *name = g_strdup_printf("mac_m68k.io[%d]", i);
+ 
+-        memory_region_init_alias(&io[i], NULL, name, get_system_memory(),
+-                                 IO_BASE, IO_SLICE);
++        memory_region_init_alias(&io[i], NULL, name, macio, 0, IO_SLICE);
+         memory_region_add_subregion(get_system_memory(),
+-                                    IO_BASE + (i + 1) * IO_SLICE, &io[i]);
++                                    IO_BASE + i * IO_SLICE, &io[i]);
+         g_free(name);
+     }
+ 
+@@ -278,7 +282,8 @@ static void q800_init(MachineState *machine)
+     }
+     sysbus = SYS_BUS_DEVICE(via_dev);
+     sysbus_realize_and_unref(sysbus, &error_fatal);
+-    sysbus_mmio_map(sysbus, 0, VIA_BASE);
++    memory_region_add_subregion(macio, VIA_OFFSET,
++                                sysbus_mmio_get_region(sysbus, 0));
+     qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0,
+                                 qdev_get_gpio_in(glue, 0));
+     qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1,
+@@ -321,9 +326,11 @@ static void q800_init(MachineState *machine)
+                              OBJECT(get_system_memory()), &error_abort);
+     sysbus = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(sysbus, &error_fatal);
+-    sysbus_mmio_map(sysbus, 0, SONIC_BASE);
+-    sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
+     sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 2));
++    memory_region_add_subregion(macio, SONIC_IO_OFFSET,
++                                sysbus_mmio_get_region(sysbus, 0));
++    memory_region_add_subregion(macio, SONIC_PROM_OFFSET,
++                                sysbus_mmio_get_region(sysbus, 1));
+ 
+     /* SCC */
+ 
+@@ -346,7 +353,8 @@ static void q800_init(MachineState *machine)
+     sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(escc_orgate, 0));
+     sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(escc_orgate, 1));
+     qdev_connect_gpio_out(DEVICE(escc_orgate), 0, qdev_get_gpio_in(glue, 3));
+-    sysbus_mmio_map(sysbus, 0, SCC_BASE);
++    memory_region_add_subregion(macio, SCC_OFFSET,
++                                sysbus_mmio_get_region(sysbus, 0));
+ 
+     /* SCSI */
+ 
+@@ -367,8 +375,10 @@ static void q800_init(MachineState *machine)
+     sysbus_connect_irq(sysbus, 1,
+                        qdev_get_gpio_in_named(via_dev, "via2-irq",
+                                               VIA2_IRQ_SCSI_DATA_BIT));
+-    sysbus_mmio_map(sysbus, 0, ESP_BASE);
+-    sysbus_mmio_map(sysbus, 1, ESP_PDMA);
++    memory_region_add_subregion(macio, ESP_OFFSET,
++                                sysbus_mmio_get_region(sysbus, 0));
++    memory_region_add_subregion(macio, ESP_PDMA_OFFSET,
++                                sysbus_mmio_get_region(sysbus, 1));
+ 
+     scsi_bus_legacy_handle_cmdline(&esp->bus);
+ 
+@@ -376,7 +386,8 @@ static void q800_init(MachineState *machine)
+ 
+     dev = qdev_new(TYPE_SWIM);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, SWIM_BASE);
++    memory_region_add_subregion(macio, SWIM_OFFSET,
++                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
+ 
+     /* NuBus */
+ 
+@@ -423,7 +434,8 @@ static void q800_init(MachineState *machine)
+                   (graphic_height << 16) | graphic_width);
+         BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW,
+                   (graphic_width * graphic_depth + 7) / 8);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
++        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE,
++                  IO_BASE + SCC_OFFSET);
+ 
+         rom = g_malloc(sizeof(*rom));
+         memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
 -- 
 2.26.2
 
