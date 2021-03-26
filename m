@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EE134A1A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:19:13 +0100 (CET)
-Received: from localhost ([::1]:52132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FB734A1B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:23:45 +0100 (CET)
+Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPfoO-0002aY-59
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39234)
+	id 1lPfsm-00044S-Ss
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lPfmB-0001yY-FA; Fri, 26 Mar 2021 02:16:57 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:51806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lPflz-0005nt-RE; Fri, 26 Mar 2021 02:16:52 -0400
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 933012E1580;
- Fri, 26 Mar 2021 09:16:32 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- uPC0gkWNS6-GWsO9lHR; Fri, 26 Mar 2021 09:16:32 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1616739392; bh=V/vScFLqb93iTELWeeomlZ9mp4NGRb5LeSIIvTGScSo=;
- h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
- b=ur26GMhebtjGLyf/EGV9C9ec6FXBusyd+LhMzNrMMCrWmcO6DXFCbjBV/H7sfjqFF
- hqX+LH1n7hIvTT8P9Wd7xb6P+Mn0XvtGFPWIX1XU0zu3/5lx5WxAKvQUJaSz0Vjj21
- QU8kmV6kF09XTU5Cy4ZZGTqREj6wWu8SECj4LdK4=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b080:8226::1:f])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- opaFtuo9xn-GWpSB89b; Fri, 26 Mar 2021 09:16:32 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Fri, 26 Mar 2021 09:16:28 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 6/7] block/nbd: decouple reconnect from drain
-Message-ID: <YF18PIGa/6AXq3Z0@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
- <20210315060611.2989049-7-rvkagan@yandex-team.ru>
- <995a9667-b7ae-3e00-caa5-6c80fc0962f3@virtuozzo.com>
- <YFDWuJ48WU3f6feI@rvkaganb.lan>
- <4fa12179-109e-2f5e-71c4-ff078d59db4d@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lPfrJ-0003c3-O7
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:22:13 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lPfrB-0000FZ-94
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:22:13 -0400
+Received: by mail-ed1-x535.google.com with SMTP id h10so4982312edt.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 23:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3kCTNiBc8jU86jDKAzdnwHJmcWfEdRseqMGEu3twvtU=;
+ b=ATGz9N+63Lc4mmFtq9l1jKynqAlnqPimnG91U1KwczjU0NNtVDnsVvrzU367tw1dN/
+ ToUfVGYAZVh2+DWVWRIQKx/DlTUMQUpbx2Q78wcw60FkNdwas/+qZX7qY8/wNIoifKlS
+ xjjyAicnKAgGDSQ67lTcT2kWIjnMc36XsqTukxdwmGVRCNpe8qP92tix45TUg/sm4Uvu
+ mjnA/Jq0s8V/dBdD1JqB1l1OafrFaM7WeBK0Gv3StRPKGtxMp+C8NG1cRtyuauD+yTFH
+ ytmvYMUVnBkN6CtYjh+lJz6sK2sl1SCaiSS14bcRpbKe7Zk/HDpsNks1Lo47fm7QZRjA
+ lZXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3kCTNiBc8jU86jDKAzdnwHJmcWfEdRseqMGEu3twvtU=;
+ b=glC0Xhojwf64P4mQ6C1QyX3kJHLUFsQbsnwRjvW8CexJwUEY5lhQK6Ar4T0vkn3p4v
+ Sd9LS41N6I1IE7LVe1ev44piCFVf5FKuE7dFNlwoAEiBRctyo8KzUjUq9zArAo8hBgR0
+ xSAMwOl1FkOjstseTluxjQYeKP5DthBx1TdlU/dEPjYOMOKG/kjK5bn5E6NbcdcIYjw1
+ bAwUJCimQWA/0+09r0WtjiRt2jWPLSCUUAOGP3gvn0st7C0KM8D8iweqUy5TWDKLCW1V
+ zCRaEcpuo5iIiaevm9bVDWXwzziQvPKJv8+0KpTRZ+H/jnPGb21bSpO9eaVeLWVfu7oX
+ 9Q5A==
+X-Gm-Message-State: AOAM533MyrfG2iskgRlmoqskmJmeZDN8ls2q8RxwlABPiVzoKvbOIAkU
+ q86gsy6ArshZOqQPPLCBAlA=
+X-Google-Smtp-Source: ABdhPJzaANxp9fUkVK+AzT/5aJ9S6cPHW7ZxD0soXurmwYhpoGYYLg8WLNTqkRxcBt1o8ZHpfSMw1g==
+X-Received: by 2002:a05:6402:51d0:: with SMTP id
+ r16mr13002663edd.48.1616739723545; 
+ Thu, 25 Mar 2021 23:22:03 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id t17sm3695556edr.36.2021.03.25.23.22.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Mar 2021 23:22:03 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: [PATCH] nsis: Install *.elf images
+Date: Fri, 26 Mar 2021 14:21:40 +0800
+Message-Id: <20210326062140.367861-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4fa12179-109e-2f5e-71c4-ff078d59db4d@virtuozzo.com>
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,95 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 16, 2021 at 09:09:12PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 16.03.2021 19:03, Roman Kagan wrote:
-> > On Mon, Mar 15, 2021 at 11:10:14PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > 15.03.2021 09:06, Roman Kagan wrote:
-> > > > The reconnection logic doesn't need to stop while in a drained section.
-> > > > Moreover it has to be active during the drained section, as the requests
-> > > > that were caught in-flight with the connection to the server broken can
-> > > > only usefully get drained if the connection is restored.  Otherwise such
-> > > > requests can only either stall resulting in a deadlock (before
-> > > > 8c517de24a), or be aborted defeating the purpose of the reconnection
-> > > > machinery (after 8c517de24a).
-> > > > 
-> > > > Since the pieces of the reconnection logic are now properly migrated
-> > > > from one aio_context to another, it appears safe to just stop messing
-> > > > with the drained section in the reconnection code.
-> > > > 
-> > > > Fixes: 5ad81b4946 ("nbd: Restrict connection_co reentrance")
-> > > 
-> > > I'd not think that it "fixes" it. Behavior changes.. But 5ad81b4946
-> > > didn't introduce any bugs.
-> > 
-> > I guess you're right.
-> > 
-> > In fact I did reproduce the situation when the drain made no progress
-> > exactly becase the only in-flight reference was taken by the
-> > connection_co, but it may be due to some intermediate stage of the patch
-> > development so I need to do a more thorough analysis to tell if it was
-> > triggerable with the original code.
-> > 
-> > > > Fixes: 8c517de24a ("block/nbd: fix drain dead-lock because of nbd reconnect-delay")
-> > > 
-> > > And here..
-> > > 
-> > > 1. There is an existing problem (unrelated to nbd) in Qemu that long
-> > > io request which we have to wait for at drained_begin may trigger a
-> > > dead lock
-> > > (https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01339.html)
-> > > 
-> > > 2. So, when we have nbd reconnect (and therefore long io requests) we
-> > > simply trigger this deadlock.. That's why I decided to cancel the
-> > > requests (assuming they will most probably fail anyway).
-> > > 
-> > > I agree that nbd driver is wrong place for fixing the problem
-> > > described in
-> > > (https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01339.html),
-> > > but if you just revert 8c517de24a, you'll see the deadlock again..
-> > 
-> > I may have misunderstood that thread, but isn't that deadlock exactly
-> > due to the requests being unable to ever drain because the
-> > reconnection process is suspended while the drain is in progress?
-> > 
-> 
-> 
-> Hmm, I didn't thought about it this way.  What you mean is that
-> reconnection is cancelled on drain_begin, so drain_begin will never
-> finish, because it waits for requests, which will never be
-> reconnected. So, you are right it's a deadlock too.
+As of today, the QEMU Windows installer does not include the
+following two RISC-V BIOS images:
 
-Right.
+- opensbi-riscv64-generic-fw_dynamic.elf
+- opensbi-riscv32-generic-fw_dynamic.elf
 
-> But as I remember what is described in 8c517de24a is another deadlock,
-> triggered by "just a long request during drain_begin". And it may be
-> triggered again, if the we'll try to reconnect for several seconds
-> during drained_begin() instead of cancelling requests.
+Update the installer script to include them.
 
-IMO it wasn't a different deadlock, it wass exactly this one: the drain
-got stuck the way described above with the qemu global mutex taken, so
-the rest of qemu got stuck too.
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-> Didn't you try the scenario described in 8c517de24a on top of your
-> series?
+---
+Based on:
+https://repo.or.cz/qemu/ar7.git/commit/657a6a90b69da971afdc71501c30275ba307ff6c
 
-I've tried it with the current master with just 8c517de24a reverted --
-the deadlock reproduced in all several attempts.  Then with my series --
-the deadlock didn't reproduce in any of my several attempts.  More
-precisely, qemu appeared frozen once the guest timed out the requests
-and initiated ATA link soft reset, which presumably caused that drain,
-but, as soon as the reconnect timer expired (resulting in requests
-completed into the guest with errors) or the connection was restored
-(resulting in requests completed successfully), it resumed normal
-operation.
+The above commit does not land on QEMU master. I am not sure what
+the process is, sending it here for comments.
 
-So yes, I think this series does address that deadlock.
+ qemu.nsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks,
-Roman.
+diff --git a/qemu.nsi b/qemu.nsi
+index 96c5534254..aeabe3bdbe 100644
+--- a/qemu.nsi
++++ b/qemu.nsi
+@@ -142,6 +142,7 @@ Section "${PRODUCT}" QEMU_System_File_Section_Description
+ 
+     File "${DATADIR}\*.bin"
+     File "${DATADIR}\*.dtb"
++    File "${DATADIR}\*.elf"
+     File "${DATADIR}\*.fd"
+     File "${DATADIR}\*.img"
+     File "${DATADIR}\*.lid"
+@@ -258,6 +259,7 @@ Section "Uninstall" Uninstall_Section_Description
+     Delete "$INSTDIR\*.bin"
+     Delete "$INSTDIR\*.dll"
+     Delete "$INSTDIR\*.dtb"
++    Delete "$INSTDIR\*.elf"
+     Delete "$INSTDIR\*.fd"
+     Delete "$INSTDIR\*.img"
+     Delete "$INSTDIR\*.lid"
+-- 
+2.25.1
+
 
