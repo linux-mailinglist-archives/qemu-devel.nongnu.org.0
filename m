@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0472834A1D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:29:12 +0100 (CET)
-Received: from localhost ([::1]:57188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64FA34A1FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:42:18 +0100 (CET)
+Received: from localhost ([::1]:34140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPfy3-0005Uq-3w
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
+	id 1lPgAi-0000lB-V9
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPfvm-0004xd-Vi
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:26:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPfvk-0002zl-24
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:26:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616740005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FiLCzAsGroBWnvTuzhp0WANJcTK0UW7S8DO4xo8hf0U=;
- b=HO8Ec452Q2fU1bJcithDK/RTAkjyO+k6INILuwy1XFZNtE7T2DOqH+vKuQpCJ8A7vlj/RP
- Z1sWkPuV6jcTUmkH5p1P4oNxAOleUESSC/rB3BkwRRptX/Qw76L0rInHSANNZ4hBGw/dMP
- xg/uVXKS/ACKvfx3/ePj3eYrn30Mxkg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-dCXkTkqWPcmyoccYZ_n1mQ-1; Fri, 26 Mar 2021 02:26:43 -0400
-X-MC-Unique: dCXkTkqWPcmyoccYZ_n1mQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF70F1007469;
- Fri, 26 Mar 2021 06:26:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D72B6EF54;
- Fri, 26 Mar 2021 06:26:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1BE5811327E1; Fri, 26 Mar 2021 07:26:41 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for
- comments and docstrings
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-3-jsnow@redhat.com>
- <877dlvs1gp.fsf@dusky.pond.sub.org>
- <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com>
-Date: Fri, 26 Mar 2021 07:26:41 +0100
-In-Reply-To: <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com> (John Snow's
- message of "Thu, 25 Mar 2021 16:20:24 -0400")
-Message-ID: <871rc277mm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lPg8t-0000AV-Na
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:40:23 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:45937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lPg8r-0002Wl-O7
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:40:23 -0400
+Received: by mail-oi1-x231.google.com with SMTP id d12so4706000oiw.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 23:40:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2tPvoiOyFYmG1E446ar9VKpqxfwhwekKrth2b1MDMPI=;
+ b=HUlj9EEI3wMSSqdxGqAbMfwmDHCBDW3B2IDV6JbjW4SHNC+gwzlNaOync4A98rb2Ow
+ jbRAhZ6nlT9SONDFdEjgd1BLLWnjfbglPbzLtrVbuT/sghUPSU7tlqNNdIKk6fbulNk6
+ YMUxQx7lc97pRvXaIMT1hE1epMUSSfgje9Sf6tIfpkdHXsUmwEMM7/QFusaV2tr4xB9Q
+ YaEa+5KkRE64miZiWvFyIggkdsPa6kN+txv7XwkVT0jAPQlLPoYeyGOB1W2DIRnyow9D
+ g2TFwbAu0mejIs9G27Lj7yOfvk60g8V7jp6nBuOZ1Kak5/WKIaFDALaJxyfu35Jelzqj
+ R4wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2tPvoiOyFYmG1E446ar9VKpqxfwhwekKrth2b1MDMPI=;
+ b=msIan79z4ELCCFKBdFr9spWcqT1ruQd6qZbSWAQr6xnpPDaoLPBFkFDLzvioyjmtnc
+ FlB7P2uJDt76lSF1J1M5jh72j8bxcmxPgK9ZNIJ50YJ9H5QQBnmxT2y03KGYuqc1P3s2
+ Ky1fuYOZE9EorOEl+4O+QZH7DSw+SXcS8J7e1XuvI87uvhASKB5Nea+ErltRcKuhU/pT
+ pcKAfUYOlIuvNCoE4hGrqa72F/3hPVrRP4L1GCDCVk5hIr/I1pwe8PxtryPVhfPgXiOP
+ FclSxc7WGSGUCNSVxWbMetcCmqNIwz/4bKzGN/nYicqf49Ar97msoLzqhbkDeQ0VRkow
+ 2+Jw==
+X-Gm-Message-State: AOAM532xqrEC7xMal82PidPBf+WdGotA9Ocf8WVFytVDeT8KXo6e3+31
+ DfVl5PY+mMolldkx/miy/EUD5KyJVmlzHyrCjrA=
+X-Google-Smtp-Source: ABdhPJxdxKVA7edX2PYYDViQhKyaZXIMIRG8twxoLkExV5tS1lRz/ywKKjiQhzsIUwRvdYTgx2ghEWoIueLBznwopN0=
+X-Received: by 2002:aca:5d82:: with SMTP id r124mr8674738oib.59.1616740820196; 
+ Thu, 25 Mar 2021 23:40:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
+ <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
+ <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
+In-Reply-To: <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Fri, 26 Mar 2021 07:40:09 +0100
+Message-ID: <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
+Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
+ Mac OS 9 guest
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On 3/25/21 11:21 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> PEP8's BDFL writes: "For flowing long blocks of text with fewer
->>> structural restrictions (docstrings or comments), the line length should
->>> be limited to 72 characters."
->>>
->>> I do not like this patch. I have included it explicitly to recommend we
->>> do not pay any further heed to the 72 column limit.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->> 
->> I'd like to get the remainder of this series moving again before digging
->> into this patch.
+On Fri, Mar 26, 2021 at 2:50 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> I am dropping it, then -- I have no interest in bringing a patch I 
-> dislike along for another respin.
+> Hi Howard,
+>
+> On Fri, Mar 26, 2021 at 1:35 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > (adding the relevant people to the cc list)
+> >
+> > On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > When running qemu-system-ppc with Mac OS guest, the guest crashes when
+> > > using a tap network connection. Openvpn 2.4.9-I601-win10 is installed
+> > > with TAP-Windows 9.24.2. A tap connection called TapQemu is bridged
+> > > with the default ethernet connection. It gets activated when I start
+> > > qemu.
+> > >
+> > > To reproduce, compile qemu-system-ppc from current source and run:
+> > >
+> > > qemu-system-ppc.exe ^
+> > > -L pc-bios ^
+> > > -M mac99 ^
+> > > -m 128 ^
+> > > -sdl -serial stdio ^
+> > > -boot c ^
+> > > -drive file=C:\Mac-disks\9.2.img,format=raw,media=disk ^
+> > > -device sungem,netdev=network01 -netdev tap,ifname=TapQemu,id=network01
+> > >
+> > > I bisected to the commit below. Thanks for looking into this.
+>
+> Thanks for reporting.
+>
+> Can you please provide some further information:
+>
+> 1. Does "-net user" work on Windows?
+> 2. If running QEMU under Linux, does "-net tap" or "-net user" work?
+>
+> Regards,
+> Bin
 
-Despite your dislike, there might be good parts, and if there are, I'd
-like to mine them.  I don't need you to track the patch for that,
-though.  Feel free to drop it.
+Hello Bin,
 
-Thank you for exploring the max-doc-length option.
+Thanks for getting back to me. I forgot to mention that reverting the
+above patch restores functionality. And that other applications using
+the same tap device work correctly.
+In answer to your questions:
 
+1. Yes, slirp works on Windows 10 with this setup.
+2. Yes, in Linux both tap and slirp work.
+
+My Windows build is done with a fully up to date msys2 installation.
+
+I tried to debug in Windows:
+(gdb) run
+Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bios
+-M mac99 -m 128 -sdl -serial stdio -boot c -drive
+"file=C:\Mac-disks\9.2-usb-pci-ddk.img,format=raw,media=disk" -device
+"sungem,netdev=network01" -netdev "tap,ifname=TapQemu,id=network01" -S
+[New Thread 13304.0x1f00]
+[New Thread 13304.0x2f84]
+[New Thread 13304.0x3524]
+[New Thread 13304.0x2b8c]
+[New Thread 13304.0x368c]
+[New Thread 13304.0x3668]
+[New Thread 13304.0xf4c]
+[New Thread 13304.0x49c]
+[New Thread 13304.0x1d4c]
+[New Thread 13304.0x7fc]
+[Thread 13304.0x7fc exited with code 0]
+[New Thread 13304.0x357c]
+[New Thread 13304.0x7c0]
+[New Thread 13304.0x3564]
+[New Thread 13304.0x26f4]
+[New Thread 13304.0x2f68]
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
+(gdb) bt
+#0  0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
+#1  0x000800000480bf50 in ?? ()
+Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+(gdb)
+
+Even before I could attach to the process.
+
+Best,
+Howard
 
