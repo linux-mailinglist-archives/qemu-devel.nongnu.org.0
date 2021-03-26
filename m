@@ -2,57 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7022434A80B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:24:49 +0100 (CET)
-Received: from localhost ([::1]:53548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209F834A81D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:31:28 +0100 (CET)
+Received: from localhost ([::1]:59898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPmSG-0007fl-0A
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
+	id 1lPmYf-0002Ka-Li
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lPmRT-0007Et-Hy
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:23:59 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:49831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lPmRR-0007DF-S8
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:23:59 -0400
-Received: from [192.168.100.1] ([82.142.25.162]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MIdaF-1lSnF61PK1-00EdMa; Fri, 26 Mar 2021 14:23:53 +0100
-Subject: Re: [PATCH] linux-user: allow NULL msg in recvfrom
-To: Zach Reizner <zachr@google.com>, qemu-devel@nongnu.org
-References: <CAFNex=Ddc_9Sta2W+_a90Qg7hCidMhxuqmGuggygfWWCzZdBhQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <74ee406f-f503-a66e-80d6-989b2c8ed4aa@vivier.eu>
-Date: Fri, 26 Mar 2021 14:23:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPmWm-0001tA-1I
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:29:28 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44001)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPmWk-0002Of-AF
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:29:27 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id l4so8382300ejc.10
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 06:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PwyMwbTrNnQalE5HamaxAh24xeb071kdAC6o6Of1jkQ=;
+ b=OQeqDVqMuqrY8F4VoPOtasMnuCwQmc8aVsHgeQG5T7OOkSZBFHIhRUVYcBX6sfPSpp
+ kLLA07j2SpVLjZYmFxnKn4tzWLRpjcWFGr0Nb/I/d59ZOhXEkXugPl2ALVFCORxdHU19
+ /5CXbXOnyakZdX1GRcLcF/LvMY+Rws4MhyfY/uTWvgduAjwB0B9aflVaS5ISchgiO4bg
+ Erxw9+lGnfh4rJx6aOp0eHJHOgGsdJOFKA0ZvqXUWCFycFz4+ChSeiCq+RhKdzu+9CMB
+ NvD1a9Z2j9d4IRaDRDHx1QlzXMR61TWG42EdZtqe70OJ6IYnUDMUb7y5JnM3zkc+6ED4
+ ad/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PwyMwbTrNnQalE5HamaxAh24xeb071kdAC6o6Of1jkQ=;
+ b=N9g0JP00TkF8ILSSlLVWz1uIJsOeNIKWSfxqy2zXOCgF9bmbw+CkiO138trUhi7y6m
+ eOc/TCZoLNs3Cv4NJPTBcaCsWBzOwoo6XOWqB+ppi7GaQgu+qbwX+19QyqHgkEwJdjvm
+ /tvgBNW2+KV1RMZUu/wKKw/2rMiHsG6jdEpkypb3d6oCvNGpBDrNZtZjp8DW7bosxMdL
+ QZcK7Ut5VvoTBRNJS1ajjymAmp//hGWIrAmcFZ864Cq7SpWvtjJPjFgOGY+0EA+EnVGT
+ MEll02K1lqlO4HM8U/lwS6eEWAuDfufqn9TCLcF/9RhKb+uzt77hf8rn4iglZBtwujTe
+ iA4g==
+X-Gm-Message-State: AOAM532G3GBV+TNFYR5PIN4zN5P/Um/Qaa0LZqBlF62LXE5eJlLQxpCO
+ EcU6543+rr9IFh+7UlDtzubGbILpl9VE0LBKUG/XXQ==
+X-Google-Smtp-Source: ABdhPJxoBOovShaQ4ljohRFdxPgw8Tv+q4czHl6cYN5FfP5tqmzTuIIeWRTAzfzNwABhGyfpHbSZuqril2jnYARzAT8=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr15705156ejc.250.1616765363816; 
+ Fri, 26 Mar 2021 06:29:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFNex=Ddc_9Sta2W+_a90Qg7hCidMhxuqmGuggygfWWCzZdBhQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:c83KEI2EViwfhsxCdcTHhTJ1ZwAL4z5Phh+ftc7kiwdc7PgVYAh
- vKiUj2MGnPu59nTMMN6gPpckBdJrTog7fOFynI3cv6k/a2gxahdgiDwb+KIxosOZmAVK2kf
- VVrmP5VjZdNSZhwBMlqhj/GkIr5zY75MuSBNzvNHEAO9Js2ZseSWSwspetkzJXtX8OIZ5xv
- tXgAfHUIGcwO4amFgCgbw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G1ZqF2+TgNo=:cMEquW55t+Wq/M4cM8E7va
- JWo8YpRs7ty72l9G1Gx/jb4JsaYaKTL9oV2NSCkx13mXKY1xjzuN+ht8syNlf29ZeazHE9LLu
- /NXQsH5TA2NzJ482xhyZ72Gymj5JkFWgSXhLS00rnguWrfXFeAfRyN09RLdpqLwJzdCUMXc7B
- AlZnP+2V6XHyyT4ljk6fBOnSV6w93aXoBc8MBrjX/fBR4OzTU8vSZQhVoNL5Zke8V6LQWZRUk
- BleQh3djGjoQx1hSpSegQvPoZHFuRyLCQAso2jepjbIZ9EvyxSZTuMkeLuR0fvIRcjE+tolNY
- 5aMp2NIdWFDURjHvX93Tj02FU0UyWj0IbXwIbLLd6zlyiec98JvFhtK9Wuq3hMzE3WOf1EwSF
- loI3HCBmcANRRvVvn6uMz4M1y83pVaLdAwPkBjGpgHAscCdpZtDcfSscs9KN3V8HGSCD5MIEi
- cImoSNRhOPGI5qhQlUf7M++ZfVFdklflSn6MJL+ht/6Twtd9viuS
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <CAFNex=Ddc_9Sta2W+_a90Qg7hCidMhxuqmGuggygfWWCzZdBhQ@mail.gmail.com>
+ <74ee406f-f503-a66e-80d6-989b2c8ed4aa@vivier.eu>
+In-Reply-To: <74ee406f-f503-a66e-80d6-989b2c8ed4aa@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Mar 2021 13:28:55 +0000
+Message-ID: <CAFEAcA8Buc1PnX0CcCYr2w6p0PTJxOtNT1nJWZDitOA6jdQp9w@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: allow NULL msg in recvfrom
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,38 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zach Reizner <zachr@google.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/03/2021 à 05:05, Zach Reizner a écrit :
-> The kernel allows a NULL msg in recvfrom so that he size of the next
-> message may be queried before allocating a correctly sized buffer. This
-> change allows the syscall translator to pass along the NULL msg pointer
-> instead of returning early with EFAULT.
-> 
-> Signed-off-by: Zach Reizner <zachr@google.com>
-> ---
->  linux-user/syscall.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 1e508576c7..332544b43c 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -3680,8 +3680,6 @@ static abi_long do_recvfrom(int fd, abi_ulong
-> msg, size_t len, int flags,
->      abi_long ret;
-> 
->      host_msg = lock_user(VERIFY_WRITE, msg, len, 0);
-> -    if (!host_msg)
-> -        return -TARGET_EFAULT;
->      if (target_addr) {
->          if (get_user_u32(addrlen, target_addrlen)) {
->              ret = -TARGET_EFAULT;
-> 
+On Fri, 26 Mar 2021 at 13:24, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 26/03/2021 =C3=A0 05:05, Zach Reizner a =C3=A9crit :
+> > The kernel allows a NULL msg in recvfrom so that he size of the next
+> > message may be queried before allocating a correctly sized buffer. This
+> > change allows the syscall translator to pass along the NULL msg pointer
+> > instead of returning early with EFAULT.
+> >
+> > Signed-off-by: Zach Reizner <zachr@google.com>
+> > ---
+> >  linux-user/syscall.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> > index 1e508576c7..332544b43c 100644
+> > --- a/linux-user/syscall.c
+> > +++ b/linux-user/syscall.c
+> > @@ -3680,8 +3680,6 @@ static abi_long do_recvfrom(int fd, abi_ulong
+> > msg, size_t len, int flags,
+> >      abi_long ret;
+> >
+> >      host_msg =3D lock_user(VERIFY_WRITE, msg, len, 0);
+> > -    if (!host_msg)
+> > -        return -TARGET_EFAULT;
+> >      if (target_addr) {
+> >          if (get_user_u32(addrlen, target_addrlen)) {
+> >              ret =3D -TARGET_EFAULT;
+> >
+>
+> Applied to my linux-user-for-6.0 branch
 
-Applied to my linux-user-for-6.0 branch
+Doesn't this mean we'll now incorrectly treat "guest passed
+a bad address" the same as "guest passed NULL" ? lock_user()
+returns NULL for errors, so if you need to handle NULL input
+specially you want something like
 
-Thanks,
-Laurent
+   if (!msg) {
+       host_msg =3D NULL;
+   } else {
+       host_msg =3D lock_user(VERIFY_WRITE, msg, len, 0);
+       if (!host_msg) {
+           return -TARGET_EFAULT;
+       }
+   }
+
+I think ?
+
+thanks
+-- PMM
 
