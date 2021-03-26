@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719CC34A232
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:53:36 +0100 (CET)
-Received: from localhost ([::1]:41308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6888534A240
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:58:24 +0100 (CET)
+Received: from localhost ([::1]:46350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPgLf-0004Wb-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
+	id 1lPgQJ-0006sR-Ft
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lPgJo-0003Bx-F2
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:51:43 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:36771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lPgJk-00019J-NS
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:51:40 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id w8so4877712ybt.3
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 23:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c0KgpzAY6iohIZ9BrVmXDa3GXo6XDAI5IdUHrv9PAYQ=;
- b=vMDxNXPQljuFGfDGah8pToF8z7TTnZDuyOztSWLfo8xzNvOofEL7g2jC5+98kV7WFg
- 0dzWgvyCFKym0cuRoVpJPd2OmiR9W+uz3NBVdPSC3mL0rBALjOEVrvObsXgJD2zPdg7/
- FfTisEGadXaMZYBa0GzFC0KGSlLO5l1FtroCGs4d/a0V2zhJSCVm4dVEkrSu4CgdmA35
- LFSI+goB98zqVhYyxz9FjfGHZFOCqoFXsismKmYjyPpHB0SdOfu9RsTumh/7Z1XeRgbV
- Me1fKW/EHXngTktAmJe5bqFkWeStfj03MJR6ld1RDbLrudmstO1beg9rT7lqfs90pNtP
- TuQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c0KgpzAY6iohIZ9BrVmXDa3GXo6XDAI5IdUHrv9PAYQ=;
- b=TZMZ+QHEwY7ImoydOvJBWxRraWeJ+lo3TM8UnrgMbzA5/0iLttohsvNbesy5vMoIsL
- t3XN2E57QYEj+OCcqca9UTSQzcX0Tx6RVzPVAnfCJhSw/beBQu0Jmwi5kvpVvQTRaahf
- Q22el496Jk9q5ztqh8l1Aire5uT4VACJHJUECPiA7DxMMPRmnxdLCPC3yM4+quuyZZjf
- eZw1gEtYOTh5vPnFQlskhFOB4wISjGHgJft6uI+byZpZoy9pmmTV6MEqdjFgXFje0cY3
- sZ3uPrkRxUImMYM58GWfrz5WUL3EWSrqVyCtZIVqGvIp238V5EZqqtQz95mCHMRwOooV
- LkwQ==
-X-Gm-Message-State: AOAM530XLdNqSm53p7hB0ArjoAx/aL+FY1uuYhi2Lxu+tnSm6W+n1+0M
- mSajXtJxlsQTCqRSyz1jovy0qJxwAc/v1fw2f24=
-X-Google-Smtp-Source: ABdhPJx0WOiQvuT8nYi6fUE+/Nmgg/zbRDdEqx2Q5LbnzoLDXNiKdSLSP2vVyTFezwRkBobkiPrQcfnZ3rByebsXmR0=
-X-Received: by 2002:a25:ed0a:: with SMTP id k10mr18708684ybh.152.1616741495651; 
- Thu, 25 Mar 2021 23:51:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lPgP9-0006SN-01
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:57:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lPgP6-0004V2-W0
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:57:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616741827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7eixj8cgf1LzQLAsngam+rcR3rPCPEFQot2zkmTVog=;
+ b=c/aO2Kn8Mi3Yl9INSHBge6wDOS6C94LZUz0ddln65LW2+abbf3D4VaXqFNm+gMys59nRNp
+ y5wI80/+kdOumb+TijufGQQ5Im5vTF8MdEIR5qfCzHY9/nzBerkQSaiSPZUFBTm2CwmjNb
+ GNOibYALr7xziRyHQZ6ogX8AR8WX98Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-Y3rjf1AtMsqSK_g9NPWJtg-1; Fri, 26 Mar 2021 02:57:05 -0400
+X-MC-Unique: Y3rjf1AtMsqSK_g9NPWJtg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6270D87A82A;
+ Fri, 26 Mar 2021 06:57:04 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-91.ams2.redhat.com [10.36.112.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 518F3891C4;
+ Fri, 26 Mar 2021 06:57:00 +0000 (UTC)
+Subject: Re: [PATCH] hw/usb/hcd-ehci-sysbus: Free USBPacket on instance
+ finalize()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210323183701.281152-1-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <14233309-94c9-40e8-0983-dae12d5db4f9@redhat.com>
+Date: Fri, 26 Mar 2021 07:56:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
- <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
- <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
- <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
-In-Reply-To: <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 26 Mar 2021 14:51:23 +0800
-Message-ID: <CAEUhbmUadyjCPpo3QOLo5TzcrDn9qzO71GQLD7cwrL-QdDvHgQ@mail.gmail.com>
-Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
- Mac OS 9 guest
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210323183701.281152-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,107 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: Li Qiang <liq3ea@163.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Howard,
+On 23/03/2021 19.37, Philippe Mathieu-Daudé wrote:
+> When building with --enable-sanitizers we get:
+> 
+>    Direct leak of 32 byte(s) in 2 object(s) allocated from:
+>        #0 0x5618479ec7cf in malloc (qemu-system-aarch64+0x233b7cf)
+>        #1 0x7f675745f958 in g_malloc (/lib64/libglib-2.0.so.0+0x58958)
+>        #2 0x561847f02ca2 in usb_packet_init hw/usb/core.c:531:5
+>        #3 0x561848df4df4 in usb_ehci_init hw/usb/hcd-ehci.c:2575:5
+>        #4 0x561847c119ac in ehci_sysbus_init hw/usb/hcd-ehci-sysbus.c:73:5
+>        #5 0x56184a5bdab8 in object_init_with_type qom/object.c:375:9
+>        #6 0x56184a5bd955 in object_init_with_type qom/object.c:371:9
+>        #7 0x56184a5a2bda in object_initialize_with_type qom/object.c:517:5
+>        #8 0x56184a5a24d5 in object_initialize qom/object.c:536:5
+>        #9 0x56184a5a2f6c in object_initialize_child_with_propsv qom/object.c:566:5
+>        #10 0x56184a5a2e60 in object_initialize_child_with_props qom/object.c:549:10
+>        #11 0x56184a5a3a1e in object_initialize_child_internal qom/object.c:603:5
+>        #12 0x561849542d18 in npcm7xx_init hw/arm/npcm7xx.c:427:5
+> 
+> Similarly to commit d710e1e7bd3 ("usb: ehci: fix memory leak in
+> ehci"), fix by calling usb_ehci_finalize() to free the USBPacket.
+> 
+> Fixes: 7341ea075c0
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   hw/usb/hcd-ehci-sysbus.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
+> index e3758db1b18..a12e2188489 100644
+> --- a/hw/usb/hcd-ehci-sysbus.c
+> +++ b/hw/usb/hcd-ehci-sysbus.c
+> @@ -74,6 +74,14 @@ static void ehci_sysbus_init(Object *obj)
+>       sysbus_init_mmio(d, &s->mem);
+>   }
+>   
+> +static void ehci_sysbus_finalize(Object *obj)
+> +{
+> +    EHCISysBusState *i = SYS_BUS_EHCI(obj);
+> +    EHCIState *s = &i->ehci;
+> +
+> +    usb_ehci_finalize(s);
+> +}
+> +
+>   static void ehci_sysbus_class_init(ObjectClass *klass, void *data)
+>   {
+>       DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -94,6 +102,7 @@ static const TypeInfo ehci_type_info = {
+>       .parent        = TYPE_SYS_BUS_DEVICE,
+>       .instance_size = sizeof(EHCISysBusState),
+>       .instance_init = ehci_sysbus_init,
+> +    .instance_finalize = ehci_sysbus_finalize,
+>       .abstract      = true,
+>       .class_init    = ehci_sysbus_class_init,
+>       .class_size    = sizeof(SysBusEHCIClass),
+> 
 
-On Fri, Mar 26, 2021 at 2:40 PM Howard Spoelstra <hsp.cat7@gmail.com> wrote:
->
-> On Fri, Mar 26, 2021 at 2:50 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > Hi Howard,
-> >
-> > On Fri, Mar 26, 2021 at 1:35 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > >
-> > > (adding the relevant people to the cc list)
-> > >
-> > > On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.com> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > When running qemu-system-ppc with Mac OS guest, the guest crashes when
-> > > > using a tap network connection. Openvpn 2.4.9-I601-win10 is installed
-> > > > with TAP-Windows 9.24.2. A tap connection called TapQemu is bridged
-> > > > with the default ethernet connection. It gets activated when I start
-> > > > qemu.
-> > > >
-> > > > To reproduce, compile qemu-system-ppc from current source and run:
-> > > >
-> > > > qemu-system-ppc.exe ^
-> > > > -L pc-bios ^
-> > > > -M mac99 ^
-> > > > -m 128 ^
-> > > > -sdl -serial stdio ^
-> > > > -boot c ^
-> > > > -drive file=C:\Mac-disks\9.2.img,format=raw,media=disk ^
-> > > > -device sungem,netdev=network01 -netdev tap,ifname=TapQemu,id=network01
-> > > >
-> > > > I bisected to the commit below. Thanks for looking into this.
-> >
-> > Thanks for reporting.
-> >
-> > Can you please provide some further information:
-> >
-> > 1. Does "-net user" work on Windows?
-> > 2. If running QEMU under Linux, does "-net tap" or "-net user" work?
-> >
-> > Regards,
-> > Bin
->
-> Hello Bin,
->
-> Thanks for getting back to me. I forgot to mention that reverting the
-> above patch restores functionality. And that other applications using
-> the same tap device work correctly.
-> In answer to your questions:
->
-> 1. Yes, slirp works on Windows 10 with this setup.
-> 2. Yes, in Linux both tap and slirp work.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Thanks! Just to be clear, the above testing was performed with commit
-969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7, right?
-
->
-> My Windows build is done with a fully up to date msys2 installation.
->
-> I tried to debug in Windows:
-> (gdb) run
-> Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bios
-> -M mac99 -m 128 -sdl -serial stdio -boot c -drive
-> "file=C:\Mac-disks\9.2-usb-pci-ddk.img,format=raw,media=disk" -device
-> "sungem,netdev=network01" -netdev "tap,ifname=TapQemu,id=network01" -S
-> [New Thread 13304.0x1f00]
-> [New Thread 13304.0x2f84]
-> [New Thread 13304.0x3524]
-> [New Thread 13304.0x2b8c]
-> [New Thread 13304.0x368c]
-> [New Thread 13304.0x3668]
-> [New Thread 13304.0xf4c]
-> [New Thread 13304.0x49c]
-> [New Thread 13304.0x1d4c]
-> [New Thread 13304.0x7fc]
-> [Thread 13304.0x7fc exited with code 0]
-> [New Thread 13304.0x357c]
-> [New Thread 13304.0x7c0]
-> [New Thread 13304.0x3564]
-> [New Thread 13304.0x26f4]
-> [New Thread 13304.0x2f68]
->
-> Program received signal SIGSEGV, Segmentation fault.
-> 0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
-> (gdb) bt
-> #0  0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
-> #1  0x000800000480bf50 in ?? ()
-> Backtrace stopped: previous frame inner to this frame (corrupt stack?)
-> (gdb)
->
-> Even before I could attach to the process.
-
-Is QEMU crashed, or the MacOS guest crashed?
-
-Regards,
-Bin
 
