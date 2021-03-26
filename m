@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C21F34A129
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 06:52:06 +0100 (CET)
-Received: from localhost ([::1]:36476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AD034A123
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 06:47:51 +0100 (CET)
+Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPfO9-0002Dz-6k
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 01:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
+	id 1lPfK1-0005MS-W5
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 01:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1lPfHt-0003Zt-7f; Fri, 26 Mar 2021 01:45:37 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:47100)
+ id 1lPfHl-0003Sw-Ox; Fri, 26 Mar 2021 01:45:29 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:32928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1lPfHf-00045U-1R; Fri, 26 Mar 2021 01:45:36 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q5hwbD195112;
- Fri, 26 Mar 2021 05:45:06 GMT
+ id 1lPfHi-0004Bw-3V; Fri, 26 Mar 2021 01:45:29 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q5j6sh149526;
+ Fri, 26 Mar 2021 05:45:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=imsKgCj1Dwu8nUrJWQbZD7znxPHHyeEE0O+O1bABRoA=;
- b=VPbrGOu7gLULxjwvjUY78ggWTjquxKj1kil0T2HZGOub0Tm9lnaNhyw2hGXmwjgglaAo
- W5TZABdoqHciddq+P04pVcuMB/LR7pnmUUrcHFMH9jQwH/7aHobGI2QtVagwRY0+cnF5
- X6SXJpyB6qedVnKHu78yEU4V22r5NXZYlt977NBkBsjEpvGO0E3RZzgRP7NAIeTfSxZe
- zo6L+PC7YMSSIcPsmBsJC8/ja/1ioLU77b4HqArH1VhEQlKVSou63bbvcyIMNh7dnHqL
- MEJPCYpBHr3ozxKUGqMMWs82CAhGAi3rtkrAm4ZpSOrnm0WpWMKrPhRIQYCnkU3GUpRJ RA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 37h1420vyg-1
+ bh=U3zEkKEGf8a3E3EmWVM3QIoTpwifFP9o4rAzg3VF9bI=;
+ b=QP9t+YIDQZxdTprcAYItMKpLUtYioZdsYwrV/NpuZ/6PGhDmHRlynN3QMNi0NZpCNFwl
+ UG1ar8YdJf3h2F+QPLVbYh7bSKCEK+AMjSCXw6ao12CK6E3+dz5OpeJVQ6UG8bFiUcqi
+ CpiI9FsVRoKnYzX6GQJHrD/Dmlaby/D1jtr5nedaI9kpDWnHczUTE/MDfmb3NhlnkEVS
+ MNp8TJucrNngqmO1P4/oknvNfmyfZJXEQeWfNl1rJe/7qNfRA3ignQq7LCTcubyzfs65
+ Tf7EaN0YNqaBqySSj4oBkUah/5PDYtUx9Ow1UC3swxT+f2ljYQY3iKtwA+RJ72Z3XEFJ Dw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 37h13rrvsu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Mar 2021 05:45:06 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q5aJeY140931;
- Fri, 26 Mar 2021 05:45:05 GMT
+ Fri, 26 Mar 2021 05:45:20 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q5jJEI138174;
+ Fri, 26 Mar 2021 05:45:19 GMT
 Received: from nam02-bl2-obe.outbound.protection.outlook.com
- (mail-bl2nam02lp2052.outbound.protection.outlook.com [104.47.38.52])
- by userp3020.oracle.com with ESMTP id 37h14grkca-2
+ (mail-bl2nam02lp2058.outbound.protection.outlook.com [104.47.38.58])
+ by aserp3030.oracle.com with ESMTP id 37h140yy68-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Mar 2021 05:45:05 +0000
+ Fri, 26 Mar 2021 05:45:07 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gti4G16ybyqs3tu1bUD6p/KOfv0k7shsHOo5F5zdMkva+Pj92iRWXzyCxffe93MQaPhm3Fa9e9rafjYn1vhLB35JsG41ikZ5mkRLNsWkMG3t57UMOLe/RHmCod/O6cJUSpF5cUxcsH2WEr+tNo3xDqI7LkcKSIqENossnvBWTa2SAKX6w8EcKBiwMaW1bxYRdqoJLs6aoh6ua3otMLa+ntZL6jfOM/0Pwz7i3JArAIWJs5LujwNCZpDbBWDVtafhw+Rh+5ENAlxQzVngws/A8PDnT3GUNC8De6O1RrZM3BW9+z+Jc0JgS9ZIcB7ZFOteumAhEVZOfX8LJEEfoN7KLA==
+ b=Agz5qLeWIGHKcNIYhclkVsDokxIn4cbhr6VrVDYzsAoTxgZ72bWYHxeU3mkryeoXqlq6XGlIBMPQXt4u7nGvm+FQUS3bvIxF+F0oqr7UmUU77VK4fZBdJgzZsM4+hWxu51wbkWayAhKUo6VkODpx2QQ8uIs+62V3PR+PoDAf2T0NOXbvpmRAii1z8Po17wxgqx/QXxirb1yjqxyHo9cxmS3Lr39PVUfcwiwhaFb0plWrcli7OnR/aavdn3bUJ8wXfTC3ejVu742S51C35HZ4lXQWy5OnGUNd5nb/Wh1QRj0k9+P0ncn+28frkrY1DLXXd5YTUDhxe1EeMxuOiWh8sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=imsKgCj1Dwu8nUrJWQbZD7znxPHHyeEE0O+O1bABRoA=;
- b=R9bqWCZITARhCGTUAk8b3cwV7QEZsGgo9MYJX3Ps9+RnhUxpldRhhasbRhL+ESGYUN/lUYpGe3ji9cz1pvRVqrSI5fkvKW90L5K4GArGZrELdlGxPyO0ItzQOshGlp+QfxApI6vCB11TxsGY2PrP6n7kvjwIW7SMqd++BYAmKpmxJr/9T+xEFMG7N55vbv0KaQh3mlSCOHna0F+G2DrLTp9YlkiZp7WwvnHof1F4m64S+tGe1LflwKiiHzh530S4nQ3gssClxkD76KUnCk1erewqnX07VGoonWkXlfrPJ5mm1wgNqCJhaq64ldHyxeY2lmLehpn9/HHTbyXfzmB3VQ==
+ bh=U3zEkKEGf8a3E3EmWVM3QIoTpwifFP9o4rAzg3VF9bI=;
+ b=keqz7A+xwF/SN3L8yc5Wi/Jpka2BnT4MNe/xmHpNpRwvNA4ri7EBBL2T/iy8YhZ3q/nJt8ZixWOCF5nSw+aNP3xd+3txxIBNNuLS+ydREV+OxPAVhgm6eT3isQiV2jPHP/IeO5rhy/4rWGnLKDMs/o6Ws4Hvb2tl4fpcCfsZMNksLQlxR5Z99fLKqOXfWP8JjFe2OMgLY7NcY6oTL3t2R6l3+RChqziVkhBfj990oSwKfxYPIpFl2NL0tulOp5MzpdtBAFHm/u7mH/Ajv/G9ZVkA54PK/JnLrBpR8GWibOF4VZGEna1gYhgMSGyY/kQ8jzR5o7lk1gakv4oovYDfbA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=imsKgCj1Dwu8nUrJWQbZD7znxPHHyeEE0O+O1bABRoA=;
- b=cNlcDjlt+IMTOpXoKSALficSlJYnf4N09wjYO2nNZ86azRkdT6eZOdaa0RKBeTAy/ZVvi6BxjnskcEoOgTo9Y3qlVomFJKBqFSyDiXdszg4iAFjACWaVTAEBG4NFjX+1ID3+JH/7beyDg+ADDA07vUTJPubhzRYWTBKfVpIXf+M=
+ bh=U3zEkKEGf8a3E3EmWVM3QIoTpwifFP9o4rAzg3VF9bI=;
+ b=jioZ/VeI12CQCTkXchHgPdcWnNE0hPCbdcdIFH4AleJ7it49JXwIlx63jx0YlQqQhhYmeeqaPyJjOtPddxNM6O7jDflQFG0dw/+uGXWAv+ZuoPD00hQ8NMeiB9BPe95U1kDNYAdMvVBIha8ONNz7vAZy2CR35Wcb2zePP7VSTJE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from DM6PR10MB2668.namprd10.prod.outlook.com (2603:10b6:5:b2::25) by
  DM6PR10MB3068.namprd10.prod.outlook.com (2603:10b6:5:6a::33) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.26; Fri, 26 Mar 2021 05:45:03 +0000
+ 15.20.3977.26; Fri, 26 Mar 2021 05:45:05 +0000
 Received: from DM6PR10MB2668.namprd10.prod.outlook.com
  ([fe80::9d2c:340:5b24:bff7]) by DM6PR10MB2668.namprd10.prod.outlook.com
  ([fe80::9d2c:340:5b24:bff7%6]) with mapi id 15.20.3846.054; Fri, 26 Mar 2021
- 05:45:03 +0000
+ 05:45:05 +0000
 From: Dongli Zhang <dongli.zhang@oracle.com>
 To: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 1/6] qdev: introduce qapi/hmp command for kick/call event
-Date: Thu, 25 Mar 2021 22:44:28 -0700
-Message-Id: <20210326054433.11762-2-dongli.zhang@oracle.com>
+Subject: [PATCH 2/6] virtio: introduce helper function for kick/call device
+ event
+Date: Thu, 25 Mar 2021 22:44:29 -0700
+Message-Id: <20210326054433.11762-3-dongli.zhang@oracle.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210326054433.11762-1-dongli.zhang@oracle.com>
 References: <20210326054433.11762-1-dongli.zhang@oracle.com>
@@ -86,72 +87,72 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (138.3.200.16) by
  BYAPR02CA0053.namprd02.prod.outlook.com (2603:10b6:a03:54::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.25 via Frontend Transport; Fri, 26 Mar 2021 05:45:02 +0000
+ 15.20.3977.25 via Frontend Transport; Fri, 26 Mar 2021 05:45:03 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fdb8a088-6ff8-4945-dee2-08d8f01a4d66
+X-MS-Office365-Filtering-Correlation-Id: b60acd9a-d7d4-470b-f4d8-08d8f01a4e50
 X-MS-TrafficTypeDiagnostic: DM6PR10MB3068:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR10MB306854967BE6429A0FE29308F0619@DM6PR10MB3068.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:107;
+X-Microsoft-Antispam-PRVS: <DM6PR10MB3068497E682F2FF718ED5021F0619@DM6PR10MB3068.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:561;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7bFo/+7q6VquMF8jlcwR/TKCHlYFQzDak4Mn+eN+XtSjvVzMdcHQVUStqsCChmhq9LtsRmKGueImH3/pSNjRF9yInkrh8pYc34u5JvCYILOTRSxyQd7/mcRcPhWWkSFYx+02rZZM2KZpkV7FQ8w5ZS6psQVeGAAqw903wumrSevMMbCnFFV+CxHcuVc2I44trTLV0wMxLlGgodSoP9YqY7avykGuFYcKmD04aPCLYliyfNpzhkworl6SetK37tFLuW1dvYQCYzYuUePv1NrkYBR75E4RUl4zX9pF7/0DApV40NJdo3Vijbkuf3RDPyE+AmORF1+kEAVCI5KP265uUsC62aw6TJo6Fv9IJH81bW35kIW2Ioh4pVyOVfyv0O12vDaADfVs0vrOP8hblhSSJgTP6yuJW9GCeXJ78kEWmAi2byHlFaKdDF/mpxoLoXa8onkOCPimGTADxAxwIl6Sokjs/ibz20CMeax/3KJ/krUtNMY7iSjUzD8Daz9s24+BucYxjb4w3W9FiPtx93/IUQnygqYSjKqpatsQQv5uOQyZnJxis0RUAbGs/SY5Q1y0qdvZANJPKN35Sw3DsQqF1gp8Fe3+TJ/gFUtCgNSSf3o4x0rKWvkyviu9QCLzAXjTD667JIaotQCBbkDbymjdXWltMoSQLsllxLaNKbOXoDzXo4G9L+tkhUtpg47NBqX5Sb0+t6q0r6e7tYWWmjhXvlQq6nxQBY7BphV9ncmcjbG+SMkFgELgBlOF/eyb9iBIOpWUYTmHnZ9tAdjh7cT7wA==
+X-Microsoft-Antispam-Message-Info: 565Gaj23S28eDlNOK0es9YPC3EVwxQc8AhoeG8KGPkX2TRQKEQA6Om3zRDFaNr01vGOUCIPeokO5KncDKNyJp4CJYk0ggyFYuB4pDS8QBIvO481U2q0rdcim4xPyWnDwfIqBTq+WmIbBiNX+xuaP/m339NmDjKwBGeKUped0Lwm9GIm91tl0ZGKpvyjxQKwCNlA8nr8QZe105qIm4qsvtjv+6tcd2NO7D3+RApZiu8X7pz+QX3GOnbHRMya6HNNJn6X9V5gCi1wiYvh6xuVMz8UvSWLgpixd3iEZc/wCiAcTMECMsYaebfagni6yWnLn55TwP5mUH6HIt6fSUjOSYcjSUIbwbOwBJCNQuMyojVtT5M51Xzb/uroEUIRYTLkOksiMlvqPVhLLhxhK9qXbJBXvEBxL7eqef9scxMvORpfix2Fm5MW7zpsPMEQ/sIohE+w1Vrc753i/iKCQVfj7/lCtvPmRq/RL0b8mCV5rrJP0BgFSV/Xe5upGzRb8u2O9M9AVo1yyNENkGiUROw5EvLpYDKD0BL99t4McdXlWoJJmeyanKpY6SgOFCT5uScNgO3o3RntonIfCbDjbL38etDZPDbEdREbVOtLLeziaZ4OKLFxBPPmZMMygzP0uHcqXy/ydD0Ci4OE+aGudJwbpEVKZ+TDI0PdRerBTmWNMdMq/mCSYrdZ/cxKBZz+WOFsq
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR10MB2668.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(39860400002)(376002)(366004)(396003)(346002)(26005)(8936002)(956004)(8676002)(36756003)(44832011)(6666004)(16526019)(2616005)(83380400001)(7416002)(6506007)(186003)(6486002)(966005)(478600001)(5660300002)(52116002)(69590400012)(66556008)(38100700001)(1076003)(4326008)(66476007)(6512007)(66946007)(316002)(107886003)(86362001)(2906002);
+ SFS:(136003)(39860400002)(376002)(366004)(396003)(346002)(26005)(8936002)(956004)(8676002)(36756003)(44832011)(6666004)(16526019)(2616005)(7416002)(6506007)(186003)(6486002)(478600001)(5660300002)(52116002)(69590400012)(66556008)(38100700001)(1076003)(4326008)(66476007)(6512007)(66946007)(316002)(107886003)(86362001)(2906002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?H7VV3wjJgPvn2p/TnxaEZaIOXzrq1oPNoAvWBlQUPOEoU36okWZeWUBtEKN7?=
- =?us-ascii?Q?KaI8cQ2r4tc1WZDpHUXBc5KVAzb42FufW+iU8ll5fW9MZKoIL6Oum0I/cJOZ?=
- =?us-ascii?Q?4vBGw2I6+abx64Y9uDBW4JvU6zJS7sAxJ3oe7Jr7MDodn94bd5O06ponWZIk?=
- =?us-ascii?Q?TNFQm530xIViwkue44Z3viaLUqsLHiPhVg6McFS/vXhjoOj0XtFpdw+ytE3J?=
- =?us-ascii?Q?zkRzkfH26jkHxYznqA48IBgnuQRugSyjKgL1n8yBls/bWFZ8vjZqPpfKQLU3?=
- =?us-ascii?Q?EZ9r1Uvud/ZTwdwoxbKDrGneYKhee/acfW5n0V2dqkc2PoXmmat5i4ntAAZ+?=
- =?us-ascii?Q?CVxqTqT66nmYDZBC+HkmZnmMw6wdnAdmvMLpVks4SgnS0rV49GK4yKCuThOq?=
- =?us-ascii?Q?4najoZu5dhuWMpsdZN7x7oF5Iwvq6rTmDsl2T/c3RtgVbdFruStYwe4SByH5?=
- =?us-ascii?Q?g2YdkxudrH1i1v1DzaUWDK3xQP93Xw7YwKa1HVDMBvTTfoT9sSgfVPYlZsCc?=
- =?us-ascii?Q?rV+VOoHvsGleUUzNDSA9tJiLwQD1l1dP8ZLtHUjoMmlMRO8bR0qzxzpn0m48?=
- =?us-ascii?Q?bWjcmIR8g+VjL44LvAOeNfFFxIwtyzDXqragiWCW7q9cDBLZDQ9dpQzZf48J?=
- =?us-ascii?Q?iicoXYZIM0T2Z7LK6gR+aMEhuRtTwG1mDAPZZrf5CAMuI741G45f526yisQ5?=
- =?us-ascii?Q?dOfJ6dTiGw7RvPNyXXtzQgK89PPqWynBp1LYMsjiRZpGDZP59QMsbwL7zbb7?=
- =?us-ascii?Q?U78te6flzHEuRK8geEWxxCtDaV7/MYS+FUBFImYjoDkMaiTDADNVj9Lyp88T?=
- =?us-ascii?Q?UnXG6AQtRhco1E48460vCRLXLou9e6pT4Sfay9Dpkljh4+EJOD41xE1f6a8Y?=
- =?us-ascii?Q?29mgO3EwPf6wJDKrN+vO5/yAYAvKLsEkERN9MSZ+2scDDoruwJ2BGCNDxrfl?=
- =?us-ascii?Q?9dv3O07GUOWxbnyaKh+py+9RYxw/lNnI9g1+ATWeWb6xHFLYf/4XoCCswfbu?=
- =?us-ascii?Q?gaTneebKldlJIzKievK6S2E63EqnO8zoqH6m+VU5DwjerramCMEt19XPFXct?=
- =?us-ascii?Q?bEYzvhQlHQf7JHGIxKaOdrbRYcpp6V6GMbPqH/v2lEYMnLZib94xr9SRrK8S?=
- =?us-ascii?Q?WXHWt4Db/LRM/EWwmp1qKPv9DxNqZQAHMY3xgLfIfzF30huf8kOD9IOjgUzF?=
- =?us-ascii?Q?fNYtOq52NM5WHQXYhxXb6cbS+2TWN7h55pj1yjvq2PZ1fFehtuKJSHIFvKOJ?=
- =?us-ascii?Q?DdFWsagYWgDeXMBdsvR7sYuiQX8bne+kS1KvOyHUS5+WEhH2/90qPYoEoT6J?=
- =?us-ascii?Q?sZYXZbuF56S9y7ExOGWdlXuM?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Mi3qSJuqITp8AoVRXOyBkYNkL4RVqmoPjvDYPcWY1JYAX9fleUWTeSQieKtk?=
+ =?us-ascii?Q?DRRcmDveP09LY88Hbnztk3vUrawkCpTAnZeGZbLrQ3wgBbYi/ewjwmfw44ZU?=
+ =?us-ascii?Q?WYxV+2ZHFpPEacp1YAxz1eJ1J/GpVFPhtNC9yShEXDn+eAPcXXmuZNHETt09?=
+ =?us-ascii?Q?5rBorxtOTJ2iKPTgGqEB+HMhx7U3cPRaqyQdSS0VK07Oyr35Pdq4IpvaE3mQ?=
+ =?us-ascii?Q?F5zBlLVvqfLc1BXVYNKhYol3+AwfqKi1LuCPowQ+gy766aeW1m+adc/juTKz?=
+ =?us-ascii?Q?CF4DWoD68zbnooNWxNiS2ymJaDiOYCujewcMlRqWOGPQ8gqYTr3CHg4lmTLx?=
+ =?us-ascii?Q?lOltLFi9M/4jpl5zWXgU5OPQXVcJdZM92Fm3tfVA0xyq6QyxhKeA7aQX3UcC?=
+ =?us-ascii?Q?rXKz9uCceXpx5ZLxz6+TFGtQ3CgKKmSZWLRKeQnbBqu2x/6gN855iZL90aVP?=
+ =?us-ascii?Q?S7eudZbLqRFp0zAQbh9ui8bbBd93vDj1fzKKklMP2w81CHDVUJt8lHIKq6fT?=
+ =?us-ascii?Q?hl0sHjFe5+KapOSJhDe1mDro5+DjoMmrAsEI79HuSGcM2ySI/fMVbrVpCKTC?=
+ =?us-ascii?Q?NfIu2T5fBZQw9AWGW9yiFc375SEsfYqsg0ROJxKtpplq2voDDPkXEnTrTf6s?=
+ =?us-ascii?Q?hcai4PDe9NZszR+NH4eVlh5Uu18nAhmu9UymnkGwwwGKzXVs6Lv6/cyYw5kr?=
+ =?us-ascii?Q?/tZqWD5167AOAa6V54D/OKDdDOKF8lKL2np/OEd2WEspGFXIMrfWFWJSP9cd?=
+ =?us-ascii?Q?+vmCDJstjWbO0b2wNmgxneO1rsCiy4ZaXtdwe5qjZ36baaK/5El7sRfF5UIL?=
+ =?us-ascii?Q?D94a8rdltHuO6DdNZ052waMk4VH6Hab4IuNS5ch+i0wNC2H6lQjRV61+Ov99?=
+ =?us-ascii?Q?oQG2dlRFpJt+9Vd76eXM+ZldlpCvKHK+2ivO6THMFGdCkfFaGT2K8quGOIiw?=
+ =?us-ascii?Q?ZIrIK5KJa7fHwtd8nNCoFIg0oBlcFHJBYKjJaiMWCF40heWzoLpwozjhV2Nn?=
+ =?us-ascii?Q?jSu5wBpGwVD0hSlGMK/ZwJvtmZJ8hYqVOYWGoDZDzMECodLP0NC30lnLiN9K?=
+ =?us-ascii?Q?TCxA34/UqZ5R2BjVg/gxQjQBCxhoDmayHITGVd9D5o20KrCgmKvWxBSxIybA?=
+ =?us-ascii?Q?jDSY+4yKsavEUNByMSu6ATxy91AGKuXPPZ+4wFJxTgPpx/7LSNyv506mGcDz?=
+ =?us-ascii?Q?22v6kK4gHxZAoRTj4ypRo5OfMYTpDn1olxQ8Nvh1ffcl4YrZUuc+57IH5zyy?=
+ =?us-ascii?Q?epWq1bIuX9pItBpswhd3slfV0D7Q4MXt6tkADJug/4CTGJVGARfqU2kQaUTX?=
+ =?us-ascii?Q?nPAd7VivEBulP4IZsxIoJHih?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdb8a088-6ff8-4945-dee2-08d8f01a4d66
+X-MS-Exchange-CrossTenant-Network-Message-Id: b60acd9a-d7d4-470b-f4d8-08d8f01a4e50
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2668.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 05:45:03.3857 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 05:45:05.3795 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RKxpaJt9an+1xxNhzsvqEaXe9YCcC8FuPjCm/cZX/Qes6+/n3wYusi1wxsdCHPKlKEVVTo/GZ54kA7+OI2ZSpw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: MvsbkuIqX72RNk3hduY2wPNyHZ6cnk3U0ZvgqCTMSpf7p2got3kISu1tUItCExG+ZiM86DFYT0yFaLuvhntJlw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3068
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ malwarescore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260040
-X-Proofpoint-GUID: 2_9xCqXqXIu0JHRgjFsCXlv9YVbBUW1P
-X-Proofpoint-ORIG-GUID: 2_9xCqXqXIu0JHRgjFsCXlv9YVbBUW1P
+ definitions=main-2103260041
+X-Proofpoint-ORIG-GUID: 3Yp8ee4U1f3X20mCU_Kk-bJoI4WJ2Qeb
+X-Proofpoint-GUID: 3Yp8ee4U1f3X20mCU_Kk-bJoI4WJ2Qeb
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 mlxscore=0
- clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0 adultscore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ impostorscore=0 priorityscore=1501 clxscore=1015 spamscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
  definitions=main-2103260041
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=dongli.zhang@oracle.com; helo=aserp2120.oracle.com
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=dongli.zhang@oracle.com; helo=userp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -178,201 +179,111 @@ Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtio device/driver (e.g., vhost-scsi or vhost-net) may hang due to
-the loss of doorbell kick, e.g.,
-
-https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01711.html
-
-... or due to the loss of IRQ, e.g., as fixed by linux kernel commit
-fe200ae48ef5 ("genirq: Mark polled irqs and defer the real handler").
-
-This patch introduces a new debug interface 'DeviceEvent' to DeviceClass
-to help narrow down if the issue is due to loss of irq/kick. So far the new
-interface handles only two events: 'call' and 'kick'. Any device (e.g.,
-virtio/vhost or VFIO) may implement the interface (e.g., via eventfd, MSI-X
-or legacy IRQ).
-
-The 'call' is to inject irq on purpose by admin for a specific device (e.g.,
-vhost-scsi) from QEMU/host to VM, while the 'kick' is to kick the doorbell
-on purpose by admin at QEMU/host side for a specific device.
+This is to introduce the helper function for virtio device to kick or
+call.
 
 Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 ---
- hmp-commands.hx        | 14 +++++++++++
- include/hw/qdev-core.h |  9 +++++++
- include/monitor/hmp.h  |  1 +
- qapi/qdev.json         | 30 ++++++++++++++++++++++
- softmmu/qdev-monitor.c | 56 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 110 insertions(+)
+ hw/virtio/virtio.c         | 64 ++++++++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio.h |  3 ++
+ 2 files changed, 67 insertions(+)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 435c591a1c..d74b895fff 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1725,3 +1725,17 @@ ERST
-         .flags      = "p",
-     },
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 07f4e60b30..e081041a75 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -30,6 +30,8 @@
+ #include "sysemu/runstate.h"
+ #include "standard-headers/linux/virtio_ids.h"
  
-+    {
-+        .name       = "x-debug-device-event",
-+        .args_type  = "dev:s,event:s,queue:l",
-+        .params     = "dev event queue",
-+        .help       = "generate device event for a specific device queue",
-+        .cmd        = hmp_x_debug_device_event,
-+        .flags      = "p",
-+    },
++/* #define DEBUG_VIRTIO_EVENT */
 +
-+SRST
-+``x-debug-device-event`` *dev* *event* *queue*
-+  Generate device event *event* for specific *queue* of *dev*
-+ERST
-+
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bafc311bfa..1ea8bf23b9 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -29,9 +29,17 @@ typedef enum DeviceCategory {
-     DEVICE_CATEGORY_MAX
- } DeviceCategory;
- 
-+enum {
-+    DEVICE_EVENT_CALL,
-+    DEVICE_EVENT_KICK,
-+    DEVICE_EVENT_MAX
-+};
-+
- typedef void (*DeviceRealize)(DeviceState *dev, Error **errp);
- typedef void (*DeviceUnrealize)(DeviceState *dev);
- typedef void (*DeviceReset)(DeviceState *dev);
-+typedef void (*DeviceEvent)(DeviceState *dev, int event, int queue,
-+                            Error **errp);
- typedef void (*BusRealize)(BusState *bus, Error **errp);
- typedef void (*BusUnrealize)(BusState *bus);
- 
-@@ -132,6 +140,7 @@ struct DeviceClass {
-     DeviceReset reset;
-     DeviceRealize realize;
-     DeviceUnrealize unrealize;
-+    DeviceEvent event;
- 
-     /* device state */
-     const VMStateDescription *vmsd;
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 605d57287a..c7795d4ba5 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -129,5 +129,6 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
- void hmp_replay_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
-+void hmp_x_debug_device_event(Monitor *mon, const QDict *qdict);
- 
- #endif
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index b83178220b..711c4a297a 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -124,3 +124,33 @@
- ##
- { 'event': 'DEVICE_DELETED',
-   'data': { '*device': 'str', 'path': 'str' } }
-+
-+##
-+# @x-debug-device-event:
-+#
-+# Generate device event for a specific device queue
-+#
-+# @dev: device path
-+#
-+# @event: event (e.g., kick or call) to trigger
-+#
-+# @queue: queue id
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 6.1
-+#
-+# Notes: This is used to debug VM driver hang issue. The 'kick' event is to
-+#        send notification to QEMU/vhost while the 'call' event is to
-+#        interrupt VM on purpose.
-+#
-+# Example:
-+#
-+# -> { "execute": "x-debug-device_event",
-+#      "arguments": { "dev": "/machine/peripheral/vscsi0", "event": "kick",
-+#                     "queue": 1 } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'x-debug-device-event',
-+  'data': {'dev': 'str', 'event': 'str', 'queue': 'int'} }
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index a9955b97a0..bca53111fb 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -924,6 +924,62 @@ void hmp_device_del(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
+ /*
+  * The alignment to use between consumer and producer parts of vring.
+  * x86 pagesize again. This is the default, used by transports like PCI
+@@ -2572,6 +2574,68 @@ void virtio_notify(VirtIODevice *vdev, VirtQueue *vq)
+     virtio_irq(vq);
  }
  
-+static const char * const device_events[DEVICE_EVENT_MAX] = {
-+    [DEVICE_EVENT_KICK] = "kick",
-+    [DEVICE_EVENT_CALL] = "call"
++static void virtio_device_event_call(VirtQueue *vq, bool eventfd,
++                                     Error **errp)
++{
++#ifdef DEBUG_VIRTIO_EVENT
++    printf("The 'call' event is triggered for path=%s, queue=%d, irqfd=%d.\n",
++           object_get_canonical_path(OBJECT(vq->vdev)),
++           vq->queue_index, eventfd);
++#endif
++
++    if (eventfd) {
++        virtio_set_isr(vq->vdev, 0x1);
++        event_notifier_set(&vq->guest_notifier);
++    } else {
++        virtio_irq(vq);
++    }
++}
++
++static void virtio_device_event_kick(VirtQueue *vq, bool eventfd,
++                                     Error **errp)
++{
++#ifdef DEBUG_VIRTIO_EVENT
++    printf("The 'kick' event is triggered for path=%s, queue=%d.\n",
++           object_get_canonical_path(OBJECT(vq->vdev)), vq->queue_index);
++#endif
++
++    virtio_queue_notify(vq->vdev, virtio_get_queue_index(vq));
++}
++
++typedef void (VirtIOEvent)(VirtQueue *vq, bool eventfd, Error **errp);
++
++static VirtIOEvent *virtio_event_funcs[DEVICE_EVENT_MAX] = {
++    [DEVICE_EVENT_CALL] = virtio_device_event_call,
++    [DEVICE_EVENT_KICK] = virtio_device_event_kick
 +};
 +
-+static int get_device_event(const char *event)
++void virtio_device_event(DeviceState *dev, int event, int queue,
++                         bool eventfd, Error **errp)
 +{
-+    int evt;
++    struct VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    int num = virtio_get_num_queues(vdev);
++    VirtQueue *vq;
 +
-+    for (evt = 0; evt < ARRAY_SIZE(device_events); evt++) {
-+        if (!strcmp(device_events[evt], event)) {
-+            return evt;
-+        }
-+    }
++    assert(event < DEVICE_EVENT_MAX);
 +
-+    return -ENOENT;
-+}
-+
-+void qmp_x_debug_device_event(const char *dev, const char *event,
-+                              int64_t queue, Error **errp)
-+{
-+    DeviceState *device = find_device_state(dev, NULL);
-+    DeviceClass *dc;
-+    int evt;
-+
-+    if (!device) {
-+        error_setg(errp, "Device %s not found", dev);
++    if (vdev->broken) {
++        error_setg(errp, "Broken device");
 +        return;
 +    }
 +
-+    dc = DEVICE_GET_CLASS(device);
-+    if (!dc->event) {
-+        error_setg(errp, "device_event is not supported");
++    if (queue < 0 || queue >= num) {
++        error_setg(errp, "Invalid queue %d", queue);
 +        return;
 +    }
 +
-+    evt = get_device_event(event);
-+    if (evt < 0) {
-+        error_setg(errp, "Unsupported event %s", event);
-+        return;
-+    }
++    vq = &vdev->vq[queue];
 +
-+    dc->event(device, evt, queue, errp);
++    if (virtio_event_funcs[event])
++        virtio_event_funcs[event](vq, eventfd, errp);
++    else
++        error_setg(errp, "The event is not supported");
 +}
 +
-+void hmp_x_debug_device_event(Monitor *mon, const QDict *qdict)
-+{
-+    const char *dev = qdict_get_str(qdict, "dev");
-+    const char *event = qdict_get_str(qdict, "event");
-+    int queue = qdict_get_try_int(qdict, "queue", -1);
-+    Error *err = NULL;
-+
-+    qmp_x_debug_device_event(dev, event, queue, &err);
-+    hmp_handle_error(mon, err);
-+}
-+
- BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
+ void virtio_notify_config(VirtIODevice *vdev)
  {
-     DeviceState *dev;
+     if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK))
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b7ece7a6a8..21bb13ffa6 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -210,6 +210,9 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
+ void virtio_notify_irqfd(VirtIODevice *vdev, VirtQueue *vq);
+ void virtio_notify(VirtIODevice *vdev, VirtQueue *vq);
+ 
++void virtio_device_event(DeviceState *dev, int event, int queue,
++                         bool eventfd, Error **errp);
++
+ int virtio_save(VirtIODevice *vdev, QEMUFile *f);
+ 
+ extern const VMStateInfo virtio_vmstate_info;
 -- 
 2.17.1
 
