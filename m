@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C0734A7A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:57:27 +0100 (CET)
-Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE2034A7B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:59:48 +0100 (CET)
+Received: from localhost ([::1]:34560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPm1m-0005Dd-9n
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
+	id 1lPm43-0006rO-Jf
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlvW-00066h-L7
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60042)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlvF-0004Am-LF
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616763040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e0KQjon6DYSw7rzNJPTaUajbh8VbHC3day+fWXsDf3Y=;
- b=i3SLNDBo6fJCsvnkEgrqIAeQD3pr0bA77+d9LYtWW7dXzYCVu4RBKMIVHrmsaibeuO9O5v
- lCAnPsbMjHcyeLS1tZ/MunP/tegOlSeLMoYBg0sMmzqFPIA09I91YABooiMPXqCZzkBe1c
- hdweD1OoJle3AQ6GcYJplWBwyMshxP0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-ajj2HsDhMxuq3XkjRKxXsw-1; Fri, 26 Mar 2021 08:50:36 -0400
-X-MC-Unique: ajj2HsDhMxuq3XkjRKxXsw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BD4F80006E;
- Fri, 26 Mar 2021 12:50:35 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-102.ams2.redhat.com
- [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DD3719727;
- Fri, 26 Mar 2021 12:50:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 273691800396; Fri, 26 Mar 2021 13:49:33 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 9/9] hw/usb/hcd-ehci: Fix crash when showing help of EHCI
- devices
-Date: Fri, 26 Mar 2021 13:49:32 +0100
-Message-Id: <20210326124932.481942-10-kraxel@redhat.com>
-In-Reply-To: <20210326124932.481942-1-kraxel@redhat.com>
-References: <20210326124932.481942-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPm2y-0006CC-E1
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:58:40 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:33578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lPm2w-0008W1-0Y
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:58:40 -0400
+Received: by mail-oi1-x235.google.com with SMTP id w70so5665961oie.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 05:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tqUbg38dgNYfPHToGB2Y2XgHWCEbAz/MfVp9dWTR8QE=;
+ b=MWZb/ZzHVHAwjIS/VHb3WvhLod3JxMlPGJWj1RCoq03u/+K6LN7eic8kZHDCcR+AKZ
+ cQoAhnCUMiQgmyc8OiaaX5RKS/FdtoVtIpcZdnCby7/YxJX33ITE6pkZtqoCmaswkx2B
+ ehuEDbJggAGOrelm3Y6u+M7QaBJHefymCQD2BqAsJ3rkio9dGJSyo4rihv2hbApJKTJl
+ /pwrfwyQiMdaulRXPhkqkJWcIdYqQXtctsiilYfImKA10yR0IOzxSjks0zCod22W1HIF
+ mgxLZg3MvpWfx06E4ebf/dqPc3utGNyUrJfdA+UM8eNHpJPwczhx3xeABguFYcNLzKJm
+ naFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tqUbg38dgNYfPHToGB2Y2XgHWCEbAz/MfVp9dWTR8QE=;
+ b=At+3Be15a46qARMzmn0S9C7hGnPusDsAm4Kme6yOR5SiAgjp4DmFmbCGrgieRs6UR3
+ 6uH+RpWjj/uc1TpyKvcrRtEv2Z4I54+1Ijv3KZoEDBpFN4gFRt6qS+l0UjWO0JjO9waq
+ 4Fih2uBXIel3/ZJS1CGGsaLQtusPkXYzfi9Glecw1DF8j/IeOoy0OwFbMe/w+H9jrKcS
+ jS3ajqRvwm0VoVMVZ8pqI0bCHkzDWwXoRvkp0bns5eeKDHCBSoEVuDL0bLLCord3M9KH
+ 1lG6wMnXRcZbR0N/r6cQ/8NlBPxDzQggxkbBqSnV5bmOQKETH7cKlRpivJVugZf8R8KT
+ AnAw==
+X-Gm-Message-State: AOAM53331h+0jWfvdETMyNjNV6G4vk7qmQ0p80X1PGL4iZtDQWEcf/bO
+ XN5aTkNateDY591JN0ABVpY+MQ==
+X-Google-Smtp-Source: ABdhPJwMlpPEMMUYwrx3Emy8F3MmkMmSvI/uFZs7hlZoL3g7EXUZEpR/xPVGYcSyLpI7XOkScujfEA==
+X-Received: by 2002:a05:6808:a8a:: with SMTP id
+ q10mr9664291oij.167.1616763516649; 
+ Fri, 26 Mar 2021 05:58:36 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id p22sm2127578otf.25.2021.03.26.05.58.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Mar 2021 05:58:36 -0700 (PDT)
+Subject: Re: [RFC PATCH-for-6.1 00/10] hw/misc: Add
+ memory_region_add_subregion_aliased() helper
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210326002728.1069834-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1218f5d9-a9c1-6569-997c-78abd1219024@linaro.org>
+Date: Fri, 26 Mar 2021 06:58:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210326002728.1069834-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,69 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On 3/25/21 6:27 PM, Philippe Mathieu-Daudé wrote:
+> This series introduce the memory_region_add_subregion_aliased()
+> helper which basically create a device which maps a subregion
+> multiple times.
 
-QEMU crashes with certain targets when trying to show the help
-output of EHCI devices:
+I must say, the example mtree changes are persuasive.
+I'll look in more detail later.
 
-$ ./qemu-system-aarch64 -device ich9-usb-ehci1,help
-qemu-system-aarch64: ../../devel/qemu/softmmu/physmem.c:1154: phys_section_add:
- Assertion `map->sections_nb < TARGET_PAGE_SIZE' failed.
-Aborted (core dumped)
 
-This happens because the device is doing things at "instance_init" time
-that should be done at "realize" time instead. So move the related code
-to the realize() function instead. (NB: This now also matches the
-memory_region_del_subregion() calls which are done in usb_ehci_unrealize(),
-and not during finalize()).
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210326095155.1994604-1-thuth@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/usb/hcd-ehci.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index f71af0ad2d8f..6caa7ac6c28f 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -2514,6 +2514,11 @@ void usb_ehci_realize(EHCIState *s, DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    memory_region_add_subregion(&s->mem, s->capsbase, &s->mem_caps);
-+    memory_region_add_subregion(&s->mem, s->opregbase, &s->mem_opreg);
-+    memory_region_add_subregion(&s->mem, s->opregbase + s->portscbase,
-+                                &s->mem_ports);
-+
-     usb_bus_new(&s->bus, sizeof(s->bus), s->companion_enable ?
-                 &ehci_bus_ops_companion : &ehci_bus_ops_standalone, dev);
-     for (i = 0; i < s->portnr; i++) {
-@@ -2581,11 +2586,6 @@ void usb_ehci_init(EHCIState *s, DeviceState *dev)
-                           "operational", s->portscbase);
-     memory_region_init_io(&s->mem_ports, OBJECT(dev), &ehci_mmio_port_ops, s,
-                           "ports", 4 * s->portnr);
--
--    memory_region_add_subregion(&s->mem, s->capsbase, &s->mem_caps);
--    memory_region_add_subregion(&s->mem, s->opregbase, &s->mem_opreg);
--    memory_region_add_subregion(&s->mem, s->opregbase + s->portscbase,
--                                &s->mem_ports);
- }
- 
- void usb_ehci_finalize(EHCIState *s)
--- 
-2.30.2
-
+r~
 
