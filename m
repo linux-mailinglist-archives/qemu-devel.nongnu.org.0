@@ -2,85 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC6534AEC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:50:51 +0100 (CET)
-Received: from localhost ([::1]:52486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052A034AEDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:58:44 +0100 (CET)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPrXm-0000GW-Vd
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:50:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39482)
+	id 1lPrfO-0002JQ-PM
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPrW6-00081i-Ld
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:49:06 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPrW5-0005D5-52
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:49:06 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- d8-20020a1c1d080000b029010f15546281so5407092wmd.4
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 11:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DP/09gEFOXqr1jz/v9qo5t2dsnjwkskZ4mtSnvvRGEI=;
- b=MSofZ3e6D/Mxp+pfZW9LaK2J6jHt83Wie2f3axroSBpJiX++wzWBbd528FxQqeFj+n
- zUWFgiPYupLDt13PXuxTUSzliqtQflYwAHM/SXOgngJ0kxMDJmgdK9sy49LVHSRIZwwu
- 8vcdr6D4JL6Juy12a5rKJeSiYGK2c1yzRC4gFA8htIvGdlmgC60sbdaA0UqOOif0Bl33
- NZ+wuc6s2BzkwWhUHB+5XkmegzfBdx17TQn+OfTnLiffkYYQIhcQRG2tb7yXXaOumqDl
- PJi+TgHIvHC8qcz64JXWZGCpejzA7lVTdqWSACZ5pO3SS/Eu0R45WsZaG4yUTiAWyYYC
- jezg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DP/09gEFOXqr1jz/v9qo5t2dsnjwkskZ4mtSnvvRGEI=;
- b=K0qNxW1wrRnTUh3sRQMlSArmR2QeZI65X6ylZsqrNu3YNBcynB2aUHP6Xv0wglT4i0
- +IfnNFCEsC1FwTg41q2uxKOQVY72k4we8twepKILyWWNjBmE2qQOIaQrQf/9yH+wEdMV
- JnxhyvhrpMVuUok1KLm6qnOdBaz6r7Cau4tg6oPMyCkK/vFQCVdOdIJLYwb0Ph4ysBUg
- RomGFB0ZaCASNvDiDq157brMnbZUC2r3UqT+7arE0/tf9AqzK+pp16HHZB5axEin4kub
- cC1Z9xESrUCPvJWJUE+tamPEDTvFOyFz7ZTtZDfzhL8ghbC6lILa0iec/pcDPPeybGu9
- iOAA==
-X-Gm-Message-State: AOAM532FW/f8LPRsMP+x047gG3RWJDO5uqBHOVG3yW6SE+qkzdn+LQ8f
- PHVtAaL6eFhMOUhanU8V/aE=
-X-Google-Smtp-Source: ABdhPJy2i23TCzIu6VRO2+FhEHV+D/AppoqFkSniVIuSdjzQ+6AYW7bKR5R91nyhRGvjMSpWXRhjpA==
-X-Received: by 2002:a05:600c:4150:: with SMTP id
- h16mr14281522wmm.120.1616784543776; 
- Fri, 26 Mar 2021 11:49:03 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id p10sm14550265wrw.33.2021.03.26.11.49.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 11:49:03 -0700 (PDT)
-Subject: Re: [PATCH for-6.0] hw/timer/renesas_tmr: Add default-case asserts in
- read_tcnt()
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <20210319162458.13760-1-peter.maydell@linaro.org>
- <CAFEAcA9hz5ZsetCWMGJd+aX0td6vE7YiAW+x2C=K3mCsdWiJ8w@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <aafa7c42-333e-60ce-1323-5623536d7af8@amsat.org>
-Date: Fri, 26 Mar 2021 19:49:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lPrdt-0001pw-16
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:57:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lPrdo-0002Bp-9R
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:57:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F6AA619F7;
+ Fri, 26 Mar 2021 18:56:56 +0000 (UTC)
+Date: Fri, 26 Mar 2021 18:56:54 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v10 1/6] arm64: mte: Sync tags for pages where PTE is
+ untagged
+Message-ID: <20210326185653.GG5126@arm.com>
+References: <20210312151902.17853-1-steven.price@arm.com>
+ <20210312151902.17853-2-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9hz5ZsetCWMGJd+aX0td6vE7YiAW+x2C=K3mCsdWiJ8w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210312151902.17853-2-steven.price@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,31 +54,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 2:34 PM, Peter Maydell wrote:
-> ping for review?
+Hi Steven,
 
-FYI:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg790977.html
+On Fri, Mar 12, 2021 at 03:18:57PM +0000, Steven Price wrote:
+> A KVM guest could store tags in a page even if the VMM hasn't mapped
+> the page with PROT_MTE. So when restoring pages from swap we will
+> need to check to see if there are any saved tags even if !pte_tagged().
+> 
+> However don't check pages which are !pte_valid_user() as these will
+> not have been swapped out.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/asm/pgtable.h |  2 +-
+>  arch/arm64/kernel/mte.c          | 16 ++++++++++++----
+>  2 files changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+> index e17b96d0e4b5..84166625c989 100644
+> --- a/arch/arm64/include/asm/pgtable.h
+> +++ b/arch/arm64/include/asm/pgtable.h
+> @@ -312,7 +312,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+>  		__sync_icache_dcache(pte);
+>  
+>  	if (system_supports_mte() &&
+> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
+> +	    pte_present(pte) && pte_valid_user(pte) && !pte_special(pte))
+>  		mte_sync_tags(ptep, pte);
 
-> On Fri, 19 Mar 2021 at 16:24, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> In commit 81b3ddaf8772ec we fixed a use of uninitialized data
->> in read_tcnt(). However this change wasn't enough to placate
->> Coverity, which is not smart enough to see that if we read a
->> 2 bit field and then handle cases 0, 1, 2 and 3 then there cannot
->> be a flow of execution through the switch default. Add explicit
->> default cases which assert that they can't be reached, which
->> should help silence Coverity.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->>  hw/timer/renesas_tmr.c | 4 ++++
->>  1 file changed, 4 insertions(+)
+With the EPAN patches queued in for-next/epan, pte_valid_user()
+disappeared as its semantics weren't very clear.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+So this relies on the set_pte_at() being done on the VMM address space.
+I wonder, if the VMM did an mprotect(PROT_NONE), can the VM still access
+it via stage 2? If yes, the pte_valid_user() test wouldn't work. We need
+something like pte_present() && addr <= user_addr_max().
+
+BTW, ignoring virtualisation, can we ever bring a page in from swap on a
+PROT_NONE mapping (say fault-around)? It's not too bad if we keep the
+metadata around for when the pte becomes accessible but I suspect we
+remove it if the page is removed from swap.
+
+-- 
+Catalin
 
